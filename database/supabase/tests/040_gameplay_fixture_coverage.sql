@@ -29,6 +29,8 @@ SELECT
                     version_group_id
                 FROM
                     gameplay.mainline_plays
+                WHERE
+                    user_id = '46ba21ff-6955-4252-8913-35b50de51456'
                 GROUP BY
                     version_group_id
                 HAVING
@@ -190,7 +192,16 @@ SELECT
             FROM
                 gameplay.mainline_play_pokemon
             WHERE
-                roster_state_id = 1), 132::bigint, 'every populated play has a six-member active team');
+                roster_state_id = 1
+                AND play_id IN (
+                    SELECT
+                        id
+                    FROM
+                        gameplay.mainline_plays
+                    WHERE
+                        user_id = '46ba21ff-6955-4252-8913-35b50de51456')),
+                132::bigint,
+                'every populated play has a six-member active team');
 SELECT
     IS ((
             SELECT
@@ -202,12 +213,19 @@ SELECT
                     gameplay.mainline_play_pokemon
                 WHERE
                     roster_state_id = 1
-                GROUP BY
-                    play_id
-                HAVING
-                    COUNT(*) = 6) AS teams),
-            22::bigint,
-            'all populated plays have exactly six active Pokemon');
+                    AND play_id IN (
+                        SELECT
+                            id
+                        FROM
+                            gameplay.mainline_plays
+                        WHERE
+                            user_id = '46ba21ff-6955-4252-8913-35b50de51456')
+                    GROUP BY
+                        play_id
+                    HAVING
+                        COUNT(*) = 6) AS teams),
+                22::bigint,
+                'all populated plays have exactly six active Pokemon');
 SELECT
     IS ((
             SELECT

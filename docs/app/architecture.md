@@ -49,12 +49,27 @@ The active source follows these ownership rules:
 - reusable Pokemon/game contracts, domain rules, artwork/type primitives,
   reference row loading, and catalogue tokens live under
   `src/modules/reference`; Codex and Mainline consume that directed dependency.
-- `src/modules/codex/shared` now contains only Codex-owned shared presentation
-  such as its page shell, filter panel, generation section, and empty states.
-- Mainline Plays uses `browse`, `hub`, and `shared` view boundaries. The Hub
-  separates Hub-wide shell responsibilities from route-backed views, while
-  complex views such as Overview and Team group their visible areas under
-  `sections` instead of hiding them in a broad `detail/components` tree.
+- `src/modules/codex/shared` contains only Codex-owned shared pieces: its head
+  (the path back to a list), generation pills, Pokémon card link and grid, result
+  summary, pending value, game-name helpers, and the version-group route read
+  every Codex address resolves through. The Pokémon type filter is the
+  reference module's `PokemonTypeFilter`, shared with Mainline.
+- Mainline's features are `home` (Mainline Home), `plays`, `plans` (the Team
+  Planner and My Plans), `stats` and `collection`. `src/modules/mainline/shared`
+  holds what several of them read: the team type analysis (Team Analysis and
+  the Planner), the trainer's Pokémon reader and model (Collection and
+  Statistics), the build-option readers (the roster editor and the Planner's slot
+  sheet) and the signed-in trainer guard.
+- Mainline Plays uses `browse`, `hub`, `new` (New Play) and `shared` view
+  boundaries. The Hub separates Hub-wide shell responsibilities from
+  route-backed views, while complex views such as Overview and Team group
+  their visible areas under `sections` instead of hiding them in a broad
+  `detail/components` tree. `plays/shared` owns what several Mainline
+  features draw or read: the moment, stamp and milestone pieces, the timeline
+  and moment-context readers, the partner action, the Play library reader and
+  mappers, and the start-a-Play pieces (partner cast, create-Play action and
+  command, picker query, start intent, `use-start-play`) that Home and New
+  Play share.
 - Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
   pure enrichment, and final page-model assembly.
 - existing feature reads commonly use a query/loader/mapper split. That split
@@ -149,7 +164,12 @@ consumer.
 
 Game-scoped product reads resolve one reference-owned mechanics profile from
 the exact game, version group, and generation context. That profile
-distinguishes supported, unsupported, and unknown mechanics. Product modules
+distinguishes supported, unsupported, and unknown mechanics: Abilities,
+Breeding (eggs, the Day Care, egg groups), Held Items, Natures and Pokémon
+Gender, each from the generation it arrived in, with exact-title exceptions
+by version group: the Let's Go games (17), Legends: Arceus (22) and Legends:
+Z-A with Mega Dimension (26, 27) have no abilities, held items or breeding
+(Z-A's Mega Stones are recorded as the Mega form, not as a held item). Product modules
 use it to govern queries, presentation, authoring, validation, comparison, and
 derived status; components never infer mechanic support from absent data or
 generation checks.
@@ -179,7 +199,10 @@ not bypass ownership by reaching into another feature's component, server, or
 data folders.
 
 `npm run architecture:check` enforces the migrated foundation: `src/lib` is
-retired; shared, platform, and config dependency direction is protected; global
+retired; shared, platform, and config dependency direction is protected;
+Mainline and Codex features cannot import a sibling feature's internals
+(`plays/shared` is open to all); only the Play Hub and Mainline's `public-*`
+entries may import Play Hub internals; global
 features cannot depend laterally or reach into product modules; product modules
 cannot import global feature internals; the only lateral module dependency is
 the directed dependency on `reference`; consumers cannot reach into
@@ -215,7 +238,6 @@ src/modules/reference/
       components/
       data/
       domain/
-      styles/
       types.ts
       utils/
     pokemon/
@@ -229,6 +251,7 @@ src/modules/reference/
     data/
     server/
     database-types.ts
+  public-art.tsx
   reference-data.ts
   reference-rows.ts
   styles.css
@@ -236,9 +259,29 @@ src/modules/reference/
 ```
 
 The three TypeScript root files are the public contracts for cross-module
-catalogue types, data helpers, and paged/chunked reference reads. Feature-owned
-CSS stays beside Games or Pokemon and is composed through the module's public
-`styles.css` manifest. Concrete game and Pokemon components or domain utilities
+catalogue types, data helpers, and paged/chunked reference reads. The game
+picker (`GameShelfPicker`, `StartGameShelf`) and its public reads
+(`games/server/game-shelf-reader.ts`, `start-intent-resolver.ts`) also live in
+reference, so Start a Play, the auth pages, New Play and the Planner share
+them. `readGameCatalogue` (every game, its first partners and expansions) is
+the one cached read: static reference data read without a session through
+`createPublicSupabaseClient` and `unstable_cache` (a day, tag
+`reference-games`), so the Mainline layout can hand New Play its games on
+every load.
+`public-art.tsx` is the entry the public pages' routes inject into global
+features (which can't import a module), typed by `src/config/public-art.ts`.
+Mainline has the one matching entry, `src/modules/mainline/public-play-art.tsx`,
+which fills that contract's `PublicPlayArt` with the Play's own pieces for the
+example Play on Home and Intro; routes, not global features, import either
+entry. Two more Mainline entries follow the same pattern: `public-you.ts`
+gives the You page (a global feature) its figures, and `public-codex.tsx`
+fills the Codex's signed-in slots. `src/modules/codex/codex-slots.ts` types
+those slots (an entry's Add to a Play and In your Plays, a game page's Start a
+Play and Your Plays, the Played counts on Games); the Codex routes fill them
+from Mainline, since Codex can't import Mainline, and an empty slot reads as
+signed out. The Pokémon type colour tokens are the only feature-owned CSS; they stay beside Pokemon and
+are composed through the module's public `styles.css` manifest. Game colours
+are one TypeScript table in `games/utils/game-color-styles.ts`. Concrete game and Pokemon components or domain utilities
 use their explicit feature paths. Codex-owned page composition remains in
 `modules/codex`; `reference` must not import Codex or Mainline.
 
@@ -248,7 +291,10 @@ is expected to evolve toward a shape like:
 ```txt
 src/modules/mainline/features/plays/
   browse/
+  new/                         # New Play
   hub/
+    client/                    # Record in place
+    components/
     data/
     server/
     shell/
@@ -258,42 +304,54 @@ src/modules/mainline/features/plays/
     utils/
     views/
       overview/
+        client/
         data/
         server/
         sections/
-          journey-status/
+          badge-case/
+          first-steps/
+          next-objective/
+          partner/
+          progress-summary/
           recent-history/
           team/
-          progress-summary/
       team/
         data/
         server/
-        shared/
         team-roster/
           server/
           sections/
-            linked-plan-summary/
-            recent-team-events/
+            add-pokemon/
+            editor/
             roster/
             selected-pokemon/
-            team-analysis/
           utils/
         team-plan/
+          components/
+          server/
           sections/
-            comparison/
-            notes/
+            compare/
+            head/
+            off-plan/
             summary/
+            targets/
         team-analysis/
           components/
           data/
           sections/
+            story-matchups/
+            ...
           server/
       progress/
-      plans/
       history/
       settings/
     types.ts
   shared/
+    client/
+    components/
+    data/
+    server/
+    utils/
 ```
 
 This nesting is intentional. `shell` owns Hub-wide UI composition; root `data`
@@ -306,7 +364,12 @@ Each route keeps its own read contract, so Overview loads a small Active-Team
 preview, Team Plan does not load Team Roster timeline data, and Team Analysis
 owns its detailed analysis enrichment. Leaf views never import sibling-view
 internals; genuinely shared helpers or domain behavior move to the Hub or
-view-family owner. The architecture check enforces this direction. Prefer this
+view-family owner. The architecture check enforces this direction. In
+Mainline and Codex a feature never imports a sibling feature's internals:
+`mainline/plays` is a family whose children (`browse`, `hub`, `new`) are
+separate features, and only its `shared` child is open to every feature;
+module-wide code goes in the module's `shared`. Only the Hub itself and
+Mainline's `public-*` entries may import Play Hub internals. Prefer this
 product-first hierarchy over a single broad `components` folder or mixing view
 names with Hub-wide `data` and `server` folders.
 
@@ -337,6 +400,30 @@ use `data` for substantial pure models, mappers, or selectors. Add
 `domain`, `application`, or `infrastructure` folders remain valid for
 substantial module-wide responsibilities, but are not the default leaf-view
 shape.
+
+### Agreed Folder Names
+
+[ADR 0007](../decisions/0007-development-workflow.md) closes the folder
+vocabulary inside feature slices. `architecture:check` enforces it once the
+redesign merges and the existing `hooks/` and `types/` folders are folded in.
+
+| I am writing...                                 | It goes in                   |
+| ----------------------------------------------- | ---------------------------- |
+| A route, layout, loading or error file          | `src/app/...`, thin          |
+| A visible area of one screen                    | `<feature>/sections/<area>/` |
+| UI reused by several sections of one feature    | `<feature>/components/`      |
+| UI reused across modules, with no Pokémon rules | `src/shared/components/`     |
+| Pokémon or game UI used by Mainline and Codex   | `src/modules/reference/...`  |
+| A hook, state or optimistic logic for a client  | `<feature>/client/`          |
+| A database read, or a Server Action             | `<feature>/server/`          |
+| Pure mapping, models or selectors               | `<feature>/data/`            |
+| Small pure helpers, validation or formatting    | `<feature>/utils/`           |
+| Types for one feature                           | `<feature>/types.ts`         |
+| A unit test                                     | Next to the file it tests    |
+| An end-to-end test                              | `e2e/`                       |
+
+`domain/` stays only in `reference`; `shell/` and `views/` stay only in the
+Play Hub.
 
 ## Reads, Writes, And File Responsibilities
 
@@ -384,6 +471,14 @@ separate files within one `server` folder rather than separate responsibility
 folders. Database constraints and RLS remain authoritative; UI checks are not
 authorization.
 
+Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
+touches more than one table or creates a History moment goes through one
+database function so it is all-or-nothing. `create-play-command.ts`,
+`save-plan-command.ts` and `play-event-writer.ts` still write in several steps
+and move into database functions after the redesign merges. Readers and
+commands take a Supabase client as a parameter, and `data/`, `domain/` and
+`utils/` never import Next.js, React or `src/platform`.
+
 ### UI And Client Boundaries
 
 - Server Components are the default.
@@ -419,19 +514,21 @@ problem or a small set of tightly related problems.
 
 Current route groups remain:
 
-- site: `/` and `/intro`;
-- auth: `/login` and `/auth/callback`;
+- site: `/`, `/intro`, `/start`, `/privacy` and `/terms`;
+- auth: `/login`, `/forgot-password`, `/reset-password`, `/check-email` and
+  `/auth/callback`;
 - system: `/app`;
 - public app: `/codex`, Pokemon browse/detail, Games browse/detail, and game
   Pokedex routes;
-- protected app: `/mainline`, `/mainline/plays`,
-  `/mainline/plays/[playId]`, `/mainline/plays/[playId]/team`,
-  `/mainline/plays/[playId]/team/plan`,
-  `/mainline/plays/[playId]/team/analysis`, and `/settings`;
+- protected app: Mainline Home (`/mainline`), Plays and New Play, every Play
+  Hub view (Overview, Team Roster, Plan and Analysis, Story, Pokédex,
+  Collectibles, History, Settings), the Team Planner and My Plans
+  (`/mainline/plans`), `/mainline/stats`, `/mainline/collection`, `/settings`,
+  `/welcome` and `/you`;
 - API: `/api/health` and `/api/codex/pokemon-menu`.
 
-Use code and [Project Status](../project-status.md) as the evidence for which
-planned routes are actually mounted.
+[Navigation And Routes](../product/navigation-and-routes.md) lists every
+address; code is the evidence for what is mounted.
 
 ## Change Rules
 

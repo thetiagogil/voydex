@@ -1,5 +1,3 @@
-import { appIcons } from "@/shared/components/app-icon";
-import type { AppIconComponent } from "@/shared/components/app-icon";
 import type {
   PokemonEvolutionEdgeSummary,
   PokemonEvolutionSpeciesSummary,
@@ -59,6 +57,16 @@ const getPokemonDetailEvolutionConditionKey = (
     .toLowerCase();
 };
 
+const getEvolutionEdgeGeneration = (edge: PokemonEvolutionEdgeSummary) => {
+  return (
+    edge.introducedGeneration?.sort_order ?? edge.edge.introduced_generation_id
+  );
+};
+
+/*
+ * One edge per distinct condition, the newest first: the way the line evolves
+ * in the latest games of the generation you're reading leads.
+ */
 export const getPokemonDetailDistinctEvolutionEdges = (
   edges: PokemonEvolutionEdgeSummary[],
 ) => {
@@ -75,111 +83,29 @@ export const getPokemonDetailDistinctEvolutionEdges = (
     }
   }
 
-  return [...distinctEdgesByCondition.values()];
+  return [...distinctEdgesByCondition.values()].sort((first, second) => {
+    return (
+      getEvolutionEdgeGeneration(second) - getEvolutionEdgeGeneration(first) ||
+      first.edge.sort_order - second.edge.sort_order
+    );
+  });
 };
 
-export type PokemonDetailEvolutionConditionDisplay =
-  | {
-      kind: "icon";
-      icon: AppIconComponent;
-    }
-  | {
-      kind: "level";
-      label: string;
-    };
-
-const getNormalizedEvolutionText = (edge: PokemonEvolutionEdgeSummary) => {
-  return `${edge.method?.slug ?? ""} ${edge.method?.name ?? ""} ${
-    edge.edge.condition_summary ?? ""
-  }`.toLowerCase();
+const toSentenceCase = (text: string) => {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-export const getPokemonDetailEvolutionConditionDisplay = (
-  edge: PokemonEvolutionEdgeSummary,
-): PokemonDetailEvolutionConditionDisplay => {
-  if (edge.edge.minimum_level) {
-    return {
-      kind: "level",
-      label: `Lv. ${edge.edge.minimum_level}`,
-    };
-  }
-
-  const normalizedText = getNormalizedEvolutionText(edge);
-
-  if (
-    normalizedText.includes("item") ||
-    normalizedText.includes("stone") ||
-    normalizedText.includes("candy")
-  ) {
-    return {
-      kind: "icon",
-      icon: appIcons.product.collectible,
-    };
-  }
-
-  if (normalizedText.includes("trade")) {
-    return {
-      kind: "icon",
-      icon: appIcons.product.team,
-    };
-  }
-
-  if (
-    normalizedText.includes("friend") ||
-    normalizedText.includes("happiness") ||
-    normalizedText.includes("affection")
-  ) {
-    return {
-      kind: "icon",
-      icon: appIcons.product.health,
-    };
-  }
-
-  if (
-    normalizedText.includes("time") ||
-    normalizedText.includes("day") ||
-    normalizedText.includes("night")
-  ) {
-    return {
-      kind: "icon",
-      icon: appIcons.product.playtime,
-    };
-  }
-
-  if (normalizedText.includes("location") || normalizedText.includes("area")) {
-    return {
-      kind: "icon",
-      icon: appIcons.product.location,
-    };
-  }
-
-  if (normalizedText.includes("move") || normalizedText.includes("type")) {
-    return {
-      kind: "icon",
-      icon: appIcons.product.battle,
-    };
-  }
-
-  return {
-    kind: "icon",
-    icon: appIcons.status.unknown,
-  };
-};
-
+/* What it takes to evolve, as a short phrase: "Level 16", "Use Fire Stone". */
 export const getPokemonDetailEvolutionConditionDescription = (
   edge: PokemonEvolutionEdgeSummary,
 ) => {
   if (edge.edge.condition_summary) {
-    return edge.edge.condition_summary;
+    return toSentenceCase(edge.edge.condition_summary);
   }
 
-  if (edge.method?.description) {
-    return edge.method.description;
+  if (edge.edge.minimum_level) {
+    return `Level ${edge.edge.minimum_level}`;
   }
 
-  if (edge.method?.name) {
-    return `Evolves by ${edge.method.name}.`;
-  }
-
-  return "Evolution condition is not available in the seeded data.";
+  return edge.method?.name ?? "Condition not recorded";
 };

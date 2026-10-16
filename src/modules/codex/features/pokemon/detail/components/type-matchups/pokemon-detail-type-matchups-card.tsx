@@ -1,175 +1,127 @@
-import type { CSSProperties } from "react";
+import type { ReactNode } from "react";
 
-import { cn } from "@/shared/utils/cn";
-import {
-  getPokemonDetailDefendingTypes,
-  getPokemonDetailTypeMatchupChart,
-  type PokemonDetailTypeMatchupChartColumn,
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import type {
+  PokemonDetailTypeMatchup,
+  PokemonDetailTypeMatchups,
 } from "@/modules/codex/features/pokemon/detail/components/type-matchups/pokemon-detail-type-matchups-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
-import type { Generation, PokemonTypePair } from "@/modules/reference/types";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
+import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { cn } from "@/shared/utils/cn";
 
 type PokemonDetailTypeMatchupsCardProps = {
-  generation: Generation;
-  typePair: PokemonTypePair | null;
+  matchups: PokemonDetailTypeMatchups;
+  pokemonName: string;
 };
 
-const getPokemonDetailTypeMatchupValueClassName = (multiplier: number) => {
-  return cn(
-    "focus-visible:ring-ring/50 inline-flex h-7 min-w-7 items-center justify-center rounded-md px-1 text-xs font-semibold tabular-nums outline-none focus-visible:ring-2",
-    multiplier < 1 && "text-primary",
-    multiplier === 1 && "text-muted-foreground/70 font-medium",
-    multiplier > 1 && "text-destructive",
-  );
-};
+type MatchupTone = "resist" | "weak";
 
-const PokemonDetailTypeMatchupTypeCell = ({
-  column,
+const MatchupChips = ({
+  matchups,
+  tone,
 }: {
-  column: PokemonDetailTypeMatchupChartColumn;
+  matchups: PokemonDetailTypeMatchup[];
+  tone: MatchupTone;
 }) => {
-  return (
-    <div className="flex min-w-0 justify-center">
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <span
-              tabIndex={0}
-              role="img"
-              aria-label={column.typeLabel}
-              className="focus-visible:ring-ring/50 inline-flex rounded-full outline-none focus-visible:ring-2"
-            />
-          }
-        >
-          <PokemonTypeBadge
-            type={column.attackingType}
-            label={column.typeLabel}
-            display="icon"
-            size="sm"
-          />
-        </TooltipTrigger>
-        <TooltipContent>{column.typeLabel}</TooltipContent>
-      </Tooltip>
-    </div>
-  );
-};
-
-const PokemonDetailTypeMatchupEffectivenessCell = ({
-  column,
-}: {
-  column: PokemonDetailTypeMatchupChartColumn;
-}) => {
-  return (
-    <div className="flex min-w-0 justify-center">
-      <Tooltip>
-        <TooltipTrigger
-          render={
-            <span
-              tabIndex={0}
-              aria-label={column.tooltipLabel}
-              className={getPokemonDetailTypeMatchupValueClassName(
-                column.multiplier,
-              )}
-            />
-          }
-        >
-          {column.multiplierLabel}
-        </TooltipTrigger>
-        <TooltipContent className="flex-col items-start text-left">
-          <span className="font-medium">{column.tooltipTitle}</span>
-          <span className="opacity-80">{column.tooltipDescription}</span>
-        </TooltipContent>
-      </Tooltip>
-    </div>
-  );
-};
-
-const PokemonDetailTypeMatchupMobileCell = ({
-  column,
-}: {
-  column: PokemonDetailTypeMatchupChartColumn;
-}) => {
-  return (
-    <div className="border-app-surface-border/70 bg-background/60 flex min-w-0 items-center justify-between gap-2 rounded-lg border px-2 py-1.5">
-      <PokemonTypeBadge
-        type={column.attackingType}
-        label={column.typeLabel}
-        display="icon-label"
-        size="sm"
-        variant="field-guide"
-      />
-      <PokemonDetailTypeMatchupEffectivenessCell column={column} />
-    </div>
-  );
-};
-
-export const PokemonDetailTypeMatchupsCard = ({
-  generation,
-  typePair,
-}: PokemonDetailTypeMatchupsCardProps) => {
-  const defendingTypes = getPokemonDetailDefendingTypes(typePair);
-
-  if (!defendingTypes.length) {
-    return null;
+  if (!matchups.length) {
+    return (
+      <p className="text-14 text-ink-3 flex h-7.5 items-center font-semibold">
+        None
+      </p>
+    );
   }
 
-  const chartColumns = getPokemonDetailTypeMatchupChart({
-    defendingTypes,
-    generationOrder: generation.sort_order,
-  });
-  const chartGridStyle = {
-    gridTemplateColumns: `repeat(${chartColumns.length}, minmax(2rem, 1fr))`,
-  } satisfies CSSProperties;
+  return (
+    <ul className="flex flex-wrap gap-1.5">
+      {matchups.map((matchup) => {
+        const isQuadruple = tone === "weak" && matchup.multiplier >= 4;
+
+        return (
+          <li
+            key={matchup.attackingType}
+            aria-label={`${matchup.typeLabel} ${matchup.multiplierLabel}`}
+            title={matchup.typeLabel}
+            className={cn(
+              "text-13 inline-flex items-center gap-1 rounded-full py-[3px] pr-2 pl-[3px] font-extrabold",
+              isQuadruple ? "bg-danger-soft" : "bg-surface-2",
+            )}
+          >
+            <PokemonTypeMark
+              type={matchup.attackingType}
+              className="size-6"
+              iconClassName="size-3.5"
+            />
+            <b
+              className={cn(
+                "pl-0.5 tabular-nums",
+                tone === "resist" && "text-ok",
+                tone === "weak" &&
+                  (isQuadruple ? "text-danger-deep" : "text-danger"),
+              )}
+            >
+              {matchup.multiplierLabel}
+            </b>
+          </li>
+        );
+      })}
+    </ul>
+  );
+};
+
+const MatchupRow = ({
+  children,
+  label,
+}: {
+  children: ReactNode;
+  label: string;
+}) => {
+  return (
+    <div className="grid gap-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[96px_minmax(0,1fr)] sm:gap-3">
+      <dt className="text-ink-2 text-12 font-bold sm:pt-1.5">{label}</dt>
+      <dd>{children}</dd>
+    </div>
+  );
+};
+
+/*
+ * v3's matchups, compact: what hurts and what doesn't as type marks with
+ * their multiplier (the type's name on hover and read out), then how many
+ * types hit normally as one quiet line.
+ */
+export const PokemonDetailTypeMatchupsCard = ({
+  matchups,
+  pokemonName,
+}: PokemonDetailTypeMatchupsCardProps) => {
+  const { immunities, neutralCount, resistances, weaknesses } = matchups;
 
   return (
-    <PokemonDetailSectionCard
-      title="Type Matchups"
-      className="h-full"
-      contentClassName="p-0"
-      showSeparator
+    <DetailSectionCard
+      id="type-matchups"
+      title="Type matchups"
+      aside={`When ${pokemonName} is hit`}
+      contentClassName="flex flex-1 flex-col"
     >
-      <div className="grid grid-cols-2 gap-2 p-4 sm:grid-cols-3 md:hidden">
-        {chartColumns.map((column) => (
-          <PokemonDetailTypeMatchupMobileCell
-            key={column.attackingType}
-            column={column}
-          />
-        ))}
-      </div>
-
-      <div className="hidden overflow-x-auto md:block">
-        <div className="min-w-xl">
-          <div
-            className="grid items-center gap-1 px-4 py-2"
-            style={chartGridStyle}
-          >
-            {chartColumns.map((column) => (
-              <PokemonDetailTypeMatchupTypeCell
-                key={column.attackingType}
-                column={column}
-              />
-            ))}
-          </div>
-
-          <div
-            className="grid items-center gap-1 px-4 py-2"
-            style={chartGridStyle}
-          >
-            {chartColumns.map((column) => (
-              <PokemonDetailTypeMatchupEffectivenessCell
-                key={column.attackingType}
-                column={column}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </PokemonDetailSectionCard>
+      {/* The rows share the card's height beside Base stats. */}
+      <dl className="flex flex-1 flex-col justify-between">
+        <MatchupRow label="Weak to">
+          <MatchupChips matchups={weaknesses} tone="weak" />
+        </MatchupRow>
+        <MatchupRow label="Resists">
+          <MatchupChips matchups={resistances} tone="resist" />
+        </MatchupRow>
+        {/* Always shown, saying "None" when it has none, so every entry reads the same four rows. */}
+        <MatchupRow label="Immune to">
+          <MatchupChips matchups={immunities} tone="resist" />
+        </MatchupRow>
+        {neutralCount ? (
+          <MatchupRow label="Normal">
+            <p className="text-14 text-ink-3 flex h-7.5 items-center font-semibold">
+              {neutralCount === 1
+                ? "1 other type"
+                : `${neutralCount} other types`}
+            </p>
+          </MatchupRow>
+        ) : null}
+      </dl>
+    </DetailSectionCard>
   );
 };

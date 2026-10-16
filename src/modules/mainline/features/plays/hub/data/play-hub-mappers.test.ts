@@ -53,11 +53,9 @@ describe("Play page data mappers", () => {
       roster_state_slug: "active",
     } as MainlinePlayTeamPreviewRow;
     const data = buildMainlinePlayOverviewData({
-      milestones: {
-        lastCompletedMilestone: null,
-        nextMilestone: null,
-      },
+      milestoneRows: { categories: [], milestones: [], types: [] },
       overview: null,
+      partnerRows: null,
       play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
       teamPreviewRows: {
         attributes: [],
@@ -84,7 +82,6 @@ describe("Play page data mappers", () => {
 
     const data = buildMainlinePlayTeamRosterData({
       play: {} as Parameters<typeof buildMainlinePlayTeamRosterData>[0]["play"],
-      teamPlanRows: { attributes: [], rows: [], types: [] },
       teamRows: {
         abilityAttributes: [],
         attributes: [],
@@ -96,7 +93,6 @@ describe("Play page data mappers", () => {
         versionGroupId: null,
         versionGroups: [],
       },
-      teamTimelinePreview: [],
     });
 
     expect(data.roster.map((member) => member.play_pokemon_id)).toEqual([
@@ -122,7 +118,11 @@ describe("Play page data mappers", () => {
       },
     });
 
-    expect(data).toEqual({ teamPlan: null });
+    expect(data).toEqual({
+      followablePlans: [],
+      teamPlan: null,
+      versionGroupSlug: null,
+    });
     expect(data).not.toHaveProperty("teamTimelinePreview");
   });
 });

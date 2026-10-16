@@ -1,5 +1,13 @@
+const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/;
+
+/*
+ * A calendar day ("2025-05-07", like `started_on`) as "May 7, 2025". It is not
+ * an instant, so it reads the same day in every time zone. Timestamps are
+ * instants and take the fallback here: read them in the viewer's zone through
+ * `PlayMomentTime` or `formatPlayMoment` instead.
+ */
 export const formatPlayDate = (value: string | null, fallback = "Not set") => {
-  if (!value) {
+  if (!value || !dateOnlyPattern.test(value)) {
     return fallback;
   }
 
@@ -12,29 +20,7 @@ export const formatPlayDate = (value: string | null, fallback = "Not set") => {
   return new Intl.DateTimeFormat("en", {
     day: "numeric",
     month: "short",
-    year: "numeric",
-  }).format(date);
-};
-
-export const formatPlayDateTime = (
-  value: string | null,
-  fallback = "Not set",
-) => {
-  if (!value) {
-    return fallback;
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return fallback;
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    month: "short",
+    timeZone: "UTC",
     year: "numeric",
   }).format(date);
 };
@@ -52,31 +38,4 @@ export const formatPlayMinutes = (value: number | null) => {
   }
 
   return `${hours}h ${minutes}m`;
-};
-
-export const formatPlayPokedexProgress = (params: {
-  caughtCount: number | null;
-  seenCount: number | null;
-}) => {
-  const { caughtCount, seenCount } = params;
-
-  if (caughtCount === null && seenCount === null) {
-    return "No Pokedex progress";
-  }
-
-  return `${caughtCount ?? 0} caught / ${seenCount ?? 0} seen`;
-};
-
-export const formatPlayTeamSummary = (params: {
-  activeCount: number | null;
-  reserveCount: number | null;
-}) => {
-  return `${params.activeCount ?? 0} active / ${params.reserveCount ?? 0} reserve`;
-};
-
-export const formatPlayCountPair = (params: {
-  completedCount: number | null | undefined;
-  totalCount: number | null | undefined;
-}) => {
-  return `${params.completedCount ?? 0} / ${params.totalCount ?? 0}`;
 };

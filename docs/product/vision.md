@@ -72,7 +72,7 @@ Reference data must be curated and historically accurate, especially for older g
 
 ## First-Class User Loops
 
-1. Continue a play from the Dashboard.
+1. Continue a play from Mainline Home.
 2. Create a play directly from a game selector.
 3. Build or update the current team.
 4. Complete story steps, collectibles, and Pokedex progress.

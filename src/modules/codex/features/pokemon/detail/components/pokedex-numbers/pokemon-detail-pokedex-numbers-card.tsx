@@ -2,98 +2,50 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
-import { pokemonDetailSectionTableGridClassName } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-section-grid";
-import { cn } from "@/shared/utils/cn";
+import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pending-value";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
 
 type PokemonDetailPokedexNumbersCardProps = {
-  gameSlug: string | null;
   numbers: PokemonDetailPokedexNumber[];
 };
 
-type PokemonDetailPokedexNumberRowProps = {
-  gameSlug: string | null;
-  pokedexNumber: PokemonDetailPokedexNumber;
-};
-
-const PokemonDetailPokedexNumberRow = ({
-  gameSlug,
-  pokedexNumber,
-}: PokemonDetailPokedexNumberRowProps) => {
-  return (
-    <article
-      className={cn(
-        pokemonDetailSectionTableGridClassName,
-        "border-app-surface-border/60 border-t px-4 py-3",
-      )}
-    >
-      <div className="grid min-w-0 gap-1">
-        <div className="text-muted-foreground text-xs lg:hidden">Dex</div>
-        {gameSlug ? (
-          <Link
-            href={appRoutes.codexGamePokedex(
-              gameSlug,
-              pokedexNumber.pokedexSlug,
-            )}
-            className="text-foreground hover:text-primary focus-visible:ring-ring min-w-0 truncate rounded-sm text-sm font-medium underline-offset-4 focus-visible:ring-2 focus-visible:outline-none"
-          >
-            {pokedexNumber.pokedexName}
-          </Link>
-        ) : (
-          <div className="text-foreground min-w-0 truncate text-sm font-medium">
-            {pokedexNumber.pokedexName}
-          </div>
-        )}
-      </div>
-      <div className="grid min-w-0 gap-1">
-        <div className="text-muted-foreground text-xs lg:hidden">Number</div>
-        <div className="text-foreground text-sm font-semibold tabular-nums">
-          {pokedexNumber.numberLabel}
-        </div>
-      </div>
-      <div className="grid min-w-0 gap-1">
-        <div className="text-muted-foreground text-xs lg:hidden">Entry</div>
-        <div className="text-muted-foreground text-sm">-</div>
-      </div>
-    </article>
-  );
-};
-
+/*
+ * Each Pokédex of the generation that lists the Pokémon, a row each: the
+ * Pokédex and the number (it opens that Pokédex), then what that game's
+ * Pokédex says about it, which Voydex doesn't have yet.
+ */
 export const PokemonDetailPokedexNumbersCard = ({
-  gameSlug,
   numbers,
 }: PokemonDetailPokedexNumbersCardProps) => {
-  if (!numbers.length) {
-    return null;
-  }
-
   return (
-    <PokemonDetailSectionCard
-      title="Pokédex"
-      contentClassName="p-0"
-      showSeparator
-    >
-      <div>
-        <div
-          className={cn(
-            pokemonDetailSectionTableGridClassName,
-            "text-muted-foreground hidden px-4 py-2 text-xs lg:grid",
-          )}
-        >
-          <div>Dex</div>
-          <div>Number</div>
-          <div>Entry</div>
-        </div>
-        <div>
-          {numbers.map((pokedexNumber) => (
-            <PokemonDetailPokedexNumberRow
-              key={pokedexNumber.id}
-              gameSlug={gameSlug}
-              pokedexNumber={pokedexNumber}
-            />
-          ))}
-        </div>
-      </div>
-    </PokemonDetailSectionCard>
+    <DetailSectionCard id="pokedex-numbers" title="Pokédex numbers">
+      <ul className="flex flex-col">
+        {numbers.map((pokedexNumber) => (
+          <li
+            key={pokedexNumber.id}
+            className="grid gap-x-4 gap-y-1 py-2.5 first:pt-0 last:pb-0 sm:grid-cols-[220px_minmax(0,1fr)] sm:items-center"
+          >
+            <Link
+              href={appRoutes.codexVersionGroupPokedex(
+                pokedexNumber.versionGroupSlug,
+                pokedexNumber.pokedexSlug,
+              )}
+              className="hover:bg-surface-2 focus-visible:outline-focus -mx-2 flex min-w-0 items-baseline justify-between gap-3 rounded-sm px-2 py-1.5 transition-colors outline-none focus-visible:outline-3 focus-visible:outline-solid"
+            >
+              <span className="text-ink-2 text-14 truncate font-bold">
+                {pokedexNumber.pokedexName}
+              </span>
+              <span className="text-16 shrink-0 font-extrabold tabular-nums">
+                {pokedexNumber.numberLabel}
+              </span>
+            </Link>
+            <span className="min-w-0">
+              {/* TODO(v3-data): each Pokédex's entry text for the Pokémon, per game. */}
+              <CodexPendingValue label="Pokédex entry" />
+            </span>
+          </li>
+        ))}
+      </ul>
+    </DetailSectionCard>
   );
 };

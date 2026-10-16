@@ -1,35 +1,45 @@
 "use client";
 
-import {
-  useCallback,
-  useDeferredValue,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useDeferredValue, useMemo, useState } from "react";
 
-import { PokedexFilterForm } from "@/modules/codex/features/pokemon/browse/components/pokedex-filter-form";
-import { PokedexPokemonCard } from "@/modules/codex/features/pokemon/browse/components/pokedex-pokemon-card";
-import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
+import { appRoutes } from "@/config/routes";
 import {
   filterPokedexPokemon,
   getSearchablePokedexPokemon,
+  isPokedexSortKey,
+  pokedexSortOptions,
+  sortPokedexPokemon,
+  type PokedexSortKey,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-browse";
 import {
   defaultPokedexPageFilters,
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
-import { CodexBrowseMeta } from "@/modules/codex/shared/components/codex-browse-meta";
-import { CodexEmptyState } from "@/modules/codex/shared/components/codex-empty-state";
-import { CodexGenerationSection } from "@/modules/codex/shared/components/codex-generation-section";
-import { CodexResourceGrid } from "@/modules/codex/shared/components/codex-resource-grid";
+import {
+  groupPokemonByGeneration,
+  groupPokemonByType,
+  takePokemonFromGroups,
+} from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
+import {
+  CodexPokemonCardLink,
+  CodexPokemonGrid,
+} from "@/modules/codex/shared/components/codex-pokemon-card-link";
+import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
+import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
+import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   PokedexPageData,
   PokedexPageFilters,
 } from "@/modules/reference/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
-import { Button } from "@/shared/components/ui/button";
+import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
+import { PageHeader } from "@/shared/components/page-header";
+import { RangeHeading } from "@/shared/components/range-heading";
+import { SearchControl } from "@/shared/components/search-control";
+import { SelectControl } from "@/shared/components/select-control";
+import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 
 type PokedexBrowserProps = {
   data: PokedexPageData;
@@ -38,12 +48,29 @@ type PokedexBrowserProps = {
 const INITIAL_VISIBLE_POKEMON = 96;
 const VISIBLE_POKEMON_INCREMENT = 48;
 
+const countFormat = new Intl.NumberFormat("en-US");
+
+/* The Generation menu's "every generation", as a select value. */
+const ALL = "all";
+
+type PokedexGroupBy = "generation" | "type";
+
+const groupByOptions = [
+  { label: "Generation", value: "generation" },
+  { label: "Type", value: "type" },
+] satisfies { label: string; value: PokedexGroupBy }[];
+
+/*
+ * The Codex's Pokémon: the title and count, one toolbar row (search, the
+ * Generation filter, Group by generation or type, Sort), the type dots under
+ * it, the results line, and the cards in ranges (each generation with its
+ * region, or each type), loaded in batches.
+ */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
+  const [sortKey, setSortKey] = useState<PokedexSortKey>("national");
+  const [groupBy, setGroupBy] = useState<PokedexGroupBy>("generation");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POKEMON);
-  const [supportsAutomaticLoading, setSupportsAutomaticLoading] =
-    useState(true);
-  const automaticLoadTriggerRef = useRef<HTMLDivElement | null>(null);
 
   const deferredFilters = useDeferredValue(filters);
 
@@ -53,30 +80,36 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   );
 
   const filteredPokemon = useMemo(
-    () => filterPokedexPokemon(searchablePokemon, deferredFilters),
-    [searchablePokemon, deferredFilters],
-  );
-
-  const visiblePokemon = useMemo(
-    () => filteredPokemon.slice(0, visibleCount),
-    [filteredPokemon, visibleCount],
-  );
-
-  const visiblePokemonGenerationGroups = useMemo(
-    () => groupPokemonByGeneration(visiblePokemon, data.generations),
-    [data.generations, visiblePokemon],
-  );
-
-  const visiblePokemonIndexById = useMemo(
     () =>
-      new Map(
-        visiblePokemon.map((pokemon, index) => [pokemon.id, index] as const),
+      sortPokedexPokemon(
+        filterPokedexPokemon(searchablePokemon, deferredFilters),
+        sortKey,
       ),
-    [visiblePokemon],
+    [searchablePokemon, deferredFilters, sortKey],
+  );
+
+  const groupPokemon = useCallback(
+    (pokemon: typeof filteredPokemon) =>
+      groupBy === "type"
+        ? groupPokemonByType(pokemon, data.types)
+        : groupPokemonByGeneration(pokemon, data.generations),
+    [data.generations, data.types, groupBy],
+  );
+
+  /* Every match in its range; each heading counts the whole range. */
+  const filteredPokemonGroups = useMemo(
+    () => groupPokemon(filteredPokemon),
+    [filteredPokemon, groupPokemon],
+  );
+
+  /* Batches load range by range, so no range shows half its cards early. */
+  const visiblePokemonGroups = useMemo(
+    () => takePokemonFromGroups(filteredPokemonGroups, visibleCount),
+    [filteredPokemonGroups, visibleCount],
   );
 
   const hasActiveFilters = hasActivePokedexFilters(filters);
-  const canLoadMore = visiblePokemon.length < filteredPokemon.length;
+  const canLoadMore = visibleCount < filteredPokemon.length;
 
   const loadMorePokemon = useCallback(() => {
     setVisibleCount((currentCount) =>
@@ -86,46 +119,6 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
       ),
     );
   }, [filteredPokemon.length]);
-
-  useEffect(() => {
-    if (!canLoadMore || typeof window === "undefined") {
-      return;
-    }
-
-    if (!("IntersectionObserver" in window)) {
-      const fallbackTimer = setTimeout(() => {
-        setSupportsAutomaticLoading(false);
-      }, 0);
-
-      return () => {
-        clearTimeout(fallbackTimer);
-      };
-    }
-
-    const automaticLoadTrigger = automaticLoadTriggerRef.current;
-
-    if (!automaticLoadTrigger) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          loadMorePokemon();
-        }
-      },
-      {
-        rootMargin: "900px 0px",
-        threshold: 0,
-      },
-    );
-
-    observer.observe(automaticLoadTrigger);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [canLoadMore, loadMorePokemon]);
 
   const updateFilter = <FilterKey extends keyof PokedexPageFilters>(
     key: FilterKey,
@@ -143,88 +136,173 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     setFilters(defaultPokedexPageFilters);
   };
 
+  /* The generation filter, a toolbar menu. */
+  const generationOptions = [
+    { label: "All", value: ALL },
+    ...data.generations.map((generation) => ({
+      label: getGenerationNumeral(generation.name),
+      value: generation.slug,
+    })),
+  ];
+
   return (
     <>
-      <PokedexFilterForm
-        filters={filters}
-        generations={data.generations}
-        onCategoryChange={(category) => {
-          updateFilter("category", category);
-        }}
-        onGenerationChange={(generation) => {
-          updateFilter("generation", generation);
-        }}
-        onQueryChange={(query) => {
-          updateFilter("query", query);
-        }}
-        onTypeChange={(type) => {
-          updateFilter("type", type);
-        }}
-        types={data.types}
+      <PageHeader
+        title="Pokémon"
+        description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
+        className="pt-5.5 sm:pt-5.5"
       />
 
-      <div className="flex min-h-8 flex-row items-center justify-between gap-3">
-        <CodexBrowseMeta>
-          <span>
-            Showing {visiblePokemon.length} of {filteredPokemon.length} Pokémon
-          </span>
-        </CodexBrowseMeta>
-
-        {hasActiveFilters ? (
-          <ClearFiltersButton
-            className="self-start sm:self-auto"
-            onClick={clearFilters}
+      <Toolbar
+        className="mt-5.5"
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
           />
-        ) : null}
+        }
+        search={
+          <SearchControl
+            name="q"
+            ariaLabel="Search Pokémon"
+            value={filters.query}
+            onValueChange={(query) => {
+              updateFilter("query", query);
+            }}
+            placeholder="Search name or number"
+          />
+        }
+        trailing={
+          <>
+            <ToolbarGroup>
+              <SelectControl
+                ariaLabel="Filter by generation"
+                variant="ghost"
+                size="sm"
+                prefix="Generation"
+                value={filters.generation || ALL}
+                onValueChange={(value) => {
+                  updateFilter("generation", value === ALL ? "" : value);
+                }}
+                options={generationOptions}
+                placeholder="All"
+              />
+            </ToolbarGroup>
+            <SelectControl
+              ariaLabel="Group Pokémon by"
+              variant="ghost"
+              size="sm"
+              prefix="Group"
+              value={groupBy}
+              onValueChange={(value) => {
+                setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                setGroupBy(value === "type" ? "type" : "generation");
+              }}
+              options={groupByOptions}
+              placeholder="Generation"
+            />
+            <SelectControl
+              ariaLabel="Sort Pokémon"
+              variant="ghost"
+              size="sm"
+              prefix="Sort"
+              value={sortKey}
+              onValueChange={(value) => {
+                if (isPokedexSortKey(value)) {
+                  setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                  setSortKey(value);
+                }
+              }}
+              options={pokedexSortOptions}
+              placeholder="National number"
+            />
+          </>
+        }
+      />
+
+      {/* The types under the bar: they give the list its colour. */}
+      <div className="mt-3.5">
+        <PokemonTypeFilter
+          onValueChange={(type) => {
+            updateFilter("type", type);
+          }}
+          types={data.types}
+          value={filters.type}
+        />
       </div>
 
-      {filteredPokemon.length ? (
-        <>
-          <div className="space-y-9">
-            {visiblePokemonGenerationGroups.map((group) => (
-              <CodexGenerationSection key={group.key} title={group.label}>
-                <CodexResourceGrid columns="pokemon">
-                  {group.pokemon.map((pokemon) => {
-                    const index = visiblePokemonIndexById.get(pokemon.id) ?? -1;
+      {/* Counts every match, not just the ones loaded so far. */}
+      <FilterResultsLine
+        className="mt-2"
+        hasActiveFilters={hasActiveFilters}
+        noun="Pokémon"
+        onClearFilters={clearFilters}
+        shownCount={filteredPokemon.length}
+        totalCount={data.pokemon.length}
+      />
 
-                    return (
-                      <div key={pokemon.id} className="h-full">
-                        <PokedexPokemonCard
-                          pokemon={pokemon}
-                          priority={index > -1 && index < 4}
-                        />
-                      </div>
-                    );
-                  })}
-                </CodexResourceGrid>
-              </CodexGenerationSection>
-            ))}
-            {canLoadMore ? (
-              supportsAutomaticLoading ? (
-                <div
-                  ref={automaticLoadTriggerRef}
-                  className="h-px"
-                  aria-hidden
+      {filteredPokemon.length ? (
+        <div className="mt-7.5 flex min-w-0 flex-col gap-7.5">
+          {visiblePokemonGroups.map((group, index) => {
+            const matchCount =
+              filteredPokemonGroups[index]?.pokemon.length ?? 0;
+            const regionName = data.regionNameByGenerationSlug[group.key];
+            const titleId = `pokemon-${group.key}`;
+
+            return (
+              <section
+                key={group.key}
+                aria-labelledby={titleId}
+                className="min-w-0"
+              >
+                <RangeHeading
+                  title={group.label}
+                  titleId={titleId}
+                  count={[
+                    regionName,
+                    `${countFormat.format(matchCount)} Pokémon`,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
                 />
-              ) : (
-                <div className="flex justify-center pt-1">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="lg"
-                    onClick={loadMorePokemon}
-                  >
-                    Show more Pokémon
-                  </Button>
-                </div>
-              )
-            ) : null}
-          </div>
-        </>
+                <CodexPokemonGrid className="mt-4.5">
+                  {group.pokemon.map((pokemon) => (
+                    <CodexPokemonCardLink
+                      key={pokemon.id}
+                      href={appRoutes.codexPokemonEntry(
+                        pokemon.detailVersionGroupSlug,
+                        pokemon.slug,
+                      )}
+                      imageUrl={pokemon.imageUrl}
+                      name={pokemon.name}
+                      number={formatPokemonNationalNumber(
+                        pokemon.nationalNumber,
+                      )}
+                      types={[pokemon.primaryType, pokemon.secondaryType]}
+                    />
+                  ))}
+                </CodexPokemonGrid>
+              </section>
+            );
+          })}
+          {canLoadMore ? (
+            <LoadMoreTrigger
+              label="Show more Pokémon"
+              onLoadMore={loadMorePokemon}
+            />
+          ) : null}
+        </div>
       ) : (
-        <CodexEmptyState
-          title="No Pokémon found"
-          description="Try a different name or National Pokédex number."
+        <EmptyState
+          variant="bare"
+          className="mt-7.5"
+          title="Nothing matches."
+          action={
+            hasActiveFilters ? (
+              <ClearFiltersButton onClick={clearFilters} />
+            ) : null
+          }
         />
       )}
     </>

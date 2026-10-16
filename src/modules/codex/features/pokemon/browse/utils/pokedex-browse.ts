@@ -2,7 +2,6 @@ import type {
   PokedexPageFilters,
   PokedexPokemonBrowseCard,
 } from "@/modules/reference/types";
-import { matchesPokemonCategory } from "@/modules/reference/features/pokemon/domain/pokemon-categories";
 import { formatPokemonNationalNumberDigits } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 export type SearchablePokedexPokemon = PokedexPokemonBrowseCard & {
@@ -73,12 +72,38 @@ export const filterPokedexPokemon = (
       continue;
     }
 
-    if (!matchesPokemonCategory(entry, filters.category)) {
-      continue;
-    }
-
     filteredPokemon.push(entry);
   }
 
   return filteredPokemon;
+};
+
+export type PokedexSortKey = "name" | "national";
+
+export const pokedexSortOptions = [
+  { label: "National number", value: "national" },
+  { label: "Name", value: "name" },
+] satisfies { label: string; value: PokedexSortKey }[];
+
+export const isPokedexSortKey = (value: string): value is PokedexSortKey => {
+  return pokedexSortOptions.some((option) => option.value === value);
+};
+
+/*
+ * Species arrive in national order; by name they are re-sorted, and still
+ * grouped by the generation they were introduced in.
+ */
+export const sortPokedexPokemon = <TPokemon extends PokedexPokemonBrowseCard>(
+  pokemon: TPokemon[],
+  sortKey: PokedexSortKey,
+) => {
+  if (sortKey === "name") {
+    return pokemon.toSorted(
+      (first, second) =>
+        first.name.localeCompare(second.name) ||
+        first.nationalNumber - second.nationalNumber,
+    );
+  }
+
+  return pokemon;
 };

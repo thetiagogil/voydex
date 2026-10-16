@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
-import { getTeamRosterSlots } from "./team-roster-model";
+import {
+  formatTeamRosterSummary,
+  getDefaultTeamMember,
+  getTeamRosterSlots,
+  getTeamRosterSheetKeys,
+  getTeamRosterSummary,
+} from "./team-roster-model";
 
 const buildMember = (
   id: string,
@@ -54,5 +60,74 @@ describe("getTeamRosterSlots", () => {
     expect(slots[0]?.member?.play_pokemon_id).toBe("reserve-first");
     expect(slots[5]?.label).toBe("R6");
     expect(slots[5]?.member?.play_pokemon_id).toBe("reserve-last");
+  });
+});
+
+describe("getTeamRosterSummary", () => {
+  it("counts open slots in the team and the reserve, which always shows", () => {
+    const teamOnly = getTeamRosterSummary([
+      buildMember("first", "active", 1),
+      buildMember("second", "active", 2),
+    ]);
+    const withReserve = getTeamRosterSummary([
+      ...Array.from({ length: 6 }, (_, index) =>
+        buildMember(`active-${index}`, "active", index + 1),
+      ),
+      buildMember("reserve-first", "reserve", 7),
+      buildMember("reserve-third", "reserve", 9),
+    ]);
+
+    expect(teamOnly).toEqual({
+      activeCount: 2,
+      openSlotCount: 10,
+      reserveCount: 0,
+    });
+    expect(formatTeamRosterSummary(teamOnly)).toBe("2 active · 10 open slots");
+    expect(formatTeamRosterSummary(withReserve)).toBe(
+      "6 active · 2 in reserve · 4 open slots",
+    );
+  });
+
+  it("says so when the Play has no Pokémon yet", () => {
+    expect(formatTeamRosterSummary(getTeamRosterSummary([]))).toBe(
+      "No Pokémon yet",
+    );
+  });
+});
+
+describe("getDefaultTeamMember", () => {
+  const roster = [
+    buildMember("second", "active", 2),
+    buildMember("first", "active", 1),
+    buildMember("reserve", "reserve", 7),
+  ];
+
+  it("opens on the Pokémon the link names", () => {
+    expect(getDefaultTeamMember(roster, "reserve")?.play_pokemon_id).toBe(
+      "reserve",
+    );
+  });
+
+  it("falls back to the first by slot for an unknown or missing id", () => {
+    expect(getDefaultTeamMember(roster, "gone")?.play_pokemon_id).toBe("first");
+    expect(getDefaultTeamMember(roster)?.play_pokemon_id).toBe("first");
+  });
+});
+
+describe("getTeamRosterSheetKeys", () => {
+  it("keeps the editor and the replace picker apart for the same Pokémon", () => {
+    const id = "55375abb-2373-bb27-7797-ab75702b5364";
+    const keys = getTeamRosterSheetKeys(id, {
+      kind: "replace",
+      playPokemonId: id,
+    });
+
+    expect(keys.editor).not.toBe(keys.picker);
+  });
+
+  it("gives the add picker one key whoever is selected", () => {
+    expect(getTeamRosterSheetKeys("a", { kind: "add" }).picker).toBe(
+      getTeamRosterSheetKeys("b", { kind: "add" }).picker,
+    );
   });
 });

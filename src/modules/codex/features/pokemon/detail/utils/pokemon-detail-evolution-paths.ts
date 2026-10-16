@@ -197,11 +197,3 @@ export const getPokemonDetailEvolutionPaths = ({
     })
     .sort(comparePokemonDetailEvolutionPaths);
 };
-
-export const getPokemonDetailEvolutionPathGridTemplateColumns = (
-  stepCount: number,
-) => {
-  return Array.from({ length: Math.max(1, stepCount * 2 - 1) }, (_, index) => {
-    return index % 2 === 0 ? "4.5rem" : "minmax(2rem, 1fr)";
-  }).join(" ");
-};

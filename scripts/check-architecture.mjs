@@ -30,6 +30,14 @@ const responsibilityFolderNames = new Set([
   "utils",
 ]);
 
+/* Product modules whose features must not reach into each other. */
+const featureBoundaryModules = new Set(["codex", "mainline"]);
+/*
+ * Feature families: each child is its own feature, and the family's
+ * `shared` child is the one place its siblings (and other features) share.
+ */
+const featureFamilies = new Set(["mainline/plays"]);
+
 const normalizePath = (value) => value.split(path.sep).join("/");
 const startsWithSegments = (segments, prefix) =>
   prefix.every((segment, index) => segments[index] === segment);
@@ -68,6 +76,106 @@ function crossesPlayHubViewBoundary(sourceSegments, targetSegments) {
   const targetLeaf = getPlayHubLeafView(targetSegments);
 
   return Boolean(targetLeaf) && sourceLeaf !== targetLeaf;
+}
+
+/*
+ * The feature an import path belongs to, as { key, shared }: `shared` marks a
+ * family's shared child (or a file at the family root), which any feature of
+ * the module may use. Null outside a boundary module's features.
+ */
+function getModuleFeature(segments) {
+  const [area, moduleName, root, featureName, child] = segments;
+
+  if (
+    area !== "modules" ||
+    !featureBoundaryModules.has(moduleName) ||
+    root !== "features" ||
+    !featureName ||
+    sourceExtensions.has(path.extname(featureName))
+  ) {
+    return null;
+  }
+
+  if (!featureFamilies.has(`${moduleName}/${featureName}`)) {
+    return { key: `${moduleName}/${featureName}`, shared: false };
+  }
+
+  if (
+    !child ||
+    child === "shared" ||
+    sourceExtensions.has(path.extname(child))
+  ) {
+    return { key: `${moduleName}/${featureName}/shared`, shared: true };
+  }
+
+  return { key: `${moduleName}/${featureName}/${child}`, shared: false };
+}
+
+function crossesFeatureBoundary(sourceSegments, targetSegments) {
+  const source = getModuleFeature(sourceSegments);
+  const target = getModuleFeature(targetSegments);
+
+  return Boolean(
+    source && target && !target.shared && source.key !== target.key,
+  );
+}
+
+function verifyFeatureBoundaryFixtures() {
+  const fixtures = [
+    {
+      source: "modules/mainline/features/home/sections/home-band-section.tsx",
+      target: "modules/mainline/features/plays/new/components/partner-cast.tsx",
+      violates: true,
+    },
+    {
+      source: "modules/mainline/features/plays/new/components/wizard.tsx",
+      target: "modules/mainline/features/plays/browse/types.ts",
+      violates: true,
+    },
+    {
+      source: "modules/mainline/features/plays/shared/server/reader.ts",
+      target: "modules/mainline/features/plays/browse/types.ts",
+      violates: true,
+    },
+    {
+      source: "modules/mainline/features/stats/server/stats-reader.ts",
+      target: "modules/mainline/features/plans/types.ts",
+      violates: true,
+    },
+    {
+      source: "modules/mainline/features/home/server/home-page-query.ts",
+      target: "modules/mainline/features/plays/shared/server/reader.ts",
+      violates: false,
+    },
+    {
+      source: "modules/mainline/features/plays/hub/views/team/team-roster.tsx",
+      target: "modules/mainline/features/plays/hub/data/play-hub-mappers.ts",
+      violates: false,
+    },
+    {
+      source: "modules/mainline/public-codex.tsx",
+      target: "modules/mainline/features/plays/browse/server/reader.ts",
+      violates: false,
+    },
+    {
+      source: "modules/reference/features/games/types.ts",
+      target: "modules/reference/features/pokemon/types.ts",
+      violates: false,
+    },
+  ];
+
+  for (const fixture of fixtures) {
+    const actual = crossesFeatureBoundary(
+      fixture.source.split("/"),
+      fixture.target.split("/"),
+    );
+
+    if (actual !== fixture.violates) {
+      throw new Error(
+        `Feature boundary fixture failed: ${fixture.source} -> ${fixture.target}`,
+      );
+    }
+  }
 }
 
 function verifyPlayHubBoundaryFixtures() {
@@ -212,6 +320,35 @@ function checkImportBoundary({
       violations,
       normalizePath(path.relative(projectRoot, importerPath)),
       "Play Hub leaf views must use Hub-owned or family-owned shared code instead of sibling view internals",
+      specifier,
+    );
+  }
+
+  const playHubPrefix = mainlinePlayHubViewsPrefix.slice(0, -1);
+
+  if (
+    sourceArea === "modules" &&
+    startsWithSegments(targetSegments, playHubPrefix) &&
+    !startsWithSegments(importerSegments, playHubPrefix) &&
+    !/^public-[^/]+$/.test(importerSegments.slice(2).join("/"))
+  ) {
+    addImportViolation(
+      violations,
+      normalizePath(path.relative(projectRoot, importerPath)),
+      "only the Play Hub and Mainline's public entries may use Play Hub internals; share code through plays/shared or mainline/shared",
+      specifier,
+    );
+  }
+
+  /* Play Hub targets are already covered by the rule above. */
+  if (
+    !startsWithSegments(targetSegments, playHubPrefix) &&
+    crossesFeatureBoundary(importerSegments, targetSegments)
+  ) {
+    addImportViolation(
+      violations,
+      normalizePath(path.relative(projectRoot, importerPath)),
+      "features must not import a sibling feature's internals; move shared code to the family's shared folder or the module's shared folder",
       specifier,
     );
   }
@@ -441,6 +578,7 @@ async function checkFile(filePath) {
 }
 
 verifyPlayHubBoundaryFixtures();
+verifyFeatureBoundaryFixtures();
 
 const sourceFiles = await collectSourceFiles(sourceRoot);
 const violations = (await Promise.all(sourceFiles.map(checkFile)))

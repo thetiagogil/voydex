@@ -39,7 +39,7 @@ VALUES (
   'authenticated',
   'authenticated',
   'fixture@voydex.test',
-  crypt('voydex-local', gen_salt('bf')),
+  crypt('123456', gen_salt('bf')),
   '2026-07-01 09:00:00+00',
   '',
   '',

@@ -5,7 +5,7 @@ build
 coverage
 .turbo
 .vercel
-.agents
+.claude/skills/shadcn
 package-lock.json
-src/types/database.types.ts
+src/shared/types/database.types.ts
 legacy

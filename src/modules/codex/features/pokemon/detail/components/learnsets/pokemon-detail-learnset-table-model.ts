@@ -1,3 +1,4 @@
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 
 export const POKEMON_DETAIL_LEARNSET_ALL_METHODS = "all";
@@ -12,10 +13,13 @@ export type PokemonDetailLearnsetMethodOption = {
   value: PokemonDetailLearnsetMethodFilter;
 };
 
+/* Learned on evolving: "Evo." in the How column, as learnset tables write it. */
+const POKEMON_DETAIL_LEARNSET_EVOLUTION_LABEL = "Evo.";
+
 const pokemonDetailLearnsetFilterLabels = {
   egg: "Egg",
   hm: "HM",
-  level_up: "Lv.",
+  level_up: "Level up",
   tm: "TM",
   tutor: "Tutor",
 } as const;
@@ -150,18 +154,19 @@ export const getFilteredPokemonDetailLearnsets = ({
     });
 };
 
+/* Null when the move has no such value; the table shows its placeholder. */
 export const formatPokemonDetailLearnsetValue = (
   value: number | null | undefined,
   suffix = "",
 ) => {
-  return value === null || value === undefined ? "-" : `${value}${suffix}`;
+  return value === null || value === undefined ? null : `${value}${suffix}`;
 };
 
 export const formatPokemonDetailLearnsetDamageClass = (
   damageClass?: string | null,
 ) => {
   if (!damageClass) {
-    return "Unknown";
+    return null;
   }
 
   return damageClass
@@ -172,6 +177,10 @@ export const formatPokemonDetailLearnsetDamageClass = (
     .join(" ");
 };
 
+/*
+ * How the move is learned, as v3 writes it: "Lv. 12", "TM 08", "Egg". The
+ * words stay short so they fit v3's How gutter on phones.
+ */
 export const getPokemonDetailLearnsetMethodDetail = (
   learnset: PokemonLearnsetSummary,
 ) => {
@@ -179,32 +188,34 @@ export const getPokemonDetailLearnsetMethodDetail = (
     learnset.method?.slug === "level_up" &&
     learnset.learnset.level_learned_at !== null
   ) {
-    if (learnset.learnset.level_learned_at === 0) {
-      return "Evolution";
-    }
-
-    if (learnset.learnset.level_learned_at === 1) {
-      return "-";
-    }
-
-    return `Lv. ${learnset.learnset.level_learned_at}`;
+    return learnset.learnset.level_learned_at === 0
+      ? POKEMON_DETAIL_LEARNSET_EVOLUTION_LABEL
+      : `Lv. ${learnset.learnset.level_learned_at}`;
   }
 
-  const machineLabel = learnset.learnset.machine_label?.replace(/\s+/g, "");
+  const machineLabel = learnset.learnset.machine_label
+    ?.replace(/\s+/g, "")
+    .replace(/^([A-Z]+)(\d)/, "$1 $2");
 
   if (machineLabel) {
     return machineLabel;
   }
 
-  return learnset.method?.name ?? "Unknown";
+  return learnset.method?.slug === "evolution"
+    ? POKEMON_DETAIL_LEARNSET_EVOLUTION_LABEL
+    : getPokemonDetailLearnsetFilterLabel(learnset);
 };
 
-export const getPokemonDetailLearnsetAddedContentLabel = (
+/*
+ * What narrows a move inside the group: the expansion that added it, or the
+ * one game it is learned in ("Sword only").
+ */
+export const getPokemonDetailLearnsetAddedContentName = (
   learnset: PokemonLearnsetSummary,
 ) => {
-  if (!learnset.sourceVersionGroup?.parent_version_group_id) {
-    return null;
+  if (learnset.sourceVersionGroup?.parent_version_group_id) {
+    return learnset.sourceVersionGroup.name;
   }
 
-  return `Added in ${learnset.sourceVersionGroup.name}.`;
+  return learnset.game ? `${getGameShortName(learnset.game.name)} only` : null;
 };

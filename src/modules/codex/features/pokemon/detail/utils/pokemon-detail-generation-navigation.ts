@@ -1,49 +1,53 @@
+import {
+  buildPokemonDetailVersionGroupScopes,
+  getDefaultVersionGroup,
+} from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
-import type { PokemonDetailGenerationNavigationItem } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-navigation";
-import { getPokemonGameAvailabilityStatus } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
+import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonDetailData } from "@/modules/reference/types";
-import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
+import type { SegmentedControlOption } from "@/shared/components/segmented-control";
 
-const getShortGenerationLabel = (generationName: string) => {
-  return generationName.replace("Generation ", "");
-};
-
+/* A form other than the default carries over between pages. */
 const getScopedFormSlug = (scope: ResolvedPokemonDetailScope) => {
   return scope.form && !scope.form.form.is_default
     ? scope.form.form.slug
     : undefined;
 };
 
-export const getPokemonDetailGenerationNavigationItems = (
+/*
+ * The generation pills: every generation, always, so the row never shifts.
+ * One the Pokémon is in opens that generation's first group it can be found
+ * in; one it isn't in (before it existed, or a generation without it) shows
+ * disabled.
+ */
+export const getPokemonDetailGenerationOptions = (
   data: PokemonDetailData,
   scope: ResolvedPokemonDetailScope,
-): PokemonDetailGenerationNavigationItem[] => {
-  return data.generationDetails.map((generationDetail) => ({
-    games: generationDetail.games.map((game) => {
-      const availabilityStatus = getPokemonGameAvailabilityStatus({
-        availability: generationDetail.availability,
-        form: scope.form,
-        game,
-      });
+): SegmentedControlOption<string>[] => {
+  return data.generations.map((generationRow) => {
+    const generation = data.generationDetails.find((detail) => {
+      return detail.generation.id === generationRow.id;
+    });
+    const versionGroup = generation
+      ? getDefaultVersionGroup(
+          generation,
+          buildPokemonDetailVersionGroupScopes(generation),
+        )
+      : null;
+    const option = {
+      label: getGenerationNumeral(generationRow.name),
+      value: generationRow.slug,
+    };
 
-      return {
-        availabilityDescription: availabilityStatus.description,
-        availabilityKind: availabilityStatus.kind,
-        href: getPokemonDetailScopeHref(data.species.slug, {
-          form: getScopedFormSlug(scope),
-          game: game.slug,
-        }),
-        id: game.id,
-        imageUrl: getGameCoverImageUrl(game),
-        isActive: game.id === scope.game?.id,
-        isAvailable: availabilityStatus.kind !== "unavailable",
-        name: game.name,
-        slug: game.slug,
-      };
-    }),
-    id: generationDetail.generation.id,
-    isActive: generationDetail.generation.id === scope.generation.generation.id,
-    label: getShortGenerationLabel(generationDetail.generation.name),
-  }));
+    return versionGroup
+      ? {
+          ...option,
+          href: getPokemonDetailScopeHref(data.species.slug, {
+            form: getScopedFormSlug(scope),
+            versionGroup: versionGroup.versionGroup.slug,
+          }),
+        }
+      : { ...option, disabled: true, href: "" };
+  });
 };

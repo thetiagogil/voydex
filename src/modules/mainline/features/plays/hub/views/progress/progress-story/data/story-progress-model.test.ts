@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import type { StoryCategorySource, StoryMilestoneSource } from "../types";
-import { buildStoryProgressModel } from "./story-progress-model";
+import {
+  buildStoryProgressModel,
+  findStoryMilestone,
+} from "./story-progress-model";
 
 const category = (
   overrides: Partial<StoryCategorySource> = {},
@@ -10,20 +13,19 @@ const category = (
   category_name: "Main Story",
   category_slug: "main-story",
   category_sort_order: 1,
-  completed_milestone_count: 0,
   completed_required_milestone_count: 0,
   content_scope_sort_order: 1,
   milestone_count: 1,
   required_milestone_count: 1,
   version_group_id: 1,
   version_group_name: "Red / Blue",
-  version_group_slug: "rb",
   ...overrides,
 });
 
 const milestone = (
   overrides: Partial<StoryMilestoneSource> = {},
 ): StoryMilestoneSource => ({
+  badge_refs: null,
   category_id: 1,
   category_name: "Main Story",
   category_slug: "main-story",
@@ -59,10 +61,10 @@ describe("buildStoryProgressModel", () => {
           category_sort_order: 2,
         }),
         category({
-          completed_milestone_count: 1,
           completed_required_milestone_count: 1,
         }),
       ],
+      badgeTypes: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -84,10 +86,42 @@ describe("buildStoryProgressModel", () => {
       "Main Story",
       "Post Game",
     ]);
-    expect(model.completedRequiredCount).toBe(1);
-    expect(model.requiredCount).toBe(2);
+    expect(model.scopes[0]?.completedCount).toBe(1);
+    expect(model.scopes[0]?.totalCount).toBe(2);
+    expect(model.scopes[0]?.milestoneCount).toBe(2);
     expect(model.nextMilestone?.name).toBe("Rematch");
-    expect(model.defaultMilestoneId).toBe(2);
+    expect(model.scopes[0]?.nextMilestone?.name).toBe("Rematch");
+  });
+
+  it("counts required milestones for progress and every milestone for sequence", () => {
+    const model = buildStoryProgressModel({
+      categories: [
+        category({
+          completed_required_milestone_count: 1,
+          milestone_count: 2,
+          required_milestone_count: 1,
+        }),
+      ],
+      badgeTypes: [],
+      decisionForms: [],
+      milestones: [
+        milestone({ is_completed: true }),
+        milestone({
+          is_required_for_completion: false,
+          milestone_id: 2,
+          milestone_name: "Optional detour",
+          sort_order: 2,
+        }),
+      ],
+      snapshotEvents: [],
+    });
+
+    expect(model.scopes[0]?.completedCount).toBe(1);
+    expect(model.scopes[0]?.totalCount).toBe(1);
+    expect(model.scopes[0]?.milestoneCount).toBe(2);
+    expect(
+      model.scopes[0]?.sections[0]?.milestones.map(({ sequence }) => sequence),
+    ).toEqual([1, 2]);
   });
 
   it("uses required prerequisite relationships rather than display order", () => {
@@ -100,6 +134,7 @@ describe("buildStoryProgressModel", () => {
           category_slug: "parallel-path",
         }),
       ],
+      badgeTypes: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -134,6 +169,7 @@ describe("buildStoryProgressModel", () => {
   it("hydrates decision, prerequisite, and snapshot evidence", () => {
     const model = buildStoryProgressModel({
       categories: [category()],
+      badgeTypes: [],
       decisionForms: [{ id: 906, sprite_slug: "sprigatito" }],
       milestones: [
         milestone({
@@ -189,7 +225,6 @@ describe("buildStoryProgressModel", () => {
     expect(result).toMatchObject({
       decisionOptions: [
         {
-          formName: "Sprigatito",
           id: 5,
           imageUrl:
             "https://img.pokemondb.net/sprites/home/normal/sprigatito.png",
@@ -222,7 +257,6 @@ describe("buildStoryProgressModel", () => {
       {
         completed: false,
         id: 4,
-        kindName: "Suggested",
         kindSlug: "suggested",
         name: "Meet the director",
       },
@@ -240,7 +274,6 @@ describe("buildStoryProgressModel", () => {
           content_scope_sort_order: 2,
           version_group_id: 24,
           version_group_name: "The Teal Mask",
-          version_group_slug: "sv-tm",
         }),
         category({
           category_id: 3,
@@ -250,9 +283,9 @@ describe("buildStoryProgressModel", () => {
           content_scope_sort_order: 2,
           version_group_id: 24,
           version_group_name: "The Teal Mask",
-          version_group_slug: "sv-tm",
         }),
       ],
+      badgeTypes: [],
       decisionForms: [],
       milestones: [
         milestone(),
@@ -278,11 +311,15 @@ describe("buildStoryProgressModel", () => {
       "DLC Story",
       "DLC Side Content",
     ]);
+    expect(model.scopes.map((scope) => scope.nextMilestone?.id)).toEqual([
+      1, 2,
+    ]);
   });
 
   it("marks hard prerequisites unavailable without treating suggestions as locks", () => {
     const model = buildStoryProgressModel({
       categories: [category({ milestone_count: 3 })],
+      badgeTypes: [],
       decisionForms: [],
       milestones: [
         milestone(),
@@ -331,6 +368,7 @@ describe("buildStoryProgressModel", () => {
   it("previews only completed transitive hard dependents for milestone correction", () => {
     const model = buildStoryProgressModel({
       categories: [category({ milestone_count: 4 })],
+      badgeTypes: [],
       decisionForms: [],
       milestones: [
         milestone({
@@ -403,5 +441,108 @@ describe("buildStoryProgressModel", () => {
       noteCount: 1,
       snapshotCount: 1,
     });
+  });
+  it("builds the stamp card from the gym badges and the League chapter", () => {
+    const model = buildStoryProgressModel({
+      badgeTypes: [
+        { id: 12, slug: "grass" },
+        { id: 11, slug: "water" },
+      ],
+      categories: [
+        category({ milestone_count: 3 }),
+        category({
+          category_id: 2,
+          category_name: "Pokémon League",
+          category_slug: "pokemon-league",
+          category_sort_order: 2,
+          milestone_count: 2,
+        }),
+      ],
+      decisionForms: [],
+      milestones: [
+        milestone({ milestone_id: 1 }),
+        milestone({
+          badge_refs: [{ type_id: 12 }],
+          completed_at: "2026-02-01T12:00:00Z",
+          is_completed: true,
+          milestone_id: 2,
+          milestone_name: "Grass Badge",
+          milestone_type_slug: "gym",
+          sort_order: 2,
+        }),
+        milestone({
+          badge_refs: [{ type_id: 11 }],
+          milestone_id: 3,
+          milestone_name: "Water Badge",
+          milestone_type_slug: "gym",
+          sort_order: 3,
+        }),
+        milestone({
+          category_id: 2,
+          milestone_id: 4,
+          milestone_name: "Champion Leon",
+          milestone_type_slug: "champion",
+        }),
+        milestone({
+          category_id: 2,
+          milestone_id: 5,
+          milestone_name: "Hall of Fame",
+          milestone_type_slug: "hall-of-fame",
+          sort_order: 2,
+        }),
+      ],
+      snapshotEvents: [],
+    });
+
+    expect(
+      model.scopes[0]?.stamps?.map((stamp) => [
+        stamp.label,
+        stamp.kind,
+        stamp.state,
+        stamp.badgeType,
+      ]),
+    ).toEqual([
+      ["Grass", "gym", "earned", "grass"],
+      ["Water", "gym", "next", "water"],
+      ["Champion Leon", "league", "todo", null],
+      ["Hall of Fame", "league", "todo", null],
+    ]);
+  });
+
+  it("has no stamp card for a scope without gyms", () => {
+    const model = buildStoryProgressModel({
+      badgeTypes: [],
+      categories: [category()],
+      decisionForms: [],
+      milestones: [milestone()],
+      snapshotEvents: [],
+    });
+
+    expect(model.scopes[0]?.stamps).toBeNull();
+  });
+});
+
+describe("findStoryMilestone", () => {
+  it("finds a milestone by id in any section, or null", () => {
+    const model = buildStoryProgressModel({
+      categories: [
+        category({ category_id: 2, category_slug: "post-game" }),
+        category(),
+      ],
+      badgeTypes: [],
+      decisionForms: [],
+      milestones: [
+        milestone(),
+        milestone({
+          category_id: 2,
+          milestone_id: 7,
+          milestone_name: "Rematch",
+        }),
+      ],
+      snapshotEvents: [],
+    });
+
+    expect(findStoryMilestone(model, 7)?.name).toBe("Rematch");
+    expect(findStoryMilestone(model, 99)).toBeNull();
   });
 });

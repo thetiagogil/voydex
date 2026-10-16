@@ -6,7 +6,9 @@ import type {
   PokemonAttributes,
   PokemonForm,
   PokemonSpecies,
+  Region,
   Type,
+  VersionGroup,
 } from "@/modules/reference/types";
 
 export type PokedexPageRows = {
@@ -14,14 +16,22 @@ export type PokedexPageRows = {
   defaultForms: PokemonForm[];
   games: Game[];
   generations: Generation[];
+  regions: Region[];
   species: PokemonSpecies[];
   types: Type[];
+  versionGroups: VersionGroup[];
 };
 
 export const loadPokedexPageRows = async (
   supabase: ServerSupabaseClient,
 ): Promise<PokedexPageRows> => {
-  const [typesResult, generationsResult, gamesResult] = await Promise.all([
+  const [
+    typesResult,
+    generationsResult,
+    gamesResult,
+    versionGroupsResult,
+    regionsResult,
+  ] = await Promise.all([
     supabase
       .schema("reference")
       .from("types")
@@ -38,6 +48,16 @@ export const loadPokedexPageRows = async (
       .select("*")
       .order("generation_id", { ascending: true })
       .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
+      .from("version_groups")
+      .select("*")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
+      .from("regions")
+      .select("*")
+      .order("sort_order", { ascending: true }),
   ]);
 
   if (typesResult.error) {
@@ -48,7 +68,7 @@ export const loadPokedexPageRows = async (
     throw new Error("Unable to load generations.");
   }
 
-  if (gamesResult.error) {
+  if (gamesResult.error || versionGroupsResult.error || regionsResult.error) {
     throw new Error("Unable to load games.");
   }
 
@@ -93,7 +113,9 @@ export const loadPokedexPageRows = async (
     defaultForms,
     games: gamesResult.data ?? [],
     generations: generationsResult.data ?? [],
+    regions: regionsResult.data ?? [],
     species,
     types: typesResult.data ?? [],
+    versionGroups: versionGroupsResult.data ?? [],
   };
 };

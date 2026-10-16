@@ -232,7 +232,6 @@ describe("Pokédex progress action model", () => {
     expect(
       filterPokedexEntries({
         entries,
-        inclusionFilter: "all",
         progressFilter: "missing",
         query: "",
         stateBySpeciesId: new Map(),
@@ -249,7 +248,6 @@ describe("Pokédex progress action model", () => {
     const filterByProgress = (progressFilter: "missing" | "seen" | "caught") =>
       filterPokedexEntries({
         entries,
-        inclusionFilter: "all",
         progressFilter,
         query: "",
         stateBySpeciesId: new Map(),

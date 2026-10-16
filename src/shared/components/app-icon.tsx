@@ -5,7 +5,6 @@ import type { AppIconComponent } from "@/shared/domain/icons/app-icons";
 
 export {
   appIcons,
-  getModuleIcon,
   type AppIconComponent,
 } from "@/shared/domain/icons/app-icons";
 

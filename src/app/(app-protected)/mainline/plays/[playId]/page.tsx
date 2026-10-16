@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 
+import { MilestoneDecisionRecordButton } from "@/modules/mainline/features/plays/hub/components/milestone-decision-record-button";
 import { getMainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
 import { MainlinePlayOverview } from "@/modules/mainline/features/plays/hub/views/overview/mainline-play-overview";
 
@@ -19,5 +20,18 @@ export default async function MainlinePlayOverviewRoute({
     notFound();
   }
 
-  return <MainlinePlayOverview data={data} playId={playId} />;
+  return (
+    <MainlinePlayOverview
+      data={data}
+      decisionRecord={
+        data.nextDecisionMilestone ? (
+          <MilestoneDecisionRecordButton
+            milestone={data.nextDecisionMilestone}
+            playId={playId}
+          />
+        ) : undefined
+      }
+      playId={playId}
+    />
+  );
 }

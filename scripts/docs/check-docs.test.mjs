@@ -29,8 +29,9 @@ describe("documentation checker", () => {
   it("accepts reachable docs and indexed design assets", () => {
     const root = fixture({
       "README.md": "[Docs](./docs/README.md)",
-      "AGENTS.md": "[Guide](./docs/guide.md)",
-      ".agents/AGENTS.md": "[Guide](../docs/guide.md)",
+      "CLAUDE.md": "[Guide](./docs/guide.md)",
+      ".claude/engineering-guide.md": "[Guide](../docs/guide.md)",
+      ".claude/agents/reviewer.md": "[Guide](../../docs/guide.md)",
       "docs/README.md": "[Guide](./guide.md)\n[Mockup](./design/mock.png)",
       "docs/guide.md": "# Guide",
       "docs/design/mock.png": "fixture",

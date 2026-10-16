@@ -1,1089 +1,371 @@
-# Design System
+# Design System: Soft Clay
 
-Voydex should feel like a clean adventure companion: warm, playful, polished, and Pokémon-adjacent without becoming loud or toy-like.
+Voydex is quiet where you work and loud where you remember. Your team, what
+you caught, what you earned and where you started stay alive and
+Pokémon-specific; the chrome around them (buttons, filters, menus, form
+controls) stays calm so the loud parts mean more.
 
-Avoid a corporate SaaS hero, a generic wiki look, and overly game-ish UI chrome.
+This document is the canonical description of the system as built. The agreed
+brief and its reasoning live in [Soft Clay Brief](../design/soft-clay-brief.md);
+the visual study it diffs against is `Voydex Redesign v3` (outside the repo,
+`index.html` and `REDESIGN.md`). Implementation evidence overrides both.
 
-The canonical V1 art-direction brief is
-[Voydex V1 Visual Language](../design/v1/visual-language.md). The production
-tokens and verified shared shell now define the first implemented slice;
-earlier visual references remain decision history rather than fidelity targets.
+## Where It Lives
 
-## Design Direction
+| Concern                  | Source                                                                  |
+| ------------------------ | ----------------------------------------------------------------------- |
+| Tokens, Tailwind theme   | `src/shared/styles/app-tokens.css`                                      |
+| Base type, focus, motion | `src/shared/styles/app-base.css`                                        |
+| Utilities                | `src/shared/styles/app-utilities.css`                                   |
+| Fonts                    | `src/app/fonts.ts` (Fredoka and Nunito through `next/font`)             |
+| Game colour table        | `src/modules/reference/features/games/utils/game-color-styles.ts`       |
+| Type colours             | `src/modules/reference/features/pokemon/styles/pokemon-type-tokens.css` |
+| Primitives               | `src/shared/components/ui` (shadcn-style, Base UI), restyled in place   |
+| Retired-design guard     | `scripts/design/check-design-leftovers.mjs` (`npm run design:check`)    |
 
-The desired mix:
+Light mode only for now. Tokens are named by role so dark mode can later be a
+second set of values for the same names (`.dark`), without renaming anything.
+The `dark:` variant is wired to a `.dark` class that nothing sets yet.
 
-- Adventure.
-- Clean companion app.
-- Pokémon-related, but not a direct Pokémon brand copy.
-- Soft illustrated scenic imagery.
-- Clear data surfaces for repeated use.
-- Subtle personality through assets, icons, color, and state.
+## Tokens
 
-## UI Stack
+Use the role tokens as Tailwind colours (`bg-surface`, `text-ink-2`,
+`border-line`). The shadcn names (`bg-card`, `text-muted-foreground`,
+`bg-primary`) are aliases of the same values so the primitives keep working;
+new code prefers the role names.
 
-- Tailwind CSS.
-- shadcn-style primitives in `src/shared/components/ui`.
-- Base UI-backed shadcn primitives where installed.
-- Lucide-backed interface icons selected exclusively through the shared
-  `appIcons` catalogue and rendered with `AppIcon`.
-- Custom visual assets for hero/background/brand moments.
+| Group          | Tokens                                                                                                                                              |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ground and ink | `bg #F2EDE1`, `surface #FFFCF5`, `surface-2 #F7F1E4`, `hover`, `ink`, `ink-2`, `ink-3`, `on-ink`, `ink-tint` (secondary text on type or game tints) |
+| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                            |
+| Action         | `action #3B8360` and `action-lip`, `action-soft`, `link`, `focus`                                                                                   |
+| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`                                    |
+| Meadow         | `sky`, `hill`, `hill-2`                                                                                                                             |
+| Context        | `game`, `game-strong`, `game-soft`, `game-wash`, `game-lip`, `game-deep`, `select-soft`, `select-ink`                                               |
+| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                              |
+| Shadows        | `shadow-card` (clay edge), `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-action`, `shadow-game`                          |
+| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 44 60`; nothing under 12px                                                                                      |
+| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                       |
+
+Every page, the top bar, the footer and the docked Play bar line up in the
+`page-column`. A page that opens on a band (the meadow on Mainline Home, the
+site's Home and Start a Play) wears `page-band` on it, through `MeadowScene`
+`form="band"`: the band runs the full width of the window and tucks under the
+transparent bar, which sits on its colour, while its copy stays in the page
+column. Home keeps the meadow; Plays, the Team Planner, Statistics, Collection
+and the Codex's game and Pokémon pages open on the lighter `PageBand` (on
+trial): their head section on warm sand
+(`band-sand`), flat colour only. The sand stays neutral so what each page shows
+(type-coloured stickers, covers) brings the colour. Game colour belongs inside
+a Play, so the Planner never takes the Plan's game; the game shows through its
+covers.
+Nothing else breaks out of the column: the Play header is a card in
+it, and the docked Play bar spans the window with its content in the column.
+
+The action green holds 4.5:1 with white. Focus is always the action green
+outline, inside a Play too.
+
+## Type
+
+- **Fredoka (600)** is the app's voice: page, section, card, sheet and dialog
+  titles at 20px and up, list group headings, the Play name, the trainer name,
+  the names of Pokémon you own on stickers, and figures of 24px and up.
+  `h1`–`h3` default to it; card titles use it through `CardTitle`.
+- **Nunito (600–800)** is everything you operate (settled 2026-10-13 after a
+  side-by-side with v3's Fredoka button): every button including the
+  main one, tabs, pills, chips, labels, table headers and reference-card
+  titles.
+- Nothing under 16px is Fredoka.
+
+## Loudness Budget
+
+| Level  | For                                                    | May use                                                                                                                   |
+| ------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| Loud   | Identity and reward: the Play, what you own and earned | Game fill, stickers, tilt (stamps only), coloured lips, gold, slap and pop, dotted texture (Play header only), the meadow |
+| Lively | Pokémon themselves                                     | Type colours, art on its type-tint circle, type dots and chips                                                            |
+| Quiet  | Everything you operate and the chrome around content   | Cream surfaces, the 3px clay edge, ink, Nunito, the one action green, the soft selected tint, space between rows          |
+
+- One loud kind per section, plus the page's main button. Chrome is never the
+  loud thing.
+- Loud must be earned or be identity, never a control.
+
+## Colour Rules
+
+- **Game colour is a Play's identity, never a theme.** A Play's shell wraps its
+  content in `game-scope` with `getGameColourStyle(gameSlug)`; inside it,
+  `game-*` tokens follow that game. The shell also sets the same values on the
+  document root while the Play is open, so portalled menus, sheets and dialogs
+  wear it too. Pages without a Play wear Voydex green.
+- **Labelled fills use `game-strong`:** the game colour darkened only as far as
+  a white label needs for 4.5:1 (computed per game in TypeScript). The active
+  Play tab and the start medallion use it; `game-deep` and `select-ink` are
+  mixed deep enough to hold 4.5:1 on their tints for every game.
+- **Fill** only on the Play header and docked bar, the active Play tab, and
+  places where one Play or game is the subject (cover tiles, the start
+  medallion). **Accent** elsewhere in a Play: progress bars, the
+  next-milestone border, selection borders, eyebrows. Never the background of
+  a card, row, section or input.
+- **Selected controls**: rows, chips and filter pills take `bg-select-soft
+text-select-ink` (the soft tint of the context colour with deep ink). A mode
+  switch (`SegmentedControl` `segment`, v3's `.mode-seg`) takes `game-strong`
+  with a white label: the game colour inside a Play, the action green outside
+  one. A scope picker (pills choosing which part you look at: a Pokédex, a
+  Story journey, a collectible set, a game version; v3's `.pill.is-on`) takes
+  `game-strong` too, with `selectedTone="strong"`; filters stay soft. The Log
+  in / Sign up form switch keeps the soft tint. Where a control
+  already sits on the soft tint (the game shelf's generation marks and Start a
+  Play's picked partner on a tinted meadow, the top bar on a tinted band) the
+  selection takes `game-strong` too. Otherwise solid game colour is kept for
+  the active tab only.
+- **The top bar follows a tinted band.** A band that opens the page in a
+  game's colour (Mainline Home, Start a Play with a game picked) copies that
+  colour to the document root through `BandTintRoot` (inside `MeadowScene`),
+  which marks it `data-band-tint`. The bar reads the `--bar-*` tokens: its
+  quiet controls sit on soft white over the tint, its current link and the V
+  tile take `game-strong`, its secondary words deepen to `ink-tint`. The
+  neutral sand `PageBand` leaves the bar neutral. The bar's current mark
+  swaps at once (no fade) and each link keeps its bold width, so changing
+  section never flickers or nudges the other links.
+- **Codex** has no game-colour surfaces; covers carry the game, on a soft
+  stage in their game's colour on `GameShelfCard`.
+- **Type colours** keep the official hexes. A labelled chip (`type-chip`)
+  deepens only the four palest types so its white label reads; dots keep the
+  official colour.
+- **Meaning colours** are small marks (`StatusBadge` tones `ok`, `warn`,
+  `calm`, `danger`, `gold`, `neutral`), never filled banners. `calm` is v3's
+  quiet blue (`.pstate.info`) for a change that isn't a problem, such as an
+  evolution or form.
+- **Gold** is for what you earned: League stamps, milestones that aren't
+  badges, collectibles found.
+
+## Edges
+
+- **Coloured lip (loud)** only on the main button (5px action lip that presses
+  down), the Play header and docked bar (5px game lip), Story's next-milestone
+  row, and things you own (stickers, roster tiles, caught Pokémon cards,
+  stamps, found collectibles, the trainer card) plus the small lip under
+  medallions.
+- **Clay edge (quiet material)**: a section card on the page ground has a 3px (settled 2026-10-13 against v3's 4px)
+  neutral edge (`shadow-card`, `--clay-edge`). It never moves when pressed and
+  never takes game, type or gold colour. It drops when a card sits inside
+  another card, a sheet or a dialog (`Card` handles this), and grid items you
+  don't own get a 1px line instead.
+- **Quiet lip**: secondary buttons are v3's `.btn-2` (settled 2026-10-13):
+  no line, a 3px neutral lip (`shadow-quiet`) that presses away, cream on the
+  page and the inset fill inside a card or dialog.
+- **Flat**: ghost, link and danger buttons, dialogs, sheets and menus (overlay
+  or float shadow only), pills, chips and pickers.
+
+## Motion
+
+Motion is a reward. Hover lifts and the Pokémon hop are fine on things you can
+open. `animate-slap` and `animate-pop` play only at the moment something is
+recorded or marked, never on load or redraw. The one exception is the
+meadow's partners, which pop in (`animate-meadow-pop`) once per visit. Nothing loops and controls don't
+bounce. `app-base.css` honours reduced motion.
+
+## Components
+
+Restyled primitives under `src/shared/components/ui` keep their names and APIs:
+`Button` (default is the main button; `outline` and `secondary` are the
+quiet buttons with their 3px neutral lip; `ghost` and `link` are flat;
+`destructive` is the danger outline; the default size is v3's `.btn.sm`,
+44px with 14.5px text, also for the main button under a meadow and in
+dialogs), `Card` (`default` clay edge,
+`inset`, `interactive`, `bare`), `Badge`, `Dialog`, `Sheet`, `DropdownMenu`,
+`Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
+`Switch`, `Progress` (how far along, in the context colour),
+`NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
+additions:
+
+- **`Meter`** (`ui/meter.tsx`): a measurement on a known scale (role `meter`),
+  such as a base stat, drawn as v3's pressed-in track with a fill in the given
+  colour (a type, for example). Use `Progress` for how far along something is.
+- **`Toaster`** (`ui/sonner.tsx`): mounted once in the app shell. Toasts are
+  v3's ink pill at the bottom centre with the float shadow, a status icon and
+  an action in the one action green. They slide in quietly and never bounce.
+  The shell sets `--toast-bottom` so toasts clear the phone bottom bar.
+
+**Fields** share one look from `ui/field-surface.ts`
+(`fieldSurfaceClassName`, `fieldFocusClassName`), used by `Input`,
+`Textarea`, `InputGroup`, `Combobox` and the `Select` trigger. On the page ground a field
+is cream with a 1.5px line; inside a card, dialog, alert dialog, sheet or
+popover it takes the inset fill (`surface-2`) without the line. An invalid
+field takes the danger line; focus is the action-green outline. Every form
+control is 48px tall (inputs, the search field, select triggers and the
+`segment` track), so controls side by side line up. Don't style a field
+locally; extend the shared surface. A selected option changes colour, never
+weight, so picking one doesn't shift its row.
+
+Voydex components:
+
+| Component                                  | Where                                                                          | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App bars                                   | `src/features/app-shell/components/navigation`                                 | v3's top bar, the phone and tablet bottom bar, the account and public menus (see [Navigation And Routes](../product/navigation-and-routes.md))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Play header and docked bar                 | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx`   | Game fill, dotted texture, Fredoka name, cover, game lip                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Play tabs                                  | `mainline-play-navigation.tsx`                                                 | `NavigationMenuControl*` with `variant="tab"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `PokemonCard`                              | `modules/reference/features/pokemon/components/pokemon-card.tsx`               | The one Pokémon card (its name wraps to two lines): `plain`, `caught` (with a Poké Ball), `seen` (with an eye), `missing`; sizes `md`, `sm`, `fluid`. The public pages draw it too, through `publicArt`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `PokemonTile`                              | `.../pokemon/components/pokemon-tile.tsx`                                      | A Pokémon shown for who it is, as a link: art and name, no number or type dots. `quiet` (v3's exclusives tile: white circle on sand) and `type` (v3's starter tile on its type's tint). Use it where the card's details would be noise                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `PokemonSticker`, `PokemonEmptySlot`       | `.../pokemon/components/pokemon-sticker.tsx`                                   | Owned Pokémon only, drawn with the `sticker` utility. `default` art hops on hover; `compact` fills roster grids with slot and shiny marks and can be a picked button (`selected` takes the Play's colour). `PokemonEmptySlot` is the open slot, drawn with `empty-slot`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `PokemonTypeBadge`                         | `.../pokemon/components/pokemon-type-icon.tsx`                                 | TypeChip (`icon-label`, `label`) and TypeDot (`icon`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `PokemonTypeList`                          | `.../pokemon/components/pokemon-type-list.tsx`                                 | A Pokémon's types as chips or dots: `types` (slot order; empty renders nothing) or the `primaryType` and `secondaryType` pair; `badgeDisplay`, `badgeSize`. `PokemonCard` and `PokemonSticker` draw their dots with it; never map types to badges by hand                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `PokemonPortrait`                          | `.../pokemon/components/pokemon-portrait.tsx`                                  | Art on its soft type-tint circle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `Medallion`                                | `modules/mainline/features/plays/shared/components/medallion.tsx`              | One per moment: `badge` (type), `gold`, `pokemon`, `note`, `status`, `start` (game colour)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `RecordRow`                                | `.../plays/shared/components/record-row.tsx`                                   | Medallion, kicker, line, optional body; `trailing` adds a third column, `wrap` shows text in full, `medallionFaded` for a Pokémon that left the team. Rows sit inside one card, separated by space                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `PlayMomentTime`                           | `.../plays/shared/components/play-moment-time.tsx`                             | Any recorded instant, read in the viewer's time zone: `day` ("Today", "Aug 12") or `date` ("Aug 12, 2025"), its time on hover. `formatPlayDate` is for calendar days such as `started_on` only                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `BadgeStamp`                               | `.../plays/shared/components/badge-stamp.tsx`                                  | The only thing that tilts at rest                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `StampGrid`, `PlayStamp`                   | `.../plays/shared/components/stamp-grid.tsx`, `.../shared/data/play-stamps.ts` | A Play's stamps, Overview's badge case and Story's stamp card, from one `PlayStamp` model (a gym badge in its type or a League milestone in gold; `earned`, `next`, `todo`). Each `BadgeStamp` tilts by its own angle; `captions` prints labels; `slappingMilestoneId` slaps the one just recorded once. Dates read in the viewer's time zone                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `MilestoneMarker`                          | `.../plays/shared/components/milestone-marker.tsx`                             | Where a milestone stands, the same in Story and Overview: recorded wears its medallion (badge type, else gold), the next is a game-coloured ring around the objective flag, the rest show their number in a quiet ring; sizes `md`, `sm`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `ObjectiveCard`                            | `.../plays/shared/components/objective-card.tsx`                               | v3 `.cont`, Overview's next objective and Story's selected milestone: a quiet card named by `titleId`, `ObjectiveEyebrow` (game-deep), the Fredoka title (`objectiveTitleClassNames` `lg` or `md`), `ObjectiveWhere`, `actions` (the page's main button), an optional `footer` under a rule, and `onClose` for a corner close button                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `PlayTeamParty`                            | `.../plays/shared/components/play-team-party.tsx`                              | "Your team then" (v3 `.party`): the team saved with a milestone as small overlapping sprites; phones leave it out; `decorative` inside a control that already names the milestone; sizes `md`, `sm`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `useOptimisticMarks`                       | `.../plays/shared/client/use-optimistic-marks.ts`                              | The one optimistic marking flow (Pokédex, Collectibles): a mark shows at once while it saves, and a failed save puts the previous values back and says why. Returns `valueById`, `mark`, `isPending`, `pendingIds`; `mark` reads no render state, so a toast's Undo can call it                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `CodexHead`                                | `modules/codex/shared/components/codex-head.tsx`                               | The path at the top of a Codex page inside Pokémon or Games, back to its list (the lists open on their title; the bar's Codex menu moves between them); `trailEnd` for a last step that is a control                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `CodexGenerationPills`                     | `modules/codex/shared/components/codex-generation-pills.tsx`                   | v3 `.gens`, the labelled generation pills of a Pokémon's entry (links, every generation shown, disabled where it isn't; the Pokémon list filters by generation from a toolbar menu). On phones the row scrolls sideways edge to edge and keeps the current pill in view                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| `CodexPokemonCardLink`, `CodexPokemonGrid` | `modules/codex/shared/components/codex-pokemon-card-link.tsx`                  | A Pokémon in a Codex list (the Pokémon list, a game's Pokédex): the plain `PokemonCard` opening the entry, off-screen cards skip rendering. The grid is three across on phones, 128px columns wider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| Codex list pieces                          | `modules/codex/shared/components`                                              | `CodexPendingValue`, the inline `PendingData` marker for one value the Codex doesn't have yet                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `PokemonTypeFilter`                        | `modules/reference/features/pokemon/components/pokemon-type-filter.tsx`        | v3 `.typefilter`, one dot per type for every Pokémon list (the Codex's lists, Collection, the Team Planner's pool); picking one fades the others, picking it again clears it                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `GameShelfCard`, `GameShelfGrid`           | `modules/codex/features/games/shared/components/game-shelf-card.tsx`           | The one game card in the Codex (the Games list, Related games): the cover on a soft stage in the game's colour, the short name, year and region; flat with a 1px line; opens its version group's page with that game picked. The grid is two across on phones, 150px columns wider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `SegmentedControl`                         | `src/shared/components/segmented-control.tsx`                                  | Every segment switch and pill set: `pills` for filters, `segment` for modes; sizes `md` and `sm` (v3 `.gens`, 40px on phones); `fullWidth`; `selectedTone` `strong` (game-strong, white label: the default for `segment`; pass it for scope pickers and for pills on the soft tint) or `soft` (the default for `pills`). Options take `count`, `icon`, `dot` (a colour dot filled with `--game`: pass `getGameColourStyle(slug)`), `disabled` with an optional `disabledReason` (a tooltip that joins the accessible name; the option stays focusable with `aria-disabled`), and `href` (links: `aria-current="page"` for `value`, `aria-current="true"` for an option flagged `current`, the section you are in without being its exact page). `value` may be `null` |
+| `IconTip`                                  | `src/shared/components/icon-tip.tsx`                                           | An icon-only action's hover and focus label (the trigger keeps its own `aria-label`): the Codex heads' Your Plays, Favourite and Shiny, a roster member's Edit and Open in Codex                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `Carousel`                                 | `src/shared/components/carousel.tsx`                                           | v3's sideways shelf for every row of covers (`GameShelfPicker`, Home's Plays): the scroller itself (a `div`, or a list through `render={<ul />}`, keeping the caller's role, ref and keys), no scrollbar, centred while it fits, room above for a picked cover to stand up; `density` `compact` (the picker) or `roomy` (Home), `fadeEdges`, `snap`. Earlier and Later page through it on wider screens: `initialEdges` sets them for the first paint from where it opens, then each shows while there is more that way (both go when it all fits) and hands focus to the end item before it goes. Phones swipe. Tab strips and pill rows don't use it                                                                                                                |
+| `ProgressDonut`                            | `src/shared/components/progress-donut.tsx`                                     | A ring in the context colour with the Fredoka percentage in its middle (`role="meter"`); Overview's Story, Pokédex and Collectibles tiles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `ExplanatoryTip`                           | `src/shared/components/explanatory-tip.tsx`                                    | The reason behind a figure: an "i" dot (`dot` inset, `raised` beside a control) or a custom trigger, opening an ink popover on hover, focus or press (pinned on press)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `StatusBadge`                              | `src/shared/components/status-badge.tsx`                                       | Small meaning marks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `EmptyState`                               | `src/shared/components/empty-state.tsx`                                        | `card` (default): one sentence, at most two actions, one Pokémon on grass when `artUrl` is given; `bare`: one quiet centred sentence with no card. `headingLevel="h2"` where it stands in for a page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `SystemState`, `ErrorPage`                 | `src/features/system/components/system-state.tsx`, `error-page.tsx`            | Not-found and error pages: centred Fredoka title, one sentence, at most two actions, optional Pokémon on grass. `ErrorPage` is every `error.tsx` boundary's page (signed in, Codex, Log in, site): the error reference, Try again and Back home (`homeHref`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `PageHeader`                               | `src/shared/components/page-header.tsx`                                        | Every page head: Fredoka title, one line, an optional action; `headingLevel` `h1` (default) or `h2` where the page already has its `h1`, such as a Play tab                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `SectionHead`, `SectionMoreLink`           | `src/shared/components/section-head.tsx`                                       | v3 `.sec-head`: Fredoka 24 `title` (`headingLevel` 2 or 3, `titleId` for `aria-labelledby`), `aside` beside it (hidden under 560px), `description`, `icon`, and trailing `more` (`{ href, label }`, the link onward with an arrow) and `action`. Above a grid on the page ground, and inside `DetailSectionCard`                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `DetailSectionCard`                        | `src/shared/components/detail-section-card.tsx`                                | A content section as one quiet card with its `SectionHead` inside (same props plus `more`), including the Codex Pokémon entry's sections                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `RangeHeading`                             | `src/shared/components/range-heading.tsx`                                      | v3 `.range`, the head of a range in a long list: Fredoka 20 `title`, `count` line, trailing `actions`; `headingLevel`, `titleId`, and `titleFocusable` so script can move focus to it (`tabIndex={-1}`, never in the tab order) after a jump or a bulk change                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `Toolbar`, `ToolbarGroup`                  | `src/shared/components/toolbar.tsx`                                            | v3 `.toolbar`, the one toolbar card: the `search` slot is the only control that stretches (whole first row on phones); every other control keeps its own width. Each `trailing` item is one group (filters, a sort, a mode switch; wrap controls that belong together in a `ToolbarGroup`), with a hairline between groups that never starts a wrapped line and is dropped on phones. `children` are full-width rows below. It counts as a card, so fields inside take the inset fill. `render={<form />}` makes it the form                                                                                                                                                                                                                                          |
+| `FilterResultsLine`                        | `src/shared/components/filter-results-line.tsx`                                | The one line under every filterable list's toolbar (Codex lists, Plays, Collection, My Plans, Progress, History): always there, "Showing all N" or "Showing X of N" with Clear filters on its right while a filter leaves some, so filtering never moves the list or widens the bar. An empty list carries its own Clear                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `BrowseFilterPanel`                        | `src/shared/components/browse-filter-panel.tsx`                                | The filter form: `bare` inside a `Toolbar`; `default` is a stacked filter card                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `BottomSheet`                              | `src/shared/components/bottom-sheet.tsx`                                       | v3's bottom sheet on the `Sheet` primitive, for details and filters on phones and tablets: grab handle, rounded top, 88% tall and 560px wide at most, scrolling body, `footer` pinned above the safe area (its children share the width). `title` (visible Fredoka 24) or `label` when the body has its own `SheetTitle`; `description` (`descriptionHidden`), `actions` beside the close button, `trigger`, `open`, `onOpenChange`, `onOpenChangeComplete` (after the open or close animation ends), `initialFocus`, `finalFocus`                                                                                                                                                                                                                                    |
+| `ResponsiveDetailSheet`                    | `src/shared/components/responsive-detail-sheet.tsx`                            | v3's detail sheet: from the right edge over a scrim from tablets up, `BottomSheet` on phones; `head` renders the `SheetTitle`, `footer`, `size` `wide` for a table. the Team Planner's Team check and the shared species sheet (`TrainerSpeciesSheet`, opened in place from the Collection and Statistics)                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `FormOverlay`                              | `src/modules/mainline/shared/components/form-overlay.tsx`                      | Mainline's form sheet: a side sheet or dialog wide, a bottom sheet on phones and tablets; with a `hero`, the Pokémon on its type's tint heads it. Adding and editing a Play's Pokémon, a note, a milestone, and a Plan's slot share it, so they look and open alike                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `TrainerPlayRow`                           | `src/modules/mainline/shared/components/trainer-play-row.tsx`                  | One Play a Pokémon of yours is in: the Play's cover and name, a line on the Pokémon ("Arcanine · Lv. 59 · On the team"), its status badge, opening it on the Play. The species sheet's rows and the Codex entry's In your Plays                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `SettingsRow`                              | `src/shared/components/settings-row.tsx`                                       | v3 `.trow`: a setting's name, an optional line on what it means, and its control at the end (under the words on phones); rows are separated by space. App Settings and Play settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `UnsavedChangesFooter`                     | `src/shared/components/unsaved-changes-footer.tsx`                             | v3 `.set-foot`: shown only while its card has unsaved changes, flush along the bottom of a `DetailSectionCard`, with Cancel and Save (submits the form unless `onSave` is given). Play settings and the profile                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `SearchSelect`                             | `src/shared/components/search-select.tsx`                                      | A searchable pick from a long list on the shared `Combobox` (held items, moves), with an optional `detail` line; clearing leaves it empty. The roster editor and the Planner's slot sheet                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `PasswordInput`                            | `src/shared/components/password-input.tsx`                                     | A password field with a Show and Hide toggle, on `InputGroup`. Log in, Sign up, New password and Change password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `PendingData`                              | `src/shared/components/pending-data.tsx`                                       | Where a v3 piece goes whose data Voydex doesn't have yet (see below): `block` for a section or card body (an optional quiet `children` preview and a `note`), `inline` for one value or control; drawn with `empty-slot`, labelled "Not in Voydex yet" by default                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `TrainerCard`                              | `src/features/settings/components/trainer-card.tsx`                            | v3's trainer card, the one loud thing on You, Settings and Welcome: a 4px white border and a lip in your colour. On Settings it is the profile form                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `GameCover`                                | `modules/reference/features/games/components/game-cover.tsx`                   | The one game cover: the box art, or the initials on the game colour when there is none or it fails; sizes `shelf` (the Codex card), `hero`, `header`, `dock`, `token`, and the carousel sizes `picker`, `pickerLarge` and `playShelf` (Home). In a carousel every cover stands the same height and takes its width from its box's shape, so the covers in one carousel never differ in height; with the game's `shape` (`square`, `landscape`, `portrait`, from its first platform) it holds that box on a quiet `surface-2` tint from the first paint and loads a copy sized for it through `next/image`; `eager` for covers in view when the shelf opens                                                                                                            |
+| `GameShelfPicker`                          | `modules/reference/features/games/components/game-shelf-picker.tsx`            | v3's cover shelf, the one game picker (Start a Play, Home's first Play, New Play, the Team Planner): every game in release order on one sideways row with generation marks to jump by, `coverSize` `md` or `lg`. A horizontal listbox: one tab stop, arrows, Home and End move, Enter or Space picks; the picked cover stands up with a check. It owns no background. Its row is a `Carousel`                                                                                                                                                                                                                                                                                                                                                                         |
+| `MeadowScene`                              | `src/shared/components/meadow-scene.tsx`                                       | v3's meadow: copy on the sky, two hills, a `cast` on them and a `ground` row for the main button; `form` `band` (opens the page, edge to edge under the bar through `page-band`: Mainline Home, the site's Home, Start a Play) or `card` (New Play, the Intro); `tinted` leans it toward the game colour. A page's one loud thing; it owns no motion                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `PageBand`                                 | `src/shared/components/page-band.tsx`                                          | The band that opens Plays, the Team Planner, Statistics, Collection and the Codex's game and Pokémon pages: their head section on warm sand (`band-sand`), edge to edge under the bar through `page-band`, a short rounded foot, content in the page column                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `MeadowCard`                               | `src/features/site/components/meadow-card.tsx`                                 | The site's meadow on `MeadowScene`; its `cast` is usually `MeadowPartners` (one first partner per generation; `openStart` makes them open Start a Play at their generation, and on Start a Play they jump the shelf there)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `LogoMark`, `Logo`                         | `src/shared/components/brand/logo-mark.tsx`, `logo.tsx`                        | The "V" tile, a placeholder until the logo is designed. `Logo` adds the Fredoka "Voydex" word (`showText`, `markClassName`, `textClassName`); the top bar hides the word on narrow phones (`max-sm:hidden`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+
+**Pending data.** v3 draws some things Voydex has no data or backend for yet.
+Every such piece is built and shows `PendingData` (or `CodexPendingValue`) in
+its place, never an invented value, and carries a `TODO(v3-data)` comment
+naming what it waits on. When that data lands, the marker and its comment go.
+`grep -rn "TODO(v3-data)" src` lists them all; the open list, with the schema
+each waits on, is under Known Gaps in [Project Status](../project-status.md).
+
+Section grammar: a section that is a grid of cards keeps its heading on the
+page (`SectionHead`); a section of content (text, rows, stamps) is one card
+with the heading inside (`DetailSectionCard`).
+
+The utilities in `app-utilities.css` carry the recipes features may need
+without the component: `sticker` (an owned thing's surface: type tint from
+`--t`, 4px white border, 5px tinted lip; override `--sticker-border`,
+`--sticker-lip`, `--sticker-shadow`) and `empty-slot` (the one open slot:
+2.5px dashed `dash`, no fill). Don't hand-roll either. `step-back` fades
+what belongs to another game than the one picked (the other version's
+exclusives, a game a Pokémon isn't in) and greys its art; it comes back on
+hover or focus. A detail panel that
+follows the scroll beside a longer list (Story's panel, the Story matchups
+report, the roster panel) takes `sticky-panel` with `useStickyPanel`: it
+sticks under the docked bar when it fits, and when it is taller than the
+screen it scrolls with the page and sticks at its bottom, never scrolling on
+its own. A navigation list that follows the scroll (Play settings' menu, the
+Collectibles areas) takes `sticky-column`: it stops at the screen's height,
+scrolls on its own, and fades at the bottom while there is more.
+
+**Public art.** The public pages (Home, Intro, Start a Play, Log in and the
+other auth pages, not found) are global features and can't import a module,
+so their routes inject the art (Start a Play's route also injects the
+reference module's `StartGameShelf`). One
+contract, `src/config/public-art.ts`, types it; `publicArt` from
+`@/modules/reference/public-art` fills `PublicArt` (Pokémon renders,
+`GameCover`, a game's colour, `PokemonCard`). Home and Intro also take
+`publicPlayArt` from `@/modules/mainline/public-play-art`, which fills
+`PublicPlayArt` with the real Mainline pieces (the Play header, `Medallion`,
+`RecordRow`, `BadgeStamp`) for the example Play.
+There are no site-only stills: a public picture uses the app's own component.
 
 ## Component Rules
 
-- Use `src/shared/components/ui` primitives for buttons, inputs, selects, sheets, dialogs, dropdowns, tabs, accordions, fields, and similar controls.
-- Use Base UI `render` composition when a primitive supports custom rendering. Do not use Radix `asChild` unless the local primitive explicitly supports it.
-- Before adding or materially styling a recurring interface pattern, search the
-  shared primitives, the owning product area, and comparable views across the
-  application. Choose the closest established component or screen as the
-  baseline rather than designing the new surface in isolation.
-- Compare the new use with its baseline across geometry, spacing, typography,
-  visual states, responsive behavior, focus treatment, and semantics. Cards,
-  Buttons, Navigation Menus, Dropdowns, Links, Badges, selectors, and repeated
-  rows should not acquire view-specific styling when their interaction contract
-  is the same.
-- When the same interaction contract needs different internal content, share
-  one controlled wrapper and provide the differences through children, slots,
-  or explicit props. Keep navigation, actions, persistent selection, and static
-  presentation semantically distinct even when they share the same visual
-  foundation.
-- Use the shared row-interaction variants for repeated data rows and row-level
-  actions. Scannable rows receive the same neutral hover; row actions add the
-  matching keyboard-focus surface. Do not add hover styling to every
-  semantic list by default: static timelines and prose lists should not imply
-  interactivity.
-- Add a new variant only for a materially different contract. Document the
-  reason in the nearest design reference and preserve the shared foundation for
-  the states and structure that still overlap.
-- Keep `src/app` route files thin. Put real UI in `src/modules`, `src/features`,
-  or `src/shared` components.
-- Prefer reusable product components for repeated play surfaces such as play headers, tab shells, progress summaries, Pokémon cards, type badges, and empty states.
-- Generated screenshots are design references, not route or data contracts.
-  Implement the selected intent with real data, responsive behavior,
-  accessibility, mounted destinations, and existing app primitives.
-- Avoid overcomplicated Tailwind strings. If styling repeats, extract a small component or variant.
-- Standard cards, panels, tables, filters, and repeated data surfaces should use
-  solid semantic surfaces such as `bg-card`, `bg-background`, and `bg-popover`.
-  Do not create feature-local glass/opacity/backdrop recipes for normal data
-  surfaces. If a surface behavior repeats across modules, put it in a shared
-  primitive, variant, or helper.
-- Major section and resource Cards use the brighter warm-ivory `bg-card` layer
-  so they read clearly above the textured journal page. Keep their border and
-  shadow restrained. Nested rows, slots, and list items should remain
-  transparent or use a quieter semantic tint instead of repeating the same
-  raised Card treatment at every level.
-- In list-detail workspaces, keep the stable list in a normal section Card and
-  render the changing right-side subject in the shared Play inspector Card.
-  Inspector Cards retain the same warm surface, radius, spacing, and shadow but
-  use one translucent primary ring at the same edge strength as the selected
-  source item. Their semantic Card title is visually hidden; the changing
-  Pokémon, comparison, milestone, or other subject leads inside the content
-  instead of sitting beneath a fixed `Selected ...` header. Responsive sheets
-  keep their required visible title.
-- Reserve alpha and backdrop effects for intentional visual layers: artwork
-  overlays, hero/media treatments, modal scrims, disabled states, and semantic
-  status tints.
-
-## Loading Pattern
-
-V1 uses the shared page-level spinner for an initial asynchronous page load. Keep
-the persistent application shell visible, then center one accessible Spinner in
-the page content region with a concise loading label. Do not build screen-shaped,
-card-shaped, row-shaped, or field-shaped Skeleton placeholders in V1.
-
-When an in-place operation already has valid content to preserve, keep that
-content visible and use a localized pending Spinner on the responsible control
-or section instead of replacing the whole page. Loading, empty, partial, and
-error states remain semantically distinct. Skeleton loading may return only as
-a later design-system enhancement after the real layouts are stable and its
-perceived-performance value is validated.
-
-## Color Tokens
-
-`src/app/globals.css` is the stylesheet entry point and owns the base shadcn
-tokens. App, Pokemon, and game token groups are split under
-`src/shared/styles` and imported from that entry point.
-
-The production tokens implement forest/field green and trail/earth brown as
-the identity, warm beige as the working canvas, sky blue as atmosphere or
-information, and muted gold for selected discoveries and milestones. V1 uses
-one light presentation; a night-expedition palette is later design work, not a
-token inversion. Avoid turning the whole app into one flat-color theme.
-
-Existing token groups:
-
-- Base UI tokens: background, foreground, card, primary, secondary, muted, accent, destructive, border, input, ring.
-- App semantic tokens: success, info, warning, rare, legendary, mythic, seen, battle, milestone, decision.
-- Pokémon type tokens: normal, fire, water, electric, grass, ice, fighting, poison, ground, flying, psychic, bug, rock, ghost, dragon, dark, steel, fairy.
-- Pokémon game tokens: cover/accent colors for seeded games such as red, blue,
-  yellow, emerald, scarlet, violet, and Legends entries. These live in
-  `src/modules/reference/features/games/styles/game-tokens.css`, are exposed
-  through `src/modules/reference/styles.css`, and are used by Codex game cards
-  and game detail accents.
-
-## Layout Rules
-
-- App pages use the shared `AppShell`. Protected routes provide an authenticated
-  account state; public Codex routes use `PublicAppShell` and can render for
-  anonymous users.
-- Keep the opening navbar in normal document flow as the first section of the
-  journal surface. Its background stays transparent so the paper continues
-  behind it without creating a separate bar. Use only a subtle warm bottom
-  border to distinguish navigation from page content. Let the whole navbar
-  scroll away with the document; do not introduce a sticky, fixed, or floating
-  replacement.
-- Keep the journal surface on a centered responsive canvas up to roughly 1376
-  pixels at large viewports. It starts at the top of the viewport, contains the
-  navbar and all page content, fills at least the dynamic viewport height, and
-  grows with long content. The surface owns no top or bottom margin or padding;
-  the navbar and main content region own their internal spacing.
-- Treat that canvas as a maximum working width rather than stretching every
-  section. Reading content and forms may be narrower; browse grids, tables, and
-  workspaces can use the available width.
-- Use the refined daylight valley artwork at
-  `public/backgrounds/bg-day.webp` as the main background across
-  landing, authentication, introductory, public, and protected app routes.
-  `public/backgrounds/bg-night.webp` preserves the same composition
-  for the later night-theme design pass; it is not an active V1 theme.
-  Route-specific overlays may adjust the daylight artwork's visual weight for
-  readability, but they do not replace it. Keep the background visible in the
-  two side gutters around the journal surface.
-- Treat the content surface as one warm, lightly textured journal page with
-  quiet inline edges and a restrained centered shadow. It is a continuous
-  column rather than a floating Card, so it has no rounded top or bottom edge.
-  Do not frame it as a clipboard, bind it in leather, or add clips, rails,
-  corner caps, hardware, or another decorative keyline. This is shared
-  `AppShell` structure, not feature-local Card decoration.
-- Keep the journal page content-driven and use normal document scrolling for
-  app pages. Never stretch a full-frame image to a long document, crop the page
-  to the viewport, or give the shared surface its own vertical scrollbar. A
-  purpose-built map, editor, or similarly dense workspace may own a bounded
-  inner scroller, but that decision stays inside the workspace.
-- Preserve one continuous warm paper fill without exposing seams. Below desktop
-  width, reduce page padding while retaining a useful working surface.
-- Keep page introductions compact and text-led on the same journal page as their
-  operational content. Use spacing, typography, and thin rules to distinguish
-  controls and repeated rows; do not insert a second paper panel or nest rows
-  inside additional framed Cards.
-- Prefer dense but clear operational surfaces for logged-in app workflows.
-
-## Global Authentication Direction
-
-Keep the current scenic, centered authentication composition, but simplify its
-shell to Voydex identity rather than an unrelated remembered module selector.
-Use a visible semantic heading for Log in, Sign up, Recover account, Check your
-email, or Choose a new password. The card remains focused and readable; it does
-not become an onboarding or account-profile form.
-
-When authentication interrupted a meaningful task, place one compact intent
-summary between the description and form. Identify the protected destination
-or exact Game/Pokémon Mainline action without turning the summary into a second
-hero. Provide one clear cancel/return path to the public origin.
-
-Keep persistent labels, useful autocomplete, an accessible password visibility
-control, and stable field geometry. Error states preserve Email, clear
-passwords, associate feedback with fields, and move focus deliberately.
-Pending state uses the localized Spinner already established by the button.
-The same single-column structure should fit common phone widths and short
-viewports without hiding the primary action.
-
-## Global Settings Direction
-
-Use one calm, readable vertical column for Profile, Preferences, and Account.
-Three sections do not need local tabs, nested routes, or a side
-rail. Reuse the plain Page Header and semantic Card/surface grammar, but avoid a
-stack of visually identical boxes when a clear section heading and divider is
-enough.
-
-Profile and Pokémon Reuse preferences save independently and expose actions
-only while dirty. V1 does not expose an Appearance choice: it uses the
-canonical light-first presentation until a deliberate night-expedition theme
-is designed. Account separates read-only identity, password recovery, Sign out,
-and a consequence-led Danger zone. Destructive meaning comes from hierarchy and
-copy as well as color.
-
-Keep the same vertical order on mobile. Controls should not be compressed into
-horizontal tabs, and action rows must stack without reversing the meaning of
-primary, secondary, and destructive choices.
-
-## Shared System-State Direction
-
-Build one shared state grammar rather than separate decorative cards per
-feature. Initial loading keeps the shell and centers the shared labelled
-Spinner. Local pending and section errors preserve useful content. Empty,
-filtered empty, unrecorded, unavailable, permission, not-found, expired
-session, and service failure each use distinct language and recovery actions.
-
-Page errors use a real heading, concise explanation, Try again, and one
-owner-appropriate exit. Public Not Found favors Home and Codex; protected
-resource states return to the owning library without leaking inaccessible
-existence. Broad connection trouble uses a persistent banner below navigation
-with impact and retry, never a tooltip-only floating database icon.
-
-Keep status surfaces visually quiet enough to fit Voydex's scenic shell while
-remaining unmistakable. Use semantic foreground/background tokens, real text,
-visible focus, and non-color meaning. Do not add Skeletons, large error
-illustrations, or different layouts for every feature before the shared state
-geometry is validated.
-
-## Mainline Dashboard Direction
-
-Treat Dashboard as a play-led resume surface rather than a generic analytics
-layout. Give the most recently updated non-archived Play visual priority, with
-Continue, Start, or Revisit language adapted to its lifecycle, then show lighter
-previews of other recent Plays and meaningful activity. Keep Create Play primary
-and Create Plan lower emphasis in the page heading; do not repeat them in a
-Quick Actions card.
-
-Within the featured Play, keep a stable reading order of cover-led identity,
-Journey, six equal Active-Team sprite states, one overall Progress summary, and
-one routed Next Step. Reuse the Play Header recommendation without placing
-mutation logic on Dashboard. Exclude the detailed metadata, group summaries,
-Plan comparison, and History content already owned by Play Overview.
-
-Render Other Recent Plays as no more than three compact, cover-led rows in one
-vertical list. Each row carries only identity, lifecycle, one Journey line, and
-update context, and opens Play Overview. Keep the same pattern on mobile without
-a carousel or horizontal scroll. Do not repeat Team, Progress, or another Next
-Step in these subordinate summaries.
-
-Use no more than four compact rows for Recent Meaningful Activity. Lead with the
-event type and title, keep the owning Play and honest date legible, and include
-event-time Pokémon imagery only when it aids recognition. The entire row opens
-the owning Play History event. Keep the empty explanation small, and do not add
-a global activity action or turn these moments into large cards.
-
-Let Dashboard system states reshape only the affected content. A first-adventure
-or only-archived state replaces the normal summaries and owns its actions so the
-heading does not duplicate them. Partial summaries retain the same geometry and
-use explicit unavailable labels. Supporting-section errors stay local, while a
-complete read failure uses one focused recovery state.
-
-Do not add a permanent equal-card quick-stat strip in V1. Rich personal patterns
-belong to Stats, while Recent Meaningful Activity should show actual moments
-rather than reducing them to an event count. Exact Dashboard composition remains
-pending the three-direction visual checkpoint.
-
-## Mainline Play Hub Direction
-
-The Play Hub top section should be contextual page information, not a Card. It
-can sit directly on the scenic background so the user can focus on the tabbed
-workspace below.
-
-Use one coherent Play Header above the tabs. At large viewports, place game
-cover art on the left, Play identity and high-value context in the center, and
-an adaptive Play-wide action region on the right. The action region holds one
-primary Next Step and at most two lower-emphasis alternatives; utility links do
-not compete with it. At smaller viewports, stack that action region within the
-same header before the tabs. Do not create a second setup banner in the Overview
-workspace.
-
-Keep the center information hierarchy consistent: title, game/lifecycle
-metadata, then one compact facts row ordered as Trainer, playtime, start date,
-and challenge rules. Keep every game cover at the same visible height while its
-width follows the artwork's intrinsic aspect ratio; do not force differently
-shaped packaging into one fixed-width slot. Join
-challenge-rule names into one concise item beside the start date and expose the
-complete rule names and descriptions in an accessible tooltip. Omit unknown
-optional facts rather than showing placeholder labels. Do not repeat Team and
-detailed Pokedex summaries here; those belong to Overview and their owning
-workflows.
-
-Make the displayed Play status a compact, keyboard-operable control with
-contextual verb actions rather than a raw select. Start and Resume may receive
-primary emphasis when they are the adaptive Next Step; reuse that shared action
-instead of rendering two identical CTAs. Playing exposes Pause, Complete, and
-Abandon without turning the Header into a toolbar. Completed and Abandoned keep
-their stable label with a lower-emphasis Reopen action. Use a focused bottom
-sheet on narrow screens.
-
-After a Completed Play is normally reopened, keep the current Playing status
-visually primary and show a recorded prior completion only as the compact
-secondary fact `Previously completed on ...`. Do not style historical completion
-as a warning or make it compete with the current status.
-
-Use focused compact sheets for Start, Mark completed, and historical Record as
-completed because they establish date knowledge. Start and Mark completed
-preselect editable Exact Today values; historical completion preselects `Not
-recorded`. Keep Exact, Approximate, and `Not recorded` choices visible without
-turning the interaction into a full Settings form. Pause, Resume, and Reopen
-remain immediate actions with clear success or failure feedback. Abandon uses a
-short confirmation that emphasizes preservation and reversibility.
-
-The main Play Hub workspace should be one Card containing compact tabs. Keep the
-selector's vertical padding and inter-tab spacing subordinate to the content.
-The current tab set is Overview, Team, Progress, History, and Settings. Team
-owns one compact Team Plan section that opens a focused comparison view inside
-the active Team tab; Plan is not a second Play Hub tab. The Play shell and tab
-selector remain visible.
-
-Overview should stay high-signal and avoid filler:
-
-- First: one full-width Journey & Progress Card with qualitative Story status
-  beside the compact normalized Progress rows on desktop and stacked regions on
-  narrower layouts.
-- Second: one full-width Current Team Card.
-- Third: one full-width Recent History Card.
-- Show linked-Plan context compactly inside Current Team when present; do not
-  add a permanent fifth Plan card or a large empty state when absent.
-- Keep Journey Status qualitative: current or furthest Story position and the
-  next applicable objective. Numeric Story completion belongs in Progress
-  Summary and should not be duplicated with a second path-progress visual.
-- Keep all six Current Team slots identical in dimensions and internal layout
-  across occupied, confirmed-empty, and not-recorded states, including one shared
-  minimum card height that comfortably fits occupied content. Present all six
-  slots in one inline row on desktop, three columns on tablet, and two columns
-  on phones.
-  Keep larger artwork as the visual focus above one name-and-level row. Anchor
-  compact type icons with accessible type names in one inline row in the slot's
-  top-right corner so they do not consume another content row or reduce portrait scale. Use the
-  shared icon system plus explicit labels for placeholders; never resize or
-  collapse a slot because no Pokémon portrait is available.
-- Plays Browse reuses this semantic component as a denser read-only variant.
-  Always render six equal Active positions: occupied slots use the Pokémon's
-  actual current-form sprite, confirmed-empty and not-recorded slots keep
-  distinct shared placeholders, and Reserve members or Team controls stay out
-  of the preview. Preserve an accessible group label without adding a visible
-  `Active Team` heading inside the compact row.
-- Use one full-width, cover-led Play row per result across the desktop canvas;
-  do not add a V1 grid/list switch. Preserve the same information order when
-  each result becomes a stacked vertical card on narrow screens, and avoid
-  turning the row into either a dashboard or a data table.
-- Interactive Play rows use one quiet full-row background tint on hover and
-  keyboard focus, with the directional cue adopting the primary color. Do not
-  lift or add another Card shadow; static fallback rows do not receive an
-  interactive state.
-- On phones, keep only the cover and Play information in the top row. Move the
-  six-slot Team preview and then Overall plus the directional arrow into their
-  own full-width rows beneath that section. Reduce the cover's visual weight and
-  enlarge the Team slots so sprites remain immediately recognizable.
-- At tablet widths, use one compact horizontal row with a smaller cover instead
-  of stretching the phone stack across the canvas. Give Team the largest share
-  of the middle canvas. Reduce the cover one further step on desktop so it stays
-  subordinate to Play identity and Team while retaining the established
-  horizontal proportions.
-- Keep each Browse row deliberately compact: a proportional cover that fills
-  the padded content height and respects the row's shared outer inset, Play
-  name, compact lifecycle status, exact game name, quiet update date, the
-  six-slot Active Team, one overall completion percentage, and one unlabelled
-  directional arrow. Do not put the cover inside another box. Give inset covers
-  the same subtle radius on all four corners instead of inheriting the Card's
-  top-only edge-to-edge media treatment. Do not repeat Journey, trainer details,
-  Tags, or category-level progress inside every result.
-- Use spacing rather than vertical separator lines between the information,
-  Team, overall progress, and arrow sections.
-- Overall completion is the normalized configured goal across required Story
-  milestones, Pokédex species, and Collectibles. Preserve concise not-recorded
-  or unavailable states instead of treating missing knowledge as zero.
-- Keep Browse controls compact: visible Search, Status, Game, Sort, and one
-  `More filters` disclosure on desktop, followed by removable active-filter
-  chips only when needed. Do not stack persistent labels above this primary
-  control bar; use in-control placeholders or selected values plus explicit
-  accessible names. On narrow screens, keep Search visible and present Filters
-  and Sort as separate actions rather than one ambiguous menu.
-- Keep archived Play rows openable and show Archive independently from
-  lifecycle. Place Restore outside the row link as the only Browse mutation,
-  with separate focus and accessible naming.
-- Show the active lineup only in Overview. Reserve is a compact positive count,
-  not a second roster or Active/Reserve toggle; linked-Plan context remains a
-  short row beneath the slots when present.
-- Do not add Team Health to Overview until the Team tab has a real analysis
-  model.
-- Keep Recent History to three to five concise meaningful events with one route
-  into History. Give every known event type its own associated shared icon so
-  milestone, roster, form, journal, status, and completion changes remain
-  distinguishable without relying on text alone. Label approximate or unknown
-  dates explicitly and use compact, distinct empty language for new versus
-  imported Plays.
-- Do not add extra right-column cards just to fill vertical space.
-- Overview cards should use the shared detail section card pattern and avoid
-  feature-local card styling. Keep one compact destination action at the end of
-  every card title. Render it as visibly disabled until its owning tab and route
-  are mounted, then activate the same action without changing the header rhythm.
-
-Progress Summary should preserve stable Story, Pokédex, and Collectibles rows.
-Story is always present; omit optional groups when they are disabled or do not
-apply to the game. Each visible group uses one progress bar and visible rounded
-normalized percentage, with compact `Tracked only`, `Not recorded`, or
-`Partially recorded` context when needed. Keep named child tracks and native
-counts in Progress rather than expanding the Overview card. Each visible row
-routes directly to Story, Pokédex, or Collectibles; do not add a separate
-Progress Overall destination.
-
-## Mainline Team Tab Direction
-
-Use a two-column list-detail workspace at large viewports. Keep one compact
-roster list on the left with all six Active and six Reserve positions grouped
-and labelled; use the wider right side for the selected Play Pokémon's larger
-artwork, identity, recorded detail, moves, and actions. Team Quick Analysis and
-Recent Team Events remain supporting sections beneath the selected detail.
-
-Roster rows should use small portraits, equal geometry, lightweight separators,
-and a clear selected state. The selected-member panel should use materially
-larger artwork and stronger hierarchy so it reads as the result of choosing a
-roster row. Do not use a large-card roster board for V1 because similar artwork
-scale across roster and detail weakens that relationship.
-
-Treat rows as compact selectors and slot actions rather than miniature cards.
-Keep slot, portrait, identity, level, types, selection, and overflow regions in
-stable positions across occupied, confirmed-empty, not-recorded, pending, and
-unavailable states. Selected styling needs a visible cue beyond color and must
-not replace the persistent overflow action. Empty and unknown rows retain the
-same dimensions as occupied rows and use different language and iconography so
-missing knowledge is never presented as confirmed capacity.
-
-The current read-only baseline treats an absent current-roster record as an
-`Empty slot`. Keep its position visible, but omit placeholder media, supporting
-copy, level, types, and row actions.
-
-Do not place a `Past members` route inside the current Roster Card. Keep its
-entry point deferred until the focused Past Members destination is implemented;
-that destination must not mix historical rows into the Active or Reserve groups
-or turn History into the member browser.
-
-Within the selected-member panel, keep the artwork as the main visual focus
-without letting it dictate the height of the factual columns. Use a full-width
-identity band for nickname or species, optional species context, and type
-badges in one wide-screen sequence; use a labelled star beside the name for shiny
-Pokémon. Below it, align three equal sections: artwork; Build; and Origin. Let
-the larger artwork set the height of the row while keeping the two fact lists
-compact and top-aligned rather than distributing their rows through the
-available height. Build stacks Level, Ability, Nature, and Held Item. Origin
-stacks Gender, category-validated Poké Ball, met location, and met level. Use
-subtle dividers on both sides of Build. Omit Trainer until the application owns
-useful per-member original-trainer data.
-
-Resolve all mechanic-dependent facts through the exact-game capability profile.
-Omit unsupported Ability, Nature, Held Item, or Gender rows entirely rather than
-showing them as `Not recorded`. Preserve `Not recorded` only for a supported
-mechanic whose Play value is absent.
-
-Place the four ordered Moves in a full-width compact row below the three
-sections, using equal slots, icon-only type badges, optically centered names,
-restrained type treatment, and a matching dashed `Empty slot`. Reflow the
-sections and move slots on narrower surfaces without reducing the artwork to
-roster-row scale. Show Notes only when recorded. Keep `Add Pokémon` as the
-screen's canonical primary action, place `Edit Pokémon` in the selected panel
-or sheet header, and keep movement, lifecycle, and exact-game Codex actions in
-the footer. Use `Not recorded` rather than manufacturing missing facts.
-
-Use focused dialogs on wider screens and sheets on narrow screens for Move,
-Change form, Replace, Retire, Return, and Correct record. Move uses one explicit
-twelve-destination surface where an empty slot means move and an occupied slot
-means swap; drag and drop only supplements it. Evolution and persistent form
-change use a strong before-and-after identity preview. Replace keeps outgoing
-and incoming members visible together. Reserve destructive styling for the
-final Delete Pokémon record confirmation, not Retire.
-
-Treat a displayed form as identity, not evidence that it is mutable. Show
-`Change form` only when the selected member has a valid outgoing form transition
-in the Play's game; fixed regional or otherwise inherent forms keep their form
-label but expose no change action.
-
-Keep Team Quick Analysis in the supporting hierarchy, even while its final
-metrics and review strategy are unresolved. The section must not manufacture
-matchup, coverage, balance, or confidence claims from incomplete evidence. Its
-current content may remain a clearly bounded preview while the product defines
-the reliable inputs, calculations, explanations, and partial-data treatment.
-
-Recent Team Events uses no more than three compact, consistent rows beneath
-Team Quick Analysis. Each row combines a recognizable event icon, one concise
-Pokémon-first sentence, explicit date certainty, and restrained event-time
-artwork. Use one portrait for an addition, update, retirement, removal, or
-return; use a before-and-after pair for an evolution, form change, or
-replacement; and show a portrait moving toward an Active or Reserve destination
-for roster movement. Progress snapshots, Story milestones, and Hall of Fame
-entries remain Play History and never fill this Team preview. Keep one `View
-Team history` section action; do not turn events into large cards or add row
-overflow menus.
-
-When a Team Plan is linked, use one restrained Team Plan Card directly below
-Roster in the left column. Keep the Plan name, following state, found/target
-summary, exceptional unplanned context, and `View plan` action
-readable without a large progress bar. Omit the entire Card when no Plan is
-linked.
-
-The `Record Team moment` surface is a compact dialog on wider screens and a
-sheet on narrow screens. Lead with the read-only six-position Active-Team
-preview, then title, date certainty, and optional note. Reuse the established
-occupied, confirmed-empty, and not-recorded slot visuals; make the Active-only
-snapshot scope explicit and do not add per-member controls.
-
-At narrow viewports, show the roster first and open the selected member in a
-focused Team detail view or sheet with a clear return path. Preserve explicit
-keyboard selection, focus movement, and non-drag move or reorder controls.
-
-## Mainline Progress Tab Direction
-
-Use one calm full-width completion summary followed by three consistent,
-generous tracking-area rows for Story, Pokédex, and Collectibles. Prefer this
-scannable hierarchy over a dense dashboard of small cards. Keep each row's icon,
-label, percentage or recording state, native context, next step, and `Open`
-action in stable regions so the areas feel related without pretending their
-underlying units are interchangeable.
-
-Show completion scope as one compact strip near the summary. Optional content
-and completion rules are context with one Settings route, not another colorful
-tracking card. Do not add three update buttons beside the page title or repeat
-row content in separate Next-up, Completion Rules, and Recent Activity cards.
-
-Use `Not recorded`, `Partially recorded`, and `Not tracked` as first-class
-states. Do not render them as empty progress bars or zero-percent failures.
-Unsupported areas are omitted; supported disabled areas may sit in a quieter
-secondary group. On narrow screens, each tracking row stacks its summary before
-the next step and action without changing the stable Story, Pokédex,
-Collectibles order.
-
-Focused Story, Pokédex, and Collectible views keep Progress selected in the Play
-Hub. Progress itself always opens the Overview. Do not add persistent local
-sub-tabs or turn the Hub tab into a dropdown. Use a plain local return or
-breadcrumb and, only when useful, a compact area switcher that cannot be
-mistaken for another top-level tab bar. Keep Story-path, named-Pokédex, and
-Collectible-group selectors inside their focused views.
-
-Within Story, keep the ordered milestone list and selected milestone visually
-distinct. The list is the compact selection source; the larger detail region
-owns description, prerequisites, decision, snapshot context, notes, and
-actions. Join base-game Story categories into one named-section list and keep a
-single Search field in the list content. Show a compact content-scope selector
-as the `Story milestones` Card header action only for separately authored DLC
-content scopes; category names and parallel paths are section headings, not
-navigation controls. Milestone ordering communicates reading order, not
-dependency; explicit hard prerequisites own availability. On narrow screens,
-open the selected milestone in a focused view or sheet and return focus to its
-row when closing. Row indicators expose only optional decision and
-snapshot actions: muted means the action is available, while primary means its
-evidence has been recorded. Do not repeat milestone-type badges with another
-badge-award icon.
-
-Keep ordinary `Mark complete` visually direct. When prerequisites, a decision,
-optional record details, or a deliberate `Record snapshot` path requires
-attention, use a compact focused Dialog on desktop and the established bottom
-Sheet on narrow Play layouts. Use a confirmation Alert Dialog for a consequential
-desktop correction such as `Mark incomplete`; use the same bottom Sheet pattern
-on narrow layouts. Actions that create an absent milestone record use the
-primary Button; once a note, decision, or snapshot exists, its corresponding
-update action uses the outline Button. A recorded snapshot remains actionable
-so the current Active Team can replace it after a mistake. Treat `Bulk complete`
-as a separate review flow with a clearly grouped change preview and a sticky
-confirmation action on narrow screens. Do not use History, snapshot, date, or
-optional-content checkboxes as a wall of settings in the routine completion
-path.
-
-When one optional boolean action needs more explanation than an inline checkbox,
-use the shared `CheckboxCard`. The whole labelled Card is the checkbox target,
-the native checkbox remains available to forms and assistive technology, and
-the selected Card uses the shared primary border, tint, and subtle shadow
-without a visible checkmark. Keep keyboard focus visually distinct from the
-selected state.
-
-Within Pokédex, use a purpose-built scope overview band rather than copying the
-Story summary-tile composition. A quiet, content-sized ghost Select chooses the
-named Pokédex when alternatives exist; when there is only one scope, render its
-name as static orientation without a redundant kind chip. When multiple scopes
-exist, keep the selected Pokédex kind in a neutral outline chip immediately
-after the selector so similarly named scopes remain distinguishable. Keep orientation and the
-continuous Caught-first
-progress sentence on one wrapping row without a decorative icon, eyebrow label,
-or internal divider. Place one progress rail beneath the full row so the band
-uses its complete width, with Seen muted. Order the inline counts as
-`Caught · Seen · total · completion`: use primary color for the Caught number,
-the same secondary-foreground color as Seen species Cards for the Seen number,
-and normal foreground for the total and completion. Only Caught uses emphasized
-font weight; Seen, total, and completion remain regular weight. Use a slightly
-stronger progress rail than the default compact indicator. Do not split Seen,
-Caught, total, or completion into repeated metric tiles. Keep Search and filters
-in the shared browse-control wrapper. Place the
-compact Seen/Caught Card-action mode and Grid/List Button Groups together as
-actions in the entries Card header, outside the filter row. Prefix the
-Seen/Caught group with the non-interactive label `Mark mode` so its effect on
-species Cards is explicit. Keep entries in
-fixed Pokédex-number order rather than adding a sort control.
-Treat the desktop Grid as a dense visual list with five or six entries per row
-at wide Play widths. List is a separate, narrow-screen-default data
-presentation rather than a horizontal version of the Grid Card: use one flat,
-full-bleed divided list inside the entries section, without a nested Card border,
-radius, or side gutters. Keep number, framed portrait, name, exact-generation
-type badges with visible names, a positive Active Team indicator only for
-species currently in use, explicit Seen/Caught status, and the separate Codex
-action. Do not label the remaining Pokédex as not on the Team. Keep the desktop
-identity column compact so the named type badges follow the Pokémon name
-without an oversized gap, then distribute the remaining columns across the
-available width. Inline Team membership with the
-secondary metadata on narrow screens. Apply the same translucent Seen and
-Caught surface colors as Grid Cards to List rows, without adding state border
-colors.
-List rows and Grid Cards share the standard actionable-row hover surface even
-though their information hierarchy differs.
-
-Use a single Seen/Caught Button Group to choose what selecting a species Card
-updates. Selecting Caught also selects Seen. Toggling off the Card's active
-state returns it directly to Missing. The selected mark type is authoritative:
-Seen mode changes a Caught Card to Seen, while Caught mode changes a Seen Card
-to Caught. Missing may be filtered but is
-not an update action or Card label. Internally missing species use the neutral
-base Card, Seen uses a stronger secondary border, tint, and Eye icon, and
-Caught uses the shared primary selected border, tint, and canonical Progress
-completion icon.
-Grid Cards reuse the image-led Codex hierarchy at a smaller scale: an
-unframed portrait without the type glow, followed by one bottom-aligned footer.
-Keep number and name at the footer's left, place the separate Codex action at
-bottom-right, and anchor the state icon at top-right so progress remains
-immediately scannable without competing with the Pokémon identity.
-Do not add a Card shadow, type, or requirement badge. Keep the browser filters in the
-shared filter wrapper with the search field as the flexible column, keep the
-mode and display actions in the entries Card header, and place the
-visible-result count immediately below the filters. Batch sheets may use
-checkboxes for temporary species selection, followed by a grouped state-change
-preview and a sticky confirmation action on narrow screens.
-
-Within Collectibles, use a compact shared Navigation Menu as the group selector
-when multiple groups apply, because supported games generally expose only one
-to four groups. Keep native counts and completion context in one summary band,
-not repeated across every entry. With one group, render static orientation and
-the same full-width tracker. Do not reserve a persistent desktop rail or force
-a separate mobile group-selection step for this small option set.
-
-Identifiable entries use dense rows suited to location and hint text. Keep
-search, status/location filters, and sorting in stable regions; avoid card grids
-for long location-aware lists. Use the same full-bleed sectioned-list ending,
-row hover surface, and responsive stacking established by Story and Pokédex
-List. Keep the identity column compact and present optional availability detail
-inline after the location in parentheses. Count-only groups use a clear native
-count control and explain that identity-level missing locations are
-unavailable.
-Batch actions use a reviewed sheet rather than a filter-dependent one-click
-`Mark visible` action.
-
-## Mainline Team Plan Comparison Direction
-
-Use a full-width comparison list whose rows read `planned target → computed
-status → matched Play Pokémon`. Borrow Team's compact, equal-row rhythm
-and use a restrained master-detail workspace on desktop. Selecting a row
-updates a persistent comparison panel beside the list; tablet and phone open
-the same comparison in the established rounded bottom sheet, capped at
-`82dvh`.
-
-Lead with one restrained Plan identity area and plain counts for found targets,
-exact matches, and unplanned Play members. Render only the Plan's authored one
-to six targets; do not invent empty positions or an alternate group. Unplanned
-members remain a count with a concise tooltip, not a second inspectable list.
-Give all three counts explanatory tooltips and let their widths follow their
-content while their heights stretch together. Do not show a separate Open or
-return action inside the persistent Play shell. Until standalone Plan Detail
-exists, keep the title as plain text; once it is mounted, use the title itself
-as the Plan Detail link.
-
-Use the shared explanatory-tip behavior for Plan metrics and comparison status
-icons: open after a 200ms mouse hover, open immediately on keyboard focus, pin
-on click, tap, Enter, or Space, keep 100ms hover-close grace, and dismiss on
-focus departure, Escape, an outside press, or a second activation. Keep one
-compact tooltip treatment across every trigger so behavior and styling can be
-tuned centrally.
-
-Align header and row content through one shared grid with a dedicated but
-unlabelled slot column and a wider unlabelled status region. Use `Tracked`
-consistently for the matched Play side. Compact rows prioritize artwork,
-species, persistent form context, optional non-bold nickname, placement, and
-status; exact-generation types remain in the sheet identity cards rather than
-being repeated in every row. Authored roles remain out of this Play comparison.
-Rows keep only the status icon and label; the selected detail owns the
-explanation.
-
-The desktop detail uses a comparison sentence, the match explanation, flat
-four-column Build and Moves grids, then member notes. Center Planned, status,
-and Tracked content within those comparison columns. The bottom sheet leads with
-the two identity cards and match explanation before those grids. Planned moves
-stay in Plan order, identical Play moves connect regardless of slot, remaining
-different moves pair in recorded order, and additional Play moves remain
-neutral.
-
-Build renders only mechanics supported by the Plan and Play's exact shared game
-context. Unsupported mechanics are absent from the grid and cannot affect match
-status. `Any` means a supported mechanic that the Plan leaves unconstrained;
-`Not recorded` means a supported mechanic whose Play value is absent. If no
-build mechanics apply, omit the Build comparison section.
-
-Place Planned notes directly below the comparison list in the left desktop
-column. Treat that list-and-notes stack and the focused comparison Card as one
-stretchable workspace row: whichever column is shorter expands to match the
-taller one. On narrow layouts, preserve natural document height and stack
-Planned notes after the list.
-
-Use explicit non-color labels for `Exact match`, `Build differs`, `Alternate
-form`, `In progress`, `Evolved beyond plan`, `Branched evolution`, `Previously
-used · retired`, `Previously used · replaced`, and `Not found`. Do not show
-an adherence percentage, progress bar, overall score, duplicate Team analysis,
-or activity feed. On narrow screens stack planned identity, status, and matched
-identity rather than horizontally scrolling.
-
-## Mainline Standalone Plans Direction
-
-Treat Plans Hub, Create Plan, and Plan Detail as one visual family, while
-preserving their different jobs. Hub is a reusable-plan library, Create is a
-short contextual beginning, and Detail is the target-authoring workspace. Do
-not make all three look like the same dense form.
-
-Plans Hub should feel related to Plays Browse through game cover treatment,
-search/filter rhythm, explicit Archive visibility, and single-destination
-results. Give Team Plans and Game List one obvious compact local switch because
-they are sibling kinds of future intent with different controls and rows; do
-not merge them into one feed. On narrow screens the switch may adapt, but
-neither view should become hidden in an overflow menu.
-
-Use the same one-column, cover-led library rhythm as Plays Browse rather than a
-Plan grid, table, or grid/list toggle. Keep Search, Status, Game, and Sort
-visible on desktop, put lower-frequency criteria in one More filters surface,
-and preserve active criteria through URL state and removable chips. On mobile,
-keep Search visible and expose Filters and Sort separately.
-
-Each Plan summary preserves six equal planned-target positions in slot order.
-Open positions are intentional Plan capacity and need an add/open target
-treatment, not Team's unknown question mark. Game List rows instead emphasize
-cover, explicit intent status, note,
-and quiet Plan/Play context. Avoid inline Plan editing, scores, completion
-bars, and rows of secondary actions.
-
-Create Plan uses one focused form with game, editable suggested name, and only
-applicable optional content. Context from Codex or a Play appears as retained
-source information, not as a growing set of generic selectors. A prefilled
-Pokémon target should be visually confirmable without turning the form into a
-six-member builder. Reuse Create Play's modal/sheet, validation, pending, cancel,
-and success grammar, but keep Plan creation to one step because it has no
-Completion Goal decision. Success moves into Plan Detail for real authoring.
-
-Standalone Plan Detail gives the planned-target list the strongest visual
-weight. Reuse the Play Header's responsive cover-left, identity-center,
-actions-right structure, but do not add Play Hub tabs to this single authoring
-workspace. Use one to six equal full-width rows. Occupied rows keep target
-identity, role, concise setup cues, warnings, and one clear
-action in stable regions. Member editing belongs in the shared focused
-Plan-member sheet; do not add Team's persistent selected-Pokémon panel.
-
-Keep actionable Plan checks near the target list and repeat concise non-color
-cues on affected rows. Notes, optional content, Rules, Tags, and Used in Plays
-are supporting sections. They should remain clearly separated and scannable
-without competing with target authoring. Used in Plays uses compact linked-Play
-rows and routes to each Play's Plan comparison; it is not another embedded
-Team or comparison table.
-
-On narrow screens, preserve the same target order and stack identity, setup,
-warning, and action. Keep lifecycle and the primary Create Play action visible
-without expanding every secondary action. Use the shared page Spinner for
-initial reads, localized pending feedback for mutations, and no Skeletons.
-
-## Mainline Collection Direction
-
-Use the shared centered application canvas and Mainline browse-control rhythm,
-but let Collection be an image-led responsive Pokémon grid rather than forcing
-it into the cover-led Plays/Plans list. Borrow species artwork, National number,
-and form identity language from Codex while replacing encyclopedia facts with
-personal evidence.
-
-Keep one equal-geometry card per species. Lead with artwork and identity, then
-form context, distinct companion and Play counts, honest latest-appearance
-knowledge, and explicit Shiny or MVP evidence when recorded. Do not style one
-species as Shiny merely because one of several companions was Shiny, and do not
-label repeated event or snapshot evidence as times used.
-
-Use visible Search, Game, Type, and Sort with one More filters disclosure and
-URL-backed chips. Collection has no Create action. Keep the grid responsive
-without a V1 Grid/List toggle, preserve browse context on detail return, and use
-Load more rather than endless scrolling.
-
-Collection Pokémon Detail uses a personal identity header rather than cloning
-Codex Detail. Make used-form scope prominent, then prioritize distinct
-companions, Play-grouped meaningful moments, and compact evolution-family usage
-context. Companion rows may show `Recorded as Charmander · now Charizard` when
-the same individual evolved. Historical appearances without a surviving member
-link remain explicit evidence, not invented companions.
-
-Do not add generic stats, learnsets, abilities, availability, or editable
-biography forms to Collection Detail. Route those responsibilities to Codex or
-the owning Play Team/History. On narrow screens, stack header, form scope,
-companions, moments, and family context in that order.
-
-## Mainline Stats Direction
-
-Use one vertically ordered Stats page with one shared All Mainline,
-Generation, or Game scope. Keep a compact orientation set followed by
-Adventures, Pokémon, Progress, and Challenges. Do not require category sub-tabs
-in V1; a quiet section navigator may be tested only if the visual page becomes
-difficult to scan.
-
-Prefer labelled horizontal bars, distribution rows, ranked lists, and visible
-numbers over decorative dashboards or pie-heavy chart walls. Every
-visualization must expose its denominator and supporting-record route, retain a
-textual reading order, and adapt to vertical labelled rows on narrow screens.
-Color supports Game, type, lifecycle, and progress identity but never owns the
-meaning.
-
-Stats may use compact metrics because this is their dedicated home, but only
-when the facts are trustworthy. Playtime needs recording coverage, Progress
-must distinguish unknown from zero, and Rule counts describe participation
-rather than success. Use `Most used` instead of `Favorite`; never add composite
-scores, opaque correlations, or inferred best Teams in V1.
-
-Initial reads use the shared page Spinner. Sparse or partial data keeps valid
-sections and explains unavailable analysis rather than filling the page with
-zero cards or Skeletons.
-
-## Codex Pokémon Direction
-
-Codex Pokémon should feel like the information-rich sibling of Mainline, not a
-generic wiki and not a second personal Collection. Reuse the centered shell,
-plain page-heading rhythm, semantic surfaces, Pokémon type language, and browse
-controls while giving artwork and game context more visual authority.
-
-Pokémon Browse uses a compact image-led species grid. Keep the exact active
-Game context visibly stronger than an ordinary filter because it changes card
-type, form, artwork, availability, and destination. Keep Search, Game, Type, and
-Sort visible; place secondary criteria in one `More filters` surface. Cards are
-equal, whole-card links with no inline Mainline actions. Target several columns
-on desktop and two useful columns on common phone widths instead of one
-near-viewport-height square card. Append small result batches automatically
-shortly before the user reaches the boundary, keep URL-backed state, and use the
-shared initial Spinner rather than Skeletons. Reserve a manual continuation
-control for compatibility or recovery when automatic loading cannot continue.
-Within the selected field-guide card, place artwork on a quiet neutral specimen
-field with only a soft semantic type glow. Do not use realistic type scenery or
-dark poster overlays. Keep artwork, National number, serif species name, and
-type badges on one continuous paper surface without a divider between portrait
-and identity. Place the named neutral type badges beside the number-and-name
-block; their small colored icon carries the semantic accent so the surface is
-understandable without color alone.
-
-Pokémon Detail preserves its current information architecture: the compact
-species selector and generation-grouped game choices stay at the top; portrait,
-optional Forms, and Evolution Line stay in the left stack; Core Data, Battle
-Stats, Type Matchups, Abilities, Pokédex, Availability, and Learnsets stay in
-their existing right-stack order. Treat persistent form as a real scope
-selector and Shiny as a visual toggle. Do not move sections as part of a visual
-restyle.
-
-Restyle those existing surfaces with the journal and field-guide grammar. Use a
-quiet neutral specimen field with a restrained semantic type glow instead of
-realistic type scenery, neutral paper cards with serif primary section titles,
-and field-guide type badges. Wide data sections use their comparison layout on
-wide screens and labelled stacked rows inside the same card on narrow screens;
-they must not widen the document. A semantic page heading and Mainline entry
-remain functional-contract work and do not justify reorganizing this selected
-visual composition.
-
-## Codex Games Direction
-
-Codex Games should reuse the information-rich Codex character while giving
-game cover art and named content scope more authority than a generic card
-directory. Games Browse uses equal cover-led cards in deterministic generation
-and release order. Keep Search, Generation, and Game type visible, move Region
-and Platform behind one secondary filter surface, and preserve every criterion
-in the URL. Target several desktop columns and two useful phone columns rather
-than near-viewport-width mobile covers.
-
-Game Detail leads with exact game identity and one primary `Start a Play`
-action. `Create a Plan` and `Add to Game List` remain visible supporting
-actions, while Browse Pokémon and named Pokédexes read as reference navigation.
-Follow identity with base and optional-content scopes, Pokédexes grouped under
-those scopes, truthful availability, and only explainable related releases.
-Avoid generic game-type paragraphs, false availability totals, and unrelated
-generation-neighbor cards.
-
-Game Pokédex gives its exact game and named Pokédex a real heading region. The
-named-Pokédex selector is a primary scope control, grouped by Base game and
-optional content, rather than a small utility menu. Keep Search and Type easy
-to reach. Use a semantic comparison table on wide screens and compact labelled
-species rows on narrow screens; never require horizontal scrolling to identify
-or open a Pokémon. Large Pokédexes use explicit `Load more`, and all initial
-loading uses the shared Spinner rather than Skeletons.
-
-Game-origin handoffs preserve the originating cover and exact game identity so
-the transition from public reference to personal Mainline work remains
-understandable. Focused confirmation may use a dialog on wide screens and a
-full-screen sheet on narrow screens, with equivalent ordering, cancellation,
-pending, validation, and focus behavior.
-
-## Mainline Play History Tab Direction
-
-Use one full-width journey timeline with a compact toolbar for search,
-category, Highlights, and reading order. Do not add History sub-tabs, summary
-stat cards, or a persistent selected-event panel. The timeline itself is the
-workspace; selecting an entry opens a contextual event-detail sheet.
-
-Keep every timeline row on one shared visual rhythm while allowing its evidence
-area to adapt to the event. Lead with event type, exact, approximate, or
-unrecorded date, title, and note preview. Show event-time Pokémon context and
-before/after identity only when relevant. A six-position Team snapshot must
-preserve occupied, confirmed-empty, and not-recorded slots with equal slot
-geometry; do not collapse unknown positions or imply they were empty.
-
-Use a wide sheet on desktop and a full-screen sheet on narrow screens for full
-narrative, related Pokémon, snapshots, milestone context, Highlight state, and
-permitted actions. Keep manual editing, guarded structural correction, and
-consequence-aware deletion visually distinct. Highlights are a non-color pinned
-state and never move or duplicate their event.
-
-On narrow screens, stack row metadata, narrative preview, Pokémon context, and
-snapshot in that order without horizontal page scrolling. Filters may wrap or
-open from a compact control, but search and the active category remain easy to
-find. Timeline arrangement must provide move-up, move-down, and keyboard
-controls rather than requiring drag gestures.
-
-## Mainline Play Settings Tab Direction
-
-Use one calm Settings workspace with a compact local section rail and one
-focused content panel on desktop. On narrow screens, replace the rail with an
-accessible section selector rather than compressing it into a horizontal tab
-strip. General, Completion & Tracking, Rules & Tags, and Play Status & Management
-are local sections, not additional Play Hub tabs.
-
-Keep form width readable inside the broader Play workspace. Use clear section
-headings, short explanatory copy only where consequences are non-obvious, and
-stable label, control, validation, and help-text alignment. Rules and Tags may
-share a section but must remain visually distinct concepts.
-
-General starts with a compact read-only game identity row, then groups Play
-identity, platform, dates, playtime, and one durable notes field in a readable
-form column. Exact, Approximate, and `Not recorded` dates need explicit labels
-and precision-aware inputs; never make an approximate year look like an exact
-calendar day. Use hours and minutes for playtime while keeping the resulting
-duration legible.
-
-When a section is dirty, use a restrained sticky action region for `Cancel` and
-`Save changes`. Do not keep a permanent global save bar when nothing changed.
-Lifecycle and destructive actions use focused confirmations rather than the
-section save pattern.
-
-Completion and scope controls must communicate `Counts toward completion`,
-`Track only`, and `Not tracked` without relying on color or a wall of
-checkboxes. Show a concise current-goal summary and an impact preview before a
-change recalculates completion. Preserve the user's recorded data when a scope
-is disabled and say so explicitly.
-
-Render optional-content choices as a small set of content cards. Use stable
-rows for Main Story, applicable Postgame or optional-content Story paths, named
-Pokédexes, and Collectible groups. Main Story reads as an intentional locked
-baseline rather than a disabled control. Browse-only Pokédex subsections do not
-become duplicate settings rows. Optional-entry requirements remain nested under
-their named Pokédex instead of becoming a flat species checklist.
-
-Use segmented or radio-group state controls where space supports them and an
-accessible single-choice control on narrow screens. The save preview keeps the
-goal before and after, changed tracker states, content dependencies, and
-completion impact together rather than scattering warnings across rows.
-
-Within Rules & Tags, stack two visibly separate areas rather than mixing rules
-and labels in one chip cloud. Rule rows keep name, description, category,
-configured value, capability label, and actions in a stable scanning rhythm.
-Use explicit `Voydex can check this` and `Recorded only` text with supporting
-icons; do not imply hard enforcement through lock or error styling. `Add rule`
-uses a focused categorized and searchable sheet, revealing configuration only
-after rule selection.
-
-Tags use a searchable multi-select and wrapping text-labelled chips. Optional
-color supports recognition but never replaces the label. On narrow screens,
-stack rule metadata and actions and allow chips to wrap without horizontal
-scrolling. V1 exposes local detach actions but not shared-definition rename or
-delete administration in Play Settings.
-
-Play Status & Management does not repeat routine status actions already visible
-in the persistent Header. Use one calm current-status explanation followed by
-`Correct recorded status`, then a clearly separate reversible Archive area and
-permanent Delete danger area. Correction uses a focused flow rather than a raw
-status select. When correcting a completion recorded by mistake, name the
-preserved completion date that will be cleared; normal Reopen never uses this
-destructive correction treatment.
-
-Separate reversible Archive styling from destructive Delete styling. Delete
-confirmation must name the Play-owned data affected and the reusable Plan data
-that remains. Do not include a next-session note in the V1 Settings UI; that
-bookmark concept is deferred until a later Overview or Journey Status design
-proves a distinct frequent use.
-
-## Home Page Hero Direction
-
-The home page hero should use layered assets:
-
-- A clean daylight adventure landscape viewed toward a distant destination such
-  as a village. A matched night composition may inform a later dark-theme pass,
-  but it is not part of V1.
-- Separate brand mark image.
-- Separate Voydex title image.
-- Native text subtitle.
-- Native buttons.
-
-This keeps the home page close to the selected visual reference while preserving responsive layout, accessibility, and clickable controls.
-
-Keep the identity, concise description, and actions centered in a visually
-quiet part of the scene. Preserve the background as the emotional focus rather
-than hiding it behind a large opaque card. The current artwork may be improved,
-but the daylight adventurous overlook is the accepted V1 direction. Define
-intentional crops for desktop, mobile, and short
-viewports instead of assuming one `cover` crop works everywhere.
-
-Keep Landing extremely concise. Do not add feature grids, product tours,
-onboarding steps, module explanations, screenshots, statistics, or long copy.
-Intro owns product explanation and onboarding for users who choose to learn
-more.
-
-## Buttons And Controls
-
-- Use icons for clear actions.
-- Use the shared `ClearFiltersButton` for filter-reset actions. Its visible
-  label is always `Clear filters`; use the compact ghost treatment beside
-  result metadata and the outline treatment inside a filtered-empty state.
-- Use text buttons for primary commands where labels matter.
-- Use the shared compact button treatment for primary module-view destinations.
-  Inactive destinations use the normal outline variant; the active destination
-  uses the primary variant with `aria-current="page"`. Do not use wooden-plank
-  imagery or bespoke navigation-button textures.
-- Keep button styling clean. The button shape can be slightly curved, but avoid
-  heavy decorative borders or exposing the default shadcn appearance as the
-  product identity.
-- Browse controls use selected values or placeholders in the control and an
-  explicit accessible name. Do not add redundant persistent labels above a
-  compact control bar. Controls that share a row use equal heights and aligned
-  baselines.
-- Use the shared `SearchControl` for standard icon-led search fields. It owns
-  the search semantics, catalogued search icon, and Input Group composition;
-  the consuming feature owns query state, placeholder copy, accessible name,
-  and responsive layout classes. Keep combobox and command-menu searches in
-  their owning primitives because they also own option navigation.
-- Primary buttons should not use a mismatched border color.
-- Treat selectors as real selectors when the underlying choice changes data,
-  scope, availability, or stats. For example, Pokemon forms should not live as a
-  tiny thumbnail rail inside the portrait. The current Pokemon detail pattern is
-  a dedicated Forms card with image, number, name, and type identity per option.
-  Use popovers, command menus, sheets, search, or grouping only when the option
-  count and viewport make that clearer. Shiny can remain a direct toggle because
-  it is only a visual alternate of the selected form.
-
-## Icons And Pokémon Type Assets
-
-Pokémon type SVGs live under:
-
-```txt
-public/icons/types
-```
-
-Use them for Pokémon-specific surfaces where type identity matters.
-
-`src/shared/domain/icons/app-icons.ts` is the single application catalogue for
-interface, module, product, state, theme, and view icons. Application code must
-select a semantic `appIcons` entry and render it through `AppIcon`; it must not
-import Lucide components directly, define inline SVG icons, or substitute an
-unrelated catalogue icon because its shape is convenient. Add a missing semantic
-entry to the catalogue before using it. Library-owned shadcn/Base UI primitive
-internals and custom icon implementation files consumed by the catalogue are the
-only exceptions.
-
-All finished states inside Progress use `appIcons.product.completion`: Story
-uses it for Completed milestones, Pokédex for Caught species, and Collectibles
-for Collected entries. Partial or absent states keep their own semantics, such
-as Eye for Seen and Circle for missing or unrecorded.
+- Use the primitives in `src/shared/components/ui` for buttons, inputs,
+  selects, sheets, dialogs, menus and tabs. Use Base UI `render` composition;
+  do not use Radix `asChild` unless a primitive supports it.
+- Before adding or materially styling a recurring pattern, inventory the
+  primitives and the components above and reuse the closest one. Add a variant
+  only for a materially different contract.
+- Fields take the shared field surface; selected options take `bg-select-soft
+text-select-ink` (a mode switch or scope picker takes `game-strong`); tips that explain a figure use `ExplanatoryTip`; feedback
+  after an action is a toast, not an inline banner.
+- Use the shared row-interaction variants for repeated data rows. Static
+  timelines and prose lists don't get hover styling.
+- No hairlines between rows or sections inside content: space separates
+  them, and where a group needs to stand apart it takes a soft background
+  (`bg-surface-2`) instead of a rule. Lines stay only where they do a job:
+  table rows, a sheet's or dialog's fixed header and footer, the app bars,
+  menu separators and the hairlines between a toolbar's groups.
+- A list you read (History, Recent moments) is one card with rows inside. A
+  list you pick from, where the pick opens beside it or in a sheet (Progress
+  Story, Story matchups), gives each row its own card through
+  `getMilestonePickRowClassName` in
+  `.../plays/shared/components/milestone-pick-row.ts`.
+- Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
+  or `src/shared`.
+- No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha
+  is for scrims, disabled states and the Play header's texture.
+
+## Loading
+
+Keep the shell visible and show one accessible Spinner in the content region
+for an initial page load. Keep valid content visible during in-place work and
+show a local pending state on the responsible control. No Skeletons yet.
+
+## Icons And Type Assets
+
+`src/shared/domain/icons/app-icons.ts` is the single icon catalogue; render
+entries through `AppIcon`. Add a semantic entry before using a new icon.
+`appIcons.actions.close` closes a menu or panel; `actions.clear` empties a
+field or filter. Milestone medallion icons live under `appIcons.milestones`. Type icons are
+`public/icons/types/*.svg`, drawn white on type colour.
+
+## Copy
+
+No em dashes in UI text. Dates read month first. One name for each thing:
+Play, Plan, Missing (the Pokédex's third state), Log in and Log out, Start a
+Play. Where a page reads data for you, say it in one specific sentence.
 
 ## Accessibility
 
-- Image-only brand text must have an accessible text equivalent, usually an `sr-only` heading.
 - Buttons and links need visible labels or accessible names.
-- Do not rely on color alone for completion, warnings, or disabled states.
-- Check mobile layouts for text overflow and overlapping controls.
+- Never rely on colour alone: stamps, medallions and Pokédex marks carry
+  labels.
+- Check phone layouts for overflow and overlapping controls; tap targets stay
+  at least 36px.
+
+## Migration Status
+
+Every screen is on Soft Clay on the `claude/soft-clay-redesign` branch,
+pending the owner's review, and every v3 screen is built: the app shell and
+bars, Mainline Home, Plays, New Play, the Play header and tabs (Overview with
+its partner and first steps, Team: Roster with Add and Edit Pokémon, Plan,
+Analysis with Story matchups; Story, Pokédex, Collectibles, History and
+Settings), the Team Planner and My Plans, Statistics, Collection, You,
+Welcome, Account settings, the Codex (Pokémon list and entry, Games, game
+pages and Pokédexes), Home, Intro, Start a Play, Log in, Forgot password, New
+password, Check your email, Privacy and Terms, and the not-found and error
+pages. Old parts were deleted as each screen moved over (Team History became
+History's Team filter); `npm run design:check` fails on any reference to the
+retired journal design. Where v3 needs data Voydex doesn't have, the screen
+shows `PendingData` (see above).
+
+Dark mode, Skeletons and the real logo are deliberately not scheduled.

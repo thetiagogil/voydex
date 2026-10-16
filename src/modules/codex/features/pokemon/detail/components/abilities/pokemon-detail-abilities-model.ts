@@ -11,7 +11,6 @@ type PokemonDetailAbilitySlotDefinition = {
     PokemonAttributes,
     "hidden_ability_id" | "primary_ability_id" | "secondary_ability_id"
   >;
-  isHidden: boolean;
   label: string;
   token: string;
 };
@@ -19,7 +18,6 @@ type PokemonDetailAbilitySlotDefinition = {
 export type PokemonDetailAbilitySlot = {
   ability: Ability;
   effectSummary: string | null;
-  isHidden: boolean;
   label: string;
   token: string;
 };
@@ -27,20 +25,17 @@ export type PokemonDetailAbilitySlot = {
 const pokemonDetailAbilitySlotDefinitions = [
   {
     abilityKey: "primary_ability_id",
-    isHidden: false,
-    label: "Primary Ability",
+    label: "Primary",
     token: "1",
   },
   {
     abilityKey: "secondary_ability_id",
-    isHidden: false,
-    label: "Secondary Ability",
+    label: "Secondary",
     token: "2",
   },
   {
     abilityKey: "hidden_ability_id",
-    isHidden: true,
-    label: "Hidden Ability",
+    label: "Hidden",
     token: "H",
   },
 ] satisfies PokemonDetailAbilitySlotDefinition[];
@@ -128,7 +123,6 @@ export const getPokemonDetailAbilitySlots = ({
         currentVersionGroup,
         versionGroupById,
       }),
-      isHidden: slot.isHidden,
       label: slot.label,
       token: slot.token,
     };

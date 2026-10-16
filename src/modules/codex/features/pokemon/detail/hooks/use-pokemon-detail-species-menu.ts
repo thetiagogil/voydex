@@ -22,21 +22,21 @@ import {
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-state";
 
 type UsePokemonDetailSpeciesMenuParams = {
-  activeGameSlug: string | null;
+  activeVersionGroupSlug: string | null;
   activePokemonSlug: string;
 };
 
 export const usePokemonDetailSpeciesMenu = ({
-  activeGameSlug,
+  activeVersionGroupSlug,
   activePokemonSlug,
 }: UsePokemonDetailSpeciesMenuParams) => {
   const [inputValue, setInputValue] = useState("");
   const [menuState, setMenuState] = useState<PokemonMenuState>(() => {
-    return createPokemonMenuState(activeGameSlug);
+    return createPokemonMenuState(activeVersionGroupSlug);
   });
   const activeQuery = normalizePokemonMenuQuery(inputValue);
   const activeMenuState = getActivePokemonMenuState({
-    activeGameSlug,
+    activeVersionGroupSlug,
     activeQuery,
     menuState,
   });
@@ -69,24 +69,24 @@ export const usePokemonDetailSpeciesMenu = ({
       offset: number;
       query: string;
     }) => {
-      if (!activeGameSlug) {
+      if (!activeVersionGroupSlug) {
         return;
       }
 
-      const requestedGameSlug = activeGameSlug;
+      const requestedVersionGroupSlug = activeVersionGroupSlug;
       const requestedQuery = normalizePokemonMenuQuery(query);
 
       setMenuState((currentMenuState) => {
         return getPendingPokemonMenuState({
           currentMenuState,
           mode,
-          requestedGameSlug,
+          requestedVersionGroupSlug,
           requestedQuery,
         });
       });
 
       void fetchPokemonMenuPage({
-        gameSlug: requestedGameSlug,
+        versionGroupSlug: requestedVersionGroupSlug,
         limit: POKEMON_MENU_PAGE_SIZE,
         offset,
         query: requestedQuery,
@@ -97,7 +97,7 @@ export const usePokemonDetailSpeciesMenu = ({
               currentMenuState,
               mode,
               nextPage,
-              requestedGameSlug,
+              requestedVersionGroupSlug,
               requestedQuery,
             });
           });
@@ -106,17 +106,21 @@ export const usePokemonDetailSpeciesMenu = ({
           setMenuState((currentMenuState) => {
             return getFailedPokemonMenuState({
               currentMenuState,
-              requestedGameSlug,
+              requestedVersionGroupSlug,
               requestedQuery,
             });
           });
         });
     },
-    [activeGameSlug],
+    [activeVersionGroupSlug],
   );
 
   const loadInitialPokemonItems = useCallback(() => {
-    if (!activeGameSlug || loadState === "loading" || loadState === "loaded") {
+    if (
+      !activeVersionGroupSlug ||
+      loadState === "loading" ||
+      loadState === "loaded"
+    ) {
       return;
     }
 
@@ -125,11 +129,11 @@ export const usePokemonDetailSpeciesMenu = ({
       offset: 0,
       query: inputValue,
     });
-  }, [activeGameSlug, inputValue, loadState, requestPokemonPage]);
+  }, [activeVersionGroupSlug, inputValue, loadState, requestPokemonPage]);
 
   const loadNextPokemonPage = useCallback(() => {
     if (
-      !activeGameSlug ||
+      !activeVersionGroupSlug ||
       !canLoadMorePokemon ||
       loadingMore ||
       loadState === "loading"
@@ -143,7 +147,7 @@ export const usePokemonDetailSpeciesMenu = ({
       query: activeMenuState.query,
     });
   }, [
-    activeGameSlug,
+    activeVersionGroupSlug,
     activeMenuState.nextOffset,
     activeMenuState.query,
     canLoadMorePokemon,

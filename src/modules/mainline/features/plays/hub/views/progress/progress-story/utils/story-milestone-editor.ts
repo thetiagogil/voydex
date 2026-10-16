@@ -1,6 +1,5 @@
 import type { StoryMilestoneActionIntent } from "../server/story-milestone-action";
 import type { StoryMilestone } from "../types";
-import { getStoryMilestoneRecordingActionVariant } from "./story-milestone-action-variant";
 import {
   hasRecordedStoryMilestoneDecision,
   hasRecordedStoryMilestoneNote,
@@ -17,10 +16,10 @@ export type StoryMilestoneEditorCopy = {
 const editorCopyByIntent = {
   complete: {
     description:
-      "Record this milestone as complete and add any relevant Play details.",
-    submitLabel: "Complete milestone",
-    submittingLabel: "Completing...",
-    title: "Complete milestone",
+      "Mark this milestone as done and add any details from this Play.",
+    submitLabel: "Record milestone",
+    submittingLabel: "Recording...",
+    title: "Record milestone",
   },
   decision: {
     description: "Update the decision recorded for this completed milestone.",
@@ -43,10 +42,10 @@ const editorCopyByIntent = {
   },
   "story-moment": {
     description:
-      "Add this milestone to History and save the current Active Team as its snapshot.",
+      "Add this milestone to History and save the current Active Team as its snapshot. Your live team doesn't change.",
     submitLabel: "Record snapshot",
     submittingLabel: "Recording...",
-    title: "Record snapshot",
+    title: "Record team snapshot",
   },
 } satisfies Record<StoryMilestoneActionIntent, StoryMilestoneEditorCopy>;
 
@@ -56,6 +55,13 @@ export const getStoryMilestoneEditorCopy = (
 ): StoryMilestoneEditorCopy => {
   if (!milestone) {
     return editorCopyByIntent[intent];
+  }
+
+  if (intent === "complete") {
+    return {
+      ...editorCopyByIntent.complete,
+      title: `Record ${milestone.name}`,
+    };
   }
 
   if (intent === "incomplete") {
@@ -89,7 +95,7 @@ export const getStoryMilestoneEditorCopy = (
         "Replace the recorded snapshot with the current Active Team. The existing History event remains in place.",
       submitLabel: "Update snapshot",
       submittingLabel: "Updating...",
-      title: "Update snapshot",
+      title: "Update team snapshot",
     };
   }
 
@@ -112,33 +118,4 @@ export const getStoryMilestoneEditorCopy = (
   }
 
   return editorCopyByIntent[intent];
-};
-
-export const getStoryMilestoneSubmitVariant = (
-  intent: StoryMilestoneActionIntent,
-  milestone: StoryMilestone,
-) => {
-  if (intent === "incomplete") {
-    return "destructive" as const;
-  }
-
-  if (intent === "note") {
-    return getStoryMilestoneRecordingActionVariant(
-      hasRecordedStoryMilestoneNote(milestone),
-    );
-  }
-
-  if (intent === "decision") {
-    return getStoryMilestoneRecordingActionVariant(
-      hasRecordedStoryMilestoneDecision(milestone),
-    );
-  }
-
-  if (intent === "story-moment") {
-    return getStoryMilestoneRecordingActionVariant(
-      hasRecordedStoryMilestoneSnapshot(milestone),
-    );
-  }
-
-  return "default" as const;
 };

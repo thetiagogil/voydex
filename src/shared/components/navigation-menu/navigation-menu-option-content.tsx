@@ -32,7 +32,7 @@ export const NavigationMenuOptionContent = ({
         icon={appIcons.status.active}
         size="md"
         aria-hidden
-        className="text-primary"
+        className="text-select-ink"
       />
     ) : null;
 
@@ -41,9 +41,9 @@ export const NavigationMenuOptionContent = ({
       {leading ? (
         <span
           className={cn(
-            "bg-muted text-muted-foreground relative mt-0.5 flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border",
-            active && "border-primary bg-primary/10 text-primary",
-            muted && "border-dashed",
+            "bg-surface-2 text-ink-2 relative mt-0.5 flex size-10 shrink-0 items-center justify-center overflow-hidden rounded-sm",
+            active && "bg-surface text-select-ink",
+            muted && "border-dash border-[1.5px] border-dashed",
             leadingClassName,
           )}
         >
@@ -52,11 +52,11 @@ export const NavigationMenuOptionContent = ({
       ) : null}
       <span className="min-w-0 flex-1">
         <span className="flex min-w-0 items-center gap-2">
-          <span className="truncate font-medium">{title}</span>
+          <span className="truncate font-extrabold">{title}</span>
           {titleAccessory}
         </span>
         {description ? (
-          <span className="text-muted-foreground mt-0.5 block truncate text-xs">
+          <span className="text-13 text-ink-2 mt-0.5 block truncate font-semibold">
             {description}
           </span>
         ) : null}

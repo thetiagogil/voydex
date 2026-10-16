@@ -39,14 +39,6 @@ describe("getMainlinePlayNavigationState", () => {
       },
     ],
     [
-      `/mainline/plays/${playId}/team/history`,
-      {
-        activeProgressView: null,
-        activeSection: "team",
-        activeTeamView: "history",
-      },
-    ],
-    [
       `/mainline/plays/${playId}/progress`,
       {
         activeProgressView: "story",

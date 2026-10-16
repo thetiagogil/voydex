@@ -132,8 +132,7 @@ WHERE
             JOIN tracking.mainline_milestone_prerequisites AS nested_prerequisites ON nested_prerequisites.milestone_id = blocking_prerequisites.prerequisite_milestone_id
             JOIN tracking.mainline_milestone_prerequisite_kinds AS nested_kinds ON nested_kinds.id = nested_prerequisites.prerequisite_kind_id
         WHERE
-            nested_kinds.slug IN ('required', 'story-unlock')
-    )
+            nested_kinds.slug IN ('required', 'story-unlock'))
     SELECT
         COALESCE(ARRAY_AGG(blocking_prerequisites.prerequisite_milestone_id ORDER BY blocking_prerequisites.prerequisite_milestone_id), '{}'::integer[])
     INTO
@@ -257,44 +256,41 @@ ON CONFLICT ON CONSTRAINT play_milestone_progress_primary_key
         IF p_include_team_snapshot THEN
             DELETE FROM gameplay.mainline_play_event_team_snapshots
             WHERE event_id = v_event_id;
-
             INSERT INTO gameplay.mainline_play_event_team_snapshots (event_id, play_id, play_pokemon_id, position, species_id, form_id, nickname, level, gender, is_shiny, nature_id, ability_id, held_item_id)
-                SELECT
-                    v_event_id,
-                    p_play_id,
-                    mainline_play_pokemon.id,
-                    mainline_play_pokemon.slot,
-                    mainline_play_pokemon.species_id,
-                    mainline_play_pokemon.form_id,
-                    mainline_play_pokemon.nickname,
-                    mainline_play_pokemon.level,
-                    mainline_play_pokemon.gender,
-                    mainline_play_pokemon.is_shiny,
-                    mainline_play_pokemon.nature_id,
-                    mainline_play_pokemon.ability_id,
-                    mainline_play_pokemon.held_item_id
-                FROM
-                    gameplay.mainline_play_pokemon
-                WHERE
-                    mainline_play_pokemon.play_id = p_play_id
-                    AND mainline_play_pokemon.roster_state_id = 1
-                    AND mainline_play_pokemon.slot BETWEEN 1 AND 6
-                ORDER BY
-                    mainline_play_pokemon.slot;
-
+            SELECT
+                v_event_id,
+                p_play_id,
+                mainline_play_pokemon.id,
+                mainline_play_pokemon.slot,
+                mainline_play_pokemon.species_id,
+                mainline_play_pokemon.form_id,
+                mainline_play_pokemon.nickname,
+                mainline_play_pokemon.level,
+                mainline_play_pokemon.gender,
+                mainline_play_pokemon.is_shiny,
+                mainline_play_pokemon.nature_id,
+                mainline_play_pokemon.ability_id,
+                mainline_play_pokemon.held_item_id
+            FROM
+                gameplay.mainline_play_pokemon
+            WHERE
+                mainline_play_pokemon.play_id = p_play_id
+                AND mainline_play_pokemon.roster_state_id = 1
+                AND mainline_play_pokemon.slot BETWEEN 1 AND 6
+            ORDER BY
+                mainline_play_pokemon.slot;
             GET DIAGNOSTICS v_inserted_snapshot_count = ROW_COUNT;
-
             INSERT INTO gameplay.mainline_play_event_team_snapshot_moves (snapshot_id, slot, move_id)
-                SELECT
-                    mainline_play_event_team_snapshots.id,
-                    mainline_play_pokemon_moves.slot,
-                    mainline_play_pokemon_moves.move_id
-                FROM
-                    gameplay.mainline_play_event_team_snapshots
-                    JOIN gameplay.mainline_play_pokemon_moves ON mainline_play_pokemon_moves.play_pokemon_id = mainline_play_event_team_snapshots.play_pokemon_id
-                WHERE
-                    mainline_play_event_team_snapshots.event_id = v_event_id
-                    AND mainline_play_event_team_snapshots.play_id = p_play_id
+            SELECT
+                mainline_play_event_team_snapshots.id,
+                mainline_play_pokemon_moves.slot,
+                mainline_play_pokemon_moves.move_id
+            FROM
+                gameplay.mainline_play_event_team_snapshots
+                JOIN gameplay.mainline_play_pokemon_moves ON mainline_play_pokemon_moves.play_pokemon_id = mainline_play_event_team_snapshots.play_pokemon_id
+            WHERE
+                mainline_play_event_team_snapshots.event_id = v_event_id
+                AND mainline_play_event_team_snapshots.play_id = p_play_id
             ON CONFLICT (snapshot_id,
                 slot)
                 DO NOTHING;

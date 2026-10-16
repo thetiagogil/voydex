@@ -79,7 +79,9 @@ npm run db:stop
 
 `db:verify` rebuilds local artifacts, resets and seeds the local database, runs
 offline audits, checks SQL formatting, runs Supabase database lint and pgTAP,
-and verifies generated type parity. It never targets a linked project.
+and verifies generated type parity. It never targets a linked project. SQL is
+formatted with pgFormatter 5.11 (`brew install pgformatter` on a Mac, or point
+`PG_FORMAT_BIN` at its `pg_format`); the GitHub check pins the same version.
 
 Local resets also create the development account and version-group-spanning
 gameplay fixtures documented in
@@ -89,6 +91,12 @@ and one deliberately blank play. Its 22 linked plans, staged completion bands,
 game-valid teams, history, snapshots, and representative custom states cover the
 gameplay and planning surfaces without turning UI tests into manual database
 setup.
+
+Day-to-day development points `.env.local` at the local stack. Local resets also
+create the public `reference-assets` Storage bucket and upload the game covers
+kept in `database/storage/reference-assets` (copies of the hosted bucket,
+`games/covers/<game-slug>.webp`). A new game needs its cover added there and in
+hosted Storage.
 
 The local Auth fixture must never be loaded into a linked project. When hosted
 development data is explicitly authorized, apply only gameplay seed files `002`
