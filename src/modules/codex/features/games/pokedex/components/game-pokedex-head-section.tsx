@@ -1,6 +1,7 @@
 import { appRoutes } from "@/config/routes";
 import {
   getPokedexShortName,
+  getVersionGroupShortName,
   getVersionGroupTitle,
 } from "@/modules/codex/shared/utils/game-names";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
@@ -17,7 +18,8 @@ type GamePokedexHeadSectionProps = {
  * (no game tint), laid out as a Play's Pokédex is: the Pokédex's name and
  * one sentence on what it lists, with the switch between the group's
  * Pokédexes, its expansions' (Galar, Isle of Armor, Crown Tundra) and its
- * own National Pokédex on the right. The path above already names the game.
+ * own National Pokédex on the right. The sentence names the games, since a
+ * Kanto Pokédex in Red and Blue isn't the one in FireRed and LeafGreen.
  */
 export const GamePokedexHeadSection = ({
   data,
@@ -36,7 +38,12 @@ export const GamePokedexHeadSection = ({
             <b className="text-ink font-extrabold tabular-nums">
               {data.entries.length.toLocaleString()}
             </b>{" "}
-            Pokémon in this Pokédex, numbered the way the game lists them.
+            Pokémon of this Pokédex in{" "}
+            <b className="text-ink font-extrabold">
+              {getVersionGroupShortName(data.versionGroup.name)}
+            </b>
+            , numbered the way{" "}
+            {data.games.length > 1 ? "the games list" : "the game lists"} them.
           </>
         }
         action={
