@@ -117,8 +117,8 @@ type CodexInYourPlaysProps = {
 
 /*
  * "In your Plays" on a Pokémon's entry: every one of this species on your
- * Plays' rosters, each opening on its Play's roster; none yet offers Add to
- * a Play.
+ * Plays' rosters, each opening on its Play's roster, and Add to a Play (or
+ * Start a Play) always in line with the title.
  */
 export const CodexInYourPlays = async ({
   speciesSlug,
@@ -160,7 +160,7 @@ export const CodexInYourPlays = async ({
           ? `${members.length} on your rosters`
           : "Not in any Play yet"
       }
-      action={members.length ? addAction : undefined}
+      action={addAction}
     >
       {members.length ? (
         <ul className="grid">
@@ -197,12 +197,9 @@ export const CodexInYourPlays = async ({
           })}
         </ul>
       ) : (
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <p className="text-ink-2 text-15 font-semibold">
-            It hasn&apos;t joined one of your teams yet.
-          </p>
-          {addAction}
-        </div>
+        <p className="text-ink-2 text-15 font-semibold">
+          It hasn&apos;t joined one of your teams yet.
+        </p>
       )}
     </DetailSectionCard>
   );
