@@ -85,7 +85,12 @@ export const PokemonDetailSectionBar = ({
         }
       }
 
-      setCurrent(reading);
+      /* At the page's end the last sections can't reach the line: mark the last. */
+      const atEnd =
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 2;
+
+      setCurrent(atEnd ? (present.at(-1)?.id ?? reading) : reading);
     }
 
     const onScroll = () => {
