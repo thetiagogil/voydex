@@ -18,13 +18,16 @@ const pokedexKindLabels: Record<string, string> = {
   special: "Special",
 };
 
-const hopDelayClassNames = [
-  "",
-  "delay-[30ms]",
-  "delay-[60ms]",
-  "delay-[90ms]",
-  "delay-[120ms]",
-];
+/*
+ * The strip hops as one wave on hover, left to right, over at most this
+ * long: 30ms between neighbours for a few sprites, closer together for a
+ * long strip, so every sprite takes its turn.
+ */
+const HOP_STEP_MS = 30;
+const HOP_WAVE_MS = 150;
+
+const getHopDelay = (index: number, count: number) =>
+  index * Math.min(HOP_STEP_MS, HOP_WAVE_MS / Math.max(count - 1, 1));
 
 type GamePokedexTileProps = {
   layout: GamePokedexTileLayout;
@@ -47,7 +50,11 @@ const GamePokedexTileStrip = ({
       className={cn(
         "flex pl-2",
         layout === "single" &&
-          "overflow-hidden [mask-image:linear-gradient(90deg,black_78%,transparent)] py-1 [grid-area:strip]",
+          /*
+           * The fade masks everything outside the strip's box, so it keeps
+           * room above for a sprite's hop and ring.
+           */
+          "-my-1 overflow-x-clip [mask-image:linear-gradient(90deg,black_78%,transparent)] py-2 [grid-area:strip]",
       )}
     >
       {imageUrls.map((imageUrl, index) => (
@@ -56,8 +63,10 @@ const GamePokedexTileStrip = ({
           className={cn(
             "bg-surface -ml-2 grid shrink-0 place-items-center rounded-full shadow-[0_0_0_3px_var(--surface-2)] transition-transform duration-200 ease-[cubic-bezier(0.3,1.5,0.5,1)] motion-safe:group-hover/dex:-translate-y-[3px]",
             isCompact ? "size-10.5" : "size-12.5",
-            hopDelayClassNames[index],
           )}
+          style={{
+            transitionDelay: `${getHopDelay(index, imageUrls.length)}ms`,
+          }}
         >
           <Image
             src={imageUrl}
