@@ -19,8 +19,9 @@ type PokemonDetailHeadProps = {
 /*
  * v3's Codex head: the path back to Pokémon, ending in the Pokémon's name
  * (it opens the picker), and the generation pills on the right, level with
- * the path. The entry reads by generation; under the pills, as quiet chips,
- * the games of it the Pokémon (or this form) is in, so a form found in one game
+ * the path. The entry reads by generation; under the pills, in quiet text
+ * with a hairline between each, the games of it the Pokémon (or this form)
+ * is in, so a form found in one game
  * only (Hisuian Arcanine in Legends: Arceus) says so.
  */
 export const PokemonDetailHead = ({
@@ -50,19 +51,17 @@ export const PokemonDetailHead = ({
           value={generationSlug}
         />
         {gameNames.length ? (
-          <div className="flex flex-wrap items-center gap-1.5 md:justify-end">
-            <span className="text-13 text-ink-3 mr-0.5 font-bold">In</span>
-            <ul className="contents">
-              {gameNames.map((gameName) => (
-                <li
-                  key={gameName}
-                  className="bg-surface/70 text-13 text-ink-2 inline-flex h-6.5 items-center rounded-full px-2.5 font-bold"
-                >
-                  {gameName}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="text-13 text-ink-3 flex flex-wrap items-center gap-x-2 gap-y-0.5 font-semibold md:justify-end">
+            <span>In</span>
+            {gameNames.map((gameName, index) => (
+              <span key={gameName} className="inline-flex items-center gap-2">
+                {index ? (
+                  <span aria-hidden className="bg-ink-3/45 h-3.5 w-px" />
+                ) : null}
+                {gameName}
+              </span>
+            ))}
+          </p>
         ) : null}
       </div>
     </div>

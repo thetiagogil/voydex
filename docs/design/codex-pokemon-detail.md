@@ -57,7 +57,7 @@ Important rules:
 - **Band:** the head and the hero sit on the page's sand band.
 - **Head:** the path back to Pokémon ending in the Pokémon's name, which opens
   the searchable species picker, and the generation pills on the right, with
-  quiet chips under them naming the generation's games the Pokémon (or this
+  a quiet line under them (games split by hairlines) naming the generation's games the Pokémon (or this
   form) is in ("In [Legends: Arceus]" for Hisuian Arcanine).
 - **Section bar:** once the band scrolls away, a slim bar docks to the top
   (as a Play's does) with the Pokémon and an index of its sections, the one
