@@ -15,7 +15,10 @@ import {
   defaultPokedexPageFilters,
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
-import { groupPokemonByGeneration } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
+import {
+  groupPokemonByGeneration,
+  groupPokemonByType,
+} from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
   CodexPokemonCardLink,
   CodexPokemonGrid,
@@ -49,14 +52,23 @@ const countFormat = new Intl.NumberFormat("en-US");
 /* The Generation menu's "every generation", as a select value. */
 const ALL = "all";
 
+type PokedexGroupBy = "generation" | "type";
+
+const groupByOptions = [
+  { label: "Generation", value: "generation" },
+  { label: "Type", value: "type" },
+] satisfies { label: string; value: PokedexGroupBy }[];
+
 /*
  * The Codex's Pokémon: the title and count, one toolbar row (search, the
- * Generation filter, Sort), the type dots under it, the results line, and
- * the cards, in generation ranges loaded in batches.
+ * Generation filter, Group by generation or type, Sort), the type dots under
+ * it, the results line, and the cards in ranges (each generation with its
+ * region, or each type), loaded in batches.
  */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
   const [sortKey, setSortKey] = useState<PokedexSortKey>("national");
+  const [groupBy, setGroupBy] = useState<PokedexGroupBy>("generation");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POKEMON);
 
   const deferredFilters = useDeferredValue(filters);
@@ -80,20 +92,28 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     [filteredPokemon, visibleCount],
   );
 
+  const groupPokemon = useCallback(
+    (pokemon: typeof filteredPokemon) =>
+      groupBy === "type"
+        ? groupPokemonByType(pokemon, data.types)
+        : groupPokemonByGeneration(pokemon, data.generations),
+    [data.generations, data.types, groupBy],
+  );
+
   const visiblePokemonGenerationGroups = useMemo(
-    () => groupPokemonByGeneration(visiblePokemon, data.generations),
-    [data.generations, visiblePokemon],
+    () => groupPokemon(visiblePokemon),
+    [groupPokemon, visiblePokemon],
   );
 
   /* Each generation's heading counts every match, loaded or not. */
   const filteredCountByGroupKey = useMemo(
     () =>
       new Map(
-        groupPokemonByGeneration(filteredPokemon, data.generations).map(
+        groupPokemon(filteredPokemon).map(
           (group) => [group.key, group.pokemon.length] as const,
         ),
       ),
-    [data.generations, filteredPokemon],
+    [filteredPokemon, groupPokemon],
   );
 
   const hasActiveFilters = hasActivePokedexFilters(filters);
@@ -177,6 +197,19 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                 placeholder="All"
               />
             </ToolbarGroup>
+            <SelectControl
+              ariaLabel="Group Pokémon by"
+              variant="ghost"
+              size="sm"
+              prefix="Group"
+              value={groupBy}
+              onValueChange={(value) => {
+                setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                setGroupBy(value === "type" ? "type" : "generation");
+              }}
+              options={groupByOptions}
+              placeholder="Generation"
+            />
             <SelectControl
               ariaLabel="Sort Pokémon"
               variant="ghost"

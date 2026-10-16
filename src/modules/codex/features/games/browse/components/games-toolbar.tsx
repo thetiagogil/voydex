@@ -14,7 +14,7 @@ import {
 import type { GameCard } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
+import { Toolbar } from "@/shared/components/toolbar";
 
 type GamesToolbarProps = {
   filters: GamesBrowseFilters;
@@ -48,8 +48,8 @@ const isGameKind = (value: string): value is GameKind => {
 
 /*
  * The games toolbar, one line on wide screens: the search, then the kind of
- * game (a filter), how the shelf is grouped and its order (how it's
- * arranged), each a compact menu. Phones put the menus under the search.
+ * game (a filter), how the shelf is grouped, and its order, each a compact
+ * menu in its own group: grouping arranges, it doesn't sort. Phones put the menus under the search.
  */
 export const GamesToolbar = ({
   filters,
@@ -107,32 +107,30 @@ export const GamesToolbar = ({
             options={kindOptions}
             placeholder="All games"
           />
-          <ToolbarGroup>
-            <SelectControl
-              ariaLabel="Group games by"
-              variant="ghost"
-              size="sm"
-              prefix="Group"
-              value={groupBy}
-              onValueChange={(value) => {
-                onGroupByChange(value === "region" ? "region" : "generation");
-              }}
-              options={groupByOptions}
-              placeholder="Generation"
-            />
-            <SelectControl
-              ariaLabel="Sort games"
-              variant="ghost"
-              size="sm"
-              prefix="Sort"
-              value={sortOrder}
-              onValueChange={(value) => {
-                onSortOrderChange(value === "newest" ? "newest" : "oldest");
-              }}
-              options={sortOptions}
-              placeholder="Oldest first"
-            />
-          </ToolbarGroup>
+          <SelectControl
+            ariaLabel="Group games by"
+            variant="ghost"
+            size="sm"
+            prefix="Group"
+            value={groupBy}
+            onValueChange={(value) => {
+              onGroupByChange(value === "region" ? "region" : "generation");
+            }}
+            options={groupByOptions}
+            placeholder="Generation"
+          />
+          <SelectControl
+            ariaLabel="Sort games"
+            variant="ghost"
+            size="sm"
+            prefix="Sort"
+            value={sortOrder}
+            onValueChange={(value) => {
+              onSortOrderChange(value === "newest" ? "newest" : "oldest");
+            }}
+            options={sortOptions}
+            placeholder="Oldest first"
+          />
         </>
       }
     />

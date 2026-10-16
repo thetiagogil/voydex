@@ -1,6 +1,7 @@
 import type {
   Generation,
   PokedexPokemonBrowseCard,
+  Type,
 } from "@/modules/reference/types";
 
 export type PokedexPokemonGenerationGroup = {
@@ -67,6 +68,51 @@ export const groupPokemonByGeneration = (
       key: "unknown",
       label: "Unknown generation",
       pokemon: unknownGenerationPokemon,
+    });
+  }
+
+  return groups;
+};
+
+/*
+ * The list grouped by type instead: one range per type, in type-chart
+ * order, each Pokémon under its primary type (Charizard under Fire). A
+ * Pokémon without a recorded type closes the list.
+ */
+export const groupPokemonByType = (
+  pokemon: PokedexPokemonBrowseCard[],
+  types: Pick<Type, "name" | "slug">[],
+): PokedexPokemonGenerationGroup[] => {
+  const pokemonByTypeSlug = new Map<string, PokedexPokemonBrowseCard[]>();
+  const untyped: PokedexPokemonBrowseCard[] = [];
+
+  for (const entry of pokemon) {
+    const typeSlug = entry.primaryType?.slug;
+
+    if (!typeSlug) {
+      untyped.push(entry);
+      continue;
+    }
+
+    pokemonByTypeSlug.set(typeSlug, [
+      ...(pokemonByTypeSlug.get(typeSlug) ?? []),
+      entry,
+    ]);
+  }
+
+  const groups: PokedexPokemonGenerationGroup[] = types.flatMap((type) => {
+    const typePokemon = pokemonByTypeSlug.get(type.slug);
+
+    return typePokemon?.length
+      ? [{ key: `type-${type.slug}`, label: type.name, pokemon: typePokemon }]
+      : [];
+  });
+
+  if (untyped.length) {
+    groups.push({
+      key: "type-unknown",
+      label: "Unknown type",
+      pokemon: untyped,
     });
   }
 
