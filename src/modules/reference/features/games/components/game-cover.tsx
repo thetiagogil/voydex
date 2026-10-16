@@ -32,12 +32,14 @@ const coverSizeClassNames = {
   },
   /*
    * The Codex game header's cover, in a white frame: 110px wide on phones,
-   * where it sits above the title, then 220px tall beside it.
+   * where it sits above the title; beside it, as tall as the title, switch,
+   * description and actions it sits next to (240px on tablets, 292px wide).
    */
   hero: {
     fallback:
-      "text-32 md:text-44 w-27.5 border-4 border-white md:h-55 md:w-auto",
-    image: "h-auto w-27.5 max-w-full border-4 border-white md:h-55 md:w-auto",
+      "text-32 md:text-44 w-27.5 border-4 border-white md:h-60 md:w-auto lg:h-73",
+    image:
+      "h-auto w-27.5 max-w-full border-4 border-white md:h-60 md:w-auto lg:h-73",
   },
   /* The Codex's game card: the cover fits a 124px square (90px on phones). */
   shelf: {
