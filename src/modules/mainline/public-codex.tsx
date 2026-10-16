@@ -233,7 +233,7 @@ export const CodexGamePlays = async ({
     <>
       <Link
         href={appRoutes.mainlineNewPlay(gameSlug)}
-        className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
+        className={cn(buttonVariants(), "w-full sm:w-auto")}
       >
         <AppIcon icon={appIcons.actions.create} inline="start" />
         Start a {gameShortName} Play
@@ -242,7 +242,6 @@ export const CodexGamePlays = async ({
         <PlayPickerMenu
           heading="Your Plays"
           triggerLabel={`Your Plays (${plays.length})`}
-          triggerSize="lg"
           items={plays.map((play) => ({
             detail: play.statusName,
             href: appRoutes.mainlinePlay(play.id),

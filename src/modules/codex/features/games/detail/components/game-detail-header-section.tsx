@@ -14,7 +14,6 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
 
 type GameDetailHeaderSectionProps = {
   /*
@@ -94,17 +93,17 @@ export const GameDetailHeaderSection = ({
           label="About the games"
           note="A few lines on what sets these games apart."
         />
-        <div className="mt-6 flex flex-wrap gap-3">
+        {/*
+         * The main button takes the phone's full width; the quieter ones
+         * share the line under it.
+         */}
+        <div className="mt-5 flex flex-wrap gap-2.5 *:flex-1 sm:*:flex-none">
           {actions}
           <Link
             href={appRoutes.mainlinePlanNew(versionGroup.slug)}
-            className={cn(
-              buttonVariants({
-                size: "lg",
-                variant: actions ? "outline" : "default",
-              }),
-              "w-full sm:w-auto",
-            )}
+            className={buttonVariants({
+              variant: actions ? "outline" : "default",
+            })}
           >
             <AppIcon icon={appIcons.product.team} inline="start" aria-hidden />
             Plan a team
