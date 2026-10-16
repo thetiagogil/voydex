@@ -17,7 +17,7 @@ switcher.
   Mainline Home (`/mainline`). Mainline's views sit centred in module order:
   Home, Plays, Team Planner (`/mainline/plans/new`, current anywhere under
   `/mainline/plans`), Statistics and Collection. The Codex menu and your
-  account icon sit on the right. The Codex menu (the book and "Codex") opens
+  account icon sit on the right. The Codex menu (its name, no icon) opens
   the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
   open theirs; it is bold while you are anywhere under `/codex`.
 - **Account menu:** your name and when you became a trainer, Settings

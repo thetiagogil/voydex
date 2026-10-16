@@ -41,7 +41,7 @@ const CodexViewIcon = ({ slug }: { slug: CodexViewLink["slug"] }) => (
 );
 
 /*
- * The Codex on the top bar: the book and its name open a menu of its pages,
+ * The Codex on the top bar: its name opens a menu of its pages,
  * as a Play's Team and Progress tabs do, bold while you're in it. Each
  * module will bring its own Codex pages, so they live here, not on the page.
  */
@@ -58,11 +58,10 @@ export const CodexMenu = ({ className }: { className?: string }) => {
       <NavigationMenuItem>
         <NavigationMenuTrigger
           className={cn(
-            "text-14 hover:text-ink gap-1.5 px-2.5 font-semibold text-(color:--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
+            "text-14 hover:text-ink px-3 font-semibold text-(color:--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
             isCurrent && "text-ink font-extrabold",
           )}
         >
-          <AppIcon icon={appIcons.modules.codex} className="size-4.5" />
           <SteadyLabel>{codexLink.label}</SteadyLabel>
         </NavigationMenuTrigger>
         <NavigationMenuOptionsPanel>
