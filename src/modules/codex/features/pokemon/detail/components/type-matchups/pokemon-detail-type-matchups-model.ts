@@ -16,6 +16,8 @@ export type PokemonDetailTypeMatchup = {
 };
 
 export type PokemonDetailTypeMatchups = {
+  /* Every attacking type of the generation, in chart order. */
+  all: PokemonDetailTypeMatchup[];
   immunities: PokemonDetailTypeMatchup[];
   neutralCount: number;
   resistances: PokemonDetailTypeMatchup[];
@@ -78,6 +80,7 @@ export const getPokemonDetailTypeMatchups = ({
   );
 
   return {
+    all: matchups,
     immunities: matchups.filter((matchup) => matchup.multiplier === 0),
     neutralCount: matchups.filter((matchup) => matchup.multiplier === 1).length,
     resistances: matchups

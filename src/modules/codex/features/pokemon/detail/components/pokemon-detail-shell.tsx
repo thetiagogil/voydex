@@ -157,9 +157,10 @@ export const PokemonDetailShell = ({
       </PageBand>
 
       {/*
-       * Below the band, the short facts side by side (abilities, the wider,
-       * beside training and breeding), then each section across the page, the learnset last
-       * of the reference, and your own Plays at the very end.
+       * Below the band, pairs side by side from `lg` (abilities, the wider,
+       * beside training and breeding; the stat shape beside the type chart),
+       * then each section across the page, the learnset last of the
+       * reference, and your own Plays at the very end.
        */}
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
         {abilitySlots.length ? (
@@ -170,22 +171,24 @@ export const PokemonDetailShell = ({
         ) : (
           trainingCard
         )}
-        {stats.length ? (
-          <PokemonDetailStatsCard
-            generationName={generation.generation.name}
-            stats={stats}
-            type={typeSlug}
-          />
-        ) : null}
-        {defendingTypes.length ? (
-          <PokemonDetailTypeMatchupsCard
-            matchups={getPokemonDetailTypeMatchups({
-              defendingTypes,
-              generationOrder: generation.generation.sort_order,
-            })}
-            pokemonName={pokemonName}
-          />
-        ) : null}
+        <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
+          {stats.length ? (
+            <PokemonDetailStatsCard
+              generationName={generation.generation.name}
+              stats={stats}
+              type={typeSlug}
+            />
+          ) : null}
+          {defendingTypes.length ? (
+            <PokemonDetailTypeMatchupsCard
+              matchups={getPokemonDetailTypeMatchups({
+                defendingTypes,
+                generationOrder: generation.generation.sort_order,
+              })}
+              pokemonName={pokemonName}
+            />
+          ) : null}
+        </div>
         <PokemonDetailEvolutionSection
           activeFormId={form?.form.id ?? null}
           activeGenerationSortOrder={generation.generation.sort_order}

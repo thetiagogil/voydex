@@ -60,11 +60,11 @@ Important rules:
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
   form switch, the types, one sentence read from the data, and the actions.
-- **Sections:** Abilities beside Training and breeding (side by side from
-  `lg`), then one section a row: Base stats, Type matchups, Evolution,
-  Pokédex numbers (each Pokédex's number, with its entry text pending), Where
-  to find (each game with its box), Learnset, and In your Plays last. An
-  absent section is left out.
+- **Sections:** Abilities (the wider) beside Training and breeding, then
+  Base stats beside Type matchups (each pair side by side from `lg`), then
+  one section a row: Evolution, Pokédex numbers (each Pokédex's number, with
+  its entry text pending), Where to find (each game with its box), Learnset,
+  and In your Plays last. An absent section is left out.
 
 ## Forms And Shiny
 
@@ -96,9 +96,12 @@ availability, and game validity, and Pokémon like Arceus have many. So:
 Keep each section focused and quiet; lively comes from the art and type
 colour only.
 
-- Battle stats: generation-aware stat rows, including Gen I Special.
-- Type matchups: the all-type effectiveness grid, explained per attacking type
-  against the current typing.
+- Base stats: the games' stat shape, one corner per stat (HP up, then
+  Attack, Defense, Speed, Sp. Def, Sp. Atk; a pentagon with Gen I's Special),
+  filled in the type colour, full at 160, with the total under it.
+- Type matchups: one tile per attacking type of the generation in chart
+  order, its icon over the damage it deals; red hurts more, green less, blue
+  no effect, quiet normal, with a key under the grid.
 - Abilities: slot, ability and effect, only where the group has abilities.
 - Pokédex numbers: the generation's Pokédexes and the Pokémon's number in
   each.
