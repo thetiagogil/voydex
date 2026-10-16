@@ -154,7 +154,7 @@ export const samplePlayHistory: readonly SampleRecord[] = [
     headline: [
       "“Pausing here. Mustard's final trial keeps ending the same way. Back once I raise something that answers Fighting types.”",
     ],
-    kicker: "Journal note · Jul 14, 2025 · 10:40 PM",
+    kicker: "Note · Jul 14, 2025 · 10:40 PM",
     moment: { kind: "note" },
   },
   {
