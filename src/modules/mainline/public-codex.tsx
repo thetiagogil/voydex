@@ -8,10 +8,12 @@ import { getNewPlayDialogData } from "@/modules/mainline/features/plays/new/serv
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import { filterPlaysWithSpecies } from "@/modules/mainline/features/plays/browse/data/codex-plays-model";
 import {
-  readCodexPlayIdsWithSpecies,
   readCodexPlays,
-  readCodexSpeciesRoster,
   type CodexPlay,
+} from "@/modules/mainline/features/plays/browse/server/codex-plays-query";
+import {
+  readCodexPlayIdsWithSpecies,
+  readCodexSpeciesRoster,
 } from "@/modules/mainline/features/plays/browse/server/codex-plays-reader";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";

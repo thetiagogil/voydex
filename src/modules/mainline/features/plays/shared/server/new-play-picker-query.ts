@@ -1,6 +1,6 @@
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
-import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
-import { readGameCatalogue } from "@/modules/reference/features/games/server/game-shelf-reader";
+import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 
 /*
  * What the game picker that starts a Play reads (Home with no Plays): the
