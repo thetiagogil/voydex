@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -8,8 +9,13 @@ import {
   undoPlayPartner,
 } from "@/modules/mainline/features/plays/shared/server/play-partner-command";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import {
+  parseInput,
+  positiveIdSchema,
+  uuidSchema,
+} from "@/shared/utils/input-schemas";
 
 export type PlayPartnerActionResult =
   | {
@@ -43,30 +49,29 @@ const getAuthenticatedClient = async () => {
   return supabase;
 };
 
-const assertPositiveInteger = (value: number, label: string) => {
-  if (!Number.isInteger(value) || value <= 0) {
-    throw new Error(`${label} must be a positive integer.`);
-  }
-};
+const choosePartnerInputSchema = z.object({
+  playId: playIdSchema,
+  milestoneId: positiveIdSchema("Milestone"),
+  decisionOptionId: positiveIdSchema("Partner"),
+});
+
+const undoPartnerInputSchema = z.object({
+  playId: playIdSchema,
+  milestoneId: positiveIdSchema("Milestone"),
+  addedPlayPokemonId: uuidSchema("A valid Pokémon is required.").nullable(),
+});
 
 /* The partner you picked joins the team and the partner milestone. */
-export const choosePlayPartnerAction = async ({
-  decisionOptionId,
-  milestoneId,
-  playId,
-}: {
+export const choosePlayPartnerAction = async (input: {
   decisionOptionId: number;
   milestoneId: number;
   playId: string;
 }): Promise<PlayPartnerActionResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    assertPositiveInteger(milestoneId, "Milestone");
-    assertPositiveInteger(decisionOptionId, "Partner");
-
+    const { decisionOptionId, milestoneId, playId } = parseInput(
+      choosePartnerInputSchema,
+      input,
+    );
     const supabase = await getAuthenticatedClient();
     const result = await choosePlayPartner(supabase, {
       decisionOptionId,
@@ -87,26 +92,16 @@ export const choosePlayPartnerAction = async ({
 };
 
 /* Undo for the partner just chosen. */
-export const undoPlayPartnerAction = async ({
-  addedPlayPokemonId,
-  milestoneId,
-  playId,
-}: {
+export const undoPlayPartnerAction = async (input: {
   addedPlayPokemonId: string | null;
   milestoneId: number;
   playId: string;
 }): Promise<PlayPartnerUndoResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    assertPositiveInteger(milestoneId, "Milestone");
-
-    if (addedPlayPokemonId !== null && !isUuid(addedPlayPokemonId)) {
-      throw new Error("A valid Pokémon is required.");
-    }
-
+    const { addedPlayPokemonId, milestoneId, playId } = parseInput(
+      undoPartnerInputSchema,
+      input,
+    );
     const supabase = await getAuthenticatedClient();
 
     await undoPlayPartner(supabase, {

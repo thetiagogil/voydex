@@ -1,3 +1,11 @@
+import { z } from "zod";
+
+import {
+  parseInput,
+  positiveIntegerSchema,
+  slugSchema,
+} from "@/shared/utils/input-schemas";
+
 /* What New Play sends to start a Play. */
 export type NewPlayInput = {
   /* The optional content scopes (DLC) the trainer owns. */
@@ -13,33 +21,7 @@ export type NewPlayInput = {
 
 export class NewPlayInputError extends Error {}
 
-const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const dayPattern = /^\d{4}-\d{2}-\d{2}$/;
-
 export const defaultPlayName = "New Journey";
-
-const isPositiveInteger = (value: unknown): value is number =>
-  typeof value === "number" && Number.isInteger(value) && value > 0;
-
-const readText = (value: unknown, label: string, maxLength: number) => {
-  if (value === null || value === undefined) {
-    return null;
-  }
-
-  if (typeof value !== "string") {
-    throw new NewPlayInputError(`${label} must be text.`);
-  }
-
-  const trimmed = value.trim();
-
-  if (trimmed.length > maxLength) {
-    throw new NewPlayInputError(
-      `${label} can be at most ${maxLength} characters.`,
-    );
-  }
-
-  return trimmed || null;
-};
 
 const isRealDay = (value: string) => {
   const date = new Date(`${value}T00:00:00Z`);
@@ -49,64 +31,62 @@ const isRealDay = (value: string) => {
   );
 };
 
+/* Optional text, trimmed; empty reads as not set. */
+const optionalTextSchema = (label: string, maxLength: number) =>
+  z
+    .string({ error: `${label} must be text.` })
+    .trim()
+    .max(maxLength, {
+      error: `${label} can be at most ${maxLength} characters.`,
+    })
+    .nullish()
+    .transform((value) => value || null);
+
 /*
  * Checks what the New Play form sent before anything is written: a known
- * game's slug, a name within the Play's limits (the default when empty), an
- * optional trainer name, a partner as a species and form, the expansions as
- * ids and a real calendar day.
+ * game's slug, a partner as a species and form, the expansions as ids, a
+ * real calendar day, a name within the Play's limits (the default when
+ * empty) and an optional trainer name.
  */
-export const parseNewPlayInput = (raw: unknown): NewPlayInput => {
-  if (!raw || typeof raw !== "object") {
-    throw new NewPlayInputError("Pick a game to start a Play.");
-  }
+const newPlayInputSchema = z.object(
+  {
+    gameSlug: slugSchema("Pick a game to start a Play."),
+    partner: z
+      .object(
+        {
+          formId: positiveIntegerSchema("That partner isn't one Voydex knows."),
+          speciesId: positiveIntegerSchema(
+            "That partner isn't one Voydex knows.",
+          ),
+        },
+        { error: "That partner isn't one Voydex knows." },
+      )
+      .nullish()
+      .transform((partner) => partner ?? null),
+    expansionVersionGroupIds: z
+      .array(
+        positiveIntegerSchema("Those expansions aren't ones Voydex knows."),
+        { error: "Those expansions aren't ones Voydex knows." },
+      )
+      .nullish()
+      .transform((ids) => [...new Set(ids ?? [])]),
+    startedOn: z
+      .string({ error: "The start day isn't a real date." })
+      .regex(/^\d{4}-\d{2}-\d{2}$/, {
+        error: "The start day isn't a real date.",
+      })
+      .refine(isRealDay, { error: "The start day isn't a real date." }),
+    playName: optionalTextSchema("The Play name", 200).transform(
+      (name) => name ?? defaultPlayName,
+    ),
+    trainerName: optionalTextSchema("The trainer name", 120),
+  },
+  { error: "Pick a game to start a Play." },
+);
 
-  const record = raw as Record<string, unknown>;
-  const gameSlug = record.gameSlug;
-
-  if (
-    typeof gameSlug !== "string" ||
-    gameSlug.length > 64 ||
-    !slugPattern.test(gameSlug)
-  ) {
-    throw new NewPlayInputError("Pick a game to start a Play.");
-  }
-
-  const partner = record.partner;
-  let parsedPartner: NewPlayInput["partner"] = null;
-
-  if (partner !== null && partner !== undefined) {
-    const { formId, speciesId } = partner as Record<string, unknown>;
-
-    if (!isPositiveInteger(formId) || !isPositiveInteger(speciesId)) {
-      throw new NewPlayInputError("That partner isn't one Voydex knows.");
-    }
-
-    parsedPartner = { formId, speciesId };
-  }
-
-  const expansions = record.expansionVersionGroupIds ?? [];
-
-  if (!Array.isArray(expansions) || !expansions.every(isPositiveInteger)) {
-    throw new NewPlayInputError("Those expansions aren't ones Voydex knows.");
-  }
-
-  const startedOn = record.startedOn;
-
-  if (
-    typeof startedOn !== "string" ||
-    !dayPattern.test(startedOn) ||
-    !isRealDay(startedOn)
-  ) {
-    throw new NewPlayInputError("The start day isn't a real date.");
-  }
-
-  return {
-    expansionVersionGroupIds: [...new Set(expansions)],
-    gameSlug,
-    partner: parsedPartner,
-    playName:
-      readText(record.playName, "The Play name", 200) ?? defaultPlayName,
-    startedOn,
-    trainerName: readText(record.trainerName, "The trainer name", 120),
-  };
-};
+export const parseNewPlayInput = (raw: unknown): NewPlayInput =>
+  parseInput(
+    newPlayInputSchema,
+    raw,
+    (message) => new NewPlayInputError(message),
+  );

@@ -1,5 +1,7 @@
 "use server";
 
+import { z } from "zod";
+
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import {
   getLearnableMoveIds,
@@ -15,6 +17,11 @@ import {
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import {
+  parseInput,
+  positiveIntegerSchema,
+  slugSchema,
+} from "@/shared/utils/input-schemas";
 
 export type PlanMemberOptions = {
   /* Empty when the version group has no held items. */
@@ -27,7 +34,10 @@ export type PlanMemberOptionsResult =
   | { options: PlanMemberOptions; status: "success" }
   | { message: string; status: "error" };
 
-const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+const planMemberOptionsInputSchema = z.object({
+  formId: positiveIntegerSchema("That Pokémon isn't one Voydex knows."),
+  versionGroupSlug: slugSchema("That Pokémon isn't one Voydex knows."),
+});
 
 /*
  * The slot sheet loads a planned Pokémon's held items and moves when its
@@ -35,22 +45,15 @@ const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
  * when every game in it teaches it, and held items only when the group's
  * capability profile has them.
  */
-export const loadPlanMemberOptionsAction = async ({
-  formId,
-  versionGroupSlug,
-}: {
+export const loadPlanMemberOptionsAction = async (input: {
   formId: number;
   versionGroupSlug: string;
 }): Promise<PlanMemberOptionsResult> => {
   try {
-    if (
-      !Number.isInteger(formId) ||
-      formId < 1 ||
-      typeof versionGroupSlug !== "string" ||
-      !slugPattern.test(versionGroupSlug)
-    ) {
-      throw new Error("That Pokémon isn't one Voydex knows.");
-    }
+    const { formId, versionGroupSlug } = parseInput(
+      planMemberOptionsInputSchema,
+      input,
+    );
 
     const supabase = await createServerSupabaseClient();
 

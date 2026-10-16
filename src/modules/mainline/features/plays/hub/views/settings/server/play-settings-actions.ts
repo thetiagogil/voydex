@@ -1,11 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import {
+  parseInput,
+  positiveIntegerSchema,
+  uuidSchema,
+} from "@/shared/utils/input-schemas";
 
 import type { PlaySettingsChoice } from "../types";
 import {
@@ -34,6 +40,17 @@ export type PlaySettingsCreateResult =
   | { choice: PlaySettingsChoice; message: string; status: "success" }
   | { message: string; status: "error" };
 
+const expansionIdsSchema = z.array(
+  positiveIntegerSchema("Pick expansions from the list."),
+  { error: "Pick expansions from the list." },
+);
+const ruleIdsSchema = z.array(uuidSchema("Pick rules from the list."), {
+  error: "Pick rules from the list.",
+});
+const tagIdsSchema = z.array(uuidSchema("Pick tags from the list."), {
+  error: "Pick tags from the list.",
+});
+
 const success = (message: string): PlaySettingsActionResult => ({
   message,
   status: "success",
@@ -48,11 +65,8 @@ const failure = (
 });
 
 /* The owner's client and the Play's game, or an error the form can show. */
-const getOwnedPlay = async (playId: string) => {
-  if (!isUuid(playId)) {
-    throw new Error("A valid Play is required.");
-  }
-
+const getOwnedPlay = async (rawPlayId: string) => {
+  const playId = parseInput(playIdSchema, rawPlayId);
   const supabase = await createServerSupabaseClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
   const userId = claimsResult?.data?.claims?.sub;
@@ -100,16 +114,13 @@ export const updatePlayExpansionsAction = async ({
   versionGroupIds: number[];
 }): Promise<PlaySettingsActionResult> => {
   try {
-    if (
-      !Array.isArray(versionGroupIds) ||
-      versionGroupIds.some((id) => !Number.isInteger(id) || id <= 0)
-    ) {
-      throw new Error("Pick expansions from the list.");
-    }
-
+    const expansionIds = parseInput(expansionIdsSchema, versionGroupIds);
     const { play, supabase } = await getOwnedPlay(playId);
 
-    await updatePlayExpansions(supabase, { play, versionGroupIds });
+    await updatePlayExpansions(supabase, {
+      play,
+      versionGroupIds: expansionIds,
+    });
     revalidatePlay(playId);
 
     return success("Tracking saved");
@@ -127,13 +138,13 @@ export const updatePlayChallengeRulesAction = async ({
   ruleIds: string[];
 }): Promise<PlaySettingsActionResult> => {
   try {
-    if (!Array.isArray(ruleIds) || ruleIds.some((id) => !isUuid(id))) {
-      throw new Error("Pick rules from the list.");
-    }
-
+    const pickedRuleIds = parseInput(ruleIdsSchema, ruleIds);
     const { supabase } = await getOwnedPlay(playId);
 
-    await updatePlayChallengeRules(supabase, { playId, ruleIds });
+    await updatePlayChallengeRules(supabase, {
+      playId,
+      ruleIds: pickedRuleIds,
+    });
     revalidatePlay(playId);
 
     return success("Challenge rules saved");
@@ -212,13 +223,10 @@ export const updatePlayTagsAction = async ({
   tagIds: string[];
 }): Promise<PlaySettingsActionResult> => {
   try {
-    if (!Array.isArray(tagIds) || tagIds.some((id) => !isUuid(id))) {
-      throw new Error("Pick tags from the list.");
-    }
-
+    const pickedTagIds = parseInput(tagIdsSchema, tagIds);
     const { supabase, userId } = await getOwnedPlay(playId);
 
-    await updatePlayTags(supabase, { playId, tagIds, userId });
+    await updatePlayTags(supabase, { playId, tagIds: pickedTagIds, userId });
     revalidatePlay(playId);
 
     return success("Tags saved");

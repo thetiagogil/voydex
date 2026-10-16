@@ -1,3 +1,7 @@
+import { z } from "zod";
+
+import { parseInput } from "@/shared/utils/input-schemas";
+
 /* What the General section saves. */
 export type PlayGeneralSettingsInput = {
   name: string;
@@ -35,23 +39,50 @@ const isCalendarDate = (value: string) => {
   return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
 };
 
-const parseWholeNumber = (value: string, label: string, maximum: number) => {
-  const trimmed = value.trim();
+const toValidationError = (message: string) =>
+  new PlaySettingsValidationError(message);
 
-  if (!trimmed) {
-    return null;
-  }
+/* An optional whole number from 0 to `maximum`; empty is null. */
+const wholeNumberSchema = (label: string, maximum: number) => {
+  const message = `${label} must be a whole number from 0 to ${maximum.toLocaleString("en")}.`;
 
-  const number = Number(trimmed);
-
-  if (!Number.isInteger(number) || number < 0 || number > maximum) {
-    throw new PlaySettingsValidationError(
-      `${label} must be a whole number from 0 to ${maximum.toLocaleString("en")}.`,
+  return z
+    .string({ error: message })
+    .trim()
+    .transform((value) => (value ? Number(value) : null))
+    .refine(
+      (value) =>
+        value === null ||
+        (Number.isInteger(value) && value >= 0 && value <= maximum),
+      { error: message },
     );
-  }
-
-  return number;
 };
+
+const playGeneralSettingsSchema = (allowedStatusIds: readonly number[]) =>
+  z.object({
+    name: z
+      .string({ error: "Give the Play a name." })
+      .trim()
+      .min(1, { error: "Give the Play a name." })
+      .max(200, { error: "A Play's name can be 200 characters at most." }),
+    trainerName: z
+      .string({ error: "A trainer name can be 120 characters at most." })
+      .trim()
+      .max(120, { error: "A trainer name can be 120 characters at most." }),
+    startedOn: z
+      .string({ error: "Pick the day the Play started." })
+      .trim()
+      .refine((value) => !value || isCalendarDate(value), {
+        error: "Pick the day the Play started.",
+      }),
+    statusId: z
+      .number({ error: "Pick one of the statuses." })
+      .refine((id) => allowedStatusIds.includes(id), {
+        error: "Pick one of the statuses.",
+      }),
+    playtimeHours: wholeNumberSchema("Hours", 9999),
+    playtimeMinutes: wholeNumberSchema("Minutes", 59),
+  });
 
 /*
  * The General section as the database takes it: a name of 1 to 200
@@ -63,46 +94,23 @@ export const parsePlayGeneralSettings = (
   input: PlayGeneralSettingsInput,
   allowedStatusIds: readonly number[],
 ): PlayGeneralSettings => {
-  const name = input.name.trim();
-  const trainerName = input.trainerName.trim();
-  const startedOn = input.startedOn.trim();
-
-  if (!name) {
-    throw new PlaySettingsValidationError("Give the Play a name.");
-  }
-
-  if (name.length > 200) {
-    throw new PlaySettingsValidationError(
-      "A Play's name can be 200 characters at most.",
-    );
-  }
-
-  if (trainerName.length > 120) {
-    throw new PlaySettingsValidationError(
-      "A trainer name can be 120 characters at most.",
-    );
-  }
-
-  if (startedOn && !isCalendarDate(startedOn)) {
-    throw new PlaySettingsValidationError("Pick the day the Play started.");
-  }
-
-  if (!allowedStatusIds.includes(input.statusId)) {
-    throw new PlaySettingsValidationError("Pick one of the statuses.");
-  }
-
-  const hours = parseWholeNumber(input.playtimeHours, "Hours", 9999);
-  const minutes = parseWholeNumber(input.playtimeMinutes, "Minutes", 59);
+  const settings = parseInput(
+    playGeneralSettingsSchema(allowedStatusIds),
+    input,
+    toValidationError,
+  );
+  const hours = settings.playtimeHours;
+  const minutes = settings.playtimeMinutes;
 
   return {
-    name,
+    name: settings.name,
     playtime_minutes:
       hours === null && minutes === null
         ? null
         : (hours ?? 0) * 60 + (minutes ?? 0),
-    started_on: startedOn || null,
-    status_id: input.statusId,
-    trainer_name: trainerName || null,
+    started_on: settings.startedOn || null,
+    status_id: settings.statusId,
+    trainer_name: settings.trainerName || null,
   };
 };
 
@@ -122,21 +130,22 @@ export const diffIdSets = <TId>(
 export const parseSettingsChipName = (
   value: string,
   { label, maximum }: { label: string; maximum: number },
-) => {
-  const name = value.trim().replace(/\s+/g, " ");
-
-  if (!name) {
-    throw new PlaySettingsValidationError(`Give the ${label} a name.`);
-  }
-
-  if (name.length > maximum) {
-    throw new PlaySettingsValidationError(
-      `A ${label}'s name can be ${maximum} characters at most.`,
-    );
-  }
-
-  return name;
-};
+) =>
+  parseInput(
+    z
+      .string({ error: `Give the ${label} a name.` })
+      .transform((name) => name.trim().replace(/\s+/g, " "))
+      .pipe(
+        z
+          .string()
+          .min(1, { error: `Give the ${label} a name.` })
+          .max(maximum, {
+            error: `A ${label}'s name can be ${maximum} characters at most.`,
+          }),
+      ),
+    value,
+    toValidationError,
+  );
 
 /*
  * The stable key the database keeps beside a name: lowercase letters and

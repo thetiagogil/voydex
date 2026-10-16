@@ -1,4 +1,7 @@
+import { z } from "zod";
+
 import { isUuid } from "@/shared/utils/identifiers";
+import { parseInput } from "@/shared/utils/input-schemas";
 
 export const mainlineTeamRosterStates = {
   active: 1,
@@ -151,68 +154,65 @@ export type UpdateMainlinePlayPokemonInput = {
   notes: string | null;
 };
 
-const assertOptionalId = (value: number | null, label: string) => {
-  if (value !== null) {
-    assertIntegerInRange(value, label, 1, Number.MAX_SAFE_INTEGER);
-  }
+const optionalTextSchema = (label: string, maximum: number) =>
+  z
+    .string({ error: `${label} must be text.` })
+    .nullable()
+    .transform((value) => normalizeOptionalText(value))
+    .refine((value) => !value || value.length <= maximum, {
+      error: `${label} must be ${maximum} characters or fewer.`,
+    });
+
+const integerInRangeSchema = (
+  label: string,
+  minimum: number,
+  maximum: number,
+) => {
+  const message = `${label} must be an integer between ${minimum} and ${maximum}.`;
+
+  return z
+    .number({ error: message })
+    .int({ error: message })
+    .min(minimum, { error: message })
+    .max(maximum, { error: message });
 };
+
+const optionalIdSchema = (label: string) =>
+  integerInRangeSchema(label, 1, Number.MAX_SAFE_INTEGER).nullable();
 
 /*
  * The editor's fields as the database takes them: trimmed text within its
  * limits, levels from 1 to 100, real ids, and up to four distinct moves.
  */
+const updateMainlinePlayPokemonSchema = z.object({
+  nickname: optionalTextSchema("Nickname", 100),
+  metLocation: optionalTextSchema("Met location", 200),
+  notes: optionalTextSchema("Notes", 5000),
+  level: integerInRangeSchema("Level", 1, 100).nullable(),
+  metLevel: integerInRangeSchema("Met level", 1, 100).nullable(),
+  gender: z.enum(["female", "genderless", "male", "unknown"], {
+    error: "Pick a gender from the list.",
+  }),
+  natureId: optionalIdSchema("Nature"),
+  abilityId: optionalIdSchema("Ability"),
+  heldItemId: optionalIdSchema("Held item"),
+  ballItemId: optionalIdSchema("Poké Ball"),
+  moveIds: z
+    .array(integerInRangeSchema("Move", 1, Number.MAX_SAFE_INTEGER), {
+      error: "Pick moves from the list.",
+    })
+    .max(4, { error: "A team member can have at most four moves." })
+    .refine((moveIds) => new Set(moveIds).size === moveIds.length, {
+      error: "A move can only be known once.",
+    }),
+  isShiny: z.unknown().transform((value) => value === true),
+});
+
 export const validateUpdateMainlinePlayPokemon = (
   input: UpdateMainlinePlayPokemonInput,
-): UpdateMainlinePlayPokemonInput => {
-  const nickname = normalizeOptionalText(input.nickname);
-  const metLocation = normalizeOptionalText(input.metLocation);
-  const notes = normalizeOptionalText(input.notes);
-
-  assertOptionalTextLength(nickname, "Nickname", 100);
-  assertOptionalTextLength(metLocation, "Met location", 200);
-  assertOptionalTextLength(notes, "Notes", 5000);
-
-  if (input.level !== null) {
-    assertIntegerInRange(input.level, "Level", 1, 100);
-  }
-
-  if (input.metLevel !== null) {
-    assertIntegerInRange(input.metLevel, "Met level", 1, 100);
-  }
-
-  if (
-    input.gender !== "female" &&
-    input.gender !== "genderless" &&
-    input.gender !== "male" &&
-    input.gender !== "unknown"
-  ) {
-    throw new MainlineTeamValidationError("Pick a gender from the list.");
-  }
-
-  assertOptionalId(input.natureId, "Nature");
-  assertOptionalId(input.abilityId, "Ability");
-  assertOptionalId(input.heldItemId, "Held item");
-  assertOptionalId(input.ballItemId, "Poké Ball");
-
-  if (input.moveIds.length > 4) {
-    throw new MainlineTeamValidationError(
-      "A team member can have at most four moves.",
-    );
-  }
-
-  if (new Set(input.moveIds).size !== input.moveIds.length) {
-    throw new MainlineTeamValidationError("A move can only be known once.");
-  }
-
-  input.moveIds.forEach((moveId) => {
-    assertIntegerInRange(moveId, "Move", 1, Number.MAX_SAFE_INTEGER);
-  });
-
-  return {
-    ...input,
-    isShiny: input.isShiny === true,
-    metLocation,
-    nickname,
-    notes,
-  };
-};
+): UpdateMainlinePlayPokemonInput =>
+  parseInput(
+    updateMainlinePlayPokemonSchema,
+    input,
+    (message) => new MainlineTeamValidationError(message),
+  );
