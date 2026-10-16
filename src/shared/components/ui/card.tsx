@@ -9,7 +9,7 @@ import { cn } from "@/shared/utils/cn";
  * never pressed). Inside another card, a sheet or a dialog it goes flat.
  */
 const cardVariants = cva(
-  "group/card text-card-foreground flex flex-col gap-(--card-spacing) overflow-hidden rounded-2xl py-(--card-spacing) text-15 [--card-spacing:--spacing(5)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 sm:[--card-spacing:--spacing(6)] *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
+  "group/card text-card-foreground flex flex-col gap-(--card-spacing) overflow-hidden rounded-2xl py-(--card-spacing) text-15 [--card-spacing:--spacing(5)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] sm:[--card-spacing:--spacing(6)] *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
   {
     variants: {
       size: {
@@ -48,58 +48,6 @@ const Card = ({
   );
 };
 
-const CardHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn(
-        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
-const CardTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="card-title"
-      className={cn(
-        "font-display text-20 group-data-[size=sm]/card:text-17 leading-tight font-semibold tracking-[-0.01em]",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
-const CardDescription = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="card-description"
-      className={cn("text-14 text-ink-2 font-semibold", className)}
-      {...props}
-    />
-  );
-};
-
-const CardAction = ({ className, ...props }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="card-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
 const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   return (
     <div
@@ -110,26 +58,4 @@ const CardContent = ({ className, ...props }: React.ComponentProps<"div">) => {
   );
 };
 
-const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="card-footer"
-      className={cn(
-        "border-line bg-surface-2 flex items-center border-t p-(--card-spacing)",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
-export {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-  cardVariants,
-};
+export { Card, CardContent, cardVariants };

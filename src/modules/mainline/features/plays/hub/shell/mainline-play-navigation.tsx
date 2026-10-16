@@ -134,7 +134,6 @@ export const MainlinePlayNavigation = ({
           active={state.activeSection === "overview"}
           render={<Link href={appRoutes.mainlinePlay(playId)} />}
           className="justify-center px-4"
-          variant="tab"
         >
           Overview
         </NavigationMenuControlLink>
@@ -144,7 +143,6 @@ export const MainlinePlayNavigation = ({
         <NavigationMenuControlTrigger
           active={state.activeSection === "team"}
           className="px-4"
-          variant="tab"
         >
           <span className="max-w-48 truncate">{teamLabel}</span>
         </NavigationMenuControlTrigger>
@@ -170,7 +168,6 @@ export const MainlinePlayNavigation = ({
         <NavigationMenuControlTrigger
           active={state.activeSection === "progress"}
           className="px-4"
-          variant="tab"
         >
           <span className="max-w-48 truncate">{progressLabel}</span>
         </NavigationMenuControlTrigger>
@@ -192,7 +189,6 @@ export const MainlinePlayNavigation = ({
           active={state.activeSection === "history"}
           render={<Link href={appRoutes.mainlinePlayHistory(playId)} />}
           className="justify-center px-4"
-          variant="tab"
         >
           History
         </NavigationMenuControlLink>
@@ -203,7 +199,6 @@ export const MainlinePlayNavigation = ({
           active={state.activeSection === "settings"}
           render={<Link href={appRoutes.mainlinePlaySettings(playId)} />}
           className="justify-center px-4"
-          variant="tab"
         >
           Settings
         </NavigationMenuControlLink>

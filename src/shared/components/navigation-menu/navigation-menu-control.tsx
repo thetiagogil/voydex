@@ -12,7 +12,6 @@ type NavigationMenuControlTriggerProps = Omit<
 > & {
   active?: boolean;
   className?: string;
-  variant?: NavigationMenuControlVariant;
 };
 
 type NavigationMenuControlLinkProps = Omit<
@@ -21,35 +20,24 @@ type NavigationMenuControlLinkProps = Omit<
 > & {
   active?: boolean;
   className?: string;
-  variant?: NavigationMenuControlVariant;
 };
 
 /*
- * Pills: cream with no edge, and one selected style everywhere (the soft tint
- * of the context colour with deep ink). A Play's tabs use `tab`: the active
- * tab is the one place a control is filled in solid game colour.
+ * A Play's tabs: white on the Play's band, and the active tab is the one place
+ * a control is filled in solid game colour.
  */
-export type NavigationMenuControlVariant = "pill" | "tab";
-
 export const getNavigationMenuControlClassName = ({
   active = false,
   className,
-  variant = "pill",
 }: {
   active?: boolean;
   className?: string;
-  variant?: NavigationMenuControlVariant;
 }) => {
   return cn(
     "h-10 rounded-full px-0 text-14 font-bold text-ink-2 hover:text-ink",
-    variant === "pill" &&
-      (active
-        ? "bg-select-soft font-extrabold text-select-ink hover:bg-select-soft hover:text-select-ink"
-        : "bg-surface hover:bg-hover"),
-    variant === "tab" &&
-      (active
-        ? "bg-game-strong font-extrabold text-white hover:bg-game-strong hover:text-white focus:bg-game-strong data-popup-open:bg-game-strong data-popup-open:hover:bg-game-strong"
-        : "bg-white/65 hover:bg-white"),
+    active
+      ? "bg-game-strong font-extrabold text-white hover:bg-game-strong hover:text-white focus:bg-game-strong data-popup-open:bg-game-strong data-popup-open:hover:bg-game-strong"
+      : "bg-white/65 hover:bg-white",
     className,
   );
 };
@@ -57,7 +45,6 @@ export const getNavigationMenuControlClassName = ({
 export const NavigationMenuControlTrigger = ({
   active = false,
   className,
-  variant,
   ...props
 }: NavigationMenuControlTriggerProps) => {
   return (
@@ -66,7 +53,6 @@ export const NavigationMenuControlTrigger = ({
       className={getNavigationMenuControlClassName({
         active,
         className,
-        variant,
       })}
     />
   );
@@ -76,7 +62,6 @@ export const NavigationMenuControlLink = ({
   active = false,
   "aria-current": ariaCurrent,
   className,
-  variant,
   ...props
 }: NavigationMenuControlLinkProps) => {
   return (
@@ -86,7 +71,6 @@ export const NavigationMenuControlLink = ({
       className={getNavigationMenuControlClassName({
         active,
         className,
-        variant,
       })}
     />
   );
