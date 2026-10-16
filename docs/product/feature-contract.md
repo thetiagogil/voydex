@@ -1077,8 +1077,9 @@ Reference links remain distinct from personal mutations. As built, the page
 also shows the region the picked game is set in with its first partners
 (the leaders are pending data; Legends games leave them out) and the version
 exclusives: one column per game of the pair, the picked game first, counting
-only what each game gives you itself. Signed in, its head offers `Start a
-{Version} Play` and `Your Plays (N)`. Games Browse stays reference: one
+only what each game gives you itself. Its head has no actions; signed in,
+the last section, Your Plays, lists your Plays of these games with `Start a
+{Version} Play` and `Plan a team` beside its title. Games Browse stays reference: one
 toolbar row (Search, Kind, Group by generation or region, Sort) and no mark
 for the games you've played.
 

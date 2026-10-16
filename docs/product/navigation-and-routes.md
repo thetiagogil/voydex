@@ -227,8 +227,8 @@ Team menu's `Plan` reads the automatic comparison.
 ### Use Codex Context
 
 ```txt
-Codex game page -> Start a {Version} Play -> New Play (/mainline?new=)
-Codex game page -> Your Plays (N) -> a Play of this version group
+Codex game page -> Your Plays -> Start a {Version} Play -> New Play (/mainline?new=)
+Codex game page -> Your Plays -> a Play of this version group
 Codex Pokémon entry -> Add to a Play -> that Play's Roster with Add Pokémon
   open on the species (?add=, ?form=)
 Codex Pokémon entry -> In your Plays -> a Play's Roster on that Pokémon

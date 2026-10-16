@@ -1,6 +1,3 @@
-import Link from "next/link";
-import type { ReactNode } from "react";
-
 import { appRoutes } from "@/config/routes";
 import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
 import {
@@ -10,17 +7,10 @@ import {
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { buttonVariants } from "@/shared/components/ui/button";
 
 type GameDetailHeaderSectionProps = {
-  /*
-   * The route's leading actions, signed in: "Start a {Version} Play" (the
-   * main button) and "Your Plays". Plan a team then steps down.
-   */
-  actions?: ReactNode;
   data: CodexGameDetailData;
 };
 
@@ -41,13 +31,11 @@ const getGameEyebrow = ({ version }: CodexGameDetailData) => {
  * v3's version group header, on the page's band (the Codex stays neutral,
  * no game tint), centred as the Pokémon entry's hero is: the picked game's
  * cover, then the eyebrow, the group's title with the version switch under
- * it (as the form switch sits under a Pokémon's name), its description and
- * v3's three
- * actions: the route's (Start a Play, Your Plays) and Plan a team. The
- * Pokédexes right below are the way into the Pokémon.
+ * it (as the form switch sits under a Pokémon's name) and its description.
+ * No actions: starting a Play or planning a team waits in Your Plays at the
+ * page's end, and the Pokédexes right below are the way into the Pokémon.
  */
 export const GameDetailHeaderSection = ({
-  actions,
   data,
 }: GameDetailHeaderSectionProps) => {
   const { version, versionGroup, versions } = data;
@@ -97,22 +85,6 @@ export const GameDetailHeaderSection = ({
           label="About the games"
           note="A few lines on what sets these games apart."
         />
-        {/*
-         * The main button takes the phone's full width; the quieter ones
-         * share the line under it.
-         */}
-        <div className="mt-5 flex flex-wrap gap-2.5 *:flex-1 sm:*:flex-none">
-          {actions}
-          <Link
-            href={appRoutes.mainlinePlanNew(versionGroup.slug)}
-            className={buttonVariants({
-              variant: actions ? "outline" : "default",
-            })}
-          >
-            <AppIcon icon={appIcons.product.team} inline="start" aria-hidden />
-            Plan a team
-          </Link>
-        </div>
       </div>
     </section>
   );

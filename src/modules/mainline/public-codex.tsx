@@ -12,10 +12,10 @@ import {
 } from "@/modules/mainline/features/plays/browse/server/codex-plays-reader";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
 
 /*
  * Mainline's public entry for the Codex's signed-in pieces (v3 B20, B21):
@@ -202,7 +202,7 @@ export const CodexInYourPlays = async ({
   );
 };
 
-type CodexGamePlaysProps = {
+type CodexGameYourPlaysProps = {
   /* The game picked in the page's version switch, as "Sword". */
   gameShortName: string;
   gameSlug: string;
@@ -210,17 +210,18 @@ type CodexGamePlaysProps = {
 };
 
 /*
- * A game page's Mainline actions: "Start a {Version} Play" (New Play with
- * the game picked) and "Your Plays (N)", a menu of your Plays of this
- * version group.
+ * "Your Plays" on a game's page, its last section: your Plays of these games
+ * (either version), each opening on its Play, with "Start a {Version} Play"
+ * (New Play with the picked game) and Plan a team in line with the title.
  */
-export const CodexGamePlays = async ({
+export const CodexGameYourPlays = async ({
   gameShortName,
   gameSlug,
   versionGroupSlug,
-}: CodexGamePlaysProps) => {
+}: CodexGameYourPlaysProps) => {
   const library = await readCodexPlays();
 
+  /* A read failed: hide the card rather than claim "none yet". */
   if (!library) {
     return null;
   }
@@ -230,26 +231,50 @@ export const CodexGamePlays = async ({
   );
 
   return (
-    <>
-      <Link
-        href={appRoutes.mainlineNewPlay(gameSlug)}
-        className={cn(buttonVariants(), "w-full sm:w-auto")}
-      >
-        <AppIcon icon={appIcons.actions.create} inline="start" />
-        Start a {gameShortName} Play
-      </Link>
+    <DetailSectionCard
+      title="Your Plays"
+      aside={
+        plays.length
+          ? `${plays.length} of these games`
+          : "None of these games yet"
+      }
+      action={
+        <div className="flex flex-wrap gap-2">
+          <Link
+            href={appRoutes.mainlineNewPlay(gameSlug)}
+            className={buttonVariants({ size: "sm" })}
+          >
+            <AppIcon icon={appIcons.actions.create} inline="start" />
+            Start a {gameShortName} Play
+          </Link>
+          <Link
+            href={appRoutes.mainlinePlanNew(versionGroupSlug)}
+            className={buttonVariants({ size: "sm", variant: "outline" })}
+          >
+            <AppIcon icon={appIcons.product.team} inline="start" />
+            Plan a team
+          </Link>
+        </div>
+      }
+    >
       {plays.length ? (
-        <PlayPickerMenu
-          heading="Your Plays"
-          triggerLabel={`Your Plays (${plays.length})`}
-          items={plays.map((play) => ({
-            detail: play.statusName,
-            href: appRoutes.mainlinePlay(play.id),
-            id: play.id,
-            label: play.label,
-          }))}
-        />
-      ) : null}
-    </>
+        <ul className="grid">
+          {plays.map((play) => (
+            <TrainerPlayRow
+              key={play.id}
+              detail={getGameShortName(play.gameName)}
+              href={appRoutes.mainlinePlay(play.id)}
+              label={`Open ${play.label}`}
+              play={play}
+              shiny={false}
+            />
+          ))}
+        </ul>
+      ) : (
+        <p className="text-ink-2 text-15 font-semibold">
+          You haven&apos;t started a Play of these games yet.
+        </p>
+      )}
+    </DetailSectionCard>
   );
 };

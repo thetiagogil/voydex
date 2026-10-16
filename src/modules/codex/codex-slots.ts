@@ -51,9 +51,9 @@ export type CodexVersionGroupSlotContext = {
 
 export type CodexVersionGroupSlots = {
   /*
-   * The header's leading actions: v3's "Start a {Version} Play" (the page's
-   * main button) and the "Your Plays (N)" menu. When given, Browse Pokémon
-   * steps down to a secondary button.
+   * "Your Plays", the page's last section: your Plays of these games, with
+   * Start a {Version} Play and Plan a team in line with the title. The head
+   * carries no actions. Render a `DetailSectionCard`.
    */
-  headerActions?: (context: CodexVersionGroupSlotContext) => ReactNode;
+  yourPlays?: (context: CodexVersionGroupSlotContext) => ReactNode;
 };

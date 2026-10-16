@@ -130,7 +130,7 @@ the evidence for exact implementation details.
 - v3 additions: the game page's region with its first partners and its
   version exclusives, the entry's Training and breeding card, and the
   signed-in pieces Mainline fills through `codex-slots.ts` (Your Plays and In
-  your Plays on an entry, Start a {Version} Play and Your Plays on a game).
+  your Plays on an entry, the Your Plays section on a game).
   The lists never mark what you've played or used: the Codex is reference.
 
 ### Global Features

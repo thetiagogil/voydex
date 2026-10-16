@@ -14,7 +14,7 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
 import { PageBand } from "@/shared/components/page-band";
 
 type GameDetailPageProps = {
-  /* Signed-in pieces the route fills: Start a Play and Your Plays. */
+  /* Signed-in pieces the route fills: the Your Plays section. */
   slots?: CodexVersionGroupSlots;
   /* The game picked in the version switch. */
   versionSlug?: string;
@@ -46,21 +46,23 @@ export const GameDetailPage = async ({
             { label: getVersionGroupShortName(data.versionGroup.name) },
           ]}
         />
-        <GameDetailHeaderSection
-          data={data}
-          actions={slots?.headerActions?.({
+        <GameDetailHeaderSection data={data} />
+      </PageBand>
+      <GameDetailPokedexesSection data={data} />
+      <GameDetailRegionSection data={data} />
+      <GameDetailExclusivesSection exclusives={data.versionExclusives} />
+      <GameDetailRelatedGamesSection data={data} />
+      {slots?.yourPlays ? (
+        <div id="your-plays" className="mt-8 sm:mt-10">
+          {slots.yourPlays({
             gameName: data.version.game.name,
             gameShortName: getGameShortName(data.version.game.name),
             gameSlug: data.version.game.slug,
             versionGameSlugs: data.versions.map(({ game }) => game.slug),
             versionGroupSlug: data.versionGroup.slug,
           })}
-        />
-      </PageBand>
-      <GameDetailPokedexesSection data={data} />
-      <GameDetailRegionSection data={data} />
-      <GameDetailExclusivesSection exclusives={data.versionExclusives} />
-      <GameDetailRelatedGamesSection data={data} />
+        </div>
+      ) : null}
     </div>
   );
 };
