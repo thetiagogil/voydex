@@ -9,3 +9,6 @@ coverage
 package-lock.json
 src/shared/types/database.types.ts
 legacy
+e2e/.auth
+e2e/.report
+e2e/.results

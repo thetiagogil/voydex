@@ -16,6 +16,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run --pool=threads",
     "test:watch": "vitest --pool=threads",
+    "test:e2e": "playwright test",
+    "test:e2e:report": "playwright show-report e2e/.report",
     "docs:check": "node scripts/docs/check-docs.mjs",
     "design:check": "node scripts/design/check-design-leftovers.mjs",
     "architecture:check": "node scripts/check-architecture.mjs",
