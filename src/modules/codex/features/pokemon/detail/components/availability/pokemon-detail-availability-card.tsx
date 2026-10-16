@@ -66,7 +66,11 @@ export const PokemonDetailAvailabilityCard = ({
   scopeName,
 }: PokemonDetailAvailabilityCardProps) => {
   return (
-    <DetailSectionCard title="Where to find" aside={scopeName}>
+    <DetailSectionCard
+      id="where-to-find"
+      title="Where to find"
+      aside={scopeName}
+    >
       {rows.length ? (
         <dl>
           {rows.map((row) => (

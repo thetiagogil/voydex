@@ -19,8 +19,8 @@ type PokemonDetailHeadProps = {
 /*
  * v3's Codex head: the path back to Pokémon, ending in the Pokémon's name
  * (it opens the picker), and the generation pills on the right, level with
- * the path. The entry reads by generation; under the pills, quietly, the
- * games of it the Pokémon (or this form) is in, so a form found in one game
+ * the path. The entry reads by generation; under the pills, as quiet chips,
+ * the games of it the Pokémon (or this form) is in, so a form found in one game
  * only (Hisuian Arcanine in Legends: Arceus) says so.
  */
 export const PokemonDetailHead = ({
@@ -50,10 +50,19 @@ export const PokemonDetailHead = ({
           value={generationSlug}
         />
         {gameNames.length ? (
-          <p className="text-13 text-ink-3 font-semibold md:text-right">
-            <span className="text-ink-2 font-bold">In </span>
-            {gameNames.join(" · ")}
-          </p>
+          <div className="flex flex-wrap items-center gap-1.5 md:justify-end">
+            <span className="text-13 text-ink-3 mr-0.5 font-bold">In</span>
+            <ul className="contents">
+              {gameNames.map((gameName) => (
+                <li
+                  key={gameName}
+                  className="bg-surface/70 text-13 text-ink-2 inline-flex h-6.5 items-center rounded-full px-2.5 font-bold"
+                >
+                  {gameName}
+                </li>
+              ))}
+            </ul>
+          </div>
         ) : null}
       </div>
     </div>

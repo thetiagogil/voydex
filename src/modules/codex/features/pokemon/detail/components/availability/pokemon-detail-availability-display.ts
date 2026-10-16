@@ -5,6 +5,7 @@ import {
   getPokemonAvailabilityVersionGroups,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
+import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonAvailabilitySummary } from "@/modules/reference/types";
 
 export type PokemonDetailWhereToFindWay = {
@@ -108,7 +109,8 @@ export const getPokemonDetailWhereToFindRows = ({
       game.slug,
     ),
     key: `game-${game.id}`,
-    label: game.name,
+    /* "Sword", not "Pokémon Sword": the card names games, never anything else. */
+    label: getGameShortName(game.name),
     missingLabel,
     ways: getDistinctWays(
       baseRows.filter((row) => doesPokemonAvailabilityMatchGame(row, game)),

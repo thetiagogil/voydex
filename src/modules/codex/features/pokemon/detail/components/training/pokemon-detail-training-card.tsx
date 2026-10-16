@@ -31,7 +31,7 @@ const Fact = ({ children, label }: { children: ReactNode; label: string }) => {
  */
 export const PokemonDetailTrainingCard = () => {
   return (
-    <DetailSectionCard title="Training">
+    <DetailSectionCard id="training" title="Training">
       {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
         <Fact label="EV yield">
@@ -67,6 +67,7 @@ export const PokemonDetailBreedingCard = ({
 }: PokemonDetailBreedingCardProps) => {
   return (
     <DetailSectionCard
+      id="breeding"
       title="Breeding"
       contentClassName="flex flex-1 flex-col gap-3"
     >

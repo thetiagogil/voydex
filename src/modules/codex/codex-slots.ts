@@ -25,13 +25,14 @@ export type CodexPokemonEntrySlotContext = {
 
 export type CodexPokemonEntrySlots = {
   /*
-   * The hero's first action, before Favourite: v3's "Add to a Play", the
-   * page's main button.
+   * The hero's first action, before Favourite: "Your Plays (N)", the page's
+   * main button, a jump to the In your Plays section at the end.
    */
   heroActions?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
   /*
-   * v3's "In your Plays" section card (with its own empty state), beside
-   * Where to find. Render a `DetailSectionCard`.
+   * v3's "In your Plays" section card (with its own empty state and the
+   * Add to a Play menu), the page's last section. Render a
+   * `DetailSectionCard`.
    */
   inYourPlays?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
 };

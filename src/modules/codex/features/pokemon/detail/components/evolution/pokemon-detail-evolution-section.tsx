@@ -165,7 +165,7 @@ export const PokemonDetailEvolutionSection = ({
   } satisfies PokemonDetailEvolutionLinkScope;
 
   return (
-    <DetailSectionCard title="Evolution">
+    <DetailSectionCard id="evolution" title="Evolution">
       <div className="flex flex-col gap-6">
         {getPokemonDetailEvolutionTree(evolutionPaths).map((root) => (
           <EvolutionBranch key={root.key} linkScope={linkScope} node={root} />

@@ -30,6 +30,7 @@ export const PokemonDetailAbilitiesCard = ({
 }: PokemonDetailAbilitiesCardProps) => {
   return (
     <DetailSectionCard
+      id="abilities"
       title="Abilities"
       className="h-full"
       contentClassName="flex flex-1 flex-col gap-3"

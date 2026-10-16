@@ -151,6 +151,7 @@ export const PokemonDetailLearnsetsCard = ({
 
   return (
     <DetailSectionCard
+      id="learnset"
       title="Learnset"
       aside={groups.length > 1 ? undefined : scopeName}
       headerClassName="flex-wrap [&>div:last-child]:max-w-full [&>div:last-child]:shrink"

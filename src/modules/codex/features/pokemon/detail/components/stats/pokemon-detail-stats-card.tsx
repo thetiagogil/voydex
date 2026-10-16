@@ -31,6 +31,7 @@ export const PokemonDetailStatsCard = ({
 
   return (
     <DetailSectionCard
+      id="base-stats"
       title="Base stats"
       aside={generationName}
       style={getPokemonTypeCssVariables(type)}

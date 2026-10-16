@@ -224,8 +224,8 @@ describe("getPokemonDetailWhereToFindRows", () => {
     });
 
     expect(rows.map((row) => row.label)).toEqual([
-      "Pokémon sword",
-      "Pokémon shield",
+      "sword",
+      "shield",
       "The Isle of Armor",
     ]);
     expect(rows[0]?.ways.map((way) => way.label)).toEqual(["Wild"]);
@@ -250,7 +250,7 @@ describe("getPokemonDetailWhereToFindRows", () => {
     });
 
     expect(rows.map((row) => [row.label, row.missingLabel])).toEqual([
-      ["Pokémon brilliant-diamond", "Not in this game"],
+      ["brilliant-diamond", "Not in this game"],
     ]);
   });
 

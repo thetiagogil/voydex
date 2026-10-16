@@ -57,12 +57,18 @@ Important rules:
 - **Band:** the head and the hero sit on the page's sand band.
 - **Head:** the path back to Pokémon ending in the Pokémon's name, which opens
   the searchable species picker, and the generation pills on the right, with
-  a quiet line under them naming the generation's games the Pokémon (or this
-  form) is in ("In Legends: Arceus" for Hisuian Arcanine).
+  quiet chips under them naming the generation's games the Pokémon (or this
+  form) is in ("In [Legends: Arceus]" for Hisuian Arcanine).
+- **Section bar:** once the band scrolls away, a slim bar docks to the top
+  (as a Play's does) with the Pokémon and an index of its sections, the one
+  you're reading marked; each link jumps there. A section the page leaves out
+  has no link.
 - **Hero:** the art on its type tint in a 6px white rim on a lip of its type's
   shade (v3 `.cx-art`), beside the number, the name (the page's `h1`), the
   form switch, the types, the one sentence read from the data, and the
-  actions. The
+  actions. Signed in, the main action is "Your Plays (N)" ("Add to a Play"
+  with none), a jump to In your Plays at the page's end, which shows where
+  the Pokémon already is before its Add to a Play menu. The
   Pokédex's entries live per game in Pokédex numbers, not in the hero.
 - **Sections:** Abilities, Training and Breeding in one row from `xl`, then
   Base stats beside Type matchups (side by side from `lg`; every

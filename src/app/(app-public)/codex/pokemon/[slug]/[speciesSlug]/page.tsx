@@ -2,8 +2,8 @@ import { getSignedInAccount } from "@/features/app-shell/server/signed-in-accoun
 import type { CodexPokemonEntrySlots } from "@/modules/codex/codex-slots";
 import { PokemonDetailPage } from "@/modules/codex/features/pokemon/detail/pokemon-detail-page";
 import {
-  CodexAddToPlay,
   CodexInYourPlays,
+  CodexYourPlaysLink,
 } from "@/modules/mainline/public-codex";
 
 type PageProps = {
@@ -17,13 +17,10 @@ type PageProps = {
   }>;
 };
 
-/* Mainline's signed-in pieces: Add to a Play and In your Plays. */
+/* Mainline's signed-in pieces: Your Plays (a jump to the end) and In your Plays. */
 const signedInSlots: CodexPokemonEntrySlots = {
   heroActions: (entry) => (
-    <CodexAddToPlay
-      formSlug={entry.formSlug ?? undefined}
-      speciesSlug={entry.speciesSlug}
-    />
+    <CodexYourPlaysLink speciesSlug={entry.speciesSlug} />
   ),
   inYourPlays: (entry) => <CodexInYourPlays speciesSlug={entry.speciesSlug} />,
 };

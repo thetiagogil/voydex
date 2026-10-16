@@ -27,11 +27,6 @@ import { cn } from "@/shared/utils/cn";
 
 export { readPlayedGameCounts };
 
-type CodexAddToPlayProps = {
-  formSlug?: string;
-  speciesSlug: string;
-};
-
 const getAddItems = (
   plays: CodexPlay[],
   speciesSlug: string,
@@ -46,7 +41,7 @@ const getAddItems = (
 
 /*
  * The Plays this species can join (their Pokédex lists it), read once per
- * request for the hero and the In your Plays card.
+ * request for the In your Plays card.
  */
 const readAddablePlays = cache(
   async (speciesSlug: string): Promise<CodexPlay[] | null> => {
@@ -68,41 +63,51 @@ const readAddablePlays = cache(
 );
 
 /*
- * "Add to a Play", the entry hero's main button: a menu of your Plays whose
- * game has this species, each opening its Roster's Add Pokémon sheet on it
- * (and its form); with none, Start a Play.
+ * Every one of this species on your Plays' rosters, read once per request
+ * for the hero's button and the In your Plays card. Null when a read fails.
  */
-export const CodexAddToPlay = async ({
-  formSlug,
-  speciesSlug,
-}: CodexAddToPlayProps) => {
-  const plays = await readAddablePlays(speciesSlug);
+const readSpeciesMembers = cache(async (speciesSlug: string) => {
+  const library = await readCodexPlays();
 
-  if (!plays) {
+  if (!library) {
     return null;
   }
 
-  if (!plays.length) {
-    return (
-      <Link
-        href={appRoutes.mainlineNewPlay()}
-        className={buttonVariants({ size: "lg" })}
-      >
-        <AppIcon icon={appIcons.actions.create} inline="start" />
-        Start a Play
-      </Link>
-    );
+  const members = await readCodexSpeciesRoster(
+    library.supabase,
+    library.plays.map((play) => play.id),
+    speciesSlug,
+  );
+
+  return members ? { library, members } : null;
+});
+
+type CodexYourPlaysLinkProps = {
+  speciesSlug: string;
+};
+
+/*
+ * The entry hero's main button: "Your Plays (N)", N the Plays this species
+ * is on, or "Add to a Play" with none. Either way it jumps to the In your
+ * Plays section at the page's end, which shows where it already is before
+ * offering to add it, so nobody adds it twice by accident.
+ */
+export const CodexYourPlaysLink = async ({
+  speciesSlug,
+}: CodexYourPlaysLinkProps) => {
+  const read = await readSpeciesMembers(speciesSlug);
+
+  if (!read) {
+    return null;
   }
 
+  const playCount = new Set(read.members.map((member) => member.play_id)).size;
+
   return (
-    <PlayPickerMenu
-      heading="Add to"
-      triggerLabel="Add to a Play"
-      triggerSize="lg"
-      triggerVariant="default"
-      items={getAddItems(plays, speciesSlug, formSlug)}
-      newPlay={{ href: appRoutes.mainlineNewPlay(), label: "Start a new Play" }}
-    />
+    <a href="#in-your-plays" className={buttonVariants({ size: "lg" })}>
+      <AppIcon icon={appIcons.product.play} inline="start" />
+      {playCount ? `Your Plays (${playCount})` : "Add to a Play"}
+    </a>
   );
 };
 
@@ -118,26 +123,18 @@ type CodexInYourPlaysProps = {
 export const CodexInYourPlays = async ({
   speciesSlug,
 }: CodexInYourPlaysProps) => {
-  const library = await readCodexPlays();
-
-  if (!library) {
-    return null;
-  }
-
-  const playById = new Map(library.plays.map((play) => [play.id, play]));
-  const [members, addablePlays] = await Promise.all([
-    readCodexSpeciesRoster(
-      library.supabase,
-      library.plays.map((play) => play.id),
-      speciesSlug,
-    ),
+  const [read, addablePlays] = await Promise.all([
+    readSpeciesMembers(speciesSlug),
     readAddablePlays(speciesSlug),
   ]);
 
-  /* The roster read failed: hide the card rather than claim "none yet". */
-  if (!members) {
+  /* A read failed: hide the card rather than claim "none yet". */
+  if (!read) {
     return null;
   }
+
+  const { library, members } = read;
+  const playById = new Map(library.plays.map((play) => [play.id, play]));
 
   const addAction = addablePlays?.length ? (
     <PlayPickerMenu

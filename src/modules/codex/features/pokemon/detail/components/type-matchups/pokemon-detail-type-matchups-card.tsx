@@ -95,10 +95,13 @@ export const PokemonDetailTypeMatchupsCard = ({
 
   return (
     <DetailSectionCard
+      id="type-matchups"
       title="Type matchups"
       aside={`When ${pokemonName} is hit`}
+      contentClassName="flex flex-1 flex-col"
     >
-      <dl>
+      {/* The rows share the card's height beside Base stats. */}
+      <dl className="flex flex-1 flex-col justify-between">
         <MatchupRow label="Weak to">
           <MatchupChips matchups={weaknesses} tone="weak" />
         </MatchupRow>

@@ -18,7 +18,7 @@ export const PokemonDetailPokedexNumbersCard = ({
   numbers,
 }: PokemonDetailPokedexNumbersCardProps) => {
   return (
-    <DetailSectionCard title="Pokédex numbers">
+    <DetailSectionCard id="pokedex-numbers" title="Pokédex numbers">
       <ul className="flex flex-col">
         {numbers.map((pokedexNumber) => (
           <li

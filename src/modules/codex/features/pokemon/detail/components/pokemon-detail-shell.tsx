@@ -15,6 +15,7 @@ import {
 import { PokemonDetailLearnsetsCard } from "@/modules/codex/features/pokemon/detail/components/learnsets/pokemon-detail-learnsets-card";
 import { PokemonDetailPokedexNumbersCard } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-card";
 import { getPokemonDetailPokedexNumbers } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
+import { PokemonDetailSectionBar } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-bar";
 import { PokemonDetailHead } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-head";
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-card";
 import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
@@ -158,39 +159,48 @@ export const PokemonDetailShell = ({
 
   return (
     <div className="flex min-w-0 flex-col">
-      <PageBand>
-        <PokemonDetailHead
-          activePokemon={{ name: data.species.name, slug: data.species.slug }}
-          activeVersionGroupSlug={activeVersionGroup.slug}
-          gameNames={scope.generationLearnsets.flatMap(
-            ({ isFound, versionGroup }) =>
-              isFound
-                ? [getVersionGroupShortName(versionGroup.versionGroup.name)]
-                : [],
-          )}
-          generationOptions={generationOptions}
-          generationSlug={generation.generation.slug}
-        />
+      <PokemonDetailSectionBar
+        imageUrl={getPokemonDetailFormImageUrl(form)}
+        name={pokemonName}
+        type={typeSlug}
+      >
+        <PageBand>
+          <PokemonDetailHead
+            activePokemon={{ name: data.species.name, slug: data.species.slug }}
+            activeVersionGroupSlug={activeVersionGroup.slug}
+            gameNames={scope.generationLearnsets.flatMap(
+              ({ isFound, versionGroup }) =>
+                isFound
+                  ? [getVersionGroupShortName(versionGroup.versionGroup.name)]
+                  : [],
+            )}
+            generationOptions={generationOptions}
+            generationSlug={generation.generation.slug}
+          />
 
-        <PokemonDetailHero
-          key={form?.form.id ?? data.species.id}
-          actions={slots?.heroActions?.(slotContext)}
-          activeFormSlug={form?.form.slug ?? null}
-          eyebrow={getPokemonDetailHeroEyebrow({ form, species: data.species })}
-          formSwitchOptions={getPokemonDetailFormSwitchOptions({
-            forms: scope.generationForms,
-            speciesName: data.species.name,
-            speciesSlug: data.species.slug,
-          })}
-          imageAlt={getPokemonDetailFormImageAlt(form, data.species.name)}
-          imageUrl={getPokemonDetailFormImageUrl(form)}
-          name={pokemonName}
-          sentence={getPokemonDetailHeroSentence({ form, stats })}
-          shinyImageUrl={getPokemonDetailFormShinyImageUrl(form)}
-          typePair={form?.typePair ?? null}
-          typeSlug={typeSlug}
-        />
-      </PageBand>
+          <PokemonDetailHero
+            key={form?.form.id ?? data.species.id}
+            actions={slots?.heroActions?.(slotContext)}
+            activeFormSlug={form?.form.slug ?? null}
+            eyebrow={getPokemonDetailHeroEyebrow({
+              form,
+              species: data.species,
+            })}
+            formSwitchOptions={getPokemonDetailFormSwitchOptions({
+              forms: scope.generationForms,
+              speciesName: data.species.name,
+              speciesSlug: data.species.slug,
+            })}
+            imageAlt={getPokemonDetailFormImageAlt(form, data.species.name)}
+            imageUrl={getPokemonDetailFormImageUrl(form)}
+            name={pokemonName}
+            sentence={getPokemonDetailHeroSentence({ form, stats })}
+            shinyImageUrl={getPokemonDetailFormShinyImageUrl(form)}
+            typePair={form?.typePair ?? null}
+            typeSlug={typeSlug}
+          />
+        </PageBand>
+      </PokemonDetailSectionBar>
 
       {/*
        * Below the band, abilities, training and breeding in one row on wide
@@ -278,7 +288,7 @@ export const PokemonDetailShell = ({
           )}
           initialSlug={activeVersionGroup.slug}
         />
-        {inYourPlays}
+        {inYourPlays ? <div id="in-your-plays">{inYourPlays}</div> : null}
       </div>
     </div>
   );
