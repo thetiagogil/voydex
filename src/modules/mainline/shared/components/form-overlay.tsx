@@ -3,7 +3,7 @@
 import { useRef, type ReactNode } from "react";
 
 import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
-import { useDetailSheetLayout } from "@/modules/mainline/shared/hooks/use-detail-sheet-layout";
+import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import {

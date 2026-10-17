@@ -1,4 +1,4 @@
-import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/components/abilities/pokemon-detail-abilities-model";
+import type { PokemonDetailAbilitySlot } from "@/modules/codex/features/pokemon/detail/sections/abilities/pokemon-detail-abilities-model";
 import { PokemonDetailMechanicNoteCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-mechanic-note";
 import type { PokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";

@@ -209,25 +209,18 @@ the directed dependency on `reference`; consumers cannot reach into
 `reference/shared` internals; retired root-shared Pokemon/game paths are
 rejected; the retired Mainline `plays/detail` boundary and old species-only
 Pokemon compatibility route path are rejected; Client Components cannot import
-server queries/readers; and component folders cannot create database clients or
-perform raw schema reads. Add stricter rules only after the corresponding
+server queries/readers; component folders cannot create database clients or
+perform raw schema reads; and folders under `src/modules` and `src/features`
+use the closed folder vocabulary. Add stricter rules only after the corresponding
 migration phase is complete.
 
 ## Module And Feature Organization
 
 `features` is the normal root inside a product module because modules contain
-multiple views and capabilities. A module can also have these folders when a
-real cross-feature responsibility exists:
-
-- `shared`: module-owned UI or utilities reused by multiple features;
-- `domain`: module-wide business rules and entities;
-- `application`: module-wide use cases or commands;
-- `infrastructure`: module-specific adapters or repositories.
-
-These module-wide layers are exceptions for substantial responsibilities with
-independent reuse and review needs. Do not reproduce them as one-file folders
-inside every feature or leaf view. A small module containing only `features` is
-healthy.
+multiple views and capabilities. A module can also have a `shared` folder for
+module-owned UI or utilities reused by multiple features; only `reference`
+also has `domain` folders, for its game mechanics and type rules. A small
+module containing only `features` is healthy.
 
 The internal reference module currently uses this responsibility-driven shape:
 
@@ -388,7 +381,7 @@ feature-or-section/
   data/
   client/
   utils/
-  types/
+  types.ts
   <feature-entry>.tsx
 ```
 
@@ -396,16 +389,18 @@ Folders are not mandatory. A cohesive two-file feature should remain a
 two-file feature. Use `server` for actions, readers, commands, and repositories;
 use `utils` for small pure validation, formatting, or presentation helpers; and
 use `data` for substantial pure models, mappers, or selectors. Add
-`components` only when UI is reused across visible sections. Dedicated
-`domain`, `application`, or `infrastructure` folders remain valid for
-substantial module-wide responsibilities, but are not the default leaf-view
-shape.
+`components` only when UI is reused across visible sections. The folder names
+are closed: see Agreed Folder Names below.
 
 ### Agreed Folder Names
 
 [ADR 0007](../decisions/0007-development-workflow.md) closes the folder
-vocabulary inside feature slices. `architecture:check` enforces it once the
-redesign merges and the existing `hooks/` and `types/` folders are folded in.
+vocabulary inside feature slices, and `architecture:check` enforces it under
+`src/modules` and `src/features`. Any other kebab-case folder is a feature,
+view or section area; `client/`, `server/`, `data/` and `utils/` hold files
+only; retired names such as `hooks/`, `types/`, `__tests__/`, `lib/`,
+`helpers/`, `application/` and `infrastructure/` fail the check. Test helpers
+sit beside the tests that use them.
 
 | I am writing...                                 | It goes in                   |
 | ----------------------------------------------- | ---------------------------- |
@@ -423,7 +418,7 @@ redesign merges and the existing `hooks/` and `types/` folders are folded in.
 | An end-to-end test                              | `e2e/`                       |
 
 `domain/` stays only in `reference`; `shell/` and `views/` stay only in the
-Play Hub.
+Play Hub; `styles/` holds only the Pokémon type colour tokens.
 
 ## Reads, Writes, And File Responsibilities
 

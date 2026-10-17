@@ -1,4 +1,4 @@
-import type { PokemonDetailGenerationPokedexEntry } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailGenerationPokedexEntry } from "@/modules/codex/features/pokemon/detail/types";
 import type { PokemonPokedexSummary } from "@/modules/reference/types";
 import {
   formatPokedexName,

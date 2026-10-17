@@ -2,7 +2,7 @@ import {
   buildPokemonDetailVersionGroupScopes,
   getDefaultVersionGroup,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
-import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { ResolvedPokemonDetailScope } from "@/modules/codex/features/pokemon/detail/types";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import type { PokemonDetailData } from "@/modules/reference/types";

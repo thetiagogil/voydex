@@ -5,7 +5,7 @@ import {
   formatPlayMoment,
   type ViewerClock,
 } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 import type { StoryMilestone } from "../../types";

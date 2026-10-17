@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/components/availability/pokemon-detail-availability-display";
+import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/sections/availability/pokemon-detail-availability-display";
 import { resolvePokemonDetailScope } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope";
 import {
   buildPokemonDetailVersionGroupScopes,
