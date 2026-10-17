@@ -135,16 +135,25 @@ Voydex is quiet where you work and loud where you remember. The
 - Fredoka for headings 20px and up, the Play and trainer names and owned
   sticker names; Nunito for everything you operate. Nothing under 16px is
   Fredoka.
-- Loud only for identity and reward; chrome stays quiet. Selected rows, chips
-  and filter pills take `bg-select-soft text-select-ink`; a mode switch
-  (`SegmentedControl` `segment`) and a scope picker (which Pokédex, journey,
-  collectible set or version) take the strong context colour, as v3's
-  `.mode-seg` and `.pill.is-on`.
+- Loud only for identity and reward; chrome stays quiet. Colour follows
+  60-30-10: neutral ground, supporting tints, one accent for what matters,
+  and every text holds 4.5:1.
+- One component per family. Primitives in `src/shared/components/ui` are one
+  per job, edited in place; product components build on them and add
+  meaning; screens use one of the two and never re-type a component's
+  classes. If a screen needs more, the component gets the option.
+- No hard lips and no presses that move. Actions and owned Pokémon share the
+  sticker edge (a white band on a soft shadow); cards lift on soft shadows;
+  the one picked is a small sticker (`bubble`) and never changes weight.
+  Selected rows, chips and filter pills take `bg-select-soft
+text-select-ink`; a mode switch and a scope picker take the strong context
+  colour. Toolbars and form rows are 48px; below 1024px sheets open from the
+  bottom; confirms close only on an answer or Escape.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
-- Light mode only for now. Never reintroduce the retired design;
-  `npm run design:check` (part of `verify`) fails if anything retired is
-  referenced.
+- Light mode only for now. Never reintroduce a retired look;
+  `npm run design:check` (part of `verify`) fails on the journal design, hard
+  lips, presses that move, gradient fills and glass.
 
 ## Verification
 

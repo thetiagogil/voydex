@@ -34,28 +34,29 @@ Use the role tokens as Tailwind colours (`bg-surface`, `text-ink-2`,
 `bg-primary`) are aliases of the same values so the primitives keep working;
 new code prefers the role names.
 
-| Group          | Tokens                                                                                                                                              |
-| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ground and ink | `bg #F2EDE1`, `surface #FFFCF5`, `surface-2 #F7F1E4`, `hover`, `ink`, `ink-2`, `ink-3`, `on-ink`, `ink-tint` (secondary text on type or game tints) |
-| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                            |
-| Action         | `action #3B8360` and `action-lip`, `action-soft`, `link`, `focus`                                                                                   |
-| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`                                    |
-| Meadow         | `sky`, `hill`, `hill-2`                                                                                                                             |
-| Context        | `game`, `game-strong`, `game-soft`, `game-wash`, `game-lip`, `game-deep`, `select-soft`, `select-ink`                                               |
-| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                              |
-| Shadows        | `shadow-card` (clay edge), `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-action`, `shadow-game`                          |
-| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 44 60`; nothing under 12px                                                                                      |
-| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                       |
+| Group          | Tokens                                                                                                                                                              |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ground and ink | `bg #F2EDE1`, `surface #FFFCF5`, `surface-2 #F7F1E4`, `hover`, `ink`, `ink-2 #605545`, `ink-3 #6E6250`, `on-ink`, `ink-tint` (secondary text on type or game tints) |
+| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                                            |
+| Action         | `action #3B8360` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `link`, `focus`                                                                  |
+| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`                                                    |
+| Meadow         | `sky`, `hill`, `hill-2`                                                                                                                                             |
+| Context        | `game`, `game-strong`, `game-soft`, `game-wash`, `game-lip`, `game-deep`, `select-soft`, `select-ink`                                                               |
+| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                                              |
+| Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                      |
+| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 44 60`; nothing under 12px                                                                                                      |
+| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                                       |
 
 Every page, the top bar, the footer and the docked Play bar line up in the
 `page-column`. A page that opens on a band (the meadow on Mainline Home, the
 site's Home and Start a Play) wears `page-band` on it, through `MeadowScene`
 `form="band"`: the band runs the full width of the window and tucks under the
 transparent bar, which sits on its colour, while its copy stays in the page
-column. Home keeps the meadow; Plays (and its Archived view), the Team
-Planner, My Plans, Statistics, Collection and the Codex's game and Pokémon
-pages open on the lighter `PageBand` (on trial): their head section on warm sand
-(`band-sand`), flat colour only. The sand stays neutral so what each page shows
+column. Home keeps the meadow; every other page outside a Play opens on the
+lighter `PageBand`: Plays (and its Archived view), the Team Planner, My Plans,
+Statistics, Collection, the Codex's lists and its game and Pokémon pages, You
+and Settings. Their head section sits on warm sand (`band-sand`), flat colour
+only. The sand stays neutral so what each page shows
 (type-coloured stickers, covers) brings the colour. Game colour belongs inside
 a Play, so the Planner never takes the Plan's game; the game shows through its
 covers.
@@ -63,7 +64,14 @@ Nothing else breaks out of the column: the Play header is a card in
 it, and the docked Play bar spans the window with its content in the column.
 
 The action green holds 4.5:1 with white. Focus is always the action green
-outline, inside a Play too.
+outline, inside a Play too. Every text colour holds 4.5:1 on the ground it
+sits on (the muted inks on the sand band and the hover fill included), and
+the browser tests run axe's contrast rule on every page they visit.
+
+Colour follows the 60-30-10 rule: about 60% calm neutral ground (`bg`,
+`surface`), about 30% supporting colour (`surface-2`, the sand band, type and
+game tints), and about 10% accent kept for what matters: the one main action
+in green, the current pick, identity (the Play's game, your Pokémon).
 
 ## Type
 
@@ -79,11 +87,11 @@ outline, inside a Play too.
 
 ## Loudness Budget
 
-| Level  | For                                                    | May use                                                                                                                   |
-| ------ | ------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| Loud   | Identity and reward: the Play, what you own and earned | Game fill, stickers, tilt (stamps only), coloured lips, gold, slap and pop, dotted texture (Play header only), the meadow |
-| Lively | Pokémon themselves                                     | Type colours, art on its type-tint circle, type dots and chips                                                            |
-| Quiet  | Everything you operate and the chrome around content   | Cream surfaces, the 3px clay edge, ink, Nunito, the one action green, the soft selected tint, space between rows          |
+| Level  | For                                                    | May use                                                                                                     |
+| ------ | ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
+| Loud   | Identity and reward: the Play, what you own and earned | Game fill, stickers, tilt (stamps only), gold, slap and pop, dotted texture (Play header only), the meadow  |
+| Lively | Pokémon themselves                                     | Type colours, art on its type-tint circle, type dots and chips                                              |
+| Quiet  | Everything you operate and the chrome around content   | Cream surfaces, soft shadows, ink, Nunito, the one action green, the soft selected tint, space between rows |
 
 - One loud kind per section, plus the page's main button. Chrome is never the
   loud thing.
@@ -105,8 +113,10 @@ outline, inside a Play too.
   medallion). **Accent** elsewhere in a Play: progress bars, the
   next-milestone border, selection borders, eyebrows. Never the background of
   a card, row, section or input.
-- **Selected controls**: rows, chips and filter pills take `bg-select-soft
-text-select-ink` (the soft tint of the context colour with deep ink). A mode
+- **Selected controls**: the one picked is a small sticker, its fill in a
+  white band (`bubble`), and its weight never changes. Rows, chips and filter
+  pills take `bg-select-soft text-select-ink` (the soft tint of the context
+  colour with deep ink); menu and select rows take the tint with a check. A mode
   switch (`SegmentedControl` `segment`, v3's `.mode-seg`) takes `game-strong`
   with a white label: the game colour inside a Play, the action green outside
   one. A scope picker (pills choosing which part you look at: a Pokédex, a
@@ -138,23 +148,30 @@ text-select-ink` (the soft tint of the context colour with deep ink). A mode
 - **Gold** is for what you earned: League stamps, milestones that aren't
   badges, collectibles found.
 
-## Edges
+## Depth
 
-- **Coloured lip (loud)** only on the main button (5px action lip that presses
-  down), the Play header and docked bar (5px game lip), Story's next-milestone
-  row, and things you own (stickers, roster tiles, caught Pokémon cards,
-  stamps, found collectibles, the trainer card) plus the small lip under
-  medallions.
-- **Clay edge (quiet material)**: a section card on the page ground has a 3px (settled 2026-10-13 against v3's 4px)
-  neutral edge (`shadow-card`, `--clay-edge`). It never moves when pressed and
-  never takes game, type or gold colour. It drops when a card sits inside
-  another card, a sheet or a dialog (`Card` handles this), and grid items you
-  don't own get a 1px line instead.
-- **Quiet lip**: secondary buttons are v3's `.btn-2` (settled 2026-10-13):
-  no line, a 3px neutral lip (`shadow-quiet`) that presses away, cream on the
-  page and the inset fill inside a card or dialog.
-- **Flat**: ghost, link and danger buttons, dialogs, sheets and menus (overlay
-  or float shadow only), pills, chips and pickers.
+Nothing has a hard bottom edge, and nothing moves down when pressed (settled
+2026-10-17, replacing the raised "clicky" look). `npm run design:check` fails
+on a hard lip, a press that moves, a gradient fill or glass.
+
+- **Sticker edge (the one language)**: what you own and what you press share
+  it. An owned Pokémon is a `sticker`: its type tint in a 4px white border on
+  a soft shadow. A button that does something (`default`, `secondary`,
+  `destructive`, `tint`) is a small sticker: its colour, a white band (3px,
+  2px on small buttons), a near-white keyline so the band still shows on a
+  white card (`--button-keyline`), and a soft shadow that shrinks when pressed
+  (`shadow-button`, `shadow-button-pressed`), so it settles onto what it sits
+  on. A pick (a segment, a Play tab, a chip) and a small corner mark take the
+  same idea at their size (`bubble`).
+- **Soft shadow (quiet material)**: a section card, the Play header and the
+  docked bars lift on a soft shadow (`shadow-card`, `shadow-float`), never a
+  lip. A card goes flat inside another card, a sheet or a dialog (`Card`
+  handles this); grid items you don't own get a 1px line instead.
+- **The one exception**: the moment medallions and the badge stamps keep
+  their small lip under a white band and a soft rim, the middle ground the
+  stickers and buttons were set against.
+- **Flat**: `ghost` and `soft` buttons, links, dialogs, sheets and menus
+  (overlay or float shadow only), unpicked pills and chips.
 
 ## Motion
 
@@ -166,13 +183,18 @@ bounce. `app-base.css` honours reduced motion.
 
 ## Components
 
-Restyled primitives under `src/shared/components/ui` keep their names and APIs:
-`Button` (default is the main button; `outline` is the quiet button with
-its 3px neutral lip; `ghost` and `link` are flat; `destructive` is the danger
-outline; `tint` is a quiet action on a tinted band, such as a sheet's head; the default size is v3's `.btn.sm`,
-44px with 14.5px text, also for the main button under a meadow and in
-dialogs), `Card` (`default` clay edge,
-`inset`, `interactive`, `bare`), `Badge`, `Dialog`, `Sheet`, `DropdownMenu`,
+Restyled primitives under `src/shared/components/ui` keep their names:
+`Button` (actions are stickers: `default` is the page's main action in the
+one green, `secondary` the quiet action, `destructive` a quiet action that
+removes something, `tint` an action on a tinted band such as the Play header
+or a sheet's head; `soft` is the flat close and minor action, `ghost` a flat
+choice that shows `aria-pressed`. Sizes are one scale: `default` 48px, as tall
+as a field, `sm` 36px inside cards and rows, `lg` 56px for a page's one call to
+action; `icon`, `icon-sm`, `icon-xs` and `icon-lg` are round. Words that go
+somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
+`interactive`), `Badge` (tones `neutral`, `outline`, `ok`, `warn`, `calm`,
+`danger`, `gold`, `tint`, `game`, `paper`; sizes `xs`, `sm`, `md`), `Dialog`,
+`Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
 `Switch`, `Progress` (how far along, in the context colour),
 `NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
@@ -203,8 +225,8 @@ Voydex components:
 | Component                                  | Where                                                                          | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | ------------------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | App bars                                   | `src/features/app-shell/components/navigation`                                 | v3's top bar, the phone and tablet bottom bar, the account and public menus (see [Navigation And Routes](../product/navigation-and-routes.md))                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| Play header and docked bar                 | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx`   | Game fill, dotted texture, Fredoka name, cover, game lip                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| Play tabs                                  | `mainline-play-navigation.tsx`                                                 | `NavigationMenuControl*` with `variant="tab"`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| Play header and docked bar                 | `modules/mainline/.../hub/shell/top-section`, `mainline-play-docked-bar.tsx`   | Game fill, dotted texture, Fredoka name, cover, on a soft shadow                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Play tabs                                  | `mainline-play-navigation.tsx`                                                 | `NavigationMenuControl*`: white tabs on the Play's band, the active one a small sticker in `game-strong`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `PokemonCard`                              | `modules/reference/features/pokemon/components/pokemon-card.tsx`               | The one Pokémon card (its name wraps to two lines): `plain`, `caught` (with a Poké Ball), `seen` (with an eye), `missing`; sizes `md`, `sm`, `fluid`. The public pages draw it too, through `publicArt`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | `PokemonTile`                              | `.../pokemon/components/pokemon-tile.tsx`                                      | A Pokémon shown for who it is, as a link: art and name, no number or type dots. `quiet` (v3's exclusives tile: white circle on sand) and `type` (v3's starter tile on its type's tint). Use it where the card's details would be noise                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | `PokemonSticker`, `PokemonEmptySlot`       | `.../pokemon/components/pokemon-sticker.tsx`                                   | Owned Pokémon, drawn with the `sticker` utility (the Team Planner's team also uses it until the Pokémon pieces are rebuilt). `default` art hops on hover; `compact` fills roster grids with slot and shiny marks and can be a picked button (`selected` is only announced; the detail beside the grid shows which one). `PokemonEmptySlot` is the open slot, drawn with `empty-slot`                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -231,7 +253,13 @@ Voydex components:
 | `Carousel`                                 | `src/shared/components/carousel.tsx`                                           | v3's sideways shelf for every row of covers (`GameShelfPicker`, Home's Plays): the scroller itself (a `div`, or a list through `render={<ul />}`, keeping the caller's role, ref and keys), no scrollbar, centred while it fits, room above for a picked cover to stand up; `density` `compact` (the picker) or `roomy` (Home), `fadeEdges`, `snap`. Earlier and Later page through it on wider screens: `initialEdges` sets them for the first paint from where it opens, then each shows while there is more that way (both go when it all fits) and hands focus to the end item before it goes. Phones swipe. Tab strips and pill rows don't use it                                                                                                                |
 | `ProgressDonut`                            | `src/shared/components/progress-donut.tsx`                                     | A ring in the context colour with the Fredoka percentage in its middle (`role="meter"`); Overview's Story, Pokédex and Collectibles tiles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `ExplanatoryTip`                           | `src/shared/components/explanatory-tip.tsx`                                    | The reason behind a figure: an "i" dot (`dot` inset, `raised` beside a control) or a custom trigger, opening an ink popover on hover, focus or press (pinned on press)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| `StatusBadge`                              | `src/shared/components/status-badge.tsx`                                       | Small meaning marks                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `StatusBadge`                              | `src/shared/components/status-badge.tsx`                                       | A meaning on `Badge`: its tone and a dot in the meaning's own colour (`dot={false}` where an icon leads). A Play's status everywhere through `getPlayStatusTone`: playing ok, paused warn, completed calm, abandoned danger                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `TextLink`                                 | `src/shared/components/text-link.tsx`                                          | The one text link: green and extrabold, underlined under the pointer; `quiet` (footer, breadcrumb) and `onInk` (inside an ink tip) tones; `arrow` `back` or `forward` makes it a link of its own (36px, as `SectionMoreLink`); without `href` it is a button that reads as a link, such as "See all"                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `ChoiceChip`                               | `src/shared/components/choice-chip.tsx`                                        | One choice in a set you can pick several of (expansions, challenge rules, tags, a Plan slot's role): a 40px pill, `lg` 48px beside fields; picked, the selected tint in a white band with a check; `add` is the dashed chip that adds another                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `PickedMark`                               | `src/shared/components/picked-mark.tsx`                                        | The check on the one picked picture (a game's cover, a Play on Home's shelf): a green disc in a white band in its top-right corner                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `CornerBubble`                             | `src/shared/components/corner-bubble.tsx`                                      | Where a card's small marks sit (an "i" tip, a slot number, the remove ×), drawn with the `bubble` utility: `top-right`, `top-left`, `inside-top-right` (where a list clips its edges), `bottom`. `CornerRemoveButton` is the remove × on it                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `RecordMilestoneButton`                    | `.../plays/shared/components/record-milestone-button.tsx`                      | The one button that records a Story milestone (Overview's next objective, the partner hero, Story's panel): the main action led by a check, `lg` or `sm`, `href` for a choice that opens Story's form, `pending` with a spinner                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Type matchups                              | `src/modules/mainline/shared/components`                                       | One set of matchup pieces for a Play's Team analysis and the Planner's Team check, from one row shape (`data/type-matchup-rows.ts`): `TypeMatchupCell`, `TypeMatchupLegend`, `TypeMatchupPressureTag`, `TypeName`, `MatchupMemberSprite`, `DefensiveMatchupsTable` (sortable from its headers when given `onSortChange`), `DefensiveMatchupsList` (phones) and `TypeCoverageChip`                                                                                                                                                                                                                                                                                                                                                                                     |
 | `EmptyState`                               | `src/shared/components/empty-state.tsx`                                        | `card` (default): one sentence, at most two actions, one Pokémon on grass when `artUrl` is given; `bare`: one quiet centred sentence with no card. `headingLevel="h2"` where it stands in for a page                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `SystemState`, `ErrorPage`                 | `src/features/system/components/system-state.tsx`, `error-page.tsx`            | Not-found and error pages: centred Fredoka title, one sentence, at most two actions, optional Pokémon on grass. `ErrorPage` is every `error.tsx` boundary's page (signed in, Codex, Log in, site): the error reference, Try again and Back home (`homeHref`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `PageHeader`                               | `src/shared/components/page-header.tsx`                                        | Every page head: Fredoka title, one line, an optional action; `headingLevel` `h1` (default) or `h2` where the page already has its `h1`, such as a Play tab                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -249,7 +277,7 @@ Voydex components:
 | `SearchSelect`                             | `src/shared/components/search-select.tsx`                                      | A searchable pick from a long list on the shared `Combobox` (held items, moves), with an optional `detail` line; clearing leaves it empty. The roster editor and the Planner's slot sheet                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `PasswordInput`                            | `src/shared/components/password-input.tsx`                                     | A password field with a Show and Hide toggle, on `InputGroup`. Log in, Sign up, New password and Change password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `PendingData`                              | `src/shared/components/pending-data.tsx`                                       | Where a v3 piece goes whose data Voydex doesn't have yet (see below): `block` for a section or card body (an optional quiet `children` preview and a `note`), `inline` for one value or control; drawn with `empty-slot`, labelled "Not in Voydex yet" by default                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `TrainerCard`                              | `src/features/settings/components/trainer-card.tsx`                            | v3's trainer card, the one loud thing on You, Settings and Welcome: a 4px white border and a lip in your colour. On Settings it is the profile form                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `TrainerCard`                              | `src/features/settings/components/trainer-card.tsx`                            | v3's trainer card, the one loud thing on You, Settings and Welcome: a sticker, its 4px white border on a soft shadow, tinted by your colour. On Settings it is the profile form                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `GameCover`                                | `modules/reference/features/games/components/game-cover.tsx`                   | The one game cover: the box art, or the initials on the game colour when there is none or it fails; sizes `shelf` (the Codex card), `hero`, `header`, `dock`, `token`, and the carousel sizes `picker`, `pickerLarge` and `playShelf` (Home). In a carousel every cover stands the same height and takes its width from its box's shape, so the covers in one carousel never differ in height; with the game's `shape` (`square`, `landscape`, `portrait`, from its first platform) it holds that box on a quiet `surface-2` tint from the first paint and loads a copy sized for it through `next/image`; `eager` for covers in view when the shelf opens                                                                                                            |
 | `GameShelfPicker`                          | `modules/reference/features/games/components/game-shelf-picker.tsx`            | v3's cover shelf, the cover picker for starting a Play (Start a Play, Home's first Play, New Play; the Team Planner picks its game from a menu): every game in release order on one sideways row with generation marks to jump by, `coverSize` `md` or `lg`. A horizontal listbox: one tab stop, arrows, Home and End move, Enter or Space picks; the picked cover stands up with a check. It owns no background. Its row is a `Carousel`                                                                                                                                                                                                                                                                                                                             |
 | `MeadowScene`                              | `src/shared/components/meadow-scene.tsx`                                       | v3's meadow: copy on the sky, two hills, a `cast` on them and a `ground` row for the main button; `form` `band` (opens the page, edge to edge under the bar through `page-band`: Mainline Home, the site's Home, Start a Play) or `card` (New Play, the Intro); `tinted` leans it toward the game colour. A page's one loud thing; it owns no motion                                                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -270,12 +298,14 @@ with the heading inside (`DetailSectionCard`).
 
 The utilities in `app-utilities.css` carry the recipes features may need
 without the component: `sticker` (an owned thing's surface: type tint from
-`--t`, 4px white border, 5px tinted lip; override `--sticker-border`,
-`--sticker-lip`, `--sticker-shadow`) and `empty-slot` (the one open slot:
-2.5px dashed `dash`, no fill). Don't hand-roll either. `step-back` fades
-what belongs to another game than the one picked (the other version's
-exclusives, a game a Pokémon isn't in) and greys its art; it comes back on
-hover or focus. A detail panel that
+`--t`, a 4px white border on a soft shadow; override `--sticker-border` and
+`--sticker-shadow`; `sticker-picked` rings a drop target in the Play's
+colour), `bubble` (a small mark's white band and soft shadow: corner marks,
+picked pills and tabs) and `empty-slot` (the one open slot: 2.5px dashed
+`dash`, no fill). Don't hand-roll any of them. `step-back` fades and greys
+the art of what belongs to another game than the one picked (the other
+version's exclusives, a game a Pokémon isn't in) while its words stay
+readable; it comes back on hover or focus. A detail panel that
 follows the scroll beside a longer list (Story's panel, the Story matchups
 report, the roster panel) takes `sticky-panel` with `useStickyPanel`: it
 sticks under the docked bar when it fits, and when it is taller than the
@@ -298,9 +328,39 @@ There are no site-only stills: a public picture uses the app's own component.
 
 ## Component Rules
 
+- **One component per family, with variants.** Primitives in
+  `src/shared/components/ui` are one per job, edited in place (looks,
+  variants, sizes, slots), with no product logic and never a parallel
+  `MyButton`. Product components (`src/shared/components` or a module's
+  `components`) build on a primitive and add meaning. Screens use one of the
+  two and never re-type a component's classes: if a screen needs more, the
+  component gets the option. Inconsistency is a bug.
 - Use the primitives in `src/shared/components/ui` for buttons, inputs,
   selects, sheets, dialogs, menus and tabs. Use Base UI `render` composition;
   do not use Radix `asChild` unless a primitive supports it.
+- **48px rows**: anything in a toolbar or a form row is 48px (fields, select
+  triggers, `Button` default, segment tracks, `ChoiceChip` `lg`), so controls
+  side by side line up; 36-40px pills only where they stand alone. A set of
+  filters inside a toolbar is a `segment` track with `selectedTone="soft"`.
+- **Sheets**: below 1024px every sheet opens from the bottom
+  (`useBottomSheetLayout`, `BottomSheet`); from 1024px a detail opens beside
+  its list or as a side sheet. Every overlay closes from the same `soft`
+  `icon-sm` button in its top-right corner (16px in). A confirm (delete,
+  remove, mark incomplete) closes only on one of its buttons or Escape, never
+  on a tap outside (`AlertDialog`, or `BottomSheet` `role="confirm"`).
+- **Menus and selects** share one compact 44px row; the pick takes the
+  selected tint and a check, and two-line rows are only for an option that
+  needs its description.
+- **Stickers only for what you own.** A planned Pokémon (a Plan's team) is
+  the plain card or sits on its type's tint (`PokemonSticker` `planned`,
+  `PokemonSheetHead` `planned`). The picked Pokémon looks the same
+  everywhere: its type's tint with a border in its type's colour
+  (`pokemonCardPickedClassName` on a card, `selected` on a sticker), its slot
+  number top right where it has one.
+- **Every page opens on a band**: the meadow on Home and Start a Play, the
+  Play header in a Play, the sand `PageBand` everywhere else (lists, the
+  Codex, You, Settings). The top bar's sections sit on a white island
+  (`NavigationLinks`) so the bar stands apart from any page under it.
 - Before adding or materially styling a recurring pattern, inventory the
   primitives and the components above and reuse the closest one. Add a variant
   only for a materially different contract.
@@ -346,7 +406,11 @@ Play. Where a page reads data for you, say it in one specific sentence.
 
 ## Accessibility
 
-- Buttons and links need visible labels or accessible names.
+- Buttons and links need visible labels or accessible names, and a name
+  always starts with the words the control shows: add what it doesn't show
+  after them in `sr-only` text (a sticker's `detail`, a card link's `detail`),
+  never as an `aria-label` that reorders them. The browser tests run every
+  axe rule, label-in-name and contrast included.
 - Never rely on colour alone: stamps, medallions and Pokédex marks carry
   labels.
 - Check phone layouts for overflow and overlapping controls; tap targets stay
@@ -367,5 +431,12 @@ pages. Old parts were deleted as each screen moved over (Team History became
 History's Team filter); `npm run design:check` fails on any reference to the
 retired journal design. Where v3 needs data Voydex doesn't have, the screen
 shows `PendingData` (see above).
+
+Phase 4 (2026-10-17) rebuilt every component family on shared pieces and
+replaced the raised "clicky" look: actions and owned Pokémon share the
+sticker edge, cards lift on soft shadows, picks are small stickers, sheets
+open from the bottom below 1024px, toolbars and form rows line up at 48px,
+every page opens on a band, and the browser tests run every axe rule.
+`npm run design:check` also fails on the retired raised look.
 
 Dark mode, Skeletons and the real logo are deliberately not scheduled.

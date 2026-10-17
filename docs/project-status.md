@@ -25,8 +25,9 @@ phase is a GitHub milestone, and the to-do list lives in GitHub Issues (see
    their database client, multi-table writes as database functions, Zod input
    checks, the largest files split, the Feature Contract split per area.
 4. **Components**: every component family rebuilt on shared pieces, in the
-   component audit's order; each family's look is settled with the owner while
-   it is rebuilt (the raised "clicky" buttons and cards are replaced).
+   component audit's order (the raised "clicky" buttons and cards are
+   replaced). Built on `feat/component-rebuild` and waiting on the owner's
+   review: see the Next Chat Handoff.
 5. **Data and features**: the `TODO(v3-data)` placeholders get real data one
    section at a time, and the backlog features are built from their issues.
 6. **Ready for others**: security headers, Sentry, backups, a production
@@ -65,12 +66,25 @@ phase 6; the New Plan cache fix is parked on the local branch
 ## Next Chat Handoff
 
 On 2026-10-17 `main` was rebuilt so each pull request is one squash commit,
-and the repository now allows squash merges only. Phase 1 (tidy up, #52) and
-phase 2 (browser tests, #54) are merged. Phase 3 (restructure) is merged step
-by step: the folder vocabulary (#55), readers and commands that take their
-client (#56), Zod (#57), the largest files split (#58), and the multi-table
-writes as database functions, the last step. Phase 4 (components) is next. The
-old history is kept on the `backup/main-before-squash-20261016` tag.
+and the repository now allows squash merges only. Phases 1 to 3 are merged
+(#51 to #60). Phase 4 (components) is built on the branch
+`feat/component-rebuild`, one commit per slice, on top of the slice 0
+clean-up (#61), and waits on the owner's review before it is squashed:
+
+- **The look** (settled with the owner): nothing has a hard lip or a press
+  that moves. Actions and owned Pokémon share the sticker edge (colour, white
+  band, near-white keyline, soft shadow that settles when pressed); cards
+  lift on soft shadows; picks are small stickers; medallions and stamps keep
+  their small lip. Colour follows 60-30-10 and every text holds 4.5:1.
+- **The pieces**: `Button` (one 36/48/56 scale, round icons, `soft` close),
+  `Badge` and `StatusBadge` (tones and a dot; abandoned Plays are danger),
+  `TextLink`, `ChoiceChip`, `PickedMark`, `CornerBubble`,
+  `RecordMilestoneButton`, one 44px menu row, 48px toolbars and form rows,
+  bottom sheets below 1024px, and one set of type matchup pieces shared by
+  Team analysis and the Planner's Team check.
+- **Guard rails**: `design:check` fails on the retired raised look, the
+  component rule is in CLAUDE.md and the design system, and the browser tests
+  run every axe rule (#39).
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
@@ -79,10 +93,6 @@ confirm the linked Supabase migration list before any remote database write.
 
 ## Known Gaps
 
-- The browser tests skip two axe rules the app breaks in many places: colour
-  contrast (muted ink on sand, white on light type colours) and label-in-name
-  (stickers, cards and slots whose label leaves out part of their text). Both
-  are listed in `e2e/support/accessibility.ts` until fixed (issue #39).
 - The Team Planner saves through several writes, not one database function: a
   failed new Plan is deleted, and a failed edit restores the previous Plan.
   Creating a Play and recording a History moment have the same shape. Phase 3
