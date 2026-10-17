@@ -14,7 +14,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
+import { FieldLabel } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
@@ -283,12 +283,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         <div className="flex flex-col gap-4 px-5 pt-6 pb-2 sm:px-8">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <Label
-                htmlFor="new-play-name"
-                className="text-ink-2 text-13 font-bold"
-              >
-                Play name
-              </Label>
+              <FieldLabel htmlFor="new-play-name">Play name</FieldLabel>
               <Input
                 id="new-play-name"
                 value={playName}
@@ -298,12 +293,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label
-                htmlFor="new-play-trainer"
-                className="text-ink-2 text-13 font-bold"
-              >
-                Trainer name
-              </Label>
+              <FieldLabel htmlFor="new-play-trainer">Trainer name</FieldLabel>
               <Input
                 id="new-play-trainer"
                 value={trainerName}

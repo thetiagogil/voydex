@@ -62,8 +62,10 @@ export const PlayHistoryToolbar = ({
       trailing={
         <>
           <SegmentedControl
+            variant="segment"
+            selectedTone="soft"
             ariaLabel="Show"
-            className="no-scrollbar max-w-full flex-nowrap overflow-x-auto p-0.5 sm:flex-wrap sm:overflow-visible"
+            className="max-w-full"
             onValueChange={onFilterChange}
             options={filterOptions}
             value={filter}

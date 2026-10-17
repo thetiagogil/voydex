@@ -204,6 +204,8 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
         trailing={
           <>
             <SegmentedControl
+              variant="segment"
+              selectedTone="soft"
               ariaLabel="Show"
               value={filters.status}
               onValueChange={(status) => update({ status })}
@@ -258,9 +260,7 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
         <EmptyState
           variant="bare"
           title="No Plans match."
-          action={
-            <ClearFiltersButton variant="secondary" onClick={clearFilters} />
-          }
+          action={<ClearFiltersButton onClick={clearFilters} />}
         />
       )}
     </div>

@@ -100,6 +100,8 @@ export const CollectionBrowser = ({
         trailing={
           <>
             <SegmentedControl
+              variant="segment"
+              selectedTone="soft"
               ariaLabel="Show"
               value={filters.kind}
               onValueChange={(kind) => update({ kind })}
@@ -164,9 +166,7 @@ export const CollectionBrowser = ({
         <EmptyState
           variant="bare"
           title="Nothing matches."
-          action={
-            <ClearFiltersButton variant="secondary" onClick={clearFilters} />
-          }
+          action={<ClearFiltersButton onClick={clearFilters} />}
         />
       )}
 

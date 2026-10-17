@@ -183,6 +183,8 @@ export const PokemonDetailLearnsetsCard = ({
               className="min-w-0 flex-[1_1_100%] sm:flex-[1_1_220px]"
             />
             <SegmentedControl
+              variant="segment"
+              selectedTone="soft"
               ariaLabel="Filter moves by how they're learned"
               value={method}
               onValueChange={setMethod}

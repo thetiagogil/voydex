@@ -98,7 +98,6 @@ export const GamesToolbar = ({
           <SelectControl
             ariaLabel="Kind of game"
             variant="ghost"
-            size="sm"
             prefix="Kind"
             value={filters.kind || ALL_KINDS}
             onValueChange={(value) => {
@@ -110,7 +109,6 @@ export const GamesToolbar = ({
           <SelectControl
             ariaLabel="Group games by"
             variant="ghost"
-            size="sm"
             prefix="Group"
             value={groupBy}
             onValueChange={(value) => {
@@ -122,7 +120,6 @@ export const GamesToolbar = ({
           <SelectControl
             ariaLabel="Sort games"
             variant="ghost"
-            size="sm"
             prefix="Sort"
             value={sortOrder}
             onValueChange={(value) => {

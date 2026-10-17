@@ -144,7 +144,7 @@ export const PokemonDetailHero = ({
                 <span
                   role="img"
                   aria-label="Favourite, not in Voydex yet"
-                  className="empty-slot text-ink-3 grid size-11 place-items-center rounded-full"
+                  className="empty-slot text-ink-3 grid size-12 place-items-center rounded-full"
                 >
                   <AppIcon icon={appIcons.product.favourite} />
                 </span>

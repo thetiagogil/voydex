@@ -31,14 +31,18 @@ const buttonVariants = cva(
           "font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink aria-pressed:bg-select-soft aria-pressed:text-select-ink",
       },
       size: {
-        // v3 .btn.sm: the main button in cards, dialogs and under a meadow.
+        /*
+         * One scale: 48px is the default, as tall as a field, so a button
+         * lines up with what sits beside it in a form row or a toolbar; `sm`
+         * (36px) sits inside cards and rows; `lg` (56px) is a page's one call
+         * to action, such as Start a Play or Record on the next objective.
+         */
         default:
-          "h-11 gap-2 px-4 text-[14.5px] has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
+          "h-12 gap-2 px-4.5 text-[14.5px] has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
         sm: "h-9 gap-1.5 rounded-sm px-3 text-14 [--button-band:2px] has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
-        // A page's one call to action, such as Start a Play on the meadow.
-        lg: "h-13 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
-        icon: "size-11 rounded-full",
-        "icon-lg": "size-13 rounded-full [&_svg:not([class*='size-'])]:size-5",
+        lg: "h-14 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
+        icon: "size-12 rounded-full",
+        "icon-lg": "size-14 rounded-full [&_svg:not([class*='size-'])]:size-5",
         "icon-sm": "size-9 rounded-full [--button-band:2px]",
         "icon-xs":
           "size-7 rounded-full [--button-band:2px] [&_svg:not([class*='size-'])]:size-3.5",

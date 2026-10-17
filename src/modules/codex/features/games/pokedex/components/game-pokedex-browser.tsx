@@ -137,7 +137,6 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
             <SelectControl
               ariaLabel="Sort Pokémon"
               variant="ghost"
-              size="sm"
               prefix="Sort"
               value={sortKey}
               onValueChange={(value) => {
@@ -216,9 +215,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
                 ? "No Pokémon match that name, number, ability or type."
                 : "No Pokémon match that name, number or type."
             }
-            action={
-              <ClearFiltersButton variant="secondary" onClick={clearFilters} />
-            }
+            action={<ClearFiltersButton onClick={clearFilters} />}
           />
         )}
       </div>

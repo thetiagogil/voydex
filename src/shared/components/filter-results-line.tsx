@@ -64,7 +64,7 @@ export const FilterResultsLine = ({
         )}
       </p>
       {hasActiveFilters && shownCount ? (
-        <ClearFiltersButton onClick={onClearFilters} />
+        <ClearFiltersButton variant="ghost" onClick={onClearFilters} />
       ) : null}
     </div>
   );

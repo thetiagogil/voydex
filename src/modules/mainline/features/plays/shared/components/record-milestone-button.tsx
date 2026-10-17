@@ -34,7 +34,7 @@ export const RecordMilestoneButton = ({
 }: RecordMilestoneButtonProps) => {
   const classNames = cn(
     size === "lg" &&
-      "h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap",
+      "h-auto min-h-14 py-3 text-left whitespace-normal sm:whitespace-nowrap",
     className,
   );
   const content = (

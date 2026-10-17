@@ -193,7 +193,7 @@ export const MainlinePlayDetails = ({
       variant="tint"
       size="sm"
       aria-label="Play details"
-      className="max-sm:size-11 max-sm:rounded-full max-sm:p-0"
+      className="max-sm:size-12 max-sm:rounded-full max-sm:p-0"
     >
       <AppIcon icon={appIcons.status.info} className="sm:hidden" />
       <span className="max-sm:hidden">Play details</span>

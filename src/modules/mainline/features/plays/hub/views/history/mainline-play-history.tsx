@@ -157,9 +157,7 @@ export const MainlinePlayHistory = ({
           <EmptyState
             title="No moments match"
             description="Try another word, or clear the search and filters."
-            action={
-              <ClearFiltersButton variant="secondary" onClick={clearFilters} />
-            }
+            action={<ClearFiltersButton onClick={clearFilters} />}
           />
         ) : totalCount ? (
           <EmptyState

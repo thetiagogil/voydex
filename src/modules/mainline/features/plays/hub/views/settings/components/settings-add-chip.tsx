@@ -99,18 +99,12 @@ export const SettingsAddChip = ({
             close();
           }
         }}
-        className="h-10 min-w-0 flex-1 rounded-full sm:w-64 sm:flex-none"
+        className="min-w-0 flex-1 sm:w-64 sm:flex-none"
       />
-      <Button type="submit" size="sm" disabled={isAdding}>
+      <Button type="submit" disabled={isAdding}>
         Add
       </Button>
-      <Button
-        type="button"
-        size="sm"
-        variant="ghost"
-        disabled={isAdding}
-        onClick={close}
-      >
+      <Button type="button" variant="ghost" disabled={isAdding} onClick={close}>
         Cancel
       </Button>
       {error ? (
