@@ -112,11 +112,11 @@
    * sits on.
    */
   --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
-  --button-lift-value: 0 4px 10px -5px rgb(var(--shade) / 0.3);
-  --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.25);
-  --shadow-soft-value: 0 16px 26px -18px rgb(var(--shade) / 0.45);
+  --button-lift-value: 0 3px 8px -5px rgb(var(--shade) / 0.22);
+  --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.18);
+  --shadow-soft-value: 0 12px 22px -18px rgb(var(--shade) / 0.3);
   --shadow-cover-value: 0 10px 18px -10px rgb(var(--shade) / 0.5);
-  --shadow-float-value: 0 18px 34px -14px rgb(var(--shade) / 0.4);
+  --shadow-float-value: 0 14px 28px -16px rgb(var(--shade) / 0.3);
   --shadow-overlay-value: 0 30px 50px -20px rgb(var(--shade) / 0.45);
   /* Bars: a track pressed in at the top, a fill with a darker base. */
   --shadow-track-value: inset 0 2px 0 rgb(var(--shade) / 0.08);
@@ -290,8 +290,8 @@
   --shadow-track: var(--shadow-track-value);
   --shadow-fill: var(--shadow-fill-value);
   --shadow-card:
-    0 1px 2px rgb(var(--shade) / 0.06),
-    0 14px 30px -18px rgb(var(--shade) / 0.45);
+    0 1px 2px rgb(var(--shade) / 0.05),
+    0 10px 24px -18px rgb(var(--shade) / 0.28);
   /*
    * A button's sticker edge round its white band (the band is its border, so
    * it never eats the gap beside it): the keyline, then the soft lift.

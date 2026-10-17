@@ -120,6 +120,12 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   background of a card, row, section or input, and never an outline round a
   row (an accent outline reads as an error). Progress is green (`ok`), like
   an HP bar.
+- **Buttons are one family (2026-10-17)**: every size is the same pill, a link
+  styled as a button gets the same 3px white band (`buttonVariants` merges
+  its classes), close buttons in sheets and dialogs are `secondary` icon
+  buttons, and an action with a menu of other ways joins it in a
+  `ButtonGroup` (Random team, Record a milestone). `soft` is only a control
+  inside a field.
 - **Pickers are one family (2026-10-17)**: every select, dropdown menu,
   bar menu and searchable list opens the same white panel
   (`menuPanelClassName` in `ui/menu-surface.ts`, a hairline on the float
@@ -206,7 +212,7 @@ somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `danger`, `gold`, `tint`, `game`, `paper`; sizes `xs`, `sm`, `md`), `Dialog`,
 `Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
-`Switch`, `Progress` (how far along, in the ok green like an HP bar, never the red accent),
+`ButtonGroup`, `Switch`, `Progress` (how far along, in the ok green like an HP bar, never the red accent),
 `NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
 additions:
 

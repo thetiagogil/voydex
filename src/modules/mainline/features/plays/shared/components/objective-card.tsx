@@ -84,7 +84,7 @@ export const ObjectiveCard = ({
     {onClose ? (
       <Button
         type="button"
-        variant="soft"
+        variant="secondary"
         size="icon-sm"
         aria-label={closeLabel ?? "Close"}
         onClick={onClose}

@@ -2,6 +2,7 @@
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
+import { ButtonGroup } from "@/shared/components/ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,7 +53,10 @@ export const StoryMilestoneActions = ({
      * Random team offers its other ways).
      */
     return (
-      <div className={cn("flex w-full min-w-0 items-start gap-2", className)}>
+      <ButtonGroup
+        aria-label={`Record ${milestone.name}`}
+        className={cn("w-full min-w-0", className)}
+      >
         <RecordMilestoneButton
           disabled={!milestone.isAvailable}
           onClick={() => onAction("complete")}
@@ -85,7 +89,7 @@ export const StoryMilestoneActions = ({
             </DropdownMenuContent>
           </DropdownMenu>
         ) : null}
-      </div>
+      </ButtonGroup>
     );
   }
 

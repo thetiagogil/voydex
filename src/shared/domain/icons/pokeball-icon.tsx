@@ -56,6 +56,12 @@ export const PokeballIcon: LucideIcon = forwardRef<SVGSVGElement, LucideProps>(
         strokeLinejoin="round"
         {...props}
       >
+        {/* The top half is filled, as a real Poké Ball's red half. */}
+        <path
+          d="M3 12a9 9 0 0 1 18 0h-6a3 3 0 0 0-6 0Z"
+          fill={color}
+          stroke="none"
+        />
         <circle cx="12" cy="12" r="9" />
         <path d="M3 12h6" />
         <path d="M15 12h6" />

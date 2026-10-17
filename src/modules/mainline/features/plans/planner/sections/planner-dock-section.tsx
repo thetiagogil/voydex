@@ -20,6 +20,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { Button } from "@/shared/components/ui/button";
+import { ButtonGroup } from "@/shared/components/ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -135,7 +136,7 @@ export const PlannerDockSection = ({
             {filled} of 6
           </span>
           <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
-            <div className="flex items-center gap-1.5">
+            <ButtonGroup aria-label="Random team">
               <Button
                 type="button"
                 variant="secondary"
@@ -192,7 +193,7 @@ export const PlannerDockSection = ({
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
+            </ButtonGroup>
             <Button
               type="button"
               variant="secondary"

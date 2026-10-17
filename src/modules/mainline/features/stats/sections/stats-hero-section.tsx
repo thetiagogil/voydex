@@ -10,7 +10,6 @@ import {
 } from "@/modules/mainline/features/stats/data/stats-model";
 import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -182,8 +181,6 @@ export const StatsHeroSection = ({
   const hours = Math.round(stats.minutes / 60);
   const firstPlay = formatMonthYear(stats.firstStartedOn);
   const { title } = stats;
-  const typeSlug =
-    title.kind === "specialist" ? toTypeSlug(title.typeSlug) : null;
   const regionCovers = stats.regions.flatMap((region) =>
     region.playLabels.length && region.gameName
       ? [
@@ -215,17 +212,8 @@ export const StatsHeroSection = ({
             >
               You are {/^[aeiou]/i.test(title.title) ? "an" : "a"}
             </p>
-            <h1
-              style={
-                typeSlug ? getPokemonTypeCssVariables(typeSlug) : undefined
-              }
-              className={cn(
-                "md:text-60 text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]",
-                typeSlug && "type-ink",
-                title.kind === "hopper" && "text-calm-ink",
-                title.kind === "trainer" && "text-ball",
-              )}
-            >
+            {/* The title is ink: the art beside it carries the colour. */}
+            <h1 className="md:text-60 text-ink text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]">
               {title.title.split(" ").map((word, index) => (
                 <Fragment key={`${word}-${index}`}>
                   {index ? " " : null}

@@ -9,13 +9,14 @@ import { cva, type VariantProps } from "class-variance-authority";
  * sits on instead of moving. `default` is the page's main action in the one
  * action red; `secondary` is the quiet action; `destructive` is a quiet
  * action that removes something; `tint` sits on a tinted band (a sheet's
- * head, the Play header). `soft` and `ghost` stay flat: `soft` is a minor
- * action such as close, `ghost` sits in a row of choices and shows
+ * head, the Play header). `soft` and `ghost` stay flat: `soft` is a control
+ * inside a field (show or hide a password), `ghost` sits in a row of choices and shows
  * `aria-pressed`. Words that go somewhere are a `TextLink`, not a button.
- * Icon sizes are round.
+ * Every size has the same pill shape, so buttons, triggers and their
+ * groups (`ButtonGroup`) read as one family.
  */
-const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border-[1.5px] border-transparent font-sans whitespace-nowrap transition-[background-color,color,box-shadow] duration-120 ease-out outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+const buttonStyles = cva(
+  "group/button inline-flex shrink-0 items-center justify-center rounded-full border-[1.5px] border-transparent font-sans whitespace-nowrap transition-[background-color,color,box-shadow] duration-120 ease-out outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -39,13 +40,12 @@ const buttonVariants = cva(
          */
         default:
           "h-12 gap-2 px-4.5 text-15 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
-        sm: "h-9 gap-1.5 rounded-sm border-2 px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+        sm: "h-9 gap-1.5 border-2 px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-14 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
-        icon: "size-12 rounded-full",
-        "icon-lg": "size-14 rounded-full [&_svg:not([class*='size-'])]:size-5",
-        "icon-sm": "size-9 rounded-full border-2",
-        "icon-xs":
-          "size-7 rounded-full border-2 [&_svg:not([class*='size-'])]:size-3.5",
+        icon: "size-12",
+        "icon-lg": "size-14 [&_svg:not([class*='size-'])]:size-5",
+        "icon-sm": "size-9 border-2",
+        "icon-xs": "size-7 border-2 [&_svg:not([class*='size-'])]:size-3.5",
       },
     },
     defaultVariants: {
@@ -55,12 +55,20 @@ const buttonVariants = cva(
   },
 );
 
+/*
+ * The classes for anything that looks like a button, merged so a variant's
+ * band always wins over the base border (a link styled as a button keeps the
+ * same 3px band as a real one).
+ */
+const buttonVariants = (options?: Parameters<typeof buttonStyles>[0]) =>
+  cn(buttonStyles(options));
+
 const Button = ({
   className,
   variant = "default",
   size = "default",
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) => {
+}: ButtonPrimitive.Props & VariantProps<typeof buttonStyles>) => {
   return (
     <ButtonPrimitive
       data-slot="button"

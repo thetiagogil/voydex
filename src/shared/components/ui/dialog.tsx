@@ -59,7 +59,7 @@ const DialogContent = ({
       data-slot="dialog-close"
       render={
         <Button
-          variant="soft"
+          variant="secondary"
           size="icon-sm"
           className={cn(
             "absolute top-4 right-4",

@@ -66,7 +66,7 @@ const SheetContent = ({
             data-slot="sheet-close"
             render={
               <Button
-                variant="soft"
+                variant="secondary"
                 size="icon-sm"
                 className="absolute top-4 right-4"
               />

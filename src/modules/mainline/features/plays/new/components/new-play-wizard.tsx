@@ -239,7 +239,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         <Button
           type="button"
           size="icon-sm"
-          variant="soft"
+          variant="secondary"
           aria-label="Close New Play"
           onClick={onClose}
           className={closeClassName}
@@ -383,7 +383,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <Button
           type="button"
           size="icon-sm"
-          variant="soft"
+          variant="secondary"
           aria-label="Close New Play"
           onClick={onClose}
           className={closeClassName}
