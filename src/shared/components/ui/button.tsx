@@ -4,8 +4,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 /*
  * Every button is Nunito. Actions are small stickers, like the Pokémon
- * cards: their colour, a white band, a near-white keyline round it and a
- * soft shadow that shrinks when pressed, so the button settles onto what it
+ * cards: their colour inside a white band (3px, 2px on small buttons), a
+ * near-white keyline round it and a soft shadow that shrinks when pressed, so the button settles onto what it
  * sits on instead of moving. `default` is the page's main action in the one
  * action green; `secondary` is the quiet action; `destructive` is a quiet
  * action that removes something; `tint` sits on a tinted band (a sheet's
@@ -20,12 +20,12 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-action font-extrabold text-white shadow-button hover:bg-action-deep active:bg-action-lip active:shadow-button-pressed aria-expanded:bg-action-deep",
+          "border-3 border-white bg-action font-extrabold text-white shadow-button hover:bg-action-deep active:bg-action-lip active:shadow-button-pressed aria-expanded:bg-action-deep",
         secondary:
-          "bg-surface-2 font-bold text-ink shadow-button hover:bg-hover active:bg-lip active:shadow-button-pressed aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
+          "border-3 border-white bg-surface-2 font-bold text-ink shadow-button hover:bg-hover active:bg-lip active:shadow-button-pressed aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         destructive:
-          "bg-danger-soft font-extrabold text-danger-deep shadow-button hover:bg-danger-soft-2 active:shadow-button-pressed",
-        tint: "bg-white/70 font-extrabold text-ink shadow-button hover:bg-white active:shadow-button-pressed aria-expanded:bg-white",
+          "border-3 border-white bg-danger-soft font-extrabold text-danger-deep shadow-button hover:bg-danger-soft-2 active:shadow-button-pressed",
+        tint: "border-3 border-white bg-white/70 font-extrabold text-ink shadow-button hover:bg-white active:shadow-button-pressed aria-expanded:bg-white",
         soft: "bg-surface-2 font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
         ghost:
           "font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink aria-pressed:bg-select-soft aria-pressed:text-select-ink",
@@ -39,13 +39,13 @@ const buttonVariants = cva(
          */
         default:
           "h-12 gap-2 px-4.5 text-[14.5px] has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
-        sm: "h-9 gap-1.5 rounded-sm px-3 text-14 [--button-band:2px] has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+        sm: "h-9 gap-1.5 rounded-sm border-2 px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-14 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
         icon: "size-12 rounded-full",
         "icon-lg": "size-14 rounded-full [&_svg:not([class*='size-'])]:size-5",
-        "icon-sm": "size-9 rounded-full [--button-band:2px]",
+        "icon-sm": "size-9 rounded-full border-2",
         "icon-xs":
-          "size-7 rounded-full [--button-band:2px] [&_svg:not([class*='size-'])]:size-3.5",
+          "size-7 rounded-full border-2 [&_svg:not([class*='size-'])]:size-3.5",
       },
     },
     defaultVariants: {

@@ -93,9 +93,10 @@
 
   /*
    * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
-   * shadow. A button is a small sticker: its colour, a white band, then a
-   * near-white keyline so the band still shows on a white card, and a soft
-   * shadow that shrinks when pressed, so it settles onto what it sits on.
+   * shadow. A button is a small sticker: its colour inside a white band (its
+   * border), a near-white keyline so the band still shows on a white card,
+   * and a soft shadow that shrinks when pressed, so it settles onto what it
+   * sits on.
    */
   --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
   --button-lift-value: 0 4px 10px -5px rgb(60 45 20 / 0.3);
@@ -287,13 +288,11 @@
   --shadow-fill: var(--shadow-fill-value);
   --shadow-card:
     0 1px 2px rgb(90 70 35 / 0.06), 0 14px 30px -18px rgb(90 70 35 / 0.45);
-  /* A button's sticker edge: the white band (2px on small buttons), the keyline round it. */
-  --shadow-button:
-    0 0 0 var(--button-band, 3px) #fff,
-    0 0 0 calc(var(--button-band, 3px) + 1px) var(--button-keyline),
-    var(--button-lift-value);
+  /*
+   * A button's sticker edge round its white band (the band is its border, so
+   * it never eats the gap beside it): the keyline, then the soft lift.
+   */
+  --shadow-button: 0 0 0 1px var(--button-keyline), var(--button-lift-value);
   --shadow-button-pressed:
-    0 0 0 var(--button-band, 3px) #fff,
-    0 0 0 calc(var(--button-band, 3px) + 1px) var(--button-keyline),
-    var(--button-settle-value);
+    0 0 0 1px var(--button-keyline), var(--button-settle-value);
 }

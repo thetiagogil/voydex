@@ -37,7 +37,7 @@ export const PlanTeamStrip = ({
                 ? member.typeSlug
                 : null,
             )}
-            className="type-tint grid aspect-square place-items-center rounded-md"
+            className="type-tint grid aspect-square place-items-center overflow-hidden rounded-full"
           >
             {member.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -45,14 +45,14 @@ export const PlanTeamStrip = ({
                 src={member.imageUrl}
                 alt={member.name}
                 title={member.name}
-                className="size-full object-contain"
+                className="size-[88%] object-contain"
               />
             ) : (
               <span className="sr-only">{member.name}</span>
             )}
           </li>
         ) : (
-          <li key={index} className="empty-slot aspect-square rounded-md">
+          <li key={index} className="empty-slot aspect-square rounded-full">
             <span className="sr-only">Open slot {index + 1}</span>
           </li>
         ),
