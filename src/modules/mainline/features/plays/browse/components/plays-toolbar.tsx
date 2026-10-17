@@ -130,7 +130,7 @@ const PlaysFiltersSheet = ({
       description="Choose which Plays the list shows and their order."
       descriptionHidden
       trigger={
-        <Button type="button" variant="outline" className="sm:hidden">
+        <Button type="button" variant="secondary" className="sm:hidden">
           Filters
         </Button>
       }

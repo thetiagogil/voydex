@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/shared/components/ui/badge";
 import { useMemo, useState } from "react";
 
 import {
@@ -82,23 +83,17 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
             {learnset.move.name}
           </span>
           {addedContentName ? (
-            <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2 py-0.5 font-bold">
+            <Badge>
               {learnset.game ? null : (
                 <span className="sr-only">Added in </span>
               )}
               {addedContentName}
-            </span>
+            </Badge>
           ) : null}
         </span>
       </TableCell>
       <TableCell className="max-md:p-0">
-        {category ? (
-          <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2.5 py-0.75 font-bold">
-            {category}
-          </span>
-        ) : (
-          <MissingValue />
-        )}
+        {category ? <Badge>{category}</Badge> : <MissingValue />}
       </TableCell>
       <TableCell data-label="Power" className={figureCellClassName}>
         {formatPokemonDetailLearnsetValue(learnset.attributes?.power) ?? (

@@ -1,4 +1,5 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
+import { Badge } from "@/shared/components/ui/badge";
 import { getTeamPlanStatusLabel } from "../../team-plan-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -73,16 +74,12 @@ export const TeamPlanTargetCard = ({
           Target {comparison.slot}
         </span>
         {comparison.roleLabel ? (
-          <span
-            className={cn(
-              "text-12 text-ink-2 truncate rounded-full px-2.5 py-0.75 font-extrabold",
-              owned && "bg-white",
-              !owned && found && "bg-surface-2",
-              !found && "bg-surface",
-            )}
+          <Badge
+            variant={owned ? "paper" : found ? "neutral" : "outline"}
+            className="max-w-full truncate"
           >
             {comparison.roleLabel}
-          </span>
+          </Badge>
         ) : null}
       </span>
 

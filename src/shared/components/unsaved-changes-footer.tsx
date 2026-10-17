@@ -41,7 +41,7 @@ export const UnsavedChangesFooter = ({
     <Button
       type="button"
       size="sm"
-      variant="outline"
+      variant="secondary"
       disabled={isSaving}
       onClick={onCancel}
     >

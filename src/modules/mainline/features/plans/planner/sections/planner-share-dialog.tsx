@@ -88,7 +88,7 @@ export const PlannerShareDialog = ({
               onFocus={(event) => event.currentTarget.select()}
               className="text-14 min-w-0 flex-1 font-mono"
             />
-            <Button type="button" variant="outline" onClick={copy}>
+            <Button type="button" variant="secondary" onClick={copy}>
               Copy link
             </Button>
           </div>
@@ -113,7 +113,7 @@ export const PlannerShareDialog = ({
               onChange={(event) => setPasted(event.currentTarget.value)}
               className="min-w-0 flex-1"
             />
-            <Button type="submit" variant="outline" disabled={!pasted.trim()}>
+            <Button type="submit" variant="secondary" disabled={!pasted.trim()}>
               Import
             </Button>
           </div>

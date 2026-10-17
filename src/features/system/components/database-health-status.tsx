@@ -94,10 +94,10 @@ export const DatabaseHealthStatus = () => {
           render={
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               size="icon"
               aria-label="Database unavailable"
-              className="shadow-float relative rounded-full border-transparent"
+              className="relative"
             />
           }
         >

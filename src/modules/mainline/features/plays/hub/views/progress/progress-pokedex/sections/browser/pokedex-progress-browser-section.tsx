@@ -263,7 +263,7 @@ export const PokedexProgressBrowserSection = ({
           description={`No entries in ${scope.name} match the current filters.`}
           action={
             hasFilters ? (
-              <ClearFiltersButton variant="outline" onClick={resetFilters} />
+              <ClearFiltersButton variant="secondary" onClick={resetFilters} />
             ) : undefined
           }
         />

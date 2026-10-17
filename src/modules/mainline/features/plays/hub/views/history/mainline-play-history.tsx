@@ -158,7 +158,7 @@ export const MainlinePlayHistory = ({
             title="No moments match"
             description="Try another word, or clear the search and filters."
             action={
-              <ClearFiltersButton variant="outline" onClick={clearFilters} />
+              <ClearFiltersButton variant="secondary" onClick={clearFilters} />
             }
           />
         ) : totalCount ? (
@@ -168,7 +168,7 @@ export const MainlinePlayHistory = ({
             action={
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 onClick={() => setFilter("all")}
               >
                 Show everything

@@ -1,14 +1,12 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PageHeader } from "@/shared/components/page-header";
+import { TextLink } from "@/shared/components/text-link";
 import { PendingData } from "@/shared/components/pending-data";
 
 type LegalPageKind = "privacy" | "terms";
-
-const linkClassName = "text-link rounded-xs font-extrabold hover:underline";
 
 const legalPages: Record<
   LegalPageKind,
@@ -25,10 +23,7 @@ const legalPages: Record<
         </p>
         <p>
           You can download all of it as a file from{" "}
-          <Link href={appRoutes.settings} className={linkClassName}>
-            Settings
-          </Link>
-          .
+          <TextLink href={appRoutes.settings}>Settings</TextLink>.
         </p>
       </>
     ),

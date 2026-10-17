@@ -131,7 +131,7 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
           title="No Plays found"
           description="Try another search, game or generation."
           action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
+            <ClearFiltersButton variant="secondary" onClick={clearFilters} />
           }
         />
       )}

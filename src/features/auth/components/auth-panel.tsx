@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import type { PublicArt } from "@/config/public-art";
 import { appRoutes } from "@/config/routes";
 import {
@@ -31,6 +29,7 @@ import {
 } from "@/shared/components/ui/field";
 import type { DevTestAccount } from "@/features/auth/dev-test-account";
 import type { AuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
+import { TextLink } from "@/shared/components/text-link";
 import { Input } from "@/shared/components/ui/input";
 
 type AuthPanelProps = {
@@ -76,8 +75,6 @@ const getCopy = (mode: AuthMode, intent: StartIntentPreview | null) => {
 
 const emailErrors = new Set<AuthErrorCode>(["email-invalid", "email-taken"]);
 const passwordErrors = new Set<AuthErrorCode>(["credentials", "weak-password"]);
-
-const textLinkClassName = "text-link rounded-xs font-extrabold hover:underline";
 
 /*
  * Log in and Sign up share one quiet card; the switch at the top moves
@@ -133,12 +130,12 @@ export const AuthPanel = ({
           <div className="flex items-baseline justify-between gap-3">
             <FieldLabel htmlFor="password">Password</FieldLabel>
             {isSignUp ? null : (
-              <Link
+              <TextLink
                 href={getForgotPasswordHref({ next })}
-                className={`${textLinkClassName} text-13 relative after:absolute after:-inset-x-1 after:-inset-y-2.5`}
+                className="text-13 relative after:absolute after:-inset-x-1 after:-inset-y-2.5"
               >
                 Forgot password?
-              </Link>
+              </TextLink>
             )}
           </div>
           <PasswordInput
@@ -180,14 +177,8 @@ export const AuthPanel = ({
         {isSignUp ? (
           <p className="text-ink-3 mt-0.5 text-center text-[12.5px] leading-normal font-semibold">
             By creating an account, you agree to the{" "}
-            <Link href={appRoutes.terms} className={textLinkClassName}>
-              Terms
-            </Link>{" "}
-            and the{" "}
-            <Link href={appRoutes.privacy} className={textLinkClassName}>
-              Privacy policy
-            </Link>
-            .
+            <TextLink href={appRoutes.terms}>Terms</TextLink> and the{" "}
+            <TextLink href={appRoutes.privacy}>Privacy policy</TextLink>.
           </p>
         ) : null}
       </form>

@@ -62,7 +62,7 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
                 <b className="text-ink text-14 w-full truncate font-extrabold">
                   {region.name}
                 </b>
-                <span className="text-ink-2 text-12 font-bold">
+                <span className="text-ink-tint text-12 font-bold">
                   {count
                     ? `${count} ${count === 1 ? "Play" : "Plays"}`
                     : "Not yet"}

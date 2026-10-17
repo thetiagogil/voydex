@@ -274,7 +274,10 @@ export const CollectibleEntriesSection = ({
             description={`No ${group.name} match these filters.`}
             action={
               hasFilters ? (
-                <ClearFiltersButton variant="outline" onClick={resetFilters} />
+                <ClearFiltersButton
+                  variant="secondary"
+                  onClick={resetFilters}
+                />
               ) : undefined
             }
           />

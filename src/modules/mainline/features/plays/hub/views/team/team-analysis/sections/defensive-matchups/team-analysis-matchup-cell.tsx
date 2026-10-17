@@ -125,7 +125,7 @@ export const TeamAnalysisMatchupLegend = ({
 /* A type that hits two of the team super effectively, or one of them 4×. */
 export const TeamAnalysisPressureTag = () => {
   return (
-    <StatusBadge tone="danger" className="h-5 px-2 font-extrabold">
+    <StatusBadge tone="danger" size="xs">
       Pressure
     </StatusBadge>
   );

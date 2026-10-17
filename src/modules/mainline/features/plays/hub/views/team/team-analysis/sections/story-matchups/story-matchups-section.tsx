@@ -99,7 +99,7 @@ const StoryBattleRow = ({
         />
         <span className="justify-self-end">
           {battle.state === "won" ? (
-            <StatusBadge tone="ok">
+            <StatusBadge tone="ok" dot={false}>
               <AppIcon icon={appIcons.status.active} />
               Won
               {battle.completedAt ? (

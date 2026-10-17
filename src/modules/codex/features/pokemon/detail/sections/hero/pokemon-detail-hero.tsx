@@ -155,7 +155,7 @@ export const PokemonDetailHero = ({
                 label={isShowingShiny ? "Show regular colours" : "Show shiny"}
                 trigger={
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="icon"
                     aria-label="Shiny"
                     aria-pressed={isShowingShiny}

@@ -1,5 +1,6 @@
 "use client";
 
+import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
@@ -406,11 +407,9 @@ export const PlannerSlotSheet = ({
               </p>
             ) : null}
             {hasBuild ? (
-              <Button
-                type="button"
-                variant="link"
-                size="sm"
-                className="justify-self-start px-0"
+              <TextLink
+                standalone
+                className="justify-self-start"
                 onClick={() => {
                   setBuildOpenFor(null);
                   onUpdate(slotIndex, {
@@ -423,7 +422,7 @@ export const PlannerSlotSheet = ({
                 }}
               >
                 Remove build
-              </Button>
+              </TextLink>
             ) : null}
           </SheetStep>
         ) : offered.length ? (

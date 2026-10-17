@@ -1,5 +1,6 @@
 "use client";
 
+import { PickedMark } from "@/shared/components/picked-mark";
 import Link from "next/link";
 import type { MouseEvent } from "react";
 
@@ -113,18 +114,7 @@ export const HomePlayShelf = ({
                   shape={play.coverShape}
                   size="playShelf"
                 />
-                {isCurrent ? (
-                  <span
-                    aria-hidden
-                    className="bg-action absolute top-2 right-2 grid size-7 place-items-center rounded-full text-white ring-3 ring-white"
-                  >
-                    <AppIcon
-                      icon={appIcons.status.active}
-                      size="md"
-                      strokeWidth={3}
-                    />
-                  </span>
-                ) : null}
+                {isCurrent ? <PickedMark /> : null}
                 {play.lead?.imageUrl ? (
                   <span
                     aria-hidden

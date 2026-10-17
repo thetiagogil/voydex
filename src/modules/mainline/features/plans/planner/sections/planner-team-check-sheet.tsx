@@ -140,7 +140,11 @@ export const PlannerTeamCheckSheet = ({
           <Step
             title="Can you build it?"
             action={
-              <StatusBadge size="md" tone={verdictTones[verdict.level]}>
+              <StatusBadge
+                size="md"
+                dot={false}
+                tone={verdictTones[verdict.level]}
+              >
                 <AppIcon
                   icon={
                     verdict.level === "good"
@@ -181,7 +185,7 @@ export const PlannerTeamCheckSheet = ({
                                 <Button
                                   type="button"
                                   size="sm"
-                                  variant="outline"
+                                  variant="secondary"
                                   onClick={() =>
                                     onIncludeExpansion(
                                       issue.includeExpansionId as number,

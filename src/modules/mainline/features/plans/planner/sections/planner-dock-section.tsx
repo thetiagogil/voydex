@@ -1,5 +1,7 @@
 "use client";
 
+import { CornerBubble } from "@/shared/components/corner-bubble";
+import { TextLink } from "@/shared/components/text-link";
 import { useState, type DragEvent } from "react";
 
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
@@ -117,7 +119,7 @@ export const PlannerDockSection = ({
           </p>
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={onCancelReplace}
           >
@@ -133,13 +135,13 @@ export const PlannerDockSection = ({
             {filled} of 6
           </span>
           <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
-            <div className="flex items-center">
+            <div className="flex items-center gap-1.5">
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={onRandom}
-                className="rounded-r-none max-sm:px-2"
+                className="max-sm:px-2"
               >
                 <AppIcon
                   icon={appIcons.product.activity}
@@ -153,10 +155,9 @@ export const PlannerDockSection = ({
                   render={
                     <Button
                       type="button"
-                      variant="outline"
+                      variant="secondary"
                       size="icon-sm"
                       aria-label="Random options"
-                      className="rounded-l-none"
                     />
                   }
                 >
@@ -194,7 +195,7 @@ export const PlannerDockSection = ({
             </div>
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               size="sm"
               disabled={!filled}
               onClick={onClear}
@@ -302,7 +303,7 @@ export const PlannerDockSection = ({
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
               />
               {worst && !replacing ? (
-                <span className="absolute -top-2 -left-2 z-10">
+                <CornerBubble corner="top-left">
                   <ExplanatoryTip
                     triggerVariant="raised"
                     triggerTone={
@@ -315,17 +316,17 @@ export const PlannerDockSection = ({
                     content={
                       <>
                         <p>{worst.title}</p>
-                        <button
-                          type="button"
+                        <TextLink
+                          tone="onInk"
                           onClick={onOpenCheck}
-                          className="text-14 mt-1 font-extrabold underline underline-offset-2"
+                          className="text-14 mt-1"
                         >
                           Open Team check
-                        </button>
+                        </TextLink>
                       </>
                     }
                   />
-                </span>
+                </CornerBubble>
               ) : null}
               {replacing ? null : (
                 <CornerRemoveButton

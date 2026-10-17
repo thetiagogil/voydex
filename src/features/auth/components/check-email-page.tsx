@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import type { PublicArt } from "@/config/public-art";
 import type { ResolveStartIntent } from "@/config/start-intent";
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
@@ -21,6 +19,7 @@ import { StartIntentCard } from "@/features/auth/components/start-intent-card";
 import { StartIntentFields } from "@/features/auth/components/start-intent-fields";
 import { resendSignUpEmail } from "@/features/auth/server/auth-actions";
 import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
+import { TextLink } from "@/shared/components/text-link";
 import { readAuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 
 export type CheckEmailSearchParams = {
@@ -84,16 +83,15 @@ export const CheckEmailPage = async ({
           </>
         }
         alternative={
-          <Link
+          <TextLink
             href={getAuthPageHref({
               intent: intent?.value,
               mode: "sign-up",
               next,
             })}
-            className="text-link rounded-xs font-extrabold hover:underline"
           >
             Use a different email
-          </Link>
+          </TextLink>
         }
         note="Nothing yet? It can take a minute, and it may be in your spam folder."
       />

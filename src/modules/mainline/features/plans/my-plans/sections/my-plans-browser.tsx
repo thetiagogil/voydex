@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/shared/components/ui/badge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
@@ -86,9 +87,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       >
         <Card variant="interactive" className="h-full gap-3 px-5 py-4">
           <div className="flex items-center gap-2">
-            <span className="bg-game-wash text-game-deep text-13 rounded-full px-2.5 py-0.5 font-extrabold">
-              {plan.versionGroupName}
-            </span>
+            <Badge variant="game">{plan.versionGroupName}</Badge>
             {plan.updatedAt ? (
               <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
                 Updated <PlayMomentTime value={plan.updatedAt} />
@@ -260,7 +259,7 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
           variant="bare"
           title="No Plans match."
           action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
+            <ClearFiltersButton variant="secondary" onClick={clearFilters} />
           }
         />
       )}

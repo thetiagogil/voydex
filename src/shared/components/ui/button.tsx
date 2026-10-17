@@ -3,48 +3,47 @@ import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 
 /*
- * Every button is Nunito. The main button (default) carries the 5px green lip;
- * the quiet buttons (outline, secondary) are v3's .btn-2: no line, a 3px
- * neutral lip, cream on the page and the inset fill inside a card or dialog.
- * Both press down onto their lip. Ghost, link and destructive stay flat.
+ * Every button is Nunito. Actions are small stickers, like the Pokémon
+ * cards: their colour, a white band, a near-white keyline round it and a
+ * soft shadow that shrinks when pressed, so the button settles onto what it
+ * sits on instead of moving. `default` is the page's main action in the one
+ * action green; `secondary` is the quiet action; `destructive` is a quiet
+ * action that removes something; `tint` sits on a tinted band (a sheet's
+ * head, the Play header). `soft` and `ghost` stay flat: `soft` is a minor
+ * action such as close, `ghost` sits in a row of choices and shows
+ * `aria-pressed`. Words that go somewhere are a `TextLink`, not a button.
+ * Icon sizes are round.
  */
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border-[1.5px] font-sans whitespace-nowrap transition-[background-color,color,translate,box-shadow] duration-120 ease-out outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border-[1.5px] border-transparent font-sans whitespace-nowrap transition-[background-color,color,box-shadow] duration-120 ease-out outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-action font-extrabold text-white shadow-action hover:brightness-95 active:not-aria-[haspopup]:translate-y-1.25 active:not-aria-[haspopup]:shadow-none",
-        outline:
-          "border-transparent bg-surface font-bold text-ink shadow-quiet hover:bg-hover active:not-aria-[haspopup]:translate-y-0.75 active:not-aria-[haspopup]:shadow-none in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:hover:bg-hover in-data-[slot=dialog-content]:bg-surface-2 in-data-[slot=alert-dialog-content]:bg-surface-2 in-data-[slot=sheet-content]:bg-surface-2 in-data-[slot=popover-content]:bg-surface-2 aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
-        ghost:
-          "border-transparent font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
+          "bg-action font-extrabold text-white shadow-button hover:bg-action-deep active:bg-action-lip active:shadow-button-pressed aria-expanded:bg-action-deep",
+        secondary:
+          "bg-surface-2 font-bold text-ink shadow-button hover:bg-hover active:bg-lip active:shadow-button-pressed aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         destructive:
-          "border-danger-line bg-transparent font-extrabold text-danger hover:bg-danger-soft",
-        link: "border-transparent font-bold text-link underline-offset-4 hover:underline",
-        // v3 .sh-act: a quiet action on a tinted band, such as a sheet's head.
-        tint: "border-transparent bg-white/75 font-extrabold text-ink hover:bg-white aria-expanded:bg-white",
+          "bg-danger-soft font-extrabold text-danger-deep shadow-button hover:bg-danger-soft-2 active:shadow-button-pressed",
+        tint: "bg-white/70 font-extrabold text-ink shadow-button hover:bg-white active:shadow-button-pressed aria-expanded:bg-white",
+        soft: "bg-surface-2 font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
+        ghost:
+          "font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink aria-pressed:bg-select-soft aria-pressed:text-select-ink",
       },
       size: {
-        // v3 .btn.sm: the main button on the meadow and in dialogs.
+        // v3 .btn.sm: the main button in cards, dialogs and under a meadow.
         default:
           "h-11 gap-2 px-4 text-[14.5px] has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
-        sm: "h-9 gap-1.5 rounded-sm px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+        sm: "h-9 gap-1.5 rounded-sm px-3 text-14 [--button-band:2px] has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
+        // A page's one call to action, such as Start a Play on the meadow.
         lg: "h-13 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
-        icon: "size-11",
-        "icon-xs": "size-7 rounded-xs [&_svg:not([class*='size-'])]:size-3",
-        "icon-sm": "size-9 rounded-sm",
-        "icon-lg": "size-13",
+        icon: "size-11 rounded-full",
+        "icon-lg": "size-13 rounded-full [&_svg:not([class*='size-'])]:size-5",
+        "icon-sm": "size-9 rounded-full [--button-band:2px]",
+        "icon-xs":
+          "size-7 rounded-full [--button-band:2px] [&_svg:not([class*='size-'])]:size-3.5",
       },
     },
-    compoundVariants: [
-      {
-        variant: "default",
-        size: ["sm", "icon-xs", "icon-sm"],
-        className:
-          "shadow-[0_3px_0_var(--action-lip)] active:not-aria-[haspopup]:translate-y-0.75",
-      },
-    ],
     defaultVariants: {
       variant: "default",
       size: "default",

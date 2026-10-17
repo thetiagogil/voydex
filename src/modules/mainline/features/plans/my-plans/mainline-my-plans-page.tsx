@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import type { MyPlan } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
 import { MyPlansBrowser } from "@/modules/mainline/features/plans/my-plans/sections/my-plans-browser";
@@ -35,13 +36,13 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
       <PageBand className="flex flex-col gap-1">
-        <Link
+        <TextLink
           href={appRoutes.mainlinePlanNew()}
-          className="text-link text-14 focus-visible:outline-focus inline-flex min-h-9 items-center gap-1.5 self-start rounded-xs pt-4 font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid sm:pt-6"
+          arrow="back"
+          className="mt-4 self-start sm:mt-6"
         >
-          <AppIcon icon={appIcons.actions.back} size="sm" />
           Team Planner
-        </Link>
+        </TextLink>
         <PageHeader
           className="pt-0 sm:pt-0"
           title="My Plans"

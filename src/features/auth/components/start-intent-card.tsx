@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import type { PublicArt } from "@/config/public-art";
 import type { StartIntentPreview } from "@/config/start-intent";
+import { TextLink } from "@/shared/components/text-link";
 import { cn } from "@/shared/utils/cn";
 
 type StartIntentCardProps = {
@@ -47,13 +46,13 @@ export const StartIntentCard = ({
       </p>
     </div>
     {changeHref ? (
-      <Link
+      <TextLink
         href={changeHref}
         aria-label={`Change the game or partner, ${intent.game.name}`}
-        className="text-link relative ml-auto shrink-0 rounded-xs text-[13.5px] font-extrabold after:absolute after:-inset-2.5 hover:underline"
+        className="text-13 relative ml-auto shrink-0 after:absolute after:-inset-2.5"
       >
         Change
-      </Link>
+      </TextLink>
     ) : null}
   </div>
 );

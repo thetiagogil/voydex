@@ -119,7 +119,7 @@ const CodexPlaysJumpIcon = ({
       <a
         href={href}
         aria-label={label}
-        className={buttonVariants({ size: "icon", variant: "outline" })}
+        className={buttonVariants({ size: "icon", variant: "secondary" })}
       >
         <AppIcon icon={appIcons.product.play} />
       </a>
@@ -211,7 +211,7 @@ export const CodexInYourPlays = async ({
     />
   ) : (
     <NewPlayTrigger
-      className={buttonVariants({ size: "sm", variant: "outline" })}
+      className={buttonVariants({ size: "sm", variant: "secondary" })}
     >
       Start a Play
     </NewPlayTrigger>
@@ -320,7 +320,7 @@ export const CodexGameYourPlays = async ({
             </NewPlayTrigger>
             <Link
               href={appRoutes.mainlinePlanNew(versionGroupSlug)}
-              className={buttonVariants({ size: "sm", variant: "outline" })}
+              className={buttonVariants({ size: "sm", variant: "secondary" })}
             >
               <AppIcon icon={appIcons.product.team} inline="start" />
               Plan a team

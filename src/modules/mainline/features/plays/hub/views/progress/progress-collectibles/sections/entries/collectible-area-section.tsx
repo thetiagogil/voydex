@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 
+import { CornerBubble } from "@/shared/components/corner-bubble";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { Button } from "@/shared/components/ui/button";
@@ -149,7 +150,7 @@ export const CollectibleAreaSection = ({
                 place={place}
               />
               {entry.description ? (
-                <span className="absolute -top-2 -right-2 z-10">
+                <CornerBubble>
                   <ExplanatoryTip
                     triggerVariant="raised"
                     triggerLabel={`What #${entry.sortOrder} needs`}
@@ -161,7 +162,7 @@ export const CollectibleAreaSection = ({
                       </p>
                     }
                   />
-                </span>
+                </CornerBubble>
               ) : null}
             </span>
           );

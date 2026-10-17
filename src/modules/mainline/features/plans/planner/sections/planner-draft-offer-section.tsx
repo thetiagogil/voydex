@@ -38,7 +38,12 @@ export const PlannerDraftOfferSection = ({
       />
     ) : null}
     <div className="flex gap-2 max-sm:w-full max-sm:*:flex-1">
-      <Button type="button" variant="outline" size="sm" onClick={onStartFresh}>
+      <Button
+        type="button"
+        variant="secondary"
+        size="sm"
+        onClick={onStartFresh}
+      >
         Start fresh
       </Button>
       <Button type="button" size="sm" onClick={onContinue}>

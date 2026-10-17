@@ -26,10 +26,12 @@
   --scrim: rgb(58 50 38 / 0.42);
 
   /* The one action colour */
-  --link: #33704f;
+  --link: #2f6a4a;
   --action: #3b8360;
   --action-lip: #2a6447;
   --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
+  /* The main button under the pointer: between the action green and its lip. */
+  --action-deep: color-mix(in oklab, var(--action), var(--action-lip) 45%);
   --focus: #2a6447;
 
   /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
@@ -90,16 +92,18 @@
   --r-2xl: 32px;
 
   /*
-   * Depth. A lip is the solid edge under a surface. The clay edge on section
-   * cards is 3px (the brief's choice; v3 drew 4px).
+   * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
+   * shadow. A button is a small sticker: its colour, a white band, then a
+   * near-white keyline so the band still shows on a white card, and a soft
+   * shadow that shrinks when pressed, so it settles onto what it sits on.
    */
-  --clay-edge: 3px;
+  --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
+  --button-lift-value: 0 4px 10px -5px rgb(60 45 20 / 0.3);
+  --button-settle-value: 0 1px 2px rgb(60 45 20 / 0.25);
   --shadow-soft-value: 0 16px 26px -18px rgb(90 70 35 / 0.45);
   --shadow-cover-value: 0 10px 18px -10px rgb(40 40 60 / 0.5);
   --shadow-float-value: 0 18px 34px -14px rgb(60 45 20 / 0.4);
   --shadow-overlay-value: 0 30px 50px -20px rgb(40 30 15 / 0.45);
-  /* v3 .btn-2: the quiet button's 3px neutral lip, pressed away on :active. */
-  --shadow-quiet-value: 0 3px 0 var(--lip);
   /* Bars: a track pressed in at the top, a fill with a darker base. */
   --shadow-track-value: inset 0 2px 0 rgb(90 70 35 / 0.08);
   --shadow-fill-value: inset 0 -3px 0 rgb(0 0 0 / 0.12);
@@ -193,6 +197,7 @@
   --color-link: var(--link);
   --color-action: var(--action);
   --color-action-lip: var(--action-lip);
+  --color-action-deep: var(--action-deep);
   --color-action-soft: var(--action-soft);
   --color-focus: var(--focus);
   --color-gold: var(--gold);
@@ -279,8 +284,16 @@
   --shadow-overlay: var(--shadow-overlay-value);
   --shadow-track: var(--shadow-track-value);
   --shadow-fill: var(--shadow-fill-value);
-  --shadow-card: 0 var(--clay-edge) 0 var(--lip), var(--shadow-soft-value);
-  --shadow-action: 0 5px 0 var(--action-lip);
-  --shadow-quiet: var(--shadow-quiet-value);
+  --shadow-card:
+    0 1px 2px rgb(90 70 35 / 0.06), 0 14px 30px -18px rgb(90 70 35 / 0.45);
+  /* A button's sticker edge: the white band (2px on small buttons), the keyline round it. */
+  --shadow-button:
+    0 0 0 var(--button-band, 3px) #fff,
+    0 0 0 calc(var(--button-band, 3px) + 1px) var(--button-keyline),
+    var(--button-lift-value);
+  --shadow-button-pressed:
+    0 0 0 var(--button-band, 3px) #fff,
+    0 0 0 calc(var(--button-band, 3px) + 1px) var(--button-keyline),
+    var(--button-settle-value);
   --shadow-game: 0 5px 0 var(--game-lip);
 }

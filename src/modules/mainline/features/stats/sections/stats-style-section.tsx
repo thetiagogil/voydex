@@ -1,5 +1,7 @@
 "use client";
 
+import { CornerBubble } from "@/shared/components/corner-bubble";
+import { TextLink } from "@/shared/components/text-link";
 import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
@@ -293,17 +295,16 @@ export const StatsStyleSection = ({
                 ))}
               </ol>
               {ranked.length > typesShownFirst ? (
-                <button
-                  type="button"
+                <TextLink
+                  arrow="forward"
                   onClick={() => setIsAllTypesOpen(true)}
                   className={cn(
-                    "text-link text-14 focus-visible:outline-focus -mt-1 inline-flex min-h-10 items-center gap-1.5 self-start rounded-xs font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    "-mt-1 self-start",
                     typesTakeRoom && "xl:hidden",
                   )}
                 >
                   See all {ranked.length} types
-                  <AppIcon icon={appIcons.actions.next} size="sm" />
-                </button>
+                </TextLink>
               ) : null}
             </>
           ) : (
@@ -340,7 +341,7 @@ export const StatsStyleSection = ({
                     showTypes={false}
                   />
                   {friend.family.length > 1 ? (
-                    <span className="absolute -top-2 -left-2 z-10">
+                    <CornerBubble corner="top-left">
                       <ExplanatoryTip
                         triggerVariant="raised"
                         triggerLabel={`${friend.entry.name}'s family`}
@@ -355,7 +356,7 @@ export const StatsStyleSection = ({
                       >
                         <AppIcon icon={appIcons.product.family} size="sm" />
                       </ExplanatoryTip>
-                    </span>
+                    </CornerBubble>
                   ) : null}
                 </li>
               ))}

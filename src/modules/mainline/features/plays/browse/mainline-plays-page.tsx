@@ -42,7 +42,7 @@ const ArchivedPlaysView = ({ plays }: { plays: PlaysPageData["plays"] }) => (
         action={
           <Link
             href={appRoutes.mainlinePlays}
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             <AppIcon icon={appIcons.actions.back} inline="start" />
             All Plays
@@ -93,7 +93,7 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
                 </NewPlayTrigger>
                 <Link
                   href={appRoutes.codexPokemon}
-                  className={buttonVariants({ variant: "outline" })}
+                  className={buttonVariants({ variant: "secondary" })}
                 >
                   <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
                   Browse the Codex

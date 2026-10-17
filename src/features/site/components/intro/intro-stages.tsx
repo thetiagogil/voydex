@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 
+import { PickedMark } from "@/shared/components/picked-mark";
 import type { PublicArt, PublicPlayArt } from "@/config/public-art";
 import { PokemonRender } from "@/features/site/components/pokemon-render";
 import {
@@ -88,14 +89,7 @@ export const StartAPlayStage = ({
               )}
             >
               {art.gameCover({ className: "h-24", game })}
-              {isPicked ? (
-                <span className="bg-action absolute top-1.5 right-1.5 z-2 grid size-6 place-items-center rounded-full text-white shadow-[0_0_0_2.5px_white]">
-                  <AppIcon
-                    icon={appIcons.product.completion}
-                    className="size-3.5 stroke-3"
-                  />
-                </span>
-              ) : null}
+              {isPicked ? <PickedMark size="sm" /> : null}
             </span>
           );
         })}

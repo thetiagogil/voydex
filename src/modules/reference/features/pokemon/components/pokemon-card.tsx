@@ -119,7 +119,7 @@ const PokemonCardMark = ({
       className={cn(
         "pointer-events-none absolute top-1.75 right-1.75 z-10 grid place-items-center rounded-full",
         isCaught
-          ? "text-ball bg-white shadow-[0_2px_0_rgb(0_0_0/0.08)]"
+          ? "text-ball bg-white shadow-[0_2px_5px_-2px_rgb(60_45_20/0.35)]"
           : "bg-surface-2 text-ink-2",
         className,
       )}

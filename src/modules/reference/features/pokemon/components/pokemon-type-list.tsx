@@ -43,7 +43,7 @@ const TypeBadge = ({ display, size, type }: TypeBadgeProps) => {
     return <Badge variant="outline">Unknown</Badge>;
   }
   if (!isPokemonTypeSlug(type.slug)) {
-    return <Badge variant="secondary">{type.name}</Badge>;
+    return <Badge>{type.name}</Badge>;
   }
   return (
     <PokemonTypeBadge

@@ -165,7 +165,7 @@ export const CollectionBrowser = ({
           variant="bare"
           title="Nothing matches."
           action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
+            <ClearFiltersButton variant="secondary" onClick={clearFilters} />
           }
         />
       )}

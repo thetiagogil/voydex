@@ -29,7 +29,7 @@ export const EmailSentActions = ({
         {hiddenFields}
         <AuthSubmitButton
           size="sm"
-          variant="outline"
+          variant="secondary"
           label="Send it again"
           pendingLabel="Sending..."
         />

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
 
@@ -36,13 +37,9 @@ export const SiteFooter = () => (
           className="text-14 text-ink-2 flex flex-wrap gap-x-5 gap-y-1.5 font-bold sm:ml-auto"
         >
           {footerLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="hover:text-ink rounded-xs transition-colors"
-            >
+            <TextLink key={link.href} href={link.href} tone="quiet">
               {link.label}
-            </Link>
+            </TextLink>
           ))}
         </nav>
       </div>

@@ -51,7 +51,7 @@ export const HomeIntentOfferCard = ({
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           disabled={isDismissing || isPending}
           onClick={() =>
             startDismiss(async () => {

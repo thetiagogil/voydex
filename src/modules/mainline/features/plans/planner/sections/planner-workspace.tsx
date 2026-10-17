@@ -1,5 +1,6 @@
 "use client";
 
+import { TextLink } from "@/shared/components/text-link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -51,7 +52,6 @@ import type {
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
 import { PageBand } from "@/shared/components/page-band";
-import { Button } from "@/shared/components/ui/button";
 
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
@@ -293,15 +293,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         {swapIndex !== null ? (
           <p role="status" className="text-ink text-15 font-semibold">
             Pick the Pokémon for slot {swapIndex + 1}.{" "}
-            <Button
-              type="button"
-              variant="link"
-              size="sm"
-              className="h-auto px-0"
-              onClick={() => setSwapIndex(null)}
-            >
-              Cancel
-            </Button>
+            <TextLink onClick={() => setSwapIndex(null)}>Cancel</TextLink>
           </p>
         ) : null}
       </PageBand>

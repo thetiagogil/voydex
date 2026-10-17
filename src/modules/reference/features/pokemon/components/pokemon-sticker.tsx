@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Badge } from "@/shared/components/ui/badge";
 import type { ReactNode } from "react";
 
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -169,9 +170,9 @@ export const PokemonSticker = ({
         )}
       >
         {level ? (
-          <span className="rounded-full bg-white px-2 py-0.5 tabular-nums">
+          <Badge variant="paper" className="tabular-nums">
             Lv. {level}
-          </span>
+          </Badge>
         ) : null}
         {showTypes ? (
           <PokemonTypeList

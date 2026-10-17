@@ -60,7 +60,7 @@ export const LoadMoreTrigger = ({
     <div ref={triggerRef} className="h-px" aria-hidden />
   ) : (
     <div className="flex justify-center">
-      <Button type="button" variant="outline" onClick={onLoadMore}>
+      <Button type="button" variant="secondary" onClick={onLoadMore}>
         {label}
       </Button>
     </div>

@@ -74,7 +74,7 @@ export const PlannerNameDialog = ({
           <DialogFooter>
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               onClick={() => onOpenChange(false)}
             >
               Cancel

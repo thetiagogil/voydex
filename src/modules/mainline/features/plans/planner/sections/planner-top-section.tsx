@@ -209,13 +209,13 @@ export const PlannerTopSection = ({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-          <Button type="button" variant="outline" onClick={onShare}>
+          <Button type="button" variant="secondary" onClick={onShare}>
             <AppIcon icon={appIcons.actions.share} inline="start" />
             Share
           </Button>
           <Link
             href={appRoutes.mainlinePlans}
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
             My Plans

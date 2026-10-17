@@ -1,11 +1,11 @@
 "use client";
 
+import { TextLink } from "@/shared/components/text-link";
 import { useId, useState, type ReactNode } from "react";
 
 import type { GameExpansion } from "@/modules/reference/features/games/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
-import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type NewPlayTrackingProps = {
@@ -65,17 +65,15 @@ export const NewPlayTracking = ({
         <b className="text-ink text-15 font-extrabold">
           {["Story", "Pokédex", "Collectibles", ...ownedNames].join(" · ")}
         </b>
-        <Button
-          type="button"
-          variant="link"
-          size="sm"
+        <TextLink
+          standalone
           aria-expanded={isOpen}
           aria-controls={panelId}
           onClick={() => setIsOpen((current) => !current)}
-          className="ml-auto px-0.5"
+          className="ml-auto"
         >
           {isOpen ? "Done" : "Change"}
-        </Button>
+        </TextLink>
       </div>
 
       <div id={panelId} hidden={!isOpen} className="mt-2">

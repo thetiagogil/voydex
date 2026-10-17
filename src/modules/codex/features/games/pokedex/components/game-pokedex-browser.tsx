@@ -217,7 +217,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
                 : "No Pokémon match that name, number or type."
             }
             action={
-              <ClearFiltersButton variant="outline" onClick={clearFilters} />
+              <ClearFiltersButton variant="secondary" onClick={clearFilters} />
             }
           />
         )}

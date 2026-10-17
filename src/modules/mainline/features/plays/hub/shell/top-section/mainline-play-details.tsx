@@ -41,11 +41,7 @@ const PlayDetailChips = ({
   <ul aria-label={label} className="flex flex-wrap gap-1.5">
     {items.map((item) => (
       <li key={item.id}>
-        <Badge
-          variant="secondary"
-          title={item.title}
-          className="text-13 h-auto min-h-7 px-3 whitespace-normal"
-        >
+        <Badge size="md" title={item.title} className="whitespace-normal">
           {item.name}
         </Badge>
       </li>
@@ -156,7 +152,7 @@ const PlaySettingsLink = ({
 }) => (
   <div className="mt-1 pt-3">
     <Button
-      variant="outline"
+      variant="secondary"
       size="sm"
       nativeButton={false}
       render={
@@ -194,7 +190,7 @@ export const MainlinePlayDetails = ({
   const trigger = (
     <Button
       type="button"
-      variant="outline"
+      variant="tint"
       size="sm"
       aria-label="Play details"
       className="max-sm:size-11 max-sm:rounded-full max-sm:p-0"

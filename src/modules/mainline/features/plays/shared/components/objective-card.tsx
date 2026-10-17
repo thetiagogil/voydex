@@ -84,11 +84,11 @@ export const ObjectiveCard = ({
     {onClose ? (
       <Button
         type="button"
-        variant="ghost"
-        size="icon"
+        variant="soft"
+        size="icon-sm"
         aria-label={closeLabel ?? "Close"}
         onClick={onClose}
-        className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-3.5 right-3.5 size-9.5 rounded-full"
+        className="absolute top-4 right-4"
       >
         <AppIcon icon={appIcons.actions.close} />
       </Button>

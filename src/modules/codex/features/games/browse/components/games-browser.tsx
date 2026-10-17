@@ -122,7 +122,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           className="mt-6"
           title="No games match that search or filter."
           action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
+            <ClearFiltersButton variant="secondary" onClick={clearFilters} />
           }
         />
       )}

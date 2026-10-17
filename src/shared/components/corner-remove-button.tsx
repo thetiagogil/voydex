@@ -13,7 +13,7 @@ type CornerRemoveButtonProps = Omit<
 
 /*
  * The small × that sits on a card's top-right corner to remove it (a team
- * slot, a Plan). It shows when the card is hovered or the × is focused;
+ * slot, a Plan), drawn as a corner `bubble`. It shows when the card is hovered or the × is focused;
  * touch screens always show it. The card carries `group/removable`.
  */
 export const CornerRemoveButton = ({
@@ -25,7 +25,7 @@ export const CornerRemoveButton = ({
     type="button"
     aria-label={label}
     className={cn(
-      "text-ink-2 hover:text-ink focus-visible:outline-focus bg-surface shadow-quiet absolute -top-2 -right-2 z-10 grid size-6 place-items-center rounded-full outline-none focus-visible:opacity-100 focus-visible:outline-3 focus-visible:outline-solid pointer-fine:opacity-0 pointer-fine:group-hover/removable:opacity-100",
+      "text-ink-2 hover:text-ink focus-visible:outline-focus bg-surface bubble absolute -top-2 -right-2 z-10 grid size-6 place-items-center rounded-full outline-none focus-visible:opacity-100 focus-visible:outline-3 focus-visible:outline-solid pointer-fine:opacity-0 pointer-fine:group-hover/removable:opacity-100",
       className,
     )}
     {...props}

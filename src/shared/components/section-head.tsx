@@ -1,11 +1,7 @@
-import Link from "next/link";
+import { TextLink } from "@/shared/components/text-link";
 import type { ReactNode } from "react";
 
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 type SectionMoreLinkProps = {
@@ -14,23 +10,20 @@ type SectionMoreLinkProps = {
   label: string;
 };
 
-/* v3 `.more`: a quiet link onward, such as "Open team", with an arrow. */
+/* v3 `.more`: the link onward from a section, such as "Open team". */
 export const SectionMoreLink = ({
   className,
   href,
   label,
 }: SectionMoreLinkProps) => {
   return (
-    <Link
+    <TextLink
       href={href}
-      className={cn(
-        "text-link text-14 focus-visible:outline-focus inline-flex min-h-10 items-center gap-1.5 rounded-xs px-0.5 font-extrabold whitespace-nowrap outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid sm:min-h-9",
-        className,
-      )}
+      arrow="forward"
+      className={cn("whitespace-nowrap", className)}
     >
       {label}
-      <AppIcon icon={appIcons.actions.continue} size="sm" aria-hidden />
-    </Link>
+    </TextLink>
   );
 };
 

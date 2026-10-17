@@ -290,7 +290,7 @@ export const TeamMemberEditorSheet = ({
           </Button>
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             disabled={isSaving}
             onClick={() => close(false)}

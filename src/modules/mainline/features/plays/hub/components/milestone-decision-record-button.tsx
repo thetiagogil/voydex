@@ -5,8 +5,7 @@ import { toast } from "sonner";
 
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
 import { StoryMilestoneEditor } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/sections/detail/story-milestone-editor";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Button } from "@/shared/components/ui/button";
+import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 
 type DecisionMilestone = NonNullable<
   MainlinePlayOverviewData["nextDecisionMilestone"]
@@ -28,15 +27,10 @@ export const MilestoneDecisionRecordButton = ({
 
   return (
     <>
-      <Button
-        type="button"
-        size="lg"
-        className="h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap"
+      <RecordMilestoneButton
+        label={`Record ${milestone.name}`}
         onClick={() => setOpen(true)}
-      >
-        <AppIcon icon={appIcons.status.active} />
-        Record {milestone.name}
-      </Button>
+      />
       <StoryMilestoneEditor
         intent="complete"
         milestone={milestone}

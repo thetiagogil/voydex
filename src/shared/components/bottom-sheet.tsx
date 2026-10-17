@@ -98,7 +98,7 @@ export const BottomSheet = ({
           className="bg-line mx-auto mt-2.5 mb-0.5 h-1.25 w-11 shrink-0 rounded-full"
         />
         {actions ? (
-          <div className="absolute top-3 right-15 z-10 flex items-center gap-2">
+          <div className="absolute top-4 right-15 z-10 flex h-9 items-center gap-2">
             {actions}
           </div>
         ) : null}

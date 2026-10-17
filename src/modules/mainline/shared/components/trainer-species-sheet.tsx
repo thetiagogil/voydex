@@ -143,7 +143,10 @@ export const TrainerSpeciesSheet = ({
               {collectionHref ? (
                 <Link
                   href={collectionHref}
-                  className={buttonVariants({ size: "sm", variant: "outline" })}
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "secondary",
+                  })}
                 >
                   <AppIcon
                     icon={appIcons.views.mainline.collection}
@@ -154,7 +157,7 @@ export const TrainerSpeciesSheet = ({
               ) : null}
               <Link
                 href={appRoutes.codexPokemonSpecies(entry.speciesSlug)}
-                className={buttonVariants({ size: "sm", variant: "outline" })}
+                className={buttonVariants({ size: "sm", variant: "secondary" })}
               >
                 <AppIcon icon={appIcons.modules.codex} inline="start" />
                 Open in Codex

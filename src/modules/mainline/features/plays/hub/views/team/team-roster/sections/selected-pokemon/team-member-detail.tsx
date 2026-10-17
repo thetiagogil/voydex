@@ -37,7 +37,7 @@ export const TeamRosterStart = ({
         >
           Choose your partner
         </Button>
-        <Button type="button" variant="outline" onClick={onAdd}>
+        <Button type="button" variant="secondary" onClick={onAdd}>
           Add Pokémon
         </Button>
       </>

@@ -18,25 +18,34 @@
 }
 
 /*
- * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
- * 5px lip tinted by the type. Set --t. Add a float under the lip with
- * --sticker-shadow, or `sticker-picked` to mark it as the target.
+ * An owned Pokémon's sticker surface: the type tint and a 4px white border on
+ * a soft shadow. Set --t. Swap the shadow with --sticker-shadow, or add
+ * `sticker-picked` to mark it as the target.
  */
 @utility sticker {
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
   border: 4px solid var(--sticker-border, #fff);
-  box-shadow:
-    0 5px 0 var(--sticker-lip, color-mix(in oklab, var(--t) 38%, var(--lip))),
-    var(--sticker-shadow, 0 0 transparent);
+  box-shadow: var(--sticker-shadow, 0 12px 24px -16px rgb(90 70 35 / 0.45));
 }
 
 /*
  * A sticker marked as the target, such as a planner slot under a drag: it
- * keeps its own border and type lip, and a thin ring in the Play's colour
- * wraps both, so loud game colours don't flood the card.
+ * keeps its own border, and a thin ring in the Play's colour wraps it, so
+ * loud game colours don't flood the card.
  */
 @utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--game), 0 5px 0 2.5px var(--game);
+  --sticker-shadow: 0 0 0 2.5px var(--game);
+}
+
+/*
+ * A small round mark on a card's corner (an "i" tip, a slot number, a remove
+ * ×): the stickers' white band, small, on a soft shadow, so it reads on any
+ * card behind it. Position it with `CornerBubble`.
+ */
+@utility bubble {
+  box-shadow:
+    0 0 0 2px #fff,
+    0 3px 8px -3px rgb(60 45 20 / 0.4);
 }
 
 /* The one open slot: anything missing or not yet yours, dashed at one width. */
@@ -244,14 +253,11 @@
 }
 
 /*
- * A labelled type chip: the four palest types (Electric, Ice, Ground, Steel)
- * deepen toward L 0.7 so a white label reads; every other type keeps its
- * official colour. Set --t.
+ * A labelled type chip: the type's own hue, deepened only as far as a white
+ * label needs to read (4.5:1). Dark types keep their official colour. Set --t.
  */
 @utility type-chip {
-  background-color: oklch(
-    from var(--t) calc(l - (l - 0.7) * clamp(0, (l - 0.775) * 1000, 1)) c h
-  );
+  background-color: oklch(from var(--t) min(l, 0.54) c h);
 }
 
 /*

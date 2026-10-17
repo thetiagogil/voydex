@@ -74,7 +74,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
                 Plan a team
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 render={<Link href={appRoutes.mainlinePlayTeam(playId)} />}
                 nativeButton={false}
               >

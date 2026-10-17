@@ -1,5 +1,6 @@
 "use client";
 
+import { PickedMark } from "@/shared/components/picked-mark";
 import {
   useCallback,
   useEffect,
@@ -12,7 +13,6 @@ import {
 
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import type { GameShelfGame } from "@/modules/reference/features/games/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Carousel } from "@/shared/components/carousel";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { cn } from "@/shared/utils/cn";
@@ -353,18 +353,7 @@ export const GameShelfPicker = ({
                 shape={game.coverShape}
                 size={coverSize === "lg" ? "pickerLarge" : "picker"}
               />
-              {isPicked ? (
-                <span
-                  aria-hidden
-                  className="bg-action absolute top-2 right-2 grid size-7 place-items-center rounded-full text-white ring-3 ring-white"
-                >
-                  <AppIcon
-                    icon={appIcons.status.active}
-                    size="md"
-                    strokeWidth={3}
-                  />
-                </span>
-              ) : null}
+              {isPicked ? <PickedMark /> : null}
             </div>
           );
         })}

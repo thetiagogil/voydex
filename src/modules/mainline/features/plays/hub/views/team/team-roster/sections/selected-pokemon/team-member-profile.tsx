@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Badge } from "@/shared/components/ui/badge";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
@@ -56,10 +57,14 @@ export const TeamMemberProfile = ({
           className="absolute size-52.5 rounded-full bg-[color-mix(in_oklab,var(--t)_28%,white)]"
         />
         {member.is_shiny ? (
-          <span className="type-ink text-13 absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1.25 font-extrabold">
-            <AppIcon icon={appIcons.product.shiny} size="sm" />
+          <Badge
+            variant="paper"
+            size="md"
+            className="type-ink absolute top-3.5 left-3.5 z-10"
+          >
+            <AppIcon icon={appIcons.product.shiny} />
             Shiny
-          </span>
+          </Badge>
         ) : null}
         {actions ? (
           <div

@@ -34,7 +34,7 @@ export const SiteActions = ({ isAuthenticated }: SiteActionsProps) => (
     )}
     <Link
       href={appRoutes.codexPokemon}
-      className={buttonVariants({ size: "lg", variant: "outline" })}
+      className={buttonVariants({ size: "lg", variant: "secondary" })}
     >
       <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
       Browse the Codex

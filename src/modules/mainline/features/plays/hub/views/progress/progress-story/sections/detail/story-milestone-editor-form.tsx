@@ -121,11 +121,11 @@ export const StoryMilestoneEditorForm = ({
       {surface === "alert-dialog" ? (
         <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
       ) : surface === "dialog" ? (
-        <DialogClose render={<Button type="button" variant="outline" />}>
+        <DialogClose render={<Button type="button" variant="secondary" />}>
           Cancel
         </DialogClose>
       ) : (
-        <SheetClose render={<Button type="button" variant="outline" />}>
+        <SheetClose render={<Button type="button" variant="secondary" />}>
           Cancel
         </SheetClose>
       )}

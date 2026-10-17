@@ -1,5 +1,6 @@
 "use client";
 
+import { CornerBubble } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
@@ -234,7 +235,7 @@ export const PlannerPoolSection = ({
                          * anything outside): the "!" of Your team's slots,
                          * then the slot number, both raised 24px dots.
                          */
-                        <span className="absolute top-2 right-2 z-10 flex items-center gap-1">
+                        <CornerBubble corner="inside-top-right">
                           {notes.length ? (
                             <ExplanatoryTip
                               triggerVariant="raised"
@@ -249,12 +250,12 @@ export const PlannerPoolSection = ({
                           {slot !== undefined ? (
                             <span
                               aria-hidden
-                              className="bg-game text-13 grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums shadow-[0_2px_0_var(--game-lip)]"
+                              className="bg-game-strong text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
                             >
                               {slot}
                             </span>
                           ) : null}
-                        </span>
+                        </CornerBubble>
                       ) : null}
                     </li>
                   );

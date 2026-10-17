@@ -76,7 +76,7 @@ export const DevAccountPicker = ({
           render={
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               className="w-full justify-between"
             />
           }

@@ -26,8 +26,8 @@ type NewPlayWizardProps = {
 
 type Step = 1 | 2 | 3;
 
-const closeClassName =
-  "bg-surface text-ink-2 hover:bg-hover hover:text-ink absolute top-3 right-3 z-8 rounded-full";
+/* The overlays' one close button, in the same corner, over the meadow. */
+const closeClassName = "absolute top-4 right-4 z-8";
 
 const stepLabels: Record<Step, string> = { 1: "Game", 2: "Partner", 3: "Name" };
 
@@ -244,13 +244,13 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         <NewPlaySteps step={step} onStepChange={setStep} />
         <Button
           type="button"
-          size="icon"
-          variant="ghost"
+          size="icon-sm"
+          variant="soft"
           aria-label="Close New Play"
           onClick={onClose}
           className={closeClassName}
         >
-          <AppIcon icon={appIcons.actions.close} size="lg" />
+          <AppIcon icon={appIcons.actions.close} />
         </Button>
         <div className="px-6 pt-5 text-center sm:px-10">
           <h1
@@ -330,13 +330,13 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           {summary}
         </p>
         {step === 1 ? (
-          <Button type="button" variant="outline" onClick={onClose}>
+          <Button type="button" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
         ) : (
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             disabled={isPending}
             onClick={() => setStep((current) => (current - 1) as Step)}
           >
@@ -398,13 +398,13 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <NewPlaySteps step={1} onStepChange={() => undefined} />
         <Button
           type="button"
-          size="icon"
-          variant="ghost"
+          size="icon-sm"
+          variant="soft"
           aria-label="Close New Play"
           onClick={onClose}
           className={closeClassName}
         >
-          <AppIcon icon={appIcons.actions.close} size="lg" />
+          <AppIcon icon={appIcons.actions.close} />
         </Button>
         <div className="px-6 pt-5 text-center sm:px-10">
           <h1
@@ -422,7 +422,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
           <Button
             type="button"
             size="sm"
-            variant="outline"
+            variant="secondary"
             onClick={() => router.refresh()}
           >
             Try again
@@ -434,7 +434,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <p className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto">
           Pick a game to continue
         </p>
-        <Button type="button" variant="outline" onClick={onClose}>
+        <Button type="button" variant="secondary" onClick={onClose}>
           Cancel
         </Button>
         <Button type="button" disabled>

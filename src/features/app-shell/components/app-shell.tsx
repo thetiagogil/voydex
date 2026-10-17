@@ -90,7 +90,7 @@ export const AppShell = ({
                   className={buttonVariants({
                     className:
                       "bg-(--bar-control) hover:bg-(--bar-control-hover)",
-                    variant: "outline",
+                    variant: "secondary",
                   })}
                 >
                   Log in
