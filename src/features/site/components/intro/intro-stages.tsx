@@ -223,7 +223,7 @@ export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
         <span
           key={pokemon.sprite_slug}
           style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-md"
+          className="type-tint grid aspect-square place-items-center rounded-md"
         >
           <PokemonRender art={art} pokemon={pokemon} className="size-[88%]" />
         </span>

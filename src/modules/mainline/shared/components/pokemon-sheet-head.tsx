@@ -15,6 +15,8 @@ type PokemonSheetHeadProps = {
    * rounded card inside a bottom sheet's scroll, as v3's `.bs-card`.
    */
   layout: "flush" | "inset";
+  /* A Pokémon you mean to have (a Plan's slot): its art sits on white, not as a sticker. */
+  planned?: boolean;
   type: PokemonTypeSlug | null;
 };
 
@@ -29,6 +31,7 @@ export const PokemonSheetHead = ({
   children,
   imageUrl,
   layout,
+  planned = false,
   type,
 }: PokemonSheetHeadProps) => {
   const inset = layout === "inset";
@@ -45,7 +48,8 @@ export const PokemonSheetHead = ({
         <span
           aria-hidden
           className={cn(
-            "sticker grid shrink-0 place-items-center rounded-xl",
+            "grid shrink-0 place-items-center rounded-xl",
+            planned ? "bg-white/70" : "sticker",
             inset ? "size-21" : "size-20 sm:size-27.5",
           )}
         >

@@ -211,7 +211,7 @@ export const TeamPlanCompareDialog = ({
               art={
                 <span
                   style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-                  className={cn(artBoxClassName, "sticker")}
+                  className={cn(artBoxClassName, "type-tint")}
                 >
                   <TeamPlanArt
                     imageUrl={getTeamPlanPlannedImageUrl(comparison)}

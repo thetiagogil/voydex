@@ -283,6 +283,7 @@ export const PlannerDockSection = ({
             >
               <PokemonSticker
                 variant="compact"
+                planned
                 className={cn(
                   "w-full",
                   dropTarget === index && "sticker-picked",

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { pokemonCardPickedClassName } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { Badge } from "@/shared/components/ui/badge";
 import type { ReactNode } from "react";
 
@@ -13,6 +14,10 @@ import { cn } from "@/shared/utils/cn";
 
 type StickerType = { name: string; slug: string };
 
+/* A picked sticker: its border in its type's colour, as a picked card's ring. */
+const pokemonStickerPickedClassName =
+  "[--sticker-border:color-mix(in_oklab,var(--t)_55%,white)]";
+
 type PokemonStickerVariant = "compact" | "default" | "mini";
 
 type PokemonStickerProps = {
@@ -26,8 +31,13 @@ type PokemonStickerProps = {
   /* Makes the sticker a button that can be picked (see `selected`). */
   onClick?: () => void;
   /*
-   * The one shown beside the grid. Only announced (`aria-pressed`): the
-   * detail beside it already says which one it is.
+   * A Pokémon you mean to have, not one you own (a Plan's team): drawn as the
+   * plain card, cream in a 1px line, with the same layout as the sticker.
+   */
+  planned?: boolean;
+  /*
+   * The one shown beside the grid: it wears the picked Pokémon's look, its
+   * border in its type's colour, and is announced (`aria-pressed`).
    */
   selected?: boolean;
   shiny?: boolean;
@@ -89,10 +99,11 @@ const variantClassNames: Record<
 };
 
 /*
- * A sticker is for a Pokémon you own, and only those: type-tinted, a 4px
- * white border and a lip tinted by its type. The default sticker's art hops
- * on hover; the compact one fills roster grids, carries its slot and shiny
- * marks, and can be picked as a button.
+ * A sticker is for a Pokémon you own, and only those: type-tinted, in a 4px
+ * white border on a soft shadow. The default sticker's art hops on hover;
+ * the compact one fills roster grids, carries its slot and shiny marks, and
+ * can be picked as a button: picked, its border takes its type's colour, the
+ * one picked-Pokémon look (`pokemonCardPickedClassName` on a plain card).
  */
 export const PokemonSticker = ({
   className,
@@ -102,6 +113,7 @@ export const PokemonSticker = ({
   level,
   name,
   onClick,
+  planned = false,
   selected = false,
   shiny = false,
   showTypes = true,
@@ -116,8 +128,13 @@ export const PokemonSticker = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const stickerClassName = cn(
-    "group/sticker sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
+    "group/sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
+    planned
+      ? "border-line bg-surface border-[1.5px] shadow-(--sticker-shadow)"
+      : "sticker",
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
+    selected &&
+      (planned ? pokemonCardPickedClassName : pokemonStickerPickedClassName),
     variantClassName.sticker,
     variant !== "default" && variantClassName.height,
     className,

@@ -12,7 +12,8 @@ export type PlanTeamStripMember = {
 
 /*
  * A Plan's six slots at a glance (My Plans' cards, the unsaved Plan offer):
- * each Pokémon as a small sticker in its type's colour, open slots dashed.
+ * each Pokémon on its type's pale tint (planned, so not a sticker), open
+ * slots dashed.
  */
 export const PlanTeamStrip = ({
   className,
@@ -36,7 +37,7 @@ export const PlanTeamStrip = ({
                 ? member.typeSlug
                 : null,
             )}
-            className="sticker grid aspect-square place-items-center rounded-md [border-width:3px]"
+            className="type-tint grid aspect-square place-items-center rounded-md"
           >
             {member.imageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element

@@ -156,6 +156,7 @@ export const PlannerSlotSheet = ({
       title={pokemon.name}
       hero={{
         imageUrl: pokemon.imageUrl,
+        planned: true,
         meta: (
           <PokemonTypeList
             types={pokemon.types}

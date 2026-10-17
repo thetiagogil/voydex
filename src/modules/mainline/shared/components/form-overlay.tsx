@@ -27,6 +27,8 @@ export type FormOverlayHero = {
   imageUrl: string | null;
   /* Under the title, such as the species, level and types. */
   meta?: ReactNode;
+  /* A Pokémon you mean to have (a Plan's slot): its art is not a sticker. */
+  planned?: boolean;
   type: PokemonTypeSlug | null;
 };
 
@@ -107,6 +109,7 @@ export const FormOverlay = ({
     <PokemonSheetHead
       actions={hero.actions}
       imageUrl={hero.imageUrl}
+      planned={hero.planned}
       layout={usesBottomSheet ? "inset" : "flush"}
       type={hero.type}
     >
