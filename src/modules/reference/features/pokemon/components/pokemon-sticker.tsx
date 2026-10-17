@@ -34,9 +34,9 @@ type PokemonStickerProps = {
   /* Makes the sticker a button that can be picked (see `selected`). */
   onClick?: () => void;
   /*
-   * A Pokémon you mean to have, not one you own (a Plan's team): its type's
-   * tint in a thin line of its type's colour, without the owned sticker's
-   * white band, with the same layout as the sticker.
+   * A Pokémon you mean to have, not one you own (a Plan's team): the same
+   * picked look as its card in the pool beside it (its type's tint inside a
+   * ring of its colour), without the owned sticker's white band.
    */
   planned?: boolean;
   /*
@@ -133,12 +133,12 @@ export const PokemonSticker = ({
   );
   const stickerClassName = cn(
     "group/sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
-    planned
-      ? "type-tint border-[1.5px] border-[color-mix(in_oklab,var(--t)_35%,white)] shadow-(--sticker-shadow)"
-      : "sticker",
+    planned ? cn(pokemonCardPickedClassName, "border-[1.5px]") : "sticker",
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     selected &&
-      (planned ? pokemonCardPickedClassName : pokemonStickerPickedClassName),
+      (planned
+        ? "shadow-[inset_0_0_0_3px_color-mix(in_oklab,var(--t)_85%,white)]"
+        : pokemonStickerPickedClassName),
     variantClassName.sticker,
     variant !== "default" && variantClassName.height,
     className,
