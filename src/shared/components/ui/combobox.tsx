@@ -118,7 +118,7 @@ const ComboboxContent = ({
           data-chips={!!anchor}
           className={cn(
             menuPanelClassName,
-            "group/combobox-content data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:bg-surface-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[max(calc(var(--anchor-width)+(--spacing(7))),14rem)] origin-(--transform-origin) overflow-hidden duration-100 data-[chips=true]:min-w-(--anchor-width) *:data-[slot=input-group]:mb-1 *:data-[slot=input-group]:h-11 *:data-[slot=input-group]:border-transparent",
+            "group/combobox-content data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:bg-surface-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[max(calc(var(--anchor-width)+(--spacing(7))),14rem)] origin-(--transform-origin) overflow-hidden duration-100 data-[chips=true]:min-w-(--anchor-width) *:data-[slot=input-group]:mb-2.5 *:data-[slot=input-group]:h-11 *:data-[slot=input-group]:border-transparent",
             className,
           )}
           {...props}
@@ -136,7 +136,7 @@ const ComboboxList = ({
     <ComboboxPrimitive.List
       data-slot="combobox-list"
       className={cn(
-        "no-scrollbar max-h-[min(calc(--spacing(80)-(--spacing(11))),calc(var(--available-height)-(--spacing(11))))] scroll-py-1 space-y-0.5 overflow-y-auto overscroll-contain data-empty:p-0",
+        "no-scrollbar max-h-[min(calc(--spacing(80)-(--spacing(13.5))),calc(var(--available-height)-(--spacing(13.5))))] scroll-py-1 space-y-0.5 overflow-y-auto overscroll-contain data-empty:p-0",
         className,
       )}
       {...props}
