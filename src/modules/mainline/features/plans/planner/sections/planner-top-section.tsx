@@ -117,7 +117,7 @@ export const PlannerTopSection = ({
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <SelectControl
-          ariaLabel="Games"
+          ariaLabel={`Game: ${versionGroup.name}`}
           searchPlaceholder="Search games"
           placeholder={versionGroup.name}
           value={versionGroup.slug}
@@ -161,7 +161,6 @@ export const PlannerTopSection = ({
                   {versionGroup.name}
                 </b>
               </span>
-              <span className="sr-only">Change the game</span>
             </>
           }
         />

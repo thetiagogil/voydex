@@ -55,13 +55,17 @@ type SelectControlProps = {
    * than ten options.
    */
   searchable?: boolean;
-  /* The search field's placeholder, such as "Search games". */
+  /*
+   * The search field's placeholder and name, such as "Search games";
+   * otherwise "Search", named after `ariaLabel`.
+   */
   searchPlaceholder?: string;
   size?: "default" | "sm";
   /*
    * The caller's own trigger in place of the prefix and value, such as the
-   * Team Planner's game card; `className` then styles it. Its words name the
-   * control, so `ariaLabel` only labels the search field.
+   * Team Planner's game card; `className` then styles it. A list trigger
+   * takes its name from `ariaLabel` alone, so the label should carry what
+   * the card shows, such as "Game: Diamond / Pearl".
    */
   triggerContent?: ReactNode;
   value?: string;
@@ -136,7 +140,7 @@ export const SelectControl = ({
   placeholder,
   prefix,
   searchable = options.length > SEARCH_FROM_OPTION_COUNT,
-  searchPlaceholder = "Search",
+  searchPlaceholder,
   size = "default",
   triggerContent,
   value,
@@ -188,7 +192,7 @@ export const SelectControl = ({
       >
         <ComboboxTrigger
           id={id}
-          aria-label={triggerContent ? undefined : ariaLabel}
+          aria-label={ariaLabel}
           data-size={size}
           className={cn(selectTriggerVariants({ variant }), className)}
         >
@@ -214,10 +218,15 @@ export const SelectControl = ({
           )}
         </ComboboxTrigger>
         {name ? <input type="hidden" name={name} value={currentValue} /> : null}
-        <ComboboxContent className="w-max max-w-[min(24rem,calc(100vw-2rem))]">
+        <ComboboxContent
+          aria-label={ariaLabel}
+          className="w-max max-w-[min(24rem,calc(100vw-2rem))]"
+        >
           <ComboboxInput
-            aria-label={`${searchPlaceholder} ${ariaLabel.toLowerCase()}`}
-            placeholder={searchPlaceholder}
+            aria-label={
+              searchPlaceholder ?? `Search ${ariaLabel.toLowerCase()}`
+            }
+            placeholder={searchPlaceholder ?? "Search"}
             showTrigger={false}
           >
             <InputGroupAddon align="inline-start">
@@ -259,7 +268,7 @@ export const SelectControl = ({
     >
       <SelectTrigger
         id={id}
-        aria-label={triggerContent ? undefined : ariaLabel}
+        aria-label={ariaLabel}
         className={className}
         size={size}
         variant={variant}
