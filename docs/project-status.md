@@ -4,10 +4,10 @@ This document is the only canonical source for Voydex's current implementation
 checkpoint. Product contracts describe accepted behavior; code and tests remain
 the evidence for exact implementation details.
 
-## Checkpoint (2026-10-16)
+## Checkpoint (2026-10-17)
 
-The Soft Clay redesign is finished and on `main`: pull request #8 merged it on
-2026-10-16 (`70b67c4a`) after the owner reviewed every view. Every v3 screen is
+The Soft Clay redesign is finished and on `main`: the owner reviewed every view
+in pull request #8, and `main` now carries it as one squash commit (#51). Every v3 screen is
 built; the [Design System](./app/design-system.md) describes what exists and
 [ADR 0004](./decisions/0004-soft-clay-design-system.md) records the decision.
 The app runs on Vercel with its server code in Paris (`cdg1`), beside the
@@ -64,12 +64,13 @@ phase 6; the New Plan cache fix is parked on the local branch
 
 ## Next Chat Handoff
 
-Phase 1 merged on 2026-10-16 (pull request #10) and phase 2, the browser
-tests, merged on 2026-10-16 (pull request #40). Phase 3 (restructure) is under
-way as one pull request per step, tracked in issues #41 to #45 of the
-Restructure milestone: the folder vocabulary, readers and commands that take
-their client, Zod, the largest files split, and the multi-table writes as
-database functions. Run `npm run test:e2e` after each move.
+On 2026-10-17 `main` was rebuilt so each pull request is one squash commit,
+and the repository now allows squash merges only. Phase 1 (tidy up, #52) and
+phase 2 (browser tests, #54) are merged. Phase 3 (restructure) is merged step
+by step: the folder vocabulary (#55), readers and commands that take their
+client (#56), Zod (#57), the largest files split (#58), and the multi-table
+writes as database functions, the last step. Phase 4 (components) is next. The
+old history is kept on the `backup/main-before-squash-20261016` tag.
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
@@ -112,8 +113,7 @@ finds all 50). Grouped by what they wait on:
   flags and a Pokédex mode (caught only, or caught and seen).
 - `gameplay.mainline_challenge_rules`: the seeded system rule catalogue.
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
-- `planning.mainline_team_plans`: a version preference, and a reviewed
-  `save_mainline_team_plan` function for the Planner's save.
+- `planning.mainline_team_plans`: a version preference.
 - An atomic roster-placement function, and a reviewed account deletion.
 - Opponent parties (species, level, moves) for Story matchups, and an anon read
   grant plus town and ace for the Codex game page's leaders.

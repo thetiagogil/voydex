@@ -1,73 +1,72 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import type { PlanSaveInput } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import { savePlan } from "./save-plan-command";
 
-type Operation = "delete" | "insert" | "select" | "update";
-type Call = { operation: Operation; table: string; values?: unknown };
-type Result = { count?: number | null; data: unknown; error: unknown };
+type Result = { data: unknown; error: unknown };
+type RpcCall = { args: Record<string, unknown>; name: string };
 
 /*
- * A fake client that records each request (table and operation) and answers
- * from `respond`. Every builder method chains; awaiting it resolves.
+ * A fake client: reference reads answer from `read` by table, and the one
+ * RPC call is recorded and answered by `rpc`.
  */
-const createFakeClient = (respond: (call: Call) => Result) => {
-  const calls: Call[] = [];
+const createFakeClient = ({
+  read,
+  rpc,
+}: {
+  read: (table: string) => Result;
+  rpc: () => Result;
+}) => {
+  const rpcCalls: RpcCall[] = [];
   const from = (table: string) => {
-    const call: Call = { operation: "select", table };
     const builder: Record<string, unknown> & PromiseLike<Result> = {
       then: (onFulfilled, onRejected) =>
-        Promise.resolve(respond(call)).then(onFulfilled, onRejected),
+        Promise.resolve(read(table)).then(onFulfilled, onRejected),
     };
-    const chain = () => builder;
 
-    for (const method of [
-      "eq",
-      "in",
-      "is",
-      "limit",
-      "lte",
-      "maybeSingle",
-      "not",
-      "order",
-      "range",
-      "select",
-      "single",
-    ]) {
-      builder[method] = chain;
+    for (const method of ["eq", "in", "maybeSingle", "order", "select"]) {
+      builder[method] = () => builder;
     }
-
-    for (const operation of ["delete", "insert", "update"] as const) {
-      builder[operation] = (values?: unknown) => {
-        call.operation = operation;
-        call.values = values;
-        return builder;
-      };
-    }
-
-    calls.push(call);
 
     return builder;
   };
 
   return {
-    calls,
-    client: { schema: () => ({ from }) } as unknown as ServerSupabaseClient,
+    client: {
+      schema: () => ({
+        from,
+        rpc: (name: string, args: Record<string, unknown>) => {
+          rpcCalls.push({ args, name });
+          return Promise.resolve(rpc());
+        },
+      }),
+    } as unknown as ServerSupabaseClient,
+    rpcCalls,
   };
 };
 
-const ok = (data: unknown): Result => ({ data, error: null });
-const failed: Result = { data: null, error: { message: "boom" } };
+let versionGroupReads = 0;
 
-const referenceRows = (call: Call): Result | null => {
-  switch (call.table) {
-    case "games":
-      return ok([{ id: 33 }, { id: 34 }]);
-    default:
-      return null;
+const readSwordShield = (table: string): Result => {
+  if (table === "games") {
+    return { data: [{ id: 33 }, { id: 34 }], error: null };
   }
+
+  versionGroupReads += 1;
+
+  return versionGroupReads % 2 === 1
+    ? {
+        data: {
+          generation_id: 8,
+          id: 20,
+          name: "Sword and Shield",
+          parent_version_group_id: null,
+        },
+        error: null,
+      }
+    : { data: [{ id: 21 }, { id: 22 }], error: null };
 };
 
 const baseInput: PlanSaveInput = {
@@ -79,170 +78,58 @@ const baseInput: PlanSaveInput = {
 };
 
 describe("savePlan", () => {
-  it("deletes a new Plan when writing its expansions fails", async () => {
-    let expansionLookups = 0;
-    const { calls, client } = createFakeClient((call) => {
-      if (call.table === "version_groups") {
-        expansionLookups += 1;
-        return expansionLookups === 1
-          ? ok({
-              generation_id: 8,
-              id: 20,
-              name: "Sword and Shield",
-              parent_version_group_id: null,
-            })
-          : ok([{ id: 21 }]);
-      }
-
-      if (call.table === "mainline_team_plan_optional_content_scopes") {
-        return failed;
-      }
-
-      if (call.table === "mainline_team_plans" && call.operation === "insert") {
-        return ok({ id: "plan-new" });
-      }
-
-      return referenceRows(call) ?? ok({ id: 1 });
-    });
-
-    await expect(
-      savePlan({
-        input: { ...baseInput, expansionVersionGroupIds: [21] },
-        supabase: client,
-        userId: "user-1",
+  it("saves the whole Plan in one call, keeping only the group's expansions", async () => {
+    const { client, rpcCalls } = createFakeClient({
+      read: readSwordShield,
+      rpc: () => ({
+        data: [{ result_created: true, result_team_plan_id: "plan-new" }],
+        error: null,
       }),
-    ).rejects.toThrow("Unable to save the Plan right now.");
-
-    expect(calls.at(-1)).toMatchObject({
-      operation: "delete",
-      table: "mainline_team_plans",
-    });
-  });
-
-  it("puts a saved Plan's row, Pokémon, moves and expansions back when an edit fails", async () => {
-    const member = { id: "member-1", slot: 1, team_plan_id: "plan-1" };
-    const scope = { game_id: 33, team_plan_id: "plan-1", version_group_id: 21 };
-    let lookups = 0;
-    let scopeInserts = 0;
-    const { calls, client } = createFakeClient((call) => {
-      if (call.table === "version_groups") {
-        lookups += 1;
-        return lookups === 1
-          ? ok({
-              generation_id: 8,
-              id: 20,
-              name: "Sword and Shield",
-              parent_version_group_id: null,
-            })
-          : ok([{ id: 21 }]);
-      }
-
-      if (call.table === "mainline_team_plans" && call.operation === "select") {
-        return ok({ game_id: 33, name: "Old name", version_group_id: 20 });
-      }
-
-      if (
-        call.table === "mainline_team_plan_members" &&
-        call.operation === "select"
-      ) {
-        return ok([member]);
-      }
-
-      if (
-        call.table === "mainline_team_plan_member_moves" &&
-        call.operation === "select"
-      ) {
-        return ok([
-          {
-            mainline_team_plan_members: { team_plan_id: "plan-1" },
-            move_id: 7,
-            slot: 1,
-            team_plan_member_id: "member-1",
-          },
-        ]);
-      }
-
-      if (call.table === "mainline_team_plan_optional_content_scopes") {
-        if (call.operation === "select") return ok([scope]);
-        if (call.operation === "insert") {
-          scopeInserts += 1;
-          /* The edit's expansions fail; the restore's go through. */
-          return scopeInserts === 1 ? failed : ok(null);
-        }
-      }
-
-      return referenceRows(call) ?? ok(null);
     });
 
     await expect(
       savePlan({
-        input: {
-          ...baseInput,
-          expansionVersionGroupIds: [21],
-          planId: "00000000-0000-4000-8000-000000000001",
+        input: { ...baseInput, expansionVersionGroupIds: [21, 99] },
+        supabase: client,
+      }),
+    ).resolves.toEqual({ created: true, planId: "plan-new" });
+
+    expect(rpcCalls).toEqual([
+      {
+        args: {
+          p_expansion_version_group_ids: [21],
+          p_members: [],
+          p_name: "Galar run",
+          p_team_plan_id: undefined,
+          p_version_group_id: 20,
         },
-        supabase: client,
-        userId: "user-1",
-      }),
-    ).rejects.toThrow("Unable to save the Plan right now.");
-
-    const restore = calls.slice(-6);
-
-    expect(
-      restore.map(({ operation, table }) => `${operation} ${table}`),
-    ).toEqual([
-      "delete mainline_team_plan_optional_content_scopes",
-      "delete mainline_team_plan_members",
-      "update mainline_team_plans",
-      "insert mainline_team_plan_members",
-      "insert mainline_team_plan_member_moves",
-      "insert mainline_team_plan_optional_content_scopes",
-    ]);
-    expect(restore[2].values).toEqual({
-      game_id: 33,
-      name: "Old name",
-      version_group_id: 20,
-    });
-    expect(restore[4].values).toEqual([
-      { move_id: 7, slot: 1, team_plan_member_id: "member-1" },
+        name: "save_mainline_team_plan",
+      },
     ]);
   });
 
-  it("says so when the previous version can't be put back", async () => {
-    const consoleError = vi
-      .spyOn(console, "error")
-      .mockImplementation(() => {});
-    let lookups = 0;
-    const { client } = createFakeClient((call) => {
-      if (call.table === "version_groups") {
-        lookups += 1;
-        return lookups === 1
-          ? ok({
-              generation_id: 8,
-              id: 20,
-              name: "Sword and Shield",
-              parent_version_group_id: null,
-            })
-          : ok([]);
-      }
-
-      if (call.table === "mainline_team_plans") {
-        return call.operation === "select"
-          ? ok({ game_id: 33, name: "Old", version_group_id: 20 })
-          : failed;
-      }
-
-      return referenceRows(call) ?? ok([]);
-    });
+  it("says why the database refused, in the Planner's words", async () => {
+    const refuse = (code: string, message: string) =>
+      createFakeClient({
+        read: readSwordShield,
+        rpc: () => ({ data: null, error: { code, message } }),
+      }).client;
+    const input = { ...baseInput, planId: "plan-1" };
 
     await expect(
       savePlan({
-        input: { ...baseInput, planId: "00000000-0000-4000-8000-000000000001" },
-        supabase: client,
-        userId: "user-1",
+        input,
+        supabase: refuse("55000", "A Play follows team plan plan-1"),
       }),
-    ).rejects.toThrow("its last saved version may be incomplete");
-    expect(consoleError).toHaveBeenCalled();
-    consoleError.mockRestore();
+    ).rejects.toThrow("A Play follows this Plan, so its game stays the same.");
+    await expect(
+      savePlan({
+        input,
+        supabase: refuse("23503", "Unknown or unavailable team_plan_id plan-1"),
+      }),
+    ).rejects.toThrow("That Plan isn't one of yours.");
+    await expect(
+      savePlan({ input, supabase: refuse("XX000", "boom") }),
+    ).rejects.toThrow("Unable to save the Plan right now.");
   });
 });
