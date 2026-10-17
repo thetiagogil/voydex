@@ -8,6 +8,14 @@ import { PokemonPortrait } from "@/modules/reference/features/pokemon/components
 import { ComboboxItem } from "@/shared/components/ui/combobox";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
+/* The last step of the Codex crumb: the Pokémon's name, which opens the picker. */
+export const pokemonDetailSpeciesSelectorTriggerClassName =
+  "text-14 text-ink hover:text-ink h-10 max-w-full gap-1 rounded-full px-2.5 font-extrabold md:h-8";
+
+/* The picker's rows: the soft selected tint on the Pokémon you're reading. */
+export const pokemonDetailSpeciesSelectorActiveClassName =
+  "bg-select-soft text-select-ink";
+
 type PokemonDetailSpeciesSelectorOptionProps = {
   groupHeader?: string;
   isActive: boolean;
@@ -30,7 +38,7 @@ export const PokemonDetailSpeciesSelectorGroupHeader = ({
   }
 
   return (
-    <div className="bg-popover text-muted-foreground border-border/40 sticky top-0 z-30 border-b px-2 py-1.5 text-xs font-semibold tracking-wide">
+    <div className="bg-surface text-ink-3 border-line text-12 sticky top-0 z-30 border-b px-2 py-1.5 font-bold">
       {groupHeader}
     </div>
   );
@@ -44,18 +52,20 @@ export const PokemonDetailSpeciesSelectorOptionContent = ({
   return (
     <>
       <PokemonPortrait
-        alt={pokemonItem.imageAlt}
+        alt=""
         imageUrl={pokemonItem.imageUrl}
         type={getPokemonPortraitType(pokemonItem)}
         sizes="44px"
-        className="size-11 shrink-0 rounded-lg"
+        className="size-11 shrink-0"
         imageClassName="p-1"
       />
       <span className="min-w-0 flex-1">
-        <span className="text-muted-foreground block text-xs tabular-nums">
+        <span className="text-12 text-ink-3 block font-bold tabular-nums">
           {formatPokemonNationalNumber(displayNumber)}
         </span>
-        <span className="block truncate font-medium">{pokemonItem.name}</span>
+        <span className="block truncate font-extrabold">
+          {pokemonItem.name}
+        </span>
       </span>
       <PokemonTypeList
         primaryType={pokemonItem.primaryType}
@@ -81,7 +91,7 @@ export const PokemonDetailSpeciesSelectorOption = ({
         aria-current={isActive ? "page" : undefined}
         className={cn(
           "min-h-14 gap-3",
-          isActive && "bg-accent text-accent-foreground",
+          isActive && pokemonDetailSpeciesSelectorActiveClassName,
         )}
       >
         <PokemonDetailSpeciesSelectorOptionContent pokemonItem={pokemonItem} />

@@ -3,6 +3,11 @@
 > **Status:** Product-strategy research draft
 > **Last reviewed:** July 29, 2026
 
+> **Decided October 13, 2026:** Voydex takes donations only. No paid
+> features, subscriptions, purchases or advertisements are planned; see
+> [ADR 0007](../decisions/0007-development-workflow.md). The research below is
+> kept for context and is revised to match in a later pass.
+
 No pricing, entitlement model, subscription, purchase, advertisement, or
 paywall is currently accepted or implemented. This document preserves the
 market evidence and decision principles that must guide a later commercial

@@ -132,11 +132,11 @@ export const loadPokemonDetailRelatedRows = async ({
     abilityAttributesResult.error ||
     eggGroupsResult.error
   ) {
-    throw new Error("Unable to load PokÃ©mon attribute reference data.");
+    throw new Error("Unable to load Pokémon attribute reference data.");
   }
 
   if (pokedexResult.error) {
-    throw new Error("Unable to load PokÃ©mon PokÃ©dex definitions.");
+    throw new Error("Unable to load Pokémon Pokédex definitions.");
   }
 
   if (
@@ -144,7 +144,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyAttributesResult.error ||
     evolutionEdgesResult.error
   ) {
-    throw new Error("Unable to load PokÃ©mon evolution data.");
+    throw new Error("Unable to load Pokémon evolution data.");
   }
 
   return {
@@ -176,7 +176,7 @@ export const loadPokemonDetailEvolutionMethods = async (
     : { data: [] as EvolutionMethod[], error: null };
 
   if (evolutionMethodsResult.error) {
-    throw new Error("Unable to load PokÃ©mon evolution methods.");
+    throw new Error("Unable to load Pokémon evolution methods.");
   }
 
   return evolutionMethodsResult.data ?? [];

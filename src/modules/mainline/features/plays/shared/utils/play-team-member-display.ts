@@ -13,12 +13,6 @@ export const getPlayTeamMemberName = (member: PlayTeamMemberDisplay) => {
   return member.nickname ?? member.species_name ?? "Unknown Pokémon";
 };
 
-export const getPlayTeamMemberSpeciesName = (
-  member: Pick<PlayTeamMemberDisplay, "species_name">,
-) => {
-  return member.species_name ?? "Unknown Pokémon";
-};
-
 export const getPlayTeamMemberImageUrl = (member: PlayTeamMemberDisplay) => {
   const imageForm = {
     name: member.form_name ?? member.species_name ?? "Pokémon",

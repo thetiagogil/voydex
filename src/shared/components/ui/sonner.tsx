@@ -1,37 +1,61 @@
 "use client";
 
 import { Toaster as Sonner, type ToasterProps } from "sonner";
-import {
-  CircleCheckIcon,
-  InfoIcon,
-  TriangleAlertIcon,
-  OctagonXIcon,
-  Loader2Icon,
-} from "lucide-react";
 
+import { useIsMobile } from "@/shared/hooks/use-mobile";
+
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Spinner } from "@/shared/components/ui/spinner";
+
+/*
+ * Toasts are v3's ink pill: the float shadow, an action in the one action
+ * green. They sit bottom right on wide screens, out of the content's way,
+ * and bottom centre on phones, in thumb's reach. They slide in quietly;
+ * toasts never bounce. Where the shell has a bottom bar, it sets
+ * `--toast-bottom` so toasts sit above it.
+ */
 const Toaster = ({ ...props }: ToasterProps) => {
+  const isMobile = useIsMobile();
+
   return (
     <Sonner
       theme="light"
-      className="toaster group"
+      position={isMobile ? "bottom-center" : "bottom-right"}
+      /* A run of marks stays readable: toasts stack open, three at a time. */
+      expand
+      visibleToasts={3}
+      offset={{ bottom: "var(--toast-bottom, 24px)" }}
+      mobileOffset={{ bottom: "var(--toast-bottom, 18px)" }}
       icons={{
-        success: <CircleCheckIcon className="size-4" />,
-        info: <InfoIcon className="size-4" />,
-        warning: <TriangleAlertIcon className="size-4" />,
-        error: <OctagonXIcon className="size-4" />,
-        loading: <Loader2Icon className="size-4 animate-spin" />,
+        success: (
+          <AppIcon icon={appIcons.status.active} className="text-ok-line" />
+        ),
+        info: <AppIcon icon={appIcons.status.info} />,
+        warning: (
+          <AppIcon icon={appIcons.status.warning} className="text-warn-soft" />
+        ),
+        error: (
+          <AppIcon
+            icon={appIcons.status.error}
+            className="text-danger-soft-2"
+          />
+        ),
+        loading: <Spinner />,
       }}
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-          "--border-radius": "var(--radius)",
-        } as React.CSSProperties
-      }
       toastOptions={{
+        unstyled: true,
         classNames: {
-          toast: "cn-toast",
+          toast:
+            "bg-ink text-on-ink shadow-float text-14 flex w-fit max-w-full items-center gap-3 rounded-lg py-3 pr-3.5 pl-4.5 font-sans font-bold max-md:inset-x-0 max-md:mx-auto md:right-0 md:ml-auto",
+          content: "flex min-w-0 flex-col gap-0.5",
+          title: "text-white",
+          description: "text-13 text-on-ink font-semibold",
+          icon: "flex size-4 shrink-0 items-center justify-center [&_svg]:size-4",
+          actionButton:
+            "bg-action text-14 focus-visible:outline-on-ink ml-1 shrink-0 rounded-full px-3 py-1.5 font-extrabold text-white focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+          cancelButton:
+            "text-on-ink text-14 hover:text-white shrink-0 rounded-full px-2 py-1.5 font-bold",
+          closeButton: "hidden",
         },
       }}
       {...props}

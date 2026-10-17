@@ -1,6 +1,5 @@
 import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import type {
-  Game,
   PokemonGenerationFormSummary,
   PokemonLearnsetSummary,
   VersionGroup,
@@ -27,13 +26,6 @@ export const doesPokemonLearnsetMatchForm = (
   }
 
   return row.learnset.form_id === form.form.id;
-};
-
-export const doesPokemonLearnsetMatchGame = (
-  row: PokemonLearnsetSummary,
-  game: Game,
-) => {
-  return !row.game || row.game.id === game.id;
 };
 
 export const isPokemonLearnsetInVersionGroupScope = (

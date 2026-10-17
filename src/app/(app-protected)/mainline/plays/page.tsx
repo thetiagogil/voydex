@@ -16,16 +16,18 @@ const getSearchParam = (
 
 export default async function PlaysPage({ searchParams }: PageProps) {
   const params = await searchParams;
-  const data = await getMainlinePlaysPageData();
+  const data = await getMainlinePlaysPageData(
+    getSearchParam(params, "view") === "archived" ? "archived" : "active",
+  );
 
   return (
     <MainlinePlaysPage
       data={data}
       params={{
         game: getSearchParam(params, "game"),
+        generation: getSearchParam(params, "generation"),
         q: getSearchParam(params, "q"),
         sort: getSearchParam(params, "sort"),
-        status: getSearchParam(params, "status"),
       }}
     />
   );

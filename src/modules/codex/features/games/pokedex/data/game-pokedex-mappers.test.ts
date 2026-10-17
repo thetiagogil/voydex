@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { buildGamePokedexData } from "@/modules/codex/features/games/pokedex/data/game-pokedex-mappers";
 import { gameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import type { Game, Generation, Pokedex } from "@/modules/reference/types";
+import type {
+  Game,
+  Generation,
+  Pokedex,
+  VersionGroup,
+} from "@/modules/reference/types";
 
 const buildData = (generationId: number) => {
   const game = {
@@ -11,6 +16,11 @@ const buildData = (generationId: number) => {
     name: `Game ${generationId}`,
     version_group_id: generationId,
   } as Game;
+  const versionGroup = {
+    generation_id: generationId,
+    id: generationId,
+    sort_order: 1,
+  } as VersionGroup;
   const generation = {
     id: generationId,
     name: `Generation ${generationId}`,
@@ -22,17 +32,20 @@ const buildData = (generationId: number) => {
     attributes: [],
     entries: [],
     forms: [],
-    game,
+    games: [game],
     generations: [generation],
     pokedex: { id: 1, name: "Regional Pokédex" } as Pokedex,
     pokedexes: [],
+    pokemonCountByPokedexId: new Map(),
     species: [],
     types: [],
+    versionGroup,
+    versionGroupById: new Map([[versionGroup.id, versionGroup]]),
   });
 };
 
 describe("buildGamePokedexData", () => {
-  it("carries exact-game mechanic support into Codex game Pokédex data", () => {
+  it("carries the version group's mechanic support into Codex Pokédex data", () => {
     const generationOne = buildData(1);
     const generationThree = buildData(3);
 

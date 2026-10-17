@@ -4,7 +4,7 @@
 -- ============================================================================
 CREATE TABLE planning.mainline_team_plan_challenge_rules (
     team_plan_id uuid NOT NULL REFERENCES planning.mainline_team_plans (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
     config_override jsonb,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT team_plan_challenge_rules_primary_key PRIMARY KEY (team_plan_id, challenge_rule_id),

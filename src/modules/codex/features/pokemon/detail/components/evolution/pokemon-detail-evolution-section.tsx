@@ -1,39 +1,135 @@
 import { Fragment } from "react";
 
-import { PokemonDetailEvolutionConnector } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-connector";
-import type { PokemonDetailEvolutionNodeLinkScope } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
-import { PokemonDetailEvolutionNode } from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
 import {
-  getPokemonDetailEvolutionPathGridTemplateColumns,
-  getPokemonDetailEvolutionPaths,
-} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-paths";
+  PokemonDetailEvolutionNode,
+  type PokemonDetailEvolutionLinkScope,
+} from "@/modules/codex/features/pokemon/detail/components/evolution/pokemon-detail-evolution-node";
+import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import {
+  getPokemonDetailDistinctEvolutionEdges,
+  getPokemonDetailEvolutionConditionDescription,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-display";
+import { getPokemonDetailEvolutionPaths } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-paths";
 import { getPokemonDetailScopedEvolutionEdges } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-scope";
-import { PokemonDetailSectionCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-section-card";
-import type { PokemonEvolutionFamilySummary } from "@/modules/reference/types";
+import {
+  getPokemonDetailEvolutionChain,
+  getPokemonDetailEvolutionTree,
+  type PokemonDetailEvolutionTreeNode,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-tree";
+import type {
+  PokemonEvolutionEdgeSummary,
+  PokemonEvolutionFamilySummary,
+} from "@/modules/reference/types";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
-type PokemonDetailEvolutionSectionProps = {
-  activeFormId: number | null;
-  activeGameSlug: string | null;
-  activeGenerationSlug: string;
+type PokemonDetailEvolutionSectionProps = PokemonDetailEvolutionLinkScope & {
   activeGenerationSortOrder: number;
-  activeSpeciesId: number;
   activeVersionGroupId: number | null;
-  activeVersionGroupSlug: string | null;
   family: PokemonEvolutionFamilySummary;
 };
 
-const getEvolutionPathNodeColumn = (stepIndex: number) => {
-  return stepIndex * 2 + 1;
+const MAX_VISIBLE_CONDITIONS = 2;
+
+/* v3's "how": an arrow over what it takes, between two stages. */
+const EvolutionCondition = ({
+  edges,
+  showArrow,
+}: {
+  edges: PokemonEvolutionEdgeSummary[];
+  showArrow: boolean;
+}) => {
+  const distinctEdges = getPokemonDetailDistinctEvolutionEdges(edges);
+  const visibleEdges = distinctEdges.slice(0, MAX_VISIBLE_CONDITIONS);
+  const hiddenEdges = distinctEdges.slice(MAX_VISIBLE_CONDITIONS);
+
+  return (
+    <div className="text-13 text-ink-2 flex max-w-36 flex-col items-center gap-1 text-center font-bold">
+      {showArrow ? (
+        <AppIcon icon={appIcons.actions.continue} size="md" aria-hidden />
+      ) : null}
+      <span className="sr-only">Evolves: </span>
+      {visibleEdges.map((edge) => (
+        <span key={edge.edge.id}>
+          {getPokemonDetailEvolutionConditionDescription(edge)}
+        </span>
+      ))}
+      {hiddenEdges.length ? (
+        <details className="group flex flex-col items-center">
+          <summary className="text-link focus-visible:outline-focus cursor-pointer list-none rounded-xs outline-none hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid [&::-webkit-details-marker]:hidden">
+            <span className="group-open:hidden">
+              +{hiddenEdges.length} more
+            </span>
+            <span className="hidden group-open:inline">Show less</span>
+          </summary>
+          <span className="mt-1 flex flex-col gap-1">
+            {hiddenEdges.map((edge) => (
+              <span key={edge.edge.id}>
+                {getPokemonDetailEvolutionConditionDescription(edge)}
+              </span>
+            ))}
+          </span>
+        </details>
+      ) : null}
+    </div>
+  );
 };
 
-const getEvolutionPathConnectorColumn = (stepIndex: number) => {
-  return stepIndex * 2 + 2;
+/*
+ * One stage and everything after it: single evolutions run on in a row, as
+ * v3 draws them; where the line branches, the branches sit below, each with
+ * what it takes over its first stage.
+ */
+const EvolutionBranch = ({
+  linkScope,
+  node,
+}: {
+  linkScope: PokemonDetailEvolutionLinkScope;
+  node: PokemonDetailEvolutionTreeNode;
+}) => {
+  const { branches, chain } = getPokemonDetailEvolutionChain(node);
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-wrap items-center justify-center gap-x-4.5 gap-y-4">
+        {chain.map((chainNode, index) => (
+          <Fragment key={chainNode.key}>
+            {index > 0 ? (
+              <EvolutionCondition edges={chainNode.incomingEdges} showArrow />
+            ) : null}
+            <PokemonDetailEvolutionNode
+              linkScope={linkScope}
+              node={chainNode}
+            />
+          </Fragment>
+        ))}
+      </div>
+      {branches.length ? (
+        <>
+          <AppIcon
+            icon={appIcons.actions.continue}
+            size="md"
+            aria-hidden
+            className="text-ink-2 rotate-90"
+          />
+          <ul className="flex flex-wrap items-end justify-center gap-x-4 gap-y-5">
+            {branches.map((branch) => (
+              <li key={branch.key} className="flex flex-col items-center gap-2">
+                <EvolutionCondition
+                  edges={branch.incomingEdges}
+                  showArrow={false}
+                />
+                <EvolutionBranch linkScope={linkScope} node={branch} />
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+    </div>
+  );
 };
 
 export const PokemonDetailEvolutionSection = ({
   activeFormId,
-  activeGameSlug,
-  activeGenerationSlug,
   activeGenerationSortOrder,
   activeSpeciesId,
   activeVersionGroupId,
@@ -52,11 +148,6 @@ export const PokemonDetailEvolutionSection = ({
     edges: scopedEdges,
     family,
   });
-
-  if (!evolutionPaths.length) {
-    return null;
-  }
-
   const evolutionSpeciesCount = new Set(
     evolutionPaths.flatMap((path) =>
       path.steps.map((step) => step.pokemon.species.id),
@@ -67,67 +158,19 @@ export const PokemonDetailEvolutionSection = ({
     return null;
   }
 
-  const maxPathStepCount = Math.max(
-    1,
-    ...evolutionPaths.map((path) => path.steps.length),
-  );
-  const nodeLinkScope = {
-    activeGameSlug,
-    activeGenerationSlug,
+  const linkScope = {
+    activeFormId,
+    activeSpeciesId,
     activeVersionGroupSlug,
-  } satisfies PokemonDetailEvolutionNodeLinkScope;
+  } satisfies PokemonDetailEvolutionLinkScope;
 
   return (
-    <PokemonDetailSectionCard
-      title="Evolution line"
-      contentClassName="grid gap-2 overflow-x-auto"
-    >
-      {evolutionPaths.map((path) => (
-        <div
-          key={path.key}
-          className="grid min-w-full items-center gap-2"
-          style={{
-            gridTemplateColumns:
-              getPokemonDetailEvolutionPathGridTemplateColumns(
-                maxPathStepCount,
-              ),
-          }}
-        >
-          {path.steps.map((step, stepIndex) => (
-            <Fragment key={`${path.key}:${step.key}:${stepIndex}`}>
-              <div
-                className="justify-self-center"
-                style={{
-                  gridColumn: getEvolutionPathNodeColumn(stepIndex),
-                }}
-              >
-                <PokemonDetailEvolutionNode
-                  activeFormId={activeFormId}
-                  activeSpeciesId={activeSpeciesId}
-                  linkScope={nodeLinkScope}
-                  pokemon={step.pokemon}
-                  scopedEdges={path.edges}
-                />
-              </div>
-
-              {step.edgesToNext.length ? (
-                <div
-                  className="min-w-0"
-                  style={{
-                    gridColumn: getEvolutionPathConnectorColumn(stepIndex),
-                  }}
-                >
-                  <PokemonDetailEvolutionConnector
-                    direction="horizontal"
-                    edges={step.edgesToNext}
-                    length="stretched"
-                  />
-                </div>
-              ) : null}
-            </Fragment>
-          ))}
-        </div>
-      ))}
-    </PokemonDetailSectionCard>
+    <DetailSectionCard id="evolution" title="Evolution">
+      <div className="flex flex-col gap-6">
+        {getPokemonDetailEvolutionTree(evolutionPaths).map((root) => (
+          <EvolutionBranch key={root.key} linkScope={linkScope} node={root} />
+        ))}
+      </div>
+    </DetailSectionCard>
   );
 };

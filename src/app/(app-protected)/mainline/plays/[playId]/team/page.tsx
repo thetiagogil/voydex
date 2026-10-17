@@ -7,17 +7,47 @@ type MainlinePlayTeamRouteProps = {
   params: Promise<{
     playId: string;
   }>;
+  searchParams: Promise<{
+    add?: string | string[];
+    form?: string | string[];
+    pokemon?: string | string[];
+  }>;
 };
 
+const firstValue = (value: string | string[] | undefined) =>
+  Array.isArray(value) ? value[0] : value;
+
+/*
+ * `?add=` opens Add Pokémon (`appRoutes.mainlinePlayTeamAdd`): empty for
+ * the picker, a species slug (with an optional `&form=`) for that Pokémon.
+ */
 export default async function MainlinePlayTeamRoute({
   params,
+  searchParams,
 }: MainlinePlayTeamRouteProps) {
-  const { playId } = await params;
+  const [{ playId }, query] = await Promise.all([params, searchParams]);
   const data = await getMainlinePlayTeamRosterData(playId);
 
   if (!data) {
     notFound();
   }
 
-  return <MainlinePlayTeamRoster data={data} playId={playId} />;
+  const add = firstValue(query.add);
+  const form = firstValue(query.form);
+  const pokemon = firstValue(query.pokemon);
+
+  return (
+    <MainlinePlayTeamRoster
+      addRequest={
+        add === undefined
+          ? null
+          : {
+              preset: add ? { formSlug: form || null, speciesSlug: add } : null,
+            }
+      }
+      data={data}
+      initialPokemonId={pokemon ?? null}
+      playId={playId}
+    />
+  );
 }

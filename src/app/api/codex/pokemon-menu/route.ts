@@ -1,6 +1,6 @@
 import { type NextRequest, NextResponse } from "next/server";
 
-import { getPokemonDetailGamePokemonMenuBySlug } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-query";
+import { getPokemonDetailPokemonMenuBySlug } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-menu-query";
 
 export const dynamic = "force-dynamic";
 
@@ -16,25 +16,31 @@ const getIntegerSearchParam = (request: NextRequest, key: string) => {
   return Number.isFinite(numberValue) ? numberValue : undefined;
 };
 
+/* The species picker's Pokémon for one version group (`?versionGroup=swsh`). */
 export const GET = async (request: NextRequest) => {
-  const gameSlug = request.nextUrl.searchParams.get("game");
+  const versionGroupSlug = request.nextUrl.searchParams.get("versionGroup");
   const limit = getIntegerSearchParam(request, "limit");
   const offset = getIntegerSearchParam(request, "offset");
   const query = request.nextUrl.searchParams.get("q") ?? undefined;
 
-  if (!gameSlug) {
-    return NextResponse.json({ error: "Missing game slug." }, { status: 400 });
+  if (!versionGroupSlug) {
+    return NextResponse.json(
+      { error: "Missing version group slug." },
+      { status: 400 },
+    );
   }
 
   try {
-    const pokemonPage = await getPokemonDetailGamePokemonMenuBySlug(gameSlug, {
-      limit,
-      offset,
-      query,
-    });
+    const pokemonPage = await getPokemonDetailPokemonMenuBySlug(
+      versionGroupSlug,
+      { limit, offset, query },
+    );
 
     if (!pokemonPage) {
-      return NextResponse.json({ error: "Game not found." }, { status: 404 });
+      return NextResponse.json(
+        { error: "Version group not found." },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(pokemonPage);

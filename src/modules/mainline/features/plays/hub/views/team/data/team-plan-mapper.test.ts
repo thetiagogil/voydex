@@ -166,7 +166,9 @@ describe("buildMainlinePlayTeamPlanSummary", () => {
 
     expect(plan?.foundCount).toBe(1);
     expect(plan?.offPlanCount).toBe(1);
-    expect(plan?.offPlanMemberNames).toEqual(["Current"]);
+    expect(plan?.offPlanMembers.map((member) => member.species_name)).toEqual([
+      "Current",
+    ]);
     expect(plan?.comparisons[1]?.status).toBe("not-found");
   });
 

@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
-import { getActiveModuleDefaultHrefFromCookies } from "@/features/app-shell/server/active-module";
+import { getAuthDefaultRouteFromCookies } from "@/features/auth/server/auth-default-route";
 
 export default async function AppEntryPage() {
-  redirect(await getActiveModuleDefaultHrefFromCookies());
+  redirect(await getAuthDefaultRouteFromCookies());
 }

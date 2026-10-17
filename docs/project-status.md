@@ -22,15 +22,31 @@ the evidence for exact implementation details.
 - The internal `reference` module owns reusable Pokémon and game contracts,
   exact-game mechanic capabilities, domain rules, catalogue components, and
   presentation helpers. Codex and Mainline consume one shared profile for
-  Ability, Nature, Held Item, and Pokémon Gender support.
+  Ability, Breeding, Nature, Held Item, and Pokémon Gender support; the Let's
+  Go and both Legends version groups have no abilities, held items or
+  breeding.
 - Application and database boundaries are enforced by automated checks.
 
 ## Implemented Product Surfaces
 
 ### Mainline
 
+- Mainline Home (`/mainline`), New Play (a dialog over any Mainline
+  page and the Codex's game and Pokémon pages; other links from outside open
+  it with `/mainline?new=`, plus `&partner=` from Start a Play), the Team
+  Planner (`/mainline/plans/new`, `/mainline/plans/[planId]`), My Plans
+  (`/mainline/plans`), Statistics (`/mainline/stats`) and Collection
+  (`/mainline/collection`) are built on real data; see the
+  [Feature Contract](./product/feature-contract.md) for what each does.
+- In a Play: a brand-new Play's partner choice and first steps, Record in
+  place with Undo (Overview, Story), Add a note, Add and Edit Pokémon (Evolve,
+  Change form, Replace, Retire, Delete record), Story matchups
+  (`/team/analysis?reading=story`), the Plan empty state with Follow a Plan,
+  the History tab (`/history`) and the Settings tab (`/settings`). Team
+  History is retired; its events are History's Team filter.
 - `/mainline/plays` is an authenticated, real-data Play browse with URL-backed
-  Search, Status, Game, and Sort controls plus compact enriched summary cards.
+  Search, Game, Generation, and Sort controls, grouped by status, plus compact
+  enriched summary cards.
 - `/mainline/plays/[playId]` mounts a route-backed Play shell. The shared Play
   header and navigation persist while nested pages replace only the workspace
   content.
@@ -43,11 +59,8 @@ the evidence for exact implementation details.
   each route now loads a dedicated read model. Team Analysis is mounted at
   `/team/analysis` with an Active-only, exact-generation read model for
   defensive matchups, recorded damaging-move coverage, evidence completeness,
-  and responsive type-grouped mobile details. Team History is mounted at
-  `/team/history` as the focused, searchable Team-event projection. Its
-  timeline exposes event-time artwork and event details inline at every
-  breakpoint without a focused detail sheet. The Play shell uses the
-  shared shadcn Navigation Menu pattern established by Pokémon Detail and shows
+  and responsive type-grouped mobile details. The Play shell uses the
+  shared Navigation Menu pattern and shows
   the complete Overview, Team, Progress, History, and Settings hierarchy.
   Progress Story is mounted at `/progress/story`, and `/progress` redirects to
   it. Its read workspace joins each selected content scope into one searchable,
@@ -101,99 +114,87 @@ the evidence for exact implementation details.
   filtered-safe `Mark all` and `Unmark all` shortcuts; hidden entries never
   change. The workspace remains responsive without introducing a second
   inspector. Count-only imports, reconciliation, and reviewed cross-location
-  batch updates remain later contract gaps. Primary History and Settings
-  remain unmounted and visibly disabled until their workflows are implemented.
-- The Team slice has a verified backend mutation path for adding a team member;
-  the game-aware picker and mutation form are not mounted yet.
+  batch updates remain later contract gaps.
 
 ### Codex
 
-- Pokémon browse and game-scoped Pokémon detail are implemented with seeded
-  reference data.
-- Games browse, game detail, and game Pokedex routes are implemented.
-- Species-only Pokémon detail routes redirect to a default supported game.
+- Pokémon browse and version-group-scoped Pokémon detail
+  (`/codex/pokemon/[versionGroupSlug]/[speciesSlug]`) are implemented with
+  seeded reference data.
+- Games browse, the version group page (`/codex/games/[versionGroupSlug]`,
+  `?version=` picks the game) and its Pokédex routes are implemented; an
+  expansion's Pokédexes appear under the base group.
+- Game slugs and expansion child-group slugs redirect (308) to the base group,
+  unknown slugs are a 404, and species-only Pokémon routes open the group the
+  species was introduced in.
+- v3 additions: the game page's region with its first partners and its
+  version exclusives, the entry's Training and breeding card, and the
+  signed-in pieces Mainline fills through `codex-slots.ts` (Your Plays and In
+  your Plays on an entry, the Your Plays section on a game).
+  The lists never mark what you've played or used: the Codex is reference.
 
 ### Global Features
 
-- Authentication, proxy session refresh, app shell, module-aware navigation,
+- Authentication, proxy session refresh, app shell and its v3 bars,
   settings, site pages, and health surfaces have explicit owners.
+- Start a Play (`/start`), Forgot password, New password and Check your email
+  (`/forgot-password`, `/reset-password`, `/check-email`), Welcome
+  (`/welcome`), You (`/you`), Privacy and Terms, and Settings with profile,
+  Change email and Change password are built. Voydex keeps no export or
+  import of your data for now (a Plan's share link is the one import).
 
 ## Current Product And Design Checkpoint
 
-The breadth-first map and V1 functional screen contracts remain accepted in the
-[V1 Design Workspace](./design/v1/README.md). [V1-D115, V1-D118, V1-D119,
-V1-D120, V1-D122, and V1-D123](./design/v1/decisions.md) define the current
-light-first explorer's navbar, single journal page, compact introduction,
-conventional destination-link direction, Team-owned Plan entry, and full-height
-shell composition within the canonical
-[V1 Visual Language](./design/v1/visual-language.md). [V1-D124](./design/v1/decisions.md#v1-d124--automatic-play-team-plan-comparison)
-defines the implemented read-time Plan comparison and supersedes the earlier
-manual member-link/status model. [V1-D125](./design/v1/decisions.md#v1-d125--route-backed-hierarchical-play-navigation)
-defines the shared route-backed Play shell and compound Team and Progress
-navigation. [V1-D126](./design/v1/decisions.md#v1-d126--progress-opens-story-and-overview-owns-the-aggregate)
-removes the redundant Progress Overall child, makes Story the Progress default,
-and defers final Overview Progress consolidation until the remaining Play views
-are mature.
+The Soft Clay redesign is in progress on the `claude/soft-clay-redesign`
+branch. [ADR 0004](./decisions/0004-soft-clay-design-system.md) records the
+decision, the [Soft Clay Brief](./design/soft-clay-brief.md) is the agreed
+direction, and the [Design System](./app/design-system.md) describes what is
+built. The journal design (the centered journal column, valley background,
+paper texture, DM-era fonts and V1 styling docs) has been removed in place;
+`npm run design:check` fails if any of it is referenced again.
 
-The shared shell, Plays Browse, Play Hub Overview and Team, linked Team Plan
-comparison, Pokémon Browse, and Games Browse now implement the selected system:
-one full-height centered journal column over the refined daylight-valley
-background. The column begins at the top of the viewport, contains the in-flow
-navbar and all page content, fills at least the dynamic viewport height, and
-grows with long content. The landscape remains visible in the two side gutters.
-Primary route links use shared compact buttons; the module selector, account
-access, and actions remain clean controls.
-Compact page introductions, label-free accessible controls, result context, and
-content share the continuous surface without a clipboard frame, inset sheet,
-brass hardware, or repeated nested Cards. The browser owns long-page scrolling
-without a nested vertical scroller. Only surfaces listed under Implemented
-Product Surfaces are production implementation; the remaining screen work is
-still design direction until it is represented in code and verified.
+Every v3 screen is now built on Soft Clay on the branch, uncommitted at this
+checkpoint and pending the owner's review (the owner reviews all views at the
+end rather than per slice). The [Design System](./app/design-system.md)'s
+Migration Status lists them. Where v3 needs data Voydex doesn't have, the
+screen shows `PendingData` and a `TODO(v3-data)` comment; Known Gaps below
+lists each with the schema it waits on. The first slice's two open calls are
+settled (owner, 2026-10-13): section cards keep the 3px clay edge, and the
+main button stays in Nunito.
+
+Earlier on the branch, a behaviour and reuse pass against v3 made Codex routes
+version-group scoped, gave stamps, objectives, moments and team slots one
+owner, and gave every route group an error page. Signed-in screens still need
+a desktop and phone browser check. The checkpoints below describe behaviour
+and layout, which the redesign keeps; their visual wording predates Soft Clay,
+and the [Design System](./app/design-system.md) wins where they disagree.
 
 The current production baseline is Plays Browse:
 
-- URL-backed Search, Status, Game, and Sort controls are implemented, including
-  debounced updates, result counts, filtered-empty recovery, filter reset,
-  accessible in-control names, and compact equal 40-pixel control heights.
+- URL-backed Search, Game, Generation, and Sort controls are implemented,
+  including debounced updates, result counts, filtered-empty recovery, filter
+  reset, and accessible in-control names. Plays are grouped by status.
 - Each Play row now composes game cover, Play and game identity, update date,
   six Active-Team slots, honest overall completion, and one open cue from
   owner-scoped summary, reference-game, Overview, and Team reads.
 - Missing progress remains distinct from unavailable enrichment; unavailable
   Team data retains six explicit positions instead of silently disappearing.
-- Phone and tablet use stacked journal rows, while compact and wide desktop
+- Phone and tablet use stacked rows, while compact and wide desktop
   restore the horizontal comparison layout so identity and Team remain dominant.
   The selected composition and its realistic occupied/partial fixture states
   have been browser-checked at representative phone, tablet, and desktop widths.
-  The simplified single-journal composition was checked at representative
-  desktop, tablet, and phone widths. The page followed growing content without
-  clipping, horizontal overflow, or a nested vertical scroller. The
-  subsequent navbar refinement kept the opening bar in document flow without a
-  hard lower edge or scroll-triggered replacement, and the mobile module sheet
-  continued to open and close normally.
 
-Play Hub Overview is a completed production design checkpoint:
+Play Hub Overview (Soft Clay):
 
-- The authenticated query, Play identity, cover, metadata, actions, tab order,
-  and four Overview concerns remain intact across three Cards. Journey Status
-  and Progress Summary share the first full-width Card, Current Team follows in
-  a full-width six-slot desktop row, and Recent History completes the stack.
-  Planning is now reached
-  contextually from Team instead of occupying a sixth primary Play area.
-- The contextual header now uses the same serif/forest hierarchy and restrained
-  cover treatment as the other detail views without becoming another Card.
-  Duplicate Team and Pokédex counts were removed from the header so the owning
-  Overview sections remain authoritative.
-- The route-backed workspace is one quiet journal surface. Journey Status, Recent
-  History, Current Team, and Progress Summary use the shared detail-section
-  grammar; the realistic scenic banner, duplicate Story Path visualization,
-  inactive section actions, and Active/Reserve mini-toggle no longer compete
-  with the recorded data.
-- Desktop uses the accepted full-width Journey & Progress, Current Team, and
-  Recent History stack. Team keeps all six equal slots inline on desktop, while
-  tablet and phone use three- and two-column grids without widening the page.
-  Representative authenticated routes were checked at desktop, tablet, and
-  phone widths without page overflow or nested vertical scrolling; keyboard
-  focus remained visible and the browser console stayed clear.
+- Overview reads the Play overview, the active team preview, the last and next
+  milestones, the timeline preview and the badge case (the Play's gym
+  milestones and its Champion milestone with their badge types).
+- The next objective and progress sit side by side on desktop and stack on
+  phones. The team follows as six stickers with dashed open slots, then the
+  badge case beside recent moments. A game without gyms shows recent moments
+  alone.
+- Recent moments list up to three records; while there are fewer, the Play's
+  start closes the list. Gym milestones wear their badge's medallion.
 
 Play Hub Team and its linked Plan comparison have a production implementation
 checkpoint:
@@ -204,42 +205,29 @@ checkpoint:
   Overview limited to a dedicated Active preview read that hydrates only the
   identity, portrait, level, slot, and exact-generation types its six summary
   positions render.
-- Desktop uses the accepted list-detail hierarchy: all six Active and six
-  Reserve positions remain visible with the same detailed row geometry. The
-  initial baseline has no Reserve summary or disclosure state. The first recorded member opens in
-  a larger selected-Pokémon inspector. List-detail inspectors now share one
-  restrained primary-ring Card treatment without a fixed visible Card header;
-  the changing subject leads inside the content. The selected Pokémon's Edit
-  action sits at the far right of its identity, nickname, and type row. The
-  substantially larger portrait is the
-  identity area's focal point, while an inline labelled star identifies shiny
-  members. The top row uses a 60/40 identity-to-caught-information split. Type
-  badges precede the adjacent Level and icon-labelled Gender chips, and Held
-  Item follows those chips.
-  Mechanic-dependent facts are resolved from the Play's exact game profile;
-  unsupported Ability, Nature, Held Item, or Gender rows are omitted instead of
-  presented as unrecorded. Caught information is now one compact section containing only Ball, met
-  location, and met level; Trainer is omitted until the application owns useful
-  per-member original-trainer data. The next row uses the same 60/40 hierarchy:
-  the wider Moves column sits on the left, while Ability and Nature stack on the
-  right with quiet separation, no decorative icons, and supported effect
-  context. The four move positions use a compact vertical list with a
-  left-aligned type icon, optically centered name, subtle type color, or a
-  matching `Empty slot`, followed by optional Notes and a responsive action
-  footer. Edit Pokémon now belongs to the selected panel or sheet header.
-- Missing Active and Reserve positions are labelled `Empty slot` and omit
-  placeholder media and explanatory copy. A completely blank Play keeps all six
+- Team (Soft Clay) opens on a page head (`PageHeader`, level 2) with the
+  Active and Reserve counts and Add Pokémon, then the
+  roster as compact `PokemonSticker` tiles: all six Active and six Reserve
+  positions stay visible, and a picked sticker wears the Play's colour. On
+  wide screens the selected Pokémon sits beside the roster in a plain quiet
+  `Card`; the first recorded member opens by default. Its identity, caught
+  information (Ball, met location, met level), Moves, Ability and Nature keep
+  the earlier content contract: mechanic-dependent facts are resolved from the
+  Play's exact game profile, and unsupported Ability, Nature, Held Item or
+  Gender rows are omitted instead of presented as unrecorded. Edit Pokémon
+  belongs to the selected panel or sheet header.
+- Missing Active and Reserve positions are dashed `PokemonEmptySlot` tiles
+  labelled `Empty slot`. A completely blank Play keeps all six
   Reserve positions visible without inventing a member selection.
 - Tablet and phone keep the roster primary and open occupied members in a
   focused detail sheet. Populated and blank fixtures were browser-checked at
   desktop, tablet, and phone widths without horizontal overflow or console
   errors.
-- The Roster Card header now owns only the canonical disabled Add action. A
-  compact Team Plan Card appears directly below Roster for linked Plans,
-  leads with the Plan identity, reports whether the current Team is following
-  it, and separates target coverage from unplanned-member context. Its enabled
-  View plan action opens the full-width `/team/plan` comparison while keeping
-  Team active and preserving the Play shell. That workspace now exposes three
+- The Roster holds only the head, the stickers and the selected Pokémon;
+  `?pokemon=[playPokemonId]` opens it on one member (an Overview sticker links
+  there). The linked Plan's full-width `/team/plan` comparison is reached from
+  the Team menu while keeping Team active and preserving the Play shell. That
+  workspace exposes three
   explanatory-tip summary metrics and compact rows aligned to one shared slot,
   identity, status, Tracked identity, and action grid. Metrics and build/move
   status icons share one fast-hover, focus, and pinnable click/touch behavior.
@@ -256,15 +244,8 @@ checkpoint:
   sheet capped at 82dvh with the compared identities first. Build grids contain
   only exact-game-supported mechanics; unsupported mechanics cannot affect
   automatic comparison status, and the Build section is absent when none apply.
-  Past Members has no Roster Card link until its focused destination is
+  Past Members has no roster link until its focused destination is
   implemented; selected detail remains the first right-side section.
-- Team Quick Analysis remains in the supporting right-side hierarchy as a
-  compact evidence preview and now routes to the focused Team Analysis view.
-  Recent Team Events loads and hydrates only Pokémon-specific roster and
-  lifecycle changes; Play progress snapshots and Hall of Fame entries no longer
-  qualify. Its full Team History destination now provides search, event-type
-  filtering, canonical newest/oldest ordering, and event-time identity detail
-  without turning the projection into an editor.
 - Decorative section-title icons and the permanent empty Plan card were
   removed. A linked Plan now exposes one to six ordered targets and is compared
   at read time with existing Play Pokémon. Matching is deterministic and
@@ -274,112 +255,48 @@ checkpoint:
   Planned moves remain in Plan order, connect to the same recorded move
   regardless of slot, pair remaining differences in recorded order, and append
   additional recorded moves as neutral evidence.
-  No inferred member link or comparison status is persisted. Slot resolution,
-  roster movement, member editing, lifecycle actions, Past Members, Plan
-  acquisition/authoring, and full history routes remain outside this read-only
-  slice. Their selected-member controls are visibly disabled; the exact-game
-  Codex and focused Team Analysis routes are active.
+  No inferred member link or comparison status is persisted. Roster movement
+  between slots, Past Members, and Plan editing from inside a Play remain
+  outside this slice.
 
-Pokémon Browse is a completed production design checkpoint:
+Codex (Soft Clay, version-group scoped):
 
-- Result cards now use one continuous specimen surface for artwork and identity,
-  with named field-guide type markers beside the number-and-name block instead
-  of realistic type scenery, dark poster overlays, or an internal divider.
-- The grid presents two useful columns on common phones, three at medium widths,
-  and four on wide journal pages. Generation headings retain the section `h2`
-  while card species names use nested `h3` headings.
-- Browse controls use the shared label-free journal treatment with explicit
-  accessible names. Incremental results append automatically in small batches
-  before the user reaches the boundary, with a manual compatibility fallback
-  when scroll observation is unavailable.
-- The exact-game, URL-state, result announcement, and filtered-empty recovery
-  gaps in the accepted functional contract remain intentionally out of this
-  visual slice.
-
-Pokémon Detail is the current completed visual checkpoint:
-
-- The existing information architecture is preserved: selectors remain at the
-  top, portrait/forms/evolution remain in the left stack, and the seven
-  reference sections retain their right-stack order.
-- The realistic portrait scenery has been replaced by the same neutral specimen
-  field and restrained type accent used by Browse. Existing Shiny and form
-  behavior remain unchanged.
-- Detail sections now use the light journal card grammar, serif primary titles,
-  neutral field-guide type badges, and one semantic primary treatment for stat
-  bars and effectiveness emphasis.
-- Wide reference rows become labelled stacked rows inside their existing cards
-  on narrow screens, removing page-level horizontal overflow without moving or
-  hiding their data.
-
-Games Browse is a completed production design checkpoint:
-
-- Dark square-poster overlays have been replaced by full, uncropped cover art in
-  the same compact `4:3` field-guide card rhythm as Pokémon Browse. Release year
-  and region sit above the serif game identity on the same warm paper card.
-- The grid presents two useful columns on common phones, three at medium widths,
-  and four on wide journal pages. Generation headings remain `h2` sections,
-  while exact game titles use nested `h3` headings inside accessible whole-card
-  links.
-- Search, Generation, Game type, and Region use the label-free journal control
-  treatment without forcing four full-width controls before phone results.
-- URL-backed filters, Platform and `More filters`, result announcements, and
-  return-focus restoration in the accepted functional contract remain outside
-  this visual slice.
-
-Game Detail is a completed production design checkpoint:
-
-- The existing return, cover, identity, facts, reference action, named
-  Pokédexes, and related-games order remains unchanged. The view now uses the
-  same quiet paper cards, serif editorial hierarchy, and forest-primary action
-  treatment as Pokémon Detail and Games Browse.
-- Platforms, Available Pokémon, and Game type are compact labelled facts
-  instead of icon tiles, and the generic game-type description no longer poses
-  as a game-specific synopsis.
-- Named Pokédexes use flat divided destination rows in normal document flow
-  without nested row Cards or an inner vertical scroller. Related-game cards
-  retain complete uncropped cover art and explicit accessible destinations.
-- Representative seeded routes have been checked at desktop, tablet, and phone
-  widths without page-level horizontal overflow. The Browse Pokémon, named
-  Pokédex, related-game, and Back to games destinations retain their existing
-  behavior.
-
-Game Pokédex is a completed production design checkpoint:
-
-- Each route now has a semantic named-Pokédex heading with exact game,
-  generation, and result-count context. Multi-Pokédex games keep the selector
-  visible as primary page scope instead of collapsing it into a secondary
-  utility menu; single-Pokédex games rely on the heading without showing a
-  redundant selector.
-- Wide journal pages retain the exact-game semantic comparison table with
-  explicit species links. Phones use compact divided field-guide rows that keep
-  local number, sprite, species, National number, and types visible; tablets
-  add labelled base-stat comparison without widening the document.
-- Search and Type retain their existing client-side behavior and now expose a
-  selected-Pokédex filtered-empty recovery. Representative Red/Kanto and
-  Sun/Alola routes have been checked at desktop, tablet, and phone widths with
-  no page-level horizontal overflow, and named-Pokédex switching plus
-  exact-game Pokémon destinations remain intact.
-- URL-backed filter/sort state, explicit incremental loading, optional-content
-  grouping, and the accepted DLC read-model expansion remain functional work
-  outside this visual slice.
+- Every page opens on `CodexHead`. Version-group segments resolve through one
+  rule (`resolveVersionGroupRoute`); route layouts settle the 404 or 308
+  before the loading state streams. Routes are in
+  [Navigation And Routes](./product/navigation-and-routes.md).
+- Pokémon Browse: one toolbar row (Search, Generation menu, Group by
+  generation or type, Sort), the type dots and the results line under it,
+  over `CodexPokemonCardLink` cards, grouped by introduced generation under
+  its region or by primary type, and appended as you scroll with a manual
+  fallback. Each
+  card opens the first base group of its introduced generation. Filters are
+  client state; a query on `/codex/pokemon` redirects to the bare path.
+- Pokémon entry: see [Codex Pokémon Detail](./design/codex-pokemon-detail.md).
+- Games Browse: Search and the kind of game in the URL (`q`, `kind`), newest
+  or oldest order, grouping by generation or region, and `GameShelfCard`
+  covers on a game-coloured stage.
+- The version group page: the cover with a version switch, facts, the group's
+  Pokédexes (its own, then its expansions', National last) and related games.
+- Game Pokédex: the named Pokédex as page scope with its switcher, Search,
+  Type, Sort (Regional number, National number, Name) and a Cards or Table
+  view; filter state is client-only.
 
 ## Next Chat Handoff
 
-The current implementation checkpoint is the commit containing this handoff on
-`main`. On the next computer, run `git status`, `git log -1 --oneline`, and
-`npm install` before editing. Preserve unrelated work and confirm the linked
-Supabase migration list before any later remote database write.
+Every v3 screen is built on `claude/soft-clay-redesign` but not yet committed
+(see the checkpoint above); the owner reviews all views at the end. Next:
+commit the build in cohesive slices, run `npm run verify`, browser-check the
+signed-in screens at desktop and phone widths, then the owner's review and its
+fixes. Each pending-data marker in Known Gaps leaves with its data; grep
+`TODO(v3-data)` to find them. On the next computer, run `git status`,
+`git log -1 --oneline`, and `npm install` before editing. Preserve unrelated
+work and confirm the linked Supabase migration list before any later remote
+database write.
 
-The completed Team slice includes Roster, the read-only Team Plan comparison,
-Team Analysis, and the focused Team History projection. Team History reads the
-shared Play event store but admits only Team lifecycle and roster events. It
-preserves event-time Pokémon identity, does not substitute current roster
-identity, orders by canonical timeline position, and never uses database
-creation time as an unknown effective date. Desktop and tablet use the same
-flat divided timeline grammar as Overview and expose all recorded details
-inline. Phones stack the same complete record without opening a detail sheet.
-The view is read-only; correction and deletion remain owned by the future
-primary Play History workflow.
+Team History is retired: History reads the shared Play event store and its
+Team filter shows the roster events, with event-time Pokémon identity, ordered by
+when each moment happened (see Data Ownership).
 
 The bounded route-backed `Progress - Story` workspace is mounted:
 `/progress` opens Story, the attached menu has no Overall item, and the UI
@@ -407,28 +324,29 @@ inspector. Historical date correction, linked-event correction, and bulk
 completion still require their own cohesive command contracts and are not
 represented by placeholder actions.
 
-The existing Overview Progress Summary becomes the sole cross-area Progress
-landing surface, but its production refactor is deliberately deferred until
-Story, Pokédex, Collectibles, primary Play History, and Play Settings are all
-complete. Those child views may still change the final Overview contract. When
-that later consolidation begins, connect each Overview progress row directly
+The existing Overview Progress Summary is the sole cross-area Progress
+landing surface. Story, Pokédex, Collectibles, History and Play Settings now
+exist; when the Overview consolidation begins, connect each Overview progress row directly
 to its owning child view and keep normalized cross-area completion, tracking
 scope, and honest recording states in Overview rather than adding another
 Overall route.
 
-The Plan acquisition/authoring boundary and game-aware `Add Pokémon` picker
-remain independent later slices. Roster movement, lifecycle actions, and Past
-Members also remain separate increments.
+Plan Detail, Create Play from a Plan, roster movement between slots, and Past
+Members remain separate later increments.
 
-Do not add another background, dark mode, sticky replacement navigation,
-Skeletons, decorative edge systems, or a broad cross-page refactor while this
-slice is active. Database work requires a current contract gap, authored-source
-changes, local `npm run db:verify`, an explicit remote-write gate, and linked
-migration parity.
+On the Soft Clay redesign branch, broad cross-page refactors are expected: each
+screen moves to the new system and deletes its old parts. Do not add dark
+mode, Skeletons or a new logo as part of the redesign. Database work requires a current
+contract gap, authored-source changes, local `npm run db:verify`, an explicit
+remote-write gate, and linked migration parity.
 
-Future design and implementation tasks start from the canonical screen-family
-document, accepted decisions, design system, current code, and verified
-responsive behavior. Conversation images remain iteration evidence; any
+Future design and implementation tasks start from the
+[Soft Clay Brief](./design/soft-clay-brief.md), the
+[Design System](./app/design-system.md), the product contracts in
+[docs/product](./product/feature-contract.md), current code, and verified
+responsive behavior. The V1 screen-family contracts were retired with the
+journal design; they remain in Git history before ADR 0004 if a past decision
+needs checking. Conversation images remain iteration evidence; any
 selected behavior that future work must preserve belongs in versioned docs.
 
 ## Known Gaps
@@ -439,15 +357,13 @@ selected behavior that future work must preserve belongs in versioned docs.
 - Codex reference-query performance has not yet been profiled under realistic
   usage.
 - Pokémon Browse still maps latest available attributes to result cards before
-  opening an introductory-generation game route, so the implemented card and
-  destination can disagree until the accepted exact-game query correction is
-  built.
-- Codex Game Pokédex search and Type state remain client-only, all matching
-  entries render at once, and optional-content Pokédexes are not yet grouped
-  into the owning game route. The selected journal visual slice is complete,
-  but those accepted functional gaps remain.
+  opening the introduced generation's version group, so the card and the entry
+  can disagree until the accepted scoped query correction is built.
+- Codex Pokémon Browse and Game Pokédex filter state remains client-only, and
+  every matching Game Pokédex entry renders at once. Those accepted functional
+  gaps remain.
 - Plays Browse still needs archived visibility, secondary filters, explicit
-  recovery states, and incremental loading before its accepted V1 contract is
+  recovery states, and incremental loading before its accepted contract is
   complete.
 - Secure account deletion has no reviewed server-owned operation proving Auth
   identity removal, dependent owner-data cascades, session invalidation, and
@@ -458,16 +374,66 @@ selected behavior that future work must preserve belongs in versioned docs.
   transitions, current/past lifecycle support, and Plan-safe correction or
   deletion. The consolidated design-derived database matrix and full
   reference-data audit remain required before those workflows are implemented.
-- Plays without a linked Plan currently omit the Plan entry entirely. The
-  accepted Link/Create entry, standalone Plans routes, reusable Plan authoring,
-  shared-edit impact warning, and clone-before-Play-edit workflow are not yet
-  mounted.
+- A Play without a Plan shows `No Plan yet` with Plan a team and Follow a
+  Plan. Plan Detail, Create Play from a Plan, the shared-edit impact warning,
+  the clone-before-Play-edit workflow and the Game List are not built.
+- The Team Planner saves through several writes (no single save-Plan
+  function): a failed new Plan is deleted, and a failed edit restores the
+  Plan's previous row, Pokémon, planned moves and expansions. Every Pokémon
+  is checked against the version group first (its Pokédexes, learnsets and
+  capability profile). The roster editor's move rewrite restores the old
+  moves the same way.
 - The development Team fixture still stores a non-ball reference in
   `ball_item_id`. The Team read model now validates that reference against the
   `poke_ball` item category and presents an invalid value as `Not recorded`;
   fixture data still needs a real capture-ball assignment.
 - Future product families remain backlog and should not receive schema or UI
   work before Mainline is useful end to end.
+
+### Pending v3 Data
+
+Each item is a `PendingData` marker with a `TODO(v3-data)` comment in `src`
+(`grep -rn "TODO(v3-data)" src`), grouped by what it waits on:
+
+- `public.profiles`: a Pokémon icon (`avatar_url` is a URL, not a species) for
+  the trainer card, Settings, Welcome, the account menu and the You tab; a
+  default trainer name for new Plays; a first-run flag so Welcome shows once.
+- `public.user_preferences`: mode, colour theme and motion (Look and feel);
+  New Play defaults for Pokédex mode and Story and Collectibles tracking.
+- Account deletion: a reviewed, server-owned operation (Auth user and every
+  owned row) behind Settings' Delete your account.
+- `gameplay.mainline_play_settings`: a Story on/off flag, a Pokédex mode
+  (caught only or caught and seen; only `pokedex_tracking_enabled` exists) and
+  a Collectibles on/off flag (only `include_collectibles_in_completion`
+  exists), for New Play and Play Settings' Tracking.
+- `gameplay.mainline_challenge_rules`: the seeded system catalogue (Nuzlocke,
+  Monotype, No battle items, Level caps, Set battle mode, Shiny hunt); only
+  development rows exist. New Play and Play Settings' Challenge rules.
+- `gameplay.mainline_plays`: a last-opened column, so Home's shelf reads
+  "last opened first" (it uses the latest update).
+- Roster placement: an atomic RPC to move a member between team and reserve
+  or to another slot (Edit Pokémon).
+- `planning.mainline_team_plans`: a version preference (either, or one game
+  of the pair); a Plan stores its group's first game until then.
+- A reviewed `save_mainline_team_plan` RPC writing a Plan's row, members,
+  planned moves and expansions in one transaction (the Planner's save).
+- Opponent parties (species, level, moves per opponent): Story matchups'
+  verdict, their team, best hit and the level comparison.
+- `tracking.mainline_opponents` and `mainline_badges`: an anon read grant (and
+  each opponent's town and ace) for the Codex game page's leaders.
+- `tracking.mainline_collectibles`: reward text per collectible set.
+- Reference catalogue: one-per-save gift groups and either-or picks (the
+  Planner's Team check); route and encounter locations (Add Pokémon's
+  suggestions); a badge count for Start a Play ("8 gym badges ahead"); a
+  description per region (`reference.regions`) and per version group.
+- Reference Pokémon facts for the Codex entry: the species' Pokédex category
+  (genus); flavour text per game; heights and weights
+  (`pokemon_forms.height_decimeters` and `weight_hectograms` are unseeded);
+  EV yield, catch rate, base friendship, base experience and growth rate;
+  egg groups for forms without egg group ids; egg cycles and gender ratio per
+  species.
+- A table for a user's favourite Pokémon (the entry's Favourite).
+- Legal text for Privacy and Terms, written and reviewed before launch.
 
 ## Verification Checkpoint
 

@@ -55,7 +55,7 @@ export const getOtherAvailablePokemonGroup = (): PokemonDetailMenuGroup => {
   return {
     key: "other-available",
     kind: "availability",
-    name: "Other available PokÃ©mon",
+    name: "Other available Pokémon",
   };
 };
 

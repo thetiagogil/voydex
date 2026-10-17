@@ -7,9 +7,8 @@ import { cn } from "@/shared/utils/cn";
 const browseFilterPanelVariants = cva("grid gap-3", {
   variants: {
     variant: {
-      default:
-        "bg-card text-card-foreground ring-app-surface-border rounded-xl p-3 shadow-(--app-surface-shadow) ring-1",
-      journal: "bg-transparent text-card-foreground",
+      default: "rounded-xl bg-surface p-4 text-ink shadow-card",
+      bare: "bg-transparent text-ink",
     },
   },
   defaultVariants: {
@@ -17,6 +16,10 @@ const browseFilterPanelVariants = cva("grid gap-3", {
   },
 });
 
+/*
+ * The toolbar card (v3 `.toolbar`). It counts as a card, so the fields and
+ * secondary buttons inside take the inset fill.
+ */
 export const BrowseFilterPanel = ({
   className,
   variant = "default",
@@ -24,6 +27,7 @@ export const BrowseFilterPanel = ({
 }: ComponentProps<"form"> & VariantProps<typeof browseFilterPanelVariants>) => {
   return (
     <form
+      data-slot={variant === "default" ? "card" : undefined}
       className={cn(browseFilterPanelVariants({ variant }), className)}
       {...props}
     />

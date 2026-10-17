@@ -1,16 +1,13 @@
 import {
   doesPokemonAvailabilityMatchForm,
-  doesPokemonAvailabilityMatchGame,
   isPokemonAvailabilityInVersionGroupScope,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-availability";
 import {
   doesPokemonLearnsetMatchForm,
-  doesPokemonLearnsetMatchGame,
   isPokemonLearnsetInVersionGroupScope,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-learnsets";
 import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 import type {
-  Game,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
   VersionGroup,
@@ -19,36 +16,6 @@ import type {
 type PokemonDetailAvailabilityRow =
   PokemonGenerationDetail["availability"][number];
 type PokemonDetailLearnsetRow = PokemonGenerationDetail["learnsets"][number];
-
-const isAvailabilityInScope = (
-  row: PokemonDetailAvailabilityRow,
-  versionGroup: PokemonDetailVersionGroupScope | null,
-  game: Game | null,
-) => {
-  if (
-    versionGroup &&
-    !isPokemonAvailabilityInVersionGroupScope(row, versionGroup)
-  ) {
-    return false;
-  }
-
-  return !game || doesPokemonAvailabilityMatchGame(row, game);
-};
-
-const isLearnsetInScope = (
-  row: PokemonDetailLearnsetRow,
-  versionGroup: PokemonDetailVersionGroupScope | null,
-  game: Game | null,
-) => {
-  if (
-    versionGroup &&
-    !isPokemonLearnsetInVersionGroupScope(row, versionGroup)
-  ) {
-    return false;
-  }
-
-  return !game || doesPokemonLearnsetMatchGame(row, game);
-};
 
 const getVersionGroupSortOrder = (versionGroup: VersionGroup | null) => {
   return versionGroup?.sort_order ?? 0;
@@ -130,39 +97,24 @@ const dedupeLearnsetRows = (rows: PokemonDetailLearnsetRow[]) => {
   });
 };
 
-const getPokedexVersionGroupScopeIds = (
-  generation: PokemonGenerationDetail,
-  versionGroup: PokemonDetailVersionGroupScope | null,
+/* A base group and its expansions: what one entry reads. */
+const getVersionGroupScopeIds = (
+  versionGroup: PokemonDetailVersionGroupScope,
 ) => {
-  if (!versionGroup) {
-    return null;
-  }
-
-  const activeVersionGroupId = versionGroup.versionGroup.id;
-  const scopeIds = new Set([activeVersionGroupId]);
-
-  if (!versionGroup.versionGroup.parent_version_group_id) {
-    generation.versionGroups.forEach((candidateVersionGroup) => {
-      if (
-        candidateVersionGroup.parent_version_group_id === activeVersionGroupId
-      ) {
-        scopeIds.add(candidateVersionGroup.id);
-      }
-    });
-  }
-
-  return scopeIds;
+  return new Set([
+    versionGroup.versionGroup.id,
+    ...versionGroup.expansions.map((expansion) => expansion.id),
+  ]);
 };
 
 export const getScopedForms = (
   generation: PokemonGenerationDetail,
-  versionGroup: PokemonDetailVersionGroupScope | null,
-  game: Game | null,
+  versionGroup: PokemonDetailVersionGroupScope,
 ) => {
   return generation.forms.filter((form) => {
     return generation.availability.some((row) => {
       return (
-        isAvailabilityInScope(row, versionGroup, game) &&
+        isPokemonAvailabilityInVersionGroupScope(row, versionGroup) &&
         doesPokemonAvailabilityMatchForm(row, form)
       );
     });
@@ -171,70 +123,75 @@ export const getScopedForms = (
 
 export const getScopedAvailability = (
   generation: PokemonGenerationDetail,
-  versionGroup: PokemonDetailVersionGroupScope | null,
-  game: Game | null,
+  versionGroup: PokemonDetailVersionGroupScope,
   form: PokemonGenerationFormSummary | null,
 ) => {
-  const scopedRows = generation.availability.filter((row) => {
-    return (
-      isAvailabilityInScope(row, versionGroup, game) &&
-      doesPokemonAvailabilityMatchForm(row, form)
-    );
+  const versionGroupRows = generation.availability.filter((row) => {
+    return isPokemonAvailabilityInVersionGroupScope(row, versionGroup);
+  });
+  const scopedRows = versionGroupRows.filter((row) => {
+    return doesPokemonAvailabilityMatchForm(row, form);
   });
 
-  if (scopedRows.length || !form) {
-    return dedupeAvailabilityRows(scopedRows);
-  }
+  return dedupeAvailabilityRows(
+    scopedRows.length || !form ? scopedRows : versionGroupRows,
+  );
+};
 
+/*
+ * Where one form is found in a group, strictly: the generation-wide Where to
+ * find reads every group of the generation, and a group without the form has
+ * nothing to say about it (no Hisuian Arcanine in Sword and Shield).
+ */
+export const getFormAvailabilityInVersionGroup = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope,
+  form: PokemonGenerationFormSummary | null,
+) => {
   return dedupeAvailabilityRows(
     generation.availability.filter((row) => {
-      return isAvailabilityInScope(row, versionGroup, game);
+      return (
+        isPokemonAvailabilityInVersionGroupScope(row, versionGroup) &&
+        doesPokemonAvailabilityMatchForm(row, form)
+      );
     }),
   );
 };
 
+/*
+ * The group's learnset, every game in it: a row recorded for one game only
+ * stays, marked as that game's (see the learnset table).
+ */
 export const getScopedLearnsets = (
   generation: PokemonGenerationDetail,
-  versionGroup: PokemonDetailVersionGroupScope | null,
-  game: Game | null,
+  versionGroup: PokemonDetailVersionGroupScope,
   form: PokemonGenerationFormSummary | null,
 ) => {
-  const scopedRows = generation.learnsets.filter((row) => {
-    return (
-      isLearnsetInScope(row, versionGroup, game) &&
-      doesPokemonLearnsetMatchForm(row, form)
-    );
+  const versionGroupRows = generation.learnsets.filter((row) => {
+    return isPokemonLearnsetInVersionGroupScope(row, versionGroup);
+  });
+  const scopedRows = versionGroupRows.filter((row) => {
+    return doesPokemonLearnsetMatchForm(row, form);
   });
 
-  if (scopedRows.length || !form) {
-    return dedupeLearnsetRows(scopedRows);
-  }
-
   return dedupeLearnsetRows(
-    generation.learnsets.filter((row) => {
-      return isLearnsetInScope(row, versionGroup, game);
-    }),
+    scopedRows.length || !form ? scopedRows : versionGroupRows,
   );
 };
 
 export const getScopedPokedexEntries = (
-  generation: PokemonGenerationDetail,
-  versionGroup: PokemonDetailVersionGroupScope | null,
+  versionGroup: PokemonDetailVersionGroupScope,
   form: PokemonGenerationFormSummary | null,
+  generation: PokemonGenerationDetail,
 ) => {
-  const versionGroupScopeIds = getPokedexVersionGroupScopeIds(
-    generation,
-    versionGroup,
+  const versionGroupScopeIds = getVersionGroupScopeIds(versionGroup);
+  const versionGroupEntries = generation.pokedexEntries.filter(
+    ({ pokedex }) => {
+      return (
+        pokedex !== null && versionGroupScopeIds.has(pokedex.version_group_id)
+      );
+    },
   );
-  const versionGroupEntries = versionGroupScopeIds
-    ? generation.pokedexEntries.filter(({ pokedex }) => {
-        return (
-          pokedex?.version_group_id !== null &&
-          pokedex?.version_group_id !== undefined &&
-          versionGroupScopeIds.has(pokedex.version_group_id)
-        );
-      })
-    : generation.pokedexEntries;
   const scopedEntries = versionGroupEntries.filter(({ entry }) => {
     return (
       !form || !entry.display_form_id || entry.display_form_id === form.form.id

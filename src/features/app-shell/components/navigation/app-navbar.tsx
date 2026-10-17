@@ -1,50 +1,44 @@
 import { Logo } from "@/shared/components/brand/logo";
-import { cn } from "@/shared/utils/cn";
 import Link from "next/link";
 
 type AppNavbarProps = {
-  afterLogo?: React.ReactNode;
+  /* Where the V tile leads: Mainline Home signed in, the front door signed out. */
+  brandHref: string;
   center?: React.ReactNode;
-  className?: string;
-  contentClassName?: string;
   end?: React.ReactNode;
-  showLogoText?: boolean;
+  showName?: boolean;
 };
 
+/*
+ * v3's bar: the V tile on the left, the sections centred, your utilities on
+ * the right. Navigation, so no card and no edge, and no ground of its own:
+ * on a page that opens on a band it sits on the band's colour, and on a
+ * tinted band its controls follow it (the `--bar-*` tokens).
+ */
 export const AppNavbar = ({
-  afterLogo,
+  brandHref,
   center,
-  className,
-  contentClassName,
   end,
-  showLogoText = false,
+  showName = false,
 }: AppNavbarProps) => (
-  <header
-    className={cn(
-      "app-nav-surface app-nav-surface-initial border-app-surface-border/50 relative z-40 w-full shrink-0 border-b",
-      className,
-    )}
-  >
-    <div
-      className={cn(
-        "mx-auto grid h-14 w-[calc(100%-1rem)] max-w-344 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 sm:w-[calc(100%-2rem)] sm:gap-3 lg:h-16 lg:w-[calc(100%-4rem)] lg:grid-cols-[minmax(0,1fr)_minmax(24rem,2fr)_minmax(0,1fr)] lg:gap-5",
-        contentClassName,
-      )}
-    >
-      <div className="flex h-9 min-w-0 items-stretch justify-start gap-1">
+  <header className="text-ink relative z-40 w-full shrink-0">
+    <div className="page-column grid h-(--bar-h) grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3">
+      <div className="flex min-w-0 items-center">
         <Link
-          href="/"
+          href={brandHref}
           aria-label="Voydex home"
-          className="inline-flex h-9 shrink-0 items-center rounded-lg outline-none focus-visible:ring-3 focus-visible:ring-(--app-nav-foreground)/35"
+          className="inline-flex h-11 min-w-11 shrink-0 items-center rounded-sm"
         >
-          <Logo showText={showLogoText} markClassName="size-9" />
+          {/* v3 drops the word on narrow phones; the tile alone is the brand. */}
+          <Logo
+            showText={showName}
+            markClassName="text-17 size-8.5 bg-(--bar-brand)"
+            textClassName="max-sm:hidden"
+          />
         </Link>
-        {afterLogo}
       </div>
-      <div className="hidden h-9 min-w-0 items-stretch justify-center lg:flex">
-        {center}
-      </div>
-      <div className="flex h-9 items-stretch justify-end gap-1">{end}</div>
+      <div className="flex min-w-0 items-center justify-center">{center}</div>
+      <div className="flex min-w-0 items-center justify-end gap-1.5">{end}</div>
     </div>
   </header>
 );

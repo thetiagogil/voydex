@@ -8,14 +8,14 @@ import {
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 
 type PokemonMenuStateIdentity = {
-  requestedGameSlug: string;
+  requestedVersionGroupSlug: string;
   requestedQuery: string;
 };
 
 const shouldAppendPokemonMenuItems = ({
   currentMenuState,
   mode,
-  requestedGameSlug,
+  requestedVersionGroupSlug,
   requestedQuery,
 }: PokemonMenuStateIdentity & {
   currentMenuState: PokemonMenuState;
@@ -23,24 +23,24 @@ const shouldAppendPokemonMenuItems = ({
 }) => {
   return (
     mode === "append" &&
-    currentMenuState.gameSlug === requestedGameSlug &&
+    currentMenuState.versionGroupSlug === requestedVersionGroupSlug &&
     currentMenuState.query === requestedQuery
   );
 };
 
 export const getActivePokemonMenuState = ({
-  activeGameSlug,
+  activeVersionGroupSlug,
   activeQuery,
   menuState,
 }: {
-  activeGameSlug: string | null;
+  activeVersionGroupSlug: string | null;
   activeQuery: string;
   menuState: PokemonMenuState;
 }) => {
-  return menuState.gameSlug === activeGameSlug &&
+  return menuState.versionGroupSlug === activeVersionGroupSlug &&
     menuState.query === activeQuery
     ? menuState
-    : createPokemonMenuState(activeGameSlug, activeQuery);
+    : createPokemonMenuState(activeVersionGroupSlug, activeQuery);
 };
 
 export const getPokemonMenuPreloadTriggerIndex = ({
@@ -58,7 +58,7 @@ export const getPokemonMenuPreloadTriggerIndex = ({
 export const getPendingPokemonMenuState = ({
   currentMenuState,
   mode,
-  requestedGameSlug,
+  requestedVersionGroupSlug,
   requestedQuery,
 }: PokemonMenuStateIdentity & {
   currentMenuState: PokemonMenuState;
@@ -67,12 +67,12 @@ export const getPendingPokemonMenuState = ({
   const shouldAppend = shouldAppendPokemonMenuItems({
     currentMenuState,
     mode,
-    requestedGameSlug,
+    requestedVersionGroupSlug,
     requestedQuery,
   });
 
   return {
-    gameSlug: requestedGameSlug,
+    versionGroupSlug: requestedVersionGroupSlug,
     items: shouldAppend ? currentMenuState.items : [],
     loadState: shouldAppend ? "loaded" : "loading",
     loadingMore: shouldAppend,
@@ -86,7 +86,7 @@ export const getResolvedPokemonMenuState = ({
   currentMenuState,
   mode,
   nextPage,
-  requestedGameSlug,
+  requestedVersionGroupSlug,
   requestedQuery,
 }: PokemonMenuStateIdentity & {
   currentMenuState: PokemonMenuState;
@@ -94,14 +94,14 @@ export const getResolvedPokemonMenuState = ({
   nextPage: PokemonDetailMenuPage;
 }) => {
   if (
-    currentMenuState.gameSlug !== requestedGameSlug ||
+    currentMenuState.versionGroupSlug !== requestedVersionGroupSlug ||
     currentMenuState.query !== requestedQuery
   ) {
     return currentMenuState;
   }
 
   return {
-    gameSlug: requestedGameSlug,
+    versionGroupSlug: requestedVersionGroupSlug,
     items:
       mode === "append"
         ? mergePokemonMenuItems(currentMenuState.items, nextPage.pokemon)
@@ -116,13 +116,13 @@ export const getResolvedPokemonMenuState = ({
 
 export const getFailedPokemonMenuState = ({
   currentMenuState,
-  requestedGameSlug,
+  requestedVersionGroupSlug,
   requestedQuery,
 }: PokemonMenuStateIdentity & {
   currentMenuState: PokemonMenuState;
 }) => {
   if (
-    currentMenuState.gameSlug !== requestedGameSlug ||
+    currentMenuState.versionGroupSlug !== requestedVersionGroupSlug ||
     currentMenuState.query !== requestedQuery
   ) {
     return currentMenuState;

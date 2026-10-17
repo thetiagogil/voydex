@@ -31,7 +31,7 @@ const ProgressTrack = ({
   return (
     <ProgressPrimitive.Track
       className={cn(
-        "bg-muted relative flex h-1 w-full items-center overflow-x-hidden rounded-full",
+        "bg-track shadow-track relative flex h-2.5 w-full items-center overflow-x-hidden rounded-full",
         className,
       )}
       data-slot="progress-track"
@@ -47,7 +47,10 @@ const ProgressIndicator = ({
   return (
     <ProgressPrimitive.Indicator
       data-slot="progress-indicator"
-      className={cn("bg-primary h-full transition-all", className)}
+      className={cn(
+        "bg-game shadow-fill h-full rounded-full transition-all duration-700",
+        className,
+      )}
       {...props}
     />
   );
@@ -59,7 +62,7 @@ const ProgressLabel = ({
 }: ProgressPrimitive.Label.Props) => {
   return (
     <ProgressPrimitive.Label
-      className={cn("text-sm font-medium", className)}
+      className={cn("text-14 font-extrabold", className)}
       data-slot="progress-label"
       {...props}
     />
@@ -73,7 +76,7 @@ const ProgressValue = ({
   return (
     <ProgressPrimitive.Value
       className={cn(
-        "text-muted-foreground ml-auto text-sm tabular-nums",
+        "text-14 text-ink-2 ml-auto font-bold tabular-nums",
         className,
       )}
       data-slot="progress-value"

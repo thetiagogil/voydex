@@ -1,7 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <path fill="#115737" d="M235 48Q256 36 277 48L425 134Q446 146 446 170V342Q446 366 425 378L277 464Q256 476 235 464L87 378Q66 366 66 342V170Q66 146 87 134Z"/>
-  <g transform="rotate(60 256 256)">
-    <path fill="#fdf8eb" d="m256 136 60 120-60-30-60 30Z"/>
-    <path fill="#fdf8eb" fill-opacity="0.52" d="m256 376-60-120 60 30 60-30Z"/>
-  </g>
+  <rect width="512" height="512" rx="120" fill="#3b8360"/>
+  <path d="M168 168 256 352 344 168" fill="none" stroke="#ffffff" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

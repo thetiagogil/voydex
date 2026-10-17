@@ -248,10 +248,11 @@ export const updateStoryMilestoneAction = async (
       revalidatePath(appRoutes.mainlinePlayHistory(playId));
     }
 
+    /* Recording is announced by the page, which knows the milestone's name. */
     return {
       message:
         intent === "complete"
-          ? "Milestone completed."
+          ? null
           : intent === "note"
             ? "Milestone note updated."
             : intent === "decision"

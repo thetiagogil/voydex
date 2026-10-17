@@ -1,92 +1,147 @@
 import {
   buildPokemonDetailVersionGroupScopes,
   getDefaultForm,
-  getDefaultGame,
-  getDefaultVersionGroup,
-  getGenerationFromParams,
-  getVersionGroupFromGame,
-  matchesSlugOrId,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import {
+  getFormAvailabilityInVersionGroup,
   getScopedAvailability,
   getScopedForms,
   getScopedLearnsets,
   getScopedPokedexEntries,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scoped-rows";
-import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type {
-  Game,
   PokemonDetailData,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
 } from "@/modules/reference/types";
 import type {
+  PokemonDetailGenerationForm,
   PokemonDetailScopeParams,
   PokemonDetailVersionGroupScope,
   ResolvedPokemonDetailScope,
 } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 
-export const getPokemonDetailScopeQuery = (
+/*
+ * Every form found somewhere in the generation, in the generation's order,
+ * each opening in the address's group when it is found there, else in the
+ * first group that has it.
+ */
+const getGenerationForms = (
   generation: PokemonGenerationDetail,
-  versionGroup?: PokemonDetailVersionGroupScope | null,
-  game?: Game | null,
-  form?: PokemonGenerationFormSummary | null,
-) => {
-  const defaultVersionGroup =
-    versionGroup ??
-    getDefaultVersionGroup(
-      generation,
-      buildPokemonDetailVersionGroupScopes(generation),
-    );
-  const defaultGame = game ?? getDefaultGame(generation, defaultVersionGroup);
+  versionGroups: PokemonDetailVersionGroupScope[],
+  current: {
+    forms: PokemonGenerationFormSummary[];
+    versionGroup: PokemonDetailVersionGroupScope;
+  },
+): PokemonDetailGenerationForm[] => {
+  const formsByGroup = versionGroups.map((scope) => ({
+    forms:
+      scope === current.versionGroup
+        ? current.forms
+        : getScopedForms(generation, scope),
+    scope,
+  }));
 
-  return {
-    form: form?.form.slug,
-    game: defaultGame?.slug,
-    generation: generation.generation.slug,
-    versionGroup: defaultVersionGroup?.versionGroup.slug,
-  } satisfies PokemonDetailScopeParams;
+  return generation.forms.flatMap((form) => {
+    const home =
+      formsByGroup.find(({ forms, scope }) => {
+        return (
+          scope === current.versionGroup &&
+          forms.some((candidate) => candidate.form.id === form.form.id)
+        );
+      }) ??
+      formsByGroup.find(({ forms }) => {
+        return forms.some((candidate) => candidate.form.id === form.form.id);
+      });
+
+    return home
+      ? [{ form, versionGroupSlug: home.scope.versionGroup.slug }]
+      : [];
+  });
 };
 
+/*
+ * Reads the entry in one base version group (Sword and Shield, its
+ * expansions included). Null when the Pokémon doesn't exist yet in that
+ * group's generation.
+ */
 export const resolvePokemonDetailScope = (
   data: PokemonDetailData,
   params: PokemonDetailScopeParams,
 ): ResolvedPokemonDetailScope | null => {
-  const generation = getGenerationFromParams(data, params);
+  for (const generation of data.generationDetails) {
+    const versionGroups = buildPokemonDetailVersionGroupScopes(generation);
+    const versionGroup = versionGroups.find((scope) => {
+      return scope.versionGroup.slug === params.versionGroup;
+    });
 
-  if (!generation) {
-    return null;
+    if (!versionGroup) {
+      continue;
+    }
+
+    const scopedForms = getScopedForms(generation, versionGroup);
+    const forms = scopedForms.length ? scopedForms : generation.forms;
+    const form = getDefaultForm(forms, params.form);
+    const availability = getScopedAvailability(generation, versionGroup, form);
+    const learnsets = getScopedLearnsets(generation, versionGroup, form);
+    const isFormFoundIn = (scope: PokemonDetailVersionGroupScope) => {
+      return (
+        scope === versionGroup ||
+        getScopedForms(generation, scope).some((candidate) => {
+          return !form || candidate.form.id === form.form.id;
+        })
+      );
+    };
+
+    return {
+      availability,
+      form,
+      forms,
+      generation,
+      generationAvailability: versionGroups.map((scope) => ({
+        availability:
+          scope === versionGroup
+            ? availability
+            : getFormAvailabilityInVersionGroup(generation, scope, form),
+        versionGroup: scope,
+      })),
+      generationForms: getGenerationForms(generation, versionGroups, {
+        forms,
+        versionGroup,
+      }),
+      generationLearnsets: versionGroups.map((scope) => ({
+        isFound: isFormFoundIn(scope),
+        learnsets:
+          scope === versionGroup
+            ? learnsets
+            : getScopedLearnsets(generation, scope, form),
+        versionGroup: scope,
+      })),
+      /* Another group's Pokédexes count only when the form is found there. */
+      generationPokedexEntries: versionGroups.flatMap((scope) => {
+        if (!isFormFoundIn(scope)) {
+          return [];
+        }
+
+        return getScopedPokedexEntries(scope, form, generation).map(
+          (entry) => ({
+            ...entry,
+            versionGroupSlug: scope.versionGroup.slug,
+          }),
+        );
+      }),
+      learnsets,
+      mechanics: resolveVersionGroupMechanics({
+        gameIds: versionGroup.games.map((game) => game.id),
+        generationId: generation.generation.id,
+        versionGroupId: versionGroup.versionGroup.id,
+      }),
+      pokedexEntries: getScopedPokedexEntries(versionGroup, form, generation),
+      versionGroup,
+      versionGroups,
+    };
   }
 
-  const versionGroups = buildPokemonDetailVersionGroupScopes(generation);
-  const versionGroup =
-    getVersionGroupFromGame(params.game, versionGroups) ??
-    versionGroups.find((scope) => {
-      return matchesSlugOrId(scope.versionGroup, params.versionGroup);
-    }) ??
-    getDefaultVersionGroup(generation, versionGroups);
-  const game =
-    versionGroup?.games.find((availableGame) => {
-      return matchesSlugOrId(availableGame, params.game);
-    }) ?? getDefaultGame(generation, versionGroup);
-  const scopedForms = getScopedForms(generation, versionGroup, game);
-  const forms = scopedForms.length ? scopedForms : generation.forms;
-  const form = getDefaultForm(forms, params.form);
-
-  return {
-    availability: getScopedAvailability(generation, versionGroup, game, form),
-    form,
-    forms,
-    game,
-    generation,
-    learnsets: getScopedLearnsets(generation, versionGroup, game, form),
-    mechanics: resolveGameMechanics({
-      gameId: game?.id ?? null,
-      generationId: generation.generation.id,
-      versionGroupId: versionGroup?.versionGroup.id ?? null,
-    }),
-    pokedexEntries: getScopedPokedexEntries(generation, versionGroup, form),
-    versionGroup,
-    versionGroups,
-  };
+  return null;
 };

@@ -35,10 +35,12 @@ const defensiveRow = ({
     cells: Array.from({ length: severeExposureCount }, (_, index) => ({
       effectiveness: "weak",
       memberId: `member-${id}-${index}`,
+      memberName: `Member ${index}`,
       multiplier: 4,
       multiplierLabel: "4×",
     })),
     immuneCount,
+    isPressure: weakCount >= 2 || severeExposureCount > 0,
     resistCount,
     weakCount,
   }) as TeamAnalysisDefensiveRow;
@@ -48,11 +50,8 @@ const coverageRows = (coveredTypeIds: number[], totalCount = 10) => {
     { length: totalCount },
     (_, index) =>
       ({
-        cells: [],
-        coveredByMemberCount: coveredTypeIds.includes(index) ? 1 : 0,
         defendingType: referenceType(index),
         moveCount: coveredTypeIds.includes(index) ? 1 : 0,
-        stabMoveCount: 0,
       }) as TeamAnalysisCoverageRow,
   );
 };
@@ -64,10 +63,7 @@ const evidence = ({
   recordedMoveCount?: number;
   typedMemberCount?: number;
 } = {}): TeamAnalysisEvidence => ({
-  abilityRecordedCount: null,
   activeCount: 6,
-  heldItemRecordedCount: null,
-  possibleActiveCount: 6,
   possibleMoveCount: 24,
   recordedMoveCount,
   typedMemberCount,
@@ -251,5 +247,38 @@ describe("buildTeamAnalysisHealth", () => {
     });
 
     expect(getStatuses(metrics)["weakness-control"]).toBe("moderate");
+  });
+
+  it("names the type to watch and whom it hits", () => {
+    const metrics = buildTeamAnalysisHealth({
+      coverageRows: coverageRows([0, 1, 2, 3, 5, 6, 7]),
+      defensiveRows: [
+        defensiveRow({
+          id: 4,
+          severeExposureCount: 1,
+          weakCount: 1,
+        }),
+      ],
+      evidence: evidence({ recordedMoveCount: 12 }),
+    });
+    const byId = Object.fromEntries(
+      metrics.map((metric) => [metric.id, metric]),
+    );
+
+    expect(byId["team-health"]?.line).toEqual([
+      { text: "Watch" },
+      { type: referenceType(4) },
+    ]);
+    expect(byId["team-health"]?.reason).toContain(
+      "Type 4 is the type to watch: it hits Member 0 4×.",
+    );
+    expect(byId["weakness-control"]?.line).toEqual([
+      { type: referenceType(4) },
+      { text: "unanswered" },
+    ]);
+    expect(byId["move-coverage"]?.line).toEqual([{ text: "7 of 10 types" }]);
+    expect(byId["move-coverage"]?.reason).toContain(
+      "Strong from 8 types, Moderate from 5",
+    );
   });
 });

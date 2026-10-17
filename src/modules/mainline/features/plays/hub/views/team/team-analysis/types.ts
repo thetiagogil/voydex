@@ -1,10 +1,10 @@
-import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { Generation, Type } from "@/modules/reference/types";
+
+import type { StoryMatchupsModel } from "./data/story-matchups-model";
 
 export type TeamAnalysisEffectiveness =
   | "immune"
@@ -16,6 +16,7 @@ export type TeamAnalysisEffectiveness =
 export type TeamAnalysisDefensiveCell = {
   effectiveness: TeamAnalysisEffectiveness;
   memberId: string;
+  memberName: string;
   multiplier: number | null;
   multiplierLabel: string;
 };
@@ -24,36 +25,20 @@ export type TeamAnalysisDefensiveRow = {
   attackingType: Type;
   cells: TeamAnalysisDefensiveCell[];
   immuneCount: number;
+  /* Hits two or more of the team super effectively, or one of them 4×. */
+  isPressure: boolean;
   resistCount: number;
   weakCount: number;
 };
 
-export type TeamAnalysisCoverageMove = {
-  damageClass: string;
-  id: number;
-  name: string;
-  receivesStab: boolean;
-  type: Type;
-};
-
-export type TeamAnalysisCoverageCell = {
-  memberId: string;
-  moves: TeamAnalysisCoverageMove[];
-};
-
 export type TeamAnalysisCoverageRow = {
-  cells: TeamAnalysisCoverageCell[];
-  coveredByMemberCount: number;
   defendingType: Type;
+  /* Recorded damaging moves across the team that hit this type super effectively. */
   moveCount: number;
-  stabMoveCount: number;
 };
 
 export type TeamAnalysisEvidence = {
-  abilityRecordedCount: number | null;
   activeCount: number;
-  heldItemRecordedCount: number | null;
-  possibleActiveCount: number;
   possibleMoveCount: number;
   recordedMoveCount: number;
   typedMemberCount: number;
@@ -65,33 +50,39 @@ export type TeamAnalysisHealthStatus =
   | "weak"
   | "strong";
 
+/* A card's specific line: words, and a type shown as its dot and name. */
+export type TeamAnalysisHealthLinePart = { text: string } | { type: Type };
+
 export type TeamAnalysisHealthMetric = {
-  evidence: string;
-  explanation: {
-    description: string;
-    note?: string;
-    rules: string[];
-  };
   id: "move-coverage" | "team-health" | "threat-response" | "weakness-control";
+  line: TeamAnalysisHealthLinePart[];
+  /* Why the card reads the way it does, shown in its tooltip. */
+  reason: string;
   status: TeamAnalysisHealthStatus;
-  summary: string;
   title: string;
 };
 
 export type TeamAnalysisModel = {
+  /* Whether this game has abilities, which the type reading leaves out. */
+  abilitiesApply: boolean;
   coverageRows: TeamAnalysisCoverageRow[];
   defensiveRows: TeamAnalysisDefensiveRow[];
   evidence: TeamAnalysisEvidence;
   generation: Generation;
   healthMetrics: TeamAnalysisHealthMetric[];
+  /* Whether this game has held items, which the type reading leaves out. */
+  heldItemsApply: boolean;
   lineupLabel: string;
-  mechanics: GameMechanicsProfile;
   members: MainlinePlayTeamMember[];
 };
 
+export type TeamAnalysisReading = "overall" | "story";
+
 export type MainlinePlayTeamAnalysisData = {
   analysis: TeamAnalysisModel | null;
-  play: MainlinePlaySummary;
+  reading: TeamAnalysisReading;
+  /* Read only for the Story matchups reading. */
+  storyMatchups: StoryMatchupsModel | null;
 };
 
 export type MainlinePlayTeamAnalysisRows = {

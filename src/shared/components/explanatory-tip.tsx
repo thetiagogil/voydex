@@ -16,12 +16,52 @@ type ExplanatoryTipProps = Pick<
   ComponentProps<typeof PopoverContent>,
   "align" | "alignOffset" | "side" | "sideOffset"
 > & {
-  children: ReactNode;
+  children?: ReactNode;
   content: ReactNode;
   contentClassName?: string;
   nativeButton?: ComponentProps<typeof PopoverTrigger>["nativeButton"];
   pinOnPress?: boolean;
-  trigger: NonNullable<ComponentProps<typeof PopoverTrigger>["render"]>;
+  /* Without a trigger, the tip opens from v3's small "i" dot. */
+  trigger?: NonNullable<ComponentProps<typeof PopoverTrigger>["render"]>;
+  /* The accessible name of the default "i" dot. */
+  triggerLabel?: string;
+  /*
+   * `info` is the "i" dot; `warn` and `danger` turn it into a soft "!" that
+   * flags something to look at (a Plan slot that needs something).
+   */
+  triggerTone?: InfoDotTone;
+  /*
+   * `dot` is the small inset dot for text; `raised` is v3's `.edit-wrap
+   * .infotip`, a 24px cream dot on a 2px lip that sits beside a control.
+   */
+  triggerVariant?: InfoDotVariant;
+};
+
+type InfoDotVariant = "dot" | "raised";
+type InfoDotTone = "danger" | "info" | "warn";
+
+const infoDotToneClassNames: Record<InfoDotTone, string> = {
+  danger: "bg-danger-soft text-danger-deep hover:text-danger-deep",
+  info: "",
+  warn: "bg-warn-soft text-warn-ink hover:text-warn-ink",
+};
+
+/* v3 `.infotip`: a round "i" dot with at least a 40px hit area. */
+const infoDotClassName =
+  "text-ink-2 hover:text-ink focus-visible:outline-focus relative inline-grid shrink-0 cursor-help place-items-center rounded-full align-middle transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid";
+
+const infoDotVariantClassNames: Record<
+  InfoDotVariant,
+  { dot: string; glyph: string }
+> = {
+  dot: {
+    dot: "bg-surface-2 size-4.5 after:absolute after:-inset-2.5",
+    glyph: "text-12",
+  },
+  raised: {
+    dot: "bg-surface size-6 shadow-[0_2px_0_var(--lip)] after:absolute after:-inset-2",
+    glyph: "text-13",
+  },
 };
 
 export const ExplanatoryTip = ({
@@ -35,6 +75,9 @@ export const ExplanatoryTip = ({
   side = "top",
   sideOffset,
   trigger,
+  triggerLabel = "More information",
+  triggerTone = "info",
+  triggerVariant = "dot",
 }: ExplanatoryTipProps) => {
   const [open, setOpen] = useState(false);
   const openedByKeyboardFocus = useRef(false);
@@ -75,7 +118,19 @@ export const ExplanatoryTip = ({
         delay={hoverDelay}
         closeDelay={hoverCloseDelay}
         nativeButton={nativeButton}
-        render={trigger}
+        render={
+          trigger ?? (
+            <button
+              type="button"
+              aria-label={triggerLabel}
+              className={cn(
+                infoDotClassName,
+                infoDotVariantClassNames[triggerVariant].dot,
+                infoDotToneClassNames[triggerTone],
+              )}
+            />
+          )
+        }
         onFocus={(event) => {
           if (
             !pointerFocus.current &&
@@ -122,7 +177,18 @@ export const ExplanatoryTip = ({
           close();
         }}
       >
-        {children}
+        {children ??
+          (trigger ? null : (
+            <span
+              aria-hidden
+              className={cn(
+                "leading-none font-extrabold",
+                infoDotVariantClassNames[triggerVariant].glyph,
+              )}
+            >
+              {triggerTone === "info" ? "i" : "!"}
+            </span>
+          ))}
       </PopoverTrigger>
       <PopoverContent
         align={align}
@@ -130,7 +196,8 @@ export const ExplanatoryTip = ({
         side={side}
         sideOffset={sideOffset}
         className={cn(
-          "bg-popover text-popover-foreground border-border/70 w-fit max-w-xs rounded-md border px-3 py-2 text-xs leading-5 shadow-md ring-0",
+          /* The tip is ink, so quiet ink text inside it turns light. */
+          "bg-ink text-on-ink shadow-float text-13 [&_.text-ink-2]:text-on-ink [&_.text-ink-3]:text-on-ink [&_.text-muted-foreground]:text-on-ink w-fit max-w-[min(18.75rem,calc(100vw-2rem))] gap-1.5 rounded-md px-3.5 py-3 leading-normal font-medium [&_.text-ink]:text-white [&_b]:text-white [&_strong]:text-white",
           contentClassName,
         )}
       >

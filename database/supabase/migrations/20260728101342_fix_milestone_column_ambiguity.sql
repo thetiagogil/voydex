@@ -11,9 +11,7 @@ BEGIN
     IF v_function_signature IS NULL THEN
         RAISE EXCEPTION 'Required gameplay.complete_mainline_play_milestone function is missing';
     END IF;
-
     v_function_definition := pg_get_functiondef(v_function_signature);
-
     IF STRPOS(v_function_definition, v_qualified_fragment) > 0 THEN
         NULL;
     ELSIF STRPOS(v_function_definition, v_ambiguous_fragment) > 0 THEN

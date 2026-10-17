@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   DEFAULT_AUTH_REDIRECT_PATH,
+  getLogInLandingPath,
   getSafeAuthRedirectPath,
 } from "./auth-redirects";
 
@@ -29,5 +30,19 @@ describe("auth redirect safety", () => {
 
   it("uses a safe fallback for non-string values", () => {
     expect(getSafeAuthRedirectPath(null, "/codex/games")).toBe("/codex/games");
+  });
+});
+
+describe("log in landing", () => {
+  it("lands on Mainline by default and from public pages", () => {
+    expect(getLogInLandingPath(DEFAULT_AUTH_REDIRECT_PATH)).toBe("/mainline");
+    expect(getLogInLandingPath("/codex/pokemon/pikachu")).toBe("/mainline");
+  });
+
+  it("returns to the protected page that sent you to Log in", () => {
+    expect(getLogInLandingPath("/mainline/plays?status=active")).toBe(
+      "/mainline/plays?status=active",
+    );
+    expect(getLogInLandingPath("/settings")).toBe("/settings");
   });
 });

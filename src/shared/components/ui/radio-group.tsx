@@ -14,23 +14,17 @@ const RadioGroup = ({ className, ...props }: RadioGroupPrimitive.Props) => {
   );
 };
 
+/* v3's radio dot: a quiet ring that fills to a thick action-green ring when on. */
 const RadioGroupItem = ({ className, ...props }: RadioPrimitive.Root.Props) => {
   return (
     <RadioPrimitive.Root
       data-slot="radio-group-item"
       className={cn(
-        "group/radio-group-item peer border-input focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:data-checked:bg-primary relative flex aspect-square size-4 shrink-0 rounded-full border outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3",
+        "group/radio-group-item peer border-mute bg-surface focus-visible:outline-focus data-checked:border-action aria-invalid:border-danger relative flex aspect-square size-4.5 shrink-0 rounded-full border-2 transition-[border-color,border-width] outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid disabled:cursor-not-allowed disabled:opacity-50 data-checked:border-[5px]",
         className,
       )}
       {...props}
-    >
-      <RadioPrimitive.Indicator
-        data-slot="radio-group-indicator"
-        className="flex size-4 items-center justify-center"
-      >
-        <span className="bg-primary-foreground absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full" />
-      </RadioPrimitive.Indicator>
-    </RadioPrimitive.Root>
+    />
   );
 };
 

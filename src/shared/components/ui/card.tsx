@@ -4,19 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/shared/utils/cn";
 
+/*
+ * A section card on the page ground keeps the quiet clay edge (3px, neutral,
+ * never pressed). Inside another card, a sheet or a dialog it goes flat.
+ */
 const cardVariants = cva(
-  "group/card text-card-foreground ring-app-surface-border flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-sm shadow-(--app-surface-shadow) ring-1 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+  "group/card text-card-foreground flex flex-col gap-(--card-spacing) overflow-hidden rounded-2xl py-(--card-spacing) text-15 [--card-spacing:--spacing(5)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(4)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 sm:[--card-spacing:--spacing(6)] *:[img:first-child]:rounded-t-2xl *:[img:last-child]:rounded-b-2xl",
   {
     variants: {
       size: {
         default: "",
-        sm: "",
+        sm: "rounded-xl",
       },
       variant: {
-        default: "bg-card",
+        default:
+          "bg-surface shadow-card in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:shadow-none in-data-[slot=dialog-content]:shadow-none in-data-[slot=alert-dialog-content]:shadow-none in-data-[slot=sheet-content]:shadow-none",
+        inset: "bg-surface-2",
         interactive:
-          "bg-card transition-colors hover:bg-muted focus-visible:bg-muted group-hover/card-link:bg-muted group-focus-visible/card-link:bg-muted",
-        journal: "gap-0 rounded-none bg-transparent py-0 shadow-none ring-0",
+          "bg-surface shadow-card transition-[translate,background-color] duration-150 hover:-translate-y-0.5 focus-visible:-translate-y-0.5 group-hover/card-link:-translate-y-0.5 group-focus-visible/card-link:-translate-y-0.5",
+        bare: "gap-0 rounded-none bg-transparent py-0",
       },
     },
     defaultVariants: {
@@ -47,7 +53,7 @@ const CardHeader = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="card-header"
       className={cn(
-        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
+        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
         className,
       )}
       {...props}
@@ -60,7 +66,7 @@ const CardTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="card-title"
       className={cn(
-        "text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
+        "font-display text-20 group-data-[size=sm]/card:text-17 leading-tight font-semibold tracking-[-0.01em]",
         className,
       )}
       {...props}
@@ -75,7 +81,7 @@ const CardDescription = ({
   return (
     <div
       data-slot="card-description"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-14 text-ink-2 font-semibold", className)}
       {...props}
     />
   );
@@ -109,7 +115,7 @@ const CardFooter = ({ className, ...props }: React.ComponentProps<"div">) => {
     <div
       data-slot="card-footer"
       className={cn(
-        "bg-muted border-app-surface-border flex items-center rounded-b-xl border-t p-(--card-spacing)",
+        "border-line bg-surface-2 flex items-center border-t p-(--card-spacing)",
         className,
       )}
       {...props}

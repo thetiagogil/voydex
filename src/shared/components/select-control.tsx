@@ -29,6 +29,8 @@ type SelectControlProps = {
   onValueChange?: (value: string) => void;
   options: readonly SelectControlOption[];
   placeholder: string;
+  /* A quiet word before the value, as in v3's "Sort Recently played". */
+  prefix?: string;
   size?: "default" | "sm" | "lg";
   value?: string;
   variant?: ComponentProps<typeof SelectTrigger>["variant"];
@@ -55,7 +57,7 @@ const SelectControlOptionContent = ({
       <span className="min-w-0">
         <span className="block truncate">{option.label}</span>
         {showDescription && option.description ? (
-          <span className="text-muted-foreground mt-0.5 block truncate text-xs font-normal">
+          <span className="text-ink-2 text-12 mt-0.5 block truncate font-semibold">
             {option.description}
           </span>
         ) : null}
@@ -73,6 +75,7 @@ export const SelectControl = ({
   onValueChange,
   options,
   placeholder,
+  prefix,
   size,
   value,
   variant,
@@ -111,6 +114,9 @@ export const SelectControl = ({
         size={size}
         variant={variant}
       >
+        {prefix ? (
+          <span className="text-ink-3 font-semibold">{prefix}</span>
+        ) : null}
         <SelectValue placeholder={placeholder}>
           {(selectedValue) => {
             const selectedOption = getOptionByValue(selectedValue);

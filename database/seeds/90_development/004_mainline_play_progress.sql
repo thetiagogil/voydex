@@ -40,7 +40,8 @@ play_scopes AS (
     mainline_plays.id AS play_id,
     mainline_plays.game_id,
     mainline_plays.version_group_id AS base_version_group_id,
-    mainline_plays.version_group_id
+    mainline_plays.version_group_id,
+    mainline_plays.started_on
   FROM gameplay.mainline_plays
   WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid
 UNION ALL
@@ -48,29 +49,38 @@ SELECT
   mainline_play_optional_content_scopes.play_id,
   mainline_play_optional_content_scopes.game_id,
   mainline_plays.version_group_id,
-  mainline_play_optional_content_scopes.version_group_id
+  mainline_play_optional_content_scopes.version_group_id,
+  mainline_plays.started_on
 FROM
   gameplay.mainline_play_optional_content_scopes
   JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_optional_content_scopes.play_id
 ),
+-- Story order: the base game before its add-ons, then each category, then
+-- each milestone, so a staged Play completes its journey from the start.
 eligible_milestones AS (
   SELECT DISTINCT
     play_scopes.play_id,
     play_scopes.base_version_group_id,
+    play_scopes.started_on,
     mainline_milestones.id AS milestone_id,
+    play_scopes.version_group_id <> play_scopes.base_version_group_id AS is_add_on,
+    play_scopes.version_group_id AS scope_version_group_id,
+    mainline_categories.sort_order AS category_sort_order,
     mainline_milestones.sort_order,
     mainline_milestones.is_required_for_completion
   FROM
     play_scopes
     JOIN tracking.mainline_milestones ON mainline_milestones.version_group_id = play_scopes.version_group_id
       AND (mainline_milestones.game_id IS NULL OR mainline_milestones.game_id = play_scopes.game_id)
+    JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
 ),
 ranked_milestones AS (
   SELECT
     eligible_milestones.*,
     stage_ratios.milestone_ratio,
-    ROW_NUMBER() OVER (PARTITION BY play_id, is_required_for_completion ORDER BY sort_order, milestone_id) AS milestone_rank,
-    COUNT(*) OVER (PARTITION BY play_id, is_required_for_completion) AS milestone_count
+    ROW_NUMBER() OVER (PARTITION BY play_id, is_required_for_completion ORDER BY is_add_on, scope_version_group_id, category_sort_order, sort_order, milestone_id) AS milestone_rank,
+    COUNT(*) OVER (PARTITION BY play_id, is_required_for_completion) AS milestone_count,
+    ROW_NUMBER() OVER (PARTITION BY play_id ORDER BY is_add_on, scope_version_group_id, category_sort_order, sort_order, milestone_id) AS journey_rank
   FROM
     eligible_milestones
     JOIN stage_ratios ON stage_ratios.version_group_id = eligible_milestones.base_version_group_id
@@ -84,7 +94,7 @@ INSERT INTO gameplay.mainline_play_milestone_progress (
 SELECT
   play_id,
   milestone_id,
-  '2025-02-01 12:00:00+00'::timestamptz + (((base_version_group_id * 4 + milestone_rank)::text || ' days')::interval),
+  started_on + TIME '12:00' + ((journey_rank - 1) || ' days')::interval,
   CASE WHEN is_required_for_completion THEN 'Required story progress seeded for the staged fixture.' ELSE 'Optional milestone completed during exploration.' END
 FROM ranked_milestones
 WHERE

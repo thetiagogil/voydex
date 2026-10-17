@@ -1,12 +1,11 @@
+import { getBaseVersionGroupsForGeneration } from "@/modules/reference/features/games/domain/version-groups";
 import type {
-  PokemonDetailData,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
+  ResolvedPokemonAvailability,
+  VersionGroup,
 } from "@/modules/reference/types";
-import type {
-  PokemonDetailScopeParams,
-  PokemonDetailVersionGroupScope,
-} from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
 
 export const matchesSlugOrId = (
   row: { id: number; slug: string },
@@ -15,121 +14,122 @@ export const matchesSlugOrId = (
   return value === row.slug || value === String(row.id);
 };
 
-export const getDefaultGeneration = (data: PokemonDetailData) => {
-  return (
-    data.generationDetails.find((generation) => {
-      return generation.availability.length > 0 || generation.forms.length > 0;
-    }) ??
-    data.generationDetails[0] ??
-    null
-  );
-};
-
-export const getGenerationFromParams = (
-  data: PokemonDetailData,
-  params: PokemonDetailScopeParams,
-) => {
-  if (params.game) {
-    const generationByGame = data.generationDetails.find((generationDetail) => {
-      return generationDetail.games.some((game) => {
-        return matchesSlugOrId(game, params.game);
-      });
-    });
-
-    if (generationByGame) {
-      return generationByGame;
-    }
-  }
-
-  const generationByParam = data.generationDetails.find((generationDetail) => {
-    return matchesSlugOrId(generationDetail.generation, params.generation);
-  });
-
-  if (generationByParam) {
-    return generationByParam;
-  }
-
-  if (params.versionGroup) {
-    const generationByVersionGroup = data.generationDetails.find(
-      (generationDetail) => {
-        return generationDetail.versionGroups.some((versionGroup) => {
-          return matchesSlugOrId(versionGroup, params.versionGroup);
-        });
-      },
-    );
-
-    if (generationByVersionGroup) {
-      return generationByVersionGroup;
-    }
-  }
-
-  return getDefaultGeneration(data);
-};
-
+/* A generation's base version groups, each with its games and expansions. */
 export const buildPokemonDetailVersionGroupScopes = (
   generation: PokemonGenerationDetail,
 ): PokemonDetailVersionGroupScope[] => {
-  return generation.versionGroups.map((versionGroup) => ({
-    games: generation.games.filter((game) => {
-      return game.version_group_id === versionGroup.id;
-    }),
-    versionGroup,
-  }));
+  return generation.versionGroups
+    .filter((versionGroup) => versionGroup.parent_version_group_id === null)
+    .map((versionGroup) => ({
+      expansions: generation.versionGroups.filter((candidate) => {
+        return candidate.parent_version_group_id === versionGroup.id;
+      }),
+      games: generation.games.filter((game) => {
+        return game.version_group_id === versionGroup.id;
+      }),
+      versionGroup,
+    }));
 };
 
+const getAvailabilityVersionGroups = (
+  generation: PokemonGenerationDetail,
+): VersionGroup[] => {
+  return generation.availability.flatMap((row) => {
+    return [row.sourceVersionGroup, row.targetVersionGroup].filter(
+      (versionGroup): versionGroup is VersionGroup => versionGroup !== null,
+    );
+  });
+};
+
+/* Whether a base group or one of its expansions is among the groups found in. */
+const isFoundInVersionGroupFamily = (
+  foundVersionGroups: VersionGroup[],
+  versionGroup: VersionGroup,
+) => {
+  return foundVersionGroups.some((foundVersionGroup) => {
+    return (
+      foundVersionGroup.id === versionGroup.id ||
+      foundVersionGroup.parent_version_group_id === versionGroup.id
+    );
+  });
+};
+
+/* Whether the Pokémon can be found in a group or its expansions. */
+export const isPokemonInVersionGroupScope = (
+  generation: PokemonGenerationDetail,
+  scope: PokemonDetailVersionGroupScope,
+) => {
+  return isFoundInVersionGroupFamily(
+    getAvailabilityVersionGroups(generation),
+    scope.versionGroup,
+  );
+};
+
+/*
+ * The first group of a generation the Pokémon can be found in, else the
+ * first group: where a generation pill opens.
+ */
 export const getDefaultVersionGroup = (
   generation: PokemonGenerationDetail,
   versionGroups: PokemonDetailVersionGroupScope[],
 ) => {
-  const availabilityVersionGroupId = generation.availability.find((row) => {
-    return row.targetVersionGroup;
-  })?.targetVersionGroup?.id;
-
   return (
     versionGroups.find((scope) => {
-      return scope.versionGroup.id === availabilityVersionGroupId;
+      return isPokemonInVersionGroupScope(generation, scope);
     }) ??
     versionGroups[0] ??
     null
   );
 };
 
-export const getVersionGroupFromGame = (
-  gameParam: string | undefined,
-  versionGroups: PokemonDetailVersionGroupScope[],
-) => {
-  if (!gameParam) {
-    return null;
-  }
-
-  return (
-    versionGroups.find((scope) => {
-      return scope.games.some((game) => {
-        return matchesSlugOrId(game, gameParam);
-      });
-    }) ?? null
+/*
+ * The same rule from an address, without the whole entry: a generation's
+ * base groups and the Pokémon's availability rows as group ids. As on the
+ * entry, a row counts for the generation of the group it targets, and both
+ * its own group and that target are where it is found. Legends: Arceus for
+ * Wyrdeer in Generation VIII, Let's Go for Meltan in Generation VII.
+ */
+export const getFirstFoundBaseVersionGroup = ({
+  availability,
+  generationId,
+  versionGroups,
+}: {
+  availability: Pick<
+    ResolvedPokemonAvailability,
+    "source_version_group_id" | "target_version_group_id"
+  >[];
+  generationId: number;
+  versionGroups: VersionGroup[];
+}) => {
+  const versionGroupById = new Map(
+    versionGroups.map((versionGroup) => [versionGroup.id, versionGroup]),
   );
-};
+  const foundVersionGroups = availability.flatMap((row) => {
+    const target =
+      row.target_version_group_id === null
+        ? undefined
+        : versionGroupById.get(row.target_version_group_id);
+    const source =
+      row.source_version_group_id === null
+        ? undefined
+        : versionGroupById.get(row.source_version_group_id);
 
-export const getDefaultGame = (
-  generation: PokemonGenerationDetail,
-  versionGroup: PokemonDetailVersionGroupScope | null,
-) => {
-  if (!versionGroup) {
-    return null;
-  }
+    if (target?.generation_id !== generationId) {
+      return [];
+    }
 
-  const availabilityGameId = generation.availability.find((row) => {
-    return (
-      row.targetVersionGroup?.id === versionGroup.versionGroup.id && row.game
-    );
-  })?.game?.id;
+    return source ? [target, source] : [target];
+  });
+  const baseVersionGroups = getBaseVersionGroupsForGeneration(
+    versionGroups,
+    generationId,
+  );
 
   return (
-    versionGroup.games.find((game) => {
-      return game.id === availabilityGameId;
+    baseVersionGroups.find((versionGroup) => {
+      return isFoundInVersionGroupFamily(foundVersionGroups, versionGroup);
     }) ??
-    versionGroup.games[0] ??
+    baseVersionGroups[0] ??
     null
   );
 };

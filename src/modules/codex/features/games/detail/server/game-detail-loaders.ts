@@ -1,4 +1,9 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import {
+  loadVersionExclusiveRows,
+  type VersionExclusiveRows,
+} from "@/modules/codex/features/games/detail/server/game-detail-exclusive-loaders";
+import { getVersionGroupFamilyIds } from "@/modules/reference/features/games/domain/version-groups";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type {
   Game,
@@ -13,42 +18,50 @@ import type {
 } from "@/modules/reference/types";
 
 export type GameDetailRows = {
-  game: Game;
   gamePlatforms: GamePlatform[];
   gameTypes: GameType[];
   generations: Generation[];
   platforms: Platform[];
   pokedexEntries: PokedexEntry[];
+  /* The group's Pokédexes and its expansions' (Isle of Armor, Crown Tundra). */
   pokedexes: Pokedex[];
   relatedGames: Game[];
   regions: Region[];
+  /* The base game's version exclusives, when the group has two games or more. */
+  versionExclusives: VersionExclusiveRows;
+  /* The base version group the page is about. */
+  versionGroup: VersionGroup;
   versionGroups: VersionGroup[];
+  /* The group's own games, Sword and Shield. */
+  versions: Game[];
 };
 
+/*
+ * One version group's page: its games, its Pokédexes and its expansions'
+ * Pokédexes, and the games set in the same generation or region.
+ */
 export const loadGameDetailRows = async (
   supabase: ServerSupabaseClient,
-  slug: string,
-): Promise<GameDetailRows | null> => {
-  const gameResult = await supabase
+  versionGroup: VersionGroup,
+  versionGroups: VersionGroup[],
+): Promise<GameDetailRows> => {
+  const familyIds = getVersionGroupFamilyIds(versionGroup, versionGroups);
+  const versionsResult = await supabase
     .schema("reference")
     .from("games")
     .select("*")
-    .eq("slug", slug)
-    .maybeSingle();
+    .eq("version_group_id", versionGroup.id)
+    .order("sort_order", { ascending: true });
 
-  if (gameResult.error) {
-    throw new Error("Unable to load game.");
+  if (versionsResult.error) {
+    throw new Error("Unable to load the version group's games.");
   }
 
-  if (!gameResult.data) {
-    return null;
-  }
-
-  const game = gameResult.data;
+  const versions = versionsResult.data ?? [];
+  const regionIds = [...new Set(versions.map((game) => game.region_id))];
   const [
     generationsResult,
     regionsResult,
-    versionGroupsResult,
     gameTypesResult,
     gamePlatformsResult,
     platformsResult,
@@ -57,7 +70,6 @@ export const loadGameDetailRows = async (
   ] = await Promise.all([
     supabase.schema("reference").from("generations").select("*"),
     supabase.schema("reference").from("regions").select("*"),
-    supabase.schema("reference").from("version_groups").select("*"),
     supabase.schema("reference").from("game_types").select("*"),
     supabase
       .schema("reference")
@@ -73,15 +85,20 @@ export const loadGameDetailRows = async (
       .schema("reference")
       .from("pokedex")
       .select("*")
-      .eq("version_group_id", game.version_group_id)
+      .in("version_group_id", familyIds)
       .order("sort_order", { ascending: true }),
     supabase
       .schema("reference")
       .from("games")
       .select("*")
-      .neq("id", game.id)
+      .neq("version_group_id", versionGroup.id)
       .or(
-        `generation_id.eq.${game.generation_id},region_id.eq.${game.region_id}`,
+        [
+          `generation_id.eq.${versionGroup.generation_id}`,
+          regionIds.length ? `region_id.in.(${regionIds.join(",")})` : null,
+        ]
+          .filter(Boolean)
+          .join(","),
       )
       .order("sort_order", { ascending: true }),
   ]);
@@ -89,7 +106,6 @@ export const loadGameDetailRows = async (
   if (
     generationsResult.error ||
     regionsResult.error ||
-    versionGroupsResult.error ||
     gameTypesResult.error ||
     gamePlatformsResult.error ||
     platformsResult.error ||
@@ -116,9 +132,13 @@ export const loadGameDetailRows = async (
         "Unable to load game Pokédex entries.",
       )
     : [];
+  const versionExclusives = await loadVersionExclusiveRows(
+    supabase,
+    versionGroup,
+    versions,
+  );
 
   return {
-    game,
     gamePlatforms: gamePlatformsResult.data ?? [],
     gameTypes: gameTypesResult.data ?? [],
     generations: generationsResult.data ?? [],
@@ -127,6 +147,9 @@ export const loadGameDetailRows = async (
     pokedexes,
     relatedGames: relatedGamesResult.data ?? [],
     regions: regionsResult.data ?? [],
-    versionGroups: versionGroupsResult.data ?? [],
+    versionExclusives,
+    versionGroup,
+    versionGroups,
+    versions,
   };
 };

@@ -8,8 +8,10 @@ import {
   isPokemonItemEqual,
   type PokemonMenuLoadState,
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
-import { PokemonDetailSpeciesSelectorLabel } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-label";
-import { PokemonDetailSpeciesSelectorOption } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
+import {
+  PokemonDetailSpeciesSelectorOption,
+  pokemonDetailSpeciesSelectorTriggerClassName,
+} from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -24,10 +26,9 @@ import {
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type PokemonDetailSpeciesSelectorDesktopProps = {
-  activeGameSlug: string | null;
+  activeVersionGroupSlug: string | null;
   activePokemon: {
     name: string;
-    nationalNumber: number;
     slug: string;
   };
   activePokemonItem: PokemonDetailMenuPokemon | null;
@@ -46,7 +47,7 @@ type PokemonDetailSpeciesSelectorDesktopProps = {
 };
 
 export const PokemonDetailSpeciesSelectorDesktop = ({
-  activeGameSlug,
+  activeVersionGroupSlug,
   activePokemon,
   activePokemonItem,
   groupHeaderBySlug,
@@ -87,19 +88,15 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
           render={
             <Button
               variant="ghost"
-              disabled={!activeGameSlug}
-              aria-label="Choose Pokémon"
-              className="hover:text-primary h-auto max-w-full justify-start px-0 py-0 text-left text-3xl font-semibold tracking-normal hover:bg-transparent aria-expanded:bg-transparent"
+              disabled={!activeVersionGroupSlug}
+              className={pokemonDetailSpeciesSelectorTriggerClassName}
             />
           }
         >
+          <span className="sr-only">Choose another Pokémon. Now showing </span>
           <ComboboxValue>
             {(selectedPokemon: PokemonDetailMenuPokemon | null) => {
-              const displayPokemon = selectedPokemon ?? activePokemon;
-
-              return (
-                <PokemonDetailSpeciesSelectorLabel pokemon={displayPokemon} />
-              );
+              return (selectedPokemon ?? activePokemon).name;
             }}
           </ComboboxValue>
         </ComboboxTrigger>
@@ -114,9 +111,9 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
           />
           <ComboboxEmpty>
             {loadState === "loading" ? (
-              <Spinner aria-label="Loading Pokémon" className="text-primary" />
+              <Spinner aria-label="Loading Pokémon" className="text-action" />
             ) : (
-              getPokemonMenuEmptyLabel(loadState, activeGameSlug)
+              getPokemonMenuEmptyLabel(loadState, activeVersionGroupSlug)
             )}
           </ComboboxEmpty>
           <ComboboxList className="max-h-96 pt-0" onScroll={handleListScroll}>
@@ -138,7 +135,7 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
             <div className="flex justify-center py-2">
               <Spinner
                 aria-label="Loading more Pokémon"
-                className="text-primary"
+                className="text-action"
               />
             </div>
           ) : null}

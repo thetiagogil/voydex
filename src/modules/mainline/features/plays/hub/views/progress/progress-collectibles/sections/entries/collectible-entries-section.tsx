@@ -1,13 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
-import { MainlinePlaySectionCard } from "@/modules/mainline/features/plays/hub/shell/mainline-play-section-card";
-import { BrowseFilterPanel } from "@/shared/components/browse-filter-panel";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { Toolbar } from "@/shared/components/toolbar";
 
 import type {
   CollectibleProgressFilter,
@@ -17,163 +18,268 @@ import type {
 } from "../../types";
 import {
   filterCollectibleEntries,
-  getCollectibleLocationOptions,
-  groupCollectibleEntriesByLocation,
+  getCollectibleEntryState,
+  groupCollectibleEntriesByArea,
+  type CollectibleArea,
+  type CollectibleAreaLevel,
+  type CollectibleAreaSummary,
 } from "../../utils/collectibles-progress-model";
-import { CollectibleLocationSection } from "./collectible-location-section";
-
-const progressOptions = [
-  { label: "All progress", value: "all" },
-  { label: "Missing", value: "missing" },
-  { label: "Collected", value: "collected" },
-] as const;
+import {
+  CollectibleAreaSection,
+  getCollectibleAreaHeadingId,
+} from "./collectible-area-section";
 
 const sortOptions = [
-  { label: "Canonical order", value: "canonical" },
-  { label: "Location order", value: "location" },
+  { label: "Game order", value: "canonical" },
+  { label: "Area A to Z", value: "location" },
 ] as const;
 
+const focusAreaHeading = (areaId: string) => {
+  document
+    .getElementById(getCollectibleAreaHeadingId(areaId))
+    ?.focus({ preventScroll: true });
+};
+
+/*
+ * The checklist, as Pokédex's: a quiet toolbar (search, an area to show,
+ * found or missing, the order), then the areas at full width, each with its
+ * count. The area summaries and the sort come from the view, which shares
+ * them with the page head.
+ */
 export const CollectibleEntriesSection = ({
+  areaLevel,
+  areaSummaries,
   group,
   isEntryPending,
+  onAreaStateChange,
   onEntryToggle,
-  onSectionStateChange,
+  onSortChange,
+  sort,
   stateByEntryId,
 }: {
+  areaLevel: CollectibleAreaLevel;
+  /* Every area of the group, in the chosen order. */
+  areaSummaries: CollectibleAreaSummary[];
   group: MainlinePlayCollectibleGroup;
   isEntryPending: (entryId: number) => boolean;
-  onEntryToggle: (entry: MainlinePlayCollectibleEntry) => void;
-  onSectionStateChange: (
+  onAreaStateChange: (
+    label: string,
     entries: MainlinePlayCollectibleEntry[],
     isCollected: boolean,
   ) => void;
+  onEntryToggle: (entry: MainlinePlayCollectibleEntry) => void;
+  onSortChange: (sort: CollectibleSort) => void;
+  sort: CollectibleSort;
   stateByEntryId: ReadonlyMap<number, boolean>;
 }) => {
   const [query, setQuery] = useState("");
   const [progressFilter, setProgressFilter] =
     useState<CollectibleProgressFilter>("all");
-  const [location, setLocation] = useState("all");
-  const [sort, setSort] = useState<CollectibleSort>("canonical");
-  const locationOptions = useMemo(
-    () => getCollectibleLocationOptions(group.entries),
-    [group.entries],
+  /* The area to show, by id, or every area. */
+  const [areaId, setAreaId] = useState("all");
+  const checklistRef = useRef<HTMLElement>(null);
+
+  const areaEntries = useMemo(
+    () =>
+      areaSummaries.find((summary) => summary.id === areaId)?.entries ??
+      group.entries,
+    [areaId, areaSummaries, group.entries],
   );
+  const areaOptions = [
+    { label: "All areas", value: "all" },
+    ...areaSummaries.map((summary) => ({
+      description: `${summary.foundCount} of ${summary.entries.length} found`,
+      label: summary.label,
+      value: summary.id,
+    })),
+  ];
+  /* Each progress pill counts what the area and the search leave. */
+  const progressCounts = useMemo(() => {
+    const entries = filterCollectibleEntries({
+      entries: areaEntries,
+      progressFilter: "all",
+      query,
+      stateByEntryId,
+    });
+    const foundCount = entries.filter((entry) =>
+      getCollectibleEntryState(entry, stateByEntryId),
+    ).length;
+
+    return {
+      all: entries.length,
+      collected: foundCount,
+      missing: entries.length - foundCount,
+    };
+  }, [areaEntries, query, stateByEntryId]);
   const filteredEntries = useMemo(
     () =>
       filterCollectibleEntries({
-        entries: group.entries,
-        location,
+        entries: areaEntries,
         progressFilter,
         query,
         stateByEntryId,
       }),
-    [group.entries, location, progressFilter, query, stateByEntryId],
+    [areaEntries, progressFilter, query, stateByEntryId],
   );
-  const sections = useMemo(
+  const areas = useMemo(
     () =>
-      groupCollectibleEntriesByLocation({
+      groupCollectibleEntriesByArea({
+        areaLevel,
         entries: filteredEntries,
         sort,
       }),
-    [filteredEntries, sort],
+    [areaLevel, filteredEntries, sort],
   );
+  const summaryByAreaId = new Map(
+    areaSummaries.map((summary) => [summary.id, summary]),
+  );
+  const hasAreas = areaSummaries.length > 1;
+  /* The sort only orders; it filters nothing, so Clear filters keeps it. */
   const hasFilters =
-    Boolean(query.trim()) ||
-    progressFilter !== "all" ||
-    location !== "all" ||
-    sort !== "canonical";
+    Boolean(query.trim()) || progressFilter !== "all" || areaId !== "all";
 
   const resetFilters = () => {
     setQuery("");
     setProgressFilter("all");
-    setLocation("all");
-    setSort("canonical");
+    setAreaId("all");
+  };
+
+  /*
+   * A bulk change can remove its own button, or, under Found or Missing,
+   * the whole area. Focus moves first: to the area's heading, to the next
+   * area still shown, or to the checklist.
+   */
+  const changeAreaState = (
+    shownArea: CollectibleArea,
+    isCollected: boolean,
+  ) => {
+    const leavesFilter =
+      progressFilter === (isCollected ? "missing" : "collected");
+    const areaIndex = areas.indexOf(shownArea);
+    const focusArea = leavesFilter
+      ? (areas[areaIndex + 1] ?? areas[areaIndex - 1])
+      : shownArea;
+
+    if (focusArea) {
+      focusAreaHeading(focusArea.id);
+    } else {
+      checklistRef.current?.focus({ preventScroll: true });
+    }
+
+    onAreaStateChange(shownArea.label, shownArea.entries, isCollected);
   };
 
   return (
-    <MainlinePlaySectionCard
-      title="Collectible entries"
-      description={`Browse and update entries in ${group.name}.`}
-      contentClassName="grid gap-4 px-0 pt-3 pb-0"
-      showSeparator
+    <section
+      ref={checklistRef}
+      aria-label={`${group.name} checklist`}
+      tabIndex={-1}
+      className="grid min-w-0 grid-cols-1 gap-4 rounded-xs"
     >
-      <BrowseFilterPanel
-        variant="journal"
-        className="grid-cols-1 gap-2.5 px-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-[minmax(8rem,1fr)_11rem_13rem_12rem] xl:gap-3"
-        onSubmit={(event) => event.preventDefault()}
-      >
-        <SearchControl
-          ariaLabel={`Search ${group.name}`}
-          className="sm:col-span-2 md:col-span-3 xl:col-span-1"
-          onValueChange={setQuery}
-          placeholder="Search collectible or location"
-          value={query}
-        />
-        <SelectControl
-          ariaLabel="Filter collectible progress"
-          className="w-full"
-          onValueChange={(value) =>
-            setProgressFilter(value as CollectibleProgressFilter)
-          }
-          options={progressOptions}
-          placeholder="All progress"
-          value={progressFilter}
-        />
-        <SelectControl
-          ariaLabel="Filter collectible location"
-          className="w-full"
-          onValueChange={setLocation}
-          options={locationOptions}
-          placeholder="All locations"
-          value={location}
-        />
-        <SelectControl
-          ariaLabel="Sort collectibles"
-          className="w-full"
-          onValueChange={(value) => setSort(value as CollectibleSort)}
-          options={sortOptions}
-          placeholder="Canonical order"
-          value={sort}
-        />
-      </BrowseFilterPanel>
-
-      <div className="flex min-h-8 items-center justify-between gap-3 px-4">
-        <p
-          className="text-muted-foreground text-sm leading-6"
-          aria-live="polite"
-        >
-          Showing {filteredEntries.length} of {group.entries.length} entries
-        </p>
-        {hasFilters ? <ClearFiltersButton onClick={resetFilters} /> : null}
-      </div>
-
-      {sections.length ? (
-        <div className="grid min-w-0">
-          {sections.map((section) => (
-            <CollectibleLocationSection
-              key={section.id}
-              entries={section.entries}
-              isEntryPending={isEntryPending}
-              label={section.label}
-              onEntryToggle={onEntryToggle}
-              onSectionStateChange={onSectionStateChange}
-              stateByEntryId={stateByEntryId}
+      <Toolbar
+        aria-label={`Filter ${group.name}`}
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          />
+        }
+        search={
+          <SearchControl
+            ariaLabel={`Search ${group.name}`}
+            onValueChange={setQuery}
+            placeholder="Search number or place"
+            value={query}
+          />
+        }
+        trailing={
+          <>
+            {hasAreas ? (
+              <SelectControl
+                ariaLabel="Show one area"
+                className="w-48 min-w-0"
+                onValueChange={setAreaId}
+                options={areaOptions}
+                placeholder="All areas"
+                value={areaId}
+                variant="ghost"
+              />
+            ) : null}
+            <SegmentedControl
+              ariaLabel="Show"
+              onValueChange={setProgressFilter}
+              options={[
+                { count: progressCounts.all, label: "All", value: "all" },
+                {
+                  count: progressCounts.collected,
+                  label: "Found",
+                  value: "collected",
+                },
+                {
+                  count: progressCounts.missing,
+                  label: "Missing",
+                  value: "missing",
+                },
+              ]}
+              value={progressFilter}
             />
-          ))}
-        </div>
-      ) : (
-        <div className="px-3 pb-3">
+            <SelectControl
+              ariaLabel="Sort collectibles"
+              onValueChange={(value) => onSortChange(value as CollectibleSort)}
+              options={sortOptions}
+              placeholder="Game order"
+              prefix="Sort"
+              value={sort}
+              variant="ghost"
+            />
+          </>
+        }
+      />
+
+      <FilterResultsLine
+        className="-mt-2"
+        hasActiveFilters={hasFilters}
+        noun={group.name}
+        onClearFilters={resetFilters}
+        shownCount={filteredEntries.length}
+        totalCount={group.entries.length}
+      />
+
+      <div className="mt-2 min-w-0">
+        {areas.length ? (
+          <div className="grid min-w-0 gap-7.5">
+            {areas.map((shownArea) => {
+              const summary = summaryByAreaId.get(shownArea.id);
+
+              return summary ? (
+                <CollectibleAreaSection
+                  key={shownArea.id}
+                  area={shownArea}
+                  areaLevel={areaLevel}
+                  isEntryPending={isEntryPending}
+                  onEntryToggle={onEntryToggle}
+                  onStateChange={(isCollected) =>
+                    changeAreaState(shownArea, isCollected)
+                  }
+                  stateByEntryId={stateByEntryId}
+                  summary={summary}
+                />
+              ) : null;
+            })}
+          </div>
+        ) : (
           <EmptyState
-            title="No matching collectibles"
-            description={`No entries in ${group.name} match the current filters.`}
+            title="Nothing to show"
+            description={`No ${group.name} match these filters.`}
             action={
               hasFilters ? (
                 <ClearFiltersButton variant="outline" onClick={resetFilters} />
               ) : undefined
             }
           />
-        </div>
-      )}
-    </MainlinePlaySectionCard>
+        )}
+      </div>
+    </section>
   );
 };

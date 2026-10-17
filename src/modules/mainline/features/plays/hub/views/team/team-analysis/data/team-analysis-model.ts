@@ -11,12 +11,10 @@ import type { TeamAnalysisModel } from "../types";
 import { buildTeamAnalysisHealth } from "./team-analysis-health";
 import { buildTeamAnalysisRows } from "./team-analysis-rows";
 
-const activeTeamCapacity = 6;
-
 const getLineupLabel = (statusSlug: string | null) => {
-  if (statusSlug === "completed") return "Recorded Final Team";
-  if (statusSlug === "abandoned") return "Last Known Team";
-  return "Current recorded lineup";
+  if (statusSlug === "completed") return "Final team";
+  if (statusSlug === "abandoned") return "Last known team";
+  return "Active team";
 };
 
 export const buildTeamAnalysisModel = ({
@@ -42,20 +40,7 @@ export const buildTeamAnalysisModel = ({
   });
 
   const evidence = {
-    abilityRecordedCount: supportsGameMechanic(
-      mechanics,
-      gameMechanics.abilities,
-    )
-      ? activeMembers.filter((member) => member.ability_id).length
-      : null,
     activeCount: activeMembers.length,
-    heldItemRecordedCount: supportsGameMechanic(
-      mechanics,
-      gameMechanics.heldItems,
-    )
-      ? activeMembers.filter((member) => member.held_item_id).length
-      : null,
-    possibleActiveCount: activeTeamCapacity,
     possibleMoveCount: activeMembers.length * 4,
     recordedMoveCount: activeMembers.reduce(
       (count, member) => count + member.moves.length,
@@ -66,6 +51,7 @@ export const buildTeamAnalysisModel = ({
   };
 
   return {
+    abilitiesApply: supportsGameMechanic(mechanics, gameMechanics.abilities),
     coverageRows,
     defensiveRows,
     evidence,
@@ -75,8 +61,8 @@ export const buildTeamAnalysisModel = ({
       defensiveRows,
       evidence,
     }),
+    heldItemsApply: supportsGameMechanic(mechanics, gameMechanics.heldItems),
     lineupLabel: getLineupLabel(play.status_slug),
-    mechanics,
     members: activeMembers,
   };
 };

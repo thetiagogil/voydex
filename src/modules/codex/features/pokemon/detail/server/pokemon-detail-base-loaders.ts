@@ -85,7 +85,7 @@ export const loadPokemonDetailBaseRows = async (
   ]);
 
   if (speciesResult.error) {
-    throw new Error("Unable to load PokÃ©mon species.");
+    throw new Error("Unable to load Pokémon species.");
   }
 
   if (!speciesResult.data) {
@@ -99,7 +99,7 @@ export const loadPokemonDetailBaseRows = async (
     availabilityMethodsResult.error ||
     learnMethodsResult.error
   ) {
-    throw new Error("Unable to load PokÃ©mon reference data.");
+    throw new Error("Unable to load Pokémon reference data.");
   }
 
   if (versionGroupsResult.error) {
@@ -168,11 +168,11 @@ export const loadPokemonDetailSpeciesRows = async (
     availabilityResult.error ||
     familySpeciesResult.error
   ) {
-    throw new Error("Unable to load PokÃ©mon detail data.");
+    throw new Error("Unable to load Pokémon detail data.");
   }
 
   if (pokedexEntriesResult.error) {
-    throw new Error("Unable to load PokÃ©mon PokÃ©dex entries.");
+    throw new Error("Unable to load Pokémon Pokédex entries.");
   }
 
   return {

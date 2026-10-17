@@ -1,19 +1,20 @@
-import Image from "next/image";
+import { cn } from "@/shared/utils/cn";
 
 type LogoMarkProps = {
   className?: string;
 };
 
+/* The "V" tile. A placeholder until the logo is designed. */
 export const LogoMark = ({ className }: LogoMarkProps) => {
   return (
-    <Image
-      src="/brand/voydex-app-icon.svg"
-      alt=""
+    <span
       aria-hidden
-      width={512}
-      height={512}
-      loading="eager"
-      className={className}
-    />
+      className={cn(
+        "bg-action font-display text-20 inline-grid size-9 place-items-center rounded-sm leading-none font-semibold text-white",
+        className,
+      )}
+    >
+      V
+    </span>
   );
 };
