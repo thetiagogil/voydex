@@ -54,7 +54,7 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
         <h1 className="text-[38px] leading-[1.02] tracking-tight sm:text-[56px]">
           How Voydex works
         </h1>
-        <p className="text-16 text-ink-2 mt-4.5 max-w-[36em] leading-[1.6] font-semibold sm:text-[18px]">
+        <p className="text-16 text-ink-2 sm:text-17 mt-4.5 max-w-[36em] leading-[1.6] font-semibold">
           Every playthrough gets its own Play: one run of one game, with its
           team, its story and its Pokédex. Put the game down for months and
           you&apos;ll still know exactly where you were.

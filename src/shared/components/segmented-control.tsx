@@ -178,7 +178,7 @@ export const SegmentedControl = <TValue extends string>({
             {option.count !== undefined ? (
               <small
                 className={cn(
-                  "text-[12.5px] font-bold tabular-nums",
+                  "text-13 font-bold tabular-nums",
                   isActive ? "text-current" : "text-ink-3",
                 )}
               >

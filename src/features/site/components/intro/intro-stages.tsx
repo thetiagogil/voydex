@@ -59,7 +59,7 @@ const StageRow = ({
   label: string;
 }) => (
   <div className={cn("flex min-w-0 flex-col gap-2.5", className)}>
-    <span className="text-ink-2 text-[12.5px] font-bold">{label}</span>
+    <span className="text-ink-2 text-13 font-bold">{label}</span>
     {children}
   </div>
 );

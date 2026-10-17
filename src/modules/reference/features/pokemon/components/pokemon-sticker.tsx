@@ -95,7 +95,7 @@ const variantClassNames: Record<
     empty: "size-27 sm:size-33",
     height: "min-h-53",
     marks: "mt-2 gap-1.5",
-    name: "mt-2 text-[18px]",
+    name: "mt-2 text-17",
     sticker: "pb-4",
     typeSize: "md",
   },

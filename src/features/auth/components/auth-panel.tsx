@@ -175,7 +175,7 @@ export const AuthPanel = ({
           pendingLabel={copy.pendingLabel}
         />
         {isSignUp ? (
-          <p className="text-ink-3 mt-0.5 text-center text-[12.5px] leading-normal font-semibold">
+          <p className="text-ink-3 text-13 mt-0.5 text-center leading-normal font-semibold">
             By creating an account, you agree to the{" "}
             <TextLink href={appRoutes.terms}>Terms</TextLink> and the{" "}
             <TextLink href={appRoutes.privacy}>Privacy policy</TextLink>.

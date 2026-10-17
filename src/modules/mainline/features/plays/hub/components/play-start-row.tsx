@@ -22,7 +22,7 @@ export const PlayStartRow = ({
     <div className={cn("flex min-w-0 items-center gap-4 py-4.5", className)}>
       <Medallion content={{ icon: appIcons.milestones.story, kind: "start" }} />
       <div className="grid min-w-0 gap-0.5">
-        <p className="text-action-ink text-[12.5px] font-bold">
+        <p className="text-action-ink text-13 font-bold">
           {startedOnLabel ? `Play started · ${startedOnLabel}` : "Play started"}
         </p>
         <h3 className="text-20 leading-tight tracking-[-0.01em] sm:text-[22px]">

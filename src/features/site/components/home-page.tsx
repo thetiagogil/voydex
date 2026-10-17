@@ -29,7 +29,7 @@ export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
       <p className="font-display mt-2.5 text-[22px] leading-tight font-semibold tracking-[-0.01em] sm:text-[30px]">
         Keep the story behind every playthrough.
       </p>
-      <p className="text-ink-2 mt-2.5 mb-5 max-w-[35em] text-[15.5px] leading-[1.6] font-semibold sm:mt-3.5 sm:mb-6.5 sm:text-[17.5px]">
+      <p className="text-ink-2 text-16 sm:text-17 mt-2.5 mb-5 max-w-[35em] leading-[1.6] font-semibold sm:mt-3.5 sm:mb-6.5">
         One place for all your Pokémon games, from every generation. Log each
         run as a Play, and Voydex remembers its team, its badges, its Pokédex
         and exactly where you left off.

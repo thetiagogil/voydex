@@ -240,7 +240,7 @@ export const StatsHeroSection = ({
             </h1>
             <p
               className={cn(
-                "text-ink-2 sm:text-17 text-16 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms] lg:text-[19px]",
+                "text-ink-2 sm:text-17 text-16 lg:text-20 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms]",
                 fadeUpClassName,
               )}
             >

@@ -38,7 +38,7 @@ const buttonVariants = cva(
          * to action, such as Start a Play or Record on the next objective.
          */
         default:
-          "h-12 gap-2 px-4.5 text-[14.5px] has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
+          "h-12 gap-2 px-4.5 text-15 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
         sm: "h-9 gap-1.5 rounded-sm border-2 px-3 text-14 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5 [&_svg:not([class*='size-'])]:size-3.5",
         lg: "h-14 gap-2.5 px-6 text-16 has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5 [&_svg:not([class*='size-'])]:size-5",
         icon: "size-12 rounded-full",

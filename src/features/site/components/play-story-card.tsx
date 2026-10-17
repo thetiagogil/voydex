@@ -23,11 +23,11 @@ const BeatText = ({
   when: string;
 }) => (
   <>
-    <span className="text-ink-3 text-[12.5px] font-bold">{when}</span>
-    <span className="text-[15.5px] font-extrabold">{title}</span>
+    <span className="text-ink-3 text-13 font-bold">{when}</span>
+    <span className="text-16 font-extrabold">{title}</span>
     <span
       className={cn(
-        "text-ink-2 max-w-[17em] text-[13.5px] leading-[1.45] font-semibold",
+        "text-ink-2 text-14 max-w-[17em] leading-[1.45] font-semibold",
         isNote && "italic",
       )}
     >

@@ -41,7 +41,7 @@ export const StartPage = ({
       >
         What are you playing?
       </h1>
-      <p className="text-16 text-ink-2 mx-auto mt-3.5 max-w-[34em] leading-[1.6] font-semibold sm:text-[18px]">
+      <p className="text-16 text-ink-2 sm:text-17 mx-auto mt-3.5 max-w-[34em] leading-[1.6] font-semibold">
         Pick your game and meet your first partner.
       </p>
       <div className="-mx-4 w-[calc(100%+2rem)] sm:-mx-6 sm:w-[calc(100%+3rem)] lg:-mx-8 lg:w-[calc(100%+4rem)]">

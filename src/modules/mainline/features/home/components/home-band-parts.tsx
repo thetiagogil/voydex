@@ -16,7 +16,7 @@ export const HomeBandHeading = ({
     >
       {greeting}
     </h1>
-    <p className="text-ink-2 text-16 mx-auto mt-3 max-w-[34em] leading-relaxed font-semibold sm:text-[18px]">
+    <p className="text-ink-2 text-16 sm:text-17 mx-auto mt-3 max-w-[34em] leading-relaxed font-semibold">
       {subtitle}
     </p>
   </div>
