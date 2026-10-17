@@ -1,9 +1,10 @@
 "use client";
 
+import { SheetSection } from "@/shared/components/sheet-section";
 import { ChoiceChip } from "@/shared/components/choice-chip";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
@@ -54,27 +55,6 @@ type PlannerSlotSheetProps = {
   slots: PlannerSlots;
   versionGroup: PlannerVersionGroup;
 };
-
-/* v3 `.step`, as the roster's editor: one part under its Fredoka heading. */
-const SheetStep = ({
-  aside,
-  children,
-  title,
-}: {
-  aside?: string;
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="grid min-w-0 gap-4">
-    <div className="flex items-baseline gap-3">
-      <h3 className="text-20">{title}</h3>
-      {aside ? (
-        <span className="text-ink-3 text-13 font-semibold">{aside}</span>
-      ) : null}
-    </div>
-    {children}
-  </section>
-);
 
 /*
  * Fields side by side that share the row: each fills its share, wraps when
@@ -213,7 +193,7 @@ export const PlannerSlotSheet = ({
       }
     >
       <div className="grid gap-6">
-        <SheetStep title="Slot" aside="Where it sits in the team">
+        <SheetSection title="Slot" aside="Where it sits in the team">
           <div
             role="group"
             aria-label="Move to slot"
@@ -260,9 +240,9 @@ export const PlannerSlotSheet = ({
               );
             })}
           </div>
-        </SheetStep>
+        </SheetSection>
 
-        <SheetStep title="Role" aside="What it's for in this team">
+        <SheetSection title="Role" aside="What it's for in this team">
           {/* Pills on the sheet's surface take the inset fill, as fields do. */}
           <div
             role="group"
@@ -306,10 +286,10 @@ export const PlannerSlotSheet = ({
               }
             />
           </Field>
-        </SheetStep>
+        </SheetSection>
 
         {isBuildOpen ? (
-          <SheetStep
+          <SheetSection
             title="Build"
             aside={`What ${versionGroup.name} lets you choose`}
           >
@@ -416,7 +396,7 @@ export const PlannerSlotSheet = ({
                 Remove build
               </TextLink>
             ) : null}
-          </SheetStep>
+          </SheetSection>
         ) : offered.length ? (
           <button
             type="button"

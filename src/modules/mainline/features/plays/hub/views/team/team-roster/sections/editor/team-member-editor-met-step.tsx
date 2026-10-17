@@ -1,10 +1,10 @@
+import { SheetSection } from "@/shared/components/sheet-section";
 import { Field } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { Textarea } from "@/shared/components/ui/textarea";
 
 import {
   EditorLabel,
-  EditorStep,
   type TeamMemberEditorStepProps,
 } from "./team-member-editor-fields";
 
@@ -15,7 +15,7 @@ export const TeamMemberEditorMetStep = ({
   id,
   values,
 }: TeamMemberEditorStepProps) => (
-  <EditorStep title="Met" aside="Optional">
+  <SheetSection title="Met" aside="Optional">
     <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
       <Field>
         <EditorLabel htmlFor={`${id}-met`} edited={edited("metLocation")}>
@@ -57,5 +57,5 @@ export const TeamMemberEditorMetStep = ({
         onChange={(event) => change("notes", event.target.value)}
       />
     </Field>
-  </EditorStep>
+  </SheetSection>
 );

@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 import {
   ObjectiveEyebrow,
   ObjectiveWhere,
@@ -15,22 +13,9 @@ import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
+import { SheetSection } from "@/shared/components/sheet-section";
 
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
-
-/* v3 `.enc-h`: a battle report's part. Section titles keep Fredoka. */
-const ReportPart = ({
-  children,
-  title,
-}: {
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="mt-5 pt-4">
-    <h3 className="text-20 mb-3">{title}</h3>
-    {children}
-  </section>
-);
 
 /* A small owned Pokémon (v3 `.dh-mon`): its art on the type-tinted sticker. */
 const SmallSticker = ({
@@ -108,7 +93,7 @@ export const StoryBattleReport = ({
         />
       )}
 
-      <ReportPart title="Their team">
+      <SheetSection className="mt-9 gap-3" title="Their team">
         {battle.specialtyTypes.length ? (
           <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
             {battle.opponents.length > 1 ? "Specialties" : "Specialty"}
@@ -131,12 +116,12 @@ export const StoryBattleReport = ({
               : "Voydex knows who you face, not their team."
           }
         />
-      </ReportPart>
+      </SheetSection>
 
       {isWon ? (
         <>
           {battle.teamThen.length ? (
-            <ReportPart title="Your team then">
+            <SheetSection className="mt-9 gap-3" title="Your team then">
               <ul className="flex flex-wrap gap-2">
                 {battle.teamThen.map((member) => (
                   <li key={member.position}>
@@ -148,7 +133,7 @@ export const StoryBattleReport = ({
                   </li>
                 ))}
               </ul>
-            </ReportPart>
+            </SheetSection>
           ) : null}
           <p className="text-ink-3 text-13 mt-5 font-semibold">
             Voydex keeps who you faced as part of your journey. It reads
@@ -158,7 +143,7 @@ export const StoryBattleReport = ({
         </>
       ) : (
         <>
-          <ReportPart title="Your team">
+          <SheetSection className="mt-9 gap-3" title="Your team">
             {battle.members.length ? (
               <table className="w-full table-fixed border-collapse text-left">
                 <thead>
@@ -227,14 +212,14 @@ export const StoryBattleReport = ({
                 Add Pokémon to your active team to read this battle.
               </p>
             )}
-          </ReportPart>
-          <ReportPart title="Levels">
+          </SheetSection>
+          <SheetSection className="mt-9 gap-3" title="Levels">
             {/* TODO(v3-data): the level comparison needs opponent party levels. */}
             <PendingData
               label="Their levels aren't in Voydex yet"
               note="Your team's levels show beside each Pokémon above."
             />
-          </ReportPart>
+          </SheetSection>
           <p className="text-ink-3 text-13 mt-5 font-semibold">
             &ldquo;Weak to&rdquo; reads their specialty against each
             Pokémon&apos;s own types.

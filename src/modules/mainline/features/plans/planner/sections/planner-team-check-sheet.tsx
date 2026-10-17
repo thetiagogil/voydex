@@ -4,7 +4,6 @@ import { DefensiveMatchupsList } from "@/modules/mainline/shared/components/defe
 import { DefensiveMatchupsTable } from "@/modules/mainline/shared/components/defensive-matchups-table";
 import { TypeCoverageChip } from "@/modules/mainline/shared/components/type-coverage-chip";
 import { TypeMatchupLegend } from "@/modules/mainline/shared/components/type-matchup-cell";
-import type { ReactNode } from "react";
 
 import {
   getPlanVerdict,
@@ -23,6 +22,7 @@ import type {
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { SheetSection } from "@/shared/components/sheet-section";
 import {
   StatusBadge,
   type StatusBadgeTone,
@@ -58,24 +58,6 @@ const verdictTones: Record<
   hard: "danger",
   step: "warn",
 };
-
-const Step = ({
-  action,
-  children,
-  title,
-}: {
-  action?: ReactNode;
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="flex flex-col gap-3">
-    <div className="flex flex-wrap items-center justify-between gap-2">
-      <h3 className="text-20">{title}</h3>
-      {action}
-    </div>
-    {children}
-  </section>
-);
 
 /*
  * v3's Team check (`fullSheet`): whether the team can be built in one save,
@@ -127,7 +109,7 @@ export const PlannerTeamCheckSheet = ({
     >
       {team.length ? (
         <>
-          <Step
+          <SheetSection
             title="Can you build it?"
             action={
               <StatusBadge
@@ -220,9 +202,9 @@ export const PlannerTeamCheckSheet = ({
               note="Voydex doesn't know which Pokémon share one gift or one choice in a save."
               className="py-3"
             />
-          </Step>
+          </SheetSection>
 
-          <Step title="How it holds up">
+          <SheetSection title="How it holds up">
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="bg-surface-2 rounded-md px-4 py-3">
                 <p className="text-ink-2 text-13 font-bold">
@@ -251,9 +233,12 @@ export const PlannerTeamCheckSheet = ({
                 </p>
               </div>
             </div>
-          </Step>
+          </SheetSection>
 
-          <Step title="Defensive matchups" action={<TypeMatchupLegend />}>
+          <SheetSection
+            title="Defensive matchups"
+            action={<TypeMatchupLegend />}
+          >
             <DefensiveMatchupsTable
               caption="How much damage each attacking type does to each Pokémon"
               className="hidden md:block"
@@ -265,9 +250,9 @@ export const PlannerTeamCheckSheet = ({
               members={matchupMembers}
               rows={matchups}
             />
-          </Step>
+          </SheetSection>
 
-          <Step title="Coverage from their own types">
+          <SheetSection title="Coverage from their own types">
             <ul aria-label="Coverage by type" className="flex flex-wrap gap-2">
               {coverage.map((entry) => {
                 const names = entry.coveredBySpeciesIds
@@ -286,7 +271,7 @@ export const PlannerTeamCheckSheet = ({
                 );
               })}
             </ul>
-          </Step>
+          </SheetSection>
         </>
       ) : (
         <p className="text-ink-2 text-15 font-semibold">
