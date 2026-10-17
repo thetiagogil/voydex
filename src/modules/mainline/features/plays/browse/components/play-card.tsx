@@ -7,10 +7,8 @@ import { appRoutes } from "@/config/routes";
 import { PlayCardProgress } from "@/modules/mainline/features/plays/browse/components/play-card-progress";
 import { PlayCardTeam } from "@/modules/mainline/features/plays/browse/components/play-card-team";
 import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
-import {
-  formatPlayUpdatedDate,
-  getPlayCardEyebrow,
-} from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
+import { formatPlayUpdatedDate } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
@@ -43,16 +41,12 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
     return null;
   }
 
-  return (
-    <p className="text-ink-2 text-13 sm:text-14 mt-1 font-semibold">
-      {parts.map((part, index) => (
-        <span key={index}>
-          {index ? " · " : null}
-          {part}
-        </span>
-      ))}
-    </p>
-  );
+  return parts.map((part, index) => (
+    <span key={index}>
+      {index ? " · " : null}
+      {part}
+    </span>
+  ));
 };
 
 /*
@@ -69,15 +63,9 @@ export const PlayCard = ({ play }: PlayCardProps) => {
     >
       <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
-      <div className="min-w-0">
-        <p className="text-action-ink text-13 font-bold">
-          {getPlayCardEyebrow(play)}
-        </p>
-        <h3 className="mt-0.5 line-clamp-2 text-[18px] leading-tight tracking-[-0.01em] wrap-break-word sm:text-[22px]">
-          {playName}
-        </h3>
+      <PlayCardHeading play={play} title={playName}>
         <PlayCardMeta play={play} />
-      </div>
+      </PlayCardHeading>
 
       <PlayCardTeam team={play.activeTeam} className="hidden xl:grid" />
 
