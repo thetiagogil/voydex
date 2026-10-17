@@ -14,8 +14,8 @@ import { cn } from "@/shared/utils/cn";
  * panel sits in a narrower column.
  */
 export const objectiveTitleClassNames = {
-  lg: "sm:text-44 mt-2.5 mb-2 text-[34px] leading-[1.02] tracking-[-0.025em] outline-none",
-  md: "text-32 mt-2.5 mb-2 leading-[1.02] tracking-[-0.025em] outline-none lg:text-[36px]",
+  lg: "sm:text-44 mt-2.5 mb-2 text-[34px] leading-[1.02] tracking-tight outline-none",
+  md: "text-32 mt-2.5 mb-2 leading-[1.02] tracking-tight outline-none lg:text-[36px]",
 };
 
 /* v3 `.cont-label`: where the objective stands, in the game's deep colour. */
@@ -88,7 +88,7 @@ export const ObjectiveCard = ({
         size="icon"
         aria-label={closeLabel ?? "Close"}
         onClick={onClose}
-        className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-3.5 right-3.5 size-[38px] rounded-full"
+        className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-3.5 right-3.5 size-9.5 rounded-full"
       >
         <AppIcon icon={appIcons.actions.close} />
       </Button>

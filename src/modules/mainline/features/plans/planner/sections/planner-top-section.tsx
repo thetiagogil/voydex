@@ -98,7 +98,7 @@ export const PlannerTopSection = ({
             >
               <span
                 className={cn(
-                  "line-clamp-2 text-balance [overflow-wrap:anywhere]",
+                  "line-clamp-2 text-balance wrap-anywhere",
                   !name.trim() && "text-ink-3",
                 )}
               >

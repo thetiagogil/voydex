@@ -22,7 +22,7 @@ export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
     >
       <h1
         id="home-title"
-        className="text-60 pt-7 leading-none tracking-[-0.025em] sm:pt-11 sm:text-[112px]"
+        className="text-60 pt-7 leading-none tracking-tight sm:pt-11 sm:text-[112px]"
       >
         Voydex
       </h1>

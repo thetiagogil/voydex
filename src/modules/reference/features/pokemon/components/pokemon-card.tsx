@@ -47,23 +47,23 @@ const sizeClassNames: Record<
   { art: string; circle: string; mark: string; markIcon: string; name: string }
 > = {
   fluid: {
-    art: "size-[58px] sm:size-[78px]",
-    circle: "size-[62px] sm:size-[84px]",
-    mark: "size-[22px] sm:size-[26px]",
+    art: "size-14.5 sm:size-19.5",
+    circle: "size-15.5 sm:size-21",
+    mark: "size-5.5 sm:size-6.5",
     markIcon: "size-3.5 sm:size-4",
     name: "text-[12.5px] sm:text-14",
   },
   md: {
-    art: "size-[78px]",
-    circle: "size-[84px]",
-    mark: "size-[26px]",
+    art: "size-19.5",
+    circle: "size-21",
+    mark: "size-6.5",
     markIcon: "size-4",
     name: "text-14",
   },
   sm: {
-    art: "size-[52px]",
+    art: "size-13",
     circle: "size-14",
-    mark: "size-[22px]",
+    mark: "size-5.5",
     markIcon: "size-3.5",
     name: "text-[12.5px]",
   },
@@ -87,13 +87,13 @@ const paddingClassNames: Record<
   Record<PokemonCardState, string>
 > = {
   md: {
-    caught: "px-[5px] pt-[5px] pb-[9px]",
+    caught: "px-1.25 pt-1.25 pb-2.25",
     missing: "px-[6.5px] pt-[6.5px] pb-[10.5px]",
     plain: "px-2 pt-2 pb-3",
     seen: "px-2 pt-2 pb-3",
   },
   sm: {
-    caught: "px-px pt-[3px] pb-[7px]",
+    caught: "px-px pt-0.75 pb-1.75",
     missing: "px-[2.5px] pt-[4.5px] pb-[8.5px]",
     plain: "px-1 pt-1.5 pb-2.5",
     seen: "px-1 pt-1.5 pb-2.5",
@@ -117,7 +117,7 @@ const PokemonCardMark = ({
       role="img"
       aria-label={isCaught ? "Caught" : "Seen"}
       className={cn(
-        "pointer-events-none absolute top-[7px] right-[7px] z-10 grid place-items-center rounded-full",
+        "pointer-events-none absolute top-1.75 right-1.75 z-10 grid place-items-center rounded-full",
         isCaught
           ? "text-ball bg-white shadow-[0_2px_0_rgb(0_0_0/0.08)]"
           : "bg-surface-2 text-ink-2",
@@ -164,7 +164,7 @@ export const PokemonCard = ({
         (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
       )}
       className={cn(
-        "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-[3px]",
+        "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
         stateClassNames[state],
         paddingClassNames[size === "sm" ? "sm" : "md"][state],
         pop && "animate-pop",
@@ -215,7 +215,7 @@ export const PokemonCard = ({
       </span>
       <b
         className={cn(
-          "line-clamp-2 w-full font-extrabold text-balance break-words",
+          "line-clamp-2 w-full font-extrabold text-balance wrap-break-word",
           sizes.name,
           state === "missing" && "text-ink-3",
         )}

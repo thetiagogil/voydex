@@ -18,7 +18,7 @@ import { TeamMemberMoves } from "./team-member-moves";
 
 /* The name is the panel's heading: an h3 on the page, the title in a sheet. */
 export const teamMemberNameClassName =
-  "text-32 leading-[1.1] tracking-[-0.02em] break-words";
+  "text-32 leading-[1.1] tracking-[-0.02em] wrap-break-word";
 
 /*
  * The selected Pokémon: its art on the type's tint (lively), with the shiny
@@ -50,13 +50,13 @@ export const TeamMemberProfile = ({
 
   return (
     <div style={getPokemonTypeCssVariables(primaryType)} className="min-w-0">
-      <div className="relative -mx-2 -mt-1.5 mb-[18px] grid h-[200px] place-items-center overflow-hidden rounded-xl bg-[color-mix(in_oklab,var(--t)_18%,white)] sm:h-[250px]">
+      <div className="relative -mx-2 -mt-1.5 mb-4.5 grid h-50 place-items-center overflow-hidden rounded-xl bg-[color-mix(in_oklab,var(--t)_18%,white)] sm:h-62.5">
         <span
           aria-hidden
-          className="absolute size-[210px] rounded-full bg-[color-mix(in_oklab,var(--t)_28%,white)]"
+          className="absolute size-52.5 rounded-full bg-[color-mix(in_oklab,var(--t)_28%,white)]"
         />
         {member.is_shiny ? (
-          <span className="type-ink text-13 absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-[5px] font-extrabold">
+          <span className="type-ink text-13 absolute top-3.5 left-3.5 z-10 inline-flex items-center gap-1.5 rounded-full bg-white px-2.5 py-1.25 font-extrabold">
             <AppIcon icon={appIcons.product.shiny} size="sm" />
             Shiny
           </span>
@@ -76,12 +76,12 @@ export const TeamMemberProfile = ({
           <img
             src={imageUrl}
             alt=""
-            className="relative size-[170px] sm:size-[220px]"
+            className="relative size-42.5 sm:size-55"
           />
         ) : (
           <span
             aria-hidden
-            className="empty-slot relative size-[150px] rounded-full sm:size-[190px]"
+            className="empty-slot relative size-37.5 rounded-full sm:size-47.5"
           />
         )}
       </div>
@@ -99,13 +99,13 @@ export const TeamMemberProfile = ({
       />
 
       {facts.length ? (
-        <dl className="mt-5 grid gap-x-[18px] gap-y-3.5 pt-[18px] sm:grid-cols-2">
+        <dl className="mt-5 grid gap-x-4.5 gap-y-3.5 pt-4.5 sm:grid-cols-2">
           {facts.map((fact) => (
             <div key={fact.label} className="min-w-0">
               <dt className="text-ink-2 text-13 font-bold">{fact.label}</dt>
               <dd
                 className={cn(
-                  "text-16 mt-0.5 break-words",
+                  "text-16 mt-0.5 wrap-break-word",
                   fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
                 )}
               >
@@ -124,7 +124,7 @@ export const TeamMemberProfile = ({
       {moves.length ? <TeamMemberMoves moves={moves} /> : null}
 
       {member.personal_notes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-[18px] rounded-md px-4 py-3 leading-[1.55]">
+        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-[1.55]">
           “{member.personal_notes}”
         </p>
       ) : null}

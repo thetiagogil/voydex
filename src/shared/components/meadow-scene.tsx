@@ -64,7 +64,7 @@ export const MeadowScene = ({
         "relative isolate overflow-hidden",
         tinted ? "bg-game-soft" : "bg-sky",
         form === "band"
-          ? "page-band rounded-b-[32px] sm:rounded-b-[56px]"
+          ? "page-band rounded-b-4xl sm:rounded-b-[56px]"
           : "rounded-xl sm:rounded-2xl",
         className,
       )}
@@ -87,7 +87,7 @@ export const MeadowScene = ({
         <span
           aria-hidden
           className={cn(
-            "absolute inset-x-[-14%] bottom-0 z-1 h-28 sm:h-[150px]",
+            "absolute inset-x-[-14%] bottom-0 z-1 h-28 sm:h-37.5",
             hill,
             hillShape,
           )}
@@ -95,7 +95,7 @@ export const MeadowScene = ({
         <span
           aria-hidden
           className={cn(
-            "absolute inset-x-[-24%] bottom-0 z-4 h-11 sm:h-[58px]",
+            "absolute inset-x-[-24%] bottom-0 z-4 h-11 sm:h-14.5",
             frontHill,
             hillShape,
           )}
@@ -111,7 +111,7 @@ export const MeadowScene = ({
           {ground}
         </div>
       ) : form === "band" ? (
-        <div aria-hidden className={cn("h-7 sm:h-[34px]", frontHill)} />
+        <div aria-hidden className={cn("h-7 sm:h-8.5", frontHill)} />
       ) : null}
     </div>
   );

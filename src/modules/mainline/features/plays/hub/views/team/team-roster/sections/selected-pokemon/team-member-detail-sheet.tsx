@@ -45,7 +45,7 @@ export const TeamMemberDetailSheet = ({
       onOpenChange={onOpenChange}
       initialFocus={titleRef}
       label={name}
-      bodyClassName="px-[18px] pt-1.5 sm:px-5"
+      bodyClassName="px-4.5 pt-1.5 sm:px-5"
     >
       {member ? (
         <TeamMemberProfile

@@ -226,7 +226,7 @@ export const MainlinePlayProgressStory = ({
         >
           <StoryMilestonePanel
             chapterName={getChapterName(activeScope, panelMilestone)}
-            className="order-1 lg:order-none"
+            className="order-1 lg:order-0"
             milestone={panelMilestone}
             onAction={openEditor}
             onClose={
@@ -239,7 +239,7 @@ export const MainlinePlayProgressStory = ({
         </div>
 
         <StoryMilestoneList
-          className="order-2 lg:order-none lg:col-start-1 lg:row-start-1"
+          className="order-2 lg:order-0 lg:col-start-1 lg:row-start-1"
           onMilestoneSelect={selectMilestone}
           onPopEnd={() => setPoppingMilestoneId(null)}
           poppingMilestoneId={poppingMilestoneId}

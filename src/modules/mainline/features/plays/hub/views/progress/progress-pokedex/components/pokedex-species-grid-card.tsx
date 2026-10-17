@@ -28,7 +28,7 @@ export const PokedexSpeciesGridCard = ({
   return (
     <div aria-busy={isPending} className="group/dex relative min-w-0">
       <PokemonCard
-        className="group-hover/dex:-translate-y-[3px]"
+        className="group-hover/dex:-translate-y-0.75"
         state={cardStateByProgress[state]}
         imageAlt={entry.imageAlt}
         imageUrl={entry.imageUrl}

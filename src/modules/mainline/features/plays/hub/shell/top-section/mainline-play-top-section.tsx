@@ -28,7 +28,7 @@ export const MainlinePlayTopSection = ({
   return (
     <section
       aria-labelledby="mainline-play-title"
-      className="bg-game-soft play-texture shadow-game mt-2 rounded-xl px-[18px] pt-5 pb-[18px] sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5 lg:px-[30px] lg:pt-[26px] lg:pb-[22px]"
+      className="bg-game-soft play-texture shadow-game mt-2 rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5 lg:px-7.5 lg:pt-6.5 lg:pb-5.5"
     >
       <div
         className={cn(

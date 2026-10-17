@@ -7,8 +7,8 @@ import { cn } from "@/shared/utils/cn";
 const partySize = 6;
 
 const sizeClassNames = {
-  md: "-ml-1.5 size-[34px]",
-  sm: "-ml-1 size-[30px]",
+  md: "-ml-1.5 size-8.5",
+  sm: "-ml-1 size-7.5",
 };
 
 /*

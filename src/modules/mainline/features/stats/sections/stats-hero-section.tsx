@@ -94,7 +94,7 @@ const TitlePicture = ({
     const covers = title.kind === "hopper" ? regionCovers : playCovers;
 
     return covers.length ? (
-      <div className="w-full min-w-0 md:w-[300px] lg:w-[360px] xl:w-[480px]">
+      <div className="w-full min-w-0 md:w-75 lg:w-90 xl:w-120">
         <StatsCoverRow covers={covers} />
       </div>
     ) : null;
@@ -103,7 +103,7 @@ const TitlePicture = ({
   const typeSlug = toTypeSlug(title.typeSlug);
 
   return typeSlug ? (
-    <div className="relative flex h-40 w-full items-end justify-center sm:h-48 md:w-[300px] lg:w-[340px]">
+    <div className="relative flex h-40 w-full items-end justify-center sm:h-48 md:w-75 lg:w-85">
       <span
         aria-hidden
         className={cn(
@@ -220,7 +220,7 @@ export const StatsHeroSection = ({
                 typeSlug ? getPokemonTypeCssVariables(typeSlug) : undefined
               }
               className={cn(
-                "text-[46px] leading-[0.98] tracking-[-0.025em] text-balance md:text-[60px] lg:text-[76px]",
+                "md:text-60 text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]",
                 typeSlug && "type-ink",
                 title.kind === "hopper" && "text-calm-ink",
                 title.kind === "trainer" && "text-ball",

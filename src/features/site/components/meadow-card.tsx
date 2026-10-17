@@ -53,7 +53,7 @@ export const MeadowCard = ({
           "text-center transition-colors",
           gameStyle && "game-scope",
         )}
-        sceneClassName={cn("sm:h-[206px]", band ? "h-40" : "h-[150px]")}
+        sceneClassName={cn("sm:h-51.5", band ? "h-40" : "h-37.5")}
         cast={cast}
         ground={ground}
       >

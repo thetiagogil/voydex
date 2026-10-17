@@ -65,7 +65,7 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
 
   return (
     <TableRow className="max-md:relative max-md:flex max-md:flex-wrap max-md:items-center max-md:gap-x-3 max-md:gap-y-1.5 max-md:py-2.5 max-md:pl-16.5 max-md:hover:bg-transparent">
-      <TableCell className="text-ink-2 font-extrabold tabular-nums max-md:absolute max-md:top-3 max-md:left-0 max-md:w-15 max-md:p-0 max-md:leading-tight max-md:break-words max-md:whitespace-normal">
+      <TableCell className="text-ink-2 font-extrabold tabular-nums max-md:absolute max-md:top-3 max-md:left-0 max-md:w-15 max-md:p-0 max-md:leading-tight max-md:wrap-break-word max-md:whitespace-normal">
         {getPokemonDetailLearnsetMethodDetail(learnset)}
       </TableCell>
       <TableCell className="whitespace-normal max-md:basis-full max-md:p-0">
@@ -93,7 +93,7 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
       </TableCell>
       <TableCell className="max-md:p-0">
         {category ? (
-          <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2.5 py-[3px] font-bold">
+          <span className="bg-surface-2 text-12 text-ink-2 rounded-full px-2.5 py-0.75 font-bold">
             {category}
           </span>
         ) : (
@@ -162,7 +162,7 @@ export const PokemonDetailLearnsetsCard = ({
             size="sm"
             variant="segment"
             selectedTone="strong"
-            className="no-scrollbar max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
+            className="no-scrollbar max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:*:shrink-0"
             options={groups.map((candidate) => ({
               disabled: candidate.disabled,
               label: candidate.label,
@@ -192,7 +192,7 @@ export const PokemonDetailLearnsetsCard = ({
               value={method}
               onValueChange={setMethod}
               options={methodOptions}
-              className="no-scrollbar max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:[&>*]:shrink-0"
+              className="no-scrollbar max-w-full max-sm:flex-nowrap max-sm:overflow-x-auto max-sm:*:shrink-0"
             />
           </div>
 

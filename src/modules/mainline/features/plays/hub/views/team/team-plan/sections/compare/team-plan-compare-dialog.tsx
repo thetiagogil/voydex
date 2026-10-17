@@ -77,8 +77,8 @@ const RecordedValue = ({
 };
 
 const artBoxClassName =
-  "grid size-20 place-items-center rounded-xl sm:size-[110px]";
-const artClassName = "size-[68px] sm:size-[92px]";
+  "grid size-20 place-items-center rounded-xl sm:size-27.5";
+const artClassName = "size-17 sm:size-23";
 
 /* One side of the head: a label, the Pokémon and its name. */
 const CompareSide = ({
@@ -197,7 +197,7 @@ export const TeamPlanCompareDialog = ({
 
           <div
             style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-            className="grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] p-[18px] sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
+            className="grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
           >
             <CompareSide
               label={[
@@ -223,22 +223,19 @@ export const TeamPlanCompareDialog = ({
             <AppIcon
               icon={appIcons.actions.continue}
               size="md"
-              className="text-ink-tint mt-[3.25rem] justify-self-center sm:mt-[4.25rem]"
+              className="text-ink-tint mt-13 justify-self-center sm:mt-17"
             />
             <RecordedSide comparison={comparison} />
           </div>
 
-          <div className="flex-1 px-[18px] pt-1.5 pb-4 sm:px-7 sm:pt-2.5 sm:pb-5">
+          <div className="flex-1 px-4.5 pt-1.5 pb-4 sm:px-7 sm:pt-2.5 sm:pb-5">
             <table className="text-14 sm:text-15 w-full border-collapse">
               <caption className="sr-only">
                 What the Plan asks for and what this Play recorded
               </caption>
               <thead>
                 <tr className="border-line text-13 text-ink-3 border-b text-left font-bold">
-                  <th
-                    scope="col"
-                    className="w-[5.5rem] px-2 py-2.5 sm:w-[6.875rem]"
-                  >
+                  <th scope="col" className="w-22 px-2 py-2.5 sm:w-27.5">
                     <span className="sr-only">Field</span>
                   </th>
                   <th scope="col" className="px-2 py-2.5">
@@ -247,7 +244,7 @@ export const TeamPlanCompareDialog = ({
                   <th scope="col" className="px-2 py-2.5">
                     Recorded
                   </th>
-                  <th scope="col" className="w-[30px] py-2.5">
+                  <th scope="col" className="w-7.5 py-2.5">
                     <span className="sr-only">Result</span>
                   </th>
                 </tr>
@@ -308,7 +305,7 @@ export const TeamPlanCompareDialog = ({
             ) : null}
           </div>
 
-          <DialogFooter className="mx-0 mb-0 shrink-0 flex-row flex-wrap items-center justify-end px-[18px] sm:px-8">
+          <DialogFooter className="mx-0 mb-0 shrink-0 flex-row flex-wrap items-center justify-end px-4.5 sm:px-8">
             <span className="text-13 text-ink-2 mr-auto font-semibold">
               Plans are read only inside a Play
             </span>

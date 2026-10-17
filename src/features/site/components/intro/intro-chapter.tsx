@@ -23,7 +23,7 @@ export const IntroChapter = ({
   title,
   when,
 }: IntroChapterProps) => (
-  <article className="sm:not-last:before:border-line relative grid grid-cols-1 gap-2.5 pb-8 sm:grid-cols-[84px_minmax(0,1fr)] sm:gap-7 sm:pb-[46px] sm:not-last:before:absolute sm:not-last:before:top-[100px] sm:not-last:before:bottom-3.5 sm:not-last:before:left-10 sm:not-last:before:border-l-[3px] sm:not-last:before:border-dashed">
+  <article className="sm:not-last:before:border-line relative grid grid-cols-1 gap-2.5 pb-8 sm:grid-cols-[84px_minmax(0,1fr)] sm:gap-7 sm:pb-11.5 sm:not-last:before:absolute sm:not-last:before:top-25 sm:not-last:before:bottom-3.5 sm:not-last:before:left-10 sm:not-last:before:border-l-[3px] sm:not-last:before:border-dashed">
     {playArt.medallion({
       moment: { kind: "pokemon", pokemon: partner },
       size: "lg",

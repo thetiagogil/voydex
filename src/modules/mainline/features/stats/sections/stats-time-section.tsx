@@ -281,7 +281,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                       getDimClassName(activeKey, "other"),
                     )}
                   >
-                    <span className="text-ink-2 grid h-10 w-[30px] shrink-0 place-items-center">
+                    <span className="text-ink-2 grid h-10 w-7.5 shrink-0 place-items-center">
                       <AppIcon icon={appIcons.actions.next} size="md" />
                     </span>
                     <span className="min-w-0 flex-1">

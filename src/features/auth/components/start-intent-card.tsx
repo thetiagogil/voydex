@@ -33,7 +33,7 @@ export const StartIntentCard = ({
     )}
   >
     {art.gameCover({
-      className: "h-[58px] w-auto shrink-0 rounded-xs",
+      className: "h-14.5 w-auto shrink-0 rounded-xs",
       game: intent.game,
     })}
     <div className="flex min-w-0 flex-col">

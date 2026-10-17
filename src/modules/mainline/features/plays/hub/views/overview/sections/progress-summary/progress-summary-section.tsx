@@ -38,7 +38,7 @@ export const ProgressSummarySection = ({
             <Link
               key={item.label}
               href={item.href}
-              className="bg-surface-2 focus-visible:outline-focus flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-transform duration-150 outline-none hover:-translate-y-[3px] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+              className="bg-surface-2 focus-visible:outline-focus flex min-w-0 flex-col items-center justify-start gap-2.5 rounded-xl px-2 py-4 text-center transition-transform duration-150 outline-none hover:-translate-y-0.75 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
             >
               <span className="text-15 font-extrabold">{item.label}</span>
               <ProgressDonut

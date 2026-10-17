@@ -43,7 +43,7 @@ const toMedallionContent = (moment: PublicMoment): MedallionContent => {
 
 /* The Intro's partner: a larger medallion, its Pokémon standing a little proud. */
 const largeMedallionClassName =
-  "m-1 size-[58px] sm:size-[76px] [&_img]:size-[66px] [&_img]:-translate-y-1 sm:[&_img]:size-[88px]";
+  "m-1 size-14.5 sm:size-19 [&_img]:size-16.5 [&_img]:-translate-y-1 sm:[&_img]:size-22";
 
 /* The example Play as the Play header reads a Play's summary. */
 const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({

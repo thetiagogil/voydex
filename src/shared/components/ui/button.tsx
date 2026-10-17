@@ -9,14 +9,14 @@ import { cva, type VariantProps } from "class-variance-authority";
  * Both press down onto their lip. Ghost, link and destructive stay flat.
  */
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border-[1.5px] font-sans whitespace-nowrap transition-[background-color,color,translate,box-shadow] duration-[120ms] ease-out outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border-[1.5px] font-sans whitespace-nowrap transition-[background-color,color,translate,box-shadow] duration-120 ease-out outline-none select-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-danger [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
-          "border-transparent bg-action font-extrabold text-white shadow-action hover:brightness-95 active:not-aria-[haspopup]:translate-y-[5px] active:not-aria-[haspopup]:shadow-none",
+          "border-transparent bg-action font-extrabold text-white shadow-action hover:brightness-95 active:not-aria-[haspopup]:translate-y-1.25 active:not-aria-[haspopup]:shadow-none",
         outline:
-          "border-transparent bg-surface font-bold text-ink shadow-quiet hover:bg-hover active:not-aria-[haspopup]:translate-y-[3px] active:not-aria-[haspopup]:shadow-none in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:hover:bg-hover in-data-[slot=dialog-content]:bg-surface-2 in-data-[slot=alert-dialog-content]:bg-surface-2 in-data-[slot=sheet-content]:bg-surface-2 in-data-[slot=popover-content]:bg-surface-2 aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
+          "border-transparent bg-surface font-bold text-ink shadow-quiet hover:bg-hover active:not-aria-[haspopup]:translate-y-0.75 active:not-aria-[haspopup]:shadow-none in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:hover:bg-hover in-data-[slot=dialog-content]:bg-surface-2 in-data-[slot=alert-dialog-content]:bg-surface-2 in-data-[slot=sheet-content]:bg-surface-2 in-data-[slot=popover-content]:bg-surface-2 aria-expanded:bg-hover aria-pressed:bg-select-soft aria-pressed:text-select-ink",
         ghost:
           "border-transparent font-bold text-ink-2 hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink",
         destructive:
@@ -42,7 +42,7 @@ const buttonVariants = cva(
         variant: "default",
         size: ["sm", "icon-xs", "icon-sm"],
         className:
-          "shadow-[0_3px_0_var(--action-lip)] active:not-aria-[haspopup]:translate-y-[3px]",
+          "shadow-[0_3px_0_var(--action-lip)] active:not-aria-[haspopup]:translate-y-0.75",
       },
     ],
     defaultVariants: {

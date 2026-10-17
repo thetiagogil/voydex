@@ -25,7 +25,7 @@ const MainlinePlayStatus = ({ data }: { data: MainlinePlayShellData }) => {
   }
 
   return (
-    <span className="text-ink inline-flex items-center gap-[7px] rounded-full bg-white/75 px-3 py-1 font-bold">
+    <span className="text-ink inline-flex items-center gap-1.75 rounded-full bg-white/75 px-3 py-1 font-bold">
       <span
         aria-hidden
         className={cn(

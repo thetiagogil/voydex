@@ -25,10 +25,10 @@ type MeadowPokemonProps = {
 };
 
 const artSizes = {
-  sm: "size-[72px] sm:size-24",
+  sm: "size-18 sm:size-24",
   md: "size-24 sm:size-32",
-  lg: "size-28 sm:size-[150px]",
-  xl: "size-32 sm:size-[180px]",
+  lg: "size-28 sm:size-37.5",
+  xl: "size-32 sm:size-45",
 } as const;
 
 /*

@@ -28,7 +28,7 @@ export const PlayCardProgress = ({
   return (
     <div
       className={cn(
-        "grid grid-cols-[76px_minmax(0,1fr)_38px] items-center gap-x-2 gap-y-[7px]",
+        "grid grid-cols-[76px_minmax(0,1fr)_38px] items-center gap-x-2 gap-y-1.75",
         className,
       )}
     >
@@ -43,7 +43,7 @@ export const PlayCardProgress = ({
                 ? `${item.label} tracking is off`
                 : `${item.label} progress`
             }
-            className="[&_[data-slot=progress-track]]:h-[9px]"
+            className="**:data-[slot=progress-track]:h-2.25"
           />
           {item.percent === null ? (
             <span className="text-ink-3 text-13 text-right font-semibold">

@@ -113,7 +113,7 @@ export const StoryMilestoneRow = ({
         className={cn(
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
-          "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-[18px] sm:py-3.5",
+          "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-4.5 sm:py-3.5",
           isJustRecorded && "animate-pop",
         )}
       >
@@ -171,7 +171,7 @@ export const StoryMilestoneRow = ({
                 alt={`Decision: ${decision}`}
                 title={`Decision: ${decision}`}
                 loading="lazy"
-                className="size-[30px] max-w-none shrink-0 object-contain"
+                className="size-7.5 max-w-none shrink-0 object-contain"
               />
             ) : decision ? (
               <span title={`Decision: ${decision}`} className="inline-flex">

@@ -88,7 +88,7 @@ const TeamRosterGroupList = ({
           {filledCount} / {playTeamSize}
         </span>
       </h3>
-      <ul className="grid grid-cols-2 gap-x-4 gap-y-[18px] sm:grid-cols-3">
+      <ul className="grid grid-cols-2 gap-x-4 gap-y-4.5 sm:grid-cols-3">
         {slots.map((slot) => (
           <li key={slot.position} className="min-w-0">
             {slot.member ? (

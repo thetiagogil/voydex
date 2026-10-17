@@ -40,22 +40,22 @@ export const MeadowPartners = ({
   openStart,
 }: MeadowPartnersProps) => {
   const partnerClassName =
-    "relative isolate grid h-[110px] w-20 shrink-0 translate-y-[calc(var(--y)*0.6)] items-end justify-items-center sm:h-[150px] sm:w-[118px] sm:translate-y-(--y)";
+    "relative isolate grid h-27.5 w-20 shrink-0 translate-y-[calc(var(--y)*0.6)] items-end justify-items-center sm:h-37.5 sm:w-29.5 sm:translate-y-(--y)";
 
   return (
     <MeadowPop
       label={openStart ? "First partners" : undefined}
       className={cn(
-        "group/meadow mb-2 flex shrink-0 items-end justify-between sm:mb-[14px] sm:w-[1100px]",
+        "group/meadow mb-2 flex shrink-0 items-end justify-between sm:mb-3.5 sm:w-275",
         openStart
-          ? "no-scrollbar w-full snap-x snap-proximity justify-start overflow-x-auto overflow-y-hidden [mask-image:linear-gradient(90deg,transparent,black_22px,black_calc(100%-22px),transparent)] px-6 pt-7 sm:justify-between sm:overflow-visible sm:[mask-image:none] sm:p-0"
-          : "w-[780px]",
+          ? "no-scrollbar w-full snap-x snap-proximity justify-start overflow-x-auto overflow-y-hidden mask-[linear-gradient(90deg,transparent,black_22px,black_calc(100%-22px),transparent)] px-6 pt-7 sm:justify-between sm:overflow-visible sm:mask-none sm:p-0"
+          : "w-195",
       )}
     >
       {meadowPartners.map((partner, index) => {
         const content = (
           <>
-            <span className="absolute bottom-0.5 left-1/2 -z-1 h-3 w-[62px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--ink)_24%,transparent),transparent)] sm:bottom-[3px] sm:h-4 sm:w-[88px]" />
+            <span className="absolute bottom-0.5 left-1/2 -z-1 h-3 w-15.5 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--ink)_24%,transparent),transparent)] sm:bottom-0.75 sm:h-4 sm:w-22" />
             <PokemonRender
               art={art}
               pokemon={partner}

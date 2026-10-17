@@ -54,19 +54,19 @@ export const PokemonTypeMark = ({
 
 const pokemonTypeBadgeSizeClassNames = {
   sm: {
-    badge: "h-6 gap-[5px] py-0.5 pr-2.5 pl-0.5 text-12",
-    icon: "size-[11px]",
-    iconFrame: "size-[18px]",
-    iconOnly: "size-[18px]",
+    badge: "h-6 gap-1.25 py-0.5 pr-2.5 pl-0.5 text-12",
+    icon: "size-2.75",
+    iconFrame: "size-4.5",
+    iconOnly: "size-4.5",
   },
   md: {
-    badge: "h-7 gap-1.5 py-[3px] pr-3 pl-[3px] text-13",
+    badge: "h-7 gap-1.5 py-0.75 pr-3 pl-0.75 text-13",
     icon: "size-3",
-    iconFrame: "size-[22px]",
-    iconOnly: "size-[22px]",
+    iconFrame: "size-5.5",
+    iconOnly: "size-5.5",
   },
   lg: {
-    badge: "h-[34px] gap-[7px] py-[5px] pr-3.5 pl-[5px] text-14",
+    badge: "h-8.5 gap-1.75 py-1.25 pr-3.5 pl-1.25 text-14",
     icon: "size-3.5",
     iconFrame: "size-6",
     iconOnly: "size-7",

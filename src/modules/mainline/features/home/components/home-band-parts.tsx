@@ -12,11 +12,11 @@ export const HomeBandHeading = ({
   <div className="px-6 pt-8 text-center sm:pt-9">
     <h1
       id={id}
-      className="lg:text-60 text-[34px] leading-[1.02] tracking-[-0.025em] [overflow-wrap:anywhere] sm:text-[52px]"
+      className="lg:text-60 text-[34px] leading-[1.02] tracking-tight wrap-anywhere sm:text-[52px]"
     >
       {greeting}
     </h1>
-    <p className="text-ink-2 *:[a]:text-link mx-auto mt-3 max-w-[34em] text-[16px] leading-relaxed font-semibold sm:text-[18px] *:[a]:inline-flex *:[a]:items-center *:[a]:gap-1 *:[a]:whitespace-nowrap *:[a]:hover:brightness-90">
+    <p className="text-ink-2 *:[a]:text-link text-16 mx-auto mt-3 max-w-[34em] leading-relaxed font-semibold sm:text-[18px] *:[a]:inline-flex *:[a]:items-center *:[a]:gap-1 *:[a]:whitespace-nowrap *:[a]:hover:brightness-90">
       {subtitle}
     </p>
   </div>
@@ -40,7 +40,7 @@ export const HomeBandGround = ({
       <span className="text-ink-2 text-14 font-semibold">{detail}</span>
     </div>
     {action ? (
-      <div className="w-full shrink-0 sm:w-auto [&>*]:w-full sm:[&>*]:w-auto">
+      <div className="w-full shrink-0 *:w-full sm:w-auto sm:*:w-auto">
         {action}
       </div>
     ) : null}

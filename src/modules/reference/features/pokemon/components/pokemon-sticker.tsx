@@ -58,9 +58,9 @@ const variantClassNames: Record<
   }
 > = {
   compact: {
-    art: "size-[92px]",
-    empty: "my-1 size-[84px]",
-    height: "min-h-[194px]",
+    art: "size-23",
+    empty: "my-1 size-21",
+    height: "min-h-48.5",
     marks: "mt-1.5 gap-1",
     name: "text-16 mt-0.5",
     sticker: "pb-3.5",
@@ -70,16 +70,16 @@ const variantClassNames: Record<
   mini: {
     art: "size-16",
     empty: "my-1 size-14",
-    height: "min-h-[132px]",
+    height: "min-h-33",
     marks: "mt-1 gap-1",
     name: "text-16 mt-0.5",
     sticker: "pb-3",
     typeSize: "sm",
   },
   default: {
-    art: "size-[108px] transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-[132px]",
-    empty: "size-[108px] sm:size-[132px]",
-    height: "min-h-[212px]",
+    art: "size-27 transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-33",
+    empty: "size-27 sm:size-33",
+    height: "min-h-53",
     marks: "mt-2 gap-1.5",
     name: "mt-2 text-[18px]",
     sticker: "pb-4",
@@ -115,7 +115,7 @@ export const PokemonSticker = ({
     (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
   );
   const stickerClassName = cn(
-    "group/sticker sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-[3px]",
+    "group/sticker sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
     variantClassName.sticker,
     variant !== "default" && variantClassName.height,
