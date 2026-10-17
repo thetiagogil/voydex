@@ -56,6 +56,8 @@ const variantClassNames: Record<
   PokemonStickerVariant,
   {
     art: string;
+    /* The soft white circle the art stands on, as on every Pokémon card. */
+    circle: string;
     empty: string;
     /* Shared with the open slot, so an empty row stands as tall as a full one. */
     height: string;
@@ -67,6 +69,7 @@ const variantClassNames: Record<
 > = {
   compact: {
     art: "size-23",
+    circle: "size-24",
     empty: "my-1 size-21",
     height: "min-h-48.5",
     marks: "mt-1.5 gap-1",
@@ -77,6 +80,7 @@ const variantClassNames: Record<
   /* A small sticker for a row of several, such as Statistics' Old friends. */
   mini: {
     art: "size-16",
+    circle: "size-17",
     empty: "my-1 size-14",
     height: "min-h-33",
     marks: "mt-1 gap-1",
@@ -86,6 +90,7 @@ const variantClassNames: Record<
   },
   default: {
     art: "size-27 transition-transform duration-250 ease-hop group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-33",
+    circle: "size-28 sm:size-34",
     empty: "size-27 sm:size-33",
     height: "min-h-53",
     marks: "mt-2 gap-1.5",
@@ -97,7 +102,8 @@ const variantClassNames: Record<
 
 /*
  * A sticker is for a Pokémon you own, and only those: type-tinted, in a 4px
- * white border on a soft shadow. The default sticker's art hops on hover;
+ * white border on a soft shadow, its art on the same soft white circle as
+ * every Pokémon card. The default sticker's art hops on hover;
  * the compact one fills roster grids, carries its slot and shiny marks, and
  * can be picked as a button: picked, its border takes its type's colour, the
  * one picked-Pokémon look (`pokemonCardPickedClassName` on a plain card).
@@ -149,7 +155,12 @@ export const PokemonSticker = ({
           <span className="sr-only">Shiny</span>
         </>
       ) : null}
-      <span className="relative grid place-items-center">
+      <span
+        className={cn(
+          "relative grid place-items-center rounded-full",
+          imageUrl && cn("bg-white/55", variantClassName.circle),
+        )}
+      >
         {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={imageUrl} alt="" className={variantClassName.art} />
