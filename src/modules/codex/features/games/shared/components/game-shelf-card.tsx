@@ -4,7 +4,6 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import type { GameCard } from "@/modules/reference/types";
 import { cn } from "@/shared/utils/cn";
 
@@ -27,10 +26,7 @@ export const GameShelfCard = ({ card, eager = false }: GameShelfCardProps) => {
       href={appRoutes.codexVersionGroup(card.versionGroup.slug, card.game.slug)}
       className="group/game bg-surface border-line relative flex min-w-0 flex-col gap-3 rounded-xl border p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-0.75"
     >
-      <span
-        style={getGameColourStyle(card.game.slug)}
-        className="game-scope bg-game-soft grid h-30 place-items-center overflow-hidden rounded-md sm:h-37"
-      >
+      <span className="bg-surface-2 grid h-30 place-items-center overflow-hidden rounded-md sm:h-37">
         <span className="transition-transform duration-250 ease-[cubic-bezier(0.3,1.5,0.5,1)] motion-safe:group-hover/game:-translate-y-1.5 motion-safe:group-hover/game:-rotate-3">
           <GameCover
             alt=""

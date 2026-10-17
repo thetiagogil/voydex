@@ -57,8 +57,7 @@ lighter `PageBand`: Plays (and its Archived view), the Team Planner, My Plans,
 Statistics, Collection, the Codex's lists and its game and Pokémon pages, You
 and Settings. Their head section sits on warm sand (`band-sand`), flat colour
 only. The sand stays neutral so what each page shows
-(type-coloured stickers, covers) brings the colour. Game colour belongs inside
-a Play, so the Planner never takes the Plan's game; the game shows through its
+(type-coloured stickers, covers) brings the colour; a game shows through its
 covers.
 Nothing else breaks out of the column: the Play header is a card in
 it, and the docked Play bar spans the window with its content in the column.
@@ -69,9 +68,9 @@ sits on (the muted inks on the sand band and the hover fill included), and
 the browser tests run axe's contrast rule on every page they visit.
 
 Colour follows the 60-30-10 rule: about 60% calm neutral ground (`bg`,
-`surface`), about 30% supporting colour (`surface-2`, the sand band, type and
-game tints), and about 10% accent kept for what matters: the one main action
-in green, the current pick, identity (the Play's game, your Pokémon).
+`surface`), about 30% supporting colour (`surface-2`, the sand band, type
+tints), and about 10% accent kept for what matters: the one main action in
+green, the current pick, identity (your Pokémon, a game's cover).
 
 ## Type
 
@@ -99,15 +98,16 @@ in green, the current pick, identity (the Play's game, your Pokémon).
 
 ## Colour Rules
 
-- **Game colour is a Play's identity, never a theme.** A Play's shell wraps its
-  content in `game-scope` with `getGameColourStyle(gameSlug)`; inside it,
-  `game-*` tokens follow that game. The shell also sets the same values on the
-  document root while the Play is open, so portalled menus, sheets and dialogs
-  wear it too. Pages without a Play wear Voydex green.
-- **Labelled fills use `game-strong`:** the game colour darkened only as far as
-  a white label needs for 4.5:1 (computed per game in TypeScript). The active
-  Play tab and the start medallion use it; `game-deep` and `select-ink` are
-  mixed deep enough to hold 4.5:1 on their tints for every game.
+- **One palette for the whole app (2026-10-17).** Every page, a Play
+  included, wears the same colours; a Play no longer takes its game's colour,
+  and no band or meadow tints toward a game. The `game-*` tokens are the
+  context colour and resolve to the palette's accent everywhere. A game's
+  own colour (`getGameColourStyle` on a `game-scope` element) is kept only
+  for marks that tell games apart: the dots in version pickers, a cover's
+  placeholder when there is no art, and Statistics' time chart.
+- **Labelled fills use `game-strong`:** the context colour darkened only as
+  far as a white label needs for 4.5:1. The active Play tab and the start
+  medallion use it; `game-deep` and `select-ink` hold 4.5:1 on their tints.
 - **Fill** only on the Play header and docked bar, the active Play tab, and
   places where one Play or game is the subject (cover tiles, the start
   medallion). **Accent** elsewhere in a Play: progress bars, the
@@ -122,22 +122,14 @@ in green, the current pick, identity (the Play's game, your Pokémon).
   one. A scope picker (pills choosing which part you look at: a Pokédex, a
   Story journey, a collectible set, a game version; v3's `.pill.is-on`) takes
   `game-strong` too, with `selectedTone="strong"`; filters stay soft. The Log
-  in / Sign up form switch keeps the soft tint. Where a control
-  already sits on the soft tint (the game shelf's generation marks and Start a
-  Play's picked partner on a tinted meadow, the top bar on a tinted band) the
-  selection takes `game-strong` too. Otherwise solid game colour is kept for
-  the active tab only.
-- **The top bar follows a tinted band.** A band that opens the page in a
-  game's colour (Mainline Home, Start a Play with a game picked) copies that
-  colour to the document root through `BandTintRoot` (inside `MeadowScene`),
-  which marks it `data-band-tint`. The bar reads the `--bar-*` tokens: its
-  quiet controls sit on soft white over the tint, its current link and the V
-  tile take `game-strong`, its secondary words deepen to `ink-tint`. The
-  neutral sand `PageBand` leaves the bar neutral. The bar's current mark
-  swaps at once (no fade) and each link keeps its bold width, so changing
-  section never flickers or nudges the other links.
-- **Codex** has no game-colour surfaces; covers carry the game, on a soft
-  stage in their game's colour on `GameShelfCard`.
+  in / Sign up form switch keeps the soft tint. Where a control already sits
+  on the soft tint (the game shelf's generation marks) the selection takes
+  `game-strong` too.
+- **The top bar** reads the `--bar-*` tokens and looks the same on every
+  page. Its current mark swaps at once (no fade) and each link keeps its bold
+  width, so changing section never flickers or nudges the other links.
+- **Codex** has no game-colour surfaces; covers carry the game, on a quiet
+  stage on `GameShelfCard`.
 - **Type colours** keep the official hexes everywhere: chips, dots, tiles,
   medallions and stamps show the same colour. Each type has one ink for its
   label and icon (`--type-*-on`, read as `--t-on`): white on Fighting,
@@ -249,7 +241,7 @@ Voydex components:
 | `CodexPokemonCardLink`, `CodexPokemonGrid` | `modules/codex/shared/components/codex-pokemon-card-link.tsx`                  | A Pokémon in a Codex list (the Pokémon list, a game's Pokédex): the plain `PokemonCard` opening the entry, off-screen cards skip rendering. The grid is three across on phones, 128px columns wider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Codex list pieces                          | `modules/codex/shared/components`                                              | `CodexPendingValue`, the inline `PendingData` marker for one value the Codex doesn't have yet                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `PokemonTypeFilter`                        | `modules/reference/features/pokemon/components/pokemon-type-filter.tsx`        | v3 `.typefilter`, one dot per type for every Pokémon list (the Codex's lists, Collection, the Team Planner's pool); picking one fades the others, picking it again clears it                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `GameShelfCard`, `GameShelfGrid`           | `modules/codex/features/games/shared/components/game-shelf-card.tsx`           | The one game card in the Codex (the Games list, Related games): the cover on a soft stage in the game's colour, the short name, year and region; flat with a 1px line; opens its version group's page with that game picked. The grid is two across on phones, 150px columns wider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `GameShelfCard`, `GameShelfGrid`           | `modules/codex/features/games/shared/components/game-shelf-card.tsx`           | The one game card in the Codex (the Games list, Related games): the cover on a quiet `surface-2` stage, the short name, year and region; flat with a 1px line; opens its version group's page with that game picked. The grid is two across on phones, 150px columns wider                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `SegmentedControl`                         | `src/shared/components/segmented-control.tsx`                                  | Every segment switch and pill set: `pills` for filters, `segment` for modes; sizes `md` and `sm` (v3 `.gens`, 40px on phones); `fullWidth`; `selectedTone` `strong` (game-strong, white label: the default for `segment`; pass it for scope pickers and for pills on the soft tint) or `soft` (the default for `pills`). Options take `count`, `icon`, `dot` (a colour dot filled with `--game`: pass `getGameColourStyle(slug)`), `disabled` with an optional `disabledReason` (a tooltip that joins the accessible name; the option stays focusable with `aria-disabled`), and `href` (links: `aria-current="page"` for `value`, `aria-current="true"` for an option flagged `current`, the section you are in without being its exact page). `value` may be `null` |
 | `IconTip`                                  | `src/shared/components/icon-tip.tsx`                                           | An icon-only action's hover and focus label (the trigger keeps its own `aria-label`): the Codex heads' Your Plays, Favourite and Shiny, a roster member's Edit and Open in Codex                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `Carousel`                                 | `src/shared/components/carousel.tsx`                                           | v3's sideways shelf for every row of covers (`GameShelfPicker`, Home's Plays): the scroller itself (a `div`, or a list through `render={<ul />}`, keeping the caller's role, ref and keys), no scrollbar, centred while it fits, room above for a picked cover to stand up; `density` `compact` (the picker) or `roomy` (Home), `fadeEdges`, `snap`. Earlier and Later page through it on wider screens: `initialEdges` sets them for the first paint from where it opens, then each shows while there is more that way (both go when it all fits) and hands focus to the end item before it goes. Phones swipe. Tab strips and pill rows don't use it                                                                                                                |
@@ -282,7 +274,7 @@ Voydex components:
 | `TrainerCard`                              | `src/features/settings/components/trainer-card.tsx`                            | v3's trainer card, the one loud thing on You, Settings and Welcome: a sticker, its 4px white border on a soft shadow, tinted by your colour. On Settings it is the profile form                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `GameCover`                                | `modules/reference/features/games/components/game-cover.tsx`                   | The one game cover: the box art, or the initials on the game colour when there is none or it fails; sizes `shelf` (the Codex card), `hero`, `header`, `dock`, `token`, and the carousel sizes `picker`, `pickerLarge` and `playShelf` (Home). In a carousel every cover stands the same height and takes its width from its box's shape, so the covers in one carousel never differ in height; with the game's `shape` (`square`, `landscape`, `portrait`, from its first platform) it holds that box on a quiet `surface-2` tint from the first paint and loads a copy sized for it through `next/image`; `eager` for covers in view when the shelf opens                                                                                                            |
 | `GameShelfPicker`                          | `modules/reference/features/games/components/game-shelf-picker.tsx`            | v3's cover shelf, the cover picker for starting a Play (Start a Play, Home's first Play, New Play; the Team Planner picks its game from a menu): every game in release order on one sideways row with generation marks to jump by, `coverSize` `md` or `lg`. A horizontal listbox: one tab stop, arrows, Home and End move, Enter or Space picks; the picked cover stands up with a check. It owns no background. Its row is a `Carousel`                                                                                                                                                                                                                                                                                                                             |
-| `MeadowScene`                              | `src/shared/components/meadow-scene.tsx`                                       | v3's meadow: copy on the sky, two hills, a `cast` on them and a `ground` row for the main button; `form` `band` (opens the page, edge to edge under the bar through `page-band`: Mainline Home, the site's Home, Start a Play) or `card` (New Play, the Intro); `tinted` leans it toward the game colour. A page's one loud thing; it owns no motion                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `MeadowScene`                              | `src/shared/components/meadow-scene.tsx`                                       | v3's meadow: copy on the sky, two hills, a `cast` on them and a `ground` row for the main button; `form` `band` (opens the page, edge to edge under the bar through `page-band`: Mainline Home, the site's Home, Start a Play) or `card` (New Play, the Intro). A page's one loud thing; it owns no motion                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `PageBand`                                 | `src/shared/components/page-band.tsx`                                          | The band that opens Plays (and its Archived view), the Team Planner, My Plans, Statistics, Collection and the Codex's game and Pokémon pages: their head section on warm sand (`band-sand`), edge to edge under the bar through `page-band`, a short rounded foot, content in the page column                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `MeadowCard`                               | `src/features/site/components/meadow-card.tsx`                                 | The site's meadow on `MeadowScene`; its `cast` is usually `MeadowPartners` (one first partner per generation; `openStart` makes them open Start a Play at their generation, and on Start a Play they jump the shelf there)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `LogoMark`, `Logo`                         | `src/shared/components/brand/logo-mark.tsx`, `logo.tsx`                        | The "V" tile, a placeholder until the logo is designed. `Logo` adds the Fredoka "Voydex" word (`showText`, `markClassName`, `textClassName`); the top bar hides the word on narrow phones (`max-sm:hidden`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |

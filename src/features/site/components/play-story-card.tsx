@@ -58,13 +58,10 @@ export const PlayStoryCard = ({
           notes beside them. Here&apos;s one.
         </p>
       </div>
-      <div
-        style={art.gameColour(samplePlay.game.slug)}
-        className="game-scope bg-game-wash flex items-center gap-3 rounded-md py-2 pr-4 pl-2 sm:ml-auto"
-      >
+      <div className="bg-surface-2 flex items-center gap-3 rounded-md py-2 pr-4 pl-2 sm:ml-auto">
         {art.gameCover({ className: "h-12 rounded-xs", game: samplePlay.game })}
         <div className="min-w-0">
-          <p className="font-display text-17 text-game-deep font-semibold">
+          <p className="font-display text-17 text-ink font-semibold">
             {samplePlay.name}
           </p>
           <p className="text-13 text-ink-2 font-semibold">

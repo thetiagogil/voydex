@@ -9,7 +9,6 @@ import { PartnerCast } from "@/modules/mainline/features/plays/shared/components
 import type { NewPlayWizardData } from "@/modules/mainline/features/plays/new/types";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
@@ -209,14 +208,9 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
     <section
       aria-labelledby={titleId}
       data-slot="card"
-      style={game ? getGameColourStyle(game.slug) : undefined}
-      className={cn(
-        "bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none",
-        game && "game-scope",
-      )}
+      className="bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
     >
       <MeadowScene
-        tinted={Boolean(game)}
         form="card"
         className="rounded-none sm:rounded-none"
         sceneClassName={cn(

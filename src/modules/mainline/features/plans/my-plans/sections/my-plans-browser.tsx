@@ -21,7 +21,6 @@ import {
 import { deletePlanAction } from "@/modules/mainline/features/plans/my-plans/server/delete-plan-action";
 import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
@@ -77,10 +76,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   };
 
   return (
-    <li
-      className="game-scope group/removable relative min-w-0"
-      style={getGameColourStyle(plan.gameSlug)}
-    >
+    <li className="group/removable relative min-w-0">
       <Link
         href={appRoutes.mainlinePlan(plan.id)}
         className="group/card-link focus-visible:outline-focus block h-full rounded-2xl outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"

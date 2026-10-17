@@ -156,10 +156,7 @@
 
   /*
    * The top bar. Its sections sit on a white island; the current one takes
-   * the selected tint. On a tinted band (`BandTintRoot` marks the root) its
-   * quiet controls sit on soft white over the tint, and the current link and
-   * the V tile take the game's strong shade, which holds 4.5:1 with a white
-   * label for every game.
+   * the selected tint, and the V tile the action colour.
    */
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
@@ -168,16 +165,6 @@
   --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);
   --bar-ink-2: var(--ink-2);
-}
-
-:root[data-band-tint] {
-  --bar-control: rgb(255 255 255 / 0.72);
-  --bar-control-hover: rgb(255 255 255 / 0.92);
-  --bar-hover: rgb(255 255 255 / 0.55);
-  --bar-current: var(--game-strong);
-  --bar-current-ink: #fff;
-  --bar-brand: var(--game-strong);
-  --bar-ink-2: var(--ink-tint);
 }
 
 @theme inline {

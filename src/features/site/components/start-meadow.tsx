@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { CSSProperties, MouseEvent, ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -43,8 +43,6 @@ export type StartPick = {
 type StartMeadowProps = {
   /* The heading and the game shelf, on the sky. */
   children: ReactNode;
-  /* Every game's colour variables (`getGameColourStyle`), by game slug. */
-  gameStyles: Readonly<Record<string, CSSProperties>>;
   isAuthenticated: boolean;
   /* The first partners standing on the hill while no game is picked. */
   partners: ReactNode;
@@ -168,7 +166,6 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
  */
 export const StartMeadow = ({
   children,
-  gameStyles,
   isAuthenticated,
   partners,
   picks,
@@ -264,7 +261,6 @@ export const StartMeadow = ({
     <MeadowCard
       form="band"
       titleId="start-title"
-      gameStyle={pick ? gameStyles[pick.game.slug] : undefined}
       cast={
         pick && pick.starters.length > 0 ? (
           <StarterScene partner={partner} pick={pick} />

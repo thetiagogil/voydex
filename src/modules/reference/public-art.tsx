@@ -1,19 +1,17 @@
 import type { PublicArt } from "@/config/public-art";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 /*
  * The reference module's public entry for the art the global features draw:
- * Pokémon renders, the game cover, a game's colour and the one Pokémon card.
+ * Pokémon renders, the game cover and the one Pokémon card.
  * Their routes pass it in (global features can't import a module), so the
  * public pages draw the same things the app does. The contract is
  * `PublicArt` in `@/config/public-art`.
  */
 export const publicArt = {
-  gameColour: getGameColourStyle,
   gameCover: ({ className, game }) => (
     <GameCover
       alt=""

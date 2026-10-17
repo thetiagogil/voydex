@@ -4,7 +4,6 @@ import type { TrainerPlay } from "@/modules/mainline/shared/data/trainer-pokemon
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -37,7 +36,7 @@ export const TrainerPlayRow = ({
   pokemon?: { name: string; typeSlug: string | null };
   shiny: boolean;
 }) => (
-  <li className="game-scope" style={getGameColourStyle(play.gameSlug)}>
+  <li>
     <Link
       href={href}
       aria-label={label}

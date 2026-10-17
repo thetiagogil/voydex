@@ -11,7 +11,6 @@ import {
 import { RestorePlayButton } from "@/modules/mainline/features/plays/shared/components/restore-play-button";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { Card } from "@/shared/components/ui/card";
 
 type ArchivedPlaysListProps = {
@@ -30,7 +29,7 @@ const ArchivedPlayCard = ({ play }: { play: PlayBrowseItem }) => {
   const archivedLabel = formatPlayUpdatedDate(play.archived_at, timeZone);
 
   return (
-    <li className="game-scope" style={getGameColourStyle(play.game_slug)}>
+    <li>
       <Card className="grid grid-cols-[80px_minmax(0,1fr)] items-center gap-x-3.5 gap-y-3 p-3 sm:grid-cols-[100px_minmax(0,1fr)_auto] sm:gap-5 sm:py-3.5 sm:pr-5 sm:pl-3.5">
         <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 

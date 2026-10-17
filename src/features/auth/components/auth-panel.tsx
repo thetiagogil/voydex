@@ -33,7 +33,7 @@ import { TextLink } from "@/shared/components/text-link";
 import { Input } from "@/shared/components/ui/input";
 
 type AuthPanelProps = {
-  art: Pick<PublicArt, "gameColour" | "gameCover">;
+  art: Pick<PublicArt, "gameCover">;
   /* The email typed last time, filled back in after a failed try. */
   email: string | null;
   error: AuthErrorCode | null;

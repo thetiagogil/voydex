@@ -1,6 +1,5 @@
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
@@ -36,14 +35,9 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
                     ? `${region.name} · ${region.playLabels.join(", ")}`
                     : `${region.name} · not visited yet`
                 }
-                style={
-                  region.gameSlug
-                    ? getGameColourStyle(region.gameSlug)
-                    : undefined
-                }
                 className={cn(
                   "flex min-w-0 flex-col items-center gap-1.5 rounded-lg px-2 pt-3 pb-2.5 text-center",
-                  count ? "game-scope bg-game-soft" : "empty-slot",
+                  count ? "bg-surface-2" : "empty-slot",
                 )}
               >
                 <span className="grid h-16 place-items-center">
@@ -62,7 +56,7 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
                 <b className="text-ink text-14 w-full truncate font-extrabold">
                   {region.name}
                 </b>
-                <span className="text-ink-tint text-12 font-bold">
+                <span className="text-ink-2 text-12 font-bold">
                   {count
                     ? `${count} ${count === 1 ? "Play" : "Plays"}`
                     : "Not yet"}

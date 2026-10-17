@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import type { PublicArt } from "@/config/public-art";
 import { MeadowPartners } from "@/features/site/components/meadow-partners";
@@ -29,13 +29,8 @@ export const StartPage = ({
   picks,
   shelf,
 }: StartPageProps) => {
-  const gameStyles: Record<string, CSSProperties> = Object.fromEntries(
-    Object.keys(picks).map((gameSlug) => [gameSlug, art.gameColour(gameSlug)]),
-  );
-
   return (
     <StartMeadow
-      gameStyles={gameStyles}
       isAuthenticated={isAuthenticated}
       partners={<MeadowPartners art={art} loading="eager" openStart />}
       picks={picks}

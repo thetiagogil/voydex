@@ -32,8 +32,8 @@ export const SteadyLabel = ({ children }: { children: string }) => (
 );
 
 /*
- * The bar's sections (v3 `.links`): quiet words; the current one sits on the
- * surface, or on the game's strong shade when the bar is on a tinted band.
+ * The bar's sections (v3 `.links`): quiet words; the current one takes the
+ * selected tint.
  * The current mark swaps at once, never fades, so a change of section
  * doesn't flicker between the two links.
  */

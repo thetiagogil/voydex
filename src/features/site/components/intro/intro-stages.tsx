@@ -95,11 +95,7 @@ export const StartAPlayStage = ({
         })}
       </div>
     </StageRow>
-    <StageRow label="Your Play">
-      <div style={art.gameColour(samplePlay.game.slug)} className="game-scope">
-        {playArt.playHeader(samplePlay)}
-      </div>
-    </StageRow>
+    <StageRow label="Your Play">{playArt.playHeader(samplePlay)}</StageRow>
   </IntroStage>
 );
 

@@ -21,7 +21,7 @@ export type LoginSearchParams = {
 };
 
 type LoginPageProps = {
-  art: Pick<PublicArt, "gameColour" | "gameCover" | "pokemon">;
+  art: Pick<PublicArt, "gameCover" | "pokemon">;
   /* Resolves the pick from Start a Play; without it the pick is kept but not shown. */
   resolveIntent?: ResolveStartIntent;
   searchParams?: Promise<LoginSearchParams>;

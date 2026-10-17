@@ -13,7 +13,6 @@ import {
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { appIcons } from "@/shared/components/app-icon";
 import { cardVariants } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
@@ -118,10 +117,9 @@ export const HomeMomentsSection = ({
     <section
       aria-labelledby="home-moments"
       data-slot="card"
-      style={getGameColourStyle(play.gameSlug)}
       className={cn(
         cardVariants(),
-        "game-scope mt-8 gap-6 px-5 py-6 sm:mt-11 sm:px-8 sm:py-7",
+        "mt-8 gap-6 px-5 py-6 sm:mt-11 sm:px-8 sm:py-7",
       )}
     >
       <div className="min-w-0">

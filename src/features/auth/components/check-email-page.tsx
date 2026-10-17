@@ -31,7 +31,7 @@ export type CheckEmailSearchParams = {
 };
 
 type CheckEmailPageProps = {
-  art: Pick<PublicArt, "gameColour" | "gameCover" | "pokemon">;
+  art: Pick<PublicArt, "gameCover" | "pokemon">;
   resolveIntent?: ResolveStartIntent;
   searchParams?: Promise<CheckEmailSearchParams>;
 };

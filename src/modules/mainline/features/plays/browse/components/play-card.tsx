@@ -14,7 +14,6 @@ import {
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
 
@@ -58,8 +57,7 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
 
 /*
  * One Play in the list. The card is quiet; the Play's cover tile is the loud
- * part, its team stays lively and its progress bars take the game's colour.
- * The card wears `game-scope` so those accents follow the Play's game.
+ * part and its team stays lively.
  */
 export const PlayCard = ({ play }: PlayCardProps) => {
   const gameName = play.game_name ?? "Unknown game";
@@ -99,7 +97,7 @@ export const PlayCard = ({ play }: PlayCardProps) => {
   );
 
   return (
-    <li className="game-scope" style={getGameColourStyle(play.game_slug)}>
+    <li>
       {play.play_id ? (
         <Link
           href={appRoutes.mainlinePlay(play.play_id)}

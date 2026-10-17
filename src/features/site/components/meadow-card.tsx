@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { cn } from "@/shared/utils/cn";
@@ -17,12 +17,6 @@ type MeadowCardProps = {
    * the front hill.
    */
   form?: "band" | "card";
-  /*
-   * A picked game's colour (`getGameColourStyle`): the sky takes its soft
-   * tint and the hills lean towards it, as on Start a Play once a game is
-   * picked. Here the game is the page's subject.
-   */
-  gameStyle?: CSSProperties;
   /* What stands on the band's ground strip, such as Start a Play's line and button. */
   ground?: ReactNode;
   titleId: string;
@@ -37,7 +31,6 @@ export const MeadowCard = ({
   cast,
   children,
   form = "card",
-  gameStyle,
   ground,
   titleId,
 }: MeadowCardProps) => {
@@ -47,12 +40,7 @@ export const MeadowCard = ({
     <section aria-labelledby={titleId}>
       <MeadowScene
         form={form}
-        tinted={Boolean(gameStyle)}
-        style={gameStyle}
-        className={cn(
-          "text-center transition-colors",
-          gameStyle && "game-scope",
-        )}
+        className="text-center"
         sceneClassName={cn("sm:h-51.5", band ? "h-40" : "h-37.5")}
         cast={cast}
         ground={ground}
