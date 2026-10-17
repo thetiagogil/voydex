@@ -1,22 +1,21 @@
 import { type ReactNode, useState } from "react";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { cn } from "@/shared/utils/cn";
-
-import { TeamAnalysisMemberSprite } from "../../components/team-analysis-member-sprite";
-import { TeamAnalysisTypeName } from "../../components/team-analysis-type-name";
-import { getTeamAnalysisMemberId } from "../../data/team-analysis-rows";
 import {
   type DefensiveMatchupSort,
   getDefensiveResistTotal,
-} from "./defensive-matchup-sort";
+} from "@/modules/mainline/shared/data/defensive-matchup-sort";
+import type {
+  TypeMatchupMember,
+  TypeMatchupRow,
+} from "@/modules/mainline/shared/data/type-matchup-rows";
+import { MatchupMemberSprite } from "@/modules/mainline/shared/components/matchup-member-sprite";
 import {
-  TeamAnalysisMatchupCell,
-  TeamAnalysisPressureTag,
-} from "./team-analysis-matchup-cell";
+  TypeMatchupCell,
+  TypeMatchupPressureTag,
+} from "@/modules/mainline/shared/components/type-matchup-cell";
+import { TypeName } from "@/modules/mainline/shared/components/type-name";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { cn } from "@/shared/utils/cn";
 
 const headerCellClassName = "px-1.5 pt-2 pb-2 align-bottom";
 
@@ -28,7 +27,10 @@ const bodyCellClassName =
   "group-hover:bg-surface-2 h-11 p-0 text-center transition-colors";
 const columnHighlightClassName = "bg-surface-2";
 
-/* A header that sorts the table: the chart's order, or the most first. */
+/*
+ * A header that sorts the table (the chart's order, or the most first), or
+ * a plain header where the table keeps its given order.
+ */
 const SortHeader = ({
   children,
   className,
@@ -38,11 +40,19 @@ const SortHeader = ({
 }: {
   children: ReactNode;
   className?: string;
-  onSortChange: (sort: DefensiveMatchupSort) => void;
-  sort: DefensiveMatchupSort;
+  onSortChange?: (sort: DefensiveMatchupSort) => void;
+  sort?: DefensiveMatchupSort;
   value: DefensiveMatchupSort;
 }) => {
   const isActive = sort === value;
+
+  if (!onSortChange) {
+    return (
+      <th scope="col" className={cn(headerCellClassName, className)}>
+        {children}
+      </th>
+    );
+  }
 
   return (
     <th
@@ -72,19 +82,24 @@ const SortHeader = ({
   );
 };
 
-/* Desktop and tablet: one row per attacking type, one column per Pokémon (v3 `.matrix`). */
-export const TeamAnalysisDefensiveTable = ({
+/*
+ * Tablets and up: one row per attacking type, one column per Pokémon (v3
+ * `.matrix`). With `onSortChange` its headers sort it.
+ */
+export const DefensiveMatchupsTable = ({
+  caption,
   className,
   members,
   onSortChange,
   rows,
   sort,
 }: {
+  caption: string;
   className?: string;
-  members: MainlinePlayTeamMember[];
-  onSortChange: (sort: DefensiveMatchupSort) => void;
-  rows: TeamAnalysisDefensiveRow[];
-  sort: DefensiveMatchupSort;
+  members: TypeMatchupMember[];
+  onSortChange?: (sort: DefensiveMatchupSort) => void;
+  rows: TypeMatchupRow[];
+  sort?: DefensiveMatchupSort;
 }) => {
   /* The hovered Pokémon's column, by its place in the team. */
   const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
@@ -97,9 +112,7 @@ export const TeamAnalysisDefensiveTable = ({
         onMouseLeave={clearColumn}
         className="text-14 w-full min-w-160 border-separate border-spacing-0"
       >
-        <caption className="sr-only">
-          How each attacking type lands on each of your Pokémon
-        </caption>
+        <caption className="sr-only">{caption}</caption>
         <thead>
           <tr className="text-ink-3 text-13 font-bold">
             <SortHeader
@@ -111,11 +124,11 @@ export const TeamAnalysisDefensiveTable = ({
               Attacking type
             </SortHeader>
             {members.map((member, column) => {
-              const name = getPlayTeamMemberName(member);
+              const { name } = member;
 
               return (
                 <th
-                  key={getTeamAnalysisMemberId(member)}
+                  key={member.id}
                   scope="col"
                   onMouseEnter={() => setHoveredColumn(column)}
                   className={cn(
@@ -124,7 +137,7 @@ export const TeamAnalysisDefensiveTable = ({
                     hoveredColumn === column && columnHighlightClassName,
                   )}
                 >
-                  <TeamAnalysisMemberSprite
+                  <MatchupMemberSprite
                     member={member}
                     className="mx-auto -mb-0.5 size-13"
                   />
@@ -155,7 +168,7 @@ export const TeamAnalysisDefensiveTable = ({
             const resistTotal = getDefensiveResistTotal(row);
 
             return (
-              <tr key={row.attackingType.id} className="group">
+              <tr key={row.attackingType.slug} className="group">
                 <th
                   scope="row"
                   onMouseEnter={clearColumn}
@@ -165,8 +178,8 @@ export const TeamAnalysisDefensiveTable = ({
                   )}
                 >
                   <span className="inline-flex items-center gap-2">
-                    <TeamAnalysisTypeName type={row.attackingType} />
-                    {row.isPressure ? <TeamAnalysisPressureTag /> : null}
+                    <TypeName type={row.attackingType} />
+                    {row.isPressure ? <TypeMatchupPressureTag /> : null}
                   </span>
                 </th>
                 {row.cells.map((cell, column) => (
@@ -179,7 +192,7 @@ export const TeamAnalysisDefensiveTable = ({
                       rowIndex === lastRowIndex && "rounded-b-md",
                     )}
                   >
-                    <TeamAnalysisMatchupCell cell={cell} />
+                    <TypeMatchupCell cell={cell} />
                   </td>
                 ))}
                 <td

@@ -181,10 +181,12 @@ describe("team analysis", () => {
       types,
     });
 
-    expect(rows[0].type.slug).toBe("electric");
+    expect(rows[0].attackingType.slug).toBe("electric");
     expect(rows[0].weakCount).toBe(2);
     expect(rows[0].isPressure).toBe(true);
-    expect(rows.find((row) => row.type.slug === "ground")?.immuneCount).toBe(1);
+    expect(
+      rows.find((row) => row.attackingType.slug === "ground")?.immuneCount,
+    ).toBe(1);
   });
 
   it("reads coverage from the team's own types", () => {

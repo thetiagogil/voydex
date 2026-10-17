@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
 
 import type {
-  TeamAnalysisDefensiveCell,
-  TeamAnalysisEffectiveness,
-} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+  TypeMatchupCell as TypeMatchupCellValue,
+  TypeMatchupEffectiveness,
+} from "@/modules/mainline/shared/data/type-matchup-rows";
 import { StatusBadge } from "@/shared/components/status-badge";
 import { cn } from "@/shared/utils/cn";
 
 /* The cell's effectiveness, with 4× singled out as very weak. */
-type MatchupKind = TeamAnalysisEffectiveness | "very-weak";
+type MatchupKind = TypeMatchupEffectiveness | "very-weak";
 
 /* The matrix chrome stays quiet; its cells keep their meaning tints. */
 const kindClassNames: Record<MatchupKind, string> = {
@@ -26,14 +26,14 @@ const sizeClassNames = {
   sm: "text-12 h-5.5 min-w-7.5",
 } as const;
 
-const getMatchupKind = (cell: TeamAnalysisDefensiveCell): MatchupKind => {
+const getMatchupKind = (cell: TypeMatchupCellValue): MatchupKind => {
   return cell.effectiveness === "weak" && (cell.multiplier ?? 0) >= 4
     ? "very-weak"
     : cell.effectiveness;
 };
 
 /* The matrix's compact mark: a dot for neutral, fractions without the ×. */
-const getShortLabel = (cell: TeamAnalysisDefensiveCell) => {
+const getShortLabel = (cell: TypeMatchupCellValue) => {
   if (cell.effectiveness === "unknown") return "?";
   if (cell.effectiveness === "neutral") return "·";
   if (cell.effectiveness === "immune") return "0";
@@ -43,7 +43,7 @@ const getShortLabel = (cell: TeamAnalysisDefensiveCell) => {
   return cell.multiplierLabel;
 };
 
-const getSpokenLabel = (cell: TeamAnalysisDefensiveCell) => {
+const getSpokenLabel = (cell: TypeMatchupCellValue) => {
   const kind = getMatchupKind(cell);
 
   if (kind === "unknown") return "Typing not recorded";
@@ -76,12 +76,11 @@ const MatchupMark = ({
   );
 };
 
-/* How hard one attacking type hits one of your Pokémon (v3 `.cell`). */
-export const TeamAnalysisMatchupCell = ({
-  cell,
-}: {
-  cell: TeamAnalysisDefensiveCell;
-}) => {
+/*
+ * How hard one attacking type hits one Pokémon of a team (v3 `.cell`), the
+ * same in a Play's Team analysis and the Planner's Team check.
+ */
+export const TypeMatchupCell = ({ cell }: { cell: TypeMatchupCellValue }) => {
   return (
     <MatchupMark kind={getMatchupKind(cell)} size="md">
       <span aria-hidden>{getShortLabel(cell)}</span>
@@ -97,11 +96,7 @@ const legendItems: { kind: MatchupKind; label: string; mark: string }[] = [
   { kind: "immune", label: "Immune", mark: "0" },
 ];
 
-export const TeamAnalysisMatchupLegend = ({
-  className,
-}: {
-  className?: string;
-}) => {
+export const TypeMatchupLegend = ({ className }: { className?: string }) => {
   return (
     <ul
       aria-label="Matchup key"
@@ -123,7 +118,7 @@ export const TeamAnalysisMatchupLegend = ({
 };
 
 /* A type that hits two of the team super effectively, or one of them 4×. */
-export const TeamAnalysisPressureTag = () => {
+export const TypeMatchupPressureTag = () => {
   return (
     <StatusBadge tone="danger" size="xs">
       Pressure

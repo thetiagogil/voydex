@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import type { TeamAnalysisDefensiveRow } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
-
 import { sortDefensiveMatchupRows } from "./defensive-matchup-sort";
+
+type Row = Parameters<typeof sortDefensiveMatchupRows>[0][number];
 
 const row = (
   slug: string,
@@ -16,7 +16,7 @@ const row = (
     isPressure: false,
     resistCount: counts.resist ?? 0,
     weakCount: counts.weak ?? 0,
-  }) as unknown as TeamAnalysisDefensiveRow;
+  }) as unknown as Row;
 
 const rows = [
   row("ground", 9, { weak: 3, resist: 1 }),
@@ -25,7 +25,7 @@ const rows = [
   row("water", 3, { weak: 1, resist: 2 }),
 ];
 
-const slugs = (sorted: TeamAnalysisDefensiveRow[]) =>
+const slugs = (sorted: Row[]) =>
   sorted.map((sortedRow) => sortedRow.attackingType.slug);
 
 describe("sortDefensiveMatchupRows", () => {

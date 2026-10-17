@@ -11,7 +11,7 @@ import {
 } from "@/shared/components/status-badge";
 import { Card } from "@/shared/components/ui/card";
 
-import { TeamAnalysisTypeName } from "../../components/team-analysis-type-name";
+import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health";
 
 const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
@@ -60,11 +60,7 @@ const TeamAnalysisHealthCard = ({
           <Fragment key={index}>
             {index > 0 ? " " : null}
             {"type" in part ? (
-              <TeamAnalysisTypeName
-                size="sm"
-                type={part.type}
-                className="align-[-1px]"
-              />
+              <TypeName size="sm" type={part.type} className="align-[-1px]" />
             ) : (
               part.text
             )}

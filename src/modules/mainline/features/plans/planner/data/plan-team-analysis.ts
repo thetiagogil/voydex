@@ -14,6 +14,10 @@ import {
   toPokemonTypeSlugs,
   type TeamTypeMember,
 } from "@/modules/mainline/shared/data/team-type-analysis";
+import {
+  toTypeMatchupRows,
+  type TypeMatchupRow,
+} from "@/modules/mainline/shared/data/type-matchup-rows";
 
 /*
  * The Planner's reading of a team by its own types (moves aren't planned
@@ -21,16 +25,8 @@ import {
  * analysis also reads.
  */
 
-export type PlanMatchupRow = {
-  /* One multiplier per member, in team order; null when its types are unknown. */
-  cells: (number | null)[];
-  immuneCount: number;
-  /* Two or more weak, or any 4×: the type to watch. */
-  isPressure: boolean;
-  resistCount: number;
-  type: PlanType;
-  weakCount: number;
-};
+/* One attacking type against the team, as Mainline's shared matchups draw it. */
+export type PlanMatchupRow = TypeMatchupRow<PlanType>;
 
 export type PlanCoverage = {
   coveredBySpeciesIds: number[];
@@ -58,11 +54,17 @@ export const buildPlanMatchups = ({
   team: PlannerPokemon[];
   types: PlanType[];
 }): PlanMatchupRow[] =>
-  buildTeamTypeMatchups({
-    generationOrder,
-    members: team.map(toTeamTypeMember),
-    types,
-  }).map(({ attackingType, ...row }) => ({ ...row, type: attackingType }));
+  toTypeMatchupRows(
+    buildTeamTypeMatchups({
+      generationOrder,
+      members: team.map(toTeamTypeMember),
+      types,
+    }),
+    team.map((pokemon) => ({
+      id: String(pokemon.speciesId),
+      name: pokemon.name,
+    })),
+  );
 
 /* Which types the team's own types hit super-effectively, and who hits them. */
 export const buildPlanCoverage = ({
@@ -119,7 +121,7 @@ export const getPlanTeamTip = ({
     ...matchups
       .filter((row) => row.isPressure)
       .map((row) => ({
-        text: `Watch out for ${row.type.name}: ${countWords[row.weakCount] ?? row.weakCount} of your team ${row.weakCount === 1 ? "is" : "are"} weak to it.`,
+        text: `Watch out for ${row.attackingType.name}: ${countWords[row.weakCount] ?? row.weakCount} of your team ${row.weakCount === 1 ? "is" : "are"} weak to it.`,
         tone: "watch" as const,
       })),
   ];
