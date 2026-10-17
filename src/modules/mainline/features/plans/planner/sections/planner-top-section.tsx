@@ -133,7 +133,7 @@ export const PlannerTopSection = ({
             label: group.name,
             value: group.slug,
           }))}
-          className="bg-surface shadow-card hover:bg-hover aria-expanded:bg-hover text-ink h-auto min-h-16 gap-3 rounded-xl border-transparent py-2 pr-3 pl-3 text-left"
+          variant="card"
           triggerContent={
             <>
               <span aria-hidden className="flex shrink-0 items-center pl-1">
@@ -146,7 +146,7 @@ export const PlannerTopSection = ({
                     gameName={game.name}
                     gameSlug={game.slug}
                     size="dock"
-                    className={index === 0 ? "-rotate-6" : "-ml-3 rotate-6"}
+                    className={index === 0 ? undefined : "-ml-3"}
                   />
                 ))}
               </span>
