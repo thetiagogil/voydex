@@ -1,4 +1,4 @@
-import { PokemonArtSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import {
   getPlayTeamSnapshotMemberName,
   type PlayTeamSnapshotMember,
@@ -23,10 +23,10 @@ export const StoryTeamSnapshot = ({
             key={`${member.position}-${member.speciesName}-${member.formName ?? ""}`}
             title={name}
           >
-            <PokemonArtSticker
-              alt={name}
+            <PokemonAvatar
+              name={name}
               imageUrl={member.imageUrl}
-              type={null}
+              typeSlug={null}
             />
           </li>
         );

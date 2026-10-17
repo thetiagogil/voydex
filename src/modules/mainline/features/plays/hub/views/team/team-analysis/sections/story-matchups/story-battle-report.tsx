@@ -9,8 +9,7 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
-import { PokemonArtSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
@@ -27,11 +26,11 @@ const SmallSticker = ({
   name: string;
   typeSlug: string | null;
 }) => (
-  <PokemonArtSticker
-    alt={name}
-    className="size-12"
+  <PokemonAvatar
+    name={name}
+    className="size-12 shrink-0"
     imageUrl={imageUrl}
-    type={typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null}
+    typeSlug={typeSlug}
   />
 );
 

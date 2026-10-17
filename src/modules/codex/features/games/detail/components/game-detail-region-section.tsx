@@ -69,7 +69,6 @@ export const GameDetailRegionSection = ({
                     imageUrl={pokemon.imageUrl}
                     name={pokemon.name}
                     primaryTypeSlug={pokemon.types[0]?.slug}
-                    tone="type"
                   />
                 </li>
               ))}
