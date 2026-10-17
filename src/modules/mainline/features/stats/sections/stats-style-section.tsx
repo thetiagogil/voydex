@@ -25,13 +25,8 @@ import {
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
 
 type StatsStyleSectionProps = {
@@ -370,21 +365,26 @@ export const StatsStyleSection = ({
         ) : null}
       </div>
 
-      <Dialog open={isAllTypesOpen} onOpenChange={setIsAllTypesOpen}>
-        <DialogContent className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
-          <DialogHeader className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-4">
-            <DialogTitle>Types you pick</DialogTitle>
-            <DialogDescription>
+      <ResponsiveDetailSheet
+        open={isAllTypesOpen}
+        size="wide"
+        label="Types you pick"
+        onOpenChange={setIsAllTypesOpen}
+        head={
+          <div>
+            <SheetTitle className="text-24">Types you pick</SheetTitle>
+            <p className="text-ink-2 text-14 mt-1 font-semibold">
               {used.length} of {stats.types.length} used, most picked first
-            </DialogDescription>
-          </DialogHeader>
-          <ol className="grid min-h-0 flex-1 grid-cols-3 gap-2 overflow-y-auto overscroll-contain px-6 py-5 min-[480px]:grid-cols-6">
-            {ranked.map((type) => (
-              <TypeTile key={type.slug} most={most} type={type} />
-            ))}
-          </ol>
-        </DialogContent>
-      </Dialog>
+            </p>
+          </div>
+        }
+      >
+        <ol className="grid grid-cols-3 gap-2 min-[480px]:grid-cols-6">
+          {ranked.map((type) => (
+            <TypeTile key={type.slug} most={most} type={type} />
+          ))}
+        </ol>
+      </ResponsiveDetailSheet>
     </section>
   );
 };

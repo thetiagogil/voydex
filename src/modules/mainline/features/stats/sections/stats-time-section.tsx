@@ -14,13 +14,8 @@ import { getGameColourStyle } from "@/modules/reference/features/games/utils/gam
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
 
 type StatsTimeSectionProps = {
@@ -317,8 +312,10 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         ) : null}
       </Card>
 
-      <Dialog
+      <ResponsiveDetailSheet
         open={isAllOpen}
+        size="wide"
+        label="Where your time went"
         onOpenChange={(open) => {
           setIsAllOpen(open);
           if (open) return;
@@ -328,21 +325,21 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
             returningFocus.current = false;
           }, 400);
         }}
-      >
-        <DialogContent className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
-          <DialogHeader className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-4">
-            <DialogTitle>Where your time went</DialogTitle>
-            <DialogDescription>
+        head={
+          <div>
+            <SheetTitle className="text-24">Where your time went</SheetTitle>
+            <p className="text-ink-2 text-14 mt-1 font-semibold">
               {hours} hours across {stats.time.length} Plays, most first
-            </DialogDescription>
-          </DialogHeader>
-          <ul className="grid min-h-0 flex-1 gap-2 overflow-y-auto overscroll-contain px-6 py-5 sm:grid-cols-2">
-            {stats.time.map((row, index) => (
-              <TimeCard key={row.playId} colour={colours[index]!} row={row} />
-            ))}
-          </ul>
-        </DialogContent>
-      </Dialog>
+            </p>
+          </div>
+        }
+      >
+        <ul className="grid gap-2 sm:grid-cols-2">
+          {stats.time.map((row, index) => (
+            <TimeCard key={row.playId} colour={colours[index]!} row={row} />
+          ))}
+        </ul>
+      </ResponsiveDetailSheet>
     </section>
   );
 };
