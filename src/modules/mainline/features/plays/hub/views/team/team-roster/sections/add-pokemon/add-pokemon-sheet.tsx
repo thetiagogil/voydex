@@ -12,18 +12,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
-import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { EmptyState } from "@/shared/components/empty-state";
-import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
-import { PendingData } from "@/shared/components/pending-data";
 import { SearchControl } from "@/shared/components/search-control";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Button } from "@/shared/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
-import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 import { addMainlinePlayPokemonAction } from "../../server/add-team-member-action";
@@ -34,8 +27,18 @@ import {
 } from "../../server/team-member-mutation-actions";
 import {
   filterPokemonChoices,
+  formatPokemonChoiceNumber,
+  getPokemonChoiceTypes,
   type PokemonChoice,
 } from "../../utils/pokemon-choices";
+import {
+  AddPokemonChoiceStep,
+  type AddPokemonLoadState,
+} from "./add-pokemon-choice-step";
+import {
+  AddPokemonDetailsStep,
+  type AddPokemonPlacement,
+} from "./add-pokemon-details-step";
 
 export type AddPokemonPreset = {
   formSlug: string | null;
@@ -47,51 +50,8 @@ export type AddPokemonMode =
   | { kind: "add" }
   | { kind: "replace"; name: string; playPokemonId: string };
 
-type LoadState =
-  | { status: "idle" }
-  | { message: string; status: "error" }
-  | {
-      choices: PokemonChoice[];
-      pokedexName: string | null;
-      status: "ready";
-    };
-
 /* The list grows as you scroll, so a whole Pokédex opens at once. */
 const choiceBatchSize = 48;
-
-const getChoiceTypes = (choice: PokemonChoice) =>
-  [choice.primaryType, choice.secondaryType].filter((type) => type !== null);
-
-const formatNumber = (number: number) => `#${String(number).padStart(3, "0")}`;
-
-/* One Pokémon to pick: the plain card, as a button. */
-const ChoiceButton = ({
-  choice,
-  onPick,
-}: {
-  choice: PokemonChoice;
-  onPick: (choice: PokemonChoice) => void;
-}) => (
-  <li className="min-w-0">
-    <button
-      type="button"
-      onClick={() => onPick(choice)}
-      aria-label={`${choice.speciesName}${choice.formName ? `, ${choice.formName}` : ""}, ${formatNumber(choice.number)}`}
-      className="focus-visible:outline-focus block w-full rounded-lg outline-offset-2 focus-visible:outline-3 focus-visible:outline-solid"
-    >
-      <PokemonCard
-        state="plain"
-        size="sm"
-        imageAlt=""
-        imageUrl={choice.imageUrl}
-        name={choice.speciesName}
-        number={formatNumber(choice.number)}
-        subtitle={choice.formName}
-        types={getChoiceTypes(choice)}
-      />
-    </button>
-  </li>
-);
 
 /*
  * Add Pokémon (v3 `addMonSheet`): first which Pokémon, from the whole of the
@@ -124,7 +84,9 @@ export const AddPokemonSheet = ({
 }) => {
   const router = useRouter();
   const id = useId();
-  const [loadState, setLoadState] = useState<LoadState>({ status: "idle" });
+  const [loadState, setLoadState] = useState<AddPokemonLoadState>({
+    status: "idle",
+  });
   const [presetMissing, setPresetMissing] = useState(false);
   const [query, setQuery] = useState("");
   const [shownCount, setShownCount] = useState(choiceBatchSize);
@@ -133,7 +95,7 @@ export const AddPokemonSheet = ({
   const [level, setLevel] = useState("");
   const teamIsFull = teamCount >= 6;
   const reserveIsFull = reserveCount >= 6;
-  const [placement, setPlacement] = useState<"reserve" | "team">(
+  const [placement, setPlacement] = useState<AddPokemonPlacement>(
     teamIsFull ? "reserve" : "team",
   );
   const [error, setError] = useState<string | null>(null);
@@ -317,150 +279,35 @@ export const AddPokemonSheet = ({
   );
 
   const stepOne = (
-    <div className="grid gap-4">
-      {presetMissing ? (
-        <p role="status" className="text-ink-2 text-14 font-semibold">
-          That Pokémon isn&apos;t in this Play&apos;s Pokédex. Search for
-          another.
-        </p>
-      ) : null}
-      {loadState.status === "idle" ? (
-        <div className="grid place-items-center py-10">
-          <Spinner aria-label="Loading Pokémon" className="text-action" />
-        </div>
-      ) : loadState.status === "error" ? (
-        <EmptyState
-          variant="bare"
-          title={loadState.message}
-          action={
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setLoadState({ status: "idle" })}
-            >
-              Try again
-            </Button>
-          }
-        />
-      ) : query.trim() && !results.length ? (
-        <EmptyState
-          variant="bare"
-          title={`Nothing in the ${pokedexName} matches “${query.trim()}”.`}
-        />
-      ) : (
-        <div className="grid gap-2">
-          {query.trim() ? null : (
-            <>
-              <p className="text-ink-3 text-13 flex flex-wrap items-center gap-2 font-extrabold">
-                Around the first routes
-                {/* TODO(v3-data): route and encounter locations, to suggest the Pokémon found on the first routes. */}
-                <PendingData variant="inline" label="Not in Voydex yet" />
-              </p>
-              <p className="text-ink-3 text-13 font-extrabold">
-                The whole {pokedexName}
-              </p>
-            </>
-          )}
-          <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
-            {results.slice(0, shownCount).map((choice) => (
-              <ChoiceButton
-                key={`${choice.speciesId}-${choice.formId}`}
-                choice={choice}
-                onPick={setPicked}
-              />
-            ))}
-          </ul>
-          {results.length > shownCount ? (
-            <LoadMoreTrigger label="Show more Pokémon" onLoadMore={showMore} />
-          ) : null}
-        </div>
-      )}
-    </div>
+    <AddPokemonChoiceStep
+      loadState={loadState}
+      onPick={setPicked}
+      onRetry={() => setLoadState({ status: "idle" })}
+      onShowMore={showMore}
+      pokedexName={pokedexName}
+      presetMissing={presetMissing}
+      query={query}
+      results={results}
+      shownCount={shownCount}
+    />
   );
 
   const stepTwo = picked ? (
-    <form
-      id={`${id}-form`}
-      className="grid gap-5"
-      onSubmit={(event) => {
-        event.preventDefault();
-        save();
-      }}
-    >
-      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
-        <Field>
-          <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>
-          <Input
-            id={`${id}-nickname`}
-            maxLength={100}
-            autoComplete="off"
-            placeholder={picked.speciesName}
-            value={nickname}
-            onChange={(event) => setNickname(event.target.value)}
-          />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor={`${id}-level`}>Level</FieldLabel>
-          <Input
-            id={`${id}-level`}
-            type="number"
-            inputMode="numeric"
-            min={1}
-            max={100}
-            placeholder="Not recorded"
-            value={level}
-            onChange={(event) => setLevel(event.target.value)}
-          />
-        </Field>
-      </div>
-      {isReplace ? (
-        <p className="text-ink-2 text-14 font-semibold">
-          It takes {mode.name}&apos;s place, and {mode.name} is kept in History.
-        </p>
-      ) : (
-        <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="grid gap-0.5">
-            <p id={`${id}-where`} className="text-15 font-extrabold">
-              Where it goes
-            </p>
-            <p className="text-ink-2 text-13 font-semibold">
-              {rosterIsFull
-                ? "Your team and reserve are both full"
-                : teamIsFull
-                  ? "Your team is full, so it joins the reserve"
-                  : `The team has ${6 - teamCount} open ${6 - teamCount === 1 ? "slot" : "slots"}`}
-            </p>
-          </div>
-          <SegmentedControl
-            ariaLabel="Where it goes"
-            variant="segment"
-            value={placement}
-            onValueChange={setPlacement}
-            options={[
-              {
-                disabled: teamIsFull,
-                disabledReason: teamIsFull ? "Your team is full" : undefined,
-                label: "Team",
-                value: "team",
-              },
-              {
-                disabled: reserveIsFull,
-                disabledReason: reserveIsFull
-                  ? "The reserve is full"
-                  : undefined,
-                label: "Reserve",
-                value: "reserve",
-              },
-            ]}
-          />
-        </div>
-      )}
-      <p className="text-ink-3 text-13 font-semibold">
-        Nature, ability and moves can be added from Edit once it&apos;s on your
-        team.
-      </p>
-      {error ? <FieldError>{error}</FieldError> : null}
-    </form>
+    <AddPokemonDetailsStep
+      error={error}
+      id={id}
+      level={level}
+      nickname={nickname}
+      onLevelChange={setLevel}
+      onNicknameChange={setNickname}
+      onPlacementChange={setPlacement}
+      onSubmit={save}
+      picked={picked}
+      placement={placement}
+      replacesName={isReplace ? mode.name : null}
+      reserveIsFull={reserveIsFull}
+      teamCount={teamCount}
+    />
   ) : null;
 
   return (
@@ -478,12 +325,12 @@ export const AddPokemonSheet = ({
               meta: (
                 <div className="grid gap-2">
                   <p className="text-ink-2 text-14 font-semibold tabular-nums">
-                    {[formatNumber(picked.number), picked.formName]
+                    {[formatPokemonChoiceNumber(picked.number), picked.formName]
                       .filter(Boolean)
                       .join(" · ")}
                   </p>
                   <PokemonTypeList
-                    types={getChoiceTypes(picked)}
+                    types={getPokemonChoiceTypes(picked)}
                     badgeDisplay="icon-label"
                     badgeSize="sm"
                     className="flex gap-1.5"

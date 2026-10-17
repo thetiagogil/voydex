@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useId,
-  useState,
-  useTransition,
-  type ReactNode,
-} from "react";
+import { useEffect, useId, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -24,21 +18,10 @@ import {
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { EmptyState } from "@/shared/components/empty-state";
 import { PendingData } from "@/shared/components/pending-data";
-import { SearchSelect } from "@/shared/components/search-select";
-import {
-  MoveSlotSelect,
-  type MoveSlotOption,
-} from "@/modules/mainline/shared/components/move-slot-select";
-import { SegmentedControl } from "@/shared/components/segmented-control";
-import { SelectControl } from "@/shared/components/select-control";
 import { Button } from "@/shared/components/ui/button";
-import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
-import { Input } from "@/shared/components/ui/input";
+import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
-import { Switch } from "@/shared/components/ui/switch";
-import { Textarea } from "@/shared/components/ui/textarea";
 
 import { loadTeamMemberEditorOptionsAction } from "../../server/team-member-editor-options-action";
 import { updateMainlinePlayPokemonAction } from "../../server/team-member-mutation-actions";
@@ -47,93 +30,18 @@ import {
   getTeamMemberEditorValues,
   toUpdateTeamMemberInput,
   type TeamMemberEditorField,
-  type TeamMemberEditorOptions,
   type TeamMemberEditorValues,
 } from "../../utils/team-member-editor-model";
 import { getTeamMemberEditorHeadLine } from "../../utils/team-member-display";
 import { TeamMemberEditorActions } from "./team-member-editor-actions";
-
-type OptionsState =
-  | { status: "loading" }
-  | { message: string; status: "error" }
-  | { options: TeamMemberEditorOptions; status: "ready" };
-
-const noneValue = "none";
-
-const genderOptions = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Genderless", value: "genderless" },
-  { label: "Not recorded", value: "unknown" },
-] as const;
-
-/* v3 `.step`: one part of the editor under its Fredoka heading. */
-const EditorStep = ({
-  aside,
-  children,
-  title,
-}: {
-  aside?: ReactNode;
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="grid min-w-0 gap-4 pt-5 first:pt-0">
-    <div className="flex items-baseline gap-3">
-      <h3 className="text-20">{title}</h3>
-      {aside ? (
-        <span className="text-ink-3 text-13 font-semibold">{aside}</span>
-      ) : null}
-    </div>
-    {children}
-  </section>
-);
-
-/*
- * A field's label, marked once it changed: a dot that takes no width from
- * the row (so an inline field never wraps), named "Edited" for screen
- * readers and on hover. The footer lists every change.
- */
-const EditedMark = ({
-  children,
-  edited,
-}: {
-  children: ReactNode;
-  edited: boolean;
-}) => (
-  <span className="relative">
-    {children}
-    {edited ? (
-      <span
-        title="Edited"
-        className="bg-game-deep absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full"
-      >
-        <span className="sr-only">, edited</span>
-      </span>
-    ) : null}
-  </span>
-);
-
-const EditorLabel = ({
-  children,
-  edited,
-  htmlFor,
-}: {
-  children: ReactNode;
-  edited: boolean;
-  htmlFor?: string;
-}) => (
-  <FieldLabel htmlFor={htmlFor}>
-    <EditedMark edited={edited}>{children}</EditedMark>
-  </FieldLabel>
-);
-
-const toSelectOptions = (options: { id: number; name: string }[]) => [
-  { label: "Not recorded", value: noneValue },
-  ...options.map((option) => ({
-    label: option.name,
-    value: String(option.id),
-  })),
-];
+import {
+  TeamMemberEditorBuildStep,
+  type TeamMemberEditorOptionsState,
+} from "./team-member-editor-build-step";
+import { EditorStep } from "./team-member-editor-fields";
+import { TeamMemberEditorMetStep } from "./team-member-editor-met-step";
+import { TeamMemberEditorReview } from "./team-member-editor-review";
+import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
 
 /*
  * Edit Pokémon (v3 `editor`): a side sheet over the Roster (a bottom sheet
@@ -161,9 +69,10 @@ export const TeamMemberEditorSheet = ({
   const id = useId();
   const initial = getTeamMemberEditorValues(member);
   const [values, setValues] = useState(initial);
-  const [optionsState, setOptionsState] = useState<OptionsState>({
-    status: "loading",
-  });
+  const [optionsState, setOptionsState] =
+    useState<TeamMemberEditorOptionsState>({
+      status: "loading",
+    });
   const [isReviewing, setIsReviewing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, startSaving] = useTransition();
@@ -288,29 +197,6 @@ export const TeamMemberEditorSheet = ({
     });
   };
 
-  const selectValue = (value: string) => value || noneValue;
-  const fromSelect = (value: string) => (value === noneValue ? "" : value);
-  const moveOptions: MoveSlotOption[] = [
-    ...(options?.moves ?? []).map((move) => ({
-      category: move.damageClass,
-      label: move.name,
-      typeName: move.typeName,
-      typeSlug: move.typeSlug,
-      value: String(move.id),
-    })),
-    /* Moves it knows that its learnset here doesn't list stay pickable. */
-    ...member.moves
-      .filter(
-        (move) =>
-          !(options?.moves ?? []).some((option) => option.id === move.id),
-      )
-      .map((move) => ({
-        label: move.name,
-        typeName: move.type?.name ?? null,
-        typeSlug: move.type?.slug ?? null,
-        value: String(move.id),
-      })),
-  ];
   const placeLabel =
     member.roster_state_slug === "active"
       ? `On the team · Slot ${member.slot ?? "?"}`
@@ -320,6 +206,7 @@ export const TeamMemberEditorSheet = ({
       ? member.primaryType.slug
       : null;
 
+  const stepProps = { change, edited, id, values };
   const details = (
     <form
       id={`${id}-form`}
@@ -329,84 +216,11 @@ export const TeamMemberEditorSheet = ({
         save();
       }}
     >
-      <EditorStep title="Who">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <Field>
-            <FieldLabel htmlFor={`${id}-species`}>Species</FieldLabel>
-            {/* It can't change here: Evolve and Change form do that. */}
-            <Input
-              id={`${id}-species`}
-              readOnly
-              value={[
-                member.species_name,
-                member.form_name && member.form_name !== member.species_name
-                  ? member.form_name
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
-              className="text-ink-2 cursor-default"
-            />
-          </Field>
-          <Field>
-            <EditorLabel htmlFor={`${id}-nickname`} edited={edited("nickname")}>
-              Nickname
-            </EditorLabel>
-            <Input
-              id={`${id}-nickname`}
-              maxLength={100}
-              autoComplete="off"
-              placeholder={member.species_name ?? undefined}
-              value={values.nickname}
-              onChange={(event) => change("nickname", event.target.value)}
-            />
-          </Field>
-        </div>
-        <div className="flex min-w-0 flex-wrap items-end gap-x-5.5 gap-y-4">
-          <Field className="w-35">
-            <EditorLabel htmlFor={`${id}-level`} edited={edited("level")}>
-              Level
-            </EditorLabel>
-            <Input
-              id={`${id}-level`}
-              type="number"
-              inputMode="numeric"
-              min={1}
-              max={100}
-              placeholder="—"
-              value={values.level}
-              onChange={(event) => change("level", event.target.value)}
-            />
-          </Field>
-          {supports.gender ? (
-            <Field className="w-auto max-w-full min-w-0">
-              <EditorLabel edited={edited("gender")}>
-                <span id={`${id}-gender`}>Gender</span>
-              </EditorLabel>
-              <SegmentedControl
-                ariaLabel="Gender"
-                variant="segment"
-                value={values.gender}
-                onValueChange={(value) => change("gender", value)}
-                options={genderOptions}
-              />
-            </Field>
-          ) : null}
-          <Field className="w-auto">
-            <EditorLabel htmlFor={`${id}-shiny`} edited={edited("isShiny")}>
-              Shiny
-            </EditorLabel>
-            <div className="flex h-12 items-center">
-              <Switch
-                id={`${id}-shiny`}
-                checked={values.isShiny}
-                onCheckedChange={(checked) => change("isShiny", checked)}
-              />
-            </div>
-          </Field>
-        </div>
-      </EditorStep>
-
+      <TeamMemberEditorWhoStep
+        {...stepProps}
+        member={member}
+        supportsGender={supports.gender}
+      />
       <EditorStep title="Where" aside={placeLabel}>
         {/* TODO(v3-data): moving between the team and the reserve, or to another slot, needs an atomic roster-placement RPC (swaps break the per-slot unique index mid-update). */}
         <PendingData
@@ -414,220 +228,14 @@ export const TeamMemberEditorSheet = ({
           note="Swapping slots or moving between team and reserve waits for a safe roster move."
         />
       </EditorStep>
-
-      <EditorStep title="Build" aside="Optional">
-        {options ? (
-          <>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {supports.natures ? (
-                <Field>
-                  <EditorLabel edited={edited("natureId")}>Nature</EditorLabel>
-                  <SelectControl
-                    ariaLabel="Nature"
-                    placeholder="Not recorded"
-                    value={selectValue(values.natureId)}
-                    onValueChange={(value) =>
-                      change("natureId", fromSelect(value))
-                    }
-                    options={[
-                      { label: "Not recorded", value: noneValue },
-                      ...options.natures.map((nature) => ({
-                        description:
-                          nature.increased && nature.decreased
-                            ? `+${nature.increased} · −${nature.decreased}`
-                            : undefined,
-                        label: nature.name,
-                        value: String(nature.id),
-                      })),
-                    ]}
-                  />
-                </Field>
-              ) : null}
-              {supports.abilities ? (
-                <Field>
-                  <EditorLabel edited={edited("abilityId")}>
-                    Ability
-                  </EditorLabel>
-                  <SelectControl
-                    ariaLabel="Ability"
-                    placeholder="Not recorded"
-                    value={selectValue(values.abilityId)}
-                    onValueChange={(value) =>
-                      change("abilityId", fromSelect(value))
-                    }
-                    options={toSelectOptions(options.abilities)}
-                  />
-                </Field>
-              ) : null}
-              {supports.heldItems ? (
-                <Field>
-                  <EditorLabel
-                    htmlFor={`${id}-item`}
-                    edited={edited("heldItemId")}
-                  >
-                    Held item
-                  </EditorLabel>
-                  <SearchSelect
-                    id={`${id}-item`}
-                    value={values.heldItemId || null}
-                    onValueChange={(value) => change("heldItemId", value ?? "")}
-                    options={options.heldItems.map((item) => ({
-                      label: item.name,
-                      value: String(item.id),
-                    }))}
-                  />
-                </Field>
-              ) : null}
-              <Field>
-                <EditorLabel edited={edited("ballItemId")}>
-                  Poké Ball
-                </EditorLabel>
-                <SelectControl
-                  ariaLabel="Poké Ball"
-                  placeholder="Not recorded"
-                  value={selectValue(values.ballItemId)}
-                  onValueChange={(value) =>
-                    change("ballItemId", fromSelect(value))
-                  }
-                  options={toSelectOptions(options.balls)}
-                />
-              </Field>
-            </div>
-            <fieldset className="grid gap-2.5">
-              <legend className="text-14 mb-2 font-extrabold">
-                <EditedMark edited={edited("moveIds")}>Moves</EditedMark>
-              </legend>
-              <div className="grid gap-2.5 sm:grid-cols-2">
-                {values.moveIds.map((moveId, index) => (
-                  <MoveSlotSelect
-                    key={index}
-                    slot={index + 1}
-                    value={moveId || null}
-                    onValueChange={(value) => {
-                      const next = [
-                        ...values.moveIds,
-                      ] as TeamMemberEditorValues["moveIds"];
-                      next[index] = value ?? "";
-                      change("moveIds", next);
-                    }}
-                    options={moveOptions.filter(
-                      (option) =>
-                        option.value === moveId ||
-                        !values.moveIds.includes(option.value),
-                    )}
-                  />
-                ))}
-              </div>
-            </fieldset>
-          </>
-        ) : optionsState.status === "error" ? (
-          <EmptyState variant="bare" title={optionsState.message} />
-        ) : (
-          <div className="grid place-items-center py-6">
-            <Spinner
-              aria-label="Loading what it can record"
-              className="text-action"
-            />
-          </div>
-        )}
-      </EditorStep>
-
-      <EditorStep title="Met" aside="Optional">
-        <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
-          <Field>
-            <EditorLabel htmlFor={`${id}-met`} edited={edited("metLocation")}>
-              Location
-            </EditorLabel>
-            <Input
-              id={`${id}-met`}
-              maxLength={200}
-              placeholder="Not recorded"
-              value={values.metLocation}
-              onChange={(event) => change("metLocation", event.target.value)}
-            />
-          </Field>
-          <Field>
-            <EditorLabel
-              htmlFor={`${id}-met-level`}
-              edited={edited("metLevel")}
-            >
-              Level
-            </EditorLabel>
-            <Input
-              id={`${id}-met-level`}
-              type="number"
-              inputMode="numeric"
-              min={1}
-              max={100}
-              placeholder="Not recorded"
-              value={values.metLevel}
-              onChange={(event) => change("metLevel", event.target.value)}
-            />
-          </Field>
-        </div>
-        <Field>
-          <EditorLabel htmlFor={`${id}-notes`} edited={edited("notes")}>
-            Notes
-          </EditorLabel>
-          <Textarea
-            id={`${id}-notes`}
-            maxLength={5000}
-            rows={3}
-            value={values.notes}
-            onChange={(event) => change("notes", event.target.value)}
-          />
-        </Field>
-      </EditorStep>
+      <TeamMemberEditorBuildStep
+        {...stepProps}
+        member={member}
+        optionsState={optionsState}
+        supports={supports}
+      />
+      <TeamMemberEditorMetStep {...stepProps} />
     </form>
-  );
-
-  const review = (
-    <section aria-labelledby={`${id}-review`} className="grid gap-4">
-      <div className="grid gap-1">
-        <h3 id={`${id}-review`} className="text-20">
-          Review changes{" "}
-          <span className="text-ink-3 tabular-nums">{changes.length}</span>
-        </h3>
-        <p className="text-ink-2 text-14 font-semibold">
-          Nothing is saved until you press Save. Revert anything you didn&apos;t
-          mean to change.
-        </p>
-      </div>
-      {changes.length ? (
-        <ul className="grid">
-          {changes.map((item) => (
-            <li key={item.field} className="grid gap-2 py-3.5">
-              <div className="flex items-center justify-between gap-3">
-                <b className="text-15 font-extrabold">{item.label}</b>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => revert(item.field)}
-                >
-                  <AppIcon icon={appIcons.actions.retry} inline="start" />
-                  Revert
-                </Button>
-              </div>
-              <dl className="grid gap-2 sm:grid-cols-2">
-                <div className="bg-surface-2 rounded-md px-3 py-2">
-                  <dt className="text-ink-3 text-12 font-extrabold">Was</dt>
-                  <dd className="text-14 font-semibold break-words">
-                    {item.previous}
-                  </dd>
-                </div>
-                <div className="bg-select-soft text-select-ink rounded-md px-3 py-2">
-                  <dt className="text-12 font-extrabold">Will be</dt>
-                  <dd className="text-14 font-bold break-words">{item.next}</dd>
-                </div>
-              </dl>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <EmptyState variant="bare" title="No changes left to review." />
-      )}
-    </section>
   );
 
   return (
@@ -708,7 +316,9 @@ export const TeamMemberEditorSheet = ({
     >
       {/* Review hides the form, but Save still submits it. */}
       <div hidden={isReviewing}>{details}</div>
-      {isReviewing ? review : null}
+      {isReviewing ? (
+        <TeamMemberEditorReview changes={changes} id={id} onRevert={revert} />
+      ) : null}
       {error ? <FieldError className="mt-4">{error}</FieldError> : null}
     </FormOverlay>
   );
