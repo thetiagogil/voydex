@@ -29,7 +29,7 @@ export const savePlanAction = async (
       throw new PlanSaveInputError("Log in to save a Plan.");
     }
 
-    const result = await savePlan({ input, supabase, userId });
+    const result = await savePlan({ input, supabase });
 
     revalidatePath(appRoutes.mainlinePlans);
     revalidatePath(appRoutes.mainlinePlan(result.planId));

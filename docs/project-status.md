@@ -112,8 +112,7 @@ finds all 50). Grouped by what they wait on:
   flags and a Pokédex mode (caught only, or caught and seen).
 - `gameplay.mainline_challenge_rules`: the seeded system rule catalogue.
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
-- `planning.mainline_team_plans`: a version preference, and a reviewed
-  `save_mainline_team_plan` function for the Planner's save.
+- `planning.mainline_team_plans`: a version preference.
 - An atomic roster-placement function, and a reviewed account deletion.
 - Opponent parties (species, level, moves) for Story matchups, and an anon read
   grant plus town and ace for the Codex game page's leaders.

@@ -22,13 +22,12 @@ export type CreatePlayResult =
 const getSignedInClient = async () => {
   const supabase = await createServerSupabaseClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
-  const userId = claimsResult?.data?.claims?.sub;
 
-  if (!userId) {
+  if (!claimsResult?.data?.claims?.sub) {
     throw new NewPlayInputError("Log in to start a Play.");
   }
 
-  return { supabase, userId };
+  return supabase;
 };
 
 /*
@@ -40,8 +39,8 @@ export const createPlayAction = async (
 ): Promise<CreatePlayResult> => {
   try {
     const input = parseNewPlayInput(rawInput);
-    const { supabase, userId } = await getSignedInClient();
-    const result = await createMainlinePlay({ input, supabase, userId });
+    const supabase = await getSignedInClient();
+    const result = await createMainlinePlay({ input, supabase });
     const intent = await readStartIntent(supabase);
 
     if (intent?.gameSlug === input.gameSlug) {
@@ -73,7 +72,7 @@ export type DismissStartIntentResult = {
 export const dismissStartIntentAction =
   async (): Promise<DismissStartIntentResult> => {
     try {
-      const { supabase } = await getSignedInClient();
+      const supabase = await getSignedInClient();
 
       await clearStartIntent(supabase);
       revalidatePath(appRoutes.mainline);
