@@ -18,7 +18,7 @@ import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigatio
 import {
   NavigationMenuControlLink,
   NavigationMenuControlTrigger,
-} from "@/shared/components/navigation-menu/navigation-menu-control";
+} from "@/modules/mainline/features/plays/hub/shell/play-tab-control";
 import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
 import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/navigation-menu-options-panel";
 import { NavigationMenuItem } from "@/shared/components/ui/navigation-menu";
