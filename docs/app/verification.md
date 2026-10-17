@@ -63,15 +63,49 @@ Representative public routes include `/`, `/codex/pokemon`, `/codex/games`, and
 game-scoped Pokémon detail. Representative authenticated routes include
 `/mainline/plays`, an owned Play Hub, and `/settings`.
 
-There is not yet a committed authenticated end-to-end browser suite. If a tool
-cannot reach a host-local development server, report that as an environment
-limitation rather than claiming visual verification.
+If a tool cannot reach a host-local development server, report that as an
+environment limitation rather than claiming visual verification.
+
+## Browser Tests
+
+```bash
+npm run db:start
+npm run test:e2e
+npm run test:e2e:report   # opens the last run's report
+```
+
+Playwright drives Chrome through the app against the local seeded database,
+and axe checks each page it visits for accessibility problems. The tests live
+in `e2e/`, one folder per area (Plays, Plans, Codex, auth, Mainline). They
+reuse a dev server already on port 3000 or start one; `E2E_PORT=3100` runs
+them beside it.
+
+- The setup project signs up a new throwaway account each run
+  (`e2e-…@voydex.test`), and every test that writes does so as that account,
+  so the seeded fixture, specialist and trainer data never changes. Read-only
+  checks such as Statistics log in as the seeded accounts. Throwaway accounts
+  pile up in the local database until the next reset.
+- Tests tagged `@phone` also run at phone size (Pixel 7).
+- `expectAccessible` (`e2e/support/accessibility.ts`) fails on any WCAG 2.2 AA
+  axe finding except the rules listed there as known issues; remove a rule
+  from that list once its findings are fixed.
+- Local Supabase allows 30 sign-ups and log-ins per five minutes, so several
+  full runs in a row can hit its limit; wait a few minutes.
+
+The Browser Tests workflow runs the suite on every pull request and on `main`:
+it starts local Supabase (only the services the app uses, with images from
+`ghcr.io`), builds the app, runs the tests against the production build and
+keeps the report when a test fails. A pull request that only changes docs
+skips the tests; the check still reports as skipped, so it can be required.
 
 ## Current Automated Coverage
 
 - Architecture checks enforce layer, module, client/server, and raw-database
   boundaries.
 - Vitest covers focused domain, mapping, navigation, auth, and tooling behavior.
+- Playwright covers New Play, Team, Story, Pokédex, History and Play
+  settings, the Team Planner and following a Plan, the Codex, sign-up, log in
+  and Statistics, with axe on each page.
 - Offline database audits validate authored schema and the full deterministic
   seed corpus.
 - pgTAP covers structural security, client access, cross-user RLS, view

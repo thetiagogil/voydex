@@ -36,7 +36,10 @@ const toTypeSlug = (slug: string): PokemonTypeSlug | null =>
 const fadeUpClassName =
   "group-data-reveal/title:animate-fade-up motion-reduce:animate-none";
 
-/* One figure under the title: big number, plain label, its icon. */
+/*
+ * One figure under the title: big number, plain label, its icon. The label
+ * comes first for the definition list and sits under the number on screen.
+ */
 const Tile = ({
   icon,
   index,
@@ -51,22 +54,22 @@ const Tile = ({
   <div
     style={{ "--i": index } as CSSProperties}
     className={cn(
-      "flex min-w-0 items-center justify-between gap-3 rounded-xl bg-white/60 py-3.5 pr-3.5 pl-4 [animation-delay:calc(900ms+var(--i)*60ms)] sm:pl-5",
+      "grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 rounded-xl bg-white/60 py-3.5 pr-3.5 pl-4 [animation-delay:calc(900ms+var(--i)*60ms)] sm:pl-5",
       fadeUpClassName,
     )}
   >
-    <div className="flex min-w-0 flex-col gap-1">
-      <dd className="font-display text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">
-        {value}
-      </dd>
-      <dt className="text-ink-2 text-14 font-bold">{label}</dt>
-    </div>
-    <span
+    <dt className="text-ink-2 text-14 col-start-1 row-start-2 self-start font-bold">
+      {label}
+    </dt>
+    <dd className="font-display col-start-1 row-start-1 self-end text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">
+      {value}
+    </dd>
+    <dd
       aria-hidden
-      className="text-ink-2 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
+      className="text-ink-2 col-start-2 row-span-2 row-start-1 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
     >
       <AppIcon icon={icon} size="xl" />
-    </span>
+    </dd>
   </div>
 );
 

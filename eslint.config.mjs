@@ -13,6 +13,9 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "legacy/**",
+    // Browser test output (`npm run test:e2e`).
+    "e2e/.report/**",
+    "e2e/.results/**",
   ]),
 ]);
 

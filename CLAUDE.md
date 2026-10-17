@@ -162,7 +162,9 @@ Database work additionally requires a running local Supabase stack
 npm run db:verify   # reset + seed, audits, SQL format, db lint, pgTAP, type parity
 ```
 
-`npm run verify:all` runs both gates. Meaningful UI work also requires desktop
+`npm run verify:all` runs both gates. Browser tests (Playwright and axe, in
+`e2e/`) need the local stack too: `npm run test:e2e`; GitHub runs them on
+every pull request. Meaningful UI work also requires desktop
 and phone browser checks (the `voydex-dev` entry in `.claude/launch.json`
 serves the app on port 3000) with keyboard, focus and console inspection.
 Report exact commands and outcomes; never claim a check that was not run.
