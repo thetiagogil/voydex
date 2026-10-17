@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBand } from "@/shared/components/page-band";
 import { useMemo, useState } from "react";
 
 import { GamesShelf } from "@/modules/codex/features/games/browse/components/games-shelf";
@@ -84,16 +85,19 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
 
   return (
     <>
-      <PageHeader
-        title="Games"
-        className="pt-5.5 sm:pt-5.5"
-        description={
-          <>
-            <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
-            across {spellCount(countGenerations(data.games))} generations.
-          </>
-        }
-      />
+      <PageBand>
+        <PageHeader
+          title="Games"
+          description={
+            <>
+              <b className="text-ink font-extrabold">
+                {data.games.length} games
+              </b>{" "}
+              across {spellCount(countGenerations(data.games))} generations.
+            </>
+          }
+        />
+      </PageBand>
 
       <GamesToolbar
         filters={filters}

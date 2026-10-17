@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { PageBand } from "@/shared/components/page-band";
 import { appRoutes } from "@/config/routes";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
 import { TrainerCard } from "@/features/settings/components/trainer-card";
@@ -80,7 +81,9 @@ export const YouPage = ({
 
   return (
     <div className="mx-auto flex w-full max-w-160 flex-col">
-      <PageHeader title="You" />
+      <PageBand className="max-w-[calc(40rem+2*var(--page-gutter))]">
+        <PageHeader title="You" />
+      </PageBand>
       <TrainerCard
         className="mt-6"
         initial={name ? name.charAt(0).toUpperCase() : null}

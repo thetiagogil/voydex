@@ -154,16 +154,17 @@
   --radius: var(--r-sm);
 
   /*
-   * The top bar. On the plain ground or sky it is neutral; on a tinted band
-   * (`BandTintRoot` marks the root) its quiet controls sit on soft white over
-   * the tint, and the current link and the V tile take the game's strong
-   * shade, which holds 4.5:1 with a white label for every game.
+   * The top bar. Its sections sit on a white island; the current one takes
+   * the selected tint. On a tinted band (`BandTintRoot` marks the root) its
+   * quiet controls sit on soft white over the tint, and the current link and
+   * the V tile take the game's strong shade, which holds 4.5:1 with a white
+   * label for every game.
    */
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
   --bar-hover: var(--surface-2);
-  --bar-current: var(--surface);
-  --bar-current-ink: var(--ink);
+  --bar-current: var(--select-soft);
+  --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);
   --bar-ink-2: var(--ink-2);
 }

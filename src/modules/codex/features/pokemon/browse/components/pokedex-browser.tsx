@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBand } from "@/shared/components/page-band";
 import { useCallback, useDeferredValue, useMemo, useState } from "react";
 
 import { appRoutes } from "@/config/routes";
@@ -147,11 +148,12 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   return (
     <>
-      <PageHeader
-        title="Pokémon"
-        description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
-        className="pt-5.5 sm:pt-5.5"
-      />
+      <PageBand>
+        <PageHeader
+          title="Pokémon"
+          description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
+        />
+      </PageBand>
 
       <Toolbar
         className="mt-5.5"

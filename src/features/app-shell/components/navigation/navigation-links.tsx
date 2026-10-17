@@ -45,7 +45,17 @@ export const NavigationLinks = ({
   const pathname = usePathname();
 
   return (
-    <nav aria-label={ariaLabel} className={cn("items-center gap-1", className)}>
+    /*
+     * The sections on one white island, a sticker like the rest of the
+     * app's pieces, so the bar stands apart from any page under it.
+     */
+    <nav
+      aria-label={ariaLabel}
+      className={cn(
+        "bubble items-center gap-0.5 rounded-full bg-(--bar-control) p-1",
+        className,
+      )}
+    >
       {links.map((link) => {
         const isCurrent = isCurrentLink(pathname, link);
 
@@ -57,7 +67,7 @@ export const NavigationLinks = ({
             className={cn(
               "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
               isCurrent &&
-                "bubble bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
+                "bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
             )}
           >
             <SteadyLabel>{link.label}</SteadyLabel>
