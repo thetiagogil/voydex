@@ -71,7 +71,7 @@ export const EditedMark = ({
     {edited ? (
       <span
         title="Edited"
-        className="bg-game-deep absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full"
+        className="bg-action-ink absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full"
       >
         <span className="sr-only">, edited</span>
       </span>

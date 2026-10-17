@@ -14,7 +14,7 @@ type GameShelfCardProps = {
 
 /*
  * v3's game card, the one card for a game in the Codex (the Games list and
- * Related games): the cover on a soft stage in the game's colour, the short
+ * Related games): the cover on a quiet stage, the short
  * name, and when and where it is set. A reference card you don't own, so it
  * is flat with a 1px line, and never marks the games you have Plays of (a
  * game's page has "Your Plays (N)"). Hover picks the cover up. It opens its

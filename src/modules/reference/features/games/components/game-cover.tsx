@@ -98,8 +98,7 @@ type GameCoverProps = {
   eager?: boolean;
   gameName: string;
   /*
-   * Colours the stand-in when the cover sits outside its game's scope, as in
-   * the Codex. Inside a Play the stand-in takes the Play's colour.
+   * Colours the stand-in, when there is no art, in the game's own colour.
    */
   gameSlug?: string;
   /*

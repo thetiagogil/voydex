@@ -18,7 +18,7 @@ const luminance = (hex: string) => {
 
 describe("game colours", () => {
   it("gives every game a strong fill that holds 4.5:1 with white", () => {
-    for (const [hex] of Object.values(gameColours)) {
+    for (const hex of Object.values(gameColours)) {
       const strong = getGameStrongColour(hex);
 
       expect(1.05 / (luminance(strong) + 0.05)).toBeGreaterThanOrEqual(4.5);
@@ -32,7 +32,6 @@ describe("game colours", () => {
   it("falls back to a neutral colour for unknown games", () => {
     expect(getGameColourStyle("unknown")).toMatchObject({
       "--game": "#8C867D",
-      "--gt": "17%",
     });
   });
 });

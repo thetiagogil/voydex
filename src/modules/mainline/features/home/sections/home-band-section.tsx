@@ -64,8 +64,7 @@ const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
 
 /*
  * Home's meadow band (v3 `homeback`, `homefirst`): the greeting, the shelf
- * of your Plays, the current Play's team standing on the meadow in its
- * game's colour, and the line saying where it stands with Continue. A Play
+ * of your Plays, the current Play's team standing on the meadow, and the line saying where it stands with Continue. A Play
  * with nothing recorded shows its first partners instead: tap one, then
  * "Choose {name}" (in Continue's place) records it.
  */

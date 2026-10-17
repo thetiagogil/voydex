@@ -81,21 +81,20 @@
   --band-sand: color-mix(in oklab, var(--lip) 55%, var(--bg));
 
   /*
-   * Context colour. Pages without a Play wear Voydex green; a Play sets
-   * --game, --gt and --game-strong (see getGameColourStyle) on its
-   * `.game-scope` element and on the document root, so portalled menus and
-   * dialogs wear it too. --game-strong is the game colour darkened only as
-   * far as white text needs for 4.5:1; solid fills with labels use it.
+   * The accent by role: its deep shade for small eyebrows and marks, and the
+   * selected tint with its ink, for every picked row, chip and pill.
    */
-  --game: var(--action);
-  --gt: 17%;
-  --game-strong: var(--action);
-  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
-  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
-  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
-  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
+  --action-ink: color-mix(in oklab, var(--action) 60%, #000);
+  --select-soft: color-mix(in oklab, var(--action) 16%, #fff);
+  --select-ink: color-mix(in oklab, var(--action) 45%, var(--ink));
+
+  /*
+   * A game's own colour, only where it tells games apart (a version dot, a
+   * cover's stand-in, the time chart): getGameColourStyle sets both on the
+   * element. --game-strong holds 4.5:1 with a white label.
+   */
+  --game: var(--mute);
+  --game-strong: var(--ink-2);
 
   /* Corners */
   --r-xs: 6px;
@@ -203,6 +202,7 @@
   --color-action-lip: var(--action-lip);
   --color-action-deep: var(--action-deep);
   --color-action-soft: var(--action-soft);
+  --color-action-ink: var(--action-ink);
   --color-focus: var(--focus);
   --color-gold: var(--gold);
   --color-gold-deep: var(--gold-deep);
@@ -231,10 +231,6 @@
   --color-hill-2: var(--hill-2);
   --color-band-sand: var(--band-sand);
   --color-game: var(--game);
-  --color-game-soft: var(--game-soft);
-  --color-game-wash: var(--game-wash);
-  --color-game-lip: var(--game-lip);
-  --color-game-deep: var(--game-deep);
   --color-game-strong: var(--game-strong);
   --color-select-soft: var(--select-soft);
   --color-select-ink: var(--select-ink);

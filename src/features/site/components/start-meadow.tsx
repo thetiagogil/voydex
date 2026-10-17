@@ -137,9 +137,7 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
           <span
             className={cn(
               "sm:text-14 relative -mt-0.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] font-extrabold sm:px-3.5 sm:py-1.5",
-              isPicked
-                ? "bg-game-strong text-white"
-                : "bg-surface bubble text-ink",
+              isPicked ? "bg-action text-white" : "bg-surface bubble text-ink",
             )}
           >
             {isPicked ? (
@@ -158,7 +156,7 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
 );
 
 /*
- * Start a Play's meadow. Every game's colour and first partners arrive with
+ * Start a Play's meadow. Every game's first partners arrive with
  * the page, so picking a game or a partner is client state: it shows at once
  * and is kept in the address without asking the server again. With no game
  * yet the first partners stand on the hill, and tapping one jumps the shelf

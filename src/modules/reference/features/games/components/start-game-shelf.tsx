@@ -20,7 +20,7 @@ type StartGameShelfProps = {
 /*
  * Start a Play's game shelf: the reference module's picker, with the pick
  * kept in the address (`?game=`) without asking the server again, so the
- * page around it shows that game's colour and partners at once. It opens at
+ * page around it shows that game's partners at once. It opens at
  * `?gen=` when a meadow partner sent you here, and jumps there when one of
  * the partners on this page is tapped.
  */

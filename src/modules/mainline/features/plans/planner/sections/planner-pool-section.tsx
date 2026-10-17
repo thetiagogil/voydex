@@ -218,7 +218,7 @@ export const PlannerPoolSection = ({
                             "hover:translate-y-0",
                             slot !== undefined && pokemonCardPickedClassName,
                             replacingId === pokemon.speciesId &&
-                              "outline-game outline-3 outline-offset-2 outline-solid",
+                              "outline-action outline-3 outline-offset-2 outline-solid",
                           )}
                         ></PokemonCard>
                         {slot || notes.length ? (
@@ -251,7 +251,7 @@ export const PlannerPoolSection = ({
                           {slot !== undefined ? (
                             <span
                               aria-hidden
-                              className="bg-game-strong text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
+                              className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
                             >
                               {slot}
                             </span>

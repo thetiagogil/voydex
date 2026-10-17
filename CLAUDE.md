@@ -131,9 +131,8 @@ Voydex is quiet where you work and loud where you remember. The
 
 - Use role tokens from `src/shared/styles/app-tokens.css` (`bg-surface`,
   `text-ink-2`, `border-line`, `bg-action`). One palette for the whole app,
-  a Play included: a game's own colour (`game-scope` with
-  `getGameColourStyle`) only marks which game is which (picker dots, cover
-  placeholders, charts).
+  a Play included: a game's own colour (`getGameColourStyle`) only marks
+  which game is which (picker dots, cover placeholders, charts).
 - Fredoka for headings 20px and up, the Play and trainer names and owned
   sticker names; Nunito for everything you operate. Nothing under 16px is
   Fredoka.

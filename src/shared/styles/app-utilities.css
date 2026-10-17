@@ -1,17 +1,3 @@
-/*
- * A Play's context colour. Set --game, --gt and --game-strong on the element
- * (see getGameColourStyle) and its tints are recomputed here, so everything
- * inside wears that game.
- */
-@utility game-scope {
-  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
-  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
-  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
-  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
-}
-
 /* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
 @utility type-tint {
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
@@ -30,11 +16,10 @@
 
 /*
  * A sticker marked as the target, such as a planner slot under a drag: it
- * keeps its own border, and a thin ring in the Play's colour wraps it, so
- * loud game colours don't flood the card.
+ * keeps its own border, and a thin ring in the accent wraps it.
  */
 @utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--game);
+  --sticker-shadow: 0 0 0 2.5px var(--action);
 }
 
 /*

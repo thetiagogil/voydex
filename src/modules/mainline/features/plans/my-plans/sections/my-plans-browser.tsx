@@ -87,7 +87,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       >
         <Card variant="interactive" className="h-full gap-3 px-5 py-4">
           <div className="flex items-center gap-2">
-            <Badge variant="game">{plan.versionGroupName}</Badge>
+            <Badge variant="select">{plan.versionGroupName}</Badge>
             {plan.updatedAt ? (
               <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
                 Updated <PlayMomentTime value={plan.updatedAt} />

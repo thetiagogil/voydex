@@ -162,7 +162,7 @@ describe("SegmentedControl selected tone", () => {
       />,
     );
 
-    expect(markup).toContain("bg-game-strong");
+    expect(markup).toContain("bg-action");
     expect(markup).not.toContain("bg-select-soft");
   });
 
@@ -177,6 +177,6 @@ describe("SegmentedControl selected tone", () => {
     );
 
     expect(markup).toContain("bg-select-soft");
-    expect(markup).not.toContain("bg-game-strong");
+    expect(markup).not.toContain("bg-action");
   });
 });

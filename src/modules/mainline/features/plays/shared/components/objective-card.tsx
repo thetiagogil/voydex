@@ -18,7 +18,7 @@ export const objectiveTitleClassNames = {
   md: "text-32 mt-2.5 mb-2 leading-[1.02] tracking-tight outline-none lg:text-[36px]",
 };
 
-/* v3 `.cont-label`: where the objective stands, in the game's deep colour. */
+/* v3 `.cont-label`: where the objective stands, in the accent's deep shade. */
 export const ObjectiveEyebrow = ({
   children,
   className,
@@ -30,7 +30,7 @@ export const ObjectiveEyebrow = ({
 }) => (
   <p
     className={cn(
-      "text-game-deep text-13 flex items-center gap-2 font-extrabold",
+      "text-action-ink text-13 flex items-center gap-2 font-extrabold",
       className,
     )}
   >

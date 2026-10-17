@@ -39,7 +39,7 @@ export const MainlinePlayTopInfo = ({
 
   return (
     <div className="min-w-0 flex-1">
-      <p className="text-game-deep text-13 font-bold sm:text-[13.5px]">
+      <p className="text-action-ink text-13 font-bold sm:text-[13.5px]">
         {getEyebrow(data)}
       </p>
       <h1

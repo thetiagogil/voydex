@@ -8,12 +8,11 @@ type PageBandProps = {
 };
 
 /*
- * The band that opens Plays, the Team Planner, Statistics, Collection and
- * the Codex's game and Pokémon pages:
- * the page's head (and the Planner's team) on warm sand, edge to edge under
- * the top bar, which sits on it. The sand stays neutral so what the page
- * shows (type-coloured stickers, covers) brings the colour. Home keeps the
- * meadow. What follows the band sits on the plain page ground.
+ * The band that opens every page but Home: the page's head and, on a list,
+ * its toolbar, or a subject's hero, on the neutral band colour, edge to edge
+ * under the top bar, which sits on it. The band stays neutral so what the
+ * page shows (type-coloured stickers, covers) brings the colour. What follows
+ * the band sits on the plain page ground.
  */
 export const PageBand = ({ children, className }: PageBandProps) => (
   <div className="page-band bg-band-sand relative isolate rounded-b-[28px] sm:rounded-b-[44px]">

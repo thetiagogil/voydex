@@ -45,7 +45,7 @@ const SettingsFieldLabel = ({
   <FieldLabel htmlFor={htmlFor} className="text-13 text-ink-2 font-extrabold">
     {children}
     {edited ? (
-      <span className="text-game-deep font-extrabold">· Edited</span>
+      <span className="text-action-ink font-extrabold">· Edited</span>
     ) : null}
   </FieldLabel>
 );
@@ -206,7 +206,7 @@ export const PlaySettingsGeneralSection = ({
             <>
               Status
               {edited("statusId") ? (
-                <span className="text-game-deep"> · Edited</span>
+                <span className="text-action-ink"> · Edited</span>
               ) : null}
             </>
           }

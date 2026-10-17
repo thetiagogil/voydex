@@ -34,7 +34,7 @@ const ArchivedPlayCard = ({ play }: { play: PlayBrowseItem }) => {
         <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
         <div className="min-w-0">
-          <p className="text-game-deep text-13 font-bold">
+          <p className="text-action-ink text-13 font-bold">
             {getPlayCardEyebrow(play)}
           </p>
           <h3 className="mt-0.5 line-clamp-2 text-[18px] leading-tight tracking-[-0.01em] wrap-break-word sm:text-[22px]">

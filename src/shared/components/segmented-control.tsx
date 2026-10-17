@@ -154,7 +154,7 @@ export const SegmentedControl = <TValue extends string>({
            */
           isActive
             ? selectedTone === "strong"
-              ? "bg-game-strong bubble text-white"
+              ? "bg-action bubble text-white"
               : "bg-select-soft bubble text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",

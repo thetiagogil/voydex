@@ -87,7 +87,7 @@ export const MeadowPokemon = ({
           open
             ? "text-ink-2"
             : selected
-              ? "bg-game-strong text-white"
+              ? "bg-action text-white"
               : "bg-surface bubble text-ink",
         )}
       >

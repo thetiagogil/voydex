@@ -10,7 +10,7 @@ import { cn } from "@/shared/utils/cn";
  * Every moment wears one medallion: a round token with a white ring and a
  * small lip. Only what's inside changes: a gym badge in its type, any other
  * milestone in gold, a Pokémon on its type tint, a note warm, a status
- * neutral, and where the Play began in the game's colour.
+ * neutral, and where the Play began in the accent.
  */
 export type MedallionContent =
   | { kind: "badge"; type: PokemonTypeSlug }
@@ -58,8 +58,8 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       } as CSSProperties;
     case "start":
       return {
-        "--mf": "var(--game-strong)",
-        "--mr": "var(--game-lip)",
+        "--mf": "var(--action)",
+        "--mr": "color-mix(in oklab, var(--action) 35%, white)",
       } as CSSProperties;
     case "status":
       return {

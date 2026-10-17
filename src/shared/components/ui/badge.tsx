@@ -23,7 +23,7 @@ const badgeVariants = cva(
         danger: "bg-danger-soft text-danger-deep",
         gold: "bg-gold text-ink",
         tint: "type-tint text-ink-tint",
-        game: "bg-select-soft text-select-ink",
+        select: "bg-select-soft text-select-ink",
         // A label on a tinted picture or band (a sticker's level, the Shiny mark).
         paper: "bg-white text-ink-2",
       },
