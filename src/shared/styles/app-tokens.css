@@ -295,5 +295,4 @@
     0 0 0 var(--button-band, 3px) #fff,
     0 0 0 calc(var(--button-band, 3px) + 1px) var(--button-keyline),
     var(--button-settle-value);
-  --shadow-game: 0 5px 0 var(--game-lip);
 }

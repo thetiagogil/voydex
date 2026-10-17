@@ -24,8 +24,8 @@ type TrainerCardProps = {
 
 /*
  * v3's trainer card (`.ob-card`, `.you-card`): who you are in Voydex, the one
- * loud thing wherever it appears (You, Settings, Welcome). A 4px white border
- * and a lip tinted by your colour.
+ * loud thing wherever it appears (You, Settings, Welcome): a sticker, its
+ * 4px white border on a soft shadow, tinted by your colour.
  * TODO(v3-data): profiles store no Pokémon icon yet; the card takes its tint
  * and art from your initial until they do.
  */
@@ -45,8 +45,8 @@ export const TrainerCard = ({
       className={cn(
         "flex flex-wrap items-center gap-x-4 gap-y-4.5 rounded-2xl border-4 border-white px-4.5 pt-4 pb-5 sm:gap-x-5.5 sm:px-6.5 sm:pt-5.5 sm:pb-6",
         initial
-          ? "type-tint shadow-[0_5px_0_color-mix(in_oklab,var(--t)_38%,var(--lip)),var(--shadow-soft-value)] [--t:var(--avatar)]"
-          : "bg-surface-2 shadow-[0_5px_0_var(--lip)]",
+          ? "type-tint shadow-soft [--t:var(--avatar)]"
+          : "bg-surface-2 shadow-soft",
         stack &&
           "md:flex-col md:flex-nowrap md:gap-0 md:px-5 md:pt-4 md:pb-6.5 md:text-center",
         className,

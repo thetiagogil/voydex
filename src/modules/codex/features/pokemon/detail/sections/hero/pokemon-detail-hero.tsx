@@ -88,7 +88,7 @@ export const PokemonDetailHero = ({
         fallbackOnError
         preload
         sizes="(min-width: 768px) 46vw, calc(100vw - 2rem)"
-        className="aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white shadow-[0_6px_0_color-mix(in_oklab,var(--t)_36%,var(--lip))]"
+        className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
         imageClassName="p-[9%]"
       />
 

@@ -146,7 +146,7 @@ export const PokemonDetailSectionBar = ({
             : "invisible -translate-y-[calc(100%+16px)] opacity-0",
         )}
       >
-        <div className="bg-band-sand shadow-[0_3px_0_var(--lip),var(--shadow-float-value)]">
+        <div className="bg-band-sand shadow-float">
           <div className="page-column flex h-16 min-w-0 items-center gap-3">
             <PokemonPortrait
               alt=""

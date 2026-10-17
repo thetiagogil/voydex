@@ -141,7 +141,7 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
               "sm:text-14 relative -mt-0.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] font-extrabold sm:px-3.5 sm:py-1.5",
               isPicked
                 ? "bg-game-strong text-white"
-                : "bg-surface text-ink shadow-[0_2px_0_var(--lip)]",
+                : "bg-surface bubble text-ink",
             )}
           >
             {isPicked ? (

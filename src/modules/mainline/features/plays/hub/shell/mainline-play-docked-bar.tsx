@@ -77,7 +77,7 @@ export const MainlinePlayDockedBar = ({
             : "invisible -translate-y-[calc(100%+16px)] opacity-0",
         )}
       >
-        <div className="bg-game-soft shadow-[0_4px_0_var(--game-lip),var(--shadow-float-value)]">
+        <div className="bg-game-soft shadow-float">
           <div className="page-column flex min-w-0 items-center gap-3 pt-2 pb-2.5">
             <GameCover
               alt=""

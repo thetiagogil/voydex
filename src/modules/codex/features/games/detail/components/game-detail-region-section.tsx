@@ -26,6 +26,7 @@ export const GameDetailRegionSection = ({
 
   return (
     <section
+      data-slot="card"
       aria-labelledby="game-region-title"
       className={cn(
         cardVariants(),

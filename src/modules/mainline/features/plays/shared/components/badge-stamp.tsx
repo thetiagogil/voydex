@@ -67,15 +67,13 @@ export const BadgeStamp = ({
         tilted && "transform-[rotate(var(--tilt))]",
         slap && "animate-slap",
         state.kind === "badge" &&
-          "bg-(--t) shadow-[0_0_0_3px_#fff,0_0_0_5px_color-mix(in_oklab,var(--t)_45%,white),0_4px_0_5px_var(--lip)]",
+          "bg-(--t) shadow-[0_0_0_3px_#fff,0_0_0_4.5px_color-mix(in_oklab,var(--t)_45%,white),0_3px_0_4.5px_var(--lip)]",
         state.kind === "earned" &&
-          "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_5px_var(--gold-ring),0_4px_0_5px_var(--lip)]",
+          "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--gold-ring),0_3px_0_4.5px_var(--lip)]",
         (state.kind === "next" || state.kind === "todo") &&
           "text-ink-3 outline-lip shadow-[inset_0_0_0_3px_var(--line)] outline-3 outline-offset-3 outline-dashed",
         state.kind === "next" && "bg-surface-2",
         state.kind === "todo" && "opacity-60",
-        (state.kind === "badge" || state.kind === "earned") &&
-          "after:absolute after:inset-0 after:rounded-full after:bg-[radial-gradient(circle_at_30%_25%,rgb(255_255_255/0.45),transparent_45%)]",
         className,
       )}
     >
