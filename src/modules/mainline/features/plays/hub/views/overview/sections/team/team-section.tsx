@@ -28,8 +28,9 @@ const countLabel = (count: number | null, label: string) =>
   count === null ? null : `${count} ${label}`;
 
 /*
- * A grid of cards keeps its heading on the page: your team, as stickers.
- * Each opens the Roster with that Pokémon selected.
+ * A grid of cards keeps its heading on the page: your team, as stickers,
+ * each under its nickname (or its species when it has none). Each opens the
+ * Roster with that Pokémon selected.
  */
 export const TeamSection = ({
   activeCount,
@@ -104,11 +105,6 @@ export const TeamSection = ({
               imageUrl={getPlayTeamMemberImageUrl(member)}
               level={member.level}
               name={name}
-              subtitle={
-                member.species_name && member.species_name !== name
-                  ? member.species_name
-                  : null
-              }
               types={[member.primaryType, member.secondaryType].filter(
                 (type) => type !== null,
               )}

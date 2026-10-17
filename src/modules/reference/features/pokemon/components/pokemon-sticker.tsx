@@ -46,7 +46,10 @@ type PokemonStickerProps = {
   showTypes?: boolean;
   /* A small slot number in the top-left corner. */
   slotLabel?: string;
-  /* Shown under the name when it differs, such as the species of a nicknamed Pokémon. */
+  /*
+   * A line under the name, such as how many Plays it is in. Leave it out for
+   * no line; `null` keeps the line empty so a grid's names line up.
+   */
   subtitle?: string | null;
   types: StickerType[];
   variant?: PokemonStickerVariant;
@@ -178,9 +181,12 @@ export const PokemonSticker = ({
       >
         {name}
       </span>
-      <span className="text-ink-tint text-13 w-full truncate font-semibold">
-        {subtitle || "\u00a0"}
-      </span>
+      {/* Passed but empty, the line stays so a grid's names line up. */}
+      {subtitle !== undefined ? (
+        <span className="text-ink-tint text-13 w-full truncate font-semibold">
+          {subtitle || "\u00a0"}
+        </span>
+      ) : null}
       <span
         className={cn(
           "text-ink-tint text-13 flex items-center justify-center font-bold",
