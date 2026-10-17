@@ -22,6 +22,28 @@ export type PlanDraft = {
   versionGroupSlug: string;
 };
 
+/* How a draft's Pokémon show in the offer: art, name, slot and first type. */
+export const toPlanDraftPreview = (
+  members: PlanMember[],
+  byId: Map<
+    number,
+    { imageUrl: string | null; name: string; types: { slug: string }[] }
+  >,
+): PlanTeamStripMember[] =>
+  members.flatMap((member) => {
+    const pokemon = byId.get(member.speciesId);
+    return pokemon
+      ? [
+          {
+            imageUrl: pokemon.imageUrl,
+            name: pokemon.name,
+            slot: member.slot,
+            typeSlug: pokemon.types[0]?.slug ?? null,
+          },
+        ]
+      : [];
+  });
+
 /*
  * One draft per trainer in this browser, so someone else signing in here
  * never sees yours. The old unkeyed draft is removed on sight.

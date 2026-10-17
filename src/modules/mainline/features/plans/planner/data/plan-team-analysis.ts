@@ -1,8 +1,13 @@
 import type {
   PlannerPokemon,
+  PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
-import { joinPlanList, type PlanIssue } from "./plan-build-check";
+import {
+  buildPlanIssues,
+  joinPlanList,
+  type PlanIssue,
+} from "./plan-build-check";
 import {
   buildTeamTypeCoverage,
   buildTeamTypeMatchups,
@@ -137,3 +142,31 @@ export const describeUncovered = (coverage: PlanCoverage[]) =>
       .filter((entry) => !entry.coveredBySpeciesIds.length)
       .map((entry) => entry.type.name),
   );
+
+/*
+ * The Team check in one read: what the game's mechanics and expansions say
+ * about the team (issues), how types hit it (matchups), what it hits
+ * (coverage) and the dock's one-line tip.
+ */
+export const buildPlanTeamCheck = ({
+  includedExpansionIds,
+  team,
+  types,
+  versionGroup,
+}: {
+  includedExpansionIds: number[];
+  team: PlannerPokemon[];
+  types: PlanType[];
+  versionGroup: PlannerVersionGroup;
+}) => {
+  const issues = buildPlanIssues({ includedExpansionIds, team, versionGroup });
+  const generationOrder = versionGroup.generationOrder;
+  const matchups = buildPlanMatchups({ generationOrder, team, types });
+
+  return {
+    coverage: buildPlanCoverage({ generationOrder, team, types }),
+    issues,
+    matchups,
+    tip: getPlanTeamTip({ issues, matchups, team }),
+  };
+};
