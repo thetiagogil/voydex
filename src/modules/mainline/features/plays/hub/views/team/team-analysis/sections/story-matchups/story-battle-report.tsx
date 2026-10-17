@@ -9,7 +9,7 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { PokemonArtSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
@@ -27,19 +27,12 @@ const SmallSticker = ({
   name: string;
   typeSlug: string | null;
 }) => (
-  <span
-    className="sticker grid size-12 shrink-0 place-items-center rounded-md"
-    style={getPokemonTypeCssVariables(
-      typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
-    )}
-  >
-    {imageUrl ? (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={imageUrl} alt={name} className="size-11" />
-    ) : (
-      <span className="sr-only">{name}</span>
-    )}
-  </span>
+  <PokemonArtSticker
+    alt={name}
+    className="size-12"
+    imageUrl={imageUrl}
+    type={typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null}
+  />
 );
 
 /*
