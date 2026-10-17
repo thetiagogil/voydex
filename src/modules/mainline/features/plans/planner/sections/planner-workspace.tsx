@@ -1,32 +1,30 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
-import { toast } from "sonner";
+import { useMemo, useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
   clearPlanDraft,
-  usePlanDraft,
+  toPlanDraftPreview,
   type PlanDraft,
 } from "@/modules/mainline/features/plans/planner/client/use-plan-draft";
+import { usePlannerImports } from "@/modules/mainline/features/plans/planner/client/use-planner-imports";
+import { usePlannerReplace } from "@/modules/mainline/features/plans/planner/client/use-planner-replace";
+import { usePlanSave } from "@/modules/mainline/features/plans/planner/client/use-plan-save";
 import {
-  newPlanMember,
   toPlanMembers,
   toPlannerSlots,
   usePlannerTeam,
 } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
-import { buildPlanIssues } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import {
+  getRandomCandidates,
   pickRandomTeam,
   type PlanRandomMode,
 } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
-import {
-  buildPlanCoverage,
-  buildPlanMatchups,
-  getPlanTeamTip,
-} from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
+import { buildPlanTeamCheck } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
+import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
 import {
   matchesPoolFilters,
   PlannerPoolSection,
@@ -38,11 +36,9 @@ import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/se
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
 import { PlannerTeamCheckSheet } from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
 import { PlannerTopSection } from "@/modules/mainline/features/plans/planner/sections/planner-top-section";
-import { savePlanAction } from "@/modules/mainline/features/plans/planner/server/save-plan-action";
 import {
-  decodePlanShare,
   encodePlanShare,
-  type PlanShare,
+  toPlanShare,
 } from "@/modules/mainline/features/plans/planner/utils/plan-share-code";
 import {
   clearUnsupportedBuildFields,
@@ -54,18 +50,12 @@ import type {
   PlannerPageData,
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
-import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PageBand } from "@/shared/components/page-band";
 import { Button } from "@/shared/components/ui/button";
 
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
 };
-
-/* The address mark that opens the unsaved Plan on arrival. */
-const continueDraftHash = "draft";
-
-const replaceToastId = "planner-replace";
 
 const defaultFilters: PlannerPoolFilters = {
   dex: "",
@@ -113,7 +103,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       ),
   );
   const [filters, setFilters] = useState(defaultFilters);
-  const [replacingId, setReplacingId] = useState<number | null>(null);
   const [swapIndex, setSwapIndex] = useState<number | null>(null);
   const [openSlot, setOpenSlot] = useState<number | null>(null);
   /* The slot whose filled-in Pokémon waits on "Remove …?". */
@@ -122,32 +111,25 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   );
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
-  const [isNameOpen, setIsNameOpen] = useState(false);
   const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
-  const [isSaving, startSaving] = useTransition();
-  const [origin, setOrigin] = useState("");
+  const { askWhichToReplace, cancelReplace, place, replacing, replacingId } =
+    usePlannerReplace({
+      byId,
+      onCancel: () => setSwapIndex(null),
+      putInSlot: team.putInSlot,
+    });
 
   const members = toPlanMembers(team.slots);
   const teamPokemon = members.flatMap((member) => {
     const pokemon = byId.get(member.speciesId);
     return pokemon ? [pokemon] : [];
   });
-  const issues = buildPlanIssues({
+  const { coverage, issues, matchups, tip } = buildPlanTeamCheck({
     includedExpansionIds: expansions,
     team: teamPokemon,
+    types: context.types,
     versionGroup: context.versionGroup,
   });
-  const matchups = buildPlanMatchups({
-    generationOrder: context.versionGroup.generationOrder,
-    team: teamPokemon,
-    types: context.types,
-  });
-  const coverage = buildPlanCoverage({
-    generationOrder: context.versionGroup.generationOrder,
-    team: teamPokemon,
-    types: context.types,
-  });
-  const tip = getPlanTeamTip({ issues, matchups, team: teamPokemon });
   const slotBySpeciesId = new Map(
     members.map((member) => [member.speciesId, member.slot]),
   );
@@ -156,144 +138,44 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     expansionVersionGroupIds: expansions,
     members,
     name,
-    preview: members.flatMap((member) => {
-      const pokemon = byId.get(member.speciesId);
-      return pokemon
-        ? [
-            {
-              imageUrl: pokemon.imageUrl,
-              name: pokemon.name,
-              slot: member.slot,
-              typeSlug: pokemon.types[0]?.slug ?? null,
-            },
-          ]
-        : [];
-    }),
+    preview: toPlanDraftPreview(members, byId),
     versionGroupName: context.versionGroup.name,
     versionGroupSlug: context.versionGroup.slug,
   };
-  const { dismissOffer, offered } = usePlanDraft({
-    draft,
-    enabled: !plan,
-    trainerId: data.trainerId,
-  });
-  /* Set when Continue opened the Planner on the draft's own game. */
-  const continueOnArrival = useRef(false);
-
-  /*
-   * Continue: a draft for this game fills the Planner at once; one for
-   * another game opens that game's Planner, which fills itself on arrival
-   * (`#draft`), so one tap is enough either way.
-   */
-  const continueDraft = (draftToOpen: PlanDraft) => {
-    if (draftToOpen.versionGroupSlug !== context.versionGroup.slug) {
-      router.push(
-        `${appRoutes.mainlinePlanNew(draftToOpen.versionGroupSlug)}#${continueDraftHash}`,
-      );
-      return;
-    }
-
-    team.setSlots(toPlannerSlots(fitToVersionGroup(draftToOpen.members)));
-    setName(draftToOpen.name);
-    setExpansions(draftToOpen.expansionVersionGroupIds);
-    dismissOffer();
-  };
-
-  useEffect(() => {
-    if (
-      offered &&
-      continueOnArrival.current &&
-      offered.versionGroupSlug === context.versionGroup.slug
-    ) {
-      continueOnArrival.current = false;
-      continueDraft(offered);
-    }
-    // Only when the stored draft has been read.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [offered]);
-  /*
-   * What was last saved, so Save changes only wakes up for a change,
-   * including opening the Plan in another version group.
-   */
-  const [savedSnapshot, setSavedSnapshot] = useState(() =>
-    plan
-      ? JSON.stringify({
-          expansions: plan.expansionVersionGroupIds.toSorted(),
-          members: toPlanMembers(toPlannerSlots(plan.members)),
-          name: plan.name,
-          versionGroupSlug: plan.versionGroupSlug,
-        })
-      : null,
-  );
-  const isDirty =
-    savedSnapshot === null ||
-    savedSnapshot !==
-      JSON.stringify({
-        expansions: expansions.toSorted(),
+  const { applyShare, continueDraft, dismissOffer, offered, origin } =
+    usePlannerImports({
+      bySlug,
+      draft,
+      fitToVersionGroup,
+      hasSavedPlan: Boolean(plan),
+      onDraftContinued: (continued) => {
+        setName(continued.name);
+        setExpansions(continued.expansionVersionGroupIds);
+      },
+      onShareImported: () => setIsShareOpen(false),
+      setSlots: team.setSlots,
+      trainerId: data.trainerId,
+      versionGroup: context.versionGroup,
+    });
+  const { isDirty, isNameOpen, isSaving, save, saveAs, setIsNameOpen } =
+    usePlanSave({
+      contents: {
+        expansions,
         members,
         name,
         versionGroupSlug: context.versionGroup.slug,
-      });
-
-  const applyShare = (share: PlanShare) => {
-    /* A shared Plan always opens as a new one, never over a saved Plan. */
-    if (plan || share.versionGroupSlug !== context.versionGroup.slug) {
-      router.push(
-        `${appRoutes.mainlinePlanNew(share.versionGroupSlug)}#${encodePlanShare(share)}`,
-      );
-      return;
-    }
-
-    const missing = share.slots.filter(
-      (slot) => slot && !bySlug.has(slot.species),
-    ).length;
-
-    team.setSlots(
-      share.slots.map((slot) => {
-        const pokemon = slot ? bySlug.get(slot.species) : undefined;
-        return pokemon
-          ? { ...newPlanMember(pokemon), role: slot?.role ?? null }
-          : null;
-      }),
-    );
-    setIsShareOpen(false);
-    toast.success(
-      missing
-        ? `Plan imported. ${missing} Pokémon aren't in ${context.versionGroup.name}.`
-        : "Plan imported as a new, unsaved Plan",
-    );
-  };
-
-  /* A shared link's Plan, opened from the address once the page is ready. */
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- the address only exists in the browser
-    setOrigin(window.location.origin);
-
-    if (plan) return;
-
-    if (window.location.hash === `#${continueDraftHash}`) {
-      continueOnArrival.current = true;
-      window.history.replaceState(
-        null,
-        "",
-        window.location.pathname + window.location.search,
-      );
-      return;
-    }
-
-    const share = decodePlanShare(window.location.hash);
-
-    if (!share) return;
-
-    window.history.replaceState(
-      null,
-      "",
-      window.location.pathname + window.location.search,
-    );
-    applyShare(share);
-    // Only on arrival.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      },
+      planId: plan?.id ?? null,
+      savedContents: plan
+        ? {
+            expansions: plan.expansionVersionGroupIds,
+            members: toPlanMembers(toPlannerSlots(plan.members)),
+            name: plan.name,
+            versionGroupSlug: plan.versionGroupSlug,
+          }
+        : null,
+      trainerId: data.trainerId,
+    });
 
   /* Off the team at once, unless you filled in its build: then ask first. */
   const requestRemove = (index: number) => {
@@ -327,66 +209,15 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     }
   };
 
-  /*
-   * A full team: the team's Pokémon wiggle until one is tapped, the team
-   * comes into view, and a toast says what to do until it is done.
-   */
-  const askWhichToReplace = (pokemon: PlannerPokemon) => {
-    setReplacingId(pokemon.speciesId);
-    toast(`Team is full`, {
-      action: { label: "Cancel", onClick: () => cancelReplace() },
-      description: `Tap the Pokémon ${pokemon.name} should replace.`,
-      duration: Infinity,
-      id: replaceToastId,
-    });
-    document.getElementById("planner-team")?.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "auto"
-        : "smooth",
-      block: "center",
-    });
-  };
-
-  /* The toast waits on this page only. */
-  useEffect(
-    () => () => {
-      toast.dismiss(replaceToastId);
-    },
-    [],
-  );
-
-  const cancelReplace = () => {
-    toast.dismiss(replaceToastId);
-    setReplacingId(null);
-    setSwapIndex(null);
-  };
-
-  const place = (index: number) => {
-    const pokemon = replacingId === null ? undefined : byId.get(replacingId);
-
-    if (pokemon) team.putInSlot(index, pokemon);
-    toast.dismiss(replaceToastId);
-    setReplacingId(null);
-  };
-
   const random = () => {
     /* "Random from filters" keeps to the Pokédex shown, too. */
-    const candidates = context.sections
-      .filter(
-        (section) =>
-          randomMode !== "filtered" ||
-          !filters.dex ||
-          section.key === filters.dex,
-      )
-      .flatMap((section) =>
-        section.speciesIds.flatMap((speciesId) => {
-          const pokemon = byId.get(speciesId);
-          return pokemon &&
-            (randomMode !== "filtered" || matchesPoolFilters(pokemon, filters))
-            ? [pokemon]
-            : [];
-        }),
-      );
+    const candidates = getRandomCandidates({
+      byId,
+      dex: filters.dex,
+      isShown: (pokemon) => matchesPoolFilters(pokemon, filters),
+      mode: randomMode,
+      sections: context.sections,
+    });
 
     team.applyRandom(
       pickRandomTeam({
@@ -396,53 +227,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       }),
       byId,
     );
-  };
-
-  /* A Plan without a name asks for one before it is saved. */
-  const save = () => {
-    if (!name.trim()) {
-      setIsNameOpen(true);
-      return;
-    }
-
-    saveAs(name);
-  };
-
-  const saveAs = (planName: string) => {
-    startSaving(async () => {
-      const result = await savePlanAction({
-        expansionVersionGroupIds: expansions,
-        members,
-        name: planName,
-        planId: plan?.id ?? null,
-        versionGroupSlug: context.versionGroup.slug,
-      });
-
-      if (result.status === "error") {
-        toast.error(result.message);
-        return;
-      }
-
-      const savedName = planName.trim() || untitledPlanName;
-
-      if (result.created) {
-        clearPlanDraft(data.trainerId);
-        toast.success(`${savedName} saved to My Plans`);
-        router.replace(appRoutes.mainlinePlan(result.planId));
-        return;
-      }
-
-      setSavedSnapshot(
-        JSON.stringify({
-          expansions: expansions.toSorted(),
-          members,
-          name: planName,
-          versionGroupSlug: context.versionGroup.slug,
-        }),
-      );
-      toast.success(`${savedName} saved`);
-      router.refresh();
-    });
   };
 
   const changeVersionGroup = (slug: string) => {
@@ -456,15 +240,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   };
 
   const shareLink = `${origin}${appRoutes.mainlinePlanNew(context.versionGroup.slug)}#${encodePlanShare(
-    {
-      slots: team.slots.map((member) => {
-        const pokemon = member ? byId.get(member.speciesId) : undefined;
-        return pokemon
-          ? { role: member?.role ?? null, species: pokemon.speciesSlug }
-          : null;
-      }),
-      versionGroupSlug: context.versionGroup.slug,
-    },
+    toPlanShare(team.slots, byId, context.versionGroup.slug),
   )}`;
 
   return (
@@ -486,51 +262,14 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         />
 
         {offered ? (
-          <section
-            aria-label="Unsaved Plan"
-            data-slot="card"
-            className="bg-surface shadow-card flex flex-wrap items-center gap-x-5 gap-y-3 rounded-2xl px-5 py-4"
-          >
-            <div className="flex min-w-0 flex-1 basis-60 flex-col gap-1">
-              <p className="text-ink-3 text-13 font-extrabold">
-                Continue your unsaved Plan?
-              </p>
-              <p className="text-ink text-16 font-extrabold">
-                {offered.name.trim() || untitledPlanName}
-              </p>
-              <p className="text-ink-2 text-13 font-semibold">
-                {[offered.versionGroupName, `${offered.members.length} Pokémon`]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </p>
-            </div>
-            {offered.preview.length ? (
-              <PlanTeamStrip
-                members={offered.preview}
-                className="w-full max-w-64 sm:w-64"
-              />
-            ) : null}
-            <div className="flex gap-2 max-sm:w-full max-sm:*:flex-1">
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  clearPlanDraft(data.trainerId);
-                  dismissOffer();
-                }}
-              >
-                Start fresh
-              </Button>
-              <Button
-                type="button"
-                size="sm"
-                onClick={() => continueDraft(offered)}
-              >
-                Continue
-              </Button>
-            </div>
-          </section>
+          <PlannerDraftOfferSection
+            draft={offered}
+            onContinue={() => continueDraft(offered)}
+            onStartFresh={() => {
+              clearPlanDraft(data.trainerId);
+              dismissOffer();
+            }}
+          />
         ) : null}
 
         <PlannerDockSection
@@ -546,9 +285,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onRandomModeChange={setRandomMode}
           onRemove={requestRemove}
           randomMode={randomMode}
-          replacing={
-            replacingId === null ? null : (byId.get(replacingId) ?? null)
-          }
+          replacing={replacing}
           slots={team.slots}
           tip={tip}
         />

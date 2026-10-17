@@ -84,3 +84,18 @@ export const decodePlanShare = (input: string): PlanShare | null => {
     return null;
   }
 };
+
+/* The Planner's six slots as a share: each Pokémon by slug, with its role. */
+export const toPlanShare = (
+  slots: ({ role: string | null; speciesId: number } | null)[],
+  speciesSlugById: Map<number, { speciesSlug: string }>,
+  versionGroupSlug: string,
+): PlanShare => ({
+  slots: slots.map((member) => {
+    const pokemon = member ? speciesSlugById.get(member.speciesId) : undefined;
+    return pokemon
+      ? { role: member?.role ?? null, species: pokemon.speciesSlug }
+      : null;
+  }),
+  versionGroupSlug,
+});

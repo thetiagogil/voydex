@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { decodePlanShare, encodePlanShare } from "./plan-share-code";
+import {
+  decodePlanShare,
+  encodePlanShare,
+  toPlanShare,
+} from "./plan-share-code";
 
 describe("plan share code", () => {
   const share = {
@@ -37,5 +41,22 @@ describe("plan share code", () => {
   it("is null for anything that isn't a Plan", () => {
     expect(decodePlanShare("https://example.com")).toBeNull();
     expect(decodePlanShare("plan=bm90LWpzb24")).toBeNull();
+  });
+});
+
+describe("toPlanShare", () => {
+  it("shares each slot's species by slug, with its role", () => {
+    const slugs = new Map([[823, { speciesSlug: "corviknight" }]]);
+
+    expect(
+      toPlanShare(
+        [{ role: "Lead", speciesId: 823 }, null, { role: null, speciesId: 1 }],
+        slugs,
+        "sword-shield",
+      ),
+    ).toEqual({
+      slots: [{ role: "Lead", species: "corviknight" }, null, null],
+      versionGroupSlug: "sword-shield",
+    });
   });
 });

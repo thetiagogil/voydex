@@ -1,6 +1,39 @@
-import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
+import type {
+  PlannerPokedexSection,
+  PlannerPokemon,
+} from "@/modules/mainline/features/plans/types";
 
 export type PlanRandomMode = "all" | "empty" | "filtered";
+
+/*
+ * What a random team picks from: every Pokémon of the pool, or for "Random
+ * from filters" only what the pool shows (its Pokédex, search and filters).
+ */
+export const getRandomCandidates = ({
+  byId,
+  dex,
+  isShown,
+  mode,
+  sections,
+}: {
+  byId: Map<number, PlannerPokemon>;
+  /* The Pokédex the pool shows; empty for all of them. */
+  dex: string;
+  isShown: (pokemon: PlannerPokemon) => boolean;
+  mode: PlanRandomMode;
+  sections: PlannerPokedexSection[];
+}) => {
+  const filtered = mode === "filtered";
+
+  return sections
+    .filter((section) => !filtered || !dex || section.key === dex)
+    .flatMap((section) =>
+      section.speciesIds.flatMap((speciesId) => {
+        const pokemon = byId.get(speciesId);
+        return pokemon && (!filtered || isShown(pokemon)) ? [pokemon] : [];
+      }),
+    );
+};
 
 /*
  * Random picks for the dock: a whole new team ("all"), only the open slots
