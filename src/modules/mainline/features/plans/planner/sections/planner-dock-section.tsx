@@ -1,5 +1,6 @@
 "use client";
 
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { TextLink } from "@/shared/components/text-link";
 import { useState, type DragEvent } from "react";
@@ -12,10 +13,8 @@ import {
 import type { PlanRandomMode } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import type { PlanTeamTip } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
-import {
-  PokemonEmptySlot,
-  PokemonSticker,
-} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
@@ -282,24 +281,46 @@ export const PlannerDockSection = ({
                 dragFrom === index && "opacity-60",
               )}
             >
-              <PokemonSticker
-                variant="compact"
-                planned
-                className={cn(
-                  "w-full",
-                  dropTarget === index && "sticker-picked",
-                  /* The slot lifts instead; while it wiggles, hovering rings it. */
-                  "hover:translate-y-0",
-                  replacing && "hover:sticker-picked",
-                )}
-                imageUrl={pokemon.imageUrl}
-                name={pokemon.name}
-                slotLabel={String(index + 1)}
-                subtitle={replacing ? "Replace" : member.role}
-                types={pokemon.types}
-                detail={replacing ? `Replace with ${replacing.name}` : "Edit"}
+              {/*
+               * The same picked card as in the pool below, with its slot in
+               * the same corner dot, so a planned Pokémon looks the same in
+               * both places. Owned Pokémon keep the sticker.
+               */}
+              <button
+                type="button"
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
-              />
+                className="focus-visible:outline-focus block h-full w-full rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+              >
+                <PokemonCard
+                  state="plain"
+                  size="fluid"
+                  picked
+                  imageAlt=""
+                  imageUrl={pokemon.imageUrl}
+                  name={pokemon.name}
+                  number={formatNationalNumber(pokemon.nationalNumber)}
+                  subtitle={replacing ? "Replace" : member.role}
+                  types={pokemon.types}
+                  className={cn(
+                    /* The slot lifts instead. */
+                    "hover:translate-y-0",
+                    (dropTarget === index || replacing) &&
+                      "shadow-[inset_0_0_0_3px_color-mix(in_oklab,var(--t)_85%,white)]",
+                  )}
+                />
+                <span className="sr-only">
+                  , slot {index + 1}.{" "}
+                  {replacing ? `Replace with ${replacing.name}` : "Edit"}
+                </span>
+              </button>
+              <CornerBubble corner="inside-top-right">
+                <span
+                  aria-hidden
+                  className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
+                >
+                  {index + 1}
+                </span>
+              </CornerBubble>
               {worst && !replacing ? (
                 <CornerBubble corner="top-left">
                   <ExplanatoryTip

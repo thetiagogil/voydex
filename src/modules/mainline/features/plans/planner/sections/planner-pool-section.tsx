@@ -10,6 +10,7 @@ import type {
   PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -58,8 +59,6 @@ export const matchesPoolFilters = (
     (!query || pokemon.name.toLocaleLowerCase("en").includes(query))
   );
 };
-
-const formatNumber = (value: number) => `#${String(value).padStart(3, "0")}`;
 
 /*
  * v3 `.sec.pick`: every Pokémon of the version group, one range per
@@ -208,7 +207,7 @@ export const PlannerPoolSection = ({
                           imageAlt=""
                           imageUrl={pokemon.imageUrl}
                           name={pokemon.name}
-                          number={formatNumber(pokemon.nationalNumber)}
+                          number={formatNationalNumber(pokemon.nationalNumber)}
                           types={pokemon.types}
                           picked={slot !== undefined}
                           className={cn(

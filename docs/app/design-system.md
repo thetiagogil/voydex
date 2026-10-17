@@ -373,8 +373,9 @@ There are no site-only stills: a public picture uses the app's own component.
   selected tint and a check, and two-line rows are only for an option that
   needs its description.
 - **Stickers only for what you own.** A planned Pokémon (a Plan's team) is
-  the plain card or sits on its type's tint (`PokemonSticker` `planned`,
-  `PokemonSheetHead` `planned`). The picked Pokémon looks the same
+  the picked `PokemonCard` (its type's tint in a ring, its slot in the
+  corner dot), the same in the Plan's team as in the pool, or sits on its
+  type's tint (`PokemonSheetHead` `planned`). The picked Pokémon looks the same
   everywhere: its type's tint with a border in its type's colour
   (`pokemonCardPickedClassName` on a card, `selected` on a sticker), its slot
   number top right where it has one.

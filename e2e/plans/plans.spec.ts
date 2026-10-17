@@ -52,7 +52,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: /^2 Charizard\b.*, Edit$/ }),
+        .getByRole("button", { name: /^#\d+ Charizard\b.*slot 2\. Edit$/ }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Save changes" }),
@@ -104,7 +104,7 @@ test.describe("Team Planner", () => {
 
     await page
       .getByRole("region", { name: "Your team" })
-      .getByRole("button", { name: /^1 Charizard\b.*, Edit$/ })
+      .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
       .click();
     const sheet = page.getByRole("dialog", { name: /Charizard/ });
     await sheet.getByRole("button", { name: "Lead" }).click();
@@ -118,7 +118,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: /^1 Charizard\b.*, Edit$/ }),
+        .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ }),
     ).toBeVisible();
   });
 

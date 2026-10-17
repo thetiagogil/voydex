@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { pokemonCardPickedClassName } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { Badge } from "@/shared/components/ui/badge";
 import type { ReactNode } from "react";
 
@@ -33,12 +32,6 @@ type PokemonStickerProps = {
   name: string;
   /* Makes the sticker a button that can be picked (see `selected`). */
   onClick?: () => void;
-  /*
-   * A Pokémon you mean to have, not one you own (a Plan's team): the same
-   * picked look as its card in the pool beside it (its type's tint inside a
-   * ring of its colour), without the owned sticker's white band.
-   */
-  planned?: boolean;
   /*
    * The one shown beside the grid: it wears the picked Pokémon's look, its
    * border in its type's colour, and is announced (`aria-pressed`).
@@ -117,7 +110,6 @@ export const PokemonSticker = ({
   level,
   name,
   onClick,
-  planned = false,
   selected = false,
   shiny = false,
   showTypes = true,
@@ -133,12 +125,9 @@ export const PokemonSticker = ({
   );
   const stickerClassName = cn(
     "group/sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
-    planned ? cn(pokemonCardPickedClassName, "border-[1.5px]") : "sticker",
+    "sticker",
     variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
-    selected &&
-      (planned
-        ? "shadow-[inset_0_0_0_3px_color-mix(in_oklab,var(--t)_85%,white)]"
-        : pokemonStickerPickedClassName),
+    selected && pokemonStickerPickedClassName,
     variantClassName.sticker,
     variant !== "default" && variantClassName.height,
     className,
