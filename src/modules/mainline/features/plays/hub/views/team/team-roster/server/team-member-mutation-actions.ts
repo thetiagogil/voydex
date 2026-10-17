@@ -1,12 +1,18 @@
 "use server";
 
+import { z } from "zod";
+
 import {
   gameMechanics,
   resolveGameMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import {
+  parseInput,
+  positiveIntegerSchema,
+  uuidSchema,
+} from "@/shared/utils/input-schemas";
 
 import { findUnofferedEditorChoice } from "../utils/team-member-editor-model";
 import {
@@ -88,6 +94,20 @@ const replacePlayPokemonMoves = async (
 const failure = (error: unknown, fallback: string): TeamMemberActionResult => ({
   message: error instanceof Error ? error.message : fallback,
   status: "error",
+});
+
+const evolveTargetSchema = z.object({
+  toFormId: positiveIntegerSchema("It doesn't evolve into that."),
+  toSpeciesId: positiveIntegerSchema("It doesn't evolve into that."),
+});
+
+const replacementSchema = z.object({
+  replacementFormId: positiveIntegerSchema(
+    "That Pokémon isn't in this Play's Pokédex.",
+  ),
+  replacementSpeciesId: positiveIntegerSchema(
+    "That Pokémon isn't in this Play's Pokédex.",
+  ),
 });
 
 /*
@@ -236,8 +256,7 @@ export const updateMainlinePlayPokemonAction = async ({
 export const evolveMainlinePlayPokemonAction = async ({
   playId,
   playPokemonId,
-  toFormId,
-  toSpeciesId,
+  ...target
 }: {
   playId: string;
   playPokemonId: string;
@@ -249,6 +268,7 @@ export const evolveMainlinePlayPokemonAction = async ({
       playId,
       playPokemonId,
     });
+    const { toFormId, toSpeciesId } = parseInput(evolveTargetSchema, target);
     const edgeResult = await supabase
       .schema("reference")
       .from("pokemon_evolution_edges")
@@ -286,7 +306,7 @@ export const evolveMainlinePlayPokemonAction = async ({
 export const changeMainlinePlayPokemonFormAction = async ({
   playId,
   playPokemonId,
-  toFormId,
+  toFormId: rawToFormId,
 }: {
   playId: string;
   playPokemonId: string;
@@ -297,6 +317,10 @@ export const changeMainlinePlayPokemonFormAction = async ({
       playId,
       playPokemonId,
     });
+    const toFormId = parseInput(
+      positiveIntegerSchema("Pick another form of the same Pokémon."),
+      rawToFormId,
+    );
     const formResult = await supabase
       .schema("reference")
       .from("pokemon_forms")
@@ -365,8 +389,7 @@ export const replaceMainlinePlayPokemonAction = async ({
   nickname,
   playId,
   playPokemonId,
-  replacementFormId,
-  replacementSpeciesId,
+  ...replacement
 }: {
   level: number | null;
   nickname: string | null;
@@ -377,6 +400,10 @@ export const replaceMainlinePlayPokemonAction = async ({
 }): Promise<TeamMemberActionResult> => {
   try {
     const { supabase } = await getOwnedPlayPokemon({ playId, playPokemonId });
+    const { replacementFormId, replacementSpeciesId } = parseInput(
+      replacementSchema,
+      replacement,
+    );
     const entryResult = await supabase
       .schema("views")
       .from("mainline_play_pokedex_detail")
@@ -431,7 +458,7 @@ export const replaceMainlinePlayPokemonAction = async ({
  * that add's moment away.
  */
 export const removeMainlinePlayPokemonAction = async ({
-  addEventId = null,
+  addEventId: rawAddEventId = null,
   playId,
   playPokemonId,
 }: {
@@ -440,9 +467,10 @@ export const removeMainlinePlayPokemonAction = async ({
   playPokemonId: string;
 }): Promise<TeamMemberActionResult> => {
   try {
-    if (addEventId !== null && !isUuid(addEventId)) {
-      throw new Error("A valid moment is required.");
-    }
+    const addEventId = parseInput(
+      uuidSchema("A valid moment is required.").nullable(),
+      rawAddEventId,
+    );
 
     const { supabase } = await getOwnedPlayPokemon({ playId, playPokemonId });
     const deleteResult = await supabase

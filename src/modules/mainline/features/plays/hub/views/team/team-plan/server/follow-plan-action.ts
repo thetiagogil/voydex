@@ -1,16 +1,27 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { parseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 export type FollowPlanActionResult = {
   message: string;
   status: "error" | "success";
 };
+
+const followPlanInputSchema = z.object({
+  playId: uuidSchema("A valid Play and Plan are required."),
+  planId: uuidSchema("A valid Play and Plan are required."),
+  /* Only echoed back in the toast. */
+  planName: z
+    .string({ error: "A valid Play and Plan are required." })
+    .trim()
+    .max(200, { error: "A valid Play and Plan are required." }),
+});
 
 /*
  * Makes this Play follow one of your Plans. A Play follows one Plan at most:
@@ -18,19 +29,16 @@ export type FollowPlanActionResult = {
  * none is linked through `link_mainline_team_plan_to_play`. Either way the
  * database checks that the Plan is yours and for the same game.
  */
-export const followMainlinePlayPlanAction = async ({
-  planId,
-  planName,
-  playId,
-}: {
+export const followMainlinePlayPlanAction = async (input: {
   planId: string;
   planName: string;
   playId: string;
 }): Promise<FollowPlanActionResult> => {
   try {
-    if (!isUuid(playId) || !isUuid(planId)) {
-      throw new Error("A valid Play and Plan are required.");
-    }
+    const { planId, planName, playId } = parseInput(
+      followPlanInputSchema,
+      input,
+    );
 
     const supabase = await createServerSupabaseClient();
     const claimsResult = await getClaimsWithTimeout(supabase);

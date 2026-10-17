@@ -1,8 +1,15 @@
+import { z } from "zod";
+
 import type {
   PlanGender,
   PlanMember,
   PlanMoveSlots,
 } from "@/modules/mainline/features/plans/types";
+import {
+  parseInput,
+  positiveIntegerSchema,
+  uuidSchema,
+} from "@/shared/utils/input-schemas";
 
 /* What the Planner sends to save a Plan. */
 export type PlanSaveInput = {
@@ -18,148 +25,111 @@ export class PlanSaveInputError extends Error {}
 
 export const untitledPlanName = "Untitled Plan";
 
-const readMoveIds = (value: unknown): PlanMoveSlots => {
-  if (value === undefined || value === null) {
-    return [null, null, null, null];
-  }
+const toInputError = (message: string) => new PlanSaveInputError(message);
 
-  if (
-    !Array.isArray(value) ||
-    value.length !== 4 ||
-    !value.every((moveId) => moveId === null || isPositiveInteger(moveId))
-  ) {
-    throw new PlanSaveInputError("A planned move isn't one Voydex knows.");
-  }
+const memberMessage = "A planned Pokémon isn't one Voydex knows.";
 
-  const filled = value.filter((moveId): moveId is number => moveId !== null);
+const optionalIdSchema = (label: string) =>
+  positiveIntegerSchema(`${label} isn't one Voydex knows.`)
+    .nullish()
+    .transform((value) => value ?? null);
 
-  if (new Set(filled).size !== filled.length) {
-    throw new PlanSaveInputError("A Pokémon can't plan the same move twice.");
-  }
+/* Optional text, trimmed; empty reads as not set. */
+const optionalTextSchema = (label: string, maxLength: number) =>
+  z
+    .string({ error: `${label} must be text.` })
+    .trim()
+    .max(maxLength, {
+      error: `${label} can be at most ${maxLength} characters.`,
+    })
+    .nullish()
+    .transform((value) => value || null);
 
-  return value as PlanMoveSlots;
-};
+const plannedMoveSchema = positiveIntegerSchema(
+  "A planned move isn't one Voydex knows.",
+).nullable();
 
-const uuidPattern =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const genders = new Set<PlanGender>(["female", "genderless", "male"]);
+const moveSlotsSchema = z
+  .tuple(
+    [
+      plannedMoveSchema,
+      plannedMoveSchema,
+      plannedMoveSchema,
+      plannedMoveSchema,
+    ],
+    { error: "A planned move isn't one Voydex knows." },
+  )
+  .refine(
+    (moveIds) => {
+      const filled = moveIds.filter((moveId) => moveId !== null);
 
-const isPositiveInteger = (value: unknown): value is number =>
-  typeof value === "number" && Number.isInteger(value) && value > 0;
+      return new Set(filled).size === filled.length;
+    },
+    { error: "A Pokémon can't plan the same move twice." },
+  )
+  .nullish()
+  .transform((moveIds): PlanMoveSlots => moveIds ?? [null, null, null, null]);
 
-const readOptionalId = (value: unknown, label: string) => {
-  if (value === null || value === undefined) return null;
-  if (!isPositiveInteger(value)) {
-    throw new PlanSaveInputError(`${label} isn't one Voydex knows.`);
-  }
-  return value;
-};
-
-const readOptionalText = (value: unknown, label: string, maxLength: number) => {
-  if (value === null || value === undefined) return null;
-  if (typeof value !== "string") {
-    throw new PlanSaveInputError(`${label} must be text.`);
-  }
-
-  const trimmed = value.trim();
-
-  if (trimmed.length > maxLength) {
-    throw new PlanSaveInputError(
-      `${label} can be at most ${maxLength} characters.`,
-    );
-  }
-
-  return trimmed || null;
-};
-
-const readMember = (raw: unknown): PlanMember => {
-  if (!raw || typeof raw !== "object") {
-    throw new PlanSaveInputError("A planned Pokémon is missing.");
-  }
-
-  const member = raw as Record<string, unknown>;
-
-  if (
-    !isPositiveInteger(member.slot) ||
-    member.slot > 6 ||
-    !isPositiveInteger(member.speciesId) ||
-    !isPositiveInteger(member.formId)
-  ) {
-    throw new PlanSaveInputError("A planned Pokémon isn't one Voydex knows.");
-  }
-
-  if (
-    member.gender !== null &&
-    member.gender !== undefined &&
-    !genders.has(member.gender as PlanGender)
-  ) {
-    throw new PlanSaveInputError("A planned gender isn't one Voydex knows.");
-  }
-
-  return {
-    abilityId: readOptionalId(member.abilityId, "That ability"),
-    formId: member.formId,
-    gender: (member.gender as PlanGender | null | undefined) ?? null,
-    heldItemId: readOptionalId(member.heldItemId, "That held item"),
-    moveIds: readMoveIds(member.moveIds),
-    natureId: readOptionalId(member.natureId, "That nature"),
-    notes: readOptionalText(member.notes, "A note", 5000),
-    role: readOptionalText(member.role, "A role", 120),
-    slot: member.slot,
-    speciesId: member.speciesId,
-  };
-};
+const memberSchema = z.object(
+  {
+    slot: positiveIntegerSchema(memberMessage).max(6, { error: memberMessage }),
+    speciesId: positiveIntegerSchema(memberMessage),
+    formId: positiveIntegerSchema(memberMessage),
+    gender: z
+      .enum(["female", "genderless", "male"] satisfies PlanGender[], {
+        error: "A planned gender isn't one Voydex knows.",
+      })
+      .nullish()
+      .transform((gender) => gender ?? null),
+    abilityId: optionalIdSchema("That ability"),
+    heldItemId: optionalIdSchema("That held item"),
+    moveIds: moveSlotsSchema,
+    natureId: optionalIdSchema("That nature"),
+    notes: optionalTextSchema("A note", 5000),
+    role: optionalTextSchema("A role", 120),
+  },
+  { error: "A planned Pokémon is missing." },
+);
 
 /*
  * Checks a Plan before it is written: a version group's slug, a name within
  * the Plan's limits (Untitled Plan when empty), up to six Pokémon in
  * different slots, and expansions as ids.
  */
-export const parsePlanSaveInput = (raw: unknown): PlanSaveInput => {
-  if (!raw || typeof raw !== "object") {
-    throw new PlanSaveInputError("There's no Plan to save.");
-  }
+const planSaveInputSchema = z.object(
+  {
+    planId: uuidSchema("That Plan isn't one of yours.")
+      .nullish()
+      .transform((planId) => planId ?? null),
+    versionGroupSlug: z
+      .string({ error: "Pick a game for the Plan." })
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+        error: "Pick a game for the Plan.",
+      }),
+    members: z
+      .array(memberSchema, { error: "A Plan holds up to six Pokémon." })
+      .max(6, { error: "A Plan holds up to six Pokémon." })
+      .refine(
+        (members) =>
+          new Set(members.map((member) => member.slot)).size === members.length,
+        { error: "Two Pokémon can't share a slot." },
+      )
+      .transform((members) =>
+        members.toSorted((left, right) => left.slot - right.slot),
+      ),
+    expansionVersionGroupIds: z
+      .array(
+        positiveIntegerSchema("Those expansions aren't ones Voydex knows."),
+        { error: "Those expansions aren't ones Voydex knows." },
+      )
+      .nullish()
+      .transform((ids) => [...new Set(ids ?? [])]),
+    name: optionalTextSchema("The Plan name", 200).transform(
+      (name) => name ?? untitledPlanName,
+    ),
+  },
+  { error: "There's no Plan to save." },
+);
 
-  const record = raw as Record<string, unknown>;
-  const planId = record.planId ?? null;
-
-  if (
-    planId !== null &&
-    (typeof planId !== "string" || !uuidPattern.test(planId))
-  ) {
-    throw new PlanSaveInputError("That Plan isn't one of yours.");
-  }
-
-  if (
-    typeof record.versionGroupSlug !== "string" ||
-    !slugPattern.test(record.versionGroupSlug)
-  ) {
-    throw new PlanSaveInputError("Pick a game for the Plan.");
-  }
-
-  if (!Array.isArray(record.members) || record.members.length > 6) {
-    throw new PlanSaveInputError("A Plan holds up to six Pokémon.");
-  }
-
-  const members = record.members.map(readMember);
-
-  if (new Set(members.map((member) => member.slot)).size !== members.length) {
-    throw new PlanSaveInputError("Two Pokémon can't share a slot.");
-  }
-
-  const expansions = record.expansionVersionGroupIds ?? [];
-
-  if (!Array.isArray(expansions) || !expansions.every(isPositiveInteger)) {
-    throw new PlanSaveInputError("Those expansions aren't ones Voydex knows.");
-  }
-
-  return {
-    expansionVersionGroupIds: [...new Set(expansions)],
-    members: members.toSorted((left, right) => left.slot - right.slot),
-    name:
-      readOptionalText(record.name, "The Plan name", 200) ?? untitledPlanName,
-    planId,
-    versionGroupSlug: record.versionGroupSlug,
-  };
-};
+export const parsePlanSaveInput = (raw: unknown): PlanSaveInput =>
+  parseInput(planSaveInputSchema, raw, toInputError);

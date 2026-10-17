@@ -1,11 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import {
+  parseInput,
+  positiveIntegerSchema,
+} from "@/shared/utils/input-schemas";
 
 export type CollectibleProgressActionResult = {
   message: string;
@@ -13,38 +18,36 @@ export type CollectibleProgressActionResult = {
 };
 
 const MAX_COLLECTIBLE_PROGRESS_BATCH_SIZE = 500;
+const entryIdsMessage =
+  "Between 1 and 500 valid collectible entries are required.";
 
-const updateCollectibleEntryProgressBatch = async ({
-  collectibleEntryIds,
-  isCollected,
-  playId,
-}: {
+const collectibleProgressInputSchema = z.object({
+  playId: playIdSchema,
+  isCollected: z.boolean({
+    error: "A valid collectible progress state is required.",
+  }),
+  collectibleEntryIds: z
+    .array(positiveIntegerSchema(entryIdsMessage), { error: entryIdsMessage })
+    .transform((entryIds) => [...new Set(entryIds)])
+    .refine(
+      (entryIds) =>
+        entryIds.length > 0 &&
+        entryIds.length <= MAX_COLLECTIBLE_PROGRESS_BATCH_SIZE,
+      { error: entryIdsMessage },
+    ),
+});
+
+const updateCollectibleEntryProgressBatch = async (input: {
   collectibleEntryIds: number[];
   isCollected: boolean;
   playId: string;
 }): Promise<CollectibleProgressActionResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    if (typeof isCollected !== "boolean") {
-      throw new Error("A valid collectible progress state is required.");
-    }
-
-    const uniqueCollectibleEntryIds = [...new Set(collectibleEntryIds)];
-
-    if (
-      uniqueCollectibleEntryIds.length === 0 ||
-      uniqueCollectibleEntryIds.length > MAX_COLLECTIBLE_PROGRESS_BATCH_SIZE ||
-      uniqueCollectibleEntryIds.some(
-        (entryId) => !Number.isInteger(entryId) || entryId <= 0,
-      )
-    ) {
-      throw new Error(
-        "Between 1 and 500 valid collectible entries are required.",
-      );
-    }
+    const {
+      collectibleEntryIds: uniqueCollectibleEntryIds,
+      isCollected,
+      playId,
+    } = parseInput(collectibleProgressInputSchema, input);
 
     const supabase = await createServerSupabaseClient();
     const claimsResult = await getClaimsWithTimeout(supabase);

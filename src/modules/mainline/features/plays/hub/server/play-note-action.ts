@@ -1,36 +1,38 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { insertMainlinePlayEvent } from "@/modules/mainline/features/plays/hub/server/play-event-writer";
 import { toPlayNoteText } from "@/modules/mainline/features/plays/hub/utils/play-note-text";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { parseInput } from "@/shared/utils/input-schemas";
 
 export type PlayNoteActionResult = {
   message: string;
   status: "error" | "success";
 };
 
+const playNoteInputSchema = z.object({
+  playId: playIdSchema,
+  /* Anything that isn't text reads as an empty note, which toPlayNoteText refuses. */
+  text: z.unknown().transform((text) => (typeof text === "string" ? text : "")),
+});
+
 /*
  * Keeps a note in the Play's History: a manual `journal_note` event
  * placed after every other moment.
  */
-export const addMainlinePlayNoteAction = async ({
-  playId,
-  text,
-}: {
+export const addMainlinePlayNoteAction = async (input: {
   playId: string;
   text: string;
 }): Promise<PlayNoteActionResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    const note = toPlayNoteText(typeof text === "string" ? text : "");
+    const { playId, text } = parseInput(playNoteInputSchema, input);
+    const note = toPlayNoteText(text);
     const supabase = await createServerSupabaseClient();
     const claimsResult = await getClaimsWithTimeout(supabase);
     const userId = claimsResult?.data?.claims?.sub;

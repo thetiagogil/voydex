@@ -1,36 +1,43 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { safeParseInput } from "@/shared/utils/input-schemas";
 
 export type PlayArchiveActionResult = {
   message: string;
   status: "error" | "success";
 };
 
+const playArchiveInputSchema = z.object({
+  archived: z.boolean({ error: "A valid Play is required." }),
+  playId: playIdSchema,
+});
+
 /*
  * Archive hides the Play from your lists until you restore it; restore puts
  * it back. Nothing recorded in it changes. Play settings archives; the
  * archived Play's banner and the Plays page's Archived list restore.
  */
-export const setPlayArchivedAction = async ({
-  archived,
-  playId,
-}: {
+export const setPlayArchivedAction = async (input: {
   archived: boolean;
   playId: string;
 }): Promise<PlayArchiveActionResult> => {
+  const parsed = safeParseInput(playArchiveInputSchema, input);
+
+  if (!parsed.ok) {
+    return { message: parsed.message, status: "error" };
+  }
+
+  const { archived, playId } = parsed.data;
   const failureMessage = archived
     ? "Unable to archive this Play."
     : "Unable to restore this Play.";
-
-  if (typeof archived !== "boolean" || !isUuid(playId)) {
-    return { message: "A valid Play is required.", status: "error" };
-  }
 
   const supabase = await createServerSupabaseClient();
   const claimsResult = await getClaimsWithTimeout(supabase);

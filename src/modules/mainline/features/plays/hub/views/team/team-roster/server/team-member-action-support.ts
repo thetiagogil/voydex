@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
@@ -6,7 +7,7 @@ import {
   createServerSupabaseClient,
   type ServerSupabaseClient,
 } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { parseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 
@@ -66,17 +67,16 @@ export const findOpenRosterSlot = async (
  * the sheet can show. Row-level security is the authority; this only turns
  * an unknown id into a clear message.
  */
-export const getOwnedPlayPokemon = async ({
-  playId,
-  playPokemonId,
-}: {
+const playPokemonRefSchema = z.object({
+  playId: uuidSchema("A valid Pokémon is required."),
+  playPokemonId: uuidSchema("A valid Pokémon is required."),
+});
+
+export const getOwnedPlayPokemon = async (input: {
   playId: string;
   playPokemonId: string;
 }) => {
-  if (!isUuid(playId) || !isUuid(playPokemonId)) {
-    throw new Error("A valid Pokémon is required.");
-  }
-
+  const { playId, playPokemonId } = parseInput(playPokemonRefSchema, input);
   const supabase = await createServerSupabaseClient();
   const claimsResult = await getClaimsWithTimeout(supabase);
 

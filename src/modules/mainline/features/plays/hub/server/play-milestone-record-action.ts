@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -9,8 +10,9 @@ import {
   undoPlayMilestone,
 } from "@/modules/mainline/features/plays/hub/server/play-milestone-record-command";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { isUuid } from "@/shared/utils/identifiers";
+import { parseInput, positiveIdSchema } from "@/shared/utils/input-schemas";
 
 export type PlayMilestoneRecordResult =
   | {
@@ -36,11 +38,15 @@ const revalidatePlayMilestonePaths = (playId: string) => {
   revalidatePath(appRoutes.mainlinePlayTeamAnalysis(playId));
 };
 
-const assertPositiveInteger = (value: number, label: string) => {
-  if (!Number.isInteger(value) || value <= 0) {
-    throw new Error(`${label} must be a positive integer.`);
-  }
-};
+const milestoneInputSchema = z.object({
+  playId: playIdSchema,
+  milestoneId: positiveIdSchema("Milestone"),
+});
+
+const recordMilestoneInputSchema = milestoneInputSchema.extend({
+  decisionOptionId: positiveIdSchema("Decision").nullable().default(null),
+  includeTeam: z.boolean().default(false),
+});
 
 const getAuthenticatedClient = async () => {
   const supabase = await createServerSupabaseClient();
@@ -60,12 +66,7 @@ const getAuthenticatedClient = async () => {
  * (recordMainlinePlayMilestoneTeamAction). A choice milestone records its
  * decision when one is given.
  */
-export const recordMainlinePlayMilestoneAction = async ({
-  decisionOptionId = null,
-  includeTeam = false,
-  milestoneId,
-  playId,
-}: {
+export const recordMainlinePlayMilestoneAction = async (input: {
   decisionOptionId?: number | null;
   /* "Record with your team": saves the team you have now with the moment. */
   includeTeam?: boolean;
@@ -73,16 +74,10 @@ export const recordMainlinePlayMilestoneAction = async ({
   playId: string;
 }): Promise<PlayMilestoneRecordResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    assertPositiveInteger(milestoneId, "Milestone");
-
-    if (decisionOptionId !== null) {
-      assertPositiveInteger(decisionOptionId, "Decision");
-    }
-
+    const { decisionOptionId, includeTeam, milestoneId, playId } = parseInput(
+      recordMilestoneInputSchema,
+      input,
+    );
     const supabase = await getAuthenticatedClient();
     const result = await recordPlayMilestone(supabase, {
       decisionOptionId,
@@ -107,20 +102,12 @@ export const recordMainlinePlayMilestoneAction = async ({
  * "Add team" after a one-tap Record: saves the team you have now with the
  * milestone's moment in History, as Story's "Record team snapshot" does.
  */
-export const recordMainlinePlayMilestoneTeamAction = async ({
-  milestoneId,
-  playId,
-}: {
+export const recordMainlinePlayMilestoneTeamAction = async (input: {
   milestoneId: number;
   playId: string;
 }): Promise<PlayMilestoneUndoResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    assertPositiveInteger(milestoneId, "Milestone");
-
+    const { milestoneId, playId } = parseInput(milestoneInputSchema, input);
     const supabase = await getAuthenticatedClient();
     const milestoneName = await recordPlayMilestoneTeam(supabase, {
       milestoneId,
@@ -147,20 +134,12 @@ export const recordMainlinePlayMilestoneTeamAction = async ({
  * which also takes its moment out of History. If something recorded since
  * depends on it, the database refuses and nothing changes.
  */
-export const undoMainlinePlayMilestoneAction = async ({
-  milestoneId,
-  playId,
-}: {
+export const undoMainlinePlayMilestoneAction = async (input: {
   milestoneId: number;
   playId: string;
 }): Promise<PlayMilestoneUndoResult> => {
   try {
-    if (!isUuid(playId)) {
-      throw new Error("A valid Play is required.");
-    }
-
-    assertPositiveInteger(milestoneId, "Milestone");
-
+    const { milestoneId, playId } = parseInput(milestoneInputSchema, input);
     const supabase = await getAuthenticatedClient();
 
     await undoPlayMilestone(supabase, { milestoneId, playId });
