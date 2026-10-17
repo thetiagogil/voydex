@@ -149,10 +149,11 @@ blue, the current pick, identity (your Pokémon, a game's cover).
 - **Codex** has no game-colour surfaces; covers carry the game, on a quiet
   stage on `GameShelfCard`.
 - **Type colours** keep the official hexes everywhere: chips, dots, tiles,
-  medallions and stamps show the same colour. Each type has one ink for its
-  label and icon (`--type-*-on`, read as `--t-on`): white on Fighting,
-  Poison, Ghost, Dragon and Dark, deep ink on the rest. Type icons draw in
-  the current text colour, so they always match their label.
+  medallions and stamps show the same colour, always with a white label and
+  icon (the owner's call, 2026-10-17), the pale types included. The chip's
+  label sits on a soft shadow to help it read; it is the one text below
+  4.5:1 by choice, so the browser tests leave `[data-type-chip]` out of the
+  accessibility check. Type icons draw in the current text colour.
 - **Meaning colours** are small marks (`StatusBadge` tones `ok`, `warn`,
   `calm`, `danger`, `gold`, `neutral`), never filled banners. `calm` is v3's
   quiet blue (`.pstate.info`) for a change that isn't a problem, such as an

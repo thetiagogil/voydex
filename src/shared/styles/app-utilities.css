@@ -257,12 +257,14 @@
 
 /*
  * A labelled type chip: the type's official colour, the same as its dot and
- * tile, with the label and icon in the ink that reads on it. Set --t and
- * --t-on (getPokemonTypeCssVariables sets both).
+ * tile, with a white label and icon on every type (the owner's call,
+ * 2026-10-17). A soft shadow under the label helps it read on the pale
+ * types. Set --t.
  */
 @utility type-chip {
   background-color: var(--t);
-  color: var(--t-on, #fff);
+  color: #fff;
+  text-shadow: 0 1px 1.5px rgb(0 0 0 / 0.3);
 }
 
 /*

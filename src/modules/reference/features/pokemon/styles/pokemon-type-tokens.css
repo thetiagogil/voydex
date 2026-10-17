@@ -1,47 +1,26 @@
 :root {
   /*
-   * Each type keeps its official colour everywhere. Its label and icon take
-   * the ink that reads on it: white on the five darkest types, a deep ink on
-   * the rest (at least 4.5:1 on every one).
+   * Each type keeps its official colour everywhere, with a white label and
+   * icon on it, the pale types included (the owner's call, 2026-10-17).
    */
-  --on-type-light: #fff;
-  --on-type-dark: #1b232b;
   --type-normal: #a8a77a;
-  --type-normal-on: var(--on-type-dark);
   --type-fire: #ee8130;
-  --type-fire-on: var(--on-type-dark);
   --type-water: #6390f0;
-  --type-water-on: var(--on-type-dark);
   --type-electric: #f7d02c;
-  --type-electric-on: var(--on-type-dark);
   --type-grass: #7ac74c;
-  --type-grass-on: var(--on-type-dark);
   --type-ice: #96d9d6;
-  --type-ice-on: var(--on-type-dark);
   --type-fighting: #c22e28;
-  --type-fighting-on: var(--on-type-light);
   --type-poison: #a33ea1;
-  --type-poison-on: var(--on-type-light);
   --type-ground: #e2bf65;
-  --type-ground-on: var(--on-type-dark);
   --type-flying: #a98ff3;
-  --type-flying-on: var(--on-type-dark);
   --type-psychic: #f95587;
-  --type-psychic-on: var(--on-type-dark);
   --type-bug: #a6b91a;
-  --type-bug-on: var(--on-type-dark);
   --type-rock: #b6a136;
-  --type-rock-on: var(--on-type-dark);
   --type-ghost: #735797;
-  --type-ghost-on: var(--on-type-light);
   --type-dragon: #6f35fc;
-  --type-dragon-on: var(--on-type-light);
   --type-dark: #705746;
-  --type-dark-on: var(--on-type-light);
   --type-steel: #b7b7ce;
-  --type-steel-on: var(--on-type-dark);
   --type-fairy: #d685ad;
-  --type-fairy-on: var(--on-type-dark);
 }
 
 @theme inline {

@@ -70,7 +70,7 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
 };
 
 const contentColourClassNames: Record<MedallionContent["kind"], string> = {
-  badge: "text-(--t-on)",
+  badge: "text-white",
   gold: "text-white [&_svg]:stroke-[2.4]",
   note: "text-warn-ink",
   pokemon: "",

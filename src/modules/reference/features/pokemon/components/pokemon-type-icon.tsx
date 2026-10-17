@@ -45,7 +45,7 @@ export const PokemonTypeMark = ({
       style={getPokemonTypeCssVariables(type)}
       aria-hidden
       className={cn(
-        "flex items-center justify-center rounded-full text-(--t-on)",
+        "flex items-center justify-center rounded-full text-white",
         pokemonTypeSolidBackgroundClassName,
         className,
       )}
@@ -94,9 +94,10 @@ type PokemonTypeBadgeProps = PokemonTypeIconProps & {
 };
 
 /*
- * TypeChip and TypeDot, both in the type's official colour. A chip's label
- * and icon take the type's own ink: white on the darkest types, deep ink on
- * the pale ones, so a chip, a dot and a tile always show the same colour.
+ * TypeChip and TypeDot, both in the type's official colour with a white
+ * label and icon, so a chip, a dot and a tile always show the same colour.
+ * The chip is marked `data-type-chip`: its white label on the pale types is
+ * below 4.5:1 by choice, so the accessibility check leaves it out.
  */
 export const PokemonTypeBadge = ({
   className,
@@ -126,6 +127,7 @@ export const PokemonTypeBadge = ({
 
   return (
     <span
+      data-type-chip
       style={getPokemonTypeCssVariables(type)}
       className={cn(
         "type-chip inline-flex shrink-0 items-center rounded-full leading-none font-extrabold whitespace-nowrap capitalize",

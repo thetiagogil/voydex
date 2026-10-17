@@ -27,6 +27,11 @@ export const expectAccessible = async (page: Page) => {
   );
   const { violations } = await new AxeBuilder({ page })
     .withTags(wcagTags)
+    /*
+     * Type chips keep a white label on every type, the pale ones included,
+     * by the owner's choice (2026-10-17); see the Design System.
+     */
+    .exclude("[data-type-chip]")
     .analyze();
 
   expect(
