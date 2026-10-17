@@ -85,7 +85,6 @@ Voydex until all six are done.
 | ------------------------- | -------------------------------------------- | ---------------------------------------------------------------- | --------------------------- |
 | GitHub Issues             | A to-do item with a discussion               | One per bug, change or feature                                   | Reports in chat             |
 | Milestones                | A group of issues with a goal                | One per phase above                                              | Watches the % done          |
-| Projects board            | A Kanban view of issues                      | To do, In progress, In review, Done                              | Glances at it               |
 | Pull requests             | A proposal to merge a branch into `main`     | Every change, linked to its issue                                | Reviews and merges          |
 | GitHub Actions            | Scripts GitHub runs on every pull request    | `verify`, database tests, end-to-end tests                       | Merges only when green      |
 | Branch protection         | Rules on `main`                              | No direct pushes; checks must pass                               | Nothing once set            |
