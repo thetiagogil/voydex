@@ -7,7 +7,7 @@ import { cva, type VariantProps } from "class-variance-authority";
  * cards: their colour inside a white band (3px, 2px on small buttons), a
  * near-white keyline round it and a soft shadow that shrinks when pressed, so the button settles onto what it
  * sits on instead of moving. `default` is the page's main action in the one
- * action green; `secondary` is the quiet action; `destructive` is a quiet
+ * action blue; `secondary` is the quiet action; `destructive` is a quiet
  * action that removes something; `tint` sits on a tinted band (a sheet's
  * head, the Play header). `soft` and `ghost` stay flat: `soft` is a minor
  * action such as close, `ghost` sits in a row of choices and shows

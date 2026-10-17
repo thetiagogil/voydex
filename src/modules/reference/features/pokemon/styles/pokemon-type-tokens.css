@@ -5,7 +5,7 @@
    * the rest (at least 4.5:1 on every one).
    */
   --on-type-light: #fff;
-  --on-type-dark: #2a2218;
+  --on-type-dark: #1b232b;
   --type-normal: #a8a77a;
   --type-normal-on: var(--on-type-dark);
   --type-fire: #ee8130;
