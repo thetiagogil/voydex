@@ -15,7 +15,11 @@ const ButtonGroup = ({ className, ...props }: ComponentProps<"div">) => (
     className={cn(
       "shadow-button has-[>:active]:shadow-button-pressed inline-flex w-fit items-stretch rounded-full",
       "*:shadow-none *:active:shadow-none",
-      "*:not-first:rounded-l-none *:not-first:border-l-0 *:not-last:rounded-r-none",
+      /*
+       * Matched by type, not position: an open menu adds hidden focus guards
+       * beside its trigger, which must not change which button is last.
+       */
+      "[&>button:not(:first-of-type)]:rounded-l-none [&>button:not(:first-of-type)]:border-l-0 [&>button:not(:last-of-type)]:rounded-r-none",
       className,
     )}
     {...props}
