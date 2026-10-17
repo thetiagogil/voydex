@@ -106,21 +106,6 @@ const InputGroupButton = ({
   );
 };
 
-const InputGroupText = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => {
-  return (
-    <span
-      className={cn(
-        "text-14 text-ink-3 flex items-center gap-2 font-bold [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
 const InputGroupInput = ({
   className,
   ...props
@@ -137,27 +122,4 @@ const InputGroupInput = ({
   );
 };
 
-const InputGroupTextarea = ({
-  className,
-  ...props
-}: React.ComponentProps<"textarea">) => {
-  return (
-    <textarea
-      data-slot="input-group-control"
-      className={cn(
-        "text-16 sm:text-15 text-ink placeholder:text-ink-3 field-sizing-content min-h-16 w-full flex-1 resize-none bg-transparent px-2.5 py-2.5 font-semibold outline-none disabled:cursor-not-allowed",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
-export {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupText,
-  InputGroupInput,
-  InputGroupTextarea,
-};
+export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput };

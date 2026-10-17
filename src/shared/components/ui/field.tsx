@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 import { Label } from "@/shared/components/ui/label";
-import { Separator } from "@/shared/components/ui/separator";
 
 const FieldSet = ({
   className,
@@ -120,19 +119,6 @@ const FieldLabel = ({
   );
 };
 
-const FieldTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="field-label"
-      className={cn(
-        "text-15 text-ink flex w-fit items-center gap-2 font-extrabold group-data-[disabled=true]/field:opacity-50",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
 const FieldDescription = ({
   className,
   ...props
@@ -148,36 +134,6 @@ const FieldDescription = ({
       )}
       {...props}
     />
-  );
-};
-
-const FieldSeparator = ({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  children?: React.ReactNode;
-}) => {
-  return (
-    <div
-      data-slot="field-separator"
-      data-content={!!children}
-      className={cn(
-        "text-13 relative -my-2 h-5 font-semibold group-data-[variant=outline]/field-group:-mb-2",
-        className,
-      )}
-      {...props}
-    >
-      <Separator className="absolute inset-0 top-1/2" />
-      {children && (
-        <span
-          className="bg-surface text-ink-3 relative mx-auto block w-fit px-2"
-          data-slot="field-separator-content"
-        >
-          {children}
-        </span>
-      )}
-    </div>
   );
 };
 
@@ -238,8 +194,6 @@ export {
   FieldError,
   FieldGroup,
   FieldLegend,
-  FieldSeparator,
   FieldSet,
   FieldContent,
-  FieldTitle,
 };
