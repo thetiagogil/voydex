@@ -150,7 +150,7 @@ const TitlePicture = ({
                       src={entry.imageUrl}
                       alt=""
                       className={cn(
-                        "transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
+                        "ease-hop transition-transform duration-250 group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
                         index === 0
                           ? "size-26 sm:size-32"
                           : "size-20 sm:size-24",

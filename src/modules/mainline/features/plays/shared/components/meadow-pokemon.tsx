@@ -69,7 +69,7 @@ export const MeadowPokemon = ({
               src={imageUrl}
               alt=""
               className={cn(
-                "object-contain transition-transform duration-300 ease-[cubic-bezier(.3,1.6,.5,1)]",
+                "ease-hop object-contain transition-transform duration-300",
                 artSizes[size],
                 interactive &&
                   "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",

@@ -67,7 +67,7 @@ const TypeTile = ({
       }}
       className={cn(
         "flex min-w-0 flex-col items-center gap-1 rounded-lg px-1.5 py-2.5 text-center",
-        type.count ? null : "border-dash border-[1.5px] border-dashed",
+        type.count ? null : "empty-slot",
         className,
       )}
     >

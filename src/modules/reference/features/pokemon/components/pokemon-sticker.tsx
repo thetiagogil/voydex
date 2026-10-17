@@ -91,7 +91,7 @@ const variantClassNames: Record<
     typeSize: "sm",
   },
   default: {
-    art: "size-27 transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-33",
+    art: "size-27 transition-transform duration-250 ease-hop group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-33",
     empty: "size-27 sm:size-33",
     height: "min-h-53",
     marks: "mt-2 gap-1.5",

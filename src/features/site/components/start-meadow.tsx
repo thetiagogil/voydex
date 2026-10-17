@@ -129,7 +129,7 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
               src={starter.imageUrl}
               alt=""
               className={cn(
-                "max-w-none object-contain transition-transform duration-300 ease-[cubic-bezier(0.3,1.6,0.5,1)] group-hover/starter:-translate-y-3.5 motion-reduce:transition-none",
+                "ease-hop max-w-none object-contain transition-transform duration-300 group-hover/starter:-translate-y-3.5 motion-reduce:transition-none",
                 pick.isSolo ? "size-35 sm:size-44" : "size-29 sm:size-37.5",
               )}
             />

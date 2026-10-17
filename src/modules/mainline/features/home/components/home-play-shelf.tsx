@@ -99,7 +99,7 @@ export const HomePlayShelf = ({
             >
               <span
                 className={cn(
-                  "relative grid transition-transform duration-250 ease-[cubic-bezier(.3,1.5,.5,1)]",
+                  "ease-hop relative grid transition-transform duration-250",
                   isCurrent
                     ? "-translate-y-4"
                     : "motion-safe:group-hover/shelf-item:-translate-y-2.5 motion-safe:group-hover/shelf-item:-rotate-2",
