@@ -48,6 +48,11 @@ type SegmentedControlProps<TValue extends string> = {
   fullWidth?: boolean;
   /* Not needed when every option is a link. */
   onValueChange?: (value: TValue) => void;
+  /*
+   * On phones the row runs edge to edge in one line and scrolls sideways
+   * (a scope picker in a page head); from `sm` up it wraps in place.
+   */
+  phoneScroll?: boolean;
   options: readonly SegmentedControlOption<TValue>[];
   /*
    * `sm` is v3's `.gens` pill: 13px and 30px tall from `sm` up, 40px tall on
@@ -104,6 +109,7 @@ export const SegmentedControl = <TValue extends string>({
   fullWidth = false,
   onValueChange,
   options,
+  phoneScroll = false,
   selectedTone: selectedToneProp,
   size = "md",
   value,
@@ -124,6 +130,8 @@ export const SegmentedControl = <TValue extends string>({
         variant === "pills"
           ? "flex-wrap gap-1.5"
           : "bg-surface-2 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
+        phoneScroll &&
+          "no-scrollbar -mx-(--page-gutter) w-[calc(100%+2*var(--page-gutter))] max-w-none flex-nowrap overflow-x-auto px-(--page-gutter) py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0",
         className,
       )}
     >

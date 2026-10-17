@@ -114,7 +114,7 @@ export const MainlinePlayHistory = ({
             "Nothing recorded yet"
           )
         }
-        action={<AddNoteDialog playId={playId} size="sm" />}
+        action={<AddNoteDialog playId={playId} />}
       />
 
       {totalCount ? (
