@@ -92,6 +92,12 @@ clean-up (#61), and waits on the owner's review before it is squashed:
   name; every page, a Play included, opens on a band holding its head and its
   toolbar or hero; every select, menu and searchable list is one picker
   family (pictures, a second line, search for long lists).
+- **Component re-pass (2026-10-17)**: the accent named by role
+  (`action-ink`, `select-*`), game colour only on marks, progress in green;
+  new shared `SheetSection`, `OfferCard`, `DockedBar`, `EditedMark`,
+  `PokemonArtSticker` and bar links replace hand-made copies. Left for later:
+  the focus ring re-typed in about 45 places, the meadow figure built three
+  times, type-tint strengths and display font sizes off the scale.
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
