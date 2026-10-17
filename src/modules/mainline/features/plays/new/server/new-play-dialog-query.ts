@@ -1,7 +1,7 @@
-import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-reader";
+import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
 import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
 import type { NewPlayDialogData } from "@/modules/mainline/features/plays/new/types";
-import { readGameCatalogue } from "@/modules/reference/features/games/server/game-shelf-reader";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 
 /*
  * Everything the New Play dialog offers, read with the Mainline layout so it

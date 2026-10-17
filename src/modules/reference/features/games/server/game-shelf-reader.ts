@@ -1,26 +1,17 @@
-import { unstable_cache } from "next/cache";
-
 import {
   buildGameShelfGames,
   buildGameStarters,
   type GameStarterRows,
 } from "@/modules/reference/features/games/data/game-shelf-mappers";
 import type {
-  GameCatalogue,
   GameExpansion,
   GameShelfGame,
   GameStarters,
 } from "@/modules/reference/features/games/types";
 import type { Game } from "@/modules/reference/shared/database-types";
 import { loadChunkedReferenceRows } from "@/modules/reference/shared/server/reference-row-loaders";
-import {
-  createPublicSupabaseClient,
-  type PublicSupabaseClient,
-} from "@/platform/supabase/public-client";
-import {
-  createServerSupabaseClient,
-  type ServerSupabaseClient,
-} from "@/platform/supabase/server-client";
+import type { PublicSupabaseClient } from "@/platform/supabase/public-client";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
 type ReferenceClient = PublicSupabaseClient | ServerSupabaseClient;
@@ -34,7 +25,7 @@ const STARTER_METHOD_SLUG = "starter";
  */
 
 /* Every game for the picker's cover shelf, in release order. */
-const readGameShelfGames = async (
+export const readGameShelfGames = async (
   supabase: ReferenceClient,
 ): Promise<GameShelfGame[]> => {
   const reference = supabase.schema("reference");
@@ -182,9 +173,9 @@ const loadGameStarterRows = async (
  * empty choice when Voydex has no starter for it.
  */
 export const readGameStarters = async (
+  supabase: ReferenceClient,
   gameSlug: string,
 ): Promise<GameStarters | null> => {
-  const supabase = await createServerSupabaseClient();
   const gameResult = await supabase
     .schema("reference")
     .from("games")
@@ -206,7 +197,7 @@ export const readGameStarters = async (
 };
 
 /* Every game's first partner choice, by game slug. */
-const readGameStartersByGameSlug = async (
+export const readGameStartersByGameSlug = async (
   supabase: ReferenceClient,
 ): Promise<Record<string, GameStarters>> => {
   const gamesResult = await supabase
@@ -227,7 +218,7 @@ const readGameStartersByGameSlug = async (
 };
 
 /* Every game's optional content scopes (DLC), by game slug, in the game's order. */
-const readGameExpansionsByGameSlug = async (
+export const readGameExpansionsByGameSlug = async (
   supabase: ReferenceClient,
 ): Promise<Record<string, GameExpansion[]>> => {
   const reference = supabase.schema("reference");
@@ -267,38 +258,3 @@ const readGameExpansionsByGameSlug = async (
 
   return expansions;
 };
-
-/* Reference data only changes when it is reseeded: a day is plenty. */
-const GAME_CATALOGUE_REVALIDATE_SECONDS = 60 * 60 * 24;
-
-/*
- * Part of the cache key: bump it whenever the catalogue's shape changes, so a
- * cached copy from before is never read as the new shape.
- */
-const GAME_CATALOGUE_CACHE_VERSION = "2";
-
-/*
- * Every game, its first partners and its expansions, for a picker that shows
- * them as soon as it opens (Start a Play, New Play, Home's first Play). Read
- * without a session and cached across requests; `reference-games` revalidates
- * it.
- */
-export const readGameCatalogue = unstable_cache(
-  async (): Promise<GameCatalogue> => {
-    const supabase = createPublicSupabaseClient();
-    const [games, startersByGameSlug, expansionsByGameSlug] = await Promise.all(
-      [
-        readGameShelfGames(supabase),
-        readGameStartersByGameSlug(supabase),
-        readGameExpansionsByGameSlug(supabase),
-      ],
-    );
-
-    return { expansionsByGameSlug, games, startersByGameSlug };
-  },
-  ["reference-game-catalogue", GAME_CATALOGUE_CACHE_VERSION],
-  {
-    revalidate: GAME_CATALOGUE_REVALIDATE_SECONDS,
-    tags: ["reference-games"],
-  },
-);

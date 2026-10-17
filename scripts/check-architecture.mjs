@@ -72,6 +72,13 @@ const retiredFolderNames = new Set([
   "types",
 ]);
 
+/* Folders whose files stay free of Next.js, React and platform code. */
+const pureFolderNames = new Set(["data", "domain", "utils"]);
+const clientFactoryNames = new Set([
+  "createPublicSupabaseClient",
+  "createServerSupabaseClient",
+]);
+
 /* Product modules whose features must not reach into each other. */
 const featureBoundaryModules = new Set(["codex", "mainline"]);
 /*
@@ -688,6 +695,64 @@ async function checkFile(filePath) {
         violations,
         normalizePath(path.relative(projectRoot, filePath)),
         "components must not create or import database clients",
+        specifier,
+      );
+    }
+  }
+
+  const fileName = segments.at(-1) ?? "";
+  const isPortableServerFile =
+    segments.at(-2) === "server" &&
+    /-(reader|loaders|command|commands|repository|writer)\.ts$/.test(fileName);
+  const isPureFile =
+    ["modules", "features"].includes(segments[0]) &&
+    segments.some((segment) => pureFolderNames.has(segment)) &&
+    !/\.test\.tsx?$/.test(fileName);
+
+  for (const statement of sourceFile.statements) {
+    if (
+      !ts.isImportDeclaration(statement) ||
+      !ts.isStringLiteral(statement.moduleSpecifier) ||
+      statement.importClause?.isTypeOnly
+    ) {
+      continue;
+    }
+
+    const specifier = statement.moduleSpecifier.text;
+    const namedBindings = statement.importClause?.namedBindings;
+    const runtimeNames =
+      namedBindings && ts.isNamedImports(namedBindings)
+        ? namedBindings.elements
+            .filter((element) => !element.isTypeOnly)
+            .map((element) => (element.propertyName ?? element.name).text)
+        : [];
+    const hasRuntimeImport =
+      !statement.importClause ||
+      Boolean(statement.importClause.name) ||
+      (namedBindings && !ts.isNamedImports(namedBindings)) ||
+      runtimeNames.length > 0;
+
+    if (
+      isPortableServerFile &&
+      runtimeNames.some((name) => clientFactoryNames.has(name))
+    ) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, filePath)),
+        "readers, loaders, commands, repositories and writers take their Supabase client as a parameter; create it in the query or Server Action",
+        specifier,
+      );
+    }
+
+    if (
+      isPureFile &&
+      hasRuntimeImport &&
+      /^(next|react|react-dom)(\/|$)|^@\/platform(\/|$)/.test(specifier)
+    ) {
+      addImportViolation(
+        violations,
+        normalizePath(path.relative(projectRoot, filePath)),
+        "data/, domain/ and utils/ stay pure: no runtime imports from Next.js, React or src/platform",
         specifier,
       );
     }

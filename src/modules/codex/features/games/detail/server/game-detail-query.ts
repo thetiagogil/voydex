@@ -37,7 +37,9 @@ export const getGameDetailPage = async (
 
   // The Let's Go games each have their own partner, so the picked game's.
   const pickedGame = pickGameDetailVersion(rows.versions, versionSlug);
-  const starters = pickedGame ? await readGameStarters(pickedGame.slug) : null;
+  const starters = pickedGame
+    ? await readGameStarters(supabase, pickedGame.slug)
+    : null;
 
   return buildGameDetailData(rows, versionSlug, starters);
 };
