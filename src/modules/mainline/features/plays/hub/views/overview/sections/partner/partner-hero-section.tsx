@@ -22,10 +22,7 @@ import {
   ObjectiveEyebrow,
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
-import {
-  PokemonCard,
-  pokemonCardPickedClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -247,7 +244,7 @@ export const PartnerHeroSection = ({
                     name={option.name}
                     number=""
                     types={getOptionTypes(option)}
-                    className={cn(isPicked && pokemonCardPickedClassName)}
+                    picked={isPicked}
                   />
                 </button>
               )}

@@ -2,13 +2,9 @@ import Link from "next/link";
 
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import type { PokemonDetailEvolutionTreeNode } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-evolution-tree";
-import {
-  PokemonCard,
-  pokemonCardPickedClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
-import { cn } from "@/shared/utils/cn";
 
 export type PokemonDetailEvolutionLinkScope = {
   activeFormId: number | null;
@@ -70,7 +66,7 @@ export const PokemonDetailEvolutionNode = ({
     >
       <PokemonCard
         state="plain"
-        className={cn(isActive && pokemonCardPickedClassName)}
+        picked={isActive}
         imageAlt=""
         imageUrl={getPokemonFormImageUrl(displayForm)}
         name={name}

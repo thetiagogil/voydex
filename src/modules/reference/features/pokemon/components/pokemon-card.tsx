@@ -29,6 +29,8 @@ type PokemonCardProps = {
   name: string;
   number: string;
   onAnimationEnd?: () => void;
+  /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
+  picked?: boolean;
   /* Plays the pop at the moment the card is marked, never on load. */
   pop?: boolean;
   /*
@@ -148,6 +150,7 @@ export const PokemonCard = ({
   name,
   number,
   onAnimationEnd,
+  picked = false,
   pop = false,
   size = "md",
   state,
@@ -167,6 +170,7 @@ export const PokemonCard = ({
         "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
         stateClassNames[state],
         paddingClassNames[size === "sm" ? "sm" : "md"][state],
+        picked && pokemonCardPickedClassName,
         pop && "animate-pop",
         className,
       )}
