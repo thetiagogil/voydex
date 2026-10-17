@@ -10,8 +10,11 @@ import { cn } from "@/shared/utils/cn";
 type CodexPokemonCardType = { name: string; slug: string };
 
 type CodexPokemonCardLinkProps = {
-  /* Names the link when the card's own text isn't enough, as in "Open Arcanine in Sword and Shield". */
-  ariaLabel?: string;
+  /*
+   * What the link adds after the card's own words, read but not seen, such
+   * as "in Sword and Shield": its name always starts with what it shows.
+   */
+  detail?: string;
   href: string;
   imageUrl: string | null;
   name: string;
@@ -30,7 +33,7 @@ type CodexPokemonCardLinkProps = {
  */
 export const CodexPokemonCardLink = memo(
   ({
-    ariaLabel,
+    detail,
     href,
     imageUrl,
     name,
@@ -42,7 +45,6 @@ export const CodexPokemonCardLink = memo(
     return (
       <Link
         href={href}
-        aria-label={ariaLabel}
         title={title}
         className="block h-full min-w-0 rounded-lg"
       >
@@ -61,6 +63,7 @@ export const CodexPokemonCardLink = memo(
           size={size}
           types={types.filter((type) => type !== null)}
         />
+        {detail ? <span className="sr-only">, {detail}</span> : null}
       </Link>
     );
   },

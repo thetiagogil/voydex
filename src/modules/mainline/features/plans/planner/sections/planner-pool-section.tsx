@@ -196,13 +196,6 @@ export const PlannerPoolSection = ({
                       <button
                         type="button"
                         aria-pressed={slot !== undefined}
-                        aria-label={[
-                          pokemon.name,
-                          slot ? `in slot ${slot}` : null,
-                          ...notes,
-                        ]
-                          .filter(Boolean)
-                          .join(". ")}
                         title={notes.join(" ") || undefined}
                         onClick={() => onPick(pokemon)}
                         style={getPokemonTypeCssVariables(
@@ -229,6 +222,13 @@ export const PlannerPoolSection = ({
                               "outline-game outline-3 outline-offset-2 outline-solid",
                           )}
                         ></PokemonCard>
+                        {slot || notes.length ? (
+                          <span className="sr-only">
+                            {[slot ? `, in slot ${slot}` : null, ...notes]
+                              .filter(Boolean)
+                              .join(". ")}
+                          </span>
+                        ) : null}
                       </button>
                       {slot !== undefined || notes.length ? (
                         /*

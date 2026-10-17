@@ -159,7 +159,6 @@ const MostPickedCard = ({
       <button
         type="button"
         onClick={() => onOpenPokemon(mostPicked)}
-        aria-label={`${entry.name}, in ${playCount} of your Plays. Open`}
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
@@ -184,6 +183,7 @@ const MostPickedCard = ({
           badgeSize="sm"
           className="flex flex-wrap justify-center gap-1.5"
         />
+        <span className="sr-only">, in {playCount} of your Plays. Open</span>
       </button>
       <ul className="flex flex-col gap-2.5">
         <PickedFact icon={appIcons.product.game}>
@@ -332,7 +332,7 @@ export const StatsStyleSection = ({
                     variant="mini"
                     /* The card lifts instead, carrying the family tip. */
                     className="w-full justify-center hover:translate-y-0"
-                    label={`${friend.name}, in ${friend.playCount} Plays. Open`}
+                    detail="Open"
                     onClick={() => onOpenFriend(friend)}
                     imageUrl={friend.imageUrl}
                     name={friend.entry.name}

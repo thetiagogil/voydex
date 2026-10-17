@@ -156,7 +156,7 @@ export const CollectionBrowser = ({
                 subtitle={getCountLine(entry)}
                 types={entry.types}
                 selected={openSpeciesId === entry.speciesId}
-                label={`${entry.name}, ${getCountLine(entry)}${entry.shiny ? ", shiny recorded" : ""}. See its Plays`}
+                detail="See its Plays"
                 onClick={() => setOpenSpeciesId(entry.speciesId)}
               />
             </li>

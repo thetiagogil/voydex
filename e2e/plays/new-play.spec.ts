@@ -27,7 +27,7 @@ test.describe("New Play", () => {
 
     await page.goto("/mainline/plays");
     await expect(
-      page.getByRole("link", { name: new RegExp(`Red · ${name}`) }),
+      page.getByRole("link", { name: new RegExp(name) }),
     ).toBeVisible();
   });
 

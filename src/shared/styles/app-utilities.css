@@ -56,20 +56,23 @@
 
 /*
  * v3's step back: something that applies to another game than the one you
- * picked (the other version's exclusives, a game the Pokémon isn't in). It
- * fades and its art greys a little, and comes back when you reach for it.
+ * picked (the other version's exclusives, a game the Pokémon isn't in). Its
+ * art fades and greys, its words stay readable, and it comes back when you
+ * reach for it.
  */
 @utility step-back {
-  opacity: 0.62;
-  transition: opacity 150ms ease;
-
   & img {
-    filter: saturate(0.55);
+    opacity: 0.55;
+    filter: saturate(0.4);
+    transition:
+      opacity 150ms ease,
+      filter 150ms ease;
   }
 
-  &:hover,
-  &:focus-within {
+  &:hover img,
+  &:focus-within img {
     opacity: 1;
+    filter: none;
   }
 }
 

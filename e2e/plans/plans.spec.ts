@@ -16,7 +16,9 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
   const search = picker.getByRole("searchbox");
   for (const member of members) {
     await search.fill(member);
-    await picker.getByRole("button", { name: member, exact: true }).click();
+    await picker
+      .getByRole("button", { name: new RegExp(`^#\\d+ ${member}\\b`) })
+      .click();
   }
   await search.clear();
   await expect(
@@ -50,7 +52,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: "Charizard, slot 2. Edit" }),
+        .getByRole("button", { name: /^2 Charizard\b.*, Edit$/ }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Save changes" }),
@@ -83,11 +85,11 @@ test.describe("Team Planner", () => {
     const planned = page.getByRole("region", { name: "Planned team" });
     await expect(
       planned.getByRole("button", {
-        name: /^Target 1, Charizard: In progress\. Charmander, Team, slot 1/,
+        name: /^Target 1 Charizard\b.*Charmander · Team, slot 1 In progress/,
       }),
     ).toBeVisible();
     await expect(
-      planned.getByRole("button", { name: /^Target 2, Rapidash: Not found/ }),
+      planned.getByRole("button", { name: /^Target 2 Rapidash\b.*Not found/ }),
     ).toBeVisible();
     await expectAccessible(page);
   });
@@ -98,13 +100,11 @@ test.describe("Team Planner", () => {
     await page.goto("/mainline/plans/new?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
     await picker.getByRole("searchbox").fill("Charizard");
-    await picker
-      .getByRole("button", { name: "Charizard", exact: true })
-      .click();
+    await picker.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
 
     await page
       .getByRole("region", { name: "Your team" })
-      .getByRole("button", { name: "Charizard, slot 1. Edit" })
+      .getByRole("button", { name: /^1 Charizard\b.*, Edit$/ })
       .click();
     const sheet = page.getByRole("dialog", { name: /Charizard/ });
     await sheet.getByRole("button", { name: "Lead" }).click();
@@ -118,7 +118,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: "Charizard, slot 1. Edit" }),
+        .getByRole("button", { name: /^1 Charizard\b.*, Edit$/ }),
     ).toBeVisible();
   });
 

@@ -219,7 +219,8 @@ export const PartnerHeroSection = ({
                 <PokemonCard
                   state="plain"
                   size="fluid"
-                  className="opacity-45 hover:translate-y-0"
+                  /* The ones not picked step back: their art fades, their names stay readable. */
+                  className="hover:translate-y-0 [&_img]:opacity-40 [&_img]:grayscale"
                   imageAlt=""
                   imageUrl={option.imageUrl}
                   name={option.name}

@@ -13,8 +13,8 @@
   --surface-2: #f7f1e4;
   --hover: #f0e7d5;
   --ink: #3a3226;
-  --ink-2: #6c6152;
-  --ink-3: #766a58;
+  --ink-2: #605545;
+  --ink-3: #6e6250;
   --on-ink: #f4eee2;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
@@ -64,7 +64,7 @@
   --hill: #e0e9cb;
   --hill-2: #d2deb6;
   /* The band that opens Plays, the Team Planner, Statistics and Collection. */
-  --band-sand: color-mix(in oklab, var(--lip) 62%, var(--bg));
+  --band-sand: color-mix(in oklab, var(--lip) 55%, var(--bg));
 
   /*
    * Context colour. Pages without a Play wear Voydex green; a Play sets

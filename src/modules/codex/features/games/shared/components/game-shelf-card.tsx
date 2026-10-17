@@ -25,9 +25,6 @@ export const GameShelfCard = ({ card, eager = false }: GameShelfCardProps) => {
   return (
     <Link
       href={appRoutes.codexVersionGroup(card.versionGroup.slug, card.game.slug)}
-      aria-label={[card.game.name, card.game.release_year, card.region?.name]
-        .filter(Boolean)
-        .join(", ")}
       className="group/game bg-surface border-line relative flex min-w-0 flex-col gap-3 rounded-xl border p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-0.75"
     >
       <span
@@ -47,6 +44,9 @@ export const GameShelfCard = ({ card, eager = false }: GameShelfCardProps) => {
       </span>
       <span className="flex min-w-0 flex-col gap-0.5 px-2">
         <b className="text-14 sm:text-15 truncate leading-tight font-extrabold">
+          {card.game.name.startsWith("Pokémon ") ? (
+            <span className="sr-only">Pokémon </span>
+          ) : null}
           {getGameShortName(card.game.name)}
         </b>
         <span className="text-13 text-ink-2 truncate font-semibold">

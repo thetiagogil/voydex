@@ -298,7 +298,7 @@ export const TrainerSpeciesSheet = ({
                   name={relative.name}
                   subtitle={getNowBeforeLine(relative)}
                   types={relative.types}
-                  label={`${relative.name}, in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
+                  detail={`in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
                   onClick={
                     onOpenSpecies ? () => onOpenSpecies(relative) : undefined
                   }

@@ -296,11 +296,7 @@ export const PlannerDockSection = ({
                 slotLabel={String(index + 1)}
                 subtitle={replacing ? "Replace" : member.role}
                 types={pokemon.types}
-                label={
-                  replacing
-                    ? `Replace ${pokemon.name} with ${replacing.name}`
-                    : `${pokemon.name}, slot ${index + 1}. Edit`
-                }
+                detail={replacing ? `Replace with ${replacing.name}` : "Edit"}
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
               />
               {worst && !replacing ? (

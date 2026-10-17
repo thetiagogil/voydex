@@ -24,8 +24,11 @@ type PokemonStickerProps = {
   className?: string;
   href?: string;
   imageUrl: string | null;
-  /* The accessible name when the sticker is a button. */
-  label?: string;
+  /*
+   * What a button sticker adds after what it shows, read but not seen, such
+   * as "Active slot 2" or "Edit". Its name is always its visible words first.
+   */
+  detail?: string;
   level?: number | null;
   name: string;
   /* Makes the sticker a button that can be picked (see `selected`). */
@@ -108,8 +111,8 @@ const variantClassNames: Record<
 export const PokemonSticker = ({
   className,
   href,
+  detail,
   imageUrl,
-  label,
   level,
   name,
   onClick,
@@ -142,10 +145,7 @@ export const PokemonSticker = ({
   const content: ReactNode = (
     <>
       {slotLabel ? (
-        <span
-          aria-hidden
-          className="text-ink-tint text-12 absolute top-2.5 left-3 font-extrabold tabular-nums"
-        >
+        <span className="text-ink-tint text-12 absolute top-2.5 left-3 font-extrabold tabular-nums">
           {slotLabel}
         </span>
       ) : null}
@@ -156,7 +156,7 @@ export const PokemonSticker = ({
             size="md"
             className="type-ink absolute top-2.5 right-2.5"
           />
-          {label ? null : <span className="sr-only">Shiny</span>}
+          <span className="sr-only">Shiny</span>
         </>
       ) : null}
       <span className="relative grid place-items-center">
@@ -215,13 +215,13 @@ export const PokemonSticker = ({
     return (
       <button
         type="button"
-        aria-label={label}
         aria-pressed={selected}
         onClick={onClick}
         style={style}
         className={stickerClassName}
       >
         {content}
+        {detail ? <span className="sr-only">, {detail}</span> : null}
       </button>
     );
   }

@@ -131,7 +131,8 @@ export const SegmentedControl = <TValue extends string>({
         const { ariaCurrent, isActive, isDisabled, isSelected } =
           getSegmentedOptionState(option, value);
         const optionClassName = cn(
-          "inline-flex items-center gap-2 rounded-full whitespace-nowrap transition-colors [&_svg]:size-4",
+          // The pick moves at once, never fades.
+          "inline-flex items-center gap-2 rounded-full whitespace-nowrap [&_svg]:size-4",
           size === "sm"
             ? "text-13 h-10 min-w-10 justify-center px-2.5 font-extrabold sm:h-7.5"
             : "text-14 h-10 px-4 font-bold",

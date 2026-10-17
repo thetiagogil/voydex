@@ -10,7 +10,6 @@ import { PlayToken } from "@/modules/mainline/features/plays/browse/components/p
 import {
   formatPlayUpdatedDate,
   getPlayCardEyebrow,
-  getPlayCardLinkLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -104,7 +103,6 @@ export const PlayCard = ({ play }: PlayCardProps) => {
       {play.play_id ? (
         <Link
           href={appRoutes.mainlinePlay(play.play_id)}
-          aria-label={getPlayCardLinkLabel(play)}
           className="group/card-link block rounded-2xl"
         >
           {content}

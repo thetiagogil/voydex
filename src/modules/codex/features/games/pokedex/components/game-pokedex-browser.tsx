@@ -184,7 +184,7 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
               {visiblePokemon.map((entry) => (
                 <CodexPokemonCardLink
                   key={`${entry.entry.pokedex_id}-${entry.entry.pokedex_number}-${entry.entry.species_id}`}
-                  ariaLabel={`Open ${entry.species.name} in ${versionGroupName}`}
+                  detail={`in ${versionGroupName}`}
                   href={appRoutes.codexPokemonEntry(
                     data.versionGroup.slug,
                     entry.species.slug,

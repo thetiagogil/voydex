@@ -4,7 +4,6 @@ import {
   formatPlayCount,
   formatPlayUpdatedDate,
   getPlayCardEyebrow,
-  getPlayCardLinkLabel,
   getPlayLibraryDescription,
   getPlayStoryPositionLabel,
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
@@ -60,57 +59,6 @@ describe("play browse display", () => {
     expect(getPlayCardEyebrow({ game_name: null, regionName: null })).toBe(
       "Unknown game",
     );
-  });
-
-  it("names the card link by its game and Play", () => {
-    expect(
-      getPlayCardLinkLabel({
-        game_name: "Pokémon Violet",
-        play_name: "Nuzlocke",
-        progress: { state: "unavailable" },
-        storyPosition: null,
-      }),
-    ).toBe("Open Violet · Nuzlocke");
-    expect(
-      getPlayCardLinkLabel({
-        game_name: null,
-        play_name: null,
-        progress: { items: [], state: "available" },
-        storyPosition: null,
-      }),
-    ).toBe("Open Unknown game · Untitled Play");
-  });
-
-  it("carries the story line and untracked parts in the card link", () => {
-    expect(
-      getPlayCardLinkLabel({
-        game_name: "Pokémon HeartGold",
-        play_name: "Nuzlocke",
-        progress: {
-          items: [
-            { label: "Story", percent: 6 },
-            { label: "Pokédex", percent: 12 },
-            { label: "Collectibles", percent: null },
-          ],
-          state: "available",
-        },
-        storyPosition: { kind: "next", name: "Zephyr Badge" },
-      }),
-    ).toBe("Open HeartGold · Nuzlocke · Next: Zephyr Badge · Collectibles off");
-    expect(
-      getPlayCardLinkLabel({
-        game_name: "Pokémon Sword",
-        play_name: "Late Journey",
-        progress: {
-          items: [
-            { label: "Story", percent: 100 },
-            { label: "Pokédex", percent: 64 },
-          ],
-          state: "available",
-        },
-        storyPosition: { kind: "complete" },
-      }),
-    ).toBe("Open Sword · Late Journey · Story complete");
   });
 
   it("reads the story position as the card shows it", () => {

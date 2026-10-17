@@ -57,9 +57,7 @@ const TeamRosterSticker = ({
       slotLabel={slotLabel}
       selected={selected}
       onClick={() => onSelect(member)}
-      label={[name, identity, level, member.is_shiny ? "Shiny" : null, slotName]
-        .filter(Boolean)
-        .join(", ")}
+      detail={slotName}
     />
   );
 };

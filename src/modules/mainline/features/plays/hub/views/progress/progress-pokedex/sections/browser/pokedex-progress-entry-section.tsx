@@ -69,7 +69,7 @@ export const PokedexProgressEntrySection = ({
               type="button"
               size="sm"
               variant="ghost"
-              aria-label={`Mark all matching entries from ${section.label} as ${updateMode}`}
+              aria-label={`Mark all ${updateMode}: every matching entry from ${section.label}`}
               disabled={everyEntryIsMarked}
               onClick={() => onBulkStateChange(speciesIds, updateMode)}
             >
