@@ -52,7 +52,8 @@ export const PokemonDetailHead = ({
         />
         {gameNames.length ? (
           <p className="text-13 text-ink-3 flex items-start gap-2 leading-5 font-semibold md:justify-end">
-            <span>In</span>
+            {/* The games speak for themselves; "In" stays for screen readers. */}
+            <span className="sr-only">In</span>
             {/*
              * Each game leads with its hairline, and the list sits a
              * hairline's space left of its clip, so no line, first or

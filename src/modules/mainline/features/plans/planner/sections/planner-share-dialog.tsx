@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from "@/shared/components/ui/dialog";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
+import { FieldError, FieldLabel } from "@/shared/components/ui/field";
 
 type PlannerShareDialogProps = {
   link: string;
@@ -77,9 +77,7 @@ export const PlannerShareDialog = ({
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">
-          <Label htmlFor={exportId} className="text-ink-2 text-13 font-bold">
-            Export
-          </Label>
+          <FieldLabel htmlFor={exportId}>Export</FieldLabel>
           <div className="flex gap-2">
             <Input
               id={exportId}
@@ -88,7 +86,7 @@ export const PlannerShareDialog = ({
               onFocus={(event) => event.currentTarget.select()}
               className="text-14 min-w-0 flex-1 font-mono"
             />
-            <Button type="button" variant="outline" onClick={copy}>
+            <Button type="button" variant="secondary" onClick={copy}>
               Copy link
             </Button>
           </div>
@@ -100,9 +98,7 @@ export const PlannerShareDialog = ({
             importPlan();
           }}
         >
-          <Label htmlFor={importId} className="text-ink-2 text-13 font-bold">
-            Import
-          </Label>
+          <FieldLabel htmlFor={importId}>Import</FieldLabel>
           <div className="flex gap-2">
             <Input
               id={importId}
@@ -113,14 +109,12 @@ export const PlannerShareDialog = ({
               onChange={(event) => setPasted(event.currentTarget.value)}
               className="min-w-0 flex-1"
             />
-            <Button type="submit" variant="outline" disabled={!pasted.trim()}>
+            <Button type="submit" variant="secondary" disabled={!pasted.trim()}>
               Import
             </Button>
           </div>
           {error ? (
-            <p id={errorId} className="text-danger-deep text-14 font-semibold">
-              {error}
-            </p>
+            <FieldError id={errorId}>{error}</FieldError>
           ) : (
             <p className="text-ink-3 text-13 font-semibold">
               Importing opens it as a new, unsaved Plan. Nothing you&apos;ve

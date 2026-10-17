@@ -59,13 +59,13 @@ const DialogContent = ({
       data-slot="dialog-close"
       render={
         <Button
-          variant="ghost"
+          variant="secondary"
+          size="icon-sm"
           className={cn(
-            "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-4 right-4 size-10 rounded-full",
+            "absolute top-4 right-4",
             fullScreenOnPhone &&
               "max-sm:static max-sm:m-3 max-sm:mb-0 max-sm:shrink-0 max-sm:self-end max-sm:justify-self-end",
           )}
-          size="icon"
         />
       }
     >
@@ -124,7 +124,7 @@ const DialogFooter = ({
     >
       {children}
       {showCloseButton && (
-        <DialogPrimitive.Close render={<Button variant="outline" />}>
+        <DialogPrimitive.Close render={<Button variant="secondary" />}>
           Close
         </DialogPrimitive.Close>
       )}

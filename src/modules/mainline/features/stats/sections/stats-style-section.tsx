@@ -1,5 +1,7 @@
 "use client";
 
+import { CornerBubble } from "@/shared/components/corner-bubble";
+import { TextLink } from "@/shared/components/text-link";
 import { useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
@@ -23,13 +25,8 @@ import {
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
 
 type StatsStyleSectionProps = {
@@ -70,7 +67,7 @@ const TypeTile = ({
       }}
       className={cn(
         "flex min-w-0 flex-col items-center gap-1 rounded-lg px-1.5 py-2.5 text-center",
-        type.count ? null : "border-dash border-[1.5px] border-dashed",
+        type.count ? null : "empty-slot",
         className,
       )}
     >
@@ -157,13 +154,12 @@ const MostPickedCard = ({
       <button
         type="button"
         onClick={() => onOpenPokemon(mostPicked)}
-        aria-label={`${entry.name}, in ${playCount} of your Plays. Open`}
         style={getPokemonTypeCssVariables(
           slug && isPokemonTypeSlug(slug) ? slug : null,
         )}
         className="group/picked focus-visible:outline-focus flex flex-col items-center gap-2.5 rounded-xl text-center outline-none focus-visible:outline-3 focus-visible:outline-solid"
       >
-        <span className="sticker grid size-28 shrink-0 place-items-center rounded-2xl transition-transform group-hover/picked:-translate-y-0.75">
+        <span className="sticker grid size-28 shrink-0 place-items-center rounded-xl transition-transform group-hover/picked:-translate-y-0.75">
           {entry.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -182,6 +178,7 @@ const MostPickedCard = ({
           badgeSize="sm"
           className="flex flex-wrap justify-center gap-1.5"
         />
+        <span className="sr-only">, in {playCount} of your Plays. Open</span>
       </button>
       <ul className="flex flex-col gap-2.5">
         <PickedFact icon={appIcons.product.game}>
@@ -293,17 +290,16 @@ export const StatsStyleSection = ({
                 ))}
               </ol>
               {ranked.length > typesShownFirst ? (
-                <button
-                  type="button"
+                <TextLink
+                  arrow="forward"
                   onClick={() => setIsAllTypesOpen(true)}
                   className={cn(
-                    "text-link text-14 focus-visible:outline-focus -mt-1 inline-flex min-h-10 items-center gap-1.5 self-start rounded-xs font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    "-mt-1 self-start",
                     typesTakeRoom && "xl:hidden",
                   )}
                 >
                   See all {ranked.length} types
-                  <AppIcon icon={appIcons.actions.next} size="sm" />
-                </button>
+                </TextLink>
               ) : null}
             </>
           ) : (
@@ -331,7 +327,7 @@ export const StatsStyleSection = ({
                     variant="mini"
                     /* The card lifts instead, carrying the family tip. */
                     className="w-full justify-center hover:translate-y-0"
-                    label={`${friend.name}, in ${friend.playCount} Plays. Open`}
+                    detail="Open"
                     onClick={() => onOpenFriend(friend)}
                     imageUrl={friend.imageUrl}
                     name={friend.entry.name}
@@ -340,7 +336,7 @@ export const StatsStyleSection = ({
                     showTypes={false}
                   />
                   {friend.family.length > 1 ? (
-                    <span className="absolute -top-2 -left-2 z-10">
+                    <CornerBubble corner="top-left">
                       <ExplanatoryTip
                         triggerVariant="raised"
                         triggerLabel={`${friend.entry.name}'s family`}
@@ -355,7 +351,7 @@ export const StatsStyleSection = ({
                       >
                         <AppIcon icon={appIcons.product.family} size="sm" />
                       </ExplanatoryTip>
-                    </span>
+                    </CornerBubble>
                   ) : null}
                 </li>
               ))}
@@ -369,21 +365,26 @@ export const StatsStyleSection = ({
         ) : null}
       </div>
 
-      <Dialog open={isAllTypesOpen} onOpenChange={setIsAllTypesOpen}>
-        <DialogContent className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl">
-          <DialogHeader className="border-line shrink-0 border-b px-6 pt-6 pr-16 pb-4">
-            <DialogTitle>Types you pick</DialogTitle>
-            <DialogDescription>
+      <ResponsiveDetailSheet
+        open={isAllTypesOpen}
+        size="wide"
+        label="Types you pick"
+        onOpenChange={setIsAllTypesOpen}
+        head={
+          <div>
+            <SheetTitle className="text-24">Types you pick</SheetTitle>
+            <p className="text-ink-2 text-14 mt-1 font-semibold">
               {used.length} of {stats.types.length} used, most picked first
-            </DialogDescription>
-          </DialogHeader>
-          <ol className="grid min-h-0 flex-1 grid-cols-3 gap-2 overflow-y-auto overscroll-contain px-6 py-5 min-[480px]:grid-cols-6">
-            {ranked.map((type) => (
-              <TypeTile key={type.slug} most={most} type={type} />
-            ))}
-          </ol>
-        </DialogContent>
-      </Dialog>
+            </p>
+          </div>
+        }
+      >
+        <ol className="grid grid-cols-3 gap-2 min-[480px]:grid-cols-6">
+          {ranked.map((type) => (
+            <TypeTile key={type.slug} most={most} type={type} />
+          ))}
+        </ol>
+      </ResponsiveDetailSheet>
     </section>
   );
 };

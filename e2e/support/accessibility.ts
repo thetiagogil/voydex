@@ -4,22 +4,34 @@ import { expect, type Page } from "@playwright/test";
 const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 /*
- * Rules the app breaks today in many places, skipped until they are fixed
- * so that every other rule still fails a test. Remove a rule here once its
- * findings are gone (#39).
+ * Fails with every axe finding on the page as it is now, once every running
+ * transition and animation that ends has finished, so a fade or an opening
+ * dialog is read at rest.
  */
-const knownIssueRules = [
-  /* Muted ink on sand, white on light type colours. */
-  "color-contrast",
-  /* Stickers, cards and slots whose label leaves out part of their text. */
-  "label-content-name-mismatch",
-];
-
-/* Fails with every axe finding on the page as it is now. */
 export const expectAccessible = async (page: Page) => {
+  await page.evaluate(() =>
+    Promise.race([
+      Promise.all(
+        document
+          .getAnimations()
+          /* A spinner loops for ever; only wait for what ends. */
+          .filter(
+            (animation) =>
+              animation.effect?.getTiming().iterations !== Infinity,
+          )
+          .map((animation) => animation.finished.catch(() => undefined)),
+      ),
+      /* Never longer than a second: a paused animation never finishes. */
+      new Promise((resolve) => setTimeout(resolve, 1000)),
+    ]),
+  );
   const { violations } = await new AxeBuilder({ page })
     .withTags(wcagTags)
-    .disableRules(knownIssueRules)
+    /*
+     * Type chips keep a white label on every type, the pale ones included,
+     * by the owner's choice (2026-10-17); see the Design System.
+     */
+    .exclude("[data-type-chip]")
     .analyze();
 
   expect(

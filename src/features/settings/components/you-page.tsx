@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { PageBand } from "@/shared/components/page-band";
 import { appRoutes } from "@/config/routes";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
 import { TrainerCard } from "@/features/settings/components/trainer-card";
@@ -52,19 +53,19 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
       "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3",
     )}
   >
-    <span className="bg-surface-2 text-ink-2 grid size-11 place-items-center rounded-sm">
+    <span className="bg-surface-2 text-ink-2 grid size-11 place-items-center rounded-full">
       <AppIcon icon={icon} size="lg" />
     </span>
     <span className="flex min-w-0 flex-col gap-0.5">
       <span className="text-15 font-extrabold">{title}</span>
       <span className="text-13 text-ink-2 font-semibold">{description}</span>
     </span>
-    <AppIcon icon={appIcons.actions.continue} className="text-ink-3" />
+    <AppIcon icon={appIcons.actions.next} size="sm" className="text-ink-3" />
   </Link>
 );
 
 /*
- * You (v3 `you`), the fifth tab on phones: your trainer card, then the pages
+ * You (v3 `you`), the fifth tab on phones: your trainer card on the band, then the pages
  * about you (Statistics, Collection, Settings) and Log out. On a wide screen
  * the same things sit in the account menu, but the page still works there.
  */
@@ -80,15 +81,17 @@ export const YouPage = ({
 
   return (
     <div className="mx-auto flex w-full max-w-160 flex-col">
-      <PageHeader title="You" />
-      <TrainerCard
-        className="mt-6"
-        initial={name ? name.charAt(0).toUpperCase() : null}
-        name={name}
-        subtitle={
-          trainerSince ? `Trainer since ${trainerSince}` : "Your trainer card"
-        }
-      />
+      <PageBand className="max-w-[calc(40rem+2*var(--page-gutter))]">
+        <PageHeader title="You" />
+        <TrainerCard
+          className="mt-5"
+          initial={name ? name.charAt(0).toUpperCase() : null}
+          name={name}
+          subtitle={
+            trainerSince ? `Trainer since ${trainerSince}` : "Your trainer card"
+          }
+        />
+      </PageBand>
       <Card className="mt-5.5 gap-0 px-2.5 py-1.5">
         <nav aria-label="About you" className="flex flex-col">
           <YouRow

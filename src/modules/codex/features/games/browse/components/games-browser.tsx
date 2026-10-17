@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBand } from "@/shared/components/page-band";
 import { useMemo, useState } from "react";
 
 import { GamesShelf } from "@/modules/codex/features/games/browse/components/games-shelf";
@@ -44,13 +45,14 @@ type GamesBrowserProps = {
 };
 
 /*
- * The Codex's games: the title and how many there are, the toolbar (search,
- * Kind, Group, Sort) and the shelf of covers, grouped by generation or
- * region. A reference list: it never says which games you've played.
+ * The Codex's games: the band with the title, how many there are and the
+ * toolbar (search, Kind, Group, Sort), then the shelf of covers: one plain
+ * grid by default, or grouped by generation or region. A reference list: it never says which games you've
+ * played.
  */
 export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   const [filters, setFilters] = useState<GamesBrowseFilters>(data.filters);
-  const [groupBy, setGroupBy] = useState<GamesGroupBy>("generation");
+  const [groupBy, setGroupBy] = useState<GamesGroupBy>("none");
   const [sortOrder, setSortOrder] = useState<GamesSortOrder>("oldest");
   const filteredGames = useMemo(
     () => filterGames(data.games, filters),
@@ -84,29 +86,32 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
 
   return (
     <>
-      <PageHeader
-        title="Games"
-        className="pt-5.5 sm:pt-5.5"
-        description={
-          <>
-            <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
-            across {spellCount(countGenerations(data.games))} generations.
-          </>
-        }
-      />
+      <PageBand>
+        <PageHeader
+          title="Games"
+          description={
+            <>
+              <b className="text-ink font-extrabold">
+                {data.games.length} games
+              </b>{" "}
+              across {spellCount(countGenerations(data.games))} generations.
+            </>
+          }
+        />
 
-      <GamesToolbar
-        filters={filters}
-        games={data.games}
-        groupBy={groupBy}
-        onFilterChange={updateFilter}
-        onGroupByChange={setGroupBy}
-        onSortOrderChange={setSortOrder}
-        sortOrder={sortOrder}
-      />
+        <GamesToolbar
+          filters={filters}
+          games={data.games}
+          groupBy={groupBy}
+          onFilterChange={updateFilter}
+          onGroupByChange={setGroupBy}
+          onSortOrderChange={setSortOrder}
+          sortOrder={sortOrder}
+        />
+      </PageBand>
 
       <FilterResultsLine
-        className="mt-3"
+        className="mt-5"
         hasActiveFilters={hasActiveFilters}
         noun="games"
         onClearFilters={clearFilters}
@@ -121,9 +126,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           variant="bare"
           className="mt-6"
           title="No games match that search or filter."
-          action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
-          }
+          action={<ClearFiltersButton onClick={clearFilters} />}
         />
       )}
     </>

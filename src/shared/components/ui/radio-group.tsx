@@ -14,7 +14,7 @@ const RadioGroup = ({ className, ...props }: RadioGroupPrimitive.Props) => {
   );
 };
 
-/* v3's radio dot: a quiet ring that fills to a thick action-green ring when on. */
+/* v3's radio dot: a quiet ring that fills to a thick action-red ring when on. */
 const RadioGroupItem = ({ className, ...props }: RadioPrimitive.Root.Props) => {
   return (
     <RadioPrimitive.Root

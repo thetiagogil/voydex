@@ -27,7 +27,7 @@ export const StatsCoverRow = ({ covers }: { covers: StatsCover[] }) => (
           coverImageUrl={cover.coverImageUrl}
           gameName={cover.gameName}
           gameSlug={cover.gameSlug ?? undefined}
-          className="h-24 w-auto max-w-none border-[3px] border-white sm:h-28"
+          className="h-24 w-auto max-w-none sm:h-28"
         />
       </span>
     ))}

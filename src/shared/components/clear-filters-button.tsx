@@ -8,9 +8,13 @@ type ClearFiltersButtonProps = Omit<
   "children" | "type"
 >;
 
+/*
+ * Clears a list's search and filters: a quiet button in an empty list, a
+ * ghost one in the line under the toolbar.
+ */
 export const ClearFiltersButton = ({
   size = "sm",
-  variant = "ghost",
+  variant = "secondary",
   ...props
 }: ClearFiltersButtonProps) => {
   return (

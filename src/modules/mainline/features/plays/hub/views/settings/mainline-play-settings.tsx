@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import { PageHeader } from "@/shared/components/page-header";
 
 import { SettingsSectionNav } from "./components/settings-section-nav";
@@ -9,17 +7,6 @@ import { PlaySettingsRulesSection } from "./sections/rules/play-settings-rules-s
 import { PlaySettingsTagsSection } from "./sections/tags/play-settings-tags-section";
 import { PlaySettingsTrackingSection } from "./sections/tracking/play-settings-tracking-section";
 import type { MainlinePlaySettingsData } from "./types";
-
-/*
- * A form's only colour is the action green, so the page re-scopes the
- * context colour to it: picked chips and segments take the green selected
- * tint, not the game's (as Story's form does).
- */
-const actionScopeStyle = {
-  "--game": "var(--action)",
-  "--game-strong": "var(--action)",
-  "--gt": "17%",
-} as CSSProperties;
 
 const sections: { href: `#${string}`; label: string }[] = [
   { href: "#general", label: "General" },
@@ -48,10 +35,7 @@ export const MainlinePlaySettings = ({
       description="What this Play is and what it keeps track of"
       className="pt-0 sm:pt-0"
     />
-    <div
-      className="game-scope grid min-w-0 items-start gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8"
-      style={actionScopeStyle}
-    >
+    <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8">
       <SettingsSectionNav sections={sections} />
       <div className="grid min-w-0 gap-6 [&>section]:scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)]">
         <PlaySettingsGeneralSection

@@ -88,7 +88,7 @@ export const PokemonDetailHero = ({
         fallbackOnError
         preload
         sizes="(min-width: 768px) 46vw, calc(100vw - 2rem)"
-        className="aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white shadow-[0_6px_0_color-mix(in_oklab,var(--t)_36%,var(--lip))]"
+        className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
         imageClassName="p-[9%]"
       />
 
@@ -144,7 +144,7 @@ export const PokemonDetailHero = ({
                 <span
                   role="img"
                   aria-label="Favourite, not in Voydex yet"
-                  className="empty-slot text-ink-3 grid size-11 place-items-center rounded-full"
+                  className="empty-slot text-ink-3 grid size-12 place-items-center rounded-full"
                 >
                   <AppIcon icon={appIcons.product.favourite} />
                 </span>
@@ -155,7 +155,7 @@ export const PokemonDetailHero = ({
                 label={isShowingShiny ? "Show regular colours" : "Show shiny"}
                 trigger={
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="icon"
                     aria-label="Shiny"
                     aria-pressed={isShowingShiny}

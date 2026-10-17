@@ -73,33 +73,3 @@ export const getPlayCardEyebrow = (
 /* "Next: Zephyr Badge", or "Story complete" once the story is done. */
 export const getPlayStoryPositionLabel = (position: PlayBrowseStoryPosition) =>
   position.kind === "complete" ? "Story complete" : `Next: ${position.name}`;
-
-/*
- * "Open HeartGold · Nuzlocke · Next: Zephyr Badge · Collectibles off": the game
- * keeps same-named Plays apart. The label replaces the card's content for
- * assistive tech, so it also carries the story line and any part the Play
- * doesn't track.
- */
-export const getPlayCardLinkLabel = (
-  play: Pick<
-    PlayBrowseItem,
-    "game_name" | "play_name" | "progress" | "storyPosition"
-  >,
-) => {
-  const gameName = (play.game_name ?? "Unknown game").replace(/^Pokémon /, "");
-  const untrackedParts =
-    play.progress.state === "available"
-      ? play.progress.items.flatMap((item) =>
-          item.percent === null ? [`${item.label} off`] : [],
-        )
-      : [];
-
-  return [
-    `Open ${gameName}`,
-    play.play_name ?? "Untitled Play",
-    play.storyPosition ? getPlayStoryPositionLabel(play.storyPosition) : null,
-    ...untrackedParts,
-  ]
-    .filter(Boolean)
-    .join(" · ");
-};

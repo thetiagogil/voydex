@@ -4,14 +4,11 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
-import {
-  formatPlayUpdatedDate,
-  getPlayCardEyebrow,
-} from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
+import { formatPlayUpdatedDate } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import { RestorePlayButton } from "@/modules/mainline/features/plays/shared/components/restore-play-button";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { Card } from "@/shared/components/ui/card";
 
 type ArchivedPlaysListProps = {
@@ -30,16 +27,14 @@ const ArchivedPlayCard = ({ play }: { play: PlayBrowseItem }) => {
   const archivedLabel = formatPlayUpdatedDate(play.archived_at, timeZone);
 
   return (
-    <li className="game-scope" style={getGameColourStyle(play.game_slug)}>
+    <li>
       <Card className="grid grid-cols-[80px_minmax(0,1fr)] items-center gap-x-3.5 gap-y-3 p-3 sm:grid-cols-[100px_minmax(0,1fr)_auto] sm:gap-5 sm:py-3.5 sm:pr-5 sm:pl-3.5">
         <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
-        <div className="min-w-0">
-          <p className="text-game-deep text-13 font-bold">
-            {getPlayCardEyebrow(play)}
-          </p>
-          <h3 className="mt-0.5 line-clamp-2 text-[18px] leading-tight tracking-[-0.01em] wrap-break-word sm:text-[22px]">
-            {play.play_id ? (
+        <PlayCardHeading
+          play={play}
+          title={
+            play.play_id ? (
               <Link
                 href={appRoutes.mainlinePlay(play.play_id)}
                 className="hover:underline focus-visible:underline"
@@ -48,14 +43,11 @@ const ArchivedPlayCard = ({ play }: { play: PlayBrowseItem }) => {
               </Link>
             ) : (
               playName
-            )}
-          </h3>
-          {archivedLabel ? (
-            <p className="text-ink-2 text-13 sm:text-14 mt-1 font-semibold">
-              Archived {archivedLabel}
-            </p>
-          ) : null}
-        </div>
+            )
+          }
+        >
+          {archivedLabel ? `Archived ${archivedLabel}` : null}
+        </PlayCardHeading>
 
         {play.play_id ? (
           <div className="col-span-2 justify-self-end sm:col-span-1">

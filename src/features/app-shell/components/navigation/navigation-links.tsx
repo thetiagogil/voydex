@@ -7,6 +7,7 @@ import {
   isCurrentLink,
   type AppNavigationLink,
 } from "@/features/app-shell/utils/app-navigation";
+import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
 import { cn } from "@/shared/utils/cn";
 
 type NavigationLinksProps = {
@@ -16,26 +17,11 @@ type NavigationLinksProps = {
 };
 
 /*
- * A link's label, as wide as its bold self whether or not it is current, so
- * moving between sections never nudges the bar's other links.
- */
-export const SteadyLabel = ({ children }: { children: string }) => (
-  <span className="grid justify-items-center">
-    <span className="col-start-1 row-start-1">{children}</span>
-    <span
-      aria-hidden
-      className="invisible col-start-1 row-start-1 font-extrabold"
-    >
-      {children}
-    </span>
-  </span>
-);
-
-/*
- * The bar's sections (v3 `.links`): quiet words; the current one sits on the
- * surface, or on the game's strong shade when the bar is on a tinted band.
- * The current mark swaps at once, never fades, so a change of section
- * doesn't flicker between the two links.
+ * The bar's sections (v3 `.links`): quiet words straight on the page's band,
+ * with no surface of their own, so the bar never pulls focus from the page.
+ * The current one is a small sticker in the selected tint, as every pick
+ * is. It swaps at once, never fades, so a change of section doesn't flicker
+ * between the two links.
  */
 export const NavigationLinks = ({
   ariaLabel,
@@ -54,11 +40,7 @@ export const NavigationLinks = ({
             key={link.href}
             href={link.href}
             aria-current={isCurrent ? "page" : undefined}
-            className={cn(
-              "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
-              isCurrent &&
-                "bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
-            )}
+            className={getBarLinkClassName(isCurrent)}
           >
             <SteadyLabel>{link.label}</SteadyLabel>
           </Link>

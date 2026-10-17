@@ -13,11 +13,12 @@ import { cn } from "@/shared/utils/cn";
 export type PokemonCardState = "caught" | "missing" | "plain" | "seen";
 
 /*
- * v3 `.ptile.in`: a plain card you have picked wears its type, with a ring.
- * Set the type's colour (`--t`, `getPokemonTypeCssVariables`) around it.
+ * A picked Pokémon: the same sticker as one you own (its type's tint in a
+ * 4px band on a soft shadow), with the band in its type's colour instead of
+ * white. Set the type's colour (`--t`, `getPokemonTypeCssVariables`).
  */
 export const pokemonCardPickedClassName =
-  "border-transparent bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] shadow-[inset_0_0_0_2.5px_color-mix(in_oklab,var(--t)_55%,white)]";
+  "sticker [--sticker-border:color-mix(in_oklab,var(--t)_55%,white)] [--sticker-shadow:var(--shadow-soft-value)]";
 
 type PokemonCardType = { name: string; slug: string };
 
@@ -29,6 +30,8 @@ type PokemonCardProps = {
   name: string;
   number: string;
   onAnimationEnd?: () => void;
+  /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
+  picked?: boolean;
   /* Plays the pop at the moment the card is marked, never on load. */
   pop?: boolean;
   /*
@@ -51,7 +54,7 @@ const sizeClassNames: Record<
     circle: "size-15.5 sm:size-21",
     mark: "size-5.5 sm:size-6.5",
     markIcon: "size-3.5 sm:size-4",
-    name: "text-[12.5px] sm:text-14",
+    name: "text-13 sm:text-14",
   },
   md: {
     art: "size-19.5",
@@ -65,7 +68,7 @@ const sizeClassNames: Record<
     circle: "size-14",
     mark: "size-5.5",
     markIcon: "size-3.5",
-    name: "text-[12.5px]",
+    name: "text-13",
   },
 };
 
@@ -119,7 +122,7 @@ const PokemonCardMark = ({
       className={cn(
         "pointer-events-none absolute top-1.75 right-1.75 z-10 grid place-items-center rounded-full",
         isCaught
-          ? "text-ball bg-white shadow-[0_2px_0_rgb(0_0_0/0.08)]"
+          ? "text-ball bg-white shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]"
           : "bg-surface-2 text-ink-2",
         className,
       )}
@@ -148,6 +151,7 @@ export const PokemonCard = ({
   name,
   number,
   onAnimationEnd,
+  picked = false,
   pop = false,
   size = "md",
   state,
@@ -164,9 +168,12 @@ export const PokemonCard = ({
         (primaryType?.slug as PokemonTypeSlug | undefined) ?? null,
       )}
       className={cn(
-        "relative flex h-full min-w-0 flex-col items-center rounded-lg text-center transition-transform duration-150 hover:-translate-y-0.75",
-        stateClassNames[state],
-        paddingClassNames[size === "sm" ? "sm" : "md"][state],
+        "relative flex h-full min-w-0 flex-col items-center rounded-xl text-center transition-transform duration-150 hover:-translate-y-0.75",
+        picked ? pokemonCardPickedClassName : stateClassNames[state],
+        /* A pick wears the sticker's 4px band, so it takes the sticker's padding. */
+        paddingClassNames[size === "sm" ? "sm" : "md"][
+          picked ? "caught" : state
+        ],
         pop && "animate-pop",
         className,
       )}
@@ -190,8 +197,9 @@ export const PokemonCard = ({
         className={cn(
           "relative mt-0.5 mb-1.5 grid place-items-center rounded-full",
           sizes.circle,
-          state === "caught" && "bg-white/55",
-          (state === "plain" || state === "seen") &&
+          (state === "caught" || picked) && "bg-white/55",
+          !picked &&
+            (state === "plain" || state === "seen") &&
             "bg-[color-mix(in_oklab,var(--t)_13%,var(--surface))]",
         )}
       >

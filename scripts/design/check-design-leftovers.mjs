@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
 /*
- * Fails when anything from the retired journal design is still referenced.
- * Soft Clay replaced it in place: the journal tokens and classes, DM Sans and
- * Lora, the valley background and paper texture, the old meaning colours, the
- * realistic type scenery and glows, and the V1 styling docs.
+ * Fails when anything from a retired look is still referenced. Soft Clay
+ * replaced the journal design in place: the journal tokens and classes, DM
+ * Sans and Lora, the valley background and paper texture, the old meaning
+ * colours, the realistic type scenery and glows, and the V1 styling docs.
+ * Phase 4 then retired the raised "clicky" look: hard lips under surfaces,
+ * buttons that move when pressed, and the lip tokens. The source rules below
+ * guard the component rules too (see docs/app/design-system.md).
  */
 
 import fs from "node:fs";
@@ -82,6 +85,60 @@ const retired = [
   },
 ];
 
+/*
+ * Rules for the app's own source only (src/), where the components live:
+ * each names what replaced the retired look. `allow` lists the files a rule
+ * permits on purpose.
+ */
+const sourceRules = [
+  {
+    label:
+      "hard lip under a surface (lift it with a soft shadow; buttons take the sticker edge)",
+    pattern: /(?:shadow-\[|,)0_[1-9][\d.]*px_0(?:_|,|\])/,
+    /* The moment medallions and the badge stamps keep their small lip. */
+    allow: [
+      path.join(
+        "src",
+        "modules",
+        "mainline",
+        "features",
+        "plays",
+        "shared",
+        "components",
+        "medallion.tsx",
+      ),
+      path.join(
+        "src",
+        "modules",
+        "mainline",
+        "features",
+        "plays",
+        "shared",
+        "components",
+        "badge-stamp.tsx",
+      ),
+    ],
+  },
+  {
+    label: "retired lip token (use shadow-card, shadow-soft or shadow-button)",
+    pattern:
+      /\bshadow-(?:quiet|action|game)\b|--shadow-quiet-value|--clay-edge|--sticker-lip/,
+  },
+  {
+    label: "a press that moves (buttons settle onto what they sit on)",
+    pattern: /\bactive:[^\s"'`]*translate-y/,
+  },
+  {
+    label: "gradient fill (colour is flat; gradients only mask or texture)",
+    pattern: /\bbg-(?:linear|radial|conic|gradient)-/,
+  },
+  { label: "glass (no blur behind surfaces)", pattern: /\bbackdrop-blur/ },
+  {
+    label: "Button link variant (words that go somewhere are a TextLink)",
+    pattern: /variant(?:=|:\s*)"link"/,
+  },
+];
+
 /* Vendored third-party skills describe their own examples, not Voydex. */
 const ignoredDirectories = [path.join(".claude", "skills", "shadcn")];
 
@@ -115,8 +172,12 @@ const findings = [];
 for (const file of files) {
   const lines = fs.readFileSync(path.join(rootDir, file), "utf8").split("\n");
 
+  const rules = file.startsWith(`src${path.sep}`)
+    ? [...retired, ...sourceRules.filter((rule) => !rule.allow?.includes(file))]
+    : retired;
+
   lines.forEach((line, index) => {
-    for (const { label, pattern } of retired) {
+    for (const { label, pattern } of rules) {
       if (pattern.test(line)) {
         findings.push(`${file}:${index + 1}  ${label}`);
       }
@@ -125,7 +186,7 @@ for (const file of files) {
 }
 
 if (findings.length) {
-  console.error("Retired journal design is still referenced:\n");
+  console.error("A retired look is still referenced:\n");
   console.error(findings.map((finding) => `  ${finding}`).join("\n"));
   process.exit(1);
 }

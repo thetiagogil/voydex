@@ -1,3 +1,4 @@
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import {
   getPlayTeamSnapshotMemberName,
   type PlayTeamSnapshotMember,
@@ -21,22 +22,12 @@ export const StoryTeamSnapshot = ({
           <li
             key={`${member.position}-${member.speciesName}-${member.formName ?? ""}`}
             title={name}
-            className="sticker grid aspect-square place-items-center rounded-md [--t:var(--mute)]"
           >
-            {member.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={member.imageUrl}
-                alt={name}
-                loading="lazy"
-                className="size-[88%] object-contain"
-              />
-            ) : (
-              <span className="text-ink-3 text-13 font-extrabold">
-                <span aria-hidden>?</span>
-                <span className="sr-only">{name}, image unavailable</span>
-              </span>
-            )}
+            <PokemonAvatar
+              name={name}
+              imageUrl={member.imageUrl}
+              typeSlug={null}
+            />
           </li>
         );
       })}

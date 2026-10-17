@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState, type ReactNode } from "react";
 
 import { GamePokedexTable } from "@/modules/codex/features/games/pokedex/components/game-pokedex-table";
 import { appRoutes } from "@/config/routes";
@@ -34,6 +34,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
@@ -64,9 +65,15 @@ const isGamePokedexSortKey = (value: string): value is GamePokedexSortKey => {
 
 type GamePokedexBrowserProps = {
   data: GamePokedexData;
+  /* The page's head, which opens the band above the toolbar. */
+  head: ReactNode;
 };
 
-export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
+/*
+ * A game's Pokédex: the band with the page's head, the toolbar and the type
+ * dots, then the results line and the entries.
+ */
+export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
   const [filters, setFilters] = useState(defaultGamePokedexFilters);
   const [sortKey, setSortKey] = useState<GamePokedexSortKey>("regional");
   const [view, setView] = useState<GamePokedexView>("grid");
@@ -108,120 +115,122 @@ export const GamePokedexBrowser = ({ data }: GamePokedexBrowserProps) => {
   };
 
   return (
-    <section aria-label={`${pokedexName} entries`} className="mt-8">
-      <Toolbar
-        render={
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          />
-        }
-        search={
-          <SearchControl
-            name="q"
-            ariaLabel={`Search the ${pokedexName}`}
-            value={filters.query}
-            onValueChange={(query) => {
-              updateFilter("query", query);
-            }}
-            placeholder={
-              hasAbilities
-                ? "Search by name, number or ability"
-                : "Search by name or number"
-            }
-          />
-        }
-        trailing={
-          <>
-            <SelectControl
-              ariaLabel="Sort Pokémon"
-              variant="ghost"
-              size="sm"
-              prefix="Sort"
-              value={sortKey}
-              onValueChange={(value) => {
-                if (isGamePokedexSortKey(value)) {
-                  setSortKey(value);
-                }
+    <>
+      <PageBand>
+        {head}
+        <Toolbar
+          className="mt-5"
+          render={
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
               }}
-              options={sortOptions}
-              placeholder="Regional number"
             />
-            <SegmentedControl
-              ariaLabel="Pokédex display"
-              onValueChange={setView}
-              options={viewOptions}
-              value={view}
-              variant="segment"
+          }
+          search={
+            <SearchControl
+              name="q"
+              ariaLabel={`Search the ${pokedexName}`}
+              value={filters.query}
+              onValueChange={(query) => {
+                updateFilter("query", query);
+              }}
+              placeholder={
+                hasAbilities
+                  ? "Search by name, number or ability"
+                  : "Search by name or number"
+              }
             />
-          </>
-        }
-      />
-
-      <div className="mt-3">
-        <PokemonTypeFilter
-          onValueChange={(type) => {
-            updateFilter("type", type);
-          }}
-          types={data.types}
-          value={filters.type}
+          }
+          trailing={
+            <>
+              <SelectControl
+                ariaLabel="Sort Pokémon"
+                variant="ghost"
+                prefix="Sort"
+                value={sortKey}
+                onValueChange={(value) => {
+                  if (isGamePokedexSortKey(value)) {
+                    setSortKey(value);
+                  }
+                }}
+                options={sortOptions}
+                placeholder="Regional number"
+              />
+              <SegmentedControl
+                ariaLabel="Pokédex display"
+                onValueChange={setView}
+                options={viewOptions}
+                value={view}
+                variant="segment"
+              />
+            </>
+          }
         />
-      </div>
 
-      <FilterResultsLine
-        className="mt-2"
-        hasActiveFilters={activeFilters}
-        noun="Pokémon"
-        onClearFilters={clearFilters}
-        shownCount={visiblePokemon.length}
-        totalCount={data.entries.length}
-      />
-
-      <div className="mt-4">
-        {visiblePokemon.length ? (
-          view === "grid" ? (
-            <CodexPokemonGrid>
-              {visiblePokemon.map((entry) => (
-                <CodexPokemonCardLink
-                  key={`${entry.entry.pokedex_id}-${entry.entry.pokedex_number}-${entry.entry.species_id}`}
-                  ariaLabel={`Open ${entry.species.name} in ${versionGroupName}`}
-                  href={appRoutes.codexPokemonEntry(
-                    data.versionGroup.slug,
-                    entry.species.slug,
-                  )}
-                  imageUrl={entry.imageUrl}
-                  name={entry.species.name}
-                  number={`#${formatLocalPokedexNumber(entry.entry.pokedex_number)}`}
-                  title={`National ${formatPokemonNationalNumber(entry.species.national_number)}`}
-                  types={[
-                    entry.typePair.primaryType,
-                    entry.typePair.secondaryType,
-                  ]}
-                />
-              ))}
-            </CodexPokemonGrid>
-          ) : (
-            <GamePokedexTable
-              data={data}
-              hasAbilities={hasAbilities}
-              pokemon={visiblePokemon}
-            />
-          )
-        ) : (
-          <EmptyState
-            variant="bare"
-            title={
-              hasAbilities
-                ? "No Pokémon match that name, number, ability or type."
-                : "No Pokémon match that name, number or type."
-            }
-            action={
-              <ClearFiltersButton variant="outline" onClick={clearFilters} />
-            }
+        <div className="mt-3.5">
+          <PokemonTypeFilter
+            onValueChange={(type) => {
+              updateFilter("type", type);
+            }}
+            types={data.types}
+            value={filters.type}
           />
-        )}
-      </div>
-    </section>
+        </div>
+      </PageBand>
+
+      <section aria-label={`${pokedexName} entries`} className="mt-5">
+        <FilterResultsLine
+          hasActiveFilters={activeFilters}
+          noun="Pokémon"
+          onClearFilters={clearFilters}
+          shownCount={visiblePokemon.length}
+          totalCount={data.entries.length}
+        />
+
+        <div className="mt-4">
+          {visiblePokemon.length ? (
+            view === "grid" ? (
+              <CodexPokemonGrid>
+                {visiblePokemon.map((entry) => (
+                  <CodexPokemonCardLink
+                    key={`${entry.entry.pokedex_id}-${entry.entry.pokedex_number}-${entry.entry.species_id}`}
+                    detail={`in ${versionGroupName}`}
+                    href={appRoutes.codexPokemonEntry(
+                      data.versionGroup.slug,
+                      entry.species.slug,
+                    )}
+                    imageUrl={entry.imageUrl}
+                    name={entry.species.name}
+                    number={`#${formatLocalPokedexNumber(entry.entry.pokedex_number)}`}
+                    title={`National ${formatPokemonNationalNumber(entry.species.national_number)}`}
+                    types={[
+                      entry.typePair.primaryType,
+                      entry.typePair.secondaryType,
+                    ]}
+                  />
+                ))}
+              </CodexPokemonGrid>
+            ) : (
+              <GamePokedexTable
+                data={data}
+                hasAbilities={hasAbilities}
+                pokemon={visiblePokemon}
+              />
+            )
+          ) : (
+            <EmptyState
+              variant="bare"
+              title={
+                hasAbilities
+                  ? "No Pokémon match that name, number, ability or type."
+                  : "No Pokémon match that name, number or type."
+              }
+              action={<ClearFiltersButton onClick={clearFilters} />}
+            />
+          )}
+        </div>
+      </section>
+    </>
   );
 };

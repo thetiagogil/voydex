@@ -41,7 +41,7 @@ test.describe("Codex", () => {
     await page.goto("/codex/games");
     await expectAccessible(page);
 
-    await page.getByRole("link", { name: "Pokémon Red, 1996, Kanto" }).click();
+    await page.getByRole("link", { name: /^Pokémon Red 1996 · Kanto/ }).click();
     await expect(
       page.getByRole("heading", { level: 1, name: "Pokémon Red and Blue" }),
     ).toBeVisible();
@@ -55,7 +55,7 @@ test.describe("Codex", () => {
       .getByRole("searchbox", { name: "Search the Kanto Pokédex" })
       .fill("mew");
     await expect(
-      page.getByRole("link", { name: "Open Mew in Red and Blue" }),
+      page.getByRole("link", { name: /^#\d+ Mew\b.*, in Red and Blue$/ }),
     ).toBeVisible();
     await expectAccessible(page);
   });

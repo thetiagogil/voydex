@@ -5,7 +5,9 @@ import { PokemonTypeList } from "@/modules/reference/features/pokemon/components
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { getPokemonPortraitType } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
+import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { ComboboxItem } from "@/shared/components/ui/combobox";
+import { menuGroupLabelClassName } from "@/shared/components/ui/menu-surface";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
 /* The last step of the Codex crumb: the Pokémon's name, which opens the picker. */
@@ -38,7 +40,9 @@ export const PokemonDetailSpeciesSelectorGroupHeader = ({
   }
 
   return (
-    <div className="bg-surface text-ink-3 border-line text-12 sticky top-0 z-30 border-b px-2 py-1.5 font-bold">
+    <div
+      className={cn(menuGroupLabelClassName, "bg-surface sticky top-0 z-30")}
+    >
       {groupHeader}
     </div>
   );
@@ -49,32 +53,36 @@ export const PokemonDetailSpeciesSelectorOptionContent = ({
 }: PokemonDetailSpeciesSelectorOptionContentProps) => {
   const displayNumber = pokemonItem.pokedexNumber ?? pokemonItem.nationalNumber;
 
+  /* As every picker's option: the Pokémon on its type tint, its name, its number under it. */
   return (
-    <>
-      <PokemonPortrait
-        alt=""
-        imageUrl={pokemonItem.imageUrl}
-        type={getPokemonPortraitType(pokemonItem)}
-        sizes="44px"
-        className="size-11 shrink-0"
-        imageClassName="p-1"
-      />
-      <span className="min-w-0 flex-1">
-        <span className="text-12 text-ink-3 block font-bold tabular-nums">
+    <MenuOptionContent
+      leading={
+        <PokemonPortrait
+          alt=""
+          imageUrl={pokemonItem.imageUrl}
+          type={getPokemonPortraitType(pokemonItem)}
+          sizes="44px"
+          className="size-11"
+          imageClassName="p-1"
+        />
+      }
+      leadingClassName="size-11 rounded-full bg-transparent"
+      title={pokemonItem.name}
+      description={
+        <span className="tabular-nums">
           {formatPokemonNationalNumber(displayNumber)}
         </span>
-        <span className="block truncate font-extrabold">
-          {pokemonItem.name}
-        </span>
-      </span>
-      <PokemonTypeList
-        primaryType={pokemonItem.primaryType}
-        secondaryType={pokemonItem.secondaryType}
-        badgeDisplay="icon"
-        badgeSize="sm"
-        className="ml-auto shrink-0 gap-1"
-      />
-    </>
+      }
+      trailing={
+        <PokemonTypeList
+          primaryType={pokemonItem.primaryType}
+          secondaryType={pokemonItem.secondaryType}
+          badgeDisplay="icon"
+          badgeSize="sm"
+          className="gap-1"
+        />
+      }
+    />
   );
 };
 
@@ -90,7 +98,7 @@ export const PokemonDetailSpeciesSelectorOption = ({
         value={pokemonItem}
         aria-current={isActive ? "page" : undefined}
         className={cn(
-          "min-h-14 gap-3",
+          "min-h-14 pr-3",
           isActive && pokemonDetailSpeciesSelectorActiveClassName,
         )}
       >

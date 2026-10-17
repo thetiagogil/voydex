@@ -1,5 +1,7 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
+import { CornerBubble } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
@@ -8,10 +10,8 @@ import type {
   PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
-import {
-  PokemonCard,
-  pokemonCardPickedClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -59,8 +59,6 @@ export const matchesPoolFilters = (
     (!query || pokemon.name.toLocaleLowerCase("en").includes(query))
   );
 };
-
-const formatNumber = (value: number) => `#${String(value).padStart(3, "0")}`;
 
 /*
  * v3 `.sec.pick`: every Pokémon of the version group, one range per
@@ -110,8 +108,7 @@ export const PlannerPoolSection = ({
             <SegmentedControl
               ariaLabel="Pokédex"
               selectedTone="strong"
-              size="sm"
-              className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:px-0 sm:py-0"
+              phoneScroll
               value={filters.dex}
               onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
               options={[
@@ -145,17 +142,18 @@ export const PlannerPoolSection = ({
           />
         }
         trailing={
-          <SegmentedControl
-            ariaLabel="Evolution"
-            value={filters.fullyEvolved ? "final" : null}
-            onValueChange={() =>
+          <ChoiceChip
+            size="lg"
+            pressed={filters.fullyEvolved}
+            onClick={() =>
               onFiltersChange({
                 ...filters,
                 fullyEvolved: !filters.fullyEvolved,
               })
             }
-            options={[{ label: "Fully evolved only", value: "final" }]}
-          />
+          >
+            Fully evolved only
+          </ChoiceChip>
         }
       />
       <PokemonTypeFilter
@@ -193,13 +191,6 @@ export const PlannerPoolSection = ({
                       <button
                         type="button"
                         aria-pressed={slot !== undefined}
-                        aria-label={[
-                          pokemon.name,
-                          slot ? `in slot ${slot}` : null,
-                          ...notes,
-                        ]
-                          .filter(Boolean)
-                          .join(". ")}
                         title={notes.join(" ") || undefined}
                         onClick={() => onPick(pokemon)}
                         style={getPokemonTypeCssVariables(
@@ -216,16 +207,23 @@ export const PlannerPoolSection = ({
                           imageAlt=""
                           imageUrl={pokemon.imageUrl}
                           name={pokemon.name}
-                          number={formatNumber(pokemon.nationalNumber)}
+                          number={formatNationalNumber(pokemon.nationalNumber)}
                           types={pokemon.types}
+                          picked={slot !== undefined}
                           className={cn(
                             /* The whole tile lifts, carrying its marks. */
                             "hover:translate-y-0",
-                            slot !== undefined && pokemonCardPickedClassName,
                             replacingId === pokemon.speciesId &&
-                              "outline-game outline-3 outline-offset-2 outline-solid",
+                              "outline-action outline-3 outline-offset-2 outline-solid",
                           )}
                         ></PokemonCard>
+                        {slot || notes.length ? (
+                          <span className="sr-only">
+                            {[slot ? `, in slot ${slot}` : null, ...notes]
+                              .filter(Boolean)
+                              .join(". ")}
+                          </span>
+                        ) : null}
                       </button>
                       {slot !== undefined || notes.length ? (
                         /*
@@ -234,7 +232,7 @@ export const PlannerPoolSection = ({
                          * anything outside): the "!" of Your team's slots,
                          * then the slot number, both raised 24px dots.
                          */
-                        <span className="absolute top-2 right-2 z-10 flex items-center gap-1">
+                        <CornerBubble corner="inside-top-right">
                           {notes.length ? (
                             <ExplanatoryTip
                               triggerVariant="raised"
@@ -249,12 +247,12 @@ export const PlannerPoolSection = ({
                           {slot !== undefined ? (
                             <span
                               aria-hidden
-                              className="bg-game text-13 grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums shadow-[0_2px_0_var(--game-lip)]"
+                              className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
                             >
                               {slot}
                             </span>
                           ) : null}
-                        </span>
+                        </CornerBubble>
                       ) : null}
                     </li>
                   );

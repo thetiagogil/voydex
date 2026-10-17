@@ -17,6 +17,7 @@ import {
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { SheetSection } from "@/shared/components/sheet-section";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
@@ -38,7 +39,6 @@ import {
   TeamMemberEditorBuildStep,
   type TeamMemberEditorOptionsState,
 } from "./team-member-editor-build-step";
-import { EditorStep } from "./team-member-editor-fields";
 import { TeamMemberEditorMetStep } from "./team-member-editor-met-step";
 import { TeamMemberEditorReview } from "./team-member-editor-review";
 import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
@@ -221,13 +221,13 @@ export const TeamMemberEditorSheet = ({
         member={member}
         supportsGender={supports.gender}
       />
-      <EditorStep title="Where" aside={placeLabel}>
+      <SheetSection title="Where" aside={placeLabel}>
         {/* TODO(v3-data): moving between the team and the reserve, or to another slot, needs an atomic roster-placement RPC (swaps break the per-slot unique index mid-update). */}
         <PendingData
           label="Moving it isn't in Voydex yet"
           note="Swapping slots or moving between team and reserve waits for a safe roster move."
         />
-      </EditorStep>
+      </SheetSection>
       <TeamMemberEditorBuildStep
         {...stepProps}
         member={member}
@@ -290,7 +290,7 @@ export const TeamMemberEditorSheet = ({
           </Button>
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             disabled={isSaving}
             onClick={() => close(false)}

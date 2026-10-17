@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
 
@@ -25,7 +26,7 @@ export const SiteFooter = () => (
           href={appRoutes.home}
           className="font-display text-17 inline-flex w-fit items-center gap-2.5 rounded-sm font-semibold"
         >
-          <LogoMark className="text-15 size-7.5" />
+          <LogoMark className="size-7.5" />
           Voydex
         </Link>
         <p className="text-13 text-ink-2 font-semibold">
@@ -36,17 +37,13 @@ export const SiteFooter = () => (
           className="text-14 text-ink-2 flex flex-wrap gap-x-5 gap-y-1.5 font-bold sm:ml-auto"
         >
           {footerLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="hover:text-ink rounded-xs transition-colors"
-            >
+            <TextLink key={link.href} href={link.href} tone="quiet">
               {link.label}
-            </Link>
+            </TextLink>
           ))}
         </nav>
       </div>
-      <p className="text-ink-3 mt-4 max-w-[88ch] text-[12.5px] leading-[1.6] font-semibold">
+      <p className="text-ink-3 text-13 mt-4 max-w-[88ch] leading-[1.6] font-semibold">
         Voydex is an unofficial fan project. It isn&apos;t affiliated with or
         endorsed by Nintendo, Creatures, GAME FREAK or The Pokémon Company, and
         Pokémon names and artwork belong to them.

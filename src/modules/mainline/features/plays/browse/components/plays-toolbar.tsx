@@ -8,6 +8,8 @@ import type {
   PlayBrowseOption,
   PlayBrowseSort,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
+import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
@@ -70,7 +72,20 @@ const getFilterSelects = (
         ariaLabel="Filter Plays by game"
         value={filters.game}
         onValueChange={onGameChange}
-        options={[{ label: "All games", value: "" }, ...games]}
+        options={[
+          {
+            icon: <AppIcon icon={appIcons.product.game} size="md" />,
+            label: "All games",
+            value: "",
+          },
+          ...games.map((game) => ({
+            ...game,
+            icon: (
+              <GameOptionCover gameName={game.label} gameSlug={game.value} />
+            ),
+          })),
+        ]}
+        searchPlaceholder="Search games"
         placeholder="All games"
         variant="ghost"
       />
@@ -130,7 +145,7 @@ const PlaysFiltersSheet = ({
       description="Choose which Plays the list shows and their order."
       descriptionHidden
       trigger={
-        <Button type="button" variant="outline" className="sm:hidden">
+        <Button type="button" variant="secondary" className="sm:hidden">
           Filters
         </Button>
       }
@@ -179,6 +194,7 @@ export const PlaysToolbar = ({
   return (
     <Toolbar
       aria-label="Filter Plays"
+      className="mt-5"
       render={
         <form
           onSubmit={(event) => {

@@ -65,7 +65,7 @@ export const PublicMenu = ({ className }: { className?: string }) => {
             size="icon"
             aria-label={open ? "Close the menu" : "Menu"}
             className={cn(
-              "rounded-full hover:bg-(--bar-hover) aria-expanded:bg-(--bar-hover)",
+              "hover:bg-(--bar-hover) aria-expanded:bg-(--bar-hover)",
               className,
             )}
           />

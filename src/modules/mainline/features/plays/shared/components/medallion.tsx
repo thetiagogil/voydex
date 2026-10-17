@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
@@ -9,7 +10,7 @@ import { cn } from "@/shared/utils/cn";
  * Every moment wears one medallion: a round token with a white ring and a
  * small lip. Only what's inside changes: a gym badge in its type, any other
  * milestone in gold, a Pokémon on its type tint, a note warm, a status
- * neutral, and where the Play began in the game's colour.
+ * neutral, and where the Play began in the accent.
  */
 export type MedallionContent =
   | { kind: "badge"; type: PokemonTypeSlug }
@@ -31,15 +32,13 @@ const imageSizeClassNames: Record<MedallionSize, string> = {
   xs: "size-8",
 };
 
-const typeTint = (type: PokemonTypeSlug | null) =>
-  type ? `var(--type-${type})` : "var(--mute)";
-
 const getMedallionStyle = (content: MedallionContent): CSSProperties => {
   switch (content.kind) {
     case "badge":
       return {
-        "--mf": typeTint(content.type),
-        "--mr": `color-mix(in oklab, ${typeTint(content.type)} 45%, white)`,
+        ...getPokemonTypeCssVariables(content.type),
+        "--mf": "var(--t)",
+        "--mr": "color-mix(in oklab, var(--t) 45%, white)",
       } as CSSProperties;
     case "gold":
       return {
@@ -48,8 +47,9 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       } as CSSProperties;
     case "pokemon":
       return {
-        "--mf": `color-mix(in oklab, ${typeTint(content.type)} 24%, var(--surface))`,
-        "--mr": `color-mix(in oklab, ${typeTint(content.type)} 45%, white)`,
+        ...getPokemonTypeCssVariables(content.type),
+        "--mf": "color-mix(in oklab, var(--t) 22%, var(--surface))",
+        "--mr": "color-mix(in oklab, var(--t) 45%, white)",
       } as CSSProperties;
     case "note":
       return {
@@ -58,8 +58,8 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       } as CSSProperties;
     case "start":
       return {
-        "--mf": "var(--game-strong)",
-        "--mr": "var(--game-lip)",
+        "--mf": "var(--action)",
+        "--mr": "color-mix(in oklab, var(--action) 35%, white)",
       } as CSSProperties;
     case "status":
       return {

@@ -4,6 +4,10 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { getPlayTeamSlots } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
+import {
+  PokemonAvatar,
+  PokemonAvatarSlot,
+} from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { cn } from "@/shared/utils/cn";
 
 type PlayCardTeamProps = {
@@ -11,7 +15,10 @@ type PlayCardTeamProps = {
   team: PlayBrowseTeam;
 };
 
-/* The active team as plain sprites; open slots are small dashed rings. */
+/*
+ * The active team as small Pokémon (`PokemonAvatar`, the same as a Plan's
+ * strip), each on its type's tint; open slots are dashed rings.
+ */
 export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
   if (team.state === "unavailable") {
     return (
@@ -24,43 +31,25 @@ export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
   return (
     <ul
       aria-label="Active team"
-      className={cn("grid grid-cols-[repeat(6,52px)] gap-0.5", className)}
+      className={cn("grid grid-cols-[repeat(6,48px)] gap-1.5", className)}
     >
-      {getPlayTeamSlots(team.members).map(({ member, position }) => {
-        const imageUrl = member ? getPlayTeamMemberImageUrl(member) : null;
-        const memberName = member ? getPlayTeamMemberName(member) : null;
-
-        return (
-          <li
-            key={member?.play_pokemon_id ?? `open-${position}`}
-            className="grid size-13 place-items-center"
-          >
-            {member && imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={imageUrl}
-                alt={memberName ?? ""}
-                title={memberName ?? undefined}
-                loading="lazy"
-                className="size-13 object-contain"
-              />
-            ) : member ? (
-              <span
-                role="img"
-                aria-label={memberName ?? undefined}
-                title={memberName ?? undefined}
-                className="bg-track text-ink-2 text-12 grid size-8 place-items-center rounded-full font-extrabold"
-              >
-                {memberName?.charAt(0)}
-              </span>
-            ) : (
-              <span className="empty-slot size-7 rounded-full">
-                <span className="sr-only">Open slot {position}</span>
-              </span>
-            )}
-          </li>
-        );
-      })}
+      {getPlayTeamSlots(team.members).map(({ member, position }) => (
+        <li key={member?.play_pokemon_id ?? `open-${position}`}>
+          {member ? (
+            <PokemonAvatar
+              imageUrl={getPlayTeamMemberImageUrl(member)}
+              name={getPlayTeamMemberName(member)}
+              typeSlug={
+                member.form_id
+                  ? (team.typeSlugByFormId[member.form_id] ?? null)
+                  : null
+              }
+            />
+          ) : (
+            <PokemonAvatarSlot label={`Open slot ${position}`} />
+          )}
+        </li>
+      ))}
     </ul>
   );
 };

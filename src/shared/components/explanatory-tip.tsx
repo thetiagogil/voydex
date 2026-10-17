@@ -31,8 +31,8 @@ type ExplanatoryTipProps = Pick<
    */
   triggerTone?: InfoDotTone;
   /*
-   * `dot` is the small inset dot for text; `raised` is v3's `.edit-wrap
-   * .infotip`, a 24px cream dot on a 2px lip that sits beside a control.
+   * `dot` is the small inset dot for text; `raised` is a 24px cream bubble
+   * for a card's corner (inside a `CornerBubble`).
    */
   triggerVariant?: InfoDotVariant;
 };
@@ -59,7 +59,7 @@ const infoDotVariantClassNames: Record<
     glyph: "text-12",
   },
   raised: {
-    dot: "bg-surface size-6 shadow-[0_2px_0_var(--lip)] after:absolute after:-inset-2",
+    dot: "bg-surface bubble size-6 after:absolute after:-inset-2",
     glyph: "text-13",
   },
 };

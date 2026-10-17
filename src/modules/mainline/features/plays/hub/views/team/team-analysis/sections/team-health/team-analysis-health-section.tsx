@@ -10,9 +10,8 @@ import {
   type StatusBadgeTone,
 } from "@/shared/components/status-badge";
 import { Card } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/cn";
 
-import { TeamAnalysisTypeName } from "../../components/team-analysis-type-name";
+import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health";
 
 const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
@@ -49,13 +48,10 @@ const TeamAnalysisHealthCard = ({
       </div>
 
       <StatusBadge
+        size="md"
         tone={statusTones[metric.status]}
-        className={cn(
-          "text-13 mt-2.5 mb-2 h-auto gap-1.75 px-2.75 py-1 font-extrabold",
-          metric.status === "limited-data" && "bg-track",
-        )}
+        className="mt-2.5 mb-2"
       >
-        <span aria-hidden className="size-2 rounded-full bg-current" />
         {statusLabel}
       </StatusBadge>
 
@@ -64,11 +60,7 @@ const TeamAnalysisHealthCard = ({
           <Fragment key={index}>
             {index > 0 ? " " : null}
             {"type" in part ? (
-              <TeamAnalysisTypeName
-                size="sm"
-                type={part.type}
-                className="align-[-1px]"
-              />
+              <TypeName size="sm" type={part.type} className="align-[-1px]" />
             ) : (
               part.text
             )}

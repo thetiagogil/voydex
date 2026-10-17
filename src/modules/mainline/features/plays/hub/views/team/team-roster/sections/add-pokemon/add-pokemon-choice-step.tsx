@@ -89,7 +89,7 @@ export const AddPokemonChoiceStep = ({
         variant="bare"
         title={loadState.message}
         action={
-          <Button type="button" variant="outline" onClick={onRetry}>
+          <Button type="button" variant="secondary" onClick={onRetry}>
             Try again
           </Button>
         }

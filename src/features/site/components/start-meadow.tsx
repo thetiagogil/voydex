@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import type { CSSProperties, MouseEvent, ReactNode } from "react";
+import type { MouseEvent, ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -43,8 +43,6 @@ export type StartPick = {
 type StartMeadowProps = {
   /* The heading and the game shelf, on the sky. */
   children: ReactNode;
-  /* Every game's colour variables (`getGameColourStyle`), by game slug. */
-  gameStyles: Readonly<Record<string, CSSProperties>>;
   isAuthenticated: boolean;
   /* The first partners standing on the hill while no game is picked. */
   partners: ReactNode;
@@ -131,17 +129,15 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
               src={starter.imageUrl}
               alt=""
               className={cn(
-                "max-w-none object-contain transition-transform duration-300 ease-[cubic-bezier(0.3,1.6,0.5,1)] group-hover/starter:-translate-y-3.5 motion-reduce:transition-none",
+                "ease-hop max-w-none object-contain transition-transform duration-300 group-hover/starter:-translate-y-3.5 motion-reduce:transition-none",
                 pick.isSolo ? "size-35 sm:size-44" : "size-29 sm:size-37.5",
               )}
             />
           ) : null}
           <span
             className={cn(
-              "sm:text-14 relative -mt-0.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] font-extrabold sm:px-3.5 sm:py-1.5",
-              isPicked
-                ? "bg-game-strong text-white"
-                : "bg-surface text-ink shadow-[0_2px_0_var(--lip)]",
+              "sm:text-14 text-13 relative -mt-0.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-extrabold sm:px-3.5 sm:py-1.5",
+              isPicked ? "bg-action text-white" : "bg-surface bubble text-ink",
             )}
           >
             {isPicked ? (
@@ -160,7 +156,7 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
 );
 
 /*
- * Start a Play's meadow. Every game's colour and first partners arrive with
+ * Start a Play's meadow. Every game's first partners arrive with
  * the page, so picking a game or a partner is client state: it shows at once
  * and is kept in the address without asking the server again. With no game
  * yet the first partners stand on the hill, and tapping one jumps the shelf
@@ -168,7 +164,6 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
  */
 export const StartMeadow = ({
   children,
-  gameStyles,
   isAuthenticated,
   partners,
   picks,
@@ -264,7 +259,6 @@ export const StartMeadow = ({
     <MeadowCard
       form="band"
       titleId="start-title"
-      gameStyle={pick ? gameStyles[pick.game.slug] : undefined}
       cast={
         pick && pick.starters.length > 0 ? (
           <StarterScene partner={partner} pick={pick} />

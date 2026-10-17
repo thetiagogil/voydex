@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import type { PublicArt } from "@/config/public-art";
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
@@ -23,6 +21,7 @@ import {
   resendPasswordReset,
 } from "@/features/auth/server/password-reset-actions";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
+import { TextLink } from "@/shared/components/text-link";
 import { Input } from "@/shared/components/ui/input";
 
 export type ForgotPasswordSearchParams = {
@@ -35,8 +34,6 @@ type ForgotPasswordPageProps = {
   art: Pick<PublicArt, "pokemon">;
   searchParams?: Promise<ForgotPasswordSearchParams>;
 };
-
-const backLinkClassName = "text-link rounded-xs font-extrabold hover:underline";
 
 /*
  * Reset your password (v3 `forgot`): one email field and "Send the link",
@@ -73,11 +70,7 @@ export const ForgotPasswordPage = async ({
           resendAction={resendPasswordReset}
           sentAgain={sent === "again" && !error}
           hiddenFields={<input type="hidden" name="next" value={next} />}
-          alternative={
-            <Link href={logInHref} className={backLinkClassName}>
-              Back to Log in
-            </Link>
-          }
+          alternative={<TextLink href={logInHref}>Back to Log in</TextLink>}
         />
       </AuthFrame>
     );
@@ -108,9 +101,7 @@ export const ForgotPasswordPage = async ({
         <AuthSubmitButton label="Send the link" pendingLabel="Sending..." />
       </form>
       <p className="text-13 text-ink-2 mt-4.5 text-center font-semibold">
-        <Link href={logInHref} className={backLinkClassName}>
-          Back to Log in
-        </Link>
+        <TextLink href={logInHref}>Back to Log in</TextLink>
       </p>
     </AuthFrame>
   );

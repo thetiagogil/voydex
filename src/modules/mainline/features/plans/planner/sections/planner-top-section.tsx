@@ -10,20 +10,13 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
+import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SegmentedControl } from "@/shared/components/segmented-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
@@ -123,68 +116,54 @@ export const PlannerTopSection = ({
         ) : null}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <button
-                type="button"
-                className="bg-surface shadow-card hover:bg-hover focus-visible:outline-focus flex min-h-16 items-center gap-3 rounded-xl py-2 pr-3 pl-3 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+        <SelectControl
+          ariaLabel={`Game: ${versionGroup.name}`}
+          searchPlaceholder="Search games"
+          placeholder={versionGroup.name}
+          value={versionGroup.slug}
+          onValueChange={onVersionGroupChange}
+          options={versionGroups.map((group) => ({
+            description: `Gen ${group.generationNumeral}${group.regionName ? ` · ${group.regionName}` : ""}`,
+            icon: group.gameSlugs[0] ? (
+              <GameOptionCover
+                gameName={group.name}
+                gameSlug={group.gameSlugs[0]}
               />
-            }
-          >
-            <span aria-hidden className="flex shrink-0 items-center pl-1">
-              {versionGroup.games.slice(0, 2).map((game, index) => (
-                <GameCover
-                  key={game.slug}
-                  alt=""
-                  coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
-                  eager
-                  gameName={game.name}
-                  gameSlug={game.slug}
-                  size="dock"
-                  className={index === 0 ? "-rotate-6" : "-ml-3 rotate-6"}
-                />
-              ))}
-            </span>
-            <span className="min-w-0">
-              <span className="text-ink-2 text-12 block font-bold">
-                Gen {versionGroup.generationNumeral}
-                {versionGroup.regionName ? ` · ${versionGroup.regionName}` : ""}
-              </span>
-              <b className="text-ink text-16 block font-extrabold">
-                {versionGroup.name}
-              </b>
-            </span>
-            <AppIcon icon={appIcons.actions.expand} className="text-ink-2" />
-            <span className="sr-only">Change the game</span>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="max-h-96 w-72">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>Which game?</DropdownMenuLabel>
-              <DropdownMenuRadioGroup
-                value={versionGroup.slug}
-                onValueChange={(value) => onVersionGroupChange(String(value))}
-              >
-                {versionGroups.map((group) => (
-                  <DropdownMenuRadioItem key={group.slug} value={group.slug}>
-                    <span
-                      aria-hidden
-                      style={getGameColourStyle(group.gameSlugs[0] ?? null)}
-                      className="game-scope bg-game size-2.5 shrink-0 rounded-full"
-                    />
-                    <span className="min-w-0">
-                      <span className="block truncate">{group.name}</span>
-                      <span className="text-ink-3 text-12 block font-semibold">
-                        Gen {group.generationNumeral}
-                        {group.regionName ? ` · ${group.regionName}` : ""}
-                      </span>
-                    </span>
-                  </DropdownMenuRadioItem>
+            ) : undefined,
+            label: group.name,
+            value: group.slug,
+          }))}
+          variant="card"
+          triggerContent={
+            <>
+              <span aria-hidden className="flex shrink-0 items-center pl-1">
+                {versionGroup.games.slice(0, 2).map((game, index) => (
+                  <GameCover
+                    key={game.slug}
+                    alt=""
+                    coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
+                    eager
+                    gameName={game.name}
+                    gameSlug={game.slug}
+                    size="dock"
+                    className={index === 0 ? undefined : "-ml-3"}
+                  />
                 ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              </span>
+              <span className="min-w-0">
+                <span className="text-ink-2 text-12 block font-bold">
+                  Gen {versionGroup.generationNumeral}
+                  {versionGroup.regionName
+                    ? ` · ${versionGroup.regionName}`
+                    : ""}
+                </span>
+                <b className="text-ink text-16 block font-extrabold">
+                  {versionGroup.name}
+                </b>
+              </span>
+            </>
+          }
+        />
         {versionGroup.games.length > 1 ? (
           <div className="flex items-center gap-2">
             <span className="text-ink-2 text-13 font-bold">Version</span>
@@ -209,13 +188,13 @@ export const PlannerTopSection = ({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-          <Button type="button" variant="outline" onClick={onShare}>
+          <Button type="button" variant="secondary" onClick={onShare}>
             <AppIcon icon={appIcons.actions.share} inline="start" />
             Share
           </Button>
           <Link
             href={appRoutes.mainlinePlans}
-            className={buttonVariants({ variant: "outline" })}
+            className={buttonVariants({ variant: "secondary" })}
           >
             <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
             My Plans

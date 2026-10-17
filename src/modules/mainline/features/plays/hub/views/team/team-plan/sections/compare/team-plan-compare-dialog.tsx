@@ -211,7 +211,7 @@ export const TeamPlanCompareDialog = ({
               art={
                 <span
                   style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-                  className={cn(artBoxClassName, "sticker")}
+                  className={cn(artBoxClassName, "type-tint")}
                 >
                   <TeamPlanArt
                     imageUrl={getTeamPlanPlannedImageUrl(comparison)}
@@ -309,7 +309,7 @@ export const TeamPlanCompareDialog = ({
             <span className="text-13 text-ink-2 mr-auto font-semibold">
               Plans are read only inside a Play
             </span>
-            <DialogClose render={<Button variant="outline" size="sm" />}>
+            <DialogClose render={<Button variant="secondary" size="sm" />}>
               Close
             </DialogClose>
           </DialogFooter>

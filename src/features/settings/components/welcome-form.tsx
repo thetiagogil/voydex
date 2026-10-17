@@ -113,7 +113,7 @@ export const WelcomeForm = ({
             </p>
             <Link
               href={destination}
-              className={buttonVariants({ size: "sm", variant: "outline" })}
+              className={buttonVariants({ size: "sm", variant: "secondary" })}
             >
               Skip for now
             </Link>

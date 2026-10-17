@@ -19,8 +19,11 @@ const card = {
 describe("GameShelfCard", () => {
   it("names the game, its year and region, never your Plays", () => {
     const markup = renderToStaticMarkup(<GameShelfCard card={card} />);
+    const words = markup.replace(/<[^>]+>/g, "");
 
-    expect(markup).toContain('aria-label="Pokémon Sword, 2019, Galar"');
+    /* The link reads its own words: the full name, then the year and region. */
+    expect(markup).not.toContain("aria-label");
+    expect(words).toContain("Pokémon Sword2019 · Galar");
     expect(markup).not.toContain("You have");
   });
 });

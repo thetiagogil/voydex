@@ -1,5 +1,6 @@
 "use client";
 
+import { TextLink } from "@/shared/components/text-link";
 import { useState } from "react";
 
 import type { CodexGameVersionExclusives } from "@/modules/codex/features/games/detail/types";
@@ -8,7 +9,6 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
 import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 /* Each column shows this many until Show all. */
@@ -113,10 +113,9 @@ export const GameDetailExclusivesSection = ({
       </div>
 
       {hasMore ? (
-        <Button
-          type="button"
-          variant="link"
-          className="mt-4 h-10 px-0.5"
+        <TextLink
+          standalone
+          className="mt-4"
           aria-expanded={showAll}
           onClick={() => {
             setShowAll((current) => !current);
@@ -125,13 +124,13 @@ export const GameDetailExclusivesSection = ({
           {showAll ? "Show fewer" : `Show all ${total} exclusives`}
           <AppIcon
             icon={appIcons.actions.expand}
-            inline="end"
+            size="sm"
             className={cn(
               "transition-transform motion-reduce:transition-none",
               showAll && "rotate-180",
             )}
           />
-        </Button>
+        </TextLink>
       ) : null}
     </DetailSectionCard>
   );

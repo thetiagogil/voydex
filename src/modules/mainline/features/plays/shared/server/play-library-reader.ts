@@ -152,6 +152,12 @@ export const readMainlinePlayLibrary = async (
     readPlayStoryRows(supabase, playIds),
   ]);
 
+  const teamMembers = teamResult?.error ? [] : (teamResult?.data ?? []);
+  const teamTypeSlugByFormId = await readTeamTypeSlugs(
+    supabase,
+    uniqueNumberIds(teamMembers.map((member) => member.form_id)),
+  );
+
   return buildMainlinePlayBrowseItems({
     availability: {
       progress: !progressResult?.error,
@@ -163,8 +169,74 @@ export const readMainlinePlayLibrary = async (
     plays,
     regions: gameRows.regions,
     storyRows: storyRows ?? { categories: [], milestones: [] },
-    teamMembers: teamResult?.error ? [] : (teamResult?.data ?? []),
+    teamMembers,
+    teamTypeSlugByFormId,
   });
+};
+
+/*
+ * Each team member's primary type, for the tint behind its portrait on a
+ * Play card: the form's latest attributes. Empty when they can't be read,
+ * so the portraits fall back to the neutral tint.
+ */
+const readTeamTypeSlugs = async (
+  supabase: ServerSupabaseClient,
+  formIds: number[],
+): Promise<Record<number, string>> => {
+  if (!formIds.length) {
+    return {};
+  }
+
+  const attributesResult = await supabase
+    .schema("reference")
+    .from("pokemon_attributes")
+    .select("form_id, generation_start_id, primary_type_id")
+    .in("form_id", formIds);
+
+  if (attributesResult.error) {
+    return {};
+  }
+
+  const latestTypeIdByFormId = new Map<
+    number,
+    { generation: number; typeId: number }
+  >();
+
+  for (const row of attributesResult.data ?? []) {
+    const current = latestTypeIdByFormId.get(row.form_id);
+
+    if (!current || row.generation_start_id > current.generation) {
+      latestTypeIdByFormId.set(row.form_id, {
+        generation: row.generation_start_id,
+        typeId: row.primary_type_id,
+      });
+    }
+  }
+
+  const typeIds = uniqueNumberIds(
+    [...latestTypeIdByFormId.values()].map((entry) => entry.typeId),
+  );
+  const typesResult = await supabase
+    .schema("reference")
+    .from("types")
+    .select("id, slug")
+    .in("id", typeIds);
+
+  if (typesResult.error) {
+    return {};
+  }
+
+  const slugById = new Map(
+    (typesResult.data ?? []).map((type) => [type.id, type.slug]),
+  );
+
+  return Object.fromEntries(
+    [...latestTypeIdByFormId].flatMap(([formId, { typeId }]) => {
+      const slug = slugById.get(typeId);
+
+      return slug ? [[formId, slug]] : [];
+    }),
+  );
 };
 
 /*

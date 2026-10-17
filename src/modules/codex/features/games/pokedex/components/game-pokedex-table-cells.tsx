@@ -47,7 +47,7 @@ export const GamePokedexPokemonAbilityList = ({
       {pokemon.abilities.map(({ ability, slot }) => (
         <Badge
           key={`${ability.id}-${slot}`}
-          variant={slot === "hidden" ? "secondary" : "outline"}
+          variant={slot === "hidden" ? "neutral" : "outline"}
           className="max-w-full"
         >
           <span className="truncate">

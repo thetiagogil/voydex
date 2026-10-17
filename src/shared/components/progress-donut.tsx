@@ -12,7 +12,7 @@ type ProgressDonutProps = {
 };
 
 /*
- * A ring that fills clockwise in the context colour, with the figure in its
+ * A ring that fills clockwise in the ok green, like an HP bar, with the figure in its
  * middle: a progress metric that fits a tile, such as Overview's trackers.
  */
 export const ProgressDonut = ({
@@ -57,7 +57,7 @@ export const ProgressDonut = ({
           strokeDasharray={CIRCUMFERENCE}
           strokeDashoffset={CIRCUMFERENCE * (1 - percentage / 100)}
           className={cn(
-            "stroke-game transition-[stroke-dashoffset] duration-700",
+            "stroke-ok transition-[stroke-dashoffset] duration-700",
             percentage === 0 && "opacity-0",
           )}
         />

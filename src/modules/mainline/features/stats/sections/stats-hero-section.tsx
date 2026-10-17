@@ -10,7 +10,6 @@ import {
 } from "@/modules/mainline/features/stats/data/stats-model";
 import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -113,7 +112,7 @@ const TitlePicture = ({
       >
         <PokemonTypeIcon
           type={typeSlug}
-          className="size-16 opacity-[0.07] invert-0 sm:size-20"
+          className="size-16 opacity-[0.07] sm:size-20"
         />
       </span>
       {title.pokemon.length ? (
@@ -150,7 +149,7 @@ const TitlePicture = ({
                       src={entry.imageUrl}
                       alt=""
                       className={cn(
-                        "transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
+                        "ease-hop transition-transform duration-250 group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
                         index === 0
                           ? "size-26 sm:size-32"
                           : "size-20 sm:size-24",
@@ -182,8 +181,6 @@ export const StatsHeroSection = ({
   const hours = Math.round(stats.minutes / 60);
   const firstPlay = formatMonthYear(stats.firstStartedOn);
   const { title } = stats;
-  const typeSlug =
-    title.kind === "specialist" ? toTypeSlug(title.typeSlug) : null;
   const regionCovers = stats.regions.flatMap((region) =>
     region.playLabels.length && region.gameName
       ? [
@@ -215,17 +212,8 @@ export const StatsHeroSection = ({
             >
               You are {/^[aeiou]/i.test(title.title) ? "an" : "a"}
             </p>
-            <h1
-              style={
-                typeSlug ? getPokemonTypeCssVariables(typeSlug) : undefined
-              }
-              className={cn(
-                "md:text-60 text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]",
-                typeSlug && "type-ink",
-                title.kind === "hopper" && "text-calm-ink",
-                title.kind === "trainer" && "text-ball",
-              )}
-            >
+            {/* The title is ink: the art beside it carries the colour. */}
+            <h1 className="md:text-60 text-ink text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]">
               {title.title.split(" ").map((word, index) => (
                 <Fragment key={`${word}-${index}`}>
                   {index ? " " : null}
@@ -240,7 +228,7 @@ export const StatsHeroSection = ({
             </h1>
             <p
               className={cn(
-                "text-ink-2 sm:text-17 text-16 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms] lg:text-[19px]",
+                "text-ink-2 sm:text-17 text-16 lg:text-20 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms]",
                 fadeUpClassName,
               )}
             >

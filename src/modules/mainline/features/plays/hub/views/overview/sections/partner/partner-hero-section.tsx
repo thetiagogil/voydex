@@ -22,10 +22,7 @@ import {
   ObjectiveEyebrow,
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
-import {
-  PokemonCard,
-  pokemonCardPickedClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -219,7 +216,8 @@ export const PartnerHeroSection = ({
                 <PokemonCard
                   state="plain"
                   size="fluid"
-                  className="opacity-45 hover:translate-y-0"
+                  /* The ones not picked step back: their art fades, their names stay readable. */
+                  className="step-back hover:translate-y-0"
                   imageAlt=""
                   imageUrl={option.imageUrl}
                   name={option.name}
@@ -246,7 +244,7 @@ export const PartnerHeroSection = ({
                     name={option.name}
                     number=""
                     types={getOptionTypes(option)}
-                    className={cn(isPicked && pokemonCardPickedClassName)}
+                    picked={isPicked}
                   />
                 </button>
               )}

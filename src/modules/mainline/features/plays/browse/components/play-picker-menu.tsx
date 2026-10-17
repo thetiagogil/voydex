@@ -32,7 +32,7 @@ type PlayPickerMenuProps = {
   /* The last item: start a new Play instead. */
   newPlay?: { label: string };
   triggerLabel: string;
-  triggerVariant?: "default" | "outline";
+  triggerVariant?: "default" | "secondary";
 };
 
 /*
@@ -67,7 +67,7 @@ export const PlayPickerMenu = ({
   items,
   newPlay,
   triggerLabel,
-  triggerVariant = "outline",
+  triggerVariant = "secondary",
 }: PlayPickerMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger

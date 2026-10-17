@@ -70,7 +70,7 @@ export const CollectibleToken = ({
         className={cn(
           "font-extrabold tabular-nums",
           isFound
-            ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(90_70_35/0.18)]"
+            ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(var(--shade)/0.18)]"
             : "text-13 text-ink-3",
         )}
       >

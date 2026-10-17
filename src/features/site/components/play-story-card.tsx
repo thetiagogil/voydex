@@ -23,11 +23,11 @@ const BeatText = ({
   when: string;
 }) => (
   <>
-    <span className="text-ink-3 text-[12.5px] font-bold">{when}</span>
-    <span className="text-[15.5px] font-extrabold">{title}</span>
+    <span className="text-ink-3 text-13 font-bold">{when}</span>
+    <span className="text-16 font-extrabold">{title}</span>
     <span
       className={cn(
-        "text-ink-2 max-w-[17em] text-[13.5px] leading-[1.45] font-semibold",
+        "text-ink-2 text-14 max-w-[17em] leading-[1.45] font-semibold",
         isNote && "italic",
       )}
     >
@@ -58,13 +58,10 @@ export const PlayStoryCard = ({
           notes beside them. Here&apos;s one.
         </p>
       </div>
-      <div
-        style={art.gameColour(samplePlay.game.slug)}
-        className="game-scope bg-game-wash flex items-center gap-3 rounded-md py-2 pr-4 pl-2 sm:ml-auto"
-      >
+      <div className="bg-surface-2 flex items-center gap-3 rounded-md py-2 pr-4 pl-2 sm:ml-auto">
         {art.gameCover({ className: "h-12 rounded-xs", game: samplePlay.game })}
         <div className="min-w-0">
-          <p className="font-display text-17 text-game-deep font-semibold">
+          <p className="font-display text-17 text-ink font-semibold">
             {samplePlay.name}
           </p>
           <p className="text-13 text-ink-2 font-semibold">

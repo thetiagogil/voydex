@@ -1,42 +1,38 @@
-/*
- * A Play's context colour. Set --game, --gt and --game-strong on the element
- * (see getGameColourStyle) and its tints are recomputed here, so everything
- * inside wears that game.
- */
-@utility game-scope {
-  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
-  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
-  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
-  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
-}
-
 /* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
 @utility type-tint {
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
 }
 
 /*
- * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
- * 5px lip tinted by the type. Set --t. Add a float under the lip with
- * --sticker-shadow, or `sticker-picked` to mark it as the target.
+ * An owned Pokémon's sticker surface: the type tint and a 4px white border on
+ * a soft shadow. Set --t. Swap the shadow with --sticker-shadow, or add
+ * `sticker-picked` to mark it as the target.
  */
 @utility sticker {
   background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+  /* The tint stops inside the band, so no coloured hairline shows round it. */
+  background-clip: padding-box;
   border: 4px solid var(--sticker-border, #fff);
-  box-shadow:
-    0 5px 0 var(--sticker-lip, color-mix(in oklab, var(--t) 38%, var(--lip))),
-    var(--sticker-shadow, 0 0 transparent);
+  box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
 }
 
 /*
  * A sticker marked as the target, such as a planner slot under a drag: it
- * keeps its own border and type lip, and a thin ring in the Play's colour
- * wraps both, so loud game colours don't flood the card.
+ * keeps its own border, and a thin ring in the accent wraps it.
  */
 @utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--game), 0 5px 0 2.5px var(--game);
+  --sticker-shadow: 0 0 0 2.5px var(--action);
+}
+
+/*
+ * A small round mark on a card's corner (an "i" tip, a slot number, a remove
+ * ×): the stickers' white band, small, on a soft shadow, so it reads on any
+ * card behind it. Position it with `CornerBubble`.
+ */
+@utility bubble {
+  box-shadow:
+    0 0 0 2px #fff,
+    0 3px 6px -3px rgb(var(--shade) / 0.28);
 }
 
 /* The one open slot: anything missing or not yet yours, dashed at one width. */
@@ -47,20 +43,23 @@
 
 /*
  * v3's step back: something that applies to another game than the one you
- * picked (the other version's exclusives, a game the Pokémon isn't in). It
- * fades and its art greys a little, and comes back when you reach for it.
+ * picked (the other version's exclusives, a game the Pokémon isn't in). Its
+ * art fades and greys, its words stay readable, and it comes back when you
+ * reach for it.
  */
 @utility step-back {
-  opacity: 0.62;
-  transition: opacity 150ms ease;
-
   & img {
-    filter: saturate(0.55);
+    opacity: 0.55;
+    filter: saturate(0.4);
+    transition:
+      opacity 150ms ease,
+      filter 150ms ease;
   }
 
-  &:hover,
-  &:focus-within {
+  &:hover img,
+  &:focus-within img {
     opacity: 1;
+    filter: none;
   }
 }
 
@@ -117,7 +116,7 @@
 
 /*
  * A navigation list that follows the scroll beside a longer page (Play
- * settings' menu, the Collectibles areas). It never grows past the screen:
+ * settings' menu). It never grows past the screen:
  * when its own content is taller, it scrolls on its own.
  */
 @utility sticky-column {
@@ -244,14 +243,15 @@
 }
 
 /*
- * A labelled type chip: the four palest types (Electric, Ice, Ground, Steel)
- * deepen toward L 0.7 so a white label reads; every other type keeps its
- * official colour. Set --t.
+ * A labelled type chip: the type's official colour, the same as its dot and
+ * tile, with a white label and icon on every type (the owner's call,
+ * 2026-10-17). A soft shadow under the label helps it read on the pale
+ * types. Set --t.
  */
 @utility type-chip {
-  background-color: oklch(
-    from var(--t) calc(l - (l - 0.7) * clamp(0, (l - 0.775) * 1000, 1)) c h
-  );
+  background-color: var(--t);
+  color: #fff;
+  text-shadow: 0 1px 1.5px rgb(0 0 0 / 0.3);
 }
 
 /*

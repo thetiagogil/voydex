@@ -69,7 +69,7 @@ export const MeadowPokemon = ({
               src={imageUrl}
               alt=""
               className={cn(
-                "object-contain transition-transform duration-300 ease-[cubic-bezier(.3,1.6,.5,1)]",
+                "ease-hop object-contain transition-transform duration-300",
                 artSizes[size],
                 interactive &&
                   "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",
@@ -87,8 +87,8 @@ export const MeadowPokemon = ({
           open
             ? "text-ink-2"
             : selected
-              ? "bg-select-soft text-select-ink"
-              : "bg-surface text-ink shadow-[0_2px_0_var(--lip)]",
+              ? "bg-action text-white"
+              : "bg-surface bubble text-ink",
         )}
       >
         {selected ? (

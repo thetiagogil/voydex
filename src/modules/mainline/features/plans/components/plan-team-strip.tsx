@@ -1,5 +1,7 @@
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
-import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import {
+  PokemonAvatar,
+  PokemonAvatarSlot,
+} from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { cn } from "@/shared/utils/cn";
 
 export type PlanTeamStripMember = {
@@ -12,7 +14,8 @@ export type PlanTeamStripMember = {
 
 /*
  * A Plan's six slots at a glance (My Plans' cards, the unsaved Plan offer):
- * each Pokémon as a small sticker in its type's colour, open slots dashed.
+ * each Pokémon as the one small Pokémon (`PokemonAvatar`), open slots
+ * dashed.
  */
 export const PlanTeamStrip = ({
   className,
@@ -27,35 +30,19 @@ export const PlanTeamStrip = ({
 
   return (
     <ul aria-label="Team" className={cn("grid grid-cols-6 gap-1.5", className)}>
-      {slots.map((member, index) =>
-        member ? (
-          <li
-            key={index}
-            style={getPokemonTypeCssVariables(
-              member.typeSlug && isPokemonTypeSlug(member.typeSlug)
-                ? member.typeSlug
-                : null,
-            )}
-            className="sticker grid aspect-square place-items-center rounded-md [border-width:3px]"
-          >
-            {member.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={member.imageUrl}
-                alt={member.name}
-                title={member.name}
-                className="size-full object-contain"
-              />
-            ) : (
-              <span className="sr-only">{member.name}</span>
-            )}
-          </li>
-        ) : (
-          <li key={index} className="empty-slot aspect-square rounded-md">
-            <span className="sr-only">Open slot {index + 1}</span>
-          </li>
-        ),
-      )}
+      {slots.map((member, index) => (
+        <li key={index}>
+          {member ? (
+            <PokemonAvatar
+              imageUrl={member.imageUrl}
+              name={member.name}
+              typeSlug={member.typeSlug}
+            />
+          ) : (
+            <PokemonAvatarSlot label={`Open slot ${index + 1}`} />
+          )}
+        </li>
+      ))}
     </ul>
   );
 };

@@ -4,7 +4,6 @@ import type { TrainerPlay } from "@/modules/mainline/shared/data/trainer-pokemon
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -12,6 +11,8 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { StatusBadge } from "@/shared/components/status-badge";
+import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
+import { cn } from "@/shared/utils/cn";
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
@@ -37,11 +38,14 @@ export const TrainerPlayRow = ({
   pokemon?: { name: string; typeSlug: string | null };
   shiny: boolean;
 }) => (
-  <li className="game-scope" style={getGameColourStyle(play.gameSlug)}>
+  <li>
     <Link
       href={href}
       aria-label={label}
-      className="hover:bg-hover focus-visible:outline-focus -mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2 outline-none focus-visible:outline-3 focus-visible:outline-solid"
+      className={cn(
+        rowInteractionVariants({ interaction: "action" }),
+        "-mx-2 grid min-h-16 grid-cols-[auto_minmax(0,1fr)_auto_auto] items-center gap-3 rounded-md px-2 py-2",
+      )}
     >
       <GameCover
         alt=""

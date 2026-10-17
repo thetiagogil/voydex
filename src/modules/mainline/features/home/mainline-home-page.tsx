@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import { HomeIntentOfferCard } from "@/modules/mainline/features/home/components/home-intent-offer";
 import { HomeFirstPlayPicker } from "@/modules/mainline/features/home/sections/home-first-play-picker";
@@ -48,10 +47,13 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
         ) : (
           <>
             Your latest Plays, right where you left them.{" "}
-            <Link href={appRoutes.mainlinePlays}>
+            <TextLink
+              href={appRoutes.mainlinePlays}
+              className="inline-flex items-center gap-1 whitespace-nowrap"
+            >
               See all Plays
               <AppIcon icon={appIcons.actions.next} />
-            </Link>
+            </TextLink>
           </>
         )
       }

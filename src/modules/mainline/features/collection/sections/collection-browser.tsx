@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import {
@@ -25,6 +25,7 @@ import { PokemonSticker } from "@/modules/reference/features/pokemon/components/
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
@@ -32,6 +33,8 @@ import { Toolbar } from "@/shared/components/toolbar";
 
 type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
+  /* The page's head, which opens the band above the toolbar. */
+  head: ReactNode;
   /* Opens on one species' sheet, as Statistics' old friends link here. */
   initialSpeciesSlug?: string | null;
   types: TrainerPokemonType[];
@@ -55,6 +58,7 @@ const getCountLine = (entry: TrainerPokemonEntry) => {
  */
 export const CollectionBrowser = ({
   entries,
+  head,
   initialSpeciesSlug,
   types,
 }: CollectionBrowserProps) => {
@@ -85,99 +89,109 @@ export const CollectionBrowser = ({
   };
 
   return (
-    <section aria-label="Your Pokémon" className="flex flex-col gap-4">
-      <Toolbar
-        aria-label="Filter your Collection"
-        search={
-          <SearchControl
-            id="collection-search"
-            ariaLabel="Search your Pokémon"
-            placeholder="Search your Pokémon"
-            value={filters.query}
-            onValueChange={(query) => update({ query })}
-          />
-        }
-        trailing={
-          <>
-            <SegmentedControl
-              ariaLabel="Show"
-              value={filters.kind}
-              onValueChange={(kind) => update({ kind })}
-              options={kindOrder.map((kind) => ({
-                count: counts[kind],
-                label: collectionKindLabels[kind],
-                value: kind,
-              }))}
+    <>
+      <PageBand>
+        {head}
+        <Toolbar
+          aria-label="Filter your Collection"
+          className="mt-5"
+          search={
+            <SearchControl
+              id="collection-search"
+              ariaLabel="Search your Pokémon"
+              placeholder="Search your Pokémon"
+              value={filters.query}
+              onValueChange={(query) => update({ query })}
             />
-            <SelectControl
-              id="collection-sort"
-              ariaLabel="Sort your Collection"
-              prefix="Sort"
-              value={filters.sort}
-              variant="ghost"
-              placeholder={collectionSortLabels.dex}
-              onValueChange={(sort) => update({ sort: sort as CollectionSort })}
-              options={sortOrder.map((sort) => ({
-                label: collectionSortLabels[sort],
-                value: sort,
-              }))}
-            />
-          </>
-        }
-      />
-
-      <PokemonTypeFilter
-        types={types}
-        value={filters.type}
-        onValueChange={(type) => update({ type })}
-      />
-
-      <FilterResultsLine
-        hasActiveFilters={hasFilters}
-        noun="Pokémon"
-        onClearFilters={clearFilters}
-        shownCount={shown.length}
-        totalCount={entries.length}
-      />
-
-      {shown.length ? (
-        <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
-          {shown.map((entry) => (
-            <li key={entry.speciesId} className="min-w-0">
-              <PokemonSticker
-                variant="compact"
-                className="w-full"
-                imageUrl={entry.imageUrl}
-                name={entry.name}
-                slotLabel={formatNationalNumber(entry.nationalNumber)}
-                shiny={entry.shiny}
-                subtitle={getCountLine(entry)}
-                types={entry.types}
-                selected={openSpeciesId === entry.speciesId}
-                label={`${entry.name}, ${getCountLine(entry)}${entry.shiny ? ", shiny recorded" : ""}. See its Plays`}
-                onClick={() => setOpenSpeciesId(entry.speciesId)}
+          }
+          trailing={
+            <>
+              <SegmentedControl
+                variant="segment"
+                selectedTone="soft"
+                ariaLabel="Show"
+                value={filters.kind}
+                onValueChange={(kind) => update({ kind })}
+                options={kindOrder.map((kind) => ({
+                  count: counts[kind],
+                  label: collectionKindLabels[kind],
+                  value: kind,
+                }))}
               />
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <EmptyState
-          variant="bare"
-          title="Nothing matches."
-          action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
+              <SelectControl
+                id="collection-sort"
+                ariaLabel="Sort your Collection"
+                prefix="Sort"
+                value={filters.sort}
+                variant="ghost"
+                placeholder={collectionSortLabels.dex}
+                onValueChange={(sort) =>
+                  update({ sort: sort as CollectionSort })
+                }
+                options={sortOrder.map((sort) => ({
+                  label: collectionSortLabels[sort],
+                  value: sort,
+                }))}
+              />
+            </>
           }
         />
-      )}
 
-      <TrainerSpeciesSheet
-        entry={openEntry}
-        family={openEntry ? getTrainerFamilyEntries(entries, openEntry) : []}
-        onOpenSpecies={(relative) => setOpenSpeciesId(relative.speciesId)}
-        onOpenChange={(open) => {
-          if (!open) setOpenSpeciesId(null);
-        }}
-      />
-    </section>
+        <div className="mt-3.5">
+          <PokemonTypeFilter
+            types={types}
+            value={filters.type}
+            onValueChange={(type) => update({ type })}
+          />
+        </div>
+      </PageBand>
+
+      <section aria-label="Your Pokémon" className="flex flex-col gap-4">
+        <FilterResultsLine
+          hasActiveFilters={hasFilters}
+          noun="Pokémon"
+          onClearFilters={clearFilters}
+          shownCount={shown.length}
+          totalCount={entries.length}
+        />
+
+        {shown.length ? (
+          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
+            {shown.map((entry) => (
+              <li key={entry.speciesId} className="min-w-0">
+                <PokemonSticker
+                  variant="compact"
+                  className="w-full"
+                  imageUrl={entry.imageUrl}
+                  name={entry.name}
+                  slotLabel={formatNationalNumber(entry.nationalNumber)}
+                  shiny={entry.shiny}
+                  subtitle={getCountLine(entry)}
+                  types={entry.types}
+                  selected={openSpeciesId === entry.speciesId}
+                  detail="See its Plays"
+                  onClick={() => setOpenSpeciesId(entry.speciesId)}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState
+            variant="bare"
+            title="Nothing matches."
+            action={<ClearFiltersButton onClick={clearFilters} />}
+          />
+        )}
+
+        <TrainerSpeciesSheet
+          entry={openEntry}
+          family={openEntry ? getTrainerFamilyEntries(entries, openEntry) : []}
+          onOpenSpecies={(relative) => setOpenSpeciesId(relative.speciesId)}
+          onOpenChange={(open) => {
+            if (!open) setOpenSpeciesId(null);
+          }}
+        />
+      </section>
+    </>
   );
 };

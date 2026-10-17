@@ -114,7 +114,7 @@ export const MainlinePlayHistory = ({
             "Nothing recorded yet"
           )
         }
-        action={<AddNoteDialog playId={playId} size="sm" />}
+        action={<AddNoteDialog playId={playId} />}
       />
 
       {totalCount ? (
@@ -157,9 +157,7 @@ export const MainlinePlayHistory = ({
           <EmptyState
             title="No moments match"
             description="Try another word, or clear the search and filters."
-            action={
-              <ClearFiltersButton variant="outline" onClick={clearFilters} />
-            }
+            action={<ClearFiltersButton onClick={clearFilters} />}
           />
         ) : totalCount ? (
           <EmptyState
@@ -168,7 +166,7 @@ export const MainlinePlayHistory = ({
             action={
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 onClick={() => setFilter("all")}
               >
                 Show everything

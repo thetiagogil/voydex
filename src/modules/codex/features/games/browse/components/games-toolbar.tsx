@@ -33,6 +33,7 @@ type GamesToolbarProps = {
 const ALL_KINDS = "all";
 
 const groupByOptions = [
+  { label: "None", value: "none" },
   { label: "Generation", value: "generation" },
   { label: "Region", value: "region" },
 ] satisfies { label: string; value: GamesGroupBy }[];
@@ -41,6 +42,9 @@ const sortOptions = [
   { label: "Oldest first", value: "oldest" },
   { label: "Newest first", value: "newest" },
 ] satisfies { label: string; value: GamesSortOrder }[];
+
+const isGamesGroupBy = (value: string): value is GamesGroupBy =>
+  value === "none" || value === "generation" || value === "region";
 
 const isGameKind = (value: string): value is GameKind => {
   return (gameKinds as readonly string[]).includes(value);
@@ -62,12 +66,22 @@ export const GamesToolbar = ({
 }: GamesToolbarProps) => {
   const kindCounts = countGamesByKind(games);
   const kindOptions = [
-    { label: "All games", value: ALL_KINDS },
+    {
+      description: `${games.length} games`,
+      label: "All games",
+      value: ALL_KINDS,
+    },
     ...gameKinds.flatMap((kind) => {
       const count = kindCounts.get(kind) ?? 0;
 
       return count
-        ? [{ label: `${gameKindLabels[kind]} (${count})`, value: kind }]
+        ? [
+            {
+              description: `${count} ${count === 1 ? "game" : "games"}`,
+              label: gameKindLabels[kind],
+              value: kind,
+            },
+          ]
         : [];
     }),
   ];
@@ -98,7 +112,6 @@ export const GamesToolbar = ({
           <SelectControl
             ariaLabel="Kind of game"
             variant="ghost"
-            size="sm"
             prefix="Kind"
             value={filters.kind || ALL_KINDS}
             onValueChange={(value) => {
@@ -110,19 +123,19 @@ export const GamesToolbar = ({
           <SelectControl
             ariaLabel="Group games by"
             variant="ghost"
-            size="sm"
             prefix="Group"
             value={groupBy}
             onValueChange={(value) => {
-              onGroupByChange(value === "region" ? "region" : "generation");
+              if (isGamesGroupBy(value)) {
+                onGroupByChange(value);
+              }
             }}
             options={groupByOptions}
-            placeholder="Generation"
+            placeholder="None"
           />
           <SelectControl
             ariaLabel="Sort games"
             variant="ghost"
-            size="sm"
             prefix="Sort"
             value={sortOrder}
             onValueChange={(value) => {

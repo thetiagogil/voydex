@@ -102,7 +102,7 @@ export const PlaySettingsDangerSection = ({
         >
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             disabled={isArchiving}
             aria-busy={isArchiving}

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import { AddNoteDialog } from "@/modules/mainline/features/plays/hub/components/add-note-dialog";
 import { OverviewRecordButton } from "@/modules/mainline/features/plays/hub/views/overview/client/overview-recording";
+import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 import {
   getOverviewMilestoneWhere,
   type OverviewMilestone,
@@ -16,7 +17,6 @@ import {
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { cn } from "@/shared/utils/cn";
 
 type NextObjectiveSectionProps = {
   /* The page's main button when the next milestone is a choice: it records in place. */
@@ -58,19 +58,13 @@ export const NextObjectiveSection = ({
           <>
             {hasDecision(nextMilestone) ? (
               (decisionRecord ?? (
-                <Link
+                <RecordMilestoneButton
                   href={appRoutes.mainlinePlayProgressStoryRecord(
                     playId,
                     nextMilestone.milestone_id,
                   )}
-                  className={cn(
-                    buttonVariants({ size: "lg" }),
-                    "h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap",
-                  )}
-                >
-                  <AppIcon icon={appIcons.status.active} />
-                  Record {nextMilestone.milestone_name}
-                </Link>
+                  label={`Record ${nextMilestone.milestone_name}`}
+                />
               ))
             ) : (
               <OverviewRecordButton
@@ -84,7 +78,7 @@ export const NextObjectiveSection = ({
           <>
             <Link
               href={appRoutes.mainlinePlayProgressStory(playId)}
-              className={buttonVariants({ size: "lg", variant: "outline" })}
+              className={buttonVariants({ size: "lg", variant: "secondary" })}
             >
               <AppIcon icon={appIcons.milestones.story} />
               See the Story

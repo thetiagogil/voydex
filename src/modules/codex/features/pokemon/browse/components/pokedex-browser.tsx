@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBand } from "@/shared/components/page-band";
 import { useCallback, useDeferredValue, useMemo, useState } from "react";
 
 import { appRoutes } from "@/config/routes";
@@ -19,6 +20,7 @@ import {
   groupPokemonByGeneration,
   groupPokemonByType,
   takePokemonFromGroups,
+  ungroupPokemon,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
   CodexPokemonCardLink,
@@ -53,23 +55,27 @@ const countFormat = new Intl.NumberFormat("en-US");
 /* The Generation menu's "every generation", as a select value. */
 const ALL = "all";
 
-type PokedexGroupBy = "generation" | "type";
+type PokedexGroupBy = "none" | "generation" | "type";
+
+const isPokedexGroupBy = (value: string): value is PokedexGroupBy =>
+  value === "none" || value === "generation" || value === "type";
 
 const groupByOptions = [
+  { label: "None", value: "none" },
   { label: "Generation", value: "generation" },
   { label: "Type", value: "type" },
 ] satisfies { label: string; value: PokedexGroupBy }[];
 
 /*
  * The Codex's Pokémon: the title and count, one toolbar row (search, the
- * Generation filter, Group by generation or type, Sort), the type dots under
- * it, the results line, and the cards in ranges (each generation with its
- * region, or each type), loaded in batches.
+ * Generation filter, Group, Sort), the type dots under it, the results line,
+ * and the cards, loaded in batches: one plain grid by default, or in ranges
+ * (each generation with its region, or each type) when grouped.
  */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
   const [sortKey, setSortKey] = useState<PokedexSortKey>("national");
-  const [groupBy, setGroupBy] = useState<PokedexGroupBy>("generation");
+  const [groupBy, setGroupBy] = useState<PokedexGroupBy>("none");
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_POKEMON);
 
   const deferredFilters = useDeferredValue(filters);
@@ -92,7 +98,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     (pokemon: typeof filteredPokemon) =>
       groupBy === "type"
         ? groupPokemonByType(pokemon, data.types)
-        : groupPokemonByGeneration(pokemon, data.generations),
+        : groupBy === "generation"
+          ? groupPokemonByGeneration(pokemon, data.generations)
+          : ungroupPokemon(pokemon),
     [data.generations, data.types, groupBy],
   );
 
@@ -138,8 +146,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   /* The generation filter, a toolbar menu. */
   const generationOptions = [
-    { label: "All", value: ALL },
+    { description: "Every region", label: "All", value: ALL },
     ...data.generations.map((generation) => ({
+      description: data.regionNameByGenerationSlug[generation.slug],
       label: getGenerationNumeral(generation.name),
       value: generation.slug,
     })),
@@ -147,94 +156,94 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   return (
     <>
-      <PageHeader
-        title="Pokémon"
-        description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
-        className="pt-5.5 sm:pt-5.5"
-      />
-
-      <Toolbar
-        className="mt-5.5"
-        render={
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          />
-        }
-        search={
-          <SearchControl
-            name="q"
-            ariaLabel="Search Pokémon"
-            value={filters.query}
-            onValueChange={(query) => {
-              updateFilter("query", query);
-            }}
-            placeholder="Search name or number"
-          />
-        }
-        trailing={
-          <>
-            <ToolbarGroup>
-              <SelectControl
-                ariaLabel="Filter by generation"
-                variant="ghost"
-                size="sm"
-                prefix="Generation"
-                value={filters.generation || ALL}
-                onValueChange={(value) => {
-                  updateFilter("generation", value === ALL ? "" : value);
-                }}
-                options={generationOptions}
-                placeholder="All"
-              />
-            </ToolbarGroup>
-            <SelectControl
-              ariaLabel="Group Pokémon by"
-              variant="ghost"
-              size="sm"
-              prefix="Group"
-              value={groupBy}
-              onValueChange={(value) => {
-                setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                setGroupBy(value === "type" ? "type" : "generation");
-              }}
-              options={groupByOptions}
-              placeholder="Generation"
-            />
-            <SelectControl
-              ariaLabel="Sort Pokémon"
-              variant="ghost"
-              size="sm"
-              prefix="Sort"
-              value={sortKey}
-              onValueChange={(value) => {
-                if (isPokedexSortKey(value)) {
-                  setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                  setSortKey(value);
-                }
-              }}
-              options={pokedexSortOptions}
-              placeholder="National number"
-            />
-          </>
-        }
-      />
-
-      {/* The types under the bar: they give the list its colour. */}
-      <div className="mt-3.5">
-        <PokemonTypeFilter
-          onValueChange={(type) => {
-            updateFilter("type", type);
-          }}
-          types={data.types}
-          value={filters.type}
+      <PageBand>
+        <PageHeader
+          title="Pokémon"
+          description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
         />
-      </div>
+
+        <Toolbar
+          className="mt-5.5"
+          render={
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            />
+          }
+          search={
+            <SearchControl
+              name="q"
+              ariaLabel="Search Pokémon"
+              value={filters.query}
+              onValueChange={(query) => {
+                updateFilter("query", query);
+              }}
+              placeholder="Search name or number"
+            />
+          }
+          trailing={
+            <>
+              <ToolbarGroup>
+                <SelectControl
+                  ariaLabel="Filter by generation"
+                  variant="ghost"
+                  prefix="Generation"
+                  value={filters.generation || ALL}
+                  onValueChange={(value) => {
+                    updateFilter("generation", value === ALL ? "" : value);
+                  }}
+                  options={generationOptions}
+                  placeholder="All"
+                />
+              </ToolbarGroup>
+              <SelectControl
+                ariaLabel="Group Pokémon by"
+                variant="ghost"
+                prefix="Group"
+                value={groupBy}
+                onValueChange={(value) => {
+                  if (isPokedexGroupBy(value)) {
+                    setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                    setGroupBy(value);
+                  }
+                }}
+                options={groupByOptions}
+                placeholder="None"
+              />
+              <SelectControl
+                ariaLabel="Sort Pokémon"
+                variant="ghost"
+                prefix="Sort"
+                value={sortKey}
+                onValueChange={(value) => {
+                  if (isPokedexSortKey(value)) {
+                    setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                    setSortKey(value);
+                  }
+                }}
+                options={pokedexSortOptions}
+                placeholder="National number"
+              />
+            </>
+          }
+        />
+
+        {/* The types under the bar: they give the list its colour. */}
+        <div className="mt-3.5 -mb-1">
+          <PokemonTypeFilter
+            onValueChange={(type) => {
+              updateFilter("type", type);
+            }}
+            types={data.types}
+            value={filters.type}
+          />
+        </div>
+      </PageBand>
 
       {/* Counts every match, not just the ones loaded so far. */}
       <FilterResultsLine
-        className="mt-2"
+        className="mt-5"
         hasActiveFilters={hasActiveFilters}
         noun="Pokémon"
         onClearFilters={clearFilters}
@@ -253,20 +262,25 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
             return (
               <section
                 key={group.key}
-                aria-labelledby={titleId}
+                aria-labelledby={group.label ? titleId : undefined}
+                aria-label={group.label ? undefined : "Pokémon"}
                 className="min-w-0"
               >
-                <RangeHeading
-                  title={group.label}
-                  titleId={titleId}
-                  count={[
-                    regionName,
-                    `${countFormat.format(matchCount)} Pokémon`,
-                  ]
-                    .filter(Boolean)
-                    .join(" · ")}
-                />
-                <CodexPokemonGrid className="mt-4.5">
+                {group.label ? (
+                  <RangeHeading
+                    title={group.label}
+                    titleId={titleId}
+                    count={[
+                      regionName,
+                      `${countFormat.format(matchCount)} Pokémon`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  />
+                ) : null}
+                <CodexPokemonGrid
+                  className={group.label ? "mt-4.5" : undefined}
+                >
                   {group.pokemon.map((pokemon) => (
                     <CodexPokemonCardLink
                       key={pokemon.id}

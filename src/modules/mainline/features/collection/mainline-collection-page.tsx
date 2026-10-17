@@ -41,41 +41,45 @@ export const MainlineCollectionPage = ({
   data,
   initialSpeciesSlug,
 }: MainlineCollectionPageProps) => {
+  const head = (
+    <PageHeader title="Collection" description={getDescription(data)} />
+  );
+
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <PageBand>
-        <PageHeader title="Collection" description={getDescription(data)} />
-      </PageBand>
-
       {data.entries.length ? (
         <CollectionBrowser
+          head={head}
           entries={data.entries}
           initialSpeciesSlug={initialSpeciesSlug}
           types={data.types}
         />
       ) : (
-        <EmptyState
-          headingLevel="h2"
-          artUrl={emptyArtUrl}
-          title="Nothing here yet"
-          description="Every Pokémon that joins one of your teams gets a place here, with the Plays it was part of."
-          action={
-            data.latestPlayId ? (
-              <Link
-                href={appRoutes.mainlinePlayTeamAdd(data.latestPlayId)}
-                className={buttonVariants()}
-              >
-                <AppIcon icon={appIcons.actions.create} inline="start" />
-                Add to your team
-              </Link>
-            ) : (
-              <NewPlayTrigger className={buttonVariants()}>
-                <AppIcon icon={appIcons.actions.create} inline="start" />
-                Start a Play
-              </NewPlayTrigger>
-            )
-          }
-        />
+        <>
+          <PageBand>{head}</PageBand>
+          <EmptyState
+            headingLevel="h2"
+            artUrl={emptyArtUrl}
+            title="Nothing here yet"
+            description="Every Pokémon that joins one of your teams gets a place here, with the Plays it was part of."
+            action={
+              data.latestPlayId ? (
+                <Link
+                  href={appRoutes.mainlinePlayTeamAdd(data.latestPlayId)}
+                  className={buttonVariants()}
+                >
+                  <AppIcon icon={appIcons.actions.create} inline="start" />
+                  Add to your team
+                </Link>
+              ) : (
+                <NewPlayTrigger className={buttonVariants()}>
+                  <AppIcon icon={appIcons.actions.create} inline="start" />
+                  Start a Play
+                </NewPlayTrigger>
+              )
+            }
+          />
+        </>
       )}
     </div>
   );

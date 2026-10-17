@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { PlayStatusGroup } from "@/modules/mainline/features/plays/browse/components/play-status-group";
 import { PlaysToolbar } from "@/modules/mainline/features/plays/browse/components/plays-toolbar";
@@ -20,15 +20,22 @@ import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/ty
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import { PageBand } from "@/shared/components/page-band";
 
 type PlaysBrowserProps = {
+  /* The page's head, which opens the band above the toolbar. */
+  head: ReactNode;
   params?: PlayBrowseParams;
   plays: PlayBrowseItem[];
 };
 
 const URL_UPDATE_DELAY_MS = 250;
 
-export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
+/*
+ * The library: the band with the page's head and the toolbar, then the
+ * results line and the Plays by status.
+ */
+export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const options = useMemo(() => getPlayBrowseOptions(plays), [plays]);
@@ -88,53 +95,55 @@ export const PlaysBrowser = ({ params, plays }: PlaysBrowserProps) => {
   };
 
   return (
-    <div className="flex flex-col">
-      <PlaysToolbar
-        filters={filters}
-        games={options.games}
-        generations={options.generations}
-        matchingCount={matchingCount}
-        onGameChange={(game) => {
-          updateFilter("game", game);
-        }}
-        onGenerationChange={(generation) => {
-          updateFilter("generation", generation);
-        }}
-        onQueryChange={(query) => {
-          updateFilter("query", query);
-        }}
-        onSortChange={(sort) => {
-          updateFilter("sort", sort);
-        }}
-      />
-
-      <FilterResultsLine
-        className="mt-3"
-        hasActiveFilters={hasActiveFilters}
-        noun="Plays"
-        nounOne="Play"
-        onClearFilters={clearFilters}
-        shownCount={shownCount}
-        totalCount={plays.length}
-      />
-
-      {groups.length ? (
-        <div className="mt-6 grid gap-8 sm:mt-8">
-          {groups.map((group) => (
-            <PlayStatusGroup key={group.id} group={group} />
-          ))}
-        </div>
-      ) : (
-        <EmptyState
-          headingLevel="h2"
-          className="mt-5"
-          title="No Plays found"
-          description="Try another search, game or generation."
-          action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
-          }
+    <>
+      <PageBand>
+        {head}
+        <PlaysToolbar
+          filters={filters}
+          games={options.games}
+          generations={options.generations}
+          matchingCount={matchingCount}
+          onGameChange={(game) => {
+            updateFilter("game", game);
+          }}
+          onGenerationChange={(generation) => {
+            updateFilter("generation", generation);
+          }}
+          onQueryChange={(query) => {
+            updateFilter("query", query);
+          }}
+          onSortChange={(sort) => {
+            updateFilter("sort", sort);
+          }}
         />
-      )}
-    </div>
+      </PageBand>
+
+      <section aria-label="Play library" className="flex flex-col">
+        <FilterResultsLine
+          hasActiveFilters={hasActiveFilters}
+          noun="Plays"
+          nounOne="Play"
+          onClearFilters={clearFilters}
+          shownCount={shownCount}
+          totalCount={plays.length}
+        />
+
+        {groups.length ? (
+          <div className="mt-6 grid gap-8 sm:mt-8">
+            {groups.map((group) => (
+              <PlayStatusGroup key={group.id} group={group} />
+            ))}
+          </div>
+        ) : (
+          <EmptyState
+            headingLevel="h2"
+            className="mt-5"
+            title="No Plays found"
+            description="Try another search, game or generation."
+            action={<ClearFiltersButton onClick={clearFilters} />}
+          />
+        )}
+      </section>
+    </>
   );
 };

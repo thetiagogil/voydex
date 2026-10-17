@@ -25,7 +25,7 @@ export const WelcomePage = ({
       <h1 className="text-32 sm:text-44 leading-[1.05] tracking-[-0.02em]">
         Welcome to Voydex
       </h1>
-      <p className="text-ink-2 sm:text-17 mt-2.5 text-[15.5px] font-semibold">
+      <p className="text-ink-2 sm:text-17 text-16 mt-2.5 font-semibold">
         {gameShortName
           ? `Your ${gameShortName} Play is ready. First, a little about you.`
           : "Before your first Play, tell us a little about you."}

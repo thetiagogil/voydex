@@ -79,7 +79,7 @@ export const AccountFormDialog = ({
     >
       <DialogTrigger
         render={
-          <Button variant="outline" className={SETTINGS_ACTION_CLASS_NAME} />
+          <Button variant="secondary" className={SETTINGS_ACTION_CLASS_NAME} />
         }
       >
         {triggerLabel}
@@ -92,7 +92,7 @@ export const AccountFormDialog = ({
         <form action={formAction} className="flex flex-col gap-5">
           {field(error)}
           <DialogFooter>
-            <DialogClose render={<Button variant="outline" />}>
+            <DialogClose render={<Button variant="secondary" />}>
               Cancel
             </DialogClose>
             <Button type="submit" disabled={isPending} aria-busy={isPending}>

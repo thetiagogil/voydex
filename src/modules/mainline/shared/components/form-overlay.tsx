@@ -3,7 +3,7 @@
 import { useRef, type ReactNode } from "react";
 
 import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
-import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
+import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import {
@@ -27,6 +27,8 @@ export type FormOverlayHero = {
   imageUrl: string | null;
   /* Under the title, such as the species, level and types. */
   meta?: ReactNode;
+  /* A Pokémon you mean to have (a Plan's slot): its art is not a sticker. */
+  planned?: boolean;
   type: PokemonTypeSlug | null;
 };
 
@@ -80,7 +82,7 @@ export const FormOverlay = ({
   toolbar,
 }: FormOverlayProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const usesBottomSheet = useDetailSheetLayout();
+  const usesBottomSheet = useBottomSheetLayout();
   const isSheet = usesBottomSheet || presentation === "side";
   const Title = isSheet ? SheetTitle : DialogTitle;
   const Description = isSheet ? SheetDescription : DialogDescription;
@@ -107,6 +109,7 @@ export const FormOverlay = ({
     <PokemonSheetHead
       actions={hero.actions}
       imageUrl={hero.imageUrl}
+      planned={hero.planned}
       layout={usesBottomSheet ? "inset" : "flush"}
       type={hero.type}
     >

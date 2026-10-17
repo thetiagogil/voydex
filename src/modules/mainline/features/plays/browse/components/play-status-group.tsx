@@ -1,4 +1,5 @@
 import { PlayCard } from "@/modules/mainline/features/plays/browse/components/play-card";
+import { RangeHeading } from "@/shared/components/range-heading";
 import type { PlayStatusGroup as PlayStatusGroupModel } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
@@ -13,15 +14,12 @@ export const PlayStatusGroup = ({ group }: PlayStatusGroupProps) => {
 
   return (
     <section aria-labelledby={headingId}>
-      <h2
-        id={headingId}
-        className="text-20 mb-3.5 flex flex-wrap items-baseline gap-x-2.5 leading-tight"
-      >
-        {group.name}
-        <span className="text-ink-3 text-14 font-sans font-semibold">
-          {formatPlayCount(group.plays.length)}
-        </span>
-      </h2>
+      <RangeHeading
+        titleId={headingId}
+        title={group.name}
+        count={formatPlayCount(group.plays.length)}
+        className="mb-3.5"
+      />
       <ul className="grid gap-3">
         {group.plays.map((play) => (
           <PlayCard

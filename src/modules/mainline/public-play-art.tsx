@@ -14,7 +14,7 @@ import { RecordRow } from "@/modules/mainline/features/plays/shared/components/r
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { appIcons } from "@/shared/components/app-icon";
-import { getNavigationMenuControlClassName } from "@/shared/components/navigation-menu/navigation-menu-control";
+import { getNavigationMenuControlClassName } from "@/modules/mainline/features/plays/hub/shell/play-tab-control";
 import { cn } from "@/shared/utils/cn";
 
 /*
@@ -123,6 +123,7 @@ export const publicPlayArt = {
   playHeader: (play) => (
     <MainlinePlayTopSection
       data={toShellData(play)}
+      form="card"
       navigation={<SamplePlayTabs tabs={play.tabs} />}
     />
   ),

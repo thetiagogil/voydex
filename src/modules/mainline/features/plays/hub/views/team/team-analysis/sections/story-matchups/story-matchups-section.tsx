@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
+import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import {
   Medallion,
   type MedallionContent,
@@ -99,7 +99,7 @@ const StoryBattleRow = ({
         />
         <span className="justify-self-end">
           {battle.state === "won" ? (
-            <StatusBadge tone="ok">
+            <StatusBadge tone="ok" dot={false}>
               <AppIcon icon={appIcons.status.active} />
               Won
               {battle.completedAt ? (
@@ -130,7 +130,7 @@ export const StoryMatchupsSection = ({
 }: {
   model: StoryMatchupsModel;
 }) => {
-  const usesSheet = useDetailSheetLayout();
+  const usesSheet = useBottomSheetLayout();
   const [reportPanelStyle, bindReportPanel] = useStickyPanel<HTMLDivElement>();
   const [selectedId, setSelectedId] = useState(model.defaultBattleId);
   const [isSheetOpen, setIsSheetOpen] = useState(false);

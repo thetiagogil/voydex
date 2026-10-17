@@ -14,7 +14,7 @@ type AuthSubmitButtonProps = {
   label: string;
   pendingLabel: string;
   size?: "default" | "lg" | "sm";
-  variant?: "default" | "outline";
+  variant?: "default" | "secondary";
 };
 
 /* A sign-in form's button: it says what it's doing while the form sends. */

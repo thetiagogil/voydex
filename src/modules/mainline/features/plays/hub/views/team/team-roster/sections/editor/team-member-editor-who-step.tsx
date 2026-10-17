@@ -1,4 +1,5 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { SheetSection } from "@/shared/components/sheet-section";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
@@ -6,7 +7,6 @@ import { Switch } from "@/shared/components/ui/switch";
 
 import {
   EditorLabel,
-  EditorStep,
   type TeamMemberEditorStepProps,
 } from "./team-member-editor-fields";
 
@@ -29,7 +29,7 @@ export const TeamMemberEditorWhoStep = ({
   member: MainlinePlayTeamMember;
   supportsGender: boolean;
 }) => (
-  <EditorStep title="Who">
+  <SheetSection title="Who">
     <div className="grid gap-4 sm:grid-cols-2">
       <Field>
         <FieldLabel htmlFor={`${id}-species`}>Species</FieldLabel>
@@ -105,5 +105,5 @@ export const TeamMemberEditorWhoStep = ({
         </div>
       </Field>
     </div>
-  </EditorStep>
+  </SheetSection>
 );

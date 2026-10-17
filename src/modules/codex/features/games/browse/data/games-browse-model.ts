@@ -5,7 +5,7 @@ import type {
   Region,
 } from "@/modules/reference/types";
 
-export type GamesGroupBy = "generation" | "region";
+export type GamesGroupBy = "none" | "generation" | "region";
 
 /* The kind filter: a kind of game, or every game. */
 export type GamesKindFilter = GameKind | "";
@@ -19,7 +19,8 @@ export type GamesSortOrder = "newest" | "oldest";
 export type GamesShelfSection = {
   games: GameCard[];
   key: string;
-  label: string;
+  /* No label: the one section of an ungrouped shelf, shown without a heading. */
+  label: string | null;
   /* "1996–1998 · 3 games · Kanto": the years, the count and, by generation, the regions. */
   summary: string;
 };
@@ -123,7 +124,7 @@ const getSectionIdentity = (card: GameCard, groupBy: GamesGroupBy) => {
  * The shelf's sections. Games arrive in release order (generation, then
  * release year); by generation that order is kept, by region the regions
  * follow their own order. Newest first turns both the sections and the games
- * in them around.
+ * in them around. Ungrouped, every game sits in one section with no heading.
  */
 export const groupGamesIntoSections = ({
   games,
@@ -136,6 +137,19 @@ export const groupGamesIntoSections = ({
   regions: Region[];
   sortOrder: GamesSortOrder;
 }): GamesShelfSection[] => {
+  if (groupBy === "none") {
+    return games.length
+      ? [
+          {
+            games: sortOrder === "newest" ? games.toReversed() : games,
+            key: "all",
+            label: null,
+            summary: summarizeSection(games, groupBy),
+          },
+        ]
+      : [];
+  }
+
   const sectionsByKey = new Map<string, Omit<GamesShelfSection, "summary">>();
 
   for (const card of games) {

@@ -352,7 +352,7 @@ export const AddPokemonSheet = ({
             </span>
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               size="sm"
               onClick={() => changeOpen(false)}
             >
@@ -363,7 +363,7 @@ export const AddPokemonSheet = ({
           <>
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               size="sm"
               disabled={isSaving}
               onClick={() => {

@@ -1,6 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
 
-import { BandTintRoot } from "@/shared/components/band-tint-root";
 import { cn } from "@/shared/utils/cn";
 
 const hillShape = "rounded-[50%_50%_0_0/100%_100%_0_0]";
@@ -24,12 +23,6 @@ type MeadowSceneProps = {
   /* The scene's height on phones and from `sm` up. */
   sceneClassName?: string;
   style?: CSSProperties;
-  /*
-   * Wears the game colour (set `game-scope` and its style): the sky takes the
-   * game's soft tint and the hills lean toward it. Otherwise the plain sky.
-   * A tinted band also tints the top bar sitting on it (`BandTintRoot`).
-   */
-  tinted?: boolean;
   /* Everything on the sky above the hills: the heading, a shelf. */
   children?: ReactNode;
 };
@@ -48,28 +41,18 @@ export const MeadowScene = ({
   ground,
   sceneClassName,
   style,
-  tinted = false,
 }: MeadowSceneProps) => {
-  const hill = tinted
-    ? "bg-[color-mix(in_oklab,var(--hill)_91%,var(--game))]"
-    : "bg-hill";
-  const frontHill = tinted
-    ? "bg-[color-mix(in_oklab,var(--hill-2)_91%,var(--game))]"
-    : "bg-hill-2";
-
   return (
     <div
       style={style}
       className={cn(
-        "relative isolate overflow-hidden",
-        tinted ? "bg-game-soft" : "bg-sky",
+        "bg-sky relative isolate overflow-hidden",
         form === "band"
           ? "page-band rounded-b-4xl sm:rounded-b-[56px]"
           : "rounded-xl sm:rounded-2xl",
         className,
       )}
     >
-      {tinted && form === "band" ? <BandTintRoot /> : null}
       {children ? (
         <div
           className={cn(
@@ -87,16 +70,14 @@ export const MeadowScene = ({
         <span
           aria-hidden
           className={cn(
-            "absolute inset-x-[-14%] bottom-0 z-1 h-28 sm:h-37.5",
-            hill,
+            "bg-hill absolute inset-x-[-14%] bottom-0 z-1 h-28 sm:h-37.5",
             hillShape,
           )}
         />
         <span
           aria-hidden
           className={cn(
-            "absolute inset-x-[-24%] bottom-0 z-4 h-11 sm:h-14.5",
-            frontHill,
+            "bg-hill-2 absolute inset-x-[-24%] bottom-0 z-4 h-11 sm:h-14.5",
             hillShape,
           )}
         />
@@ -107,11 +88,11 @@ export const MeadowScene = ({
         ) : null}
       </div>
       {ground ? (
-        <div className={cn("relative z-6 pt-1.5 pb-6 sm:pb-9", frontHill)}>
+        <div className="bg-hill-2 relative z-6 pt-5 pb-6 sm:pt-6 sm:pb-9">
           {ground}
         </div>
       ) : form === "band" ? (
-        <div aria-hidden className={cn("h-7 sm:h-8.5", frontHill)} />
+        <div aria-hidden className="bg-hill-2 h-7 sm:h-8.5" />
       ) : null}
     </div>
   );
