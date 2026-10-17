@@ -5,6 +5,7 @@ import {
 } from "@/modules/mainline/shared/components/move-slot-select";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
+import { EditedMark } from "@/shared/components/edited-mark";
 import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -15,7 +16,6 @@ import type {
   TeamMemberEditorValues,
 } from "../../utils/team-member-editor-model";
 import {
-  EditedMark,
   EditorLabel,
   fromSelect,
   noneValue,

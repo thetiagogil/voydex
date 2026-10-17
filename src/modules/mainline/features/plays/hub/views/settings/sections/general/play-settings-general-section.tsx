@@ -4,6 +4,7 @@ import { useId, useState, useTransition, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { EditedMark } from "@/shared/components/edited-mark";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SettingsRow } from "@/shared/components/settings-row";
@@ -32,7 +33,7 @@ const toFormValues = (
   trainerName: general.trainerName ?? "",
 });
 
-/* A field's label; an edited field says so beside it, not with colour. */
+/* A field's label, with the Edited mark once it changed. */
 const SettingsFieldLabel = ({
   children,
   edited,
@@ -43,10 +44,7 @@ const SettingsFieldLabel = ({
   htmlFor?: string;
 }) => (
   <FieldLabel htmlFor={htmlFor} className="text-13 text-ink-2 font-extrabold">
-    {children}
-    {edited ? (
-      <span className="text-action-ink font-extrabold">· Edited</span>
-    ) : null}
+    <EditedMark edited={edited}>{children}</EditedMark>
   </FieldLabel>
 );
 
@@ -204,10 +202,7 @@ export const PlaySettingsGeneralSection = ({
           className="mt-4 pt-4 first:pt-4"
           title={
             <>
-              Status
-              {edited("statusId") ? (
-                <span className="text-action-ink"> · Edited</span>
-              ) : null}
+              <EditedMark edited={edited("statusId")}>Status</EditedMark>
             </>
           }
           titleId={`${id}-status`}
