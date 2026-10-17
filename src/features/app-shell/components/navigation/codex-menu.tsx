@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SteadyLabel } from "@/features/app-shell/components/navigation/navigation-links";
 import {
   codexLink,
   codexViewLinks,
@@ -11,6 +10,7 @@ import {
   type CodexViewLink,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
 import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
 import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
@@ -59,9 +59,9 @@ export const CodexMenu = ({ className }: { className?: string }) => {
       <NavigationMenuItem>
         <NavigationMenuTrigger
           className={cn(
-            "text-14 hover:text-ink h-9 px-3 font-semibold text-(--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
-            isCurrent &&
-              "bubble bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
+            getBarLinkClassName(isCurrent),
+            !isCurrent &&
+              "data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
           )}
         >
           <SteadyLabel>{codexLink.label}</SteadyLabel>
