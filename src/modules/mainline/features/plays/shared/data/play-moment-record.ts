@@ -101,7 +101,7 @@ const otherMomentKinds: Record<string, OtherMomentKind> = {
   },
   journal_note: {
     icon: appIcons.actions.edit,
-    label: "Journal note",
+    label: "Note",
     medallion: "note",
   },
   status_change: {

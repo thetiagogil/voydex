@@ -33,7 +33,6 @@ export type MainlinePlayMilestoneCategorySummary =
 export type MainlinePlayOverview = ViewRow<"mainline_play_overview">;
 export type MainlinePlayTeamMemberRow = ViewRow<"mainline_play_team_detail">;
 export type MainlinePlayTeamPlanRow = ViewRow<"mainline_play_team_plan_detail">;
-export type MainlinePlayPokemonType = Type;
 
 export type MainlinePlayTeamMove = {
   attributes: MoveAttribute | null;

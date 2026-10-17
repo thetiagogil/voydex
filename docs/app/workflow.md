@@ -37,30 +37,47 @@ by the owner.
 
 ## Labels
 
-| Label                                      | Meaning                                                  |
-| ------------------------------------------ | -------------------------------------------------------- |
-| `type: bug`                                | Something is broken or wrong                             |
-| `type: change`                             | Works, but should work differently                       |
-| `type: feature`                            | New capability from the product backlog                  |
-| `type: chore`                              | Tooling, docs, refactors                                 |
-| `design mismatch`                          | Doesn't match the Soft Clay reference (the v3 mock-up)   |
-| `needs data`                               | Waits on data Voydex doesn't have (`TODO(v3-data)` tags) |
-| `accessibility`, `performance`, `security` | Quality work in that field                               |
-| `priority: high`                           | Do next; everything else is normal                       |
+Every issue has one `type:` label and one `area:` label; the others are added
+when they apply. Each group has one colour, so a list of issues reads at a
+glance.
 
-Area labels: `area: mainline`, `area: codex`, `area: reference`,
-`area: app-shell`, `area: database`, `area: mobile`.
+| Group    | Labels                                                                                                  | Meaning                                                    |
+| -------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Type     | `type: bug`, `type: change`, `type: feature`, `type: chore`                                             | Broken; works but should differ; new capability; upkeep    |
+| Area     | `area: mainline`, `area: codex`, `area: reference`, `area: app-shell`, `area: database`, `area: mobile` | Which part of the app it lives in                          |
+| Needs    | `needs: data`, `needs: database change`, `needs: decision`                                              | What it waits on before it can be built                    |
+| Quality  | `quality: design`, `quality: accessibility`, `quality: performance`, `quality: security`                | Doesn't match Soft Clay (v3), or quality work in the field |
+| Priority | `priority: high`                                                                                        | Do next; everything else is normal                         |
+
+`needs: data` matches a `TODO(v3-data)` placeholder in the code;
+`needs: database change` means the owner approves the database files before
+work starts.
+
+## Issue Descriptions
+
+New issues start from the forms in `.github/ISSUE_TEMPLATE` (Bug, Change,
+Feature, Chore); blank issues are off. A filed issue reads:
+
+- **Summary**: what and why, in two or three sentences.
+- **Today**: how it works now, with the screens and code (`path:line`).
+- **Proposal** (or **Steps to reproduce**, **Expected** and **Actual** for a
+  bug): how it should work.
+- **Acceptance criteria**: a checklist that decides when it closes.
+- **Notes**: data or database needs, open decisions, related issues and docs.
 
 ## Phases
 
-| Milestone           | Contents                                                                                          | Starts                          |
-| ------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------- |
-| Foundation          | Local database for daily work, CI green, unused packages removed, Playwright and axe, agent setup | Now                             |
-| Finish the redesign | Bug, change and design-mismatch issues on the redesign branch                                     | Now                             |
-| Restructure         | Multi-table writes into database functions, closed folder names, oversized files split            | After the redesign merges       |
-| Harden              | Security headers, Sentry, page-weight budget, accessibility and loading pass, backups             | After Restructure               |
-| Data and features   | Schema work for `TODO(v3-data)` placeholders, backlog features                                    | After Restructure               |
-| Phone               | Installable web app (PWA); store apps only if demand appears                                      | After Harden, Data and features |
+The six phases of the plan agreed on 2026-10-16, in order. Nobody else uses
+Voydex until all six are done.
+
+| Milestone         | Contents                                                                                                                                 |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Tidy up           | Dead code, unused packages, Knip, Project Status truth, the to-do list on GitHub                                                         |
+| Browser tests     | Playwright and axe on the local database, run on every pull request                                                                      |
+| Restructure       | One folder vocabulary, portable readers and commands, multi-table writes as database functions, Zod, split the largest files             |
+| Components        | Rebuild every component family on shared pieces; each family's look is settled with the owner while it is rebuilt                        |
+| Data and features | Reference data one section at a time, and the backlog features                                                                           |
+| Ready for others  | Security headers, Sentry, backups, production database and release step, sign-up emails, legal, speed, analytics, installable on a phone |
 
 ## Platform Features
 

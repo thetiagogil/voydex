@@ -14,7 +14,7 @@ type SettingsRowProps = {
 
 /*
  * A settings row (v3 `.trow`): what it is, one line on what it means, and its
- * control at the end. Rows sit between hairlines; on phones the control drops
+ * control at the end; space separates the rows. On phones the control drops
  * below the words. App settings and Play settings.
  */
 export const SettingsRow = ({

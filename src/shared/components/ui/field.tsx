@@ -104,20 +104,15 @@ const FieldContent = ({ className, ...props }: React.ComponentProps<"div">) => {
 
 const FieldLabel = ({
   className,
-  variant = "default",
   ...props
-}: React.ComponentProps<typeof Label> & {
-  variant?: "default" | "filter";
-}) => {
+}: React.ComponentProps<typeof Label>) => {
   return (
     <Label
       data-slot="field-label"
-      data-variant={variant}
       className={cn(
         "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50",
         /* A label wrapping a whole field is a choice card: flat, and the soft selected tint with an accent border once chosen. */
         "has-[>[data-slot=field]]:border-line has-[>[data-slot=field]]:bg-surface has-[>[data-slot=field]]:text-15 has-[>[data-slot=field]]:text-ink has-[>[data-slot=field]]:has-focus-visible:outline-focus has-[>[data-slot=field]]:hover:bg-surface-2 has-data-checked:border-game has-data-checked:bg-select-soft has-data-checked:text-select-ink has-data-checked:hover:bg-select-soft has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border-[1.5px] has-[>[data-slot=field]]:font-semibold has-[>[data-slot=field]]:transition-colors has-[>[data-slot=field]]:has-focus-visible:outline-3 has-[>[data-slot=field]]:has-focus-visible:outline-offset-2 has-[>[data-slot=field]]:has-focus-visible:outline-solid *:data-[slot=field]:p-3",
-        "data-[variant=filter]:text-ink-3 data-[variant=filter]:text-13 data-[variant=filter]:font-bold",
         className,
       )}
       {...props}

@@ -111,9 +111,9 @@ task; use more only when the user asks for parallel work on independent scopes.
   existing primitives and comparable product surfaces. Reuse the established
   reference or extract its shared foundation before adding another variation.
 - Avoid duplicated logic, vague buckets, hidden side effects, dead code,
-  needless abstraction and unrelated refactors. On the Soft Clay redesign
-  branch, moving a screen to the new system and deleting its old parts is
-  in scope even when it crosses pages.
+  needless abstraction and unrelated refactors. Moving a screen or a
+  component family onto the shared Soft Clay pieces and deleting its old
+  parts is in scope even when it crosses pages.
 - Keep route orchestration, external I/O, pure mapping/domain logic and UI
   separate when those responsibilities change independently. Do not force a
   file trio onto a simple use case.

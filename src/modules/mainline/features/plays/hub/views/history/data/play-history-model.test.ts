@@ -144,7 +144,7 @@ describe("Play History model", () => {
       ).map((item) => item.event_id);
 
     expect(ids("  ")).toEqual(["added", "badge", "note", "paused"]);
-    expect(ids("JOURNAL")).toEqual(["note"]);
+    expect(ids("NOTE")).toEqual(["note"]);
     expect(ids("paused")).toEqual(["paused"]);
     expect(ids("turffield")).toEqual(["badge"]);
     expect(ids("nothing like this")).toEqual([]);
