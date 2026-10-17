@@ -4,7 +4,7 @@ import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
 import { cn } from "@/shared/utils/cn";
 import { CheckIcon } from "lucide-react";
 
-/* A quiet box (v3's radio ring, squared); checked fills with the action blue. */
+/* A quiet box (v3's radio ring, squared); checked fills with the action red. */
 const Checkbox = ({ className, ...props }: CheckboxPrimitive.Root.Props) => {
   return (
     <CheckboxPrimitive.Root

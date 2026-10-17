@@ -8,40 +8,42 @@
   color-scheme: light;
 
   /*
-   * Lake (2026-10-17): one palette for the whole app. A cool white ground
-   * and cool grey supporting surfaces (about 60% and 30%), so Pokémon and
-   * their type colours bring the colour, and one calm blue (about 10%) for
-   * the main action, the current pick and the context colour.
+   * Poké Ball (2026-10-17): one palette for the whole app. A warm white
+   * ground and soft rose-grey supporting surfaces (about 60% and 30%), with
+   * no sand or brown, so Pokémon and their type colours bring the colour, and
+   * one Poké Ball red (about 10%) for the main action, the current pick and
+   * the context colour. Destructive actions take a deeper wine red, always
+   * quiet, so they never read as the main button.
    */
 
   /* Ground, surfaces, ink and lines */
-  --bg: #eef2f4;
-  --surface: #fcfdfd;
-  --surface-2: #f1f5f7;
-  --hover: #e6edf1;
-  --ink: #26313b;
-  --ink-2: #4a5866;
-  --ink-3: #566472;
-  --on-ink: #eef3f6;
+  --bg: #f6f3f2;
+  --surface: #fffdfc;
+  --surface-2: #f8f3f2;
+  --hover: #f1e9e7;
+  --ink: #2f2a2c;
+  --ink-2: #5a5054;
+  --ink-3: #675c60;
+  --on-ink: #f7f1f0;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
-  --line: #dde5ea;
-  --lip: #ced9e0;
-  --track: #e2e9ee;
-  --dash: #c7d3db;
-  --mute: #b5c2cb;
+  --line: #ebe1df;
+  --lip: #e0d4d2;
+  --track: #efe6e4;
+  --dash: #dccdca;
+  --mute: #c7b9b6;
   /* The colour every shadow and the scrim are made of, as RGB channels. */
-  --shade: 35 50 70;
+  --shade: 60 40 40;
   --scrim: rgb(var(--shade) / 0.42);
 
   /* The one action colour */
-  --link: #25599a;
-  --action: #2d6cb2;
-  --action-lip: #21528a;
+  --link: #ab3128;
+  --action: #c4372d;
+  --action-lip: #982a22;
   --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
-  /* The main button under the pointer: between the action blue and its lip. */
+  /* The main button under the pointer: between the action red and its lip. */
   --action-deep: color-mix(in oklab, var(--action), var(--action-lip) 45%);
-  --focus: #21528a;
+  --focus: #982a22;
 
   /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
   --gold: #edb443;
@@ -50,11 +52,11 @@
   --warn: #e9a23b;
   --warn-ink: #93600f;
   --warn-soft: #fbeed3;
-  --danger: #ae3f2c;
-  --danger-deep: #8a2a1b;
-  --danger-soft: #f9e1da;
-  --danger-soft-2: #f2c6bb;
-  --danger-line: #d9a497;
+  --danger: #8e2a45;
+  --danger-deep: #6f1d34;
+  --danger-soft: #f6e0e6;
+  --danger-soft-2: #edc6d1;
+  --danger-line: #d6a1b0;
   --ok: #2f7550;
   --ok-deep: #2a6443;
   --ok-soft: #e1f0e6;
@@ -62,7 +64,7 @@
   --ok-line: #9fcdb1;
   /*
    * v3 `.pstate.info`: a quieter, neutral meaning, such as "evolved or
-   * changed form". Teal, so it never reads as the blue of a pick.
+   * changed form". Teal, so it never reads as a pick or a warning.
    */
   --calm: #2e8a86;
   --calm-ink: #1e625f;
@@ -72,7 +74,7 @@
   --avatar-ink: #6b4a12;
 
   /* The meadow (front doors and choosing a game) */
-  --sky: #f2f7fa;
+  --sky: #fbf7f6;
   --hill: #dbe9d4;
   --hill-2: #cddfc4;
   /* The band that opens Plays, the Team Planner, Statistics and Collection. */

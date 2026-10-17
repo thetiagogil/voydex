@@ -44,7 +44,7 @@ const toneClassNames = {
 
 /*
  * The one text link: words that go somewhere or do one small thing, never
- * a button in disguise. Blue and extrabold, underlined under the pointer.
+ * a button in disguise. Red and extrabold, underlined under the pointer.
  * Without `href` it is a button that reads as a link, such as "See all".
  */
 export const TextLink = ({

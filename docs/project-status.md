@@ -86,9 +86,9 @@ clean-up (#61), and waits on the owner's review before it is squashed:
   component rule is in CLAUDE.md and the design system, and the browser tests
   run every axe rule (#39).
 - **Second visual pass (2026-10-17, awaiting the owner's review)**: one
-  palette for the whole app (Lake: cool white, cool grey bands, one calm
-  blue), no game colour in a Play; type chips in their official colour with
-  their own label ink; the top bar off its island with a drawn V and the
+  palette for the whole app (Poké Ball: warm white, rose-grey bands, one
+  red, a wine red for deleting), no game colour in a Play; type chips in their official colour with
+  white labels; the top bar off its island with a drawn V and the
   name; every page, a Play included, opens on a band holding its head and its
   toolbar or hero; every select, menu and searchable list is one picker
   family (pictures, a second line, search for long lists).

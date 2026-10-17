@@ -3,7 +3,7 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * The check that marks the one picked thing on a picture (a game's cover, a
- * Play on Home's shelf): a blue disc in a white band, like the stickers,
+ * Play on Home's shelf): a red disc in a white band, like the stickers,
  * sitting in the picture's top-right corner. Decorative: the control that
  * holds it says it is picked. `sm` for small covers.
  */
