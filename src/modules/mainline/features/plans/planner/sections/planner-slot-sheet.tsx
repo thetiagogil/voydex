@@ -1,5 +1,6 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
@@ -277,25 +278,15 @@ export const PlannerSlotSheet = ({
               const isPicked = member.role === role;
 
               return (
-                <button
+                <ChoiceChip
                   key={role}
-                  type="button"
-                  aria-pressed={isPicked}
+                  pressed={isPicked}
                   onClick={() =>
                     onUpdate(slotIndex, { role: isPicked ? null : role })
                   }
-                  className={cn(
-                    "text-14 focus-visible:outline-focus inline-flex h-10 items-center gap-1.5 rounded-full px-4 font-bold outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
-                    isPicked
-                      ? "bg-select-soft text-select-ink font-extrabold"
-                      : "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink",
-                  )}
                 >
-                  {isPicked ? (
-                    <AppIcon icon={appIcons.status.active} size="sm" />
-                  ) : null}
                   {role}
-                </button>
+                </ChoiceChip>
               );
             })}
           </div>

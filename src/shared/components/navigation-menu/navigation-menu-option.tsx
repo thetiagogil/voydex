@@ -47,17 +47,24 @@ const getAriaCurrent = ({
   return current;
 };
 
+/*
+ * One row of a menu: the compact 44px row, or two lines where the option
+ * needs its description. The current one takes the selected tint and a check.
+ */
 export const getNavigationMenuOptionClassName = ({
   active,
   className,
+  hasDescription = true,
   muted,
 }: {
   active: boolean;
   className?: string;
+  hasDescription?: boolean;
   muted: boolean;
 }) => {
   return cn(
-    "min-h-16 items-center gap-3 rounded-sm p-3",
+    "items-center gap-3 rounded-sm",
+    hasDescription ? "min-h-16 p-3" : "min-h-11 px-3 py-1.5",
     active && "bg-select-soft text-select-ink",
     muted && "opacity-65 hover:opacity-100",
     className,
@@ -85,6 +92,7 @@ export const NavigationMenuOption = (props: NavigationMenuOptionProps) => {
   const optionClassName = getNavigationMenuOptionClassName({
     active,
     className,
+    hasDescription: Boolean(description),
     muted: isMuted,
   });
   const ariaCurrent = getAriaCurrent({ active, current });

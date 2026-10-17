@@ -1,12 +1,11 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
 import { TextLink } from "@/shared/components/text-link";
 import { useId, useState, type ReactNode } from "react";
 
 import type { GameExpansion } from "@/modules/reference/features/games/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
-import { cn } from "@/shared/utils/cn";
 
 type NewPlayTrackingProps = {
   expansions: GameExpansion[];
@@ -100,23 +99,13 @@ export const NewPlayTracking = ({
               const isOwned = owned.includes(expansion.versionGroupId);
 
               return (
-                <button
+                <ChoiceChip
                   key={expansion.versionGroupId}
-                  type="button"
-                  aria-pressed={isOwned}
+                  pressed={isOwned}
                   onClick={() => toggle(expansion.versionGroupId)}
-                  className={cn(
-                    "text-14 focus-visible:outline-focus inline-flex h-9 items-center gap-1.5 rounded-full px-3.5 font-bold outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
-                    isOwned
-                      ? "bg-select-soft text-select-ink font-extrabold"
-                      : "bg-surface text-ink-2 hover:bg-hover hover:text-ink",
-                  )}
                 >
-                  {isOwned ? (
-                    <AppIcon icon={appIcons.status.active} size="sm" />
-                  ) : null}
                   {expansion.name}
-                </button>
+                </ChoiceChip>
               );
             })}
           </TrackingRow>

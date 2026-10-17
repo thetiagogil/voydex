@@ -1,5 +1,6 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
@@ -146,17 +147,18 @@ export const PlannerPoolSection = ({
           />
         }
         trailing={
-          <SegmentedControl
-            ariaLabel="Evolution"
-            value={filters.fullyEvolved ? "final" : null}
-            onValueChange={() =>
+          <ChoiceChip
+            size="lg"
+            pressed={filters.fullyEvolved}
+            onClick={() =>
               onFiltersChange({
                 ...filters,
                 fullyEvolved: !filters.fullyEvolved,
               })
             }
-            options={[{ label: "Fully evolved only", value: "final" }]}
-          />
+          >
+            Fully evolved only
+          </ChoiceChip>
         }
       />
       <PokemonTypeFilter

@@ -1,12 +1,11 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
 import { useId, useState, useTransition, type FormEvent } from "react";
 
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { FieldError } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { cn } from "@/shared/utils/cn";
 
 import type { PlaySettingsCreateResult } from "../server/play-settings-actions";
 import type { PlaySettingsChoice } from "../types";
@@ -66,20 +65,13 @@ export const SettingsAddChip = ({
 
   if (!isOpen) {
     return (
-      <button
-        type="button"
+      <ChoiceChip
+        variant="add"
         disabled={disabled}
         onClick={() => setIsOpen(true)}
-        className={cn(
-          "text-14 border-dash text-ink-2 inline-flex min-h-10 items-center gap-1.5 rounded-full border-[1.5px] border-dashed px-4 font-bold transition-colors",
-          "hover:bg-hover hover:text-ink",
-          "focus-visible:outline-focus outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
-          "disabled:cursor-not-allowed disabled:opacity-50",
-        )}
       >
-        <AppIcon icon={appIcons.actions.create} size="sm" />
         {label}
-      </button>
+      </ChoiceChip>
     );
   }
 

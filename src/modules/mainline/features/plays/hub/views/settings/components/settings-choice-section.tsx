@@ -1,5 +1,6 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
 import { useState, useTransition, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -15,7 +16,6 @@ import type {
 import type { PlaySettingsChoice } from "../types";
 import { diffIdSets } from "../utils/play-settings-validation";
 import { SettingsAddChip } from "./settings-add-chip";
-import { SettingsChoiceChip } from "./settings-choice-chip";
 
 /*
  * A Settings card of chips you pick several of and can add to (challenge
@@ -93,13 +93,14 @@ export const SettingsChoiceSection = ({
         className="flex flex-wrap items-center gap-2"
       >
         {choices.map((choice) => (
-          <SettingsChoiceChip
+          <ChoiceChip
             key={choice.id}
-            label={choice.name}
             pressed={selected.includes(choice.id)}
             disabled={isSaving}
-            onToggle={() => toggle(choice.id)}
-          />
+            onClick={() => toggle(choice.id)}
+          >
+            {choice.name}
+          </ChoiceChip>
         ))}
         <SettingsAddChip
           {...add}

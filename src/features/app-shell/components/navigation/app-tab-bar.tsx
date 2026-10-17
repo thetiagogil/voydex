@@ -33,7 +33,7 @@ type TabItemProps = {
 const getTabItemClassName = (isCurrent: boolean) =>
   cn(
     "text-12 text-ink-2 flex flex-col items-center gap-0.5 rounded-xl px-0.5 pt-1.5 pb-1 font-bold",
-    isCurrent && "bg-action-soft text-action-lip font-extrabold",
+    isCurrent && "bg-select-soft text-select-ink font-extrabold",
   );
 
 const TabItem = ({ href, icon, isCurrent, label }: TabItemProps) => (

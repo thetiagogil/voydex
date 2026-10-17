@@ -139,11 +139,14 @@ export const SegmentedControl = <TValue extends string>({
           // With its 4px track, as tall as a form field (48px).
           variant === "segment" && size === "md" && "h-10 px-3.5",
           fullWidth && "flex-1 justify-center",
-          // The weight never changes, so picking one doesn't shift its row.
+          /*
+           * The pick is a small sticker: its fill in a white band. The
+           * weight never changes, so picking one doesn't shift its row.
+           */
           isActive
             ? selectedTone === "strong"
-              ? "bg-game-strong text-white"
-              : "bg-select-soft text-select-ink"
+              ? "bg-game-strong bubble text-white"
+              : "bg-select-soft bubble text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
           isDisabled && "cursor-not-allowed opacity-45",

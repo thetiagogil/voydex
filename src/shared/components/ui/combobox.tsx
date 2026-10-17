@@ -146,7 +146,7 @@ const ComboboxItem = ({
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
       className={cn(
-        "data-highlighted:bg-hover data-highlighted:text-ink text-14 relative flex min-h-10 w-full cursor-default items-center gap-2 rounded-sm py-2 pr-8 pl-2.5 font-bold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "data-highlighted:bg-hover data-highlighted:text-ink data-selected:bg-select-soft data-selected:text-select-ink text-14 relative flex min-h-11 w-full cursor-default items-center gap-2 rounded-sm py-2 pr-8 pl-2.5 font-bold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}

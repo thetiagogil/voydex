@@ -41,9 +41,10 @@ const CodexViewIcon = ({ slug }: { slug: CodexViewLink["slug"] }) => (
 );
 
 /*
- * The Codex on the top bar: its name opens a menu of its pages,
- * as a Play's Team and Progress tabs do, bold while you're in it. Each
- * module will bring its own Codex pages, so they live here, not on the page.
+ * The Codex on the top bar: its name opens a menu of its pages, as a Play's
+ * Team and Progress tabs do, marked as the current link while you're in it.
+ * Each module will bring its own Codex pages, so they live here, not on the
+ * page.
  */
 export const CodexMenu = ({ className }: { className?: string }) => {
   const pathname = usePathname();
@@ -58,8 +59,9 @@ export const CodexMenu = ({ className }: { className?: string }) => {
       <NavigationMenuItem>
         <NavigationMenuTrigger
           className={cn(
-            "text-14 hover:text-ink px-3 font-semibold text-(--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
-            isCurrent && "text-ink font-extrabold",
+            "text-14 hover:text-ink h-9 px-3 font-semibold text-(--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
+            isCurrent &&
+              "bubble bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
           )}
         >
           <SteadyLabel>{codexLink.label}</SteadyLabel>
@@ -120,6 +122,7 @@ export const CodexTabMenu = ({
             <DropdownMenuItem
               key={view.href}
               render={<Link href={view.href} />}
+              aria-current={isCurrentLink(pathname, view) ? "page" : undefined}
               className="items-start gap-3 p-2.5"
             >
               <NavigationMenuOptionContent

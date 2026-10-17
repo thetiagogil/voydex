@@ -82,13 +82,13 @@ export const UserMenu = ({ account }: UserMenuProps) => {
         <DropdownMenuGroup>
           <DropdownMenuItem
             render={<Link href={accountLink.href} />}
+            aria-current={isSettingsCurrent ? "page" : undefined}
             className="items-start gap-3 p-2.5"
           >
             <NavigationMenuOptionContent
               active={isSettingsCurrent}
               description="Profile, look and feel"
               leading={<AppIcon icon={appIcons.actions.settings} size="lg" />}
-              leadingClassName="text-action-lip"
               muted={false}
               title={accountLink.label}
             />
