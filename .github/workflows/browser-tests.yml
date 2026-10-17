@@ -14,9 +14,42 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # A pull request that only changes docs skips the browser tests. The skip is
+  # a job condition rather than a path filter, so the check still reports
+  # (as skipped) and can be a required check.
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Look for changes beyond docs
+        id: diff
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [ -z "$BASE_SHA" ]; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only "$BASE_SHA" HEAD | grep -qvE '^docs/|\.md$'; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+          fi
+
   browser-tests:
+    needs: changes
+    if: ${{ needs.changes.outputs.code == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # Pull the Supabase images from GitHub's registry; the default public
+      # registry often refuses GitHub's shared runners ("Data limit exceeded").
+      SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
 
     steps:
       - name: Check out repository
@@ -40,8 +73,10 @@ jobs:
       - name: Build the database seed
         run: npm run db:artifacts:build
 
+      # Only the services the app uses: the dashboard, realtime, functions,
+      # logs and the pooler stay off, so there are fewer images to pull.
       - name: Start local Supabase
-        run: npm run db:start
+        run: npm run db:start -- -x studio,postgres-meta,realtime,edge-runtime,logflare,vector,supavisor
 
       - name: Point the app at local Supabase
         run: |

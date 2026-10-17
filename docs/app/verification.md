@@ -93,8 +93,10 @@ them beside it.
   full runs in a row can hit its limit; wait a few minutes.
 
 The Browser Tests workflow runs the suite on every pull request and on `main`:
-it starts local Supabase, builds the app, runs the tests against the
-production build and keeps the report when a test fails.
+it starts local Supabase (only the services the app uses, with images from
+`ghcr.io`), builds the app, runs the tests against the production build and
+keeps the report when a test fails. A pull request that only changes docs
+skips the tests; the check still reports as skipped, so it can be required.
 
 ## Current Automated Coverage
 
