@@ -38,6 +38,7 @@ export const StoryStampCardSection = ({
         captions
         className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-1 pb-1.5 sm:auto-cols-[64px] sm:px-7"
         onSlapEnd={onSlapEnd}
+        scrollLabel="Stamps"
         slappingMilestoneId={slappingMilestoneId}
         stamps={stamps}
       />

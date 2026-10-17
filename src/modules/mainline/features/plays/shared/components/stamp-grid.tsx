@@ -40,6 +40,7 @@ export const StampGrid = ({
   captions = false,
   className,
   onSlapEnd,
+  scrollLabel,
   slappingMilestoneId = null,
   stamps,
 }: {
@@ -48,6 +49,11 @@ export const StampGrid = ({
   className?: string;
   /* Called once the just-recorded slap has played. */
   onSlapEnd?: () => void;
+  /*
+   * Names a row that scrolls sideways (phones), which can then take focus
+   * so the keyboard can scroll it.
+   */
+  scrollLabel?: string;
   /* The milestone recorded a moment ago, whose stamp slaps once. */
   slappingMilestoneId?: number | null;
   stamps: PlayStamp[];
@@ -55,7 +61,16 @@ export const StampGrid = ({
   const clock = useViewerClock();
 
   return (
-    <ul className={cn("grid", className)}>
+    <ul
+      aria-label={scrollLabel}
+      tabIndex={scrollLabel ? 0 : undefined}
+      className={cn(
+        "grid",
+        scrollLabel &&
+          "focus-visible:outline-focus outline-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid",
+        className,
+      )}
+    >
       {stamps.map((stamp, index) => (
         <li key={stamp.milestoneId} className="flex flex-col">
           <BadgeStamp

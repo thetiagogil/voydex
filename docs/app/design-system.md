@@ -208,7 +208,7 @@ somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `danger`, `gold`, `tint`, `game`, `paper`; sizes `xs`, `sm`, `md`), `Dialog`,
 `Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
-`Switch`, `Progress` (how far along, in the context colour),
+`Switch`, `Progress` (how far along, in the ok green like an HP bar, never the red accent),
 `NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
 additions:
 

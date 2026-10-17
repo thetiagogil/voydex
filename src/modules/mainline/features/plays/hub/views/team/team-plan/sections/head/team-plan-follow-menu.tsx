@@ -66,7 +66,7 @@ export const TeamPlanFollowMenu = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         disabled={isPending}
-        render={<Button type="button" variant="secondary" size="sm" />}
+        render={<Button type="button" variant="secondary" />}
       >
         {isPending ? <Spinner data-icon="inline-start" /> : null}
         {label}
