@@ -8,7 +8,7 @@ import { appRoutes } from "@/config/routes";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Carousel } from "@/shared/components/carousel";
@@ -116,16 +116,15 @@ export const HomePlayShelf = ({
                 />
                 {isCurrent ? <PickedMark /> : null}
                 {play.lead?.imageUrl ? (
+                  /* The partner as the one small portrait, in a corner mark's white ring. */
                   <span
                     aria-hidden
-                    style={getPokemonTypeCssVariables(leadType)}
-                    className="sticker absolute -right-3 -bottom-3 grid size-11.5 place-items-center rounded-full [border-width:3px] [--sticker-border:#fff]"
+                    className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={play.lead.imageUrl}
-                      alt=""
-                      className="size-10.5 max-w-none object-contain"
+                    <PokemonAvatar
+                      imageUrl={play.lead.imageUrl}
+                      name=""
+                      typeSlug={leadType}
                     />
                   </span>
                 ) : null}

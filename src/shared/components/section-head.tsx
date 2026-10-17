@@ -80,7 +80,7 @@ export const SectionHead = ({
     >
       <div className="flex min-w-0 gap-2">
         {icon ? (
-          <span className="bg-surface-2 text-ink-2 flex size-9 shrink-0 items-center justify-center rounded-sm">
+          <span className="bg-surface-2 text-ink-2 flex size-9 shrink-0 items-center justify-center rounded-full">
             <AppIcon icon={icon} size="sm" aria-hidden />
           </span>
         ) : null}

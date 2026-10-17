@@ -51,10 +51,10 @@ export const TeamMemberProfile = ({
 
   return (
     <div style={getPokemonTypeCssVariables(primaryType)} className="min-w-0">
-      <div className="relative -mx-2 -mt-1.5 mb-4.5 grid h-50 place-items-center overflow-hidden rounded-xl bg-[color-mix(in_oklab,var(--t)_18%,white)] sm:h-62.5">
+      <div className="type-tint relative -mx-2 -mt-1.5 mb-4.5 grid h-50 place-items-center overflow-hidden rounded-xl sm:h-62.5">
         <span
           aria-hidden
-          className="absolute size-52.5 rounded-full bg-[color-mix(in_oklab,var(--t)_28%,white)]"
+          className="absolute size-52.5 rounded-full bg-white/55"
         />
         {member.is_shiny ? (
           <Badge

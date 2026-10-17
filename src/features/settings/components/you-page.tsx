@@ -53,14 +53,14 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
       "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3",
     )}
   >
-    <span className="bg-surface-2 text-ink-2 grid size-11 place-items-center rounded-sm">
+    <span className="bg-surface-2 text-ink-2 grid size-11 place-items-center rounded-full">
       <AppIcon icon={icon} size="lg" />
     </span>
     <span className="flex min-w-0 flex-col gap-0.5">
       <span className="text-15 font-extrabold">{title}</span>
       <span className="text-13 text-ink-2 font-semibold">{description}</span>
     </span>
-    <AppIcon icon={appIcons.actions.continue} className="text-ink-3" />
+    <AppIcon icon={appIcons.actions.next} size="sm" className="text-ink-3" />
   </Link>
 );
 

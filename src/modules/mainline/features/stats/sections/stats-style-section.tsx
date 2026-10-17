@@ -159,7 +159,7 @@ const MostPickedCard = ({
         )}
         className="group/picked focus-visible:outline-focus flex flex-col items-center gap-2.5 rounded-xl text-center outline-none focus-visible:outline-3 focus-visible:outline-solid"
       >
-        <span className="sticker grid size-28 shrink-0 place-items-center rounded-2xl transition-transform group-hover/picked:-translate-y-0.75">
+        <span className="sticker grid size-28 shrink-0 place-items-center rounded-xl transition-transform group-hover/picked:-translate-y-0.75">
           {entry.imageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img

@@ -48,7 +48,7 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
     case "pokemon":
       return {
         ...getPokemonTypeCssVariables(content.type),
-        "--mf": "color-mix(in oklab, var(--t) 24%, var(--surface))",
+        "--mf": "color-mix(in oklab, var(--t) 22%, var(--surface))",
         "--mr": "color-mix(in oklab, var(--t) 45%, white)",
       } as CSSProperties;
     case "note":
