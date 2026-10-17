@@ -4,6 +4,7 @@ import {
   groupPokemonByGeneration,
   groupPokemonByType,
   takePokemonFromGroups,
+  ungroupPokemon,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import type {
   Generation,
@@ -102,5 +103,16 @@ describe("takePokemonFromGroups", () => {
       ["normal", [16, 17, 18]],
       ["fire", [4]],
     ]);
+  });
+});
+
+describe("ungroupPokemon", () => {
+  it("puts every Pokémon in one range without a heading", () => {
+    const pokemon = [buildPokemon(1, null), buildPokemon(2, null)];
+
+    expect(ungroupPokemon(pokemon)).toEqual([
+      { key: "all", label: null, pokemon },
+    ]);
+    expect(ungroupPokemon([])).toEqual([]);
   });
 });

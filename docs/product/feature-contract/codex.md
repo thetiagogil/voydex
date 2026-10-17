@@ -19,8 +19,8 @@ Pokémon Browse must:
   `More filters`;
 - search species name, National Pokédex number, and applicable persistent form
   names;
-- default to National number, with Name as the alternate sort, grouped by
-  introduced generation;
+- default to National number, with Name as the alternate sort, in one plain
+  grid that Group can split by introduced generation or by primary type;
 - show one equal image-led result per species with artwork, National number,
   name, type, and only a concise form cue;
 - open the entry in the first version group of the generation the species was
@@ -97,7 +97,8 @@ and failure return to the same Detail context without partial user data.
 Codex Games is a public, cover-led catalogue of the exact traditional mainline
 and Legends-style games supported by Voydex. Games Browse keeps Search and the
 kind of game (Core series, Companions and remakes, Legends) in the URL, plus a
-newest or oldest order and grouping by generation or region. It uses one game
+newest or oldest order, and one plain grid that can be grouped by generation
+or region. It uses one game
 card (`GameShelfCard`) with cover, short name, release year, and region,
 opening its version group's page with that game picked. The V1 catalogue does
 not require pagination, personal overlays, or inline Mainline actions. It
@@ -118,7 +119,8 @@ exclusives: one column per game of the pair, the picked game first, counting
 only what each game gives you itself. Its head has no actions; signed in,
 the last section, Your Plays, lists your Plays of these games with `Start a
 {Version} Play` and `Plan a team` beside its title. Games Browse stays reference: one
-toolbar row (Search, Kind, Group by generation or region, Sort) and no mark
+toolbar row (Search, Kind, Group: none by default, or generation or region,
+Sort) and no mark
 for the games you've played.
 
 Named Pokédexes are listed under the base group (as pills with their counts

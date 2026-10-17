@@ -52,6 +52,24 @@ const games = [
 ];
 
 describe("groupGamesIntoSections", () => {
+  it("keeps every game in one unlabelled section when ungrouped", () => {
+    const sections = groupGamesIntoSections({
+      games,
+      groupBy: "none",
+      regions: [kanto, johto],
+      sortOrder: "newest",
+    });
+
+    expect(sections).toHaveLength(1);
+    expect(sections[0].label).toBeNull();
+    expect(sections[0].games.map((card) => card.game.slug)).toEqual([
+      "firered",
+      "gold",
+      "yellow",
+      "red",
+    ]);
+  });
+
   it("groups by generation in release order with a summary line", () => {
     const sections = groupGamesIntoSections({
       games,

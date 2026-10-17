@@ -46,13 +46,13 @@ type GamesBrowserProps = {
 
 /*
  * The Codex's games: the band with the title, how many there are and the
- * toolbar (search, Kind, Group, Sort), then the shelf of covers, grouped by
- * generation or region. A reference list: it never says which games you've
+ * toolbar (search, Kind, Group, Sort), then the shelf of covers: one plain
+ * grid by default, or grouped by generation or region. A reference list: it never says which games you've
  * played.
  */
 export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   const [filters, setFilters] = useState<GamesBrowseFilters>(data.filters);
-  const [groupBy, setGroupBy] = useState<GamesGroupBy>("generation");
+  const [groupBy, setGroupBy] = useState<GamesGroupBy>("none");
   const [sortOrder, setSortOrder] = useState<GamesSortOrder>("oldest");
   const filteredGames = useMemo(
     () => filterGames(data.games, filters),

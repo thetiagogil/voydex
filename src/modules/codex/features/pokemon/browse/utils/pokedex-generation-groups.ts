@@ -6,9 +6,16 @@ import type {
 
 export type PokedexPokemonGenerationGroup = {
   key: string;
-  label: string;
+  /* No label: the one range of an ungrouped list, shown without a heading. */
+  label: string | null;
   pokemon: PokedexPokemonBrowseCard[];
 };
+
+/* The list without ranges: every match in one plain grid. */
+export const ungroupPokemon = (
+  pokemon: PokedexPokemonBrowseCard[],
+): PokedexPokemonGenerationGroup[] =>
+  pokemon.length ? [{ key: "all", label: null, pokemon }] : [];
 
 export const groupPokemonByGeneration = (
   pokemon: PokedexPokemonBrowseCard[],

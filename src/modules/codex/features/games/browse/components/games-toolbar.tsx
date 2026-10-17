@@ -33,6 +33,7 @@ type GamesToolbarProps = {
 const ALL_KINDS = "all";
 
 const groupByOptions = [
+  { label: "None", value: "none" },
   { label: "Generation", value: "generation" },
   { label: "Region", value: "region" },
 ] satisfies { label: string; value: GamesGroupBy }[];
@@ -41,6 +42,9 @@ const sortOptions = [
   { label: "Oldest first", value: "oldest" },
   { label: "Newest first", value: "newest" },
 ] satisfies { label: string; value: GamesSortOrder }[];
+
+const isGamesGroupBy = (value: string): value is GamesGroupBy =>
+  value === "none" || value === "generation" || value === "region";
 
 const isGameKind = (value: string): value is GameKind => {
   return (gameKinds as readonly string[]).includes(value);
@@ -122,10 +126,12 @@ export const GamesToolbar = ({
             prefix="Group"
             value={groupBy}
             onValueChange={(value) => {
-              onGroupByChange(value === "region" ? "region" : "generation");
+              if (isGamesGroupBy(value)) {
+                onGroupByChange(value);
+              }
             }}
             options={groupByOptions}
-            placeholder="Generation"
+            placeholder="None"
           />
           <SelectControl
             ariaLabel="Sort games"
