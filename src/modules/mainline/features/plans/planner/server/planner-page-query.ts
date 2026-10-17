@@ -1,10 +1,10 @@
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
+import { buildPlannerContext } from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
 import {
-  buildPlannerContext,
   buildPlannerVersionGroupOptions,
   getPlannerFamilyIds,
   resolvePlannerVersionGroup,
-} from "@/modules/mainline/features/plans/planner/data/planner-pool-model";
+} from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
 import {
   readPlannerCatalogue,
   readPlannerPoolRows,

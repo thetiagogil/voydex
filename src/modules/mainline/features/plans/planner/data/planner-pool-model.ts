@@ -1,34 +1,20 @@
 import type {
-  PlannerAvailabilityRow,
   PlannerCatalogueRows,
   PlannerPoolRows,
 } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
+import { buildPlannerAvailabilityFacts } from "@/modules/mainline/features/plans/planner/data/planner-availability-facts";
+import { toPlannerVersionGroup } from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
 import type {
   PlannerContext,
   PlannerPokedexSection,
   PlannerPokemon,
-  PlannerPokemonFacts,
-  PlannerVersionGroup,
-  PlannerVersionGroupOption,
 } from "@/modules/mainline/features/plans/types";
 import { getPlanBuildFields } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import {
-  getVersionExclusives,
-  isInGameAvailabilityMethod,
-} from "@/modules/reference/features/games/domain/version-exclusives";
-import {
-  getChildVersionGroups,
-  getVersionGroupFamilyIds,
-} from "@/modules/reference/features/games/domain/version-groups";
-import {
-  getGameShortName,
-  getGenerationNumeral,
-} from "@/modules/reference/features/games/utils/game-display";
+import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { getPokemonTypesForGeneration } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import type {
-  Game,
   PokemonAttributes,
   VersionGroup,
 } from "@/modules/reference/types";
@@ -43,111 +29,6 @@ export const getPokedexDisplayName = (name: string) => {
 };
 const tradeEvolutionSlug = "trade";
 
-/* The base version groups a Plan can be for, newest generation first. */
-export const buildPlannerVersionGroupOptions = (
-  catalogue: PlannerCatalogueRows,
-): PlannerVersionGroupOption[] => {
-  const generationById = new Map(
-    catalogue.generations.map((generation) => [generation.id, generation]),
-  );
-  const regionById = new Map(
-    catalogue.regions.map((region) => [region.id, region.name]),
-  );
-
-  return catalogue.versionGroups
-    .filter((group) => group.parent_version_group_id === null)
-    .flatMap((group) => {
-      const games = catalogue.games.filter(
-        (game) => game.version_group_id === group.id,
-      );
-      const generation = generationById.get(group.generation_id);
-
-      return games.length && generation
-        ? [
-            {
-              gameSlugs: games.map((game) => game.slug),
-              generationNumeral: getGenerationNumeral(generation.name),
-              generationOrder: generation.sort_order,
-              name: group.name,
-              regionName: regionById.get(games[0].region_id ?? -1) ?? null,
-              slug: group.slug,
-              sortOrder: group.sort_order,
-            },
-          ]
-        : [];
-    })
-    .toSorted(
-      (left, right) =>
-        right.generationOrder - left.generationOrder ||
-        right.sortOrder - left.sortOrder,
-    )
-    .map(({ gameSlugs, generationNumeral, name, regionName, slug }) => ({
-      gameSlugs,
-      generationNumeral,
-      name,
-      regionName,
-      slug,
-    }));
-};
-
-/* The asked-for base version group, else the newest one with games. */
-export const resolvePlannerVersionGroup = (
-  catalogue: PlannerCatalogueRows,
-  slug: string | null,
-  options: PlannerVersionGroupOption[],
-): VersionGroup | null => {
-  const asked = catalogue.versionGroups.find((group) => group.slug === slug);
-  const base =
-    asked && asked.parent_version_group_id !== null
-      ? catalogue.versionGroups.find(
-          (group) => group.id === asked.parent_version_group_id,
-        )
-      : asked;
-  const fallbackSlug = options[0]?.slug;
-
-  return (
-    base ??
-    catalogue.versionGroups.find((group) => group.slug === fallbackSlug) ??
-    null
-  );
-};
-
-export const getPlannerFamilyIds = (
-  catalogue: PlannerCatalogueRows,
-  versionGroup: VersionGroup,
-) => getVersionGroupFamilyIds(versionGroup, catalogue.versionGroups);
-
-const toPlannerVersionGroup = (
-  catalogue: PlannerCatalogueRows,
-  versionGroup: VersionGroup,
-  games: Game[],
-): PlannerVersionGroup => {
-  const generation = catalogue.generations.find(
-    (candidate) => candidate.id === versionGroup.generation_id,
-  );
-
-  return {
-    expansions: getChildVersionGroups(
-      versionGroup,
-      catalogue.versionGroups,
-    ).map((child) => ({ name: child.name, versionGroupId: child.id })),
-    games: games.map((game) => ({
-      id: game.id,
-      name: game.name,
-      shortName: getGameShortName(game.name),
-      slug: game.slug,
-    })),
-    generationNumeral: getGenerationNumeral(generation?.name ?? ""),
-    generationOrder: generation?.sort_order ?? versionGroup.generation_id,
-    id: versionGroup.id,
-    name: versionGroup.name,
-    regionName:
-      catalogue.regions.find((region) => region.id === games[0]?.region_id)
-        ?.name ?? null,
-    slug: versionGroup.slug,
-  };
-};
-
 /* A form's attributes in the version group's generation: the latest that had started. */
 const getAttributesInGeneration = (
   attributesByForm: Map<number, PokemonAttributes[]>,
@@ -159,111 +40,6 @@ const getAttributesInGeneration = (
     .toSorted(
       (left, right) => right.generation_start_id - left.generation_start_id,
     )[0] ?? null;
-
-/*
- * What the catalogue says about getting each species in this version group:
- * in the base game, only in an expansion, only as one game's exclusive, only
- * from an event, or only from outside the game. A species with no rows at
- * all gets no facts: unknown is never read as unavailable.
- */
-const buildAvailabilityFacts = ({
-  availability,
-  baseVersionGroupId,
-  eventMethodIds,
-  expansionIds,
-  gameIds,
-  inGameMethodIds,
-}: {
-  availability: PlannerAvailabilityRow[];
-  baseVersionGroupId: number;
-  eventMethodIds: ReadonlySet<number>;
-  expansionIds: number[];
-  gameIds: number[];
-  inGameMethodIds: ReadonlySet<number>;
-}) => {
-  type SpeciesRows = {
-    base: boolean;
-    event: boolean;
-    expansion: number | null;
-    outside: boolean;
-  };
-  const bySpecies = new Map<number, SpeciesRows>();
-  const baseRows = availability.filter(
-    (row) => row.target_version_group_id === baseVersionGroupId,
-  );
-
-  for (const row of availability) {
-    if (row.species_id === null || row.availability_method_id === null)
-      continue;
-
-    const entry = bySpecies.get(row.species_id) ?? {
-      base: false,
-      event: false,
-      expansion: null,
-      outside: false,
-    };
-    const inGame = inGameMethodIds.has(row.availability_method_id);
-
-    if (inGame && row.target_version_group_id === baseVersionGroupId) {
-      entry.base = true;
-    } else if (
-      inGame &&
-      row.source_version_group_id !== null &&
-      expansionIds.includes(row.source_version_group_id)
-    ) {
-      entry.expansion ??= row.source_version_group_id;
-    } else if (eventMethodIds.has(row.availability_method_id)) {
-      entry.event = true;
-    } else if (!inGame) {
-      entry.outside = true;
-    }
-
-    bySpecies.set(row.species_id, entry);
-  }
-
-  const exclusives = getVersionExclusives({
-    gameIds,
-    inGameMethodIds,
-    rows: baseRows.flatMap((row) =>
-      row.species_id !== null &&
-      row.form_id !== null &&
-      row.availability_method_id !== null
-        ? [
-            {
-              availability_method_id: row.availability_method_id,
-              form_id: row.form_id,
-              game_id: row.game_id,
-              species_id: row.species_id,
-            },
-          ]
-        : [],
-    ),
-  });
-  const exclusiveGamesBySpecies = new Map<number, number[]>();
-
-  for (const [gameId, list] of exclusives) {
-    for (const exclusive of list) {
-      const games = exclusiveGamesBySpecies.get(exclusive.speciesId) ?? [];
-
-      if (!games.includes(gameId)) games.push(gameId);
-      exclusiveGamesBySpecies.set(exclusive.speciesId, games);
-    }
-  }
-
-  return (speciesId: number): Omit<PlannerPokemonFacts, "tradeEvolution"> => {
-    const rows = bySpecies.get(speciesId);
-    const exclusiveTo = exclusiveGamesBySpecies.get(speciesId) ?? [];
-
-    return {
-      eventOnly: Boolean(rows && !rows.base && !rows.expansion && rows.event),
-      exclusiveToGameIds: exclusiveTo.length === 1 ? exclusiveTo : [],
-      expansionVersionGroupId: rows && !rows.base ? rows.expansion : null,
-      outsideGameOnly: Boolean(
-        rows && !rows.base && !rows.expansion && !rows.event && rows.outside,
-      ),
-    };
-  };
-};
 
 /*
  * The Planner's pool for one version group: one section per Pokédex of the
@@ -371,7 +147,7 @@ export const buildPlannerContext = ({
       slug === eventMethodSlug ? [id] : [],
     ),
   );
-  const getAvailabilityFacts = buildAvailabilityFacts({
+  const getAvailabilityFacts = buildPlannerAvailabilityFacts({
     availability: pool.availability,
     baseVersionGroupId: versionGroup.id,
     eventMethodIds,
