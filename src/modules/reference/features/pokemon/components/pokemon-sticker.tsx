@@ -233,31 +233,58 @@ export const PokemonSticker = ({
   );
 };
 
-/* An open slot: the dashed tile used for anything missing or not yet yours. */
+/*
+ * An open slot: the dashed tile used for anything missing or not yet yours.
+ * With `href` it is a link that fills the slot (its words name it); `ring`
+ * puts v3's plus ring over the words.
+ */
 export const PokemonEmptySlot = ({
   className,
+  href,
   label,
+  ring = false,
   text = "Open slot",
   variant = "default",
 }: {
   className?: string;
+  href?: string;
+  /* The slot's name when it is a picture, not a link. */
   label: string;
+  ring?: boolean;
   /* What it says inside; "Open slot" unless the slot means something else. */
   text?: string;
   /* Matches the stickers it sits among. */
   variant?: PokemonStickerVariant;
 }) => {
-  return (
-    <div
-      role="img"
-      aria-label={label}
-      className={cn(
-        "empty-slot text-ink-3 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold",
-        variantClassNames[variant].height,
-        className,
-      )}
-    >
+  const slotClassName = cn(
+    "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl font-bold",
+    variantClassNames[variant].height,
+    className,
+  );
+  const body = (
+    <>
+      {ring ? (
+        <span
+          aria-hidden
+          className="bg-surface-2 text-ink-2 grid size-12 place-items-center rounded-full"
+        >
+          <AppIcon icon={appIcons.actions.create} size="md" />
+        </span>
+      ) : null}
       {text}
+    </>
+  );
+
+  return href ? (
+    <Link
+      href={href}
+      className={cn(slotClassName, "hover:text-ink-2 transition-colors")}
+    >
+      {body}
+    </Link>
+  ) : (
+    <div role="img" aria-label={label} className={slotClassName}>
+      {body}
     </div>
   );
 };
