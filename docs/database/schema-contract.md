@@ -70,6 +70,17 @@ retirement, replacement, and later corrections do not erase history.
 
 Use reviewed security-invoker functions for atomic workflows:
 
+- `gameplay.create_mainline_play` starts a playing Play for the caller with its
+  settings, owned expansions (non-base content scopes of that game) and
+  optional partner in one transaction. When the game's first Story milestone
+  with a Pokémon decision offers the partner (exact form, else species), the
+  partner joins slot 1 and that milestone is completed with its decision and a
+  "<Species> chose you" moment; otherwise the partner joins slot 1 with its own
+  Added moment.
+- `gameplay.add_mainline_play_event` adds a free-form moment (journal note or
+  status change, manual or recorded-action origin) at the next timeline place
+  under the Play's advisory lock. Milestone, Pokémon and Hall of Fame moments
+  stay with their own functions.
 - `gameplay.add_mainline_play_pokemon` and related lifecycle functions.
 - `gameplay.complete_mainline_play_milestone` distinguishes omitted detail
   values from explicit replacement, so a submitted `Not recorded` decision or
@@ -86,6 +97,12 @@ Use reviewed security-invoker functions for atomic workflows:
 - `gameplay.set_mainline_play_pokedex_species_progress`.
 - `planning.link_mainline_team_plan_to_play` and plan-member realization
   helpers.
+- `planning.save_mainline_team_plan` creates (no Plan id) or rewrites a Plan's
+  row, ordered members, planned move slots and expansions in one transaction.
+  It keeps the stored game while the version group is unchanged, otherwise
+  stores the group's first game, and refuses a game change while a Play
+  follows the Plan. Build validation against reference data stays with the
+  caller.
 
 Database constraints, RLS, and function transactions remain authoritative even
 when the app performs earlier validation.

@@ -979,6 +979,20 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      add_mainline_play_event: {
+        Args: {
+          p_body?: string;
+          p_event_origin_slug: string;
+          p_event_type_slug: string;
+          p_happened_at?: string;
+          p_play_id: string;
+          p_title: string;
+        };
+        Returns: {
+          result_event_id: string;
+          result_timeline_order: number;
+        }[];
+      };
       add_mainline_play_pokemon: {
         Args: {
           p_ability_id?: number;
@@ -1049,6 +1063,24 @@ export type Database = {
           milestone_id: number;
           play_id: string;
           snapshot_count: number;
+        }[];
+      };
+      create_mainline_play: {
+        Args: {
+          p_expansion_version_group_ids?: number[];
+          p_game_id: number;
+          p_name: string;
+          p_partner_form_id?: number;
+          p_partner_species_id?: number;
+          p_started_on?: string;
+          p_trainer_name?: string;
+        };
+        Returns: {
+          result_partner_decision_option_id: number;
+          result_partner_event_id: string;
+          result_partner_milestone_id: number;
+          result_partner_play_pokemon_id: string;
+          result_play_id: string;
         }[];
       };
       evolve_mainline_play_pokemon: {
@@ -1477,6 +1509,20 @@ export type Database = {
         };
         Returns: {
           result_play_plan_link_id: string;
+        }[];
+      };
+      save_mainline_team_plan: {
+        Args: {
+          p_expansion_version_group_ids?: number[];
+          p_game_id?: number;
+          p_members?: Json;
+          p_name: string;
+          p_team_plan_id?: string;
+          p_version_group_id: number;
+        };
+        Returns: {
+          result_created: boolean;
+          result_team_plan_id: string;
         }[];
       };
     };
