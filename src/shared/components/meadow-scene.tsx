@@ -88,7 +88,7 @@ export const MeadowScene = ({
         ) : null}
       </div>
       {ground ? (
-        <div className="bg-hill-2 relative z-6 pt-1.5 pb-6 sm:pb-9">
+        <div className="bg-hill-2 relative z-6 pt-5 pb-6 sm:pt-6 sm:pb-9">
           {ground}
         </div>
       ) : form === "band" ? (

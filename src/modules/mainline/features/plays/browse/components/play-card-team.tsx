@@ -17,8 +17,7 @@ type PlayCardTeamProps = {
 
 /*
  * The active team as small Pokémon (`PokemonAvatar`, the same as a Plan's
- * strip); open slots are dashed rings. The team carries no types here, so
- * the tints are neutral.
+ * strip), each on its type's tint; open slots are dashed rings.
  */
 export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
   if (team.state === "unavailable") {
@@ -40,7 +39,11 @@ export const PlayCardTeam = ({ className, team }: PlayCardTeamProps) => {
             <PokemonAvatar
               imageUrl={getPlayTeamMemberImageUrl(member)}
               name={getPlayTeamMemberName(member)}
-              typeSlug={null}
+              typeSlug={
+                member.form_id
+                  ? (team.typeSlugByFormId[member.form_id] ?? null)
+                  : null
+              }
             />
           ) : (
             <PokemonAvatarSlot label={`Open slot ${position}`} />

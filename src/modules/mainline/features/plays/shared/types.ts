@@ -26,6 +26,8 @@ export type PlayBrowseProgress =
 export type PlayBrowseTeam = {
   members: MainlinePlayTeamMember[];
   state: "available" | "unavailable";
+  /* Each member's primary type slug by form id, for its portrait's tint. */
+  typeSlugByFormId: Record<number, string>;
 };
 
 /*

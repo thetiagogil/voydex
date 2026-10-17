@@ -54,6 +54,8 @@ type BuildMainlinePlayBrowseItemsParams = {
   regions: PlayBrowseRegion[];
   storyRows: PlayBrowseStoryRows;
   teamMembers: MainlinePlayTeamMember[];
+  /* Each team member's primary type slug by form id; empty when unknown. */
+  teamTypeSlugByFormId?: Record<number, string>;
 };
 
 const clampPercent = (value: number) => {
@@ -174,6 +176,7 @@ export const buildMainlinePlayBrowseItems = ({
   regions,
   storyRows,
   teamMembers,
+  teamTypeSlugByFormId = {},
 }: BuildMainlinePlayBrowseItemsParams): PlayBrowseItem[] => {
   const milestonesByPlayId = groupByPlayId(storyRows.milestones);
   const categoriesByPlayId = groupByPlayId(storyRows.categories);
@@ -204,6 +207,7 @@ export const buildMainlinePlayBrowseItems = ({
           )
           .slice(0, 6),
         state: availability.team ? "available" : "unavailable",
+        typeSlugByFormId: teamTypeSlugByFormId,
       },
       coverImageUrl: game ? getGameCoverImageUrl(game) : null,
       progress: buildProgress(
