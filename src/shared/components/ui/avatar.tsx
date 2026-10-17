@@ -24,19 +24,6 @@ const Avatar = ({
   );
 };
 
-const AvatarImage = ({ className, ...props }: AvatarPrimitive.Image.Props) => {
-  return (
-    <AvatarPrimitive.Image
-      data-slot="avatar-image"
-      className={cn(
-        "aspect-square size-full rounded-full object-cover",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
 const AvatarFallback = ({
   className,
   ...props
@@ -53,4 +40,4 @@ const AvatarFallback = ({
   );
 };
 
-export { Avatar, AvatarImage, AvatarFallback };
+export { Avatar, AvatarFallback };

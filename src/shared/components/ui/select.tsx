@@ -121,19 +121,6 @@ const SelectContent = ({
   );
 };
 
-const SelectLabel = ({
-  className,
-  ...props
-}: SelectPrimitive.GroupLabel.Props) => {
-  return (
-    <SelectPrimitive.GroupLabel
-      data-slot="select-label"
-      className={cn("text-12 text-ink-3 px-2.5 py-1.5 font-bold", className)}
-      {...props}
-    />
-  );
-};
-
 const SelectItem = ({
   className,
   children,
@@ -159,19 +146,6 @@ const SelectItem = ({
         <CheckIcon className="pointer-events-none" />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
-  );
-};
-
-const SelectSeparator = ({
-  className,
-  ...props
-}: SelectPrimitive.Separator.Props) => {
-  return (
-    <SelectPrimitive.Separator
-      data-slot="select-separator"
-      className={cn("bg-line pointer-events-none -mx-1 my-1 h-px", className)}
-      {...props}
-    />
   );
 };
 
@@ -216,10 +190,8 @@ export {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectScrollDownButton,
   SelectScrollUpButton,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 };

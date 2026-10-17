@@ -46,19 +46,6 @@ const PopoverContent = ({
   );
 };
 
-const PopoverHeader = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="popover-header"
-      className={cn("flex flex-col gap-0.5", className)}
-      {...props}
-    />
-  );
-};
-
 const PopoverTitle = ({
   className,
   ...props
@@ -72,24 +59,4 @@ const PopoverTitle = ({
   );
 };
 
-const PopoverDescription = ({
-  className,
-  ...props
-}: PopoverPrimitive.Description.Props) => {
-  return (
-    <PopoverPrimitive.Description
-      data-slot="popover-description"
-      className={cn("text-13 text-ink-2 font-semibold", className)}
-      {...props}
-    />
-  );
-};
-
-export {
-  Popover,
-  PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
-  PopoverTrigger,
-};
+export { Popover, PopoverContent, PopoverTitle, PopoverTrigger };
