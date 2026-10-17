@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
+import { menuOptionShapeClassName } from "@/shared/components/ui/menu-surface";
 import { cn } from "@/shared/utils/cn";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
@@ -64,7 +65,8 @@ export const getNavigationMenuOptionClassName = ({
   muted: boolean;
 }) => {
   return cn(
-    "min-h-12 items-center gap-3 rounded-md py-1.5 pr-3 pl-2 font-bold",
+    menuOptionShapeClassName,
+    "pr-3",
     hasDescription && "py-2",
     active && "bg-select-soft text-select-ink",
     muted && "opacity-65 hover:opacity-100",

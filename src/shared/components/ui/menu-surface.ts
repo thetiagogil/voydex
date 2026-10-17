@@ -5,12 +5,18 @@
  * up under the pointer or the keyboard and takes the selected tint, with a
  * check at its end, when it is the pick.
  */
-export const menuPanelClassName =
-  "bg-surface text-ink shadow-menu rounded-lg p-1.5";
+export const menuSurfaceClassName =
+  "bg-surface text-ink shadow-menu rounded-lg";
+
+/* The panel: the surface with its inner padding. */
+export const menuPanelClassName = `${menuSurfaceClassName} p-1.5`;
+
+/* An option row's shape, shared by items and the bar's menu links. */
+export const menuOptionShapeClassName =
+  "flex min-h-12 items-center gap-3 rounded-md py-1.5 pl-2 text-15 font-bold";
 
 /* One option's row. Items mark the highlighted and the picked option. */
-export const menuOptionClassName =
-  "relative flex min-h-12 w-full cursor-default items-center gap-3 rounded-md py-1.5 pr-10 pl-2 text-15 font-bold outline-hidden select-none transition-colors data-highlighted:bg-hover data-highlighted:text-ink data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0";
+export const menuOptionClassName = `${menuOptionShapeClassName} relative w-full cursor-default pr-10 outline-hidden select-none transition-colors data-highlighted:bg-hover data-highlighted:text-ink data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0`;
 
 /* The picked option, where the item marks it with `data-selected`. */
 export const menuOptionSelectedClassName =
