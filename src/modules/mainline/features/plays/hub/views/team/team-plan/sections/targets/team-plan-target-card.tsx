@@ -57,7 +57,7 @@ export const TeamPlanTargetCard = ({
       onClick={() => onSelect(comparison)}
       style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
       className={cn(
-        "flex h-full w-full min-w-0 cursor-pointer flex-col items-center rounded-xl px-4 pt-3.5 pb-4.5 text-center transition-transform duration-150 hover:-translate-y-[3px]",
+        "flex h-full w-full min-w-0 cursor-pointer flex-col items-center rounded-xl px-4 pt-3.5 pb-4.5 text-center transition-transform duration-150 hover:-translate-y-0.75",
         owned && "sticker [--sticker-shadow:var(--shadow-soft-value)]",
         !owned && found && "bg-surface border-line border",
         !found && "empty-slot",
@@ -75,7 +75,7 @@ export const TeamPlanTargetCard = ({
         {comparison.roleLabel ? (
           <span
             className={cn(
-              "text-12 text-ink-2 truncate rounded-full px-2.5 py-[3px] font-extrabold",
+              "text-12 text-ink-2 truncate rounded-full px-2.5 py-0.75 font-extrabold",
               owned && "bg-white",
               !owned && found && "bg-surface-2",
               !found && "bg-surface",
@@ -89,7 +89,7 @@ export const TeamPlanTargetCard = ({
       <TeamPlanArt
         imageUrl={getTeamPlanPlannedImageUrl(comparison)}
         silhouette={!found}
-        className="mt-0.5 size-[90px] sm:size-[124px]"
+        className="mt-0.5 size-22.5 sm:size-31"
       />
 
       <span className="font-display text-20 w-full truncate leading-tight font-semibold">

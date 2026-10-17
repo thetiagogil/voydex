@@ -211,7 +211,7 @@ export const PokemonDetailShell = ({
       <div className="mt-8 flex flex-col gap-6 sm:mt-10">
         <div
           className={cn(
-            "grid gap-6 md:grid-cols-2 [&>*]:h-full",
+            "grid gap-6 *:h-full md:grid-cols-2",
             factsRowClassNames[Math.min(abilitySlots.length, 3)],
           )}
         >
@@ -233,7 +233,7 @@ export const PokemonDetailShell = ({
             noteHref={getGenerationHref(breedingNote?.arrivesIn ?? null)}
           />
         </div>
-        <div className="grid items-stretch gap-6 lg:grid-cols-2 [&>*]:h-full">
+        <div className="grid items-stretch gap-6 *:h-full lg:grid-cols-2">
           {stats.length ? (
             <PokemonDetailStatsCard
               generationName={generation.generation.name}

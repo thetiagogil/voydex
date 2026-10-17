@@ -211,7 +211,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
       data-slot="card"
       style={game ? getGameColourStyle(game.slug) : undefined}
       className={cn(
-        "bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl max-sm:rounded-none",
+        "bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none",
         game && "game-scope",
       )}
     >
@@ -388,7 +388,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
     <section
       aria-labelledby={titleId}
       data-slot="card"
-      className="bg-surface mx-auto flex w-full max-w-[880px] flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
+      className="bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
     >
       <MeadowScene
         form="card"

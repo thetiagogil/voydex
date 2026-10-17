@@ -102,7 +102,7 @@ export const Toolbar = ({
       <>
         <div className="-ml-2 flex min-w-0 flex-wrap items-center gap-y-2.5 sm:-ml-7">
           {search ? (
-            <div className="flex min-w-0 flex-[1_1_100%] items-center pl-2 sm:min-w-[calc(220px+1.75rem)] sm:flex-[1_1_220px] sm:pl-7 [&>*]:min-w-0 [&>*]:flex-1">
+            <div className="flex min-w-0 flex-[1_1_100%] items-center pl-2 *:min-w-0 *:flex-1 sm:min-w-62 sm:flex-[1_1_220px] sm:pl-7">
               {search}
             </div>
           ) : null}

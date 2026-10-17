@@ -41,7 +41,7 @@ const MatchupChips = ({
             aria-label={`${matchup.typeLabel} ${matchup.multiplierLabel}`}
             title={matchup.typeLabel}
             className={cn(
-              "text-13 inline-flex items-center gap-1 rounded-full py-[3px] pr-2 pl-[3px] font-extrabold",
+              "text-13 inline-flex items-center gap-1 rounded-full py-0.75 pr-2 pl-0.75 font-extrabold",
               isQuadruple ? "bg-danger-soft" : "bg-surface-2",
             )}
           >

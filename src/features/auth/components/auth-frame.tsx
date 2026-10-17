@@ -21,8 +21,8 @@ type AuthFrameProps = {
  * Choose a new password and Check your email all stand in it.
  */
 export const AuthFrame = ({ after, cast, children }: AuthFrameProps) => (
-  <div className="flex w-full min-w-0 flex-1 justify-center pt-[100px] pb-10 sm:pt-[124px] sm:pb-14">
-    <div className="relative w-full max-w-[440px] min-w-0">
+  <div className="flex w-full min-w-0 flex-1 justify-center pt-25 pb-10 sm:pt-31 sm:pb-14">
+    <div className="relative w-full max-w-110 min-w-0">
       <AuthPeek cast={cast} />
       <Card className="relative z-1 gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
         {children}

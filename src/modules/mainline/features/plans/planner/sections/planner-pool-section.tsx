@@ -188,7 +188,7 @@ export const PlannerPoolSection = ({
                   return (
                     <li
                       key={pokemon.speciesId}
-                      className="relative min-w-0 transition-transform duration-150 hover:-translate-y-[3px] motion-reduce:transition-none"
+                      className="relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                     >
                       <button
                         type="button"

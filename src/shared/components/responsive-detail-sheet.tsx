@@ -71,7 +71,7 @@ export const ResponsiveDetailSheet = ({
           "w-full gap-0 p-0",
           size === "wide"
             ? "data-[side=right]:sm:max-w-[min(860px,calc(100vw-2rem))]"
-            : "data-[side=right]:sm:max-w-[480px]",
+            : "data-[side=right]:sm:max-w-120",
         )}
       >
         {headBleed ? (

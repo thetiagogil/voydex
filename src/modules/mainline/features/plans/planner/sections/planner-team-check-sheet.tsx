@@ -261,7 +261,7 @@ export const PlannerTeamCheckSheet = ({
 
           <Step title="Defensive matchups">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[520px] border-separate border-spacing-y-1 text-center">
+              <table className="w-full min-w-130 border-separate border-spacing-y-1 text-center">
                 <caption className="sr-only">
                   How much damage each attacking type does to each Pokémon
                 </caption>

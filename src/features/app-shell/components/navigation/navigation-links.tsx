@@ -55,9 +55,9 @@ export const NavigationLinks = ({
             href={link.href}
             aria-current={isCurrent ? "page" : undefined}
             className={cn(
-              "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(color:--bar-ink-2) hover:bg-(--bar-hover)",
+              "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
               isCurrent &&
-                "bg-(--bar-current) font-extrabold text-(color:--bar-current-ink) hover:bg-(--bar-current) hover:text-(color:--bar-current-ink)",
+                "bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
             )}
           >
             <SteadyLabel>{link.label}</SteadyLabel>

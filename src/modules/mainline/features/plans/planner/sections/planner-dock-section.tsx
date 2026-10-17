@@ -132,7 +132,7 @@ export const PlannerDockSection = ({
           <span className="text-ink-3 text-14 font-bold tabular-nums">
             {filled} of 6
           </span>
-          <div className="-mx-1 -mt-1 -mb-2 flex [scrollbar-width:none] items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 max-sm:w-full sm:ml-auto sm:gap-1.5 [&>*]:shrink-0">
+          <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
             <div className="flex items-center">
               <Button
                 type="button"
@@ -206,7 +206,7 @@ export const PlannerDockSection = ({
         </div>
       )}
 
-      <ol className="grid grid-cols-2 gap-x-4 gap-y-[18px] sm:grid-cols-3 lg:grid-cols-6">
+      <ol className="grid grid-cols-2 gap-x-4 gap-y-4.5 sm:grid-cols-3 lg:grid-cols-6">
         {slots.map((member, index) => {
           const pokemon = member ? byId.get(member.speciesId) : undefined;
           const worst = member
@@ -276,7 +276,7 @@ export const PlannerDockSection = ({
                 "group/removable relative min-w-0 rounded-xl transition-transform duration-150",
                 replacing
                   ? "motion-safe:animate-wiggle hover:animate-none"
-                  : "hover:-translate-y-[3px]",
+                  : "hover:-translate-y-0.75",
                 dragFrom === index && "opacity-60",
               )}
             >

@@ -59,7 +59,7 @@ export const PokemonDetailHead = ({
              * wrapped, ever starts with one.
              */}
             <span className="min-w-0 overflow-hidden">
-              <span className="-ml-[9px] flex flex-wrap gap-x-2 gap-y-0.5 md:justify-end">
+              <span className="-ml-2.25 flex flex-wrap gap-x-2 gap-y-0.5 md:justify-end">
                 {gameNames.map((gameName) => (
                   <span
                     key={gameName}

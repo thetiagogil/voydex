@@ -79,7 +79,7 @@ export const PokemonDetailHero = ({
   return (
     <section
       aria-label={name}
-      className="mt-6 grid items-center gap-4.5 md:grid-cols-[min(460px,calc((100%_-_2.5rem)/2))_minmax(0,40rem)] md:justify-center md:gap-10"
+      className="mt-6 grid items-center gap-4.5 md:grid-cols-[min(460px,calc((100%-2.5rem)/2))_minmax(0,40rem)] md:justify-center md:gap-10"
     >
       <PokemonPortrait
         alt={isShowingShiny ? `Shiny ${imageAlt}` : imageAlt}
@@ -107,7 +107,7 @@ export const PokemonDetailHero = ({
           ))}
         </p>
         <div className="mt-1.5 mb-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <h1 className="text-44 sm:text-60 leading-none tracking-[-0.015em] break-words">
+          <h1 className="text-44 sm:text-60 leading-none tracking-[-0.015em] wrap-break-word">
             {name}
           </h1>
           <PokemonTypeList

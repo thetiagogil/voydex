@@ -189,8 +189,8 @@ export const FormOverlay = ({
           className={cn(
             "w-full gap-0 p-0",
             size === "lg"
-              ? "data-[side=right]:sm:max-w-[640px]"
-              : "data-[side=right]:sm:max-w-[560px]",
+              ? "data-[side=right]:sm:max-w-160"
+              : "data-[side=right]:sm:max-w-140",
           )}
         >
           {content}

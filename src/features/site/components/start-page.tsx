@@ -42,7 +42,7 @@ export const StartPage = ({
     >
       <h1
         id="start-title"
-        className="sm:text-60 pt-5.5 text-[38px] leading-[1.02] tracking-[-0.025em] sm:pt-8.5"
+        className="sm:text-60 pt-5.5 text-[38px] leading-[1.02] tracking-tight sm:pt-8.5"
       >
         What are you playing?
       </h1>

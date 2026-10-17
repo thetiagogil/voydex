@@ -9,7 +9,7 @@ const formatPlaytime = (minutes: number) =>
   `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
 
 const beatClassName =
-  "relative z-1 grid grid-cols-[46px_minmax(0,1fr)] content-start gap-x-4 pb-4.5 text-left md:flex md:flex-col md:items-center md:gap-[3px] md:pb-0 md:text-center";
+  "relative z-1 grid grid-cols-[46px_minmax(0,1fr)] content-start gap-x-4 pb-4.5 text-left md:flex md:flex-col md:items-center md:gap-0.75 md:pb-0 md:text-center";
 
 const BeatText = ({
   detail,
@@ -76,11 +76,11 @@ export const PlayStoryCard = ({
         </div>
       </div>
     </div>
-    <ol className="before:bg-line relative mt-5.5 grid grid-cols-1 before:absolute before:top-[26px] before:bottom-[60px] before:left-[22px] before:w-[3px] before:rounded-[3px] md:mt-8.5 md:grid-cols-5 md:gap-4 md:before:right-[30%] md:before:bottom-auto md:before:left-[10%] md:before:h-[3px] md:before:w-auto md:after:absolute md:after:top-[26px] md:after:right-[10%] md:after:left-[70%] md:after:h-[3px] md:after:bg-[repeating-linear-gradient(90deg,var(--dash)_0_8px,transparent_8px_15px)]">
+    <ol className="before:bg-line relative mt-5.5 grid grid-cols-1 before:absolute before:top-6.5 before:bottom-15 before:left-5.5 before:w-0.75 before:rounded-[3px] md:mt-8.5 md:grid-cols-5 md:gap-4 md:before:right-[30%] md:before:bottom-auto md:before:left-[10%] md:before:h-0.75 md:before:w-auto md:after:absolute md:after:top-6.5 md:after:right-[10%] md:after:left-[70%] md:after:h-0.75 md:after:bg-[repeating-linear-gradient(90deg,var(--dash)_0_8px,transparent_8px_15px)]">
       {samplePlayStory.beats.map((beat) => (
         <li key={beat.title} className={beatClassName}>
           {playArt.medallion({
-            className: "row-span-3 m-0 md:mt-[3px] md:mb-3.5",
+            className: "row-span-3 m-0 md:mt-0.75 md:mb-3.5",
             moment: beat.moment,
           })}
           <BeatText
@@ -92,7 +92,7 @@ export const PlayStoryCard = ({
         </li>
       ))}
       <li className={beatClassName}>
-        <span className="bg-bg empty-slot text-ink-3 row-span-3 grid size-[46px] place-items-center rounded-full md:mt-[5px] md:mb-4">
+        <span className="bg-bg empty-slot text-ink-3 row-span-3 grid size-11.5 place-items-center rounded-full md:mt-1.25 md:mb-4">
           <AppIcon icon={appIcons.milestones.champion} className="size-5" />
         </span>
         <BeatText

@@ -132,7 +132,7 @@ export const NewPlayDialogProvider = ({
           aria-label="New Play"
           fullScreenOnPhone
           showCloseButton={false}
-          className="block p-0 sm:max-w-[880px]"
+          className="block p-0 sm:max-w-220"
         >
           {opening && data.picker ? (
             <NewPlayWizard

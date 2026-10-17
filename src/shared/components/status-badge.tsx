@@ -21,7 +21,7 @@ type StatusBadgeProps = {
 };
 
 const sizeClassNames: Record<StatusBadgeSize, string> = {
-  md: "text-13 h-auto gap-1.5 px-[11px] py-1 font-extrabold [&>svg]:size-3.5!",
+  md: "text-13 h-auto gap-1.5 px-2.75 py-1 font-extrabold [&>svg]:size-3.5!",
   sm: "",
 };
 

@@ -19,7 +19,7 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   return (
     <li
       style={getPokemonTypeCssVariables(typeSlug)}
-      className="flex min-h-[60px] min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
+      className="flex min-h-15 min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
     >
       {typeSlug ? (
         <PokemonTypeBadge
@@ -31,7 +31,7 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
       ) : (
         <span
           aria-hidden
-          className="empty-slot size-[22px] shrink-0 rounded-full"
+          className="empty-slot size-5.5 shrink-0 rounded-full"
         />
       )}
       <span className="min-w-0">

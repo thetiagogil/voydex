@@ -63,7 +63,7 @@ export const AuthPeek = ({ cast }: { cast: readonly PeekingPokemon[] }) => {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-x-0 -top-[68px] flex items-end justify-center gap-2.5 sm:-top-[84px]"
+      className="pointer-events-none absolute inset-x-0 -top-17 flex items-end justify-center gap-2.5 sm:-top-21"
     >
       {cast.map((pokemon, index) =>
         pokemon.imageUrl ? (
@@ -77,12 +77,12 @@ export const AuthPeek = ({ cast }: { cast: readonly PeekingPokemon[] }) => {
             className={cn(
               "max-w-none object-contain",
               solo
-                ? "size-[120px] translate-y-[calc(var(--dy)-28px)] sm:size-36 sm:translate-y-[calc(var(--dy)-34px)]"
+                ? "size-30 translate-y-[calc(var(--dy)-28px)] sm:size-36 sm:translate-y-[calc(var(--dy)-34px)]"
                 : "translate-y-(--dy)",
               !solo &&
                 (index === 1
-                  ? "mb-1.5 size-[100px] sm:size-[124px]"
-                  : "size-[90px] sm:size-28"),
+                  ? "mb-1.5 size-25 sm:size-31"
+                  : "size-22.5 sm:size-28"),
             )}
           />
         ) : null,

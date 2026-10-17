@@ -208,7 +208,7 @@ export const StartMeadow = ({
   const ground = (
     <div
       className={cn(
-        "mx-auto flex w-full max-w-[880px] flex-col items-stretch gap-3.5 px-4.5 text-center sm:px-0",
+        "mx-auto flex w-full max-w-220 flex-col items-stretch gap-3.5 px-4.5 text-center sm:px-0",
         pick && "sm:flex-row sm:items-center sm:justify-between sm:text-left",
       )}
     >

@@ -28,7 +28,7 @@ export const GameShelfCard = ({ card, eager = false }: GameShelfCardProps) => {
       aria-label={[card.game.name, card.game.release_year, card.region?.name]
         .filter(Boolean)
         .join(", ")}
-      className="group/game bg-surface border-line relative flex min-w-0 flex-col gap-3 rounded-xl border p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-[3px]"
+      className="group/game bg-surface border-line relative flex min-w-0 flex-col gap-3 rounded-xl border p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-0.75"
     >
       <span
         style={getGameColourStyle(card.game.slug)}

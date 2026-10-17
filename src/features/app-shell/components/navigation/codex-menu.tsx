@@ -58,7 +58,7 @@ export const CodexMenu = ({ className }: { className?: string }) => {
       <NavigationMenuItem>
         <NavigationMenuTrigger
           className={cn(
-            "text-14 hover:text-ink px-3 font-semibold text-(color:--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
+            "text-14 hover:text-ink px-3 font-semibold text-(--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
             isCurrent && "text-ink font-extrabold",
           )}
         >

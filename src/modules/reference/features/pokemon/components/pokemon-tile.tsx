@@ -28,13 +28,13 @@ const toneClassNames: Record<
   { art: string; frame: string; name: string; tile: string }
 > = {
   quiet: {
-    art: "size-[50px]",
+    art: "size-12.5",
     frame: "bg-surface size-14 rounded-full",
     name: "text-12 min-h-[2.4em] leading-[1.2]",
     tile: "bg-surface-2 gap-1.5 px-1 py-2.5",
   },
   type: {
-    art: "size-[72px]",
+    art: "size-18",
     frame: "",
     name: "text-14",
     tile: "bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] px-1.5 pt-2 pb-2.5 sm:px-3",
@@ -65,7 +65,7 @@ export const PokemonTile = ({
     <Link
       href={href}
       className={cn(
-        "flex h-full min-w-0 flex-col items-center rounded-md text-center transition-transform duration-150 hover:-translate-y-[3px]",
+        "flex h-full min-w-0 flex-col items-center rounded-md text-center transition-transform duration-150 hover:-translate-y-0.75",
         classNames.tile,
       )}
       style={style}
@@ -85,7 +85,7 @@ export const PokemonTile = ({
       </span>
       <b
         className={cn(
-          "line-clamp-2 w-full font-extrabold text-balance break-words",
+          "line-clamp-2 w-full font-extrabold text-balance wrap-break-word",
           classNames.name,
         )}
       >

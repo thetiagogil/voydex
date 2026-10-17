@@ -16,7 +16,7 @@ export const getMilestonePickRowClassName = ({
   state: PlayMilestoneState;
 }) =>
   cn(
-    "w-full rounded-lg text-left transition-transform duration-150 outline-none hover:translate-x-[3px]",
+    "w-full rounded-lg text-left transition-transform duration-150 outline-none hover:translate-x-0.75",
     "focus-visible:outline-focus focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
     state === "done" && "bg-surface",
     state === "next" &&

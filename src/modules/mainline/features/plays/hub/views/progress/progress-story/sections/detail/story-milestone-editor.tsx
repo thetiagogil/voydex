@@ -88,12 +88,12 @@ export const StoryMilestoneEditor = ({
       <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
-          className="mx-auto max-h-[88dvh] w-full max-w-[560px] gap-0"
+          className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0"
           initialFocus={titleRef}
         >
           <span
             aria-hidden
-            className="bg-line mx-auto mt-2.5 h-[5px] w-11 shrink-0 rounded-full"
+            className="bg-line mx-auto mt-2.5 h-1.25 w-11 shrink-0 rounded-full"
           />
           <SheetHeader className="gap-1 px-5 pt-3 pr-14 pb-2">
             <EditorKicker milestone={milestone} />

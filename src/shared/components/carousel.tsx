@@ -139,7 +139,7 @@ export const Carousel = ({
       "no-scrollbar relative flex items-end justify-center-safe overflow-x-auto pt-9 pb-4 sm:pt-10",
       densityClassNames[density],
       fadeEdges &&
-        "[mask-image:linear-gradient(90deg,transparent,black_7%,black_93%,transparent)]",
+        "mask-[linear-gradient(90deg,transparent,black_7%,black_93%,transparent)]",
       snap && "snap-x *:snap-center",
       className,
     ),

@@ -20,7 +20,7 @@ type MilestoneMarkerProps = {
 };
 
 const ringSizeClassNames = {
-  md: "text-13 size-[30px] sm:size-[34px]",
+  md: "text-13 size-7.5 sm:size-8.5",
   sm: "text-12 size-7",
 };
 

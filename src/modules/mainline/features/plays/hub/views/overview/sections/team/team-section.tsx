@@ -28,7 +28,7 @@ type TeamSectionProps = {
 };
 
 const openSlotClassName =
-  "empty-slot text-ink-3 flex min-h-[212px] min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold";
+  "empty-slot text-ink-3 flex min-h-53 min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold";
 
 /* v3 `.open-lite`: a ring with a plus over its words. */
 const OpenSlotRing = () => (

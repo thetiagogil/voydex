@@ -50,8 +50,8 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
 
   return (
     <div className="flex min-w-0 flex-col">
-      <header className="max-w-[780px] pt-7.5 pb-1.5 sm:pt-14">
-        <h1 className="text-[38px] leading-[1.02] tracking-[-0.025em] sm:text-[56px]">
+      <header className="max-w-195 pt-7.5 pb-1.5 sm:pt-14">
+        <h1 className="text-[38px] leading-[1.02] tracking-tight sm:text-[56px]">
           How Voydex works
         </h1>
         <p className="text-16 text-ink-2 mt-4.5 max-w-[36em] leading-[1.6] font-semibold sm:text-[18px]">
@@ -111,7 +111,7 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
       >
         <h2
           id="intro-next-title"
-          className="pt-7 text-[28px] tracking-[-0.02em] sm:pt-10.5 sm:text-[38px]"
+          className="text-28 pt-7 tracking-[-0.02em] sm:pt-10.5 sm:text-[38px]"
         >
           Ready for your next Play?
         </h2>
