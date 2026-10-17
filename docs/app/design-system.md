@@ -122,6 +122,16 @@ blue, the current pick, identity (your Pokémon, a game's cover).
   medallion). **Accent** elsewhere in a Play: progress bars, the
   next-milestone border, selection borders, eyebrows. Never the background of
   a card, row, section or input.
+- **Pickers are one family (2026-10-17)**: every select, dropdown menu,
+  bar menu and searchable list opens the same white panel
+  (`menuPanelClassName` in `ui/menu-surface.ts`, a hairline on the float
+  shadow) with the same 48px option row (`menuOptionClassName`): an optional
+  picture on a 36px tile, the title, a quieter line under it, the pick in
+  the selected tint with a check (`MenuOptionContent`). `SelectControl`
+  takes `icon` and `description` per option and opens with a search field
+  for lists longer than ten (`searchable`); a list of games shows each
+  game's cover (`GameOptionCover`), a generation its region. A toolbar's
+  quiet select shows its words alone; a field shows the picture too.
 - **Selected controls**: the one picked is a small sticker, its fill in a
   white band (`bubble`), and its weight never changes. Rows, chips and filter
   pills take `bg-select-soft text-select-ink` (the soft tint of the context

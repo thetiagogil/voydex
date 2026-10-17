@@ -13,7 +13,7 @@ import {
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
 import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
-import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
+import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/navigation-menu-options-panel";
 import {
   DropdownMenu,
@@ -115,7 +115,7 @@ export const CodexTabMenu = ({
         side="top"
         align="center"
         sideOffset={10}
-        className="w-[min(20rem,calc(100vw-2rem))] p-2"
+        className="w-[min(20rem,calc(100vw-2rem))]"
       >
         <DropdownMenuGroup>
           {codexViewLinks.map((view) => (
@@ -123,13 +123,11 @@ export const CodexTabMenu = ({
               key={view.href}
               render={<Link href={view.href} />}
               aria-current={isCurrentLink(pathname, view) ? "page" : undefined}
-              className="items-start gap-3 p-2.5"
             >
-              <NavigationMenuOptionContent
+              <MenuOptionContent
                 active={isCurrentLink(pathname, view)}
                 description={view.description}
                 leading={<CodexViewIcon slug={view.slug} />}
-                muted={false}
                 title={view.label}
               />
             </DropdownMenuItem>

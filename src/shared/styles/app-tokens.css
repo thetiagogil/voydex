@@ -284,6 +284,8 @@
   --shadow-cover: var(--shadow-cover-value);
   --shadow-float: var(--shadow-float-value);
   --shadow-overlay: var(--shadow-overlay-value);
+  /* A popup panel: a hairline so it parts from a white page, then the float. */
+  --shadow-menu: 0 0 0 1px var(--line), var(--shadow-float-value);
   --shadow-track: var(--shadow-track-value);
   --shadow-fill: var(--shadow-fill-value);
   --shadow-card:

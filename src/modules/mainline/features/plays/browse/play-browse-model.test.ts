@@ -63,13 +63,42 @@ describe("play browse model", () => {
       ]),
     ).toEqual({
       games: [
-        { label: "Pokémon Emerald", value: "emerald" },
-        { label: "Pokémon HeartGold", value: "heartgold" },
+        {
+          description: "Generation III",
+          label: "Pokémon Emerald",
+          value: "emerald",
+        },
+        {
+          description: "Generation IV",
+          label: "Pokémon HeartGold",
+          value: "heartgold",
+        },
       ],
       generations: [
         { label: "Generation II", value: "generation-ii" },
         { label: "Generation III", value: "generation-iii" },
         { label: "Generation IV", value: "generation-iv" },
+      ],
+    });
+  });
+
+  it("puts each game's generation and region, and each generation's region, under it", () => {
+    expect(
+      getPlayBrowseOptions([{ ...plays[0], regionName: "Johto" }]),
+    ).toEqual({
+      games: [
+        {
+          description: "Generation IV · Johto",
+          label: "Pokémon HeartGold",
+          value: "heartgold",
+        },
+      ],
+      generations: [
+        {
+          description: "Johto",
+          label: "Generation IV",
+          value: "generation-iv",
+        },
       ],
     });
   });

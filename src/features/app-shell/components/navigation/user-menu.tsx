@@ -14,7 +14,7 @@ import {
   isCurrentLink,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
+import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import {
   DropdownMenu,
@@ -63,9 +63,9 @@ export const UserMenu = ({ account }: UserMenuProps) => {
       <DropdownMenuContent
         align="end"
         sideOffset={8}
-        className="w-[min(20rem,calc(100vw-2rem))] p-2"
+        className="w-[min(20rem,calc(100vw-2rem))]"
       >
-        <div className="border-line mb-1 flex items-center gap-3 border-b px-2.5 pt-2 pb-3">
+        <div className="bg-surface-2 mb-1.5 flex items-center gap-3 rounded-md p-2.5">
           <Avatar size="lg">
             <AvatarFallback>{initial}</AvatarFallback>
           </Avatar>
@@ -83,13 +83,11 @@ export const UserMenu = ({ account }: UserMenuProps) => {
           <DropdownMenuItem
             render={<Link href={accountLink.href} />}
             aria-current={isSettingsCurrent ? "page" : undefined}
-            className="items-start gap-3 p-2.5"
           >
-            <NavigationMenuOptionContent
+            <MenuOptionContent
               active={isSettingsCurrent}
               description="Profile, look and feel"
               leading={<AppIcon icon={appIcons.actions.settings} size="lg" />}
-              muted={false}
               title={accountLink.label}
             />
           </DropdownMenuItem>
@@ -100,7 +98,7 @@ export const UserMenu = ({ account }: UserMenuProps) => {
             variant="destructive"
             render={<button type="submit" className="w-full" />}
             nativeButton
-            className="border-line mt-1 rounded-none rounded-b-md border-t px-2.5 py-3 font-extrabold"
+            className="mt-1.5 font-extrabold"
           >
             <AppIcon icon={appIcons.actions.signOut} />
             Log out

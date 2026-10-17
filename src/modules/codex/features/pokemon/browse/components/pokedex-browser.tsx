@@ -139,8 +139,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   /* The generation filter, a toolbar menu. */
   const generationOptions = [
-    { label: "All", value: ALL },
+    { description: "Every region", label: "All", value: ALL },
     ...data.generations.map((generation) => ({
+      description: data.regionNameByGenerationSlug[generation.slug],
       label: getGenerationNumeral(generation.name),
       value: generation.slug,
     })),

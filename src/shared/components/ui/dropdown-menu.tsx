@@ -2,6 +2,12 @@
 
 import * as React from "react";
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
+import {
+  menuCheckClassName,
+  menuGroupLabelClassName,
+  menuOptionClassName,
+  menuPanelClassName,
+} from "@/shared/components/ui/menu-surface";
 import { cn } from "@/shared/utils/cn";
 import { CheckIcon } from "lucide-react";
 
@@ -37,7 +43,8 @@ const DropdownMenuContent = ({
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "bg-surface text-ink data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-float z-50 max-h-(--available-height) w-(--anchor-width) min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg p-1 duration-100 outline-none data-closed:overflow-hidden",
+            menuPanelClassName,
+            "data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 max-h-(--available-height) w-max max-w-[min(24rem,calc(100vw-2rem))] min-w-[max(var(--anchor-width),14rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto duration-100 outline-none data-closed:overflow-hidden",
             className,
           )}
           {...props}
@@ -62,10 +69,7 @@ const DropdownMenuLabel = ({
     <MenuPrimitive.GroupLabel
       data-slot="dropdown-menu-label"
       data-inset={inset}
-      className={cn(
-        "text-12 text-ink-3 px-2.5 py-1.5 font-bold data-inset:pl-8",
-        className,
-      )}
+      className={cn(menuGroupLabelClassName, "data-inset:pl-8", className)}
       {...props}
     />
   );
@@ -86,7 +90,8 @@ const DropdownMenuItem = ({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "group/dropdown-menu-item focus:bg-hover focus:text-ink aria-[current=page]:bg-select-soft aria-[current=page]:text-select-ink data-[variant=destructive]:text-danger-deep data-[variant=destructive]:focus:bg-danger-soft data-[variant=destructive]:focus:text-danger-deep data-[variant=destructive]:*:[svg]:text-danger text-14 relative flex min-h-11 cursor-default items-center gap-2 rounded-sm px-2.5 py-2 font-bold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        menuOptionClassName,
+        "group/dropdown-menu-item aria-[current=page]:bg-select-soft aria-[current=page]:text-select-ink data-[variant=destructive]:text-danger-deep data-[variant=destructive]:data-highlighted:bg-danger-soft data-[variant=destructive]:data-highlighted:text-danger-deep data-[variant=destructive]:*:[svg]:text-danger pr-3 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4.5",
         className,
       )}
       {...props}
@@ -118,17 +123,18 @@ const DropdownMenuRadioItem = ({
       data-slot="dropdown-menu-radio-item"
       data-inset={inset}
       className={cn(
-        "focus:bg-hover focus:text-ink data-checked:bg-select-soft data-checked:text-select-ink text-14 relative flex min-h-11 cursor-default items-center gap-2 rounded-sm py-2 pr-8 pl-2.5 font-bold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-7 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        menuOptionClassName,
+        "data-checked:bg-select-soft data-checked:text-select-ink data-checked:data-highlighted:bg-select-soft data-inset:pl-7",
         className,
       )}
       {...props}
     >
       <span
-        className="pointer-events-none absolute right-2 flex items-center justify-center"
+        className={menuCheckClassName}
         data-slot="dropdown-menu-radio-item-indicator"
       >
         <MenuPrimitive.RadioItemIndicator>
-          <CheckIcon />
+          <CheckIcon className="size-4.5" strokeWidth={3} />
         </MenuPrimitive.RadioItemIndicator>
       </span>
       {children}
@@ -143,7 +149,7 @@ const DropdownMenuSeparator = ({
   return (
     <MenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
-      className={cn("bg-line -mx-1 my-1 h-px", className)}
+      className={cn("bg-line mx-2 my-1 h-px", className)}
       {...props}
     />
   );

@@ -62,12 +62,22 @@ export const GamesToolbar = ({
 }: GamesToolbarProps) => {
   const kindCounts = countGamesByKind(games);
   const kindOptions = [
-    { label: "All games", value: ALL_KINDS },
+    {
+      description: `${games.length} games`,
+      label: "All games",
+      value: ALL_KINDS,
+    },
     ...gameKinds.flatMap((kind) => {
       const count = kindCounts.get(kind) ?? 0;
 
       return count
-        ? [{ label: `${gameKindLabels[kind]} (${count})`, value: kind }]
+        ? [
+            {
+              description: `${count} ${count === 1 ? "game" : "games"}`,
+              label: gameKindLabels[kind],
+              value: kind,
+            },
+          ]
         : [];
     }),
   ];

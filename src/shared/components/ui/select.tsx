@@ -1,6 +1,12 @@
 "use client";
 
 import { fieldSurfaceClassName } from "@/shared/components/ui/field-surface";
+import {
+  menuCheckClassName,
+  menuOptionClassName,
+  menuOptionSelectedClassName,
+  menuPanelClassName,
+} from "@/shared/components/ui/menu-surface";
 import { cn } from "@/shared/utils/cn";
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -13,7 +19,7 @@ const SelectGroup = ({ className, ...props }: SelectPrimitive.Group.Props) => {
   return (
     <SelectPrimitive.Group
       data-slot="select-group"
-      className={cn("scroll-my-1 p-1", className)}
+      className={cn("grid scroll-my-1 gap-0.5", className)}
       {...props}
     />
   );
@@ -107,7 +113,8 @@ const SelectContent = ({
           data-slot="select-content"
           data-align-trigger={alignItemWithTrigger}
           className={cn(
-            "bg-surface text-ink data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-float relative isolate z-50 max-h-(--available-height) w-(--anchor-width) min-w-36 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg duration-100 data-[align-trigger=true]:animate-none",
+            menuPanelClassName,
+            "data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative isolate z-50 max-h-(--available-height) w-max max-w-[min(24rem,calc(100vw-2rem))] min-w-[max(var(--anchor-width),14rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto duration-100 data-[align-trigger=true]:animate-none",
             className,
           )}
           {...props}
@@ -130,20 +137,19 @@ const SelectItem = ({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "focus:bg-hover focus:text-ink data-selected:bg-select-soft data-selected:text-select-ink text-14 relative flex min-h-11 w-full cursor-default items-center gap-1.5 rounded-sm py-2 pr-8 pl-2.5 font-bold outline-hidden select-none data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        menuOptionClassName,
+        menuOptionSelectedClassName,
         className,
       )}
       {...props}
     >
-      <SelectPrimitive.ItemText className="flex flex-1 shrink-0 gap-2 whitespace-nowrap">
+      <SelectPrimitive.ItemText className="flex min-w-0 flex-1 items-center gap-3">
         {children}
       </SelectPrimitive.ItemText>
       <SelectPrimitive.ItemIndicator
-        render={
-          <span className="pointer-events-none absolute right-2 flex size-4 items-center justify-center" />
-        }
+        render={<span className={menuCheckClassName} />}
       >
-        <CheckIcon className="pointer-events-none" />
+        <CheckIcon className="size-4.5" strokeWidth={3} />
       </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );
@@ -193,5 +199,6 @@ export {
   SelectScrollDownButton,
   SelectScrollUpButton,
   SelectTrigger,
+  selectTriggerVariants,
   SelectValue,
 };

@@ -62,9 +62,19 @@ describe("My Plans model", () => {
         status: "active",
       }).map((item) => item.id),
     ).toEqual(["c"]);
-    expect(getMyPlansGames(plans)).toEqual([
-      { label: "Red and Blue", value: "red-blue" },
-      { label: "Sword and Shield", value: "sword-shield" },
+    expect(
+      getMyPlansGames(plans).map(({ description, label, value }) => ({
+        description,
+        label,
+        value,
+      })),
+    ).toEqual([
+      { description: "1 Plan", label: "Red and Blue", value: "red-blue" },
+      {
+        description: "2 Plans",
+        label: "Sword and Shield",
+        value: "sword-shield",
+      },
     ]);
   });
 

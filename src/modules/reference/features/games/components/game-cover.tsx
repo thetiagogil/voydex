@@ -40,6 +40,11 @@ const coverSizeClassNames = {
       "text-32 md:text-44 w-27.5 border-4 border-white md:h-71 md:w-auto",
     image: "h-auto w-27.5 max-w-full border-4 border-white md:h-71 md:w-auto",
   },
+  /* A picker option's picture: the cover fits its 36px tile. */
+  option: {
+    fallback: "text-12 h-8 w-6 rounded-xs",
+    image: "max-h-8 max-w-8 rounded-xs",
+  },
   /* The Codex's game card: the cover fits a 124px square (90px on phones). */
   shelf: {
     fallback: "text-20 sm:text-24 h-22.5 sm:h-31",

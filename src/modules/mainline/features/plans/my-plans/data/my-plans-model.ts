@@ -82,14 +82,35 @@ export const filterAndSortMyPlans = (
 };
 
 /* The games the Plans are for, for the game filter. */
-export const getMyPlansGames = (plans: MyPlan[]) =>
-  [
-    ...new Map(
-      plans.map((plan) => [plan.versionGroupSlug, plan.versionGroupName]),
-    ),
-  ]
-    .map(([value, label]) => ({ label, value }))
+/*
+ * The games your Plans are for, by name: each with the first game's slug for
+ * its cover and how many Plans it has.
+ */
+export const getMyPlansGames = (plans: MyPlan[]) => {
+  const games = new Map<
+    string,
+    { count: number; gameSlug: string | null; label: string }
+  >();
+
+  for (const plan of plans) {
+    const game = games.get(plan.versionGroupSlug);
+
+    games.set(plan.versionGroupSlug, {
+      count: (game?.count ?? 0) + 1,
+      gameSlug: game?.gameSlug ?? plan.gameSlug,
+      label: plan.versionGroupName,
+    });
+  }
+
+  return [...games]
+    .map(([value, { count, gameSlug, label }]) => ({
+      description: `${count} ${count === 1 ? "Plan" : "Plans"}`,
+      gameSlug,
+      label,
+      value,
+    }))
     .toSorted((left, right) => left.label.localeCompare(right.label));
+};
 
 /* "Followed by 2 Plays", "Not followed by any Play yet" or "Empty, just named". */
 export const getMyPlanFootnote = (plan: MyPlan) => {

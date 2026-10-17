@@ -26,6 +26,7 @@ import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
+import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -227,7 +228,23 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
                 placeholder="All games"
                 value={filters.game}
                 onValueChange={(game) => update({ game })}
-                options={[{ label: "All games", value: "" }, ...games]}
+                options={[
+                  {
+                    icon: <AppIcon icon={appIcons.product.game} size="md" />,
+                    label: "All games",
+                    value: "",
+                  },
+                  ...games.map(({ gameSlug, ...game }) => ({
+                    ...game,
+                    icon: gameSlug ? (
+                      <GameOptionCover
+                        gameName={game.label}
+                        gameSlug={gameSlug}
+                      />
+                    ) : undefined,
+                  })),
+                ]}
+                searchPlaceholder="Search games"
               />
               <SelectControl
                 id="my-plans-sort"

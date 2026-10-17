@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
+import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { NavigationMenuLink } from "@/shared/components/ui/navigation-menu";
 
 type NavigationMenuLinkProps = ComponentPropsWithoutRef<
@@ -48,8 +48,9 @@ const getAriaCurrent = ({
 };
 
 /*
- * One row of a menu: the compact 44px row, or two lines where the option
- * needs its description. The current one takes the selected tint and a check.
+ * One row of a menu, as every picker draws it (`menuOptionClassName`): 48px,
+ * growing to two lines where the option has a description. The current one
+ * takes the selected tint and a check.
  */
 export const getNavigationMenuOptionClassName = ({
   active,
@@ -63,8 +64,8 @@ export const getNavigationMenuOptionClassName = ({
   muted: boolean;
 }) => {
   return cn(
-    "items-center gap-3 rounded-sm",
-    hasDescription ? "min-h-16 p-3" : "min-h-11 px-3 py-1.5",
+    "min-h-12 items-center gap-3 rounded-md py-1.5 pr-3 pl-2 font-bold",
+    hasDescription && "py-2",
     active && "bg-select-soft text-select-ink",
     muted && "opacity-65 hover:opacity-100",
     className,
@@ -97,7 +98,7 @@ export const NavigationMenuOption = (props: NavigationMenuOptionProps) => {
   });
   const ariaCurrent = getAriaCurrent({ active, current });
   const content = (
-    <NavigationMenuOptionContent
+    <MenuOptionContent
       active={active}
       description={description}
       leading={leading}
