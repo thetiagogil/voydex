@@ -113,7 +113,7 @@ const TitlePicture = ({
       >
         <PokemonTypeIcon
           type={typeSlug}
-          className="size-16 opacity-[0.07] invert-0 sm:size-20"
+          className="size-16 opacity-[0.07] sm:size-20"
         />
       </span>
       {title.pokemon.length ? (

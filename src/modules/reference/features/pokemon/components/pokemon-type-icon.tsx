@@ -4,7 +4,6 @@ import {
   pokemonTypeSolidBackgroundClassName,
 } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import Image from "next/image";
 
 type PokemonIconSlug = PokemonTypeSlug | "pokeball";
 
@@ -13,15 +12,19 @@ type PokemonTypeIconProps = {
   type: PokemonIconSlug;
 };
 
+/*
+ * A type's icon in the current text colour, so it always matches the label
+ * beside it: white or deep ink on a type colour, quiet ink on paper.
+ */
 export const PokemonTypeIcon = ({ className, type }: PokemonTypeIconProps) => {
   return (
-    <Image
-      src={`/icons/types/${type}.svg`}
-      alt=""
-      width={12}
-      height={12}
+    <span
       aria-hidden
-      className={cn("brightness-0 invert", className)}
+      style={{ maskImage: `url(/icons/types/${type}.svg)` }}
+      className={cn(
+        "inline-block size-3 shrink-0 bg-current mask-contain mask-center mask-no-repeat",
+        className,
+      )}
     />
   );
 };
@@ -42,7 +45,7 @@ export const PokemonTypeMark = ({
       style={getPokemonTypeCssVariables(type)}
       aria-hidden
       className={cn(
-        "flex items-center justify-center rounded-full",
+        "flex items-center justify-center rounded-full text-(--t-on)",
         pokemonTypeSolidBackgroundClassName,
         className,
       )}
@@ -91,9 +94,9 @@ type PokemonTypeBadgeProps = PokemonTypeIconProps & {
 };
 
 /*
- * TypeChip and TypeDot. A chip is the type colour with a white label; the four
- * palest types (Electric, Ice, Ground, Steel) deepen so the label reads. A
- * dot keeps the official colour.
+ * TypeChip and TypeDot, both in the type's official colour. A chip's label
+ * and icon take the type's own ink: white on the darkest types, deep ink on
+ * the pale ones, so a chip, a dot and a tile always show the same colour.
  */
 export const PokemonTypeBadge = ({
   className,
@@ -125,7 +128,7 @@ export const PokemonTypeBadge = ({
     <span
       style={getPokemonTypeCssVariables(type)}
       className={cn(
-        "type-chip inline-flex shrink-0 items-center rounded-full leading-none font-extrabold whitespace-nowrap text-white capitalize",
+        "type-chip inline-flex shrink-0 items-center rounded-full leading-none font-extrabold whitespace-nowrap capitalize",
         sizeClassNames.badge,
         display === "label" && "pl-2.5",
         className,

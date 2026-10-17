@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
@@ -26,9 +27,6 @@ type BadgeStampProps = {
   tilt?: number;
 };
 
-const typeColour = (type: PokemonTypeSlug | null) =>
-  type ? `var(--type-${type})` : "var(--mute)";
-
 export const BadgeStamp = ({
   className,
   label,
@@ -43,7 +41,7 @@ export const BadgeStamp = ({
    * lands on the stamp's own tilt and hands over to it without a jump.
    */
   const style = {
-    "--t": state.kind === "badge" ? typeColour(state.type) : undefined,
+    ...(state.kind === "badge" ? getPokemonTypeCssVariables(state.type) : null),
     "--tilt": tilted ? `${tilt}deg` : undefined,
   } as CSSProperties;
 
@@ -67,7 +65,7 @@ export const BadgeStamp = ({
         tilted && "transform-[rotate(var(--tilt))]",
         slap && "animate-slap",
         state.kind === "badge" &&
-          "bg-(--t) shadow-[0_0_0_3px_#fff,0_0_0_4.5px_color-mix(in_oklab,var(--t)_45%,white),0_3px_0_4.5px_var(--lip)]",
+          "bg-(--t) text-(--t-on) shadow-[0_0_0_3px_#fff,0_0_0_4.5px_color-mix(in_oklab,var(--t)_45%,white),0_3px_0_4.5px_var(--lip)]",
         state.kind === "earned" &&
           "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--gold-ring),0_3px_0_4.5px_var(--lip)]",
         (state.kind === "next" || state.kind === "todo") &&

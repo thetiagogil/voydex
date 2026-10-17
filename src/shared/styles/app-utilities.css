@@ -256,11 +256,13 @@
 }
 
 /*
- * A labelled type chip: the type's own hue, deepened only as far as a white
- * label needs to read (4.5:1). Dark types keep their official colour. Set --t.
+ * A labelled type chip: the type's official colour, the same as its dot and
+ * tile, with the label and icon in the ink that reads on it. Set --t and
+ * --t-on (getPokemonTypeCssVariables sets both).
  */
 @utility type-chip {
-  background-color: oklch(from var(--t) min(l, 0.54) c h);
+  background-color: var(--t);
+  color: var(--t-on, #fff);
 }
 
 /*

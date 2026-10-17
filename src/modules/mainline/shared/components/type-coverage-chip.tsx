@@ -48,10 +48,7 @@ export const TypeCoverageChip = ({
         className="bg-surface-2 grid size-6 place-items-center rounded-full"
       >
         {typeSlug ? (
-          <PokemonTypeIcon
-            type={typeSlug}
-            className="size-3.5 opacity-50 invert-0"
-          />
+          <PokemonTypeIcon type={typeSlug} className="size-3.5 opacity-60" />
         ) : null}
       </span>
       {type.name}
