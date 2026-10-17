@@ -123,6 +123,7 @@ export const publicPlayArt = {
   playHeader: (play) => (
     <MainlinePlayTopSection
       data={toShellData(play)}
+      form="card"
       navigation={<SamplePlayTabs tabs={play.tabs} />}
     />
   ),

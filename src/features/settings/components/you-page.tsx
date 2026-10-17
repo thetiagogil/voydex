@@ -65,7 +65,7 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
 );
 
 /*
- * You (v3 `you`), the fifth tab on phones: your trainer card, then the pages
+ * You (v3 `you`), the fifth tab on phones: your trainer card on the band, then the pages
  * about you (Statistics, Collection, Settings) and Log out. On a wide screen
  * the same things sit in the account menu, but the page still works there.
  */
@@ -83,15 +83,15 @@ export const YouPage = ({
     <div className="mx-auto flex w-full max-w-160 flex-col">
       <PageBand className="max-w-[calc(40rem+2*var(--page-gutter))]">
         <PageHeader title="You" />
+        <TrainerCard
+          className="mt-5"
+          initial={name ? name.charAt(0).toUpperCase() : null}
+          name={name}
+          subtitle={
+            trainerSince ? `Trainer since ${trainerSince}` : "Your trainer card"
+          }
+        />
       </PageBand>
-      <TrainerCard
-        className="mt-6"
-        initial={name ? name.charAt(0).toUpperCase() : null}
-        name={name}
-        subtitle={
-          trainerSince ? `Trainer since ${trainerSince}` : "Your trainer card"
-        }
-      />
       <Card className="mt-5.5 gap-0 px-2.5 py-1.5">
         <nav aria-label="About you" className="flex flex-col">
           <YouRow

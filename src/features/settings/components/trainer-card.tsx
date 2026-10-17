@@ -54,7 +54,7 @@ export const TrainerCard = ({
     >
       {stack ? (
         <div className="text-13 text-ink-2 hidden items-center gap-2 self-stretch font-bold md:mb-4 md:flex">
-          <LogoMark className="text-13 size-6.5 rounded-xs" />
+          <LogoMark className="size-6.5" />
           Trainer card
         </div>
       ) : null}

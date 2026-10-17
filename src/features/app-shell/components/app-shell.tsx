@@ -27,7 +27,7 @@ type AppShellProps = {
 };
 
 /*
- * v3's two bars. Signed in: the V tile (to Mainline Home), Mainline's views
+ * v3's two bars. Signed in: the V tile and the name (to Mainline Home), Mainline's views
  * in the middle, the Codex menu and your icon on the right; on phones and tablets
  * the views, the Codex and You move to a bottom bar. Signed out: the V tile
  * with the name, how it works and the Codex, and Log in; on phones the links
@@ -54,6 +54,7 @@ export const AppShell = ({
       {account ? (
         <AppNavbar
           brandHref={getBrandHref(true)}
+          showName
           center={
             <NavigationLinks
               ariaLabel="Main"

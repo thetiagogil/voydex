@@ -16,7 +16,7 @@ type SettingsPageProps = {
 };
 
 /*
- * v3's Account settings: one column, the trainer card first (it is the
+ * v3's Account settings: one column, the trainer card on the band (it is the
  * profile form), then quiet sections: Look and feel, New Play defaults,
  * Account and Your data.
  */
@@ -32,13 +32,15 @@ export const SettingsPage = ({
         title="Settings"
         description="How Voydex looks and behaves for you"
       />
+      <div className="mt-5">
+        <SettingsProfileSection
+          displayName={displayName}
+          email={email}
+          trainerSince={trainerSince}
+        />
+      </div>
     </PageBand>
     <div className="mt-6 flex flex-col gap-6">
-      <SettingsProfileSection
-        displayName={displayName}
-        email={email}
-        trainerSince={trainerSince}
-      />
       <SettingsPreferencesSections />
       <SettingsAccountSection email={email} signOutAction={signOutAction} />
       <SettingsDataSection />

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
+import { PageBand } from "@/shared/components/page-band";
 import { cn } from "@/shared/utils/cn";
 
 import { MainlinePlayTopInfo } from "./mainline-play-top-info";
@@ -10,26 +11,28 @@ type MainlinePlayTopSectionProps = {
   data: MainlinePlayShellData;
   /* The Play details button; the public site's still leaves it out. */
   details?: ReactNode;
+  /*
+   * `band` opens a Play's pages; `card` is the same head as a card, for the
+   * public site's sample Play.
+   */
+  form?: "band" | "card";
   navigation: ReactNode;
 };
 
 /*
- * The Play header: the loudest thing in the app, on purpose. Soft game fill,
- * the dotted texture, the Fredoka name, the cover and a 5px game lip. What
- * it has no room for sits behind Play details.
+ * The Play's head, on the band that opens every page: the cover, the
+ * Fredoka name, its facts and the section tabs, with the dotted texture
+ * that only a Play wears. What it has no room for sits behind Play details.
  */
 export const MainlinePlayTopSection = ({
   data,
   details,
+  form = "band",
   navigation,
 }: MainlinePlayTopSectionProps) => {
   const gameName = data.play.game_name ?? "Unknown game";
-
-  return (
-    <section
-      aria-labelledby="mainline-play-title"
-      className="bg-game-soft play-texture shadow-card mt-2 rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5 lg:px-7.5 lg:pt-6.5 lg:pb-5.5"
-    >
+  const head = (
+    <section aria-labelledby="mainline-play-title">
       <div
         className={cn(
           "relative z-1 flex items-start gap-4 sm:items-center sm:gap-6",
@@ -54,5 +57,15 @@ export const MainlinePlayTopSection = ({
         {navigation}
       </div>
     </section>
+  );
+
+  return form === "band" ? (
+    <PageBand className="play-texture pt-4 pb-5 sm:pt-6 sm:pb-6">
+      {head}
+    </PageBand>
+  ) : (
+    <div className="bg-band-sand play-texture shadow-card rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5">
+      {head}
+    </div>
   );
 };

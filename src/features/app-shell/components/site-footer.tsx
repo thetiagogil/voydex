@@ -26,7 +26,7 @@ export const SiteFooter = () => (
           href={appRoutes.home}
           className="font-display text-17 inline-flex w-fit items-center gap-2.5 rounded-sm font-semibold"
         >
-          <LogoMark className="text-15 size-7.5" />
+          <LogoMark className="size-7.5" />
           Voydex
         </Link>
         <p className="text-13 text-ink-2 font-semibold">

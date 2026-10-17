@@ -7,7 +7,6 @@ import { getGamePokedexPage } from "@/modules/codex/features/games/pokedex/serve
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
-import { PageBand } from "@/shared/components/page-band";
 
 type GamePokedexPageProps = {
   pokedexSlug: string;
@@ -27,20 +26,24 @@ export const GamePokedexPage = async ({
 
   return (
     <div className="flex w-full min-w-0 flex-col">
-      <PageBand>
-        <CodexHead
-          trail={[
-            { href: appRoutes.codexGames, label: "Games" },
-            {
-              href: appRoutes.codexVersionGroup(data.versionGroup.slug),
-              label: getVersionGroupShortName(data.versionGroup.name),
-            },
-            { label: formatPokedexName(data.pokedex.name) },
-          ]}
-        />
-        <GamePokedexHeadSection data={data} />
-      </PageBand>
-      <GamePokedexBrowser data={data} />
+      <GamePokedexBrowser
+        data={data}
+        head={
+          <>
+            <CodexHead
+              trail={[
+                { href: appRoutes.codexGames, label: "Games" },
+                {
+                  href: appRoutes.codexVersionGroup(data.versionGroup.slug),
+                  label: getVersionGroupShortName(data.versionGroup.name),
+                },
+                { label: formatPokedexName(data.pokedex.name) },
+              ]}
+            />
+            <GamePokedexHeadSection data={data} />
+          </>
+        }
+      />
     </div>
   );
 };

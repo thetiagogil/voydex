@@ -179,6 +179,7 @@ export const PlaysToolbar = ({
   return (
     <Toolbar
       aria-label="Filter Plays"
+      className="mt-5"
       render={
         <form
           onSubmit={(event) => {

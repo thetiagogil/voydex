@@ -45,9 +45,10 @@ type GamesBrowserProps = {
 };
 
 /*
- * The Codex's games: the title and how many there are, the toolbar (search,
- * Kind, Group, Sort) and the shelf of covers, grouped by generation or
- * region. A reference list: it never says which games you've played.
+ * The Codex's games: the band with the title, how many there are and the
+ * toolbar (search, Kind, Group, Sort), then the shelf of covers, grouped by
+ * generation or region. A reference list: it never says which games you've
+ * played.
  */
 export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   const [filters, setFilters] = useState<GamesBrowseFilters>(data.filters);
@@ -97,20 +98,20 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
             </>
           }
         />
+
+        <GamesToolbar
+          filters={filters}
+          games={data.games}
+          groupBy={groupBy}
+          onFilterChange={updateFilter}
+          onGroupByChange={setGroupBy}
+          onSortOrderChange={setSortOrder}
+          sortOrder={sortOrder}
+        />
       </PageBand>
 
-      <GamesToolbar
-        filters={filters}
-        games={data.games}
-        groupBy={groupBy}
-        onFilterChange={updateFilter}
-        onGroupByChange={setGroupBy}
-        onSortOrderChange={setSortOrder}
-        sortOrder={sortOrder}
-      />
-
       <FilterResultsLine
-        className="mt-3"
+        className="mt-5"
         hasActiveFilters={hasActiveFilters}
         noun="games"
         onClearFilters={clearFilters}

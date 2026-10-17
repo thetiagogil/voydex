@@ -3,7 +3,7 @@
 import { Badge } from "@/shared/components/ui/badge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
@@ -25,6 +25,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageBand } from "@/shared/components/page-band";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
@@ -46,6 +47,8 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type MyPlansBrowserProps = {
+  /* The page's head, which opens the band above the toolbar. */
+  head: ReactNode;
   plans: MyPlan[];
 };
 
@@ -169,8 +172,11 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   );
 };
 
-/* My Plans' list: what to show, which game, the order, then the cards. */
-export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
+/*
+ * My Plans' list: the band with the page's head and the toolbar (what to
+ * show, which game, the order), then the cards.
+ */
+export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
   const [filters, setFilters] = useState<MyPlansFilters>(defaultMyPlansFilters);
   const shown = useMemo(
     () => filterAndSortMyPlans(plans, filters),
@@ -185,80 +191,85 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
   const hasActiveFilters = hasActiveMyPlansFilters(filters);
 
   return (
-    <div className="flex flex-col gap-5">
-      <Toolbar
-        aria-label="Filter your Plans"
-        search={
-          <SearchControl
-            id="my-plans-search"
-            ariaLabel="Search your Plans"
-            placeholder="Search your Plans"
-            value={filters.query}
-            onValueChange={(query) => update({ query })}
-          />
-        }
-        trailing={
-          <>
-            <SegmentedControl
-              variant="segment"
-              selectedTone="soft"
-              ariaLabel="Show"
-              value={filters.status}
-              onValueChange={(status) => update({ status })}
-              options={[
-                { label: "All", value: "all" },
-                { label: "Active", value: "active" },
-                { label: "Archived", value: "archived" },
-              ]}
+    <>
+      <PageBand>
+        {head}
+        <Toolbar
+          aria-label="Filter your Plans"
+          className="mt-5"
+          search={
+            <SearchControl
+              id="my-plans-search"
+              ariaLabel="Search your Plans"
+              placeholder="Search your Plans"
+              value={filters.query}
+              onValueChange={(query) => update({ query })}
             />
-            <SelectControl
-              id="my-plans-game"
-              ariaLabel="Filter Plans by game"
-              variant="ghost"
-              placeholder="All games"
-              value={filters.game}
-              onValueChange={(game) => update({ game })}
-              options={[{ label: "All games", value: "" }, ...games]}
-            />
-            <SelectControl
-              id="my-plans-sort"
-              ariaLabel="Sort Plans"
-              variant="ghost"
-              prefix="Sort"
-              placeholder={myPlansSortLabels.updated}
-              value={filters.sort}
-              onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
-              options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
-                (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
-              )}
-            />
-          </>
-        }
-      />
-
-      <FilterResultsLine
-        className="-mt-2"
-        hasActiveFilters={hasActiveFilters}
-        noun="Plans"
-        nounOne="Plan"
-        onClearFilters={clearFilters}
-        shownCount={shown.length}
-        totalCount={plans.length}
-      />
-
-      {shown.length ? (
-        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {shown.map((plan) => (
-            <MyPlanCard key={plan.id} plan={plan} />
-          ))}
-        </ul>
-      ) : (
-        <EmptyState
-          variant="bare"
-          title="No Plans match."
-          action={<ClearFiltersButton onClick={clearFilters} />}
+          }
+          trailing={
+            <>
+              <SegmentedControl
+                variant="segment"
+                selectedTone="soft"
+                ariaLabel="Show"
+                value={filters.status}
+                onValueChange={(status) => update({ status })}
+                options={[
+                  { label: "All", value: "all" },
+                  { label: "Active", value: "active" },
+                  { label: "Archived", value: "archived" },
+                ]}
+              />
+              <SelectControl
+                id="my-plans-game"
+                ariaLabel="Filter Plans by game"
+                variant="ghost"
+                placeholder="All games"
+                value={filters.game}
+                onValueChange={(game) => update({ game })}
+                options={[{ label: "All games", value: "" }, ...games]}
+              />
+              <SelectControl
+                id="my-plans-sort"
+                ariaLabel="Sort Plans"
+                variant="ghost"
+                prefix="Sort"
+                placeholder={myPlansSortLabels.updated}
+                value={filters.sort}
+                onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
+                options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
+                  (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
+                )}
+              />
+            </>
+          }
         />
-      )}
-    </div>
+      </PageBand>
+
+      <section aria-label="Your Plans" className="flex flex-col gap-5">
+        <FilterResultsLine
+          hasActiveFilters={hasActiveFilters}
+          noun="Plans"
+          nounOne="Plan"
+          onClearFilters={clearFilters}
+          shownCount={shown.length}
+          totalCount={plans.length}
+        />
+
+        {shown.length ? (
+          <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {shown.map((plan) => (
+              <MyPlanCard key={plan.id} plan={plan} />
+            ))}
+          </ul>
+        ) : (
+          <EmptyState
+            variant="bare"
+            title="No Plans match."
+            action={<ClearFiltersButton onClick={clearFilters} />}
+          />
+        )}
+      </section>
+    </>
   );
 };

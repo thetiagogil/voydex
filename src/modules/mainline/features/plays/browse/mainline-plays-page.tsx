@@ -72,14 +72,17 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
 
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <PageBand>
-        <PlaysPageHeader plays={data.plays} />
-      </PageBand>
-
-      <section aria-label="Play library">
-        {data.plays.length ? (
-          <PlaysBrowser plays={data.plays} params={params} />
-        ) : (
+      {data.plays.length ? (
+        <PlaysBrowser
+          head={<PlaysPageHeader plays={data.plays} />}
+          plays={data.plays}
+          params={params}
+        />
+      ) : (
+        <>
+          <PageBand>
+            <PlaysPageHeader plays={data.plays} />
+          </PageBand>
           <EmptyState
             headingLevel="h2"
             artUrl={emptyLibraryArtUrl}
@@ -101,8 +104,8 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
               </>
             }
           />
-        )}
-      </section>
+        </>
+      )}
 
       {data.archivedCount ? (
         <Link

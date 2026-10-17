@@ -33,38 +33,43 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
     </Link>
   );
 
+  const head = (
+    <div className="flex flex-col gap-1">
+      <TextLink
+        href={appRoutes.mainlinePlanNew()}
+        arrow="back"
+        className="mt-4 self-start sm:mt-6"
+      >
+        Team Planner
+      </TextLink>
+      <PageHeader
+        className="pt-0 sm:pt-0"
+        title="My Plans"
+        description={
+          plans.length
+            ? `${plans.length} ${plans.length === 1 ? "Plan" : "Plans"} across ${gameCount} ${gameCount === 1 ? "game" : "games"}`
+            : "None yet"
+        }
+        action={plans.length ? newPlan : null}
+      />
+    </div>
+  );
+
   return (
     <div className="flex flex-col gap-5 sm:gap-6">
-      <PageBand className="flex flex-col gap-1">
-        <TextLink
-          href={appRoutes.mainlinePlanNew()}
-          arrow="back"
-          className="mt-4 self-start sm:mt-6"
-        >
-          Team Planner
-        </TextLink>
-        <PageHeader
-          className="pt-0 sm:pt-0"
-          title="My Plans"
-          description={
-            plans.length
-              ? `${plans.length} ${plans.length === 1 ? "Plan" : "Plans"} across ${gameCount} ${gameCount === 1 ? "game" : "games"}`
-              : "None yet"
-          }
-          action={plans.length ? newPlan : null}
-        />
-      </PageBand>
-
       {plans.length ? (
-        <MyPlansBrowser plans={plans} />
+        <MyPlansBrowser head={head} plans={plans} />
       ) : (
-        <EmptyState
-          headingLevel="h2"
-          artUrl={emptyArtUrl}
-          title="No Plans yet"
-          description="Plan a team for any game, then follow it from a Play to see how close you are."
-          action={newPlan}
-        />
+        <>
+          <PageBand>{head}</PageBand>
+          <EmptyState
+            headingLevel="h2"
+            artUrl={emptyArtUrl}
+            title="No Plans yet"
+            description="Plan a team for any game, then follow it from a Play to see how close you are."
+            action={newPlan}
+          />
+        </>
       )}
     </div>
   );

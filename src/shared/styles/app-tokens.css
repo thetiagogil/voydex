@@ -167,12 +167,13 @@
   --radius: var(--r-sm);
 
   /*
-   * The top bar. Its sections sit on a white island; the current one takes
-   * the selected tint, and the V tile the action colour.
+   * The top bar has no ground of its own: its words sit straight on the
+   * page's band or meadow. Hover is a wash of white over it, the current
+   * section the selected tint, and the V tile the action colour.
    */
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
-  --bar-hover: var(--surface-2);
+  --bar-hover: color-mix(in oklab, var(--surface) 70%, transparent);
   --bar-current: var(--select-soft);
   --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);

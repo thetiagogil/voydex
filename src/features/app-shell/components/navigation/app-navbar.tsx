@@ -32,7 +32,7 @@ export const AppNavbar = ({
           {/* v3 drops the word on narrow phones; the tile alone is the brand. */}
           <Logo
             showText={showName}
-            markClassName="text-17 size-8.5 bg-(--bar-brand)"
+            markClassName="size-9 bg-(--bar-brand)"
             textClassName="max-sm:hidden"
           />
         </Link>

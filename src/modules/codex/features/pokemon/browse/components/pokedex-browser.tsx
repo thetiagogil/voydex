@@ -153,87 +153,87 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           title="Pokémon"
           description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
         />
-      </PageBand>
 
-      <Toolbar
-        className="mt-5.5"
-        render={
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          />
-        }
-        search={
-          <SearchControl
-            name="q"
-            ariaLabel="Search Pokémon"
-            value={filters.query}
-            onValueChange={(query) => {
-              updateFilter("query", query);
-            }}
-            placeholder="Search name or number"
-          />
-        }
-        trailing={
-          <>
-            <ToolbarGroup>
+        <Toolbar
+          className="mt-5.5"
+          render={
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            />
+          }
+          search={
+            <SearchControl
+              name="q"
+              ariaLabel="Search Pokémon"
+              value={filters.query}
+              onValueChange={(query) => {
+                updateFilter("query", query);
+              }}
+              placeholder="Search name or number"
+            />
+          }
+          trailing={
+            <>
+              <ToolbarGroup>
+                <SelectControl
+                  ariaLabel="Filter by generation"
+                  variant="ghost"
+                  prefix="Generation"
+                  value={filters.generation || ALL}
+                  onValueChange={(value) => {
+                    updateFilter("generation", value === ALL ? "" : value);
+                  }}
+                  options={generationOptions}
+                  placeholder="All"
+                />
+              </ToolbarGroup>
               <SelectControl
-                ariaLabel="Filter by generation"
+                ariaLabel="Group Pokémon by"
                 variant="ghost"
-                prefix="Generation"
-                value={filters.generation || ALL}
+                prefix="Group"
+                value={groupBy}
                 onValueChange={(value) => {
-                  updateFilter("generation", value === ALL ? "" : value);
-                }}
-                options={generationOptions}
-                placeholder="All"
-              />
-            </ToolbarGroup>
-            <SelectControl
-              ariaLabel="Group Pokémon by"
-              variant="ghost"
-              prefix="Group"
-              value={groupBy}
-              onValueChange={(value) => {
-                setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                setGroupBy(value === "type" ? "type" : "generation");
-              }}
-              options={groupByOptions}
-              placeholder="Generation"
-            />
-            <SelectControl
-              ariaLabel="Sort Pokémon"
-              variant="ghost"
-              prefix="Sort"
-              value={sortKey}
-              onValueChange={(value) => {
-                if (isPokedexSortKey(value)) {
                   setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                  setSortKey(value);
-                }
-              }}
-              options={pokedexSortOptions}
-              placeholder="National number"
-            />
-          </>
-        }
-      />
-
-      {/* The types under the bar: they give the list its colour. */}
-      <div className="mt-3.5">
-        <PokemonTypeFilter
-          onValueChange={(type) => {
-            updateFilter("type", type);
-          }}
-          types={data.types}
-          value={filters.type}
+                  setGroupBy(value === "type" ? "type" : "generation");
+                }}
+                options={groupByOptions}
+                placeholder="Generation"
+              />
+              <SelectControl
+                ariaLabel="Sort Pokémon"
+                variant="ghost"
+                prefix="Sort"
+                value={sortKey}
+                onValueChange={(value) => {
+                  if (isPokedexSortKey(value)) {
+                    setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                    setSortKey(value);
+                  }
+                }}
+                options={pokedexSortOptions}
+                placeholder="National number"
+              />
+            </>
+          }
         />
-      </div>
+
+        {/* The types under the bar: they give the list its colour. */}
+        <div className="mt-3.5 -mb-1">
+          <PokemonTypeFilter
+            onValueChange={(type) => {
+              updateFilter("type", type);
+            }}
+            types={data.types}
+            value={filters.type}
+          />
+        </div>
+      </PageBand>
 
       {/* Counts every match, not just the ones loaded so far. */}
       <FilterResultsLine
-        className="mt-2"
+        className="mt-5"
         hasActiveFilters={hasActiveFilters}
         noun="Pokémon"
         onClearFilters={clearFilters}

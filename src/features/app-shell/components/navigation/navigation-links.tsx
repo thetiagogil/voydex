@@ -32,10 +32,11 @@ export const SteadyLabel = ({ children }: { children: string }) => (
 );
 
 /*
- * The bar's sections (v3 `.links`): quiet words; the current one takes the
- * selected tint.
- * The current mark swaps at once, never fades, so a change of section
- * doesn't flicker between the two links.
+ * The bar's sections (v3 `.links`): quiet words straight on the page's band,
+ * with no surface of their own, so the bar never pulls focus from the page.
+ * The current one is a small sticker in the selected tint, as every pick
+ * is. It swaps at once, never fades, so a change of section doesn't flicker
+ * between the two links.
  */
 export const NavigationLinks = ({
   ariaLabel,
@@ -45,17 +46,7 @@ export const NavigationLinks = ({
   const pathname = usePathname();
 
   return (
-    /*
-     * The sections on one white island, a sticker like the rest of the
-     * app's pieces, so the bar stands apart from any page under it.
-     */
-    <nav
-      aria-label={ariaLabel}
-      className={cn(
-        "bubble items-center gap-0.5 rounded-full bg-(--bar-control) p-1",
-        className,
-      )}
-    >
+    <nav aria-label={ariaLabel} className={cn("items-center gap-1", className)}>
       {links.map((link) => {
         const isCurrent = isCurrentLink(pathname, link);
 
@@ -67,7 +58,7 @@ export const NavigationLinks = ({
             className={cn(
               "text-14 hover:text-ink inline-flex h-9 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
               isCurrent &&
-                "bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
+                "bubble bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
             )}
           >
             <SteadyLabel>{link.label}</SteadyLabel>
