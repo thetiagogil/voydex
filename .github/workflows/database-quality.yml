@@ -30,6 +30,10 @@ jobs:
   database-quality:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Pull the Supabase images from GitHub's registry; the default public
+      # registry often refuses GitHub's shared runners ("Data limit exceeded").
+      SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
 
     steps:
       - name: Check out repository
