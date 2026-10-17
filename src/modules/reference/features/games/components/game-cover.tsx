@@ -114,8 +114,9 @@ type GameCoverProps = {
  * A game's box: the real cover when there is one, otherwise a cover-shaped
  * stand-in with the game's initials in its colour. A cover that fails to load
  * falls back to the stand-in too. Every cover, everywhere, sits in a white
- * frame on a soft shadow, as a box on a shelf: 3px by default, thinner on the
- * smallest sizes and thicker on the large ones.
+ * frame on a soft shadow, as a box on a shelf: the same 4px frame at every
+ * size, except the two thumbnails (a picker option, a docked bar), where 4px
+ * would cover the art.
  */
 export const GameCover = ({
   alt,
@@ -153,7 +154,7 @@ export const GameCover = ({
         aria-hidden={alt ? undefined : true}
         style={gameSlug ? getGameColourStyle(gameSlug) : undefined}
         className={cn(
-          "bg-game-strong font-display shadow-cover grid aspect-3/4 shrink-0 place-items-center rounded-sm border-[3px] border-white bg-clip-padding font-semibold text-white",
+          "bg-game-strong font-display shadow-cover grid aspect-3/4 shrink-0 place-items-center rounded-sm border-4 border-white bg-clip-padding font-semibold text-white",
           sizeClassNames?.fallback,
           carouselClassName,
           className,
@@ -175,7 +176,7 @@ export const GameCover = ({
         height={carouselSize.height}
         loading={eager ? "eager" : "lazy"}
         className={cn(
-          "bg-surface-2 shadow-cover block shrink-0 rounded-sm border-[3px] border-white object-cover",
+          "bg-surface-2 shadow-cover block shrink-0 rounded-sm border-4 border-white object-cover",
           carouselClassName,
           className,
         )}
@@ -198,7 +199,7 @@ export const GameCover = ({
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       className={cn(
-        "shadow-cover block h-auto w-auto shrink-0 rounded-sm border-[3px] border-white",
+        "shadow-cover block h-auto w-auto shrink-0 rounded-sm border-4 border-white",
         sizeClassNames?.image,
         carouselClassName,
         className,
