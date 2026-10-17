@@ -79,12 +79,19 @@ clean-up (#61), and waits on the owner's review before it is squashed:
 - **The pieces**: `Button` (one 36/48/56 scale, round icons, `soft` close),
   `Badge` and `StatusBadge` (tones and a dot; abandoned Plays are danger),
   `TextLink`, `ChoiceChip`, `PickedMark`, `CornerBubble`,
-  `RecordMilestoneButton`, one 44px menu row, 48px toolbars and form rows,
+  `RecordMilestoneButton`, one 48px picker row, 48px toolbars and form rows,
   bottom sheets below 1024px, and one set of type matchup pieces shared by
   Team analysis and the Planner's Team check.
 - **Guard rails**: `design:check` fails on the retired raised look, the
   component rule is in CLAUDE.md and the design system, and the browser tests
   run every axe rule (#39).
+- **Second visual pass (2026-10-17, awaiting the owner's review)**: one
+  palette for the whole app (Lake: cool white, cool grey bands, one calm
+  blue), no game colour in a Play; type chips in their official colour with
+  their own label ink; the top bar off its island with a drawn V and the
+  name; every page, a Play included, opens on a band holding its head and its
+  toolbar or hero; every select, menu and searchable list is one picker
+  family (pictures, a second line, search for long lists).
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
