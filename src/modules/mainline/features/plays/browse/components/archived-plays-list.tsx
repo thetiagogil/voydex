@@ -10,7 +10,7 @@ import {
 } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import { RestorePlayButton } from "@/modules/mainline/features/plays/shared/components/restore-play-button";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
-import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { Card } from "@/shared/components/ui/card";
 

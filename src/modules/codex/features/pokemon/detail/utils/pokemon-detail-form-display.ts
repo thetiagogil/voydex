@@ -1,4 +1,4 @@
-import type { PokemonDetailGenerationForm } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailGenerationForm } from "@/modules/codex/features/pokemon/detail/types";
 import type { PokemonGenerationFormSummary } from "@/modules/reference/types";
 import {
   getPokemonFormImageAlt,

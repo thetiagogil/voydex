@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { PokemonDetailStat } from "@/modules/codex/features/pokemon/detail/components/stats/pokemon-detail-stats-model";
+import type { PokemonDetailStat } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-model";
 import type {
   PokemonGenerationFormSummary,
   PokemonSpecies,

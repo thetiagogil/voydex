@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/components/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
+import type { PokemonDetailPokedexNumber } from "@/modules/codex/features/pokemon/detail/sections/pokedex-numbers/pokemon-detail-pokedex-numbers-model";
 import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pending-value";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 

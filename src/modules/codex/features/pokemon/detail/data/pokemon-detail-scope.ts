@@ -20,7 +20,7 @@ import type {
   PokemonDetailScopeParams,
   PokemonDetailVersionGroupScope,
   ResolvedPokemonDetailScope,
-} from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+} from "@/modules/codex/features/pokemon/detail/types";
 
 /*
  * Every form found somewhere in the generation, in the generation's order,

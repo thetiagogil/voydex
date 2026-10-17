@@ -7,7 +7,7 @@ import { PlayStartRow } from "@/modules/mainline/features/plays/hub/components/p
 import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayHistoryData } from "@/modules/mainline/features/plays/hub/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
-import { useViewerClock } from "@/modules/mainline/features/plays/shared/utils/use-viewer-clock";
+import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";

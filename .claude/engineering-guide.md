@@ -109,10 +109,10 @@ read/write file roles. The rules most often missed:
 - Name the owner of a top-level visible page card `*Section`; reserve `*Card`
   for reusable visual cards, `*Detail` or `*Inspector` for contextual content,
   and `*Sheet` for responsive overlays.
-- No empty responsibility folders, no one-file `application`,
-  `infrastructure` or `display` folders inside a leaf view. A real `domain`
-  boundary (such as reference-owned game mechanics and type rules) is fine
-  for substantial module-wide rules.
+- No empty responsibility folders, and no folder names outside the closed
+  vocabulary (Agreed Folder Names in the architecture guide);
+  `npm run architecture:check` rejects them. `domain` exists only in
+  `reference`, for its game mechanics and type rules.
 - Cross-module consumers use the public contracts of `src/modules/reference`
   (`types.ts`, `reference-data.ts`, `reference-rows.ts`); concrete catalogue
   components and domain utilities may use their explicit feature paths.

@@ -2,7 +2,7 @@
 
 import { useState, type ReactNode } from "react";
 
-import type { PokemonDetailHeroSentencePart } from "@/modules/codex/features/pokemon/detail/components/hero/pokemon-detail-hero-model";
+import type { PokemonDetailHeroSentencePart } from "@/modules/codex/features/pokemon/detail/sections/hero/pokemon-detail-hero-model";
 import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pending-value";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";

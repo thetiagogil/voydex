@@ -6,7 +6,7 @@ import {
   doesPokemonLearnsetMatchForm,
   isPokemonLearnsetInVersionGroupScope,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-learnsets";
-import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types/pokemon-detail-scope";
+import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types";
 import type {
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,

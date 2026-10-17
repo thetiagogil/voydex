@@ -1,6 +1,9 @@
 import { useMemo, useSyncExternalStore } from "react";
 
-import { getPlayCalendarDay, type ViewerClock } from "./play-moment-date";
+import {
+  getPlayCalendarDay,
+  type ViewerClock,
+} from "../utils/play-moment-date";
 
 const subscribeToNothing = () => () => {};
 const getViewerTimeZone = () =>

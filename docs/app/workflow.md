@@ -39,7 +39,7 @@ by the owner.
 
 Every issue has one `type:` label and one `area:` label; the others are added
 when they apply. Each group has one colour, so a list of issues reads at a
-glance.
+glance. Pull requests take no labels: their conventional title and "Closes #N" say what they are.
 
 | Group    | Labels                                                                                                  | Meaning                                                    |
 | -------- | ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
