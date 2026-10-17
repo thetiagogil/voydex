@@ -320,8 +320,8 @@ follows the scroll beside a longer list (Story's panel, the Story matchups
 report, the roster panel) takes `sticky-panel` with `useStickyPanel`: it
 sticks under the docked bar when it fits, and when it is taller than the
 screen it scrolls with the page and sticks at its bottom, never scrolling on
-its own. A navigation list that follows the scroll (Play settings' menu, the
-Collectibles areas) takes `sticky-column`: it stops at the screen's height,
+its own. A navigation list that follows the scroll (Play settings' menu)
+takes `sticky-column`: it stops at the screen's height,
 scrolls on its own, and fades at the bottom while there is more.
 
 **Public art.** The public pages (Home, Intro, Start a Play, Log in and the

@@ -114,7 +114,7 @@
 
 /*
  * A navigation list that follows the scroll beside a longer page (Play
- * settings' menu, the Collectibles areas). It never grows past the screen:
+ * settings' menu). It never grows past the screen:
  * when its own content is taller, it scrolls on its own.
  */
 @utility sticky-column {
