@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { Sheet, SheetContent } from "@/shared/components/ui/sheet";
-import { useIsMobile } from "@/shared/hooks/use-mobile";
+import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { cn } from "@/shared/utils/cn";
 
 type ResponsiveDetailSheetProps = {
@@ -31,9 +31,10 @@ type ResponsiveDetailSheetProps = {
 };
 
 /*
- * v3's detail sheet (`.overlay.side .sheet`): from tablets up it slides in
- * from the right edge over a scrim; on phones it is the bottom sheet. Both
- * trap focus, close on Escape and return focus to what opened them.
+ * v3's detail sheet (`.overlay.side .sheet`): from 1024px up it slides in
+ * from the right edge over a scrim; below, on phones and tablets, it is the
+ * bottom sheet, like every sheet. Both trap focus, close on Escape and
+ * return focus to what opened them.
  */
 export const ResponsiveDetailSheet = ({
   children,
@@ -45,15 +46,16 @@ export const ResponsiveDetailSheet = ({
   open,
   size = "default",
 }: ResponsiveDetailSheetProps) => {
-  const isMobile = useIsMobile();
+  const isBottomSheet = useBottomSheetLayout();
 
-  if (isMobile) {
+  if (isBottomSheet) {
     return (
       <BottomSheet
         open={open}
         onOpenChange={onOpenChange}
         label={label}
         footer={footer}
+        size={size}
       >
         <div className="flex flex-col gap-5">
           {head}

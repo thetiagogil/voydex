@@ -1,6 +1,11 @@
 "use client";
 
-import type { ComponentProps, ReactElement, ReactNode } from "react";
+import type {
+  ComponentProps,
+  ReactElement,
+  ReactNode,
+  UIEventHandler,
+} from "react";
 
 import {
   Sheet,
@@ -36,6 +41,8 @@ type BottomSheetProps = {
    * Pokémon's profile head. Ignored when `title` is given.
    */
   label?: string;
+  /* The scrolling body's scroll, such as loading more as it nears the end. */
+  onBodyScroll?: UIEventHandler<HTMLDivElement>;
   onOpenChange?: (open: boolean) => void;
   /*
    * After the open or close animation ends, such as scrolling the page to
@@ -43,6 +50,13 @@ type BottomSheetProps = {
    */
   onOpenChangeComplete?: (open: boolean) => void;
   open?: boolean;
+  /*
+   * `confirm` asks for an answer (Mark incomplete): it closes only on one of
+   * its buttons or Escape, never on a tap outside.
+   */
+  role?: "confirm" | "sheet";
+  /* `wide` holds a table, such as Team check's matrix, on tablets. */
+  size?: "default" | "wide";
   /* The visible Fredoka 24 heading at the top of the body. */
   title?: ReactNode;
   /* The element that opens the sheet, through `render`. */
@@ -68,9 +82,12 @@ export const BottomSheet = ({
   header,
   initialFocus,
   label,
+  onBodyScroll,
   onOpenChange,
   onOpenChangeComplete,
   open,
+  role = "sheet",
+  size = "default",
   title,
   trigger,
 }: BottomSheetProps) => {
@@ -78,6 +95,7 @@ export const BottomSheet = ({
     <Sheet
       open={open}
       defaultOpen={defaultOpen}
+      disablePointerDismissal={role === "confirm"}
       onOpenChange={onOpenChange}
       onOpenChangeComplete={onOpenChangeComplete}
     >
@@ -88,7 +106,8 @@ export const BottomSheet = ({
         initialFocus={initialFocus}
         finalFocus={finalFocus}
         className={cn(
-          "mx-auto max-h-[88dvh] w-full max-w-140 gap-0 p-0 data-[side=bottom]:rounded-t-xl",
+          "mx-auto max-h-[88dvh] w-full gap-0 p-0 data-[side=bottom]:rounded-t-xl",
+          size === "wide" ? "max-w-215" : "max-w-140",
           className,
         )}
       >
@@ -112,6 +131,7 @@ export const BottomSheet = ({
         ) : null}
         <div
           data-slot="bottom-sheet-body"
+          onScroll={onBodyScroll}
           className={cn(
             "min-h-0 flex-1 overflow-y-auto px-5 pt-2 pb-5",
             bodyClassName,

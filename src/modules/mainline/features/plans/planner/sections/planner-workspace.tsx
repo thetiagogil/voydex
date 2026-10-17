@@ -321,7 +321,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           team.moveSlot(from, to);
           setOpenSlot(to);
         }}
-        onRemove={team.removeSlot}
+        onRemove={requestRemove}
         onSwap={(index) => {
           setOpenSlot(null);
           setSwapIndex(index);

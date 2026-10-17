@@ -92,6 +92,36 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
   });
 
+  test("asks before removing a Pokémon with a build from its sheet", async ({
+    page,
+  }) => {
+    await page.goto("/mainline/plans/new?vg=rb");
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await picker.getByRole("searchbox").fill("Charizard");
+    await picker
+      .getByRole("button", { name: "Charizard", exact: true })
+      .click();
+
+    await page
+      .getByRole("region", { name: "Your team" })
+      .getByRole("button", { name: "Charizard, slot 1. Edit" })
+      .click();
+    const sheet = page.getByRole("dialog", { name: /Charizard/ });
+    await sheet.getByRole("button", { name: "Lead" }).click();
+    await sheet.getByRole("button", { name: "Remove from Plan" }).click();
+
+    const confirm = page.getByRole("alertdialog", {
+      name: "Remove Charizard?",
+    });
+    await expect(confirm).toBeVisible();
+    await confirm.getByRole("button", { name: "Keep it" }).click();
+    await expect(
+      page
+        .getByRole("region", { name: "Your team" })
+        .getByRole("button", { name: "Charizard, slot 1. Edit" }),
+    ).toBeVisible();
+  });
+
   test("deletes a Plan from My Plans", async ({ page }) => {
     const name = uniquePlayName("Short-lived plan");
     await savePlan(page, name, ["Pikachu"]);
