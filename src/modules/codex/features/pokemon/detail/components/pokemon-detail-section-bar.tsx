@@ -130,9 +130,7 @@ export const PokemonDetailSectionBar = ({
                 key={section.id}
                 href={`#${section.id}`}
                 aria-current={current === section.id ? "true" : undefined}
-                className={getBarLinkClassName(current === section.id, {
-                  quiet: true,
-                })}
+                className={getBarLinkClassName(current === section.id)}
               >
                 <SteadyLabel>{section.label}</SteadyLabel>
               </a>
