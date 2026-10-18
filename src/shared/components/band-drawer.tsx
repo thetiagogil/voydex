@@ -3,7 +3,6 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 type BandDrawerProps = {
@@ -13,6 +12,11 @@ type BandDrawerProps = {
   children: ReactNode;
   /* Opens it on arrival: a search or a filter is already narrowing the list. */
   defaultOpen?: boolean;
+  /*
+   * Where the handle sits: on the band's bottom edge (`band`, inside a
+   * `PageBand`), or on a thin line under a head on the plain page (`rule`).
+   */
+  edge?: "band" | "rule";
 };
 
 const isTyping = (target: EventTarget | null) =>
@@ -21,17 +25,19 @@ const isTyping = (target: EventTarget | null) =>
     ["INPUT", "SELECT", "TEXTAREA"].includes(target.tagName));
 
 /*
- * The bottom of a page's band, folded: a round handle centred under the head.
- * Pressed, the band grows downward and its contents (a list's search and
- * filter bar) fade in once it has room; pressed again, it folds back up. "/"
- * anywhere on the page opens it and jumps to the search. Closed, its
- * contents are inert, so the keyboard skips them. Place it last in a
- * `PageBand`.
+ * A list's search and filter bar, folded away under a small wide tab. On a
+ * band the tab sits on the band's bottom edge, half on the band and half on
+ * the page; pressed, the band grows downward and the bar fades in once it has
+ * room, and pressed again it folds back up. A page with no band draws a thin
+ * line under its head and sets the tab on it instead. "/" anywhere on the
+ * page opens it and jumps to the search. Closed, the bar is inert, so the
+ * keyboard skips it. In a band, place it last in the `PageBand`.
  */
 export const BandDrawer = ({
   activeCount = 0,
   children,
   defaultOpen = false,
+  edge = "band",
 }: BandDrawerProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentId = useId();
@@ -72,6 +78,39 @@ export const BandDrawer = ({
     }
   }, [isOpen]);
 
+  const handle = (
+    <>
+      <button
+        type="button"
+        aria-expanded={isOpen}
+        aria-controls={contentId}
+        aria-keyshortcuts="/"
+        aria-label={
+          isOpen ? "Hide search and filters" : "Show search and filters"
+        }
+        onClick={() => {
+          shouldFocusSearch.current = !isOpen;
+          setIsOpen((open) => !open);
+        }}
+        className="bg-surface text-ink-2 hover:text-ink focus-visible:outline-focus grid h-5 w-12 place-items-center rounded-full shadow-[0_2px_6px_-2px_rgb(var(--shade)/0.35)] transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+      >
+        <AppIcon
+          icon={appIcons.actions.expand}
+          className={cn(
+            "size-3.5 stroke-3 transition-transform duration-300 ease-out motion-reduce:transition-none",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+      {!isOpen && activeCount ? (
+        <span
+          aria-hidden
+          className="bg-action bubble pointer-events-none absolute -top-1 -right-1 size-2.5 rounded-full"
+        />
+      ) : null}
+    </>
+  );
+
   return (
     <>
       <div
@@ -95,39 +134,19 @@ export const BandDrawer = ({
           </div>
         </div>
       </div>
-      <div className="-mb-3 flex justify-center pt-3 sm:-mb-5">
-        <span className="relative">
-          <Button
-            type="button"
-            variant="secondary"
-            size="icon-sm"
-            aria-expanded={isOpen}
-            aria-controls={contentId}
-            aria-keyshortcuts="/"
-            aria-label={
-              isOpen ? "Hide search and filters" : "Show search and filters"
-            }
-            onClick={() => {
-              shouldFocusSearch.current = !isOpen;
-              setIsOpen((open) => !open);
-            }}
-          >
-            <AppIcon
-              icon={appIcons.actions.expand}
-              className={cn(
-                "transition-transform duration-300 ease-out motion-reduce:transition-none",
-                isOpen && "rotate-180",
-              )}
-            />
-          </Button>
-          {!isOpen && activeCount ? (
-            <span
-              aria-hidden
-              className="bg-action bubble pointer-events-none absolute -top-0.5 -right-0.5 size-3 rounded-full"
-            />
-          ) : null}
+      {edge === "rule" ? (
+        /* No band: a thin line under the head carries the tab. */
+        <div className="bg-line relative mt-3 h-px">
+          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            {handle}
+          </span>
+        </div>
+      ) : (
+        /* On the band's bottom edge: the band is the positioned box. */
+        <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
+          {handle}
         </span>
-      </div>
+      )}
     </>
   );
 };
