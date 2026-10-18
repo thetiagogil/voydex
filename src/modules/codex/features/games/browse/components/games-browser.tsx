@@ -103,6 +103,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           filters={filters}
           games={data.games}
           groupBy={groupBy}
+          matchingCount={filteredGames.length}
           onFilterChange={updateFilter}
           onGroupByChange={setGroupBy}
           onSortOrderChange={setSortOrder}

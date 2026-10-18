@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openFilters } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Progress", () => {
@@ -43,7 +44,9 @@ test.describe("Progress", () => {
 
     await page.reload();
     await expect(page.getByText("1% complete · 1 of 151")).toBeVisible();
-    await page.getByRole("button", { name: "Caught 1" }).click();
+    const { close, filters } = await openFilters(page);
+    await filters.getByRole("button", { name: "Caught 1" }).click();
+    await close();
     await expect(page.getByText("Showing 1 of 151 Pokémon")).toBeVisible();
   });
 });

@@ -8,7 +8,10 @@ import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 import type {
   CollectibleProgressFilter,
@@ -176,8 +179,12 @@ export const CollectibleEntriesSection = ({
       tabIndex={-1}
       className="grid min-w-0 grid-cols-1 gap-4 rounded-xs"
     >
-      <Toolbar
-        aria-label={`Filter ${group.name}`}
+      <FilterToolbar
+        ariaLabel={`Filter ${group.name}`}
+        activeCount={
+          (progressFilter === "all" ? 0 : 1) + (areaId === "all" ? 0 : 1)
+        }
+        resultLabel={`Show ${group.name}`}
         render={
           <form
             onSubmit={(event) => {
@@ -193,19 +200,50 @@ export const CollectibleEntriesSection = ({
             value={query}
           />
         }
-        trailing={
-          <>
-            {hasAreas ? (
-              <SelectControl
-                ariaLabel="Show one area"
-                className="w-48 min-w-0"
-                onValueChange={setAreaId}
-                options={areaOptions}
-                placeholder="All areas"
-                value={areaId}
-                variant="ghost"
-              />
-            ) : null}
+        controls={(placement) => {
+          const sortControl = (
+            <SelectControl
+              id={
+                placement === "panel"
+                  ? "collectibles-sort"
+                  : "collectibles-sheet-sort"
+              }
+              ariaLabel="Sort collectibles"
+              onValueChange={(value) => onSortChange(value as CollectibleSort)}
+              options={sortOptions}
+              placeholder="Game order"
+              prefix={placement === "panel" ? "Sort" : undefined}
+              value={sort}
+              variant="ghost"
+            />
+          );
+
+          return placement === "panel" ? (
+            sortControl
+          ) : (
+            <FilterSheetRow htmlFor="collectibles-sheet-sort" label="Sort">
+              {sortControl}
+            </FilterSheetRow>
+          );
+        }}
+        filters={(placement) => {
+          const area = hasAreas ? (
+            <SelectControl
+              id={
+                placement === "panel"
+                  ? "collectibles-area"
+                  : "collectibles-sheet-area"
+              }
+              ariaLabel="Show one area"
+              className="w-48 min-w-0"
+              onValueChange={setAreaId}
+              options={areaOptions}
+              placeholder="All areas"
+              value={areaId}
+              variant="ghost"
+            />
+          ) : null;
+          const show = (
             <SegmentedControl
               variant="segment"
               selectedTone="soft"
@@ -226,17 +264,24 @@ export const CollectibleEntriesSection = ({
               ]}
               value={progressFilter}
             />
-            <SelectControl
-              ariaLabel="Sort collectibles"
-              onValueChange={(value) => onSortChange(value as CollectibleSort)}
-              options={sortOptions}
-              placeholder="Game order"
-              prefix="Sort"
-              value={sort}
-              variant="ghost"
-            />
-          </>
-        }
+          );
+
+          return placement === "panel" ? (
+            <div className="flex flex-wrap items-center gap-3">
+              {show}
+              {area}
+            </div>
+          ) : (
+            <>
+              <FilterSheetRow label="Show">{show}</FilterSheetRow>
+              {area ? (
+                <FilterSheetRow htmlFor="collectibles-sheet-area" label="Area">
+                  {area}
+                </FilterSheetRow>
+              ) : null}
+            </>
+          );
+        }}
       />
 
       <FilterResultsLine

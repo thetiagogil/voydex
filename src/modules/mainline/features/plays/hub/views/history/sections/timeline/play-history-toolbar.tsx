@@ -3,7 +3,10 @@
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 import type {
   PlayHistoryFilter,
@@ -27,9 +30,8 @@ const sortOptions = [
 ] as const;
 
 /*
- * v3's History toolbar with a search in front: the search, the hairline, the
- * five filters with their counts, then the order. On phones the search takes
- * its own row and the filters scroll sideways in one row.
+ * History on the one list toolbar: the search and the order on the line, and
+ * the five filters with their counts behind Filters.
  */
 export const PlayHistoryToolbar = ({
   filter,
@@ -41,9 +43,11 @@ export const PlayHistoryToolbar = ({
   sort,
 }: PlayHistoryToolbarProps) => {
   return (
-    <Toolbar
-      aria-label="Filter History"
+    <FilterToolbar
+      ariaLabel="Filter History"
       className="mt-5"
+      activeCount={filter === "all" ? 0 : 1}
+      resultLabel="Show moments"
       render={
         <form
           onSubmit={(event) => {
@@ -59,8 +63,37 @@ export const PlayHistoryToolbar = ({
           value={query}
         />
       }
-      trailing={
-        <>
+      controls={(placement) => {
+        const sortControl = (
+          <SelectControl
+            id={
+              placement === "panel"
+                ? "play-history-sort"
+                : "play-history-sheet-sort"
+            }
+            name={placement === "panel" ? "sort" : undefined}
+            ariaLabel="Sort History"
+            value={sort}
+            onValueChange={(value) => {
+              onSortChange(value as PlayHistorySort);
+            }}
+            options={sortOptions}
+            placeholder="Newest first"
+            prefix={placement === "panel" ? "Sort" : undefined}
+            variant="ghost"
+          />
+        );
+
+        return placement === "panel" ? (
+          sortControl
+        ) : (
+          <FilterSheetRow htmlFor="play-history-sheet-sort" label="Sort">
+            {sortControl}
+          </FilterSheetRow>
+        );
+      }}
+      filters={(placement) => {
+        const show = (
           <SegmentedControl
             variant="segment"
             selectedTone="soft"
@@ -70,21 +103,14 @@ export const PlayHistoryToolbar = ({
             options={filterOptions}
             value={filter}
           />
-          <SelectControl
-            id="play-history-sort"
-            name="sort"
-            ariaLabel="Sort History"
-            value={sort}
-            onValueChange={(value) => {
-              onSortChange(value as PlayHistorySort);
-            }}
-            options={sortOptions}
-            placeholder="Newest first"
-            prefix="Sort"
-            variant="ghost"
-          />
-        </>
-      }
+        );
+
+        return placement === "panel" ? (
+          show
+        ) : (
+          <FilterSheetRow label="Show">{show}</FilterSheetRow>
+        );
+      }}
     />
   );
 };

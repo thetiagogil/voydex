@@ -38,7 +38,10 @@ import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 const sortOptions = [
   { label: "Regional number", value: "regional" },
@@ -118,8 +121,11 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
     <>
       <PageBand>
         {head}
-        <Toolbar
+        <FilterToolbar
+          ariaLabel={`Filter the ${pokedexName}`}
           className="mt-5"
+          activeCount={filters.type ? 1 : 0}
+          resultLabel={`Show ${visiblePokemon.length} Pokémon`}
           render={
             <form
               onSubmit={(event) => {
@@ -142,12 +148,15 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
               }
             />
           }
-          trailing={
-            <>
+          controls={(placement) => {
+            const sort = (
               <SelectControl
+                id={
+                  placement === "panel" ? "pokedex-sort" : "pokedex-sheet-sort"
+                }
                 ariaLabel="Sort Pokémon"
                 variant="ghost"
-                prefix="Sort"
+                prefix={placement === "panel" ? "Sort" : undefined}
                 value={sortKey}
                 onValueChange={(value) => {
                   if (isGamePokedexSortKey(value)) {
@@ -157,6 +166,8 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                 options={sortOptions}
                 placeholder="Regional number"
               />
+            );
+            const display = (
               <SegmentedControl
                 ariaLabel="Pokédex display"
                 onValueChange={setView}
@@ -164,19 +175,40 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                 value={view}
                 variant="segment"
               />
-            </>
-          }
-        />
+            );
 
-        <div className="mt-3.5">
-          <PokemonTypeFilter
-            onValueChange={(type) => {
-              updateFilter("type", type);
-            }}
-            types={data.types}
-            value={filters.type}
-          />
-        </div>
+            return placement === "panel" ? (
+              <>
+                {sort}
+                {display}
+              </>
+            ) : (
+              <>
+                <FilterSheetRow htmlFor="pokedex-sheet-sort" label="Sort">
+                  {sort}
+                </FilterSheetRow>
+                <FilterSheetRow label="Display">{display}</FilterSheetRow>
+              </>
+            );
+          }}
+          filters={(placement) => {
+            const type = (
+              <PokemonTypeFilter
+                onValueChange={(type) => {
+                  updateFilter("type", type);
+                }}
+                types={data.types}
+                value={filters.type}
+              />
+            );
+
+            return placement === "panel" ? (
+              type
+            ) : (
+              <FilterSheetRow label="Type">{type}</FilterSheetRow>
+            );
+          }}
+        />
       </PageBand>
 
       <section aria-label={`${pokedexName} entries`} className="mt-5">

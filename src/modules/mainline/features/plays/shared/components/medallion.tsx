@@ -7,8 +7,8 @@ import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Every moment wears one medallion: a round token with a white ring and a
- * small lip. Only what's inside changes: a gym badge in its type, any other
+ * Every moment wears one medallion: a round token with a white ring on a
+ * soft drop (`--moment-drop`). Only what's inside changes: a gym badge in its type, any other
  * milestone in gold, a Pokémon on its type tint, a note warm, a status
  * neutral, and where the Play began in the accent.
  */
@@ -21,8 +21,8 @@ export type MedallionContent =
 export type MedallionSize = "md" | "sm" | "xs";
 
 const sizeClassNames: Record<MedallionSize, string> = {
-  md: "m-1.25 size-11.5 shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--mr),0_3px_0_4.5px_var(--lip)] [&_svg]:size-5",
-  sm: "m-px size-8 shadow-[0_0_0_2.5px_#fff,0_0_0_3.5px_var(--mr),0_2px_0_3.5px_var(--lip)] [&_svg]:size-4",
+  md: "m-1.25 size-11.5 shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--mr),var(--moment-drop)] [&_svg]:size-5",
+  sm: "m-px size-8 shadow-[0_0_0_2.5px_#fff,0_0_0_3.5px_var(--mr),var(--moment-drop)] [&_svg]:size-4",
   xs: "m-0.5 size-6 shadow-[0_0_0_2px_#fff,0_0_0_3px_var(--mr)] [&_svg]:size-3",
 };
 

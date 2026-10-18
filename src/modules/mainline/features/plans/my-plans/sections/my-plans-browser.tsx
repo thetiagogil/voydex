@@ -32,7 +32,10 @@ import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -196,9 +199,13 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
     <>
       <PageBand>
         {head}
-        <Toolbar
-          aria-label="Filter your Plans"
+        <FilterToolbar
+          ariaLabel="Filter your Plans"
           className="mt-5"
+          activeCount={
+            (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0)
+          }
+          resultLabel={`Show ${shown.length} ${shown.length === 1 ? "Plan" : "Plans"}`}
           search={
             <SearchControl
               id="my-plans-search"
@@ -208,8 +215,36 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
               onValueChange={(query) => update({ query })}
             />
           }
-          trailing={
-            <>
+          controls={(placement) => {
+            const sort = (
+              <SelectControl
+                id={
+                  placement === "panel"
+                    ? "my-plans-sort"
+                    : "my-plans-sheet-sort"
+                }
+                ariaLabel="Sort Plans"
+                variant="ghost"
+                prefix={placement === "panel" ? "Sort" : undefined}
+                placeholder={myPlansSortLabels.updated}
+                value={filters.sort}
+                onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
+                options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
+                  (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
+                )}
+              />
+            );
+
+            return placement === "panel" ? (
+              sort
+            ) : (
+              <FilterSheetRow htmlFor="my-plans-sheet-sort" label="Sort">
+                {sort}
+              </FilterSheetRow>
+            );
+          }}
+          filters={(placement) => {
+            const status = (
               <SegmentedControl
                 variant="segment"
                 selectedTone="soft"
@@ -222,8 +257,14 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
                   { label: "Archived", value: "archived" },
                 ]}
               />
+            );
+            const game = (
               <SelectControl
-                id="my-plans-game"
+                id={
+                  placement === "panel"
+                    ? "my-plans-game"
+                    : "my-plans-sheet-game"
+                }
                 ariaLabel="Filter Plans by game"
                 variant="ghost"
                 placeholder="All games"
@@ -247,20 +288,22 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
                 ]}
                 searchPlaceholder="Search games"
               />
-              <SelectControl
-                id="my-plans-sort"
-                ariaLabel="Sort Plans"
-                variant="ghost"
-                prefix="Sort"
-                placeholder={myPlansSortLabels.updated}
-                value={filters.sort}
-                onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
-                options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
-                  (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
-                )}
-              />
-            </>
-          }
+            );
+
+            return placement === "panel" ? (
+              <div className="flex flex-wrap items-center gap-3">
+                {status}
+                {game}
+              </div>
+            ) : (
+              <>
+                <FilterSheetRow label="Show">{status}</FilterSheetRow>
+                <FilterSheetRow htmlFor="my-plans-sheet-game" label="Game">
+                  {game}
+                </FilterSheetRow>
+              </>
+            );
+          }}
         />
       </PageBand>
 

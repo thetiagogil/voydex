@@ -14,12 +14,17 @@ import {
 import type { GameCard } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 type GamesToolbarProps = {
   filters: GamesBrowseFilters;
   games: GameCard[];
   groupBy: GamesGroupBy;
+  /* How many games the current choices show, for the phone sheet's button. */
+  matchingCount: number;
   onFilterChange: <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
     value: GamesBrowseFilters[FilterKey],
@@ -51,14 +56,14 @@ const isGameKind = (value: string): value is GameKind => {
 };
 
 /*
- * The games toolbar, one line on wide screens: the search, then the kind of
- * game (a filter), how the shelf is grouped, and its order, each a compact
- * menu in its own group: grouping arranges, it doesn't sort. Phones put the menus under the search.
+ * The games toolbar on the one list toolbar: the search and the order on the
+ * line, and the kind of game and how the shelf is grouped behind Filters.
  */
 export const GamesToolbar = ({
   filters,
   games,
   groupBy,
+  matchingCount,
   onFilterChange,
   onGroupByChange,
   onSortOrderChange,
@@ -86,9 +91,14 @@ export const GamesToolbar = ({
     }),
   ];
 
+  const activeCount = filters.kind ? 1 : 0;
+
   return (
-    <Toolbar
+    <FilterToolbar
+      ariaLabel="Filter games"
       className="mt-5"
+      activeCount={activeCount}
+      resultLabel={`Show ${matchingCount} ${matchingCount === 1 ? "game" : "games"}`}
       render={
         <form
           onSubmit={(event) => {
@@ -107,12 +117,39 @@ export const GamesToolbar = ({
           placeholder="Search a game, region or year"
         />
       }
-      trailing={
-        <>
+      controls={(placement) => {
+        const sort = (
           <SelectControl
+            id={placement === "panel" ? "games-sort" : "games-sheet-sort"}
+            ariaLabel="Sort games"
+            variant="ghost"
+            prefix={placement === "panel" ? "Sort" : undefined}
+            value={sortOrder}
+            onValueChange={(value) => {
+              onSortOrderChange(value === "newest" ? "newest" : "oldest");
+            }}
+            options={sortOptions}
+            placeholder="Oldest first"
+          />
+        );
+
+        return placement === "panel" ? (
+          sort
+        ) : (
+          <FilterSheetRow htmlFor="games-sheet-sort" label="Sort">
+            {sort}
+          </FilterSheetRow>
+        );
+      }}
+      filters={(placement) => {
+        const id = (name: string) =>
+          placement === "panel" ? `games-${name}` : `games-sheet-${name}`;
+        const kind = (
+          <SelectControl
+            id={id("kind")}
             ariaLabel="Kind of game"
             variant="ghost"
-            prefix="Kind"
+            prefix={placement === "panel" ? "Kind" : undefined}
             value={filters.kind || ALL_KINDS}
             onValueChange={(value) => {
               onFilterChange("kind", isGameKind(value) ? value : "");
@@ -120,10 +157,13 @@ export const GamesToolbar = ({
             options={kindOptions}
             placeholder="All games"
           />
+        );
+        const group = (
           <SelectControl
+            id={id("group")}
             ariaLabel="Group games by"
             variant="ghost"
-            prefix="Group"
+            prefix={placement === "panel" ? "Group" : undefined}
             value={groupBy}
             onValueChange={(value) => {
               if (isGamesGroupBy(value)) {
@@ -133,19 +173,24 @@ export const GamesToolbar = ({
             options={groupByOptions}
             placeholder="None"
           />
-          <SelectControl
-            ariaLabel="Sort games"
-            variant="ghost"
-            prefix="Sort"
-            value={sortOrder}
-            onValueChange={(value) => {
-              onSortOrderChange(value === "newest" ? "newest" : "oldest");
-            }}
-            options={sortOptions}
-            placeholder="Oldest first"
-          />
-        </>
-      }
+        );
+
+        return placement === "panel" ? (
+          <div className="flex flex-wrap items-center gap-2">
+            {kind}
+            {group}
+          </div>
+        ) : (
+          <>
+            <FilterSheetRow htmlFor={id("kind")} label="Kind">
+              {kind}
+            </FilterSheetRow>
+            <FilterSheetRow htmlFor={id("group")} label="Group">
+              {group}
+            </FilterSheetRow>
+          </>
+        );
+      }}
     />
   );
 };

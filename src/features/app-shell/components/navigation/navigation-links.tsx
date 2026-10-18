@@ -17,10 +17,8 @@ type NavigationLinksProps = {
 };
 
 /*
- * The bar's sections (v3 `.links`): quiet words straight on the page's band,
- * with no surface of their own, so the bar never pulls focus from the page.
- * The current one is a small sticker in the selected tint, as every pick
- * is. It swaps at once, never fades, so a change of section doesn't flicker
+ * The bar's sections (v3 `.links`), inside the top bar's pill. The current one is a small sticker in the selected tint, as every pick is.
+ * It swaps at once, never fades, so a change of section doesn't flicker
  * between the two links.
  */
 export const NavigationLinks = ({

@@ -5,6 +5,9 @@ import {
   menuOptionClassName,
   menuOptionSelectedClassName,
   menuPanelClassName,
+  menuSheetBackdropClassName,
+  menuSheetPopupClassName,
+  menuSheetPositionerClassName,
 } from "@/shared/components/ui/menu-surface";
 import { cn } from "@/shared/utils/cn";
 import {
@@ -105,13 +108,14 @@ const ComboboxContent = ({
   >) => {
   return (
     <ComboboxPrimitive.Portal>
+      <ComboboxPrimitive.Backdrop className={menuSheetBackdropClassName} />
       <ComboboxPrimitive.Positioner
         side={side}
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
         anchor={anchor}
-        className="isolate z-50"
+        className={cn("isolate z-50", menuSheetPositionerClassName)}
       >
         <ComboboxPrimitive.Popup
           data-slot="combobox-content"
@@ -119,6 +123,7 @@ const ComboboxContent = ({
           className={cn(
             menuPanelClassName,
             "group/combobox-content data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:bg-surface-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[max(calc(var(--anchor-width)+(--spacing(7))),14rem)] origin-(--transform-origin) overflow-hidden duration-100 data-[chips=true]:min-w-(--anchor-width) *:data-[slot=input-group]:mb-2.5 *:data-[slot=input-group]:h-11 *:data-[slot=input-group]:border-transparent",
+            menuSheetPopupClassName,
             className,
           )}
           {...props}
@@ -136,7 +141,7 @@ const ComboboxList = ({
     <ComboboxPrimitive.List
       data-slot="combobox-list"
       className={cn(
-        "no-scrollbar max-h-[min(calc(--spacing(80)-(--spacing(13.5))),calc(var(--available-height)-(--spacing(13.5))))] scroll-py-1 space-y-0.5 overflow-y-auto overscroll-contain data-empty:p-0",
+        "no-scrollbar max-h-[min(calc(--spacing(80)-(--spacing(13.5))),calc(var(--available-height)-(--spacing(13.5))))] scroll-py-1 space-y-0.5 overflow-y-auto overscroll-contain data-empty:p-0 max-md:max-h-[calc(75dvh-6rem)]",
         className,
       )}
       {...props}

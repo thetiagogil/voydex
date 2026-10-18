@@ -7,6 +7,9 @@ import {
   menuGroupLabelClassName,
   menuOptionClassName,
   menuPanelClassName,
+  menuSheetBackdropClassName,
+  menuSheetPopupClassName,
+  menuSheetPositionerClassName,
 } from "@/shared/components/ui/menu-surface";
 import { cn } from "@/shared/utils/cn";
 import { CheckIcon } from "lucide-react";
@@ -33,8 +36,12 @@ const DropdownMenuContent = ({
   >) => {
   return (
     <MenuPrimitive.Portal>
+      <MenuPrimitive.Backdrop className={menuSheetBackdropClassName} />
       <MenuPrimitive.Positioner
-        className="isolate z-50 outline-none"
+        className={cn(
+          "isolate z-50 outline-none",
+          menuSheetPositionerClassName,
+        )}
         align={align}
         alignOffset={alignOffset}
         side={side}
@@ -45,6 +52,7 @@ const DropdownMenuContent = ({
           className={cn(
             menuPanelClassName,
             "data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 max-h-(--available-height) w-max max-w-[min(24rem,calc(100vw-2rem))] min-w-[max(var(--anchor-width),14rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto duration-100 outline-none data-closed:overflow-hidden",
+            menuSheetPopupClassName,
             className,
           )}
           {...props}

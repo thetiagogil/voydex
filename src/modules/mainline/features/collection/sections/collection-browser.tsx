@@ -29,7 +29,10 @@ import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
@@ -92,9 +95,13 @@ export const CollectionBrowser = ({
     <>
       <PageBand>
         {head}
-        <Toolbar
-          aria-label="Filter your Collection"
+        <FilterToolbar
+          ariaLabel="Filter your Collection"
           className="mt-5"
+          activeCount={
+            (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0)
+          }
+          resultLabel={`Show ${shown.length} Pokémon`}
           search={
             <SearchControl
               id="collection-search"
@@ -104,8 +111,39 @@ export const CollectionBrowser = ({
               onValueChange={(query) => update({ query })}
             />
           }
-          trailing={
-            <>
+          controls={(placement) => {
+            const sort = (
+              <SelectControl
+                id={
+                  placement === "panel"
+                    ? "collection-sort"
+                    : "collection-sheet-sort"
+                }
+                ariaLabel="Sort your Collection"
+                prefix={placement === "panel" ? "Sort" : undefined}
+                value={filters.sort}
+                variant="ghost"
+                placeholder={collectionSortLabels.dex}
+                onValueChange={(sort) =>
+                  update({ sort: sort as CollectionSort })
+                }
+                options={sortOrder.map((sort) => ({
+                  label: collectionSortLabels[sort],
+                  value: sort,
+                }))}
+              />
+            );
+
+            return placement === "panel" ? (
+              sort
+            ) : (
+              <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
+                {sort}
+              </FilterSheetRow>
+            );
+          }}
+          filters={(placement) => {
+            const kind = (
               <SegmentedControl
                 variant="segment"
                 selectedTone="soft"
@@ -118,32 +156,28 @@ export const CollectionBrowser = ({
                   value: kind,
                 }))}
               />
-              <SelectControl
-                id="collection-sort"
-                ariaLabel="Sort your Collection"
-                prefix="Sort"
-                value={filters.sort}
-                variant="ghost"
-                placeholder={collectionSortLabels.dex}
-                onValueChange={(sort) =>
-                  update({ sort: sort as CollectionSort })
-                }
-                options={sortOrder.map((sort) => ({
-                  label: collectionSortLabels[sort],
-                  value: sort,
-                }))}
+            );
+            const type = (
+              <PokemonTypeFilter
+                types={types}
+                value={filters.type}
+                onValueChange={(type) => update({ type })}
               />
-            </>
-          }
-        />
+            );
 
-        <div className="mt-3.5">
-          <PokemonTypeFilter
-            types={types}
-            value={filters.type}
-            onValueChange={(type) => update({ type })}
-          />
-        </div>
+            return placement === "panel" ? (
+              <div className="grid gap-3">
+                {kind}
+                {type}
+              </div>
+            ) : (
+              <>
+                <FilterSheetRow label="Show">{kind}</FilterSheetRow>
+                <FilterSheetRow label="Type">{type}</FilterSheetRow>
+              </>
+            );
+          }}
+        />
       </PageBand>
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">

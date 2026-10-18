@@ -90,20 +90,6 @@ const retired = [
  * each names what replaced the retired look. `allow` lists the files a rule
  * permits on purpose.
  */
-/* The moment medallions and the badge stamps draw their own rings. */
-const momentFiles = ["medallion.tsx", "badge-stamp.tsx"].map((file) =>
-  path.join(
-    "src",
-    "modules",
-    "mainline",
-    "features",
-    "plays",
-    "shared",
-    "components",
-    file,
-  ),
-);
-
 const sourceRules = [
   {
     label:
@@ -134,8 +120,6 @@ const sourceRules = [
     label:
       "hard lip under a surface (lift it with a soft shadow; buttons take the sticker edge)",
     pattern: /(?:shadow-\[|,)0_[1-9][\d.]*px_0(?:_|,|\])/,
-    /* The moment medallions and the badge stamps keep their small lip. */
-    allow: momentFiles,
   },
   {
     label: "retired lip token (use shadow-card, shadow-soft or shadow-button)",

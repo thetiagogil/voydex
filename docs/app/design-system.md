@@ -156,9 +156,15 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   `bg-action` too.
 - **The top bar** reads the `--bar-*` tokens and looks the same on every
   page. Its current mark swaps at once (no fade) and each link keeps its bold
-  width, so changing section never flickers or nudges the other links.
-- **Codex** has no game-colour surfaces; covers carry the game, on a quiet
-  stage on `GameShelfCard`.
+  width, so changing section never flickers or nudges the other links. The
+  section links sit in one pill that rests faded into the band and comes
+  forward (white, on `shadow-card`) under the pointer or keyboard focus; only
+  the pill fades, never the words.
+- **Pickers on phones**: below 768px every select, searchable select and
+  dropdown menu opens as a sheet from the bottom over the scrim
+  (`menuSheet*` in `menu-surface.ts`), full width with room for long lists.
+- **Codex** has no game-colour surfaces; covers carry the game, framed in a
+  fixed-height stage on `GameShelfCard`.
 - **Type colours** keep the official hexes everywhere: chips, dots, tiles,
   medallions and stamps show the same colour, always with a white label and
   icon (the owner's call, 2026-10-17), the pale types included. The chip's
@@ -166,8 +172,8 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   4.5:1 by choice, so the browser tests leave `[data-type-chip]` out of the
   accessibility check. Type icons draw in the current text colour.
 - **Meaning colours** are small marks (`StatusBadge` tones `ok`, `warn`,
-  `calm`, `danger`, `gold`, `neutral`), never filled banners. `calm` is a quiet
-  teal (v3's `.pstate.info`) for a change that isn't a problem, such as an
+  `calm`, `danger`, `gold`, `neutral`), never filled banners. `calm` is the third
+  colour, a Poké Mart blue (v3's `.pstate.info`) for a change that isn't a problem, such as an
   evolution or form.
 - **Gold** is for what you earned: League stamps, milestones that aren't
   badges, collectibles found.
@@ -196,9 +202,9 @@ on a hard lip, a press that moves, a gradient fill or glass.
   for what is yours or picked. A Pokémon card shows one name (the nickname,
   or the species without one); its level is the white `Lv.` chip beside the
   type dots, and the line under the name carries other facts (a role, Plays).
-- **The one exception**: the moment medallions and the badge stamps keep
-  their small lip under a white band and a soft rim, the middle ground the
-  stickers and buttons were set against.
+- **Moments**: the medallions and the badge stamps wear a white band and a
+  soft rim and lift on a soft drop (`--moment-drop`), like the stickers. No
+  surface keeps a hard lip.
 - **Flat**: `ghost` and `soft` buttons, links, dialogs, sheets and menus
   (overlay or float shadow only), unpicked pills and chips.
 
@@ -296,6 +302,7 @@ Voydex components:
 | `DetailSectionCard`                        | `src/shared/components/detail-section-card.tsx`                                | A content section as one quiet card with its `SectionHead` inside (same props plus `more`), including the Codex Pokémon entry's sections                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `RangeHeading`                             | `src/shared/components/range-heading.tsx`                                      | v3 `.range`, the head of a range in a long list: Fredoka 20 `title`, `count` line, trailing `actions`; `headingLevel`, `titleId`, and `titleFocusable` so script can move focus to it (`tabIndex={-1}`, never in the tab order) after a jump or a bulk change                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `Toolbar`, `ToolbarGroup`                  | `src/shared/components/toolbar.tsx`                                            | v3 `.toolbar`, the one toolbar card: the `search` slot is the only control that stretches (whole first row on phones); every other control keeps its own width. Each `trailing` item is one group (filters, a sort, a mode switch; wrap controls that belong together in a `ToolbarGroup`), with a hairline between groups that never starts a wrapped line and is dropped on phones. `children` are full-width rows below. It counts as a card, so fields inside take the inset fill. `render={<form />}` makes it the form                                                                                                                                                                                                                                          |
+| `FilterToolbar`, `FilterSheetRow`          | `src/shared/components/filter-toolbar.tsx`                                     | The one list toolbar, on every list with filters: the search, a few key `controls` (usually the order) and a Filters button that counts the filters set. Filters start hidden: from 640px the button opens them in a row under the line inside the same card; on phones it opens them with the key controls in a bottom sheet (`FilterSheetRow` labels each), ending in a button that says how many results show. `controls` and `filters` render per placement, so ids stay unique                                                                                                                                                                                                                                                                                   |
 | `FilterResultsLine`                        | `src/shared/components/filter-results-line.tsx`                                | The one line under every filterable list's toolbar (Codex lists, Plays, Collection, My Plans, Progress, History): always there, "Showing all N" or "Showing X of N" with Clear filters on its right while a filter leaves some, so filtering never moves the list or widens the bar. An empty list carries its own Clear                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `BottomSheet`                              | `src/shared/components/bottom-sheet.tsx`                                       | v3's bottom sheet on the `Sheet` primitive, for details and filters on phones and tablets: grab handle, rounded top, 88% tall and 560px wide at most, scrolling body, `footer` pinned above the safe area (its children share the width). `title` (visible Fredoka 24) or `label` when the body has its own `SheetTitle`; `description` (`descriptionHidden`), `actions` beside the close button, `trigger`, `open`, `onOpenChange`, `onOpenChangeComplete` (after the open or close animation ends), `initialFocus`, `finalFocus`                                                                                                                                                                                                                                    |
 | `ResponsiveDetailSheet`                    | `src/shared/components/responsive-detail-sheet.tsx`                            | v3's detail sheet: from the right edge over a scrim from tablets up, `BottomSheet` on phones; `head` renders the `SheetTitle`, `footer`, `size` `wide` for a table. the Team Planner's Team check and the shared species sheet (`TrainerSpeciesSheet`, opened in place from the Collection and Statistics)                                                                                                                                                                                                                                                                                                                                                                                                                                                            |

@@ -65,9 +65,9 @@ export const BadgeStamp = ({
         tilted && "transform-[rotate(var(--tilt))]",
         slap && "animate-slap",
         state.kind === "badge" &&
-          "bg-(--t) text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_color-mix(in_oklab,var(--t)_45%,white),0_3px_0_4.5px_var(--lip)]",
+          "bg-(--t) text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_color-mix(in_oklab,var(--t)_45%,white),var(--moment-drop)]",
         state.kind === "earned" &&
-          "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--gold-ring),0_3px_0_4.5px_var(--lip)]",
+          "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--gold-ring),var(--moment-drop)]",
         (state.kind === "next" || state.kind === "todo") &&
           "text-ink-3 outline-lip shadow-[inset_0_0_0_3px_var(--line)] outline-3 outline-offset-3 outline-dashed",
         state.kind === "next" && "bg-surface-2",

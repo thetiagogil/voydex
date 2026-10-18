@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openFilters } from "../support/filters";
 import { signedOut } from "../support/accounts";
 
 test.use({ storageState: signedOut });
@@ -28,7 +29,8 @@ test.describe("Codex", () => {
 
   test("filters Pokémon by type", async ({ page }) => {
     await page.goto("/codex/pokemon");
-    await page
+    const { filters } = await openFilters(page);
+    await filters
       .getByRole("group", { name: "Filter by type" })
       .getByRole("button", { name: "Dragon" })
       .click();

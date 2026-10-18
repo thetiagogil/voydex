@@ -9,7 +9,10 @@ import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 import {
   filterPokedexEntries,
@@ -153,8 +156,12 @@ export const PokedexProgressBrowserSection = ({
       aria-label="Pokédex entries"
       className="grid min-w-0 grid-cols-1 gap-4"
     >
-      <Toolbar
-        aria-label={`Filter ${scope.name}`}
+      <FilterToolbar
+        ariaLabel={`Filter ${scope.name}`}
+        activeCount={
+          (progressFilter === "all" ? 0 : 1) + (browseScopeId === "all" ? 0 : 1)
+        }
+        resultLabel={`Show ${filteredEntries.length} Pokémon`}
         render={
           <form
             onSubmit={(event) => {
@@ -173,8 +180,31 @@ export const PokedexProgressBrowserSection = ({
             placeholder="Search name or number"
           />
         }
-        trailing={
-          <>
+        controls={(placement) => {
+          const mode = (
+            <SegmentedControl
+              ariaLabel="Marking mode"
+              onValueChange={setUpdateMode}
+              options={updateModeOptions}
+              value={updateMode}
+              variant="segment"
+            />
+          );
+
+          /* v3: the marking mode at the line's end, said as "Tap marks as". */
+          return placement === "panel" ? (
+            <div className="flex items-center gap-2.5">
+              <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
+                Tap marks as
+              </span>
+              {mode}
+            </div>
+          ) : (
+            <FilterSheetRow label="Tap marks as">{mode}</FilterSheetRow>
+          );
+        }}
+        filters={(placement) => {
+          const progress = (
             <SegmentedControl
               variant="segment"
               selectedTone="soft"
@@ -199,7 +229,9 @@ export const PokedexProgressBrowserSection = ({
               ]}
               value={progressFilter}
             />
-            {browseScopes.length > 0 ? (
+          );
+          const entryScope =
+            browseScopes.length > 0 ? (
               <PokedexEntryScopeFilter
                 completionScopeName={scope.name}
                 onValueChange={(value) => {
@@ -209,22 +241,22 @@ export const PokedexProgressBrowserSection = ({
                 scopes={browseScopes}
                 value={browseScopeId}
               />
-            ) : null}
-            {/* v3: one row, the marking mode at its end. */}
-            <div className="flex items-center gap-2.5">
-              <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
-                Tap marks as
-              </span>
-              <SegmentedControl
-                ariaLabel="Marking mode"
-                onValueChange={setUpdateMode}
-                options={updateModeOptions}
-                value={updateMode}
-                variant="segment"
-              />
+            ) : null;
+
+          return placement === "panel" ? (
+            <div className="flex flex-wrap items-center gap-3">
+              {progress}
+              {entryScope}
             </div>
-          </>
-        }
+          ) : (
+            <>
+              <FilterSheetRow label="Show">{progress}</FilterSheetRow>
+              {entryScope ? (
+                <FilterSheetRow label="Pokédex">{entryScope}</FilterSheetRow>
+              ) : null}
+            </>
+          );
+        }}
       />
 
       <FilterResultsLine

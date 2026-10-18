@@ -63,12 +63,13 @@
   --ok-soft-2: #d2eadb;
   --ok-line: #9fcdb1;
   /*
-   * v3 `.pstate.info`: a quieter, neutral meaning, such as "evolved or
-   * changed form". Teal, so it never reads as a pick or a warning.
+   * The third colour, a Poké Mart blue, for a quieter, neutral meaning: a
+   * completed Play, "evolved or changed form", an info note. Blue never reads
+   * as a pick (red) or a warning (amber), and stays out of actions.
    */
-  --calm: #2e8a86;
-  --calm-ink: #1e625f;
-  --calm-soft: #dcefed;
+  --calm: #2f6dc3;
+  --calm-ink: #1f4c8f;
+  --calm-soft: #e0eaf8;
   --ball: #d04c3c;
   --avatar: #f6d9a8;
   --avatar-ink: #6b4a12;
@@ -118,6 +119,11 @@
    * control drifts. Cards keep their own 4px sticker band.
    */
   --band: 3px;
+  /*
+   * A moment's lift (medallions, badge stamps): a soft drop under the ring,
+   * the stickers' way of lifting, never a hard lip.
+   */
+  --moment-drop: 0 6px 12px -5px rgb(var(--shade) / 0.38);
   --button-lift-value: 0 3px 8px -5px rgb(var(--shade) / 0.22);
   --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.18);
   --shadow-soft-value: 0 12px 22px -18px rgb(var(--shade) / 0.3);
@@ -184,7 +190,10 @@
   --bar-current: var(--select-soft);
   --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);
-  --bar-ink-2: var(--ink-2);
+  /* How faded the bar's pill rests until the pointer or focus brings it forward. */
+  --bar-rest: 0.8;
+  /* A touch darker than ink-2, so the words still hold 4.5:1 on the faded pill. */
+  --bar-ink-2: color-mix(in oklab, var(--ink-2) 60%, var(--ink));
 }
 
 @theme inline {

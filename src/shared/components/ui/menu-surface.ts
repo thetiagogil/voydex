@@ -8,6 +8,21 @@
 export const menuSurfaceClassName =
   "bg-surface text-ink shadow-menu rounded-lg";
 
+/*
+ * On phones (below 768px) every picker opens as a sheet from the bottom over
+ * the scrim, full width with a big search field and room for long lists. The
+ * positioner's placement is overridden; the popup takes the sheet's shape.
+ */
+export const menuSheetPositionerClassName =
+  "max-md:fixed! max-md:inset-x-0! max-md:top-auto! max-md:bottom-0! max-md:left-0! max-md:right-0! max-md:transform-none!";
+
+export const menuSheetPopupClassName =
+  "max-md:w-full max-md:min-w-0 max-md:max-w-none max-md:max-h-[75dvh] max-md:rounded-t-3xl max-md:rounded-b-none max-md:p-2.5 max-md:pb-[max(env(safe-area-inset-bottom),1rem)] max-md:origin-bottom max-md:data-open:zoom-in-100 max-md:data-open:slide-in-from-bottom-10 max-md:data-closed:zoom-out-100 max-md:data-closed:slide-out-to-bottom-10";
+
+/* The scrim behind a picker's phone sheet; hidden from 768px. */
+export const menuSheetBackdropClassName =
+  "bg-scrim fixed inset-0 z-50 transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0 md:hidden";
+
 /* The panel: the surface with its inner padding. */
 export const menuPanelClassName = `${menuSurfaceClassName} p-1.5`;
 
