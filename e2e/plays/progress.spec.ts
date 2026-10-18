@@ -39,8 +39,13 @@ test.describe("Progress", () => {
     await expect(page.getByText("0% complete · 0 of 151")).toBeVisible();
     await expectAccessible(page);
 
+    /* The mark shows at once; wait for its save before reloading. */
+    const saved = page.waitForResponse(
+      (response) => response.request().method() === "POST",
+    );
     await page.getByRole("button", { name: "Mark Pidgey as Caught" }).click();
     await expect(page.getByText("1% complete · 1 of 151")).toBeVisible();
+    await saved;
 
     await page.reload();
     await expect(page.getByText("1% complete · 1 of 151")).toBeVisible();
