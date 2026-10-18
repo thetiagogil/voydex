@@ -27,6 +27,11 @@ type StatusBadgeProps = {
   className?: string;
   /* The dot before the words; leave it off where an icon already leads. */
   dot?: boolean;
+  /*
+   * What it sits on. On a page band the soft fills fight the band's tint, so
+   * it turns white and keeps its meaning in the dot and the words.
+   */
+  ground?: "band" | "card";
   size?: StatusBadgeSize;
   tone?: StatusBadgeTone;
 };
@@ -35,11 +40,16 @@ export const StatusBadge = ({
   children,
   className,
   dot = true,
+  ground = "card",
   size = "sm",
   tone = "neutral",
 }: StatusBadgeProps) => {
   return (
-    <Badge variant={tone} size={size} className={className}>
+    <Badge
+      variant={tone}
+      size={size}
+      className={cn(ground === "band" && "bg-surface shadow-card", className)}
+    >
       {dot ? (
         <span
           aria-hidden

@@ -22,7 +22,11 @@ const MainlinePlayStatus = ({ data }: { data: MainlinePlayShellData }) => {
   }
 
   return (
-    <StatusBadge size="md" tone={getPlayStatusTone(data.play.status_slug)}>
+    <StatusBadge
+      ground="band"
+      size="md"
+      tone={getPlayStatusTone(data.play.status_slug)}
+    >
       {data.play.status_name}
     </StatusBadge>
   );
