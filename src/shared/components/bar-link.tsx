@@ -19,17 +19,12 @@ export const SteadyLabel = ({ children }: { children: string }) => (
 /*
  * One link in a bar of sections (the top bar, the Codex menu's trigger, a
  * Pokémon entry's docked index): quiet words on the band, the current one a
- * small sticker in the selected tint. In the top bar (`quiet`) the current
- * one keeps the tint without the white band, so the bar stays calm. It swaps
- * at once, never fades. Pair it with `SteadyLabel`.
+ * small sticker in the selected tint. It swaps at once, never fades. Pair
+ * it with `SteadyLabel`.
  */
-export const getBarLinkClassName = (
-  isCurrent: boolean,
-  { quiet = false }: { quiet?: boolean } = {},
-) =>
+export const getBarLinkClassName = (isCurrent: boolean) =>
   cn(
     "text-14 hover:text-ink inline-flex h-9 shrink-0 items-center rounded-full px-3 font-semibold whitespace-nowrap text-(--bar-ink-2) hover:bg-(--bar-hover)",
     isCurrent &&
-      "bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
-    isCurrent && !quiet && "bubble",
+      "bubble bg-(--bar-current) font-extrabold text-(--bar-current-ink) hover:bg-(--bar-current) hover:text-(--bar-current-ink)",
   );

@@ -161,9 +161,9 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   At rest it is quiet (a lighter tint of the band with a hairline edge, no
   shadow) so it stands apart without pulling the eye; under the pointer or
   keyboard focus (`focus-visible`, so a clicked link doesn't keep it lit) it
-  turns white on the card shadow. Inside it the current section keeps the soft
-  tint without the white band, the Codex sits with the other sections, and
-  your initial sits on the soft brand tint at the right.
+  turns white on the card shadow. Inside it the current section is a small sticker
+  in the selected tint, the Codex sits with the other sections, and your
+  initial sits on the soft brand tint at the right.
 - **Pickers on phones**: below 768px every select, searchable select and
   dropdown menu opens as a sheet from the bottom over the scrim
   (`menuSheet*` in `menu-surface.ts`), full width with room for long lists.
