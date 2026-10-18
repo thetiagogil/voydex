@@ -112,6 +112,12 @@
    * sits on.
    */
   --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
+  /*
+   * The white band round every control (buttons, select triggers, tabs, the
+   * top bar's current link, a switch's pick, corner marks): one width, so no
+   * control drifts. Cards keep their own 4px sticker band.
+   */
+  --band: 3px;
   --button-lift-value: 0 3px 8px -5px rgb(var(--shade) / 0.22);
   --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.18);
   --shadow-soft-value: 0 12px 22px -18px rgb(var(--shade) / 0.3);

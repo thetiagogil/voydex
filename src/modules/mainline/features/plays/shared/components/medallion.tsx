@@ -23,7 +23,7 @@ export type MedallionSize = "md" | "sm" | "xs";
 const sizeClassNames: Record<MedallionSize, string> = {
   md: "m-1.25 size-11.5 shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--mr),0_3px_0_4.5px_var(--lip)] [&_svg]:size-5",
   sm: "m-px size-8 shadow-[0_0_0_2.5px_#fff,0_0_0_3.5px_var(--mr),0_2px_0_3.5px_var(--lip)] [&_svg]:size-4",
-  xs: "m-0.5 size-6 shadow-[0_0_0_2px_#fff,0_0_0_3px_var(--mr)] [&_svg]:size-3.25",
+  xs: "m-0.5 size-6 shadow-[0_0_0_2px_#fff,0_0_0_3px_var(--mr)] [&_svg]:size-3",
 };
 
 const imageSizeClassNames: Record<MedallionSize, string> = {

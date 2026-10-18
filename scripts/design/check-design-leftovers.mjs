@@ -90,34 +90,52 @@ const retired = [
  * each names what replaced the retired look. `allow` lists the files a rule
  * permits on purpose.
  */
+/* The moment medallions and the badge stamps draw their own rings. */
+const momentFiles = ["medallion.tsx", "badge-stamp.tsx"].map((file) =>
+  path.join(
+    "src",
+    "modules",
+    "mainline",
+    "features",
+    "plays",
+    "shared",
+    "components",
+    file,
+  ),
+);
+
 const sourceRules = [
+  {
+    label:
+      "a white band sized by hand (controls and corner marks take the --band token)",
+    pattern:
+      /\b(?:border|ring)-[1-9](?:\.\d+)?\s+(?:border|ring)-white\b|\b(?:border|ring)-white\s+(?:border|ring)-[1-9]\b|0_0_0_[\d.]+px_#fff/,
+    /*
+     * The controls: primitives, the top bar, a Play's tabs and the marks
+     * on a card's corner. Pictures (covers, portraits) keep their own frame.
+     */
+    only: [
+      path.join("src", "shared", "components", "ui"),
+      path.join("src", "shared", "components", "picked-mark.tsx"),
+      path.join("src", "shared", "components", "corner-bubble.tsx"),
+      path.join("src", "features", "app-shell"),
+      path.join(
+        "src",
+        "modules",
+        "mainline",
+        "features",
+        "plays",
+        "hub",
+        "shell",
+      ),
+    ],
+  },
   {
     label:
       "hard lip under a surface (lift it with a soft shadow; buttons take the sticker edge)",
     pattern: /(?:shadow-\[|,)0_[1-9][\d.]*px_0(?:_|,|\])/,
     /* The moment medallions and the badge stamps keep their small lip. */
-    allow: [
-      path.join(
-        "src",
-        "modules",
-        "mainline",
-        "features",
-        "plays",
-        "shared",
-        "components",
-        "medallion.tsx",
-      ),
-      path.join(
-        "src",
-        "modules",
-        "mainline",
-        "features",
-        "plays",
-        "shared",
-        "components",
-        "badge-stamp.tsx",
-      ),
-    ],
+    allow: momentFiles,
   },
   {
     label: "retired lip token (use shadow-card, shadow-soft or shadow-button)",
@@ -173,7 +191,14 @@ for (const file of files) {
   const lines = fs.readFileSync(path.join(rootDir, file), "utf8").split("\n");
 
   const rules = file.startsWith(`src${path.sep}`)
-    ? [...retired, ...sourceRules.filter((rule) => !rule.allow?.includes(file))]
+    ? [
+        ...retired,
+        ...sourceRules.filter(
+          (rule) =>
+            !rule.allow?.includes(file) &&
+            (!rule.only || rule.only.some((scope) => file.startsWith(scope))),
+        ),
+      ]
     : retired;
 
   lines.forEach((line, index) => {

@@ -57,10 +57,6 @@ export const TeamPlanOffPlanSection = ({
                 <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
                   {columnMembers.map((member) => {
                     const name = getPlayTeamMemberName(member);
-                    const species =
-                      member.species_name && member.species_name !== name
-                        ? `${member.species_name} · `
-                        : "";
 
                     return (
                       <li key={member.play_pokemon_id} className="min-w-0">
@@ -70,7 +66,7 @@ export const TeamPlanOffPlanSection = ({
                           imageUrl={getPlayTeamMemberImageUrl(member)}
                           name={name}
                           shiny={member.is_shiny === true}
-                          subtitle={`${species}${getPlaceLabel(member)}`}
+                          subtitle={getPlaceLabel(member)}
                           types={[
                             member.primaryType,
                             member.secondaryType,

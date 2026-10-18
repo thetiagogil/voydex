@@ -27,7 +27,6 @@ import {
   CodexPokemonGrid,
 } from "@/modules/codex/shared/components/codex-pokemon-card-link";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
-import { getGenerationNumeral } from "@/modules/reference/features/games/utils/game-display";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
   PokedexPageData,
@@ -146,10 +145,10 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
 
   /* The generation filter, a toolbar menu. */
   const generationOptions = [
-    { description: "Every region", label: "All", value: ALL },
+    { description: "Every region", label: "All generations", value: ALL },
     ...data.generations.map((generation) => ({
       description: data.regionNameByGenerationSlug[generation.slug],
-      label: getGenerationNumeral(generation.name),
+      label: generation.name,
       value: generation.slug,
     })),
   ];
@@ -188,13 +187,12 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                 <SelectControl
                   ariaLabel="Filter by generation"
                   variant="ghost"
-                  prefix="Generation"
                   value={filters.generation || ALL}
                   onValueChange={(value) => {
                     updateFilter("generation", value === ALL ? "" : value);
                   }}
                   options={generationOptions}
-                  placeholder="All"
+                  placeholder="All generations"
                 />
               </ToolbarGroup>
               <SelectControl

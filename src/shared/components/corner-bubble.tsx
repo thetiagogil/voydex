@@ -11,8 +11,11 @@ export type CornerBubbleCorner =
 const cornerClassNames: Record<CornerBubbleCorner, string> = {
   /* Centred on the bottom edge, half outside: a number tab. */
   bottom: "-bottom-2.5 left-1/2 -translate-x-1/2",
-  /* Inside the top-right corner, for a card whose list clips its edges. */
-  "inside-top-right": "top-2 right-2",
+  /*
+   * Inside the top-right corner, for a card whose list clips its edges: clear
+   * of a sticker's 4px band, so it never touches the edge.
+   */
+  "inside-top-right": "top-3 right-3",
   "top-left": "-top-2 -left-2",
   "top-right": "-top-2 -right-2",
 };

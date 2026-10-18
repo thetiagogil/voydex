@@ -58,7 +58,8 @@ export const PokemonTypeMark = ({
 const pokemonTypeBadgeSizeClassNames = {
   sm: {
     badge: "h-6 gap-1.25 py-0.5 pr-2.5 pl-0.5 text-12",
-    icon: "size-2.75",
+    /* Whole pixels each side (12px in 18px), so the icon never blurs off-centre. */
+    icon: "size-3",
     iconFrame: "size-4.5",
     iconOnly: "size-4.5",
   },

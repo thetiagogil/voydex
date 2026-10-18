@@ -129,7 +129,11 @@ export const SegmentedControl = <TValue extends string>({
         fullWidth ? "flex w-full" : "inline-flex",
         variant === "pills"
           ? "flex-wrap gap-1.5"
-          : "bg-surface-2 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
+          : /*
+             * The track is a light ink wash, not a surface colour, so it shows
+             * the same on the page ground, a band and a white card.
+             */
+            "bg-ink/6 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
         phoneScroll &&
           "no-scrollbar -mx-(--page-gutter) w-[calc(100%+2*var(--page-gutter))] max-w-none flex-nowrap overflow-x-auto px-(--page-gutter) py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0",
         className,

@@ -75,12 +75,13 @@ const sizeClassNames: Record<
 const stateClassNames: Record<PokemonCardState, string> = {
   caught: "sticker [--sticker-shadow:var(--shadow-soft-value)]",
   missing: "empty-slot",
-  plain: "border border-line bg-surface",
-  seen: "border border-line bg-surface",
+  /* Plain cards sit on the soft card shadow; the white band is only for yours. */
+  plain: "border border-transparent bg-surface shadow-card",
+  seen: "border border-transparent bg-surface shadow-card",
 };
 
 /*
- * Padding per size and state. Each state draws a different border (1px card,
+ * Padding per size and state. Each state draws a different border (1px clear card edge,
  * 4px sticker, 2.5px dashed slot), so the padding makes up the difference:
  * a card keeps one height whatever its state, and marking one never moves
  * its row.

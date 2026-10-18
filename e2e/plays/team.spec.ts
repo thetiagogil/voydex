@@ -33,7 +33,7 @@ test.describe("Team", () => {
     const activeTeam = page.getByRole("region", { name: /^Active team/ });
     await expect(activeTeam.getByRole("heading")).toContainText("2 / 6");
     const sparky = activeTeam.getByRole("button", {
-      name: /^2 Sparky Pikachu · Lv\. 12.*, Active slot 2$/,
+      name: /^2 Sparky Lv\. 12.*, Active slot 2$/,
     });
     await expect(sparky).toBeVisible();
 
