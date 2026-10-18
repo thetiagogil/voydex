@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, type ComponentProps, type ReactNode } from "react";
+import {
+  Children,
+  Fragment,
+  isValidElement,
+  useState,
+  type ComponentProps,
+  type ReactNode,
+} from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
@@ -34,9 +41,18 @@ type FilterToolbarProps = {
   search: ReactNode;
 };
 
+/* Each control a filter or the order renders, fragments opened up. */
+const getControls = (node: ReactNode): ReactNode[] =>
+  Children.toArray(node).flatMap((child) =>
+    isValidElement<{ children?: ReactNode }>(child) && child.type === Fragment
+      ? getControls(child.props.children)
+      : [child],
+  );
+
 /*
- * The one toolbar for a list, on a single line: the search, one hairline,
- * then the filters and the order together. The only second row is the
+ * The one toolbar for a list, on a single line: the search, the filters,
+ * then the order, a hairline between each. Controls that belong together
+ * (wrapped in one element) share a group. The only second row is the
  * type dots (`row`), under the card. On phones the line is the search and a
  * Filters button that opens the filters, the row and the order in a sheet
  * from the bottom.
@@ -101,14 +117,13 @@ export const FilterToolbar = ({
             ) : null}
           </div>
         }
-        trailing={
-          filters || controls ? (
-            <ToolbarGroup className="hidden flex-wrap gap-y-2.5 sm:flex">
-              {filters?.("line")}
-              {controls?.("line")}
+        trailing={[filters?.("line"), controls?.("line")]
+          .flatMap(getControls)
+          .map((control, index) => (
+            <ToolbarGroup key={index} className="hidden sm:flex">
+              {control}
             </ToolbarGroup>
-          ) : null
-        }
+          ))}
       />
       {row ? <div className="mt-3.5 max-sm:hidden">{row("line")}</div> : null}
     </div>
