@@ -9,27 +9,18 @@ const overview = {
   completed_required_milestone_count: 10,
   required_milestone_count: 16,
   required_pokedex_species_count: 151,
-  seen_required_pokedex_species_count: 22,
 } as MainlinePlayOverview;
 
 describe("getProgressSummaryItems", () => {
-  it("says each tracker's count and what is left or what else counts", () => {
+  it("says each tracker's count in words", () => {
     expect(
-      getProgressSummaryItems(overview, "play-1").map(
-        ({ detail, label, note }) => ({ detail, label, note }),
-      ),
+      getProgressSummaryItems(overview, "play-1").map(({ detail, label }) => ({
+        detail,
+        label,
+      })),
     ).toEqual([
-      { detail: "10 of 16 milestones", label: "Story", note: "6 to go" },
-      { detail: "24 of 151 caught", label: "Pokédex", note: "22 more seen" },
+      { detail: "10 of 16 milestones", label: "Story" },
+      { detail: "24 of 151 caught", label: "Pokédex" },
     ]);
-  });
-
-  it("says a finished Story is done", () => {
-    expect(
-      getProgressSummaryItems(
-        { ...overview, completed_required_milestone_count: 16 },
-        "play-1",
-      )[0]?.note,
-    ).toBe("Story done");
   });
 });
