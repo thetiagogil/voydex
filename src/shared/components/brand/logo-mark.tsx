@@ -5,7 +5,8 @@ type LogoMarkProps = {
 };
 
 /*
- * The "V" tile: a bold, rounded V drawn in white on the action colour, the
+ * The "V" mark: a bold, rounded V drawn in white on a round action-red disc
+ * (round like the top bar's pill and the avatar), the
  * same drawing as the app icon (`public/brand/voydex-app-icon.svg`). It is a
  * picture, so it never joins a link's name. Size it with `size-*`.
  */
@@ -14,7 +15,7 @@ export const LogoMark = ({ className }: LogoMarkProps) => {
     <span
       aria-hidden
       className={cn(
-        "bg-action inline-grid size-9 shrink-0 place-items-center rounded-[28%] text-white",
+        "bg-action inline-grid size-9 shrink-0 place-items-center rounded-full text-white",
         className,
       )}
     >
