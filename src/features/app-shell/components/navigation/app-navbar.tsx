@@ -33,7 +33,7 @@ export const AppNavbar = ({
         className={cn(
           "grid w-full grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-3",
           // At rest: a quiet pill, a lighter tint of what is behind it with a hairline edge.
-          "md:h-13 md:rounded-full md:bg-white/45 md:px-3 md:outline-1 md:-outline-offset-1 md:outline-[color-mix(in_oklab,var(--lip)_70%,transparent)] md:transition-[background-color,box-shadow,outline-color] md:duration-200 md:ease-out md:outline-solid md:[--bar-control:var(--surface-2)] md:[--bar-hover:var(--hover)]",
+          "md:h-13 md:rounded-full md:bg-white/30 md:px-3 md:outline-1 md:-outline-offset-1 md:outline-[color-mix(in_oklab,var(--lip)_55%,transparent)] md:transition-[background-color,box-shadow,outline-color] md:duration-200 md:ease-out md:outline-solid md:[--bar-control:var(--surface-2)] md:[--bar-hover:var(--hover)]",
           /*
            * Pointer or keyboard: it comes forward, white on the card shadow.
            * Keyboard focus only (`focus-visible`), so a clicked link doesn't
