@@ -9,6 +9,7 @@ import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
+import { FoldPanel } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -50,6 +51,8 @@ export const PokedexProgressBrowserSection = ({
   onSpeciesBulkStateChange,
   onSpeciesStateChange,
   scope,
+  searchOpen,
+  searchPanelId,
   stateBySpeciesId,
 }: {
   browseScopes: MainlinePlayPokedexScope[];
@@ -63,6 +66,9 @@ export const PokedexProgressBrowserSection = ({
     state: PokedexProgressState,
   ) => void;
   scope: MainlinePlayPokedexScope;
+  /* Whether the search and filter bar is open, from the head's button. */
+  searchOpen: boolean;
+  searchPanelId: string;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
 }) => {
   const [query, setQuery] = useState("");
@@ -156,108 +162,111 @@ export const PokedexProgressBrowserSection = ({
       aria-label="Pokédex entries"
       className="grid min-w-0 grid-cols-1 gap-4"
     >
-      <FilterToolbar
-        ariaLabel={`Filter ${scope.name}`}
-        activeCount={
-          (progressFilter === "all" ? 0 : 1) + (browseScopeId === "all" ? 0 : 1)
-        }
-        resultLabel={`Show ${filteredEntries.length} Pokémon`}
-        render={
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          />
-        }
-        search={
-          <SearchControl
-            ariaLabel={`Search ${scope.name}`}
-            value={query}
-            onValueChange={(value) => {
-              setQuery(value);
-              resetVisibleSections();
-            }}
-            placeholder="Search name or number"
-          />
-        }
-        controls={(placement) => {
-          const mode = (
-            <SegmentedControl
-              ariaLabel="Marking mode"
-              onValueChange={setUpdateMode}
-              options={updateModeOptions}
-              value={updateMode}
-              variant="segment"
+      <FoldPanel id={searchPanelId} open={searchOpen}>
+        <FilterToolbar
+          ariaLabel={`Filter ${scope.name}`}
+          activeCount={
+            (progressFilter === "all" ? 0 : 1) +
+            (browseScopeId === "all" ? 0 : 1)
+          }
+          resultLabel={`Show ${filteredEntries.length} Pokémon`}
+          render={
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
             />
-          );
-
-          /* v3: the marking mode at the line's end, said as "Tap marks as". */
-          return placement === "line" ? (
-            <div className="flex items-center gap-2.5">
-              <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
-                Tap marks as
-              </span>
-              {mode}
-            </div>
-          ) : (
-            <FilterSheetRow label="Tap marks as">{mode}</FilterSheetRow>
-          );
-        }}
-        filters={(placement) => {
-          const progress = (
-            <SegmentedControl
-              variant="segment"
-              selectedTone="soft"
-              ariaLabel="Filter by progress"
+          }
+          search={
+            <SearchControl
+              ariaLabel={`Search ${scope.name}`}
+              value={query}
               onValueChange={(value) => {
-                setProgressFilter(value);
+                setQuery(value);
                 resetVisibleSections();
               }}
-              options={[
-                { count: progressCounts.all, label: "All", value: "all" },
-                {
-                  count: progressCounts.caught,
-                  label: "Caught",
-                  value: "caught",
-                },
-                { count: progressCounts.seen, label: "Seen", value: "seen" },
-                {
-                  count: progressCounts.missing,
-                  label: "Missing",
-                  value: "missing",
-                },
-              ]}
-              value={progressFilter}
+              placeholder="Search name or number"
             />
-          );
-          const entryScope =
-            browseScopes.length > 0 ? (
-              <PokedexEntryScopeFilter
-                completionScopeName={scope.name}
+          }
+          controls={(placement) => {
+            const mode = (
+              <SegmentedControl
+                ariaLabel="Marking mode"
+                onValueChange={setUpdateMode}
+                options={updateModeOptions}
+                value={updateMode}
+                variant="segment"
+              />
+            );
+
+            /* v3: the marking mode at the line's end, said as "Tap marks as". */
+            return placement === "line" ? (
+              <div className="flex items-center gap-2.5">
+                <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
+                  Tap marks as
+                </span>
+                {mode}
+              </div>
+            ) : (
+              <FilterSheetRow label="Tap marks as">{mode}</FilterSheetRow>
+            );
+          }}
+          filters={(placement) => {
+            const progress = (
+              <SegmentedControl
+                variant="segment"
+                selectedTone="soft"
+                ariaLabel="Filter by progress"
                 onValueChange={(value) => {
-                  setBrowseScopeId(value);
+                  setProgressFilter(value);
                   resetVisibleSections();
                 }}
-                scopes={browseScopes}
-                value={browseScopeId}
+                options={[
+                  { count: progressCounts.all, label: "All", value: "all" },
+                  {
+                    count: progressCounts.caught,
+                    label: "Caught",
+                    value: "caught",
+                  },
+                  { count: progressCounts.seen, label: "Seen", value: "seen" },
+                  {
+                    count: progressCounts.missing,
+                    label: "Missing",
+                    value: "missing",
+                  },
+                ]}
+                value={progressFilter}
               />
-            ) : null;
+            );
+            const entryScope =
+              browseScopes.length > 0 ? (
+                <PokedexEntryScopeFilter
+                  completionScopeName={scope.name}
+                  onValueChange={(value) => {
+                    setBrowseScopeId(value);
+                    resetVisibleSections();
+                  }}
+                  scopes={browseScopes}
+                  value={browseScopeId}
+                />
+              ) : null;
 
-          return placement === "line" ? (
-            <>
-              {progress}
-              {entryScope}
-            </>
-          ) : (
-            <>
-              <FilterSheetRow label="Show">{progress}</FilterSheetRow>
-              {entryScope ? (
-                <FilterSheetRow label="Pokédex">{entryScope}</FilterSheetRow>
-              ) : null}
-            </>
-          );
-        }}
-      />
+            return placement === "line" ? (
+              <>
+                {progress}
+                {entryScope}
+              </>
+            ) : (
+              <>
+                <FilterSheetRow label="Show">{progress}</FilterSheetRow>
+                {entryScope ? (
+                  <FilterSheetRow label="Pokédex">{entryScope}</FilterSheetRow>
+                ) : null}
+              </>
+            );
+          }}
+        />
+      </FoldPanel>
 
       <FilterResultsLine
         className="-mt-2"

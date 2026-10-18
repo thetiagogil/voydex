@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
+import { FoldToggle, useSlashToOpen } from "@/shared/components/band-drawer";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import {
@@ -57,6 +58,11 @@ export const MainlinePlayProgressPokedex = ({
     selectableScopes.find((scope) => scope.slug === initialScopeSlug) ??
     selectableScopes[0];
   const [activeScopeId, setActiveScopeId] = useState(initialScope?.id ?? null);
+  /* The search and filter bar folds under the title, opened from its row. */
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchPanelId = useId();
+
+  useSlashToOpen(() => setIsSearchOpen(true));
   const {
     isPending: isSpeciesPending,
     mark,
@@ -156,6 +162,13 @@ export const MainlinePlayProgressPokedex = ({
         onScopeChange={selectScope}
         scope={activeScope}
         scopes={selectableScopes}
+        searchToggle={
+          <FoldToggle
+            controls={searchPanelId}
+            open={isSearchOpen}
+            onOpenChange={setIsSearchOpen}
+          />
+        }
         stateBySpeciesId={stateBySpeciesId}
       />
 
@@ -170,6 +183,8 @@ export const MainlinePlayProgressPokedex = ({
           void updateSpeciesStates([speciesId], state);
         }}
         scope={activeScope}
+        searchOpen={isSearchOpen}
+        searchPanelId={searchPanelId}
         stateBySpeciesId={stateBySpeciesId}
       />
     </div>
