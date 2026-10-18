@@ -70,6 +70,21 @@ export const DockedBar = ({
     };
   }, [scrollPadding]);
 
+  /* While docked, the top bar's pill steps aside for this bar. */
+  useEffect(() => {
+    if (!isDocked) {
+      return;
+    }
+
+    const root = document.documentElement;
+
+    root.dataset.barDocked = "";
+
+    return () => {
+      delete root.dataset.barDocked;
+    };
+  }, [isDocked]);
+
   useEffect(() => {
     if (!offsetProperty || !isDocked) {
       return;

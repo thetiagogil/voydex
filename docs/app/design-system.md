@@ -156,10 +156,12 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   `bg-action` too.
 - **The top bar** reads the `--bar-*` tokens and looks the same on every
   page. Its current mark swaps at once (no fade) and each link keeps its bold
-  width, so changing section never flickers or nudges the other links. The
-  section links sit in one pill that rests faded into the band and comes
-  forward (white, on `shadow-card`) under the pointer or keyboard focus; only
-  the pill fades, never the words.
+  width, so changing section never flickers or nudges the other links. From 768px
+  the whole bar is one white pill that stays at the top as you scroll: solid
+  at the top of a page, then a little slimmer on a softer shadow, lifting
+  again under the pointer or keyboard focus. It never turns see-through (with
+  no blur allowed, the page would ghost through the words), and it steps
+  aside while a page docks its own bar (a Play, a Pokémon entry).
 - **Pickers on phones**: below 768px every select, searchable select and
   dropdown menu opens as a sheet from the bottom over the scrim
   (`menuSheet*` in `menu-surface.ts`), full width with room for long lists.

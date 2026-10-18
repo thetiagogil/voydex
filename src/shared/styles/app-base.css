@@ -19,6 +19,16 @@
     }
   }
 
+  /*
+   * From md the top bar stays at the top as you scroll, so focus and anchors
+   * stop below it. A docked page bar sets its own padding over this.
+   */
+  @media (width >= 48rem) {
+    html {
+      scroll-padding-top: calc(var(--bar-h) + 0.5rem);
+    }
+  }
+
   body {
     background: var(--bg);
     color: var(--ink);
