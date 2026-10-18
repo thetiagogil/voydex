@@ -17,8 +17,8 @@ type PageHeaderProps = {
 /*
  * A page head: the Fredoka title, one line under it, and an optional action
  * that sits at the end of the row from `sm` up. A tool handed down by the
- * page (`PageHeadToolProvider`), such as the list's search button, sits
- * right beside the title, so the row's end stays the main action's.
+ * page (`PageHeadToolProvider`) sits just before the action, so the main
+ * action keeps the row's edge.
  */
 export const PageHeader = ({
   action,
@@ -36,22 +36,22 @@ export const PageHeader = ({
       )}
     >
       <div className="min-w-0">
-        <div className="flex min-w-0 items-center gap-3">
-          <Heading
-            id={headingId}
-            className="text-28 min-w-0 leading-[1.05] tracking-[-0.02em] sm:text-[34px]"
-          >
-            {title}
-          </Heading>
-          <PageHeadTool />
-        </div>
+        <Heading
+          id={headingId}
+          className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]"
+        >
+          {title}
+        </Heading>
         {description ? (
           <p className="text-ink-2 text-15 mt-1.5 max-w-3xl font-semibold">
             {description}
           </p>
         ) : null}
       </div>
-      {action ? <div className="min-w-0 sm:ml-auto">{action}</div> : null}
+      <div className="flex min-w-0 items-center gap-3 empty:hidden sm:ml-auto">
+        <PageHeadTool />
+        {action}
+      </div>
     </div>
   );
 };
