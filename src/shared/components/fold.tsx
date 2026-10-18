@@ -4,6 +4,11 @@ import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 /* How long the fold takes, so it stops clipping once it has opened. */
@@ -132,18 +137,30 @@ export const FoldToggle = ({
   open: boolean;
 }) => (
   <span className="relative shrink-0">
-    <Button
-      type="button"
-      variant={open ? "secondary" : "tint"}
-      size="icon-sm"
-      aria-expanded={open}
-      aria-controls={controls}
-      aria-keyshortcuts="/"
-      aria-label={foldLabel(open)}
-      onClick={() => onOpenChange(!open)}
-    >
-      <AppIcon icon={open ? appIcons.actions.close : appIcons.actions.search} />
-    </Button>
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <Button
+            type="button"
+            variant={open ? "secondary" : "tint"}
+            size="icon-sm"
+            aria-expanded={open}
+            aria-controls={controls}
+            aria-keyshortcuts="/"
+            aria-label={foldLabel(open)}
+            onClick={() => onOpenChange(!open)}
+          />
+        }
+      >
+        <AppIcon
+          icon={open ? appIcons.actions.close : appIcons.actions.search}
+        />
+      </TooltipTrigger>
+      {/* Says what it does and its key, for the pointer. */}
+      <TooltipContent side="bottom">
+        {open ? "Hide search and filters" : "Search and filter · /"}
+      </TooltipContent>
+    </Tooltip>
     {!open && activeCount ? <FilterDot /> : null}
   </span>
 );

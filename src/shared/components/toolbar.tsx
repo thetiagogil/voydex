@@ -74,7 +74,8 @@ const getTrailingGroups = (trailing: ReactNode) => {
 };
 
 /*
- * The toolbar card (v3 `.toolbar`): the search, then each group of controls
+ * The toolbar card (v3 `.toolbar`), its corner following the pills inside it
+ * (a 48px field's half height plus the padding): the search, then each group of controls
  * at its own width with a hairline between groups, wrapping on narrow
  * screens; the search fills whatever the controls leave (never narrower
  * than 220px: the controls wrap first) and takes the whole first row on
@@ -95,7 +96,7 @@ export const Toolbar = ({
   const ownProps: ComponentProps<"div"> & { "data-slot": string } = {
     "data-slot": "card",
     className: cn(
-      "bg-surface text-ink shadow-card grid min-w-0 gap-y-2.5 overflow-hidden rounded-xl p-2.5",
+      "bg-surface text-ink shadow-card grid min-w-0 gap-y-2.5 overflow-hidden rounded-[34px] p-2.5",
       className,
     ),
     children: (
