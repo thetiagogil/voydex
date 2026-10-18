@@ -12,11 +12,6 @@ type BandDrawerProps = {
   children: ReactNode;
   /* Opens it on arrival: a search or a filter is already narrowing the list. */
   defaultOpen?: boolean;
-  /*
-   * Where the handle sits: on the band's bottom edge (`band`, inside a
-   * `PageBand`), or on a thin line under a head on the plain page (`rule`).
-   */
-  edge?: "band" | "rule";
 };
 
 const isTyping = (target: EventTarget | null) =>
@@ -25,21 +20,22 @@ const isTyping = (target: EventTarget | null) =>
     ["INPUT", "SELECT", "TEXTAREA"].includes(target.tagName));
 
 /*
- * A list's search and filter bar, folded away under a small wide tab. On a
- * band the tab sits on the band's bottom edge, half on the band and half on
- * the page; pressed, the band grows downward and the bar fades in once it has
- * room, and pressed again it folds back up. A page with no band draws a thin
- * line under its head and sets the tab on it instead. "/" anywhere on the
- * page opens it and jumps to the search. Closed, the bar is inert, so the
- * keyboard skips it. In a band, place it last in the `PageBand`.
+ * A list's search and filter bar, folded away under a small wide tab on the
+ * band's bottom edge, half on the band and half on the page. Pressed, the
+ * band grows downward and the bar fades in once it has room; pressed again,
+ * it folds back up. Once it has opened the fold stops clipping, so the bar's
+ * shadow and focus rings show whole. "/" anywhere on the page opens it and
+ * jumps to the search. Closed, the bar is inert, so the keyboard skips it.
+ * Place it last in a `PageBand`.
  */
 export const BandDrawer = ({
   activeCount = 0,
   children,
   defaultOpen = false,
-  edge = "band",
 }: BandDrawerProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  /* Fully open, not moving: the fold no longer needs to clip. */
+  const [isSettled, setIsSettled] = useState(defaultOpen);
   const contentId = useId();
   const contentRef = useRef<HTMLDivElement>(null);
   const shouldFocusSearch = useRef(false);
@@ -90,6 +86,7 @@ export const BandDrawer = ({
         }
         onClick={() => {
           shouldFocusSearch.current = !isOpen;
+          setIsSettled(false);
           setIsOpen((open) => !open);
         }}
         className="bg-surface text-ink-2 hover:text-ink focus-visible:outline-focus grid h-5 w-12 place-items-center rounded-full shadow-[0_2px_6px_-2px_rgb(var(--shade)/0.35)] transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
@@ -97,7 +94,7 @@ export const BandDrawer = ({
         <AppIcon
           icon={appIcons.actions.expand}
           className={cn(
-            "size-3.5 stroke-3 transition-transform duration-300 ease-out motion-reduce:transition-none",
+            "size-3.5 stroke-3 transition-transform duration-200 ease-out motion-reduce:transition-none",
             isOpen && "rotate-180",
           )}
         />
@@ -116,37 +113,37 @@ export const BandDrawer = ({
       <div
         id={contentId}
         inert={!isOpen}
+        onTransitionEnd={(event) => {
+          if (
+            event.target === event.currentTarget &&
+            event.propertyName === "grid-template-rows"
+          ) {
+            setIsSettled(isOpen);
+          }
+        }}
         className={cn(
-          "grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none",
+          "grid transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none",
           isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
-        {/* Room inside the fold, so the bar's shadow and focus rings aren't cut. */}
-        <div className="-mx-3 min-h-0 overflow-hidden px-3 pb-1">
+        <div
+          className={cn("min-h-0", !(isOpen && isSettled) && "overflow-hidden")}
+        >
           <div
             ref={contentRef}
             className={cn(
               "transition-opacity duration-200 ease-out motion-reduce:transition-none",
-              isOpen ? "opacity-100 delay-150" : "opacity-0",
+              isOpen ? "opacity-100 delay-100" : "opacity-0",
             )}
           >
             {children}
           </div>
         </div>
       </div>
-      {edge === "rule" ? (
-        /* No band: a thin line under the head carries the tab. */
-        <div className="bg-line relative mt-3 h-px">
-          <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            {handle}
-          </span>
-        </div>
-      ) : (
-        /* On the band's bottom edge: the band is the positioned box. */
-        <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
-          {handle}
-        </span>
-      )}
+      {/* On the band's bottom edge: the band is the positioned box. */}
+      <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
+        {handle}
+      </span>
     </>
   );
 };

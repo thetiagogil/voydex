@@ -9,7 +9,6 @@ import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -157,122 +156,108 @@ export const PokedexProgressBrowserSection = ({
       aria-label="Pokédex entries"
       className="grid min-w-0 grid-cols-1 gap-4"
     >
-      <BandDrawer
-        edge="rule"
+      <FilterToolbar
+        ariaLabel={`Filter ${scope.name}`}
         activeCount={
           (progressFilter === "all" ? 0 : 1) + (browseScopeId === "all" ? 0 : 1)
         }
-        defaultOpen={
-          Boolean(query.trim()) ||
-          (progressFilter === "all" ? 0 : 1) +
-            (browseScopeId === "all" ? 0 : 1) >
-            0
+        resultLabel={`Show ${filteredEntries.length} Pokémon`}
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          />
         }
-      >
-        <FilterToolbar
-          ariaLabel={`Filter ${scope.name}`}
-          activeCount={
-            (progressFilter === "all" ? 0 : 1) +
-            (browseScopeId === "all" ? 0 : 1)
-          }
-          resultLabel={`Show ${filteredEntries.length} Pokémon`}
-          render={
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
+        search={
+          <SearchControl
+            ariaLabel={`Search ${scope.name}`}
+            value={query}
+            onValueChange={(value) => {
+              setQuery(value);
+              resetVisibleSections();
+            }}
+            placeholder="Search name or number"
+          />
+        }
+        controls={(placement) => {
+          const mode = (
+            <SegmentedControl
+              ariaLabel="Marking mode"
+              onValueChange={setUpdateMode}
+              options={updateModeOptions}
+              value={updateMode}
+              variant="segment"
             />
-          }
-          search={
-            <SearchControl
-              ariaLabel={`Search ${scope.name}`}
-              value={query}
+          );
+
+          /* v3: the marking mode at the line's end, said as "Tap marks as". */
+          return placement === "line" ? (
+            <div className="flex items-center gap-2.5">
+              <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
+                Tap marks as
+              </span>
+              {mode}
+            </div>
+          ) : (
+            <FilterSheetRow label="Tap marks as">{mode}</FilterSheetRow>
+          );
+        }}
+        filters={(placement) => {
+          const progress = (
+            <SegmentedControl
+              variant="segment"
+              selectedTone="soft"
+              ariaLabel="Filter by progress"
               onValueChange={(value) => {
-                setQuery(value);
+                setProgressFilter(value);
                 resetVisibleSections();
               }}
-              placeholder="Search name or number"
+              options={[
+                { count: progressCounts.all, label: "All", value: "all" },
+                {
+                  count: progressCounts.caught,
+                  label: "Caught",
+                  value: "caught",
+                },
+                { count: progressCounts.seen, label: "Seen", value: "seen" },
+                {
+                  count: progressCounts.missing,
+                  label: "Missing",
+                  value: "missing",
+                },
+              ]}
+              value={progressFilter}
             />
-          }
-          controls={(placement) => {
-            const mode = (
-              <SegmentedControl
-                ariaLabel="Marking mode"
-                onValueChange={setUpdateMode}
-                options={updateModeOptions}
-                value={updateMode}
-                variant="segment"
-              />
-            );
-
-            /* v3: the marking mode at the line's end, said as "Tap marks as". */
-            return placement === "line" ? (
-              <div className="flex items-center gap-2.5">
-                <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
-                  Tap marks as
-                </span>
-                {mode}
-              </div>
-            ) : (
-              <FilterSheetRow label="Tap marks as">{mode}</FilterSheetRow>
-            );
-          }}
-          filters={(placement) => {
-            const progress = (
-              <SegmentedControl
-                variant="segment"
-                selectedTone="soft"
-                ariaLabel="Filter by progress"
+          );
+          const entryScope =
+            browseScopes.length > 0 ? (
+              <PokedexEntryScopeFilter
+                completionScopeName={scope.name}
                 onValueChange={(value) => {
-                  setProgressFilter(value);
+                  setBrowseScopeId(value);
                   resetVisibleSections();
                 }}
-                options={[
-                  { count: progressCounts.all, label: "All", value: "all" },
-                  {
-                    count: progressCounts.caught,
-                    label: "Caught",
-                    value: "caught",
-                  },
-                  { count: progressCounts.seen, label: "Seen", value: "seen" },
-                  {
-                    count: progressCounts.missing,
-                    label: "Missing",
-                    value: "missing",
-                  },
-                ]}
-                value={progressFilter}
+                scopes={browseScopes}
+                value={browseScopeId}
               />
-            );
-            const entryScope =
-              browseScopes.length > 0 ? (
-                <PokedexEntryScopeFilter
-                  completionScopeName={scope.name}
-                  onValueChange={(value) => {
-                    setBrowseScopeId(value);
-                    resetVisibleSections();
-                  }}
-                  scopes={browseScopes}
-                  value={browseScopeId}
-                />
-              ) : null;
+            ) : null;
 
-            return placement === "line" ? (
-              <>
-                {progress}
-                {entryScope}
-              </>
-            ) : (
-              <>
-                <FilterSheetRow label="Show">{progress}</FilterSheetRow>
-                {entryScope ? (
-                  <FilterSheetRow label="Pokédex">{entryScope}</FilterSheetRow>
-                ) : null}
-              </>
-            );
-          }}
-        />
-      </BandDrawer>
+          return placement === "line" ? (
+            <>
+              {progress}
+              {entryScope}
+            </>
+          ) : (
+            <>
+              <FilterSheetRow label="Show">{progress}</FilterSheetRow>
+              {entryScope ? (
+                <FilterSheetRow label="Pokédex">{entryScope}</FilterSheetRow>
+              ) : null}
+            </>
+          );
+        }}
+      />
 
       <FilterResultsLine
         className="-mt-2"

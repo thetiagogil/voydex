@@ -20,7 +20,8 @@ export const PageBand = ({ children, className }: PageBandProps) => (
     {/*
      * A large, faint Poké Ball at the band's right edge: the band's one
      * touch of the app's own identity, quiet enough to sit under anything.
-     * It is clipped on its own layer, so a handle can sit on the band's edge.
+     * It is clipped on its own layer, so a handle can sit on the band's edge,
+     * and anchored to the top, so it stays put when the band grows.
      */}
     <span
       aria-hidden
@@ -29,7 +30,7 @@ export const PageBand = ({ children, className }: PageBandProps) => (
       <AppIcon
         icon={appIcons.product.caught}
         strokeWidth={1.25}
-        className="text-action absolute -right-16 -bottom-24 size-96 -rotate-12 opacity-5 max-sm:size-64"
+        className="text-action absolute -top-24 -right-16 size-96 -rotate-12 opacity-5 max-sm:-top-16 max-sm:size-64"
       />
     </span>
     <div
