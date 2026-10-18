@@ -35,8 +35,8 @@ type FilterToolbarProps = {
 };
 
 /*
- * The one toolbar for a list, on a single line: the search, then the filters,
- * then the order, each group between hairlines. The only second row is the
+ * The one toolbar for a list, on a single line: the search, one hairline,
+ * then the filters and the order together. The only second row is the
  * type dots (`row`), under the card. On phones the line is the search and a
  * Filters button that opens the filters, the row and the order in a sheet
  * from the bottom.
@@ -102,18 +102,12 @@ export const FilterToolbar = ({
           </div>
         }
         trailing={
-          <>
-            {filters ? (
-              <ToolbarGroup className="hidden sm:flex">
-                {filters("line")}
-              </ToolbarGroup>
-            ) : null}
-            {controls ? (
-              <ToolbarGroup className="hidden sm:flex">
-                {controls("line")}
-              </ToolbarGroup>
-            ) : null}
-          </>
+          filters || controls ? (
+            <ToolbarGroup className="hidden flex-wrap gap-y-2.5 sm:flex">
+              {filters?.("line")}
+              {controls?.("line")}
+            </ToolbarGroup>
+          ) : null
         }
       />
       {row ? <div className="mt-3.5 max-sm:hidden">{row("line")}</div> : null}
