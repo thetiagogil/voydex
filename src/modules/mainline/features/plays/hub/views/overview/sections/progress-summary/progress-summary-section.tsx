@@ -26,7 +26,7 @@ export const ProgressSummarySection = ({
   const items = getProgressSummaryItems(overview, playId);
 
   return (
-    <Card role="region" aria-label="Progress" className="px-4 sm:px-5">
+    <Card role="region" aria-label="Progress" className="px-5 sm:px-7">
       {items.length ? (
         <div
           className={cn(
