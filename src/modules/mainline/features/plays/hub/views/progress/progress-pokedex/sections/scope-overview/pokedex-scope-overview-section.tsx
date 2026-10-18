@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 import { PageHeader } from "@/shared/components/page-header";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
@@ -22,22 +20,18 @@ const getScopeProgress = (
   });
 
 /*
- * The Pokédex page head: its name, one line of progress, a pill for each
- * Pokédex that counts toward completion, and the button that opens the
- * search and filter bar under it.
+ * The Pokédex page head: its name, one line of progress, and a pill for each
+ * Pokédex that counts toward completion.
  */
 export const PokedexScopeOverviewSection = ({
   onScopeChange,
   scope,
   scopes,
-  searchToggle,
   stateBySpeciesId,
 }: {
   onScopeChange: (scopeId: number) => void;
   scope: MainlinePlayPokedexScope;
   scopes: MainlinePlayPokedexScope[];
-  /* The button that opens the search and filter bar under the title. */
-  searchToggle?: ReactNode;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
 }) => {
   const progress = getScopeProgress(scope, stateBySpeciesId);
@@ -64,30 +58,27 @@ export const PokedexScopeOverviewSection = ({
           </>
         }
         action={
-          <div className="flex min-w-0 items-center gap-2.5">
-            {scopes.length > 1 ? (
-              <SegmentedControl
-                ariaLabel="Pokédex"
-                selectedTone="strong"
-                phoneScroll
-                onValueChange={(value) => onScopeChange(Number(value))}
-                options={scopes.map((candidate) => {
-                  const candidateProgress = getScopeProgress(
-                    candidate,
-                    stateBySpeciesId,
-                  );
+          scopes.length > 1 ? (
+            <SegmentedControl
+              ariaLabel="Pokédex"
+              selectedTone="strong"
+              phoneScroll
+              onValueChange={(value) => onScopeChange(Number(value))}
+              options={scopes.map((candidate) => {
+                const candidateProgress = getScopeProgress(
+                  candidate,
+                  stateBySpeciesId,
+                );
 
-                  return {
-                    count: `${candidateProgress.caughtCount}/${candidateProgress.totalCount}`,
-                    label: candidate.name,
-                    value: String(candidate.id),
-                  };
-                })}
-                value={String(scope.id)}
-              />
-            ) : null}
-            {searchToggle}
-          </div>
+                return {
+                  count: `${candidateProgress.caughtCount}/${candidateProgress.totalCount}`,
+                  label: candidate.name,
+                  value: String(candidate.id),
+                };
+              })}
+              value={String(scope.id)}
+            />
+          ) : null
         }
       />
     </section>

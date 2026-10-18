@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState, type ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { PageHeadToolProvider } from "@/shared/components/page-head-tool";
 import { Button } from "@/shared/components/ui/button";
 import {
   Tooltip,
@@ -122,8 +123,8 @@ const FilterDot = () => (
 );
 
 /*
- * A page with no band folds its bar from its title row: a round search
- * button at the row's end, the bar opening under the title.
+ * The round search button that folds a list's bar, as tall as the head's
+ * main action beside it; the bar opens under the title.
  */
 export const FoldToggle = ({
   activeCount = 0,
@@ -143,7 +144,7 @@ export const FoldToggle = ({
           <Button
             type="button"
             variant={open ? "secondary" : "tint"}
-            size="icon-sm"
+            size="icon"
             aria-expanded={open}
             aria-controls={controls}
             aria-keyshortcuts="/"
@@ -187,8 +188,8 @@ export const useFold = ({ defaultOpen = false }: { defaultOpen?: boolean }) => {
 };
 
 /*
- * A page head with the fold's button at the end of its row: the head (title,
- * line, its own actions) fills the row and the round button closes it.
+ * A page head with the fold's button in its action row, just before the
+ * head's own main action (New Play, New Plan).
  */
 export const FoldHead = ({
   children,
@@ -196,9 +197,4 @@ export const FoldHead = ({
 }: {
   children: ReactNode;
   toggle: ReactNode;
-}) => (
-  <div className="flex min-w-0 items-center gap-3">
-    <div className="min-w-0 flex-1">{children}</div>
-    {toggle}
-  </div>
-);
+}) => <PageHeadToolProvider tool={toggle}>{children}</PageHeadToolProvider>;

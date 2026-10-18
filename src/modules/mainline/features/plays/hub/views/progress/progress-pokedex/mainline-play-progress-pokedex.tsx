@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
-import { FoldToggle, useSlashToOpen } from "@/shared/components/fold";
+import { FoldHead, FoldToggle, useSlashToOpen } from "@/shared/components/fold";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import {
@@ -158,19 +158,22 @@ export const MainlinePlayProgressPokedex = ({
 
   return (
     <div className="grid grid-cols-1 gap-6">
-      <PokedexScopeOverviewSection
-        onScopeChange={selectScope}
-        scope={activeScope}
-        scopes={selectableScopes}
-        searchToggle={
+      <FoldHead
+        toggle={
           <FoldToggle
             controls={searchPanelId}
             open={isSearchOpen}
             onOpenChange={setIsSearchOpen}
           />
         }
-        stateBySpeciesId={stateBySpeciesId}
-      />
+      >
+        <PokedexScopeOverviewSection
+          onScopeChange={selectScope}
+          scope={activeScope}
+          scopes={selectableScopes}
+          stateBySpeciesId={stateBySpeciesId}
+        />
+      </FoldHead>
 
       <PokedexProgressBrowserSection
         key={activeScope.id}
