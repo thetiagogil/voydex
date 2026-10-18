@@ -118,8 +118,9 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
 - **Fill** in the accent only on the main button, the active Play tab, a
   mode switch or scope picker's pick and the start medallion. Never the
   background of a card, row, section or input, and never an outline round a
-  row (an accent outline reads as an error). Progress is green (`ok`), like
-  an HP bar.
+  row (an accent outline reads as an error). Progress (bars, rings, figures of how far you
+  are) is the Poké Mart blue (`progress`), like the games' EXP bar; green
+  stays for status.
 - **One look per size of Pokémon (2026-10-17)**: a Pokémon at card size is
   the one `PokemonCard` family with three looks by meaning: a plain white
   card for one you don't own (the Codex), the sticker with a white band for
@@ -235,7 +236,7 @@ somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`), `Dialog`,
 `Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
-`ButtonGroup`, `Switch`, `Progress` (how far along, in the ok green like an HP bar, never the red accent),
+`ButtonGroup`, `Switch`, `Progress` (how far along, in the progress blue like an EXP bar, never the red accent),
 `NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
 additions:
 

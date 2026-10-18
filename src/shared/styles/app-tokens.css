@@ -70,6 +70,11 @@
   --calm: #2f6dc3;
   --calm-ink: #1f4c8f;
   --calm-soft: #e0eaf8;
+  /*
+   * Progress (bars, rings, charts of how far you are) is the Poké Mart blue,
+   * like the games' EXP bar; green stays for status ("Playing", "Found").
+   */
+  --progress: var(--calm);
   --ball: #d04c3c;
   --avatar: #f6d9a8;
   --avatar-ink: #6b4a12;
@@ -239,6 +244,7 @@
   --color-calm: var(--calm);
   --color-calm-ink: var(--calm-ink);
   --color-calm-soft: var(--calm-soft);
+  --color-progress: var(--progress);
   --color-ball: var(--ball);
   --color-avatar: var(--avatar);
   --color-avatar-ink: var(--avatar-ink);

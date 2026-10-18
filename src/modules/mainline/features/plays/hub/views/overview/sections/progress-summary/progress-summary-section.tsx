@@ -14,7 +14,7 @@ type ProgressSummarySectionProps = {
 
 /*
  * Progress is quiet: one tile per tracker (Story, Pokédex and, where the game
- * has them, Collectibles) sharing the card's width, each a green donut and
+ * has them, Collectibles) sharing the card's width, each a blue progress donut and
  * its count ("10 of 16 milestones"), which never wraps. A tile opens its
  * tracker and lifts on hover: a darker fill would read like the donut's own
  * track.

@@ -65,7 +65,7 @@ const Tile = ({
     </dd>
     <dd
       aria-hidden
-      className="text-ink-2 col-start-2 row-span-2 row-start-1 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
+      className="text-calm col-start-2 row-span-2 row-start-1 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
     >
       <AppIcon icon={icon} size="xl" />
     </dd>
@@ -206,13 +206,16 @@ export const StatsHeroSection = ({
           <div className="flex min-w-0 flex-col gap-1.5">
             <p
               className={cn(
-                "text-ink-2 text-13 sm:text-15 font-black tracking-[0.08em] uppercase",
+                "text-calm-ink text-13 sm:text-15 font-black tracking-[0.08em] uppercase",
                 fadeUpClassName,
               )}
             >
               You are {/^[aeiou]/i.test(title.title) ? "an" : "a"}
             </p>
-            {/* The title is ink: the art beside it carries the colour. */}
+            {/*
+             * The title is ink: the art beside it carries the colour, and the
+             * Poké Mart blue marks "You are a" and the figures' icons.
+             */}
             <h1 className="md:text-60 text-ink text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]">
               {title.title.split(" ").map((word, index) => (
                 <Fragment key={`${word}-${index}`}>
