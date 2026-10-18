@@ -4,9 +4,7 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import { AddNoteDialog } from "@/modules/mainline/features/plays/hub/components/add-note-dialog";
 import { OverviewRecordButton } from "@/modules/mainline/features/plays/hub/views/overview/client/overview-recording";
-import { Medallion } from "@/modules/mainline/features/plays/shared/components/medallion";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
-import { getMilestoneIcon } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import {
   getOverviewMilestoneWhere,
   type OverviewMilestone,
@@ -17,7 +15,6 @@ import {
   ObjectiveWhere,
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { buttonVariants } from "@/shared/components/ui/button";
 
@@ -25,8 +22,7 @@ type NextObjectiveSectionProps = {
   /* The page's main button when the next milestone is a choice: it records in place. */
   decisionRecord?: ReactNode;
   nextMilestone: OverviewMilestone | null;
-  /* A gym milestone's badge type: its medallion wears the badge. */
-  nextMilestoneBadgeType: PokemonTypeSlug | null;
+  nextMilestonePosition: { sequence: number; total: number } | null;
   playId: string;
 };
 
@@ -38,40 +34,25 @@ const hasDecision = (milestone: OverviewMilestone) =>
   milestone.decision_options.length > 0;
 
 /*
- * The next objective: a Fredoka title, where it happens, and the page's one
- * main button, which records it in place (a choice opens Story's record form
- * right here), then "Add a note". On the right, the goal's medallion as it
- * will look once recorded: a gym's badge in its type, anything else in gold.
- * The count of milestones lives in Progress beside it.
+ * The next objective is quiet: a Fredoka title and the page's one main
+ * button, which records it in place (a choice opens Story's record form
+ * right here), then "Add a note".
  */
 export const NextObjectiveSection = ({
   decisionRecord,
   nextMilestone,
-  nextMilestoneBadgeType,
+  nextMilestonePosition,
   playId,
 }: NextObjectiveSectionProps) => {
+  /* Numbered within its journey, as Story numbers it. */
+  const position = nextMilestonePosition
+    ? `Milestone ${nextMilestonePosition.sequence} of ${nextMilestonePosition.total}`
+    : null;
   const where = nextMilestone ? getOverviewMilestoneWhere(nextMilestone) : null;
 
   return (
     <ObjectiveCard
       titleId={titleId}
-      picture={
-        nextMilestone ? (
-          <Medallion
-            size="lg"
-            content={
-              nextMilestoneBadgeType
-                ? { kind: "badge", type: nextMilestoneBadgeType }
-                : {
-                    icon: getMilestoneIcon(
-                      nextMilestone.milestone_type_slug ?? "",
-                    ),
-                    kind: "gold",
-                  }
-            }
-          />
-        ) : null
-      }
       actions={
         nextMilestone?.milestone_id != null ? (
           <>
@@ -112,7 +93,9 @@ export const NextObjectiveSection = ({
           nextMilestone ? appIcons.milestones.story : appIcons.status.active
         }
       >
-        {nextMilestone ? "Next objective" : "Main story complete"}
+        {nextMilestone
+          ? ["Next objective", position].filter(Boolean).join(" · ")
+          : "Main story complete"}
       </ObjectiveEyebrow>
       <h2 id={titleId} className={objectiveTitleClassNames.lg}>
         {nextMilestone?.milestone_name ?? "Every milestone recorded"}

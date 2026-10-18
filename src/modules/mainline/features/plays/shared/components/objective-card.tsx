@@ -63,7 +63,6 @@ export const ObjectiveCard = ({
   closeLabel,
   footer,
   onClose,
-  picture,
   titleId,
 }: {
   /* The page's main button and its quiet partners. */
@@ -73,8 +72,6 @@ export const ObjectiveCard = ({
   className?: string;
   closeLabel?: string;
   footer?: ReactNode;
-  /* A picture of the goal on the right from 640px, such as its medallion. */
-  picture?: ReactNode;
   /* Shows a close button in the corner, such as back to the next objective. */
   onClose?: () => void;
   titleId: string;
@@ -97,17 +94,9 @@ export const ObjectiveCard = ({
       </Button>
     ) : null}
     <div className="flex h-full min-w-0 flex-col">
-      {picture ? (
-        <div className="grid min-w-0 items-center gap-6 sm:grid-cols-[minmax(0,1fr)_auto]">
-          <div className="min-w-0">{children}</div>
-          <div className="flex justify-center max-sm:hidden">{picture}</div>
-        </div>
-      ) : (
-        children
-      )}
+      {children}
       {actions ? (
-        /* The buttons sit on the card's bottom line, level with what is beside it. */
-        <div className="mt-auto flex flex-col gap-3 pt-6 sm:flex-row sm:flex-wrap sm:items-center">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           {actions}
         </div>
       ) : null}

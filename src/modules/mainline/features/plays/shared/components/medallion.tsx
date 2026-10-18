@@ -18,18 +18,15 @@ export type MedallionContent =
   | { imageUrl: string; kind: "pokemon"; type: PokemonTypeSlug | null }
   | { icon: AppIconComponent; kind: "note" | "start" | "status" };
 
-export type MedallionSize = "lg" | "md" | "sm" | "xs";
+export type MedallionSize = "md" | "sm" | "xs";
 
 const sizeClassNames: Record<MedallionSize, string> = {
-  /* The goal on Overview's next objective. */
-  lg: "m-2 size-24 shadow-[0_0_0_5px_#fff,0_0_0_7px_var(--mr),var(--moment-drop)] [&_svg]:size-11",
   md: "m-1.25 size-11.5 shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--mr),var(--moment-drop)] [&_svg]:size-5",
   sm: "m-px size-8 shadow-[0_0_0_2.5px_#fff,0_0_0_3.5px_var(--mr),var(--moment-drop)] [&_svg]:size-4",
   xs: "m-0.5 size-6 shadow-[0_0_0_2px_#fff,0_0_0_3px_var(--mr)] [&_svg]:size-3",
 };
 
 const imageSizeClassNames: Record<MedallionSize, string> = {
-  lg: "size-30",
   md: "size-14.5",
   sm: "size-10.5",
   xs: "size-8",

@@ -82,9 +82,7 @@ export const MainlinePlayOverview = ({
               <NextObjectiveSection
                 decisionRecord={decisionRecord}
                 nextMilestone={data.nextMilestone}
-                nextMilestoneBadgeType={
-                  data.aheadMilestones[0]?.badgeType ?? null
-                }
+                nextMilestonePosition={data.nextMilestonePosition}
                 playId={playId}
               />
               <ProgressSummarySection
