@@ -123,8 +123,8 @@ const FilterDot = () => (
 );
 
 /*
- * The round search button that folds a list's bar, as tall as the head's
- * main action beside it; the bar opens under the title.
+ * The round search button that folds a list's bar: small and quiet, right
+ * beside the list's title; the bar opens under the title.
  */
 export const FoldToggle = ({
   activeCount = 0,
@@ -144,7 +144,7 @@ export const FoldToggle = ({
           <Button
             type="button"
             variant={open ? "secondary" : "tint"}
-            size="icon"
+            size="icon-sm"
             aria-expanded={open}
             aria-controls={controls}
             aria-keyshortcuts="/"
@@ -188,8 +188,7 @@ export const useFold = ({ defaultOpen = false }: { defaultOpen?: boolean }) => {
 };
 
 /*
- * A page head with the fold's button in its action row, just before the
- * head's own main action (New Play, New Plan).
+ * A page head with the fold's button beside its title.
  */
 export const FoldHead = ({
   children,
