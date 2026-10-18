@@ -123,9 +123,8 @@ const FilterDot = () => (
 );
 
 /*
- * The search button that folds a list's bar: a small flat icon right beside
- * the list's title, quiet enough not to read as part of it; the bar opens
- * under the title.
+ * The round search button that folds a list's bar: small and quiet, right
+ * beside the list's title; the bar opens under the title.
  */
 export const FoldToggle = ({
   activeCount = 0,
@@ -144,9 +143,8 @@ export const FoldToggle = ({
         render={
           <Button
             type="button"
-            variant="ghost"
-            size="icon-xs"
-            className="text-ink-2 hover:text-ink"
+            variant={open ? "secondary" : "tint"}
+            size="icon-sm"
             aria-expanded={open}
             aria-controls={controls}
             aria-keyshortcuts="/"
@@ -157,7 +155,6 @@ export const FoldToggle = ({
       >
         <AppIcon
           icon={open ? appIcons.actions.close : appIcons.actions.search}
-          className="size-4.5"
         />
       </TooltipTrigger>
       {/* Says what it does and its key, for the pointer. */}
