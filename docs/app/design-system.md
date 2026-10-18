@@ -160,7 +160,10 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   the whole bar is one pill at the top of the page (it scrolls away with it).
   At rest it is quiet (a lighter tint of the band with a hairline edge, no
   shadow) so it stands apart without pulling the eye; under the pointer or
-  keyboard focus it turns white on the card shadow.
+  keyboard focus (`focus-visible`, so a clicked link doesn't keep it lit) it
+  turns white on the card shadow. Inside it the current section keeps the soft
+  tint without the white band, the Codex sits with the other sections, and
+  your initial sits on the soft brand tint at the right.
 - **Pickers on phones**: below 768px every select, searchable select and
   dropdown menu opens as a sheet from the bottom over the scrim
   (`menuSheet*` in `menu-surface.ts`), full width with room for long lists.

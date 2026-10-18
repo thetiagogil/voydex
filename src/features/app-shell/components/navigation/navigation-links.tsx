@@ -38,7 +38,7 @@ export const NavigationLinks = ({
             key={link.href}
             href={link.href}
             aria-current={isCurrent ? "page" : undefined}
-            className={getBarLinkClassName(isCurrent)}
+            className={getBarLinkClassName(isCurrent, { quiet: true })}
           >
             <SteadyLabel>{link.label}</SteadyLabel>
           </Link>

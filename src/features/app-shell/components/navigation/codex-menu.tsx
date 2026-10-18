@@ -59,7 +59,7 @@ export const CodexMenu = ({ className }: { className?: string }) => {
       <NavigationMenuItem>
         <NavigationMenuTrigger
           className={cn(
-            getBarLinkClassName(isCurrent),
+            getBarLinkClassName(isCurrent, { quiet: true }),
             !isCurrent &&
               "data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
           )}

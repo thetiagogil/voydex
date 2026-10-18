@@ -53,8 +53,8 @@ export const UserMenu = ({ account }: UserMenuProps) => {
       >
         {/* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */}
         <Avatar>
-          {/* The bar's own quiet surface. */}
-          <AvatarFallback className="text-ink bg-(--bar-control)">
+          {/* Your initial on the soft brand tint: yours, without getting loud. */}
+          <AvatarFallback className="bg-select-soft text-select-ink font-extrabold">
             {initial}
           </AvatarFallback>
         </Avatar>

@@ -56,15 +56,18 @@ export const AppShell = ({
           brandHref={getBrandHref(true)}
           showName
           center={
-            <NavigationLinks
-              ariaLabel="Main"
-              links={mainlineLinks}
-              className="hidden lg:flex"
-            />
+            /* Every place you go together: the sections, then the Codex. */
+            <div className="hidden items-center gap-1 lg:flex">
+              <NavigationLinks
+                ariaLabel="Main"
+                links={mainlineLinks}
+                className="flex"
+              />
+              <CodexMenu />
+            </div>
           }
           end={
-            <div className="hidden items-center gap-2.5 lg:flex">
-              <CodexMenu />
+            <div className="hidden items-center lg:flex">
               <UserMenu account={account} />
             </div>
           }
