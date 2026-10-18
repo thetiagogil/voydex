@@ -157,6 +157,7 @@ export const PokedexProgressBrowserSection = ({
       className="grid min-w-0 grid-cols-1 gap-4"
     >
       <FilterToolbar
+        query={query}
         ariaLabel={`Filter ${scope.name}`}
         activeCount={
           (progressFilter === "all" ? 0 : 1) + (browseScopeId === "all" ? 0 : 1)

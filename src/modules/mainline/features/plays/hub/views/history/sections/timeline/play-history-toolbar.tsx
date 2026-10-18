@@ -44,6 +44,7 @@ export const PlayHistoryToolbar = ({
 }: PlayHistoryToolbarProps) => {
   return (
     <FilterToolbar
+      query={query}
       ariaLabel="Filter History"
       className="mt-5"
       activeCount={filter === "all" ? 0 : 1}

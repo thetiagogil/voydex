@@ -122,6 +122,7 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
       <PageBand>
         {head}
         <FilterToolbar
+          query={filters.query}
           ariaLabel={`Filter the ${pokedexName}`}
           className="mt-5"
           activeCount={filters.type ? 1 : 0}

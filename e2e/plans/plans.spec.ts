@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openSearchBar } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Saves a Red / Blue Plan through the Team Planner; returns its id. */
@@ -13,6 +14,7 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
 
   /* The list draws in batches as you scroll, so search for each one. */
   const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+  await openSearchBar(page);
   const search = picker.getByRole("searchbox");
   for (const member of members) {
     await search.fill(member);
@@ -99,6 +101,7 @@ test.describe("Team Planner", () => {
   }) => {
     await page.goto("/mainline/plans/new?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await openSearchBar(page);
     await picker.getByRole("searchbox").fill("Charizard");
     await picker.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
 

@@ -19,7 +19,10 @@ import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
 import { SectionHead } from "@/shared/components/section-head";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
 
@@ -130,8 +133,11 @@ export const PlannerPoolSection = ({
           ) : null
         }
       />
-      <Toolbar
-        aria-label="Filter the Pokémon"
+      <FilterToolbar
+        ariaLabel="Filter the Pokémon"
+        query={filters.query}
+        activeCount={(filters.fullyEvolved ? 1 : 0) + (filters.type ? 1 : 0)}
+        resultLabel="Show Pokémon"
         search={
           <SearchControl
             id="planner-search"
@@ -141,25 +147,41 @@ export const PlannerPoolSection = ({
             onValueChange={(query) => onFiltersChange({ ...filters, query })}
           />
         }
-        trailing={
-          <ChoiceChip
-            size="lg"
-            pressed={filters.fullyEvolved}
-            onClick={() =>
-              onFiltersChange({
-                ...filters,
-                fullyEvolved: !filters.fullyEvolved,
-              })
-            }
-          >
-            Fully evolved only
-          </ChoiceChip>
-        }
-      />
-      <PokemonTypeFilter
-        types={types}
-        value={filters.type}
-        onValueChange={(type) => onFiltersChange({ ...filters, type })}
+        filters={(placement) => {
+          const fullyEvolved = (
+            <ChoiceChip
+              size="lg"
+              pressed={filters.fullyEvolved}
+              onClick={() =>
+                onFiltersChange({
+                  ...filters,
+                  fullyEvolved: !filters.fullyEvolved,
+                })
+              }
+            >
+              Fully evolved only
+            </ChoiceChip>
+          );
+          const type = (
+            <PokemonTypeFilter
+              types={types}
+              value={filters.type}
+              onValueChange={(type) => onFiltersChange({ ...filters, type })}
+            />
+          );
+
+          return placement === "panel" ? (
+            <div className="grid gap-3">
+              <div>{fullyEvolved}</div>
+              {type}
+            </div>
+          ) : (
+            <>
+              <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
+              <FilterSheetRow label="Type">{type}</FilterSheetRow>
+            </>
+          );
+        }}
       />
 
       {hasAny ? (

@@ -95,6 +95,7 @@ export const GamesToolbar = ({
 
   return (
     <FilterToolbar
+      query={filters.query}
       ariaLabel="Filter games"
       className="mt-5"
       activeCount={activeCount}

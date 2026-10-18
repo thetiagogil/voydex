@@ -200,6 +200,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
       <PageBand>
         {head}
         <FilterToolbar
+          query={filters.query}
           ariaLabel="Filter your Plans"
           className="mt-5"
           activeCount={

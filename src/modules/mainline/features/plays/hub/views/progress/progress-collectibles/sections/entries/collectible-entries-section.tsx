@@ -180,6 +180,7 @@ export const CollectibleEntriesSection = ({
       className="grid min-w-0 grid-cols-1 gap-4 rounded-xs"
     >
       <FilterToolbar
+        query={query}
         ariaLabel={`Filter ${group.name}`}
         activeCount={
           (progressFilter === "all" ? 0 : 1) + (areaId === "all" ? 0 : 1)

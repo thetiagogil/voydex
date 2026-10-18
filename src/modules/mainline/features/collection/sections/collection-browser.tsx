@@ -96,6 +96,7 @@ export const CollectionBrowser = ({
       <PageBand>
         {head}
         <FilterToolbar
+          query={filters.query}
           ariaLabel="Filter your Collection"
           className="mt-5"
           activeCount={

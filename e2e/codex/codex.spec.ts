@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { openFilters } from "../support/filters";
+import { openFilters, openSearchBar } from "../support/filters";
 import { signedOut } from "../support/accounts";
 
 test.use({ storageState: signedOut });
@@ -12,6 +12,7 @@ test.describe("Codex", () => {
     await expect(page.getByText("Showing all 1,025 Pokémon")).toBeVisible();
     await expectAccessible(page);
 
+    await openSearchBar(page);
     await page
       .getByRole("searchbox", { name: "Search Pokémon" })
       .fill("chariz");
@@ -53,6 +54,7 @@ test.describe("Codex", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Kanto Pokédex" }),
     ).toBeVisible();
+    await openSearchBar(page);
     await page
       .getByRole("searchbox", { name: "Search the Kanto Pokédex" })
       .fill("mew");

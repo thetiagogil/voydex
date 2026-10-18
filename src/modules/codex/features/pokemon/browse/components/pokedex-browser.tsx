@@ -165,6 +165,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
         />
 
         <FilterToolbar
+          query={filters.query}
           ariaLabel="Filter Pokémon"
           className="mt-5.5"
           activeCount={(filters.generation ? 1 : 0) + (filters.type ? 1 : 0)}

@@ -135,6 +135,7 @@ export const PlaysToolbar = ({
 
   return (
     <FilterToolbar
+      query={selectProps.filters.query}
       ariaLabel="Filter Plays"
       className="mt-5"
       activeCount={activeCount}
