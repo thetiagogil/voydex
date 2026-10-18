@@ -44,7 +44,6 @@ export const PlayHistoryToolbar = ({
 }: PlayHistoryToolbarProps) => {
   return (
     <FilterToolbar
-      query={query}
       ariaLabel="Filter History"
       className="mt-5"
       activeCount={filter === "all" ? 0 : 1}
@@ -68,11 +67,11 @@ export const PlayHistoryToolbar = ({
         const sortControl = (
           <SelectControl
             id={
-              placement === "panel"
+              placement === "line"
                 ? "play-history-sort"
                 : "play-history-sheet-sort"
             }
-            name={placement === "panel" ? "sort" : undefined}
+            name={placement === "line" ? "sort" : undefined}
             ariaLabel="Sort History"
             value={sort}
             onValueChange={(value) => {
@@ -80,12 +79,12 @@ export const PlayHistoryToolbar = ({
             }}
             options={sortOptions}
             placeholder="Newest first"
-            prefix={placement === "panel" ? "Sort" : undefined}
+            prefix={placement === "line" ? "Sort" : undefined}
             variant="ghost"
           />
         );
 
-        return placement === "panel" ? (
+        return placement === "line" ? (
           sortControl
         ) : (
           <FilterSheetRow htmlFor="play-history-sheet-sort" label="Sort">
@@ -106,7 +105,7 @@ export const PlayHistoryToolbar = ({
           />
         );
 
-        return placement === "panel" ? (
+        return placement === "line" ? (
           show
         ) : (
           <FilterSheetRow label="Show">{show}</FilterSheetRow>

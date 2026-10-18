@@ -32,6 +32,7 @@ import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
+import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -199,113 +200,127 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
     <>
       <PageBand>
         {head}
-        <FilterToolbar
-          query={filters.query}
-          ariaLabel="Filter your Plans"
-          className="mt-5"
+        <BandDrawer
           activeCount={
             (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0)
           }
-          resultLabel={`Show ${shown.length} ${shown.length === 1 ? "Plan" : "Plans"}`}
-          search={
-            <SearchControl
-              id="my-plans-search"
-              ariaLabel="Search your Plans"
-              placeholder="Search your Plans"
-              value={filters.query}
-              onValueChange={(query) => update({ query })}
-            />
+          defaultOpen={
+            Boolean(filters.query.trim()) ||
+            (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0) > 0
           }
-          controls={(placement) => {
-            const sort = (
-              <SelectControl
-                id={
-                  placement === "panel"
-                    ? "my-plans-sort"
-                    : "my-plans-sheet-sort"
-                }
-                ariaLabel="Sort Plans"
-                variant="ghost"
-                prefix={placement === "panel" ? "Sort" : undefined}
-                placeholder={myPlansSortLabels.updated}
-                value={filters.sort}
-                onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
-                options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
-                  (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
-                )}
+        >
+          <FilterToolbar
+            ariaLabel="Filter your Plans"
+            className="mt-5"
+            activeCount={
+              (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0)
+            }
+            resultLabel={`Show ${shown.length} ${shown.length === 1 ? "Plan" : "Plans"}`}
+            search={
+              <SearchControl
+                id="my-plans-search"
+                ariaLabel="Search your Plans"
+                placeholder="Search your Plans"
+                value={filters.query}
+                onValueChange={(query) => update({ query })}
               />
-            );
+            }
+            controls={(placement) => {
+              const sort = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "my-plans-sort"
+                      : "my-plans-sheet-sort"
+                  }
+                  ariaLabel="Sort Plans"
+                  variant="ghost"
+                  prefix={placement === "line" ? "Sort" : undefined}
+                  placeholder={myPlansSortLabels.updated}
+                  value={filters.sort}
+                  onValueChange={(sort) =>
+                    update({ sort: sort as MyPlansSort })
+                  }
+                  options={(
+                    Object.keys(myPlansSortLabels) as MyPlansSort[]
+                  ).map((sort) => ({
+                    label: myPlansSortLabels[sort],
+                    value: sort,
+                  }))}
+                />
+              );
 
-            return placement === "panel" ? (
-              sort
-            ) : (
-              <FilterSheetRow htmlFor="my-plans-sheet-sort" label="Sort">
-                {sort}
-              </FilterSheetRow>
-            );
-          }}
-          filters={(placement) => {
-            const status = (
-              <SegmentedControl
-                variant="segment"
-                selectedTone="soft"
-                ariaLabel="Show"
-                value={filters.status}
-                onValueChange={(status) => update({ status })}
-                options={[
-                  { label: "All", value: "all" },
-                  { label: "Active", value: "active" },
-                  { label: "Archived", value: "archived" },
-                ]}
-              />
-            );
-            const game = (
-              <SelectControl
-                id={
-                  placement === "panel"
-                    ? "my-plans-game"
-                    : "my-plans-sheet-game"
-                }
-                ariaLabel="Filter Plans by game"
-                variant="ghost"
-                placeholder="All games"
-                value={filters.game}
-                onValueChange={(game) => update({ game })}
-                options={[
-                  {
-                    icon: <AppIcon icon={appIcons.product.game} size="md" />,
-                    label: "All games",
-                    value: "",
-                  },
-                  ...games.map(({ gameSlug, ...game }) => ({
-                    ...game,
-                    icon: gameSlug ? (
-                      <GameOptionCover
-                        gameName={game.label}
-                        gameSlug={gameSlug}
-                      />
-                    ) : undefined,
-                  })),
-                ]}
-                searchPlaceholder="Search games"
-              />
-            );
-
-            return placement === "panel" ? (
-              <div className="flex flex-wrap items-center gap-3">
-                {status}
-                {game}
-              </div>
-            ) : (
-              <>
-                <FilterSheetRow label="Show">{status}</FilterSheetRow>
-                <FilterSheetRow htmlFor="my-plans-sheet-game" label="Game">
-                  {game}
+              return placement === "line" ? (
+                sort
+              ) : (
+                <FilterSheetRow htmlFor="my-plans-sheet-sort" label="Sort">
+                  {sort}
                 </FilterSheetRow>
-              </>
-            );
-          }}
-        />
+              );
+            }}
+            filters={(placement) => {
+              const status = (
+                <SegmentedControl
+                  variant="segment"
+                  selectedTone="soft"
+                  ariaLabel="Show"
+                  value={filters.status}
+                  onValueChange={(status) => update({ status })}
+                  options={[
+                    { label: "All", value: "all" },
+                    { label: "Active", value: "active" },
+                    { label: "Archived", value: "archived" },
+                  ]}
+                />
+              );
+              const game = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "my-plans-game"
+                      : "my-plans-sheet-game"
+                  }
+                  ariaLabel="Filter Plans by game"
+                  variant="ghost"
+                  placeholder="All games"
+                  value={filters.game}
+                  onValueChange={(game) => update({ game })}
+                  options={[
+                    {
+                      icon: <AppIcon icon={appIcons.product.game} size="md" />,
+                      label: "All games",
+                      value: "",
+                    },
+                    ...games.map(({ gameSlug, ...game }) => ({
+                      ...game,
+                      icon: gameSlug ? (
+                        <GameOptionCover
+                          gameName={game.label}
+                          gameSlug={gameSlug}
+                        />
+                      ) : undefined,
+                    })),
+                  ]}
+                  searchPlaceholder="Search games"
+                />
+              );
+
+              return placement === "line" ? (
+                <>
+                  {status}
+                  {game}
+                </>
+              ) : (
+                <>
+                  <FilterSheetRow label="Show">{status}</FilterSheetRow>
+                  <FilterSheetRow htmlFor="my-plans-sheet-game" label="Game">
+                    {game}
+                  </FilterSheetRow>
+                </>
+              );
+            }}
+          />
+        </BandDrawer>
       </PageBand>
 
       <section aria-label="Your Plans" className="flex flex-col gap-5">

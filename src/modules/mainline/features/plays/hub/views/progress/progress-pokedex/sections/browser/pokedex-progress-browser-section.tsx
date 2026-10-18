@@ -157,7 +157,6 @@ export const PokedexProgressBrowserSection = ({
       className="grid min-w-0 grid-cols-1 gap-4"
     >
       <FilterToolbar
-        query={query}
         ariaLabel={`Filter ${scope.name}`}
         activeCount={
           (progressFilter === "all" ? 0 : 1) + (browseScopeId === "all" ? 0 : 1)
@@ -193,7 +192,7 @@ export const PokedexProgressBrowserSection = ({
           );
 
           /* v3: the marking mode at the line's end, said as "Tap marks as". */
-          return placement === "panel" ? (
+          return placement === "line" ? (
             <div className="flex items-center gap-2.5">
               <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
                 Tap marks as
@@ -244,11 +243,11 @@ export const PokedexProgressBrowserSection = ({
               />
             ) : null;
 
-          return placement === "panel" ? (
-            <div className="flex flex-wrap items-center gap-3">
+          return placement === "line" ? (
+            <>
               {progress}
               {entryScope}
-            </div>
+            </>
           ) : (
             <>
               <FilterSheetRow label="Show">{progress}</FilterSheetRow>

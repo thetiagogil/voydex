@@ -38,6 +38,7 @@ import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -121,95 +122,101 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
     <>
       <PageBand>
         {head}
-        <FilterToolbar
-          query={filters.query}
-          ariaLabel={`Filter the ${pokedexName}`}
-          className="mt-5"
+        <BandDrawer
           activeCount={filters.type ? 1 : 0}
-          resultLabel={`Show ${visiblePokemon.length} Pokémon`}
-          render={
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
-            />
+          defaultOpen={
+            Boolean(filters.query.trim()) || (filters.type ? 1 : 0) > 0
           }
-          search={
-            <SearchControl
-              name="q"
-              ariaLabel={`Search the ${pokedexName}`}
-              value={filters.query}
-              onValueChange={(query) => {
-                updateFilter("query", query);
-              }}
-              placeholder={
-                hasAbilities
-                  ? "Search by name, number or ability"
-                  : "Search by name or number"
-              }
-            />
-          }
-          controls={(placement) => {
-            const sort = (
-              <SelectControl
-                id={
-                  placement === "panel" ? "pokedex-sort" : "pokedex-sheet-sort"
+        >
+          <FilterToolbar
+            ariaLabel={`Filter the ${pokedexName}`}
+            className="mt-5"
+            activeCount={filters.type ? 1 : 0}
+            resultLabel={`Show ${visiblePokemon.length} Pokémon`}
+            render={
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                }}
+              />
+            }
+            search={
+              <SearchControl
+                name="q"
+                ariaLabel={`Search the ${pokedexName}`}
+                value={filters.query}
+                onValueChange={(query) => {
+                  updateFilter("query", query);
+                }}
+                placeholder={
+                  hasAbilities
+                    ? "Search by name, number or ability"
+                    : "Search by name or number"
                 }
-                ariaLabel="Sort Pokémon"
-                variant="ghost"
-                prefix={placement === "panel" ? "Sort" : undefined}
-                value={sortKey}
-                onValueChange={(value) => {
-                  if (isGamePokedexSortKey(value)) {
-                    setSortKey(value);
+              />
+            }
+            controls={(placement) => {
+              const sort = (
+                <SelectControl
+                  id={
+                    placement === "line" ? "pokedex-sort" : "pokedex-sheet-sort"
                   }
-                }}
-                options={sortOptions}
-                placeholder="Regional number"
-              />
-            );
-            const display = (
-              <SegmentedControl
-                ariaLabel="Pokédex display"
-                onValueChange={setView}
-                options={viewOptions}
-                value={view}
-                variant="segment"
-              />
-            );
+                  ariaLabel="Sort Pokémon"
+                  variant="ghost"
+                  prefix={placement === "line" ? "Sort" : undefined}
+                  value={sortKey}
+                  onValueChange={(value) => {
+                    if (isGamePokedexSortKey(value)) {
+                      setSortKey(value);
+                    }
+                  }}
+                  options={sortOptions}
+                  placeholder="Regional number"
+                />
+              );
+              const display = (
+                <SegmentedControl
+                  ariaLabel="Pokédex display"
+                  onValueChange={setView}
+                  options={viewOptions}
+                  value={view}
+                  variant="segment"
+                />
+              );
 
-            return placement === "panel" ? (
-              <>
-                {sort}
-                {display}
-              </>
-            ) : (
-              <>
-                <FilterSheetRow htmlFor="pokedex-sheet-sort" label="Sort">
+              return placement === "line" ? (
+                <>
                   {sort}
-                </FilterSheetRow>
-                <FilterSheetRow label="Display">{display}</FilterSheetRow>
-              </>
-            );
-          }}
-          filters={(placement) => {
-            const type = (
-              <PokemonTypeFilter
-                onValueChange={(type) => {
-                  updateFilter("type", type);
-                }}
-                types={data.types}
-                value={filters.type}
-              />
-            );
+                  {display}
+                </>
+              ) : (
+                <>
+                  <FilterSheetRow htmlFor="pokedex-sheet-sort" label="Sort">
+                    {sort}
+                  </FilterSheetRow>
+                  <FilterSheetRow label="Display">{display}</FilterSheetRow>
+                </>
+              );
+            }}
+            row={(placement) => {
+              const type = (
+                <PokemonTypeFilter
+                  onValueChange={(type) => {
+                    updateFilter("type", type);
+                  }}
+                  types={data.types}
+                  value={filters.type}
+                />
+              );
 
-            return placement === "panel" ? (
-              type
-            ) : (
-              <FilterSheetRow label="Type">{type}</FilterSheetRow>
-            );
-          }}
-        />
+              return placement === "line" ? (
+                type
+              ) : (
+                <FilterSheetRow label="Type">{type}</FilterSheetRow>
+              );
+            }}
+          />
+        </BandDrawer>
       </PageBand>
 
       <section aria-label={`${pokedexName} entries`} className="mt-5">

@@ -8,6 +8,7 @@ import type {
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -134,64 +135,71 @@ export const PlaysToolbar = ({
     (selectProps.filters.generation ? 1 : 0);
 
   return (
-    <FilterToolbar
-      query={selectProps.filters.query}
-      ariaLabel="Filter Plays"
-      className="mt-5"
+    <BandDrawer
       activeCount={activeCount}
-      resultLabel={`Show ${formatPlayCount(matchingCount)}`}
-      render={
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-          }}
-        />
-      }
-      search={
-        <SearchControl
-          id="plays-search"
-          name="q"
-          ariaLabel="Search Plays"
-          value={selectProps.filters.query}
-          onValueChange={onQueryChange}
-          placeholder="Search Plays"
-        />
-      }
-      controls={(placement) =>
-        placement === "panel" ? (
-          getFilterSelects(selectProps, {
-            idPrefix: "plays",
-            isInForm: true,
-            sortPrefix: "Sort",
-          }).sort
-        ) : (
-          <FilterSheetRow htmlFor="plays-sheet-sort" label="Sort">
-            {getFilterSelects(selectProps, { idPrefix: "plays-sheet" }).sort}
-          </FilterSheetRow>
-        )
-      }
-      filters={(placement) => {
-        const selects = getFilterSelects(selectProps, {
-          idPrefix: placement === "panel" ? "plays" : "plays-sheet",
-          isInForm: placement === "panel",
-        });
+      defaultOpen={Boolean(selectProps.filters.query.trim()) || activeCount > 0}
+    >
+      <FilterToolbar
+        ariaLabel="Filter Plays"
+        className="mt-5"
+        activeCount={activeCount}
+        resultLabel={`Show ${formatPlayCount(matchingCount)}`}
+        render={
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+            }}
+          />
+        }
+        search={
+          <SearchControl
+            id="plays-search"
+            name="q"
+            ariaLabel="Search Plays"
+            value={selectProps.filters.query}
+            onValueChange={onQueryChange}
+            placeholder="Search Plays"
+          />
+        }
+        controls={(placement) =>
+          placement === "line" ? (
+            getFilterSelects(selectProps, {
+              idPrefix: "plays",
+              isInForm: true,
+              sortPrefix: "Sort",
+            }).sort
+          ) : (
+            <FilterSheetRow htmlFor="plays-sheet-sort" label="Sort">
+              {getFilterSelects(selectProps, { idPrefix: "plays-sheet" }).sort}
+            </FilterSheetRow>
+          )
+        }
+        filters={(placement) => {
+          const selects = getFilterSelects(selectProps, {
+            idPrefix: placement === "line" ? "plays" : "plays-sheet",
+            isInForm: placement === "line",
+          });
 
-        return placement === "panel" ? (
-          <div className="flex flex-wrap items-center gap-2">
-            {selects.game}
-            {selects.generation}
-          </div>
-        ) : (
-          <>
-            <FilterSheetRow htmlFor="plays-sheet-game" label="Game">
+          return placement === "line" ? (
+            <>
               {selects.game}
-            </FilterSheetRow>
-            <FilterSheetRow htmlFor="plays-sheet-generation" label="Generation">
               {selects.generation}
-            </FilterSheetRow>
-          </>
-        );
-      }}
-    />
+            </>
+          ) : (
+            <>
+              <FilterSheetRow htmlFor="plays-sheet-game" label="Game">
+                {selects.game}
+              </FilterSheetRow>
+              <FilterSheetRow
+                htmlFor="plays-sheet-generation"
+                label="Generation"
+              >
+                {selects.generation}
+              </FilterSheetRow>
+            </>
+          );
+        }}
+      />
+    </BandDrawer>
   );
 };

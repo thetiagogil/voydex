@@ -1,8 +1,8 @@
 import type { Locator, Page } from "@playwright/test";
 
-/* Opens a list's hidden search and filter bar, if it is still hidden. */
+/* Opens a band's folded search and filter bar, if it is still folded. */
 export const openSearchBar = async (page: Page) => {
-  const opener = page.getByRole("button", { name: "Search and filter" });
+  const opener = page.getByRole("button", { name: "Show search and filters" });
 
   if (await opener.isVisible()) {
     await opener.click();
@@ -10,9 +10,9 @@ export const openSearchBar = async (page: Page) => {
 };
 
 /*
- * Opens a list's filters: the bar's row from 640px, or the sheet on phones.
- * Returns where the filters are, and how to close them again (the sheet's
- * result button; the row stays open).
+ * Opens a list's filters: on the bar's line from 640px, or the sheet on
+ * phones. Returns where the filters are, and how to close them again (the
+ * sheet's result button; the line stays as it is).
  */
 export const openFilters = async (
   page: Page,

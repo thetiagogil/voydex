@@ -135,7 +135,6 @@ export const PlannerPoolSection = ({
       />
       <FilterToolbar
         ariaLabel="Filter the Pokémon"
-        query={filters.query}
         activeCount={(filters.fullyEvolved ? 1 : 0) + (filters.type ? 1 : 0)}
         resultLabel="Show Pokémon"
         search={
@@ -162,6 +161,14 @@ export const PlannerPoolSection = ({
               Fully evolved only
             </ChoiceChip>
           );
+
+          return placement === "line" ? (
+            fullyEvolved
+          ) : (
+            <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
+          );
+        }}
+        row={(placement) => {
           const type = (
             <PokemonTypeFilter
               types={types}
@@ -170,16 +177,10 @@ export const PlannerPoolSection = ({
             />
           );
 
-          return placement === "panel" ? (
-            <div className="grid gap-3">
-              <div>{fullyEvolved}</div>
-              {type}
-            </div>
+          return placement === "line" ? (
+            type
           ) : (
-            <>
-              <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
-              <FilterSheetRow label="Type">{type}</FilterSheetRow>
-            </>
+            <FilterSheetRow label="Type">{type}</FilterSheetRow>
           );
         }}
       />

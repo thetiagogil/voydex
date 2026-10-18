@@ -1,88 +1,45 @@
 "use client";
 
-import {
-  useEffect,
-  useId,
-  useRef,
-  useState,
-  type ComponentProps,
-  type ReactNode,
-} from "react";
+import { useState, type ComponentProps, type ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
 
-/* Where a control renders: on the toolbar's line or panel, or in the phone sheet. */
-export type FilterToolbarPlacement = "panel" | "sheet";
+/* Where a control renders: on the toolbar's line, or in the phone sheet. */
+export type FilterToolbarPlacement = "line" | "sheet";
 
 type FilterToolbarProps = {
-  /* How many filters are set: shown on the Filters button. */
+  /* How many filters are set: shown on the phone's Filters button. */
   activeCount: number;
   ariaLabel: string;
   className?: string;
   /*
-   * The few controls that stay on the line from 640px (usually the order).
-   * On phones they move into the sheet. Called once per placement, so give
-   * ids from the placement.
+   * The order and other key controls, at the line's end from 640px. Called
+   * once per placement, so give ids from the placement.
    */
   controls?: (placement: FilterToolbarPlacement) => ReactNode;
-  /* Every filter: the row under the line from 640px, the sheet on phones. */
-  filters: (placement: FilterToolbarPlacement) => ReactNode;
-  /* What is typed in the search, so the bar stays open while it is searching. */
-  query?: string;
+  /* The filters, on the line after the search from 640px. */
+  filters?: (placement: FilterToolbarPlacement) => ReactNode;
   /* Wraps the toolbar, such as `<form />`. */
   render?: ComponentProps<typeof Toolbar>["render"];
-  /* The sheet's button, such as "Show 43 Plays"; "Show results" by default. */
+  /* The phone sheet's button, such as "Show 43 Plays"; "Show results" by default. */
   resultLabel?: string;
+  /*
+   * The one row allowed under the line, such as the type dots, from 640px.
+   * On phones it moves into the sheet.
+   */
+  row?: (placement: FilterToolbarPlacement) => ReactNode;
   search: ReactNode;
 };
 
-const CountBadge = ({ count }: { count: number }) =>
-  count ? (
-    <span className="bg-action text-12 -mr-1 grid h-5 min-w-5 place-items-center rounded-full px-1.5 font-extrabold text-white tabular-nums">
-      {count}
-    </span>
-  ) : null;
-
-const HideButton = ({
-  className,
-  controls,
-  onHide,
-}: {
-  className?: string;
-  controls: string;
-  onHide: () => void;
-}) => (
-  <Button
-    type="button"
-    variant="ghost"
-    size="icon"
-    aria-label="Hide search and filters"
-    aria-expanded
-    aria-controls={controls}
-    onClick={onHide}
-    className={className}
-  >
-    <AppIcon icon={appIcons.actions.close} />
-  </Button>
-);
-
-const isTyping = (target: EventTarget | null) =>
-  target instanceof HTMLElement &&
-  (target.isContentEditable ||
-    ["INPUT", "SELECT", "TEXTAREA"].includes(target.tagName));
-
 /*
- * The one toolbar for a list. It starts hidden: a quiet "Search and filter"
- * button under the page's title, counting the filters that are set. Opened
- * (the button, or "/" anywhere on the page, which also jumps to the search),
- * it shows the toolbar card: the search and a few key controls on the line,
- * every filter in a row under it, and a button to hide it again. On phones
- * the line is the search and a Filters button that opens the filters and
- * the key controls in a sheet from the bottom. It stays open while a search
- * or a filter is on, so nothing that changes the list is ever hidden.
+ * The one toolbar for a list, on a single line: the search, then the filters,
+ * then the order, each group between hairlines. The only second row is the
+ * type dots (`row`), under the card. On phones the line is the search and a
+ * Filters button that opens the filters, the row and the order in a sheet
+ * from the bottom.
  */
 export const FilterToolbar = ({
   activeCount,
@@ -90,135 +47,76 @@ export const FilterToolbar = ({
   className,
   controls,
   filters,
-  query = "",
   render,
   resultLabel = "Show results",
+  row,
   search,
 }: FilterToolbarProps) => {
-  const isNarrowing = activeCount > 0 || query.trim() !== "";
-  const [isOpen, setIsOpen] = useState(isNarrowing);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const focusSearchRef = useRef(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-  const toolbarId = useId();
-  const isShown = isOpen || isNarrowing;
-
-  const openAndSearch = () => {
-    focusSearchRef.current = true;
-    setIsOpen(true);
-  };
-
-  /* "/" opens the bar and jumps to the search, as on most search pages. */
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key !== "/" ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey ||
-        isTyping(event.target)
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      focusSearchRef.current = true;
-      setIsOpen(true);
-      rootRef.current?.querySelector<HTMLInputElement>("input")?.focus();
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
-  useEffect(() => {
-    if (isShown && focusSearchRef.current) {
-      focusSearchRef.current = false;
-      rootRef.current?.querySelector<HTMLInputElement>("input")?.focus();
-    }
-  }, [isShown]);
+  const hasSheet = Boolean(filters || controls || row);
 
   return (
-    <div ref={rootRef} className={className}>
-      {isShown ? null : (
-        <Button
-          type="button"
-          variant="secondary"
-          aria-expanded={false}
-          aria-controls={toolbarId}
-          aria-keyshortcuts="/"
-          onClick={openAndSearch}
-        >
-          <AppIcon icon={appIcons.actions.search} inline="start" />
-          Search and filter
-        </Button>
-      )}
+    <div className={className}>
       <Toolbar
-        id={toolbarId}
         aria-label={ariaLabel}
-        hidden={!isShown}
         render={render}
         search={
           <div className="flex gap-2">
             <div className="min-w-0 flex-1 *:w-full">{search}</div>
             {/* Phones: the sheet. Only its trigger hides from 640px. */}
-            <BottomSheet
-              open={isSheetOpen}
-              onOpenChange={setIsSheetOpen}
-              title="Filters"
-              description={ariaLabel}
-              descriptionHidden
-              trigger={
-                <Button type="button" variant="secondary" className="sm:hidden">
-                  <AppIcon icon={appIcons.actions.filter} inline="start" />
-                  Filters
-                  <CountBadge count={activeCount} />
-                </Button>
-              }
-              footer={
-                <Button type="button" onClick={() => setIsSheetOpen(false)}>
-                  {resultLabel}
-                </Button>
-              }
-            >
-              <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
-                {filters("sheet")}
-                {controls?.("sheet")}
-              </div>
-            </BottomSheet>
-            {/* Phones: hiding sits on the same line as the search. */}
-            {isNarrowing ? null : (
-              <HideButton
-                className="sm:hidden"
-                controls={toolbarId}
-                onHide={() => setIsOpen(false)}
-              />
-            )}
+            {hasSheet ? (
+              <BottomSheet
+                open={isSheetOpen}
+                onOpenChange={setIsSheetOpen}
+                title="Filters"
+                description={ariaLabel}
+                descriptionHidden
+                trigger={
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="sm:hidden"
+                  >
+                    <AppIcon icon={appIcons.actions.filter} inline="start" />
+                    Filters
+                    {activeCount ? (
+                      <span className="bg-action text-12 -mr-1 grid h-5 min-w-5 place-items-center rounded-full px-1.5 font-extrabold text-white tabular-nums">
+                        {activeCount}
+                      </span>
+                    ) : null}
+                  </Button>
+                }
+                footer={
+                  <Button type="button" onClick={() => setIsSheetOpen(false)}>
+                    {resultLabel}
+                  </Button>
+                }
+              >
+                <div className="grid grid-cols-[minmax(0,1fr)] gap-4">
+                  {filters?.("sheet")}
+                  {row?.("sheet")}
+                  {controls?.("sheet")}
+                </div>
+              </BottomSheet>
+            ) : null}
           </div>
         }
         trailing={
           <>
-            {controls ? (
+            {filters ? (
               <ToolbarGroup className="hidden sm:flex">
-                {controls("panel")}
+                {filters("line")}
               </ToolbarGroup>
             ) : null}
-            {isNarrowing ? null : (
+            {controls ? (
               <ToolbarGroup className="hidden sm:flex">
-                <HideButton
-                  controls={toolbarId}
-                  onHide={() => setIsOpen(false)}
-                />
+                {controls("line")}
               </ToolbarGroup>
-            )}
+            ) : null}
           </>
         }
-      >
-        <div className="border-line -mx-2.5 border-t px-2.5 pt-2.5 max-sm:hidden">
-          {isShown ? filters("panel") : null}
-        </div>
-      </Toolbar>
+      />
+      {row ? <div className="mt-3.5 max-sm:hidden">{row("line")}</div> : null}
     </div>
   );
 };

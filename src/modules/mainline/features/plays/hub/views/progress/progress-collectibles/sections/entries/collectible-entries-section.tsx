@@ -180,7 +180,6 @@ export const CollectibleEntriesSection = ({
       className="grid min-w-0 grid-cols-1 gap-4 rounded-xs"
     >
       <FilterToolbar
-        query={query}
         ariaLabel={`Filter ${group.name}`}
         activeCount={
           (progressFilter === "all" ? 0 : 1) + (areaId === "all" ? 0 : 1)
@@ -205,7 +204,7 @@ export const CollectibleEntriesSection = ({
           const sortControl = (
             <SelectControl
               id={
-                placement === "panel"
+                placement === "line"
                   ? "collectibles-sort"
                   : "collectibles-sheet-sort"
               }
@@ -213,13 +212,13 @@ export const CollectibleEntriesSection = ({
               onValueChange={(value) => onSortChange(value as CollectibleSort)}
               options={sortOptions}
               placeholder="Game order"
-              prefix={placement === "panel" ? "Sort" : undefined}
+              prefix={placement === "line" ? "Sort" : undefined}
               value={sort}
               variant="ghost"
             />
           );
 
-          return placement === "panel" ? (
+          return placement === "line" ? (
             sortControl
           ) : (
             <FilterSheetRow htmlFor="collectibles-sheet-sort" label="Sort">
@@ -231,7 +230,7 @@ export const CollectibleEntriesSection = ({
           const area = hasAreas ? (
             <SelectControl
               id={
-                placement === "panel"
+                placement === "line"
                   ? "collectibles-area"
                   : "collectibles-sheet-area"
               }
@@ -267,11 +266,11 @@ export const CollectibleEntriesSection = ({
             />
           );
 
-          return placement === "panel" ? (
-            <div className="flex flex-wrap items-center gap-3">
+          return placement === "line" ? (
+            <>
               {show}
               {area}
-            </div>
+            </>
           ) : (
             <>
               <FilterSheetRow label="Show">{show}</FilterSheetRow>

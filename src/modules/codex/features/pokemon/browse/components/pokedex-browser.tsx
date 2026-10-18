@@ -40,6 +40,7 @@ import { PageHeader } from "@/shared/components/page-header";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -164,125 +165,136 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
         />
 
-        <FilterToolbar
-          query={filters.query}
-          ariaLabel="Filter Pokémon"
-          className="mt-5.5"
+        <BandDrawer
           activeCount={(filters.generation ? 1 : 0) + (filters.type ? 1 : 0)}
-          resultLabel={`Show ${countFormat.format(filteredPokemon.length)} Pokémon`}
-          render={
-            <form
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
-            />
+          defaultOpen={
+            Boolean(filters.query.trim()) ||
+            (filters.generation ? 1 : 0) + (filters.type ? 1 : 0) > 0
           }
-          search={
-            <SearchControl
-              name="q"
-              ariaLabel="Search Pokémon"
-              value={filters.query}
-              onValueChange={(query) => {
-                updateFilter("query", query);
-              }}
-              placeholder="Search name or number"
-            />
-          }
-          controls={(placement) => {
-            const sort = (
-              <SelectControl
-                id={
-                  placement === "panel" ? "pokemon-sort" : "pokemon-sheet-sort"
-                }
-                ariaLabel="Sort Pokémon"
-                variant="ghost"
-                prefix={placement === "panel" ? "Sort" : undefined}
-                value={sortKey}
-                onValueChange={(value) => {
-                  if (isPokedexSortKey(value)) {
-                    setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                    setSortKey(value);
+        >
+          <FilterToolbar
+            ariaLabel="Filter Pokémon"
+            className="mt-5.5"
+            activeCount={(filters.generation ? 1 : 0) + (filters.type ? 1 : 0)}
+            resultLabel={`Show ${countFormat.format(filteredPokemon.length)} Pokémon`}
+            render={
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                }}
+              />
+            }
+            search={
+              <SearchControl
+                name="q"
+                ariaLabel="Search Pokémon"
+                value={filters.query}
+                onValueChange={(query) => {
+                  updateFilter("query", query);
+                }}
+                placeholder="Search name or number"
+              />
+            }
+            controls={(placement) => {
+              const sort = (
+                <SelectControl
+                  id={
+                    placement === "line" ? "pokemon-sort" : "pokemon-sheet-sort"
                   }
-                }}
-                options={pokedexSortOptions}
-                placeholder="National number"
-              />
-            );
+                  ariaLabel="Sort Pokémon"
+                  variant="ghost"
+                  prefix={placement === "line" ? "Sort" : undefined}
+                  value={sortKey}
+                  onValueChange={(value) => {
+                    if (isPokedexSortKey(value)) {
+                      setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                      setSortKey(value);
+                    }
+                  }}
+                  options={pokedexSortOptions}
+                  placeholder="National number"
+                />
+              );
 
-            return placement === "panel" ? (
-              sort
-            ) : (
-              <FilterSheetRow htmlFor="pokemon-sheet-sort" label="Sort">
-                {sort}
-              </FilterSheetRow>
-            );
-          }}
-          filters={(placement) => {
-            const id = (name: string) =>
-              placement === "panel"
-                ? `pokemon-${name}`
-                : `pokemon-sheet-${name}`;
-            const generation = (
-              <SelectControl
-                id={id("generation")}
-                ariaLabel="Filter by generation"
-                variant="ghost"
-                value={filters.generation || ALL}
-                onValueChange={(value) => {
-                  updateFilter("generation", value === ALL ? "" : value);
-                }}
-                options={generationOptions}
-                placeholder="All generations"
-              />
-            );
-            const group = (
-              <SelectControl
-                id={id("group")}
-                ariaLabel="Group Pokémon by"
-                variant="ghost"
-                prefix={placement === "panel" ? "Group" : undefined}
-                value={groupBy}
-                onValueChange={(value) => {
-                  if (isPokedexGroupBy(value)) {
-                    setVisibleCount(INITIAL_VISIBLE_POKEMON);
-                    setGroupBy(value);
-                  }
-                }}
-                options={groupByOptions}
-                placeholder="None"
-              />
-            );
-            const type = (
-              <PokemonTypeFilter
-                onValueChange={(type) => {
-                  updateFilter("type", type);
-                }}
-                types={data.types}
-                value={filters.type}
-              />
-            );
+              return placement === "line" ? (
+                sort
+              ) : (
+                <FilterSheetRow htmlFor="pokemon-sheet-sort" label="Sort">
+                  {sort}
+                </FilterSheetRow>
+              );
+            }}
+            filters={(placement) => {
+              const id = (name: string) =>
+                placement === "line"
+                  ? `pokemon-${name}`
+                  : `pokemon-sheet-${name}`;
+              const generation = (
+                <SelectControl
+                  id={id("generation")}
+                  ariaLabel="Filter by generation"
+                  variant="ghost"
+                  value={filters.generation || ALL}
+                  onValueChange={(value) => {
+                    updateFilter("generation", value === ALL ? "" : value);
+                  }}
+                  options={generationOptions}
+                  placeholder="All generations"
+                />
+              );
+              const group = (
+                <SelectControl
+                  id={id("group")}
+                  ariaLabel="Group Pokémon by"
+                  variant="ghost"
+                  prefix={placement === "line" ? "Group" : undefined}
+                  value={groupBy}
+                  onValueChange={(value) => {
+                    if (isPokedexGroupBy(value)) {
+                      setVisibleCount(INITIAL_VISIBLE_POKEMON);
+                      setGroupBy(value);
+                    }
+                  }}
+                  options={groupByOptions}
+                  placeholder="None"
+                />
+              );
 
-            return placement === "panel" ? (
-              <div className="grid gap-3">
-                <div className="flex flex-wrap items-center gap-2">
+              return placement === "line" ? (
+                <>
                   {generation}
                   {group}
-                </div>
-                {type}
-              </div>
-            ) : (
-              <>
-                <FilterSheetRow htmlFor={id("generation")} label="Generation">
-                  {generation}
-                </FilterSheetRow>
-                <FilterSheetRow htmlFor={id("group")} label="Group">
-                  {group}
-                </FilterSheetRow>
+                </>
+              ) : (
+                <>
+                  <FilterSheetRow htmlFor={id("generation")} label="Generation">
+                    {generation}
+                  </FilterSheetRow>
+                  <FilterSheetRow htmlFor={id("group")} label="Group">
+                    {group}
+                  </FilterSheetRow>
+                </>
+              );
+            }}
+            row={(placement) => {
+              const type = (
+                <PokemonTypeFilter
+                  onValueChange={(type) => {
+                    updateFilter("type", type);
+                  }}
+                  types={data.types}
+                  value={filters.type}
+                />
+              );
+
+              return placement === "line" ? (
+                type
+              ) : (
                 <FilterSheetRow label="Type">{type}</FilterSheetRow>
-              </>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        </BandDrawer>
       </PageBand>
 
       {/* Counts every match, not just the ones loaded so far. */}

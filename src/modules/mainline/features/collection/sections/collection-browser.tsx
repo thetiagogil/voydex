@@ -29,6 +29,7 @@ import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -95,90 +96,101 @@ export const CollectionBrowser = ({
     <>
       <PageBand>
         {head}
-        <FilterToolbar
-          query={filters.query}
-          ariaLabel="Filter your Collection"
-          className="mt-5"
+        <BandDrawer
           activeCount={
             (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0)
           }
-          resultLabel={`Show ${shown.length} Pokémon`}
-          search={
-            <SearchControl
-              id="collection-search"
-              ariaLabel="Search your Pokémon"
-              placeholder="Search your Pokémon"
-              value={filters.query}
-              onValueChange={(query) => update({ query })}
-            />
+          defaultOpen={
+            Boolean(filters.query.trim()) ||
+            (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0) > 0
           }
-          controls={(placement) => {
-            const sort = (
-              <SelectControl
-                id={
-                  placement === "panel"
-                    ? "collection-sort"
-                    : "collection-sheet-sort"
-                }
-                ariaLabel="Sort your Collection"
-                prefix={placement === "panel" ? "Sort" : undefined}
-                value={filters.sort}
-                variant="ghost"
-                placeholder={collectionSortLabels.dex}
-                onValueChange={(sort) =>
-                  update({ sort: sort as CollectionSort })
-                }
-                options={sortOrder.map((sort) => ({
-                  label: collectionSortLabels[sort],
-                  value: sort,
-                }))}
+        >
+          <FilterToolbar
+            ariaLabel="Filter your Collection"
+            className="mt-5"
+            activeCount={
+              (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0)
+            }
+            resultLabel={`Show ${shown.length} Pokémon`}
+            search={
+              <SearchControl
+                id="collection-search"
+                ariaLabel="Search your Pokémon"
+                placeholder="Search your Pokémon"
+                value={filters.query}
+                onValueChange={(query) => update({ query })}
               />
-            );
+            }
+            controls={(placement) => {
+              const sort = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "collection-sort"
+                      : "collection-sheet-sort"
+                  }
+                  ariaLabel="Sort your Collection"
+                  prefix={placement === "line" ? "Sort" : undefined}
+                  value={filters.sort}
+                  variant="ghost"
+                  placeholder={collectionSortLabels.dex}
+                  onValueChange={(sort) =>
+                    update({ sort: sort as CollectionSort })
+                  }
+                  options={sortOrder.map((sort) => ({
+                    label: collectionSortLabels[sort],
+                    value: sort,
+                  }))}
+                />
+              );
 
-            return placement === "panel" ? (
-              sort
-            ) : (
-              <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
-                {sort}
-              </FilterSheetRow>
-            );
-          }}
-          filters={(placement) => {
-            const kind = (
-              <SegmentedControl
-                variant="segment"
-                selectedTone="soft"
-                ariaLabel="Show"
-                value={filters.kind}
-                onValueChange={(kind) => update({ kind })}
-                options={kindOrder.map((kind) => ({
-                  count: counts[kind],
-                  label: collectionKindLabels[kind],
-                  value: kind,
-                }))}
-              />
-            );
-            const type = (
-              <PokemonTypeFilter
-                types={types}
-                value={filters.type}
-                onValueChange={(type) => update({ type })}
-              />
-            );
+              return placement === "line" ? (
+                sort
+              ) : (
+                <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
+                  {sort}
+                </FilterSheetRow>
+              );
+            }}
+            filters={(placement) => {
+              const kind = (
+                <SegmentedControl
+                  variant="segment"
+                  selectedTone="soft"
+                  ariaLabel="Show"
+                  value={filters.kind}
+                  onValueChange={(kind) => update({ kind })}
+                  options={kindOrder.map((kind) => ({
+                    count: counts[kind],
+                    label: collectionKindLabels[kind],
+                    value: kind,
+                  }))}
+                />
+              );
 
-            return placement === "panel" ? (
-              <div className="grid gap-3">
-                {kind}
-                {type}
-              </div>
-            ) : (
-              <>
+              return placement === "line" ? (
+                kind
+              ) : (
                 <FilterSheetRow label="Show">{kind}</FilterSheetRow>
+              );
+            }}
+            row={(placement) => {
+              const type = (
+                <PokemonTypeFilter
+                  types={types}
+                  value={filters.type}
+                  onValueChange={(type) => update({ type })}
+                />
+              );
+
+              return placement === "line" ? (
+                type
+              ) : (
                 <FilterSheetRow label="Type">{type}</FilterSheetRow>
-              </>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        </BandDrawer>
       </PageBand>
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">
