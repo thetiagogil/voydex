@@ -157,9 +157,11 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
 - **The top bar** reads the `--bar-*` tokens and looks the same on every
   page. Its current mark swaps at once (no fade) and each link keeps its bold
   width, so changing section never flickers or nudges the other links. From 768px
-  the whole bar is one white pill that stays at the top as you scroll: solid
-  at the top of a page, then a little slimmer on a softer shadow, lifting
-  again under the pointer or keyboard focus. It never turns see-through (with
+  the whole bar is one pill that stays at the top as you scroll. At rest it is
+  quiet (a lighter tint of the band with a hairline edge, no shadow) so it
+  stands apart without pulling the eye; under the pointer or keyboard focus it
+  turns white on the card shadow; once you scroll it is solid white, slimmer,
+  on a soft shadow. It never turns see-through (with
   no blur allowed, the page would ghost through the words), and it steps
   aside while a page docks its own bar (a Play, a Pokémon entry).
 - **Pickers on phones**: below 768px every select, searchable select and
