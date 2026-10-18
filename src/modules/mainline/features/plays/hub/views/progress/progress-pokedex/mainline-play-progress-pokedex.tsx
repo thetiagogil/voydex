@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
-import { FoldHead, FoldToggle, useSlashToOpen } from "@/shared/components/fold";
+import { FoldHead, FoldToggle } from "@/shared/components/fold";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import {
@@ -62,7 +62,6 @@ export const MainlinePlayProgressPokedex = ({
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchPanelId = useId();
 
-  useSlashToOpen(() => setIsSearchOpen(true));
   const {
     isPending: isSpeciesPending,
     mark,

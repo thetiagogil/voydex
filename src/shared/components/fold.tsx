@@ -15,41 +15,6 @@ import { cn } from "@/shared/utils/cn";
 /* How long the fold takes, so it stops clipping once it has opened. */
 const FOLD_MS = 200;
 
-const isTyping = (target: EventTarget | null) =>
-  target instanceof HTMLElement &&
-  (target.isContentEditable ||
-    ["INPUT", "SELECT", "TEXTAREA"].includes(target.tagName));
-
-/* "/" anywhere on the page (outside a field) opens the fold. */
-export const useSlashToOpen = (onOpen: () => void) => {
-  const onOpenRef = useRef(onOpen);
-
-  useEffect(() => {
-    onOpenRef.current = onOpen;
-  });
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.key !== "/" ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey ||
-        isTyping(event.target)
-      ) {
-        return;
-      }
-
-      event.preventDefault();
-      onOpenRef.current();
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-};
-
 /*
  * What folds: it grows open, then its contents fade in; it folds back the
  * other way. Opening moves focus to its search. Once fully open it stops
@@ -147,7 +112,6 @@ export const FoldToggle = ({
             size="icon"
             aria-expanded={open}
             aria-controls={controls}
-            aria-keyshortcuts="/"
             aria-label={foldLabel(open)}
             onClick={() => onOpenChange(!open)}
           />
@@ -157,9 +121,8 @@ export const FoldToggle = ({
           icon={open ? appIcons.actions.close : appIcons.actions.search}
         />
       </TooltipTrigger>
-      {/* Says what it does and its key, for the pointer. */}
       <TooltipContent side="bottom">
-        {open ? "Hide search and filters" : "Search and filter · /"}
+        {open ? "Hide search and filter" : "Search and filter"}
       </TooltipContent>
     </Tooltip>
     {!open && activeCount ? <FilterDot /> : null}
@@ -167,22 +130,12 @@ export const FoldToggle = ({
 );
 
 /*
- * A list's folding search and filter bar: whether it is open, the panel's
- * id for its button, and "/" anywhere on the page to open it (or, already
- * open, to jump to its search). Starts open while a search or filter is on.
+ * A list's folding search and filter bar: whether it is open and the panel's
+ * id for its button. Starts open while a search or filter is on.
  */
 export const useFold = ({ defaultOpen = false }: { defaultOpen?: boolean }) => {
   const [open, setOpen] = useState(defaultOpen);
   const panelId = useId();
-
-  useSlashToOpen(() => {
-    setOpen(true);
-    /* Already open: jump to the search (closed, the panel focuses it as it opens). */
-    document
-      .getElementById(panelId)
-      ?.querySelector<HTMLInputElement>("input")
-      ?.focus({ preventScroll: true });
-  });
 
   return { open, panelId, setOpen };
 };
