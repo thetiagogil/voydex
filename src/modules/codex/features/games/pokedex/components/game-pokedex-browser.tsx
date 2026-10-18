@@ -34,11 +34,16 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -101,6 +106,7 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
     [deferredFilters, searchablePokemon, sortKey],
   );
   const activeFilters = hasActiveGamePokedexFilters(filters);
+  const fold = useFold({ defaultOpen: activeFilters });
   const pokedexName = formatPokedexName(data.pokedex.name);
   const versionGroupName = getVersionGroupShortName(data.versionGroup.name);
 
@@ -121,13 +127,18 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
   return (
     <>
       <PageBand>
-        {head}
-        <BandDrawer
-          activeCount={filters.type ? 1 : 0}
-          defaultOpen={
-            Boolean(filters.query.trim()) || (filters.type ? 1 : 0) > 0
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
           }
         >
+          {head}
+        </FoldHead>
+        <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel={`Filter the ${pokedexName}`}
             className="mt-5"
@@ -216,18 +227,18 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
               );
             }}
           />
-        </BandDrawer>
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={activeFilters}
+            noun="Pokémon"
+            onClearFilters={clearFilters}
+            shownCount={visiblePokemon.length}
+            totalCount={data.entries.length}
+          />
+        </FoldPanel>
       </PageBand>
 
       <section aria-label={`${pokedexName} entries`} className="mt-5">
-        <FilterResultsLine
-          hasActiveFilters={activeFilters}
-          noun="Pokémon"
-          onClearFilters={clearFilters}
-          shownCount={visiblePokemon.length}
-          totalCount={data.entries.length}
-        />
-
         <div className="mt-4">
           {visiblePokemon.length ? (
             view === "grid" ? (

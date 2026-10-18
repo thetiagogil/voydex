@@ -28,11 +28,16 @@ import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
 import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
-import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -195,20 +200,23 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
   const clearFilters = () =>
     setFilters((current) => ({ ...defaultMyPlansFilters, sort: current.sort }));
   const hasActiveFilters = hasActiveMyPlansFilters(filters);
+  const fold = useFold({ defaultOpen: hasActiveFilters });
 
   return (
     <>
       <PageBand>
-        {head}
-        <BandDrawer
-          activeCount={
-            (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0)
-          }
-          defaultOpen={
-            Boolean(filters.query.trim()) ||
-            (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0) > 0
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
           }
         >
+          {head}
+        </FoldHead>
+        <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel="Filter your Plans"
             className="mt-5"
@@ -320,19 +328,19 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
               );
             }}
           />
-        </BandDrawer>
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasActiveFilters}
+            noun="Plans"
+            nounOne="Plan"
+            onClearFilters={clearFilters}
+            shownCount={shown.length}
+            totalCount={plans.length}
+          />
+        </FoldPanel>
       </PageBand>
 
       <section aria-label="Your Plans" className="flex flex-col gap-5">
-        <FilterResultsLine
-          hasActiveFilters={hasActiveFilters}
-          noun="Plans"
-          nounOne="Plan"
-          onClearFilters={clearFilters}
-          shownCount={shown.length}
-          totalCount={plans.length}
-        />
-
         {shown.length ? (
           <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {shown.map((plan) => (

@@ -24,12 +24,17 @@ import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-po
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -82,6 +87,7 @@ export const CollectionBrowser = ({
   const openEntry =
     entries.find((entry) => entry.speciesId === openSpeciesId) ?? null;
   const hasFilters = hasActiveCollectionFilters(filters);
+  const fold = useFold({ defaultOpen: hasFilters });
   const update = (next: Partial<CollectionFilters>) => {
     setFilters((current) => ({ ...current, ...next }));
   };
@@ -95,16 +101,18 @@ export const CollectionBrowser = ({
   return (
     <>
       <PageBand>
-        {head}
-        <BandDrawer
-          activeCount={
-            (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0)
-          }
-          defaultOpen={
-            Boolean(filters.query.trim()) ||
-            (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0) > 0
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
           }
         >
+          {head}
+        </FoldHead>
+        <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel="Filter your Collection"
             className="mt-5"
@@ -190,18 +198,18 @@ export const CollectionBrowser = ({
               );
             }}
           />
-        </BandDrawer>
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasFilters}
+            noun="Pokémon"
+            onClearFilters={clearFilters}
+            shownCount={shown.length}
+            totalCount={entries.length}
+          />
+        </FoldPanel>
       </PageBand>
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">
-        <FilterResultsLine
-          hasActiveFilters={hasFilters}
-          noun="Pokémon"
-          onClearFilters={clearFilters}
-          shownCount={shown.length}
-          totalCount={entries.length}
-        />
-
         {shown.length ? (
           <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
             {shown.map((entry) => (

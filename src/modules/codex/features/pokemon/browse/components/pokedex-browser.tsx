@@ -35,12 +35,17 @@ import type {
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PageHeader } from "@/shared/components/page-header";
 import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { BandDrawer } from "@/shared/components/band-drawer";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -120,6 +125,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   );
 
   const hasActiveFilters = hasActivePokedexFilters(filters);
+  const fold = useFold({ defaultOpen: hasActiveFilters });
   const canLoadMore = visibleCount < filteredPokemon.length;
 
   const loadMorePokemon = useCallback(() => {
@@ -160,18 +166,22 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   return (
     <>
       <PageBand>
-        <PageHeader
-          title="Pokémon"
-          description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
-        />
-
-        <BandDrawer
-          activeCount={(filters.generation ? 1 : 0) + (filters.type ? 1 : 0)}
-          defaultOpen={
-            Boolean(filters.query.trim()) ||
-            (filters.generation ? 1 : 0) + (filters.type ? 1 : 0) > 0
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
           }
         >
+          <PageHeader
+            title="Pokémon"
+            description={`Every species in the National Pokédex, ${countFormat.format(data.pokemon.length)} in all.`}
+          />
+        </FoldHead>
+
+        <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel="Filter Pokémon"
             className="mt-5.5"
@@ -294,18 +304,17 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
               );
             }}
           />
-        </BandDrawer>
+          {/* Counts every match, not just the ones loaded so far. */}
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasActiveFilters}
+            noun="Pokémon"
+            onClearFilters={clearFilters}
+            shownCount={filteredPokemon.length}
+            totalCount={data.pokemon.length}
+          />
+        </FoldPanel>
       </PageBand>
-
-      {/* Counts every match, not just the ones loaded so far. */}
-      <FilterResultsLine
-        className="mt-5"
-        hasActiveFilters={hasActiveFilters}
-        noun="Pokémon"
-        onClearFilters={clearFilters}
-        shownCount={filteredPokemon.length}
-        totalCount={data.pokemon.length}
-      />
 
       {filteredPokemon.length ? (
         <div className="mt-7.5 flex min-w-0 flex-col gap-7.5">

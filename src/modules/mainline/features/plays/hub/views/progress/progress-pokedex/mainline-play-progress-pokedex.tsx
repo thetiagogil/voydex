@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
-import { FoldToggle, useSlashToOpen } from "@/shared/components/band-drawer";
+import { FoldToggle, useSlashToOpen } from "@/shared/components/fold";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import {

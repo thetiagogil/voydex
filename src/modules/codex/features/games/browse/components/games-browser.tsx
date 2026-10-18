@@ -19,6 +19,12 @@ import type { GamesPageData } from "@/modules/reference/types";
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { PageHeader } from "@/shared/components/page-header";
 
 const countWords = [
@@ -69,6 +75,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
     [data.regions, filteredGames, groupBy, sortOrder],
   );
   const hasActiveFilters = hasActiveGamesFilters(filters);
+  const fold = useFold({ defaultOpen: hasActiveFilters });
 
   const updateFilter = <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
@@ -87,38 +94,49 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   return (
     <>
       <PageBand>
-        <PageHeader
-          title="Games"
-          description={
-            <>
-              <b className="text-ink font-extrabold">
-                {data.games.length} games
-              </b>{" "}
-              across {spellCount(countGenerations(data.games))} generations.
-            </>
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
           }
-        />
+        >
+          <PageHeader
+            title="Games"
+            description={
+              <>
+                <b className="text-ink font-extrabold">
+                  {data.games.length} games
+                </b>{" "}
+                across {spellCount(countGenerations(data.games))} generations.
+              </>
+            }
+          />
+        </FoldHead>
 
-        <GamesToolbar
-          filters={filters}
-          games={data.games}
-          groupBy={groupBy}
-          matchingCount={filteredGames.length}
-          onFilterChange={updateFilter}
-          onGroupByChange={setGroupBy}
-          onSortOrderChange={setSortOrder}
-          sortOrder={sortOrder}
-        />
+        <FoldPanel id={fold.panelId} open={fold.open}>
+          <GamesToolbar
+            filters={filters}
+            games={data.games}
+            groupBy={groupBy}
+            matchingCount={filteredGames.length}
+            onFilterChange={updateFilter}
+            onGroupByChange={setGroupBy}
+            onSortOrderChange={setSortOrder}
+            sortOrder={sortOrder}
+          />
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasActiveFilters}
+            noun="games"
+            onClearFilters={clearFilters}
+            shownCount={filteredGames.length}
+            totalCount={data.games.length}
+          />
+        </FoldPanel>
       </PageBand>
-
-      <FilterResultsLine
-        className="mt-5"
-        hasActiveFilters={hasActiveFilters}
-        noun="games"
-        onClearFilters={clearFilters}
-        shownCount={filteredGames.length}
-        totalCount={data.games.length}
-      />
 
       {sections.length ? (
         <GamesShelf sections={sections} />

@@ -9,10 +9,10 @@ test.use({ storageState: signedOut });
 test.describe("Codex", () => {
   test("finds a Pokémon and opens its entry @phone", async ({ page }) => {
     await page.goto("/codex/pokemon");
+    await openSearchBar(page);
     await expect(page.getByText("Showing all 1,025 Pokémon")).toBeVisible();
     await expectAccessible(page);
 
-    await openSearchBar(page);
     await page
       .getByRole("searchbox", { name: "Search Pokémon" })
       .fill("chariz");

@@ -20,6 +20,12 @@ import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/ty
 import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { PageBand } from "@/shared/components/page-band";
 
 type PlaysBrowserProps = {
@@ -59,6 +65,7 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
     [filters, plays],
   );
   const hasActiveFilters = hasActivePlayBrowseFilters(appliedFilters);
+  const fold = useFold({ defaultOpen: hasActiveFilters });
 
   useEffect(() => {
     const updateTimer = window.setTimeout(() => {
@@ -97,37 +104,49 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
   return (
     <>
       <PageBand>
-        {head}
-        <PlaysToolbar
-          filters={filters}
-          games={options.games}
-          generations={options.generations}
-          matchingCount={matchingCount}
-          onGameChange={(game) => {
-            updateFilter("game", game);
-          }}
-          onGenerationChange={(generation) => {
-            updateFilter("generation", generation);
-          }}
-          onQueryChange={(query) => {
-            updateFilter("query", query);
-          }}
-          onSortChange={(sort) => {
-            updateFilter("sort", sort);
-          }}
-        />
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
+          }
+        >
+          {head}
+        </FoldHead>
+        <FoldPanel id={fold.panelId} open={fold.open}>
+          <PlaysToolbar
+            filters={filters}
+            games={options.games}
+            generations={options.generations}
+            matchingCount={matchingCount}
+            onGameChange={(game) => {
+              updateFilter("game", game);
+            }}
+            onGenerationChange={(generation) => {
+              updateFilter("generation", generation);
+            }}
+            onQueryChange={(query) => {
+              updateFilter("query", query);
+            }}
+            onSortChange={(sort) => {
+              updateFilter("sort", sort);
+            }}
+          />
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasActiveFilters}
+            noun="Plays"
+            nounOne="Play"
+            onClearFilters={clearFilters}
+            shownCount={shownCount}
+            totalCount={plays.length}
+          />
+        </FoldPanel>
       </PageBand>
 
       <section aria-label="Play library" className="flex flex-col">
-        <FilterResultsLine
-          hasActiveFilters={hasActiveFilters}
-          noun="Plays"
-          nounOne="Play"
-          onClearFilters={clearFilters}
-          shownCount={shownCount}
-          totalCount={plays.length}
-        />
-
         {groups.length ? (
           <div className="mt-6 grid gap-8 sm:mt-8">
             {groups.map((group) => (

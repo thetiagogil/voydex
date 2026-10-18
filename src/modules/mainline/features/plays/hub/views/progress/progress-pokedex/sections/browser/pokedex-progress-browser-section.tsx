@@ -9,7 +9,7 @@ import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { FoldPanel } from "@/shared/components/band-drawer";
+import { FoldPanel } from "@/shared/components/fold";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -266,16 +266,15 @@ export const PokedexProgressBrowserSection = ({
             );
           }}
         />
+        <FilterResultsLine
+          className="mt-3"
+          hasActiveFilters={hasFilters}
+          noun="Pokémon"
+          onClearFilters={resetFilters}
+          shownCount={filteredEntries.length}
+          totalCount={scope.entries.length}
+        />
       </FoldPanel>
-
-      <FilterResultsLine
-        className="-mt-2"
-        hasActiveFilters={hasFilters}
-        noun="Pokémon"
-        onClearFilters={resetFilters}
-        shownCount={filteredEntries.length}
-        totalCount={scope.entries.length}
-      />
 
       {visibleSections.length ? (
         <>

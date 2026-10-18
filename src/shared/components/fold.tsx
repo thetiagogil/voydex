@@ -148,65 +148,40 @@ export const FoldToggle = ({
   </span>
 );
 
-type BandDrawerProps = {
-  /* How many filters are set: a dot on the handle while it is closed. */
-  activeCount?: number;
-  /* What opens, such as the list's search and filter bar. */
-  children: ReactNode;
-  /* Opens it on arrival: a search or a filter is already narrowing the list. */
-  defaultOpen?: boolean;
-};
-
 /*
- * A list's search and filter bar, folded away under a small wide tab on the
- * band's bottom edge, half on the band and half on the page. Pressed, the
- * band grows downward and the bar fades in once it has room; pressed again,
- * it folds back up. "/" anywhere on the page opens it and jumps to the
- * search. Place it last in a `PageBand`.
+ * A list's folding search and filter bar: whether it is open, the panel's
+ * id for its button, and "/" anywhere on the page to open it (or, already
+ * open, to jump to its search). Starts open while a search or filter is on.
  */
-export const BandDrawer = ({
-  activeCount = 0,
-  children,
-  defaultOpen = false,
-}: BandDrawerProps) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
-  const contentId = useId();
+export const useFold = ({ defaultOpen = false }: { defaultOpen?: boolean }) => {
+  const [open, setOpen] = useState(defaultOpen);
+  const panelId = useId();
 
   useSlashToOpen(() => {
-    setIsOpen(true);
+    setOpen(true);
     /* Already open: jump to the search (closed, the panel focuses it as it opens). */
     document
-      .getElementById(contentId)
+      .getElementById(panelId)
       ?.querySelector<HTMLInputElement>("input")
       ?.focus({ preventScroll: true });
   });
 
-  return (
-    <>
-      <FoldPanel id={contentId} open={isOpen}>
-        {children}
-      </FoldPanel>
-      {/* On the band's bottom edge: the band is the positioned box. */}
-      <span className="absolute bottom-0 left-1/2 z-10 -translate-x-1/2 translate-y-1/2">
-        <button
-          type="button"
-          aria-expanded={isOpen}
-          aria-controls={contentId}
-          aria-keyshortcuts="/"
-          aria-label={foldLabel(isOpen)}
-          onClick={() => setIsOpen((open) => !open)}
-          className="bg-surface text-ink-2 hover:text-ink focus-visible:outline-focus grid h-5 w-12 place-items-center rounded-full shadow-[0_2px_6px_-2px_rgb(var(--shade)/0.35)] transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
-        >
-          <AppIcon
-            icon={appIcons.actions.expand}
-            className={cn(
-              "size-3.5 stroke-3 transition-transform duration-200 ease-out motion-reduce:transition-none",
-              isOpen && "rotate-180",
-            )}
-          />
-        </button>
-        {!isOpen && activeCount ? <FilterDot /> : null}
-      </span>
-    </>
-  );
+  return { open, panelId, setOpen };
 };
+
+/*
+ * A page head with the fold's button at the end of its row: the head (title,
+ * line, its own actions) fills the row and the round button closes it.
+ */
+export const FoldHead = ({
+  children,
+  toggle,
+}: {
+  children: ReactNode;
+  toggle: ReactNode;
+}) => (
+  <div className="flex min-w-0 items-center gap-3">
+    <div className="min-w-0 flex-1">{children}</div>
+    {toggle}
+  </div>
+);
