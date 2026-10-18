@@ -92,6 +92,7 @@
    */
   --action-ink: color-mix(in oklab, var(--action) 60%, #000);
   --select-soft: color-mix(in oklab, var(--action) 16%, #fff);
+  --select-soft-hover: color-mix(in oklab, var(--action) 22%, #fff);
   --select-ink: color-mix(in oklab, var(--action) 45%, var(--ink));
 
   /*
@@ -255,6 +256,7 @@
   --color-game: var(--game);
   --color-game-strong: var(--game-strong);
   --color-select-soft: var(--select-soft);
+  --color-select-soft-hover: var(--select-soft-hover);
   --color-select-ink: var(--select-ink);
 
   --color-background: var(--background);

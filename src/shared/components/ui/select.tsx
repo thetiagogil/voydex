@@ -54,7 +54,7 @@ const selectTriggerVariants = cva(
           "rounded-md pr-3 pl-4 hover:bg-hover aria-expanded:bg-hover data-placeholder:text-ink-3 data-[size=sm]:rounded-sm data-[size=sm]:pr-2.5 data-[size=sm]:pl-3",
         ),
         ghost:
-          "rounded-full border-[1.5px] border-transparent bg-transparent px-3 text-ink-2 transition-colors hover:text-ink aria-expanded:text-ink data-placeholder:text-ink-2",
+          "rounded-full border-[1.5px] border-transparent bg-transparent px-3 text-ink-2 transition-colors hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink data-placeholder:text-ink-2 data-changed:bg-select-soft data-changed:text-select-ink data-changed:hover:bg-select-soft-hover data-changed:aria-expanded:bg-select-soft-hover data-changed:[&_svg]:text-select-ink",
         card: "h-auto! min-h-16 gap-3 rounded-xl bg-surface px-3 py-2 text-left text-ink shadow-card transition-colors hover:bg-hover aria-expanded:bg-hover",
       },
     },

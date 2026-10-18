@@ -1,10 +1,11 @@
 "use client";
 
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
-import type {
-  PlayBrowseFilters,
-  PlayBrowseOption,
-  PlayBrowseSort,
+import {
+  defaultPlayBrowseFilters,
+  type PlayBrowseFilters,
+  type PlayBrowseOption,
+  type PlayBrowseSort,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -69,6 +70,7 @@ const getFilterSelects = (
         id={`${idPrefix}-game`}
         name={getName("game")}
         ariaLabel="Filter Plays by game"
+        resetValue={defaultPlayBrowseFilters.game}
         value={filters.game}
         onValueChange={onGameChange}
         options={[
@@ -94,6 +96,7 @@ const getFilterSelects = (
         id={`${idPrefix}-generation`}
         name={getName("generation")}
         ariaLabel="Filter Plays by generation"
+        resetValue={defaultPlayBrowseFilters.generation}
         value={filters.generation}
         onValueChange={onGenerationChange}
         options={[{ label: "All generations", value: "" }, ...generations]}
@@ -106,6 +109,7 @@ const getFilterSelects = (
         id={`${idPrefix}-sort`}
         name={getName("sort")}
         ariaLabel="Sort Plays"
+        resetValue={defaultPlayBrowseFilters.sort}
         value={filters.sort}
         onValueChange={(value) => {
           onSortChange(value as PlayBrowseSort);

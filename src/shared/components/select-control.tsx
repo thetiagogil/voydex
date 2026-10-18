@@ -51,6 +51,11 @@ type SelectControlProps = {
   /* A quiet word before the value, as in v3's "Sort Recently played". */
   prefix?: string;
   /*
+   * The value Reset puts back. Any other value takes the selected tint, so
+   * a list shows at a glance which controls moved off its default.
+   */
+  resetValue?: string;
+  /*
    * A search field at the top of the list. On by default for lists longer
    * than ten options.
    */
@@ -139,6 +144,7 @@ export const SelectControl = ({
   options,
   placeholder,
   prefix,
+  resetValue,
   searchable = options.length > SEARCH_FROM_OPTION_COUNT,
   searchPlaceholder,
   size = "default",
@@ -159,8 +165,16 @@ export const SelectControl = ({
       ? options.find((option) => option.value === nextValue)
       : undefined;
   };
+  const isChanged = resetValue !== undefined && currentValue !== resetValue;
   const prefixWord = prefix ? (
-    <span className="text-ink-3 font-semibold">{prefix}</span>
+    <span
+      className={cn(
+        "font-semibold",
+        isChanged ? "text-select-ink" : "text-ink-3",
+      )}
+    >
+      {prefix}
+    </span>
   ) : null;
 
   if (searchable) {
@@ -193,6 +207,7 @@ export const SelectControl = ({
         <ComboboxTrigger
           id={id}
           aria-label={ariaLabel}
+          data-changed={isChanged || undefined}
           data-size={size}
           className={cn(selectTriggerVariants({ variant }), className)}
         >
@@ -270,6 +285,7 @@ export const SelectControl = ({
         id={id}
         aria-label={ariaLabel}
         className={className}
+        data-changed={isChanged || undefined}
         size={size}
         variant={variant}
       >

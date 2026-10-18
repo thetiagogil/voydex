@@ -218,6 +218,7 @@ export const CollectibleEntriesSection = ({
                     : "collectibles-sheet-sort"
                 }
                 ariaLabel="Sort collectibles"
+                resetValue={"canonical"}
                 onValueChange={(value) =>
                   onSortChange(value as CollectibleSort)
                 }
@@ -246,6 +247,7 @@ export const CollectibleEntriesSection = ({
                     : "collectibles-sheet-area"
                 }
                 ariaLabel="Show one area"
+                resetValue={"all"}
                 className="w-48 min-w-0"
                 onValueChange={setAreaId}
                 options={areaOptions}

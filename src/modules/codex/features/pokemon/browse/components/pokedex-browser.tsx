@@ -216,6 +216,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                     placement === "line" ? "pokemon-sort" : "pokemon-sheet-sort"
                   }
                   ariaLabel="Sort Pokémon"
+                  resetValue={"national"}
                   variant="ghost"
                   prefix={placement === "line" ? "Sort" : undefined}
                   value={sortKey}
@@ -247,6 +248,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                 <SelectControl
                   id={id("generation")}
                   ariaLabel="Filter by generation"
+                  resetValue={ALL}
                   variant="ghost"
                   value={filters.generation || ALL}
                   onValueChange={(value) => {
@@ -260,6 +262,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                 <SelectControl
                   id={id("group")}
                   ariaLabel="Group Pokémon by"
+                  resetValue={"none"}
                   variant="ghost"
                   prefix={placement === "line" ? "Group" : undefined}
                   value={groupBy}

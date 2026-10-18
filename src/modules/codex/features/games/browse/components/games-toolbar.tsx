@@ -122,6 +122,7 @@ export const GamesToolbar = ({
           <SelectControl
             id={placement === "line" ? "games-sort" : "games-sheet-sort"}
             ariaLabel="Sort games"
+            resetValue={"oldest"}
             variant="ghost"
             prefix={placement === "line" ? "Sort" : undefined}
             value={sortOrder}
@@ -148,6 +149,7 @@ export const GamesToolbar = ({
           <SelectControl
             id={id("kind")}
             ariaLabel="Kind of game"
+            resetValue={ALL_KINDS}
             variant="ghost"
             prefix={placement === "line" ? "Kind" : undefined}
             value={filters.kind || ALL_KINDS}
@@ -162,6 +164,7 @@ export const GamesToolbar = ({
           <SelectControl
             id={id("group")}
             ariaLabel="Group games by"
+            resetValue={"none"}
             variant="ghost"
             prefix={placement === "line" ? "Group" : undefined}
             value={groupBy}

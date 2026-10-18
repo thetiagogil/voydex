@@ -242,6 +242,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
                       : "my-plans-sheet-sort"
                   }
                   ariaLabel="Sort Plans"
+                  resetValue={defaultMyPlansFilters.sort}
                   variant="ghost"
                   prefix={placement === "line" ? "Sort" : undefined}
                   placeholder={myPlansSortLabels.updated}
@@ -289,6 +290,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
                       : "my-plans-sheet-game"
                   }
                   ariaLabel="Filter Plans by game"
+                  resetValue={defaultMyPlansFilters.game}
                   variant="ghost"
                   placeholder="All games"
                   value={filters.game}

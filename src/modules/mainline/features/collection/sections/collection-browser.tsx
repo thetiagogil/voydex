@@ -136,6 +136,7 @@ export const CollectionBrowser = ({
                       : "collection-sheet-sort"
                   }
                   ariaLabel="Sort your Collection"
+                  resetValue={defaultCollectionFilters.sort}
                   prefix={placement === "line" ? "Sort" : undefined}
                   value={filters.sort}
                   variant="ghost"

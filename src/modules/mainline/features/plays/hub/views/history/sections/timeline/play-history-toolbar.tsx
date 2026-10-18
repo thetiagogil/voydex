@@ -73,6 +73,7 @@ export const PlayHistoryToolbar = ({
             }
             name={placement === "line" ? "sort" : undefined}
             ariaLabel="Sort History"
+            resetValue={"newest"}
             value={sort}
             onValueChange={(value) => {
               onSortChange(value as PlayHistorySort);

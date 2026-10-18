@@ -143,7 +143,10 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   takes `icon` and `description` per option and opens with a search field
   for lists longer than ten (`searchable`); a list of games shows each
   game's cover (`GameOptionCover`), a generation its region. A toolbar's
-  quiet select shows its words alone; a field shows the picture too.
+  quiet select shows its words alone; a field shows the picture too. It
+  takes the hover tint under the pointer, and given `resetValue` (what Reset
+  puts back) it sits in the selected tint while it holds anything else, so
+  a list shows which controls moved off its default.
 - **Selected controls**: the one picked is a small sticker, its fill in a
   white band (`bubble`), and its weight never changes. Rows, chips and filter
   pills take `bg-select-soft text-select-ink` (the soft tint of the context

@@ -176,6 +176,7 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                     placement === "line" ? "pokedex-sort" : "pokedex-sheet-sort"
                   }
                   ariaLabel="Sort Pokémon"
+                  resetValue={"regional"}
                   variant="ghost"
                   prefix={placement === "line" ? "Sort" : undefined}
                   value={sortKey}
