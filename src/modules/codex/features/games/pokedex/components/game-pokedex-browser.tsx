@@ -31,7 +31,7 @@ import {
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type { GamePokedexData } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -120,8 +120,11 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
     }));
   };
 
-  const clearFilters = () => {
+  const isReordered = sortKey !== "regional";
+
+  const resetList = () => {
     setFilters(defaultGamePokedexFilters);
+    setSortKey("regional");
   };
 
   return (
@@ -230,8 +233,9 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={activeFilters}
+            isReordered={isReordered}
             noun="Pokémon"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={visiblePokemon.length}
             totalCount={data.entries.length}
           />
@@ -277,7 +281,7 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                   ? "No Pokémon match that name, number, ability or type."
                   : "No Pokémon match that name, number or type."
               }
-              action={<ClearFiltersButton onClick={clearFilters} />}
+              action={<ResetListButton onClick={resetList} />}
             />
           )}
         </div>

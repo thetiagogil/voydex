@@ -17,7 +17,7 @@ import {
   type PlayBrowseParams,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -94,11 +94,10 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
     }));
   };
 
-  const clearFilters = () => {
-    setFilters((currentFilters) => ({
-      ...defaultPlayBrowseFilters,
-      sort: currentFilters.sort,
-    }));
+  const isReordered = appliedFilters.sort !== defaultPlayBrowseFilters.sort;
+
+  const resetList = () => {
+    setFilters(defaultPlayBrowseFilters);
   };
 
   return (
@@ -137,9 +136,10 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={hasActiveFilters}
+            isReordered={isReordered}
             noun="Plays"
             nounOne="Play"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={shownCount}
             totalCount={plays.length}
           />
@@ -159,7 +159,7 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             className="mt-5"
             title="No Plays found"
             description="Try another search, game or generation."
-            action={<ClearFiltersButton onClick={clearFilters} />}
+            action={<ResetListButton onClick={resetList} />}
           />
         )}
       </section>

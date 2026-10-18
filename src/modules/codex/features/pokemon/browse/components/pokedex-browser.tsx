@@ -32,7 +32,7 @@ import type {
   PokedexPageData,
   PokedexPageFilters,
 } from "@/modules/reference/types";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -148,9 +148,13 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
     }));
   };
 
-  const clearFilters = () => {
+  const isReordered = sortKey !== "national" || groupBy !== "none";
+
+  const resetList = () => {
     setVisibleCount(INITIAL_VISIBLE_POKEMON);
     setFilters(defaultPokedexPageFilters);
+    setSortKey("national");
+    setGroupBy("none");
   };
 
   /* The generation filter, a toolbar menu. */
@@ -308,8 +312,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={hasActiveFilters}
+            isReordered={isReordered}
             noun="Pokémon"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={filteredPokemon.length}
             totalCount={data.pokemon.length}
           />
@@ -378,9 +383,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
           className="mt-7.5"
           title="Nothing matches."
           action={
-            hasActiveFilters ? (
-              <ClearFiltersButton onClick={clearFilters} />
-            ) : null
+            hasActiveFilters ? <ResetListButton onClick={resetList} /> : null
           }
         />
       )}

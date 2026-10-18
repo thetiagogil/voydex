@@ -3,7 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
@@ -150,7 +150,7 @@ export const PokedexProgressBrowserSection = ({
     );
   }, [filteredSections.length]);
 
-  const resetFilters = () => {
+  const resetList = () => {
     setQuery("");
     setBrowseScopeId("all");
     setProgressFilter("all");
@@ -270,7 +270,7 @@ export const PokedexProgressBrowserSection = ({
           className="mt-3"
           hasActiveFilters={hasFilters}
           noun="Pokémon"
-          onClearFilters={resetFilters}
+          onReset={resetList}
           shownCount={filteredEntries.length}
           totalCount={scope.entries.length}
         />
@@ -304,9 +304,7 @@ export const PokedexProgressBrowserSection = ({
           title="No matching Pokémon"
           description={`No entries in ${scope.name} match the current filters.`}
           action={
-            hasFilters ? (
-              <ClearFiltersButton onClick={resetFilters} />
-            ) : undefined
+            hasFilters ? <ResetListButton onClick={resetList} /> : undefined
           }
         />
       )}

@@ -8,7 +8,7 @@ import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/da
 import type { MainlinePlayHistoryData } from "@/modules/mainline/features/plays/hub/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -82,10 +82,10 @@ export const MainlinePlayHistory = ({
     [searchedEvents, filter, sort, clock],
   );
   const isSearching = Boolean(query.trim());
-  /* The order alone filters nothing, so clearing keeps it. */
-  const clearFilters = () => {
+  const resetList = () => {
     setQuery("");
     setFilter("all");
+    setSort("newest");
   };
   const shownCount = months.reduce(
     (count, month) => count + month.entries.length,
@@ -151,9 +151,10 @@ export const MainlinePlayHistory = ({
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={isSearching || filter !== "all"}
+            isReordered={sort !== "newest"}
             noun="moments"
             nounOne="moment"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={shownCount}
             totalCount={totalCount}
           />
@@ -177,7 +178,7 @@ export const MainlinePlayHistory = ({
           <EmptyState
             title="No moments match"
             description="Try another word, or clear the search and filters."
-            action={<ClearFiltersButton onClick={clearFilters} />}
+            action={<ResetListButton onClick={resetList} />}
           />
         ) : totalCount ? (
           <EmptyState

@@ -1,4 +1,4 @@
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { cn } from "@/shared/utils/cn";
 
 const countFormat = new Intl.NumberFormat("en-US");
@@ -6,11 +6,14 @@ const countFormat = new Intl.NumberFormat("en-US");
 type FilterResultsLineProps = {
   className?: string;
   hasActiveFilters: boolean;
+  /* The order or grouping is not the list's default. */
+  isReordered?: boolean;
   /* What the list holds, as a plural noun: "Pokémon", "games", "Plays". */
   noun: string;
   /* The singular, for a list of one ("Showing all 1 Play"); the plural if left out. */
   nounOne?: string;
-  onClearFilters: () => void;
+  /* Puts back the default search, filters, order and grouping. */
+  onReset: () => void;
   shownCount: number;
   totalCount: number;
 };
@@ -19,15 +22,17 @@ type FilterResultsLineProps = {
  * The one line under every filterable list's toolbar: always there, so
  * filtering never pushes the list down or changes the bar's width. It reads
  * "Showing all 1,025 Pokémon", and while a filter is on "Showing 81 of 1,025
- * Pokémon" with Clear filters on its right (an empty list carries its own
- * Clear, so the line leaves it out then).
+ * Pokémon". While a filter is on, or the order or grouping isn't the
+ * default, Reset sits on its right (an empty list carries its own Reset, so
+ * the line leaves it out then).
  */
 export const FilterResultsLine = ({
   className,
   hasActiveFilters,
+  isReordered = false,
   noun,
   nounOne = noun,
-  onClearFilters,
+  onReset,
   shownCount,
   totalCount,
 }: FilterResultsLineProps) => {
@@ -63,8 +68,8 @@ export const FilterResultsLine = ({
           </>
         )}
       </p>
-      {hasActiveFilters && shownCount ? (
-        <ClearFiltersButton variant="ghost" onClick={onClearFilters} />
+      {(hasActiveFilters || isReordered) && shownCount ? (
+        <ResetListButton variant="ghost" onClick={onReset} />
       ) : null}
     </div>
   );

@@ -23,7 +23,7 @@ import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
 import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
@@ -196,10 +196,10 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
   const games = useMemo(() => getMyPlansGames(plans), [plans]);
   const update = (next: Partial<MyPlansFilters>) =>
     setFilters((current) => ({ ...current, ...next }));
-  /* Back to every Plan, keeping the order you picked. */
-  const clearFilters = () =>
-    setFilters((current) => ({ ...defaultMyPlansFilters, sort: current.sort }));
+  /* Back to every Plan in the default order. */
+  const resetList = () => setFilters(defaultMyPlansFilters);
   const hasActiveFilters = hasActiveMyPlansFilters(filters);
+  const isReordered = filters.sort !== defaultMyPlansFilters.sort;
   const fold = useFold({ defaultOpen: hasActiveFilters });
 
   return (
@@ -331,9 +331,10 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={hasActiveFilters}
+            isReordered={isReordered}
             noun="Plans"
             nounOne="Plan"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={shown.length}
             totalCount={plans.length}
           />
@@ -351,7 +352,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
           <EmptyState
             variant="bare"
             title="No Plans match."
-            action={<ClearFiltersButton onClick={clearFilters} />}
+            action={<ResetListButton onClick={resetList} />}
           />
         )}
       </section>

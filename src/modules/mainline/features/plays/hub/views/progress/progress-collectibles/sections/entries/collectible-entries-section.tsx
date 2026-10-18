@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { FoldPanel } from "@/shared/components/fold";
@@ -143,14 +143,16 @@ export const CollectibleEntriesSection = ({
     areaSummaries.map((summary) => [summary.id, summary]),
   );
   const hasAreas = areaSummaries.length > 1;
-  /* The sort only orders; it filters nothing, so Clear filters keeps it. */
   const hasFilters =
     Boolean(query.trim()) || progressFilter !== "all" || areaId !== "all";
+  /* The sort only orders; it filters nothing, but Reset puts it back too. */
+  const isReordered = sort !== "canonical";
 
-  const resetFilters = () => {
+  const resetList = () => {
     setQuery("");
     setProgressFilter("all");
     setAreaId("all");
+    onSortChange("canonical");
   };
 
   /*
@@ -299,8 +301,9 @@ export const CollectibleEntriesSection = ({
         <FilterResultsLine
           className="mt-3"
           hasActiveFilters={hasFilters}
+          isReordered={isReordered}
           noun={group.name}
-          onClearFilters={resetFilters}
+          onReset={resetList}
           shownCount={filteredEntries.length}
           totalCount={group.entries.length}
         />
@@ -333,9 +336,7 @@ export const CollectibleEntriesSection = ({
             title="Nothing to show"
             description={`No ${group.name} match these filters.`}
             action={
-              hasFilters ? (
-                <ClearFiltersButton onClick={resetFilters} />
-              ) : undefined
+              hasFilters ? <ResetListButton onClick={resetList} /> : undefined
             }
           />
         )}

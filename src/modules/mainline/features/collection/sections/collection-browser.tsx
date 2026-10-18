@@ -22,7 +22,7 @@ import {
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
   FoldHead,
@@ -91,11 +91,9 @@ export const CollectionBrowser = ({
   const update = (next: Partial<CollectionFilters>) => {
     setFilters((current) => ({ ...current, ...next }));
   };
-  const clearFilters = () => {
-    setFilters((current) => ({
-      ...defaultCollectionFilters,
-      sort: current.sort,
-    }));
+  const isReordered = filters.sort !== defaultCollectionFilters.sort;
+  const resetList = () => {
+    setFilters(defaultCollectionFilters);
   };
 
   return (
@@ -201,8 +199,9 @@ export const CollectionBrowser = ({
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={hasFilters}
+            isReordered={isReordered}
             noun="Pokémon"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={shown.length}
             totalCount={entries.length}
           />
@@ -234,7 +233,7 @@ export const CollectionBrowser = ({
           <EmptyState
             variant="bare"
             title="Nothing matches."
-            action={<ClearFiltersButton onClick={clearFilters} />}
+            action={<ResetListButton onClick={resetList} />}
           />
         )}
 

@@ -16,7 +16,7 @@ import {
   type GamesSortOrder,
 } from "@/modules/codex/features/games/browse/data/games-browse-model";
 import type { GamesPageData } from "@/modules/reference/types";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -87,8 +87,12 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
     }));
   };
 
-  const clearFilters = () => {
+  const isReordered = groupBy !== "none" || sortOrder !== "oldest";
+
+  const resetList = () => {
     setFilters(emptyGamesPageFilters);
+    setGroupBy("none");
+    setSortOrder("oldest");
   };
 
   return (
@@ -130,8 +134,9 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={hasActiveFilters}
+            isReordered={isReordered}
             noun="games"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={filteredGames.length}
             totalCount={data.games.length}
           />
@@ -145,7 +150,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           variant="bare"
           className="mt-6"
           title="No games match that search or filter."
-          action={<ClearFiltersButton onClick={clearFilters} />}
+          action={<ResetListButton onClick={resetList} />}
         />
       )}
     </>
