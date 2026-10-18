@@ -7,6 +7,8 @@ import { toast } from "sonner";
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
 import { EmptyState } from "@/shared/components/empty-state";
 
+import { FoldHead, FoldToggle, useFold } from "@/shared/components/fold";
+
 import { CollectibleEntriesSection } from "./sections/entries/collectible-entries-section";
 import { CollectiblesPageHead } from "./sections/head/collectibles-page-head";
 import {
@@ -60,6 +62,8 @@ export const MainlinePlayProgressCollectibles = ({
     valueById: stateByEntryId,
   } = useOptimisticMarks(() => buildInitialCollectibleState(data));
   const [sort, setSort] = useState<CollectibleSort>("canonical");
+  /* The search and filter bar folds under the title, opened from its row. */
+  const fold = useFold({});
   const activeGroup =
     data.groups.find((group) => group.id === activeGroupId) ??
     data.groups[0] ??
@@ -199,16 +203,26 @@ export const MainlinePlayProgressCollectibles = ({
 
   return (
     <div className="grid min-w-0 grid-cols-1 gap-6">
-      <CollectiblesPageHead
-        group={activeGroup}
-        groups={data.groups}
-        onGroupChange={selectGroup}
-        areaCount={areaSummaries.length}
-        completeAreaCount={
-          areaSummaries.filter((area) => area.isComplete).length
+      <FoldHead
+        toggle={
+          <FoldToggle
+            controls={fold.panelId}
+            open={fold.open}
+            onOpenChange={fold.setOpen}
+          />
         }
-        stateByEntryId={stateByEntryId}
-      />
+      >
+        <CollectiblesPageHead
+          group={activeGroup}
+          groups={data.groups}
+          onGroupChange={selectGroup}
+          areaCount={areaSummaries.length}
+          completeAreaCount={
+            areaSummaries.filter((area) => area.isComplete).length
+          }
+          stateByEntryId={stateByEntryId}
+        />
+      </FoldHead>
 
       <CollectibleEntriesSection
         key={activeGroup.id}
@@ -223,6 +237,8 @@ export const MainlinePlayProgressCollectibles = ({
           void toggleEntry(entry);
         }}
         onSortChange={setSort}
+        searchOpen={fold.open}
+        searchPanelId={fold.panelId}
         sort={sort}
         stateByEntryId={stateByEntryId}
       />

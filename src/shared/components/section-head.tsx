@@ -2,6 +2,7 @@ import { TextLink } from "@/shared/components/text-link";
 import type { ReactNode } from "react";
 
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
+import { PageHeadTool } from "@/shared/components/page-head-tool";
 import { cn } from "@/shared/utils/cn";
 
 type SectionMoreLinkProps = {
@@ -67,7 +68,6 @@ export const SectionHead = ({
   titleId,
 }: SectionHeadProps) => {
   const Heading = headingLevel === 3 ? "h3" : "h2";
-  const hasTrailing = Boolean(more) || Boolean(action);
 
   return (
     <div
@@ -111,12 +111,12 @@ export const SectionHead = ({
         </div>
       </div>
 
-      {hasTrailing ? (
-        <div className="flex shrink-0 items-center gap-2 self-center">
-          {more ? <SectionMoreLink {...more} /> : null}
-          {action}
-        </div>
-      ) : null}
+      {/* A tool handed down by the page (the list's search button) leads. */}
+      <div className="flex shrink-0 items-center gap-2 self-center empty:hidden">
+        <PageHeadTool />
+        {more ? <SectionMoreLink {...more} /> : null}
+        {action}
+      </div>
     </div>
   );
 };

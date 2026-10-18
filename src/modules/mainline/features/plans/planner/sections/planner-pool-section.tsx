@@ -23,6 +23,12 @@ import {
   FilterSheetRow,
   FilterToolbar,
 } from "@/shared/components/filter-toolbar";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
 
@@ -94,96 +100,114 @@ export const PlannerPoolSection = ({
   );
   const hasAny = scopedSections.some((section) => section.pokemon.length);
 
+  /* The search and filter bar folds under the heading, opened from its row. */
+  const fold = useFold({
+    defaultOpen:
+      Boolean(filters.query) || filters.fullyEvolved || Boolean(filters.type),
+  });
+
   return (
     <section aria-labelledby="planner-pool" className="flex flex-col gap-4">
-      <SectionHead
-        title="Pick your Pokémon"
-        titleId="planner-pool"
-        className="flex-wrap gap-y-3"
-        titleClassName="whitespace-nowrap"
-        aside={
-          isFull
-            ? "Team is full. Tap one to swap it in"
-            : "Tap to add, tap again to take it off"
-        }
-        action={
-          sections.length > 1 ? (
-            <SegmentedControl
-              ariaLabel="Pokédex"
-              selectedTone="strong"
-              phoneScroll
-              value={filters.dex}
-              onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
-              options={[
-                {
-                  count: shownSections.reduce(
-                    (total, section) => total + section.pokemon.length,
-                    0,
-                  ),
-                  label: "All",
-                  value: "",
-                },
-                ...shownSections.map((section) => ({
-                  count: section.pokemon.length,
-                  label: section.name,
-                  value: section.key,
-                })),
-              ]}
-            />
-          ) : null
-        }
-      />
-      <FilterToolbar
-        ariaLabel="Filter the Pokémon"
-        activeCount={(filters.fullyEvolved ? 1 : 0) + (filters.type ? 1 : 0)}
-        resultLabel="Show Pokémon"
-        search={
-          <SearchControl
-            id="planner-search"
-            ariaLabel={`Search every Pokémon in ${versionGroup.name}`}
-            placeholder={`Search every Pokémon in ${versionGroup.name}`}
-            value={filters.query}
-            onValueChange={(query) => onFiltersChange({ ...filters, query })}
+      <FoldHead
+        toggle={
+          <FoldToggle
+            controls={fold.panelId}
+            open={fold.open}
+            onOpenChange={fold.setOpen}
           />
         }
-        filters={(placement) => {
-          const fullyEvolved = (
-            <ChoiceChip
-              size="lg"
-              pressed={filters.fullyEvolved}
-              onClick={() =>
-                onFiltersChange({
-                  ...filters,
-                  fullyEvolved: !filters.fullyEvolved,
-                })
-              }
-            >
-              Fully evolved only
-            </ChoiceChip>
-          );
-
-          return placement === "line" ? (
-            fullyEvolved
-          ) : (
-            <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
-          );
-        }}
-        row={(placement) => {
-          const type = (
-            <PokemonTypeFilter
-              types={types}
-              value={filters.type}
-              onValueChange={(type) => onFiltersChange({ ...filters, type })}
+      >
+        <SectionHead
+          title="Pick your Pokémon"
+          titleId="planner-pool"
+          className="flex-wrap gap-y-3"
+          titleClassName="whitespace-nowrap"
+          aside={
+            isFull
+              ? "Team is full. Tap one to swap it in"
+              : "Tap to add, tap again to take it off"
+          }
+          action={
+            sections.length > 1 ? (
+              <SegmentedControl
+                ariaLabel="Pokédex"
+                selectedTone="strong"
+                phoneScroll
+                value={filters.dex}
+                onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
+                options={[
+                  {
+                    count: shownSections.reduce(
+                      (total, section) => total + section.pokemon.length,
+                      0,
+                    ),
+                    label: "All",
+                    value: "",
+                  },
+                  ...shownSections.map((section) => ({
+                    count: section.pokemon.length,
+                    label: section.name,
+                    value: section.key,
+                  })),
+                ]}
+              />
+            ) : null
+          }
+        />
+      </FoldHead>
+      <FoldPanel id={fold.panelId} open={fold.open}>
+        <FilterToolbar
+          ariaLabel="Filter the Pokémon"
+          activeCount={(filters.fullyEvolved ? 1 : 0) + (filters.type ? 1 : 0)}
+          resultLabel="Show Pokémon"
+          search={
+            <SearchControl
+              id="planner-search"
+              ariaLabel={`Search every Pokémon in ${versionGroup.name}`}
+              placeholder={`Search every Pokémon in ${versionGroup.name}`}
+              value={filters.query}
+              onValueChange={(query) => onFiltersChange({ ...filters, query })}
             />
-          );
+          }
+          filters={(placement) => {
+            const fullyEvolved = (
+              <ChoiceChip
+                size="lg"
+                pressed={filters.fullyEvolved}
+                onClick={() =>
+                  onFiltersChange({
+                    ...filters,
+                    fullyEvolved: !filters.fullyEvolved,
+                  })
+                }
+              >
+                Fully evolved only
+              </ChoiceChip>
+            );
 
-          return placement === "line" ? (
-            type
-          ) : (
-            <FilterSheetRow label="Type">{type}</FilterSheetRow>
-          );
-        }}
-      />
+            return placement === "line" ? (
+              fullyEvolved
+            ) : (
+              <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
+            );
+          }}
+          row={(placement) => {
+            const type = (
+              <PokemonTypeFilter
+                types={types}
+                value={filters.type}
+                onValueChange={(type) => onFiltersChange({ ...filters, type })}
+              />
+            );
+
+            return placement === "line" ? (
+              type
+            ) : (
+              <FilterSheetRow label="Type">{type}</FilterSheetRow>
+            );
+          }}
+        />
+      </FoldPanel>
 
       {hasAny ? (
         scopedSections
