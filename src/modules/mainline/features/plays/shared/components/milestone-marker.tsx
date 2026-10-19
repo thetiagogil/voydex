@@ -10,8 +10,11 @@ type MilestoneMarkerProps = {
   /* A gym milestone's badge type, worn once it's recorded. */
   badgeType: PokemonTypeSlug | null;
   className?: string;
-  /* Its number within its journey, shown while it's still ahead. */
-  sequence: number;
+  /*
+   * Its number within its journey, shown while it's still ahead; an optional
+   * milestone has none and shows its type's icon instead.
+   */
+  sequence: number | null;
   /* `md` beside Story's rows (30px, 34px from `sm`); `sm` in short lists (28px). */
   size?: "md" | "sm";
   state: PlayMilestoneState;
@@ -28,7 +31,8 @@ const ringSizeClassNames = {
  * Where a milestone stands, the same in Story and on Overview. A recorded one
  * wears its medallion: the badge in its type, anything else in gold. The next
  * one is a game-coloured ring around the objective flag, an accent and not a
- * fill; the rest show their number in a quiet ring.
+ * fill; the rest show their number in a quiet ring (an optional one, which
+ * has no number, its type's icon).
  */
 export const MilestoneMarker = ({
   badgeType,
@@ -66,6 +70,8 @@ export const MilestoneMarker = ({
     >
       {state === "next" ? (
         <AppIcon icon={appIcons.milestones.story} size="sm" />
+      ) : sequence === null ? (
+        <AppIcon icon={getMilestoneIcon(typeSlug ?? "")} size="sm" />
       ) : (
         sequence
       )}

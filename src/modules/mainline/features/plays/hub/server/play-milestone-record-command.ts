@@ -4,16 +4,20 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
  * Records a milestone in one tap (v3's Record) and says where it now stands
  * in its journey. The moment joins History without the team unless
  * `includeTeam` asks for it and the milestone keeps snapshots.
+ * `earlierMilestoneIds` ("the N before it") are recorded in the same call,
+ * without moments of their own; the database checks they come before it.
  */
 export const recordPlayMilestone = async (
   supabase: ServerSupabaseClient,
   {
     decisionOptionId,
+    earlierMilestoneIds,
     includeTeam,
     milestoneId,
     playId,
   }: {
     decisionOptionId: number | null;
+    earlierMilestoneIds: number[];
     includeTeam: boolean;
     milestoneId: number;
     playId: string;
@@ -49,6 +53,7 @@ export const recordPlayMilestone = async (
       p_include_team_snapshot: includeTeam && keepsSnapshot,
       p_milestone_id: milestoneId,
       p_play_id: playId,
+      p_record_earlier_milestone_ids: earlierMilestoneIds,
       p_replace_decision: decisionOptionId !== null,
     });
 
@@ -59,18 +64,24 @@ export const recordPlayMilestone = async (
     );
   }
 
+  /* The journey's count, required milestones only, as Story's ring says it. */
   const journeyResult = await supabase
     .schema("views")
     .from("mainline_play_milestone_detail")
     .select("is_completed")
     .eq("play_id", playId)
-    .eq("version_group_id", milestone.version_group_id ?? -1);
+    .eq("version_group_id", milestone.version_group_id ?? -1)
+    .eq("is_required_for_completion", true);
   const journey = journeyResult.error ? [] : (journeyResult.data ?? []);
+  const recordedEarlierIds = (
+    mutationResult.data?.[0]?.completed_milestone_ids ?? []
+  ).filter((id) => id !== milestoneId);
 
   return {
     completedCount: journey.filter((row) => row.is_completed).length,
     keepsSnapshot,
     milestoneName: milestone.milestone_name ?? "Milestone",
+    recordedEarlierIds,
     totalCount: journey.length,
   };
 };
@@ -121,18 +132,26 @@ export const recordPlayMilestoneTeam = async (
 };
 
 /*
- * Marks a milestone recorded a moment ago incomplete again, which also takes
- * its moment out of History. If something recorded since depends on it, the
- * database refuses and nothing changes.
+ * Marks a milestone recorded a moment ago incomplete again, with any
+ * recorded along with it (`earlierMilestoneIds`), which also takes its moment
+ * out of History. If something recorded since depends on them, the database
+ * refuses and nothing changes.
  */
 export const undoPlayMilestone = async (
   supabase: ServerSupabaseClient,
-  { milestoneId, playId }: { milestoneId: number; playId: string },
+  {
+    earlierMilestoneIds,
+    milestoneId,
+    playId,
+  }: { earlierMilestoneIds: number[]; milestoneId: number; playId: string },
 ) => {
   const result = await supabase
     .schema("gameplay")
     .rpc("mark_mainline_play_milestone_incomplete", {
-      p_expected_affected_milestone_ids: [milestoneId],
+      p_also_clear_milestone_ids: earlierMilestoneIds,
+      p_expected_affected_milestone_ids: [
+        ...new Set([milestoneId, ...earlierMilestoneIds]),
+      ].sort((first, second) => first - second),
       p_milestone_id: milestoneId,
       p_play_id: playId,
     });

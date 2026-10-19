@@ -43,6 +43,7 @@ const versionGroup = (
   created_at: createdAt,
   generation_id: generationId,
   id,
+  is_open_world: false,
   name: slug,
   parent_version_group_id: parentId,
   slug,

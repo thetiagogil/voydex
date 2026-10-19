@@ -9,6 +9,7 @@ CREATE TABLE reference.version_groups (
     generation_id integer NOT NULL REFERENCES reference.generations (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     parent_version_group_id integer,
     sort_order integer NOT NULL,
+    is_open_world boolean NOT NULL DEFAULT FALSE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT version_groups_id_positive_check CHECK (id > 0),
     CONSTRAINT version_groups_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
@@ -24,3 +25,5 @@ CREATE TABLE reference.version_groups (
 COMMENT ON TABLE reference.version_groups IS 'Version-group content scopes. DLC and other optional content are child version groups.';
 
 COMMENT ON COLUMN reference.version_groups.parent_version_group_id IS 'Base version group for optional child content such as DLC.';
+
+COMMENT ON COLUMN reference.version_groups.is_open_world IS 'Whether the story can be played in any order. Story only offers to record earlier milestones, or clear later ones, in a game that is not open world.';

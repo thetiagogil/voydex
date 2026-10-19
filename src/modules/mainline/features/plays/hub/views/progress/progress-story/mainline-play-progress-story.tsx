@@ -82,6 +82,8 @@ export const MainlinePlayProgressStory = ({
     useState<StoryMilestoneActionIntent>("complete");
   /* "Record with your team" on a choice: the form opens with the team ticked. */
   const [editorRecordsTeam, setEditorRecordsTeam] = useState(false);
+  /* "Record with the N before it" on a choice: the form opens with them ticked. */
+  const [editorRecordsEarlier, setEditorRecordsEarlier] = useState(false);
   const [editorMilestoneId, setEditorMilestoneId] = useState(
     recordMilestone?.id ?? null,
   );
@@ -157,22 +159,30 @@ export const MainlinePlayProgressStory = ({
   };
 
   /*
-   * Record is one tap (v3): the milestone is recorded where you are, its row
-   * pops and its stamp slaps, and the toast offers Undo. A choice milestone
-   * still opens the form, since its choice has to be made.
+   * Record is one tap (v3): the milestone is recorded where you are, with
+   * the ones before it when asked, its row pops and its stamp slaps, and the
+   * toast offers Undo. A choice milestone still opens the form, since its
+   * choice has to be made.
    */
   const openEditor = (
     milestone: StoryMilestone,
     choice: StoryMilestoneChoice,
   ) => {
     const withTeam = choice === "complete-with-team";
-    const intent = withTeam ? "complete" : choice;
+    const withEarlier = choice === "complete-with-earlier";
+    const intent = withTeam || withEarlier ? "complete" : choice;
 
     if (intent === "complete" && !milestone.decisionOptions.length) {
       setIsDetailSheetOpen(false);
       recording.record(
         { id: milestone.id, name: milestone.name },
-        { includeTeam: withTeam, onRecorded: startRecordingReward },
+        {
+          earlierMilestoneIds: withEarlier
+            ? milestone.earlierToRecord.map(({ id }) => id)
+            : [],
+          includeTeam: withTeam,
+          onRecorded: startRecordingReward,
+        },
       );
       return;
     }
@@ -181,6 +191,7 @@ export const MainlinePlayProgressStory = ({
     setEditorMilestoneId(milestone.id);
     setEditorIntent(intent);
     setEditorRecordsTeam(withTeam);
+    setEditorRecordsEarlier(withEarlier);
     setIsEditorOpen(true);
   };
 
@@ -189,7 +200,7 @@ export const MainlinePlayProgressStory = ({
 
     if (editorIntent === "complete" && editorMilestone) {
       startRecordingReward(editorMilestone.id);
-      toast.success(`${editorMilestone.name} recorded`);
+      toast.success(message ?? `${editorMilestone.name} recorded`);
       return;
     }
 
@@ -268,6 +279,7 @@ export const MainlinePlayProgressStory = ({
         onSaved={finishEditing}
         open={isEditorOpen}
         playId={playId}
+        recordsEarlier={editorRecordsEarlier}
         recordsTeam={editorRecordsTeam}
       />
     </div>

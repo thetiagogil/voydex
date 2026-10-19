@@ -9,6 +9,7 @@ import {
   recordMainlinePlayMilestoneTeamAction,
   undoMainlinePlayMilestoneAction,
 } from "@/modules/mainline/features/plays/hub/server/play-milestone-record-action";
+import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 
 type RecordableMilestone = {
   id: number;
@@ -17,6 +18,8 @@ type RecordableMilestone = {
 
 type RecordOptions = {
   decisionOptionId?: number | null;
+  /* "Record with the N before it": recorded too, and undone together. */
+  earlierMilestoneIds?: number[];
   /* Saves the team you have now with it ("Record with your team"). */
   includeTeam?: boolean;
   /* Runs once it is saved, such as starting the stamp's slap. */
@@ -30,7 +33,7 @@ type RecordOptions = {
  * Story), without the team; the toast says so with Undo and, where the
  * milestone keeps snapshots, "Add team" to save the team you have now with
  * it. The page redraws from the server. Undo marks it incomplete again,
- * taking its moment out of History too.
+ * with any recorded along with it, taking its moment out of History too.
  */
 export const useRecordMilestone = (playId: string) => {
   const router = useRouter();
@@ -39,8 +42,12 @@ export const useRecordMilestone = (playId: string) => {
     null,
   );
 
-  const undo = (milestone: RecordableMilestone) => {
+  const undo = (
+    milestone: RecordableMilestone,
+    earlierMilestoneIds: number[] = [],
+  ) => {
     void undoMainlinePlayMilestoneAction({
+      earlierMilestoneIds,
       milestoneId: milestone.id,
       playId,
     }).then((result) => {
@@ -49,7 +56,11 @@ export const useRecordMilestone = (playId: string) => {
         return;
       }
 
-      toast.success(`${milestone.name} is no longer recorded`);
+      toast.success(
+        earlierMilestoneIds.length
+          ? `${milestone.name} and ${formatMilestoneRange(earlierMilestoneIds.length, "before")} are no longer recorded`
+          : `${milestone.name} is no longer recorded`,
+      );
       router.refresh();
     });
   };
@@ -82,6 +93,7 @@ export const useRecordMilestone = (playId: string) => {
     startTransition(async () => {
       const result = await recordMainlinePlayMilestoneAction({
         decisionOptionId: options.decisionOptionId ?? null,
+        earlierMilestoneIds: options.earlierMilestoneIds ?? [],
         includeTeam: options.includeTeam ?? false,
         milestoneId: milestone.id,
         playId,
@@ -95,19 +107,27 @@ export const useRecordMilestone = (playId: string) => {
       }
 
       options.onRecorded?.(milestone.id);
+      const earlierCount = result.recordedEarlierIds.length;
+      const recordedName = earlierCount
+        ? `${result.milestoneName} and ${formatMilestoneRange(earlierCount, "before")}`
+        : result.milestoneName;
+      const undoAction = {
+        label: "Undo",
+        onClick: () => undo(milestone, result.recordedEarlierIds),
+      };
       toast.success(
         options.toastMessage ??
           (result.totalCount
-            ? `${result.milestoneName} recorded · ${result.completedCount} of ${result.totalCount}`
-            : `${result.milestoneName} recorded`),
+            ? `${recordedName} recorded · ${result.completedCount} of ${result.totalCount}`
+            : `${recordedName} recorded`),
         result.keepsSnapshot && !options.includeTeam
           ? {
               action: { label: "Add team", onClick: () => addTeam(milestone) },
-              cancel: { label: "Undo", onClick: () => undo(milestone) },
+              cancel: undoAction,
               /* Two choices to read, so it stays a little longer. */
               duration: 8000,
             }
-          : { action: { label: "Undo", onClick: () => undo(milestone) } },
+          : { action: undoAction },
       );
       router.refresh();
     });

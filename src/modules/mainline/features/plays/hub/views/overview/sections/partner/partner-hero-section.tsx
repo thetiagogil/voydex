@@ -4,6 +4,10 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import {
+  formatJourneyPosition,
+  type JourneyPosition,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { OverviewRecordButton } from "@/modules/mainline/features/plays/hub/views/overview/client/overview-recording";
 import {
   getOverviewMilestoneWhere,
@@ -56,7 +60,7 @@ export const PartnerHeroSection = ({
   playId,
 }: {
   nextMilestone: OverviewMilestone | null;
-  nextPosition: { sequence: number; total: number } | null;
+  nextPosition: JourneyPosition | null;
   partner: OverviewPartnerChoice;
   playId: string;
 }) => {
@@ -73,7 +77,7 @@ export const PartnerHeroSection = ({
     partner.options.find(
       (option) => option.decisionOptionId === pickedOptionId,
     ) ?? null;
-  const position = `Milestone ${partner.position.sequence} of ${partner.position.total}`;
+  const position = formatJourneyPosition(partner.position);
 
   const undo = (addedPlayPokemonId: string | null) => {
     void undoPlayPartnerAction({ addedPlayPokemonId, playId }).then(
@@ -124,7 +128,7 @@ export const PartnerHeroSection = ({
                 <span className="text-ink-3 text-13 font-extrabold">
                   Next
                   {nextPosition
-                    ? ` · Milestone ${nextPosition.sequence} of ${nextPosition.total}`
+                    ? ` · ${formatJourneyPosition(nextPosition)}`
                     : null}
                 </span>
                 <b className="text-ink truncate font-extrabold">

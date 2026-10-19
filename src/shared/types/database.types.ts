@@ -1083,10 +1083,10 @@ export type Database = {
           p_event_happened_at?: string;
           p_event_title?: string;
           p_include_team_snapshot?: boolean;
-          p_mark_prerequisite_milestone_ids?: number[];
           p_milestone_id: number;
           p_play_id: string;
           p_progress_notes?: string;
+          p_record_earlier_milestone_ids?: number[];
           p_replace_decision?: boolean;
           p_replace_progress_notes?: boolean;
         };
@@ -1141,6 +1141,7 @@ export type Database = {
       };
       mark_mainline_play_milestone_incomplete: {
         Args: {
+          p_also_clear_milestone_ids?: number[];
           p_expected_affected_milestone_ids: number[];
           p_milestone_id: number;
           p_play_id: string;
@@ -3695,6 +3696,7 @@ export type Database = {
           created_at: string;
           generation_id: number;
           id: number;
+          is_open_world: boolean;
           name: string;
           parent_version_group_id: number | null;
           slug: string;
@@ -3705,6 +3707,7 @@ export type Database = {
           created_at?: string;
           generation_id: number;
           id: number;
+          is_open_world?: boolean;
           name: string;
           parent_version_group_id?: number | null;
           slug: string;
@@ -3714,6 +3717,7 @@ export type Database = {
           created_at?: string;
           generation_id?: number;
           id?: number;
+          is_open_world?: boolean;
           name?: string;
           parent_version_group_id?: number | null;
           slug?: string;
@@ -4632,6 +4636,7 @@ export type Database = {
           game_id: number | null;
           game_name: string | null;
           game_slug: string | null;
+          is_open_world: boolean | null;
           milestone_count: number | null;
           optional_milestone_count: number | null;
           play_id: string | null;

@@ -7,13 +7,14 @@ INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, e
 INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, status_id, name)
 VALUES
     ('40000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 2, 'RPC Play'),
-    ('40000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-0000000000a1', 36, 23, 2, 'RPC Prerequisite Play');
+    ('40000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-0000000000a1', 36, 23, 2, 'RPC Prerequisite Play'),
+    ('40000000-0000-0000-0000-0000000000a3', '00000000-0000-0000-0000-0000000000a1', 9, 6, 2, 'RPC FireRed Play');
 INSERT INTO planning.mainline_team_plans (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('50000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 1, 'RPC Plan');
 INSERT INTO planning.mainline_team_plan_members (id, team_plan_id, slot, target_species_id, target_form_id, gender, notes)
     VALUES ('51000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', 1, 722, 72200, 'male', 'Copied member note');
 SELECT
-    plan (46);
+    plan (52);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000a1', TRUE);
 SET LOCAL ROLE authenticated;
@@ -136,7 +137,7 @@ WHERE
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150003, p_mark_prerequisite_milestone_ids => ARRAY[150002], p_create_event => TRUE, p_include_team_snapshot => TRUE) $$, 'the owner can record a milestone team snapshot');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150003, p_record_earlier_milestone_ids => ARRAY[150002], p_create_event => TRUE, p_include_team_snapshot => TRUE) $$, 'the owner can record a milestone team snapshot');
 SELECT
     IS ((
             SELECT
@@ -284,9 +285,54 @@ SELECT
         SELECT
             gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_create_event => FALSE) $$, '23514', 'Milestone 230030 requires completed milestones {230016,230023,230029}', 'hard Story prerequisites cannot be skipped');
 SELECT
+    throws_ok ($$
+        SELECT
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_record_earlier_milestone_ids => ARRAY[230016, 230023, 230029], p_create_event => FALSE) $$, '23514', 'Milestone 230030 is in an open-world story, so earlier milestones are recorded one by one', 'an open-world story never records earlier milestones together');
+-- Sun / Moon is linear: Lana Trial can be recorded with every milestone before it.
+SELECT
+    throws_ok ($$
+        SELECT
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150005, p_record_earlier_milestone_ids => ARRAY[150004, 150006], p_create_event => FALSE) $$, '23514', 'Milestones {150006} are not required milestones before milestone 150005', 'a later milestone cannot be recorded as an earlier one');
+SELECT
+    throws_ok ($$
+        SELECT
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a3', p_milestone_id => 60005, p_record_earlier_milestone_ids => ARRAY[60003, 60004], p_create_event => FALSE) $$, '23514', 'Milestones {60004} are not required milestones before milestone 60005', 'an optional milestone is never recorded with a later one');
+CREATE TEMPORARY TABLE milestone_range_result ON COMMIT DROP AS
+SELECT
+    *
+FROM
+    gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150005, p_record_earlier_milestone_ids => ARRAY[150001, 150002, 150003, 150004], p_create_event => TRUE);
+SELECT
+    IS ((
+            SELECT
+                completed_milestone_ids
+            FROM
+                milestone_range_result),
+            ARRAY[150001, 150002, 150003, 150004, 150005]::integer[],
+            'a milestone is recorded with every milestone before it in one call');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)
+            FROM
+                gameplay.mainline_play_events
+            WHERE
+                play_id = '40000000-0000-0000-0000-0000000000a1'
+                AND milestone_id IS NOT NULL),
+            1::bigint,
+            'only the milestone you recorded becomes a moment');
+SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a2', p_milestone_id => 230030, p_mark_prerequisite_milestone_ids => ARRAY[230016, 230023, 230029], p_create_event => FALSE) $$, 'approved direct prerequisites can be completed atomically with the target milestone');
+            gameplay.mark_mainline_play_milestone_incomplete (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150005, p_expected_affected_milestone_ids => ARRAY[150001, 150002, 150003, 150004, 150005], p_also_clear_milestone_ids => ARRAY[150001, 150002, 150003, 150004]) $$, 'undo clears the milestone and the ones recorded with it in one call');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)
+            FROM
+                gameplay.mainline_play_milestone_progress
+            WHERE
+                play_id = '40000000-0000-0000-0000-0000000000a1'), 0::bigint, 'undo leaves none of the range recorded');
 SELECT
     lives_ok ($$
         SELECT

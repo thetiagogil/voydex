@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
+import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
@@ -23,16 +24,18 @@ import {
 
 /*
  * A milestone still ahead offers the main button to record it, the same
- * size for every milestone, with "Record with your team" behind the round
- * arrow beside it.
+ * size for every milestone, with "Record with your team" and, in a linear
+ * story with required milestones before it still open, "Record with the N
+ * before it" behind the round arrow beside it.
  * A recorded one keeps its extras behind one quiet Edit menu as wide as the
  * panel: the note, the team snapshot, the decision, and marking it
  * incomplete. Adding wears a plus, updating the
  * pencil.
  */
-/* What a milestone's actions ask for: an editor intent, or Record with the team. */
+/* What a milestone's actions ask for: an editor intent, or a way to record. */
 export type StoryMilestoneChoice =
   | StoryMilestoneActionIntent
+  | "complete-with-earlier"
   | "complete-with-team";
 
 export const StoryMilestoneActions = ({
@@ -46,11 +49,12 @@ export const StoryMilestoneActions = ({
 }) => {
   if (!milestone.isCompleted) {
     const keepsTeam = milestone.snapshotPolicySlug !== "none";
+    const earlierCount = milestone.earlierToRecord.length;
 
     /*
-     * The panel's main button, full width. Where the milestone can keep a
-     * team, its arrow offers "Record with your team" (as the Planner's
-     * Random team offers its other ways).
+     * The panel's main button, full width. Where there is another way to
+     * record it, its arrow offers them (as the Planner's Random team offers
+     * its other ways).
      */
     return (
       <ButtonGroup
@@ -63,7 +67,7 @@ export const StoryMilestoneActions = ({
           label={`Record ${milestone.name}`}
           className="min-w-0 flex-1 sm:whitespace-normal"
         />
-        {keepsTeam ? (
+        {keepsTeam || earlierCount ? (
           <DropdownMenu>
             <DropdownMenuTrigger
               render={
@@ -82,10 +86,22 @@ export const StoryMilestoneActions = ({
                 <AppIcon icon={appIcons.product.completion} />
                 Record
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onAction("complete-with-team")}>
-                <AppIcon icon={appIcons.product.teamSnapshot} />
-                Record with your team
-              </DropdownMenuItem>
+              {keepsTeam ? (
+                <DropdownMenuItem
+                  onClick={() => onAction("complete-with-team")}
+                >
+                  <AppIcon icon={appIcons.product.teamSnapshot} />
+                  Record with your team
+                </DropdownMenuItem>
+              ) : null}
+              {earlierCount ? (
+                <DropdownMenuItem
+                  onClick={() => onAction("complete-with-earlier")}
+                >
+                  <AppIcon icon={appIcons.product.milestone} />
+                  Record with {formatMilestoneRange(earlierCount, "before")}
+                </DropdownMenuItem>
+              ) : null}
             </DropdownMenuContent>
           </DropdownMenu>
         ) : null}

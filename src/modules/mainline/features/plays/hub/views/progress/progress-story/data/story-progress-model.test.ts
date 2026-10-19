@@ -15,6 +15,7 @@ const category = (
   category_sort_order: 1,
   completed_required_milestone_count: 0,
   content_scope_sort_order: 1,
+  is_open_world: false,
   milestone_count: 1,
   required_milestone_count: 1,
   version_group_id: 1,
@@ -88,12 +89,11 @@ describe("buildStoryProgressModel", () => {
     ]);
     expect(model.scopes[0]?.completedCount).toBe(1);
     expect(model.scopes[0]?.totalCount).toBe(2);
-    expect(model.scopes[0]?.milestoneCount).toBe(2);
     expect(model.nextMilestone?.name).toBe("Rematch");
     expect(model.scopes[0]?.nextMilestone?.name).toBe("Rematch");
   });
 
-  it("counts required milestones for progress and every milestone for sequence", () => {
+  it("numbers only required milestones, so the sequence agrees with the count", () => {
     const model = buildStoryProgressModel({
       categories: [
         category({
@@ -118,10 +118,64 @@ describe("buildStoryProgressModel", () => {
 
     expect(model.scopes[0]?.completedCount).toBe(1);
     expect(model.scopes[0]?.totalCount).toBe(1);
-    expect(model.scopes[0]?.milestoneCount).toBe(2);
     expect(
       model.scopes[0]?.sections[0]?.milestones.map(({ sequence }) => sequence),
-    ).toEqual([1, 2]);
+    ).toEqual([1, null]);
+  });
+
+  it("offers the open required milestones before it and the recorded ones after it", () => {
+    const journey = (isOpenWorld: boolean) =>
+      buildStoryProgressModel({
+        categories: [
+          category({ is_open_world: isOpenWorld, milestone_count: 5 }),
+        ],
+        badgeTypes: [],
+        decisionForms: [],
+        milestones: [
+          milestone({ is_completed: true, milestone_name: "Boulder Badge" }),
+          milestone({
+            is_required_for_completion: false,
+            milestone_id: 2,
+            milestone_name: "Fossil Choice",
+            sort_order: 2,
+          }),
+          milestone({
+            milestone_id: 3,
+            milestone_name: "Cascade Badge",
+            sort_order: 3,
+          }),
+          milestone({
+            milestone_id: 4,
+            milestone_name: "Thunder Badge",
+            sort_order: 4,
+          }),
+          milestone({
+            is_completed: true,
+            milestone_id: 5,
+            milestone_name: "Rainbow Badge",
+            sort_order: 5,
+          }),
+        ],
+        snapshotEvents: [],
+      }).scopes[0]?.sections[0]?.milestones ?? [];
+    const [boulder, , , thunder] = journey(false);
+
+    // Never the optional Fossil Choice, nor Boulder, already recorded.
+    expect(thunder?.earlierToRecord).toEqual([
+      { id: 3, name: "Cascade Badge" },
+    ]);
+    expect(boulder?.laterRecorded).toEqual([{ id: 5, name: "Rainbow Badge" }]);
+    expect(
+      boulder?.incompletionImpactWithLater.affectedMilestones.map(
+        ({ id }) => id,
+      ),
+    ).toEqual([1, 5]);
+    expect(
+      journey(true).flatMap((entry) => [
+        ...entry.earlierToRecord,
+        ...entry.laterRecorded,
+      ]),
+    ).toEqual([]);
   });
 
   it("uses required prerequisite relationships rather than display order", () => {

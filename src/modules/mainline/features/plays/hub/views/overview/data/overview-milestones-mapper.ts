@@ -3,6 +3,7 @@ import type {
   MainlinePlayMilestoneCategorySummary,
 } from "@/modules/mainline/features/plays/hub/types";
 import {
+  numberJourneyMilestones,
   pickNextMilestoneRow,
   type PlayMilestoneState,
 } from "@/modules/mainline/features/plays/shared/data/play-milestones";
@@ -43,7 +44,8 @@ export type OverviewAheadMilestone = {
   /* A gym milestone's badge type, so a recorded one wears its badge. */
   badgeType: PokemonTypeSlug | null;
   milestone: OverviewMilestone;
-  sequence: number;
+  /* Its number in the journey; null for an optional one, as in Story. */
+  sequence: number | null;
   state: PlayMilestoneState;
 };
 
@@ -57,8 +59,9 @@ export const getOverviewMilestoneWhere = (
 
 /*
  * Story numbers milestones within their journey (the version group), so
- * Overview does too: the next objective's place in its journey and the
- * milestones that follow it there, recorded or not, as v3's list ahead.
+ * Overview does too, counting required milestones only: the next objective's
+ * place in its journey and the milestones that follow it there, recorded or
+ * not, as v3's list ahead.
  */
 const getOverviewJourneyAhead = (
   orderedMilestones: OverviewMilestone[],
@@ -76,6 +79,9 @@ const getOverviewJourneyAhead = (
   const nextIndex = journey.findIndex(
     (milestone) => milestone.milestone_id === nextMilestone.milestone_id,
   );
+  const { sequences, total } = numberJourneyMilestones(journey, (milestone) =>
+    Boolean(milestone.is_required_for_completion),
+  );
   const aheadMilestones: OverviewAheadMilestone[] = journey
     .slice(nextIndex, nextIndex + aheadLimit)
     .map((milestone, index) => ({
@@ -84,13 +90,16 @@ const getOverviewJourneyAhead = (
           ? null
           : (badgeTypeByMilestoneId.get(milestone.milestone_id) ?? null),
       milestone,
-      sequence: nextIndex + index + 1,
+      sequence: sequences[nextIndex + index] ?? null,
       state: milestone.is_completed ? "done" : index === 0 ? "next" : "todo",
     }));
 
   return {
     aheadMilestones,
-    nextMilestonePosition: { sequence: nextIndex + 1, total: journey.length },
+    nextMilestonePosition: {
+      sequence: sequences[nextIndex] ?? null,
+      total,
+    },
   };
 };
 

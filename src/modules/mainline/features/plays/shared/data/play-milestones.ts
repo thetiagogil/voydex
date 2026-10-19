@@ -155,3 +155,35 @@ export const pickNextMilestoneRow = <
     isRequired: Boolean(milestone.is_required_for_completion),
   }));
 };
+
+/*
+ * The one milestone count Story, Overview and the toasts share: only the
+ * milestones a journey needs are numbered, 1 to its total in Story's order.
+ * An optional one has no number (it reads "Optional"), so "Milestone 3 of 16"
+ * always agrees with "3 of 16 recorded". Pass one journey in Story's order.
+ */
+export const numberJourneyMilestones = <TMilestone>(
+  orderedMilestones: readonly TMilestone[],
+  isRequired: (milestone: TMilestone) => boolean,
+) => {
+  let total = 0;
+  const sequences = orderedMilestones.map((milestone) =>
+    isRequired(milestone) ? ++total : null,
+  );
+
+  return { sequences, total };
+};
+
+/* A milestone's place in its journey, numbered by `numberJourneyMilestones`. */
+export type JourneyPosition = { sequence: number | null; total: number };
+
+export const formatJourneyPosition = ({ sequence, total }: JourneyPosition) =>
+  sequence === null
+    ? "Optional milestone"
+    : `Milestone ${sequence} of ${total}`;
+
+/* "the one before it", "the 3 after it": milestones recorded or cleared together. */
+export const formatMilestoneRange = (
+  count: number,
+  direction: "after" | "before",
+) => `the ${count === 1 ? "one" : count} ${direction} it`;
