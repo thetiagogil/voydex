@@ -7,10 +7,10 @@ import { GameDetailExclusivesSection } from "@/modules/codex/features/games/deta
 import { GameDetailHeaderSection } from "@/modules/codex/features/games/detail/components/game-detail-header-section";
 import { GameDetailRegionSection } from "@/modules/codex/features/games/detail/components/game-detail-region-section";
 import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/game-detail-related-games-section";
-import { getGameDetailPickerGroups } from "@/modules/codex/features/games/detail/server/game-detail-picker-query";
 import { getGameDetailPage } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { PageBand } from "@/shared/components/page-band";
 
@@ -32,9 +32,9 @@ export const GameDetailPage = async ({
   versionGroupSlug,
   versionSlug,
 }: GameDetailPageProps) => {
-  const [data, pickerGroups] = await Promise.all([
+  const [data, { games }] = await Promise.all([
     getGameDetailPage(versionGroupSlug, versionSlug),
-    getGameDetailPickerGroups(),
+    readGameCatalogue(),
   ]);
 
   if (!data) {
@@ -56,11 +56,9 @@ export const GameDetailPage = async ({
           trail={[{ href: appRoutes.codexGames, label: "Games" }]}
           trailEnd={
             <GameDetailGamePicker
-              activeGroup={{
-                name: getVersionGroupShortName(data.versionGroup.name),
-                slug: data.versionGroup.slug,
-              }}
-              groups={pickerGroups}
+              activeGameSlug={data.version.game.slug}
+              games={games}
+              label={getVersionGroupShortName(data.versionGroup.name)}
             />
           }
         />
