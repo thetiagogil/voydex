@@ -83,10 +83,14 @@ export const UserMenu = ({ account }: UserMenuProps) => {
             variant="destructive"
             render={<button type="submit" className="w-full" />}
             nativeButton
-            className="mt-1 font-extrabold"
+            className="mt-1"
           >
-            <AppIcon icon={appIcons.actions.signOut} />
-            Log out
+            {/* The same row as Settings: its icon on the 36px tile. */}
+            <MenuOptionContent
+              leading={<AppIcon icon={appIcons.actions.signOut} size="lg" />}
+              leadingClassName="bg-danger-soft text-danger-deep"
+              title="Log out"
+            />
           </DropdownMenuItem>
         </form>
       </DropdownMenuContent>
