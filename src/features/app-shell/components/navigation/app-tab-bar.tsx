@@ -82,10 +82,9 @@ export const AppTabBar = ({ account }: AppTabBarProps) => {
         href={appRoutes.you}
         icon={
           /* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */
+          /* Your initial in your trainer colour, as on the top bar and your card. */
           <Avatar size="sm" aria-hidden>
-            <AvatarFallback className="bg-surface-2 text-ink-2">
-              {getAccountInitial(account)}
-            </AvatarFallback>
+            <AvatarFallback>{getAccountInitial(account)}</AvatarFallback>
           </Avatar>
         }
         isCurrent={youLinks.some((link) => isCurrentLink(pathname, link))}

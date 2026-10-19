@@ -170,7 +170,7 @@ and calm meanings (settled 2026-10-19).
   keyboard focus (`focus-visible`, so a clicked link doesn't keep it lit) it
   turns white on the card shadow. It looks the same on every page. Inside it the current section is a small sticker
   in the selected tint, the Codex sits with the other sections, and your
-  initial sits on the soft brand tint in a white band (a sticker) at the right, as far from the edge as the V on the left.
+  initial sits in your trainer colour (as on your trainer card) in a white band at the right; its menu holds only Settings and Log out, as far from the edge as the V on the left.
 - **Pickers on phones**: below 768px every select, searchable select and
   dropdown menu opens as a sheet from the bottom over the scrim
   (`menuSheet*` in `menu-surface.ts`), full width with room for long lists.
