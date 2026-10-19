@@ -80,8 +80,12 @@
    */
   --progress: var(--calm);
   --ball: #d04c3c;
-  --avatar: #f6d9a8;
-  --avatar-ink: #6b4a12;
+  /*
+   * Your initial (the top bar, the You tab, your trainer card): yours, so it
+   * wears the soft tint of the app's red with its deep ink.
+   */
+  --avatar: var(--select-soft);
+  --avatar-ink: var(--select-ink);
 
   /* The meadow (front doors and choosing a game) */
   --sky: #f8fafd;

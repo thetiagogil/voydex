@@ -45,7 +45,7 @@ export const TrainerCard = ({
       className={cn(
         "flex flex-wrap items-center gap-x-4 gap-y-4.5 rounded-2xl border-4 border-white px-4.5 pt-4 pb-5 sm:gap-x-5.5 sm:px-6.5 sm:pt-5.5 sm:pb-6",
         initial
-          ? "type-tint shadow-soft [--t:var(--avatar)]"
+          ? "type-tint shadow-soft [--t:var(--action)]"
           : "bg-surface-2 shadow-soft",
         stack &&
           "md:flex-col md:flex-nowrap md:gap-0 md:px-5 md:pt-4 md:pb-6.5 md:text-center",
