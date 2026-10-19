@@ -18,8 +18,7 @@ import {
 import { TeamMemberMoves } from "./team-member-moves";
 
 /* The name is the panel's heading: an h3 on the page, the title in a sheet. */
-export const teamMemberNameClassName =
-  "text-32 leading-[1.1] tracking-[-0.02em] wrap-break-word";
+export const teamMemberNameClassName = "title-page wrap-break-word";
 
 /*
  * The selected Pokémon: its art on the type's tint (lively), with the shiny
@@ -129,7 +128,7 @@ export const TeamMemberProfile = ({
       {moves.length ? <TeamMemberMoves moves={moves} /> : null}
 
       {member.personal_notes ? (
-        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-[1.55]">
+        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
           “{member.personal_notes}”
         </p>
       ) : null}

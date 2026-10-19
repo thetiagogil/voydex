@@ -62,7 +62,7 @@ export const ProgressDonut = ({
           )}
         />
       </svg>
-      <span className="font-display text-20 relative leading-none font-semibold tracking-[-0.02em] tabular-nums">
+      <span className="font-display text-20 relative leading-none font-semibold tracking-tight tabular-nums">
         {percentage}
         <small className="text-ink-3 ml-px text-[0.55em]">%</small>
       </span>

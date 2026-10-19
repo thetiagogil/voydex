@@ -33,8 +33,8 @@ const IntroSideCard = ({
 }) => (
   <Card className="gap-4.5 p-5 sm:p-6">
     <div>
-      <h2 className="text-[22px] leading-tight tracking-[-0.01em]">{title}</h2>
-      <p className="text-15 text-ink-2 mt-2 leading-[1.65] font-semibold">
+      <h2 className="title-card">{title}</h2>
+      <p className="text-15 text-ink-2 mt-2 leading-relaxed font-semibold">
         {text}
       </p>
     </div>
@@ -55,10 +55,8 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
       {/* The page's head opens on the band, as every page but Home does. */}
       <PageBand>
         <header className="max-w-195 pt-6 sm:pt-10">
-          <h1 className="text-[38px] leading-[1.02] tracking-tight sm:text-[56px]">
-            How Voydex works
-          </h1>
-          <p className="text-16 text-ink-2 sm:text-17 mt-4.5 max-w-[36em] leading-[1.6] font-semibold">
+          <h1 className="title-display">How Voydex works</h1>
+          <p className="text-16 text-ink-2 sm:text-17 mt-4.5 max-w-[36em] leading-relaxed font-semibold">
             Every playthrough gets its own Play: one run of one game, with its
             team, its story and its Pokédex. Put the game down for months and
             you&apos;ll still know exactly where you were.
@@ -114,10 +112,7 @@ export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
         cast={<MeadowPartners art={art} loading="lazy" openStart={false} />}
         titleId="intro-next-title"
       >
-        <h2
-          id="intro-next-title"
-          className="text-28 pt-7 tracking-[-0.02em] sm:pt-10.5 sm:text-[38px]"
-        >
+        <h2 id="intro-next-title" className="title-page pt-7 sm:pt-10.5">
           Ready for your next Play?
         </h2>
         <p className="text-17 text-ink-2 mt-2.5 mb-6 font-semibold">

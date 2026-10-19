@@ -46,7 +46,7 @@ export const RangeHeading = ({
       <Heading
         id={titleId}
         tabIndex={titleFocusable ? -1 : undefined}
-        className="text-20 text-ink rounded-xs tracking-[-0.01em]"
+        className="title-card text-ink rounded-xs"
       >
         {title}
       </Heading>

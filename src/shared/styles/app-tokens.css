@@ -303,8 +303,13 @@
   --text-24: 24px;
   --text-28: 28px;
   --text-32: 32px;
+  --text-36: 36px;
   --text-44: 44px;
+  --text-48: 48px;
+  --text-52: 52px;
   --text-60: 60px;
+  --text-64: 64px;
+  --text-112: 112px;
 
   --radius-xs: var(--r-xs);
   --radius-sm: var(--r-sm);

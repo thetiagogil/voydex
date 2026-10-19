@@ -210,9 +210,7 @@ export const StartMeadow = ({
       <div aria-live="polite" className="min-w-0">
         {pick ? (
           <>
-            <p className="font-display text-[22px] leading-tight font-semibold">
-              A new {pick.game.shortName} journey
-            </p>
+            <p className="title-card">A new {pick.game.shortName} journey</p>
             {/* TODO(v3-data): v3 adds what lies ahead ("8 gym badges ahead"); the picker's reference read has no badge count yet. */}
             <p className="text-14 text-ink-2 font-semibold">
               {[
@@ -229,9 +227,7 @@ export const StartMeadow = ({
           </>
         ) : (
           <>
-            <p className="font-display text-[22px] leading-tight font-semibold">
-              Every journey starts with a partner
-            </p>
+            <p className="title-card">Every journey starts with a partner</p>
             <p className="text-14 text-ink-2 font-semibold">
               Pick your game above to meet yours
             </p>

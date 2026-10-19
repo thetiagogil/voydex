@@ -106,9 +106,7 @@ export const PokemonDetailHero = ({
             </span>
           ))}
         </p>
-        <h1 className="text-44 sm:text-60 mt-1.5 leading-none tracking-[-0.015em] wrap-break-word">
-          {name}
-        </h1>
+        <h1 className="title-hero mt-1.5 wrap-break-word">{name}</h1>
         {/* Its types, named, on their own line under the name. */}
         <PokemonTypeList
           primaryType={typePair?.primaryType ?? null}

@@ -299,7 +299,7 @@ export const TeamPlanCompareDialog = ({
             </table>
 
             {comparison.memberNotes ? (
-              <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-[1.55]">
+              <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
                 “{comparison.memberNotes}”
               </p>
             ) : null}

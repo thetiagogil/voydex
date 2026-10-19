@@ -89,10 +89,7 @@ export const SectionHead = ({
           <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5">
             <Heading
               id={titleId}
-              className={cn(
-                "text-ink text-24 leading-tight tracking-[-0.015em]",
-                titleClassName,
-              )}
+              className={cn("text-ink title-section", titleClassName)}
             >
               {title}
             </Heading>

@@ -85,7 +85,7 @@ export const HomeIntentOfferCard = ({
         </>
       }
     >
-      <h2 id="home-intent" className="text-20">
+      <h2 id="home-intent" className="title-card">
         Start your {offer.gameShortName} Play?
       </h2>
       <p className="text-ink-2 text-14 font-semibold">

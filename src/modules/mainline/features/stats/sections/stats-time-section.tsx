@@ -197,9 +197,7 @@ const TimeDonut = ({
         })}
       </svg>
       <span className="relative flex flex-col items-center">
-        <span className="font-display text-[30px] leading-none font-semibold tabular-nums sm:text-[34px]">
-          {Math.round(minutes / 60)}
-        </span>
+        <span className="figure">{Math.round(minutes / 60)}</span>
         <span className="text-ink-2 text-13 font-bold">hours</span>
       </span>
     </div>

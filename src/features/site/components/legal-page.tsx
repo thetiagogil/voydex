@@ -54,7 +54,7 @@ export const LegalPage = ({ kind }: { kind: LegalPageKind }) => {
     <div className="mx-auto flex w-full max-w-189 flex-col">
       <PageHeader title={page.title} description={page.description} />
       <DetailSectionCard title="In short" className="mt-7">
-        <div className="text-15 text-ink-2 flex flex-col gap-3 leading-[1.65] font-semibold">
+        <div className="text-15 text-ink-2 flex flex-col gap-3 leading-relaxed font-semibold">
           {page.summary}
         </div>
         {/* TODO(v3-data): the legal text for this page; it needs writing and review before launch. */}

@@ -36,10 +36,7 @@ export const GameDetailRegionSection = ({
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
         <div className="min-w-0">
           <p className="text-13 text-ink-2 font-bold">The region</p>
-          <h2
-            id="game-region-title"
-            className="text-28 sm:text-32 mt-0.5 mb-3 leading-tight tracking-[-0.015em]"
-          >
+          <h2 id="game-region-title" className="title-page mt-0.5 mb-3">
             {version.region?.name ?? "Region"}
           </h2>
           {/* TODO(v3-data): a description for each region (none on reference.regions). */}

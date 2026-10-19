@@ -68,7 +68,7 @@ export const StoryMilestoneSheet = ({
             <SheetTitle
               ref={titleRef}
               tabIndex={-1}
-              className="text-28 mt-2 mb-1.5 pr-12 leading-[1.05] outline-none"
+              className="title-page mt-2 mb-1.5 pr-12 outline-none"
             >
               {milestone.name}
             </SheetTitle>

@@ -80,14 +80,14 @@ export const PlannerTopSection = ({
                 setIsRenaming(false);
               }
             }}
-            className="font-display text-24 h-13 max-w-xl font-semibold"
+            className="title-page h-13 max-w-xl"
           />
         ) : (
           <h1 className="min-w-0">
             <button
               type="button"
               onClick={() => setIsRenaming(true)}
-              className="group/title text-28 focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left leading-tight tracking-[-0.02em] outline-none focus-visible:outline-3 focus-visible:outline-solid sm:text-[38px]"
+              className="group/title title-page focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
             >
               <span
                 className={cn(

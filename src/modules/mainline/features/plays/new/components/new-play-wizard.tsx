@@ -251,7 +251,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             id={titleId}
             ref={titleRef}
             tabIndex={-1}
-            className="text-24 leading-tight tracking-[-0.015em] outline-none sm:text-[30px]"
+            className="title-section outline-none"
           >
             {title}
           </h1>
@@ -391,10 +391,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
           <AppIcon icon={appIcons.actions.close} />
         </Button>
         <div className="px-6 pt-5 text-center sm:px-10">
-          <h1
-            id={titleId}
-            className="text-24 leading-tight tracking-[-0.015em] sm:text-[30px]"
-          >
+          <h1 id={titleId} className="title-section">
             Which game are you playing?
           </h1>
         </div>

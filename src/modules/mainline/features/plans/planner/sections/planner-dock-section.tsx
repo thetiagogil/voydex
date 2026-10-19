@@ -128,7 +128,7 @@ export const PlannerDockSection = ({
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h2 id="planner-team" className="text-20">
+          <h2 id="planner-team" className="title-card">
             Your team
           </h2>
           <span className="text-ink-3 text-14 font-bold tabular-nums">

@@ -10,10 +10,7 @@ export const HomeBandHeading = ({
   subtitle: ReactNode;
 }) => (
   <div className="px-6 pt-8 text-center sm:pt-9">
-    <h1
-      id={id}
-      className="lg:text-60 text-[34px] leading-[1.02] tracking-tight wrap-anywhere sm:text-[52px]"
-    >
+    <h1 id={id} className="title-display wrap-anywhere">
       {greeting}
     </h1>
     <p className="text-ink-2 text-16 sm:text-17 mx-auto mt-3 max-w-[34em] leading-relaxed font-semibold">
@@ -34,9 +31,7 @@ export const HomeBandGround = ({
 }) => (
   <div className="mx-auto flex w-[min(880px,calc(100%-2.5rem))] flex-col items-center gap-x-8 gap-y-4 text-center sm:flex-row sm:justify-between sm:text-left">
     <div aria-live="polite" className="min-w-0">
-      <b className="font-display text-20 block leading-tight font-semibold sm:text-[22px]">
-        {title}
-      </b>
+      <b className="title-card block">{title}</b>
       <span className="text-ink-tint text-14 font-semibold">{detail}</span>
     </div>
     {action ? (

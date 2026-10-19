@@ -94,10 +94,7 @@ export const FormOverlay = ({
       <Title
         ref={titleRef}
         tabIndex={-1}
-        className={cn(
-          "outline-none",
-          hero && !usesBottomSheet ? "text-24 sm:text-[30px]" : "text-24",
-        )}
+        className={cn("outline-none", "title-section")}
       >
         {title}
       </Title>

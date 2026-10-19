@@ -22,9 +22,7 @@ export const PlayCardHeading = ({
     <p className="text-action-ink text-13 font-bold">
       {getPlayCardEyebrow(play)}
     </p>
-    <h3 className="text-20 sm:text-24 mt-0.5 line-clamp-2 leading-tight tracking-[-0.01em] wrap-break-word">
-      {title}
-    </h3>
+    <h3 className="title-card mt-0.5 line-clamp-2 wrap-break-word">{title}</h3>
     {children ? (
       <p className="text-ink-2 text-13 sm:text-14 mt-1 font-semibold">
         {children}

@@ -19,7 +19,7 @@ export const TeamMemberEditorReview = ({
 }) => (
   <section aria-labelledby={`${id}-review`} className="grid gap-4">
     <div className="grid gap-1">
-      <h3 id={`${id}-review`} className="text-20">
+      <h3 id={`${id}-review`} className="title-card">
         Review changes{" "}
         <span className="text-ink-3 tabular-nums">{changes.length}</span>
       </h3>

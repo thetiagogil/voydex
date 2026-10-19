@@ -252,3 +252,103 @@
 @utility type-ink {
   color: oklch(from var(--t) min(l, 0.52) c h);
 }
+
+/*
+ * The title steps (Fredoka, 600): every heading of 20px and up takes one of
+ * them, so no page sizes its own. Each sets its size from the type scale,
+ * its line height and tracking, and grows at 640px (and 1024px for display).
+ *   title-display  a celebration or a front door: a trainer title, Welcome back
+ *   title-hero     a subject's head: a Pokémon, a Play, a game
+ *   title-page     a page's head: the lists, a Plan, an error page
+ *   title-section  a section, a sheet, a dialog, a wizard step
+ *   title-card     a card's own title
+ *   title-wordmark the front door's "Voydex"
+ *   figure         a big number on a tile (hours played, a stat)
+ */
+@utility title-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-36);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-52);
+  }
+
+  @media (width >= 64rem) {
+    font-size: var(--text-64);
+  }
+}
+
+@utility title-hero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-36);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-48);
+  }
+}
+
+@utility title-page {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-28);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-36);
+  }
+}
+
+@utility title-section {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-24);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-28);
+  }
+}
+
+@utility title-card {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-20);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-24);
+  }
+}
+
+@utility title-wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-60);
+  line-height: 1;
+  letter-spacing: -0.03em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-112);
+  }
+}
+
+@utility figure {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-32);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-36);
+  }
+}

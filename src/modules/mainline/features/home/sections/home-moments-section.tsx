@@ -123,10 +123,7 @@ export const HomeMomentsSection = ({
       )}
     >
       <div className="min-w-0">
-        <h2
-          id="home-moments"
-          className="text-24 tracking-[-0.015em] sm:text-[27px]"
-        >
+        <h2 id="home-moments" className="title-section">
           Latest moments
         </h2>
         <p className="text-ink-2 text-15 mt-1 font-semibold">

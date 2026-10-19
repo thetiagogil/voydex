@@ -14,8 +14,8 @@ import { cn } from "@/shared/utils/cn";
  * panel sits in a narrower column.
  */
 export const objectiveTitleClassNames = {
-  lg: "sm:text-44 mt-2.5 mb-2 text-[34px] leading-[1.02] tracking-tight outline-none",
-  md: "text-32 mt-2.5 mb-2 leading-[1.02] tracking-tight outline-none lg:text-[36px]",
+  lg: "title-hero mt-2.5 mb-2 outline-none",
+  md: "title-page mt-2.5 mb-2 outline-none",
 };
 
 /* v3 `.cont-label`: where the objective stands, in the accent's deep shade. */

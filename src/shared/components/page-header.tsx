@@ -36,10 +36,7 @@ export const PageHeader = ({
       )}
     >
       <div className="min-w-0">
-        <Heading
-          id={headingId}
-          className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]"
-        >
+        <Heading id={headingId} className="title-page">
           {title}
         </Heading>
         {description ? (

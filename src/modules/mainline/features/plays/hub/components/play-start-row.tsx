@@ -25,9 +25,7 @@ export const PlayStartRow = ({
         <p className="text-action-ink text-13 font-bold">
           {startedOnLabel ? `Play started · ${startedOnLabel}` : "Play started"}
         </p>
-        <h3 className="text-20 leading-tight tracking-[-0.01em] sm:text-[22px]">
-          The journey began
-        </h3>
+        <h3 className="title-card">The journey began</h3>
       </div>
     </div>
   );

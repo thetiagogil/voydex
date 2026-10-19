@@ -134,7 +134,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
           }
         />
         {plan.notes ? (
-          <p className="text-ink-2 text-15 max-w-prose leading-[1.55] whitespace-pre-line">
+          <p className="text-ink-2 text-15 max-w-prose leading-relaxed whitespace-pre-line">
             {plan.notes}
           </p>
         ) : null}

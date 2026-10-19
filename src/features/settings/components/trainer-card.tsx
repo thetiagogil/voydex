@@ -87,12 +87,7 @@ export const TrainerCard = ({
           stack && "md:flex-none md:items-center",
         )}
       >
-        <p
-          className={cn(
-            "font-display text-24 sm:text-28 leading-[1.15] font-semibold wrap-anywhere",
-            !name && "text-ink-3",
-          )}
-        >
+        <p className={cn("title-section wrap-anywhere", !name && "text-ink-3")}>
           {name ?? "Your name"}
         </p>
         <p className={cn("text-13 font-semibold", "text-ink-2")}>{subtitle}</p>

@@ -54,14 +54,7 @@ export const AuthHeading = ({
   title,
 }: AuthHeadingProps) => (
   <>
-    <h1
-      className={cn(
-        "text-28 sm:text-32 mt-6 mb-1 tracking-[-0.015em]",
-        className,
-      )}
-    >
-      {title}
-    </h1>
+    <h1 className={cn("title-page mt-6 mb-1", className)}>{title}</h1>
     {children ? (
       <p className="text-ink-2 mb-5.5 font-semibold wrap-anywhere">
         {children}

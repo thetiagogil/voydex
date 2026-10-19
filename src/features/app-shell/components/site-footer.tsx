@@ -43,7 +43,7 @@ export const SiteFooter = () => (
           ))}
         </nav>
       </div>
-      <p className="text-ink-3 text-13 mt-4 max-w-[88ch] leading-[1.6] font-semibold">
+      <p className="text-ink-3 text-13 mt-4 max-w-[88ch] leading-relaxed font-semibold">
         Voydex is an unofficial fan project. It isn&apos;t affiliated with or
         endorsed by Nintendo, Creatures, GAME FREAK or The Pokémon Company, and
         Pokémon names and artwork belong to them.
