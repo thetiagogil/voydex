@@ -84,13 +84,14 @@ export const StoryMilestoneEditorForm = ({
   milestone,
   onSaved,
   playId,
-  recordsEarlier = false,
+  recordsEarlier = true,
   recordsTeam = false,
   surface,
 }: {
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone;
-  onSaved: (message: string | null) => void;
+  /* The save's message and the milestones it recorded or cleared. */
+  onSaved: (message: string | null, milestoneIds: number[]) => void;
   playId: string;
   recordsEarlier?: boolean;
   recordsTeam?: boolean;
@@ -116,7 +117,8 @@ export const StoryMilestoneEditorForm = ({
       ? milestone.incompletionImpactWithLater.affectedMilestones.length -
         milestone.incompletionImpact.affectedMilestones.length
       : 0;
-  const [clearsLater, setClearsLater] = useState(false);
+  /* Ticked: a later milestone shouldn't stay recorded on its own. */
+  const [clearsLater, setClearsLater] = useState(true);
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
 
   useEffect(() => {
@@ -125,7 +127,7 @@ export const StoryMilestoneEditorForm = ({
     }
 
     handledStateRef.current = state;
-    onSaved(state.message);
+    onSaved(state.message, state.milestoneIds ?? []);
     router.refresh();
   }, [onSaved, router, state]);
 

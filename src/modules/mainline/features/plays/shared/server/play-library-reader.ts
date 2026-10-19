@@ -84,7 +84,7 @@ const readPlayStoryRows = async (
             .schema("views")
             .from("mainline_play_milestone_detail")
             .select(
-              "category_id, is_completed, is_required_for_completion, milestone_id, milestone_name, play_id, prerequisites, sort_order",
+              "category_id, is_completed, is_required_for_completion, milestone_id, milestone_name, milestone_type_slug, play_id, prerequisites, sort_order",
             )
             .in("play_id", playIds)
             .order("play_id", { ascending: true })

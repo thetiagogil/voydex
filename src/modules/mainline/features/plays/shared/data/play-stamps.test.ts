@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  createStampOrder,
   describePlayStamp,
   getMilestoneBadgeTypeId,
   getPlayStampLabel,
@@ -34,5 +35,15 @@ describe("play stamps", () => {
     expect(describePlayStamp({ name: "Fire Badge", state: "todo" }, null)).toBe(
       "Fire Badge, not earned yet",
     );
+  });
+});
+
+describe("stamp order", () => {
+  it("places milestones recorded together in their order", () => {
+    expect([...createStampOrder([60004, 60005, 60006])]).toEqual([
+      [60004, 0],
+      [60005, 1],
+      [60006, 2],
+    ]);
   });
 });

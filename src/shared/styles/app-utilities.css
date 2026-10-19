@@ -162,30 +162,70 @@
   }
 }
 
-/* Motion is a reward: slap and pop play only at the moment something is recorded. */
+/* Outside the theme so the stamp slap below always has it. */
+@keyframes slap {
+  0% {
+    transform: scale(2) rotate(-20deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.92) rotate(6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(var(--tilt, 0deg));
+  }
+}
+
+/* A card or token unmarked a moment ago settles softly into its new state. */
+@keyframes settle {
+  from {
+    opacity: 0.35;
+  }
+}
+
+@utility animate-settle {
+  animation: settle 0.45s ease-out;
+}
+
+/* A Story row un-recorded a moment ago keeps still: its number pops back. */
+@keyframes marker-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@utility animate-marker-in {
+  animation: marker-in 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+/* A stamp landing: a Story row's medallion, or the next objective's badge. */
+@utility animate-stamp-slap {
+  animation: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+/* Motion is a reward: slap, pop and stamp play only at the moment something is recorded. */
 @theme {
-  --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
+  /* A partner you pick hops once where it stands. */
+  --animate-hop: hop 0.6s ease-out;
   --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+  /* Overview's next objective handing over to the one after it. */
+  --animate-objective-out: objective-out 0.28s ease-in both;
+  --animate-objective-in: objective-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
   --animate-meadow-pop: meadow-pop 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both;
   /* Statistics' trainer title arriving, once per visit: words rise, the rest fades up. */
   --animate-title-rise: title-rise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.25) both;
   --animate-fade-up: fade-up 0.45s ease-out both;
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
-
-  @keyframes slap {
-    0% {
-      transform: scale(2) rotate(-20deg);
-      opacity: 0;
-    }
-    60% {
-      transform: scale(0.92) rotate(6deg);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1) rotate(var(--tilt, 0deg));
-    }
-  }
 
   /* The meadow's partners pop up out of the grass, once per visit. */
   @keyframes meadow-pop {
@@ -226,6 +266,36 @@
     }
     75% {
       transform: rotate(1.2deg);
+    }
+  }
+
+  @keyframes hop {
+    0%,
+    100% {
+      transform: none;
+    }
+    35% {
+      transform: translateY(-16px);
+    }
+    60% {
+      transform: none;
+    }
+    78% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes objective-out {
+    to {
+      transform: translateX(-24px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes objective-in {
+    from {
+      transform: translateX(24px);
+      opacity: 0;
     }
   }
 

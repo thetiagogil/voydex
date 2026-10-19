@@ -71,3 +71,15 @@ export const describePlayStamp = (
 
   return `${stamp.name}, earned${earnedOn ? ` ${earnedOn}` : ""}`;
 };
+
+/*
+ * Milestones recorded together turn one after another, in Story order: each
+ * id's place in that order, a `stampStepMs` beat apart.
+ */
+export type StampOrder = ReadonlyMap<number, number>;
+
+/* The beat between things recorded together. */
+export const stampStepMs = 110;
+
+export const createStampOrder = (orderedMilestoneIds: number[]): StampOrder =>
+  new Map(orderedMilestoneIds.map((id, index) => [id, index]));

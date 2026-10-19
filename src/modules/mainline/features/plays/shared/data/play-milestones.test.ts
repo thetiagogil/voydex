@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  formatJourneyPosition,
+  formatMilestoneRange,
   getBlockingPrerequisiteIds,
+  isChoiceMilestone,
   numberJourneyMilestones,
   orderPlayMilestones,
   pickNextMilestone,
@@ -66,8 +69,10 @@ describe("pickNextMilestone", () => {
     isRequired: boolean,
     isCompleted: boolean,
     isAvailable = true,
+    isChoice = false,
   ) => ({
     isAvailable,
+    isChoice,
     isCompleted,
     isRequired,
   });
@@ -94,12 +99,25 @@ describe("pickNextMilestone", () => {
     expect(pickNextMilestone([state(true, true)], (m) => m)).toBeNull();
   });
 
+  it("comes to an optional choice in its place, as Story order has it", () => {
+    // FireRed's Fossil Choice, between Boulder and Cascade.
+    const fossilChoice = state(false, false, true, true);
+
+    expect(
+      pickNextMilestone(
+        [state(true, true), fossilChoice, state(true, false)],
+        (milestone) => milestone,
+      ),
+    ).toBe(fossilChoice);
+  });
+
   it("reads raw rows, treating an open blocking prerequisite as locked", () => {
     const next = pickNextMilestoneRow([
       {
         is_completed: false,
         is_required_for_completion: true,
         milestone_id: 1,
+        milestone_type_slug: "story",
         prerequisites: [
           { prerequisite_kind_slug: "required", prerequisite_milestone_id: 9 },
         ],
@@ -108,6 +126,7 @@ describe("pickNextMilestone", () => {
         is_completed: false,
         is_required_for_completion: true,
         milestone_id: 2,
+        milestone_type_slug: "story",
         prerequisites: [],
       },
     ]);
@@ -128,5 +147,34 @@ describe("numberJourneyMilestones", () => {
     expect(
       numberJourneyMilestones(journey, (milestone) => milestone.required),
     ).toEqual({ sequences: [1, null, 2], total: 2 });
+  });
+});
+
+describe("formatJourneyPosition", () => {
+  it("says a required milestone's place in the one count", () => {
+    expect(formatJourneyPosition({ sequence: 4, total: 17 })).toBe(
+      "Milestone 4 of 17",
+    );
+  });
+
+  it("calls an optional milestone optional instead of numbering it", () => {
+    expect(formatJourneyPosition({ sequence: null, total: 17 })).toBe(
+      "Optional milestone",
+    );
+  });
+});
+
+describe("formatMilestoneRange", () => {
+  it("names milestones recorded or cleared together", () => {
+    expect(formatMilestoneRange(1, "before")).toBe("the one before it");
+    expect(formatMilestoneRange(3, "after")).toBe("the 3 after it");
+  });
+});
+
+describe("isChoiceMilestone", () => {
+  it("knows a choice by its type", () => {
+    expect(isChoiceMilestone("decision")).toBe(true);
+    expect(isChoiceMilestone("gym")).toBe(false);
+    expect(isChoiceMilestone(null)).toBe(false);
   });
 });

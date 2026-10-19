@@ -9,17 +9,14 @@ import {
   recordMainlinePlayMilestoneTeamAction,
   undoMainlinePlayMilestoneAction,
 } from "@/modules/mainline/features/plays/hub/server/play-milestone-record-action";
-import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-
-type RecordableMilestone = {
-  id: number;
-  name: string;
-};
+import {
+  recordMilestoneInstantly,
+  type InstantRecordOptions,
+  type RecordableMilestone,
+} from "@/modules/mainline/features/plays/hub/client/instant-milestone-record";
 
 type RecordOptions = {
   decisionOptionId?: number | null;
-  /* "Record with the N before it": recorded too, and undone together. */
-  earlierMilestoneIds?: number[];
   /* Saves the team you have now with it ("Record with your team"). */
   includeTeam?: boolean;
   /* Runs once it is saved, such as starting the stamp's slap. */
@@ -29,11 +26,12 @@ type RecordOptions = {
 };
 
 /*
- * v3's Record: one tap records the milestone where you are (Overview,
- * Story), without the team; the toast says so with Undo and, where the
- * milestone keeps snapshots, "Add team" to save the team you have now with
- * it. The page redraws from the server. Undo marks it incomplete again,
- * with any recorded along with it, taking its moment out of History too.
+ * v3's Record: one tap records the milestone where you are, without the
+ * team; the toast says so with Undo and, where the milestone keeps
+ * snapshots, "Add team" to save the team you have now with it. Undo marks
+ * it incomplete again, taking its moment out of History too. `record` waits
+ * for the save (a partner choice); `recordInstant` shows it at once and
+ * saves in the background (Story, Overview's next objective).
  */
 export const useRecordMilestone = (playId: string) => {
   const router = useRouter();
@@ -42,12 +40,9 @@ export const useRecordMilestone = (playId: string) => {
     null,
   );
 
-  const undo = (
-    milestone: RecordableMilestone,
-    earlierMilestoneIds: number[] = [],
-  ) => {
+  const undo = (milestone: RecordableMilestone) => {
     void undoMainlinePlayMilestoneAction({
-      earlierMilestoneIds,
+      earlierMilestoneIds: [],
       milestoneId: milestone.id,
       playId,
     }).then((result) => {
@@ -56,11 +51,7 @@ export const useRecordMilestone = (playId: string) => {
         return;
       }
 
-      toast.success(
-        earlierMilestoneIds.length
-          ? `${milestone.name} and ${formatMilestoneRange(earlierMilestoneIds.length, "before")} are no longer recorded`
-          : `${milestone.name} is no longer recorded`,
-      );
+      toast.success(`${milestone.name} is no longer recorded`);
       router.refresh();
     });
   };
@@ -80,6 +71,23 @@ export const useRecordMilestone = (playId: string) => {
     });
   };
 
+  const recordInstant = (
+    milestone: RecordableMilestone,
+    options: InstantRecordOptions,
+  ) =>
+    void recordMilestoneInstantly(
+      {
+        addTeam,
+        notify: toast,
+        record: recordMainlinePlayMilestoneAction,
+        refresh: router.refresh,
+        undo: undoMainlinePlayMilestoneAction,
+      },
+      playId,
+      milestone,
+      options,
+    );
+
   const record = (
     milestone: RecordableMilestone,
     options: RecordOptions = {},
@@ -93,7 +101,7 @@ export const useRecordMilestone = (playId: string) => {
     startTransition(async () => {
       const result = await recordMainlinePlayMilestoneAction({
         decisionOptionId: options.decisionOptionId ?? null,
-        earlierMilestoneIds: options.earlierMilestoneIds ?? [],
+        earlierMilestoneIds: [],
         includeTeam: options.includeTeam ?? false,
         milestoneId: milestone.id,
         playId,
@@ -107,14 +115,8 @@ export const useRecordMilestone = (playId: string) => {
       }
 
       options.onRecorded?.(milestone.id);
-      const earlierCount = result.recordedEarlierIds.length;
-      const recordedName = earlierCount
-        ? `${result.milestoneName} and ${formatMilestoneRange(earlierCount, "before")}`
-        : result.milestoneName;
-      const undoAction = {
-        label: "Undo",
-        onClick: () => undo(milestone, result.recordedEarlierIds),
-      };
+      const recordedName = result.milestoneName;
+      const undoAction = { label: "Undo", onClick: () => undo(milestone) };
       toast.success(
         options.toastMessage ??
           (result.totalCount
@@ -133,5 +135,5 @@ export const useRecordMilestone = (playId: string) => {
     });
   };
 
-  return { isPending, pendingMilestoneId, record };
+  return { isPending, pendingMilestoneId, record, recordInstant };
 };

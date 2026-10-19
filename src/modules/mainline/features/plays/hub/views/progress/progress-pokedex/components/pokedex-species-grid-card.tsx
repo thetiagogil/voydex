@@ -23,7 +23,8 @@ export const PokedexSpeciesGridCard = ({
   state,
   toggleLabel,
 }: PokedexSpeciesPresentationProps) => {
-  const [isPopping, setIsPopping] = useState(false);
+  /* Marking it pops the card; unmarking it settles the card back. */
+  const [motion, setMotion] = useState<"pop" | "settle" | null>(null);
 
   return (
     <div aria-busy={isPending} className="group/dex relative min-w-0">
@@ -34,8 +35,8 @@ export const PokedexSpeciesGridCard = ({
         imageUrl={entry.imageUrl}
         name={entry.speciesName}
         number={formatPokedexNumber(entry.pokedexNumber)}
-        onAnimationEnd={() => setIsPopping(false)}
-        pop={isPopping}
+        motion={motion}
+        onAnimationEnd={() => setMotion(null)}
         subtitle={entry.displayFormName}
         types={[entry.primaryType, entry.secondaryType].filter(
           (type) => type !== null,
@@ -48,7 +49,7 @@ export const PokedexSpeciesGridCard = ({
         disabled={isPending}
         className="absolute inset-0 rounded-lg disabled:cursor-default"
         onClick={() => {
-          setIsPopping(!isPressed);
+          setMotion(isPressed ? "settle" : "pop");
           onToggle();
         }}
       />

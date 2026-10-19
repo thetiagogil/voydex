@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 
-import { formatJourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import {
+  formatJourneyPosition,
+  formatMilestoneRange,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { ObjectiveEyebrow } from "@/modules/mainline/features/plays/shared/components/objective-card";
 import {
   formatPlayMoment,
@@ -137,11 +140,10 @@ export const StoryMilestoneDetail = ({
       ) : null}
 
       {!milestone.isCompleted && milestone.earlierToRecord.length ? (
-        /* Why the Record arrow offers "Record with the N before it". */
+        /* Record takes them too; the arrow offers "Record only this one". */
         <p className="text-ink-2 text-13 mt-2.5 font-semibold">
-          {milestone.earlierToRecord.length === 1
-            ? "1 milestone before it isn't recorded yet."
-            : `${milestone.earlierToRecord.length} milestones before it aren't recorded yet.`}
+          Recording it also records{" "}
+          {formatMilestoneRange(milestone.earlierToRecord.length, "before")}.
         </p>
       ) : null}
 

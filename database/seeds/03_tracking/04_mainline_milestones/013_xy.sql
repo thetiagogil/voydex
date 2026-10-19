@@ -31,22 +31,22 @@ INSERT INTO tracking.mainline_milestones (
   (130003, 13, NULL, 1301, 2, 2, NULL, 'bug-badge', 'Bug Badge', 'Defeat Viola at Santalune Gym and receive the Bug Badge.', 3, true),
   -- Choose Kanto Starter
   (130004, 13, NULL, 1301, 12, 1, NULL, 'choose-kanto-starter', 'Choose Kanto Starter', 'Choose Bulbasaur, Charmander, or Squirtle from Professor Sycamore.', 4, true),
-  -- Fossil Choice
-  (130005, 13, NULL, 1304, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Jaw Fossil or Sail Fossil in Glittering Cave.', 1, false),
+  -- Fossil Choice: counts toward the story (a Swimmer on Route 8 blocks the way until you have a fossil); the pick itself can stay unrecorded
+  (130005, 13, NULL, 1301, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Jaw Fossil or Sail Fossil in Glittering Cave.', 5, true),
   -- Cliff Badge
-  (130006, 13, NULL, 1301, 2, 2, NULL, 'cliff-badge', 'Cliff Badge', 'Defeat Grant at Cyllage Gym and receive the Cliff Badge.', 5, true),
+  (130006, 13, NULL, 1301, 2, 2, NULL, 'cliff-badge', 'Cliff Badge', 'Defeat Grant at Cyllage Gym and receive the Cliff Badge.', 6, true),
   -- Rumble Badge
-  (130007, 13, NULL, 1301, 2, 2, NULL, 'rumble-badge', 'Rumble Badge', 'Defeat Korrina at Shalour Gym and receive the Rumble Badge.', 6, true),
+  (130007, 13, NULL, 1301, 2, 2, NULL, 'rumble-badge', 'Rumble Badge', 'Defeat Korrina at Shalour Gym and receive the Rumble Badge.', 7, true),
   -- Plant Badge
-  (130008, 13, NULL, 1301, 2, 2, NULL, 'plant-badge', 'Plant Badge', 'Defeat Ramos at Coumarine Gym and receive the Plant Badge.', 7, true),
+  (130008, 13, NULL, 1301, 2, 2, NULL, 'plant-badge', 'Plant Badge', 'Defeat Ramos at Coumarine Gym and receive the Plant Badge.', 8, true),
   -- Voltage Badge
-  (130009, 13, NULL, 1301, 2, 2, NULL, 'voltage-badge', 'Voltage Badge', 'Defeat Clemont at Lumiose Gym and receive the Voltage Badge.', 8, true),
+  (130009, 13, NULL, 1301, 2, 2, NULL, 'voltage-badge', 'Voltage Badge', 'Defeat Clemont at Lumiose Gym and receive the Voltage Badge.', 9, true),
   -- Fairy Badge
-  (130010, 13, NULL, 1301, 2, 2, NULL, 'fairy-badge', 'Fairy Badge', 'Defeat Valerie at Laverre Gym and receive the Fairy Badge.', 9, true),
+  (130010, 13, NULL, 1301, 2, 2, NULL, 'fairy-badge', 'Fairy Badge', 'Defeat Valerie at Laverre Gym and receive the Fairy Badge.', 10, true),
   -- Psychic Badge
-  (130011, 13, NULL, 1301, 2, 2, NULL, 'psychic-badge', 'Psychic Badge', 'Defeat Olympia at Anistar Gym and receive the Psychic Badge.', 10, true),
+  (130011, 13, NULL, 1301, 2, 2, NULL, 'psychic-badge', 'Psychic Badge', 'Defeat Olympia at Anistar Gym and receive the Psychic Badge.', 11, true),
   -- Iceberg Badge
-  (130012, 13, NULL, 1301, 2, 2, NULL, 'iceberg-badge', 'Iceberg Badge', 'Defeat Wulfric at Snowbelle Gym and receive the Iceberg Badge.', 11, true),
+  (130012, 13, NULL, 1301, 2, 2, NULL, 'iceberg-badge', 'Iceberg Badge', 'Defeat Wulfric at Snowbelle Gym and receive the Iceberg Badge.', 12, true),
   -- Elite Four Malva
   (130013, 13, NULL, 1302, 7, 2, NULL, 'elite-four-malva', 'Elite Four Malva', 'Defeat Malva at the Pokémon League.', 1, true),
   -- Elite Four Siebold
@@ -60,6 +60,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (130018, 13, NULL, 1302, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Battle AZ
-  (130019, 13, NULL, 1301, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 12, true),
+  (130019, 13, NULL, 1301, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 13, true),
   -- Looker Bureau
   (130020, 13, NULL, 1303, 1, 1, NULL, 'looker-bureau', 'Looker Bureau', 'Complete the Looker Bureau quest in Lumiose City.', 1, false);

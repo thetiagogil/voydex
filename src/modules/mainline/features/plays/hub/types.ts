@@ -16,10 +16,7 @@ import type {
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import type { StoryMilestone } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
-import type {
-  OverviewAheadMilestone,
-  OverviewMilestone,
-} from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
@@ -210,7 +207,6 @@ export type MainlinePlayShellData = {
 };
 
 export type MainlinePlayOverviewData = {
-  aheadMilestones: OverviewAheadMilestone[];
   badgeCase: BadgeCase | null;
   /* A brand-new Play opens on its partner choice and first steps. */
   freshPlay: OverviewFreshPlay | null;
@@ -224,6 +220,8 @@ export type MainlinePlayOverviewData = {
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreview: MainlinePlayTeamPreviewMember[];
+  /* Milestones that are trophies, gold in Recent moments as in History. */
+  trophyMilestoneIds: number[];
   timelinePreview: MainlinePlayTimelineEvent[];
 };
 

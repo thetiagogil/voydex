@@ -3,11 +3,13 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * A milestone you pick to read beside the list (Progress Story, Story
- * matchups): each row is its own card. Done rows are white, the next one
- * lifts on a soft shadow inside a ring of the selected tint, rows still
- * ahead are an outline on the page, and the picked row takes the selected
- * tint, as every selected row does. No row is outlined in the accent, which
- * would read as an error. Callers add their own grid columns.
+ * matchups): each row is its own card, read like the Pokédex and
+ * Collectibles. A row still ahead is an empty slot (the dashed outline of a
+ * Pokémon not caught) and a recorded one a white card. The next one is
+ * outlined on its edge in a softened red and lifts on a soft shadow; the
+ * picked row takes the selected tint, as every selected row does. Every
+ * row keeps the slot's border width, so columns line up. Callers add their
+ * own grid columns.
  */
 export const getMilestonePickRowClassName = ({
   selected,
@@ -19,10 +21,9 @@ export const getMilestonePickRowClassName = ({
   cn(
     "w-full rounded-lg text-left transition-transform duration-150 outline-none hover:translate-x-0.75",
     "focus-ring",
+    state === "todo" ? "empty-slot" : "border-[2.5px] border-transparent",
     state === "done" && "bg-surface",
-    state === "next" &&
-      "bg-surface shadow-soft inset-ring-2 inset-ring-select-soft",
-    state === "todo" && "inset-ring inset-ring-line",
+    state === "next" && "border-action/45 bg-surface shadow-soft",
     selected && "bg-select-soft",
   );
 

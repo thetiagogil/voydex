@@ -235,10 +235,23 @@ on a hard lip, a press that moves, a gradient fill or glass.
 ## Motion
 
 Motion is a reward. Hover lifts and the Pokémon hop are fine on things you can
-open. `animate-slap` and `animate-pop` play only at the moment something is
+open. `animate-stamp-slap`, `animate-pop` and `animate-hop` play only at the moment something is
 recorded or marked, never on load or redraw. The one exception is the
 meadow's partners, which pop in (`animate-meadow-pop`) once per visit. Nothing loops and controls don't
 bounce. `app-base.css` honours reduced motion.
+
+One reward per moment, in one place, and it shows at once: Story's Record,
+like a Pokédex or collectible mark, shows on the page straight away and saves
+in the background. Stamps slap (`animate-stamp-slap`): a Story row's medallion
+as it turns recorded, and Overview's next objective, which then hands over to
+the next one (`animate-objective-out`, `animate-objective-in`). Story's stamp
+card stays still, so a badge never animates twice. Small cards and tokens you
+mark (Pokédex, Collectibles) pop; a partner you pick hops (`animate-hop`). A
+wide row never moves: a Story row keeps still while its marker changes (a
+number pops back with `animate-marker-in`). A card or token you unmark settles
+softly (`animate-settle`). Things recorded together cascade in Story order:
+each Story row waits as it was, then turns, one beat (`stampStepMs`, through
+`createStampOrder`) after the one before.
 
 ## Components
 
@@ -296,7 +309,7 @@ Voydex components:
 | `RecordRow`                                      | `.../plays/shared/components/record-row.tsx`                                   | Medallion, kicker, line, optional body; `trailing` adds a third column, `wrap` shows text in full, `medallionFaded` for a Pokémon that left the team. Rows sit inside one card, separated by space                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `PlayMomentTime`                                 | `.../plays/shared/components/play-moment-time.tsx`                             | Any recorded instant, read in the viewer's time zone: `day` ("Today", "Aug 12") or `date` ("Aug 12, 2025"), its time on hover. `formatPlayDate` is for calendar days such as `started_on` only                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 | `BadgeStamp`                                     | `.../plays/shared/components/badge-stamp.tsx`                                  | The only thing that tilts at rest                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `StampGrid`, `PlayStamp`                         | `.../plays/shared/components/stamp-grid.tsx`, `.../shared/data/play-stamps.ts` | A Play's stamps, Overview's badge case and Story's stamp card, from one `PlayStamp` model (a gym badge in its type or a League milestone in gold; `earned`, `next`, `todo`). Each `BadgeStamp` tilts by its own angle; `captions` prints labels; `slappingMilestoneId` slaps the one just recorded once. Dates read in the viewer's time zone                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `StampGrid`, `PlayStamp`                         | `.../plays/shared/components/stamp-grid.tsx`, `.../shared/data/play-stamps.ts` | A Play's stamps on Story's stamp card, from one `PlayStamp` model (a gym badge in its type or a League milestone in gold; `earned`, `next`, `todo`). Each `BadgeStamp` tilts by its own angle over its label, and opens its milestone (`onStampSelect`), lifting under the pointer and popping when picked. It never moves on Record: the row in the list stamps instead, and Overview's next objective slaps its own `BadgeStamp`. Dates read in the viewer's time zone                                                                                                                                                                                                                                                                                              |
 | `MilestoneMarker`                                | `.../plays/shared/components/milestone-marker.tsx`                             | Where a milestone stands, the same in Story and Overview: recorded wears its medallion (badge type, else gold), the next is a game-coloured ring around the objective flag, the rest show their number in a quiet ring; sizes `md`, `sm`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | `ObjectiveCard`                                  | `.../plays/shared/components/objective-card.tsx`                               | v3 `.cont`, Overview's next objective and Story's selected milestone: a quiet card named by `titleId`, `ObjectiveEyebrow` (action-ink), the Fredoka title (`objectiveTitleClassNames` `lg` or `md`), `ObjectiveWhere`, `actions` (the page's main button), an optional `footer` under a rule, and `onClose` for a corner close button                                                                                                                                                                                                                                                                                                                                                                                                                                 |
 | `PlayTeamParty`                                  | `.../plays/shared/components/play-team-party.tsx`                              | "Your team then" (v3 `.party`): the team saved with a milestone as small overlapping sprites; phones leave it out; `decorative` inside a control that already names the milestone; sizes `md`, `sm`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
@@ -422,9 +435,10 @@ There are no site-only stills: a public picture uses the app's own component.
 - **Sheets**: below 1024px every sheet opens from the bottom
   (`useBottomSheetLayout`, `BottomSheet`); from 1024px a detail opens beside
   its list or as a side sheet. Every overlay closes from the same `soft`
-  `icon-sm` button in its top-right corner (16px in). A confirm (delete,
-  remove, mark incomplete) closes only on one of its buttons or Escape, never
-  on a tap outside (`AlertDialog`, or `BottomSheet` `role="confirm"`).
+  `icon-sm` button in its top-right corner (16px in), confirms included.
+  Every overlay also closes on Escape or a tap outside; for a confirm
+  (delete, remove, mark incomplete, `AlertDialog`) that means "no". A long
+  one scrolls its body between the header and its pinned buttons.
 - **Menus and selects** share one compact 44px row; the pick takes the
   selected tint and a check, and two-line rows are only for an option that
   needs its description.
@@ -457,7 +471,10 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   list you pick from, where the pick opens beside it or in a sheet (Progress
   Story, Story matchups), gives each row its own card through
   `getMilestonePickRowClassName` in
-  `.../plays/shared/components/milestone-pick-row.ts`.
+  `.../plays/shared/components/milestone-pick-row.ts`. There rows read
+  like the Pokédex: a row still ahead is an `empty-slot`, a recorded one a
+  white card, the next objective is outlined on its edge in a softened red,
+  and the row you picked takes the selected tint.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
   or `src/shared`.
 - No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha

@@ -20,8 +20,8 @@ type MeadowPokemonProps = {
   /* Makes it a button that can be picked (see `selected`). */
   onClick?: () => void;
   selected?: boolean;
-  /* Plays the slap once, at the moment it is picked. */
-  slap?: boolean;
+  /* Hops once, at the moment it is picked. */
+  hop?: boolean;
   size?: "lg" | "md" | "sm" | "xl";
   /* An open slot: a dashed spot on the grass. */
   open?: boolean;
@@ -51,7 +51,7 @@ export const MeadowPokemon = ({
   open = false,
   selected = false,
   size = "md",
-  slap = false,
+  hop = false,
   style,
   typeSlug,
 }: MeadowPokemonProps) => {
@@ -84,7 +84,7 @@ export const MeadowPokemon = ({
               artSizes[size],
               interactive &&
                 "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",
-              slap && "animate-slap motion-reduce:animate-none",
+              hop && "animate-hop motion-reduce:animate-none",
             )}
           />
         </span>

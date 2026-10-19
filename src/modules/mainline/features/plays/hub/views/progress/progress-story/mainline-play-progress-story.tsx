@@ -1,15 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
+import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import {
+  createStampOrder,
+  stampStepMs,
+  type StampOrder,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import { buildStoryProgressModel } from "./data/story-progress-model";
+import {
+  applyStoryRecordingOverrides,
+  keepPendingOverrides,
+  type StoryRecordingOverrides,
+} from "./data/story-recording-overrides";
 import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
 import type { StoryMilestoneChoice } from "./sections/detail/story-milestone-actions";
 import { StoryMilestoneEditor } from "./sections/detail/story-milestone-editor";
@@ -27,6 +38,16 @@ import type {
   StoryMilestone,
   StoryScope,
 } from "./types";
+
+const noStamps: StampOrder = new Map();
+const noOverrides: StoryRecordingOverrides = new Map();
+const noFades: ReadonlySet<number> = new Set();
+
+const withoutMilestone = (order: StampOrder, milestoneId: number) => {
+  const next = new Map(order);
+  next.delete(milestoneId);
+  return next;
+};
 
 const getScopeMilestones = (scope: StoryScope) =>
   scope.sections.flatMap((section) => section.milestones);
@@ -50,7 +71,27 @@ export const MainlinePlayProgressStory = ({
   /* Opens straight into recording this milestone, as Overview's Record button asks. */
   recordMilestoneId?: number | null;
 }) => {
-  const model = useMemo(() => buildStoryProgressModel(data), [data]);
+  /*
+   * Record and Undo show at once while they save (as the Pokédex marks):
+   * these milestones are shown recorded or not until fresh data agrees.
+   */
+  const [overrides, setOverrides] =
+    useState<StoryRecordingOverrides>(noOverrides);
+  const [overriddenAt, setOverriddenAt] = useState("");
+  const [seenData, setSeenData] = useState(data);
+
+  if (data !== seenData) {
+    setSeenData(data);
+    setOverrides((current) => keepPendingOverrides(data, current));
+  }
+
+  const model = useMemo(
+    () =>
+      buildStoryProgressModel(
+        applyStoryRecordingOverrides(data, overrides, overriddenAt),
+      ),
+    [data, overriddenAt, overrides],
+  );
   const usesDetailSheet = useBottomSheetLayout();
   const findMilestone = (milestoneId: number | null) =>
     model.scopes
@@ -82,24 +123,42 @@ export const MainlinePlayProgressStory = ({
     useState<StoryMilestoneActionIntent>("complete");
   /* "Record with your team" on a choice: the form opens with the team ticked. */
   const [editorRecordsTeam, setEditorRecordsTeam] = useState(false);
-  /* "Record with the N before it" on a choice: the form opens with them ticked. */
-  const [editorRecordsEarlier, setEditorRecordsEarlier] = useState(false);
+  /* "Record only this one" on a choice: the form opens with the ones before it unticked. */
+  const [editorRecordsEarlier, setEditorRecordsEarlier] = useState(true);
   const [editorMilestoneId, setEditorMilestoneId] = useState(
     recordMilestone?.id ?? null,
   );
   const [isEditorOpen, setIsEditorOpen] = useState(Boolean(recordMilestone));
   /*
-   * The milestone recorded a moment ago: its row pops and its stamp slaps,
-   * once each. Each clears when its animation ends, and both clear when the
-   * list redraws, so a remount never replays them.
+   * The milestones recorded a moment ago: their rows turn and their markers
+   * stamp down, once each, one after another in Story order. Those
+   * un-recorded a moment ago pop back to their numbers. Each clears when its animation ends, and all clear
+   * when the scope changes, so a remount never replays them.
    */
-  const [poppingMilestoneId, setPoppingMilestoneId] = useState<number | null>(
-    null,
-  );
-  const [slappingMilestoneId, setSlappingMilestoneId] = useState<number | null>(
-    null,
-  );
+  const [rowStampOrder, setRowStampOrder] = useState<StampOrder>(noStamps);
+  const [fadingMilestoneIds, setFadingMilestoneIds] =
+    useState<ReadonlySet<number>>(noFades);
+  /* Recorded together: the rows still waiting their turn, in order. */
+  const [waitingMilestoneIds, setWaitingMilestoneIds] = useState<number[]>([]);
+
+  /* The cascade: each waiting row turns, one step after the one before. */
+  useEffect(() => {
+    if (!waitingMilestoneIds.length) {
+      return;
+    }
+
+    const timer = window.setTimeout(
+      () => setWaitingMilestoneIds((ids) => ids.slice(1)),
+      stampStepMs,
+    );
+
+    return () => window.clearTimeout(timer);
+  }, [waitingMilestoneIds]);
   const recording = useRecordMilestone(playId);
+  const waitingSet = useMemo(
+    () => new Set(waitingMilestoneIds),
+    [waitingMilestoneIds],
+  );
   const activeScope =
     model.scopes.find((scope) => scope.id === activeScopeId) ??
     defaultScope ??
@@ -131,6 +190,20 @@ export const MainlinePlayProgressStory = ({
     }
   };
 
+  /* A stamp opens its milestone: picked, and its row brought into view. */
+  const openStampMilestone = (milestoneId: number) => {
+    const milestone = findMilestone(milestoneId);
+
+    if (!milestone) {
+      return;
+    }
+
+    selectMilestone(milestone);
+    document
+      .getElementById(getStoryMilestoneRowId(milestoneId))
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   /* Back to the next objective, with focus on the row that was open. */
   const closePanel = (milestoneId: number) => {
     flushSync(() => setSelectedMilestoneId(null));
@@ -141,8 +214,9 @@ export const MainlinePlayProgressStory = ({
   };
 
   const endRecordingReward = () => {
-    setPoppingMilestoneId(null);
-    setSlappingMilestoneId(null);
+    setWaitingMilestoneIds([]);
+    setRowStampOrder(noStamps);
+    setFadingMilestoneIds(noFades);
   };
 
   const selectScope = (scopeId: number) => {
@@ -152,36 +226,82 @@ export const MainlinePlayProgressStory = ({
     setIsDetailSheetOpen(false);
   };
 
-  const startRecordingReward = (milestoneId: number) => {
-    setPoppingMilestoneId(milestoneId);
-    setSlappingMilestoneId(milestoneId);
+  const startRecordingReward = (milestoneIds: number[]) => {
+    const recordedIds = new Set(milestoneIds);
+    const order = createStampOrder(
+      model.scopes
+        .flatMap(getScopeMilestones)
+        .filter((milestone) => recordedIds.has(milestone.id))
+        .map((milestone) => milestone.id),
+    );
+
+    setRowStampOrder(order);
+    setWaitingMilestoneIds([...order.keys()].slice(1));
+    setFadingMilestoneIds(noFades);
     setSelectedMilestoneId(null);
+  };
+
+  /* Shows milestones recorded or not at once, with the reward or the fade. */
+  const showRecording = (milestoneIds: number[], recorded: boolean) => {
+    setOverriddenAt(new Date().toISOString());
+    setOverrides((current) => {
+      const next = new Map(current);
+
+      for (const milestoneId of milestoneIds) {
+        next.set(milestoneId, recorded);
+      }
+
+      return next;
+    });
+
+    if (recorded) {
+      startRecordingReward(milestoneIds);
+    } else {
+      startUnrecordingFade(milestoneIds);
+    }
+  };
+
+  const startUnrecordingFade = (milestoneIds: number[]) => {
+    setWaitingMilestoneIds([]);
+    setRowStampOrder(noStamps);
+    setFadingMilestoneIds(new Set(milestoneIds));
   };
 
   /*
    * Record is one tap (v3): the milestone is recorded where you are, with
-   * the ones before it when asked, its row pops and its stamp slaps, and the
-   * toast offers Undo. A choice milestone still opens the form, since its
-   * choice has to be made.
+   * the required ones and choices before it still open unless "Record only
+   * this one", its row's marker stamps down, and the toast offers Undo. A choice
+   * milestone still opens the form, since its choice has to be made.
    */
   const openEditor = (
     milestone: StoryMilestone,
     choice: StoryMilestoneChoice,
   ) => {
     const withTeam = choice === "complete-with-team";
-    const withEarlier = choice === "complete-with-earlier";
-    const intent = withTeam || withEarlier ? "complete" : choice;
+    const withEarlier = choice !== "complete-only";
+    const intent = withTeam || choice === "complete-only" ? "complete" : choice;
 
     if (intent === "complete" && !milestone.decisionOptions.length) {
+      const earlier = withEarlier ? milestone.earlierToRecord : [];
+      const scope = findScope(milestone.id) ?? activeScope;
+      const requiredAdded = [milestone, ...earlier].filter(({ id }) =>
+        getScopeMilestones(scope).some(
+          (candidate) => candidate.id === id && candidate.isRequired,
+        ),
+      ).length;
+      const recordedName = earlier.length
+        ? `${milestone.name} and ${formatMilestoneRange(earlier.length, "before")}`
+        : milestone.name;
+
       setIsDetailSheetOpen(false);
-      recording.record(
+      recording.recordInstant(
         { id: milestone.id, name: milestone.name },
         {
-          earlierMilestoneIds: withEarlier
-            ? milestone.earlierToRecord.map(({ id }) => id)
-            : [],
+          earlierMilestoneIds: earlier.map(({ id }) => id),
           includeTeam: withTeam,
-          onRecorded: startRecordingReward,
+          keepsSnapshot: milestone.snapshotPolicySlug !== "none",
+          onChange: showRecording,
+          toastMessage: `${recordedName} recorded · ${scope.completedCount + requiredAdded} of ${scope.totalCount}`,
         },
       );
       return;
@@ -195,13 +315,17 @@ export const MainlinePlayProgressStory = ({
     setIsEditorOpen(true);
   };
 
-  const finishEditing = (message: string | null) => {
+  const finishEditing = (message: string | null, milestoneIds: number[]) => {
     setIsEditorOpen(false);
 
     if (editorIntent === "complete" && editorMilestone) {
-      startRecordingReward(editorMilestone.id);
+      startRecordingReward(milestoneIds);
       toast.success(message ?? `${editorMilestone.name} recorded`);
       return;
+    }
+
+    if (editorIntent === "incomplete") {
+      startUnrecordingFade(milestoneIds);
     }
 
     if (message) {
@@ -219,8 +343,7 @@ export const MainlinePlayProgressStory = ({
 
       {activeScope.stamps ? (
         <StoryStampCardSection
-          onSlapEnd={() => setSlappingMilestoneId(null)}
-          slappingMilestoneId={slappingMilestoneId}
+          onStampSelect={openStampMilestone}
           stamps={activeScope.stamps}
         />
       ) : null}
@@ -251,10 +374,19 @@ export const MainlinePlayProgressStory = ({
 
         <StoryMilestoneList
           className="order-2 lg:order-0 lg:col-start-1 lg:row-start-1"
+          fadingMilestoneIds={fadingMilestoneIds}
           onMilestoneSelect={selectMilestone}
-          onPopEnd={() => setPoppingMilestoneId(null)}
-          poppingMilestoneId={poppingMilestoneId}
+          onMotionEnd={(milestoneId) => {
+            setRowStampOrder((order) => withoutMilestone(order, milestoneId));
+            setFadingMilestoneIds((ids) => {
+              const next = new Set(ids);
+              next.delete(milestoneId);
+              return next;
+            });
+          }}
           scope={activeScope}
+          stampOrder={rowStampOrder}
+          waitingMilestoneIds={waitingSet}
           selectedMilestoneId={
             !usesDetailSheet || isDetailSheetOpen
               ? (selectedMilestone?.id ?? null)

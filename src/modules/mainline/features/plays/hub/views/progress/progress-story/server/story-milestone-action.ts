@@ -23,6 +23,8 @@ export type StoryMilestoneActionIntent =
 
 export type StoryMilestoneActionState = {
   message: string | null;
+  /* What the save recorded or cleared, so their rows stamp or fade. */
+  milestoneIds?: number[];
   status: "idle" | "error" | "success";
 };
 
@@ -168,6 +170,7 @@ export const updateStoryMilestoneAction = async (
       revalidatePath(appRoutes.mainlinePlayHistory(playId));
 
       return {
+        milestoneIds: incompleteResult.data?.[0]?.affected_milestone_ids ?? [],
         message:
           affectedMilestoneCount === 1
             ? "Milestone marked incomplete."
@@ -237,6 +240,10 @@ export const updateStoryMilestoneAction = async (
 
     /* Recording is announced by the page, unless others came with it. */
     return {
+      milestoneIds:
+        intent === "complete"
+          ? (mutationResult.data?.[0]?.completed_milestone_ids ?? [])
+          : [],
       message:
         intent === "complete"
           ? recordedEarlierCount

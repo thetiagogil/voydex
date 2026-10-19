@@ -101,15 +101,24 @@ export const orderPlayMilestones = <TMilestone extends MilestoneRow>({
   );
 };
 
+/*
+ * A choice (Fossil Choice, the starter): part of the story's path even when
+ * optional, so it comes up next in its place and is recorded with the
+ * milestones after it, its decision left unrecorded.
+ */
+export const isChoiceMilestone = (typeSlug: string | null | undefined) =>
+  typeSlug === "decision";
+
 type NextMilestoneState = {
   isAvailable: boolean;
+  isChoice: boolean;
   isCompleted: boolean;
   isRequired: boolean;
 };
 
 /*
  * What to record next, the one rule Story, Overview and Plays share: the
- * first required milestone you can record now, else the first required one
+ * first required milestone or choice you can record now, else the first one
  * still open, else anything still open. Pass the milestones in Story's order.
  */
 export const pickNextMilestone = <TMilestone>(
@@ -119,7 +128,7 @@ export const pickNextMilestone = <TMilestone>(
   const openRequired = milestones.filter((milestone) => {
     const state = getState(milestone);
 
-    return state.isRequired && !state.isCompleted;
+    return (state.isRequired || state.isChoice) && !state.isCompleted;
   });
 
   return (
@@ -136,6 +145,7 @@ export const pickNextMilestoneRow = <
     is_completed: boolean | null;
     is_required_for_completion: boolean | null;
     milestone_id: number | null;
+    milestone_type_slug: string | null;
     prerequisites: Json | null;
   },
 >(
@@ -151,6 +161,7 @@ export const pickNextMilestoneRow = <
     isAvailable: getBlockingPrerequisiteIds(milestone.prerequisites).every(
       (id) => completedIds.has(id),
     ),
+    isChoice: isChoiceMilestone(milestone.milestone_type_slug),
     isCompleted: Boolean(milestone.is_completed),
     isRequired: Boolean(milestone.is_required_for_completion),
   }));

@@ -50,11 +50,6 @@ type BottomSheetProps = {
    */
   onOpenChangeComplete?: (open: boolean) => void;
   open?: boolean;
-  /*
-   * `confirm` asks for an answer (Mark incomplete): it closes only on one of
-   * its buttons or Escape, never on a tap outside.
-   */
-  role?: "confirm" | "sheet";
   /* `wide` holds a table, such as Team check's matrix, on tablets. */
   size?: "default" | "wide";
   /* The visible Fredoka 24 heading at the top of the body. */
@@ -86,7 +81,6 @@ export const BottomSheet = ({
   onOpenChange,
   onOpenChangeComplete,
   open,
-  role = "sheet",
   size = "default",
   title,
   trigger,
@@ -95,7 +89,6 @@ export const BottomSheet = ({
     <Sheet
       open={open}
       defaultOpen={defaultOpen}
-      disablePointerDismissal={role === "confirm"}
       onOpenChange={onOpenChange}
       onOpenChangeComplete={onOpenChangeComplete}
     >

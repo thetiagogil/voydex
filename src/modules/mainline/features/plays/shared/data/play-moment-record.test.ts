@@ -91,7 +91,7 @@ describe("getPlayMomentRecord", () => {
 });
 
 describe("getPlayMomentRecord for other moments", () => {
-  it("gives a gym milestone its badge, and any other milestone gold", () => {
+  it("gives a gym milestone its badge, a trophy gold and the rest calm blue", () => {
     const milestone = event({
       event_type_name: "Milestone completed",
       event_type_slug: "story_milestone",
@@ -104,7 +104,11 @@ describe("getPlayMomentRecord for other moments", () => {
         badgeTypeByMilestoneId: new Map([[7, "water"]]),
       }).medallion,
     ).toEqual({ kind: "badge", type: "water" });
-    expect(getPlayMomentRecord(milestone).medallion.kind).toBe("gold");
+    expect(
+      getPlayMomentRecord(milestone, { trophyMilestoneIds: new Set([7]) })
+        .medallion.kind,
+    ).toBe("gold");
+    expect(getPlayMomentRecord(milestone).medallion.kind).toBe("calm");
     expect(getPlayMomentRecord(milestone).label).toBe("Milestone");
   });
 

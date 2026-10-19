@@ -63,7 +63,7 @@ export const BadgeStamp = ({
       className={cn(
         "relative grid aspect-square w-full place-items-center rounded-full",
         tilted && "transform-[rotate(var(--tilt))]",
-        slap && "animate-slap",
+        slap && "animate-stamp-slap",
         state.kind === "badge" && "moment-ring bg-(--t) text-white",
         state.kind === "earned" &&
           "moment-ring bg-gold text-white [--mr:var(--gold-ring)]",

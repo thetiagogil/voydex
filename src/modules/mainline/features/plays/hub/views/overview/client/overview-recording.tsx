@@ -5,13 +5,11 @@ import {
   useContext,
   useMemo,
   useState,
-  type ComponentProps,
   type ReactNode,
 } from "react";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
-import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
 
 type OverviewRecordingState = {
   endSlap: () => void;
@@ -36,7 +34,7 @@ const useOverviewRecording = () => {
 
 /*
  * What Overview's Record shares across its sections: the milestone just
- * recorded, whose stamp slaps once in the badge case when the page redraws.
+ * recorded, whose stamp slaps once on the next objective.
  */
 export const OverviewRecordingProvider = ({
   children,
@@ -66,10 +64,15 @@ export const OverviewRecordingProvider = ({
   );
 };
 
+/* The milestone Overview recorded a moment ago, for the next objective's hand-over. */
+export const useOverviewJustRecorded = () =>
+  useOverviewRecording().slappingMilestoneId;
+
 /* The page's main button: records the milestone where you are. */
 export const OverviewRecordButton = ({
   className,
   decisionOptionId = null,
+  instant,
   label,
   milestoneId,
   milestoneName,
@@ -84,8 +87,13 @@ export const OverviewRecordButton = ({
   milestoneName: string;
   size?: "lg" | "sm";
   toastMessage?: string;
+  /*
+   * Records at once (the next objective): its stamp slaps and the toast
+   * shows straight away while it saves, as Story's Record does.
+   */
+  instant?: { keepsSnapshot: boolean; toastMessage: string };
 }) => {
-  const { record, startSlap } = useOverviewRecording();
+  const { endSlap, record, startSlap } = useOverviewRecording();
   const isSaving =
     record.isPending && record.pendingMilestoneId === milestoneId;
 
@@ -97,29 +105,23 @@ export const OverviewRecordButton = ({
       className={className}
       label={label ?? `Record ${milestoneName}`}
       onClick={() =>
-        record.record(
-          { id: milestoneId, name: milestoneName },
-          { decisionOptionId, onRecorded: startSlap, toastMessage },
-        )
+        instant
+          ? record.recordInstant(
+              { id: milestoneId, name: milestoneName },
+              {
+                earlierMilestoneIds: [],
+                includeTeam: false,
+                keepsSnapshot: instant.keepsSnapshot,
+                onChange: (_milestoneIds, recorded) =>
+                  recorded ? startSlap(milestoneId) : endSlap(),
+                toastMessage: instant.toastMessage,
+              },
+            )
+          : record.record(
+              { id: milestoneId, name: milestoneName },
+              { decisionOptionId, onRecorded: startSlap, toastMessage },
+            )
       }
-    />
-  );
-};
-
-/* The badge case's stamps; the one just recorded slaps down once. */
-export const OverviewStampGrid = (
-  props: Omit<
-    ComponentProps<typeof StampGrid>,
-    "onSlapEnd" | "slappingMilestoneId"
-  >,
-) => {
-  const { endSlap, slappingMilestoneId } = useOverviewRecording();
-
-  return (
-    <StampGrid
-      {...props}
-      slappingMilestoneId={slappingMilestoneId}
-      onSlapEnd={endSlap}
     />
   );
 };

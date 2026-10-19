@@ -21,10 +21,8 @@ import type {
 } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import {
-  buildMainlinePlayBadgeCase,
-  getBadgeTypeByMilestoneId,
-} from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import { isTrophyMilestone } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
+import { buildMainlinePlayBadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import {
   getOverviewMilestoneSummary,
   type MainlinePlayOverviewMilestoneRows,
@@ -129,14 +127,18 @@ export const buildMainlinePlayOverviewData = (params: {
     badgeCase: buildMainlinePlayBadgeCase(badgeRows),
     freshPlay: partner ? { partner } : null,
     nextDecisionMilestone: null,
-    ...getOverviewMilestoneSummary(
-      orderedMilestones,
-      getBadgeTypeByMilestoneId(badgeRows),
-    ),
+    ...getOverviewMilestoneSummary(orderedMilestones),
     overview: params.overview,
     play: params.play,
     teamPreview: buildMainlinePlayOverviewTeamPreview(params.teamPreviewRows),
     timelinePreview: params.timelinePreview,
+    /* Its trophies (the League, trials), gold in Recent moments as in History. */
+    trophyMilestoneIds: orderedMilestones.flatMap((milestone) =>
+      milestone.milestone_id !== null &&
+      isTrophyMilestone(milestone.milestone_type_slug)
+        ? [milestone.milestone_id]
+        : [],
+    ),
   };
 };
 

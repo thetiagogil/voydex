@@ -10,7 +10,8 @@ import type { MainlinePlayCollectibleEntry } from "../types";
 /*
  * One collectible as a token: missing is a dashed square with its number;
  * found is gold, with a white border, a gold lip and the number on a tab. It
- * pops only at the moment it is marked found. While it saves it stays
+ * pops only at the moment it is marked found, and settles back softly when
+ * it is unmarked. While it saves it stays
  * focusable, so a keyboard keeps its place in the list. Its place in the
  * grid lifts it on hover, so anything pinned to it lifts too.
  */
@@ -31,7 +32,7 @@ export const CollectibleToken = ({
   /* Where it hides, when the area holds several places. */
   place: string | null;
 }) => {
-  const [isPopping, setIsPopping] = useState(false);
+  const [motion, setMotion] = useState<"pop" | "settle" | null>(null);
 
   return (
     <button
@@ -45,17 +46,16 @@ export const CollectibleToken = ({
           return;
         }
 
-        if (!isFound) {
-          setIsPopping(true);
-        }
+        setMotion(isFound ? "settle" : "pop");
 
         onToggle();
       }}
-      onAnimationEnd={() => setIsPopping(false)}
+      onAnimationEnd={() => setMotion(null)}
       className={cn(
         "focus-ring relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 aria-disabled:cursor-wait",
         isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
-        isPopping && "animate-pop",
+        motion === "pop" && "animate-pop",
+        motion === "settle" && "animate-settle",
         className,
       )}
     >

@@ -107,7 +107,7 @@ Use reviewed security-invoker functions for atomic workflows:
   values from explicit replacement, so a submitted `Not recorded` decision or
   empty note clears the existing value without changing unrelated milestone
   evidence. `p_record_earlier_milestone_ids` records Story's "the N before it"
-  in the same call: each must be a required milestone of the same journey
+  in the same call: each must be a required milestone or a choice (decision type) of the same journey
   before the target in Story order (category, then milestone order), the
   journey must not be open world (`reference.version_groups.is_open_world`),
   and ones already recorded keep their record. They get no moment, note or

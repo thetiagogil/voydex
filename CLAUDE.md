@@ -151,7 +151,8 @@ Voydex is quiet where you work and loud where you remember. The
   Selected rows, chips and filter pills take `bg-select-soft
 text-select-ink`; a mode switch and a scope picker take the strong context
   colour. Toolbars and form rows are 48px; below 1024px sheets open from the
-  bottom; confirms close only on an answer or Escape.
+  bottom; every overlay, confirms included, has the corner close button and
+  closes on Escape or a tap outside.
 - Icons come only from `appIcons` in `src/shared/domain/icons/app-icons.ts`,
   rendered through `AppIcon`.
 - Light mode only for now. Never reintroduce a retired look;

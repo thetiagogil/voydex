@@ -71,18 +71,22 @@ const StoryMilestoneWhen = ({
  * details"; the panel shows them in full).
  */
 export const StoryMilestoneRow = ({
-  isJustRecorded,
   milestone,
-  onPopEnd,
   onSelect,
+  onSettled,
   selected,
+  motion,
   showDetails,
   state,
 }: {
-  isJustRecorded: boolean;
   milestone: StoryMilestone;
-  /* Called once the just-recorded pop has played. */
-  onPopEnd: () => void;
+  /*
+   * Recorded or un-recorded a moment ago: the row keeps still while its
+   * marker changes: a medallion stamps down, a number pops back.
+   */
+  motion: "recorded" | "unrecorded" | null;
+  /* Called once the marker has popped. */
+  onSettled: () => void;
   onSelect: () => void;
   selected: boolean;
   /*
@@ -107,20 +111,24 @@ export const StoryMilestoneRow = ({
         aria-pressed={selected}
         onClick={onSelect}
         onAnimationEnd={(event) => {
-          if (isJustRecorded && event.target === event.currentTarget) {
-            onPopEnd();
+          if (
+            motion &&
+            (event.animationName === "slap" ||
+              event.animationName === "marker-in")
+          ) {
+            onSettled();
           }
         }}
         className={cn(
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
           "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-4.5 sm:py-3.5",
-          isJustRecorded && "animate-pop",
         )}
       >
         <MilestoneMarker
           badgeType={milestone.badgeType}
           className="row-span-2 sm:row-span-1"
+          popIn={motion !== null}
           sequence={milestone.sequence}
           state={state}
           typeSlug={milestone.typeSlug}

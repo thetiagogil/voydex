@@ -1,5 +1,9 @@
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import { getMilestoneIcon } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
+import {
+  getMilestoneIcon,
+  getMilestoneMedallion,
+  isTrophyMilestone,
+} from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
@@ -15,6 +19,11 @@ type MilestoneMarkerProps = {
    * milestone has none and shows its type's icon instead.
    */
   sequence: number | null;
+  /*
+   * Recorded or un-recorded a moment ago: a medallion stamps down, a number
+   * pops back into its ring.
+   */
+  popIn?: boolean;
   /* `md` beside Story's rows (30px, 34px from `sm`); `sm` in short lists (28px). */
   size?: "md" | "sm";
   state: PlayMilestoneState;
@@ -29,7 +38,8 @@ const ringSizeClassNames = {
 
 /*
  * Where a milestone stands, the same in Story and on Overview. A recorded one
- * wears its medallion: the badge in its type, anything else in gold. The next
+ * wears its medallion: the badge in its type, a trophy in gold, anything
+ * else in the calm blue. The next
  * one is a game-coloured ring around the objective flag, an accent and not a
  * fill; the rest show their number in a quiet ring (an optional one, which
  * has no number, its type's icon).
@@ -37,6 +47,7 @@ const ringSizeClassNames = {
 export const MilestoneMarker = ({
   badgeType,
   className,
+  popIn = false,
   sequence,
   size = "md",
   state,
@@ -45,13 +56,17 @@ export const MilestoneMarker = ({
   if (state === "done") {
     return (
       <Medallion
-        className={cn(size === "md" && "max-sm:size-7", className)}
+        className={cn(
+          size === "md" && "max-sm:size-7",
+          popIn && "animate-stamp-slap",
+          className,
+        )}
         size={size === "md" ? "sm" : "xs"}
-        content={
-          badgeType
-            ? { kind: "badge", type: badgeType }
-            : { icon: getMilestoneIcon(typeSlug ?? ""), kind: "gold" }
-        }
+        content={getMilestoneMedallion({
+          badgeType,
+          icon: getMilestoneIcon(typeSlug ?? ""),
+          isTrophy: isTrophyMilestone(typeSlug),
+        })}
       />
     );
   }
@@ -65,6 +80,7 @@ export const MilestoneMarker = ({
         state === "next"
           ? "bg-surface text-action-ink inset-ring-action inset-ring-2"
           : "text-ink-3 inset-ring-line inset-ring",
+        popIn && "animate-marker-in",
         className,
       )}
     >

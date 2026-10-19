@@ -8,13 +8,14 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
 VALUES
     ('40000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 2, 'RPC Play'),
     ('40000000-0000-0000-0000-0000000000a2', '00000000-0000-0000-0000-0000000000a1', 36, 23, 2, 'RPC Prerequisite Play'),
-    ('40000000-0000-0000-0000-0000000000a3', '00000000-0000-0000-0000-0000000000a1', 9, 6, 2, 'RPC FireRed Play');
+    ('40000000-0000-0000-0000-0000000000a3', '00000000-0000-0000-0000-0000000000a1', 9, 6, 2, 'RPC FireRed Play'),
+    ('40000000-0000-0000-0000-0000000000a4', '00000000-0000-0000-0000-0000000000a1', 29, 17, 2, 'RPC Lets Go Play');
 INSERT INTO planning.mainline_team_plans (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('50000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000a1', 25, 15, 1, 'RPC Plan');
 INSERT INTO planning.mainline_team_plan_members (id, team_plan_id, slot, target_species_id, target_form_id, gender, notes)
     VALUES ('51000000-0000-0000-0000-0000000000a1', '50000000-0000-0000-0000-0000000000a1', 1, 722, 72200, 'male', 'Copied member note');
 SELECT
-    plan (52);
+    plan (54);
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000a1', TRUE);
 SET LOCAL ROLE authenticated;
@@ -292,11 +293,23 @@ SELECT
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150005, p_record_earlier_milestone_ids => ARRAY[150004, 150006], p_create_event => FALSE) $$, '23514', 'Milestones {150006} are not required milestones before milestone 150005', 'a later milestone cannot be recorded as an earlier one');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a1', p_milestone_id => 150005, p_record_earlier_milestone_ids => ARRAY[150004, 150006], p_create_event => FALSE) $$, '23514', 'Milestones {150006} are not required milestones or choices before milestone 150005', 'a later milestone cannot be recorded as an earlier one');
+SELECT
+    lives_ok ($$
+        SELECT
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a3', p_milestone_id => 60005, p_record_earlier_milestone_ids => ARRAY[60003, 60004], p_create_event => FALSE) $$, 'a choice before it is recorded with it');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)
+            FROM
+                gameplay.mainline_play_milestone_decisions
+            WHERE
+                play_id = '40000000-0000-0000-0000-0000000000a3'), 0::bigint, 'a choice recorded with a later milestone keeps its decision unrecorded');
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a3', p_milestone_id => 60005, p_record_earlier_milestone_ids => ARRAY[60003, 60004], p_create_event => FALSE) $$, '23514', 'Milestones {60004} are not required milestones before milestone 60005', 'an optional milestone is never recorded with a later one');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a4', p_milestone_id => 170019, p_record_earlier_milestone_ids => ARRAY[170018], p_create_event => FALSE) $$, '23514', 'Milestones {170018} are not required milestones or choices before milestone 170019', 'an optional milestone that is not a choice is never recorded with a later one');
 CREATE TEMPORARY TABLE milestone_range_result ON COMMIT DROP AS
 SELECT
     *

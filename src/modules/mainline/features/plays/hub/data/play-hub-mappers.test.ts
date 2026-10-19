@@ -126,3 +126,38 @@ describe("Play page data mappers", () => {
     expect(data).not.toHaveProperty("teamTimelinePreview");
   });
 });
+
+describe("buildMainlinePlayOverviewData trophies", () => {
+  it("marks the League and trials gold, as History does, and not a story step", () => {
+    const row = (milestone_id: number, milestone_type_slug: string) =>
+      ({
+        category_id: 1,
+        milestone_id,
+        milestone_type_slug,
+        sort_order: milestone_id,
+      }) as Parameters<
+        typeof buildMainlinePlayOverviewData
+      >[0]["milestoneRows"]["milestones"][number];
+
+    const data = buildMainlinePlayOverviewData({
+      milestoneRows: {
+        categories: [],
+        milestones: [
+          row(1, "story"),
+          row(2, "gym"),
+          row(3, "elite-four"),
+          row(4, "trial"),
+          row(5, "hall-of-fame"),
+        ],
+        types: [],
+      },
+      overview: null,
+      partnerRows: null,
+      play: {} as Parameters<typeof buildMainlinePlayOverviewData>[0]["play"],
+      teamPreviewRows: { attributes: [], members: [], types: [] },
+      timelinePreview: [],
+    });
+
+    expect(data.trophyMilestoneIds).toEqual([3, 4, 5]);
+  });
+});
