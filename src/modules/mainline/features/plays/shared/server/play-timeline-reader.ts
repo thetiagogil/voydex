@@ -39,26 +39,18 @@ const hydrateTimelineEventImages = async (
   return hydrateMainlineTimelinePokemonImages(events, forms);
 };
 
-/*
- * A Play's latest moments, newest first, at most `limit`. Moments of the
- * types in `excludeEventTypeSlugs` are left out in the read itself, so the
- * limit counts only the moments that show.
- */
+/* A Play's latest moments, newest first, at most `limit`. */
 export const readMainlinePlayTimelinePreview = async (
   supabase: ServerSupabaseClient,
   playId: string,
   limit = 5,
-  { excludeEventTypeSlugs = [] }: { excludeEventTypeSlugs?: string[] } = {},
 ): Promise<MainlinePlayTimelineEvent[]> => {
   const query = supabase
     .schema("views")
     .from("mainline_play_timeline_detail")
     .select("*")
     .eq("play_id", playId);
-  const visibleQuery = excludeEventTypeSlugs.length
-    ? query.not("event_type_slug", "in", `(${excludeEventTypeSlugs.join(",")})`)
-    : query;
-  const timelineResult = await visibleQuery
+  const timelineResult = await query
     .order("happened_at", { ascending: false, nullsFirst: false })
     .order("timeline_order", { ascending: false })
     .limit(limit);

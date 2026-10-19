@@ -1,5 +1,4 @@
 import {
-  HOME_HIDDEN_MOMENT_TYPES,
   HOME_MOMENT_COUNT,
   toHomeMoments,
 } from "@/modules/mainline/features/home/data/home-moments-model";
@@ -172,7 +171,6 @@ const readHomeMoments = async (
       supabase,
       playId,
       HOME_MOMENT_COUNT + 1,
-      { excludeEventTypeSlugs: HOME_HIDDEN_MOMENT_TYPES },
     ),
   );
   const context = await readMainlinePlayMomentContext(supabase, {

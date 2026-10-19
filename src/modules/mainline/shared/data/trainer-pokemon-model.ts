@@ -1,4 +1,7 @@
-import type { TrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
+import type {
+  TrainerPokemonRows,
+  TrainerPokemonUse,
+} from "@/modules/mainline/shared/server/trainer-pokemon-reader";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
@@ -50,6 +53,8 @@ export type TrainerPokemonEntry = {
   imageUrl: string | null;
   lastUsedAt: string | null;
   members: TrainerPokemonMember[];
+  /* Per Play, its latest recorded moment with this species, to open in History. */
+  momentIdByPlayId: Record<string, string>;
   name: string;
   nationalNumber: number | null;
   onTeamNow: boolean;
@@ -179,6 +184,7 @@ export const buildTrainerPokemonEntries = (
   > & {
     latestFormId: number | null;
     latestFormAt: string | null;
+    latestMomentAtByPlayId: Record<string, string>;
   };
   const drafts = new Map<number, Draft>();
   const getDraft = (use: {
@@ -200,7 +206,9 @@ export const buildTrainerPokemonEntries = (
       lastUsedAt: null,
       latestFormAt: null,
       latestFormId: null,
+      latestMomentAtByPlayId: {},
       members: [],
+      momentIdByPlayId: {},
       name: use.species_name ?? "Unknown Pokémon",
       nationalNumber: use.national_number,
       onTeamNow: false,
@@ -216,6 +224,19 @@ export const buildTrainerPokemonEntries = (
   const notePlay = (draft: Draft, playId: string | null) => {
     if (playId && playById.has(playId) && !draft.playIds.includes(playId)) {
       draft.playIds.push(playId);
+    }
+  };
+  const noteMoment = (
+    draft: Draft,
+    { event_id, play_id, used_at }: TrainerPokemonUse,
+  ) => {
+    if (!event_id || !play_id) return;
+
+    const latestAt = draft.latestMomentAtByPlayId[play_id];
+
+    if (latestAt === undefined || (used_at ?? "") >= latestAt) {
+      draft.momentIdByPlayId[play_id] = event_id;
+      draft.latestMomentAtByPlayId[play_id] = used_at ?? "";
     }
   };
   const noteForm = (draft: Draft, formId: number | null, at: string | null) => {
@@ -235,6 +256,7 @@ export const buildTrainerPokemonEntries = (
     const draft = getDraft({ ...use, species_id: use.species_id });
 
     notePlay(draft, use.play_id);
+    noteMoment(draft, use);
     noteForm(draft, use.form_id, use.used_at);
     draft.firstUsedAt = earlierOf(draft.firstUsedAt, use.used_at);
     draft.lastUsedAt = laterOf(draft.lastUsedAt, use.used_at);
@@ -279,6 +301,7 @@ export const buildTrainerPokemonEntries = (
       firstUsedAt: draft.firstUsedAt,
       lastUsedAt: draft.lastUsedAt,
       members: draft.members,
+      momentIdByPlayId: draft.momentIdByPlayId,
       name: draft.name,
       nationalNumber: draft.nationalNumber,
       onTeamNow: draft.onTeamNow,
@@ -329,7 +352,7 @@ export const getTrainerFamilyEntries = (
 
 /* A Play the species (or its family) was in before, and isn't now. */
 export type TrainerPastPlay = {
-  /* Where the row leads: the Pokémon on that Play's roster, else its History. */
+  /* Where the row leads: the Pokémon on that Play's roster, else its moment in History. */
   href: string;
   play: TrainerPlay;
   /* "Charmander · Lv. 30", "Now Charizard · Lv. 36", "In a recorded moment". */
@@ -347,12 +370,14 @@ export type TrainerPastPlay = {
 export const splitTrainerSpeciesPlays = ({
   family,
   getMemberHref,
+  getMomentHref,
   getPlayHref,
   species,
 }: {
   /* The rest of the family that has joined you, to say what it is now. */
   family: TrainerPokemonEntry[];
   getMemberHref: (member: TrainerPokemonMember) => string;
+  getMomentHref: (play: TrainerPlay, eventId: string) => string;
   getPlayHref: (play: TrainerPlay) => string;
   /* The species shown: one, or every member of a family. */
   species: TrainerPokemonEntry[];
@@ -390,6 +415,9 @@ export const splitTrainerSpeciesPlays = ({
 
     beforePlayIds.add(play.id);
     const relative = relativesNow.find((member) => member.play.id === play.id);
+    const momentId = species
+      .map((each) => each.momentIdByPlayId[play.id])
+      .find(Boolean);
 
     before.push(
       relative
@@ -408,7 +436,7 @@ export const splitTrainerSpeciesPlays = ({
           }
         : {
             detail: "In a recorded moment",
-            href: getPlayHref(play),
+            href: momentId ? getMomentHref(play, momentId) : getPlayHref(play),
             member: null,
             play,
           },

@@ -18,6 +18,8 @@ import { uniqueNumberIds } from "@/shared/utils/collections";
 
 /* One time a Pokémon was part of a Play: on its roster, in a moment or in a team saved with one. */
 export type TrainerPokemonUse = {
+  /* The History moment it was in; null for a roster entry. */
+  event_id: string | null;
   evolution_family_id: number | null;
   form_id: number | null;
   national_number: number | null;
@@ -104,7 +106,7 @@ const readTrainerUses = async (
         .schema("views")
         .from("mainline_collection_used_identities")
         .select(
-          "evolution_family_id, form_id, national_number, play_id, species_id, species_name, species_slug, used_at",
+          "event_id, evolution_family_id, form_id, national_number, play_id, species_id, species_name, species_slug, used_at",
         )
         .eq("user_id", userId)
         .order("source_row_id", { ascending: true })

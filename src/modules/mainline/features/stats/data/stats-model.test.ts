@@ -34,6 +34,7 @@ const entry = (
   imageUrl: `/art/${speciesId}.png`,
   lastUsedAt,
   members: [],
+  momentIdByPlayId: {},
   name,
   nationalNumber: speciesId,
   onTeamNow: false,

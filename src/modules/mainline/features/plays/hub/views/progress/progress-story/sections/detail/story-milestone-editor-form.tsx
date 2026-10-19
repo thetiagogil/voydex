@@ -162,7 +162,7 @@ export const StoryMilestoneEditorForm = ({
               defaultChecked={recordsTeam}
               name="recordStoryMoment"
               title="Record team snapshot"
-              description="Add this milestone to History and save the current Active Team."
+              description="Save the current Active Team with this milestone's moment in History."
               value="true"
             />
           ) : null}

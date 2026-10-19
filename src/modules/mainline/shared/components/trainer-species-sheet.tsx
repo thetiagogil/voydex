@@ -100,6 +100,8 @@ export const TrainerSpeciesSheet = ({
     family: showsFamily ? [] : family,
     getMemberHref: (member) =>
       appRoutes.mainlinePlayTeamPokemon(member.play.id, member.id),
+    getMomentHref: (play, eventId) =>
+      appRoutes.mainlinePlayHistoryMoment(play.id, eventId),
     getPlayHref: (play) => appRoutes.mainlinePlayHistory(play.id),
     species,
   });

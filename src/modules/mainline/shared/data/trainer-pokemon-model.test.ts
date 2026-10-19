@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  TrainerPokemonRows,
+  TrainerPokemonUse,
+} from "@/modules/mainline/shared/server/trainer-pokemon-reader";
+
 import {
+  buildTrainerPokemonEntries,
   countTrainerSpeciesPlays,
   getEvolvedFromByPlayPokemon,
   getEarlierFamilyNames,
@@ -21,6 +28,7 @@ const entry = (
   imageUrl: null,
   lastUsedAt: null,
   members: [],
+  momentIdByPlayId: {},
   name: `Pokémon ${speciesId}`,
   nationalNumber: speciesId,
   onTeamNow: false,
@@ -84,6 +92,8 @@ const member = (
 describe("splitTrainerSpeciesPlays", () => {
   const hrefs = {
     getMemberHref: (one: TrainerPokemonMember) => `/member/${one.id}`,
+    getMomentHref: (one: TrainerPlay, eventId: string) =>
+      `/history/${one.id}#moment-${eventId}`,
     getPlayHref: (one: TrainerPlay) => `/history/${one.id}`,
   };
   const charmander: TrainerPokemonEntry = {
@@ -93,6 +103,7 @@ describe("splitTrainerSpeciesPlays", () => {
       member("now", "A Play", "Charmander", true),
       member("retired", "B Play", "Charmander", false),
     ],
+    momentIdByPlayId: { "D Play": "evolved-d" },
     plays: [play("A Play"), play("B Play"), play("C Play"), play("D Play")],
   };
   const charizard: TrainerPokemonEntry = {
@@ -125,11 +136,23 @@ describe("splitTrainerSpeciesPlays", () => {
       },
       {
         detail: "In a recorded moment",
-        href: "/history/D Play",
+        href: "/history/D Play#moment-evolved-d",
         member: null,
         play: play("D Play"),
       },
     ]);
+  });
+
+  it("opens the Play's History when the moment isn't known", () => {
+    const { before } = splitTrainerSpeciesPlays({
+      ...hrefs,
+      family: [],
+      species: [{ ...charmander, momentIdByPlayId: {} }],
+    });
+
+    expect(before.find((one) => one.play.id === "D Play")?.href).toBe(
+      "/history/D Play",
+    );
   });
 
   it("says it evolved when History recorded the evolution", () => {
@@ -218,5 +241,49 @@ describe("getEvolvedFromByPlayPokemon", () => {
     ]);
 
     expect(evolved.get("venu")).toEqual(["Bulbasaur", "Ivysaur"]);
+  });
+});
+
+describe("buildTrainerPokemonEntries", () => {
+  const use = (eventId: string | null, usedAt: string): TrainerPokemonUse => ({
+    event_id: eventId,
+    evolution_family_id: 1,
+    form_id: 2500,
+    national_number: 25,
+    play_id: "play-1",
+    species_id: 25,
+    species_name: "Pikachu",
+    species_slug: "pikachu",
+    used_at: usedAt,
+  });
+  const rows: TrainerPokemonRows = {
+    attributes: [],
+    evolutions: [],
+    forms: [],
+    games: [],
+    plays: [
+      {
+        game_name: "Pokémon Red",
+        game_slug: "red",
+        play_id: "play-1",
+        play_name: "Red run",
+        status_name: "Playing",
+        status_slug: "playing",
+      } as MainlinePlaySummary,
+    ],
+    regions: [],
+    roster: [],
+    types: [],
+    uses: [
+      use("caught", "2026-01-01T00:00:00Z"),
+      use("snapshot", "2026-03-01T00:00:00Z"),
+      use(null, "2026-04-01T00:00:00Z"),
+    ],
+  };
+
+  it("keeps each Play's latest moment with the species, for its Before row", () => {
+    const [pikachu] = buildTrainerPokemonEntries(rows);
+
+    expect(pikachu?.momentIdByPlayId).toEqual({ "play-1": "snapshot" });
   });
 });
