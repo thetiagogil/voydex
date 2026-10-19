@@ -21,6 +21,7 @@ import type {
   OverviewMilestone,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
+import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
@@ -219,7 +220,7 @@ export type MainlinePlayOverviewData = {
    * is a choice (Choose Starter), so Overview records it in place.
    */
   nextDecisionMilestone: StoryMilestone | null;
-  nextMilestonePosition: { sequence: number; total: number } | null;
+  nextMilestonePosition: JourneyPosition | null;
   overview: MainlinePlayOverview | null;
   play: MainlinePlaySummary;
   teamPreview: MainlinePlayTeamPreviewMember[];

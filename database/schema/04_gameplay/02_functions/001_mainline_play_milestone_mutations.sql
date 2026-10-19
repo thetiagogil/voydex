@@ -2,7 +2,7 @@
 -- Functions: gameplay mainline milestone mutations
 -- Client-callable helpers for atomic story progress writes.
 -- ============================================================================
-CREATE FUNCTION gameplay.complete_mainline_play_milestone (p_play_id uuid, p_milestone_id integer, p_completed_at timestamptz DEFAULT NOW(), p_progress_notes text DEFAULT NULL, p_decision_option_id integer DEFAULT NULL, p_mark_prerequisite_milestone_ids integer[] DEFAULT '{}'::integer[], p_create_event boolean DEFAULT FALSE, p_event_title text DEFAULT NULL, p_event_body text DEFAULT NULL, p_event_happened_at timestamptz DEFAULT NULL, p_include_team_snapshot boolean DEFAULT FALSE, p_replace_progress_notes boolean DEFAULT FALSE, p_replace_decision boolean DEFAULT FALSE)
+CREATE FUNCTION gameplay.complete_mainline_play_milestone (p_play_id uuid, p_milestone_id integer, p_completed_at timestamptz DEFAULT NOW(), p_progress_notes text DEFAULT NULL, p_decision_option_id integer DEFAULT NULL, p_record_earlier_milestone_ids integer[] DEFAULT '{}'::integer[], p_create_event boolean DEFAULT FALSE, p_event_title text DEFAULT NULL, p_event_body text DEFAULT NULL, p_event_happened_at timestamptz DEFAULT NULL, p_include_team_snapshot boolean DEFAULT FALSE, p_replace_progress_notes boolean DEFAULT FALSE, p_replace_decision boolean DEFAULT FALSE)
     RETURNS TABLE (
         play_id uuid,
         milestone_id integer,
@@ -15,9 +15,11 @@ CREATE FUNCTION gameplay.complete_mainline_play_milestone (p_play_id uuid, p_mil
     AS $$
 DECLARE
     v_target_milestone tracking.mainline_milestones%ROWTYPE;
-    v_requested_prerequisite_ids integer[];
+    v_target_category_sort_order integer;
+    v_play_game_id integer;
+    v_requested_earlier_ids integer[];
     v_completion_milestone_ids integer[];
-    v_invalid_prerequisite_ids integer[];
+    v_invalid_earlier_ids integer[];
     v_unmet_required_prerequisite_ids integer[];
     v_event_id uuid;
     v_event_title text;
@@ -87,33 +89,90 @@ END IF;
     USING ERRCODE = '23514';
 END IF;
     SELECT
+        mainline_plays.game_id
+    INTO
+        v_play_game_id
+    FROM
+        gameplay.mainline_plays
+    WHERE
+        mainline_plays.id = p_play_id;
+    SELECT
         COALESCE(ARRAY_AGG(DISTINCT requested_id ORDER BY requested_id), '{}'::integer[])
     INTO
-        v_requested_prerequisite_ids
+        v_requested_earlier_ids
     FROM
-        UNNEST(COALESCE(p_mark_prerequisite_milestone_ids, '{}'::integer[])) AS requested (requested_id)
+        UNNEST(COALESCE(p_record_earlier_milestone_ids, '{}'::integer[])) AS requested (requested_id)
 WHERE
     requested_id IS NOT NULL
     AND requested_id <> p_milestone_id;
+    IF CARDINALITY(v_requested_earlier_ids) > 0 THEN
+        IF EXISTS (
+            SELECT
+                1
+            FROM
+                reference.version_groups
+            WHERE
+                version_groups.id = v_target_milestone.version_group_id
+                AND version_groups.is_open_world) THEN
+        RAISE EXCEPTION 'Milestone % is in an open-world story, so earlier milestones are recorded one by one', p_milestone_id
+            USING ERRCODE = '23514';
+    END IF;
+    SELECT
+        mainline_categories.sort_order
+    INTO
+        v_target_category_sort_order
+    FROM
+        tracking.mainline_categories
+    WHERE
+        mainline_categories.id = v_target_milestone.category_id;
+    -- Earlier means Story's order: category, then the milestone's own order.
     SELECT
         COALESCE(ARRAY_AGG(requested_id ORDER BY requested_id), '{}'::integer[])
     INTO
-        v_invalid_prerequisite_ids
+        v_invalid_earlier_ids
     FROM
-        UNNEST(v_requested_prerequisite_ids) AS requested (requested_id)
+        UNNEST(v_requested_earlier_ids) AS requested (requested_id)
 WHERE
     NOT EXISTS (
         SELECT
             1
         FROM
-            tracking.mainline_milestone_prerequisites
+            tracking.mainline_milestones
+            JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
         WHERE
-            mainline_milestone_prerequisites.milestone_id = p_milestone_id
-            AND mainline_milestone_prerequisites.prerequisite_milestone_id = requested_id);
-    IF ARRAY_LENGTH(v_invalid_prerequisite_ids, 1) IS NOT NULL THEN
-        RAISE EXCEPTION 'Milestones % are not direct prerequisites for milestone %', v_invalid_prerequisite_ids, p_milestone_id
+            mainline_milestones.id = requested_id
+            AND mainline_milestones.version_group_id = v_target_milestone.version_group_id
+            AND mainline_milestones.is_required_for_completion
+            AND (mainline_milestones.game_id IS NULL
+                OR mainline_milestones.game_id = v_play_game_id)
+            AND (mainline_categories.sort_order,
+                mainline_categories.id,
+                mainline_milestones.sort_order,
+                mainline_milestones.id) < (v_target_category_sort_order,
+                v_target_milestone.category_id,
+                v_target_milestone.sort_order,
+                v_target_milestone.id));
+    IF CARDINALITY(v_invalid_earlier_ids) > 0 THEN
+        RAISE EXCEPTION 'Milestones % are not required milestones before milestone %', v_invalid_earlier_ids, p_milestone_id
             USING ERRCODE = '23514';
     END IF;
+    -- One already recorded keeps its own record.
+    SELECT
+        COALESCE(ARRAY_AGG(requested_id ORDER BY requested_id), '{}'::integer[])
+    INTO
+        v_requested_earlier_ids
+    FROM
+        UNNEST(v_requested_earlier_ids) AS requested (requested_id)
+WHERE
+    NOT EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_play_milestone_progress
+        WHERE
+            mainline_play_milestone_progress.play_id = p_play_id
+            AND mainline_play_milestone_progress.milestone_id = requested_id);
+END IF;
     WITH RECURSIVE blocking_prerequisites AS (
         SELECT
             mainline_milestone_prerequisites.prerequisite_milestone_id
@@ -139,7 +198,7 @@ WHERE
     FROM
         blocking_prerequisites
     WHERE
-        NOT (blocking_prerequisites.prerequisite_milestone_id = ANY (v_requested_prerequisite_ids))
+        NOT (blocking_prerequisites.prerequisite_milestone_id = ANY (v_requested_earlier_ids))
         AND NOT EXISTS (
             SELECT
                 1
@@ -161,7 +220,7 @@ WHERE
             requested_id AS milestone_id,
             ROW_NUMBER() OVER (ORDER BY requested_id) AS sort_order
         FROM
-            UNNEST(v_requested_prerequisite_ids) AS requested (requested_id)
+            UNNEST(v_requested_earlier_ids) AS requested (requested_id)
         UNION ALL
         SELECT
             p_milestone_id,
@@ -311,9 +370,9 @@ REVOKE ALL ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER,
 
 GRANT EXECUTE ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) TO authenticated, service_role;
 
-COMMENT ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) IS 'Atomically completes an available play milestone, rejects unmet required or story-unlock prerequisites, optionally completes approved direct prerequisites, replaces or preserves notes and decisions explicitly, creates or updates a linked timeline event, and records or replaces its current active-team snapshot. Runs as SECURITY INVOKER so gameplay RLS still applies.';
+COMMENT ON FUNCTION gameplay.complete_mainline_play_milestone (UUID, INTEGER, TIMESTAMPTZ, TEXT, INTEGER, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ, BOOLEAN, BOOLEAN, BOOLEAN) IS 'Atomically completes an available play milestone, rejects unmet required or story-unlock prerequisites, optionally records the required milestones before it in Story order (never in an open-world story, and without moments of their own), replaces or preserves notes and decisions explicitly, creates or updates a linked timeline event, and records or replaces its current active-team snapshot. Runs as SECURITY INVOKER so gameplay RLS still applies.';
 
-CREATE FUNCTION gameplay.mark_mainline_play_milestone_incomplete (p_play_id uuid, p_milestone_id integer, p_expected_affected_milestone_ids integer[])
+CREATE FUNCTION gameplay.mark_mainline_play_milestone_incomplete (p_play_id uuid, p_milestone_id integer, p_expected_affected_milestone_ids integer[], p_also_clear_milestone_ids integer[] DEFAULT '{}'::integer[])
     RETURNS TABLE (
         affected_milestone_ids integer[],
         affected_milestone_count integer,
@@ -365,9 +424,18 @@ END IF;
     RAISE EXCEPTION 'Milestone % is not completed for play %', p_milestone_id, p_play_id
     USING ERRCODE = '23514';
 END IF;
+    -- The milestone, any others cleared with it (Story's "the N after it", or
+    -- an Undo's "the N before it"), and everything that depends on them.
     WITH RECURSIVE dependent_closure AS (
         SELECT
             p_milestone_id AS milestone_id
+        UNION
+        SELECT
+            also_clear_id
+        FROM
+            UNNEST(COALESCE(p_also_clear_milestone_ids, '{}'::integer[])) AS also_clear (also_clear_id)
+        WHERE
+            also_clear_id IS NOT NULL
         UNION
         SELECT
             dependent_prerequisites.milestone_id
@@ -453,10 +521,10 @@ WHERE
 END;
 $$;
 
-REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[]) FROM anon;
+REVOKE ALL ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[]) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) TO authenticated, service_role;
 
-COMMENT ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[]) IS 'Atomically marks one completed milestone and every completed transitive required or story-unlock dependent incomplete, deleting their notes, decisions, milestone-linked History events, and snapshots after validating the user-previewed impact set. Runs as SECURITY INVOKER so gameplay RLS still applies.';
+COMMENT ON FUNCTION gameplay.mark_mainline_play_milestone_incomplete (UUID, INTEGER, INTEGER[], INTEGER[]) IS 'Atomically marks one completed milestone, any other milestones cleared with it, and every completed transitive required or story-unlock dependent incomplete, deleting their notes, decisions, milestone-linked History events, and snapshots after validating the user-previewed impact set. Runs as SECURITY INVOKER so gameplay RLS still applies.';

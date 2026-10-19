@@ -132,7 +132,9 @@ export const StoryMilestoneRow = ({
               state === "next" ? "text-select-ink" : "text-ink-2",
             )}
           >
-            Milestone {milestone.sequence}
+            {milestone.sequence === null
+              ? "Optional"
+              : `Milestone ${milestone.sequence}`}
           </span>
           <span className="text-ink-3 text-12 font-semibold">
             <StoryMilestoneWhen milestone={milestone} state={state} />
@@ -150,7 +152,6 @@ export const StoryMilestoneRow = ({
             </span>
             <span className="text-ink-3 text-12 font-bold">
               {milestone.typeName}
-              {milestone.isRequired ? null : " · Optional"}
             </span>
           </span>
           {milestone.description ? (

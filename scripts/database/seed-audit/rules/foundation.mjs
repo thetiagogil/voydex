@@ -61,12 +61,13 @@ export function assertFoundationRowsetFingerprints(context, tableRows) {
         "generation_id",
         "parent_version_group_id",
         "sort_order",
+        "is_open_world",
       ],
       sortColumns: ["id"],
       expected: {
         count: 27,
         sha256:
-          "ebc8ea8da7f96d02a1e99f1620ec79e060eee9062cc9af1be708464655079438",
+          "2ed6c38f542fd94a2047590111a275504dd2cc4222eb0d14f82a8df89b4e5166",
       },
     },
     {

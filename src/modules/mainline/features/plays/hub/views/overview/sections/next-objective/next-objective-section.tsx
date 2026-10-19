@@ -4,6 +4,10 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import { AddNoteDialog } from "@/modules/mainline/features/plays/hub/components/add-note-dialog";
 import { OverviewRecordButton } from "@/modules/mainline/features/plays/hub/views/overview/client/overview-recording";
+import {
+  formatJourneyPosition,
+  type JourneyPosition,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 import {
   getOverviewMilestoneWhere,
@@ -22,7 +26,7 @@ type NextObjectiveSectionProps = {
   /* The page's main button when the next milestone is a choice: it records in place. */
   decisionRecord?: ReactNode;
   nextMilestone: OverviewMilestone | null;
-  nextMilestonePosition: { sequence: number; total: number } | null;
+  nextMilestonePosition: JourneyPosition | null;
   playId: string;
 };
 
@@ -46,7 +50,7 @@ export const NextObjectiveSection = ({
 }: NextObjectiveSectionProps) => {
   /* Numbered within its journey, as Story numbers it. */
   const position = nextMilestonePosition
-    ? `Milestone ${nextMilestonePosition.sequence} of ${nextMilestonePosition.total}`
+    ? formatJourneyPosition(nextMilestonePosition)
     : null;
   const where = nextMilestone ? getOverviewMilestoneWhere(nextMilestone) : null;
 

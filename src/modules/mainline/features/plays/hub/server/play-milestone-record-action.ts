@@ -21,6 +21,8 @@ export type PlayMilestoneRecordResult =
       /* Whether the milestone can keep a team snapshot, for "Add team". */
       keepsSnapshot: boolean;
       milestoneName: string;
+      /* Recorded along with it ("the N before it"), for Undo to clear too. */
+      recordedEarlierIds: number[];
       status: "success";
       totalCount: number;
     }
@@ -43,9 +45,19 @@ const milestoneInputSchema = z.object({
   milestoneId: positiveIdSchema("Milestone"),
 });
 
+const earlierMilestoneIdsSchema = z
+  .array(positiveIdSchema("Milestone"))
+  .max(200)
+  .default([]);
+
 const recordMilestoneInputSchema = milestoneInputSchema.extend({
   decisionOptionId: positiveIdSchema("Decision").nullable().default(null),
+  earlierMilestoneIds: earlierMilestoneIdsSchema,
   includeTeam: z.boolean().default(false),
+});
+
+const undoMilestoneInputSchema = milestoneInputSchema.extend({
+  earlierMilestoneIds: earlierMilestoneIdsSchema,
 });
 
 const getAuthenticatedClient = async () => {
@@ -68,19 +80,25 @@ const getAuthenticatedClient = async () => {
  */
 export const recordMainlinePlayMilestoneAction = async (input: {
   decisionOptionId?: number | null;
+  /* "Record with the N before it": the required ones before it, still open. */
+  earlierMilestoneIds?: number[];
   /* "Record with your team": saves the team you have now with the moment. */
   includeTeam?: boolean;
   milestoneId: number;
   playId: string;
 }): Promise<PlayMilestoneRecordResult> => {
   try {
-    const { decisionOptionId, includeTeam, milestoneId, playId } = parseInput(
-      recordMilestoneInputSchema,
-      input,
-    );
+    const {
+      decisionOptionId,
+      earlierMilestoneIds,
+      includeTeam,
+      milestoneId,
+      playId,
+    } = parseInput(recordMilestoneInputSchema, input);
     const supabase = await getAuthenticatedClient();
     const result = await recordPlayMilestone(supabase, {
       decisionOptionId,
+      earlierMilestoneIds,
       includeTeam,
       milestoneId,
       playId,
@@ -130,19 +148,28 @@ export const recordMainlinePlayMilestoneTeamAction = async (input: {
 };
 
 /*
- * Undo for a milestone recorded a moment ago: marks it incomplete again,
- * which also takes its moment out of History. If something recorded since
- * depends on it, the database refuses and nothing changes.
+ * Undo for a milestone recorded a moment ago: marks it incomplete again, with
+ * any recorded along with it, which also takes its moment out of History. If
+ * something recorded since depends on it, the database refuses and nothing
+ * changes.
  */
 export const undoMainlinePlayMilestoneAction = async (input: {
+  earlierMilestoneIds?: number[];
   milestoneId: number;
   playId: string;
 }): Promise<PlayMilestoneUndoResult> => {
   try {
-    const { milestoneId, playId } = parseInput(milestoneInputSchema, input);
+    const { earlierMilestoneIds, milestoneId, playId } = parseInput(
+      undoMilestoneInputSchema,
+      input,
+    );
     const supabase = await getAuthenticatedClient();
 
-    await undoPlayMilestone(supabase, { milestoneId, playId });
+    await undoPlayMilestone(supabase, {
+      earlierMilestoneIds,
+      milestoneId,
+      playId,
+    });
     revalidatePlayMilestonePaths(playId);
 
     return { message: "Undone", status: "success" };

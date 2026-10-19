@@ -45,7 +45,7 @@ export const readMainlinePlayStoryProgress = async (
         .schema("views")
         .from("mainline_play_milestone_category_summary")
         .select(
-          "category_id, category_name, category_slug, category_sort_order, completed_required_milestone_count, content_scope_sort_order, milestone_count, required_milestone_count, version_group_id, version_group_name",
+          "category_id, category_name, category_slug, category_sort_order, completed_required_milestone_count, content_scope_sort_order, is_open_world, milestone_count, required_milestone_count, version_group_id, version_group_name",
         )
         .eq("play_id", playId)
         .order("content_scope_sort_order", { ascending: true })

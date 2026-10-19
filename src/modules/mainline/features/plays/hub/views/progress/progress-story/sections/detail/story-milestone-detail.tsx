@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { formatJourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { ObjectiveEyebrow } from "@/modules/mainline/features/plays/shared/components/objective-card";
 import {
   formatPlayMoment,
@@ -68,18 +69,18 @@ export const StoryMilestoneDetail = ({
   eyebrowClassName,
   isNext,
   milestone,
-  milestoneCount,
   title,
+  totalCount,
 }: {
   chapterName: string | null;
   /* Room the surface keeps clear beside the line, such as for a close button. */
   eyebrowClassName?: string;
   isNext: boolean;
   milestone: StoryMilestone;
-  /* Every milestone in the scope, the basis the row's sequence counts on. */
-  milestoneCount: number;
   /* The milestone's name, as the heading its surface needs. */
   title: ReactNode;
+  /* The journey's required milestones, the count its sequence runs to. */
+  totalCount: number;
 }) => {
   const status = getStatus(milestone, isNext, useViewerClock());
   const selectedDecision =
@@ -92,16 +93,16 @@ export const StoryMilestoneDetail = ({
   const prerequisiteNames = milestone.prerequisites.map(
     (prerequisite) => prerequisite.name,
   );
-  const meta = [
-    chapterName,
-    milestone.typeName,
-    milestone.isRequired ? null : "Optional",
-  ].filter(Boolean);
+  const meta = [chapterName, milestone.typeName].filter(Boolean);
 
   return (
     <div className="min-w-0">
       <ObjectiveEyebrow icon={status.icon} className={eyebrowClassName}>
-        {status.label} · Milestone {milestone.sequence} of {milestoneCount}
+        {status.label} ·{" "}
+        {formatJourneyPosition({
+          sequence: milestone.sequence,
+          total: totalCount,
+        })}
       </ObjectiveEyebrow>
       {title}
       <p className="text-ink-2 font-semibold">{meta.join(" · ")}</p>
@@ -132,6 +133,15 @@ export const StoryMilestoneDetail = ({
           <b className="text-ink font-extrabold">
             {joinNames(prerequisiteNames)}
           </b>
+        </p>
+      ) : null}
+
+      {!milestone.isCompleted && milestone.earlierToRecord.length ? (
+        /* Why the Record arrow offers "Record with the N before it". */
+        <p className="text-ink-2 text-13 mt-2.5 font-semibold">
+          {milestone.earlierToRecord.length === 1
+            ? "1 milestone before it isn't recorded yet."
+            : `${milestone.earlierToRecord.length} milestones before it aren't recorded yet.`}
         </p>
       ) : null}
 

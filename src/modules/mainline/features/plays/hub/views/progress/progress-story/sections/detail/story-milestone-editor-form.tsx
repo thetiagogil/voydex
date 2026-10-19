@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 
+import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { CheckboxCard } from "@/shared/components/checkbox-card";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import {
@@ -28,7 +29,7 @@ import {
   type StoryMilestoneActionState,
   updateStoryMilestoneAction,
 } from "../../server/story-milestone-action";
-import type { StoryMilestone } from "../../types";
+import type { StoryMilestone, StoryMilestoneRef } from "../../types";
 import {
   getStoryMilestoneEditorCopy,
   type StoryMilestoneEditorCopy,
@@ -38,6 +39,18 @@ import { StoryMilestoneIncompletionImpact } from "./story-milestone-incompletion
 import { StoryMilestoneSnapshotPreview } from "./story-milestone-snapshot-preview";
 
 export type StoryMilestoneEditorSurface = "alert-dialog" | "dialog" | "sheet";
+
+/* "Brock", "Brock and Misty", or "Brock to Koga" for a longer run. */
+const describeMilestoneRun = (milestones: StoryMilestoneRef[]) => {
+  const first = milestones[0]?.name ?? "";
+  const last = milestones.at(-1)?.name ?? "";
+
+  return milestones.length > 2
+    ? `${first} to ${last}`
+    : milestones.length === 2
+      ? `${first} and ${last}`
+      : first;
+};
 
 const initialStoryMilestoneActionState: StoryMilestoneActionState = {
   message: null,
@@ -71,6 +84,7 @@ export const StoryMilestoneEditorForm = ({
   milestone,
   onSaved,
   playId,
+  recordsEarlier = false,
   recordsTeam = false,
   surface,
 }: {
@@ -78,6 +92,7 @@ export const StoryMilestoneEditorForm = ({
   milestone: StoryMilestone;
   onSaved: (message: string | null) => void;
   playId: string;
+  recordsEarlier?: boolean;
   recordsTeam?: boolean;
   surface: StoryMilestoneEditorSurface;
 }) => {
@@ -93,6 +108,15 @@ export const StoryMilestoneEditorForm = ({
   const showsNote = intent === "complete" || intent === "note";
   const canRecordStoryMoment =
     intent === "complete" && milestone.snapshotPolicySlug !== "none";
+  const earlierCount =
+    intent === "complete" ? milestone.earlierToRecord.length : 0;
+  /* Clearing later ones too, which changes what the preview lists. */
+  const laterCount =
+    intent === "incomplete"
+      ? milestone.incompletionImpactWithLater.affectedMilestones.length -
+        milestone.incompletionImpact.affectedMilestones.length
+      : 0;
+  const [clearsLater, setClearsLater] = useState(false);
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
 
   useEffect(() => {
@@ -156,6 +180,27 @@ export const StoryMilestoneEditorForm = ({
             </Field>
           ) : null}
 
+          {earlierCount ? (
+            <>
+              {milestone.earlierToRecord.map(({ id }) => (
+                <input
+                  key={id}
+                  type="hidden"
+                  name="earlierMilestoneId"
+                  value={id}
+                />
+              ))}
+              <CheckboxCard
+                id="story-milestone-record-earlier"
+                defaultChecked={recordsEarlier}
+                name="recordEarlier"
+                title={`Also record ${formatMilestoneRange(earlierCount, "before")}`}
+                description={`${describeMilestoneRun(milestone.earlierToRecord)}, without a moment or decision of their own.`}
+                value="true"
+              />
+            </>
+          ) : null}
+
           {canRecordStoryMoment ? (
             <CheckboxCard
               id="story-milestone-record-moment"
@@ -171,8 +216,37 @@ export const StoryMilestoneEditorForm = ({
             <StoryMilestoneSnapshotPreview milestone={milestone} />
           ) : null}
 
+          {laterCount ? (
+            <>
+              {clearsLater
+                ? milestone.laterRecorded.map(({ id }) => (
+                    <input
+                      key={id}
+                      type="hidden"
+                      name="alsoClearMilestoneId"
+                      value={id}
+                    />
+                  ))
+                : null}
+              <CheckboxCard
+                id="story-milestone-clear-later"
+                checked={clearsLater}
+                onCheckedChange={setClearsLater}
+                title={`Also clear ${formatMilestoneRange(laterCount, "after")}`}
+                description="Every milestone recorded after this one in the story."
+              />
+            </>
+          ) : null}
+
           {intent === "incomplete" ? (
-            <StoryMilestoneIncompletionImpact milestone={milestone} />
+            <StoryMilestoneIncompletionImpact
+              impact={
+                clearsLater
+                  ? milestone.incompletionImpactWithLater
+                  : milestone.incompletionImpact
+              }
+              milestone={milestone}
+            />
           ) : null}
 
           {state.status === "error" ? (

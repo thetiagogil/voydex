@@ -106,10 +106,17 @@ Use reviewed security-invoker functions for atomic workflows:
 - `gameplay.complete_mainline_play_milestone` distinguishes omitted detail
   values from explicit replacement, so a submitted `Not recorded` decision or
   empty note clears the existing value without changing unrelated milestone
-  evidence. Snapshot replacement writes member rows before move rows so every
+  evidence. `p_record_earlier_milestone_ids` records Story's "the N before it"
+  in the same call: each must be a required milestone of the same journey
+  before the target in Story order (category, then milestone order), the
+  journey must not be open world (`reference.version_groups.is_open_world`),
+  and ones already recorded keep their record. They get no moment, note or
+  decision; `completed_milestone_ids` returns what was newly recorded. Snapshot replacement writes member rows before move rows so every
   security-invoker write remains visible to the existing owner RLS policies.
 - `gameplay.mark_mainline_play_milestone_incomplete` recomputes the completed
-  transitive `required` and `story-unlock` dependent closure, validates it
+  transitive `required` and `story-unlock` dependent closure of the milestone
+  and of `p_also_clear_milestone_ids` (Story's "the N after it", or an Undo's
+  "the N before it"), validates it
   against the user-previewed milestone IDs, and atomically deletes affected
   progress, notes, decisions, milestone-linked History events, snapshots, and
   snapshot moves. Suggested and unrelated branches are not part of the

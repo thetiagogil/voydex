@@ -2,6 +2,7 @@ import {
   compareMilestoneCategories,
   compareMilestonesInCategory,
   isBlockingPrerequisiteKind,
+  numberJourneyMilestones,
   pickNextMilestone,
 } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
@@ -21,6 +22,7 @@ import type {
   StoryMilestone,
   StoryMilestoneIncompletionImpact,
   StoryMilestonePrerequisite,
+  StoryMilestoneRef,
   StoryProgressModel,
   StoryScope,
   StorySection,
@@ -126,6 +128,65 @@ const emptyIncompletionImpact = (): StoryMilestoneIncompletionImpact => ({
   snapshotCount: 0,
 });
 
+const toRef = ({ id, name }: StoryMilestone): StoryMilestoneRef => ({
+  id,
+  name,
+});
+
+/*
+ * What marking milestones incomplete removes: them and every recorded
+ * milestone that depends on them through a hard prerequisite, as the
+ * database's correction does.
+ */
+const getIncompletionImpact = (
+  milestones: StoryMilestone[],
+  dependentsByPrerequisiteId: Map<number, StoryMilestone[]>,
+  rootIds: number[],
+): StoryMilestoneIncompletionImpact => {
+  const dependentClosure = new Set<number>(rootIds);
+  const pendingIds = [...rootIds];
+
+  while (pendingIds.length) {
+    const prerequisiteId = pendingIds.shift();
+
+    if (prerequisiteId === undefined) {
+      continue;
+    }
+
+    for (const dependent of dependentsByPrerequisiteId.get(prerequisiteId) ??
+      []) {
+      if (dependentClosure.has(dependent.id)) {
+        continue;
+      }
+
+      dependentClosure.add(dependent.id);
+      pendingIds.push(dependent.id);
+    }
+  }
+
+  const affectedMilestones = milestones.filter(
+    (candidate) => candidate.isCompleted && dependentClosure.has(candidate.id),
+  );
+
+  return {
+    affectedMilestones: affectedMilestones.map(toRef),
+    decisionCount: affectedMilestones.filter(
+      (affectedMilestone) =>
+        affectedMilestone.selectedDecisionId !== null ||
+        Boolean(affectedMilestone.selectedDecisionLabel?.trim()),
+    ).length,
+    historyEventCount: affectedMilestones.filter(
+      (affectedMilestone) => affectedMilestone.hasHistoryEvent,
+    ).length,
+    noteCount: affectedMilestones.filter((affectedMilestone) =>
+      Boolean(affectedMilestone.notes?.trim()),
+    ).length,
+    snapshotCount: affectedMilestones.filter(
+      (affectedMilestone) => affectedMilestone.snapshotCount > 0,
+    ).length,
+  };
+};
+
 const addIncompletionImpacts = (milestones: StoryMilestone[]) => {
   const dependentsByPrerequisiteId = new Map<number, StoryMilestone[]>();
 
@@ -138,53 +199,48 @@ const addIncompletionImpacts = (milestones: StoryMilestone[]) => {
   }
 
   for (const milestone of milestones) {
-    const dependentClosure = new Set<number>([milestone.id]);
-    const pendingIds = [milestone.id];
+    milestone.incompletionImpact = getIncompletionImpact(
+      milestones,
+      dependentsByPrerequisiteId,
+      [milestone.id],
+    );
+    milestone.incompletionImpactWithLater = milestone.laterRecorded.length
+      ? getIncompletionImpact(milestones, dependentsByPrerequisiteId, [
+          milestone.id,
+          ...milestone.laterRecorded.map(({ id }) => id),
+        ])
+      : milestone.incompletionImpact;
+  }
+};
 
-    while (pendingIds.length) {
-      const prerequisiteId = pendingIds.shift();
+/*
+ * One journey's numbers, and what each milestone can record or clear with
+ * it: in a linear story, the required ones before it still open and the
+ * recorded ones after it. An open-world story offers neither.
+ */
+const addJourneyPositions = (scope: StoryScope) => {
+  const milestones = scope.sections.flatMap((section) => section.milestones);
+  const { sequences } = numberJourneyMilestones(
+    milestones,
+    (milestone) => milestone.isRequired,
+  );
 
-      if (prerequisiteId === undefined) {
-        continue;
-      }
+  milestones.forEach((milestone, index) => {
+    milestone.sequence = sequences[index] ?? null;
 
-      for (const dependent of dependentsByPrerequisiteId.get(prerequisiteId) ??
-        []) {
-        if (dependentClosure.has(dependent.id)) {
-          continue;
-        }
-
-        dependentClosure.add(dependent.id);
-        pendingIds.push(dependent.id);
-      }
+    if (scope.isOpenWorld) {
+      return;
     }
 
-    const affectedMilestones = milestones.filter(
-      (candidate) =>
-        candidate.isCompleted && dependentClosure.has(candidate.id),
-    );
-
-    milestone.incompletionImpact = {
-      affectedMilestones: affectedMilestones.map((affectedMilestone) => ({
-        id: affectedMilestone.id,
-        name: affectedMilestone.name,
-      })),
-      decisionCount: affectedMilestones.filter(
-        (affectedMilestone) =>
-          affectedMilestone.selectedDecisionId !== null ||
-          Boolean(affectedMilestone.selectedDecisionLabel?.trim()),
-      ).length,
-      historyEventCount: affectedMilestones.filter(
-        (affectedMilestone) => affectedMilestone.hasHistoryEvent,
-      ).length,
-      noteCount: affectedMilestones.filter((affectedMilestone) =>
-        Boolean(affectedMilestone.notes?.trim()),
-      ).length,
-      snapshotCount: affectedMilestones.filter(
-        (affectedMilestone) => affectedMilestone.snapshotCount > 0,
-      ).length,
-    };
-  }
+    milestone.earlierToRecord = milestones
+      .slice(0, index)
+      .filter((earlier) => earlier.isRequired && !earlier.isCompleted)
+      .map(toRef);
+    milestone.laterRecorded = milestones
+      .slice(index + 1)
+      .filter((later) => later.isCompleted)
+      .map(toRef);
+  });
 };
 
 /* What to record next, by the rule Overview and Plays use too. */
@@ -204,7 +260,6 @@ export const buildStoryProgressModel = ({
       .map((milestone) => toFiniteNumber(milestone.milestone_id))
       .filter((id) => id > 0),
   );
-  const sequenceByScopeId = new Map<number, number>();
   const formSlugByDecisionFormId = new Map(
     decisionForms.map((form) => [form.id, form.slug]),
   );
@@ -237,7 +292,6 @@ export const buildStoryProgressModel = ({
     .sort(compareMilestoneCategories)
     .map<StorySection>((category) => {
       const categoryId = toFiniteNumber(category.category_id);
-      const scopeId = toFiniteNumber(category.version_group_id);
       const trackMilestones = milestones
         .filter(
           (milestone) =>
@@ -247,8 +301,6 @@ export const buildStoryProgressModel = ({
         )
         .sort(compareMilestonesInCategory)
         .map<StoryMilestone>((milestone) => {
-          const sequence = (sequenceByScopeId.get(scopeId) ?? 0) + 1;
-          sequenceByScopeId.set(scopeId, sequence);
           const prerequisites = parsePrerequisites(
             milestone.prerequisites,
             completedMilestoneIds,
@@ -271,9 +323,11 @@ export const buildStoryProgressModel = ({
               formSlugByDecisionFormId,
             ),
             description: milestone.description,
+            earlierToRecord: [],
             hasHistoryEvent: Boolean(milestone.completion_event_id),
             id: toFiniteNumber(milestone.milestone_id),
             incompletionImpact: emptyIncompletionImpact(),
+            incompletionImpactWithLater: emptyIncompletionImpact(),
             isAvailable:
               isCompleted ||
               blockingPrerequisites.every(
@@ -281,13 +335,14 @@ export const buildStoryProgressModel = ({
               ),
             isCompleted,
             isRequired: Boolean(milestone.is_required_for_completion),
+            laterRecorded: [],
             name: milestone.milestone_name ?? "Unnamed milestone",
             notes: milestone.progress_notes,
             prerequisites,
             selectedDecisionId: milestone.selected_decision_option_id ?? null,
             selectedDecisionLabel:
               milestone.selected_decision_option_label ?? null,
-            sequence,
+            sequence: null,
             snapshotCount: toFiniteNumber(
               milestone.completion_event_team_snapshot_count,
             ),
@@ -329,7 +384,6 @@ export const buildStoryProgressModel = ({
     if (existingScope) {
       existingScope.sections.push(section);
       existingScope.completedCount += section.completedCount;
-      existingScope.milestoneCount += section.milestones.length;
       existingScope.totalCount += section.totalCount;
       continue;
     }
@@ -339,10 +393,10 @@ export const buildStoryProgressModel = ({
     scopesById.set(scopeId, {
       completedCount: section.completedCount,
       id: scopeId,
+      isOpenWorld: Boolean(category?.is_open_world),
       label: isBase
         ? "Main game"
         : (category?.version_group_name ?? "Main game"),
-      milestoneCount: section.milestones.length,
       nextMilestone: null,
       sections: [section],
       stamps: null,
@@ -351,6 +405,11 @@ export const buildStoryProgressModel = ({
   }
 
   const scopes = [...scopesById.values()];
+
+  for (const scope of scopes) {
+    addJourneyPositions(scope);
+  }
+
   const orderedMilestones = scopes.flatMap((scope) =>
     scope.sections.flatMap((section) => section.milestones),
   );

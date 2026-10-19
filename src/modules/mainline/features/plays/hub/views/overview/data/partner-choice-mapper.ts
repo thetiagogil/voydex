@@ -1,4 +1,8 @@
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
+import {
+  numberJourneyMilestones,
+  type JourneyPosition,
+} from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import type { Json } from "@/shared/types/database.types";
 
@@ -21,7 +25,7 @@ export type OverviewPartnerChoice = {
   milestoneName: string;
   options: OverviewPartnerOption[];
   /* Numbered within its journey, as Story numbers it. */
-  position: { sequence: number; total: number };
+  position: JourneyPosition;
 };
 
 /*
@@ -148,6 +152,9 @@ export const buildOverviewPartnerChoice = ({
   const journey = orderedMilestones.filter(
     (item) => item.version_group_id === milestone.version_group_id,
   );
+  const { sequences, total } = numberJourneyMilestones(journey, (item) =>
+    Boolean(item.is_required_for_completion),
+  );
   const formById = new Map(formRows.forms.map((form) => [form.id, form]));
   const typeById = new Map(formRows.types.map((type) => [type.id, type]));
   /* Newest generation first, so each form keeps the first row it meets. */
@@ -197,10 +204,12 @@ export const buildOverviewPartnerChoice = ({
     ),
     position: {
       sequence:
-        journey.findIndex(
-          (item) => item.milestone_id === milestone.milestone_id,
-        ) + 1,
-      total: journey.length,
+        sequences[
+          journey.findIndex(
+            (item) => item.milestone_id === milestone.milestone_id,
+          )
+        ] ?? null,
+      total,
     },
   };
 };

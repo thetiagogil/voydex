@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   getBlockingPrerequisiteIds,
+  numberJourneyMilestones,
   orderPlayMilestones,
   pickNextMilestone,
   pickNextMilestoneRow,
@@ -112,5 +113,20 @@ describe("pickNextMilestone", () => {
     ]);
 
     expect(next?.milestone_id).toBe(2);
+  });
+});
+
+describe("numberJourneyMilestones", () => {
+  it("numbers only the milestones a journey needs", () => {
+    // FireRed's Fossil Choice sits between Boulder and Cascade.
+    const journey = [
+      { name: "Boulder Badge", required: true },
+      { name: "Fossil Choice", required: false },
+      { name: "Cascade Badge", required: true },
+    ];
+
+    expect(
+      numberJourneyMilestones(journey, (milestone) => milestone.required),
+    ).toEqual({ sequences: [1, null, 2], total: 2 });
   });
 });

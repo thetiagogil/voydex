@@ -81,7 +81,9 @@ export const BadgeCaseSection = ({
                   )}
                 >
                   <span className="sr-only">
-                    Milestone {sequence}
+                    {sequence === null
+                      ? "Optional milestone"
+                      : `Milestone ${sequence}`}
                     {state === "done" ? ", recorded" : null},{" "}
                   </span>
                   {milestone.milestone_name}

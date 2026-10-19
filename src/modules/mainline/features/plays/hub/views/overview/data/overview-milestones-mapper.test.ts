@@ -50,6 +50,30 @@ describe("orderPlayMilestones on Overview's rows", () => {
 });
 
 describe("getOverviewMilestoneSummary", () => {
+  it("counts required milestones only, as Story's ring does", () => {
+    // FireRed: the optional Fossil Choice sits between Boulder and Cascade.
+    const summary = getOverviewMilestoneSummary([
+      milestone({
+        is_completed: true,
+        milestone_id: 1,
+        milestone_name: "Boulder Badge",
+      }),
+      milestone({
+        is_required_for_completion: false,
+        milestone_id: 2,
+        milestone_name: "Fossil Choice",
+        sort_order: 2,
+      }),
+      milestone({
+        milestone_id: 3,
+        milestone_name: "Cascade Badge",
+        sort_order: 3,
+      }),
+    ]);
+
+    expect(summary.nextMilestonePosition).toEqual({ sequence: 2, total: 2 });
+  });
+
   it("picks the next milestone in the story, not a later category's first", () => {
     const summary = getOverviewMilestoneSummary(
       orderPlayMilestones({

@@ -45,10 +45,18 @@ description, prerequisites, recorded decision, snapshot availability, notes,
 and actions. Narrow screens open that detail in a focused view or sheet and
 preserve a clear return to the list.
 
-Milestone display order must not be treated as dependency order. Explicit
-prerequisite relationships determine valid dependencies, next-objective
-guidance, and historical catch-up suggestions. Nonlinear games should not
-receive a universal `Complete next` action that invents a linear path.
+**One count.** A journey (one version group: the main game, or one DLC)
+counts its required milestones only, and the same count reads everywhere: the
+head's ring, the panel's "Milestone 3 of 16", the sheet, Overview's next
+objective and the record toast. Required milestones are numbered 1 to N in
+Story order; an optional one has no number and reads "Optional" (its marker
+shows its type's icon).
+
+Explicit prerequisite relationships determine what blocks recording. Story
+order is the order you play, except in an open-world game
+(`reference.version_groups.is_open_world`, set for Scarlet / Violet), where it
+is only a suggestion. Nonlinear games never receive an action that invents a
+linear path.
 
 Important milestones can optionally support team snapshots:
 
@@ -61,12 +69,10 @@ Important milestones can optionally support team snapshots:
 
 Snapshots must be optional. Users logging already-completed games should be able to bulk-complete milestones without being forced to attach snapshots.
 
-Selecting a milestone changes only its detail. `Mark complete` is the routine
-action and does not create History. When required or story-unlock prerequisites
-are missing, show the exact dependency set and recommend completing it with the
-target; suggested prerequisites remain optional, and display order never
-substitutes for dependency data. Decisions may remain `Not recorded` for
-forgotten or imported history.
+Selecting a milestone changes only its detail. `Record` is the routine action
+and is a moment in History (the moment rule). When required or story-unlock
+prerequisites are missing, the milestone is locked and names them. Decisions
+may remain `Not recorded` for forgotten or imported history.
 
 Important milestones may separately offer `Record snapshot`. That deliberate
 path creates one History event with the current Active Team snapshot. Recording
@@ -83,18 +89,15 @@ Focused milestone editing uses a compact Dialog on desktop and a bottom Sheet
 on narrow Play layouts. `Mark incomplete` uses a desktop confirmation Alert
 Dialog before the correction is submitted.
 
-Bulk completion is a separate imported-save and historical-catch-up workflow,
-not part of the routine milestone action. The player chooses the furthest known
-milestone for each applicable Story path, and the app computes the transitive
-required and story-unlock prerequisite closure. Before one atomic write, preview
-which milestones are already complete, will complete, remain excluded, or have
-an unrecorded decision. Optional and suggested milestones stay excluded by
-default, and decisions are never guessed.
-
-Bulk completion creates no History events or snapshots in V1. It records
-completion with unknown dates by default rather than stamping historical
-milestones with the current date. Any failure leaves the entire reviewed set
-unchanged.
+**Catching up in a linear game.** When required milestones before the one you
+picked are still open, its detail says how many and the Record arrow offers
+`Record with the N before it` (a choice milestone's form offers `Also record
+the N before it`). One database call records them all; only the milestone you
+picked becomes a moment, the earlier ones get no moment, note or decision, and
+optional milestones are never recorded this way. The toast's Undo clears the
+whole set. `Mark incomplete` likewise offers `Also clear the N after it`
+(every milestone recorded after it in Story order), and its preview lists the
+whole set before the one confirmed write. Open-world games offer neither.
 
 Story progress rows should track milestone completion. If a milestone has a player decision, such as a starter choice or fossil choice, the selected option should be stored separately from simple completion.
 

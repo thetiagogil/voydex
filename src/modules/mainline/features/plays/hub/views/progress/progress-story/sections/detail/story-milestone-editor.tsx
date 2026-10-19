@@ -40,7 +40,10 @@ const titleClassName = "text-24 outline-none";
 const EditorKicker = ({ milestone }: { milestone: StoryMilestone | null }) =>
   milestone ? (
     <p className="text-ink-3 text-13 font-extrabold">
-      Milestone {milestone.sequence} · {milestone.typeName}
+      {milestone.sequence === null
+        ? "Optional"
+        : `Milestone ${milestone.sequence}`}{" "}
+      · {milestone.typeName}
     </p>
   ) : null;
 
@@ -55,6 +58,7 @@ export const StoryMilestoneEditor = ({
   onSaved,
   open,
   playId,
+  recordsEarlier = false,
   recordsTeam = false,
 }: {
   intent: StoryMilestoneActionIntent;
@@ -63,6 +67,8 @@ export const StoryMilestoneEditor = ({
   onSaved: (message: string | null) => void;
   open: boolean;
   playId: string;
+  /* Recording: start with "Also record the N before it" ticked. */
+  recordsEarlier?: boolean;
   /* Recording: start with "Record team snapshot" ticked. */
   recordsTeam?: boolean;
 }) => {
@@ -78,6 +84,7 @@ export const StoryMilestoneEditor = ({
         milestone={milestone}
         onSaved={onSaved}
         playId={playId}
+        recordsEarlier={recordsEarlier}
         recordsTeam={recordsTeam}
         surface={surface}
       />

@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
+import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { getStoryMilestoneMoment } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/data/story-milestone-moment";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -64,6 +65,16 @@ const notesSchema = z
   )
   .transform((notes) => notes || null);
 
+/* Milestones recorded or cleared with this one ("the N before/after it"). */
+const rangeMilestoneIdsSchema = z
+  .array(z.unknown())
+  .transform((values) => values.map(Number))
+  .pipe(
+    z
+      .array(positiveIntegerFieldSchema("Range milestone"))
+      .max(200, { error: "Too many milestones at once." }),
+  );
+
 const affectedMilestoneIdsSchema = z
   .array(z.unknown())
   .transform((values) => values.map(Number))
@@ -105,7 +116,7 @@ export const updateStoryMilestoneAction = async (
       .schema("views")
       .from("mainline_play_milestone_detail")
       .select(
-        "completed_at, completion_event_team_snapshot_count, is_completed, snapshot_policy_slug",
+        "completed_at, completion_event_team_snapshot_count, is_completed, milestone_name, snapshot_policy_slug",
       )
       .eq("play_id", playId)
       .eq("milestone_id", milestoneId)
@@ -131,9 +142,14 @@ export const updateStoryMilestoneAction = async (
         );
       }
 
+      const alsoClearMilestoneIds = parseInput(
+        rangeMilestoneIdsSchema,
+        formData.getAll("alsoClearMilestoneId"),
+      );
       const incompleteResult = await supabase
         .schema("gameplay")
         .rpc("mark_mainline_play_milestone_incomplete", {
+          p_also_clear_milestone_ids: alsoClearMilestoneIds,
           p_expected_affected_milestone_ids: expectedAffectedMilestoneIds,
           p_milestone_id: milestoneId,
           p_play_id: playId,
@@ -179,6 +195,13 @@ export const updateStoryMilestoneAction = async (
       throw new Error("This milestone does not support a team snapshot.");
     }
 
+    const earlierMilestoneIds =
+      intent === "complete" && formData.get("recordEarlier") === "true"
+        ? parseInput(
+            rangeMilestoneIdsSchema,
+            formData.getAll("earlierMilestoneId"),
+          )
+        : [];
     const completedAt =
       milestoneResult.data.completed_at ?? new Date().toISOString();
     const mutationResult = await supabase
@@ -191,6 +214,7 @@ export const updateStoryMilestoneAction = async (
         p_milestone_id: milestoneId,
         p_play_id: playId,
         p_progress_notes: notes ?? undefined,
+        p_record_earlier_milestone_ids: earlierMilestoneIds,
         p_replace_decision: intent === "complete" || intent === "decision",
         p_replace_progress_notes: intent === "complete" || intent === "note",
       });
@@ -206,11 +230,18 @@ export const updateStoryMilestoneAction = async (
       revalidatePath(appRoutes.mainlinePlayHistory(playId));
     }
 
-    /* Recording is announced by the page, which knows the milestone's name. */
+    const recordedEarlierCount = Math.max(
+      (mutationResult.data?.[0]?.completed_milestone_ids?.length ?? 1) - 1,
+      0,
+    );
+
+    /* Recording is announced by the page, unless others came with it. */
     return {
       message:
         intent === "complete"
-          ? null
+          ? recordedEarlierCount
+            ? `${milestoneResult.data.milestone_name ?? "Milestone"} and ${formatMilestoneRange(recordedEarlierCount, "before")} recorded`
+            : null
           : intent === "note"
             ? "Milestone note updated."
             : intent === "decision"

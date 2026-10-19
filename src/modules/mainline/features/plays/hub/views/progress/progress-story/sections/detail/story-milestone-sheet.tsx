@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 
+import { formatJourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 
@@ -43,7 +45,10 @@ export const StoryMilestoneSheet = ({
       label={milestone?.name ?? "Story milestone"}
       description={
         milestone
-          ? `Milestone ${milestone.sequence} of ${scope.milestoneCount} in ${scope.label}`
+          ? `${formatJourneyPosition({
+              sequence: milestone.sequence,
+              total: scope.totalCount,
+            })} in ${scope.label}`
           : undefined
       }
       descriptionHidden
@@ -63,7 +68,7 @@ export const StoryMilestoneSheet = ({
           eyebrowClassName="pr-12"
           isNext={isNext}
           milestone={milestone}
-          milestoneCount={scope.milestoneCount}
+          totalCount={scope.totalCount}
           title={
             <SheetTitle
               ref={titleRef}

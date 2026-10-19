@@ -42,6 +42,7 @@ export type StoryCategorySource = Pick<
   | "category_sort_order"
   | "completed_required_milestone_count"
   | "content_scope_sort_order"
+  | "is_open_world"
   | "milestone_count"
   | "required_milestone_count"
   | "version_group_id"
@@ -67,6 +68,12 @@ export type StoryMilestonePrerequisite = {
   name: string;
 };
 
+/* A milestone named in another's offer or impact. */
+export type StoryMilestoneRef = {
+  id: number;
+  name: string;
+};
+
 export type StoryMilestone = {
   /* A gym milestone's badge type, so its medallion and stamp wear it. */
   badgeType: PokemonTypeSlug | null;
@@ -75,18 +82,31 @@ export type StoryMilestone = {
   completedAt: string | null;
   decisionOptions: StoryDecisionOption[];
   description: string | null;
+  /*
+   * The required milestones before it, not recorded yet, that recording it
+   * can also record ("the N before it"). Empty in an open-world story.
+   */
+  earlierToRecord: StoryMilestoneRef[];
   hasHistoryEvent: boolean;
   id: number;
   incompletionImpact: StoryMilestoneIncompletionImpact;
+  /* What marking it incomplete removes when "the N after it" go too. */
+  incompletionImpactWithLater: StoryMilestoneIncompletionImpact;
   isCompleted: boolean;
   isAvailable: boolean;
   isRequired: boolean;
+  /*
+   * The recorded milestones after it that marking it incomplete can also
+   * clear ("the N after it"). Empty in an open-world story.
+   */
+  laterRecorded: StoryMilestoneRef[];
   name: string;
   notes: string | null;
   prerequisites: StoryMilestonePrerequisite[];
   selectedDecisionId: number | null;
   selectedDecisionLabel: string | null;
-  sequence: number;
+  /* Its number in the journey, counting required milestones; null if optional. */
+  sequence: number | null;
   snapshotCount: number;
   snapshotMembers: PlayTeamSnapshotMember[];
   snapshotPolicySlug: string;
@@ -95,10 +115,7 @@ export type StoryMilestone = {
 };
 
 export type StoryMilestoneIncompletionImpact = {
-  affectedMilestones: {
-    id: number;
-    name: string;
-  }[];
+  affectedMilestones: StoryMilestoneRef[];
   decisionCount: number;
   historyEventCount: number;
   noteCount: number;
@@ -120,15 +137,15 @@ export type StoryScope = {
   /* Required milestones recorded, the count Overview's Story metric uses. */
   completedCount: number;
   id: number;
+  /* The story can be played in any order, so nothing is recorded or cleared together. */
+  isOpenWorld: boolean;
   label: string;
-  /* Every milestone listed, optional ones too: what a row's sequence counts. */
-  milestoneCount: number;
   /* The milestone this scope's side card offers to record next. */
   nextMilestone: StoryMilestone | null;
   sections: StorySection[];
   /* The gym badges and the League, or null when the scope has no gyms. */
   stamps: PlayStamp[] | null;
-  /* Required milestones, the count Overview's Story metric uses. */
+  /* Required milestones: the one count Story, Overview and the toasts use. */
   totalCount: number;
 };
 

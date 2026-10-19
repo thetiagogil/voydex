@@ -5,17 +5,26 @@ import {
   AlertTitle,
 } from "@/shared/components/ui/alert";
 
-import type { StoryMilestone } from "../../types";
+import type {
+  StoryMilestone,
+  StoryMilestoneIncompletionImpact as IncompletionImpact,
+} from "../../types";
 
 const countLabel = (count: number, singular: string, plural = `${singular}s`) =>
   `${count} ${count === 1 ? singular : plural}`;
 
+/*
+ * What marking a milestone incomplete removes, as the database will: the
+ * milestone, any cleared with it, and what depends on them. Its hidden list
+ * is the preview the database checks before it deletes anything.
+ */
 export const StoryMilestoneIncompletionImpact = ({
+  impact: incompletionImpact,
   milestone,
 }: {
+  impact: IncompletionImpact;
   milestone: StoryMilestone;
 }) => {
-  const { incompletionImpact } = milestone;
   const affectedMilestones = incompletionImpact.affectedMilestones.length
     ? incompletionImpact.affectedMilestones
     : [{ id: milestone.id, name: milestone.name }];
@@ -45,9 +54,7 @@ export const StoryMilestoneIncompletionImpact = ({
         <AlertDescription>
           {dependentMilestones.length ? (
             <div className="mt-2">
-              <p className="text-ink font-extrabold">
-                Completed milestones that depend on this one
-              </p>
+              <p className="text-ink font-extrabold">Also marked incomplete</p>
               <ul className="mt-1 list-disc space-y-1 pl-4">
                 {dependentMilestones.map((dependentMilestone) => (
                   <li key={dependentMilestone.id}>{dependentMilestone.name}</li>
@@ -97,8 +104,7 @@ export const StoryMilestoneIncompletionImpact = ({
           </div>
 
           <p className="mt-3">
-            Suggested and unrelated progress or History will not change. This
-            action cannot be undone.
+            Everything else stays recorded. This action cannot be undone.
           </p>
         </AlertDescription>
       </Alert>

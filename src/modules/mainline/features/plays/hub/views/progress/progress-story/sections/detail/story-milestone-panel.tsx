@@ -77,7 +77,7 @@ export const StoryMilestonePanel = ({
         eyebrowClassName={onClose ? "pr-10" : undefined}
         isNext={isNext}
         milestone={milestone}
-        milestoneCount={scope.milestoneCount}
+        totalCount={scope.totalCount}
         title={
           <h2
             id={storyPanelTitleId}
