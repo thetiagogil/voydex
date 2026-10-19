@@ -10,8 +10,9 @@
   /*
    * Pokémon Center and Poké Mart (2026-10-19): one palette for the whole app,
    * taken from the two buildings every trainer knows. Their white walls are
-   * the ground and surfaces (about 60%); the Center's blush floor is the band
-   * and the supporting tints (about 30%); the Center's red roof is the one
+   * the ground and surfaces (about 60%); the pale blue of their windows is
+   * the band and the cool supporting tints (about 30%); the Center's red roof
+   * is the one
    * action colour (about 10%): the main action, the current pick and the
    * context colour. The Mart's blue roof is the third colour, for calm
    * meanings and progress. Pokémon and their type colours bring the rest.
@@ -20,23 +21,23 @@
    */
 
   /* Ground, surfaces, ink and lines */
-  --bg: #f8f5f5;
-  --surface: #fffefe;
-  --surface-2: #faf4f4;
-  --hover: #f5e9e9;
-  --ink: #2f2a2c;
-  --ink-2: #5a5054;
-  --ink-3: #675c60;
-  --on-ink: #f7f1f0;
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f2f5f9;
+  --hover: #e9eef5;
+  --ink: #26292f;
+  --ink-2: #4b5260;
+  --ink-3: #5b6270;
+  --on-ink: #f3f5f8;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
-  --line: #efe2e2;
-  --lip: #e8d6d6;
-  --track: #f1e6e6;
-  --dash: #e0cfcf;
-  --mute: #cbbaba;
+  --line: #e1e7ef;
+  --lip: #d6dee9;
+  --track: #e6ebf2;
+  --dash: #cfd8e4;
+  --mute: #b8c2cf;
   /* The colour every shadow and the scrim are made of, as RGB channels. */
-  --shade: 60 40 40;
+  --shade: 40 50 70;
   --scrim: rgb(var(--shade) / 0.42);
 
   /* The one action colour */
@@ -75,7 +76,7 @@
   --calm-soft: #e1ecfb;
   /*
    * Progress (bars, rings, charts of how far you are) is the Poké Mart blue,
-   * like the games' EXP bar; green stays for status ("Playing", "Found").
+   * like the games' EXP bar; green stays for done ("Completed", "Found").
    */
   --progress: var(--calm);
   --ball: #d04c3c;
@@ -83,14 +84,14 @@
   --avatar-ink: #6b4a12;
 
   /* The meadow (front doors and choosing a game) */
-  --sky: #fdf9f9;
+  --sky: #f8fafd;
   --hill: #dbe9d4;
   --hill-2: #cddfc4;
   /*
-   * The band that opens every page but Home: the Pokémon Center's blush
-   * floor, under the top bar and the page's head.
+   * The band that opens every page but Home: the pale blue of a Pokémon
+   * Center's windows, under the top bar and the page's head.
    */
-  --band-fill: #f7e4e3;
+  --band-fill: #e6eef9;
 
   /*
    * The accent by role: its deep shade for small eyebrows and marks, and the

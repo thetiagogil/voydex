@@ -30,7 +30,7 @@ export const PageBand = ({ children, className }: PageBandProps) => (
       <AppIcon
         icon={appIcons.product.caught}
         strokeWidth={1.25}
-        className="text-action absolute -top-24 -right-16 size-96 -rotate-12 opacity-5 max-sm:-top-16 max-sm:size-64"
+        className="text-calm absolute -top-24 -right-16 size-96 -rotate-12 opacity-6 max-sm:-top-16 max-sm:size-64"
       />
     </span>
     <div
