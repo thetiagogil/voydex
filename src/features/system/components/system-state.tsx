@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
 
+import { FallbackImage } from "@/shared/components/fallback-image";
+
 type SystemStateProps = {
   /* Up to two actions: the main button, then a secondary one. */
   actions: ReactNode;
-  /* One Pokémon standing on its patch of grass, when the route has its art. */
-  artUrl?: string | null;
+  /* One Pokémon standing on its patch of grass, when the route has one. */
+  art?: { name: string; url: string | null } | null;
   description: ReactNode;
   eyebrow?: ReactNode;
   title: string;
@@ -17,14 +19,14 @@ type SystemStateProps = {
  */
 export const SystemState = ({
   actions,
-  artUrl,
+  art,
   description,
   eyebrow,
   title,
 }: SystemStateProps) => {
   return (
     <section className="mx-auto mt-10 mb-5 flex w-full max-w-140 flex-col items-center text-center sm:mt-16">
-      {artUrl ? (
+      {art ? (
         <span
           aria-hidden
           className="relative mb-4 grid h-40 w-48 place-items-end justify-center sm:h-47.5 sm:w-55"
@@ -34,10 +36,10 @@ export const SystemState = ({
            * Lazy so React doesn't preload the art on every page: the
            * not-found boundary is rendered ahead of time with each layout.
            */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={artUrl}
-            alt=""
+          <FallbackImage
+            src={art.url}
+            name={art.name}
+            fallback="badge"
             loading="lazy"
             className="relative size-36 object-contain sm:size-42.5"
           />

@@ -30,6 +30,7 @@ import { SelectControl } from "@/shared/components/select-control";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Textarea } from "@/shared/components/ui/textarea";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 export const planRoles = [
@@ -136,6 +137,7 @@ export const PlannerSlotSheet = ({
       title={pokemon.name}
       hero={{
         imageUrl: pokemon.imageUrl,
+        name: pokemon.name,
         planned: true,
         meta: (
           <PokemonTypeList
@@ -225,9 +227,12 @@ export const PlannerSlotSheet = ({
                       : "bg-surface-2 text-ink-2 hover:bg-hover",
                   )}
                 >
-                  {slotPokemon?.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={slotPokemon.imageUrl} alt="" className="size-8" />
+                  {slotPokemon ? (
+                    <FallbackImage
+                      src={slotPokemon.imageUrl}
+                      name={slotPokemon.name}
+                      className="size-8"
+                    />
                   ) : (
                     /* An open slot keeps the art's place, so numbers line up. */
                     <span

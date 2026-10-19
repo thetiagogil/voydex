@@ -112,11 +112,11 @@ export const getPlayMomentPokemon = (
     const speciesName = getString(value, ["species_name"]);
     const name = nickname ?? formName ?? speciesName ?? "Unknown Pokémon";
     const role = getString(value, ["role"]);
-    const spriteSlug = getString(value, ["sprite_slug"]);
+    const formSlug = getString(value, ["slug"]);
     const spriteUrl = getString(value, ["sprite_url", "image_url"]);
     const imageForm = {
       name,
-      sprite_slug: spriteSlug,
+      slug: formSlug,
       sprite_url: spriteUrl,
     };
     const imageUrl = getBoolean(value, "is_shiny")

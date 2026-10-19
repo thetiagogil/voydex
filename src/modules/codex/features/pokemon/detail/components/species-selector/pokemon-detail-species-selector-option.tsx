@@ -56,8 +56,8 @@ export const PokemonDetailSpeciesSelectorOptionContent = ({
         <PokemonPortrait
           alt=""
           imageUrl={pokemonItem.imageUrl}
+          name={pokemonItem.name}
           type={getPokemonPortraitType(pokemonItem)}
-          sizes="44px"
           className="size-11"
           imageClassName="p-1"
         />

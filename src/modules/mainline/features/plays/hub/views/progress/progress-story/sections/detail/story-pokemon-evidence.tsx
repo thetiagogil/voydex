@@ -10,20 +10,13 @@ export const StoryPokemonEvidence = ({
 }) => {
   return (
     <span className="flex min-w-0 items-center gap-2.5">
-      {imageUrl ? (
-        <PokemonPortrait
-          alt=""
-          imageUrl={imageUrl}
-          sizes="2.75rem"
-          className="size-11 shrink-0"
-          imageClassName="p-1"
-        />
-      ) : (
-        <span
-          aria-hidden
-          className="empty-slot size-11 shrink-0 rounded-full"
-        />
-      )}
+      <PokemonPortrait
+        alt=""
+        imageUrl={imageUrl}
+        name={name}
+        className="size-11 shrink-0"
+        imageClassName="p-1"
+      />
 
       <span className="text-15 min-w-0 truncate font-extrabold">{name}</span>
     </span>

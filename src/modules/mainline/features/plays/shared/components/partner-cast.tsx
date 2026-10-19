@@ -51,6 +51,7 @@ export const PartnerCast = ({
             key={starter.speciesId}
             name={starter.name}
             imageUrl={starter.imageUrl}
+            typeSlug={starter.typePair.primaryType?.slug ?? null}
             size={isSolo && size === "lg" ? "xl" : size}
             selected={isPicked}
             slap={isPicked && slappingId === starter.speciesId}

@@ -44,6 +44,7 @@ const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
           <MeadowPokemon
             name={member.name}
             imageUrl={member.imageUrl}
+            typeSlug={member.typeSlug}
             size="md"
             href={appRoutes.mainlinePlayTeamPokemon(play.id, member.id)}
             label={`Open ${member.name}`}
@@ -85,6 +86,7 @@ export const HomeBandSection = ({
     <MeadowPokemon
       name={partner.name}
       imageUrl={partner.imageUrl}
+      typeSlug={partner.typeSlug}
       size="xl"
       href={appRoutes.mainlinePlayTeamPokemon(current.id, partner.id)}
       label={`Open ${partner.name}`}

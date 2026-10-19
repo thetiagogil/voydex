@@ -64,8 +64,11 @@ The schema and seed sources are the database's source of truth: a fresh
 database built from them alone must match every environment.
 
 - **Before launch** (now): fix schema and data by editing the source files
-  directly, then rebuild artifacts and reset. Do not add patch migrations; the
-  hosted database is reset and re-seeded from source when the owner approves.
+  directly, then rebuild artifacts and reset. `database/supabase/migrations`
+  holds only the generated baseline; the earlier patch migrations were folded
+  into it on 2026-10-19. Do not add patch migrations; the hosted database is
+  reset and re-seeded from source when the owner approves, which also resets
+  its migration history.
 - **After launch**: every change ships as a patch migration under
   `database/supabase/migrations` **and** the matching schema or seed edit in
   the same change, so source and migrations never drift. Data corrections
@@ -108,11 +111,10 @@ game-valid teams, history, snapshots, and representative custom states cover the
 gameplay and planning surfaces without turning UI tests into manual database
 setup.
 
-Day-to-day development points `.env.local` at the local stack. Local resets also
-create the public `reference-assets` Storage bucket and upload the game covers
-kept in `database/storage/reference-assets` (copies of the hosted bucket,
-`games/covers/<game-slug>.webp`). A new game needs its cover added there and in
-hosted Storage.
+Day-to-day development points `.env.local` at the local stack. Reference images
+(Pokémon and game covers) don't live in the database: they come from the
+separate `voydex-assets` site set in `NEXT_PUBLIC_ASSETS_URL`. A new game needs
+its cover added there as `games/covers/<game-slug>.webp`.
 
 The local Auth fixture must never be loaded into a linked project. When hosted
 development data is explicitly authorized, apply only gameplay seed files `002`

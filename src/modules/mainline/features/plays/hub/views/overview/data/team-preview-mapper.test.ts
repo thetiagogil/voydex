@@ -36,7 +36,7 @@ describe("buildMainlinePlayOverviewTeamPreview", () => {
           slot: 1,
           species_name: "Pikachu",
           species_slug: "pikachu",
-          sprite_slug: "pikachu",
+          form_slug: "pikachu",
         },
       ],
       types: [
@@ -70,7 +70,7 @@ describe("buildMainlinePlayOverviewTeamPreview", () => {
           slot: 1,
           species_name: null,
           species_slug: null,
-          sprite_slug: null,
+          form_slug: null,
         },
       ],
       types: [],

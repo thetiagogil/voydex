@@ -9,6 +9,9 @@ export default defineConfig({
   test: {
     /* Browser tests run through Playwright (`npm run test:e2e`). */
     exclude: [...configDefaults.exclude, "e2e/**"],
+    env: {
+      NEXT_PUBLIC_ASSETS_URL: "https://assets.test",
+    },
   },
   resolve: {
     alias: {

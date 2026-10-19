@@ -25,14 +25,14 @@ describe("getPlayMomentTeamLine", () => {
           play_pokemon_id: "starter",
           role: "from",
           species_name: "Crocalor",
-          sprite_slug: "crocalor",
+          slug: "crocalor",
         },
         {
           form_name: "Skeledirge",
           play_pokemon_id: "starter",
           role: "to",
           species_name: "Skeledirge",
-          sprite_slug: "skeledirge",
+          slug: "skeledirge",
         },
       ]),
     );

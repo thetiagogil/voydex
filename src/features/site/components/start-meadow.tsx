@@ -16,6 +16,7 @@ import {
 } from "@/config/start-intent";
 import { MeadowCard } from "@/features/site/components/meadow-card";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
@@ -122,18 +123,16 @@ const StarterScene = ({ partner, pick }: StarterSceneProps) => (
             aria-hidden
             className="absolute bottom-6.5 left-1/2 -z-1 h-3.5 w-19 -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--ink)_24%,transparent),transparent)] sm:bottom-7 sm:h-4.5 sm:w-26"
           />
-          {starter.imageUrl ? (
-            // Renders sit differently in their squares, so each keeps its own size.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={starter.imageUrl}
-              alt=""
-              className={cn(
-                "ease-hop max-w-none object-contain transition-transform duration-300 group-hover/starter:-translate-y-3.5 motion-reduce:transition-none",
-                pick.isSolo ? "size-35 sm:size-44" : "size-29 sm:size-37.5",
-              )}
-            />
-          ) : null}
+          {/* Renders sit differently in their squares, so each keeps its own size. */}
+          <FallbackImage
+            src={starter.imageUrl}
+            name={starter.name}
+            fallback="badge"
+            className={cn(
+              "ease-hop max-w-none object-contain transition-transform duration-300 group-hover/starter:-translate-y-3.5 motion-reduce:transition-none",
+              pick.isSolo ? "size-35 sm:size-44" : "size-29 sm:size-37.5",
+            )}
+          />
           <span
             className={cn(
               "sm:text-14 text-13 relative -mt-0.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 font-extrabold sm:px-3.5 sm:py-1.5",

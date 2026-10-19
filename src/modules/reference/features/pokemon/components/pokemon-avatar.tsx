@@ -3,21 +3,25 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 /*
  * The one small Pokémon: its art on a round pale tint of its type (neutral
  * when the type isn't known), sized by the caller. A team at a glance (a
  * Plan's strip, a Play card) is a row of these; an open slot beside them is
- * a dashed ring of the same size (`PokemonAvatarSlot`).
+ * a dashed ring of the same size (`PokemonAvatarSlot`). Without art it shows
+ * the name's first letter. `decorative` where the words beside it name it.
  */
 export const PokemonAvatar = ({
   className,
+  decorative = false,
   imageUrl,
   name,
   typeSlug,
 }: {
   className?: string;
+  decorative?: boolean;
   imageUrl: string | null;
   name: string;
   typeSlug: string | null;
@@ -28,26 +32,19 @@ export const PokemonAvatar = ({
         ? (typeSlug as PokemonTypeSlug)
         : null,
     )}
-    title={name}
+    title={decorative ? undefined : name}
     className={cn(
       "type-tint grid aspect-square place-items-center overflow-hidden rounded-full",
       className,
     )}
   >
-    {imageUrl ? (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={imageUrl}
-        alt={name}
-        loading="lazy"
-        className="size-[88%] object-contain"
-      />
-    ) : (
-      <span className="text-ink-2 text-12 font-extrabold">
-        <span aria-hidden>{name.charAt(0)}</span>
-        <span className="sr-only">{name}</span>
-      </span>
-    )}
+    <FallbackImage
+      src={imageUrl}
+      name={name}
+      alt={decorative ? "" : name}
+      loading="lazy"
+      className="size-[88%] object-contain"
+    />
   </span>
 );
 

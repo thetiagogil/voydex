@@ -100,7 +100,7 @@ const form = (
   id: number,
   speciesId: number,
   name: string,
-  spriteSlug: string,
+  formSlug: string,
 ): PokemonForm => ({
   created_at: createdAt,
   form_order: 1,
@@ -109,9 +109,8 @@ const form = (
   introduced_generation_id: 1,
   is_default: id % 100 === 0,
   name,
-  slug: spriteSlug,
+  slug: formSlug,
   species_id: speciesId,
-  sprite_slug: spriteSlug,
   weight_hectograms: null,
 });
 

@@ -15,10 +15,10 @@ type MainlineMyPlansPageProps = {
   plans: MyPlan[];
 };
 
-const emptyArtUrl = getPokemonFormImageUrl({
+const emptyArt = {
   name: "Ditto",
-  sprite_slug: "ditto",
-});
+  url: getPokemonFormImageUrl({ name: "Ditto", slug: "ditto" }),
+};
 
 /*
  * My Plans (v3 `myplans`): every Plan as a card with its game, its six
@@ -64,7 +64,7 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
           <PageBand>{head}</PageBand>
           <EmptyState
             headingLevel="h2"
-            artUrl={emptyArtUrl}
+            art={emptyArt}
             title="No Plans yet"
             description="Plan a team for any game, then follow it from a Play to see how close you are."
             action={newPlan}

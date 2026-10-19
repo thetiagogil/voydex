@@ -87,9 +87,7 @@ export const readMainlinePlayPokemonChoices = async (
         supabase
           .schema("reference")
           .from("pokemon_forms")
-          .select(
-            "id, species_id, slug, name, is_default, form_order, sprite_slug",
-          )
+          .select("id, species_id, slug, name, is_default, form_order")
           .in("species_id", ids)
           .order("id", { ascending: true })
           .range(from, to),

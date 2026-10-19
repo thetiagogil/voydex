@@ -27,6 +27,7 @@ import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SheetTitle } from "@/shared/components/ui/sheet";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
 
@@ -161,14 +162,11 @@ const MostPickedCard = ({
         className="group/picked focus-ring flex flex-col items-center gap-2.5 rounded-xl text-center"
       >
         <span className="sticker grid size-28 shrink-0 place-items-center rounded-xl transition-transform group-hover/picked:-translate-y-0.75">
-          {entry.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={entry.imageUrl}
-              alt=""
-              className="size-24 object-contain"
-            />
-          ) : null}
+          <FallbackImage
+            src={entry.imageUrl}
+            name={entry.name}
+            className="size-24 object-contain"
+          />
         </span>
         <span className="font-display text-24 max-w-full truncate leading-tight font-semibold">
           {entry.name}

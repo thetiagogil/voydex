@@ -26,7 +26,7 @@ export const readMainlinePlayOverviewPartnerRows = async (
     supabase
       .schema("reference")
       .from("pokemon_forms")
-      .select("id, name, sprite_slug")
+      .select("id, name, slug")
       .in("id", formIds),
     attributesQuery,
   ]);

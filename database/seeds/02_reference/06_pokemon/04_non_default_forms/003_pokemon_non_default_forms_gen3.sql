@@ -11,11 +11,11 @@
 -- Generation: 3
 -- Table: reference.pokemon_forms
 -- Scope: curated non-default forms for team builder, planner, and Pokémon history.
-INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_generation_id, is_default, form_order, height_decimeters, weight_hectograms, sprite_slug)
+INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_generation_id, is_default, form_order, height_decimeters, weight_hectograms)
 VALUES
   -- Deoxys (Attack)
-  (38601, 386, 'deoxys-attack', 'Deoxys (Attack)', 3, FALSE, 2, NULL, NULL, 'deoxys-attack'),
+  (38601, 386, 'deoxys-attack', 'Deoxys (Attack)', 3, FALSE, 2, NULL, NULL),
   -- Deoxys (Defense)
-  (38602, 386, 'deoxys-defense', 'Deoxys (Defense)', 3, FALSE, 3, NULL, NULL, 'deoxys-defense'),
+  (38602, 386, 'deoxys-defense', 'Deoxys (Defense)', 3, FALSE, 3, NULL, NULL),
   -- Deoxys (Speed)
-  (38603, 386, 'deoxys-speed', 'Deoxys (Speed)', 3, FALSE, 4, NULL, NULL, 'deoxys-speed');
+  (38603, 386, 'deoxys-speed', 'Deoxys (Speed)', 3, FALSE, 4, NULL, NULL);

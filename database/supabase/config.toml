@@ -111,12 +111,6 @@ enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB").
 file_size_limit = "50MiB"
 
-# Game covers, copied from hosted Storage so local screens match it.
-[storage.buckets.reference-assets]
-public = true
-allowed_mime_types = ["image/webp"]
-objects_path = "../storage/reference-assets"
-
 # Allow connections via S3 compatible clients
 [storage.s3_protocol]
 enabled = true

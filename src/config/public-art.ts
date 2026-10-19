@@ -31,7 +31,7 @@ export type PublicTypeSlug =
 /* A Pokémon form, as its render resolves: its name and sprite slug. */
 export type PublicPokemonForm = {
   name: string;
-  sprite_slug: string;
+  slug: string;
 };
 
 export type PublicGame = {

@@ -35,7 +35,12 @@ const toMedallionContent = (moment: PublicMoment): MedallionContent => {
       const imageUrl = getPokemonFormImageUrl(moment.pokemon);
 
       return imageUrl
-        ? { imageUrl, kind: "pokemon", type: moment.pokemon.type }
+        ? {
+            imageUrl,
+            kind: "pokemon",
+            name: moment.pokemon.name,
+            type: moment.pokemon.type,
+          }
         : { icon: appIcons.product.event, kind: "status" };
     }
   }

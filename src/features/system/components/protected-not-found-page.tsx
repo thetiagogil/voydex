@@ -20,7 +20,7 @@ export const ProtectedNotFoundPage = ({
 }: ProtectedNotFoundPageProps) => {
   return (
     <SystemState
-      artUrl={pokemon?.artUrl}
+      art={pokemon ? { name: pokemon.name, url: pokemon.artUrl } : null}
       eyebrow="404"
       title="This page wandered off"
       description={getNotFoundDescription(

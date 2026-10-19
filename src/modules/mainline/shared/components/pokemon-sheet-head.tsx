@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 type PokemonSheetHeadProps = {
@@ -15,6 +16,8 @@ type PokemonSheetHeadProps = {
    * rounded card inside a bottom sheet's scroll, as v3's `.bs-card`.
    */
   layout: "flush" | "inset";
+  /* The Pokémon pictured: its first letter stands in when there is no art. */
+  name: string;
   /* A Pokémon you mean to have (a Plan's slot): its art sits on white, not as a sticker. */
   planned?: boolean;
   type: PokemonTypeSlug | null;
@@ -31,6 +34,7 @@ export const PokemonSheetHead = ({
   children,
   imageUrl,
   layout,
+  name,
   planned = false,
   type,
 }: PokemonSheetHeadProps) => {
@@ -53,19 +57,14 @@ export const PokemonSheetHead = ({
             inset ? "size-21" : "size-20 sm:size-27.5",
           )}
         >
-          {imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={imageUrl}
-              alt=""
-              className={cn(
-                "max-w-none object-contain",
-                inset ? "size-18" : "size-17.5 sm:size-24",
-              )}
-            />
-          ) : (
-            <span className="empty-slot size-3/4 rounded-full" />
-          )}
+          <FallbackImage
+            src={imageUrl}
+            name={name}
+            className={cn(
+              "max-w-none object-contain",
+              inset ? "size-18" : "size-17.5 sm:size-24",
+            )}
+          />
         </span>
         {children}
       </div>

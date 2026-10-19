@@ -40,7 +40,7 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
     .schema("views")
     .from("mainline_team_plan_detail")
     .select(
-      "slot, target_form_id, target_form_name, target_species_name, target_sprite_slug, team_plan_id",
+      "slot, target_form_id, target_form_name, target_species_name, target_form_slug, team_plan_id",
     )
     .in("team_plan_id", planIds)
     .order("slot");
@@ -92,7 +92,7 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
         return {
           imageUrl: getPokemonFormImageUrl({
             name: member.target_form_name ?? member.target_species_name ?? "",
-            sprite_slug: member.target_sprite_slug,
+            slug: member.target_form_slug,
           }),
           name: member.target_species_name ?? "Pokémon",
           slot: member.slot ?? 0,

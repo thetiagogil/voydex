@@ -3282,7 +3282,6 @@ export type Database = {
           name: string;
           slug: string;
           species_id: number;
-          sprite_slug: string | null;
           weight_hectograms: number | null;
         };
         ComputedFields: never;
@@ -3296,7 +3295,6 @@ export type Database = {
           name: string;
           slug: string;
           species_id: number;
-          sprite_slug?: string | null;
           weight_hectograms?: number | null;
         };
         Update: {
@@ -3309,7 +3307,6 @@ export type Database = {
           name?: string;
           slug?: string;
           species_id?: number;
-          sprite_slug?: string | null;
           weight_hectograms?: number | null;
         };
         Relationships: [
@@ -4857,7 +4854,6 @@ export type Database = {
           species_id: number | null;
           species_name: string | null;
           species_slug: string | null;
-          sprite_slug: string | null;
           updated_at: string | null;
         };
         ComputedFields: never;
@@ -4937,7 +4933,6 @@ export type Database = {
           target_species_id: number | null;
           target_species_name: string | null;
           target_species_slug: string | null;
-          target_sprite_slug: string | null;
           team_plan_id: string | null;
           team_plan_member_id: string | null;
           team_plan_member_notes: string | null;
@@ -5130,7 +5125,6 @@ export type Database = {
           target_species_id: number | null;
           target_species_name: string | null;
           target_species_slug: string | null;
-          target_sprite_slug: string | null;
           team_plan_id: string | null;
           team_plan_member_id: string | null;
           updated_at: string | null;

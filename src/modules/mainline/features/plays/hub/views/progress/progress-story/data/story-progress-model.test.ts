@@ -170,7 +170,7 @@ describe("buildStoryProgressModel", () => {
     const model = buildStoryProgressModel({
       categories: [category()],
       badgeTypes: [],
-      decisionForms: [{ id: 906, sprite_slug: "sprigatito" }],
+      decisionForms: [{ id: 906, slug: "sprigatito" }],
       milestones: [
         milestone({
           completion_event_team_snapshot_count: 6,
@@ -206,7 +206,7 @@ describe("buildStoryProgressModel", () => {
               is_shiny: false,
               position: 1,
               species_name: "Sprigatito",
-              sprite_slug: "sprigatito",
+              slug: "sprigatito",
             },
             {
               form_id: 1008,
@@ -214,7 +214,7 @@ describe("buildStoryProgressModel", () => {
               is_shiny: true,
               position: 2,
               species_name: "Miraidon",
-              sprite_slug: "miraidon",
+              slug: "miraidon",
             },
           ],
         },
@@ -226,8 +226,7 @@ describe("buildStoryProgressModel", () => {
       decisionOptions: [
         {
           id: 5,
-          imageUrl:
-            "https://img.pokemondb.net/sprites/home/normal/sprigatito.png",
+          imageUrl: "https://assets.test/pokemon/home/md/sprigatito.webp",
           label: "Sprigatito",
           speciesName: "Sprigatito",
         },
@@ -238,15 +237,14 @@ describe("buildStoryProgressModel", () => {
       snapshotMembers: [
         {
           formName: "Sprigatito",
-          imageUrl:
-            "https://img.pokemondb.net/sprites/home/normal/sprigatito.png",
+          imageUrl: "https://assets.test/pokemon/home/md/sprigatito.webp",
           isShiny: false,
           position: 1,
           speciesName: "Sprigatito",
         },
         {
           formName: "Miraidon (Drive Mode)",
-          imageUrl: "https://img.pokemondb.net/sprites/home/shiny/miraidon.png",
+          imageUrl: "https://assets.test/pokemon/home-shiny/md/miraidon.webp",
           isShiny: true,
           position: 2,
           speciesName: "Miraidon",

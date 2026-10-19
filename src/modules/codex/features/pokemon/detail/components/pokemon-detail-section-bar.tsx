@@ -140,8 +140,8 @@ export const PokemonDetailSectionBar = ({
         <PokemonPortrait
           alt=""
           imageUrl={imageUrl}
+          name={name}
           type={type}
-          sizes="40px"
           className="size-10 border-2 border-white"
           imageClassName="p-1"
         />

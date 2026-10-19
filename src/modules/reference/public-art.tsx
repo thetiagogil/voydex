@@ -38,7 +38,7 @@ export const publicArt = {
 
 const psyduckArtUrl = getPokemonFormImageUrl({
   name: "Psyduck",
-  sprite_slug: "psyduck",
+  slug: "psyduck",
 });
 
 /* The Pokémon that looks for a page that isn't there (v3's not found). */

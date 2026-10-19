@@ -10,6 +10,7 @@ import {
 } from "@/modules/mainline/features/stats/data/stats-model";
 import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -21,6 +22,7 @@ import {
 } from "@/shared/components/app-icon";
 import { PageBand } from "@/shared/components/page-band";
 import { useFirstVisit } from "@/shared/hooks/use-first-visit";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { iconDiscVariants } from "@/shared/components/icon-disc";
 
@@ -133,21 +135,18 @@ const TitlePicture = ({
                   onClick={() => onOpenPokemon(pokemon)}
                   className="group/art focus-ring block rounded-full"
                 >
-                  {entry.imageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={entry.imageUrl}
-                      alt=""
-                      className={cn(
-                        "ease-hop transition-transform duration-250 group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
-                        index === 0
-                          ? "size-26 sm:size-32"
-                          : "size-20 sm:size-24",
-                      )}
-                    />
-                  ) : (
-                    <span className="empty-slot block size-16 rounded-full" />
-                  )}
+                  <FallbackImage
+                    src={entry.imageUrl}
+                    name={entry.name}
+                    fallback="badge"
+                    style={getPokemonTypeCssVariables(
+                      toTypeSlug(entry.types[0]?.slug ?? ""),
+                    )}
+                    className={cn(
+                      "ease-hop transition-transform duration-250 group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
+                      index === 0 ? "size-26 sm:size-32" : "size-20 sm:size-24",
+                    )}
+                  />
                 </button>
               </li>
             );

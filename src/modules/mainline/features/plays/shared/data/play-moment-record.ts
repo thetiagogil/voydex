@@ -142,7 +142,7 @@ export const getPlayMomentRecord = (
 
   if (teamEventTypeSlugs.has(eventTypeSlug)) {
     const line = getPlayMomentTeamLine(event);
-    const { formId, imageUrl } = line.outcome;
+    const { formId, imageUrl, name } = line.outcome;
 
     return {
       description: getDescription(event),
@@ -153,6 +153,7 @@ export const getPlayMomentRecord = (
         ? {
             imageUrl,
             kind: "pokemon",
+            name,
             type:
               formId === null
                 ? null

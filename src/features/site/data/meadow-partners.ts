@@ -12,13 +12,13 @@ type MeadowPartner = PublicPokemonForm & {
  * and a water in each run of three generations. A fixed, curated set.
  */
 export const meadowPartners: readonly MeadowPartner[] = [
-  { generation: 1, name: "Charmander", sprite_slug: "charmander" },
-  { generation: 2, name: "Chikorita", sprite_slug: "chikorita" },
-  { generation: 3, name: "Mudkip", scale: 0.98, sprite_slug: "mudkip" },
-  { generation: 4, name: "Turtwig", scale: 0.96, sprite_slug: "turtwig" },
-  { generation: 5, name: "Oshawott", sprite_slug: "oshawott" },
-  { generation: 6, name: "Fennekin", sprite_slug: "fennekin" },
-  { generation: 7, name: "Rowlet", scale: 0.9, sprite_slug: "rowlet" },
-  { generation: 8, name: "Scorbunny", scale: 1.08, sprite_slug: "scorbunny" },
-  { generation: 9, name: "Quaxly", scale: 0.98, sprite_slug: "quaxly" },
+  { generation: 1, name: "Charmander", slug: "charmander" },
+  { generation: 2, name: "Chikorita", slug: "chikorita" },
+  { generation: 3, name: "Mudkip", scale: 0.98, slug: "mudkip" },
+  { generation: 4, name: "Turtwig", scale: 0.96, slug: "turtwig" },
+  { generation: 5, name: "Oshawott", slug: "oshawott" },
+  { generation: 6, name: "Fennekin", slug: "fennekin" },
+  { generation: 7, name: "Rowlet", scale: 0.9, slug: "rowlet" },
+  { generation: 8, name: "Scorbunny", scale: 1.08, slug: "scorbunny" },
+  { generation: 9, name: "Quaxly", scale: 0.98, slug: "quaxly" },
 ];

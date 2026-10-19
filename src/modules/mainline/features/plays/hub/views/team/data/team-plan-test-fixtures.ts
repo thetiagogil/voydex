@@ -52,7 +52,6 @@ export const buildPlanRow = (
     target_form_slug: `form-${slot}`,
     target_species_id: slot,
     target_species_name: `Planned ${slot}`,
-    target_sprite_slug: `planned-${slot}`,
     team_plan_id: "plan-id",
     team_plan_member_id: `plan-member-${slot}`,
     team_plan_name: "Balanced team",

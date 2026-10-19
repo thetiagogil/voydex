@@ -85,7 +85,7 @@ export const readTeamMemberEditorOptions = async (
     supabase
       .schema("reference")
       .from("pokemon_forms")
-      .select("id, name, sprite_slug, species_id")
+      .select("id, name, slug, species_id")
       .eq("species_id", speciesId)
       .order("form_order", { ascending: true }),
   ]);
@@ -157,7 +157,7 @@ export const readTeamMemberEditorOptions = async (
       ? supabase
           .schema("reference")
           .from("pokemon_forms")
-          .select("id, name, sprite_slug, species_id")
+          .select("id, name, slug, species_id")
           .in("id", targetFormIds)
       : null,
     targetFormIds.length
@@ -185,7 +185,7 @@ export const readTeamMemberEditorOptions = async (
     id: number;
     name: string;
     species_id: number;
-    sprite_slug: string | null;
+    slug: string | null;
   }): EditorFormOption => ({
     formId: form.id,
     imageUrl: getPokemonFormImageUrl(form),

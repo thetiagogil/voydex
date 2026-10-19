@@ -4,6 +4,7 @@ import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 /*
@@ -15,7 +16,13 @@ import { cn } from "@/shared/utils/cn";
 export type MedallionContent =
   | { kind: "badge"; type: PokemonTypeSlug }
   | { kind: "gold"; icon: AppIconComponent }
-  | { imageUrl: string; kind: "pokemon"; type: PokemonTypeSlug | null }
+  | {
+      imageUrl: string;
+      kind: "pokemon";
+      /* The Pokémon pictured: its first letter stands in if the art fails. */
+      name: string;
+      type: PokemonTypeSlug | null;
+    }
   | { icon: AppIconComponent; kind: "note" | "start" | "status" };
 
 export type MedallionSize = "md" | "sm" | "xs";
@@ -109,15 +116,16 @@ export const Medallion = ({
       {content.kind === "badge" ? (
         <PokemonTypeIcon type={content.type} className="size-[48%]" />
       ) : content.kind === "pokemon" ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <FallbackImage
           src={content.imageUrl}
-          alt=""
+          name={content.name}
           className={cn(
             "max-w-none",
             imageSizeClassNames[size],
             faded && "opacity-75 saturate-30",
           )}
+          /* The letter fills the ring; the art stands a little proud of it. */
+          fallbackClassName="size-full"
         />
       ) : (
         <AppIcon icon={content.icon} aria-hidden />

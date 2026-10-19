@@ -90,7 +90,6 @@ export const buildTeamPlanMemberComparison = ({
     plannedPrimaryType: plannedTypes.primaryType,
     plannedSecondaryType: plannedTypes.secondaryType,
     plannedSpeciesId: planned.target_species_id ?? -1,
-    plannedSpriteSlug: planned.target_sprite_slug,
     playMember: member,
     relation,
     roleLabel: planned.role_label,

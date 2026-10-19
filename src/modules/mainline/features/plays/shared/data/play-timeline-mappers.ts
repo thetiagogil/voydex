@@ -29,9 +29,9 @@ export const getMainlineTimelinePokemonFormIds = (
   );
 };
 
-const addTimelineSpriteSlugs = (
+const addTimelineFormSlugs = (
   value: Json | null,
-  spriteSlugByFormId: Map<number, string | null>,
+  formSlugByFormId: Map<number, string | null>,
 ): Json | null => {
   if (!Array.isArray(value)) {
     return value;
@@ -42,29 +42,24 @@ const addTimelineSpriteSlugs = (
       return item;
     }
 
-    const spriteSlug = spriteSlugByFormId.get(item.form_id);
+    const formSlug = formSlugByFormId.get(item.form_id);
 
-    return spriteSlug ? { ...item, sprite_slug: spriteSlug } : item;
+    return formSlug ? { ...item, slug: formSlug } : item;
   });
 };
 
 export const hydrateMainlineTimelinePokemonImages = (
   events: MainlinePlayTimelineEvent[],
-  forms: Pick<PokemonForm, "id" | "sprite_slug">[],
+  forms: Pick<PokemonForm, "id" | "slug">[],
 ): MainlinePlayTimelineEvent[] => {
-  const spriteSlugByFormId = new Map(
-    forms.map((form) => [form.id, form.sprite_slug]),
-  );
+  const formSlugByFormId = new Map(forms.map((form) => [form.id, form.slug]));
 
   return events.map((event) => ({
     ...event,
-    pokemon_refs: addTimelineSpriteSlugs(
-      event.pokemon_refs,
-      spriteSlugByFormId,
-    ),
-    team_snapshots: addTimelineSpriteSlugs(
+    pokemon_refs: addTimelineFormSlugs(event.pokemon_refs, formSlugByFormId),
+    team_snapshots: addTimelineFormSlugs(
       event.team_snapshots,
-      spriteSlugByFormId,
+      formSlugByFormId,
     ),
   }));
 };

@@ -74,14 +74,13 @@ export function assertPokemonIdentityRows(context, tableRows) {
       "form_order",
       "height_decimeters",
       "weight_hectograms",
-      "sprite_slug",
     ],
     (a, b) =>
       a.species_id - b.species_id || a.form_order - b.form_order || a.id - b.id,
     {
       count: 1185,
       sha256:
-        "153067c41a9b5ce18402444063b5662d22ae88e1f3ce1391db28fd30c6f3032d",
+        "5a1a288a2bab91f689b7380dc57dbfe3b900dbc38599a99d3a0313d954e0ef43",
     },
   );
   if (familyRows.length !== 541) {
@@ -236,11 +235,6 @@ export function assertPokemonIdentityRows(context, tableRows) {
         `${relative(filePath)}: default form ${row.slug} must have form_order 1.`,
       );
     }
-    if (row.sprite_slug !== row.slug) {
-      context.errors.push(
-        `${relative(filePath)}: default form ${row.slug} expected sprite_slug ${row.slug}, got ${row.sprite_slug}.`,
-      );
-    }
   }
   for (let speciesId = 1; speciesId <= 1025; speciesId += 1) {
     const forms = (formsBySpeciesId.get(speciesId) ?? []).filter(
@@ -295,11 +289,6 @@ export function assertPokemonIdentityRows(context, tableRows) {
     if (row.form_order <= 1) {
       context.errors.push(
         `${relative(filePath)}: non-default form ${row.slug} must have form_order greater than 1.`,
-      );
-    }
-    if (row.sprite_slug === null) {
-      context.errors.push(
-        `${relative(filePath)}: non-default form ${row.slug} must provide a sprite_slug or explicit source key.`,
       );
     }
   }

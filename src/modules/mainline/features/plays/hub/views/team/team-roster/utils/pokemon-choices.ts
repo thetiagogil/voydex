@@ -41,7 +41,6 @@ export type PokemonChoiceSourceRows = {
     name: string;
     slug: string;
     species_id: number;
-    sprite_slug: string | null;
   }[];
   types: PokemonChoiceType[];
 };
@@ -152,10 +151,13 @@ export const toPokemonChoice = ({
   formId: form.id,
   formName: form.is_default ? null : form.name,
   formSlug: form.slug,
-  imageUrl: getPokemonFormImageUrl({
-    name: form.name,
-    sprite_slug: form.sprite_slug,
-  }),
+  imageUrl: getPokemonFormImageUrl(
+    {
+      name: form.name,
+      slug: form.slug,
+    },
+    "sm",
+  ),
   number,
   primaryType: typeById.get(attribute.primary_type_id) ?? null,
   secondaryType:

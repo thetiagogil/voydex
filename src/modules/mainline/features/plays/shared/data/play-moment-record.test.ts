@@ -21,12 +21,12 @@ const event = (fields: Partial<Record<string, unknown>>) =>
 const evolution = event({
   event_type_slug: "pokemon_evolved",
   pokemon_refs: [
-    { form_id: 1, role: "from", species_name: "Toxel", sprite_slug: "toxel" },
+    { form_id: 1, role: "from", species_name: "Toxel", slug: "toxel" },
     {
       form_id: 2,
       role: "to",
       species_name: "Toxtricity",
-      sprite_slug: "toxtricity-amped",
+      slug: "toxtricity-amped",
     },
   ],
 });
@@ -38,9 +38,9 @@ describe("getPlayMomentRecord", () => {
     expect(record.label).toBe("Evolved");
     expect(record.faded).toBe(false);
     expect(record.medallion).toEqual({
-      imageUrl:
-        "https://img.pokemondb.net/sprites/home/normal/toxtricity-amped.png",
+      imageUrl: "https://assets.test/pokemon/home/md/toxtricity-amped.webp",
       kind: "pokemon",
+      name: "Toxtricity",
       type: null,
     });
     expect(record.headline.map((part) => part.text).join("")).toBe(
@@ -65,7 +65,7 @@ describe("getPlayMomentRecord", () => {
         body: "Rested after Hammerlocke.",
         event_type_slug: "pokemon_retired",
         pokemon_refs: [
-          { role: "subject", species_name: "Boltund", sprite_slug: "boltund" },
+          { role: "subject", species_name: "Boltund", slug: "boltund" },
         ],
         title: "Retired Boltund",
       }),
@@ -132,14 +132,14 @@ describe("getPlayMomentRecord for other moments", () => {
       event({
         event_type_slug: "pokemon_replaced",
         pokemon_refs: [
-          { role: "replaced", species_name: "Wooloo", sprite_slug: "wooloo" },
-          { role: "replacement", species_name: "Eevee", sprite_slug: "eevee" },
+          { role: "replaced", species_name: "Wooloo", slug: "wooloo" },
+          { role: "replacement", species_name: "Eevee", slug: "eevee" },
         ],
       }),
     );
 
     expect(record.medallion).toMatchObject({
-      imageUrl: "https://img.pokemondb.net/sprites/home/normal/eevee.png",
+      imageUrl: "https://assets.test/pokemon/home/md/eevee.webp",
     });
   });
 });

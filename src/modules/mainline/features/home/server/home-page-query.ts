@@ -34,24 +34,27 @@ import {
 } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
-/* Each lead's primary type at its Play's generation, for its sticker's tint. */
-const readLeadTypes = async (
+/*
+ * Each active team member's primary type at its Play's generation, for the
+ * tint of the lead's sticker and of a meadow Pokémon's stand-in.
+ */
+const readTeamTypes = async (
   supabase: ServerSupabaseClient,
   plays: PlayBrowseItem[],
 ): Promise<Map<string, string>> => {
-  const leads = plays.flatMap((play) => {
-    const lead = play.activeTeam.members.find((member) => member.form_id);
-
-    return lead?.play_pokemon_id && lead.form_id
-      ? [
-          {
-            formId: lead.form_id,
-            generationId: play.generation_id,
-            id: lead.play_pokemon_id,
-          },
-        ]
-      : [];
-  });
+  const leads = plays.flatMap((play) =>
+    play.activeTeam.members.flatMap((member) =>
+      member.play_pokemon_id && member.form_id
+        ? [
+            {
+              formId: member.form_id,
+              generationId: play.generation_id,
+              id: member.play_pokemon_id,
+            },
+          ]
+        : [],
+    ),
+  );
 
   if (!leads.length) {
     return new Map();
@@ -269,8 +272,8 @@ export const getHomePageData = async (
    * Every Play on the shelf comes with its band and moments, so picking one
    * switches at once, without asking the server.
    */
-  const [leadTypes, bandReads, intentOffer, catalogue] = await Promise.all([
-    readLeadTypes(supabase, shelfItems),
+  const [teamTypes, bandReads, intentOffer, catalogue] = await Promise.all([
+    readTeamTypes(supabase, shelfItems),
     Promise.all(
       shelfItems.map((item) =>
         Promise.all([
@@ -302,8 +305,13 @@ export const getHomePageData = async (
             ? (coverShapeByGameSlug.get(play.gameSlug) ?? null)
             : null,
           lead: play.lead
-            ? { ...play.lead, typeSlug: leadTypes.get(play.lead.id) ?? null }
+            ? { ...play.lead, typeSlug: teamTypes.get(play.lead.id) ?? null }
             : null,
+          team: play.team.map((member) =>
+            member
+              ? { ...member, typeSlug: teamTypes.get(member.id) ?? null }
+              : null,
+          ),
         },
       },
     ];

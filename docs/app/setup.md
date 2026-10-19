@@ -22,7 +22,13 @@ Create `.env.local` from `.env.local.example`.
 ```txt
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+NEXT_PUBLIC_ASSETS_URL=
 ```
+
+`NEXT_PUBLIC_ASSETS_URL` is the address of the separate `voydex-assets` site
+that serves Pokémon images (HOME sprites at 160 and 384 px, official art at
+475 px, each normal and shiny, named by form slug) and game covers. Without
+it, images show the first letter of their name instead.
 
 Legacy anon-key aliases are not accepted. Use the publishable key for browser
 runtime configuration.

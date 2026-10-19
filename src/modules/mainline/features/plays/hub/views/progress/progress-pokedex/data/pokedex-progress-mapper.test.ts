@@ -24,7 +24,7 @@ describe("Mainline Play Pokédex mapper", () => {
         is_default: true,
         name: "Ivysaur",
         species_id: 2,
-        sprite_slug: "ivysaur",
+        slug: "ivysaur",
       },
     ] as PokemonForm[];
     const attributes = [

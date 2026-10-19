@@ -40,7 +40,7 @@ export type OverviewPartnerFormRows = {
     primary_type_id: number;
     secondary_type_id: number | null;
   }[];
-  forms: { id: number; name: string; sprite_slug: string | null }[];
+  forms: { id: number; name: string; slug: string | null }[];
   types: OverviewPartnerType[];
 };
 
@@ -182,7 +182,7 @@ export const buildOverviewPartnerChoice = ({
           imageUrl: form
             ? getPokemonFormImageUrl({
                 name: form.name,
-                sprite_slug: form.sprite_slug,
+                slug: form.slug,
               })
             : null,
           name,

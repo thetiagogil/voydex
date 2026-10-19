@@ -4,6 +4,7 @@ import {
   getPokemonFormImageAlt,
   getPokemonFormImageUrl,
   getPokemonFormShinyImageUrl,
+  type PokemonImageSize,
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
@@ -19,14 +20,16 @@ export const getPokemonDetailFormTypeSlug = (
 
 export const getPokemonDetailFormImageUrl = (
   form: PokemonGenerationFormSummary | null,
+  size?: PokemonImageSize,
 ) => {
-  return getPokemonFormImageUrl(form?.form ?? null);
+  return getPokemonFormImageUrl(form?.form ?? null, size);
 };
 
 export const getPokemonDetailFormShinyImageUrl = (
   form: PokemonGenerationFormSummary | null,
+  size?: PokemonImageSize,
 ) => {
-  return getPokemonFormShinyImageUrl(form?.form ?? null);
+  return getPokemonFormShinyImageUrl(form?.form ?? null, size);
 };
 
 export const getPokemonDetailFormImageAlt = (

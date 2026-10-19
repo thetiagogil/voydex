@@ -21,7 +21,7 @@ type HomeTeamMember = {
   id: string;
   imageUrl: string | null;
   name: string;
-  /* The primary type, for a sticker's tint; read for the shelf's leads only. */
+  /* The primary type, for a sticker's or a stand-in's tint. */
   typeSlug?: string | null;
 };
 

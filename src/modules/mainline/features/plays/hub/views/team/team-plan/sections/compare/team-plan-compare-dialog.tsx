@@ -128,6 +128,7 @@ const RecordedSide = ({
           <span className={cn(artBoxClassName, "empty-slot")}>
             <TeamPlanArt
               imageUrl={getTeamPlanPlannedImageUrl(comparison)}
+              name={comparison.plannedName}
               silhouette
               className={artClassName}
             />
@@ -154,6 +155,7 @@ const RecordedSide = ({
         >
           <TeamPlanArt
             imageUrl={getPlayTeamMemberImageUrl(member)}
+            name={getPlayTeamMemberName(member)}
             className={artClassName}
           />
         </span>
@@ -215,6 +217,7 @@ export const TeamPlanCompareDialog = ({
                 >
                   <TeamPlanArt
                     imageUrl={getTeamPlanPlannedImageUrl(comparison)}
+                    name={comparison.plannedName}
                     className={artClassName}
                   />
                 </span>

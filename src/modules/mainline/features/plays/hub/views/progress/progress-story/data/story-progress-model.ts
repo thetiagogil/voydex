@@ -44,7 +44,7 @@ const toStringValue = (value: unknown) => {
 
 const parseDecisionOptions = (
   value: unknown,
-  spriteSlugByFormId: Map<number, string | null>,
+  formSlugByFormId: Map<number, string | null>,
 ): StoryDecisionOption[] => {
   if (!Array.isArray(value)) {
     return [];
@@ -60,17 +60,17 @@ const parseDecisionOptions = (
     const formId = toFiniteNumber(option.pokemon_form_id, Number.NaN);
     const formName = toStringValue(option.pokemon_form_name);
     const speciesName = toStringValue(option.pokemon_species_name);
-    const spriteSlug = spriteSlugByFormId.get(formId) ?? null;
+    const formSlug = formSlugByFormId.get(formId) ?? null;
 
     return Number.isFinite(id) && label
       ? [
           {
             id,
             imageUrl:
-              speciesName && spriteSlug
+              speciesName && formSlug
                 ? getPokemonFormImageUrl({
                     name: formName ?? speciesName,
-                    sprite_slug: spriteSlug,
+                    slug: formSlug,
                   })
                 : null,
             label,
@@ -205,8 +205,8 @@ export const buildStoryProgressModel = ({
       .filter((id) => id > 0),
   );
   const sequenceByScopeId = new Map<number, number>();
-  const spriteSlugByDecisionFormId = new Map(
-    decisionForms.map((form) => [form.id, form.sprite_slug]),
+  const formSlugByDecisionFormId = new Map(
+    decisionForms.map((form) => [form.id, form.slug]),
   );
   const badgeTypeById = new Map(
     badgeTypes.flatMap((type): [number, PokemonTypeSlug][] =>
@@ -268,7 +268,7 @@ export const buildStoryProgressModel = ({
             completedAt: milestone.completed_at,
             decisionOptions: parseDecisionOptions(
               milestone.decision_options,
-              spriteSlugByDecisionFormId,
+              formSlugByDecisionFormId,
             ),
             description: milestone.description,
             hasHistoryEvent: Boolean(milestone.completion_event_id),
