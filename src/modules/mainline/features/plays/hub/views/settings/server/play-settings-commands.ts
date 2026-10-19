@@ -1,4 +1,3 @@
-import { insertMainlinePlayEvent } from "@/modules/mainline/features/plays/hub/server/play-event-writer";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import {
@@ -10,7 +9,6 @@ import {
 export type OwnedPlay = {
   game_id: number;
   id: string;
-  status_id: number;
 };
 
 /* The signed-in owner's Play, or an error the form can show. */
@@ -21,7 +19,7 @@ export const readOwnedPlay = async (
   const playResult = await supabase
     .schema("gameplay")
     .from("mainline_plays")
-    .select("id, game_id, status_id")
+    .select("id, game_id")
     .eq("id", playId)
     .eq("user_id", userId)
     .maybeSingle();
@@ -34,55 +32,44 @@ export const readOwnedPlay = async (
 };
 
 /*
- * General: name, trainer, start day, playtime and status. A status change
- * also joins History, as v3's History shows it.
+ * General: name, trainer, start day, playtime and status. One database call
+ * saves them and, when the status actually changes, adds its moment to
+ * History (titled with the new status) in the same transaction.
  */
 export const updatePlayGeneralSettings = async (
   supabase: ServerSupabaseClient,
-  {
-    input,
-    play,
-    userId,
-  }: { input: PlayGeneralSettingsInput; play: OwnedPlay; userId: string },
+  { input, play }: { input: PlayGeneralSettingsInput; play: OwnedPlay },
 ) => {
   const statusesResult = await supabase
     .schema("gameplay")
     .from("mainline_play_statuses")
-    .select("id, name");
+    .select("id");
 
   if (statusesResult.error) {
     throw new Error("Unable to read the Play statuses.");
   }
 
-  const statuses = statusesResult.data ?? [];
   const settings = parsePlayGeneralSettings(
     input,
-    statuses.map((status) => status.id),
+    (statusesResult.data ?? []).map((status) => status.id),
   );
-  const updateResult = await supabase
+  const saveResult = await supabase
     .schema("gameplay")
-    .from("mainline_plays")
-    .update(settings)
-    .eq("id", play.id)
-    .eq("user_id", userId);
+    .rpc("update_mainline_play_general_settings", {
+      p_name: settings.name,
+      p_play_id: play.id,
+      p_playtime_minutes: settings.playtime_minutes ?? undefined,
+      p_started_on: settings.started_on ?? undefined,
+      p_status_id: settings.status_id,
+      p_trainer_name: settings.trainer_name ?? undefined,
+    });
 
-  if (updateResult.error) {
+  if (saveResult.error) {
     throw new Error(
-      updateResult.error.message.includes("completed_not_before_started")
+      saveResult.error.message.includes("completed_not_before_started")
         ? "The start day can't be after the day the Play was completed."
         : "Unable to save these settings.",
     );
-  }
-
-  const newStatus = statuses.find((status) => status.id === settings.status_id);
-
-  if (newStatus && settings.status_id !== play.status_id) {
-    await insertMainlinePlayEvent(supabase, {
-      eventTypeSlug: "status_change",
-      originSlug: "recorded_action",
-      playId: play.id,
-      title: newStatus.name,
-    }).catch(() => undefined);
   }
 };
 

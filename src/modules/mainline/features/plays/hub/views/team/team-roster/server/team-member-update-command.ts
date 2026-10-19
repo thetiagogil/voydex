@@ -10,74 +10,11 @@ import type { UpdateMainlinePlayPokemonInput } from "../utils/team-member-valida
 import { readTeamMemberEditorOptions } from "./team-member-editor-options-reader";
 
 /*
- * Moves replace the current four in slot order. With no single database
- * function for it, the old moves are written back if the new ones can't be.
- */
-const replacePlayPokemonMoves = async (
-  supabase: ServerSupabaseClient,
-  {
-    currentMoves,
-    moveIds,
-    playPokemonId,
-  }: {
-    currentMoves: { move_id: number; slot: number }[];
-    moveIds: number[];
-    playPokemonId: string;
-  },
-) => {
-  /* A fresh builder per request: a builder's filters stay on its URL. */
-  const moves = () =>
-    supabase.schema("gameplay").from("mainline_play_pokemon_moves");
-  const deleteResult = await moves()
-    .delete()
-    .eq("play_pokemon_id", playPokemonId);
-
-  if (deleteResult.error) {
-    throw new Error("Saved, but the moves couldn't be changed.");
-  }
-
-  if (!moveIds.length) {
-    return;
-  }
-
-  const insertResult = await moves().insert(
-    moveIds.map((moveId, index) => ({
-      move_id: moveId,
-      play_pokemon_id: playPokemonId,
-      slot: index + 1,
-    })),
-  );
-
-  if (!insertResult.error) {
-    return;
-  }
-
-  const restoreResult = currentMoves.length
-    ? await moves().insert(
-        currentMoves.map((move) => ({
-          move_id: move.move_id,
-          play_pokemon_id: playPokemonId,
-          slot: move.slot,
-        })),
-      )
-    : { error: null };
-
-  if (restoreResult.error) {
-    console.error(
-      `Play Pokémon ${playPokemonId}: unable to restore its moves after a failed change.`,
-    );
-    throw new Error(
-      "Saved, but its moves couldn't be changed or put back. Check its moves.",
-    );
-  }
-
-  throw new Error("Saved, but the moves couldn't be changed.");
-};
-
-/*
  * Saves the editor's fields. A mechanic the Play's game doesn't have (a
  * nature before Ruby and Sapphire, say) can't be recorded, nor a choice the
- * editor wouldn't offer; moves replace the current four in slot order.
+ * editor wouldn't offer. `gameplay.update_mainline_play_pokemon` then writes
+ * every field (an empty one clears it) and replaces the current moves in
+ * slot order in one transaction; a details edit is not a History moment.
  */
 export const updatePlayPokemon = async (
   supabase: ServerSupabaseClient,
@@ -146,8 +83,9 @@ export const updatePlayPokemon = async (
     throw new Error("This game doesn't record that.");
   }
 
-  const currentMoves = currentMovesResult.data ?? [];
-  const currentMoveIds = currentMoves.map((move) => move.move_id);
+  const currentMoveIds = (currentMovesResult.data ?? []).map(
+    (move) => move.move_id,
+  );
   /* The same choices the editor offered, read for this Pokémon and game. */
   const options = await readTeamMemberEditorOptions(supabase, {
     formId: pokemon.form_id,
@@ -168,38 +106,26 @@ export const updatePlayPokemon = async (
     throw new Error(unoffered);
   }
 
-  const updateResult = await supabase
+  /* One call saves the details and replaces the moves together. */
+  const saveResult = await supabase
     .schema("gameplay")
-    .from("mainline_play_pokemon")
-    .update({
-      ability_id: input.abilityId,
-      ball_item_id: input.ballItemId,
-      gender: input.gender,
-      held_item_id: input.heldItemId,
-      is_shiny: input.isShiny,
-      level: input.level,
-      met_level: input.metLevel,
-      met_location_label: input.metLocation,
-      nature_id: input.natureId,
-      nickname: input.nickname,
-      personal_notes: input.notes,
-    })
-    .eq("id", playPokemonId)
-    .eq("play_id", playId);
-
-  if (updateResult.error) {
-    throw new Error("Unable to save those changes.");
-  }
-
-  const movesChanged =
-    currentMoveIds.length !== input.moveIds.length ||
-    currentMoveIds.some((moveId, index) => moveId !== input.moveIds[index]);
-
-  if (movesChanged) {
-    await replacePlayPokemonMoves(supabase, {
-      currentMoves,
-      moveIds: input.moveIds,
-      playPokemonId,
+    .rpc("update_mainline_play_pokemon", {
+      p_ability_id: input.abilityId ?? undefined,
+      p_ball_item_id: input.ballItemId ?? undefined,
+      p_gender: input.gender,
+      p_held_item_id: input.heldItemId ?? undefined,
+      p_is_shiny: input.isShiny,
+      p_level: input.level ?? undefined,
+      p_met_level: input.metLevel ?? undefined,
+      p_met_location_label: input.metLocation ?? undefined,
+      p_move_ids: input.moveIds,
+      p_nature_id: input.natureId ?? undefined,
+      p_nickname: input.nickname ?? undefined,
+      p_personal_notes: input.notes ?? undefined,
+      p_play_pokemon_id: playPokemonId,
     });
+
+  if (saveResult.error) {
+    throw new Error("Unable to save those changes.");
   }
 };

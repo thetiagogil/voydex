@@ -101,7 +101,6 @@ export const addMainlinePlayPokemonAction = async (
     revalidateTeamPaths(input.playId);
 
     return {
-      eventId: result.eventId,
       message: input.placement === "team" ? "Team" : "Reserve",
       playPokemonId: result.playPokemonId,
       status: "success",

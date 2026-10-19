@@ -117,7 +117,9 @@ History entries.
 creating lifecycle History or false Collection evidence. Existing event-time
 History remains unchanged and is corrected separately in History. The
 destructive overflow action `Delete Pokémon record` is reserved for wholly
-mistaken or duplicate records. It preserves existing History evidence. Because
+mistaken or duplicate records. It removes the record's own "added" moment
+(the moment rule) and keeps every other moment, which lose their link to the
+record. Because
 Plan comparison has no persisted member association, deletion simply removes
 that member from future comparison; it never rewrites the authored Plan.
 
@@ -126,7 +128,8 @@ from the Roster head or `?add=` (the Codex's Add to a Play presets the
 species and form). Pick a species of the Play's Pokédexes (base game and the
 expansions it tracks) by name or number, then its nickname, level and team
 or reserve; the server takes the first open slot, the moment joins History
-and the toast offers Undo. **Edit Pokémon** is the same kind of sheet: Who,
+and the toast offers Undo, which deletes the Pokémon and that moment
+together. **Edit Pokémon** is the same kind of sheet: Who,
 Where, Build and Met, then Review changes before Save, offering only what the
 game records. Evolve and Change form record their moment; Replace (picking
 the incoming Pokémon in the Add sheet), Retire and Delete record act from its

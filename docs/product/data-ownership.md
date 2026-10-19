@@ -175,9 +175,14 @@ It never creates a duplicate member.
 
 Adding a Pokémon goes through `add_mainline_play_pokemon`: the server picks
 the first open slot of the team or reserve, so two quick adds can't claim the
-same one, and the addition joins History. Choosing a brand-new Play's partner
-adds it to slot 1 of an empty team and records the game's partner-choice
-milestone with that choice and the team it starts; Undo reverses both.
+same one, and the addition joins History; Undo right after deletes the
+Pokémon and its own Added moment together (`remove_mainline_play_pokemon`).
+Choosing a brand-new Play's partner (`choose_mainline_play_partner`) adds it
+to slot 1 of an empty team and records the game's partner-choice milestone,
+found by the database from the Play's game, with that choice and the team it
+starts; Undo (`undo_mainline_play_partner`) reverses both in one call.
+Saving a Pokémon's details replaces its moves in the same call
+(`update_mainline_play_pokemon`) and is not a moment.
 Moving a member between team and reserve, or to another slot, waits on an
 atomic roster-placement operation (a swap breaks the per-slot unique index
 mid-update).
@@ -227,9 +232,10 @@ filter, not a second projection. Recording a milestone in place (Overview's
 Record) writes its completion, its moment and, where the milestone keeps
 snapshots, the current team in one step; Undo marks it incomplete, which also
 removes the moment, and the database refuses when something recorded since
-depends on it. Notes and status changes are appended at the end of the
-timeline (`insertMainlinePlayEvent`, which takes the next place and retries
-once on a clash).
+depends on it. Notes are appended at the end of the timeline
+(`add_mainline_play_event`, which takes the next place under the Play's
+lock); a status change saved from Settings is appended the same way inside
+`update_mainline_play_general_settings`.
 
 History owns the user-facing event narrative and the event-time evidence
 attached to it. Story, Team, Progress, and Plan remain the sources of truth for
@@ -309,7 +315,8 @@ Starting and completing may write date value plus certainty; Pause, Resume,
 Abandon, and Reopen do not invent dates. Historical completion defaults to
 unrecorded date knowledge. No lifecycle mutation owns Progress completion. As
 built (v3), a status change saved from Play Settings' General card also
-appends a status-change moment to History.
+appends a status-change moment to History, in the same transaction as the
+save.
 
 `notes` owns durable general Play context. V1 has no next-session reminder. The
 existing `save_notes` column has no accepted V1 consumer and must not be exposed

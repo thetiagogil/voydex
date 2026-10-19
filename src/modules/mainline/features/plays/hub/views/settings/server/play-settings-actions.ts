@@ -94,9 +94,9 @@ export const updatePlayGeneralSettingsAction = async ({
   playId: string;
 }): Promise<PlaySettingsActionResult> => {
   try {
-    const { play, supabase, userId } = await getOwnedPlay(playId);
+    const { play, supabase } = await getOwnedPlay(playId);
 
-    await updatePlayGeneralSettings(supabase, { input, play, userId });
+    await updatePlayGeneralSettings(supabase, { input, play });
     revalidatePlay(playId);
 
     return success("General settings saved");

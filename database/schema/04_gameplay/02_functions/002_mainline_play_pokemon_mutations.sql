@@ -463,6 +463,148 @@ WHERE
 END;
 $$;
 
+CREATE FUNCTION gameplay.update_mainline_play_pokemon (p_play_pokemon_id uuid, p_nickname text DEFAULT NULL, p_level integer DEFAULT NULL, p_gender text DEFAULT 'unknown', p_is_shiny boolean DEFAULT FALSE, p_nature_id integer DEFAULT NULL, p_ability_id integer DEFAULT NULL, p_held_item_id integer DEFAULT NULL, p_met_location_label text DEFAULT NULL, p_met_level integer DEFAULT NULL, p_ball_item_id integer DEFAULT NULL, p_personal_notes text DEFAULT NULL, p_move_ids integer[] DEFAULT '{}'::integer[])
+    RETURNS TABLE (
+        result_play_pokemon_id uuid,
+        result_move_count integer)
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_play_pokemon gameplay.mainline_play_pokemon%ROWTYPE;
+    v_move_count integer;
+BEGIN
+    IF p_play_pokemon_id IS NULL THEN
+        RAISE EXCEPTION 'play_pokemon_id is required'
+            USING ERRCODE = '23502';
+    END IF;
+    p_nickname := NULLIF (BTRIM(p_nickname), '');
+    p_gender := COALESCE(NULLIF (BTRIM(p_gender), ''), 'unknown');
+    p_met_location_label := NULLIF (BTRIM(p_met_location_label), '');
+    p_personal_notes := NULLIF (BTRIM(p_personal_notes), '');
+    p_move_ids := COALESCE(p_move_ids, '{}'::integer[]);
+    IF CARDINALITY(p_move_ids) > 4 THEN
+        RAISE EXCEPTION 'A play Pokémon can have at most four current moves'
+            USING ERRCODE = '23514';
+    END IF;
+    SELECT
+        mainline_play_pokemon.*
+    INTO
+        v_play_pokemon
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.id = p_play_pokemon_id
+    FOR UPDATE;
+    IF v_play_pokemon.id IS NULL THEN
+        RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id %', p_play_pokemon_id
+            USING ERRCODE = '23503';
+    END IF;
+    PERFORM
+        pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_pokemon.play_id::text)::bigint);
+    UPDATE
+        gameplay.mainline_play_pokemon
+    SET
+        nickname = p_nickname,
+        level = p_level,
+        gender = p_gender,
+        is_shiny = COALESCE(p_is_shiny, FALSE),
+        nature_id = p_nature_id,
+        ability_id = p_ability_id,
+        held_item_id = p_held_item_id,
+        met_location_label = p_met_location_label,
+        met_level = p_met_level,
+        ball_item_id = p_ball_item_id,
+        personal_notes = p_personal_notes
+    WHERE
+        mainline_play_pokemon.id = p_play_pokemon_id;
+    DELETE FROM gameplay.mainline_play_pokemon_moves
+    WHERE mainline_play_pokemon_moves.play_pokemon_id = p_play_pokemon_id;
+    INSERT INTO gameplay.mainline_play_pokemon_moves (play_pokemon_id, slot, move_id)
+    SELECT
+        p_play_pokemon_id,
+        moves.move_slot::integer,
+        moves.move_id
+    FROM
+        UNNEST(p_move_ids)
+    WITH ORDINALITY AS moves (move_id, move_slot)
+WHERE
+    moves.move_id IS NOT NULL;
+    GET DIAGNOSTICS v_move_count = ROW_COUNT;
+    RETURN QUERY
+    SELECT
+        p_play_pokemon_id,
+        v_move_count;
+END;
+$$;
+
+CREATE FUNCTION gameplay.remove_mainline_play_pokemon (p_play_pokemon_id uuid, p_remove_added_moment boolean DEFAULT FALSE)
+    RETURNS TABLE (
+        result_play_pokemon_id uuid,
+        result_removed_event_ids uuid[])
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_play_pokemon gameplay.mainline_play_pokemon%ROWTYPE;
+    v_removed_event_ids uuid[] := '{}'::uuid[];
+BEGIN
+    IF p_play_pokemon_id IS NULL THEN
+        RAISE EXCEPTION 'play_pokemon_id is required'
+            USING ERRCODE = '23502';
+    END IF;
+    SELECT
+        mainline_play_pokemon.*
+    INTO
+        v_play_pokemon
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.id = p_play_pokemon_id
+    FOR UPDATE;
+    IF v_play_pokemon.id IS NULL THEN
+        RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id %', p_play_pokemon_id
+            USING ERRCODE = '23503';
+    END IF;
+    PERFORM
+        pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_pokemon.play_id::text)::bigint);
+    -- Only this Pokémon's own Added moments: events of type pokemon_added
+    -- whose subject is this Pokémon. Its other moments stay in History.
+    IF COALESCE(p_remove_added_moment, FALSE) THEN
+        WITH removed_events AS (
+            DELETE FROM gameplay.mainline_play_events
+            WHERE mainline_play_events.play_id = v_play_pokemon.play_id
+                AND mainline_play_events.event_type_id = 2
+                AND EXISTS (
+                    SELECT
+                        1
+                    FROM
+                        gameplay.mainline_play_event_pokemon_refs
+                    WHERE
+                        mainline_play_event_pokemon_refs.event_id = mainline_play_events.id
+                        AND mainline_play_event_pokemon_refs.play_pokemon_id = p_play_pokemon_id
+                        AND mainline_play_event_pokemon_refs.role = 'subject')
+                RETURNING
+                    mainline_play_events.id
+)
+        SELECT
+            COALESCE(ARRAY_AGG(removed_events.id ORDER BY removed_events.id), '{}'::uuid[])
+        INTO
+            v_removed_event_ids
+        FROM
+            removed_events;
+    END IF;
+    DELETE FROM gameplay.mainline_play_pokemon
+    WHERE mainline_play_pokemon.id = p_play_pokemon_id;
+    RETURN QUERY
+    SELECT
+        p_play_pokemon_id,
+        v_removed_event_ids;
+END;
+$$;
+
 REVOKE ALL ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) FROM anon;
@@ -493,6 +635,18 @@ REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, IN
 
 GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
 
+REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) FROM anon;
+
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) TO authenticated, service_role;
+
+REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM anon;
+
+GRANT EXECUTE ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) TO authenticated, service_role;
+
 COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds a play Pokémon with optional current moves and optional Pokémon Added timeline event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER so gameplay RLS applies.';
@@ -502,3 +656,7 @@ COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, I
 COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
+
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+
+COMMENT ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) IS 'Atomically deletes a play Pokémon recorded by mistake and, when asked (undoing an add), its own Pokémon Added moment. Its other moments stay in History with the Pokémon link cleared. Runs as SECURITY INVOKER so gameplay RLS applies.';

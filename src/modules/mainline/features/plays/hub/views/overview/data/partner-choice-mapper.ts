@@ -18,7 +18,6 @@ export type OverviewPartnerOption = {
 export type OverviewPartnerChoice = {
   chosenOptionId: number | null;
   isRecorded: boolean;
-  milestoneId: number;
   milestoneName: string;
   options: OverviewPartnerOption[];
   /* Numbered within its journey, as Story numbers it. */
@@ -168,7 +167,6 @@ export const buildOverviewPartnerChoice = ({
   return {
     chosenOptionId: milestone.selected_decision_option_id,
     isRecorded: milestone.is_completed === true,
-    milestoneId: milestone.milestone_id,
     milestoneName: milestone.milestone_name ?? "Choose your partner",
     options: readDecisionPokemonOptions(milestone.decision_options).map(
       (option) => {

@@ -7,7 +7,6 @@ import type { GameStarter } from "@/modules/reference/features/games/types";
 
 /* A brand-new Play's partner milestone, waiting for you to tap your partner. */
 export type HomePartnerChoice = {
-  milestoneId: number;
   options: { decisionOptionId: number; starter: GameStarter }[];
   playId: string;
 };

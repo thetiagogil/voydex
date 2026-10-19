@@ -5,7 +5,6 @@ import { z } from "zod";
 import {
   parseInput,
   positiveIntegerSchema,
-  uuidSchema,
 } from "@/shared/utils/input-schemas";
 
 import {
@@ -271,54 +270,31 @@ export const replaceMainlinePlayPokemonAction = async ({
 /*
  * Delete record, for mistakes: the Pokémon goes from the Play. Its moments
  * stay in History unless this undoes an add a moment ago, which also takes
- * that add's moment away.
+ * that add's own "added" moment away, in the same database call.
  */
 export const removeMainlinePlayPokemonAction = async ({
-  addEventId: rawAddEventId = null,
   playId,
   playPokemonId,
+  undoAdd = false,
 }: {
-  addEventId?: string | null;
   playId: string;
   playPokemonId: string;
+  undoAdd?: boolean;
 }): Promise<TeamMemberActionResult> => {
   try {
-    const addEventId = parseInput(
-      uuidSchema("A valid moment is required.").nullable(),
-      rawAddEventId,
-    );
-
     const { supabase } = await getOwnedPlayPokemon({ playId, playPokemonId });
-    const deleteResult = await supabase
+    const result = await supabase
       .schema("gameplay")
-      .from("mainline_play_pokemon")
-      .delete()
-      .eq("id", playPokemonId)
-      .eq("play_id", playId);
+      .rpc("remove_mainline_play_pokemon", {
+        p_play_pokemon_id: playPokemonId,
+        p_remove_added_moment: undoAdd === true,
+      });
 
-    if (deleteResult.error) {
+    if (result.error) {
       throw new Error("Unable to delete it.");
     }
 
     revalidateTeamPaths(playId);
-
-    if (addEventId) {
-      const eventResult = await supabase
-        .schema("gameplay")
-        .from("mainline_play_events")
-        .delete()
-        .eq("id", addEventId)
-        .eq("play_id", playId);
-
-      if (eventResult.error) {
-        /* The Pokémon is gone; only its "added" moment stayed in History. */
-        return {
-          message: "Deleted",
-          status: "success",
-          warning: "Taken off, but its moment is still in History.",
-        };
-      }
-    }
 
     return { message: "Deleted", status: "success" };
   } catch (error) {

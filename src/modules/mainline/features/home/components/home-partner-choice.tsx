@@ -33,7 +33,6 @@ export const useHomePartnerChoice = (choice: HomePartnerChoice | null) => {
     startTransition(async () => {
       const result = await choosePlayPartnerAction({
         decisionOptionId: picked.decisionOptionId,
-        milestoneId: choice.milestoneId,
         playId: choice.playId,
       });
 
@@ -49,7 +48,6 @@ export const useHomePartnerChoice = (choice: HomePartnerChoice | null) => {
           onClick: () => {
             void undoPlayPartnerAction({
               addedPlayPokemonId: result.addedPlayPokemonId,
-              milestoneId: choice.milestoneId,
               playId: choice.playId,
             }).then((undo) => {
               if (undo.status === "error") {

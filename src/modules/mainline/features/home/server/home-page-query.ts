@@ -146,7 +146,6 @@ const readPartnerChoice = async (
 
   return options.length > 1
     ? {
-        milestoneId: options[0].milestoneId,
         options: options.map(({ decisionOptionId, starter }) => ({
           decisionOptionId,
           starter,

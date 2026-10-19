@@ -81,7 +81,28 @@ Use reviewed security-invoker functions for atomic workflows:
   status change, manual or recorded-action origin) at the next timeline place
   under the Play's advisory lock. Milestone, Pokémon and Hall of Fame moments
   stay with their own functions.
+- `gameplay.update_mainline_play_general_settings` saves a Play's name,
+  trainer, start day, playtime and status (every field is written) and, only
+  when the status changes, adds one recorded-action status-change moment
+  titled with the new status, in one transaction.
+- `gameplay.choose_mainline_play_partner` records a Play's partner from a
+  decision option: `gameplay.find_mainline_partner_milestone` resolves the
+  game's partner milestone (the rule `create_mainline_play` uses), the option
+  must be one of its Pokémon choices and the milestone not yet completed; an
+  empty team gets the partner in slot 1 with no Added moment, and the
+  milestone is completed with the decision and one "<Species> chose you"
+  moment. `gameplay.undo_mainline_play_partner` marks that milestone
+  incomplete through `mark_mainline_play_milestone_incomplete` (refused when
+  anything recorded since depends on it) and deletes the partner Pokémon the
+  choice added, in one transaction.
 - `gameplay.add_mainline_play_pokemon` and related lifecycle functions.
+- `gameplay.update_mainline_play_pokemon` saves a Play Pokémon's editable
+  details (every field is written) and replaces its current moves in slot
+  order, at most four, in one transaction. It is not a moment.
+- `gameplay.remove_mainline_play_pokemon` deletes a Pokémon recorded by
+  mistake; when it undoes an add it also deletes that Pokémon's own Added
+  moment in the same transaction. Its other moments stay, with the Pokémon
+  link cleared.
 - `gameplay.complete_mainline_play_milestone` distinguishes omitted detail
   values from explicit replacement, so a submitted `Not recorded` decision or
   empty note clears the existing value without changing unrelated milestone

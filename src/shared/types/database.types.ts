@@ -1065,6 +1065,15 @@ export type Database = {
           result_to_form_id: number;
         }[];
       };
+      choose_mainline_play_partner: {
+        Args: { p_decision_option_id: number; p_play_id: string };
+        Returns: {
+          result_event_id: string;
+          result_milestone_id: number;
+          result_partner_name: string;
+          result_partner_play_pokemon_id: string;
+        }[];
+      };
       complete_mainline_play_milestone: {
         Args: {
           p_completed_at?: string;
@@ -1126,6 +1135,10 @@ export type Database = {
           result_to_species_id: number;
         }[];
       };
+      find_mainline_partner_milestone: {
+        Args: { p_game_id: number };
+        Returns: number;
+      };
       mark_mainline_play_milestone_incomplete: {
         Args: {
           p_expected_affected_milestone_ids: number[];
@@ -1139,6 +1152,13 @@ export type Database = {
           removed_history_event_count: number;
           removed_note_count: number;
           removed_team_snapshot_count: number;
+        }[];
+      };
+      remove_mainline_play_pokemon: {
+        Args: { p_play_pokemon_id: string; p_remove_added_moment?: boolean };
+        Returns: {
+          result_play_pokemon_id: string;
+          result_removed_event_ids: string[];
         }[];
       };
       replace_mainline_play_pokemon: {
@@ -1216,6 +1236,48 @@ export type Database = {
           result_play_id: string;
           result_seen_at: string;
           result_species_id: number;
+        }[];
+      };
+      undo_mainline_play_partner: {
+        Args: { p_partner_play_pokemon_id?: string; p_play_id: string };
+        Returns: {
+          result_milestone_id: number;
+          result_removed_play_pokemon_id: string;
+        }[];
+      };
+      update_mainline_play_general_settings: {
+        Args: {
+          p_name: string;
+          p_play_id: string;
+          p_playtime_minutes?: number;
+          p_started_on?: string;
+          p_status_id: number;
+          p_trainer_name?: string;
+        };
+        Returns: {
+          result_play_id: string;
+          result_status_event_id: string;
+        }[];
+      };
+      update_mainline_play_pokemon: {
+        Args: {
+          p_ability_id?: number;
+          p_ball_item_id?: number;
+          p_gender?: string;
+          p_held_item_id?: number;
+          p_is_shiny?: boolean;
+          p_level?: number;
+          p_met_level?: number;
+          p_met_location_label?: string;
+          p_move_ids?: number[];
+          p_nature_id?: number;
+          p_nickname?: string;
+          p_personal_notes?: string;
+          p_play_pokemon_id: string;
+        };
+        Returns: {
+          result_move_count: number;
+          result_play_pokemon_id: string;
         }[];
       };
     };
@@ -4421,6 +4483,7 @@ export type Database = {
       };
       mainline_collection_used_identities: {
         Row: {
+          event_id: string | null;
           evolution_family_id: number | null;
           form_id: number | null;
           form_name: string | null;

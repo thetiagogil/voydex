@@ -13,12 +13,9 @@ import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/pla
 
 export type TeamMemberActionResult =
   | {
-      eventId?: string | null;
       message: string;
       playPokemonId?: string;
       status: "success";
-      /* Done, but part of it wasn't: shown instead of the usual toast. */
-      warning?: string;
     }
   | { message: string; status: "error" };
 
