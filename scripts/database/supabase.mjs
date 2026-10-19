@@ -28,7 +28,7 @@ const useShell =
   process.platform === "win32" && supabaseBin.toLowerCase().endsWith(".cmd");
 const child = spawn(supabaseBin, args, {
   cwd: databaseDir,
-  env: buildDatabaseEnv(),
+  env: buildDatabaseEnv(args),
   stdio: "inherit",
   shell: useShell,
 });

@@ -17,6 +17,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -35,7 +36,7 @@ export type Database = {
       };
       mainline_challenge_rules: {
         Row: {
-          config: Json;
+          config: NonNullable<Json>;
           created_at: string;
           description: string | null;
           id: string;
@@ -45,8 +46,9 @@ export type Database = {
           updated_at: string;
           user_id: string | null;
         };
+        ComputedFields: never;
         Insert: {
-          config?: Json;
+          config?: NonNullable<Json>;
           created_at?: string;
           description?: string | null;
           id?: string;
@@ -57,7 +59,7 @@ export type Database = {
           user_id?: string | null;
         };
         Update: {
-          config?: Json;
+          config?: NonNullable<Json>;
           created_at?: string;
           description?: string | null;
           id?: string;
@@ -84,6 +86,7 @@ export type Database = {
           created_at: string;
           play_id: string;
         };
+        ComputedFields: never;
         Insert: {
           challenge_rule_id: string;
           config_override?: Json | null;
@@ -121,6 +124,7 @@ export type Database = {
           play_id: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           collected_at?: string | null;
           collectible_entry_id: number;
@@ -153,6 +157,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -183,6 +188,7 @@ export type Database = {
           sort_order: number;
           species_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           event_id: string;
@@ -233,6 +239,7 @@ export type Database = {
           slot: number;
           snapshot_id: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           move_id: number;
@@ -274,6 +281,7 @@ export type Database = {
           position: number;
           species_id: number;
         };
+        ComputedFields: never;
         Insert: {
           ability_id?: number | null;
           created_at?: string;
@@ -335,6 +343,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -366,6 +375,7 @@ export type Database = {
           title: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           body?: string | null;
           created_at?: string;
@@ -433,6 +443,7 @@ export type Database = {
           play_id: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           decision_option_id: number;
@@ -466,6 +477,7 @@ export type Database = {
           play_id: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           completed_at?: string | null;
           created_at?: string;
@@ -499,6 +511,7 @@ export type Database = {
           play_id: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id: number;
@@ -532,6 +545,7 @@ export type Database = {
           species_id: number;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           caught_at?: string | null;
           created_at?: string;
@@ -586,6 +600,7 @@ export type Database = {
           species_id: number;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           ability_id?: number | null;
           ball_item_id?: number | null;
@@ -657,6 +672,7 @@ export type Database = {
           slot: number;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           move_id: number;
@@ -691,6 +707,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           counts_toward_roster_limit: boolean;
           created_at?: string;
@@ -719,6 +736,7 @@ export type Database = {
           tag_id: string;
           user_id: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           play_id: string;
@@ -761,6 +779,7 @@ export type Database = {
           pokedex_tracking_enabled: boolean;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           include_collectibles_in_completion?: boolean;
@@ -800,6 +819,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -825,6 +845,7 @@ export type Database = {
           tag_id: string;
           user_id: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           play_id: string;
@@ -867,6 +888,7 @@ export type Database = {
           user_id: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           archived_at?: string | null;
           completed_on?: string | null;
@@ -924,6 +946,7 @@ export type Database = {
           updated_at: string;
           user_id: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id: number;
@@ -958,6 +981,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -1215,6 +1239,7 @@ export type Database = {
           user_id: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           created_from_plan?: boolean;
@@ -1252,6 +1277,7 @@ export type Database = {
           created_at: string;
           team_plan_id: string;
         };
+        ComputedFields: never;
         Insert: {
           challenge_rule_id: string;
           config_override?: Json | null;
@@ -1282,6 +1308,7 @@ export type Database = {
           team_plan_member_id: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           move_id: number;
@@ -1322,6 +1349,7 @@ export type Database = {
           team_plan_id: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           ability_id?: number | null;
           created_at?: string;
@@ -1369,6 +1397,7 @@ export type Database = {
           team_plan_id: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id: number;
@@ -1399,6 +1428,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -1422,6 +1452,7 @@ export type Database = {
           team_plan_id: string;
           user_id: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           tag_id: string;
@@ -1456,6 +1487,7 @@ export type Database = {
           user_id: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id: number;
@@ -1543,6 +1575,7 @@ export type Database = {
           id: string;
           updated_at: string;
         };
+        ComputedFields: never;
         Insert: {
           avatar_url?: string | null;
           created_at?: string;
@@ -1569,6 +1602,7 @@ export type Database = {
           updated_at: string;
           user_id: string;
         };
+        ComputedFields: never;
         Insert: {
           color_token?: string | null;
           created_at?: string;
@@ -1605,6 +1639,7 @@ export type Database = {
           updated_at: string;
           user_id: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           pokemon_reuse_behavior?: string;
@@ -1655,6 +1690,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           external_id?: number | null;
@@ -1690,6 +1726,7 @@ export type Database = {
           effect_summary: string;
           version_group_start_id: number;
         };
+        ComputedFields: never;
         Insert: {
           ability_id: number;
           created_at?: string;
@@ -1728,6 +1765,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -1754,6 +1792,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           dependency_kind?: string;
@@ -1794,6 +1833,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -1828,6 +1868,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -1853,6 +1894,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -1879,6 +1921,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id: number;
@@ -1918,6 +1961,7 @@ export type Database = {
           release_kind: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id: number;
@@ -1958,6 +2002,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -1990,6 +2035,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_type_id: number;
@@ -2056,6 +2102,7 @@ export type Database = {
           sort_order: number;
           start_year: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -2085,6 +2132,7 @@ export type Database = {
           scope_operation: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           availability_method_id?: number | null;
           created_at?: string;
@@ -2145,6 +2193,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -2169,6 +2218,7 @@ export type Database = {
           created_at: string;
           item_id: number;
         };
+        ComputedFields: never;
         Insert: {
           category_id: number;
           created_at?: string;
@@ -2207,6 +2257,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           external_id?: number | null;
@@ -2253,6 +2304,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -2285,6 +2337,7 @@ export type Database = {
           priority: number;
           type_id: number;
         };
+        ComputedFields: never;
         Insert: {
           accuracy?: number | null;
           created_at?: string;
@@ -2344,6 +2397,7 @@ export type Database = {
           scope_operation: string;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id?: number | null;
@@ -2393,6 +2447,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -2423,6 +2478,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id?: number | null;
@@ -2488,6 +2544,7 @@ export type Database = {
           type_id: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           accuracy?: number | null;
           created_at?: string;
@@ -2545,6 +2602,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           external_id?: number | null;
@@ -2593,6 +2651,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           decreased_stat?: string | null;
@@ -2633,6 +2692,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -2664,6 +2724,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -2703,6 +2764,7 @@ export type Database = {
           pokedex_number: number;
           species_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           display_form_id?: number | null;
@@ -2763,6 +2825,7 @@ export type Database = {
           secondary_type_id: number | null;
           species_id: number;
         };
+        ComputedFields: never;
         Insert: {
           base_attack: number;
           base_defense: number;
@@ -2879,6 +2942,7 @@ export type Database = {
           species_id: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           availability_method_id: number;
           created_at?: string;
@@ -2955,6 +3019,7 @@ export type Database = {
           to_species_id: number;
           version_group_id: number | null;
         };
+        ComputedFields: never;
         Insert: {
           condition_data?: Json | null;
           condition_summary?: string | null;
@@ -3079,6 +3144,7 @@ export type Database = {
           version_group_end_id: number | null;
           version_group_start_id: number | null;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           form_id: number;
@@ -3170,6 +3236,7 @@ export type Database = {
           is_team_selectable: boolean;
           notes: string | null;
         };
+        ComputedFields: never;
         Insert: {
           condition_summary?: string | null;
           created_at?: string;
@@ -3218,6 +3285,7 @@ export type Database = {
           sprite_slug: string | null;
           weight_hectograms: number | null;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           form_order: number;
@@ -3278,6 +3346,7 @@ export type Database = {
           species_id: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           condition_summary?: string | null;
           created_at?: string;
@@ -3376,6 +3445,7 @@ export type Database = {
           national_number: number;
           slug: string;
         };
+        ComputedFields: never;
         Insert: {
           color?: string | null;
           created_at?: string;
@@ -3429,6 +3499,7 @@ export type Database = {
           sort_order: number;
           support_status: string;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -3457,6 +3528,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -3482,6 +3554,7 @@ export type Database = {
           multiplier_denominator: number;
           multiplier_numerator: number;
         };
+        ComputedFields: never;
         Insert: {
           attacking_type_id: number;
           created_at?: string;
@@ -3531,6 +3604,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -3567,6 +3641,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           generation_id: number;
@@ -3630,6 +3705,7 @@ export type Database = {
           type_id: number | null;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id?: number | null;
@@ -3664,6 +3740,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           category_kind: string;
           created_at?: string;
@@ -3696,6 +3773,7 @@ export type Database = {
           sort_order: number;
           sub_location_label: string | null;
         };
+        ComputedFields: never;
         Insert: {
           collectible_id: number;
           created_at?: string;
@@ -3736,6 +3814,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -3766,6 +3845,7 @@ export type Database = {
           total_count: number | null;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           collectible_type_id: number;
           created_at?: string;
@@ -3813,6 +3893,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           badge_id: number;
           created_at?: string;
@@ -3862,6 +3943,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           collectible_entry_id?: number | null;
           collectible_id: number;
@@ -3921,6 +4003,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description?: string | null;
@@ -3966,6 +4049,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id?: never;
@@ -4014,6 +4098,7 @@ export type Database = {
           sort_order: number;
           species_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           form_id?: number | null;
@@ -4053,6 +4138,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           description: string;
@@ -4082,6 +4168,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id?: never;
@@ -4134,6 +4221,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -4166,6 +4254,7 @@ export type Database = {
           sort_order: number;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           category_id: number;
           created_at?: string;
@@ -4241,6 +4330,7 @@ export type Database = {
           sprite_slug: string | null;
           version_group_id: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           game_id?: number | null;
@@ -4277,6 +4367,7 @@ export type Database = {
           slug: string;
           sort_order: number;
         };
+        ComputedFields: never;
         Insert: {
           created_at?: string;
           id: number;
@@ -4328,6 +4419,7 @@ export type Database = {
           usage_event_count: number | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       mainline_collection_used_identities: {
@@ -4346,6 +4438,7 @@ export type Database = {
           used_at: string | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       mainline_dashboard_summary: {
@@ -4360,6 +4453,7 @@ export type Database = {
           used_species_count: number | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Insert: {
           active_library_play_count?: never;
           completed_play_count?: never;
@@ -4408,6 +4502,7 @@ export type Database = {
           user_id: string | null;
           version_group_id: number | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_plays_user_id_fkey";
@@ -4443,6 +4538,7 @@ export type Database = {
           total_completion_unit_count: number | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_plays_user_id_fkey";
@@ -4486,6 +4582,7 @@ export type Database = {
           version_group_name: string | null;
           version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       mainline_play_milestone_detail: {
@@ -4534,6 +4631,7 @@ export type Database = {
           version_group_name: string | null;
           version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_milestones_parent_version_group_fkey";
@@ -4610,6 +4708,7 @@ export type Database = {
           version_group_name: string | null;
           version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_plays_user_id_fkey";
@@ -4653,6 +4752,7 @@ export type Database = {
           species_slug: string | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_plays_user_id_fkey";
@@ -4703,6 +4803,7 @@ export type Database = {
           version_group_name: string | null;
           version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_plays_user_id_fkey";
@@ -4759,6 +4860,7 @@ export type Database = {
           sprite_slug: string | null;
           updated_at: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_play_pokemon_play_id_fkey";
@@ -4850,6 +4952,7 @@ export type Database = {
           version_group_name: string | null;
           version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "play_plan_links_plan_scope_fkey";
@@ -4912,6 +5015,7 @@ export type Database = {
           title: string | null;
           updated_at: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_play_events_milestone_id_fkey";
@@ -4977,6 +5081,7 @@ export type Database = {
           used_species_count: number | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Insert: {
           completed_milestone_count?: never;
           played_game_count?: never;
@@ -5031,6 +5136,7 @@ export type Database = {
           updated_at: string | null;
           user_id: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_team_plan_members_team_plan_id_fkey";
@@ -5079,6 +5185,7 @@ export type Database = {
           version_group_name: string | null;
           version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "mainline_team_plans_user_id_fkey";
@@ -5105,6 +5212,7 @@ export type Database = {
           target_version_group_id: number | null;
           target_version_group_slug: string | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       reference_resolved_item_availability: {
@@ -5118,6 +5226,7 @@ export type Database = {
           source_version_group_id: number | null;
           target_version_group_id: number | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       reference_resolved_move_availability: {
@@ -5129,6 +5238,7 @@ export type Database = {
           source_version_group_id: number | null;
           target_version_group_id: number | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       reference_resolved_move_machines: {
@@ -5143,6 +5253,7 @@ export type Database = {
           source_version_group_id: number | null;
           target_version_group_id: number | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       reference_resolved_pokemon_availability: {
@@ -5157,6 +5268,7 @@ export type Database = {
           species_id: number | null;
           target_version_group_id: number | null;
         };
+        ComputedFields: never;
         Relationships: [];
       };
       reference_resolved_pokemon_learnsets: {
@@ -5177,6 +5289,7 @@ export type Database = {
           species_id: number | null;
           target_version_group_id: number | null;
         };
+        ComputedFields: never;
         Relationships: [
           {
             foreignKeyName: "pokemon_learnsets_move_machine_id_fkey";

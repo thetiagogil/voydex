@@ -51,7 +51,7 @@ const result = spawnSync(
   ],
   {
     cwd: databaseDir,
-    env: buildDatabaseEnv(),
+    env: buildDatabaseEnv(sourceFlags),
     encoding: "utf8",
     shell: useShell,
   },
