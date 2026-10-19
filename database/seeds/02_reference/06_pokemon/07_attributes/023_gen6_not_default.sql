@@ -16,7 +16,7 @@ VALUES
   -- #0493 Arceus - Arceus (Fairy)
   (493, 49317, 6, 18, NULL, 121, NULL, NULL, 15, NULL, 120, 120, 120, 120, 120, 120),
   -- #0678 Meowstic - Meowstic (Female)
-  (678, 67801, 6, 11, NULL, 20, 151, 172, 7, NULL, 74, 48, 76, 83, 81, 104),
+  (678, 67801, 6, 11, NULL, 51, 151, 172, 7, NULL, 74, 48, 76, 83, 81, 104),
   -- #0710 Pumpkaboo - Pumpkaboo (Small)
   (710, 71001, 6, 14, 5, 53, 119, 15, 12, 9, 44, 66, 70, 44, 55, 56),
   -- #0710 Pumpkaboo - Pumpkaboo (Large)

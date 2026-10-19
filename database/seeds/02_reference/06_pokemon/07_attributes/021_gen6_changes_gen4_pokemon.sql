@@ -15,6 +15,10 @@ INSERT INTO reference.pokemon_attributes (species_id, form_id, generation_start_
 VALUES
   -- #0396 Starly
   (396, 39600, 6, 1, 10, 51, NULL, 120, 6, NULL, 40, 55, 30, 30, 30, 60),
+  -- #0398 Staraptor
+  (398, 39800, 6, 1, 10, 22, NULL, 120, 6, NULL, 85, 120, 70, 50, 60, 100),
+  -- #0407 Roserade
+  (407, 40700, 6, 5, 8, 30, 38, 101, 8, 9, 60, 70, 65, 125, 105, 90),
   -- #0439 Mime Jr.
   (439, 43900, 6, 11, 18, 43, 111, 101, 15, NULL, 20, 25, 45, 70, 90, 60),
   -- #0468 Togekiss

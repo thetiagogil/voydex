@@ -13,6 +13,16 @@
 -- Scope: gen6 changes gen5 pokemon.
 INSERT INTO reference.pokemon_attributes (species_id, form_id, generation_start_id, primary_type_id, secondary_type_id, primary_ability_id, secondary_ability_id, hidden_ability_id, primary_egg_group_id, secondary_egg_group_id, base_hp, base_attack, base_defense, base_special_attack, base_special_defense, base_speed)
 VALUES
+  -- #0508 Stoutland
+  (508, 50800, 6, 1, NULL, 22, 146, 113, 7, NULL, 85, 110, 90, 45, 90, 80),
+  -- #0521 Unfezant
+  (521, 52100, 6, 1, 10, 145, 105, 79, 6, NULL, 80, 115, 80, 65, 55, 93),
+  -- #0526 Gigalith
+  (526, 52600, 6, 13, NULL, 5, NULL, 159, 11, NULL, 85, 135, 130, 60, 80, 25),
+  -- #0537 Seismitoad
+  (537, 53700, 6, 3, 9, 33, 143, 11, 2, NULL, 105, 95, 75, 85, 75, 74),
+  -- #0542 Leavanny
+  (542, 54200, 6, 12, 5, 68, 34, 142, 5, NULL, 75, 103, 80, 70, 80, 92),
   -- #0543 Venipede
   (543, 54300, 6, 12, 8, 38, 68, 3, 5, NULL, 30, 45, 59, 30, 39, 57),
   -- #0544 Whirlipede
@@ -23,6 +33,8 @@ VALUES
   (546, 54600, 6, 5, 18, 158, 151, 34, 9, 8, 40, 27, 60, 37, 50, 66),
   -- #0547 Whimsicott
   (547, 54700, 6, 5, 18, 158, 151, 34, 9, 8, 60, 67, 85, 77, 75, 116),
+  -- #0553 Krookodile
+  (553, 55300, 6, 9, 16, 22, 153, 83, 7, NULL, 95, 117, 80, 65, 70, 92),
   -- #0574 Gothita
   (574, 57400, 6, 11, NULL, 119, 172, 23, 10, NULL, 45, 30, 50, 55, 65, 45),
   -- #0575 Gothorita
