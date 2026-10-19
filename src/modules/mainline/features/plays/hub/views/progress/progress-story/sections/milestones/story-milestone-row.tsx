@@ -74,19 +74,19 @@ const StoryMilestoneWhen = ({
  */
 export const StoryMilestoneRow = ({
   milestone,
-  motion,
-  onMotionEnd,
   onSelect,
+  onSettled,
   selected,
+  settling,
   showDetails,
   stampDelay,
   state,
 }: {
   milestone: StoryMilestone;
-  /* Recorded a moment ago (it stamps down) or un-recorded (it fades back). */
-  motion: "stamp" | "unstamp" | null;
-  /* Called once the stamp or fade has played. */
-  onMotionEnd: () => void;
+  /* Recorded or un-recorded a moment ago: it settles softly into its new state. */
+  settling: boolean;
+  /* Called once the settle has played. */
+  onSettled: () => void;
   onSelect: () => void;
   selected: boolean;
   /*
@@ -94,7 +94,7 @@ export const StoryMilestoneRow = ({
    * row, not just their marks.
    */
   showDetails: boolean;
-  /* How long its stamp waits for the ones recorded before it. */
+  /* How long it waits for the ones recorded before it. */
   stampDelay: string | null;
   state: PlayMilestoneState;
 }) => {
@@ -118,23 +118,21 @@ export const StoryMilestoneRow = ({
             : undefined
         }
         onAnimationEnd={(event) => {
-          if (motion && event.target === event.currentTarget) {
-            onMotionEnd();
+          if (settling && event.target === event.currentTarget) {
+            onSettled();
           }
         }}
         className={cn(
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
           "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-4.5 sm:py-3.5",
-          motion === "stamp" && "animate-stamp",
-          motion === "unstamp" && "animate-unstamp",
+          settling && "animate-settle",
         )}
       >
         <MilestoneMarker
           badgeType={milestone.badgeType}
           className="row-span-2 sm:row-span-1"
           sequence={milestone.sequence}
-          stamp={motion === "stamp"}
           state={state}
           typeSlug={milestone.typeSlug}
         />

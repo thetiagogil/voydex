@@ -17,8 +17,6 @@ type MilestoneMarkerProps = {
   sequence: number | null;
   /* `md` beside Story's rows (30px, 34px from `sm`); `sm` in short lists (28px). */
   size?: "md" | "sm";
-  /* Recorded a moment ago: its medallion slaps down after any --stamp-delay. */
-  stamp?: boolean;
   state: PlayMilestoneState;
   /* The milestone type, which picks a gold medallion's icon. */
   typeSlug: string | null;
@@ -41,18 +39,13 @@ export const MilestoneMarker = ({
   className,
   sequence,
   size = "md",
-  stamp = false,
   state,
   typeSlug,
 }: MilestoneMarkerProps) => {
   if (state === "done") {
     return (
       <Medallion
-        className={cn(
-          size === "md" && "max-sm:size-7",
-          stamp && "animate-stamp-slap",
-          className,
-        )}
+        className={cn(size === "md" && "max-sm:size-7", className)}
         size={size === "md" ? "sm" : "xs"}
         content={
           badgeType

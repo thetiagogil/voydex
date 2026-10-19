@@ -30,7 +30,13 @@ export const useStickyPanel = <TElement extends HTMLElement>() => {
             "--play-dock-offset",
           ),
         ) || 0;
-      const room = window.innerHeight - dockOffset - EDGE_GAP * 2;
+      /* Anything pinned above the panel, such as Story's stamp card. */
+      const pinnedOffset =
+        Number.parseFloat(
+          getComputedStyle(panel).getPropertyValue("--sticky-panel-offset"),
+        ) || 0;
+      const room =
+        window.innerHeight - dockOffset - pinnedOffset - EDGE_GAP * 2;
       const height = panel.offsetHeight;
 
       setTop(height > room ? window.innerHeight - height - EDGE_GAP : null);

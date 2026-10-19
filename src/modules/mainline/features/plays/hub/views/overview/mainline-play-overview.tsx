@@ -84,6 +84,7 @@ export const MainlinePlayOverview = ({
                 nextMilestone={data.nextMilestone}
                 nextMilestonePosition={data.nextMilestonePosition}
                 playId={playId}
+                stamps={data.badgeCase?.stamps ?? []}
               />
               <ProgressSummarySection
                 overview={data.overview}

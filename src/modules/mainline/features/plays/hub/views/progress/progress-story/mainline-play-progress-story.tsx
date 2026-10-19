@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type CSSProperties, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
@@ -11,6 +11,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
+import { useElementHeight } from "@/shared/hooks/use-element-height";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import { buildStoryProgressModel } from "./data/story-progress-model";
@@ -86,6 +87,7 @@ export const MainlinePlayProgressStory = ({
     model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
   const [sidePanelStyle, bindSidePanel] = useStickyPanel<HTMLDivElement>();
+  const [stampCardHeight, bindStampCard] = useElementHeight<HTMLDivElement>();
   /* The milestone picked from the list; none shows the next objective. */
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(
     recordTarget?.id ?? null,
@@ -245,7 +247,16 @@ export const MainlinePlayProgressStory = ({
   };
 
   return (
-    <div className="grid min-w-0 grid-cols-1 gap-7">
+    <div
+      className="grid min-w-0 grid-cols-1 gap-7"
+      style={
+        {
+          "--sticky-panel-offset": stampCardHeight
+            ? `${stampCardHeight + 12}px`
+            : undefined,
+        } as CSSProperties
+      }
+    >
       <StoryPageHead
         onScopeChange={selectScope}
         scope={activeScope}
@@ -253,13 +264,23 @@ export const MainlinePlayProgressStory = ({
       />
 
       {activeScope.stamps ? (
-        <StoryStampCardSection
-          onSlapEnd={(milestoneId) =>
-            setBadgeSlapOrder((order) => withoutMilestone(order, milestoneId))
-          }
-          slapOrder={badgeSlapOrder}
-          stamps={activeScope.stamps}
-        />
+        /*
+         * Pinned under the docked bar, so the stamps you record land in view
+         * while you scroll the list; a strip of page above it hides the rows
+         * scrolling past. The side panel sticks just below it.
+         */
+        <div
+          ref={bindStampCard}
+          className="before:bg-bg sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] z-10 before:absolute before:inset-x-0 before:bottom-full before:h-6"
+        >
+          <StoryStampCardSection
+            onSlapEnd={(milestoneId) =>
+              setBadgeSlapOrder((order) => withoutMilestone(order, milestoneId))
+            }
+            slapOrder={badgeSlapOrder}
+            stamps={activeScope.stamps}
+          />
+        </div>
       ) : null}
 
       {/*

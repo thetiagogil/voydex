@@ -67,6 +67,10 @@ export const OverviewRecordingProvider = ({
   );
 };
 
+/* The milestone Overview recorded a moment ago, for the next objective's hand-over. */
+export const useOverviewJustRecorded = () =>
+  useOverviewRecording().slappingMilestoneId;
+
 /* The page's main button: records the milestone where you are. */
 export const OverviewRecordButton = ({
   className,

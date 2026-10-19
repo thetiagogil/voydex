@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
 import {
   AppIcon,
@@ -58,6 +58,8 @@ export const ObjectiveWhere = ({ children }: { children: ReactNode }) => (
  */
 export const ObjectiveCard = ({
   actions,
+  bodyClassName,
+  bodyProps,
   children,
   className,
   closeLabel,
@@ -67,6 +69,9 @@ export const ObjectiveCard = ({
 }: {
   /* The page's main button and its quiet partners. */
   actions?: ReactNode;
+  /* What moves inside the card, such as Overview's hand-over to the next objective. */
+  bodyClassName?: string;
+  bodyProps?: Pick<HTMLAttributes<HTMLDivElement>, "onAnimationEnd">;
   /* The eyebrow, the title (with `id={titleId}`) and what it asks. */
   children: ReactNode;
   className?: string;
@@ -93,7 +98,10 @@ export const ObjectiveCard = ({
         <AppIcon icon={appIcons.actions.close} />
       </Button>
     ) : null}
-    <div className="flex h-full min-w-0 flex-col">
+    <div
+      {...bodyProps}
+      className={cn("flex h-full min-w-0 flex-col", bodyClassName)}
+    >
       {children}
       {actions ? (
         <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

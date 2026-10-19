@@ -23,8 +23,8 @@ export const PokedexSpeciesGridCard = ({
   state,
   toggleLabel,
 }: PokedexSpeciesPresentationProps) => {
-  /* Marking it stamps the card down; unmarking it fades the card back. */
-  const [motion, setMotion] = useState<"stamp" | "unstamp" | null>(null);
+  /* Marking it pops the card; unmarking it settles the card back. */
+  const [motion, setMotion] = useState<"pop" | "settle" | null>(null);
 
   return (
     <div aria-busy={isPending} className="group/dex relative min-w-0">
@@ -49,7 +49,7 @@ export const PokedexSpeciesGridCard = ({
         disabled={isPending}
         className="absolute inset-0 rounded-lg disabled:cursor-default"
         onClick={() => {
-          setMotion(isPressed ? "unstamp" : "stamp");
+          setMotion(isPressed ? "settle" : "pop");
           onToggle();
         }}
       />

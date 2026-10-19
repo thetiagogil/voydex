@@ -111,7 +111,10 @@
  */
 @utility sticky-panel {
   position: sticky;
-  top: calc(var(--play-dock-offset, 0px) + 0.75rem);
+  /* --sticky-panel-offset: anything pinned above it, such as Story's stamp card. */
+  top: calc(
+    var(--play-dock-offset, 0px) + var(--sticky-panel-offset, 0px) + 0.75rem
+  );
 }
 
 /*
@@ -162,10 +165,7 @@
   }
 }
 
-/*
- * Keyframes the theme's animations and the stamp utilities share, outside
- * the theme so they are always there.
- */
+/* Outside the theme so the stamp slap below always has it. */
 @keyframes slap {
   0% {
     transform: scale(2) rotate(-20deg);
@@ -181,42 +181,19 @@
 }
 
 /*
- * Recording a row or a card: it comes down onto the page and a ring of ink
- * spreads from its edge. Nothing scales or turns, so a row as wide as the
- * page lands the same as a small card.
+ * A row recorded or un-recorded a moment ago settles softly into its new
+ * state; rows recorded together settle in turn, each after its
+ * --stamp-delay (read here on the element itself: a theme variable would
+ * read it on the page root), dimmed until then.
  */
-@keyframes stamp {
-  0% {
-    transform: translateY(-6px);
-    outline: 3px solid transparent;
-    outline-offset: 0;
-  }
-  40% {
-    transform: translateY(1px);
-    outline-color: color-mix(in oklab, var(--color-action) 45%, transparent);
-    outline-offset: 0;
-  }
-  100% {
-    transform: none;
-    outline-color: transparent;
-    outline-offset: 10px;
-  }
-}
-
-/* Un-recording it: the row or card settles back, softly, in its new state. */
-@keyframes unstamp {
+@keyframes settle {
   from {
     opacity: 0.35;
-    transform: scale(0.98);
   }
 }
 
-/*
- * Things recorded together land in turn: each sets --stamp-delay, read here
- * on the element itself (a theme variable would read it on the page root).
- */
-@utility animate-stamp {
-  animation: stamp 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) var(--stamp-delay, 0ms);
+@utility animate-settle {
+  animation: settle 0.45s ease-out var(--stamp-delay, 0ms) backwards;
 }
 
 /* The mark a stamp leaves: it slaps down in its turn, hidden until then. */
@@ -229,7 +206,9 @@
 @theme {
   --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
   --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
-  --animate-unstamp: unstamp 0.4s ease-out;
+  /* Overview's next objective handing over to the one after it. */
+  --animate-objective-out: objective-out 0.28s ease-in both;
+  --animate-objective-in: objective-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
   --animate-meadow-pop: meadow-pop 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both;
   /* Statistics' trainer title arriving, once per visit: words rise, the rest fades up. */
   --animate-title-rise: title-rise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.25) both;
@@ -276,6 +255,20 @@
     }
     75% {
       transform: rotate(1.2deg);
+    }
+  }
+
+  @keyframes objective-out {
+    to {
+      transform: translateX(-24px);
+      opacity: 0;
+    }
+  }
+
+  @keyframes objective-in {
+    from {
+      transform: translateX(24px);
+      opacity: 0;
     }
   }
 

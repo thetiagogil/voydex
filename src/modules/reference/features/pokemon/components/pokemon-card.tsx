@@ -28,10 +28,10 @@ type PokemonCardProps = {
   imageAlt: string;
   imageUrl: string | null;
   /*
-   * Stamps down at the moment the card is marked, or fades back when it is
+   * Pops at the moment the card is marked, or settles back softly when it is
    * unmarked; never on load.
    */
-  motion?: "stamp" | "unstamp" | null;
+  motion?: "pop" | "settle" | null;
   name: string;
   number: string;
   onAnimationEnd?: () => void;
@@ -178,8 +178,8 @@ export const PokemonCard = ({
         paddingClassNames[size === "sm" ? "sm" : "md"][
           picked ? "caught" : state
         ],
-        motion === "stamp" && "animate-stamp",
-        motion === "unstamp" && "animate-unstamp",
+        motion === "pop" && "animate-pop",
+        motion === "settle" && "animate-settle",
         className,
       )}
     >

@@ -20,8 +20,8 @@ import {
  * The scope's milestones under their chapters, as Fredoka group headings.
  * Decisions and saved teams stay out of the rows (a signpost and a camera
  * mark them) until "Show details" beside a chapter's heading brings them
- * in, for the whole list. Rows recorded a moment ago stamp down in Story
- * order; rows un-recorded a moment ago fade back.
+ * in, for the whole list. Rows recorded a moment ago settle in, in Story
+ * order (the stamp card does the stamping); rows un-recorded fade back.
  */
 export const StoryMilestoneList = ({
   className,
@@ -36,12 +36,12 @@ export const StoryMilestoneList = ({
   /* The milestones un-recorded a moment ago, whose rows fade back once. */
   fadingMilestoneIds: ReadonlySet<number>;
   onMilestoneSelect: (milestone: StoryMilestone) => void;
-  /* Called once a row's stamp or fade has played. */
+  /* Called once a row has settled. */
   onMotionEnd: (milestoneId: number) => void;
   scope: StoryScope;
   /* The row shown in the panel or sheet right now, if any. */
   selectedMilestoneId: number | null;
-  /* The milestones recorded a moment ago, in the order their rows stamp. */
+  /* The milestones recorded a moment ago, in the order their rows settle. */
   stampOrder: StampOrder;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
@@ -81,16 +81,12 @@ export const StoryMilestoneList = ({
               <StoryMilestoneRow
                 key={milestone.id}
                 milestone={milestone}
-                motion={
+                onSettled={() => onMotionEnd(milestone.id)}
+                settling={
                   milestone.isCompleted
                     ? stampOrder.has(milestone.id)
-                      ? "stamp"
-                      : null
                     : fadingMilestoneIds.has(milestone.id)
-                      ? "unstamp"
-                      : null
                 }
-                onMotionEnd={() => onMotionEnd(milestone.id)}
                 stampDelay={getStampDelay(stampOrder, milestone.id)}
                 onSelect={() => onMilestoneSelect(milestone)}
                 selected={milestone.id === selectedMilestoneId}
