@@ -186,6 +186,9 @@ const GameCoverBox = ({
         alt={alt}
         width={Math.round(carouselSize.height * ratio)}
         height={carouselSize.height}
+        // Served as the plain file from voydex-assets, like every Pokémon
+        // image, so a page never depends on Next.js's list of image hosts.
+        unoptimized
         loading={eager ? "eager" : "lazy"}
         className={cn(
           "bg-surface-2 shadow-cover block shrink-0 rounded-sm border-4 border-white object-cover",
