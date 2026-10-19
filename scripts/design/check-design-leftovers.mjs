@@ -118,6 +118,20 @@ const sourceRules = [
   },
   {
     label:
+      "a white band drawn by hand in a shadow (use bubble, sticker or moment-ring)",
+    pattern: /0_0_0_[\d.]+px_#fff/,
+  },
+  {
+    label:
+      "a hand-sized text, tracking or line height (use a title step, the type scale or a named leading)",
+    pattern: /\btext-\[\d[\d.]*(?:px|rem)\]|\btracking-\[|\bleading-\[/,
+  },
+  {
+    label: "a focus ring by hand (use focus-ring or focus-ring-inset)",
+    pattern: /(?<![-\w])focus-visible:outline-3\b/,
+  },
+  {
+    label:
       "hard lip under a surface (lift it with a soft shadow; buttons take the sticker edge)",
     pattern: /(?:shadow-\[|,)0_[1-9][\d.]*px_0(?:_|,|\])/,
   },
