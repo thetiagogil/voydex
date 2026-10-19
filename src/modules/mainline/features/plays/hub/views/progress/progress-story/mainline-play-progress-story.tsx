@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
@@ -8,6 +8,7 @@ import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client
 import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
   createStampOrder,
+  stampStepMs,
   type StampOrder,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
@@ -138,7 +139,27 @@ export const MainlinePlayProgressStory = ({
   const [badgeSlapOrder, setBadgeSlapOrder] = useState<StampOrder>(noStamps);
   const [fadingMilestoneIds, setFadingMilestoneIds] =
     useState<ReadonlySet<number>>(noFades);
+  /* Recorded together: the rows still waiting their turn, in order. */
+  const [waitingMilestoneIds, setWaitingMilestoneIds] = useState<number[]>([]);
+
+  /* The cascade: each waiting row turns, one step after the one before. */
+  useEffect(() => {
+    if (!waitingMilestoneIds.length) {
+      return;
+    }
+
+    const timer = window.setTimeout(
+      () => setWaitingMilestoneIds((ids) => ids.slice(1)),
+      stampStepMs,
+    );
+
+    return () => window.clearTimeout(timer);
+  }, [waitingMilestoneIds]);
   const recording = useRecordMilestone(playId);
+  const waitingSet = useMemo(
+    () => new Set(waitingMilestoneIds),
+    [waitingMilestoneIds],
+  );
   const activeScope =
     model.scopes.find((scope) => scope.id === activeScopeId) ??
     defaultScope ??
@@ -180,6 +201,7 @@ export const MainlinePlayProgressStory = ({
   };
 
   const endRecordingReward = () => {
+    setWaitingMilestoneIds([]);
     setRowStampOrder(noStamps);
     setBadgeSlapOrder(noStamps);
     setFadingMilestoneIds(noFades);
@@ -203,6 +225,7 @@ export const MainlinePlayProgressStory = ({
 
     setRowStampOrder(order);
     setBadgeSlapOrder(order);
+    setWaitingMilestoneIds([...order.keys()].slice(1));
     setFadingMilestoneIds(noFades);
     setSelectedMilestoneId(null);
   };
@@ -228,6 +251,7 @@ export const MainlinePlayProgressStory = ({
   };
 
   const startUnrecordingFade = (milestoneIds: number[]) => {
+    setWaitingMilestoneIds([]);
     setRowStampOrder(noStamps);
     setBadgeSlapOrder(noStamps);
     setFadingMilestoneIds(new Set(milestoneIds));
@@ -356,6 +380,7 @@ export const MainlinePlayProgressStory = ({
           }}
           scope={activeScope}
           stampOrder={rowStampOrder}
+          waitingMilestoneIds={waitingSet}
           selectedMilestoneId={
             !usesDetailSheet || isDetailSheetOpen
               ? (selectedMilestone?.id ?? null)

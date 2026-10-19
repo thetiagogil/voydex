@@ -79,7 +79,8 @@ export const describePlayStamp = (
  */
 export type StampOrder = ReadonlyMap<number, number>;
 
-const stampStepMs = 110;
+/* The beat between things recorded together. */
+export const stampStepMs = 110;
 
 export const createStampOrder = (orderedMilestoneIds: number[]): StampOrder =>
   new Map(orderedMilestoneIds.map((id, index) => [id, index]));

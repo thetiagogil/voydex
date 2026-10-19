@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 
-import {
-  getStampDelay,
-  type StampOrder,
-} from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import type { StampOrder } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
@@ -20,10 +17,10 @@ import {
  * The scope's milestones under their chapters, as Fredoka group headings.
  * Decisions and saved teams stay out of the rows (a signpost and a camera
  * mark them) until "Show details" beside a chapter's heading brings them
- * in, for the whole list. One reward per moment: a badge or League
- * milestone recorded a moment ago is stamped on the stamp card, so its row
- * just changes; any other row's marker pops in, in Story order. Rows
- * un-recorded pop back to their numbers.
+ * in, for the whole list. Milestones recorded together cascade: each row
+ * waits as it was, then turns recorded with its marker popping, one after
+ * another in Story order, in step with the stamp card. Rows un-recorded pop
+ * back to their numbers.
  */
 export const StoryMilestoneList = ({
   className,
@@ -33,6 +30,7 @@ export const StoryMilestoneList = ({
   scope,
   selectedMilestoneId,
   stampOrder,
+  waitingMilestoneIds,
 }: {
   className?: string;
   /* The milestones un-recorded a moment ago, whose rows fade back once. */
@@ -43,13 +41,12 @@ export const StoryMilestoneList = ({
   scope: StoryScope;
   /* The row shown in the panel or sheet right now, if any. */
   selectedMilestoneId: number | null;
-  /* The milestones recorded a moment ago, in the order their markers pop. */
+  /* The milestones recorded a moment ago, whose markers pop as they turn. */
   stampOrder: StampOrder;
+  /* Recorded a moment ago but still waiting their turn in the cascade. */
+  waitingMilestoneIds: ReadonlySet<number>;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
-  const stampedIds = new Set(
-    (scope.stamps ?? []).map((stamp) => stamp.milestoneId),
-  );
   const [showDetails, setShowDetails] = useState(false);
 
   return (
@@ -82,28 +79,36 @@ export const StoryMilestoneList = ({
             ) : null}
           </div>
           <ol className="grid gap-2">
-            {section.milestones.map((milestone) => (
-              <StoryMilestoneRow
-                key={milestone.id}
-                milestone={milestone}
-                onSettled={() => onMotionEnd(milestone.id)}
-                motion={
-                  milestone.isCompleted
-                    ? stampOrder.has(milestone.id) &&
-                      !stampedIds.has(milestone.id)
-                      ? "recorded"
-                      : null
-                    : fadingMilestoneIds.has(milestone.id)
-                      ? "unrecorded"
-                      : null
-                }
-                stampDelay={getStampDelay(stampOrder, milestone.id)}
-                onSelect={() => onMilestoneSelect(milestone)}
-                selected={milestone.id === selectedMilestoneId}
-                showDetails={showDetails}
-                state={getStoryMilestoneRowState(milestone, nextMilestoneId)}
-              />
-            ))}
+            {section.milestones.map((savedMilestone) => {
+              /* Its turn in the cascade hasn't come: shown as it was. */
+              const isWaiting = waitingMilestoneIds.has(savedMilestone.id);
+              const milestone = isWaiting
+                ? { ...savedMilestone, completedAt: null, isCompleted: false }
+                : savedMilestone;
+
+              return (
+                <StoryMilestoneRow
+                  key={milestone.id}
+                  milestone={milestone}
+                  onSettled={() => onMotionEnd(milestone.id)}
+                  motion={
+                    isWaiting
+                      ? null
+                      : milestone.isCompleted
+                        ? stampOrder.has(milestone.id)
+                          ? "recorded"
+                          : null
+                        : fadingMilestoneIds.has(milestone.id)
+                          ? "unrecorded"
+                          : null
+                  }
+                  onSelect={() => onMilestoneSelect(savedMilestone)}
+                  selected={milestone.id === selectedMilestoneId}
+                  showDetails={showDetails}
+                  state={getStoryMilestoneRowState(milestone, nextMilestoneId)}
+                />
+              );
+            })}
           </ol>
         </section>
       ))}

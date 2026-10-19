@@ -1,5 +1,3 @@
-import type { CSSProperties } from "react";
-
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import {
   getMilestonePickItemClassName,
@@ -79,7 +77,6 @@ export const StoryMilestoneRow = ({
   selected,
   motion,
   showDetails,
-  stampDelay,
   state,
 }: {
   milestone: StoryMilestone;
@@ -97,8 +94,6 @@ export const StoryMilestoneRow = ({
    * row, not just their marks.
    */
   showDetails: boolean;
-  /* How long it waits for the ones recorded before it. */
-  stampDelay: string | null;
   state: PlayMilestoneState;
 }) => {
   const hasTeam = milestone.snapshotMembers.length > 0;
@@ -115,11 +110,6 @@ export const StoryMilestoneRow = ({
         type="button"
         aria-pressed={selected}
         onClick={onSelect}
-        style={
-          stampDelay
-            ? ({ "--stamp-delay": stampDelay } as CSSProperties)
-            : undefined
-        }
         onAnimationEnd={(event) => {
           if (motion && event.animationName === "marker-in") {
             onSettled();
