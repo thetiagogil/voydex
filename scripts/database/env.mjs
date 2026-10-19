@@ -51,9 +51,20 @@ function loadDatabaseEnvFile() {
   return values;
 }
 
-export function buildDatabaseEnv() {
-  return {
+/*
+ * Environment for a Supabase CLI command. A `--local` command never receives
+ * the hosted database password: newer CLIs use it for local connections too,
+ * which then fail.
+ */
+export function buildDatabaseEnv(args = []) {
+  const env = {
     ...loadDatabaseEnvFile(),
     ...process.env,
   };
+
+  if (args.includes("--local")) {
+    delete env.SUPABASE_DB_PASSWORD;
+  }
+
+  return env;
 }
