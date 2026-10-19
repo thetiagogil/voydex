@@ -8,42 +8,45 @@
   color-scheme: light;
 
   /*
-   * Poké Ball (2026-10-17): one palette for the whole app. A warm white
-   * ground and soft rose-grey supporting surfaces (about 60% and 30%), with
-   * no sand or brown, so Pokémon and their type colours bring the colour, and
-   * one Poké Ball red (about 10%) for the main action, the current pick and
-   * the context colour. Destructive actions take a deeper wine red, always
-   * quiet, so they never read as the main button.
+   * Pokémon Center and Poké Mart (2026-10-19): one palette for the whole app,
+   * taken from the two buildings every trainer knows. Their white walls are
+   * the ground and surfaces (about 60%); the Center's blush floor is the band
+   * and the supporting tints (about 30%); the Center's red roof is the one
+   * action colour (about 10%): the main action, the current pick and the
+   * context colour. The Mart's blue roof is the third colour, for calm
+   * meanings and progress. Pokémon and their type colours bring the rest.
+   * Destructive actions take a deeper wine red, always quiet, so they never
+   * read as the main button.
    */
 
   /* Ground, surfaces, ink and lines */
-  --bg: #f6f3f2;
-  --surface: #fffdfc;
-  --surface-2: #f8f3f2;
-  --hover: #f1e9e7;
+  --bg: #f8f5f5;
+  --surface: #fffefe;
+  --surface-2: #faf4f4;
+  --hover: #f5e9e9;
   --ink: #2f2a2c;
   --ink-2: #5a5054;
   --ink-3: #675c60;
   --on-ink: #f7f1f0;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
-  --line: #ebe1df;
-  --lip: #e0d4d2;
-  --track: #efe6e4;
-  --dash: #dccdca;
-  --mute: #c7b9b6;
+  --line: #efe2e2;
+  --lip: #e8d6d6;
+  --track: #f1e6e6;
+  --dash: #e0cfcf;
+  --mute: #cbbaba;
   /* The colour every shadow and the scrim are made of, as RGB channels. */
   --shade: 60 40 40;
   --scrim: rgb(var(--shade) / 0.42);
 
   /* The one action colour */
-  --link: #ab3128;
-  --action: #c4372d;
-  --action-lip: #982a22;
+  --link: #b0291f;
+  --action: #cf342b;
+  --action-lip: #9e261f;
   --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
   /* The main button under the pointer: between the action red and its lip. */
   --action-deep: color-mix(in oklab, var(--action), var(--action-lip) 45%);
-  --focus: #982a22;
+  --focus: #9e261f;
 
   /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
   --gold: #edb443;
@@ -63,13 +66,13 @@
   --ok-soft-2: #d2eadb;
   --ok-line: #9fcdb1;
   /*
-   * The third colour, a Poké Mart blue, for a quieter, neutral meaning: a
-   * completed Play, "evolved or changed form", an info note. Blue never reads
+   * The third colour, the Poké Mart's blue roof, for a quieter, neutral
+   * meaning: a Play in progress, "evolved or changed form", an info note. Blue never reads
    * as a pick (red) or a warning (amber), and stays out of actions.
    */
-  --calm: #2f6dc3;
-  --calm-ink: #1f4c8f;
-  --calm-soft: #e0eaf8;
+  --calm: #2a6fd6;
+  --calm-ink: #1d4f9c;
+  --calm-soft: #e1ecfb;
   /*
    * Progress (bars, rings, charts of how far you are) is the Poké Mart blue,
    * like the games' EXP bar; green stays for status ("Playing", "Found").
@@ -80,11 +83,14 @@
   --avatar-ink: #6b4a12;
 
   /* The meadow (front doors and choosing a game) */
-  --sky: #fbf7f6;
+  --sky: #fdf9f9;
   --hill: #dbe9d4;
   --hill-2: #cddfc4;
-  /* The band that opens Plays, the Team Planner, Statistics and Collection. */
-  --band-sand: color-mix(in oklab, var(--lip) 55%, var(--bg));
+  /*
+   * The band that opens every page but Home: the Pokémon Center's blush
+   * floor, under the top bar and the page's head.
+   */
+  --band-fill: #f7e4e3;
 
   /*
    * The accent by role: its deep shade for small eyebrows and marks, and the
@@ -252,7 +258,7 @@
   --color-sky: var(--sky);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);
-  --color-band-sand: var(--band-sand);
+  --color-band: var(--band-fill);
   --color-game: var(--game);
   --color-game-strong: var(--game-strong);
   --color-select-soft: var(--select-soft);

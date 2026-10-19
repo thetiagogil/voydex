@@ -36,11 +36,11 @@ new code prefers the role names.
 
 | Group          | Tokens                                                                                                                                                              |
 | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ground and ink | `bg #F6F3F2`, `surface #FFFDFC`, `surface-2 #F8F3F2`, `hover`, `ink #2F2A2C`, `ink-2 #5A5054`, `ink-3 #675C60`, `on-ink`, `ink-tint` (secondary text on type tints) |
+| Ground and ink | `bg #F8F5F5`, `surface #FFFEFE`, `surface-2 #FAF4F4`, `hover`, `ink #2F2A2C`, `ink-2 #5A5054`, `ink-3 #675C60`, `on-ink`, `ink-tint` (secondary text on type tints) |
 | Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                                            |
-| Action         | `action #C4372D` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `action-ink` (small eyebrows and marks), `link`, `focus`                         |
+| Action         | `action #CF342B` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `action-ink` (small eyebrows and marks), `link`, `focus`                         |
 | Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`                                                    |
-| Meadow         | `sky`, `hill`, `hill-2`                                                                                                                                             |
+| Meadow, band   | `sky`, `hill`, `hill-2`; `band` (the blush PageBand)                                                                                                                |
 | Selection      | `select-soft`, `select-ink` (every picked row, chip and pill); `game`, `game-strong` (a game's own colour, only on marks that tell games apart)                     |
 | Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                                              |
 | Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                      |
@@ -53,7 +53,7 @@ site's Home and Start a Play) wears `page-band` on it, through `MeadowScene`
 `form="band"`: the band runs the full width of the window and tucks under the
 transparent bar, which sits on its colour, while its copy stays in the page
 column. Home keeps the meadow; every other page opens on the lighter
-`PageBand`, on the rose-grey `band-sand`, flat colour only. The band holds
+`PageBand`, on the blush `band` (the Pokémon Center floor), flat colour only. The band holds
 what the page is and how you shape it; the plain ground below holds what it
 shows (settled 2026-10-17):
 
@@ -77,9 +77,12 @@ sits on (the muted inks on the band and the hover fill included), and
 the browser tests run axe's contrast rule on every page they visit.
 
 Colour follows the 60-30-10 rule: about 60% calm neutral ground (`bg`,
-`surface`), about 30% supporting colour (`surface-2`, the rose-grey band, type
+`surface`, the white walls of a Pokémon Center and a Poké Mart), about 30%
+supporting colour (`surface-2`, the blush band of the Center's floor, type
 tints), and about 10% accent kept for what matters: the one main action in
-Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
+the Center's roof red, the current pick, identity (your Pokémon, a game's
+cover). The Poké Mart's blue roof is the third colour (`calm`), for progress
+and calm meanings (settled 2026-10-19).
 
 ## Type
 
@@ -414,7 +417,7 @@ There are no site-only stills: a public picture uses the app's own component.
   (`pokemonCardPickedClassName` on a card, `selected` on a sticker), its slot
   number top right where it has one.
 - **Every page opens on a band**: the meadow on Home and Start a Play, the
-  rose-grey `PageBand` everywhere else, a Play included. The top bar has no ground
+  blush `PageBand` everywhere else, a Play included. The top bar has no ground
   of its own: the V tile and the name, the sections as quiet words straight
   on the band (the current one a small sticker in the selected tint), and
   your utilities.

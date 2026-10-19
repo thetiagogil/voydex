@@ -64,7 +64,7 @@ export const MainlinePlayTopSection = ({
       {head}
     </PageBand>
   ) : (
-    <div className="bg-band-sand play-texture shadow-card rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5">
+    <div className="bg-band play-texture shadow-card rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5">
       {head}
     </div>
   );

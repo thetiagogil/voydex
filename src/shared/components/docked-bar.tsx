@@ -96,7 +96,7 @@ export const DockedBar = ({
             : "invisible -translate-y-[calc(100%+16px)] opacity-0",
         )}
       >
-        <div className="bg-band-sand shadow-float">
+        <div className="bg-band shadow-float">
           <div className="page-column flex min-h-16 min-w-0 items-center gap-3 py-2">
             {picture ? (
               <span className="flex shrink-0 max-sm:hidden">{picture}</span>

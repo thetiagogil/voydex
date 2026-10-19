@@ -16,7 +16,7 @@ type PageBandProps = {
  * the band sits on the plain page ground.
  */
 export const PageBand = ({ children, className }: PageBandProps) => (
-  <div className="page-band bg-band-sand relative isolate rounded-b-[28px] sm:rounded-b-[44px]">
+  <div className="page-band bg-band relative isolate rounded-b-[28px] sm:rounded-b-[44px]">
     {/*
      * A large, faint Poké Ball at the band's right edge: the band's one
      * touch of the app's own identity, quiet enough to sit under anything.
