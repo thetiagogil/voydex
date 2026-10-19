@@ -77,15 +77,18 @@ export const StoryMilestoneRow = ({
   onSelect,
   onSettled,
   selected,
-  settling,
+  motion,
   showDetails,
   stampDelay,
   state,
 }: {
   milestone: StoryMilestone;
-  /* Recorded or un-recorded a moment ago: it settles softly into its new state. */
-  settling: boolean;
-  /* Called once the settle has played. */
+  /*
+   * Recorded or un-recorded a moment ago: the row keeps still while its
+   * marker pops into its new state (a recorded row also glows once).
+   */
+  motion: "recorded" | "unrecorded" | null;
+  /* Called once the marker has popped. */
   onSettled: () => void;
   onSelect: () => void;
   selected: boolean;
@@ -118,7 +121,7 @@ export const StoryMilestoneRow = ({
             : undefined
         }
         onAnimationEnd={(event) => {
-          if (settling && event.target === event.currentTarget) {
+          if (motion && event.animationName === "marker-in") {
             onSettled();
           }
         }}
@@ -126,12 +129,13 @@ export const StoryMilestoneRow = ({
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
           "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-4.5 sm:py-3.5",
-          settling && "animate-settle",
+          motion === "recorded" && "animate-wash",
         )}
       >
         <MilestoneMarker
           badgeType={milestone.badgeType}
           className="row-span-2 sm:row-span-1"
+          popIn={motion !== null}
           sequence={milestone.sequence}
           state={state}
           typeSlug={milestone.typeSlug}

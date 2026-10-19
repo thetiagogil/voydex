@@ -66,8 +66,10 @@ describe("pickNextMilestone", () => {
     isRequired: boolean,
     isCompleted: boolean,
     isAvailable = true,
+    isChoice = false,
   ) => ({
     isAvailable,
+    isChoice,
     isCompleted,
     isRequired,
   });
@@ -94,12 +96,25 @@ describe("pickNextMilestone", () => {
     expect(pickNextMilestone([state(true, true)], (m) => m)).toBeNull();
   });
 
+  it("comes to an optional choice in its place, as Story order has it", () => {
+    // FireRed's Fossil Choice, between Boulder and Cascade.
+    const fossilChoice = state(false, false, true, true);
+
+    expect(
+      pickNextMilestone(
+        [state(true, true), fossilChoice, state(true, false)],
+        (milestone) => milestone,
+      ),
+    ).toBe(fossilChoice);
+  });
+
   it("reads raw rows, treating an open blocking prerequisite as locked", () => {
     const next = pickNextMilestoneRow([
       {
         is_completed: false,
         is_required_for_completion: true,
         milestone_id: 1,
+        milestone_type_slug: "story",
         prerequisites: [
           { prerequisite_kind_slug: "required", prerequisite_milestone_id: 9 },
         ],
@@ -108,6 +123,7 @@ describe("pickNextMilestone", () => {
         is_completed: false,
         is_required_for_completion: true,
         milestone_id: 2,
+        milestone_type_slug: "story",
         prerequisites: [],
       },
     ]);

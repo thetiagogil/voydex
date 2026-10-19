@@ -20,8 +20,9 @@ import {
  * The scope's milestones under their chapters, as Fredoka group headings.
  * Decisions and saved teams stay out of the rows (a signpost and a camera
  * mark them) until "Show details" beside a chapter's heading brings them
- * in, for the whole list. Rows recorded a moment ago settle in, in Story
- * order (the stamp card does the stamping); rows un-recorded fade back.
+ * in, for the whole list. Rows recorded a moment ago keep still while their
+ * markers pop in, in Story order (the stamp card does the stamping); rows
+ * un-recorded pop back to their numbers.
  */
 export const StoryMilestoneList = ({
   className,
@@ -36,12 +37,12 @@ export const StoryMilestoneList = ({
   /* The milestones un-recorded a moment ago, whose rows fade back once. */
   fadingMilestoneIds: ReadonlySet<number>;
   onMilestoneSelect: (milestone: StoryMilestone) => void;
-  /* Called once a row has settled. */
+  /* Called once a row's marker has popped. */
   onMotionEnd: (milestoneId: number) => void;
   scope: StoryScope;
   /* The row shown in the panel or sheet right now, if any. */
   selectedMilestoneId: number | null;
-  /* The milestones recorded a moment ago, in the order their rows settle. */
+  /* The milestones recorded a moment ago, in the order their markers pop. */
   stampOrder: StampOrder;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
@@ -82,10 +83,14 @@ export const StoryMilestoneList = ({
                 key={milestone.id}
                 milestone={milestone}
                 onSettled={() => onMotionEnd(milestone.id)}
-                settling={
+                motion={
                   milestone.isCompleted
                     ? stampOrder.has(milestone.id)
+                      ? "recorded"
+                      : null
                     : fadingMilestoneIds.has(milestone.id)
+                      ? "unrecorded"
+                      : null
                 }
                 stampDelay={getStampDelay(stampOrder, milestone.id)}
                 onSelect={() => onMilestoneSelect(milestone)}

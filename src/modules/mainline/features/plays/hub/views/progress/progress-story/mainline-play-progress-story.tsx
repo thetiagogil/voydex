@@ -252,7 +252,7 @@ export const MainlinePlayProgressStory = ({
       style={
         {
           "--sticky-panel-offset": stampCardHeight
-            ? `${stampCardHeight + 12}px`
+            ? `${stampCardHeight - 24}px`
             : undefined,
         } as CSSProperties
       }
@@ -266,12 +266,14 @@ export const MainlinePlayProgressStory = ({
       {activeScope.stamps ? (
         /*
          * Pinned under the docked bar, so the stamps you record land in view
-         * while you scroll the list; a strip of page above it hides the rows
-         * scrolling past. The side panel sticks just below it.
+         * while you scroll the list. It stands on a band of page from the
+         * bar's edge to a little below the card (the dock offset keeps room for
+         * the bar's shadow), a little wider than the card, so rows and a
+         * picked row's ring scroll cleanly out of sight under it. The side panel sticks below.
          */
         <div
           ref={bindStampCard}
-          className="before:bg-bg sticky top-[calc(var(--play-dock-offset,0px)+0.75rem)] z-10 before:absolute before:inset-x-0 before:bottom-full before:h-6"
+          className="bg-bg sticky top-[calc(var(--play-dock-offset,0px)-0.75rem)] z-10 -mx-3 -mt-6 -mb-3 px-3 pt-6 pb-3"
         >
           <StoryStampCardSection
             onSlapEnd={(milestoneId) =>

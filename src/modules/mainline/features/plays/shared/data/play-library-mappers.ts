@@ -24,6 +24,7 @@ export type PlayBrowseMilestone = Pick<
   | "is_required_for_completion"
   | "milestone_id"
   | "milestone_name"
+  | "milestone_type_slug"
   | "play_id"
   | "prerequisites"
   | "sort_order"

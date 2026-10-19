@@ -128,6 +128,7 @@ describe("buildMainlinePlayBrowseItems story and collectibles", () => {
     is_required_for_completion: true,
     milestone_id: 1,
     milestone_name: "Milestone",
+    milestone_type_slug: "story",
     play_id: "play-1",
     prerequisites: [],
     sort_order: 1,

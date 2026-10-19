@@ -244,9 +244,10 @@ One reward per moment, in one place. Stamps slap (`animate-stamp-slap`):
 Story's stamp card, pinned under the docked bar so you watch them land, and
 Overview's next objective, which then hands over to the next one
 (`animate-objective-out`, `animate-objective-in`). Small cards and tokens you
-mark (Pokédex, Collectibles) pop. A wide row never stamps: Story's rows settle
-softly (`animate-settle`) when recorded or un-recorded, and so does anything
-unmarked. Things recorded together land in turn, Story order, through
+mark (Pokédex, Collectibles) pop. A wide row never moves: a Story row keeps still
+while its marker pops into its new state (`animate-marker-in`), and a recorded
+row glows once with the selection tint (`animate-wash`). A card or token you
+unmark settles softly (`animate-settle`). Things recorded together land in turn, Story order, through
 `--stamp-delay` (`createStampOrder`, `getStampDelay`).
 
 ## Components

@@ -2,6 +2,7 @@ import {
   compareMilestoneCategories,
   compareMilestonesInCategory,
   isBlockingPrerequisiteKind,
+  isChoiceMilestone,
   numberJourneyMilestones,
   pickNextMilestone,
 } from "@/modules/mainline/features/plays/shared/data/play-milestones";
@@ -237,7 +238,7 @@ const addJourneyPositions = (scope: StoryScope) => {
       .filter(
         (earlier) =>
           !earlier.isCompleted &&
-          (earlier.isRequired || earlier.typeSlug === "decision"),
+          (earlier.isRequired || isChoiceMilestone(earlier.typeSlug)),
       )
       .map(toRef);
     milestone.laterRecorded = milestones
@@ -249,7 +250,10 @@ const addJourneyPositions = (scope: StoryScope) => {
 
 /* What to record next, by the rule Overview and Plays use too. */
 const findNextMilestone = (milestones: StoryMilestone[]) =>
-  pickNextMilestone(milestones, (milestone) => milestone);
+  pickNextMilestone(milestones, (milestone) => ({
+    ...milestone,
+    isChoice: isChoiceMilestone(milestone.typeSlug),
+  }));
 
 export const buildStoryProgressModel = ({
   badgeTypes,

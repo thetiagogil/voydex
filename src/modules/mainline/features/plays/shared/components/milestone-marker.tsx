@@ -15,6 +15,8 @@ type MilestoneMarkerProps = {
    * milestone has none and shows its type's icon instead.
    */
   sequence: number | null;
+  /* Recorded or un-recorded a moment ago: pops into its state after any --stamp-delay. */
+  popIn?: boolean;
   /* `md` beside Story's rows (30px, 34px from `sm`); `sm` in short lists (28px). */
   size?: "md" | "sm";
   state: PlayMilestoneState;
@@ -37,6 +39,7 @@ const ringSizeClassNames = {
 export const MilestoneMarker = ({
   badgeType,
   className,
+  popIn = false,
   sequence,
   size = "md",
   state,
@@ -45,7 +48,11 @@ export const MilestoneMarker = ({
   if (state === "done") {
     return (
       <Medallion
-        className={cn(size === "md" && "max-sm:size-7", className)}
+        className={cn(
+          size === "md" && "max-sm:size-7",
+          popIn && "animate-marker-in",
+          className,
+        )}
         size={size === "md" ? "sm" : "xs"}
         content={
           badgeType
@@ -65,6 +72,7 @@ export const MilestoneMarker = ({
         state === "next"
           ? "bg-surface text-action-ink inset-ring-action inset-ring-2"
           : "text-ink-3 inset-ring-line inset-ring",
+        popIn && "animate-marker-in",
         className,
       )}
     >
