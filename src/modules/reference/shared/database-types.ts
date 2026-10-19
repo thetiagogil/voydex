@@ -12,6 +12,8 @@ export type Generation = ReferenceRow<"generations">;
 export type LearnMethod = ReferenceRow<"learn_methods">;
 export type Move = ReferenceRow<"moves">;
 export type MoveAttribute = ReferenceRow<"move_attributes">;
+export type MoveVersionGroupAttribute =
+  ReferenceRow<"move_version_group_attributes">;
 export type Nature = ReferenceRow<"natures">;
 export type Platform = ReferenceRow<"platforms">;
 export type Pokedex = ReferenceRow<"pokedex">;

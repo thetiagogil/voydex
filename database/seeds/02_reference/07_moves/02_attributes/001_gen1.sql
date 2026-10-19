@@ -202,7 +202,7 @@ VALUES
   -- Psychic Generation I
   (94, 1, 11, 90, 100, 10, 0, 'special'),
   -- Hypnosis Generation I
-  (95, 1, 11, NULL, 70, 20, 0, 'status'),
+  (95, 1, 11, NULL, 60, 20, 0, 'status'),
   -- Meditate Generation I
   (96, 1, 11, NULL, NULL, 40, 0, 'status'),
   -- Agility Generation I

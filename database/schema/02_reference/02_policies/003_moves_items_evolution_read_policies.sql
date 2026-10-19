@@ -8,6 +8,8 @@ ALTER TABLE reference.move_kinds ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.move_attributes ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.move_version_group_attributes ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.move_machines ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.item_categories ENABLE ROW LEVEL SECURITY;
@@ -25,6 +27,8 @@ REVOKE ALL ON TABLE reference.moves FROM anon, authenticated;
 REVOKE ALL ON TABLE reference.move_kinds FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_attributes FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.move_version_group_attributes FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_machines FROM anon, authenticated;
 
@@ -44,6 +48,8 @@ GRANT SELECT ON TABLE reference.move_kinds TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.move_attributes TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.move_version_group_attributes TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.move_machines TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.item_categories TO anon, authenticated;
@@ -61,6 +67,8 @@ GRANT ALL ON TABLE reference.moves TO service_role;
 GRANT ALL ON TABLE reference.move_kinds TO service_role;
 
 GRANT ALL ON TABLE reference.move_attributes TO service_role;
+
+GRANT ALL ON TABLE reference.move_version_group_attributes TO service_role;
 
 GRANT ALL ON TABLE reference.move_machines TO service_role;
 
@@ -83,6 +91,10 @@ CREATE POLICY move_kinds_read_all ON reference.move_kinds
     USING (TRUE);
 
 CREATE POLICY move_attributes_read_all ON reference.move_attributes
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY move_version_group_attributes_read_all ON reference.move_version_group_attributes
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

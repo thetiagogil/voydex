@@ -244,8 +244,6 @@ VALUES
   (17, 13, 2, 2, 1),
   -- Steel vs Steel from Generation II = 1/2
   (17, 17, 2, 1, 2),
-  -- Ice vs Fairy from Generation VI = 1/2
-  (6, 18, 6, 1, 2),
   -- Fighting vs Fairy from Generation VI = 1/2
   (7, 18, 6, 1, 2),
   -- Poison vs Fairy from Generation VI = 2/1

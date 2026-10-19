@@ -57,6 +57,7 @@ export const buildPokemonDetailData = ({
     learnMethods: baseRows.learnMethods,
     learnsetRows: speciesRows.learnsetRows,
     moveAttributes: learnsetMoveRows.moveAttributes,
+    moveOverrides: learnsetMoveRows.moveOverrides,
     moves: learnsetMoveRows.moves,
     typeById,
     versionGroups: baseRows.versionGroups,
