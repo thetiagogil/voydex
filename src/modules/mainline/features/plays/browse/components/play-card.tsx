@@ -7,15 +7,11 @@ import { appRoutes } from "@/config/routes";
 import { PlayCardProgress } from "@/modules/mainline/features/plays/browse/components/play-card-progress";
 import { PlayCardTeam } from "@/modules/mainline/features/plays/browse/components/play-card-team";
 import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
-import {
-  formatPlayUpdatedDate,
-  getPlayCardEyebrow,
-  getPlayCardLinkLabel,
-} from "@/modules/mainline/features/plays/browse/play-browse-display";
+import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
+import { formatPlayUpdatedDate } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
 
@@ -45,22 +41,17 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
     return null;
   }
 
-  return (
-    <p className="text-ink-2 text-13 sm:text-14 mt-1 font-semibold">
-      {parts.map((part, index) => (
-        <span key={index}>
-          {index ? " · " : null}
-          {part}
-        </span>
-      ))}
-    </p>
-  );
+  return parts.map((part, index) => (
+    <span key={index}>
+      {index ? " · " : null}
+      {part}
+    </span>
+  ));
 };
 
 /*
  * One Play in the list. The card is quiet; the Play's cover tile is the loud
- * part, its team stays lively and its progress bars take the game's colour.
- * The card wears `game-scope` so those accents follow the Play's game.
+ * part and its team stays lively.
  */
 export const PlayCard = ({ play }: PlayCardProps) => {
   const gameName = play.game_name ?? "Unknown game";
@@ -72,15 +63,9 @@ export const PlayCard = ({ play }: PlayCardProps) => {
     >
       <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
-      <div className="min-w-0">
-        <p className="text-game-deep text-13 font-bold">
-          {getPlayCardEyebrow(play)}
-        </p>
-        <h3 className="mt-0.5 line-clamp-2 text-[18px] leading-tight tracking-[-0.01em] wrap-break-word sm:text-[22px]">
-          {playName}
-        </h3>
+      <PlayCardHeading play={play} title={playName}>
         <PlayCardMeta play={play} />
-      </div>
+      </PlayCardHeading>
 
       <PlayCardTeam team={play.activeTeam} className="hidden xl:grid" />
 
@@ -100,11 +85,10 @@ export const PlayCard = ({ play }: PlayCardProps) => {
   );
 
   return (
-    <li className="game-scope" style={getGameColourStyle(play.game_slug)}>
+    <li>
       {play.play_id ? (
         <Link
           href={appRoutes.mainlinePlay(play.play_id)}
-          aria-label={getPlayCardLinkLabel(play)}
           className="group/card-link block rounded-2xl"
         >
           {content}

@@ -3,13 +3,17 @@
 import { useCallback, useMemo, useState } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import { FoldPanel } from "@/shared/components/fold";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 import {
   filterPokedexEntries,
@@ -47,6 +51,8 @@ export const PokedexProgressBrowserSection = ({
   onSpeciesBulkStateChange,
   onSpeciesStateChange,
   scope,
+  searchOpen,
+  searchPanelId,
   stateBySpeciesId,
 }: {
   browseScopes: MainlinePlayPokedexScope[];
@@ -60,6 +66,9 @@ export const PokedexProgressBrowserSection = ({
     state: PokedexProgressState,
   ) => void;
   scope: MainlinePlayPokedexScope;
+  /* Whether the search and filter bar is open, from the head's button. */
+  searchOpen: boolean;
+  searchPanelId: string;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
 }) => {
   const [query, setQuery] = useState("");
@@ -141,7 +150,7 @@ export const PokedexProgressBrowserSection = ({
     );
   }, [filteredSections.length]);
 
-  const resetFilters = () => {
+  const resetList = () => {
     setQuery("");
     setBrowseScopeId("all");
     setProgressFilter("all");
@@ -153,66 +162,34 @@ export const PokedexProgressBrowserSection = ({
       aria-label="Pokédex entries"
       className="grid min-w-0 grid-cols-1 gap-4"
     >
-      <Toolbar
-        aria-label={`Filter ${scope.name}`}
-        render={
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          />
-        }
-        search={
-          <SearchControl
-            ariaLabel={`Search ${scope.name}`}
-            value={query}
-            onValueChange={(value) => {
-              setQuery(value);
-              resetVisibleSections();
-            }}
-            placeholder="Search name or number"
-          />
-        }
-        trailing={
-          <>
-            <SegmentedControl
-              ariaLabel="Filter by progress"
+      <FoldPanel id={searchPanelId} open={searchOpen}>
+        <FilterToolbar
+          ariaLabel={`Filter ${scope.name}`}
+          activeCount={
+            (progressFilter === "all" ? 0 : 1) +
+            (browseScopeId === "all" ? 0 : 1)
+          }
+          resultLabel={`Show ${filteredEntries.length} Pokémon`}
+          render={
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            />
+          }
+          search={
+            <SearchControl
+              ariaLabel={`Search ${scope.name}`}
+              value={query}
               onValueChange={(value) => {
-                setProgressFilter(value);
+                setQuery(value);
                 resetVisibleSections();
               }}
-              options={[
-                { count: progressCounts.all, label: "All", value: "all" },
-                {
-                  count: progressCounts.caught,
-                  label: "Caught",
-                  value: "caught",
-                },
-                { count: progressCounts.seen, label: "Seen", value: "seen" },
-                {
-                  count: progressCounts.missing,
-                  label: "Missing",
-                  value: "missing",
-                },
-              ]}
-              value={progressFilter}
+              placeholder="Search name or number"
             />
-            {browseScopes.length > 0 ? (
-              <PokedexEntryScopeFilter
-                completionScopeName={scope.name}
-                onValueChange={(value) => {
-                  setBrowseScopeId(value);
-                  resetVisibleSections();
-                }}
-                scopes={browseScopes}
-                value={browseScopeId}
-              />
-            ) : null}
-            {/* v3: one row, the marking mode at its end. */}
-            <div className="flex items-center gap-2.5">
-              <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
-                Tap marks as
-              </span>
+          }
+          controls={(placement) => {
+            const mode = (
               <SegmentedControl
                 ariaLabel="Marking mode"
                 onValueChange={setUpdateMode}
@@ -220,19 +197,84 @@ export const PokedexProgressBrowserSection = ({
                 value={updateMode}
                 variant="segment"
               />
-            </div>
-          </>
-        }
-      />
+            );
 
-      <FilterResultsLine
-        className="-mt-2"
-        hasActiveFilters={hasFilters}
-        noun="Pokémon"
-        onClearFilters={resetFilters}
-        shownCount={filteredEntries.length}
-        totalCount={scope.entries.length}
-      />
+            /* v3: the marking mode at the line's end, said as "Tap marks as". */
+            return placement === "line" ? (
+              <div className="flex items-center gap-2.5">
+                <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
+                  Tap marks as
+                </span>
+                {mode}
+              </div>
+            ) : (
+              <FilterSheetRow label="Tap marks as">{mode}</FilterSheetRow>
+            );
+          }}
+          filters={(placement) => {
+            const progress = (
+              <SegmentedControl
+                variant="segment"
+                selectedTone="soft"
+                ariaLabel="Filter by progress"
+                onValueChange={(value) => {
+                  setProgressFilter(value);
+                  resetVisibleSections();
+                }}
+                options={[
+                  { count: progressCounts.all, label: "All", value: "all" },
+                  {
+                    count: progressCounts.caught,
+                    label: "Caught",
+                    value: "caught",
+                  },
+                  { count: progressCounts.seen, label: "Seen", value: "seen" },
+                  {
+                    count: progressCounts.missing,
+                    label: "Missing",
+                    value: "missing",
+                  },
+                ]}
+                value={progressFilter}
+              />
+            );
+            const entryScope =
+              browseScopes.length > 0 ? (
+                <PokedexEntryScopeFilter
+                  completionScopeName={scope.name}
+                  onValueChange={(value) => {
+                    setBrowseScopeId(value);
+                    resetVisibleSections();
+                  }}
+                  scopes={browseScopes}
+                  value={browseScopeId}
+                />
+              ) : null;
+
+            return placement === "line" ? (
+              <>
+                {progress}
+                {entryScope}
+              </>
+            ) : (
+              <>
+                <FilterSheetRow label="Show">{progress}</FilterSheetRow>
+                {entryScope ? (
+                  <FilterSheetRow label="Pokédex">{entryScope}</FilterSheetRow>
+                ) : null}
+              </>
+            );
+          }}
+        />
+        <FilterResultsLine
+          className="mt-3"
+          hasActiveFilters={hasFilters}
+          noun="Pokémon"
+          onReset={resetList}
+          shownCount={filteredEntries.length}
+          totalCount={scope.entries.length}
+        />
+      </FoldPanel>
 
       {visibleSections.length ? (
         <>
@@ -262,9 +304,7 @@ export const PokedexProgressBrowserSection = ({
           title="No matching Pokémon"
           description={`No entries in ${scope.name} match the current filters.`}
           action={
-            hasFilters ? (
-              <ClearFiltersButton variant="outline" onClick={resetFilters} />
-            ) : undefined
+            hasFilters ? <ResetListButton onClick={resetList} /> : undefined
           }
         />
       )}

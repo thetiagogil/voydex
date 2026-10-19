@@ -1,5 +1,6 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -10,7 +11,6 @@ import { SettingsRow } from "@/shared/components/settings-row";
 import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer";
 import { FieldError } from "@/shared/components/ui/field";
 
-import { SettingsChoiceChip } from "../../components/settings-choice-chip";
 import { updatePlayExpansionsAction } from "../../server/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 import { diffIdSets } from "../../utils/play-settings-validation";
@@ -92,13 +92,14 @@ export const PlaySettingsTrackingSection = ({
             className="flex flex-wrap gap-2"
           >
             {data.expansions.map((expansion) => (
-              <SettingsChoiceChip
+              <ChoiceChip
                 key={expansion.versionGroupId}
-                label={expansion.name}
                 pressed={selected.includes(expansion.versionGroupId)}
                 disabled={isSaving}
-                onToggle={() => toggle(expansion.versionGroupId)}
-              />
+                onClick={() => toggle(expansion.versionGroupId)}
+              >
+                {expansion.name}
+              </ChoiceChip>
             ))}
           </div>
         </SettingsRow>

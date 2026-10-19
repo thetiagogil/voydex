@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import type { PublicArt } from "@/config/public-art";
 import { MeadowPartners } from "@/features/site/components/meadow-partners";
@@ -29,24 +29,16 @@ export const StartPage = ({
   picks,
   shelf,
 }: StartPageProps) => {
-  const gameStyles: Record<string, CSSProperties> = Object.fromEntries(
-    Object.keys(picks).map((gameSlug) => [gameSlug, art.gameColour(gameSlug)]),
-  );
-
   return (
     <StartMeadow
-      gameStyles={gameStyles}
       isAuthenticated={isAuthenticated}
       partners={<MeadowPartners art={art} loading="eager" openStart />}
       picks={picks}
     >
-      <h1
-        id="start-title"
-        className="sm:text-60 pt-5.5 text-[38px] leading-[1.02] tracking-tight sm:pt-8.5"
-      >
+      <h1 id="start-title" className="title-display pt-5.5 sm:pt-8.5">
         What are you playing?
       </h1>
-      <p className="text-16 text-ink-2 mx-auto mt-3.5 max-w-[34em] leading-[1.6] font-semibold sm:text-[18px]">
+      <p className="text-16 text-ink-2 sm:text-17 mx-auto mt-3.5 max-w-[34em] leading-relaxed font-semibold">
         Pick your game and meet your first partner.
       </p>
       <div className="-mx-4 w-[calc(100%+2rem)] sm:-mx-6 sm:w-[calc(100%+3rem)] lg:-mx-8 lg:w-[calc(100%+4rem)]">

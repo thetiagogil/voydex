@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openFilters } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("History", () => {
@@ -29,7 +30,9 @@ test.describe("History", () => {
     const headline = page.getByText("“Brock took three tries”");
     await expect(headline).toBeVisible();
 
-    await page.getByRole("button", { name: /^Notes 1/ }).click();
+    const { close, filters } = await openFilters(page);
+    await filters.getByRole("button", { name: /^Notes 1/ }).click();
+    await close();
     await expect(headline).toBeVisible();
     await expect(page.getByText("Charmander chose you")).toBeHidden();
     await expectAccessible(page);

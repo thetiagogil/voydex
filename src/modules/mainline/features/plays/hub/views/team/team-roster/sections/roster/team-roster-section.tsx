@@ -9,7 +9,6 @@ import {
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 
-import { getTeamMemberIdentity } from "../../utils/team-member-display";
 import { getTeamRosterSlots, type TeamRosterGroup } from "./team-roster-model";
 
 type TeamRosterSectionProps = {
@@ -31,7 +30,10 @@ type TeamRosterStickerProps = {
   slotName: string;
 };
 
-/* A roster Pokémon as a compact sticker that opens its detail. */
+/*
+ * A roster Pokémon as a compact sticker that opens its detail: one name (the
+ * nickname, or the species without one) and its level as a chip.
+ */
 const TeamRosterSticker = ({
   member,
   onSelect,
@@ -40,8 +42,6 @@ const TeamRosterSticker = ({
   slotName,
 }: TeamRosterStickerProps) => {
   const name = getPlayTeamMemberName(member);
-  const identity = getTeamMemberIdentity(member);
-  const level = member.level ? `Lv. ${member.level}` : null;
 
   return (
     <PokemonSticker
@@ -49,7 +49,7 @@ const TeamRosterSticker = ({
       className="size-full"
       imageUrl={getPlayTeamMemberImageUrl(member)}
       name={name}
-      subtitle={[identity, level].filter(Boolean).join(" · ")}
+      level={member.level}
       types={[member.primaryType, member.secondaryType].filter(
         (type) => type !== null,
       )}
@@ -57,9 +57,7 @@ const TeamRosterSticker = ({
       slotLabel={slotLabel}
       selected={selected}
       onClick={() => onSelect(member)}
-      label={[name, identity, level, member.is_shiny ? "Shiny" : null, slotName]
-        .filter(Boolean)
-        .join(", ")}
+      detail={slotName}
     />
   );
 };

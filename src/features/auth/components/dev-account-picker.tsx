@@ -15,6 +15,7 @@ import {
   ComboboxValue,
 } from "@/shared/components/ui/combobox";
 import { FieldDescription } from "@/shared/components/ui/field";
+import { IconDisc } from "@/shared/components/icon-disc";
 
 const setFormField = (form: HTMLFormElement, name: string, value: string) => {
   const field = form.elements.namedItem(name);
@@ -76,7 +77,7 @@ export const DevAccountPicker = ({
           render={
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               className="w-full justify-between"
             />
           }
@@ -100,12 +101,9 @@ export const DevAccountPicker = ({
                 value={account}
                 className="min-h-14 items-start gap-3"
               >
-                <span
-                  aria-hidden
-                  className="bg-surface-2 text-ink-2 text-14 grid size-11 shrink-0 place-items-center rounded-full font-extrabold"
-                >
+                <IconDisc size="lg" className="text-14 font-extrabold">
                   {account.label.slice(0, 1)}
-                </span>
+                </IconDisc>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-extrabold">
                     {account.label}

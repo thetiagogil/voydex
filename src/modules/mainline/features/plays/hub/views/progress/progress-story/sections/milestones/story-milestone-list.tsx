@@ -47,7 +47,7 @@ export const StoryMilestoneList = ({
           className="min-w-0"
         >
           <div className="mb-2.5 flex min-h-9 items-center justify-between gap-3">
-            <h3 id={`story-chapter-${section.id}`} className="text-20">
+            <h3 id={`story-chapter-${section.id}`} className="title-card">
               {section.name}
             </h3>
             {section.milestones.some(

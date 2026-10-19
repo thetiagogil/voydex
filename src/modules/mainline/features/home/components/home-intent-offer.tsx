@@ -8,6 +8,7 @@ import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/clien
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { dismissStartIntentAction } from "@/modules/mainline/features/plays/shared/server/create-play-action";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
+import { OfferCard } from "@/shared/components/offer-card";
 import { Button } from "@/shared/components/ui/button";
 
 type HomeIntentOfferCardProps = {
@@ -33,66 +34,65 @@ export const HomeIntentOfferCard = ({
   }
 
   return (
-    <section
+    <OfferCard
       aria-labelledby="home-intent"
-      data-slot="card"
-      className="bg-surface shadow-card mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl px-5 py-4 sm:px-6"
+      className="mt-8"
+      actions={
+        <>
+          <Button
+            type="button"
+            variant="secondary"
+            disabled={isDismissing || isPending}
+            onClick={() =>
+              startDismiss(async () => {
+                const result = await dismissStartIntentAction();
+
+                if (result.status === "error") {
+                  toast.error(result.message);
+                  return;
+                }
+
+                newPlayDialog?.forgetIntent();
+                setIsHidden(true);
+              })
+            }
+          >
+            Not now
+          </Button>
+          <Button
+            type="button"
+            disabled={isDismissing || isPending}
+            onClick={() =>
+              startPlay(
+                {
+                  expansionVersionGroupIds: [],
+                  gameSlug: offer.gameSlug,
+                  partner: offer.partner
+                    ? {
+                        formId: offer.partner.formId,
+                        speciesId: offer.partner.speciesId,
+                      }
+                    : null,
+                  playName: defaultPlayName,
+                  trainerName,
+                },
+                offer.gameShortName,
+              )
+            }
+          >
+            {offer.partner ? `Start with ${offer.partner.name}` : "Start it"}
+          </Button>
+        </>
+      }
     >
-      <div className="min-w-0 flex-1">
-        <h2 id="home-intent" className="text-20">
-          Start your {offer.gameShortName} Play?
-        </h2>
-        <p className="text-ink-2 text-14 font-semibold">
-          You picked {offer.gameName}
-          {offer.partner ? ` with ${offer.partner.name}` : ""} before you signed
-          up.
-        </p>
-      </div>
-      <div className="flex flex-wrap gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          disabled={isDismissing || isPending}
-          onClick={() =>
-            startDismiss(async () => {
-              const result = await dismissStartIntentAction();
-
-              if (result.status === "error") {
-                toast.error(result.message);
-                return;
-              }
-
-              newPlayDialog?.forgetIntent();
-              setIsHidden(true);
-            })
-          }
-        >
-          Not now
-        </Button>
-        <Button
-          type="button"
-          disabled={isDismissing || isPending}
-          onClick={() =>
-            startPlay(
-              {
-                expansionVersionGroupIds: [],
-                gameSlug: offer.gameSlug,
-                partner: offer.partner
-                  ? {
-                      formId: offer.partner.formId,
-                      speciesId: offer.partner.speciesId,
-                    }
-                  : null,
-                playName: defaultPlayName,
-                trainerName,
-              },
-              offer.gameShortName,
-            )
-          }
-        >
-          {offer.partner ? `Start with ${offer.partner.name}` : "Start it"}
-        </Button>
-      </div>
-    </section>
+      <h2 id="home-intent" className="title-card">
+        Start your {offer.gameShortName} Play?
+      </h2>
+      <p className="text-ink-2 text-14 font-semibold">
+        You picked {offer.gameName}
+        {offer.partner ? ` with ${offer.partner.name}` : ""} before you signed
+        up.
+      </p>
+    </OfferCard>
   );
 };

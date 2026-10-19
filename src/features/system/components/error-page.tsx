@@ -34,7 +34,7 @@ export const ErrorPage = ({ error, homeHref, reset }: ErrorPageProps) => {
           </Button>
           <Link
             href={homeHref}
-            className={buttonVariants({ variant: "outline", size: "lg" })}
+            className={buttonVariants({ variant: "secondary", size: "lg" })}
           >
             <AppIcon icon={appIcons.actions.home} inline="start" />
             Back home

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { PageHeadTool } from "@/shared/components/page-head-tool";
 import { cn } from "@/shared/utils/cn";
 
 type PageHeaderProps = {
@@ -15,7 +16,9 @@ type PageHeaderProps = {
 
 /*
  * A page head: the Fredoka title, one line under it, and an optional action
- * that sits at the end of the row from `sm` up.
+ * that sits at the end of the row from `sm` up. A tool handed down by the
+ * page (`PageHeadToolProvider`) sits just before the action, so the main
+ * action keeps the row's edge.
  */
 export const PageHeader = ({
   action,
@@ -33,10 +36,7 @@ export const PageHeader = ({
       )}
     >
       <div className="min-w-0">
-        <Heading
-          id={headingId}
-          className="text-28 leading-[1.05] tracking-[-0.02em] sm:text-[34px]"
-        >
+        <Heading id={headingId} className="title-page">
           {title}
         </Heading>
         {description ? (
@@ -45,7 +45,10 @@ export const PageHeader = ({
           </p>
         ) : null}
       </div>
-      {action ? <div className="min-w-0 sm:ml-auto">{action}</div> : null}
+      <div className="flex min-w-0 items-center gap-3 empty:hidden sm:ml-auto">
+        <PageHeadTool />
+        {action}
+      </div>
     </div>
   );
 };

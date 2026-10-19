@@ -42,9 +42,9 @@ const scrollBehavior = (): ScrollBehavior =>
     ? "auto"
     : "smooth";
 
-// v3 .hh-arr: the quiet button's lip plus a float shadow, pressing onto it.
+// v3 .hh-arr: a round quiet button floating over the row's ends.
 const arrowClassName =
-  "absolute top-[calc(50%+12px)] z-10 size-11.5 -translate-y-1/2 rounded-full text-ink-2 shadow-[var(--shadow-quiet-value),var(--shadow-float-value)] hover:text-ink active:not-aria-[haspopup]:translate-y-[calc(-50%+3px)] active:not-aria-[haspopup]:shadow-float max-sm:hidden";
+  "absolute top-[calc(50%+12px)] z-10 -translate-y-1/2 max-sm:hidden";
 
 /*
  * v3's sideways shelf for every row of covers (the game picker, Home's
@@ -135,8 +135,12 @@ export const Carousel = ({
   const scrollerProps: ComponentProps<"div"> & { "data-slot": string } = {
     "data-slot": "carousel",
     className: cn(
-      // Positioned, so the items' offsets are measured from the row.
-      "no-scrollbar relative flex items-end justify-center-safe overflow-x-auto pt-9 pb-4 sm:pt-10",
+      /*
+       * Positioned, so the items' offsets are measured from the row. The
+       * scroller clips, so it keeps room under the covers for their shadow
+       * and stickers, given back below so the layout doesn't grow.
+       */
+      "no-scrollbar relative -mb-3 flex items-end justify-center-safe overflow-x-auto pt-9 pb-7 sm:pt-10",
       densityClassNames[density],
       fadeEdges &&
         "mask-[linear-gradient(90deg,transparent,black_7%,black_93%,transparent)]",
@@ -157,7 +161,7 @@ export const Carousel = ({
         <Button
           ref={earlierRef}
           type="button"
-          variant="outline"
+          variant="secondary"
           size="icon"
           aria-label={earlierLabel}
           onClick={() => page(-1)}
@@ -171,7 +175,7 @@ export const Carousel = ({
         <Button
           ref={laterRef}
           type="button"
-          variant="outline"
+          variant="secondary"
           size="icon"
           aria-label={laterLabel}
           onClick={() => page(1)}

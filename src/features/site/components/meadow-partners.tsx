@@ -63,7 +63,7 @@ export const MeadowPartners = ({
               className={cn(
                 "group-data-pop/meadow:animate-meadow-pop size-[calc(92px*var(--s))] [animation-delay:calc(var(--i)*70ms)] motion-reduce:animate-none sm:size-[calc(132px*var(--s))]",
                 openStart &&
-                  "transition-transform duration-300 ease-[cubic-bezier(0.3,1.6,0.5,1)] group-hover/partner:-translate-y-3.5 motion-reduce:transition-none",
+                  "ease-hop transition-transform duration-300 group-hover/partner:-translate-y-3.5 motion-reduce:transition-none",
               )}
             />
           </>

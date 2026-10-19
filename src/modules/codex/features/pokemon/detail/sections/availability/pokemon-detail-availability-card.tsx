@@ -15,7 +15,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[2.5rem_220px_minmax(0,1fr)] sm:gap-x-4",
+        "grid grid-cols-[3rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[3rem_220px_minmax(0,1fr)] sm:gap-x-4",
         /* A game it isn't in steps back, as the other version's exclusives do. */
         !row.ways.length && "step-back",
       )}
@@ -30,7 +30,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
             coverImageUrl={row.cover.coverImageUrl}
             gameName={row.cover.gameName}
             gameSlug={row.cover.gameSlug}
-            size="dock"
+            size="row"
           />
         ) : null}
       </span>
@@ -38,7 +38,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
         {row.href ? (
           <Link
             href={row.href}
-            className="hover:text-link focus-visible:outline-focus rounded-xs underline-offset-4 outline-none hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+            className="hover:text-link focus-ring rounded-xs underline-offset-4 hover:underline"
           >
             {row.label}
           </Link>

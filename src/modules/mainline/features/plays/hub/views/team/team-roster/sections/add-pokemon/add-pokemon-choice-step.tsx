@@ -33,7 +33,7 @@ const ChoiceButton = ({
       type="button"
       onClick={() => onPick(choice)}
       aria-label={`${choice.speciesName}${choice.formName ? `, ${choice.formName}` : ""}, ${formatPokemonChoiceNumber(choice.number)}`}
-      className="focus-visible:outline-focus block w-full rounded-lg outline-offset-2 focus-visible:outline-3 focus-visible:outline-solid"
+      className="focus-ring block w-full rounded-lg outline-offset-2"
     >
       <PokemonCard
         state="plain"
@@ -89,7 +89,7 @@ export const AddPokemonChoiceStep = ({
         variant="bare"
         title={loadState.message}
         action={
-          <Button type="button" variant="outline" onClick={onRetry}>
+          <Button type="button" variant="secondary" onClick={onRetry}>
             Try again
           </Button>
         }

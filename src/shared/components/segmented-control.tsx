@@ -48,6 +48,11 @@ type SegmentedControlProps<TValue extends string> = {
   fullWidth?: boolean;
   /* Not needed when every option is a link. */
   onValueChange?: (value: TValue) => void;
+  /*
+   * On phones the row runs edge to edge in one line and scrolls sideways
+   * (a scope picker in a page head); from `sm` up it wraps in place.
+   */
+  phoneScroll?: boolean;
   options: readonly SegmentedControlOption<TValue>[];
   /*
    * `sm` is v3's `.gens` pill: 13px and 30px tall from `sm` up, 40px tall on
@@ -104,6 +109,7 @@ export const SegmentedControl = <TValue extends string>({
   fullWidth = false,
   onValueChange,
   options,
+  phoneScroll = false,
   selectedTone: selectedToneProp,
   size = "md",
   value,
@@ -123,7 +129,13 @@ export const SegmentedControl = <TValue extends string>({
         fullWidth ? "flex w-full" : "inline-flex",
         variant === "pills"
           ? "flex-wrap gap-1.5"
-          : "bg-surface-2 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
+          : /*
+             * The track is a light ink wash, not a surface colour, so it shows
+             * the same on the page ground, a band and a white card.
+             */
+            "bg-ink/6 no-scrollbar gap-0.5 overflow-x-auto rounded-full p-1",
+        phoneScroll &&
+          "no-scrollbar -mx-(--page-gutter) w-[calc(100%+2*var(--page-gutter))] max-w-none flex-nowrap overflow-x-auto px-(--page-gutter) py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0",
         className,
       )}
     >
@@ -131,7 +143,8 @@ export const SegmentedControl = <TValue extends string>({
         const { ariaCurrent, isActive, isDisabled, isSelected } =
           getSegmentedOptionState(option, value);
         const optionClassName = cn(
-          "inline-flex items-center gap-2 rounded-full whitespace-nowrap transition-colors [&_svg]:size-4",
+          // The pick moves at once, never fades.
+          "inline-flex items-center gap-2 rounded-full whitespace-nowrap [&_svg]:size-4",
           size === "sm"
             ? "text-13 h-10 min-w-10 justify-center px-2.5 font-extrabold sm:h-7.5"
             : "text-14 h-10 px-4 font-bold",
@@ -139,13 +152,21 @@ export const SegmentedControl = <TValue extends string>({
           // With its 4px track, as tall as a form field (48px).
           variant === "segment" && size === "md" && "h-10 px-3.5",
           fullWidth && "flex-1 justify-center",
-          // The weight never changes, so picking one doesn't shift its row.
+          /*
+           * The pick is a small sticker: its fill in a white band. The
+           * weight never changes, so picking one doesn't shift its row.
+           */
           isActive
             ? selectedTone === "strong"
-              ? "bg-game-strong text-white"
-              : "bg-select-soft text-select-ink"
+              ? "bg-action bubble text-white"
+              : "bg-select-soft bubble text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
+          /*
+           * Inside a scrolling track the ring is drawn within the option, so
+           * the track's edge never cuts it.
+           */
+          (variant === "segment" || phoneScroll) && "focus-ring-inset",
           isDisabled && "cursor-not-allowed opacity-45",
         );
         const content = (
@@ -166,7 +187,7 @@ export const SegmentedControl = <TValue extends string>({
             {option.count !== undefined ? (
               <small
                 className={cn(
-                  "text-[12.5px] font-bold tabular-nums",
+                  "text-13 font-bold tabular-nums",
                   isActive ? "text-current" : "text-ink-3",
                 )}
               >

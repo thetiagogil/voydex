@@ -106,7 +106,7 @@ export const StoryMilestoneDetail = ({
       {title}
       <p className="text-ink-2 font-semibold">{meta.join(" · ")}</p>
       {milestone.description ? (
-        <p className="text-ink-2 mt-3 leading-[1.55]">
+        <p className="text-ink-2 mt-3 leading-relaxed">
           {milestone.description}
         </p>
       ) : null}
@@ -164,7 +164,7 @@ export const StoryMilestoneDetail = ({
 
       {hasRecordedStoryMilestoneNote(milestone) ? (
         <DetailBlock label="Note">
-          <p className="text-ink-2 text-15 leading-[1.55] whitespace-pre-wrap">
+          <p className="text-ink-2 text-15 leading-relaxed whitespace-pre-wrap">
             {milestone.notes?.trim()}
           </p>
         </DetailBlock>

@@ -1,4 +1,4 @@
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 /*
  * The contract between the modules' public art and the global features that
@@ -50,8 +50,6 @@ export type PublicPokemonCardProps = {
 };
 
 export type PublicArt = {
-  /* A game's colour variables, for `game-scope`. */
-  gameColour: (gameSlug: string) => CSSProperties;
   /* A game's cover, decorative: the words beside it name the game. */
   gameCover: (props: { className?: string; game: PublicGame }) => ReactNode;
   /* A Pokémon's render URL, or null when there is none. */

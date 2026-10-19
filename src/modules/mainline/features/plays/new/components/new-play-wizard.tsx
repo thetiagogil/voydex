@@ -9,12 +9,11 @@ import { PartnerCast } from "@/modules/mainline/features/plays/shared/components
 import type { NewPlayWizardData } from "@/modules/mainline/features/plays/new/types";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
-import { Label } from "@/shared/components/ui/label";
+import { FieldLabel } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
@@ -26,8 +25,8 @@ type NewPlayWizardProps = {
 
 type Step = 1 | 2 | 3;
 
-const closeClassName =
-  "bg-surface text-ink-2 hover:bg-hover hover:text-ink absolute top-3 right-3 z-8 rounded-full";
+/* The overlays' one close button, in the same corner, over the meadow. */
+const closeClassName = "absolute top-4 right-4 z-8";
 
 const stepLabels: Record<Step, string> = { 1: "Game", 2: "Partner", 3: "Name" };
 
@@ -59,7 +58,7 @@ const NewPlaySteps = ({
             <button
               type="button"
               onClick={() => onStepChange(number)}
-              className="text-action-lip text-13 hover:bg-surface focus-visible:outline-focus inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid"
+              className="text-action-lip text-13 hover:bg-surface focus-ring inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 font-extrabold"
             >
               <AppIcon
                 icon={appIcons.status.active}
@@ -209,14 +208,9 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
     <section
       aria-labelledby={titleId}
       data-slot="card"
-      style={game ? getGameColourStyle(game.slug) : undefined}
-      className={cn(
-        "bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none",
-        game && "game-scope",
-      )}
+      className="bg-surface mx-auto flex w-full max-w-220 flex-col overflow-hidden rounded-2xl max-sm:rounded-none"
     >
       <MeadowScene
-        tinted={Boolean(game)}
         form="card"
         className="rounded-none sm:rounded-none"
         sceneClassName={cn(
@@ -244,20 +238,20 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         <NewPlaySteps step={step} onStepChange={setStep} />
         <Button
           type="button"
-          size="icon"
-          variant="ghost"
+          size="icon-sm"
+          variant="secondary"
           aria-label="Close New Play"
           onClick={onClose}
           className={closeClassName}
         >
-          <AppIcon icon={appIcons.actions.close} size="lg" />
+          <AppIcon icon={appIcons.actions.close} />
         </Button>
         <div className="px-6 pt-5 text-center sm:px-10">
           <h1
             id={titleId}
             ref={titleRef}
             tabIndex={-1}
-            className="text-24 leading-tight tracking-[-0.015em] outline-none sm:text-[30px]"
+            className="title-section outline-none"
           >
             {title}
           </h1>
@@ -283,12 +277,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         <div className="flex flex-col gap-4 px-5 pt-6 pb-2 sm:px-8">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1.5">
-              <Label
-                htmlFor="new-play-name"
-                className="text-ink-2 text-13 font-bold"
-              >
-                Play name
-              </Label>
+              <FieldLabel htmlFor="new-play-name">Play name</FieldLabel>
               <Input
                 id="new-play-name"
                 value={playName}
@@ -298,12 +287,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label
-                htmlFor="new-play-trainer"
-                className="text-ink-2 text-13 font-bold"
-              >
-                Trainer name
-              </Label>
+              <FieldLabel htmlFor="new-play-trainer">Trainer name</FieldLabel>
               <Input
                 id="new-play-trainer"
                 value={trainerName}
@@ -330,13 +314,13 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           {summary}
         </p>
         {step === 1 ? (
-          <Button type="button" variant="outline" onClick={onClose}>
+          <Button type="button" variant="secondary" onClick={onClose}>
             Cancel
           </Button>
         ) : (
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             disabled={isPending}
             onClick={() => setStep((current) => (current - 1) as Step)}
           >
@@ -398,19 +382,16 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <NewPlaySteps step={1} onStepChange={() => undefined} />
         <Button
           type="button"
-          size="icon"
-          variant="ghost"
+          size="icon-sm"
+          variant="secondary"
           aria-label="Close New Play"
           onClick={onClose}
           className={closeClassName}
         >
-          <AppIcon icon={appIcons.actions.close} size="lg" />
+          <AppIcon icon={appIcons.actions.close} />
         </Button>
         <div className="px-6 pt-5 text-center sm:px-10">
-          <h1
-            id={titleId}
-            className="text-24 leading-tight tracking-[-0.015em] sm:text-[30px]"
-          >
+          <h1 id={titleId} className="title-section">
             Which game are you playing?
           </h1>
         </div>
@@ -422,7 +403,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
           <Button
             type="button"
             size="sm"
-            variant="outline"
+            variant="secondary"
             onClick={() => router.refresh()}
           >
             Try again
@@ -434,7 +415,7 @@ export const NewPlayUnavailable = ({ onClose }: { onClose: () => void }) => {
         <p className="text-ink-2 text-14 mr-auto min-w-0 basis-full font-semibold sm:basis-auto">
           Pick a game to continue
         </p>
-        <Button type="button" variant="outline" onClick={onClose}>
+        <Button type="button" variant="secondary" onClick={onClose}>
           Cancel
         </Button>
         <Button type="button" disabled>

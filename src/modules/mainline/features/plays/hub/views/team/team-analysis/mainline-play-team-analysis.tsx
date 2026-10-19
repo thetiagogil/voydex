@@ -69,7 +69,7 @@ export const MainlinePlayTeamAnalysis = ({
           }
           action={
             <Button
-              variant="outline"
+              variant="secondary"
               nativeButton={false}
               render={
                 <Link href={appRoutes.mainlinePlayTeam(playId)}>

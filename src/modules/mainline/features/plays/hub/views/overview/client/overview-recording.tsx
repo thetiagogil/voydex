@@ -10,11 +10,8 @@ import {
 } from "react";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
+import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Button } from "@/shared/components/ui/button";
-import { Spinner } from "@/shared/components/ui/spinner";
-import { cn } from "@/shared/utils/cn";
 
 type OverviewRecordingState = {
   endSlap: () => void;
@@ -85,7 +82,7 @@ export const OverviewRecordButton = ({
   label?: string;
   milestoneId: number;
   milestoneName: string;
-  size?: ComponentProps<typeof Button>["size"];
+  size?: "lg" | "sm";
   toastMessage?: string;
 }) => {
   const { record, startSlap } = useOverviewRecording();
@@ -93,30 +90,19 @@ export const OverviewRecordButton = ({
     record.isPending && record.pendingMilestoneId === milestoneId;
 
   return (
-    <Button
-      type="button"
+    <RecordMilestoneButton
       size={size}
       disabled={record.isPending}
-      aria-busy={isSaving}
-      className={cn(
-        size === "lg" &&
-          "h-auto min-h-13 py-3 text-left whitespace-normal sm:whitespace-nowrap",
-        className,
-      )}
+      pending={isSaving}
+      className={className}
+      label={label ?? `Record ${milestoneName}`}
       onClick={() =>
         record.record(
           { id: milestoneId, name: milestoneName },
           { decisionOptionId, onRecorded: startSlap, toastMessage },
         )
       }
-    >
-      {isSaving ? (
-        <Spinner data-icon="inline-start" />
-      ) : (
-        <AppIcon icon={appIcons.status.active} />
-      )}
-      {label ?? `Record ${milestoneName}`}
-    </Button>
+    />
   );
 };
 

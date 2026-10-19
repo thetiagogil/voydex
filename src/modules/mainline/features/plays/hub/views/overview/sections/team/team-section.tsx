@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayTeamPreviewMember } from "@/modules/mainline/features/plays/hub/types";
 import {
@@ -11,7 +9,6 @@ import {
   PokemonEmptySlot,
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SectionHead } from "@/shared/components/section-head";
 
 type TeamSectionProps = {
@@ -27,25 +24,13 @@ type TeamSectionProps = {
   team: MainlinePlayTeamPreviewMember[];
 };
 
-const openSlotClassName =
-  "empty-slot text-ink-3 flex min-h-53 min-w-0 flex-col items-center justify-center gap-3 rounded-xl text-[13.5px] font-bold";
-
-/* v3 `.open-lite`: a ring with a plus over its words. */
-const OpenSlotRing = () => (
-  <span
-    aria-hidden
-    className="bg-surface-2 text-ink-2 grid size-12 place-items-center rounded-full"
-  >
-    <AppIcon icon={appIcons.actions.create} size="md" />
-  </span>
-);
-
 const countLabel = (count: number | null, label: string) =>
   count === null ? null : `${count} ${label}`;
 
 /*
- * A grid of cards keeps its heading on the page: your team, as stickers.
- * Each opens the Roster with that Pokémon selected.
+ * A grid of cards keeps its heading on the page: your team, as stickers,
+ * each under its nickname (or its species when it has none). Each opens the
+ * Roster with that Pokémon selected.
  */
 export const TeamSection = ({
   activeCount,
@@ -78,19 +63,20 @@ export const TeamSection = ({
         {getPlayTeamSlots(team).map(({ member, position }) => {
           if (!member && fresh) {
             return position === 1 && !fresh.partnerChosen ? (
-              <div key={position} className={openSlotClassName}>
-                <OpenSlotRing />
-                Your partner
-              </div>
+              <PokemonEmptySlot
+                key={position}
+                label="Your partner"
+                text="Your partner"
+                ring
+              />
             ) : (
-              <Link
+              <PokemonEmptySlot
                 key={position}
                 href={appRoutes.mainlinePlayTeamAdd(playId)}
-                className={`${openSlotClassName} hover:text-ink-2 focus-visible:outline-focus transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid`}
-              >
-                <OpenSlotRing />
-                Add Pokémon
-              </Link>
+                label="Add Pokémon"
+                text="Add Pokémon"
+                ring
+              />
             );
           }
 
@@ -119,11 +105,6 @@ export const TeamSection = ({
               imageUrl={getPlayTeamMemberImageUrl(member)}
               level={member.level}
               name={name}
-              subtitle={
-                member.species_name && member.species_name !== name
-                  ? member.species_name
-                  : null
-              }
               types={[member.primaryType, member.secondaryType].filter(
                 (type) => type !== null,
               )}

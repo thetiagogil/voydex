@@ -67,10 +67,7 @@ export const GameDetailHeaderSection = ({
 
       <div className="flex min-w-0 flex-col justify-center">
         <p className="text-13 text-ink-2 font-bold">{getGameEyebrow(data)}</p>
-        <h1
-          id="game-detail-title"
-          className="text-32 sm:text-44 mt-1.5 mb-4 leading-[1.05] tracking-[-0.02em]"
-        >
+        <h1 id="game-detail-title" className="title-hero mt-1.5 mb-4">
           {getVersionGroupTitle(versionGroup.name)}
         </h1>
         {versions.length > 1 || actions ? (

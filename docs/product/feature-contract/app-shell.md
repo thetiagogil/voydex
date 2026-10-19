@@ -83,7 +83,7 @@ concise label. V1 uses no Skeletons. In-place work preserves content and uses a
 localized Spinner on the responsible control or section.
 
 True empty, filtered empty, unrecorded, unavailable, and zero are distinct.
-Filtered empty offers Clear filters. Partial failures retain identity,
+Filtered empty offers Reset. Partial failures retain identity,
 navigation, validated criteria, and unaffected sections with local retry.
 
 Page error uses a semantic heading, concise explanation, Try again, and one

@@ -24,8 +24,9 @@ export const PasswordInput = (props: PasswordInputProps) => {
       />
       <InputGroupAddon align="inline-end">
         <InputGroupButton
+          variant="soft"
+          size="sm"
           aria-label={isVisible ? "Hide password" : "Show password"}
-          className="bg-surface text-13 text-ink-2 hover:bg-surface hover:text-ink h-9 rounded-sm px-3 font-extrabold sm:h-8"
           onClick={() => setIsVisible((visible) => !visible)}
         >
           {isVisible ? "Hide" : "Show"}

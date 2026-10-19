@@ -39,7 +39,7 @@ export const BadgeCaseSection = ({
         className="grid-cols-5 gap-4 p-1 sm:grid-cols-9"
         stamps={badgeCase.stamps}
       />
-      <div className="text-ink-2 mt-5 flex flex-wrap justify-between gap-x-3 gap-y-1 text-[13.5px] font-semibold">
+      <div className="text-ink-2 text-14 mt-5 flex flex-wrap justify-between gap-x-3 gap-y-1 font-semibold">
         <span>
           <b className="text-ink font-extrabold">
             {badgeCase.earnedGymCount} of {badgeCase.gymCount}

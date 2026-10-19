@@ -71,51 +71,22 @@ const InputGroupAddon = ({
   );
 };
 
-const inputGroupButtonVariants = cva("text-14 flex items-center gap-2", {
-  variants: {
-    size: {
-      xs: "h-7 gap-1 rounded-xs px-2 [&>svg:not([class*='size-'])]:size-3.5",
-      sm: "",
-      "icon-xs": "size-7 rounded-full p-0 has-[>svg]:p-0",
-      "icon-sm": "size-8 rounded-full p-0 has-[>svg]:p-0",
-    },
-  },
-  defaultVariants: {
-    size: "xs",
-  },
-});
-
+/* A button inside a field (clear, show), on Button's own sizes: `icon-xs`, `icon-sm` or `sm`. */
 const InputGroupButton = ({
-  className,
   type = "button",
   variant = "ghost",
-  size = "xs",
+  size = "icon-xs",
   ...props
-}: Omit<React.ComponentProps<typeof Button>, "size" | "type"> &
-  VariantProps<typeof inputGroupButtonVariants> & {
-    type?: "button" | "submit" | "reset";
-  }) => {
+}: Omit<React.ComponentProps<typeof Button>, "size" | "type"> & {
+  size?: "icon-sm" | "icon-xs" | "sm";
+  type?: "button" | "submit" | "reset";
+}) => {
   return (
     <Button
       type={type}
       data-size={size}
       variant={variant}
-      className={cn(inputGroupButtonVariants({ size }), className)}
-      {...props}
-    />
-  );
-};
-
-const InputGroupText = ({
-  className,
-  ...props
-}: React.ComponentProps<"span">) => {
-  return (
-    <span
-      className={cn(
-        "text-14 text-ink-3 flex items-center gap-2 font-bold [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4",
-        className,
-      )}
+      size={size}
       {...props}
     />
   );
@@ -137,27 +108,4 @@ const InputGroupInput = ({
   );
 };
 
-const InputGroupTextarea = ({
-  className,
-  ...props
-}: React.ComponentProps<"textarea">) => {
-  return (
-    <textarea
-      data-slot="input-group-control"
-      className={cn(
-        "text-16 sm:text-15 text-ink placeholder:text-ink-3 field-sizing-content min-h-16 w-full flex-1 resize-none bg-transparent px-2.5 py-2.5 font-semibold outline-none disabled:cursor-not-allowed",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
-export {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupText,
-  InputGroupInput,
-  InputGroupTextarea,
-};
+export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput };

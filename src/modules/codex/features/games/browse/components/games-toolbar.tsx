@@ -14,12 +14,17 @@ import {
 import type { GameCard } from "@/modules/reference/types";
 import { SearchControl } from "@/shared/components/search-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 type GamesToolbarProps = {
   filters: GamesBrowseFilters;
   games: GameCard[];
   groupBy: GamesGroupBy;
+  /* How many games the current choices show, for the phone sheet's button. */
+  matchingCount: number;
   onFilterChange: <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
     value: GamesBrowseFilters[FilterKey],
@@ -33,6 +38,7 @@ type GamesToolbarProps = {
 const ALL_KINDS = "all";
 
 const groupByOptions = [
+  { label: "None", value: "none" },
   { label: "Generation", value: "generation" },
   { label: "Region", value: "region" },
 ] satisfies { label: string; value: GamesGroupBy }[];
@@ -42,19 +48,22 @@ const sortOptions = [
   { label: "Newest first", value: "newest" },
 ] satisfies { label: string; value: GamesSortOrder }[];
 
+const isGamesGroupBy = (value: string): value is GamesGroupBy =>
+  value === "none" || value === "generation" || value === "region";
+
 const isGameKind = (value: string): value is GameKind => {
   return (gameKinds as readonly string[]).includes(value);
 };
 
 /*
- * The games toolbar, one line on wide screens: the search, then the kind of
- * game (a filter), how the shelf is grouped, and its order, each a compact
- * menu in its own group: grouping arranges, it doesn't sort. Phones put the menus under the search.
+ * The games toolbar on the one list toolbar: the search and the order on the
+ * line, and the kind of game and how the shelf is grouped behind Filters.
  */
 export const GamesToolbar = ({
   filters,
   games,
   groupBy,
+  matchingCount,
   onFilterChange,
   onGroupByChange,
   onSortOrderChange,
@@ -62,19 +71,34 @@ export const GamesToolbar = ({
 }: GamesToolbarProps) => {
   const kindCounts = countGamesByKind(games);
   const kindOptions = [
-    { label: "All games", value: ALL_KINDS },
+    {
+      description: `${games.length} games`,
+      label: "All games",
+      value: ALL_KINDS,
+    },
     ...gameKinds.flatMap((kind) => {
       const count = kindCounts.get(kind) ?? 0;
 
       return count
-        ? [{ label: `${gameKindLabels[kind]} (${count})`, value: kind }]
+        ? [
+            {
+              description: `${count} ${count === 1 ? "game" : "games"}`,
+              label: gameKindLabels[kind],
+              value: kind,
+            },
+          ]
         : [];
     }),
   ];
 
+  const activeCount = filters.kind ? 1 : 0;
+
   return (
-    <Toolbar
+    <FilterToolbar
+      ariaLabel="Filter games"
       className="mt-5"
+      activeCount={activeCount}
+      resultLabel={`Show ${matchingCount} ${matchingCount === 1 ? "game" : "games"}`}
       render={
         <form
           onSubmit={(event) => {
@@ -93,37 +117,14 @@ export const GamesToolbar = ({
           placeholder="Search a game, region or year"
         />
       }
-      trailing={
-        <>
+      controls={(placement) => {
+        const sort = (
           <SelectControl
-            ariaLabel="Kind of game"
-            variant="ghost"
-            size="sm"
-            prefix="Kind"
-            value={filters.kind || ALL_KINDS}
-            onValueChange={(value) => {
-              onFilterChange("kind", isGameKind(value) ? value : "");
-            }}
-            options={kindOptions}
-            placeholder="All games"
-          />
-          <SelectControl
-            ariaLabel="Group games by"
-            variant="ghost"
-            size="sm"
-            prefix="Group"
-            value={groupBy}
-            onValueChange={(value) => {
-              onGroupByChange(value === "region" ? "region" : "generation");
-            }}
-            options={groupByOptions}
-            placeholder="Generation"
-          />
-          <SelectControl
+            id={placement === "line" ? "games-sort" : "games-sheet-sort"}
             ariaLabel="Sort games"
+            resetValue={"oldest"}
             variant="ghost"
-            size="sm"
-            prefix="Sort"
+            prefix={placement === "line" ? "Sort" : undefined}
             value={sortOrder}
             onValueChange={(value) => {
               onSortOrderChange(value === "newest" ? "newest" : "oldest");
@@ -131,8 +132,68 @@ export const GamesToolbar = ({
             options={sortOptions}
             placeholder="Oldest first"
           />
-        </>
-      }
+        );
+
+        return placement === "line" ? (
+          sort
+        ) : (
+          <FilterSheetRow htmlFor="games-sheet-sort" label="Sort">
+            {sort}
+          </FilterSheetRow>
+        );
+      }}
+      filters={(placement) => {
+        const id = (name: string) =>
+          placement === "line" ? `games-${name}` : `games-sheet-${name}`;
+        const kind = (
+          <SelectControl
+            id={id("kind")}
+            ariaLabel="Kind of game"
+            resetValue={ALL_KINDS}
+            variant="ghost"
+            prefix={placement === "line" ? "Kind" : undefined}
+            value={filters.kind || ALL_KINDS}
+            onValueChange={(value) => {
+              onFilterChange("kind", isGameKind(value) ? value : "");
+            }}
+            options={kindOptions}
+            placeholder="All games"
+          />
+        );
+        const group = (
+          <SelectControl
+            id={id("group")}
+            ariaLabel="Group games by"
+            resetValue={"none"}
+            variant="ghost"
+            prefix={placement === "line" ? "Group" : undefined}
+            value={groupBy}
+            onValueChange={(value) => {
+              if (isGamesGroupBy(value)) {
+                onGroupByChange(value);
+              }
+            }}
+            options={groupByOptions}
+            placeholder="None"
+          />
+        );
+
+        return placement === "line" ? (
+          <>
+            {kind}
+            {group}
+          </>
+        ) : (
+          <>
+            <FilterSheetRow htmlFor={id("kind")} label="Kind">
+              {kind}
+            </FilterSheetRow>
+            <FilterSheetRow htmlFor={id("group")} label="Group">
+              {group}
+            </FilterSheetRow>
+          </>
+        );
+      }}
     />
   );
 };

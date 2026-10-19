@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { useOptimisticMarks } from "@/modules/mainline/features/plays/shared/client/use-optimistic-marks";
+import { FoldHead, FoldToggle } from "@/shared/components/fold";
 import { EmptyState } from "@/shared/components/empty-state";
 
 import {
@@ -57,6 +58,10 @@ export const MainlinePlayProgressPokedex = ({
     selectableScopes.find((scope) => scope.slug === initialScopeSlug) ??
     selectableScopes[0];
   const [activeScopeId, setActiveScopeId] = useState(initialScope?.id ?? null);
+  /* The search and filter bar folds under the title, opened from its row. */
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchPanelId = useId();
+
   const {
     isPending: isSpeciesPending,
     mark,
@@ -152,12 +157,22 @@ export const MainlinePlayProgressPokedex = ({
 
   return (
     <div className="grid grid-cols-1 gap-6">
-      <PokedexScopeOverviewSection
-        onScopeChange={selectScope}
-        scope={activeScope}
-        scopes={selectableScopes}
-        stateBySpeciesId={stateBySpeciesId}
-      />
+      <FoldHead
+        toggle={
+          <FoldToggle
+            controls={searchPanelId}
+            open={isSearchOpen}
+            onOpenChange={setIsSearchOpen}
+          />
+        }
+      >
+        <PokedexScopeOverviewSection
+          onScopeChange={selectScope}
+          scope={activeScope}
+          scopes={selectableScopes}
+          stateBySpeciesId={stateBySpeciesId}
+        />
+      </FoldHead>
 
       <PokedexProgressBrowserSection
         key={activeScope.id}
@@ -170,6 +185,8 @@ export const MainlinePlayProgressPokedex = ({
           void updateSpeciesStates([speciesId], state);
         }}
         scope={activeScope}
+        searchOpen={isSearchOpen}
+        searchPanelId={searchPanelId}
         stateBySpeciesId={stateBySpeciesId}
       />
     </div>

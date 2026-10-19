@@ -26,8 +26,15 @@ export type PlayBrowseParams = Partial<{
 }>;
 
 export type PlayBrowseOption = {
+  /* The quieter line under it in the list, such as "Generation III · Hoenn". */
+  description?: string;
   label: string;
   value: string;
+};
+
+/* A Play as the filters read it; a Play from the list also knows its region. */
+type PlayBrowseOptionSource = MainlinePlaySummary & {
+  regionName?: string | null;
 };
 
 export const defaultPlayBrowseFilters: PlayBrowseFilters = {
@@ -41,25 +48,37 @@ const isPlayBrowseSort = (value?: string | null): value is PlayBrowseSort => {
   return playBrowseSortValues.some((sortValue) => sortValue === value);
 };
 
-/* One option per value, ordered by `getOrder` and then by label. */
+/*
+ * One option per value, ordered by `getOrder` and then by label, with the
+ * quieter line `getDescription` gives the first Play of each.
+ */
 const getUniqueOptions = (
-  plays: MainlinePlaySummary[],
-  getValue: (play: MainlinePlaySummary) => string | null,
-  getLabel: (play: MainlinePlaySummary) => string | null,
-  getOrder: (play: MainlinePlaySummary) => number = () => 0,
+  plays: PlayBrowseOptionSource[],
+  getValue: (play: PlayBrowseOptionSource) => string | null,
+  getLabel: (play: PlayBrowseOptionSource) => string | null,
+  getOrder: (play: PlayBrowseOptionSource) => number = () => 0,
+  getDescription: (play: PlayBrowseOptionSource) => string | null = () => null,
 ) => {
-  const options = new Map<string, { label: string; order: number }>();
+  const options = new Map<
+    string,
+    { description: string | null; label: string; order: number }
+  >();
 
   for (const play of plays) {
     const value = getValue(play);
     const label = getLabel(play);
 
     if (value && label && !options.has(value)) {
-      options.set(value, { label, order: getOrder(play) });
+      options.set(value, {
+        description: getDescription(play),
+        label,
+        order: getOrder(play),
+      });
     }
   }
 
-  return Array.from(options, ([value, { label, order }]) => ({
+  return Array.from(options, ([value, { description, label, order }]) => ({
+    description,
     label,
     order,
     value,
@@ -71,22 +90,31 @@ const getUniqueOptions = (
           sensitivity: "base",
         }),
     )
-    .map(({ label, value }) => ({ label, value }));
+    .map(
+      ({ description, label, value }): PlayBrowseOption =>
+        description ? { description, label, value } : { label, value },
+    );
 };
 
-export const getPlayBrowseOptions = (plays: MainlinePlaySummary[]) => {
+export const getPlayBrowseOptions = (plays: PlayBrowseOptionSource[]) => {
   return {
+    /* Each game with its generation and region under it. */
     games: getUniqueOptions(
       plays,
       (play) => play.game_slug,
       (play) => play.game_name,
+      undefined,
+      (play) =>
+        [play.generation_name, play.regionName].filter(Boolean).join(" · ") ||
+        null,
     ),
-    /* In generation order, not by name: II before IV. */
+    /* In generation order, not by name: II before IV; its region under it. */
     generations: getUniqueOptions(
       plays,
       (play) => play.generation_slug,
       (play) => play.generation_name,
       (play) => play.generation_id ?? Number.MAX_SAFE_INTEGER,
+      (play) => play.regionName ?? null,
     ),
   };
 };

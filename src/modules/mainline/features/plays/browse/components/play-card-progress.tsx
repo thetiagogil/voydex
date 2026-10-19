@@ -8,7 +8,7 @@ type PlayCardProgressProps = {
 };
 
 /*
- * Quiet rows: a name, a thin bar in the game's colour and the figure. A part
+ * Quiet rows: a name, a thin green bar and the figure. A part
  * the Play doesn't track reads "Off" over an empty track.
  */
 export const PlayCardProgress = ({

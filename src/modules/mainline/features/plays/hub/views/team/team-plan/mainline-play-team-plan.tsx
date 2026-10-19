@@ -74,7 +74,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
                 Plan a team
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 render={<Link href={appRoutes.mainlinePlayTeam(playId)} />}
                 nativeButton={false}
               >
@@ -122,7 +122,6 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
               />
               <span className="inline-flex items-center gap-2">
                 <Button
-                  size="sm"
                   render={<Link href={appRoutes.mainlinePlan(plan.planId)} />}
                   nativeButton={false}
                 >
@@ -135,7 +134,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
           }
         />
         {plan.notes ? (
-          <p className="text-ink-2 text-15 max-w-prose leading-[1.55] whitespace-pre-line">
+          <p className="text-ink-2 text-15 max-w-prose leading-relaxed whitespace-pre-line">
             {plan.notes}
           </p>
         ) : null}

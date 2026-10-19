@@ -1,4 +1,8 @@
 :root {
+  /*
+   * Each type keeps its official colour everywhere, with a white label and
+   * icon on it, the pale types included (the owner's call, 2026-10-17).
+   */
   --type-normal: #a8a77a;
   --type-fire: #ee8130;
   --type-water: #6390f0;

@@ -13,7 +13,7 @@ export default function Page({
   searchParams?: Promise<CheckEmailSearchParams>;
 }) {
   return (
-    <PublicAppShell showAuthAction={false}>
+    <PublicAppShell bar="none">
       <CheckEmailPage
         art={publicArt}
         resolveIntent={resolveStartIntent}

@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import type { PublicArt } from "@/config/public-art";
 import { appRoutes } from "@/config/routes";
 import type { ResolveStartIntent } from "@/config/start-intent";
@@ -11,6 +9,7 @@ import { AuthPanel } from "@/features/auth/components/auth-panel";
 import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
 import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
 import { readDevTestAccounts } from "@/features/auth/server/dev-test-accounts";
+import { TextLink } from "@/shared/components/text-link";
 import { readAuthStartIntent } from "@/features/auth/utils/resolve-start-intent";
 
 export type LoginSearchParams = {
@@ -22,7 +21,7 @@ export type LoginSearchParams = {
 };
 
 type LoginPageProps = {
-  art: Pick<PublicArt, "gameColour" | "gameCover" | "pokemon">;
+  art: Pick<PublicArt, "gameCover" | "pokemon">;
   /* Resolves the pick from Start a Play; without it the pick is kept but not shown. */
   resolveIntent?: ResolveStartIntent;
   searchParams?: Promise<LoginSearchParams>;
@@ -49,13 +48,9 @@ export const LoginPage = async ({
       after={
         <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
           Just looking?{" "}
-          <Link
-            href={appRoutes.codexPokemon}
-            className="text-link rounded-xs font-extrabold hover:underline"
-          >
-            Browse the Codex
-          </Link>
-          . No account needed.
+          <TextLink href={appRoutes.codexPokemon}>Browse the Codex</TextLink>,
+          no account needed, or{" "}
+          <TextLink href={appRoutes.home}>go back home</TextLink>.
         </p>
       }
     >

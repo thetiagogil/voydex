@@ -55,7 +55,7 @@ const EvolutionCondition = ({
       ))}
       {hiddenEdges.length ? (
         <details className="group flex flex-col items-center">
-          <summary className="text-link focus-visible:outline-focus cursor-pointer list-none rounded-xs outline-none hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid [&::-webkit-details-marker]:hidden">
+          <summary className="text-link focus-ring cursor-pointer list-none rounded-xs hover:underline [&::-webkit-details-marker]:hidden">
             <span className="group-open:hidden">
               +{hiddenEdges.length} more
             </span>

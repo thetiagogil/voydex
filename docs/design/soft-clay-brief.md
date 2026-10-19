@@ -26,7 +26,7 @@ Fredoka headings are the app's voice, not a loud treatment, so they don't use up
 
 2. **Loud must be earned or be identity.** Owned Pokémon, badges, milestones, the Play header, a Play's cover, the front door, first-run and recording moments. Never a control.
 
-3. **Game colour is a Play's identity, never a theme.**
+3. **Game colour is a Play's identity, never a theme.** Paused 2026-10-17: the whole app wears one palette for now, so a Play no longer takes its game's colour (see the Design System's Colour Rules).
    - **Fill** (soft or solid) only on: the Play header and its docked bar; the active Play tab; and places where one Play or game is the subject: Home's meadow band, a Play's cover tile on the Plays list, the New Play scene once a game is picked, the sign-up intent card, a Play shown on the public pages, and History's "The journey began" medallion (its card goes flat).
    - **Accent** everywhere else inside a Play: progress bars, the next-milestone border, selection borders on tiles and rows, eyebrows and small labels. Never the background of a card, row, section or input. An edited field shows a ring, not a wash.
    - **Selected controls** (filters, pills, segments, chips) have one style everywhere: the soft tint of the context colour with deep ink (the game inside a Play, green elsewhere). Solid game colour is kept for the active tab.

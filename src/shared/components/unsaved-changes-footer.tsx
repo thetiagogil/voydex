@@ -33,7 +33,7 @@ export const UnsavedChangesFooter = ({
   >
     <span
       role="status"
-      className="text-14 text-game-deep mr-auto inline-flex items-center gap-2 font-bold"
+      className="text-14 text-action-ink mr-auto inline-flex items-center gap-2 font-bold"
     >
       <AppIcon icon={appIcons.actions.edit} />
       Unsaved changes
@@ -41,7 +41,7 @@ export const UnsavedChangesFooter = ({
     <Button
       type="button"
       size="sm"
-      variant="outline"
+      variant="secondary"
       disabled={isSaving}
       onClick={onCancel}
     >

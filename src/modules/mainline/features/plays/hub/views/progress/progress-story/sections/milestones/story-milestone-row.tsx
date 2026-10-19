@@ -128,7 +128,7 @@ export const StoryMilestoneRow = ({
           <span
             className={cn(
               "text-13 font-extrabold",
-              state === "next" ? "text-game-deep" : "text-ink-2",
+              state === "next" ? "text-select-ink" : "text-ink-2",
             )}
           >
             Milestone {milestone.sequence}

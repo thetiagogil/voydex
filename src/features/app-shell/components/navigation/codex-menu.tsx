@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { SteadyLabel } from "@/features/app-shell/components/navigation/navigation-links";
 import {
   codexLink,
   codexViewLinks,
@@ -11,9 +10,10 @@ import {
   type CodexViewLink,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { getBarLinkClassName, SteadyLabel } from "@/shared/components/bar-link";
 import { NavigationMenuBar } from "@/shared/components/navigation-menu/navigation-menu-bar";
 import { NavigationMenuOption } from "@/shared/components/navigation-menu/navigation-menu-option";
-import { NavigationMenuOptionContent } from "@/shared/components/navigation-menu/navigation-menu-option-content";
+import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import { NavigationMenuOptionsPanel } from "@/shared/components/navigation-menu/navigation-menu-options-panel";
 import {
   DropdownMenu,
@@ -41,9 +41,10 @@ const CodexViewIcon = ({ slug }: { slug: CodexViewLink["slug"] }) => (
 );
 
 /*
- * The Codex on the top bar: its name opens a menu of its pages,
- * as a Play's Team and Progress tabs do, bold while you're in it. Each
- * module will bring its own Codex pages, so they live here, not on the page.
+ * The Codex on the top bar: its name opens a menu of its pages, as a Play's
+ * Team and Progress tabs do, marked as the current link while you're in it.
+ * Each module will bring its own Codex pages, so they live here, not on the
+ * page.
  */
 export const CodexMenu = ({ className }: { className?: string }) => {
   const pathname = usePathname();
@@ -58,8 +59,9 @@ export const CodexMenu = ({ className }: { className?: string }) => {
       <NavigationMenuItem>
         <NavigationMenuTrigger
           className={cn(
-            "text-14 hover:text-ink px-3 font-semibold text-(--bar-ink-2) hover:bg-(--bar-hover) data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
-            isCurrent && "text-ink font-extrabold",
+            getBarLinkClassName(isCurrent),
+            !isCurrent &&
+              "data-open:bg-(--bar-hover) data-popup-open:bg-(--bar-hover)",
           )}
         >
           <SteadyLabel>{codexLink.label}</SteadyLabel>
@@ -113,20 +115,19 @@ export const CodexTabMenu = ({
         side="top"
         align="center"
         sideOffset={10}
-        className="w-[min(20rem,calc(100vw-2rem))] p-2"
+        className="w-[min(20rem,calc(100vw-2rem))]"
       >
         <DropdownMenuGroup>
           {codexViewLinks.map((view) => (
             <DropdownMenuItem
               key={view.href}
               render={<Link href={view.href} />}
-              className="items-start gap-3 p-2.5"
+              aria-current={isCurrentLink(pathname, view) ? "page" : undefined}
             >
-              <NavigationMenuOptionContent
+              <MenuOptionContent
                 active={isCurrentLink(pathname, view)}
                 description={view.description}
                 leading={<CodexViewIcon slug={view.slug} />}
-                muted={false}
                 title={view.label}
               />
             </DropdownMenuItem>

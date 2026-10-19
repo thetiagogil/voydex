@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { EditedMark } from "@/shared/components/edited-mark";
 import { FieldLabel } from "@/shared/components/ui/field";
 
 import type {
@@ -32,52 +33,6 @@ export const toSelectOptions = (options: { id: number; name: string }[]) => [
     value: String(option.id),
   })),
 ];
-
-/* v3 `.step`: one part of the editor under its Fredoka heading. */
-export const EditorStep = ({
-  aside,
-  children,
-  title,
-}: {
-  aside?: ReactNode;
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="grid min-w-0 gap-4 pt-5 first:pt-0">
-    <div className="flex items-baseline gap-3">
-      <h3 className="text-20">{title}</h3>
-      {aside ? (
-        <span className="text-ink-3 text-13 font-semibold">{aside}</span>
-      ) : null}
-    </div>
-    {children}
-  </section>
-);
-
-/*
- * A field's label, marked once it changed: a dot that takes no width from
- * the row (so an inline field never wraps), named "Edited" for screen
- * readers and on hover. The footer lists every change.
- */
-export const EditedMark = ({
-  children,
-  edited,
-}: {
-  children: ReactNode;
-  edited: boolean;
-}) => (
-  <span className="relative">
-    {children}
-    {edited ? (
-      <span
-        title="Edited"
-        className="bg-game-deep absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full"
-      >
-        <span className="sr-only">, edited</span>
-      </span>
-    ) : null}
-  </span>
-);
 
 export const EditorLabel = ({
   children,

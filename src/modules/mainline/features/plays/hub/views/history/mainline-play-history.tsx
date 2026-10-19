@@ -8,9 +8,15 @@ import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/da
 import type { MainlinePlayHistoryData } from "@/modules/mainline/features/plays/hub/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { PageHeader } from "@/shared/components/page-header";
 import { Button } from "@/shared/components/ui/button";
 
@@ -52,6 +58,8 @@ export const MainlinePlayHistory = ({
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<PlayHistoryFilter>("all");
   const [sort, setSort] = useState<PlayHistorySort>("newest");
+  /* The search and filter bar folds under the title, opened from its row. */
+  const fold = useFold({});
   const clock = useViewerClock();
   const context = useMemo(
     () => toPlayMomentContext(data.context),
@@ -74,10 +82,10 @@ export const MainlinePlayHistory = ({
     [searchedEvents, filter, sort, clock],
   );
   const isSearching = Boolean(query.trim());
-  /* The order alone filters nothing, so clearing keeps it. */
-  const clearFilters = () => {
+  const resetList = () => {
     setQuery("");
     setFilter("all");
+    setSort("newest");
   };
   const shownCount = months.reduce(
     (count, month) => count + month.entries.length,
@@ -96,29 +104,41 @@ export const MainlinePlayHistory = ({
       aria-labelledby="play-history-heading"
       className="grid min-w-0 grid-cols-1"
     >
-      <PageHeader
-        headingLevel="h2"
-        headingId="play-history-heading"
-        title="History"
-        className="pt-0 sm:pt-0"
-        description={
+      <FoldHead
+        toggle={
           totalCount ? (
-            <>
-              <b className="text-ink font-extrabold tabular-nums">
-                {totalCount}
-              </b>{" "}
-              {pluralizeMoments(totalCount)}
-              {startedOnLabel ? ` since ${startedOnLabel}` : null}
-            </>
-          ) : (
-            "Nothing recorded yet"
-          )
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
+          ) : null
         }
-        action={<AddNoteDialog playId={playId} size="sm" />}
-      />
+      >
+        <PageHeader
+          headingLevel="h2"
+          headingId="play-history-heading"
+          title="History"
+          className="pt-0 sm:pt-0"
+          description={
+            totalCount ? (
+              <>
+                <b className="text-ink font-extrabold tabular-nums">
+                  {totalCount}
+                </b>{" "}
+                {pluralizeMoments(totalCount)}
+                {startedOnLabel ? ` since ${startedOnLabel}` : null}
+              </>
+            ) : (
+              "Nothing recorded yet"
+            )
+          }
+          action={<AddNoteDialog playId={playId} />}
+        />
+      </FoldHead>
 
       {totalCount ? (
-        <>
+        <FoldPanel id={fold.panelId} open={fold.open}>
           <PlayHistoryToolbar
             filter={filter}
             filterOptions={filterOptions}
@@ -131,13 +151,14 @@ export const MainlinePlayHistory = ({
           <FilterResultsLine
             className="mt-3"
             hasActiveFilters={isSearching || filter !== "all"}
+            isReordered={sort !== "newest"}
             noun="moments"
             nounOne="moment"
-            onClearFilters={clearFilters}
+            onReset={resetList}
             shownCount={shownCount}
             totalCount={totalCount}
           />
-        </>
+        </FoldPanel>
       ) : null}
 
       <div className="mt-5 grid min-w-0 gap-8">
@@ -157,9 +178,7 @@ export const MainlinePlayHistory = ({
           <EmptyState
             title="No moments match"
             description="Try another word, or clear the search and filters."
-            action={
-              <ClearFiltersButton variant="outline" onClick={clearFilters} />
-            }
+            action={<ResetListButton onClick={resetList} />}
           />
         ) : totalCount ? (
           <EmptyState
@@ -168,7 +187,7 @@ export const MainlinePlayHistory = ({
             action={
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 onClick={() => setFilter("all")}
               >
                 Show everything

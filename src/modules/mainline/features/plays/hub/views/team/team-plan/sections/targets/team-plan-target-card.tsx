@@ -1,5 +1,5 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
-import { getTeamPlanStatusLabel } from "../../team-plan-display";
+import { Badge } from "@/shared/components/ui/badge";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { cn } from "@/shared/utils/cn";
@@ -13,7 +13,6 @@ import {
 } from "../../components/team-plan-pokemon";
 import {
   getTeamPlanCompareLabel,
-  getTeamPlanMatchText,
   getTeamPlanPlannedFormLabel,
   isTeamPlanTargetOwned,
 } from "../../team-plan-model";
@@ -39,21 +38,10 @@ export const TeamPlanTargetCard = ({
   const found = comparison.playMember !== null;
   const formLabel = getTeamPlanPlannedFormLabel(comparison);
   const compareLabel = getTeamPlanCompareLabel(comparison, mechanics);
-  /* The card in one sentence: target, form, status, its match, the action. */
-  const accessibleName = `Target ${comparison.slot}, ${[
-    comparison.roleLabel,
-    comparison.plannedName,
-  ]
-    .filter(Boolean)
-    .join(
-      ", ",
-    )}${formLabel ? ` ${formLabel}` : ""}: ${getTeamPlanStatusLabel(comparison.status)}. ${getTeamPlanMatchText(comparison.playMember)}. ${compareLabel}`;
-
   return (
     <button
       type="button"
       aria-haspopup="dialog"
-      aria-label={accessibleName}
       onClick={() => onSelect(comparison)}
       style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
       className={cn(
@@ -73,16 +61,12 @@ export const TeamPlanTargetCard = ({
           Target {comparison.slot}
         </span>
         {comparison.roleLabel ? (
-          <span
-            className={cn(
-              "text-12 text-ink-2 truncate rounded-full px-2.5 py-0.75 font-extrabold",
-              owned && "bg-white",
-              !owned && found && "bg-surface-2",
-              !found && "bg-surface",
-            )}
+          <Badge
+            variant={owned ? "paper" : found ? "neutral" : "outline"}
+            className="max-w-full truncate"
           >
             {comparison.roleLabel}
-          </span>
+          </Badge>
         ) : null}
       </span>
 

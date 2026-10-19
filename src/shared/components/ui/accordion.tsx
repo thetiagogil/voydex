@@ -55,7 +55,7 @@ const AccordionTrigger = ({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion-trigger text-15 text-ink focus-visible:outline-focus relative flex min-h-11 flex-1 items-center justify-between gap-3 rounded-sm py-2.5 text-left font-sans font-extrabold tracking-normal transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:pointer-events-none aria-disabled:opacity-50",
+          "group/accordion-trigger text-15 text-ink focus-ring relative flex min-h-11 flex-1 items-center justify-between gap-3 rounded-sm py-2.5 text-left font-sans font-extrabold tracking-normal transition-colors aria-disabled:pointer-events-none aria-disabled:opacity-50",
           className,
         )}
         {...props}

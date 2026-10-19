@@ -14,7 +14,7 @@ export default async function Page({
   const account = await getSignedInAccount();
 
   return (
-    <PublicAppShell showAuthAction={false}>
+    <PublicAppShell bar="none">
       <ResetPasswordPage
         art={publicArt}
         email={account?.email ?? null}

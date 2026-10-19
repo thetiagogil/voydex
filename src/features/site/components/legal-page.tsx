@@ -1,14 +1,12 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { PageHeader } from "@/shared/components/page-header";
+import { TextLink } from "@/shared/components/text-link";
 import { PendingData } from "@/shared/components/pending-data";
 
 type LegalPageKind = "privacy" | "terms";
-
-const linkClassName = "text-link rounded-xs font-extrabold hover:underline";
 
 const legalPages: Record<
   LegalPageKind,
@@ -25,10 +23,7 @@ const legalPages: Record<
         </p>
         <p>
           You can download all of it as a file from{" "}
-          <Link href={appRoutes.settings} className={linkClassName}>
-            Settings
-          </Link>
-          .
+          <TextLink href={appRoutes.settings}>Settings</TextLink>.
         </p>
       </>
     ),
@@ -59,7 +54,7 @@ export const LegalPage = ({ kind }: { kind: LegalPageKind }) => {
     <div className="mx-auto flex w-full max-w-189 flex-col">
       <PageHeader title={page.title} description={page.description} />
       <DetailSectionCard title="In short" className="mt-7">
-        <div className="text-15 text-ink-2 flex flex-col gap-3 leading-[1.65] font-semibold">
+        <div className="text-15 text-ink-2 flex flex-col gap-3 leading-relaxed font-semibold">
           {page.summary}
         </div>
         {/* TODO(v3-data): the legal text for this page; it needs writing and review before launch. */}

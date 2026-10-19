@@ -197,7 +197,7 @@ export const TeamPlanCompareDialog = ({
 
           <div
             style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-            className="grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
+            className="type-tint grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
           >
             <CompareSide
               label={[
@@ -211,7 +211,7 @@ export const TeamPlanCompareDialog = ({
               art={
                 <span
                   style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-                  className={cn(artBoxClassName, "sticker")}
+                  className={cn(artBoxClassName, "type-tint")}
                 >
                   <TeamPlanArt
                     imageUrl={getTeamPlanPlannedImageUrl(comparison)}
@@ -299,7 +299,7 @@ export const TeamPlanCompareDialog = ({
             </table>
 
             {comparison.memberNotes ? (
-              <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-[1.55]">
+              <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
                 “{comparison.memberNotes}”
               </p>
             ) : null}
@@ -309,7 +309,7 @@ export const TeamPlanCompareDialog = ({
             <span className="text-13 text-ink-2 mr-auto font-semibold">
               Plans are read only inside a Play
             </span>
-            <DialogClose render={<Button variant="outline" size="sm" />}>
+            <DialogClose render={<Button variant="secondary" size="sm" />}>
               Close
             </DialogClose>
           </DialogFooter>

@@ -110,7 +110,7 @@ export const SettingsProfileSection = ({
               {/* Shaped like the field beside it, so the two line up. */}
               <PendingData
                 variant="inline"
-                className="h-11 w-full rounded-lg px-3.5"
+                className="h-12 w-full rounded-md px-3.5"
               />
             </div>
           </div>

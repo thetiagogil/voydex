@@ -1,5 +1,6 @@
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
 import { cva } from "class-variance-authority";
+import { menuSurfaceClassName } from "@/shared/components/ui/menu-surface";
 import { cn } from "@/shared/utils/cn";
 import { ChevronDownIcon } from "lucide-react";
 
@@ -55,7 +56,7 @@ const NavigationMenuItem = ({
 };
 
 const navigationMenuTriggerStyle = cva(
-  "group/navigation-menu-trigger inline-flex h-10 w-max items-center justify-center rounded-full px-3 py-1.5 text-14 font-bold transition-colors outline-none hover:bg-hover focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-hover data-open:bg-hover",
+  "group/navigation-menu-trigger inline-flex h-10 w-max items-center justify-center rounded-full px-3 py-1.5 text-14 font-bold transition-colors hover:bg-hover disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-hover data-open:bg-hover focus-ring",
 );
 
 const NavigationMenuTrigger = ({
@@ -115,7 +116,12 @@ const NavigationMenuPositioner = ({
         )}
         {...props}
       >
-        <NavigationMenuPrimitive.Popup className="data-[ending-style]:easing-[ease] xs:w-(--popup-width) bg-surface text-ink shadow-float relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
+        <NavigationMenuPrimitive.Popup
+          className={cn(
+            menuSurfaceClassName,
+            "data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) rounded-lg transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0",
+          )}
+        >
           <NavigationMenuPrimitive.Viewport className="relative size-full overflow-hidden" />
         </NavigationMenuPrimitive.Popup>
       </NavigationMenuPrimitive.Positioner>
@@ -131,7 +137,7 @@ const NavigationMenuLink = ({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 focus-visible:outline-focus flex items-center gap-2 rounded-full p-2 font-bold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid in-data-[slot=navigation-menu-content]:rounded-sm in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
+        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 in-data-[slot=navigation-menu-content]:text-15 focus-ring flex items-center gap-2 rounded-full p-2 font-bold transition-colors in-data-[slot=navigation-menu-content]:rounded-md in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}
@@ -139,28 +145,9 @@ const NavigationMenuLink = ({
   );
 };
 
-const NavigationMenuIndicator = ({
-  className,
-  ...props
-}: React.ComponentPropsWithRef<typeof NavigationMenuPrimitive.Icon>) => {
-  return (
-    <NavigationMenuPrimitive.Icon
-      data-slot="navigation-menu-indicator"
-      className={cn(
-        "data-[state=hidden]:animate-out data-[state=hidden]:fade-out data-[state=visible]:animate-in data-[state=visible]:fade-in top-full z-1 flex h-1.5 items-end justify-center overflow-hidden",
-        className,
-      )}
-      {...props}
-    >
-      <div className="bg-surface shadow-float relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm" />
-    </NavigationMenuPrimitive.Icon>
-  );
-};
-
 export {
   NavigationMenu,
   NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,

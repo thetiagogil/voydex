@@ -1,42 +1,53 @@
-/*
- * A Play's context colour. Set --game, --gt and --game-strong on the element
- * (see getGameColourStyle) and its tints are recomputed here, so everything
- * inside wears that game.
- */
-@utility game-scope {
-  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
-  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
-  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
-  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
-}
-
 /* A Pokémon's type colour as a pale tint, for stickers and art circles. Set --t. */
 @utility type-tint {
-  background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+  background-color: color-mix(in oklab, var(--t) 16%, var(--surface));
 }
 
 /*
- * An owned Pokémon's sticker surface: the type tint, a 4px white border and a
- * 5px lip tinted by the type. Set --t. Add a float under the lip with
- * --sticker-shadow, or `sticker-picked` to mark it as the target.
+ * A reference card you don't own (a Codex Pokémon or game card): white with a
+ * thin edge and no shadow, the same on the page and inside a section card.
+ * The one surface for both; the white band is only for what is yours.
+ */
+@utility plain-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/*
+ * An owned Pokémon's sticker surface: the type tint and a 4px white border on
+ * a soft shadow. Set --t. Swap the shadow with --sticker-shadow, or add
+ * `sticker-picked` to mark it as the target.
  */
 @utility sticker {
-  background-color: color-mix(in oklab, var(--t) 22%, var(--surface));
+  background-color: color-mix(in oklab, var(--t) 16%, var(--surface));
+  /* The tint stops inside the band, so no coloured hairline shows round it. */
+  background-clip: padding-box;
   border: 4px solid var(--sticker-border, #fff);
-  box-shadow:
-    0 5px 0 var(--sticker-lip, color-mix(in oklab, var(--t) 38%, var(--lip))),
-    var(--sticker-shadow, 0 0 transparent);
+  box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
 }
 
 /*
  * A sticker marked as the target, such as a planner slot under a drag: it
- * keeps its own border and type lip, and a thin ring in the Play's colour
- * wraps both, so loud game colours don't flood the card.
+ * keeps its own border, and a thin ring in the accent wraps it.
  */
+/* A picked sticker's band, in its type's colour instead of white. */
+@utility sticker-type-band {
+  --sticker-border: color-mix(in oklab, var(--t) 55%, white);
+}
+
 @utility sticker-picked {
-  --sticker-shadow: 0 0 0 2.5px var(--game), 0 5px 0 2.5px var(--game);
+  --sticker-shadow: 0 0 0 2.5px var(--action);
+}
+
+/*
+ * A small round mark on a card's corner (an "i" tip, a slot number, a remove
+ * ×): the stickers' white band, small, on a soft shadow, so it reads on any
+ * card behind it. Position it with `CornerBubble`.
+ */
+@utility bubble {
+  box-shadow:
+    0 0 0 var(--band) #fff,
+    0 3px 6px -3px rgb(var(--shade) / 0.28);
 }
 
 /* The one open slot: anything missing or not yet yours, dashed at one width. */
@@ -47,39 +58,23 @@
 
 /*
  * v3's step back: something that applies to another game than the one you
- * picked (the other version's exclusives, a game the Pokémon isn't in). It
- * fades and its art greys a little, and comes back when you reach for it.
+ * picked (the other version's exclusives, a game the Pokémon isn't in). Its
+ * art fades and greys, its words stay readable, and it comes back when you
+ * reach for it.
  */
 @utility step-back {
-  opacity: 0.62;
-  transition: opacity 150ms ease;
-
   & img {
-    filter: saturate(0.55);
+    opacity: 0.55;
+    filter: saturate(0.4);
+    transition:
+      opacity 150ms ease,
+      filter 150ms ease;
   }
 
-  &:hover,
-  &:focus-within {
+  &:hover img,
+  &:focus-within img {
     opacity: 1;
-  }
-}
-
-/* The dotted texture. Only the Play header wears it. */
-@utility play-texture {
-  position: relative;
-
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background-image: radial-gradient(
-      rgb(255 255 255 / 0.55) 1.6px,
-      transparent 1.7px
-    );
-    background-size: 22px 22px;
-    mask-image: linear-gradient(100deg, transparent 45%, #000 90%);
-    pointer-events: none;
+    filter: none;
   }
 }
 
@@ -117,7 +112,7 @@
 
 /*
  * A navigation list that follows the scroll beside a longer page (Play
- * settings' menu, the Collectibles areas). It never grows past the screen:
+ * settings' menu). It never grows past the screen:
  * when its own content is taller, it scrolls on its own.
  */
 @utility sticky-column {
@@ -244,14 +239,15 @@
 }
 
 /*
- * A labelled type chip: the four palest types (Electric, Ice, Ground, Steel)
- * deepen toward L 0.7 so a white label reads; every other type keeps its
- * official colour. Set --t.
+ * A labelled type chip: the type's official colour, the same as its dot and
+ * tile, with a white label and icon on every type (the owner's call,
+ * 2026-10-17). A soft shadow under the label helps it read on the pale
+ * types. Set --t.
  */
 @utility type-chip {
-  background-color: oklch(
-    from var(--t) calc(l - (l - 0.7) * clamp(0, (l - 0.775) * 1000, 1)) c h
-  );
+  background-color: var(--t);
+  color: #fff;
+  text-shadow: 0 1px 1.5px rgb(0 0 0 / 0.3);
 }
 
 /*
@@ -260,4 +256,148 @@
  */
 @utility type-ink {
   color: oklch(from var(--t) min(l, 0.52) c h);
+}
+
+/*
+ * The title steps (Fredoka, 600): every heading of 20px and up takes one of
+ * them, so no page sizes its own. Each sets its size from the type scale,
+ * its line height and tracking, and grows at 640px (and 1024px for display).
+ *   title-display  a celebration or a front door: a trainer title, Welcome back
+ *   title-hero     a subject's head: a Pokémon, a Play, a game
+ *   title-page     a page's head: the lists, a Plan, an error page
+ *   title-section  a section, a sheet, a dialog, a wizard step
+ *   title-card     a card's own title
+ *   title-wordmark the front door's "Voydex"
+ *   figure         a big number on a tile (hours played, a stat)
+ */
+@utility title-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-36);
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-52);
+  }
+
+  @media (width >= 64rem) {
+    font-size: var(--text-64);
+  }
+}
+
+@utility title-hero {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-36);
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-48);
+  }
+}
+
+@utility title-page {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-28);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-36);
+  }
+}
+
+@utility title-section {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-24);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-28);
+  }
+}
+
+@utility title-card {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-20);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-24);
+  }
+}
+
+@utility title-wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-60);
+  line-height: 1;
+  letter-spacing: -0.03em;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-112);
+  }
+}
+
+@utility figure {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-32);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+
+  @media (width >= 40rem) {
+    font-size: var(--text-36);
+  }
+}
+
+/*
+ * The one keyboard focus ring: 3px of the focus colour, 2px out. Only the
+ * keyboard shows it (`focus-visible`). `focus-ring-inset` draws it inside
+ * the element, for anything a track or a neighbour would cut (segments,
+ * joined buttons, an index in a scrolling column). It wins over a stray
+ * `outline-none`, and a `focus-visible:` class can still adjust it.
+ */
+@utility focus-ring {
+  outline: none;
+
+  &:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+@utility focus-ring-inset {
+  outline: none;
+
+  &:focus-visible {
+    outline: 3px solid var(--focus);
+    outline-offset: -3px;
+  }
+}
+
+/*
+ * A moment's ring (medallions, badge stamps): the white band, a thin ring in
+ * its colour (`--mr`, a type's by default) and the soft drop. The small one,
+ * on marks under 32px, has a thinner band and no drop.
+ */
+@utility moment-ring {
+  box-shadow:
+    0 0 0 var(--band) #fff,
+    0 0 0 calc(var(--band) + 1.5px)
+      var(--mr, color-mix(in oklab, var(--t) 45%, white)),
+    var(--moment-drop);
+}
+
+@utility moment-ring-small {
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 3px var(--mr, color-mix(in oklab, var(--t) 45%, white));
 }

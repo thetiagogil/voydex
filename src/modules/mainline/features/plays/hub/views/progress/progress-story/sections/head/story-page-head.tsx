@@ -43,7 +43,8 @@ export const StoryPageHead = ({
           <SegmentedControl
             ariaLabel="Story scope"
             selectedTone="strong"
-            className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:ml-auto sm:w-auto sm:max-w-full sm:flex-wrap sm:overflow-visible sm:px-0 sm:py-0"
+            phoneScroll
+            className="sm:ml-auto"
             onValueChange={(value) => onScopeChange(Number(value))}
             options={scopes.map((candidate) => ({
               count: `${candidate.completedCount}/${candidate.totalCount}`,

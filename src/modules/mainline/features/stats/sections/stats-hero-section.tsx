@@ -10,7 +10,6 @@ import {
 } from "@/modules/mainline/features/stats/data/stats-model";
 import { formatMonthYear } from "@/modules/mainline/features/stats/utils/stats-format";
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -23,6 +22,7 @@ import {
 import { PageBand } from "@/shared/components/page-band";
 import { useFirstVisit } from "@/shared/hooks/use-first-visit";
 import { cn } from "@/shared/utils/cn";
+import { iconDiscVariants } from "@/shared/components/icon-disc";
 
 type StatsHeroSectionProps = {
   onOpenPokemon: (pokemon: StatsMostPicked) => void;
@@ -61,12 +61,13 @@ const Tile = ({
     <dt className="text-ink-2 text-14 col-start-1 row-start-2 self-start font-bold">
       {label}
     </dt>
-    <dd className="font-display col-start-1 row-start-1 self-end text-[30px] leading-none font-semibold tabular-nums sm:text-[36px]">
-      {value}
-    </dd>
+    <dd className="figure col-start-1 row-start-1 self-end">{value}</dd>
     <dd
       aria-hidden
-      className="text-ink-2 col-start-2 row-span-2 row-start-1 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
+      className={cn(
+        iconDiscVariants({ size: "xl", tone: "band" }),
+        "col-start-2 row-span-2 row-start-1",
+      )}
     >
       <AppIcon icon={icon} size="xl" />
     </dd>
@@ -75,9 +76,9 @@ const Tile = ({
 
 /*
  * The picture beside the title: covers for a Region Hopper (one per region
- * played) and a Pokémon Trainer (one per game); for a Specialist, always the
- * type's mark drawn in the band's own neutrals, with up to three of their
- * top Pokémon of it standing in front, each opening its sheet.
+ * played) and a Pokémon Trainer (one per game); for a Specialist, up to three
+ * of their top Pokémon of the type, each opening its sheet (the type's mark
+ * is the band's watermark).
  */
 const TitlePicture = ({
   onOpenPokemon,
@@ -104,18 +105,6 @@ const TitlePicture = ({
 
   return typeSlug ? (
     <div className="relative flex h-40 w-full items-end justify-center sm:h-48 md:w-75 lg:w-85">
-      <span
-        aria-hidden
-        className={cn(
-          "group-data-reveal/title:animate-fade-up absolute left-1/2 grid size-36 -translate-x-1/2 place-items-center rounded-full bg-white/25 [animation-delay:200ms] motion-reduce:animate-none sm:size-44",
-          title.pokemon.length ? "top-0" : "top-1/2 -translate-y-1/2",
-        )}
-      >
-        <PokemonTypeIcon
-          type={typeSlug}
-          className="size-16 opacity-[0.07] invert-0 sm:size-20"
-        />
-      </span>
       {title.pokemon.length ? (
         /*
          * A little podium: the top Pokémon in the middle, larger and in
@@ -142,7 +131,7 @@ const TitlePicture = ({
                   type="button"
                   aria-label={`${entry.name}, in ${playCount} ${playCount === 1 ? "Play" : "Plays"}: open its details`}
                   onClick={() => onOpenPokemon(pokemon)}
-                  className="group/art focus-visible:outline-focus block rounded-full outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                  className="group/art focus-ring block rounded-full"
                 >
                   {entry.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element
@@ -150,7 +139,7 @@ const TitlePicture = ({
                       src={entry.imageUrl}
                       alt=""
                       className={cn(
-                        "transition-transform duration-250 ease-[cubic-bezier(.3,1.6,.5,1)] group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
+                        "ease-hop transition-transform duration-250 group-hover/art:-translate-y-2 group-hover/art:scale-[1.04]",
                         index === 0
                           ? "size-26 sm:size-32"
                           : "size-20 sm:size-24",
@@ -182,8 +171,6 @@ export const StatsHeroSection = ({
   const hours = Math.round(stats.minutes / 60);
   const firstPlay = formatMonthYear(stats.firstStartedOn);
   const { title } = stats;
-  const typeSlug =
-    title.kind === "specialist" ? toTypeSlug(title.typeSlug) : null;
   const regionCovers = stats.regions.flatMap((region) =>
     region.playLabels.length && region.gameName
       ? [
@@ -198,9 +185,19 @@ export const StatsHeroSection = ({
   /* The most recently played on top of the row. */
   const playCovers = stats.playCovers.slice(0, 10).toReversed();
   const playsLabel = stats.playCount === 1 ? "Play" : "Plays";
+  /* A Specialist's type is the band's watermark, in place of the Poké Ball. */
+  const specialistType =
+    title.kind === "specialist" ? toTypeSlug(title.typeSlug) : null;
 
   return (
-    <PageBand className="pt-6 sm:pt-9">
+    <PageBand
+      className="pt-6 sm:pt-9"
+      mark={
+        specialistType ? (
+          <PokemonTypeIcon type={specialistType} className="size-full" />
+        ) : undefined
+      }
+    >
       <div
         data-reveal={firstVisit ? "" : undefined}
         className="group/title flex flex-col gap-5 sm:gap-6"
@@ -209,23 +206,17 @@ export const StatsHeroSection = ({
           <div className="flex min-w-0 flex-col gap-1.5">
             <p
               className={cn(
-                "text-ink-2 text-13 sm:text-15 font-black tracking-[0.08em] uppercase",
+                "text-calm-ink text-13 sm:text-15 font-black tracking-widest uppercase",
                 fadeUpClassName,
               )}
             >
               You are {/^[aeiou]/i.test(title.title) ? "an" : "a"}
             </p>
-            <h1
-              style={
-                typeSlug ? getPokemonTypeCssVariables(typeSlug) : undefined
-              }
-              className={cn(
-                "md:text-60 text-[46px] leading-[0.98] tracking-tight text-balance lg:text-[76px]",
-                typeSlug && "type-ink",
-                title.kind === "hopper" && "text-calm-ink",
-                title.kind === "trainer" && "text-ball",
-              )}
-            >
+            {/*
+             * The title is ink: the art beside it carries the colour, and the
+             * Poké Mart blue marks "You are a" and the figures' icons.
+             */}
+            <h1 className="title-display text-ink text-balance">
               {title.title.split(" ").map((word, index) => (
                 <Fragment key={`${word}-${index}`}>
                   {index ? " " : null}
@@ -240,7 +231,7 @@ export const StatsHeroSection = ({
             </h1>
             <p
               className={cn(
-                "text-ink-2 sm:text-17 text-16 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms] lg:text-[19px]",
+                "text-ink-2 sm:text-17 text-16 lg:text-20 mt-1.5 max-w-[46ch] leading-snug font-bold [animation-delay:620ms]",
                 fadeUpClassName,
               )}
             >

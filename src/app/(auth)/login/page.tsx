@@ -13,7 +13,7 @@ export default function Page({
   searchParams?: Promise<LoginSearchParams>;
 }) {
   return (
-    <PublicAppShell showAuthAction={false}>
+    <PublicAppShell bar="none">
       <LoginPage
         art={publicArt}
         resolveIntent={resolveStartIntent}

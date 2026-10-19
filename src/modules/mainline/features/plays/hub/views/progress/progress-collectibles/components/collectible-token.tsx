@@ -53,7 +53,7 @@ export const CollectibleToken = ({
       }}
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
-        "focus-visible:outline-focus relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:cursor-wait",
+        "focus-ring relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 aria-disabled:cursor-wait",
         isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
         isPopping && "animate-pop",
         className,
@@ -70,7 +70,7 @@ export const CollectibleToken = ({
         className={cn(
           "font-extrabold tabular-nums",
           isFound
-            ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(90_70_35/0.18)]"
+            ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(var(--shade)/0.18)]"
             : "text-13 text-ink-3",
         )}
       >

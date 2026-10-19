@@ -3,7 +3,9 @@ import {
   MoveSlotSelect,
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
+import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
+import { EditedMark } from "@/shared/components/edited-mark";
 import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -14,9 +16,7 @@ import type {
   TeamMemberEditorValues,
 } from "../../utils/team-member-editor-model";
 import {
-  EditedMark,
   EditorLabel,
-  EditorStep,
   fromSelect,
   noneValue,
   selectValue,
@@ -70,7 +70,7 @@ export const TeamMemberEditorBuildStep = ({
 }) => {
   if (optionsState.status !== "ready") {
     return (
-      <EditorStep title="Build" aside="Optional">
+      <SheetSection title="Build" aside="Optional">
         {optionsState.status === "error" ? (
           <EmptyState variant="bare" title={optionsState.message} />
         ) : (
@@ -81,7 +81,7 @@ export const TeamMemberEditorBuildStep = ({
             />
           </div>
         )}
-      </EditorStep>
+      </SheetSection>
     );
   }
 
@@ -89,7 +89,7 @@ export const TeamMemberEditorBuildStep = ({
   const moveOptions = toMoveOptions(options, member);
 
   return (
-    <EditorStep title="Build" aside="Optional">
+    <SheetSection title="Build" aside="Optional">
       <div className="grid gap-4 sm:grid-cols-2">
         {supports.natures ? (
           <Field>
@@ -178,6 +178,6 @@ export const TeamMemberEditorBuildStep = ({
           ))}
         </div>
       </fieldset>
-    </EditorStep>
+    </SheetSection>
   );
 };

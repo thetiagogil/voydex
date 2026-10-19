@@ -2,6 +2,7 @@
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
+import { ButtonGroup } from "@/shared/components/ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
+import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
 import type { StoryMilestone } from "../../types";
@@ -21,7 +23,8 @@ import {
 
 /*
  * A milestone still ahead offers the main button to record it, the same
- * size for every milestone, with "Record with your team" behind its arrow.
+ * size for every milestone, with "Record with your team" behind the round
+ * arrow beside it.
  * A recorded one keeps its extras behind one quiet Edit menu as wide as the
  * panel: the note, the team snapshot, the decision, and marking it
  * incomplete. Adding wears a plus, updating the
@@ -50,20 +53,16 @@ export const StoryMilestoneActions = ({
      * Random team offers its other ways).
      */
     return (
-      <div className={cn("flex w-full min-w-0", className)}>
-        <Button
-          type="button"
-          size="lg"
+      <ButtonGroup
+        aria-label={`Record ${milestone.name}`}
+        className={cn("w-full min-w-0", className)}
+      >
+        <RecordMilestoneButton
           disabled={!milestone.isAvailable}
           onClick={() => onAction("complete")}
-          className={cn(
-            "h-auto min-h-13 min-w-0 flex-1 py-3 text-left whitespace-normal",
-            keepsTeam && "rounded-r-none",
-          )}
-        >
-          <AppIcon icon={appIcons.product.completion} />
-          Record {milestone.name}
-        </Button>
+          label={`Record ${milestone.name}`}
+          className="min-w-0 flex-1 sm:whitespace-normal"
+        />
         {keepsTeam ? (
           <DropdownMenu>
             <DropdownMenuTrigger
@@ -73,7 +72,6 @@ export const StoryMilestoneActions = ({
                   size="icon-lg"
                   disabled={!milestone.isAvailable}
                   aria-label="More ways to record"
-                  className="h-auto min-h-13 rounded-l-none border-l-white/25"
                 />
               }
             >
@@ -91,7 +89,7 @@ export const StoryMilestoneActions = ({
             </DropdownMenuContent>
           </DropdownMenu>
         ) : null}
-      </div>
+      </ButtonGroup>
     );
   }
 
@@ -105,7 +103,7 @@ export const StoryMilestoneActions = ({
         render={
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             className={cn("w-full", className)}
           />
         }

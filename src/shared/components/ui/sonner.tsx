@@ -52,7 +52,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           description: "text-13 text-on-ink font-semibold",
           icon: "flex size-4 shrink-0 items-center justify-center [&_svg]:size-4",
           actionButton:
-            "bg-action text-14 focus-visible:outline-on-ink ml-1 shrink-0 rounded-full px-3 py-1.5 font-extrabold text-white focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+            "bg-action text-14 focus-visible:outline-on-ink ml-1 shrink-0 rounded-full px-3 py-1.5 font-extrabold text-white focus-ring",
           cancelButton:
             "text-on-ink text-14 hover:text-white shrink-0 rounded-full px-2 py-1.5 font-bold",
           closeButton: "hidden",

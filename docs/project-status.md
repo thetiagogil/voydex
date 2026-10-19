@@ -4,7 +4,7 @@ This document is the only canonical source for Voydex's current implementation
 checkpoint. Product contracts describe accepted behavior; code and tests remain
 the evidence for exact implementation details.
 
-## Checkpoint (2026-10-17)
+## Checkpoint (2026-10-19)
 
 The Soft Clay redesign is finished and on `main`: the owner reviewed every view
 in pull request #8, and `main` now carries it as one squash commit (#51). Every v3 screen is
@@ -25,8 +25,9 @@ phase is a GitHub milestone, and the to-do list lives in GitHub Issues (see
    their database client, multi-table writes as database functions, Zod input
    checks, the largest files split, the Feature Contract split per area.
 4. **Components**: every component family rebuilt on shared pieces, in the
-   component audit's order; each family's look is settled with the owner while
-   it is rebuilt (the raised "clicky" buttons and cards are replaced).
+   component audit's order (the raised "clicky" buttons and cards are
+   replaced). Reviewed with the owner on 2026-10-19 and squashed as #62; its
+   follow-ups stay open in the Components milestone.
 5. **Data and features**: the `TODO(v3-data)` placeholders get real data one
    section at a time, and the backlog features are built from their issues.
 6. **Ready for others**: security headers, Sentry, backups, a production
@@ -64,13 +65,28 @@ phase 6; the New Plan cache fix is parked on the local branch
 
 ## Next Chat Handoff
 
-On 2026-10-17 `main` was rebuilt so each pull request is one squash commit,
-and the repository now allows squash merges only. Phase 1 (tidy up, #52) and
-phase 2 (browser tests, #54) are merged. Phase 3 (restructure) is merged step
-by step: the folder vocabulary (#55), readers and commands that take their
-client (#56), Zod (#57), the largest files split (#58), and the multi-table
-writes as database functions, the last step. Phase 4 (components) is next. The
-old history is kept on the `backup/main-before-squash-20261016` tag.
+`main` takes one squash commit per pull request, squash merges only. Phases 1
+to 4 are done (#51 to #62). Phase 4 was reviewed live with the owner on
+2026-10-17 to 2026-10-19; what it settled lives in the
+[Design System](./app/design-system.md). In short:
+
+- **The look**: Pokémon Center and Poké Mart. White walls for the ground and
+  cards, the pale blue of the Center's windows for every page's band, the
+  Center's red roof for the one action colour, the Mart's blue roof for
+  progress and calm meanings. Nothing has a hard lip or a press that moves;
+  actions and owned Pokémon share the sticker edge (a white band, `--band`).
+- **One piece per job**: titles take a title step (`title-display` to
+  `title-card`), focus takes `focus-ring`, moments `moment-ring`, reference
+  cards `plain-card`, icons on a tile `IconDisc`, and every list folds its
+  search and filters under its head (`FilterToolbar`, `fold.tsx`). When one
+  member of a family changes, its siblings change with it.
+- **Guard rails**: `npm run design:check` fails on the retired raised look and
+  on hand-sized text, hand-made focus rings and hand-drawn white bands; the
+  browser tests run every axe rule.
+
+Next is phase 5, Data and features (milestone 5). The open Components issues
+(#35 to #37, #39, #63, #64, #66) and the later ones (#67 band motion, #68
+favicon, #69 keyboard pass) are follow-ups to pick up alongside it.
 
 On a new computer, run `git status`, `git log -1 --oneline` and `npm install`
 before editing, and start the local database with `npm run db:start`. Preserve
@@ -79,10 +95,6 @@ confirm the linked Supabase migration list before any remote database write.
 
 ## Known Gaps
 
-- The browser tests skip two axe rules the app breaks in many places: colour
-  contrast (muted ink on sand, white on light type colours) and label-in-name
-  (stickers, cards and slots whose label leaves out part of their text). Both
-  are listed in `e2e/support/accessibility.ts` until fixed (issue #39).
 - The Team Planner saves through several writes, not one database function: a
   failed new Plan is deleted, and a failed edit restores the previous Plan.
   Creating a Play and recording a History moment have the same shape. Phase 3
@@ -128,9 +140,10 @@ finds all 50). Grouped by what they wait on:
 
 ## Verification Checkpoint
 
-- `npm run verify` on `chore/tidy-up` (2026-10-16): documentation, design
-  leftovers, formatting, lint, TypeScript, architecture, Knip, 549 Vitest tests
-  in 112 files, and the production build.
+- `npm run verify` on `feat/component-rebuild` (2026-10-19): documentation,
+  design leftovers, formatting, lint, TypeScript, architecture, Knip, 571
+  Vitest tests, and the production build; all 31 browser tests (Playwright
+  and axe) pass against the local database.
 - The database source has 131 schema files and 897 seed files, and six pgTAP
   files plan 136 assertions (structural security, reference access, cross-user
   RLS, mutation functions, gameplay fixture coverage and user deletion).

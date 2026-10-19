@@ -52,8 +52,8 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
 
 /*
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
- * type's shade (v3 `.cx-art`), beside the eyebrow, the name with its type
- * marks, one line of the form switch and the actions as icons (the route's
+ * type's shade (v3 `.cx-art`), beside the eyebrow, the name, its types
+ * named under it, one line of the form switch and the actions as icons (the route's
  * Your Plays, Favourite, the shiny toggle), the description, and the one
  * sentence the page reads for you (the Pokédex's words are per game in
  * Pokédex numbers). Each form is its own page, and the shell remounts the
@@ -88,7 +88,7 @@ export const PokemonDetailHero = ({
         fallbackOnError
         preload
         sizes="(min-width: 768px) 46vw, calc(100vw - 2rem)"
-        className="aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white shadow-[0_6px_0_color-mix(in_oklab,var(--t)_36%,var(--lip))]"
+        className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
         imageClassName="p-[9%]"
       />
 
@@ -106,18 +106,14 @@ export const PokemonDetailHero = ({
             </span>
           ))}
         </p>
-        <div className="mt-1.5 mb-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <h1 className="text-44 sm:text-60 leading-none tracking-[-0.015em] wrap-break-word">
-            {name}
-          </h1>
-          <PokemonTypeList
-            primaryType={typePair?.primaryType ?? null}
-            secondaryType={typePair?.secondaryType ?? null}
-            badgeDisplay="icon"
-            badgeSize="xl"
-            className="gap-2"
-          />
-        </div>
+        <h1 className="title-hero mt-1.5 wrap-break-word">{name}</h1>
+        {/* Its types, named, on their own line under the name. */}
+        <PokemonTypeList
+          primaryType={typePair?.primaryType ?? null}
+          secondaryType={typePair?.secondaryType ?? null}
+          badgeSize="xl"
+          className="mt-3.5 mb-5 flex-wrap gap-2"
+        />
 
         {/*
          * One line: the form switch, then the actions as icons naming
@@ -144,7 +140,7 @@ export const PokemonDetailHero = ({
                 <span
                   role="img"
                   aria-label="Favourite, not in Voydex yet"
-                  className="empty-slot text-ink-3 grid size-11 place-items-center rounded-full"
+                  className="empty-slot text-ink-3 grid size-12 place-items-center rounded-full"
                 >
                   <AppIcon icon={appIcons.product.favourite} />
                 </span>
@@ -155,7 +151,7 @@ export const PokemonDetailHero = ({
                 label={isShowingShiny ? "Show regular colours" : "Show shiny"}
                 trigger={
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="icon"
                     aria-label="Shiny"
                     aria-pressed={isShowingShiny}

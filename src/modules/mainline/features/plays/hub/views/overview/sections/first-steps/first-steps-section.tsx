@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
@@ -97,14 +96,10 @@ export const FirstStepsSection = ({
               </span>
             </span>
             {step.href && !step.done ? (
-              <Link
-                href={step.href}
-                className="text-link text-14 focus-visible:outline-focus inline-flex min-h-9 items-center gap-1 rounded-xs font-extrabold focus-visible:outline-3 focus-visible:outline-solid"
-              >
+              <TextLink href={step.href} arrow="forward">
                 Go
                 <span className="sr-only"> to {step.title.toLowerCase()}</span>
-                <AppIcon icon={appIcons.actions.continue} />
-              </Link>
+              </TextLink>
             ) : (
               <span />
             )}

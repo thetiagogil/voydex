@@ -7,30 +7,47 @@
 :root {
   color-scheme: light;
 
+  /*
+   * Pokémon Center and Poké Mart (2026-10-19): one palette for the whole app,
+   * taken from the two buildings every trainer knows. Their white walls are
+   * the ground and surfaces (about 60%); the pale blue of their windows is
+   * the band and the cool supporting tints (about 30%); the Center's red roof
+   * is the one
+   * action colour (about 10%): the main action, the current pick and the
+   * context colour. The Mart's blue roof is the third colour, for calm
+   * meanings and progress. Pokémon and their type colours bring the rest.
+   * Destructive actions take a deeper wine red, always quiet, so they never
+   * read as the main button.
+   */
+
   /* Ground, surfaces, ink and lines */
-  --bg: #f2ede1;
-  --surface: #fffcf5;
-  --surface-2: #f7f1e4;
-  --hover: #f0e7d5;
-  --ink: #3a3226;
-  --ink-2: #6c6152;
-  --ink-3: #766a58;
-  --on-ink: #f4eee2;
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f2f5f9;
+  --hover: #e9eef5;
+  --ink: #26292f;
+  --ink-2: #4b5260;
+  --ink-3: #5b6270;
+  --on-ink: #f3f5f8;
   /* Secondary text on type- or game-tinted surfaces, where ink-3 is too light. */
   --ink-tint: color-mix(in oklab, var(--ink-2), var(--ink) 45%);
-  --line: #e8deca;
-  --lip: #e2d6be;
-  --track: #ede4d2;
-  --dash: #dcd0b8;
-  --mute: #c8bca5;
-  --scrim: rgb(58 50 38 / 0.42);
+  --line: #e1e7ef;
+  --lip: #d6dee9;
+  --track: #e6ebf2;
+  --dash: #cfd8e4;
+  --mute: #b8c2cf;
+  /* The colour every shadow and the scrim are made of, as RGB channels. */
+  --shade: 40 50 70;
+  --scrim: rgb(var(--shade) / 0.42);
 
   /* The one action colour */
-  --link: #33704f;
-  --action: #3b8360;
-  --action-lip: #2a6447;
+  --link: #b0291f;
+  --action: #cf342b;
+  --action-lip: #9e261f;
   --action-soft: color-mix(in oklab, var(--action) 14%, #fff);
-  --focus: #2a6447;
+  /* The main button under the pointer: between the action red and its lip. */
+  --action-deep: color-mix(in oklab, var(--action), var(--action-lip) 45%);
+  --focus: #9e261f;
 
   /* Meaning: earned, warning, weak or destructive, strong or resisted, a Poké Ball */
   --gold: #edb443;
@@ -39,47 +56,63 @@
   --warn: #e9a23b;
   --warn-ink: #93600f;
   --warn-soft: #fbeed3;
-  --danger: #ae3f2c;
-  --danger-deep: #8a2a1b;
-  --danger-soft: #f9e1da;
-  --danger-soft-2: #f2c6bb;
-  --danger-line: #d9a497;
+  --danger: #8e2a45;
+  --danger-deep: #6f1d34;
+  --danger-soft: #f6e0e6;
+  --danger-soft-2: #edc6d1;
+  --danger-line: #d6a1b0;
   --ok: #2f7550;
   --ok-deep: #2a6443;
   --ok-soft: #e1f0e6;
   --ok-soft-2: #d2eadb;
   --ok-line: #9fcdb1;
-  /* v3 `.pstate.info`: a quieter, neutral meaning, such as "evolved or changed form". */
-  --calm: #4e7fb5;
-  --calm-ink: #2f5c8a;
-  --calm-soft: #e0eaf5;
+  /*
+   * The third colour, the Poké Mart's blue roof, for a quieter, neutral
+   * meaning: a Play in progress, "evolved or changed form", an info note. Blue never reads
+   * as a pick (red) or a warning (amber), and stays out of actions.
+   */
+  --calm: #2a6fd6;
+  --calm-ink: #1d4f9c;
+  --calm-soft: #e1ecfb;
+  /*
+   * Progress (bars, rings, charts of how far you are) is the Poké Mart blue,
+   * like the games' EXP bar; green stays for done ("Completed", "Found").
+   */
+  --progress: var(--calm);
   --ball: #d04c3c;
-  --avatar: #f6d9a8;
-  --avatar-ink: #6b4a12;
+  /*
+   * Your initial (the top bar, the You tab, your trainer card): yours, so it
+   * wears the soft tint of the app's red with its deep ink.
+   */
+  --avatar: var(--select-soft);
+  --avatar-ink: var(--select-ink);
 
   /* The meadow (front doors and choosing a game) */
-  --sky: #fbf5e8;
-  --hill: #e0e9cb;
-  --hill-2: #d2deb6;
-  /* The band that opens Plays, the Team Planner, Statistics and Collection. */
-  --band-sand: color-mix(in oklab, var(--lip) 62%, var(--bg));
+  --sky: #f8fafd;
+  --hill: #dbe9d4;
+  --hill-2: #cddfc4;
+  /*
+   * The band that opens every page but Home: the pale blue of a Pokémon
+   * Center's windows, under the top bar and the page's head.
+   */
+  --band-fill: #e6eef9;
 
   /*
-   * Context colour. Pages without a Play wear Voydex green; a Play sets
-   * --game, --gt and --game-strong (see getGameColourStyle) on its
-   * `.game-scope` element and on the document root, so portalled menus and
-   * dialogs wear it too. --game-strong is the game colour darkened only as
-   * far as white text needs for 4.5:1; solid fills with labels use it.
+   * The accent by role: its deep shade for small eyebrows and marks, and the
+   * selected tint with its ink, for every picked row, chip and pill.
    */
-  --game: var(--action);
-  --gt: 17%;
-  --game-strong: var(--action);
-  --game-soft: color-mix(in oklab, var(--game) var(--gt), #fff);
-  --game-wash: color-mix(in oklab, var(--game) calc(var(--gt) * 0.47), #fff);
-  --game-lip: color-mix(in oklab, var(--game) calc(var(--gt) + 17%), #fff);
-  --game-deep: color-mix(in oklab, var(--game) 60%, #000);
-  --select-soft: color-mix(in oklab, var(--game) 16%, #fff);
-  --select-ink: color-mix(in oklab, var(--game) 45%, var(--ink));
+  --action-ink: color-mix(in oklab, var(--action) 60%, #000);
+  --select-soft: color-mix(in oklab, var(--action) 16%, #fff);
+  --select-soft-hover: color-mix(in oklab, var(--action) 22%, #fff);
+  --select-ink: color-mix(in oklab, var(--action) 45%, var(--ink));
+
+  /*
+   * A game's own colour, only where it tells games apart (a version dot, a
+   * cover's stand-in, the time chart): getGameColourStyle sets both on the
+   * element. --game-strong holds 4.5:1 with a white label.
+   */
+  --game: var(--mute);
+  --game-strong: var(--ink-2);
 
   /* Corners */
   --r-xs: 6px;
@@ -90,18 +123,32 @@
   --r-2xl: 32px;
 
   /*
-   * Depth. A lip is the solid edge under a surface. The clay edge on section
-   * cards is 3px (the brief's choice; v3 drew 4px).
+   * Depth. Nothing has a hard bottom edge: cards and stickers sit on a soft
+   * shadow. A button is a small sticker: its colour inside a white band (its
+   * border), a near-white keyline so the band still shows on a white card,
+   * and a soft shadow that shrinks when pressed, so it settles onto what it
+   * sits on.
    */
-  --clay-edge: 3px;
-  --shadow-soft-value: 0 16px 26px -18px rgb(90 70 35 / 0.45);
-  --shadow-cover-value: 0 10px 18px -10px rgb(40 40 60 / 0.5);
-  --shadow-float-value: 0 18px 34px -14px rgb(60 45 20 / 0.4);
-  --shadow-overlay-value: 0 30px 50px -20px rgb(40 30 15 / 0.45);
-  /* v3 .btn-2: the quiet button's 3px neutral lip, pressed away on :active. */
-  --shadow-quiet-value: 0 3px 0 var(--lip);
+  --button-keyline: color-mix(in oklab, var(--lip) 20%, #fff);
+  /*
+   * The white band round every control (buttons, select triggers, tabs, the
+   * top bar's current link, a switch's pick, corner marks): one width, so no
+   * control drifts. Cards keep their own 4px sticker band.
+   */
+  --band: 3px;
+  /*
+   * A moment's lift (medallions, badge stamps): a soft drop under the ring,
+   * the stickers' way of lifting, never a hard lip.
+   */
+  --moment-drop: 0 6px 12px -5px rgb(var(--shade) / 0.38);
+  --button-lift-value: 0 3px 8px -5px rgb(var(--shade) / 0.22);
+  --button-settle-value: 0 1px 2px rgb(var(--shade) / 0.18);
+  --shadow-soft-value: 0 12px 22px -18px rgb(var(--shade) / 0.3);
+  --shadow-cover-value: 0 10px 18px -10px rgb(var(--shade) / 0.5);
+  --shadow-float-value: 0 14px 28px -16px rgb(var(--shade) / 0.3);
+  --shadow-overlay-value: 0 30px 50px -20px rgb(var(--shade) / 0.45);
   /* Bars: a track pressed in at the top, a fill with a darker base. */
-  --shadow-track-value: inset 0 2px 0 rgb(90 70 35 / 0.08);
+  --shadow-track-value: inset 0 2px 0 rgb(var(--shade) / 0.08);
   --shadow-fill-value: inset 0 -3px 0 rgb(0 0 0 / 0.12);
 
   /*
@@ -150,31 +197,24 @@
   --radius: var(--r-sm);
 
   /*
-   * The top bar. On the plain ground or sky it is neutral; on a tinted band
-   * (`BandTintRoot` marks the root) its quiet controls sit on soft white over
-   * the tint, and the current link and the V tile take the game's strong
-   * shade, which holds 4.5:1 with a white label for every game.
+   * The top bar has no ground of its own: its words sit straight on the
+   * page's band or meadow. Hover is a wash of white over it, the current
+   * section the selected tint, and the V tile the action colour.
    */
   --bar-control: var(--surface);
   --bar-control-hover: var(--hover);
-  --bar-hover: var(--surface-2);
-  --bar-current: var(--surface);
-  --bar-current-ink: var(--ink);
+  --bar-hover: color-mix(in oklab, var(--surface) 70%, transparent);
+  --bar-current: var(--select-soft);
+  --bar-current-ink: var(--select-ink);
   --bar-brand: var(--action);
-  --bar-ink-2: var(--ink-2);
-}
-
-:root[data-band-tint] {
-  --bar-control: rgb(255 255 255 / 0.72);
-  --bar-control-hover: rgb(255 255 255 / 0.92);
-  --bar-hover: rgb(255 255 255 / 0.55);
-  --bar-current: var(--game-strong);
-  --bar-current-ink: #fff;
-  --bar-brand: var(--game-strong);
-  --bar-ink-2: var(--ink-tint);
+  /* A touch darker than ink-2, so the words hold 4.5:1 on the thinned pill over any page. */
+  --bar-ink-2: color-mix(in oklab, var(--ink-2) 60%, var(--ink));
 }
 
 @theme inline {
+  /* The hop: a little overshoot for art that lifts or pops under the pointer. */
+  --ease-hop: cubic-bezier(0.3, 1.6, 0.5, 1);
+
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
@@ -193,7 +233,9 @@
   --color-link: var(--link);
   --color-action: var(--action);
   --color-action-lip: var(--action-lip);
+  --color-action-deep: var(--action-deep);
   --color-action-soft: var(--action-soft);
+  --color-action-ink: var(--action-ink);
   --color-focus: var(--focus);
   --color-gold: var(--gold);
   --color-gold-deep: var(--gold-deep);
@@ -214,20 +256,18 @@
   --color-calm: var(--calm);
   --color-calm-ink: var(--calm-ink);
   --color-calm-soft: var(--calm-soft);
+  --color-progress: var(--progress);
   --color-ball: var(--ball);
   --color-avatar: var(--avatar);
   --color-avatar-ink: var(--avatar-ink);
   --color-sky: var(--sky);
   --color-hill: var(--hill);
   --color-hill-2: var(--hill-2);
-  --color-band-sand: var(--band-sand);
+  --color-band: var(--band-fill);
   --color-game: var(--game);
-  --color-game-soft: var(--game-soft);
-  --color-game-wash: var(--game-wash);
-  --color-game-lip: var(--game-lip);
-  --color-game-deep: var(--game-deep);
   --color-game-strong: var(--game-strong);
   --color-select-soft: var(--select-soft);
+  --color-select-soft-hover: var(--select-soft-hover);
   --color-select-ink: var(--select-ink);
 
   --color-background: var(--background);
@@ -263,8 +303,13 @@
   --text-24: 24px;
   --text-28: 28px;
   --text-32: 32px;
+  --text-36: 36px;
   --text-44: 44px;
+  --text-48: 48px;
+  --text-52: 52px;
   --text-60: 60px;
+  --text-64: 64px;
+  --text-112: 112px;
 
   --radius-xs: var(--r-xs);
   --radius-sm: var(--r-sm);
@@ -277,10 +322,18 @@
   --shadow-cover: var(--shadow-cover-value);
   --shadow-float: var(--shadow-float-value);
   --shadow-overlay: var(--shadow-overlay-value);
+  /* A popup panel: a hairline so it parts from a white page, then the float. */
+  --shadow-menu: 0 0 0 1px var(--line), var(--shadow-float-value);
   --shadow-track: var(--shadow-track-value);
   --shadow-fill: var(--shadow-fill-value);
-  --shadow-card: 0 var(--clay-edge) 0 var(--lip), var(--shadow-soft-value);
-  --shadow-action: 0 5px 0 var(--action-lip);
-  --shadow-quiet: var(--shadow-quiet-value);
-  --shadow-game: 0 5px 0 var(--game-lip);
+  --shadow-card:
+    0 1px 2px rgb(var(--shade) / 0.05),
+    0 10px 24px -18px rgb(var(--shade) / 0.28);
+  /*
+   * A button's sticker edge round its white band (the band is its border, so
+   * it never eats the gap beside it): the keyline, then the soft lift.
+   */
+  --shadow-button: 0 0 0 1px var(--button-keyline), var(--button-lift-value);
+  --shadow-button-pressed:
+    0 0 0 1px var(--button-keyline), var(--button-settle-value);
 }

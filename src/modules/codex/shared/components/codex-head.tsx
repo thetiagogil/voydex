@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { TextLink } from "@/shared/components/text-link";
 import type { ReactNode } from "react";
 
 export type CodexCrumb = {
@@ -33,12 +33,9 @@ export const CodexHead = ({ trail, trailEnd }: CodexHeadProps) => {
           >
             {index ? <span aria-hidden>/</span> : null}
             {crumb.href ? (
-              <Link
-                href={crumb.href}
-                className="hover:text-ink rounded-xs transition-colors"
-              >
+              <TextLink href={crumb.href} tone="quiet">
                 {crumb.label}
-              </Link>
+              </TextLink>
             ) : (
               <span aria-current="page" className="text-ink">
                 {crumb.label}

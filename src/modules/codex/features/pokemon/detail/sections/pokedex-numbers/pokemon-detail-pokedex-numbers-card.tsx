@@ -30,7 +30,7 @@ export const PokemonDetailPokedexNumbersCard = ({
                 pokedexNumber.versionGroupSlug,
                 pokedexNumber.pokedexSlug,
               )}
-              className="hover:bg-surface-2 focus-visible:outline-focus -mx-2 flex min-w-0 items-baseline justify-between gap-3 rounded-sm px-2 py-1.5 transition-colors outline-none focus-visible:outline-3 focus-visible:outline-solid"
+              className="hover:bg-surface-2 focus-ring -mx-2 flex min-w-0 items-baseline justify-between gap-3 rounded-sm px-2 py-1.5 transition-colors"
             >
               <span className="text-ink-2 text-14 truncate font-bold">
                 {pokedexNumber.pokedexName}

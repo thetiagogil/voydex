@@ -1,8 +1,9 @@
 "use client";
 
+import { Badge } from "@/shared/components/ui/badge";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
@@ -20,17 +21,27 @@ import {
 import { deletePlanAction } from "@/modules/mainline/features/plans/my-plans/server/delete-plan-action";
 import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
+import { PageBand } from "@/shared/components/page-band";
+import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import { StatusBadge } from "@/shared/components/status-badge";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -46,6 +57,8 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type MyPlansBrowserProps = {
+  /* The page's head, which opens the band above the toolbar. */
+  head: ReactNode;
   plans: MyPlan[];
 };
 
@@ -75,20 +88,16 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
     });
   };
 
+  /* The card and its × lift as one, so the × never leaves its corner. */
   return (
-    <li
-      className="game-scope group/removable relative min-w-0"
-      style={getGameColourStyle(plan.gameSlug)}
-    >
+    <li className="group/removable relative min-w-0 transition-transform duration-150 focus-within:-translate-y-0.5 hover:-translate-y-0.5">
       <Link
         href={appRoutes.mainlinePlan(plan.id)}
-        className="group/card-link focus-visible:outline-focus block h-full rounded-2xl outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+        className="group/card-link focus-ring block h-full rounded-2xl"
       >
-        <Card variant="interactive" className="h-full gap-3 px-5 py-4">
+        <Card className="h-full gap-3 px-5 py-4">
           <div className="flex items-center gap-2">
-            <span className="bg-game-wash text-game-deep text-13 rounded-full px-2.5 py-0.5 font-extrabold">
-              {plan.versionGroupName}
-            </span>
+            <Badge variant="select">{plan.versionGroupName}</Badge>
             {plan.updatedAt ? (
               <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
                 Updated <PlayMomentTime value={plan.updatedAt} />
@@ -174,8 +183,11 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   );
 };
 
-/* My Plans' list: what to show, which game, the order, then the cards. */
-export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
+/*
+ * My Plans' list: the band with the page's head and the toolbar (what to
+ * show, which game, the order), then the cards.
+ */
+export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
   const [filters, setFilters] = useState<MyPlansFilters>(defaultMyPlansFilters);
   const shown = useMemo(
     () => filterAndSortMyPlans(plans, filters),
@@ -184,86 +196,168 @@ export const MyPlansBrowser = ({ plans }: MyPlansBrowserProps) => {
   const games = useMemo(() => getMyPlansGames(plans), [plans]);
   const update = (next: Partial<MyPlansFilters>) =>
     setFilters((current) => ({ ...current, ...next }));
-  /* Back to every Plan, keeping the order you picked. */
-  const clearFilters = () =>
-    setFilters((current) => ({ ...defaultMyPlansFilters, sort: current.sort }));
+  /* Back to every Plan in the default order. */
+  const resetList = () => setFilters(defaultMyPlansFilters);
   const hasActiveFilters = hasActiveMyPlansFilters(filters);
+  const isReordered = filters.sort !== defaultMyPlansFilters.sort;
+  const fold = useFold({ defaultOpen: hasActiveFilters });
 
   return (
-    <div className="flex flex-col gap-5">
-      <Toolbar
-        aria-label="Filter your Plans"
-        search={
-          <SearchControl
-            id="my-plans-search"
-            ariaLabel="Search your Plans"
-            placeholder="Search your Plans"
-            value={filters.query}
-            onValueChange={(query) => update({ query })}
-          />
-        }
-        trailing={
-          <>
-            <SegmentedControl
-              ariaLabel="Show"
-              value={filters.status}
-              onValueChange={(status) => update({ status })}
-              options={[
-                { label: "All", value: "all" },
-                { label: "Active", value: "active" },
-                { label: "Archived", value: "archived" },
-              ]}
+    <>
+      <PageBand>
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
             />
-            <SelectControl
-              id="my-plans-game"
-              ariaLabel="Filter Plans by game"
-              variant="ghost"
-              placeholder="All games"
-              value={filters.game}
-              onValueChange={(game) => update({ game })}
-              options={[{ label: "All games", value: "" }, ...games]}
-            />
-            <SelectControl
-              id="my-plans-sort"
-              ariaLabel="Sort Plans"
-              variant="ghost"
-              prefix="Sort"
-              placeholder={myPlansSortLabels.updated}
-              value={filters.sort}
-              onValueChange={(sort) => update({ sort: sort as MyPlansSort })}
-              options={(Object.keys(myPlansSortLabels) as MyPlansSort[]).map(
-                (sort) => ({ label: myPlansSortLabels[sort], value: sort }),
-              )}
-            />
-          </>
-        }
-      />
-
-      <FilterResultsLine
-        className="-mt-2"
-        hasActiveFilters={hasActiveFilters}
-        noun="Plans"
-        nounOne="Plan"
-        onClearFilters={clearFilters}
-        shownCount={shown.length}
-        totalCount={plans.length}
-      />
-
-      {shown.length ? (
-        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {shown.map((plan) => (
-            <MyPlanCard key={plan.id} plan={plan} />
-          ))}
-        </ul>
-      ) : (
-        <EmptyState
-          variant="bare"
-          title="No Plans match."
-          action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
           }
-        />
-      )}
-    </div>
+        >
+          {head}
+        </FoldHead>
+        <FoldPanel id={fold.panelId} open={fold.open}>
+          <FilterToolbar
+            ariaLabel="Filter your Plans"
+            className="mt-5"
+            activeCount={
+              (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0)
+            }
+            resultLabel={`Show ${shown.length} ${shown.length === 1 ? "Plan" : "Plans"}`}
+            search={
+              <SearchControl
+                id="my-plans-search"
+                ariaLabel="Search your Plans"
+                placeholder="Search your Plans"
+                value={filters.query}
+                onValueChange={(query) => update({ query })}
+              />
+            }
+            controls={(placement) => {
+              const sort = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "my-plans-sort"
+                      : "my-plans-sheet-sort"
+                  }
+                  ariaLabel="Sort Plans"
+                  resetValue={defaultMyPlansFilters.sort}
+                  variant="ghost"
+                  prefix={placement === "line" ? "Sort" : undefined}
+                  placeholder={myPlansSortLabels.updated}
+                  value={filters.sort}
+                  onValueChange={(sort) =>
+                    update({ sort: sort as MyPlansSort })
+                  }
+                  options={(
+                    Object.keys(myPlansSortLabels) as MyPlansSort[]
+                  ).map((sort) => ({
+                    label: myPlansSortLabels[sort],
+                    value: sort,
+                  }))}
+                />
+              );
+
+              return placement === "line" ? (
+                sort
+              ) : (
+                <FilterSheetRow htmlFor="my-plans-sheet-sort" label="Sort">
+                  {sort}
+                </FilterSheetRow>
+              );
+            }}
+            filters={(placement) => {
+              const status = (
+                <SegmentedControl
+                  variant="segment"
+                  selectedTone="soft"
+                  ariaLabel="Show"
+                  value={filters.status}
+                  onValueChange={(status) => update({ status })}
+                  options={[
+                    { label: "All", value: "all" },
+                    { label: "Active", value: "active" },
+                    { label: "Archived", value: "archived" },
+                  ]}
+                />
+              );
+              const game = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "my-plans-game"
+                      : "my-plans-sheet-game"
+                  }
+                  ariaLabel="Filter Plans by game"
+                  resetValue={defaultMyPlansFilters.game}
+                  variant="ghost"
+                  placeholder="All games"
+                  value={filters.game}
+                  onValueChange={(game) => update({ game })}
+                  options={[
+                    {
+                      icon: <AppIcon icon={appIcons.product.game} size="md" />,
+                      label: "All games",
+                      value: "",
+                    },
+                    ...games.map(({ gameSlug, ...game }) => ({
+                      ...game,
+                      icon: gameSlug ? (
+                        <GameOptionCover
+                          gameName={game.label}
+                          gameSlug={gameSlug}
+                        />
+                      ) : undefined,
+                    })),
+                  ]}
+                  searchPlaceholder="Search games"
+                />
+              );
+
+              return placement === "line" ? (
+                <>
+                  {status}
+                  {game}
+                </>
+              ) : (
+                <>
+                  <FilterSheetRow label="Show">{status}</FilterSheetRow>
+                  <FilterSheetRow htmlFor="my-plans-sheet-game" label="Game">
+                    {game}
+                  </FilterSheetRow>
+                </>
+              );
+            }}
+          />
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasActiveFilters}
+            isReordered={isReordered}
+            noun="Plans"
+            nounOne="Plan"
+            onReset={resetList}
+            shownCount={shown.length}
+            totalCount={plans.length}
+          />
+        </FoldPanel>
+      </PageBand>
+
+      <section aria-label="Your Plans" className="flex flex-col gap-5">
+        {shown.length ? (
+          <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {shown.map((plan) => (
+              <MyPlanCard key={plan.id} plan={plan} />
+            ))}
+          </ul>
+        ) : (
+          <EmptyState
+            variant="bare"
+            title="No Plans match."
+            action={<ResetListButton onClick={resetList} />}
+          />
+        )}
+      </section>
+    </>
   );
 };

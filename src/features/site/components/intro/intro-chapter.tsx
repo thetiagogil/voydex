@@ -33,10 +33,8 @@ export const IntroChapter = ({
         <p className="text-14 text-ink-3 mb-2 font-extrabold">
           {when} · {partner.name}
         </p>
-        <h2 className="text-[26px] leading-[1.1] tracking-[-0.015em] sm:text-[30px]">
-          {title}
-        </h2>
-        <p className="text-16 text-ink-2 mt-3 max-w-[44em] leading-[1.65] font-semibold">
+        <h2 className="title-section">{title}</h2>
+        <p className="text-16 text-ink-2 mt-3 max-w-[44em] leading-relaxed font-semibold">
           {text}
         </p>
       </div>

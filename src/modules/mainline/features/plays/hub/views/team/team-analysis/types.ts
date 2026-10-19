@@ -2,34 +2,13 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { TypeMatchupRow } from "@/modules/mainline/shared/data/type-matchup-rows";
 import type { Generation, Type } from "@/modules/reference/types";
 
 import type { StoryMatchupsModel } from "./data/story-matchups-model";
 
-export type TeamAnalysisEffectiveness =
-  | "immune"
-  | "neutral"
-  | "resistant"
-  | "unknown"
-  | "weak";
-
-export type TeamAnalysisDefensiveCell = {
-  effectiveness: TeamAnalysisEffectiveness;
-  memberId: string;
-  memberName: string;
-  multiplier: number | null;
-  multiplierLabel: string;
-};
-
-export type TeamAnalysisDefensiveRow = {
-  attackingType: Type;
-  cells: TeamAnalysisDefensiveCell[];
-  immuneCount: number;
-  /* Hits two or more of the team super effectively, or one of them 4×. */
-  isPressure: boolean;
-  resistCount: number;
-  weakCount: number;
-};
+/* One attacking type against the team, as Mainline's shared matchups draw it. */
+export type TeamAnalysisDefensiveRow = TypeMatchupRow<Type>;
 
 export type TeamAnalysisCoverageRow = {
   defendingType: Type;

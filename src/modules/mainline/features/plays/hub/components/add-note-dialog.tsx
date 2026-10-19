@@ -74,7 +74,7 @@ export const AddNoteDialog = ({
     <>
       <Button
         type="button"
-        variant="outline"
+        variant="secondary"
         size={size}
         className={className}
         onClick={() => setOpen(true)}
@@ -91,7 +91,7 @@ export const AddNoteDialog = ({
           <>
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               disabled={isPending}
               onClick={() => changeOpen(false)}
             >

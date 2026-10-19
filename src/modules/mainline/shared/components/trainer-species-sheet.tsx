@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -20,6 +20,7 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { SheetSection } from "@/shared/components/sheet-section";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -55,26 +56,6 @@ const getNowBeforeLine = (entry: TrainerPokemonEntry) => {
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
-
-const SheetSection = ({
-  aside,
-  children,
-  title,
-}: {
-  aside?: string;
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="flex flex-col gap-3">
-    <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-      <h3 className="text-20">{title}</h3>
-      {aside ? (
-        <span className="text-ink-3 text-13 font-semibold">{aside}</span>
-      ) : null}
-    </div>
-    {children}
-  </section>
-);
 
 /*
  * One species in your Collection (v3 `colSheet`): its art, the Plays it is
@@ -143,7 +124,10 @@ export const TrainerSpeciesSheet = ({
               {collectionHref ? (
                 <Link
                   href={collectionHref}
-                  className={buttonVariants({ size: "sm", variant: "outline" })}
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "secondary",
+                  })}
                 >
                   <AppIcon
                     icon={appIcons.views.mainline.collection}
@@ -154,7 +138,7 @@ export const TrainerSpeciesSheet = ({
               ) : null}
               <Link
                 href={appRoutes.codexPokemonSpecies(entry.speciesSlug)}
-                className={buttonVariants({ size: "sm", variant: "outline" })}
+                className={buttonVariants({ size: "sm", variant: "secondary" })}
               >
                 <AppIcon icon={appIcons.modules.codex} inline="start" />
                 Open in Codex
@@ -193,6 +177,7 @@ export const TrainerSpeciesSheet = ({
       }
     >
       <SheetSection
+        className="gap-3"
         title="With you now"
         aside={nowPlayCount ? countPlays(nowPlayCount) : undefined}
       >
@@ -241,7 +226,11 @@ export const TrainerSpeciesSheet = ({
       </SheetSection>
 
       {before.length ? (
-        <SheetSection title="Before" aside={countPlays(before.length)}>
+        <SheetSection
+          className="gap-3"
+          title="Before"
+          aside={countPlays(before.length)}
+        >
           <ul className="grid" style={getPokemonTypeCssVariables(primaryType)}>
             {before.map((past) => (
               <TrainerPlayRow
@@ -278,6 +267,7 @@ export const TrainerSpeciesSheet = ({
 
       {relatives.length ? (
         <SheetSection
+          className="gap-3"
           title={showsFamily ? "Each of them" : "Its family with you"}
           aside={
             showsFamily
@@ -295,7 +285,7 @@ export const TrainerSpeciesSheet = ({
                   name={relative.name}
                   subtitle={getNowBeforeLine(relative)}
                   types={relative.types}
-                  label={`${relative.name}, in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
+                  detail={`in ${relative.playIds.length} ${relative.playIds.length === 1 ? "Play" : "Plays"}. Show`}
                   onClick={
                     onOpenSpecies ? () => onOpenSpecies(relative) : undefined
                   }

@@ -9,14 +9,6 @@ const AlertDialog = ({ ...props }: AlertDialogPrimitive.Root.Props) => {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 };
 
-const AlertDialogTrigger = ({
-  ...props
-}: AlertDialogPrimitive.Trigger.Props) => {
-  return (
-    <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
-  );
-};
-
 const AlertDialogPortal = ({ ...props }: AlertDialogPrimitive.Portal.Props) => {
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
@@ -96,22 +88,6 @@ const AlertDialogFooter = ({
   );
 };
 
-const AlertDialogMedia = ({
-  className,
-  ...props
-}: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="alert-dialog-media"
-      className={cn(
-        "bg-surface-2 text-ink-2 mb-2 inline-flex size-11 items-center justify-center rounded-full sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-6",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
 const AlertDialogTitle = ({
   className,
   ...props
@@ -120,7 +96,7 @@ const AlertDialogTitle = ({
     <AlertDialogPrimitive.Title
       data-slot="alert-dialog-title"
       className={cn(
-        "font-display text-20 text-ink leading-tight font-semibold tracking-[-0.01em] sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
+        "title-card text-ink sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
         className,
       )}
       {...props}
@@ -146,7 +122,7 @@ const AlertDialogDescription = ({
 
 const AlertDialogCancel = ({
   className,
-  variant = "outline",
+  variant = "secondary",
   size = "default",
   ...props
 }: AlertDialogPrimitive.Close.Props &
@@ -168,9 +144,7 @@ export {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogMedia,
   AlertDialogOverlay,
   AlertDialogPortal,
   AlertDialogTitle,
-  AlertDialogTrigger,
 };

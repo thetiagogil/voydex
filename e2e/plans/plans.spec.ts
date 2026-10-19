@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openSearchBar } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 /* Saves a Red / Blue Plan through the Team Planner; returns its id. */
@@ -13,10 +14,13 @@ const savePlan = async (page: Page, name: string, members: string[]) => {
 
   /* The list draws in batches as you scroll, so search for each one. */
   const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+  await openSearchBar(page);
   const search = picker.getByRole("searchbox");
   for (const member of members) {
     await search.fill(member);
-    await picker.getByRole("button", { name: member, exact: true }).click();
+    await picker
+      .getByRole("button", { name: new RegExp(`^#\\d+ ${member}\\b`) })
+      .click();
   }
   await search.clear();
   await expect(
@@ -50,7 +54,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: "Charizard, slot 2. Edit" }),
+        .getByRole("button", { name: /^#\d+ Charizard\b.*slot 2\. Edit$/ }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Save changes" }),
@@ -83,13 +87,42 @@ test.describe("Team Planner", () => {
     const planned = page.getByRole("region", { name: "Planned team" });
     await expect(
       planned.getByRole("button", {
-        name: /^Target 1, Charizard: In progress\. Charmander, Team, slot 1/,
+        name: /^Target 1 Charizard\b.*Charmander · Team, slot 1 In progress/,
       }),
     ).toBeVisible();
     await expect(
-      planned.getByRole("button", { name: /^Target 2, Rapidash: Not found/ }),
+      planned.getByRole("button", { name: /^Target 2 Rapidash\b.*Not found/ }),
     ).toBeVisible();
     await expectAccessible(page);
+  });
+
+  test("asks before removing a Pokémon with a build from its sheet", async ({
+    page,
+  }) => {
+    await page.goto("/mainline/plans/new?vg=rb");
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Charizard");
+    await picker.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
+
+    await page
+      .getByRole("region", { name: "Your team" })
+      .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
+      .click();
+    const sheet = page.getByRole("dialog", { name: /Charizard/ });
+    await sheet.getByRole("button", { name: "Lead" }).click();
+    await sheet.getByRole("button", { name: "Remove from Plan" }).click();
+
+    const confirm = page.getByRole("alertdialog", {
+      name: "Remove Charizard?",
+    });
+    await expect(confirm).toBeVisible();
+    await confirm.getByRole("button", { name: "Keep it" }).click();
+    await expect(
+      page
+        .getByRole("region", { name: "Your team" })
+        .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ }),
+    ).toBeVisible();
   });
 
   test("deletes a Plan from My Plans", async ({ page }) => {

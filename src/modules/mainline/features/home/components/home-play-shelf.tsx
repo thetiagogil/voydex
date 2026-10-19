@@ -1,5 +1,6 @@
 "use client";
 
+import { PickedMark } from "@/shared/components/picked-mark";
 import Link from "next/link";
 import type { MouseEvent } from "react";
 
@@ -7,7 +8,7 @@ import { appRoutes } from "@/config/routes";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
 import type { HomePlay } from "@/modules/mainline/features/home/data/home-play-model";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Carousel } from "@/shared/components/carousel";
@@ -36,7 +37,7 @@ const getShelfItemClassName = (index: number) =>
       : "max-lg:hidden";
 
 const coverLinkClassName =
-  "group/shelf-item focus-visible:outline-focus relative flex shrink-0 flex-col items-center rounded-md outline-none focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-solid";
+  "group/shelf-item relative flex shrink-0 flex-col items-center rounded-md focus-visible:outline-offset-4 focus-ring";
 
 /* A plain click switches in place; a modified one opens the link as usual. */
 const isPlainClick = (event: MouseEvent) =>
@@ -98,7 +99,7 @@ export const HomePlayShelf = ({
             >
               <span
                 className={cn(
-                  "relative grid transition-transform duration-250 ease-[cubic-bezier(.3,1.5,.5,1)]",
+                  "ease-hop relative grid transition-transform duration-250",
                   isCurrent
                     ? "-translate-y-4"
                     : "motion-safe:group-hover/shelf-item:-translate-y-2.5 motion-safe:group-hover/shelf-item:-rotate-2",
@@ -113,29 +114,17 @@ export const HomePlayShelf = ({
                   shape={play.coverShape}
                   size="playShelf"
                 />
-                {isCurrent ? (
-                  <span
-                    aria-hidden
-                    className="bg-action absolute top-2 right-2 grid size-7 place-items-center rounded-full text-white ring-3 ring-white"
-                  >
-                    <AppIcon
-                      icon={appIcons.status.active}
-                      size="md"
-                      strokeWidth={3}
-                    />
-                  </span>
-                ) : null}
+                {isCurrent ? <PickedMark /> : null}
                 {play.lead?.imageUrl ? (
+                  /* The partner as the one small portrait, in a corner mark's white ring. */
                   <span
                     aria-hidden
-                    style={getPokemonTypeCssVariables(leadType)}
-                    className="sticker absolute -right-3 -bottom-3 grid size-11.5 place-items-center rounded-full [border-width:3px] [--sticker-border:#fff]"
+                    className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full"
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={play.lead.imageUrl}
-                      alt=""
-                      className="size-10.5 max-w-none object-contain"
+                    <PokemonAvatar
+                      imageUrl={play.lead.imageUrl}
+                      name=""
+                      typeSlug={leadType}
                     />
                   </span>
                 ) : null}

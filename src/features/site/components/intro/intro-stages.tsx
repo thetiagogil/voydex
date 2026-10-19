@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 
+import { PickedMark } from "@/shared/components/picked-mark";
 import type { PublicArt, PublicPlayArt } from "@/config/public-art";
 import { PokemonRender } from "@/features/site/components/pokemon-render";
 import {
@@ -58,7 +59,7 @@ const StageRow = ({
   label: string;
 }) => (
   <div className={cn("flex min-w-0 flex-col gap-2.5", className)}>
-    <span className="text-ink-2 text-[12.5px] font-bold">{label}</span>
+    <span className="text-ink-2 text-13 font-bold">{label}</span>
     {children}
   </div>
 );
@@ -88,24 +89,13 @@ export const StartAPlayStage = ({
               )}
             >
               {art.gameCover({ className: "h-24", game })}
-              {isPicked ? (
-                <span className="bg-action absolute top-1.5 right-1.5 z-2 grid size-6 place-items-center rounded-full text-white shadow-[0_0_0_2.5px_white]">
-                  <AppIcon
-                    icon={appIcons.product.completion}
-                    className="size-3.5 stroke-3"
-                  />
-                </span>
-              ) : null}
+              {isPicked ? <PickedMark size="sm" /> : null}
             </span>
           );
         })}
       </div>
     </StageRow>
-    <StageRow label="Your Play">
-      <div style={art.gameColour(samplePlay.game.slug)} className="game-scope">
-        {playArt.playHeader(samplePlay)}
-      </div>
-    </StageRow>
+    <StageRow label="Your Play">{playArt.playHeader(samplePlay)}</StageRow>
   </IntroStage>
 );
 
@@ -229,7 +219,7 @@ export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
         <span
           key={pokemon.sprite_slug}
           style={getTypeColourStyle(pokemon.type)}
-          className="sticker grid aspect-square place-items-center rounded-md"
+          className="type-tint grid aspect-square place-items-center rounded-md"
         >
           <PokemonRender art={art} pokemon={pokemon} className="size-[88%]" />
         </span>

@@ -1,10 +1,7 @@
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { StatusBadge } from "@/shared/components/status-badge";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
-import {
-  getPlayStatusTone,
-  playStatusDotClassNames,
-} from "@/modules/mainline/shared/utils/play-status-tone";
-import { cn } from "@/shared/utils/cn";
+import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 
 import { getPlayTitle } from "./play-title";
 
@@ -25,16 +22,13 @@ const MainlinePlayStatus = ({ data }: { data: MainlinePlayShellData }) => {
   }
 
   return (
-    <span className="text-ink inline-flex items-center gap-1.75 rounded-full bg-white/75 px-3 py-1 font-bold">
-      <span
-        aria-hidden
-        className={cn(
-          "size-2 rounded-full",
-          playStatusDotClassNames[getPlayStatusTone(data.play.status_slug)],
-        )}
-      />
+    <StatusBadge
+      ground="band"
+      size="md"
+      tone={getPlayStatusTone(data.play.status_slug)}
+    >
       {data.play.status_name}
-    </span>
+    </StatusBadge>
   );
 };
 
@@ -49,13 +43,10 @@ export const MainlinePlayTopInfo = ({
 
   return (
     <div className="min-w-0 flex-1">
-      <p className="text-game-deep text-13 font-bold sm:text-[13.5px]">
+      <p className="text-action-ink text-13 sm:text-14 font-bold">
         {getEyebrow(data)}
       </p>
-      <h1
-        id={titleId}
-        className="mt-1 mb-2.5 text-[27px] leading-[1.08] tracking-[-0.02em] sm:text-[40px]"
-      >
+      <h1 id={titleId} className="title-hero mt-1 mb-2.5">
         {getPlayTitle(data)}
       </h1>
       <dl className="text-ink-tint text-13 sm:text-14 flex flex-wrap items-center gap-x-3.5 gap-y-2 font-semibold">

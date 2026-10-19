@@ -1,5 +1,8 @@
 "use client";
 
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
+import { TextLink } from "@/shared/components/text-link";
 import { useState, type DragEvent } from "react";
 
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
@@ -10,14 +13,13 @@ import {
 import type { PlanRandomMode } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import type { PlanTeamTip } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
-import {
-  PokemonEmptySlot,
-  PokemonSticker,
-} from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { Button } from "@/shared/components/ui/button";
+import { ButtonGroup } from "@/shared/components/ui/button-group";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -117,7 +119,7 @@ export const PlannerDockSection = ({
           </p>
           <Button
             type="button"
-            variant="outline"
+            variant="secondary"
             size="sm"
             onClick={onCancelReplace}
           >
@@ -126,20 +128,20 @@ export const PlannerDockSection = ({
         </div>
       ) : (
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h2 id="planner-team" className="text-20">
+          <h2 id="planner-team" className="title-card">
             Your team
           </h2>
           <span className="text-ink-3 text-14 font-bold tabular-nums">
             {filled} of 6
           </span>
           <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
-            <div className="flex items-center">
+            <ButtonGroup aria-label="Random team">
               <Button
                 type="button"
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={onRandom}
-                className="rounded-r-none max-sm:px-2"
+                className="max-sm:px-2"
               >
                 <AppIcon
                   icon={appIcons.product.activity}
@@ -153,10 +155,9 @@ export const PlannerDockSection = ({
                   render={
                     <Button
                       type="button"
-                      variant="outline"
+                      variant="secondary"
                       size="icon-sm"
                       aria-label="Random options"
-                      className="rounded-l-none"
                     />
                   }
                 >
@@ -191,10 +192,10 @@ export const PlannerDockSection = ({
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
-            </div>
+            </ButtonGroup>
             <Button
               type="button"
-              variant="outline"
+              variant="secondary"
               size="sm"
               disabled={!filled}
               onClick={onClear}
@@ -234,7 +235,7 @@ export const PlannerDockSection = ({
                   <button
                     type="button"
                     onClick={() => onPlace(index)}
-                    className="focus-visible:outline-focus block w-full rounded-xl outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                    className="focus-ring block w-full rounded-xl"
                   >
                     <PokemonEmptySlot
                       label={`Put ${replacing.name} in slot ${index + 1}`}
@@ -280,29 +281,43 @@ export const PlannerDockSection = ({
                 dragFrom === index && "opacity-60",
               )}
             >
-              <PokemonSticker
-                variant="compact"
-                className={cn(
-                  "w-full",
-                  dropTarget === index && "sticker-picked",
-                  /* The slot lifts instead; while it wiggles, hovering rings it. */
-                  "hover:translate-y-0",
-                  replacing && "hover:sticker-picked",
-                )}
-                imageUrl={pokemon.imageUrl}
-                name={pokemon.name}
-                slotLabel={String(index + 1)}
-                subtitle={replacing ? "Replace" : member.role}
-                types={pokemon.types}
-                label={
-                  replacing
-                    ? `Replace ${pokemon.name} with ${replacing.name}`
-                    : `${pokemon.name}, slot ${index + 1}. Edit`
-                }
+              {/*
+               * The same picked card as in the pool below, with its slot in
+               * the same corner dot, so a planned Pokémon looks the same in
+               * both places. Owned Pokémon keep the sticker.
+               */}
+              <button
+                type="button"
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
-              />
+                className="focus-ring block h-full w-full rounded-lg"
+              >
+                <PokemonCard
+                  state="plain"
+                  size="fluid"
+                  picked
+                  imageAlt=""
+                  imageUrl={pokemon.imageUrl}
+                  name={pokemon.name}
+                  number={formatNationalNumber(pokemon.nationalNumber)}
+                  subtitle={replacing ? "Replace" : member.role}
+                  types={pokemon.types}
+                  className={cn(
+                    /* The slot lifts instead. */
+                    "hover:translate-y-0",
+                    (dropTarget === index || replacing) &&
+                      "shadow-[inset_0_0_0_3px_color-mix(in_oklab,var(--t)_85%,white)]",
+                  )}
+                />
+                <span className="sr-only">
+                  , slot {index + 1}.{" "}
+                  {replacing ? `Replace with ${replacing.name}` : "Edit"}
+                </span>
+              </button>
+              <CornerBubble corner="inside-top-right">
+                <SlotMark>{index + 1}</SlotMark>
+              </CornerBubble>
               {worst && !replacing ? (
-                <span className="absolute -top-2 -left-2 z-10">
+                <CornerBubble corner="top-left">
                   <ExplanatoryTip
                     triggerVariant="raised"
                     triggerTone={
@@ -315,17 +330,17 @@ export const PlannerDockSection = ({
                     content={
                       <>
                         <p>{worst.title}</p>
-                        <button
-                          type="button"
+                        <TextLink
+                          tone="onInk"
                           onClick={onOpenCheck}
-                          className="text-14 mt-1 font-extrabold underline underline-offset-2"
+                          className="text-14 mt-1"
                         >
                           Open Team check
-                        </button>
+                        </TextLink>
                       </>
                     }
                   />
-                </span>
+                </CornerBubble>
               ) : null}
               {replacing ? null : (
                 <CornerRemoveButton
@@ -345,7 +360,8 @@ export const PlannerDockSection = ({
         <span
           aria-hidden
           className={cn(
-            "grid size-6 shrink-0 place-items-center rounded-full",
+            /* A small mark on the band: its tint in a white band, as a sticker. */
+            "bubble grid size-6 shrink-0 place-items-center rounded-full",
             tipToneClassNames[tip.tone],
           )}
         >

@@ -1,15 +1,16 @@
 import type { CSSProperties } from "react";
 
 import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Every moment wears one medallion: a round token with a white ring and a
- * small lip. Only what's inside changes: a gym badge in its type, any other
+ * Every moment wears one medallion: a round token with a white ring on a
+ * soft drop (`--moment-drop`). Only what's inside changes: a gym badge in its type, any other
  * milestone in gold, a Pokémon on its type tint, a note warm, a status
- * neutral, and where the Play began in the game's colour.
+ * neutral, and where the Play began in the accent.
  */
 export type MedallionContent =
   | { kind: "badge"; type: PokemonTypeSlug }
@@ -20,9 +21,9 @@ export type MedallionContent =
 export type MedallionSize = "md" | "sm" | "xs";
 
 const sizeClassNames: Record<MedallionSize, string> = {
-  md: "m-1.25 size-11.5 shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--mr),0_3px_0_4.5px_var(--lip)] [&_svg]:size-5",
-  sm: "m-px size-8 shadow-[0_0_0_2.5px_#fff,0_0_0_3.5px_var(--mr),0_2px_0_3.5px_var(--lip)] [&_svg]:size-4",
-  xs: "m-0.5 size-6 shadow-[0_0_0_2px_#fff,0_0_0_3px_var(--mr)] [&_svg]:size-3.25",
+  md: "moment-ring m-1.25 size-11.5 [&_svg]:size-5",
+  sm: "moment-ring m-px size-8 [&_svg]:size-4",
+  xs: "moment-ring-small m-0.5 size-6 [&_svg]:size-3",
 };
 
 const imageSizeClassNames: Record<MedallionSize, string> = {
@@ -31,15 +32,12 @@ const imageSizeClassNames: Record<MedallionSize, string> = {
   xs: "size-8",
 };
 
-const typeTint = (type: PokemonTypeSlug | null) =>
-  type ? `var(--type-${type})` : "var(--mute)";
-
 const getMedallionStyle = (content: MedallionContent): CSSProperties => {
   switch (content.kind) {
     case "badge":
       return {
-        "--mf": typeTint(content.type),
-        "--mr": `color-mix(in oklab, ${typeTint(content.type)} 45%, white)`,
+        ...getPokemonTypeCssVariables(content.type),
+        "--mf": "var(--t)",
       } as CSSProperties;
     case "gold":
       return {
@@ -48,8 +46,8 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       } as CSSProperties;
     case "pokemon":
       return {
-        "--mf": `color-mix(in oklab, ${typeTint(content.type)} 24%, var(--surface))`,
-        "--mr": `color-mix(in oklab, ${typeTint(content.type)} 45%, white)`,
+        ...getPokemonTypeCssVariables(content.type),
+        "--mf": "color-mix(in oklab, var(--t) 16%, var(--surface))",
       } as CSSProperties;
     case "note":
       return {
@@ -58,8 +56,8 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       } as CSSProperties;
     case "start":
       return {
-        "--mf": "var(--game-strong)",
-        "--mr": "var(--game-lip)",
+        "--mf": "var(--action)",
+        "--mr": "color-mix(in oklab, var(--action) 35%, white)",
       } as CSSProperties;
     case "status":
       return {

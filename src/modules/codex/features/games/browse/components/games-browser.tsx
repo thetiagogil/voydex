@@ -1,5 +1,6 @@
 "use client";
 
+import { PageBand } from "@/shared/components/page-band";
 import { useMemo, useState } from "react";
 
 import { GamesShelf } from "@/modules/codex/features/games/browse/components/games-shelf";
@@ -15,9 +16,15 @@ import {
   type GamesSortOrder,
 } from "@/modules/codex/features/games/browse/data/games-browse-model";
 import type { GamesPageData } from "@/modules/reference/types";
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { PageHeader } from "@/shared/components/page-header";
 
 const countWords = [
@@ -44,13 +51,14 @@ type GamesBrowserProps = {
 };
 
 /*
- * The Codex's games: the title and how many there are, the toolbar (search,
- * Kind, Group, Sort) and the shelf of covers, grouped by generation or
- * region. A reference list: it never says which games you've played.
+ * The Codex's games: the band with the title, how many there are and the
+ * toolbar (search, Kind, Group, Sort), then the shelf of covers: one plain
+ * grid by default, or grouped by generation or region. A reference list: it never says which games you've
+ * played.
  */
 export const GamesBrowser = ({ data }: GamesBrowserProps) => {
   const [filters, setFilters] = useState<GamesBrowseFilters>(data.filters);
-  const [groupBy, setGroupBy] = useState<GamesGroupBy>("generation");
+  const [groupBy, setGroupBy] = useState<GamesGroupBy>("none");
   const [sortOrder, setSortOrder] = useState<GamesSortOrder>("oldest");
   const filteredGames = useMemo(
     () => filterGames(data.games, filters),
@@ -67,6 +75,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
     [data.regions, filteredGames, groupBy, sortOrder],
   );
   const hasActiveFilters = hasActiveGamesFilters(filters);
+  const fold = useFold({ defaultOpen: hasActiveFilters });
 
   const updateFilter = <FilterKey extends keyof GamesBrowseFilters>(
     key: FilterKey,
@@ -78,41 +87,61 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
     }));
   };
 
-  const clearFilters = () => {
+  const isReordered = groupBy !== "none" || sortOrder !== "oldest";
+
+  const resetList = () => {
     setFilters(emptyGamesPageFilters);
+    setGroupBy("none");
+    setSortOrder("oldest");
   };
 
   return (
     <>
-      <PageHeader
-        title="Games"
-        className="pt-5.5 sm:pt-5.5"
-        description={
-          <>
-            <b className="text-ink font-extrabold">{data.games.length} games</b>{" "}
-            across {spellCount(countGenerations(data.games))} generations.
-          </>
-        }
-      />
+      <PageBand>
+        <FoldHead
+          toggle={
+            <FoldToggle
+              controls={fold.panelId}
+              open={fold.open}
+              onOpenChange={fold.setOpen}
+            />
+          }
+        >
+          <PageHeader
+            title="Games"
+            description={
+              <>
+                <b className="text-ink font-extrabold">
+                  {data.games.length} games
+                </b>{" "}
+                across {spellCount(countGenerations(data.games))} generations.
+              </>
+            }
+          />
+        </FoldHead>
 
-      <GamesToolbar
-        filters={filters}
-        games={data.games}
-        groupBy={groupBy}
-        onFilterChange={updateFilter}
-        onGroupByChange={setGroupBy}
-        onSortOrderChange={setSortOrder}
-        sortOrder={sortOrder}
-      />
-
-      <FilterResultsLine
-        className="mt-3"
-        hasActiveFilters={hasActiveFilters}
-        noun="games"
-        onClearFilters={clearFilters}
-        shownCount={filteredGames.length}
-        totalCount={data.games.length}
-      />
+        <FoldPanel id={fold.panelId} open={fold.open}>
+          <GamesToolbar
+            filters={filters}
+            games={data.games}
+            groupBy={groupBy}
+            matchingCount={filteredGames.length}
+            onFilterChange={updateFilter}
+            onGroupByChange={setGroupBy}
+            onSortOrderChange={setSortOrder}
+            sortOrder={sortOrder}
+          />
+          <FilterResultsLine
+            className="mt-3"
+            hasActiveFilters={hasActiveFilters}
+            isReordered={isReordered}
+            noun="games"
+            onReset={resetList}
+            shownCount={filteredGames.length}
+            totalCount={data.games.length}
+          />
+        </FoldPanel>
+      </PageBand>
 
       {sections.length ? (
         <GamesShelf sections={sections} />
@@ -121,9 +150,7 @@ export const GamesBrowser = ({ data }: GamesBrowserProps) => {
           variant="bare"
           className="mt-6"
           title="No games match that search or filter."
-          action={
-            <ClearFiltersButton variant="outline" onClick={clearFilters} />
-          }
+          action={<ResetListButton onClick={resetList} />}
         />
       )}
     </>

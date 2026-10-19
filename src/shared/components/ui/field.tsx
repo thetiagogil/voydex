@@ -4,7 +4,6 @@ import { useMemo } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/shared/utils/cn";
 import { Label } from "@/shared/components/ui/label";
-import { Separator } from "@/shared/components/ui/separator";
 
 const FieldSet = ({
   className,
@@ -112,20 +111,7 @@ const FieldLabel = ({
       className={cn(
         "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50",
         /* A label wrapping a whole field is a choice card: flat, and the soft selected tint with an accent border once chosen. */
-        "has-[>[data-slot=field]]:border-line has-[>[data-slot=field]]:bg-surface has-[>[data-slot=field]]:text-15 has-[>[data-slot=field]]:text-ink has-[>[data-slot=field]]:has-focus-visible:outline-focus has-[>[data-slot=field]]:hover:bg-surface-2 has-data-checked:border-game has-data-checked:bg-select-soft has-data-checked:text-select-ink has-data-checked:hover:bg-select-soft has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border-[1.5px] has-[>[data-slot=field]]:font-semibold has-[>[data-slot=field]]:transition-colors has-[>[data-slot=field]]:has-focus-visible:outline-3 has-[>[data-slot=field]]:has-focus-visible:outline-offset-2 has-[>[data-slot=field]]:has-focus-visible:outline-solid *:data-[slot=field]:p-3",
-        className,
-      )}
-      {...props}
-    />
-  );
-};
-
-const FieldTitle = ({ className, ...props }: React.ComponentProps<"div">) => {
-  return (
-    <div
-      data-slot="field-label"
-      className={cn(
-        "text-15 text-ink flex w-fit items-center gap-2 font-extrabold group-data-[disabled=true]/field:opacity-50",
+        "has-[>[data-slot=field]]:border-line has-[>[data-slot=field]]:bg-surface has-[>[data-slot=field]]:text-15 has-[>[data-slot=field]]:text-ink has-[>[data-slot=field]]:has-focus-visible:outline-focus has-[>[data-slot=field]]:hover:bg-surface-2 has-data-checked:border-action has-data-checked:bg-select-soft has-data-checked:text-select-ink has-data-checked:hover:bg-select-soft has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border-[1.5px] has-[>[data-slot=field]]:font-semibold has-[>[data-slot=field]]:transition-colors has-[>[data-slot=field]]:has-focus-visible:outline-3 has-[>[data-slot=field]]:has-focus-visible:outline-offset-2 has-[>[data-slot=field]]:has-focus-visible:outline-solid *:data-[slot=field]:p-3",
         className,
       )}
       {...props}
@@ -148,36 +134,6 @@ const FieldDescription = ({
       )}
       {...props}
     />
-  );
-};
-
-const FieldSeparator = ({
-  children,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  children?: React.ReactNode;
-}) => {
-  return (
-    <div
-      data-slot="field-separator"
-      data-content={!!children}
-      className={cn(
-        "text-13 relative -my-2 h-5 font-semibold group-data-[variant=outline]/field-group:-mb-2",
-        className,
-      )}
-      {...props}
-    >
-      <Separator className="absolute inset-0 top-1/2" />
-      {children && (
-        <span
-          className="bg-surface text-ink-3 relative mx-auto block w-fit px-2"
-          data-slot="field-separator-content"
-        >
-          {children}
-        </span>
-      )}
-    </div>
   );
 };
 
@@ -238,8 +194,6 @@ export {
   FieldError,
   FieldGroup,
   FieldLegend,
-  FieldSeparator,
   FieldSet,
   FieldContent,
-  FieldTitle,
 };

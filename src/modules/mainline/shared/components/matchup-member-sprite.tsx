@@ -1,14 +1,13 @@
 import Image from "next/image";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import type { TypeMatchupMember } from "@/modules/mainline/shared/data/type-matchup-rows";
 import { cn } from "@/shared/utils/cn";
 
 /*
- * One of your Pokémon in the matchups: its art, plain, as v3 draws it in the
- * matrix. The page has no loud parts, so these aren't stickers.
+ * One Pokémon of the team in the matchups: its art, plain, as v3 draws it in
+ * the matrix. The matchups have no loud parts, so these aren't stickers.
  */
-export const TeamAnalysisMemberSprite = ({
+export const MatchupMemberSprite = ({
   className,
   label = "",
   member,
@@ -16,9 +15,9 @@ export const TeamAnalysisMemberSprite = ({
   className?: string;
   /* The Pokémon's name when nothing beside the art says it. */
   label?: string;
-  member: MainlinePlayTeamMember;
+  member: TypeMatchupMember;
 }) => {
-  const imageUrl = getPlayTeamMemberImageUrl(member);
+  const { imageUrl } = member;
 
   if (!imageUrl) {
     return (

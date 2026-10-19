@@ -18,7 +18,6 @@ import {
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type { HomePartnerChoice } from "@/modules/mainline/features/home/types";
 import { MeadowPokemon } from "@/modules/mainline/features/plays/shared/components/meadow-pokemon";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -65,8 +64,7 @@ const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
 
 /*
  * Home's meadow band (v3 `homeback`, `homefirst`): the greeting, the shelf
- * of your Plays, the current Play's team standing on the meadow in its
- * game's colour, and the line saying where it stands with Continue. A Play
+ * of your Plays, the current Play's team standing on the meadow, and the line saying where it stands with Continue. A Play
  * with nothing recorded shows its first partners instead: tap one, then
  * "Choose {name}" (in Continue's place) records it.
  */
@@ -108,13 +106,8 @@ export const HomeBandSection = ({
       : getHomePlayStatusLine(current);
 
   return (
-    <section
-      aria-labelledby="home-greeting"
-      style={getGameColourStyle(current.gameSlug)}
-      className="game-scope"
-    >
+    <section aria-labelledby="home-greeting">
       <MeadowScene
-        tinted
         form="band"
         sceneClassName={
           partnerChoice || isFirstPlay ? "h-56 sm:h-64" : "h-32 sm:h-54"

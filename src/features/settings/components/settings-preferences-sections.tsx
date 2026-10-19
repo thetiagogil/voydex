@@ -15,7 +15,7 @@ export const SettingsPreferencesSections = () => (
       </SettingsRow>
       <SettingsRow
         title="Colour theme"
-        description="The ground and button colours. Each Play still wears its game's colour."
+        description="The ground and button colours, the same on every page."
       >
         <PendingData variant="inline" />
       </SettingsRow>

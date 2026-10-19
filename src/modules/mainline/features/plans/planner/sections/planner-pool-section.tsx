@@ -1,5 +1,7 @@
 "use client";
 
+import { ChoiceChip } from "@/shared/components/choice-chip";
+import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
@@ -8,10 +10,8 @@ import type {
   PlannerVersionGroup,
   PlanType,
 } from "@/modules/mainline/features/plans/types";
-import {
-  PokemonCard,
-  pokemonCardPickedClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -19,7 +19,16 @@ import { RangeHeading } from "@/shared/components/range-heading";
 import { SearchControl } from "@/shared/components/search-control";
 import { SectionHead } from "@/shared/components/section-head";
 import { SegmentedControl } from "@/shared/components/segmented-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
+import {
+  FoldHead,
+  FoldPanel,
+  FoldToggle,
+  useFold,
+} from "@/shared/components/fold";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
 
@@ -60,8 +69,6 @@ export const matchesPoolFilters = (
   );
 };
 
-const formatNumber = (value: number) => `#${String(value).padStart(3, "0")}`;
-
 /*
  * v3 `.sec.pick`: every Pokémon of the version group, one range per
  * Pokédex (base, then each expansion) with a scope picker to show one,
@@ -93,76 +100,114 @@ export const PlannerPoolSection = ({
   );
   const hasAny = scopedSections.some((section) => section.pokemon.length);
 
+  /* The search and filter bar folds under the heading, opened from its row. */
+  const fold = useFold({
+    defaultOpen:
+      Boolean(filters.query) || filters.fullyEvolved || Boolean(filters.type),
+  });
+
   return (
     <section aria-labelledby="planner-pool" className="flex flex-col gap-4">
-      <SectionHead
-        title="Pick your Pokémon"
-        titleId="planner-pool"
-        className="flex-wrap gap-y-3"
-        titleClassName="whitespace-nowrap"
-        aside={
-          isFull
-            ? "Team is full. Tap one to swap it in"
-            : "Tap to add, tap again to take it off"
+      <FoldHead
+        toggle={
+          <FoldToggle
+            controls={fold.panelId}
+            open={fold.open}
+            onOpenChange={fold.setOpen}
+          />
         }
-        action={
-          sections.length > 1 ? (
-            <SegmentedControl
-              ariaLabel="Pokédex"
-              selectedTone="strong"
-              size="sm"
-              className="no-scrollbar -mx-4 w-[calc(100%+2rem)] max-w-none flex-nowrap overflow-x-auto px-4 py-1.5 sm:mx-0 sm:w-auto sm:max-w-full sm:px-0 sm:py-0"
-              value={filters.dex}
-              onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
-              options={[
-                {
-                  count: shownSections.reduce(
-                    (total, section) => total + section.pokemon.length,
-                    0,
-                  ),
-                  label: "All",
-                  value: "",
-                },
-                ...shownSections.map((section) => ({
-                  count: section.pokemon.length,
-                  label: section.name,
-                  value: section.key,
-                })),
-              ]}
+      >
+        <SectionHead
+          title="Pick your Pokémon"
+          titleId="planner-pool"
+          className="flex-wrap gap-y-3"
+          titleClassName="whitespace-nowrap"
+          aside={
+            isFull
+              ? "Team is full. Tap one to swap it in"
+              : "Tap to add, tap again to take it off"
+          }
+          action={
+            sections.length > 1 ? (
+              <SegmentedControl
+                ariaLabel="Pokédex"
+                selectedTone="strong"
+                phoneScroll
+                value={filters.dex}
+                onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
+                options={[
+                  {
+                    count: shownSections.reduce(
+                      (total, section) => total + section.pokemon.length,
+                      0,
+                    ),
+                    label: "All",
+                    value: "",
+                  },
+                  ...shownSections.map((section) => ({
+                    count: section.pokemon.length,
+                    label: section.name,
+                    value: section.key,
+                  })),
+                ]}
+              />
+            ) : null
+          }
+        />
+      </FoldHead>
+      <FoldPanel id={fold.panelId} open={fold.open}>
+        <FilterToolbar
+          ariaLabel="Filter the Pokémon"
+          activeCount={(filters.fullyEvolved ? 1 : 0) + (filters.type ? 1 : 0)}
+          resultLabel="Show Pokémon"
+          search={
+            <SearchControl
+              id="planner-search"
+              ariaLabel={`Search every Pokémon in ${versionGroup.name}`}
+              placeholder={`Search every Pokémon in ${versionGroup.name}`}
+              value={filters.query}
+              onValueChange={(query) => onFiltersChange({ ...filters, query })}
             />
-          ) : null
-        }
-      />
-      <Toolbar
-        aria-label="Filter the Pokémon"
-        search={
-          <SearchControl
-            id="planner-search"
-            ariaLabel={`Search every Pokémon in ${versionGroup.name}`}
-            placeholder={`Search every Pokémon in ${versionGroup.name}`}
-            value={filters.query}
-            onValueChange={(query) => onFiltersChange({ ...filters, query })}
-          />
-        }
-        trailing={
-          <SegmentedControl
-            ariaLabel="Evolution"
-            value={filters.fullyEvolved ? "final" : null}
-            onValueChange={() =>
-              onFiltersChange({
-                ...filters,
-                fullyEvolved: !filters.fullyEvolved,
-              })
-            }
-            options={[{ label: "Fully evolved only", value: "final" }]}
-          />
-        }
-      />
-      <PokemonTypeFilter
-        types={types}
-        value={filters.type}
-        onValueChange={(type) => onFiltersChange({ ...filters, type })}
-      />
+          }
+          filters={(placement) => {
+            const fullyEvolved = (
+              <ChoiceChip
+                size="lg"
+                pressed={filters.fullyEvolved}
+                onClick={() =>
+                  onFiltersChange({
+                    ...filters,
+                    fullyEvolved: !filters.fullyEvolved,
+                  })
+                }
+              >
+                Fully evolved only
+              </ChoiceChip>
+            );
+
+            return placement === "line" ? (
+              fullyEvolved
+            ) : (
+              <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
+            );
+          }}
+          row={(placement) => {
+            const type = (
+              <PokemonTypeFilter
+                types={types}
+                value={filters.type}
+                onValueChange={(type) => onFiltersChange({ ...filters, type })}
+              />
+            );
+
+            return placement === "line" ? (
+              type
+            ) : (
+              <FilterSheetRow label="Type">{type}</FilterSheetRow>
+            );
+          }}
+        />
+      </FoldPanel>
 
       {hasAny ? (
         scopedSections
@@ -172,7 +217,11 @@ export const PlannerPoolSection = ({
               key={section.key}
               id={`dex-${section.key}`}
               aria-labelledby={`dex-${section.key}-title`}
-              className="flex scroll-mt-24 flex-col gap-3 [contain-intrinsic-size:auto_640px] [content-visibility:auto]"
+              /*
+               * Skipped while off screen, which clips its paint to its box:
+               * a little room round the cards keeps their focus rings whole.
+               */
+              className="-m-2 flex scroll-mt-24 flex-col gap-3 p-2 [contain-intrinsic-size:auto_640px] [content-visibility:auto]"
             >
               <RangeHeading
                 headingLevel={3}
@@ -193,13 +242,6 @@ export const PlannerPoolSection = ({
                       <button
                         type="button"
                         aria-pressed={slot !== undefined}
-                        aria-label={[
-                          pokemon.name,
-                          slot ? `in slot ${slot}` : null,
-                          ...notes,
-                        ]
-                          .filter(Boolean)
-                          .join(". ")}
                         title={notes.join(" ") || undefined}
                         onClick={() => onPick(pokemon)}
                         style={getPokemonTypeCssVariables(
@@ -208,7 +250,7 @@ export const PlannerPoolSection = ({
                             ? pokemon.types[0].slug
                             : null,
                         )}
-                        className="focus-visible:outline-focus block w-full rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                        className="focus-ring block w-full rounded-lg"
                       >
                         <PokemonCard
                           state="plain"
@@ -216,16 +258,23 @@ export const PlannerPoolSection = ({
                           imageAlt=""
                           imageUrl={pokemon.imageUrl}
                           name={pokemon.name}
-                          number={formatNumber(pokemon.nationalNumber)}
+                          number={formatNationalNumber(pokemon.nationalNumber)}
                           types={pokemon.types}
+                          picked={slot !== undefined}
                           className={cn(
                             /* The whole tile lifts, carrying its marks. */
                             "hover:translate-y-0",
-                            slot !== undefined && pokemonCardPickedClassName,
                             replacingId === pokemon.speciesId &&
-                              "outline-game outline-3 outline-offset-2 outline-solid",
+                              "outline-action outline-3 outline-offset-2 outline-solid",
                           )}
                         ></PokemonCard>
+                        {slot || notes.length ? (
+                          <span className="sr-only">
+                            {[slot ? `, in slot ${slot}` : null, ...notes]
+                              .filter(Boolean)
+                              .join(". ")}
+                          </span>
+                        ) : null}
                       </button>
                       {slot !== undefined || notes.length ? (
                         /*
@@ -234,7 +283,7 @@ export const PlannerPoolSection = ({
                          * anything outside): the "!" of Your team's slots,
                          * then the slot number, both raised 24px dots.
                          */
-                        <span className="absolute top-2 right-2 z-10 flex items-center gap-1">
+                        <CornerBubble corner="inside-top-right">
                           {notes.length ? (
                             <ExplanatoryTip
                               triggerVariant="raised"
@@ -247,14 +296,9 @@ export const PlannerPoolSection = ({
                             />
                           ) : null}
                           {slot !== undefined ? (
-                            <span
-                              aria-hidden
-                              className="bg-game text-13 grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums shadow-[0_2px_0_var(--game-lip)]"
-                            >
-                              {slot}
-                            </span>
+                            <SlotMark>{slot}</SlotMark>
                           ) : null}
-                        </span>
+                        </CornerBubble>
                       ) : null}
                     </li>
                   );

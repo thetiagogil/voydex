@@ -33,7 +33,7 @@ test.describe("Team", () => {
     const activeTeam = page.getByRole("region", { name: /^Active team/ });
     await expect(activeTeam.getByRole("heading")).toContainText("2 / 6");
     const sparky = activeTeam.getByRole("button", {
-      name: "Sparky, Pikachu, Lv. 12, Active slot 2",
+      name: /^2 Sparky Lv\. 12.*, Active slot 2$/,
     });
     await expect(sparky).toBeVisible();
 
@@ -57,7 +57,7 @@ test.describe("Team", () => {
     await expect(
       page
         .getByRole("region", { name: /^Reserve/ })
-        .getByRole("button", { name: /^Pidgey, Reserve slot 1/ }),
+        .getByRole("button", { name: /\bPidgey\b.*, Reserve slot 1$/ }),
     ).toBeVisible();
   });
 
@@ -70,7 +70,7 @@ test.describe("Team", () => {
     await expect(
       page
         .getByRole("region", { name: /^Active team/ })
-        .getByRole("button", { name: /^Wartortle, Active slot 1/ }),
+        .getByRole("button", { name: /^1 Wartortle\b.*, Active slot 1$/ }),
     ).toBeVisible();
 
     await page.getByRole("button", { name: "Edit Wartortle" }).click();

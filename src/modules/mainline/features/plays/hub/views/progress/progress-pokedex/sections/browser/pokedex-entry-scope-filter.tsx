@@ -31,7 +31,9 @@ export const PokedexEntryScopeFilter = ({
   return (
     <SelectControl
       ariaLabel="Filter by local Pokédex"
-      className="w-52 min-w-0"
+      resetValue="all"
+      variant="ghost"
+      className="min-w-0"
       onValueChange={onValueChange}
       options={options}
       placeholder="All Pokédex areas"

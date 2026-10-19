@@ -20,21 +20,18 @@ export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
       form="band"
       titleId="home-title"
     >
-      <h1
-        id="home-title"
-        className="text-60 pt-7 leading-none tracking-tight sm:pt-11 sm:text-[112px]"
-      >
+      <h1 id="home-title" className="title-wordmark pt-7 sm:pt-11">
         Voydex
       </h1>
-      <p className="font-display mt-2.5 text-[22px] leading-tight font-semibold tracking-[-0.01em] sm:text-[30px]">
+      <p className="title-section mt-2.5">
         Keep the story behind every playthrough.
       </p>
-      <p className="text-ink-2 mt-2.5 mb-5 max-w-[35em] text-[15.5px] leading-[1.6] font-semibold sm:mt-3.5 sm:mb-6.5 sm:text-[17.5px]">
+      <p className="text-ink-2 text-16 sm:text-17 mt-2.5 mb-5 max-w-[35em] leading-relaxed font-semibold sm:mt-3.5 sm:mb-6.5">
         One place for all your Pokémon games, from every generation. Log each
         run as a Play, and Voydex remembers its team, its badges, its Pokédex
         and exactly where you left off.
       </p>
-      <SiteActions isAuthenticated={isAuthenticated} />
+      <SiteActions isAuthenticated={isAuthenticated} showIntro />
     </MeadowCard>
   );
 };

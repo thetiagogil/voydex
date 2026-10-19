@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 
-import { useDetailSheetLayout } from "@/modules/mainline/shared/client/use-detail-sheet-layout";
+import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -67,7 +67,7 @@ export const StoryMilestoneEditor = ({
   recordsTeam?: boolean;
 }) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const usesBottomSheet = useDetailSheetLayout();
+  const usesBottomSheet = useBottomSheetLayout();
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
   const isOpen = open && Boolean(milestone);
   const form = (surface: StoryMilestoneEditorSurface) =>
@@ -85,15 +85,23 @@ export const StoryMilestoneEditor = ({
 
   if (usesBottomSheet) {
     return (
-      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+      /*
+       * BottomSheet's own look, built here because the form owns its footer.
+       * Marking incomplete asks for an answer, so a tap outside never closes it.
+       */
+      <Sheet
+        open={isOpen}
+        onOpenChange={onOpenChange}
+        disablePointerDismissal={intent === "incomplete"}
+      >
         <SheetContent
           side="bottom"
-          className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0"
+          className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0 data-[side=bottom]:rounded-t-xl"
           initialFocus={titleRef}
         >
           <span
             aria-hidden
-            className="bg-line mx-auto mt-2.5 h-1.25 w-11 shrink-0 rounded-full"
+            className="bg-line mx-auto mt-2.5 mb-0.5 h-1.25 w-11 shrink-0 rounded-full"
           />
           <SheetHeader className="gap-1 px-5 pt-3 pr-14 pb-2">
             <EditorKicker milestone={milestone} />

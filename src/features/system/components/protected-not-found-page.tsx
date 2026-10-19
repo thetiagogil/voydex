@@ -38,7 +38,7 @@ export const ProtectedNotFoundPage = ({
           </Link>
           <Link
             href={modules.codex.defaultHref}
-            className={buttonVariants({ variant: "outline", size: "lg" })}
+            className={buttonVariants({ variant: "secondary", size: "lg" })}
           >
             <AppIcon icon={appIcons.actions.browseCodex} inline="start" />
             Browse the Codex

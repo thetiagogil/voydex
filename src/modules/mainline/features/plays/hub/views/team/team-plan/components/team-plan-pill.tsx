@@ -11,7 +11,6 @@ import {
   StatusBadge,
   type StatusBadgeTone,
 } from "@/shared/components/status-badge";
-import { cn } from "@/shared/utils/cn";
 
 import {
   getTeamPlanFollowingTone,
@@ -26,14 +25,6 @@ const badgeTones: Record<TeamPlanTone, StatusBadgeTone> = {
   warn: "warn",
 };
 
-/* v3 `.ps-legend i`: each tone's dot, on its pills. */
-const teamPlanToneDotClassNames: Record<TeamPlanTone, string> = {
-  info: "bg-calm",
-  mute: "bg-mute",
-  ok: "bg-ok",
-  warn: "bg-warn",
-};
-
 /* Retired and replaced matches share one mark, as on the match line. */
 export const teamPlanPastIcon = appIcons.product.retired;
 
@@ -45,18 +36,7 @@ const TeamPlanPill = ({
   label: string;
   tone: TeamPlanTone;
 }) => (
-  <StatusBadge
-    size="md"
-    tone={badgeTones[tone]}
-    className={cn(tone === "mute" && "text-ink-3")}
-  >
-    <span
-      aria-hidden
-      className={cn(
-        "size-2 shrink-0 rounded-full",
-        teamPlanToneDotClassNames[tone],
-      )}
-    />
+  <StatusBadge size="md" tone={badgeTones[tone]}>
     {label}
   </StatusBadge>
 );

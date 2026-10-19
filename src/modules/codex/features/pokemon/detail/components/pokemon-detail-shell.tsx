@@ -238,7 +238,6 @@ export const PokemonDetailShell = ({
             <PokemonDetailStatsCard
               generationName={generation.generation.name}
               stats={stats}
-              type={typeSlug}
             />
           ) : null}
           {defendingTypes.length ? (

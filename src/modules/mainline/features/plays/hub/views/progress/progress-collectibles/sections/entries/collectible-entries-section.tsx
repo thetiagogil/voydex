@@ -2,13 +2,17 @@
 
 import { useMemo, useRef, useState } from "react";
 
-import { ClearFiltersButton } from "@/shared/components/clear-filters-button";
+import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
+import { FoldPanel } from "@/shared/components/fold";
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { Toolbar } from "@/shared/components/toolbar";
+import {
+  FilterSheetRow,
+  FilterToolbar,
+} from "@/shared/components/filter-toolbar";
 
 import type {
   CollectibleProgressFilter,
@@ -54,6 +58,8 @@ export const CollectibleEntriesSection = ({
   onAreaStateChange,
   onEntryToggle,
   onSortChange,
+  searchOpen,
+  searchPanelId,
   sort,
   stateByEntryId,
 }: {
@@ -69,6 +75,9 @@ export const CollectibleEntriesSection = ({
   ) => void;
   onEntryToggle: (entry: MainlinePlayCollectibleEntry) => void;
   onSortChange: (sort: CollectibleSort) => void;
+  /* Whether the search and filter bar is open, from the head's button. */
+  searchOpen: boolean;
+  searchPanelId: string;
   sort: CollectibleSort;
   stateByEntryId: ReadonlyMap<number, boolean>;
 }) => {
@@ -134,14 +143,16 @@ export const CollectibleEntriesSection = ({
     areaSummaries.map((summary) => [summary.id, summary]),
   );
   const hasAreas = areaSummaries.length > 1;
-  /* The sort only orders; it filters nothing, so Clear filters keeps it. */
   const hasFilters =
     Boolean(query.trim()) || progressFilter !== "all" || areaId !== "all";
+  /* The sort only orders; it filters nothing, but Reset puts it back too. */
+  const isReordered = sort !== "canonical";
 
-  const resetFilters = () => {
+  const resetList = () => {
     setQuery("");
     setProgressFilter("all");
     setAreaId("all");
+    onSortChange("canonical");
   };
 
   /*
@@ -176,28 +187,67 @@ export const CollectibleEntriesSection = ({
       tabIndex={-1}
       className="grid min-w-0 grid-cols-1 gap-4 rounded-xs"
     >
-      <Toolbar
-        aria-label={`Filter ${group.name}`}
-        render={
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          />
-        }
-        search={
-          <SearchControl
-            ariaLabel={`Search ${group.name}`}
-            onValueChange={setQuery}
-            placeholder="Search number or place"
-            value={query}
-          />
-        }
-        trailing={
-          <>
-            {hasAreas ? (
+      <FoldPanel id={searchPanelId} open={searchOpen}>
+        <FilterToolbar
+          ariaLabel={`Filter ${group.name}`}
+          activeCount={
+            (progressFilter === "all" ? 0 : 1) + (areaId === "all" ? 0 : 1)
+          }
+          resultLabel={`Show ${group.name}`}
+          render={
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            />
+          }
+          search={
+            <SearchControl
+              ariaLabel={`Search ${group.name}`}
+              onValueChange={setQuery}
+              placeholder="Search number or place"
+              value={query}
+            />
+          }
+          controls={(placement) => {
+            const sortControl = (
               <SelectControl
+                id={
+                  placement === "line"
+                    ? "collectibles-sort"
+                    : "collectibles-sheet-sort"
+                }
+                ariaLabel="Sort collectibles"
+                resetValue={"canonical"}
+                onValueChange={(value) =>
+                  onSortChange(value as CollectibleSort)
+                }
+                options={sortOptions}
+                placeholder="Game order"
+                prefix={placement === "line" ? "Sort" : undefined}
+                value={sort}
+                variant="ghost"
+              />
+            );
+
+            return placement === "line" ? (
+              sortControl
+            ) : (
+              <FilterSheetRow htmlFor="collectibles-sheet-sort" label="Sort">
+                {sortControl}
+              </FilterSheetRow>
+            );
+          }}
+          filters={(placement) => {
+            const area = hasAreas ? (
+              <SelectControl
+                id={
+                  placement === "line"
+                    ? "collectibles-area"
+                    : "collectibles-sheet-area"
+                }
                 ariaLabel="Show one area"
+                resetValue={"all"}
                 className="w-48 min-w-0"
                 onValueChange={setAreaId}
                 options={areaOptions}
@@ -205,46 +255,61 @@ export const CollectibleEntriesSection = ({
                 value={areaId}
                 variant="ghost"
               />
-            ) : null}
-            <SegmentedControl
-              ariaLabel="Show"
-              onValueChange={setProgressFilter}
-              options={[
-                { count: progressCounts.all, label: "All", value: "all" },
-                {
-                  count: progressCounts.collected,
-                  label: "Found",
-                  value: "collected",
-                },
-                {
-                  count: progressCounts.missing,
-                  label: "Missing",
-                  value: "missing",
-                },
-              ]}
-              value={progressFilter}
-            />
-            <SelectControl
-              ariaLabel="Sort collectibles"
-              onValueChange={(value) => onSortChange(value as CollectibleSort)}
-              options={sortOptions}
-              placeholder="Game order"
-              prefix="Sort"
-              value={sort}
-              variant="ghost"
-            />
-          </>
-        }
-      />
+            ) : null;
+            const show = (
+              <SegmentedControl
+                variant="segment"
+                selectedTone="soft"
+                ariaLabel="Show"
+                onValueChange={setProgressFilter}
+                options={[
+                  { count: progressCounts.all, label: "All", value: "all" },
+                  {
+                    count: progressCounts.collected,
+                    label: "Found",
+                    value: "collected",
+                  },
+                  {
+                    count: progressCounts.missing,
+                    label: "Missing",
+                    value: "missing",
+                  },
+                ]}
+                value={progressFilter}
+              />
+            );
 
-      <FilterResultsLine
-        className="-mt-2"
-        hasActiveFilters={hasFilters}
-        noun={group.name}
-        onClearFilters={resetFilters}
-        shownCount={filteredEntries.length}
-        totalCount={group.entries.length}
-      />
+            return placement === "line" ? (
+              <>
+                {show}
+                {area}
+              </>
+            ) : (
+              <>
+                <FilterSheetRow label="Show">{show}</FilterSheetRow>
+                {area ? (
+                  <FilterSheetRow
+                    htmlFor="collectibles-sheet-area"
+                    label="Area"
+                  >
+                    {area}
+                  </FilterSheetRow>
+                ) : null}
+              </>
+            );
+          }}
+        />
+
+        <FilterResultsLine
+          className="mt-3"
+          hasActiveFilters={hasFilters}
+          isReordered={isReordered}
+          noun={group.name}
+          onReset={resetList}
+          shownCount={filteredEntries.length}
+          totalCount={group.entries.length}
+        />
+      </FoldPanel>
 
       <div className="mt-2 min-w-0">
         {areas.length ? (
@@ -273,9 +338,7 @@ export const CollectibleEntriesSection = ({
             title="Nothing to show"
             description={`No ${group.name} match these filters.`}
             action={
-              hasFilters ? (
-                <ClearFiltersButton variant="outline" onClick={resetFilters} />
-              ) : undefined
+              hasFilters ? <ResetListButton onClick={resetList} /> : undefined
             }
           />
         )}

@@ -1,7 +1,10 @@
 "use client";
 
+import { SheetSection } from "@/shared/components/sheet-section";
+import { ChoiceChip } from "@/shared/components/choice-chip";
+import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
@@ -52,27 +55,6 @@ type PlannerSlotSheetProps = {
   slots: PlannerSlots;
   versionGroup: PlannerVersionGroup;
 };
-
-/* v3 `.step`, as the roster's editor: one part under its Fredoka heading. */
-const SheetStep = ({
-  aside,
-  children,
-  title,
-}: {
-  aside?: string;
-  children: ReactNode;
-  title: string;
-}) => (
-  <section className="grid min-w-0 gap-4">
-    <div className="flex items-baseline gap-3">
-      <h3 className="text-20">{title}</h3>
-      {aside ? (
-        <span className="text-ink-3 text-13 font-semibold">{aside}</span>
-      ) : null}
-    </div>
-    {children}
-  </section>
-);
 
 /*
  * Fields side by side that share the row: each fills its share, wraps when
@@ -154,6 +136,7 @@ export const PlannerSlotSheet = ({
       title={pokemon.name}
       hero={{
         imageUrl: pokemon.imageUrl,
+        planned: true,
         meta: (
           <PokemonTypeList
             types={pokemon.types}
@@ -210,7 +193,7 @@ export const PlannerSlotSheet = ({
       }
     >
       <div className="grid gap-6">
-        <SheetStep title="Slot" aside="Where it sits in the team">
+        <SheetSection title="Slot" aside="Where it sits in the team">
           <div
             role="group"
             aria-label="Move to slot"
@@ -236,7 +219,7 @@ export const PlannerSlotSheet = ({
                   }
                   onClick={() => onMove(slotIndex, otherIndex)}
                   className={cn(
-                    "text-13 focus-visible:outline-focus flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    "text-13 focus-ring flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums",
                     isHere
                       ? "bg-select-soft text-select-ink"
                       : "bg-surface-2 text-ink-2 hover:bg-hover",
@@ -257,9 +240,9 @@ export const PlannerSlotSheet = ({
               );
             })}
           </div>
-        </SheetStep>
+        </SheetSection>
 
-        <SheetStep title="Role" aside="What it's for in this team">
+        <SheetSection title="Role" aside="What it's for in this team">
           {/* Pills on the sheet's surface take the inset fill, as fields do. */}
           <div
             role="group"
@@ -276,25 +259,15 @@ export const PlannerSlotSheet = ({
               const isPicked = member.role === role;
 
               return (
-                <button
+                <ChoiceChip
                   key={role}
-                  type="button"
-                  aria-pressed={isPicked}
+                  pressed={isPicked}
                   onClick={() =>
                     onUpdate(slotIndex, { role: isPicked ? null : role })
                   }
-                  className={cn(
-                    "text-14 focus-visible:outline-focus inline-flex h-10 items-center gap-1.5 rounded-full px-4 font-bold outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
-                    isPicked
-                      ? "bg-select-soft text-select-ink font-extrabold"
-                      : "bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink",
-                  )}
                 >
-                  {isPicked ? (
-                    <AppIcon icon={appIcons.status.active} size="sm" />
-                  ) : null}
                   {role}
-                </button>
+                </ChoiceChip>
               );
             })}
           </div>
@@ -313,10 +286,10 @@ export const PlannerSlotSheet = ({
               }
             />
           </Field>
-        </SheetStep>
+        </SheetSection>
 
         {isBuildOpen ? (
-          <SheetStep
+          <SheetSection
             title="Build"
             aside={`What ${versionGroup.name} lets you choose`}
           >
@@ -406,11 +379,9 @@ export const PlannerSlotSheet = ({
               </p>
             ) : null}
             {hasBuild ? (
-              <Button
-                type="button"
-                variant="link"
-                size="sm"
-                className="justify-self-start px-0"
+              <TextLink
+                standalone
+                className="justify-self-start"
                 onClick={() => {
                   setBuildOpenFor(null);
                   onUpdate(slotIndex, {
@@ -423,14 +394,14 @@ export const PlannerSlotSheet = ({
                 }}
               >
                 Remove build
-              </Button>
+              </TextLink>
             ) : null}
-          </SheetStep>
+          </SheetSection>
         ) : offered.length ? (
           <button
             type="button"
             onClick={() => setBuildOpenFor(slotIndex)}
-            className="empty-slot hover:bg-hover focus-visible:outline-focus flex items-center gap-3 rounded-md px-4 py-3 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+            className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-md px-4 py-3 text-left"
           >
             <AppIcon icon={appIcons.actions.create} size="md" />
             <span>

@@ -11,7 +11,7 @@ export default function Page({
   searchParams?: Promise<ForgotPasswordSearchParams>;
 }) {
   return (
-    <PublicAppShell showAuthAction={false}>
+    <PublicAppShell bar="none">
       <ForgotPasswordPage art={publicArt} searchParams={searchParams} />
     </PublicAppShell>
   );

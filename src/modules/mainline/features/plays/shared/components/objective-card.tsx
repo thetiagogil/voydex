@@ -14,11 +14,11 @@ import { cn } from "@/shared/utils/cn";
  * panel sits in a narrower column.
  */
 export const objectiveTitleClassNames = {
-  lg: "sm:text-44 mt-2.5 mb-2 text-[34px] leading-[1.02] tracking-tight outline-none",
-  md: "text-32 mt-2.5 mb-2 leading-[1.02] tracking-tight outline-none lg:text-[36px]",
+  lg: "title-hero mt-2.5 mb-2 outline-none",
+  md: "title-page mt-2.5 mb-2 outline-none",
 };
 
-/* v3 `.cont-label`: where the objective stands, in the game's deep colour. */
+/* v3 `.cont-label`: where the objective stands, in the accent's deep shade. */
 export const ObjectiveEyebrow = ({
   children,
   className,
@@ -30,7 +30,7 @@ export const ObjectiveEyebrow = ({
 }) => (
   <p
     className={cn(
-      "text-game-deep text-13 flex items-center gap-2 font-extrabold",
+      "text-action-ink text-13 flex items-center gap-2 font-extrabold",
       className,
     )}
   >
@@ -54,7 +54,7 @@ export const ObjectiveWhere = ({ children }: { children: ReactNode }) => (
 /*
  * The objective card (v3 `.cont`), Overview's next objective and Story's
  * panel: quiet, a Fredoka title over the page's main button, and an optional
- * footer line under a rule. Its heading names the region.
+ * footer line at the bottom. Its heading names the region.
  */
 export const ObjectiveCard = ({
   actions,
@@ -84,11 +84,11 @@ export const ObjectiveCard = ({
     {onClose ? (
       <Button
         type="button"
-        variant="ghost"
-        size="icon"
+        variant="secondary"
+        size="icon-sm"
         aria-label={closeLabel ?? "Close"}
         onClick={onClose}
-        className="bg-surface-2 text-ink-2 hover:bg-hover hover:text-ink absolute top-3.5 right-3.5 size-9.5 rounded-full"
+        className="absolute top-4 right-4"
       >
         <AppIcon icon={appIcons.actions.close} />
       </Button>

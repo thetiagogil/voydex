@@ -16,10 +16,22 @@ import { cn } from "@/shared/utils/cn";
  * width, so every platform's box keeps its shape; the stand-in is a 3:4 box.
  */
 const coverSizeClassNames = {
-  /* The Play's docked bar: a 40px thumbnail in a thin white frame. */
+  /*
+   * The Play's docked bar and the Team Planner's game: 40px tall in a thin
+   * white frame, its width from its own shape.
+   */
   dock: {
-    fallback: "text-12 h-10 border-[2.5px] border-white",
-    image: "h-10 w-7.5 border-[2.5px] border-white object-cover",
+    fallback: "text-12 h-10 w-auto border-[2.5px] border-white",
+    image: "h-10 w-auto max-w-none border-[2.5px] border-white",
+  },
+  /*
+   * A game in a list of rows (Where to find, exclusives, Plays, time
+   * played): the docked size, its true width, centred in a 48px slot that
+   * fits the widest box, so the names beside every cover line up.
+   */
+  row: {
+    fallback: "text-12 h-10 w-auto border-[2.5px] border-white",
+    image: "h-10 w-auto max-w-none border-[2.5px] border-white",
   },
   /*
    * The Play header's cover, in a white frame: every platform's box stands
@@ -39,6 +51,11 @@ const coverSizeClassNames = {
     fallback:
       "text-32 md:text-44 w-27.5 border-4 border-white md:h-71 md:w-auto",
     image: "h-auto w-27.5 max-w-full border-4 border-white md:h-71 md:w-auto",
+  },
+  /* A picker option's picture: the cover fits its 36px tile. */
+  option: {
+    fallback: "text-12 h-8 w-6 rounded-xs border-2",
+    image: "max-h-8 max-w-8 rounded-xs border-2",
   },
   /* The Codex's game card: the cover fits a 124px square (90px on phones). */
   shelf: {
@@ -93,8 +110,7 @@ type GameCoverProps = {
   eager?: boolean;
   gameName: string;
   /*
-   * Colours the stand-in when the cover sits outside its game's scope, as in
-   * the Codex. Inside a Play the stand-in takes the Play's colour.
+   * Colours the stand-in, when there is no art, in the game's own colour.
    */
   gameSlug?: string;
   /*
@@ -109,9 +125,12 @@ type GameCoverProps = {
 /*
  * A game's box: the real cover when there is one, otherwise a cover-shaped
  * stand-in with the game's initials in its colour. A cover that fails to load
- * falls back to the stand-in too.
+ * falls back to the stand-in too. Every cover, everywhere, sits in a white
+ * frame on a soft shadow, as a box on a shelf: the same 4px frame at every
+ * size, except the two thumbnails (a picker option, a docked bar), where 4px
+ * would cover the art.
  */
-export const GameCover = ({
+const GameCoverBox = ({
   alt,
   className,
   coverImageUrl,
@@ -147,7 +166,7 @@ export const GameCover = ({
         aria-hidden={alt ? undefined : true}
         style={gameSlug ? getGameColourStyle(gameSlug) : undefined}
         className={cn(
-          "bg-game-strong font-display shadow-cover grid aspect-3/4 shrink-0 place-items-center rounded-sm font-semibold text-white",
+          "bg-game-strong font-display shadow-cover grid aspect-3/4 shrink-0 place-items-center rounded-sm border-4 border-white bg-clip-padding font-semibold text-white",
           sizeClassNames?.fallback,
           carouselClassName,
           className,
@@ -169,7 +188,7 @@ export const GameCover = ({
         height={carouselSize.height}
         loading={eager ? "eager" : "lazy"}
         className={cn(
-          "bg-surface-2 shadow-cover block shrink-0 rounded-sm object-cover",
+          "bg-surface-2 shadow-cover block shrink-0 rounded-sm border-4 border-white object-cover",
           carouselClassName,
           className,
         )}
@@ -192,7 +211,7 @@ export const GameCover = ({
       loading={eager ? "eager" : "lazy"}
       decoding="async"
       className={cn(
-        "shadow-cover block h-auto w-auto shrink-0 rounded-sm",
+        "shadow-cover block h-auto w-auto shrink-0 rounded-sm border-4 border-white",
         sizeClassNames?.image,
         carouselClassName,
         className,
@@ -207,3 +226,13 @@ export const GameCover = ({
     />
   );
 };
+
+/* A `row` cover sits in its slot; every other size is the box alone. */
+export const GameCover = (props: GameCoverProps) =>
+  props.size === "row" ? (
+    <span className="flex w-12 shrink-0 justify-center">
+      <GameCoverBox {...props} />
+    </span>
+  ) : (
+    <GameCoverBox {...props} />
+  );

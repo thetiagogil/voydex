@@ -1,12 +1,10 @@
-import Link from "next/link";
+import { TextLink } from "@/shared/components/text-link";
 import type { ReactNode } from "react";
 
-import {
-  AppIcon,
-  appIcons,
-  type AppIconComponent,
-} from "@/shared/components/app-icon";
+import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
+import { PageHeadTool } from "@/shared/components/page-head-tool";
 import { cn } from "@/shared/utils/cn";
+import { IconDisc } from "@/shared/components/icon-disc";
 
 type SectionMoreLinkProps = {
   className?: string;
@@ -14,23 +12,20 @@ type SectionMoreLinkProps = {
   label: string;
 };
 
-/* v3 `.more`: a quiet link onward, such as "Open team", with an arrow. */
+/* v3 `.more`: the link onward from a section, such as "Open team". */
 export const SectionMoreLink = ({
   className,
   href,
   label,
 }: SectionMoreLinkProps) => {
   return (
-    <Link
+    <TextLink
       href={href}
-      className={cn(
-        "text-link text-14 focus-visible:outline-focus inline-flex min-h-10 items-center gap-1.5 rounded-xs px-0.5 font-extrabold whitespace-nowrap outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid sm:min-h-9",
-        className,
-      )}
+      arrow="forward"
+      className={cn("whitespace-nowrap", className)}
     >
       {label}
-      <AppIcon icon={appIcons.actions.continue} size="sm" aria-hidden />
-    </Link>
+    </TextLink>
   );
 };
 
@@ -74,7 +69,6 @@ export const SectionHead = ({
   titleId,
 }: SectionHeadProps) => {
   const Heading = headingLevel === 3 ? "h3" : "h2";
-  const hasTrailing = Boolean(more) || Boolean(action);
 
   return (
     <div
@@ -87,19 +81,16 @@ export const SectionHead = ({
     >
       <div className="flex min-w-0 gap-2">
         {icon ? (
-          <span className="bg-surface-2 text-ink-2 flex size-9 shrink-0 items-center justify-center rounded-sm">
-            <AppIcon icon={icon} size="sm" aria-hidden />
-          </span>
+          <IconDisc>
+            <AppIcon icon={icon} size="sm" />
+          </IconDisc>
         ) : null}
 
         <div className="flex min-w-0 flex-col gap-1">
           <div className="flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5">
             <Heading
               id={titleId}
-              className={cn(
-                "text-ink text-24 leading-tight tracking-[-0.015em]",
-                titleClassName,
-              )}
+              className={cn("text-ink title-section", titleClassName)}
             >
               {title}
             </Heading>
@@ -118,12 +109,12 @@ export const SectionHead = ({
         </div>
       </div>
 
-      {hasTrailing ? (
-        <div className="flex shrink-0 items-center gap-2 self-center">
-          {more ? <SectionMoreLink {...more} /> : null}
-          {action}
-        </div>
-      ) : null}
+      {/* A tool handed down by the page (the list's search button) leads. */}
+      <div className="flex shrink-0 items-center gap-2 self-center empty:hidden">
+        <PageHeadTool />
+        {more ? <SectionMoreLink {...more} /> : null}
+        {action}
+      </div>
     </div>
   );
 };

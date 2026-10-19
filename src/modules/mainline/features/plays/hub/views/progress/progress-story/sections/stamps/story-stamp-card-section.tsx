@@ -29,15 +29,16 @@ export const StoryStampCardSection = ({
     <Card
       role="region"
       aria-labelledby={titleId}
-      className={cn("gap-0 px-0 py-4 sm:py-5", className)}
+      className={cn("gap-0 px-0 py-2 sm:py-3", className)}
     >
       <h2 id={titleId} className="sr-only">
         Stamp card
       </h2>
       <StampGrid
         captions
-        className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-1 pb-1.5 sm:auto-cols-[64px] sm:px-7"
+        className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-3 pb-2 sm:auto-cols-[64px] sm:px-7"
         onSlapEnd={onSlapEnd}
+        scrollLabel="Stamps"
         slappingMilestoneId={slappingMilestoneId}
         stamps={stamps}
       />

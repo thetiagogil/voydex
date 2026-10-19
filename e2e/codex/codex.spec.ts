@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openFilters, openSearchBar } from "../support/filters";
 import { signedOut } from "../support/accounts";
 
 test.use({ storageState: signedOut });
@@ -8,6 +9,7 @@ test.use({ storageState: signedOut });
 test.describe("Codex", () => {
   test("finds a Pokémon and opens its entry @phone", async ({ page }) => {
     await page.goto("/codex/pokemon");
+    await openSearchBar(page);
     await expect(page.getByText("Showing all 1,025 Pokémon")).toBeVisible();
     await expectAccessible(page);
 
@@ -28,7 +30,8 @@ test.describe("Codex", () => {
 
   test("filters Pokémon by type", async ({ page }) => {
     await page.goto("/codex/pokemon");
-    await page
+    const { filters } = await openFilters(page);
+    await filters
       .getByRole("group", { name: "Filter by type" })
       .getByRole("button", { name: "Dragon" })
       .click();
@@ -41,7 +44,7 @@ test.describe("Codex", () => {
     await page.goto("/codex/games");
     await expectAccessible(page);
 
-    await page.getByRole("link", { name: "Pokémon Red, 1996, Kanto" }).click();
+    await page.getByRole("link", { name: /^Pokémon Red 1996 · Kanto/ }).click();
     await expect(
       page.getByRole("heading", { level: 1, name: "Pokémon Red and Blue" }),
     ).toBeVisible();
@@ -51,11 +54,12 @@ test.describe("Codex", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Kanto Pokédex" }),
     ).toBeVisible();
+    await openSearchBar(page);
     await page
       .getByRole("searchbox", { name: "Search the Kanto Pokédex" })
       .fill("mew");
     await expect(
-      page.getByRole("link", { name: "Open Mew in Red and Blue" }),
+      page.getByRole("link", { name: /^#\d+ Mew\b.*, in Red and Blue$/ }),
     ).toBeVisible();
     await expectAccessible(page);
   });

@@ -59,8 +59,8 @@ export const MilestoneMarker = ({
         "grid shrink-0 place-items-center rounded-full font-extrabold tabular-nums",
         ringSizeClassNames[size],
         state === "next"
-          ? "bg-surface text-game-deep shadow-[inset_0_0_0_2px_var(--game)]"
-          : "text-ink-3 shadow-[inset_0_0_0_1.5px_var(--line)]",
+          ? "bg-surface text-action-ink inset-ring-action inset-ring-2"
+          : "text-ink-3 inset-ring-line inset-ring",
         className,
       )}
     >

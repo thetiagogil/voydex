@@ -9,30 +9,13 @@ import {
   toPokemonTypeSlugs,
   type TeamTypeMember,
 } from "@/modules/mainline/shared/data/team-type-analysis";
+import { toTypeMatchupRows } from "@/modules/mainline/shared/data/type-matchup-rows";
 import type { Type } from "@/modules/reference/types";
 
 import type {
   TeamAnalysisCoverageRow,
   TeamAnalysisDefensiveRow,
-  TeamAnalysisEffectiveness,
 } from "../types";
-
-const formatMultiplier = (multiplier: number | null) => {
-  if (multiplier === null) return "Unknown";
-  if (multiplier === 0.25) return "¼×";
-  if (multiplier === 0.5) return "½×";
-  return `${multiplier}×`;
-};
-
-const getEffectiveness = (
-  multiplier: number | null,
-): TeamAnalysisEffectiveness => {
-  if (multiplier === null) return "unknown";
-  if (multiplier === 0) return "immune";
-  if (multiplier < 1) return "resistant";
-  if (multiplier > 1) return "weak";
-  return "neutral";
-};
 
 export const getTeamAnalysisMemberId = (member: MainlinePlayTeamMember) => {
   return member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
@@ -84,19 +67,16 @@ export const buildTeamAnalysisRows = ({
       defendingType: row.defendingType,
       moveCount: row.superEffectiveCount,
     })),
-    defensiveRows: buildTeamTypeMatchups({
-      generationOrder,
-      members: teamTypeMembers,
-      types,
-    }).map(({ cells, ...row }) => ({
-      ...row,
-      cells: cells.map((multiplier, index) => ({
-        effectiveness: getEffectiveness(multiplier),
-        memberId: teamTypeMembers[index].id,
-        memberName: getPlayTeamMemberName(members[index]),
-        multiplier,
-        multiplierLabel: formatMultiplier(multiplier),
+    defensiveRows: toTypeMatchupRows(
+      buildTeamTypeMatchups({
+        generationOrder,
+        members: teamTypeMembers,
+        types,
+      }),
+      members.map((member, index) => ({
+        id: teamTypeMembers[index].id,
+        name: getPlayTeamMemberName(member),
       })),
-    })),
+    ),
   };
 };

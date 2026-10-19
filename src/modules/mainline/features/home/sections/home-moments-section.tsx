@@ -13,7 +13,6 @@ import {
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { getPlayMomentInstant } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { appIcons } from "@/shared/components/app-icon";
 import { cardVariants } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
@@ -118,17 +117,13 @@ export const HomeMomentsSection = ({
     <section
       aria-labelledby="home-moments"
       data-slot="card"
-      style={getGameColourStyle(play.gameSlug)}
       className={cn(
         cardVariants(),
-        "game-scope mt-8 gap-6 px-5 py-6 sm:mt-11 sm:px-8 sm:py-7",
+        "mt-8 gap-6 px-5 py-6 sm:mt-11 sm:px-8 sm:py-7",
       )}
     >
       <div className="min-w-0">
-        <h2
-          id="home-moments"
-          className="text-24 tracking-[-0.015em] sm:text-[27px]"
-        >
+        <h2 id="home-moments" className="title-section">
           Latest moments
         </h2>
         <p className="text-ink-2 text-15 mt-1 font-semibold">
@@ -143,10 +138,14 @@ export const HomeMomentsSection = ({
           <li
             key={beat.key}
             className={cn(
-              "relative isolate grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 sm:grid-cols-1 sm:justify-items-center sm:gap-y-1.5 sm:text-center",
-              /* The line from the moment before (or from the edge) to this one's medallion. */
+              "relative grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 sm:grid-cols-1 sm:justify-items-center sm:gap-y-1.5 sm:text-center",
+              /*
+               * The line from the moment before (or from the edge) to this
+               * one's medallion. It runs under every medallion: the line sits
+               * at the list's level, each medallion one above it.
+               */
               (index > 0 || leadsIn) &&
-                "sm:before:bg-line sm:before:absolute sm:before:top-7 sm:before:right-1/2 sm:before:-z-1 sm:before:h-0.5 sm:before:rounded-full",
+                "sm:before:bg-line sm:before:absolute sm:before:top-7 sm:before:right-1/2 sm:before:z-0 sm:before:h-0.5 sm:before:rounded-full",
               index > 0
                 ? "sm:before:left-[calc(-50%-1.25rem)]"
                 : "sm:before:left-0",
@@ -154,7 +153,7 @@ export const HomeMomentsSection = ({
           >
             <Medallion
               content={beat.medallion}
-              className="row-span-3 sm:row-span-1"
+              className="relative z-1 row-span-3 sm:row-span-1"
             />
             <span className="text-ink-2 text-13 font-bold">{beat.kicker}</span>
             <span className="text-ink text-15 line-clamp-2 leading-snug font-semibold [&_b]:font-extrabold">

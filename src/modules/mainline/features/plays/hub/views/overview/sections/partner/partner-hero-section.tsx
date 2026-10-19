@@ -22,10 +22,7 @@ import {
   ObjectiveEyebrow,
   objectiveTitleClassNames,
 } from "@/modules/mainline/features/plays/shared/components/objective-card";
-import {
-  PokemonCard,
-  pokemonCardPickedClassName,
-} from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -219,7 +216,8 @@ export const PartnerHeroSection = ({
                 <PokemonCard
                   state="plain"
                   size="fluid"
-                  className="opacity-45 hover:translate-y-0"
+                  /* The ones not picked step back: their art fades, their names stay readable. */
+                  className="step-back hover:translate-y-0"
                   imageAlt=""
                   imageUrl={option.imageUrl}
                   name={option.name}
@@ -236,7 +234,7 @@ export const PartnerHeroSection = ({
                     setPickedOptionId(isPicked ? null : option.decisionOptionId)
                   }
                   style={getPokemonTypeCssVariables(getOptionTypeSlug(option))}
-                  className="focus-visible:outline-focus relative block w-full rounded-lg outline-offset-2 focus-visible:outline-3 focus-visible:outline-solid disabled:cursor-wait"
+                  className="focus-ring relative block w-full rounded-lg outline-offset-2 disabled:cursor-wait"
                 >
                   <PokemonCard
                     state="plain"
@@ -246,7 +244,7 @@ export const PartnerHeroSection = ({
                     name={option.name}
                     number=""
                     types={getOptionTypes(option)}
-                    className={cn(isPicked && pokemonCardPickedClassName)}
+                    picked={isPicked}
                   />
                 </button>
               )}

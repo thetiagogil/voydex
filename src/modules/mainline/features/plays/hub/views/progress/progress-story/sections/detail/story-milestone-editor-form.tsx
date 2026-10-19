@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useActionState, useEffect, useRef } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
 import { useRouter } from "next/navigation";
 
@@ -43,17 +43,6 @@ const initialStoryMilestoneActionState: StoryMilestoneActionState = {
   message: null,
   status: "idle",
 };
-
-/*
- * In a form the only colour is the action green, so the form re-scopes the
- * context colour to it: a chosen decision takes the green selected tint, not
- * the game's.
- */
-const actionScopeStyle = {
-  "--game": "var(--action)",
-  "--game-strong": "var(--action)",
-  "--gt": "17%",
-} as CSSProperties;
 
 const StoryMilestoneSubmitButton = ({
   copy,
@@ -121,11 +110,11 @@ export const StoryMilestoneEditorForm = ({
       {surface === "alert-dialog" ? (
         <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
       ) : surface === "dialog" ? (
-        <DialogClose render={<Button type="button" variant="outline" />}>
+        <DialogClose render={<Button type="button" variant="secondary" />}>
           Cancel
         </DialogClose>
       ) : (
-        <SheetClose render={<Button type="button" variant="outline" />}>
+        <SheetClose render={<Button type="button" variant="secondary" />}>
           Cancel
         </SheetClose>
       )}
@@ -134,11 +123,7 @@ export const StoryMilestoneEditorForm = ({
   );
 
   return (
-    <form
-      action={formAction}
-      className="game-scope flex min-h-0 flex-1 flex-col"
-      style={actionScopeStyle}
-    >
+    <form action={formAction} className="flex min-h-0 flex-1 flex-col">
       <input type="hidden" name="intent" value={intent} />
       <input type="hidden" name="playId" value={playId} />
       <input type="hidden" name="milestoneId" value={milestone.id} />
