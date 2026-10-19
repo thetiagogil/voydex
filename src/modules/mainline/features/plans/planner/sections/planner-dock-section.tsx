@@ -29,6 +29,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 export const randomModeLabels: Record<
@@ -105,10 +106,12 @@ export const PlannerDockSection = ({
     <section aria-labelledby="planner-team" className="flex flex-col gap-3">
       {replacing ? (
         <div className="flex flex-wrap items-center gap-3">
-          {replacing.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={replacing.imageUrl} alt="" className="size-10" />
-          ) : null}
+          <FallbackImage
+            src={replacing.imageUrl}
+            name={replacing.name}
+            fallback="badge"
+            className="size-10"
+          />
           <p
             id="planner-team"
             role="status"

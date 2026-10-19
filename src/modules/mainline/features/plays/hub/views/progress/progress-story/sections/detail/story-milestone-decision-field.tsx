@@ -60,20 +60,13 @@ const StoryMilestoneDecisionRadioGroup = ({
                 <span className="absolute top-2.5 left-2.5 flex w-auto">
                   <RadioGroupItem value={String(option.id)} />
                 </span>
-                {option.imageUrl ? (
-                  <PokemonPortrait
-                    alt=""
-                    imageUrl={option.imageUrl}
-                    sizes="4.5rem"
-                    className="mt-3 size-14 sm:mt-2 sm:size-18"
-                    imageClassName="p-1.5"
-                  />
-                ) : (
-                  <span
-                    aria-hidden
-                    className="empty-slot mt-3 size-14 rounded-full sm:mt-2 sm:size-18"
-                  />
-                )}
+                <PokemonPortrait
+                  alt=""
+                  imageUrl={option.imageUrl}
+                  name={option.speciesName}
+                  className="mt-3 size-14 sm:mt-2 sm:size-18"
+                  imageClassName="p-1.5"
+                />
                 <span className="text-14 sm:text-15 max-w-full font-extrabold">
                   {option.speciesName}
                 </span>

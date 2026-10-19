@@ -72,6 +72,7 @@ export const TeamPlanTargetCard = ({
 
       <TeamPlanArt
         imageUrl={getTeamPlanPlannedImageUrl(comparison)}
+        name={comparison.plannedName}
         silhouette={!found}
         className="mt-0.5 size-22.5 sm:size-31"
       />

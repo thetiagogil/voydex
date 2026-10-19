@@ -2,6 +2,7 @@ import {
   getPlayTeamSnapshotMemberName,
   type PlayTeamSnapshotMember,
 } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 const partySize = 6;
@@ -28,7 +29,7 @@ export const PlayTeamParty = ({
   members: PlayTeamSnapshotMember[];
   size?: "md" | "sm";
 }) => {
-  const party = members.filter((member) => member.imageUrl).slice(-partySize);
+  const party = members.slice(-partySize);
 
   if (!party.length) {
     return null;
@@ -47,11 +48,11 @@ export const PlayTeamParty = ({
       className={cn("hidden shrink-0 pl-1.5 sm:flex", className)}
     >
       {party.map((member) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <FallbackImage
           key={`${member.position}-${member.speciesName}`}
-          src={member.imageUrl ?? undefined}
-          alt=""
+          src={member.imageUrl}
+          name={member.formName ?? member.speciesName}
+          fallback="badge"
           loading="lazy"
           className={cn("max-w-none object-contain", sizeClassNames[size])}
         />

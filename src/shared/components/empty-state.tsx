@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 type EmptyStateProps =
@@ -7,7 +8,7 @@ type EmptyStateProps =
       /* Up to two actions. */
       action?: ReactNode;
       /* One Pokémon standing on its small patch of grass. */
-      artUrl?: string | null;
+      art?: { name: string; url: string | null } | null;
       className?: string;
       description: string;
       /* `h2` where the empty state stands in for a page's main content. */
@@ -44,7 +45,7 @@ export const EmptyState = (props: EmptyStateProps) => {
     );
   }
 
-  const { artUrl, description, headingLevel: Heading = "h3" } = props;
+  const { art, description, headingLevel: Heading = "h3" } = props;
 
   return (
     <div
@@ -55,14 +56,18 @@ export const EmptyState = (props: EmptyStateProps) => {
         className,
       )}
     >
-      {artUrl ? (
+      {art ? (
         <span
           aria-hidden
           className="relative mb-5 grid h-20 w-36 place-items-end justify-center"
         >
           <span className="bg-hill absolute inset-x-0 bottom-0 h-7 rounded-[50%]" />
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={artUrl} alt="" className="relative -mb-1 size-20" />
+          <FallbackImage
+            src={art.url}
+            name={art.name}
+            fallback="badge"
+            className="relative -mb-1 size-20"
+          />
         </span>
       ) : null}
       <Heading className="text-20">{title}</Heading>

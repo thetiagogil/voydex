@@ -40,6 +40,7 @@ describe("getPlayMomentRecord", () => {
     expect(record.medallion).toEqual({
       imageUrl: "https://assets.test/pokemon/home/md/toxtricity-amped.webp",
       kind: "pokemon",
+      name: "Toxtricity",
       type: null,
     });
     expect(record.headline.map((part) => part.text).join("")).toBe(

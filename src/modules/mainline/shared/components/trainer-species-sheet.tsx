@@ -118,6 +118,7 @@ export const TrainerSpeciesSheet = ({
         <PokemonSheetHead
           imageUrl={entry.imageUrl}
           layout={isMobile ? "inset" : "flush"}
+          name={entry.name}
           type={primaryType}
           actions={
             <div className="flex flex-wrap gap-2">

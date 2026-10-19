@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { PokemonPortraitFallbackImage } from "@/modules/reference/features/pokemon/components/pokemon-portrait-fallback-image";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -204,23 +204,19 @@ export const PokemonCard = ({
             "bg-[color-mix(in_oklab,var(--t)_10%,var(--surface))]",
         )}
       >
-        {imageUrl ? (
-          <span
-            className={cn(
-              "relative block",
-              sizes.art,
-              state === "missing" && "opacity-10 brightness-0",
-            )}
-          >
-            <PokemonPortraitFallbackImage
-              alt={imageAlt}
-              imageUrl={imageUrl}
-              className="p-0"
-              loading="lazy"
-              sizes="78px"
-            />
-          </span>
-        ) : null}
+        <FallbackImage
+          src={imageUrl}
+          name={name}
+          alt={imageAlt}
+          loading="lazy"
+          className={cn(
+            "object-contain",
+            sizes.art,
+            state === "missing" && "opacity-10 brightness-0",
+          )}
+          /* A missing Pokémon's art is a silhouette; its stand-in letter stays readable. */
+          fallbackClassName="opacity-100 brightness-100"
+        />
       </span>
       <b
         className={cn(

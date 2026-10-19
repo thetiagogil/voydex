@@ -34,8 +34,9 @@ export const PokemonTile = ({
   >
     <PokemonAvatar
       className="w-full max-w-18"
+      decorative
       imageUrl={imageUrl}
-      name=""
+      name={name}
       typeSlug={primaryTypeSlug}
     />
     <b className="text-13 line-clamp-2 w-full leading-tight font-extrabold text-balance wrap-break-word">

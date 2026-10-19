@@ -15,11 +15,15 @@
 
 /*
  * An owned Pokémon's sticker surface: the type tint and a 4px white border on
- * a soft shadow. Set --t. Swap the shadow with --sticker-shadow, or add
- * `sticker-picked` to mark it as the target.
+ * a soft shadow. Set --t (neutral when it isn't set). Swap the shadow with
+ * --sticker-shadow, or add `sticker-picked` to mark it as the target.
  */
 @utility sticker {
-  background-color: color-mix(in oklab, var(--t) 16%, var(--surface));
+  background-color: color-mix(
+    in oklab,
+    var(--t, var(--mute)) 16%,
+    var(--surface)
+  );
   /* The tint stops inside the band, so no coloured hairline shows round it. */
   background-clip: padding-box;
   border: 4px solid var(--sticker-border, #fff);

@@ -44,6 +44,7 @@ const getStartBeats = (play: HomePlay): Beat[] => {
         ? {
             imageUrl: play.lead.imageUrl,
             kind: "pokemon",
+            name: play.lead.name,
             type: null,
           }
         : { icon: appIcons.milestones.story, kind: "start" },

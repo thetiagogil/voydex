@@ -124,7 +124,12 @@ export const RecordAsYouGoStage = ({
             style={getTypeColourStyle(pokemon.type)}
             className="sticker grid aspect-square place-items-center rounded-md"
           >
-            <PokemonRender art={art} pokemon={pokemon} className="size-[88%]" />
+            <PokemonRender
+              art={art}
+              pokemon={pokemon}
+              fallback="letter"
+              className="size-[88%]"
+            />
           </span>
         ))}
       </div>
@@ -221,7 +226,12 @@ export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
           style={getTypeColourStyle(pokemon.type)}
           className="type-tint grid aspect-square place-items-center rounded-md"
         >
-          <PokemonRender art={art} pokemon={pokemon} className="size-[88%]" />
+          <PokemonRender
+            art={art}
+            pokemon={pokemon}
+            fallback="letter"
+            className="size-[88%]"
+          />
         </span>
       ))}
       {Array.from(

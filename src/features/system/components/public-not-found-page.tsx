@@ -18,7 +18,7 @@ type PublicNotFoundPageProps = {
 export const PublicNotFoundPage = ({ pokemon }: PublicNotFoundPageProps) => {
   return (
     <SystemState
-      artUrl={pokemon?.artUrl}
+      art={pokemon ? { name: pokemon.name, url: pokemon.artUrl } : null}
       eyebrow="404"
       title="This page wandered off"
       description={getNotFoundDescription(

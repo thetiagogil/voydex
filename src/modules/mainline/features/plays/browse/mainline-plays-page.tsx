@@ -20,10 +20,10 @@ type MainlinePlaysPageProps = {
   params?: PlayBrowseParams;
 };
 
-const emptyLibraryArtUrl = getPokemonFormImageUrl({
+const emptyLibraryArt = {
   name: "Pikachu",
-  slug: "pikachu",
-});
+  url: getPokemonFormImageUrl({ name: "Pikachu", slug: "pikachu" }),
+};
 
 /*
  * The Plays you archived, each with Restore; hidden from Home and the library
@@ -85,7 +85,7 @@ export const MainlinePlaysPage = ({ data, params }: MainlinePlaysPageProps) => {
           </PageBand>
           <EmptyState
             headingLevel="h2"
-            artUrl={emptyLibraryArtUrl}
+            art={emptyLibraryArt}
             title="Your first Play starts here"
             description="Pick the game you're playing and meet your partner. Voydex keeps the rest as you go."
             action={

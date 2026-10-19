@@ -7,6 +7,7 @@ import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/compone
 import { PlayTeamParty } from "@/modules/mainline/features/plays/shared/components/play-team-party";
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone } from "../../types";
@@ -165,9 +166,10 @@ export const StoryMilestoneRow = ({
         {state === "done" && (hasTeam || decision) ? (
           <span className="text-ink-3 col-start-2 flex items-center gap-2 sm:col-start-auto sm:pl-1">
             {decision && showDetails && decisionOption?.imageUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <FallbackImage
                 src={decisionOption.imageUrl}
+                name={decisionOption.speciesName ?? decisionOption.label}
+                fallback="badge"
                 alt={`Decision: ${decision}`}
                 title={`Decision: ${decision}`}
                 loading="lazy"

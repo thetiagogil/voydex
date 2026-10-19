@@ -20,8 +20,7 @@ export const GamePokedexPokemonPortraitCell = ({
     <PokemonPortrait
       alt=""
       imageUrl={pokemon.imageUrl}
-      fallbackOnError
-      sizes="3rem"
+      name={pokemon.species.name}
       type={
         primaryType && isPokemonTypeSlug(primaryType.slug)
           ? primaryType.slug

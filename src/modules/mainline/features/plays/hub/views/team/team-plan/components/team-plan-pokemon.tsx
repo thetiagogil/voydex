@@ -3,7 +3,6 @@ import type {
   MainlinePlayTeamPlanMemberComparison,
 } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { PokemonPortraitFallbackImage } from "@/modules/reference/features/pokemon/components/pokemon-portrait-fallback-image";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -13,6 +12,7 @@ import {
   appIcons,
   type AppIconComponent,
 } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 import {
@@ -37,34 +37,32 @@ export const getTeamPlanPlannedImageUrl = (
     slug: comparison.plannedFormSlug,
   });
 
-/* The art alone; a dark silhouette when the Pokémon isn't yours. */
+/*
+ * The art alone; a dark silhouette when the Pokémon isn't yours. Without art
+ * it shows the first letter of `name`, readable even as a silhouette.
+ */
 export const TeamPlanArt = ({
   className,
   imageUrl,
+  name,
   silhouette = false,
 }: {
   className?: string;
   imageUrl: string | null;
+  name: string;
   silhouette?: boolean;
 }) => (
-  <span
-    aria-hidden
+  <FallbackImage
+    src={imageUrl}
+    name={name}
+    loading="lazy"
     className={cn(
-      "relative block shrink-0",
+      "block shrink-0 object-contain",
       silhouette && "opacity-10 brightness-0",
       className,
     )}
-  >
-    {imageUrl ? (
-      <PokemonPortraitFallbackImage
-        alt=""
-        imageUrl={imageUrl}
-        className="p-0"
-        loading="lazy"
-        sizes="124px"
-      />
-    ) : null}
-  </span>
+    fallbackClassName="opacity-100 brightness-100"
+  />
 );
 
 const placementIcons: Record<TeamPlanMemberPlacement, AppIconComponent> = {

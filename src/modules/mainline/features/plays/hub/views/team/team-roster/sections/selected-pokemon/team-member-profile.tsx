@@ -2,12 +2,16 @@ import type { ReactNode } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 import {
@@ -75,19 +79,12 @@ export const TeamMemberProfile = ({
             {actions}
           </div>
         ) : null}
-        {imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={imageUrl}
-            alt=""
-            className="relative size-42.5 sm:size-55"
-          />
-        ) : (
-          <span
-            aria-hidden
-            className="empty-slot relative size-37.5 rounded-full sm:size-47.5"
-          />
-        )}
+        <FallbackImage
+          src={imageUrl}
+          name={getPlayTeamMemberName(member)}
+          fallback="badge"
+          className="relative size-42.5 sm:size-55"
+        />
       </div>
 
       {title}

@@ -115,15 +115,16 @@ export const HomePlayShelf = ({
                   size="playShelf"
                 />
                 {isCurrent ? <PickedMark /> : null}
-                {play.lead?.imageUrl ? (
+                {play.lead ? (
                   /* The partner as the one small portrait, in a corner mark's white ring. */
                   <span
                     aria-hidden
                     className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full"
                   >
                     <PokemonAvatar
+                      decorative
                       imageUrl={play.lead.imageUrl}
-                      name=""
+                      name={play.lead.name}
                       typeSlug={leadType}
                     />
                   </span>

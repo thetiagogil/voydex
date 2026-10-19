@@ -18,10 +18,10 @@ type MainlinePlayTeamAnalysisProps = {
   playId: string;
 };
 
-const emptyTeamArtUrl = getPokemonFormImageUrl({
+const emptyTeamArt = {
   name: "Pikachu",
-  slug: "pikachu",
-});
+  url: getPokemonFormImageUrl({ name: "Pikachu", slug: "pikachu" }),
+};
 
 /*
  * Team analysis is a tool, so it stays quiet: four health cards (Team health
@@ -58,7 +58,7 @@ export const MainlinePlayTeamAnalysis = ({
           showReadingSwitch={Boolean(analysis)}
         />
         <EmptyState
-          artUrl={emptyTeamArtUrl}
+          art={emptyTeamArt}
           title={
             analysis ? "Not enough team to read yet" : "No type chart to read"
           }

@@ -84,10 +84,9 @@ export const PokemonDetailHero = ({
       <PokemonPortrait
         alt={isShowingShiny ? `Shiny ${imageAlt}` : imageAlt}
         imageUrl={isShowingShiny ? shinyImageUrl : imageUrl}
+        name={name}
         type={typeSlug}
-        fallbackOnError
         preload
-        sizes="(min-width: 768px) 46vw, calc(100vw - 2rem)"
         className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
         imageClassName="p-[9%]"
       />

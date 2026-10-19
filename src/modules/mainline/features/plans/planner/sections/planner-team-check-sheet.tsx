@@ -20,6 +20,7 @@ import type {
   PlannerVersionGroup,
 } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { PendingData } from "@/shared/components/pending-data";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SheetSection } from "@/shared/components/sheet-section";
@@ -173,13 +174,14 @@ export const PlannerTeamCheckSheet = ({
                             {issue.speciesIds.map((speciesId) => {
                               const pokemon = byId.get(speciesId);
 
-                              return pokemon?.imageUrl ? (
-                                // eslint-disable-next-line @next/next/no-img-element
-                                <img
+                              return pokemon ? (
+                                <FallbackImage
                                   key={speciesId}
                                   src={pokemon.imageUrl}
+                                  name={pokemon.name}
                                   alt={pokemon.name}
                                   title={pokemon.name}
+                                  fallback="badge"
                                   className="size-9"
                                 />
                               ) : null;

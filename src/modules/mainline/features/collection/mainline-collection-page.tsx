@@ -16,10 +16,10 @@ type MainlineCollectionPageProps = {
   initialSpeciesSlug?: string | null;
 };
 
-const emptyArtUrl = getPokemonFormImageUrl({
+const emptyArt = {
   name: "Eevee",
-  slug: "eevee",
-});
+  url: getPokemonFormImageUrl({ name: "Eevee", slug: "eevee" }),
+};
 
 const formatCount = (count: number, one: string, many: string) =>
   `${count} ${count === 1 ? one : many}`;
@@ -59,7 +59,7 @@ export const MainlineCollectionPage = ({
           <PageBand>{head}</PageBand>
           <EmptyState
             headingLevel="h2"
-            artUrl={emptyArtUrl}
+            art={emptyArt}
             title="Nothing here yet"
             description="Every Pokémon that joins one of your teams gets a place here, with the Plays it was part of."
             action={

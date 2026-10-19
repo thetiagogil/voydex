@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 type MeadowPokemonProps = {
@@ -58,27 +59,26 @@ export const MeadowPokemon = ({
           className="empty-slot mt-auto mb-1 h-6 w-16 rounded-full sm:w-22"
         />
       ) : (
-        <span className="relative isolate grid place-items-end justify-items-center">
+        <span className="relative isolate grid max-w-full grid-cols-[minmax(0,1fr)] place-items-end justify-items-center">
           <span
             aria-hidden
             className="absolute bottom-1 left-1/2 -z-1 h-3.5 w-[70%] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,color-mix(in_oklab,var(--ink)_24%,transparent),transparent)]"
           />
-          {imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={imageUrl}
-              alt=""
-              className={cn(
-                "ease-hop object-contain transition-transform duration-300",
-                artSizes[size],
-                interactive &&
-                  "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",
-                slap && "animate-slap motion-reduce:animate-none",
-              )}
-            />
-          ) : (
-            <span className={cn("empty-slot rounded-full", artSizes[size])} />
-          )}
+          <FallbackImage
+            src={imageUrl}
+            name={name}
+            fallback="badge"
+            // A crowded row (six on a phone) shrinks the stand-in to its slot.
+            fallbackClassName="aspect-square max-w-full h-auto!"
+            className={cn(
+              // The art may spill past a crowded slot, as it always has.
+              "ease-hop max-w-none object-contain transition-transform duration-300",
+              artSizes[size],
+              interactive &&
+                "group-hover/meadow-pokemon:-translate-y-3 motion-reduce:transition-none",
+              slap && "animate-slap motion-reduce:animate-none",
+            )}
+          />
         </span>
       )}
       <span

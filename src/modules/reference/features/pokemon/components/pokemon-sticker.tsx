@@ -9,6 +9,7 @@ import {
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
 
@@ -61,7 +62,6 @@ const variantClassNames: Record<
     art: string;
     /* The soft white circle the art stands on, as on every Pokémon card. */
     circle: string;
-    empty: string;
     /* Shared with the open slot, so an empty row stands as tall as a full one. */
     height: string;
     marks: string;
@@ -73,7 +73,6 @@ const variantClassNames: Record<
   compact: {
     art: "size-23",
     circle: "size-24",
-    empty: "my-1 size-21",
     height: "min-h-48.5",
     marks: "mt-1.5 gap-1",
     name: "text-16 mt-0.5",
@@ -84,7 +83,6 @@ const variantClassNames: Record<
   mini: {
     art: "size-16",
     circle: "size-17",
-    empty: "my-1 size-14",
     height: "min-h-33",
     marks: "mt-1 gap-1",
     name: "text-16 mt-0.5",
@@ -94,7 +92,6 @@ const variantClassNames: Record<
   default: {
     art: "size-27 transition-transform duration-250 ease-hop group-hover/sticker:-translate-y-2 group-hover/sticker:scale-[1.03] sm:size-33",
     circle: "size-28 sm:size-34",
-    empty: "size-27 sm:size-33",
     height: "min-h-53",
     marks: "mt-2 gap-1.5",
     name: "mt-2 text-17",
@@ -160,18 +157,15 @@ export const PokemonSticker = ({
       ) : null}
       <span
         className={cn(
-          "relative grid place-items-center rounded-full",
-          imageUrl && cn("bg-white/55", variantClassName.circle),
+          "relative grid place-items-center rounded-full bg-white/55",
+          variantClassName.circle,
         )}
       >
-        {imageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={imageUrl} alt="" className={variantClassName.art} />
-        ) : (
-          <span
-            className={cn("empty-slot rounded-full", variantClassName.empty)}
-          />
-        )}
+        <FallbackImage
+          src={imageUrl}
+          name={name}
+          className={variantClassName.art}
+        />
       </span>
       <span
         className={cn(

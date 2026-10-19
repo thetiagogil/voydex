@@ -322,6 +322,7 @@ export const AddPokemonSheet = ({
         picked
           ? {
               imageUrl: picked.imageUrl,
+              name: picked.speciesName,
               meta: (
                 <div className="grid gap-2">
                   <p className="text-ink-2 text-14 font-semibold tabular-nums">
