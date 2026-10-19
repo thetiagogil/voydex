@@ -35,7 +35,12 @@ export const PlayHistoryMonthSection = ({
       <Card className="mt-3.5 gap-0 px-5 py-1.5 sm:px-7 sm:py-3">
         <ol className="grid min-w-0">
           {month.entries.map(({ date, event }, index) => (
-            <li key={getPlayHistoryEventKey(event, index)} className="min-w-0">
+            <li
+              key={getPlayHistoryEventKey(event, index)}
+              // A link to one moment (a Collection "Before" row) lands here.
+              id={event.event_id ? `moment-${event.event_id}` : undefined}
+              className="target:bg-select-soft -mx-3 min-w-0 scroll-mt-[calc(var(--play-dock-offset,0px)+5rem)] rounded-lg px-3 sm:-mx-4 sm:px-4"
+            >
               <PlayMomentRow
                 context={context}
                 event={event}

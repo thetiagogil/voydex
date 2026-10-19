@@ -76,26 +76,23 @@ export const PartnerHeroSection = ({
   const position = `Milestone ${partner.position.sequence} of ${partner.position.total}`;
 
   const undo = (addedPlayPokemonId: string | null) => {
-    void undoPlayPartnerAction({
-      addedPlayPokemonId,
-      milestoneId: partner.milestoneId,
-      playId,
-    }).then((result) => {
-      if (result.status === "error") {
-        toast.error(result.message);
-        return;
-      }
+    void undoPlayPartnerAction({ addedPlayPokemonId, playId }).then(
+      (result) => {
+        if (result.status === "error") {
+          toast.error(result.message);
+          return;
+        }
 
-      toast.success(result.message);
-      router.refresh();
-    });
+        toast.success(result.message);
+        router.refresh();
+      },
+    );
   };
 
   const record = (option: OverviewPartnerOption) => {
     startTransition(async () => {
       const result = await choosePlayPartnerAction({
         decisionOptionId: option.decisionOptionId,
-        milestoneId: partner.milestoneId,
         playId,
       });
 

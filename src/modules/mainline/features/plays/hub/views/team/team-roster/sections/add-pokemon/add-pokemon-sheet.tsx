@@ -174,23 +174,19 @@ export const AddPokemonSheet = ({
 
   const parsedLevel = level.trim() ? Number(level) : null;
 
-  const undoAdd = (playPokemonId: string, eventId: string | null) => {
+  /* Undo takes the Pokémon off again with its "added" moment, together. */
+  const undoAdd = (playPokemonId: string) => {
     void removeMainlinePlayPokemonAction({
-      addEventId: eventId,
       playId,
       playPokemonId,
+      undoAdd: true,
     }).then((result) => {
       if (result.status === "error") {
         toast.error(result.message);
         return;
       }
 
-      if (result.warning) {
-        toast.warning(result.warning);
-      } else {
-        toast.success("Taken off again");
-      }
-
+      toast.success("Taken off again");
       router.refresh();
     });
   };
@@ -248,7 +244,7 @@ export const AddPokemonSheet = ({
         toast.success(`${name} added · ${result.message}`, {
           action: {
             label: "Undo",
-            onClick: () => undoAdd(playPokemonId, result.eventId ?? null),
+            onClick: () => undoAdd(playPokemonId),
           },
         });
       }

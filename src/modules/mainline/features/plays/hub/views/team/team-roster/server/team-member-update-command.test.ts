@@ -1,0 +1,158 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+
+import type { UpdateMainlinePlayPokemonInput } from "../utils/team-member-validation";
+import { updatePlayPokemon } from "./team-member-update-command";
+
+vi.mock("./team-member-editor-options-reader", () => ({
+  readTeamMemberEditorOptions: vi.fn().mockResolvedValue({
+    abilities: [],
+    balls: [],
+    evolutions: [],
+    forms: [],
+    heldItems: [],
+    moves: [{ id: 3 }, { id: 4 }],
+    natures: [],
+  }),
+}));
+
+type Result = { data: unknown; error: unknown };
+
+/* Reads by table name; every write is recorded and must be the one RPC. */
+const createFakeClient = (rpcResult: Result) => {
+  const rpcCalls: { args: unknown; name: string }[] = [];
+  const tableWrites: string[] = [];
+  const reads: Record<string, Result> = {
+    mainline_play_pokemon: {
+      data: { ability_id: null, held_item_id: null, nature_id: null },
+      error: null,
+    },
+    mainline_play_pokemon_moves: {
+      data: [
+        { move_id: 1, slot: 1 },
+        { move_id: 2, slot: 2 },
+      ],
+      error: null,
+    },
+    mainline_play_summary: {
+      data: { game_id: 25, generation_id: 7, version_group_id: 15 },
+      error: null,
+    },
+  };
+  const from = (table: string) => {
+    const builder: Record<string, unknown> & PromiseLike<Result> = {
+      then: (onFulfilled, onRejected) =>
+        Promise.resolve(reads[table]).then(onFulfilled, onRejected),
+    };
+
+    for (const method of ["eq", "maybeSingle", "order", "select"]) {
+      builder[method] = () => builder;
+    }
+
+    for (const method of ["delete", "insert", "update"]) {
+      builder[method] = () => {
+        tableWrites.push(`${method} ${table}`);
+        return builder;
+      };
+    }
+
+    return builder;
+  };
+
+  return {
+    client: {
+      schema: () => ({
+        from,
+        rpc: (name: string, args: unknown) => {
+          rpcCalls.push({ args, name });
+          return Promise.resolve(rpcResult);
+        },
+      }),
+    } as unknown as ServerSupabaseClient,
+    rpcCalls,
+    tableWrites,
+  };
+};
+
+const input: UpdateMainlinePlayPokemonInput = {
+  abilityId: null,
+  ballItemId: null,
+  gender: "unknown",
+  heldItemId: null,
+  isShiny: true,
+  level: 30,
+  metLevel: null,
+  metLocation: null,
+  moveIds: [3, 4, 1],
+  natureId: null,
+  nickname: "Hoot",
+  notes: null,
+};
+
+const target = {
+  playId: "00000000-0000-4000-8000-000000000001",
+  playPokemonId: "00000000-0000-4000-8000-000000000002",
+  pokemon: { form_id: 72200, species_id: 722 },
+};
+
+describe("updatePlayPokemon", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it("saves the details and the moves in one database call", async () => {
+    const { client, rpcCalls, tableWrites } = createFakeClient({
+      data: [{ result_move_count: 3 }],
+      error: null,
+    });
+
+    await updatePlayPokemon(client, { ...target, input });
+
+    expect(tableWrites).toEqual([]);
+    expect(rpcCalls).toEqual([
+      {
+        args: {
+          p_ability_id: undefined,
+          p_ball_item_id: undefined,
+          p_gender: "unknown",
+          p_held_item_id: undefined,
+          p_is_shiny: true,
+          p_level: 30,
+          p_met_level: undefined,
+          p_met_location_label: undefined,
+          p_move_ids: [3, 4, 1],
+          p_nature_id: undefined,
+          p_nickname: "Hoot",
+          p_personal_notes: undefined,
+          p_play_pokemon_id: target.playPokemonId,
+        },
+        name: "update_mainline_play_pokemon",
+      },
+    ]);
+  });
+
+  it("reports a refused save without a partial write", async () => {
+    const { client, tableWrites } = createFakeClient({
+      data: null,
+      error: { code: "23514", message: "at most four current moves" },
+    });
+
+    await expect(
+      updatePlayPokemon(client, { ...target, input }),
+    ).rejects.toThrow("Unable to save those changes.");
+    expect(tableWrites).toEqual([]);
+  });
+
+  it("refuses a move the editor wouldn't offer before writing", async () => {
+    const { client, rpcCalls } = createFakeClient({ data: [], error: null });
+
+    await expect(
+      updatePlayPokemon(client, {
+        ...target,
+        input: { ...input, moveIds: [9] },
+      }),
+    ).rejects.toThrow("It can't learn that move in this game.");
+    expect(rpcCalls).toEqual([]);
+  });
+});

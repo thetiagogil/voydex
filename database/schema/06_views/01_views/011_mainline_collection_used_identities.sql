@@ -17,7 +17,8 @@ SELECT
     mainline_play_pokemon.form_id,
     pokemon_forms.slug AS form_slug,
     pokemon_forms.name AS form_name,
-    mainline_play_pokemon.created_at AS used_at
+    mainline_play_pokemon.created_at AS used_at,
+    NULL::uuid AS event_id
 FROM
     gameplay.mainline_play_pokemon
     JOIN gameplay.mainline_plays ON mainline_plays.id = mainline_play_pokemon.play_id
@@ -40,7 +41,8 @@ FROM
         pokemon_forms.name AS form_name,
         COALESCE(
             mainline_play_events.happened_at, mainline_play_events.created_at
-) AS used_at
+) AS used_at,
+        mainline_play_event_pokemon_refs.event_id
     FROM
         gameplay.mainline_play_event_pokemon_refs
     JOIN gameplay.mainline_play_events ON mainline_play_events.id = mainline_play_event_pokemon_refs.event_id
@@ -65,7 +67,8 @@ FROM
         pokemon_forms.name AS form_name,
         COALESCE(
             mainline_play_events.happened_at, mainline_play_events.created_at
-) AS used_at
+) AS used_at,
+        mainline_play_event_team_snapshots.event_id
     FROM
         gameplay.mainline_play_event_team_snapshots
     JOIN gameplay.mainline_play_events ON mainline_play_events.id = mainline_play_event_team_snapshots.event_id
@@ -75,4 +78,4 @@ FROM
     JOIN reference.pokemon_forms ON pokemon_forms.species_id = mainline_play_event_team_snapshots.species_id
         AND pokemon_forms.id = mainline_play_event_team_snapshots.form_id;
 
-COMMENT ON VIEW views.mainline_collection_used_identities IS 'Pokémon identities used across current play Pokémon, event refs, and team snapshots. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_collection_used_identities IS 'Pokémon identities used across current play Pokémon, event refs, and team snapshots. event_id names the History moment for event refs and snapshots. Uses security_invoker so gameplay RLS applies to the caller.';

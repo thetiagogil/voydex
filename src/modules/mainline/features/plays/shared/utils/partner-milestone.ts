@@ -42,6 +42,9 @@ const readPokemonOptions = (options: Json | null): PokemonDecisionOption[] =>
  * (its exact form, else its species). Null when the game has no such choice
  * (Yellow and the Let's Go games give you your partner) or the partner isn't
  * one of its options.
+ * Read only: Home uses it to offer the game's starters as that milestone's
+ * options. Writes don't trust it; `gameplay.find_mainline_partner_milestone`
+ * applies the same rule in the database.
  */
 export const findPartnerDecision = ({
   baseVersionGroupId,

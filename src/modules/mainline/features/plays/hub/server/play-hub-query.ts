@@ -127,9 +127,7 @@ export const getMainlinePlayOverviewData = cache(
           context.play.generation_id,
         ),
         readMainlinePlayOverviewMilestoneRows(context.supabase, playId),
-        readMainlinePlayTimelinePreview(context.supabase, playId, undefined, {
-          excludeEventTypeSlugs: ["status_change"],
-        }),
+        readMainlinePlayTimelinePreview(context.supabase, playId),
       ]);
 
     const partnerFormIds = getMainlinePlayOverviewPartnerFormIds({

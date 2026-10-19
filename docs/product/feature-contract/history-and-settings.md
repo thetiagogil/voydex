@@ -20,20 +20,25 @@ Highlights, and order toolbar. The categories are All History, Story, Team, and
 Memories filters rather than local navigation. Selecting an entry opens an
 event-detail sheet; History does not keep a permanent selected-event panel.
 
-Timeline entries focus on deliberately preserved events:
+**The moment rule** (decided 2026-10-19, #11): a moment is something that
+changes the story of the journey, and every screen that can do the action
+writes the same moment.
 
-- important recorded Story moments and decisions;
-- recorded Pokémon additions, evolutions, persistent form changes,
-  retirements, replacements, and returns;
-- current, remembered, final-Team, and Hall of Fame snapshots;
-- manual memories and notes;
-- explicitly recorded Play completion or abandonment;
-- complete Pokédex scopes, Collectible groups, or similar major achievements
-  only when the user chooses to preserve them.
-
-Normal Pokédex and Collectible progress, ordinary Story completion, roster
-movement and reorder, Pokémon-detail edits, corrections, Settings changes,
-failed actions, and technical records never create timeline noise.
+- **Moments**: adding or catching a Pokémon, evolving, a persistent form
+  change, retiring or replacing; completing a Story milestone, from Overview
+  or Story alike (the team snapshot is the optional extra); choosing the
+  partner; journal notes and memories; the Play's status (started, paused,
+  finished, abandoned); and Hall of Fame snapshots.
+- **Not moments**: corrections and small edits (nickname, level, moves, held
+  item and other Pokémon details), roster movement and reorder, ticking
+  Pokédex or Collectible entries (they show as progress), Settings changes,
+  failed actions and technical records. Editing a completed milestone's note
+  or decision updates its moment rather than adding one.
+- **Undo removes the moment**: marking a milestone incomplete removes its
+  moment and snapshot; deleting a Pokémon added by mistake removes its
+  "added" moment.
+- **Shown everywhere alike**: Overview's recent moments, Home's moments and
+  History show every kind, status changes included.
 
 Each entry presents its event type, title, note preview, exact, approximate, or
 unrecorded date, and event-time Pokémon context. Before/after actions preserve

@@ -477,11 +477,14 @@ Per [ADR 0005](../decisions/0005-postgres-is-the-backend.md), a write that
 touches more than one table or creates a History moment goes through one
 database function so it is all-or-nothing: starting a Play
 (`gameplay.create_mainline_play`), saving a Plan
-(`planning.save_mainline_team_plan`) and a note or status moment
-(`gameplay.add_mainline_play_event`) are each one RPC call. Three writes still
-run in steps and undo by hand on failure, and are next in line: saving a
-Pokémon's details with its moves, a status change with its moment, and
-choosing a partner from Overview. Readers, loaders,
+(`planning.save_mainline_team_plan`), a note
+(`gameplay.add_mainline_play_event`), a Pokémon's details with its moves
+(`gameplay.update_mainline_play_pokemon`), General settings with any status
+moment (`gameplay.update_mainline_play_general_settings`), choosing or undoing
+the partner (`gameplay.choose_mainline_play_partner`,
+`gameplay.undo_mainline_play_partner`) and deleting a Pokémon with its Added
+moment (`gameplay.remove_mainline_play_pokemon`) are each one RPC call; no
+Server Action writes in steps or undoes by hand. Readers, loaders,
 commands, repositories and writers take a Supabase client as a parameter; the
 query or Server Action that calls them creates it (a simple read may still be
 one `*-query.ts` that does both). `data/`, `domain/` and `utils/` never import

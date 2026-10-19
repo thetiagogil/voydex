@@ -65,6 +65,9 @@ export const appRoutes = {
   mainlinePlans: "/mainline/plans",
   mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
   mainlinePlayHistory: (playId: string) => `/mainline/plays/${playId}/history`,
+  /* One moment in a Play's History: the page scrolls to it and marks it. */
+  mainlinePlayHistoryMoment: (playId: string, eventId: string) =>
+    `/mainline/plays/${playId}/history#moment-${eventId}`,
   mainlinePlayProgress: (playId: string) =>
     `/mainline/plays/${playId}/progress`,
   mainlinePlayProgressCollectibles: (playId: string) =>

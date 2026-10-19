@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
+import { getStoryMilestoneMoment } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/data/story-milestone-moment";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import { isUuid } from "@/shared/utils/identifiers";
@@ -167,13 +168,14 @@ export const updateStoryMilestoneAction = async (
       intent === "complete" || intent === "note"
         ? parseInput(notesSchema, formData.get("notes"))
         : null;
-    const requestedStoryMoment =
-      intent === "story-moment" ||
-      (intent === "complete" && formData.get("recordStoryMoment") === "true");
+    const { createMoment, includeTeamSnapshot } = getStoryMilestoneMoment({
+      intent,
+      recordTeamSnapshot: formData.get("recordStoryMoment") === "true",
+    });
     const canRecordSnapshot =
       milestoneResult.data.snapshot_policy_slug !== "none";
 
-    if (requestedStoryMoment && !canRecordSnapshot) {
+    if (includeTeamSnapshot && !canRecordSnapshot) {
       throw new Error("This milestone does not support a team snapshot.");
     }
 
@@ -183,9 +185,9 @@ export const updateStoryMilestoneAction = async (
       .schema("gameplay")
       .rpc("complete_mainline_play_milestone", {
         p_completed_at: completedAt,
-        p_create_event: requestedStoryMoment,
+        p_create_event: createMoment,
         p_decision_option_id: decisionOptionId ?? undefined,
-        p_include_team_snapshot: requestedStoryMoment,
+        p_include_team_snapshot: includeTeamSnapshot,
         p_milestone_id: milestoneId,
         p_play_id: playId,
         p_progress_notes: notes ?? undefined,
@@ -200,7 +202,7 @@ export const updateStoryMilestoneAction = async (
     revalidatePath(appRoutes.mainlinePlay(playId));
     revalidatePath(appRoutes.mainlinePlayProgressStory(playId));
 
-    if (requestedStoryMoment) {
+    if (createMoment) {
       revalidatePath(appRoutes.mainlinePlayHistory(playId));
     }
 

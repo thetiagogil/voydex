@@ -219,7 +219,7 @@ export const TeamMemberEditorActions = ({
             </AlertDialogTitle>
             <AlertDialogDescription>
               {confirm === "delete"
-                ? "For mistakes: it goes from this Play. To record that it left the team, retire it instead."
+                ? "For mistakes: it goes from this Play, with the moment it was added. To record that it left the team, retire it instead."
                 : "It leaves the team and the reserve. History keeps it, and the moment it retired."}
             </AlertDialogDescription>
           </AlertDialogHeader>
@@ -237,6 +237,9 @@ export const TeamMemberEditorActions = ({
                         removeMainlinePlayPokemonAction({
                           playId,
                           playPokemonId,
+                          // A mistaken record takes its own "added" moment
+                          // with it; its other moments stay in History.
+                          undoAdd: true,
                         }),
                       `${name} deleted`,
                     )

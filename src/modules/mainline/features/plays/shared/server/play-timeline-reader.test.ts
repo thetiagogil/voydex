@@ -36,32 +36,17 @@ const createTimelineClient = () => {
 };
 
 describe("readMainlinePlayTimelinePreview", () => {
-  it("leaves hidden moment types out in the read, so the limit counts visible ones", async () => {
+  it("reads every kind of moment, status changes included", async () => {
     const { client, query } = createTimelineClient();
 
-    const events = await readMainlinePlayTimelinePreview(client, "play-1", 6, {
-      excludeEventTypeSlugs: ["status_change"],
-    });
+    const events = await readMainlinePlayTimelinePreview(client, "play-1", 6);
 
-    expect(query.not).toHaveBeenCalledWith(
-      "event_type_slug",
-      "in",
-      "(status_change)",
-    );
+    expect(query.not).not.toHaveBeenCalled();
     expect(query.limit).toHaveBeenCalledWith(6);
     expect(events.map((event) => event.event_id)).toEqual([
       "event-2",
       "event-1",
     ]);
-  });
-
-  it("reads every type when none is hidden", async () => {
-    const { client, query } = createTimelineClient();
-
-    await readMainlinePlayTimelinePreview(client, "play-1");
-
-    expect(query.not).not.toHaveBeenCalled();
-    expect(query.limit).toHaveBeenCalledWith(5);
   });
 
   it("reads the latest moments by when they happened, not by when they were logged", async () => {

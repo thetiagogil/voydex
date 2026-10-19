@@ -1,5 +1,4 @@
 import {
-  HOME_HIDDEN_MOMENT_TYPES,
   HOME_MOMENT_COUNT,
   toHomeMoments,
 } from "@/modules/mainline/features/home/data/home-moments-model";
@@ -147,7 +146,6 @@ const readPartnerChoice = async (
 
   return options.length > 1
     ? {
-        milestoneId: options[0].milestoneId,
         options: options.map(({ decisionOptionId, starter }) => ({
           decisionOptionId,
           starter,
@@ -172,7 +170,6 @@ const readHomeMoments = async (
       supabase,
       playId,
       HOME_MOMENT_COUNT + 1,
-      { excludeEventTypeSlugs: HOME_HIDDEN_MOMENT_TYPES },
     ),
   );
   const context = await readMainlinePlayMomentContext(supabase, {

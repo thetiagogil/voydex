@@ -16,7 +16,7 @@ export type StoryMilestoneEditorCopy = {
 const editorCopyByIntent = {
   complete: {
     description:
-      "Mark this milestone as done and add any details from this Play.",
+      "Mark this milestone as done; it becomes a moment in History. Add any details from this Play.",
     submitLabel: "Record milestone",
     submittingLabel: "Recording...",
     title: "Record milestone",
@@ -42,7 +42,7 @@ const editorCopyByIntent = {
   },
   "story-moment": {
     description:
-      "Add this milestone to History and save the current Active Team as its snapshot. Your live team doesn't change.",
+      "Save the current Active Team as this milestone's snapshot in History. Your live team doesn't change.",
     submitLabel: "Record snapshot",
     submittingLabel: "Recording...",
     title: "Record team snapshot",
