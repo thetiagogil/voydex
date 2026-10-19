@@ -1,13 +1,16 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import { readMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/server/move-override-reader";
 import { isNumber } from "@/modules/reference/reference-data";
 import type {
   Move,
   MoveAttribute,
+  MoveVersionGroupAttribute,
   ResolvedPokemonLearnset,
 } from "@/modules/reference/types";
 
 export type PokemonDetailLearnsetMoveRows = {
   moveAttributes: MoveAttribute[];
+  moveOverrides: MoveVersionGroupAttribute[];
   moves: Move[];
 };
 
@@ -22,11 +25,12 @@ export const loadPokemonDetailLearnsetMoveRows = async (
   if (!moveIds.length) {
     return {
       moveAttributes: [],
+      moveOverrides: [],
       moves: [],
     };
   }
 
-  const [movesResult, moveAttributesResult] = await Promise.all([
+  const [movesResult, moveAttributesResult, moveOverrides] = await Promise.all([
     supabase
       .schema("reference")
       .from("moves")
@@ -39,6 +43,7 @@ export const loadPokemonDetailLearnsetMoveRows = async (
       .select("*")
       .in("move_id", moveIds)
       .order("generation_start_id", { ascending: false }),
+    readMoveVersionGroupOverrides(supabase, { moveIds }),
   ]);
 
   if (movesResult.error || moveAttributesResult.error) {
@@ -47,6 +52,7 @@ export const loadPokemonDetailLearnsetMoveRows = async (
 
   return {
     moveAttributes: moveAttributesResult.data ?? [],
+    moveOverrides,
     moves: movesResult.data ?? [],
   };
 };

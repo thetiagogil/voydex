@@ -992,14 +992,14 @@ export function assertPokemonAttributeRows(context, tableRows) {
       a.form_id - b.form_id ||
       a.generation_start_id - b.generation_start_id,
     {
-      count: 2243,
+      count: 2259,
       sha256:
-        "b37e17352b99856ecb72c7a0696a6991d91bf1822d3303d337cf3db9b0d42301",
+        "a13c1ac144cc81a87a635dd3088321830e2c63d8f811d6157f1618fe70a80df7",
     },
   );
-  if (rows.length !== 2243) {
+  if (rows.length !== 2259) {
     context.errors.push(
-      `reference.pokemon_attributes: expected 2243 curated attribute rows, got ${rows.length}.`,
+      `reference.pokemon_attributes: expected 2259 curated attribute rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(

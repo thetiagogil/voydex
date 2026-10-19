@@ -1,5 +1,7 @@
 import { getMainlinePlayTeamMoveIds } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import { applyMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/data/move-attribute-overrides";
+import { readMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/server/move-override-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -54,7 +56,7 @@ export const readMainlinePlayTeamAnalysisRows = async (
     };
   }
 
-  const [attributesResult, moveAttributesResult, typesResult] =
+  const [attributesResult, moveAttributesResult, typesResult, moveOverrides] =
     await Promise.all([
       supabase
         .schema("reference")
@@ -78,6 +80,7 @@ export const readMainlinePlayTeamAnalysisRows = async (
         .select("*")
         .lte("introduced_generation_id", generationId)
         .order("sort_order", { ascending: true }),
+      readMoveVersionGroupOverrides(supabase, { moveIds, versionGroupId }),
     ]);
 
   if (
@@ -95,7 +98,11 @@ export const readMainlinePlayTeamAnalysisRows = async (
       attributes: attributesResult.data ?? [],
       evolutionEdges: [],
       members,
-      moveAttributes: moveAttributesResult.data ?? [],
+      moveAttributes: applyMoveVersionGroupOverrides(
+        moveAttributesResult.data ?? [],
+        moveOverrides,
+        versionGroupId,
+      ),
       natures: [],
       types: typesResult.data ?? [],
       validBallItemIds: [],

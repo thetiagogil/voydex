@@ -36,15 +36,15 @@ PokeAPI is a sanity-check source, not the authority for curated historic behavio
   - `02_mechanics`: types, type matchups, natures, egg groups, and move kinds.
   - `03_methods`: item categories, evolution methods, availability methods, and learn methods.
   - `04_abilities`: ability identity rows split by generation and ability attribute change-point rows.
-  - `04_items`: reduced Pokémon-relevant item catalog and item category membership rows.
-  - `05_pokemon`: evolution families, Pokémon species, default forms, curated non-default forms, form rules, form item requirements, and Pokémon attributes split by generation/review scope.
-  - `06_moves`: move-owned data grouped by review phase.
+  - `05_items`: reduced Pokémon-relevant item catalog and item category membership rows.
+  - `06_pokemon`: evolution families, Pokémon species, default forms, curated non-default forms, form rules, form item requirements, and Pokémon attributes split by generation/review scope.
+  - `07_moves`: move-owned data grouped by review phase.
     - `01_identity`: full move identity rows split by generation before evolution edges or move attributes; G-Max moves are separated because they use reserved internal IDs.
     - `02_attributes`: generation change-point move mechanics rows.
-  - `07_pokedex`: Pokedex definition rows followed by species-entry membership split by version group/review scope.
-  - `08_evolutions`: form-aware Pokémon evolution edge rows split by introduced generation. These depend on Pokémon forms, evolution items, types, and move identity rows.
-  - `09_availability`: Pokémon, item, and move availability rows.
-  - `10_learnsets`: move machines and Pokémon learnsets split by version group/content scope.
+  - `08_pokedex`: Pokedex definition rows followed by species-entry membership split by version group/review scope.
+  - `09_evolutions`: form-aware Pokémon evolution edge rows split by introduced generation. These depend on Pokémon forms, evolution items, types, and move identity rows.
+  - `10_availability`: Pokémon, item, and move availability rows.
+  - `11_learnsets`: move machines and Pokémon learnsets split by version group/content scope.
 - `03_tracking`: curated tracking definitions and lookup rows.
 - `04_gameplay`: global product lookup rows used by user-owned gameplay tables.
 - `05_planning`: global product lookup rows used by team planning tables.

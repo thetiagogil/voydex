@@ -158,9 +158,9 @@ export function assertMoveAttributeRows(context, tableRows) {
     "g-max-hydrosnipe",
   ]);
   const rowsByMoveId = new Map();
-  if (attributeRows.length !== 1161) {
+  if (attributeRows.length !== 1149) {
     context.errors.push(
-      `reference.move_attributes: expected 1161 generation change-point rows, got ${attributeRows.length}.`,
+      `reference.move_attributes: expected 1149 generation change-point rows, got ${attributeRows.length}.`,
     );
   }
   addCompositeDuplicateErrors(
@@ -343,6 +343,18 @@ export function assertMoveAttributeRows(context, tableRows) {
   expectAttribute("bite", 1, { type_id: 1, damage_class: "physical" });
   expectAttribute("bite", 2, { type_id: 16, damage_class: "special" });
   expectAttribute("bite", 4, { type_id: 16, damage_class: "physical" });
+  // A change row starts in the first generation that has the new value.
+  expectAttribute("self-destruct", 2, { power: 200 });
+  expectAttribute("razor-wind", 2, { accuracy: 100 });
+  expectAttribute("low-kick", 3, { power: null, accuracy: 100 });
+  expectAttribute("dig", 4, { power: 80, damage_class: "physical" });
+  expectAttribute("tackle", 5, { power: 50, accuracy: 100 });
+  expectAttribute("flamethrower", 6, { power: 90 });
+  expectAttribute("charm", 6, { type_id: 18 });
+  expectAttribute("tackle", 7, { power: 40 });
+  expectAttribute("rapid-spin", 8, { power: 50 });
+  expectAttribute("mist-ball", 9, { power: 95 });
+  expectAttribute("hypnosis", 1, { accuracy: 60 });
   expectAttribute("breakneck-blitz", 7, {
     damage_class: "variable",
     power: null,

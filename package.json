@@ -37,7 +37,7 @@
     "db:audit": "npm run db:artifacts:check && node scripts/database/audit-schema-files.mjs && node scripts/database/audit-seed-files.mjs",
     "db:format:sql": "node scripts/database/format-sql.mjs --write",
     "db:format:sql:check": "node scripts/database/format-sql.mjs --check",
-    "db:lint": "node scripts/database/supabase.mjs db lint --local --fail-on error",
+    "db:lint": "node scripts/database/supabase.mjs db lint --local --schema public,reference,tracking,gameplay,planning,views,private --fail-on error",
     "db:test": "node scripts/database/supabase.mjs test db --local supabase/tests",
     "db:types": "node scripts/database/generate-types.mjs --local",
     "db:types:check": "node scripts/database/generate-types.mjs --local --check",

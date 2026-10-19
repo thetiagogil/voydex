@@ -186,9 +186,9 @@ export function assertCoreMechanicsRowsetFingerprints(context, tableRows) {
         "generation_start_id",
       ],
       expected: {
-        count: 129,
+        count: 128,
         sha256:
-          "9d4991a118d9a85e15480e4df29434ba5319a1fbd4b6a51661664c66b32baff6",
+          "c4054b4c179af19060af23c1c9012b82234ea6a3c58f137bb18fbd51cea31ec9",
       },
     },
     {
@@ -330,9 +330,9 @@ export function assertCoreMechanicsRowsetFingerprints(context, tableRows) {
       ],
       sortColumns: ["move_id", "generation_start_id"],
       expected: {
-        count: 1161,
+        count: 1149,
         sha256:
-          "420e77d8b39ee7477c61614e7a5b852383c7dad5184accfb974433f22b5fe1a1",
+          "a7c489e5f572a0da9566f8790e421704f7bcd03c63a5bbfb0ea691fa1dc6d83c",
       },
     },
   ];

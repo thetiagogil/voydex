@@ -1,4 +1,5 @@
 import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-utils";
+import { applyMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/data/move-attribute-overrides";
 import { byId } from "@/modules/reference/reference-data";
 import type {
   Game,
@@ -6,6 +7,7 @@ import type {
   LearnMethod,
   Move,
   MoveAttribute,
+  MoveVersionGroupAttribute,
   PokemonDetailData,
   ResolvedPokemonLearnset,
   Type,
@@ -18,6 +20,7 @@ type PokemonLearnsetSummariesParams = {
   learnMethods: LearnMethod[];
   learnsetRows: ResolvedPokemonLearnset[];
   moveAttributes: MoveAttribute[];
+  moveOverrides: MoveVersionGroupAttribute[];
   moves: Move[];
   typeById: Map<number, Type>;
   versionGroups: VersionGroup[];
@@ -91,6 +94,7 @@ export const buildPokemonLearnsetSummaries = ({
   learnMethods,
   learnsetRows,
   moveAttributes,
+  moveOverrides,
   moves,
   typeById,
   versionGroups,
@@ -111,12 +115,20 @@ export const buildPokemonLearnsetSummaries = ({
       return [];
     }
 
-    const attributes = getLearnsetMoveAttributes({
+    const generationAttributes = getLearnsetMoveAttributes({
       generationById,
       learnsetRow,
       moveAttributesByMoveId,
       versionGroupById,
     });
+    const [attributes = null] = generationAttributes
+      ? applyMoveVersionGroupOverrides(
+          [generationAttributes],
+          moveOverrides,
+          learnsetRow.target_version_group_id ??
+            learnsetRow.source_version_group_id,
+        )
+      : [];
 
     return {
       attributes,

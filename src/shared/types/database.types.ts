@@ -2476,6 +2476,64 @@ export type Database = {
           },
         ];
       };
+      move_version_group_attributes: {
+        Row: {
+          accuracy: number | null;
+          created_at: string;
+          damage_class: string;
+          move_id: number;
+          power: number | null;
+          pp: number | null;
+          priority: number;
+          type_id: number;
+          version_group_id: number;
+        };
+        Insert: {
+          accuracy?: number | null;
+          created_at?: string;
+          damage_class: string;
+          move_id: number;
+          power?: number | null;
+          pp?: number | null;
+          priority?: number;
+          type_id: number;
+          version_group_id: number;
+        };
+        Update: {
+          accuracy?: number | null;
+          created_at?: string;
+          damage_class?: string;
+          move_id?: number;
+          power?: number | null;
+          pp?: number | null;
+          priority?: number;
+          type_id?: number;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "move_version_group_attributes_move_id_fkey";
+            columns: ["move_id"];
+            isOneToOne: false;
+            referencedRelation: "moves";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "move_version_group_attributes_type_id_fkey";
+            columns: ["type_id"];
+            isOneToOne: false;
+            referencedRelation: "types";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "move_version_group_attributes_version_group_id_fkey";
+            columns: ["version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       moves: {
         Row: {
           created_at: string;
