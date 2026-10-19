@@ -88,6 +88,27 @@ describe("applyStoryRecordingOverrides", () => {
     expect(shown.categories[0]?.completed_required_milestone_count).toBe(2);
   });
 
+  it("leaves the count alone for an optional choice", () => {
+    const shown = applyStoryRecordingOverrides(
+      data,
+      new Map([[2, true]]),
+      "2026-10-19T19:00:00Z",
+    );
+
+    expect(shown.milestones[1]?.is_completed).toBe(true);
+    expect(shown.categories[0]?.completed_required_milestone_count).toBe(1);
+  });
+
+  it("changes nothing for a milestone already shown that way", () => {
+    expect(
+      applyStoryRecordingOverrides(
+        data,
+        new Map([[1, true]]),
+        "2026-10-19T19:00:00Z",
+      ).categories[0]?.completed_required_milestone_count,
+    ).toBe(1);
+  });
+
   it("clears an undone milestone and what its record held", () => {
     const shown = applyStoryRecordingOverrides(
       data,

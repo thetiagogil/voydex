@@ -68,24 +68,22 @@ export const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
 };
 
 /*
- * A Play's stamps, tilted like stamps: Story's stamp card. With `captions`
- * each stamp prints its label under it. With `onStampSelect` each stamp
- * opens its milestone: it lifts under the pointer and pops when picked.
+ * A Play's stamps, tilted like stamps, each with its label: Story's stamp
+ * card. Each stamp opens its milestone: it lifts under the pointer and pops
+ * when picked.
  * Recording never moves it: the row you see in the list slaps instead. A
  * client part so the day each was earned reads in the viewer's time zone.
  */
 export const StampGrid = ({
-  captions = false,
   className,
   onStampSelect,
   scrollLabel,
   stamps,
 }: {
-  captions?: boolean;
   /* The grid's columns and gaps. */
   className?: string;
   /* Opens a stamp's milestone, such as Story's row and panel. */
-  onStampSelect?: (milestoneId: number) => void;
+  onStampSelect: (milestoneId: number) => void;
   /*
    * Names a row that scrolls sideways (phones), which can then take focus
    * so the keyboard can scroll it.
@@ -106,36 +104,25 @@ export const StampGrid = ({
           stamp,
           formatPlayMoment(stamp.completedAt, clock)?.date,
         );
-        const content = (
-          <>
-            <BadgeStamp
+
+        return (
+          <li key={stamp.milestoneId} className="flex flex-col">
+            <PickableStamp
               label={label}
-              state={getBadgeStampState(stamp)}
-              tilt={stampTilts[index % stampTilts.length]}
-            />
-            {captions ? (
+              onSelect={() => onStampSelect(stamp.milestoneId)}
+            >
+              <BadgeStamp
+                label={label}
+                state={getBadgeStampState(stamp)}
+                tilt={stampTilts[index % stampTilts.length]}
+              />
               <span
                 aria-hidden
                 className="text-ink-3 text-12 mt-4 text-center leading-tight font-bold"
               >
                 {stamp.label}
               </span>
-            ) : null}
-          </>
-        );
-
-        return (
-          <li key={stamp.milestoneId} className="flex flex-col">
-            {onStampSelect ? (
-              <PickableStamp
-                label={label}
-                onSelect={() => onStampSelect(stamp.milestoneId)}
-              >
-                {content}
-              </PickableStamp>
-            ) : (
-              content
-            )}
+            </PickableStamp>
           </li>
         );
       })}

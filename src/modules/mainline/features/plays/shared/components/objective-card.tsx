@@ -71,7 +71,7 @@ export const ObjectiveCard = ({
   actions?: ReactNode;
   /* What moves inside the card, such as Overview's hand-over to the next objective. */
   bodyClassName?: string;
-  bodyProps?: Pick<HTMLAttributes<HTMLDivElement>, "onAnimationEnd">;
+  bodyProps?: Pick<HTMLAttributes<HTMLDivElement>, "inert" | "onAnimationEnd">;
   /* The eyebrow, the title (with `id={titleId}`) and what it asks. */
   children: ReactNode;
   className?: string;

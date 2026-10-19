@@ -18,6 +18,11 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 import {
+  getObjectiveHandoverAfterAnimation,
+  getObjectiveHandoverStep,
+  type ObjectiveHandover,
+} from "@/modules/mainline/features/plays/hub/views/overview/data/next-objective-handover";
+import {
   getOverviewMilestoneWhere,
   type OverviewMilestone,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
@@ -46,15 +51,6 @@ type ShownObjective = {
   position: JourneyPosition | null;
 };
 
-/*
- * Recording the objective here hands over to the next one: at once its
- * stamp slaps down (a gym or League milestone), then once the save brings
- * the next one, it slides away and the next one slides in. Undo or a failed
- * save stops it where it is. Anything else that changes it just shows the
- * new one.
- */
-type Handover = "entering" | "idle" | "leaving" | "stamping" | "waiting";
-
 const titleId = "next-objective-title";
 
 /* A choice milestone needs its choice, so it records through Story's form. */
@@ -80,7 +76,7 @@ export const NextObjectiveSection = ({
     milestone: latestMilestone,
     position: latestPosition,
   });
-  const [handover, setHandover] = useState<Handover>("idle");
+  const [handover, setHandover] = useState<ObjectiveHandover>("idle");
   const latestId = latestMilestone?.milestone_id ?? null;
   const shownId = shown.milestone?.milestone_id ?? null;
   const isJustRecorded = justRecordedId !== null && justRecordedId === shownId;
@@ -92,19 +88,25 @@ export const NextObjectiveSection = ({
       ? { ...savedStamp, state: "earned" as const }
       : savedStamp;
 
-  if (handover === "idle" && isJustRecorded) {
-    setHandover(shownStamp ? "stamping" : "waiting");
-  } else if (
-    (handover === "stamping" || handover === "waiting") &&
-    !isJustRecorded
-  ) {
-    /* Undone, or the save failed: it stays the objective. */
-    setHandover("idle");
-  } else if (handover === "waiting" && latestId !== shownId) {
-    setHandover("leaving");
-  } else if (handover === "idle" && shown.milestone !== latestMilestone) {
-    setShown({ milestone: latestMilestone, position: latestPosition });
-  }
+  const applyStep = (step: ReturnType<typeof getObjectiveHandoverStep>) => {
+    if (step?.handover) {
+      setHandover(step.handover);
+    }
+
+    if (step?.showLatest) {
+      setShown({ milestone: latestMilestone, position: latestPosition });
+    }
+  };
+
+  applyStep(
+    getObjectiveHandoverStep({
+      handover,
+      hasStamp: shownStamp !== null,
+      isJustRecorded,
+      isLatestShown: latestId === shownId,
+      isShownCurrent: shown.milestone === latestMilestone,
+    }),
+  );
 
   const nextMilestone = shown.milestone;
   /* Numbered within its journey, as Story numbers it. */
@@ -117,22 +119,18 @@ export const NextObjectiveSection = ({
     <ObjectiveCard
       titleId={titleId}
       bodyClassName={cn(
-        handover !== "idle" && "pointer-events-none",
         handover === "leaving" && "animate-objective-out",
         handover === "entering" && "animate-objective-in",
       )}
       bodyProps={{
+        /* Mid hand-over nothing in it can be pressed, by pointer or keyboard. */
+        inert: handover !== "idle",
         onAnimationEnd: (event) => {
           if (event.target !== event.currentTarget) {
             return;
           }
 
-          if (handover === "leaving") {
-            setShown({ milestone: latestMilestone, position: latestPosition });
-            setHandover("entering");
-          } else if (handover === "entering") {
-            setHandover("idle");
-          }
+          applyStep(getObjectiveHandoverAfterAnimation(handover, "slide"));
         },
       }}
       actions={
@@ -202,7 +200,9 @@ export const NextObjectiveSection = ({
           <BadgeStamp
             className="mb-0.5 w-11 shrink-0 sm:w-13"
             label={shownStamp.name}
-            onSlapEnd={() => setHandover("waiting")}
+            onSlapEnd={() =>
+              applyStep(getObjectiveHandoverAfterAnimation(handover, "slap"))
+            }
             slap={handover === "stamping"}
             state={getBadgeStampState(shownStamp)}
             tilt={-6}

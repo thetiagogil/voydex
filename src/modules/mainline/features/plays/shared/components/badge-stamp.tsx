@@ -21,10 +21,7 @@ type BadgeStampProps = {
   label: string;
   /* Called once the slap has played. */
   onSlapEnd?: () => void;
-  /*
-   * Slaps down once, at the moment it's recorded (after any --stamp-delay,
-   * hidden until then); never on load.
-   */
+  /* Slaps down once, at the moment it's recorded; never on load. */
   slap?: boolean;
   state: BadgeStampState;
   tilt?: number;
