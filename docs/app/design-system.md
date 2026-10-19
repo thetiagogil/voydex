@@ -245,7 +245,7 @@ Story's stamp card and Overview's next objective, which then hands over to the n
 (`animate-objective-out`, `animate-objective-in`). Small cards and tokens you
 mark (Pokédex, Collectibles) pop. A wide row never moves: a Story row keeps still
 while its marker pops into its new state (`animate-marker-in`). A card or token you
-unmark settles softly (`animate-settle`). Things recorded together cascade in Story order: each Story row waits as it was, then turns recorded with its marker popping, in step with its stamp's slap (`stampStepMs` apart), through
+unmark settles softly (`animate-settle`). Things recorded together cascade in Story order: each Story row waits as it was, then turns recorded in step with its stamp's slap on the stamp card (a row without a stamp pops its marker instead, so a badge never animates twice) (`stampStepMs` apart), through
 `--stamp-delay` (`createStampOrder`, `getStampDelay`).
 
 ## Components
