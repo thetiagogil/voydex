@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { PageHeadTool } from "@/shared/components/page-head-tool";
 import { cn } from "@/shared/utils/cn";
+import { IconDisc } from "@/shared/components/icon-disc";
 
 type SectionMoreLinkProps = {
   className?: string;
@@ -80,9 +81,9 @@ export const SectionHead = ({
     >
       <div className="flex min-w-0 gap-2">
         {icon ? (
-          <span className="bg-surface-2 text-ink-2 flex size-9 shrink-0 items-center justify-center rounded-full">
-            <AppIcon icon={icon} size="sm" aria-hidden />
-          </span>
+          <IconDisc>
+            <AppIcon icon={icon} size="sm" />
+          </IconDisc>
         ) : null}
 
         <div className="flex min-w-0 flex-col gap-1">

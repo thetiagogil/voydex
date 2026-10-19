@@ -10,6 +10,7 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
+import { IconDisc } from "@/shared/components/icon-disc";
 
 type StickerType = { name: string; slug: string };
 
@@ -270,12 +271,9 @@ export const PokemonEmptySlot = ({
   const body = (
     <>
       {ring ? (
-        <span
-          aria-hidden
-          className="bg-surface-2 text-ink-2 grid size-12 place-items-center rounded-full"
-        >
+        <IconDisc size="xl">
           <AppIcon icon={appIcons.actions.create} size="md" />
-        </span>
+        </IconDisc>
       ) : null}
       {text}
     </>

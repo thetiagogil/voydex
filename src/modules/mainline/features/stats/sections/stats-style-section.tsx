@@ -28,6 +28,7 @@ import { Card } from "@/shared/components/ui/card";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
+import { IconDisc } from "@/shared/components/icon-disc";
 
 type StatsStyleSectionProps = {
   onOpenFriend: (friend: StatsFriend) => void;
@@ -111,9 +112,9 @@ const PickedFact = ({
   icon: AppIconComponent;
 }) => (
   <li className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold">
-    <span className="text-ink-2 bg-surface-2 grid size-8 shrink-0 place-items-center rounded-full">
+    <IconDisc size="sm">
       <AppIcon icon={icon} size="sm" />
-    </span>
+    </IconDisc>
     <span className="min-w-0">{children}</span>
   </li>
 );

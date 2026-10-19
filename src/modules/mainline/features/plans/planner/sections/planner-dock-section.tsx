@@ -1,7 +1,7 @@
 "use client";
 
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
-import { CornerBubble } from "@/shared/components/corner-bubble";
+import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { TextLink } from "@/shared/components/text-link";
 import { useState, type DragEvent } from "react";
 
@@ -314,12 +314,7 @@ export const PlannerDockSection = ({
                 </span>
               </button>
               <CornerBubble corner="inside-top-right">
-                <span
-                  aria-hidden
-                  className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
-                >
-                  {index + 1}
-                </span>
+                <SlotMark>{index + 1}</SlotMark>
               </CornerBubble>
               {worst && !replacing ? (
                 <CornerBubble corner="top-left">

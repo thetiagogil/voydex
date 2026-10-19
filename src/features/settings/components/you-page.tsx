@@ -18,6 +18,7 @@ import { PageHeader } from "@/shared/components/page-header";
 import { Card } from "@/shared/components/ui/card";
 import { rowInteractionVariants } from "@/shared/components/ui/row-interaction";
 import { cn } from "@/shared/utils/cn";
+import { IconDisc } from "@/shared/components/icon-disc";
 
 /* The figures Mainline gives the You page, through its route. */
 export type YouPageSummary = {
@@ -53,9 +54,9 @@ const YouRow = ({ description, href, icon, title }: YouRowProps) => (
       "grid min-h-16 grid-cols-[2.75rem_minmax(0,1fr)_auto] items-center gap-3.5 rounded-md px-2.5 py-3",
     )}
   >
-    <span className="bg-surface-2 text-ink-2 grid size-11 place-items-center rounded-full">
+    <IconDisc size="lg">
       <AppIcon icon={icon} size="lg" />
-    </span>
+    </IconDisc>
     <span className="flex min-w-0 flex-col gap-0.5">
       <span className="text-15 font-extrabold">{title}</span>
       <span className="text-13 text-ink-2 font-semibold">{description}</span>

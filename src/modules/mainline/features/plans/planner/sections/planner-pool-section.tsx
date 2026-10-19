@@ -1,7 +1,7 @@
 "use client";
 
 import { ChoiceChip } from "@/shared/components/choice-chip";
-import { CornerBubble } from "@/shared/components/corner-bubble";
+import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
@@ -296,12 +296,7 @@ export const PlannerPoolSection = ({
                             />
                           ) : null}
                           {slot !== undefined ? (
-                            <span
-                              aria-hidden
-                              className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
-                            >
-                              {slot}
-                            </span>
+                            <SlotMark>{slot}</SlotMark>
                           ) : null}
                         </CornerBubble>
                       ) : null}

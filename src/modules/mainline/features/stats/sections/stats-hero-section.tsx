@@ -22,6 +22,7 @@ import {
 import { PageBand } from "@/shared/components/page-band";
 import { useFirstVisit } from "@/shared/hooks/use-first-visit";
 import { cn } from "@/shared/utils/cn";
+import { iconDiscVariants } from "@/shared/components/icon-disc";
 
 type StatsHeroSectionProps = {
   onOpenPokemon: (pokemon: StatsMostPicked) => void;
@@ -63,7 +64,10 @@ const Tile = ({
     <dd className="figure col-start-1 row-start-1 self-end">{value}</dd>
     <dd
       aria-hidden
-      className="text-calm col-start-2 row-span-2 row-start-1 grid size-12 shrink-0 place-items-center rounded-full bg-white sm:size-14"
+      className={cn(
+        iconDiscVariants({ size: "xl", tone: "band" }),
+        "col-start-2 row-span-2 row-start-1",
+      )}
     >
       <AppIcon icon={icon} size="xl" />
     </dd>

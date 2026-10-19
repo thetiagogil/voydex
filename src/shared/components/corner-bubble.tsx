@@ -45,3 +45,16 @@ export const CornerBubble = ({
     {children}
   </span>
 );
+
+/*
+ * A slot's number on a corner (the Team Planner's six): the action red in a
+ * white band. Decorative: the card says its slot in words.
+ */
+export const SlotMark = ({ children }: { children: ReactNode }) => (
+  <span
+    aria-hidden
+    className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
+  >
+    {children}
+  </span>
+);
