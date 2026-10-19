@@ -75,7 +75,7 @@ const pokemonTypeBadgeSizeClassNames = {
     iconFrame: "size-6",
     iconOnly: "size-7",
   },
-  /* Beside a Pokémon's name in the entry hero. */
+  /* Under a Pokémon's name in the entry hero. */
   xl: {
     badge: "h-10 gap-2 py-1.5 pr-4 pl-1.5 text-16",
     icon: "size-4.5",

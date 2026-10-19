@@ -52,8 +52,8 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
 
 /*
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
- * type's shade (v3 `.cx-art`), beside the eyebrow, the name with its type
- * marks, one line of the form switch and the actions as icons (the route's
+ * type's shade (v3 `.cx-art`), beside the eyebrow, the name, its types
+ * named under it, one line of the form switch and the actions as icons (the route's
  * Your Plays, Favourite, the shiny toggle), the description, and the one
  * sentence the page reads for you (the Pokédex's words are per game in
  * Pokédex numbers). Each form is its own page, and the shell remounts the
@@ -106,18 +106,16 @@ export const PokemonDetailHero = ({
             </span>
           ))}
         </p>
-        <div className="mt-1.5 mb-4 flex flex-wrap items-center gap-x-4 gap-y-2">
-          <h1 className="text-44 sm:text-60 leading-none tracking-[-0.015em] wrap-break-word">
-            {name}
-          </h1>
-          <PokemonTypeList
-            primaryType={typePair?.primaryType ?? null}
-            secondaryType={typePair?.secondaryType ?? null}
-            badgeDisplay="icon"
-            badgeSize="xl"
-            className="gap-2"
-          />
-        </div>
+        <h1 className="text-44 sm:text-60 mt-1.5 leading-none tracking-[-0.015em] wrap-break-word">
+          {name}
+        </h1>
+        {/* Its types, named, on their own line under the name. */}
+        <PokemonTypeList
+          primaryType={typePair?.primaryType ?? null}
+          secondaryType={typePair?.secondaryType ?? null}
+          badgeSize="xl"
+          className="mt-3.5 mb-5 flex-wrap gap-2"
+        />
 
         {/*
          * One line: the form switch, then the actions as icons naming
