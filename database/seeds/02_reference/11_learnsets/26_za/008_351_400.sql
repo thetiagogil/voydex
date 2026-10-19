@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -94,12 +94,6 @@ INSERT INTO reference.pokemon_learnsets (
   (353, 35300, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 34),
   -- Shuppet - Thunder - TM106
   (353, 35300, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 35),
-  -- Shuppet - Facade - TM109
-  (353, 35300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Shuppet - Dream Eater - TM127
-  (353, 35300, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 37),
-  -- Shuppet - Charge Beam - TM130
-  (353, 35300, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 38),
   -- Banette - Screech - Level 1
   (354, 35400, 103, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Banette - Lick - Level 1
@@ -178,28 +172,6 @@ INSERT INTO reference.pokemon_learnsets (
   (354, 35400, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 38),
   -- Banette - Thunder - TM106
   (354, 35400, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 39),
-  -- Banette - Facade - TM109
-  (354, 35400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Banette - Trailblaze - TM115
-  (354, 35400, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 41),
-  -- Banette - Shadow Punch - TM118
-  (354, 35400, 325, 26, NULL, 2, NULL, NULL, 26002118, NULL, 42),
-  -- Banette - Ominous Wind - TM119
-  (354, 35400, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 43),
-  -- Banette - Torment - TM121
-  (354, 35400, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 44),
-  -- Banette - Dream Eater - TM127
-  (354, 35400, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 45),
-  -- Banette - Charge Beam - TM130
-  (354, 35400, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 46),
-  -- Banette - Swagger - TM139
-  (354, 35400, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 47),
-  -- Banette - Razor Wind - TM145
-  (354, 35400, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 48),
-  -- Banette - Icicle Spear - TM149
-  (354, 35400, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 49),
-  -- Banette - Vacuum Wave - TM150
-  (354, 35400, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 50),
   -- Absol - Leer - Level 1
   (359, 35900, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Absol - Quick Attack - Level 1
@@ -300,14 +272,6 @@ INSERT INTO reference.pokemon_learnsets (
   (359, 35900, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 49),
   -- Absol - Close Combat - TM107
   (359, 35900, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 50),
-  -- Absol - Facade - TM109
-  (359, 35900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 51),
-  -- Absol - Ominous Wind - TM119
-  (359, 35900, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 52),
-  -- Absol - False Swipe - TM122
-  (359, 35900, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 53),
-  -- Absol - Razor Wind - TM145
-  (359, 35900, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 54),
   -- Snorunt - Headbutt - Level 1
   (361, 36100, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Snorunt - Leer - Level 1
@@ -362,16 +326,6 @@ INSERT INTO reference.pokemon_learnsets (
   (361, 36100, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 26),
   -- Snorunt - Blizzard - TM105
   (361, 36100, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 27),
-  -- Snorunt - Facade - TM109
-  (361, 36100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 28),
-  -- Snorunt - Chilling Water - TM110
-  (361, 36100, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 29),
-  -- Snorunt - Trailblaze - TM115
-  (361, 36100, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 30),
-  -- Snorunt - Frost Breath - TM138
-  (361, 36100, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 31),
-  -- Snorunt - Icicle Spear - TM149
-  (361, 36100, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 32),
   -- Glalie - Headbutt - Level 1
   (362, 36200, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Glalie - Leer - Level 1
@@ -442,22 +396,6 @@ INSERT INTO reference.pokemon_learnsets (
   (362, 36200, 399, 26, NULL, 2, NULL, NULL, 26002090, NULL, 34),
   -- Glalie - Blizzard - TM105
   (362, 36200, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 35),
-  -- Glalie - Facade - TM109
-  (362, 36200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Glalie - Chilling Water - TM110
-  (362, 36200, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 37),
-  -- Glalie - Trailblaze - TM115
-  (362, 36200, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 38),
-  -- Glalie - Ominous Wind - TM119
-  (362, 36200, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 39),
-  -- Glalie - Frost Breath - TM138
-  (362, 36200, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 40),
-  -- Glalie - Skull Bash - TM146
-  (362, 36200, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 41),
-  -- Glalie - Icicle Spear - TM149
-  (362, 36200, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 42),
-  -- Glalie - Sheer Cold - TM155
-  (362, 36200, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 43),
   -- Bagon - Leer - Level 1
   (371, 37100, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Bagon - Bite - Level 1
@@ -534,8 +472,6 @@ INSERT INTO reference.pokemon_learnsets (
   (371, 37100, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 37),
   -- Bagon - Hydro Pump - TM096
   (371, 37100, 56, 26, NULL, 2, NULL, NULL, 26002096, NULL, 38),
-  -- Bagon - Facade - TM109
-  (371, 37100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
   -- Shelgon - Leer - Level 1
   (372, 37200, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Shelgon - Bite - Level 1
@@ -614,8 +550,6 @@ INSERT INTO reference.pokemon_learnsets (
   (372, 37200, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 38),
   -- Shelgon - Hydro Pump - TM096
   (372, 37200, 56, 26, NULL, 2, NULL, NULL, 26002096, NULL, 39),
-  -- Shelgon - Facade - TM109
-  (372, 37200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
   -- Salamence - Leer - Level 1
   (373, 37300, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Salamence - Bite - Level 1
@@ -714,18 +648,6 @@ INSERT INTO reference.pokemon_learnsets (
   (373, 37300, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 48),
   -- Salamence - Hydro Pump - TM096
   (373, 37300, 56, 26, NULL, 2, NULL, NULL, 26002096, NULL, 49),
-  -- Salamence - Facade - TM109
-  (373, 37300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 50),
-  -- Salamence - Flame Charge - TM114
-  (373, 37300, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 51),
-  -- Salamence - Psychic Fangs - TM124
-  (373, 37300, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 52),
-  -- Salamence - Dual Wingbeat - TM134
-  (373, 37300, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 53),
-  -- Salamence - Scale Shot - TM143
-  (373, 37300, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 54),
-  -- Salamence - Skull Bash - TM146
-  (373, 37300, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 55),
   -- Beldum - Tackle - Level 1
   (374, 37400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Beldum - Headbutt - TM001
@@ -738,10 +660,6 @@ INSERT INTO reference.pokemon_learnsets (
   (374, 37400, 428, 26, NULL, 2, NULL, NULL, 26002059, NULL, 5),
   -- Beldum - Iron Defense - TM080
   (374, 37400, 334, 26, NULL, 2, NULL, NULL, 26002080, NULL, 6),
-  -- Beldum - Facade - TM109
-  (374, 37400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 7),
-  -- Beldum - Steel Beam - TM157
-  (374, 37400, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 8),
   -- Metang - Tackle - Level 1
   (375, 37500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Metang - Bullet Punch - Level 1
@@ -822,16 +740,6 @@ INSERT INTO reference.pokemon_learnsets (
   (375, 37500, 430, 26, NULL, 2, NULL, NULL, 26002084, NULL, 39),
   -- Metang - Substitute - TM085
   (375, 37500, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 40),
-  -- Metang - Facade - TM109
-  (375, 37500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Metang - Trailblaze - TM115
-  (375, 37500, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 42),
-  -- Metang - Magnet Bomb - TM126
-  (375, 37500, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 43),
-  -- Metang - Meteor Beam - TM156
-  (375, 37500, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 44),
-  -- Metang - Steel Beam - TM157
-  (375, 37500, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 45),
   -- Metagross - Tackle - Level 1
   (376, 37600, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Metagross - Confusion - Level 1
@@ -919,24 +827,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Metagross - Flash Cannon - TM084
   (376, 37600, 430, 26, NULL, 2, NULL, NULL, 26002084, NULL, 43),
   -- Metagross - Substitute - TM085
-  (376, 37600, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 44),
-  -- Metagross - Comet Punch - TM108
-  (376, 37600, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 45),
-  -- Metagross - Facade - TM109
-  (376, 37600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 46),
-  -- Metagross - Trailblaze - TM115
-  (376, 37600, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 47),
-  -- Metagross - Shadow Punch - TM118
-  (376, 37600, 325, 26, NULL, 2, NULL, NULL, 26002118, NULL, 48),
-  -- Metagross - Psychic Fangs - TM124
-  (376, 37600, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 49),
-  -- Metagross - Magnet Bomb - TM126
-  (376, 37600, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 50),
-  -- Metagross - Swagger - TM139
-  (376, 37600, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 51),
-  -- Metagross - Skull Bash - TM146
-  (376, 37600, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 52),
-  -- Metagross - Meteor Beam - TM156
-  (376, 37600, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 53),
-  -- Metagross - Steel Beam - TM157
-  (376, 37600, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 54);
+  (376, 37600, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 44);

@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -25,6 +25,76 @@ INSERT INTO reference.pokemon_learnsets (
   condition_summary,
   sort_order
 ) VALUES
+  -- Sandile - Facade - TM109
+  (551, 55100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Sandile - Torment - TM121
+  (551, 55100, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 2),
+  -- Sandile - Scorching Sands - TM136
+  (551, 55100, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 3),
+  -- Sandile - Swagger - TM139
+  (551, 55100, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 4),
+  -- Krokorok - Facade - TM109
+  (552, 55200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Krokorok - Low Sweep - TM113
+  (552, 55200, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Krokorok - Torment - TM121
+  (552, 55200, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 3),
+  -- Krokorok - Scorching Sands - TM136
+  (552, 55200, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 4),
+  -- Krokorok - Swagger - TM139
+  (552, 55200, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 5),
+  -- Krokorok - Scale Shot - TM143
+  (552, 55200, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 6),
+  -- Krookodile - Facade - TM109
+  (553, 55300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Krookodile - Low Sweep - TM113
+  (553, 55300, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Krookodile - Torment - TM121
+  (553, 55300, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 3),
+  -- Krookodile - Scorching Sands - TM136
+  (553, 55300, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 4),
+  -- Krookodile - Swagger - TM139
+  (553, 55300, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 5),
+  -- Krookodile - Scale Shot - TM143
+  (553, 55300, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 6),
+  -- Krookodile - Fissure - TM154
+  (553, 55300, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 7),
+  -- Scraggy - Facade - TM109
+  (559, 55900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Scraggy - Acid Spray - TM112
+  (559, 55900, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Scraggy - Low Sweep - TM113
+  (559, 55900, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Scraggy - Trailblaze - TM115
+  (559, 55900, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 4),
+  -- Scraggy - Torment - TM121
+  (559, 55900, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 5),
+  -- Scraggy - Drain Punch - TM131
+  (559, 55900, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 6),
+  -- Scraggy - Swagger - TM139
+  (559, 55900, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 7),
+  -- Scraggy - Fake Out - TM141
+  (559, 55900, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 8),
+  -- Scrafty - Facade - TM109
+  (560, 56000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Scrafty - Acid Spray - TM112
+  (560, 56000, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Scrafty - Low Sweep - TM113
+  (560, 56000, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Scrafty - Trailblaze - TM115
+  (560, 56000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 4),
+  -- Scrafty - Torment - TM121
+  (560, 56000, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 5),
+  -- Scrafty - Drain Punch - TM131
+  (560, 56000, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 6),
+  -- Scrafty - Dual Chop - TM135
+  (560, 56000, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 7),
+  -- Scrafty - Swagger - TM139
+  (560, 56000, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 8),
+  -- Scrafty - Fake Out - TM141
+  (560, 56000, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 9),
+  -- Scrafty - Skull Bash - TM146
+  (560, 56000, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 10),
   -- Yamask - Confusion - Level 1
   (562, 56200, 93, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Yamask - Protect - Level 1
@@ -98,13 +168,13 @@ INSERT INTO reference.pokemon_learnsets (
   -- Yamask - Heal Block - TM097
   (562, 56200, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 36),
   -- Yamask - Facade - TM109
-  (562, 56200, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 37),
+  (562, 56200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 37),
   -- Yamask - Shadow Punch - TM118
-  (562, 56200, 325, 27, NULL, 2, NULL, NULL, 26002118, NULL, 38),
+  (562, 56200, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 38),
   -- Yamask - Ominous Wind - TM119
-  (562, 56200, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 39),
+  (562, 56200, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 39),
   -- Yamask - Dream Eater - TM127
-  (562, 56200, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 40),
+  (562, 56200, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 40),
   -- Galarian Yamask - Confusion - Level 1
   (562, 56201, 93, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Galarian Yamask - Protect - Level 1
@@ -186,13 +256,13 @@ INSERT INTO reference.pokemon_learnsets (
   -- Galarian Yamask - Heal Block - TM097
   (562, 56201, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 40),
   -- Galarian Yamask - Facade - TM109
-  (562, 56201, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 41),
+  (562, 56201, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 41),
   -- Galarian Yamask - Shadow Punch - TM118
-  (562, 56201, 325, 27, NULL, 2, NULL, NULL, 26002118, NULL, 42),
+  (562, 56201, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 42),
   -- Galarian Yamask - Ominous Wind - TM119
-  (562, 56201, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 43),
+  (562, 56201, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 43),
   -- Galarian Yamask - Dream Eater - TM127
-  (562, 56201, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 44),
+  (562, 56201, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 44),
   -- Cofagrigus - Confusion - Level 1
   (563, 56300, 93, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Cofagrigus - Protect - Level 1
@@ -276,13 +346,67 @@ INSERT INTO reference.pokemon_learnsets (
   -- Cofagrigus - Heal Block - TM097
   (563, 56300, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 41),
   -- Cofagrigus - Facade - TM109
-  (563, 56300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 42),
+  (563, 56300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 42),
   -- Cofagrigus - Shadow Punch - TM118
-  (563, 56300, 325, 27, NULL, 2, NULL, NULL, 26002118, NULL, 43),
+  (563, 56300, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 43),
   -- Cofagrigus - Ominous Wind - TM119
-  (563, 56300, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 44),
+  (563, 56300, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 44),
   -- Cofagrigus - Dream Eater - TM127
-  (563, 56300, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 45),
+  (563, 56300, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 45),
+  -- Trubbish - Facade - TM109
+  (568, 56800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Trubbish - Acid Spray - TM112
+  (568, 56800, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Trubbish - Seed Bomb - TM128
+  (568, 56800, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 3),
+  -- Trubbish - Drain Punch - TM131
+  (568, 56800, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Garbodor - Facade - TM109
+  (569, 56900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Garbodor - Acid Spray - TM112
+  (569, 56900, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Garbodor - Ancient Power - TM120
+  (569, 56900, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 3),
+  -- Garbodor - Magnet Bomb - TM126
+  (569, 56900, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 4),
+  -- Garbodor - Seed Bomb - TM128
+  (569, 56900, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 5),
+  -- Garbodor - Drain Punch - TM131
+  (569, 56900, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 6),
+  -- Vanillite - Facade - TM109
+  (582, 58200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Vanillite - Frost Breath - TM138
+  (582, 58200, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 2),
+  -- Vanillite - Icicle Spear - TM149
+  (582, 58200, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 3),
+  -- Vanillite - Sheer Cold - TM155
+  (582, 58200, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 4),
+  -- Vanillish - Facade - TM109
+  (583, 58300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Vanillish - Frost Breath - TM138
+  (583, 58300, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 2),
+  -- Vanillish - Icicle Spear - TM149
+  (583, 58300, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 3),
+  -- Vanillish - Sheer Cold - TM155
+  (583, 58300, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 4),
+  -- Vanilluxe - Facade - TM109
+  (584, 58400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Vanilluxe - Chilling Water - TM110
+  (584, 58400, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Vanilluxe - Frost Breath - TM138
+  (584, 58400, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 3),
+  -- Vanilluxe - Icicle Spear - TM149
+  (584, 58400, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 4),
+  -- Vanilluxe - Sheer Cold - TM155
+  (584, 58400, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 5),
+  -- Emolga - Facade - TM109
+  (587, 58700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Emolga - Charge Beam - TM130
+  (587, 58700, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 2),
+  -- Emolga - Dual Wingbeat - TM134
+  (587, 58700, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 3),
+  -- Emolga - Razor Wind - TM145
+  (587, 58700, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 4),
   -- Foongus - Growl - Level 1
   (590, 59000, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Foongus - Absorb - Level 1
@@ -336,15 +460,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Foongus - Heal Block - TM097
   (590, 59000, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 26),
   -- Foongus - Facade - TM109
-  (590, 59000, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 27),
+  (590, 59000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 27),
   -- Foongus - Mimic - TM125
-  (590, 59000, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 28),
+  (590, 59000, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 28),
   -- Foongus - Seed Bomb - TM128
-  (590, 59000, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 29),
+  (590, 59000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 29),
   -- Foongus - First Impression - TM142
-  (590, 59000, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 30),
+  (590, 59000, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 30),
   -- Foongus - Skull Bash - TM146
-  (590, 59000, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 31),
+  (590, 59000, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 31),
   -- Amoonguss - Growl - Level 1
   (591, 59100, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Amoonguss - Absorb - Level 1
@@ -402,16 +526,16 @@ INSERT INTO reference.pokemon_learnsets (
   -- Amoonguss - Heal Block - TM097
   (591, 59100, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 28),
   -- Amoonguss - Facade - TM109
-  (591, 59100, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 29),
+  (591, 59100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 29),
   -- Amoonguss - Torment - TM121
-  (591, 59100, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 30),
+  (591, 59100, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 30),
   -- Amoonguss - Mimic - TM125
-  (591, 59100, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 31),
+  (591, 59100, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 31),
   -- Amoonguss - Seed Bomb - TM128
-  (591, 59100, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 32),
+  (591, 59100, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 32),
   -- Amoonguss - Swagger - TM139
-  (591, 59100, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 33),
+  (591, 59100, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 33),
   -- Amoonguss - First Impression - TM142
-  (591, 59100, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 34),
+  (591, 59100, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 34),
   -- Amoonguss - Skull Bash - TM146
-  (591, 59100, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 35);
+  (591, 59100, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 35);

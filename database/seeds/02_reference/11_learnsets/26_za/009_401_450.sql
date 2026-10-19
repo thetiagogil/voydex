@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -60,10 +60,6 @@ INSERT INTO reference.pokemon_learnsets (
   (406, 40600, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 17),
   -- Budew - Dazzling Gleam - TM092
   (406, 40600, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 18),
-  -- Budew - Facade - TM109
-  (406, 40600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 19),
-  -- Budew - Seed Bomb - TM128
-  (406, 40600, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 20),
   -- Roserade - Absorb - Level 1
   (407, 40700, 71, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Roserade - Growth - Level 1
@@ -134,14 +130,6 @@ INSERT INTO reference.pokemon_learnsets (
   (407, 40700, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 34),
   -- Roserade - Dazzling Gleam - TM092
   (407, 40700, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 35),
-  -- Roserade - Facade - TM109
-  (407, 40700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Roserade - Seed Bomb - TM128
-  (407, 40700, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 37),
-  -- Roserade - Razor Wind - TM145
-  (407, 40700, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 38),
-  -- Roserade - Petal Dance - TM151
-  (407, 40700, 80, 26, NULL, 2, NULL, NULL, 26002151, NULL, 39),
   -- Buneary - Tackle - Level 1
   (427, 42700, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Buneary - Splash - Level 1
@@ -206,20 +194,6 @@ INSERT INTO reference.pokemon_learnsets (
   (427, 42700, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 31),
   -- Buneary - Close Combat - TM107
   (427, 42700, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 32),
-  -- Buneary - Facade - TM109
-  (427, 42700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Buneary - Low Sweep - TM113
-  (427, 42700, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 34),
-  -- Buneary - Circle Throw - TM129
-  (427, 42700, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 35),
-  -- Buneary - Drain Punch - TM131
-  (427, 42700, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 36),
-  -- Buneary - Double Hit - TM132
-  (427, 42700, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 37),
-  -- Buneary - Fake Out - TM141
-  (427, 42700, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 38),
-  -- Buneary - Triple Axel - TM144
-  (427, 42700, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 39),
   -- Lopunny - Tackle - Level 1
   (428, 42800, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Lopunny - Splash - Level 1
@@ -308,22 +282,6 @@ INSERT INTO reference.pokemon_learnsets (
   (428, 42800, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 43),
   -- Lopunny - Close Combat - TM107
   (428, 42800, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 44),
-  -- Lopunny - Comet Punch - TM108
-  (428, 42800, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 45),
-  -- Lopunny - Facade - TM109
-  (428, 42800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 46),
-  -- Lopunny - Low Sweep - TM113
-  (428, 42800, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 47),
-  -- Lopunny - Circle Throw - TM129
-  (428, 42800, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 48),
-  -- Lopunny - Drain Punch - TM131
-  (428, 42800, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 49),
-  -- Lopunny - Double Hit - TM132
-  (428, 42800, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 50),
-  -- Lopunny - Fake Out - TM141
-  (428, 42800, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 51),
-  -- Lopunny - Triple Axel - TM144
-  (428, 42800, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 52),
   -- Gible - Tackle - Level 1
   (443, 44300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gible - Sand Tomb - Level 1
@@ -392,14 +350,6 @@ INSERT INTO reference.pokemon_learnsets (
   (443, 44300, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 33),
   -- Gible - Outrage - TM093
   (443, 44300, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 34),
-  -- Gible - Facade - TM109
-  (443, 44300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 35),
-  -- Gible - False Swipe - TM122
-  (443, 44300, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 36),
-  -- Gible - Scorching Sands - TM136
-  (443, 44300, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 37),
-  -- Gible - Scale Shot - TM143
-  (443, 44300, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 38),
   -- Gabite - Tackle - Level 1
   (444, 44400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gabite - Sand Tomb - Level 1
@@ -478,14 +428,6 @@ INSERT INTO reference.pokemon_learnsets (
   (444, 44400, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 38),
   -- Gabite - Outrage - TM093
   (444, 44400, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 39),
-  -- Gabite - Facade - TM109
-  (444, 44400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Gabite - False Swipe - TM122
-  (444, 44400, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 41),
-  -- Gabite - Scorching Sands - TM136
-  (444, 44400, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 42),
-  -- Gabite - Scale Shot - TM143
-  (444, 44400, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 43),
   -- Garchomp - Tackle - Level 1
   (445, 44500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Garchomp - Sand Tomb - Level 1
@@ -580,20 +522,6 @@ INSERT INTO reference.pokemon_learnsets (
   (445, 44500, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 46),
   -- Garchomp - Outrage - TM093
   (445, 44500, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 47),
-  -- Garchomp - Facade - TM109
-  (445, 44500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 48),
-  -- Garchomp - False Swipe - TM122
-  (445, 44500, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 49),
-  -- Garchomp - Dual Chop - TM135
-  (445, 44500, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 50),
-  -- Garchomp - Scorching Sands - TM136
-  (445, 44500, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 51),
-  -- Garchomp - Scale Shot - TM143
-  (445, 44500, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 52),
-  -- Garchomp - Razor Wind - TM145
-  (445, 44500, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 53),
-  -- Garchomp - Vacuum Wave - TM150
-  (445, 44500, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 54),
   -- Riolu - Quick Attack - Level 1
   (447, 44700, 98, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Riolu - Endure - Level 1
@@ -664,18 +592,6 @@ INSERT INTO reference.pokemon_learnsets (
   (447, 44700, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 34),
   -- Riolu - Close Combat - TM107
   (447, 44700, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 35),
-  -- Riolu - Facade - TM109
-  (447, 44700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Riolu - Low Sweep - TM113
-  (447, 44700, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 37),
-  -- Riolu - Trailblaze - TM115
-  (447, 44700, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 38),
-  -- Riolu - Circle Throw - TM129
-  (447, 44700, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 39),
-  -- Riolu - Drain Punch - TM131
-  (447, 44700, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 40),
-  -- Riolu - Vacuum Wave - TM150
-  (447, 44700, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 41),
   -- Lucario - Quick Attack - Level 1
   (448, 44800, 98, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Lucario - Protect - Level 1
@@ -786,24 +702,6 @@ INSERT INTO reference.pokemon_learnsets (
   (448, 44800, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 54),
   -- Lucario - Close Combat - TM107
   (448, 44800, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 55),
-  -- Lucario - Facade - TM109
-  (448, 44800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 56),
-  -- Lucario - Low Sweep - TM113
-  (448, 44800, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 57),
-  -- Lucario - Trailblaze - TM115
-  (448, 44800, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 58),
-  -- Lucario - Circle Throw - TM129
-  (448, 44800, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 59),
-  -- Lucario - Drain Punch - TM131
-  (448, 44800, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 60),
-  -- Lucario - Blaze Kick - TM133
-  (448, 44800, 299, 26, NULL, 2, NULL, NULL, 26002133, NULL, 61),
-  -- Lucario - Dual Chop - TM135
-  (448, 44800, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 62),
-  -- Lucario - Vacuum Wave - TM150
-  (448, 44800, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 63),
-  -- Lucario - Steel Beam - TM157
-  (448, 44800, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 64),
   -- Hippopotas - Tackle - Level 1
   (449, 44900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Hippopotas - Bite - Level 4
@@ -864,14 +762,6 @@ INSERT INTO reference.pokemon_learnsets (
   (449, 44900, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 29),
   -- Hippopotas - Whirlwind - TM094
   (449, 44900, 18, 26, NULL, 2, NULL, NULL, 26002094, NULL, 30),
-  -- Hippopotas - Facade - TM109
-  (449, 44900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 31),
-  -- Hippopotas - Scorching Sands - TM136
-  (449, 44900, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 32),
-  -- Hippopotas - Muddy Water - TM140
-  (449, 44900, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 33),
-  -- Hippopotas - Fissure - TM154
-  (449, 44900, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 34),
   -- Hippowdon - Tackle - Level 1
   (450, 45000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Hippowdon - Bite - Level 1
@@ -939,12 +829,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Hippowdon - Curse - TM091
   (450, 45000, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 33),
   -- Hippowdon - Whirlwind - TM094
-  (450, 45000, 18, 26, NULL, 2, NULL, NULL, 26002094, NULL, 34),
-  -- Hippowdon - Facade - TM109
-  (450, 45000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 35),
-  -- Hippowdon - Scorching Sands - TM136
-  (450, 45000, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 36),
-  -- Hippowdon - Muddy Water - TM140
-  (450, 45000, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 37),
-  -- Hippowdon - Fissure - TM154
-  (450, 45000, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 38);
+  (450, 45000, 18, 26, NULL, 2, NULL, NULL, 26002094, NULL, 34);

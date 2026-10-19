@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -25,6 +25,68 @@ INSERT INTO reference.pokemon_learnsets (
   condition_summary,
   sort_order
 ) VALUES
+  -- Snover - Facade - TM109
+  (459, 45900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Snover - Chilling Water - TM110
+  (459, 45900, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Snover - Trailblaze - TM115
+  (459, 45900, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Snover - Seed Bomb - TM128
+  (459, 45900, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Snover - Swagger - TM139
+  (459, 45900, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 5),
+  -- Snover - Icicle Spear - TM149
+  (459, 45900, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 6),
+  -- Snover - Sheer Cold - TM155
+  (459, 45900, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 7),
+  -- Abomasnow - Facade - TM109
+  (460, 46000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Abomasnow - Chilling Water - TM110
+  (460, 46000, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Abomasnow - Trailblaze - TM115
+  (460, 46000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Abomasnow - Seed Bomb - TM128
+  (460, 46000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Abomasnow - Frost Breath - TM138
+  (460, 46000, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 5),
+  -- Abomasnow - Swagger - TM139
+  (460, 46000, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 6),
+  -- Abomasnow - Icicle Spear - TM149
+  (460, 46000, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 7),
+  -- Abomasnow - Sheer Cold - TM155
+  (460, 46000, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 8),
+  -- Leafeon - Facade - TM109
+  (470, 47000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Leafeon - Trailblaze - TM115
+  (470, 47000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 2),
+  -- Leafeon - Mimic - TM125
+  (470, 47000, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 3),
+  -- Leafeon - Seed Bomb - TM128
+  (470, 47000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Leafeon - Skull Bash - TM146
+  (470, 47000, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 5),
+  -- Leafeon - Petal Dance - TM151
+  (470, 47000, 80, 27, NULL, 2, NULL, NULL, 27002151, NULL, 6),
+  -- Leafeon - Solar Blade - TM152
+  (470, 47000, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 7),
+  -- Glaceon - Facade - TM109
+  (471, 47100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Glaceon - Chilling Water - TM110
+  (471, 47100, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Glaceon - Trailblaze - TM115
+  (471, 47100, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Glaceon - Mimic - TM125
+  (471, 47100, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 4),
+  -- Glaceon - Frost Breath - TM138
+  (471, 47100, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 5),
+  -- Glaceon - Triple Axel - TM144
+  (471, 47100, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 6),
+  -- Glaceon - Skull Bash - TM146
+  (471, 47100, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 7),
+  -- Glaceon - Icicle Spear - TM149
+  (471, 47100, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 8),
+  -- Glaceon - Sheer Cold - TM155
+  (471, 47100, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 9),
   -- Porygon-Z - Tackle - Level 1
   (474, 47400, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Porygon-Z - Confuse Ray - Level 1
@@ -116,17 +178,57 @@ INSERT INTO reference.pokemon_learnsets (
   -- Porygon-Z - Thunder - TM106
   (474, 47400, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Porygon-Z - Facade - TM109
-  (474, 47400, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (474, 47400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Porygon-Z - Ominous Wind - TM119
-  (474, 47400, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 47),
+  (474, 47400, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 47),
   -- Porygon-Z - Magnet Bomb - TM126
-  (474, 47400, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 48),
+  (474, 47400, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 48),
   -- Porygon-Z - Charge Beam - TM130
-  (474, 47400, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 49),
+  (474, 47400, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 49),
   -- Porygon-Z - Skull Bash - TM146
-  (474, 47400, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 50),
+  (474, 47400, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 50),
   -- Porygon-Z - Tri Attack - TM147
-  (474, 47400, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 51),
+  (474, 47400, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 51),
+  -- Gallade - Comet Punch - TM108
+  (475, 47500, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Gallade - Facade - TM109
+  (475, 47500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Gallade - Low Sweep - TM113
+  (475, 47500, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Gallade - False Swipe - TM122
+  (475, 47500, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 4),
+  -- Gallade - Dream Eater - TM127
+  (475, 47500, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 5),
+  -- Gallade - Charge Beam - TM130
+  (475, 47500, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 6),
+  -- Gallade - Drain Punch - TM131
+  (475, 47500, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 7),
+  -- Gallade - Dual Chop - TM135
+  (475, 47500, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 8),
+  -- Gallade - Triple Axel - TM144
+  (475, 47500, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 9),
+  -- Gallade - Razor Wind - TM145
+  (475, 47500, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 10),
+  -- Gallade - Vacuum Wave - TM150
+  (475, 47500, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 11),
+  -- Gallade - Solar Blade - TM152
+  (475, 47500, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 12),
+  -- Froslass - Facade - TM109
+  (478, 47800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Froslass - Chilling Water - TM110
+  (478, 47800, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Froslass - Trailblaze - TM115
+  (478, 47800, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Froslass - Frost Breath - TM138
+  (478, 47800, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 4),
+  -- Froslass - Triple Axel - TM144
+  (478, 47800, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 5),
+  -- Froslass - Icicle Spear - TM149
+  (478, 47800, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 6),
+  -- Froslass - Petal Dance - TM151
+  (478, 47800, 80, 27, NULL, 2, NULL, NULL, 27002151, NULL, 7),
+  -- Froslass - Sheer Cold - TM155
+  (478, 47800, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 8),
   -- Rotom - Thunder Shock - Level 1
   (479, 47900, 84, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rotom - Double Team - Level 1
@@ -200,15 +302,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rotom - Thunder - TM106
   (479, 47900, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 36),
   -- Rotom - Facade - TM109
-  (479, 47900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 37),
+  (479, 47900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 37),
   -- Rotom - Ominous Wind - TM119
-  (479, 47900, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 38),
+  (479, 47900, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 38),
   -- Rotom - Magnet Bomb - TM126
-  (479, 47900, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 39),
+  (479, 47900, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 39),
   -- Rotom - Dream Eater - TM127
-  (479, 47900, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 40),
+  (479, 47900, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 40),
   -- Rotom - Charge Beam - TM130
-  (479, 47900, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 41),
+  (479, 47900, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 41),
   -- Rotom (Heat) - Thunder Shock - Level 1
   (479, 47901, 84, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rotom (Heat) - Double Team - Level 1
@@ -286,15 +388,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rotom (Heat) - Thunder - TM106
   (479, 47901, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 38),
   -- Rotom (Heat) - Facade - TM109
-  (479, 47901, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 39),
+  (479, 47901, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 39),
   -- Rotom (Heat) - Ominous Wind - TM119
-  (479, 47901, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 40),
+  (479, 47901, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 40),
   -- Rotom (Heat) - Magnet Bomb - TM126
-  (479, 47901, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 41),
+  (479, 47901, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 41),
   -- Rotom (Heat) - Dream Eater - TM127
-  (479, 47901, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 42),
+  (479, 47901, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 42),
   -- Rotom (Heat) - Charge Beam - TM130
-  (479, 47901, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 43),
+  (479, 47901, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 43),
   -- Rotom (Wash) - Hydro Pump - Level 1
   (479, 47902, 56, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rotom (Wash) - Thunder Shock - Level 1
@@ -372,15 +474,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rotom (Wash) - Thunder - TM106
   (479, 47902, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 38),
   -- Rotom (Wash) - Facade - TM109
-  (479, 47902, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 39),
+  (479, 47902, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 39),
   -- Rotom (Wash) - Ominous Wind - TM119
-  (479, 47902, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 40),
+  (479, 47902, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 40),
   -- Rotom (Wash) - Magnet Bomb - TM126
-  (479, 47902, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 41),
+  (479, 47902, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 41),
   -- Rotom (Wash) - Dream Eater - TM127
-  (479, 47902, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 42),
+  (479, 47902, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 42),
   -- Rotom (Wash) - Charge Beam - TM130
-  (479, 47902, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 43),
+  (479, 47902, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 43),
   -- Rotom (Frost) - Blizzard - Level 1
   (479, 47903, 59, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rotom (Frost) - Thunder Shock - Level 1
@@ -458,15 +560,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rotom (Frost) - Thunder - TM106
   (479, 47903, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 38),
   -- Rotom (Frost) - Facade - TM109
-  (479, 47903, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 39),
+  (479, 47903, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 39),
   -- Rotom (Frost) - Ominous Wind - TM119
-  (479, 47903, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 40),
+  (479, 47903, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 40),
   -- Rotom (Frost) - Magnet Bomb - TM126
-  (479, 47903, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 41),
+  (479, 47903, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 41),
   -- Rotom (Frost) - Dream Eater - TM127
-  (479, 47903, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 42),
+  (479, 47903, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 42),
   -- Rotom (Frost) - Charge Beam - TM130
-  (479, 47903, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 43),
+  (479, 47903, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 43),
   -- Rotom (Fan) - Thunder Shock - Level 1
   (479, 47904, 84, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rotom (Fan) - Double Team - Level 1
@@ -542,15 +644,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rotom (Fan) - Thunder - TM106
   (479, 47904, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 37),
   -- Rotom (Fan) - Facade - TM109
-  (479, 47904, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 38),
+  (479, 47904, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 38),
   -- Rotom (Fan) - Ominous Wind - TM119
-  (479, 47904, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 39),
+  (479, 47904, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 39),
   -- Rotom (Fan) - Magnet Bomb - TM126
-  (479, 47904, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 40),
+  (479, 47904, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 40),
   -- Rotom (Fan) - Dream Eater - TM127
-  (479, 47904, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 41),
+  (479, 47904, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 41),
   -- Rotom (Fan) - Charge Beam - TM130
-  (479, 47904, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 42),
+  (479, 47904, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 42),
   -- Rotom (Mow) - Thunder Shock - Level 1
   (479, 47905, 84, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rotom (Mow) - Double Team - Level 1
@@ -626,15 +728,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rotom (Mow) - Thunder - TM106
   (479, 47905, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 37),
   -- Rotom (Mow) - Facade - TM109
-  (479, 47905, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 38),
+  (479, 47905, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 38),
   -- Rotom (Mow) - Ominous Wind - TM119
-  (479, 47905, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 39),
+  (479, 47905, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 39),
   -- Rotom (Mow) - Magnet Bomb - TM126
-  (479, 47905, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 40),
+  (479, 47905, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 40),
   -- Rotom (Mow) - Dream Eater - TM127
-  (479, 47905, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 41),
+  (479, 47905, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 41),
   -- Rotom (Mow) - Charge Beam - TM130
-  (479, 47905, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 42),
+  (479, 47905, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 42),
   -- Heatran - Leer - Level 1
   (485, 48500, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Heatran - Fire Spin - Level 1
@@ -732,17 +834,17 @@ INSERT INTO reference.pokemon_learnsets (
   -- Heatran - Flare Blitz - TM104
   (485, 48500, 394, 27, NULL, 2, NULL, NULL, 26002104, NULL, 48),
   -- Heatran - Facade - TM109
-  (485, 48500, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 49),
+  (485, 48500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 49),
   -- Heatran - Flame Charge - TM114
-  (485, 48500, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 50),
+  (485, 48500, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 50),
   -- Heatran - Ancient Power - TM120
-  (485, 48500, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 51),
+  (485, 48500, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 51),
   -- Heatran - Scorching Sands - TM136
-  (485, 48500, 815, 27, NULL, 2, NULL, NULL, 26002136, NULL, 52),
+  (485, 48500, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 52),
   -- Heatran - First Impression - TM142
-  (485, 48500, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 53),
+  (485, 48500, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 53),
   -- Heatran - Steel Beam - TM157
-  (485, 48500, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 54),
+  (485, 48500, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 54),
   -- Darkrai - Confusion - Level 1
   (491, 49100, 93, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Darkrai - Confuse Ray - Level 1
@@ -844,22 +946,64 @@ INSERT INTO reference.pokemon_learnsets (
   -- Darkrai - Thunder - TM106
   (491, 49100, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 50),
   -- Darkrai - Facade - TM109
-  (491, 49100, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 51),
+  (491, 49100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 51),
   -- Darkrai - Shadow Punch - TM118
-  (491, 49100, 325, 27, NULL, 2, NULL, NULL, 26002118, NULL, 52),
+  (491, 49100, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 52),
   -- Darkrai - Ominous Wind - TM119
-  (491, 49100, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 53),
+  (491, 49100, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 53),
   -- Darkrai - Torment - TM121
-  (491, 49100, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 54),
+  (491, 49100, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 54),
   -- Darkrai - Dream Eater - TM127
-  (491, 49100, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 55),
+  (491, 49100, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 55),
   -- Darkrai - Charge Beam - TM130
-  (491, 49100, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 56),
+  (491, 49100, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 56),
   -- Darkrai - Drain Punch - TM131
-  (491, 49100, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 57),
+  (491, 49100, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 57),
   -- Darkrai - Razor Wind - TM145
-  (491, 49100, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 58),
+  (491, 49100, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 58),
   -- Darkrai - Icicle Spear - TM149
-  (491, 49100, 333, 27, NULL, 2, NULL, NULL, 26002149, NULL, 59),
+  (491, 49100, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 59),
   -- Darkrai - Vacuum Wave - TM150
-  (491, 49100, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 60);
+  (491, 49100, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 60),
+  -- Tepig - Facade - TM109
+  (498, 49800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Tepig - Flame Charge - TM114
+  (498, 49800, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 2),
+  -- Tepig - Trailblaze - TM115
+  (498, 49800, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Pignite - Facade - TM109
+  (499, 49900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Pignite - Low Sweep - TM113
+  (499, 49900, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Pignite - Flame Charge - TM114
+  (499, 49900, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 3),
+  -- Pignite - Trailblaze - TM115
+  (499, 49900, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 4),
+  -- Pignite - Drain Punch - TM131
+  (499, 49900, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 5),
+  -- Emboar - Comet Punch - TM108
+  (500, 50000, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Emboar - Facade - TM109
+  (500, 50000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Emboar - Low Sweep - TM113
+  (500, 50000, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Emboar - Flame Charge - TM114
+  (500, 50000, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 4),
+  -- Emboar - Trailblaze - TM115
+  (500, 50000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 5),
+  -- Emboar - Circle Throw - TM129
+  (500, 50000, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 6),
+  -- Emboar - Drain Punch - TM131
+  (500, 50000, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 7),
+  -- Emboar - Dual Chop - TM135
+  (500, 50000, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 8),
+  -- Emboar - Storm Throw - TM137
+  (500, 50000, 480, 27, NULL, 2, NULL, NULL, 27002137, NULL, 9),
+  -- Emboar - Scald - TM148
+  (500, 50000, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 10),
+  -- Emboar - Vacuum Wave - TM150
+  (500, 50000, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 11),
+  -- Emboar - Solar Blade - TM152
+  (500, 50000, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 12),
+  -- Emboar - Blast Burn - TM158
+  (500, 50000, 307, 27, NULL, 2, NULL, NULL, 27002158, NULL, 13);

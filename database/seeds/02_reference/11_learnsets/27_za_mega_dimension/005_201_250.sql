@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -25,6 +25,20 @@ INSERT INTO reference.pokemon_learnsets (
   condition_summary,
   sort_order
 ) VALUES
+  -- Steelix - Facade - TM109
+  (208, 20800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Steelix - Ancient Power - TM120
+  (208, 20800, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 2),
+  -- Steelix - Psychic Fangs - TM124
+  (208, 20800, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 3),
+  -- Steelix - Scorching Sands - TM136
+  (208, 20800, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 4),
+  -- Steelix - Fissure - TM154
+  (208, 20800, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 5),
+  -- Steelix - Meteor Beam - TM156
+  (208, 20800, 800, 27, NULL, 2, NULL, NULL, 27002156, NULL, 6),
+  -- Steelix - Steel Beam - TM157
+  (208, 20800, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 7),
   -- Qwilfish - Tackle - Level 1
   (211, 21100, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Qwilfish - Poison Sting - Level 1
@@ -116,13 +130,13 @@ INSERT INTO reference.pokemon_learnsets (
   -- Qwilfish - Blizzard - TM105
   (211, 21100, 59, 27, NULL, 2, NULL, NULL, 26002105, NULL, 45),
   -- Qwilfish - Facade - TM109
-  (211, 21100, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (211, 21100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Qwilfish - Chilling Water - TM110
-  (211, 21100, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 47),
+  (211, 21100, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 47),
   -- Qwilfish - Acid Spray - TM112
-  (211, 21100, 491, 27, NULL, 2, NULL, NULL, 26002112, NULL, 48),
+  (211, 21100, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 48),
   -- Qwilfish - Scale Shot - TM143
-  (211, 21100, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 49),
+  (211, 21100, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 49),
   -- Hisuian Qwilfish - Tackle - Level 1
   (211, 21101, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Hisuian Qwilfish - Poison Sting - Level 1
@@ -216,13 +230,111 @@ INSERT INTO reference.pokemon_learnsets (
   -- Hisuian Qwilfish - Blizzard - TM105
   (211, 21101, 59, 27, NULL, 2, NULL, NULL, 26002105, NULL, 46),
   -- Hisuian Qwilfish - Facade - TM109
-  (211, 21101, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 47),
+  (211, 21101, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 47),
   -- Hisuian Qwilfish - Chilling Water - TM110
-  (211, 21101, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 48),
+  (211, 21101, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 48),
   -- Hisuian Qwilfish - Acid Spray - TM112
-  (211, 21101, 491, 27, NULL, 2, NULL, NULL, 26002112, NULL, 49),
+  (211, 21101, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 49),
   -- Hisuian Qwilfish - Scale Shot - TM143
-  (211, 21101, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 50),
+  (211, 21101, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 50),
+  -- Scizor - Facade - TM109
+  (212, 21200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Scizor - Trailblaze - TM115
+  (212, 21200, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 2),
+  -- Scizor - Silver Wind - TM117
+  (212, 21200, 318, 27, NULL, 2, NULL, NULL, 27002117, NULL, 3),
+  -- Scizor - False Swipe - TM122
+  (212, 21200, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 4),
+  -- Scizor - Magnet Bomb - TM126
+  (212, 21200, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 5),
+  -- Scizor - Double Hit - TM132
+  (212, 21200, 458, 27, NULL, 2, NULL, NULL, 27002132, NULL, 6),
+  -- Scizor - Dual Wingbeat - TM134
+  (212, 21200, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 7),
+  -- Scizor - Dual Chop - TM135
+  (212, 21200, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 8),
+  -- Scizor - Razor Wind - TM145
+  (212, 21200, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 9),
+  -- Scizor - Vacuum Wave - TM150
+  (212, 21200, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 10),
+  -- Scizor - Steel Beam - TM157
+  (212, 21200, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 11),
+  -- Heracross - Facade - TM109
+  (214, 21400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Heracross - Trailblaze - TM115
+  (214, 21400, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 2),
+  -- Heracross - Silver Wind - TM117
+  (214, 21400, 318, 27, NULL, 2, NULL, NULL, 27002117, NULL, 3),
+  -- Heracross - False Swipe - TM122
+  (214, 21400, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 4),
+  -- Heracross - Circle Throw - TM129
+  (214, 21400, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 5),
+  -- Heracross - Skull Bash - TM146
+  (214, 21400, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 6),
+  -- Heracross - Vacuum Wave - TM150
+  (214, 21400, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 7),
+  -- Delibird - Facade - TM109
+  (225, 22500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Delibird - Chilling Water - TM110
+  (225, 22500, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Delibird - Trailblaze - TM115
+  (225, 22500, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Delibird - Seed Bomb - TM128
+  (225, 22500, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Delibird - Dual Wingbeat - TM134
+  (225, 22500, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 5),
+  -- Delibird - Frost Breath - TM138
+  (225, 22500, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 6),
+  -- Delibird - Fake Out - TM141
+  (225, 22500, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 7),
+  -- Delibird - Triple Axel - TM144
+  (225, 22500, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 8),
+  -- Delibird - Razor Wind - TM145
+  (225, 22500, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 9),
+  -- Delibird - Icicle Spear - TM149
+  (225, 22500, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 10),
+  -- Delibird - Sheer Cold - TM155
+  (225, 22500, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 11),
+  -- Skarmory - Facade - TM109
+  (227, 22700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Skarmory - Magnet Bomb - TM126
+  (227, 22700, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 2),
+  -- Skarmory - Dual Wingbeat - TM134
+  (227, 22700, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 3),
+  -- Skarmory - Scale Shot - TM143
+  (227, 22700, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 4),
+  -- Skarmory - Razor Wind - TM145
+  (227, 22700, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 5),
+  -- Skarmory - Skull Bash - TM146
+  (227, 22700, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 6),
+  -- Skarmory - Sky Attack - TM153
+  (227, 22700, 143, 27, NULL, 2, NULL, NULL, 27002153, NULL, 7),
+  -- Skarmory - Steel Beam - TM157
+  (227, 22700, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 8),
+  -- Houndour - Facade - TM109
+  (228, 22800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Houndour - Flame Charge - TM114
+  (228, 22800, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 2),
+  -- Houndour - Trailblaze - TM115
+  (228, 22800, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Houndour - Torment - TM121
+  (228, 22800, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 4),
+  -- Houndour - Psychic Fangs - TM124
+  (228, 22800, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 5),
+  -- Houndoom - Facade - TM109
+  (229, 22900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Houndoom - Flame Charge - TM114
+  (229, 22900, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 2),
+  -- Houndoom - Trailblaze - TM115
+  (229, 22900, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Houndoom - Torment - TM121
+  (229, 22900, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 4),
+  -- Houndoom - Psychic Fangs - TM124
+  (229, 22900, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 5),
+  -- Houndoom - Dream Eater - TM127
+  (229, 22900, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 6),
+  -- Houndoom - Swagger - TM139
+  (229, 22900, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 7),
   -- Porygon2 - Tackle - Level 1
   (233, 23300, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Porygon2 - Confuse Ray - Level 1
@@ -310,12 +422,32 @@ INSERT INTO reference.pokemon_learnsets (
   -- Porygon2 - Thunder - TM106
   (233, 23300, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 43),
   -- Porygon2 - Facade - TM109
-  (233, 23300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 44),
+  (233, 23300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 44),
   -- Porygon2 - Magnet Bomb - TM126
-  (233, 23300, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 45),
+  (233, 23300, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 45),
   -- Porygon2 - Charge Beam - TM130
-  (233, 23300, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 46),
+  (233, 23300, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 46),
   -- Porygon2 - Skull Bash - TM146
-  (233, 23300, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 47),
+  (233, 23300, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 47),
   -- Porygon2 - Tri Attack - TM147
-  (233, 23300, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 48);
+  (233, 23300, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 48),
+  -- Larvitar - Facade - TM109
+  (246, 24600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Larvitar - Ancient Power - TM120
+  (246, 24600, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 2),
+  -- Pupitar - Facade - TM109
+  (247, 24700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Pupitar - Ancient Power - TM120
+  (247, 24700, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 2),
+  -- Tyranitar - Facade - TM109
+  (248, 24800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Tyranitar - Ancient Power - TM120
+  (248, 24800, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 2),
+  -- Tyranitar - Scorching Sands - TM136
+  (248, 24800, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 3),
+  -- Tyranitar - Swagger - TM139
+  (248, 24800, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 4),
+  -- Tyranitar - Muddy Water - TM140
+  (248, 24800, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 5),
+  -- Tyranitar - Scale Shot - TM143
+  (248, 24800, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 6);

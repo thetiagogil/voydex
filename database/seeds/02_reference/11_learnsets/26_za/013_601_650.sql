@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -34,10 +34,6 @@ INSERT INTO reference.pokemon_learnsets (
   (602, 60200, 86, 26, NULL, 2, NULL, NULL, 26002008, NULL, 4),
   -- Tynamo - Protect - TM017
   (602, 60200, 182, 26, NULL, 2, NULL, NULL, 26002017, NULL, 5),
-  -- Tynamo - Facade - TM109
-  (602, 60200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 6),
-  -- Tynamo - Charge Beam - TM130
-  (602, 60200, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 7),
   -- Eelektrik - Headbutt - Level 1
   (603, 60300, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Eelektrik - Tackle - Level 1
@@ -98,12 +94,6 @@ INSERT INTO reference.pokemon_learnsets (
   (603, 60300, 528, 26, NULL, 2, NULL, NULL, 26002086, NULL, 29),
   -- Eelektrik - Thunder - TM106
   (603, 60300, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 30),
-  -- Eelektrik - Facade - TM109
-  (603, 60300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 31),
-  -- Eelektrik - Acid Spray - TM112
-  (603, 60300, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 32),
-  -- Eelektrik - Charge Beam - TM130
-  (603, 60300, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 33),
   -- Eelektross - Headbutt - Level 1
   (604, 60400, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Eelektross - Tackle - Level 1
@@ -200,22 +190,6 @@ INSERT INTO reference.pokemon_learnsets (
   (604, 60400, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 47),
   -- Eelektross - Close Combat - TM107
   (604, 60400, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 48),
-  -- Eelektross - Comet Punch - TM108
-  (604, 60400, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 49),
-  -- Eelektross - Facade - TM109
-  (604, 60400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 50),
-  -- Eelektross - Acid Spray - TM112
-  (604, 60400, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 51),
-  -- Eelektross - Poison Fang - TM123
-  (604, 60400, 305, 26, NULL, 2, NULL, NULL, 26002123, NULL, 52),
-  -- Eelektross - Psychic Fangs - TM124
-  (604, 60400, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 53),
-  -- Eelektross - Charge Beam - TM130
-  (604, 60400, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 54),
-  -- Eelektross - Drain Punch - TM131
-  (604, 60400, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 55),
-  -- Eelektross - Muddy Water - TM140
-  (604, 60400, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 56),
   -- Litwick - Ember - Level 1
   (607, 60700, 52, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Litwick - Smokescreen - Level 1
@@ -282,10 +256,6 @@ INSERT INTO reference.pokemon_learnsets (
   (607, 60700, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 32),
   -- Litwick - Heal Block - TM097
   (607, 60700, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 33),
-  -- Litwick - Facade - TM109
-  (607, 60700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 34),
-  -- Litwick - Flame Charge - TM114
-  (607, 60700, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 35),
   -- Lampent - Ember - Level 1
   (608, 60800, 52, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Lampent - Smokescreen - Level 1
@@ -352,12 +322,6 @@ INSERT INTO reference.pokemon_learnsets (
   (608, 60800, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 32),
   -- Lampent - Heal Block - TM097
   (608, 60800, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 33),
-  -- Lampent - Facade - TM109
-  (608, 60800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 34),
-  -- Lampent - Flame Charge - TM114
-  (608, 60800, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 35),
-  -- Lampent - Ominous Wind - TM119
-  (608, 60800, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 36),
   -- Chandelure - Ember - Level 1
   (609, 60900, 52, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Chandelure - Smokescreen - Level 1
@@ -430,16 +394,6 @@ INSERT INTO reference.pokemon_learnsets (
   (609, 60900, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 35),
   -- Chandelure - Flare Blitz - TM104
   (609, 60900, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 36),
-  -- Chandelure - Facade - TM109
-  (609, 60900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Chandelure - Acid Spray - TM112
-  (609, 60900, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 38),
-  -- Chandelure - Flame Charge - TM114
-  (609, 60900, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 39),
-  -- Chandelure - Trailblaze - TM115
-  (609, 60900, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 40),
-  -- Chandelure - Ominous Wind - TM119
-  (609, 60900, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 41),
   -- Stunfisk - Tackle - Level 1
   (618, 61800, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Stunfisk - Water Gun - Level 1
@@ -506,14 +460,6 @@ INSERT INTO reference.pokemon_learnsets (
   (618, 61800, 527, 26, NULL, 2, NULL, NULL, 26002101, NULL, 32),
   -- Stunfisk - Thunder - TM106
   (618, 61800, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 33),
-  -- Stunfisk - Facade - TM109
-  (618, 61800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 34),
-  -- Stunfisk - Muddy Water - TM140
-  (618, 61800, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 35),
-  -- Stunfisk - Scald - TM148
-  (618, 61800, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 36),
-  -- Stunfisk - Fissure - TM154
-  (618, 61800, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 37),
   -- Galarian Stunfisk - Tackle - Level 1
   (618, 61801, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Galarian Stunfisk - Water Gun - Level 1
@@ -584,18 +530,6 @@ INSERT INTO reference.pokemon_learnsets (
   (618, 61801, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 34),
   -- Galarian Stunfisk - Curse - TM091
   (618, 61801, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 35),
-  -- Galarian Stunfisk - Facade - TM109
-  (618, 61801, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Galarian Stunfisk - Magnet Bomb - TM126
-  (618, 61801, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 37),
-  -- Galarian Stunfisk - Muddy Water - TM140
-  (618, 61801, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 38),
-  -- Galarian Stunfisk - Scald - TM148
-  (618, 61801, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 39),
-  -- Galarian Stunfisk - Fissure - TM154
-  (618, 61801, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 40),
-  -- Galarian Stunfisk - Steel Beam - TM157
-  (618, 61801, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 41),
   -- Chespin - Vine Whip - Level 1
   (650, 65000, 22, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Chespin - Growl - Level 1
@@ -669,12 +603,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Chespin - Spikes - TM088
   (650, 65000, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 36),
   -- Chespin - Curse - TM091
-  (650, 65000, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 37),
-  -- Chespin - Facade - TM109
-  (650, 65000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Chespin - Trailblaze - TM115
-  (650, 65000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 39),
-  -- Chespin - Seed Bomb - TM128
-  (650, 65000, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 40),
-  -- Chespin - Drain Punch - TM131
-  (650, 65000, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 41);
+  (650, 65000, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 37);

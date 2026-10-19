@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -94,14 +94,6 @@ INSERT INTO reference.pokemon_learnsets (
   (551, 55100, 399, 26, NULL, 2, NULL, NULL, 26002090, NULL, 34),
   -- Sandile - Taunt - TM095
   (551, 55100, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 35),
-  -- Sandile - Facade - TM109
-  (551, 55100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Sandile - Torment - TM121
-  (551, 55100, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 37),
-  -- Sandile - Scorching Sands - TM136
-  (551, 55100, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 38),
-  -- Sandile - Swagger - TM139
-  (551, 55100, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 39),
   -- Krokorok - Tackle - Level 1
   (552, 55200, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Krokorok - Leer - Level 1
@@ -176,18 +168,6 @@ INSERT INTO reference.pokemon_learnsets (
   (552, 55200, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 36),
   -- Krokorok - Taunt - TM095
   (552, 55200, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 37),
-  -- Krokorok - Facade - TM109
-  (552, 55200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Krokorok - Low Sweep - TM113
-  (552, 55200, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 39),
-  -- Krokorok - Torment - TM121
-  (552, 55200, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 40),
-  -- Krokorok - Scorching Sands - TM136
-  (552, 55200, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 41),
-  -- Krokorok - Swagger - TM139
-  (552, 55200, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 42),
-  -- Krokorok - Scale Shot - TM143
-  (552, 55200, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 43),
   -- Krookodile - Tackle - Level 1
   (553, 55300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Krookodile - Leer - Level 1
@@ -282,20 +262,6 @@ INSERT INTO reference.pokemon_learnsets (
   (553, 55300, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 46),
   -- Krookodile - Close Combat - TM107
   (553, 55300, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 47),
-  -- Krookodile - Facade - TM109
-  (553, 55300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 48),
-  -- Krookodile - Low Sweep - TM113
-  (553, 55300, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 49),
-  -- Krookodile - Torment - TM121
-  (553, 55300, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 50),
-  -- Krookodile - Scorching Sands - TM136
-  (553, 55300, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 51),
-  -- Krookodile - Swagger - TM139
-  (553, 55300, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 52),
-  -- Krookodile - Scale Shot - TM143
-  (553, 55300, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 53),
-  -- Krookodile - Fissure - TM154
-  (553, 55300, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 54),
   -- Scraggy - Tackle - Level 1
   (559, 55900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Scraggy - Leer - Level 1
@@ -380,22 +346,6 @@ INSERT INTO reference.pokemon_learnsets (
   (559, 55900, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 41),
   -- Scraggy - Work Up - TM103
   (559, 55900, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 42),
-  -- Scraggy - Facade - TM109
-  (559, 55900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 43),
-  -- Scraggy - Acid Spray - TM112
-  (559, 55900, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 44),
-  -- Scraggy - Low Sweep - TM113
-  (559, 55900, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 45),
-  -- Scraggy - Trailblaze - TM115
-  (559, 55900, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 46),
-  -- Scraggy - Torment - TM121
-  (559, 55900, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 47),
-  -- Scraggy - Drain Punch - TM131
-  (559, 55900, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 48),
-  -- Scraggy - Swagger - TM139
-  (559, 55900, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 49),
-  -- Scraggy - Fake Out - TM141
-  (559, 55900, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 50),
   -- Scrafty - Tackle - Level 1
   (560, 56000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Scrafty - Leer - Level 1
@@ -498,26 +448,6 @@ INSERT INTO reference.pokemon_learnsets (
   (560, 56000, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 50),
   -- Scrafty - Close Combat - TM107
   (560, 56000, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 51),
-  -- Scrafty - Facade - TM109
-  (560, 56000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 52),
-  -- Scrafty - Acid Spray - TM112
-  (560, 56000, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 53),
-  -- Scrafty - Low Sweep - TM113
-  (560, 56000, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 54),
-  -- Scrafty - Trailblaze - TM115
-  (560, 56000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 55),
-  -- Scrafty - Torment - TM121
-  (560, 56000, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 56),
-  -- Scrafty - Drain Punch - TM131
-  (560, 56000, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 57),
-  -- Scrafty - Dual Chop - TM135
-  (560, 56000, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 58),
-  -- Scrafty - Swagger - TM139
-  (560, 56000, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 59),
-  -- Scrafty - Fake Out - TM141
-  (560, 56000, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 60),
-  -- Scrafty - Skull Bash - TM146
-  (560, 56000, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 61),
   -- Trubbish - Headbutt - Level 1
   (568, 56800, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Trubbish - Smokescreen - Level 1
@@ -576,14 +506,6 @@ INSERT INTO reference.pokemon_learnsets (
   (568, 56800, 399, 26, NULL, 2, NULL, NULL, 26002090, NULL, 28),
   -- Trubbish - Gunk Shot - TM100
   (568, 56800, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 29),
-  -- Trubbish - Facade - TM109
-  (568, 56800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 30),
-  -- Trubbish - Acid Spray - TM112
-  (568, 56800, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 31),
-  -- Trubbish - Seed Bomb - TM128
-  (568, 56800, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 32),
-  -- Trubbish - Drain Punch - TM131
-  (568, 56800, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 33),
   -- Garbodor - Headbutt - Level 1
   (569, 56900, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Garbodor - Smokescreen - Level 1
@@ -660,18 +582,6 @@ INSERT INTO reference.pokemon_learnsets (
   (569, 56900, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 37),
   -- Garbodor - Focus Blast - TM102
   (569, 56900, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 38),
-  -- Garbodor - Facade - TM109
-  (569, 56900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
-  -- Garbodor - Acid Spray - TM112
-  (569, 56900, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 40),
-  -- Garbodor - Ancient Power - TM120
-  (569, 56900, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 41),
-  -- Garbodor - Magnet Bomb - TM126
-  (569, 56900, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 42),
-  -- Garbodor - Seed Bomb - TM128
-  (569, 56900, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 43),
-  -- Garbodor - Drain Punch - TM131
-  (569, 56900, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 44),
   -- Vanillite - Tackle - Level 1
   (582, 58200, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Vanillite - Harden - Level 1
@@ -718,14 +628,6 @@ INSERT INTO reference.pokemon_learnsets (
   (582, 58200, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 22),
   -- Vanillite - Blizzard - TM105
   (582, 58200, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 23),
-  -- Vanillite - Facade - TM109
-  (582, 58200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 24),
-  -- Vanillite - Frost Breath - TM138
-  (582, 58200, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 25),
-  -- Vanillite - Icicle Spear - TM149
-  (582, 58200, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 26),
-  -- Vanillite - Sheer Cold - TM155
-  (582, 58200, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 27),
   -- Vanillish - Tackle - Level 1
   (583, 58300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Vanillish - Harden - Level 1
@@ -772,14 +674,6 @@ INSERT INTO reference.pokemon_learnsets (
   (583, 58300, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 22),
   -- Vanillish - Blizzard - TM105
   (583, 58300, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 23),
-  -- Vanillish - Facade - TM109
-  (583, 58300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 24),
-  -- Vanillish - Frost Breath - TM138
-  (583, 58300, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 25),
-  -- Vanillish - Icicle Spear - TM149
-  (583, 58300, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 26),
-  -- Vanillish - Sheer Cold - TM155
-  (583, 58300, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 27),
   -- Vanilluxe - Tackle - Level 1
   (584, 58400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Vanilluxe - Harden - Level 1
@@ -832,16 +726,6 @@ INSERT INTO reference.pokemon_learnsets (
   (584, 58400, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 25),
   -- Vanilluxe - Blizzard - TM105
   (584, 58400, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 26),
-  -- Vanilluxe - Facade - TM109
-  (584, 58400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 27),
-  -- Vanilluxe - Chilling Water - TM110
-  (584, 58400, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 28),
-  -- Vanilluxe - Frost Breath - TM138
-  (584, 58400, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 29),
-  -- Vanilluxe - Icicle Spear - TM149
-  (584, 58400, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 30),
-  -- Vanilluxe - Sheer Cold - TM155
-  (584, 58400, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 31),
   -- Emolga - Tail Whip - Level 1
   (587, 58700, 39, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Emolga - Nuzzle - Level 1
@@ -907,12 +791,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Emolga - Electroweb - TM101
   (587, 58700, 527, 26, NULL, 2, NULL, NULL, 26002101, NULL, 32),
   -- Emolga - Thunder - TM106
-  (587, 58700, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 33),
-  -- Emolga - Facade - TM109
-  (587, 58700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 34),
-  -- Emolga - Charge Beam - TM130
-  (587, 58700, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 35),
-  -- Emolga - Dual Wingbeat - TM134
-  (587, 58700, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 36),
-  -- Emolga - Razor Wind - TM145
-  (587, 58700, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 37);
+  (587, 58700, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 33);

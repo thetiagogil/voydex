@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -25,6 +25,16 @@ INSERT INTO reference.pokemon_learnsets (
   condition_summary,
   sort_order
 ) VALUES
+  -- Patrat - Facade - TM109
+  (504, 50400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Patrat - Seed Bomb - TM128
+  (504, 50400, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 2),
+  -- Watchog - Facade - TM109
+  (505, 50500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Watchog - Seed Bomb - TM128
+  (505, 50500, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 2),
+  -- Watchog - Skull Bash - TM146
+  (505, 50500, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 3),
   -- Purrloin - Growl - Level 1
   (509, 50900, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Purrloin - Quick Attack - Level 1
@@ -92,23 +102,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Purrloin - Gunk Shot - TM100
   (509, 50900, 441, 27, NULL, 2, NULL, NULL, 26002100, NULL, 33),
   -- Purrloin - Facade - TM109
-  (509, 50900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 34),
+  (509, 50900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 34),
   -- Purrloin - Pay Day - TM116
-  (509, 50900, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 35),
+  (509, 50900, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 35),
   -- Purrloin - Torment - TM121
-  (509, 50900, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 36),
+  (509, 50900, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 36),
   -- Purrloin - Mimic - TM125
-  (509, 50900, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 37),
+  (509, 50900, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 37),
   -- Purrloin - Seed Bomb - TM128
-  (509, 50900, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 38),
+  (509, 50900, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 38),
   -- Purrloin - Double Hit - TM132
-  (509, 50900, 458, 27, NULL, 2, NULL, NULL, 26002132, NULL, 39),
+  (509, 50900, 458, 27, NULL, 2, NULL, NULL, 27002132, NULL, 39),
   -- Purrloin - Swagger - TM139
-  (509, 50900, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 40),
+  (509, 50900, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 40),
   -- Purrloin - Fake Out - TM141
-  (509, 50900, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 41),
+  (509, 50900, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 41),
   -- Purrloin - First Impression - TM142
-  (509, 50900, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 42),
+  (509, 50900, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 42),
   -- Liepard - Growl - Level 1
   (510, 51000, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Liepard - Quick Attack - Level 1
@@ -192,25 +202,85 @@ INSERT INTO reference.pokemon_learnsets (
   -- Liepard - Gunk Shot - TM100
   (510, 51000, 441, 27, NULL, 2, NULL, NULL, 26002100, NULL, 41),
   -- Liepard - Facade - TM109
-  (510, 51000, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 42),
+  (510, 51000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 42),
   -- Liepard - Pay Day - TM116
-  (510, 51000, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 43),
+  (510, 51000, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 43),
   -- Liepard - Torment - TM121
-  (510, 51000, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 44),
+  (510, 51000, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 44),
   -- Liepard - Psychic Fangs - TM124
-  (510, 51000, 706, 27, NULL, 2, NULL, NULL, 26002124, NULL, 45),
+  (510, 51000, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 45),
   -- Liepard - Mimic - TM125
-  (510, 51000, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 46),
+  (510, 51000, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 46),
   -- Liepard - Seed Bomb - TM128
-  (510, 51000, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 47),
+  (510, 51000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 47),
   -- Liepard - Double Hit - TM132
-  (510, 51000, 458, 27, NULL, 2, NULL, NULL, 26002132, NULL, 48),
+  (510, 51000, 458, 27, NULL, 2, NULL, NULL, 27002132, NULL, 48),
   -- Liepard - Swagger - TM139
-  (510, 51000, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 49),
+  (510, 51000, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 49),
   -- Liepard - Fake Out - TM141
-  (510, 51000, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 50),
+  (510, 51000, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 50),
   -- Liepard - First Impression - TM142
-  (510, 51000, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 51),
+  (510, 51000, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 51),
+  -- Pansage - Facade - TM109
+  (511, 51100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Pansage - Low Sweep - TM113
+  (511, 51100, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Pansage - Trailblaze - TM115
+  (511, 51100, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Pansage - Torment - TM121
+  (511, 51100, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 4),
+  -- Pansage - Seed Bomb - TM128
+  (511, 51100, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 5),
+  -- Simisage - Facade - TM109
+  (512, 51200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Simisage - Low Sweep - TM113
+  (512, 51200, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Simisage - Trailblaze - TM115
+  (512, 51200, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Simisage - Torment - TM121
+  (512, 51200, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 4),
+  -- Simisage - Seed Bomb - TM128
+  (512, 51200, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 5),
+  -- Simisage - Drain Punch - TM131
+  (512, 51200, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 6),
+  -- Simisage - Fake Out - TM141
+  (512, 51200, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 7),
+  -- Simisage - Solar Blade - TM152
+  (512, 51200, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 8),
+  -- Pansear - Facade - TM109
+  (513, 51300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Pansear - Low Sweep - TM113
+  (513, 51300, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Simisear - Facade - TM109
+  (514, 51400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Simisear - Low Sweep - TM113
+  (514, 51400, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Simisear - Flame Charge - TM114
+  (514, 51400, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 3),
+  -- Simisear - Blaze Kick - TM133
+  (514, 51400, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 4),
+  -- Simisear - Scorching Sands - TM136
+  (514, 51400, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 5),
+  -- Simisear - Fake Out - TM141
+  (514, 51400, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 6),
+  -- Panpour - Facade - TM109
+  (515, 51500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Panpour - Chilling Water - TM110
+  (515, 51500, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Panpour - Low Sweep - TM113
+  (515, 51500, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Panpour - Scald - TM148
+  (515, 51500, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 4),
+  -- Simipour - Facade - TM109
+  (516, 51600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Simipour - Chilling Water - TM110
+  (516, 51600, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Simipour - Low Sweep - TM113
+  (516, 51600, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Simipour - Fake Out - TM141
+  (516, 51600, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 4),
+  -- Simipour - Scald - TM148
+  (516, 51600, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 5),
   -- Munna - Hypnosis - Level 1
   (517, 51700, 95, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Munna - Psybeam - Level 8
@@ -276,15 +346,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Munna - Heal Block - TM097
   (517, 51700, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 32),
   -- Munna - Facade - TM109
-  (517, 51700, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 33),
+  (517, 51700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 33),
   -- Munna - Silver Wind - TM117
-  (517, 51700, 318, 27, NULL, 2, NULL, NULL, 26002117, NULL, 34),
+  (517, 51700, 318, 27, NULL, 2, NULL, NULL, 27002117, NULL, 34),
   -- Munna - Ominous Wind - TM119
-  (517, 51700, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 35),
+  (517, 51700, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 35),
   -- Munna - Dream Eater - TM127
-  (517, 51700, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 36),
+  (517, 51700, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 36),
   -- Munna - Tri Attack - TM147
-  (517, 51700, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 37),
+  (517, 51700, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 37),
   -- Musharna - Hypnosis - Level 1
   (518, 51800, 95, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Musharna - Psybeam - Level 8
@@ -354,17 +424,39 @@ INSERT INTO reference.pokemon_learnsets (
   -- Musharna - Heal Block - TM097
   (518, 51800, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 34),
   -- Musharna - Facade - TM109
-  (518, 51800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 35),
+  (518, 51800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 35),
   -- Musharna - Silver Wind - TM117
-  (518, 51800, 318, 27, NULL, 2, NULL, NULL, 26002117, NULL, 36),
+  (518, 51800, 318, 27, NULL, 2, NULL, NULL, 27002117, NULL, 36),
   -- Musharna - Ominous Wind - TM119
-  (518, 51800, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 37),
+  (518, 51800, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 37),
   -- Musharna - Dream Eater - TM127
-  (518, 51800, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 38),
+  (518, 51800, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 38),
   -- Musharna - Charge Beam - TM130
-  (518, 51800, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 39),
+  (518, 51800, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 39),
   -- Musharna - Tri Attack - TM147
-  (518, 51800, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 40),
+  (518, 51800, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 40),
+  -- Drilbur - Facade - TM109
+  (529, 52900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Drilbur - Scorching Sands - TM136
+  (529, 52900, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 2),
+  -- Drilbur - Fissure - TM154
+  (529, 52900, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 3),
+  -- Excadrill - Facade - TM109
+  (530, 53000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Excadrill - Scorching Sands - TM136
+  (530, 53000, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 2),
+  -- Excadrill - Skull Bash - TM146
+  (530, 53000, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 3),
+  -- Excadrill - Fissure - TM154
+  (530, 53000, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 4),
+  -- Excadrill - Steel Beam - TM157
+  (530, 53000, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 5),
+  -- Audino - Facade - TM109
+  (531, 53100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Audino - Drain Punch - TM131
+  (531, 53100, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 2),
+  -- Audino - Tri Attack - TM147
+  (531, 53100, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 3),
   -- Throh - Leer - Level 1
   (538, 53800, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Throh - Circle Throw - Level 1
@@ -450,17 +542,17 @@ INSERT INTO reference.pokemon_learnsets (
   -- Throh - Close Combat - TM107
   (538, 53800, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 42),
   -- Throh - Facade - TM109
-  (538, 53800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 43),
+  (538, 53800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 43),
   -- Throh - Low Sweep - TM113
-  (538, 53800, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 44),
+  (538, 53800, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 44),
   -- Throh - Seed Bomb - TM128
-  (538, 53800, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 45),
+  (538, 53800, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 45),
   -- Throh - Circle Throw - TM129
-  (538, 53800, 509, 27, NULL, 2, NULL, NULL, 26002129, NULL, 46),
+  (538, 53800, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 46),
   -- Throh - Storm Throw - TM137
-  (538, 53800, 480, 27, NULL, 2, NULL, NULL, 26002137, NULL, 47),
+  (538, 53800, 480, 27, NULL, 2, NULL, NULL, 27002137, NULL, 47),
   -- Throh - Skull Bash - TM146
-  (538, 53800, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 48),
+  (538, 53800, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 48),
   -- Sawk - Leer - Level 1
   (539, 53900, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Sawk - Rock Smash - Level 1
@@ -546,14 +638,30 @@ INSERT INTO reference.pokemon_learnsets (
   -- Sawk - Close Combat - TM107
   (539, 53900, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 42),
   -- Sawk - Comet Punch - TM108
-  (539, 53900, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 43),
+  (539, 53900, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 43),
   -- Sawk - Facade - TM109
-  (539, 53900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 44),
+  (539, 53900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 44),
   -- Sawk - Low Sweep - TM113
-  (539, 53900, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 45),
+  (539, 53900, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 45),
   -- Sawk - Drain Punch - TM131
-  (539, 53900, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 46),
+  (539, 53900, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 46),
   -- Sawk - Blaze Kick - TM133
-  (539, 53900, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 47),
+  (539, 53900, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 47),
   -- Sawk - Dual Chop - TM135
-  (539, 53900, 530, 27, NULL, 2, NULL, NULL, 26002135, NULL, 48);
+  (539, 53900, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 48),
+  -- Venipede - Facade - TM109
+  (543, 54300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Whirlipede - Facade - TM109
+  (544, 54400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Scolipede - Facade - TM109
+  (545, 54500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Scolipede - Acid Spray - TM112
+  (545, 54500, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Scolipede - Trailblaze - TM115
+  (545, 54500, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Scolipede - Double Hit - TM132
+  (545, 54500, 458, 27, NULL, 2, NULL, NULL, 27002132, NULL, 4),
+  -- Scolipede - First Impression - TM142
+  (545, 54500, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 5),
+  -- Scolipede - Skull Bash - TM146
+  (545, 54500, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 6);

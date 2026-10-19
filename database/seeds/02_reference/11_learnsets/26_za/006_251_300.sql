@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -102,12 +102,6 @@ INSERT INTO reference.pokemon_learnsets (
   (280, 28000, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 38),
   -- Ralts - Metronome - TM099
   (280, 28000, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 39),
-  -- Ralts - Facade - TM109
-  (280, 28000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Ralts - Dream Eater - TM127
-  (280, 28000, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 41),
-  -- Ralts - Charge Beam - TM130
-  (280, 28000, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 42),
   -- Kirlia - Growl - Level 1
   (281, 28100, 45, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Kirlia - Disarming Voice - Level 1
@@ -188,16 +182,6 @@ INSERT INTO reference.pokemon_learnsets (
   (281, 28100, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 39),
   -- Kirlia - Metronome - TM099
   (281, 28100, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 40),
-  -- Kirlia - Facade - TM109
-  (281, 28100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Kirlia - Dream Eater - TM127
-  (281, 28100, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 42),
-  -- Kirlia - Charge Beam - TM130
-  (281, 28100, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 43),
-  -- Kirlia - Triple Axel - TM144
-  (281, 28100, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 44),
-  -- Kirlia - Vacuum Wave - TM150
-  (281, 28100, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 45),
   -- Gardevoir - Growl - Level 1
   (282, 28200, 45, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gardevoir - Disarming Voice - Level 1
@@ -293,20 +277,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Gardevoir - Metronome - TM099
   (282, 28200, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 47),
   -- Gardevoir - Focus Blast - TM102
-  (282, 28200, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 48),
-  -- Gardevoir - Facade - TM109
-  (282, 28200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 49),
-  -- Gardevoir - Torment - TM121
-  (282, 28200, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 50),
-  -- Gardevoir - Mimic - TM125
-  (282, 28200, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 51),
-  -- Gardevoir - Dream Eater - TM127
-  (282, 28200, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 52),
-  -- Gardevoir - Charge Beam - TM130
-  (282, 28200, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 53),
-  -- Gardevoir - Swagger - TM139
-  (282, 28200, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 54),
-  -- Gardevoir - Triple Axel - TM144
-  (282, 28200, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 55),
-  -- Gardevoir - Vacuum Wave - TM150
-  (282, 28200, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 56);
+  (282, 28200, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 48);

@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -132,22 +132,6 @@ INSERT INTO reference.pokemon_learnsets (
   (302, 30200, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 53),
   -- Sableye - Metronome - TM099
   (302, 30200, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 54),
-  -- Sableye - Facade - TM109
-  (302, 30200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 55),
-  -- Sableye - Low Sweep - TM113
-  (302, 30200, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 56),
-  -- Sableye - Shadow Punch - TM118
-  (302, 30200, 325, 26, NULL, 2, NULL, NULL, 26002118, NULL, 57),
-  -- Sableye - Ominous Wind - TM119
-  (302, 30200, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 58),
-  -- Sableye - Torment - TM121
-  (302, 30200, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 59),
-  -- Sableye - Drain Punch - TM131
-  (302, 30200, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 60),
-  -- Sableye - Swagger - TM139
-  (302, 30200, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 61),
-  -- Sableye - Fake Out - TM141
-  (302, 30200, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 62),
   -- Mawile - Bite - Level 1
   (303, 30300, 44, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mawile - Fairy Wind - Level 1
@@ -248,22 +232,6 @@ INSERT INTO reference.pokemon_learnsets (
   (303, 30300, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 49),
   -- Mawile - Focus Blast - TM102
   (303, 30300, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 50),
-  -- Mawile - Facade - TM109
-  (303, 30300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 51),
-  -- Mawile - Ancient Power - TM120
-  (303, 30300, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 52),
-  -- Mawile - False Swipe - TM122
-  (303, 30300, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 53),
-  -- Mawile - Poison Fang - TM123
-  (303, 30300, 305, 26, NULL, 2, NULL, NULL, 26002123, NULL, 54),
-  -- Mawile - Psychic Fangs - TM124
-  (303, 30300, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 55),
-  -- Mawile - Charge Beam - TM130
-  (303, 30300, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 56),
-  -- Mawile - Swagger - TM139
-  (303, 30300, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 57),
-  -- Mawile - Steel Beam - TM157
-  (303, 30300, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 58),
   -- Aron - Tackle - Level 1
   (304, 30400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Aron - Screech - Level 1
@@ -336,10 +304,6 @@ INSERT INTO reference.pokemon_learnsets (
   (304, 30400, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 35),
   -- Aron - Iron Tail - TM087
   (304, 30400, 231, 26, NULL, 2, NULL, NULL, 26002087, NULL, 36),
-  -- Aron - Facade - TM109
-  (304, 30400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Aron - Steel Beam - TM157
-  (304, 30400, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 38),
   -- Lairon - Tackle - Level 1
   (305, 30500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Lairon - Screech - Level 1
@@ -414,10 +378,6 @@ INSERT INTO reference.pokemon_learnsets (
   (305, 30500, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 36),
   -- Lairon - Iron Tail - TM087
   (305, 30500, 231, 26, NULL, 2, NULL, NULL, 26002087, NULL, 37),
-  -- Lairon - Facade - TM109
-  (305, 30500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Lairon - Steel Beam - TM157
-  (305, 30500, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 39),
   -- Aggron - Tackle - Level 1
   (306, 30600, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Aggron - Screech - Level 1
@@ -540,20 +500,6 @@ INSERT INTO reference.pokemon_learnsets (
   (306, 30600, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 60),
   -- Aggron - Thunder - TM106
   (306, 30600, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 61),
-  -- Aggron - Facade - TM109
-  (306, 30600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 62),
-  -- Aggron - Ancient Power - TM120
-  (306, 30600, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 63),
-  -- Aggron - Magnet Bomb - TM126
-  (306, 30600, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 64),
-  -- Aggron - Scorching Sands - TM136
-  (306, 30600, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 65),
-  -- Aggron - Swagger - TM139
-  (306, 30600, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 66),
-  -- Aggron - Meteor Beam - TM156
-  (306, 30600, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 67),
-  -- Aggron - Steel Beam - TM157
-  (306, 30600, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 68),
   -- Meditite - Confusion - Level 1
   (307, 30700, 93, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Meditite - Work Up - Level 1
@@ -634,16 +580,6 @@ INSERT INTO reference.pokemon_learnsets (
   (307, 30700, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 39),
   -- Meditite - Close Combat - TM107
   (307, 30700, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 40),
-  -- Meditite - Facade - TM109
-  (307, 30700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Meditite - Low Sweep - TM113
-  (307, 30700, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 42),
-  -- Meditite - Trailblaze - TM115
-  (307, 30700, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 43),
-  -- Meditite - Drain Punch - TM131
-  (307, 30700, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 44),
-  -- Meditite - Fake Out - TM141
-  (307, 30700, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 45),
   -- Medicham - Confusion - Level 1
   (308, 30800, 93, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Medicham - Work Up - Level 1
@@ -732,22 +668,6 @@ INSERT INTO reference.pokemon_learnsets (
   (308, 30800, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 43),
   -- Medicham - Close Combat - TM107
   (308, 30800, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 44),
-  -- Medicham - Comet Punch - TM108
-  (308, 30800, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 45),
-  -- Medicham - Facade - TM109
-  (308, 30800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 46),
-  -- Medicham - Low Sweep - TM113
-  (308, 30800, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 47),
-  -- Medicham - Trailblaze - TM115
-  (308, 30800, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 48),
-  -- Medicham - Drain Punch - TM131
-  (308, 30800, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 49),
-  -- Medicham - Blaze Kick - TM133
-  (308, 30800, 299, 26, NULL, 2, NULL, NULL, 26002133, NULL, 50),
-  -- Medicham - Fake Out - TM141
-  (308, 30800, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 51),
-  -- Medicham - Vacuum Wave - TM150
-  (308, 30800, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 52),
   -- Electrike - Tackle - Level 1
   (309, 30900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Electrike - Leer - Level 1
@@ -820,10 +740,6 @@ INSERT INTO reference.pokemon_learnsets (
   (309, 30900, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 35),
   -- Electrike - Thunder - TM106
   (309, 30900, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 36),
-  -- Electrike - Facade - TM109
-  (309, 30900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Electrike - Psychic Fangs - TM124
-  (309, 30900, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 38),
   -- Manectric - Tackle - Level 1
   (310, 31000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Manectric - Leer - Level 1
@@ -906,18 +822,6 @@ INSERT INTO reference.pokemon_learnsets (
   (310, 31000, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 40),
   -- Manectric - Thunder - TM106
   (310, 31000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 41),
-  -- Manectric - Facade - TM109
-  (310, 31000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 42),
-  -- Manectric - Flame Charge - TM114
-  (310, 31000, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 43),
-  -- Manectric - Trailblaze - TM115
-  (310, 31000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 44),
-  -- Manectric - Psychic Fangs - TM124
-  (310, 31000, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 45),
-  -- Manectric - Charge Beam - TM130
-  (310, 31000, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 46),
-  -- Manectric - Razor Wind - TM145
-  (310, 31000, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 47),
   -- Roselia - Absorb - Level 1
   (315, 31500, 71, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Roselia - Growth - Level 1
@@ -986,12 +890,6 @@ INSERT INTO reference.pokemon_learnsets (
   (315, 31500, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 33),
   -- Roselia - Dazzling Gleam - TM092
   (315, 31500, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 34),
-  -- Roselia - Facade - TM109
-  (315, 31500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 35),
-  -- Roselia - Seed Bomb - TM128
-  (315, 31500, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 36),
-  -- Roselia - Petal Dance - TM151
-  (315, 31500, 80, 26, NULL, 2, NULL, NULL, 26002151, NULL, 37),
   -- Carvanha - Leer - Level 1
   (318, 31800, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Carvanha - Aqua Jet - Level 1
@@ -1054,20 +952,6 @@ INSERT INTO reference.pokemon_learnsets (
   (318, 31800, 127, 26, NULL, 2, NULL, NULL, 26002098, NULL, 30),
   -- Carvanha - Blizzard - TM105
   (318, 31800, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 31),
-  -- Carvanha - Facade - TM109
-  (318, 31800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 32),
-  -- Carvanha - Ancient Power - TM120
-  (318, 31800, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 33),
-  -- Carvanha - Poison Fang - TM123
-  (318, 31800, 305, 26, NULL, 2, NULL, NULL, 26002123, NULL, 34),
-  -- Carvanha - Psychic Fangs - TM124
-  (318, 31800, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 35),
-  -- Carvanha - Swagger - TM139
-  (318, 31800, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 36),
-  -- Carvanha - Scale Shot - TM143
-  (318, 31800, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 37),
-  -- Carvanha - Scald - TM148
-  (318, 31800, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 38),
   -- Sharpedo - Leer - Level 1
   (319, 31900, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Sharpedo - Night Slash - Level 1
@@ -1150,22 +1034,6 @@ INSERT INTO reference.pokemon_learnsets (
   (319, 31900, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 40),
   -- Sharpedo - Close Combat - TM107
   (319, 31900, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 41),
-  -- Sharpedo - Facade - TM109
-  (319, 31900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 42),
-  -- Sharpedo - Ancient Power - TM120
-  (319, 31900, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 43),
-  -- Sharpedo - Poison Fang - TM123
-  (319, 31900, 305, 26, NULL, 2, NULL, NULL, 26002123, NULL, 44),
-  -- Sharpedo - Psychic Fangs - TM124
-  (319, 31900, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 45),
-  -- Sharpedo - Swagger - TM139
-  (319, 31900, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 46),
-  -- Sharpedo - Scale Shot - TM143
-  (319, 31900, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 47),
-  -- Sharpedo - Skull Bash - TM146
-  (319, 31900, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 48),
-  -- Sharpedo - Scald - TM148
-  (319, 31900, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 49),
   -- Numel - Tackle - Level 1
   (322, 32200, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Numel - Growl - Level 1
@@ -1246,16 +1114,6 @@ INSERT INTO reference.pokemon_learnsets (
   (322, 32200, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 39),
   -- Numel - Flare Blitz - TM104
   (322, 32200, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 40),
-  -- Numel - Facade - TM109
-  (322, 32200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Numel - Flame Charge - TM114
-  (322, 32200, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 42),
-  -- Numel - Trailblaze - TM115
-  (322, 32200, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 43),
-  -- Numel - Ancient Power - TM120
-  (322, 32200, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 44),
-  -- Numel - Scorching Sands - TM136
-  (322, 32200, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 45),
   -- Camerupt - Tackle - Level 1
   (323, 32300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Camerupt - Growl - Level 1
@@ -1344,18 +1202,6 @@ INSERT INTO reference.pokemon_learnsets (
   (323, 32300, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 43),
   -- Camerupt - Flare Blitz - TM104
   (323, 32300, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 44),
-  -- Camerupt - Facade - TM109
-  (323, 32300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 45),
-  -- Camerupt - Flame Charge - TM114
-  (323, 32300, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 46),
-  -- Camerupt - Trailblaze - TM115
-  (323, 32300, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 47),
-  -- Camerupt - Ancient Power - TM120
-  (323, 32300, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 48),
-  -- Camerupt - Scorching Sands - TM136
-  (323, 32300, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 49),
-  -- Camerupt - Fissure - TM154
-  (323, 32300, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 50),
   -- Swablu - Growl - Level 1
   (333, 33300, 45, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Swablu - Peck - Level 1
@@ -1420,16 +1266,6 @@ INSERT INTO reference.pokemon_learnsets (
   (333, 33300, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 31),
   -- Swablu - Outrage - TM093
   (333, 33300, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 32),
-  -- Swablu - Facade - TM109
-  (333, 33300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Swablu - Sing - TM111
-  (333, 33300, 47, 26, NULL, 2, NULL, NULL, 26002111, NULL, 34),
-  -- Swablu - Trailblaze - TM115
-  (333, 33300, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 35),
-  -- Swablu - Dream Eater - TM127
-  (333, 33300, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 36),
-  -- Swablu - Dual Wingbeat - TM134
-  (333, 33300, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 37),
   -- Altaria - Growl - Level 1
   (334, 33400, 45, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Altaria - Peck - Level 1
@@ -1515,22 +1351,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Altaria - Dazzling Gleam - TM092
   (334, 33400, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 42),
   -- Altaria - Outrage - TM093
-  (334, 33400, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 43),
-  -- Altaria - Facade - TM109
-  (334, 33400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 44),
-  -- Altaria - Sing - TM111
-  (334, 33400, 47, 26, NULL, 2, NULL, NULL, 26002111, NULL, 45),
-  -- Altaria - Trailblaze - TM115
-  (334, 33400, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 46),
-  -- Altaria - Silver Wind - TM117
-  (334, 33400, 318, 26, NULL, 2, NULL, NULL, 26002117, NULL, 47),
-  -- Altaria - False Swipe - TM122
-  (334, 33400, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 48),
-  -- Altaria - Dream Eater - TM127
-  (334, 33400, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 49),
-  -- Altaria - Dual Wingbeat - TM134
-  (334, 33400, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 50),
-  -- Altaria - Petal Dance - TM151
-  (334, 33400, 80, 26, NULL, 2, NULL, NULL, 26002151, NULL, 51),
-  -- Altaria - Sky Attack - TM153
-  (334, 33400, 143, 26, NULL, 2, NULL, NULL, 26002153, NULL, 52);
+  (334, 33400, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 43);

@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -116,21 +116,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Meowth - Thunder - TM106
   (52, 5200, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Meowth - Facade - TM109
-  (52, 5200, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (52, 5200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Meowth - Chilling Water - TM110
-  (52, 5200, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 47),
+  (52, 5200, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 47),
   -- Meowth - Trailblaze - TM115
-  (52, 5200, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 48),
+  (52, 5200, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 48),
   -- Meowth - Pay Day - TM116
-  (52, 5200, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 49),
+  (52, 5200, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 49),
   -- Meowth - False Swipe - TM122
-  (52, 5200, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 50),
+  (52, 5200, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 50),
   -- Meowth - Mimic - TM125
-  (52, 5200, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 51),
+  (52, 5200, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 51),
   -- Meowth - Seed Bomb - TM128
-  (52, 5200, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 52),
+  (52, 5200, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 52),
   -- Meowth - Fake Out - TM141
-  (52, 5200, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 53),
+  (52, 5200, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 53),
   -- Alolan Meowth - Pay Day - Level 1
   (52, 5201, 6, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Alolan Meowth - Tail Whip - Level 1
@@ -230,21 +230,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Alolan Meowth - Thunder - TM106
   (52, 5201, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 49),
   -- Alolan Meowth - Facade - TM109
-  (52, 5201, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 50),
+  (52, 5201, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 50),
   -- Alolan Meowth - Chilling Water - TM110
-  (52, 5201, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 51),
+  (52, 5201, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 51),
   -- Alolan Meowth - Trailblaze - TM115
-  (52, 5201, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 52),
+  (52, 5201, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 52),
   -- Alolan Meowth - Pay Day - TM116
-  (52, 5201, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 53),
+  (52, 5201, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 53),
   -- Alolan Meowth - False Swipe - TM122
-  (52, 5201, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 54),
+  (52, 5201, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 54),
   -- Alolan Meowth - Mimic - TM125
-  (52, 5201, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 55),
+  (52, 5201, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 55),
   -- Alolan Meowth - Seed Bomb - TM128
-  (52, 5201, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 56),
+  (52, 5201, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 56),
   -- Alolan Meowth - Fake Out - TM141
-  (52, 5201, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 57),
+  (52, 5201, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 57),
   -- Galarian Meowth - Pay Day - Level 1
   (52, 5202, 6, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Galarian Meowth - Growl - Level 1
@@ -360,23 +360,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Galarian Meowth - Close Combat - TM107
   (52, 5202, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 57),
   -- Galarian Meowth - Facade - TM109
-  (52, 5202, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 58),
+  (52, 5202, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 58),
   -- Galarian Meowth - Trailblaze - TM115
-  (52, 5202, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 59),
+  (52, 5202, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 59),
   -- Galarian Meowth - Pay Day - TM116
-  (52, 5202, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 60),
+  (52, 5202, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 60),
   -- Galarian Meowth - False Swipe - TM122
-  (52, 5202, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 61),
+  (52, 5202, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 61),
   -- Galarian Meowth - Mimic - TM125
-  (52, 5202, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 62),
+  (52, 5202, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 62),
   -- Galarian Meowth - Seed Bomb - TM128
-  (52, 5202, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 63),
+  (52, 5202, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 63),
   -- Galarian Meowth - Swagger - TM139
-  (52, 5202, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 64),
+  (52, 5202, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 64),
   -- Galarian Meowth - Fake Out - TM141
-  (52, 5202, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 65),
+  (52, 5202, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 65),
   -- Galarian Meowth - Steel Beam - TM157
-  (52, 5202, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 66),
+  (52, 5202, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 66),
   -- Persian - Pay Day - Level 1
   (53, 5300, 6, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Persian - Tail Whip - Level 1
@@ -480,23 +480,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Persian - Thunder - TM106
   (53, 5300, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 51),
   -- Persian - Facade - TM109
-  (53, 5300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 52),
+  (53, 5300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 52),
   -- Persian - Chilling Water - TM110
-  (53, 5300, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 53),
+  (53, 5300, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 53),
   -- Persian - Trailblaze - TM115
-  (53, 5300, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 54),
+  (53, 5300, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 54),
   -- Persian - Pay Day - TM116
-  (53, 5300, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 55),
+  (53, 5300, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 55),
   -- Persian - False Swipe - TM122
-  (53, 5300, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 56),
+  (53, 5300, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 56),
   -- Persian - Mimic - TM125
-  (53, 5300, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 57),
+  (53, 5300, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 57),
   -- Persian - Seed Bomb - TM128
-  (53, 5300, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 58),
+  (53, 5300, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 58),
   -- Persian - Fake Out - TM141
-  (53, 5300, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 59),
+  (53, 5300, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 59),
   -- Persian - Skull Bash - TM146
-  (53, 5300, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 60),
+  (53, 5300, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 60),
   -- Alolan Persian - Pay Day - Level 1
   (53, 5301, 6, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Alolan Persian - Tail Whip - Level 1
@@ -610,21 +610,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Alolan Persian - Thunder - TM106
   (53, 5301, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 56),
   -- Alolan Persian - Facade - TM109
-  (53, 5301, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 57),
+  (53, 5301, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 57),
   -- Alolan Persian - Chilling Water - TM110
-  (53, 5301, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 58),
+  (53, 5301, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 58),
   -- Alolan Persian - Trailblaze - TM115
-  (53, 5301, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 59),
+  (53, 5301, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 59),
   -- Alolan Persian - Pay Day - TM116
-  (53, 5301, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 60),
+  (53, 5301, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 60),
   -- Alolan Persian - False Swipe - TM122
-  (53, 5301, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 61),
+  (53, 5301, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 61),
   -- Alolan Persian - Mimic - TM125
-  (53, 5301, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 62),
+  (53, 5301, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 62),
   -- Alolan Persian - Seed Bomb - TM128
-  (53, 5301, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 63),
+  (53, 5301, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 63),
   -- Alolan Persian - Fake Out - TM141
-  (53, 5301, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 64),
+  (53, 5301, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 64),
   -- Mankey - Tackle - Level 1
   (56, 5600, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mankey - Leer - Level 1
@@ -728,27 +728,27 @@ INSERT INTO reference.pokemon_learnsets (
   -- Mankey - Close Combat - TM107
   (56, 5600, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 51),
   -- Mankey - Comet Punch - TM108
-  (56, 5600, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 52),
+  (56, 5600, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 52),
   -- Mankey - Facade - TM109
-  (56, 5600, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 53),
+  (56, 5600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 53),
   -- Mankey - Low Sweep - TM113
-  (56, 5600, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 54),
+  (56, 5600, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 54),
   -- Mankey - Pay Day - TM116
-  (56, 5600, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 55),
+  (56, 5600, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 55),
   -- Mankey - Torment - TM121
-  (56, 5600, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 56),
+  (56, 5600, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 56),
   -- Mankey - Seed Bomb - TM128
-  (56, 5600, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 57),
+  (56, 5600, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 57),
   -- Mankey - Circle Throw - TM129
-  (56, 5600, 509, 27, NULL, 2, NULL, NULL, 26002129, NULL, 58),
+  (56, 5600, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 58),
   -- Mankey - Drain Punch - TM131
-  (56, 5600, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 59),
+  (56, 5600, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 59),
   -- Mankey - Dual Chop - TM135
-  (56, 5600, 530, 27, NULL, 2, NULL, NULL, 26002135, NULL, 60),
+  (56, 5600, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 60),
   -- Mankey - Storm Throw - TM137
-  (56, 5600, 480, 27, NULL, 2, NULL, NULL, 26002137, NULL, 61),
+  (56, 5600, 480, 27, NULL, 2, NULL, NULL, 27002137, NULL, 61),
   -- Mankey - Swagger - TM139
-  (56, 5600, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 62),
+  (56, 5600, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 62),
   -- Primeape - Tackle - Level 1
   (57, 5700, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Primeape - Leer - Level 1
@@ -862,29 +862,179 @@ INSERT INTO reference.pokemon_learnsets (
   -- Primeape - Close Combat - TM107
   (57, 5700, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 56),
   -- Primeape - Comet Punch - TM108
-  (57, 5700, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 57),
+  (57, 5700, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 57),
   -- Primeape - Facade - TM109
-  (57, 5700, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 58),
+  (57, 5700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 58),
   -- Primeape - Low Sweep - TM113
-  (57, 5700, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 59),
+  (57, 5700, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 59),
   -- Primeape - Pay Day - TM116
-  (57, 5700, 6, 27, NULL, 2, NULL, NULL, 26002116, NULL, 60),
+  (57, 5700, 6, 27, NULL, 2, NULL, NULL, 27002116, NULL, 60),
   -- Primeape - Torment - TM121
-  (57, 5700, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 61),
+  (57, 5700, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 61),
   -- Primeape - Seed Bomb - TM128
-  (57, 5700, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 62),
+  (57, 5700, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 62),
   -- Primeape - Circle Throw - TM129
-  (57, 5700, 509, 27, NULL, 2, NULL, NULL, 26002129, NULL, 63),
+  (57, 5700, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 63),
   -- Primeape - Drain Punch - TM131
-  (57, 5700, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 64),
+  (57, 5700, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 64),
   -- Primeape - Dual Chop - TM135
-  (57, 5700, 530, 27, NULL, 2, NULL, NULL, 26002135, NULL, 65),
+  (57, 5700, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 65),
   -- Primeape - Storm Throw - TM137
-  (57, 5700, 480, 27, NULL, 2, NULL, NULL, 26002137, NULL, 66),
+  (57, 5700, 480, 27, NULL, 2, NULL, NULL, 27002137, NULL, 66),
   -- Primeape - Swagger - TM139
-  (57, 5700, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 67),
+  (57, 5700, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 67),
   -- Primeape - Vacuum Wave - TM150
-  (57, 5700, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 68),
+  (57, 5700, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 68),
+  -- Abra - Facade - TM109
+  (63, 6300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Abra - Dream Eater - TM127
+  (63, 6300, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 2),
+  -- Abra - Drain Punch - TM131
+  (63, 6300, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 3),
+  -- Abra - Tri Attack - TM147
+  (63, 6300, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 4),
+  -- Kadabra - Facade - TM109
+  (64, 6400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Kadabra - Dream Eater - TM127
+  (64, 6400, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 2),
+  -- Kadabra - Charge Beam - TM130
+  (64, 6400, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 3),
+  -- Kadabra - Drain Punch - TM131
+  (64, 6400, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Kadabra - Tri Attack - TM147
+  (64, 6400, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 5),
+  -- Alakazam - Facade - TM109
+  (65, 6500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Alakazam - Dream Eater - TM127
+  (65, 6500, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 2),
+  -- Alakazam - Charge Beam - TM130
+  (65, 6500, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 3),
+  -- Alakazam - Drain Punch - TM131
+  (65, 6500, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Alakazam - Tri Attack - TM147
+  (65, 6500, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 5),
+  -- Machop - Comet Punch - TM108
+  (66, 6600, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Machop - Facade - TM109
+  (66, 6600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Machop - Low Sweep - TM113
+  (66, 6600, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Machop - Drain Punch - TM131
+  (66, 6600, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Machop - Dual Chop - TM135
+  (66, 6600, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 5),
+  -- Machop - Fissure - TM154
+  (66, 6600, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 6),
+  -- Machoke - Comet Punch - TM108
+  (67, 6700, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Machoke - Facade - TM109
+  (67, 6700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Machoke - Low Sweep - TM113
+  (67, 6700, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Machoke - Drain Punch - TM131
+  (67, 6700, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Machoke - Dual Chop - TM135
+  (67, 6700, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 5),
+  -- Machoke - Fissure - TM154
+  (67, 6700, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 6),
+  -- Machamp - Comet Punch - TM108
+  (68, 6800, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Machamp - Facade - TM109
+  (68, 6800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Machamp - Low Sweep - TM113
+  (68, 6800, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Machamp - Drain Punch - TM131
+  (68, 6800, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Machamp - Dual Chop - TM135
+  (68, 6800, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 5),
+  -- Machamp - Storm Throw - TM137
+  (68, 6800, 480, 27, NULL, 2, NULL, NULL, 27002137, NULL, 6),
+  -- Machamp - Fissure - TM154
+  (68, 6800, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 7),
+  -- Bellsprout - Facade - TM109
+  (69, 6900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Bellsprout - Acid Spray - TM112
+  (69, 6900, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Bellsprout - Trailblaze - TM115
+  (69, 6900, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Bellsprout - Seed Bomb - TM128
+  (69, 6900, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Weepinbell - Facade - TM109
+  (70, 7000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Weepinbell - Acid Spray - TM112
+  (70, 7000, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Weepinbell - Trailblaze - TM115
+  (70, 7000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Weepinbell - Seed Bomb - TM128
+  (70, 7000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Victreebel - Facade - TM109
+  (71, 7100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Victreebel - Acid Spray - TM112
+  (71, 7100, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Victreebel - Trailblaze - TM115
+  (71, 7100, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Victreebel - Seed Bomb - TM128
+  (71, 7100, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 4),
+  -- Slowpoke - Facade - TM109
+  (79, 7900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Slowpoke - Chilling Water - TM110
+  (79, 7900, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Slowpoke - Dream Eater - TM127
+  (79, 7900, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 3),
+  -- Slowpoke - Skull Bash - TM146
+  (79, 7900, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 4),
+  -- Slowpoke - Tri Attack - TM147
+  (79, 7900, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 5),
+  -- Slowpoke - Scald - TM148
+  (79, 7900, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 6),
+  -- Galarian Slowpoke - Facade - TM109
+  (79, 7901, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Galarian Slowpoke - Chilling Water - TM110
+  (79, 7901, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Galarian Slowpoke - Dream Eater - TM127
+  (79, 7901, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 3),
+  -- Galarian Slowpoke - Skull Bash - TM146
+  (79, 7901, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 4),
+  -- Galarian Slowpoke - Tri Attack - TM147
+  (79, 7901, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 5),
+  -- Slowbro - Facade - TM109
+  (80, 8000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Slowbro - Chilling Water - TM110
+  (80, 8000, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Slowbro - Ancient Power - TM120
+  (80, 8000, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 3),
+  -- Slowbro - Dream Eater - TM127
+  (80, 8000, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 4),
+  -- Slowbro - Drain Punch - TM131
+  (80, 8000, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 5),
+  -- Slowbro - Muddy Water - TM140
+  (80, 8000, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 6),
+  -- Slowbro - Skull Bash - TM146
+  (80, 8000, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 7),
+  -- Slowbro - Tri Attack - TM147
+  (80, 8000, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 8),
+  -- Slowbro - Scald - TM148
+  (80, 8000, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 9),
+  -- Galarian Slowbro - Facade - TM109
+  (80, 8002, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Galarian Slowbro - Chilling Water - TM110
+  (80, 8002, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Galarian Slowbro - Acid Spray - TM112
+  (80, 8002, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 3),
+  -- Galarian Slowbro - Ancient Power - TM120
+  (80, 8002, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 4),
+  -- Galarian Slowbro - Dream Eater - TM127
+  (80, 8002, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 5),
+  -- Galarian Slowbro - Drain Punch - TM131
+  (80, 8002, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 6),
+  -- Galarian Slowbro - Muddy Water - TM140
+  (80, 8002, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 7),
+  -- Galarian Slowbro - Skull Bash - TM146
+  (80, 8002, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 8),
+  -- Galarian Slowbro - Tri Attack - TM147
+  (80, 8002, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 9),
+  -- Galarian Slowbro - Scald - TM148
+  (80, 8002, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 10),
   -- Farfetch'd - Leer - Level 1
   (83, 8300, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Farfetch'd - Peck - Level 1
@@ -956,21 +1106,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Farfetch'd - Close Combat - TM107
   (83, 8300, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 35),
   -- Farfetch'd - Facade - TM109
-  (83, 8300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 36),
+  (83, 8300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 36),
   -- Farfetch'd - Trailblaze - TM115
-  (83, 8300, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 37),
+  (83, 8300, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 37),
   -- Farfetch'd - False Swipe - TM122
-  (83, 8300, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 38),
+  (83, 8300, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 38),
   -- Farfetch'd - Dual Wingbeat - TM134
-  (83, 8300, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 39),
+  (83, 8300, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 39),
   -- Farfetch'd - First Impression - TM142
-  (83, 8300, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 40),
+  (83, 8300, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 40),
   -- Farfetch'd - Razor Wind - TM145
-  (83, 8300, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 41),
+  (83, 8300, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 41),
   -- Farfetch'd - Solar Blade - TM152
-  (83, 8300, 669, 27, NULL, 2, NULL, NULL, 26002152, NULL, 42),
+  (83, 8300, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 42),
   -- Farfetch'd - Sky Attack - TM153
-  (83, 8300, 143, 27, NULL, 2, NULL, NULL, 26002153, NULL, 43),
+  (83, 8300, 143, 27, NULL, 2, NULL, NULL, 27002153, NULL, 43),
   -- Galarian Farfetch'd - Leer - Level 1
   (83, 8301, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Galarian Farfetch'd - Peck - Level 1
@@ -1048,18 +1198,50 @@ INSERT INTO reference.pokemon_learnsets (
   -- Galarian Farfetch'd - Close Combat - TM107
   (83, 8301, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 38),
   -- Galarian Farfetch'd - Facade - TM109
-  (83, 8301, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 39),
+  (83, 8301, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 39),
   -- Galarian Farfetch'd - False Swipe - TM122
-  (83, 8301, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 40),
+  (83, 8301, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 40),
   -- Galarian Farfetch'd - Dual Wingbeat - TM134
-  (83, 8301, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 41),
+  (83, 8301, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 41),
   -- Galarian Farfetch'd - First Impression - TM142
-  (83, 8301, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 42),
+  (83, 8301, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 42),
   -- Galarian Farfetch'd - Razor Wind - TM145
-  (83, 8301, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 43),
+  (83, 8301, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 43),
   -- Galarian Farfetch'd - Vacuum Wave - TM150
-  (83, 8301, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 44),
+  (83, 8301, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 44),
   -- Galarian Farfetch'd - Solar Blade - TM152
-  (83, 8301, 669, 27, NULL, 2, NULL, NULL, 26002152, NULL, 45),
+  (83, 8301, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 45),
   -- Galarian Farfetch'd - Sky Attack - TM153
-  (83, 8301, 143, 27, NULL, 2, NULL, NULL, 26002153, NULL, 46);
+  (83, 8301, 143, 27, NULL, 2, NULL, NULL, 27002153, NULL, 46),
+  -- Gastly - Facade - TM109
+  (92, 9200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Gastly - Acid Spray - TM112
+  (92, 9200, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Gastly - Dream Eater - TM127
+  (92, 9200, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 3),
+  -- Haunter - Facade - TM109
+  (93, 9300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Haunter - Acid Spray - TM112
+  (93, 9300, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Haunter - Shadow Punch - TM118
+  (93, 9300, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 3),
+  -- Haunter - Dream Eater - TM127
+  (93, 9300, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 4),
+  -- Gengar - Facade - TM109
+  (94, 9400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Gengar - Acid Spray - TM112
+  (94, 9400, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Gengar - Shadow Punch - TM118
+  (94, 9400, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 3),
+  -- Gengar - Ominous Wind - TM119
+  (94, 9400, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 4),
+  -- Gengar - Dream Eater - TM127
+  (94, 9400, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 5),
+  -- Gengar - Drain Punch - TM131
+  (94, 9400, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 6),
+  -- Onix - Facade - TM109
+  (95, 9500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Onix - Scorching Sands - TM136
+  (95, 9500, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 2),
+  -- Onix - Meteor Beam - TM156
+  (95, 9500, 800, 27, NULL, 2, NULL, NULL, 27002156, NULL, 3);

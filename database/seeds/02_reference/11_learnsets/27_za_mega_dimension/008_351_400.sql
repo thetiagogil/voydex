@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -120,19 +120,47 @@ INSERT INTO reference.pokemon_learnsets (
   -- Kecleon - Thunder - TM106
   (352, 35200, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 47),
   -- Kecleon - Facade - TM109
-  (352, 35200, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 48),
+  (352, 35200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 48),
   -- Kecleon - Ancient Power - TM120
-  (352, 35200, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 49),
+  (352, 35200, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 49),
   -- Kecleon - Charge Beam - TM130
-  (352, 35200, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 50),
+  (352, 35200, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 50),
   -- Kecleon - Drain Punch - TM131
-  (352, 35200, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 51),
+  (352, 35200, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 51),
   -- Kecleon - Fake Out - TM141
-  (352, 35200, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 52),
+  (352, 35200, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 52),
   -- Kecleon - First Impression - TM142
-  (352, 35200, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 53),
+  (352, 35200, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 53),
   -- Kecleon - Scale Shot - TM143
-  (352, 35200, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 54),
+  (352, 35200, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 54),
+  -- Shuppet - Facade - TM109
+  (353, 35300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Shuppet - Dream Eater - TM127
+  (353, 35300, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 2),
+  -- Shuppet - Charge Beam - TM130
+  (353, 35300, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 3),
+  -- Banette - Facade - TM109
+  (354, 35400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Banette - Trailblaze - TM115
+  (354, 35400, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 2),
+  -- Banette - Shadow Punch - TM118
+  (354, 35400, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 3),
+  -- Banette - Ominous Wind - TM119
+  (354, 35400, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 4),
+  -- Banette - Torment - TM121
+  (354, 35400, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 5),
+  -- Banette - Dream Eater - TM127
+  (354, 35400, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 6),
+  -- Banette - Charge Beam - TM130
+  (354, 35400, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 7),
+  -- Banette - Swagger - TM139
+  (354, 35400, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 8),
+  -- Banette - Razor Wind - TM145
+  (354, 35400, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 9),
+  -- Banette - Icicle Spear - TM149
+  (354, 35400, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 10),
+  -- Banette - Vacuum Wave - TM150
+  (354, 35400, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 11),
   -- Chimecho - Tackle - Level 1
   (358, 35800, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Chimecho - Growl - Level 1
@@ -214,15 +242,99 @@ INSERT INTO reference.pokemon_learnsets (
   -- Chimecho - Heal Block - TM097
   (358, 35800, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 40),
   -- Chimecho - Facade - TM109
-  (358, 35800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 41),
+  (358, 35800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 41),
   -- Chimecho - Ominous Wind - TM119
-  (358, 35800, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 42),
+  (358, 35800, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 42),
   -- Chimecho - Magnet Bomb - TM126
-  (358, 35800, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 43),
+  (358, 35800, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 43),
   -- Chimecho - Charge Beam - TM130
-  (358, 35800, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 44),
+  (358, 35800, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 44),
   -- Chimecho - Meteor Beam - TM156
-  (358, 35800, 800, 27, NULL, 2, NULL, NULL, 26002156, NULL, 45),
+  (358, 35800, 800, 27, NULL, 2, NULL, NULL, 27002156, NULL, 45),
+  -- Absol - Facade - TM109
+  (359, 35900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Absol - Ominous Wind - TM119
+  (359, 35900, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 2),
+  -- Absol - False Swipe - TM122
+  (359, 35900, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 3),
+  -- Absol - Razor Wind - TM145
+  (359, 35900, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 4),
+  -- Snorunt - Facade - TM109
+  (361, 36100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Snorunt - Chilling Water - TM110
+  (361, 36100, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Snorunt - Trailblaze - TM115
+  (361, 36100, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Snorunt - Frost Breath - TM138
+  (361, 36100, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 4),
+  -- Snorunt - Icicle Spear - TM149
+  (361, 36100, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 5),
+  -- Glalie - Facade - TM109
+  (362, 36200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Glalie - Chilling Water - TM110
+  (362, 36200, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 2),
+  -- Glalie - Trailblaze - TM115
+  (362, 36200, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Glalie - Ominous Wind - TM119
+  (362, 36200, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 4),
+  -- Glalie - Frost Breath - TM138
+  (362, 36200, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 5),
+  -- Glalie - Skull Bash - TM146
+  (362, 36200, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 6),
+  -- Glalie - Icicle Spear - TM149
+  (362, 36200, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 7),
+  -- Glalie - Sheer Cold - TM155
+  (362, 36200, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 8),
+  -- Bagon - Facade - TM109
+  (371, 37100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Shelgon - Facade - TM109
+  (372, 37200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Salamence - Facade - TM109
+  (373, 37300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Salamence - Flame Charge - TM114
+  (373, 37300, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 2),
+  -- Salamence - Psychic Fangs - TM124
+  (373, 37300, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 3),
+  -- Salamence - Dual Wingbeat - TM134
+  (373, 37300, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 4),
+  -- Salamence - Scale Shot - TM143
+  (373, 37300, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 5),
+  -- Salamence - Skull Bash - TM146
+  (373, 37300, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 6),
+  -- Beldum - Facade - TM109
+  (374, 37400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Beldum - Steel Beam - TM157
+  (374, 37400, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 2),
+  -- Metang - Facade - TM109
+  (375, 37500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Metang - Trailblaze - TM115
+  (375, 37500, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 2),
+  -- Metang - Magnet Bomb - TM126
+  (375, 37500, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 3),
+  -- Metang - Meteor Beam - TM156
+  (375, 37500, 800, 27, NULL, 2, NULL, NULL, 27002156, NULL, 4),
+  -- Metang - Steel Beam - TM157
+  (375, 37500, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 5),
+  -- Metagross - Comet Punch - TM108
+  (376, 37600, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Metagross - Facade - TM109
+  (376, 37600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Metagross - Trailblaze - TM115
+  (376, 37600, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Metagross - Shadow Punch - TM118
+  (376, 37600, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 4),
+  -- Metagross - Psychic Fangs - TM124
+  (376, 37600, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 5),
+  -- Metagross - Magnet Bomb - TM126
+  (376, 37600, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 6),
+  -- Metagross - Swagger - TM139
+  (376, 37600, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 7),
+  -- Metagross - Skull Bash - TM146
+  (376, 37600, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 8),
+  -- Metagross - Meteor Beam - TM156
+  (376, 37600, 800, 27, NULL, 2, NULL, NULL, 27002156, NULL, 9),
+  -- Metagross - Steel Beam - TM157
+  (376, 37600, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 10),
   -- Latias - Charm - Level 1
   (380, 38000, 204, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Latias - Mist Ball - Level 1
@@ -334,21 +446,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Latias - Thunder - TM106
   (380, 38000, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 55),
   -- Latias - Facade - TM109
-  (380, 38000, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 56),
+  (380, 38000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 56),
   -- Latias - Chilling Water - TM110
-  (380, 38000, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 57),
+  (380, 38000, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 57),
   -- Latias - Dream Eater - TM127
-  (380, 38000, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 58),
+  (380, 38000, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 58),
   -- Latias - Charge Beam - TM130
-  (380, 38000, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 59),
+  (380, 38000, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 59),
   -- Latias - Dual Wingbeat - TM134
-  (380, 38000, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 60),
+  (380, 38000, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 60),
   -- Latias - Scale Shot - TM143
-  (380, 38000, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 61),
+  (380, 38000, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 61),
   -- Latias - Razor Wind - TM145
-  (380, 38000, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 62),
+  (380, 38000, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 62),
   -- Latias - Tri Attack - TM147
-  (380, 38000, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 63),
+  (380, 38000, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 63),
   -- Latios - Luster Purge - Level 1
   (381, 38100, 295, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Latios - Work Up - Level 1
@@ -466,21 +578,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Latios - Thunder - TM106
   (381, 38100, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 58),
   -- Latios - Facade - TM109
-  (381, 38100, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 59),
+  (381, 38100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 59),
   -- Latios - Chilling Water - TM110
-  (381, 38100, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 60),
+  (381, 38100, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 60),
   -- Latios - Dream Eater - TM127
-  (381, 38100, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 61),
+  (381, 38100, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 61),
   -- Latios - Charge Beam - TM130
-  (381, 38100, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 62),
+  (381, 38100, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 62),
   -- Latios - Dual Wingbeat - TM134
-  (381, 38100, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 63),
+  (381, 38100, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 63),
   -- Latios - Scale Shot - TM143
-  (381, 38100, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 64),
+  (381, 38100, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 64),
   -- Latios - Razor Wind - TM145
-  (381, 38100, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 65),
+  (381, 38100, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 65),
   -- Latios - Tri Attack - TM147
-  (381, 38100, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 66),
+  (381, 38100, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 66),
   -- Kyogre - Body Slam - Level 1
   (382, 38200, 34, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Kyogre - Ancient Power - Level 1
@@ -574,21 +686,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Kyogre - Thunder - TM106
   (382, 38200, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 46),
   -- Kyogre - Facade - TM109
-  (382, 38200, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 47),
+  (382, 38200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 47),
   -- Kyogre - Chilling Water - TM110
-  (382, 38200, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 48),
+  (382, 38200, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 48),
   -- Kyogre - Ancient Power - TM120
-  (382, 38200, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 49),
+  (382, 38200, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 49),
   -- Kyogre - Swagger - TM139
-  (382, 38200, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 50),
+  (382, 38200, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 50),
   -- Kyogre - Muddy Water - TM140
-  (382, 38200, 330, 27, NULL, 2, NULL, NULL, 26002140, NULL, 51),
+  (382, 38200, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 51),
   -- Kyogre - Scald - TM148
-  (382, 38200, 503, 27, NULL, 2, NULL, NULL, 26002148, NULL, 52),
+  (382, 38200, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 52),
   -- Kyogre - Icicle Spear - TM149
-  (382, 38200, 333, 27, NULL, 2, NULL, NULL, 26002149, NULL, 53),
+  (382, 38200, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 53),
   -- Kyogre - Sheer Cold - TM155
-  (382, 38200, 329, 27, NULL, 2, NULL, NULL, 26002155, NULL, 54),
+  (382, 38200, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 54),
   -- Groudon - Ancient Power - Level 1
   (383, 38300, 246, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Groudon - Sand Tomb - Level 1
@@ -716,13 +828,13 @@ INSERT INTO reference.pokemon_learnsets (
   -- Groudon - Thunder - TM106
   (383, 38300, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 63),
   -- Groudon - Facade - TM109
-  (383, 38300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 64),
+  (383, 38300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 64),
   -- Groudon - Ancient Power - TM120
-  (383, 38300, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 65),
+  (383, 38300, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 65),
   -- Groudon - Scorching Sands - TM136
-  (383, 38300, 815, 27, NULL, 2, NULL, NULL, 26002136, NULL, 66),
+  (383, 38300, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 66),
   -- Groudon - Fissure - TM154
-  (383, 38300, 90, 27, NULL, 2, NULL, NULL, 26002154, NULL, 67),
+  (383, 38300, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 67),
   -- Rayquaza - Twister - Level 1
   (384, 38400, 239, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Rayquaza - Air Slash - Level 1
@@ -850,13 +962,13 @@ INSERT INTO reference.pokemon_learnsets (
   -- Rayquaza - Thunder - TM106
   (384, 38400, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 63),
   -- Rayquaza - Facade - TM109
-  (384, 38400, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 64),
+  (384, 38400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 64),
   -- Rayquaza - Ancient Power - TM120
-  (384, 38400, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 65),
+  (384, 38400, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 65),
   -- Rayquaza - Scale Shot - TM143
-  (384, 38400, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 66),
+  (384, 38400, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 66),
   -- Rayquaza - Meteor Beam - TM156
-  (384, 38400, 800, 27, NULL, 2, NULL, NULL, 26002156, NULL, 67),
+  (384, 38400, 800, 27, NULL, 2, NULL, NULL, 27002156, NULL, 67),
   -- Starly - Tackle - Level 1
   (396, 39600, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Starly - Growl - Level 1
@@ -914,9 +1026,9 @@ INSERT INTO reference.pokemon_learnsets (
   -- Starly - Work Up - TM103
   (396, 39600, 526, 27, NULL, 2, NULL, NULL, 26002103, NULL, 28),
   -- Starly - Facade - TM109
-  (396, 39600, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 29),
+  (396, 39600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 29),
   -- Starly - Dual Wingbeat - TM134
-  (396, 39600, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 30),
+  (396, 39600, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 30),
   -- Staravia - Tackle - Level 1
   (397, 39700, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Staravia - Growl - Level 1
@@ -974,17 +1086,17 @@ INSERT INTO reference.pokemon_learnsets (
   -- Staravia - Work Up - TM103
   (397, 39700, 526, 27, NULL, 2, NULL, NULL, 26002103, NULL, 28),
   -- Staravia - Facade - TM109
-  (397, 39700, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 29),
+  (397, 39700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 29),
   -- Staravia - Ominous Wind - TM119
-  (397, 39700, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 30),
+  (397, 39700, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 30),
   -- Staravia - Dual Wingbeat - TM134
-  (397, 39700, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 31),
+  (397, 39700, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 31),
   -- Staravia - Skull Bash - TM146
-  (397, 39700, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 32),
+  (397, 39700, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 32),
   -- Staravia - Vacuum Wave - TM150
-  (397, 39700, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 33),
+  (397, 39700, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 33),
   -- Staravia - Sky Attack - TM153
-  (397, 39700, 143, 27, NULL, 2, NULL, NULL, 26002153, NULL, 34),
+  (397, 39700, 143, 27, NULL, 2, NULL, NULL, 27002153, NULL, 34),
   -- Staraptor - Tackle - Level 1
   (398, 39800, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Staraptor - Growl - Level 1
@@ -1060,24 +1172,24 @@ INSERT INTO reference.pokemon_learnsets (
   -- Staraptor - Close Combat - TM107
   (398, 39800, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 37),
   -- Staraptor - Facade - TM109
-  (398, 39800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 38),
+  (398, 39800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 38),
   -- Staraptor - Low Sweep - TM113
-  (398, 39800, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 39),
+  (398, 39800, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 39),
   -- Staraptor - Ominous Wind - TM119
-  (398, 39800, 466, 27, NULL, 2, NULL, NULL, 26002119, NULL, 40),
+  (398, 39800, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 40),
   -- Staraptor - Torment - TM121
-  (398, 39800, 259, 27, NULL, 2, NULL, NULL, 26002121, NULL, 41),
+  (398, 39800, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 41),
   -- Staraptor - Blaze Kick - TM133
-  (398, 39800, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 42),
+  (398, 39800, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 42),
   -- Staraptor - Dual Wingbeat - TM134
-  (398, 39800, 814, 27, NULL, 2, NULL, NULL, 26002134, NULL, 43),
+  (398, 39800, 814, 27, NULL, 2, NULL, NULL, 27002134, NULL, 43),
   -- Staraptor - Swagger - TM139
-  (398, 39800, 207, 27, NULL, 2, NULL, NULL, 26002139, NULL, 44),
+  (398, 39800, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 44),
   -- Staraptor - Razor Wind - TM145
-  (398, 39800, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 45),
+  (398, 39800, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 45),
   -- Staraptor - Skull Bash - TM146
-  (398, 39800, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 46),
+  (398, 39800, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 46),
   -- Staraptor - Vacuum Wave - TM150
-  (398, 39800, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 47),
+  (398, 39800, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 47),
   -- Staraptor - Sky Attack - TM153
-  (398, 39800, 143, 27, NULL, 2, NULL, NULL, 26002153, NULL, 48);
+  (398, 39800, 143, 27, NULL, 2, NULL, NULL, 27002153, NULL, 48);

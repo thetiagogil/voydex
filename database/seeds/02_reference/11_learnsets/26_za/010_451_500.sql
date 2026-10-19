@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -74,20 +74,6 @@ INSERT INTO reference.pokemon_learnsets (
   (459, 45900, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 24),
   -- Snover - Blizzard - TM105
   (459, 45900, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 25),
-  -- Snover - Facade - TM109
-  (459, 45900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 26),
-  -- Snover - Chilling Water - TM110
-  (459, 45900, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 27),
-  -- Snover - Trailblaze - TM115
-  (459, 45900, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 28),
-  -- Snover - Seed Bomb - TM128
-  (459, 45900, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 29),
-  -- Snover - Swagger - TM139
-  (459, 45900, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 30),
-  -- Snover - Icicle Spear - TM149
-  (459, 45900, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 31),
-  -- Snover - Sheer Cold - TM155
-  (459, 45900, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 32),
   -- Abomasnow - Leer - Level 1
   (460, 46000, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Abomasnow - Leafage - Level 1
@@ -162,22 +148,6 @@ INSERT INTO reference.pokemon_learnsets (
   (460, 46000, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 36),
   -- Abomasnow - Blizzard - TM105
   (460, 46000, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 37),
-  -- Abomasnow - Facade - TM109
-  (460, 46000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Abomasnow - Chilling Water - TM110
-  (460, 46000, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 39),
-  -- Abomasnow - Trailblaze - TM115
-  (460, 46000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 40),
-  -- Abomasnow - Seed Bomb - TM128
-  (460, 46000, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 41),
-  -- Abomasnow - Frost Breath - TM138
-  (460, 46000, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 42),
-  -- Abomasnow - Swagger - TM139
-  (460, 46000, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 43),
-  -- Abomasnow - Icicle Spear - TM149
-  (460, 46000, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 44),
-  -- Abomasnow - Sheer Cold - TM155
-  (460, 46000, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 45),
   -- Leafeon - Tackle - Level 1
   (470, 47000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Leafeon - Tail Whip - Level 1
@@ -250,20 +220,6 @@ INSERT INTO reference.pokemon_learnsets (
   (470, 47000, 231, 26, NULL, 2, NULL, NULL, 26002087, NULL, 35),
   -- Leafeon - Taunt - TM095
   (470, 47000, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 36),
-  -- Leafeon - Facade - TM109
-  (470, 47000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Leafeon - Trailblaze - TM115
-  (470, 47000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 38),
-  -- Leafeon - Mimic - TM125
-  (470, 47000, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 39),
-  -- Leafeon - Seed Bomb - TM128
-  (470, 47000, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 40),
-  -- Leafeon - Skull Bash - TM146
-  (470, 47000, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 41),
-  -- Leafeon - Petal Dance - TM151
-  (470, 47000, 80, 26, NULL, 2, NULL, NULL, 26002151, NULL, 42),
-  -- Leafeon - Solar Blade - TM152
-  (470, 47000, 669, 26, NULL, 2, NULL, NULL, 26002152, NULL, 43),
   -- Glaceon - Tackle - Level 1
   (471, 47100, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Glaceon - Tail Whip - Level 1
@@ -328,24 +284,6 @@ INSERT INTO reference.pokemon_learnsets (
   (471, 47100, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 31),
   -- Glaceon - Blizzard - TM105
   (471, 47100, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 32),
-  -- Glaceon - Facade - TM109
-  (471, 47100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Glaceon - Chilling Water - TM110
-  (471, 47100, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 34),
-  -- Glaceon - Trailblaze - TM115
-  (471, 47100, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 35),
-  -- Glaceon - Mimic - TM125
-  (471, 47100, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 36),
-  -- Glaceon - Frost Breath - TM138
-  (471, 47100, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 37),
-  -- Glaceon - Triple Axel - TM144
-  (471, 47100, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 38),
-  -- Glaceon - Skull Bash - TM146
-  (471, 47100, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 39),
-  -- Glaceon - Icicle Spear - TM149
-  (471, 47100, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 40),
-  -- Glaceon - Sheer Cold - TM155
-  (471, 47100, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 41),
   -- Gallade - Growl - Level 1
   (475, 47500, 45, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gallade - Psybeam - Level 1
@@ -458,30 +396,6 @@ INSERT INTO reference.pokemon_learnsets (
   (475, 47500, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 55),
   -- Gallade - Close Combat - TM107
   (475, 47500, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 56),
-  -- Gallade - Comet Punch - TM108
-  (475, 47500, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 57),
-  -- Gallade - Facade - TM109
-  (475, 47500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 58),
-  -- Gallade - Low Sweep - TM113
-  (475, 47500, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 59),
-  -- Gallade - False Swipe - TM122
-  (475, 47500, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 60),
-  -- Gallade - Dream Eater - TM127
-  (475, 47500, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 61),
-  -- Gallade - Charge Beam - TM130
-  (475, 47500, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 62),
-  -- Gallade - Drain Punch - TM131
-  (475, 47500, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 63),
-  -- Gallade - Dual Chop - TM135
-  (475, 47500, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 64),
-  -- Gallade - Triple Axel - TM144
-  (475, 47500, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 65),
-  -- Gallade - Razor Wind - TM145
-  (475, 47500, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 66),
-  -- Gallade - Vacuum Wave - TM150
-  (475, 47500, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 67),
-  -- Gallade - Solar Blade - TM152
-  (475, 47500, 669, 26, NULL, 2, NULL, NULL, 26002152, NULL, 68),
   -- Froslass - Headbutt - Level 1
   (478, 47800, 29, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Froslass - Leer - Level 1
@@ -570,22 +484,6 @@ INSERT INTO reference.pokemon_learnsets (
   (478, 47800, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 43),
   -- Froslass - Thunder - TM106
   (478, 47800, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 44),
-  -- Froslass - Facade - TM109
-  (478, 47800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 45),
-  -- Froslass - Chilling Water - TM110
-  (478, 47800, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 46),
-  -- Froslass - Trailblaze - TM115
-  (478, 47800, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 47),
-  -- Froslass - Frost Breath - TM138
-  (478, 47800, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 48),
-  -- Froslass - Triple Axel - TM144
-  (478, 47800, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 49),
-  -- Froslass - Icicle Spear - TM149
-  (478, 47800, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 50),
-  -- Froslass - Petal Dance - TM151
-  (478, 47800, 80, 26, NULL, 2, NULL, NULL, 26002151, NULL, 51),
-  -- Froslass - Sheer Cold - TM155
-  (478, 47800, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 52),
   -- Tepig - Tackle - Level 1
   (498, 49800, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Tepig - Tail Whip - Level 1
@@ -644,12 +542,6 @@ INSERT INTO reference.pokemon_learnsets (
   (498, 49800, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 28),
   -- Tepig - Flare Blitz - TM104
   (498, 49800, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 29),
-  -- Tepig - Facade - TM109
-  (498, 49800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 30),
-  -- Tepig - Flame Charge - TM114
-  (498, 49800, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 31),
-  -- Tepig - Trailblaze - TM115
-  (498, 49800, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 32),
   -- Pignite - Tackle - Level 1
   (499, 49900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Pignite - Tail Whip - Level 1
@@ -738,16 +630,6 @@ INSERT INTO reference.pokemon_learnsets (
   (499, 49900, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 43),
   -- Pignite - Flare Blitz - TM104
   (499, 49900, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 44),
-  -- Pignite - Facade - TM109
-  (499, 49900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 45),
-  -- Pignite - Low Sweep - TM113
-  (499, 49900, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 46),
-  -- Pignite - Flame Charge - TM114
-  (499, 49900, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 47),
-  -- Pignite - Trailblaze - TM115
-  (499, 49900, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 48),
-  -- Pignite - Drain Punch - TM131
-  (499, 49900, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 49),
   -- Emboar - Tackle - Level 1
   (500, 50000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Emboar - Tail Whip - Level 1
@@ -851,30 +733,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Emboar - Flare Blitz - TM104
   (500, 50000, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 51),
   -- Emboar - Close Combat - TM107
-  (500, 50000, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 52),
-  -- Emboar - Comet Punch - TM108
-  (500, 50000, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 53),
-  -- Emboar - Facade - TM109
-  (500, 50000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 54),
-  -- Emboar - Low Sweep - TM113
-  (500, 50000, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 55),
-  -- Emboar - Flame Charge - TM114
-  (500, 50000, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 56),
-  -- Emboar - Trailblaze - TM115
-  (500, 50000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 57),
-  -- Emboar - Circle Throw - TM129
-  (500, 50000, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 58),
-  -- Emboar - Drain Punch - TM131
-  (500, 50000, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 59),
-  -- Emboar - Dual Chop - TM135
-  (500, 50000, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 60),
-  -- Emboar - Storm Throw - TM137
-  (500, 50000, 480, 26, NULL, 2, NULL, NULL, 26002137, NULL, 61),
-  -- Emboar - Scald - TM148
-  (500, 50000, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 62),
-  -- Emboar - Vacuum Wave - TM150
-  (500, 50000, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 63),
-  -- Emboar - Solar Blade - TM152
-  (500, 50000, 669, 26, NULL, 2, NULL, NULL, 26002152, NULL, 64),
-  -- Emboar - Blast Burn - TM158
-  (500, 50000, 307, 26, NULL, 2, NULL, NULL, 26002158, NULL, 65);
+  (500, 50000, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 52);

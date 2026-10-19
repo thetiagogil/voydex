@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -102,13 +102,13 @@ INSERT INTO reference.pokemon_learnsets (
   -- Treecko - Work Up - TM103
   (252, 25200, 526, 27, NULL, 2, NULL, NULL, 26002103, NULL, 38),
   -- Treecko - Facade - TM109
-  (252, 25200, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 39),
+  (252, 25200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 39),
   -- Treecko - Trailblaze - TM115
-  (252, 25200, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 40),
+  (252, 25200, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 40),
   -- Treecko - Seed Bomb - TM128
-  (252, 25200, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 41),
+  (252, 25200, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 41),
   -- Treecko - Drain Punch - TM131
-  (252, 25200, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 42),
+  (252, 25200, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 42),
   -- Grovyle - Tackle - Level 1
   (253, 25300, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Grovyle - Leer - Level 1
@@ -198,21 +198,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Grovyle - Work Up - TM103
   (253, 25300, 526, 27, NULL, 2, NULL, NULL, 26002103, NULL, 44),
   -- Grovyle - Facade - TM109
-  (253, 25300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 45),
+  (253, 25300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 45),
   -- Grovyle - Low Sweep - TM113
-  (253, 25300, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 46),
+  (253, 25300, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 46),
   -- Grovyle - Trailblaze - TM115
-  (253, 25300, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 47),
+  (253, 25300, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 47),
   -- Grovyle - False Swipe - TM122
-  (253, 25300, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 48),
+  (253, 25300, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 48),
   -- Grovyle - Seed Bomb - TM128
-  (253, 25300, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 49),
+  (253, 25300, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 49),
   -- Grovyle - Drain Punch - TM131
-  (253, 25300, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 50),
+  (253, 25300, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 50),
   -- Grovyle - Vacuum Wave - TM150
-  (253, 25300, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 51),
+  (253, 25300, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 51),
   -- Grovyle - Solar Blade - TM152
-  (253, 25300, 669, 27, NULL, 2, NULL, NULL, 26002152, NULL, 52),
+  (253, 25300, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 52),
   -- Sceptile - Tackle - Level 1
   (254, 25400, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Sceptile - Leer - Level 1
@@ -318,29 +318,29 @@ INSERT INTO reference.pokemon_learnsets (
   -- Sceptile - Work Up - TM103
   (254, 25400, 526, 27, NULL, 2, NULL, NULL, 26002103, NULL, 52),
   -- Sceptile - Facade - TM109
-  (254, 25400, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 53),
+  (254, 25400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 53),
   -- Sceptile - Low Sweep - TM113
-  (254, 25400, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 54),
+  (254, 25400, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 54),
   -- Sceptile - Trailblaze - TM115
-  (254, 25400, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 55),
+  (254, 25400, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 55),
   -- Sceptile - False Swipe - TM122
-  (254, 25400, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 56),
+  (254, 25400, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 56),
   -- Sceptile - Seed Bomb - TM128
-  (254, 25400, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 57),
+  (254, 25400, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 57),
   -- Sceptile - Drain Punch - TM131
-  (254, 25400, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 58),
+  (254, 25400, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 58),
   -- Sceptile - Dual Chop - TM135
-  (254, 25400, 530, 27, NULL, 2, NULL, NULL, 26002135, NULL, 59),
+  (254, 25400, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 59),
   -- Sceptile - Scale Shot - TM143
-  (254, 25400, 799, 27, NULL, 2, NULL, NULL, 26002143, NULL, 60),
+  (254, 25400, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 60),
   -- Sceptile - Razor Wind - TM145
-  (254, 25400, 13, 27, NULL, 2, NULL, NULL, 26002145, NULL, 61),
+  (254, 25400, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 61),
   -- Sceptile - Vacuum Wave - TM150
-  (254, 25400, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 62),
+  (254, 25400, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 62),
   -- Sceptile - Solar Blade - TM152
-  (254, 25400, 669, 27, NULL, 2, NULL, NULL, 26002152, NULL, 63),
+  (254, 25400, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 63),
   -- Sceptile - Frenzy Plant - TM160
-  (254, 25400, 338, 27, NULL, 2, NULL, NULL, 26002160, NULL, 64),
+  (254, 25400, 338, 27, NULL, 2, NULL, NULL, 27002160, NULL, 64),
   -- Torchic - Growl - Level 1
   (255, 25500, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Torchic - Peck - Level 1
@@ -414,9 +414,9 @@ INSERT INTO reference.pokemon_learnsets (
   -- Torchic - Flare Blitz - TM104
   (255, 25500, 394, 27, NULL, 2, NULL, NULL, 26002104, NULL, 36),
   -- Torchic - Facade - TM109
-  (255, 25500, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 37),
+  (255, 25500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 37),
   -- Torchic - Flame Charge - TM114
-  (255, 25500, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 38),
+  (255, 25500, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 38),
   -- Combusken - Growl - Level 1
   (256, 25600, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Combusken - Peck - Level 1
@@ -510,21 +510,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Combusken - Close Combat - TM107
   (256, 25600, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 46),
   -- Combusken - Comet Punch - TM108
-  (256, 25600, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 47),
+  (256, 25600, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 47),
   -- Combusken - Facade - TM109
-  (256, 25600, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 48),
+  (256, 25600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 48),
   -- Combusken - Low Sweep - TM113
-  (256, 25600, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 49),
+  (256, 25600, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 49),
   -- Combusken - Flame Charge - TM114
-  (256, 25600, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 50),
+  (256, 25600, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 50),
   -- Combusken - Circle Throw - TM129
-  (256, 25600, 509, 27, NULL, 2, NULL, NULL, 26002129, NULL, 51),
+  (256, 25600, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 51),
   -- Combusken - Blaze Kick - TM133
-  (256, 25600, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 52),
+  (256, 25600, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 52),
   -- Combusken - Dual Chop - TM135
-  (256, 25600, 530, 27, NULL, 2, NULL, NULL, 26002135, NULL, 53),
+  (256, 25600, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 53),
   -- Combusken - Vacuum Wave - TM150
-  (256, 25600, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 54),
+  (256, 25600, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 54),
   -- Blaziken - Growl - Level 1
   (257, 25700, 45, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Blaziken - Peck - Level 1
@@ -638,27 +638,27 @@ INSERT INTO reference.pokemon_learnsets (
   -- Blaziken - Close Combat - TM107
   (257, 25700, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 56),
   -- Blaziken - Comet Punch - TM108
-  (257, 25700, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 57),
+  (257, 25700, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 57),
   -- Blaziken - Facade - TM109
-  (257, 25700, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 58),
+  (257, 25700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 58),
   -- Blaziken - Low Sweep - TM113
-  (257, 25700, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 59),
+  (257, 25700, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 59),
   -- Blaziken - Flame Charge - TM114
-  (257, 25700, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 60),
+  (257, 25700, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 60),
   -- Blaziken - Circle Throw - TM129
-  (257, 25700, 509, 27, NULL, 2, NULL, NULL, 26002129, NULL, 61),
+  (257, 25700, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 61),
   -- Blaziken - Drain Punch - TM131
-  (257, 25700, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 62),
+  (257, 25700, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 62),
   -- Blaziken - Blaze Kick - TM133
-  (257, 25700, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 63),
+  (257, 25700, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 63),
   -- Blaziken - Dual Chop - TM135
-  (257, 25700, 530, 27, NULL, 2, NULL, NULL, 26002135, NULL, 64),
+  (257, 25700, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 64),
   -- Blaziken - Scorching Sands - TM136
-  (257, 25700, 815, 27, NULL, 2, NULL, NULL, 26002136, NULL, 65),
+  (257, 25700, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 65),
   -- Blaziken - Vacuum Wave - TM150
-  (257, 25700, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 66),
+  (257, 25700, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 66),
   -- Blaziken - Blast Burn - TM158
-  (257, 25700, 307, 27, NULL, 2, NULL, NULL, 26002158, NULL, 67),
+  (257, 25700, 307, 27, NULL, 2, NULL, NULL, 27002158, NULL, 67),
   -- Mudkip - Tackle - Level 1
   (258, 25800, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mudkip - Bite - Level 1
@@ -744,15 +744,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Mudkip - Blizzard - TM105
   (258, 25800, 59, 27, NULL, 2, NULL, NULL, 26002105, NULL, 42),
   -- Mudkip - Facade - TM109
-  (258, 25800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 43),
+  (258, 25800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 43),
   -- Mudkip - Chilling Water - TM110
-  (258, 25800, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 44),
+  (258, 25800, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 44),
   -- Mudkip - Ancient Power - TM120
-  (258, 25800, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 45),
+  (258, 25800, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 45),
   -- Mudkip - Muddy Water - TM140
-  (258, 25800, 330, 27, NULL, 2, NULL, NULL, 26002140, NULL, 46),
+  (258, 25800, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 46),
   -- Mudkip - Scald - TM148
-  (258, 25800, 503, 27, NULL, 2, NULL, NULL, 26002148, NULL, 47),
+  (258, 25800, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 47),
   -- Marshtomp - Tackle - Level 1
   (259, 25900, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Marshtomp - Bite - Level 1
@@ -854,15 +854,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Marshtomp - Blizzard - TM105
   (259, 25900, 59, 27, NULL, 2, NULL, NULL, 26002105, NULL, 50),
   -- Marshtomp - Facade - TM109
-  (259, 25900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 51),
+  (259, 25900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 51),
   -- Marshtomp - Chilling Water - TM110
-  (259, 25900, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 52),
+  (259, 25900, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 52),
   -- Marshtomp - Ancient Power - TM120
-  (259, 25900, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 53),
+  (259, 25900, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 53),
   -- Marshtomp - Muddy Water - TM140
-  (259, 25900, 330, 27, NULL, 2, NULL, NULL, 26002140, NULL, 54),
+  (259, 25900, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 54),
   -- Marshtomp - Scald - TM148
-  (259, 25900, 503, 27, NULL, 2, NULL, NULL, 26002148, NULL, 55),
+  (259, 25900, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 55),
   -- Swampert - Tackle - Level 1
   (260, 26000, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Swampert - Bite - Level 1
@@ -986,16 +986,48 @@ INSERT INTO reference.pokemon_learnsets (
   -- Swampert - Blizzard - TM105
   (260, 26000, 59, 27, NULL, 2, NULL, NULL, 26002105, NULL, 61),
   -- Swampert - Facade - TM109
-  (260, 26000, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 62),
+  (260, 26000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 62),
   -- Swampert - Chilling Water - TM110
-  (260, 26000, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 63),
+  (260, 26000, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 63),
   -- Swampert - Ancient Power - TM120
-  (260, 26000, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 64),
+  (260, 26000, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 64),
   -- Swampert - Muddy Water - TM140
-  (260, 26000, 330, 27, NULL, 2, NULL, NULL, 26002140, NULL, 65),
+  (260, 26000, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 65),
   -- Swampert - Scald - TM148
-  (260, 26000, 503, 27, NULL, 2, NULL, NULL, 26002148, NULL, 66),
+  (260, 26000, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 66),
   -- Swampert - Fissure - TM154
-  (260, 26000, 90, 27, NULL, 2, NULL, NULL, 26002154, NULL, 67),
+  (260, 26000, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 67),
   -- Swampert - Hydro Cannon - TM159
-  (260, 26000, 308, 27, NULL, 2, NULL, NULL, 26002159, NULL, 68);
+  (260, 26000, 308, 27, NULL, 2, NULL, NULL, 27002159, NULL, 68),
+  -- Ralts - Facade - TM109
+  (280, 28000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Ralts - Dream Eater - TM127
+  (280, 28000, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 2),
+  -- Ralts - Charge Beam - TM130
+  (280, 28000, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 3),
+  -- Kirlia - Facade - TM109
+  (281, 28100, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Kirlia - Dream Eater - TM127
+  (281, 28100, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 2),
+  -- Kirlia - Charge Beam - TM130
+  (281, 28100, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 3),
+  -- Kirlia - Triple Axel - TM144
+  (281, 28100, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 4),
+  -- Kirlia - Vacuum Wave - TM150
+  (281, 28100, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 5),
+  -- Gardevoir - Facade - TM109
+  (282, 28200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Gardevoir - Torment - TM121
+  (282, 28200, 259, 27, NULL, 2, NULL, NULL, 27002121, NULL, 2),
+  -- Gardevoir - Mimic - TM125
+  (282, 28200, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 3),
+  -- Gardevoir - Dream Eater - TM127
+  (282, 28200, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 4),
+  -- Gardevoir - Charge Beam - TM130
+  (282, 28200, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 5),
+  -- Gardevoir - Swagger - TM139
+  (282, 28200, 207, 27, NULL, 2, NULL, NULL, 27002139, NULL, 6),
+  -- Gardevoir - Triple Axel - TM144
+  (282, 28200, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 7),
+  -- Gardevoir - Vacuum Wave - TM150
+  (282, 28200, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 8);

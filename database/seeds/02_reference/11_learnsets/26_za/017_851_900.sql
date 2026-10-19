@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -91,24 +91,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Falinks - Focus Blast - TM102
   (870, 87000, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 33),
   -- Falinks - Close Combat - TM107
-  (870, 87000, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 34),
-  -- Falinks - Comet Punch - TM108
-  (870, 87000, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 35),
-  -- Falinks - Facade - TM109
-  (870, 87000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Falinks - Low Sweep - TM113
-  (870, 87000, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 37),
-  -- Falinks - Trailblaze - TM115
-  (870, 87000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 38),
-  -- Falinks - False Swipe - TM122
-  (870, 87000, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 39),
-  -- Falinks - Seed Bomb - TM128
-  (870, 87000, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 40),
-  -- Falinks - Double Hit - TM132
-  (870, 87000, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 41),
-  -- Falinks - Fake Out - TM141
-  (870, 87000, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 42),
-  -- Falinks - First Impression - TM142
-  (870, 87000, 660, 26, NULL, 2, NULL, NULL, 26002142, NULL, 43),
-  -- Falinks - Skull Bash - TM146
-  (870, 87000, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 44);
+  (870, 87000, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 34);

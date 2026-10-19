@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -104,26 +104,6 @@ INSERT INTO reference.pokemon_learnsets (
   (701, 70100, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 39),
   -- Hawlucha - Close Combat - TM107
   (701, 70100, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 40),
-  -- Hawlucha - Comet Punch - TM108
-  (701, 70100, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 41),
-  -- Hawlucha - Facade - TM109
-  (701, 70100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 42),
-  -- Hawlucha - Low Sweep - TM113
-  (701, 70100, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 43),
-  -- Hawlucha - Trailblaze - TM115
-  (701, 70100, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 44),
-  -- Hawlucha - False Swipe - TM122
-  (701, 70100, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 45),
-  -- Hawlucha - Drain Punch - TM131
-  (701, 70100, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 46),
-  -- Hawlucha - Dual Wingbeat - TM134
-  (701, 70100, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 47),
-  -- Hawlucha - Dual Chop - TM135
-  (701, 70100, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 48),
-  -- Hawlucha - Skull Bash - TM146
-  (701, 70100, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 49),
-  -- Hawlucha - Sky Attack - TM153
-  (701, 70100, 143, 26, NULL, 2, NULL, NULL, 26002153, NULL, 50),
   -- Dedenne - Tackle - Level 1
   (702, 70200, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Dedenne - Tail Whip - Level 1
@@ -188,18 +168,6 @@ INSERT INTO reference.pokemon_learnsets (
   (702, 70200, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 31),
   -- Dedenne - Thunder - TM106
   (702, 70200, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 32),
-  -- Dedenne - Facade - TM109
-  (702, 70200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Dedenne - Trailblaze - TM115
-  (702, 70200, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 34),
-  -- Dedenne - Magnet Bomb - TM126
-  (702, 70200, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 35),
-  -- Dedenne - Seed Bomb - TM128
-  (702, 70200, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 36),
-  -- Dedenne - Charge Beam - TM130
-  (702, 70200, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 37),
-  -- Dedenne - Fake Out - TM141
-  (702, 70200, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 38),
   -- Carbink - Tackle - Level 1
   (703, 70300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Carbink - Harden - Level 1
@@ -272,14 +240,6 @@ INSERT INTO reference.pokemon_learnsets (
   (703, 70300, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 35),
   -- Carbink - Dazzling Gleam - TM092
   (703, 70300, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 36),
-  -- Carbink - Facade - TM109
-  (703, 70300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Carbink - Ancient Power - TM120
-  (703, 70300, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 38),
-  -- Carbink - Magnet Bomb - TM126
-  (703, 70300, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 39),
-  -- Carbink - Meteor Beam - TM156
-  (703, 70300, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 40),
   -- Goomy - Tackle - Level 1
   (704, 70400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Goomy - Absorb - Level 1
@@ -336,12 +296,6 @@ INSERT INTO reference.pokemon_learnsets (
   (704, 70400, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 27),
   -- Goomy - Outrage - TM093
   (704, 70400, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 28),
-  -- Goomy - Facade - TM109
-  (704, 70400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 29),
-  -- Goomy - Chilling Water - TM110
-  (704, 70400, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 30),
-  -- Goomy - Muddy Water - TM140
-  (704, 70400, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 31),
   -- Sliggoo - Tackle - Level 1
   (705, 70500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Sliggoo - Absorb - Level 1
@@ -406,14 +360,6 @@ INSERT INTO reference.pokemon_learnsets (
   (705, 70500, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 31),
   -- Sliggoo - Thunder - TM106
   (705, 70500, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 32),
-  -- Sliggoo - Facade - TM109
-  (705, 70500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Sliggoo - Chilling Water - TM110
-  (705, 70500, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 34),
-  -- Sliggoo - Acid Spray - TM112
-  (705, 70500, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 35),
-  -- Sliggoo - Muddy Water - TM140
-  (705, 70500, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 36),
   -- Hisuian Sliggoo - Tackle - Level 1
   (705, 70501, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Hisuian Sliggoo - Absorb - Level 1
@@ -486,18 +432,6 @@ INSERT INTO reference.pokemon_learnsets (
   (705, 70501, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 35),
   -- Hisuian Sliggoo - Thunder - TM106
   (705, 70501, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 36),
-  -- Hisuian Sliggoo - Facade - TM109
-  (705, 70501, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Hisuian Sliggoo - Chilling Water - TM110
-  (705, 70501, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 38),
-  -- Hisuian Sliggoo - Acid Spray - TM112
-  (705, 70501, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 39),
-  -- Hisuian Sliggoo - Magnet Bomb - TM126
-  (705, 70501, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 40),
-  -- Hisuian Sliggoo - Muddy Water - TM140
-  (705, 70501, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 41),
-  -- Hisuian Sliggoo - Steel Beam - TM157
-  (705, 70501, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 42),
   -- Goodra - Tackle - Level 1
   (706, 70600, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Goodra - Absorb - Level 1
@@ -592,16 +526,6 @@ INSERT INTO reference.pokemon_learnsets (
   (706, 70600, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 46),
   -- Goodra - Thunder - TM106
   (706, 70600, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 47),
-  -- Goodra - Facade - TM109
-  (706, 70600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 48),
-  -- Goodra - Chilling Water - TM110
-  (706, 70600, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 49),
-  -- Goodra - Acid Spray - TM112
-  (706, 70600, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 50),
-  -- Goodra - Muddy Water - TM140
-  (706, 70600, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 51),
-  -- Goodra - Scald - TM148
-  (706, 70600, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 52),
   -- Hisuian Goodra - Tackle - Level 1
   (706, 70601, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Hisuian Goodra - Absorb - Level 1
@@ -706,20 +630,6 @@ INSERT INTO reference.pokemon_learnsets (
   (706, 70601, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 51),
   -- Hisuian Goodra - Thunder - TM106
   (706, 70601, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 52),
-  -- Hisuian Goodra - Facade - TM109
-  (706, 70601, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 53),
-  -- Hisuian Goodra - Chilling Water - TM110
-  (706, 70601, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 54),
-  -- Hisuian Goodra - Acid Spray - TM112
-  (706, 70601, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 55),
-  -- Hisuian Goodra - Ancient Power - TM120
-  (706, 70601, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 56),
-  -- Hisuian Goodra - Magnet Bomb - TM126
-  (706, 70601, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 57),
-  -- Hisuian Goodra - Muddy Water - TM140
-  (706, 70601, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 58),
-  -- Hisuian Goodra - Steel Beam - TM157
-  (706, 70601, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 59),
   -- Klefki - Tackle - Level 1
   (707, 70700, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Klefki - Fairy Wind - Level 8
@@ -778,14 +688,6 @@ INSERT INTO reference.pokemon_learnsets (
   (707, 70700, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 28),
   -- Klefki - Heal Block - TM097
   (707, 70700, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 29),
-  -- Klefki - Facade - TM109
-  (707, 70700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 30),
-  -- Klefki - Torment - TM121
-  (707, 70700, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 31),
-  -- Klefki - Magnet Bomb - TM126
-  (707, 70700, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 32),
-  -- Klefki - Steel Beam - TM157
-  (707, 70700, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 33),
   -- Phantump - Tackle - Level 1
   (708, 70800, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Phantump - Leech Seed - Level 8
@@ -842,12 +744,6 @@ INSERT INTO reference.pokemon_learnsets (
   (708, 70800, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 27),
   -- Phantump - Heal Block - TM097
   (708, 70800, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 28),
-  -- Phantump - Facade - TM109
-  (708, 70800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 29),
-  -- Phantump - Trailblaze - TM115
-  (708, 70800, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 30),
-  -- Phantump - Seed Bomb - TM128
-  (708, 70800, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 31),
   -- Trevenant - Tackle - Level 1
   (709, 70900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Trevenant - Leech Seed - Level 8
@@ -918,20 +814,6 @@ INSERT INTO reference.pokemon_learnsets (
   (709, 70900, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 34),
   -- Trevenant - Focus Blast - TM102
   (709, 70900, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 35),
-  -- Trevenant - Facade - TM109
-  (709, 70900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Trevenant - Trailblaze - TM115
-  (709, 70900, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 37),
-  -- Trevenant - Shadow Punch - TM118
-  (709, 70900, 325, 26, NULL, 2, NULL, NULL, 26002118, NULL, 38),
-  -- Trevenant - Dream Eater - TM127
-  (709, 70900, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 39),
-  -- Trevenant - Seed Bomb - TM128
-  (709, 70900, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 40),
-  -- Trevenant - Drain Punch - TM131
-  (709, 70900, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 41),
-  -- Trevenant - Swagger - TM139
-  (709, 70900, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 42),
   -- Pumpkaboo - Tackle - Level 1
   (710, 71000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Pumpkaboo - Trick-or-Treat - Level 1
@@ -996,10 +878,6 @@ INSERT INTO reference.pokemon_learnsets (
   (710, 71000, 399, 26, NULL, 2, NULL, NULL, 26002090, NULL, 31),
   -- Pumpkaboo - Curse - TM091
   (710, 71000, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 32),
-  -- Pumpkaboo - Facade - TM109
-  (710, 71000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Pumpkaboo - Seed Bomb - TM128
-  (710, 71000, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 34),
   -- Gourgeist - Tackle - Level 1
   (711, 71100, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gourgeist - Trick-or-Treat - Level 1
@@ -1078,16 +956,6 @@ INSERT INTO reference.pokemon_learnsets (
   (711, 71100, 399, 26, NULL, 2, NULL, NULL, 26002090, NULL, 38),
   -- Gourgeist - Curse - TM091
   (711, 71100, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 39),
-  -- Gourgeist - Facade - TM109
-  (711, 71100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Gourgeist - Flame Charge - TM114
-  (711, 71100, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 41),
-  -- Gourgeist - Silver Wind - TM117
-  (711, 71100, 318, 26, NULL, 2, NULL, NULL, 26002117, NULL, 42),
-  -- Gourgeist - Ominous Wind - TM119
-  (711, 71100, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 43),
-  -- Gourgeist - Seed Bomb - TM128
-  (711, 71100, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 44),
   -- Bergmite - Harden - Level 1
   (712, 71200, 106, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Bergmite - Tackle - Level 3
@@ -1146,12 +1014,6 @@ INSERT INTO reference.pokemon_learnsets (
   (712, 71200, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 28),
   -- Bergmite - Blizzard - TM105
   (712, 71200, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 29),
-  -- Bergmite - Facade - TM109
-  (712, 71200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 30),
-  -- Bergmite - Chilling Water - TM110
-  (712, 71200, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 31),
-  -- Bergmite - Icicle Spear - TM149
-  (712, 71200, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 32),
   -- Avalugg - Harden - Level 1
   (713, 71300, 106, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Avalugg - Heavy Slam - Level 1
@@ -1226,18 +1088,6 @@ INSERT INTO reference.pokemon_learnsets (
   (713, 71300, 56, 26, NULL, 2, NULL, NULL, 26002096, NULL, 36),
   -- Avalugg - Blizzard - TM105
   (713, 71300, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 37),
-  -- Avalugg - Facade - TM109
-  (713, 71300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Avalugg - Chilling Water - TM110
-  (713, 71300, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 39),
-  -- Avalugg - Frost Breath - TM138
-  (713, 71300, 524, 26, NULL, 2, NULL, NULL, 26002138, NULL, 40),
-  -- Avalugg - Skull Bash - TM146
-  (713, 71300, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 41),
-  -- Avalugg - Icicle Spear - TM149
-  (713, 71300, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 42),
-  -- Avalugg - Sheer Cold - TM155
-  (713, 71300, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 43),
   -- Hisuian Avalugg - Harden - Level 1
   (713, 71301, 106, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Hisuian Avalugg - Heavy Slam - Level 1
@@ -1322,20 +1172,6 @@ INSERT INTO reference.pokemon_learnsets (
   (713, 71301, 56, 26, NULL, 2, NULL, NULL, 26002096, NULL, 41),
   -- Hisuian Avalugg - Blizzard - TM105
   (713, 71301, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 42),
-  -- Hisuian Avalugg - Facade - TM109
-  (713, 71301, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 43),
-  -- Hisuian Avalugg - Chilling Water - TM110
-  (713, 71301, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 44),
-  -- Hisuian Avalugg - Ancient Power - TM120
-  (713, 71301, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 45),
-  -- Hisuian Avalugg - Skull Bash - TM146
-  (713, 71301, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 46),
-  -- Hisuian Avalugg - Icicle Spear - TM149
-  (713, 71301, 333, 26, NULL, 2, NULL, NULL, 26002149, NULL, 47),
-  -- Hisuian Avalugg - Sheer Cold - TM155
-  (713, 71301, 329, 26, NULL, 2, NULL, NULL, 26002155, NULL, 48),
-  -- Hisuian Avalugg - Meteor Beam - TM156
-  (713, 71301, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 49),
   -- Noibat - Tackle - Level 1
   (714, 71400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Noibat - Absorb - Level 1
@@ -1412,10 +1248,6 @@ INSERT INTO reference.pokemon_learnsets (
   (714, 71400, 18, 26, NULL, 2, NULL, NULL, 26002094, NULL, 37),
   -- Noibat - Taunt - TM095
   (714, 71400, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 38),
-  -- Noibat - Facade - TM109
-  (714, 71400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
-  -- Noibat - Dual Wingbeat - TM134
-  (714, 71400, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 40),
   -- Noivern - Tackle - Level 1
   (715, 71500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Noivern - Absorb - Level 1
@@ -1512,18 +1344,6 @@ INSERT INTO reference.pokemon_learnsets (
   (715, 71500, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 47),
   -- Noivern - Focus Blast - TM102
   (715, 71500, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 48),
-  -- Noivern - Facade - TM109
-  (715, 71500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 49),
-  -- Noivern - Torment - TM121
-  (715, 71500, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 50),
-  -- Noivern - Dual Wingbeat - TM134
-  (715, 71500, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 51),
-  -- Noivern - Scale Shot - TM143
-  (715, 71500, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 52),
-  -- Noivern - Razor Wind - TM145
-  (715, 71500, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 53),
-  -- Noivern - Sky Attack - TM153
-  (715, 71500, 143, 26, NULL, 2, NULL, NULL, 26002153, NULL, 54),
   -- Xerneas - Tackle - Level 1
   (716, 71600, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Xerneas - Light Screen - Level 5
@@ -1596,18 +1416,6 @@ INSERT INTO reference.pokemon_learnsets (
   (716, 71600, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 35),
   -- Xerneas - Close Combat - TM107
   (716, 71600, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 36),
-  -- Xerneas - Facade - TM109
-  (716, 71600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Xerneas - Trailblaze - TM115
-  (716, 71600, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 38),
-  -- Xerneas - Silver Wind - TM117
-  (716, 71600, 318, 26, NULL, 2, NULL, NULL, 26002117, NULL, 39),
-  -- Xerneas - Seed Bomb - TM128
-  (716, 71600, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 40),
-  -- Xerneas - Petal Dance - TM151
-  (716, 71600, 80, 26, NULL, 2, NULL, NULL, 26002151, NULL, 41),
-  -- Xerneas - Solar Blade - TM152
-  (716, 71600, 669, 26, NULL, 2, NULL, NULL, 26002152, NULL, 42),
   -- Yveltal - Gust - Level 1
   (717, 71700, 16, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Yveltal - Double Team - Level 1
@@ -1680,20 +1488,6 @@ INSERT INTO reference.pokemon_learnsets (
   (717, 71700, 377, 26, NULL, 2, NULL, NULL, 26002097, NULL, 35),
   -- Yveltal - Focus Blast - TM102
   (717, 71700, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 36),
-  -- Yveltal - Facade - TM109
-  (717, 71700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 37),
-  -- Yveltal - Ominous Wind - TM119
-  (717, 71700, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 38),
-  -- Yveltal - Dream Eater - TM127
-  (717, 71700, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 39),
-  -- Yveltal - Dual Wingbeat - TM134
-  (717, 71700, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 40),
-  -- Yveltal - Razor Wind - TM145
-  (717, 71700, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 41),
-  -- Yveltal - Vacuum Wave - TM150
-  (717, 71700, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 42),
-  -- Yveltal - Sky Attack - TM153
-  (717, 71700, 143, 26, NULL, 2, NULL, NULL, 26002153, NULL, 43),
   -- Zygarde - Bite - Level 1
   (718, 71800, 44, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Zygarde - Dragon Breath - Level 1
@@ -1776,22 +1570,6 @@ INSERT INTO reference.pokemon_learnsets (
   (718, 71800, 200, 26, NULL, 2, NULL, NULL, 26002093, NULL, 40),
   -- Zygarde - Focus Blast - TM102
   (718, 71800, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 41),
-  -- Zygarde - Facade - TM109
-  (718, 71800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 42),
-  -- Zygarde - Poison Fang - TM123
-  (718, 71800, 305, 26, NULL, 2, NULL, NULL, 26002123, NULL, 43),
-  -- Zygarde - Psychic Fangs - TM124
-  (718, 71800, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 44),
-  -- Zygarde - Magnet Bomb - TM126
-  (718, 71800, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 45),
-  -- Zygarde - Scorching Sands - TM136
-  (718, 71800, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 46),
-  -- Zygarde - Scale Shot - TM143
-  (718, 71800, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 47),
-  -- Zygarde - Tri Attack - TM147
-  (718, 71800, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 48),
-  -- Zygarde - Fissure - TM154
-  (718, 71800, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 49),
   -- Diancie - Tackle - Level 1
   (719, 71900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Diancie - Rock Throw - Level 1
@@ -1867,16 +1645,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Diancie - Dazzling Gleam - TM092
   (719, 71900, 605, 26, NULL, 2, NULL, NULL, 26002092, NULL, 37),
   -- Diancie - Metronome - TM099
-  (719, 71900, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 38),
-  -- Diancie - Facade - TM109
-  (719, 71900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
-  -- Diancie - Silver Wind - TM117
-  (719, 71900, 318, 26, NULL, 2, NULL, NULL, 26002117, NULL, 40),
-  -- Diancie - Ancient Power - TM120
-  (719, 71900, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 41),
-  -- Diancie - Magnet Bomb - TM126
-  (719, 71900, 443, 26, NULL, 2, NULL, NULL, 26002126, NULL, 42),
-  -- Diancie - Scorching Sands - TM136
-  (719, 71900, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 43),
-  -- Diancie - Meteor Beam - TM156
-  (719, 71900, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 44);
+  (719, 71900, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 38);

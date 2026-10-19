@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -25,6 +25,48 @@ INSERT INTO reference.pokemon_learnsets (
   condition_summary,
   sort_order
 ) VALUES
+  -- Budew - Facade - TM109
+  (406, 40600, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Budew - Seed Bomb - TM128
+  (406, 40600, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 2),
+  -- Roserade - Facade - TM109
+  (407, 40700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Roserade - Seed Bomb - TM128
+  (407, 40700, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 2),
+  -- Roserade - Razor Wind - TM145
+  (407, 40700, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 3),
+  -- Roserade - Petal Dance - TM151
+  (407, 40700, 80, 27, NULL, 2, NULL, NULL, 27002151, NULL, 4),
+  -- Buneary - Facade - TM109
+  (427, 42700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Buneary - Low Sweep - TM113
+  (427, 42700, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Buneary - Circle Throw - TM129
+  (427, 42700, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 3),
+  -- Buneary - Drain Punch - TM131
+  (427, 42700, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4),
+  -- Buneary - Double Hit - TM132
+  (427, 42700, 458, 27, NULL, 2, NULL, NULL, 27002132, NULL, 5),
+  -- Buneary - Fake Out - TM141
+  (427, 42700, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 6),
+  -- Buneary - Triple Axel - TM144
+  (427, 42700, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 7),
+  -- Lopunny - Comet Punch - TM108
+  (428, 42800, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Lopunny - Facade - TM109
+  (428, 42800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Lopunny - Low Sweep - TM113
+  (428, 42800, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 3),
+  -- Lopunny - Circle Throw - TM129
+  (428, 42800, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 4),
+  -- Lopunny - Drain Punch - TM131
+  (428, 42800, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 5),
+  -- Lopunny - Double Hit - TM132
+  (428, 42800, 458, 27, NULL, 2, NULL, NULL, 27002132, NULL, 6),
+  -- Lopunny - Fake Out - TM141
+  (428, 42800, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 7),
+  -- Lopunny - Triple Axel - TM144
+  (428, 42800, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 8),
   -- Chingling - Tackle - Level 1
   (433, 43300, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Chingling - Growl - Level 1
@@ -96,9 +138,9 @@ INSERT INTO reference.pokemon_learnsets (
   -- Chingling - Heal Block - TM097
   (433, 43300, 377, 27, NULL, 2, NULL, NULL, 26002097, NULL, 35),
   -- Chingling - Facade - TM109
-  (433, 43300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 36),
+  (433, 43300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 36),
   -- Chingling - Charge Beam - TM130
-  (433, 43300, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 37),
+  (433, 43300, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 37),
   -- Mime Jr. - Tackle - Level 1
   (439, 43900, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mime Jr. - Hypnosis - Level 1
@@ -182,14 +224,90 @@ INSERT INTO reference.pokemon_learnsets (
   -- Mime Jr. - Thunder - TM106
   (439, 43900, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 41),
   -- Mime Jr. - Facade - TM109
-  (439, 43900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 42),
+  (439, 43900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 42),
   -- Mime Jr. - Mimic - TM125
-  (439, 43900, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 43),
+  (439, 43900, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 43),
   -- Mime Jr. - Dream Eater - TM127
-  (439, 43900, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 44),
+  (439, 43900, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 44),
   -- Mime Jr. - Drain Punch - TM131
-  (439, 43900, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 45),
+  (439, 43900, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 45),
   -- Mime Jr. - Fake Out - TM141
-  (439, 43900, 252, 27, NULL, 2, NULL, NULL, 26002141, NULL, 46),
+  (439, 43900, 252, 27, NULL, 2, NULL, NULL, 27002141, NULL, 46),
   -- Mime Jr. - First Impression - TM142
-  (439, 43900, 660, 27, NULL, 2, NULL, NULL, 26002142, NULL, 47);
+  (439, 43900, 660, 27, NULL, 2, NULL, NULL, 27002142, NULL, 47),
+  -- Gible - Facade - TM109
+  (443, 44300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Gible - False Swipe - TM122
+  (443, 44300, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 2),
+  -- Gible - Scorching Sands - TM136
+  (443, 44300, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 3),
+  -- Gible - Scale Shot - TM143
+  (443, 44300, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 4),
+  -- Gabite - Facade - TM109
+  (444, 44400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Gabite - False Swipe - TM122
+  (444, 44400, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 2),
+  -- Gabite - Scorching Sands - TM136
+  (444, 44400, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 3),
+  -- Gabite - Scale Shot - TM143
+  (444, 44400, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 4),
+  -- Garchomp - Facade - TM109
+  (445, 44500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Garchomp - False Swipe - TM122
+  (445, 44500, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 2),
+  -- Garchomp - Dual Chop - TM135
+  (445, 44500, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 3),
+  -- Garchomp - Scorching Sands - TM136
+  (445, 44500, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 4),
+  -- Garchomp - Scale Shot - TM143
+  (445, 44500, 799, 27, NULL, 2, NULL, NULL, 27002143, NULL, 5),
+  -- Garchomp - Razor Wind - TM145
+  (445, 44500, 13, 27, NULL, 2, NULL, NULL, 27002145, NULL, 6),
+  -- Garchomp - Vacuum Wave - TM150
+  (445, 44500, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 7),
+  -- Riolu - Facade - TM109
+  (447, 44700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Riolu - Low Sweep - TM113
+  (447, 44700, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Riolu - Trailblaze - TM115
+  (447, 44700, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Riolu - Circle Throw - TM129
+  (447, 44700, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 4),
+  -- Riolu - Drain Punch - TM131
+  (447, 44700, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 5),
+  -- Riolu - Vacuum Wave - TM150
+  (447, 44700, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 6),
+  -- Lucario - Facade - TM109
+  (448, 44800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Lucario - Low Sweep - TM113
+  (448, 44800, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 2),
+  -- Lucario - Trailblaze - TM115
+  (448, 44800, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 3),
+  -- Lucario - Circle Throw - TM129
+  (448, 44800, 509, 27, NULL, 2, NULL, NULL, 27002129, NULL, 4),
+  -- Lucario - Drain Punch - TM131
+  (448, 44800, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 5),
+  -- Lucario - Blaze Kick - TM133
+  (448, 44800, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 6),
+  -- Lucario - Dual Chop - TM135
+  (448, 44800, 530, 27, NULL, 2, NULL, NULL, 27002135, NULL, 7),
+  -- Lucario - Vacuum Wave - TM150
+  (448, 44800, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 8),
+  -- Lucario - Steel Beam - TM157
+  (448, 44800, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 9),
+  -- Hippopotas - Facade - TM109
+  (449, 44900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Hippopotas - Scorching Sands - TM136
+  (449, 44900, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 2),
+  -- Hippopotas - Muddy Water - TM140
+  (449, 44900, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 3),
+  -- Hippopotas - Fissure - TM154
+  (449, 44900, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 4),
+  -- Hippowdon - Facade - TM109
+  (450, 45000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Hippowdon - Scorching Sands - TM136
+  (450, 45000, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 2),
+  -- Hippowdon - Muddy Water - TM140
+  (450, 45000, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 3),
+  -- Hippowdon - Fissure - TM154
+  (450, 45000, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 4);

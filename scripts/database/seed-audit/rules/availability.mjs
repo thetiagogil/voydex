@@ -2032,7 +2032,8 @@ export function assertMoveMachineRows(context, tableRows) {
     [23, 171],
     [24, 30],
     [25, 28],
-    [26, 160],
+    [26, 107],
+    [27, 53],
   ]);
   const sourceVerifiedFingerprintsByVersionGroup = new Map([
     [
@@ -2214,9 +2215,17 @@ export function assertMoveMachineRows(context, tableRows) {
     [
       26,
       {
-        count: 160,
+        count: 107,
         sha256:
-          "113af21815d27e4a0ec731a8805994cc18090f19891fe0e5ebdf58a770963a66",
+          "3a8e5398b76d345f824456e54a29d8c09350c25e439254a9aba7f33e295e783c",
+      },
+    ],
+    [
+      27,
+      {
+        count: 53,
+        sha256:
+          "9145824ad254e840e67bb679729f8004696fc13038030c83fdaebe36184cec49",
       },
     ],
   ]);
@@ -2649,17 +2658,17 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       26,
       {
-        count: 10232,
+        count: 8916,
         sha256:
-          "9c751d79c65e23262e94778b4ad1ef10481106fc487c7295eae25a7e962ad5be",
+          "1cbecc99ba27ad0aaa0e6753e59f528541a2ad88d35840a575b7a706643e7931",
       },
     ],
     [
       27,
       {
-        count: 7086,
+        count: 8402,
         sha256:
-          "9b9d13ae9dc22695a8b6fecd7431d29d4bd9890b8b8ab08c41fd68b2c481a6a8",
+          "854b0ed469b99b578489bb1f261fea865c67a942c0e3562b4a0c2527bd36c1dd",
       },
     ],
   ]);

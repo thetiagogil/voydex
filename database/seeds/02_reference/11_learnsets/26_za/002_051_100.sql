@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -70,14 +70,6 @@ INSERT INTO reference.pokemon_learnsets (
   (63, 6300, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 22),
   -- Abra - Metronome - TM099
   (63, 6300, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 23),
-  -- Abra - Facade - TM109
-  (63, 6300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 24),
-  -- Abra - Dream Eater - TM127
-  (63, 6300, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 25),
-  -- Abra - Drain Punch - TM131
-  (63, 6300, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 26),
-  -- Abra - Tri Attack - TM147
-  (63, 6300, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 27),
   -- Kadabra - Psybeam - Level 1
   (64, 6400, 60, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Kadabra - Teleport - Level 1
@@ -148,16 +140,6 @@ INSERT INTO reference.pokemon_learnsets (
   (64, 6400, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 34),
   -- Kadabra - Metronome - TM099
   (64, 6400, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 35),
-  -- Kadabra - Facade - TM109
-  (64, 6400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 36),
-  -- Kadabra - Dream Eater - TM127
-  (64, 6400, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 37),
-  -- Kadabra - Charge Beam - TM130
-  (64, 6400, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 38),
-  -- Kadabra - Drain Punch - TM131
-  (64, 6400, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 39),
-  -- Kadabra - Tri Attack - TM147
-  (64, 6400, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 40),
   -- Alakazam - Psybeam - Level 1
   (65, 6500, 60, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Alakazam - Teleport - Level 1
@@ -232,16 +214,6 @@ INSERT INTO reference.pokemon_learnsets (
   (65, 6500, 118, 26, NULL, 2, NULL, NULL, 26002099, NULL, 36),
   -- Alakazam - Focus Blast - TM102
   (65, 6500, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 37),
-  -- Alakazam - Facade - TM109
-  (65, 6500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Alakazam - Dream Eater - TM127
-  (65, 6500, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 39),
-  -- Alakazam - Charge Beam - TM130
-  (65, 6500, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 40),
-  -- Alakazam - Drain Punch - TM131
-  (65, 6500, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 41),
-  -- Alakazam - Tri Attack - TM147
-  (65, 6500, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 42),
   -- Machop - Leer - Level 1
   (66, 6600, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Machop - Rock Smash - Level 1
@@ -320,18 +292,6 @@ INSERT INTO reference.pokemon_learnsets (
   (66, 6600, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 38),
   -- Machop - Close Combat - TM107
   (66, 6600, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 39),
-  -- Machop - Comet Punch - TM108
-  (66, 6600, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 40),
-  -- Machop - Facade - TM109
-  (66, 6600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Machop - Low Sweep - TM113
-  (66, 6600, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 42),
-  -- Machop - Drain Punch - TM131
-  (66, 6600, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 43),
-  -- Machop - Dual Chop - TM135
-  (66, 6600, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 44),
-  -- Machop - Fissure - TM154
-  (66, 6600, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 45),
   -- Machoke - Leer - Level 1
   (67, 6700, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Machoke - Rock Smash - Level 1
@@ -410,18 +370,6 @@ INSERT INTO reference.pokemon_learnsets (
   (67, 6700, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 38),
   -- Machoke - Close Combat - TM107
   (67, 6700, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 39),
-  -- Machoke - Comet Punch - TM108
-  (67, 6700, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 40),
-  -- Machoke - Facade - TM109
-  (67, 6700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Machoke - Low Sweep - TM113
-  (67, 6700, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 42),
-  -- Machoke - Drain Punch - TM131
-  (67, 6700, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 43),
-  -- Machoke - Dual Chop - TM135
-  (67, 6700, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 44),
-  -- Machoke - Fissure - TM154
-  (67, 6700, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 45),
   -- Machamp - Leer - Level 1
   (68, 6800, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Machamp - Rock Smash - Level 1
@@ -508,20 +456,6 @@ INSERT INTO reference.pokemon_learnsets (
   (68, 6800, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 42),
   -- Machamp - Close Combat - TM107
   (68, 6800, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 43),
-  -- Machamp - Comet Punch - TM108
-  (68, 6800, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 44),
-  -- Machamp - Facade - TM109
-  (68, 6800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 45),
-  -- Machamp - Low Sweep - TM113
-  (68, 6800, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 46),
-  -- Machamp - Drain Punch - TM131
-  (68, 6800, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 47),
-  -- Machamp - Dual Chop - TM135
-  (68, 6800, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 48),
-  -- Machamp - Storm Throw - TM137
-  (68, 6800, 480, 26, NULL, 2, NULL, NULL, 26002137, NULL, 49),
-  -- Machamp - Fissure - TM154
-  (68, 6800, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 50),
   -- Bellsprout - Vine Whip - Level 1
   (69, 6900, 22, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Bellsprout - Growth - Level 1
@@ -578,14 +512,6 @@ INSERT INTO reference.pokemon_learnsets (
   (69, 6900, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 27),
   -- Bellsprout - Toxic Spikes - TM089
   (69, 6900, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 28),
-  -- Bellsprout - Facade - TM109
-  (69, 6900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 29),
-  -- Bellsprout - Acid Spray - TM112
-  (69, 6900, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 30),
-  -- Bellsprout - Trailblaze - TM115
-  (69, 6900, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 31),
-  -- Bellsprout - Seed Bomb - TM128
-  (69, 6900, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 32),
   -- Weepinbell - Vine Whip - Level 1
   (70, 7000, 22, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Weepinbell - Growth - Level 1
@@ -642,14 +568,6 @@ INSERT INTO reference.pokemon_learnsets (
   (70, 7000, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 27),
   -- Weepinbell - Toxic Spikes - TM089
   (70, 7000, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 28),
-  -- Weepinbell - Facade - TM109
-  (70, 7000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 29),
-  -- Weepinbell - Acid Spray - TM112
-  (70, 7000, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 30),
-  -- Weepinbell - Trailblaze - TM115
-  (70, 7000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 31),
-  -- Weepinbell - Seed Bomb - TM128
-  (70, 7000, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 32),
   -- Victreebel - Vine Whip - Level 1
   (71, 7100, 22, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Victreebel - Growth - Level 1
@@ -716,14 +634,6 @@ INSERT INTO reference.pokemon_learnsets (
   (71, 7100, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 32),
   -- Victreebel - Toxic Spikes - TM089
   (71, 7100, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 33),
-  -- Victreebel - Facade - TM109
-  (71, 7100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 34),
-  -- Victreebel - Acid Spray - TM112
-  (71, 7100, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 35),
-  -- Victreebel - Trailblaze - TM115
-  (71, 7100, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 36),
-  -- Victreebel - Seed Bomb - TM128
-  (71, 7100, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 37),
   -- Slowpoke - Tackle - Level 1
   (79, 7900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Slowpoke - Confusion - Level 1
@@ -808,18 +718,6 @@ INSERT INTO reference.pokemon_learnsets (
   (79, 7900, 127, 26, NULL, 2, NULL, NULL, 26002098, NULL, 41),
   -- Slowpoke - Blizzard - TM105
   (79, 7900, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 42),
-  -- Slowpoke - Facade - TM109
-  (79, 7900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 43),
-  -- Slowpoke - Chilling Water - TM110
-  (79, 7900, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 44),
-  -- Slowpoke - Dream Eater - TM127
-  (79, 7900, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 45),
-  -- Slowpoke - Skull Bash - TM146
-  (79, 7900, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 46),
-  -- Slowpoke - Tri Attack - TM147
-  (79, 7900, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 47),
-  -- Slowpoke - Scald - TM148
-  (79, 7900, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 48),
   -- Galarian Slowpoke - Tackle - Level 1
   (79, 7901, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Galarian Slowpoke - Confusion - Level 1
@@ -904,16 +802,6 @@ INSERT INTO reference.pokemon_learnsets (
   (79, 7901, 127, 26, NULL, 2, NULL, NULL, 26002098, NULL, 41),
   -- Galarian Slowpoke - Blizzard - TM105
   (79, 7901, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 42),
-  -- Galarian Slowpoke - Facade - TM109
-  (79, 7901, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 43),
-  -- Galarian Slowpoke - Chilling Water - TM110
-  (79, 7901, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 44),
-  -- Galarian Slowpoke - Dream Eater - TM127
-  (79, 7901, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 45),
-  -- Galarian Slowpoke - Skull Bash - TM146
-  (79, 7901, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 46),
-  -- Galarian Slowpoke - Tri Attack - TM147
-  (79, 7901, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 47),
   -- Slowbro - Tackle - Level 1
   (80, 8000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Slowbro - Confusion - Level 1
@@ -1018,24 +906,6 @@ INSERT INTO reference.pokemon_learnsets (
   (80, 8000, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 51),
   -- Slowbro - Blizzard - TM105
   (80, 8000, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 52),
-  -- Slowbro - Facade - TM109
-  (80, 8000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 53),
-  -- Slowbro - Chilling Water - TM110
-  (80, 8000, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 54),
-  -- Slowbro - Ancient Power - TM120
-  (80, 8000, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 55),
-  -- Slowbro - Dream Eater - TM127
-  (80, 8000, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 56),
-  -- Slowbro - Drain Punch - TM131
-  (80, 8000, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 57),
-  -- Slowbro - Muddy Water - TM140
-  (80, 8000, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 58),
-  -- Slowbro - Skull Bash - TM146
-  (80, 8000, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 59),
-  -- Slowbro - Tri Attack - TM147
-  (80, 8000, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 60),
-  -- Slowbro - Scald - TM148
-  (80, 8000, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 61),
   -- Galarian Slowbro - Tackle - Level 1
   (80, 8002, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Galarian Slowbro - Confusion - Level 1
@@ -1156,26 +1026,6 @@ INSERT INTO reference.pokemon_learnsets (
   (80, 8002, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 59),
   -- Galarian Slowbro - Blizzard - TM105
   (80, 8002, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 60),
-  -- Galarian Slowbro - Facade - TM109
-  (80, 8002, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 61),
-  -- Galarian Slowbro - Chilling Water - TM110
-  (80, 8002, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 62),
-  -- Galarian Slowbro - Acid Spray - TM112
-  (80, 8002, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 63),
-  -- Galarian Slowbro - Ancient Power - TM120
-  (80, 8002, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 64),
-  -- Galarian Slowbro - Dream Eater - TM127
-  (80, 8002, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 65),
-  -- Galarian Slowbro - Drain Punch - TM131
-  (80, 8002, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 66),
-  -- Galarian Slowbro - Muddy Water - TM140
-  (80, 8002, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 67),
-  -- Galarian Slowbro - Skull Bash - TM146
-  (80, 8002, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 68),
-  -- Galarian Slowbro - Tri Attack - TM147
-  (80, 8002, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 69),
-  -- Galarian Slowbro - Scald - TM148
-  (80, 8002, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 70),
   -- Gastly - Confuse Ray - Level 1
   (92, 9200, 109, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gastly - Lick - Level 1
@@ -1240,12 +1090,6 @@ INSERT INTO reference.pokemon_learnsets (
   (92, 9200, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 31),
   -- Gastly - Thunder - TM106
   (92, 9200, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 32),
-  -- Gastly - Facade - TM109
-  (92, 9200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Gastly - Acid Spray - TM112
-  (92, 9200, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 34),
-  -- Gastly - Dream Eater - TM127
-  (92, 9200, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 35),
   -- Haunter - Confuse Ray - Level 1
   (93, 9300, 109, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Haunter - Lick - Level 1
@@ -1328,14 +1172,6 @@ INSERT INTO reference.pokemon_learnsets (
   (93, 9300, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 40),
   -- Haunter - Thunder - TM106
   (93, 9300, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 41),
-  -- Haunter - Facade - TM109
-  (93, 9300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 42),
-  -- Haunter - Acid Spray - TM112
-  (93, 9300, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 43),
-  -- Haunter - Shadow Punch - TM118
-  (93, 9300, 325, 26, NULL, 2, NULL, NULL, 26002118, NULL, 44),
-  -- Haunter - Dream Eater - TM127
-  (93, 9300, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 45),
   -- Gengar - Confuse Ray - Level 1
   (94, 9400, 109, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gengar - Lick - Level 1
@@ -1426,18 +1262,6 @@ INSERT INTO reference.pokemon_learnsets (
   (94, 9400, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 44),
   -- Gengar - Thunder - TM106
   (94, 9400, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 45),
-  -- Gengar - Facade - TM109
-  (94, 9400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 46),
-  -- Gengar - Acid Spray - TM112
-  (94, 9400, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 47),
-  -- Gengar - Shadow Punch - TM118
-  (94, 9400, 325, 26, NULL, 2, NULL, NULL, 26002118, NULL, 48),
-  -- Gengar - Ominous Wind - TM119
-  (94, 9400, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 49),
-  -- Gengar - Dream Eater - TM127
-  (94, 9400, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 50),
-  -- Gengar - Drain Punch - TM131
-  (94, 9400, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 51),
   -- Onix - Tackle - Level 1
   (95, 9500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Onix - Rock Throw - Level 1
@@ -1499,10 +1323,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Onix - Curse - TM091
   (95, 9500, 174, 26, NULL, 2, NULL, NULL, 26002091, NULL, 30),
   -- Onix - Taunt - TM095
-  (95, 9500, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 31),
-  -- Onix - Facade - TM109
-  (95, 9500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 32),
-  -- Onix - Scorching Sands - TM136
-  (95, 9500, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 33),
-  -- Onix - Meteor Beam - TM156
-  (95, 9500, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 34);
+  (95, 9500, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 31);

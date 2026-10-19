@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -122,20 +122,6 @@ INSERT INTO reference.pokemon_learnsets (
   (115, 11500, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 48),
   -- Kangaskhan - Thunder - TM106
   (115, 11500, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 49),
-  -- Kangaskhan - Comet Punch - TM108
-  (115, 11500, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 50),
-  -- Kangaskhan - Facade - TM109
-  (115, 11500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 51),
-  -- Kangaskhan - Circle Throw - TM129
-  (115, 11500, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 52),
-  -- Kangaskhan - Drain Punch - TM131
-  (115, 11500, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 53),
-  -- Kangaskhan - Double Hit - TM132
-  (115, 11500, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 54),
-  -- Kangaskhan - Dual Chop - TM135
-  (115, 11500, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 55),
-  -- Kangaskhan - Fake Out - TM141
-  (115, 11500, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 56),
   -- Staryu - Tackle - Level 1
   (120, 12000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Staryu - Harden - Level 1
@@ -212,12 +198,6 @@ INSERT INTO reference.pokemon_learnsets (
   (120, 12000, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 37),
   -- Staryu - Thunder - TM106
   (120, 12000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 38),
-  -- Staryu - Facade - TM109
-  (120, 12000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
-  -- Staryu - Tri Attack - TM147
-  (120, 12000, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 40),
-  -- Staryu - Scald - TM148
-  (120, 12000, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 41),
   -- Starmie - Tackle - Level 1
   (121, 12100, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Starmie - Take Down - Level 1
@@ -318,26 +298,6 @@ INSERT INTO reference.pokemon_learnsets (
   (121, 12100, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 49),
   -- Starmie - Thunder - TM106
   (121, 12100, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 50),
-  -- Starmie - Facade - TM109
-  (121, 12100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 51),
-  -- Starmie - Chilling Water - TM110
-  (121, 12100, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 52),
-  -- Starmie - Ancient Power - TM120
-  (121, 12100, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 53),
-  -- Starmie - Dream Eater - TM127
-  (121, 12100, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 54),
-  -- Starmie - Charge Beam - TM130
-  (121, 12100, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 55),
-  -- Starmie - Triple Axel - TM144
-  (121, 12100, 813, 26, NULL, 2, NULL, NULL, 26002144, NULL, 56),
-  -- Starmie - Skull Bash - TM146
-  (121, 12100, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 57),
-  -- Starmie - Tri Attack - TM147
-  (121, 12100, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 58),
-  -- Starmie - Scald - TM148
-  (121, 12100, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 59),
-  -- Starmie - Meteor Beam - TM156
-  (121, 12100, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 60),
   -- Scyther - Leer - Level 1
   (123, 12300, 43, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Scyther - Quick Attack - Level 1
@@ -398,24 +358,6 @@ INSERT INTO reference.pokemon_learnsets (
   (123, 12300, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 29),
   -- Scyther - Close Combat - TM107
   (123, 12300, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 30),
-  -- Scyther - Facade - TM109
-  (123, 12300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 31),
-  -- Scyther - Trailblaze - TM115
-  (123, 12300, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 32),
-  -- Scyther - Silver Wind - TM117
-  (123, 12300, 318, 26, NULL, 2, NULL, NULL, 26002117, NULL, 33),
-  -- Scyther - False Swipe - TM122
-  (123, 12300, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 34),
-  -- Scyther - Double Hit - TM132
-  (123, 12300, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 35),
-  -- Scyther - Dual Wingbeat - TM134
-  (123, 12300, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 36),
-  -- Scyther - Dual Chop - TM135
-  (123, 12300, 530, 26, NULL, 2, NULL, NULL, 26002135, NULL, 37),
-  -- Scyther - Razor Wind - TM145
-  (123, 12300, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 38),
-  -- Scyther - Vacuum Wave - TM150
-  (123, 12300, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 39),
   -- Pinsir - Tackle - Level 1
   (127, 12700, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Pinsir - Harden - Level 1
@@ -480,26 +422,12 @@ INSERT INTO reference.pokemon_learnsets (
   (127, 12700, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 31),
   -- Pinsir - Close Combat - TM107
   (127, 12700, 370, 26, NULL, 2, NULL, NULL, 26002107, NULL, 32),
-  -- Pinsir - Facade - TM109
-  (127, 12700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 33),
-  -- Pinsir - False Swipe - TM122
-  (127, 12700, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 34),
-  -- Pinsir - Circle Throw - TM129
-  (127, 12700, 509, 26, NULL, 2, NULL, NULL, 26002129, NULL, 35),
-  -- Pinsir - Double Hit - TM132
-  (127, 12700, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 36),
-  -- Pinsir - Dual Wingbeat - TM134
-  (127, 12700, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 37),
-  -- Pinsir - Storm Throw - TM137
-  (127, 12700, 480, 26, NULL, 2, NULL, NULL, 26002137, NULL, 38),
   -- Magikarp - Splash - Level 1
   (129, 12900, 150, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Magikarp - Tackle - Level 15
   (129, 12900, 33, 26, NULL, 1, 15, NULL, NULL, NULL, 2),
   -- Magikarp - Hydro Pump - TM096
   (129, 12900, 56, 26, NULL, 2, NULL, NULL, 26002096, NULL, 3),
-  -- Magikarp - Facade - TM109
-  (129, 12900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 4),
   -- Gyarados - Tackle - Level 1
   (130, 13000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Gyarados - Leer - Level 1
@@ -592,20 +520,6 @@ INSERT INTO reference.pokemon_learnsets (
   (130, 13000, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 45),
   -- Gyarados - Thunder - TM106
   (130, 13000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 46),
-  -- Gyarados - Facade - TM109
-  (130, 13000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 47),
-  -- Gyarados - Chilling Water - TM110
-  (130, 13000, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 48),
-  -- Gyarados - Swagger - TM139
-  (130, 13000, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 49),
-  -- Gyarados - Muddy Water - TM140
-  (130, 13000, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 50),
-  -- Gyarados - Scale Shot - TM143
-  (130, 13000, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 51),
-  -- Gyarados - Skull Bash - TM146
-  (130, 13000, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 52),
-  -- Gyarados - Scald - TM148
-  (130, 13000, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 53),
   -- Eevee - Tackle - Level 1
   (133, 13300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Eevee - Tail Whip - Level 1
@@ -652,12 +566,6 @@ INSERT INTO reference.pokemon_learnsets (
   (133, 13300, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 22),
   -- Eevee - Iron Tail - TM087
   (133, 13300, 231, 26, NULL, 2, NULL, NULL, 26002087, NULL, 23),
-  -- Eevee - Facade - TM109
-  (133, 13300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 24),
-  -- Eevee - Trailblaze - TM115
-  (133, 13300, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 25),
-  -- Eevee - Mimic - TM125
-  (133, 13300, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 26),
   -- Vaporeon - Tackle - Level 1
   (134, 13400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Vaporeon - Tail Whip - Level 1
@@ -738,20 +646,6 @@ INSERT INTO reference.pokemon_learnsets (
   (134, 13400, 127, 26, NULL, 2, NULL, NULL, 26002098, NULL, 39),
   -- Vaporeon - Blizzard - TM105
   (134, 13400, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 40),
-  -- Vaporeon - Facade - TM109
-  (134, 13400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Vaporeon - Chilling Water - TM110
-  (134, 13400, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 42),
-  -- Vaporeon - Trailblaze - TM115
-  (134, 13400, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 43),
-  -- Vaporeon - Mimic - TM125
-  (134, 13400, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 44),
-  -- Vaporeon - Muddy Water - TM140
-  (134, 13400, 330, 26, NULL, 2, NULL, NULL, 26002140, NULL, 45),
-  -- Vaporeon - Skull Bash - TM146
-  (134, 13400, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 46),
-  -- Vaporeon - Scald - TM148
-  (134, 13400, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 47),
   -- Jolteon - Tackle - Level 1
   (135, 13500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Jolteon - Tail Whip - Level 1
@@ -830,18 +724,6 @@ INSERT INTO reference.pokemon_learnsets (
   (135, 13500, 527, 26, NULL, 2, NULL, NULL, 26002101, NULL, 38),
   -- Jolteon - Thunder - TM106
   (135, 13500, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 39),
-  -- Jolteon - Facade - TM109
-  (135, 13500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Jolteon - Trailblaze - TM115
-  (135, 13500, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 41),
-  -- Jolteon - False Swipe - TM122
-  (135, 13500, 206, 26, NULL, 2, NULL, NULL, 26002122, NULL, 42),
-  -- Jolteon - Mimic - TM125
-  (135, 13500, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 43),
-  -- Jolteon - Charge Beam - TM130
-  (135, 13500, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 44),
-  -- Jolteon - Skull Bash - TM146
-  (135, 13500, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 45),
   -- Flareon - Tackle - Level 1
   (136, 13600, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Flareon - Tail Whip - Level 1
@@ -916,18 +798,6 @@ INSERT INTO reference.pokemon_learnsets (
   (136, 13600, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 36),
   -- Flareon - Flare Blitz - TM104
   (136, 13600, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 37),
-  -- Flareon - Facade - TM109
-  (136, 13600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Flareon - Flame Charge - TM114
-  (136, 13600, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 39),
-  -- Flareon - Trailblaze - TM115
-  (136, 13600, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 40),
-  -- Flareon - Mimic - TM125
-  (136, 13600, 102, 26, NULL, 2, NULL, NULL, 26002125, NULL, 41),
-  -- Flareon - Scorching Sands - TM136
-  (136, 13600, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 42),
-  -- Flareon - Skull Bash - TM146
-  (136, 13600, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 43),
   -- Aerodactyl - Bite - Level 1
   (142, 14200, 44, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Aerodactyl - Steel Wing - Level 1
@@ -1012,22 +882,6 @@ INSERT INTO reference.pokemon_learnsets (
   (142, 14200, 18, 26, NULL, 2, NULL, NULL, 26002094, NULL, 41),
   -- Aerodactyl - Taunt - TM095
   (142, 14200, 269, 26, NULL, 2, NULL, NULL, 26002095, NULL, 42),
-  -- Aerodactyl - Facade - TM109
-  (142, 14200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 43),
-  -- Aerodactyl - Ominous Wind - TM119
-  (142, 14200, 466, 26, NULL, 2, NULL, NULL, 26002119, NULL, 44),
-  -- Aerodactyl - Ancient Power - TM120
-  (142, 14200, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 45),
-  -- Aerodactyl - Psychic Fangs - TM124
-  (142, 14200, 706, 26, NULL, 2, NULL, NULL, 26002124, NULL, 46),
-  -- Aerodactyl - Dual Wingbeat - TM134
-  (142, 14200, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 47),
-  -- Aerodactyl - Swagger - TM139
-  (142, 14200, 207, 26, NULL, 2, NULL, NULL, 26002139, NULL, 48),
-  -- Aerodactyl - Sky Attack - TM153
-  (142, 14200, 143, 26, NULL, 2, NULL, NULL, 26002153, NULL, 49),
-  -- Aerodactyl - Meteor Beam - TM156
-  (142, 14200, 800, 26, NULL, 2, NULL, NULL, 26002156, NULL, 50),
   -- Dratini - Tackle - Level 1
   (147, 14700, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Dratini - Leer - Level 1
@@ -1104,12 +958,6 @@ INSERT INTO reference.pokemon_learnsets (
   (147, 14700, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 37),
   -- Dratini - Thunder - TM106
   (147, 14700, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 38),
-  -- Dratini - Facade - TM109
-  (147, 14700, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
-  -- Dratini - Chilling Water - TM110
-  (147, 14700, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 40),
-  -- Dratini - Scale Shot - TM143
-  (147, 14700, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 41),
   -- Dragonair - Tackle - Level 1
   (148, 14800, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Dragonair - Leer - Level 1
@@ -1186,12 +1034,6 @@ INSERT INTO reference.pokemon_learnsets (
   (148, 14800, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 37),
   -- Dragonair - Thunder - TM106
   (148, 14800, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 38),
-  -- Dragonair - Facade - TM109
-  (148, 14800, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 39),
-  -- Dragonair - Chilling Water - TM110
-  (148, 14800, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 40),
-  -- Dragonair - Scale Shot - TM143
-  (148, 14800, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 41),
   -- Dragonite - Tackle - Level 1
   (149, 14900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Dragonite - Leer - Level 1
@@ -1306,20 +1148,6 @@ INSERT INTO reference.pokemon_learnsets (
   (149, 14900, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 56),
   -- Dragonite - Thunder - TM106
   (149, 14900, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 57),
-  -- Dragonite - Facade - TM109
-  (149, 14900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 58),
-  -- Dragonite - Chilling Water - TM110
-  (149, 14900, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 59),
-  -- Dragonite - Dual Wingbeat - TM134
-  (149, 14900, 814, 26, NULL, 2, NULL, NULL, 26002134, NULL, 60),
-  -- Dragonite - Scale Shot - TM143
-  (149, 14900, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 61),
-  -- Dragonite - Razor Wind - TM145
-  (149, 14900, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 62),
-  -- Dragonite - Skull Bash - TM146
-  (149, 14900, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 63),
-  -- Dragonite - Vacuum Wave - TM150
-  (149, 14900, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 64),
   -- Mewtwo - Confusion - Level 1
   (150, 15000, 93, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mewtwo - Swift - Level 1
@@ -1445,26 +1273,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Mewtwo - Blizzard - TM105
   (150, 15000, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 62),
   -- Mewtwo - Thunder - TM106
-  (150, 15000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 63),
-  -- Mewtwo - Comet Punch - TM108
-  (150, 15000, 4, 26, NULL, 2, NULL, NULL, 26002108, NULL, 64),
-  -- Mewtwo - Facade - TM109
-  (150, 15000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 65),
-  -- Mewtwo - Chilling Water - TM110
-  (150, 15000, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 66),
-  -- Mewtwo - Low Sweep - TM113
-  (150, 15000, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 67),
-  -- Mewtwo - Trailblaze - TM115
-  (150, 15000, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 68),
-  -- Mewtwo - Pay Day - TM116
-  (150, 15000, 6, 26, NULL, 2, NULL, NULL, 26002116, NULL, 69),
-  -- Mewtwo - Ancient Power - TM120
-  (150, 15000, 246, 26, NULL, 2, NULL, NULL, 26002120, NULL, 70),
-  -- Mewtwo - Dream Eater - TM127
-  (150, 15000, 138, 26, NULL, 2, NULL, NULL, 26002127, NULL, 71),
-  -- Mewtwo - Drain Punch - TM131
-  (150, 15000, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 72),
-  -- Mewtwo - Tri Attack - TM147
-  (150, 15000, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 73),
-  -- Mewtwo - Vacuum Wave - TM150
-  (150, 15000, 410, 26, NULL, 2, NULL, NULL, 26002150, NULL, 74);
+  (150, 15000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 63);

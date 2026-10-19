@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -76,10 +76,6 @@ INSERT INTO reference.pokemon_learnsets (
   (504, 50400, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 25),
   -- Patrat - Work Up - TM103
   (504, 50400, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 26),
-  -- Patrat - Facade - TM109
-  (504, 50400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 27),
-  -- Patrat - Seed Bomb - TM128
-  (504, 50400, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 28),
   -- Watchog - Tackle - Level 1
   (505, 50500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Watchog - Leer - Level 3
@@ -166,12 +162,6 @@ INSERT INTO reference.pokemon_learnsets (
   (505, 50500, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 42),
   -- Watchog - Work Up - TM103
   (505, 50500, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 43),
-  -- Watchog - Facade - TM109
-  (505, 50500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 44),
-  -- Watchog - Seed Bomb - TM128
-  (505, 50500, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 45),
-  -- Watchog - Skull Bash - TM146
-  (505, 50500, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 46),
   -- Pansage - Tackle - Level 1
   (511, 51100, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Pansage - Leech Seed - Level 1
@@ -246,16 +236,6 @@ INSERT INTO reference.pokemon_learnsets (
   (511, 51100, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 36),
   -- Pansage - Work Up - TM103
   (511, 51100, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 37),
-  -- Pansage - Facade - TM109
-  (511, 51100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 38),
-  -- Pansage - Low Sweep - TM113
-  (511, 51100, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 39),
-  -- Pansage - Trailblaze - TM115
-  (511, 51100, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 40),
-  -- Pansage - Torment - TM121
-  (511, 51100, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 41),
-  -- Pansage - Seed Bomb - TM128
-  (511, 51100, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 42),
   -- Simisage - Tackle - Level 1
   (512, 51200, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Simisage - Leech Seed - Level 1
@@ -334,22 +314,6 @@ INSERT INTO reference.pokemon_learnsets (
   (512, 51200, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 38),
   -- Simisage - Work Up - TM103
   (512, 51200, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 39),
-  -- Simisage - Facade - TM109
-  (512, 51200, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Simisage - Low Sweep - TM113
-  (512, 51200, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 41),
-  -- Simisage - Trailblaze - TM115
-  (512, 51200, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 42),
-  -- Simisage - Torment - TM121
-  (512, 51200, 259, 26, NULL, 2, NULL, NULL, 26002121, NULL, 43),
-  -- Simisage - Seed Bomb - TM128
-  (512, 51200, 402, 26, NULL, 2, NULL, NULL, 26002128, NULL, 44),
-  -- Simisage - Drain Punch - TM131
-  (512, 51200, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 45),
-  -- Simisage - Fake Out - TM141
-  (512, 51200, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 46),
-  -- Simisage - Solar Blade - TM152
-  (512, 51200, 669, 26, NULL, 2, NULL, NULL, 26002152, NULL, 47),
   -- Pansear - Tackle - Level 1
   (513, 51300, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Pansear - Fire Spin - Level 1
@@ -432,10 +396,6 @@ INSERT INTO reference.pokemon_learnsets (
   (513, 51300, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 40),
   -- Pansear - Flare Blitz - TM104
   (513, 51300, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 41),
-  -- Pansear - Facade - TM109
-  (513, 51300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 42),
-  -- Pansear - Low Sweep - TM113
-  (513, 51300, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 43),
   -- Simisear - Tackle - Level 1
   (514, 51400, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Simisear - Fire Spin - Level 1
@@ -522,18 +482,6 @@ INSERT INTO reference.pokemon_learnsets (
   (514, 51400, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 42),
   -- Simisear - Flare Blitz - TM104
   (514, 51400, 394, 26, NULL, 2, NULL, NULL, 26002104, NULL, 43),
-  -- Simisear - Facade - TM109
-  (514, 51400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 44),
-  -- Simisear - Low Sweep - TM113
-  (514, 51400, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 45),
-  -- Simisear - Flame Charge - TM114
-  (514, 51400, 488, 26, NULL, 2, NULL, NULL, 26002114, NULL, 46),
-  -- Simisear - Blaze Kick - TM133
-  (514, 51400, 299, 26, NULL, 2, NULL, NULL, 26002133, NULL, 47),
-  -- Simisear - Scorching Sands - TM136
-  (514, 51400, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 48),
-  -- Simisear - Fake Out - TM141
-  (514, 51400, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 49),
   -- Panpour - Tackle - Level 1
   (515, 51500, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Panpour - Aqua Ring - Level 1
@@ -614,14 +562,6 @@ INSERT INTO reference.pokemon_learnsets (
   (515, 51500, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 39),
   -- Panpour - Blizzard - TM105
   (515, 51500, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 40),
-  -- Panpour - Facade - TM109
-  (515, 51500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 41),
-  -- Panpour - Chilling Water - TM110
-  (515, 51500, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 42),
-  -- Panpour - Low Sweep - TM113
-  (515, 51500, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 43),
-  -- Panpour - Scald - TM148
-  (515, 51500, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 44),
   -- Simipour - Tackle - Level 1
   (516, 51600, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Simipour - Aqua Ring - Level 1
@@ -708,16 +648,6 @@ INSERT INTO reference.pokemon_learnsets (
   (516, 51600, 526, 26, NULL, 2, NULL, NULL, 26002103, NULL, 42),
   -- Simipour - Blizzard - TM105
   (516, 51600, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 43),
-  -- Simipour - Facade - TM109
-  (516, 51600, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 44),
-  -- Simipour - Chilling Water - TM110
-  (516, 51600, 886, 26, NULL, 2, NULL, NULL, 26002110, NULL, 45),
-  -- Simipour - Low Sweep - TM113
-  (516, 51600, 490, 26, NULL, 2, NULL, NULL, 26002113, NULL, 46),
-  -- Simipour - Fake Out - TM141
-  (516, 51600, 252, 26, NULL, 2, NULL, NULL, 26002141, NULL, 47),
-  -- Simipour - Scald - TM148
-  (516, 51600, 503, 26, NULL, 2, NULL, NULL, 26002148, NULL, 48),
   -- Drilbur - Tackle - Level 1
   (529, 52900, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Drilbur - Leer - Level 1
@@ -778,12 +708,6 @@ INSERT INTO reference.pokemon_learnsets (
   (529, 52900, 404, 26, NULL, 2, NULL, NULL, 26002081, NULL, 29),
   -- Drilbur - Substitute - TM085
   (529, 52900, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 30),
-  -- Drilbur - Facade - TM109
-  (529, 52900, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 31),
-  -- Drilbur - Scorching Sands - TM136
-  (529, 52900, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 32),
-  -- Drilbur - Fissure - TM154
-  (529, 52900, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 33),
   -- Excadrill - Tackle - Level 1
   (530, 53000, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Excadrill - Leer - Level 1
@@ -862,16 +786,6 @@ INSERT INTO reference.pokemon_learnsets (
   (530, 53000, 164, 26, NULL, 2, NULL, NULL, 26002085, NULL, 38),
   -- Excadrill - Focus Blast - TM102
   (530, 53000, 411, 26, NULL, 2, NULL, NULL, 26002102, NULL, 39),
-  -- Excadrill - Facade - TM109
-  (530, 53000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Excadrill - Scorching Sands - TM136
-  (530, 53000, 815, 26, NULL, 2, NULL, NULL, 26002136, NULL, 41),
-  -- Excadrill - Skull Bash - TM146
-  (530, 53000, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 42),
-  -- Excadrill - Fissure - TM154
-  (530, 53000, 90, 26, NULL, 2, NULL, NULL, 26002154, NULL, 43),
-  -- Excadrill - Steel Beam - TM157
-  (530, 53000, 796, 26, NULL, 2, NULL, NULL, 26002157, NULL, 44),
   -- Audino - Tackle - Level 1
   (531, 53100, 33, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Audino - Growl - Level 1
@@ -964,12 +878,6 @@ INSERT INTO reference.pokemon_learnsets (
   (531, 53100, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 45),
   -- Audino - Thunder - TM106
   (531, 53100, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 46),
-  -- Audino - Facade - TM109
-  (531, 53100, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 47),
-  -- Audino - Drain Punch - TM131
-  (531, 53100, 409, 26, NULL, 2, NULL, NULL, 26002131, NULL, 48),
-  -- Audino - Tri Attack - TM147
-  (531, 53100, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 49),
   -- Venipede - Poison Sting - Level 1
   (543, 54300, 40, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Venipede - Leer - Level 1
@@ -1020,8 +928,6 @@ INSERT INTO reference.pokemon_learnsets (
   (543, 54300, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 24),
   -- Venipede - Toxic Spikes - TM089
   (543, 54300, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 25),
-  -- Venipede - Facade - TM109
-  (543, 54300, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 26),
   -- Whirlipede - Poison Sting - Level 1
   (544, 54400, 40, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Whirlipede - Leer - Level 1
@@ -1072,8 +978,6 @@ INSERT INTO reference.pokemon_learnsets (
   (544, 54400, 191, 26, NULL, 2, NULL, NULL, 26002088, NULL, 24),
   -- Whirlipede - Toxic Spikes - TM089
   (544, 54400, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 25),
-  -- Whirlipede - Facade - TM109
-  (544, 54400, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 26),
   -- Scolipede - Poison Sting - Level 1
   (545, 54500, 40, 26, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Scolipede - Leer - Level 1
@@ -1151,16 +1055,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Scolipede - Toxic Spikes - TM089
   (545, 54500, 390, 26, NULL, 2, NULL, NULL, 26002089, NULL, 38),
   -- Scolipede - Gunk Shot - TM100
-  (545, 54500, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 39),
-  -- Scolipede - Facade - TM109
-  (545, 54500, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 40),
-  -- Scolipede - Acid Spray - TM112
-  (545, 54500, 491, 26, NULL, 2, NULL, NULL, 26002112, NULL, 41),
-  -- Scolipede - Trailblaze - TM115
-  (545, 54500, 885, 26, NULL, 2, NULL, NULL, 26002115, NULL, 42),
-  -- Scolipede - Double Hit - TM132
-  (545, 54500, 458, 26, NULL, 2, NULL, NULL, 26002132, NULL, 43),
-  -- Scolipede - First Impression - TM142
-  (545, 54500, 660, 26, NULL, 2, NULL, NULL, 26002142, NULL, 44),
-  -- Scolipede - Skull Bash - TM146
-  (545, 54500, 130, 26, NULL, 2, NULL, NULL, 26002146, NULL, 45);
+  (545, 54500, 441, 26, NULL, 2, NULL, NULL, 26002100, NULL, 39);

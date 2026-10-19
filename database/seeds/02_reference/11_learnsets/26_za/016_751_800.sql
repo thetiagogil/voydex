@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms available in the base ZA scope.
+-- Scope note: Base ZA rows include numeric level-up, evolution-learned, and TM001-TM107 rows for Pokémon/forms available in the base ZA scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
 -- File Scope
@@ -131,14 +131,4 @@ INSERT INTO reference.pokemon_learnsets (
   -- Drampa - Blizzard - TM105
   (780, 78000, 59, 26, NULL, 2, NULL, NULL, 26002105, NULL, 53),
   -- Drampa - Thunder - TM106
-  (780, 78000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 54),
-  -- Drampa - Facade - TM109
-  (780, 78000, 263, 26, NULL, 2, NULL, NULL, 26002109, NULL, 55),
-  -- Drampa - Charge Beam - TM130
-  (780, 78000, 451, 26, NULL, 2, NULL, NULL, 26002130, NULL, 56),
-  -- Drampa - Scale Shot - TM143
-  (780, 78000, 799, 26, NULL, 2, NULL, NULL, 26002143, NULL, 57),
-  -- Drampa - Razor Wind - TM145
-  (780, 78000, 13, 26, NULL, 2, NULL, NULL, 26002145, NULL, 58),
-  -- Drampa - Tri Attack - TM147
-  (780, 78000, 161, 26, NULL, 2, NULL, NULL, 26002147, NULL, 59);
+  (780, 78000, 87, 26, NULL, 2, NULL, NULL, 26002106, NULL, 54);

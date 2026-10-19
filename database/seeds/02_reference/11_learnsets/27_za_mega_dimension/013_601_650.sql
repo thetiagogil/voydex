@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A Generation IX learnset raw pages.
 -- Cross-check: Serebii and PokemonDB Pokémon Legends: Z-A learnset pages during full row-level audit.
--- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and inherited ZA TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope.
+-- Scope note: Mega Dimension rows include numeric level-up, evolution-learned, and TM001-TM160 rows for Pokémon/forms first available in the optional Mega Dimension scope, plus TM108-TM160 rows for base ZA Pokémon/forms.
 -- Delta note: Rows exclude Pokémon/forms already seeded in base ZA; base ZA TM machine rows are inherited through the parent content scope.
 -- Reminder note: source Move Reminder rows are intentionally excluded until reminder/relearn behavior is modeled for this game.
 -- ============================================================================
@@ -25,6 +25,52 @@ INSERT INTO reference.pokemon_learnsets (
   condition_summary,
   sort_order
 ) VALUES
+  -- Tynamo - Facade - TM109
+  (602, 60200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Tynamo - Charge Beam - TM130
+  (602, 60200, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 2),
+  -- Eelektrik - Facade - TM109
+  (603, 60300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Eelektrik - Acid Spray - TM112
+  (603, 60300, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Eelektrik - Charge Beam - TM130
+  (603, 60300, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 3),
+  -- Eelektross - Comet Punch - TM108
+  (604, 60400, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 1),
+  -- Eelektross - Facade - TM109
+  (604, 60400, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 2),
+  -- Eelektross - Acid Spray - TM112
+  (604, 60400, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 3),
+  -- Eelektross - Poison Fang - TM123
+  (604, 60400, 305, 27, NULL, 2, NULL, NULL, 27002123, NULL, 4),
+  -- Eelektross - Psychic Fangs - TM124
+  (604, 60400, 706, 27, NULL, 2, NULL, NULL, 27002124, NULL, 5),
+  -- Eelektross - Charge Beam - TM130
+  (604, 60400, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 6),
+  -- Eelektross - Drain Punch - TM131
+  (604, 60400, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 7),
+  -- Eelektross - Muddy Water - TM140
+  (604, 60400, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 8),
+  -- Litwick - Facade - TM109
+  (607, 60700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Litwick - Flame Charge - TM114
+  (607, 60700, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 2),
+  -- Lampent - Facade - TM109
+  (608, 60800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Lampent - Flame Charge - TM114
+  (608, 60800, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 2),
+  -- Lampent - Ominous Wind - TM119
+  (608, 60800, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 3),
+  -- Chandelure - Facade - TM109
+  (609, 60900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Chandelure - Acid Spray - TM112
+  (609, 60900, 491, 27, NULL, 2, NULL, NULL, 27002112, NULL, 2),
+  -- Chandelure - Flame Charge - TM114
+  (609, 60900, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 3),
+  -- Chandelure - Trailblaze - TM115
+  (609, 60900, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 4),
+  -- Chandelure - Ominous Wind - TM119
+  (609, 60900, 466, 27, NULL, 2, NULL, NULL, 27002119, NULL, 5),
   -- Cryogonal - Ice Shard - Level 1
   (615, 61500, 420, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Cryogonal - Confuse Ray - Level 4
@@ -94,19 +140,39 @@ INSERT INTO reference.pokemon_learnsets (
   -- Cryogonal - Blizzard - TM105
   (615, 61500, 59, 27, NULL, 2, NULL, NULL, 26002105, NULL, 34),
   -- Cryogonal - Facade - TM109
-  (615, 61500, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 35),
+  (615, 61500, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 35),
   -- Cryogonal - Chilling Water - TM110
-  (615, 61500, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 36),
+  (615, 61500, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 36),
   -- Cryogonal - Ancient Power - TM120
-  (615, 61500, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 37),
+  (615, 61500, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 37),
   -- Cryogonal - Frost Breath - TM138
-  (615, 61500, 524, 27, NULL, 2, NULL, NULL, 26002138, NULL, 38),
+  (615, 61500, 524, 27, NULL, 2, NULL, NULL, 27002138, NULL, 38),
   -- Cryogonal - Triple Axel - TM144
-  (615, 61500, 813, 27, NULL, 2, NULL, NULL, 26002144, NULL, 39),
+  (615, 61500, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 39),
   -- Cryogonal - Icicle Spear - TM149
-  (615, 61500, 333, 27, NULL, 2, NULL, NULL, 26002149, NULL, 40),
+  (615, 61500, 333, 27, NULL, 2, NULL, NULL, 27002149, NULL, 40),
   -- Cryogonal - Sheer Cold - TM155
-  (615, 61500, 329, 27, NULL, 2, NULL, NULL, 26002155, NULL, 41),
+  (615, 61500, 329, 27, NULL, 2, NULL, NULL, 27002155, NULL, 41),
+  -- Stunfisk - Facade - TM109
+  (618, 61800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Stunfisk - Muddy Water - TM140
+  (618, 61800, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 2),
+  -- Stunfisk - Scald - TM148
+  (618, 61800, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 3),
+  -- Stunfisk - Fissure - TM154
+  (618, 61800, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 4),
+  -- Galarian Stunfisk - Facade - TM109
+  (618, 61801, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Galarian Stunfisk - Magnet Bomb - TM126
+  (618, 61801, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 2),
+  -- Galarian Stunfisk - Muddy Water - TM140
+  (618, 61801, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 3),
+  -- Galarian Stunfisk - Scald - TM148
+  (618, 61801, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 4),
+  -- Galarian Stunfisk - Fissure - TM154
+  (618, 61801, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 5),
+  -- Galarian Stunfisk - Steel Beam - TM157
+  (618, 61801, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 6),
   -- Golett - Tackle - Level 1
   (622, 62200, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Golett - Harden - Level 1
@@ -190,19 +256,19 @@ INSERT INTO reference.pokemon_learnsets (
   -- Golett - Focus Blast - TM102
   (622, 62200, 411, 27, NULL, 2, NULL, NULL, 26002102, NULL, 41),
   -- Golett - Comet Punch - TM108
-  (622, 62200, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 42),
+  (622, 62200, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 42),
   -- Golett - Facade - TM109
-  (622, 62200, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 43),
+  (622, 62200, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 43),
   -- Golett - Low Sweep - TM113
-  (622, 62200, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 44),
+  (622, 62200, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 44),
   -- Golett - Shadow Punch - TM118
-  (622, 62200, 325, 27, NULL, 2, NULL, NULL, 26002118, NULL, 45),
+  (622, 62200, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 45),
   -- Golett - Magnet Bomb - TM126
-  (622, 62200, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 46),
+  (622, 62200, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 46),
   -- Golett - Drain Punch - TM131
-  (622, 62200, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 47),
+  (622, 62200, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 47),
   -- Golett - Scorching Sands - TM136
-  (622, 62200, 815, 27, NULL, 2, NULL, NULL, 26002136, NULL, 48),
+  (622, 62200, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 48),
   -- Golurk - Tackle - Level 1
   (623, 62300, 33, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Golurk - Harden - Level 1
@@ -304,25 +370,25 @@ INSERT INTO reference.pokemon_learnsets (
   -- Golurk - Close Combat - TM107
   (623, 62300, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 50),
   -- Golurk - Comet Punch - TM108
-  (623, 62300, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 51),
+  (623, 62300, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 51),
   -- Golurk - Facade - TM109
-  (623, 62300, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 52),
+  (623, 62300, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 52),
   -- Golurk - Low Sweep - TM113
-  (623, 62300, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 53),
+  (623, 62300, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 53),
   -- Golurk - Shadow Punch - TM118
-  (623, 62300, 325, 27, NULL, 2, NULL, NULL, 26002118, NULL, 54),
+  (623, 62300, 325, 27, NULL, 2, NULL, NULL, 27002118, NULL, 54),
   -- Golurk - Magnet Bomb - TM126
-  (623, 62300, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 55),
+  (623, 62300, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 55),
   -- Golurk - Charge Beam - TM130
-  (623, 62300, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 56),
+  (623, 62300, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 56),
   -- Golurk - Drain Punch - TM131
-  (623, 62300, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 57),
+  (623, 62300, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 57),
   -- Golurk - Scorching Sands - TM136
-  (623, 62300, 815, 27, NULL, 2, NULL, NULL, 26002136, NULL, 58),
+  (623, 62300, 815, 27, NULL, 2, NULL, NULL, 27002136, NULL, 58),
   -- Golurk - Skull Bash - TM146
-  (623, 62300, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 59),
+  (623, 62300, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 59),
   -- Golurk - Fissure - TM154
-  (623, 62300, 90, 27, NULL, 2, NULL, NULL, 26002154, NULL, 60),
+  (623, 62300, 90, 27, NULL, 2, NULL, NULL, 27002154, NULL, 60),
   -- Cobalion - Leer - Level 1
   (638, 63800, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Cobalion - Quick Attack - Level 1
@@ -414,15 +480,15 @@ INSERT INTO reference.pokemon_learnsets (
   -- Cobalion - Close Combat - TM107
   (638, 63800, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 45),
   -- Cobalion - Facade - TM109
-  (638, 63800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (638, 63800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Cobalion - False Swipe - TM122
-  (638, 63800, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 47),
+  (638, 63800, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 47),
   -- Cobalion - Skull Bash - TM146
-  (638, 63800, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 48),
+  (638, 63800, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 48),
   -- Cobalion - Vacuum Wave - TM150
-  (638, 63800, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 49),
+  (638, 63800, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 49),
   -- Cobalion - Steel Beam - TM157
-  (638, 63800, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 50),
+  (638, 63800, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 50),
   -- Terrakion - Leer - Level 1
   (639, 63900, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Terrakion - Quick Attack - Level 1
@@ -518,11 +584,11 @@ INSERT INTO reference.pokemon_learnsets (
   -- Terrakion - Close Combat - TM107
   (639, 63900, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 47),
   -- Terrakion - Facade - TM109
-  (639, 63900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 48),
+  (639, 63900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 48),
   -- Terrakion - False Swipe - TM122
-  (639, 63900, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 49),
+  (639, 63900, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 49),
   -- Terrakion - Skull Bash - TM146
-  (639, 63900, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 50),
+  (639, 63900, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 50),
   -- Virizion - Leer - Level 1
   (640, 64000, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Virizion - Quick Attack - Level 1
@@ -618,19 +684,19 @@ INSERT INTO reference.pokemon_learnsets (
   -- Virizion - Close Combat - TM107
   (640, 64000, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 47),
   -- Virizion - Facade - TM109
-  (640, 64000, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 48),
+  (640, 64000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 48),
   -- Virizion - Trailblaze - TM115
-  (640, 64000, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 49),
+  (640, 64000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 49),
   -- Virizion - False Swipe - TM122
-  (640, 64000, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 50),
+  (640, 64000, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 50),
   -- Virizion - Seed Bomb - TM128
-  (640, 64000, 402, 27, NULL, 2, NULL, NULL, 26002128, NULL, 51),
+  (640, 64000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 51),
   -- Virizion - Skull Bash - TM146
-  (640, 64000, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 52),
+  (640, 64000, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 52),
   -- Virizion - Vacuum Wave - TM150
-  (640, 64000, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 53),
+  (640, 64000, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 53),
   -- Virizion - Solar Blade - TM152
-  (640, 64000, 669, 27, NULL, 2, NULL, NULL, 26002152, NULL, 54),
+  (640, 64000, 669, 27, NULL, 2, NULL, NULL, 27002152, NULL, 54),
   -- Keldeo - Leer - Level 1
   (647, 64700, 43, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Keldeo - Aqua Jet - Level 1
@@ -736,21 +802,21 @@ INSERT INTO reference.pokemon_learnsets (
   -- Keldeo - Close Combat - TM107
   (647, 64700, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 52),
   -- Keldeo - Facade - TM109
-  (647, 64700, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 53),
+  (647, 64700, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 53),
   -- Keldeo - Chilling Water - TM110
-  (647, 64700, 886, 27, NULL, 2, NULL, NULL, 26002110, NULL, 54),
+  (647, 64700, 886, 27, NULL, 2, NULL, NULL, 27002110, NULL, 54),
   -- Keldeo - Trailblaze - TM115
-  (647, 64700, 885, 27, NULL, 2, NULL, NULL, 26002115, NULL, 55),
+  (647, 64700, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 55),
   -- Keldeo - False Swipe - TM122
-  (647, 64700, 206, 27, NULL, 2, NULL, NULL, 26002122, NULL, 56),
+  (647, 64700, 206, 27, NULL, 2, NULL, NULL, 27002122, NULL, 56),
   -- Keldeo - Muddy Water - TM140
-  (647, 64700, 330, 27, NULL, 2, NULL, NULL, 26002140, NULL, 57),
+  (647, 64700, 330, 27, NULL, 2, NULL, NULL, 27002140, NULL, 57),
   -- Keldeo - Skull Bash - TM146
-  (647, 64700, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 58),
+  (647, 64700, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 58),
   -- Keldeo - Scald - TM148
-  (647, 64700, 503, 27, NULL, 2, NULL, NULL, 26002148, NULL, 59),
+  (647, 64700, 503, 27, NULL, 2, NULL, NULL, 27002148, NULL, 59),
   -- Keldeo - Vacuum Wave - TM150
-  (647, 64700, 410, 27, NULL, 2, NULL, NULL, 26002150, NULL, 60),
+  (647, 64700, 410, 27, NULL, 2, NULL, NULL, 27002150, NULL, 60),
   -- Meloetta - Sing - Level 1
   (648, 64800, 47, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Meloetta - Confusion - Level 1
@@ -852,25 +918,25 @@ INSERT INTO reference.pokemon_learnsets (
   -- Meloetta - Close Combat - TM107
   (648, 64800, 370, 27, NULL, 2, NULL, NULL, 26002107, NULL, 50),
   -- Meloetta - Comet Punch - TM108
-  (648, 64800, 4, 27, NULL, 2, NULL, NULL, 26002108, NULL, 51),
+  (648, 64800, 4, 27, NULL, 2, NULL, NULL, 27002108, NULL, 51),
   -- Meloetta - Facade - TM109
-  (648, 64800, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 52),
+  (648, 64800, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 52),
   -- Meloetta - Sing - TM111
-  (648, 64800, 47, 27, NULL, 2, NULL, NULL, 26002111, NULL, 53),
+  (648, 64800, 47, 27, NULL, 2, NULL, NULL, 27002111, NULL, 53),
   -- Meloetta - Low Sweep - TM113
-  (648, 64800, 490, 27, NULL, 2, NULL, NULL, 26002113, NULL, 54),
+  (648, 64800, 490, 27, NULL, 2, NULL, NULL, 27002113, NULL, 54),
   -- Meloetta - Mimic - TM125
-  (648, 64800, 102, 27, NULL, 2, NULL, NULL, 26002125, NULL, 55),
+  (648, 64800, 102, 27, NULL, 2, NULL, NULL, 27002125, NULL, 55),
   -- Meloetta - Dream Eater - TM127
-  (648, 64800, 138, 27, NULL, 2, NULL, NULL, 26002127, NULL, 56),
+  (648, 64800, 138, 27, NULL, 2, NULL, NULL, 27002127, NULL, 56),
   -- Meloetta - Charge Beam - TM130
-  (648, 64800, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 57),
+  (648, 64800, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 57),
   -- Meloetta - Drain Punch - TM131
-  (648, 64800, 409, 27, NULL, 2, NULL, NULL, 26002131, NULL, 58),
+  (648, 64800, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 58),
   -- Meloetta - Triple Axel - TM144
-  (648, 64800, 813, 27, NULL, 2, NULL, NULL, 26002144, NULL, 59),
+  (648, 64800, 813, 27, NULL, 2, NULL, NULL, 27002144, NULL, 59),
   -- Meloetta - Petal Dance - TM151
-  (648, 64800, 80, 27, NULL, 2, NULL, NULL, 26002151, NULL, 60),
+  (648, 64800, 80, 27, NULL, 2, NULL, NULL, 27002151, NULL, 60),
   -- Genesect - Quick Attack - Level 1
   (649, 64900, 98, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Genesect - Techno Blast - Level 1
@@ -962,23 +1028,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Genesect - Thunder - TM106
   (649, 64900, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Genesect - Facade - TM109
-  (649, 64900, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (649, 64900, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Genesect - Flame Charge - TM114
-  (649, 64900, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 47),
+  (649, 64900, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 47),
   -- Genesect - Ancient Power - TM120
-  (649, 64900, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 48),
+  (649, 64900, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 48),
   -- Genesect - Magnet Bomb - TM126
-  (649, 64900, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 49),
+  (649, 64900, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 49),
   -- Genesect - Charge Beam - TM130
-  (649, 64900, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 50),
+  (649, 64900, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 50),
   -- Genesect - Blaze Kick - TM133
-  (649, 64900, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 51),
+  (649, 64900, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 51),
   -- Genesect - Skull Bash - TM146
-  (649, 64900, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 52),
+  (649, 64900, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 52),
   -- Genesect - Tri Attack - TM147
-  (649, 64900, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 53),
+  (649, 64900, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 53),
   -- Genesect - Steel Beam - TM157
-  (649, 64900, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 54),
+  (649, 64900, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 54),
   -- Genesect (Douse Drive) - Quick Attack - Level 1
   (649, 64901, 98, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Genesect (Douse Drive) - Techno Blast - Level 1
@@ -1070,23 +1136,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Genesect (Douse Drive) - Thunder - TM106
   (649, 64901, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Genesect (Douse Drive) - Facade - TM109
-  (649, 64901, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (649, 64901, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Genesect (Douse Drive) - Flame Charge - TM114
-  (649, 64901, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 47),
+  (649, 64901, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 47),
   -- Genesect (Douse Drive) - Ancient Power - TM120
-  (649, 64901, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 48),
+  (649, 64901, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 48),
   -- Genesect (Douse Drive) - Magnet Bomb - TM126
-  (649, 64901, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 49),
+  (649, 64901, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 49),
   -- Genesect (Douse Drive) - Charge Beam - TM130
-  (649, 64901, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 50),
+  (649, 64901, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 50),
   -- Genesect (Douse Drive) - Blaze Kick - TM133
-  (649, 64901, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 51),
+  (649, 64901, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 51),
   -- Genesect (Douse Drive) - Skull Bash - TM146
-  (649, 64901, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 52),
+  (649, 64901, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 52),
   -- Genesect (Douse Drive) - Tri Attack - TM147
-  (649, 64901, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 53),
+  (649, 64901, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 53),
   -- Genesect (Douse Drive) - Steel Beam - TM157
-  (649, 64901, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 54),
+  (649, 64901, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 54),
   -- Genesect (Shock Drive) - Quick Attack - Level 1
   (649, 64902, 98, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Genesect (Shock Drive) - Techno Blast - Level 1
@@ -1178,23 +1244,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Genesect (Shock Drive) - Thunder - TM106
   (649, 64902, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Genesect (Shock Drive) - Facade - TM109
-  (649, 64902, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (649, 64902, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Genesect (Shock Drive) - Flame Charge - TM114
-  (649, 64902, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 47),
+  (649, 64902, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 47),
   -- Genesect (Shock Drive) - Ancient Power - TM120
-  (649, 64902, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 48),
+  (649, 64902, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 48),
   -- Genesect (Shock Drive) - Magnet Bomb - TM126
-  (649, 64902, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 49),
+  (649, 64902, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 49),
   -- Genesect (Shock Drive) - Charge Beam - TM130
-  (649, 64902, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 50),
+  (649, 64902, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 50),
   -- Genesect (Shock Drive) - Blaze Kick - TM133
-  (649, 64902, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 51),
+  (649, 64902, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 51),
   -- Genesect (Shock Drive) - Skull Bash - TM146
-  (649, 64902, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 52),
+  (649, 64902, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 52),
   -- Genesect (Shock Drive) - Tri Attack - TM147
-  (649, 64902, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 53),
+  (649, 64902, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 53),
   -- Genesect (Shock Drive) - Steel Beam - TM157
-  (649, 64902, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 54),
+  (649, 64902, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 54),
   -- Genesect (Burn Drive) - Quick Attack - Level 1
   (649, 64903, 98, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Genesect (Burn Drive) - Techno Blast - Level 1
@@ -1286,23 +1352,23 @@ INSERT INTO reference.pokemon_learnsets (
   -- Genesect (Burn Drive) - Thunder - TM106
   (649, 64903, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Genesect (Burn Drive) - Facade - TM109
-  (649, 64903, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (649, 64903, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Genesect (Burn Drive) - Flame Charge - TM114
-  (649, 64903, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 47),
+  (649, 64903, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 47),
   -- Genesect (Burn Drive) - Ancient Power - TM120
-  (649, 64903, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 48),
+  (649, 64903, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 48),
   -- Genesect (Burn Drive) - Magnet Bomb - TM126
-  (649, 64903, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 49),
+  (649, 64903, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 49),
   -- Genesect (Burn Drive) - Charge Beam - TM130
-  (649, 64903, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 50),
+  (649, 64903, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 50),
   -- Genesect (Burn Drive) - Blaze Kick - TM133
-  (649, 64903, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 51),
+  (649, 64903, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 51),
   -- Genesect (Burn Drive) - Skull Bash - TM146
-  (649, 64903, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 52),
+  (649, 64903, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 52),
   -- Genesect (Burn Drive) - Tri Attack - TM147
-  (649, 64903, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 53),
+  (649, 64903, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 53),
   -- Genesect (Burn Drive) - Steel Beam - TM157
-  (649, 64903, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 54),
+  (649, 64903, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 54),
   -- Genesect (Chill Drive) - Quick Attack - Level 1
   (649, 64904, 98, 27, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Genesect (Chill Drive) - Techno Blast - Level 1
@@ -1394,20 +1460,28 @@ INSERT INTO reference.pokemon_learnsets (
   -- Genesect (Chill Drive) - Thunder - TM106
   (649, 64904, 87, 27, NULL, 2, NULL, NULL, 26002106, NULL, 45),
   -- Genesect (Chill Drive) - Facade - TM109
-  (649, 64904, 263, 27, NULL, 2, NULL, NULL, 26002109, NULL, 46),
+  (649, 64904, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 46),
   -- Genesect (Chill Drive) - Flame Charge - TM114
-  (649, 64904, 488, 27, NULL, 2, NULL, NULL, 26002114, NULL, 47),
+  (649, 64904, 488, 27, NULL, 2, NULL, NULL, 27002114, NULL, 47),
   -- Genesect (Chill Drive) - Ancient Power - TM120
-  (649, 64904, 246, 27, NULL, 2, NULL, NULL, 26002120, NULL, 48),
+  (649, 64904, 246, 27, NULL, 2, NULL, NULL, 27002120, NULL, 48),
   -- Genesect (Chill Drive) - Magnet Bomb - TM126
-  (649, 64904, 443, 27, NULL, 2, NULL, NULL, 26002126, NULL, 49),
+  (649, 64904, 443, 27, NULL, 2, NULL, NULL, 27002126, NULL, 49),
   -- Genesect (Chill Drive) - Charge Beam - TM130
-  (649, 64904, 451, 27, NULL, 2, NULL, NULL, 26002130, NULL, 50),
+  (649, 64904, 451, 27, NULL, 2, NULL, NULL, 27002130, NULL, 50),
   -- Genesect (Chill Drive) - Blaze Kick - TM133
-  (649, 64904, 299, 27, NULL, 2, NULL, NULL, 26002133, NULL, 51),
+  (649, 64904, 299, 27, NULL, 2, NULL, NULL, 27002133, NULL, 51),
   -- Genesect (Chill Drive) - Skull Bash - TM146
-  (649, 64904, 130, 27, NULL, 2, NULL, NULL, 26002146, NULL, 52),
+  (649, 64904, 130, 27, NULL, 2, NULL, NULL, 27002146, NULL, 52),
   -- Genesect (Chill Drive) - Tri Attack - TM147
-  (649, 64904, 161, 27, NULL, 2, NULL, NULL, 26002147, NULL, 53),
+  (649, 64904, 161, 27, NULL, 2, NULL, NULL, 27002147, NULL, 53),
   -- Genesect (Chill Drive) - Steel Beam - TM157
-  (649, 64904, 796, 27, NULL, 2, NULL, NULL, 26002157, NULL, 54);
+  (649, 64904, 796, 27, NULL, 2, NULL, NULL, 27002157, NULL, 54),
+  -- Chespin - Facade - TM109
+  (650, 65000, 263, 27, NULL, 2, NULL, NULL, 27002109, NULL, 1),
+  -- Chespin - Trailblaze - TM115
+  (650, 65000, 885, 27, NULL, 2, NULL, NULL, 27002115, NULL, 2),
+  -- Chespin - Seed Bomb - TM128
+  (650, 65000, 402, 27, NULL, 2, NULL, NULL, 27002128, NULL, 3),
+  -- Chespin - Drain Punch - TM131
+  (650, 65000, 409, 27, NULL, 2, NULL, NULL, 27002131, NULL, 4);
