@@ -2,10 +2,12 @@ import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
 import type { CodexVersionGroupSlots } from "@/modules/codex/codex-slots";
+import { GameDetailGamePicker } from "@/modules/codex/features/games/detail/components/game-detail-game-picker";
 import { GameDetailExclusivesSection } from "@/modules/codex/features/games/detail/components/game-detail-exclusives-section";
 import { GameDetailHeaderSection } from "@/modules/codex/features/games/detail/components/game-detail-header-section";
 import { GameDetailRegionSection } from "@/modules/codex/features/games/detail/components/game-detail-region-section";
 import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/detail/components/game-detail-related-games-section";
+import { getGameDetailPickerGroups } from "@/modules/codex/features/games/detail/server/game-detail-picker-query";
 import { getGameDetailPage } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
@@ -30,7 +32,10 @@ export const GameDetailPage = async ({
   versionGroupSlug,
   versionSlug,
 }: GameDetailPageProps) => {
-  const data = await getGameDetailPage(versionGroupSlug, versionSlug);
+  const [data, pickerGroups] = await Promise.all([
+    getGameDetailPage(versionGroupSlug, versionSlug),
+    getGameDetailPickerGroups(),
+  ]);
 
   if (!data) {
     notFound();
@@ -48,10 +53,16 @@ export const GameDetailPage = async ({
     <div className="flex w-full min-w-0 flex-col">
       <PageBand>
         <CodexHead
-          trail={[
-            { href: appRoutes.codexGames, label: "Games" },
-            { label: getVersionGroupShortName(data.versionGroup.name) },
-          ]}
+          trail={[{ href: appRoutes.codexGames, label: "Games" }]}
+          trailEnd={
+            <GameDetailGamePicker
+              activeGroup={{
+                name: getVersionGroupShortName(data.versionGroup.name),
+                slug: data.versionGroup.slug,
+              }}
+              groups={pickerGroups}
+            />
+          }
         />
         <GameDetailHeaderSection
           data={data}

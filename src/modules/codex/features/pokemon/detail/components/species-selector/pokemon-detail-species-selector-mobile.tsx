@@ -9,12 +9,12 @@ import {
   PokemonDetailSpeciesSelectorGroupHeader,
   PokemonDetailSpeciesSelectorOptionContent,
   pokemonDetailSpeciesSelectorActiveClassName,
-  pokemonDetailSpeciesSelectorTriggerClassName,
 } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
 import {
   getPokemonMenuEmptyLabel,
   type PokemonMenuLoadState,
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
+import { codexHeadPickerTriggerClassName } from "@/modules/codex/shared/components/codex-head";
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
@@ -67,10 +67,7 @@ export const PokemonDetailSpeciesSelectorMobile = ({
         <Button
           variant="ghost"
           disabled={!activeVersionGroupSlug}
-          className={cn(
-            pokemonDetailSpeciesSelectorTriggerClassName,
-            "md:hidden",
-          )}
+          className={cn(codexHeadPickerTriggerClassName, "md:hidden")}
         >
           <span className="sr-only">Choose another Pokémon. Now showing </span>
           {activePokemon.name}
