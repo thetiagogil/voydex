@@ -74,9 +74,9 @@ const Tile = ({
 
 /*
  * The picture beside the title: covers for a Region Hopper (one per region
- * played) and a Pokémon Trainer (one per game); for a Specialist, always the
- * type's mark drawn in the band's own neutrals, with up to three of their
- * top Pokémon of it standing in front, each opening its sheet.
+ * played) and a Pokémon Trainer (one per game); for a Specialist, up to three
+ * of their top Pokémon of the type, each opening its sheet (the type's mark
+ * is the band's watermark).
  */
 const TitlePicture = ({
   onOpenPokemon,
@@ -103,18 +103,6 @@ const TitlePicture = ({
 
   return typeSlug ? (
     <div className="relative flex h-40 w-full items-end justify-center sm:h-48 md:w-75 lg:w-85">
-      <span
-        aria-hidden
-        className={cn(
-          "group-data-reveal/title:animate-fade-up absolute left-1/2 grid size-36 -translate-x-1/2 place-items-center rounded-full bg-white/25 [animation-delay:200ms] motion-reduce:animate-none sm:size-44",
-          title.pokemon.length ? "top-0" : "top-1/2 -translate-y-1/2",
-        )}
-      >
-        <PokemonTypeIcon
-          type={typeSlug}
-          className="size-16 opacity-[0.07] sm:size-20"
-        />
-      </span>
       {title.pokemon.length ? (
         /*
          * A little podium: the top Pokémon in the middle, larger and in
@@ -195,9 +183,19 @@ export const StatsHeroSection = ({
   /* The most recently played on top of the row. */
   const playCovers = stats.playCovers.slice(0, 10).toReversed();
   const playsLabel = stats.playCount === 1 ? "Play" : "Plays";
+  /* A Specialist's type is the band's watermark, in place of the Poké Ball. */
+  const specialistType =
+    title.kind === "specialist" ? toTypeSlug(title.typeSlug) : null;
 
   return (
-    <PageBand className="pt-6 sm:pt-9">
+    <PageBand
+      className="pt-6 sm:pt-9"
+      mark={
+        specialistType ? (
+          <PokemonTypeIcon type={specialistType} className="size-full" />
+        ) : undefined
+      }
+    >
       <div
         data-reveal={firstVisit ? "" : undefined}
         className="group/title flex flex-col gap-5 sm:gap-6"

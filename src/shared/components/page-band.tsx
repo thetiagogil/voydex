@@ -6,6 +6,11 @@ import { cn } from "@/shared/utils/cn";
 type PageBandProps = {
   children: ReactNode;
   className?: string;
+  /*
+   * The large, faint mark at the band's right edge, filling its box: the
+   * Poké Ball unless the page has its own (a Specialist's type).
+   */
+  mark?: ReactNode;
 };
 
 /*
@@ -15,11 +20,12 @@ type PageBandProps = {
  * page shows (type-coloured stickers, covers) brings the colour. What follows
  * the band sits on the plain page ground.
  */
-export const PageBand = ({ children, className }: PageBandProps) => (
+export const PageBand = ({ children, className, mark }: PageBandProps) => (
   <div className="page-band bg-band relative isolate rounded-b-[28px] sm:rounded-b-[44px]">
     {/*
-     * A large, faint Poké Ball at the band's right edge: the band's one
-     * touch of the app's own identity, quiet enough to sit under anything.
+     * A large, faint Poké Ball at the band's right edge (or the page's own
+     * mark): the band's one touch of identity, quiet enough to sit under
+     * anything.
      * It is clipped on its own layer, so a handle can sit on the band's edge,
      * and anchored to the top, so it stays put when the band grows.
      */}
@@ -27,11 +33,15 @@ export const PageBand = ({ children, className }: PageBandProps) => (
       aria-hidden
       className="pointer-events-none absolute inset-0 -z-1 overflow-hidden rounded-b-[28px] sm:rounded-b-[44px]"
     >
-      <AppIcon
-        icon={appIcons.product.caught}
-        strokeWidth={1.25}
-        className="text-calm absolute -top-24 -right-16 size-96 -rotate-12 opacity-6 max-sm:-top-16 max-sm:size-64"
-      />
+      <span className="text-calm absolute -top-24 -right-16 flex size-96 -rotate-12 opacity-6 max-sm:-top-16 max-sm:size-64">
+        {mark ?? (
+          <AppIcon
+            icon={appIcons.product.caught}
+            strokeWidth={1.25}
+            className="size-full"
+          />
+        )}
+      </span>
     </span>
     <div
       className={cn(
