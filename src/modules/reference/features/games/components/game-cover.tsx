@@ -16,10 +16,22 @@ import { cn } from "@/shared/utils/cn";
  * width, so every platform's box keeps its shape; the stand-in is a 3:4 box.
  */
 const coverSizeClassNames = {
-  /* The Play's docked bar: a 40px thumbnail in a thin white frame. */
+  /*
+   * The Play's docked bar and the Team Planner's game: 40px tall in a thin
+   * white frame, its width from its own shape.
+   */
   dock: {
-    fallback: "text-12 h-10 border-[2.5px] border-white",
-    image: "h-10 w-7.5 border-[2.5px] border-white object-cover",
+    fallback: "text-12 h-10 w-auto border-[2.5px] border-white",
+    image: "h-10 w-auto max-w-none border-[2.5px] border-white",
+  },
+  /*
+   * A game in a list of rows (Where to find, exclusives, Plays, time
+   * played): the docked size, its true width, centred in a 48px slot that
+   * fits the widest box, so the names beside every cover line up.
+   */
+  row: {
+    fallback: "text-12 h-10 w-auto border-[2.5px] border-white",
+    image: "h-10 w-auto max-w-none border-[2.5px] border-white",
   },
   /*
    * The Play header's cover, in a white frame: every platform's box stands
@@ -118,7 +130,7 @@ type GameCoverProps = {
  * size, except the two thumbnails (a picker option, a docked bar), where 4px
  * would cover the art.
  */
-export const GameCover = ({
+const GameCoverBox = ({
   alt,
   className,
   coverImageUrl,
@@ -214,3 +226,13 @@ export const GameCover = ({
     />
   );
 };
+
+/* A `row` cover sits in its slot; every other size is the box alone. */
+export const GameCover = (props: GameCoverProps) =>
+  props.size === "row" ? (
+    <span className="flex w-12 shrink-0 justify-center">
+      <GameCoverBox {...props} />
+    </span>
+  ) : (
+    <GameCoverBox {...props} />
+  );

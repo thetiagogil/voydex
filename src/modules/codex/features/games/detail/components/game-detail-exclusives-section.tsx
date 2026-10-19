@@ -70,7 +70,7 @@ export const GameDetailExclusivesSection = ({
                   coverImageUrl={column.version.coverImageUrl}
                   gameName={column.version.game.name}
                   gameSlug={column.version.game.slug}
-                  size="dock"
+                  size="row"
                 />
                 <h3
                   id={titleId}

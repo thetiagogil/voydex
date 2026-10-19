@@ -54,7 +54,7 @@ export const TrainerPlayRow = ({
         }
         gameName={play.gameName}
         gameSlug={play.gameSlug ?? undefined}
-        size="dock"
+        size="row"
       />
       <span className="min-w-0">
         <span className="text-ink text-15 block truncate font-extrabold">

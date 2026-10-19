@@ -97,7 +97,7 @@ const TimeCard = ({
         coverImageUrl={row.coverImageUrl}
         gameName={row.gameName}
         gameSlug={row.gameSlug ?? undefined}
-        size="dock"
+        size="row"
       />
       <span className="min-w-0 flex-1">
         <span className="text-ink text-14 block truncate font-extrabold">
