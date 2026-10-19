@@ -3,8 +3,10 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import {
+  getPokemonDetailSectionLinks,
   pokemonDetailSections,
   type PokemonDetailSectionId,
+  type PokemonDetailSectionLink,
 } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-sections";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -25,7 +27,7 @@ const scrollPadding = "88px";
 /*
  * The entry's docked bar (`DockedBar`, as a Play's): once the band scrolls
  * away it docks with the Pokémon and an index of its sections, the one in
- * view marked. Each link jumps to its section; a section the page left out
+ * view marked; cards that sit side by side share one link. Each link jumps to its section; a section the page left out
  * has no anchor and no link.
  */
 export const PokemonDetailSectionBar = ({
@@ -35,23 +37,40 @@ export const PokemonDetailSectionBar = ({
   type,
 }: PokemonDetailSectionBarProps) => {
   const linksRef = useRef<HTMLDivElement>(null);
-  const [sections, setSections] = useState<
-    (typeof pokemonDetailSections)[number][]
-  >([]);
+  const [links, setLinks] = useState<PokemonDetailSectionLink[]>([]);
   const [current, setCurrent] = useState<PokemonDetailSectionId | null>(null);
 
   /*
-   * The sections this entry has, and which one you're reading: the last
-   * whose top has passed under the bar (the first until then).
+   * The sections this entry has, as links (cards side by side share one,
+   * read again when the window resizes), and which one you're reading: the
+   * last whose top has passed under the bar (the first until then).
    */
   useEffect(() => {
     const present = pokemonDetailSections.filter((section) =>
       document.getElementById(section.id),
     );
     let frame = requestAnimationFrame(() => {
-      setSections(present);
+      readLinks();
       update();
     });
+
+    function readLinks() {
+      const next = getPokemonDetailSectionLinks(
+        present.map((section) => ({
+          ...section,
+          top:
+            document.getElementById(section.id)?.getBoundingClientRect().top ??
+            0,
+        })),
+      );
+
+      setLinks((previous) =>
+        previous.map((link) => link.label).join() ===
+        next.map((link) => link.label).join()
+          ? previous
+          : next,
+      );
+    }
 
     function update() {
       const line = parseFloat(scrollPadding) + 24;
@@ -80,11 +99,21 @@ export const PokemonDetailSectionBar = ({
       frame = requestAnimationFrame(update);
     };
 
+    const onResize = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        readLinks();
+        update();
+      });
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
 
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
     };
   }, []);
 
@@ -126,16 +155,20 @@ export const PokemonDetailSectionBar = ({
             ref={linksRef}
             className="no-scrollbar -mx-1.5 -my-2 flex min-w-0 items-center gap-1 overflow-x-auto px-1.5 py-2 sm:justify-end"
           >
-            {sections.map((section) => (
-              <a
-                key={section.id}
-                href={`#${section.id}`}
-                aria-current={current === section.id ? "true" : undefined}
-                className={getBarLinkClassName(current === section.id)}
-              >
-                <SteadyLabel>{section.label}</SteadyLabel>
-              </a>
-            ))}
+            {links.map((link) => {
+              const isCurrent = current !== null && link.ids.includes(current);
+
+              return (
+                <a
+                  key={link.ids[0]}
+                  href={`#${link.ids[0]}`}
+                  aria-current={isCurrent ? "true" : undefined}
+                  className={getBarLinkClassName(isCurrent)}
+                >
+                  <SteadyLabel>{link.label}</SteadyLabel>
+                </a>
+              );
+            })}
           </div>
         </nav>
       }
