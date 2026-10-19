@@ -123,8 +123,7 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   stays for status.
 - **One look per size of Pokémon (2026-10-17)**: a Pokémon at card size is
   the one `PokemonCard` family with three looks by meaning: a plain white
-  card for one you don't own (the Codex; inside a card, such as an entry's
-  Evolution, it takes the inset fill instead), the sticker with a white band for
+  card with a thin line for one you don't own (the Codex), the sticker with a white band for
   one you own (`PokemonSticker`, its art on the same circle), and the sticker
   with its band in its type's colour for one you picked. Anything smaller is
   the round portrait (`PokemonAvatar`), owned or planned alike. A moment's
@@ -166,7 +165,7 @@ Poké Ball red, the current pick, identity (your Pokémon, a game's cover).
   At rest it is quiet (a lighter tint of the band with a hairline edge, no
   shadow) so it stands apart without pulling the eye; under the pointer or
   keyboard focus (`focus-visible`, so a clicked link doesn't keep it lit) it
-  turns white on the card shadow. A page that does not open on the sand band (Home's sky, plain pages) has the bar rest that way, since the quiet tint would match its ground. Inside it the current section is a small sticker
+  turns white on the card shadow. It looks the same on every page. Inside it the current section is a small sticker
   in the selected tint, the Codex sits with the other sections, and your
   initial sits on the soft brand tint in a white band (a sticker) at the right, as far from the edge as the V on the left.
 - **Pickers on phones**: below 768px every select, searchable select and
@@ -206,9 +205,11 @@ on a hard lip, a press that moves, a gradient fill or glass.
   hand in a control. A disabled red or wine button turns neutral grey.
 - **Soft shadow (quiet material)**: a section card and the docked bars lift on a soft shadow (`shadow-card`, `shadow-float`), never a
   lip. A card goes flat inside another card, a sheet or a dialog (`Card`
-  handles this); grid items you don't own (Codex Pokémon and game cards) are
-  plain white cards on `shadow-card` too, with no line: the white band is only
-  for what is yours or picked. A Pokémon card shows one name (the nickname,
+  handles this); Codex game cards are plain white cards on
+  `shadow-card` too. A Pokémon card you don't own is white with a thin
+  `border-line` edge and no shadow, so it reads on the page and inside a
+  section card alike (2026-10-19). The white band is only for what is yours or
+  picked. A Pokémon card shows one name (the nickname,
   or the species without one); its level is the white `Lv.` chip beside the
   type dots, and the line under the name carries other facts (a role, Plays).
 - **Moments**: the medallions and the badge stamps wear a white band and a

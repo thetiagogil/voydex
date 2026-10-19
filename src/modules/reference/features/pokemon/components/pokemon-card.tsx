@@ -75,14 +75,9 @@ const sizeClassNames: Record<
 const stateClassNames: Record<PokemonCardState, string> = {
   caught: "sticker [--sticker-shadow:var(--shadow-soft-value)]",
   missing: "empty-slot",
-  /*
-   * Plain cards sit on the soft card shadow; the white band is only for
-   * yours. Inside a card (an entry's Evolution) they take the inset fill
-   * instead, as fields do, so they still part from the white around them.
-   */
-  plain:
-    "border border-transparent bg-surface shadow-card in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:shadow-none",
-  seen: "border border-transparent bg-surface shadow-card in-data-[slot=card]:bg-surface-2 in-data-[slot=card]:shadow-none",
+  /* Plain cards: white with a thin edge; the white band is only for yours. */
+  plain: "border border-line bg-surface",
+  seen: "border border-line bg-surface",
 };
 
 /*
@@ -206,7 +201,7 @@ export const PokemonCard = ({
           (state === "caught" || picked) && "bg-white/55",
           !picked &&
             (state === "plain" || state === "seen") &&
-            "bg-[color-mix(in_oklab,var(--t)_13%,var(--surface))]",
+            "bg-[color-mix(in_oklab,var(--t)_10%,var(--surface))]",
         )}
       >
         {imageUrl ? (
