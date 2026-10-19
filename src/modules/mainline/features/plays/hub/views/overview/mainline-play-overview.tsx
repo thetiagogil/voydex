@@ -6,7 +6,6 @@ import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 import { OverviewRecordingProvider } from "./client/overview-recording";
-import { BadgeCaseSection } from "./sections/badge-case/badge-case-section";
 import { FirstStepsSection } from "./sections/first-steps/first-steps-section";
 import { NextObjectiveSection } from "./sections/next-objective/next-objective-section";
 import { PartnerHeroSection } from "./sections/partner/partner-hero-section";
@@ -32,7 +31,6 @@ export const MainlinePlayOverview = ({
   decisionRecord,
   playId,
 }: MainlinePlayOverviewProps) => {
-  const storyHref = appRoutes.mainlinePlayProgressStory(playId);
   const partner = data.freshPlay?.partner ?? null;
   const chosenPartner = partner?.isRecorded
     ? (partner.options.find(
@@ -101,18 +99,7 @@ export const MainlinePlayOverview = ({
           reserveCount={data.overview?.reserve_team_count ?? null}
           team={data.teamPreview}
         />
-        {data.badgeCase ? (
-          <div className="grid gap-5 lg:grid-cols-[1fr_1.2fr] lg:gap-6">
-            <BadgeCaseSection
-              aheadMilestones={partner ? [] : data.aheadMilestones}
-              badgeCase={data.badgeCase}
-              storyHref={storyHref}
-            />
-            {recentMoments}
-          </div>
-        ) : (
-          recentMoments
-        )}
+        {recentMoments}
       </div>
     </OverviewRecordingProvider>
   );

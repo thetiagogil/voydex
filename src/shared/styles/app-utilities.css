@@ -177,11 +177,7 @@
   }
 }
 
-/*
- * A card or token unmarked a moment ago settles softly into its new state.
- * Things recorded together move in turn, each after its --stamp-delay (read
- * on the element itself: a theme variable would read it on the page root).
- */
+/* A card or token unmarked a moment ago settles softly into its new state. */
 @keyframes settle {
   from {
     opacity: 0.35;
@@ -189,13 +185,10 @@
 }
 
 @utility animate-settle {
-  animation: settle 0.45s ease-out var(--stamp-delay, 0ms) backwards;
+  animation: settle 0.45s ease-out;
 }
 
-/*
- * A Story row recorded or un-recorded a moment ago keeps still: its marker
- * pops into its new state, in turn (hidden until then).
- */
+/* A Story row un-recorded a moment ago keeps still: its number pops back. */
 @keyframes marker-in {
   0% {
     transform: scale(0.3);
@@ -211,14 +204,12 @@
 }
 
 @utility animate-marker-in {
-  animation: marker-in 0.45s cubic-bezier(0.3, 1.6, 0.5, 1)
-    var(--stamp-delay, 0ms) backwards;
+  animation: marker-in 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 
-/* The mark a stamp leaves: it slaps down in its turn, hidden until then. */
+/* A stamp landing: a Story row's medallion, or the next objective's badge. */
 @utility animate-stamp-slap {
-  animation: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) var(--stamp-delay, 0ms)
-    backwards;
+  animation: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
 
 /* Motion is a reward: slap, pop and stamp play only at the moment something is recorded. */

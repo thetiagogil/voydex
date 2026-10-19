@@ -73,9 +73,8 @@ export const describePlayStamp = (
 };
 
 /*
- * Milestones recorded together stamp one after another, in Story order: each
- * id's place in that order. `getStampDelay` turns a place into the
- * --stamp-delay the stamp and slap animations wait for.
+ * Milestones recorded together turn one after another, in Story order: each
+ * id's place in that order, a `stampStepMs` beat apart.
  */
 export type StampOrder = ReadonlyMap<number, number>;
 
@@ -84,9 +83,3 @@ export const stampStepMs = 110;
 
 export const createStampOrder = (orderedMilestoneIds: number[]): StampOrder =>
   new Map(orderedMilestoneIds.map((id, index) => [id, index]));
-
-export const getStampDelay = (order: StampOrder, milestoneId: number) => {
-  const place = order.get(milestoneId);
-
-  return place === undefined ? null : `${place * stampStepMs}ms`;
-};

@@ -82,7 +82,7 @@ export const StoryMilestoneRow = ({
   milestone: StoryMilestone;
   /*
    * Recorded or un-recorded a moment ago: the row keeps still while its
-   * marker pops into its new state.
+   * marker changes: a medallion stamps down, a number pops back.
    */
   motion: "recorded" | "unrecorded" | null;
   /* Called once the marker has popped. */
@@ -111,7 +111,11 @@ export const StoryMilestoneRow = ({
         aria-pressed={selected}
         onClick={onSelect}
         onAnimationEnd={(event) => {
-          if (motion && event.animationName === "marker-in") {
+          if (
+            motion &&
+            (event.animationName === "slap" ||
+              event.animationName === "marker-in")
+          ) {
             onSettled();
           }
         }}

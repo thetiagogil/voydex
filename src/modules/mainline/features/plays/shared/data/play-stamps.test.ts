@@ -6,7 +6,6 @@ import {
   getMilestoneBadgeTypeId,
   getPlayStampLabel,
   getPlayStampStates,
-  getStampDelay,
 } from "./play-stamps";
 
 describe("play stamps", () => {
@@ -40,11 +39,11 @@ describe("play stamps", () => {
 });
 
 describe("stamp order", () => {
-  it("lands milestones recorded together one after another", () => {
-    const order = createStampOrder([60004, 60005, 60006]);
-
-    expect(
-      [60004, 60005, 60006, 60007].map((id) => getStampDelay(order, id)),
-    ).toEqual(["0ms", "110ms", "220ms", null]);
+  it("places milestones recorded together in their order", () => {
+    expect([...createStampOrder([60004, 60005, 60006])]).toEqual([
+      [60004, 0],
+      [60005, 1],
+      [60006, 2],
+    ]);
   });
 });

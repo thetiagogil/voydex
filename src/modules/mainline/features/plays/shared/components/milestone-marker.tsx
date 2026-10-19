@@ -15,7 +15,10 @@ type MilestoneMarkerProps = {
    * milestone has none and shows its type's icon instead.
    */
   sequence: number | null;
-  /* Recorded or un-recorded a moment ago: pops into its state after any --stamp-delay. */
+  /*
+   * Recorded or un-recorded a moment ago: a medallion stamps down, a number
+   * pops back into its ring.
+   */
   popIn?: boolean;
   /* `md` beside Story's rows (30px, 34px from `sm`); `sm` in short lists (28px). */
   size?: "md" | "sm";
@@ -50,7 +53,7 @@ export const MilestoneMarker = ({
       <Medallion
         className={cn(
           size === "md" && "max-sm:size-7",
-          popIn && "animate-marker-in",
+          popIn && "animate-stamp-slap",
           className,
         )}
         size={size === "md" ? "sm" : "xs"}

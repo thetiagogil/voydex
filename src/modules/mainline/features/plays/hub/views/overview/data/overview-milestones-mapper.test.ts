@@ -121,7 +121,7 @@ describe("getOverviewMilestoneSummary", () => {
 });
 
 describe("getOverviewMilestoneSummary journey numbering", () => {
-  it("numbers the next objective within its journey and lists what follows", () => {
+  it("numbers the next objective within its journey", () => {
     const summary = getOverviewMilestoneSummary(
       orderPlayMilestones({
         categories,
@@ -142,32 +142,5 @@ describe("getOverviewMilestoneSummary journey numbering", () => {
     );
 
     expect(summary.nextMilestonePosition).toEqual({ sequence: 2, total: 6 });
-    expect(
-      summary.aheadMilestones.map(({ milestone, sequence, state }) => [
-        milestone.milestone_id,
-        sequence,
-        state,
-      ]),
-    ).toEqual([
-      [2, 2, "next"],
-      [3, 3, "done"],
-    ]);
-  });
-});
-
-describe("getOverviewMilestoneSummary badge types", () => {
-  it("gives a recorded gym in the list ahead its badge type", () => {
-    const summary = getOverviewMilestoneSummary(
-      [
-        milestone({ milestone_id: 1, sort_order: 1 }),
-        milestone({ is_completed: true, milestone_id: 2, sort_order: 2 }),
-      ],
-      new Map([[2, "water"]]),
-    );
-
-    expect(summary.aheadMilestones.map((ahead) => ahead.badgeType)).toEqual([
-      null,
-      "water",
-    ]);
   });
 });

@@ -18,10 +18,9 @@ import {
  * Decisions and saved teams stay out of the rows (a signpost and a camera
  * mark them) until "Show details" beside a chapter's heading brings them
  * in, for the whole list. Milestones recorded together cascade: each row
- * waits as it was, then turns recorded, one after another in Story order, in
- * step with the stamp card. A badge or League row's stamp slaps on the stamp
- * card, so the row just turns; any other row's marker pops. Rows
- * un-recorded pop back to their numbers.
+ * waits as it was, then turns recorded with its marker stamping down, one
+ * after another in Story order. The list is where you look, so the stamp
+ * card above stays still. Rows un-recorded pop back to their numbers.
  */
 export const StoryMilestoneList = ({
   className,
@@ -48,10 +47,6 @@ export const StoryMilestoneList = ({
   waitingMilestoneIds: ReadonlySet<number>;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
-  /* One badge moment: these slap on the stamp card, not in their rows. */
-  const stampedIds = new Set(
-    (scope.stamps ?? []).map((stamp) => stamp.milestoneId),
-  );
   const [showDetails, setShowDetails] = useState(false);
 
   return (
@@ -100,8 +95,7 @@ export const StoryMilestoneList = ({
                     isWaiting
                       ? null
                       : milestone.isCompleted
-                        ? stampOrder.has(milestone.id) &&
-                          !stampedIds.has(milestone.id)
+                        ? stampOrder.has(milestone.id)
                           ? "recorded"
                           : null
                         : fadingMilestoneIds.has(milestone.id)

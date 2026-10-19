@@ -130,13 +130,12 @@ export const MainlinePlayProgressStory = ({
   );
   const [isEditorOpen, setIsEditorOpen] = useState(Boolean(recordMilestone));
   /*
-   * The milestones recorded a moment ago: their rows stamp and their badges
-   * slap, once each, one after another in Story order. Those un-recorded a
-   * moment ago fade back. Each clears when its animation ends, and all clear
+   * The milestones recorded a moment ago: their rows turn and their markers
+   * stamp down, once each, one after another in Story order. Those
+   * un-recorded a moment ago pop back to their numbers. Each clears when its animation ends, and all clear
    * when the scope changes, so a remount never replays them.
    */
   const [rowStampOrder, setRowStampOrder] = useState<StampOrder>(noStamps);
-  const [badgeSlapOrder, setBadgeSlapOrder] = useState<StampOrder>(noStamps);
   const [fadingMilestoneIds, setFadingMilestoneIds] =
     useState<ReadonlySet<number>>(noFades);
   /* Recorded together: the rows still waiting their turn, in order. */
@@ -203,7 +202,6 @@ export const MainlinePlayProgressStory = ({
   const endRecordingReward = () => {
     setWaitingMilestoneIds([]);
     setRowStampOrder(noStamps);
-    setBadgeSlapOrder(noStamps);
     setFadingMilestoneIds(noFades);
   };
 
@@ -224,7 +222,6 @@ export const MainlinePlayProgressStory = ({
     );
 
     setRowStampOrder(order);
-    setBadgeSlapOrder(order);
     setWaitingMilestoneIds([...order.keys()].slice(1));
     setFadingMilestoneIds(noFades);
     setSelectedMilestoneId(null);
@@ -253,15 +250,13 @@ export const MainlinePlayProgressStory = ({
   const startUnrecordingFade = (milestoneIds: number[]) => {
     setWaitingMilestoneIds([]);
     setRowStampOrder(noStamps);
-    setBadgeSlapOrder(noStamps);
     setFadingMilestoneIds(new Set(milestoneIds));
   };
 
   /*
    * Record is one tap (v3): the milestone is recorded where you are, with
    * the required ones and choices before it still open unless "Record only
-   * this one",
-   * its row pops and its stamp slaps, and the toast offers Undo. A choice
+   * this one", its row's marker stamps down, and the toast offers Undo. A choice
    * milestone still opens the form, since its choice has to be made.
    */
   const openEditor = (
@@ -333,13 +328,7 @@ export const MainlinePlayProgressStory = ({
       />
 
       {activeScope.stamps ? (
-        <StoryStampCardSection
-          onSlapEnd={(milestoneId) =>
-            setBadgeSlapOrder((order) => withoutMilestone(order, milestoneId))
-          }
-          slapOrder={badgeSlapOrder}
-          stamps={activeScope.stamps}
-        />
+        <StoryStampCardSection stamps={activeScope.stamps} />
       ) : null}
 
       {/*
