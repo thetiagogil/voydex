@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { appRoutes } from "@/config/routes";
 import type { CodexVersionGroupSlots } from "@/modules/codex/codex-slots";
+import { GameDetailGamePicker } from "@/modules/codex/features/games/detail/components/game-detail-game-picker";
 import { GameDetailExclusivesSection } from "@/modules/codex/features/games/detail/components/game-detail-exclusives-section";
 import { GameDetailHeaderSection } from "@/modules/codex/features/games/detail/components/game-detail-header-section";
 import { GameDetailRegionSection } from "@/modules/codex/features/games/detail/components/game-detail-region-section";
@@ -9,6 +10,7 @@ import { GameDetailRelatedGamesSection } from "@/modules/codex/features/games/de
 import { getGameDetailPage } from "@/modules/codex/features/games/detail/server/game-detail-query";
 import { CodexHead } from "@/modules/codex/shared/components/codex-head";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
 import { PageBand } from "@/shared/components/page-band";
 
@@ -30,7 +32,10 @@ export const GameDetailPage = async ({
   versionGroupSlug,
   versionSlug,
 }: GameDetailPageProps) => {
-  const data = await getGameDetailPage(versionGroupSlug, versionSlug);
+  const [data, { games }] = await Promise.all([
+    getGameDetailPage(versionGroupSlug, versionSlug),
+    readGameCatalogue(),
+  ]);
 
   if (!data) {
     notFound();
@@ -48,10 +53,14 @@ export const GameDetailPage = async ({
     <div className="flex w-full min-w-0 flex-col">
       <PageBand>
         <CodexHead
-          trail={[
-            { href: appRoutes.codexGames, label: "Games" },
-            { label: getVersionGroupShortName(data.versionGroup.name) },
-          ]}
+          trail={[{ href: appRoutes.codexGames, label: "Games" }]}
+          trailEnd={
+            <GameDetailGamePicker
+              activeGameSlug={data.version.game.slug}
+              games={games}
+              label={getVersionGroupShortName(data.versionGroup.name)}
+            />
+          }
         />
         <GameDetailHeaderSection
           data={data}

@@ -8,10 +8,8 @@ import {
   isPokemonItemEqual,
   type PokemonMenuLoadState,
 } from "@/modules/codex/features/pokemon/detail/client/pokemon-detail-species-menu-model";
-import {
-  PokemonDetailSpeciesSelectorOption,
-  pokemonDetailSpeciesSelectorTriggerClassName,
-} from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
+import { PokemonDetailSpeciesSelectorOption } from "@/modules/codex/features/pokemon/detail/components/species-selector/pokemon-detail-species-selector-option";
+import { codexHeadPickerTriggerClassName } from "@/modules/codex/shared/components/codex-head";
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -91,7 +89,7 @@ export const PokemonDetailSpeciesSelectorDesktop = ({
             <Button
               variant="ghost"
               disabled={!activeVersionGroupSlug}
-              className={pokemonDetailSpeciesSelectorTriggerClassName}
+              className={codexHeadPickerTriggerClassName}
             />
           }
         >
