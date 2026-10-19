@@ -135,8 +135,12 @@ export const Carousel = ({
   const scrollerProps: ComponentProps<"div"> & { "data-slot": string } = {
     "data-slot": "carousel",
     className: cn(
-      // Positioned, so the items' offsets are measured from the row.
-      "no-scrollbar relative flex items-end justify-center-safe overflow-x-auto pt-9 pb-4 sm:pt-10",
+      /*
+       * Positioned, so the items' offsets are measured from the row. The
+       * scroller clips, so it keeps room under the covers for their shadow
+       * and stickers, given back below so the layout doesn't grow.
+       */
+      "no-scrollbar relative -mb-3 flex items-end justify-center-safe overflow-x-auto pt-9 pb-7 sm:pt-10",
       densityClassNames[density],
       fadeEdges &&
         "mask-[linear-gradient(90deg,transparent,black_7%,black_93%,transparent)]",
