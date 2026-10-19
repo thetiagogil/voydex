@@ -123,16 +123,20 @@ describe("buildStoryProgressModel", () => {
     ).toEqual([1, null]);
   });
 
-  it("offers the open required milestones before it and the recorded ones after it", () => {
+  it("offers the open required milestones and choices before it and the recorded ones after it", () => {
     const journey = (isOpenWorld: boolean) =>
       buildStoryProgressModel({
         categories: [
-          category({ is_open_world: isOpenWorld, milestone_count: 5 }),
+          category({ is_open_world: isOpenWorld, milestone_count: 6 }),
         ],
         badgeTypes: [],
         decisionForms: [],
         milestones: [
-          milestone({ is_completed: true, milestone_name: "Boulder Badge" }),
+          milestone({
+            is_completed: true,
+            milestone_name: "Boulder Badge",
+            milestone_type_slug: "gym",
+          }),
           milestone({
             is_required_for_completion: false,
             milestone_id: 2,
@@ -142,26 +146,37 @@ describe("buildStoryProgressModel", () => {
           milestone({
             milestone_id: 3,
             milestone_name: "Cascade Badge",
+            milestone_type_slug: "gym",
             sort_order: 3,
+          }),
+          milestone({
+            is_required_for_completion: false,
+            milestone_id: 6,
+            milestone_name: "Side story",
+            milestone_type_slug: "story",
+            sort_order: 4,
           }),
           milestone({
             milestone_id: 4,
             milestone_name: "Thunder Badge",
-            sort_order: 4,
+            milestone_type_slug: "gym",
+            sort_order: 5,
           }),
           milestone({
             is_completed: true,
             milestone_id: 5,
             milestone_name: "Rainbow Badge",
-            sort_order: 5,
+            milestone_type_slug: "gym",
+            sort_order: 6,
           }),
         ],
         snapshotEvents: [],
       }).scopes[0]?.sections[0]?.milestones ?? [];
-    const [boulder, , , thunder] = journey(false);
+    const [boulder, , , , thunder] = journey(false);
 
-    // Never the optional Fossil Choice, nor Boulder, already recorded.
+    // The optional Fossil Choice too, but not an optional side story.
     expect(thunder?.earlierToRecord).toEqual([
+      { id: 2, name: "Fossil Choice" },
       { id: 3, name: "Cascade Badge" },
     ]);
     expect(boulder?.laterRecorded).toEqual([{ id: 5, name: "Rainbow Badge" }]);

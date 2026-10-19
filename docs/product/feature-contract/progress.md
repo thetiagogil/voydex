@@ -90,13 +90,14 @@ on narrow Play layouts. `Mark incomplete` uses a desktop confirmation Alert
 Dialog before the correction is submitted.
 
 **Catching up in a linear game.** Recording a milestone also records the
-required milestones before it that are still open, by default: its detail
+required milestones and choices (Fossil Choice) before it that are still open,
+by default: its detail
 says so ("Recording it also records the 3 before it"), and the Record arrow
 offers `Record only this one` for the rare out-of-order case (a choice
 milestone's form has `Also record the N before it`, ticked). One database call
 records them all; only the milestone you picked becomes a moment, the earlier
-ones get no moment, note or decision, and optional milestones are never
-recorded this way. The toast's Undo clears the whole set. `Mark incomplete`
+ones get no moment or note, a choice's decision stays `Not recorded`, and an
+optional milestone that isn't a choice is never recorded this way. The toast's Undo clears the whole set. `Mark incomplete`
 likewise has `Also clear the N after it` ticked (every milestone recorded after
 it in Story order), and its preview lists the whole set before the one
 confirmed write. Open-world games do neither.

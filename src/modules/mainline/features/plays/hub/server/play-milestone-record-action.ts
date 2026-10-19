@@ -80,7 +80,7 @@ const getAuthenticatedClient = async () => {
  */
 export const recordMainlinePlayMilestoneAction = async (input: {
   decisionOptionId?: number | null;
-  /* "Record with the N before it": the required ones before it, still open. */
+  /* "The N before it": the required ones and choices before it, still open. */
   earlierMilestoneIds?: number[];
   /* "Record with your team": saves the team you have now with the moment. */
   includeTeam?: boolean;

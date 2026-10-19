@@ -160,7 +160,8 @@ export const MainlinePlayProgressStory = ({
 
   /*
    * Record is one tap (v3): the milestone is recorded where you are, with
-   * the required ones before it still open unless "Record only this one",
+   * the required ones and choices before it still open unless "Record only
+   * this one",
    * its row pops and its stamp slaps, and the toast offers Undo. A choice
    * milestone still opens the form, since its choice has to be made.
    */

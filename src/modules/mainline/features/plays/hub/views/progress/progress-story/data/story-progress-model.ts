@@ -215,7 +215,7 @@ const addIncompletionImpacts = (milestones: StoryMilestone[]) => {
 
 /*
  * One journey's numbers, and what each milestone can record or clear with
- * it: in a linear story, the required ones before it still open and the
+ * it: in a linear story, the required ones and choices before it still open and the
  * recorded ones after it. An open-world story offers neither.
  */
 const addJourneyPositions = (scope: StoryScope) => {
@@ -234,7 +234,11 @@ const addJourneyPositions = (scope: StoryScope) => {
 
     milestone.earlierToRecord = milestones
       .slice(0, index)
-      .filter((earlier) => earlier.isRequired && !earlier.isCompleted)
+      .filter(
+        (earlier) =>
+          !earlier.isCompleted &&
+          (earlier.isRequired || earlier.typeSlug === "decision"),
+      )
       .map(toRef);
     milestone.laterRecorded = milestones
       .slice(index + 1)

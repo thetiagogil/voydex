@@ -83,7 +83,8 @@ export type StoryMilestone = {
   decisionOptions: StoryDecisionOption[];
   description: string | null;
   /*
-   * The required milestones before it, not recorded yet, that recording it
+   * The required milestones and choices before it, not recorded yet (a
+   * choice's decision stays unrecorded), that recording it
    * can also record ("the N before it"). Empty in an open-world story.
    */
   earlierToRecord: StoryMilestoneRef[];
