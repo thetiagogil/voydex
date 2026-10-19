@@ -10,14 +10,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1"],
   images: {
     dangerouslyAllowLocalIP: supabaseImages.allowLocalIp,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "img.pokemondb.net",
-        pathname: "/sprites/**",
-      },
-      ...supabaseImages.remotePatterns,
-    ],
+    remotePatterns: [...supabaseImages.remotePatterns],
   },
 };
 

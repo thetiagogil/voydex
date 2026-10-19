@@ -34,7 +34,7 @@ export const getTeamPlanPlannedImageUrl = (
 ) =>
   getPokemonFormImageUrl({
     name: comparison.plannedName,
-    sprite_slug: comparison.plannedSpriteSlug,
+    slug: comparison.plannedFormSlug,
   });
 
 /* The art alone; a dark silhouette when the Pokémon isn't yours. */

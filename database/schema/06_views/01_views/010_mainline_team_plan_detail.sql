@@ -17,7 +17,6 @@ SELECT
     mainline_team_plan_members.target_form_id,
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
-    target_forms.sprite_slug AS target_sprite_slug,
     mainline_team_plan_members.role_label,
     mainline_team_plan_members.notes,
     mainline_team_plan_members.gender,

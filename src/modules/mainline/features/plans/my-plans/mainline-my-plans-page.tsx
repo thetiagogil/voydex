@@ -17,7 +17,7 @@ type MainlineMyPlansPageProps = {
 
 const emptyArtUrl = getPokemonFormImageUrl({
   name: "Ditto",
-  sprite_slug: "ditto",
+  slug: "ditto",
 });
 
 /*

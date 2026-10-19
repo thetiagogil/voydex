@@ -242,7 +242,7 @@ export const buildPlannerContext = ({
               : null,
         },
         formId: form.id,
-        imageUrl: getPokemonFormImageUrl(form),
+        imageUrl: getPokemonFormImageUrl(form, "sm"),
         isFullyEvolved: !edges.some(
           (edge) => edge.from_species_id === species.id,
         ),

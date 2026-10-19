@@ -67,7 +67,7 @@ export type MainlinePlayTeamPreviewRow = Pick<
   | "slot"
   | "species_name"
   | "species_slug"
-  | "sprite_slug"
+  | "form_slug"
 >;
 
 export type MainlinePlayTeamPreviewAttribute = Pick<
@@ -173,7 +173,6 @@ export type MainlinePlayTeamPlanMemberComparison = {
   plannedPrimaryType: Type | null;
   plannedSecondaryType: Type | null;
   plannedSpeciesId: number;
-  plannedSpriteSlug: string | null;
   playMember: MainlinePlayTeamMember | null;
   relation: MainlinePlayTeamPlanRelation | null;
   roleLabel: string | null;

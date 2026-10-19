@@ -64,8 +64,11 @@ The schema and seed sources are the database's source of truth: a fresh
 database built from them alone must match every environment.
 
 - **Before launch** (now): fix schema and data by editing the source files
-  directly, then rebuild artifacts and reset. Do not add patch migrations; the
-  hosted database is reset and re-seeded from source when the owner approves.
+  directly, then rebuild artifacts and reset. `database/supabase/migrations`
+  holds only the generated baseline; the earlier patch migrations were folded
+  into it on 2026-10-19. Do not add patch migrations; the hosted database is
+  reset and re-seeded from source when the owner approves, which also resets
+  its migration history.
 - **After launch**: every change ships as a patch migration under
   `database/supabase/migrations` **and** the matching schema or seed edit in
   the same change, so source and migrations never drift. Data corrections

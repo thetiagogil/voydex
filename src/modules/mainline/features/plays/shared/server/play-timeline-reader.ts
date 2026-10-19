@@ -22,14 +22,14 @@ const hydrateTimelineEventImages = async (
   /* Chunked: a long History can name more forms than one filter holds. */
   const forms = await loadChunkedReferenceRows<{
     id: number;
-    sprite_slug: string | null;
+    slug: string;
   }>(
     formIds,
     (ids, from, to) =>
       supabase
         .schema("reference")
         .from("pokemon_forms")
-        .select("id, sprite_slug")
+        .select("id, slug")
         .in("id", ids)
         .order("id")
         .range(from, to),

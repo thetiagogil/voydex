@@ -118,7 +118,7 @@ export const buildPokedexPageData = ({
       return {
         detailVersionGroupSlug,
         id: pokemonSpecies.id,
-        imageUrl: getPokemonFormImageUrl(defaultForm),
+        imageUrl: getPokemonFormImageUrl(defaultForm, "sm"),
         introducedGeneration: introducedGeneration
           ? {
               id: introducedGeneration.id,

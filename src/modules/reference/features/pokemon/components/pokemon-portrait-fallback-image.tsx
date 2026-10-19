@@ -41,6 +41,7 @@ export const PokemonPortraitFallbackImage = ({
       loading={loading}
       fetchPriority={fetchPriority}
       sizes={sizes}
+      unoptimized
       className={cn("object-contain p-3", className)}
       onError={() => {
         setFailedImageUrl(imageUrl);

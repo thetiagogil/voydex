@@ -160,7 +160,7 @@ export const PokemonDetailShell = ({
   return (
     <div className="flex min-w-0 flex-col">
       <PokemonDetailSectionBar
-        imageUrl={getPokemonDetailFormImageUrl(form)}
+        imageUrl={getPokemonDetailFormImageUrl(form, "sm")}
         name={pokemonName}
         type={typeSlug}
       >
@@ -192,10 +192,10 @@ export const PokemonDetailShell = ({
               speciesSlug: data.species.slug,
             })}
             imageAlt={getPokemonDetailFormImageAlt(form, data.species.name)}
-            imageUrl={getPokemonDetailFormImageUrl(form)}
+            imageUrl={getPokemonDetailFormImageUrl(form, "art")}
             name={pokemonName}
             sentence={getPokemonDetailHeroSentence({ form, stats })}
-            shinyImageUrl={getPokemonDetailFormShinyImageUrl(form)}
+            shinyImageUrl={getPokemonDetailFormShinyImageUrl(form, "art")}
             typePair={form?.typePair ?? null}
             typeSlug={typeSlug}
           />

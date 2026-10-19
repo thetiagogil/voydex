@@ -11,7 +11,7 @@ export const readMainlinePlayOverviewTeamRows = async (
     .schema("views")
     .from("mainline_play_team_detail")
     .select(
-      "form_id, form_name, is_shiny, level, nickname, play_pokemon_id, roster_state_slug, slot, species_name, species_slug, sprite_slug",
+      "form_id, form_name, is_shiny, level, nickname, play_pokemon_id, roster_state_slug, slot, form_slug, species_name, species_slug",
     )
     .eq("play_id", playId)
     .eq("roster_state_slug", "active")

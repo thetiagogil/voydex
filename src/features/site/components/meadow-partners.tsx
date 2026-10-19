@@ -71,7 +71,7 @@ export const MeadowPartners = ({
 
         return openStart ? (
           <Link
-            key={partner.sprite_slug}
+            key={partner.slug}
             href={getStartPlayHref({ generation: partner.generation })}
             data-generation={partner.generation}
             aria-label={`${partner.name}: show the Generation ${romanNumerals[partner.generation - 1]} games`}
@@ -85,7 +85,7 @@ export const MeadowPartners = ({
           </Link>
         ) : (
           <span
-            key={partner.sprite_slug}
+            key={partner.slug}
             style={getPartnerStyle(index, partner.scale)}
             className={partnerClassName}
           >

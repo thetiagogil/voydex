@@ -20,7 +20,6 @@ SELECT
     pokemon_forms.slug AS form_slug,
     pokemon_forms.name AS form_name,
     pokemon_forms.is_default AS is_default_form,
-    pokemon_forms.sprite_slug,
     mainline_play_pokemon.nickname,
     mainline_play_pokemon.level,
     mainline_play_pokemon.gender,

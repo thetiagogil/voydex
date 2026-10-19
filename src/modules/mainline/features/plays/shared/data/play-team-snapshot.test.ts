@@ -8,12 +8,12 @@ import {
 describe("parsePlayTeamSnapshot", () => {
   it("keeps valid members in team order with their art", () => {
     const members = parsePlayTeamSnapshot([
-      { position: 2, species_name: "Wooloo", sprite_slug: "wooloo" },
+      { position: 2, species_name: "Wooloo", slug: "wooloo" },
       {
         is_shiny: true,
         position: 1,
         species_name: "Charizard",
-        sprite_slug: "charizard",
+        slug: "charizard",
       },
       { position: 3 },
       "not a member",
@@ -24,7 +24,7 @@ describe("parsePlayTeamSnapshot", () => {
       "Wooloo",
     ]);
     expect(members[0]?.imageUrl).toBe(
-      "https://img.pokemondb.net/sprites/home/shiny/charizard.png",
+      "https://assets.test/pokemon/home-shiny/md/charizard.webp",
     );
     expect(getPlayTeamSnapshotMemberName(members[0]!)).toBe("Charizard, shiny");
     expect(parsePlayTeamSnapshot(null)).toEqual([]);

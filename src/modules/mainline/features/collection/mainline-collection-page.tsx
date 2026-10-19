@@ -18,7 +18,7 @@ type MainlineCollectionPageProps = {
 
 const emptyArtUrl = getPokemonFormImageUrl({
   name: "Eevee",
-  sprite_slug: "eevee",
+  slug: "eevee",
 });
 
 const formatCount = (count: number, one: string, many: string) =>

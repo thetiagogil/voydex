@@ -12,12 +12,12 @@ import type {
  */
 const grookey: PublicPokemon = {
   name: "Grookey",
-  sprite_slug: "grookey",
+  slug: "grookey",
   type: "grass",
 };
 const toxtricity: PublicPokemon = {
   name: "Toxtricity",
-  sprite_slug: "toxtricity",
+  slug: "toxtricity",
   type: "electric",
 };
 
@@ -79,12 +79,12 @@ export const samplePlayStory: {
 };
 
 export const samplePlayTeam: readonly PublicPokemon[] = [
-  { name: "Rillaboom", sprite_slug: "rillaboom", type: "grass" },
-  { name: "Corviknight", sprite_slug: "corviknight", type: "flying" },
-  { name: "Drednaw", sprite_slug: "drednaw", type: "water" },
+  { name: "Rillaboom", slug: "rillaboom", type: "grass" },
+  { name: "Corviknight", slug: "corviknight", type: "flying" },
+  { name: "Drednaw", slug: "drednaw", type: "water" },
   toxtricity,
-  { name: "Grimmsnarl", sprite_slug: "grimmsnarl", type: "dark" },
-  { name: "Dragapult", sprite_slug: "dragapult", type: "dragon" },
+  { name: "Grimmsnarl", slug: "grimmsnarl", type: "dark" },
+  { name: "Dragapult", slug: "dragapult", type: "dragon" },
 ];
 
 /* Galar's eight gym badges, in order, by their gyms' types. */
@@ -112,7 +112,7 @@ export const samplePlayPokedex: readonly SamplePokedexEntry[] = [
   {
     name: "Corviknight",
     number: "#023",
-    sprite_slug: "corviknight",
+    slug: "corviknight",
     state: "caught",
     type: "flying",
     types: ["flying", "steel"],
@@ -120,7 +120,7 @@ export const samplePlayPokedex: readonly SamplePokedexEntry[] = [
   {
     name: "Vikavolt",
     number: "#018",
-    sprite_slug: "vikavolt",
+    slug: "vikavolt",
     state: "seen",
     type: "bug",
     types: ["bug", "electric"],
@@ -128,7 +128,7 @@ export const samplePlayPokedex: readonly SamplePokedexEntry[] = [
   {
     name: "Dottler",
     number: "#011",
-    sprite_slug: "dottler",
+    slug: "dottler",
     state: "missing",
     type: "bug",
     types: ["bug", "psychic"],

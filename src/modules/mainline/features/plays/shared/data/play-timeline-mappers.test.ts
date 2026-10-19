@@ -24,27 +24,27 @@ describe("Mainline timeline Pokemon image hydration", () => {
 
   it("adds each form sprite slug without changing the event shape", () => {
     const hydratedEvents = hydrateMainlineTimelinePokemonImages(events, [
-      { id: 6, sprite_slug: "charizard" } as PokemonForm,
-      { id: 25, sprite_slug: "pikachu" } as PokemonForm,
+      { id: 6, slug: "charizard" } as PokemonForm,
+      { id: 25, slug: "pikachu" } as PokemonForm,
     ]);
 
     expect(hydratedEvents[0]?.pokemon_refs).toEqual([
       {
         form_id: 25,
         species_name: "Pikachu",
-        sprite_slug: "pikachu",
+        slug: "pikachu",
       },
     ]);
     expect(hydratedEvents[0]?.team_snapshots).toEqual([
       {
         form_id: 6,
         species_name: "Charizard",
-        sprite_slug: "charizard",
+        slug: "charizard",
       },
       {
         form_id: 25,
         species_name: "Pikachu",
-        sprite_slug: "pikachu",
+        slug: "pikachu",
       },
     ]);
   });

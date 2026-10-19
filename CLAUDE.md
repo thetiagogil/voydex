@@ -89,9 +89,10 @@ task; use more only when the user asks for parallel work on independent scopes.
 - Browser-safe values live in `.env.local`, private database tooling values in
   `.env.database`; start from the tracked `*.example` files and never move
   private credentials into `NEXT_PUBLIC_*` variables.
-- The app accepts only `NEXT_PUBLIC_SUPABASE_URL` and
-  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; do not restore legacy anon-key
-  aliases. Database tooling accepts only the names in `.env.database.example`.
+- The app accepts only `NEXT_PUBLIC_SUPABASE_URL`,
+  `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and `NEXT_PUBLIC_ASSETS_URL` (the
+  `voydex-assets` site serving Pokémon images, read only by
+  `pokemon-images.ts`); do not restore legacy anon-key aliases. Database tooling accepts only the names in `.env.database.example`.
 - Keep active indexes beside their owning table schema.
 - A write that touches more than one table or creates a History moment goes
   through one database function; Server Actions stay thin adapters.

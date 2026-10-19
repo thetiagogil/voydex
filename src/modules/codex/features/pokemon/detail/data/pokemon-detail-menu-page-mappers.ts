@@ -64,7 +64,7 @@ export const buildPokemonDetailMenuPage = ({
     return {
       id: species.id,
       imageAlt: getPokemonFormImageAlt(defaultForm),
-      imageUrl: getPokemonFormImageUrl(defaultForm),
+      imageUrl: getPokemonFormImageUrl(defaultForm, "sm"),
       name: species.name,
       nationalNumber: species.national_number,
       pokedexGroup: menuRow?.pokedexGroup ?? null,

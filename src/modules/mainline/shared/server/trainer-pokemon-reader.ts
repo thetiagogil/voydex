@@ -44,7 +44,7 @@ export type TrainerPokemonRows = {
   attributes: PokemonAttributes[];
   forms: Pick<
     PokemonForm,
-    "id" | "is_default" | "name" | "slug" | "species_id" | "sprite_slug"
+    "id" | "is_default" | "name" | "slug" | "species_id"
   >[];
   games: Game[];
   plays: MainlinePlaySummary[];
@@ -186,7 +186,7 @@ const readForms = async (supabase: ServerSupabaseClient, formIds: number[]) => {
         supabase
           .schema("reference")
           .from("pokemon_forms")
-          .select("id, is_default, name, slug, species_id, sprite_slug")
+          .select("id, is_default, name, slug, species_id")
           .in("id", ids)
           .order("id", { ascending: true })
           .range(from, to),

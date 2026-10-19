@@ -140,7 +140,7 @@ export const buildMainlinePlayPokedexData = ({
     const entry: MainlinePlayPokedexEntry = {
       displayFormName: form && !form.is_default ? form.name : null,
       imageAlt: getPokemonFormImageAlt(form),
-      imageUrl: getPokemonFormImageUrl(form),
+      imageUrl: getPokemonFormImageUrl(form, "sm"),
       isIncludedInCompletion: row.is_included_in_completion === true,
       isSourceRequiredForCompletion:
         row.is_source_required_for_completion === true,

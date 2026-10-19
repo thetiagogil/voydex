@@ -135,7 +135,7 @@ export type StoryScope = {
 export type MainlinePlayProgressStoryData = {
   badgeTypes: { id: number; slug: string }[];
   categories: StoryCategorySource[];
-  decisionForms: Pick<PokemonForm, "id" | "sprite_slug">[];
+  decisionForms: Pick<PokemonForm, "id" | "slug">[];
   milestones: StoryMilestoneSource[];
   snapshotEvents: StorySnapshotEventSource[];
 };

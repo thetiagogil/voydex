@@ -88,7 +88,7 @@ describe("partner choice", () => {
             secondary_type_id: null,
           },
         ],
-        forms: [{ id: 810, name: "Grookey", sprite_slug: "grookey" }],
+        forms: [{ id: 810, name: "Grookey", slug: "grookey" }],
         types: [{ id: 12, name: "Grass", slug: "grass" }],
       },
       milestone: {

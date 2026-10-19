@@ -78,7 +78,7 @@ export const readMainlinePlayStoryProgress = async (
       ? supabase
           .schema("reference")
           .from("pokemon_forms")
-          .select("id, sprite_slug")
+          .select("id, slug")
           .in("id", decisionFormIds)
       : { data: [], error: null },
     badgeTypeIds.length

@@ -20,7 +20,7 @@ type MainlinePlayTeamAnalysisProps = {
 
 const emptyTeamArtUrl = getPokemonFormImageUrl({
   name: "Pikachu",
-  sprite_slug: "pikachu",
+  slug: "pikachu",
 });
 
 /*

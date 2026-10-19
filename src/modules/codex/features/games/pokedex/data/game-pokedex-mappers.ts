@@ -174,7 +174,7 @@ export const buildGamePokedexData = ({
           entry,
           form,
           imageAlt: getPokemonFormImageAlt(form),
-          imageUrl: getPokemonFormImageUrl(form),
+          imageUrl: getPokemonFormImageUrl(form, "sm"),
           species: matchedSpecies,
           typePair: resolveTypePair(attributes, typeById),
         },

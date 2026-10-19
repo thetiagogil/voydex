@@ -49,7 +49,6 @@ const form = (id: number, speciesId: number, name: string, isDefault = true) =>
     name,
     slug: name.toLowerCase().replace(/[^a-z]+/g, "-"),
     species_id: speciesId,
-    sprite_slug: name.toLowerCase().replace(/[^a-z]+/g, "-"),
   }) as PokemonForm;
 
 const species = (id: number, name: string) =>

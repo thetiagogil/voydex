@@ -161,7 +161,7 @@ const buildVersionExclusives = (
         isDefault: form.is_default,
         slug: form.slug,
       }),
-      imageUrl: getPokemonFormImageUrl(form),
+      imageUrl: getPokemonFormImageUrl(form, "sm"),
       key: String(form.id),
       name: form.is_default ? speciesRow.name : form.name,
       nationalNumber: speciesRow.national_number,

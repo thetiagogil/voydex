@@ -12,7 +12,6 @@ CREATE TABLE reference.pokemon_forms (
     form_order integer NOT NULL,
     height_decimeters integer,
     weight_hectograms integer,
-    sprite_slug text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT pokemon_forms_id_positive_check CHECK (id > 0),
     CONSTRAINT pokemon_forms_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 160),
@@ -20,7 +19,6 @@ CREATE TABLE reference.pokemon_forms (
     CONSTRAINT pokemon_forms_form_order_positive_check CHECK (form_order > 0),
     CONSTRAINT pokemon_forms_height_positive_check CHECK (height_decimeters IS NULL OR height_decimeters > 0),
     CONSTRAINT pokemon_forms_weight_positive_check CHECK (weight_hectograms IS NULL OR weight_hectograms > 0),
-    CONSTRAINT pokemon_forms_sprite_slug_format_check CHECK (sprite_slug IS NULL OR (sprite_slug = LOWER(sprite_slug) AND sprite_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(sprite_slug) <= 160)),
     CONSTRAINT pokemon_forms_species_id_unique UNIQUE (species_id, id),
     CONSTRAINT pokemon_forms_species_order_unique UNIQUE (species_id, form_order)
 );

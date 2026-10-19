@@ -120,7 +120,7 @@ export const RecordAsYouGoStage = ({
       <div className="grid grid-cols-3 gap-2">
         {samplePlayTeam.map((pokemon) => (
           <span
-            key={pokemon.sprite_slug}
+            key={pokemon.slug}
             style={getTypeColourStyle(pokemon.type)}
             className="sticker grid aspect-square place-items-center rounded-md"
           >
@@ -148,7 +148,7 @@ export const RecordAsYouGoStage = ({
 
           return (
             <div
-              key={entry.sprite_slug}
+              key={entry.slug}
               className="flex min-w-0 flex-col items-center gap-2"
             >
               {art.pokemonCard({
@@ -217,7 +217,7 @@ export const PlanATeamStage = ({ art }: { art: PublicArt }) => (
     <div className="grid grid-cols-3 gap-2.5 sm:grid-cols-6 md:grid-cols-3">
       {introPlan.picks.map((pokemon) => (
         <span
-          key={pokemon.sprite_slug}
+          key={pokemon.slug}
           style={getTypeColourStyle(pokemon.type)}
           className="type-tint grid aspect-square place-items-center rounded-md"
         >
@@ -241,7 +241,7 @@ export const CodexStage = ({ art }: { art: PublicArt }) => (
   >
     <div className="grid grid-cols-3 gap-2 sm:gap-2.5">
       {introCodexEntries.map((entry) => (
-        <Fragment key={entry.sprite_slug}>
+        <Fragment key={entry.slug}>
           {art.pokemonCard({
             /* v3 `.dcard`: the plain card on its clay edge, filling its column. */
             className: "w-full border-transparent shadow-card",

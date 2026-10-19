@@ -33,6 +33,7 @@ export const MatchupMemberSprite = ({
       alt={label}
       width={52}
       height={52}
+      unoptimized
       className={cn("block shrink-0 object-contain", className)}
     />
   );

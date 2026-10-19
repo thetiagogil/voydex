@@ -73,6 +73,7 @@ export const PokemonPortrait = ({
           loading={imageLoading}
           fetchPriority={resolvedFetchPriority}
           sizes={sizes}
+          unoptimized
           className={cn("object-contain p-3", imageClassName)}
         />
       ) : (

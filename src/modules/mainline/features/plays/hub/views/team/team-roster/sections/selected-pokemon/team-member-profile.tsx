@@ -40,7 +40,7 @@ export const TeamMemberProfile = ({
   member: MainlinePlayTeamMember;
   title: ReactNode;
 }) => {
-  const imageUrl = getPlayTeamMemberImageUrl(member);
+  const imageUrl = getPlayTeamMemberImageUrl(member, "art");
   const primaryType =
     member.primaryType && isPokemonTypeSlug(member.primaryType.slug)
       ? member.primaryType.slug

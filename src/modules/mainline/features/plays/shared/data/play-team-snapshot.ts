@@ -48,7 +48,7 @@ export const parsePlayTeamSnapshot = (
 
       const imageForm = {
         name: formName ?? speciesName,
-        sprite_slug: toText(member.sprite_slug),
+        slug: toText(member.slug),
       };
 
       return [

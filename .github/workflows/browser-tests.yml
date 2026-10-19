@@ -50,6 +50,8 @@ jobs:
       # Pull the Supabase images from GitHub's registry; the default public
       # registry often refuses GitHub's shared runners ("Data limit exceeded").
       SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+      # Pokémon images come from the separate voydex-assets site.
+      NEXT_PUBLIC_ASSETS_URL: https://voydex-assets.vercel.app
 
     steps:
       - name: Check out repository

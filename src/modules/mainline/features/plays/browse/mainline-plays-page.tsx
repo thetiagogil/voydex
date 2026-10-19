@@ -22,7 +22,7 @@ type MainlinePlaysPageProps = {
 
 const emptyLibraryArtUrl = getPokemonFormImageUrl({
   name: "Pikachu",
-  sprite_slug: "pikachu",
+  slug: "pikachu",
 });
 
 /*

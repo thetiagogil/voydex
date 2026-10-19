@@ -17,14 +17,14 @@ type PeekPreset = PublicPokemonForm & { offset: number };
 /* Kanto's first partners peek over Log in and the recovery pages, Paldea's over Sign up. */
 const peekPresets: Record<AuthMode, readonly PeekPreset[]> = {
   "log-in": [
-    { name: "Bulbasaur", offset: -24, sprite_slug: "bulbasaur" },
-    { name: "Charmander", offset: 16, sprite_slug: "charmander" },
-    { name: "Squirtle", offset: -6, sprite_slug: "squirtle" },
+    { name: "Bulbasaur", offset: -24, slug: "bulbasaur" },
+    { name: "Charmander", offset: 16, slug: "charmander" },
+    { name: "Squirtle", offset: -6, slug: "squirtle" },
   ],
   "sign-up": [
-    { name: "Sprigatito", offset: -28, sprite_slug: "sprigatito" },
-    { name: "Fuecoco", offset: -6, sprite_slug: "fuecoco" },
-    { name: "Quaxly", offset: -18, sprite_slug: "quaxly" },
+    { name: "Sprigatito", offset: -28, slug: "sprigatito" },
+    { name: "Fuecoco", offset: -6, slug: "fuecoco" },
+    { name: "Quaxly", offset: -18, slug: "quaxly" },
   ],
 };
 
@@ -51,7 +51,7 @@ export const getAuthPeekCast = (
 
   return peekPresets[mode].map((pokemon) => ({
     imageUrl: art.pokemon(pokemon),
-    key: pokemon.sprite_slug,
+    key: pokemon.slug,
     offset: pokemon.offset,
   }));
 };
