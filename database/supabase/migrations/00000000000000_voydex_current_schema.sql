@@ -1632,6 +1632,33 @@ COMMENT ON COLUMN reference.pokedex_entries.pokedex_number IS 'Number within the
 COMMENT ON COLUMN reference.pokedex_entries.is_source_required_for_completion IS 'True when the source/game treats this Pokedex entry as required by default. False for source-visible optional entries such as mythicals and explicit regional exceptions.';
 
 -- ============================================================================
+-- Source: database/schema/02_reference/01_tables/040_move_version_group_attributes.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.move_version_group_attributes
+-- Move mechanics that one version group changes against its generation row.
+-- ============================================================================
+CREATE TABLE reference.move_version_group_attributes (
+    move_id integer NOT NULL REFERENCES reference.moves (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    version_group_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    type_id integer NOT NULL REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    power integer,
+    accuracy integer,
+    pp integer,
+    priority integer NOT NULL DEFAULT 0,
+    damage_class text NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT move_version_group_attributes_primary_key PRIMARY KEY (move_id, version_group_id),
+    CONSTRAINT move_version_group_attributes_power_check CHECK (power IS NULL OR power BETWEEN 0 AND 300),
+    CONSTRAINT move_version_group_attributes_accuracy_check CHECK (accuracy IS NULL OR accuracy BETWEEN 1 AND 100),
+    CONSTRAINT move_version_group_attributes_pp_check CHECK (pp IS NULL OR pp BETWEEN 1 AND 64),
+    CONSTRAINT move_version_group_attributes_priority_check CHECK (priority BETWEEN -7 AND 7),
+    CONSTRAINT move_version_group_attributes_damage_class_check CHECK (damage_class IN ('physical', 'special', 'status', 'variable'))
+);
+
+COMMENT ON TABLE reference.move_version_group_attributes IS 'Version-group overrides for move type, power, accuracy, PP, priority, and damage class, such as Let''s Go values. A row replaces the generation row for that version group only.';
+
+-- ============================================================================
 -- Source: database/schema/02_reference/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -1898,6 +1925,8 @@ ALTER TABLE reference.move_kinds ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.move_attributes ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.move_version_group_attributes ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.move_machines ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.item_categories ENABLE ROW LEVEL SECURITY;
@@ -1915,6 +1944,8 @@ REVOKE ALL ON TABLE reference.moves FROM anon, authenticated;
 REVOKE ALL ON TABLE reference.move_kinds FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_attributes FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.move_version_group_attributes FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_machines FROM anon, authenticated;
 
@@ -1934,6 +1965,8 @@ GRANT SELECT ON TABLE reference.move_kinds TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.move_attributes TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.move_version_group_attributes TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.move_machines TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.item_categories TO anon, authenticated;
@@ -1951,6 +1984,8 @@ GRANT ALL ON TABLE reference.moves TO service_role;
 GRANT ALL ON TABLE reference.move_kinds TO service_role;
 
 GRANT ALL ON TABLE reference.move_attributes TO service_role;
+
+GRANT ALL ON TABLE reference.move_version_group_attributes TO service_role;
 
 GRANT ALL ON TABLE reference.move_machines TO service_role;
 
@@ -1973,6 +2008,10 @@ CREATE POLICY move_kinds_read_all ON reference.move_kinds
     USING (TRUE);
 
 CREATE POLICY move_attributes_read_all ON reference.move_attributes
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY move_version_group_attributes_read_all ON reference.move_version_group_attributes
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

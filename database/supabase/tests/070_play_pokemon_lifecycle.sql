@@ -31,20 +31,28 @@ SELECT
         SELECT
             gameplay.evolve_mainline_play_pokemon (p_play_pokemon_id => '71000000-0000-0000-0000-0000000000c1', p_to_species_id => 723, p_to_form_id => 72300, p_level => 17) $$, 'the owner can evolve a team member');
 SELECT
-    results_eq ($$
-        SELECT
-            species_id, form_id, level FROM gameplay.mainline_play_pokemon
+    IS ((
+            SELECT
+                ROW (species_id,
+                    form_id,
+                    level)
+            FROM
+                gameplay.mainline_play_pokemon
             WHERE
-                id = '71000000-0000-0000-0000-0000000000c1'   $$, $$
-            VALUES (723, 72300, 17) $$, 'evolution updates species, form and level');
+                id = '71000000-0000-0000-0000-0000000000c1'), ROW (723, 72300, 17), 'evolution updates species, form and level');
 SELECT
-    results_eq ($$
-        SELECT
-            event_type_id, title FROM gameplay.mainline_play_events
+    IS ((
+            SELECT
+                ROW (event_type_id,
+                    title)
+            FROM
+                gameplay.mainline_play_events
             WHERE
                 play_id = '70000000-0000-0000-0000-0000000000c1'
-                AND timeline_order = 1 $$, $$
-            VALUES (3, 'Rowlet evolved into Dartrix') $$, 'evolution records one evolved moment with a default title');
+                AND timeline_order = 1),
+            ROW (3,
+                'Rowlet evolved into Dartrix'::text),
+            'evolution records one evolved moment with a default title');
 SELECT
     results_eq ($$
         SELECT
@@ -94,12 +102,15 @@ SELECT
         SELECT
             gameplay.retire_mainline_play_pokemon (p_play_pokemon_id => '71000000-0000-0000-0000-0000000000c3', p_final_status => 'boxed') $$, 'the owner can retire a team member');
 SELECT
-    results_eq ($$
-        SELECT
-            roster_state_id, slot, final_status FROM gameplay.mainline_play_pokemon
+    IS ((
+            SELECT
+                ROW (roster_state_id,
+                    slot,
+                    final_status)
+            FROM
+                gameplay.mainline_play_pokemon
             WHERE
-                id = '71000000-0000-0000-0000-0000000000c3'   $$, $$
-            VALUES (3, NULL::integer, 'boxed'::text) $$, 'retiring frees the slot and records the final status');
+                id = '71000000-0000-0000-0000-0000000000c3'), ROW (3, NULL::integer, 'boxed'::text), 'retiring frees the slot and records the final status');
 SELECT
     IS ((
             SELECT
@@ -116,20 +127,27 @@ SELECT
         SELECT
             gameplay.replace_mainline_play_pokemon (p_replaced_play_pokemon_id => '71000000-0000-0000-0000-0000000000c2', p_replacement_species_id => 731, p_replacement_form_id => 73100, p_replacement_nickname => 'Beak') $$, 'the owner can replace a team member');
 SELECT
-    results_eq ($$
-        SELECT
-            roster_state_id, slot FROM gameplay.mainline_play_pokemon
+    IS ((
+            SELECT
+                ROW (roster_state_id,
+                    slot)
+            FROM
+                gameplay.mainline_play_pokemon
             WHERE
-                id = '71000000-0000-0000-0000-0000000000c2'   $$, $$
-            VALUES (4, NULL::integer) $$, 'the replaced Pokemon leaves the team');
+                id = '71000000-0000-0000-0000-0000000000c2'), ROW (4, NULL::integer), 'the replaced Pokemon leaves the team');
 SELECT
-    results_eq ($$
-        SELECT
-            roster_state_id, slot FROM gameplay.mainline_play_pokemon
+    IS ((
+            SELECT
+                ROW (roster_state_id,
+                    slot)
+            FROM
+                gameplay.mainline_play_pokemon
             WHERE
                 play_id = '70000000-0000-0000-0000-0000000000c1'
-                AND nickname = 'Beak'   $$, $$
-            VALUES (1, 2) $$, 'the replacement takes the freed team slot');
+                AND nickname = 'Beak'),
+            ROW (1,
+                2),
+            'the replacement takes the freed team slot');
 SELECT
     IS ((
             SELECT

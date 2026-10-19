@@ -34,7 +34,13 @@ sources remain authoritative for game-specific mechanics and availability.
   item where applicable.
 - Forms used by teams require a valid species/form pair and game-era support.
 - Evolution edges, mechanics, move/ability attributes, and type matchups retain
-  generation boundaries when behavior changed.
+  generation boundaries when behavior changed. A change row starts in the
+  first generation that has the new value (Flamethrower 90 starts in
+  Generation VI). Let's Go values that differ from their generation are
+  version-group overrides, never generation rows.
+- Evolution edges that only exist in some games (regional forms, location
+  methods) are scoped to those version groups.
+- Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
   Stones, and Z-Crystals.

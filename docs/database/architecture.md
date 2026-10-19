@@ -58,6 +58,22 @@ Schema and seed ordering comes from numeric folder/file prefixes. Active
 secondary indexes live beside the owning table rather than in a separate index
 tree.
 
+## Changing The Database
+
+The schema and seed sources are the database's source of truth: a fresh
+database built from them alone must match every environment.
+
+- **Before launch** (now): fix schema and data by editing the source files
+  directly, then rebuild artifacts and reset. Do not add patch migrations; the
+  hosted database is reset and re-seeded from source when the owner approves.
+- **After launch**: every change ships as a patch migration under
+  `database/supabase/migrations` **and** the matching schema or seed edit in
+  the same change, so source and migrations never drift. Data corrections
+  follow the same rule as schema changes.
+
+Every data fix adds a pgTAP check that failed before it (see
+`database/supabase/tests/080_reference_data_regressions.sql`).
+
 ## Application Integration
 
 - Browser and server clients are created only under `src/platform/supabase`.
