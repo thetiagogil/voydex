@@ -3,9 +3,14 @@ import type { Locator, Page } from "@playwright/test";
 /* Opens a band's folded search and filter bar, if it is still folded. */
 export const openSearchBar = async (page: Page) => {
   const opener = page.getByRole("button", { name: "Show search and filters" });
+  const closer = page.getByRole("button", { name: "Hide search and filters" });
+
+  /* Wait for the head's button either way, so a slow page isn't read as open. */
+  await opener.or(closer).first().waitFor();
 
   if (await opener.isVisible()) {
     await opener.click();
+    await closer.waitFor();
   }
 };
 
