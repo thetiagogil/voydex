@@ -590,9 +590,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     "move-known",
     "special-condition",
   ]);
-  if (edgeRows.length !== 576) {
+  if (edgeRows.length !== 579) {
     context.errors.push(
-      `reference.pokemon_evolution_edges: expected 576 curated evolution edge rows, got ${edgeRows.length}.`,
+      `reference.pokemon_evolution_edges: expected 579 curated evolution edge rows, got ${edgeRows.length}.`,
     );
   }
   assertContiguousSortOrder(
@@ -2295,6 +2295,16 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       itemSlug: "thunder-stone",
       conditionData: { region: "alola" },
+      versionGroupSlug: "sm",
+    },
+    {
+      fromForm: "pikachu",
+      toForm: "alolan-raichu",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "thunder-stone",
+      conditionData: { region: "alola" },
+      versionGroupSlug: "usum",
     },
     {
       fromForm: "alolan-sandshrew",
@@ -2348,6 +2358,16 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       itemSlug: "leaf-stone",
       conditionData: { region: "alola" },
+      versionGroupSlug: "sm",
+    },
+    {
+      fromForm: "exeggcute",
+      toForm: "alolan-exeggutor",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "leaf-stone",
+      conditionData: { region: "alola" },
+      versionGroupSlug: "usum",
     },
     {
       fromForm: "cubone",
@@ -2356,6 +2376,16 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: 28,
       timeOfDay: "night",
       conditionData: { region: "alola" },
+      versionGroupSlug: "sm",
+    },
+    {
+      fromForm: "cubone",
+      toForm: "alolan-marowak",
+      methodSlug: "time-of-day",
+      minimumLevel: 28,
+      timeOfDay: "night",
+      conditionData: { region: "alola" },
+      versionGroupSlug: "usum",
     },
     {
       fromForm: "rowlet",
@@ -2645,7 +2675,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     .digest("hex");
   if (
     gen8SeedFingerprint !==
-    "c1026547966421be622ee5748b8aaa3c7f697c6431b126a1ee924c679e8ec98f"
+    "0e60111d8ec4d70fb9a9d00ce39944412da4d8c18123eeaba7996035f4dc2e2e"
   ) {
     context.errors.push(
       `reference.pokemon_evolution_edges: Generation VIII source-verified rowset fingerprint changed (${gen8SeedFingerprint}).`,

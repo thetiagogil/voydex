@@ -60,8 +60,8 @@ VALUES
   (95, 9500, 208, 20800, 22, 8, 2, NULL, 70, NULL, NULL, NULL, NULL, NULL, NULL, 'Use Metal Coat directly in Pokémon Legends: Arceus', '{"source_trigger":"use-item","alternate_for":"held_item_trade"}', 448),
   -- Hisuian Voltorb -> Hisuian Electrode
   (100, 10001, 101, 10101, NULL, 8, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone', '{"source_trigger":"use-item","item":"leaf-stone"}', 449),
-  -- Koffing -> Galarian Weezing
-  (109, 10900, 110, 11001, NULL, 8, 1, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 35', '{"source_trigger":"level-up","region":"galar"}', 450),
+  -- Koffing -> Galarian Weezing (Sword / Shield)
+  (109, 10900, 110, 11001, 18, 8, 1, 35, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 35', '{"source_trigger":"level-up","region":"galar"}', 450),
   -- Rhydon -> Rhyperior
   (112, 11200, 464, 46400, 22, 8, 2, NULL, 79, NULL, NULL, NULL, NULL, NULL, NULL, 'Use Protector directly in Pokémon Legends: Arceus', '{"source_trigger":"use-item","alternate_for":"held_item_trade"}', 451),
   -- Galarian Mr. Mime -> Mr. Rime
@@ -98,8 +98,8 @@ VALUES
   (264, 26401, 862, 86200, NULL, 8, 7, 35, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'Level 35; during night', '{"source_trigger":"level-up"}', 467),
   -- Dusclops -> Dusknoir
   (356, 35600, 477, 47700, 22, 8, 2, NULL, 83, NULL, NULL, NULL, NULL, NULL, NULL, 'Use Reaper Cloth directly in Pokémon Legends: Arceus', '{"source_trigger":"use-item","alternate_for":"held_item_trade"}', 468),
-  -- Mime Jr. -> Galarian Mr. Mime
-  (439, 43900, 122, 12201, NULL, 8, 5, NULL, NULL, NULL, 102, NULL, NULL, NULL, NULL, 'knows Mimic', '{"source_trigger":"level-up","known_move":"mimic","region":"galar"}', 469),
+  -- Mime Jr. -> Galarian Mr. Mime (Sword / Shield)
+  (439, 43900, 122, 12201, 18, 8, 5, NULL, NULL, NULL, 102, NULL, NULL, NULL, NULL, 'knows Mimic', '{"source_trigger":"level-up","known_move":"mimic","region":"galar"}', 469),
   -- Dewott -> Hisuian Samurott
   (502, 50200, 503, 50301, 22, 8, 1, 36, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 36', '{"source_trigger":"level-up","region":"hisui"}', 470),
   -- Petilil -> Hisuian Lilligant
@@ -110,8 +110,8 @@ VALUES
   (550, 55002, 902, 90201, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, 'female', NULL, NULL, 'Female after taking 294+ recoil damage without fainting', '{"source_trigger":"recoil-damage","min_damage_taken":294,"target_form_rule":"female"}', 473),
   -- Galarian Darumaka -> Galarian Darmanitan
   (554, 55401, 555, 55502, NULL, 8, 2, NULL, 89, NULL, NULL, NULL, NULL, NULL, NULL, 'use Ice Stone', '{"source_trigger":"use-item","item":"ice-stone"}', 474),
-  -- Galarian Yamask -> Runerigus
-  (562, 56201, 867, 86700, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'after taking 49+ recoil damage', '{"source_trigger":"take-damage","min_damage_taken":49}', 475),
+  -- Galarian Yamask -> Runerigus (Sword / Shield)
+  (562, 56201, 867, 86700, 18, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Dusty Bowl', 'after taking 49+ damage in one battle, then passing under the stone arch in Dusty Bowl', '{"source_trigger":"take-damage","min_damage_taken":49,"location":"dusty-bowl"}', 475),
   -- Hisuian Zorua -> Hisuian Zoroark
   (570, 57001, 571, 57101, NULL, 8, 1, 30, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 30', '{"source_trigger":"level-up"}', 476),
   -- Rufflet -> Hisuian Braviary

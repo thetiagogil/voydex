@@ -30,8 +30,10 @@ VALUES
   (299, 29900, 476, 47600, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 381),
   -- Alolan Rattata -> Alolan Raticate
   (19, 1901, 20, 2001, NULL, 7, 7, 20, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'Level 20; during night', '{"source_trigger":"level-up"}', 382),
-  -- Pikachu -> Alolan Raichu
-  (25, 2500, 26, 2601, NULL, 7, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone', '{"source_trigger":"use-item","item":"thunder-stone","region":"alola"}', 383),
+  -- Pikachu -> Alolan Raichu (Sun / Moon)
+  (25, 2500, 26, 2601, 15, 7, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone', '{"source_trigger":"use-item","item":"thunder-stone","region":"alola"}', 383),
+  -- Pikachu -> Alolan Raichu (Ultra Sun / Ultra Moon)
+  (25, 2500, 26, 2601, 16, 7, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone', '{"source_trigger":"use-item","item":"thunder-stone","region":"alola"}', 577),
   -- Alolan Sandshrew -> Alolan Sandslash
   (27, 2701, 28, 2801, NULL, 7, 2, NULL, 89, NULL, NULL, NULL, NULL, NULL, NULL, 'use Ice Stone', '{"source_trigger":"use-item","item":"ice-stone"}', 384),
   -- Alolan Vulpix -> Alolan Ninetales
@@ -46,10 +48,14 @@ VALUES
   (75, 7501, 76, 7601, NULL, 7, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '{"source_trigger":"trade"}', 389),
   -- Alolan Grimer -> Alolan Muk
   (88, 8801, 89, 8901, NULL, 7, 1, 38, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 38', '{"source_trigger":"level-up"}', 390),
-  -- Exeggcute -> Alolan Exeggutor
-  (102, 10200, 103, 10301, NULL, 7, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone', '{"source_trigger":"use-item","item":"leaf-stone","region":"alola"}', 391),
-  -- Cubone -> Alolan Marowak
-  (104, 10400, 105, 10501, NULL, 7, 7, 28, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'Level 28; during night', '{"source_trigger":"level-up","region":"alola"}', 392),
+  -- Exeggcute -> Alolan Exeggutor (Sun / Moon)
+  (102, 10200, 103, 10301, 15, 7, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone', '{"source_trigger":"use-item","item":"leaf-stone","region":"alola"}', 391),
+  -- Exeggcute -> Alolan Exeggutor (Ultra Sun / Ultra Moon)
+  (102, 10200, 103, 10301, 16, 7, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone', '{"source_trigger":"use-item","item":"leaf-stone","region":"alola"}', 578),
+  -- Cubone -> Alolan Marowak (Sun / Moon)
+  (104, 10400, 105, 10501, 15, 7, 7, 28, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'Level 28; during night', '{"source_trigger":"level-up","region":"alola"}', 392),
+  -- Cubone -> Alolan Marowak (Ultra Sun / Ultra Moon)
+  (104, 10400, 105, 10501, 16, 7, 7, 28, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'Level 28; during night', '{"source_trigger":"level-up","region":"alola"}', 579),
   -- Rowlet -> Dartrix
   (722, 72200, 723, 72300, NULL, 7, 1, 17, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 17', '{"source_trigger":"level-up"}', 393),
   -- Dartrix -> Decidueye
