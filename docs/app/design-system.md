@@ -466,10 +466,11 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   list you pick from, where the pick opens beside it or in a sheet (Progress
   Story, Story matchups), gives each row its own card through
   `getMilestonePickRowClassName` in
-  `.../plays/shared/components/milestone-pick-row.ts`. There the next
-  objective holds the selected tint (where you are), so the row you picked to
-  read takes a 2px ring of the calm blue instead: the one place a pick is not
-  the selected tint.
+  `.../plays/shared/components/milestone-pick-row.ts`. There rows read
+  like the Pokédex: a row still ahead is an `empty-slot`, a recorded one a
+  white card, and the next objective holds the selected tint (where you are),
+  so the row you picked to read takes a softened red ring instead: the one
+  place a pick is not the selected tint.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
   or `src/shared`.
 - No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha
