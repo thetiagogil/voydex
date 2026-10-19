@@ -82,8 +82,8 @@ export const MainlinePlayProgressStory = ({
     useState<StoryMilestoneActionIntent>("complete");
   /* "Record with your team" on a choice: the form opens with the team ticked. */
   const [editorRecordsTeam, setEditorRecordsTeam] = useState(false);
-  /* "Record with the N before it" on a choice: the form opens with them ticked. */
-  const [editorRecordsEarlier, setEditorRecordsEarlier] = useState(false);
+  /* "Record only this one" on a choice: the form opens with the ones before it unticked. */
+  const [editorRecordsEarlier, setEditorRecordsEarlier] = useState(true);
   const [editorMilestoneId, setEditorMilestoneId] = useState(
     recordMilestone?.id ?? null,
   );
@@ -160,17 +160,17 @@ export const MainlinePlayProgressStory = ({
 
   /*
    * Record is one tap (v3): the milestone is recorded where you are, with
-   * the ones before it when asked, its row pops and its stamp slaps, and the
-   * toast offers Undo. A choice milestone still opens the form, since its
-   * choice has to be made.
+   * the required ones before it still open unless "Record only this one",
+   * its row pops and its stamp slaps, and the toast offers Undo. A choice
+   * milestone still opens the form, since its choice has to be made.
    */
   const openEditor = (
     milestone: StoryMilestone,
     choice: StoryMilestoneChoice,
   ) => {
     const withTeam = choice === "complete-with-team";
-    const withEarlier = choice === "complete-with-earlier";
-    const intent = withTeam || withEarlier ? "complete" : choice;
+    const withEarlier = choice !== "complete-only";
+    const intent = withTeam || choice === "complete-only" ? "complete" : choice;
 
     if (intent === "complete" && !milestone.decisionOptions.length) {
       setIsDetailSheetOpen(false);

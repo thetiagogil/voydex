@@ -84,7 +84,7 @@ export const StoryMilestoneEditorForm = ({
   milestone,
   onSaved,
   playId,
-  recordsEarlier = false,
+  recordsEarlier = true,
   recordsTeam = false,
   surface,
 }: {
@@ -116,7 +116,8 @@ export const StoryMilestoneEditorForm = ({
       ? milestone.incompletionImpactWithLater.affectedMilestones.length -
         milestone.incompletionImpact.affectedMilestones.length
       : 0;
-  const [clearsLater, setClearsLater] = useState(false);
+  /* Ticked by default: a later milestone can't stay recorded on its own. */
+  const [clearsLater, setClearsLater] = useState(true);
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
 
   useEffect(() => {

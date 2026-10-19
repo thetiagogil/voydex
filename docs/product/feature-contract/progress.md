@@ -89,15 +89,17 @@ Focused milestone editing uses a compact Dialog on desktop and a bottom Sheet
 on narrow Play layouts. `Mark incomplete` uses a desktop confirmation Alert
 Dialog before the correction is submitted.
 
-**Catching up in a linear game.** When required milestones before the one you
-picked are still open, its detail says how many and the Record arrow offers
-`Record with the N before it` (a choice milestone's form offers `Also record
-the N before it`). One database call records them all; only the milestone you
-picked becomes a moment, the earlier ones get no moment, note or decision, and
-optional milestones are never recorded this way. The toast's Undo clears the
-whole set. `Mark incomplete` likewise offers `Also clear the N after it`
-(every milestone recorded after it in Story order), and its preview lists the
-whole set before the one confirmed write. Open-world games offer neither.
+**Catching up in a linear game.** Recording a milestone also records the
+required milestones before it that are still open, by default: its detail
+says so ("Recording it also records the 3 before it"), and the Record arrow
+offers `Record only this one` for the rare out-of-order case (a choice
+milestone's form has `Also record the N before it`, ticked). One database call
+records them all; only the milestone you picked becomes a moment, the earlier
+ones get no moment, note or decision, and optional milestones are never
+recorded this way. The toast's Undo clears the whole set. `Mark incomplete`
+likewise has `Also clear the N after it` ticked (every milestone recorded after
+it in Story order), and its preview lists the whole set before the one
+confirmed write. Open-world games do neither.
 
 Story progress rows should track milestone completion. If a milestone has a player decision, such as a starter choice or fossil choice, the selected option should be stored separately from simple completion.
 

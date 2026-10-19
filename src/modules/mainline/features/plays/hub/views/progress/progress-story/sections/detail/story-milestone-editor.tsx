@@ -58,7 +58,7 @@ export const StoryMilestoneEditor = ({
   onSaved,
   open,
   playId,
-  recordsEarlier = false,
+  recordsEarlier = true,
   recordsTeam = false,
 }: {
   intent: StoryMilestoneActionIntent;
@@ -67,7 +67,7 @@ export const StoryMilestoneEditor = ({
   onSaved: (message: string | null) => void;
   open: boolean;
   playId: string;
-  /* Recording: start with "Also record the N before it" ticked. */
+  /* Recording: start with "Also record the N before it" ticked (the default). */
   recordsEarlier?: boolean;
   /* Recording: start with "Record team snapshot" ticked. */
   recordsTeam?: boolean;

@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { cn } from "@/shared/utils/cn";
-import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
@@ -24,9 +23,9 @@ import {
 
 /*
  * A milestone still ahead offers the main button to record it, the same
- * size for every milestone, with "Record with your team" and, in a linear
- * story with required milestones before it still open, "Record with the N
- * before it" behind the round arrow beside it.
+ * size for every milestone. In a linear story it also records the required
+ * milestones before it still open; the round arrow beside it offers "Record
+ * with your team" and, when there are some, "Record only this one".
  * A recorded one keeps its extras behind one quiet Edit menu as wide as the
  * panel: the note, the team snapshot, the decision, and marking it
  * incomplete. Adding wears a plus, updating the
@@ -35,7 +34,7 @@ import {
 /* What a milestone's actions ask for: an editor intent, or a way to record. */
 export type StoryMilestoneChoice =
   | StoryMilestoneActionIntent
-  | "complete-with-earlier"
+  | "complete-only"
   | "complete-with-team";
 
 export const StoryMilestoneActions = ({
@@ -95,11 +94,9 @@ export const StoryMilestoneActions = ({
                 </DropdownMenuItem>
               ) : null}
               {earlierCount ? (
-                <DropdownMenuItem
-                  onClick={() => onAction("complete-with-earlier")}
-                >
+                <DropdownMenuItem onClick={() => onAction("complete-only")}>
                   <AppIcon icon={appIcons.product.milestone} />
-                  Record with {formatMilestoneRange(earlierCount, "before")}
+                  Record only this one
                 </DropdownMenuItem>
               ) : null}
             </DropdownMenuContent>
