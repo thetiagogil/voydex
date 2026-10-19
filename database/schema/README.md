@@ -1,6 +1,6 @@
-# Voydex Clean Schema
+# Voydex Schema
 
-Human-authored clean schema source lives here. Legacy files remain under `../legacy/` and should not be copied blindly.
+Human-authored clean schema source lives here.
 
 Load order:
 

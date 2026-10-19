@@ -177,7 +177,7 @@ export function assertSchemaSecurity(context) {
 export function assertReferenceHelperComments(context, sql, filePath) {
   const relativePath = relative(filePath);
   if (
-    !/^seeds\/02_reference\/(?:01_base|02_mechanics|03_methods|04_abilities|04_items|05_pokemon|06_moves|07_pokedex|08_evolutions|09_availability|10_learnsets)\//.test(
+    !/^seeds\/02_reference\/(?:01_base|02_mechanics|03_methods|04_abilities|05_items|06_pokemon|07_moves|08_pokedex|09_evolutions|10_availability|11_learnsets)\//.test(
       relativePath,
     )
   ) {

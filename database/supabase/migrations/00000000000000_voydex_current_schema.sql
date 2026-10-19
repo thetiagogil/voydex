@@ -6632,7 +6632,7 @@ COMMENT ON COLUMN planning.mainline_play_plan_links.version_group_id IS 'Duplica
 COMMENT ON COLUMN planning.mainline_play_plan_links.created_from_plan IS 'True when the play was originally created from the linked plan.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/009_mainline_team_plan_tags.sql
+-- Source: database/schema/05_planning/01_tables/007_mainline_team_plan_tags.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_tags
@@ -6655,7 +6655,7 @@ CREATE INDEX team_plan_tags_tag_user_idx ON planning.mainline_team_plan_tags (ta
 COMMENT ON TABLE planning.mainline_team_plan_tags IS 'Typed tag links for team plans. user_id enforces tag ownership matches plan ownership.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/010_mainline_team_plan_challenge_rules.sql
+-- Source: database/schema/05_planning/01_tables/008_mainline_team_plan_challenge_rules.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_challenge_rules

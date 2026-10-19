@@ -2627,7 +2627,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
   const gen8SeedFile = path.join(
     seedsRoot,
     "02_reference",
-    "08_evolutions",
+    "09_evolutions",
     "008_gen8.sql",
   );
   const gen8SeedFingerprint = createHash("sha256")
@@ -2662,7 +2662,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
   const gen9SeedFile = path.join(
     seedsRoot,
     "02_reference",
-    "08_evolutions",
+    "09_evolutions",
     "009_gen9.sql",
   );
   const gen9SeedFingerprint = createHash("sha256")
