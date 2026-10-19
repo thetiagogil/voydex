@@ -60,11 +60,9 @@ export const MainlinePlayTopSection = ({
   );
 
   return form === "band" ? (
-    <PageBand className="play-texture pt-4 pb-5 sm:pt-6 sm:pb-6">
-      {head}
-    </PageBand>
+    <PageBand className="pt-4 pb-5 sm:pt-6 sm:pb-6">{head}</PageBand>
   ) : (
-    <div className="bg-band play-texture shadow-card rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5">
+    <div className="bg-band shadow-card rounded-xl px-4.5 pt-5 pb-4.5 sm:rounded-2xl sm:px-7 sm:pt-6 sm:pb-5">
       {head}
     </div>
   );
