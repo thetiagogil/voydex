@@ -121,9 +121,10 @@ export const PokemonDetailSectionBar = ({
       title={name}
       trailing={
         <nav aria-label={`${name}: sections`} className="min-w-0 flex-1">
+          {/* Room inside the scroller for the marked link's band and shadow. */}
           <div
             ref={linksRef}
-            className="no-scrollbar flex min-w-0 items-center gap-1 overflow-x-auto sm:justify-end"
+            className="no-scrollbar -mx-1.5 -my-2 flex min-w-0 items-center gap-1 overflow-x-auto px-1.5 py-2 sm:justify-end"
           >
             {sections.map((section) => (
               <a
