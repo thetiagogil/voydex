@@ -20,8 +20,9 @@ import {
  * The scope's milestones under their chapters, as Fredoka group headings.
  * Decisions and saved teams stay out of the rows (a signpost and a camera
  * mark them) until "Show details" beside a chapter's heading brings them
- * in, for the whole list. Rows recorded a moment ago keep still while their
- * markers pop in, in Story order (the stamp card does the stamping); rows
+ * in, for the whole list. One reward per moment: a badge or League
+ * milestone recorded a moment ago is stamped on the stamp card, so its row
+ * just changes; any other row's marker pops in, in Story order. Rows
  * un-recorded pop back to their numbers.
  */
 export const StoryMilestoneList = ({
@@ -46,6 +47,9 @@ export const StoryMilestoneList = ({
   stampOrder: StampOrder;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
+  const stampedIds = new Set(
+    (scope.stamps ?? []).map((stamp) => stamp.milestoneId),
+  );
   const [showDetails, setShowDetails] = useState(false);
 
   return (
@@ -85,7 +89,8 @@ export const StoryMilestoneList = ({
                 onSettled={() => onMotionEnd(milestone.id)}
                 motion={
                   milestone.isCompleted
-                    ? stampOrder.has(milestone.id)
+                    ? stampOrder.has(milestone.id) &&
+                      !stampedIds.has(milestone.id)
                       ? "recorded"
                       : null
                     : fadingMilestoneIds.has(milestone.id)

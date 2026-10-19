@@ -117,8 +117,8 @@ export const StoryMilestoneEditorForm = ({
       ? milestone.incompletionImpactWithLater.affectedMilestones.length -
         milestone.incompletionImpact.affectedMilestones.length
       : 0;
-  /* Ticked by default: a later milestone can't stay recorded on its own. */
-  const [clearsLater, setClearsLater] = useState(true);
+  /* Unticked: clearing more is a choice, since it can't be undone. */
+  const [clearsLater, setClearsLater] = useState(false);
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
 
   useEffect(() => {

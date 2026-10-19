@@ -47,11 +47,13 @@ type ShownObjective = {
 };
 
 /*
- * Recording the objective here hands over to the next one: its stamp slaps
- * down (a gym or League milestone), then it slides away and the next one
- * slides in. Anything else that changes it just shows the new one.
+ * Recording the objective here hands over to the next one: at once its
+ * stamp slaps down (a gym or League milestone), then once the save brings
+ * the next one, it slides away and the next one slides in. Undo or a failed
+ * save stops it where it is. Anything else that changes it just shows the
+ * new one.
  */
-type Handover = "entering" | "idle" | "leaving" | "stamping";
+type Handover = "entering" | "idle" | "leaving" | "stamping" | "waiting";
 
 const titleId = "next-objective-title";
 
@@ -64,7 +66,7 @@ const hasDecision = (milestone: OverviewMilestone) =>
  * The next objective is quiet: a Fredoka title and the page's one main
  * button, which records it in place (a choice opens Story's record form
  * right here), then "Add a note". A gym or League objective shows its stamp
- * waiting beside the title.
+ * waiting at the end of its words.
  */
 export const NextObjectiveSection = ({
   decisionRecord,
@@ -81,16 +83,25 @@ export const NextObjectiveSection = ({
   const [handover, setHandover] = useState<Handover>("idle");
   const latestId = latestMilestone?.milestone_id ?? null;
   const shownId = shown.milestone?.milestone_id ?? null;
-  const shownStamp =
+  const isJustRecorded = justRecordedId !== null && justRecordedId === shownId;
+  const savedStamp =
     stamps.find((stamp) => stamp.milestoneId === shownId) ?? null;
+  /* Recorded here a moment ago: earned at once, before the save comes back. */
+  const shownStamp =
+    savedStamp && isJustRecorded
+      ? { ...savedStamp, state: "earned" as const }
+      : savedStamp;
 
-  /* A new objective arrives with the page: hand over to it, or just show it. */
-  if (handover === "idle" && latestId !== shownId) {
-    if (justRecordedId !== null && justRecordedId === shownId) {
-      setHandover(shownStamp?.state === "earned" ? "stamping" : "leaving");
-    } else {
-      setShown({ milestone: latestMilestone, position: latestPosition });
-    }
+  if (handover === "idle" && isJustRecorded) {
+    setHandover(shownStamp ? "stamping" : "waiting");
+  } else if (
+    (handover === "stamping" || handover === "waiting") &&
+    !isJustRecorded
+  ) {
+    /* Undone, or the save failed: it stays the objective. */
+    setHandover("idle");
+  } else if (handover === "waiting" && latestId !== shownId) {
+    setHandover("leaving");
   } else if (handover === "idle" && shown.milestone !== latestMilestone) {
     setShown({ milestone: latestMilestone, position: latestPosition });
   }
@@ -106,7 +117,6 @@ export const NextObjectiveSection = ({
     <ObjectiveCard
       titleId={titleId}
       bodyClassName={cn(
-        "relative",
         handover !== "idle" && "pointer-events-none",
         handover === "leaving" && "animate-objective-out",
         handover === "entering" && "animate-objective-in",
@@ -140,6 +150,17 @@ export const NextObjectiveSection = ({
               ))
             ) : (
               <OverviewRecordButton
+                instant={{
+                  keepsSnapshot: nextMilestone.snapshot_policy_slug !== "none",
+                  toastMessage: [
+                    `${nextMilestone.milestone_name ?? "Milestone"} recorded`,
+                    shown.position?.sequence
+                      ? `${shown.position.sequence} of ${shown.position.total}`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · "),
+                }}
                 milestoneId={nextMilestone.milestone_id}
                 milestoneName={nextMilestone.milestone_name ?? "Milestone"}
               />
@@ -160,30 +181,33 @@ export const NextObjectiveSection = ({
         )
       }
     >
-      {shownStamp ? (
-        <BadgeStamp
-          className="absolute top-0 right-0 w-14 sm:w-18"
-          label={shownStamp.name}
-          onSlapEnd={() => setHandover("leaving")}
-          slap={handover === "stamping"}
-          state={getBadgeStampState(shownStamp)}
-          tilt={-6}
-        />
-      ) : null}
-      <div className={cn(shownStamp && "pr-18 sm:pr-24")}>
-        <ObjectiveEyebrow
-          icon={
-            nextMilestone ? appIcons.milestones.story : appIcons.status.active
-          }
-        >
-          {nextMilestone
-            ? ["Next objective", position].filter(Boolean).join(" · ")
-            : "Main story complete"}
-        </ObjectiveEyebrow>
-        <h2 id={titleId} className={objectiveTitleClassNames.lg}>
-          {nextMilestone?.milestone_name ?? "Every milestone recorded"}
-        </h2>
-        {where ? <ObjectiveWhere>{where}</ObjectiveWhere> : null}
+      {/* The stamp waits at the end of the objective's words, on their last line. */}
+      <div className="flex items-end gap-4">
+        <div className="min-w-0 flex-1">
+          <ObjectiveEyebrow
+            icon={
+              nextMilestone ? appIcons.milestones.story : appIcons.status.active
+            }
+          >
+            {nextMilestone
+              ? ["Next objective", position].filter(Boolean).join(" · ")
+              : "Main story complete"}
+          </ObjectiveEyebrow>
+          <h2 id={titleId} className={objectiveTitleClassNames.lg}>
+            {nextMilestone?.milestone_name ?? "Every milestone recorded"}
+          </h2>
+          {where ? <ObjectiveWhere>{where}</ObjectiveWhere> : null}
+        </div>
+        {shownStamp ? (
+          <BadgeStamp
+            className="mb-0.5 w-11 shrink-0 sm:w-13"
+            label={shownStamp.name}
+            onSlapEnd={() => setHandover("waiting")}
+            slap={handover === "stamping"}
+            state={getBadgeStampState(shownStamp)}
+            tilt={-6}
+          />
+        ) : null}
       </div>
     </ObjectiveCard>
   );

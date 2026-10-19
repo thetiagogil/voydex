@@ -98,7 +98,7 @@ milestone's form has `Also record the N before it`, ticked). One database call
 records them all; only the milestone you picked becomes a moment, the earlier
 ones get no moment or note, a choice's decision stays `Not recorded`, and an
 optional milestone that isn't a choice is never recorded this way. The toast's Undo clears the whole set. `Mark incomplete`
-likewise has `Also clear the N after it` ticked (every milestone recorded after
+likewise offers `Also clear the N after it`, unticked (every milestone recorded after
 it in Story order), and its preview lists the whole set before the one
 confirmed write. Open-world games do neither.
 

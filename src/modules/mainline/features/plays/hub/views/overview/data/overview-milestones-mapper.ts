@@ -25,6 +25,7 @@ export type OverviewMilestone = Pick<
   | "milestone_type_slug"
   | "prerequisites"
   | "selected_decision_option_id"
+  | "snapshot_policy_slug"
   | "sort_order"
   | "version_group_id"
 >;

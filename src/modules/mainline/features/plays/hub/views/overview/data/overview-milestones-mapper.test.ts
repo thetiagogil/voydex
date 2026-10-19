@@ -24,6 +24,7 @@ const milestone = (
   milestone_type_slug: "story",
   prerequisites: [],
   selected_decision_option_id: null,
+  snapshot_policy_slug: "none",
   sort_order: 1,
   version_group_id: 1,
   ...overrides,
