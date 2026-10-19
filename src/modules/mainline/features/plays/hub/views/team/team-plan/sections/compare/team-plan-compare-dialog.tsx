@@ -197,7 +197,7 @@ export const TeamPlanCompareDialog = ({
 
           <div
             style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-            className="grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 bg-[color-mix(in_oklab,var(--t)_16%,var(--surface))] p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
+            className="type-tint grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
           >
             <CompareSide
               label={[
