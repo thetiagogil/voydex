@@ -34,7 +34,7 @@ export const HomeMeadow = async ({ art }: { art: PublicArt }) => {
         run as a Play, and Voydex remembers its team, its badges, its Pokédex
         and exactly where you left off.
       </p>
-      <SiteActions isAuthenticated={isAuthenticated} />
+      <SiteActions isAuthenticated={isAuthenticated} showIntro />
     </MeadowCard>
   );
 };

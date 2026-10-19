@@ -14,6 +14,7 @@ import { MeadowPartners } from "@/features/site/components/meadow-partners";
 import { SiteActions } from "@/features/site/components/site-actions";
 import { introChapterPartners } from "@/features/site/data/intro-showcase";
 import { getSiteVisitor } from "@/features/site/server/site-visitor-query";
+import { PageBand } from "@/shared/components/page-band";
 import { Card } from "@/shared/components/ui/card";
 
 type IntroPageProps = {
@@ -42,25 +43,29 @@ const IntroSideCard = ({
 );
 
 /*
- * How it works: one Play followed over time (day one, along the way, months
- * later), then two smaller things, and the meadow to finish.
+ * How it works: the head on the band, then one Play followed over time (day
+ * one, along the way, months later), two smaller things, and the meadow to
+ * finish.
  */
 export const IntroPage = async ({ art, playArt }: IntroPageProps) => {
   const { isAuthenticated } = await getSiteVisitor();
 
   return (
     <div className="flex min-w-0 flex-col">
-      <header className="max-w-195 pt-7.5 pb-1.5 sm:pt-14">
-        <h1 className="text-[38px] leading-[1.02] tracking-tight sm:text-[56px]">
-          How Voydex works
-        </h1>
-        <p className="text-16 text-ink-2 sm:text-17 mt-4.5 max-w-[36em] leading-[1.6] font-semibold">
-          Every playthrough gets its own Play: one run of one game, with its
-          team, its story and its Pokédex. Put the game down for months and
-          you&apos;ll still know exactly where you were.
-        </p>
-      </header>
-      <div className="mt-6.5 mb-4.5 flex flex-col gap-4.5 sm:mt-9 sm:mb-6 sm:gap-6">
+      {/* The page's head opens on the band, as every page but Home does. */}
+      <PageBand>
+        <header className="max-w-195 pt-6 sm:pt-10">
+          <h1 className="text-[38px] leading-[1.02] tracking-tight sm:text-[56px]">
+            How Voydex works
+          </h1>
+          <p className="text-16 text-ink-2 sm:text-17 mt-4.5 max-w-[36em] leading-[1.6] font-semibold">
+            Every playthrough gets its own Play: one run of one game, with its
+            team, its story and its Pokédex. Put the game down for months and
+            you&apos;ll still know exactly where you were.
+          </p>
+        </header>
+      </PageBand>
+      <div className="mt-7.5 mb-4.5 flex flex-col gap-4.5 sm:mt-9 sm:mb-6 sm:gap-6">
         <Card className="gap-0 px-4.5 pt-5.5 pb-0.5 sm:px-9 sm:pt-8.5 sm:pb-2">
           <IntroChapter
             playArt={playArt}
