@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
@@ -9,6 +11,8 @@ type MeadowPokemonProps = {
   /* The visible name under the art. */
   name: string;
   imageUrl: string | null;
+  /* Its primary type, for the tint of the stand-in shown when the art can't load. */
+  typeSlug?: string | null;
   /* The accessible name when it is a control, such as "Grookey is my partner". */
   label?: string;
   /* Opens a page, such as the Pokémon on its Play's roster. */
@@ -49,6 +53,7 @@ export const MeadowPokemon = ({
   size = "md",
   slap = false,
   style,
+  typeSlug,
 }: MeadowPokemonProps) => {
   const interactive = Boolean(href || onClick);
   const content = (
@@ -67,9 +72,12 @@ export const MeadowPokemon = ({
           <FallbackImage
             src={imageUrl}
             name={name}
-            fallback="badge"
-            // A crowded row (six on a phone) shrinks the stand-in to its slot.
-            fallbackClassName="aspect-square max-w-full h-auto!"
+            // Without art: a round sticker in its type's tint with its first
+            // letter, shrunk to its slot in a crowded row (six on a phone).
+            style={getPokemonTypeCssVariables(
+              typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
+            )}
+            fallbackClassName="sticker aspect-square max-w-full h-auto! rounded-full"
             className={cn(
               // The art may spill past a crowded slot, as it always has.
               "ease-hop max-w-none object-contain transition-transform duration-300",
