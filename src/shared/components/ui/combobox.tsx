@@ -17,7 +17,7 @@ import {
   InputGroupInput,
 } from "@/shared/components/ui/input-group";
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
-import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, SearchIcon, XIcon } from "lucide-react";
 
 const Combobox = ComboboxPrimitive.Root;
 
@@ -58,6 +58,14 @@ const ComboboxClear = ({
   );
 };
 
+/*
+ * The search at the top of a picker's panel (an input without its own
+ * trigger): a row of the panel, shaped like its options, with a search icon
+ * and its focus ring drawn inside so the panel's edge never cuts it.
+ */
+const panelSearchClassName =
+  "mb-1.5 h-11 rounded-md border-transparent bg-surface-2 px-1 has-[[data-slot=input-group-control]:focus-visible]:outline-2 has-[[data-slot=input-group-control]:focus-visible]:-outline-offset-2";
+
 const ComboboxInput = ({
   className,
   children,
@@ -69,8 +77,12 @@ const ComboboxInput = ({
   showTrigger?: boolean;
   showClear?: boolean;
 }) => {
+  const isPanelSearch = !showTrigger;
+
   return (
-    <InputGroup className={cn("w-auto", className)}>
+    <InputGroup
+      className={cn("w-auto", isPanelSearch && panelSearchClassName, className)}
+    >
       <ComboboxPrimitive.Input
         render={<InputGroupInput disabled={disabled} />}
         {...props}
@@ -88,7 +100,12 @@ const ComboboxInput = ({
         )}
         {showClear && <ComboboxClear disabled={disabled} />}
       </InputGroupAddon>
-      {children}
+      {children ??
+        (isPanelSearch ? (
+          <InputGroupAddon align="inline-start">
+            <SearchIcon className="text-ink-3 size-4.5" />
+          </InputGroupAddon>
+        ) : null)}
     </InputGroup>
   );
 };
@@ -122,7 +139,7 @@ const ComboboxContent = ({
           data-chips={!!anchor}
           className={cn(
             menuPanelClassName,
-            "group/combobox-content data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:bg-surface-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[max(calc(var(--anchor-width)+(--spacing(7))),14rem)] origin-(--transform-origin) overflow-hidden duration-100 data-[chips=true]:min-w-(--anchor-width) *:data-[slot=input-group]:mb-2.5 *:data-[slot=input-group]:h-11 *:data-[slot=input-group]:rounded-full *:data-[slot=input-group]:border-transparent *:data-[slot=input-group]:px-2.5",
+            "group/combobox-content data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[max(calc(var(--anchor-width)+(--spacing(7))),14rem)] origin-(--transform-origin) overflow-hidden duration-100 data-[chips=true]:min-w-(--anchor-width)",
             menuSheetPopupClassName,
             className,
           )}

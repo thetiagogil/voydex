@@ -1,6 +1,5 @@
 "use client";
 
-import { SearchIcon } from "lucide-react";
 import { useState, type ComponentProps, type ReactNode } from "react";
 
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
@@ -13,7 +12,6 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
-import { InputGroupAddon } from "@/shared/components/ui/input-group";
 import {
   Select,
   SelectContent,
@@ -243,11 +241,7 @@ export const SelectControl = ({
             }
             placeholder={searchPlaceholder ?? "Search"}
             showTrigger={false}
-          >
-            <InputGroupAddon align="inline-start">
-              <SearchIcon className="text-ink-3 size-4.5" />
-            </InputGroupAddon>
-          </ComboboxInput>
+          />
           <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
           <ComboboxList>
             {(option: SelectControlOption) => (
