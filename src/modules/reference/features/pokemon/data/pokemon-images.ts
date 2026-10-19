@@ -1,20 +1,11 @@
+import { getReferenceAssetUrl } from "@/modules/reference/shared/data/reference-assets";
+
 /*
  * Which picture of a form: its HOME sprite, small (lists, pickers and
  * avatars, shown up to 80px) or medium (cards and stickers, up to about
  * 190px), or its official art (headers and large portraits, 475px).
  */
 export type PokemonImageSize = "art" | "md" | "sm";
-
-/*
- * The voydex-assets site's address, without a trailing slash. Null when it
- * isn't configured: Pokémon then show their placeholders instead of breaking
- * the page. Written out in full so Next.js inlines it into browser code.
- */
-const getAssetsBaseUrl = () => {
-  const url = process.env.NEXT_PUBLIC_ASSETS_URL?.trim();
-
-  return url ? url.replace(/\/+$/, "") : null;
-};
 
 type PokemonImageForm = {
   name: string;
@@ -35,13 +26,11 @@ const buildPokemonImageUrl = (
   size: PokemonImageSize,
   shiny: boolean,
 ) => {
-  const baseUrl = getAssetsBaseUrl();
-
-  if (!slug || !baseUrl) {
-    return null;
-  }
-
-  return `${baseUrl}/pokemon/${getPokemonImagePath(size, shiny)}/${slug}.webp`;
+  return slug
+    ? getReferenceAssetUrl(
+        `pokemon/${getPokemonImagePath(size, shiny)}/${slug}.webp`,
+      )
+    : null;
 };
 
 export const getPokemonFormImageUrl = (

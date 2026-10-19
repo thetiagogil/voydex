@@ -27,8 +27,8 @@ NEXT_PUBLIC_ASSETS_URL=
 
 `NEXT_PUBLIC_ASSETS_URL` is the address of the separate `voydex-assets` site
 that serves Pokémon images (HOME sprites at 160 and 384 px, official art at
-475 px, each normal and shiny, named by form slug). Without it, Pokémon show
-their placeholders.
+475 px, each normal and shiny, named by form slug) and game covers. Without
+it, images show the first letter of their name instead.
 
 Legacy anon-key aliases are not accepted. Use the publishable key for browser
 runtime configuration.
