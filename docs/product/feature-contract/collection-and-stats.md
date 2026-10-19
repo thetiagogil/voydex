@@ -58,7 +58,10 @@ individual. Historical evidence without a surviving companion link remains an
 explicit historical appearance rather than an invented companion.
 
 Collection Detail is read-only. Companion rows route to the owning Play Team;
-moments route to History; generic reference facts route to Codex. Exact,
+a "Before" row known only from recorded moments opens its latest moment in
+History (`#moment-<event id>`), scrolled to and highlighted, and falls back
+to the Play's History when no moment is known; generic reference facts route
+to Codex. Exact,
 approximate, and unrecorded dates remain honest, and events from different
 Plays are not forced into a false global chronology.
 
