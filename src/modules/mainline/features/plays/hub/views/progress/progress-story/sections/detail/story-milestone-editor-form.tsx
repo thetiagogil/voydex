@@ -90,7 +90,8 @@ export const StoryMilestoneEditorForm = ({
 }: {
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone;
-  onSaved: (message: string | null) => void;
+  /* The save's message and the milestones it recorded or cleared. */
+  onSaved: (message: string | null, milestoneIds: number[]) => void;
   playId: string;
   recordsEarlier?: boolean;
   recordsTeam?: boolean;
@@ -126,7 +127,7 @@ export const StoryMilestoneEditorForm = ({
     }
 
     handledStateRef.current = state;
-    onSaved(state.message);
+    onSaved(state.message, state.milestoneIds ?? []);
     router.refresh();
   }, [onSaved, router, state]);
 

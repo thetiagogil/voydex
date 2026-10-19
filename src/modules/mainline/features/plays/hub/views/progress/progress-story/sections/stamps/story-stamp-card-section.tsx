@@ -1,5 +1,8 @@
 import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
-import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import type {
+  PlayStamp,
+  StampOrder,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
@@ -10,19 +13,20 @@ const titleId = "story-stamp-card-title";
  * row, tilted like stamps, each with its label. The stamps name it, so its
  * title is for screen readers only. A row longer than the card scrolls
  * sideways rather than wrapping, so it never takes more than one row of
- * height. The one you just recorded slaps down once; nothing moves on load.
+ * height. The ones you just recorded slap down once, in turn; nothing moves
+ * on load.
  */
 export const StoryStampCardSection = ({
   className,
   onSlapEnd,
-  slappingMilestoneId,
+  slapOrder,
   stamps,
 }: {
   className?: string;
-  /* Called once the just-recorded slap has played. */
-  onSlapEnd: () => void;
-  /* The milestone recorded a moment ago, whose stamp slaps once. */
-  slappingMilestoneId: number | null;
+  /* Called once a just-recorded stamp's slap has played. */
+  onSlapEnd: (milestoneId: number) => void;
+  /* The milestones recorded a moment ago, in the order their stamps slap. */
+  slapOrder: StampOrder;
   stamps: PlayStamp[];
 }) => {
   return (
@@ -39,7 +43,7 @@ export const StoryStampCardSection = ({
         className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-3 pb-2 sm:auto-cols-[64px] sm:px-7"
         onSlapEnd={onSlapEnd}
         scrollLabel="Stamps"
-        slappingMilestoneId={slappingMilestoneId}
+        slapOrder={slapOrder}
         stamps={stamps}
       />
     </Card>

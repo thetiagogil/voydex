@@ -12,6 +12,7 @@ import {
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
 import { RecordMilestoneButton } from "@/modules/mainline/features/plays/shared/components/record-milestone-button";
 import { StampGrid } from "@/modules/mainline/features/plays/shared/components/stamp-grid";
+import { createStampOrder } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 
 type OverviewRecordingState = {
   endSlap: () => void;
@@ -108,18 +109,16 @@ export const OverviewRecordButton = ({
 
 /* The badge case's stamps; the one just recorded slaps down once. */
 export const OverviewStampGrid = (
-  props: Omit<
-    ComponentProps<typeof StampGrid>,
-    "onSlapEnd" | "slappingMilestoneId"
-  >,
+  props: Omit<ComponentProps<typeof StampGrid>, "onSlapEnd" | "slapOrder">,
 ) => {
   const { endSlap, slappingMilestoneId } = useOverviewRecording();
-
-  return (
-    <StampGrid
-      {...props}
-      slappingMilestoneId={slappingMilestoneId}
-      onSlapEnd={endSlap}
-    />
+  const slapOrder = useMemo(
+    () =>
+      createStampOrder(
+        slappingMilestoneId === null ? [] : [slappingMilestoneId],
+      ),
+    [slappingMilestoneId],
   );
+
+  return <StampGrid {...props} slapOrder={slapOrder} onSlapEnd={endSlap} />;
 };

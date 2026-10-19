@@ -4,14 +4,20 @@ import {
   BadgeStamp,
   type BadgeStampState,
 } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
+import type { CSSProperties } from "react";
+
 import {
   describePlayStamp,
+  getStampDelay,
   type PlayStamp,
+  type StampOrder,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { getMilestoneIcon } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import { formatPlayMoment } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { cn } from "@/shared/utils/cn";
+
+const emptyStampOrder: StampOrder = new Map();
 
 /* Stamps tilt at rest, each by its own small angle. */
 const stampTilts = [-6, 4, -3, 7, -5, 3, -7, 5, -2, 4, -4, 6];
@@ -32,8 +38,9 @@ const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
 
 /*
  * A Play's stamps, tilted like stamps: Overview's badge case and Story's
- * stamp card. With `captions` each stamp prints its label under it. The one
- * just recorded slaps down once; nothing moves on load. A client part so the
+ * stamp card. With `captions` each stamp prints its label under it. The ones
+ * just recorded slap down once, one after another in Story order; nothing
+ * moves on load. A client part so the
  * day each was earned reads in the viewer's time zone.
  */
 export const StampGrid = ({
@@ -41,21 +48,21 @@ export const StampGrid = ({
   className,
   onSlapEnd,
   scrollLabel,
-  slappingMilestoneId = null,
+  slapOrder = emptyStampOrder,
   stamps,
 }: {
   captions?: boolean;
   /* The grid's columns and gaps. */
   className?: string;
-  /* Called once the just-recorded slap has played. */
-  onSlapEnd?: () => void;
+  /* Called once a just-recorded stamp's slap has played. */
+  onSlapEnd?: (milestoneId: number) => void;
   /*
    * Names a row that scrolls sideways (phones), which can then take focus
    * so the keyboard can scroll it.
    */
   scrollLabel?: string;
-  /* The milestone recorded a moment ago, whose stamp slaps once. */
-  slappingMilestoneId?: number | null;
+  /* The milestones recorded a moment ago, in the order their stamps slap. */
+  slapOrder?: StampOrder;
   stamps: PlayStamp[];
 }) => {
   const clock = useViewerClock();
@@ -67,7 +74,16 @@ export const StampGrid = ({
       className={cn("grid", scrollLabel && "focus-ring-inset", className)}
     >
       {stamps.map((stamp, index) => (
-        <li key={stamp.milestoneId} className="flex flex-col">
+        <li
+          key={stamp.milestoneId}
+          className="flex flex-col"
+          style={
+            {
+              "--stamp-delay":
+                getStampDelay(slapOrder, stamp.milestoneId) ?? undefined,
+            } as CSSProperties
+          }
+        >
           <BadgeStamp
             label={describePlayStamp(
               stamp,
@@ -75,11 +91,8 @@ export const StampGrid = ({
             )}
             state={getBadgeStampState(stamp)}
             tilt={stampTilts[index % stampTilts.length]}
-            slap={
-              stamp.state === "earned" &&
-              stamp.milestoneId === slappingMilestoneId
-            }
-            onSlapEnd={onSlapEnd}
+            slap={stamp.state === "earned" && slapOrder.has(stamp.milestoneId)}
+            onSlapEnd={() => onSlapEnd?.(stamp.milestoneId)}
           />
           {captions ? (
             <span

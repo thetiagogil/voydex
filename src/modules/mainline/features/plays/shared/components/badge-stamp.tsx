@@ -21,7 +21,10 @@ type BadgeStampProps = {
   label: string;
   /* Called once the slap has played. */
   onSlapEnd?: () => void;
-  /* Slaps down once, at the moment it's recorded; never on load. */
+  /*
+   * Slaps down once, at the moment it's recorded (after any --stamp-delay,
+   * hidden until then); never on load.
+   */
   slap?: boolean;
   state: BadgeStampState;
   tilt?: number;
@@ -63,7 +66,7 @@ export const BadgeStamp = ({
       className={cn(
         "relative grid aspect-square w-full place-items-center rounded-full",
         tilted && "transform-[rotate(var(--tilt))]",
-        slap && "animate-slap",
+        slap && "animate-stamp-slap",
         state.kind === "badge" && "moment-ring bg-(--t) text-white",
         state.kind === "earned" &&
           "moment-ring bg-gold text-white [--mr:var(--gold-ring)]",

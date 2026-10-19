@@ -27,13 +27,16 @@ type PokemonCardProps = {
   className?: string;
   imageAlt: string;
   imageUrl: string | null;
+  /*
+   * Stamps down at the moment the card is marked, or fades back when it is
+   * unmarked; never on load.
+   */
+  motion?: "stamp" | "unstamp" | null;
   name: string;
   number: string;
   onAnimationEnd?: () => void;
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
-  /* Plays the pop at the moment the card is marked, never on load. */
-  pop?: boolean;
   /*
    * `md` is the grid card. `sm` fits three cards in a narrow card; `fluid` is
    * `sm` on phones and `md` from `sm` up.
@@ -152,8 +155,8 @@ export const PokemonCard = ({
   name,
   number,
   onAnimationEnd,
+  motion = null,
   picked = false,
-  pop = false,
   size = "md",
   state,
   subtitle,
@@ -175,7 +178,8 @@ export const PokemonCard = ({
         paddingClassNames[size === "sm" ? "sm" : "md"][
           picked ? "caught" : state
         ],
-        pop && "animate-pop",
+        motion === "stamp" && "animate-stamp",
+        motion === "unstamp" && "animate-unstamp",
         className,
       )}
     >

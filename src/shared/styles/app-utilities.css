@@ -162,30 +162,80 @@
   }
 }
 
-/* Motion is a reward: slap and pop play only at the moment something is recorded. */
+/*
+ * Keyframes the theme's animations and the stamp utilities share, outside
+ * the theme so they are always there.
+ */
+@keyframes slap {
+  0% {
+    transform: scale(2) rotate(-20deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.92) rotate(6deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(var(--tilt, 0deg));
+  }
+}
+
+/*
+ * Recording a row or a card: it comes down onto the page and a ring of ink
+ * spreads from its edge. Nothing scales or turns, so a row as wide as the
+ * page lands the same as a small card.
+ */
+@keyframes stamp {
+  0% {
+    transform: translateY(-6px);
+    outline: 3px solid transparent;
+    outline-offset: 0;
+  }
+  40% {
+    transform: translateY(1px);
+    outline-color: color-mix(in oklab, var(--color-action) 45%, transparent);
+    outline-offset: 0;
+  }
+  100% {
+    transform: none;
+    outline-color: transparent;
+    outline-offset: 10px;
+  }
+}
+
+/* Un-recording it: the row or card settles back, softly, in its new state. */
+@keyframes unstamp {
+  from {
+    opacity: 0.35;
+    transform: scale(0.98);
+  }
+}
+
+/*
+ * Things recorded together land in turn: each sets --stamp-delay, read here
+ * on the element itself (a theme variable would read it on the page root).
+ */
+@utility animate-stamp {
+  animation: stamp 0.55s cubic-bezier(0.3, 1.4, 0.5, 1) var(--stamp-delay, 0ms);
+}
+
+/* The mark a stamp leaves: it slaps down in its turn, hidden until then. */
+@utility animate-stamp-slap {
+  animation: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) var(--stamp-delay, 0ms)
+    backwards;
+}
+
+/* Motion is a reward: slap, pop and stamp play only at the moment something is recorded. */
 @theme {
   --animate-slap: slap 0.55s cubic-bezier(0.3, 1.6, 0.5, 1);
   --animate-pop: pop 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+  --animate-unstamp: unstamp 0.4s ease-out;
   --animate-meadow-pop: meadow-pop 0.55s cubic-bezier(0.3, 1.6, 0.5, 1) both;
   /* Statistics' trainer title arriving, once per visit: words rise, the rest fades up. */
   --animate-title-rise: title-rise 0.7s cubic-bezier(0.2, 0.9, 0.25, 1.25) both;
   --animate-fade-up: fade-up 0.45s ease-out both;
   /* v3's wiggle: the team's Pokémon waiting to be tapped as the one replaced. */
   --animate-wiggle: wiggle 1.4s ease-in-out infinite;
-
-  @keyframes slap {
-    0% {
-      transform: scale(2) rotate(-20deg);
-      opacity: 0;
-    }
-    60% {
-      transform: scale(0.92) rotate(6deg);
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1) rotate(var(--tilt, 0deg));
-    }
-  }
 
   /* The meadow's partners pop up out of the grass, once per visit. */
   @keyframes meadow-pop {

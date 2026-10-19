@@ -5,6 +5,10 @@ import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
+import {
+  createStampOrder,
+  type StampOrder,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
@@ -27,6 +31,15 @@ import type {
   StoryMilestone,
   StoryScope,
 } from "./types";
+
+const noStamps: StampOrder = new Map();
+const noFades: ReadonlySet<number> = new Set();
+
+const withoutMilestone = (order: StampOrder, milestoneId: number) => {
+  const next = new Map(order);
+  next.delete(milestoneId);
+  return next;
+};
 
 const getScopeMilestones = (scope: StoryScope) =>
   scope.sections.flatMap((section) => section.milestones);
@@ -89,16 +102,15 @@ export const MainlinePlayProgressStory = ({
   );
   const [isEditorOpen, setIsEditorOpen] = useState(Boolean(recordMilestone));
   /*
-   * The milestone recorded a moment ago: its row pops and its stamp slaps,
-   * once each. Each clears when its animation ends, and both clear when the
-   * list redraws, so a remount never replays them.
+   * The milestones recorded a moment ago: their rows stamp and their badges
+   * slap, once each, one after another in Story order. Those un-recorded a
+   * moment ago fade back. Each clears when its animation ends, and all clear
+   * when the scope changes, so a remount never replays them.
    */
-  const [poppingMilestoneId, setPoppingMilestoneId] = useState<number | null>(
-    null,
-  );
-  const [slappingMilestoneId, setSlappingMilestoneId] = useState<number | null>(
-    null,
-  );
+  const [rowStampOrder, setRowStampOrder] = useState<StampOrder>(noStamps);
+  const [badgeSlapOrder, setBadgeSlapOrder] = useState<StampOrder>(noStamps);
+  const [fadingMilestoneIds, setFadingMilestoneIds] =
+    useState<ReadonlySet<number>>(noFades);
   const recording = useRecordMilestone(playId);
   const activeScope =
     model.scopes.find((scope) => scope.id === activeScopeId) ??
@@ -141,8 +153,9 @@ export const MainlinePlayProgressStory = ({
   };
 
   const endRecordingReward = () => {
-    setPoppingMilestoneId(null);
-    setSlappingMilestoneId(null);
+    setRowStampOrder(noStamps);
+    setBadgeSlapOrder(noStamps);
+    setFadingMilestoneIds(noFades);
   };
 
   const selectScope = (scopeId: number) => {
@@ -152,10 +165,25 @@ export const MainlinePlayProgressStory = ({
     setIsDetailSheetOpen(false);
   };
 
-  const startRecordingReward = (milestoneId: number) => {
-    setPoppingMilestoneId(milestoneId);
-    setSlappingMilestoneId(milestoneId);
+  const startRecordingReward = (milestoneIds: number[]) => {
+    const recordedIds = new Set(milestoneIds);
+    const order = createStampOrder(
+      model.scopes
+        .flatMap(getScopeMilestones)
+        .filter((milestone) => recordedIds.has(milestone.id))
+        .map((milestone) => milestone.id),
+    );
+
+    setRowStampOrder(order);
+    setBadgeSlapOrder(order);
+    setFadingMilestoneIds(noFades);
     setSelectedMilestoneId(null);
+  };
+
+  const startUnrecordingFade = (milestoneIds: number[]) => {
+    setRowStampOrder(noStamps);
+    setBadgeSlapOrder(noStamps);
+    setFadingMilestoneIds(new Set(milestoneIds));
   };
 
   /*
@@ -182,7 +210,9 @@ export const MainlinePlayProgressStory = ({
             ? milestone.earlierToRecord.map(({ id }) => id)
             : [],
           includeTeam: withTeam,
-          onRecorded: startRecordingReward,
+          onRecorded: (milestoneId, earlierMilestoneIds) =>
+            startRecordingReward([...earlierMilestoneIds, milestoneId]),
+          onUndone: startUnrecordingFade,
         },
       );
       return;
@@ -196,13 +226,17 @@ export const MainlinePlayProgressStory = ({
     setIsEditorOpen(true);
   };
 
-  const finishEditing = (message: string | null) => {
+  const finishEditing = (message: string | null, milestoneIds: number[]) => {
     setIsEditorOpen(false);
 
     if (editorIntent === "complete" && editorMilestone) {
-      startRecordingReward(editorMilestone.id);
+      startRecordingReward(milestoneIds);
       toast.success(message ?? `${editorMilestone.name} recorded`);
       return;
+    }
+
+    if (editorIntent === "incomplete") {
+      startUnrecordingFade(milestoneIds);
     }
 
     if (message) {
@@ -220,8 +254,10 @@ export const MainlinePlayProgressStory = ({
 
       {activeScope.stamps ? (
         <StoryStampCardSection
-          onSlapEnd={() => setSlappingMilestoneId(null)}
-          slappingMilestoneId={slappingMilestoneId}
+          onSlapEnd={(milestoneId) =>
+            setBadgeSlapOrder((order) => withoutMilestone(order, milestoneId))
+          }
+          slapOrder={badgeSlapOrder}
           stamps={activeScope.stamps}
         />
       ) : null}
@@ -252,10 +288,18 @@ export const MainlinePlayProgressStory = ({
 
         <StoryMilestoneList
           className="order-2 lg:order-0 lg:col-start-1 lg:row-start-1"
+          fadingMilestoneIds={fadingMilestoneIds}
           onMilestoneSelect={selectMilestone}
-          onPopEnd={() => setPoppingMilestoneId(null)}
-          poppingMilestoneId={poppingMilestoneId}
+          onMotionEnd={(milestoneId) => {
+            setRowStampOrder((order) => withoutMilestone(order, milestoneId));
+            setFadingMilestoneIds((ids) => {
+              const next = new Set(ids);
+              next.delete(milestoneId);
+              return next;
+            });
+          }}
           scope={activeScope}
+          stampOrder={rowStampOrder}
           selectedMilestoneId={
             !usesDetailSheet || isDetailSheetOpen
               ? (selectedMilestone?.id ?? null)

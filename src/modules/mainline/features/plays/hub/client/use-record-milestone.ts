@@ -22,8 +22,13 @@ type RecordOptions = {
   earlierMilestoneIds?: number[];
   /* Saves the team you have now with it ("Record with your team"). */
   includeTeam?: boolean;
-  /* Runs once it is saved, such as starting the stamp's slap. */
-  onRecorded?: (milestoneId: number) => void;
+  /*
+   * Runs once it is saved, such as starting the stamp's slap, with any
+   * recorded along with it.
+   */
+  onRecorded?: (milestoneId: number, earlierMilestoneIds: number[]) => void;
+  /* Runs once Undo has cleared it and any recorded along with it. */
+  onUndone?: (milestoneIds: number[]) => void;
   /* The toast's line, when the default "X recorded · n of total" won't do. */
   toastMessage?: string;
 };
@@ -44,7 +49,8 @@ export const useRecordMilestone = (playId: string) => {
 
   const undo = (
     milestone: RecordableMilestone,
-    earlierMilestoneIds: number[] = [],
+    earlierMilestoneIds: number[],
+    onUndone: RecordOptions["onUndone"],
   ) => {
     void undoMainlinePlayMilestoneAction({
       earlierMilestoneIds,
@@ -61,6 +67,7 @@ export const useRecordMilestone = (playId: string) => {
           ? `${milestone.name} and ${formatMilestoneRange(earlierMilestoneIds.length, "before")} are no longer recorded`
           : `${milestone.name} is no longer recorded`,
       );
+      onUndone?.([...earlierMilestoneIds, milestone.id]);
       router.refresh();
     });
   };
@@ -106,14 +113,15 @@ export const useRecordMilestone = (playId: string) => {
         return;
       }
 
-      options.onRecorded?.(milestone.id);
+      options.onRecorded?.(milestone.id, result.recordedEarlierIds);
       const earlierCount = result.recordedEarlierIds.length;
       const recordedName = earlierCount
         ? `${result.milestoneName} and ${formatMilestoneRange(earlierCount, "before")}`
         : result.milestoneName;
       const undoAction = {
         label: "Undo",
-        onClick: () => undo(milestone, result.recordedEarlierIds),
+        onClick: () =>
+          undo(milestone, result.recordedEarlierIds, options.onUndone),
       };
       toast.success(
         options.toastMessage ??

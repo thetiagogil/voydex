@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import {
   getMilestonePickItemClassName,
@@ -71,18 +73,20 @@ const StoryMilestoneWhen = ({
  * details"; the panel shows them in full).
  */
 export const StoryMilestoneRow = ({
-  isJustRecorded,
   milestone,
-  onPopEnd,
+  motion,
+  onMotionEnd,
   onSelect,
   selected,
   showDetails,
+  stampDelay,
   state,
 }: {
-  isJustRecorded: boolean;
   milestone: StoryMilestone;
-  /* Called once the just-recorded pop has played. */
-  onPopEnd: () => void;
+  /* Recorded a moment ago (it stamps down) or un-recorded (it fades back). */
+  motion: "stamp" | "unstamp" | null;
+  /* Called once the stamp or fade has played. */
+  onMotionEnd: () => void;
   onSelect: () => void;
   selected: boolean;
   /*
@@ -90,6 +94,8 @@ export const StoryMilestoneRow = ({
    * row, not just their marks.
    */
   showDetails: boolean;
+  /* How long its stamp waits for the ones recorded before it. */
+  stampDelay: string | null;
   state: PlayMilestoneState;
 }) => {
   const hasTeam = milestone.snapshotMembers.length > 0;
@@ -106,22 +112,29 @@ export const StoryMilestoneRow = ({
         type="button"
         aria-pressed={selected}
         onClick={onSelect}
+        style={
+          stampDelay
+            ? ({ "--stamp-delay": stampDelay } as CSSProperties)
+            : undefined
+        }
         onAnimationEnd={(event) => {
-          if (isJustRecorded && event.target === event.currentTarget) {
-            onPopEnd();
+          if (motion && event.target === event.currentTarget) {
+            onMotionEnd();
           }
         }}
         className={cn(
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
           "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-4.5 sm:py-3.5",
-          isJustRecorded && "animate-pop",
+          motion === "stamp" && "animate-stamp",
+          motion === "unstamp" && "animate-unstamp",
         )}
       >
         <MilestoneMarker
           badgeType={milestone.badgeType}
           className="row-span-2 sm:row-span-1"
           sequence={milestone.sequence}
+          stamp={motion === "stamp"}
           state={state}
           typeSlug={milestone.typeSlug}
         />

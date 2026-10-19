@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 
+import {
+  getStampDelay,
+  type StampOrder,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
@@ -16,24 +20,29 @@ import {
  * The scope's milestones under their chapters, as Fredoka group headings.
  * Decisions and saved teams stay out of the rows (a signpost and a camera
  * mark them) until "Show details" beside a chapter's heading brings them
- * in, for the whole list.
+ * in, for the whole list. Rows recorded a moment ago stamp down in Story
+ * order; rows un-recorded a moment ago fade back.
  */
 export const StoryMilestoneList = ({
   className,
+  fadingMilestoneIds,
   onMilestoneSelect,
-  onPopEnd,
-  poppingMilestoneId,
+  onMotionEnd,
   scope,
   selectedMilestoneId,
+  stampOrder,
 }: {
   className?: string;
+  /* The milestones un-recorded a moment ago, whose rows fade back once. */
+  fadingMilestoneIds: ReadonlySet<number>;
   onMilestoneSelect: (milestone: StoryMilestone) => void;
-  onPopEnd: () => void;
-  /* The milestone recorded a moment ago, whose row pops once. */
-  poppingMilestoneId: number | null;
+  /* Called once a row's stamp or fade has played. */
+  onMotionEnd: (milestoneId: number) => void;
   scope: StoryScope;
   /* The row shown in the panel or sheet right now, if any. */
   selectedMilestoneId: number | null;
+  /* The milestones recorded a moment ago, in the order their rows stamp. */
+  stampOrder: StampOrder;
 }) => {
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
   const [showDetails, setShowDetails] = useState(false);
@@ -71,11 +80,18 @@ export const StoryMilestoneList = ({
             {section.milestones.map((milestone) => (
               <StoryMilestoneRow
                 key={milestone.id}
-                isJustRecorded={
-                  milestone.isCompleted && milestone.id === poppingMilestoneId
-                }
                 milestone={milestone}
-                onPopEnd={onPopEnd}
+                motion={
+                  milestone.isCompleted
+                    ? stampOrder.has(milestone.id)
+                      ? "stamp"
+                      : null
+                    : fadingMilestoneIds.has(milestone.id)
+                      ? "unstamp"
+                      : null
+                }
+                onMotionEnd={() => onMotionEnd(milestone.id)}
+                stampDelay={getStampDelay(stampOrder, milestone.id)}
                 onSelect={() => onMilestoneSelect(milestone)}
                 selected={milestone.id === selectedMilestoneId}
                 showDetails={showDetails}

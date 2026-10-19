@@ -64,7 +64,8 @@ export const StoryMilestoneEditor = ({
   intent: StoryMilestoneActionIntent;
   milestone: StoryMilestone | null;
   onOpenChange: (open: boolean) => void;
-  onSaved: (message: string | null) => void;
+  /* The save's message and the milestones it recorded or cleared. */
+  onSaved: (message: string | null, milestoneIds: number[]) => void;
   open: boolean;
   playId: string;
   /* Recording: start with "Also record the N before it" ticked (the default). */
