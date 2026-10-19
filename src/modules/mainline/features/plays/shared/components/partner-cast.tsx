@@ -30,8 +30,8 @@ export const PartnerCast = ({
   value,
 }: PartnerCastProps) => {
   const isSolo = starters.length === 1;
-  /* Only the partner just tapped slaps; one picked before the page opened doesn't. */
-  const [slappingId, setSlappingId] = useState<number | null>(null);
+  /* Only the partner just tapped hops; one picked before the page opened doesn't. */
+  const [hoppingId, setHoppingId] = useState<number | null>(null);
 
   return (
     <div
@@ -54,7 +54,7 @@ export const PartnerCast = ({
             typeSlug={starter.typePair.primaryType?.slug ?? null}
             size={isSolo && size === "lg" ? "xl" : size}
             selected={isPicked}
-            slap={isPicked && slappingId === starter.speciesId}
+            hop={isPicked && hoppingId === starter.speciesId}
             label={
               onValueChange && !isSolo
                 ? `${starter.name} is my partner`
@@ -63,7 +63,7 @@ export const PartnerCast = ({
             onClick={
               onValueChange && !isSolo
                 ? () => {
-                    setSlappingId(isPicked ? null : starter.speciesId);
+                    setHoppingId(isPicked ? null : starter.speciesId);
                     onValueChange(isPicked ? null : starter.speciesId);
                   }
                 : undefined

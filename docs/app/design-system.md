@@ -235,17 +235,16 @@ on a hard lip, a press that moves, a gradient fill or glass.
 ## Motion
 
 Motion is a reward. Hover lifts and the Pokémon hop are fine on things you can
-open. `animate-slap` and `animate-pop` play only at the moment something is
+open. `animate-stamp-slap`, `animate-pop` and `animate-hop` play only at the moment something is
 recorded or marked, never on load or redraw. The one exception is the
 meadow's partners, which pop in (`animate-meadow-pop`) once per visit. Nothing loops and controls don't
 bounce. `app-base.css` honours reduced motion.
 
-One reward per moment, in one place. Stamps slap (`animate-stamp-slap`):
+One reward per moment, in one place, and it shows at once: Story's Record, like a Pokédex or collectible mark, shows on the page straight away and saves in the background. A partner you pick hops (`animate-hop`). Stamps slap (`animate-stamp-slap`):
 Story's stamp card and Overview's next objective, which then hands over to the next one
 (`animate-objective-out`, `animate-objective-in`). Small cards and tokens you
 mark (Pokédex, Collectibles) pop. A wide row never moves: a Story row keeps still
-while its marker pops into its new state (`animate-marker-in`), and a recorded
-row glows once with the selection tint (`animate-wash`). A card or token you
+while its marker pops into its new state (`animate-marker-in`). A card or token you
 unmark settles softly (`animate-settle`). Things recorded together land in turn, Story order, through
 `--stamp-delay` (`createStampOrder`, `getStampDelay`).
 

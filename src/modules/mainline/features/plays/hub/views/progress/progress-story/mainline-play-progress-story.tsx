@@ -5,6 +5,7 @@ import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
+import { formatMilestoneRange } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
   createStampOrder,
   type StampOrder,
@@ -14,6 +15,11 @@ import { EmptyState } from "@/shared/components/empty-state";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import { buildStoryProgressModel } from "./data/story-progress-model";
+import {
+  applyStoryRecordingOverrides,
+  keepPendingOverrides,
+  type StoryRecordingOverrides,
+} from "./data/story-recording-overrides";
 import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
 import type { StoryMilestoneChoice } from "./sections/detail/story-milestone-actions";
 import { StoryMilestoneEditor } from "./sections/detail/story-milestone-editor";
@@ -33,6 +39,7 @@ import type {
 } from "./types";
 
 const noStamps: StampOrder = new Map();
+const noOverrides: StoryRecordingOverrides = new Map();
 const noFades: ReadonlySet<number> = new Set();
 
 const withoutMilestone = (order: StampOrder, milestoneId: number) => {
@@ -63,7 +70,27 @@ export const MainlinePlayProgressStory = ({
   /* Opens straight into recording this milestone, as Overview's Record button asks. */
   recordMilestoneId?: number | null;
 }) => {
-  const model = useMemo(() => buildStoryProgressModel(data), [data]);
+  /*
+   * Record and Undo show at once while they save (as the Pokédex marks):
+   * these milestones are shown recorded or not until fresh data agrees.
+   */
+  const [overrides, setOverrides] =
+    useState<StoryRecordingOverrides>(noOverrides);
+  const [overriddenAt, setOverriddenAt] = useState("");
+  const [seenData, setSeenData] = useState(data);
+
+  if (data !== seenData) {
+    setSeenData(data);
+    setOverrides((current) => keepPendingOverrides(data, current));
+  }
+
+  const model = useMemo(
+    () =>
+      buildStoryProgressModel(
+        applyStoryRecordingOverrides(data, overrides, overriddenAt),
+      ),
+    [data, overriddenAt, overrides],
+  );
   const usesDetailSheet = useBottomSheetLayout();
   const findMilestone = (milestoneId: number | null) =>
     model.scopes
@@ -180,6 +207,26 @@ export const MainlinePlayProgressStory = ({
     setSelectedMilestoneId(null);
   };
 
+  /* Shows milestones recorded or not at once, with the reward or the fade. */
+  const showRecording = (milestoneIds: number[], recorded: boolean) => {
+    setOverriddenAt(new Date().toISOString());
+    setOverrides((current) => {
+      const next = new Map(current);
+
+      for (const milestoneId of milestoneIds) {
+        next.set(milestoneId, recorded);
+      }
+
+      return next;
+    });
+
+    if (recorded) {
+      startRecordingReward(milestoneIds);
+    } else {
+      startUnrecordingFade(milestoneIds);
+    }
+  };
+
   const startUnrecordingFade = (milestoneIds: number[]) => {
     setRowStampOrder(noStamps);
     setBadgeSlapOrder(noStamps);
@@ -202,17 +249,26 @@ export const MainlinePlayProgressStory = ({
     const intent = withTeam || choice === "complete-only" ? "complete" : choice;
 
     if (intent === "complete" && !milestone.decisionOptions.length) {
+      const earlier = withEarlier ? milestone.earlierToRecord : [];
+      const scope = findScope(milestone.id) ?? activeScope;
+      const requiredAdded = [milestone, ...earlier].filter(({ id }) =>
+        getScopeMilestones(scope).some(
+          (candidate) => candidate.id === id && candidate.isRequired,
+        ),
+      ).length;
+      const recordedName = earlier.length
+        ? `${milestone.name} and ${formatMilestoneRange(earlier.length, "before")}`
+        : milestone.name;
+
       setIsDetailSheetOpen(false);
-      recording.record(
+      recording.recordInstant(
         { id: milestone.id, name: milestone.name },
         {
-          earlierMilestoneIds: withEarlier
-            ? milestone.earlierToRecord.map(({ id }) => id)
-            : [],
+          earlierMilestoneIds: earlier.map(({ id }) => id),
           includeTeam: withTeam,
-          onRecorded: (milestoneId, earlierMilestoneIds) =>
-            startRecordingReward([...earlierMilestoneIds, milestoneId]),
-          onUndone: startUnrecordingFade,
+          keepsSnapshot: milestone.snapshotPolicySlug !== "none",
+          onChange: showRecording,
+          toastMessage: `${recordedName} recorded · ${scope.completedCount + requiredAdded} of ${scope.totalCount}`,
         },
       );
       return;

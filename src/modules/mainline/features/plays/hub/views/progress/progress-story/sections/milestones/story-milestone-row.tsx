@@ -85,7 +85,7 @@ export const StoryMilestoneRow = ({
   milestone: StoryMilestone;
   /*
    * Recorded or un-recorded a moment ago: the row keeps still while its
-   * marker pops into its new state (a recorded row also glows once).
+   * marker pops into its new state.
    */
   motion: "recorded" | "unrecorded" | null;
   /* Called once the marker has popped. */
@@ -129,7 +129,6 @@ export const StoryMilestoneRow = ({
           getMilestonePickRowClassName({ selected, state }),
           "grid grid-cols-[30px_minmax(0,1fr)] items-center gap-x-3 gap-y-1 px-3.5 py-3",
           "sm:grid-cols-[34px_96px_minmax(0,1fr)_auto] sm:gap-x-3.5 sm:px-4.5 sm:py-3.5",
-          motion === "recorded" && "animate-wash",
         )}
       >
         <MilestoneMarker
