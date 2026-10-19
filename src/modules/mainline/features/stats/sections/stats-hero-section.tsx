@@ -127,7 +127,7 @@ const TitlePicture = ({
                   type="button"
                   aria-label={`${entry.name}, in ${playCount} ${playCount === 1 ? "Play" : "Plays"}: open its details`}
                   onClick={() => onOpenPokemon(pokemon)}
-                  className="group/art focus-visible:outline-focus block rounded-full outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                  className="group/art focus-ring block rounded-full"
                 >
                   {entry.imageUrl ? (
                     // eslint-disable-next-line @next/next/no-img-element

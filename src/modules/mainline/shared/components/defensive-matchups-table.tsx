@@ -66,7 +66,7 @@ const SortHeader = ({
         type="button"
         onClick={() => onSortChange(value)}
         className={cn(
-          "hover:text-ink focus-visible:outline-focus inline-flex items-center gap-1 rounded-xs outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+          "hover:text-ink focus-ring inline-flex items-center gap-1 rounded-xs",
           isActive && "text-ink",
         )}
       >

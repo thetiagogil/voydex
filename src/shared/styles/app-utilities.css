@@ -352,3 +352,28 @@
     font-size: var(--text-36);
   }
 }
+
+/*
+ * The one keyboard focus ring: 3px of the focus colour, 2px out. Only the
+ * keyboard shows it (`focus-visible`). `focus-ring-inset` draws it inside
+ * the element, for anything a track or a neighbour would cut (segments,
+ * joined buttons, an index in a scrolling column). Low specificity, so a
+ * `focus-visible:` class can still adjust it.
+ */
+@utility focus-ring {
+  outline: none;
+
+  &:where(:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: 2px;
+  }
+}
+
+@utility focus-ring-inset {
+  outline: none;
+
+  &:where(:focus-visible) {
+    outline: 3px solid var(--focus);
+    outline-offset: -3px;
+  }
+}

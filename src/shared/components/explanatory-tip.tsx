@@ -48,7 +48,7 @@ const infoDotToneClassNames: Record<InfoDotTone, string> = {
 
 /* v3 `.infotip`: a round "i" dot with at least a 40px hit area. */
 const infoDotClassName =
-  "text-ink-2 hover:text-ink focus-visible:outline-focus relative inline-grid shrink-0 cursor-help place-items-center rounded-full align-middle transition-colors focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid";
+  "text-ink-2 hover:text-ink relative inline-grid shrink-0 cursor-help place-items-center rounded-full align-middle transition-colors focus-ring";
 
 const infoDotVariantClassNames: Record<
   InfoDotVariant,

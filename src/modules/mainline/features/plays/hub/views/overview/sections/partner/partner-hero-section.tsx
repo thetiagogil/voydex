@@ -234,7 +234,7 @@ export const PartnerHeroSection = ({
                     setPickedOptionId(isPicked ? null : option.decisionOptionId)
                   }
                   style={getPokemonTypeCssVariables(getOptionTypeSlug(option))}
-                  className="focus-visible:outline-focus relative block w-full rounded-lg outline-offset-2 focus-visible:outline-3 focus-visible:outline-solid disabled:cursor-wait"
+                  className="focus-ring relative block w-full rounded-lg outline-offset-2 disabled:cursor-wait"
                 >
                   <PokemonCard
                     state="plain"

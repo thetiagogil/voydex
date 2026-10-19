@@ -38,7 +38,7 @@ export const ChoiceChip = ({
     className={cn(
       "text-14 inline-flex items-center gap-1.5 rounded-full px-4 font-bold whitespace-nowrap transition-colors",
       size === "lg" ? "min-h-12" : "min-h-10",
-      "focus-visible:outline-focus outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+      "focus-ring",
       "disabled:cursor-not-allowed disabled:opacity-50",
       variant === "add"
         ? "empty-slot text-ink-2 hover:bg-hover hover:text-ink"

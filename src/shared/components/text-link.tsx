@@ -56,7 +56,7 @@ export const TextLink = ({
   ...props
 }: TextLinkProps) => {
   const classNames = cn(
-    "focus-visible:outline-focus rounded-xs underline-offset-3 outline-none hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+    "rounded-xs underline-offset-3 hover:underline focus-ring",
     toneClassNames[tone],
     standalone && "text-14 inline-flex min-h-9 items-center gap-1.5",
     className,

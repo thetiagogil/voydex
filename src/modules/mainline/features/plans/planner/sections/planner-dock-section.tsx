@@ -235,7 +235,7 @@ export const PlannerDockSection = ({
                   <button
                     type="button"
                     onClick={() => onPlace(index)}
-                    className="focus-visible:outline-focus block w-full rounded-xl outline-none focus-visible:outline-3 focus-visible:outline-solid"
+                    className="focus-ring block w-full rounded-xl"
                   >
                     <PokemonEmptySlot
                       label={`Put ${replacing.name} in slot ${index + 1}`}
@@ -289,7 +289,7 @@ export const PlannerDockSection = ({
               <button
                 type="button"
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
-                className="focus-visible:outline-focus block h-full w-full rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                className="focus-ring block h-full w-full rounded-lg"
               >
                 <PokemonCard
                   state="plain"

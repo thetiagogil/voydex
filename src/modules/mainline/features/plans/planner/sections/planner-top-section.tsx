@@ -87,7 +87,7 @@ export const PlannerTopSection = ({
             <button
               type="button"
               onClick={() => setIsRenaming(true)}
-              className="group/title title-page focus-visible:outline-focus inline-flex max-w-full items-center gap-2 rounded-xs text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+              className="group/title title-page focus-ring inline-flex max-w-full items-center gap-2 rounded-xs text-left"
             >
               <span
                 className={cn(

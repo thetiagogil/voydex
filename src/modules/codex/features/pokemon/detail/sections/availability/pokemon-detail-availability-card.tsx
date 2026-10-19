@@ -38,7 +38,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
         {row.href ? (
           <Link
             href={row.href}
-            className="hover:text-link focus-visible:outline-focus rounded-xs underline-offset-4 outline-none hover:underline focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+            className="hover:text-link focus-ring rounded-xs underline-offset-4 hover:underline"
           >
             {row.label}
           </Link>

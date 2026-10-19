@@ -64,12 +64,7 @@ export const StampGrid = ({
     <ul
       aria-label={scrollLabel}
       tabIndex={scrollLabel ? 0 : undefined}
-      className={cn(
-        "grid",
-        scrollLabel &&
-          "focus-visible:outline-focus outline-none focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid",
-        className,
-      )}
+      className={cn("grid", scrollLabel && "focus-ring-inset", className)}
     >
       {stamps.map((stamp, index) => (
         <li key={stamp.milestoneId} className="flex flex-col">

@@ -219,7 +219,7 @@ export const PlannerSlotSheet = ({
                   }
                   onClick={() => onMove(slotIndex, otherIndex)}
                   className={cn(
-                    "text-13 focus-visible:outline-focus flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums outline-none focus-visible:outline-3 focus-visible:outline-solid",
+                    "text-13 focus-ring flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums",
                     isHere
                       ? "bg-select-soft text-select-ink"
                       : "bg-surface-2 text-ink-2 hover:bg-hover",
@@ -401,7 +401,7 @@ export const PlannerSlotSheet = ({
           <button
             type="button"
             onClick={() => setBuildOpenFor(slotIndex)}
-            className="empty-slot hover:bg-hover focus-visible:outline-focus flex items-center gap-3 rounded-md px-4 py-3 text-left outline-none focus-visible:outline-3 focus-visible:outline-solid"
+            className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-md px-4 py-3 text-left"
           >
             <AppIcon icon={appIcons.actions.create} size="md" />
             <span>

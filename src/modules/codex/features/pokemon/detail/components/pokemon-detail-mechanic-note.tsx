@@ -34,8 +34,7 @@ export const PokemonDetailMechanicNoteCard = ({
     isFill
       ? "flex-1 flex-col items-center justify-center py-8 text-center"
       : "items-center",
-    href &&
-      "hover:bg-hover focus-visible:outline-focus transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+    href && "hover:bg-hover transition-colors focus-ring",
     className,
   );
   const content = (

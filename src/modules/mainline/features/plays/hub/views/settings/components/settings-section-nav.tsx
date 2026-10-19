@@ -43,7 +43,7 @@ export const SettingsSectionNav = ({
             <a
               href={section.href}
               onClick={(event) => glideTo(event, section.href)}
-              className="text-ink-2 text-14 hover:bg-hover hover:text-ink focus-visible:outline-focus flex min-h-10 items-center rounded-md px-3.5 font-bold focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid"
+              className="text-ink-2 text-14 hover:bg-hover hover:text-ink focus-ring-inset flex min-h-10 items-center rounded-md px-3.5 font-bold"
             >
               {section.label}
             </a>

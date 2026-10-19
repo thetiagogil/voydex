@@ -18,7 +18,7 @@ export const getMilestonePickRowClassName = ({
 }) =>
   cn(
     "w-full rounded-lg text-left transition-transform duration-150 outline-none hover:translate-x-0.75",
-    "focus-visible:outline-focus focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+    "focus-ring",
     state === "done" && "bg-surface",
     state === "next" &&
       "bg-surface shadow-[inset_0_0_0_2.5px_var(--select-soft),var(--shadow-soft-value)]",

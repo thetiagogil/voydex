@@ -100,8 +100,7 @@ export const MeadowPokemon = ({
   );
   const baseClassName = cn(
     "group/meadow-pokemon relative flex min-w-0 flex-col items-center rounded-lg outline-none",
-    interactive &&
-      "focus-visible:outline-focus focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid",
+    interactive && "focus-ring",
     className,
   );
 

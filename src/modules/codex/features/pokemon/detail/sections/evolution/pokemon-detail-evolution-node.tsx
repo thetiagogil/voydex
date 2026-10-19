@@ -62,7 +62,7 @@ export const PokemonDetailEvolutionNode = ({
     <Link
       href={href}
       aria-current={isActive ? "page" : undefined}
-      className="focus-visible:outline-focus block w-28 shrink-0 rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid sm:w-32"
+      className="focus-ring block w-28 shrink-0 rounded-lg sm:w-32"
     >
       <PokemonCard
         state="plain"

@@ -58,7 +58,7 @@ const NewPlaySteps = ({
             <button
               type="button"
               onClick={() => onStepChange(number)}
-              className="text-action-lip text-13 hover:bg-surface focus-visible:outline-focus inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 font-extrabold outline-none focus-visible:outline-3 focus-visible:outline-solid"
+              className="text-action-lip text-13 hover:bg-surface focus-ring inline-flex h-9 items-center gap-1.5 rounded-full px-2.5 font-extrabold"
             >
               <AppIcon
                 icon={appIcons.status.active}

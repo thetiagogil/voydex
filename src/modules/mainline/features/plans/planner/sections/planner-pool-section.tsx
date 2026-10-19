@@ -250,7 +250,7 @@ export const PlannerPoolSection = ({
                             ? pokemon.types[0].slug
                             : null,
                         )}
-                        className="focus-visible:outline-focus block w-full rounded-lg outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+                        className="focus-ring block w-full rounded-lg"
                       >
                         <PokemonCard
                           state="plain"

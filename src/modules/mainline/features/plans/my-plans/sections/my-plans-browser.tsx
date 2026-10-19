@@ -93,7 +93,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
     <li className="group/removable relative min-w-0 transition-transform duration-150 focus-within:-translate-y-0.5 hover:-translate-y-0.5">
       <Link
         href={appRoutes.mainlinePlan(plan.id)}
-        className="group/card-link focus-visible:outline-focus block h-full rounded-2xl outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+        className="group/card-link focus-ring block h-full rounded-2xl"
       >
         <Card className="h-full gap-3 px-5 py-4">
           <div className="flex items-center gap-2">

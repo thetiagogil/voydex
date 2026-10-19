@@ -11,7 +11,7 @@ import { cn } from "@/shared/utils/cn";
  * white, for a label sitting on a tinted picture or band.
  */
 const badgeVariants = cva(
-  "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent font-bold whitespace-nowrap transition-colors focus-visible:outline-3 focus-visible:outline-focus aria-invalid:border-danger [&>svg]:pointer-events-none",
+  "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-full border border-transparent font-bold whitespace-nowrap transition-colors aria-invalid:border-danger [&>svg]:pointer-events-none focus-ring",
   {
     variants: {
       variant: {

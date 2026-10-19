@@ -166,8 +166,7 @@ export const SegmentedControl = <TValue extends string>({
            * Inside a scrolling track the ring is drawn within the option, so
            * the track's edge never cuts it.
            */
-          (variant === "segment" || phoneScroll) &&
-            "focus-visible:-outline-offset-3",
+          (variant === "segment" || phoneScroll) && "focus-ring-inset",
           isDisabled && "cursor-not-allowed opacity-45",
         );
         const content = (

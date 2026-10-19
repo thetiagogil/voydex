@@ -7,8 +7,7 @@ import { cva } from "class-variance-authority";
 const rowInteractionVariants = cva("transition-colors", {
   variants: {
     interaction: {
-      action:
-        "hover:bg-hover focus-visible:outline-focus outline-none focus-visible:bg-hover focus-visible:outline-3 focus-visible:-outline-offset-3 focus-visible:outline-solid",
+      action: "hover:bg-hover focus-visible:bg-hover focus-ring-inset",
       scan: "hover:bg-hover",
     },
   },

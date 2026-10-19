@@ -56,7 +56,7 @@ const NavigationMenuItem = ({
 };
 
 const navigationMenuTriggerStyle = cva(
-  "group/navigation-menu-trigger inline-flex h-10 w-max items-center justify-center rounded-full px-3 py-1.5 text-14 font-bold transition-colors outline-none hover:bg-hover focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-focus focus-visible:outline-solid disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-hover data-open:bg-hover",
+  "group/navigation-menu-trigger inline-flex h-10 w-max items-center justify-center rounded-full px-3 py-1.5 text-14 font-bold transition-colors hover:bg-hover disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-hover data-open:bg-hover focus-ring",
 );
 
 const NavigationMenuTrigger = ({
@@ -137,7 +137,7 @@ const NavigationMenuLink = ({
     <NavigationMenuPrimitive.Link
       data-slot="navigation-menu-link"
       className={cn(
-        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 focus-visible:outline-focus in-data-[slot=navigation-menu-content]:text-15 flex items-center gap-2 rounded-full p-2 font-bold transition-colors outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid in-data-[slot=navigation-menu-content]:rounded-md in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
+        "hover:bg-hover focus:bg-hover data-active:bg-select-soft data-active:text-select-ink text-14 in-data-[slot=navigation-menu-content]:text-15 focus-ring flex items-center gap-2 rounded-full p-2 font-bold transition-colors in-data-[slot=navigation-menu-content]:rounded-md in-data-[slot=navigation-menu-content]:focus-visible:-outline-offset-3 [&_svg:not([class*='size-'])]:size-4",
         className,
       )}
       {...props}

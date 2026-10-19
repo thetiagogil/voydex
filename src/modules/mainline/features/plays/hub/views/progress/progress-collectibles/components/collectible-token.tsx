@@ -53,7 +53,7 @@ export const CollectibleToken = ({
       }}
       onAnimationEnd={() => setIsPopping(false)}
       className={cn(
-        "focus-visible:outline-focus relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid aria-disabled:cursor-wait",
+        "focus-ring relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 aria-disabled:cursor-wait",
         isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
         isPopping && "animate-pop",
         className,

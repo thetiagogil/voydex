@@ -94,7 +94,7 @@ export const MoveSlotSelect = ({
       <ComboboxTrigger
         aria-label={`Move ${slot}: ${selected?.label ?? emptyLabel}`}
         style={getPokemonTypeCssVariables(type)}
-        className="text-14 focus-visible:outline-focus flex h-13 w-full min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left outline-none hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))] focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-solid"
+        className="text-14 focus-ring flex h-13 w-full min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
       >
         <span className="text-ink-3 text-12 w-3 shrink-0 font-extrabold tabular-nums">
           {slot}
