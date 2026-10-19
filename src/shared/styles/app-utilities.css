@@ -4,6 +4,16 @@
 }
 
 /*
+ * A reference card you don't own (a Codex Pokémon or game card): white with a
+ * thin edge and no shadow, the same on the page and inside a section card.
+ * The one surface for both; the white band is only for what is yours.
+ */
+@utility plain-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+}
+
+/*
  * An owned Pokémon's sticker surface: the type tint and a 4px white border on
  * a soft shadow. Set --t. Swap the shadow with --sticker-shadow, or add
  * `sticker-picked` to mark it as the target.

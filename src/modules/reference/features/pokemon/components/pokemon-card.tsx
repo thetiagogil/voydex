@@ -75,9 +75,9 @@ const sizeClassNames: Record<
 const stateClassNames: Record<PokemonCardState, string> = {
   caught: "sticker [--sticker-shadow:var(--shadow-soft-value)]",
   missing: "empty-slot",
-  /* Plain cards: white with a thin edge; the white band is only for yours. */
-  plain: "border border-line bg-surface",
-  seen: "border border-line bg-surface",
+  /* Plain cards share the Codex's one reference card surface. */
+  plain: "plain-card",
+  seen: "plain-card",
 };
 
 /*
