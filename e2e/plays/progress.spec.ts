@@ -17,18 +17,18 @@ test.describe("Progress", () => {
 
   test("records the next Story milestone", async ({ page }) => {
     await page.goto(`/mainline/plays/${playId}/progress/story`);
-    await expect(page.getByText("1 of 16 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 17 milestones")).toBeVisible();
     await expectAccessible(page);
 
     await page.getByRole("button", { name: "Record Receive Pokedex" }).click();
 
-    await expect(page.getByText("2 of 16 milestones")).toBeVisible();
+    await expect(page.getByText("2 of 17 milestones")).toBeVisible();
     await expect(
       page.getByRole("region", { name: "Boulder Badge" }),
     ).toBeVisible();
 
     await page.reload();
-    await expect(page.getByText("2 of 16 milestones")).toBeVisible();
+    await expect(page.getByText("2 of 17 milestones")).toBeVisible();
 
     await page.goto(`/mainline/plays/${playId}/history`);
     await expect(page.getByText("Receive Pokedex").first()).toBeVisible();
