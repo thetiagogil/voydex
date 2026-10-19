@@ -33,8 +33,9 @@ import {
   type StoryMilestoneEditorSurface,
 } from "./story-milestone-editor-form";
 
+/* A column, so the form's body scrolls between the header and its footer. */
 const desktopContentClassName =
-  "max-h-[85dvh] gap-0 overflow-hidden p-0 sm:min-w-xl sm:max-w-xl";
+  "flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:min-w-xl sm:max-w-xl";
 const titleClassName = "text-24 outline-none";
 
 const EditorKicker = ({ milestone }: { milestone: StoryMilestone | null }) =>
@@ -93,15 +94,8 @@ export const StoryMilestoneEditor = ({
 
   if (usesBottomSheet) {
     return (
-      /*
-       * BottomSheet's own look, built here because the form owns its footer.
-       * Marking incomplete asks for an answer, so a tap outside never closes it.
-       */
-      <Sheet
-        open={isOpen}
-        onOpenChange={onOpenChange}
-        disablePointerDismissal={intent === "incomplete"}
-      >
+      /* BottomSheet's own look, built here because the form owns its footer. */
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
         <SheetContent
           side="bottom"
           className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0 data-[side=bottom]:rounded-t-xl"
@@ -131,7 +125,7 @@ export const StoryMilestoneEditor = ({
           className={desktopContentClassName}
           initialFocus={titleRef}
         >
-          <AlertDialogHeader className="gap-1 p-6 pb-4">
+          <AlertDialogHeader className="gap-1 p-6 pr-16 pb-4">
             <EditorKicker milestone={milestone} />
             <AlertDialogTitle
               ref={titleRef}

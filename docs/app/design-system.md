@@ -431,9 +431,10 @@ There are no site-only stills: a public picture uses the app's own component.
 - **Sheets**: below 1024px every sheet opens from the bottom
   (`useBottomSheetLayout`, `BottomSheet`); from 1024px a detail opens beside
   its list or as a side sheet. Every overlay closes from the same `soft`
-  `icon-sm` button in its top-right corner (16px in). A confirm (delete,
-  remove, mark incomplete) closes only on one of its buttons or Escape, never
-  on a tap outside (`AlertDialog`, or `BottomSheet` `role="confirm"`).
+  `icon-sm` button in its top-right corner (16px in), confirms included.
+  Every overlay also closes on Escape or a tap outside; for a confirm
+  (delete, remove, mark incomplete, `AlertDialog`) that means "no". A long
+  one scrolls its body between the header and its pinned buttons.
 - **Menus and selects** share one compact 44px row; the pick takes the
   selected tint and a check, and two-line rows are only for an option that
   needs its description.
