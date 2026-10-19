@@ -10,6 +10,8 @@ import { RecordRow } from "@/modules/mainline/features/plays/shared/components/r
 type PlayMomentRowProps = {
   context?: PlayMomentContext;
   event: MainlinePlayTimelineEvent;
+  /* `timeline`: on a timeline's line, its words in a card of their own. */
+  variant?: "row" | "timeline";
   /* When it happened, after the kind in the kicker. */
   when?: ReactNode;
   /* Let the line and note wrap in full. */
@@ -20,6 +22,7 @@ type PlayMomentRowProps = {
 export const PlayMomentRow = ({
   context,
   event,
+  variant,
   when,
   wrap,
 }: PlayMomentRowProps) => {
@@ -28,6 +31,7 @@ export const PlayMomentRow = ({
   return (
     <RecordRow
       medallionFaded={record.faded}
+      variant={variant}
       wrap={wrap}
       kicker={
         when ? (

@@ -4,9 +4,13 @@ This is the History And Play Settings part of the [Feature Contract](../feature-
 
 ## Play Timeline And Journal
 
-As built (v3), History (`/mainline/plays/[playId]/history`) lists every
-moment the Play kept under month headings, newest or oldest first, with where
-the Play began closing the list. Filters split it into Story (milestones and
+As built, History (`/mainline/plays/[playId]/history`) draws every moment the
+Play kept on one continuous line, newest or oldest first: each moment's
+medallion sits on the line with its words in a small card beside it, months
+mark the line where they begin, and "Your Play starts here" is the line's
+origin (shown with every kind and no search). Overview's Recent moments draws
+its three newest on the same line, closed by the starting line while there are
+fewer than three. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),
 Notes and Play (status changes and the rest). A search in front of the
 filters matches each moment's kind, line and note, and the filter counts

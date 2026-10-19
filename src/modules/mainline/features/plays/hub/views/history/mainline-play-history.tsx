@@ -3,7 +3,10 @@
 import { useMemo, useState } from "react";
 
 import { AddNoteDialog } from "@/modules/mainline/features/plays/hub/components/add-note-dialog";
-import { PlayStartRow } from "@/modules/mainline/features/plays/hub/components/play-start-row";
+import {
+  PlayTimeline,
+  PlayTimelineStart,
+} from "@/modules/mainline/features/plays/hub/components/play-timeline";
 import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayHistoryData } from "@/modules/mainline/features/plays/hub/types";
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -28,7 +31,7 @@ import {
   type PlayHistoryFilter,
   type PlayHistorySort,
 } from "./data/play-history-model";
-import { PlayHistoryMonthSection } from "./sections/timeline/play-history-month";
+import { PlayHistoryMonthItems } from "./sections/timeline/play-history-month";
 import { PlayHistoryToolbar } from "./sections/timeline/play-history-toolbar";
 
 const pluralizeMoments = (count: number) =>
@@ -43,8 +46,9 @@ const emptyFilterTitles: Record<PlayHistoryFilter, string> = {
 };
 
 /*
- * A Play's History (v3 `history`): every moment it kept, newest first, under
- * month headings, with where the Play began closing the list. Filters split
+ * A Play's History (v3 `history`): every moment it kept on one line, newest
+ * first, months marking where they begin and where the Play began as the
+ * line's origin. Filters split
  * it into Story, Team, Notes and Play; Team is what Team history used to be.
  * The search narrows every filter, so their counts follow it.
  */
@@ -96,7 +100,7 @@ export const MainlinePlayHistory = ({
   /* Where the Play began belongs to the whole story, not to one filter. */
   const start =
     filter === "all" && !isSearching ? (
-      <PlayStartRow className="px-5 sm:px-7" startedOn={data.play.started_on} />
+      <PlayTimelineStart startedOn={data.play.started_on} />
     ) : null;
 
   return (
@@ -163,17 +167,17 @@ export const MainlinePlayHistory = ({
 
       <div className="mt-5 grid min-w-0 gap-8">
         {months.length ? (
-          <>
+          <PlayTimeline label="Moments">
             {sort === "oldest" ? start : null}
             {months.map((month) => (
-              <PlayHistoryMonthSection
+              <PlayHistoryMonthItems
                 key={month.key}
                 context={context}
                 month={month}
               />
             ))}
             {sort === "newest" ? start : null}
-          </>
+          </PlayTimeline>
         ) : isSearching ? (
           <EmptyState
             title="No moments match"
@@ -201,10 +205,9 @@ export const MainlinePlayHistory = ({
               description="Milestones, team changes and notes you record are kept here, newest first."
               action={<AddNoteDialog playId={playId} />}
             />
-            <PlayStartRow
-              className="px-5 sm:px-7"
-              startedOn={data.play.started_on}
-            />
+            <PlayTimeline label="Moments">
+              <PlayTimelineStart startedOn={data.play.started_on} />
+            </PlayTimeline>
           </>
         )}
       </div>

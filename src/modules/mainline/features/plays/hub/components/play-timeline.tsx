@@ -1,0 +1,106 @@
+import type { ReactNode } from "react";
+
+import { Medallion } from "@/modules/mainline/features/plays/shared/components/medallion";
+import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import { appIcons } from "@/shared/components/app-icon";
+import { RangeHeading } from "@/shared/components/range-heading";
+import { cn } from "@/shared/utils/cn";
+
+/*
+ * A Play's moments on one line, as History and Overview's recent moments draw
+ * them: each moment's medallion sits on the line with its words in a small
+ * card beside it, months mark the line where they begin, and where the Play
+ * began is the line's origin. The line runs through the medallions' centres
+ * (28px in, 28px down every item), from the first item's to the last one's.
+ */
+export const PlayTimeline = ({
+  children,
+  className,
+  label,
+}: {
+  children: ReactNode;
+  className?: string;
+  /* Names the list when no heading does. */
+  label?: string;
+}) => (
+  <ol aria-label={label} className={cn("grid min-w-0", className)}>
+    {children}
+  </ol>
+);
+
+const lineClassName =
+  "before:bg-line before:absolute before:top-0 before:bottom-0 before:left-6.75 before:w-0.5 first:before:top-7 last:before:bottom-auto last:before:h-7 only:before:hidden";
+
+/* One stop on the line: a moment, a month, or where the Play began. */
+export const PlayTimelineItem = ({
+  children,
+  className,
+  id,
+}: {
+  children: ReactNode;
+  className?: string;
+  /* A moment's anchor, so a link to it (a Collection "Before" row) lands here. */
+  id?: string;
+}) => (
+  <li
+    id={id}
+    className={cn("relative min-w-0 pb-3 last:pb-0", lineClassName, className)}
+  >
+    {children}
+  </li>
+);
+
+/* A month on the line: a small mark, then its name and how many moments. */
+export const PlayTimelineMonth = ({
+  count,
+  label,
+  titleId,
+}: {
+  count: number;
+  label: string;
+  titleId: string;
+}) => (
+  <PlayTimelineItem className="pt-2 first:pt-0">
+    <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
+      <span
+        aria-hidden
+        className="bg-surface inset-ring-line relative mx-auto size-3.5 rounded-full inset-ring-2"
+      />
+      <RangeHeading
+        headingLevel={3}
+        title={label}
+        titleId={titleId}
+        count={`${count} ${count === 1 ? "moment" : "moments"}`}
+      />
+    </div>
+  </PlayTimelineItem>
+);
+
+/*
+ * Where the Play began: the line's origin, below the moments when the newest
+ * come first, above them when the oldest do. Only its medallion and kicker
+ * wear the accent.
+ */
+export const PlayTimelineStart = ({
+  startedOn,
+}: {
+  startedOn: string | null;
+}) => {
+  const startedOnLabel = formatPlayDate(startedOn, "");
+
+  return (
+    <PlayTimelineItem>
+      <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
+        <Medallion
+          content={{ icon: appIcons.milestones.story, kind: "start" }}
+        />
+        <div className="grid min-w-0 gap-0.5">
+          <p className="text-action-ink text-13 font-bold">
+            {startedOnLabel ? `Started ${startedOnLabel}` : "Started"}
+          </p>
+          <p className="title-card">Your Play starts here</p>
+        </div>
+      </div>
+    </PlayTimelineItem>
+  );
+};
