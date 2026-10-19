@@ -23,8 +23,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (130003, 130002, 13, 1, 1, NULL),
   -- Choose Kanto Starter <- Bug Badge
   (130004, 130003, 13, 1, 1, NULL),
-  -- Cliff Badge <- Choose Kanto Starter
-  (130006, 130004, 13, 1, 1, NULL),
+  -- Fossil Choice <- Choose Kanto Starter
+  (130005, 130004, 13, 1, 1, NULL),
+  -- Cliff Badge <- Fossil Choice
+  (130006, 130005, 13, 1, 1, NULL),
   -- Rumble Badge <- Cliff Badge
   (130007, 130006, 13, 1, 1, NULL),
   -- Plant Badge <- Rumble Badge
