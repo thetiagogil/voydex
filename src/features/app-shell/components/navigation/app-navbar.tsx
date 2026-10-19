@@ -17,7 +17,7 @@ type AppNavbarProps = {
  * whole bar is one pill. At rest it is quiet: a lighter tint of the band with
  * a hairline edge and no shadow, so it reads as its own thing without pulling
  * the eye. Under the pointer or keyboard focus it comes forward, white on the
- * card shadow. The V and the words never fade. Phones keep the bare tile
+ * card shadow; on a page without the sand band it rests that way. The V and the words never fade. Phones keep the bare tile
  * (their sections live in the bottom bar). Its colours are the `--bar-*`
  * tokens; on the pill its controls take the inset fill and the row hover.
  */
@@ -40,6 +40,12 @@ export const AppNavbar = ({
            * keep the bar lit on the next page.
            */
           "md:has-focus-visible:bg-surface md:has-focus-visible:shadow-card md:hover:bg-surface md:hover:shadow-card md:hover:outline-transparent md:has-focus-visible:outline-transparent",
+          /*
+           * A page that doesn't open on the sand band (Home's sky, plain
+           * pages): the quiet tint would match the ground, so the bar rests
+           * white on the card shadow, like the page's cards.
+           */
+          "md:[:root:not(:has(.page-band.bg-band-sand))_&]:bg-surface md:[:root:not(:has(.page-band.bg-band-sand))_&]:shadow-card md:[:root:not(:has(.page-band.bg-band-sand))_&]:outline-transparent",
         )}
       >
         <div className="flex min-w-0 items-center">

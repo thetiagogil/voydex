@@ -47,14 +47,17 @@ export const UserMenu = ({ account }: UserMenuProps) => {
           <button
             type="button"
             aria-label="You"
-            className="grid size-11 place-items-center rounded-full transition-colors hover:bg-(--bar-hover) aria-expanded:bg-(--bar-hover)"
+            className="group/you bubble grid size-9 place-items-center rounded-full"
           />
         }
       >
         {/* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */}
         <Avatar>
-          {/* Your initial on the soft brand tint: yours, without getting loud. */}
-          <AvatarFallback className="bg-select-soft text-select-ink font-extrabold">
+          {/*
+           * Your initial on the soft brand tint in a white band: yours, a
+           * sticker like the other things you own, without getting loud.
+           */}
+          <AvatarFallback className="bg-select-soft text-select-ink group-hover/you:bg-select-soft-hover group-aria-expanded/you:bg-select-soft-hover font-extrabold transition-colors">
             {initial}
           </AvatarFallback>
         </Avatar>
