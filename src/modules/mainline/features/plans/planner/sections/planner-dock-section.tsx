@@ -365,7 +365,8 @@ export const PlannerDockSection = ({
         <span
           aria-hidden
           className={cn(
-            "grid size-6 shrink-0 place-items-center rounded-full",
+            /* A small mark on the band: its tint in a white band, as a sticker. */
+            "bubble grid size-6 shrink-0 place-items-center rounded-full",
             tipToneClassNames[tip.tone],
           )}
         >

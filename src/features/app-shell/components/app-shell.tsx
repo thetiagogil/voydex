@@ -50,6 +50,8 @@ export const AppShell = ({
       href={appRoutes.login}
       className={buttonVariants({
         className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
+        /* Small, so it sits inside the bar's pill with room round it. */
+        size: "sm",
         variant: "secondary",
       })}
     >
