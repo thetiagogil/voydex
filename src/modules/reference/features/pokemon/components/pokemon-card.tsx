@@ -18,7 +18,7 @@ export type PokemonCardState = "caught" | "missing" | "plain" | "seen";
  * white. Set the type's colour (`--t`, `getPokemonTypeCssVariables`).
  */
 export const pokemonCardPickedClassName =
-  "sticker [--sticker-border:color-mix(in_oklab,var(--t)_55%,white)] [--sticker-shadow:var(--shadow-soft-value)]";
+  "sticker sticker-type-band [--sticker-shadow:var(--shadow-soft-value)]";
 
 type PokemonCardType = { name: string; slug: string };
 

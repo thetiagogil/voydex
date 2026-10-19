@@ -64,12 +64,11 @@ export const BadgeStamp = ({
         "relative grid aspect-square w-full place-items-center rounded-full",
         tilted && "transform-[rotate(var(--tilt))]",
         slap && "animate-slap",
-        state.kind === "badge" &&
-          "bg-(--t) text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_color-mix(in_oklab,var(--t)_45%,white),var(--moment-drop)]",
+        state.kind === "badge" && "moment-ring bg-(--t) text-white",
         state.kind === "earned" &&
-          "bg-gold text-white shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--gold-ring),var(--moment-drop)]",
+          "moment-ring bg-gold text-white [--mr:var(--gold-ring)]",
         (state.kind === "next" || state.kind === "todo") &&
-          "text-ink-3 outline-lip shadow-[inset_0_0_0_3px_var(--line)] outline-3 outline-offset-3 outline-dashed",
+          "text-ink-3 outline-lip inset-ring-line inset-ring-3 outline-3 outline-offset-3 outline-dashed",
         state.kind === "next" && "bg-surface-2",
         state.kind === "todo" && "opacity-60",
         className,

@@ -21,9 +21,9 @@ export type MedallionContent =
 export type MedallionSize = "md" | "sm" | "xs";
 
 const sizeClassNames: Record<MedallionSize, string> = {
-  md: "m-1.25 size-11.5 shadow-[0_0_0_3px_#fff,0_0_0_4.5px_var(--mr),var(--moment-drop)] [&_svg]:size-5",
-  sm: "m-px size-8 shadow-[0_0_0_2.5px_#fff,0_0_0_3.5px_var(--mr),var(--moment-drop)] [&_svg]:size-4",
-  xs: "m-0.5 size-6 shadow-[0_0_0_2px_#fff,0_0_0_3px_var(--mr)] [&_svg]:size-3",
+  md: "moment-ring m-1.25 size-11.5 [&_svg]:size-5",
+  sm: "moment-ring m-px size-8 [&_svg]:size-4",
+  xs: "moment-ring-small m-0.5 size-6 [&_svg]:size-3",
 };
 
 const imageSizeClassNames: Record<MedallionSize, string> = {
@@ -38,7 +38,6 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       return {
         ...getPokemonTypeCssVariables(content.type),
         "--mf": "var(--t)",
-        "--mr": "color-mix(in oklab, var(--t) 45%, white)",
       } as CSSProperties;
     case "gold":
       return {
@@ -48,8 +47,7 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
     case "pokemon":
       return {
         ...getPokemonTypeCssVariables(content.type),
-        "--mf": "color-mix(in oklab, var(--t) 22%, var(--surface))",
-        "--mr": "color-mix(in oklab, var(--t) 45%, white)",
+        "--mf": "color-mix(in oklab, var(--t) 16%, var(--surface))",
       } as CSSProperties;
     case "note":
       return {

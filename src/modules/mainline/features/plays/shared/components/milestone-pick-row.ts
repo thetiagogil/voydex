@@ -21,8 +21,8 @@ export const getMilestonePickRowClassName = ({
     "focus-ring",
     state === "done" && "bg-surface",
     state === "next" &&
-      "bg-surface shadow-[inset_0_0_0_2.5px_var(--select-soft),var(--shadow-soft-value)]",
-    state === "todo" && "shadow-[inset_0_0_0_1.5px_var(--line)]",
+      "bg-surface shadow-soft inset-ring-2 inset-ring-select-soft",
+    state === "todo" && "inset-ring inset-ring-line",
     selected && "bg-select-soft",
   );
 

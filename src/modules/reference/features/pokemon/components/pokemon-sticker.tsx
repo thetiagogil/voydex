@@ -14,8 +14,7 @@ import { cn } from "@/shared/utils/cn";
 type StickerType = { name: string; slug: string };
 
 /* A picked sticker: its border in its type's colour, as a picked card's ring. */
-const pokemonStickerPickedClassName =
-  "[--sticker-border:color-mix(in_oklab,var(--t)_55%,white)]";
+const pokemonStickerPickedClassName = "sticker-type-band";
 
 type PokemonStickerVariant = "compact" | "default" | "mini";
 

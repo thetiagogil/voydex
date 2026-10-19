@@ -30,6 +30,11 @@
  * A sticker marked as the target, such as a planner slot under a drag: it
  * keeps its own border, and a thin ring in the accent wraps it.
  */
+/* A picked sticker's band, in its type's colour instead of white. */
+@utility sticker-type-band {
+  --sticker-border: color-mix(in oklab, var(--t) 55%, white);
+}
+
 @utility sticker-picked {
   --sticker-shadow: 0 0 0 2.5px var(--action);
 }
@@ -376,4 +381,23 @@
     outline: 3px solid var(--focus);
     outline-offset: -3px;
   }
+}
+
+/*
+ * A moment's ring (medallions, badge stamps): the white band, a thin ring in
+ * its colour (`--mr`, a type's by default) and the soft drop. The small one,
+ * on marks under 32px, has a thinner band and no drop.
+ */
+@utility moment-ring {
+  box-shadow:
+    0 0 0 var(--band) #fff,
+    0 0 0 calc(var(--band) + 1.5px)
+      var(--mr, color-mix(in oklab, var(--t) 45%, white)),
+    var(--moment-drop);
+}
+
+@utility moment-ring-small {
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 0 3px var(--mr, color-mix(in oklab, var(--t) 45%, white));
 }
