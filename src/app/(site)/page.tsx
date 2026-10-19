@@ -5,7 +5,7 @@ import { HomeMeadow, HomePage } from "@/features/site/components/home-page";
 
 export default function Page() {
   return (
-    <PublicAppShell showBrandName={false}>
+    <PublicAppShell bar="door">
       <HomeMeadow art={publicArt} />
       <HomePage art={publicArt} playArt={publicPlayArt} />
     </PublicAppShell>

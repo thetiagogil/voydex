@@ -48,8 +48,9 @@ export const LoginPage = async ({
       after={
         <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
           Just looking?{" "}
-          <TextLink href={appRoutes.codexPokemon}>Browse the Codex</TextLink>.
-          No account needed.
+          <TextLink href={appRoutes.codexPokemon}>Browse the Codex</TextLink>,
+          no account needed, or{" "}
+          <TextLink href={appRoutes.home}>go back home</TextLink>.
         </p>
       }
     >

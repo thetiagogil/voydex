@@ -1,25 +1,21 @@
+import type { ComponentProps } from "react";
+
 import { AppShell } from "@/features/app-shell/components/app-shell";
 import { getPublicAppShellData } from "@/features/app-shell/server/public-app-shell-query";
 
 type PublicAppShellProps = {
+  bar?: ComponentProps<typeof AppShell>["bar"];
   children: React.ReactNode;
-  showAuthAction?: boolean;
-  showBrandName?: boolean;
 };
 
 export const PublicAppShell = async ({
+  bar,
   children,
-  showAuthAction,
-  showBrandName,
 }: PublicAppShellProps) => {
   const { account } = await getPublicAppShellData();
 
   return (
-    <AppShell
-      account={account}
-      showAuthAction={showAuthAction}
-      showBrandName={showBrandName}
-    >
+    <AppShell account={account} bar={bar}>
       {children}
     </AppShell>
   );

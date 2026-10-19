@@ -20,10 +20,14 @@ import Link from "next/link";
 type AppShellProps = {
   /* Who is signed in; null or left out for the signed-out frame. */
   account?: SignedInAccount | null;
+  /*
+   * The signed-out top bar: `full` (the V and name, how it works, the Codex,
+   * Log in), `door` (the front door: Log in alone, no pill, the meadow
+   * carries the name) or `none` (the log-in pages, which link home
+   * themselves). Signed in, the bar is always full.
+   */
+  bar?: "door" | "full" | "none";
   children: React.ReactNode;
-  showAuthAction?: boolean;
-  /* The signed-out bar's name beside the V tile; Home leaves it to the meadow. */
-  showBrandName?: boolean;
 };
 
 /*
@@ -31,17 +35,28 @@ type AppShellProps = {
  * in the middle, the Codex menu and your icon on the right; on phones and tablets
  * the views, the Codex and You move to a bottom bar. Signed out: the V tile
  * with the name, how it works and the Codex, and Log in; on phones the links
- * fold into a menu with Start a Play. Home's bar shows the tile alone: the
- * meadow carries the name. The signed-out frame ends on the site footer.
+ * fold into a menu with Start a Play. The front door shows Log in alone, and
+ * the log-in pages show no bar. The signed-out frame ends on the site footer.
  * The bar is transparent: a page that opens on a band (`page-band`) runs it
  * edge to edge under the bar, which sits on the band's colour.
  */
 export const AppShell = ({
   account,
+  bar = "full",
   children,
-  showAuthAction = true,
-  showBrandName = true,
 }: AppShellProps) => {
+  const logIn = (
+    <Link
+      href={appRoutes.login}
+      className={buttonVariants({
+        className: "bg-(--bar-control) hover:bg-(--bar-control-hover)",
+        variant: "secondary",
+      })}
+    >
+      Log in
+    </Link>
+  );
+
   return (
     <div
       className={cn(
@@ -72,10 +87,12 @@ export const AppShell = ({
             </div>
           }
         />
+      ) : bar === "none" ? null : bar === "door" ? (
+        <AppNavbar bare brandHref={getBrandHref(false)} end={logIn} />
       ) : (
         <AppNavbar
           brandHref={getBrandHref(false)}
-          showName={showBrandName}
+          showName
           center={
             <div className="hidden items-center gap-1 sm:flex">
               <NavigationLinks
@@ -88,18 +105,7 @@ export const AppShell = ({
           }
           end={
             <>
-              {showAuthAction ? (
-                <Link
-                  href={appRoutes.login}
-                  className={buttonVariants({
-                    className:
-                      "bg-(--bar-control) hover:bg-(--bar-control-hover)",
-                    variant: "secondary",
-                  })}
-                >
-                  Log in
-                </Link>
-              ) : null}
+              {logIn}
               <PublicMenu className="sm:hidden" />
             </>
           }
