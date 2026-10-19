@@ -98,7 +98,7 @@ export const PokemonDetailSpeciesSelectorOption = ({
         value={pokemonItem}
         aria-current={isActive ? "page" : undefined}
         className={cn(
-          "min-h-14 pr-3",
+          "min-h-14",
           isActive && pokemonDetailSpeciesSelectorActiveClassName,
         )}
       >
