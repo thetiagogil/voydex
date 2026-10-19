@@ -16,6 +16,11 @@ const ButtonGroup = ({ className, ...props }: ComponentProps<"div">) => (
       "shadow-button has-[>:active]:shadow-button-pressed inline-flex w-fit items-stretch rounded-full",
       "*:shadow-none *:active:shadow-none",
       /*
+       * A joined button's focus ring is drawn inside its white band and
+       * follows its shape, so it never runs under the next button.
+       */
+      "*:focus-visible:relative *:focus-visible:z-1 *:focus-visible:shadow-[inset_0_0_0_3px_var(--focus)] *:focus-visible:outline-none",
+      /*
        * Matched by type, not position: an open menu adds hidden focus guards
        * beside its trigger, which must not change which button is last.
        */

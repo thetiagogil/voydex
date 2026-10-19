@@ -217,7 +217,11 @@ export const PlannerPoolSection = ({
               key={section.key}
               id={`dex-${section.key}`}
               aria-labelledby={`dex-${section.key}-title`}
-              className="flex scroll-mt-24 flex-col gap-3 [contain-intrinsic-size:auto_640px] [content-visibility:auto]"
+              /*
+               * Skipped while off screen, which clips its paint to its box:
+               * a little room round the cards keeps their focus rings whole.
+               */
+              className="-m-2 flex scroll-mt-24 flex-col gap-3 p-2 [contain-intrinsic-size:auto_640px] [content-visibility:auto]"
             >
               <RangeHeading
                 headingLevel={3}

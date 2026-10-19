@@ -162,6 +162,12 @@ export const SegmentedControl = <TValue extends string>({
               : "bg-select-soft bubble text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
+          /*
+           * Inside a scrolling track the ring is drawn within the option, so
+           * the track's edge never cuts it.
+           */
+          (variant === "segment" || phoneScroll) &&
+            "focus-visible:-outline-offset-3",
           isDisabled && "cursor-not-allowed opacity-45",
         );
         const content = (
