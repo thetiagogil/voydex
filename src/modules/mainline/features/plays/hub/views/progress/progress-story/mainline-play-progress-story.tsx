@@ -190,6 +190,20 @@ export const MainlinePlayProgressStory = ({
     }
   };
 
+  /* A stamp opens its milestone: picked, and its row brought into view. */
+  const openStampMilestone = (milestoneId: number) => {
+    const milestone = findMilestone(milestoneId);
+
+    if (!milestone) {
+      return;
+    }
+
+    selectMilestone(milestone);
+    document
+      .getElementById(getStoryMilestoneRowId(milestoneId))
+      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
   /* Back to the next objective, with focus on the row that was open. */
   const closePanel = (milestoneId: number) => {
     flushSync(() => setSelectedMilestoneId(null));
@@ -328,7 +342,10 @@ export const MainlinePlayProgressStory = ({
       />
 
       {activeScope.stamps ? (
-        <StoryStampCardSection stamps={activeScope.stamps} />
+        <StoryStampCardSection
+          onStampSelect={openStampMilestone}
+          stamps={activeScope.stamps}
+        />
       ) : null}
 
       {/*

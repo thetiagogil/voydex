@@ -9,13 +9,14 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * Every moment wears one medallion: a round token with a white ring on a
- * soft drop (`--moment-drop`). Only what's inside changes: a gym badge in its type, any other
- * milestone in gold, a Pokémon on its type tint, a note warm, a status
- * neutral, and where the Play began in the accent.
+ * soft drop (`--moment-drop`). Only what's inside changes: a gym badge in its type, a
+ * League or trial trophy in gold, any other milestone in the calm blue, a
+ * Pokémon on its type tint, a note warm, a status neutral, and where the
+ * Play began in the accent.
  */
 export type MedallionContent =
   | { kind: "badge"; type: PokemonTypeSlug }
-  | { kind: "gold"; icon: AppIconComponent }
+  | { kind: "calm" | "gold"; icon: AppIconComponent }
   | {
       imageUrl: string;
       kind: "pokemon";
@@ -45,6 +46,11 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
       return {
         ...getPokemonTypeCssVariables(content.type),
         "--mf": "var(--t)",
+      } as CSSProperties;
+    case "calm":
+      return {
+        "--mf": "var(--calm)",
+        "--mr": "color-mix(in oklab, var(--calm) 35%, white)",
       } as CSSProperties;
     case "gold":
       return {
@@ -76,6 +82,7 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
 
 const contentColourClassNames: Record<MedallionContent["kind"], string> = {
   badge: "text-white",
+  calm: "text-white [&_svg]:stroke-[2.4]",
   gold: "text-white [&_svg]:stroke-[2.4]",
   note: "text-warn-ink",
   pokemon: "",

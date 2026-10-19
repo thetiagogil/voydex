@@ -49,6 +49,12 @@ export const MainlinePlayOverview = ({
               stamp.badgeType ? [[stamp.milestoneId, stamp.badgeType]] : [],
           ),
         ),
+        /* The League's stamps are its trophies. */
+        trophyMilestoneIds: new Set(
+          (data.badgeCase?.stamps ?? []).flatMap((stamp) =>
+            stamp.kind === "league" ? [stamp.milestoneId] : [],
+          ),
+        ),
         typeByFormId: getPlayMomentTypeByFormId(data.teamPreview),
       }}
       events={data.timelinePreview}

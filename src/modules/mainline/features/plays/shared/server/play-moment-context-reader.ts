@@ -1,6 +1,7 @@
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import { getMainlineTimelinePokemonFormIds } from "@/modules/mainline/features/plays/shared/data/play-timeline-mappers";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
+import { isTrophyMilestone } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
   isPokemonTypeSlug,
@@ -87,6 +88,12 @@ export const readMainlinePlayMomentContext = async (
 
   return {
     badgeTypeByMilestoneId,
+    trophyMilestoneIds: (milestonesResult.data ?? []).flatMap((milestone) =>
+      milestone.milestone_id !== null &&
+      isTrophyMilestone(milestone.milestone_type_slug)
+        ? [milestone.milestone_id]
+        : [],
+    ),
     typeByFormId: [...typeByFormId.entries()],
   };
 };

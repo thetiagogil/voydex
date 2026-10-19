@@ -1,5 +1,9 @@
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import { getMilestoneIcon } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
+import {
+  getMilestoneIcon,
+  getMilestoneMedallion,
+  isTrophyMilestone,
+} from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
@@ -34,7 +38,8 @@ const ringSizeClassNames = {
 
 /*
  * Where a milestone stands, the same in Story and on Overview. A recorded one
- * wears its medallion: the badge in its type, anything else in gold. The next
+ * wears its medallion: the badge in its type, a trophy in gold, anything
+ * else in the calm blue. The next
  * one is a game-coloured ring around the objective flag, an accent and not a
  * fill; the rest show their number in a quiet ring (an optional one, which
  * has no number, its type's icon).
@@ -57,11 +62,11 @@ export const MilestoneMarker = ({
           className,
         )}
         size={size === "md" ? "sm" : "xs"}
-        content={
-          badgeType
-            ? { kind: "badge", type: badgeType }
-            : { icon: getMilestoneIcon(typeSlug ?? ""), kind: "gold" }
-        }
+        content={getMilestoneMedallion({
+          badgeType,
+          icon: getMilestoneIcon(typeSlug ?? ""),
+          isTrophy: isTrophyMilestone(typeSlug),
+        })}
       />
     );
   }

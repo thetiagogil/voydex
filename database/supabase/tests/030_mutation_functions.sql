@@ -297,7 +297,7 @@ SELECT
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a3', p_milestone_id => 60005, p_record_earlier_milestone_ids => ARRAY[60003, 60004], p_create_event => FALSE) $$, 'an optional choice before it is recorded with it');
+            gameplay.complete_mainline_play_milestone (p_play_id => '40000000-0000-0000-0000-0000000000a3', p_milestone_id => 60005, p_record_earlier_milestone_ids => ARRAY[60003, 60004], p_create_event => FALSE) $$, 'a choice before it is recorded with it');
 SELECT
     IS ((
             SELECT

@@ -3,6 +3,7 @@ import {
   type PlayMomentTextPart,
 } from "@/modules/mainline/features/plays/shared/data/play-moment-team-line";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
+import { getMilestoneMedallion } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import type { MedallionContent } from "@/modules/mainline/features/plays/shared/components/medallion";
 import {
   isPokemonTypeSlug,
@@ -31,6 +32,8 @@ export type PlayMomentRecord = {
  */
 export type PlayMomentContext = {
   badgeTypeByMilestoneId?: ReadonlyMap<number, PokemonTypeSlug>;
+  /* Milestones that are trophies (the League, trials), in gold. */
+  trophyMilestoneIds?: ReadonlySet<number>;
   typeByFormId?: ReadonlyMap<number, PokemonTypeSlug>;
 };
 
@@ -40,6 +43,7 @@ export type PlayMomentContext = {
  */
 export type PlayMomentContextEntries = {
   badgeTypeByMilestoneId: [number, PokemonTypeSlug][];
+  trophyMilestoneIds: number[];
   typeByFormId: [number, PokemonTypeSlug][];
 };
 
@@ -47,6 +51,7 @@ export const toPlayMomentContext = (
   entries: PlayMomentContextEntries,
 ): PlayMomentContext => ({
   badgeTypeByMilestoneId: new Map(entries.badgeTypeByMilestoneId),
+  trophyMilestoneIds: new Set(entries.trophyMilestoneIds),
   typeByFormId: new Map(entries.typeByFormId),
 });
 
@@ -170,9 +175,14 @@ export const getPlayMomentRecord = (
       : context.badgeTypeByMilestoneId?.get(event.milestone_id);
   const medallion: MedallionContent =
     kind.medallion === "milestone"
-      ? badgeType
-        ? { kind: "badge", type: badgeType }
-        : { icon: kind.icon, kind: "gold" }
+      ? getMilestoneMedallion({
+          badgeType,
+          icon: kind.icon,
+          isTrophy:
+            eventTypeSlug === "hall_of_fame" ||
+            (event.milestone_id !== null &&
+              Boolean(context.trophyMilestoneIds?.has(event.milestone_id))),
+        })
       : { icon: kind.icon, kind: kind.medallion };
 
   const label = kind.label ?? event.event_type_name ?? "Timeline event";

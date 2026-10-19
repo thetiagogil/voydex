@@ -10,13 +10,16 @@ const titleId = "story-stamp-card-title";
  * row, tilted like stamps, each with its label. The stamps name it, so its
  * title is for screen readers only. A row longer than the card scrolls
  * sideways rather than wrapping, so it never takes more than one row of
- * height. It stays still: what you record lands in the list below.
+ * height. Each stamp opens its milestone; recording stamps the list below.
  */
 export const StoryStampCardSection = ({
   className,
+  onStampSelect,
   stamps,
 }: {
   className?: string;
+  /* Opens a stamp's milestone in the list and the panel. */
+  onStampSelect: (milestoneId: number) => void;
   stamps: PlayStamp[];
 }) => {
   return (
@@ -31,6 +34,7 @@ export const StoryStampCardSection = ({
       <StampGrid
         captions
         className="no-scrollbar auto-cols-[56px] grid-flow-col justify-between gap-x-3 overflow-x-auto px-5 pt-3 pb-2 sm:auto-cols-[64px] sm:px-7"
+        onStampSelect={onStampSelect}
         scrollLabel="Stamps"
         stamps={stamps}
       />
