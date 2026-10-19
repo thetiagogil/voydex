@@ -241,8 +241,7 @@ meadow's partners, which pop in (`animate-meadow-pop`) once per visit. Nothing l
 bounce. `app-base.css` honours reduced motion.
 
 One reward per moment, in one place. Stamps slap (`animate-stamp-slap`):
-Story's stamp card, pinned under the docked bar so you watch them land, and
-Overview's next objective, which then hands over to the next one
+Story's stamp card and Overview's next objective, which then hands over to the next one
 (`animate-objective-out`, `animate-objective-in`). Small cards and tokens you
 mark (Pokédex, Collectibles) pop. A wide row never moves: a Story row keeps still
 while its marker pops into its new state (`animate-marker-in`), and a recorded

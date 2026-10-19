@@ -1,6 +1,6 @@
 "use client";
 
-import { type CSSProperties, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
@@ -11,7 +11,6 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
-import { useElementHeight } from "@/shared/hooks/use-element-height";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import { buildStoryProgressModel } from "./data/story-progress-model";
@@ -87,7 +86,6 @@ export const MainlinePlayProgressStory = ({
     model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
   const [sidePanelStyle, bindSidePanel] = useStickyPanel<HTMLDivElement>();
-  const [stampCardHeight, bindStampCard] = useElementHeight<HTMLDivElement>();
   /* The milestone picked from the list; none shows the next objective. */
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(
     recordTarget?.id ?? null,
@@ -247,16 +245,7 @@ export const MainlinePlayProgressStory = ({
   };
 
   return (
-    <div
-      className="grid min-w-0 grid-cols-1 gap-7"
-      style={
-        {
-          "--sticky-panel-offset": stampCardHeight
-            ? `${stampCardHeight - 24}px`
-            : undefined,
-        } as CSSProperties
-      }
-    >
+    <div className="grid min-w-0 grid-cols-1 gap-7">
       <StoryPageHead
         onScopeChange={selectScope}
         scope={activeScope}
@@ -264,25 +253,13 @@ export const MainlinePlayProgressStory = ({
       />
 
       {activeScope.stamps ? (
-        /*
-         * Pinned under the docked bar, so the stamps you record land in view
-         * while you scroll the list. It stands on a band of page from the
-         * bar's edge to a little below the card (the dock offset keeps room for
-         * the bar's shadow), a little wider than the card, so rows and a
-         * picked row's ring scroll cleanly out of sight under it. The side panel sticks below.
-         */
-        <div
-          ref={bindStampCard}
-          className="bg-bg sticky top-[calc(var(--play-dock-offset,0px)-0.75rem)] z-10 -mx-3 -mt-6 -mb-3 px-3 pt-6 pb-3"
-        >
-          <StoryStampCardSection
-            onSlapEnd={(milestoneId) =>
-              setBadgeSlapOrder((order) => withoutMilestone(order, milestoneId))
-            }
-            slapOrder={badgeSlapOrder}
-            stamps={activeScope.stamps}
-          />
-        </div>
+        <StoryStampCardSection
+          onSlapEnd={(milestoneId) =>
+            setBadgeSlapOrder((order) => withoutMilestone(order, milestoneId))
+          }
+          slapOrder={badgeSlapOrder}
+          stamps={activeScope.stamps}
+        />
       ) : null}
 
       {/*

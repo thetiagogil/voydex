@@ -111,10 +111,7 @@
  */
 @utility sticky-panel {
   position: sticky;
-  /* --sticky-panel-offset: anything pinned above it, such as Story's stamp card. */
-  top: calc(
-    var(--play-dock-offset, 0px) + var(--sticky-panel-offset, 0px) + 0.75rem
-  );
+  top: calc(var(--play-dock-offset, 0px) + 0.75rem);
 }
 
 /*
