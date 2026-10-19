@@ -32,6 +32,12 @@ export const StoryMilestoneIncompletionImpact = ({
     (affectedMilestone) => affectedMilestone.id !== milestone.id,
   );
   const completionCount = affectedMilestones.length;
+  /* Losing more than the records themselves warns in the danger tone. */
+  const losesDetails =
+    incompletionImpact.noteCount +
+      incompletionImpact.decisionCount +
+      incompletionImpact.snapshotCount >
+    0;
 
   return (
     <>
@@ -44,8 +50,10 @@ export const StoryMilestoneIncompletionImpact = ({
         />
       ))}
 
-      <Alert>
-        <AppIcon icon={appIcons.actions.retry} />
+      <Alert variant={losesDetails ? "destructive" : "default"}>
+        <AppIcon
+          icon={losesDetails ? appIcons.status.warning : appIcons.actions.retry}
+        />
         <AlertTitle>
           {completionCount === 1
             ? "This recorded completion will be removed."
