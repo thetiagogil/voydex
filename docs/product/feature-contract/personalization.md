@@ -23,7 +23,8 @@ Voydex ships its own rules, one small idea each, grouped by kind
 
 - **Catching:** First catch per area, Shiny only.
 - **Losing:** Release on faint, Whiteout ends the run.
-- **Team:** Nickname everything, Monotype, No legendaries, No trades.
+- **Team:** Nickname everything, Monotype, No legendaries, No Pokémon reuse,
+  No trades.
 - **Battles:** Level caps, No battle items, Set battle mode.
 
 Presets that group them (Nuzlocke, Hardcore Nuzlocke) are rule sets, and
@@ -33,11 +34,15 @@ any other.
 A rule's `config` lists the options a Play can set and their defaults; a
 Play's own values live on its link to the rule (`config_override`), and the
 database refuses an option the rule lacks, a value of the wrong kind, a
-missing Monotype type, or a type the Play's game doesn't have. Two rules have options:
+missing Monotype type, or a type the Play's game doesn't have, or an unknown reuse scope. Three rules
+have options:
 
 - **Monotype:** the type, picked per Play from the types its game has (no
   Fairy before Generation VI). A Play can't keep Monotype without one.
 - **First catch per area:** "Shinies can always be caught", off by default.
+- **No Pokémon reuse:** what counts as the same Pokémon, its exact form, its
+  species (the default) or its whole evolution family, the scopes of the
+  Pokémon Reuse Policy in the [Glossary](../glossary.md).
 
 The chip names the options ("Monotype · Water", "First catch per area ·
 except shinies"), and tapping it opens them; adding a rule with options opens
@@ -81,7 +86,10 @@ Plays, in two tabs:
 
 - **Rules:** a card per rule you can pick, Voydex's own (a lock marked
   Voydex, never edited or deleted, with what the rule asks) and yours, with
-  its kind and how many Plays keep it. New rule, in the page's head, makes one with a
+  its kind and how many Plays keep it. Tapping a card opens the rule in full:
+  everything it asks, the options each Play sets for it and, for yours, Edit
+  and Delete. The bar narrows rules by kind and by who made them (Voydex's
+  or yours). New rule, in the page's head, makes one with a
   name and a kind; a rule's menu edits its name and kind or deletes it.
 - **Tags:** a pill per tag with how many Plays wear it; the pill
   opens Rename and Delete, and New tag in the head makes one.
