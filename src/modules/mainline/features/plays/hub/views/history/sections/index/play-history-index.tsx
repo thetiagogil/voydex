@@ -57,15 +57,12 @@ const PlayHistoryMonthPreview = ({
 export const PlayHistoryIndex = ({
   context,
   months,
-  placement,
 }: {
   context: PlayMomentContext;
   months: PlayHistoryMonth[];
-  placement?: "column" | "inline";
 }) => (
   <SectionIndexNav
     label="History months"
-    placement={placement}
     groups={groupPlayHistoryMonthsByYear(months).map((group) => ({
       label: group.label,
       sections: group.months.map((month) => ({

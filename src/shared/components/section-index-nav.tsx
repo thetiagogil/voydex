@@ -90,17 +90,11 @@ export const SectionIndexNav = ({
   className,
   groups,
   label,
-  placement = "column",
 }: {
   className?: string;
   groups: SectionIndexGroup[];
   /* Names the index for screen readers, such as "History months". */
   label: string;
-  /*
-   * `column`: its own sticky column (Play settings). `inline`: part of a
-   * column that sticks as a whole (History's aside).
-   */
-  placement?: "column" | "inline";
 }) => {
   const current = useCurrentSection(
     groups.flatMap((group) => group.sections.map((section) => section.href)),
@@ -124,11 +118,7 @@ export const SectionIndexNav = ({
   return (
     <nav
       aria-label={label}
-      className={cn(
-        "hidden lg:block",
-        placement === "column" ? "sticky-column" : "min-w-0",
-        className,
-      )}
+      className={cn("sticky-column hidden lg:block", className)}
     >
       <div className="grid gap-5">
         {groups.map((group, index) => (

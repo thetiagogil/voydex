@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
 
@@ -26,33 +25,6 @@ type RecordRowProps = {
   when?: ReactNode;
   /* Let the line and note wrap in full instead of truncating and clamping. */
   wrap?: boolean;
-};
-
-/*
- * On a timeline the moments that are rewards wear their colour, as a card
- * can only where you remember: a badge its type's soft tint, the League a
- * soft gold, a note a warm tint. Anything else stays the plain card.
- */
-const getTimelineCardStyle = (medallion: MedallionContent) => {
-  switch (medallion.kind) {
-    case "badge":
-      return {
-        className: "bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))]",
-        style: getPokemonTypeCssVariables(medallion.type),
-      };
-    case "gold":
-      return {
-        className: "bg-[color-mix(in_oklab,var(--gold)_14%,var(--surface))]",
-        style: undefined,
-      };
-    case "note":
-      return {
-        className: "bg-[color-mix(in_oklab,var(--warn)_9%,var(--surface))]",
-        style: undefined,
-      };
-    default:
-      return { className: undefined, style: undefined };
-  }
 };
 
 /*
@@ -106,8 +78,6 @@ export const RecordRow = ({
   );
 
   if (variant === "timeline") {
-    const tone = getTimelineCardStyle(medallion);
-
     return (
       <article
         className={cn(
@@ -117,14 +87,7 @@ export const RecordRow = ({
         )}
       >
         <Medallion content={medallion} faded={medallionFaded} />
-        <Card
-          size="sm"
-          style={tone.style}
-          className={cn(
-            "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
-            tone.className,
-          )}
-        >
+        <Card size="sm" className="min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5">
           {words}
         </Card>
       </article>

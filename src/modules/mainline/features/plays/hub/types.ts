@@ -247,12 +247,8 @@ export type MainlinePlayTeamPlanData = {
 };
 
 export type MainlinePlayHistoryData = {
-  /* The badges earned and ahead, for "So far"; null where the game has no gyms. */
-  badgeCase: BadgeCase | null;
   /* Badge and form types for the moments' medallions. */
   context: PlayMomentContextEntries;
   events: MainlinePlayTimelineEvent[];
   play: MainlinePlaySummary;
-  /* The team now, for "So far". */
-  team: MainlinePlayTeamPreviewMember[];
 };
