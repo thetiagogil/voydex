@@ -202,13 +202,7 @@ export const TeamPlanCompareDialog = ({
             className="type-tint grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
           >
             <CompareSide
-              label={[
-                "Planned",
-                `Target ${comparison.slot}`,
-                comparison.roleLabel,
-              ]
-                .filter(Boolean)
-                .join(" · ")}
+              label={`Planned · Target ${comparison.slot}`}
               name={comparison.plannedName}
               art={
                 <span

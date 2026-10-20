@@ -8,7 +8,6 @@ CREATE TABLE planning.mainline_team_plan_members (
     slot integer NOT NULL,
     target_species_id integer NOT NULL REFERENCES reference.pokemon_species (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     target_form_id integer NOT NULL,
-    role_id integer REFERENCES planning.mainline_team_plan_roles (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     notes text,
     gender text,
     nature_id integer REFERENCES reference.natures (id) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -32,10 +31,6 @@ CREATE TRIGGER set_team_plan_members_updated_at
 CREATE INDEX team_plan_members_target_identity_idx ON planning.mainline_team_plan_members (target_species_id, target_form_id);
 
 CREATE INDEX team_plan_members_plan_idx ON planning.mainline_team_plan_members (team_plan_id);
-
-CREATE INDEX team_plan_members_role_idx ON planning.mainline_team_plan_members (role_id)
-WHERE
-    role_id IS NOT NULL;
 
 CREATE INDEX team_plan_members_nature_idx ON planning.mainline_team_plan_members (nature_id)
 WHERE

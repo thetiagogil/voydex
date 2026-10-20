@@ -1,4 +1,3 @@
-import type { PlanRoleSlug } from "@/modules/mainline/features/plans/planner/data/plan-roles";
 import type { PlanTeamStripMember } from "@/modules/mainline/features/plans/components/plan-team-strip";
 
 export type PlanType = { name: string; slug: string };
@@ -24,8 +23,6 @@ export type PlanMember = {
   moveIds: PlanMoveSlots;
   natureId: number | null;
   notes: string | null;
-  /* One of the fixed roles, by slug (`planRoles`). */
-  role: PlanRoleSlug | null;
   /* 1 to 6. */
   slot: number;
   speciesId: number;

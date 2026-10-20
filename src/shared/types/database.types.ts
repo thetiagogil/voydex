@@ -1405,7 +1405,6 @@ export type Database = {
           id: string;
           nature_id: number | null;
           notes: string | null;
-          role_id: number | null;
           slot: number;
           target_form_id: number;
           target_species_id: number;
@@ -1421,7 +1420,6 @@ export type Database = {
           id?: string;
           nature_id?: number | null;
           notes?: string | null;
-          role_id?: number | null;
           slot: number;
           target_form_id: number;
           target_species_id: number;
@@ -1436,7 +1434,6 @@ export type Database = {
           id?: string;
           nature_id?: number | null;
           notes?: string | null;
-          role_id?: number | null;
           slot?: number;
           target_form_id?: number;
           target_species_id?: number;
@@ -1444,13 +1441,6 @@ export type Database = {
           updated_at?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: "mainline_team_plan_members_role_id_fkey";
-            columns: ["role_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_team_plan_roles";
-            referencedColumns: ["id"];
-          },
           {
             foreignKeyName: "mainline_team_plan_members_team_plan_id_fkey";
             columns: ["team_plan_id"];
@@ -1489,31 +1479,6 @@ export type Database = {
             referencedColumns: ["id", "game_id"];
           },
         ];
-      };
-      mainline_team_plan_roles: {
-        Row: {
-          created_at: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-        };
-        ComputedFields: never;
-        Insert: {
-          created_at?: string;
-          id: number;
-          name: string;
-          slug: string;
-          sort_order: number;
-        };
-        Update: {
-          created_at?: string;
-          id?: number;
-          name?: string;
-          slug?: string;
-          sort_order?: number;
-        };
-        Relationships: [];
       };
       mainline_team_plan_statuses: {
         Row: {
@@ -5023,8 +4988,6 @@ export type Database = {
           planned_nature_name: string | null;
           play_id: string | null;
           play_plan_link_id: string | null;
-          role_name: string | null;
-          role_slug: string | null;
           slot: number | null;
           target_evolution_family_id: number | null;
           target_form_id: number | null;
@@ -5217,8 +5180,6 @@ export type Database = {
           nature_id: number | null;
           nature_name: string | null;
           notes: string | null;
-          role_name: string | null;
-          role_slug: string | null;
           slot: number | null;
           target_evolution_family_id: number | null;
           target_form_id: number | null;

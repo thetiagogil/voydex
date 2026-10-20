@@ -1,8 +1,6 @@
 "use client";
 
 import { SheetSection } from "@/shared/components/sheet-section";
-import { ChoiceChip } from "@/shared/components/choice-chip";
-import { planRoles } from "@/modules/mainline/features/plans/planner/data/plan-roles";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
 import { useState } from "react";
@@ -72,7 +70,7 @@ const anyValue = "";
 
 /*
  * v3's slot sheet (`targetSheet`): one planned Pokémon. Move it to another
- * slot (swapping), give it a role and a note, and, if you like, a build: the
+ * slot (swapping), give it a note (its role, or why it's here), and, if you like, a build: the
  * ability, nature, gender and held item the version group lets you choose
  * (offered only when its capability profile supports them) and four moves.
  * Changes wait in the sheet until Save; closing with some unsaved asks
@@ -305,42 +303,18 @@ export const PlannerSlotSheet = ({
             </div>
           </SheetSection>
 
-          <SheetSection title="Role" aside="What it's for in this team">
-            {/* Pills on the sheet's surface take the inset fill, as fields do. */}
-            <div
-              role="group"
-              aria-label="Role"
-              className="flex flex-wrap gap-1.5"
-            >
-              {planRoles.map((role) => {
-                const isPicked = member.role === role.slug;
-
-                return (
-                  <ChoiceChip
-                    key={role.slug}
-                    pressed={isPicked}
-                    onClick={() =>
-                      change({ role: isPicked ? null : role.slug })
-                    }
-                  >
-                    {role.name}
-                  </ChoiceChip>
-                );
-              })}
-            </div>
-            <Field>
-              <FieldLabel htmlFor="plan-slot-note">Note</FieldLabel>
-              <Textarea
-                id="plan-slot-note"
-                rows={2}
-                maxLength={5000}
-                value={member.notes ?? ""}
-                placeholder="Why this one? For example, answers the Water gym"
-                onChange={(event) =>
-                  change({ notes: event.currentTarget.value || null })
-                }
-              />
-            </Field>
+          <SheetSection title="Note" aside="Its role, or why this one">
+            <Textarea
+              id="plan-slot-note"
+              aria-label="Note"
+              rows={2}
+              maxLength={5000}
+              value={member.notes ?? ""}
+              placeholder="For example, a special sweeper that answers the Water gym"
+              onChange={(event) =>
+                change({ notes: event.currentTarget.value || null })
+              }
+            />
           </SheetSection>
 
           {isBuildOpen ? (

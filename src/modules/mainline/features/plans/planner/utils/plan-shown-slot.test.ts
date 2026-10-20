@@ -15,7 +15,6 @@ const member = (slot: number): PlanMember => ({
   moveIds: emptyPlanMoveSlots(),
   natureId: null,
   notes: null,
-  role: null,
   slot,
   speciesId: slot,
 });
@@ -41,7 +40,7 @@ describe("getShownPlanSlot", () => {
 
   it("returns the same value when nothing changed, and follows edits", () => {
     const shown = { index: 0, member: first };
-    const edited = { ...first, role: "lead" as const };
+    const edited = { ...first, notes: "Leads the team" };
 
     expect(getShownPlanSlot(shown, 0, slots)).toBe(shown);
     expect(getShownPlanSlot(shown, 0, [edited])).toEqual({

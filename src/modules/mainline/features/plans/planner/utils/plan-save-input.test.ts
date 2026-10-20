@@ -56,7 +56,6 @@ describe("parsePlanSaveInput", () => {
       abilityId: null,
       gender: null,
       notes: null,
-      role: null,
     });
   });
 

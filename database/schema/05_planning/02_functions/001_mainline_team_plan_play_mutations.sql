@@ -164,8 +164,8 @@ BEGIN
         mainline_team_plan_members.team_plan_id = v_source_plan.id
     ORDER BY
         mainline_team_plan_members.slot LOOP
-            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_id, notes, gender, nature_id, ability_id, held_item_id)
-                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.role_id, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
+            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, notes, gender, nature_id, ability_id, held_item_id)
+                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
             RETURNING
                 id
             INTO

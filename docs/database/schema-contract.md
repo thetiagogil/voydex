@@ -129,9 +129,8 @@ Use reviewed security-invoker functions for atomic workflows:
   row, ordered members, planned move slots and expansions in one transaction.
   It keeps the stored game while the version group is unchanged, otherwise
   stores the group's first game, and refuses a game change while a Play
-  follows the Plan. A member's role arrives as a slug of
-  `planning.mainline_team_plan_roles` (the fixed roles) and any other slug is
-  refused. Build validation against reference data stays with the caller.
+  follows the Plan. Build validation against reference data stays with the
+  caller.
 
 Database constraints, RLS, and function transactions remain authoritative even
 when the app performs earlier validation.

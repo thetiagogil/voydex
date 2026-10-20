@@ -120,9 +120,7 @@ export const usePlannerImports = ({
     setSlots(
       share.slots.map((slot) => {
         const pokemon = slot ? bySlug.get(slot.species) : undefined;
-        return pokemon
-          ? { ...newPlanMember(pokemon), role: slot?.role ?? null }
-          : null;
+        return pokemon ? newPlanMember(pokemon) : null;
       }),
     );
     onShareImported();

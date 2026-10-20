@@ -17,7 +17,6 @@ const member: PlanMember = {
   moveIds: [53, null, null, null],
   natureId: 3,
   notes: null,
-  role: "lead",
   slot: 1,
   speciesId: 6,
 };
@@ -80,7 +79,6 @@ describe("plan build fields", () => {
         heldItemId: null,
         moveIds: member.moveIds,
         natureId: null,
-        role: "lead",
       });
     }
   });
@@ -95,7 +93,6 @@ describe("hasPlanMemberDetails", () => {
     moveIds: [null, null, null, null],
     natureId: null,
     notes: null,
-    role: null,
   };
 
   it("is false for a Pokémon just added", () => {

@@ -29,9 +29,9 @@ type PlannerShareDialogProps = {
 const actionWidth = "w-32 shrink-0";
 
 /*
- * v3's Share or import a Plan: the link carries the six Pokémon and their
- * roles in its hash, so it never changes a saved Plan; importing one opens
- * it as a new, unsaved Plan.
+ * v3's Share or import a Plan: the link carries the six Pokémon in its
+ * hash, so it never changes a saved Plan; importing one opens it as a new,
+ * unsaved Plan.
  */
 export const PlannerShareDialog = ({
   link,
@@ -75,8 +75,8 @@ export const PlannerShareDialog = ({
         <DialogHeader>
           <DialogTitle>Share or import a Plan</DialogTitle>
           <DialogDescription>
-            A link carries the six Pokémon and their roles. It never changes the
-            Plan you&apos;ve saved.
+            A link carries the six Pokémon. It never changes the Plan
+            you&apos;ve saved.
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-2">

@@ -3,8 +3,6 @@
 -- ============================================================================
 ALTER TABLE planning.mainline_team_plan_statuses ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE planning.mainline_team_plan_roles ENABLE ROW LEVEL SECURITY;
-
 ALTER TABLE planning.mainline_team_plans ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_team_plan_optional_content_scopes ENABLE ROW LEVEL SECURITY;
@@ -20,8 +18,6 @@ ALTER TABLE planning.mainline_team_plan_tags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE planning.mainline_team_plan_challenge_rules ENABLE ROW LEVEL SECURITY;
 
 REVOKE ALL ON TABLE planning.mainline_team_plan_statuses FROM anon, authenticated;
-
-REVOKE ALL ON TABLE planning.mainline_team_plan_roles FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plans FROM anon, authenticated;
 
@@ -39,8 +35,6 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_challenge_rules FROM anon, authe
 
 GRANT SELECT ON TABLE planning.mainline_team_plan_statuses TO authenticated;
 
-GRANT SELECT ON TABLE planning.mainline_team_plan_roles TO authenticated;
-
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plans TO authenticated;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_optional_content_scopes TO authenticated;
@@ -57,8 +51,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_challe
 
 GRANT ALL ON TABLE planning.mainline_team_plan_statuses TO service_role;
 
-GRANT ALL ON TABLE planning.mainline_team_plan_roles TO service_role;
-
 GRANT ALL ON TABLE planning.mainline_team_plans TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plan_optional_content_scopes TO service_role;
@@ -74,10 +66,6 @@ GRANT ALL ON TABLE planning.mainline_team_plan_tags TO service_role;
 GRANT ALL ON TABLE planning.mainline_team_plan_challenge_rules TO service_role;
 
 CREATE POLICY team_plan_statuses_read_all ON planning.mainline_team_plan_statuses
-    FOR SELECT TO authenticated
-    USING (TRUE);
-
-CREATE POLICY team_plan_roles_read_all ON planning.mainline_team_plan_roles
     FOR SELECT TO authenticated
     USING (TRUE);
 

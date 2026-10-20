@@ -66,7 +66,6 @@ const toMemberRow = (member: PlanMember) => ({
   move_ids: member.moveIds,
   nature_id: member.natureId,
   notes: member.notes,
-  role_slug: member.role,
   slot: member.slot,
   target_form_id: member.formId,
   target_species_id: member.speciesId,

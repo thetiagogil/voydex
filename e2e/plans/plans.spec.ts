@@ -110,7 +110,7 @@ test.describe("Team Planner", () => {
     /* A Pokémon's sheet reads while locked. */
     await team.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
     const locked = page.getByRole("dialog", { name: /Charizard/ });
-    await expect(locked.getByRole("button", { name: "Lead" })).toBeDisabled();
+    await expect(locked.getByRole("textbox", { name: "Note" })).toBeDisabled();
     await expect(
       locked.getByRole("button", { name: "Remove from Plan" }),
     ).toBeHidden();
@@ -280,7 +280,9 @@ test.describe("Team Planner", () => {
       .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
       .click();
     const sheet = page.getByRole("dialog", { name: /Charizard/ });
-    await sheet.getByRole("button", { name: "Lead" }).click();
+    await sheet
+      .getByRole("textbox", { name: "Note" })
+      .fill("Leads, and answers the Grass gym");
 
     /* Edits wait for Save; closing before it asks first. */
     await page.keyboard.press("Escape");
@@ -291,14 +293,14 @@ test.describe("Team Planner", () => {
     await discard.getByRole("button", { name: "Keep editing" }).click();
     await sheet.getByRole("button", { name: "Save" }).click();
     await expect(sheet).toBeHidden();
-    await expect(
-      page.getByRole("region", { name: "Your team" }).getByText("Lead"),
-    ).toBeVisible();
 
     await page
       .getByRole("region", { name: "Your team" })
       .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
       .click();
+    await expect(sheet.getByRole("textbox", { name: "Note" })).toHaveValue(
+      "Leads, and answers the Grass gym",
+    );
     await sheet.getByRole("button", { name: "Remove from Plan" }).click();
 
     const confirm = page.getByRole("alertdialog", {

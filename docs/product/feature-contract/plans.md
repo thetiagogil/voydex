@@ -12,12 +12,12 @@ As built (v3):
   `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
   group on the cover shelf menu (the expansions it includes read under its name), fill six slots from its Pokédexes (one range
   per Pokédex, a Pokédex filter, search, Fully evolved only, type dots), drag to swap, Random
-  and Clear, and open a slot to set its role (one of the fixed roles: Lead, Physical attacker, Special attacker, Wall, Pivot, Sweeper, Support; anything more goes in the note), note and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
+  and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
   reads its defensive matchups from its types. Save writes the Plan; a new
   Plan is kept in this browser until saved. Share (in the "⋯" menu) puts the version group, six
-  Pokémon and roles in a link's hash; importing opens it as a new unsaved
+  Pokémon in a link's hash; importing opens it as a new unsaved
   Plan. Switching game carries the team over, unsaved edits included, as
   the new game can have it: a Pokémon it doesn't have leaves the team, and
   one that stays loses what the game doesn't offer it (an ability, held
@@ -71,7 +71,7 @@ Plans should support:
 - Planning a team before a play exists.
 - Planning target/final Pokémon.
 - Planning optional content scope such as DLC availability.
-- Required target forms plus optional roles, notes, abilities, natures, held
+- Required target forms plus optional notes, abilities, natures, held
   items, gender, and moves.
 - Creating a play from a plan.
 - Keeping the plan as a persistent reference after a play is created.
@@ -94,7 +94,7 @@ empty. A failed operation must leave no partial Play or Plan link.
 
 The authored Plan is never changed automatically to match the actual Team.
 Adding an unplanned Pokémon changes only Play-owned Team state. Plan targets,
-forms, roles, preferences, and notes change only through an explicit Plan edit;
+forms, preferences, and notes change only through an explicit Plan edit;
 unlinking a Plan from a Play does not delete the standalone Plan.
 
 A Plan contains one to six ordered targets. Species and form are

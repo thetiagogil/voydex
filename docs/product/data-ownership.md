@@ -359,7 +359,7 @@ for the same game.
 
 The product contract is one focused linked Team Plan per play.
 
-A Team Plan owns planned target Pokémon, notes, roles, and preferences.
+A Team Plan owns planned target Pokémon, notes, and preferences.
 
 The Plan owns one to six ordered targets. Species and form are required;
 ability, nature, held item, gender, and moves are optional preferences.

@@ -13,7 +13,7 @@ import { Button } from "@/shared/components/ui/button";
 
 /*
  * Asks before taking a planned Pokémon off the team when you filled in its
- * build (moves, ability, item, nature, role or notes); one just added goes
+ * build (moves, ability, item, nature or notes); one just added goes
  * at once, with Undo in the toast.
  */
 export const PlannerRemoveDialog = ({

@@ -1,6 +1,5 @@
 "use client";
 
-import { getPlanRoleName } from "@/modules/mainline/features/plans/planner/data/plan-roles";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { TextLink } from "@/shared/components/text-link";
@@ -78,7 +77,7 @@ const tipToneClassNames: Record<PlanTeamTip["tone"], string> = {
 
 /*
  * v3 `.dock`, on the Planner's band: the six slots of the Plan's team, as
- * the Play roster's stickers (the art large, its role under the name, a flag
+ * the Play roster's stickers (the art large, its name, a flag
  * when it needs something; an open slot just says Empty). Each
  * opens its slot sheet, can be dragged onto another slot to swap and removed
  * with Undo. Over it: Random and Clear (not on a locked Plan); under it the
@@ -308,9 +307,7 @@ export const PlannerDockSection = ({
                   imageUrl={pokemon.imageUrl}
                   name={pokemon.name}
                   number={formatNationalNumber(pokemon.nationalNumber)}
-                  subtitle={
-                    replacing ? "Replace" : getPlanRoleName(member.role)
-                  }
+                  subtitle={replacing ? "Replace" : undefined}
                   types={pokemon.types}
                   className={cn(
                     /* The slot lifts instead. */

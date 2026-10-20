@@ -9,7 +9,6 @@ import {
   readPlannerCatalogue,
   readPlannerPoolRows,
 } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
-import { toPlanRoleSlug } from "@/modules/mainline/features/plans/planner/data/plan-roles";
 import type {
   PlanGender,
   PlannerPageData,
@@ -52,7 +51,7 @@ const readSavedPlan = async (
       .schema("views")
       .from("mainline_team_plan_detail")
       .select(
-        "ability_id, gender, held_item_id, moves, nature_id, notes, role_slug, slot, target_form_id, target_species_id",
+        "ability_id, gender, held_item_id, moves, nature_id, notes, slot, target_form_id, target_species_id",
       )
       .eq("team_plan_id", planId)
       .order("slot"),
@@ -92,7 +91,6 @@ const readSavedPlan = async (
               moveIds: toPlanMoveSlots(member.moves),
               natureId: member.nature_id,
               notes: member.notes,
-              role: toPlanRoleSlug(member.role_slug),
               slot: member.slot,
               speciesId: member.target_species_id,
             },

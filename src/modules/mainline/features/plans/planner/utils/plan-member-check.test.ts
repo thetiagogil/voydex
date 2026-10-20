@@ -16,7 +16,6 @@ const member: PlanMember = {
   moveIds: [5, 6, null, null],
   natureId: 2,
   notes: null,
-  role: null,
   slot: 2,
   speciesId: 52,
 };

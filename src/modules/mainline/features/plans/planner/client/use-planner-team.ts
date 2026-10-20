@@ -42,7 +42,6 @@ export const newPlanMember = (pokemon: PlannerPokemon): PlanMember => ({
   moveIds: emptyPlanMoveSlots(),
   natureId: null,
   notes: null,
-  role: null,
   slot: 0,
   speciesId: pokemon.speciesId,
 });
