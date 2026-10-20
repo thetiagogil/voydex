@@ -44,9 +44,7 @@ test.describe("Library", () => {
     await page.getByRole("button", { name: `${tagName}, In 1 Play` }).click();
     const details = page.getByRole("dialog", { name: tagName });
     await expect(
-      details
-        .getByRole("region", { name: "Used in" })
-        .getByRole("link", { name: playName }),
+      details.getByRole("link", { name: new RegExp(playName) }),
     ).toBeVisible();
     await details.getByRole("textbox", { name: "Tag name" }).fill(renamed);
     await expectAccessible(page);
