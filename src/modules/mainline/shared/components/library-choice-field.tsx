@@ -23,6 +23,11 @@ import {
 } from "@/shared/components/ui/combobox";
 import { menuOptionShapeClassName } from "@/shared/components/ui/menu-surface";
 import { Spinner } from "@/shared/components/ui/spinner";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 export type LibraryCreateResult =
@@ -42,12 +47,55 @@ const toSearchText = (text: string) =>
 const newItemId = "new";
 
 /*
+ * A picker option's name and, for a choice that explains itself (Voydex's
+ * rules), an "i" whose tip says what it asks; on a touch screen, which has
+ * no hover, the explanation shows under the name instead.
+ */
+const ChoiceOptionLabel = ({
+  description,
+  name,
+}: {
+  description?: string | null;
+  name: string;
+}) => (
+  <span className="flex min-w-0 flex-1 items-center gap-2">
+    <span className="grid min-w-0 flex-1">
+      <span className="truncate">{name}</span>
+      {description ? (
+        <span
+          aria-hidden
+          className="text-ink-2 text-13 hidden font-semibold whitespace-normal pointer-coarse:block"
+        >
+          {description}
+        </span>
+      ) : null}
+    </span>
+    {description ? (
+      <Tooltip>
+        <TooltipTrigger
+          render={
+            <span
+              aria-hidden
+              className="text-ink-3 hover:text-ink inline-grid size-6 shrink-0 cursor-help place-items-center pointer-coarse:hidden"
+            />
+          }
+        >
+          <AppIcon icon={appIcons.status.info} size="sm" />
+        </TooltipTrigger>
+        <TooltipContent side="right">{description}</TooltipContent>
+      </Tooltip>
+    ) : null}
+  </span>
+);
+
+/*
  * The rules or tags a Play keeps, as chips (the corner × takes one off this
  * Play only), then "+ Add": a picker of the rest of your
  * Library with a search. A name nothing has yet offers Create, which makes
  * it in your Library and adds it here; the foot links to the Library, where
  * names are fixed and deleted for good. A choice with options (Monotype's
- * type) opens them from its chip, and right after it's added.
+ * type) opens them from its chip, and right after it's added; one that
+ * explains itself shows an "i" with its explanation in the list.
  */
 export const LibraryChoiceField = ({
   addLabel,
@@ -231,14 +279,22 @@ export const LibraryChoiceField = ({
           <ComboboxEmpty>{`Type a name to make a new ${noun}.`}</ComboboxEmpty>
           <ComboboxList>
             {(item: PickerItem) => (
-              <ComboboxItem key={item.id} value={item}>
+              <ComboboxItem
+                key={item.id}
+                value={item}
+                aria-label={item.isNew ? undefined : item.name}
+                aria-description={item.description ?? undefined}
+              >
                 {item.isNew ? (
                   <span className="flex min-w-0 items-center gap-2">
                     <AppIcon icon={appIcons.actions.create} size="sm" />
                     <span className="truncate">Create “{item.name}”</span>
                   </span>
                 ) : (
-                  <span className="truncate">{item.name}</span>
+                  <ChoiceOptionLabel
+                    description={item.description}
+                    name={item.name}
+                  />
                 )}
               </ComboboxItem>
             )}
