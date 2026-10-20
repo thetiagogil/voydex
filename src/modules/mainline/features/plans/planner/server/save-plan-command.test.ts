@@ -50,6 +50,10 @@ const createFakeClient = ({
 let versionGroupReads = 0;
 
 const readSwordShield = (table: string): Result => {
+  if (table === "mainline_team_plan_summary") {
+    return { data: { status_slug: "active" }, error: null };
+  }
+
   if (table === "games") {
     return { data: [{ id: 33 }, { id: 34 }], error: null };
   }
@@ -106,6 +110,21 @@ describe("savePlan", () => {
         name: "save_mainline_team_plan",
       },
     ]);
+  });
+
+  it("refuses to change an archived Plan, before writing anything", async () => {
+    const { client, rpcCalls } = createFakeClient({
+      read: (table) =>
+        table === "mainline_team_plan_summary"
+          ? { data: { status_slug: "archived" }, error: null }
+          : readSwordShield(table),
+      rpc: () => ({ data: null, error: null }),
+    });
+
+    await expect(
+      savePlan({ input: { ...baseInput, planId: "plan-1" }, supabase: client }),
+    ).rejects.toThrow("Restore this Plan to change it.");
+    expect(rpcCalls).toEqual([]);
   });
 
   it("says why the database refused, in the Planner's words", async () => {

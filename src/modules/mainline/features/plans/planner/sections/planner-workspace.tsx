@@ -2,7 +2,8 @@
 
 import { TextLink } from "@/shared/components/text-link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -24,6 +25,11 @@ import {
   type PlanRandomMode,
 } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import { buildPlanTeamCheck } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
+import { keepPlannerMembersInGroup } from "@/modules/mainline/features/plans/planner/data/planner-game-switch";
+import { checkPlannerGameSwitchAction } from "@/modules/mainline/features/plans/planner/server/planner-game-switch-action";
+import { PlannerFollowersSection } from "@/modules/mainline/features/plans/planner/sections/planner-followers-section";
+import { PlannerSwitchDialog } from "@/modules/mainline/features/plans/planner/sections/planner-switch-dialog";
+import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
 import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
 import {
@@ -85,10 +91,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const getName = (speciesId: number) => byId.get(speciesId)?.name ?? "Pokémon";
   /*
    * Pokémon arriving from another version group (a saved Plan opened in a
-   * new one, a draft) drop the choices this group doesn't have.
+   * new one, a draft, a shared link) keep to the ones this group has, and
+   * drop the choices it doesn't have.
    */
   const fitToVersionGroup = (planMembers: PlanMember[]) =>
-    planMembers.map((member) =>
+    keepPlannerMembersInGroup(planMembers, context.sections).map((member) =>
       clearUnsupportedBuildFields(member, context.buildFields),
     );
   const team = usePlannerTeam({
@@ -112,6 +119,14 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
+  /* A game switch that would drop Pokémon, waiting on its confirm. */
+  const [pendingSwitch, setPendingSwitch] = useState<{
+    names: string[];
+    slug: string;
+    versionGroupName: string;
+  } | null>(null);
+  const [isCheckingSwitch, startCheckingSwitch] = useTransition();
+  const [isArchiving, startArchiving] = useTransition();
   const { askWhichToReplace, cancelReplace, place, replacing, replacingId } =
     usePlannerReplace({
       byId,
@@ -229,14 +244,60 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     );
   };
 
-  const changeVersionGroup = (slug: string) => {
-    if (slug === context.versionGroup.slug) return;
-
+  const switchVersionGroup = (slug: string) =>
     router.push(
       plan
         ? appRoutes.mainlinePlan(plan.id, slug)
         : appRoutes.mainlinePlanNew(slug),
     );
+
+  /* Straight to the new game, unless it would drop Pokémon: then ask first. */
+  const changeVersionGroup = (slug: string) => {
+    if (slug === context.versionGroup.slug || isCheckingSwitch) return;
+
+    if (!members.length) {
+      switchVersionGroup(slug);
+      return;
+    }
+
+    startCheckingSwitch(async () => {
+      const check = await checkPlannerGameSwitchAction({
+        speciesIds: members.map((member) => member.speciesId),
+        versionGroupSlug: slug,
+      });
+
+      if (check.status === "error") {
+        toast.error(check.message);
+        return;
+      }
+
+      if (!check.missingSpeciesIds.length) {
+        switchVersionGroup(slug);
+        return;
+      }
+
+      setPendingSwitch({
+        names: check.missingSpeciesIds.map(getName),
+        slug,
+        versionGroupName: check.versionGroupName,
+      });
+    });
+  };
+
+  const archive = () => {
+    if (!plan) return;
+
+    startArchiving(async () => {
+      const result = await setPlanArchivedAction(plan.id, true);
+
+      if (result.status === "error") {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(`${plan.name} archived`);
+      router.refresh();
+    });
   };
 
   const shareLink = `${origin}${appRoutes.mainlinePlanNew(context.versionGroup.slug)}#${encodePlanShare(
@@ -248,9 +309,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       <PageBand className="flex flex-col gap-6 sm:gap-7">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
+          /* Archive keeps the saved Plan, so unsaved changes come first. */
+          onArchive={plan ? archive : undefined}
+          canArchive={!isDirty && !isArchiving}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
-          linkedPlayCount={plan?.linkedPlayCount ?? 0}
           name={name}
           onNameChange={setName}
           onSave={save}
@@ -260,6 +323,10 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           versionGroup={context.versionGroup}
           versionGroups={data.versionGroups}
         />
+
+        {plan?.followers.length ? (
+          <PlannerFollowersSection followers={plan.followers} />
+        ) : null}
 
         {offered ? (
           <PlannerDraftOfferSection
@@ -377,6 +444,20 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           setIsNameOpen(false);
           saveAs(planName);
         }}
+      />
+
+      <PlannerSwitchDialog
+        names={pendingSwitch?.names ?? []}
+        open={pendingSwitch !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingSwitch(null);
+        }}
+        onConfirm={() => {
+          if (pendingSwitch) switchVersionGroup(pendingSwitch.slug);
+
+          setPendingSwitch(null);
+        }}
+        versionGroupName={pendingSwitch?.versionGroupName ?? ""}
       />
 
       <PlannerShareDialog

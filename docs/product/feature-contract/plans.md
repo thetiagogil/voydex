@@ -18,13 +18,21 @@ As built (v3):
   reads its defensive matchups from its types. Save writes the Plan; a new
   Plan is kept in this browser until saved. Share puts the version group, six
   Pokémon and roles in a link's hash; importing opens it as a new unsaved
-  Plan.
+  Plan. Switching game keeps only the Pokémon the new game has, and asks
+  first when it would drop any ("2 of the team aren't in Sun / Moon and will
+  be removed: Venusaur and Charizard."). A followed Plan lists each Play
+  that follows it with its current team and a Compare link into that Play's
+  Plan comparison.
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
   Pokémon and who follows it, filtered by status and game and sorted by
-  update, name or game; New Plan opens the Planner blank.
+  update, name or game; New Plan opens the Planner blank. Each card has
+  Archive (or Restore); the Planner has Archive once a Plan is saved and has
+  no unsaved changes. An archived Plan opens read-only (its name, game, team
+  and followers, with Restore Plan), keeps its Play links, and the save
+  refuses it until it's restored.
 - A Plan is stored for one game, the version group's first, until Plans
   store a version preference. Plan Detail, Create Play from a Plan, cloning,
-  lifecycle and the Game List below are accepted but not built.
+  drafts and the Game List below are accepted but not built.
 
 The V1 standalone Plans family has three responsibilities:
 

@@ -1,3 +1,5 @@
+import type { PlanTeamStripMember } from "@/modules/mainline/features/plans/components/plan-team-strip";
+
 export type PlanType = { name: string; slug: string };
 
 export type PlanGender = "female" | "genderless" | "male";
@@ -119,8 +121,17 @@ export type PlannerContext = {
   versionGroup: PlannerVersionGroup;
 };
 
+/* A Play that follows a Plan, with its current team. */
+export type PlanFollower = {
+  members: PlanTeamStripMember[];
+  playId: string;
+  playName: string;
+};
+
 export type SavedPlan = {
   expansionVersionGroupIds: number[];
+  /* The Plays that follow it, with their current teams. */
+  followers: PlanFollower[];
   id: string;
   /* How many Plays follow this Plan. */
   linkedPlayCount: number;

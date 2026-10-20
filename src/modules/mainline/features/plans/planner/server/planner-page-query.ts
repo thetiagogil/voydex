@@ -5,6 +5,7 @@ import {
   getPlannerFamilyIds,
   resolvePlannerVersionGroup,
 } from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
+import { readPlanFollowers } from "@/modules/mainline/features/plans/planner/server/plan-followers-reader";
 import {
   readPlannerCatalogue,
   readPlannerPoolRows,
@@ -72,10 +73,15 @@ const readSavedPlan = async (
     return null;
   }
 
+  const followers = summary.linked_play_count
+    ? await readPlanFollowers(supabase, summary.team_plan_id)
+    : [];
+
   return {
     expansionVersionGroupIds: (scopesResult.data ?? []).map(
       (scope) => scope.version_group_id,
     ),
+    followers,
     id: summary.team_plan_id,
     linkedPlayCount: summary.linked_play_count ?? 0,
     members: (membersResult.data ?? []).flatMap((member) =>

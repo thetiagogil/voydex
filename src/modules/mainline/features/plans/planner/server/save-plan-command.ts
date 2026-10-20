@@ -126,6 +126,27 @@ const toMemberRow = (member: PlanMember) => ({
   target_species_id: member.speciesId,
 });
 
+/* An archived Plan is read-only until it's restored. */
+const assertPlanNotArchived = async (
+  supabase: ServerSupabaseClient,
+  planId: string,
+) => {
+  const { data, error } = await supabase
+    .schema("views")
+    .from("mainline_team_plan_summary")
+    .select("status_slug")
+    .eq("team_plan_id", planId)
+    .maybeSingle();
+
+  if (error) {
+    throw new Error(saveFailure);
+  }
+
+  if (data?.status_slug === "archived") {
+    throw new PlanSaveInputError("Restore this Plan to change it.");
+  }
+};
+
 /* The database's refusals, in the Planner's words. */
 const toSaveError = (error: { code: string; message: string }) => {
   if (error.code === "55000") {
@@ -173,6 +194,10 @@ export const savePlan = async ({
   input: PlanSaveInput;
   supabase: ServerSupabaseClient;
 }): Promise<{ created: boolean; planId: string }> => {
+  if (input.planId) {
+    await assertPlanNotArchived(supabase, input.planId);
+  }
+
   const game = await readPlanGame(supabase, input.versionGroupSlug);
   const expansionIds = input.expansionVersionGroupIds.filter((id) =>
     game.expansionIds.includes(id),

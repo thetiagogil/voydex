@@ -19,6 +19,7 @@ import {
   type MyPlansSort,
 } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
 import { deletePlanAction } from "@/modules/mainline/features/plans/my-plans/server/delete-plan-action";
+import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -65,13 +66,30 @@ type MyPlansBrowserProps = {
 /*
  * One Plan: the card opens it in the Team Planner; the × on its corner (as
  * on the Planner's team slots) deletes it, after a confirm that says what
- * goes with it.
+ * goes with it; Archive or Restore sits at its foot.
  */
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
   const router = useRouter();
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isDeleting, startDeleting] = useTransition();
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [isArchiving, startArchiving] = useTransition();
+
+  const toggleArchived = () => {
+    startArchiving(async () => {
+      const result = await setPlanArchivedAction(plan.id, !plan.isArchived);
+
+      if (result.status === "error") {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(
+        `${plan.name} ${plan.isArchived ? "restored" : "archived"}`,
+      );
+      router.refresh();
+    });
+  };
 
   const deletePlan = () => {
     startDeleting(async () => {
@@ -98,6 +116,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
         <Card className="h-full gap-3 px-5 py-4">
           <div className="flex items-center gap-2">
             <Badge variant="select">{plan.versionGroupName}</Badge>
+            {plan.isArchived ? <StatusBadge>Archived</StatusBadge> : null}
             {plan.updatedAt ? (
               <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
                 Updated <PlayMomentTime value={plan.updatedAt} />
@@ -116,7 +135,8 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
             members={plan.members}
             className={cn(plan.isArchived && "opacity-55")}
           />
-          <div className="mt-auto flex flex-wrap items-center gap-2">
+          {/* Room at the end for Archive or Restore, which sits over it. */}
+          <div className="mt-auto flex min-h-9 flex-wrap items-center gap-2 pr-28">
             <span
               className={
                 plan.linkedPlayCount
@@ -129,12 +149,33 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
               ) : null}
               {getMyPlanFootnote(plan)}
             </span>
-            {plan.isArchived ? (
-              <StatusBadge className="ml-auto">Archived</StatusBadge>
-            ) : null}
           </div>
         </Card>
       </Link>
+      <Button
+        type="button"
+        variant="ghost"
+        size="sm"
+        disabled={isArchiving}
+        aria-busy={isArchiving}
+        aria-label={`${plan.isArchived ? "Restore" : "Archive"} ${plan.name}`}
+        onClick={toggleArchived}
+        className="absolute right-3 bottom-3"
+      >
+        {isArchiving ? (
+          <Spinner data-icon="inline-start" />
+        ) : (
+          <AppIcon
+            icon={
+              plan.isArchived
+                ? appIcons.actions.restore
+                : appIcons.product.archived
+            }
+            inline="start"
+          />
+        )}
+        {plan.isArchived ? "Restore" : "Archive"}
+      </Button>
       <CornerRemoveButton
         label={`Delete ${plan.name}`}
         onClick={() => {

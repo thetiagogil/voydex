@@ -22,11 +22,13 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type PlannerTopSectionProps = {
+  canArchive: boolean;
   canSave: boolean;
   isSaved: boolean;
   isSaving: boolean;
-  linkedPlayCount: number;
   name: string;
+  /* A saved Plan's Archive; unsaved changes are saved or undone first. */
+  onArchive?: () => void;
   onNameChange: (name: string) => void;
   onSave: () => void;
   onShare: () => void;
@@ -39,15 +41,16 @@ type PlannerTopSectionProps = {
 /*
  * The head of the Planner's band (v3 `.pl-top`): the Plan's name on its own
  * line (tap to rename), then one row with the version group it is for (its
- * covers; a menu of every base group) and its version, and Share, My Plans
- * and the page's main button, Save, at the end.
+ * covers; a menu of every base group) and its version, and Archive (a saved
+ * Plan), Share, My Plans and the page's main button, Save, at the end.
  */
 export const PlannerTopSection = ({
+  canArchive,
   canSave,
   isSaved,
   isSaving,
-  linkedPlayCount,
   name,
+  onArchive,
   onNameChange,
   onSave,
   onShare,
@@ -106,14 +109,6 @@ export const PlannerTopSection = ({
             </button>
           </h1>
         )}
-        {linkedPlayCount ? (
-          <p className="text-ink-tint text-14 flex items-center gap-1.5 font-semibold">
-            <AppIcon icon={appIcons.milestones.story} size="sm" />
-            Followed by {linkedPlayCount}{" "}
-            {linkedPlayCount === 1 ? "Play" : "Plays"}. Saving updates{" "}
-            {linkedPlayCount === 1 ? "its" : "their"} comparison.
-          </p>
-        ) : null}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <SelectControl
@@ -188,6 +183,18 @@ export const PlannerTopSection = ({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
+          {onArchive ? (
+            <Button
+              type="button"
+              variant="ghost"
+              disabled={!canArchive}
+              title={canArchive ? undefined : "Save or undo your changes first"}
+              onClick={onArchive}
+            >
+              <AppIcon icon={appIcons.product.archived} inline="start" />
+              Archive
+            </Button>
+          ) : null}
           <Button type="button" variant="secondary" onClick={onShare}>
             <AppIcon icon={appIcons.actions.share} inline="start" />
             Share
