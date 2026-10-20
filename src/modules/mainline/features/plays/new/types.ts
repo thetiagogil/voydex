@@ -1,4 +1,5 @@
 import type { StartIntent } from "@/config/start-intent";
+import type { ChallengeRuleChoice } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
 
 /* Where New Play opens: a game (and partner) from a preset or the sign-up wish. */
@@ -7,9 +8,11 @@ export type NewPlayInitialChoice = {
   partnerSpeciesSlug: string | null;
 };
 
-/* One opening of New Play: the picker and where it starts. */
+/* One opening of New Play: the picker, where it starts and its rules. */
 export type NewPlayWizardData = NewPlayPickerData & {
   initial: NewPlayInitialChoice;
+  /* The challenge rules a new Play can start with: Voydex's and yours. */
+  rules: ChallengeRuleChoice[];
 };
 
 /*
@@ -20,4 +23,5 @@ export type NewPlayWizardData = NewPlayPickerData & {
 export type NewPlayDialogData = {
   intent: StartIntent | null;
   picker: NewPlayPickerData | null;
+  rules: ChallengeRuleChoice[];
 };

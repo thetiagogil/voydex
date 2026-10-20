@@ -2,12 +2,20 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
+import { toast } from "sonner";
 
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
+import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
 import { NewPlayTracking } from "@/modules/mainline/features/plays/new/components/new-play-tracking";
 import { PartnerCast } from "@/modules/mainline/features/plays/shared/components/partner-cast";
 import type { NewPlayWizardData } from "@/modules/mainline/features/plays/new/types";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
+import {
+  clearMissingRuleTypes,
+  getRuleSelectionError,
+  type PlayRuleSelection,
+} from "@/modules/mainline/shared/data/challenge-rule-options";
+import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
@@ -118,6 +126,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const [playName, setPlayName] = useState(defaultPlayName);
   const [trainerName, setTrainerName] = useState(data.trainerName ?? "");
   const [owned, setOwned] = useState<number[]>([]);
+  const [rules, setRules] = useState<PlayRuleSelection[]>([]);
   const { isPending, startPlay } = useStartPlay();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
@@ -135,6 +144,8 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const expansions = gameSlug
     ? (data.expansionsByGameSlug[gameSlug] ?? [])
     : [];
+  /* Monotype offers the types the picked game has: no Fairy in Red. */
+  const types = game ? getGameTypes(data.types, game.generation.number) : [];
 
   /* Each step's title takes focus, so a screen reader hears where it is. */
   useEffect(() => {
@@ -147,16 +158,31 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   }, [step]);
 
   const pickGame = (slug: string | null) => {
+    const next = data.games.find((candidate) => candidate.slug === slug);
+    const nextTypeIds = next
+      ? getGameTypes(data.types, next.generation.number).map((type) => type.id)
+      : [];
+
     setGameSlug(slug);
     setPartnerId(null);
     setOwned([]);
+    /* A type the new game doesn't have waits to be picked again. */
+    setRules((current) => clearMissingRuleTypes(current, nextTypeIds));
   };
 
   const start = () => {
     if (!game) return;
 
+    const ruleError = getRuleSelectionError(data.rules, rules);
+
+    if (ruleError) {
+      toast.error(ruleError);
+      return;
+    }
+
     startPlay(
       {
+        challengeRules: rules,
         expansionVersionGroupIds: owned,
         gameSlug: game.slug,
         partner: partner
@@ -302,6 +328,12 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             expansions={expansions}
             owned={owned}
             onOwnedChange={setOwned}
+          />
+          <NewPlayRules
+            ruleChoices={data.rules}
+            rules={rules}
+            types={types}
+            onChange={setRules}
           />
         </div>
       ) : null}

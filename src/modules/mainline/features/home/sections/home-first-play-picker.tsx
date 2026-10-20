@@ -64,6 +64,7 @@ export const HomeFirstPlayPicker = ({
 
     startPlay(
       {
+        challengeRules: [],
         expansionVersionGroupIds: [],
         gameSlug: game.slug,
         partner: partner

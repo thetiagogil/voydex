@@ -13,16 +13,26 @@ import type {
   MainlinePlayTeamPreviewRow,
 } from "@/modules/mainline/features/plays/hub/types";
 
-const buildRule = (id: string, name: string) => {
+const buildRule = (
+  id: string,
+  name: string,
+  config: MainlineChallengeRule["config"] = {},
+) => {
   return {
+    config,
+    description: null,
     id,
     name,
   } as MainlineChallengeRule;
 };
 
-const buildRuleLink = (challengeRuleId: string) => {
+const buildRuleLink = (
+  challengeRuleId: string,
+  configOverride: MainlinePlayChallengeRuleLink["config_override"] = null,
+) => {
   return {
     challenge_rule_id: challengeRuleId,
+    config_override: configOverride,
   } as MainlinePlayChallengeRuleLink;
 };
 
@@ -31,6 +41,7 @@ describe("buildMainlinePlayRules", () => {
     const rules = buildMainlinePlayRules({
       links: [buildRuleLink("rule-b"), buildRuleLink("rule-a")],
       rules: [buildRule("rule-a", "First"), buildRule("rule-b", "Second")],
+      types: [],
     });
 
     expect(rules.map((rule) => rule.id)).toEqual(["rule-b", "rule-a"]);
@@ -40,9 +51,34 @@ describe("buildMainlinePlayRules", () => {
     const rules = buildMainlinePlayRules({
       links: [buildRuleLink("missing"), buildRuleLink("rule-a")],
       rules: [buildRule("rule-a", "Available")],
+      types: [],
     });
 
     expect(rules.map((rule) => rule.id)).toEqual(["rule-a"]);
+  });
+
+  it("names each rule with this Play's options", () => {
+    const rules = buildMainlinePlayRules({
+      links: [
+        buildRuleLink("mono", { type_id: 3 }),
+        buildRuleLink("catch", { shinies_always_catchable: true }),
+        buildRuleLink("caps"),
+      ],
+      rules: [
+        buildRule("mono", "Monotype", { type_id: null }),
+        buildRule("catch", "First catch per area", {
+          shinies_always_catchable: false,
+        }),
+        buildRule("caps", "Level caps"),
+      ],
+      types: [{ id: 3, name: "Water" }],
+    });
+
+    expect(rules.map((rule) => rule.label)).toEqual([
+      "Monotype · Water",
+      "First catch per area · except shinies",
+      "Level caps",
+    ]);
   });
 });
 

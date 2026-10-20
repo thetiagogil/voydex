@@ -65,6 +65,7 @@ export const HomeIntentOfferCard = ({
             onClick={() =>
               startPlay(
                 {
+                  challengeRules: [],
                   expansionVersionGroupIds: [],
                   gameSlug: offer.gameSlug,
                   partner: offer.partner

@@ -28,8 +28,9 @@ type RuleDialog =
   | { mode: "edit"; rule: LibraryRule };
 
 /*
- * One rule as a card: its kind, its name and where it's used. Yours has a
- * ⋯ with Edit and Delete; Voydex's own says Built-in and stays as it is.
+ * One rule as a card: its kind, its name, what it asks and where it's used.
+ * Yours has a ⋯ with Edit and Delete; Voydex's own wears a lock and stays
+ * as it is.
  */
 const RuleCard = ({
   onDelete,
@@ -52,11 +53,21 @@ const RuleCard = ({
         <h2 className="text-16 text-ink line-clamp-2 font-sans leading-snug font-extrabold tracking-normal">
           {rule.name}
         </h2>
+        {rule.description ? (
+          <p className="text-ink-2 text-14 line-clamp-2 font-semibold">
+            {rule.description}
+          </p>
+        ) : null}
         <p className="text-ink-3 text-13 mt-auto font-semibold">{usageLabel}</p>
       </Card>
       {rule.isBuiltIn ? (
-        <Badge variant="outline" className="absolute top-4 right-4">
-          Built-in
+        <Badge
+          variant="outline"
+          title="Voydex's own rule: you can use it, not change it"
+          className="absolute top-4 right-4"
+        >
+          <AppIcon icon={appIcons.status.locked} inline="start" />
+          Voydex
         </Badge>
       ) : (
         <LibraryItemMenu

@@ -26,7 +26,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     supabase
       .schema("gameplay")
       .from("mainline_challenge_rules")
-      .select("id, name, user_id, rule_type_id")
+      .select("id, name, description, user_id, rule_type_id")
       .order("name", { ascending: true }),
     supabase
       .schema("gameplay")
@@ -72,6 +72,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
         ? [
             {
               ...ruleUsage(rule.id),
+              description: rule.description,
               id: rule.id,
               isBuiltIn: rule.user_id === null,
               kind,

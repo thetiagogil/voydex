@@ -7,25 +7,37 @@ import { createMainlinePlay } from "./create-play-command";
 
 type Result = { data: unknown; error: unknown };
 
-/* Reads the game, then answers the one `create_mainline_play` call. */
-const createFakeClient = (rpc: () => Result) => {
+/*
+ * Reads the game (and the picked rules, when there are any), then answers
+ * the one `create_mainline_play` call.
+ */
+const createFakeClient = (
+  rpc: () => Result,
+  rules: { config: unknown; id: string; name: string }[] = [],
+) => {
   const rpcCalls: { args: unknown; name: string }[] = [];
-  const builder: Record<string, unknown> & PromiseLike<Result> = {
-    then: (onFulfilled, onRejected) =>
-      Promise.resolve({
-        data: { id: 7, slug: "sun" },
-        error: null,
-      }).then(onFulfilled, onRejected),
-  };
+  const builderFor = (data: unknown) => {
+    const builder: Record<string, unknown> & PromiseLike<Result> = {
+      then: (onFulfilled, onRejected) =>
+        Promise.resolve({ data, error: null }).then(onFulfilled, onRejected),
+    };
 
-  for (const method of ["eq", "maybeSingle", "select"]) {
-    builder[method] = () => builder;
-  }
+    for (const method of ["eq", "in", "maybeSingle", "select"]) {
+      builder[method] = () => builder;
+    }
+
+    return builder;
+  };
 
   return {
     client: {
       schema: () => ({
-        from: () => builder,
+        from: (table: string) =>
+          builderFor(
+            table === "mainline_challenge_rules"
+              ? rules
+              : { id: 7, slug: "sun" },
+          ),
         rpc: (name: string, args: unknown) => {
           rpcCalls.push({ args, name });
           return Promise.resolve(rpc());
@@ -36,7 +48,15 @@ const createFakeClient = (rpc: () => Result) => {
   };
 };
 
+const monotypeId = "7d4c8f0e-6a52-4f11-9a0b-1c2d3e4f5a6b";
+const monotype = {
+  config: { type_id: null },
+  id: monotypeId,
+  name: "Monotype",
+};
+
 const input: NewPlayInput = {
+  challengeRules: [],
   expansionVersionGroupIds: [],
   gameSlug: "sun",
   partner: null,
@@ -80,5 +100,89 @@ describe("createMainlinePlay", () => {
         supabase: refuse("Milestone 3 requires completed milestones {2}"),
       }),
     ).rejects.toThrow("Unable to start a Play right now.");
+  });
+
+  it("starts the Play with its rules and only their own options", async () => {
+    const { client, rpcCalls } = createFakeClient(
+      () => ({ data: [{ result_play_id: "play-1" }], error: null }),
+      [monotype],
+    );
+
+    await createMainlinePlay({
+      input: {
+        ...input,
+        challengeRules: [
+          {
+            config: { shinies_always_catchable: true, type_id: 3 },
+            ruleId: monotypeId,
+          },
+        ],
+      },
+      supabase: client,
+    });
+    expect(rpcCalls[0]).toMatchObject({
+      args: {
+        p_challenge_rules: [{ config: { type_id: 3 }, rule_id: monotypeId }],
+      },
+    });
+  });
+
+  it("asks for Monotype's type before starting", async () => {
+    const { client, rpcCalls } = createFakeClient(
+      () => ({ data: [{ result_play_id: "play-1" }], error: null }),
+      [monotype],
+    );
+
+    await expect(
+      createMainlinePlay({
+        input: {
+          ...input,
+          challengeRules: [{ config: { type_id: null }, ruleId: monotypeId }],
+        },
+        supabase: client,
+      }),
+    ).rejects.toThrow("Pick a type for Monotype.");
+    expect(rpcCalls).toEqual([]);
+  });
+
+  it("refuses a rule you can't see before starting", async () => {
+    const { client, rpcCalls } = createFakeClient(() => ({
+      data: [{ result_play_id: "play-1" }],
+      error: null,
+    }));
+
+    await expect(
+      createMainlinePlay({
+        input: {
+          ...input,
+          challengeRules: [{ config: null, ruleId: monotypeId }],
+        },
+        supabase: client,
+      }),
+    ).rejects.toThrow("One of those rules isn't available.");
+    expect(rpcCalls).toEqual([]);
+  });
+
+  it("names a type the game doesn't have", async () => {
+    const { client } = createFakeClient(
+      () => ({
+        data: null,
+        error: {
+          code: "23514",
+          message: "Type 18 is not in the game of play x",
+        },
+      }),
+      [monotype],
+    );
+
+    await expect(
+      createMainlinePlay({
+        input: {
+          ...input,
+          challengeRules: [{ config: { type_id: 18 }, ruleId: monotypeId }],
+        },
+        supabase: client,
+      }),
+    ).rejects.toThrow("That type isn't in this game.");
   });
 });

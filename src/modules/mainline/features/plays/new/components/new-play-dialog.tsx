@@ -139,6 +139,7 @@ export const NewPlayDialogProvider = ({
               key={opening.id}
               data={{
                 ...data.picker,
+                rules: data.rules,
                 initial: resolveNewPlayInitialChoice(
                   data.picker.games,
                   opening,

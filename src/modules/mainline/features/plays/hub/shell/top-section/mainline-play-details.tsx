@@ -93,7 +93,7 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
               label="Rules"
               items={data.rules.map((rule) => ({
                 id: rule.id,
-                name: rule.name,
+                name: rule.label,
                 title: rule.description ?? undefined,
               }))}
             />
