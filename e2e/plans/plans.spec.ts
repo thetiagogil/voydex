@@ -106,6 +106,16 @@ test.describe("Team Planner", () => {
     await expect(
       page.getByRole("region", { name: "Pick your Pokémon" }),
     ).toBeHidden();
+    /* A Pokémon's sheet reads while locked. */
+    await team.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
+    const locked = page.getByRole("dialog", { name: /Charizard/ });
+    await expect(locked.getByRole("button", { name: "Lead" })).toBeDisabled();
+    await expect(
+      locked.getByRole("button", { name: "Remove from Plan" }),
+    ).toBeHidden();
+    await page.keyboard.press("Escape");
+    await expect(locked).toBeHidden();
+
     await page.getByRole("button", { name: "Unlock to edit" }).click();
     const unlock = page.getByRole("alertdialog", { name: "Unlock this Plan?" });
     await expectAccessible(page);
@@ -222,7 +232,7 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
   });
 
-  test("asks before removing a Pokémon with a build from its sheet", async ({
+  test("saves a sheet's edits on Save, and asks before removing a Pokémon with a build", async ({
     page,
   }) => {
     await page.goto("/mainline/plans/new?vg=rb");
@@ -237,6 +247,24 @@ test.describe("Team Planner", () => {
       .click();
     const sheet = page.getByRole("dialog", { name: /Charizard/ });
     await sheet.getByRole("button", { name: "Lead" }).click();
+
+    /* Edits wait for Save; closing before it asks first. */
+    await page.keyboard.press("Escape");
+    const discard = page.getByRole("alertdialog", {
+      name: "Discard your changes?",
+    });
+    await expectAccessible(page);
+    await discard.getByRole("button", { name: "Keep editing" }).click();
+    await sheet.getByRole("button", { name: "Save" }).click();
+    await expect(sheet).toBeHidden();
+    await expect(
+      page.getByRole("region", { name: "Your team" }).getByText("Lead"),
+    ).toBeVisible();
+
+    await page
+      .getByRole("region", { name: "Your team" })
+      .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
+      .click();
     await sheet.getByRole("button", { name: "Remove from Plan" }).click();
 
     const confirm = page.getByRole("alertdialog", {

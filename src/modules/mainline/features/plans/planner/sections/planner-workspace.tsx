@@ -426,7 +426,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onClear={whenUnlocked(team.clearSlots)}
           onMove={whenUnlocked(team.moveSlot)}
           onOpenCheck={() => setIsCheckOpen(true)}
-          onOpenSlot={whenUnlocked(setOpenSlot)}
+          onOpenSlot={setOpenSlot}
           onPlace={place}
           onRandom={whenUnlocked(random)}
           onRandomModeChange={setRandomMode}
@@ -479,7 +479,9 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
             behavior: "smooth",
           });
         }}
+        onUnlock={() => askToUnlock(() => {})}
         onUpdate={team.updateSlot}
+        readOnly={!isUnlocked}
         slots={team.slots}
         versionGroup={context.versionGroup}
       />

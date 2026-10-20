@@ -12,7 +12,7 @@ As built (v3):
   `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
   group on the cover shelf menu, fill six slots from its Pokédexes (one range
   per Pokédex, search, Fully evolved only, type dots), drag to swap, Random
-  and Clear, and open a slot to set its role, note and build (ability, nature,
+  and Clear, and open a slot to set its role, note and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
   reads its defensive matchups from its types. Save writes the Plan; a new
