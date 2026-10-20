@@ -1,7 +1,9 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import type { PlaySettingsChoice } from "../types";
-import { toSettingsSlug } from "../utils/play-settings-validation";
+import { toLibrarySlug } from "@/modules/mainline/shared/utils/library-names";
+
+/* A rule or tag by name, as pickers list it. */
+export type LibraryChoice = { id: string; name: string };
 
 const uniqueViolation = "23505";
 
@@ -23,7 +25,7 @@ const insertWithSlug = async (
   }: {
     fallback: string;
     insert: (slug: string) => PromiseLike<{
-      data: PlaySettingsChoice | null;
+      data: LibraryChoice | null;
       error: { code: string } | null;
     }>;
     maximum: number;
@@ -31,7 +33,7 @@ const insertWithSlug = async (
   },
 ) => {
   const base =
-    toSettingsSlug(name, { maximum: maximum - 5, separator }) ?? fallback;
+    toLibrarySlug(name, { maximum: maximum - 5, separator }) ?? fallback;
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
     const slug = attempt
@@ -59,7 +61,7 @@ const insertWithSlug = async (
 export const findOrCreateChallengeRule = async (
   supabase: ServerSupabaseClient,
   { name, userId }: { name: string; userId: string },
-): Promise<{ choice: PlaySettingsChoice; created: boolean }> => {
+): Promise<{ choice: LibraryChoice; created: boolean }> => {
   const [rulesResult, typeResult] = await Promise.all([
     supabase
       .schema("gameplay")
@@ -113,7 +115,7 @@ export const findOrCreateChallengeRule = async (
 export const findOrCreateTag = async (
   supabase: ServerSupabaseClient,
   { name, userId }: { name: string; userId: string },
-): Promise<{ choice: PlaySettingsChoice; created: boolean }> => {
+): Promise<{ choice: LibraryChoice; created: boolean }> => {
   const tagsResult = await supabase
     .from("tags")
     .select("id, name")
