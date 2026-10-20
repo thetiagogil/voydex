@@ -13,8 +13,7 @@ import {
 /*
  * A month on History's line: its mark, then each moment in a card of its own
  * beside its medallion. Each record stays readable at every width, so its
- * line and note wrap instead of truncating. From 1024px the line is in the
- * middle and a month's moments take turns, left then right.
+ * line and note wrap instead of truncating.
  */
 export const PlayHistoryMonthItems = ({
   context,
@@ -39,7 +38,6 @@ export const PlayHistoryMonthItems = ({
         <PlayMomentRow
           context={context}
           event={event}
-          side={index % 2 ? "right" : "left"}
           variant="timeline"
           wrap
           when={

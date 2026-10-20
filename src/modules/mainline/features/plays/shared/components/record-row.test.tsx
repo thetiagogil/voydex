@@ -31,28 +31,4 @@ describe("RecordRow on a timeline", () => {
       'data-testid="party"',
     );
   });
-
-  it("stays beside its medallion without a side", () => {
-    expect(row()).not.toContain("lg:col-start");
-  });
-
-  it("takes the side of the trail it's given from 1024px", () => {
-    const left = row({ side: "left" });
-    const right = row({ side: "right" });
-
-    expect(left).toContain("lg:col-start-1");
-    expect(left).toContain("lg:before:right-1/2");
-    expect(right).toContain("lg:col-start-3");
-    expect(right).toContain("lg:before:left-1/2");
-    expect(right).not.toContain("lg:col-start-1");
-  });
-
-  it("brings its medallion inside the card off the trail", () => {
-    const beside = row();
-    const onTrail = row({ side: "left" });
-
-    expect(beside).not.toContain("hidden lg:grid");
-    expect(onTrail).toContain("lg:hidden");
-    expect(onTrail).toContain("hidden lg:grid");
-  });
 });
