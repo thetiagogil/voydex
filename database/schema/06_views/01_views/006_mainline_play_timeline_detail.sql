@@ -20,6 +20,7 @@ SELECT
     mainline_play_events.milestone_id,
     mainline_milestones.slug AS milestone_slug,
     mainline_milestones.name AS milestone_name,
+    mainline_milestones.description AS milestone_description,
     mainline_play_events.is_pinned,
     mainline_play_events.created_at,
     mainline_play_events.updated_at,

@@ -12,7 +12,10 @@
 
 -- Every moment of a fixture Play in one insert, so each takes its place in
 -- the timeline by when it happened: the team joins and the story unfolds from
--- the day the Play started, then the latest note and status.
+-- the day the Play started, then the latest note and status. Each moment is
+-- written as the app writes it: a title, and a body only where the player
+-- wrote one (a note's text, a line on a team change). A milestone's
+-- description comes from the milestone itself, not the moment.
 WITH play_rows AS (
   SELECT
     mainline_plays.*
@@ -26,7 +29,7 @@ milestone_events AS (
     1 AS event_type_id,
     3 AS event_origin_id,
     mainline_milestones.name AS title,
-    COALESCE(mainline_milestones.description, 'Completed story milestone recorded by the fixture journey.') AS body,
+    NULL::text AS body,
     mainline_play_milestone_progress.completed_at AS happened_at,
     mainline_play_milestone_progress.milestone_id,
     ROW_NUMBER() OVER (PARTITION BY mainline_play_milestone_progress.play_id ORDER BY mainline_play_milestone_progress.completed_at, mainline_play_milestone_progress.milestone_id) = 1 AS is_pinned
@@ -41,8 +44,8 @@ journal_events AS (
     play_rows.id AS play_id,
     8 AS event_type_id,
     1 AS event_origin_id,
-    'Journey field note' AS title,
-    play_rows.save_notes AS body,
+    play_rows.save_notes AS title,
+    NULL::text AS body,
     play_rows.updated_at - INTERVAL '2 hours' AS happened_at,
     NULL::integer AS milestone_id,
     TRUE AS is_pinned
@@ -54,8 +57,8 @@ status_events AS (
     play_rows.id AS play_id,
     9 AS event_type_id,
     5 AS event_origin_id,
-    'Play status imported' AS title,
-    'Imported fixture status: ' || mainline_play_statuses.name || '.' AS body,
+    mainline_play_statuses.name AS title,
+    NULL::text AS body,
     play_rows.updated_at AS happened_at,
     NULL::integer AS milestone_id,
     FALSE AS is_pinned
@@ -69,8 +72,8 @@ added_events AS (
     mainline_play_pokemon.play_id,
     2 AS event_type_id,
     2 AS event_origin_id,
-    pokemon_species.name || ' joined the team' AS title,
-    CASE WHEN mainline_play_pokemon.slot = 1 THEN 'The team lead was registered as the journey partner.' ELSE 'A game-valid team member was added to the active roster.' END AS body,
+    'Added ' || pokemon_species.name AS title,
+    NULL::text AS body,
     play_rows.started_on + TIME '14:00' + (((mainline_play_pokemon.slot - 1) * 2) || ' days')::interval AS happened_at,
     NULL::integer AS milestone_id,
     FALSE AS is_pinned
@@ -88,8 +91,8 @@ hall_of_fame_events AS (
     play_rows.id AS play_id,
     7 AS event_type_id,
     4 AS event_origin_id,
-    'Hall of Fame team' AS title,
-    'Main story team preserved at the championship checkpoint.' AS body,
+    'Hall of Fame' AS title,
+    NULL::text AS body,
     COALESCE(play_rows.completed_on + TIME '20:00', play_rows.updated_at - INTERVAL '7 days') AS happened_at,
     NULL::integer AS milestone_id,
     TRUE AS is_pinned
@@ -98,10 +101,10 @@ hall_of_fame_events AS (
 ),
 custom_definition (version_group_id, event_key, event_type_id, title, body, minute_offset) AS (
   VALUES
-    (23, 'evolved', 3, 'Crocalor evolved', 'The starter reached its final evolution during the Victory Road path.', 1),
-    (23, 'retired', 4, 'Flamigo retired', 'A trusted early-route member moved to the historical roster.', 2),
-    (23, 'replaced', 5, 'Tinkaton joined the final six', 'Tinkaton replaced Arboliva for the endgame team.', 3),
-    (18, 'form-changed', 6, 'Toxtricity changed form', 'A historical form correction was recorded for timeline testing.', 1)
+    (23, 'evolved', 3, 'Fuecoco evolved into Crocalor', NULL, 1),
+    (23, 'retired', 4, 'Retired Flamigo', 'Carried the early routes; benched for the League.', 2),
+    (23, 'replaced', 5, 'Replaced Arboliva with Tinkaton', NULL, 3),
+    (18, 'form-changed', 6, 'Toxtricity changed form', NULL, 1)
 ),
 custom_events AS (
   SELECT

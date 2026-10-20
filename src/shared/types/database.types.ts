@@ -5068,6 +5068,7 @@ export type Database = {
           event_type_slug: string | null;
           happened_at: string | null;
           is_pinned: boolean | null;
+          milestone_description: string | null;
           milestone_id: number | null;
           milestone_name: string | null;
           milestone_slug: string | null;

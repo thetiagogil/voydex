@@ -122,6 +122,58 @@ describe("getPlayMomentRecord for other moments", () => {
     expect(record.headline).toEqual([{ text: "“Saved before Leon”" }]);
   });
 
+  it("reads a note on from where its quoted title stops", () => {
+    const short = event({
+      body: "Saved before Leon\nBring Full Restores.",
+      event_type_slug: "journal_note",
+      title: "Saved before Leon",
+    });
+    const clipped = event({
+      body: "A very long first line that keeps going",
+      event_type_slug: "journal_note",
+      title: "A very long first…",
+    });
+
+    expect(getPlayMomentRecord(short).description).toBe("Bring Full Restores.");
+    expect(getPlayMomentRecord(clipped).description).toBe(
+      "line that keeps going",
+    );
+    expect(
+      getPlayMomentRecord(
+        event({ event_type_slug: "journal_note", title: "Just this" }),
+      ).description,
+    ).toBeNull();
+  });
+
+  it("describes a milestone with its own description unless the player wrote one", () => {
+    const milestone = event({
+      event_type_slug: "story_milestone",
+      milestone_description: "Defeat Brock and receive the Boulder Badge.",
+      title: "Boulder Badge",
+    });
+
+    expect(getPlayMomentRecord(milestone).description).toBe(
+      "Defeat Brock and receive the Boulder Badge.",
+    );
+    expect(
+      getPlayMomentRecord({ ...milestone, body: "Took three tries." })
+        .description,
+    ).toBe("Took three tries.");
+  });
+
+  it("writes a status change as a sentence, with nothing under it", () => {
+    const record = getPlayMomentRecord(
+      event({ event_type_slug: "status_change", title: "Paused" }),
+    );
+
+    expect(record.headline).toEqual([{ text: "Marked as Paused." }]);
+    expect(record.description).toBeNull();
+  });
+
+  it("puts no filler under a team moment", () => {
+    expect(getPlayMomentRecord(evolution).description).toBeNull();
+  });
+
   it("keeps an unknown moment on the neutral fallback", () => {
     const record = getPlayMomentRecord(
       event({ event_type_slug: "future_event" }),
