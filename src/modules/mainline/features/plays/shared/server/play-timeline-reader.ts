@@ -56,7 +56,9 @@ export const readMainlinePlayTimelinePreview = async (
     .limit(limit);
 
   if (timelineResult.error) {
-    throw new Error("Unable to load Mainline play timeline preview.");
+    throw new Error("Unable to load Mainline play timeline preview.", {
+      cause: timelineResult.error,
+    });
   }
 
   return hydrateTimelineEventImages(supabase, timelineResult.data ?? []);
