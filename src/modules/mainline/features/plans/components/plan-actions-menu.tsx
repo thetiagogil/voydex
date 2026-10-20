@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useState, useTransition } from "react";
 import { toast } from "sonner";
@@ -179,6 +180,14 @@ export const PlanActionsMenu = ({
           {isWorking ? <Spinner /> : <AppIcon icon={appIcons.actions.more} />}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-auto min-w-52">
+          {placement === "planner" ? (
+            <DropdownMenuItem
+              render={<Link href={appRoutes.mainlinePlanNew()} />}
+            >
+              <AppIcon icon={appIcons.actions.create} />
+              New Plan
+            </DropdownMenuItem>
+          ) : null}
           {plan.linkedPlayCount ? (
             <DropdownMenuItem onClick={seePlays}>
               <AppIcon icon={appIcons.views.mainline.plays} />
@@ -191,7 +200,9 @@ export const PlanActionsMenu = ({
               Share
             </DropdownMenuItem>
           ) : null}
-          {plan.linkedPlayCount || onShare ? <DropdownMenuSeparator /> : null}
+          {plan.linkedPlayCount || onShare || placement === "planner" ? (
+            <DropdownMenuSeparator />
+          ) : null}
           {plan.isArchived ? null : (
             <DropdownMenuItem
               onClick={() => {

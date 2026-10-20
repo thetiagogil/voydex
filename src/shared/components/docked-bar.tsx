@@ -101,7 +101,7 @@ export const DockedBar = ({
             {picture ? (
               <span className="flex shrink-0 max-sm:hidden">{picture}</span>
             ) : null}
-            <p className="font-display text-17 hidden min-w-0 shrink truncate font-semibold sm:block sm:max-w-64">
+            <p className="font-display text-17 descender-room hidden min-w-0 shrink truncate font-semibold sm:block sm:max-w-64">
               {title}
             </p>
             <div className="ml-auto flex max-w-full min-w-0 items-center sm:flex-1 sm:justify-end">

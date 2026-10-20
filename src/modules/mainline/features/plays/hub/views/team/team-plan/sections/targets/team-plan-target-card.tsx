@@ -77,7 +77,7 @@ export const TeamPlanTargetCard = ({
         className="mt-0.5 size-22.5 sm:size-31"
       />
 
-      <span className="font-display text-20 w-full truncate leading-tight font-semibold">
+      <span className="font-display text-20 descender-room w-full truncate leading-tight font-semibold">
         {comparison.plannedName}
       </span>
       {formLabel ? (

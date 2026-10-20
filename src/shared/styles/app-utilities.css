@@ -486,3 +486,13 @@
     0 0 0 2px #fff,
     0 0 0 3px var(--mr, color-mix(in oklab, var(--t) 45%, white));
 }
+
+/*
+ * Room for descenders under clipped display text (a truncated or clamped
+ * Fredoka title, whose tight line height cuts a g or y): a little padding
+ * below, taken back by the margin so the layout doesn't move.
+ */
+@utility descender-room {
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}

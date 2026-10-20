@@ -65,7 +65,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       </div>
       <h2
         className={cn(
-          "text-20 line-clamp-2 leading-tight",
+          "text-20 descender-room line-clamp-2 leading-tight",
           plan.isArchived && "text-ink-3",
         )}
       >

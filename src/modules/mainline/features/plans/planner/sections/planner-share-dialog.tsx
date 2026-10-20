@@ -25,6 +25,9 @@ type PlannerShareDialogProps = {
   open: boolean;
 };
 
+/* Copy link and Import share one width, so the two rows line up. */
+const actionWidth = "w-32 shrink-0";
+
 /*
  * v3's Share or import a Plan: the link carries the six Pokémon and their
  * roles in its hash, so it never changes a saved Plan; importing one opens
@@ -86,7 +89,12 @@ export const PlannerShareDialog = ({
               onFocus={(event) => event.currentTarget.select()}
               className="text-14 min-w-0 flex-1 font-mono"
             />
-            <Button type="button" variant="secondary" onClick={copy}>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={copy}
+              className={actionWidth}
+            >
               Copy link
             </Button>
           </div>
@@ -109,7 +117,12 @@ export const PlannerShareDialog = ({
               onChange={(event) => setPasted(event.currentTarget.value)}
               className="min-w-0 flex-1"
             />
-            <Button type="submit" variant="secondary" disabled={!pasted.trim()}>
+            <Button
+              type="submit"
+              variant="secondary"
+              disabled={!pasted.trim()}
+              className={actionWidth}
+            >
               Import
             </Button>
           </div>

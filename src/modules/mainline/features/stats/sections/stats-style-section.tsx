@@ -168,7 +168,7 @@ const MostPickedCard = ({
             className="size-24 object-contain"
           />
         </span>
-        <span className="font-display text-24 max-w-full truncate leading-tight font-semibold">
+        <span className="font-display text-24 descender-room max-w-full truncate leading-tight font-semibold">
           {entry.name}
         </span>
         <PokemonTypeList

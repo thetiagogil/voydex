@@ -99,7 +99,7 @@ const CompareSide = ({
     {art}
     <b
       className={cn(
-        "font-display text-20 w-full truncate leading-tight font-semibold",
+        "font-display text-20 descender-room w-full truncate leading-tight font-semibold",
         nameClassName,
       )}
     >
