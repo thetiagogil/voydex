@@ -12,6 +12,7 @@ import type { MainlinePlayHistoryData } from "@/modules/mainline/features/plays/
 import { formatPlayDate } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { ResetListButton } from "@/shared/components/reset-list-button";
+import { SectionIndexNav } from "@/shared/components/section-index-nav";
 import { EmptyState } from "@/shared/components/empty-state";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -25,6 +26,7 @@ import { Button } from "@/shared/components/ui/button";
 
 import {
   getPlayHistoryFilterOptions,
+  getPlayHistoryIndex,
   getShownPlayHistoryEvents,
   groupPlayHistoryEventsByMonth,
   searchPlayHistoryEvents,
@@ -167,17 +169,27 @@ export const MainlinePlayHistory = ({
 
       <div className="mt-5 grid min-w-0 gap-8">
         {months.length ? (
-          <PlayTimeline label="Moments">
-            {sort === "oldest" ? start : null}
-            {months.map((month) => (
-              <PlayHistoryMonthItems
-                key={month.key}
-                context={context}
-                month={month}
-              />
-            ))}
-            {sort === "newest" ? start : null}
-          </PlayTimeline>
+          /*
+           * From 1024px the months index the line from the side, so the
+           * moments keep a readable width; narrower, the line is the page.
+           */
+          <div className="grid min-w-0 items-start gap-8 lg:grid-cols-[200px_minmax(0,1fr)]">
+            <SectionIndexNav
+              label="History months"
+              groups={getPlayHistoryIndex(months)}
+            />
+            <PlayTimeline label="Moments">
+              {sort === "oldest" ? start : null}
+              {months.map((month) => (
+                <PlayHistoryMonthItems
+                  key={month.key}
+                  context={context}
+                  month={month}
+                />
+              ))}
+              {sort === "newest" ? start : null}
+            </PlayTimeline>
+          </div>
         ) : isSearching ? (
           <EmptyState
             title="No moments match"

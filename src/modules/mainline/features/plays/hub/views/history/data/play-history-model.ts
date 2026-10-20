@@ -1,4 +1,5 @@
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
+import type { SectionIndexGroup } from "@/shared/components/section-index-nav";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import {
   comparePlayMoments,
@@ -32,6 +33,8 @@ export type PlayHistoryMonth = {
   entries: PlayHistoryEntry[];
   key: string;
   label: string;
+  /* Its year, for History's side index; null for moments with no date. */
+  year: string | null;
 };
 
 const storyEventTypes = new Set(["hall_of_fame", "story_milestone"]);
@@ -146,7 +149,8 @@ export const groupPlayHistoryEventsByMonth = (
   events: MainlinePlayTimelineEvent[],
   clock: ViewerClock,
 ): PlayHistoryMonth[] => {
-  const months: Array<PlayHistoryMonth & { monthKey: string }> = [];
+  const months: Array<Omit<PlayHistoryMonth, "year"> & { monthKey: string }> =
+    [];
 
   for (const event of events) {
     const date = formatPlayHistoryDate(event, clock);
@@ -164,5 +168,46 @@ export const groupPlayHistoryEventsByMonth = (
     }
   }
 
-  return months.map(({ entries, key, label }) => ({ entries, key, label }));
+  return months.map(({ entries, key, label, monthKey }) => ({
+    entries,
+    key,
+    label,
+    year: monthKey === "undated" ? null : monthKey.slice(0, 4),
+  }));
+};
+
+/* Where a month's mark sits on History's line, for its link in the index. */
+export const getPlayHistoryMonthAnchor = (
+  month: Pick<PlayHistoryMonth, "key">,
+) => `play-history-month-${month.key}`;
+
+/*
+ * History's side index on wide screens: the months shown, under their years
+ * in the list's own order, each with how many moments it holds. A month name
+ * drops its year, which its group already says.
+ */
+export const getPlayHistoryIndex = (
+  months: PlayHistoryMonth[],
+): SectionIndexGroup[] => {
+  const groups: SectionIndexGroup[] = [];
+
+  for (const month of months) {
+    const label = month.year ?? "No date";
+    const sections = {
+      count: month.entries.length,
+      href: `#${getPlayHistoryMonthAnchor(month)}` as const,
+      label: month.year
+        ? month.label.replace(` ${month.year}`, "")
+        : month.label,
+    };
+    const group = groups.at(-1);
+
+    if (group?.label === label) {
+      group.sections.push(sections);
+    } else {
+      groups.push({ label, sections: [sections] });
+    }
+  }
+
+  return groups;
 };

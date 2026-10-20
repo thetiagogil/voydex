@@ -54,15 +54,21 @@ export const PlayTimelineItem = ({
 
 /* A month on the line: a small mark, then its name and how many moments. */
 export const PlayTimelineMonth = ({
+  anchorId,
   count,
   label,
   titleId,
 }: {
+  /* Where a side index's link to this month lands. */
+  anchorId?: string;
   count: number;
   label: string;
   titleId: string;
 }) => (
-  <PlayTimelineItem className="pt-5 first:pt-0">
+  <PlayTimelineItem
+    id={anchorId}
+    className="scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)] pt-5 first:pt-0"
+  >
     <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
       <span
         aria-hidden

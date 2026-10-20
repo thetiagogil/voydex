@@ -23,6 +23,10 @@ test.describe("History", () => {
     await expect(stops.last()).toContainText("Your Play starts here");
     await expectAccessible(page);
 
+    /* On a wide screen the months index the line from the side. */
+    const index = page.getByRole("navigation", { name: "History months" });
+    await expect(index.locator("[aria-current=location]")).toHaveCount(1);
+
     /* Oldest first: the line starts at the top. */
     await page.getByRole("button", { name: "Show search and filters" }).click();
     await page.getByRole("combobox", { name: "Sort History" }).click();

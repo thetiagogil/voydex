@@ -7,6 +7,7 @@ import type { PlayMomentContext } from "@/modules/mainline/features/plays/shared
 
 import {
   getPlayHistoryEventKey,
+  getPlayHistoryMonthAnchor,
   type PlayHistoryMonth,
 } from "../../data/play-history-model";
 
@@ -24,6 +25,7 @@ export const PlayHistoryMonthItems = ({
 }) => (
   <>
     <PlayTimelineMonth
+      anchorId={getPlayHistoryMonthAnchor(month)}
       count={month.entries.length}
       label={month.label}
       titleId={`play-history-${month.key}`}

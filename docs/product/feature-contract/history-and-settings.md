@@ -8,7 +8,9 @@ As built, History (`/mainline/plays/[playId]/history`) draws every moment the
 Play kept on one continuous line, newest or oldest first: each moment's
 medallion sits on the line with its words in a small card beside it, months
 mark the line where they begin, and "Your Play starts here" is the line's
-origin (shown with every kind and no search). Overview's Recent moments draws
+origin (shown with every kind and no search). From 1024px a side index lists
+the months shown under their years, marks the one you're reading and jumps to
+any of them. Overview's Recent moments draws
 its three newest on the same line, closed by the starting line while there are
 fewer than three. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),

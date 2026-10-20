@@ -1,0 +1,161 @@
+"use client";
+
+import { useEffect, useState, type MouseEvent } from "react";
+
+import { cn } from "@/shared/utils/cn";
+
+export type SectionIndexLink = {
+  /* How many things the section holds, shown quietly after its name. */
+  count?: number;
+  href: `#${string}`;
+  label: string;
+};
+
+export type SectionIndexGroup = {
+  /* A small heading over its links, such as a year; none for a flat list. */
+  label?: string;
+  sections: SectionIndexLink[];
+};
+
+const scrollBehavior = (): ScrollBehavior =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ? "auto"
+    : "smooth";
+
+/* Room under the docked bar where a section counts as the one you're at. */
+const readingLine = () =>
+  (Number.parseFloat(
+    getComputedStyle(document.documentElement).getPropertyValue(
+      "--play-dock-offset",
+    ),
+  ) || 0) + 120;
+
+/*
+ * The section you're reading: the last one whose top has passed the reading
+ * line under the docked bar, or the first while none has.
+ */
+const useCurrentSection = (hrefs: string[]) => {
+  const [current, setCurrent] = useState<string | null>(null);
+  const key = hrefs.join(" ");
+
+  useEffect(() => {
+    const targets = key
+      .split(" ")
+      .filter(Boolean)
+      .map((href) => document.getElementById(href.slice(1)))
+      .filter((target): target is HTMLElement => target !== null);
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const line = readingLine();
+      const passed = targets.filter(
+        (target) => target.getBoundingClientRect().top <= line,
+      );
+
+      setCurrent(`#${(passed.at(-1) ?? targets[0])?.id ?? ""}` as `#${string}`);
+    };
+    const schedule = () => {
+      if (!frame) {
+        frame = window.requestAnimationFrame(update);
+      }
+    };
+
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
+  }, [key]);
+
+  return current;
+};
+
+/*
+ * The side index of a long page on wide screens (Play settings' cards,
+ * History's months): it follows the scroll, marks the section you're reading
+ * with the selected tint, and a pick glides to its section instead of
+ * jumping (unless you ask for less motion) while still updating the
+ * address, as a plain link would. Hidden below 1024px, where the page is one
+ * column.
+ */
+export const SectionIndexNav = ({
+  className,
+  groups,
+  label,
+}: {
+  className?: string;
+  groups: SectionIndexGroup[];
+  /* Names the index for screen readers, such as "History months". */
+  label: string;
+}) => {
+  const current = useCurrentSection(
+    groups.flatMap((group) => group.sections.map((section) => section.href)),
+  );
+
+  const glideTo = (
+    event: MouseEvent<HTMLAnchorElement>,
+    href: `#${string}`,
+  ) => {
+    const target = document.getElementById(href.slice(1));
+
+    if (!target || event.metaKey || event.ctrlKey || event.shiftKey) {
+      return;
+    }
+
+    event.preventDefault();
+    target.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+    window.history.pushState(null, "", href);
+  };
+
+  return (
+    <nav
+      aria-label={label}
+      className={cn("sticky-column hidden lg:block", className)}
+    >
+      <div className="grid gap-4">
+        {groups.map((group, index) => (
+          <div key={group.label ?? index} className="grid gap-1">
+            {group.label ? (
+              <p className="text-ink-3 text-13 px-3.5 pb-0.5 font-extrabold tabular-nums">
+                {group.label}
+              </p>
+            ) : null}
+            <ul className="grid gap-1">
+              {group.sections.map((section) => {
+                const isCurrent = section.href === current;
+
+                return (
+                  <li key={section.href}>
+                    <a
+                      href={section.href}
+                      aria-current={isCurrent ? "location" : undefined}
+                      onClick={(event) => glideTo(event, section.href)}
+                      className={cn(
+                        "text-14 focus-ring-inset flex min-h-10 items-center justify-between gap-3 rounded-md px-3.5 font-bold",
+                        isCurrent
+                          ? "bg-select-soft text-select-ink"
+                          : "text-ink-2 hover:bg-hover hover:text-ink",
+                      )}
+                    >
+                      <span className="truncate">{section.label}</span>
+                      {section.count === undefined ? null : (
+                        <span className="text-13 font-semibold tabular-nums opacity-80">
+                          {section.count}
+                        </span>
+                      )}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </nav>
+  );
+};
