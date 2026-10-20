@@ -1,8 +1,10 @@
 "use server";
 
 import {
+  describePlanSwitchLoss,
   fitPlanMembersForSwitch,
-  type PlanSwitchFit,
+  type PlanSwitchChange,
+  type PlanSwitchLossNames,
 } from "@/modules/mainline/features/plans/planner/data/plan-switch-fit";
 import { readPlanGame } from "@/modules/mainline/features/plans/planner/server/plan-game-reader";
 import { readPlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/server/plan-member-check-reader";
@@ -12,12 +14,73 @@ import {
   PlanSaveInputError,
 } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { PlanMember } from "@/modules/mainline/features/plans/types";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
-import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+import {
+  createServerSupabaseClient,
+  type ServerSupabaseClient,
+} from "@/platform/supabase/server-client";
+import { uniqueNumberIds } from "@/shared/utils/collections";
 
 export type PlannerGameSwitchCheck =
-  | (PlanSwitchFit & { status: "success"; versionGroupName: string })
+  | {
+      /* Each Pokémon that stays but loses part of its build, by name. */
+      changed: { lost: string[]; slot: number; speciesId: number }[];
+      kept: PlanMember[];
+      removedSpeciesIds: number[];
+      status: "success";
+      versionGroupName: string;
+    }
   | { message: string; status: "error" };
+
+/* The names of the abilities, items, natures and moves a switch would lose. */
+const readLossNames = async (
+  supabase: ServerSupabaseClient,
+  changed: PlanSwitchChange[],
+): Promise<PlanSwitchLossNames> => {
+  const reference = supabase.schema("reference");
+  const ids = (pick: (change: PlanSwitchChange) => (number | null)[]) =>
+    uniqueNumberIds(changed.flatMap(pick));
+  const read = async (
+    table: "abilities" | "items" | "moves" | "natures",
+    wanted: number[],
+  ) => {
+    if (!wanted.length) {
+      return new Map<number, string>();
+    }
+
+    const { data, error } = await reference
+      .from(table)
+      .select("id, name")
+      .in("id", wanted);
+
+    if (error) {
+      throw new Error("Unable to read the build's names.");
+    }
+
+    return new Map((data ?? []).map((row) => [row.id, row.name]));
+  };
+  const [abilities, items, moves, natures] = await Promise.all([
+    read(
+      "abilities",
+      ids((change) => [change.loss.abilityId]),
+    ),
+    read(
+      "items",
+      ids((change) => [change.loss.heldItemId]),
+    ),
+    read(
+      "moves",
+      ids((change) => change.loss.moveIds),
+    ),
+    read(
+      "natures",
+      ids((change) => [change.loss.natureId]),
+    ),
+  ]);
+
+  return { abilities, items, moves, natures };
+};
 
 /*
  * Before the Planner switches game: the team as the new game can have it
@@ -61,8 +124,17 @@ export const checkPlannerGameSwitchAction = async (input: {
       }),
     );
 
+    const fit = fitPlanMembersForSwitch(members, rows, fields);
+    const names = await readLossNames(supabase, fit.changed);
+
     return {
-      ...fitPlanMembersForSwitch(members, rows, fields),
+      changed: fit.changed.map(({ loss, slot, speciesId }) => ({
+        lost: describePlanSwitchLoss(loss, names),
+        slot,
+        speciesId,
+      })),
+      kept: fit.kept,
+      removedSpeciesIds: fit.removedSpeciesIds,
       status: "success",
       versionGroupName: game.name,
     };

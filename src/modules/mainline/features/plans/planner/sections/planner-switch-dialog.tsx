@@ -16,7 +16,7 @@ import { Button } from "@/shared/components/ui/button";
 export type PlannerSwitchPokemon = {
   imageUrl: string | null;
   key: string;
-  /* What it loses, such as "Ability · 2 moves"; none when it leaves. */
+  /* What it loses, such as "Ability: Illuminate · Move: Psychic"; none when it leaves. */
   lost?: string;
   name: string;
   typeSlug: string | null;
@@ -87,8 +87,9 @@ export const PlannerSwitchDialog = ({
         <AlertDialogTitle>Switch game?</AlertDialogTitle>
         <AlertDialogDescription>
           {removed.length || changed.length
-            ? `Not everything on this team is in ${versionGroupName}.`
-            : `Your team moves to ${versionGroupName} as it is.`}
+            ? "Not everything on this team is in"
+            : "Your team moves as it is to"}
+          <b className="text-ink block font-extrabold">{versionGroupName}</b>
         </AlertDialogDescription>
       </AlertDialogHeader>
       <div className="grid gap-4">

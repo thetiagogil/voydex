@@ -5,10 +5,18 @@ import type {
   PlannerBuildFields,
 } from "@/modules/mainline/features/plans/types";
 
+/* What a planned Pokémon loses on a switch: the choices, by id. */
+export type PlanSwitchLoss = {
+  abilityId: number | null;
+  gender: boolean;
+  heldItemId: number | null;
+  moveIds: number[];
+  natureId: number | null;
+};
+
 /* A planned Pokémon that stays on the team but loses part of its build. */
 export type PlanSwitchChange = {
-  /* What it loses, in a few words: "Ability", "Held item", "2 moves". */
-  lost: string[];
+  loss: PlanSwitchLoss;
   slot: number;
   speciesId: number;
 };
@@ -60,19 +68,25 @@ export const fitPlanMembersForSwitch = (
     const moveIds = member.moveIds.map((moveId) =>
       moveId !== null && learnable?.has(moveId) ? moveId : null,
     ) as PlanMember["moveIds"];
-    const lostMoves = member.moveIds.filter(
-      (moveId, index) => moveId !== null && moveIds[index] === null,
-    ).length;
-    const lost = [
-      member.abilityId !== null && abilityId === null ? "Ability" : null,
-      member.heldItemId !== null && heldItemId === null ? "Held item" : null,
-      member.natureId !== null && natureId === null ? "Nature" : null,
-      member.gender !== null && supported.gender === null ? "Gender" : null,
-      lostMoves ? `${lostMoves} ${lostMoves === 1 ? "move" : "moves"}` : null,
-    ].filter((part): part is string => part !== null);
+    const loss: PlanSwitchLoss = {
+      abilityId: abilityId === null ? member.abilityId : null,
+      gender: member.gender !== null && supported.gender === null,
+      heldItemId: heldItemId === null ? member.heldItemId : null,
+      moveIds: member.moveIds.filter(
+        (moveId, index): moveId is number =>
+          moveId !== null && moveIds[index] === null,
+      ),
+      natureId: natureId === null ? member.natureId : null,
+    };
 
-    if (lost.length) {
-      changed.push({ lost, slot: member.slot, speciesId: member.speciesId });
+    if (
+      loss.abilityId !== null ||
+      loss.gender ||
+      loss.heldItemId !== null ||
+      loss.moveIds.length ||
+      loss.natureId !== null
+    ) {
+      changed.push({ loss, slot: member.slot, speciesId: member.speciesId });
     }
 
     kept.push({
@@ -85,4 +99,38 @@ export const fitPlanMembersForSwitch = (
   }
 
   return { changed, kept, removedSpeciesIds };
+};
+
+/* The names a loss is told in, by id, read for the choices it names. */
+export type PlanSwitchLossNames = {
+  abilities: ReadonlyMap<number, string>;
+  items: ReadonlyMap<number, string>;
+  moves: ReadonlyMap<number, string>;
+  natures: ReadonlyMap<number, string>;
+};
+
+/*
+ * A loss in words, each choice by name: "Ability: Illuminate", "Held item:
+ * Leftovers", "Nature: Bold", "Gender", "Moves: Psychic, Recover".
+ */
+export const describePlanSwitchLoss = (
+  loss: PlanSwitchLoss,
+  names: PlanSwitchLossNames,
+): string[] => {
+  const name = (map: ReadonlyMap<number, string>, id: number | null) =>
+    id === null ? null : (map.get(id) ?? "Unknown");
+  const ability = name(names.abilities, loss.abilityId);
+  const item = name(names.items, loss.heldItemId);
+  const nature = name(names.natures, loss.natureId);
+  const moves = loss.moveIds.map((id) => names.moves.get(id) ?? "Unknown");
+
+  return [
+    ability ? `Ability: ${ability}` : null,
+    item ? `Held item: ${item}` : null,
+    nature ? `Nature: ${nature}` : null,
+    loss.gender ? "Gender" : null,
+    moves.length
+      ? `${moves.length === 1 ? "Move" : "Moves"}: ${moves.join(", ")}`
+      : null,
+  ].filter((part): part is string => part !== null);
 };

@@ -3,7 +3,10 @@ import { describe, expect, it } from "vitest";
 import type { PlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/utils/plan-member-check";
 import type { PlanMember } from "@/modules/mainline/features/plans/types";
 
-import { fitPlanMembersForSwitch } from "./plan-switch-fit";
+import {
+  describePlanSwitchLoss,
+  fitPlanMembersForSwitch,
+} from "./plan-switch-fit";
 
 const member = (fields: Partial<PlanMember>): PlanMember => ({
   abilityId: null,
@@ -65,7 +68,17 @@ describe("fitPlanMembersForSwitch", () => {
       natureId: 3,
     });
     expect(fit.changed).toEqual([
-      { lost: ["Ability", "2 moves"], slot: 1, speciesId: 25 },
+      {
+        loss: {
+          abilityId: 31,
+          gender: false,
+          heldItemId: null,
+          moveIds: [412, 999],
+          natureId: null,
+        },
+        slot: 1,
+        speciesId: 25,
+      },
     ]);
   });
 
@@ -81,6 +94,60 @@ describe("fitPlanMembersForSwitch", () => {
       heldItemId: null,
       natureId: null,
     });
-    expect(fit.changed[0].lost).toEqual(["Held item", "Nature", "Gender"]);
+    expect(fit.changed[0].loss).toEqual({
+      abilityId: null,
+      gender: true,
+      heldItemId: 1,
+      moveIds: [],
+      natureId: 3,
+    });
+  });
+});
+
+describe("describePlanSwitchLoss", () => {
+  const names = {
+    abilities: new Map([[35, "Illuminate"]]),
+    items: new Map([[234, "Leftovers"]]),
+    moves: new Map([
+      [94, "Psychic"],
+      [105, "Recover"],
+    ]),
+    natures: new Map([[5, "Bold"]]),
+  };
+
+  it("names each choice it loses", () => {
+    expect(
+      describePlanSwitchLoss(
+        {
+          abilityId: 35,
+          gender: true,
+          heldItemId: 234,
+          moveIds: [94, 105],
+          natureId: 5,
+        },
+        names,
+      ),
+    ).toEqual([
+      "Ability: Illuminate",
+      "Held item: Leftovers",
+      "Nature: Bold",
+      "Gender",
+      "Moves: Psychic, Recover",
+    ]);
+  });
+
+  it("says Move for one", () => {
+    expect(
+      describePlanSwitchLoss(
+        {
+          abilityId: null,
+          gender: false,
+          heldItemId: null,
+          moveIds: [94],
+          natureId: null,
+        },
+        names,
+      ),
+    ).toEqual(["Move: Psychic"]);
   });
 });
