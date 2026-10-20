@@ -45,7 +45,7 @@ export const PageHeader = ({
           </p>
         ) : null}
       </div>
-      <div className="flex min-w-0 items-center gap-3 empty:hidden sm:ml-auto">
+      <div className="flex min-w-0 flex-wrap items-center gap-3 empty:hidden sm:ml-auto">
         <PageHeadTool />
         {action}
       </div>

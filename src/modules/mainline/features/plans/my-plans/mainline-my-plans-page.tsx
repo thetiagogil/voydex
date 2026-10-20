@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import {
   splitMyPlans,
@@ -93,24 +92,32 @@ export const MainlineMyPlansPage = ({
     </Link>
   );
 
+  /* Back up a level, as the archived lists go back to theirs. */
+  const backToPlanner = (
+    <Link
+      href={appRoutes.mainlinePlanNew()}
+      className={buttonVariants({ variant: "secondary" })}
+    >
+      <AppIcon icon={appIcons.actions.back} inline="start" />
+      Team Planner
+    </Link>
+  );
+
   const head = (
     <div className="flex flex-col gap-1">
-      <TextLink
-        href={appRoutes.mainlinePlanNew()}
-        arrow="back"
-        className="mt-4 self-start sm:mt-6"
-      >
-        Team Planner
-      </TextLink>
       <PageHeader
-        className="pt-0 sm:pt-0"
         title="My Plans"
         description={
           plans.length
             ? `${formatPlanCount(plans.length)} across ${gameCount} ${gameCount === 1 ? "game" : "games"}`
             : "None yet"
         }
-        action={plans.length ? newPlan : null}
+        action={
+          <>
+            {backToPlanner}
+            {plans.length ? newPlan : null}
+          </>
+        }
       />
     </div>
   );
