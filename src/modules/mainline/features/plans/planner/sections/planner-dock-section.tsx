@@ -13,7 +13,6 @@ import {
 import type { PlanRandomMode } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import type { PlanTeamTip } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
 import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
-import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonEmptySlot } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
@@ -29,6 +28,28 @@ import {
 } from "@/shared/components/ui/dropdown-menu";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
+
+/* The tip's mark on the band: its tint in a white band, as a sticker. */
+const TipMark = ({ tone }: { tone: PlanTeamTip["tone"] }) => (
+  <span
+    aria-hidden
+    className={cn(
+      "bubble grid size-6 shrink-0 place-items-center rounded-full",
+      tipToneClassNames[tone],
+    )}
+  >
+    <AppIcon
+      icon={
+        tone === "good"
+          ? appIcons.status.active
+          : tone === "idle"
+            ? appIcons.product.activity
+            : appIcons.status.warning
+      }
+      size="sm"
+    />
+  </span>
+);
 
 export const randomModeLabels: Record<
   PlanRandomMode,
@@ -290,7 +311,6 @@ export const PlannerDockSection = ({
                   imageAlt=""
                   imageUrl={pokemon.imageUrl}
                   name={pokemon.name}
-                  number={formatNationalNumber(pokemon.nationalNumber)}
                   subtitle={replacing ? "Replace" : undefined}
                   types={pokemon.types}
                   className={cn(
@@ -309,7 +329,8 @@ export const PlannerDockSection = ({
                 <SlotMark>{index + 1}</SlotMark>
               </CornerBubble>
               {worst && !replacing ? (
-                <CornerBubble corner="top-left">
+                /* Where the number would be: the one thing worth a look. */
+                <CornerBubble corner="inside-top-left">
                   <ExplanatoryTip
                     triggerVariant="raised"
                     triggerTone={
@@ -345,42 +366,32 @@ export const PlannerDockSection = ({
         })}
       </ol>
 
-      <p
-        aria-live="polite"
-        className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold"
-      >
-        <span
-          aria-hidden
-          className={cn(
-            /* A small mark on the band: its tint in a white band, as a sticker. */
-            "bubble grid size-6 shrink-0 place-items-center rounded-full",
-            tipToneClassNames[tip.tone],
-          )}
-        >
-          <AppIcon
-            icon={
-              tip.tone === "good"
-                ? appIcons.status.active
-                : tip.tone === "idle"
-                  ? appIcons.product.activity
-                  : appIcons.status.warning
-            }
-            size="sm"
-          />
-        </span>
-        <span className="min-w-0 flex-1">{tip.text}</span>
+      {/*
+       * The one tip that matters most. With a team, the line itself opens
+       * Team check for the rest; an empty team has nothing to check yet.
+       */}
+      <div aria-live="polite">
         {filled ? (
-          <Button
+          <button
             type="button"
-            variant="ghost"
-            size="sm"
             onClick={onOpenCheck}
-            className="shrink-0"
+            className="group/tip text-ink-2 text-14 focus-ring -mx-1 flex w-full items-center gap-2.5 rounded-md px-1 py-0.5 text-left font-semibold"
           >
-            {tip.more ? `${tip.more} more in Team check` : "Team check"}
-          </Button>
-        ) : null}
-      </p>
+            <TipMark tone={tip.tone} />
+            <span className="min-w-0 flex-1">
+              {tip.text}{" "}
+              <span className="text-ink font-extrabold whitespace-nowrap group-hover/tip:underline">
+                {tip.more ? "See more" : "Team check"}
+              </span>
+            </span>
+          </button>
+        ) : (
+          <p className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold">
+            <TipMark tone={tip.tone} />
+            <span className="min-w-0 flex-1">{tip.text}</span>
+          </p>
+        )}
+      </div>
     </section>
   );
 };

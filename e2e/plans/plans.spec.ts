@@ -53,7 +53,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: /^#\d+ Charizard\b.*slot 2\. Edit$/ }),
+        .getByRole("button", { name: /^Charizard\b.*slot 2\. Edit$/ }),
     ).toBeVisible();
     await expect(
       page.getByRole("button", { name: "Save changes" }),
@@ -106,7 +106,7 @@ test.describe("Team Planner", () => {
       page.getByRole("region", { name: "Pick your Pokémon" }),
     ).toBeHidden();
     /* A Pokémon's sheet reads while locked. */
-    await team.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
+    await team.getByRole("button", { name: /^Charizard\b/ }).click();
     const locked = page.getByRole("dialog", { name: /Charizard/ });
     await expect(locked.getByRole("textbox", { name: "Note" })).toBeDisabled();
     await expect(
@@ -245,7 +245,7 @@ test.describe("Team Planner", () => {
 
     await page
       .getByRole("region", { name: "Your team" })
-      .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
+      .getByRole("button", { name: /^Charizard\b.*slot 1\. Edit$/ })
       .click();
     const sheet = page.getByRole("dialog", { name: /Charizard/ });
     await sheet
@@ -264,7 +264,7 @@ test.describe("Team Planner", () => {
 
     await page
       .getByRole("region", { name: "Your team" })
-      .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
+      .getByRole("button", { name: /^Charizard\b.*slot 1\. Edit$/ })
       .click();
     await expect(sheet.getByRole("textbox", { name: "Note" })).toHaveValue(
       "Leads, and answers the Grass gym",
@@ -279,7 +279,7 @@ test.describe("Team Planner", () => {
     await expect(
       page
         .getByRole("region", { name: "Your team" })
-        .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ }),
+        .getByRole("button", { name: /^Charizard\b.*slot 1\. Edit$/ }),
     ).toBeVisible();
   });
 
