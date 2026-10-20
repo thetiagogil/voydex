@@ -22,7 +22,7 @@ type TagDialog =
   | { mode: "rename"; tag: LibraryTag };
 
 /*
- * Tags: each of yours as a pill that lifts like a card, with how many Plays
+ * Tags: each of yours as a pill on a soft shadow, with how many Plays
  * wear it; the pill opens Rename and Delete. New tag sits in the
  * page's head.
  */

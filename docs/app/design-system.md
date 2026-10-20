@@ -240,6 +240,13 @@ recorded or marked, never on load or redraw. The one exception is the
 meadow's partners, which pop in (`animate-meadow-pop`) once per visit. Nothing loops and controls don't
 bounce. `app-base.css` honours reduced motion.
 
+Whatever lifts carries everything on it: a card's badges, its lock, its ⋯
+menu and its corner bubbles sit inside the element that moves, never as an
+absolute sibling over it. A clickable card with its own menu is a Card
+`variant="interactive"` with a stretched `data-slot="card-open"` button and
+the menu inside the card above it (the Library's rule cards); the card lifts
+and takes the focus ring for that button.
+
 One reward per moment, in one place, and it shows at once: Story's Record,
 like a Pokédex or collectible mark, shows on the page straight away and saves
 in the background. Stamps slap (`animate-stamp-slap`): a Story row's medallion

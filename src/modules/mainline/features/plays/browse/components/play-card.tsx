@@ -89,7 +89,7 @@ export const PlayCard = ({ play }: PlayCardProps) => {
       {play.play_id ? (
         <Link
           href={appRoutes.mainlinePlay(play.play_id)}
-          className="group/card-link block rounded-2xl"
+          className="group/card-link block rounded-2xl outline-none"
         >
           {content}
         </Link>

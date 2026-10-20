@@ -48,13 +48,14 @@ const RuleCard = ({
   const usageLabel = getLibraryUsageLabel(rule);
 
   return (
-    <li className="relative min-w-0">
+    <li className="min-w-0">
+      {/* Everything on the card sits inside it, so it lifts with the card. */}
       <Card
         size="sm"
         variant="interactive"
         className="relative h-full gap-2 px-5 py-4 sm:min-h-32"
       >
-        {/* Room at the end for the menu, which sits over it. */}
+        {/* Room at the end for the lock or the menu, in the corner. */}
         <div className="flex min-h-8 items-center gap-2 pr-10">
           <Badge>{rule.kind.name}</Badge>
         </div>
@@ -62,9 +63,10 @@ const RuleCard = ({
           {/* The whole card opens the rule; the ⋯ sits above it. */}
           <button
             type="button"
+            data-slot="card-open"
             aria-label={`${rule.name}, ${usageLabel}`}
             onClick={onView}
-            className="focus-ring text-left after:absolute after:inset-0 after:rounded-[inherit] after:content-['']"
+            className="text-left outline-none after:absolute after:inset-0 after:content-['']"
           >
             {rule.name}
           </button>
@@ -75,35 +77,35 @@ const RuleCard = ({
           </p>
         ) : null}
         <p className="text-ink-3 text-13 mt-auto font-semibold">{usageLabel}</p>
+        {rule.isBuiltIn ? (
+          <Badge
+            variant="outline"
+            title="Voydex's own rule: you can use it, not change it"
+            className="pointer-events-none absolute top-4 right-4"
+          >
+            <AppIcon icon={appIcons.status.locked} inline="start" />
+            Voydex
+          </Badge>
+        ) : (
+          <LibraryItemMenu
+            editLabel="Edit"
+            usageLabel={usageLabel}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            trigger={
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={`${rule.name}: more actions`}
+                className="absolute top-3 right-3 z-10"
+              >
+                <AppIcon icon={appIcons.actions.more} />
+              </Button>
+            }
+          />
+        )}
       </Card>
-      {rule.isBuiltIn ? (
-        <Badge
-          variant="outline"
-          title="Voydex's own rule: you can use it, not change it"
-          className="pointer-events-none absolute top-4 right-4"
-        >
-          <AppIcon icon={appIcons.status.locked} inline="start" />
-          Voydex
-        </Badge>
-      ) : (
-        <LibraryItemMenu
-          editLabel="Edit"
-          usageLabel={usageLabel}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          trigger={
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`${rule.name}: more actions`}
-              className="absolute top-3 right-3"
-            >
-              <AppIcon icon={appIcons.actions.more} />
-            </Button>
-          }
-        />
-      )}
     </li>
   );
 };
