@@ -11,7 +11,12 @@ describe("SectionIndexNav", () => {
         {
           label: "2025",
           sections: [
-            { count: 9, href: "#feb", label: "February" },
+            {
+              detail: <span data-testid="detail" />,
+              href: "#feb",
+              label: "February",
+              meta: "9 moments",
+            },
             { href: "#jan", label: "January" },
           ],
         },
@@ -25,9 +30,9 @@ describe("SectionIndexNav", () => {
     expect(markup).toContain('href="#feb"');
   });
 
-  it("shows a count only where a section has one", () => {
-    expect(markup).toContain(">9<");
-    expect(markup.match(/tabular-nums opacity-80/g)).toHaveLength(1);
+  it("shows a meta word and a detail line only where a section has them", () => {
+    expect(markup).toContain("9 moments");
+    expect(markup.match(/data-testid="detail"/g)).toHaveLength(1);
   });
 
   it("stays out of narrow screens, where the page is one column", () => {

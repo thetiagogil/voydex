@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent, type ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
 export type SectionIndexLink = {
-  /* How many things the section holds, shown quietly after its name. */
-  count?: number;
+  /* A quiet line under the name, such as a row of what the section holds. */
+  detail?: ReactNode;
   href: `#${string}`;
   label: string;
+  /* A quiet word after the name, such as "9 moments". */
+  meta?: ReactNode;
 };
 
 export type SectionIndexGroup = {
@@ -80,8 +82,9 @@ const useCurrentSection = (hrefs: string[]) => {
  * History's months): it follows the scroll, marks the section you're reading
  * with the selected tint, and a pick glides to its section instead of
  * jumping (unless you ask for less motion) while still updating the
- * address, as a plain link would. Hidden below 1024px, where the page is one
- * column.
+ * address, as a plain link would. A group's label is a Fredoka heading (a
+ * year); a link can carry a `meta` word and a `detail` line. Hidden below
+ * 1024px, where the page is one column.
  */
 export const SectionIndexNav = ({
   className,
@@ -117,11 +120,11 @@ export const SectionIndexNav = ({
       aria-label={label}
       className={cn("sticky-column hidden lg:block", className)}
     >
-      <div className="grid gap-4">
+      <div className="grid gap-5">
         {groups.map((group, index) => (
-          <div key={group.label ?? index} className="grid gap-1">
+          <div key={group.label ?? index} className="grid gap-1.5">
             {group.label ? (
-              <p className="text-ink-3 text-13 px-3.5 pb-0.5 font-extrabold tabular-nums">
+              <p className="title-card text-ink px-3.5 pb-1 tabular-nums">
                 {group.label}
               </p>
             ) : null}
@@ -136,18 +139,23 @@ export const SectionIndexNav = ({
                       aria-current={isCurrent ? "location" : undefined}
                       onClick={(event) => glideTo(event, section.href)}
                       className={cn(
-                        "text-14 focus-ring-inset flex min-h-10 items-center justify-between gap-3 rounded-md px-3.5 font-bold",
+                        "focus-ring-inset grid min-h-10 content-center gap-1.5 rounded-lg px-3.5 py-2.5 transition-colors",
                         isCurrent
                           ? "bg-select-soft text-select-ink"
                           : "text-ink-2 hover:bg-hover hover:text-ink",
                       )}
                     >
-                      <span className="truncate">{section.label}</span>
-                      {section.count === undefined ? null : (
-                        <span className="text-13 font-semibold tabular-nums opacity-80">
-                          {section.count}
+                      <span className="flex items-baseline justify-between gap-3">
+                        <span className="text-15 truncate font-extrabold">
+                          {section.label}
                         </span>
-                      )}
+                        {section.meta === undefined ? null : (
+                          <span className="text-13 shrink-0 font-semibold tabular-nums opacity-80">
+                            {section.meta}
+                          </span>
+                        )}
+                      </span>
+                      {section.detail}
                     </a>
                   </li>
                 );

@@ -1,5 +1,4 @@
 import { getPlayMomentRecord } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
-import type { SectionIndexGroup } from "@/shared/components/section-index-nav";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import {
   comparePlayMoments,
@@ -182,30 +181,22 @@ export const getPlayHistoryMonthAnchor = (
 ) => `play-history-month-${month.key}`;
 
 /*
- * History's side index on wide screens: the months shown, under their years
- * in the list's own order, each with how many moments it holds. A month name
- * drops its year, which its group already says.
+ * History's months under their years, in the list's own order (a year that
+ * comes back after an older one opens a new group), for the side index.
  */
-export const getPlayHistoryIndex = (
+export const groupPlayHistoryMonthsByYear = (
   months: PlayHistoryMonth[],
-): SectionIndexGroup[] => {
-  const groups: SectionIndexGroup[] = [];
+): { label: string; months: PlayHistoryMonth[] }[] => {
+  const groups: { label: string; months: PlayHistoryMonth[] }[] = [];
 
   for (const month of months) {
     const label = month.year ?? "No date";
-    const sections = {
-      count: month.entries.length,
-      href: `#${getPlayHistoryMonthAnchor(month)}` as const,
-      label: month.year
-        ? month.label.replace(` ${month.year}`, "")
-        : month.label,
-    };
     const group = groups.at(-1);
 
     if (group?.label === label) {
-      group.sections.push(sections);
+      group.months.push(month);
     } else {
-      groups.push({ label, sections: [sections] });
+      groups.push({ label, months: [month] });
     }
   }
 

@@ -5,7 +5,7 @@ import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/play
 import {
   getPlayHistoryCategory,
   getPlayHistoryFilterOptions,
-  getPlayHistoryIndex,
+  groupPlayHistoryMonthsByYear,
   getShownPlayHistoryEvents,
   groupPlayHistoryEventsByMonth,
   searchPlayHistoryEvents,
@@ -179,7 +179,7 @@ describe("Play History model", () => {
   });
 });
 
-describe("getPlayHistoryIndex", () => {
+describe("groupPlayHistoryMonthsByYear", () => {
   const clock = { timeZone: "UTC", today: null };
   const dated = (eventId: string, happenedAt: string, timelineOrder: number) =>
     event({
@@ -189,7 +189,7 @@ describe("getPlayHistoryIndex", () => {
       timelineOrder,
     });
 
-  it("lists the months shown under their years, in the list's order, with counts", () => {
+  it("keeps the months shown under their years, in the list's order", () => {
     const months = groupPlayHistoryEventsByMonth(
       [
         dated("c", "2026-07-20T03:00:00Z", 3),
@@ -200,32 +200,14 @@ describe("getPlayHistoryIndex", () => {
       clock,
     );
 
-    expect(getPlayHistoryIndex(months)).toEqual([
-      {
-        label: "2026",
-        sections: [
-          {
-            count: 1,
-            href: `#play-history-month-${months[0]?.key}`,
-            label: "July",
-          },
-        ],
-      },
-      {
-        label: "2025",
-        sections: [
-          {
-            count: 2,
-            href: `#play-history-month-${months[1]?.key}`,
-            label: "February",
-          },
-          {
-            count: 1,
-            href: `#play-history-month-${months[2]?.key}`,
-            label: "January",
-          },
-        ],
-      },
+    expect(
+      groupPlayHistoryMonthsByYear(months).map((group) => [
+        group.label,
+        group.months.map((month) => month.label),
+      ]),
+    ).toEqual([
+      ["2026", ["July 2026"]],
+      ["2025", ["February 2025", "January 2025"]],
     ]);
   });
 
@@ -241,9 +223,6 @@ describe("getPlayHistoryIndex", () => {
       clock,
     );
 
-    expect(getPlayHistoryIndex(months)[0]).toMatchObject({
-      label: "No date",
-      sections: [{ count: 1, label: "Date not recorded" }],
-    });
+    expect(groupPlayHistoryMonthsByYear(months)[0]?.label).toBe("No date");
   });
 });
