@@ -2,10 +2,14 @@
 
 import { TextLink } from "@/shared/components/text-link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
+import {
+  takePlanSwitchHandoff,
+  writePlanSwitchHandoff,
+} from "@/modules/mainline/features/plans/planner/client/plan-switch-handoff";
 import {
   clearPlanDraft,
   toPlanDraftPreview,
@@ -25,10 +29,13 @@ import {
   type PlanRandomMode,
 } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import { buildPlanTeamCheck } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
-import { keepPlannerMembersInGroup } from "@/modules/mainline/features/plans/planner/data/planner-game-switch";
+import { keepPlannerMembersInGroup } from "@/modules/mainline/features/plans/planner/data/planner-group-members";
 import { checkPlannerGameSwitchAction } from "@/modules/mainline/features/plans/planner/server/planner-game-switch-action";
 import { PlannerFollowersSection } from "@/modules/mainline/features/plans/planner/sections/planner-followers-section";
-import { PlannerSwitchDialog } from "@/modules/mainline/features/plans/planner/sections/planner-switch-dialog";
+import {
+  PlannerSwitchDialog,
+  type PlannerSwitchPokemon,
+} from "@/modules/mainline/features/plans/planner/sections/planner-switch-dialog";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
 import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
@@ -119,9 +126,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
-  /* A game switch that would drop Pokémon, waiting on its confirm. */
+  /* A game switch that would change the team, waiting on its confirm. */
   const [pendingSwitch, setPendingSwitch] = useState<{
-    names: string[];
+    changed: PlannerSwitchPokemon[];
+    kept: PlanMember[];
+    removed: PlannerSwitchPokemon[];
     slug: string;
     versionGroupName: string;
   } | null>(null);
@@ -244,25 +253,64 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     );
   };
 
-  const switchVersionGroup = (slug: string) =>
+  /* The new game's Planner opens on this team, unsaved edits included. */
+  const switchVersionGroup = (slug: string, kept: PlanMember[]) => {
+    writePlanSwitchHandoff(plan?.id ?? null, slug, { members: kept, name });
     router.push(
       plan
         ? appRoutes.mainlinePlan(plan.id, slug)
         : appRoutes.mainlinePlanNew(slug),
     );
+  };
 
-  /* Straight to the new game, unless it would drop Pokémon: then ask first. */
+  /* A switch handed over from the last game: its team, as that game fitted it. */
+  useEffect(() => {
+    const handoff = takePlanSwitchHandoff(
+      plan?.id ?? null,
+      context.versionGroup.slug,
+    );
+
+    if (!handoff) return;
+
+    team.setSlots(toPlannerSlots(fitToVersionGroup(handoff.members)));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- storage only exists in the browser
+    setName(handoff.name);
+    dismissOffer();
+    // Read once, when the Planner opens in the new game.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toSwitchPokemon = (
+    speciesId: number,
+    slot: number,
+    lost?: string,
+  ): PlannerSwitchPokemon => {
+    const pokemon = byId.get(speciesId);
+
+    return {
+      imageUrl: pokemon?.imageUrl ?? null,
+      key: `${slot}-${speciesId}`,
+      lost,
+      name: pokemon?.name ?? "Pokémon",
+      typeSlug: pokemon?.types[0]?.slug ?? null,
+    };
+  };
+
+  /*
+   * Straight to the new game, unless the team would change there (a Pokémon
+   * it doesn't have, or part of a build it doesn't offer): then ask first.
+   */
   const changeVersionGroup = (slug: string) => {
     if (slug === context.versionGroup.slug || isCheckingSwitch) return;
 
     if (!members.length) {
-      switchVersionGroup(slug);
+      switchVersionGroup(slug, []);
       return;
     }
 
     startCheckingSwitch(async () => {
       const check = await checkPlannerGameSwitchAction({
-        speciesIds: members.map((member) => member.speciesId),
+        members,
         versionGroupSlug: slug,
       });
 
@@ -271,13 +319,25 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         return;
       }
 
-      if (!check.missingSpeciesIds.length) {
-        switchVersionGroup(slug);
+      if (!check.removedSpeciesIds.length && !check.changed.length) {
+        switchVersionGroup(slug, check.kept);
         return;
       }
 
       setPendingSwitch({
-        names: check.missingSpeciesIds.map(getName),
+        changed: check.changed.map((change) =>
+          toSwitchPokemon(
+            change.speciesId,
+            change.slot,
+            change.lost.join(" · "),
+          ),
+        ),
+        kept: check.kept,
+        removed: members
+          .filter((member) =>
+            check.removedSpeciesIds.includes(member.speciesId),
+          )
+          .map((member) => toSwitchPokemon(member.speciesId, member.slot)),
         slug,
         versionGroupName: check.versionGroupName,
       });
@@ -447,13 +507,16 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       />
 
       <PlannerSwitchDialog
-        names={pendingSwitch?.names ?? []}
+        changed={pendingSwitch?.changed ?? []}
+        removed={pendingSwitch?.removed ?? []}
         open={pendingSwitch !== null}
         onOpenChange={(open) => {
           if (!open) setPendingSwitch(null);
         }}
         onConfirm={() => {
-          if (pendingSwitch) switchVersionGroup(pendingSwitch.slug);
+          if (pendingSwitch) {
+            switchVersionGroup(pendingSwitch.slug, pendingSwitch.kept);
+          }
 
           setPendingSwitch(null);
         }}

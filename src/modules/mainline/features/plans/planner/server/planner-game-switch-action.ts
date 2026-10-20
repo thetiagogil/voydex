@@ -1,103 +1,78 @@
 "use server";
 
+import {
+  fitPlanMembersForSwitch,
+  type PlanSwitchFit,
+} from "@/modules/mainline/features/plans/planner/data/plan-switch-fit";
+import { readPlanGame } from "@/modules/mainline/features/plans/planner/server/plan-game-reader";
+import { readPlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/server/plan-member-check-reader";
+import { getPlanBuildFields } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
+import {
+  parsePlanSaveInput,
+  PlanSaveInputError,
+} from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
+import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
-import { uniqueNumberIds } from "@/shared/utils/collections";
 
 export type PlannerGameSwitchCheck =
-  | { missingSpeciesIds: number[]; status: "success"; versionGroupName: string }
+  | (PlanSwitchFit & { status: "success"; versionGroupName: string })
   | { message: string; status: "error" };
 
-const checkFailure = "Unable to check that game right now. Try again.";
-
 /*
- * Before the Planner switches game: which of the team's species aren't in
- * the new version group's Pokédexes (its expansions' included), so the
- * switch can say what it would drop.
+ * Before the Planner switches game: the team as the new game can have it
+ * (its expansions' Pokédexes included), which Pokémon would leave and which
+ * would lose part of their build, so the switch can say so first.
  */
 export const checkPlannerGameSwitchAction = async (input: {
-  speciesIds: unknown;
+  members: unknown;
   versionGroupSlug: unknown;
 }): Promise<PlannerGameSwitchCheck> => {
-  const speciesIds = Array.isArray(input.speciesIds)
-    ? uniqueNumberIds(
-        input.speciesIds.filter(
-          (id): id is number => Number.isInteger(id) && id > 0,
-        ),
-      ).slice(0, 6)
-    : [];
+  try {
+    /* The same checks a save makes on the Pokémon and the game. */
+    const { members, versionGroupSlug } = parsePlanSaveInput({
+      expansionVersionGroupIds: [],
+      members: input.members,
+      name: "Game switch",
+      planId: null,
+      versionGroupSlug: input.versionGroupSlug,
+    });
+    const supabase = await createServerSupabaseClient();
+    const claimsResult = await getClaimsWithTimeout(supabase);
 
-  if (typeof input.versionGroupSlug !== "string" || !input.versionGroupSlug) {
-    return { message: "Pick a game for the Plan.", status: "error" };
-  }
+    if (!claimsResult?.data?.claims?.sub) {
+      throw new PlanSaveInputError("Log in to plan a team.");
+    }
 
-  const supabase = await createServerSupabaseClient();
-  const claimsResult = await getClaimsWithTimeout(supabase);
+    const game = await readPlanGame(supabase, versionGroupSlug);
+    const rows = await readPlanMemberCheckRows(supabase, {
+      familyVersionGroupIds: [game.versionGroupId, ...game.expansionIds],
+      gameIds: game.gameIds,
+      generationId: game.generationId,
+      members,
+      versionGroupId: game.versionGroupId,
+      versionGroupName: game.name,
+    });
+    const fields = getPlanBuildFields(
+      resolveVersionGroupMechanics({
+        gameIds: game.gameIds,
+        generationId: game.generationId,
+        versionGroupId: game.versionGroupId,
+      }),
+    );
 
-  if (!claimsResult?.data?.claims?.sub) {
-    return { message: "Log in to plan a team.", status: "error" };
-  }
-
-  const reference = supabase.schema("reference");
-  const groupResult = await reference
-    .from("version_groups")
-    .select("id, name")
-    .eq("slug", input.versionGroupSlug)
-    .is("parent_version_group_id", null)
-    .maybeSingle();
-
-  if (groupResult.error || !groupResult.data) {
-    return { message: checkFailure, status: "error" };
-  }
-
-  const group = groupResult.data;
-
-  if (!speciesIds.length) {
     return {
-      missingSpeciesIds: [],
+      ...fitPlanMembersForSwitch(members, rows, fields),
       status: "success",
-      versionGroupName: group.name,
+      versionGroupName: game.name,
+    };
+  } catch (error) {
+    return {
+      message:
+        error instanceof PlanSaveInputError
+          ? error.message
+          : "Unable to check that game right now. Try again.",
+      status: "error",
     };
   }
-
-  const expansionsResult = await reference
-    .from("version_groups")
-    .select("id")
-    .eq("parent_version_group_id", group.id);
-  const pokedexesResult = expansionsResult.error
-    ? null
-    : await reference
-        .from("pokedex")
-        .select("id")
-        .in("version_group_id", [
-          group.id,
-          ...(expansionsResult.data ?? []).map((expansion) => expansion.id),
-        ]);
-
-  if (!pokedexesResult || pokedexesResult.error) {
-    return { message: checkFailure, status: "error" };
-  }
-
-  const entriesResult = await reference
-    .from("pokedex_entries")
-    .select("species_id")
-    .in(
-      "pokedex_id",
-      (pokedexesResult.data ?? []).map((pokedex) => pokedex.id),
-    )
-    .in("species_id", speciesIds);
-
-  if (entriesResult.error) {
-    return { message: checkFailure, status: "error" };
-  }
-
-  const found = new Set(
-    (entriesResult.data ?? []).map((entry) => entry.species_id),
-  );
-
-  return {
-    missingSpeciesIds: speciesIds.filter((id) => !found.has(id)),
-    status: "success",
-    versionGroupName: group.name,
-  };
 };

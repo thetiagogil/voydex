@@ -123,12 +123,11 @@ test.describe("Team Planner", () => {
 
     /* Sun and Moon have Pikachu but neither Kanto starter. */
     await pickGame("Sun / Moon");
-    const confirm = page.getByRole("alertdialog", {
-      name: "Switch to Sun / Moon?",
-    });
-    await expect(confirm).toContainText(
-      "2 of the team aren't in Sun / Moon and will be removed: Venusaur and Charizard.",
-    );
+    const confirm = page.getByRole("alertdialog", { name: "Switch game?" });
+    const leaving = confirm.getByRole("region", { name: "Leaves the team" });
+    await expect(leaving.getByText("Venusaur")).toBeVisible();
+    await expect(leaving.getByText("Charizard")).toBeVisible();
+    await expect(leaving.getByText("Pikachu")).toBeHidden();
     await expectAccessible(page);
     await confirm.getByRole("button", { name: "Keep this game" }).click();
     await expect(confirm).toBeHidden();
@@ -140,6 +139,10 @@ test.describe("Team Planner", () => {
     await expect(
       page.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
     ).toBeVisible();
+    /* The switch waits on a save. */
+    await expect(
+      page.getByRole("button", { name: "Save changes" }),
+    ).toBeEnabled();
   });
 
   test("archives a Plan, reads it, and restores it", async ({ page }) => {

@@ -18,9 +18,12 @@ As built (v3):
   reads its defensive matchups from its types. Save writes the Plan; a new
   Plan is kept in this browser until saved. Share puts the version group, six
   Pokémon and roles in a link's hash; importing opens it as a new unsaved
-  Plan. Switching game keeps only the Pokémon the new game has, and asks
-  first when it would drop any ("2 of the team aren't in Sun / Moon and will
-  be removed: Venusaur and Charizard."). A followed Plan lists each Play
+  Plan. Switching game carries the team over, unsaved edits included, as
+  the new game can have it: a Pokémon it doesn't have leaves the team, and
+  one that stays loses what the game doesn't offer it (an ability, held
+  item, nature, gender or a move it can't learn there). When anything would
+  change it asks first, listing each Pokémon with its picture under "Leaves
+  the team" or "Loses part of its build"; the switch waits on a save. A followed Plan lists each Play
   that follows it with its current team and a Compare link into that Play's
   Plan comparison.
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
