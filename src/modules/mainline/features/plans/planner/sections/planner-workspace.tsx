@@ -49,6 +49,7 @@ import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/se
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
 import { PlannerTeamCheckSheet } from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
 import { PlannerTopSection } from "@/modules/mainline/features/plans/planner/sections/planner-top-section";
+import { PlannerUnlockDialog } from "@/modules/mainline/features/plans/planner/sections/planner-unlock-dialog";
 import {
   encodePlanShare,
   toPlanShare,
@@ -133,6 +134,24 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     slug: string;
     versionGroupName: string;
   } | null>(null);
+  /*
+   * A Plan that Plays follow opens locked: every edit asks to unlock it
+   * first, then carries on (see PlannerUnlockDialog).
+   */
+  const followerCount = plan?.linkedPlayCount ?? 0;
+  const [isUnlocked, setIsUnlocked] = useState(followerCount === 0);
+  const [pendingEdit, setPendingEdit] = useState<(() => void) | null>(null);
+  const askToUnlock = (resume: () => void) => setPendingEdit(() => resume);
+  const whenUnlocked =
+    <Args extends unknown[]>(action: (...args: Args) => void) =>
+    (...args: Args) => {
+      if (isUnlocked) {
+        action(...args);
+        return;
+      }
+
+      askToUnlock(() => action(...args));
+    };
   const [isCheckingSwitch, startCheckingSwitch] = useTransition();
   /* Until the new game's Planner arrives. */
   const [isOpeningSwitch, startOpeningSwitch] = useTransition();
@@ -352,6 +371,13 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       <PageBand className="flex flex-col gap-6 sm:gap-7">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
+          canEdit={isUnlocked}
+          onLockedEdit={askToUnlock}
+          gameFixedReason={
+            followerCount
+              ? "Plays follow this Plan, so its game stays the same"
+              : undefined
+          }
           /* Archive keeps the saved Plan, so unsaved changes come first. */
           canArchive={!isDirty}
           savedPlan={
@@ -377,8 +403,12 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           versionGroups={data.versionGroups}
         />
 
-        {plan?.linkedPlayCount ? (
-          <PlannerFollowersSection count={plan.linkedPlayCount} />
+        {followerCount ? (
+          <PlannerFollowersSection
+            count={followerCount}
+            locked={!isUnlocked}
+            onUnlock={() => askToUnlock(() => {})}
+          />
         ) : null}
 
         {offered ? (
@@ -396,14 +426,14 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           byId={byId}
           issues={issues}
           onCancelReplace={cancelReplace}
-          onClear={team.clearSlots}
-          onMove={team.moveSlot}
+          onClear={whenUnlocked(team.clearSlots)}
+          onMove={whenUnlocked(team.moveSlot)}
           onOpenCheck={() => setIsCheckOpen(true)}
-          onOpenSlot={setOpenSlot}
+          onOpenSlot={whenUnlocked(setOpenSlot)}
           onPlace={place}
-          onRandom={random}
+          onRandom={whenUnlocked(random)}
           onRandomModeChange={setRandomMode}
-          onRemove={requestRemove}
+          onRemove={whenUnlocked(requestRemove)}
           randomMode={randomMode}
           replacing={replacing}
           slots={team.slots}
@@ -423,7 +453,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         filters={filters}
         isFull={isFull}
         onFiltersChange={setFilters}
-        onPick={pick}
+        onPick={whenUnlocked(pick)}
         replacingId={replacingId}
         sections={context.sections}
         slotBySpeciesId={slotBySpeciesId}
@@ -478,9 +508,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         coverage={coverage}
         issues={issues}
         matchups={matchups}
-        onIncludeExpansion={(versionGroupId) =>
-          setExpansions((current) => [...new Set([...current, versionGroupId])])
-        }
+        onIncludeExpansion={whenUnlocked((versionGroupId: number) =>
+          setExpansions((current) => [
+            ...new Set([...current, versionGroupId]),
+          ]),
+        )}
         onOpenChange={setIsCheckOpen}
         open={isCheckOpen}
         planName={name.trim() || untitledPlanName}
@@ -496,6 +528,19 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           setName(planName);
           setIsNameOpen(false);
           saveAs(planName);
+        }}
+      />
+
+      <PlannerUnlockDialog
+        followerCount={followerCount}
+        open={pendingEdit !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingEdit(null);
+        }}
+        onConfirm={() => {
+          setIsUnlocked(true);
+          pendingEdit?.();
+          setPendingEdit(null);
         }}
       />
 
@@ -518,7 +563,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
 
       <PlannerShareDialog
         link={shareLink}
-        onImport={applyShare}
+        onImport={whenUnlocked(applyShare)}
         onOpenChange={setIsShareOpen}
         open={isShareOpen}
       />

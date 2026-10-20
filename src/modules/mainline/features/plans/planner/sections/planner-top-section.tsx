@@ -20,12 +20,15 @@ import { getGameColourStyle } from "@/modules/reference/features/games/utils/gam
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { selectTriggerVariants } from "@/shared/components/ui/select";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type PlannerTopSectionProps = {
+  /* False while the Plan is locked: an edit asks to unlock it first. */
+  canEdit: boolean;
   /* Whether Archive can run now: unsaved changes are saved or undone first. */
   canArchive: boolean;
   canSave: boolean;
@@ -33,6 +36,10 @@ type PlannerTopSectionProps = {
   isSaving: boolean;
   /* A game switch being checked or opening: the picker shows it's working. */
   isSwitching: boolean;
+  /* Why the game can't change, such as Plays following the Plan. */
+  gameFixedReason?: string;
+  /* An edit on a locked Plan: ask to unlock, then carry on with `resume`. */
+  onLockedEdit: (resume: () => void) => void;
   name: string;
   onNameChange: (name: string) => void;
   onSave: () => void;
@@ -54,6 +61,9 @@ type PlannerTopSectionProps = {
  */
 export const PlannerTopSection = ({
   canArchive,
+  canEdit,
+  gameFixedReason,
+  onLockedEdit,
   canSave,
   isSaved,
   isSaving,
@@ -74,6 +84,47 @@ export const PlannerTopSection = ({
   useEffect(() => {
     if (isRenaming) inputRef.current?.focus();
   }, [isRenaming]);
+
+  const gameCard = (
+    <>
+      <span aria-hidden className="flex shrink-0 items-center pl-1">
+        {versionGroup.games.slice(0, 2).map((game, index) => (
+          <GameCover
+            key={game.slug}
+            alt=""
+            coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
+            eager
+            gameName={game.name}
+            gameSlug={game.slug}
+            size="dock"
+            className={index === 0 ? undefined : "-ml-3"}
+          />
+        ))}
+      </span>
+      <span className="min-w-0">
+        <span className="text-ink-2 text-12 block font-bold">
+          Gen {versionGroup.generationNumeral}
+          {versionGroup.regionName ? ` · ${versionGroup.regionName}` : ""}
+        </span>
+        <b className="text-ink text-16 block font-extrabold">
+          {versionGroup.name}
+        </b>
+      </span>
+      {/* The whole card waits while a switch is checked and opens. */}
+      {isSwitching ? (
+        <span
+          role="status"
+          className="bg-surface/80 absolute inset-0 grid place-items-center rounded-[inherit]"
+        >
+          <Spinner aria-hidden className="text-action size-7" />
+          <span className="sr-only">Switching game</span>
+        </span>
+      ) : null}
+    </>
+  );
+  /* Renaming waits on Unlock while the Plan is locked. */
+  const startRenaming = () =>
+    canEdit ? setIsRenaming(true) : onLockedEdit(() => setIsRenaming(true));
 
   return (
     <div className="flex flex-col gap-5 pt-4 sm:pt-7">
@@ -98,7 +149,7 @@ export const PlannerTopSection = ({
           <h1 className="min-w-0">
             <button
               type="button"
-              onClick={() => setIsRenaming(true)}
+              onClick={startRenaming}
               className="group/title title-page focus-ring inline-flex max-w-full items-center gap-2 rounded-xs text-left"
             >
               <span
@@ -120,65 +171,40 @@ export const PlannerTopSection = ({
         )}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-        <SelectControl
-          ariaLabel={`Game: ${versionGroup.name}`}
-          className={cn("relative", isSwitching && "pointer-events-none")}
-          searchPlaceholder="Search games"
-          placeholder={versionGroup.name}
-          value={versionGroup.slug}
-          onValueChange={onVersionGroupChange}
-          options={versionGroups.map((group) => ({
-            description: `Gen ${group.generationNumeral}${group.regionName ? ` · ${group.regionName}` : ""}`,
-            icon: group.gameSlugs[0] ? (
-              <GameOptionCover
-                gameName={group.name}
-                gameSlug={group.gameSlugs[0]}
-              />
-            ) : undefined,
-            label: group.name,
-            value: group.slug,
-          }))}
-          variant="card"
-          triggerContent={
-            <>
-              <span aria-hidden className="flex shrink-0 items-center pl-1">
-                {versionGroup.games.slice(0, 2).map((game, index) => (
-                  <GameCover
-                    key={game.slug}
-                    alt=""
-                    coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
-                    eager
-                    gameName={game.name}
-                    gameSlug={game.slug}
-                    size="dock"
-                    className={index === 0 ? undefined : "-ml-3"}
-                  />
-                ))}
-              </span>
-              <span className="min-w-0">
-                <span className="text-ink-2 text-12 block font-bold">
-                  Gen {versionGroup.generationNumeral}
-                  {versionGroup.regionName
-                    ? ` · ${versionGroup.regionName}`
-                    : ""}
-                </span>
-                <b className="text-ink text-16 block font-extrabold">
-                  {versionGroup.name}
-                </b>
-              </span>
-              {/* The whole card waits while a switch is checked and opens. */}
-              {isSwitching ? (
-                <span
-                  role="status"
-                  className="bg-surface/80 absolute inset-0 grid place-items-center rounded-[inherit]"
-                >
-                  <Spinner aria-hidden className="text-action size-7" />
-                  <span className="sr-only">Switching game</span>
-                </span>
-              ) : null}
-            </>
-          }
-        />
+        {gameFixedReason ? (
+          /* While Plays follow the Plan its game stays; the card only reads. */
+          <div
+            title={gameFixedReason}
+            className={cn(
+              selectTriggerVariants({ variant: "card" }),
+              "relative",
+            )}
+          >
+            {gameCard}
+          </div>
+        ) : (
+          <SelectControl
+            ariaLabel={`Game: ${versionGroup.name}`}
+            className={cn("relative", isSwitching && "pointer-events-none")}
+            searchPlaceholder="Search games"
+            placeholder={versionGroup.name}
+            value={versionGroup.slug}
+            onValueChange={onVersionGroupChange}
+            options={versionGroups.map((group) => ({
+              description: `Gen ${group.generationNumeral}${group.regionName ? ` · ${group.regionName}` : ""}`,
+              icon: group.gameSlugs[0] ? (
+                <GameOptionCover
+                  gameName={group.name}
+                  gameSlug={group.gameSlugs[0]}
+                />
+              ) : undefined,
+              label: group.name,
+              value: group.slug,
+            }))}
+            variant="card"
+            triggerContent={gameCard}
+          />
+        )}
         {versionGroup.games.length > 1 ? (
           <div className="flex items-center gap-2">
             <span className="text-ink-2 text-13 font-bold">Version</span>
@@ -231,7 +257,7 @@ export const PlannerTopSection = ({
             <PlanActionsMenu
               placement="planner"
               plan={savedPlan}
-              onRename={() => setIsRenaming(true)}
+              onRename={startRenaming}
               archiveBlockedReason={
                 canArchive ? undefined : "Save or undo your changes first"
               }

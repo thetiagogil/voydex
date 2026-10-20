@@ -96,9 +96,23 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    /* See Plays lists the Play that follows the Plan, with its team now. */
+    /* Followed, the Plan opens locked: an edit asks to unlock it first. */
     await page.goto(`/mainline/plans/${planId}`);
-    await expect(page.getByText("Followed by 1 Play.")).toBeVisible();
+    await expect(page.getByText("Locked: followed by 1 Play.")).toBeVisible();
+    const team = page.getByRole("region", { name: "Your team" });
+    await team.getByRole("button", { name: /^Random team$/ }).click();
+    const unlock = page.getByRole("alertdialog", { name: "Unlock this Plan?" });
+    await expectAccessible(page);
+    await unlock.getByRole("button", { name: "Keep it locked" }).click();
+    await expect(team.getByText("2 of 6")).toBeVisible();
+    await team.getByRole("button", { name: /^Random team$/ }).click();
+    await unlock.getByRole("button", { name: "Unlock" }).click();
+    await expect(team.getByText("6 of 6")).toBeVisible();
+    await expect(
+      page.getByText("Followed by 1 Play. Saving updates its comparison."),
+    ).toBeVisible();
+
+    /* See Plays lists the Play that follows the Plan; its card opens it. */
     await page
       .getByRole("button", { name: `${planName}: more actions` })
       .click();
@@ -106,11 +120,10 @@ test.describe("Team Planner", () => {
     const plays = page.getByRole("dialog", {
       name: "Plays following this Plan",
     });
-    await expect(plays.getByRole("heading", { name: playName })).toBeVisible();
     await expect(plays.getByRole("img", { name: "Charmander" })).toBeVisible();
     await expectAccessible(page);
-    await plays.getByRole("link", { name: `Compare ${playName}` }).click();
-    await page.waitForURL(`**/mainline/plays/${playId}/team/plan`);
+    await plays.getByRole("link", { name: new RegExp(playName) }).click();
+    await page.waitForURL(`**/mainline/plays/${playId}`);
   });
 
   test("asks before a game switch drops Pokémon", async ({ page }) => {

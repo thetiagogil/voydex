@@ -66,10 +66,11 @@ type PlanActionsMenuProps = {
 };
 
 /*
- * One Plan's actions behind one button: Rename, See Plays (the Plays that
- * follow it, in a dialog), Archive (or Restore, for an archived Plan, which
- * can't be renamed) and Delete, which asks first and says what goes with it.
- * Deleting from the Planner goes back to My Plans.
+ * One Plan's actions behind one button, grouped by what they do: See Plays
+ * (the Plays that follow it, in a dialog) to look; Rename and Archive (or
+ * Restore, for an archived Plan, which can't be renamed) to change it; and
+ * Delete, which asks first and says what goes with it. Deleting from the
+ * Planner goes back to My Plans.
  */
 export const PlanActionsMenu = ({
   archiveBlockedReason,
@@ -172,6 +173,13 @@ export const PlanActionsMenu = ({
           {isWorking ? <Spinner /> : <AppIcon icon={appIcons.actions.more} />}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-auto min-w-52">
+          {plan.linkedPlayCount ? (
+            <DropdownMenuItem onClick={seePlays}>
+              <AppIcon icon={appIcons.views.mainline.plays} />
+              See Plays
+            </DropdownMenuItem>
+          ) : null}
+          {plan.linkedPlayCount ? <DropdownMenuSeparator /> : null}
           {plan.isArchived ? null : (
             <DropdownMenuItem
               onClick={() => {
@@ -189,12 +197,6 @@ export const PlanActionsMenu = ({
               Rename
             </DropdownMenuItem>
           )}
-          {plan.linkedPlayCount ? (
-            <DropdownMenuItem onClick={seePlays}>
-              <AppIcon icon={appIcons.views.mainline.plays} />
-              See Plays
-            </DropdownMenuItem>
-          ) : null}
           <DropdownMenuItem
             disabled={Boolean(archiveBlockedReason) && !plan.isArchived}
             title={plan.isArchived ? undefined : archiveBlockedReason}
@@ -283,7 +285,7 @@ export const PlanActionsMenu = ({
           <DialogHeader>
             <DialogTitle>Plays following this Plan</DialogTitle>
             <DialogDescription>
-              Each Play&apos;s team now, and its comparison with {plan.name}.
+              Each Play&apos;s team now. Open one to go to it.
             </DialogDescription>
           </DialogHeader>
           {isLoadingPlays ? (
