@@ -25,6 +25,21 @@ describe("getRuleOptionKeys", () => {
     expect(getRuleOptionKeys(firstCatch)).toEqual(["shinies_always_catchable"]);
   });
 
+  it("reads No Pokémon reuse's scope", () => {
+    expect(getRuleOptionKeys({ reuse_scope: "species" })).toEqual([
+      "reuse_scope",
+    ]);
+    expect(
+      resolveRuleConfig(
+        { reuse_scope: "species" },
+        { reuse_scope: "evolution_family" },
+      ),
+    ).toEqual({ reuse_scope: "evolution_family" });
+    expect(
+      resolveRuleConfig({ reuse_scope: "species" }, { reuse_scope: "colour" }),
+    ).toEqual({});
+  });
+
   it("offers nothing for a plain rule, an unknown key or a broken config", () => {
     expect(getRuleOptionKeys({})).toEqual([]);
     expect(getRuleOptionKeys({ grace_levels: 1 })).toEqual([]);
@@ -90,6 +105,19 @@ describe("describeRuleConfig", () => {
     );
     expect(describeRuleConfig(["type_id"], { type_id: null }, typeNames)).toBe(
       "Pick a type",
+    );
+  });
+
+  it("says what No Pokémon reuse counts, species by default", () => {
+    expect(
+      describeRuleConfig(
+        ["reuse_scope"],
+        { reuse_scope: "evolution_family" },
+        typeNames,
+      ),
+    ).toBe("by evolution family");
+    expect(describeRuleConfig(["reuse_scope"], null, typeNames)).toBe(
+      "by species",
     );
   });
 
@@ -193,6 +221,15 @@ describe("isSameRuleSelection", () => {
     expect(isSameRuleSelection([mono], [mono, caps])).toBe(false);
     expect(
       isSameRuleSelection([mono], [{ config: { type_id: 2 }, ruleId: "mono" }]),
+    ).toBe(false);
+  });
+
+  it("sees a changed reuse scope", () => {
+    expect(
+      isSameRuleSelection(
+        [{ config: { reuse_scope: "species" }, ruleId: "reuse" }],
+        [{ config: { reuse_scope: "form" }, ruleId: "reuse" }],
+      ),
     ).toBe(false);
   });
 

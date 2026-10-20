@@ -1,3 +1,4 @@
+import { getRuleOptionKeys } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { countLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
 import type { LibraryPageData } from "@/modules/mainline/features/library/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
@@ -26,7 +27,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     supabase
       .schema("gameplay")
       .from("mainline_challenge_rules")
-      .select("id, name, description, user_id, rule_type_id")
+      .select("id, name, description, config, user_id, rule_type_id")
       .order("name", { ascending: true }),
     supabase
       .schema("gameplay")
@@ -74,6 +75,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
               ...ruleUsage(rule.id),
               description: rule.description,
               id: rule.id,
+              optionKeys: getRuleOptionKeys(rule.config),
               isBuiltIn: rule.user_id === null,
               kind,
               name: rule.name,

@@ -1,3 +1,5 @@
+import type { ChallengeRuleOptionKey } from "@/modules/mainline/shared/data/challenge-rule-options";
+
 /* A rule's kind, such as Catching or Custom; the picker for a new rule. */
 export type LibraryRuleKind = { id: number; name: string; slug: string };
 
@@ -9,6 +11,8 @@ export type LibraryRule = LibraryUsage & {
   /* What the rule asks, for Voydex's own (yours have none yet). */
   description?: string | null;
   id: string;
+  /* The options each Play sets for it, such as Monotype's type. */
+  optionKeys?: ChallengeRuleOptionKey[];
   isBuiltIn: boolean;
   kind: LibraryRuleKind;
   name: string;

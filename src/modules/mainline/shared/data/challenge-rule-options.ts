@@ -5,11 +5,31 @@ import type { Json } from "@/shared/types/database.types";
  * The options a challenge rule offers a Play, keyed as the database keeps
  * them: a rule's `config` lists them with their defaults, and a Play's
  * `config_override` holds its own values. Only Voydex's rules have options:
- * First catch per area's shiny exception and Monotype's type.
+ * First catch per area's shiny exception, Monotype's type and what No
+ * Pokémon reuse counts as the same Pokémon.
  */
 export type ChallengeRuleConfig = {
+  reuse_scope?: ReuseScope;
   shinies_always_catchable?: boolean;
   type_id?: number | null;
+};
+
+/* What counts as the same Pokémon, narrowest to broadest. */
+export const reuseScopes = ["form", "species", "evolution_family"] as const;
+
+export type ReuseScope = (typeof reuseScopes)[number];
+
+/* Each reuse scope as its chip and its pick say it. */
+export const reuseScopeLabels: Record<
+  ReuseScope,
+  { chip: string; option: string }
+> = {
+  evolution_family: {
+    chip: "by evolution family",
+    option: "Its whole evolution family",
+  },
+  form: { chip: "by form", option: "Its exact form" },
+  species: { chip: "by species", option: "Its species, any form" },
 };
 
 export type ChallengeRuleOptionKey = keyof ChallengeRuleConfig;
@@ -29,6 +49,7 @@ export type ChallengeRuleChoice = LibraryChoice & {
 };
 
 const optionKeys: readonly ChallengeRuleOptionKey[] = [
+  "reuse_scope",
   "shinies_always_catchable",
   "type_id",
 ];
@@ -42,6 +63,10 @@ const readOption = (
 ): ChallengeRuleConfig[ChallengeRuleOptionKey] | undefined => {
   if (key === "shinies_always_catchable") {
     return typeof value === "boolean" ? value : undefined;
+  }
+
+  if (key === "reuse_scope") {
+    return reuseScopes.find((scope) => scope === value);
   }
 
   if (value === null) return null;
@@ -113,8 +138,9 @@ export const getMissingRuleOption = (
     : null;
 
 /*
- * The words after a rule's name on its chip: Monotype's type ("Water"), or
- * "except shinies" when they can always be caught.
+ * The words after a rule's name on its chip: Monotype's type ("Water"),
+ * "except shinies" when they can always be caught, and what No Pokémon
+ * reuse counts ("by species").
  */
 export const describeRuleConfig = (
   keys: readonly ChallengeRuleOptionKey[],
@@ -138,6 +164,10 @@ export const describeRuleConfig = (
     config?.shinies_always_catchable
   ) {
     parts.push("except shinies");
+  }
+
+  if (keys.includes("reuse_scope")) {
+    parts.push(reuseScopeLabels[config?.reuse_scope ?? "species"].chip);
   }
 
   return parts.length ? parts.join(", ") : null;
@@ -190,7 +220,8 @@ const sameConfig = (
 ) =>
   (left?.shinies_always_catchable ?? false) ===
     (right?.shinies_always_catchable ?? false) &&
-  (left?.type_id ?? null) === (right?.type_id ?? null);
+  (left?.type_id ?? null) === (right?.type_id ?? null) &&
+  (left?.reuse_scope ?? "species") === (right?.reuse_scope ?? "species");
 
 /* Whether two picks keep the same rules with the same options, in any order. */
 export const isSameRuleSelection = (
@@ -291,3 +322,12 @@ export const clearMissingRuleTypes = (
       ? { ...selection, config: { ...selection.config, type_id: null } }
       : selection,
   );
+
+/* What each option lets a Play set, as a rule's details list it. */
+export const ruleOptionNotes: Record<ChallengeRuleOptionKey, string> = {
+  reuse_scope:
+    "Each Play picks what counts as the same Pokémon: its exact form, its species or its whole evolution family.",
+  shinies_always_catchable:
+    "Each Play can let a shiny be caught without using up the area's catch.",
+  type_id: "Each Play picks its type, from the types its game has.",
+};

@@ -33,18 +33,37 @@ export const parseLibraryTab = (value: unknown): LibraryTab =>
 
 export type LibrarySort = "name" | "used";
 
+/* Who made a rule: Voydex, you, or "" for both. */
+export type LibraryMaker = "" | "voydex" | "yours";
+
 export type LibraryFilters = {
   /* A rule kind's slug, or "" for every kind; tags ignore it. */
   kind: string;
+  /* Tags are all yours, so they ignore it. */
+  maker: LibraryMaker;
   query: string;
   sort: LibrarySort;
 };
 
 export const defaultLibraryFilters: LibraryFilters = {
   kind: "",
+  maker: "",
   query: "",
   sort: "name",
 };
+
+export const libraryMakerLabels: Record<LibraryMaker, string> = {
+  "": "Voydex's and yours",
+  voydex: "Voydex's",
+  yours: "Yours",
+};
+
+/* Filters that leave tags alone: tags have no kind and are all yours. */
+export const toTagFilters = (filters: LibraryFilters): LibraryFilters => ({
+  ...filters,
+  kind: "",
+  maker: "",
+});
 
 export const librarySortLabels: Record<LibrarySort, string> = {
   name: "Name",
@@ -53,7 +72,11 @@ export const librarySortLabels: Record<LibrarySort, string> = {
 
 /* Whether a filter narrows the list (the order alone doesn't). */
 export const hasActiveLibraryFilters = (filters: LibraryFilters) =>
-  filters.query.trim() !== "" || filters.kind !== "";
+  filters.query.trim() !== "" || filters.kind !== "" || filters.maker !== "";
+
+/* How many of the bar's filters (not the search) narrow the list. */
+export const countActiveLibraryFilters = (filters: LibraryFilters) =>
+  Number(filters.kind !== "") + Number(filters.maker !== "");
 
 /* Searching ignores case and accents, so "pokemon" finds "Pokémon". */
 const toSearchText = (text: string) =>
@@ -68,11 +91,12 @@ const byUse = (left: LibraryUsage, right: LibraryUsage) =>
 
 /*
  * The rules or tags the bar leaves: the search matches a name (and a
- * rule's kind), the kind narrows rules, and the order is by name or by how
- * many Plays use each.
+ * rule's kind), the kind and who made it narrow rules, and the order is by
+ * name or by how many Plays use each.
  */
 export const filterAndSortLibrary = <
   TItem extends LibraryUsage & {
+    isBuiltIn?: boolean;
     kind?: { slug: string; name: string };
     name: string;
   },
@@ -89,6 +113,11 @@ export const filterAndSortLibrary = <
         toSearchText(`${item.name} ${item.kind?.name ?? ""}`).includes(query),
     )
     .filter((item) => !filters.kind || item.kind?.slug === filters.kind)
+    .filter(
+      (item) =>
+        !filters.maker ||
+        (filters.maker === "voydex") === Boolean(item.isBuiltIn),
+    )
     .toSorted(
       (left, right) =>
         (filters.sort === "used" ? byUse(left, right) : 0) ||

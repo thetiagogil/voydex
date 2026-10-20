@@ -2,9 +2,12 @@
 
 import { useId } from "react";
 
-import type {
-  ChallengeRuleConfig,
-  ChallengeRuleOptionKey,
+import {
+  reuseScopeLabels,
+  reuseScopes,
+  type ChallengeRuleConfig,
+  type ChallengeRuleOptionKey,
+  type ReuseScope,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { GameTypeChoice } from "@/modules/reference/features/games/domain/game-types";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
@@ -15,7 +18,8 @@ import { Field, FieldLabel } from "@/shared/components/ui/field";
 
 /*
  * A rule's options for one Play: Monotype's type, from the types the Play's
- * game has, and First catch per area's shiny exception.
+ * game has, First catch per area's shiny exception and what No Pokémon
+ * reuse counts as the same Pokémon.
  */
 export const ChallengeRuleOptionsForm = ({
   config,
@@ -57,6 +61,32 @@ export const ChallengeRuleOptionsForm = ({
               ) : undefined,
               label: type.name,
               value: String(type.id),
+            }))}
+          />
+        </Field>
+      ) : null}
+      {optionKeys.includes("reuse_scope") ? (
+        <Field>
+          <FieldLabel htmlFor={`${id}-reuse`}>
+            Counts as the same Pokémon
+          </FieldLabel>
+          <SelectControl
+            id={`${id}-reuse`}
+            ariaLabel="Counts as the same Pokémon"
+            placeholder="Its species, any form"
+            searchable={false}
+            value={config.reuse_scope ?? "species"}
+            onValueChange={(value) =>
+              onChange({
+                ...config,
+                reuse_scope:
+                  reuseScopes.find((scope) => scope === value) ??
+                  ("species" satisfies ReuseScope),
+              })
+            }
+            options={reuseScopes.map((scope) => ({
+              label: reuseScopeLabels[scope].option,
+              value: scope,
             }))}
           />
         </Field>

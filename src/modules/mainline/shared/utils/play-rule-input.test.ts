@@ -5,6 +5,15 @@ import { playRuleSelectionSchema } from "./play-rule-input";
 const ruleId = "7d4c8f0e-6a52-4f11-9a0b-1c2d3e4f5a6b";
 
 describe("playRuleSelectionSchema", () => {
+  it("takes a reuse scope", () => {
+    expect(
+      playRuleSelectionSchema.parse({
+        config: { reuse_scope: "evolution_family" },
+        ruleId,
+      }).config,
+    ).toEqual({ reuse_scope: "evolution_family" });
+  });
+
   it("takes a rule with or without options", () => {
     expect(playRuleSelectionSchema.parse({ config: null, ruleId })).toEqual({
       config: null,
@@ -31,6 +40,12 @@ describe("playRuleSelectionSchema", () => {
     expect(
       playRuleSelectionSchema.safeParse({ config: { type_id: "3" }, ruleId })
         .success,
+    ).toBe(false);
+    expect(
+      playRuleSelectionSchema.safeParse({
+        config: { reuse_scope: "colour" },
+        ruleId,
+      }).success,
     ).toBe(false);
     expect(
       playRuleSelectionSchema.safeParse({ config: { type_id: 0 }, ruleId })

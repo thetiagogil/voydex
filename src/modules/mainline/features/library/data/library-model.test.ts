@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  countActiveLibraryFilters,
   countLibraryUsage,
   defaultLibraryFilters,
   filterAndSortLibrary,
@@ -8,6 +9,7 @@ import {
   getLibraryDeleteNote,
   getLibraryUsageLabel,
   parseLibraryTab,
+  toTagFilters,
 } from "./library-model";
 
 describe("countLibraryUsage", () => {
@@ -45,9 +47,9 @@ describe("filterAndSortLibrary", () => {
   const custom = { name: "Custom", slug: "custom" };
   const reuse = { name: "Pokémon Reuse", slug: "reuse" };
   const rules = [
-    { kind: custom, name: "No items", playCount: 1 },
-    { kind: reuse, name: "Dupes clause", playCount: 5 },
-    { kind: custom, name: "Level caps", playCount: 0 },
+    { isBuiltIn: false, kind: custom, name: "No items", playCount: 1 },
+    { isBuiltIn: false, kind: reuse, name: "Dupes clause", playCount: 5 },
+    { isBuiltIn: true, kind: custom, name: "Level caps", playCount: 0 },
   ];
 
   it("orders by name, or by use with name breaking ties", () => {
@@ -79,7 +81,43 @@ describe("filterAndSortLibrary", () => {
     ).toEqual(["Level caps", "No items"]);
   });
 
-  it("counts only search and kind as filters", () => {
+  it("narrows rules to Voydex's or yours", () => {
+    expect(
+      filterAndSortLibrary(rules, {
+        ...defaultLibraryFilters,
+        maker: "voydex",
+      }).map(({ name }) => name),
+    ).toEqual(["Level caps"]);
+    expect(
+      filterAndSortLibrary(rules, {
+        ...defaultLibraryFilters,
+        maker: "yours",
+      }).map(({ name }) => name),
+    ).toEqual(["Dupes clause", "No items"]);
+  });
+
+  it("leaves tags out of kind and maker", () => {
+    expect(
+      toTagFilters({
+        ...defaultLibraryFilters,
+        kind: "custom",
+        maker: "voydex",
+      }),
+    ).toEqual(defaultLibraryFilters);
+  });
+
+  it("counts search, kind and maker as filters", () => {
+    expect(
+      hasActiveLibraryFilters({ ...defaultLibraryFilters, maker: "yours" }),
+    ).toBe(true);
+    expect(
+      countActiveLibraryFilters({
+        ...defaultLibraryFilters,
+        kind: "custom",
+        maker: "yours",
+        query: "x",
+      }),
+    ).toBe(2);
     expect(
       hasActiveLibraryFilters({ ...defaultLibraryFilters, sort: "used" }),
     ).toBe(false);

@@ -128,20 +128,79 @@ test.describe("Challenge rules", () => {
         .getByRole("region", { name: "Challenge rules" })
         .getByText("Monotype · Fairy"),
     ).toBeVisible();
+
+    /* No Pokémon reuse counts species until a Play says otherwise. */
+    const kept = page.getByRole("region", { name: "Challenge rules" });
+
+    await kept.getByRole("combobox", { name: "Add rule" }).click();
+    await pickRule(page, "No Pokémon reuse");
+    const reuse = page.getByRole("dialog", { name: "No Pokémon reuse" });
+
+    await reuse
+      .getByRole("combobox", { name: "Counts as the same Pokémon" })
+      .click();
+    await page
+      .getByRole("option", { name: "Its whole evolution family" })
+      .click();
+    await reuse.getByRole("button", { name: "Done" }).click();
+    await expect(
+      kept.getByText("No Pokémon reuse · by evolution family"),
+    ).toBeVisible();
+    const reuseSaved = waitForAction(page);
+    await kept.getByRole("button", { name: "Save" }).click();
+    await reuseSaved;
+    await page.reload();
+    await expect(
+      page
+        .getByRole("region", { name: "Challenge rules" })
+        .getByText("No Pokémon reuse · by evolution family"),
+    ).toBeVisible();
   });
 
-  test("the Library shows Voydex's rules locked", async ({ page }) => {
+  test("the Library shows Voydex's rules locked, in full and apart from yours", async ({
+    page,
+  }) => {
     await page.goto("/mainline/library?tab=rules", {
       waitUntil: "networkidle",
     });
     const card = page.getByRole("listitem").filter({
-      has: page.getByRole("heading", { name: "Nickname everything" }),
+      has: page.getByRole("heading", { name: "No Pokémon reuse" }),
     });
 
+    /* Locked: a Voydex mark, and no ⋯ to edit or delete it. */
     await expect(card.getByText("Voydex", { exact: true })).toBeVisible();
     await expect(
-      card.getByText("Give every Pokémon you catch a nickname."),
+      card.getByRole("button", { name: /more actions/ }),
+    ).toHaveCount(0);
+
+    /* Tapping it opens it in full, with the options each Play sets. */
+    await card.getByRole("button", { name: /^No Pokémon reuse, / }).click();
+    const details = page.getByRole("dialog", { name: "No Pokémon reuse" });
+
+    await expect(
+      details.getByText(
+        "Don't use a Pokémon you've already used in another Play.",
+      ),
     ).toBeVisible();
-    await expect(card.getByRole("button")).toHaveCount(0);
+    await expect(
+      details.getByText(/Each Play picks what counts as the same Pokémon/),
+    ).toBeVisible();
+    await expect(details.getByRole("button", { name: "Edit" })).toHaveCount(0);
+    await expectAccessible(page);
+    await page.keyboard.press("Escape");
+    await expect(details).toBeHidden();
+
+    /* Made by: Yours leaves Voydex's rules out. */
+    await page
+      .getByRole("button", { name: /search/i })
+      .first()
+      .click();
+    await page
+      .getByRole("combobox", { name: "Filter rules by who made them" })
+      .click();
+    await page.getByRole("option", { name: "Yours", exact: true }).click();
+    await expect(
+      page.getByRole("heading", { name: "No Pokémon reuse" }),
+    ).toBeHidden();
   });
 });
