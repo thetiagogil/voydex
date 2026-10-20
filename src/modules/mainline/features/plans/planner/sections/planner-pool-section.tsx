@@ -122,7 +122,11 @@ export const PlannerPoolSection = ({
           titleId="planner-pool"
           className="flex-wrap gap-y-3"
           titleClassName="whitespace-nowrap"
-          aside={isFull ? "Team is full. Tap one to swap it in" : undefined}
+          aside={
+            isFull
+              ? "Team is full. Tap one to swap it in"
+              : "Tap to add, tap again to take it off"
+          }
         />
       </FoldHead>
       <FoldPanel id={fold.panelId} open={fold.open}>
