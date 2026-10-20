@@ -96,17 +96,26 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    /* Followed, the Plan opens locked: an edit asks to unlock it first. */
+    /* Followed, the Plan opens locked: it reads, and Unlock comes first. */
     await page.goto(`/mainline/plans/${planId}`);
     await expect(page.getByText("Locked: followed by 1 Play.")).toBeVisible();
     const team = page.getByRole("region", { name: "Your team" });
-    await team.getByRole("button", { name: /^Random team$/ }).click();
+    await expect(
+      team.getByRole("button", { name: /^Random team$/ }),
+    ).toBeHidden();
+    await expect(
+      page.getByRole("region", { name: "Pick your Pokémon" }),
+    ).toBeHidden();
+    await page.getByRole("button", { name: "Unlock to edit" }).click();
     const unlock = page.getByRole("alertdialog", { name: "Unlock this Plan?" });
     await expectAccessible(page);
     await unlock.getByRole("button", { name: "Keep it locked" }).click();
-    await expect(team.getByText("2 of 6")).toBeVisible();
-    await team.getByRole("button", { name: /^Random team$/ }).click();
+    await expect(
+      page.getByRole("button", { name: "Unlock to edit" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Unlock to edit" }).click();
     await unlock.getByRole("button", { name: "Unlock" }).click();
+    await team.getByRole("button", { name: /^Random team$/ }).click();
     await expect(team.getByText("6 of 6")).toBeVisible();
     await expect(
       page.getByText("Followed by 1 Play. Saving updates its comparison."),

@@ -404,11 +404,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         />
 
         {followerCount ? (
-          <PlannerFollowersSection
-            count={followerCount}
-            locked={!isUnlocked}
-            onUnlock={() => askToUnlock(() => {})}
-          />
+          <PlannerFollowersSection count={followerCount} locked={!isUnlocked} />
         ) : null}
 
         {offered ? (
@@ -425,6 +421,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         <PlannerDockSection
           byId={byId}
           issues={issues}
+          locked={!isUnlocked}
           onCancelReplace={cancelReplace}
           onClear={whenUnlocked(team.clearSlots)}
           onMove={whenUnlocked(team.moveSlot)}
@@ -448,18 +445,21 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         ) : null}
       </PageBand>
 
-      <PlannerPoolSection
-        byId={byId}
-        filters={filters}
-        isFull={isFull}
-        onFiltersChange={setFilters}
-        onPick={whenUnlocked(pick)}
-        replacingId={replacingId}
-        sections={context.sections}
-        slotBySpeciesId={slotBySpeciesId}
-        types={context.types}
-        versionGroup={context.versionGroup}
-      />
+      {/* A locked Plan reads its team; picking waits on Unlock. */}
+      {isUnlocked ? (
+        <PlannerPoolSection
+          byId={byId}
+          filters={filters}
+          isFull={isFull}
+          onFiltersChange={setFilters}
+          onPick={whenUnlocked(pick)}
+          replacingId={replacingId}
+          sections={context.sections}
+          slotBySpeciesId={slotBySpeciesId}
+          types={context.types}
+          versionGroup={context.versionGroup}
+        />
+      ) : null}
 
       <PlannerSlotSheet
         buildFields={context.buildFields}

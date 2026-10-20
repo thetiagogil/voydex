@@ -241,18 +241,26 @@ export const PlannerTopSection = ({
             My Plans
             <span className="text-ink-3 tabular-nums">{planCount}</span>
           </Link>
-          <Button
-            type="button"
-            disabled={!canSave || isSaving}
-            onClick={onSave}
-          >
-            {isSaving ? (
-              <Spinner className="size-3.5" />
-            ) : (
-              <AppIcon icon={appIcons.status.active} inline="start" />
-            )}
-            {isSaved ? "Save changes" : "Save Plan"}
-          </Button>
+          {canEdit ? (
+            <Button
+              type="button"
+              disabled={!canSave || isSaving}
+              onClick={onSave}
+            >
+              {isSaving ? (
+                <Spinner className="size-3.5" />
+              ) : (
+                <AppIcon icon={appIcons.status.active} inline="start" />
+              )}
+              {isSaved ? "Save changes" : "Save Plan"}
+            </Button>
+          ) : (
+            /* Locked, Save's place unlocks the Plan first. */
+            <Button type="button" onClick={() => onLockedEdit(() => {})}>
+              <AppIcon icon={appIcons.actions.unlock} inline="start" />
+              Unlock to edit
+            </Button>
+          )}
           {savedPlan ? (
             <PlanActionsMenu
               placement="planner"

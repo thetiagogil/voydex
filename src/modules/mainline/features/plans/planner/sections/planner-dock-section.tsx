@@ -50,6 +50,8 @@ export const randomModeLabels: Record<
 type PlannerDockSectionProps = {
   byId: Map<number, PlannerPokemon>;
   issues: PlanIssue[];
+  /* A locked Plan reads its team without Random or Clear. */
+  locked?: boolean;
   onClear: () => void;
   onMove: (from: number, to: number) => void;
   onOpenCheck: () => void;
@@ -78,12 +80,13 @@ const tipToneClassNames: Record<PlanTeamTip["tone"], string> = {
  * the Play roster's stickers (the art large, its role under the name, a flag
  * when it needs something; an open slot just says Empty). Each
  * opens its slot sheet, can be dragged onto another slot to swap and removed
- * with Undo. Over it: Random and Clear; under it the one tip that matters
- * most, with Team check for the rest.
+ * with Undo. Over it: Random and Clear (not on a locked Plan); under it the
+ * one tip that matters most, with Team check for the rest.
  */
 export const PlannerDockSection = ({
   byId,
   issues,
+  locked = false,
   onCancelReplace,
   onClear,
   onMove,
@@ -137,48 +140,50 @@ export const PlannerDockSection = ({
           <span className="text-ink-3 text-14 font-bold tabular-nums">
             {filled} of 6
           </span>
-          <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
-            <ButtonGroup aria-label="Random team">
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                onClick={onRandom}
-                className="max-sm:px-2"
-              >
-                <AppIcon
-                  icon={appIcons.product.activity}
-                  inline="start"
-                  className="max-sm:hidden"
-                />
-                {randomModeLabels[randomMode].label}
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger
-                  render={
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      size="icon-sm"
-                      aria-label="Random options"
-                    />
-                  }
+          {locked ? null : (
+            <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
+              <ButtonGroup aria-label="Random team">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="sm"
+                  onClick={onRandom}
+                  className="max-sm:px-2"
                 >
-                  <AppIcon icon={appIcons.actions.expand} />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>
-                      Never repeats a Pokémon or its evolution line
-                    </DropdownMenuLabel>
-                    <DropdownMenuRadioGroup
-                      value={randomMode}
-                      onValueChange={(value) =>
-                        onRandomModeChange(value as PlanRandomMode)
-                      }
-                    >
-                      {(Object.keys(randomModeLabels) as PlanRandomMode[]).map(
-                        (mode) => (
+                  <AppIcon
+                    icon={appIcons.product.activity}
+                    inline="start"
+                    className="max-sm:hidden"
+                  />
+                  {randomModeLabels[randomMode].label}
+                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    render={
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        size="icon-sm"
+                        aria-label="Random options"
+                      />
+                    }
+                  >
+                    <AppIcon icon={appIcons.actions.expand} />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-64">
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>
+                        Never repeats a Pokémon or its evolution line
+                      </DropdownMenuLabel>
+                      <DropdownMenuRadioGroup
+                        value={randomMode}
+                        onValueChange={(value) =>
+                          onRandomModeChange(value as PlanRandomMode)
+                        }
+                      >
+                        {(
+                          Object.keys(randomModeLabels) as PlanRandomMode[]
+                        ).map((mode) => (
                           <DropdownMenuRadioItem key={mode} value={mode}>
                             <span className="min-w-0">
                               <span className="block">
@@ -189,24 +194,24 @@ export const PlannerDockSection = ({
                               </span>
                             </span>
                           </DropdownMenuRadioItem>
-                        ),
-                      )}
-                    </DropdownMenuRadioGroup>
-                  </DropdownMenuGroup>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </ButtonGroup>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              disabled={!filled}
-              onClick={onClear}
-              className="max-sm:px-2"
-            >
-              Clear
-            </Button>
-          </div>
+                        ))}
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </ButtonGroup>
+              <Button
+                type="button"
+                variant="secondary"
+                size="sm"
+                disabled={!filled}
+                onClick={onClear}
+                className="max-sm:px-2"
+              >
+                Clear
+              </Button>
+            </div>
+          )}
         </div>
       )}
 
