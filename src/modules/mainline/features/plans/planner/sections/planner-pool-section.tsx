@@ -16,9 +16,9 @@ import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { EmptyState } from "@/shared/components/empty-state";
 import { RangeHeading } from "@/shared/components/range-heading";
+import { SelectControl } from "@/shared/components/select-control";
 import { SearchControl } from "@/shared/components/search-control";
 import { SectionHead } from "@/shared/components/section-head";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 import {
   FilterSheetRow,
   FilterToolbar,
@@ -71,7 +71,7 @@ export const matchesPoolFilters = (
 
 /*
  * v3 `.sec.pick`: every Pokémon of the version group, one range per
- * Pokédex (base, then each expansion) with a scope picker to show one,
+ * Pokédex (base, then each expansion) with a Pokédex select in the bar,
  * search, "Fully evolved only" and the type dots. A tile shows its slot once picked and a
  * small "!" when it needs something; tapping adds it to the next open slot,
  * or, with a full team, asks which one it replaces.
@@ -122,43 +122,17 @@ export const PlannerPoolSection = ({
           titleId="planner-pool"
           className="flex-wrap gap-y-3"
           titleClassName="whitespace-nowrap"
-          aside={
-            isFull
-              ? "Team is full. Tap one to swap it in"
-              : "Tap to add, tap again to take it off"
-          }
-          action={
-            sections.length > 1 ? (
-              <SegmentedControl
-                ariaLabel="Pokédex"
-                selectedTone="strong"
-                phoneScroll
-                value={filters.dex}
-                onValueChange={(dex) => onFiltersChange({ ...filters, dex })}
-                options={[
-                  {
-                    count: shownSections.reduce(
-                      (total, section) => total + section.pokemon.length,
-                      0,
-                    ),
-                    label: "All",
-                    value: "",
-                  },
-                  ...shownSections.map((section) => ({
-                    count: section.pokemon.length,
-                    label: section.name,
-                    value: section.key,
-                  })),
-                ]}
-              />
-            ) : null
-          }
+          aside={isFull ? "Team is full. Tap one to swap it in" : undefined}
         />
       </FoldHead>
       <FoldPanel id={fold.panelId} open={fold.open}>
         <FilterToolbar
           ariaLabel="Filter the Pokémon"
-          activeCount={(filters.fullyEvolved ? 1 : 0) + (filters.type ? 1 : 0)}
+          activeCount={
+            (filters.fullyEvolved ? 1 : 0) +
+            (filters.type ? 1 : 0) +
+            (filters.dex ? 1 : 0)
+          }
           resultLabel="Show Pokémon"
           search={
             <SearchControl
@@ -185,10 +159,55 @@ export const PlannerPoolSection = ({
               </ChoiceChip>
             );
 
+            /* The Pokédexes are filters here, so they sit with the rest. */
+            const dex =
+              sections.length > 1 ? (
+                <SelectControl
+                  id={
+                    placement === "line" ? "planner-dex" : "planner-sheet-dex"
+                  }
+                  ariaLabel="Pokédex"
+                  resetValue=""
+                  variant="ghost"
+                  placeholder="Every Pokédex"
+                  value={filters.dex}
+                  onValueChange={(value) =>
+                    onFiltersChange({ ...filters, dex: value })
+                  }
+                  options={[
+                    {
+                      description: `${shownSections.reduce(
+                        (total, section) => total + section.pokemon.length,
+                        0,
+                      )} Pokémon`,
+                      label: "Every Pokédex",
+                      value: "",
+                    },
+                    ...shownSections.map((section) => ({
+                      description: `${section.pokemon.length} Pokémon`,
+                      label: section.name,
+                      value: section.key,
+                    })),
+                  ]}
+                />
+              ) : null;
+
             return placement === "line" ? (
-              fullyEvolved
+              <>
+                {dex}
+                {fullyEvolved}
+              </>
             ) : (
-              <FilterSheetRow label="Evolution">{fullyEvolved}</FilterSheetRow>
+              <>
+                {dex ? (
+                  <FilterSheetRow htmlFor="planner-sheet-dex" label="Pokédex">
+                    {dex}
+                  </FilterSheetRow>
+                ) : null}
+                <FilterSheetRow label="Evolution">
+                  {fullyEvolved}
+                </FilterSheetRow>
+              </>
             );
           }}
           row={(placement) => {

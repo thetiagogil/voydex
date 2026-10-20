@@ -372,6 +372,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
           canEdit={isUnlocked}
+          includedExpansions={context.versionGroup.expansions
+            .filter((expansion) =>
+              expansions.includes(expansion.versionGroupId),
+            )
+            .map((expansion) => expansion.name)}
           onLockedEdit={askToUnlock}
           gameFixedReason={
             followerCount

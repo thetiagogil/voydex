@@ -64,6 +64,8 @@ type PlanActionsMenuProps = {
    * for the name in a dialog (My Plans).
    */
   onRename?: () => void;
+  /* Share, in the Planner: a link to the team, beside See Plays. */
+  onShare?: () => void;
 };
 
 /*
@@ -78,6 +80,7 @@ export const PlanActionsMenu = ({
   archiveBlockedReason,
   className,
   onRename,
+  onShare,
   placement,
   plan,
 }: PlanActionsMenuProps) => {
@@ -182,7 +185,13 @@ export const PlanActionsMenu = ({
               See Plays
             </DropdownMenuItem>
           ) : null}
-          {plan.linkedPlayCount ? <DropdownMenuSeparator /> : null}
+          {onShare ? (
+            <DropdownMenuItem onClick={onShare}>
+              <AppIcon icon={appIcons.actions.share} />
+              Share
+            </DropdownMenuItem>
+          ) : null}
+          {plan.linkedPlayCount || onShare ? <DropdownMenuSeparator /> : null}
           {plan.isArchived ? null : (
             <DropdownMenuItem
               onClick={() => {

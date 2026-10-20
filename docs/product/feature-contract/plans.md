@@ -10,13 +10,13 @@ As built (v3):
 
 - **Team Planner** (`/mainline/plans/new`, a saved Plan at
   `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
-  group on the cover shelf menu, fill six slots from its Pokédexes (one range
-  per Pokédex, search, Fully evolved only, type dots), drag to swap, Random
-  and Clear, and open a slot to set its role, note and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
+  group on the cover shelf menu (the expansions it includes read under its name), fill six slots from its Pokédexes (one range
+  per Pokédex, a Pokédex filter, search, Fully evolved only, type dots), drag to swap, Random
+  and Clear, and open a slot to set its role (a preset or one custom role), note and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
   reads its defensive matchups from its types. Save writes the Plan; a new
-  Plan is kept in this browser until saved. Share puts the version group, six
+  Plan is kept in this browser until saved. Share (in the "⋯" menu) puts the version group, six
   Pokémon and roles in a link's hash; importing opens it as a new unsaved
   Plan. Switching game carries the team over, unsaved edits included, as
   the new game can have it: a Pokémon it doesn't have leaves the team, and

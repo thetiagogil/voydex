@@ -1,6 +1,7 @@
 "use client";
 
 import { SheetSection } from "@/shared/components/sheet-section";
+import { AddChip } from "@/shared/components/add-chip";
 import { ChoiceChip } from "@/shared/components/choice-chip";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
@@ -340,6 +341,19 @@ export const PlannerSlotSheet = ({
                   </ChoiceChip>
                 );
               })}
+              {/* One custom role: adding another replaces it, as a role is one. */}
+              {readOnly ? null : (
+                <AddChip
+                  label="Custom"
+                  maxLength={40}
+                  placeholder="Custom role"
+                  onSubmit={(role) => {
+                    change({ role });
+
+                    return null;
+                  }}
+                />
+              )}
             </div>
             <Field>
               <FieldLabel htmlFor="plan-slot-note">Note</FieldLabel>
