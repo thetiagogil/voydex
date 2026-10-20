@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { getMainlinePlayNavigationState } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation-model";
+import {
+  getMainlinePlayMarkedPath,
+  getMainlinePlayNavigationState,
+} from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation-model";
 
 const playId = "00000000-0000-4000-8000-000000000001";
 
@@ -124,5 +127,30 @@ describe("getMainlinePlayNavigationState", () => {
       activeSection: "team",
       activeTeamView: "plan",
     });
+  });
+});
+
+describe("getMainlinePlayMarkedPath", () => {
+  const analysis = `/mainline/plays/${playId}/team/analysis`;
+  const story = `/mainline/plays/${playId}/progress/story`;
+
+  it("lights the picked tab while its page is on the way", () => {
+    expect(
+      getMainlinePlayNavigationState(
+        getMainlinePlayMarkedPath(analysis, { from: analysis, href: story }),
+        playId,
+      ),
+    ).toEqual({
+      activeProgressView: "story",
+      activeSection: "progress",
+      activeTeamView: null,
+    });
+  });
+
+  it("follows the page once it arrives, and ignores a stale pick", () => {
+    expect(getMainlinePlayMarkedPath(analysis, null)).toBe(analysis);
+    expect(
+      getMainlinePlayMarkedPath(analysis, { from: story, href: story }),
+    ).toBe(analysis);
   });
 });

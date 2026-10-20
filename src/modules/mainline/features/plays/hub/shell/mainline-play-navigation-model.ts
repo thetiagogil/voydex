@@ -15,6 +15,19 @@ export type MainlinePlayNavigationState = {
   activeTeamView: MainlinePlayTeamView | null;
 };
 
+/* A tab just picked: where it goes, and the page it was picked on. */
+export type MainlinePlayPickedTab = { from: string; href: string };
+
+/*
+ * The path the tabs mark. While a picked tab's page is still on its way the
+ * picked tab lights at once, instead of the old one staying lit until the
+ * page arrives and then switching; a pick made on another page is stale.
+ */
+export const getMainlinePlayMarkedPath = (
+  pathname: string,
+  picked: MainlinePlayPickedTab | null,
+) => (picked && picked.from === pathname ? picked.href : pathname);
+
 const matchesPath = (pathname: string, href: string) => {
   return pathname === href || pathname === `${href}/`;
 };
