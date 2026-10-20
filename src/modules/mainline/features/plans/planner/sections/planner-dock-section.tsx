@@ -367,31 +367,26 @@ export const PlannerDockSection = ({
       </ol>
 
       {/*
-       * The one tip that matters most. With a team, the line itself opens
-       * Team check for the rest; an empty team has nothing to check yet.
+       * The one tip that matters most, then a link to Team check for the
+       * rest; an empty team has nothing to check yet.
        */}
-      <div aria-live="polite">
-        {filled ? (
-          <button
-            type="button"
-            onClick={onOpenCheck}
-            className="group/tip text-ink-2 text-14 focus-ring -mx-1 flex w-full items-center gap-2.5 rounded-md px-1 py-0.5 text-left font-semibold"
-          >
-            <TipMark tone={tip.tone} />
-            <span className="min-w-0 flex-1">
-              {tip.text}{" "}
-              <span className="text-ink font-extrabold whitespace-nowrap group-hover/tip:underline">
+      <p
+        aria-live="polite"
+        className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold"
+      >
+        <TipMark tone={tip.tone} />
+        <span className="min-w-0 flex-1">
+          {tip.text}
+          {filled ? (
+            <>
+              {" "}
+              <TextLink onClick={onOpenCheck} className="whitespace-nowrap">
                 {tip.more ? "See more" : "Team check"}
-              </span>
-            </span>
-          </button>
-        ) : (
-          <p className="text-ink-2 text-14 flex items-center gap-2.5 font-semibold">
-            <TipMark tone={tip.tone} />
-            <span className="min-w-0 flex-1">{tip.text}</span>
-          </p>
-        )}
-      </div>
+              </TextLink>
+            </>
+          ) : null}
+        </span>
+      </p>
     </section>
   );
 };
