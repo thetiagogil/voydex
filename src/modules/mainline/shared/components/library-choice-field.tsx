@@ -282,6 +282,7 @@ export const LibraryChoiceField = ({
               <ComboboxItem
                 key={item.id}
                 value={item}
+                check={false}
                 aria-label={item.isNew ? undefined : item.name}
                 aria-description={item.description ?? undefined}
               >

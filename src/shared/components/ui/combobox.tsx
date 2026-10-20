@@ -172,11 +172,16 @@ const ComboboxList = ({
   );
 };
 
+/*
+ * `check={false}` is for a list that only adds (a picked option leaves it):
+ * no option is ever ticked, so the row gives up the check's room at its end.
+ */
 const ComboboxItem = ({
+  check = true,
   className,
   children,
   ...props
-}: ComboboxPrimitive.Item.Props) => {
+}: ComboboxPrimitive.Item.Props & { check?: boolean }) => {
   return (
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
@@ -184,16 +189,19 @@ const ComboboxItem = ({
         menuOptionClassName,
         menuOptionSelectedClassName,
         "[&_svg:not([class*='size-'])]:size-4",
+        !check && "pr-2",
         className,
       )}
       {...props}
     >
       {children}
-      <ComboboxPrimitive.ItemIndicator
-        render={<span className={menuCheckClassName} />}
-      >
-        <CheckIcon className="size-4.5" strokeWidth={3} />
-      </ComboboxPrimitive.ItemIndicator>
+      {check ? (
+        <ComboboxPrimitive.ItemIndicator
+          render={<span className={menuCheckClassName} />}
+        >
+          <CheckIcon className="size-4.5" strokeWidth={3} />
+        </ComboboxPrimitive.ItemIndicator>
+      ) : null}
     </ComboboxPrimitive.Item>
   );
 };
