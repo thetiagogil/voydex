@@ -15,9 +15,10 @@ import { cn } from "@/shared/utils/cn";
  * from the first stop's centre to the last one's (28px down a month or the
  * start; a moment's medallion, level with its card, covers the line's end).
  *
- * `centered` (History) moves the line to the middle from 1024px: moments sit
- * on either side of it (each row says which, see RecordRow's `side`), a month
- * is a small pill on the line and the start's words sit to its right.
+ * `centered` (History) turns the line into a trail down the middle from
+ * 1024px: each month is a big circle on it, moments hang either side with
+ * their medallion inside the card (each row says which side, see RecordRow's
+ * `side`), and the start's words sit to the right of its medallion.
  */
 export const PlayTimeline = ({
   children,
@@ -34,14 +35,17 @@ export const PlayTimeline = ({
   <ol
     aria-label={label}
     data-layout={layout}
-    className={cn("group/timeline grid min-w-0", className)}
+    className={cn(
+      "timeline-centered:before:trail timeline-centered:before:absolute timeline-centered:before:inset-y-7 timeline-centered:before:left-[calc(50%-12px)] timeline-centered:before:w-6 relative grid min-w-0",
+      className,
+    )}
   >
     {children}
   </ol>
 );
 
 const lineClassName =
-  "before:bg-line before:absolute before:top-0 before:bottom-0 before:left-6.75 before:w-0.5 first:before:top-7 last:before:bottom-auto last:before:h-7 only:before:hidden lg:group-data-[layout=centered]/timeline:before:left-[calc(50%-1px)]";
+  "before:bg-line before:absolute before:top-0 before:bottom-0 before:left-6.75 before:w-0.5 first:before:top-7 last:before:bottom-auto last:before:h-7 only:before:hidden timeline-centered:before:hidden";
 
 /* One stop on the line: a moment, a month, or where the Play began. */
 export const PlayTimelineItem = ({
@@ -62,7 +66,26 @@ export const PlayTimelineItem = ({
   </li>
 );
 
-/* A month on the line: a small mark, then its name and how many moments. */
+/*
+ * "February 2025" on one line, or in a trail's circle as the month over its
+ * year, so every circle reads the same way.
+ */
+const PlayTimelineMonthName = ({ label }: { label: string }) => {
+  const [, month, year] = /^(.+) (\d{4})$/.exec(label) ?? [];
+
+  return month ? (
+    <>
+      {month} <span className="timeline-centered:block">{year}</span>
+    </>
+  ) : (
+    label
+  );
+};
+
+/*
+ * A month on the line: a small mark, then its name and how many moments. On
+ * History's trail it is a big circle the trail runs through.
+ */
 export const PlayTimelineMonth = ({
   count,
   label,
@@ -72,16 +95,16 @@ export const PlayTimelineMonth = ({
   label: string;
   titleId: string;
 }) => (
-  <PlayTimelineItem className="pt-5 first:pt-0">
-    <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4 lg:group-data-[layout=centered]/timeline:flex lg:group-data-[layout=centered]/timeline:justify-center">
+  <PlayTimelineItem className="timeline-centered:py-4 timeline-centered:first:pt-0 pt-5 first:pt-0">
+    <div className="timeline-centered:flex timeline-centered:justify-center grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
       <span
         aria-hidden
-        className="bg-surface inset-ring-mute relative mx-auto size-4.5 rounded-full inset-ring-[3px] lg:group-data-[layout=centered]/timeline:hidden"
+        className="bg-surface inset-ring-mute timeline-centered:hidden relative mx-auto size-4.5 rounded-full inset-ring-[3px]"
       />
       <RangeHeading
-        className="lg:group-data-[layout=centered]/timeline:bg-surface lg:group-data-[layout=centered]/timeline:shadow-card relative pl-4 sm:pl-5 lg:group-data-[layout=centered]/timeline:rounded-full lg:group-data-[layout=centered]/timeline:px-6 lg:group-data-[layout=centered]/timeline:py-2.5"
+        className="timeline-centered:size-32 timeline-centered:flex-col timeline-centered:flex-nowrap timeline-centered:items-center timeline-centered:justify-center timeline-centered:gap-0.5 timeline-centered:rounded-full timeline-centered:bg-surface timeline-centered:p-3 timeline-centered:text-center timeline-centered:shadow-card timeline-centered:inset-ring-2 timeline-centered:inset-ring-line relative pl-4 sm:pl-5"
         headingLevel={3}
-        title={label}
+        title={<PlayTimelineMonthName label={label} />}
         titleId={titleId}
         count={`${count} ${count === 1 ? "moment" : "moments"}`}
       />
@@ -103,9 +126,9 @@ export const PlayTimelineStart = ({
 
   return (
     <PlayTimelineItem className="pt-2">
-      <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4 lg:group-data-[layout=centered]/timeline:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] lg:group-data-[layout=centered]/timeline:gap-5">
+      <div className="timeline-centered:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] timeline-centered:gap-5 grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
         <Medallion
-          className="lg:group-data-[layout=centered]/timeline:col-start-2"
+          className="timeline-centered:col-start-2"
           content={{ icon: appIcons.milestones.story, kind: "start" }}
         />
         <div className="grid min-w-0 gap-0.5 pl-4 sm:pl-5">

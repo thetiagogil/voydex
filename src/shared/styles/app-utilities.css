@@ -153,6 +153,41 @@
   }
 }
 
+/*
+ * History from 1024px (`PlayTimeline layout="centered"`): its own list and
+ * everything inside it. Narrower, History keeps its straight line on the
+ * left like any timeline.
+ */
+@custom-variant timeline-centered {
+  @media (width >= 64rem) {
+    &:where([data-layout="centered"]),
+    :where([data-layout="centered"]) & {
+      @slot;
+    }
+  }
+}
+
+/*
+ * History's trail: a soft dashed line that wanders a little either side of
+ * the middle, like a route on a region map. A mask over the line colour, so
+ * it follows the token.
+ */
+@utility trail {
+  background-color: var(--color-mute);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='176' viewBox='0 0 24 176'%3E%3Cpath d='M12 0C21 44 21 44 12 88S3 132 12 176' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-dasharray='7 8'/%3E%3C/svg%3E");
+  mask-repeat: repeat-y;
+  mask-position: center top;
+  mask-size: 24px 176px;
+}
+
+/* The small dashed curve that ties a card to the trail. */
+@utility trail-tie {
+  background-color: var(--color-mute);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='16' viewBox='0 0 48 16'%3E%3Cpath d='M2 9Q24 1 46 9' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-dasharray='6 6'/%3E%3C/svg%3E");
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

@@ -24,9 +24,9 @@ type RecordRowProps = {
   /* When it happened; on a timeline it sits at the right edge of the card's top line. */
   when?: ReactNode;
   /*
-   * On a centred timeline (History), which side of the line the card takes
-   * from 1024px, the medallion on the line between. Narrower, it stays beside
-   * the medallion like any timeline row.
+   * On History's trail, which side of it the card takes from 1024px, its
+   * medallion inside. Narrower, it stays beside the medallion like any
+   * timeline row.
    */
   side?: "left" | "right";
   /* Let the line and note wrap in full instead of truncating and clamping. */
@@ -89,17 +89,17 @@ export const RecordRow = ({
       <article
         className={cn(
           /* The medallion sits level with the middle of its card. */
-          "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
+          "relative grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
           side &&
-            "lg:before:bg-line relative lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] lg:gap-5 lg:before:absolute lg:before:top-[calc(50%-1px)] lg:before:h-0.5 lg:before:w-5",
-          /* A short tie from the card to its medallion. */
-          side === "left" && "lg:before:right-[calc(50%+28px)]",
-          side === "right" && "lg:before:left-[calc(50%+28px)]",
+            "lg:before:trail-tie lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] lg:gap-5 lg:before:absolute lg:before:top-[calc(50%-8px)] lg:before:h-4 lg:before:w-12",
+          /* A small curve ties the card to the trail. */
+          side === "left" && "lg:before:right-1/2",
+          side === "right" && "lg:before:left-1/2",
           className,
         )}
       >
         <Medallion
-          className={cn(side && "lg:col-start-2 lg:row-start-1")}
+          className={cn(side && "lg:hidden")}
           content={medallion}
           faded={medallionFaded}
         />
@@ -107,7 +107,7 @@ export const RecordRow = ({
           size="sm"
           className={cn(
             "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
-            /* Against the line, at a width a couple of lines read well in. */
+            /* Against the trail, at a width a couple of lines read well in. */
             side && "lg:w-full lg:max-w-md",
             side === "left" &&
               "lg:col-start-1 lg:row-start-1 lg:justify-self-end",
@@ -115,7 +115,19 @@ export const RecordRow = ({
               "lg:col-start-3 lg:row-start-1 lg:justify-self-start",
           )}
         >
-          {words}
+          {side ? (
+            /* Off the trail, the medallion comes inside its card. */
+            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-center lg:gap-4">
+              <Medallion
+                className="hidden lg:grid"
+                content={medallion}
+                faded={medallionFaded}
+              />
+              <div className="min-w-0">{words}</div>
+            </div>
+          ) : (
+            words
+          )}
         </Card>
       </article>
     );

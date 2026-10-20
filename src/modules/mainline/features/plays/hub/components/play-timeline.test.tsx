@@ -61,12 +61,29 @@ describe("PlayTimeline", () => {
     expect(centered).toContain('data-layout="centered"');
   });
 
-  it("moves the line to the middle only inside a centred timeline", () => {
+  it("swaps the straight line for the trail only on a centred timeline", () => {
     const item = renderToStaticMarkup(<PlayTimelineItem>x</PlayTimelineItem>);
+    const centered = renderToStaticMarkup(
+      <PlayTimeline layout="centered">x</PlayTimeline>,
+    );
 
     expect(item).toContain("before:left-6.75");
-    expect(item).toContain(
-      "lg:group-data-[layout=centered]/timeline:before:left-[calc(50%-1px)]",
+    expect(item).toContain("timeline-centered:before:hidden");
+    expect(centered).toContain("timeline-centered:before:trail");
+  });
+
+  it("sets a month's year on its own line in a trail's circle", () => {
+    const markup = renderToStaticMarkup(
+      <PlayTimelineMonth count={9} label="February 2025" titleId="m-2025-02" />,
     );
+
+    expect(markup).toContain(
+      'February <span class="timeline-centered:block">2025</span>',
+    );
+    expect(
+      renderToStaticMarkup(
+        <PlayTimelineMonth count={1} label="No date" titleId="m-undated" />,
+      ),
+    ).toContain(">No date<");
   });
 });
