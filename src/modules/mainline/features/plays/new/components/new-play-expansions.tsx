@@ -23,7 +23,7 @@ export const NewPlayExpansions = ({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <FieldLabel id={labelId}>Expansions you own (optional)</FieldLabel>
+      <FieldLabel id={labelId}>Expansions (optional)</FieldLabel>
       <div
         role="group"
         aria-labelledby={labelId}

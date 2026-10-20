@@ -36,7 +36,7 @@ export const PlaySettingsExpansionsSection = ({
     renderField={({ disabled, onChange, value }) => (
       <div
         role="group"
-        aria-label="Expansions you own"
+        aria-label="Expansions"
         className="flex flex-wrap gap-2"
       >
         {data.expansions.map((expansion) => (
