@@ -4,7 +4,7 @@
 -- ============================================================================
 CREATE TABLE gameplay.mainline_play_challenge_rules (
     play_id uuid NOT NULL REFERENCES gameplay.mainline_plays (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
+    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE CASCADE,
     config_override jsonb,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT play_challenge_rules_primary_key PRIMARY KEY (play_id, challenge_rule_id),
