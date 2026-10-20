@@ -93,7 +93,7 @@ const fadedEventTypes = new Set(["pokemon_removed", "pokemon_retired"]);
 
 type OtherMomentKind = {
   icon: AppIconComponent;
-  /* v3's word for the kind; the lookup's names are title case. */
+  /* The kind in one word, as History's filters name it. */
   label: string | null;
   medallion: "milestone" | "note" | "status";
 };
@@ -101,7 +101,7 @@ type OtherMomentKind = {
 const otherMomentKinds: Record<string, OtherMomentKind> = {
   hall_of_fame: {
     icon: appIcons.milestones.hallOfFame,
-    label: "Hall of Fame",
+    label: "Story",
     medallion: "milestone",
   },
   journal_note: {
@@ -111,12 +111,12 @@ const otherMomentKinds: Record<string, OtherMomentKind> = {
   },
   status_change: {
     icon: appIcons.product.journey,
-    label: "Status change",
+    label: "Status",
     medallion: "status",
   },
   story_milestone: {
     icon: appIcons.milestones.story,
-    label: "Milestone",
+    label: "Story",
     medallion: "milestone",
   },
 };

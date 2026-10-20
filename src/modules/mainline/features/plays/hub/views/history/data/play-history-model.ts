@@ -39,7 +39,7 @@ const storyEventTypes = new Set(["hall_of_fame", "story_milestone"]);
 const filterLabels: Record<PlayHistoryFilter, string> = {
   all: "Everything",
   note: "Notes",
-  play: "Play",
+  play: "Status",
   story: "Story",
   team: "Team",
 };

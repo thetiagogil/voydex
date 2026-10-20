@@ -109,7 +109,7 @@ describe("getPlayMomentRecord for other moments", () => {
         .medallion.kind,
     ).toBe("gold");
     expect(getPlayMomentRecord(milestone).medallion.kind).toBe("calm");
-    expect(getPlayMomentRecord(milestone).label).toBe("Milestone");
+    expect(getPlayMomentRecord(milestone).label).toBe("Story");
   });
 
   it("draws a note warm and quotes its title as the line", () => {

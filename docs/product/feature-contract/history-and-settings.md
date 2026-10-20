@@ -12,7 +12,7 @@ origin (shown with every kind and no search). From 1024px each month's moments l
 its three newest on the same line, closed by the starting line while there are
 fewer than three. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),
-Notes and Play (status changes and the rest). A search in front of the
+Notes and Status (status changes and the rest). Each moment's kind reads the same one word: Story, Team, Note or Status. A search in front of the
 filters matches each moment's kind, line and note, and the filter counts
 follow it. `Add a note` keeps a note at the end of the timeline.
 Highlights, editing, arranging and deleting entries below are accepted but
