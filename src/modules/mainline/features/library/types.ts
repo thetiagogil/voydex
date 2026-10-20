@@ -3,8 +3,11 @@ import type { ChallengeRuleOptionKey } from "@/modules/mainline/shared/data/chal
 /* A rule's kind, such as Catching or Custom; the picker for a new rule. */
 export type LibraryRuleKind = { id: number; name: string; slug: string };
 
-/* How many of your Plays keep a rule or wear a tag. */
-export type LibraryUsage = { playCount: number };
+/* A Play of yours that keeps a rule or wears a tag. */
+export type LibraryPlay = { id: string; name: string };
+
+/* Which of your Plays keep a rule or wear a tag, by name, and how many. */
+export type LibraryUsage = { playCount: number; plays: LibraryPlay[] };
 
 /* A challenge rule you can pick: Voydex's own (built-in) or yours. */
 export type LibraryRule = LibraryUsage & {

@@ -1,30 +1,53 @@
 import type {
+  LibraryPlay,
   LibraryTab,
   LibraryUsage,
 } from "@/modules/mainline/features/library/types";
 
-/* The links' ids, counted: a function from a rule's or tag's id to its usage. */
-export const countLibraryUsage = (playIds: string[]) => {
-  const plays = playIds.reduce(
-    (counts, id) => counts.set(id, (counts.get(id) ?? 0) + 1),
-    new Map<string, number>(),
-  );
+/*
+ * The links, gathered: a function from a rule's or tag's id to the Plays
+ * that use it, by name, and how many. A link to a Play you can't read is
+ * left out.
+ */
+export const gatherLibraryUsage = (
+  links: { itemId: string; playId: string }[],
+  plays: LibraryPlay[],
+) => {
+  const playById = new Map(plays.map((play) => [play.id, play]));
+  const byItem = new Map<string, LibraryPlay[]>();
 
-  return (id: string): LibraryUsage => ({ playCount: plays.get(id) ?? 0 });
+  for (const link of links) {
+    const play = playById.get(link.playId);
+
+    if (play)
+      byItem.set(link.itemId, [...(byItem.get(link.itemId) ?? []), play]);
+  }
+
+  return (id: string): LibraryUsage => {
+    const used = (byItem.get(id) ?? []).toSorted((left, right) =>
+      left.name.localeCompare(right.name),
+    );
+
+    return { playCount: used.length, plays: used };
+  };
 };
 
 const plural = (count: number, noun: string) =>
   `${count} ${noun}${count === 1 ? "" : "s"}`;
 
 /* Where it's used, as the card says: "In 2 Plays", "Not used yet". */
-export const getLibraryUsageLabel = ({ playCount }: LibraryUsage) =>
+export const getLibraryUsageLabel = ({
+  playCount,
+}: Pick<LibraryUsage, "playCount">) =>
   playCount ? `In ${plural(playCount, "Play")}` : "Not used yet";
 
 /*
  * What deleting takes with it, for the confirm: "It leaves 2 Plays." or
  * nothing when it isn't used.
  */
-export const getLibraryDeleteNote = ({ playCount }: LibraryUsage) =>
+export const getLibraryDeleteNote = ({
+  playCount,
+}: Pick<LibraryUsage, "playCount">) =>
   playCount ? `It leaves ${plural(playCount, "Play")}.` : null;
 
 /* The tab a link asks for; Rules when it names none or one we don't have. */
@@ -86,8 +109,10 @@ const toSearchText = (text: string) =>
     .toLowerCase()
     .trim();
 
-const byUse = (left: LibraryUsage, right: LibraryUsage) =>
-  right.playCount - left.playCount;
+const byUse = (
+  left: Pick<LibraryUsage, "playCount">,
+  right: Pick<LibraryUsage, "playCount">,
+) => right.playCount - left.playCount;
 
 /*
  * The rules or tags the bar leaves: the search matches a name (and a
@@ -95,7 +120,7 @@ const byUse = (left: LibraryUsage, right: LibraryUsage) =>
  * name or by how many Plays use each.
  */
 export const filterAndSortLibrary = <
-  TItem extends LibraryUsage & {
+  TItem extends Pick<LibraryUsage, "playCount"> & {
     isBuiltIn?: boolean;
     kind?: { slug: string; name: string };
     name: string;

@@ -15,8 +15,15 @@ import {
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { Textarea } from "@/shared/components/ui/textarea";
+import { ruleDescriptionMaxLength } from "@/modules/mainline/shared/utils/library-names";
 
-export type LibraryNameDraft = { kindId: number | null; name: string };
+export type LibraryNameDraft = {
+  /* What a rule asks, when the dialog offers it. */
+  description?: string;
+  kindId: number | null;
+  name: string;
+};
 
 type LibraryNameDialogProps = {
   initial: LibraryNameDraft;
@@ -31,10 +38,12 @@ type LibraryNameDialogProps = {
   open: boolean;
   submitLabel: string;
   title: string;
+  /* A rule's description: the dialog offers it under the kind. */
+  withDescription?: boolean;
 };
 
 /*
- * Making or renaming a rule or tag: its name, and a rule's kind. Enter
+ * Making a rule or tag: its name, and a rule's kind and what it asks. Enter
  * saves; a name you already have says so under the field.
  */
 export const LibraryNameDialog = ({
@@ -47,9 +56,11 @@ export const LibraryNameDialog = ({
   open,
   submitLabel,
   title,
+  withDescription = false,
 }: LibraryNameDialogProps) => {
   const nameId = useId();
   const kindId = useId();
+  const descriptionId = useId();
   const errorId = useId();
   const [draft, setDraft] = useState(initial);
   const [error, setError] = useState<string | null>(null);
@@ -123,6 +134,24 @@ export const LibraryNameDialog = ({
                   label: kind.name,
                   value: String(kind.id),
                 }))}
+              />
+            </Field>
+          ) : null}
+          {withDescription ? (
+            <Field>
+              <FieldLabel htmlFor={descriptionId}>
+                What it asks (optional)
+              </FieldLabel>
+              <Textarea
+                id={descriptionId}
+                maxLength={ruleDescriptionMaxLength}
+                placeholder="Such as: heal only with items between battles."
+                value={draft.description ?? ""}
+                onChange={(event) => {
+                  const description = event.currentTarget.value;
+
+                  setDraft((current) => ({ ...current, description }));
+                }}
               />
             </Field>
           ) : null}

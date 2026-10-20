@@ -86,14 +86,16 @@ The Library (`/mainline/library`) keeps the rules and tags you reuse across
 Plays, in two tabs:
 
 - **Rules:** a card per rule you can pick, Voydex's own (a lock marked
-  Voydex, never edited or deleted, with what the rule asks) and yours, with
-  its kind and how many Plays keep it. Tapping a card opens the rule in full:
-  everything it asks, the options each Play sets for it and, for yours, Edit
-  and Delete. The bar narrows rules by kind and by who made them (Voydex's
-  or yours). New rule, in the page's head, makes one with a
-  name and a kind; a rule's menu edits its name and kind or deletes it.
-- **Tags:** a pill per tag with how many Plays wear it; the pill
-  opens Rename and Delete, and New tag in the head makes one.
+  Voydex) and yours, with its kind, what it asks and how many Plays keep it.
+  Tapping a card opens the rule in full: who made it, everything it asks,
+  the options each Play sets for it and the Plays that keep it, each a link.
+  Voydex's own stays as it is; yours opens with its name, kind and
+  description ready to change, Save and Delete. New rule, in the page's
+  head, makes one with a name, a kind and an optional description. The bar
+  narrows rules by kind and by who made them (Voydex's or yours).
+- **Tags:** a pill per tag with how many Plays wear it; the pill opens the
+  tag in full the same way (its name, the Plays that wear it, Save and
+  Delete), and New tag in the head makes one.
 
 Renaming fixes the name everywhere it's used. Deleting is for good, after a
 confirm that says how many Plays it leaves, and every link goes with

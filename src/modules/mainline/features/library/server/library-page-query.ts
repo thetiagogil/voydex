@@ -1,13 +1,13 @@
 import { getRuleOptionKeys } from "@/modules/mainline/shared/data/challenge-rule-options";
-import { countLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
+import { gatherLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
 import type { LibraryPageData } from "@/modules/mainline/features/library/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
  * Every rule you can pick (Voydex's and yours) and every tag of yours, with
- * how many of your Plays use each. The links read are your own, so the
- * counts never include another trainer's.
+ * which of your Plays use each. The links read are your own, so they never
+ * include another trainer's Plays.
  */
 export const getLibraryPageData = async (): Promise<LibraryPageData> => {
   const supabase = await createServerSupabaseClient();
@@ -18,6 +18,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     playRulesResult,
     tagsResult,
     playTagsResult,
+    playsResult,
   ] = await Promise.all([
     supabase
       .schema("gameplay")
@@ -32,7 +33,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     supabase
       .schema("gameplay")
       .from("mainline_play_challenge_rules")
-      .select("challenge_rule_id"),
+      .select("challenge_rule_id, play_id"),
     supabase
       .from("tags")
       .select("id, name")
@@ -41,7 +42,12 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     supabase
       .schema("gameplay")
       .from("mainline_play_tags")
-      .select("tag_id")
+      .select("tag_id, play_id")
+      .eq("user_id", userId),
+    supabase
+      .schema("gameplay")
+      .from("mainline_plays")
+      .select("id, name")
       .eq("user_id", userId),
   ]);
 
@@ -50,18 +56,28 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     rulesResult.error ||
     playRulesResult.error ||
     tagsResult.error ||
-    playTagsResult.error
+    playTagsResult.error ||
+    playsResult.error
   ) {
     throw new Error("Unable to load your Library.");
   }
 
   const kinds = kindsResult.data ?? [];
   const kindsById = new Map(kinds.map((kind) => [kind.id, kind]));
-  const ruleUsage = countLibraryUsage(
-    (playRulesResult.data ?? []).map((link) => link.challenge_rule_id),
+  const plays = playsResult.data ?? [];
+  const ruleUsage = gatherLibraryUsage(
+    (playRulesResult.data ?? []).map((link) => ({
+      itemId: link.challenge_rule_id,
+      playId: link.play_id,
+    })),
+    plays,
   );
-  const tagUsage = countLibraryUsage(
-    (playTagsResult.data ?? []).map((link) => link.tag_id),
+  const tagUsage = gatherLibraryUsage(
+    (playTagsResult.data ?? []).map((link) => ({
+      itemId: link.tag_id,
+      playId: link.play_id,
+    })),
+    plays,
   );
 
   return {

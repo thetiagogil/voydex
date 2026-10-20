@@ -16,6 +16,7 @@ import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in
 import {
   libraryNameMaxLength,
   parseLibraryName,
+  parseRuleDescription,
 } from "@/modules/mainline/shared/utils/library-names";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
@@ -66,19 +67,26 @@ const parseRuleName = (name: unknown) =>
 const parseTagName = (name: unknown) =>
   parseLibraryName(name, { label: "tag", maximum: libraryNameMaxLength.tag });
 
-/* A new rule of yours, of the kind picked; a name you can pick is refused. */
+/*
+ * A new rule of yours, of the kind picked and with what it asks; a name you
+ * can pick is refused.
+ */
 export const createLibraryRuleAction = async ({
+  description,
   kindId,
   name,
 }: {
+  description?: string | null;
   kindId: number;
   name: string;
 }): Promise<LibraryActionResult> => {
   try {
     const ruleName = parseRuleName(name);
+    const ruleDescription = parseRuleDescription(description);
     const ruleKindId = parseInput(kindIdSchema, kindId);
     const { supabase, userId } = await getTrainer();
     const { choice, created } = await findOrCreateChallengeRule(supabase, {
+      description: ruleDescription,
       kindId: ruleKindId,
       name: ruleName,
       userId,
@@ -96,12 +104,17 @@ export const createLibraryRuleAction = async ({
   }
 };
 
-/* A new name (and kind) for one of your rules, everywhere it's kept. */
+/*
+ * A new name, kind and description for one of your rules, everywhere it's
+ * kept.
+ */
 export const updateLibraryRuleAction = async ({
+  description,
   id,
   kindId,
   name,
 }: {
+  description: string | null;
   id: string;
   kindId: number;
   name: string;
@@ -109,9 +122,11 @@ export const updateLibraryRuleAction = async ({
   try {
     const ruleId = parseInput(ruleIdSchema, id);
     const ruleName = parseRuleName(name);
+    const ruleDescription = parseRuleDescription(description);
     const ruleKindId = parseInput(kindIdSchema, kindId);
     const { supabase, userId } = await getTrainer();
     const choice = await renameChallengeRule(supabase, {
+      description: ruleDescription,
       id: ruleId,
       kindId: ruleKindId,
       name: ruleName,

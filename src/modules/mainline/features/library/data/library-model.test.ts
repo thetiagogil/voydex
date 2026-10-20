@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   countActiveLibraryFilters,
-  countLibraryUsage,
+  gatherLibraryUsage,
   defaultLibraryFilters,
   filterAndSortLibrary,
   hasActiveLibraryFilters,
@@ -12,12 +12,28 @@ import {
   toTagFilters,
 } from "./library-model";
 
-describe("countLibraryUsage", () => {
-  it("counts each id's Play links", () => {
-    const usage = countLibraryUsage(["a", "a", "b"]);
+describe("gatherLibraryUsage", () => {
+  const kanto = { id: "p1", name: "Kanto run" };
+  const alola = { id: "p2", name: "Alola run" };
 
-    expect(usage("a")).toEqual({ playCount: 2 });
-    expect(usage("c")).toEqual({ playCount: 0 });
+  it("names each id's Plays in order, and counts them", () => {
+    const usage = gatherLibraryUsage(
+      [
+        { itemId: "a", playId: "p1" },
+        { itemId: "a", playId: "p2" },
+        { itemId: "b", playId: "p1" },
+      ],
+      [kanto, alola],
+    );
+
+    expect(usage("a")).toEqual({ playCount: 2, plays: [alola, kanto] });
+    expect(usage("c")).toEqual({ playCount: 0, plays: [] });
+  });
+
+  it("leaves out a Play it can't name", () => {
+    const usage = gatherLibraryUsage([{ itemId: "a", playId: "gone" }], []);
+
+    expect(usage("a")).toEqual({ playCount: 0, plays: [] });
   });
 });
 
