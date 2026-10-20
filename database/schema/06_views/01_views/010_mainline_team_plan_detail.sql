@@ -17,7 +17,8 @@ SELECT
     mainline_team_plan_members.target_form_id,
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
-    mainline_team_plan_members.role_label,
+    team_plan_roles.slug AS role_slug,
+    team_plan_roles.name AS role_name,
     mainline_team_plan_members.notes,
     mainline_team_plan_members.gender,
     mainline_team_plan_members.nature_id,
@@ -37,6 +38,7 @@ FROM
     JOIN reference.pokemon_species AS target_species ON target_species.id = mainline_team_plan_members.target_species_id
     JOIN reference.pokemon_forms AS target_forms ON target_forms.species_id = mainline_team_plan_members.target_species_id
         AND target_forms.id = mainline_team_plan_members.target_form_id
+    LEFT JOIN planning.mainline_team_plan_roles AS team_plan_roles ON team_plan_roles.id = mainline_team_plan_members.role_id
     LEFT JOIN reference.natures ON natures.id = mainline_team_plan_members.nature_id
     LEFT JOIN reference.abilities ON abilities.id = mainline_team_plan_members.ability_id
     LEFT JOIN reference.items AS held_items ON held_items.id = mainline_team_plan_members.held_item_id

@@ -4,12 +4,13 @@ import {
   decodePlanShare,
   encodePlanShare,
   toPlanShare,
+  type PlanShare,
 } from "./plan-share-code";
 
 describe("plan share code", () => {
-  const share = {
+  const share: PlanShare = {
     slots: [
-      { role: "Lead", species: "corviknight" },
+      { role: "lead", species: "corviknight" },
       null,
       { role: null, species: "sirfetchd" },
       null,
@@ -25,17 +26,21 @@ describe("plan share code", () => {
     expect(decodePlanShare(link)).toEqual(share);
   });
 
-  it("reads a bare code with a role in any script", () => {
-    const withAccent = {
+  it("reads an older link's roles by name, and drops a custom one", () => {
+    const older = {
       ...share,
       slots: [
-        { role: "Pokémon pivot", species: "rotom" },
-        ...share.slots.slice(1),
+        { role: "Physical attacker", species: "rotom" },
+        { role: "Pokémon pivot", species: "corviknight" },
+        ...share.slots.slice(2),
       ],
-    };
-    const code = encodePlanShare(withAccent).slice("plan=".length);
+    } as unknown as PlanShare;
+    const code = encodePlanShare(older).slice("plan=".length);
 
-    expect(decodePlanShare(code)).toEqual(withAccent);
+    expect(decodePlanShare(code)?.slots.slice(0, 2)).toEqual([
+      { role: "physical-attacker", species: "rotom" },
+      { role: null, species: "corviknight" },
+    ]);
   });
 
   it("is null for anything that isn't a Plan", () => {
@@ -50,12 +55,12 @@ describe("toPlanShare", () => {
 
     expect(
       toPlanShare(
-        [{ role: "Lead", speciesId: 823 }, null, { role: null, speciesId: 1 }],
+        [{ role: "lead", speciesId: 823 }, null, { role: null, speciesId: 1 }],
         slugs,
         "sword-shield",
       ),
     ).toEqual({
-      slots: [{ role: "Lead", species: "corviknight" }, null, null],
+      slots: [{ role: "lead", species: "corviknight" }, null, null],
       versionGroupSlug: "sword-shield",
     });
   });

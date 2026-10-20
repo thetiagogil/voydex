@@ -1,8 +1,8 @@
 "use client";
 
 import { SheetSection } from "@/shared/components/sheet-section";
-import { AddChip } from "@/shared/components/add-chip";
 import { ChoiceChip } from "@/shared/components/choice-chip";
+import { planRoles } from "@/modules/mainline/features/plans/planner/data/plan-roles";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
 import { useState } from "react";
@@ -42,16 +42,6 @@ import {
   AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog";
 import { cn } from "@/shared/utils/cn";
-
-export const planRoles = [
-  "Lead",
-  "Physical attacker",
-  "Special attacker",
-  "Wall",
-  "Pivot",
-  "Sweeper",
-  "Support",
-] as const;
 
 type PlannerSlotSheetProps = {
   buildFields: PlannerBuildFields;
@@ -322,38 +312,21 @@ export const PlannerSlotSheet = ({
               aria-label="Role"
               className="flex flex-wrap gap-1.5"
             >
-              {[
-                ...planRoles,
-                ...(member.role &&
-                !planRoles.includes(member.role as (typeof planRoles)[number])
-                  ? [member.role]
-                  : []),
-              ].map((role) => {
-                const isPicked = member.role === role;
+              {planRoles.map((role) => {
+                const isPicked = member.role === role.slug;
 
                 return (
                   <ChoiceChip
-                    key={role}
+                    key={role.slug}
                     pressed={isPicked}
-                    onClick={() => change({ role: isPicked ? null : role })}
+                    onClick={() =>
+                      change({ role: isPicked ? null : role.slug })
+                    }
                   >
-                    {role}
+                    {role.name}
                   </ChoiceChip>
                 );
               })}
-              {/* One custom role: adding another replaces it, as a role is one. */}
-              {readOnly ? null : (
-                <AddChip
-                  label="Custom"
-                  maxLength={40}
-                  placeholder="Custom role"
-                  onSubmit={(role) => {
-                    change({ role });
-
-                    return null;
-                  }}
-                />
-              )}
             </div>
             <Field>
               <FieldLabel htmlFor="plan-slot-note">Note</FieldLabel>

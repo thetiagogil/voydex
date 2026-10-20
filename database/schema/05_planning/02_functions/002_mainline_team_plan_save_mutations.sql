@@ -22,6 +22,7 @@ DECLARE
     v_invalid_expansion_ids integer[];
     v_member record;
     v_member_id uuid;
+    v_role_id integer;
 BEGIN
     IF v_user_id IS NULL THEN
         RAISE EXCEPTION 'An authenticated user is required to save a Plan'
@@ -232,7 +233,7 @@ WHERE
         jsonb_to_recordset(p_members) AS members (slot integer,
         target_species_id integer,
         target_form_id integer,
-        role_label text,
+        role_slug text,
         notes text,
         gender text,
         nature_id integer,
@@ -241,8 +242,24 @@ WHERE
         move_ids jsonb)
 ORDER BY
     members.slot LOOP
-        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, NULLIF (BTRIM(v_member.role_label), ''), NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
+        -- A role is one of the fixed roles, by slug; anything else is refused.
+        v_role_id := NULL;
+        IF NULLIF (BTRIM(v_member.role_slug), '') IS NOT NULL THEN
+            SELECT
+                mainline_team_plan_roles.id
+            INTO
+                v_role_id
+            FROM
+                planning.mainline_team_plan_roles
+            WHERE
+                mainline_team_plan_roles.slug = BTRIM(v_member.role_slug);
+            IF v_role_id IS NULL THEN
+                RAISE EXCEPTION 'role % is not a Plan role', v_member.role_slug
+                    USING ERRCODE = '23503';
+            END IF;
+        END IF;
+        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_id, notes, gender, nature_id, ability_id, held_item_id)
+            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, v_role_id, NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
         RETURNING
             id
         INTO
@@ -255,9 +272,9 @@ ORDER BY
             (moves.move_id #>> '{}')::integer
         FROM
             jsonb_array_elements(COALESCE(NULLIF (v_member.move_ids, 'null'::jsonb), '[]'::jsonb))
-            WITH ORDINALITY AS moves (move_id, move_slot)
-        WHERE
-            jsonb_typeof(moves.move_id) <> 'null';
+    WITH ORDINALITY AS moves (move_id, move_slot)
+WHERE
+    jsonb_typeof(moves.move_id) <> 'null';
     END LOOP;
 INSERT INTO planning.mainline_team_plan_optional_content_scopes (team_plan_id, game_id, version_group_id)
 SELECT

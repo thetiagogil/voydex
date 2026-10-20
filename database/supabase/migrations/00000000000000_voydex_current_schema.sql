@@ -6965,7 +6965,28 @@ CREATE TABLE planning.mainline_team_plan_statuses (
 COMMENT ON TABLE planning.mainline_team_plan_statuses IS 'Lookup for team plan lifecycle states such as draft, active, and archived.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/002_mainline_team_plans.sql
+-- Source: database/schema/05_planning/01_tables/002_mainline_team_plan_roles.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: planning.mainline_team_plan_roles
+-- The fixed roles a planned Pokémon can take, such as Lead or Wall.
+-- ============================================================================
+CREATE TABLE planning.mainline_team_plan_roles (
+    id integer PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    name text NOT NULL UNIQUE,
+    sort_order integer NOT NULL UNIQUE,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT team_plan_roles_id_positive_check CHECK (id > 0),
+    CONSTRAINT team_plan_roles_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
+    CONSTRAINT team_plan_roles_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
+    CONSTRAINT team_plan_roles_sort_order_positive_check CHECK (sort_order > 0)
+);
+
+COMMENT ON TABLE planning.mainline_team_plan_roles IS 'Lookup for the fixed roles a planned Pokémon can take; anything else goes in its notes.';
+
+-- ============================================================================
+-- Source: database/schema/05_planning/01_tables/003_mainline_team_plans.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plans
@@ -7013,7 +7034,7 @@ COMMENT ON TABLE planning.mainline_team_plans IS 'Reusable user-owned Pokémon t
 COMMENT ON COLUMN planning.mainline_team_plans.version_group_id IS 'Stored with game_id so optional content and availability joins can use composite integrity.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/003_mainline_team_plan_optional_content_scopes.sql
+-- Source: database/schema/05_planning/01_tables/004_mainline_team_plan_optional_content_scopes.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_optional_content_scopes
@@ -7086,7 +7107,7 @@ CREATE INDEX team_plan_optional_content_scopes_version_group_idx ON planning.mai
 COMMENT ON FUNCTION private.enforce_team_plan_optional_content_scope () IS 'Prevents inserting a team plan base content scope as optional content.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/004_mainline_team_plan_members.sql
+-- Source: database/schema/05_planning/01_tables/005_mainline_team_plan_members.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_members
@@ -7098,7 +7119,7 @@ CREATE TABLE planning.mainline_team_plan_members (
     slot integer NOT NULL,
     target_species_id integer NOT NULL REFERENCES reference.pokemon_species (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     target_form_id integer NOT NULL,
-    role_label text,
+    role_id integer REFERENCES planning.mainline_team_plan_roles (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     notes text,
     gender text,
     nature_id integer REFERENCES reference.natures (id) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -7111,7 +7132,6 @@ CREATE TABLE planning.mainline_team_plan_members (
     CONSTRAINT team_plan_members_plan_slot_unique UNIQUE (team_plan_id, slot),
     CONSTRAINT team_plan_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
     CONSTRAINT team_plan_members_gender_check CHECK (gender IS NULL OR gender IN ('male', 'female', 'genderless')),
-    CONSTRAINT team_plan_members_role_label_length_check CHECK (role_label IS NULL OR CHAR_LENGTH(BTRIM(role_label)) BETWEEN 1 AND 120),
     CONSTRAINT team_plan_members_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 5000)
 );
 
@@ -7123,6 +7143,10 @@ CREATE TRIGGER set_team_plan_members_updated_at
 CREATE INDEX team_plan_members_target_identity_idx ON planning.mainline_team_plan_members (target_species_id, target_form_id);
 
 CREATE INDEX team_plan_members_plan_idx ON planning.mainline_team_plan_members (team_plan_id);
+
+CREATE INDEX team_plan_members_role_idx ON planning.mainline_team_plan_members (role_id)
+WHERE
+    role_id IS NOT NULL;
 
 CREATE INDEX team_plan_members_nature_idx ON planning.mainline_team_plan_members (nature_id)
 WHERE
@@ -7141,7 +7165,7 @@ COMMENT ON TABLE planning.mainline_team_plan_members IS 'Ordered planned Pokémo
 COMMENT ON COLUMN planning.mainline_team_plan_members.gender IS 'Optional planned gender. NULL means the plan does not constrain gender.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/005_mainline_team_plan_member_moves.sql
+-- Source: database/schema/05_planning/01_tables/006_mainline_team_plan_member_moves.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_member_moves
@@ -7168,7 +7192,7 @@ CREATE INDEX team_plan_member_moves_move_idx ON planning.mainline_team_plan_memb
 COMMENT ON TABLE planning.mainline_team_plan_member_moves IS 'Ordered planned move slots for a planned Pokémon target.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/006_mainline_play_plan_links.sql
+-- Source: database/schema/05_planning/01_tables/007_mainline_play_plan_links.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_play_plan_links
@@ -7208,7 +7232,7 @@ COMMENT ON COLUMN planning.mainline_play_plan_links.version_group_id IS 'Duplica
 COMMENT ON COLUMN planning.mainline_play_plan_links.created_from_plan IS 'True when the play was originally created from the linked plan.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/007_mainline_team_plan_tags.sql
+-- Source: database/schema/05_planning/01_tables/008_mainline_team_plan_tags.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_tags
@@ -7231,7 +7255,7 @@ CREATE INDEX team_plan_tags_tag_user_idx ON planning.mainline_team_plan_tags (ta
 COMMENT ON TABLE planning.mainline_team_plan_tags IS 'Typed tag links for team plans. user_id enforces tag ownership matches plan ownership.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/008_mainline_team_plan_challenge_rules.sql
+-- Source: database/schema/05_planning/01_tables/009_mainline_team_plan_challenge_rules.sql
 -- ============================================================================
 -- ============================================================================
 -- Table: planning.mainline_team_plan_challenge_rules
@@ -7483,8 +7507,8 @@ BEGIN
         mainline_team_plan_members.team_plan_id = v_source_plan.id
     ORDER BY
         mainline_team_plan_members.slot LOOP
-            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.role_label, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
+            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_id, notes, gender, nature_id, ability_id, held_item_id)
+                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.role_id, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
             RETURNING
                 id
             INTO
@@ -7575,6 +7599,7 @@ DECLARE
     v_invalid_expansion_ids integer[];
     v_member record;
     v_member_id uuid;
+    v_role_id integer;
 BEGIN
     IF v_user_id IS NULL THEN
         RAISE EXCEPTION 'An authenticated user is required to save a Plan'
@@ -7785,7 +7810,7 @@ WHERE
         jsonb_to_recordset(p_members) AS members (slot integer,
         target_species_id integer,
         target_form_id integer,
-        role_label text,
+        role_slug text,
         notes text,
         gender text,
         nature_id integer,
@@ -7794,8 +7819,24 @@ WHERE
         move_ids jsonb)
 ORDER BY
     members.slot LOOP
-        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, NULLIF (BTRIM(v_member.role_label), ''), NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
+        -- A role is one of the fixed roles, by slug; anything else is refused.
+        v_role_id := NULL;
+        IF NULLIF (BTRIM(v_member.role_slug), '') IS NOT NULL THEN
+            SELECT
+                mainline_team_plan_roles.id
+            INTO
+                v_role_id
+            FROM
+                planning.mainline_team_plan_roles
+            WHERE
+                mainline_team_plan_roles.slug = BTRIM(v_member.role_slug);
+            IF v_role_id IS NULL THEN
+                RAISE EXCEPTION 'role % is not a Plan role', v_member.role_slug
+                    USING ERRCODE = '23503';
+            END IF;
+        END IF;
+        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_id, notes, gender, nature_id, ability_id, held_item_id)
+            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, v_role_id, NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
         RETURNING
             id
         INTO
@@ -7808,9 +7849,9 @@ ORDER BY
             (moves.move_id #>> '{}')::integer
         FROM
             jsonb_array_elements(COALESCE(NULLIF (v_member.move_ids, 'null'::jsonb), '[]'::jsonb))
-            WITH ORDINALITY AS moves (move_id, move_slot)
-        WHERE
-            jsonb_typeof(moves.move_id) <> 'null';
+    WITH ORDINALITY AS moves (move_id, move_slot)
+WHERE
+    jsonb_typeof(moves.move_id) <> 'null';
     END LOOP;
 INSERT INTO planning.mainline_team_plan_optional_content_scopes (team_plan_id, game_id, version_group_id)
 SELECT
@@ -7842,6 +7883,8 @@ COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTE
 -- ============================================================================
 ALTER TABLE planning.mainline_team_plan_statuses ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE planning.mainline_team_plan_roles ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE planning.mainline_team_plans ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_team_plan_optional_content_scopes ENABLE ROW LEVEL SECURITY;
@@ -7857,6 +7900,8 @@ ALTER TABLE planning.mainline_team_plan_tags ENABLE ROW LEVEL SECURITY;
 ALTER TABLE planning.mainline_team_plan_challenge_rules ENABLE ROW LEVEL SECURITY;
 
 REVOKE ALL ON TABLE planning.mainline_team_plan_statuses FROM anon, authenticated;
+
+REVOKE ALL ON TABLE planning.mainline_team_plan_roles FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plans FROM anon, authenticated;
 
@@ -7874,6 +7919,8 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_challenge_rules FROM anon, authe
 
 GRANT SELECT ON TABLE planning.mainline_team_plan_statuses TO authenticated;
 
+GRANT SELECT ON TABLE planning.mainline_team_plan_roles TO authenticated;
+
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plans TO authenticated;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_optional_content_scopes TO authenticated;
@@ -7890,6 +7937,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_challe
 
 GRANT ALL ON TABLE planning.mainline_team_plan_statuses TO service_role;
 
+GRANT ALL ON TABLE planning.mainline_team_plan_roles TO service_role;
+
 GRANT ALL ON TABLE planning.mainline_team_plans TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plan_optional_content_scopes TO service_role;
@@ -7905,6 +7954,10 @@ GRANT ALL ON TABLE planning.mainline_team_plan_tags TO service_role;
 GRANT ALL ON TABLE planning.mainline_team_plan_challenge_rules TO service_role;
 
 CREATE POLICY team_plan_statuses_read_all ON planning.mainline_team_plan_statuses
+    FOR SELECT TO authenticated
+    USING (TRUE);
+
+CREATE POLICY team_plan_roles_read_all ON planning.mainline_team_plan_roles
     FOR SELECT TO authenticated
     USING (TRUE);
 
@@ -9107,7 +9160,8 @@ SELECT
     mainline_team_plan_members.target_form_id,
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
-    mainline_team_plan_members.role_label,
+    team_plan_roles.slug AS role_slug,
+    team_plan_roles.name AS role_name,
     mainline_team_plan_members.notes,
     mainline_team_plan_members.gender,
     mainline_team_plan_members.nature_id,
@@ -9127,6 +9181,7 @@ FROM
     JOIN reference.pokemon_species AS target_species ON target_species.id = mainline_team_plan_members.target_species_id
     JOIN reference.pokemon_forms AS target_forms ON target_forms.species_id = mainline_team_plan_members.target_species_id
         AND target_forms.id = mainline_team_plan_members.target_form_id
+    LEFT JOIN planning.mainline_team_plan_roles AS team_plan_roles ON team_plan_roles.id = mainline_team_plan_members.role_id
     LEFT JOIN reference.natures ON natures.id = mainline_team_plan_members.nature_id
     LEFT JOIN reference.abilities ON abilities.id = mainline_team_plan_members.ability_id
     LEFT JOIN reference.items AS held_items ON held_items.id = mainline_team_plan_members.held_item_id
@@ -9962,7 +10017,8 @@ SELECT
     mainline_team_plan_members.target_form_id,
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
-    mainline_team_plan_members.role_label,
+    team_plan_roles.slug AS role_slug,
+    team_plan_roles.name AS role_name,
     mainline_team_plan_members.notes AS team_plan_member_notes,
     mainline_team_plan_members.gender AS planned_gender,
     mainline_team_plan_members.nature_id AS planned_nature_id,
@@ -9985,6 +10041,7 @@ FROM
     LEFT JOIN reference.pokemon_species AS target_species ON target_species.id = mainline_team_plan_members.target_species_id
     LEFT JOIN reference.pokemon_forms AS target_forms ON target_forms.species_id = mainline_team_plan_members.target_species_id
         AND target_forms.id = mainline_team_plan_members.target_form_id
+    LEFT JOIN planning.mainline_team_plan_roles AS team_plan_roles ON team_plan_roles.id = mainline_team_plan_members.role_id
     LEFT JOIN reference.natures AS planned_natures ON planned_natures.id = mainline_team_plan_members.nature_id
     LEFT JOIN reference.abilities AS planned_abilities ON planned_abilities.id = mainline_team_plan_members.ability_id
     LEFT JOIN reference.items AS planned_held_items ON planned_held_items.id = mainline_team_plan_members.held_item_id

@@ -1,10 +1,15 @@
+import {
+  toPlanRoleSlug,
+  type PlanRoleSlug,
+} from "@/modules/mainline/features/plans/planner/data/plan-roles";
+
 /*
  * A Plan as a link (v3's Share): the version group, the six Pokémon and
  * their roles. It lives in the link's hash, so sharing never changes a
  * saved Plan, and importing opens it as a new unsaved Plan.
  */
 export type PlanShare = {
-  slots: ({ role: string | null; species: string } | null)[];
+  slots: ({ role: PlanRoleSlug | null; species: string } | null)[];
   versionGroupSlug: string;
 };
 
@@ -67,10 +72,7 @@ export const decodePlanShare = (input: string): PlanShare | null => {
 
       return typeof species === "string" && slugPattern.test(species)
         ? {
-            role:
-              typeof role === "string" && role.trim()
-                ? role.trim().slice(0, 120)
-                : null,
+            role: toPlanRoleSlug(role),
             species,
           }
         : null;
@@ -87,7 +89,7 @@ export const decodePlanShare = (input: string): PlanShare | null => {
 
 /* The Planner's six slots as a share: each Pokémon by slug, with its role. */
 export const toPlanShare = (
-  slots: ({ role: string | null; speciesId: number } | null)[],
+  slots: ({ role: PlanRoleSlug | null; speciesId: number } | null)[],
   speciesSlugById: Map<number, { speciesSlug: string }>,
   versionGroupSlug: string,
 ): PlanShare => ({

@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { planRoles } from "@/modules/mainline/features/plans/planner/data/plan-roles";
+
 import type {
   PlanGender,
   PlanMember,
@@ -86,7 +88,15 @@ const memberSchema = z.object(
     moveIds: moveSlotsSchema,
     natureId: optionalIdSchema("That nature"),
     notes: optionalTextSchema("A note", 5000),
-    role: optionalTextSchema("A role", 120),
+    role: z
+      .enum(
+        planRoles.map((role) => role.slug),
+        {
+          error: "A planned role isn't one Voydex knows.",
+        },
+      )
+      .nullish()
+      .transform((role) => role ?? null),
   },
   { error: "A planned Pokémon is missing." },
 );

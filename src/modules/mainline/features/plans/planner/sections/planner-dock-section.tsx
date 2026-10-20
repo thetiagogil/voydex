@@ -1,5 +1,6 @@
 "use client";
 
+import { getPlanRoleName } from "@/modules/mainline/features/plans/planner/data/plan-roles";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { TextLink } from "@/shared/components/text-link";
@@ -307,7 +308,9 @@ export const PlannerDockSection = ({
                   imageUrl={pokemon.imageUrl}
                   name={pokemon.name}
                   number={formatNationalNumber(pokemon.nationalNumber)}
-                  subtitle={replacing ? "Replace" : member.role}
+                  subtitle={
+                    replacing ? "Replace" : getPlanRoleName(member.role)
+                  }
                   types={pokemon.types}
                   className={cn(
                     /* The slot lifts instead. */

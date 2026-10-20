@@ -92,7 +92,7 @@ export const buildTeamPlanMemberComparison = ({
     plannedSpeciesId: planned.target_species_id ?? -1,
     playMember: member,
     relation,
-    roleLabel: planned.role_label,
+    roleLabel: planned.role_name,
     slot: planned.slot ?? 0,
     status,
   };

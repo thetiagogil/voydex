@@ -5,7 +5,7 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000c1', 'authenticated', 'authenticated', 'atomic-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000d2', 'authenticated', 'authenticated', 'atomic-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (55);
+    plan (56);
 -- Starting a Play
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
@@ -279,7 +279,7 @@ CREATE TEMPORARY TABLE created_plan ON COMMIT DROP AS
 SELECT
     *
 FROM
-    planning.save_mainline_team_plan (p_version_group_id => 15, p_name => 'Alola Plan', p_members => '[{"slot": 1, "target_species_id": 722, "target_form_id": 72200, "gender": "male", "role_label": " Lead ", "move_ids": [33, null, 45, null]}, {"slot": 2, "target_species_id": 725, "target_form_id": 72500}]'::jsonb);
+    planning.save_mainline_team_plan (p_version_group_id => 15, p_name => 'Alola Plan', p_members => '[{"slot": 1, "target_species_id": 722, "target_form_id": 72200, "gender": "male", "role_slug": " lead ", "move_ids": [33, null, 45, null]}, {"slot": 2, "target_species_id": 725, "target_form_id": 72500}]'::jsonb);
 SELECT
     results_eq ($$
         SELECT
@@ -289,14 +289,18 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            slot, target_species_id, role_label FROM planning.mainline_team_plan_members
+            slot, target_species_id, role_id FROM planning.mainline_team_plan_members
             WHERE
                 team_plan_id = (
                     SELECT
                         result_team_plan_id
                     FROM created_plan)
         ORDER BY slot $$, $$
-        VALUES (1, 722, 'Lead'::text), (2, 725, NULL::text) $$, 'a new Plan writes its ordered members');
+        VALUES (1, 722, 1), (2, 725, NULL::integer) $$, 'a new Plan writes its ordered members, its role by slug');
+SELECT
+    throws_ok ($$
+        SELECT
+            planning.save_mainline_team_plan (p_version_group_id => 15, p_name => 'Odd role Plan', p_members => '[{"slot": 1, "target_species_id": 722, "target_form_id": 72200, "role_slug": "flexible-closer"}]'::jsonb) $$, '23503', 'role flexible-closer is not a Plan role', 'a role outside the fixed roles is refused');
 SELECT
     results_eq ($$
         SELECT
