@@ -299,7 +299,7 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   section at `/mainline/plays/[playId]/team/plan`. The Play shell and primary
   navigation remain visible.
 - History is the Play's History tab at `/mainline/plays/[playId]/history`;
-  its search and its Story, Team, Notes and Play filters are local state. Team History is
+  its search and its Story, Team, Notes and Status filters are local state. Team History is
   retired: its old address is gone and its events are History's Team filter.
 - Settings is one route with four local cards (General, Tracking, Challenge
   rules, Archive or delete); they add no routes.

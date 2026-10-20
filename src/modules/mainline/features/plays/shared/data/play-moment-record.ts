@@ -93,7 +93,7 @@ const fadedEventTypes = new Set(["pokemon_removed", "pokemon_retired"]);
 
 type OtherMomentKind = {
   icon: AppIconComponent;
-  /* v3's word for the kind; the lookup's names are title case. */
+  /* The kind in one word, as History's filters name it. */
   label: string | null;
   medallion: "milestone" | "note" | "status";
 };
@@ -101,7 +101,7 @@ type OtherMomentKind = {
 const otherMomentKinds: Record<string, OtherMomentKind> = {
   hall_of_fame: {
     icon: appIcons.milestones.hallOfFame,
-    label: "Hall of Fame",
+    label: "Story",
     medallion: "milestone",
   },
   journal_note: {
@@ -111,12 +111,12 @@ const otherMomentKinds: Record<string, OtherMomentKind> = {
   },
   status_change: {
     icon: appIcons.product.journey,
-    label: "Status change",
+    label: "Status",
     medallion: "status",
   },
   story_milestone: {
     icon: appIcons.milestones.story,
-    label: "Milestone",
+    label: "Story",
     medallion: "milestone",
   },
 };
@@ -127,10 +127,57 @@ const unknownMomentKind: OtherMomentKind = {
   medallion: "status",
 };
 
+/* What the player wrote with a moment, unless it only repeats the title. */
 const getDescription = (event: MainlinePlayTimelineEvent) => {
   const body = event.body?.trim();
 
   return body && body !== event.title?.trim() ? body : null;
+};
+
+/*
+ * A note keeps its full text as the body when the title can't hold it all;
+ * under the quoted title it reads on from where the title stops.
+ */
+const getNoteRest = (event: MainlinePlayTimelineEvent) => {
+  const body = getDescription(event);
+  const title = event.title?.trim().replace(/…$/, "") ?? "";
+
+  if (!body || !title || !body.startsWith(title)) {
+    return body;
+  }
+
+  return body.slice(title.length).trim() || null;
+};
+
+/*
+ * Under each kind of moment: a milestone's own description from the game
+ * data, a note's text past its first line, and otherwise only what the
+ * player wrote with it. Never filler.
+ */
+const getOtherDescription = (event: MainlinePlayTimelineEvent) => {
+  switch (event.event_type_slug) {
+    case "journal_note":
+      return getNoteRest(event);
+    case "story_milestone":
+      return (
+        getDescription(event) ?? event.milestone_description?.trim() ?? null
+      );
+    default:
+      return getDescription(event);
+  }
+};
+
+/* A status change reads as a sentence: "Marked as Paused." */
+const getOtherHeadline = (eventTypeSlug: string, line: string) => {
+  switch (eventTypeSlug) {
+    case "journal_note":
+      /* A note reads as what you wrote, in quotes (v3 `.is-note`). */
+      return `“${line}”`;
+    case "status_change":
+      return `Marked as ${line}.`;
+    default:
+      return line;
+  }
 };
 
 /*
@@ -153,7 +200,8 @@ export const getPlayMomentRecord = (
       description: getDescription(event),
       faded: fadedEventTypes.has(eventTypeSlug),
       headline: line.text,
-      label: line.label,
+      /* The kind, as History's filters name it; the line says what happened. */
+      label: "Team",
       medallion: imageUrl
         ? {
             imageUrl,
@@ -189,10 +237,9 @@ export const getPlayMomentRecord = (
   const line = event.title ?? event.milestone_name ?? label;
 
   return {
-    description: getDescription(event),
+    description: getOtherDescription(event),
     faded: false,
-    /* A note reads as what you wrote, in quotes (v3 `.is-note`). */
-    headline: [{ text: eventTypeSlug === "journal_note" ? `“${line}”` : line }],
+    headline: [{ text: getOtherHeadline(eventTypeSlug, line) }],
     label,
     medallion,
   };

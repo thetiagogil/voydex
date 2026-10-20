@@ -1,40 +1,41 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { openFilters } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("History", () => {
-  test("adds a note and finds it with the Notes filter", async ({ page }) => {
+  test("draws the moments on one line from where the Play starts", async ({
+    page,
+  }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: uniquePlayName("History run"),
-      partner: "Charmander",
+      partner: "Bulbasaur",
     });
 
-    await page.goto(`/mainline/plays/${playId}/history`);
-    await page.getByRole("button", { name: "Add a note" }).click();
+    await page.goto(`/mainline/plays/${playId}/history`, {
+      waitUntil: "networkidle",
+    });
+    const line = page.getByRole("list", { name: "Moments" });
+    const stops = line.locator(":scope > li");
 
-    const dialog = page.getByRole("dialog", { name: "Add a note" });
+    /* Newest first: the starting line closes the list. */
+    await expect(stops.last()).toContainText("Your Play starts here");
+    await expectAccessible(page);
+
+    /* Each month lists its own moments, named after it. */
     await expect(
-      dialog.getByRole("button", { name: "Save note" }),
-    ).toBeDisabled();
-    await dialog
-      .getByRole("textbox", { name: "Note" })
-      .fill("Brock took three tries\nCharmander finally learned Ember.");
-    await expectAccessible(page);
-    await dialog.getByRole("button", { name: "Save note" }).click();
-    await expect(dialog).toBeHidden();
+      line.getByRole("list", { name: /^\w+ \d{4}$/ }).first(),
+    ).toBeVisible();
 
-    /* History shows the note's first line as its headline. */
-    const headline = page.getByText("“Brock took three tries”");
-    await expect(headline).toBeVisible();
+    /* Oldest first: the line starts at the top. */
+    await page.getByRole("button", { name: "Show search and filters" }).click();
+    await page.getByRole("combobox", { name: "Sort History" }).click();
+    await page.getByRole("option", { name: "Oldest first" }).click();
+    await expect(stops.first()).toContainText("Your Play starts here");
 
-    const { close, filters } = await openFilters(page);
-    await filters.getByRole("button", { name: /^Notes 1/ }).click();
-    await close();
-    await expect(headline).toBeVisible();
-    await expect(page.getByText("Charmander chose you")).toBeHidden();
-    await expectAccessible(page);
+    /* A filter shows part of the story, so the start of it steps away. */
+    await page.getByRole("button", { name: /^Story/ }).click();
+    await expect(line).not.toContainText("Your Play starts here");
   });
 });

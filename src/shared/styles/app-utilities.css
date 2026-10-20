@@ -153,6 +153,17 @@
   }
 }
 
+/*
+ * A Play's timeline line (History, Overview's recent moments): rounded
+ * dashes, 4px wide, 9px on and 7px off, in the mute colour.
+ */
+@utility timeline-line {
+  background-color: var(--color-mute);
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='16'%3E%3Crect width='4' height='9' rx='2'/%3E%3C/svg%3E");
+  mask-repeat: repeat-y;
+  mask-size: 4px 16px;
+}
+
 @utility no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

@@ -81,7 +81,7 @@ describe("Play History model", () => {
       { count: 1, label: "Story", value: "story" },
       { count: 1, label: "Team", value: "team" },
       { count: 0, label: "Notes", value: "note" },
-      { count: 0, label: "Play", value: "play" },
+      { count: 0, label: "Status", value: "play" },
     ]);
   });
 

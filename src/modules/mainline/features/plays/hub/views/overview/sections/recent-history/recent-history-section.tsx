@@ -1,5 +1,9 @@
 import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
-import { PlayStartRow } from "@/modules/mainline/features/plays/hub/components/play-start-row";
+import {
+  PlayTimeline,
+  PlayTimelineItem,
+  PlayTimelineStart,
+} from "@/modules/mainline/features/plays/hub/components/play-timeline";
 import type { PlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
@@ -16,9 +20,9 @@ type RecentHistorySectionProps = {
 const recentMomentLimit = 3;
 
 /*
- * Recent moments: the Play's newest records, drawn as History draws them,
+ * Recent moments: the Play's newest records on the same line History draws,
  * with the way on to History once there are any. While there are fewer than
- * three, where the Play began closes the list.
+ * three, where the Play began closes the line.
  */
 export const RecentHistorySection = ({
   context,
@@ -36,23 +40,25 @@ export const RecentHistorySection = ({
         moments.length ? { href: historyHref, label: "History" } : undefined
       }
     >
-      <div className="grid">
+      <PlayTimeline className="pt-1" label="Recent moments">
         {moments.map((event, index) => {
           const happenedAt = getPlayMomentInstant(event);
 
           return (
-            <PlayMomentRow
-              key={event.event_id ?? `${event.title}-${index}`}
-              context={context}
-              event={event}
-              when={happenedAt ? <PlayMomentTime value={happenedAt} /> : null}
-            />
+            <PlayTimelineItem key={event.event_id ?? `${event.title}-${index}`}>
+              <PlayMomentRow
+                context={context}
+                event={event}
+                variant="timeline"
+                when={happenedAt ? <PlayMomentTime value={happenedAt} /> : null}
+              />
+            </PlayTimelineItem>
           );
         })}
         {moments.length < recentMomentLimit ? (
-          <PlayStartRow startedOn={startedOn} />
+          <PlayTimelineStart startedOn={startedOn} />
         ) : null}
-      </div>
+      </PlayTimeline>
     </DetailSectionCard>
   );
 };

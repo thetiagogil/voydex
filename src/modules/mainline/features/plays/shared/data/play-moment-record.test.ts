@@ -35,7 +35,7 @@ describe("getPlayMomentRecord", () => {
   it("wears the Pokémon a moment left on the team, on the neutral tint by default", () => {
     const record = getPlayMomentRecord(evolution);
 
-    expect(record.label).toBe("Evolved");
+    expect(record.label).toBe("Team");
     expect(record.faded).toBe(false);
     expect(record.medallion).toEqual({
       imageUrl: "https://assets.test/pokemon/home/md/toxtricity-amped.webp",
@@ -109,7 +109,7 @@ describe("getPlayMomentRecord for other moments", () => {
         .medallion.kind,
     ).toBe("gold");
     expect(getPlayMomentRecord(milestone).medallion.kind).toBe("calm");
-    expect(getPlayMomentRecord(milestone).label).toBe("Milestone");
+    expect(getPlayMomentRecord(milestone).label).toBe("Story");
   });
 
   it("draws a note warm and quotes its title as the line", () => {
@@ -120,6 +120,58 @@ describe("getPlayMomentRecord for other moments", () => {
     expect(record.medallion.kind).toBe("note");
     expect(record.label).toBe("Note");
     expect(record.headline).toEqual([{ text: "“Saved before Leon”" }]);
+  });
+
+  it("reads a note on from where its quoted title stops", () => {
+    const short = event({
+      body: "Saved before Leon\nBring Full Restores.",
+      event_type_slug: "journal_note",
+      title: "Saved before Leon",
+    });
+    const clipped = event({
+      body: "A very long first line that keeps going",
+      event_type_slug: "journal_note",
+      title: "A very long first…",
+    });
+
+    expect(getPlayMomentRecord(short).description).toBe("Bring Full Restores.");
+    expect(getPlayMomentRecord(clipped).description).toBe(
+      "line that keeps going",
+    );
+    expect(
+      getPlayMomentRecord(
+        event({ event_type_slug: "journal_note", title: "Just this" }),
+      ).description,
+    ).toBeNull();
+  });
+
+  it("describes a milestone with its own description unless the player wrote one", () => {
+    const milestone = event({
+      event_type_slug: "story_milestone",
+      milestone_description: "Defeat Brock and receive the Boulder Badge.",
+      title: "Boulder Badge",
+    });
+
+    expect(getPlayMomentRecord(milestone).description).toBe(
+      "Defeat Brock and receive the Boulder Badge.",
+    );
+    expect(
+      getPlayMomentRecord({ ...milestone, body: "Took three tries." })
+        .description,
+    ).toBe("Took three tries.");
+  });
+
+  it("writes a status change as a sentence, with nothing under it", () => {
+    const record = getPlayMomentRecord(
+      event({ event_type_slug: "status_change", title: "Paused" }),
+    );
+
+    expect(record.headline).toEqual([{ text: "Marked as Paused." }]);
+    expect(record.description).toBeNull();
+  });
+
+  it("puts no filler under a team moment", () => {
+    expect(getPlayMomentRecord(evolution).description).toBeNull();
   });
 
   it("keeps an unknown moment on the neutral fallback", () => {
