@@ -86,6 +86,10 @@ them beside it.
   checks such as Statistics log in as the seeded accounts. Throwaway accounts
   pile up in the local database until the next reset.
 - Tests tagged `@phone` also run at phone size (Pixel 7).
+- Tests wait for what they depend on, never for a fixed time: `waitForAction`
+  (`e2e/support/actions.ts`) for a save or a Server Action load before
+  reloading or reading its result, `forTheAnswer` for what that answer draws,
+  and `waitUntil: "networkidle"` on a page whose first tap must be heard.
 - `expectAccessible` (`e2e/support/accessibility.ts`) fails on any WCAG 2.2 AA
   axe finding except the rules listed there as known issues; remove a rule
   from that list once its findings are fixed.

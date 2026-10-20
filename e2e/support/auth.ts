@@ -8,6 +8,8 @@ export const signUp = async (page: Page, email: string) => {
   await page.getByRole("textbox", { name: "Email" }).fill(email);
   await page.getByRole("textbox", { name: "Password" }).fill(testPassword);
   await page.getByRole("button", { name: "Create account" }).click();
+  /* Creating the account can take a while under load; wait for its page. */
+  await page.waitForURL("**/welcome**");
   await expect(
     page.getByRole("heading", { name: "Welcome to Voydex" }),
   ).toBeVisible();
