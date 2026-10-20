@@ -1505,36 +1505,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      mainline_team_plan_tags: {
-        Row: {
-          created_at: string;
-          tag_id: string;
-          team_plan_id: string;
-          user_id: string;
-        };
-        ComputedFields: never;
-        Insert: {
-          created_at?: string;
-          tag_id: string;
-          team_plan_id: string;
-          user_id: string;
-        };
-        Update: {
-          created_at?: string;
-          tag_id?: string;
-          team_plan_id?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "team_plan_tags_plan_user_fkey";
-            columns: ["team_plan_id", "user_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_team_plans";
-            referencedColumns: ["id", "user_id"];
-          },
-        ];
-      };
       mainline_team_plans: {
         Row: {
           created_at: string;
@@ -1597,14 +1567,17 @@ export type Database = {
         Args: {
           p_created_from_plan?: boolean;
           p_play_id: string;
+          p_replace_existing?: boolean;
           p_team_plan_id: string;
         };
         Returns: {
+          result_added_rule_ids: string[];
           result_play_plan_link_id: string;
         }[];
       };
       save_mainline_team_plan: {
         Args: {
+          p_challenge_rule_ids?: string[];
           p_expansion_version_group_ids?: number[];
           p_game_id?: number;
           p_members?: Json;
@@ -1616,6 +1589,14 @@ export type Database = {
           result_created: boolean;
           result_team_plan_id: string;
         }[];
+      };
+      update_mainline_team_plan_details: {
+        Args: {
+          p_challenge_rule_ids?: string[];
+          p_name: string;
+          p_team_plan_id: string;
+        };
+        Returns: undefined;
       };
     };
     Enums: {

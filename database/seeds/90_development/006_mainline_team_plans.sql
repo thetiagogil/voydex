@@ -127,31 +127,6 @@ SELECT
 FROM gameplay.mainline_plays
 WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;
 
-INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-SELECT
-  team_plans.id,
-  tags.id,
-  team_plans.user_id
-FROM
-  planning.mainline_team_plans AS team_plans
-  JOIN public.tags ON tags.slug = CASE team_plans.status_id
-    WHEN 1 THEN 'fixture-early'
-    WHEN 2 THEN 'fixture-late'
-    ELSE 'fixture-story-complete'
-  END
-WHERE team_plans.id = md5('voydex-fixture:plan:' || team_plans.version_group_id)::uuid
-UNION ALL
-SELECT
-  team_plans.id,
-  tags.id,
-  team_plans.user_id
-FROM
-  planning.mainline_team_plans AS team_plans
-  JOIN public.tags ON tags.slug = 'fixture-challenge'
-WHERE
-  team_plans.version_group_id % 3 = 0
-  AND team_plans.id = md5('voydex-fixture:plan:' || team_plans.version_group_id)::uuid;
-
 INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
 SELECT
   md5('voydex-fixture:plan:' || mainline_plays.version_group_id)::uuid,

@@ -1,7 +1,8 @@
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
--- The Library: deleting one of your rules or tags takes it off every Play
--- and Plan that used it, and nobody can delete another trainer's.
+-- The Library: deleting one of your rules takes it off every Play and Plan
+-- that used it, a tag off every Play, and nobody can delete another
+-- trainer's.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
@@ -20,10 +21,8 @@ INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge
     VALUES ('70000000-0000-0000-0000-0000000000d1', '80000000-0000-0000-0000-0000000000d1');
 INSERT INTO gameplay.mainline_play_tags (play_id, tag_id, user_id)
     VALUES ('60000000-0000-0000-0000-0000000000d1', '90000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1');
-INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-    VALUES ('70000000-0000-0000-0000-0000000000d1', '90000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1');
 SELECT
-    plan (6);
+    plan (5);
 -- Another trainer can't delete them.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
@@ -82,14 +81,6 @@ SELECT
                 gameplay.mainline_play_tags
             WHERE
                 tag_id = '90000000-0000-0000-0000-0000000000d1'), 0, 'a deleted tag leaves the Plays that wore it');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)::integer
-            FROM
-                planning.mainline_team_plan_tags
-            WHERE
-                tag_id = '90000000-0000-0000-0000-0000000000d1'), 0, 'a deleted tag leaves the Plans that wore it');
 SELECT
     *
 FROM

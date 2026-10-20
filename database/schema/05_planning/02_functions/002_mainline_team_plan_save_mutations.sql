@@ -1,8 +1,9 @@
 -- ============================================================================
 -- Functions: planning mainline team plan save mutations
--- Client-callable helper that writes a whole Plan in one transaction.
+-- Client-callable helpers that write a whole Plan, or its details, in one
+-- transaction.
 -- ============================================================================
-CREATE FUNCTION planning.save_mainline_team_plan (p_version_group_id integer, p_name text, p_members jsonb DEFAULT '[]'::jsonb, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_team_plan_id uuid DEFAULT NULL, p_game_id integer DEFAULT NULL)
+CREATE FUNCTION planning.save_mainline_team_plan (p_version_group_id integer, p_name text, p_members jsonb DEFAULT '[]'::jsonb, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_team_plan_id uuid DEFAULT NULL, p_game_id integer DEFAULT NULL, p_challenge_rule_ids uuid[] DEFAULT NULL)
     RETURNS TABLE (
         result_team_plan_id uuid,
         result_created boolean)
@@ -265,6 +266,11 @@ SELECT
     expansion_ids.version_group_id
 FROM
     UNNEST(v_expansion_ids) AS expansion_ids (version_group_id);
+    -- Rules are rewritten only when given; a save of the team alone keeps them.
+    IF p_challenge_rule_ids IS NOT NULL THEN
+        PERFORM
+            planning.update_mainline_team_plan_details (v_plan_id, p_name, p_challenge_rule_ids);
+    END IF;
     RETURN QUERY
     SELECT
         v_plan_id,
@@ -272,10 +278,86 @@ FROM
 END;
 $$;
 
-REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) FROM anon;
+REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, and expansions. Refuses a game change while a Play follows the Plan. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';
+COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, expansions, and its rules when given. Refuses a game change while a Play follows the Plan. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';
+
+-- A Plan's details, its name and rules, saved together. They never touch
+-- the team, so a Plan Plays follow can change them without unlocking; an
+-- archived Plan is restored first.
+CREATE FUNCTION planning.update_mainline_team_plan_details (p_team_plan_id uuid, p_name text, p_challenge_rule_ids uuid[] DEFAULT '{}'::uuid[])
+    RETURNS void
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_plan planning.mainline_team_plans%ROWTYPE;
+BEGIN
+    IF auth.uid () IS NULL THEN
+        RAISE EXCEPTION 'An authenticated user is required to change a Plan'
+            USING ERRCODE = '42501';
+    END IF;
+    p_name := NULLIF (BTRIM(p_name), '');
+    IF p_name IS NULL THEN
+        RAISE EXCEPTION 'name is required'
+            USING ERRCODE = '23502';
+    END IF;
+    SELECT
+        mainline_team_plans.*
+    INTO
+        v_plan
+    FROM
+        planning.mainline_team_plans
+    WHERE
+        mainline_team_plans.id = p_team_plan_id
+    FOR UPDATE;
+    IF v_plan.id IS NULL THEN
+        RAISE EXCEPTION 'Unknown or unavailable team_plan_id %', p_team_plan_id
+            USING ERRCODE = '23503';
+    END IF;
+    IF v_plan.status_id = (
+        SELECT
+            mainline_team_plan_statuses.id
+        FROM
+            planning.mainline_team_plan_statuses
+        WHERE
+            mainline_team_plan_statuses.slug = 'archived') THEN
+        RAISE EXCEPTION 'Restore this Plan to change it'
+            USING ERRCODE = '55000';
+    END IF;
+    UPDATE
+        planning.mainline_team_plans
+    SET
+        name = p_name
+    WHERE
+        mainline_team_plans.id = v_plan.id;
+    -- The rules become exactly the ones given.
+    DELETE FROM planning.mainline_team_plan_challenge_rules
+    WHERE mainline_team_plan_challenge_rules.team_plan_id = v_plan.id
+        AND NOT (mainline_team_plan_challenge_rules.challenge_rule_id = ANY (COALESCE(p_challenge_rule_ids, '{}'::uuid[])));
+    INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id)
+    SELECT DISTINCT
+        v_plan.id,
+        rule_ids.challenge_rule_id
+    FROM
+        UNNEST(COALESCE(p_challenge_rule_ids, '{}'::uuid[])) AS rule_ids (challenge_rule_id)
+        WHERE
+            rule_ids.challenge_rule_id IS NOT NULL
+        ON CONFLICT (team_plan_id,
+            challenge_rule_id)
+            DO NOTHING;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) FROM anon;
+
+GRANT EXECUTE ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) TO authenticated, service_role;
+
+COMMENT ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) IS 'Saves a Plan''s name and rules together, without touching its team; refuses an archived Plan. Runs as SECURITY INVOKER so planning RLS applies.';

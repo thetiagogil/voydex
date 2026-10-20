@@ -2,9 +2,10 @@
 -- Functions: planning mainline team plan to play mutations
 -- Client-callable helpers for linking and Play-scoped Plan cloning.
 -- ============================================================================
-CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE)
+CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE, p_replace_existing boolean DEFAULT FALSE)
     RETURNS TABLE (
-        result_play_plan_link_id uuid)
+        result_play_plan_link_id uuid,
+        result_added_rule_ids uuid[])
     LANGUAGE plpgsql
     SECURITY INVOKER
     SET search_path = ''
@@ -14,6 +15,8 @@ DECLARE
     v_team_plan planning.mainline_team_plans%ROWTYPE;
     v_existing_play_plan_link planning.mainline_play_plan_links%ROWTYPE;
     v_play_plan_link_id uuid;
+    v_is_new_plan boolean := TRUE;
+    v_added_rule_ids uuid[] := '{}'::uuid[];
 BEGIN
     IF p_play_id IS NULL THEN
         RAISE EXCEPTION 'play_id is required'
@@ -62,7 +65,7 @@ BEGIN
     WHERE
         mainline_play_plan_links.play_id = v_play.id
     FOR UPDATE;
-    IF v_existing_play_plan_link.id IS NOT NULL AND v_existing_play_plan_link.team_plan_id <> v_team_plan.id THEN
+    IF v_existing_play_plan_link.id IS NOT NULL AND v_existing_play_plan_link.team_plan_id <> v_team_plan.id AND NOT COALESCE(p_replace_existing, FALSE) THEN
         RAISE EXCEPTION 'Play already has a linked team plan. Unlink or replace it explicitly before linking another team plan.'
             USING ERRCODE = '23505';
     END IF;
@@ -73,7 +76,21 @@ BEGIN
             id
         INTO
             v_play_plan_link_id;
+    ELSIF v_existing_play_plan_link.team_plan_id <> v_team_plan.id THEN
+        -- Following another Plan: the link moves to it.
+        UPDATE
+            planning.mainline_play_plan_links
+        SET
+            team_plan_id = v_team_plan.id,
+            created_from_plan = p_created_from_plan
+        WHERE
+            mainline_play_plan_links.id = v_existing_play_plan_link.id
+        RETURNING
+            id
+        INTO
+            v_play_plan_link_id;
     ELSE
+        v_is_new_plan := FALSE;
         UPDATE
             planning.mainline_play_plan_links
         SET
@@ -86,9 +103,36 @@ BEGIN
         INTO
             v_play_plan_link_id;
     END IF;
+    -- A Play that starts following a Plan gets a snapshot of its rules: the
+    -- ones it lacks are added, and the Play can remove them later.
+    IF v_is_new_plan THEN
+        WITH added AS (
+INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
+            SELECT
+                v_play.id,
+                mainline_team_plan_challenge_rules.challenge_rule_id,
+                mainline_team_plan_challenge_rules.config_override
+            FROM
+                planning.mainline_team_plan_challenge_rules
+            WHERE
+                mainline_team_plan_challenge_rules.team_plan_id = v_team_plan.id
+            ON CONFLICT (play_id,
+                challenge_rule_id)
+                DO NOTHING
+            RETURNING
+                challenge_rule_id
+)
+        SELECT
+            COALESCE(array_agg(added.challenge_rule_id), '{}'::uuid[])
+        INTO
+            v_added_rule_ids
+        FROM
+            added;
+    END IF;
     RETURN QUERY
     SELECT
-        v_play_plan_link_id;
+        v_play_plan_link_id,
+        v_added_rule_ids;
 END;
 $$;
 
@@ -180,15 +224,6 @@ BEGIN
             WHERE
                 mainline_team_plan_member_moves.team_plan_member_id = v_source_member.id;
         END LOOP;
-    INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-    SELECT
-        v_new_plan_id,
-        mainline_team_plan_tags.tag_id,
-        mainline_team_plan_tags.user_id
-    FROM
-        planning.mainline_team_plan_tags
-    WHERE
-        mainline_team_plan_tags.team_plan_id = v_source_plan.id;
     INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
     SELECT
         v_new_plan_id,
@@ -213,11 +248,11 @@ BEGIN
 END;
 $$;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM anon;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM PUBLIC;
 
@@ -225,6 +260,6 @@ REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) F
 
 GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
+COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan (moving an existing link when asked) and copies the Plan''s rules the Play lacks into it. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
 
 COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER so planning RLS applies.';

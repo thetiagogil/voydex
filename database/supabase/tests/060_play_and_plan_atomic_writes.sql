@@ -5,7 +5,7 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000c1', 'authenticated', 'authenticated', 'atomic-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000d2', 'authenticated', 'authenticated', 'atomic-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (55);
+    plan (58);
 -- Starting a Play
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000c1', TRUE);
@@ -426,6 +426,28 @@ SELECT
     throws_ok ($$
         SELECT
             planning.save_mainline_team_plan (15, 'Shape Plan', '{"slot": 1}'::jsonb) $$, '22023', 'members must be a JSON array', 'members must be an array');
+INSERT INTO gameplay.mainline_challenge_rules (id, user_id, rule_type_id, slug, name)
+    VALUES ('80000000-0000-0000-0000-0000000000a6', auth.uid (), 5, 'mono_grass', 'Mono grass');
+SELECT
+    lives_ok ($$
+        SELECT
+            planning.update_mainline_team_plan_details ((
+                SELECT
+                    result_team_plan_id
+                FROM created_plan), ' Grass Plan ', ARRAY['80000000-0000-0000-0000-0000000000a6', '80000000-0000-0000-0000-0000000000a6']::uuid[]) $$, 'the owner saves a Plan''s name and rules together');
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_team_plans.name, COUNT(mainline_team_plan_challenge_rules.challenge_rule_id)
+            FROM planning.mainline_team_plans
+        LEFT JOIN planning.mainline_team_plan_challenge_rules ON mainline_team_plan_challenge_rules.team_plan_id = mainline_team_plans.id
+        WHERE
+            mainline_team_plans.id = (
+                SELECT
+                    result_team_plan_id
+                FROM created_plan)
+    GROUP BY mainline_team_plans.name $$, $$
+    VALUES ('Grass Plan'::text, 1::bigint) $$, 'details save a trimmed name and each rule once');
 SELECT
     lives_ok ($$
         SELECT
@@ -436,6 +458,21 @@ SELECT
             SELECT
                 result_team_plan_id
             FROM created_plan), FALSE) $$, 'the owner links the Plan to a Play');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)
+            FROM
+                gameplay.mainline_play_challenge_rules
+            WHERE
+                play_id = (
+                    SELECT
+                        result_play_id
+                    FROM
+                        started_sun)
+                    AND challenge_rule_id = '80000000-0000-0000-0000-0000000000a6'),
+                1::bigint,
+                'linking copies the Plan''s rules into the Play');
 SELECT
     throws_ok ($$
         SELECT

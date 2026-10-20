@@ -13,8 +13,6 @@ ALTER TABLE planning.mainline_team_plan_member_moves ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_play_plan_links ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE planning.mainline_team_plan_tags ENABLE ROW LEVEL SECURITY;
-
 ALTER TABLE planning.mainline_team_plan_challenge_rules ENABLE ROW LEVEL SECURITY;
 
 REVOKE ALL ON TABLE planning.mainline_team_plan_statuses FROM anon, authenticated;
@@ -28,8 +26,6 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_members FROM anon, authenticated
 REVOKE ALL ON TABLE planning.mainline_team_plan_member_moves FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_play_plan_links FROM anon, authenticated;
-
-REVOKE ALL ON TABLE planning.mainline_team_plan_tags FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plan_challenge_rules FROM anon, authenticated;
 
@@ -45,8 +41,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_member
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_play_plan_links TO authenticated;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_tags TO authenticated;
-
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_challenge_rules TO authenticated;
 
 GRANT ALL ON TABLE planning.mainline_team_plan_statuses TO service_role;
@@ -60,8 +54,6 @@ GRANT ALL ON TABLE planning.mainline_team_plan_members TO service_role;
 GRANT ALL ON TABLE planning.mainline_team_plan_member_moves TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_play_plan_links TO service_role;
-
-GRANT ALL ON TABLE planning.mainline_team_plan_tags TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plan_challenge_rules TO service_role;
 
@@ -160,27 +152,6 @@ CREATE POLICY team_plan_member_moves_owned ON planning.mainline_team_plan_member
             JOIN planning.mainline_team_plans ON mainline_team_plans.id = mainline_team_plan_members.team_plan_id
         WHERE
             mainline_team_plan_members.id = team_plan_member_id
-            AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY team_plan_tags_owned ON planning.mainline_team_plan_tags
-    FOR ALL TO authenticated
-    USING (user_id = auth.uid ()
-        AND EXISTS (
-            SELECT
-                1
-            FROM
-                planning.mainline_team_plans
-            WHERE
-                mainline_team_plans.id = team_plan_id
-                AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (user_id = auth.uid ()
-    AND EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
             AND mainline_team_plans.user_id = auth.uid ()));
 
 CREATE POLICY team_plan_challenge_rules_owned ON planning.mainline_team_plan_challenge_rules
