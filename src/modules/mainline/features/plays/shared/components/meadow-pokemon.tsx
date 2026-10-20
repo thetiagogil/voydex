@@ -37,6 +37,36 @@ const artSizes = {
 } as const;
 
 /*
+ * The pill under something standing on the meadow: a partner's name, or the
+ * game New Play picked. Picked, it takes the action fill with a check.
+ */
+export const MeadowLabel = ({
+  name,
+  open = false,
+  selected = false,
+}: {
+  name: string;
+  open?: boolean;
+  selected?: boolean;
+}) => (
+  <span
+    className={cn(
+      "text-14 -mt-0.5 inline-flex max-w-full items-center gap-1 truncate rounded-full px-3 py-1 font-extrabold",
+      open
+        ? "text-ink-2"
+        : selected
+          ? "bg-action text-white"
+          : "bg-surface bubble text-ink",
+    )}
+  >
+    {selected ? (
+      <AppIcon icon={appIcons.status.active} size="sm" strokeWidth={3} />
+    ) : null}
+    <span className="truncate">{name}</span>
+  </span>
+);
+
+/*
  * A Pokémon standing on the meadow (v3 `.hh-st`, `.hb-mon`): its art over a
  * soft shadow and its name on a small cream pill. As a control it hops on
  * hover; picked, its pill takes the selected tint with a check.
@@ -89,21 +119,7 @@ export const MeadowPokemon = ({
           />
         </span>
       )}
-      <span
-        className={cn(
-          "text-14 -mt-0.5 inline-flex max-w-full items-center gap-1 truncate rounded-full px-3 py-1 font-extrabold",
-          open
-            ? "text-ink-2"
-            : selected
-              ? "bg-action text-white"
-              : "bg-surface bubble text-ink",
-        )}
-      >
-        {selected ? (
-          <AppIcon icon={appIcons.status.active} size="sm" strokeWidth={3} />
-        ) : null}
-        <span className="truncate">{name}</span>
-      </span>
+      <MeadowLabel name={name} open={open} selected={selected} />
     </>
   );
   const baseClassName = cn(

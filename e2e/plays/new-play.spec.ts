@@ -111,6 +111,7 @@ test.describe("New Play", () => {
     await expect(
       dialog.getByRole("img", { name: "Pokémon Red" }),
     ).toBeVisible();
+    await expect(dialog.getByText("Red", { exact: true })).toBeVisible();
     const start = dialog.getByRole("button", { name: "Start with Charmander" });
 
     await dialog.getByRole("textbox", { name: "Play name" }).fill("  ");

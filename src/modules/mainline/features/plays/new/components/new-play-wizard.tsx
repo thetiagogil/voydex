@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
 import { NewPlayTracking } from "@/modules/mainline/features/plays/new/components/new-play-tracking";
+import { MeadowLabel } from "@/modules/mainline/features/plays/shared/components/meadow-pokemon";
 import { PartnerCast } from "@/modules/mainline/features/plays/shared/components/partner-cast";
 import type { NewPlayWizardData } from "@/modules/mainline/features/plays/new/types";
 import { defaultPlayName } from "@/modules/mainline/features/plays/shared/utils/new-play-input";
@@ -251,15 +252,18 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           ) : step === 3 && game ? (
             /* The game and its partner, side by side: what this Play is. */
             <div className="flex items-end gap-6 sm:gap-8">
-              <GameCover
-                alt={game.name}
-                coverImageUrl={game.coverImageUrl}
-                gameName={game.name}
-                gameSlug={game.slug}
-                shape={game.coverShape}
-                size="picker"
-                eager
-              />
+              <span className="flex flex-col items-center gap-1.5">
+                <GameCover
+                  alt={game.name}
+                  coverImageUrl={game.coverImageUrl}
+                  gameName={game.name}
+                  gameSlug={game.slug}
+                  shape={game.coverShape}
+                  size="picker"
+                  eager
+                />
+                <MeadowLabel name={game.shortName} selected />
+              </span>
               {partner ? (
                 <PartnerCast
                   size="md"
