@@ -1,17 +1,10 @@
 "use client";
 
-import { ChoiceChip } from "@/shared/components/choice-chip";
 import { TextLink } from "@/shared/components/text-link";
 import { useId, useState, type ReactNode } from "react";
 
-import type { GameExpansion } from "@/modules/reference/features/games/types";
 import { PendingData } from "@/shared/components/pending-data";
-
-type NewPlayTrackingProps = {
-  expansions: GameExpansion[];
-  onOwnedChange: (versionGroupIds: number[]) => void;
-  owned: number[];
-};
+import { FieldLabel } from "@/shared/components/ui/field";
 
 const TrackingRow = ({
   children,
@@ -35,88 +28,62 @@ const TrackingRow = ({
 
 /*
  * Step 3's tracking (v3 `.npx-track`): what the new Play keeps, and Change
- * to adjust it. The expansions you own are real; the Story, Pokédex mode
- * and Collectibles switches wait on Play settings that Voydex can't store
- * yet. Challenge rules sit under it, in view (`NewPlayRules`).
+ * to adjust it. The Story, Pokédex mode and Collectibles switches wait on
+ * Play settings that Voydex can't store yet. Expansions sit above it and
+ * challenge rules under it, each its own field.
  */
-export const NewPlayTracking = ({
-  expansions,
-  onOwnedChange,
-  owned,
-}: NewPlayTrackingProps) => {
+export const NewPlayTracking = () => {
   const [isOpen, setIsOpen] = useState(false);
   const panelId = useId();
-  const ownedNames = expansions
-    .filter((expansion) => owned.includes(expansion.versionGroupId))
-    .map((expansion) => expansion.name);
-  const toggle = (versionGroupId: number) => {
-    onOwnedChange(
-      owned.includes(versionGroupId)
-        ? owned.filter((id) => id !== versionGroupId)
-        : [...owned, versionGroupId],
-    );
-  };
+  const labelId = useId();
 
   return (
-    <div className="bg-surface-2 rounded-md px-4 py-3.5">
-      <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
-        <span className="text-ink-2 text-13 font-bold">Tracking</span>
-        <b className="text-ink text-15 font-extrabold">
-          {["Story", "Pokédex", "Collectibles", ...ownedNames].join(" · ")}
-        </b>
-        <TextLink
-          standalone
-          aria-expanded={isOpen}
-          aria-controls={panelId}
-          onClick={() => setIsOpen((current) => !current)}
-          className="ml-auto"
-        >
-          {isOpen ? "Done" : "Change"}
-        </TextLink>
-      </div>
-
-      <div id={panelId} hidden={!isOpen} className="mt-2">
-        <TrackingRow
-          title="Story"
-          description="Badges, league and the milestones in between"
-        >
-          {/* TODO(v3-data): a per-Play Story on/off flag on gameplay.mainline_play_settings. */}
-          <PendingData variant="inline" label="Always on for now" />
-        </TrackingRow>
-        <TrackingRow
-          title="Pokédex"
-          description="Mark what you catch, or what you've seen too"
-        >
-          {/* TODO(v3-data): a caught-only or caught-and-seen Pokédex mode on gameplay.mainline_play_settings. */}
-          <PendingData variant="inline" label="Caught and seen for now" />
-        </TrackingRow>
-        {expansions.length ? (
-          <TrackingRow
-            title="Expansions you own"
-            description="Adds their Pokédexes and milestones"
+    <div className="flex flex-col gap-1.5">
+      <FieldLabel id={labelId}>Tracking (optional)</FieldLabel>
+      {/* The fields' corner, so the box reads as one of them. */}
+      <div
+        role="group"
+        aria-labelledby={labelId}
+        className="bg-surface-2 rounded-3xl px-5 py-3.5"
+      >
+        <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
+          <b className="text-ink text-15 font-extrabold">
+            {["Story", "Pokédex", "Collectibles"].join(" · ")}
+          </b>
+          <TextLink
+            standalone
+            aria-expanded={isOpen}
+            aria-controls={panelId}
+            onClick={() => setIsOpen((current) => !current)}
+            className="ml-auto"
           >
-            {expansions.map((expansion) => {
-              const isOwned = owned.includes(expansion.versionGroupId);
+            {isOpen ? "Done" : "Change"}
+          </TextLink>
+        </div>
 
-              return (
-                <ChoiceChip
-                  key={expansion.versionGroupId}
-                  pressed={isOwned}
-                  onClick={() => toggle(expansion.versionGroupId)}
-                >
-                  {expansion.name}
-                </ChoiceChip>
-              );
-            })}
+        <div id={panelId} hidden={!isOpen} className="mt-2">
+          <TrackingRow
+            title="Story"
+            description="Badges, league and the milestones in between"
+          >
+            {/* TODO(v3-data): a per-Play Story on/off flag on gameplay.mainline_play_settings. */}
+            <PendingData variant="inline" label="Always on for now" />
           </TrackingRow>
-        ) : null}
-        <TrackingRow
-          title="Collectibles"
-          description="The game's own collections, where it has them"
-        >
-          {/* TODO(v3-data): a per-Play Collectibles on/off flag on gameplay.mainline_play_settings. */}
-          <PendingData variant="inline" label="Always on for now" />
-        </TrackingRow>
+          <TrackingRow
+            title="Pokédex"
+            description="Mark what you catch, or what you've seen too"
+          >
+            {/* TODO(v3-data): a caught-only or caught-and-seen Pokédex mode on gameplay.mainline_play_settings. */}
+            <PendingData variant="inline" label="Caught and seen for now" />
+          </TrackingRow>
+          <TrackingRow
+            title="Collectibles"
+            description="The game's own collections, where it has them"
+          >
+            {/* TODO(v3-data): a per-Play Collectibles on/off flag on gameplay.mainline_play_settings. */}
+            <PendingData variant="inline" label="Always on for now" />
+          </TrackingRow>
+        </div>
       </div>
     </div>
   );

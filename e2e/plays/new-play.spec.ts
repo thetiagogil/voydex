@@ -95,6 +95,32 @@ test.describe("New Play", () => {
     expect(await watch()).toEqual(["IX"]);
   });
 
+  test("asks for a Play name and shows the game beside the partner", async ({
+    page,
+  }) => {
+    await page.goto("/mainline?new=1");
+    const dialog = page.getByRole("dialog", { name: "New Play" });
+
+    await dialog.getByRole("option", { name: "Pokémon Red, 1996" }).click();
+    await dialog.getByRole("button", { name: "Next" }).click();
+    await dialog
+      .getByRole("button", { name: "Charmander is my partner" })
+      .click();
+    await dialog.getByRole("button", { name: "Next" }).click();
+
+    await expect(
+      dialog.getByRole("img", { name: "Pokémon Red" }),
+    ).toBeVisible();
+    await expect(dialog.getByText("Red", { exact: true })).toBeVisible();
+    const start = dialog.getByRole("button", { name: "Start with Charmander" });
+
+    await dialog.getByRole("textbox", { name: "Play name" }).fill("  ");
+    await expect(start).toBeDisabled();
+    await dialog.getByRole("textbox", { name: "Play name" }).fill("Kanto");
+    await expect(start).toBeEnabled();
+    await expectAccessible(page);
+  });
+
   test("keeps Next off until a game is picked", async ({ page }) => {
     await page.goto("/mainline?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });

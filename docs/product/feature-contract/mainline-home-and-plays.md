@@ -89,9 +89,11 @@ page and only starting the Play moves on. From elsewhere outside Mainline
 that game, with `&partner=<species>` (Start a Play's pick) already choosing
 its first partner when the game offers it, and the parameters leave the
 address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
-choose later), then the Play's name, trainer name and what it tracks
-(expansions you own; Story, the Pokédex mode and Collectibles show where
-their settings will go), with its challenge rules in view under it. Start
+choose later), then, under the game's cover and the partner side by side on
+the meadow, the Play's name (required), trainer name, the expansions you
+own (a game with DLC only, its own field), what it tracks (Story, the
+Pokédex mode and Collectibles show where their settings will go) and its
+challenge rules. Start
 writes the Play, its expansions and its rules in one step and opens it. The
 partner must be one the game offers; it joins slot 1 and is recorded as the
 game's first partner-choice milestone. Games that hand you your partner

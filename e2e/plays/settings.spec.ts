@@ -90,4 +90,45 @@ test.describe("Play settings", () => {
       page.getByRole("heading", { name: "This page wandered off" }),
     ).toBeVisible();
   });
+
+  test("keeps the expansions you own in their own card", async ({ page }) => {
+    const swordId = await startPlay(page, {
+      game: "Pokémon Sword, 2019",
+      name: uniquePlayName("Galar run"),
+      partner: null,
+    });
+
+    await page.goto(`/mainline/plays/${swordId}/settings`, {
+      waitUntil: "networkidle",
+    });
+    const expansions = page.getByRole("region", { name: "Expansions" });
+
+    await expect(
+      page.getByRole("region", { name: "Tracking" }).getByRole("button", {
+        name: "The Isle of Armor",
+      }),
+    ).toHaveCount(0);
+    await expansions.getByRole("button", { name: "The Isle of Armor" }).click();
+    const saved = waitForAction(page);
+    await expansions.getByRole("button", { name: "Save" }).click();
+    await saved;
+    await expect(expansions.getByText("Unsaved changes")).toBeHidden(
+      forTheAnswer,
+    );
+
+    await page.reload();
+    await expect(
+      page
+        .getByRole("region", { name: "Expansions" })
+        .getByRole("button", { name: "The Isle of Armor" }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
+  test("leaves the Expansions card out for a game without DLC", async ({
+    page,
+  }) => {
+    await expect(page.getByRole("region", { name: "Expansions" })).toHaveCount(
+      0,
+    );
+  });
 });
