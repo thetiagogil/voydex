@@ -44,6 +44,9 @@ type GameShelfPickerProps = {
 /* Where the shelf reads a cover as "in view": past its faded left edge. */
 const READING_EDGE = 0.1;
 
+/* The marks row's side padding (`px-4.5`), kept around a mark scrolled into view. */
+const MARKS_GUTTER = 18;
+
 /*
  * Covers this close to where the shelf opens load at once; the rest wait
  * until the shelf scrolls near them.
@@ -80,6 +83,7 @@ export const GameShelfPicker = ({
   value,
 }: GameShelfPickerProps) => {
   const shelfRef = useRef<HTMLDivElement>(null);
+  const marksRef = useRef<HTMLDivElement>(null);
   const firstGameOfGeneration = useMemo(() => {
     const firstByGeneration = new Map<number, GameShelfGame>();
 
@@ -109,6 +113,15 @@ export const GameShelfPicker = ({
     () => games[opening.index]?.slug ?? null,
   );
   const [generationInView, setGenerationInView] = useState<number | null>(null);
+  /*
+   * A generation jumped to stays lit while the shelf scrolls there and after,
+   * until the reader scrolls on their own: the marks never run through the
+   * generations in between, and the newest stays lit though the shelf can't
+   * bring its first game to the left.
+   */
+  const [jumpedGeneration, setJumpedGeneration] = useState<number | null>(null);
+  const markedGeneration = jumpedGeneration ?? generationInView;
+  const letReaderLead = () => setJumpedGeneration(null);
   const tabStopSlug =
     activeSlug && games.some((game) => game.slug === activeSlug)
       ? activeSlug
@@ -244,6 +257,7 @@ export const GameShelfPicker = ({
 
     if (event.key in targets) {
       event.preventDefault();
+      letReaderLead();
 
       const target = games[targets[event.key]];
 
@@ -269,7 +283,7 @@ export const GameShelfPicker = ({
 
     // Tabbing into the shelf next lands on this generation's first game.
     setActiveSlug(game.slug);
-    setGenerationInView(game.generation.number);
+    setJumpedGeneration(game.generation.number);
     scrollToCover(game.slug, scrollBehavior());
   };
 
@@ -286,6 +300,7 @@ export const GameShelfPicker = ({
 
     if (jumpGame) {
       setActiveSlug(jumpGame.slug);
+      setJumpedGeneration(jumpGame.generation.number);
     }
   }
 
@@ -297,9 +312,33 @@ export const GameShelfPicker = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [jumpKey]);
 
+  /* On a narrow screen the marks scroll too: the lit one comes into view. */
+  useEffect(() => {
+    const row = marksRef.current;
+    const mark = row?.querySelector<HTMLElement>("[aria-current]");
+
+    if (!row || !mark) {
+      return;
+    }
+
+    const rowBox = row.getBoundingClientRect();
+    const markBox = mark.getBoundingClientRect();
+    const gutter = MARKS_GUTTER;
+    const left =
+      markBox.left < rowBox.left + gutter
+        ? markBox.left - rowBox.left - gutter
+        : markBox.right > rowBox.right - gutter
+          ? markBox.right - rowBox.right + gutter
+          : 0;
+
+    if (left) {
+      row.scrollBy({ behavior: scrollBehavior(), left });
+    }
+  }, [markedGeneration]);
+
   const generationOptions = Array.from(firstGameOfGeneration.values()).map(
     (game) => ({
-      current: game.generation.number === generationInView,
+      current: game.generation.number === markedGeneration,
       label: game.generation.numeral,
       value: String(game.generation.number),
     }),
@@ -317,6 +356,9 @@ export const GameShelfPicker = ({
         onKeyDown={onShelfKeyDown}
         earlierLabel="Earlier games"
         laterLabel="Later games"
+        onPage={letReaderLead}
+        onWheel={letReaderLead}
+        onTouchMove={letReaderLead}
         fadeEdges
         initialEdges={{
           canScrollEnd: !opening.atNewest && opening.index < games.length - 1,
@@ -359,7 +401,11 @@ export const GameShelfPicker = ({
         })}
       </Carousel>
 
-      <div className="no-scrollbar mt-1 flex items-center justify-center-safe gap-2 overflow-x-auto px-4.5">
+      {/* Room above and below, so the scrolling row never cuts the lit mark's band. */}
+      <div
+        ref={marksRef}
+        className="no-scrollbar flex items-center justify-center-safe gap-2 overflow-x-auto px-4.5 py-2"
+      >
         <span
           aria-hidden
           className="text-13 text-ink-2 shrink-0 font-bold max-sm:hidden"

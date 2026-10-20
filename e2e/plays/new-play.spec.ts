@@ -62,6 +62,39 @@ test.describe("New Play", () => {
     ).toBeVisible();
   });
 
+  test("lights only the generation jumped to while the shelf scrolls there", async ({
+    page,
+  }) => {
+    await page.goto("/mainline?new=1");
+    const marks = page
+      .getByRole("dialog", { name: "New Play" })
+      .getByRole("group", { name: "Jump to a generation" });
+    const lit = () =>
+      marks.evaluate((group) =>
+        Array.from(group.querySelectorAll("[aria-current]")).map(
+          (mark) => mark.textContent,
+        ),
+      );
+    /* Every mark lit while the shelf travels, read each frame. */
+    const watch = async () => {
+      const seen = new Set<string>();
+
+      for (let frame = 0; frame < 30; frame += 1) {
+        for (const label of await lit()) seen.add(label ?? "");
+        await page.waitForTimeout(30);
+      }
+
+      return [...seen];
+    };
+
+    await marks.getByRole("button", { name: "III", exact: true }).click();
+    expect(await watch()).toEqual(["III"]);
+
+    /* The newest generation stays lit though the shelf can't bring it to the left. */
+    await marks.getByRole("button", { name: "IX", exact: true }).click();
+    expect(await watch()).toEqual(["IX"]);
+  });
+
   test("keeps Next off until a game is picked", async ({ page }) => {
     await page.goto("/mainline?new=1");
     const dialog = page.getByRole("dialog", { name: "New Play" });
