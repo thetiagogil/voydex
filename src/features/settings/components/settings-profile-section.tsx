@@ -108,10 +108,7 @@ export const SettingsProfileSection = ({
               <p className={fieldLabelClassName}>Default trainer name</p>
               {/* TODO(v3-data): a default trainer name for new Plays on the profile. */}
               {/* Shaped like the field beside it, so the two line up. */}
-              <PendingData
-                variant="inline"
-                className="h-12 w-full rounded-md px-3.5"
-              />
+              <PendingData variant="inline" className="h-12 w-full px-5" />
             </div>
           </div>
         </div>

@@ -286,7 +286,9 @@ additions:
 `Textarea`, `InputGroup`, `Combobox` and the `Select` trigger. On the page ground a field
 is white with a 1.5px line; inside a card, dialog, alert dialog, sheet or
 popover it takes the inset fill (`surface-2`) without the line. An invalid
-field takes the danger line; focus is the action-red outline. Every form
+field takes the danger line; focus is the action-red outline. A single-line
+field (input, search, select trigger) is a pill like the buttons beside it; a
+text area takes a soft `rounded-2xl` corner. Every form
 control is 48px tall (inputs, the search field, select triggers and the
 `segment` track), so controls side by side line up. Don't style a field
 locally; extend the shared surface. A selected option changes colour, never
