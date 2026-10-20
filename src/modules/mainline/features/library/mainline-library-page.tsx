@@ -1,4 +1,5 @@
 import { appRoutes } from "@/config/routes";
+import { LibraryNewButton } from "@/modules/mainline/features/library/components/library-new-button";
 import { LibraryRulesSection } from "@/modules/mainline/features/library/sections/library-rules-section";
 import { LibraryTagsSection } from "@/modules/mainline/features/library/sections/library-tags-section";
 import type {
@@ -26,6 +27,13 @@ export const MainlineLibraryPage = ({
       <PageHeader
         title="Library"
         description="Your rules and tags, ready for every Play and Plan. Fix a name here and it changes everywhere."
+        action={
+          tab === "rules" ? (
+            <LibraryNewButton noun="rule" kinds={data.kinds} />
+          ) : (
+            <LibraryNewButton noun="tag" />
+          )
+        }
       />
       <SegmentedControl
         ariaLabel="Library sections"

@@ -9,24 +9,22 @@ import { LibraryItemMenu } from "@/modules/mainline/features/library/components/
 import { LibraryNameDialog } from "@/modules/mainline/features/library/components/library-name-dialog";
 import { getLibraryUsageLabel } from "@/modules/mainline/features/library/data/library-model";
 import {
-  createLibraryTagAction,
   deleteLibraryTagAction,
   renameLibraryTagAction,
 } from "@/modules/mainline/features/library/server/library-actions";
 import type { LibraryTag } from "@/modules/mainline/features/library/types";
 import { libraryNameMaxLength } from "@/modules/mainline/shared/utils/library-names";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ChoiceChip } from "@/shared/components/choice-chip";
+import { EmptyState } from "@/shared/components/empty-state";
 
 type TagDialog =
-  | { mode: "create" }
   | { mode: "delete"; tag: LibraryTag }
   | { mode: "rename"; tag: LibraryTag };
 
 /*
  * Tags: each of yours as a pill that lifts like a card, with how many Plays
- * and Plans wear it; the pill opens Rename and Delete. The dashed pill makes
- * a new one.
+ * and Plans wear it; the pill opens Rename and Delete. New tag sits in the
+ * page's head.
  */
 export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
   const router = useRouter();
@@ -37,16 +35,10 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
 
   return (
     <section aria-label="Tags">
+      {tags.length ? null : (
+        <EmptyState variant="bare" title="No tags yet. New tag makes one." />
+      )}
       <ul className="flex flex-wrap items-center gap-3">
-        <li>
-          <ChoiceChip
-            variant="add"
-            size="lg"
-            onClick={() => setDialog({ mode: "create" })}
-          >
-            New tag
-          </ChoiceChip>
-        </li>
         {tags.map((tag) => {
           const usageLabel = getLibraryUsageLabel(tag);
           const uses = tag.playCount + tag.planCount;
@@ -81,24 +73,21 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
         })}
       </ul>
 
-      {dialog?.mode === "create" || dialog?.mode === "rename" ? (
+      {dialog?.mode === "rename" ? (
         <LibraryNameDialog
-          key={dialog.mode === "rename" ? dialog.tag.id : "create"}
+          key={dialog.tag.id}
           open
           onOpenChange={close}
-          title={dialog.mode === "rename" ? "Rename tag" : "New tag"}
-          submitLabel={dialog.mode === "rename" ? "Rename" : "Add tag"}
+          title="Rename tag"
+          submitLabel="Rename"
           nameLabel="Tag name"
           maxLength={libraryNameMaxLength.tag}
-          initial={{
-            kindId: null,
-            name: dialog.mode === "rename" ? dialog.tag.name : "",
-          }}
+          initial={{ kindId: null, name: dialog.tag.name }}
           onSubmit={async ({ name }) => {
-            const result =
-              dialog.mode === "rename"
-                ? await renameLibraryTagAction({ id: dialog.tag.id, name })
-                : await createLibraryTagAction(name);
+            const result = await renameLibraryTagAction({
+              id: dialog.tag.id,
+              name,
+            });
 
             if (result.status === "error") return result.message;
 

@@ -9,7 +9,6 @@ import { LibraryItemMenu } from "@/modules/mainline/features/library/components/
 import { LibraryNameDialog } from "@/modules/mainline/features/library/components/library-name-dialog";
 import { getLibraryUsageLabel } from "@/modules/mainline/features/library/data/library-model";
 import {
-  createLibraryRuleAction,
   deleteLibraryRuleAction,
   updateLibraryRuleAction,
 } from "@/modules/mainline/features/library/server/library-actions";
@@ -21,10 +20,10 @@ import { libraryNameMaxLength } from "@/modules/mainline/shared/utils/library-na
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
+import { EmptyState } from "@/shared/components/empty-state";
 import { Card } from "@/shared/components/ui/card";
 
 type RuleDialog =
-  | { mode: "create" }
   | { mode: "delete"; rule: LibraryRule }
   | { mode: "edit"; rule: LibraryRule };
 
@@ -83,8 +82,8 @@ const RuleCard = ({
 };
 
 /*
- * Rules: a card for each rule you can pick, Voydex's and yours, after a
- * dashed card that makes a new one. Editing a name fixes it in every Play
+ * Rules: a card for each rule you can pick, Voydex's and yours; New rule
+ * sits in the page's head. Editing a name fixes it in every Play
  * and Plan that keeps the rule; deleting takes it off all of them.
  */
 export const LibraryRulesSection = ({
@@ -96,24 +95,16 @@ export const LibraryRulesSection = ({
 }) => {
   const router = useRouter();
   const [dialog, setDialog] = useState<RuleDialog | null>(null);
-  const customKind = kinds.find((kind) => kind.slug === "custom");
   const close = (open: boolean) => {
     if (!open) setDialog(null);
   };
 
   return (
     <section aria-label="Rules">
+      {rules.length ? null : (
+        <EmptyState variant="bare" title="No rules yet. New rule makes one." />
+      )}
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        <li className="min-w-0">
-          <button
-            type="button"
-            onClick={() => setDialog({ mode: "create" })}
-            className="empty-slot text-ink-2 hover:bg-hover hover:text-ink focus-ring text-15 flex h-full min-h-14 w-full items-center justify-center gap-2 rounded-xl font-bold transition-colors sm:min-h-32"
-          >
-            <AppIcon icon={appIcons.actions.create} />
-            New rule
-          </button>
-        </li>
         {rules.map((rule) => (
           <RuleCard
             key={rule.id}
@@ -124,32 +115,25 @@ export const LibraryRulesSection = ({
         ))}
       </ul>
 
-      {dialog?.mode === "create" || dialog?.mode === "edit" ? (
+      {dialog?.mode === "edit" ? (
         <LibraryNameDialog
-          key={dialog.mode === "edit" ? dialog.rule.id : "create"}
+          key={dialog.rule.id}
           open
           onOpenChange={close}
-          title={dialog.mode === "edit" ? "Edit rule" : "New rule"}
-          submitLabel={dialog.mode === "edit" ? "Save" : "Add rule"}
+          title="Edit rule"
+          submitLabel="Save"
           nameLabel="Rule name"
           maxLength={libraryNameMaxLength.rule}
           kinds={kinds}
-          initial={
-            dialog.mode === "edit"
-              ? { kindId: dialog.rule.kind.id, name: dialog.rule.name }
-              : { kindId: customKind?.id ?? null, name: "" }
-          }
+          initial={{ kindId: dialog.rule.kind.id, name: dialog.rule.name }}
           onSubmit={async ({ kindId, name }) => {
             if (!kindId) return "Pick a kind from the list.";
 
-            const result =
-              dialog.mode === "edit"
-                ? await updateLibraryRuleAction({
-                    id: dialog.rule.id,
-                    kindId,
-                    name,
-                  })
-                : await createLibraryRuleAction({ kindId, name });
+            const result = await updateLibraryRuleAction({
+              id: dialog.rule.id,
+              kindId,
+              name,
+            });
 
             if (result.status === "error") return result.message;
 

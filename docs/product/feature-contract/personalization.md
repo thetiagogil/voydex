@@ -65,10 +65,10 @@ Plays and Plans, in two tabs:
 
 - **Rules:** a card per rule you can pick, Voydex's built-in ones (marked
   Built-in, never edited or deleted) and yours, with its kind and how many
-  Plays and Plans keep it. A dashed card makes a new rule with a name and a
-  kind; a rule's menu edits its name and kind or deletes it.
+  Plays and Plans keep it. New rule, in the page's head, makes one with a
+  name and a kind; a rule's menu edits its name and kind or deletes it.
 - **Tags:** a pill per tag with how many Plays and Plans wear it; the pill
-  opens Rename and Delete, and a dashed pill makes a new one.
+  opens Rename and Delete, and New tag in the head makes one.
 
 Renaming fixes the name everywhere it's used. Deleting is for good, after a
 confirm that says which Plays and Plans it leaves, and every link goes with
