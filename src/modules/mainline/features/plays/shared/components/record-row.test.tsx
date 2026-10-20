@@ -34,10 +34,4 @@ describe("RecordRow on a timeline", () => {
     expect(inGrid).toContain("lg:hidden");
     expect(inGrid).toContain("hidden lg:grid");
   });
-
-  it("shows what the moment carries under its words", () => {
-    expect(row({ extra: <span data-testid="party" /> })).toContain(
-      'data-testid="party"',
-    );
-  });
 });

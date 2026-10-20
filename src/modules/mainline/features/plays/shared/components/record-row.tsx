@@ -8,8 +8,6 @@ import { Medallion, type MedallionContent } from "./medallion";
 type RecordRowProps = {
   className?: string;
   description?: ReactNode;
-  /* What the moment carries, under its words: a saved team, before and after. */
-  extra?: ReactNode;
   headline: ReactNode;
   kicker: ReactNode;
   medallion: MedallionContent;
@@ -46,7 +44,6 @@ type RecordRowProps = {
 export const RecordRow = ({
   className,
   description,
-  extra,
   headline,
   kicker,
   medallion,
@@ -86,7 +83,6 @@ export const RecordRow = ({
           {description}
         </p>
       ) : null}
-      {extra ? <div className="mt-3">{extra}</div> : null}
     </>
   );
 
