@@ -247,11 +247,7 @@ export const PlannerTopSection = ({
               disabled={!canSave || isSaving}
               onClick={onSave}
             >
-              {isSaving ? (
-                <Spinner className="size-3.5" />
-              ) : (
-                <AppIcon icon={appIcons.status.active} inline="start" />
-              )}
+              {isSaving ? <Spinner data-icon="inline-start" /> : null}
               {isSaved ? "Save changes" : "Save Plan"}
             </Button>
           ) : (

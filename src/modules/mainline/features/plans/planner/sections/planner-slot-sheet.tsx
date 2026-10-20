@@ -251,7 +251,6 @@ export const PlannerSlotSheet = ({
               Remove from Plan
             </Button>
             <Button type="button" size="sm" disabled={!isDirty} onClick={save}>
-              <AppIcon icon={appIcons.status.active} inline="start" />
               Save
             </Button>
           </>

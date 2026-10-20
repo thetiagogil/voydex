@@ -2,7 +2,6 @@
 
 import { useId, useState } from "react";
 
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import {
   Dialog,
@@ -80,7 +79,6 @@ export const PlannerNameDialog = ({
               Cancel
             </Button>
             <Button type="submit" disabled={!name.trim()}>
-              <AppIcon icon={appIcons.status.active} inline="start" />
               Save Plan
             </Button>
           </DialogFooter>
