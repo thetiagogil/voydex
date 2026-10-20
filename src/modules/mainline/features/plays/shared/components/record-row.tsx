@@ -63,7 +63,8 @@ export const RecordRow = ({
     return (
       <article
         className={cn(
-          "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-start gap-3 sm:gap-4",
+          /* The medallion sits level with the middle of its card. */
+          "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
           className,
         )}
       >

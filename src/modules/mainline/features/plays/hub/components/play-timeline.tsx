@@ -10,8 +10,10 @@ import { cn } from "@/shared/utils/cn";
  * A Play's moments on one line, as History and Overview's recent moments draw
  * them: each moment's medallion sits on the line with its words in a small
  * card beside it, months mark the line where they begin, and where the Play
- * began is the line's origin. The line runs through the medallions' centres
- * (28px in, 28px down every item), from the first item's to the last one's.
+ * began is the line's origin. Words line up on one edge: a month's name and
+ * the starting line start where a card's words do. The line runs 28px in,
+ * from the first stop's centre to the last one's (28px down a month or the
+ * start; a moment's medallion, level with its card, covers the line's end).
  */
 export const PlayTimeline = ({
   children,
@@ -44,7 +46,7 @@ export const PlayTimelineItem = ({
 }) => (
   <li
     id={id}
-    className={cn("relative min-w-0 pb-3 last:pb-0", lineClassName, className)}
+    className={cn("relative min-w-0 pb-4 last:pb-0", lineClassName, className)}
   >
     {children}
   </li>
@@ -60,13 +62,14 @@ export const PlayTimelineMonth = ({
   label: string;
   titleId: string;
 }) => (
-  <PlayTimelineItem className="pt-2 first:pt-0">
+  <PlayTimelineItem className="pt-5 first:pt-0">
     <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
       <span
         aria-hidden
         className="bg-surface inset-ring-line relative mx-auto size-3.5 rounded-full inset-ring-2"
       />
       <RangeHeading
+        className="pl-4 sm:pl-5"
         headingLevel={3}
         title={label}
         titleId={titleId}
@@ -89,12 +92,12 @@ export const PlayTimelineStart = ({
   const startedOnLabel = formatPlayDate(startedOn, "");
 
   return (
-    <PlayTimelineItem>
+    <PlayTimelineItem className="pt-2">
       <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
         <Medallion
           content={{ icon: appIcons.milestones.story, kind: "start" }}
         />
-        <div className="grid min-w-0 gap-0.5">
+        <div className="grid min-w-0 gap-0.5 pl-4 sm:pl-5">
           <p className="text-action-ink text-13 font-bold">
             {startedOnLabel ? `Started ${startedOnLabel}` : "Started"}
           </p>
