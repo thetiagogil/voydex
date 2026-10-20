@@ -108,7 +108,6 @@ export const PlannerTopSection = ({
       <span className="min-w-0">
         <span className="text-ink-2 text-12 block font-bold">
           Gen {versionGroup.generationNumeral}
-          {versionGroup.regionName ? ` · ${versionGroup.regionName}` : ""}
         </span>
         <b className="text-ink text-16 block font-extrabold">
           {versionGroup.name}
@@ -197,7 +196,7 @@ export const PlannerTopSection = ({
             value={versionGroup.slug}
             onValueChange={onVersionGroupChange}
             options={versionGroups.map((group) => ({
-              description: `Gen ${group.generationNumeral}${group.regionName ? ` · ${group.regionName}` : ""}`,
+              description: `Gen ${group.generationNumeral}`,
               icon: group.gameSlugs[0] ? (
                 <GameOptionCover
                   gameName={group.name}

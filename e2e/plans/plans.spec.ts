@@ -149,6 +149,7 @@ test.describe("Team Planner", () => {
     await page.getByRole("button", { name: "Unlock to edit" }).click();
     await unlock.getByRole("button", { name: "Unlock" }).click();
     await team.getByRole("button", { name: /^Random team$/ }).click();
+    await page.getByRole("menuitem", { name: /^Random team/ }).click();
     await expect(team.getByText("6 of 6")).toBeVisible();
     await expect(
       page.getByText("Followed by 1 Play. Saving updates its comparison."),

@@ -126,7 +126,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   );
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
-  const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
   /* A game switch that would change the team, waiting on its confirm. */
   const [pendingSwitch, setPendingSwitch] = useState<{
     changed: PlannerSwitchPokemon[];
@@ -254,7 +253,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     }
   };
 
-  const random = () => {
+  const random = (randomMode: PlanRandomMode) => {
     /* "Random from filters" keeps to the Pokédex shown, too. */
     const candidates = getRandomCandidates({
       byId,
@@ -435,10 +434,8 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onOpenCheck={() => setIsCheckOpen(true)}
           onOpenSlot={setOpenSlot}
           onPlace={place}
-          onRandom={whenUnlocked(random)}
-          onRandomModeChange={setRandomMode}
+          onRandom={(mode) => whenUnlocked(() => random(mode))()}
           onRemove={whenUnlocked(requestRemove)}
-          randomMode={randomMode}
           replacing={replacing}
           slots={team.slots}
           tip={tip}

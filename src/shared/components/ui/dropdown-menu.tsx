@@ -51,6 +51,8 @@ const DropdownMenuContent = ({
           data-slot="dropdown-menu-content"
           className={cn(
             menuPanelClassName,
+            /* A little air between options, as every picker's list has. */
+            "flex flex-col gap-0.5",
             "data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 z-50 max-h-(--available-height) w-max max-w-[min(24rem,calc(100vw-2rem))] min-w-[max(var(--anchor-width),14rem)] origin-(--transform-origin) overflow-x-hidden overflow-y-auto duration-100 outline-none data-closed:overflow-hidden",
             menuSheetPopupClassName,
             className,
@@ -62,8 +64,17 @@ const DropdownMenuContent = ({
   );
 };
 
-const DropdownMenuGroup = ({ ...props }: MenuPrimitive.Group.Props) => {
-  return <MenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />;
+const DropdownMenuGroup = ({
+  className,
+  ...props
+}: MenuPrimitive.Group.Props) => {
+  return (
+    <MenuPrimitive.Group
+      data-slot="dropdown-menu-group"
+      className={cn("flex flex-col gap-0.5", className)}
+      {...props}
+    />
+  );
 };
 
 const DropdownMenuLabel = ({
@@ -108,11 +119,13 @@ const DropdownMenuItem = ({
 };
 
 const DropdownMenuRadioGroup = ({
+  className,
   ...props
 }: MenuPrimitive.RadioGroup.Props) => {
   return (
     <MenuPrimitive.RadioGroup
       data-slot="dropdown-menu-radio-group"
+      className={cn("flex flex-col gap-0.5", className)}
       {...props}
     />
   );

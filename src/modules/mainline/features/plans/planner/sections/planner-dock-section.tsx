@@ -19,14 +19,12 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { Button } from "@/shared/components/ui/button";
-import { ButtonGroup } from "@/shared/components/ui/button-group";
+import { IconTip } from "@/shared/components/icon-tip";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { FallbackImage } from "@/shared/components/fallback-image";
@@ -58,10 +56,9 @@ type PlannerDockSectionProps = {
   onOpenSlot: (index: number) => void;
   onPlace: (index: number) => void;
   onCancelReplace: () => void;
-  onRandom: () => void;
-  onRandomModeChange: (mode: PlanRandomMode) => void;
+  /* Random team, in one of its modes. */
+  onRandom: (mode: PlanRandomMode) => void;
   onRemove: (index: number) => void;
-  randomMode: PlanRandomMode;
   /* The Pokémon waiting for a slot when the team is full. */
   replacing: PlannerPokemon | null;
   slots: PlannerSlots;
@@ -80,7 +77,7 @@ const tipToneClassNames: Record<PlanTeamTip["tone"], string> = {
  * the Play roster's stickers (the art large, its name, a flag
  * when it needs something; an open slot just says Empty). Each
  * opens its slot sheet, can be dragged onto another slot to swap and removed
- * with Undo. Over it: Random and Clear (not on a locked Plan); under it the
+ * with Undo. Over it: the dice (Random team, Fill empty slots or Random from filters) and Clear (not on a locked Plan); under it the
  * one tip that matters most, with Team check for the rest.
  */
 export const PlannerDockSection = ({
@@ -94,9 +91,7 @@ export const PlannerDockSection = ({
   onOpenSlot,
   onPlace,
   onRandom,
-  onRandomModeChange,
   onRemove,
-  randomMode,
   replacing,
   slots,
   tip,
@@ -142,74 +137,63 @@ export const PlannerDockSection = ({
           </span>
           {locked ? null : (
             <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
-              <ButtonGroup aria-label="Random team">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  size="sm"
-                  onClick={onRandom}
-                  className="max-sm:px-2"
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="icon-sm"
+                      aria-label="Random team"
+                    />
+                  }
                 >
-                  <AppIcon
-                    icon={appIcons.product.activity}
-                    inline="start"
-                    className="max-sm:hidden"
-                  />
-                  {randomModeLabels[randomMode].label}
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger
-                    render={
-                      <Button
-                        type="button"
-                        variant="secondary"
-                        size="icon-sm"
-                        aria-label="Random options"
-                      />
-                    }
-                  >
-                    <AppIcon icon={appIcons.actions.expand} />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-64">
-                    <DropdownMenuGroup>
-                      <DropdownMenuLabel>
-                        Never repeats a Pokémon or its evolution line
-                      </DropdownMenuLabel>
-                      <DropdownMenuRadioGroup
-                        value={randomMode}
-                        onValueChange={(value) =>
-                          onRandomModeChange(value as PlanRandomMode)
-                        }
+                  <AppIcon icon={appIcons.actions.random} />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-72">
+                  {(Object.keys(randomModeLabels) as PlanRandomMode[]).map(
+                    (mode) => (
+                      <DropdownMenuItem
+                        key={mode}
+                        onClick={() => onRandom(mode)}
                       >
-                        {(
-                          Object.keys(randomModeLabels) as PlanRandomMode[]
-                        ).map((mode) => (
-                          <DropdownMenuRadioItem key={mode} value={mode}>
-                            <span className="min-w-0">
-                              <span className="block">
-                                {randomModeLabels[mode].label}
-                              </span>
-                              <span className="text-ink-3 text-12 block font-semibold">
-                                {randomModeLabels[mode].description}
-                              </span>
-                            </span>
-                          </DropdownMenuRadioItem>
-                        ))}
-                      </DropdownMenuRadioGroup>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </ButtonGroup>
-              <Button
-                type="button"
-                variant="secondary"
-                size="sm"
-                disabled={!filled}
-                onClick={onClear}
-                className="max-sm:px-2"
-              >
-                Clear
-              </Button>
+                        <span className="min-w-0">
+                          <span className="block">
+                            {randomModeLabels[mode].label}
+                          </span>
+                          <span className="text-ink-3 text-12 block font-semibold">
+                            {randomModeLabels[mode].description}
+                          </span>
+                        </span>
+                      </DropdownMenuItem>
+                    ),
+                  )}
+                  <DropdownMenuSeparator />
+                  <p className="text-ink-3 text-13 flex gap-2 px-2 py-1.5 font-semibold">
+                    <AppIcon
+                      icon={appIcons.status.info}
+                      size="sm"
+                      className="mt-0.5 shrink-0"
+                    />
+                    Never repeats a Pokémon or its evolution line.
+                  </p>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <IconTip
+                label="Clear the team"
+                trigger={
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="icon-sm"
+                    aria-label="Clear the team"
+                    disabled={!filled}
+                    onClick={onClear}
+                  >
+                    <AppIcon icon={appIcons.actions.clearAll} />
+                  </Button>
+                }
+              />
             </div>
           )}
         </div>
