@@ -35,7 +35,7 @@ describe("getPlayMomentRecord", () => {
   it("wears the Pokémon a moment left on the team, on the neutral tint by default", () => {
     const record = getPlayMomentRecord(evolution);
 
-    expect(record.label).toBe("Evolved");
+    expect(record.label).toBe("Team");
     expect(record.faded).toBe(false);
     expect(record.medallion).toEqual({
       imageUrl: "https://assets.test/pokemon/home/md/toxtricity-amped.webp",

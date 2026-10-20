@@ -14,7 +14,6 @@ export type PlayMomentTextPart = {
 
 export type PlayMomentTeamLine = {
   icon: AppIconComponent;
-  label: string;
   /*
    * The Pokémon a moment is drawn with: what it evolved or changed into, the
    * replacement, else the Pokémon it is about.
@@ -98,7 +97,6 @@ export const getPlayMomentTeamLine = (
 
     return {
       icon: appIcons.product.evolved,
-      label: "Evolved",
       text: text([
         [to.name, true],
         [" evolved from "],
@@ -116,7 +114,6 @@ export const getPlayMomentTeamLine = (
 
     return {
       icon: appIcons.product.formChanged,
-      label: "Form changed",
       text: text([
         [to.name, true],
         [" changed form from "],
@@ -137,7 +134,6 @@ export const getPlayMomentTeamLine = (
 
     return {
       icon: appIcons.product.replaced,
-      label: "Replaced",
       text: text([
         [replacement.name, true],
         [" replaced "],
@@ -156,7 +152,6 @@ export const getPlayMomentTeamLine = (
 
     return {
       icon: appIcons.actions.move,
-      label: "Moved",
       outcome: member,
       text: destination
         ? text([
@@ -177,42 +172,36 @@ export const getPlayMomentTeamLine = (
       return {
         ...commonDisplay,
         icon: appIcons.product.teamAdded,
-        label: "Added",
         text: text([[member.name, true], [" was added to the team."]]),
       };
     case "pokemon_updated":
       return {
         ...commonDisplay,
         icon: appIcons.actions.edit,
-        label: "Updated",
         text: text([[member.name, true], [" was updated."]]),
       };
     case "pokemon_retired":
       return {
         ...commonDisplay,
         icon: appIcons.product.retired,
-        label: "Retired",
         text: text([[member.name, true], [" retired from the team."]]),
       };
     case "pokemon_removed":
       return {
         ...commonDisplay,
         icon: appIcons.actions.clear,
-        label: "Removed",
         text: text([[member.name, true], [" was removed from the team."]]),
       };
     case "pokemon_returned":
       return {
         ...commonDisplay,
         icon: appIcons.actions.retry,
-        label: "Returned",
         text: text([[member.name, true], [" returned to the team."]]),
       };
     default:
       return {
         ...commonDisplay,
         icon: appIcons.product.team,
-        label: event.event_type_name ?? "Team event",
         text: getFallbackText(event),
       };
   }

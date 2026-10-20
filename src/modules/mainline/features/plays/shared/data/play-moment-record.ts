@@ -153,7 +153,8 @@ export const getPlayMomentRecord = (
       description: getDescription(event),
       faded: fadedEventTypes.has(eventTypeSlug),
       headline: line.text,
-      label: line.label,
+      /* The kind, as History's filters name it; the line says what happened. */
+      label: "Team",
       medallion: imageUrl
         ? {
             imageUrl,
