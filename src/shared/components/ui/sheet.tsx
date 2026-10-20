@@ -27,8 +27,10 @@ const SheetOverlay = ({
   ...props
 }: SheetPrimitive.Backdrop.Props) => {
   return (
+    /* Rendered even over a dialog, so a sheet sits on its own level. */
     <SheetPrimitive.Backdrop
       data-slot="sheet-overlay"
+      forceRender
       className={cn(
         "bg-scrim fixed inset-0 z-50 transition-opacity duration-150 data-ending-style:opacity-0 data-starting-style:opacity-0",
         className,

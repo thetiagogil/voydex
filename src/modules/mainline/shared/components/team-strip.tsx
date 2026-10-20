@@ -4,7 +4,7 @@ import {
 } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { cn } from "@/shared/utils/cn";
 
-export type PlanTeamStripMember = {
+export type TeamStripMember = {
   imageUrl: string | null;
   name: string;
   /* 1 to 6. */
@@ -13,16 +13,17 @@ export type PlanTeamStripMember = {
 };
 
 /*
- * A Plan's six slots at a glance (My Plans' cards, the unsaved Plan offer):
+ * A team's six slots at a glance (My Plans' cards, the unsaved Plan offer,
+ * a Play that follows a Plan or keeps a rule):
  * each Pokémon as the one small Pokémon (`PokemonAvatar`), open slots
  * dashed.
  */
-export const PlanTeamStrip = ({
+export const TeamStrip = ({
   className,
   members,
 }: {
   className?: string;
-  members: PlanTeamStripMember[];
+  members: TeamStripMember[];
 }) => {
   const slots = Array.from({ length: 6 }, (_, index) =>
     members.find((member) => member.slot === index + 1),

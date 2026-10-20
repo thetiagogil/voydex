@@ -1,12 +1,22 @@
-/* A rule's kind, such as Pokémon Reuse or Custom; the picker for a new rule. */
+import type { PlayTeam } from "@/modules/mainline/shared/types";
+import type { ChallengeRuleOptionKey } from "@/modules/mainline/shared/data/challenge-rule-options";
+
+/* A rule's kind, such as Catching or Custom; the picker for a new rule. */
 export type LibraryRuleKind = { id: number; name: string; slug: string };
 
-/* How many of your Plays keep a rule or wear a tag. */
-export type LibraryUsage = { playCount: number };
+/* A Play of yours that keeps a rule or wears a tag, with its team. */
+export type LibraryPlay = PlayTeam;
+
+/* Which of your Plays keep a rule or wear a tag, by name, and how many. */
+export type LibraryUsage = { playCount: number; plays: LibraryPlay[] };
 
 /* A challenge rule you can pick: Voydex's own (built-in) or yours. */
 export type LibraryRule = LibraryUsage & {
+  /* What the rule asks, for Voydex's own (yours have none yet). */
+  description?: string | null;
   id: string;
+  /* The options each Play sets for it, such as Monotype's type. */
+  optionKeys?: ChallengeRuleOptionKey[];
   isBuiltIn: boolean;
   kind: LibraryRuleKind;
   name: string;

@@ -23,11 +23,9 @@ VALUES
 
 WITH custom_rules (seed_key, rule_type_id, slug, name, description, config) AS (
   VALUES
-    ('first-encounter', 3, 'fixture_first_encounter', 'First encounter only', 'Catch only the first eligible encounter in each named area.', '{"encounters_per_area":1}'::jsonb),
-    ('single-type', 2, 'fixture_single_type', 'Single-type core', 'Keep at least four active members inside the selected type.', '{"minimum_members":4,"type":"water"}'::jsonb),
-    ('level-cap', 4, 'fixture_level_cap', 'Next-boss level cap', 'Do not exceed the next required opponent level cap.', '{"cap_source":"next_required_opponent"}'::jsonb),
-    ('no-items', 5, 'fixture_no_battle_items', 'No battle items', 'Do not use bag items during trainer battles.', '{"allow_held_items":true}'::jsonb),
-    ('fresh-families', 1, 'fixture_fresh_families', 'Fresh evolution families', 'Prefer evolution families not used in completed plays.', '{"reuse_scope":"evolution_family"}'::jsonb)
+    -- The fixture user's own rules; the runs also use Voydex's own rules.
+    ('fresh-families', 3, 'fixture_fresh_families', 'Fresh evolution families', 'Prefer evolution families not used in completed plays.', '{}'::jsonb),
+    ('no-poke-centers', 4, 'fixture_no_poke_centers', 'No Poké Center healing', 'Heal only with items between battles.', '{}'::jsonb)
 )
 INSERT INTO gameplay.mainline_challenge_rules (
   id,

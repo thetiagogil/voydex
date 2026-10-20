@@ -49,7 +49,7 @@ export const MainlinePlaySettings = ({
           playId={playId}
         />
         <PlaySettingsRulesSection
-          key={`rules:${data.selectedRuleIds.join()}`}
+          key={`rules:${JSON.stringify(data.selectedRules)}`}
           data={data}
           playId={playId}
         />

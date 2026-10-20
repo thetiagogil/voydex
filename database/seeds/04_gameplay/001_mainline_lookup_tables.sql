@@ -45,10 +45,10 @@ VALUES
 
 INSERT INTO gameplay.mainline_challenge_rule_types (id, slug, name, sort_order)
 VALUES
-  (1, 'reuse', 'Pokémon Reuse', 1),
-  (2, 'team_composition', 'Team Composition', 2),
-  (3, 'encounter', 'Encounter', 3),
-  (4, 'difficulty', 'Difficulty', 4),
+  (1, 'catching', 'Catching', 1),
+  (2, 'losing', 'Losing', 2),
+  (3, 'team', 'Team', 3),
+  (4, 'battles', 'Battles', 4),
   (5, 'custom', 'Custom', 5);
 
 INSERT INTO gameplay.user_game_library_statuses (id, slug, name, sort_order)

@@ -18,6 +18,7 @@ const valid = {
 describe("parseNewPlayInput", () => {
   it("trims names, dedupes expansions and keeps the partner", () => {
     expect(parseNewPlayInput(valid)).toEqual({
+      challengeRules: [],
       expansionVersionGroupIds: [19, 20],
       gameSlug: "sword",
       partner: { formId: 81000, speciesId: 810 },
@@ -40,7 +41,30 @@ describe("parseNewPlayInput", () => {
     expect(input.trainerName).toBeNull();
   });
 
+  it("keeps the rules it starts with and their options", () => {
+    const ruleId = "7d4c8f0e-6a52-4f11-9a0b-1c2d3e4f5a6b";
+
+    expect(
+      parseNewPlayInput({
+        ...valid,
+        challengeRules: [{ config: { type_id: 3 }, ruleId }],
+      }).challengeRules,
+    ).toEqual([{ config: { type_id: 3 }, ruleId }]);
+  });
+
   it.each([
+    [{ ...valid, challengeRules: [{ config: null, ruleId: "monotype" }] }],
+    [
+      {
+        ...valid,
+        challengeRules: [
+          {
+            config: { dupes_clause: true },
+            ruleId: "7d4c8f0e-6a52-4f11-9a0b-1c2d3e4f5a6b",
+          },
+        ],
+      },
+    ],
     [{ ...valid, gameSlug: "Sword!" }],
     [{ ...valid, partner: { formId: "1", speciesId: 2 } }],
     [{ ...valid, expansionVersionGroupIds: [0] }],

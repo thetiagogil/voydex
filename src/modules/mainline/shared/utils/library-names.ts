@@ -42,3 +42,24 @@ export const toLibrarySlug = (
 
 /* The longest name a rule or tag can have, wherever it's made or renamed. */
 export const libraryNameMaxLength = { rule: 80, tag: 40 } as const;
+
+/* How long what a rule of yours asks can be. */
+export const ruleDescriptionMaxLength = 300;
+
+/*
+ * What a rule of yours asks: trimmed, inner spaces collapsed, up to
+ * `ruleDescriptionMaxLength` characters, or null when left empty. Throws the
+ * message to show when it's too long.
+ */
+export const parseRuleDescription = (value: unknown) => {
+  const description =
+    typeof value === "string" ? value.trim().replace(/\s+/g, " ") : "";
+
+  if (description.length > ruleDescriptionMaxLength) {
+    throw new Error(
+      `A rule's description can be ${ruleDescriptionMaxLength} characters at most.`,
+    );
+  }
+
+  return description || null;
+};

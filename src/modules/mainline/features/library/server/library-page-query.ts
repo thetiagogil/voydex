@@ -1,12 +1,14 @@
-import { countLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
+import { getRuleOptionKeys } from "@/modules/mainline/shared/data/challenge-rule-options";
+import { gatherLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
 import type { LibraryPageData } from "@/modules/mainline/features/library/types";
+import { readPlayTeams } from "@/modules/mainline/shared/server/play-team-reader";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
  * Every rule you can pick (Voydex's and yours) and every tag of yours, with
- * how many of your Plays use each. The links read are your own, so the
- * counts never include another trainer's.
+ * which of your Plays use each, with each Play's team. The links read are your own, so they never
+ * include another trainer's Plays.
  */
 export const getLibraryPageData = async (): Promise<LibraryPageData> => {
   const supabase = await createServerSupabaseClient();
@@ -26,12 +28,12 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     supabase
       .schema("gameplay")
       .from("mainline_challenge_rules")
-      .select("id, name, user_id, rule_type_id")
+      .select("id, name, description, config, user_id, rule_type_id")
       .order("name", { ascending: true }),
     supabase
       .schema("gameplay")
       .from("mainline_play_challenge_rules")
-      .select("challenge_rule_id"),
+      .select("challenge_rule_id, play_id"),
     supabase
       .from("tags")
       .select("id, name")
@@ -40,7 +42,7 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     supabase
       .schema("gameplay")
       .from("mainline_play_tags")
-      .select("tag_id")
+      .select("tag_id, play_id")
       .eq("user_id", userId),
   ]);
 
@@ -56,11 +58,23 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
 
   const kinds = kindsResult.data ?? [];
   const kindsById = new Map(kinds.map((kind) => [kind.id, kind]));
-  const ruleUsage = countLibraryUsage(
-    (playRulesResult.data ?? []).map((link) => link.challenge_rule_id),
+  const plays = await readPlayTeams(supabase, [
+    ...(playRulesResult.data ?? []).map((link) => link.play_id),
+    ...(playTagsResult.data ?? []).map((link) => link.play_id),
+  ]);
+  const ruleUsage = gatherLibraryUsage(
+    (playRulesResult.data ?? []).map((link) => ({
+      itemId: link.challenge_rule_id,
+      playId: link.play_id,
+    })),
+    plays,
   );
-  const tagUsage = countLibraryUsage(
-    (playTagsResult.data ?? []).map((link) => link.tag_id),
+  const tagUsage = gatherLibraryUsage(
+    (playTagsResult.data ?? []).map((link) => ({
+      itemId: link.tag_id,
+      playId: link.play_id,
+    })),
+    plays,
   );
 
   return {
@@ -72,7 +86,9 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
         ? [
             {
               ...ruleUsage(rule.id),
+              description: rule.description,
               id: rule.id,
+              optionKeys: getRuleOptionKeys(rule.config),
               isBuiltIn: rule.user_id === null,
               kind,
               name: rule.name,

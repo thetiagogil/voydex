@@ -26,6 +26,8 @@ type CarouselProps = useRender.ComponentProps<"div"> & {
    */
   initialEdges: ScrollEdges;
   laterLabel: string;
+  /* After an arrow pages the row, such as to let the reader's scroll lead. */
+  onPage?: (direction: -1 | 1) => void;
   /* Each item settles centred after a swipe. */
   snap?: boolean;
 };
@@ -68,6 +70,7 @@ export const Carousel = ({
   fadeEdges = false,
   initialEdges,
   laterLabel,
+  onPage,
   ref,
   render,
   snap = false,
@@ -130,6 +133,7 @@ export const Carousel = ({
       behavior: scrollBehavior(),
       left: direction * scroller.clientWidth * 0.7,
     });
+    onPage?.(direction);
   };
 
   const scrollerProps: ComponentProps<"div"> & { "data-slot": string } = {

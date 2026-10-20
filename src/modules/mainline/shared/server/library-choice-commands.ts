@@ -58,7 +58,18 @@ const writeWithSlug = async (
  */
 export const findOrCreateChallengeRule = async (
   supabase: ServerSupabaseClient,
-  { kindId, name, userId }: { kindId?: number; name: string; userId: string },
+  {
+    description,
+    kindId,
+    name,
+    userId,
+  }: {
+    /* What it asks; left out keeps none. */
+    description?: string | null;
+    kindId?: number;
+    name: string;
+    userId: string;
+  },
 ): Promise<{ choice: LibraryChoice; created: boolean }> => {
   const typeQuery = supabase
     .schema("gameplay")
@@ -94,7 +105,13 @@ export const findOrCreateChallengeRule = async (
       supabase
         .schema("gameplay")
         .from("mainline_challenge_rules")
-        .insert({ name, rule_type_id: ruleTypeId, slug, user_id: userId })
+        .insert({
+          description: description ?? null,
+          name,
+          rule_type_id: ruleTypeId,
+          slug,
+          user_id: userId,
+        })
         .select("id, name")
         .single(),
     maximum: 120,
@@ -175,11 +192,19 @@ const assertOwnRow = (
 export const renameChallengeRule = async (
   supabase: ServerSupabaseClient,
   {
+    description,
     id,
     kindId,
     name,
     userId,
-  }: { id: string; kindId?: number; name: string; userId: string },
+  }: {
+    /* What it asks; left out keeps it as it is, null clears it. */
+    description?: string | null;
+    id: string;
+    kindId?: number;
+    name: string;
+    userId: string;
+  },
 ) => {
   const rulesResult = await supabase
     .schema("gameplay")
@@ -210,6 +235,7 @@ export const renameChallengeRule = async (
           name,
           slug,
           ...(kindId === undefined ? {} : { rule_type_id: kindId }),
+          ...(description === undefined ? {} : { description }),
         })
         .eq("id", id)
         .eq("user_id", userId)

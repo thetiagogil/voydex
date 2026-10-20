@@ -35,9 +35,9 @@ const TrackingRow = ({
 
 /*
  * Step 3's tracking (v3 `.npx-track`): what the new Play keeps, and Change
- * to adjust it. The expansions you own are real; the Story, Pokédex mode,
- * Collectibles switches and challenge rules wait on Play settings that
- * Voydex can't store yet.
+ * to adjust it. The expansions you own are real; the Story, Pokédex mode
+ * and Collectibles switches wait on Play settings that Voydex can't store
+ * yet. Challenge rules sit under it, in view (`NewPlayRules`).
  */
 export const NewPlayTracking = ({
   expansions,
@@ -116,13 +116,6 @@ export const NewPlayTracking = ({
         >
           {/* TODO(v3-data): a per-Play Collectibles on/off flag on gameplay.mainline_play_settings. */}
           <PendingData variant="inline" label="Always on for now" />
-        </TrackingRow>
-        <TrackingRow
-          title="Challenge rules"
-          description="Optional. Shown on the Play and its history"
-        >
-          {/* TODO(v3-data): a seeded system catalogue in gameplay.mainline_challenge_rules (only development rows exist). */}
-          <PendingData variant="inline" />
         </TrackingRow>
       </div>
     </div>

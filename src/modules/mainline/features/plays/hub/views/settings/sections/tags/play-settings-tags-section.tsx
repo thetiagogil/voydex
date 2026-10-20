@@ -1,11 +1,14 @@
 "use client";
 
+import { LibraryChoiceField } from "@/modules/mainline/shared/components/library-choice-field";
+
 import { SettingsChoiceSection } from "../../components/settings-choice-section";
 import {
   createPlayTagAction,
   updatePlayTagsAction,
 } from "../../server/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
+import { diffIdSets } from "../../utils/play-settings-validation";
 
 /*
  * Tags: your own labels for a Play ("Nuzlocke", "Shiny hunt"), shared by all
@@ -22,11 +25,24 @@ export const PlaySettingsTagsSection = ({
     id="tags"
     title="Tags"
     aside="Shown in the Play's details"
-    options={data.tags}
-    initialSelectedIds={data.selectedTagIds}
+    initialValue={data.selectedTagIds}
+    isEqual={(left, right) => {
+      const diff = diffIdSets(left, right);
+
+      return diff.added.length + diff.removed.length === 0;
+    }}
     onSave={(tagIds) => updatePlayTagsAction({ playId, tagIds })}
-    noun="tag"
-    addLabel="Add tag"
-    onCreate={(name) => createPlayTagAction({ name, playId })}
+    renderField={({ disabled, onChange, value }) => (
+      <LibraryChoiceField
+        label="Tags"
+        noun="tag"
+        addLabel="Add tag"
+        choices={data.tags}
+        selectedIds={value}
+        disabled={disabled}
+        onCreate={(name) => createPlayTagAction({ name, playId })}
+        onChange={onChange}
+      />
+    )}
   />
 );

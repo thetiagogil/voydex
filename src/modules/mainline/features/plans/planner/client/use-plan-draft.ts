@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import type { PlanTeamStripMember } from "@/modules/mainline/features/plans/components/plan-team-strip";
+import type { TeamStripMember } from "@/modules/mainline/shared/components/team-strip";
 import {
   emptyPlanMoveSlots,
   type PlanMember,
@@ -17,7 +17,7 @@ export type PlanDraft = {
    * How the offer shows it before it is opened, whatever game the Planner is
    * on: its game's name and its Pokémon. Empty in drafts from before.
    */
-  preview: PlanTeamStripMember[];
+  preview: TeamStripMember[];
   versionGroupName: string | null;
   versionGroupSlug: string;
 };
@@ -29,7 +29,7 @@ export const toPlanDraftPreview = (
     number,
     { imageUrl: string | null; name: string; types: { slug: string }[] }
   >,
-): PlanTeamStripMember[] =>
+): TeamStripMember[] =>
   members.flatMap((member) => {
     const pokemon = byId.get(member.speciesId);
     return pokemon

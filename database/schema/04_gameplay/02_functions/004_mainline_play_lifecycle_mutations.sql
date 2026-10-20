@@ -130,7 +130,7 @@ END IF;
 END;
 $$;
 
-CREATE FUNCTION gameplay.create_mainline_play (p_game_id integer, p_name text, p_started_on date DEFAULT NULL, p_trainer_name text DEFAULT NULL, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_partner_species_id integer DEFAULT NULL, p_partner_form_id integer DEFAULT NULL)
+CREATE FUNCTION gameplay.create_mainline_play (p_game_id integer, p_name text, p_started_on date DEFAULT NULL, p_trainer_name text DEFAULT NULL, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_partner_species_id integer DEFAULT NULL, p_partner_form_id integer DEFAULT NULL, p_challenge_rules jsonb DEFAULT '[]'::jsonb)
     RETURNS TABLE (
         result_play_id uuid,
         result_partner_play_pokemon_id uuid,
@@ -173,6 +173,10 @@ BEGIN
     END IF;
     IF (p_partner_species_id IS NULL) <> (p_partner_form_id IS NULL) THEN
         RAISE EXCEPTION 'A partner needs both species_id and form_id'
+            USING ERRCODE = '22023';
+    END IF;
+    IF jsonb_typeof(COALESCE(p_challenge_rules, '[]'::jsonb)) <> 'array' THEN
+        RAISE EXCEPTION 'challenge_rules must be a list'
             USING ERRCODE = '22023';
     END IF;
     SELECT
@@ -244,6 +248,20 @@ BEGIN
         expansion_ids.version_group_id
     FROM
         UNNEST(v_expansion_ids) AS expansion_ids (version_group_id);
+    -- The rules it starts with, each once, with its options; the rule-scope
+    -- trigger refuses another trainer's rule or an option the rule lacks.
+    INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
+    SELECT DISTINCT ON (requested.rule_id)
+        v_play_id,
+        requested.rule_id,
+        NULLIF (requested.config, '{}'::jsonb)
+    FROM
+        jsonb_to_recordset(COALESCE(p_challenge_rules, '[]'::jsonb)) AS requested (rule_id uuid,
+                config jsonb)
+        WHERE
+            requested.rule_id IS NOT NULL
+        ORDER BY
+            requested.rule_id;
     IF p_partner_species_id IS NOT NULL THEN
         v_partner_milestone_id := gameplay.find_mainline_partner_milestone (v_game.id);
         SELECT
@@ -585,11 +603,11 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT,
 
 GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER) FROM PUBLIC;
+REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER) FROM anon;
+REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM PUBLIC;
 
@@ -617,7 +635,7 @@ GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO au
 
 COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER) IS 'Atomically starts a playing Play for the caller with its settings, owned expansions, and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) IS 'Atomically starts a playing Play for the caller with its settings, owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) IS 'The game''s partner milestone: its first milestone, in Story order, whose decision is a choice of Pokémon. Null when the game hands you your partner. Shared by the partner write functions. Runs as SECURITY INVOKER over client-readable tracking data.';
 

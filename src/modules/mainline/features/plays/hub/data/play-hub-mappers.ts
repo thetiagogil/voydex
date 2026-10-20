@@ -2,11 +2,11 @@ import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/
 import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper";
 import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
-  MainlineChallengeRule,
   MainlinePlayFollowablePlan,
   MainlinePlayGameContextRows,
   MainlinePlayOverviewData,
   MainlinePlayOverview,
+  MainlinePlayRule,
   MainlinePlayRuleRows,
   MainlinePlayShellData,
   MainlinePlayTeamRosterData,
@@ -35,15 +35,39 @@ import {
   type OverviewPartnerFormRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import {
+  describeRuleConfig,
+  formatRuleLabel,
+  getRuleOptionKeys,
+  resolveRuleConfig,
+} from "@/modules/mainline/shared/data/challenge-rule-options";
 
+/* The Play's rules in the order it took them, each named with its options. */
 export const buildMainlinePlayRules = (
   rows: MainlinePlayRuleRows,
-): MainlineChallengeRule[] => {
+): MainlinePlayRule[] => {
   const ruleById = new Map(rows.rules.map((rule) => [rule.id, rule]));
+  const typeNameById = new Map(rows.types.map((type) => [type.id, type.name]));
 
-  return rows.links
-    .map((link) => ruleById.get(link.challenge_rule_id))
-    .filter((rule): rule is MainlineChallengeRule => Boolean(rule));
+  return rows.links.flatMap((link) => {
+    const rule = ruleById.get(link.challenge_rule_id);
+
+    if (!rule) return [];
+
+    const keys = getRuleOptionKeys(rule.config);
+    const config = resolveRuleConfig(rule.config, link.config_override);
+
+    return [
+      {
+        description: rule.description,
+        id: rule.id,
+        label: formatRuleLabel(
+          rule.name,
+          describeRuleConfig(keys, config, typeNameById),
+        ),
+      },
+    ];
+  });
 };
 
 export const buildMainlinePlayShellData = (params: {

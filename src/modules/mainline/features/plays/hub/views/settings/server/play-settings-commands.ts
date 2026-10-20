@@ -1,3 +1,7 @@
+import {
+  buildPlayRuleOverrides,
+  type PlayRuleSelection,
+} from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import {
@@ -5,6 +9,10 @@ import {
   parsePlayGeneralSettings,
   type PlayGeneralSettingsInput,
 } from "../utils/play-settings-validation";
+
+/* The rule check's refusal of a type the Play's game doesn't have. */
+const isTypeRefusal = (error: { code: string; message: string }) =>
+  error.code === "23514" && error.message.startsWith("Type ");
 
 export type OwnedPlay = {
   game_id: number;
@@ -143,19 +151,23 @@ export const updatePlayExpansions = async (
   }
 };
 
-/* Challenge rules: which of the available rules this Play keeps. */
+/*
+ * Challenge rules: which of the available rules this Play keeps, each with
+ * its values for the options the rule offers. The database refuses a type
+ * the Play's game doesn't have.
+ */
 export const updatePlayChallengeRules = async (
   supabase: ServerSupabaseClient,
-  { playId, ruleIds }: { playId: string; ruleIds: string[] },
+  { playId, rules }: { playId: string; rules: PlayRuleSelection[] },
 ) => {
-  const uniqueRuleIds = [...new Set(ruleIds)];
+  const ruleIds = [...new Set(rules.map((rule) => rule.ruleId))];
   const [availableResult, selectedResult] = await Promise.all([
-    uniqueRuleIds.length
+    ruleIds.length
       ? supabase
           .schema("gameplay")
           .from("mainline_challenge_rules")
-          .select("id")
-          .in("id", uniqueRuleIds)
+          .select("id, name, config")
+          .in("id", ruleIds)
       : null,
     supabase
       .schema("gameplay")
@@ -169,28 +181,35 @@ export const updatePlayChallengeRules = async (
   }
 
   /* Row-level security only shows Voydex's rules and your own. */
-  if ((availableResult?.data ?? []).length !== uniqueRuleIds.length) {
-    throw new Error("One of those rules isn't available.");
+  const overrides = buildPlayRuleOverrides(availableResult?.data ?? [], rules);
+
+  if (overrides.status === "error") {
+    throw new Error(overrides.message);
   }
 
-  const { added, removed } = diffIdSets(
+  const rows = overrides.rows.map((row) => ({
+    challenge_rule_id: row.ruleId,
+    config_override: row.config,
+    play_id: playId,
+  }));
+  const { removed } = diffIdSets(
     (selectedResult.data ?? []).map((link) => link.challenge_rule_id),
-    uniqueRuleIds,
+    ruleIds,
   );
 
-  if (added.length) {
-    const insertResult = await supabase
+  /* Saving the kept rules first means a refused option changes nothing. */
+  if (rows.length) {
+    const upsertResult = await supabase
       .schema("gameplay")
       .from("mainline_play_challenge_rules")
-      .insert(
-        added.map((challengeRuleId) => ({
-          challenge_rule_id: challengeRuleId,
-          play_id: playId,
-        })),
-      );
+      .upsert(rows, { onConflict: "play_id,challenge_rule_id" });
 
-    if (insertResult.error) {
-      throw new Error("Unable to add that rule.");
+    if (upsertResult.error && isTypeRefusal(upsertResult.error)) {
+      throw new Error("That type isn't in this Play's game.");
+    }
+
+    if (upsertResult.error) {
+      throw new Error("Unable to save those rules.");
     }
   }
 

@@ -1,3 +1,4 @@
+import type { TypeIntroduction } from "@/modules/reference/features/games/domain/game-types";
 import type { PokemonTypePair } from "@/modules/reference/features/pokemon/types";
 import type { GameCoverShape } from "@/modules/reference/features/games/domain/game-cover-shapes";
 import type { GameKind } from "@/modules/reference/features/games/domain/game-kinds";
@@ -105,6 +106,8 @@ export type GameCatalogue = {
   expansionsByGameSlug: Record<string, GameExpansion[]>;
   games: GameShelfGame[];
   startersByGameSlug: Record<string, GameStarters>;
+  /* Every type, for the ones a game has (`getGameTypes`). */
+  types: TypeIntroduction[];
 };
 
 export type GamePokedexSummary = {

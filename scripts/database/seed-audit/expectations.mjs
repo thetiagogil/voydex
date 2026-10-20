@@ -295,10 +295,10 @@ export const expectedSlugs = {
     "status_change",
   ],
   "gameplay.mainline_challenge_rule_types": [
-    "reuse",
-    "team_composition",
-    "encounter",
-    "difficulty",
+    "catching",
+    "losing",
+    "team",
+    "battles",
     "custom",
   ],
   "gameplay.user_game_library_statuses": [

@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { parseLibraryName, toLibrarySlug } from "./library-names";
+import {
+  parseLibraryName,
+  parseRuleDescription,
+  toLibrarySlug,
+} from "./library-names";
 
 describe("parseLibraryName", () => {
   it("trims and collapses spaces", () => {
@@ -38,5 +42,19 @@ describe("toLibrarySlug", () => {
 
   it("is null when nothing is left", () => {
     expect(toLibrarySlug("✨✨", { maximum: 80, separator: "-" })).toBeNull();
+  });
+});
+
+describe("parseRuleDescription", () => {
+  it("tidies spaces and reads empty as none", () => {
+    expect(parseRuleDescription("  Keep  it   tidy ")).toBe("Keep it tidy");
+    expect(parseRuleDescription("   ")).toBeNull();
+    expect(parseRuleDescription(undefined)).toBeNull();
+  });
+
+  it("refuses one that's too long", () => {
+    expect(() => parseRuleDescription("x".repeat(301))).toThrow(
+      "A rule's description can be 300 characters at most.",
+    );
   });
 });

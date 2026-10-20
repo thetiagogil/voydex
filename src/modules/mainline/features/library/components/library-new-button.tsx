@@ -42,13 +42,14 @@ export const LibraryNewButton = (
           nameLabel={isRule ? "Rule name" : "Tag name"}
           maxLength={libraryNameMaxLength[props.noun]}
           kinds={kinds}
+          withDescription={isRule}
           initial={{ kindId: customKind?.id ?? null, name: "" }}
-          onSubmit={async ({ kindId, name }) => {
+          onSubmit={async ({ description, kindId, name }) => {
             if (isRule && !kindId) return "Pick a kind from the list.";
 
             const result =
               isRule && kindId
-                ? await createLibraryRuleAction({ kindId, name })
+                ? await createLibraryRuleAction({ description, kindId, name })
                 : await createLibraryTagAction(name);
 
             if (result.status === "error") return result.message;

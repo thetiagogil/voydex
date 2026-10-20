@@ -17,6 +17,9 @@ import {
   uuidSchema,
 } from "@/shared/utils/input-schemas";
 
+import type { PlayRuleSelection } from "@/modules/mainline/shared/data/challenge-rule-options";
+import { playRuleSelectionSchema } from "@/modules/mainline/shared/utils/play-rule-input";
+
 import type { PlaySettingsChoice } from "../types";
 import { type PlayGeneralSettingsInput } from "../utils/play-settings-validation";
 import {
@@ -45,7 +48,7 @@ const expansionIdsSchema = z.array(
   positiveIntegerSchema("Pick expansions from the list."),
   { error: "Pick expansions from the list." },
 );
-const ruleIdsSchema = z.array(uuidSchema("Pick rules from the list."), {
+const rulesSchema = z.array(playRuleSelectionSchema, {
   error: "Pick rules from the list.",
 });
 const tagIdsSchema = z.array(uuidSchema("Pick tags from the list."), {
@@ -130,21 +133,24 @@ export const updatePlayExpansionsAction = async ({
   }
 };
 
-/* Challenge rules: which of the available rules this Play keeps. */
+/*
+ * Challenge rules: which of the available rules this Play keeps, with its
+ * values for their options (Monotype's type).
+ */
 export const updatePlayChallengeRulesAction = async ({
   playId,
-  ruleIds,
+  rules,
 }: {
   playId: string;
-  ruleIds: string[];
+  rules: PlayRuleSelection[];
 }): Promise<PlaySettingsActionResult> => {
   try {
-    const pickedRuleIds = parseInput(ruleIdsSchema, ruleIds);
+    const pickedRules = parseInput(rulesSchema, rules);
     const { supabase } = await getOwnedPlay(playId);
 
     await updatePlayChallengeRules(supabase, {
       playId,
-      ruleIds: pickedRuleIds,
+      rules: pickedRules,
     });
     revalidatePlay(playId);
 

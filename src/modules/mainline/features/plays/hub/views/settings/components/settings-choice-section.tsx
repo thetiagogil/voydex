@@ -4,57 +4,57 @@ import { useState, useTransition, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import {
-  LibraryChoiceField,
-  type LibraryCreateResult,
-} from "@/modules/mainline/shared/components/library-choice-field";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer";
 import { FieldError } from "@/shared/components/ui/field";
 
 import type { PlaySettingsActionResult } from "../server/play-settings-actions";
-import type { PlaySettingsChoice } from "../types";
-import { diffIdSets } from "../utils/play-settings-validation";
 
 /*
- * A Settings card of the rules or tags this Play keeps: its chips, and
- * "+ Add" to pick more from your Library or make one. Adding and removing
- * reach the Play with the card's Save.
+ * A Settings card of what this Play keeps from your Library (its rules or
+ * tags): the field that picks them, and Save and Cancel once they change.
+ * Adding, removing and a rule's options reach the Play with the card's Save.
  */
-export const SettingsChoiceSection = ({
-  addLabel,
+export const SettingsChoiceSection = <Value,>({
   aside,
-  empty,
   id,
-  initialSelectedIds,
-  noun,
-  onCreate,
+  initialValue,
+  isEqual,
   onSave,
-  options,
+  renderField,
   title,
+  validate,
 }: {
-  addLabel: string;
   aside: string;
-  /* Shown above the chips while your Library has none to pick. */
-  empty?: ReactNode;
   id: string;
-  initialSelectedIds: string[];
-  noun: "rule" | "tag";
-  onCreate: (name: string) => Promise<LibraryCreateResult>;
-  onSave: (ids: string[]) => Promise<PlaySettingsActionResult>;
-  options: PlaySettingsChoice[];
+  initialValue: Value;
+  isEqual: (left: Value, right: Value) => boolean;
+  onSave: (value: Value) => Promise<PlaySettingsActionResult>;
+  renderField: (field: {
+    disabled: boolean;
+    onChange: (value: Value) => void;
+    value: Value;
+  }) => ReactNode;
   title: string;
+  /* Why the value can't be saved yet, such as Monotype without its type. */
+  validate?: (value: Value) => string | null;
 }) => {
   const router = useRouter();
-  const [selected, setSelected] = useState(initialSelectedIds);
+  const [value, setValue] = useState(initialValue);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, startTransition] = useTransition();
-  const diff = diffIdSets(initialSelectedIds, selected);
-  const isDirty = diff.added.length + diff.removed.length > 0;
+  const isDirty = !isEqual(initialValue, value);
 
   const save = () => {
+    const invalid = validate?.(value) ?? null;
+
+    if (invalid) {
+      setError(invalid);
+      return;
+    }
+
     startTransition(async () => {
-      const result = await onSave(selected);
+      const result = await onSave(value);
 
       if (result.status === "error") {
         setError(result.message);
@@ -68,20 +68,14 @@ export const SettingsChoiceSection = ({
 
   return (
     <DetailSectionCard id={id} title={title} aside={aside}>
-      {options.length === 0 ? empty : null}
-      <LibraryChoiceField
-        label={title}
-        noun={noun}
-        addLabel={addLabel}
-        choices={options}
-        selectedIds={selected}
-        disabled={isSaving}
-        onCreate={onCreate}
-        onChange={(ids) => {
-          setSelected(ids);
+      {renderField({
+        disabled: isSaving,
+        onChange: (next) => {
+          setValue(next);
           setError(null);
-        }}
-      />
+        },
+        value,
+      })}
 
       {error ? <FieldError className="mt-3">{error}</FieldError> : null}
 
@@ -89,7 +83,7 @@ export const SettingsChoiceSection = ({
         <UnsavedChangesFooter
           isSaving={isSaving}
           onCancel={() => {
-            setSelected(initialSelectedIds);
+            setValue(initialValue);
             setError(null);
           }}
           onSave={save}

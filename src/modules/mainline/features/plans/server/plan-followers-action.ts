@@ -1,13 +1,13 @@
 "use server";
 
 import { readPlanFollowers } from "@/modules/mainline/features/plans/planner/server/plan-followers-reader";
-import type { PlanFollower } from "@/modules/mainline/features/plans/types";
+import type { PlayTeam } from "@/modules/mainline/shared/types";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import { safeParseInput, uuidSchema } from "@/shared/utils/input-schemas";
 
 export type PlanFollowersResult =
-  | { followers: PlanFollower[]; status: "success" }
+  | { followers: PlayTeam[]; status: "success" }
   | { message: string; status: "error" };
 
 /* The Plays that follow a Plan, with their current teams, for See Plays. */

@@ -4,6 +4,7 @@ import type {
   MainlinePlayRuleRows,
 } from "@/modules/mainline/features/plays/hub/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import { uniqueNumberIds } from "@/shared/utils/collections";
 
 /*
  * The Play the hub opens, archived or not: an archived Play still opens (from
@@ -98,6 +99,7 @@ export const readMainlinePlayRuleRows = async (
     return {
       links,
       rules: [],
+      types: [],
     };
   }
 
@@ -111,9 +113,31 @@ export const readMainlinePlayRuleRows = async (
     throw new Error("Unable to load Mainline challenge rules.");
   }
 
+  /* The types the rules' options name, such as Monotype's. */
+  const typeIds = uniqueNumberIds(
+    links.map((link) => {
+      const typeId = (link.config_override as { type_id?: unknown } | null)
+        ?.type_id;
+
+      return typeof typeId === "number" ? typeId : null;
+    }),
+  );
+  const typesResult = typeIds.length
+    ? await supabase
+        .schema("reference")
+        .from("types")
+        .select("id, name")
+        .in("id", typeIds)
+    : null;
+
+  if (typesResult?.error) {
+    throw new Error("Unable to load Mainline challenge rules.");
+  }
+
   return {
     links,
     rules: rulesResult.data ?? [],
+    types: typesResult?.data ?? [],
   };
 };
 

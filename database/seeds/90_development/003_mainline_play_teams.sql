@@ -285,15 +285,33 @@ WHERE
   mainline_play_pokemon.slot IN (1, 6)
   AND mainline_play_pokemon.id = md5('voydex-fixture:pokemon:' || mainline_plays.version_group_id || ':' || mainline_play_pokemon.slot)::uuid;
 
-WITH rule_assignments (version_group_id, rule_slug) AS (
+-- Rules on the populated runs: mostly Voydex's own, some with a Play option
+-- set (Monotype's type, shinies for First catch per area), plus the fixture
+-- user's own rules.
+WITH rule_assignments (version_group_id, rule_slug, config_override) AS (
   VALUES
-    (3, 'fixture_level_cap'), (6, 'fixture_first_encounter'), (9, 'fixture_no_battle_items'), (12, 'fixture_first_encounter'), (15, 'fixture_single_type'), (18, 'fixture_no_battle_items'), (21, 'fixture_fresh_families'), (23, 'fixture_level_cap'), (26, 'fixture_fresh_families')
+    (3, 'level_caps', NULL::jsonb),
+    (6, 'first_catch_per_area', '{"shinies_always_catchable":true}'::jsonb),
+    (6, 'release_on_faint', NULL),
+    (6, 'nickname_everything', NULL),
+    (9, 'no_battle_items', NULL),
+    -- No Pokemon reuse, counting whole evolution families.
+    (9, 'no_pokemon_reuse', '{"reuse_scope":"evolution_family"}'::jsonb),
+    (12, 'first_catch_per_area', NULL),
+    -- Monotype: Water (type 3).
+    (15, 'monotype', '{"type_id":3}'::jsonb),
+    (18, 'no_battle_items', NULL),
+    (18, 'fixture_no_poke_centers', NULL),
+    (21, 'fixture_fresh_families', NULL),
+    (23, 'level_caps', NULL),
+    (23, 'set_battle_mode', NULL),
+    (26, 'fixture_fresh_families', NULL)
 )
 INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
 SELECT
   md5('voydex-fixture:play:data:' || rule_assignments.version_group_id)::uuid,
   mainline_challenge_rules.id,
-  CASE WHEN rule_assignments.rule_slug = 'fixture_level_cap' THEN '{"grace_levels":1}'::jsonb ELSE NULL END
+  rule_assignments.config_override
 FROM
   rule_assignments
   JOIN gameplay.mainline_challenge_rules ON mainline_challenge_rules.slug = rule_assignments.rule_slug;

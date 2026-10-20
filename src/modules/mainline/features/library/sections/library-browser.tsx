@@ -3,11 +3,15 @@
 import { useMemo, useState, type ReactNode } from "react";
 
 import {
+  countActiveLibraryFilters,
   defaultLibraryFilters,
   filterAndSortLibrary,
   hasActiveLibraryFilters,
+  libraryMakerLabels,
   librarySortLabels,
+  toTagFilters,
   type LibraryFilters,
+  type LibraryMaker,
   type LibrarySort,
 } from "@/modules/mainline/features/library/data/library-model";
 import { LibraryRulesSection } from "@/modules/mainline/features/library/sections/library-rules-section";
@@ -36,7 +40,8 @@ import { SelectControl } from "@/shared/components/select-control";
 /*
  * The Library's band (its head, the tabs and, folded under the head's
  * search button, the bar) and the open tab's list. Rules search by name or
- * kind, narrow by kind and sort by name or use; tags search and sort.
+ * kind, narrow by kind and by who made them (Voydex or you) and sort by
+ * name or use; tags search and sort.
  */
 export const LibraryBrowser = ({
   data,
@@ -58,7 +63,7 @@ export const LibraryBrowser = ({
     [data.rules, filters],
   );
   const tags = useMemo(
-    () => filterAndSortLibrary(data.tags, { ...filters, kind: "" }),
+    () => filterAndSortLibrary(data.tags, toTagFilters(filters)),
     [data.tags, filters],
   );
   const shownCount = isRules ? rules.length : tags.length;
@@ -67,7 +72,7 @@ export const LibraryBrowser = ({
     setFilters((current) => ({ ...current, ...next }));
   const resetList = () => setFilters(defaultLibraryFilters);
   const hasActiveFilters = hasActiveLibraryFilters(
-    isRules ? filters : { ...filters, kind: "" },
+    isRules ? filters : toTagFilters(filters),
   );
 
   return (
@@ -89,7 +94,7 @@ export const LibraryBrowser = ({
           <FilterToolbar
             ariaLabel={`Filter your ${noun}`}
             className="mt-5"
-            activeCount={isRules && filters.kind ? 1 : 0}
+            activeCount={isRules ? countActiveLibraryFilters(filters) : 0}
             resultLabel={`Show ${shownCount} ${shownCount === 1 ? noun.slice(0, -1) : noun}`}
             search={
               <SearchControl
@@ -126,12 +131,50 @@ export const LibraryBrowser = ({
                       />
                     );
 
+                    const maker = (
+                      <SelectControl
+                        id={
+                          placement === "line"
+                            ? "library-maker"
+                            : "library-sheet-maker"
+                        }
+                        ariaLabel="Filter rules by who made them"
+                        resetValue=""
+                        variant="ghost"
+                        placeholder={libraryMakerLabels[""]}
+                        value={filters.maker}
+                        onValueChange={(value) =>
+                          update({ maker: value as LibraryMaker })
+                        }
+                        options={(
+                          Object.keys(libraryMakerLabels) as LibraryMaker[]
+                        ).map((value) => ({
+                          label: libraryMakerLabels[value],
+                          value,
+                        }))}
+                      />
+                    );
+
                     return placement === "line" ? (
-                      kind
-                    ) : (
-                      <FilterSheetRow htmlFor="library-sheet-kind" label="Kind">
+                      <>
                         {kind}
-                      </FilterSheetRow>
+                        {maker}
+                      </>
+                    ) : (
+                      <>
+                        <FilterSheetRow
+                          htmlFor="library-sheet-kind"
+                          label="Kind"
+                        >
+                          {kind}
+                        </FilterSheetRow>
+                        <FilterSheetRow
+                          htmlFor="library-sheet-maker"
+                          label="Made by"
+                        >
+                          {maker}
+                        </FilterSheetRow>
+                      </>
                     );
                   }
                 : undefined

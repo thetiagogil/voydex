@@ -1,12 +1,19 @@
+import {
+  pickRuleChoicesByName,
+  resolveRuleConfig,
+  toChallengeRuleChoice,
+} from "@/modules/mainline/shared/data/challenge-rule-options";
+import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
+import { readTypeIntroductions } from "@/modules/reference/features/games/server/type-introduction-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import type { MainlinePlaySettingsData, PlaySettingsChoice } from "../types";
+import type { MainlinePlaySettingsData } from "../types";
 
 /*
  * Everything Play settings shows, read as the owner (archived Plays too): the
  * Play's own row, the statuses, the game's optional content (expansions)
- * and which are on, and the challenge rules and tags you can attach with the
- * ones attached.
+ * and which are on, the challenge rules and tags you can attach with the
+ * ones attached (and each rule's options), and the types its game has.
  */
 export const readMainlinePlaySettings = async (
   supabase: ServerSupabaseClient,
@@ -16,7 +23,7 @@ export const readMainlinePlaySettings = async (
     .schema("gameplay")
     .from("mainline_plays")
     .select(
-      "id, name, trainer_name, started_on, playtime_minutes, status_id, game_id, archived_at",
+      "id, name, trainer_name, started_on, playtime_minutes, status_id, game_id, version_group_id, archived_at",
     )
     .eq("id", playId)
     .eq("user_id", userId)
@@ -40,6 +47,8 @@ export const readMainlinePlaySettings = async (
     selectedRulesResult,
     tagsResult,
     selectedTagsResult,
+    generationResult,
+    typeIntroductions,
   ] = await Promise.all([
     supabase
       .schema("gameplay")
@@ -61,13 +70,14 @@ export const readMainlinePlaySettings = async (
     supabase
       .schema("gameplay")
       .from("mainline_challenge_rules")
-      .select("id, name")
+      .select("id, name, description, config, user_id")
       .order("name", { ascending: true }),
     supabase
       .schema("gameplay")
       .from("mainline_play_challenge_rules")
-      .select("challenge_rule_id")
-      .eq("play_id", playId),
+      .select("challenge_rule_id, config_override")
+      .eq("play_id", playId)
+      .order("created_at", { ascending: true }),
     supabase
       .from("tags")
       .select("id, name")
@@ -78,6 +88,13 @@ export const readMainlinePlaySettings = async (
       .from("mainline_play_tags")
       .select("tag_id")
       .eq("play_id", playId),
+    supabase
+      .schema("reference")
+      .from("version_groups")
+      .select("generation:generations(sort_order)")
+      .eq("id", play.version_group_id)
+      .single(),
+    readTypeIntroductions(supabase),
   ]);
 
   if (
@@ -87,7 +104,8 @@ export const readMainlinePlaySettings = async (
     rulesResult.error ||
     selectedRulesResult.error ||
     tagsResult.error ||
-    selectedTagsResult.error
+    selectedTagsResult.error ||
+    generationResult.error
   ) {
     throw new Error("Unable to load Play settings.");
   }
@@ -110,26 +128,11 @@ export const readMainlinePlaySettings = async (
   const nameById = new Map(
     (versionGroupsResult?.data ?? []).map((group) => [group.id, group.name]),
   );
-  const selectedRuleIds = (selectedRulesResult.data ?? []).map(
-    (link) => link.challenge_rule_id,
+  const selectedLinks = selectedRulesResult.data ?? [];
+  const selectedRuleIds = selectedLinks.map((link) => link.challenge_rule_id);
+  const ruleConfigById = new Map(
+    (rulesResult.data ?? []).map((rule) => [rule.id, rule.config]),
   );
-  /*
-   * Your own rule can share a name with Voydex's or another of yours; the
-   * chips show each name once, keeping the one this Play already has.
-   */
-  const rulesByName = new Map<string, PlaySettingsChoice>();
-
-  for (const rule of (rulesResult.data ?? []).toSorted(
-    (left, right) =>
-      Number(selectedRuleIds.includes(right.id)) -
-      Number(selectedRuleIds.includes(left.id)),
-  )) {
-    const key = rule.name.trim().toLocaleLowerCase();
-
-    if (!rulesByName.has(key)) {
-      rulesByName.set(key, rule);
-    }
-  }
 
   return {
     expansions: scopeIds.map((versionGroupId) => ({
@@ -144,15 +147,26 @@ export const readMainlinePlaySettings = async (
       trainerName: play.trainer_name,
     },
     isArchived: play.archived_at !== null,
-    rules: [...rulesByName.values()].toSorted((left, right) =>
-      left.name.localeCompare(right.name),
+    rules: pickRuleChoicesByName(
+      (rulesResult.data ?? []).map(toChallengeRuleChoice),
+      selectedRuleIds,
     ),
     selectedExpansionIds: (selectedScopesResult.data ?? []).map(
       (scope) => scope.version_group_id,
     ),
-    selectedRuleIds,
+    selectedRules: selectedLinks.map((link) => ({
+      config: resolveRuleConfig(
+        ruleConfigById.get(link.challenge_rule_id),
+        link.config_override,
+      ),
+      ruleId: link.challenge_rule_id,
+    })),
     selectedTagIds: (selectedTagsResult.data ?? []).map((link) => link.tag_id),
     statuses: statusesResult.data ?? [],
     tags: tagsResult.data ?? [],
+    types: getGameTypes(
+      typeIntroductions,
+      generationResult.data.generation.sort_order,
+    ),
   };
 };

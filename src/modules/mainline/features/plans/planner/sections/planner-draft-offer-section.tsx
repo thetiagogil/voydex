@@ -1,6 +1,6 @@
 import type { PlanDraft } from "@/modules/mainline/features/plans/planner/client/use-plan-draft";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
-import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
+import { TeamStrip } from "@/modules/mainline/shared/components/team-strip";
 import { OfferCard } from "@/shared/components/offer-card";
 import { Button } from "@/shared/components/ui/button";
 
@@ -18,7 +18,7 @@ export const PlannerDraftOfferSection = ({
     aria-label="Unsaved Plan"
     aside={
       draft.preview.length ? (
-        <PlanTeamStrip
+        <TeamStrip
           members={draft.preview}
           className="w-full max-w-64 sm:w-64"
         />

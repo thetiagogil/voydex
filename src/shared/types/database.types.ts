@@ -1100,6 +1100,7 @@ export type Database = {
       };
       create_mainline_play: {
         Args: {
+          p_challenge_rules?: Json;
           p_expansion_version_group_ids?: number[];
           p_game_id: number;
           p_name: string;

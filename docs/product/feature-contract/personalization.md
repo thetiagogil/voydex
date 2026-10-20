@@ -18,16 +18,36 @@ Plays should support metadata useful for old and current games:
 Rules/challenges attach to Plays. A Plan is a team, so it keeps none; rule
 sets (such as a Nuzlocke) will live in the Library.
 
-Examples:
+Voydex ships its own rules, one small idea each, grouped by kind
+(`database/seeds/04_gameplay/002_mainline_challenge_rules.sql`):
 
-- Nuzlocke.
-- Monotype.
-- No repeated species.
-- No repeated forms.
-- No repeated evolution families.
-- Shiny-only.
-- No legendary Pokémon.
-- Custom rules.
+- **Catching:** First catch per area, Shiny only.
+- **Losing:** Release on faint, Whiteout ends the run.
+- **Team:** Nickname everything, Monotype, No legendaries, No Pokémon reuse,
+  No trades.
+- **Battles:** Level caps, No battle items, Set battle mode.
+
+Presets that group them (Nuzlocke, Hardcore Nuzlocke) are rule sets, and
+come with the Library's rule sets. Your own rules take the Custom kind or
+any other.
+
+A rule's `config` lists the options a Play can set and their defaults; a
+Play's own values live on its link to the rule (`config_override`), and the
+database refuses an option the rule lacks, a value of the wrong kind, a
+missing Monotype type, or a type the Play's game doesn't have, or an unknown reuse scope. Three rules
+have options:
+
+- **Monotype:** the type, picked per Play from the types its game has (no
+  Fairy before Generation VI). A Play can't keep Monotype without one.
+- **First catch per area:** "Shinies can always be caught", off by default.
+- **No Pokémon reuse:** what counts as the same Pokémon, narrowest first:
+  its exact form (the default), its species (any form) or its whole
+  evolution family (every member and its forms), the scopes of the
+  Pokémon Reuse Policy in the [Glossary](../glossary.md).
+
+The chip names the options ("Monotype · Water", "First catch per area ·
+except shinies"), and tapping it opens them; adding a rule with options opens
+them at once.
 
 Rules should be modeled flexibly. The app should support immutable predefined
 rules and reusable user-authored custom rules. A rule explicitly declares
@@ -65,12 +85,19 @@ shared Tag from one record does not delete the reusable Tag.
 The Library (`/mainline/library`) keeps the rules and tags you reuse across
 Plays, in two tabs:
 
-- **Rules:** a card per rule you can pick, Voydex's built-in ones (marked
-  Built-in, never edited or deleted) and yours, with its kind and how many
-  Plays keep it. New rule, in the page's head, makes one with a
-  name and a kind; a rule's menu edits its name and kind or deletes it.
-- **Tags:** a pill per tag with how many Plays wear it; the pill
-  opens Rename and Delete, and New tag in the head makes one.
+- **Rules:** a card per rule you can pick, Voydex's own (a lock marked
+  Voydex) and yours, with its kind, what it asks and how many Plays keep it.
+  Tapping a card opens the rule in full: its kind and who made it ("Made by
+  Voydex" or "Made by you") over its name, everything it asks, the options
+  each Play sets for it, and the Plays that keep it as the Team Planner's
+  See Plays shows a Plan's (each Play's name and team, opening the Play).
+  Voydex's own stays as it is; yours opens with its name, kind and
+  description ready to change, Save and Delete. New rule, in the page's
+  head, makes one with a name, a kind and an optional description. The bar
+  narrows rules by kind and by who made them (Voydex's or yours).
+- **Tags:** a pill per tag with how many Plays wear it; the pill opens the
+  tag in full the same way (its name, the Plays that wear it, Save and
+  Delete), and New tag in the head makes one.
 
 Renaming fixes the name everywhere it's used. Deleting is for good, after a
 confirm that says how many Plays it leaves, and every link goes with

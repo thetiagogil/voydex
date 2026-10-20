@@ -1,20 +1,16 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
-import type { PlanFollower } from "@/modules/mainline/features/plans/types";
+import { TeamStrip } from "@/modules/mainline/shared/components/team-strip";
+import type { PlayTeam } from "@/modules/mainline/shared/types";
 
 /*
- * The Plays that follow a Plan, each a card that opens the Play: its name
- * and its current team.
+ * Plays, each a card that opens the Play: its name and its current team
+ * (the Plays that follow a Plan, or keep a rule or wear a tag).
  */
-export const PlanFollowersList = ({
-  followers,
-}: {
-  followers: PlanFollower[];
-}) => (
+export const PlayTeamList = ({ plays }: { plays: PlayTeam[] }) => (
   <ul className="grid gap-2">
-    {followers.map((follower) => (
+    {plays.map((follower) => (
       <li key={follower.playId} className="min-w-0">
         <Link
           href={appRoutes.mainlinePlay(follower.playId)}
@@ -23,7 +19,7 @@ export const PlanFollowersList = ({
           <span className="text-ink text-15 truncate font-extrabold">
             {follower.playName}
           </span>
-          <PlanTeamStrip members={follower.members} />
+          <TeamStrip members={follower.members} />
         </Link>
       </li>
     ))}

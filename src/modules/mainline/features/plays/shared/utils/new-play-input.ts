@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import type { PlayRuleSelection } from "@/modules/mainline/shared/data/challenge-rule-options";
+import { playRuleSelectionSchema } from "@/modules/mainline/shared/utils/play-rule-input";
 import {
   parseInput,
   positiveIntegerSchema,
@@ -8,6 +10,8 @@ import {
 
 /* What New Play sends to start a Play. */
 export type NewPlayInput = {
+  /* The challenge rules it starts with, and their options. */
+  challengeRules: PlayRuleSelection[];
   /* The optional content scopes (DLC) the trainer owns. */
   expansionVersionGroupIds: number[];
   gameSlug: string;
@@ -46,7 +50,7 @@ const optionalTextSchema = (label: string, maxLength: number) =>
  * Checks what the New Play form sent before anything is written: a known
  * game's slug, a partner as a species and form, the expansions as ids, a
  * real calendar day, a name within the Play's limits (the default when
- * empty) and an optional trainer name.
+ * empty), an optional trainer name and the rules it starts with.
  */
 const newPlayInputSchema = z.object(
   {
@@ -63,6 +67,10 @@ const newPlayInputSchema = z.object(
       )
       .nullish()
       .transform((partner) => partner ?? null),
+    challengeRules: z
+      .array(playRuleSelectionSchema, { error: "Pick rules from the list." })
+      .nullish()
+      .transform((rules) => rules ?? []),
     expansionVersionGroupIds: z
       .array(
         positiveIntegerSchema("Those expansions aren't ones Voydex knows."),

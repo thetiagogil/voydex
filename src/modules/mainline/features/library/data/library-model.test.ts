@@ -1,21 +1,39 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  countLibraryUsage,
+  countActiveLibraryFilters,
+  gatherLibraryUsage,
   defaultLibraryFilters,
   filterAndSortLibrary,
   hasActiveLibraryFilters,
   getLibraryDeleteNote,
   getLibraryUsageLabel,
   parseLibraryTab,
+  toTagFilters,
 } from "./library-model";
 
-describe("countLibraryUsage", () => {
-  it("counts each id's Play links", () => {
-    const usage = countLibraryUsage(["a", "a", "b"]);
+describe("gatherLibraryUsage", () => {
+  const kanto = { members: [], playId: "p1", playName: "Kanto run" };
+  const alola = { members: [], playId: "p2", playName: "Alola run" };
 
-    expect(usage("a")).toEqual({ playCount: 2 });
-    expect(usage("c")).toEqual({ playCount: 0 });
+  it("names each id's Plays in order, and counts them", () => {
+    const usage = gatherLibraryUsage(
+      [
+        { itemId: "a", playId: "p1" },
+        { itemId: "a", playId: "p2" },
+        { itemId: "b", playId: "p1" },
+      ],
+      [kanto, alola],
+    );
+
+    expect(usage("a")).toEqual({ playCount: 2, plays: [alola, kanto] });
+    expect(usage("c")).toEqual({ playCount: 0, plays: [] });
+  });
+
+  it("leaves out a Play it can't name", () => {
+    const usage = gatherLibraryUsage([{ itemId: "a", playId: "gone" }], []);
+
+    expect(usage("a")).toEqual({ playCount: 0, plays: [] });
   });
 });
 
@@ -45,9 +63,9 @@ describe("filterAndSortLibrary", () => {
   const custom = { name: "Custom", slug: "custom" };
   const reuse = { name: "Pokémon Reuse", slug: "reuse" };
   const rules = [
-    { kind: custom, name: "No items", playCount: 1 },
-    { kind: reuse, name: "Dupes clause", playCount: 5 },
-    { kind: custom, name: "Level caps", playCount: 0 },
+    { isBuiltIn: false, kind: custom, name: "No items", playCount: 1 },
+    { isBuiltIn: false, kind: reuse, name: "Dupes clause", playCount: 5 },
+    { isBuiltIn: true, kind: custom, name: "Level caps", playCount: 0 },
   ];
 
   it("orders by name, or by use with name breaking ties", () => {
@@ -79,7 +97,43 @@ describe("filterAndSortLibrary", () => {
     ).toEqual(["Level caps", "No items"]);
   });
 
-  it("counts only search and kind as filters", () => {
+  it("narrows rules to Voydex's or yours", () => {
+    expect(
+      filterAndSortLibrary(rules, {
+        ...defaultLibraryFilters,
+        maker: "voydex",
+      }).map(({ name }) => name),
+    ).toEqual(["Level caps"]);
+    expect(
+      filterAndSortLibrary(rules, {
+        ...defaultLibraryFilters,
+        maker: "yours",
+      }).map(({ name }) => name),
+    ).toEqual(["Dupes clause", "No items"]);
+  });
+
+  it("leaves tags out of kind and maker", () => {
+    expect(
+      toTagFilters({
+        ...defaultLibraryFilters,
+        kind: "custom",
+        maker: "voydex",
+      }),
+    ).toEqual(defaultLibraryFilters);
+  });
+
+  it("counts search, kind and maker as filters", () => {
+    expect(
+      hasActiveLibraryFilters({ ...defaultLibraryFilters, maker: "yours" }),
+    ).toBe(true);
+    expect(
+      countActiveLibraryFilters({
+        ...defaultLibraryFilters,
+        kind: "custom",
+        maker: "yours",
+        query: "x",
+      }),
+    ).toBe(2);
     expect(
       hasActiveLibraryFilters({ ...defaultLibraryFilters, sort: "used" }),
     ).toBe(false);

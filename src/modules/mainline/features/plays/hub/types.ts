@@ -94,6 +94,15 @@ export type MainlinePlayGameContextRows = {
 export type MainlinePlayRuleRows = {
   links: MainlinePlayChallengeRuleLink[];
   rules: MainlineChallengeRule[];
+  /* The types the rules' options name (Monotype's), by id. */
+  types: { id: number; name: string }[];
+};
+
+/* A rule this Play keeps, labelled with its options ("Monotype · Water"). */
+export type MainlinePlayRule = {
+  description: string | null;
+  id: string;
+  label: string;
 };
 
 export type MainlinePlayTeamRows = {
@@ -200,7 +209,7 @@ export type MainlinePlayShellData = {
   game: Game | null;
   play: MainlinePlaySummary;
   region: Region | null;
-  rules: MainlineChallengeRule[];
+  rules: MainlinePlayRule[];
   /* The Play's tags by name, shown in Play details. */
   tags: string[];
 };

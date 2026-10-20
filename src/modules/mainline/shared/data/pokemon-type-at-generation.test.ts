@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getPokemonTypeSlugAtGeneration } from "./plan-followers";
+import { getPokemonTypeSlugAtGeneration } from "./pokemon-type-at-generation";
 
 const typeSlugById = new Map([
   [1, "normal"],
