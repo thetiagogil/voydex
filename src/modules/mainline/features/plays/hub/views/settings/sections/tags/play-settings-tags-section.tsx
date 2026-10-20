@@ -25,11 +25,8 @@ export const PlaySettingsTagsSection = ({
     options={data.tags}
     initialSelectedIds={data.selectedTagIds}
     onSave={(tagIds) => updatePlayTagsAction({ playId, tagIds })}
-    add={{
-      label: "Add tag",
-      maxLength: 40,
-      onCreate: (name) => createPlayTagAction({ name, playId }),
-      placeholder: "Tag name",
-    }}
+    noun="tag"
+    addLabel="Add tag"
+    onCreate={(name) => createPlayTagAction({ name, playId })}
   />
 );

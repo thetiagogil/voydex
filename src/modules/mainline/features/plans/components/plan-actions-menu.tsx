@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import { PlanFollowersList } from "@/modules/mainline/features/plans/components/plan-followers-list";
+import { PlanLibraryDialog } from "@/modules/mainline/features/plans/components/plan-library-dialog";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
 import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
@@ -67,8 +68,9 @@ type PlanActionsMenuProps = {
 
 /*
  * One Plan's actions behind one button, grouped by what they do: See Plays
- * (the Plays that follow it, in a dialog) to look; Rename and Archive (or
- * Restore, for an archived Plan, which can't be renamed) to change it; and
+ * (the Plays that follow it, in a dialog) to look; Rename, Rules and tags,
+ * and Archive (or Restore, for an archived Plan, which can't be changed) to
+ * change it; and
  * Delete, which asks first and says what goes with it. Deleting from the
  * Planner goes back to My Plans.
  */
@@ -87,6 +89,7 @@ export const PlanActionsMenu = ({
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
   const [isPlaysOpen, setIsPlaysOpen] = useState(false);
+  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [followers, setFollowers] = useState<PlanFollower[] | null>(null);
   const [isLoadingPlays, startLoadingPlays] = useTransition();
 
@@ -197,6 +200,12 @@ export const PlanActionsMenu = ({
               Rename
             </DropdownMenuItem>
           )}
+          {plan.isArchived ? null : (
+            <DropdownMenuItem onClick={() => setIsLibraryOpen(true)}>
+              <AppIcon icon={appIcons.product.tag} />
+              Rules and tags
+            </DropdownMenuItem>
+          )}
           <DropdownMenuItem
             disabled={Boolean(archiveBlockedReason) && !plan.isArchived}
             title={plan.isArchived ? undefined : archiveBlockedReason}
@@ -279,6 +288,13 @@ export const PlanActionsMenu = ({
           </form>
         </DialogContent>
       </Dialog>
+
+      <PlanLibraryDialog
+        open={isLibraryOpen}
+        onOpenChange={setIsLibraryOpen}
+        planId={plan.id}
+        planName={plan.name}
+      />
 
       <Dialog open={isPlaysOpen} onOpenChange={setIsPlaysOpen}>
         <DialogContent className="sm:max-w-lg">

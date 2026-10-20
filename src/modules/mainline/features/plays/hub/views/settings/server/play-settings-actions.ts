@@ -6,6 +6,10 @@ import { z } from "zod";
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
+import {
+  libraryNameMaxLength,
+  parseLibraryName,
+} from "@/modules/mainline/shared/utils/library-names";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
   parseInput,
@@ -14,14 +18,11 @@ import {
 } from "@/shared/utils/input-schemas";
 
 import type { PlaySettingsChoice } from "../types";
-import {
-  parseSettingsChipName,
-  type PlayGeneralSettingsInput,
-} from "../utils/play-settings-validation";
+import { type PlayGeneralSettingsInput } from "../utils/play-settings-validation";
 import {
   findOrCreateChallengeRule,
   findOrCreateTag,
-} from "./play-settings-choice-commands";
+} from "@/modules/mainline/shared/server/library-choice-commands";
 import {
   deleteMainlinePlay,
   readOwnedPlay,
@@ -165,9 +166,9 @@ export const createPlayChallengeRuleAction = async ({
   playId: string;
 }): Promise<PlaySettingsCreateResult> => {
   try {
-    const ruleName = parseSettingsChipName(name, {
+    const ruleName = parseLibraryName(name, {
       label: "rule",
-      maximum: 80,
+      maximum: libraryNameMaxLength.rule,
     });
     const { supabase, userId } = await getOwnedPlay(playId);
     const { choice, created } = await findOrCreateChallengeRule(supabase, {
@@ -197,7 +198,10 @@ export const createPlayTagAction = async ({
   playId: string;
 }): Promise<PlaySettingsCreateResult> => {
   try {
-    const tagName = parseSettingsChipName(name, { label: "tag", maximum: 40 });
+    const tagName = parseLibraryName(name, {
+      label: "tag",
+      maximum: libraryNameMaxLength.tag,
+    });
     const { supabase, userId } = await getOwnedPlay(playId);
     const { choice, created } = await findOrCreateTag(supabase, {
       name: tagName,

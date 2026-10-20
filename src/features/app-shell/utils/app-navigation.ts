@@ -79,15 +79,22 @@ export const codexViewLinks: readonly CodexViewLink[] = modules.codex.views.map(
   }),
 );
 
+/* Your rules and tags, from the You menu (and the You page on phones). */
+export const libraryLink: AppNavigationLink = {
+  href: appRoutes.mainlineLibrary,
+  label: "Library",
+};
+
 export const accountLink: AppNavigationLink = {
   href: appRoutes.settings,
   label: "Settings",
 };
 
-/* The You tab stays current on the pages about you: You, Settings, Statistics and Collection. */
+/* The You tab stays current on the pages about you: You, Settings, Library, Statistics and Collection. */
 export const youLinks: readonly AppNavigationLink[] = [
   { href: appRoutes.you, label: "You" },
   accountLink,
+  libraryLink,
   { href: appRoutes.welcome, label: "Welcome" },
   ...mainlineLinks.filter((link) => youSectionHrefs.has(link.href)),
 ];

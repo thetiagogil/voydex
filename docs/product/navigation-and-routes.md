@@ -20,13 +20,14 @@ switcher.
   account icon sit on the right. The Codex menu (its name, no icon) opens
   the Codex's pages, Pokémon and Games, as a Play's Team and Progress tabs
   open theirs; it is bold while you are anywhere under `/codex`.
-- **Account menu:** your name and when you became a trainer, Settings
-  (`/settings`) and Log out at the foot.
+- **Account menu:** Library (`/mainline/library`, your rules and tags),
+  Settings (`/settings`) and Log out at the foot.
 - **Bottom bar (phones and tablets, below `lg`):** Home, Plays, Planner,
   Codex and You on a fixed bar along the bottom edge. Codex opens the same
   Pokémon and Games menu upward. You opens `/you` (the
-  trainer card, Statistics, Collection, Settings and Log out) and stays
-  current on You, Settings, Welcome, Statistics and Collection. The current
+  trainer card, Statistics, Collection, Library, Settings and Log out) and
+  stays current on You, Settings, Library, Welcome, Statistics and
+  Collection. The current
   item takes the soft action tint. Toasts sit above the bar.
 - Mainline's views come from `src/config/modules.ts`; nothing appears as a
   speculative `Coming soon` entry.
@@ -129,6 +130,7 @@ reference/filter context; they are not currently a required top-level view.
     /[planId]           ?vg=
   /stats
   /collection           ?species=
+  /library              ?tab=rules|tags
 
 /codex
   /pokemon
@@ -310,8 +312,11 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   Play. The contextual comparison does not add another primary Play tab.
 - Global Settings remains one `/settings` page (the trainer card, Look and
   feel, New Play defaults, Account, Your data); there is no data export.
-  On phones `/you` gathers the trainer card, Statistics, Collection
-  and Settings.
+  On phones `/you` gathers the trainer card, Statistics, Collection,
+  Library and Settings.
+- The Library (`/mainline/library`) is not in the main bars: the account
+  menu, the You page and every rule or tag picker's "Manage in Library"
+  reach it.
 - Public not-found states keep the public shell. Protected resource-not-found
   and permission states keep the authenticated shell and return to the nearest
   owning library without exposing inaccessible resource existence.

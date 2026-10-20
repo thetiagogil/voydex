@@ -56,8 +56,31 @@ Tags should be user-owned and attachable to:
 Tags should support filtering and personal organization.
 
 Tags never affect completion, gameplay validation, or History. Detaching a
-shared Tag from one record does not delete the reusable Tag. Shared rename and
-delete administration is deferred beyond V1.
+shared Tag from one record does not delete the reusable Tag.
+
+## Library
+
+The Library (`/mainline/library`) keeps the rules and tags you reuse across
+Plays and Plans, in two tabs:
+
+- **Rules:** a card per rule you can pick, Voydex's built-in ones (marked
+  Built-in, never edited or deleted) and yours, with its kind and how many
+  Plays and Plans keep it. New rule, in the page's head, makes one with a
+  name and a kind; a rule's menu edits its name and kind or deletes it.
+- **Tags:** a pill per tag with how many Plays and Plans wear it; the pill
+  opens Rename and Delete, and New tag in the head makes one.
+
+Renaming fixes the name everywhere it's used. Deleting is for good, after a
+confirm that says which Plays and Plans it leaves, and every link goes with
+it. Names are unique per trainer, ignoring case.
+
+A Play's settings and a Plan's "Rules and tags" (in its menu) show only the
+rules and tags it keeps, each with a corner × that takes it off that record
+only. "+ Add" opens a picker of the rest of your Library with a search;
+a name nothing has yet offers Create, which makes it in the Library and adds
+it. The picker's foot links to the Library. A Play's changes save with its
+card's Save; a Plan's save as they're made. Rule sets (a Nuzlocke as a group
+of rules) are the Library's next tab.
 
 ## Backlog And Wishlist
 

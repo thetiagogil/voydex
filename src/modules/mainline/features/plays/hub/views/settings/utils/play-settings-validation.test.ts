@@ -3,8 +3,6 @@ import { describe, expect, it } from "vitest";
 import {
   diffIdSets,
   parsePlayGeneralSettings,
-  parseSettingsChipName,
-  toSettingsSlug,
 } from "./play-settings-validation";
 
 const input = {
@@ -63,41 +61,5 @@ describe("parsePlayGeneralSettings", () => {
 describe("diffIdSets", () => {
   it("lists what was added and removed", () => {
     expect(diffIdSets([1, 2], [2, 3])).toEqual({ added: [3], removed: [1] });
-  });
-});
-
-describe("parseSettingsChipName", () => {
-  it("trims and collapses spaces", () => {
-    expect(
-      parseSettingsChipName("  No   healing ", { label: "rule", maximum: 80 }),
-    ).toBe("No healing");
-  });
-
-  it("refuses an empty or too long name", () => {
-    expect(() =>
-      parseSettingsChipName("   ", { label: "tag", maximum: 80 }),
-    ).toThrow("Give the tag a name.");
-    expect(() =>
-      parseSettingsChipName("x".repeat(81), { label: "tag", maximum: 80 }),
-    ).toThrow("A tag's name can be 80 characters at most.");
-  });
-});
-
-describe("toSettingsSlug", () => {
-  it("keeps letters and digits, drops accents and joins the words", () => {
-    expect(
-      toSettingsSlug("Pokémon Center ban!", { maximum: 80, separator: "_" }),
-    ).toBe("pokemon_center_ban");
-    expect(
-      toSettingsSlug("Shiny hunt 2", { maximum: 80, separator: "-" }),
-    ).toBe("shiny-hunt-2");
-  });
-
-  it("never ends on a separator when cut short", () => {
-    expect(toSettingsSlug("ab cd", { maximum: 3, separator: "-" })).toBe("ab");
-  });
-
-  it("is null when nothing is left", () => {
-    expect(toSettingsSlug("✨✨", { maximum: 80, separator: "-" })).toBeNull();
   });
 });

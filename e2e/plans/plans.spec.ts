@@ -1,6 +1,7 @@
 import { expect, type Page, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { waitForAction } from "../support/actions";
 import { openSearchBar } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -230,6 +231,39 @@ test.describe("Team Planner", () => {
     await expect(
       page.getByRole("link", { name: new RegExp(renamed) }),
     ).toBeVisible();
+  });
+
+  test("adds a new tag to a Plan from My Plans, and keeps it", async ({
+    page,
+  }) => {
+    const name = uniquePlayName("Tagged");
+    const tagName = uniquePlayName("Mono water");
+    await savePlan(page, name, ["Squirtle"]);
+
+    await page.goto("/mainline/plans", { waitUntil: "networkidle" });
+    const openRulesAndTags = async () => {
+      await page.getByRole("button", { name: `${name}: more actions` }).click();
+      await page.getByRole("menuitem", { name: "Rules and tags" }).click();
+
+      return page.getByRole("dialog", { name: "Rules and tags" });
+    };
+    const dialog = await openRulesAndTags();
+
+    await dialog.getByRole("combobox", { name: "Add tag" }).click();
+    await page
+      .getByRole("combobox", { name: "Search or name a new tag" })
+      .fill(tagName);
+    const saved = waitForAction(page, 2);
+    await page.getByRole("option", { name: `Create “${tagName}”` }).click();
+    await saved;
+    await expect(dialog.getByText(tagName, { exact: true })).toBeVisible();
+    await expectAccessible(page);
+    await dialog.getByRole("button", { name: "Done" }).click();
+    await expect(dialog).toBeHidden();
+
+    await page.reload();
+    const reopened = await openRulesAndTags();
+    await expect(reopened.getByText(tagName, { exact: true })).toBeVisible();
   });
 
   test("saves a sheet's edits on Save, and asks before removing a Pokémon with a build", async ({

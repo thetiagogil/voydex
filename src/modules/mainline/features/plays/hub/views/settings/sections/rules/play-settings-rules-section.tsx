@@ -11,8 +11,8 @@ import type { MainlinePlaySettingsData } from "../../types";
 
 /*
  * Challenge rules (v3 `settings`): Nuzlocke, Monotype and the like, shown on
- * the Play and in its History. The chips are every rule you can attach:
- * Voydex's catalogue (not seeded yet) and your own, which "Add rule" makes.
+ * the Play and in its History. The chips are the rules this Play keeps;
+ * "Add rule" picks from your Library (Voydex's and yours) or makes one.
  */
 export const PlaySettingsRulesSection = ({
   data,
@@ -28,12 +28,9 @@ export const PlaySettingsRulesSection = ({
     options={data.rules}
     initialSelectedIds={data.selectedRuleIds}
     onSave={(ruleIds) => updatePlayChallengeRulesAction({ playId, ruleIds })}
-    add={{
-      label: "Add rule",
-      maxLength: 80,
-      onCreate: (name) => createPlayChallengeRuleAction({ name, playId }),
-      placeholder: "Rule name",
-    }}
+    noun="rule"
+    addLabel="Add rule"
+    onCreate={(name) => createPlayChallengeRuleAction({ name, playId })}
     empty={
       /* TODO(v3-data): the system challenge-rule catalogue (Nuzlocke, Monotype, No battle items, Level caps, Set battle mode, Shiny hunt) seeded into `gameplay.mainline_challenge_rules`; only development seeds exist. */
       <PendingData

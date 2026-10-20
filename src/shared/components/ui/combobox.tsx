@@ -28,8 +28,12 @@ const ComboboxValue = ({ ...props }: ComboboxPrimitive.Value.Props) => {
 const ComboboxTrigger = ({
   className,
   children,
+  showChevron = true,
   ...props
-}: ComboboxPrimitive.Trigger.Props) => {
+}: ComboboxPrimitive.Trigger.Props & {
+  /* Off for a trigger that says what it does, such as an "Add" chip. */
+  showChevron?: boolean;
+}) => {
   return (
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
@@ -37,7 +41,9 @@ const ComboboxTrigger = ({
       {...props}
     >
       {children}
-      <ChevronDownIcon className="text-ink-3 pointer-events-none size-4" />
+      {showChevron ? (
+        <ChevronDownIcon className="text-ink-3 pointer-events-none size-4" />
+      ) : null}
     </ComboboxPrimitive.Trigger>
   );
 };
