@@ -24,7 +24,6 @@ export type MyPlansFilters = {
   /* Matches a Plan's name, its game or one of its Pokémon. */
   query: string;
   sort: MyPlansSort;
-  status: "active" | "all" | "archived";
 };
 
 export type MyPlansSort = "game" | "name" | "updated";
@@ -33,14 +32,11 @@ export const defaultMyPlansFilters: MyPlansFilters = {
   game: "",
   query: "",
   sort: "updated",
-  status: "all",
 };
 
 /* Whether a filter narrows the list (the order alone doesn't). */
 export const hasActiveMyPlansFilters = (filters: MyPlansFilters) =>
-  filters.query.trim() !== "" ||
-  filters.game !== "" ||
-  filters.status !== defaultMyPlansFilters.status;
+  filters.query.trim() !== "" || filters.game !== "";
 
 export const myPlansSortLabels: Record<MyPlansSort, string> = {
   game: "Game",
@@ -72,14 +68,18 @@ export const filterAndSortMyPlans = (
 
   return plans
     .filter((plan) => !query || matchesQuery(plan, query))
-    .filter(
-      (plan) =>
-        filters.status === "all" ||
-        (filters.status === "archived" ? plan.isArchived : !plan.isArchived),
-    )
     .filter((plan) => !filters.game || plan.versionGroupSlug === filters.game)
     .toSorted(sorters[filters.sort]);
 };
+
+/*
+ * My Plans shows the Plans you're keeping; archived ones wait in their own
+ * list (`?view=archived`) until restored, as archived Plays do.
+ */
+export const splitMyPlans = (plans: MyPlan[]) => ({
+  active: plans.filter((plan) => !plan.isArchived),
+  archived: plans.filter((plan) => plan.isArchived),
+});
 
 /* The games the Plans are for, for the game filter. */
 /*

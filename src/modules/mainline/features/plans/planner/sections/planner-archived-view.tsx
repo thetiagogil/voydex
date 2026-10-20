@@ -6,6 +6,7 @@ import { useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
+import { PlanActionsMenu } from "@/modules/mainline/features/plans/components/plan-actions-menu";
 import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlannerFollowersSection } from "@/modules/mainline/features/plans/planner/sections/planner-followers-section";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
@@ -102,6 +103,15 @@ export const PlannerArchivedView = ({
           <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
           My Plans
         </Link>
+        <PlanActionsMenu
+          placement="planner"
+          plan={{
+            id: plan.id,
+            isArchived: true,
+            linkedPlayCount: plan.linkedPlayCount,
+            name: plan.name,
+          }}
+        />
       </div>
     </PageBand>
   );

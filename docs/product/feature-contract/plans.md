@@ -21,16 +21,12 @@ As built (v3):
   Plan. Switching game carries the team over, unsaved edits included, as
   the new game can have it: a Pokémon it doesn't have leaves the team, and
   one that stays loses what the game doesn't offer it (an ability, held
-  item, nature, gender or a move it can't learn there). When anything would
-  change it asks first, listing each Pokémon with its picture under "Leaves
-  the team" or "Loses part of its build"; the switch waits on a save. A followed Plan lists each Play
+  item, nature, gender or a move it can't learn there). A Plan with a team always asks first ("Switch game?"), listing each Pokémon with its picture under "Leaves the team" or "Loses part of its build"; the switch waits on a save. A followed Plan lists each Play
   that follows it with its current team and a Compare link into that Play's
   Plan comparison.
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
-  Pokémon and who follows it, filtered by status and game and sorted by
-  update, name or game; New Plan opens the Planner blank. Each card has
-  Archive (or Restore); the Planner has Archive once a Plan is saved and has
-  no unsaved changes. An archived Plan opens read-only (its name, game, team
+  Pokémon and who follows it, filtered by game and sorted by
+  update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner: Rename, Archive (or Restore) and Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan opens read-only (its name, game, team
   and followers, with Restore Plan), keeps its Play links, and the save
   refuses it until it's restored.
 - A Plan is stored for one game, the version group's first, until Plans

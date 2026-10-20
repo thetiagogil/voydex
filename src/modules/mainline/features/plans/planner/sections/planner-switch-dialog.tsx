@@ -61,10 +61,10 @@ const SwitchList = ({
 );
 
 /*
- * Asks before a game switch that would change the team: the Pokémon the new
- * game doesn't have, which leave, and the ones that lose part of their build
- * (an ability, item, nature or move the game doesn't offer them), each with
- * its picture. A switch that changes nothing happens at once.
+ * Asks before every game switch of a Plan with a team, listing what the new
+ * game changes: the Pokémon it doesn't have, which leave, and the ones that
+ * lose part of their build (an ability, item, nature or move it doesn't offer
+ * them), each with its picture.
  */
 export const PlannerSwitchDialog = ({
   changed,
@@ -86,7 +86,9 @@ export const PlannerSwitchDialog = ({
       <AlertDialogHeader>
         <AlertDialogTitle>Switch game?</AlertDialogTitle>
         <AlertDialogDescription>
-          Not everything on this team is in {versionGroupName}.
+          {removed.length || changed.length
+            ? `Not everything on this team is in ${versionGroupName}.`
+            : `Your team moves to ${versionGroupName} as it is.`}
         </AlertDialogDescription>
       </AlertDialogHeader>
       <div className="grid gap-4">

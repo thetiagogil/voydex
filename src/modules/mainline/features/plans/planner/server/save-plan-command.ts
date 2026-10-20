@@ -2,6 +2,7 @@ import {
   readPlanGame,
   type PlanGame,
 } from "@/modules/mainline/features/plans/planner/server/plan-game-reader";
+import { readPlanStatusSlug } from "@/modules/mainline/features/plans/server/plan-status-reader";
 import { readPlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/server/plan-member-check-reader";
 import {
   clearUnsupportedBuildFields,
@@ -76,18 +77,11 @@ const assertPlanNotArchived = async (
   supabase: ServerSupabaseClient,
   planId: string,
 ) => {
-  const { data, error } = await supabase
-    .schema("views")
-    .from("mainline_team_plan_summary")
-    .select("status_slug")
-    .eq("team_plan_id", planId)
-    .maybeSingle();
-
-  if (error) {
+  const statusSlug = await readPlanStatusSlug(supabase, planId).catch(() => {
     throw new Error(saveFailure);
-  }
+  });
 
-  if (data?.status_slug === "archived") {
+  if (statusSlug === "archived") {
     throw new PlanSaveInputError("Restore this Plan to change it.");
   }
 };

@@ -4,6 +4,10 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { appRoutes } from "@/config/routes";
+import {
+  PlanActionsMenu,
+  type PlanActionsPlan,
+} from "@/modules/mainline/features/plans/components/plan-actions-menu";
 import type {
   PlannerVersionGroup,
   PlannerVersionGroupOption,
@@ -22,18 +26,19 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type PlannerTopSectionProps = {
+  /* Whether Archive can run now: unsaved changes are saved or undone first. */
   canArchive: boolean;
   canSave: boolean;
   isSaved: boolean;
   isSaving: boolean;
   name: string;
-  /* A saved Plan's Archive; unsaved changes are saved or undone first. */
-  onArchive?: () => void;
   onNameChange: (name: string) => void;
   onSave: () => void;
   onShare: () => void;
   onVersionGroupChange: (slug: string) => void;
   planCount: number;
+  /* A saved Plan, for its actions menu (Rename, Archive, Delete). */
+  savedPlan: PlanActionsPlan | null;
   versionGroup: PlannerVersionGroup;
   versionGroups: PlannerVersionGroupOption[];
 };
@@ -41,8 +46,9 @@ type PlannerTopSectionProps = {
 /*
  * The head of the Planner's band (v3 `.pl-top`): the Plan's name on its own
  * line (tap to rename), then one row with the version group it is for (its
- * covers; a menu of every base group) and its version, and Archive (a saved
- * Plan), Share, My Plans and the page's main button, Save, at the end.
+ * covers; a menu of every base group) and its version, and Share, My Plans,
+ * the page's main button, Save, and a saved Plan's "⋯" (Rename, Archive,
+ * Delete) at the end.
  */
 export const PlannerTopSection = ({
   canArchive,
@@ -50,12 +56,12 @@ export const PlannerTopSection = ({
   isSaved,
   isSaving,
   name,
-  onArchive,
   onNameChange,
   onSave,
   onShare,
   onVersionGroupChange,
   planCount,
+  savedPlan,
   versionGroup,
   versionGroups,
 }: PlannerTopSectionProps) => {
@@ -183,18 +189,6 @@ export const PlannerTopSection = ({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-          {onArchive ? (
-            <Button
-              type="button"
-              variant="ghost"
-              disabled={!canArchive}
-              title={canArchive ? undefined : "Save or undo your changes first"}
-              onClick={onArchive}
-            >
-              <AppIcon icon={appIcons.product.archived} inline="start" />
-              Archive
-            </Button>
-          ) : null}
           <Button type="button" variant="secondary" onClick={onShare}>
             <AppIcon icon={appIcons.actions.share} inline="start" />
             Share
@@ -219,6 +213,16 @@ export const PlannerTopSection = ({
             )}
             {isSaved ? "Save changes" : "Save Plan"}
           </Button>
+          {savedPlan ? (
+            <PlanActionsMenu
+              placement="planner"
+              plan={savedPlan}
+              onRename={() => setIsRenaming(true)}
+              archiveBlockedReason={
+                canArchive ? undefined : "Save or undo your changes first"
+              }
+            />
+          ) : null}
         </div>
       </div>
     </div>

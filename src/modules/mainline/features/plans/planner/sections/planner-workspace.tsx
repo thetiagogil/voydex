@@ -36,7 +36,6 @@ import {
   PlannerSwitchDialog,
   type PlannerSwitchPokemon,
 } from "@/modules/mainline/features/plans/planner/sections/planner-switch-dialog";
-import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
 import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
 import {
@@ -135,7 +134,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     versionGroupName: string;
   } | null>(null);
   const [isCheckingSwitch, startCheckingSwitch] = useTransition();
-  const [isArchiving, startArchiving] = useTransition();
   const { askWhichToReplace, cancelReplace, place, replacing, replacingId } =
     usePlannerReplace({
       byId,
@@ -297,8 +295,9 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   };
 
   /*
-   * Straight to the new game, unless the team would change there (a Pokémon
-   * it doesn't have, or part of a build it doesn't offer): then ask first.
+   * A Plan with a team always asks before switching game, saying what the
+   * new game would change (a Pokémon it doesn't have, or part of a build it
+   * doesn't offer); an empty one switches at once.
    */
   const changeVersionGroup = (slug: string) => {
     if (slug === context.versionGroup.slug || isCheckingSwitch) return;
@@ -316,11 +315,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
 
       if (check.status === "error") {
         toast.error(check.message);
-        return;
-      }
-
-      if (!check.removedSpeciesIds.length && !check.changed.length) {
-        switchVersionGroup(slug, check.kept);
         return;
       }
 
@@ -344,22 +338,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     });
   };
 
-  const archive = () => {
-    if (!plan) return;
-
-    startArchiving(async () => {
-      const result = await setPlanArchivedAction(plan.id, true);
-
-      if (result.status === "error") {
-        toast.error(result.message);
-        return;
-      }
-
-      toast.success(`${plan.name} archived`);
-      router.refresh();
-    });
-  };
-
   const shareLink = `${origin}${appRoutes.mainlinePlanNew(context.versionGroup.slug)}#${encodePlanShare(
     toPlanShare(team.slots, byId, context.versionGroup.slug),
   )}`;
@@ -370,8 +348,17 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
           /* Archive keeps the saved Plan, so unsaved changes come first. */
-          onArchive={plan ? archive : undefined}
-          canArchive={!isDirty && !isArchiving}
+          canArchive={!isDirty}
+          savedPlan={
+            plan
+              ? {
+                  id: plan.id,
+                  isArchived: false,
+                  linkedPlayCount: plan.linkedPlayCount,
+                  name: plan.name,
+                }
+              : null
+          }
           isSaved={Boolean(plan)}
           isSaving={isSaving}
           name={name}

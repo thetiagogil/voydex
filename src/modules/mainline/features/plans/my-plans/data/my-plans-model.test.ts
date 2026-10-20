@@ -6,6 +6,7 @@ import {
   filterAndSortMyPlans,
   getMyPlanFootnote,
   getMyPlansGames,
+  splitMyPlans,
   type MyPlan,
 } from "./my-plans-model";
 
@@ -48,18 +49,18 @@ describe("My Plans model", () => {
     ).toEqual(["b", "c", "a"]);
   });
 
-  it("filters by status and game", () => {
-    expect(
-      filterAndSortMyPlans(plans, {
-        ...defaultMyPlansFilters,
-        status: "archived",
-      }).map((item) => item.id),
-    ).toEqual(["b"]);
+  it("keeps archived Plans in their own list", () => {
+    const { active, archived } = splitMyPlans(plans);
+
+    expect(active.map((item) => item.id)).toEqual(["a", "c"]);
+    expect(archived.map((item) => item.id)).toEqual(["b"]);
+  });
+
+  it("filters by game", () => {
     expect(
       filterAndSortMyPlans(plans, {
         ...defaultMyPlansFilters,
         game: "red-blue",
-        status: "active",
       }).map((item) => item.id),
     ).toEqual(["c"]);
     expect(
@@ -113,16 +114,13 @@ describe("My Plans model", () => {
 });
 
 describe("hasActiveMyPlansFilters", () => {
-  it("counts a search, a game or a status, never the order alone", () => {
+  it("counts a search or a game, never the order alone", () => {
     expect(hasActiveMyPlansFilters(defaultMyPlansFilters)).toBe(false);
     expect(
       hasActiveMyPlansFilters({ ...defaultMyPlansFilters, sort: "name" }),
     ).toBe(false);
     expect(
       hasActiveMyPlansFilters({ ...defaultMyPlansFilters, query: "gar" }),
-    ).toBe(true);
-    expect(
-      hasActiveMyPlansFilters({ ...defaultMyPlansFilters, status: "archived" }),
     ).toBe(true);
   });
 });

@@ -145,23 +145,55 @@ test.describe("Team Planner", () => {
     ).toBeEnabled();
   });
 
-  test("archives a Plan, reads it, and restores it", async ({ page }) => {
+  test("archives a Plan into its own list, reads it, and restores it", async ({
+    page,
+  }) => {
     const name = uniquePlayName("Shelved plan");
     const planId = await savePlan(page, name, ["Pikachu"]);
 
     await page.goto("/mainline/plans");
-    await page.getByRole("button", { name: `Archive ${name}` }).click();
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Archive" }).click();
+
+    /* Out of My Plans, into Archived. */
     const card = page.getByRole("link", { name: new RegExp(name) });
-    await expect(card.getByText("Archived")).toBeVisible();
+    await expect(card).toBeHidden();
+    await page.getByRole("link", { name: /^Archived · \d+/ }).click();
+    await page.waitForURL("**/mainline/plans?view=archived");
+    await expect(card).toBeVisible();
+    await expectAccessible(page);
 
     /* Read-only until restored. */
-    await page.goto(`/mainline/plans/${planId}`);
+    await card.click();
+    await page.waitForURL(`**/mainline/plans/${planId}`);
     await expect(
       page.getByRole("button", { name: "Save changes" }),
     ).toBeHidden();
-    await expectAccessible(page);
     await page.getByRole("button", { name: "Restore Plan" }).click();
-    await expect(page.getByRole("button", { name: "Archive" })).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: `${name}: more actions` }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Restore Plan" }),
+    ).toBeHidden();
+  });
+
+  test("renames a Plan from My Plans", async ({ page }) => {
+    const name = uniquePlayName("Old name");
+    await savePlan(page, name, ["Pikachu"]);
+
+    await page.goto("/mainline/plans");
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Rename" }).click();
+    const dialog = page.getByRole("dialog", { name: "Rename Plan" });
+    const renamed = uniquePlayName("New name");
+    await dialog.getByRole("textbox", { name: "Plan name" }).fill(renamed);
+    await dialog.getByRole("button", { name: "Rename" }).click();
+
+    await expect(dialog).toBeHidden();
+    await expect(
+      page.getByRole("link", { name: new RegExp(renamed) }),
+    ).toBeVisible();
   });
 
   test("asks before removing a Pokémon with a build from its sheet", async ({
@@ -200,7 +232,8 @@ test.describe("Team Planner", () => {
     await page.goto("/mainline/plans");
     const card = page.getByRole("link", { name: new RegExp(name) });
     await expect(card).toBeVisible();
-    await page.getByRole("button", { name: `Delete ${name}` }).click();
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Delete" }).click();
 
     const confirm = page.getByRole("alertdialog", { name: `Delete ${name}?` });
     await expectAccessible(page);

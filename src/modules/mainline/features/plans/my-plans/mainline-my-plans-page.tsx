@@ -2,8 +2,14 @@ import Link from "next/link";
 
 import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
-import type { MyPlan } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
-import { MyPlansBrowser } from "@/modules/mainline/features/plans/my-plans/sections/my-plans-browser";
+import {
+  splitMyPlans,
+  type MyPlan,
+} from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
+import {
+  MyPlansBrowser,
+  MyPlansGrid,
+} from "@/modules/mainline/features/plans/my-plans/sections/my-plans-browser";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -13,7 +19,51 @@ import { buttonVariants } from "@/shared/components/ui/button";
 
 type MainlineMyPlansPageProps = {
   plans: MyPlan[];
+  /* My Plans, or the Plans you archived (`?view=archived`). */
+  view: "active" | "archived";
 };
+
+const formatPlanCount = (count: number) =>
+  `${count} ${count === 1 ? "Plan" : "Plans"}`;
+
+/*
+ * The Plans you archived, each with Restore in its menu; hidden from My
+ * Plans until restored, as archived Plays are from your Plays.
+ */
+const ArchivedPlansView = ({ plans }: { plans: MyPlan[] }) => (
+  <div className="flex flex-col gap-5 sm:gap-6">
+    <PageBand>
+      <PageHeader
+        title="Archived Plans"
+        description={
+          plans.length
+            ? `${formatPlanCount(plans.length)} · hidden from My Plans until you restore them`
+            : "None archived"
+        }
+        action={
+          <Link
+            href={appRoutes.mainlinePlans}
+            className={buttonVariants({ variant: "secondary" })}
+          >
+            <AppIcon icon={appIcons.actions.back} inline="start" />
+            My Plans
+          </Link>
+        }
+      />
+    </PageBand>
+    <section aria-label="Archived Plans">
+      {plans.length ? (
+        <MyPlansGrid plans={plans} />
+      ) : (
+        <EmptyState
+          headingLevel="h2"
+          title="Nothing archived"
+          description="Plans you archive wait here until you restore them."
+        />
+      )}
+    </section>
+  </div>
+);
 
 const emptyArt = {
   name: "Ditto",
@@ -21,10 +71,20 @@ const emptyArt = {
 };
 
 /*
- * My Plans (v3 `myplans`): every Plan as a card with its game, its six
- * Pokémon and who follows it; New Plan opens the Team Planner blank.
+ * My Plans (v3 `myplans`): every Plan you're keeping as a card with its
+ * game, its six Pokémon and who follows it; New Plan opens the Team Planner
+ * blank. Archived Plans wait behind "Archived · N" at the end.
  */
-export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
+export const MainlineMyPlansPage = ({
+  plans: allPlans,
+  view,
+}: MainlineMyPlansPageProps) => {
+  const { active: plans, archived } = splitMyPlans(allPlans);
+
+  if (view === "archived") {
+    return <ArchivedPlansView plans={archived} />;
+  }
+
   const gameCount = new Set(plans.map((plan) => plan.versionGroupSlug)).size;
   const newPlan = (
     <Link href={appRoutes.mainlinePlanNew()} className={buttonVariants()}>
@@ -47,7 +107,7 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
         title="My Plans"
         description={
           plans.length
-            ? `${plans.length} ${plans.length === 1 ? "Plan" : "Plans"} across ${gameCount} ${gameCount === 1 ? "game" : "games"}`
+            ? `${formatPlanCount(plans.length)} across ${gameCount} ${gameCount === 1 ? "game" : "games"}`
             : "None yet"
         }
         action={plans.length ? newPlan : null}
@@ -71,6 +131,20 @@ export const MainlineMyPlansPage = ({ plans }: MainlineMyPlansPageProps) => {
           />
         </>
       )}
+
+      {archived.length ? (
+        <Link
+          href={appRoutes.mainlinePlansArchived}
+          className={buttonVariants({
+            className: "self-start",
+            size: "sm",
+            variant: "ghost",
+          })}
+        >
+          <AppIcon icon={appIcons.product.archived} inline="start" />
+          Archived · {archived.length}
+        </Link>
+      ) : null}
     </div>
   );
 };
