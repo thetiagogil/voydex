@@ -90,7 +90,11 @@ export const RecordRow = ({
         className={cn(
           /* The medallion sits level with the middle of its card. */
           "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
-          side && "lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] lg:gap-5",
+          side &&
+            "lg:before:bg-line relative lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] lg:gap-5 lg:before:absolute lg:before:top-[calc(50%-1px)] lg:before:h-0.5 lg:before:w-5",
+          /* A short tie from the card to its medallion. */
+          side === "left" && "lg:before:right-[calc(50%+28px)]",
+          side === "right" && "lg:before:left-[calc(50%+28px)]",
           className,
         )}
       >
@@ -103,8 +107,12 @@ export const RecordRow = ({
           size="sm"
           className={cn(
             "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
-            side === "left" && "lg:col-start-1 lg:row-start-1",
-            side === "right" && "lg:col-start-3 lg:row-start-1",
+            /* Against the line, at a width a couple of lines read well in. */
+            side && "lg:w-full lg:max-w-md",
+            side === "left" &&
+              "lg:col-start-1 lg:row-start-1 lg:justify-self-end",
+            side === "right" &&
+              "lg:col-start-3 lg:row-start-1 lg:justify-self-start",
           )}
         >
           {words}
