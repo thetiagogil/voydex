@@ -2,14 +2,20 @@ import { PageHeader } from "@/shared/components/page-header";
 
 import { SettingsSectionNav } from "./components/settings-section-nav";
 import { PlaySettingsDangerSection } from "./sections/danger/play-settings-danger-section";
+import { PlaySettingsExpansionsSection } from "./sections/expansions/play-settings-expansions-section";
 import { PlaySettingsGeneralSection } from "./sections/general/play-settings-general-section";
 import { PlaySettingsRulesSection } from "./sections/rules/play-settings-rules-section";
 import { PlaySettingsTagsSection } from "./sections/tags/play-settings-tags-section";
 import { PlaySettingsTrackingSection } from "./sections/tracking/play-settings-tracking-section";
 import type { MainlinePlaySettingsData } from "./types";
 
-const sections: { href: `#${string}`; label: string }[] = [
+const getSections = (
+  hasExpansions: boolean,
+): { href: `#${string}`; label: string }[] => [
   { href: "#general", label: "General" },
+  ...(hasExpansions
+    ? [{ href: "#expansions" as const, label: "Expansions" }]
+    : []),
   { href: "#tracking", label: "Tracking" },
   { href: "#rules", label: "Challenge rules" },
   { href: "#tags", label: "Tags" },
@@ -17,7 +23,8 @@ const sections: { href: `#${string}`; label: string }[] = [
 ];
 
 /*
- * Play settings (v3 `settings`): a quiet form in five cards, with a side
+ * Play settings (v3 `settings`): a quiet form in its cards (Expansions
+ * only for a game with DLC), with a side
  * list of them on wide screens. Each card saves on its own from the footer
  * that appears once it has unsaved changes.
  */
@@ -36,18 +43,21 @@ export const MainlinePlaySettings = ({
       className="pt-0 sm:pt-0"
     />
     <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8">
-      <SettingsSectionNav sections={sections} />
+      <SettingsSectionNav sections={getSections(data.expansions.length > 0)} />
       <div className="grid min-w-0 gap-6 [&>section]:scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)]">
         <PlaySettingsGeneralSection
           key={`general:${JSON.stringify(data.general)}`}
           data={data}
           playId={playId}
         />
-        <PlaySettingsTrackingSection
-          key={`tracking:${data.selectedExpansionIds.join()}`}
-          data={data}
-          playId={playId}
-        />
+        {data.expansions.length ? (
+          <PlaySettingsExpansionsSection
+            key={`expansions:${data.selectedExpansionIds.join()}`}
+            data={data}
+            playId={playId}
+          />
+        ) : null}
+        <PlaySettingsTrackingSection />
         <PlaySettingsRulesSection
           key={`rules:${JSON.stringify(data.selectedRules)}`}
           data={data}

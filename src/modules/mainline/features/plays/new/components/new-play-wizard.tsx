@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
+import { NewPlayExpansions } from "@/modules/mainline/features/plays/new/components/new-play-expansions";
 import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
 import { NewPlayTracking } from "@/modules/mainline/features/plays/new/components/new-play-tracking";
 import { MeadowLabel } from "@/modules/mainline/features/plays/shared/components/meadow-pokemon";
@@ -342,11 +343,14 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               />
             </div>
           </div>
-          <NewPlayTracking
-            expansions={expansions}
-            owned={owned}
-            onOwnedChange={setOwned}
-          />
+          {expansions.length ? (
+            <NewPlayExpansions
+              expansions={expansions}
+              owned={owned}
+              onOwnedChange={setOwned}
+            />
+          ) : null}
+          <NewPlayTracking />
           <NewPlayRules
             ruleChoices={data.rules}
             rules={rules}
