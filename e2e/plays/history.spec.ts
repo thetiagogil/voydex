@@ -23,6 +23,11 @@ test.describe("History", () => {
     await expect(stops.last()).toContainText("Your Play starts here");
     await expectAccessible(page);
 
+    /* Each month lists its own moments, named after it. */
+    await expect(
+      line.getByRole("list", { name: /^\w+ \d{4}$/ }).first(),
+    ).toBeVisible();
+
     /* Oldest first: the line starts at the top. */
     await page.getByRole("button", { name: "Show search and filters" }).click();
     await page.getByRole("combobox", { name: "Sort History" }).click();

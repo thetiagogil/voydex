@@ -15,6 +15,12 @@ type RecordRowProps = {
   medallion: MedallionContent;
   /* A Pokémon that left the team wears a washed-out medallion. */
   medallionFaded?: boolean;
+  /*
+   * On a timeline, `grid` is a moment in History's month grid: from 1024px
+   * it leaves the line and its medallion comes inside the card, which fills
+   * its grid cell. Narrower, it sits on the line like any timeline row.
+   */
+  placement?: "grid" | "line";
   trailing?: ReactNode;
   /*
    * `row` sits between rules inside a card; `timeline` puts the medallion on
@@ -42,6 +48,7 @@ export const RecordRow = ({
   kicker,
   medallion,
   medallionFaded = false,
+  placement = "line",
   trailing,
   variant = "row",
   when,
@@ -83,12 +90,35 @@ export const RecordRow = ({
         className={cn(
           /* The medallion sits level with the middle of its card. */
           "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
+          placement === "grid" && "lg:block lg:h-full",
           className,
         )}
       >
-        <Medallion content={medallion} faded={medallionFaded} />
-        <Card size="sm" className="min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5">
-          {words}
+        <Medallion
+          className={cn(placement === "grid" && "lg:hidden")}
+          content={medallion}
+          faded={medallionFaded}
+        />
+        <Card
+          size="sm"
+          className={cn(
+            "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
+            placement === "grid" && "lg:h-full",
+          )}
+        >
+          {placement === "grid" ? (
+            /* Off the line, the medallion comes inside its card. */
+            <div className="min-w-0 lg:grid lg:grid-cols-[auto_minmax(0,1fr)] lg:items-start lg:gap-3.5">
+              <Medallion
+                className="hidden lg:grid"
+                content={medallion}
+                faded={medallionFaded}
+              />
+              <div className="min-w-0">{words}</div>
+            </div>
+          ) : (
+            words
+          )}
         </Card>
       </article>
     );
