@@ -38,7 +38,7 @@ export const MainlineLibraryPage = ({
       <SegmentedControl
         ariaLabel="Library sections"
         className="mt-5"
-        variant="segment"
+        selectedTone="strong"
         value={tab}
         options={[
           {
