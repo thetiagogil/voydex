@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 import { expectAccessible } from "../support/accessibility";
 import { openFilters } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
+import { forTheAnswer, waitForAction } from "../support/actions";
 
 test.describe("Progress", () => {
   let playId: string;
@@ -23,12 +24,15 @@ test.describe("Progress", () => {
     await expect(page.getByText("1 of 17 milestones")).toBeVisible();
     await expectAccessible(page);
 
+    /* The record shows at once; wait for its save before reloading. */
+    const saved = waitForAction(page);
     await page.getByRole("button", { name: "Record Receive Pokedex" }).click();
 
     await expect(page.getByText("2 of 17 milestones")).toBeVisible();
     await expect(
       page.getByRole("region", { name: "Boulder Badge" }),
     ).toBeVisible();
+    await saved;
 
     await page.reload();
     await expect(page.getByText("2 of 17 milestones")).toBeVisible();
@@ -53,22 +57,24 @@ test.describe("Progress", () => {
     await expect(
       page.getByText("Recording it also records the one before it."),
     ).toBeVisible();
-    const saved = page.waitForResponse(
-      (response) => response.request().method() === "POST",
-    );
+    /*
+     * Undo waits for the record's save itself, so tap it while its toast
+     * shows, then wait for both saves: the record and its Undo.
+     */
+    const saved = waitForAction(page, 2);
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await expect(
       page.getByText("Boulder Badge and the one before it recorded · 3 of 17"),
     ).toBeVisible();
     await expect(page.getByText("3 of 17 milestones")).toBeVisible();
-    await saved;
 
     await page.getByRole("button", { name: "Undo" }).click();
+    await saved;
     await expect(
       page.getByText(
         "Boulder Badge and the one before it are no longer recorded",
       ),
-    ).toBeVisible();
+    ).toBeVisible(forTheAnswer);
     await page.reload();
     await expect(page.getByText("1 of 17 milestones")).toBeVisible();
   });
@@ -83,9 +89,7 @@ test.describe("Progress", () => {
     await page
       .getByRole("button", { name: /^Milestone 3.*Boulder Badge/ })
       .click();
-    const saved = page.waitForResponse(
-      (response) => response.request().method() === "POST",
-    );
+    const saved = waitForAction(page);
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await saved;
     await page.reload();
@@ -115,8 +119,12 @@ test.describe("Progress", () => {
       confirm.getByRole("checkbox", { name: "Also clear the one after it" }),
     ).toBeChecked();
     await expectAccessible(page);
+    const cleared = waitForAction(page);
     await confirm.getByRole("button", { name: "Mark incomplete" }).click();
-    await expect(page.getByText("1 of 17 milestones")).toBeVisible();
+    await cleared;
+    await expect(page.getByText("1 of 17 milestones")).toBeVisible(
+      forTheAnswer,
+    );
     await page.reload();
     await expect(page.getByText("1 of 17 milestones")).toBeVisible();
   });
@@ -133,14 +141,15 @@ test.describe("Progress", () => {
   });
 
   test("marks a Pokémon caught in the Pokédex @phone", async ({ page }) => {
-    await page.goto(`/mainline/plays/${playId}/progress/pokedex`);
+    /* Wait for the page to finish loading, so the first tap is heard. */
+    await page.goto(`/mainline/plays/${playId}/progress/pokedex`, {
+      waitUntil: "networkidle",
+    });
     await expect(page.getByText("0% complete · 0 of 151")).toBeVisible();
     await expectAccessible(page);
 
     /* The mark shows at once; wait for its save before reloading. */
-    const saved = page.waitForResponse(
-      (response) => response.request().method() === "POST",
-    );
+    const saved = waitForAction(page);
     await page.getByRole("button", { name: "Mark Pidgey as Caught" }).click();
     await expect(page.getByText("1% complete · 1 of 151")).toBeVisible();
     await saved;

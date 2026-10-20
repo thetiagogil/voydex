@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { startPlay, uniquePlayName } from "../support/plays";
+import { forTheAnswer, waitForAction } from "../support/actions";
 
 test.describe("New Play", () => {
   test("starts a Play with a partner @phone", async ({ page }) => {
@@ -45,13 +46,15 @@ test.describe("New Play", () => {
     await partnerChoice
       .getByRole("button", { name: "Totodile is my partner" })
       .click();
+    const saved = waitForAction(page);
     await partnerChoice
       .getByRole("button", { name: "Choose Totodile" })
       .click();
+    await saved;
 
     await expect(
       page.getByRole("region", { name: "Totodile is your partner" }),
-    ).toBeVisible();
+    ).toBeVisible(forTheAnswer);
     await expect(
       page.getByRole("region", { name: "Your team" }).getByRole("link", {
         name: "Totodile Water",

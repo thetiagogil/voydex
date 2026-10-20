@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { startPlay, uniquePlayName } from "../support/plays";
+import { forTheAnswer, waitForAction } from "../support/actions";
 
 test.describe("Play settings", () => {
   let playId: string;
@@ -14,7 +15,10 @@ test.describe("Play settings", () => {
       name: playName,
       partner: null,
     });
-    await page.goto(`/mainline/plays/${playId}/settings`);
+    /* Wait for the page to finish loading, so the first tap is heard. */
+    await page.goto(`/mainline/plays/${playId}/settings`, {
+      waitUntil: "networkidle",
+    });
   });
 
   test("renames the Play and pauses it", async ({ page }) => {
@@ -28,8 +32,10 @@ test.describe("Play settings", () => {
       .click();
     await expect(general.getByText("Unsaved changes")).toBeVisible();
     await expectAccessible(page);
+    const saved = waitForAction(page);
     await general.getByRole("button", { name: "Save" }).click();
-    await expect(general.getByText("Unsaved changes")).toBeHidden();
+    await saved;
+    await expect(general.getByText("Unsaved changes")).toBeHidden(forTheAnswer);
 
     await page.reload();
     await expect(
@@ -41,13 +47,19 @@ test.describe("Play settings", () => {
   });
 
   test("archives the Play out of the Plays list", async ({ page }) => {
+    /* The message comes with the save and may be gone once Plays loads. */
+    const saved = waitForAction(page);
     await page
       .getByRole("region", { name: "Archive or delete" })
       .getByRole("button", { name: "Archive" })
       .click();
+    await saved;
+    await expect(page.getByText(`${playName} archived`)).toBeVisible(
+      forTheAnswer,
+    );
 
     await page.waitForURL("**/mainline/plays");
-    await expect(page.getByText(`${playName} archived`)).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Plays");
     await expect(
       page.getByRole("link", { name: new RegExp(playName) }),
     ).toBeHidden();
@@ -63,10 +75,15 @@ test.describe("Play settings", () => {
       name: `Delete ${playName}?`,
     });
     await expectAccessible(page);
+    /* The message comes with the save and may be gone once Plays loads. */
+    const saved = waitForAction(page);
     await confirm.getByRole("button", { name: "Delete Play" }).click();
+    await saved;
+    await expect(page.getByText(`${playName} deleted`)).toBeVisible(
+      forTheAnswer,
+    );
 
     await page.waitForURL("**/mainline/plays");
-    await expect(page.getByText(`${playName} deleted`)).toBeVisible();
 
     await page.goto(`/mainline/plays/${playId}`);
     await expect(

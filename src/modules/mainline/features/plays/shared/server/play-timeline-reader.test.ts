@@ -59,4 +59,18 @@ describe("readMainlinePlayTimelinePreview", () => {
       ["timeline_order", { ascending: false }],
     ]);
   });
+
+  it("keeps why the read failed, so the server log names the cause", async () => {
+    const { client, query } = createTimelineClient();
+    const cause = { code: "57014", message: "canceling statement" };
+
+    query.limit.mockResolvedValueOnce({ data: null, error: cause } as never);
+
+    await expect(
+      readMainlinePlayTimelinePreview(client, "play-1"),
+    ).rejects.toMatchObject({
+      cause,
+      message: "Unable to load Mainline play timeline preview.",
+    });
+  });
 });
