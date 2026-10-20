@@ -23,6 +23,12 @@ type RecordRowProps = {
   variant?: "row" | "timeline";
   /* When it happened; on a timeline it sits at the right edge of the card's top line. */
   when?: ReactNode;
+  /*
+   * On a centred timeline (History), which side of the line the card takes
+   * from 1024px, the medallion on the line between. Narrower, it stays beside
+   * the medallion like any timeline row.
+   */
+  side?: "left" | "right";
   /* Let the line and note wrap in full instead of truncating and clamping. */
   wrap?: boolean;
 };
@@ -42,6 +48,7 @@ export const RecordRow = ({
   kicker,
   medallion,
   medallionFaded = false,
+  side,
   trailing,
   variant = "row",
   when,
@@ -83,11 +90,23 @@ export const RecordRow = ({
         className={cn(
           /* The medallion sits level with the middle of its card. */
           "grid min-w-0 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4",
+          side && "lg:grid-cols-[minmax(0,1fr)_56px_minmax(0,1fr)] lg:gap-5",
           className,
         )}
       >
-        <Medallion content={medallion} faded={medallionFaded} />
-        <Card size="sm" className="min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5">
+        <Medallion
+          className={cn(side && "lg:col-start-2 lg:row-start-1")}
+          content={medallion}
+          faded={medallionFaded}
+        />
+        <Card
+          size="sm"
+          className={cn(
+            "min-w-0 gap-0 px-4 py-3 sm:px-5 sm:py-3.5",
+            side === "left" && "lg:col-start-1 lg:row-start-1",
+            side === "right" && "lg:col-start-3 lg:row-start-1",
+          )}
+        >
           {words}
         </Card>
       </article>

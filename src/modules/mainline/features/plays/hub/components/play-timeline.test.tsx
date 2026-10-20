@@ -50,4 +50,23 @@ describe("PlayTimeline", () => {
       expect(item).toContain(end);
     }
   });
+
+  it("keeps the line on the left unless asked to centre it", () => {
+    const start = renderToStaticMarkup(<PlayTimeline>x</PlayTimeline>);
+    const centered = renderToStaticMarkup(
+      <PlayTimeline layout="centered">x</PlayTimeline>,
+    );
+
+    expect(start).toContain('data-layout="start"');
+    expect(centered).toContain('data-layout="centered"');
+  });
+
+  it("moves the line to the middle only inside a centred timeline", () => {
+    const item = renderToStaticMarkup(<PlayTimelineItem>x</PlayTimelineItem>);
+
+    expect(item).toContain("before:left-6.75");
+    expect(item).toContain(
+      "lg:group-data-[layout=centered]/timeline:before:left-[calc(50%-1px)]",
+    );
+  });
 });

@@ -23,9 +23,22 @@ test.describe("History", () => {
     await expect(stops.last()).toContainText("Your Play starts here");
     await expectAccessible(page);
 
-    /* On a wide screen the months index the line from the side. */
-    const index = page.getByRole("navigation", { name: "History months" });
-    await expect(index.locator("[aria-current=location]")).toHaveCount(1);
+    /*
+     * On a wide screen the line runs down the middle: the first moment's card
+     * sits left of it, the start's words right of it.
+     */
+    const lineBox = await line.boundingBox();
+    const cardBox = await line
+      .locator("[data-slot=card]")
+      .first()
+      .boundingBox();
+    const startBox = await line
+      .getByText("Your Play starts here")
+      .boundingBox();
+    const middle = lineBox ? lineBox.x + lineBox.width / 2 : 0;
+
+    expect(cardBox && cardBox.x + cardBox.width < middle).toBe(true);
+    expect(startBox && startBox.x > middle).toBe(true);
 
     /* Oldest first: the line starts at the top. */
     await page.getByRole("button", { name: "Show search and filters" }).click();

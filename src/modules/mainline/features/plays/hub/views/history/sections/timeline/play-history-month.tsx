@@ -4,17 +4,19 @@ import {
 } from "@/modules/mainline/features/plays/hub/components/play-timeline";
 import { PlayMomentRow } from "@/modules/mainline/features/plays/hub/components/play-moment-row";
 import type { PlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
+import { cn } from "@/shared/utils/cn";
 
 import {
   getPlayHistoryEventKey,
-  getPlayHistoryMonthAnchor,
   type PlayHistoryMonth,
 } from "../../data/play-history-model";
 
 /*
  * A month on History's line: its mark, then each moment in a card of its own
  * beside its medallion. Each record stays readable at every width, so its
- * line and note wrap instead of truncating.
+ * line and note wrap instead of truncating. From 1024px the line is in the
+ * middle: a month's moments take turns, left then right, and each one tucks
+ * up beside the one before so the two sides interleave.
  */
 export const PlayHistoryMonthItems = ({
   context,
@@ -25,7 +27,6 @@ export const PlayHistoryMonthItems = ({
 }) => (
   <>
     <PlayTimelineMonth
-      anchorId={getPlayHistoryMonthAnchor(month)}
       count={month.entries.length}
       label={month.label}
       titleId={`play-history-${month.key}`}
@@ -35,11 +36,15 @@ export const PlayHistoryMonthItems = ({
         key={getPlayHistoryEventKey(event, index)}
         // A link to one moment (a Collection "Before" row) lands here.
         id={event.event_id ? `moment-${event.event_id}` : undefined}
-        className="target:**:data-[slot=card]:bg-select-soft scroll-mt-[calc(var(--play-dock-offset,0px)+5rem)]"
+        className={cn(
+          "target:**:data-[slot=card]:bg-select-soft scroll-mt-[calc(var(--play-dock-offset,0px)+5rem)]",
+          index > 0 && "lg:-mt-7",
+        )}
       >
         <PlayMomentRow
           context={context}
           event={event}
+          side={index % 2 ? "right" : "left"}
           variant="timeline"
           wrap
           when={

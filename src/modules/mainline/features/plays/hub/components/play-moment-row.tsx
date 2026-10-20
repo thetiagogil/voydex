@@ -15,6 +15,8 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 type PlayMomentRowProps = {
   context?: PlayMomentContext;
   event: MainlinePlayTimelineEvent;
+  /* On a centred timeline, the side of the line its card takes. */
+  side?: "left" | "right";
   /* `timeline`: on a timeline's line, its words in a card of their own. */
   variant?: "row" | "timeline";
   /* When it happened, after the kind in the kicker. */
@@ -87,6 +89,7 @@ const getTimelineExtra = (event: MainlinePlayTimelineEvent) => {
 export const PlayMomentRow = ({
   context,
   event,
+  side,
   variant,
   when,
   wrap,
@@ -97,6 +100,7 @@ export const PlayMomentRow = ({
   return (
     <RecordRow
       medallionFaded={record.faded}
+      side={side}
       variant={variant}
       when={onTimeline ? when : undefined}
       wrap={wrap}

@@ -1,7 +1,6 @@
 import { PageHeader } from "@/shared/components/page-header";
 
-import { SectionIndexNav } from "@/shared/components/section-index-nav";
-
+import { SettingsSectionNav } from "./components/settings-section-nav";
 import { PlaySettingsDangerSection } from "./sections/danger/play-settings-danger-section";
 import { PlaySettingsGeneralSection } from "./sections/general/play-settings-general-section";
 import { PlaySettingsRulesSection } from "./sections/rules/play-settings-rules-section";
@@ -37,7 +36,7 @@ export const MainlinePlaySettings = ({
       className="pt-0 sm:pt-0"
     />
     <div className="grid min-w-0 items-start gap-6 lg:grid-cols-[200px_minmax(0,1fr)] lg:gap-8">
-      <SectionIndexNav label="Settings sections" groups={[{ sections }]} />
+      <SettingsSectionNav sections={sections} />
       <div className="grid min-w-0 gap-6 [&>section]:scroll-mt-[calc(var(--play-dock-offset,0px)+1rem)]">
         <PlaySettingsGeneralSection
           key={`general:${JSON.stringify(data.general)}`}

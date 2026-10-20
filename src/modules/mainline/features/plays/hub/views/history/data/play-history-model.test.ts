@@ -5,7 +5,6 @@ import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/play
 import {
   getPlayHistoryCategory,
   getPlayHistoryFilterOptions,
-  groupPlayHistoryMonthsByYear,
   getShownPlayHistoryEvents,
   groupPlayHistoryEventsByMonth,
   searchPlayHistoryEvents,
@@ -176,53 +175,5 @@ describe("Play History model", () => {
       { events: ["added"], label: "June 2025" },
       { events: ["imported"], label: "May 2025" },
     ]);
-  });
-});
-
-describe("groupPlayHistoryMonthsByYear", () => {
-  const clock = { timeZone: "UTC", today: null };
-  const dated = (eventId: string, happenedAt: string, timelineOrder: number) =>
-    event({
-      eventId,
-      eventTypeSlug: "journal_note",
-      happenedAt,
-      timelineOrder,
-    });
-
-  it("keeps the months shown under their years, in the list's order", () => {
-    const months = groupPlayHistoryEventsByMonth(
-      [
-        dated("c", "2026-07-20T03:00:00Z", 3),
-        dated("b", "2025-02-14T12:00:00Z", 2),
-        dated("a", "2025-02-12T12:00:00Z", 1),
-        dated("z", "2025-01-30T12:00:00Z", 0),
-      ],
-      clock,
-    );
-
-    expect(
-      groupPlayHistoryMonthsByYear(months).map((group) => [
-        group.label,
-        group.months.map((month) => month.label),
-      ]),
-    ).toEqual([
-      ["2026", ["July 2026"]],
-      ["2025", ["February 2025", "January 2025"]],
-    ]);
-  });
-
-  it("gathers moments with no date under No date", () => {
-    const months = groupPlayHistoryEventsByMonth(
-      [
-        event({
-          eventId: "x",
-          eventTypeSlug: "journal_note",
-          timelineOrder: 1,
-        }),
-      ],
-      clock,
-    );
-
-    expect(groupPlayHistoryMonthsByYear(months)[0]?.label).toBe("No date");
   });
 });

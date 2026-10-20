@@ -32,8 +32,6 @@ export type PlayHistoryMonth = {
   entries: PlayHistoryEntry[];
   key: string;
   label: string;
-  /* Its year, for History's side index; null for moments with no date. */
-  year: string | null;
 };
 
 const storyEventTypes = new Set(["hall_of_fame", "story_milestone"]);
@@ -148,8 +146,7 @@ export const groupPlayHistoryEventsByMonth = (
   events: MainlinePlayTimelineEvent[],
   clock: ViewerClock,
 ): PlayHistoryMonth[] => {
-  const months: Array<Omit<PlayHistoryMonth, "year"> & { monthKey: string }> =
-    [];
+  const months: Array<PlayHistoryMonth & { monthKey: string }> = [];
 
   for (const event of events) {
     const date = formatPlayHistoryDate(event, clock);
@@ -167,38 +164,5 @@ export const groupPlayHistoryEventsByMonth = (
     }
   }
 
-  return months.map(({ entries, key, label, monthKey }) => ({
-    entries,
-    key,
-    label,
-    year: monthKey === "undated" ? null : monthKey.slice(0, 4),
-  }));
-};
-
-/* Where a month's mark sits on History's line, for its link in the index. */
-export const getPlayHistoryMonthAnchor = (
-  month: Pick<PlayHistoryMonth, "key">,
-) => `play-history-month-${month.key}`;
-
-/*
- * History's months under their years, in the list's own order (a year that
- * comes back after an older one opens a new group), for the side index.
- */
-export const groupPlayHistoryMonthsByYear = (
-  months: PlayHistoryMonth[],
-): { label: string; months: PlayHistoryMonth[] }[] => {
-  const groups: { label: string; months: PlayHistoryMonth[] }[] = [];
-
-  for (const month of months) {
-    const label = month.year ?? "No date";
-    const group = groups.at(-1);
-
-    if (group?.label === label) {
-      group.months.push(month);
-    } else {
-      groups.push({ label, months: [month] });
-    }
-  }
-
-  return groups;
+  return months.map(({ entries, key, label }) => ({ entries, key, label }));
 };

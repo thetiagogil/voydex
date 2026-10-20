@@ -31,7 +31,6 @@ import {
   type PlayHistoryFilter,
   type PlayHistorySort,
 } from "./data/play-history-model";
-import { PlayHistoryIndex } from "./sections/index/play-history-index";
 import { PlayHistoryMonthItems } from "./sections/timeline/play-history-month";
 import { PlayHistoryToolbar } from "./sections/timeline/play-history-toolbar";
 
@@ -168,24 +167,18 @@ export const MainlinePlayHistory = ({
 
       <div className="mt-5 grid min-w-0 gap-8">
         {months.length ? (
-          /*
-           * From 1024px the months index the line from the side, so the
-           * moments keep a readable width; narrower, the line is the page.
-           */
-          <div className="grid min-w-0 items-start gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10">
-            <PlayHistoryIndex context={context} months={months} />
-            <PlayTimeline label="Moments">
-              {sort === "oldest" ? start : null}
-              {months.map((month) => (
-                <PlayHistoryMonthItems
-                  key={month.key}
-                  context={context}
-                  month={month}
-                />
-              ))}
-              {sort === "newest" ? start : null}
-            </PlayTimeline>
-          </div>
+          /* From 1024px the line runs down the middle; narrower, down the left. */
+          <PlayTimeline label="Moments" layout="centered">
+            {sort === "oldest" ? start : null}
+            {months.map((month) => (
+              <PlayHistoryMonthItems
+                key={month.key}
+                context={context}
+                month={month}
+              />
+            ))}
+            {sort === "newest" ? start : null}
+          </PlayTimeline>
         ) : isSearching ? (
           <EmptyState
             title="No moments match"
@@ -213,7 +206,7 @@ export const MainlinePlayHistory = ({
               description="Milestones, team changes and notes you record are kept here, newest first."
               action={<AddNoteDialog playId={playId} />}
             />
-            <PlayTimeline label="Moments">
+            <PlayTimeline label="Moments" layout="centered">
               <PlayTimelineStart startedOn={data.play.started_on} />
             </PlayTimeline>
           </>
