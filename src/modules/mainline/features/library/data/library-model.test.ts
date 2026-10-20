@@ -11,41 +11,25 @@ import {
 } from "./library-model";
 
 describe("countLibraryUsage", () => {
-  it("counts each id's Play and Plan links", () => {
-    const usage = countLibraryUsage({
-      planIds: ["a"],
-      playIds: ["a", "a", "b"],
-    });
+  it("counts each id's Play links", () => {
+    const usage = countLibraryUsage(["a", "a", "b"]);
 
-    expect(usage("a")).toEqual({ planCount: 1, playCount: 2 });
-    expect(usage("b")).toEqual({ planCount: 0, playCount: 1 });
-    expect(usage("c")).toEqual({ planCount: 0, playCount: 0 });
+    expect(usage("a")).toEqual({ playCount: 2 });
+    expect(usage("c")).toEqual({ playCount: 0 });
   });
 });
 
 describe("getLibraryUsageLabel", () => {
-  it("names the Plays and Plans that use it", () => {
-    expect(getLibraryUsageLabel({ planCount: 1, playCount: 2 })).toBe(
-      "In 2 Plays · 1 Plan",
-    );
-    expect(getLibraryUsageLabel({ planCount: 3, playCount: 0 })).toBe(
-      "In 3 Plans",
-    );
-  });
-
-  it("says when nothing uses it", () => {
-    expect(getLibraryUsageLabel({ planCount: 0, playCount: 0 })).toBe(
-      "Not used yet",
-    );
+  it("names the Plays that use it, or says none do", () => {
+    expect(getLibraryUsageLabel({ playCount: 2 })).toBe("In 2 Plays");
+    expect(getLibraryUsageLabel({ playCount: 0 })).toBe("Not used yet");
   });
 });
 
 describe("getLibraryDeleteNote", () => {
   it("says what deleting leaves", () => {
-    expect(getLibraryDeleteNote({ planCount: 1, playCount: 1 })).toBe(
-      "It leaves 1 Play and 1 Plan.",
-    );
-    expect(getLibraryDeleteNote({ planCount: 0, playCount: 0 })).toBeNull();
+    expect(getLibraryDeleteNote({ playCount: 1 })).toBe("It leaves 1 Play.");
+    expect(getLibraryDeleteNote({ playCount: 0 })).toBeNull();
   });
 });
 
@@ -61,9 +45,9 @@ describe("filterAndSortLibrary", () => {
   const custom = { name: "Custom", slug: "custom" };
   const reuse = { name: "Pokémon Reuse", slug: "reuse" };
   const rules = [
-    { kind: custom, name: "No items", planCount: 0, playCount: 1 },
-    { kind: reuse, name: "Dupes clause", planCount: 2, playCount: 3 },
-    { kind: custom, name: "Level caps", planCount: 0, playCount: 0 },
+    { kind: custom, name: "No items", playCount: 1 },
+    { kind: reuse, name: "Dupes clause", playCount: 5 },
+    { kind: custom, name: "Level caps", playCount: 0 },
   ];
 
   it("orders by name, or by use with name breaking ties", () => {

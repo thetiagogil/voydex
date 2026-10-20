@@ -24,7 +24,6 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { selectTriggerVariants } from "@/shared/components/ui/select";
-import { Badge } from "@/shared/components/ui/badge";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
@@ -46,15 +45,13 @@ type PlannerTopSectionProps = {
   /* An edit on a locked Plan: ask to unlock, then carry on with `resume`. */
   onLockedEdit: (resume: () => void) => void;
   name: string;
-  /* Opens the saved Plan's details: its name and rules. */
-  onEditDetails: () => void;
+  /* Opens the saved Plan's Rename. */
+  onRename: () => void;
   onSave: () => void;
   onShare: () => void;
   onVersionGroupChange: (slug: string) => void;
   planCount: number;
-  /* The saved Plan's rules, shown under its name. */
-  ruleNames: string[];
-  /* A saved Plan, for its actions menu (Edit details, Archive, Delete). */
+  /* A saved Plan, for its actions menu (Rename, Archive, Delete). */
   savedPlan: PlanActionsPlan | null;
   versionGroup: PlannerVersionGroup;
   versionGroups: PlannerVersionGroupOption[];
@@ -62,11 +59,11 @@ type PlannerTopSectionProps = {
 
 /*
  * The head of the Planner's band (v3 `.pl-top`): a saved Plan's name on its
- * own line (tap for its details) with its rules under it, then one row with the version group it is for (its
+ * own line (tap to rename), then one row with the version group it is for (its
  * covers; a menu of every base group; the expansions it includes under its
  * name), and My Plans, the page's main button, Save, and the "⋯" (Share,
- * and for a saved Plan See Plays, Edit details, Archive, Delete) at the end.
- * A new Plan has no name yet: Save Plan asks for it with its rules.
+ * and for a saved Plan See Plays, Rename, Archive, Delete) at the end. A
+ * new Plan has no name yet: Save Plan asks for it.
  */
 export const PlannerTopSection = ({
   canArchive,
@@ -79,12 +76,11 @@ export const PlannerTopSection = ({
   isSaving,
   isSwitching,
   name,
-  onEditDetails,
+  onRename,
   onSave,
   onShare,
   onVersionGroupChange,
   planCount,
-  ruleNames,
   savedPlan,
   versionGroup,
   versionGroups,
@@ -136,40 +132,23 @@ export const PlannerTopSection = ({
     <div className="flex flex-col gap-5 pt-4 sm:pt-7">
       <div className="flex min-w-0 flex-col gap-1.5">
         {savedPlan ? (
-          <>
-            <h1 className="min-w-0">
-              <button
-                type="button"
-                onClick={onEditDetails}
-                className="group/title title-page focus-ring inline-flex max-w-full items-center gap-2 rounded-xs text-left"
-              >
-                <span className="descender-room line-clamp-2 text-balance wrap-anywhere">
-                  {name.trim() || untitledPlanName}
-                </span>
-                <AppIcon
-                  icon={appIcons.actions.edit}
-                  size="lg"
-                  className="text-ink-tint group-hover/title:text-ink shrink-0 transition-opacity group-focus-visible/title:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/title:opacity-100"
-                />
-                <span className="sr-only">Edit details</span>
-              </button>
-            </h1>
-            {ruleNames.length ? (
-              <ul
-                aria-label="Challenge rules"
-                className="flex flex-wrap gap-1.5"
-              >
-                {ruleNames.map((ruleName) => (
-                  <li key={ruleName}>
-                    <Badge variant="paper" size="md">
-                      <AppIcon icon={appIcons.product.rule} />
-                      {ruleName}
-                    </Badge>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </>
+          <h1 className="min-w-0">
+            <button
+              type="button"
+              onClick={onRename}
+              className="group/title title-page focus-ring inline-flex max-w-full items-center gap-2 rounded-xs text-left"
+            >
+              <span className="descender-room line-clamp-2 text-balance wrap-anywhere">
+                {name.trim() || untitledPlanName}
+              </span>
+              <AppIcon
+                icon={appIcons.actions.edit}
+                size="lg"
+                className="text-ink-tint group-hover/title:text-ink shrink-0 transition-opacity group-focus-visible/title:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/title:opacity-100"
+              />
+              <span className="sr-only">Rename</span>
+            </button>
+          </h1>
         ) : (
           /* A new Plan gets its name when it's saved. */
           <h1 className="sr-only">New Plan</h1>
@@ -239,7 +218,7 @@ export const PlannerTopSection = ({
             <PlanActionsMenu
               placement="planner"
               plan={savedPlan}
-              onEditDetails={onEditDetails}
+              onRename={onRename}
               onShare={onShare}
               archiveBlockedReason={
                 canArchive ? undefined : "Save or undo your changes first"

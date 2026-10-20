@@ -39,8 +39,8 @@ const toSearchText = (text: string) =>
 const newItemId = "new";
 
 /*
- * The rules or tags a Play or Plan keeps, as chips (the corner × takes one
- * off this Play or Plan only), then "+ Add": a picker of the rest of your
+ * The rules or tags a Play keeps, as chips (the corner × takes one off this
+ * Play only), then "+ Add": a picker of the rest of your
  * Library with a search. A name nothing has yet offers Create, which makes
  * it in your Library and adds it here; the foot links to the Library, where
  * names are fixed and deleted for good.

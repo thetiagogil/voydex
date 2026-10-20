@@ -43,8 +43,8 @@ import {
   PlannerPoolSection,
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
-import { PlanDetailsDialog } from "@/modules/mainline/features/plans/components/plan-details-dialog";
-import { savePlanDetailsAction } from "@/modules/mainline/features/plans/server/plan-details-action";
+import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
+import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
 import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
@@ -395,8 +395,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
                 }
               : null
           }
-          ruleNames={plan?.ruleNames ?? []}
-          onEditDetails={() => setIsDetailsOpen(true)}
+          onRename={() => setIsDetailsOpen(true)}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
           isSwitching={isSwitching}
@@ -526,38 +525,35 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         versionGroup={context.versionGroup}
       />
 
-      <PlanDetailsDialog
-        open={isDetailsOpen}
-        onOpenChange={setIsDetailsOpen}
-        planId={plan?.id ?? null}
-        title={plan ? "Plan details" : "Save Plan"}
-        description={
-          plan
-            ? undefined
-            : `Name your ${context.versionGroup.name} Plan. Rules are optional.`
-        }
-        submitLabel={plan ? "Save" : "Save Plan"}
-        onSubmit={async (draft) => {
-          if (!plan) {
-            setName(draft.name);
-
-            return saveAs(draft);
+      {isDetailsOpen ? (
+        <PlanNameDialog
+          open
+          onOpenChange={setIsDetailsOpen}
+          initialName={plan ? name : ""}
+          title={plan ? "Rename Plan" : "Save Plan"}
+          description={
+            plan ? undefined : `Name your ${context.versionGroup.name} Plan.`
           }
+          submitLabel={plan ? "Rename" : "Save Plan"}
+          onSubmit={async (planName) => {
+            if (!plan) {
+              setName(planName);
 
-          const result = await savePlanDetailsAction({
-            ...draft,
-            planId: plan.id,
-          });
+              return saveAs({ name: planName });
+            }
 
-          if (result.status === "error") return result.message;
+            const result = await renamePlanAction(plan.id, planName);
 
-          setName(result.name);
-          toast.success(`${result.name} saved`);
-          router.refresh();
+            if (result.status === "error") return result.message;
 
-          return null;
-        }}
-      />
+            setName(result.name);
+            toast.success(`Renamed to ${result.name}`);
+            router.refresh();
+
+            return null;
+          }}
+        />
+      ) : null}
 
       <PlannerUnlockDialog
         followerCount={followerCount}

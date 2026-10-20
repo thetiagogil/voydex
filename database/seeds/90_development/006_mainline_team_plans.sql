@@ -127,12 +127,3 @@ SELECT
 FROM gameplay.mainline_plays
 WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;
 
-INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
-SELECT
-  md5('voydex-fixture:plan:' || mainline_plays.version_group_id)::uuid,
-  play_rules.challenge_rule_id,
-  play_rules.config_override
-FROM
-  gameplay.mainline_play_challenge_rules AS play_rules
-  JOIN gameplay.mainline_plays ON mainline_plays.id = play_rules.play_id
-WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;

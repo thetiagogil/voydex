@@ -87,10 +87,6 @@ export const TeamPlanFollowMenu = ({
                 <span className="text-ink-3 text-12 font-semibold">
                   {plan.memberCount}{" "}
                   {plan.memberCount === 1 ? "target" : "targets"}
-                  {/* Following copies these into the Play's rules. */}
-                  {plan.ruleNames.length
-                    ? ` · Brings ${plan.ruleNames.join(", ")}`
-                    : ""}
                 </span>
               </span>
             </DropdownMenuItem>

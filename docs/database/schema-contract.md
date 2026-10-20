@@ -10,7 +10,7 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   creates `public.user_preferences`.
 - `public.tags` are user-owned, reusable, and attached through typed gameplay
   and planning join tables.
-- Global Pokémon reuse preferences are defaults. Play and plan rules may apply
+- Global Pokémon reuse preferences are defaults. A Play's rules may apply
   more specific behavior.
 
 ## Reference And Tracking
@@ -123,14 +123,10 @@ Use reviewed security-invoker functions for atomic workflows:
   correction.
 - `gameplay.set_mainline_play_collectible_entry_progress`.
 - `gameplay.set_mainline_play_pokedex_species_progress`.
-- `planning.link_mainline_team_plan_to_play` links a Play to a Plan (moving
-  an existing link when asked) and copies the Plan's rules the Play lacks,
-  returning the ones it added; plus plan-member realization helpers.
-- `planning.update_mainline_team_plan_details` saves a Plan's name and rules
-  together, never its team; it refuses an archived Plan.
+- `planning.link_mainline_team_plan_to_play` links a Play to a Plan, moving
+  an existing link when asked; plus plan-member realization helpers.
 - `planning.save_mainline_team_plan` creates (no Plan id) or rewrites a Plan's
-  row, ordered members, planned move slots, expansions and, when given, its
-  rules in one transaction.
+  row, ordered members, planned move slots and expansions in one transaction.
   It keeps the stored game while the version group is unchanged, otherwise
   stores the group's first game, and refuses a game change while a Play
   follows the Plan. Build validation against reference data stays with the

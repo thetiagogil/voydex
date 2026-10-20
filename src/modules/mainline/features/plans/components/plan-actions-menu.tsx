@@ -7,11 +7,11 @@ import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import { PlanFollowersList } from "@/modules/mainline/features/plans/components/plan-followers-list";
-import { PlanDetailsDialog } from "@/modules/mainline/features/plans/components/plan-details-dialog";
+import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
 import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
-import { savePlanDetailsAction } from "@/modules/mainline/features/plans/server/plan-details-action";
+import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
 import type { PlanFollower } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
@@ -58,31 +58,30 @@ type PlanActionsMenuProps = {
   placement: "card" | "planner";
   plan: PlanActionsPlan;
   /*
-   * Opens the Plan's details where the caller keeps them (the Planner, whose
-   * title opens them too); without it Edit details opens its own dialog.
+   * Renames where the caller keeps the name (the Planner, whose title opens
+   * it too); without it Rename opens its own dialog.
    */
-  onEditDetails?: () => void;
+  onRename?: () => void;
   /* Share, in the Planner: a link to the team, beside See Plays. */
   onShare?: () => void;
 };
 
 /*
  * One Plan's actions behind one button, grouped by what they do: New Plan
- * (in the Planner), See Plays and Share to go and look; Edit details (its
- * name and rules) and Archive (or Restore, for an archived Plan, which
+ * (in the Planner), See Plays and Share to go and look; Rename and Archive (or Restore, for an archived Plan, which
  * can't be changed) to change it; and Delete, which asks first and says
  * what goes with it. Deleting from the Planner goes back to My Plans.
  */
 export const PlanActionsMenu = ({
   archiveBlockedReason,
   className,
-  onEditDetails,
+  onRename,
   onShare,
   placement,
   plan,
 }: PlanActionsMenuProps) => {
   const router = useRouter();
-  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
@@ -184,12 +183,10 @@ export const PlanActionsMenu = ({
           ) : null}
           {plan.isArchived ? null : (
             <DropdownMenuItem
-              onClick={() =>
-                onEditDetails ? onEditDetails() : setIsDetailsOpen(true)
-              }
+              onClick={() => (onRename ? onRename() : setIsRenameOpen(true))}
             >
               <AppIcon icon={appIcons.actions.edit} />
-              Edit details
+              Rename
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
@@ -220,27 +217,25 @@ export const PlanActionsMenu = ({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <PlanDetailsDialog
-        open={isDetailsOpen}
-        onOpenChange={setIsDetailsOpen}
-        planId={plan.id}
-        title="Plan details"
-        submitLabel="Save"
-        onSubmit={async ({ name, ruleIds }) => {
-          const result = await savePlanDetailsAction({
-            name,
-            planId: plan.id,
-            ruleIds,
-          });
+      {isRenameOpen ? (
+        <PlanNameDialog
+          open
+          onOpenChange={setIsRenameOpen}
+          initialName={plan.name}
+          title="Rename Plan"
+          submitLabel="Rename"
+          onSubmit={async (name) => {
+            const result = await renamePlanAction(plan.id, name);
 
-          if (result.status === "error") return result.message;
+            if (result.status === "error") return result.message;
 
-          toast.success(`${result.name} saved`);
-          router.refresh();
+            toast.success(`Renamed to ${result.name}`);
+            router.refresh();
 
-          return null;
-        }}
-      />
+            return null;
+          }}
+        />
+      ) : null}
 
       <Dialog open={isPlaysOpen} onOpenChange={setIsPlaysOpen}>
         <DialogContent className="sm:max-w-lg">

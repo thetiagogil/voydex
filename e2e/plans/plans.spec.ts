@@ -1,32 +1,11 @@
-import { expect, type Locator, type Page, test } from "@playwright/test";
+import { expect, type Page, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { forTheAnswer, waitForAction } from "../support/actions";
 import { openSearchBar } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
-/* Adds a new rule through a rules picker by typing its name. */
-const createRule = async (page: Page, scope: Locator, ruleName: string) => {
-  await scope.getByRole("combobox", { name: "Add rule" }).click();
-  await page
-    .getByRole("combobox", { name: "Search or name a new rule" })
-    .fill(ruleName);
-  const created = waitForAction(page);
-  await page.getByRole("option", { name: `Create “${ruleName}”` }).click();
-  await created;
-  await expect(scope.getByText(ruleName, { exact: true })).toBeVisible();
-};
-
-/*
- * Saves a Red / Blue Plan through the Team Planner, its name (and any new
- * rules) given in Save Plan's details; returns its id.
- */
-const savePlan = async (
-  page: Page,
-  name: string,
-  members: string[],
-  rules: string[] = [],
-) => {
+/* Saves a Red / Blue Plan through the Team Planner, named in Save Plan; returns its id. */
+const savePlan = async (page: Page, name: string, members: string[]) => {
   await page.goto("/mainline/plans/new?vg=rb");
 
   /* The list draws in batches as you scroll, so search for each one. */
@@ -49,9 +28,6 @@ const savePlan = async (
   await page.getByRole("button", { name: "Save Plan" }).click();
   const details = page.getByRole("dialog", { name: "Save Plan" });
   await details.getByRole("textbox", { name: "Plan name" }).fill(name);
-  for (const rule of rules) {
-    await createRule(page, details, rule);
-  }
   await details.getByRole("button", { name: "Save Plan" }).click();
   await page.waitForURL(/\/mainline\/plans\/[0-9a-f-]{36}/);
 
@@ -238,65 +214,23 @@ test.describe("Team Planner", () => {
     await expect(card).toBeVisible();
   });
 
-  test("edits a Plan's name and rules from My Plans, without unlocking", async ({
-    page,
-  }) => {
+  test("renames a Plan from My Plans, followed or not", async ({ page }) => {
     const name = uniquePlayName("Old name");
     const renamed = uniquePlayName("New name");
-    const rule = uniquePlayName("Mono water");
     await savePlan(page, name, ["Squirtle"]);
 
     await page.goto("/mainline/plans", { waitUntil: "networkidle" });
     await page.getByRole("button", { name: `${name}: more actions` }).click();
-    await page.getByRole("menuitem", { name: "Edit details" }).click();
-    const dialog = page.getByRole("dialog", { name: "Plan details" });
+    await page.getByRole("menuitem", { name: "Rename" }).click();
+    const dialog = page.getByRole("dialog", { name: "Rename Plan" });
     await dialog.getByRole("textbox", { name: "Plan name" }).fill(renamed);
-    await createRule(page, dialog, rule);
     await expectAccessible(page);
+    await dialog.getByRole("button", { name: "Rename" }).click();
 
-    /* Nothing is kept until Save. */
-    const saved = waitForAction(page);
-    await dialog.getByRole("button", { name: "Save" }).click();
-    await saved;
     await expect(dialog).toBeHidden();
     await page.getByRole("link", { name: new RegExp(renamed) }).click();
-
     await expect(
       page.getByRole("heading", { level: 1, name: new RegExp(renamed) }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("list", { name: "Challenge rules" }).getByText(rule),
-    ).toBeVisible();
-  });
-
-  test("following a Plan copies its rules into the Play", async ({ page }) => {
-    const planName = uniquePlayName("Rules plan");
-    const rule = uniquePlayName("Level caps");
-    await savePlan(page, planName, ["Charizard"], [rule]);
-
-    const playId = await startPlay(page, {
-      game: "Pokémon Red, 1996",
-      name: uniquePlayName("Rules run"),
-      partner: null,
-    });
-    await page.goto(`/mainline/plays/${playId}/team/plan`);
-    await page.getByRole("button", { name: "Follow a Plan" }).click();
-    const option = page
-      .getByRole("menu", { name: "Follow a Plan" })
-      .getByRole("menuitem", { name: new RegExp(planName) });
-    await expect(option).toContainText(`Brings ${rule}`);
-    const followed = waitForAction(page);
-    await option.click();
-    await followed;
-    await expect(
-      page.getByText(`Added ${rule} to this Play's rules`),
-    ).toBeVisible(forTheAnswer);
-
-    await page.goto(`/mainline/plays/${playId}/settings`);
-    await expect(
-      page
-        .getByRole("region", { name: "Challenge rules" })
-        .getByText(rule, { exact: true }),
     ).toBeVisible();
   });
 

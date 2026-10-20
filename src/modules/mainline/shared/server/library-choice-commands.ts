@@ -52,8 +52,8 @@ const writeWithSlug = async (
 };
 
 /*
- * A challenge rule of your own, kept with Voydex's for all your Plays and
- * Plans: of the kind given, or Custom. A name you can already pick (yours or
+ * A challenge rule of your own, kept with Voydex's for all your Plays: of
+ * the kind given, or Custom. A name you can already pick (yours or
  * Voydex's) returns that rule instead, so the chips never repeat.
  */
 export const findOrCreateChallengeRule = async (
@@ -168,7 +168,7 @@ const assertOwnRow = (
 
 /*
  * Renames one of your rules (and sets its kind, when given), so the fix
- * shows in every Play and Plan that keeps it. A name another rule you can
+ * shows in every Play that keeps it. A name another rule you can
  * pick already has is refused, so the chips never repeat. Voydex's own
  * rules aren't yours to rename.
  */
@@ -224,7 +224,7 @@ export const renameChallengeRule = async (
   return rule;
 };
 
-/* Deletes one of your rules for good; every Play and Plan lets it go. */
+/* Deletes one of your rules for good; every Play lets it go. */
 export const deleteChallengeRule = async (
   supabase: ServerSupabaseClient,
   { id, userId }: { id: string; userId: string },
@@ -241,7 +241,7 @@ export const deleteChallengeRule = async (
 };
 
 /*
- * Renames one of your tags, so the fix shows on every Play and Plan that
+ * Renames one of your tags, so the fix shows on every Play that
  * wears it. A name another of your tags has is refused.
  */
 export const renameTag = async (
@@ -286,7 +286,7 @@ export const renameTag = async (
   return tag;
 };
 
-/* Deletes one of your tags for good; every Play and Plan lets it go. */
+/* Deletes one of your tags for good; every Play lets it go. */
 export const deleteTag = async (
   supabase: ServerSupabaseClient,
   { id, userId }: { id: string; userId: string },

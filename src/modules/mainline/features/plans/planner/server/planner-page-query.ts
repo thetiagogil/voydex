@@ -37,63 +37,36 @@ const readSavedPlan = async (
     return null;
   }
 
-  const [summaryResult, membersResult, scopesResult, rulesResult] =
-    await Promise.all([
-      supabase
-        .schema("views")
-        .from("mainline_team_plan_summary")
-        .select(
-          "linked_play_count, status_slug, team_plan_id, team_plan_name, updated_at, version_group_slug",
-        )
-        .eq("team_plan_id", planId)
-        .eq("user_id", userId)
-        .maybeSingle(),
-      supabase
-        .schema("views")
-        .from("mainline_team_plan_detail")
-        .select(
-          "ability_id, gender, held_item_id, moves, nature_id, notes, slot, target_form_id, target_species_id",
-        )
-        .eq("team_plan_id", planId)
-        .order("slot"),
-      supabase
-        .schema("planning")
-        .from("mainline_team_plan_optional_content_scopes")
-        .select("version_group_id")
-        .eq("team_plan_id", planId),
-      supabase
-        .schema("planning")
-        .from("mainline_team_plan_challenge_rules")
-        .select("challenge_rule_id")
-        .eq("team_plan_id", planId),
-    ]);
+  const [summaryResult, membersResult, scopesResult] = await Promise.all([
+    supabase
+      .schema("views")
+      .from("mainline_team_plan_summary")
+      .select(
+        "linked_play_count, status_slug, team_plan_id, team_plan_name, updated_at, version_group_slug",
+      )
+      .eq("team_plan_id", planId)
+      .eq("user_id", userId)
+      .maybeSingle(),
+    supabase
+      .schema("views")
+      .from("mainline_team_plan_detail")
+      .select(
+        "ability_id, gender, held_item_id, moves, nature_id, notes, slot, target_form_id, target_species_id",
+      )
+      .eq("team_plan_id", planId)
+      .order("slot"),
+    supabase
+      .schema("planning")
+      .from("mainline_team_plan_optional_content_scopes")
+      .select("version_group_id")
+      .eq("team_plan_id", planId),
+  ]);
 
-  if (
-    summaryResult.error ||
-    membersResult.error ||
-    scopesResult.error ||
-    rulesResult.error
-  ) {
+  if (summaryResult.error || membersResult.error || scopesResult.error) {
     throw new Error("Unable to load this Plan.");
   }
 
   const summary = summaryResult.data;
-  const ruleIds = (rulesResult.data ?? []).map(
-    (link) => link.challenge_rule_id,
-  );
-  /* The rules live in gameplay, so their names are a second read. */
-  const ruleNamesResult = ruleIds.length
-    ? await supabase
-        .schema("gameplay")
-        .from("mainline_challenge_rules")
-        .select("name")
-        .in("id", ruleIds)
-        .order("name", { ascending: true })
-    : null;
-
-  if (ruleNamesResult?.error) {
-    throw new Error("Unable to load this Plan.");
-  }
 
   if (!summary?.team_plan_id || !summary.version_group_slug) {
     return null;
@@ -125,7 +98,6 @@ const readSavedPlan = async (
         : [],
     ),
     name: summary.team_plan_name ?? "Untitled Plan",
-    ruleNames: (ruleNamesResult?.data ?? []).map((rule) => rule.name),
     statusSlug: summary.status_slug,
     updatedAt: summary.updated_at,
     versionGroupSlug: summary.version_group_slug,

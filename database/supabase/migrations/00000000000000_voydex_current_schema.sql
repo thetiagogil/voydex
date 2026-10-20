@@ -7206,90 +7206,6 @@ COMMENT ON COLUMN planning.mainline_play_plan_links.version_group_id IS 'Duplica
 COMMENT ON COLUMN planning.mainline_play_plan_links.created_from_plan IS 'True when the play was originally created from the linked plan.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/007_mainline_team_plan_challenge_rules.sql
--- ============================================================================
--- ============================================================================
--- Table: planning.mainline_team_plan_challenge_rules
--- Challenge/rule links attached to team plans.
--- ============================================================================
-CREATE TABLE planning.mainline_team_plan_challenge_rules (
-    team_plan_id uuid NOT NULL REFERENCES planning.mainline_team_plans (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    config_override jsonb,
-    created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT team_plan_challenge_rules_primary_key PRIMARY KEY (team_plan_id, challenge_rule_id),
-    CONSTRAINT team_plan_challenge_rules_config_override_object_check CHECK (config_override IS NULL OR jsonb_typeof(config_override) = 'object')
-);
-
-CREATE INDEX team_plan_challenge_rules_challenge_rule_idx ON planning.mainline_team_plan_challenge_rules (challenge_rule_id);
-
-COMMENT ON TABLE planning.mainline_team_plan_challenge_rules IS 'Rules applied to a team plan, with optional structured override config.';
-
-CREATE FUNCTION private.enforce_team_plan_challenge_rule_scope ()
-    RETURNS TRIGGER
-    LANGUAGE plpgsql
-    SECURITY DEFINER
-    SET search_path = ''
-    AS $$
-DECLARE
-    plan_user_id uuid;
-    rule_user_id uuid;
-BEGIN
-    SELECT
-        mainline_team_plans.user_id
-    INTO
-        plan_user_id
-    FROM
-        planning.mainline_team_plans
-    WHERE
-        mainline_team_plans.id = NEW.team_plan_id;
-    SELECT
-        mainline_challenge_rules.user_id
-    INTO
-        rule_user_id
-    FROM
-        gameplay.mainline_challenge_rules
-    WHERE
-        mainline_challenge_rules.id = NEW.challenge_rule_id;
-    IF plan_user_id IS NULL THEN
-        RAISE EXCEPTION 'Unknown team_plan_id %', NEW.team_plan_id
-            USING ERRCODE = '23503';
-    END IF;
-    IF NOT EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_challenge_rules
-        WHERE
-            mainline_challenge_rules.id = NEW.challenge_rule_id) THEN
-    RAISE EXCEPTION 'Unknown challenge_rule_id %', NEW.challenge_rule_id
-        USING ERRCODE = '23503';
-END IF;
-    IF rule_user_id IS NOT NULL AND rule_user_id <> plan_user_id THEN
-        RAISE EXCEPTION 'Challenge rule % does not belong to the owner of team plan %', NEW.challenge_rule_id, NEW.team_plan_id
-            USING ERRCODE = '23514';
-    END IF;
-    RETURN NEW;
-END;
-$$;
-
-REVOKE ALL ON FUNCTION private.enforce_team_plan_challenge_rule_scope () FROM PUBLIC;
-
-REVOKE ALL ON FUNCTION private.enforce_team_plan_challenge_rule_scope () FROM anon;
-
-REVOKE ALL ON FUNCTION private.enforce_team_plan_challenge_rule_scope () FROM authenticated;
-
-GRANT EXECUTE ON FUNCTION private.enforce_team_plan_challenge_rule_scope () TO service_role;
-
-CREATE TRIGGER enforce_team_plan_challenge_rule_scope
-    BEFORE INSERT OR UPDATE OF team_plan_id,
-    challenge_rule_id ON planning.mainline_team_plan_challenge_rules
-    FOR EACH ROW
-    EXECUTE FUNCTION private.enforce_team_plan_challenge_rule_scope ();
-
-COMMENT ON FUNCTION private.enforce_team_plan_challenge_rule_scope () IS 'Allows predefined challenge rules for any plan and custom challenge rules only for plans owned by the same user.';
-
--- ============================================================================
 -- Source: database/schema/05_planning/02_functions/001_mainline_team_plan_play_mutations.sql
 -- ============================================================================
 -- ============================================================================
@@ -7298,8 +7214,7 @@ COMMENT ON FUNCTION private.enforce_team_plan_challenge_rule_scope () IS 'Allows
 -- ============================================================================
 CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE, p_replace_existing boolean DEFAULT FALSE)
     RETURNS TABLE (
-        result_play_plan_link_id uuid,
-        result_added_rule_ids uuid[])
+        result_play_plan_link_id uuid)
     LANGUAGE plpgsql
     SECURITY INVOKER
     SET search_path = ''
@@ -7309,8 +7224,6 @@ DECLARE
     v_team_plan planning.mainline_team_plans%ROWTYPE;
     v_existing_play_plan_link planning.mainline_play_plan_links%ROWTYPE;
     v_play_plan_link_id uuid;
-    v_is_new_plan boolean := TRUE;
-    v_added_rule_ids uuid[] := '{}'::uuid[];
 BEGIN
     IF p_play_id IS NULL THEN
         RAISE EXCEPTION 'play_id is required'
@@ -7384,7 +7297,6 @@ BEGIN
         INTO
             v_play_plan_link_id;
     ELSE
-        v_is_new_plan := FALSE;
         UPDATE
             planning.mainline_play_plan_links
         SET
@@ -7397,36 +7309,9 @@ BEGIN
         INTO
             v_play_plan_link_id;
     END IF;
-    -- A Play that starts following a Plan gets a snapshot of its rules: the
-    -- ones it lacks are added, and the Play can remove them later.
-    IF v_is_new_plan THEN
-        WITH added AS (
-INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
-            SELECT
-                v_play.id,
-                mainline_team_plan_challenge_rules.challenge_rule_id,
-                mainline_team_plan_challenge_rules.config_override
-            FROM
-                planning.mainline_team_plan_challenge_rules
-            WHERE
-                mainline_team_plan_challenge_rules.team_plan_id = v_team_plan.id
-            ON CONFLICT (play_id,
-                challenge_rule_id)
-                DO NOTHING
-            RETURNING
-                challenge_rule_id
-)
-        SELECT
-            COALESCE(array_agg(added.challenge_rule_id), '{}'::uuid[])
-        INTO
-            v_added_rule_ids
-        FROM
-            added;
-    END IF;
     RETURN QUERY
     SELECT
-        v_play_plan_link_id,
-        v_added_rule_ids;
+        v_play_plan_link_id;
 END;
 $$;
 
@@ -7518,15 +7403,6 @@ BEGIN
             WHERE
                 mainline_team_plan_member_moves.team_plan_member_id = v_source_member.id;
         END LOOP;
-    INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
-    SELECT
-        v_new_plan_id,
-        mainline_team_plan_challenge_rules.challenge_rule_id,
-        mainline_team_plan_challenge_rules.config_override
-    FROM
-        planning.mainline_team_plan_challenge_rules
-    WHERE
-        mainline_team_plan_challenge_rules.team_plan_id = v_source_plan.id;
     UPDATE
         planning.mainline_play_plan_links
     SET
@@ -7554,7 +7430,7 @@ REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) F
 
 GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan (moving an existing link when asked) and copies the Plan''s rules the Play lacks into it. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
+COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan, moving an existing link when asked. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
 
 COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER so planning RLS applies.';
 
@@ -7563,10 +7439,9 @@ COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS '
 -- ============================================================================
 -- ============================================================================
 -- Functions: planning mainline team plan save mutations
--- Client-callable helpers that write a whole Plan, or its details, in one
--- transaction.
+-- Client-callable helper that writes a whole Plan in one transaction.
 -- ============================================================================
-CREATE FUNCTION planning.save_mainline_team_plan (p_version_group_id integer, p_name text, p_members jsonb DEFAULT '[]'::jsonb, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_team_plan_id uuid DEFAULT NULL, p_game_id integer DEFAULT NULL, p_challenge_rule_ids uuid[] DEFAULT NULL)
+CREATE FUNCTION planning.save_mainline_team_plan (p_version_group_id integer, p_name text, p_members jsonb DEFAULT '[]'::jsonb, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_team_plan_id uuid DEFAULT NULL, p_game_id integer DEFAULT NULL)
     RETURNS TABLE (
         result_team_plan_id uuid,
         result_created boolean)
@@ -7829,11 +7704,6 @@ SELECT
     expansion_ids.version_group_id
 FROM
     UNNEST(v_expansion_ids) AS expansion_ids (version_group_id);
-    -- Rules are rewritten only when given; a save of the team alone keeps them.
-    IF p_challenge_rule_ids IS NOT NULL THEN
-        PERFORM
-            planning.update_mainline_team_plan_details (v_plan_id, p_name, p_challenge_rule_ids);
-    END IF;
     RETURN QUERY
     SELECT
         v_plan_id,
@@ -7841,89 +7711,13 @@ FROM
 END;
 $$;
 
-REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) FROM anon;
+REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER, UUID[]) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, expansions, and its rules when given. Refuses a game change while a Play follows the Plan. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';
-
--- A Plan's details, its name and rules, saved together. They never touch
--- the team, so a Plan Plays follow can change them without unlocking; an
--- archived Plan is restored first.
-CREATE FUNCTION planning.update_mainline_team_plan_details (p_team_plan_id uuid, p_name text, p_challenge_rule_ids uuid[] DEFAULT '{}'::uuid[])
-    RETURNS void
-    LANGUAGE plpgsql
-    SECURITY INVOKER
-    SET search_path = ''
-    AS $$
-DECLARE
-    v_plan planning.mainline_team_plans%ROWTYPE;
-BEGIN
-    IF auth.uid () IS NULL THEN
-        RAISE EXCEPTION 'An authenticated user is required to change a Plan'
-            USING ERRCODE = '42501';
-    END IF;
-    p_name := NULLIF (BTRIM(p_name), '');
-    IF p_name IS NULL THEN
-        RAISE EXCEPTION 'name is required'
-            USING ERRCODE = '23502';
-    END IF;
-    SELECT
-        mainline_team_plans.*
-    INTO
-        v_plan
-    FROM
-        planning.mainline_team_plans
-    WHERE
-        mainline_team_plans.id = p_team_plan_id
-    FOR UPDATE;
-    IF v_plan.id IS NULL THEN
-        RAISE EXCEPTION 'Unknown or unavailable team_plan_id %', p_team_plan_id
-            USING ERRCODE = '23503';
-    END IF;
-    IF v_plan.status_id = (
-        SELECT
-            mainline_team_plan_statuses.id
-        FROM
-            planning.mainline_team_plan_statuses
-        WHERE
-            mainline_team_plan_statuses.slug = 'archived') THEN
-        RAISE EXCEPTION 'Restore this Plan to change it'
-            USING ERRCODE = '55000';
-    END IF;
-    UPDATE
-        planning.mainline_team_plans
-    SET
-        name = p_name
-    WHERE
-        mainline_team_plans.id = v_plan.id;
-    -- The rules become exactly the ones given.
-    DELETE FROM planning.mainline_team_plan_challenge_rules
-    WHERE mainline_team_plan_challenge_rules.team_plan_id = v_plan.id
-        AND NOT (mainline_team_plan_challenge_rules.challenge_rule_id = ANY (COALESCE(p_challenge_rule_ids, '{}'::uuid[])));
-    INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id)
-    SELECT DISTINCT
-        v_plan.id,
-        rule_ids.challenge_rule_id
-    FROM
-        UNNEST(COALESCE(p_challenge_rule_ids, '{}'::uuid[])) AS rule_ids (challenge_rule_id)
-        WHERE
-            rule_ids.challenge_rule_id IS NOT NULL
-        ON CONFLICT (team_plan_id,
-            challenge_rule_id)
-            DO NOTHING;
-END;
-$$;
-
-REVOKE ALL ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) FROM PUBLIC;
-
-REVOKE ALL ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) FROM anon;
-
-GRANT EXECUTE ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) TO authenticated, service_role;
-
-COMMENT ON FUNCTION planning.update_mainline_team_plan_details (UUID, TEXT, UUID[]) IS 'Saves a Plan''s name and rules together, without touching its team; refuses an archived Plan. Runs as SECURITY INVOKER so planning RLS applies.';
+COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, and expansions. Refuses a game change while a Play follows the Plan. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';
 
 -- ============================================================================
 -- Source: database/schema/05_planning/03_policies/001_rls_and_grants.sql
@@ -7943,8 +7737,6 @@ ALTER TABLE planning.mainline_team_plan_member_moves ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_play_plan_links ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE planning.mainline_team_plan_challenge_rules ENABLE ROW LEVEL SECURITY;
-
 REVOKE ALL ON TABLE planning.mainline_team_plan_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plans FROM anon, authenticated;
@@ -7956,8 +7748,6 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_members FROM anon, authenticated
 REVOKE ALL ON TABLE planning.mainline_team_plan_member_moves FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_play_plan_links FROM anon, authenticated;
-
-REVOKE ALL ON TABLE planning.mainline_team_plan_challenge_rules FROM anon, authenticated;
 
 GRANT SELECT ON TABLE planning.mainline_team_plan_statuses TO authenticated;
 
@@ -7971,8 +7761,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_member
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_play_plan_links TO authenticated;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_challenge_rules TO authenticated;
-
 GRANT ALL ON TABLE planning.mainline_team_plan_statuses TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plans TO service_role;
@@ -7984,8 +7772,6 @@ GRANT ALL ON TABLE planning.mainline_team_plan_members TO service_role;
 GRANT ALL ON TABLE planning.mainline_team_plan_member_moves TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_play_plan_links TO service_role;
-
-GRANT ALL ON TABLE planning.mainline_team_plan_challenge_rules TO service_role;
 
 CREATE POLICY team_plan_statuses_read_all ON planning.mainline_team_plan_statuses
     FOR SELECT TO authenticated
@@ -8082,25 +7868,6 @@ CREATE POLICY team_plan_member_moves_owned ON planning.mainline_team_plan_member
             JOIN planning.mainline_team_plans ON mainline_team_plans.id = mainline_team_plan_members.team_plan_id
         WHERE
             mainline_team_plan_members.id = team_plan_member_id
-            AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY team_plan_challenge_rules_owned ON planning.mainline_team_plan_challenge_rules
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
             AND mainline_team_plans.user_id = auth.uid ()));
 
 -- ============================================================================

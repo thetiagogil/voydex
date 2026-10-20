@@ -83,8 +83,8 @@ const RuleCard = ({
 
 /*
  * Rules: a card for each rule you can pick, Voydex's and yours; New rule
- * sits in the page's head. Editing a name fixes it in every Play
- * and Plan that keeps the rule; deleting takes it off all of them.
+ * sits in the page's head. Editing a name fixes it in every Play that
+ * keeps the rule; deleting takes it off all of them.
  */
 export const LibraryRulesSection = ({
   kinds,

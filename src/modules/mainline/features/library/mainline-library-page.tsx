@@ -9,8 +9,8 @@ import { PageHeader } from "@/shared/components/page-header";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
 /*
- * Library: the challenge rules and tags you keep for every Play and Plan,
- * in one place to make, rename and delete them. A Play or Plan shows only
+ * Library: the challenge rules and tags you keep for every Play,
+ * in one place to make, rename and delete them. A Play shows only
  * its own and adds more from a picker that links here. Each tab starts
  * with a fresh search.
  */
@@ -29,7 +29,7 @@ export const MainlineLibraryPage = ({
       head={
         <PageHeader
           title="Library"
-          description="Your rules and tags, ready for every Play and Plan. Fix a name here and it changes everywhere."
+          description="Your rules and tags, ready for every Play. Fix a name here and it changes everywhere."
           action={
             tab === "rules" ? (
               <LibraryNewButton noun="rule" kinds={data.kinds} />

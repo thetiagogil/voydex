@@ -18,7 +18,7 @@ import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 /*
- * Deleting a rule or tag for good: it says which Plays and Plans let it go,
+ * Deleting a rule or tag for good: it says how many Plays let it go,
  * and that it can't be undone.
  */
 export const LibraryDeleteDialog = ({

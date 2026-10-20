@@ -134,8 +134,6 @@ export type SavedPlan = {
   linkedPlayCount: number;
   members: PlanMember[];
   name: string;
-  /* Its challenge rules' names, shown under its name. */
-  ruleNames: string[];
   statusSlug: string | null;
   /* When it was last saved; a new save remounts the Planner on fresh ids. */
   updatedAt: string | null;
