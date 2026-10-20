@@ -29,7 +29,7 @@ export const PlayTimeline = ({
   <ol
     aria-label={label}
     className={cn(
-      "before:timeline-line relative grid min-w-0 before:absolute before:inset-y-7 before:left-6.75 before:w-0.5",
+      "before:timeline-line relative grid min-w-0 before:absolute before:inset-y-7 before:left-6.5 before:w-1",
       className,
     )}
   >
