@@ -45,7 +45,7 @@ const RuleCard = ({
 
   return (
     <li className="relative min-w-0">
-      <Card size="sm" className="h-full min-h-32 gap-2 px-5 py-4">
+      <Card size="sm" className="h-full gap-2 px-5 py-4 sm:min-h-32">
         {/* Room at the end for the menu, which sits over it. */}
         <div className="flex min-h-8 items-center gap-2 pr-10">
           <Badge>{rule.kind.name}</Badge>
@@ -108,7 +108,7 @@ export const LibraryRulesSection = ({
           <button
             type="button"
             onClick={() => setDialog({ mode: "create" })}
-            className="empty-slot text-ink-2 hover:bg-hover hover:text-ink focus-ring text-15 flex h-full min-h-32 w-full items-center justify-center gap-2 rounded-xl font-bold transition-colors"
+            className="empty-slot text-ink-2 hover:bg-hover hover:text-ink focus-ring text-15 flex h-full min-h-14 w-full items-center justify-center gap-2 rounded-xl font-bold transition-colors sm:min-h-32"
           >
             <AppIcon icon={appIcons.actions.create} />
             New rule

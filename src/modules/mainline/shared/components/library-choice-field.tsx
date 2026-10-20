@@ -5,7 +5,7 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import type { LibraryChoice } from "@/modules/mainline/shared/server/library-choice-commands";
+import type { LibraryChoice } from "@/modules/mainline/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ChoiceChip } from "@/shared/components/choice-chip";
 import { RemovableChip } from "@/shared/components/removable-chip";

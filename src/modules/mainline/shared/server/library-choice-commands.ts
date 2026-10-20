@@ -1,9 +1,7 @@
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
+import type { LibraryChoice } from "@/modules/mainline/shared/types";
 import { toLibrarySlug } from "@/modules/mainline/shared/utils/library-names";
-
-/* A rule or tag by name, as pickers list it. */
-export type LibraryChoice = { id: string; name: string };
 
 const uniqueViolation = "23505";
 

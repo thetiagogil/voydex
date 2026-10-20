@@ -7,8 +7,8 @@ import { readPlanStatusSlug } from "@/modules/mainline/features/plans/server/pla
 import {
   findOrCreateChallengeRule,
   findOrCreateTag,
-  type LibraryChoice,
 } from "@/modules/mainline/shared/server/library-choice-commands";
+import type { LibraryChoice } from "@/modules/mainline/shared/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import {
   libraryNameMaxLength,
