@@ -116,7 +116,7 @@ confirm the linked Supabase migration list before any remote database write.
 
 Where v3 needs data Voydex doesn't have, the screen shows `PendingData` and a
 `TODO(v3-data)` comment names what it waits on (`grep -rn "TODO(v3-data)" src`
-finds all 50). Grouped by what they wait on:
+finds all 46). Grouped by what they wait on:
 
 - `public.profiles`: a Pokémon icon, a default trainer name for new Plays and a
   first-run flag for Welcome.
@@ -124,7 +124,6 @@ finds all 50). Grouped by what they wait on:
   defaults (Pokédex mode, Story and Collectibles tracking).
 - `gameplay.mainline_play_settings`: per-Play Story and Collectibles on/off
   flags and a Pokédex mode (caught only, or caught and seen).
-- `gameplay.mainline_challenge_rules`: the seeded system rule catalogue.
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
 - `planning.mainline_team_plans`: a version preference.
 - An atomic roster-placement function, and a reviewed account deletion.

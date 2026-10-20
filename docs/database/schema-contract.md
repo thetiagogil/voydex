@@ -71,8 +71,10 @@ retirement, replacement, and later corrections do not erase history.
 Use reviewed security-invoker functions for atomic workflows:
 
 - `gameplay.create_mainline_play` starts a playing Play for the caller with its
-  settings, owned expansions (non-base content scopes of that game) and
-  optional partner in one transaction. When the game's first Story milestone
+  settings, owned expansions (non-base content scopes of that game), challenge
+  rules (each once, with its options; the rule-scope trigger refuses another
+  trainer's rule, an option the rule lacks, or a type the game doesn't have)
+  and optional partner in one transaction. When the game's first Story milestone
   with a Pokémon decision offers the partner (exact form, else species), the
   partner joins slot 1 and that milestone is completed with its decision and a
   "<Species> chose you" moment; otherwise the partner joins slot 1 with its own

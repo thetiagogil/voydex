@@ -79,12 +79,12 @@ Story action that originally created the event.
 
 ## Play Settings
 
-As built (v3), Play Settings is one quiet form in four cards, with a side
+As built (v3), Play Settings is one quiet form in five cards, with a side
 list of them on wide screens: General (name, trainer, start day, playtime and
 status; a status change also joins History), Tracking (expansions you own;
 Story, the Pokédex mode and Collectibles show where their settings will go),
-Challenge rules (the rules you can attach, yours and Voydex's catalogue once
-seeded) and Archive or delete (archive is reversible; delete asks first and
+Challenge rules (the rules you can attach, Voydex's and yours, with each
+rule's options for this Play), Tags and Archive or delete (archive is reversible; delete asks first and
 removes the Play and everything recorded in it). Each card saves on its own
 from a footer that appears once it has unsaved changes. Turning an expansion
 off hides it; nothing recorded is deleted. The accepted contract below

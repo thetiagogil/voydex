@@ -90,8 +90,9 @@ that game, with `&partner=<species>` (Start a Play's pick) already choosing
 its first partner when the game offers it, and the parameters leave the
 address once it is open. Either way: the game on the cover shelf, the partner on the meadow (or
 choose later), then the Play's name, trainer name and what it tracks
-(expansions you own; Story, the Pokédex mode, Collectibles and challenge rules
-show where their settings will go). Start writes the Play and opens it. The
+(expansions you own; Story, the Pokédex mode and Collectibles show where
+their settings will go), with its challenge rules in view under it. Start
+writes the Play, its expansions and its rules in one step and opens it. The
 partner must be one the game offers; it joins slot 1 and is recorded as the
 game's first partner-choice milestone. Games that hand you your partner
 (Yellow, the Let's Go games) have no such choice. Exact Team members, Story
