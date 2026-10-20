@@ -16,6 +16,7 @@ import {
   type PlayRuleSelection,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
+import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
@@ -213,6 +214,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
       : step === 3
         ? "You can change any of this later, in Play settings."
         : null;
+  /* Step 3's meadow already shows the game and partner. */
   const summary =
     step === 1
       ? game
@@ -222,13 +224,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         : "Pick a game to continue"
       : step === 2
         ? [game?.name, partner?.name].filter(Boolean).join(" · ")
-        : [
-            game?.shortName,
-            playName.trim() || defaultPlayName,
-            partner?.name ?? "Partner later",
-          ]
-            .filter(Boolean)
-            .join(" · ");
+        : null;
 
   return (
     <section
@@ -242,7 +238,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
         sceneClassName={cn(
           step === 1 && "h-12 sm:h-14",
           step === 2 && "h-56 sm:h-72",
-          step === 3 && (partner ? "h-44 sm:h-52" : "h-12 sm:h-16"),
+          step === 3 && "h-44 sm:h-52",
         )}
         cast={
           step === 2 && starters.length ? (
@@ -252,12 +248,26 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               value={partner?.speciesId ?? null}
               onValueChange={setPartnerId}
             />
-          ) : step === 3 && partner ? (
-            <PartnerCast
-              size="md"
-              starters={[partner]}
-              value={partner.speciesId}
-            />
+          ) : step === 3 && game ? (
+            /* The game and its partner, side by side: what this Play is. */
+            <div className="flex items-end gap-6 sm:gap-8">
+              <GameCover
+                alt={game.name}
+                coverImageUrl={game.coverImageUrl}
+                gameName={game.name}
+                gameSlug={game.slug}
+                shape={game.coverShape}
+                size="picker"
+                eager
+              />
+              {partner ? (
+                <PartnerCast
+                  size="md"
+                  starters={[partner]}
+                  value={partner.speciesId}
+                />
+              ) : null}
+            </div>
           ) : null
         }
       >
@@ -306,6 +316,8 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               <FieldLabel htmlFor="new-play-name">Play name</FieldLabel>
               <Input
                 id="new-play-name"
+                required
+                aria-required
                 value={playName}
                 maxLength={200}
                 onChange={(event) => setPlayName(event.currentTarget.value)}
@@ -313,7 +325,9 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <FieldLabel htmlFor="new-play-trainer">Trainer name</FieldLabel>
+              <FieldLabel htmlFor="new-play-trainer">
+                Trainer name (optional)
+              </FieldLabel>
               <Input
                 id="new-play-trainer"
                 value={trainerName}
@@ -376,7 +390,11 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
             )}
           </Button>
         ) : (
-          <Button type="button" disabled={isPending} onClick={start}>
+          <Button
+            type="button"
+            disabled={isPending || !playName.trim()}
+            onClick={start}
+          >
             {isPending ? (
               <Spinner className="size-4" />
             ) : (
