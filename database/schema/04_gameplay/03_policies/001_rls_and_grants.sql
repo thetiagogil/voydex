@@ -45,6 +45,10 @@ ALTER TABLE gameplay.mainline_challenge_rules ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE gameplay.mainline_play_challenge_rules ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE gameplay.mainline_challenge_rule_sets ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE gameplay.mainline_challenge_rule_set_rules ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE gameplay.user_game_library_statuses ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE gameplay.user_game_library_entries ENABLE ROW LEVEL SECURITY;
@@ -92,6 +96,10 @@ REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_types FROM anon, authentica
 REVOKE ALL ON TABLE gameplay.mainline_challenge_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.mainline_play_challenge_rules FROM anon, authenticated;
+
+REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_sets FROM anon, authenticated;
+
+REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_set_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.user_game_library_statuses FROM anon, authenticated;
 
@@ -143,6 +151,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rules 
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_challenge_rules TO authenticated;
 
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_sets TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_set_rules TO authenticated;
+
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.user_game_library_entries TO authenticated;
 
 GRANT ALL ON TABLE gameplay.mainline_play_statuses TO service_role;
@@ -188,6 +200,10 @@ GRANT ALL ON TABLE gameplay.mainline_challenge_rule_types TO service_role;
 GRANT ALL ON TABLE gameplay.mainline_challenge_rules TO service_role;
 
 GRANT ALL ON TABLE gameplay.mainline_play_challenge_rules TO service_role;
+
+GRANT ALL ON TABLE gameplay.mainline_challenge_rule_sets TO service_role;
+
+GRANT ALL ON TABLE gameplay.mainline_challenge_rule_set_rules TO service_role;
 
 GRANT ALL ON TABLE gameplay.user_game_library_statuses TO service_role;
 
@@ -251,6 +267,55 @@ CREATE POLICY challenge_rules_update_own ON gameplay.mainline_challenge_rules
 CREATE POLICY challenge_rules_delete_own ON gameplay.mainline_challenge_rules
     FOR DELETE TO authenticated
     USING (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_select_available ON gameplay.mainline_challenge_rule_sets
+    FOR SELECT TO authenticated
+    USING (user_id IS NULL
+        OR user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_insert_own ON gameplay.mainline_challenge_rule_sets
+    FOR INSERT TO authenticated
+    WITH CHECK (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_update_own ON gameplay.mainline_challenge_rule_sets
+    FOR UPDATE TO authenticated
+    USING (user_id = auth.uid ())
+    WITH CHECK (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_delete_own ON gameplay.mainline_challenge_rule_sets
+    FOR DELETE TO authenticated
+    USING (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_set_rules_select_available ON gameplay.mainline_challenge_rule_set_rules
+    FOR SELECT TO authenticated
+    USING (EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_challenge_rule_sets
+        WHERE
+            mainline_challenge_rule_sets.id = rule_set_id
+            AND (mainline_challenge_rule_sets.user_id IS NULL
+            OR mainline_challenge_rule_sets.user_id = auth.uid ())));
+
+CREATE POLICY challenge_rule_set_rules_write_own ON gameplay.mainline_challenge_rule_set_rules
+    FOR ALL TO authenticated
+    USING (EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_challenge_rule_sets
+        WHERE
+            mainline_challenge_rule_sets.id = rule_set_id
+            AND mainline_challenge_rule_sets.user_id = auth.uid ()))
+    WITH CHECK (EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_challenge_rule_sets
+        WHERE
+            mainline_challenge_rule_sets.id = rule_set_id
+            AND mainline_challenge_rule_sets.user_id = auth.uid ()));
 
 CREATE POLICY user_game_library_entries_select_own ON gameplay.user_game_library_entries
     FOR SELECT TO authenticated
