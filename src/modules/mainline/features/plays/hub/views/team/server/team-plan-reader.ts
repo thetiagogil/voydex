@@ -111,13 +111,50 @@ export const readMainlinePlayFollowablePlans = async (
     throw new Error("Unable to load your Plans for this game.");
   }
 
-  return (result.data ?? []).flatMap((row) =>
-    row.team_plan_id && row.status_slug !== "archived"
+  const plans = (result.data ?? []).filter(
+    (row) => row.team_plan_id && row.status_slug !== "archived",
+  );
+  const planIds = plans.flatMap((row) =>
+    row.team_plan_id ? [row.team_plan_id] : [],
+  );
+  /* Each Plan's rules: the links, then the names (rules live in gameplay). */
+  const linksResult = planIds.length
+    ? await supabase
+        .schema("planning")
+        .from("mainline_team_plan_challenge_rules")
+        .select("team_plan_id, challenge_rule_id")
+        .in("team_plan_id", planIds)
+    : null;
+  const ruleIds = [
+    ...new Set((linksResult?.data ?? []).map((link) => link.challenge_rule_id)),
+  ];
+  const rulesResult = ruleIds.length
+    ? await supabase
+        .schema("gameplay")
+        .from("mainline_challenge_rules")
+        .select("id, name")
+        .in("id", ruleIds)
+    : null;
+
+  if (linksResult?.error || rulesResult?.error) {
+    throw new Error("Unable to load your Plans for this game.");
+  }
+
+  const ruleNameById = new Map(
+    (rulesResult?.data ?? []).map((rule) => [rule.id, rule.name]),
+  );
+
+  return plans.flatMap((row) =>
+    row.team_plan_id
       ? [
           {
             memberCount: row.member_count ?? 0,
             name: row.team_plan_name ?? "Untitled Plan",
             planId: row.team_plan_id,
+            ruleNames: (linksResult?.data ?? [])
+              .filter((link) => link.team_plan_id === row.team_plan_id)
+              .flatMap((link) => ruleNameById.get(link.challenge_rule_id) ?? [])
+              .toSorted((left, right) => left.localeCompare(right)),
             updatedAt: row.updated_at,
           },
         ]

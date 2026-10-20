@@ -144,6 +144,7 @@ export const savePlan = async ({
   const { data, error } = await supabase
     .schema("planning")
     .rpc("save_mainline_team_plan", {
+      p_challenge_rule_ids: input.challengeRuleIds ?? undefined,
       p_expansion_version_group_ids: expansionIds,
       p_members: members.map(toMemberRow),
       p_name: input.name,

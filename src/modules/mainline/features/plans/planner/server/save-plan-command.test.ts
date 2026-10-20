@@ -74,6 +74,7 @@ const readSwordShield = (table: string): Result => {
 };
 
 const baseInput: PlanSaveInput = {
+  challengeRuleIds: null,
   expansionVersionGroupIds: [],
   members: [],
   name: "Galar run",

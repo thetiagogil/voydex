@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useId, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import { PlanFollowersList } from "@/modules/mainline/features/plans/components/plan-followers-list";
-import { PlanLibraryDialog } from "@/modules/mainline/features/plans/components/plan-library-dialog";
+import { PlanDetailsDialog } from "@/modules/mainline/features/plans/components/plan-details-dialog";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
 import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
-import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
+import { savePlanDetailsAction } from "@/modules/mainline/features/plans/server/plan-details-action";
 import type { PlanFollower } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
@@ -28,7 +28,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
@@ -39,8 +38,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { Field, FieldLabel } from "@/shared/components/ui/field";
-import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 export type PlanActionsPlan = {
@@ -61,39 +58,35 @@ type PlanActionsMenuProps = {
   placement: "card" | "planner";
   plan: PlanActionsPlan;
   /*
-   * Rename in place, as the Planner's title does; without it Rename asks
-   * for the name in a dialog (My Plans).
+   * Opens the Plan's details where the caller keeps them (the Planner, whose
+   * title opens them too); without it Edit details opens its own dialog.
    */
-  onRename?: () => void;
+  onEditDetails?: () => void;
   /* Share, in the Planner: a link to the team, beside See Plays. */
   onShare?: () => void;
 };
 
 /*
- * One Plan's actions behind one button, grouped by what they do: See Plays
- * (the Plays that follow it, in a dialog) to look; Rename, Rules and tags,
- * and Archive (or Restore, for an archived Plan, which can't be changed) to
- * change it; and
- * Delete, which asks first and says what goes with it. Deleting from the
- * Planner goes back to My Plans.
+ * One Plan's actions behind one button, grouped by what they do: New Plan
+ * (in the Planner), See Plays and Share to go and look; Edit details (its
+ * name and rules) and Archive (or Restore, for an archived Plan, which
+ * can't be changed) to change it; and Delete, which asks first and says
+ * what goes with it. Deleting from the Planner goes back to My Plans.
  */
 export const PlanActionsMenu = ({
   archiveBlockedReason,
   className,
-  onRename,
+  onEditDetails,
   onShare,
   placement,
   plan,
 }: PlanActionsMenuProps) => {
   const router = useRouter();
-  const nameId = useId();
-  const [isRenameOpen, setIsRenameOpen] = useState(false);
-  const [draftName, setDraftName] = useState(plan.name);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
   const [isPlaysOpen, setIsPlaysOpen] = useState(false);
-  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [followers, setFollowers] = useState<PlanFollower[] | null>(null);
   const [isLoadingPlays, startLoadingPlays] = useTransition();
 
@@ -125,20 +118,6 @@ export const PlanActionsMenu = ({
       toast.success(
         `${plan.name} ${plan.isArchived ? "restored" : "archived"}`,
       );
-      router.refresh();
-    });
-
-  const rename = () =>
-    startWorking(async () => {
-      const result = await renamePlanAction(plan.id, draftName);
-
-      if (result.status === "error") {
-        setError(result.message);
-        return;
-      }
-
-      setIsRenameOpen(false);
-      toast.success(`Renamed to ${result.name}`);
       router.refresh();
     });
 
@@ -205,25 +184,12 @@ export const PlanActionsMenu = ({
           ) : null}
           {plan.isArchived ? null : (
             <DropdownMenuItem
-              onClick={() => {
-                if (onRename) {
-                  onRename();
-                  return;
-                }
-
-                setDraftName(plan.name);
-                setError(null);
-                setIsRenameOpen(true);
-              }}
+              onClick={() =>
+                onEditDetails ? onEditDetails() : setIsDetailsOpen(true)
+              }
             >
               <AppIcon icon={appIcons.actions.edit} />
-              Rename
-            </DropdownMenuItem>
-          )}
-          {plan.isArchived ? null : (
-            <DropdownMenuItem onClick={() => setIsLibraryOpen(true)}>
-              <AppIcon icon={appIcons.product.tag} />
-              Rules and tags
+              Edit details
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
@@ -254,66 +220,26 @@ export const PlanActionsMenu = ({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog
-        open={isRenameOpen}
-        onOpenChange={(open) => {
-          if (!isWorking) setIsRenameOpen(open);
-        }}
-      >
-        <DialogContent className="sm:max-w-md">
-          <form
-            className="grid gap-5"
-            onSubmit={(event) => {
-              event.preventDefault();
-              rename();
-            }}
-          >
-            <DialogHeader>
-              <DialogTitle>Rename Plan</DialogTitle>
-            </DialogHeader>
-            <Field>
-              <FieldLabel htmlFor={nameId}>Plan name</FieldLabel>
-              <Input
-                id={nameId}
-                autoFocus
-                autoComplete="off"
-                maxLength={200}
-                value={draftName}
-                onChange={(event) => setDraftName(event.currentTarget.value)}
-              />
-            </Field>
-            {error ? (
-              <p role="alert" className="text-danger text-13 font-bold">
-                {error}
-              </p>
-            ) : null}
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={isWorking}
-                onClick={() => setIsRenameOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isWorking || !draftName.trim()}
-                aria-busy={isWorking}
-              >
-                {isWorking ? <Spinner data-icon="inline-start" /> : null}
-                Rename
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-
-      <PlanLibraryDialog
-        open={isLibraryOpen}
-        onOpenChange={setIsLibraryOpen}
+      <PlanDetailsDialog
+        open={isDetailsOpen}
+        onOpenChange={setIsDetailsOpen}
         planId={plan.id}
-        planName={plan.name}
+        title="Plan details"
+        submitLabel="Save"
+        onSubmit={async ({ name, ruleIds }) => {
+          const result = await savePlanDetailsAction({
+            name,
+            planId: plan.id,
+            ruleIds,
+          });
+
+          if (result.status === "error") return result.message;
+
+          toast.success(`${result.name} saved`);
+          router.refresh();
+
+          return null;
+        }}
       />
 
       <Dialog open={isPlaysOpen} onOpenChange={setIsPlaysOpen}>

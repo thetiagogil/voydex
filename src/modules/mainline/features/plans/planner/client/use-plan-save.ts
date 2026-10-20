@@ -17,24 +17,20 @@ type PlanContents = {
   versionGroupSlug: string;
 };
 
-const toSnapshot = ({
-  expansions,
-  members,
-  name,
-  versionGroupSlug,
-}: PlanContents) =>
+/* What Save changes: the team and its game. The name and rules change in
+ * the Plan's details, which save on their own. */
+const toSnapshot = ({ expansions, members, versionGroupSlug }: PlanContents) =>
   JSON.stringify({
     expansions: expansions.toSorted(),
     members,
-    name,
     versionGroupSlug,
   });
 
 /*
- * Saving a Plan from the Planner: a Plan without a name asks for one first
- * (`isNameOpen`), a new Plan opens at its own address once saved, and Save
- * changes only wakes up for a change, including opening the Plan in another
- * version group.
+ * Saving a Plan from the Planner: a new Plan asks for its details first
+ * (`isDetailsOpen`: its name and rules) and opens at its own address once
+ * saved; Save changes only wakes up for a change to the team, including
+ * opening the Plan in another version group.
  */
 export const usePlanSave = ({
   contents,
@@ -51,51 +47,66 @@ export const usePlanSave = ({
 }) => {
   const router = useRouter();
   const [isSaving, startSaving] = useTransition();
-  const [isNameOpen, setIsNameOpen] = useState(false);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [savedSnapshot, setSavedSnapshot] = useState(() =>
     savedContents ? toSnapshot(savedContents) : null,
   );
   const isDirty =
     savedSnapshot === null || savedSnapshot !== toSnapshot(contents);
 
-  const saveAs = (planName: string) => {
-    startSaving(async () => {
-      const result = await savePlanAction({
-        expansionVersionGroupIds: contents.expansions,
-        members: contents.members,
-        name: planName,
-        planId,
-        versionGroupSlug: contents.versionGroupSlug,
-      });
+  /*
+   * Saves the team under a name; a new Plan also takes its rules. Resolves
+   * with a message when it fails (the details dialog shows it), else null.
+   */
+  const saveAs = ({
+    name: planName,
+    ruleIds,
+  }: {
+    name: string;
+    ruleIds?: string[];
+  }) =>
+    new Promise<string | null>((resolve) =>
+      startSaving(async () => {
+        const result = await savePlanAction({
+          challengeRuleIds: ruleIds,
+          expansionVersionGroupIds: contents.expansions,
+          members: contents.members,
+          name: planName,
+          planId,
+          versionGroupSlug: contents.versionGroupSlug,
+        });
 
-      if (result.status === "error") {
-        toast.error(result.message);
-        return;
-      }
+        if (result.status === "error") {
+          toast.error(result.message);
+          resolve(result.message);
+          return;
+        }
 
-      const savedName = planName.trim() || untitledPlanName;
+        const savedName = planName.trim() || untitledPlanName;
 
-      if (result.created) {
-        clearPlanDraft(trainerId);
-        toast.success(`${savedName} saved to My Plans`);
-        router.replace(appRoutes.mainlinePlan(result.planId));
-        return;
-      }
+        if (result.created) {
+          clearPlanDraft(trainerId);
+          toast.success(`${savedName} saved to My Plans`);
+          router.replace(appRoutes.mainlinePlan(result.planId));
+          resolve(null);
+          return;
+        }
 
-      setSavedSnapshot(toSnapshot({ ...contents, name: planName }));
-      toast.success(`${savedName} saved`);
-      router.refresh();
-    });
-  };
+        setSavedSnapshot(toSnapshot(contents));
+        toast.success(`${savedName} saved`);
+        router.refresh();
+        resolve(null);
+      }),
+    );
 
   const save = () => {
-    if (!contents.name.trim()) {
-      setIsNameOpen(true);
+    if (!planId) {
+      setIsDetailsOpen(true);
       return;
     }
 
-    saveAs(contents.name);
+    void saveAs({ name: contents.name });
   };
 
-  return { isDirty, isNameOpen, isSaving, save, saveAs, setIsNameOpen };
+  return { isDetailsOpen, isDirty, isSaving, save, saveAs, setIsDetailsOpen };
 };

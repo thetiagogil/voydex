@@ -13,6 +13,8 @@ import {
 
 /* What the Planner sends to save a Plan. */
 export type PlanSaveInput = {
+  /* A new Plan's rules, from Save Plan's details; null keeps a Plan's own. */
+  challengeRuleIds: string[] | null;
   expansionVersionGroupIds: number[];
   members: PlanMember[];
   name: string;
@@ -123,6 +125,12 @@ const planSaveInputSchema = z.object(
       )
       .nullish()
       .transform((ids) => [...new Set(ids ?? [])]),
+    challengeRuleIds: z
+      .array(uuidSchema("Pick rules from the list."), {
+        error: "Pick rules from the list.",
+      })
+      .nullish()
+      .transform((ids) => (ids ? [...new Set(ids)] : null)),
     name: optionalTextSchema("The Plan name", 200).transform(
       (name) => name ?? untitledPlanName,
     ),

@@ -235,6 +235,8 @@ export type MainlinePlayFollowablePlan = {
   memberCount: number;
   name: string;
   planId: string;
+  /* Its challenge rules, which following it copies into the Play. */
+  ruleNames: string[];
   updatedAt: string | null;
 };
 

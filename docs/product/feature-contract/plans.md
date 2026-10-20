@@ -15,8 +15,14 @@ As built (v3):
   and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
-  reads its defensive matchups from its types. Save writes the Plan; a new
-  Plan is kept in this browser until saved. Share (in the "⋯" menu) puts the version group, six
+  reads its defensive matchups from its types. A new Plan has no title yet:
+  Save Plan asks for its details (a name, and optional challenge rules) and
+  writes it; a new Plan is kept in this browser until saved. A saved Plan
+  shows its name with its rules under it; tapping the name, or Edit details
+  in its "⋯", changes both, and nothing applies until that dialog's Save.
+  Details never need Unlock: the lock guards the team Plays compare against,
+  and a Plan's rules reach a Play only as a copy when it starts following
+  the Plan. Share (in the "⋯" menu) puts the version group, six
   Pokémon in a link's hash; importing opens it as a new unsaved
   Plan. Switching game carries the team over, unsaved edits included, as
   the new game can have it: a Pokémon it doesn't have leaves the team, and
@@ -24,7 +30,7 @@ As built (v3):
   item, nature, gender or a move it can't learn there). A Plan with a team always asks first ("Switch game?"), listing each Pokémon with its picture under "Leaves the team" or "Loses part of its build"; the switch waits on a save. A followed Plan opens locked ("Locked: followed by 2 Plays."): its first edit asks "Unlock this Plan?", saying that a save changes how each Play compares with it, and its game stays the same while Plays follow it. See Plays in its "⋯" menu lists each Play with its current team; a card opens the Play. While a switch is checked and opens, the game picker shows a spinner.
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
   Pokémon and who follows it, filtered by game and sorted by
-  update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner, grouped by what each action does: See Plays; then Rename and Archive (or Restore); then Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan doesn't open: its card stays shut, its link leads back to the archived list, it keeps its Play links, and the save refuses it until it's restored.
+  update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner, grouped by what each action does: New Plan (in the Planner), See Plays and Share; then Edit details and Archive (or Restore); then Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan doesn't open: its card stays shut, its link leads back to the archived list, it keeps its Play links, and the save refuses it until it's restored.
 - A Plan is stored for one game, the version group's first, until Plans
   store a version preference. Plan Detail, Create Play from a Plan, cloning,
   drafts and the Game List below are accepted but not built.

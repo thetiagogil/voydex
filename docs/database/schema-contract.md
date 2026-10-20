@@ -123,10 +123,14 @@ Use reviewed security-invoker functions for atomic workflows:
   correction.
 - `gameplay.set_mainline_play_collectible_entry_progress`.
 - `gameplay.set_mainline_play_pokedex_species_progress`.
-- `planning.link_mainline_team_plan_to_play` and plan-member realization
-  helpers.
+- `planning.link_mainline_team_plan_to_play` links a Play to a Plan (moving
+  an existing link when asked) and copies the Plan's rules the Play lacks,
+  returning the ones it added; plus plan-member realization helpers.
+- `planning.update_mainline_team_plan_details` saves a Plan's name and rules
+  together, never its team; it refuses an archived Plan.
 - `planning.save_mainline_team_plan` creates (no Plan id) or rewrites a Plan's
-  row, ordered members, planned move slots and expansions in one transaction.
+  row, ordered members, planned move slots, expansions and, when given, its
+  rules in one transaction.
   It keeps the stored game while the version group is unchanged, otherwise
   stores the group's first game, and refuses a game change while a Play
   follows the Plan. Build validation against reference data stays with the

@@ -43,7 +43,8 @@ import {
   PlannerPoolSection,
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
-import { PlannerNameDialog } from "@/modules/mainline/features/plans/planner/sections/planner-name-dialog";
+import { PlanDetailsDialog } from "@/modules/mainline/features/plans/components/plan-details-dialog";
+import { savePlanDetailsAction } from "@/modules/mainline/features/plans/server/plan-details-action";
 import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
@@ -201,7 +202,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       trainerId: data.trainerId,
       versionGroup: context.versionGroup,
     });
-  const { isDirty, isNameOpen, isSaving, save, saveAs, setIsNameOpen } =
+  const { isDetailsOpen, isDirty, isSaving, save, saveAs, setIsDetailsOpen } =
     usePlanSave({
       contents: {
         expansions,
@@ -391,15 +392,16 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
                   id: plan.id,
                   isArchived: false,
                   linkedPlayCount: plan.linkedPlayCount,
-                  name: plan.name,
+                  name: name.trim() || plan.name,
                 }
               : null
           }
+          ruleNames={plan?.ruleNames ?? []}
+          onEditDetails={() => setIsDetailsOpen(true)}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
           isSwitching={isSwitching}
           name={name}
-          onNameChange={setName}
           onSave={save}
           onShare={() => setIsShareOpen(true)}
           onVersionGroupChange={changeVersionGroup}
@@ -527,14 +529,36 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         versionGroup={context.versionGroup}
       />
 
-      <PlannerNameDialog
-        gameName={context.versionGroup.name}
-        open={isNameOpen}
-        onOpenChange={setIsNameOpen}
-        onSave={(planName) => {
-          setName(planName);
-          setIsNameOpen(false);
-          saveAs(planName);
+      <PlanDetailsDialog
+        open={isDetailsOpen}
+        onOpenChange={setIsDetailsOpen}
+        planId={plan?.id ?? null}
+        title={plan ? "Plan details" : "Save Plan"}
+        description={
+          plan
+            ? undefined
+            : `Name your ${context.versionGroup.name} Plan. Rules are optional.`
+        }
+        submitLabel={plan ? "Save" : "Save Plan"}
+        onSubmit={async (draft) => {
+          if (!plan) {
+            setName(draft.name);
+
+            return saveAs(draft);
+          }
+
+          const result = await savePlanDetailsAction({
+            ...draft,
+            planId: plan.id,
+          });
+
+          if (result.status === "error") return result.message;
+
+          setName(result.name);
+          toast.success(`${result.name} saved`);
+          router.refresh();
+
+          return null;
         }}
       />
 

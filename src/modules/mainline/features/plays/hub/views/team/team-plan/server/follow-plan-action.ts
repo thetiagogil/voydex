@@ -23,11 +23,17 @@ const followPlanInputSchema = z.object({
     .max(200, { error: "A valid Play and Plan are required." }),
 });
 
+/* "Monotype, Level caps and Nuzlocke". */
+const formatList = (names: string[]) =>
+  names.length > 1
+    ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`
+    : (names[0] ?? "");
+
 /*
- * Makes this Play follow one of your Plans. A Play follows one Plan at most:
- * an existing link is pointed at the new Plan in one update, and a Play with
- * none is linked through `link_mainline_team_plan_to_play`. Either way the
- * database checks that the Plan is yours and for the same game.
+ * Makes this Play follow one of your Plans. A Play follows one Plan at most,
+ * so an existing link moves to the new Plan. `link_mainline_team_plan_to_play`
+ * does it in one step: it checks the Plan is yours and for the same game, and
+ * copies the Plan's rules the Play lacks (a snapshot the Play can remove).
  */
 export const followMainlinePlayPlanAction = async (input: {
   planId: string;
@@ -62,27 +68,39 @@ export const followMainlinePlayPlanAction = async (input: {
       return { message: `Already following ${planName}`, status: "success" };
     }
 
-    const writeResult = linkResult.data
-      ? await supabase
-          .schema("planning")
-          .from("mainline_play_plan_links")
-          .update({ team_plan_id: planId })
-          .eq("id", linkResult.data.id)
-      : await supabase
-          .schema("planning")
-          .rpc("link_mainline_team_plan_to_play", {
-            p_play_id: playId,
-            p_team_plan_id: planId,
-          });
+    /* One function links the Plan (moving an existing link) and copies
+     * the rules it has that the Play lacks. */
+    const writeResult = await supabase
+      .schema("planning")
+      .rpc("link_mainline_team_plan_to_play", {
+        p_play_id: playId,
+        p_replace_existing: true,
+        p_team_plan_id: planId,
+      });
 
     if (writeResult.error) {
       throw new Error("That Plan can't be followed by this Play.");
     }
 
-    revalidatePath(appRoutes.mainlinePlay(playId));
-    revalidatePath(appRoutes.mainlinePlayTeamPlan(playId));
+    const addedRuleIds = writeResult.data?.[0]?.result_added_rule_ids ?? [];
+    const addedRules = addedRuleIds.length
+      ? await supabase
+          .schema("gameplay")
+          .from("mainline_challenge_rules")
+          .select("name")
+          .in("id", addedRuleIds)
+          .order("name", { ascending: true })
+      : null;
+    const addedNames = (addedRules?.data ?? []).map((rule) => rule.name);
 
-    return { message: `Now following ${planName}`, status: "success" };
+    revalidatePath(appRoutes.mainlinePlay(playId), "layout");
+
+    return {
+      message: addedNames.length
+        ? `Now following ${planName}. Added ${formatList(addedNames)} to this Play's rules`
+        : `Now following ${planName}`,
+      status: "success",
+    };
   } catch (error) {
     return {
       message:
