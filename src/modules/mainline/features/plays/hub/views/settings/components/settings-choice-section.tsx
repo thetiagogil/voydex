@@ -1,74 +1,56 @@
 "use client";
 
-import { ChoiceChip } from "@/shared/components/choice-chip";
 import { useState, useTransition, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import {
+  LibraryChoiceField,
+  type LibraryCreateResult,
+} from "@/modules/mainline/shared/components/library-choice-field";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer";
 import { FieldError } from "@/shared/components/ui/field";
 
-import type {
-  PlaySettingsActionResult,
-  PlaySettingsCreateResult,
-} from "../server/play-settings-actions";
+import type { PlaySettingsActionResult } from "../server/play-settings-actions";
 import type { PlaySettingsChoice } from "../types";
 import { diffIdSets } from "../utils/play-settings-validation";
-import { SettingsAddChip } from "./settings-add-chip";
 
 /*
- * A Settings card of chips you pick several of and can add to (challenge
- * rules, tags). A chip you add is picked straight away; like a toggle, it
- * reaches the Play with the card's Save.
+ * A Settings card of the rules or tags this Play keeps: its chips, and
+ * "+ Add" to pick more from your Library or make one. Adding and removing
+ * reach the Play with the card's Save.
  */
 export const SettingsChoiceSection = ({
-  add,
+  addLabel,
   aside,
   empty,
   id,
   initialSelectedIds,
+  noun,
+  onCreate,
   onSave,
   options,
   title,
 }: {
-  add: {
-    label: string;
-    maxLength: number;
-    onCreate: (name: string) => Promise<PlaySettingsCreateResult>;
-    placeholder: string;
-  };
+  addLabel: string;
   aside: string;
-  /* Shown above the add chip while there is nothing to pick. */
+  /* Shown above the chips while your Library has none to pick. */
   empty?: ReactNode;
   id: string;
   initialSelectedIds: string[];
+  noun: "rule" | "tag";
+  onCreate: (name: string) => Promise<LibraryCreateResult>;
   onSave: (ids: string[]) => Promise<PlaySettingsActionResult>;
   options: PlaySettingsChoice[];
   title: string;
 }) => {
   const router = useRouter();
   const [selected, setSelected] = useState(initialSelectedIds);
-  const [added, setAdded] = useState<PlaySettingsChoice[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isSaving, startTransition] = useTransition();
   const diff = diffIdSets(initialSelectedIds, selected);
   const isDirty = diff.added.length + diff.removed.length > 0;
-  /* Added chips stay at the end, where you added them, until the next visit. */
-  const addedIds = new Set(added.map((choice) => choice.id));
-  const choices = [
-    ...options.filter((choice) => !addedIds.has(choice.id)),
-    ...added,
-  ];
-
-  const toggle = (choiceId: string) => {
-    setSelected((current) =>
-      current.includes(choiceId)
-        ? current.filter((value) => value !== choiceId)
-        : [...current, choiceId],
-    );
-    setError(null);
-  };
 
   const save = () => {
     startTransition(async () => {
@@ -86,41 +68,20 @@ export const SettingsChoiceSection = ({
 
   return (
     <DetailSectionCard id={id} title={title} aside={aside}>
-      {choices.length === 0 ? empty : null}
-      <div
-        role="group"
-        aria-label={title}
-        className="flex flex-wrap items-center gap-2"
-      >
-        {choices.map((choice) => (
-          <ChoiceChip
-            key={choice.id}
-            pressed={selected.includes(choice.id)}
-            disabled={isSaving}
-            onClick={() => toggle(choice.id)}
-          >
-            {choice.name}
-          </ChoiceChip>
-        ))}
-        <SettingsAddChip
-          {...add}
-          disabled={isSaving}
-          onAdded={(choice) => {
-            if (!options.some((option) => option.id === choice.id)) {
-              setAdded((current) =>
-                current.some((item) => item.id === choice.id)
-                  ? current
-                  : [...current, choice],
-              );
-            }
-
-            setSelected((current) =>
-              current.includes(choice.id) ? current : [...current, choice.id],
-            );
-            setError(null);
-          }}
-        />
-      </div>
+      {options.length === 0 ? empty : null}
+      <LibraryChoiceField
+        label={title}
+        noun={noun}
+        addLabel={addLabel}
+        choices={options}
+        selectedIds={selected}
+        disabled={isSaving}
+        onCreate={onCreate}
+        onChange={(ids) => {
+          setSelected(ids);
+          setError(null);
+        }}
+      />
 
       {error ? <FieldError className="mt-3">{error}</FieldError> : null}
 
