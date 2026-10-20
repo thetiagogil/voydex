@@ -134,6 +134,9 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     versionGroupName: string;
   } | null>(null);
   const [isCheckingSwitch, startCheckingSwitch] = useTransition();
+  /* Until the new game's Planner arrives. */
+  const [isOpeningSwitch, startOpeningSwitch] = useTransition();
+  const isSwitching = isCheckingSwitch || isOpeningSwitch;
   const { askWhichToReplace, cancelReplace, place, replacing, replacingId } =
     usePlannerReplace({
       byId,
@@ -254,10 +257,12 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   /* The new game's Planner opens on this team, unsaved edits included. */
   const switchVersionGroup = (slug: string, kept: PlanMember[]) => {
     writePlanSwitchHandoff(plan?.id ?? null, slug, { members: kept, name });
-    router.push(
-      plan
-        ? appRoutes.mainlinePlan(plan.id, slug)
-        : appRoutes.mainlinePlanNew(slug),
+    startOpeningSwitch(() =>
+      router.push(
+        plan
+          ? appRoutes.mainlinePlan(plan.id, slug)
+          : appRoutes.mainlinePlanNew(slug),
+      ),
     );
   };
 
@@ -300,7 +305,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
    * doesn't offer); an empty one switches at once.
    */
   const changeVersionGroup = (slug: string) => {
-    if (slug === context.versionGroup.slug || isCheckingSwitch) return;
+    if (slug === context.versionGroup.slug || isSwitching) return;
 
     if (!members.length) {
       switchVersionGroup(slug, []);
@@ -361,6 +366,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           }
           isSaved={Boolean(plan)}
           isSaving={isSaving}
+          isSwitching={isSwitching}
           name={name}
           onNameChange={setName}
           onSave={save}
@@ -371,8 +377,8 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           versionGroups={data.versionGroups}
         />
 
-        {plan?.followers.length ? (
-          <PlannerFollowersSection followers={plan.followers} />
+        {plan?.linkedPlayCount ? (
+          <PlannerFollowersSection count={plan.linkedPlayCount} />
         ) : null}
 
         {offered ? (

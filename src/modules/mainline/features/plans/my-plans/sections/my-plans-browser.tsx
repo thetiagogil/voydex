@@ -47,60 +47,78 @@ type MyPlansBrowserProps = {
 };
 
 /*
- * One Plan: the card opens it in the Team Planner; its "⋯" in the corner
- * holds Rename, Archive or Restore, and Delete.
+ * One Plan: the card opens it in the Team Planner (an archived one stays
+ * shut); its "⋯" in the corner holds Rename, See Plays, Archive or Restore,
+ * and Delete.
  */
-const MyPlanCard = ({ plan }: { plan: MyPlan }) => (
-  /* The card and its menu lift as one, so the menu never leaves its corner. */
-  <li className="relative min-w-0 transition-transform duration-150 focus-within:-translate-y-0.5 hover:-translate-y-0.5">
-    <Link
-      href={appRoutes.mainlinePlan(plan.id)}
-      className="group/card-link focus-ring block h-full rounded-2xl"
+const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
+  const card = (
+    <Card className="h-full gap-3 px-5 py-4">
+      {/* Room at the end for the menu, which sits over it. */}
+      <div className="flex min-h-9 items-center gap-2 pr-10">
+        <Badge variant="select">{plan.versionGroupName}</Badge>
+        {plan.updatedAt ? (
+          <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
+            Updated <PlayMomentTime value={plan.updatedAt} />
+          </span>
+        ) : null}
+      </div>
+      <h2
+        className={cn(
+          "text-20 line-clamp-2 leading-tight",
+          plan.isArchived && "text-ink-3",
+        )}
+      >
+        {plan.name}
+      </h2>
+      <PlanTeamStrip
+        members={plan.members}
+        className={cn(plan.isArchived && "opacity-55")}
+      />
+      <span
+        className={cn(
+          "mt-auto",
+          plan.linkedPlayCount
+            ? "text-ink text-13 inline-flex items-center gap-1.5 font-bold"
+            : "text-ink-3 text-13 font-semibold",
+        )}
+      >
+        {plan.linkedPlayCount ? (
+          <AppIcon icon={appIcons.milestones.story} size="sm" />
+        ) : null}
+        {getMyPlanFootnote(plan)}
+      </span>
+    </Card>
+  );
+
+  return (
+    /* The card and its menu lift as one, so the menu never leaves its corner. */
+    <li
+      className={cn(
+        "relative min-w-0",
+        !plan.isArchived &&
+          "transition-transform duration-150 focus-within:-translate-y-0.5 hover:-translate-y-0.5",
+      )}
     >
-      <Card className="h-full gap-3 px-5 py-4">
-        {/* Room at the end for the menu, which sits over it. */}
-        <div className="flex min-h-9 items-center gap-2 pr-10">
-          <Badge variant="select">{plan.versionGroupName}</Badge>
-          {plan.updatedAt ? (
-            <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
-              Updated <PlayMomentTime value={plan.updatedAt} />
-            </span>
-          ) : null}
-        </div>
-        <h2
-          className={cn(
-            "text-20 line-clamp-2 leading-tight",
-            plan.isArchived && "text-ink-3",
-          )}
+      {/* An archived Plan doesn't open; restore it from its menu first. */}
+      {plan.isArchived ? (
+        <div className="h-full">{card}</div>
+      ) : (
+        <Link
+          href={appRoutes.mainlinePlan(plan.id)}
+          className="group/card-link focus-ring block h-full rounded-2xl"
         >
-          {plan.name}
-        </h2>
-        <PlanTeamStrip
-          members={plan.members}
-          className={cn(plan.isArchived && "opacity-55")}
-        />
-        <span
-          className={cn(
-            "mt-auto",
-            plan.linkedPlayCount
-              ? "text-ink text-13 inline-flex items-center gap-1.5 font-bold"
-              : "text-ink-3 text-13 font-semibold",
-          )}
-        >
-          {plan.linkedPlayCount ? (
-            <AppIcon icon={appIcons.milestones.story} size="sm" />
-          ) : null}
-          {getMyPlanFootnote(plan)}
-        </span>
-      </Card>
-    </Link>
-    <PlanActionsMenu
-      placement="card"
-      plan={plan}
-      className="absolute top-3.5 right-3.5"
-    />
-  </li>
-);
+          {card}
+        </Link>
+      )}
+      <PlanActionsMenu
+        placement="card"
+        plan={plan}
+        className="absolute top-3.5 right-3.5"
+      />
+    </li>
+  );
+};
 
 /* The Plans' cards, as My Plans and its archived list show them. */
 export const MyPlansGrid = ({ plans }: { plans: MyPlan[] }) => (

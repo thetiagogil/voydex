@@ -31,6 +31,8 @@ type PlannerTopSectionProps = {
   canSave: boolean;
   isSaved: boolean;
   isSaving: boolean;
+  /* A game switch being checked or opening: the picker shows it's working. */
+  isSwitching: boolean;
   name: string;
   onNameChange: (name: string) => void;
   onSave: () => void;
@@ -55,6 +57,7 @@ export const PlannerTopSection = ({
   canSave,
   isSaved,
   isSaving,
+  isSwitching,
   name,
   onNameChange,
   onSave,
@@ -162,6 +165,12 @@ export const PlannerTopSection = ({
                   {versionGroup.name}
                 </b>
               </span>
+              {isSwitching ? (
+                <span role="status" className="flex items-center">
+                  <Spinner className="size-4" />
+                  <span className="sr-only">Switching game</span>
+                </span>
+              ) : null}
             </>
           }
         />

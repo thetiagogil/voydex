@@ -130,8 +130,6 @@ export type PlanFollower = {
 
 export type SavedPlan = {
   expansionVersionGroupIds: number[];
-  /* The Plays that follow it, with their current teams. */
-  followers: PlanFollower[];
   id: string;
   /* How many Plays follow this Plan. */
   linkedPlayCount: number;

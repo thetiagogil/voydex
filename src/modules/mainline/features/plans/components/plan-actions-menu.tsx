@@ -5,9 +5,12 @@ import { useId, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
+import { PlanFollowersList } from "@/modules/mainline/features/plans/components/plan-followers-list";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
+import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
+import type { PlanFollower } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   AlertDialog,
@@ -22,6 +25,7 @@ import { Button } from "@/shared/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -62,9 +66,10 @@ type PlanActionsMenuProps = {
 };
 
 /*
- * One Plan's actions behind one button: Rename, Archive (or Restore, for an
- * archived Plan, which can't be renamed) and Delete, which asks first and
- * says what goes with it. Deleting from the Planner goes back to My Plans.
+ * One Plan's actions behind one button: Rename, See Plays (the Plays that
+ * follow it, in a dialog), Archive (or Restore, for an archived Plan, which
+ * can't be renamed) and Delete, which asks first and says what goes with it.
+ * Deleting from the Planner goes back to My Plans.
  */
 export const PlanActionsMenu = ({
   archiveBlockedReason,
@@ -80,6 +85,25 @@ export const PlanActionsMenu = ({
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
+  const [isPlaysOpen, setIsPlaysOpen] = useState(false);
+  const [followers, setFollowers] = useState<PlanFollower[] | null>(null);
+  const [isLoadingPlays, startLoadingPlays] = useTransition();
+
+  const seePlays = () => {
+    setError(null);
+    setFollowers(null);
+    setIsPlaysOpen(true);
+    startLoadingPlays(async () => {
+      const result = await readPlanFollowersAction(plan.id);
+
+      if (result.status === "error") {
+        setError(result.message);
+        return;
+      }
+
+      setFollowers(result.followers);
+    });
+  };
 
   const toggleArchived = () =>
     startWorking(async () => {
@@ -165,6 +189,12 @@ export const PlanActionsMenu = ({
               Rename
             </DropdownMenuItem>
           )}
+          {plan.linkedPlayCount ? (
+            <DropdownMenuItem onClick={seePlays}>
+              <AppIcon icon={appIcons.views.mainline.plays} />
+              See Plays
+            </DropdownMenuItem>
+          ) : null}
           <DropdownMenuItem
             disabled={Boolean(archiveBlockedReason) && !plan.isArchived}
             title={plan.isArchived ? undefined : archiveBlockedReason}
@@ -245,6 +275,34 @@ export const PlanActionsMenu = ({
               </Button>
             </DialogFooter>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPlaysOpen} onOpenChange={setIsPlaysOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Plays following this Plan</DialogTitle>
+            <DialogDescription>
+              Each Play&apos;s team now, and its comparison with {plan.name}.
+            </DialogDescription>
+          </DialogHeader>
+          {isLoadingPlays ? (
+            <p
+              role="status"
+              className="text-ink-2 text-14 flex items-center gap-2 font-semibold"
+            >
+              <Spinner />
+              Loading the Plays
+            </p>
+          ) : error ? (
+            <p role="alert" className="text-danger text-13 font-bold">
+              {error}
+            </p>
+          ) : followers?.length ? (
+            <PlanFollowersList followers={followers} />
+          ) : (
+            <p className="text-ink-2 text-14">No Play follows this Plan yet.</p>
+          )}
         </DialogContent>
       </Dialog>
 

@@ -96,16 +96,20 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
     await expectAccessible(page);
 
-    /* The Plan shows the Play that follows it, with its current team. */
+    /* See Plays lists the Play that follows the Plan, with its team now. */
     await page.goto(`/mainline/plans/${planId}`);
-    const followers = page.getByRole("region", { name: /^Followed by 1 Play/ });
-    await expect(
-      followers.getByRole("heading", { name: playName }),
-    ).toBeVisible();
-    await expect(
-      followers.getByRole("img", { name: "Charmander" }),
-    ).toBeVisible();
-    await followers.getByRole("link", { name: `Compare ${playName}` }).click();
+    await expect(page.getByText("Followed by 1 Play.")).toBeVisible();
+    await page
+      .getByRole("button", { name: `${planName}: more actions` })
+      .click();
+    await page.getByRole("menuitem", { name: "See Plays" }).click();
+    const plays = page.getByRole("dialog", {
+      name: "Plays following this Plan",
+    });
+    await expect(plays.getByRole("heading", { name: playName })).toBeVisible();
+    await expect(plays.getByRole("img", { name: "Charmander" })).toBeVisible();
+    await expectAccessible(page);
+    await plays.getByRole("link", { name: `Compare ${playName}` }).click();
     await page.waitForURL(`**/mainline/plays/${playId}/team/plan`);
   });
 
@@ -145,7 +149,7 @@ test.describe("Team Planner", () => {
     ).toBeEnabled();
   });
 
-  test("archives a Plan into its own list, reads it, and restores it", async ({
+  test("archives a Plan into its own list, keeps it shut, and restores it", async ({
     page,
   }) => {
     const name = uniquePlayName("Shelved plan");
@@ -160,22 +164,22 @@ test.describe("Team Planner", () => {
     await expect(card).toBeHidden();
     await page.getByRole("link", { name: /^Archived · \d+/ }).click();
     await page.waitForURL("**/mainline/plans?view=archived");
-    await expect(card).toBeVisible();
     await expectAccessible(page);
 
-    /* Read-only until restored. */
-    await card.click();
-    await page.waitForURL(`**/mainline/plans/${planId}`);
+    /* An archived Plan doesn't open: its card stays put, its link leads back. */
     await expect(
-      page.getByRole("button", { name: "Save changes" }),
+      page.getByRole("link", { name: new RegExp(name) }),
     ).toBeHidden();
-    await page.getByRole("button", { name: "Restore Plan" }).click();
-    await expect(
-      page.getByRole("button", { name: `${name}: more actions` }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Restore Plan" }),
-    ).toBeHidden();
+    await expect(page.getByRole("heading", { name })).toBeVisible();
+    await page.goto(`/mainline/plans/${planId}`);
+    await page.waitForURL("**/mainline/plans?view=archived");
+
+    /* Restored, it's back in My Plans. */
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Restore" }).click();
+    await expect(page.getByRole("heading", { name })).toBeHidden();
+    await page.goto("/mainline/plans");
+    await expect(card).toBeVisible();
   });
 
   test("renames a Plan from My Plans", async ({ page }) => {
