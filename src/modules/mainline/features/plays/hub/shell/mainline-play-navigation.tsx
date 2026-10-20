@@ -2,10 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, type MouseEvent } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
+  getMainlinePlayMarkedPath,
   getMainlinePlayNavigationState,
+  type MainlinePlayPickedTab,
   type MainlinePlayProgressView,
   type MainlinePlayTeamView,
 } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation-model";
@@ -68,6 +71,7 @@ const getCompoundLabel = <TView extends string>({
 /*
  * A Play's tabs: quiet pills, the active one solid. Team and Progress open
  * menus of their views, each with its icon and one line on what it is for.
+ * A picked tab lights as soon as it's picked, not when its page arrives.
  */
 export const MainlinePlayNavigation = ({
   collectiblesAvailable,
@@ -75,7 +79,33 @@ export const MainlinePlayNavigation = ({
   playId,
 }: MainlinePlayNavigationProps) => {
   const pathname = usePathname();
-  const state = getMainlinePlayNavigationState(pathname, playId);
+  const [picked, setPicked] = useState<MainlinePlayPickedTab | null>(null);
+  const [seenPathname, setSeenPathname] = useState(pathname);
+
+  /* Once a page arrives, the pick has done its job. */
+  if (seenPathname !== pathname) {
+    setSeenPathname(pathname);
+    setPicked(null);
+  }
+
+  const state = getMainlinePlayNavigationState(
+    getMainlinePlayMarkedPath(pathname, picked),
+    playId,
+  );
+  /* A plain click only: a new tab or window leaves this page as it is. */
+  const pick = (href: string) => (event: MouseEvent<HTMLAnchorElement>) => {
+    if (
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return;
+    }
+
+    setPicked({ from: pathname, href });
+  };
   const teamLabel = getCompoundLabel({
     activeView: state.activeTeamView,
     labels: teamViewLabels,
@@ -147,7 +177,12 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlLink
           active={state.activeSection === "overview"}
-          render={<Link href={appRoutes.mainlinePlay(playId)} />}
+          render={
+            <Link
+              href={appRoutes.mainlinePlay(playId)}
+              onClick={pick(appRoutes.mainlinePlay(playId))}
+            />
+          }
           className="justify-center px-4"
         >
           Overview
@@ -172,7 +207,11 @@ export const MainlinePlayNavigation = ({
                 description={view.description}
                 disabled={!view.href}
                 leading={<AppIcon icon={view.icon} size="md" />}
-                render={view.href ? <Link href={view.href} /> : undefined}
+                render={
+                  view.href ? (
+                    <Link href={view.href} onClick={pick(view.href)} />
+                  ) : undefined
+                }
                 title={view.label}
               />
             );
@@ -194,7 +233,7 @@ export const MainlinePlayNavigation = ({
               active={state.activeProgressView === view.value}
               description={view.description}
               leading={<AppIcon icon={view.icon} size="md" />}
-              render={<Link href={view.href} />}
+              render={<Link href={view.href} onClick={pick(view.href)} />}
               title={view.label}
             />
           ))}
@@ -204,7 +243,12 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlLink
           active={state.activeSection === "history"}
-          render={<Link href={appRoutes.mainlinePlayHistory(playId)} />}
+          render={
+            <Link
+              href={appRoutes.mainlinePlayHistory(playId)}
+              onClick={pick(appRoutes.mainlinePlayHistory(playId))}
+            />
+          }
           className="justify-center px-4"
         >
           History
@@ -214,7 +258,12 @@ export const MainlinePlayNavigation = ({
       <NavigationMenuItem>
         <NavigationMenuControlLink
           active={state.activeSection === "settings"}
-          render={<Link href={appRoutes.mainlinePlaySettings(playId)} />}
+          render={
+            <Link
+              href={appRoutes.mainlinePlaySettings(playId)}
+              onClick={pick(appRoutes.mainlinePlaySettings(playId))}
+            />
+          }
           className="justify-center px-4"
         >
           Settings
