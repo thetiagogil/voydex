@@ -98,6 +98,11 @@ END IF;
         RAISE EXCEPTION 'Type % is not in the game of play %', option_value, NEW.play_id
             USING ERRCODE = '23514';
     END IF;
+    -- A reuse option is one of the reuse scopes, narrowest to broadest.
+    IF option_key = 'reuse_scope' AND option_value #>> '{}' NOT IN ('form', 'species', 'evolution_family') THEN
+        RAISE EXCEPTION 'Reuse scope % is not one Voydex knows', option_value
+            USING ERRCODE = '23514';
+    END IF;
 END LOOP;
     -- A rule with a type (Monotype) is kept only with its type picked.
     IF rule_config ? 'type_id' AND jsonb_typeof(COALESCE(NEW.config_override -> 'type_id', 'null'::jsonb)) <> 'number' THEN
@@ -123,4 +128,4 @@ CREATE TRIGGER enforce_play_challenge_rule_scope
     FOR EACH ROW
     EXECUTE FUNCTION private.enforce_play_challenge_rule_scope ();
 
-COMMENT ON FUNCTION private.enforce_play_challenge_rule_scope () IS 'Allows predefined challenge rules for any play and custom challenge rules only for mainline_plays owned by the same user, and checks the options a play sets against its rule: known keys, matching value kinds, and a type, required where the rule has one, that exists in the play''s game.';
+COMMENT ON FUNCTION private.enforce_play_challenge_rule_scope () IS 'Allows predefined challenge rules for any play and custom challenge rules only for mainline_plays owned by the same user, and checks the options a play sets against its rule: known keys, matching value kinds, a known reuse scope, and a type, required where the rule has one, that exists in the play''s game.';

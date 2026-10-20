@@ -295,6 +295,8 @@ WITH rule_assignments (version_group_id, rule_slug, config_override) AS (
     (6, 'release_on_faint', NULL),
     (6, 'nickname_everything', NULL),
     (9, 'no_battle_items', NULL),
+    -- No Pokemon reuse, counting whole evolution families.
+    (9, 'no_pokemon_reuse', '{"reuse_scope":"evolution_family"}'::jsonb),
     (12, 'first_catch_per_area', NULL),
     -- Monotype: Water (type 3).
     (15, 'monotype', '{"type_id":3}'::jsonb),

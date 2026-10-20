@@ -31,6 +31,9 @@ WITH voydex_rules (slug, rule_type_id, name, description, config) AS (
     ('monotype', 3, 'Monotype', 'Use only Pokémon of one type.', '{"type_id":null}'::jsonb),
     -- No legendaries.
     ('no_legendaries', 3, 'No legendaries', 'No Legendary or Mythical Pokémon on your team.', '{}'::jsonb),
+    -- No Pokemon reuse. Option: what counts as the same Pokemon, its species
+    -- (default), its exact form or its whole evolution family.
+    ('no_pokemon_reuse', 3, 'No Pokémon reuse', 'Don''t use a Pokémon you''ve already used in another Play.', '{"reuse_scope":"species"}'::jsonb),
     -- No trades.
     ('no_trades', 3, 'No trades', 'Use only Pokémon you caught or got in this game.', '{}'::jsonb),
     -- Battles

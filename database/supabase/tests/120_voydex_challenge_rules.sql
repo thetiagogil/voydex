@@ -12,7 +12,7 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
 INSERT INTO gameplay.mainline_challenge_rules (id, user_id, rule_type_id, slug, name)
     VALUES ('80000000-0000-0000-0000-0000000000e2', '00000000-0000-0000-0000-0000000000e2', 5, 'their_rule', 'Their rule');
 SELECT
-    plan (21);
+    plan (24);
 -- The catalogue
 SELECT
     results_eq ($$
@@ -20,7 +20,7 @@ SELECT
             slug FROM gameplay.mainline_challenge_rules
             WHERE
                 user_id IS NULL ORDER BY slug $$, $$
-            VALUES ('first_catch_per_area'), ('level_caps'), ('monotype'), ('nickname_everything'), ('no_battle_items'), ('no_legendaries'), ('no_trades'), ('release_on_faint'), ('set_battle_mode'), ('shiny_only'), ('whiteout_ends_run') $$, 'Voydex ships its eleven own rules');
+            VALUES ('first_catch_per_area'), ('level_caps'), ('monotype'), ('nickname_everything'), ('no_battle_items'), ('no_legendaries'), ('no_pokemon_reuse'), ('no_trades'), ('release_on_faint'), ('set_battle_mode'), ('shiny_only'), ('whiteout_ends_run') $$, 'Voydex ships its twelve own rules');
 SELECT
     IS ((
             SELECT
@@ -66,7 +66,7 @@ SELECT
             FROM
                 gameplay.mainline_challenge_rules
             WHERE
-                user_id IS NULL), 11, 'a trainer sees every Voydex rule');
+                user_id IS NULL), 12, 'a trainer sees every Voydex rule');
 UPDATE
     gameplay.mainline_challenge_rules
 SET
@@ -163,6 +163,31 @@ SELECT
             WHERE
                 slug = 'first_catch_per_area'
                 AND user_id IS NULL $$, '23514', NULL, 'the shiny option must be on or off');
+SELECT
+    IS ((
+            SELECT
+                config
+            FROM
+                gameplay.mainline_challenge_rules
+            WHERE
+                slug = 'no_pokemon_reuse'
+                AND user_id IS NULL),
+            '{"reuse_scope":"species"}'::jsonb,
+            'No Pokémon reuse counts species by default');
+SELECT
+    lives_ok ($$ INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
+        SELECT
+            '60000000-0000-0000-0000-0000000000e1', id, '{"reuse_scope":"evolution_family"}'::jsonb FROM gameplay.mainline_challenge_rules
+            WHERE
+                slug = 'no_pokemon_reuse'
+                AND user_id IS NULL $$, 'a Play can count whole evolution families as reuse');
+SELECT
+    throws_ok ($$ UPDATE
+            gameplay.mainline_play_challenge_rules
+        SET
+            config_override = '{"reuse_scope":"color"}'::jsonb
+            WHERE
+                challenge_rule_id = md5('voydex:rule:no_pokemon_reuse')::uuid $$, '23514', NULL, 'an unknown reuse scope is refused');
 -- Starting a Play with rules
 CREATE TEMPORARY TABLE started_mono ON COMMIT DROP AS
 SELECT
