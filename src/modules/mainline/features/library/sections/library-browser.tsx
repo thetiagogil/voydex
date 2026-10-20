@@ -14,6 +14,7 @@ import {
   type LibraryMaker,
   type LibrarySort,
 } from "@/modules/mainline/features/library/data/library-model";
+import { LibraryPresetsSection } from "@/modules/mainline/features/library/sections/library-presets-section";
 import { LibraryRulesSection } from "@/modules/mainline/features/library/sections/library-rules-section";
 import { LibraryTagsSection } from "@/modules/mainline/features/library/sections/library-tags-section";
 import type {
@@ -39,7 +40,8 @@ import { SelectControl } from "@/shared/components/select-control";
 
 /*
  * The Library's band (its head, the tabs and, folded under the head's
- * search button, the bar) and the open tab's list. Rules search by name or
+ * search button, the bar) and the open tab's list: on Rules, the presets
+ * then the rules. Rules search by name or
  * kind, narrow by kind and by who made them (Voydex or you) and sort by
  * name or use; tags search and sort.
  */
@@ -232,7 +234,17 @@ export const LibraryBrowser = ({
           action={<ResetListButton onClick={resetList} />}
         />
       ) : isRules ? (
-        <LibraryRulesSection kinds={data.kinds} rules={rules} />
+        <div className="grid gap-8 sm:gap-10">
+          {/* Presets show while the bar doesn't narrow the rules. */}
+          {hasActiveFilters ? null : (
+            <LibraryPresetsSection presets={data.presets} rules={data.rules} />
+          )}
+          <LibraryRulesSection
+            kinds={data.kinds}
+            rules={rules}
+            showHead={!hasActiveFilters}
+          />
+        </div>
       ) : (
         <LibraryTagsSection tags={tags} />
       )}

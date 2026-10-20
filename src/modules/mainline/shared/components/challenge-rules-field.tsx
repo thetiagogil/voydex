@@ -7,21 +7,25 @@ import {
 } from "@/modules/mainline/shared/components/library-choice-field";
 import {
   describeRuleConfig,
+  getMissingRuleOption,
   type ChallengeRuleChoice,
   type PlayRuleSelection,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
+import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import type { GameTypeChoice } from "@/modules/reference/features/games/domain/game-types";
 
 /*
  * The challenge rules a Play keeps (Settings, New Play): the Library picker,
- * with each rule's options for this Play. Monotype names its type on the
- * chip and asks for it as soon as it's added.
+ * with each rule's options for this Play, and its presets first, each
+ * adding all its rules. Monotype names its type on the chip and asks for it
+ * as soon as it's added.
  */
 export const ChallengeRulesField = ({
   disabled = false,
   label,
   onChange,
   onCreate,
+  presets = [],
   rules,
   selections,
   showLibraryLink,
@@ -31,6 +35,8 @@ export const ChallengeRulesField = ({
   label: string;
   onChange: (selections: PlayRuleSelection[]) => void;
   onCreate: (name: string) => Promise<LibraryCreateResult>;
+  /* Listed first: picking one adds all its rules. */
+  presets?: readonly RulePreset[];
   rules: readonly ChallengeRuleChoice[];
   selections: readonly PlayRuleSelection[];
   /* "Manage in Library" at the picker's foot; off inside a dialog. */
@@ -53,6 +59,11 @@ export const ChallengeRulesField = ({
     hasOptions: rule.optionKeys.length > 0,
     id: rule.id,
     name: rule.name,
+    needsOptions:
+      getMissingRuleOption(
+        rule.optionKeys,
+        configById.get(rule.id) ?? rule.defaults,
+      ) !== null,
   }));
 
   return (
@@ -61,6 +72,12 @@ export const ChallengeRulesField = ({
       noun="rule"
       addLabel="Add rule"
       choices={choices}
+      bundles={presets.map((preset) => ({
+        choiceIds: preset.ruleIds,
+        description: preset.description,
+        id: preset.id,
+        name: preset.name,
+      }))}
       disabled={disabled}
       selectedIds={selections.map((selection) => selection.ruleId)}
       showLibraryLink={showLibraryLink}

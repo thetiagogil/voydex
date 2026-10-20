@@ -3,6 +3,7 @@ import {
   resolveRuleConfig,
   toChallengeRuleChoice,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
+import { readRulePresets } from "@/modules/mainline/shared/server/rule-presets-reader";
 import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
 import { readTypeIntroductions } from "@/modules/reference/features/games/server/type-introduction-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -130,6 +131,14 @@ export const readMainlinePlaySettings = async (
   );
   const selectedLinks = selectedRulesResult.data ?? [];
   const selectedRuleIds = selectedLinks.map((link) => link.challenge_rule_id);
+  const pickableRules = pickRuleChoicesByName(
+    (rulesResult.data ?? []).map(toChallengeRuleChoice),
+    selectedRuleIds,
+  );
+  const presets = await readRulePresets(
+    supabase,
+    new Set(pickableRules.map((rule) => rule.id)),
+  );
   const ruleConfigById = new Map(
     (rulesResult.data ?? []).map((rule) => [rule.id, rule.config]),
   );
@@ -147,10 +156,8 @@ export const readMainlinePlaySettings = async (
       trainerName: play.trainer_name,
     },
     isArchived: play.archived_at !== null,
-    rules: pickRuleChoicesByName(
-      (rulesResult.data ?? []).map(toChallengeRuleChoice),
-      selectedRuleIds,
-    ),
+    presets,
+    rules: pickableRules,
     selectedExpansionIds: (selectedScopesResult.data ?? []).map(
       (scope) => scope.version_group_id,
     ),

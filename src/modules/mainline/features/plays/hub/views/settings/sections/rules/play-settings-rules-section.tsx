@@ -38,6 +38,7 @@ export const PlaySettingsRulesSection = ({
       <ChallengeRulesField
         label="Challenge rules"
         rules={data.rules}
+        presets={data.presets}
         selections={value}
         types={data.types}
         disabled={disabled}

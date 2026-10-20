@@ -79,6 +79,10 @@ Use reviewed security-invoker functions for atomic workflows:
   partner joins slot 1 and that milestone is completed with its decision and a
   "<Species> chose you" moment; otherwise the partner joins slot 1 with its own
   Added moment.
+- `gameplay.save_mainline_challenge_rule_set` makes or changes one of your
+  presets (`gameplay.mainline_challenge_rule_sets`) and its rules, in order
+  and each once, in one transaction; a preset needs at least one rule and
+  holds only Voydex's rules and your own.
 - `gameplay.add_mainline_play_event` adds a free-form moment (journal note or
   status change, manual or recorded-action origin) at the next timeline place
   under the Play's advisory lock. Milestone, Pokémon and Hall of Fame moments

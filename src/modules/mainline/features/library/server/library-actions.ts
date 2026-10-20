@@ -5,11 +5,13 @@ import { revalidatePath } from "next/cache";
 import { appRoutes } from "@/config/routes";
 import {
   deleteChallengeRule,
+  deleteRulePreset,
   deleteTag,
   findOrCreateChallengeRule,
   findOrCreateTag,
   renameChallengeRule,
   renameTag,
+  saveRulePreset,
 } from "@/modules/mainline/shared/server/library-choice-commands";
 import type { LibraryChoice } from "@/modules/mainline/shared/types";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
@@ -24,6 +26,7 @@ import {
   positiveIntegerSchema,
   uuidSchema,
 } from "@/shared/utils/input-schemas";
+import { z } from "zod";
 
 export type LibraryActionResult =
   | { choice: LibraryChoice; message: string; status: "success" }
@@ -36,6 +39,12 @@ export type LibraryDeleteResult =
 const ruleIdSchema = uuidSchema("That rule couldn't be found.");
 const tagIdSchema = uuidSchema("That tag couldn't be found.");
 const kindIdSchema = positiveIntegerSchema("Pick a kind from the list.");
+const presetIdSchema = uuidSchema("That preset couldn't be found.");
+const presetRuleIdsSchema = z
+  .array(uuidSchema("Pick rules from the list."), {
+    error: "Pick rules from the list.",
+  })
+  .min(1, { error: "Add at least one rule to the preset." });
 
 const failure = (
   error: unknown,
@@ -222,5 +231,69 @@ export const deleteLibraryTagAction = async (
     return { message: "Tag deleted", status: "success" };
   } catch (error) {
     return failure(error, "Unable to delete that tag.");
+  }
+};
+
+/*
+ * Makes (no id) or changes one of your presets: its name, what it's for and
+ * its rules in order.
+ */
+export const saveLibraryPresetAction = async ({
+  description,
+  id,
+  name,
+  ruleIds,
+}: {
+  description: string | null;
+  id?: string;
+  name: string;
+  ruleIds: string[];
+}): Promise<LibraryActionResult> => {
+  try {
+    const presetName = parseLibraryName(name, {
+      label: "preset",
+      maximum: libraryNameMaxLength.preset,
+    });
+    const presetDescription = parseRuleDescription(description);
+    const presetId =
+      id === undefined ? undefined : parseInput(presetIdSchema, id);
+    const presetRuleIds = [
+      ...new Set(parseInput(presetRuleIdsSchema, ruleIds)),
+    ];
+    const { supabase, userId } = await getTrainer();
+    const choice = await saveRulePreset(supabase, {
+      description: presetDescription,
+      id: presetId,
+      name: presetName,
+      ruleIds: presetRuleIds,
+      userId,
+    });
+
+    revalidateLibrary();
+
+    return {
+      choice,
+      message: presetId ? "Preset saved" : `${choice.name} added`,
+      status: "success",
+    };
+  } catch (error) {
+    return failure(error, "Unable to save that preset.");
+  }
+};
+
+/* Deletes one of your presets for good; its rules stay. */
+export const deleteLibraryPresetAction = async (
+  id: string,
+): Promise<LibraryDeleteResult> => {
+  try {
+    const presetId = parseInput(presetIdSchema, id);
+    const { supabase, userId } = await getTrainer();
+
+    await deleteRulePreset(supabase, { id: presetId, userId });
+    revalidateLibrary();
+
+    return { message: "Preset deleted", status: "success" };
+  } catch (error) {
+    return failure(error, "Unable to delete that preset.");
   }
 };

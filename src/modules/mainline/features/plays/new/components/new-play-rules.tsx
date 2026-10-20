@@ -8,6 +8,7 @@ import type {
   ChallengeRuleChoice,
   PlayRuleSelection,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
+import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import type { GameTypeChoice } from "@/modules/reference/features/games/domain/game-types";
 import { FieldLabel } from "@/shared/components/ui/field";
 
@@ -19,11 +20,13 @@ import { FieldLabel } from "@/shared/components/ui/field";
  */
 export const NewPlayRules = ({
   onChange,
+  presets,
   ruleChoices,
   rules,
   types,
 }: {
   onChange: (rules: PlayRuleSelection[]) => void;
+  presets: RulePreset[];
   ruleChoices: ChallengeRuleChoice[];
   rules: PlayRuleSelection[];
   types: GameTypeChoice[];
@@ -36,6 +39,7 @@ export const NewPlayRules = ({
       <ChallengeRulesField
         label="Challenge rules"
         rules={ruleChoices}
+        presets={presets}
         selections={rules}
         types={types}
         showLibraryLink={false}

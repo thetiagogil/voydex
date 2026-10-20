@@ -27,8 +27,13 @@ Voydex ships its own rules, one small idea each, grouped by kind
   No trades.
 - **Battles:** Level caps, No battle items, Set battle mode.
 
-Presets that group them (Nuzlocke, Hardcore Nuzlocke) are rule sets, and
-come with the Library's rule sets. Your own rules take the Custom kind or
+Presets group them: Voydex's Nuzlocke (First catch per area, Release on
+faint, Nickname everything, Whiteout ends the run) and Hardcore Nuzlocke
+(the Nuzlocke plus Level caps, No battle items and Set battle mode), and
+your own. Adding a preset to a Play adds its rules (the ones the Play
+doesn't keep yet); the Play keeps no link to the preset, so any rule comes
+off on its own. The Add rule picker lists presets first; a preset with
+Monotype opens Monotype's type at once. Your own rules take the Custom kind or
 any other.
 
 A rule's `config` lists the options a Play can set and their defaults; a
@@ -85,6 +90,12 @@ shared Tag from one record does not delete the reusable Tag.
 The Library (`/mainline/library`) keeps the rules and tags you reuse across
 Plays, in two tabs:
 
+- **Presets** sit first on the Rules tab: a card per preset with its rules
+  in order; Voydex's wear a lock. A preset opens in full; yours (or New
+  preset, in the section's head) is its name, what it's for and its board:
+  the rules in it beside the rules to add. Drag a rule across or along, or
+  use each rule's buttons (add, move up or down, take out) on a phone or a
+  keyboard. A preset needs at least one rule.
 - **Rules:** a card per rule you can pick, Voydex's own (a lock marked
   Voydex) and yours, with its kind, what it asks and how many Plays keep it.
   Tapping a card opens the rule in full: its kind and who made it ("Made by

@@ -1,3 +1,4 @@
+import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import type { PlayTeam } from "@/modules/mainline/shared/types";
 import type { ChallengeRuleOptionKey } from "@/modules/mainline/shared/data/challenge-rule-options";
 
@@ -29,6 +30,8 @@ export type LibraryTab = "rules" | "tags";
 /* The Library: your rules and tags, kept for every Play. */
 export type LibraryPageData = {
   kinds: LibraryRuleKind[];
+  /* Voydex's presets and yours, each with its rules in order. */
+  presets: RulePreset[];
   rules: LibraryRule[];
   tags: LibraryTag[];
 };
