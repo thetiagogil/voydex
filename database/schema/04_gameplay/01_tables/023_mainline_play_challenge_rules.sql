@@ -15,6 +15,8 @@ CREATE INDEX play_challenge_rules_challenge_rule_idx ON gameplay.mainline_play_c
 
 COMMENT ON TABLE gameplay.mainline_play_challenge_rules IS 'Rules applied to a play, with optional structured override config.';
 
+COMMENT ON COLUMN gameplay.mainline_play_challenge_rules.config_override IS 'This play''s values for the options its rule offers (keys of the rule''s config), such as Monotype''s type_id.';
+
 CREATE FUNCTION private.enforce_play_challenge_rule_scope ()
     RETURNS TRIGGER
     LANGUAGE plpgsql
@@ -23,20 +25,29 @@ CREATE FUNCTION private.enforce_play_challenge_rule_scope ()
     AS $$
 DECLARE
     play_user_id uuid;
+    play_generation_id integer;
     rule_user_id uuid;
+    rule_config jsonb;
+    option_key text;
+    option_value jsonb;
 BEGIN
     SELECT
-        mainline_plays.user_id
+        mainline_plays.user_id,
+        version_groups.generation_id
     INTO
-        play_user_id
+        play_user_id,
+        play_generation_id
     FROM
         gameplay.mainline_plays
+        JOIN reference.version_groups ON version_groups.id = mainline_plays.version_group_id
     WHERE
         mainline_plays.id = NEW.play_id;
     SELECT
-        mainline_challenge_rules.user_id
+        mainline_challenge_rules.user_id,
+        mainline_challenge_rules.config
     INTO
-        rule_user_id
+        rule_user_id,
+        rule_config
     FROM
         gameplay.mainline_challenge_rules
     WHERE
@@ -59,6 +70,40 @@ END IF;
         RAISE EXCEPTION 'Challenge rule % does not belong to the owner of play %', NEW.challenge_rule_id, NEW.play_id
             USING ERRCODE = '23514';
     END IF;
+    -- A Play only sets the options its rule offers (the rule's config keys),
+    -- each as the same kind of value as the rule's default; an option whose
+    -- default is null (Monotype's type) takes a number.
+    FOR option_key,
+    option_value IN
+    SELECT
+        options.key,
+        options.value
+    FROM
+        jsonb_each(COALESCE(NEW.config_override, '{}'::jsonb)) AS options LOOP
+        IF NOT rule_config ? option_key THEN
+            RAISE EXCEPTION 'Challenge rule % has no option %', NEW.challenge_rule_id, option_key USING ERRCODE = '23514';
+END IF;
+    IF jsonb_typeof(option_value) <> 'null' AND jsonb_typeof(option_value) <> COALESCE(NULLIF (jsonb_typeof(rule_config -> option_key), 'null'), 'number') THEN
+        RAISE EXCEPTION 'Option % of challenge rule % must be a %', option_key, NEW.challenge_rule_id, COALESCE(NULLIF (jsonb_typeof(rule_config -> option_key), 'null'), 'number')
+            USING ERRCODE = '23514';
+    END IF;
+    -- A type option names a type that exists in the Play's game.
+    IF option_key = 'type_id' AND jsonb_typeof(option_value) = 'number' AND NOT EXISTS (
+        SELECT
+            1
+        FROM
+            reference.types
+        WHERE
+            types.id::numeric = option_value::text::numeric AND types.introduced_generation_id <= play_generation_id) THEN
+        RAISE EXCEPTION 'Type % is not in the game of play %', option_value, NEW.play_id
+            USING ERRCODE = '23514';
+    END IF;
+END LOOP;
+    -- A rule with a type (Monotype) is kept only with its type picked.
+    IF rule_config ? 'type_id' AND jsonb_typeof(COALESCE(NEW.config_override -> 'type_id', 'null'::jsonb)) <> 'number' THEN
+        RAISE EXCEPTION 'Challenge rule % needs a type', NEW.challenge_rule_id
+            USING ERRCODE = '23514';
+    END IF;
     RETURN NEW;
 END;
 $$;
@@ -73,8 +118,9 @@ GRANT EXECUTE ON FUNCTION private.enforce_play_challenge_rule_scope () TO servic
 
 CREATE TRIGGER enforce_play_challenge_rule_scope
     BEFORE INSERT OR UPDATE OF play_id,
-    challenge_rule_id ON gameplay.mainline_play_challenge_rules
+    challenge_rule_id,
+    config_override ON gameplay.mainline_play_challenge_rules
     FOR EACH ROW
     EXECUTE FUNCTION private.enforce_play_challenge_rule_scope ();
 
-COMMENT ON FUNCTION private.enforce_play_challenge_rule_scope () IS 'Allows predefined challenge rules for any play and custom challenge rules only for mainline_plays owned by the same user.';
+COMMENT ON FUNCTION private.enforce_play_challenge_rule_scope () IS 'Allows predefined challenge rules for any play and custom challenge rules only for mainline_plays owned by the same user, and checks the options a play sets against its rule: known keys, matching value kinds, and a type, required where the rule has one, that exists in the play''s game.';
