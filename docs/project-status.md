@@ -43,7 +43,8 @@ phase 6; the New Plan cache fix is parked on the local branch
 - **Mainline**: Home, Plays (with its Archived view), New Play, the Play hub
   (Overview, Team with Roster, Plan comparison and Analysis with Story
   matchups, Progress with Story, Pokédex and Collectibles, History, Settings),
-  the Team Planner and My Plans, Statistics and Collection, all on real data.
+  the Team Planner and My Plans, Statistics, Collection and the Library
+  (your rules and tags; rule sets come next, #84), all on real data.
   The [Feature Contract](./product/feature-contract.md) says what each does.
 - **Codex**: Pokémon browse and the version-group-scoped entry, Games browse,
   the version group page and its Pokédexes. Routes are in
