@@ -13,7 +13,10 @@ import {
   readMainlinePlayOverviewMilestoneRows,
   readMainlinePlayOverview,
 } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-reader";
+import { buildMainlinePlayBadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
+import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper";
 import { readMainlinePlayOverviewPartnerRows } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-partner-reader";
+import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { readMainlinePlayOverviewTeamRows } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-team-reader";
 import { readMainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/server/play-team-reader";
 import {
@@ -275,16 +278,29 @@ export const getMainlinePlayHistoryData = cache(
       return null;
     }
 
-    const events = await readMainlinePlayTimeline(context.supabase, playId);
+    const [events, milestoneRows, teamPreviewRows] = await Promise.all([
+      readMainlinePlayTimeline(context.supabase, playId),
+      readMainlinePlayOverviewMilestoneRows(context.supabase, playId),
+      readMainlinePlayOverviewTeamRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+      ),
+    ]);
     const momentContext = await readMainlinePlayMomentContext(
       context.supabase,
       { events, generationId: context.play.generation_id, playId },
     );
 
     return {
+      badgeCase: buildMainlinePlayBadgeCase({
+        milestones: orderPlayMilestones(milestoneRows),
+        types: milestoneRows.types,
+      }),
       context: momentContext,
       events,
       play: context.play,
+      team: buildMainlinePlayOverviewTeamPreview(teamPreviewRows),
     };
   },
 );

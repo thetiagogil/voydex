@@ -72,7 +72,7 @@ export const PlayTimelineMonth = ({
     <div className="grid min-h-14 grid-cols-[56px_minmax(0,1fr)] items-center gap-3 sm:gap-4">
       <span
         aria-hidden
-        className="bg-surface inset-ring-line relative mx-auto size-3.5 rounded-full inset-ring-2"
+        className="bg-surface inset-ring-mute relative mx-auto size-4.5 rounded-full inset-ring-[3px]"
       />
       <RangeHeading
         className="pl-4 sm:pl-5"

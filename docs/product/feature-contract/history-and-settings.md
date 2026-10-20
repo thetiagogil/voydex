@@ -8,9 +8,16 @@ As built, History (`/mainline/plays/[playId]/history`) draws every moment the
 Play kept on one continuous line, newest or oldest first: each moment's
 medallion sits on the line with its words in a small card beside it, months
 mark the line where they begin, and "Your Play starts here" is the line's
-origin (shown with every kind and no search). From 1024px a side index lists
-the months shown under their years, each with its count and a strip of its
-moments' medallions, marks the one you're reading and jumps to any of them. Overview's Recent moments draws
+origin (shown with every kind and no search). The moments that are rewards wear
+their colour: a gym badge its type's soft tint with the team saved with it,
+the League a soft gold, a note a warm tint; an evolution or form change shows
+the Pokémon before and after; the rest stay plain. Each card's top line reads
+the kind on the left and when on the right. A "So far" card stands beside
+the line (above it on narrow screens): when the Play started and how many
+days ago, its badges earned, next and ahead, and the team now as stickers.
+From 1024px a side index under it lists the months shown under their years,
+each with its count and a strip of its moments' medallions, marks the one
+you're reading and jumps to any of them. Overview's Recent moments draws
 its three newest on the same line, closed by the starting line while there are
 fewer than three. Filters split it into Story (milestones and
 the Hall of Fame), Team (every roster change; what Team History used to be),
