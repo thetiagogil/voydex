@@ -17,15 +17,6 @@ const row = (props: Partial<Parameters<typeof RecordRow>[0]> = {}) =>
   );
 
 describe("RecordRow on a timeline", () => {
-  it("puts when it happened at the card's right edge, after the kind", () => {
-    const markup = row({ when: "Feb 14 · 12:00 PM" });
-
-    expect(markup).toContain("justify-between");
-    expect(markup.indexOf("Milestone")).toBeLessThan(
-      markup.indexOf("Feb 14 · 12:00 PM"),
-    );
-  });
-
   it("keeps its medallion on the line unless it sits in a grid", () => {
     const onLine = row();
     const inGrid = row({ placement: "grid" });

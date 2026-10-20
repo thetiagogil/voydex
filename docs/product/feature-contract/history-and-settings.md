@@ -8,8 +8,7 @@ As built, History (`/mainline/plays/[playId]/history`) draws every moment the
 Play kept on one continuous dashed line, newest or oldest first: each moment's
 medallion sits on the line with its words in a small card beside it, months
 mark the line where they begin, and "Your Play starts here" is the line's
-origin (shown with every kind and no search). From 1024px each month's moments leave the line for a grid of cards beside it, two across and three on wide screens, each card with its medallion inside, so the line runs from month to month. Each card's top line reads the kind on the left and when
-on the right; a milestone saved with a team shows that team under its words,
+origin (shown with every kind and no search). From 1024px each month's moments leave the line for a grid of cards beside it, two across and three on wide screens, each card with its medallion inside, so the line runs from month to month. Each card's top line reads the kind, then when it happened; a milestone saved with a team shows that team under its words,
 and an evolution or form change shows the Pokémon before and after. Overview's Recent moments draws
 its three newest on the same line, closed by the starting line while there are
 fewer than three. Filters split it into Story (milestones and
