@@ -2,9 +2,7 @@
 
 import { Badge } from "@/shared/components/ui/badge";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition, type ReactNode } from "react";
-import { toast } from "sonner";
+import { useMemo, useState, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -18,11 +16,10 @@ import {
   type MyPlansFilters,
   type MyPlansSort,
 } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
-import { deletePlanAction } from "@/modules/mainline/features/plans/my-plans/server/delete-plan-action";
+import { PlanActionsMenu } from "@/modules/mainline/features/plans/components/plan-actions-menu";
 import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { CornerRemoveButton } from "@/shared/components/corner-remove-button";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
 import { PageBand } from "@/shared/components/page-band";
@@ -35,25 +32,12 @@ import {
   useFold,
 } from "@/shared/components/fold";
 import { SearchControl } from "@/shared/components/search-control";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { StatusBadge } from "@/shared/components/status-badge";
 import {
   FilterSheetRow,
   FilterToolbar,
 } from "@/shared/components/filter-toolbar";
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/shared/components/ui/alert-dialog";
-import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
-import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
 type MyPlansBrowserProps = {
@@ -63,125 +47,87 @@ type MyPlansBrowserProps = {
 };
 
 /*
- * One Plan: the card opens it in the Team Planner; the × on its corner (as
- * on the Planner's team slots) deletes it, after a confirm that says what
- * goes with it.
+ * One Plan: the card opens it in the Team Planner (an archived one stays
+ * shut); its "⋯" in the corner holds Rename, See Plays, Archive or Restore,
+ * and Delete.
  */
 const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
-  const router = useRouter();
-  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-  const [isDeleting, startDeleting] = useTransition();
-  const [deleteError, setDeleteError] = useState<string | null>(null);
-
-  const deletePlan = () => {
-    startDeleting(async () => {
-      const result = await deletePlanAction(plan.id);
-
-      if (result.status === "error") {
-        setDeleteError(result.message);
-        return;
-      }
-
-      setIsConfirmOpen(false);
-      toast.success(`${plan.name} deleted`);
-      router.refresh();
-    });
-  };
-
-  /* The card and its × lift as one, so the × never leaves its corner. */
-  return (
-    <li className="group/removable relative min-w-0 transition-transform duration-150 focus-within:-translate-y-0.5 hover:-translate-y-0.5">
-      <Link
-        href={appRoutes.mainlinePlan(plan.id)}
-        className="group/card-link focus-ring block h-full rounded-2xl"
+  const card = (
+    <Card className="h-full gap-3 px-5 py-4">
+      {/* Room at the end for the menu, which sits over it. */}
+      <div className="flex min-h-9 items-center gap-2 pr-10">
+        <Badge variant="select">{plan.versionGroupName}</Badge>
+        {plan.updatedAt ? (
+          <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
+            Updated <PlayMomentTime value={plan.updatedAt} />
+          </span>
+        ) : null}
+      </div>
+      <h2
+        className={cn(
+          "text-20 line-clamp-2 leading-tight",
+          plan.isArchived && "text-ink-3",
+        )}
       >
-        <Card className="h-full gap-3 px-5 py-4">
-          <div className="flex items-center gap-2">
-            <Badge variant="select">{plan.versionGroupName}</Badge>
-            {plan.updatedAt ? (
-              <span className="text-ink-3 text-13 ml-auto font-semibold whitespace-nowrap">
-                Updated <PlayMomentTime value={plan.updatedAt} />
-              </span>
-            ) : null}
-          </div>
-          <h2
-            className={cn(
-              "text-20 line-clamp-2 leading-tight",
-              plan.isArchived && "text-ink-3",
-            )}
-          >
-            {plan.name}
-          </h2>
-          <PlanTeamStrip
-            members={plan.members}
-            className={cn(plan.isArchived && "opacity-55")}
-          />
-          <div className="mt-auto flex flex-wrap items-center gap-2">
-            <span
-              className={
-                plan.linkedPlayCount
-                  ? "text-ink text-13 inline-flex items-center gap-1.5 font-bold"
-                  : "text-ink-3 text-13 font-semibold"
-              }
-            >
-              {plan.linkedPlayCount ? (
-                <AppIcon icon={appIcons.milestones.story} size="sm" />
-              ) : null}
-              {getMyPlanFootnote(plan)}
-            </span>
-            {plan.isArchived ? (
-              <StatusBadge className="ml-auto">Archived</StatusBadge>
-            ) : null}
-          </div>
-        </Card>
-      </Link>
-      <CornerRemoveButton
-        label={`Delete ${plan.name}`}
-        onClick={() => {
-          setDeleteError(null);
-          setIsConfirmOpen(true);
-        }}
+        {plan.name}
+      </h2>
+      <PlanTeamStrip
+        members={plan.members}
+        className={cn(plan.isArchived && "opacity-55")}
       />
-      <AlertDialog
-        open={isConfirmOpen}
-        onOpenChange={(open) => {
-          if (!isDeleting) setIsConfirmOpen(open);
-        }}
+      <span
+        className={cn(
+          "mt-auto",
+          plan.linkedPlayCount
+            ? "text-ink text-13 inline-flex items-center gap-1.5 font-bold"
+            : "text-ink-3 text-13 font-semibold",
+        )}
       >
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete {plan.name}?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Its Pokémon and their builds go with it.
-              {plan.linkedPlayCount
-                ? ` The ${plan.linkedPlayCount === 1 ? "Play that follows it stops" : `${plan.linkedPlayCount} Plays that follow it stop`} comparing against it.`
-                : ""}{" "}
-              This can&apos;t be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          {deleteError ? (
-            <p role="alert" className="text-danger text-13 font-bold">
-              {deleteError}
-            </p>
-          ) : null}
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Keep it</AlertDialogCancel>
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={isDeleting}
-              aria-busy={isDeleting}
-              onClick={deletePlan}
-            >
-              {isDeleting ? <Spinner data-icon="inline-start" /> : null}
-              Delete Plan
-            </Button>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+        {plan.linkedPlayCount ? (
+          <AppIcon icon={appIcons.milestones.story} size="sm" />
+        ) : null}
+        {getMyPlanFootnote(plan)}
+      </span>
+    </Card>
+  );
+
+  return (
+    /* The card and its menu lift as one, so the menu never leaves its corner. */
+    <li
+      className={cn(
+        "relative min-w-0",
+        !plan.isArchived &&
+          "transition-transform duration-150 focus-within:-translate-y-0.5 hover:-translate-y-0.5",
+      )}
+    >
+      {/* An archived Plan doesn't open; restore it from its menu first. */}
+      {plan.isArchived ? (
+        <div className="h-full">{card}</div>
+      ) : (
+        <Link
+          href={appRoutes.mainlinePlan(plan.id)}
+          className="group/card-link focus-ring block h-full rounded-2xl"
+        >
+          {card}
+        </Link>
+      )}
+      <PlanActionsMenu
+        placement="card"
+        plan={plan}
+        className="absolute top-3.5 right-3.5"
+      />
     </li>
   );
 };
+
+/* The Plans' cards, as My Plans and its archived list show them. */
+export const MyPlansGrid = ({ plans }: { plans: MyPlan[] }) => (
+  <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+    {plans.map((plan) => (
+      <MyPlanCard key={plan.id} plan={plan} />
+    ))}
+  </ul>
+);
 
 /*
  * My Plans' list: the band with the page's head and the toolbar (what to
@@ -220,9 +166,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
           <FilterToolbar
             ariaLabel="Filter your Plans"
             className="mt-5"
-            activeCount={
-              (filters.status === "all" ? 0 : 1) + (filters.game ? 1 : 0)
-            }
+            activeCount={filters.game ? 1 : 0}
             resultLabel={`Show ${shown.length} ${shown.length === 1 ? "Plan" : "Plans"}`}
             search={
               <SearchControl
@@ -268,20 +212,6 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
               );
             }}
             filters={(placement) => {
-              const status = (
-                <SegmentedControl
-                  variant="segment"
-                  selectedTone="soft"
-                  ariaLabel="Show"
-                  value={filters.status}
-                  onValueChange={(status) => update({ status })}
-                  options={[
-                    { label: "All", value: "all" },
-                    { label: "Active", value: "active" },
-                    { label: "Archived", value: "archived" },
-                  ]}
-                />
-              );
               const game = (
                 <SelectControl
                   id={
@@ -316,17 +246,11 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
               );
 
               return placement === "line" ? (
-                <>
-                  {status}
-                  {game}
-                </>
+                game
               ) : (
-                <>
-                  <FilterSheetRow label="Show">{status}</FilterSheetRow>
-                  <FilterSheetRow htmlFor="my-plans-sheet-game" label="Game">
-                    {game}
-                  </FilterSheetRow>
-                </>
+                <FilterSheetRow htmlFor="my-plans-sheet-game" label="Game">
+                  {game}
+                </FilterSheetRow>
               );
             }}
           />
@@ -345,11 +269,7 @@ export const MyPlansBrowser = ({ head, plans }: MyPlansBrowserProps) => {
 
       <section aria-label="Your Plans" className="flex flex-col gap-5">
         {shown.length ? (
-          <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {shown.map((plan) => (
-              <MyPlanCard key={plan.id} plan={plan} />
-            ))}
-          </ul>
+          <MyPlansGrid plans={shown} />
         ) : (
           <EmptyState
             variant="bare"

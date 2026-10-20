@@ -6,10 +6,10 @@ import { cn } from "@/shared/utils/cn";
 
 type TextLinkBaseProps = {
   /*
-   * `back` leads with an arrow back (to the list a page came from); `forward`
-   * ends with one (onward, such as "Open team").
+   * `forward` ends with an arrow (onward, such as "Open team"). Going back
+   * up a level is a secondary button in the page's head, never a link.
    */
-  arrow?: "back" | "forward";
+  arrow?: "forward";
   children: ReactNode;
   className?: string;
   /*
@@ -63,9 +63,6 @@ export const TextLink = ({
   );
   const content = (
     <>
-      {arrow === "back" ? (
-        <AppIcon icon={appIcons.actions.back} size="sm" aria-hidden />
-      ) : null}
       {children}
       {arrow === "forward" ? (
         <AppIcon icon={appIcons.actions.continue} size="sm" aria-hidden />

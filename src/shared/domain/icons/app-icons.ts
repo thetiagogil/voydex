@@ -44,6 +44,7 @@ import {
   List,
   ListChecks,
   Lock,
+  LockOpen,
   LogIn,
   LogOut,
   Mail,
@@ -109,6 +110,7 @@ export const appIcons = {
     settings: Settings,
     share: ArrowRight,
     signOut: LogOut,
+    unlock: LockOpen,
   },
   /* What sits inside a gold milestone medallion, by milestone type. */
   milestones: {

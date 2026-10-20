@@ -31,6 +31,15 @@ import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Textarea } from "@/shared/components/ui/textarea";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/shared/components/ui/alert-dialog";
 import { cn } from "@/shared/utils/cn";
 
 export const planRoles = [
@@ -52,7 +61,11 @@ type PlannerSlotSheetProps = {
   onMove: (from: number, to: number) => void;
   onRemove: (index: number) => void;
   onSwap: (index: number) => void;
+  /* A locked Plan's sheet reads; this asks to unlock it. */
+  onUnlock: () => void;
   onUpdate: (index: number, changes: Partial<PlanMember>) => void;
+  /* While the Plan is locked: every field reads, nothing changes. */
+  readOnly: boolean;
   slots: PlannerSlots;
   versionGroup: PlannerVersionGroup;
 };
@@ -71,6 +84,8 @@ const anyValue = "";
  * slot (swapping), give it a role and a note, and, if you like, a build: the
  * ability, nature, gender and held item the version group lets you choose
  * (offered only when its capability profile supports them) and four moves.
+ * Changes wait in the sheet until Save; closing with some unsaved asks
+ * first. On a locked Plan it reads, with Unlock to edit in Save's place.
  */
 export const PlannerSlotSheet = ({
   buildFields,
@@ -81,7 +96,9 @@ export const PlannerSlotSheet = ({
   onMove,
   onRemove,
   onSwap,
+  onUnlock,
   onUpdate,
+  readOnly,
   slots,
   versionGroup,
 }: PlannerSlotSheetProps) => {
@@ -89,13 +106,28 @@ export const PlannerSlotSheet = ({
   /* Stays mounted so it slides in and out with the slot it showed. */
   const [shown, setShown] = useState<ShownPlanSlot | null>(null);
   const [buildOpenFor, setBuildOpenFor] = useState<number | null>(null);
+  /* The sheet's own edits and the slot it moves to, until Save. */
+  const [draft, setDraft] = useState<Partial<PlanMember>>({});
+  const [draftSlot, setDraftSlot] = useState<number | null>(null);
+  const [draftFor, setDraftFor] = useState<number | null>(null);
+  const [isDiscardOpen, setIsDiscardOpen] = useState(false);
   const nextShown = getShownPlanSlot(shown, index, slots);
 
   if (nextShown !== shown) {
     setShown(nextShown);
   }
 
-  const member = shown?.member ?? null;
+  /* A sheet opened on another slot, or opened again, starts clean. */
+  const openedFor = isOpen ? index : null;
+
+  if (openedFor !== draftFor) {
+    setDraftFor(openedFor);
+    setDraft({});
+    setDraftSlot(null);
+  }
+
+  const savedMember = shown?.member ?? null;
+  const member = savedMember ? { ...savedMember, ...draft } : null;
   const pokemon = member ? byId.get(member.speciesId) : undefined;
 
   if (!shown || !member || !pokemon) {
@@ -103,6 +135,24 @@ export const PlannerSlotSheet = ({
   }
 
   const slotIndex = shown.index;
+  const targetSlot = draftSlot ?? slotIndex;
+  const isDirty = Object.keys(draft).length > 0 || targetSlot !== slotIndex;
+  const change = (changes: Partial<PlanMember>) =>
+    setDraft((current) => ({ ...current, ...changes }));
+  const save = () => {
+    if (Object.keys(draft).length) onUpdate(slotIndex, draft);
+    if (targetSlot !== slotIndex) onMove(slotIndex, targetSlot);
+    onClose();
+  };
+  /* Closing with unsaved changes asks first. */
+  const requestClose = () => {
+    if (isDirty) {
+      setIsDiscardOpen(true);
+      return;
+    }
+
+    onClose();
+  };
 
   const hasBuild = Boolean(
     member.abilityId ||
@@ -130,7 +180,7 @@ export const PlannerSlotSheet = ({
     <FormOverlay
       open={isOpen}
       onOpenChange={(open) => {
-        if (!open) onClose();
+        if (!open) requestClose();
       }}
       presentation="side"
       kicker={`Plan slot ${slotIndex + 1} · ${versionGroup.name}`}
@@ -151,15 +201,17 @@ export const PlannerSlotSheet = ({
           primaryType && isPokemonTypeSlug(primaryType) ? primaryType : null,
         actions: (
           <div className="flex flex-wrap gap-2">
-            <Button
-              type="button"
-              variant="tint"
-              size="sm"
-              onClick={() => onSwap(slotIndex)}
-            >
-              <AppIcon icon={appIcons.actions.search} inline="start" />
-              Swap Pokémon
-            </Button>
+            {readOnly ? null : (
+              <Button
+                type="button"
+                variant="tint"
+                size="sm"
+                onClick={() => onSwap(slotIndex)}
+              >
+                <AppIcon icon={appIcons.actions.search} inline="start" />
+                Swap Pokémon
+              </Button>
+            )}
             <Link
               href={appRoutes.codexPokemonEntry(
                 versionGroup.slug,
@@ -174,252 +226,287 @@ export const PlannerSlotSheet = ({
         ),
       }}
       footer={
-        <>
+        readOnly ? (
           <Button
             type="button"
-            variant="destructive"
             size="sm"
-            className="mr-auto"
-            onClick={() => {
-              onRemove(slotIndex);
-              onClose();
-            }}
+            className="ml-auto"
+            onClick={onUnlock}
           >
-            Remove from Plan
+            <AppIcon icon={appIcons.actions.unlock} inline="start" />
+            Unlock to edit
           </Button>
-          <Button type="button" size="sm" onClick={onClose}>
-            <AppIcon icon={appIcons.status.active} inline="start" />
-            Done
-          </Button>
-        </>
+        ) : (
+          <>
+            <Button
+              type="button"
+              variant="destructive"
+              size="sm"
+              className="mr-auto"
+              onClick={() => {
+                onRemove(slotIndex);
+                onClose();
+              }}
+            >
+              Remove from Plan
+            </Button>
+            <Button type="button" size="sm" disabled={!isDirty} onClick={save}>
+              Save
+            </Button>
+          </>
+        )
       }
     >
-      <div className="grid gap-6">
-        <SheetSection title="Slot" aside="Where it sits in the team">
-          <div
-            role="group"
-            aria-label="Move to slot"
-            className="grid grid-cols-6 gap-1.5"
-          >
-            {slots.map((other, otherIndex) => {
-              const isHere = otherIndex === slotIndex;
-              /* Every slot shows who sits in it, this one included. */
-              const slotPokemon = other ? byId.get(other.speciesId) : undefined;
-              const otherPokemon = isHere ? undefined : slotPokemon;
+      {/* Locked, every field reads and none changes. */}
+      <fieldset disabled={readOnly} className="m-0 min-w-0 border-0 p-0">
+        <div className="grid gap-6">
+          <SheetSection title="Slot" aside="Where it sits in the team">
+            <div
+              role="group"
+              aria-label="Move to slot"
+              className="grid grid-cols-6 gap-1.5"
+            >
+              {slots.map((other, otherIndex) => {
+                const isHere = otherIndex === targetSlot;
+                /* Every slot shows who sits in it, this one included. */
+                const slotPokemon = other
+                  ? byId.get(other.speciesId)
+                  : undefined;
+                const otherPokemon = isHere ? undefined : slotPokemon;
 
-              return (
-                <button
-                  key={otherIndex}
-                  type="button"
-                  aria-pressed={isHere}
-                  aria-label={
-                    isHere
-                      ? `Slot ${otherIndex + 1}`
-                      : otherPokemon
-                        ? `Move to slot ${otherIndex + 1}, swapping with ${otherPokemon.name}`
-                        : `Move to slot ${otherIndex + 1}`
-                  }
-                  onClick={() => onMove(slotIndex, otherIndex)}
-                  className={cn(
-                    "text-13 focus-ring flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums",
-                    isHere
-                      ? "bg-select-soft text-select-ink"
-                      : "bg-surface-2 text-ink-2 hover:bg-hover",
-                  )}
-                >
-                  {slotPokemon ? (
-                    <FallbackImage
-                      src={slotPokemon.imageUrl}
-                      name={slotPokemon.name}
-                      className="size-8"
-                    />
-                  ) : (
-                    /* An open slot keeps the art's place, so numbers line up. */
-                    <span
-                      aria-hidden
-                      className="empty-slot size-7 rounded-full [border-width:2px]"
-                    />
-                  )}
-                  <span>{otherIndex + 1}</span>
-                </button>
-              );
-            })}
-          </div>
-        </SheetSection>
-
-        <SheetSection title="Role" aside="What it's for in this team">
-          {/* Pills on the sheet's surface take the inset fill, as fields do. */}
-          <div
-            role="group"
-            aria-label="Role"
-            className="flex flex-wrap gap-1.5"
-          >
-            {[
-              ...planRoles,
-              ...(member.role &&
-              !planRoles.includes(member.role as (typeof planRoles)[number])
-                ? [member.role]
-                : []),
-            ].map((role) => {
-              const isPicked = member.role === role;
-
-              return (
-                <ChoiceChip
-                  key={role}
-                  pressed={isPicked}
-                  onClick={() =>
-                    onUpdate(slotIndex, { role: isPicked ? null : role })
-                  }
-                >
-                  {role}
-                </ChoiceChip>
-              );
-            })}
-          </div>
-          <Field>
-            <FieldLabel htmlFor="plan-slot-note">Note</FieldLabel>
-            <Textarea
-              id="plan-slot-note"
-              rows={2}
-              maxLength={5000}
-              value={member.notes ?? ""}
-              placeholder="Why this one? For example, answers the Water gym"
-              onChange={(event) =>
-                onUpdate(slotIndex, {
-                  notes: event.currentTarget.value || null,
-                })
-              }
-            />
-          </Field>
-        </SheetSection>
-
-        {isBuildOpen ? (
-          <SheetSection
-            title="Build"
-            aside={`What ${versionGroup.name} lets you choose`}
-          >
-            <div className={fieldRowClassName}>
-              {buildFields.ability && pokemon.abilities.length ? (
-                <Field>
-                  <FieldLabel htmlFor="plan-slot-ability">Ability</FieldLabel>
-                  <SelectControl
-                    id="plan-slot-ability"
-                    ariaLabel="Ability"
-                    placeholder="Any"
-                    value={
-                      member.abilityId ? String(member.abilityId) : anyValue
+                return (
+                  <button
+                    key={otherIndex}
+                    type="button"
+                    aria-pressed={isHere}
+                    aria-label={
+                      isHere
+                        ? `Slot ${otherIndex + 1}`
+                        : otherPokemon
+                          ? `Move to slot ${otherIndex + 1}, swapping with ${otherPokemon.name}`
+                          : `Move to slot ${otherIndex + 1}`
                     }
-                    onValueChange={(value) =>
-                      onUpdate(slotIndex, {
-                        abilityId: value ? Number(value) : null,
-                      })
-                    }
-                    options={[
-                      { label: "Any", value: anyValue },
-                      ...pokemon.abilities.map((ability) => ({
-                        label: ability.hidden
-                          ? `${ability.name} (hidden)`
-                          : ability.name,
-                        value: String(ability.id),
-                      })),
-                    ]}
-                  />
-                </Field>
-              ) : null}
-              {buildFields.nature && natures.length ? (
-                <Field>
-                  <FieldLabel htmlFor="plan-slot-nature">Nature</FieldLabel>
-                  <SelectControl
-                    id="plan-slot-nature"
-                    ariaLabel="Nature"
-                    placeholder="Any"
-                    value={member.natureId ? String(member.natureId) : anyValue}
-                    onValueChange={(value) =>
-                      onUpdate(slotIndex, {
-                        natureId: value ? Number(value) : null,
-                      })
-                    }
-                    options={[
-                      { label: "Any", value: anyValue },
-                      ...natures.map((nature) => ({
-                        label: nature.name,
-                        value: String(nature.id),
-                      })),
-                    ]}
-                  />
-                </Field>
-              ) : null}
+                    onClick={() => setDraftSlot(otherIndex)}
+                    className={cn(
+                      "text-13 focus-ring flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums",
+                      isHere
+                        ? "bg-select-soft text-select-ink"
+                        : "bg-surface-2 text-ink-2 hover:bg-hover",
+                    )}
+                  >
+                    {slotPokemon ? (
+                      <FallbackImage
+                        src={slotPokemon.imageUrl}
+                        name={slotPokemon.name}
+                        className="size-8"
+                      />
+                    ) : (
+                      /* An open slot keeps the art's place, so numbers line up. */
+                      <span
+                        aria-hidden
+                        className="empty-slot size-7 rounded-full [border-width:2px]"
+                      />
+                    )}
+                    <span>{otherIndex + 1}</span>
+                  </button>
+                );
+              })}
             </div>
-            {buildFields.gender ? (
-              <Field className="w-auto max-w-full min-w-0 justify-self-start">
-                <FieldLabel>Gender</FieldLabel>
-                <SegmentedControl
-                  ariaLabel="Gender"
-                  variant="segment"
-                  value={member.gender ?? "any"}
-                  onValueChange={(value) =>
-                    onUpdate(slotIndex, {
-                      gender: value === "any" ? null : (value as PlanGender),
-                    })
-                  }
-                  options={[
-                    { label: "Any", value: "any" },
-                    { label: "Male", value: "male" },
-                    { label: "Female", value: "female" },
-                  ]}
-                />
-              </Field>
-            ) : null}
-            <PlannerSlotMoves
-              heldItemsApply={buildFields.heldItem}
-              member={member}
-              versionGroupSlug={versionGroup.slug}
-              onChange={(changes) => onUpdate(slotIndex, changes)}
-            />
-            {unsupported.length ? (
-              <p className="text-ink-3 text-13 font-semibold first-letter:uppercase">
-                {unsupported.join(", ").replace(/, ([^,]*)$/, " and $1")}{" "}
-                don&apos;t exist in {versionGroup.name}, so they aren&apos;t
-                offered.
-              </p>
-            ) : null}
-            {hasBuild ? (
-              <TextLink
-                standalone
-                className="justify-self-start"
-                onClick={() => {
-                  setBuildOpenFor(null);
-                  onUpdate(slotIndex, {
-                    abilityId: null,
-                    gender: null,
-                    heldItemId: null,
-                    moveIds: emptyPlanMoveSlots(),
-                    natureId: null,
-                  });
-                }}
-              >
-                Remove build
-              </TextLink>
-            ) : null}
           </SheetSection>
-        ) : offered.length ? (
-          <button
-            type="button"
-            onClick={() => setBuildOpenFor(slotIndex)}
-            className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-md px-4 py-3 text-left"
-          >
-            <AppIcon icon={appIcons.actions.create} size="md" />
-            <span>
-              <b className="text-ink text-15 block font-extrabold">
-                Add build details
-              </b>
-              <span className="text-ink-2 text-13 font-semibold">
-                Optional: {offered.join(", ")}
+
+          <SheetSection title="Role" aside="What it's for in this team">
+            {/* Pills on the sheet's surface take the inset fill, as fields do. */}
+            <div
+              role="group"
+              aria-label="Role"
+              className="flex flex-wrap gap-1.5"
+            >
+              {[
+                ...planRoles,
+                ...(member.role &&
+                !planRoles.includes(member.role as (typeof planRoles)[number])
+                  ? [member.role]
+                  : []),
+              ].map((role) => {
+                const isPicked = member.role === role;
+
+                return (
+                  <ChoiceChip
+                    key={role}
+                    pressed={isPicked}
+                    onClick={() => change({ role: isPicked ? null : role })}
+                  >
+                    {role}
+                  </ChoiceChip>
+                );
+              })}
+            </div>
+            <Field>
+              <FieldLabel htmlFor="plan-slot-note">Note</FieldLabel>
+              <Textarea
+                id="plan-slot-note"
+                rows={2}
+                maxLength={5000}
+                value={member.notes ?? ""}
+                placeholder="Why this one? For example, answers the Water gym"
+                onChange={(event) =>
+                  change({ notes: event.currentTarget.value || null })
+                }
+              />
+            </Field>
+          </SheetSection>
+
+          {isBuildOpen ? (
+            <SheetSection
+              title="Build"
+              aside={`What ${versionGroup.name} lets you choose`}
+            >
+              <div className={fieldRowClassName}>
+                {buildFields.ability && pokemon.abilities.length ? (
+                  <Field>
+                    <FieldLabel htmlFor="plan-slot-ability">Ability</FieldLabel>
+                    <SelectControl
+                      id="plan-slot-ability"
+                      ariaLabel="Ability"
+                      placeholder="Any"
+                      value={
+                        member.abilityId ? String(member.abilityId) : anyValue
+                      }
+                      onValueChange={(value) =>
+                        change({ abilityId: value ? Number(value) : null })
+                      }
+                      options={[
+                        { label: "Any", value: anyValue },
+                        ...pokemon.abilities.map((ability) => ({
+                          label: ability.hidden
+                            ? `${ability.name} (hidden)`
+                            : ability.name,
+                          value: String(ability.id),
+                        })),
+                      ]}
+                    />
+                  </Field>
+                ) : null}
+                {buildFields.nature && natures.length ? (
+                  <Field>
+                    <FieldLabel htmlFor="plan-slot-nature">Nature</FieldLabel>
+                    <SelectControl
+                      id="plan-slot-nature"
+                      ariaLabel="Nature"
+                      placeholder="Any"
+                      value={
+                        member.natureId ? String(member.natureId) : anyValue
+                      }
+                      onValueChange={(value) =>
+                        change({ natureId: value ? Number(value) : null })
+                      }
+                      options={[
+                        { label: "Any", value: anyValue },
+                        ...natures.map((nature) => ({
+                          label: nature.name,
+                          value: String(nature.id),
+                        })),
+                      ]}
+                    />
+                  </Field>
+                ) : null}
+              </div>
+              {buildFields.gender ? (
+                <Field className="w-auto max-w-full min-w-0 justify-self-start">
+                  <FieldLabel>Gender</FieldLabel>
+                  <SegmentedControl
+                    ariaLabel="Gender"
+                    variant="segment"
+                    value={member.gender ?? "any"}
+                    onValueChange={(value) =>
+                      change({
+                        gender: value === "any" ? null : (value as PlanGender),
+                      })
+                    }
+                    options={[
+                      { label: "Any", value: "any" },
+                      { label: "Male", value: "male" },
+                      { label: "Female", value: "female" },
+                    ]}
+                  />
+                </Field>
+              ) : null}
+              <PlannerSlotMoves
+                heldItemsApply={buildFields.heldItem}
+                member={member}
+                versionGroupSlug={versionGroup.slug}
+                onChange={change}
+              />
+              {unsupported.length ? (
+                <p className="text-ink-3 text-13 font-semibold first-letter:uppercase">
+                  {unsupported.join(", ").replace(/, ([^,]*)$/, " and $1")}{" "}
+                  don&apos;t exist in {versionGroup.name}, so they aren&apos;t
+                  offered.
+                </p>
+              ) : null}
+              {hasBuild && !readOnly ? (
+                <TextLink
+                  standalone
+                  className="justify-self-start"
+                  onClick={() => {
+                    setBuildOpenFor(null);
+                    change({
+                      abilityId: null,
+                      gender: null,
+                      heldItemId: null,
+                      moveIds: emptyPlanMoveSlots(),
+                      natureId: null,
+                    });
+                  }}
+                >
+                  Remove build
+                </TextLink>
+              ) : null}
+            </SheetSection>
+          ) : offered.length && !readOnly ? (
+            <button
+              type="button"
+              onClick={() => setBuildOpenFor(slotIndex)}
+              className="empty-slot hover:bg-hover focus-ring flex items-center gap-3 rounded-md px-4 py-3 text-left"
+            >
+              <AppIcon icon={appIcons.actions.create} size="md" />
+              <span>
+                <b className="text-ink text-15 block font-extrabold">
+                  Add build details
+                </b>
+                <span className="text-ink-2 text-13 font-semibold">
+                  Optional: {offered.join(", ")}
+                </span>
               </span>
-            </span>
-          </button>
-        ) : null}
-      </div>
+            </button>
+          ) : null}
+        </div>
+      </fieldset>
+
+      <AlertDialog open={isDiscardOpen} onOpenChange={setIsDiscardOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Discard your changes?</AlertDialogTitle>
+            <AlertDialogDescription>
+              You changed {pokemon.name} without saving. Closing now keeps it as
+              it was.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Keep editing</AlertDialogCancel>
+            <Button
+              type="button"
+              variant="destructive"
+              onClick={() => {
+                setIsDiscardOpen(false);
+                onClose();
+              }}
+            >
+              Discard changes
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </FormOverlay>
   );
 };

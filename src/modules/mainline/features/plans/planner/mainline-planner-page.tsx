@@ -7,7 +7,8 @@ type MainlinePlannerPageProps = {
 
 /*
  * The Team Planner's page: one workspace, keyed so a new Plan starts clean
- * and a saved one restarts on its freshly saved Pokémon.
+ * and a saved one restarts on its freshly saved Pokémon. An archived Plan
+ * never opens here: its route sends it back to the archived list.
  */
 export const MainlinePlannerPage = ({ data }: MainlinePlannerPageProps) => (
   <PlannerWorkspace

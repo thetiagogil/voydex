@@ -63,6 +63,7 @@ export const appRoutes = {
       ? `/mainline/plans/new?vg=${encodeURIComponent(versionGroupSlug)}`
       : "/mainline/plans/new",
   mainlinePlans: "/mainline/plans",
+  mainlinePlansArchived: "/mainline/plans?view=archived",
   mainlinePlay: (playId: string) => `/mainline/plays/${playId}`,
   mainlinePlayHistory: (playId: string) => `/mainline/plays/${playId}/history`,
   /* One moment in a Play's History: the page scrolls to it and marks it. */

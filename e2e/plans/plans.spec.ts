@@ -69,11 +69,12 @@ test.describe("Team Planner", () => {
 
   test("follows a Plan from a Play", async ({ page }) => {
     const planName = uniquePlayName("Fire plan");
-    await savePlan(page, planName, ["Charizard", "Rapidash"]);
+    const planId = await savePlan(page, planName, ["Charizard", "Rapidash"]);
 
+    const playName = uniquePlayName("Plan run");
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
-      name: uniquePlayName("Plan run"),
+      name: playName,
       partner: "Charmander",
     });
     await page.goto(`/mainline/plays/${playId}/team/plan`);
@@ -94,9 +95,144 @@ test.describe("Team Planner", () => {
       planned.getByRole("button", { name: /^Target 2 Rapidash\b.*Not found/ }),
     ).toBeVisible();
     await expectAccessible(page);
+
+    /* Followed, the Plan opens locked: it reads, and Unlock comes first. */
+    await page.goto(`/mainline/plans/${planId}`);
+    await expect(page.getByText("Locked: followed by 1 Play.")).toBeVisible();
+    const team = page.getByRole("region", { name: "Your team" });
+    await expect(
+      team.getByRole("button", { name: /^Random team$/ }),
+    ).toBeHidden();
+    await expect(
+      page.getByRole("region", { name: "Pick your Pokémon" }),
+    ).toBeHidden();
+    /* A Pokémon's sheet reads while locked. */
+    await team.getByRole("button", { name: /^#\d+ Charizard\b/ }).click();
+    const locked = page.getByRole("dialog", { name: /Charizard/ });
+    await expect(locked.getByRole("button", { name: "Lead" })).toBeDisabled();
+    await expect(
+      locked.getByRole("button", { name: "Remove from Plan" }),
+    ).toBeHidden();
+    await page.keyboard.press("Escape");
+    await expect(locked).toBeHidden();
+
+    await page.getByRole("button", { name: "Unlock to edit" }).click();
+    const unlock = page.getByRole("alertdialog", { name: "Unlock this Plan?" });
+    await expectAccessible(page);
+    await unlock.getByRole("button", { name: "Keep it locked" }).click();
+    await expect(
+      page.getByRole("button", { name: "Unlock to edit" }),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "Unlock to edit" }).click();
+    await unlock.getByRole("button", { name: "Unlock" }).click();
+    await team.getByRole("button", { name: /^Random team$/ }).click();
+    await expect(team.getByText("6 of 6")).toBeVisible();
+    await expect(
+      page.getByText("Followed by 1 Play. Saving updates its comparison."),
+    ).toBeVisible();
+
+    /* See Plays lists the Play that follows the Plan; its card opens it. */
+    await page
+      .getByRole("button", { name: `${planName}: more actions` })
+      .click();
+    await page.getByRole("menuitem", { name: "See Plays" }).click();
+    const plays = page.getByRole("dialog", {
+      name: "Plays following this Plan",
+    });
+    await expect(plays.getByRole("img", { name: "Charmander" })).toBeVisible();
+    await expectAccessible(page);
+    await plays.getByRole("link", { name: new RegExp(playName) }).click();
+    await page.waitForURL(`**/mainline/plays/${playId}`);
   });
 
-  test("asks before removing a Pokémon with a build from its sheet", async ({
+  test("asks before a game switch drops Pokémon", async ({ page }) => {
+    const planId = await savePlan(page, uniquePlayName("Kanto trio"), [
+      "Venusaur",
+      "Charizard",
+      "Pikachu",
+    ]);
+
+    const pickGame = async (game: string) => {
+      await page.getByRole("combobox", { name: /^Game:/ }).click();
+      await page.getByRole("option", { name: new RegExp(`^${game}`) }).click();
+    };
+
+    /* Sun and Moon have Pikachu but neither Kanto starter. */
+    await pickGame("Sun / Moon");
+    const confirm = page.getByRole("alertdialog", { name: "Switch game?" });
+    const leaving = confirm.getByRole("region", { name: "Leaves the team" });
+    await expect(leaving.getByText("Venusaur")).toBeVisible();
+    await expect(leaving.getByText("Charizard")).toBeVisible();
+    await expect(leaving.getByText("Pikachu")).toBeHidden();
+    await expectAccessible(page);
+    await confirm.getByRole("button", { name: "Keep this game" }).click();
+    await expect(confirm).toBeHidden();
+    expect(page.url()).not.toContain("vg=sm");
+
+    await pickGame("Sun / Moon");
+    await confirm.getByRole("button", { name: "Switch game" }).click();
+    await page.waitForURL(`**/mainline/plans/${planId}?vg=sm`);
+    await expect(
+      page.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
+    ).toBeVisible();
+    /* The switch waits on a save. */
+    await expect(
+      page.getByRole("button", { name: "Save changes" }),
+    ).toBeEnabled();
+  });
+
+  test("archives a Plan into its own list, keeps it shut, and restores it", async ({
+    page,
+  }) => {
+    const name = uniquePlayName("Shelved plan");
+    const planId = await savePlan(page, name, ["Pikachu"]);
+
+    await page.goto("/mainline/plans");
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Archive" }).click();
+
+    /* Out of My Plans, into Archived. */
+    const card = page.getByRole("link", { name: new RegExp(name) });
+    await expect(card).toBeHidden();
+    await page.getByRole("link", { name: /^Archived · \d+/ }).click();
+    await page.waitForURL("**/mainline/plans?view=archived");
+    await expectAccessible(page);
+
+    /* An archived Plan doesn't open: its card stays put, its link leads back. */
+    await expect(
+      page.getByRole("link", { name: new RegExp(name) }),
+    ).toBeHidden();
+    await expect(page.getByRole("heading", { name })).toBeVisible();
+    await page.goto(`/mainline/plans/${planId}`);
+    await page.waitForURL("**/mainline/plans?view=archived");
+
+    /* Restored, it's back in My Plans. */
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Restore" }).click();
+    await expect(page.getByRole("heading", { name })).toBeHidden();
+    await page.goto("/mainline/plans");
+    await expect(card).toBeVisible();
+  });
+
+  test("renames a Plan from My Plans", async ({ page }) => {
+    const name = uniquePlayName("Old name");
+    await savePlan(page, name, ["Pikachu"]);
+
+    await page.goto("/mainline/plans");
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Rename" }).click();
+    const dialog = page.getByRole("dialog", { name: "Rename Plan" });
+    const renamed = uniquePlayName("New name");
+    await dialog.getByRole("textbox", { name: "Plan name" }).fill(renamed);
+    await dialog.getByRole("button", { name: "Rename" }).click();
+
+    await expect(dialog).toBeHidden();
+    await expect(
+      page.getByRole("link", { name: new RegExp(renamed) }),
+    ).toBeVisible();
+  });
+
+  test("saves a sheet's edits on Save, and asks before removing a Pokémon with a build", async ({
     page,
   }) => {
     await page.goto("/mainline/plans/new?vg=rb");
@@ -111,6 +247,24 @@ test.describe("Team Planner", () => {
       .click();
     const sheet = page.getByRole("dialog", { name: /Charizard/ });
     await sheet.getByRole("button", { name: "Lead" }).click();
+
+    /* Edits wait for Save; closing before it asks first. */
+    await page.keyboard.press("Escape");
+    const discard = page.getByRole("alertdialog", {
+      name: "Discard your changes?",
+    });
+    await expectAccessible(page);
+    await discard.getByRole("button", { name: "Keep editing" }).click();
+    await sheet.getByRole("button", { name: "Save" }).click();
+    await expect(sheet).toBeHidden();
+    await expect(
+      page.getByRole("region", { name: "Your team" }).getByText("Lead"),
+    ).toBeVisible();
+
+    await page
+      .getByRole("region", { name: "Your team" })
+      .getByRole("button", { name: /^#\d+ Charizard\b.*slot 1\. Edit$/ })
+      .click();
     await sheet.getByRole("button", { name: "Remove from Plan" }).click();
 
     const confirm = page.getByRole("alertdialog", {
@@ -132,7 +286,8 @@ test.describe("Team Planner", () => {
     await page.goto("/mainline/plans");
     const card = page.getByRole("link", { name: new RegExp(name) });
     await expect(card).toBeVisible();
-    await page.getByRole("button", { name: `Delete ${name}` }).click();
+    await page.getByRole("button", { name: `${name}: more actions` }).click();
+    await page.getByRole("menuitem", { name: "Delete" }).click();
 
     const confirm = page.getByRole("alertdialog", { name: `Delete ${name}?` });
     await expectAccessible(page);

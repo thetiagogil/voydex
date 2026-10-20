@@ -2,9 +2,14 @@
 
 import { TextLink } from "@/shared/components/text-link";
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
+import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
+import {
+  takePlanSwitchHandoff,
+  writePlanSwitchHandoff,
+} from "@/modules/mainline/features/plans/planner/client/plan-switch-handoff";
 import {
   clearPlanDraft,
   toPlanDraftPreview,
@@ -24,6 +29,13 @@ import {
   type PlanRandomMode,
 } from "@/modules/mainline/features/plans/planner/data/plan-random-team";
 import { buildPlanTeamCheck } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
+import { keepPlannerMembersInGroup } from "@/modules/mainline/features/plans/planner/data/planner-group-members";
+import { checkPlannerGameSwitchAction } from "@/modules/mainline/features/plans/planner/server/planner-game-switch-action";
+import { PlannerFollowersSection } from "@/modules/mainline/features/plans/planner/sections/planner-followers-section";
+import {
+  PlannerSwitchDialog,
+  type PlannerSwitchPokemon,
+} from "@/modules/mainline/features/plans/planner/sections/planner-switch-dialog";
 import { PlannerDockSection } from "@/modules/mainline/features/plans/planner/sections/planner-dock-section";
 import { PlannerDraftOfferSection } from "@/modules/mainline/features/plans/planner/sections/planner-draft-offer-section";
 import {
@@ -37,6 +49,7 @@ import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/se
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
 import { PlannerTeamCheckSheet } from "@/modules/mainline/features/plans/planner/sections/planner-team-check-sheet";
 import { PlannerTopSection } from "@/modules/mainline/features/plans/planner/sections/planner-top-section";
+import { PlannerUnlockDialog } from "@/modules/mainline/features/plans/planner/sections/planner-unlock-dialog";
 import {
   encodePlanShare,
   toPlanShare,
@@ -85,10 +98,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const getName = (speciesId: number) => byId.get(speciesId)?.name ?? "Pokémon";
   /*
    * Pokémon arriving from another version group (a saved Plan opened in a
-   * new one, a draft) drop the choices this group doesn't have.
+   * new one, a draft, a shared link) keep to the ones this group has, and
+   * drop the choices it doesn't have.
    */
   const fitToVersionGroup = (planMembers: PlanMember[]) =>
-    planMembers.map((member) =>
+    keepPlannerMembersInGroup(planMembers, context.sections).map((member) =>
       clearUnsupportedBuildFields(member, context.buildFields),
     );
   const team = usePlannerTeam({
@@ -112,6 +126,36 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
+  /* A game switch that would change the team, waiting on its confirm. */
+  const [pendingSwitch, setPendingSwitch] = useState<{
+    changed: PlannerSwitchPokemon[];
+    kept: PlanMember[];
+    removed: PlannerSwitchPokemon[];
+    slug: string;
+    versionGroupName: string;
+  } | null>(null);
+  /*
+   * A Plan that Plays follow opens locked: every edit asks to unlock it
+   * first, then carries on (see PlannerUnlockDialog).
+   */
+  const followerCount = plan?.linkedPlayCount ?? 0;
+  const [isUnlocked, setIsUnlocked] = useState(followerCount === 0);
+  const [pendingEdit, setPendingEdit] = useState<(() => void) | null>(null);
+  const askToUnlock = (resume: () => void) => setPendingEdit(() => resume);
+  const whenUnlocked =
+    <Args extends unknown[]>(action: (...args: Args) => void) =>
+    (...args: Args) => {
+      if (isUnlocked) {
+        action(...args);
+        return;
+      }
+
+      askToUnlock(() => action(...args));
+    };
+  const [isCheckingSwitch, startCheckingSwitch] = useTransition();
+  /* Until the new game's Planner arrives. */
+  const [isOpeningSwitch, startOpeningSwitch] = useTransition();
+  const isSwitching = isCheckingSwitch || isOpeningSwitch;
   const { askWhichToReplace, cancelReplace, place, replacing, replacingId } =
     usePlannerReplace({
       byId,
@@ -229,14 +273,93 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     );
   };
 
-  const changeVersionGroup = (slug: string) => {
-    if (slug === context.versionGroup.slug) return;
-
-    router.push(
-      plan
-        ? appRoutes.mainlinePlan(plan.id, slug)
-        : appRoutes.mainlinePlanNew(slug),
+  /* The new game's Planner opens on this team, unsaved edits included. */
+  const switchVersionGroup = (slug: string, kept: PlanMember[]) => {
+    writePlanSwitchHandoff(plan?.id ?? null, slug, { members: kept, name });
+    startOpeningSwitch(() =>
+      router.push(
+        plan
+          ? appRoutes.mainlinePlan(plan.id, slug)
+          : appRoutes.mainlinePlanNew(slug),
+      ),
     );
+  };
+
+  /* A switch handed over from the last game: its team, as that game fitted it. */
+  useEffect(() => {
+    const handoff = takePlanSwitchHandoff(
+      plan?.id ?? null,
+      context.versionGroup.slug,
+    );
+
+    if (!handoff) return;
+
+    team.setSlots(toPlannerSlots(fitToVersionGroup(handoff.members)));
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- storage only exists in the browser
+    setName(handoff.name);
+    dismissOffer();
+    // Read once, when the Planner opens in the new game.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const toSwitchPokemon = (
+    speciesId: number,
+    slot: number,
+    lost?: string,
+  ): PlannerSwitchPokemon => {
+    const pokemon = byId.get(speciesId);
+
+    return {
+      imageUrl: pokemon?.imageUrl ?? null,
+      key: `${slot}-${speciesId}`,
+      lost,
+      name: pokemon?.name ?? "Pokémon",
+      typeSlug: pokemon?.types[0]?.slug ?? null,
+    };
+  };
+
+  /*
+   * A Plan with a team always asks before switching game, saying what the
+   * new game would change (a Pokémon it doesn't have, or part of a build it
+   * doesn't offer); an empty one switches at once.
+   */
+  const changeVersionGroup = (slug: string) => {
+    if (slug === context.versionGroup.slug || isSwitching) return;
+
+    if (!members.length) {
+      switchVersionGroup(slug, []);
+      return;
+    }
+
+    startCheckingSwitch(async () => {
+      const check = await checkPlannerGameSwitchAction({
+        members,
+        versionGroupSlug: slug,
+      });
+
+      if (check.status === "error") {
+        toast.error(check.message);
+        return;
+      }
+
+      setPendingSwitch({
+        changed: check.changed.map((change) =>
+          toSwitchPokemon(
+            change.speciesId,
+            change.slot,
+            change.lost.join(" · "),
+          ),
+        ),
+        kept: check.kept,
+        removed: members
+          .filter((member) =>
+            check.removedSpeciesIds.includes(member.speciesId),
+          )
+          .map((member) => toSwitchPokemon(member.speciesId, member.slot)),
+        slug,
+        versionGroupName: check.versionGroupName,
+      });
+    });
   };
 
   const shareLink = `${origin}${appRoutes.mainlinePlanNew(context.versionGroup.slug)}#${encodePlanShare(
@@ -248,9 +371,28 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       <PageBand className="flex flex-col gap-6 sm:gap-7">
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
+          canEdit={isUnlocked}
+          onLockedEdit={askToUnlock}
+          gameFixedReason={
+            followerCount
+              ? "Plays follow this Plan, so its game stays the same"
+              : undefined
+          }
+          /* Archive keeps the saved Plan, so unsaved changes come first. */
+          canArchive={!isDirty}
+          savedPlan={
+            plan
+              ? {
+                  id: plan.id,
+                  isArchived: false,
+                  linkedPlayCount: plan.linkedPlayCount,
+                  name: plan.name,
+                }
+              : null
+          }
           isSaved={Boolean(plan)}
           isSaving={isSaving}
-          linkedPlayCount={plan?.linkedPlayCount ?? 0}
+          isSwitching={isSwitching}
           name={name}
           onNameChange={setName}
           onSave={save}
@@ -260,6 +402,10 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           versionGroup={context.versionGroup}
           versionGroups={data.versionGroups}
         />
+
+        {followerCount ? (
+          <PlannerFollowersSection count={followerCount} locked={!isUnlocked} />
+        ) : null}
 
         {offered ? (
           <PlannerDraftOfferSection
@@ -275,15 +421,16 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         <PlannerDockSection
           byId={byId}
           issues={issues}
+          locked={!isUnlocked}
           onCancelReplace={cancelReplace}
-          onClear={team.clearSlots}
-          onMove={team.moveSlot}
+          onClear={whenUnlocked(team.clearSlots)}
+          onMove={whenUnlocked(team.moveSlot)}
           onOpenCheck={() => setIsCheckOpen(true)}
           onOpenSlot={setOpenSlot}
           onPlace={place}
-          onRandom={random}
+          onRandom={whenUnlocked(random)}
           onRandomModeChange={setRandomMode}
-          onRemove={requestRemove}
+          onRemove={whenUnlocked(requestRemove)}
           randomMode={randomMode}
           replacing={replacing}
           slots={team.slots}
@@ -298,18 +445,21 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         ) : null}
       </PageBand>
 
-      <PlannerPoolSection
-        byId={byId}
-        filters={filters}
-        isFull={isFull}
-        onFiltersChange={setFilters}
-        onPick={pick}
-        replacingId={replacingId}
-        sections={context.sections}
-        slotBySpeciesId={slotBySpeciesId}
-        types={context.types}
-        versionGroup={context.versionGroup}
-      />
+      {/* A locked Plan reads its team; picking waits on Unlock. */}
+      {isUnlocked ? (
+        <PlannerPoolSection
+          byId={byId}
+          filters={filters}
+          isFull={isFull}
+          onFiltersChange={setFilters}
+          onPick={whenUnlocked(pick)}
+          replacingId={replacingId}
+          sections={context.sections}
+          slotBySpeciesId={slotBySpeciesId}
+          types={context.types}
+          versionGroup={context.versionGroup}
+        />
+      ) : null}
 
       <PlannerSlotSheet
         buildFields={context.buildFields}
@@ -329,7 +479,9 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
             behavior: "smooth",
           });
         }}
+        onUnlock={() => askToUnlock(() => {})}
         onUpdate={team.updateSlot}
+        readOnly={!isUnlocked}
         slots={team.slots}
         versionGroup={context.versionGroup}
       />
@@ -358,9 +510,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         coverage={coverage}
         issues={issues}
         matchups={matchups}
-        onIncludeExpansion={(versionGroupId) =>
-          setExpansions((current) => [...new Set([...current, versionGroupId])])
-        }
+        onIncludeExpansion={whenUnlocked((versionGroupId: number) =>
+          setExpansions((current) => [
+            ...new Set([...current, versionGroupId]),
+          ]),
+        )}
         onOpenChange={setIsCheckOpen}
         open={isCheckOpen}
         planName={name.trim() || untitledPlanName}
@@ -379,9 +533,39 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         }}
       />
 
+      <PlannerUnlockDialog
+        followerCount={followerCount}
+        open={pendingEdit !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingEdit(null);
+        }}
+        onConfirm={() => {
+          setIsUnlocked(true);
+          pendingEdit?.();
+          setPendingEdit(null);
+        }}
+      />
+
+      <PlannerSwitchDialog
+        changed={pendingSwitch?.changed ?? []}
+        removed={pendingSwitch?.removed ?? []}
+        open={pendingSwitch !== null}
+        onOpenChange={(open) => {
+          if (!open) setPendingSwitch(null);
+        }}
+        onConfirm={() => {
+          if (pendingSwitch) {
+            switchVersionGroup(pendingSwitch.slug, pendingSwitch.kept);
+          }
+
+          setPendingSwitch(null);
+        }}
+        versionGroupName={pendingSwitch?.versionGroupName ?? ""}
+      />
+
       <PlannerShareDialog
         link={shareLink}
-        onImport={applyShare}
+        onImport={whenUnlocked(applyShare)}
         onOpenChange={setIsShareOpen}
         open={isShareOpen}
       />
