@@ -87,8 +87,10 @@ Plays, in two tabs:
 
 - **Rules:** a card per rule you can pick, Voydex's own (a lock marked
   Voydex) and yours, with its kind, what it asks and how many Plays keep it.
-  Tapping a card opens the rule in full: who made it, everything it asks,
-  the options each Play sets for it and the Plays that keep it, each a link.
+  Tapping a card opens the rule in full: its kind and who made it ("Made by
+  Voydex" or "Made by you") over its name, everything it asks, the options
+  each Play sets for it, and the Plays that keep it as the Team Planner's
+  See Plays shows a Plan's (each Play's name and team, opening the Play).
   Voydex's own stays as it is; yours opens with its name, kind and
   description ready to change, Save and Delete. New rule, in the page's
   head, makes one with a name, a kind and an optional description. The bar

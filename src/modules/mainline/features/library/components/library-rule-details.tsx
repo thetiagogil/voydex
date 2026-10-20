@@ -27,19 +27,6 @@ export type LibraryRuleDraft = {
   name: string;
 };
 
-/* Who made the rule, and what that means for changing it. */
-const RuleMaker = ({ isBuiltIn }: { isBuiltIn: boolean }) => (
-  <p className="text-ink-2 text-14 flex items-center gap-2 font-semibold">
-    <AppIcon
-      icon={isBuiltIn ? appIcons.status.locked : appIcons.actions.edit}
-      size="sm"
-    />
-    {isBuiltIn
-      ? "Made by Voydex: you can use it, not change it."
-      : "Created by you: change it here and every Play that keeps it follows."}
-  </p>
-);
-
 /*
  * A rule in full, opened from its card. Voydex's own reads as it is: what
  * it asks and the options each Play sets for it. Yours is the same view
@@ -93,7 +80,7 @@ export const LibraryRuleDetails = ({
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
       }}
-      kicker={rule.kind.name}
+      kicker={`${rule.kind.name} · ${rule.isBuiltIn ? "Made by Voydex" : "Made by you"}`}
       title={rule.name}
       footer={
         rule.isBuiltIn ? null : (
@@ -121,17 +108,14 @@ export const LibraryRuleDetails = ({
       }
     >
       <div className="grid gap-5">
-        <RuleMaker isBuiltIn={rule.isBuiltIn} />
         {rule.isBuiltIn ? (
           <>
             <p className="text-ink text-16 font-semibold">{rule.description}</p>
-            {optionKeys.length ? (
-              <ul className="text-ink-2 text-14 grid list-disc gap-1.5 pl-5 font-semibold">
-                {optionKeys.map((key) => (
-                  <li key={key}>{ruleOptionNotes[key]}</li>
-                ))}
-              </ul>
-            ) : null}
+            {optionKeys.map((key) => (
+              <p key={key} className="text-ink-2 text-14 font-semibold">
+                {ruleOptionNotes[key]}
+              </p>
+            ))}
           </>
         ) : (
           <form

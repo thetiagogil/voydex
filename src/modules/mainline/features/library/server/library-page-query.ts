@@ -1,12 +1,13 @@
 import { getRuleOptionKeys } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { gatherLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
 import type { LibraryPageData } from "@/modules/mainline/features/library/types";
+import { readPlayTeams } from "@/modules/mainline/shared/server/play-team-reader";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
  * Every rule you can pick (Voydex's and yours) and every tag of yours, with
- * which of your Plays use each. The links read are your own, so they never
+ * which of your Plays use each, with each Play's team. The links read are your own, so they never
  * include another trainer's Plays.
  */
 export const getLibraryPageData = async (): Promise<LibraryPageData> => {
@@ -18,7 +19,6 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     playRulesResult,
     tagsResult,
     playTagsResult,
-    playsResult,
   ] = await Promise.all([
     supabase
       .schema("gameplay")
@@ -44,11 +44,6 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
       .from("mainline_play_tags")
       .select("tag_id, play_id")
       .eq("user_id", userId),
-    supabase
-      .schema("gameplay")
-      .from("mainline_plays")
-      .select("id, name")
-      .eq("user_id", userId),
   ]);
 
   if (
@@ -56,15 +51,17 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     rulesResult.error ||
     playRulesResult.error ||
     tagsResult.error ||
-    playTagsResult.error ||
-    playsResult.error
+    playTagsResult.error
   ) {
     throw new Error("Unable to load your Library.");
   }
 
   const kinds = kindsResult.data ?? [];
   const kindsById = new Map(kinds.map((kind) => [kind.id, kind]));
-  const plays = playsResult.data ?? [];
+  const plays = await readPlayTeams(supabase, [
+    ...(playRulesResult.data ?? []).map((link) => link.play_id),
+    ...(playTagsResult.data ?? []).map((link) => link.play_id),
+  ]);
   const ruleUsage = gatherLibraryUsage(
     (playRulesResult.data ?? []).map((link) => ({
       itemId: link.challenge_rule_id,

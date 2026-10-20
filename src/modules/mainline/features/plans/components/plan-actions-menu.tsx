@@ -6,13 +6,13 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import { PlanFollowersList } from "@/modules/mainline/features/plans/components/plan-followers-list";
+import { PlayTeamList } from "@/modules/mainline/shared/components/play-team-list";
 import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
 import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
-import type { PlanFollower } from "@/modules/mainline/features/plans/types";
+import type { PlayTeam } from "@/modules/mainline/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   AlertDialog,
@@ -86,7 +86,7 @@ export const PlanActionsMenu = ({
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
   const [isPlaysOpen, setIsPlaysOpen] = useState(false);
-  const [followers, setFollowers] = useState<PlanFollower[] | null>(null);
+  const [followers, setFollowers] = useState<PlayTeam[] | null>(null);
   const [isLoadingPlays, startLoadingPlays] = useTransition();
 
   const seePlays = () => {
@@ -258,7 +258,7 @@ export const PlanActionsMenu = ({
               {error}
             </p>
           ) : followers?.length ? (
-            <PlanFollowersList followers={followers} />
+            <PlayTeamList plays={followers} />
           ) : (
             <p className="text-ink-2 text-14">No Play follows this Plan yet.</p>
           )}

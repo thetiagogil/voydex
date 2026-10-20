@@ -13,7 +13,7 @@ export const gatherLibraryUsage = (
   links: { itemId: string; playId: string }[],
   plays: LibraryPlay[],
 ) => {
-  const playById = new Map(plays.map((play) => [play.id, play]));
+  const playById = new Map(plays.map((play) => [play.playId, play]));
   const byItem = new Map<string, LibraryPlay[]>();
 
   for (const link of links) {
@@ -25,7 +25,7 @@ export const gatherLibraryUsage = (
 
   return (id: string): LibraryUsage => {
     const used = (byItem.get(id) ?? []).toSorted((left, right) =>
-      left.name.localeCompare(right.name),
+      left.playName.localeCompare(right.playName),
     );
 
     return { playCount: used.length, plays: used };

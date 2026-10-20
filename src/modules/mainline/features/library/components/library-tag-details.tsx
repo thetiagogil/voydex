@@ -42,7 +42,7 @@ export const LibraryTagDetails = ({
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
       }}
-      kicker="Tag"
+      kicker="Tag · Made by you"
       title={tag.name}
       footer={
         <>

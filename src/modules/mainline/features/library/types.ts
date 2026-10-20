@@ -1,10 +1,11 @@
+import type { PlayTeam } from "@/modules/mainline/shared/types";
 import type { ChallengeRuleOptionKey } from "@/modules/mainline/shared/data/challenge-rule-options";
 
 /* A rule's kind, such as Catching or Custom; the picker for a new rule. */
 export type LibraryRuleKind = { id: number; name: string; slug: string };
 
-/* A Play of yours that keeps a rule or wears a tag. */
-export type LibraryPlay = { id: string; name: string };
+/* A Play of yours that keeps a rule or wears a tag, with its team. */
+export type LibraryPlay = PlayTeam;
 
 /* Which of your Plays keep a rule or wear a tag, by name, and how many. */
 export type LibraryUsage = { playCount: number; plays: LibraryPlay[] };

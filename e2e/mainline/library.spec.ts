@@ -113,7 +113,7 @@ test.describe("Library", () => {
       .getByRole("button", { name: `${ruleName}, Not used yet` })
       .click(forTheAnswer);
     const details = page.getByRole("dialog", { name: ruleName });
-    await expect(details.getByText(/^Created by you/)).toBeVisible();
+    await expect(details.getByText(/Made by you/)).toBeVisible();
     await expect(details.getByText("No Play uses it yet.")).toBeVisible();
     await details
       .getByRole("textbox", { name: "What it asks (optional)" })

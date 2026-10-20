@@ -17,7 +17,7 @@ import {
   type MyPlansSort,
 } from "@/modules/mainline/features/plans/my-plans/data/my-plans-model";
 import { PlanActionsMenu } from "@/modules/mainline/features/plans/components/plan-actions-menu";
-import { PlanTeamStrip } from "@/modules/mainline/features/plans/components/plan-team-strip";
+import { TeamStrip } from "@/modules/mainline/shared/components/team-strip";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ResetListButton } from "@/shared/components/reset-list-button";
@@ -71,7 +71,7 @@ const MyPlanCard = ({ plan }: { plan: MyPlan }) => {
       >
         {plan.name}
       </h2>
-      <PlanTeamStrip
+      <TeamStrip
         members={plan.members}
         className={cn(plan.isArchived && "opacity-55")}
       />

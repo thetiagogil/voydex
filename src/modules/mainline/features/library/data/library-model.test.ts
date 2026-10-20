@@ -13,8 +13,8 @@ import {
 } from "./library-model";
 
 describe("gatherLibraryUsage", () => {
-  const kanto = { id: "p1", name: "Kanto run" };
-  const alola = { id: "p2", name: "Alola run" };
+  const kanto = { members: [], playId: "p1", playName: "Kanto run" };
+  const alola = { members: [], playId: "p2", playName: "Alola run" };
 
   it("names each id's Plays in order, and counts them", () => {
     const usage = gatherLibraryUsage(
