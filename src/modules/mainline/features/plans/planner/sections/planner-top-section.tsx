@@ -122,6 +122,7 @@ export const PlannerTopSection = ({
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         <SelectControl
           ariaLabel={`Game: ${versionGroup.name}`}
+          className={cn("relative", isSwitching && "pointer-events-none")}
           searchPlaceholder="Search games"
           placeholder={versionGroup.name}
           value={versionGroup.slug}
@@ -165,9 +166,13 @@ export const PlannerTopSection = ({
                   {versionGroup.name}
                 </b>
               </span>
+              {/* The whole card waits while a switch is checked and opens. */}
               {isSwitching ? (
-                <span role="status" className="flex items-center">
-                  <Spinner className="size-4" />
+                <span
+                  role="status"
+                  className="bg-surface/80 absolute inset-0 grid place-items-center rounded-[inherit]"
+                >
+                  <Spinner aria-hidden className="text-action size-7" />
                   <span className="sr-only">Switching game</span>
                 </span>
               ) : null}
