@@ -102,9 +102,10 @@ export const PlayMomentRow = ({
       medallionFaded={record.faded}
       placement={placement}
       variant={variant}
+      when={onTimeline ? when : undefined}
       wrap={wrap}
       kicker={
-        when ? (
+        when && !onTimeline ? (
           <>
             {record.label} · {when}
           </>

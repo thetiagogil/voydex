@@ -27,6 +27,11 @@ type RecordRowProps = {
    * a timeline's line and the words in a small card of their own.
    */
   variant?: "row" | "timeline";
+  /*
+   * When it happened; on a timeline it sits at the right edge of the card's
+   * top line, smaller and lighter than the kind.
+   */
+  when?: ReactNode;
   /* Let the line and note wrap in full instead of truncating and clamping. */
   wrap?: boolean;
 };
@@ -35,7 +40,8 @@ type RecordRowProps = {
  * One moment: its medallion, a small kicker (what kind and when), the line and
  * an optional body. Inside a card, rows sit between rules with no card of
  * their own; on a timeline, the words sit in a small card beside the
- * medallion. A third column appears only for something trailing.
+ * medallion, with when it happened at the card's right edge and the kind at
+ * its left. A third column appears only for something trailing.
  */
 export const RecordRow = ({
   className,
@@ -48,11 +54,25 @@ export const RecordRow = ({
   placement = "line",
   trailing,
   variant = "row",
+  when,
   wrap = false,
 }: RecordRowProps) => {
   const words = (
     <>
-      <p className="text-ink-3 text-13 font-bold">{kicker}</p>
+      <p
+        className={cn(
+          "text-ink-3 text-13 font-bold",
+          variant === "timeline" && "flex items-baseline justify-between gap-3",
+        )}
+      >
+        <span>{kicker}</span>
+        {variant === "timeline" && when ? (
+          /* Smaller and lighter than the kind, so it stays out of the way. */
+          <span className="text-12 shrink-0 font-medium tabular-nums">
+            {when}
+          </span>
+        ) : null}
+      </p>
       <p
         className={cn(
           "text-ink text-15 font-semibold [&_b]:font-extrabold",
