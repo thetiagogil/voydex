@@ -325,9 +325,9 @@ removal belongs to the later database audit for the deferred bookmark concept.
 
 Rule definitions and rule applications are different facts. Product-owned
 predefined rule definitions are immutable. A user-authored rule definition is
-reusable across the owner's Plays and Plans; its name, description, category,
-and base configuration belong to that shared definition. The Play-rule or
-Plan-rule relationship owns only attachment and supported local configuration.
+reusable across the owner's Plays; its name, description, category,
+and base configuration belong to that shared definition. The Play-rule
+relationship owns only attachment and supported local configuration.
 The shipped V1 application catalogue owns which predefined rules are checkable
 and how their configuration is validated; custom rules are recorded only.
 Detaching a rule never deletes the shared definition, and V1 rule evaluation
@@ -359,7 +359,7 @@ for the same game.
 
 The product contract is one focused linked Team Plan per play.
 
-A Team Plan owns planned target Pokémon, notes, roles, and preferences.
+A Team Plan owns planned target Pokémon, notes, and preferences.
 
 The Plan owns one to six ordered targets. Species and form are required;
 ability, nature, held item, gender, and moves are optional preferences.

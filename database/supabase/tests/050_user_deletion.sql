@@ -19,19 +19,17 @@ FROM
     gameplay.mainline_challenge_rule_types;
 INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id)
     VALUES ('20000000-0000-0000-0000-0000000000d1', '40000000-0000-0000-0000-0000000000d1');
-INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id)
-    VALUES ('30000000-0000-0000-0000-0000000000d1', '40000000-0000-0000-0000-0000000000d1');
 SELECT
     plan (6);
--- Deleting a custom rule takes it off every Play and Plan that used it.
+-- Deleting a custom rule takes it off every Play that used it.
 SELECT
     lives_ok ($$ DELETE FROM gameplay.mainline_challenge_rules
-        WHERE id = '40000000-0000-0000-0000-0000000000d1' $$, 'a custom rule in use is deleted with its Play and Plan links');
+        WHERE id = '40000000-0000-0000-0000-0000000000d1' $$, 'a custom rule in use is deleted with its Play links');
 SELECT
     lives_ok ($$ DELETE FROM auth.users
         WHERE id = '00000000-0000-0000-0000-0000000000d1' $$, 'a user with a custom rule in use can be deleted');
 SELECT
-    lives_ok ($$ SET CONSTRAINTS gameplay.mainline_play_challenge_rules_challenge_rule_id_fkey, planning.mainline_team_plan_challenge_rules_challenge_rule_id_fkey IMMEDIATE $$, 'the rule links still hold once the user is gone');
+    lives_ok ($$ SET CONSTRAINTS gameplay.mainline_play_challenge_rules_challenge_rule_id_fkey IMMEDIATE $$, 'the rule links still hold once the user is gone');
 SELECT
     IS ((
             SELECT

@@ -17,8 +17,9 @@ export type PlanRenameResult =
 const nameMaxLength = 200;
 
 /*
- * Rename a Plan from My Plans: its name only. An empty name reads as
- * "Untitled Plan", as in the Planner; an archived Plan is restored first.
+ * Rename a Plan, from My Plans or the Planner: its name only, so a followed
+ * Plan needs no unlocking. An empty name reads as "Untitled Plan"; an
+ * archived Plan is restored first.
  */
 export const renamePlanAction = async (
   planId: unknown,

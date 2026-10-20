@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
 
 import { appRoutes } from "@/config/routes";
 import {
@@ -16,13 +15,16 @@ import { untitledPlanName } from "@/modules/mainline/features/plans/planner/util
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
-import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
 import { selectTriggerVariants } from "@/shared/components/ui/select";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
-import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 
@@ -38,10 +40,13 @@ type PlannerTopSectionProps = {
   isSwitching: boolean;
   /* Why the game can't change, such as Plays following the Plan. */
   gameFixedReason?: string;
+  /* The names of the expansions the Plan includes. */
+  includedExpansions: string[];
   /* An edit on a locked Plan: ask to unlock, then carry on with `resume`. */
   onLockedEdit: (resume: () => void) => void;
   name: string;
-  onNameChange: (name: string) => void;
+  /* Opens the saved Plan's Rename. */
+  onRename: () => void;
   onSave: () => void;
   onShare: () => void;
   onVersionGroupChange: (slug: string) => void;
@@ -53,23 +58,25 @@ type PlannerTopSectionProps = {
 };
 
 /*
- * The head of the Planner's band (v3 `.pl-top`): the Plan's name on its own
- * line (tap to rename), then one row with the version group it is for (its
- * covers; a menu of every base group) and its version, and Share, My Plans,
- * the page's main button, Save, and a saved Plan's "⋯" (Rename, Archive,
- * Delete) at the end.
+ * The head of the Planner's band (v3 `.pl-top`): a saved Plan's name on its
+ * own line (tap to rename), then one row with the version group it is for (its
+ * covers; a menu of every base group; the expansions it includes under its
+ * name), and My Plans, the page's main button, Save, and the "⋯" (Share,
+ * and for a saved Plan See Plays, Rename, Archive, Delete) at the end. A
+ * new Plan has no name yet: Save Plan asks for it.
  */
 export const PlannerTopSection = ({
   canArchive,
   canEdit,
   gameFixedReason,
+  includedExpansions,
   onLockedEdit,
   canSave,
   isSaved,
   isSaving,
   isSwitching,
   name,
-  onNameChange,
+  onRename,
   onSave,
   onShare,
   onVersionGroupChange,
@@ -78,13 +85,6 @@ export const PlannerTopSection = ({
   versionGroup,
   versionGroups,
 }: PlannerTopSectionProps) => {
-  const [isRenaming, setIsRenaming] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (isRenaming) inputRef.current?.focus();
-  }, [isRenaming]);
-
   const gameCard = (
     <>
       <span aria-hidden className="flex shrink-0 items-center pl-1">
@@ -104,11 +104,16 @@ export const PlannerTopSection = ({
       <span className="min-w-0">
         <span className="text-ink-2 text-12 block font-bold">
           Gen {versionGroup.generationNumeral}
-          {versionGroup.regionName ? ` · ${versionGroup.regionName}` : ""}
         </span>
         <b className="text-ink text-16 block font-extrabold">
           {versionGroup.name}
         </b>
+        {/* The expansions the Plan includes, so it's clear where they count. */}
+        {includedExpansions.length ? (
+          <span className="text-ink-2 text-12 block font-bold">
+            + {includedExpansions.join(", ")}
+          </span>
+        ) : null}
       </span>
       {/* The whole card waits while a switch is checked and opens. */}
       {isSwitching ? (
@@ -122,42 +127,18 @@ export const PlannerTopSection = ({
       ) : null}
     </>
   );
-  /* Renaming waits on Unlock while the Plan is locked. */
-  const startRenaming = () =>
-    canEdit ? setIsRenaming(true) : onLockedEdit(() => setIsRenaming(true));
 
   return (
     <div className="flex flex-col gap-5 pt-4 sm:pt-7">
       <div className="flex min-w-0 flex-col gap-1.5">
-        {isRenaming ? (
-          <Input
-            ref={inputRef}
-            aria-label="Plan name"
-            value={name}
-            maxLength={200}
-            placeholder={untitledPlanName}
-            onChange={(event) => onNameChange(event.currentTarget.value)}
-            onBlur={() => setIsRenaming(false)}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === "Escape") {
-                setIsRenaming(false);
-              }
-            }}
-            className="title-page h-13 max-w-xl"
-          />
-        ) : (
+        {savedPlan ? (
           <h1 className="min-w-0">
             <button
               type="button"
-              onClick={startRenaming}
+              onClick={onRename}
               className="group/title title-page focus-ring inline-flex max-w-full items-center gap-2 rounded-xs text-left"
             >
-              <span
-                className={cn(
-                  "line-clamp-2 text-balance wrap-anywhere",
-                  !name.trim() && "text-ink-3",
-                )}
-              >
+              <span className="descender-room line-clamp-2 text-balance wrap-anywhere">
                 {name.trim() || untitledPlanName}
               </span>
               <AppIcon
@@ -168,6 +149,9 @@ export const PlannerTopSection = ({
               <span className="sr-only">Rename</span>
             </button>
           </h1>
+        ) : (
+          /* A new Plan gets its name when it's saved. */
+          <h1 className="sr-only">New Plan</h1>
         )}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
@@ -191,7 +175,7 @@ export const PlannerTopSection = ({
             value={versionGroup.slug}
             onValueChange={onVersionGroupChange}
             options={versionGroups.map((group) => ({
-              description: `Gen ${group.generationNumeral}${group.regionName ? ` · ${group.regionName}` : ""}`,
+              description: `Gen ${group.generationNumeral}`,
               icon: group.gameSlugs[0] ? (
                 <GameOptionCover
                   gameName={group.name}
@@ -205,34 +189,7 @@ export const PlannerTopSection = ({
             triggerContent={gameCard}
           />
         )}
-        {versionGroup.games.length > 1 ? (
-          <div className="flex items-center gap-2">
-            <span className="text-ink-2 text-13 font-bold">Version</span>
-            {/* TODO(v3-data): a version preference on planning.mainline_team_plans; a Plan stores its group's first game until then. */}
-            <SegmentedControl
-              ariaLabel="Version"
-              selectedTone="strong"
-              size="sm"
-              value="either"
-              options={[
-                { label: "Either", value: "either" },
-                ...versionGroup.games.map((game) => ({
-                  disabled: true,
-                  disabledReason:
-                    "Saving a version preference isn't in Voydex yet",
-                  dot: getGameColourStyle(game.slug),
-                  label: game.shortName,
-                  value: game.slug,
-                })),
-              ]}
-            />
-          </div>
-        ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-          <Button type="button" variant="secondary" onClick={onShare}>
-            <AppIcon icon={appIcons.actions.share} inline="start" />
-            Share
-          </Button>
           <Link
             href={appRoutes.mainlinePlans}
             className={buttonVariants({ variant: "secondary" })}
@@ -261,12 +218,35 @@ export const PlannerTopSection = ({
             <PlanActionsMenu
               placement="planner"
               plan={savedPlan}
-              onRename={startRenaming}
+              onRename={onRename}
+              onShare={onShare}
               archiveBlockedReason={
                 canArchive ? undefined : "Save or undo your changes first"
               }
             />
-          ) : null}
+          ) : (
+            /* A Plan not saved yet has only Share behind its "⋯". */
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                render={
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    size="icon"
+                    aria-label="More actions"
+                  />
+                }
+              >
+                <AppIcon icon={appIcons.actions.more} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-auto min-w-52">
+                <DropdownMenuItem onClick={onShare}>
+                  <AppIcon icon={appIcons.actions.share} />
+                  Share
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </div>
       </div>
     </div>

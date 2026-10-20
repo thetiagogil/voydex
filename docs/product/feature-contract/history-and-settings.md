@@ -120,7 +120,7 @@ check this` or the rule is `Recorded only`. Checkable V1 rules produce
 explainable warnings and never hard-block Team or Plan actions.
 
 Predefined rule definitions are immutable. User-authored rules are reusable
-across Plays and Plans, but applying, configuring, or detaching one remains
+across Plays, but applying, configuring, or detaching one remains
 local to the current owner. V1 Play Settings does not rename or delete an
 existing shared rule definition; detaching it from a Play never deletes it.
 Rule changes do not create History. The shipped app catalogue identifies

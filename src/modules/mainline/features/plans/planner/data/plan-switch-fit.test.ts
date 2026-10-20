@@ -16,7 +16,6 @@ const member = (fields: Partial<PlanMember>): PlanMember => ({
   moveIds: [null, null, null, null],
   natureId: null,
   notes: null,
-  role: null,
   slot: 1,
   speciesId: 25,
   ...fields,

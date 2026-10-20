@@ -173,7 +173,6 @@ export type MainlinePlayTeamPlanMemberComparison = {
   plannedSpeciesId: number;
   playMember: MainlinePlayTeamMember | null;
   relation: MainlinePlayTeamPlanRelation | null;
-  roleLabel: string | null;
   slot: number;
   status: MainlinePlayTeamPlanStatus;
 };

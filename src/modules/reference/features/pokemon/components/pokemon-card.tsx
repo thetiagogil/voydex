@@ -33,7 +33,8 @@ type PokemonCardProps = {
    */
   motion?: "pop" | "settle" | null;
   name: string;
-  number: string;
+  /* Its national number; left out where the number says nothing (the Planner's team), keeping the line. */
+  number?: string;
   onAnimationEnd?: () => void;
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
@@ -184,12 +185,13 @@ export const PokemonCard = ({
       )}
     >
       <span
+        aria-hidden={number ? undefined : true}
         className={cn(
           "text-12 flex w-full justify-between px-1 font-extrabold tabular-nums",
           state === "caught" ? "text-ink-tint" : "text-ink-3",
         )}
       >
-        {number}
+        {number ?? "\u00a0"}
       </span>
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark

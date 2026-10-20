@@ -66,7 +66,6 @@ INSERT INTO planning.mainline_team_plan_members (
   slot,
   target_species_id,
   target_form_id,
-  role_label,
   notes,
   gender,
   nature_id,
@@ -79,7 +78,6 @@ SELECT
   play_pokemon.slot,
   play_pokemon.species_id,
   play_pokemon.form_id,
-  (ARRAY['Lead', 'Physical coverage', 'Defensive pivot', 'Special coverage', 'Utility', 'Flexible closer'])[play_pokemon.slot],
   CASE WHEN play_pokemon.slot = 1 THEN 'Preferred starter and planned team lead.' ELSE 'Primary target realized during this fixture journey.' END,
   CASE WHEN play_pokemon.gender = 'unknown' THEN NULL ELSE play_pokemon.gender END,
   play_pokemon.nature_id,
@@ -129,37 +127,3 @@ SELECT
 FROM gameplay.mainline_plays
 WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;
 
-INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-SELECT
-  team_plans.id,
-  tags.id,
-  team_plans.user_id
-FROM
-  planning.mainline_team_plans AS team_plans
-  JOIN public.tags ON tags.slug = CASE team_plans.status_id
-    WHEN 1 THEN 'fixture-early'
-    WHEN 2 THEN 'fixture-late'
-    ELSE 'fixture-story-complete'
-  END
-WHERE team_plans.id = md5('voydex-fixture:plan:' || team_plans.version_group_id)::uuid
-UNION ALL
-SELECT
-  team_plans.id,
-  tags.id,
-  team_plans.user_id
-FROM
-  planning.mainline_team_plans AS team_plans
-  JOIN public.tags ON tags.slug = 'fixture-challenge'
-WHERE
-  team_plans.version_group_id % 3 = 0
-  AND team_plans.id = md5('voydex-fixture:plan:' || team_plans.version_group_id)::uuid;
-
-INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
-SELECT
-  md5('voydex-fixture:plan:' || mainline_plays.version_group_id)::uuid,
-  play_rules.challenge_rule_id,
-  play_rules.config_override
-FROM
-  gameplay.mainline_play_challenge_rules AS play_rules
-  JOIN gameplay.mainline_plays ON mainline_plays.id = play_rules.play_id
-WHERE mainline_plays.id = md5('voydex-fixture:play:data:' || mainline_plays.version_group_id)::uuid;

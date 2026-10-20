@@ -4,6 +4,7 @@ import { cn } from "@/shared/utils/cn";
 
 export type CornerBubbleCorner =
   | "bottom"
+  | "inside-top-left"
   | "inside-top-right"
   | "top-left"
   | "top-right";
@@ -15,6 +16,7 @@ const cornerClassNames: Record<CornerBubbleCorner, string> = {
    * Inside the top-right corner, for a card whose list clips its edges: clear
    * of a sticker's 4px band, so it never touches the edge.
    */
+  "inside-top-left": "top-3 left-3",
   "inside-top-right": "top-3 right-3",
   "top-left": "-top-2 -left-2",
   "top-right": "-top-2 -right-2",

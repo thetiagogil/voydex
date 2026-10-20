@@ -1,10 +1,10 @@
 /*
- * A Plan as a link (v3's Share): the version group, the six Pokémon and
- * their roles. It lives in the link's hash, so sharing never changes a
+ * A Plan as a link (v3's Share): the version group and the six Pokémon
+ * (older links also carried roles, which are now ignored). It lives in the link's hash, so sharing never changes a
  * saved Plan, and importing opens it as a new unsaved Plan.
  */
 export type PlanShare = {
-  slots: ({ role: string | null; species: string } | null)[];
+  slots: ({ species: string } | null)[];
   versionGroupSlug: string;
 };
 
@@ -29,9 +29,7 @@ const fromBase64Url = (code: string) => {
 export const encodePlanShare = (share: PlanShare) =>
   `${shareKey}=${toBase64Url(
     JSON.stringify({
-      s: share.slots.map((slot) =>
-        slot ? (slot.role ? [slot.species, slot.role] : [slot.species]) : 0,
-      ),
+      s: share.slots.map((slot) => (slot ? [slot.species] : 0)),
       v: share.versionGroupSlug,
     }),
   )}`;
@@ -63,16 +61,10 @@ export const decodePlanShare = (input: string): PlanShare | null => {
     const slots = value.s.map((slot) => {
       if (!Array.isArray(slot)) return null;
 
-      const [species, role] = slot as unknown[];
+      const [species] = slot as unknown[];
 
       return typeof species === "string" && slugPattern.test(species)
-        ? {
-            role:
-              typeof role === "string" && role.trim()
-                ? role.trim().slice(0, 120)
-                : null,
-            species,
-          }
+        ? { species }
         : null;
     });
 
@@ -85,17 +77,15 @@ export const decodePlanShare = (input: string): PlanShare | null => {
   }
 };
 
-/* The Planner's six slots as a share: each Pokémon by slug, with its role. */
+/* The Planner's six slots as a share: each Pokémon by slug. */
 export const toPlanShare = (
-  slots: ({ role: string | null; speciesId: number } | null)[],
+  slots: ({ speciesId: number } | null)[],
   speciesSlugById: Map<number, { speciesSlug: string }>,
   versionGroupSlug: string,
 ): PlanShare => ({
   slots: slots.map((member) => {
     const pokemon = member ? speciesSlugById.get(member.speciesId) : undefined;
-    return pokemon
-      ? { role: member?.role ?? null, species: pokemon.speciesSlug }
-      : null;
+    return pokemon ? { species: pokemon.speciesSlug } : null;
   }),
   versionGroupSlug,
 });

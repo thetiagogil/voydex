@@ -23,7 +23,7 @@ type TagDialog =
 
 /*
  * Tags: each of yours as a pill that lifts like a card, with how many Plays
- * and Plans wear it; the pill opens Rename and Delete. New tag sits in the
+ * wear it; the pill opens Rename and Delete. New tag sits in the
  * page's head.
  */
 export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
@@ -41,7 +41,7 @@ export const LibraryTagsSection = ({ tags }: { tags: LibraryTag[] }) => {
       <ul className="flex flex-wrap items-center gap-3">
         {tags.map((tag) => {
           const usageLabel = getLibraryUsageLabel(tag);
-          const uses = tag.playCount + tag.planCount;
+          const uses = tag.playCount;
 
           return (
             <li key={tag.id}>

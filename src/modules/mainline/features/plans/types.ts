@@ -23,7 +23,6 @@ export type PlanMember = {
   moveIds: PlanMoveSlots;
   natureId: number | null;
   notes: string | null;
-  role: string | null;
   /* 1 to 6. */
   slot: number;
   speciesId: number;

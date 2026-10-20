@@ -30,8 +30,8 @@ export const SearchControl = ({
   ...inputProps
 }: SearchControlProps) => {
   return (
-    /* A pill, like every other control on a toolbar. */
-    <InputGroup className={cn("rounded-full px-2.5", className)}>
+    /* A pill, like every field and every control on a toolbar. */
+    <InputGroup className={className}>
       <InputGroupAddon>
         <AppIcon icon={appIcons.actions.search} aria-hidden />
       </InputGroupAddon>

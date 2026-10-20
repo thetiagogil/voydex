@@ -1333,36 +1333,6 @@ export type Database = {
           },
         ];
       };
-      mainline_team_plan_challenge_rules: {
-        Row: {
-          challenge_rule_id: string;
-          config_override: Json | null;
-          created_at: string;
-          team_plan_id: string;
-        };
-        ComputedFields: never;
-        Insert: {
-          challenge_rule_id: string;
-          config_override?: Json | null;
-          created_at?: string;
-          team_plan_id: string;
-        };
-        Update: {
-          challenge_rule_id?: string;
-          config_override?: Json | null;
-          created_at?: string;
-          team_plan_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "mainline_team_plan_challenge_rules_team_plan_id_fkey";
-            columns: ["team_plan_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_team_plans";
-            referencedColumns: ["id"];
-          },
-        ];
-      };
       mainline_team_plan_member_moves: {
         Row: {
           created_at: string;
@@ -1405,7 +1375,6 @@ export type Database = {
           id: string;
           nature_id: number | null;
           notes: string | null;
-          role_label: string | null;
           slot: number;
           target_form_id: number;
           target_species_id: number;
@@ -1421,7 +1390,6 @@ export type Database = {
           id?: string;
           nature_id?: number | null;
           notes?: string | null;
-          role_label?: string | null;
           slot: number;
           target_form_id: number;
           target_species_id: number;
@@ -1436,7 +1404,6 @@ export type Database = {
           id?: string;
           nature_id?: number | null;
           notes?: string | null;
-          role_label?: string | null;
           slot?: number;
           target_form_id?: number;
           target_species_id?: number;
@@ -1508,36 +1475,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      mainline_team_plan_tags: {
-        Row: {
-          created_at: string;
-          tag_id: string;
-          team_plan_id: string;
-          user_id: string;
-        };
-        ComputedFields: never;
-        Insert: {
-          created_at?: string;
-          tag_id: string;
-          team_plan_id: string;
-          user_id: string;
-        };
-        Update: {
-          created_at?: string;
-          tag_id?: string;
-          team_plan_id?: string;
-          user_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: "team_plan_tags_plan_user_fkey";
-            columns: ["team_plan_id", "user_id"];
-            isOneToOne: false;
-            referencedRelation: "mainline_team_plans";
-            referencedColumns: ["id", "user_id"];
-          },
-        ];
-      };
       mainline_team_plans: {
         Row: {
           created_at: string;
@@ -1600,6 +1537,7 @@ export type Database = {
         Args: {
           p_created_from_plan?: boolean;
           p_play_id: string;
+          p_replace_existing?: boolean;
           p_team_plan_id: string;
         };
         Returns: {
@@ -4991,7 +4929,6 @@ export type Database = {
           planned_nature_name: string | null;
           play_id: string | null;
           play_plan_link_id: string | null;
-          role_label: string | null;
           slot: number | null;
           target_evolution_family_id: number | null;
           target_form_id: number | null;
@@ -5184,7 +5121,6 @@ export type Database = {
           nature_id: number | null;
           nature_name: string | null;
           notes: string | null;
-          role_label: string | null;
           slot: number | null;
           target_evolution_family_id: number | null;
           target_form_id: number | null;

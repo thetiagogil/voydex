@@ -7098,7 +7098,6 @@ CREATE TABLE planning.mainline_team_plan_members (
     slot integer NOT NULL,
     target_species_id integer NOT NULL REFERENCES reference.pokemon_species (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     target_form_id integer NOT NULL,
-    role_label text,
     notes text,
     gender text,
     nature_id integer REFERENCES reference.natures (id) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -7111,7 +7110,6 @@ CREATE TABLE planning.mainline_team_plan_members (
     CONSTRAINT team_plan_members_plan_slot_unique UNIQUE (team_plan_id, slot),
     CONSTRAINT team_plan_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
     CONSTRAINT team_plan_members_gender_check CHECK (gender IS NULL OR gender IN ('male', 'female', 'genderless')),
-    CONSTRAINT team_plan_members_role_label_length_check CHECK (role_label IS NULL OR CHAR_LENGTH(BTRIM(role_label)) BETWEEN 1 AND 120),
     CONSTRAINT team_plan_members_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 5000)
 );
 
@@ -7208,120 +7206,13 @@ COMMENT ON COLUMN planning.mainline_play_plan_links.version_group_id IS 'Duplica
 COMMENT ON COLUMN planning.mainline_play_plan_links.created_from_plan IS 'True when the play was originally created from the linked plan.';
 
 -- ============================================================================
--- Source: database/schema/05_planning/01_tables/007_mainline_team_plan_tags.sql
--- ============================================================================
--- ============================================================================
--- Table: planning.mainline_team_plan_tags
--- Tags attached to team plans.
--- ============================================================================
-CREATE TABLE planning.mainline_team_plan_tags (
-    team_plan_id uuid NOT NULL,
-    tag_id uuid NOT NULL,
-    user_id uuid NOT NULL,
-    created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT team_plan_tags_primary_key PRIMARY KEY (team_plan_id, tag_id),
-    CONSTRAINT team_plan_tags_plan_user_fkey FOREIGN KEY (team_plan_id, user_id) REFERENCES planning.mainline_team_plans (id, user_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT team_plan_tags_tag_user_fkey FOREIGN KEY (tag_id, user_id) REFERENCES public.tags (id, user_id) ON UPDATE CASCADE ON DELETE CASCADE
-);
-
-CREATE INDEX team_plan_tags_plan_user_idx ON planning.mainline_team_plan_tags (team_plan_id, user_id);
-
-CREATE INDEX team_plan_tags_tag_user_idx ON planning.mainline_team_plan_tags (tag_id, user_id);
-
-COMMENT ON TABLE planning.mainline_team_plan_tags IS 'Typed tag links for team plans. user_id enforces tag ownership matches plan ownership.';
-
--- ============================================================================
--- Source: database/schema/05_planning/01_tables/008_mainline_team_plan_challenge_rules.sql
--- ============================================================================
--- ============================================================================
--- Table: planning.mainline_team_plan_challenge_rules
--- Challenge/rule links attached to team plans.
--- ============================================================================
-CREATE TABLE planning.mainline_team_plan_challenge_rules (
-    team_plan_id uuid NOT NULL REFERENCES planning.mainline_team_plans (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    config_override jsonb,
-    created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT team_plan_challenge_rules_primary_key PRIMARY KEY (team_plan_id, challenge_rule_id),
-    CONSTRAINT team_plan_challenge_rules_config_override_object_check CHECK (config_override IS NULL OR jsonb_typeof(config_override) = 'object')
-);
-
-CREATE INDEX team_plan_challenge_rules_challenge_rule_idx ON planning.mainline_team_plan_challenge_rules (challenge_rule_id);
-
-COMMENT ON TABLE planning.mainline_team_plan_challenge_rules IS 'Rules applied to a team plan, with optional structured override config.';
-
-CREATE FUNCTION private.enforce_team_plan_challenge_rule_scope ()
-    RETURNS TRIGGER
-    LANGUAGE plpgsql
-    SECURITY DEFINER
-    SET search_path = ''
-    AS $$
-DECLARE
-    plan_user_id uuid;
-    rule_user_id uuid;
-BEGIN
-    SELECT
-        mainline_team_plans.user_id
-    INTO
-        plan_user_id
-    FROM
-        planning.mainline_team_plans
-    WHERE
-        mainline_team_plans.id = NEW.team_plan_id;
-    SELECT
-        mainline_challenge_rules.user_id
-    INTO
-        rule_user_id
-    FROM
-        gameplay.mainline_challenge_rules
-    WHERE
-        mainline_challenge_rules.id = NEW.challenge_rule_id;
-    IF plan_user_id IS NULL THEN
-        RAISE EXCEPTION 'Unknown team_plan_id %', NEW.team_plan_id
-            USING ERRCODE = '23503';
-    END IF;
-    IF NOT EXISTS (
-        SELECT
-            1
-        FROM
-            gameplay.mainline_challenge_rules
-        WHERE
-            mainline_challenge_rules.id = NEW.challenge_rule_id) THEN
-    RAISE EXCEPTION 'Unknown challenge_rule_id %', NEW.challenge_rule_id
-        USING ERRCODE = '23503';
-END IF;
-    IF rule_user_id IS NOT NULL AND rule_user_id <> plan_user_id THEN
-        RAISE EXCEPTION 'Challenge rule % does not belong to the owner of team plan %', NEW.challenge_rule_id, NEW.team_plan_id
-            USING ERRCODE = '23514';
-    END IF;
-    RETURN NEW;
-END;
-$$;
-
-REVOKE ALL ON FUNCTION private.enforce_team_plan_challenge_rule_scope () FROM PUBLIC;
-
-REVOKE ALL ON FUNCTION private.enforce_team_plan_challenge_rule_scope () FROM anon;
-
-REVOKE ALL ON FUNCTION private.enforce_team_plan_challenge_rule_scope () FROM authenticated;
-
-GRANT EXECUTE ON FUNCTION private.enforce_team_plan_challenge_rule_scope () TO service_role;
-
-CREATE TRIGGER enforce_team_plan_challenge_rule_scope
-    BEFORE INSERT OR UPDATE OF team_plan_id,
-    challenge_rule_id ON planning.mainline_team_plan_challenge_rules
-    FOR EACH ROW
-    EXECUTE FUNCTION private.enforce_team_plan_challenge_rule_scope ();
-
-COMMENT ON FUNCTION private.enforce_team_plan_challenge_rule_scope () IS 'Allows predefined challenge rules for any plan and custom challenge rules only for plans owned by the same user.';
-
--- ============================================================================
 -- Source: database/schema/05_planning/02_functions/001_mainline_team_plan_play_mutations.sql
 -- ============================================================================
 -- ============================================================================
 -- Functions: planning mainline team plan to play mutations
 -- Client-callable helpers for linking and Play-scoped Plan cloning.
 -- ============================================================================
-CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE)
+CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE, p_replace_existing boolean DEFAULT FALSE)
     RETURNS TABLE (
         result_play_plan_link_id uuid)
     LANGUAGE plpgsql
@@ -7381,13 +7272,26 @@ BEGIN
     WHERE
         mainline_play_plan_links.play_id = v_play.id
     FOR UPDATE;
-    IF v_existing_play_plan_link.id IS NOT NULL AND v_existing_play_plan_link.team_plan_id <> v_team_plan.id THEN
+    IF v_existing_play_plan_link.id IS NOT NULL AND v_existing_play_plan_link.team_plan_id <> v_team_plan.id AND NOT COALESCE(p_replace_existing, FALSE) THEN
         RAISE EXCEPTION 'Play already has a linked team plan. Unlink or replace it explicitly before linking another team plan.'
             USING ERRCODE = '23505';
     END IF;
     IF v_existing_play_plan_link.id IS NULL THEN
         INSERT INTO planning.mainline_play_plan_links (play_id, team_plan_id, user_id, game_id, version_group_id, created_from_plan)
             VALUES (v_play.id, v_team_plan.id, v_play.user_id, v_play.game_id, v_play.version_group_id, p_created_from_plan)
+        RETURNING
+            id
+        INTO
+            v_play_plan_link_id;
+    ELSIF v_existing_play_plan_link.team_plan_id <> v_team_plan.id THEN
+        -- Following another Plan: the link moves to it.
+        UPDATE
+            planning.mainline_play_plan_links
+        SET
+            team_plan_id = v_team_plan.id,
+            created_from_plan = p_created_from_plan
+        WHERE
+            mainline_play_plan_links.id = v_existing_play_plan_link.id
         RETURNING
             id
         INTO
@@ -7483,8 +7387,8 @@ BEGIN
         mainline_team_plan_members.team_plan_id = v_source_plan.id
     ORDER BY
         mainline_team_plan_members.slot LOOP
-            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.role_label, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
+            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, notes, gender, nature_id, ability_id, held_item_id)
+                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
             RETURNING
                 id
             INTO
@@ -7499,24 +7403,6 @@ BEGIN
             WHERE
                 mainline_team_plan_member_moves.team_plan_member_id = v_source_member.id;
         END LOOP;
-    INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-    SELECT
-        v_new_plan_id,
-        mainline_team_plan_tags.tag_id,
-        mainline_team_plan_tags.user_id
-    FROM
-        planning.mainline_team_plan_tags
-    WHERE
-        mainline_team_plan_tags.team_plan_id = v_source_plan.id;
-    INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
-    SELECT
-        v_new_plan_id,
-        mainline_team_plan_challenge_rules.challenge_rule_id,
-        mainline_team_plan_challenge_rules.config_override
-    FROM
-        planning.mainline_team_plan_challenge_rules
-    WHERE
-        mainline_team_plan_challenge_rules.team_plan_id = v_source_plan.id;
     UPDATE
         planning.mainline_play_plan_links
     SET
@@ -7532,11 +7418,11 @@ BEGIN
 END;
 $$;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM anon;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM PUBLIC;
 
@@ -7544,7 +7430,7 @@ REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) F
 
 GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
+COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan, moving an existing link when asked. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
 
 COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER so planning RLS applies.';
 
@@ -7785,7 +7671,6 @@ WHERE
         jsonb_to_recordset(p_members) AS members (slot integer,
         target_species_id integer,
         target_form_id integer,
-        role_label text,
         notes text,
         gender text,
         nature_id integer,
@@ -7794,8 +7679,8 @@ WHERE
         move_ids jsonb)
 ORDER BY
     members.slot LOOP
-        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, NULLIF (BTRIM(v_member.role_label), ''), NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
+        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, notes, gender, nature_id, ability_id, held_item_id)
+            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
         RETURNING
             id
         INTO
@@ -7852,10 +7737,6 @@ ALTER TABLE planning.mainline_team_plan_member_moves ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE planning.mainline_play_plan_links ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE planning.mainline_team_plan_tags ENABLE ROW LEVEL SECURITY;
-
-ALTER TABLE planning.mainline_team_plan_challenge_rules ENABLE ROW LEVEL SECURITY;
-
 REVOKE ALL ON TABLE planning.mainline_team_plan_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_team_plans FROM anon, authenticated;
@@ -7867,10 +7748,6 @@ REVOKE ALL ON TABLE planning.mainline_team_plan_members FROM anon, authenticated
 REVOKE ALL ON TABLE planning.mainline_team_plan_member_moves FROM anon, authenticated;
 
 REVOKE ALL ON TABLE planning.mainline_play_plan_links FROM anon, authenticated;
-
-REVOKE ALL ON TABLE planning.mainline_team_plan_tags FROM anon, authenticated;
-
-REVOKE ALL ON TABLE planning.mainline_team_plan_challenge_rules FROM anon, authenticated;
 
 GRANT SELECT ON TABLE planning.mainline_team_plan_statuses TO authenticated;
 
@@ -7884,10 +7761,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_member
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_play_plan_links TO authenticated;
 
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_tags TO authenticated;
-
-GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE planning.mainline_team_plan_challenge_rules TO authenticated;
-
 GRANT ALL ON TABLE planning.mainline_team_plan_statuses TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_team_plans TO service_role;
@@ -7899,10 +7772,6 @@ GRANT ALL ON TABLE planning.mainline_team_plan_members TO service_role;
 GRANT ALL ON TABLE planning.mainline_team_plan_member_moves TO service_role;
 
 GRANT ALL ON TABLE planning.mainline_play_plan_links TO service_role;
-
-GRANT ALL ON TABLE planning.mainline_team_plan_tags TO service_role;
-
-GRANT ALL ON TABLE planning.mainline_team_plan_challenge_rules TO service_role;
 
 CREATE POLICY team_plan_statuses_read_all ON planning.mainline_team_plan_statuses
     FOR SELECT TO authenticated
@@ -7999,46 +7868,6 @@ CREATE POLICY team_plan_member_moves_owned ON planning.mainline_team_plan_member
             JOIN planning.mainline_team_plans ON mainline_team_plans.id = mainline_team_plan_members.team_plan_id
         WHERE
             mainline_team_plan_members.id = team_plan_member_id
-            AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY team_plan_tags_owned ON planning.mainline_team_plan_tags
-    FOR ALL TO authenticated
-    USING (user_id = auth.uid ()
-        AND EXISTS (
-            SELECT
-                1
-            FROM
-                planning.mainline_team_plans
-            WHERE
-                mainline_team_plans.id = team_plan_id
-                AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (user_id = auth.uid ()
-    AND EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()));
-
-CREATE POLICY team_plan_challenge_rules_owned ON planning.mainline_team_plan_challenge_rules
-    FOR ALL TO authenticated
-    USING (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
-            AND mainline_team_plans.user_id = auth.uid ()))
-    WITH CHECK (EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_team_plans
-        WHERE
-            mainline_team_plans.id = team_plan_id
             AND mainline_team_plans.user_id = auth.uid ()));
 
 -- ============================================================================
@@ -9107,7 +8936,6 @@ SELECT
     mainline_team_plan_members.target_form_id,
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
-    mainline_team_plan_members.role_label,
     mainline_team_plan_members.notes,
     mainline_team_plan_members.gender,
     mainline_team_plan_members.nature_id,
@@ -9962,7 +9790,6 @@ SELECT
     mainline_team_plan_members.target_form_id,
     target_forms.slug AS target_form_slug,
     target_forms.name AS target_form_name,
-    mainline_team_plan_members.role_label,
     mainline_team_plan_members.notes AS team_plan_member_notes,
     mainline_team_plan_members.gender AS planned_gender,
     mainline_team_plan_members.nature_id AS planned_nature_id,

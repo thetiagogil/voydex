@@ -43,7 +43,8 @@ import {
   PlannerPoolSection,
   type PlannerPoolFilters,
 } from "@/modules/mainline/features/plans/planner/sections/planner-pool-section";
-import { PlannerNameDialog } from "@/modules/mainline/features/plans/planner/sections/planner-name-dialog";
+import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
+import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
 import { PlannerRemoveDialog } from "@/modules/mainline/features/plans/planner/sections/planner-remove-dialog";
 import { PlannerShareDialog } from "@/modules/mainline/features/plans/planner/sections/planner-share-dialog";
 import { PlannerSlotSheet } from "@/modules/mainline/features/plans/planner/sections/planner-slot-sheet";
@@ -125,7 +126,6 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   );
   const [isCheckOpen, setIsCheckOpen] = useState(false);
   const [isShareOpen, setIsShareOpen] = useState(false);
-  const [randomMode, setRandomMode] = useState<PlanRandomMode>("all");
   /* A game switch that would change the team, waiting on its confirm. */
   const [pendingSwitch, setPendingSwitch] = useState<{
     changed: PlannerSwitchPokemon[];
@@ -201,7 +201,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
       trainerId: data.trainerId,
       versionGroup: context.versionGroup,
     });
-  const { isDirty, isNameOpen, isSaving, save, saveAs, setIsNameOpen } =
+  const { isDetailsOpen, isDirty, isSaving, save, saveAs, setIsDetailsOpen } =
     usePlanSave({
       contents: {
         expansions,
@@ -253,7 +253,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     }
   };
 
-  const random = () => {
+  const random = (randomMode: PlanRandomMode) => {
     /* "Random from filters" keeps to the Pokédex shown, too. */
     const candidates = getRandomCandidates({
       byId,
@@ -372,6 +372,11 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         <PlannerTopSection
           canSave={members.length > 0 && isDirty}
           canEdit={isUnlocked}
+          includedExpansions={context.versionGroup.expansions
+            .filter((expansion) =>
+              expansions.includes(expansion.versionGroupId),
+            )
+            .map((expansion) => expansion.name)}
           onLockedEdit={askToUnlock}
           gameFixedReason={
             followerCount
@@ -386,15 +391,15 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
                   id: plan.id,
                   isArchived: false,
                   linkedPlayCount: plan.linkedPlayCount,
-                  name: plan.name,
+                  name: name.trim() || plan.name,
                 }
               : null
           }
+          onRename={() => setIsDetailsOpen(true)}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
           isSwitching={isSwitching}
           name={name}
-          onNameChange={setName}
           onSave={save}
           onShare={() => setIsShareOpen(true)}
           onVersionGroupChange={changeVersionGroup}
@@ -428,10 +433,8 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onOpenCheck={() => setIsCheckOpen(true)}
           onOpenSlot={setOpenSlot}
           onPlace={place}
-          onRandom={whenUnlocked(random)}
-          onRandomModeChange={setRandomMode}
+          onRandom={(mode) => whenUnlocked(() => random(mode))()}
           onRemove={whenUnlocked(requestRemove)}
-          randomMode={randomMode}
           replacing={replacing}
           slots={team.slots}
           tip={tip}
@@ -522,16 +525,35 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         versionGroup={context.versionGroup}
       />
 
-      <PlannerNameDialog
-        gameName={context.versionGroup.name}
-        open={isNameOpen}
-        onOpenChange={setIsNameOpen}
-        onSave={(planName) => {
-          setName(planName);
-          setIsNameOpen(false);
-          saveAs(planName);
-        }}
-      />
+      {isDetailsOpen ? (
+        <PlanNameDialog
+          open
+          onOpenChange={setIsDetailsOpen}
+          initialName={plan ? name : ""}
+          title={plan ? "Rename Plan" : "Save Plan"}
+          description={
+            plan ? undefined : `Name your ${context.versionGroup.name} Plan.`
+          }
+          submitLabel={plan ? "Rename" : "Save Plan"}
+          onSubmit={async (planName) => {
+            if (!plan) {
+              setName(planName);
+
+              return saveAs({ name: planName });
+            }
+
+            const result = await renamePlanAction(plan.id, planName);
+
+            if (result.status === "error") return result.message;
+
+            setName(result.name);
+            toast.success(`Renamed to ${result.name}`);
+            router.refresh();
+
+            return null;
+          }}
+        />
+      ) : null}
 
       <PlannerUnlockDialog
         followerCount={followerCount}

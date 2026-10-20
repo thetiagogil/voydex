@@ -211,7 +211,7 @@ Examples include Nuzlocke, monotype, no repeated species, no repeated forms, shi
 
 Predefined rules are product-owned and immutable. User-authored rules are
 reusable definitions whose attachment and supported configuration remain local
-to a Play or Plan. `Voydex can check this` rules may produce explainable V1
+to a Play. `Voydex can check this` rules may produce explainable V1
 warnings; `Recorded only` rules are preserved without implying validation. The
 V1 app catalogue owns that capability, and shared-definition administration is
 deferred.

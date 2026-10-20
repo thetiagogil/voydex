@@ -15,7 +15,8 @@ Plays should support metadata useful for old and current games:
 
 ## Rules And Challenges
 
-Rules/challenges can attach to plays and plans.
+Rules/challenges attach to Plays. A Plan is a team, so it keeps none; rule
+sets (such as a Nuzlocke) will live in the Library.
 
 Examples:
 
@@ -31,7 +32,7 @@ Examples:
 Rules should be modeled flexibly. The app should support immutable predefined
 rules and reusable user-authored custom rules. A rule explicitly declares
 whether Voydex can evaluate it or only record it. Pokémon reuse rules apply
-both when planning teams and when adding Pokémon to a play team.
+when adding Pokémon to a Play's team.
 
 For V1, the shipped application catalogue owns that capability and the supported
 configuration for predefined rules; custom rules are recorded only. A later
@@ -50,8 +51,9 @@ warnings rather than hard action blockers.
 Tags should be user-owned and attachable to:
 
 - Plays.
-- Plans.
 - Play Pokémon.
+
+Plans keep no tags.
 
 Tags should support filtering and personal organization.
 
@@ -61,25 +63,23 @@ shared Tag from one record does not delete the reusable Tag.
 ## Library
 
 The Library (`/mainline/library`) keeps the rules and tags you reuse across
-Plays and Plans, in two tabs:
+Plays, in two tabs:
 
 - **Rules:** a card per rule you can pick, Voydex's built-in ones (marked
   Built-in, never edited or deleted) and yours, with its kind and how many
-  Plays and Plans keep it. New rule, in the page's head, makes one with a
+  Plays keep it. New rule, in the page's head, makes one with a
   name and a kind; a rule's menu edits its name and kind or deletes it.
-- **Tags:** a pill per tag with how many Plays and Plans wear it; the pill
+- **Tags:** a pill per tag with how many Plays wear it; the pill
   opens Rename and Delete, and New tag in the head makes one.
 
 Renaming fixes the name everywhere it's used. Deleting is for good, after a
-confirm that says which Plays and Plans it leaves, and every link goes with
+confirm that says how many Plays it leaves, and every link goes with
 it. Names are unique per trainer, ignoring case.
 
-A Play's settings and a Plan's "Rules and tags" (in its menu) show only the
-rules and tags it keeps, each with a corner × that takes it off that record
-only. "+ Add" opens a picker of the rest of your Library with a search;
+A Play's settings show only the rules and tags it keeps, each with a corner × that takes it off that Play only. "+ Add" opens a picker of the rest of your Library with a search;
 a name nothing has yet offers Create, which makes it in the Library and adds
-it. The picker's foot links to the Library. A Play's changes save with its
-card's Save; a Plan's save as they're made. Rule sets (a Nuzlocke as a group
+it. The picker's foot links to the Library. Changes save with the card's
+Save. Rule sets (a Nuzlocke as a group
 of rules) are the Library's next tab.
 
 ## Backlog And Wishlist

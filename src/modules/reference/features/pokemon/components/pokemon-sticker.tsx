@@ -169,7 +169,7 @@ export const PokemonSticker = ({
       </span>
       <span
         className={cn(
-          "font-display w-full truncate leading-tight font-semibold",
+          "font-display descender-room w-full truncate leading-tight font-semibold",
           variantClassName.name,
         )}
       >

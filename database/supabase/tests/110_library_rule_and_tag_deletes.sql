@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- The Library: deleting one of your rules or tags takes it off every Play
--- and Plan that used it, and nobody can delete another trainer's.
+-- that used it, and nobody can delete another trainer's.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
@@ -16,14 +16,10 @@ INSERT INTO public.tags (id, user_id, slug, name)
     VALUES ('90000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1', 'mono-run', 'Mono run');
 INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id)
     VALUES ('60000000-0000-0000-0000-0000000000d1', '80000000-0000-0000-0000-0000000000d1');
-INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id)
-    VALUES ('70000000-0000-0000-0000-0000000000d1', '80000000-0000-0000-0000-0000000000d1');
 INSERT INTO gameplay.mainline_play_tags (play_id, tag_id, user_id)
     VALUES ('60000000-0000-0000-0000-0000000000d1', '90000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1');
-INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-    VALUES ('70000000-0000-0000-0000-0000000000d1', '90000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1');
 SELECT
-    plan (6);
+    plan (4);
 -- Another trainer can't delete them.
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000d2', TRUE);
@@ -71,25 +67,9 @@ SELECT
             SELECT
                 COUNT(*)::integer
             FROM
-                planning.mainline_team_plan_challenge_rules
-            WHERE
-                challenge_rule_id = '80000000-0000-0000-0000-0000000000d1'), 0, 'a deleted rule leaves the Plans that used it');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)::integer
-            FROM
                 gameplay.mainline_play_tags
             WHERE
                 tag_id = '90000000-0000-0000-0000-0000000000d1'), 0, 'a deleted tag leaves the Plays that wore it');
-SELECT
-    IS ((
-            SELECT
-                COUNT(*)::integer
-            FROM
-                planning.mainline_team_plan_tags
-            WHERE
-                tag_id = '90000000-0000-0000-0000-0000000000d1'), 0, 'a deleted tag leaves the Plans that wore it');
 SELECT
     *
 FROM

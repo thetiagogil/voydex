@@ -51,11 +51,10 @@ const getTrainer = async () => {
   return { supabase, userId };
 };
 
-/* A rule or tag shows in the Library, on Plays and in Plans. */
+/* A rule or tag shows in the Library and on Plays. */
 const revalidateLibrary = () => {
   revalidatePath(appRoutes.mainlineLibrary);
   revalidatePath(appRoutes.mainlinePlays, "layout");
-  revalidatePath(appRoutes.mainlinePlans, "layout");
 };
 
 const parseRuleName = (name: unknown) =>
@@ -127,7 +126,7 @@ export const updateLibraryRuleAction = async ({
   }
 };
 
-/* Deletes one of your rules for good, from every Play and Plan. */
+/* Deletes one of your rules for good, from every Play. */
 export const deleteLibraryRuleAction = async (
   id: string,
 ): Promise<LibraryDeleteResult> => {
@@ -194,7 +193,7 @@ export const renameLibraryTagAction = async ({
   }
 };
 
-/* Deletes one of your tags for good, from every Play and Plan. */
+/* Deletes one of your tags for good, from every Play. */
 export const deleteLibraryTagAction = async (
   id: string,
 ): Promise<LibraryDeleteResult> => {

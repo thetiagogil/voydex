@@ -30,9 +30,11 @@ by the owner.
 - **Commits:** one line, `type(scope): short message`, for example
   `fix(codex): keep the type filter open on back`. Small, clear and to the
   point; no body.
-- **Pull requests:** a short title in plain words and a few lines saying what
-  changed and why, with bullet points only when there are several changes. Use
-  the [pull request template](../../.github/pull_request_template.md).
+- **Pull requests:** a title in the commit form, `type(scope): short message`,
+  because a squash merge makes it the commit on `main`; keep that title as the
+  squash commit's subject. A few lines say what changed and why, with bullet
+  points only when there are several changes. Use the
+  [pull request template](../../.github/pull_request_template.md).
 - **Releases:** a version and a short list of what users will notice.
 
 ## Labels

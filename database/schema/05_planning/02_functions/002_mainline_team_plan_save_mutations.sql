@@ -232,7 +232,6 @@ WHERE
         jsonb_to_recordset(p_members) AS members (slot integer,
         target_species_id integer,
         target_form_id integer,
-        role_label text,
         notes text,
         gender text,
         nature_id integer,
@@ -241,8 +240,8 @@ WHERE
         move_ids jsonb)
 ORDER BY
     members.slot LOOP
-        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, NULLIF (BTRIM(v_member.role_label), ''), NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
+        INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, notes, gender, nature_id, ability_id, held_item_id)
+            VALUES (v_plan_id, v_member.slot, v_member.target_species_id, v_member.target_form_id, NULLIF (BTRIM(v_member.notes), ''), v_member.gender, v_member.nature_id, v_member.ability_id, v_member.held_item_id)
         RETURNING
             id
         INTO

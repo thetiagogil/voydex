@@ -1,12 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useId, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import { PlanFollowersList } from "@/modules/mainline/features/plans/components/plan-followers-list";
-import { PlanLibraryDialog } from "@/modules/mainline/features/plans/components/plan-library-dialog";
+import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
 import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
@@ -27,7 +28,6 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/shared/components/ui/dialog";
@@ -38,8 +38,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
-import { Field, FieldLabel } from "@/shared/components/ui/field";
-import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 export type PlanActionsPlan = {
@@ -60,36 +58,34 @@ type PlanActionsMenuProps = {
   placement: "card" | "planner";
   plan: PlanActionsPlan;
   /*
-   * Rename in place, as the Planner's title does; without it Rename asks
-   * for the name in a dialog (My Plans).
+   * Renames where the caller keeps the name (the Planner, whose title opens
+   * it too); without it Rename opens its own dialog.
    */
   onRename?: () => void;
+  /* Share, in the Planner: a link to the team, beside See Plays. */
+  onShare?: () => void;
 };
 
 /*
- * One Plan's actions behind one button, grouped by what they do: See Plays
- * (the Plays that follow it, in a dialog) to look; Rename, Rules and tags,
- * and Archive (or Restore, for an archived Plan, which can't be changed) to
- * change it; and
- * Delete, which asks first and says what goes with it. Deleting from the
- * Planner goes back to My Plans.
+ * One Plan's actions behind one button, grouped by what they do: New Plan
+ * (in the Planner), See Plays and Share to go and look; Rename and Archive (or Restore, for an archived Plan, which
+ * can't be changed) to change it; and Delete, which asks first and says
+ * what goes with it. Deleting from the Planner goes back to My Plans.
  */
 export const PlanActionsMenu = ({
   archiveBlockedReason,
   className,
   onRename,
+  onShare,
   placement,
   plan,
 }: PlanActionsMenuProps) => {
   const router = useRouter();
-  const nameId = useId();
   const [isRenameOpen, setIsRenameOpen] = useState(false);
-  const [draftName, setDraftName] = useState(plan.name);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
   const [isPlaysOpen, setIsPlaysOpen] = useState(false);
-  const [isLibraryOpen, setIsLibraryOpen] = useState(false);
   const [followers, setFollowers] = useState<PlanFollower[] | null>(null);
   const [isLoadingPlays, startLoadingPlays] = useTransition();
 
@@ -121,20 +117,6 @@ export const PlanActionsMenu = ({
       toast.success(
         `${plan.name} ${plan.isArchived ? "restored" : "archived"}`,
       );
-      router.refresh();
-    });
-
-  const rename = () =>
-    startWorking(async () => {
-      const result = await renamePlanAction(plan.id, draftName);
-
-      if (result.status === "error") {
-        setError(result.message);
-        return;
-      }
-
-      setIsRenameOpen(false);
-      toast.success(`Renamed to ${result.name}`);
       router.refresh();
     });
 
@@ -176,34 +158,35 @@ export const PlanActionsMenu = ({
           {isWorking ? <Spinner /> : <AppIcon icon={appIcons.actions.more} />}
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-auto min-w-52">
+          {placement === "planner" ? (
+            <DropdownMenuItem
+              render={<Link href={appRoutes.mainlinePlanNew()} />}
+            >
+              <AppIcon icon={appIcons.actions.create} />
+              New Plan
+            </DropdownMenuItem>
+          ) : null}
           {plan.linkedPlayCount ? (
             <DropdownMenuItem onClick={seePlays}>
               <AppIcon icon={appIcons.views.mainline.plays} />
               See Plays
             </DropdownMenuItem>
           ) : null}
-          {plan.linkedPlayCount ? <DropdownMenuSeparator /> : null}
+          {onShare ? (
+            <DropdownMenuItem onClick={onShare}>
+              <AppIcon icon={appIcons.actions.share} />
+              Share
+            </DropdownMenuItem>
+          ) : null}
+          {plan.linkedPlayCount || onShare || placement === "planner" ? (
+            <DropdownMenuSeparator />
+          ) : null}
           {plan.isArchived ? null : (
             <DropdownMenuItem
-              onClick={() => {
-                if (onRename) {
-                  onRename();
-                  return;
-                }
-
-                setDraftName(plan.name);
-                setError(null);
-                setIsRenameOpen(true);
-              }}
+              onClick={() => (onRename ? onRename() : setIsRenameOpen(true))}
             >
               <AppIcon icon={appIcons.actions.edit} />
               Rename
-            </DropdownMenuItem>
-          )}
-          {plan.isArchived ? null : (
-            <DropdownMenuItem onClick={() => setIsLibraryOpen(true)}>
-              <AppIcon icon={appIcons.product.tag} />
-              Rules and tags
             </DropdownMenuItem>
           )}
           <DropdownMenuItem
@@ -234,67 +217,25 @@ export const PlanActionsMenu = ({
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <Dialog
-        open={isRenameOpen}
-        onOpenChange={(open) => {
-          if (!isWorking) setIsRenameOpen(open);
-        }}
-      >
-        <DialogContent className="sm:max-w-md">
-          <form
-            className="grid gap-5"
-            onSubmit={(event) => {
-              event.preventDefault();
-              rename();
-            }}
-          >
-            <DialogHeader>
-              <DialogTitle>Rename Plan</DialogTitle>
-            </DialogHeader>
-            <Field>
-              <FieldLabel htmlFor={nameId}>Plan name</FieldLabel>
-              <Input
-                id={nameId}
-                autoFocus
-                autoComplete="off"
-                maxLength={200}
-                value={draftName}
-                onChange={(event) => setDraftName(event.currentTarget.value)}
-              />
-            </Field>
-            {error ? (
-              <p role="alert" className="text-danger text-13 font-bold">
-                {error}
-              </p>
-            ) : null}
-            <DialogFooter>
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={isWorking}
-                onClick={() => setIsRenameOpen(false)}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                disabled={isWorking || !draftName.trim()}
-                aria-busy={isWorking}
-              >
-                {isWorking ? <Spinner data-icon="inline-start" /> : null}
-                Rename
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {isRenameOpen ? (
+        <PlanNameDialog
+          open
+          onOpenChange={setIsRenameOpen}
+          initialName={plan.name}
+          title="Rename Plan"
+          submitLabel="Rename"
+          onSubmit={async (name) => {
+            const result = await renamePlanAction(plan.id, name);
 
-      <PlanLibraryDialog
-        open={isLibraryOpen}
-        onOpenChange={setIsLibraryOpen}
-        planId={plan.id}
-        planName={plan.name}
-      />
+            if (result.status === "error") return result.message;
+
+            toast.success(`Renamed to ${result.name}`);
+            router.refresh();
+
+            return null;
+          }}
+        />
+      ) : null}
 
       <Dialog open={isPlaysOpen} onOpenChange={setIsPlaysOpen}>
         <DialogContent className="sm:max-w-lg">

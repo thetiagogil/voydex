@@ -51,7 +51,7 @@ const selectTriggerVariants = cva(
       variant: {
         default: cn(
           fieldSurfaceClassName,
-          "rounded-md pr-3 pl-4 hover:bg-hover aria-expanded:bg-hover data-placeholder:text-ink-3 data-[size=sm]:rounded-sm data-[size=sm]:pr-2.5 data-[size=sm]:pl-3",
+          "rounded-full pr-3 pl-4 hover:bg-hover aria-expanded:bg-hover data-placeholder:text-ink-3 data-[size=sm]:pr-2.5 data-[size=sm]:pl-3",
         ),
         ghost:
           "rounded-full border-[1.5px] border-transparent bg-transparent px-3 text-ink-2 transition-colors hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink data-placeholder:text-ink-2 data-changed:bg-select-soft data-changed:text-select-ink data-changed:hover:bg-select-soft-hover data-changed:aria-expanded:bg-select-soft-hover data-changed:[&_svg]:text-select-ink",

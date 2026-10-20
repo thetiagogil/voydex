@@ -1,5 +1,4 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
-import { Badge } from "@/shared/components/ui/badge";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { cn } from "@/shared/utils/cn";
@@ -60,14 +59,6 @@ export const TeamPlanTargetCard = ({
         >
           Target {comparison.slot}
         </span>
-        {comparison.roleLabel ? (
-          <Badge
-            variant={owned ? "paper" : found ? "neutral" : "outline"}
-            className="max-w-full truncate"
-          >
-            {comparison.roleLabel}
-          </Badge>
-        ) : null}
       </span>
 
       <TeamPlanArt
@@ -77,7 +68,7 @@ export const TeamPlanTargetCard = ({
         className="mt-0.5 size-22.5 sm:size-31"
       />
 
-      <span className="font-display text-20 w-full truncate leading-tight font-semibold">
+      <span className="font-display text-20 descender-room w-full truncate leading-tight font-semibold">
         {comparison.plannedName}
       </span>
       {formLabel ? (

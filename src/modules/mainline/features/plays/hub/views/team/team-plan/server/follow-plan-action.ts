@@ -24,10 +24,9 @@ const followPlanInputSchema = z.object({
 });
 
 /*
- * Makes this Play follow one of your Plans. A Play follows one Plan at most:
- * an existing link is pointed at the new Plan in one update, and a Play with
- * none is linked through `link_mainline_team_plan_to_play`. Either way the
- * database checks that the Plan is yours and for the same game.
+ * Makes this Play follow one of your Plans. A Play follows one Plan at most,
+ * so an existing link moves to the new Plan; `link_mainline_team_plan_to_play`
+ * does it in one step and checks the Plan is yours and for the same game.
  */
 export const followMainlinePlayPlanAction = async (input: {
   planId: string;
@@ -62,25 +61,19 @@ export const followMainlinePlayPlanAction = async (input: {
       return { message: `Already following ${planName}`, status: "success" };
     }
 
-    const writeResult = linkResult.data
-      ? await supabase
-          .schema("planning")
-          .from("mainline_play_plan_links")
-          .update({ team_plan_id: planId })
-          .eq("id", linkResult.data.id)
-      : await supabase
-          .schema("planning")
-          .rpc("link_mainline_team_plan_to_play", {
-            p_play_id: playId,
-            p_team_plan_id: planId,
-          });
+    const writeResult = await supabase
+      .schema("planning")
+      .rpc("link_mainline_team_plan_to_play", {
+        p_play_id: playId,
+        p_replace_existing: true,
+        p_team_plan_id: planId,
+      });
 
     if (writeResult.error) {
       throw new Error("That Plan can't be followed by this Play.");
     }
 
-    revalidatePath(appRoutes.mainlinePlay(playId));
-    revalidatePath(appRoutes.mainlinePlayTeamPlan(playId));
+    revalidatePath(appRoutes.mainlinePlay(playId), "layout");
 
     return { message: `Now following ${planName}`, status: "success" };
   } catch (error) {

@@ -86,7 +86,6 @@ const memberSchema = z.object(
     moveIds: moveSlotsSchema,
     natureId: optionalIdSchema("That nature"),
     notes: optionalTextSchema("A note", 5000),
-    role: optionalTextSchema("A role", 120),
   },
   { error: "A planned Pokémon is missing." },
 );

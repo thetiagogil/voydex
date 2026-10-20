@@ -4,14 +4,15 @@ import {
   decodePlanShare,
   encodePlanShare,
   toPlanShare,
+  type PlanShare,
 } from "./plan-share-code";
 
 describe("plan share code", () => {
-  const share = {
+  const share: PlanShare = {
     slots: [
-      { role: "Lead", species: "corviknight" },
+      { species: "corviknight" },
       null,
-      { role: null, species: "sirfetchd" },
+      { species: "sirfetchd" },
       null,
       null,
       null,
@@ -25,17 +26,15 @@ describe("plan share code", () => {
     expect(decodePlanShare(link)).toEqual(share);
   });
 
-  it("reads a bare code with a role in any script", () => {
-    const withAccent = {
-      ...share,
-      slots: [
-        { role: "Pokémon pivot", species: "rotom" },
-        ...share.slots.slice(1),
-      ],
-    };
-    const code = encodePlanShare(withAccent).slice("plan=".length);
+  it("reads an older link that also carried roles, and ignores them", () => {
+    const older = btoa(
+      JSON.stringify({ s: [["rotom", "Wall"], 0], v: "sword-shield" }),
+    ).replace(/=+$/, "");
 
-    expect(decodePlanShare(code)).toEqual(withAccent);
+    expect(decodePlanShare(`plan=${older}`)?.slots.slice(0, 2)).toEqual([
+      { species: "rotom" },
+      null,
+    ]);
   });
 
   it("is null for anything that isn't a Plan", () => {
@@ -45,17 +44,17 @@ describe("plan share code", () => {
 });
 
 describe("toPlanShare", () => {
-  it("shares each slot's species by slug, with its role", () => {
+  it("shares each slot's species by slug", () => {
     const slugs = new Map([[823, { speciesSlug: "corviknight" }]]);
 
     expect(
       toPlanShare(
-        [{ role: "Lead", speciesId: 823 }, null, { role: null, speciesId: 1 }],
+        [{ speciesId: 823 }, null, { speciesId: 1 }],
         slugs,
         "sword-shield",
       ),
     ).toEqual({
-      slots: [{ role: "Lead", species: "corviknight" }, null, null],
+      slots: [{ species: "corviknight" }, null, null],
       versionGroupSlug: "sword-shield",
     });
   });

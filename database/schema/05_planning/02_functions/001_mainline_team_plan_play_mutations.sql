@@ -2,7 +2,7 @@
 -- Functions: planning mainline team plan to play mutations
 -- Client-callable helpers for linking and Play-scoped Plan cloning.
 -- ============================================================================
-CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE)
+CREATE FUNCTION planning.link_mainline_team_plan_to_play (p_play_id uuid, p_team_plan_id uuid, p_created_from_plan boolean DEFAULT FALSE, p_replace_existing boolean DEFAULT FALSE)
     RETURNS TABLE (
         result_play_plan_link_id uuid)
     LANGUAGE plpgsql
@@ -62,13 +62,26 @@ BEGIN
     WHERE
         mainline_play_plan_links.play_id = v_play.id
     FOR UPDATE;
-    IF v_existing_play_plan_link.id IS NOT NULL AND v_existing_play_plan_link.team_plan_id <> v_team_plan.id THEN
+    IF v_existing_play_plan_link.id IS NOT NULL AND v_existing_play_plan_link.team_plan_id <> v_team_plan.id AND NOT COALESCE(p_replace_existing, FALSE) THEN
         RAISE EXCEPTION 'Play already has a linked team plan. Unlink or replace it explicitly before linking another team plan.'
             USING ERRCODE = '23505';
     END IF;
     IF v_existing_play_plan_link.id IS NULL THEN
         INSERT INTO planning.mainline_play_plan_links (play_id, team_plan_id, user_id, game_id, version_group_id, created_from_plan)
             VALUES (v_play.id, v_team_plan.id, v_play.user_id, v_play.game_id, v_play.version_group_id, p_created_from_plan)
+        RETURNING
+            id
+        INTO
+            v_play_plan_link_id;
+    ELSIF v_existing_play_plan_link.team_plan_id <> v_team_plan.id THEN
+        -- Following another Plan: the link moves to it.
+        UPDATE
+            planning.mainline_play_plan_links
+        SET
+            team_plan_id = v_team_plan.id,
+            created_from_plan = p_created_from_plan
+        WHERE
+            mainline_play_plan_links.id = v_existing_play_plan_link.id
         RETURNING
             id
         INTO
@@ -164,8 +177,8 @@ BEGIN
         mainline_team_plan_members.team_plan_id = v_source_plan.id
     ORDER BY
         mainline_team_plan_members.slot LOOP
-            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, role_label, notes, gender, nature_id, ability_id, held_item_id)
-                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.role_label, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
+            INSERT INTO planning.mainline_team_plan_members (team_plan_id, slot, target_species_id, target_form_id, notes, gender, nature_id, ability_id, held_item_id)
+                VALUES (v_new_plan_id, v_source_member.slot, v_source_member.target_species_id, v_source_member.target_form_id, v_source_member.notes, v_source_member.gender, v_source_member.nature_id, v_source_member.ability_id, v_source_member.held_item_id)
             RETURNING
                 id
             INTO
@@ -180,24 +193,6 @@ BEGIN
             WHERE
                 mainline_team_plan_member_moves.team_plan_member_id = v_source_member.id;
         END LOOP;
-    INSERT INTO planning.mainline_team_plan_tags (team_plan_id, tag_id, user_id)
-    SELECT
-        v_new_plan_id,
-        mainline_team_plan_tags.tag_id,
-        mainline_team_plan_tags.user_id
-    FROM
-        planning.mainline_team_plan_tags
-    WHERE
-        mainline_team_plan_tags.team_plan_id = v_source_plan.id;
-    INSERT INTO planning.mainline_team_plan_challenge_rules (team_plan_id, challenge_rule_id, config_override)
-    SELECT
-        v_new_plan_id,
-        mainline_team_plan_challenge_rules.challenge_rule_id,
-        mainline_team_plan_challenge_rules.config_override
-    FROM
-        planning.mainline_team_plan_challenge_rules
-    WHERE
-        mainline_team_plan_challenge_rules.team_plan_id = v_source_plan.id;
     UPDATE
         planning.mainline_play_plan_links
     SET
@@ -213,11 +208,11 @@ BEGIN
 END;
 $$;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM PUBLIC;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) FROM anon;
+REVOKE ALL ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) FROM PUBLIC;
 
@@ -225,6 +220,6 @@ REVOKE ALL ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) F
 
 GRANT EXECUTE ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
+COMMENT ON FUNCTION planning.link_mainline_team_plan_to_play (UUID, UUID, BOOLEAN, BOOLEAN) IS 'Links a mainline play to its single reusable team Plan, moving an existing link when asked. Plan comparison is derived at read time instead of stored in per-member relationship rows.';
 
 COMMENT ON FUNCTION planning.clone_mainline_team_plan_for_play (UUID, TEXT) IS 'Clones the complete reusable Plan linked to one Play and atomically relinks only that Play to the clone. Runs as SECURITY INVOKER so planning RLS applies.';

@@ -10,21 +10,25 @@ As built (v3):
 
 - **Team Planner** (`/mainline/plans/new`, a saved Plan at
   `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
-  group on the cover shelf menu, fill six slots from its Pokédexes (one range
-  per Pokédex, search, Fully evolved only, type dots), drag to swap, Random
-  and Clear, and open a slot to set its role, note and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
+  group on the cover shelf menu (the expansions it includes read under its name), fill six slots from its Pokédexes (one range
+  per Pokédex, a Pokédex filter, search, Fully evolved only, type dots), drag to swap, Random
+  and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
-  reads its defensive matchups from its types. Save writes the Plan; a new
-  Plan is kept in this browser until saved. Share puts the version group, six
-  Pokémon and roles in a link's hash; importing opens it as a new unsaved
+  reads its defensive matchups from its types. A new Plan has no title yet:
+  Save Plan asks for its name and writes it; a new Plan is kept in this
+  browser until saved. A saved Plan shows its name; tapping it, or Rename in
+  its "⋯", renames it without Unlock, since the lock guards only the team
+  Plays compare against. A Plan is a team, so it keeps no challenge rules or
+  tags: those belong to Plays (and rule sets to the Library). Share (in the "⋯" menu) puts the version group, six
+  Pokémon in a link's hash; importing opens it as a new unsaved
   Plan. Switching game carries the team over, unsaved edits included, as
   the new game can have it: a Pokémon it doesn't have leaves the team, and
   one that stays loses what the game doesn't offer it (an ability, held
   item, nature, gender or a move it can't learn there). A Plan with a team always asks first ("Switch game?"), listing each Pokémon with its picture under "Leaves the team" or "Loses part of its build"; the switch waits on a save. A followed Plan opens locked ("Locked: followed by 2 Plays."): its first edit asks "Unlock this Plan?", saying that a save changes how each Play compares with it, and its game stays the same while Plays follow it. See Plays in its "⋯" menu lists each Play with its current team; a card opens the Play. While a switch is checked and opens, the game picker shows a spinner.
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
   Pokémon and who follows it, filtered by game and sorted by
-  update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner, grouped by what each action does: See Plays; then Rename and Archive (or Restore); then Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan doesn't open: its card stays shut, its link leads back to the archived list, it keeps its Play links, and the save refuses it until it's restored.
+  update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner, grouped by what each action does: New Plan (in the Planner), See Plays and Share; then Rename and Archive (or Restore); then Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan doesn't open: its card stays shut, its link leads back to the archived list, it keeps its Play links, and the save refuses it until it's restored.
 - A Plan is stored for one game, the version group's first, until Plans
   store a version preference. Plan Detail, Create Play from a Plan, cloning,
   drafts and the Game List below are accepted but not built.
@@ -71,7 +75,7 @@ Plans should support:
 - Planning a team before a play exists.
 - Planning target/final Pokémon.
 - Planning optional content scope such as DLC availability.
-- Required target forms plus optional roles, notes, abilities, natures, held
+- Required target forms plus optional notes, abilities, natures, held
   items, gender, and moves.
 - Creating a play from a plan.
 - Keeping the plan as a persistent reference after a play is created.
@@ -82,19 +86,18 @@ Creating a Play from a Plan keeps the game and source Plan visible in the
 accepted Create Play flow. The Plan's optional-content scope prefills the
 Play's enabled content; the normal game-aware Completion Goal recommendation
 then decides how that content participates unless the user customizes it.
-Attached Plan Rules are copied as the Play's initial Rules. Plan Tags remain
-Plan organization and are not copied. These values become independently
-Play-owned after creation: later Plan edits do not silently synchronize into
+Plans keep no Rules or Tags, so a new Play starts with none from its Plan.
+The copied values become independently Play-owned after creation: later Plan edits do not silently synchronize into
 the Play, and later Play Settings edits do not rewrite the Plan.
 
-The Play, its initial settings, copied content and Rule links, and focused Plan
-link are created atomically. The Plan
+The Play, its initial settings, copied content, and focused Plan link are
+created atomically. The Plan
 remains reusable, and the actual Active and Reserve Team positions remain
 empty. A failed operation must leave no partial Play or Plan link.
 
 The authored Plan is never changed automatically to match the actual Team.
 Adding an unplanned Pokémon changes only Play-owned Team state. Plan targets,
-forms, roles, preferences, and notes change only through an explicit Plan edit;
+forms, preferences, and notes change only through an explicit Plan edit;
 unlinking a Plan from a Play does not delete the standalone Plan.
 
 A Plan contains one to six ordered targets. Species and form are
@@ -130,11 +133,11 @@ are atomic and provide a keyboard alternative to drag and drop. Reusable edits
 disclose every linked Play that may be affected but never change an actual Team
 member.
 
-Plan checks warn about game/content availability, invalid persistent forms,
-reuse policy, and supported Rules. They do
+Plan checks warn about game/content availability, invalid persistent forms
+and reuse policy. They do
 not produce a completion percentage or overall score and do not block creative
-planning unless the underlying identity or ownership is invalid. Plan notes,
-optional content, Rules, and Tags remain separate editable responsibilities.
+planning unless the underlying identity or ownership is invalid. Plan notes
+and optional content remain separate editable responsibilities.
 
 Draft means the Plan is being explored; Active means the user keeps it as a
 current or reusable Plan. Both are editable and may create a Play. Archived
