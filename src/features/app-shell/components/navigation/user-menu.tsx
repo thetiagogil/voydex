@@ -9,6 +9,7 @@ import { getAccountInitial } from "@/features/app-shell/utils/account-display";
 import {
   accountLink,
   isCurrentLink,
+  libraryLink,
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
@@ -26,8 +27,8 @@ type UserMenuProps = {
 };
 
 /*
- * You on the top bar: your initial opens Settings and Log out, nothing
- * more (your profile lives on its page). A floating layer, so it takes the
+ * You on the top bar: your initial opens Library, Settings and Log out,
+ * nothing more (your profile lives on its page). A floating layer, so it takes the
  * float shadow and no edge. Phones reach the same things from the You
  * page instead.
  */
@@ -35,6 +36,7 @@ export const UserMenu = ({ account }: UserMenuProps) => {
   const pathname = usePathname();
   const initial = getAccountInitial(account);
   const isSettingsCurrent = isCurrentLink(pathname, accountLink);
+  const isLibraryCurrent = isCurrentLink(pathname, libraryLink);
 
   return (
     <DropdownMenu>
@@ -65,6 +67,19 @@ export const UserMenu = ({ account }: UserMenuProps) => {
         className="w-[min(20rem,calc(100vw-2rem))]"
       >
         <DropdownMenuGroup>
+          <DropdownMenuItem
+            render={<Link href={libraryLink.href} />}
+            aria-current={isLibraryCurrent ? "page" : undefined}
+          >
+            <MenuOptionContent
+              active={isLibraryCurrent}
+              description="Your rules and tags"
+              leading={
+                <AppIcon icon={appIcons.views.mainline.library} size="lg" />
+              }
+              title={libraryLink.label}
+            />
+          </DropdownMenuItem>
           <DropdownMenuItem
             render={<Link href={accountLink.href} />}
             aria-current={isSettingsCurrent ? "page" : undefined}

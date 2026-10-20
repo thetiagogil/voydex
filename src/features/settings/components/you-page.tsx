@@ -108,6 +108,12 @@ export const YouPage = ({
             description={getCollectionLine(collection)}
           />
           <YouRow
+            href={appRoutes.mainlineLibrary}
+            icon={appIcons.views.mainline.library}
+            title="Library"
+            description="Your rules and tags"
+          />
+          <YouRow
             href={appRoutes.settings}
             icon={appIcons.actions.settings}
             title="Settings"

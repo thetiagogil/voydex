@@ -53,6 +53,9 @@ export const appRoutes = {
   mainlineCollectionSpecies: (speciesSlug: string) =>
     `/mainline/collection?species=${encodeURIComponent(speciesSlug)}`,
   /* A Plan in the Team Planner, optionally read in another version group. */
+  /* Your challenge rules and tags, kept for every Play and Plan. */
+  mainlineLibrary: "/mainline/library",
+  mainlineLibraryTab: (tab: "rules" | "tags") => `/mainline/library?tab=${tab}`,
   mainlinePlan: (planId: string, versionGroupSlug?: string) =>
     versionGroupSlug
       ? `/mainline/plans/${planId}?vg=${encodeURIComponent(versionGroupSlug)}`
