@@ -26,9 +26,7 @@ describe("getRuleOptionKeys", () => {
   });
 
   it("reads No Pokémon reuse's scope", () => {
-    expect(getRuleOptionKeys({ reuse_scope: "species" })).toEqual([
-      "reuse_scope",
-    ]);
+    expect(getRuleOptionKeys({ reuse_scope: "form" })).toEqual(["reuse_scope"]);
     expect(
       resolveRuleConfig(
         { reuse_scope: "species" },
@@ -108,7 +106,7 @@ describe("describeRuleConfig", () => {
     );
   });
 
-  it("says what No Pokémon reuse counts, species by default", () => {
+  it("says what No Pokémon reuse counts, exact form by default", () => {
     expect(
       describeRuleConfig(
         ["reuse_scope"],
@@ -117,7 +115,7 @@ describe("describeRuleConfig", () => {
       ),
     ).toBe("by evolution family");
     expect(describeRuleConfig(["reuse_scope"], null, typeNames)).toBe(
-      "by species",
+      "by exact form",
     );
   });
 

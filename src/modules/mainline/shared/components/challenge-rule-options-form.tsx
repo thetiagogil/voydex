@@ -3,11 +3,11 @@
 import { useId } from "react";
 
 import {
+  defaultReuseScope,
   reuseScopeLabels,
   reuseScopes,
   type ChallengeRuleConfig,
   type ChallengeRuleOptionKey,
-  type ReuseScope,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { GameTypeChoice } from "@/modules/reference/features/games/domain/game-types";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
@@ -73,15 +73,15 @@ export const ChallengeRuleOptionsForm = ({
           <SelectControl
             id={`${id}-reuse`}
             ariaLabel="Counts as the same Pokémon"
-            placeholder="Its species, any form"
+            placeholder={reuseScopeLabels[defaultReuseScope].option}
             searchable={false}
-            value={config.reuse_scope ?? "species"}
+            value={config.reuse_scope ?? defaultReuseScope}
             onValueChange={(value) =>
               onChange({
                 ...config,
                 reuse_scope:
                   reuseScopes.find((scope) => scope === value) ??
-                  ("species" satisfies ReuseScope),
+                  defaultReuseScope,
               })
             }
             options={reuseScopes.map((scope) => ({

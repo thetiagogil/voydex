@@ -19,6 +19,9 @@ export const reuseScopes = ["form", "species", "evolution_family"] as const;
 
 export type ReuseScope = (typeof reuseScopes)[number];
 
+/* The narrowest scope, a Pokémon in its exact form, unless a Play widens it. */
+export const defaultReuseScope: ReuseScope = "form";
+
 /* Each reuse scope as its chip and its pick say it. */
 export const reuseScopeLabels: Record<
   ReuseScope,
@@ -28,7 +31,7 @@ export const reuseScopeLabels: Record<
     chip: "by evolution family",
     option: "Its whole evolution family",
   },
-  form: { chip: "by form", option: "Its exact form" },
+  form: { chip: "by exact form", option: "Its exact form" },
   species: { chip: "by species", option: "Its species, any form" },
 };
 
@@ -140,7 +143,7 @@ export const getMissingRuleOption = (
 /*
  * The words after a rule's name on its chip: Monotype's type ("Water"),
  * "except shinies" when they can always be caught, and what No Pokémon
- * reuse counts ("by species").
+ * reuse counts ("by exact form").
  */
 export const describeRuleConfig = (
   keys: readonly ChallengeRuleOptionKey[],
@@ -167,7 +170,7 @@ export const describeRuleConfig = (
   }
 
   if (keys.includes("reuse_scope")) {
-    parts.push(reuseScopeLabels[config?.reuse_scope ?? "species"].chip);
+    parts.push(reuseScopeLabels[config?.reuse_scope ?? defaultReuseScope].chip);
   }
 
   return parts.length ? parts.join(", ") : null;
@@ -221,7 +224,8 @@ const sameConfig = (
   (left?.shinies_always_catchable ?? false) ===
     (right?.shinies_always_catchable ?? false) &&
   (left?.type_id ?? null) === (right?.type_id ?? null) &&
-  (left?.reuse_scope ?? "species") === (right?.reuse_scope ?? "species");
+  (left?.reuse_scope ?? defaultReuseScope) ===
+    (right?.reuse_scope ?? defaultReuseScope);
 
 /* Whether two picks keep the same rules with the same options, in any order. */
 export const isSameRuleSelection = (
@@ -326,7 +330,7 @@ export const clearMissingRuleTypes = (
 /* What each option lets a Play set, as a rule's details list it. */
 export const ruleOptionNotes: Record<ChallengeRuleOptionKey, string> = {
   reuse_scope:
-    "Each Play picks what counts as the same Pokémon: its exact form, its species or its whole evolution family.",
+    "Each Play picks what counts as the same Pokémon: its exact form (the default), its species or its whole evolution family.",
   shinies_always_catchable:
     "Each Play can let a shiny be caught without using up the area's catch.",
   type_id: "Each Play picks its type, from the types its game has.",

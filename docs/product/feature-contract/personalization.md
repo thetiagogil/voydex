@@ -40,8 +40,9 @@ have options:
 - **Monotype:** the type, picked per Play from the types its game has (no
   Fairy before Generation VI). A Play can't keep Monotype without one.
 - **First catch per area:** "Shinies can always be caught", off by default.
-- **No Pokémon reuse:** what counts as the same Pokémon, its exact form, its
-  species (the default) or its whole evolution family, the scopes of the
+- **No Pokémon reuse:** what counts as the same Pokémon, narrowest first:
+  its exact form (the default), its species (any form) or its whole
+  evolution family (every member and its forms), the scopes of the
   Pokémon Reuse Policy in the [Glossary](../glossary.md).
 
 The chip names the options ("Monotype · Water", "First catch per area ·

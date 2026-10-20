@@ -172,8 +172,8 @@ SELECT
             WHERE
                 slug = 'no_pokemon_reuse'
                 AND user_id IS NULL),
-            '{"reuse_scope":"species"}'::jsonb,
-            'No Pokémon reuse counts species by default');
+            '{"reuse_scope":"form"}'::jsonb,
+            'No Pokémon reuse counts the exact form by default');
 SELECT
     lives_ok ($$ INSERT INTO gameplay.mainline_play_challenge_rules (play_id, challenge_rule_id, config_override)
         SELECT
