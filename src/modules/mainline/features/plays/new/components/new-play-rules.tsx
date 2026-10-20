@@ -11,7 +11,8 @@ import type { GameTypeChoice } from "@/modules/reference/features/games/domain/g
 /*
  * Step 3's challenge rules, under its tracking and always in view: Voydex's
  * and yours to pick from, each with its options for this Play (Monotype's
- * type from the types the picked game has). Optional.
+ * type from the types the picked game has). Optional. The picker has no
+ * way out to the Library, which would close New Play.
  */
 export const NewPlayRules = ({
   onChange,
@@ -36,6 +37,7 @@ export const NewPlayRules = ({
       rules={ruleChoices}
       selections={rules}
       types={types}
+      showLibraryLink={false}
       onCreate={createNewPlayRuleAction}
       onChange={onChange}
     />

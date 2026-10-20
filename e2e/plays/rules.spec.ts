@@ -39,6 +39,10 @@ test.describe("Challenge rules", () => {
 
     /* Monotype asks for its type at once, from the types Red has. */
     await rules.getByRole("combobox", { name: "Add rule" }).click();
+    /* Nothing leads out of New Play to the Library. */
+    await expect(
+      page.getByRole("link", { name: "Manage in Library" }),
+    ).toBeHidden();
     await pickRule(page, "Monotype");
     const monotype = page.getByRole("dialog", { name: "Monotype" });
 

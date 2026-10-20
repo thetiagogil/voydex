@@ -59,6 +59,7 @@ export const LibraryChoiceField = ({
   onCreate,
   renderOptions,
   selectedIds,
+  showLibraryLink = true,
 }: {
   /* The chip's words, such as "Add rule". */
   addLabel: string;
@@ -75,6 +76,11 @@ export const LibraryChoiceField = ({
   /* The form for a picked choice's options, for choices with `hasOptions`. */
   renderOptions?: (choice: LibraryChoice) => ReactNode;
   selectedIds: string[];
+  /*
+   * "Manage in Library" at the picker's foot; off inside a dialog (New
+   * Play), which leaving would lose.
+   */
+  showLibraryLink?: boolean;
 }) => {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
@@ -237,19 +243,23 @@ export const LibraryChoiceField = ({
               </ComboboxItem>
             )}
           </ComboboxList>
-          <div aria-hidden className="bg-line mx-2 my-1 h-px" />
-          <Link
-            href={appRoutes.mainlineLibraryTab(
-              noun === "rule" ? "rules" : "tags",
-            )}
-            className={cn(
-              menuOptionShapeClassName,
-              "text-ink-2 hover:text-ink hover:bg-hover focus-ring-inset font-bold",
-            )}
-          >
-            <AppIcon icon={appIcons.views.mainline.library} size="sm" />
-            Manage in Library
-          </Link>
+          {showLibraryLink ? (
+            <>
+              <div aria-hidden className="bg-line mx-2 my-1 h-px" />
+              <Link
+                href={appRoutes.mainlineLibraryTab(
+                  noun === "rule" ? "rules" : "tags",
+                )}
+                className={cn(
+                  menuOptionShapeClassName,
+                  "text-ink-2 hover:text-ink hover:bg-hover focus-ring-inset font-bold",
+                )}
+              >
+                <AppIcon icon={appIcons.views.mainline.library} size="sm" />
+                Manage in Library
+              </Link>
+            </>
+          ) : null}
         </ComboboxContent>
       </Combobox>
       {renderOptions ? (

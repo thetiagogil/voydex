@@ -24,6 +24,7 @@ export const ChallengeRulesField = ({
   onCreate,
   rules,
   selections,
+  showLibraryLink,
   types,
 }: {
   disabled?: boolean;
@@ -32,6 +33,8 @@ export const ChallengeRulesField = ({
   onCreate: (name: string) => Promise<LibraryCreateResult>;
   rules: readonly ChallengeRuleChoice[];
   selections: readonly PlayRuleSelection[];
+  /* "Manage in Library" at the picker's foot; off inside a dialog. */
+  showLibraryLink?: boolean;
   /* The types the Play's game has, for Monotype. */
   types: readonly GameTypeChoice[];
 }) => {
@@ -60,6 +63,7 @@ export const ChallengeRulesField = ({
       choices={choices}
       disabled={disabled}
       selectedIds={selections.map((selection) => selection.ruleId)}
+      showLibraryLink={showLibraryLink}
       onCreate={onCreate}
       onChange={(ids) =>
         onChange(
