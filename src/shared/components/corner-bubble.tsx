@@ -15,14 +15,14 @@ const cornerClassNames: Record<CornerBubbleCorner, string> = {
   /* Centred on the bottom edge, half outside: a number tab. */
   bottom: "-bottom-2.5 left-1/2 -translate-x-1/2",
   /*
-   * Inside the top-right corner, for a card whose list clips its edges: clear
-   * of a sticker's 4px band, so it never touches the edge.
-   */
-  /*
    * On the same right edge as the slot number, for a mark that sits lower
    * (the shiny mark by the art): the caller sets how far down with `top-*`.
    */
   "inside-right": "right-2",
+  /*
+   * Inside a top corner, for a card whose list clips its edges: 8px in, clear
+   * of a sticker's 4px band, so it never touches the edge.
+   */
   "inside-top-left": "top-2 left-2",
   "inside-top-right": "top-2 right-2",
   "top-left": "-top-2 -left-2",

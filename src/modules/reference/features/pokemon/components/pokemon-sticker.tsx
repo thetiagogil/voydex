@@ -173,7 +173,7 @@ export const PokemonSticker = ({
   );
   const content: ReactNode = (
     <>
-      {number ? (
+      {number && !warning ? (
         <CornerBubble
           corner="inside-top-left"
           className="text-ink-tint text-12 h-6 font-extrabold tabular-nums"

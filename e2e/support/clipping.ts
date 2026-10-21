@@ -1,5 +1,7 @@
 import { expect, type Page } from "@playwright/test";
 
+type Measured = { clipped: Clipped[]; measured: number };
+
 type Clipped = {
   clippedBy: string;
   /* The element's and the parent's left-right and top-bottom, in pixels. */
@@ -19,7 +21,7 @@ const findClipped = async (
   page: Page,
   selector: string,
   reach: "ring" | "mark",
-): Promise<Clipped[]> => {
+): Promise<Measured> => {
   /* A page that redirects as it settles (Progress opens a sub-view) is read once it has. */
   for (let attempt = 0; ; attempt += 1) {
     try {
@@ -40,10 +42,11 @@ const measure = async (
   page: Page,
   selector: string,
   reach: "ring" | "mark",
-): Promise<Clipped[]> =>
+): Promise<Measured> =>
   page.evaluate(
     ({ markReach, ringSelector, which }) => {
       const found: Clipped[] = [];
+      let measured = 0;
       const describe = (element: Element) =>
         `${element.tagName.toLowerCase()}${
           element.getAttribute("aria-label")
@@ -71,7 +74,10 @@ const measure = async (
         let reachPx = markReach;
         if (which === "ring") {
           if (element instanceof HTMLElement) {
-            element.focus({ focusVisible: true } as FocusOptions);
+            element.focus({
+              focusVisible: true,
+              preventScroll: true,
+            } as FocusOptions);
           }
           const focused = getComputedStyle(element);
           reachPx =
@@ -86,6 +92,7 @@ const measure = async (
         if (reachPx <= 0) {
           continue;
         }
+        measured += 1;
 
         for (
           let parent = element.parentElement;
@@ -166,7 +173,7 @@ const measure = async (
         }
       }
 
-      return found;
+      return { clipped: found, measured };
     },
     {
       markReach: reach === "mark" ? 3 : 0,
@@ -180,12 +187,29 @@ const focusableSelector =
 
 /* Fails with every focusable element whose focus ring a parent would cut off. */
 export const expectNoClippedFocusRings = async (page: Page) => {
-  expect(await findClipped(page, focusableSelector, "ring")).toEqual([]);
+  const { clipped, measured } = await findClipped(
+    page,
+    focusableSelector,
+    "ring",
+  );
+
+  /* A page whose controls show no ring when focused would pass without this. */
+  expect(measured, "controls with a focus ring were measured").toBeGreaterThan(
+    0,
+  );
+  expect(clipped).toEqual([]);
 };
 
 /* Fails with every corner mark (and its 3px white band) a parent would cut off. */
 export const expectNoClippedCornerMarks = async (page: Page) => {
-  expect(await findClipped(page, "[data-corner] > *", "mark")).toEqual([]);
+  const { clipped } = await findClipped(page, "[data-corner] > *", "mark");
+
+  expect(clipped).toEqual([]);
+};
+
+/* Fails when a page that should show corner marks shows none. */
+export const expectCornerMarksShown = async (page: Page) => {
+  await expect(page.locator("[data-corner]").first()).toBeVisible();
 };
 
 /*
