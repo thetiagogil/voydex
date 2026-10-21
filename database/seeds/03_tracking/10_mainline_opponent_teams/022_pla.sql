@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Legends: Arceus Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
+-- Volo's earlier battles: Bulbapedia, cross-checked with Serebii's Volo page.
 -- Scope: Pokémon Legends: Arceus Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -52,4 +53,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Volo 6: Garchomp Lv. 68
   (220011, 22008, 22, NULL, NULL, NULL, NULL, NULL, 6, 445, 44500, 68),
   -- Arceus 1: Arceus Lv. 75
-  (220012, 22009, 22, NULL, NULL, NULL, NULL, NULL, 1, 493, 49300, 75);
+  (220012, 22009, 22, NULL, NULL, NULL, NULL, NULL, 1, 493, 49300, 75),
+  -- Volo, Choose Starter 1: Togepi Lv. 5
+  (220001, 22008, 22, NULL, NULL, NULL, NULL, NULL, 1, 175, 17500, 5),
+  -- Volo, Noble Lilligant 1: Togepi Lv. 22
+  (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 1, 175, 17500, 22),
+  -- Volo, Noble Lilligant 2: Gible Lv. 22
+  (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 2, 443, 44300, 22);

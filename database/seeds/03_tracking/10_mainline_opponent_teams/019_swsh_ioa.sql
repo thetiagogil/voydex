@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii The Isle of Armor Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
+-- Klara and Avery battles: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon The Isle of Armor Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -64,4 +65,44 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Mustard (chose Tower of Waters (Rapid Strike)) 5: Kommo-o Lv. 75
   (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 5, 784, 78400, 75),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 6: Urshifu Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 6, 892, 89200, 75);
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 6, 892, 89200, 75),
+  -- Klara / Avery (Sword, You haven't finished the main story yet), Arrive at the Isle of Armor 1: Venipede Lv. 10
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 543, 54300, 10),
+  -- Klara / Avery (Sword, You haven't finished the main story yet), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 12
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 79, 7901, 12),
+  -- Klara / Avery (Sword, You've already finished the main story), Arrive at the Isle of Armor 1: Venipede Lv. 58
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 543, 54300, 58),
+  -- Klara / Avery (Sword, You've already finished the main story), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 60
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 79, 7901, 60),
+  -- Klara / Avery (Shield, You haven't finished the main story yet), Arrive at the Isle of Armor 1: Abra Lv. 10
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 63, 6300, 10),
+  -- Klara / Avery (Shield, You haven't finished the main story yet), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 12
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 79, 7901, 12),
+  -- Klara / Avery (Shield, You've already finished the main story), Arrive at the Isle of Armor 1: Abra Lv. 58
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 63, 6300, 58),
+  -- Klara / Avery (Shield, You've already finished the main story), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 60
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 79, 7901, 60),
+  -- Klara / Avery (Sword, You haven't finished the main story yet), Receive Kubfu 1: Galarian Slowpoke Lv. 18
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 79, 7901, 18),
+  -- Klara / Avery (Sword, You haven't finished the main story yet), Receive Kubfu 2: Koffing Lv. 18
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 109, 10900, 18),
+  -- Klara / Avery (Sword, You haven't finished the main story yet), Receive Kubfu 3: Whirlipede Lv. 19
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 544, 54400, 19),
+  -- Klara / Avery (Sword, You've already finished the main story), Receive Kubfu 1: Galarian Slowpoke Lv. 62
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 79, 7901, 62),
+  -- Klara / Avery (Sword, You've already finished the main story), Receive Kubfu 2: Koffing Lv. 62
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 109, 10900, 62),
+  -- Klara / Avery (Sword, You've already finished the main story), Receive Kubfu 3: Whirlipede Lv. 63
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 544, 54400, 63),
+  -- Klara / Avery (Shield, You haven't finished the main story yet), Receive Kubfu 1: Galarian Slowpoke Lv. 18
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 79, 7901, 18),
+  -- Klara / Avery (Shield, You haven't finished the main story yet), Receive Kubfu 2: Woobat Lv. 18
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 527, 52700, 18),
+  -- Klara / Avery (Shield, You haven't finished the main story yet), Receive Kubfu 3: Kadabra Lv. 19
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 64, 6400, 19),
+  -- Klara / Avery (Shield, You've already finished the main story), Receive Kubfu 1: Galarian Slowpoke Lv. 62
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 79, 7901, 62),
+  -- Klara / Avery (Shield, You've already finished the main story), Receive Kubfu 2: Woobat Lv. 62
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 527, 52700, 62),
+  -- Klara / Avery (Shield, You've already finished the main story), Receive Kubfu 3: Kadabra Lv. 63
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 64, 6400, 63);

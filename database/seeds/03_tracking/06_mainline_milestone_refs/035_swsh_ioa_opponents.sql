@@ -20,4 +20,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Dojo Rival Battle -> Klara / Avery
   (190002, 19001, 19, 'battle-opponent', 1, NULL),
   -- Final Mustard Battle -> Mustard
-  (190007, 19002, 19, 'battle-opponent', 1, NULL);
+  (190007, 19002, 19, 'battle-opponent', 1, NULL),
+  -- Arrive at the Isle of Armor -> Klara / Avery
+  (190001, 19001, 19, 'battle-opponent', 1, 'Fields of Honor'),
+  -- Receive Kubfu -> Klara / Avery
+  (190004, 19001, 19, 'battle-opponent', 1, 'Warm-Up Tunnel (second trial, Max Mushrooms)');

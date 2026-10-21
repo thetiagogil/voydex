@@ -44,4 +44,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Eternatus
   (18011, 18, NULL, 'eternatus', 'Eternatus', 'boss', 8, 15, 'eternatus', 9),
   -- Leon
-  (18012, 18, NULL, 'leon', 'Leon', 'champion', NULL, NULL, 'leon', 10);
+  (18012, 18, NULL, 'leon', 'Leon', 'champion', NULL, NULL, 'leon', 10),
+  -- Hop (rival)
+  (18013, 18, NULL, 'hop', 'Hop', 'rival', NULL, NULL, 'hop', 11),
+  -- Bede (rival)
+  (18014, 18, NULL, 'bede', 'Bede', 'rival', NULL, NULL, 'bede', 12),
+  -- Marnie (rival)
+  (18015, 18, NULL, 'marnie', 'Marnie', 'rival', NULL, NULL, 'marnie', 13),
+  -- Rose (boss)
+  (18016, 18, NULL, 'rose', 'Rose', 'boss', NULL, NULL, 'rose', 14);

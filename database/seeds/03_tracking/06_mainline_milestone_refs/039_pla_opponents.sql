@@ -20,7 +20,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Noble Kleavor -> Kleavor
   (220003, 22001, 22, 'battle-opponent', 1, NULL),
   -- Noble Lilligant -> Hisuian Lilligant
-  (220004, 22002, 22, 'battle-opponent', 1, NULL),
+  (220004, 22002, 22, 'battle-opponent', 2, NULL),
   -- Noble Arcanine -> Hisuian Arcanine
   (220005, 22003, 22, 'battle-opponent', 1, NULL),
   -- Noble Electrode -> Hisuian Electrode
@@ -34,4 +34,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Defeat Volo -> Volo
   (220011, 22008, 22, 'battle-opponent', 1, NULL),
   -- Meet Arceus -> Arceus
-  (220012, 22009, 22, 'battle-opponent', 1, NULL);
+  (220012, 22009, 22, 'battle-opponent', 1, NULL),
+  -- Choose Starter -> Volo
+  (220001, 22008, 22, 'battle-opponent', 1, 'Jubilife Village, front gate'),
+  -- Noble Lilligant -> Volo
+  (220004, 22008, 22, 'battle-opponent', 1, 'Solaceon Ruins, Crimson Mirelands');
