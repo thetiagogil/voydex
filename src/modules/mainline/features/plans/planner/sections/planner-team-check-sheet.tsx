@@ -24,6 +24,7 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 import { PendingData } from "@/shared/components/pending-data";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SheetSection } from "@/shared/components/sheet-section";
+import { StatTile } from "@/shared/components/stat-tile";
 import {
   StatusBadge,
   type StatusBadgeTone,
@@ -208,32 +209,19 @@ export const PlannerTeamCheckSheet = ({
 
           <SheetSection title="How it holds up">
             <div className="grid gap-3 sm:grid-cols-2">
-              <div className="bg-surface-2 rounded-md px-4 py-3">
-                <p className="text-ink-2 text-13 font-bold">
-                  Shared weaknesses
-                </p>
-                <p className="font-display text-24 font-semibold">
-                  {pressure.length}
-                </p>
-                <p className="text-ink-2 text-14 font-semibold">
-                  {pressure.length
-                    ? `Watch ${pressure.map((row) => row.attackingType.name).join(", ")}.`
-                    : "No type hits most of the team."}
-                </p>
-              </div>
-              <div className="bg-surface-2 rounded-md px-4 py-3">
-                <p className="text-ink-2 text-13 font-bold">
-                  Coverage from their types
-                </p>
-                <p className="font-display text-24 font-semibold">
-                  {covered.length} of {coverage.length}
-                </p>
-                <p className="text-ink-2 text-14 font-semibold">
-                  {covered.length === coverage.length
-                    ? "Every type has something super effective."
-                    : `Nothing super effective against ${describeUncovered(coverage)}.`}
-                </p>
-              </div>
+              <StatTile label="Shared weaknesses" value={pressure.length}>
+                {pressure.length
+                  ? `Watch ${pressure.map((row) => row.attackingType.name).join(", ")}.`
+                  : "No type hits most of the team."}
+              </StatTile>
+              <StatTile
+                label="Coverage from their types"
+                value={`${covered.length} of ${coverage.length}`}
+              >
+                {covered.length === coverage.length
+                  ? "Every type has something super effective."
+                  : `Nothing super effective against ${describeUncovered(coverage)}.`}
+              </StatTile>
             </div>
           </SheetSection>
 

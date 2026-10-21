@@ -29,6 +29,7 @@ import type {
   StoryMatchupsModel,
 } from "../../data/story-matchups-model";
 import { StoryBattleReport } from "./story-battle-report";
+import { matchupStates } from "./story-matchup-state";
 
 const reportTitleId = "story-battle-report-title";
 
@@ -89,14 +90,18 @@ const StoryBattleRow = ({
           </b>
           <span className="text-ink-3 text-13 truncate font-semibold">
             {battle.kind} · {battle.milestoneName}
+            {battle.partyLevels ? ` · ${battle.partyLevels}` : null}
           </span>
         </span>
-        <PokemonTypeList
-          types={battle.specialtyTypes}
-          badgeDisplay="icon"
-          badgeSize="sm"
-          className="hidden gap-1 justify-self-end sm:flex"
-        />
+        {/* Holds its column when the opponent has no specialty (a Champion). */}
+        <span className="hidden justify-self-end sm:flex">
+          <PokemonTypeList
+            types={battle.specialtyTypes}
+            badgeDisplay="icon"
+            badgeSize="sm"
+            className="flex gap-1"
+          />
+        </span>
         <span className="justify-self-end">
           {battle.state === "won" ? (
             <StatusBadge tone="ok" dot={false}>
@@ -109,10 +114,21 @@ const StoryBattleRow = ({
                 </>
               ) : null}
             </StatusBadge>
+          ) : battle.reading?.state ? (
+            <StatusBadge
+              tone={matchupStates[battle.reading.state].tone}
+              dot={false}
+            >
+              <AppIcon icon={matchupStates[battle.reading.state].icon} />
+              {battle.state === "next" ? (
+                <span className="sr-only">Next, </span>
+              ) : null}
+              {matchupStates[battle.reading.state].label}
+            </StatusBadge>
           ) : battle.state === "next" ? (
             <StatusBadge tone="neutral">Next</StatusBadge>
-          ) : (
-            /* TODO(v3-data): the row verdict needs opponent parties. */
+          ) : battle.party ? null : (
+            /* TODO(v3-data): games without opponent teams in Voydex read no verdict. */
             <PendingData variant="inline" label="No reading" />
           )}
         </span>

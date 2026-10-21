@@ -33,6 +33,8 @@ ALTER TABLE tracking.mainline_milestone_collectible_refs ENABLE ROW LEVEL SECURI
 
 ALTER TABLE tracking.mainline_milestone_decision_options ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE tracking.mainline_opponent_team_members ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE tracking.mainline_snapshot_policies FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_categories FROM anon, authenticated;
@@ -64,6 +66,8 @@ REVOKE ALL ON TABLE tracking.mainline_milestone_badge_refs FROM anon, authentica
 REVOKE ALL ON TABLE tracking.mainline_milestone_collectible_refs FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_milestone_decision_options FROM anon, authenticated;
+
+REVOKE ALL ON TABLE tracking.mainline_opponent_team_members FROM anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_snapshot_policies TO authenticated;
 
@@ -97,6 +101,8 @@ GRANT SELECT ON TABLE tracking.mainline_milestone_collectible_refs TO authentica
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_decision_options TO authenticated;
 
+GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO authenticated;
+
 GRANT ALL ON TABLE tracking.mainline_snapshot_policies TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_categories TO service_role;
@@ -128,6 +134,8 @@ GRANT ALL ON TABLE tracking.mainline_milestone_badge_refs TO service_role;
 GRANT ALL ON TABLE tracking.mainline_milestone_collectible_refs TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_milestone_decision_options TO service_role;
+
+GRANT ALL ON TABLE tracking.mainline_opponent_team_members TO service_role;
 
 CREATE POLICY mainline_snapshot_policies_read_all ON tracking.mainline_snapshot_policies
     FOR SELECT TO authenticated
@@ -190,5 +198,9 @@ CREATE POLICY mainline_milestone_collectible_refs_read_all ON tracking.mainline_
     USING (TRUE);
 
 CREATE POLICY mainline_milestone_decision_options_read_all ON tracking.mainline_milestone_decision_options
+    FOR SELECT TO authenticated
+    USING (TRUE);
+
+CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_opponent_team_members
     FOR SELECT TO authenticated
     USING (TRUE);

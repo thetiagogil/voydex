@@ -22,7 +22,7 @@ export const getTeamAnalysisMemberId = (member: MainlinePlayTeamMember) => {
 };
 
 /* A damaging move's type; fixed-damage, reactive and status moves claim no type coverage. */
-const getDamagingMoveTypeSlug = (move: MainlinePlayTeamMove) => {
+export const getDamagingMoveTypeSlug = (move: MainlinePlayTeamMove) => {
   const isDamaging =
     move.attributes &&
     move.attributes.damage_class !== "status" &&

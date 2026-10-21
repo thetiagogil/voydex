@@ -4394,6 +4394,70 @@ export type Database = {
           },
         ];
       };
+      mainline_opponent_team_members: {
+        Row: {
+          created_at: string;
+          decision_milestone_id: number | null;
+          decision_option_slug: string | null;
+          form_id: number;
+          game_id: number | null;
+          id: number;
+          level: number;
+          opponent_id: number;
+          slot: number;
+          species_id: number;
+          variant_label: string | null;
+          variant_slug: string | null;
+          version_group_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          decision_milestone_id?: number | null;
+          decision_option_slug?: string | null;
+          form_id: number;
+          game_id?: number | null;
+          id?: never;
+          level: number;
+          opponent_id: number;
+          slot: number;
+          species_id: number;
+          variant_label?: string | null;
+          variant_slug?: string | null;
+          version_group_id: number;
+        };
+        Update: {
+          created_at?: string;
+          decision_milestone_id?: number | null;
+          decision_option_slug?: string | null;
+          form_id?: number;
+          game_id?: number | null;
+          id?: never;
+          level?: number;
+          opponent_id?: number;
+          slot?: number;
+          species_id?: number;
+          variant_label?: string | null;
+          variant_slug?: string | null;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mainline_opponent_team_members_decision_option_fkey";
+            columns: ["decision_milestone_id", "decision_option_slug"];
+            isOneToOne: false;
+            referencedRelation: "mainline_milestone_decision_options";
+            referencedColumns: ["milestone_id", "slug"];
+          },
+          {
+            foreignKeyName: "mainline_opponent_team_members_opponent_version_group_fkey";
+            columns: ["opponent_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_opponents";
+            referencedColumns: ["id", "version_group_id"];
+          },
+        ];
+      };
       mainline_opponents: {
         Row: {
           created_at: string;

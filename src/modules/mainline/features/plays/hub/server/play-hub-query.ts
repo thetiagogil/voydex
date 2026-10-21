@@ -290,7 +290,11 @@ export const getMainlinePlayTeamAnalysisData = cache(
         context.play.version_group_id,
       ),
       reading === "story"
-        ? readMainlinePlayStoryMatchupRows(context.supabase, playId)
+        ? readMainlinePlayStoryMatchupRows(
+            context.supabase,
+            playId,
+            context.play.generation_id,
+          )
         : null,
     ]);
 

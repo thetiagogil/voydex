@@ -27,7 +27,10 @@ type PokemonCardProps = {
    */
   motion?: "pop" | "settle" | null;
   name: string;
-  /* Its national number; left out where the number says nothing (the Planner's team), keeping the line. */
+  /*
+   * Its national number, or its level where that matters more (an opponent's
+   * team); left out where it says nothing (the Planner's team), keeping the line.
+   */
   number?: string;
   /*
    * Takes the number off the screen but keeps it in the card's words, for a

@@ -60,7 +60,7 @@ export const getMainlinePlayTeamMoveIds = (
   );
 };
 
-const resolveLatestAttributesByForm = (
+export const resolveLatestAttributesByForm = (
   attributes: PokemonAttributes[],
 ): Map<number, PokemonAttributes> => {
   const latestAttributesByForm = new Map<number, PokemonAttributes>();

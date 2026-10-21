@@ -7,6 +7,7 @@ import {
   ArrowRight,
   Backpack,
   BarChart3,
+  BicepsFlexed,
   BookMarked,
   BookOpen,
   BookOpenCheck,
@@ -62,6 +63,7 @@ import {
   Pencil,
   Plus,
   RotateCcw,
+  Scale,
   ScrollText,
   Share,
   Search,
@@ -122,6 +124,12 @@ export const appIcons = {
     share: Share,
     signOut: LogOut,
     unlock: LockOpen,
+  },
+  /* A matchup's reading: a battle's verdict, one of your Pokémon, the levels. */
+  matchup: {
+    balanced: Scale,
+    challenging: AlertTriangle,
+    strong: BicepsFlexed,
   },
   /* What sits inside a gold milestone medallion, by milestone type. */
   milestones: {

@@ -76,7 +76,7 @@ still pick them) and the details step lists what the pick breaks.
   this one) used, even one that has evolved since, by the rule's scope; the
   note names the closest use (same form, then species, then family).
 
-Level caps waits for Gym Leader levels (issue #20). The rest happen in the
+Level caps waits for its warning (issue #103); the levels it needs are in. The rest happen in the
 game and stay labels, as does every rule of yours, even one named like
 Voydex's.
 
