@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, X / Y, Gift Pokémon, Fossil, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Lysandre's two Team Flare Secret HQ battles: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon X / Y milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -62,8 +63,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (130011, 13018, 13, 'battle-opponent', 1, 'Anistar City, in front of the Gym'),
   -- Lysandre Labs -> Lysandre
   (130021, 13019, 13, 'battle-opponent', 1, 'Lysandre Labs, Lumiose City'),
-  -- Team Flare Secret HQ -> Lysandre
-  (130022, 13019, 13, 'battle-opponent', 3, 'Team Flare Secret HQ, Geosenge Town'),
+  -- Team Flare Secret HQ -> Lysandre (first battle)
+  (130022, 13028, 13, 'battle-opponent', 1, 'Team Flare Secret HQ, the ultimate weapon''s main room (Geosenge Town)'),
+  -- Team Flare Secret HQ -> Lysandre (final battle)
+  (130022, 13019, 13, 'battle-opponent', 4, 'Team Flare Secret HQ, Legendary Pokémon Room, after Xerneas / Yveltal (Geosenge Town)'),
   -- Iceberg Badge -> Shauna
   (130012, 13015, 13, 'battle-opponent', 1, 'Route 19'),
   -- Iceberg Badge -> Tierno
@@ -75,9 +78,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Battle AZ -> Serena / Calem
   (130019, 13018, 13, 'battle-opponent', 2, 'Kiloude City. You can skip this battle.'),
   -- Team Flare Secret HQ -> Xerneas
-  (130022, 13021, 13, 'battle-opponent', 1, 'Team Flare Secret HQ, Legendary Pokémon Room (Geosenge Town)'),
+  (130022, 13021, 13, 'battle-opponent', 2, 'Team Flare Secret HQ, Legendary Pokémon Room (Geosenge Town)'),
   -- Team Flare Secret HQ -> Yveltal
-  (130022, 13022, 13, 'battle-opponent', 2, 'Team Flare Secret HQ, Legendary Pokémon Room (Geosenge Town)'),
+  (130022, 13022, 13, 'battle-opponent', 3, 'Team Flare Secret HQ, Legendary Pokémon Room (Geosenge Town)'),
   -- Terminus Cave -> Zygarde
   (130023, 13023, 13, 'battle-opponent', 1, 'Terminus Cave, Zygarde''s chamber (Route 18). You can skip this battle.'),
   -- Unknown Dungeon -> Mewtwo

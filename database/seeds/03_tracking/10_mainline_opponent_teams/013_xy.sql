@@ -5,6 +5,8 @@
 -- Cross-check: Pokémon Database X / Y Gym Leaders and Elite Four page.
 -- Rival and Lysandre battles: Bulbapedia, cross-checked with Pokébip and Serebii.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- AZ and Lysandre's first Team Flare Secret HQ team: Bulbapedia, cross-checked with Pokébip and Serebii.
+-- Lysandre's first HQ Mienshao: Bulbapedia and Pokébip say Lv. 47, Serebii and GamerGuides say Lv. 48; Lv. 47 is used.
 -- Scope: Pokémon X / Y Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -299,6 +301,14 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (130021, 13019, 13, NULL, NULL, NULL, NULL, NULL, 3, 668, 66800, 47),
   -- Lysandre, Lysandre Labs 4: Gyarados Lv. 49
   (130021, 13019, 13, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 49),
+  -- Lysandre (first battle), Team Flare Secret HQ 1: Mienshao Lv. 47
+  (130022, 13028, 13, NULL, NULL, NULL, NULL, NULL, 1, 620, 62000, 47),
+  -- Lysandre (first battle), Team Flare Secret HQ 2: Honchkrow Lv. 47
+  (130022, 13028, 13, NULL, NULL, NULL, NULL, NULL, 2, 430, 43000, 47),
+  -- Lysandre (first battle), Team Flare Secret HQ 3: Pyroar Lv. 49
+  (130022, 13028, 13, NULL, NULL, NULL, NULL, NULL, 3, 668, 66800, 49),
+  -- Lysandre (first battle), Team Flare Secret HQ 4: Gyarados Lv. 51
+  (130022, 13028, 13, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 51),
   -- Lysandre, Team Flare Secret HQ 1: Mienshao Lv. 49
   (130022, 13019, 13, NULL, NULL, NULL, NULL, NULL, 1, 620, 62000, 49),
   -- Lysandre, Team Flare Secret HQ 2: Honchkrow Lv. 49

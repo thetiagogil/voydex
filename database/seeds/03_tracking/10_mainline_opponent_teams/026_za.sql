@@ -5,6 +5,8 @@
 -- Cross-check: Serebii Legends: Z-A main mission pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Zygarde's story levels (10% Forme Lv. 33, 50% Forme Lv. 57) are confirmed by one source only.
+-- Rogue Mega Absol: Bulbapedia, cross-checked with Deltia's Gaming and Sportskeeda.
+-- L at Hotel Z: Bulbapedia, cross-checked with Nintendo Life and GamerGuides.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -138,4 +140,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Yveltal, The One That Takes 1: Yveltal Lv. 75
   (260011, 26006, 26, NULL, NULL, NULL, NULL, NULL, 1, 717, 71700, 75),
   -- Zygarde, To Keep the World in Balance 1: Zygarde (10% Forme) Lv. 84
-  (260012, 26004, 26, NULL, NULL, NULL, NULL, NULL, 1, 718, 71801, 84);
+  (260012, 26004, 26, NULL, NULL, NULL, NULL, NULL, 1, 718, 71801, 84),
+  -- Rogue Mega Absol, Unlock Mega Evolution 1: Absol Lv. 25
+  (260005, 26002, 26, NULL, NULL, NULL, NULL, NULL, 1, 359, 35900, 25),
+  -- Lysandre, To Keep the World in Balance 1: Pyroar Lv. 78
+  (260012, 26003, 26, NULL, NULL, NULL, NULL, NULL, 1, 668, 66800, 78),
+  -- Lysandre, To Keep the World in Balance 2: Florges Lv. 78
+  (260012, 26003, 26, NULL, NULL, NULL, NULL, NULL, 2, 671, 67100, 78),
+  -- Lysandre, To Keep the World in Balance 3: Sableye Lv. 78
+  (260012, 26003, 26, NULL, NULL, NULL, NULL, NULL, 3, 302, 30200, 78),
+  -- Lysandre, To Keep the World in Balance 4: Noivern Lv. 79
+  (260012, 26003, 26, NULL, NULL, NULL, NULL, NULL, 4, 715, 71500, 79),
+  -- Lysandre, To Keep the World in Balance 5: Garbodor Lv. 79
+  (260012, 26003, 26, NULL, NULL, NULL, NULL, NULL, 5, 569, 56900, 79),
+  -- Lysandre, To Keep the World in Balance 6: Gyarados Lv. 80
+  (260012, 26003, 26, NULL, NULL, NULL, NULL, NULL, 6, 130, 13000, 80);

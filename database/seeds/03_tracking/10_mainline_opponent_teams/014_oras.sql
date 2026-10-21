@@ -5,6 +5,7 @@
 -- Cross-check: Pokémon Database Omega Ruby / Alpha Sapphire Gym Leaders and Elite Four page.
 -- Rival, Wally, Maxie and Archie battles: Bulbapedia, cross-checked with Serebii's rival, Wally and Team Aqua / Magma pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii.
+-- Zinnia: cross-checked with Bulbapedia, whose slot order is used.
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -129,12 +130,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140016, 14013, 14, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 59),
   -- Zinnia 1: Goodra Lv. 60
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 1, 706, 70600, 60),
-  -- Zinnia 2: Noivern Lv. 60
-  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 2, 715, 71500, 60),
+  -- Zinnia 2: Tyrantrum Lv. 60
+  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 2, 697, 69700, 60),
   -- Zinnia 3: Altaria Lv. 60
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 3, 334, 33400, 60),
-  -- Zinnia 4: Tyrantrum Lv. 60
-  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 4, 697, 69700, 60),
+  -- Zinnia 4: Noivern Lv. 60
+  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 4, 715, 71500, 60),
   -- Zinnia 5: Salamence Lv. 62
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 62),
   -- May / Brendan (chose Treecko), Receive Pokedex 1: Torchic Lv. 5

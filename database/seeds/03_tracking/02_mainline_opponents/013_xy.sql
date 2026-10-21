@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, X / Y, Gift Pokémon, Fossil, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Lysandre's first Team Flare Secret HQ battle: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon X / Y major opponent data.
 -- ============================================================================
 -- File Scope
@@ -75,4 +76,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Zapdos (boss)
   (13026, 13, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 24),
   -- Moltres (boss)
-  (13027, 13, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 25);
+  (13027, 13, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 25),
+  -- Lysandre (boss, first Team Flare Secret HQ battle, so he can fight twice there)
+  (13028, 13, NULL, 'lysandre-secret-hq', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 26);

@@ -6,6 +6,8 @@
 -- Hau, Gladion, Guzma and Lusamine battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
+-- Totem trials, Ultra Necrozma and Giovanni: cross-checked with Bulbapedia; totem allies follow the order the totem calls them.
+-- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
 -- Scope: Pokémon Ultra Sun / Ultra Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -44,10 +46,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160004, 16002, 16, NULL, NULL, NULL, NULL, NULL, 3, 739, 73900, 16),
   -- Lana 1: Araquanid Lv. 20
   (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 1, 752, 75200, 20),
-  -- Lana 2: Masquerain Lv. 18
-  (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 2, 284, 28400, 18),
-  -- Lana 3: Dewpider Lv. 18
-  (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 3, 751, 75100, 18),
+  -- Lana 2: Dewpider Lv. 18
+  (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 2, 751, 75100, 18),
+  -- Lana 3: Masquerain Lv. 18
+  (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 3, 284, 28400, 18),
   -- Kiawe 1: Alolan Marowak Lv. 22
   (160006, 16004, 16, NULL, NULL, NULL, NULL, NULL, 1, 105, 10501, 22),
   -- Kiawe 2: Salazzle Lv. 20
@@ -84,10 +86,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160011, 16009, 16, NULL, NULL, NULL, NULL, NULL, 3, 53, 5301, 44),
   -- Mina 1: Ribombee Lv. 55
   (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 1, 743, 74300, 55),
-  -- Mina 2: Blissey Lv. 53
-  (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 2, 242, 24200, 53),
-  -- Mina 3: Pelipper Lv. 52
-  (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 3, 279, 27900, 52),
+  -- Mina 2: Pelipper Lv. 52
+  (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 2, 279, 27900, 52),
+  -- Mina 3: Blissey Lv. 53
+  (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 3, 242, 24200, 53),
   -- Hapu 1: Golurk Lv. 53
   (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 1, 623, 62300, 53),
   -- Hapu 2: Gastrodon Lv. 53

@@ -169,7 +169,8 @@ battle that only one choice leads to (the roaming legendary your starter
 picks) is left out once the Play records another option, and says which
 choice it needs while none is recorded.
 Their moves aren't in Voydex, so their threat is read from their types.
-Games without their teams keep the specialty reading and an honest
+Every Story battle has its opponent's team (a database test holds this); a
+battle that somehow had none would keep the specialty reading and an honest
 placeholder.
 
 There is no separate Team History. Team events (additions, evolutions, form

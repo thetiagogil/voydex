@@ -5,6 +5,8 @@
 -- Cross-check: Serebii trainer pages per battle.
 -- Hau, Gladion, Guzma and Lusamine battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Totem trials: cross-checked with Bulbapedia trial pages; allies follow the order the totem calls them.
+-- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
 -- Scope: Pokémon Sun / Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -43,20 +45,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150004, 15002, 15, NULL, NULL, NULL, NULL, NULL, 3, 739, 73900, 15),
   -- Lana 1: Wishiwashi Lv. 20
   (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 1, 746, 74600, 20),
-  -- Lana 2: Alomomola Lv. 18
-  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 2, 594, 59400, 18),
-  -- Lana 3: Wishiwashi Lv. 18
-  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 3, 746, 74600, 18),
+  -- Lana 2: Wishiwashi Lv. 18
+  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 2, 746, 74600, 18),
+  -- Lana 3: Alomomola Lv. 18
+  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 3, 594, 59400, 18),
   -- Kiawe 1: Salazzle Lv. 22
   (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 1, 758, 75800, 22),
   -- Kiawe 2: Salandit Lv. 20
   (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 2, 757, 75700, 20),
   -- Mallow 1: Lurantis Lv. 24
   (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24),
-  -- Mallow 2: Castform Lv. 22
-  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 2, 351, 35100, 22),
-  -- Mallow 3: Trumbeak Lv. 22
-  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 3, 732, 73200, 22),
+  -- Mallow 2: Trumbeak Lv. 22
+  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 2, 732, 73200, 22),
+  -- Mallow 3: Castform Lv. 22
+  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 3, 351, 35100, 22),
   -- Olivia 1: Nosepass Lv. 26
   (150008, 15006, 15, NULL, NULL, NULL, NULL, NULL, 1, 299, 29900, 26),
   -- Olivia 2: Boldore Lv. 26

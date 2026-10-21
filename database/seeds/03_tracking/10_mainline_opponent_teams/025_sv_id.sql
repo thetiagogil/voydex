@@ -6,6 +6,8 @@
 -- Carmine's lead pair: the game's trainer data, matching Serebii.
 -- Carmine, Kieran, Nemona and Arven & Penny battles: Bulbapedia, cross-checked with Serebii.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Blueberry League and Pecharunt: cross-checked with Bulbapedia; Kieran's slot order is Bulbapedia's.
+-- Terapagos: cross-checked with Prima Games.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -76,14 +78,14 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 5, 230, 23000, 79),
   -- Drayton 6: Archaludon Lv. 80
   (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 6, 1018, 101800, 80),
-  -- Kieran 1: Politoed Lv. 80
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 1, 186, 18600, 80),
-  -- Kieran 2: Dragonite Lv. 80
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 2, 149, 14900, 80),
-  -- Kieran 3: Grimmsnarl Lv. 81
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 3, 861, 86100, 81),
-  -- Kieran 4: Porygon-Z Lv. 81
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 4, 474, 47400, 81),
+  -- Kieran 1: Dragonite Lv. 80
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 80),
+  -- Kieran 2: Politoed Lv. 80
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 2, 186, 18600, 80),
+  -- Kieran 3: Porygon-Z Lv. 81
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 3, 474, 47400, 81),
+  -- Kieran 4: Grimmsnarl Lv. 81
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 4, 861, 86100, 81),
   -- Kieran 5: Incineroar Lv. 81
   (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 5, 727, 72700, 81),
   -- Kieran 6: Hydrapple Lv. 82

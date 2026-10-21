@@ -5,6 +5,8 @@
 -- Cross-check: Serebii trainer pages per battle.
 -- Volo's earlier battles: Bulbapedia, cross-checked with Serebii's Volo page.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Nobles, Volo, Dialga / Palkia and Arceus: cross-checked with Bulbapedia.
+-- Commander Kamado: Bulbapedia, cross-checked with TheGamer and Nightly Gaming Binge.
 -- Scope: Pokémon Legends: Arceus Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -92,4 +94,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Landorus, Incarnate Forces of Hisui 1: Landorus Lv. 70
   (220019, 22021, 22, NULL, NULL, NULL, NULL, NULL, 1, 645, 64500, 70),
   -- Enamorus, Incarnate Forces of Hisui 1: Enamorus Lv. 70
-  (220019, 22022, 22, NULL, NULL, NULL, NULL, NULL, 1, 905, 90500, 70);
+  (220019, 22022, 22, NULL, NULL, NULL, NULL, NULL, 1, 905, 90500, 70),
+  -- Commander Kamado, Commander Kamado 1: Hisuian Braviary Lv. 61
+  (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 1, 628, 62801, 61),
+  -- Commander Kamado, Commander Kamado 2: Golem Lv. 61
+  (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 2, 76, 7600, 61),
+  -- Commander Kamado, Commander Kamado 3: Clefable Lv. 61
+  (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 3, 36, 3600, 61),
+  -- Commander Kamado, Commander Kamado 4: Snorlax Lv. 62
+  (220009, 22006, 22, NULL, NULL, NULL, NULL, NULL, 4, 143, 14300, 62);
