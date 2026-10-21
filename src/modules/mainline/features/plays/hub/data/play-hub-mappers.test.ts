@@ -1,3 +1,4 @@
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -118,6 +119,7 @@ describe("Play page data mappers", () => {
 
     const data = buildMainlinePlayTeamRosterData({
       play: {} as Parameters<typeof buildMainlinePlayTeamRosterData>[0]["play"],
+      ruleChecks: emptyRuleCheckContext,
       teamRows: {
         abilityAttributes: [],
         attributes: [],

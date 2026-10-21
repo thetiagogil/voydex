@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 
 import {
   formatTeamRosterSummary,
@@ -8,6 +9,7 @@ import {
   getTeamRosterSlots,
   getTeamRosterSheetKeys,
   getTeamRosterSummary,
+  getTeamRuleBreakers,
 } from "./team-roster-model";
 
 const buildMember = (
@@ -129,5 +131,72 @@ describe("getTeamRosterSheetKeys", () => {
     expect(getTeamRosterSheetKeys("a", { kind: "add" }).picker).toBe(
       getTeamRosterSheetKeys("b", { kind: "add" }).picker,
     );
+  });
+});
+
+describe("getTeamRuleBreakers", () => {
+  const member = (
+    id: string,
+    rosterState: "active" | "reserve" | "retired",
+    slot: number | null,
+    nickname: string | null,
+  ) =>
+    ({
+      form_id: 25,
+      is_shiny: false,
+      nickname,
+      play_pokemon_id: id,
+      primaryType: null,
+      roster_state_slug: rosterState,
+      secondaryType: null,
+      slot,
+      species_id: 25,
+      species_name: "Pikachu",
+    }) as MainlinePlayTeamMember;
+  const context = {
+    ...emptyRuleCheckContext,
+    rules: [
+      {
+        id: "nickname",
+        kind: "nickname_everything" as const,
+        name: "Nickname everything",
+      },
+    ],
+  };
+
+  it("lists who breaks a rule, the team then the reserve, in slot order, and leaves past Pokémon out", () => {
+    const breakers = getTeamRuleBreakers(
+      [
+        member("reserve", "reserve", 7, null),
+        member("second", "active", 2, null),
+        member("named", "active", 1, "Sparky"),
+        member("retired", "retired", null, null),
+      ],
+      context,
+    );
+
+    expect(breakers.map((breaker) => breaker.playPokemonId)).toEqual([
+      "second",
+      "reserve",
+    ]);
+    expect(breakers[0]).toMatchObject({
+      name: "Pikachu",
+      warnings: [
+        {
+          key: "second:nickname",
+          ruleName: "Nickname everything",
+          text: "Pikachu has no nickname.",
+        },
+      ],
+    });
+  });
+
+  it("says nothing when the Play checks no rules", () => {
+    expect(
+      getTeamRuleBreakers(
+        [member("second", "active", 2, null)],
+        emptyRuleCheckContext,
+      ),
+    ).toEqual([]);
   });
 });

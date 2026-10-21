@@ -1,26 +1,13 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer, waitForAction } from "../support/actions";
-import { startPlay, uniquePlayName } from "../support/plays";
-
-/* Picks one of the rules a picker offers by its name. */
-const pickRule = async (page: Page, name: string) => {
-  await page
-    .getByRole("combobox", { name: "Search or name a new rule" })
-    .fill(name);
-  await page.getByRole("option", { name, exact: true }).click();
-};
-
-/* Picks a type in an open rule's options and closes them. */
-const pickType = async (page: Page, rule: string, type: string) => {
-  const options = page.getByRole("dialog", { name: rule });
-
-  await options.getByRole("combobox", { name: "Type" }).click();
-  await page.getByRole("option", { name: type, exact: true }).click();
-  await options.getByRole("button", { name: "Done" }).click();
-  await expect(options).toBeHidden();
-};
+import {
+  pickRule,
+  pickType,
+  startPlay,
+  uniquePlayName,
+} from "../support/plays";
 
 test.describe("Challenge rules", () => {
   test("a new Play starts with Voydex's rules and their options @phone", async ({

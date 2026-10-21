@@ -34,6 +34,12 @@ import {
   isOverviewFreshPlay,
   type OverviewPartnerFormRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
+import {
+  collectRuleBreaks,
+  emptyRuleBreaks,
+  type RuleCheckContext,
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import { getTeamRuleBreakers } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/team-roster-model";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
   describeRuleConfig,
@@ -74,8 +80,11 @@ export const buildMainlinePlayShellData = (params: {
   collectiblesAvailable: boolean;
   gameContext: MainlinePlayGameContextRows;
   play: MainlinePlaySummary;
+  ruleChecks: RuleCheckContext;
   ruleRows: MainlinePlayRuleRows;
   tags: string[];
+  /* Null when no rule is checked, so the team wasn't read. */
+  teamRows: MainlinePlayTeamRows | null;
 }): MainlinePlayShellData => {
   return {
     collectiblesAvailable: params.collectiblesAvailable,
@@ -85,6 +94,14 @@ export const buildMainlinePlayShellData = (params: {
     game: params.gameContext.game,
     play: params.play,
     region: params.gameContext.region,
+    ruleBreaks: params.teamRows
+      ? collectRuleBreaks(
+          getTeamRuleBreakers(
+            buildMainlinePlayTeamPreview(params.teamRows),
+            params.ruleChecks,
+          ),
+        )
+      : emptyRuleBreaks,
     rules: buildMainlinePlayRules(params.ruleRows),
     tags: params.tags,
   };
@@ -180,12 +197,13 @@ const resolvePlayMechanics = (play: MainlinePlaySummary) =>
 
 /* The Roster: the team and reserve, and what this game records. */
 export const buildMainlinePlayTeamRosterData = (
-  params: MainlinePlayTeamContextParams,
+  params: MainlinePlayTeamContextParams & { ruleChecks: RuleCheckContext },
 ): MainlinePlayTeamRosterData => {
   return {
     mechanics: resolvePlayMechanics(params.play),
     play: params.play,
     roster: buildMainlinePlayTeamPreview(params.teamRows),
+    ruleChecks: params.ruleChecks,
   };
 };
 

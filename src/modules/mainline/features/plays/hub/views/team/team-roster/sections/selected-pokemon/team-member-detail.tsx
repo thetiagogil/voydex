@@ -9,6 +9,9 @@ import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
+import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+
+import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
 import {
   TeamMemberProfile,
@@ -53,6 +56,7 @@ export const TeamMemberDetail = ({
   onEdit,
   playId,
   versionGroupSlug,
+  warnings,
 }: {
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
@@ -60,6 +64,8 @@ export const TeamMemberDetail = ({
   onEdit: () => void;
   playId: string;
   versionGroupSlug: string | null;
+  /* What the Play's rules say about it. */
+  warnings: (RuleWarning & { key: string })[];
 }) => {
   const titleId = useId();
 
@@ -83,6 +89,13 @@ export const TeamMemberDetail = ({
         }
         mechanics={mechanics}
         member={member}
+        notice={
+          <RuleWarningsNote
+            title="Breaks this Play's rules"
+            warnings={warnings}
+            className="mt-4.5"
+          />
+        }
         title={
           <h3 id={titleId} className={teamMemberNameClassName}>
             {getPlayTeamMemberName(member)}

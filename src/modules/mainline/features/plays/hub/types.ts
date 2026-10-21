@@ -20,6 +20,10 @@ import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/vi
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
+import type {
+  RuleBreaks,
+  RuleCheckContext,
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -209,6 +213,8 @@ export type MainlinePlayShellData = {
   game: Game | null;
   play: MainlinePlaySummary;
   region: Region | null;
+  /* The rules the team breaks now, for the head's chip and its sheet. */
+  ruleBreaks: RuleBreaks;
   rules: MainlinePlayRule[];
   /* The Play's tags by name, shown in Play details. */
   tags: string[];
@@ -237,6 +243,8 @@ export type MainlinePlayTeamRosterData = {
   mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
+  /* What the Play's rules check, for the team's note and Add Pokémon. */
+  ruleChecks: RuleCheckContext;
 };
 
 /* One of your Plans this Play could follow: same game and version group. */

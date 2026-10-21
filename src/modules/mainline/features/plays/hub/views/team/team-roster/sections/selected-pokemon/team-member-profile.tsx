@@ -34,6 +34,7 @@ export const TeamMemberProfile = ({
   actionsBesideClose = false,
   mechanics,
   member,
+  notice,
   title,
 }: {
   /* Icon buttons in the art's top right corner (Edit, Open in Codex). */
@@ -42,6 +43,8 @@ export const TeamMemberProfile = ({
   actionsBesideClose?: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
+  /* A note under its types, such as the rules it breaks. */
+  notice?: ReactNode;
   title: ReactNode;
 }) => {
   const imageUrl = getPlayTeamMemberImageUrl(member, "art");
@@ -98,6 +101,7 @@ export const TeamMemberProfile = ({
         badgeSize="lg"
         className="flex-wrap gap-2"
       />
+      {notice}
 
       {facts.length ? (
         <dl className="mt-5 grid gap-x-4.5 gap-y-3.5 pt-4.5 sm:grid-cols-2">

@@ -1711,23 +1711,17 @@ export type Database = {
       user_preferences: {
         Row: {
           created_at: string;
-          pokemon_reuse_behavior: string;
-          pokemon_reuse_scope: string;
           updated_at: string;
           user_id: string;
         };
         ComputedFields: never;
         Insert: {
           created_at?: string;
-          pokemon_reuse_behavior?: string;
-          pokemon_reuse_scope?: string;
           updated_at?: string;
           user_id: string;
         };
         Update: {
           created_at?: string;
-          pokemon_reuse_behavior?: string;
-          pokemon_reuse_scope?: string;
           updated_at?: string;
           user_id?: string;
         };

@@ -94,6 +94,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
     slug: play.game.region.toLowerCase(),
     sort_order: 0,
   },
+  ruleBreaks: { pokemon: [], ruleNames: [] },
   rules: [],
   tags: [],
 });

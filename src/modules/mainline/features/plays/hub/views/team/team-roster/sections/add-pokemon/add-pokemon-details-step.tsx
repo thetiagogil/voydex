@@ -2,13 +2,17 @@ import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
+import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+
 import type { PokemonChoice } from "../../utils/pokemon-choices";
+import { RuleWarningsNote } from "../roster/rule-warnings-note";
 
 export type AddPokemonPlacement = "reserve" | "team";
 
 /*
- * Step 2, its details: nickname and level, and where it goes (the team or
- * the reserve), or whose place it takes when it replaces one.
+ * Step 2, its details: what the Play's rules say about it (a warning that
+ * blocks nothing), nickname and level, and where it goes (the team or the
+ * reserve), or whose place it takes when it replaces one.
  */
 export const AddPokemonDetailsStep = ({
   error,
@@ -24,6 +28,7 @@ export const AddPokemonDetailsStep = ({
   replacesName,
   reserveIsFull,
   teamCount,
+  warnings,
 }: {
   error: string | null;
   /* The sheet's `useId`; the form is `${id}-form`, so Save can submit it. */
@@ -40,6 +45,8 @@ export const AddPokemonDetailsStep = ({
   replacesName: string | null;
   reserveIsFull: boolean;
   teamCount: number;
+  /* What the Play's rules say about this pick; it can still be added. */
+  warnings: (RuleWarning & { key: string })[];
 }) => {
   const teamIsFull = teamCount >= 6;
 
@@ -52,6 +59,7 @@ export const AddPokemonDetailsStep = ({
         onSubmit();
       }}
     >
+      <RuleWarningsNote warnings={warnings} />
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field>
           <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>

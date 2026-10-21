@@ -218,6 +218,10 @@ on a hard lip, a press that moves, a gradient fill or glass.
   a small corner mark take the same band (`bubble`, also `--band`), so every
   control's band is one width; `npm run design:check` fails on a band sized by
   hand in a control. A disabled red or wine button turns neutral grey.
+- **Corners line up**: what a card carries in its corners (a slot number,
+  the shiny mark, a warning) sits level: the two top corners share one line
+  (on a Pokémon sticker, 28px tall and 8px in), each mark centred on it, so
+  text and icons never sit at different heights.
 - **Soft shadow (quiet material)**: a section card and the docked bars lift on a soft shadow (`shadow-card`, `shadow-float`), never a
   lip. A card goes flat inside another card, a sheet or a dialog (`Card`
   handles this); the Codex's reference cards (a Pokémon or a
@@ -272,7 +276,11 @@ as a field, `sm` 36px inside cards and rows, `lg` 56px for a page's one call to
 action; `icon`, `icon-sm`, `icon-xs` and `icon-lg` are round. Words that go
 somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `interactive`), `Badge` (tones `neutral`, `outline`, `ok`, `warn`, `calm`,
-`danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`), `Dialog`,
+`danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`),
+`Alert` (a quiet note in a page, form or sheet, never a filled banner:
+`default` the inset fill, `warning` the soft amber for something that blocks
+nothing, such as a Play's rule broken, `destructive` the soft danger tint for
+an error; a note that only informs takes `role="status"`), `Dialog`,
 `Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
 `ButtonGroup`, `Switch`, `Progress` (how far along, in the progress blue like an EXP bar, never the red accent),

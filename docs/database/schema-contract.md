@@ -10,8 +10,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   creates `public.user_preferences`.
 - `public.tags` are user-owned, reusable, and attached through typed gameplay
   and planning join tables.
-- Global Pokémon reuse preferences are defaults. A Play's rules may apply
-  more specific behavior.
+- `public.user_preferences` holds global defaults that are not play-specific
+  (none yet). Pokémon reuse is a Play's No Pokémon reuse rule.
 
 ## Reference And Tracking
 

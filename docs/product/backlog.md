@@ -125,7 +125,7 @@ previews. It must never conceal an empty, partial, unavailable, or error state.
 ## Global Account And Settings Follow-Ups
 
 V1 keeps authentication and Settings focused on email/password access,
-optional Display name, advisory Pokémon reuse, password recovery, Sign out, and
+optional Display name, password recovery, Sign out, and
 secure account deletion. Preserve these later improvements:
 
 - avatar upload, crop, replacement, removal, and owned storage cleanup;
@@ -143,11 +143,10 @@ Auth provider can support them. Reconsider each when real account-management,
 support, device, or security needs appear. Secure deletion remains V1 and must
 not be deferred with these conveniences.
 
-The stored Pokémon reuse `block` value also remains outside the V1 interface.
-A later strict mode may expose it only if users deliberately request hard
-enforcement and every Team, Plan, import, correction, and historical workflow
-can explain and override conflicts safely. V1 warning and filter behavior must
-remain non-destructive.
+Rules stay warnings. A later strict mode may block an action only if users
+deliberately ask for hard enforcement and every Team, Plan, import,
+correction, and historical workflow can explain and override conflicts
+safely.
 
 ## Offline And Cached Read Experience
 

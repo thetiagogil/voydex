@@ -1,0 +1,40 @@
+import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/shared/components/ui/alert";
+
+import { RuleWarningText } from "./rule-warning-text";
+
+/*
+ * What a Play's rules say, as a quiet amber note: each line names the rule,
+ * then what breaks it. It only warns; nothing is blocked. Nothing to say,
+ * no note.
+ */
+export const RuleWarningsNote = ({
+  className,
+  title = "Against this Play's rules",
+  warnings,
+}: {
+  className?: string;
+  title?: string;
+  warnings: (RuleWarning & { key: string })[];
+}) =>
+  warnings.length ? (
+    <Alert role="status" variant="warning" className={className}>
+      <AppIcon icon={appIcons.status.warning} />
+      <AlertTitle>{title}</AlertTitle>
+      <AlertDescription className="text-pretty">
+        <ul className="grid gap-0.5">
+          {warnings.map((warning) => (
+            <li key={warning.key}>
+              <span className="font-extrabold">{warning.ruleName}:</span>{" "}
+              <RuleWarningText warning={warning} />
+            </li>
+          ))}
+        </ul>
+      </AlertDescription>
+    </Alert>
+  ) : null;

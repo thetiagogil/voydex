@@ -1,5 +1,15 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
+  checkPokemonRules,
+  type RuleBreaker,
+  type RuleCheckContext,
+  type RuleCheckPokemon,
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
   getPlayTeamSlots,
   playTeamSize,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
@@ -108,3 +118,61 @@ export const getTeamRosterSheetKeys = (
       ? `replace-${pickerMode.playPokemonId}`
       : "add",
 });
+
+/* A team member as the Play's rule checks read it. */
+export const toRuleCheckPokemon = (
+  member: MainlinePlayTeamMember,
+): RuleCheckPokemon | null =>
+  member.form_id && member.species_id
+    ? {
+        formId: member.form_id,
+        isShiny: member.is_shiny,
+        name: getPlayTeamMemberName(member),
+        nickname: member.nickname,
+        speciesId: member.species_id,
+        typeIds: [member.primaryType?.id, member.secondaryType?.id].filter(
+          (typeId): typeId is number => typeId !== undefined,
+        ),
+      }
+    : null;
+
+/* What the Play's rules say about one Pokémon on the team, keyed for lists. */
+export const getMemberRuleWarnings = (
+  member: MainlinePlayTeamMember,
+  context: RuleCheckContext,
+) => {
+  const pokemon = toRuleCheckPokemon(member);
+
+  return pokemon
+    ? checkPokemonRules(pokemon, context).map((warning) => ({
+        ...warning,
+        key: `${member.play_pokemon_id}:${warning.ruleId}`,
+      }))
+    : [];
+};
+
+/*
+ * The Pokémon you have now that break the Play's rules, the team then the
+ * reserve, each in slot order. Retired and replaced Pokémon are past.
+ */
+export const getTeamRuleBreakers = (
+  roster: MainlinePlayTeamMember[],
+  context: RuleCheckContext,
+): RuleBreaker[] =>
+  (["active", "reserve"] as const).flatMap((group) =>
+    getTeamRosterSlots(roster, group).flatMap(({ member }) => {
+      const warnings = member ? getMemberRuleWarnings(member, context) : [];
+
+      return member?.play_pokemon_id && warnings.length
+        ? [
+            {
+              imageUrl: getPlayTeamMemberImageUrl(member),
+              name: getPlayTeamMemberName(member),
+              playPokemonId: member.play_pokemon_id,
+              typeSlug: member.primaryType?.slug ?? null,
+              warnings,
+            },
+          ]
+        : [];
+    }),
+  );

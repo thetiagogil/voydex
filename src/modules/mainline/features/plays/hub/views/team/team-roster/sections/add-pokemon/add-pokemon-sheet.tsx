@@ -11,6 +11,12 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import {
+  checkPokemonRules,
+  emptyRuleCheckContext,
+  type RuleCheckContext,
+  type RuleCheckPokemon,
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -40,6 +46,19 @@ import {
   type AddPokemonPlacement,
 } from "./add-pokemon-details-step";
 
+/* A Pokémon to pick as the Play's rule checks read it; its shininess isn't known yet. */
+const toChoiceRuleCheck = (
+  choice: PokemonChoice,
+  nickname: string | null,
+): RuleCheckPokemon => ({
+  formId: choice.formId,
+  isShiny: null,
+  name: choice.speciesName,
+  nickname,
+  speciesId: choice.speciesId,
+  typeIds: getPokemonChoiceTypes(choice).map((type) => type.id),
+});
+
 export type AddPokemonPreset = {
   formSlug: string | null;
   speciesSlug: string;
@@ -68,6 +87,7 @@ export const AddPokemonSheet = ({
   playLabel,
   preset = null,
   reserveCount,
+  ruleChecks = emptyRuleCheckContext,
   teamCount,
 }: {
   mode?: AddPokemonMode;
@@ -80,6 +100,8 @@ export const AddPokemonSheet = ({
   playLabel: string;
   preset?: AddPokemonPreset | null;
   reserveCount: number;
+  /* What the Play's rules check, to warn about a pick before it's added. */
+  ruleChecks?: RuleCheckContext;
   teamCount: number;
 }) => {
   const router = useRouter();
@@ -90,6 +112,7 @@ export const AddPokemonSheet = ({
   const [presetMissing, setPresetMissing] = useState(false);
   const [query, setQuery] = useState("");
   const [shownCount, setShownCount] = useState(choiceBatchSize);
+  const [rulesOnly, setRulesOnly] = useState(false);
   const [picked, setPicked] = useState<PokemonChoice | null>(null);
   const [nickname, setNickname] = useState("");
   const [level, setLevel] = useState("");
@@ -274,8 +297,20 @@ export const AddPokemonSheet = ({
     />
   );
 
+  /*
+   * The rules a Pokémon would break as it stands. Its nickname is chosen in
+   * the next step, so Nickname everything waits for it.
+   */
+  const getBrokenRules = (choice: PokemonChoice) =>
+    checkPokemonRules(toChoiceRuleCheck(choice, null), ruleChecks)
+      .filter((warning) => warning.ruleKind !== "nickname_everything")
+      .map((warning) => warning.ruleName);
+
   const stepOne = (
     <AddPokemonChoiceStep
+      getBrokenRules={getBrokenRules}
+      rulesOnly={rulesOnly}
+      onRulesOnlyChange={setRulesOnly}
       loadState={loadState}
       onPick={setPicked}
       onRetry={() => setLoadState({ status: "idle" })}
@@ -287,6 +322,13 @@ export const AddPokemonSheet = ({
       shownCount={shownCount}
     />
   );
+
+  const warnings = picked
+    ? checkPokemonRules(
+        toChoiceRuleCheck(picked, nickname.trim() || null),
+        ruleChecks,
+      ).map((warning) => ({ ...warning, key: warning.ruleId }))
+    : [];
 
   const stepTwo = picked ? (
     <AddPokemonDetailsStep
@@ -303,6 +345,7 @@ export const AddPokemonSheet = ({
       replacesName={isReplace ? mode.name : null}
       reserveIsFull={reserveIsFull}
       teamCount={teamCount}
+      warnings={warnings}
     />
   ) : null;
 

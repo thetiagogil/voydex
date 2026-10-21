@@ -48,6 +48,11 @@ type PokemonStickerProps = {
   /* A small slot number in the top-left corner. */
   slotLabel?: string;
   /*
+   * An amber warning mark in the top-right corner, such as a Play's rule it
+   * breaks; the words are read, not seen. The shiny mark steps left of it.
+   */
+  warning?: string;
+  /*
    * A line under the name, such as how many Plays it is in. Leave it out for
    * no line; `null` keeps the line empty so a grid's names line up.
    */
@@ -123,6 +128,7 @@ export const PokemonSticker = ({
   subtitle,
   types,
   variant = "default",
+  warning,
 }: PokemonStickerProps) => {
   const variantClassName = variantClassNames[variant];
   const primaryType = types.find((type) => isPokemonTypeSlug(type.slug));
@@ -141,19 +147,9 @@ export const PokemonSticker = ({
   const content: ReactNode = (
     <>
       {slotLabel ? (
-        <span className="text-ink-tint text-12 absolute top-2.5 left-3 font-extrabold tabular-nums">
+        <span className="text-ink-tint text-12 absolute top-2 left-3 flex h-7 items-center font-extrabold tabular-nums">
           {slotLabel}
         </span>
-      ) : null}
-      {shiny ? (
-        <>
-          <AppIcon
-            icon={appIcons.product.shiny}
-            size="md"
-            className="type-ink absolute top-2.5 right-2.5"
-          />
-          <span className="sr-only">Shiny</span>
-        </>
       ) : null}
       <span
         className={cn(
@@ -201,6 +197,31 @@ export const PokemonSticker = ({
           />
         ) : null}
       </span>
+      {/*
+        The corner marks, last so their words follow the name: shiny, then
+        the warning. Both top corners share one 28px line, so the slot number
+        and the marks sit level.
+      */}
+      {shiny || warning ? (
+        <span className="absolute top-2 right-2 flex h-7 items-center gap-1.5">
+          {shiny ? (
+            <>
+              <AppIcon
+                icon={appIcons.product.shiny}
+                size="md"
+                className={cn("type-ink", !warning && "mr-1")}
+              />
+              <span className="sr-only">, Shiny</span>
+            </>
+          ) : null}
+          {warning ? (
+            <span className="bg-warn-soft text-warn-ink grid size-7 place-items-center rounded-full shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]">
+              <AppIcon icon={appIcons.status.warning} size="sm" />
+              <span className="sr-only">, {warning}</span>
+            </span>
+          ) : null}
+        </span>
+      ) : null}
     </>
   );
 
