@@ -66,8 +66,9 @@ type FormOverlayProps = {
  * Mainline's quiet forms (a note, adding or editing a Pokémon in a Play, a
  * Plan's slot): a bottom sheet on phones and tablets, a dialog or side sheet
  * wider. Focus lands on the
- * title, and the footer stays in view while the body scrolls; with a hero or
- * a toolbar, so does everything above the body.
+ * title. Wider, the title (and any hero or toolbar) and the footer stay in
+ * view while the body scrolls; on a phone only a toolbar and the footer do,
+ * as height is tight there.
  */
 export const FormOverlay = ({
   bodyClassName,
@@ -158,7 +159,7 @@ export const FormOverlay = ({
     );
   }
 
-  /* Side sheet and dialog: what sits above the body, pinned or scrolling. */
+  /* Side sheet and dialog: the title (and any hero or toolbar) stays pinned. */
   const content =
     hero || toolbar ? (
       <>
@@ -177,10 +178,18 @@ export const FormOverlay = ({
         </div>
       </>
     ) : (
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6 pt-6 pb-6">
-        {titleBlock}
-        <div className={cn("mt-5", bodyClassName)}>{children}</div>
-      </div>
+      /* Wider screens keep the title in view while only the body scrolls. */
+      <>
+        <div className="shrink-0 px-6 pt-6">{titleBlock}</div>
+        <div
+          className={cn(
+            "min-h-0 flex-1 overflow-y-auto px-6 pt-5 pb-6",
+            bodyClassName,
+          )}
+        >
+          {children}
+        </div>
+      </>
     );
 
   if (presentation === "side") {
