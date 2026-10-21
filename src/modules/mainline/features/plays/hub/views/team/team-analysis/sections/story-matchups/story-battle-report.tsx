@@ -13,6 +13,7 @@ import { PokemonCard } from "@/modules/reference/features/pokemon/components/pok
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { CornerBubble } from "@/shared/components/corner-bubble";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import {
@@ -64,9 +65,14 @@ const BestHit = ({ hit }: { hit: StoryBestHit }) => (
       imageUrl={hit.target.imageUrl}
       typeSlug={hit.target.types[0]?.slug ?? null}
     />
-    <span className="bg-ok-deep text-12 absolute -right-1.5 -bottom-1 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums">
-      {formatMultiplier(hit.multiplier)}
-    </span>
+    <CornerBubble corner="bottom">
+      <span
+        aria-hidden
+        className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
+      >
+        {formatMultiplier(hit.multiplier)}
+      </span>
+    </CornerBubble>
     <span className="sr-only">
       {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
     </span>
