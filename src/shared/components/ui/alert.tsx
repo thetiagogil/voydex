@@ -7,7 +7,7 @@ import { cn } from "@/shared/utils/cn";
  * `.pnote`), the soft amber tint for a warning that blocks nothing (a Play's
  * rule broken), the soft green tint for good news (a Strong matchup), or
  * the soft danger tint with deep red text for an error (v3 `.au-err`). Never
- * a filled banner. Pass another `role` where it isn't an alert.
+ * a filled banner.
  */
 const alertVariants = cva(
   "group/alert text-14 relative grid w-full gap-0.5 rounded-md px-4 py-3 text-left leading-normal font-semibold has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg:not([class*='size-'])]:size-4.5",

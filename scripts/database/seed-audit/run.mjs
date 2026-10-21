@@ -64,6 +64,7 @@ import {
 } from "./rules/pokemon.mjs";
 import {
   assertTerminalStatuses,
+  assertOpponentTeamRows,
   assertTrackingCoreRows,
 } from "./rules/tracking.mjs";
 
@@ -217,6 +218,7 @@ export function runSeedAudit() {
     assertPokemonFormItemRequirementRows(context, tableRows);
     assertPokemonAttributeRows(context, tableRows);
     assertTrackingCoreRows(context, tableRows);
+    assertOpponentTeamRows(context, tableRows);
     assertTerminalStatuses(
       context,
       tableRows.get("gameplay.mainline_play_statuses") ?? [],

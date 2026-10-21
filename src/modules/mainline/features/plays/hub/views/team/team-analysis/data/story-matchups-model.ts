@@ -141,12 +141,21 @@ export type StoryMatchupsModel = {
   wonCount: number;
 };
 
-/* The battles Story matchups reads (v3: every Gym Leader and the Champion). */
+/*
+ * The battles Story matchups reads: v3's Gym Leaders and Champion, and every
+ * other fight the Story names (rivals, bosses, Legends' nobles, titans).
+ */
 const battleKinds: Record<string, string> = {
+  boss: "Boss",
   champion: "Champion",
   "elite-four": "Elite Four",
   "gym-leader": "Gym Leader",
   kahuna: "Kahuna",
+  noble: "Noble",
+  rival: "Rival",
+  "team-star-boss": "Team Star boss",
+  titan: "Titan",
+  "trial-captain": "Trial captain",
 };
 
 type OpponentRef = {

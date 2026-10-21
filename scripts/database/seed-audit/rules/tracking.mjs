@@ -704,3 +704,155 @@ export function assertTrackingCoreRows(context, tableRows) {
     }
   }
 }
+
+/*
+ * Opponent teams: each row belongs to a seeded opponent in its version group,
+ * names a seeded form and level, and each team (one per game, choice or
+ * variant) fills slots 1..n. An opponent's teams are either one plain team
+ * or teams that each follow a choice or variant; teams that follow a choice
+ * cover every option of it.
+ */
+export function assertOpponentTeamRows(context, tableRows) {
+  const table = "tracking.mainline_opponent_team_members";
+  const rows = tableRows.get(table) ?? [];
+  const opponentsById = mapRowsByColumn(
+    tableRows.get("tracking.mainline_opponents") ?? [],
+    "id",
+  );
+  const milestonesById = mapRowsByColumn(
+    tableRows.get("tracking.mainline_milestones") ?? [],
+    "id",
+  );
+  const formKeys = new Set(
+    (tableRows.get("reference.pokemon_forms") ?? []).map(
+      ({ row }) => `${row.species_id}/${row.id}`,
+    ),
+  );
+  const gameScopeKeys = new Set(
+    (tableRows.get("reference.game_content_scopes") ?? []).map(
+      ({ row }) => `${row.game_id}/${row.version_group_id}`,
+    ),
+  );
+  const optionSlugsByMilestone = new Map();
+  for (const { row } of tableRows.get(
+    "tracking.mainline_milestone_decision_options",
+  ) ?? []) {
+    if (!optionSlugsByMilestone.has(row.milestone_id)) {
+      optionSlugsByMilestone.set(row.milestone_id, new Set());
+    }
+    optionSlugsByMilestone.get(row.milestone_id).add(row.slug);
+  }
+  const teamKey = (row) =>
+    [
+      row.opponent_id,
+      row.game_id ?? "",
+      row.decision_milestone_id ?? "",
+      row.decision_option_slug ?? "",
+      row.variant_slug ?? "",
+    ].join("/");
+  addCompositeDuplicateErrors(
+    context,
+    table,
+    rows,
+    "opponent/game/choice/variant/slot",
+    (row) => `${teamKey(row)}/${row.slot}`,
+  );
+
+  const slotsByTeam = new Map();
+  const teamsByOpponentGame = new Map();
+  for (const { row, filePath } of rows) {
+    const label = `${relative(filePath)}: ${table} row ${teamKey(row)}/${row.slot}`;
+    const opponent = opponentsById.get(row.opponent_id);
+    if (!opponent) {
+      context.errors.push(`${label} references unseeded opponent_id.`);
+    } else if (opponent.version_group_id !== row.version_group_id) {
+      context.errors.push(
+        `${label} names version_group_id ${row.version_group_id}, not its opponent's ${opponent.version_group_id}.`,
+      );
+    } else if (row.game_id !== null && opponent.game_id !== null) {
+      context.errors.push(
+        `${label} names a game for an opponent that already belongs to one.`,
+      );
+    }
+    if (
+      row.game_id !== null &&
+      !gameScopeKeys.has(`${row.game_id}/${row.version_group_id}`)
+    ) {
+      context.errors.push(
+        `${label} references game_id ${row.game_id} outside version_group_id ${row.version_group_id}.`,
+      );
+    }
+    if (!formKeys.has(`${row.species_id}/${row.form_id}`)) {
+      context.errors.push(
+        `${label} references unseeded form ${row.species_id}/${row.form_id}.`,
+      );
+    }
+    if (!(row.level >= 1 && row.level <= 100)) {
+      context.errors.push(`${label} has level ${row.level} outside 1-100.`);
+    }
+    if (row.decision_milestone_id !== null) {
+      const milestone = milestonesById.get(row.decision_milestone_id);
+      if (
+        !optionSlugsByMilestone
+          .get(row.decision_milestone_id)
+          ?.has(row.decision_option_slug)
+      ) {
+        context.errors.push(
+          `${label} references unseeded decision option ${row.decision_milestone_id}/${row.decision_option_slug}.`,
+        );
+      } else if (milestone?.version_group_id !== row.version_group_id) {
+        context.errors.push(
+          `${label} follows a choice from another version group.`,
+        );
+      }
+    }
+    const key = teamKey(row);
+    if (!slotsByTeam.has(key)) slotsByTeam.set(key, { filePath, slots: [] });
+    slotsByTeam.get(key).slots.push(row.slot);
+    const opponentGameKey = `${row.opponent_id}/${row.game_id ?? ""}`;
+    if (!teamsByOpponentGame.has(opponentGameKey)) {
+      teamsByOpponentGame.set(opponentGameKey, { filePath, teams: new Map() });
+    }
+    teamsByOpponentGame.get(opponentGameKey).teams.set(key, row);
+  }
+
+  for (const [key, { filePath, slots }] of slotsByTeam) {
+    const sorted = [...slots].sort((left, right) => left - right);
+    if (sorted.some((slot, index) => slot !== index + 1)) {
+      context.errors.push(
+        `${relative(filePath)}: ${table} team ${key} must fill slots 1..${sorted.length} without gaps.`,
+      );
+    }
+  }
+  for (const [key, { filePath, teams }] of teamsByOpponentGame) {
+    const teamRows = [...teams.values()];
+    const plainCount = teamRows.filter(
+      (row) => row.decision_milestone_id === null && row.variant_slug === null,
+    ).length;
+    if (plainCount > 0 && teamRows.length > 1) {
+      context.errors.push(
+        `${relative(filePath)}: ${table} opponent ${key} mixes a plain team with choice or variant teams.`,
+      );
+    }
+    const choiceMilestones = new Set(
+      teamRows.flatMap((row) =>
+        row.decision_milestone_id === null ? [] : [row.decision_milestone_id],
+      ),
+    );
+    for (const milestoneId of choiceMilestones) {
+      const covered = new Set(
+        teamRows
+          .filter((row) => row.decision_milestone_id === milestoneId)
+          .map((row) => row.decision_option_slug),
+      );
+      const missing = [...(optionSlugsByMilestone.get(milestoneId) ?? [])]
+        .filter((slug) => !covered.has(slug))
+        .sort();
+      if (missing.length) {
+        context.errors.push(
+          `${relative(filePath)}: ${table} opponent ${key} follows milestone ${milestoneId} but has no team for ${missing.join(", ")}.`,
+        );
+      }
+    }
+  }
+}

@@ -152,7 +152,7 @@ export const StoryBattleReport = ({
 
       {isWon ? null : reading?.state ? (
         <Alert
-          role="note"
+          role="status"
           variant={matchupStates[reading.state].alert}
           className="mt-5"
         >

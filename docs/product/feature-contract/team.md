@@ -145,10 +145,24 @@ can define a reliable and explainable review model; do not replace its
 unresolved strategy with invented matchup, balance, coverage, role, damage, or
 competitive claims. Its Overall reading covers defensive matchups and recorded
 damaging-move coverage. **Story matchups** (`?reading=story`) lists the
-Play's Gym Leader and Champion battles by chapter: a battle won keeps who you
-faced and the team saved with it; a battle ahead reads your active team
-against the opponent's specialty type. The verdict, their team and the level
-comparison wait for opponent party data.
+Play's Story battles by chapter. A battle won keeps who you faced, their team
+and the team saved with it, and reads nothing. A battle ahead reads your
+active team against their first-battle team
+(`tracking.mainline_opponent_team_members`) by types, recorded damaging moves
+and levels, following v3: each of your Pokémon is Advantage (an answer and
+no 2× weakness), At risk (a 2× weakness and no answer), Even, or Not recorded
+(no types or no damaging moves); its best hit is its strongest move against
+any of them. The battle reads **Challenging** when fewer than 60% of their
+Pokémon have an answer, three or more of yours are at risk, or their ace is 8
+or more levels above your best; **Strong** when every one of theirs has an
+answer, at most one of yours is at risk, one answers without a 2× weakness,
+and their ace is at most 3 levels above; **Balanced** otherwise. One sentence
+names your answers and the thing that matters most against you. A team that
+depends on a recorded choice (usually the starter) follows the Play's
+choice; while it isn't recorded the report reads the first and says so.
+Their moves aren't in Voydex, so their threat is read from their types.
+Games without their teams keep the specialty reading and an honest
+placeholder.
 
 There is no separate Team History. Team events (additions, evolutions, form
 changes, replacements, retirements, removals and returns) are History's Team

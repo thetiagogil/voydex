@@ -87,11 +87,12 @@ describe("buildStoryMatchupsModel", () => {
   });
   const battles = model.chapters.flatMap((chapter) => chapter.battles);
 
-  it("lists Story battles only, with the other version's leader left out", () => {
-    expect(battles.map((battle) => battle.name)).toEqual([
-      "Milo",
-      "Kabu",
-      "Allister",
+  it("lists Story battles, rivals included, with the other version's leader left out", () => {
+    expect(battles.map((battle) => [battle.name, battle.kind])).toEqual([
+      ["Milo", "Gym Leader"],
+      ["Kabu", "Gym Leader"],
+      ["Allister", "Gym Leader"],
+      ["Hop", "Rival"],
     ]);
   });
 
@@ -100,9 +101,10 @@ describe("buildStoryMatchupsModel", () => {
       "won",
       "next",
       "ahead",
+      "ahead",
     ]);
     expect(model).toMatchObject({
-      battleCount: 3,
+      battleCount: 4,
       defaultBattleId: 2,
       wonCount: 1,
     });

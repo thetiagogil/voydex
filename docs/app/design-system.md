@@ -296,7 +296,8 @@ somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`),
 `Alert` (a quiet note in a page, form or sheet, never a filled banner:
 `default` the inset fill, `warning` the soft amber for something that blocks
-nothing, such as a Play's rule broken, `destructive` the soft danger tint for
+nothing, such as a Play's rule broken, `success` the soft green for good
+news, such as a Strong Story matchup, `destructive` the soft danger tint for
 an error; a note that only informs takes `role="status"`), `Dialog`,
 `Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
