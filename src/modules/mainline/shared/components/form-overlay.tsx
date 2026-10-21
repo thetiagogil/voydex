@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 
 import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
@@ -85,6 +85,7 @@ export const FormOverlay = ({
   toolbar,
 }: FormOverlayProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const usesBottomSheet = useBottomSheetLayout();
   const isSheet = usesBottomSheet || presentation === "side";
   const Title = isSheet ? SheetTitle : DialogTitle;
@@ -180,10 +181,19 @@ export const FormOverlay = ({
     ) : (
       /* Wider screens keep the title in view while only the body scrolls. */
       <>
-        <div className="shrink-0 px-6 pt-6">{titleBlock}</div>
+        {/* Once the body scrolls, a hairline under the title, as over the footer. */}
         <div
           className={cn(
-            "min-h-0 flex-1 overflow-y-auto px-6 pt-5 pb-6",
+            "shrink-0 border-b px-6 pt-6 pb-4 transition-colors",
+            isScrolled ? "border-line" : "border-transparent",
+          )}
+        >
+          {titleBlock}
+        </div>
+        <div
+          onScroll={(event) => setIsScrolled(event.currentTarget.scrollTop > 0)}
+          className={cn(
+            "min-h-0 flex-1 overflow-y-auto px-6 pt-1 pb-6",
             bodyClassName,
           )}
         >
