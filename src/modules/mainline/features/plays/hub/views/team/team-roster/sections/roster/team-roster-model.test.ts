@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
 
 import {
   formatTeamRosterSummary,
@@ -8,6 +9,7 @@ import {
   getTeamRosterSlots,
   getTeamRosterSheetKeys,
   getTeamRosterSummary,
+  getTeamRuleWarnings,
 } from "./team-roster-model";
 
 const buildMember = (
@@ -129,5 +131,66 @@ describe("getTeamRosterSheetKeys", () => {
     expect(getTeamRosterSheetKeys("a", { kind: "add" }).picker).toBe(
       getTeamRosterSheetKeys("b", { kind: "add" }).picker,
     );
+  });
+});
+
+describe("getTeamRuleWarnings", () => {
+  const member = (
+    id: string,
+    rosterState: "active" | "reserve" | "retired",
+    slot: number | null,
+    nickname: string | null,
+  ) =>
+    ({
+      form_id: 25,
+      is_shiny: false,
+      nickname,
+      play_pokemon_id: id,
+      primaryType: null,
+      roster_state_slug: rosterState,
+      secondaryType: null,
+      slot,
+      species_id: 25,
+      species_name: "Pikachu",
+    }) as MainlinePlayTeamMember;
+  const context = {
+    ...emptyRuleCheckContext,
+    rules: [
+      {
+        id: "nickname",
+        kind: "nickname_everything" as const,
+        name: "Nickname everything",
+      },
+    ],
+  };
+
+  it("checks the team then the reserve, in slot order, and leaves past Pokémon out", () => {
+    const warnings = getTeamRuleWarnings(
+      [
+        member("reserve", "reserve", 7, null),
+        member("second", "active", 2, null),
+        member("named", "active", 1, "Sparky"),
+        member("retired", "retired", null, null),
+      ],
+      context,
+    );
+
+    expect(warnings.map((warning) => warning.key)).toEqual([
+      "second:nickname",
+      "reserve:nickname",
+    ]);
+    expect(warnings[0]).toMatchObject({
+      ruleName: "Nickname everything",
+      text: "Pikachu has no nickname.",
+    });
+  });
+
+  it("says nothing when the Play checks no rules", () => {
+    expect(
+      getTeamRuleWarnings(
+        [member("second", "active", 2, null)],
+        emptyRuleCheckContext,
+      ),
+    ).toEqual([]);
   });
 });

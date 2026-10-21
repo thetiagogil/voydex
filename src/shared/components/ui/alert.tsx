@@ -4,7 +4,8 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * A note inside a form or a sheet: the inset fill with ink-2 text (v3
- * `.pnote`), or the soft danger tint with deep red text for an error (v3
+ * `.pnote`), the soft amber tint for a warning that blocks nothing (a Play's
+ * rule broken), or the soft danger tint with deep red text for an error (v3
  * `.au-err`). Never a filled banner.
  */
 const alertVariants = cva(
@@ -13,6 +14,7 @@ const alertVariants = cva(
     variants: {
       variant: {
         default: "bg-surface-2 text-ink-2 *:[svg]:text-ink-3",
+        warning: "bg-warn-soft text-warn-ink *:[svg]:text-warn-ink",
         destructive: "bg-danger-soft text-danger-deep *:[svg]:text-danger",
       },
     },

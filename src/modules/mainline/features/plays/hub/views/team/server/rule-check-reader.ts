@@ -1,0 +1,157 @@
+import { readMainlinePlayRuleRows } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
+import {
+  buildCheckedRules,
+  type RuleCheckContext,
+  type UsedPokemon,
+} from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
+import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
+import { uniqueNumberIds } from "@/shared/utils/collections";
+
+/* Legendary and Mythical species, for No legendaries. */
+const readLegendarySpecies = async (supabase: ServerSupabaseClient) => {
+  const result = await supabase
+    .schema("reference")
+    .from("pokemon_species")
+    .select("id, is_legendary, is_mythical")
+    .or("is_legendary.eq.true,is_mythical.eq.true");
+
+  if (result.error) {
+    throw new Error("Unable to load legendary Pokémon.");
+  }
+
+  return Object.fromEntries(
+    (result.data ?? []).map((species) => [
+      species.id,
+      species.is_mythical ? ("Mythical" as const) : ("Legendary" as const),
+    ]),
+  );
+};
+
+/*
+ * The Pokémon of your Plays started before this one, for No Pokémon reuse:
+ * a later Play reuses an earlier one's Pokémon, never the other way round.
+ */
+const readUsedElsewhere = async (
+  supabase: ServerSupabaseClient,
+  play: MainlinePlaySummary,
+  userId: string,
+) => {
+  if (!play.play_id || !play.created_at) return { families: [], used: [] };
+
+  const playsResult = await supabase
+    .schema("gameplay")
+    .from("mainline_plays")
+    .select("id, name")
+    .eq("user_id", userId)
+    .neq("id", play.play_id)
+    .lt("created_at", play.created_at);
+
+  if (playsResult.error) {
+    throw new Error("Unable to load your earlier Plays.");
+  }
+
+  const plays = playsResult.data ?? [];
+
+  if (!plays.length) return { families: [], used: [] };
+
+  const playNameById = new Map(plays.map((row) => [row.id, row.name]));
+  const rows = await loadPagedReferenceRows<{
+    evolution_family_id: number | null;
+    form_id: number | null;
+    play_id: string | null;
+    species_id: number | null;
+    species_name: string | null;
+  }>(
+    (from, to) =>
+      supabase
+        .schema("views")
+        .from("mainline_play_team_detail")
+        .select(
+          "evolution_family_id, form_id, play_id, species_id, species_name",
+        )
+        .in(
+          "play_id",
+          plays.map((row) => row.id),
+        )
+        .order("play_id", { ascending: true })
+        .order("play_pokemon_id", { ascending: true })
+        .range(from, to),
+    "Unable to load your earlier Plays' Pokémon.",
+  );
+
+  return {
+    families: uniqueNumberIds(rows.map((row) => row.evolution_family_id)),
+    used: rows.flatMap((row): UsedPokemon[] =>
+      row.form_id && row.species_id && row.play_id
+        ? [
+            {
+              formId: row.form_id,
+              playName: playNameById.get(row.play_id) ?? "another Play",
+              speciesId: row.species_id,
+              speciesName: row.species_name ?? "a Pokémon",
+            },
+          ]
+        : [],
+    ),
+  };
+};
+
+/* Every species of the given evolution families, by family. */
+const readFamilyBySpecies = async (
+  supabase: ServerSupabaseClient,
+  familyIds: number[],
+) => {
+  if (!familyIds.length) return {};
+
+  const result = await supabase
+    .schema("reference")
+    .from("pokemon_species")
+    .select("id, evolution_family_id")
+    .in("evolution_family_id", familyIds);
+
+  if (result.error) {
+    throw new Error("Unable to load evolution families.");
+  }
+
+  return Object.fromEntries(
+    (result.data ?? []).map((species) => [
+      species.id,
+      species.evolution_family_id,
+    ]),
+  );
+};
+
+/*
+ * What the Play's checked rules read, and only what they need: the
+ * legendary list for No legendaries, earlier Plays' Pokémon (and, by
+ * family, their whole lines) for No Pokémon reuse.
+ */
+export const readPlayRuleCheckContext = async (
+  supabase: ServerSupabaseClient,
+  play: MainlinePlaySummary,
+  userId: string,
+): Promise<RuleCheckContext> => {
+  const rules = play.play_id
+    ? buildCheckedRules(await readMainlinePlayRuleRows(supabase, play.play_id))
+    : [];
+  const reuse = rules.find((rule) => rule.kind === "no_pokemon_reuse");
+  const [legendaryBySpecies, usedElsewhere] = await Promise.all([
+    rules.some((rule) => rule.kind === "no_legendaries")
+      ? readLegendarySpecies(supabase)
+      : {},
+    reuse ? readUsedElsewhere(supabase, play, userId) : null,
+  ]);
+  const familyBySpecies =
+    reuse?.scope === "evolution_family" && usedElsewhere
+      ? await readFamilyBySpecies(supabase, usedElsewhere.families)
+      : {};
+
+  return {
+    familyBySpecies,
+    legendaryBySpecies,
+    rules,
+    usedElsewhere: usedElsewhere?.used ?? [],
+  };
+};

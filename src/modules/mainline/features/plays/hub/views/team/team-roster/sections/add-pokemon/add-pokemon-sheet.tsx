@@ -11,6 +11,11 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import {
+  checkPokemonRules,
+  emptyRuleCheckContext,
+  type RuleCheckContext,
+} from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -68,6 +73,7 @@ export const AddPokemonSheet = ({
   playLabel,
   preset = null,
   reserveCount,
+  ruleChecks = emptyRuleCheckContext,
   teamCount,
 }: {
   mode?: AddPokemonMode;
@@ -80,6 +86,8 @@ export const AddPokemonSheet = ({
   playLabel: string;
   preset?: AddPokemonPreset | null;
   reserveCount: number;
+  /* What the Play's rules check, to warn about a pick before it's added. */
+  ruleChecks?: RuleCheckContext;
   teamCount: number;
 }) => {
   const router = useRouter();
@@ -288,6 +296,20 @@ export const AddPokemonSheet = ({
     />
   );
 
+  const warnings = picked
+    ? checkPokemonRules(
+        {
+          formId: picked.formId,
+          isShiny: null,
+          name: picked.speciesName,
+          nickname: nickname.trim() || null,
+          speciesId: picked.speciesId,
+          typeIds: getPokemonChoiceTypes(picked).map((type) => type.id),
+        },
+        ruleChecks,
+      ).map((warning) => ({ ...warning, key: warning.ruleId }))
+    : [];
+
   const stepTwo = picked ? (
     <AddPokemonDetailsStep
       error={error}
@@ -303,6 +325,7 @@ export const AddPokemonSheet = ({
       replacesName={isReplace ? mode.name : null}
       reserveIsFull={reserveIsFull}
       teamCount={teamCount}
+      warnings={warnings}
     />
   ) : null;
 

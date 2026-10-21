@@ -24,7 +24,9 @@ import {
   getDefaultTeamMember,
   getTeamRosterSheetKeys,
   getTeamRosterSummary,
+  getTeamRuleWarnings,
 } from "./sections/roster/team-roster-model";
+import { RuleWarningsNote } from "./sections/roster/rule-warnings-note";
 import { TeamRosterSection } from "./sections/roster/team-roster-section";
 import {
   TeamMemberDetail,
@@ -121,6 +123,10 @@ export const MainlinePlayTeamRoster = ({
         summary={formatTeamRosterSummary(summary)}
       />
 
+      <RuleWarningsNote
+        warnings={getTeamRuleWarnings(roster, data.ruleChecks)}
+      />
+
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         <TeamRosterSection
           roster={roster}
@@ -188,6 +194,7 @@ export const MainlinePlayTeamRoster = ({
         playLabel={playLabel}
         preset={pickerMode.kind === "add" ? (addRequest?.preset ?? null) : null}
         reserveCount={summary.reserveCount}
+        ruleChecks={data.ruleChecks}
         teamCount={summary.activeCount}
       />
     </div>

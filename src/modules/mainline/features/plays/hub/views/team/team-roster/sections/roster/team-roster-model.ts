@@ -1,5 +1,11 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
+  checkPokemonRules,
+  type RuleCheckContext,
+  type RuleCheckPokemon,
+} from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
   getPlayTeamSlots,
   playTeamSize,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
@@ -108,3 +114,41 @@ export const getTeamRosterSheetKeys = (
       ? `replace-${pickerMode.playPokemonId}`
       : "add",
 });
+
+/* A team member as the Play's rule checks read it. */
+export const toRuleCheckPokemon = (
+  member: MainlinePlayTeamMember,
+): RuleCheckPokemon | null =>
+  member.form_id && member.species_id
+    ? {
+        formId: member.form_id,
+        isShiny: member.is_shiny,
+        name: getPlayTeamMemberName(member),
+        nickname: member.nickname,
+        speciesId: member.species_id,
+        typeIds: [member.primaryType?.id, member.secondaryType?.id].filter(
+          (typeId): typeId is number => typeId !== undefined,
+        ),
+      }
+    : null;
+
+/*
+ * What the Play's rules say about the Pokémon you have now, the team then
+ * the reserve, each in slot order. Retired and replaced Pokémon are past.
+ */
+export const getTeamRuleWarnings = (
+  roster: MainlinePlayTeamMember[],
+  context: RuleCheckContext,
+) =>
+  (["active", "reserve"] as const).flatMap((group) =>
+    getTeamRosterSlots(roster, group).flatMap(({ member }) => {
+      const pokemon = member ? toRuleCheckPokemon(member) : null;
+
+      return pokemon
+        ? checkPokemonRules(pokemon, context).map((warning) => ({
+            ...warning,
+            key: `${member?.play_pokemon_id}:${warning.ruleId}`,
+          }))
+        : [];
+    }),
+  );

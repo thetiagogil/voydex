@@ -38,6 +38,7 @@ import {
   readMainlinePlayFollowablePlans,
   readMainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
+import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/server/rule-check-reader";
 import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
 import { readMainlinePlayStoryMatchupRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
 import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/team-analysis-reader";
@@ -185,15 +186,19 @@ export const getMainlinePlayTeamRosterData = cache(
       return null;
     }
 
-    const teamRows = await readMainlinePlayTeamRows(
-      context.supabase,
-      playId,
-      context.play.generation_id,
-      context.play.version_group_id,
-    );
+    const [teamRows, ruleChecks] = await Promise.all([
+      readMainlinePlayTeamRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+        context.play.version_group_id,
+      ),
+      readPlayRuleCheckContext(context.supabase, context.play, context.userId),
+    ]);
 
     return buildMainlinePlayTeamRosterData({
       play: context.play,
+      ruleChecks,
       teamRows,
     });
   },
