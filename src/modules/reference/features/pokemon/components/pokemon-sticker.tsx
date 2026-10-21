@@ -175,6 +175,7 @@ export const PokemonSticker = ({
     <>
       {number && !warning ? (
         <CornerBubble
+          border="sticker"
           corner="inside-top-left"
           className="text-ink-tint text-12 h-6 font-extrabold tabular-nums"
         >
@@ -233,17 +234,18 @@ export const PokemonSticker = ({
         by the art's lower corner.
       */}
       {warning ? (
-        <CornerBubble corner="inside-top-left">
+        <CornerBubble border="sticker" corner="inside-top-left">
           <WarningMark label={warning} />
         </CornerBubble>
       ) : null}
       {slot ? (
-        <CornerBubble corner="inside-top-right">
+        <CornerBubble border="sticker" corner="inside-top-right">
           <SlotMark>{slot}</SlotMark>
         </CornerBubble>
       ) : null}
       {shiny ? (
         <CornerBubble
+          border="sticker"
           corner="inside-right"
           className={variantClassName.shinyTop}
         >

@@ -123,10 +123,12 @@ const paddingClassNames: Record<
  * so this is the number a team's card would carry there.
  */
 const PokemonCardMark = ({
+  border,
   className,
   iconClassName,
   state,
 }: {
+  border: "line" | "sticker";
   className: string;
   iconClassName: string;
   state: "caught" | "seen";
@@ -134,7 +136,11 @@ const PokemonCardMark = ({
   const isCaught = state === "caught";
 
   return (
-    <CornerBubble corner="inside-top-right" className="pointer-events-none">
+    <CornerBubble
+      border={border}
+      corner="inside-top-right"
+      className="pointer-events-none"
+    >
       <span
         role="img"
         aria-label={isCaught ? "Caught" : "Seen"}
@@ -223,6 +229,7 @@ export const PokemonCard = ({
       </span>
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark
+          border={state === "caught" || isSticker ? "sticker" : "line"}
           state={state}
           className={sizes.mark}
           iconClassName={sizes.markIcon}

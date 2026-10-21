@@ -11,22 +11,55 @@ export type CornerBubbleCorner =
   | "top-left"
   | "top-right";
 
-const cornerClassNames: Record<CornerBubbleCorner, string> = {
+/*
+ * A mark sits 12px in from its card's outer edge, whatever border the card
+ * draws: `none` when the bubble is a sibling of the card (a list item
+ * around it), `line` inside a card with a 1px border, `sticker` inside a
+ * sticker's 4px band. The position is measured from inside the border, so the
+ * band is taken off.
+ */
+export type CornerBubbleBorder = "line" | "none" | "sticker";
+
+const insetClassNames: Record<
+  CornerBubbleBorder,
+  { left: string; right: string; top: string }
+> = {
+  line: { left: "left-2.75", right: "right-2.75", top: "top-2.75" },
+  none: { left: "left-3", right: "right-3", top: "top-3" },
+  sticker: { left: "left-2", right: "right-2", top: "top-2" },
+};
+
+const cornerClassNames: Record<
+  Exclude<CornerBubbleCorner, `inside-${string}`>,
+  string
+> = {
   /* Centred on the bottom edge, half outside: a number tab. */
   bottom: "-bottom-2.5 left-1/2 -translate-x-1/2",
-  /*
-   * On the same right edge as the slot number, for a mark that sits lower
-   * (the shiny mark by the art): the caller sets how far down with `top-*`.
-   */
-  "inside-right": "right-2",
-  /*
-   * Inside a top corner, for a card whose list clips its edges: 8px in, clear
-   * of a sticker's 4px band, so it never touches the edge.
-   */
-  "inside-top-left": "top-2 left-2",
-  "inside-top-right": "top-2 right-2",
   "top-left": "-top-2 -left-2",
   "top-right": "-top-2 -right-2",
+};
+
+const getCornerClassName = (
+  corner: CornerBubbleCorner,
+  border: CornerBubbleBorder,
+) => {
+  const inset = insetClassNames[border];
+
+  /*
+   * Inside a card, clear of its edge so a list that clips never cuts it.
+   * `inside-right` is on the slot number's right edge, for a mark that sits
+   * lower (the shiny mark by the art): the caller sets `top-*`.
+   */
+  switch (corner) {
+    case "inside-right":
+      return inset.right;
+    case "inside-top-left":
+      return `${inset.top} ${inset.left}`;
+    case "inside-top-right":
+      return `${inset.top} ${inset.right}`;
+    default:
+      return cornerClassNames[corner];
+  }
 };
 
 /*
@@ -36,10 +69,12 @@ const cornerClassNames: Record<CornerBubbleCorner, string> = {
  * The card is the positioning context (`relative`).
  */
 export const CornerBubble = ({
+  border = "none",
   children,
   className,
   corner = "top-right",
 }: {
+  border?: CornerBubbleBorder;
   children: ReactNode;
   className?: string;
   corner?: CornerBubbleCorner;
@@ -48,7 +83,7 @@ export const CornerBubble = ({
     data-corner={corner}
     className={cn(
       "absolute z-20 flex items-center gap-1",
-      cornerClassNames[corner],
+      getCornerClassName(corner, border),
       className,
     )}
   >

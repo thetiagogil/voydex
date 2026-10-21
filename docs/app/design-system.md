@@ -228,7 +228,7 @@ on a hard lip, a press that moves, a gradient fill or glass.
   with the art's lower corner (chosen 2026-10-21). A Pokédex card has no slot, so its Play state mark (a
   Poké Ball or an eye) takes the top-right, sized to its card. Every mark is a
   disc in the one `bubble` white band (24px; the Pokédex number is plain
-  text), inside the card (`inside-top-*`, 8px in) so a list
+  text), inside the card (`inside-top-*`, 12px in from the card's outer edge whatever its border, set with `CornerBubble`'s `border`) so a list
   that clips its edges never cuts it and the card lifts with it. Never place
   a mark by hand: `npm run design:check` fails a Pokémon card file that does.
 - **Focus rings are never cut off**: the one `focus-ring` lifts the focused
