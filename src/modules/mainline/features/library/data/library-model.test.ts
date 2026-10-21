@@ -9,6 +9,7 @@ import {
   getLibraryDeleteNote,
   getLibraryUsageLabel,
   parseLibraryTab,
+  toPresetFilters,
   toTagFilters,
 } from "./library-model";
 
@@ -97,43 +98,27 @@ describe("filterAndSortLibrary", () => {
     ).toEqual(["Level caps", "No items"]);
   });
 
-  it("narrows rules to Voydex's or yours", () => {
+  it("leaves tags out of kind, and presets out of kind and order", () => {
+    expect(toTagFilters({ ...defaultLibraryFilters, kind: "custom" })).toEqual(
+      defaultLibraryFilters,
+    );
     expect(
-      filterAndSortLibrary(rules, {
-        ...defaultLibraryFilters,
-        maker: "voydex",
-      }).map(({ name }) => name),
-    ).toEqual(["Level caps"]);
-    expect(
-      filterAndSortLibrary(rules, {
-        ...defaultLibraryFilters,
-        maker: "yours",
-      }).map(({ name }) => name),
-    ).toEqual(["Dupes clause", "No items"]);
-  });
-
-  it("leaves tags out of kind and maker", () => {
-    expect(
-      toTagFilters({
+      toPresetFilters({
         ...defaultLibraryFilters,
         kind: "custom",
-        maker: "voydex",
+        sort: "used",
       }),
     ).toEqual(defaultLibraryFilters);
   });
 
-  it("counts search, kind and maker as filters", () => {
-    expect(
-      hasActiveLibraryFilters({ ...defaultLibraryFilters, maker: "yours" }),
-    ).toBe(true);
+  it("counts search and kind as filters, and only kind on the bar", () => {
     expect(
       countActiveLibraryFilters({
         ...defaultLibraryFilters,
         kind: "custom",
-        maker: "yours",
         query: "x",
       }),
-    ).toBe(2);
+    ).toBe(1);
     expect(
       hasActiveLibraryFilters({ ...defaultLibraryFilters, sort: "used" }),
     ).toBe(false);

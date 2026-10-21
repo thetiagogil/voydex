@@ -7,12 +7,10 @@ import {
   defaultLibraryFilters,
   filterAndSortLibrary,
   hasActiveLibraryFilters,
-  libraryMakerLabels,
   librarySortLabels,
   toPresetFilters,
   toTagFilters,
   type LibraryFilters,
-  type LibraryMaker,
   type LibrarySort,
 } from "@/modules/mainline/features/library/data/library-model";
 import { LibraryPresetsSection } from "@/modules/mainline/features/library/sections/library-presets-section";
@@ -43,8 +41,7 @@ import { SelectControl } from "@/shared/components/select-control";
  * The Library's band (its head, the tabs and, folded under the head's
  * search button, the bar) and the open tab's list: on Rules, the presets
  * then the rules. Rules search by name or
- * kind, narrow by kind and by who made them (Voydex or you) and sort by
- * name or use; tags search and sort.
+ * kind, narrow by kind and sort by name or use; tags search and sort.
  */
 export const LibraryBrowser = ({
   data,
@@ -121,7 +118,7 @@ export const LibraryBrowser = ({
               />
             }
             filters={
-              isRules || isPresets
+              isRules
                 ? (placement) => {
                     const kind = (
                       <SelectControl
@@ -146,52 +143,12 @@ export const LibraryBrowser = ({
                       />
                     );
 
-                    const maker = (
-                      <SelectControl
-                        id={
-                          placement === "line"
-                            ? "library-maker"
-                            : "library-sheet-maker"
-                        }
-                        ariaLabel={`Filter ${noun} by who made them`}
-                        resetValue=""
-                        variant="ghost"
-                        placeholder={libraryMakerLabels[""]}
-                        value={filters.maker}
-                        onValueChange={(value) =>
-                          update({ maker: value as LibraryMaker })
-                        }
-                        options={(
-                          Object.keys(libraryMakerLabels) as LibraryMaker[]
-                        ).map((value) => ({
-                          label: libraryMakerLabels[value],
-                          value,
-                        }))}
-                      />
-                    );
-
                     return placement === "line" ? (
-                      <>
-                        {isRules ? kind : null}
-                        {maker}
-                      </>
+                      kind
                     ) : (
-                      <>
-                        {isRules ? (
-                          <FilterSheetRow
-                            htmlFor="library-sheet-kind"
-                            label="Kind"
-                          >
-                            {kind}
-                          </FilterSheetRow>
-                        ) : null}
-                        <FilterSheetRow
-                          htmlFor="library-sheet-maker"
-                          label="Made by"
-                        >
-                          {maker}
-                        </FilterSheetRow>
-                      </>
+                      <FilterSheetRow htmlFor="library-sheet-kind" label="Kind">
+                        {kind}
+                      </FilterSheetRow>
                     );
                   }
                 : undefined
@@ -255,9 +212,14 @@ export const LibraryBrowser = ({
           action={<ResetListButton onClick={resetList} />}
         />
       ) : isRules ? (
-        <LibraryRulesSection kinds={data.kinds} rules={rules} />
+        <LibraryRulesSection
+          isFiltered={hasActiveFilters}
+          kinds={data.kinds}
+          rules={rules}
+        />
       ) : isPresets ? (
         <LibraryPresetsSection
+          isFiltered={hasActiveFilters}
           kinds={data.kinds}
           presets={presets}
           rules={data.rules}

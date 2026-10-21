@@ -88,19 +88,19 @@ shared Tag from one record does not delete the reusable Tag.
 ## Library
 
 The Library (`/mainline/library`) keeps the rules, presets and tags you
-reuse across Plays, in three tabs:
+reuse across Plays, in three tabs. Rules and Presets each list yours first,
+then Voydex's own under "Made by Voydex" (used in any Play, never changed):
 
-- **Presets** have their own tab, between Rules and Tags, with a search, a
-  Made by filter and New preset as the head's main button: a card per
-  preset with its rules;
-  Voydex's wear a lock. A preset keeps no order (a Play takes all its rules
+- **Presets** have their own tab, between Rules and Tags, with a search and
+  New preset as the head's main button: a card per preset with its rules.
+  A preset keeps no order (a Play takes all its rules
   at once), so its rules always show by kind, then by name. A preset opens
   in full; yours (or New preset) is its name, what
   it's for and its board: the rules in it beside the rules to add. Drag a
   rule across, or use its button (add, take out) on a phone or a keyboard.
   A preset needs at least one rule.
-- **Rules:** a card per rule you can pick, Voydex's own (a lock marked
-  Voydex) and yours, with its kind, what it asks and how many Plays keep it.
+- **Rules:** a card per rule you can pick, yours and Voydex's own, with its
+  kind, what it asks and how many Plays keep it.
   Tapping a card opens the rule in full: its kind and who made it ("Made by
   Voydex" or "Made by you") over its name, everything it asks, the options
   each Play sets for it, and the Plays that keep it as the Team Planner's
@@ -108,7 +108,7 @@ reuse across Plays, in three tabs:
   Voydex's own stays as it is; yours opens with its name, kind and
   description ready to change, Save and Delete. New rule, in the page's
   head, makes one with a name, a kind and an optional description. The bar
-  narrows rules by kind and by who made them (Voydex's or yours).
+  narrows rules by kind.
 - **Tags:** a pill per tag with how many Plays wear it; the pill opens the
   tag in full the same way (its name, the Plays that wear it, Save and
   Delete), and New tag in the head makes one.

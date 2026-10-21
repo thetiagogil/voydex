@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { LibraryVoydexBadge } from "@/modules/mainline/features/library/components/library-voydex-badge";
+import { LibraryOwnerGroups } from "@/modules/mainline/features/library/components/library-owner-groups";
 import { LibraryDeleteDialog } from "@/modules/mainline/features/library/components/library-delete-dialog";
 import { LibraryPresetDetails } from "@/modules/mainline/features/library/components/library-preset-details";
 import {
@@ -17,7 +17,6 @@ import type {
   LibraryRuleKind,
 } from "@/modules/mainline/features/library/types";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
-import { EmptyState } from "@/shared/components/empty-state";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
 
@@ -27,7 +26,7 @@ type PresetDialog =
 
 /*
  * One preset as a card: its name and its rules, by kind.
- * Tapping it opens it in full; Voydex's own wears a lock.
+ * Tapping it opens it in full.
  */
 const PresetCard = ({
   onView,
@@ -44,7 +43,7 @@ const PresetCard = ({
       variant="interactive"
       className="relative h-full gap-2 px-5 py-4 sm:min-h-32"
     >
-      <div className="flex min-h-8 items-center gap-2 pr-24">
+      <div className="flex min-h-8 items-center gap-2">
         <Badge>{`${ruleNames.length} rules`}</Badge>
       </div>
       <h3 className="text-16 text-ink line-clamp-2 font-sans leading-snug font-extrabold tracking-normal">
@@ -62,9 +61,6 @@ const PresetCard = ({
       <p className="text-ink-2 text-14 line-clamp-2 font-semibold">
         {ruleNames.join(" · ")}
       </p>
-      {preset.isBuiltIn ? (
-        <LibraryVoydexBadge className="absolute top-4 right-4" />
-      ) : null}
     </Card>
   </li>
 );
@@ -75,10 +71,13 @@ const PresetCard = ({
  * on a board.
  */
 export const LibraryPresetsSection = ({
+  isFiltered,
   kinds,
   presets,
   rules,
 }: {
+  /* The bar narrows the list: an empty group of yours is left out. */
+  isFiltered: boolean;
   kinds: LibraryRuleKind[];
   presets: RulePreset[];
   /* Every rule you can pick, for names and the board. */
@@ -118,14 +117,12 @@ export const LibraryPresetsSection = ({
 
   return (
     <section aria-label="Presets">
-      {presets.length ? null : (
-        <EmptyState
-          variant="bare"
-          title="No presets yet. New preset makes one."
-        />
-      )}
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {presets.map((preset) => (
+      <LibraryOwnerGroups
+        items={presets}
+        emptyYours={
+          isFiltered ? null : "No presets of yours yet. New preset makes one."
+        }
+        renderItem={(preset) => (
           <PresetCard
             key={preset.id}
             preset={preset}
@@ -134,8 +131,8 @@ export const LibraryPresetsSection = ({
             )}
             onView={() => setDialog({ mode: "view", preset })}
           />
-        ))}
-      </ul>
+        )}
+      />
 
       {dialog?.mode === "view" ? (
         <LibraryPresetDetails

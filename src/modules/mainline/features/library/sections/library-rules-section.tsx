@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { LibraryVoydexBadge } from "@/modules/mainline/features/library/components/library-voydex-badge";
+import { LibraryOwnerGroups } from "@/modules/mainline/features/library/components/library-owner-groups";
 import { LibraryDeleteDialog } from "@/modules/mainline/features/library/components/library-delete-dialog";
 import { LibraryRuleDetails } from "@/modules/mainline/features/library/components/library-rule-details";
 import { getLibraryUsageLabel } from "@/modules/mainline/features/library/data/library-model";
@@ -17,7 +17,6 @@ import type {
   LibraryRuleKind,
 } from "@/modules/mainline/features/library/types";
 import { Badge } from "@/shared/components/ui/badge";
-import { EmptyState } from "@/shared/components/empty-state";
 import { Card } from "@/shared/components/ui/card";
 
 type RuleDialog =
@@ -26,8 +25,7 @@ type RuleDialog =
 
 /*
  * One rule as a card: its kind, its name, what it asks and where it's used.
- * Tapping it opens the rule in full, where yours is changed or deleted;
- * Voydex's own wears a lock.
+ * Tapping it opens the rule in full, where yours is changed or deleted.
  */
 const RuleCard = ({
   onView,
@@ -46,8 +44,7 @@ const RuleCard = ({
         variant="interactive"
         className="relative h-full gap-2 px-5 py-4 sm:min-h-32"
       >
-        {/* Room at the end for the lock, in the corner. */}
-        <div className="flex min-h-8 items-center gap-2 pr-10">
+        <div className="flex min-h-8 items-center gap-2">
           <Badge>{rule.kind.name}</Badge>
         </div>
         <h2 className="text-16 text-ink line-clamp-2 font-sans leading-snug font-extrabold tracking-normal">
@@ -68,9 +65,6 @@ const RuleCard = ({
           </p>
         ) : null}
         <p className="text-ink-3 text-13 mt-auto font-semibold">{usageLabel}</p>
-        {rule.isBuiltIn ? (
-          <LibraryVoydexBadge className="absolute top-4 right-4" />
-        ) : null}
       </Card>
     </li>
   );
@@ -82,9 +76,12 @@ const RuleCard = ({
  * every Play that keeps it, and deleting takes it off all of them.
  */
 export const LibraryRulesSection = ({
+  isFiltered,
   kinds,
   rules,
 }: {
+  /* The bar narrows the list: an empty group of yours is left out. */
+  isFiltered: boolean;
   kinds: LibraryRuleKind[];
   rules: LibraryRule[];
 }) => {
@@ -96,18 +93,19 @@ export const LibraryRulesSection = ({
 
   return (
     <section aria-label="Rules">
-      {rules.length ? null : (
-        <EmptyState variant="bare" title="No rules yet. New rule makes one." />
-      )}
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {rules.map((rule) => (
+      <LibraryOwnerGroups
+        items={rules}
+        emptyYours={
+          isFiltered ? null : "No rules of yours yet. New rule makes one."
+        }
+        renderItem={(rule) => (
           <RuleCard
             key={rule.id}
             rule={rule}
             onView={() => setDialog({ mode: "view", rule })}
           />
-        ))}
-      </ul>
+        )}
+      />
 
       {dialog?.mode === "view" ? (
         <LibraryRuleDetails
