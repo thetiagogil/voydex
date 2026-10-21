@@ -35,10 +35,11 @@ import {
   type OverviewPartnerFormRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import {
-  groupRuleBreaks,
+  collectRuleBreaks,
+  emptyRuleBreaks,
   type RuleCheckContext,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
-import { getTeamRuleWarnings } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/team-roster-model";
+import { getTeamRuleBreakers } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/team-roster-model";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
   describeRuleConfig,
@@ -94,13 +95,13 @@ export const buildMainlinePlayShellData = (params: {
     play: params.play,
     region: params.gameContext.region,
     ruleBreaks: params.teamRows
-      ? groupRuleBreaks(
-          getTeamRuleWarnings(
+      ? collectRuleBreaks(
+          getTeamRuleBreakers(
             buildMainlinePlayTeamPreview(params.teamRows),
             params.ruleChecks,
           ),
         )
-      : [],
+      : emptyRuleBreaks,
     rules: buildMainlinePlayRules(params.ruleRows),
     tags: params.tags,
   };

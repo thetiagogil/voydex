@@ -9,7 +9,7 @@ import {
   getTeamRosterSlots,
   getTeamRosterSheetKeys,
   getTeamRosterSummary,
-  getTeamRuleWarnings,
+  getTeamRuleBreakers,
 } from "./team-roster-model";
 
 const buildMember = (
@@ -134,7 +134,7 @@ describe("getTeamRosterSheetKeys", () => {
   });
 });
 
-describe("getTeamRuleWarnings", () => {
+describe("getTeamRuleBreakers", () => {
   const member = (
     id: string,
     rosterState: "active" | "reserve" | "retired",
@@ -164,8 +164,8 @@ describe("getTeamRuleWarnings", () => {
     ],
   };
 
-  it("checks the team then the reserve, in slot order, and leaves past Pokémon out", () => {
-    const warnings = getTeamRuleWarnings(
+  it("lists who breaks a rule, the team then the reserve, in slot order, and leaves past Pokémon out", () => {
+    const breakers = getTeamRuleBreakers(
       [
         member("reserve", "reserve", 7, null),
         member("second", "active", 2, null),
@@ -175,19 +175,25 @@ describe("getTeamRuleWarnings", () => {
       context,
     );
 
-    expect(warnings.map((warning) => warning.key)).toEqual([
-      "second:nickname",
-      "reserve:nickname",
+    expect(breakers.map((breaker) => breaker.playPokemonId)).toEqual([
+      "second",
+      "reserve",
     ]);
-    expect(warnings[0]).toMatchObject({
-      ruleName: "Nickname everything",
-      text: "Pikachu has no nickname.",
+    expect(breakers[0]).toMatchObject({
+      name: "Pikachu",
+      warnings: [
+        {
+          key: "second:nickname",
+          ruleName: "Nickname everything",
+          text: "Pikachu has no nickname.",
+        },
+      ],
     });
   });
 
   it("says nothing when the Play checks no rules", () => {
     expect(
-      getTeamRuleWarnings(
+      getTeamRuleBreakers(
         [member("second", "active", 2, null)],
         emptyRuleCheckContext,
       ),

@@ -38,6 +38,8 @@ export default async function MainlinePlayTeamRoute({
 
   return (
     <MainlinePlayTeamRoster
+      /* A new `?pokemon=` (the Play head's rule sheet) selects it afresh. */
+      key={pokemon ?? ""}
       addRequest={
         add === undefined
           ? null

@@ -57,7 +57,7 @@ export const MainlinePlayTopInfo = ({
             <MainlinePlayStatus data={data} />
           </dd>
         </div>
-        {data.ruleBreaks.length ? (
+        {data.play.play_id && data.ruleBreaks.ruleNames.length ? (
           <div className="contents">
             <dt className="sr-only">Rules</dt>
             <dd>

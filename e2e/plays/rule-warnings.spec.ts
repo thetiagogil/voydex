@@ -55,6 +55,19 @@ test.describe("Rule warnings", () => {
         hasText: "Faded Pokémon break this Play's rules",
       }),
     ).toBeVisible();
+    const mewtwo = choices.getByRole("button", { name: /^Mewtwo, #150/ });
+    const rulesOnly = choices.getByRole("switch", {
+      name: "Only show the ones that follow them",
+    });
+
+    /* The switch keeps only the Pokémon that follow the rules. */
+    await rulesOnly.click();
+    await expect(mewtwo).toBeHidden();
+    await expect(
+      choices.getByText("None of these follow this Play's rules."),
+    ).toBeVisible();
+    await rulesOnly.click();
+    await expect(mewtwo).toBeVisible();
     await choices
       .getByRole("button", {
         name: "Mewtwo, #150, breaks this Play's rules: Monotype, No legendaries",
@@ -70,7 +83,6 @@ test.describe("Rule warnings", () => {
     await expect(warning).toContainText(
       "No legendaries: Mewtwo is a Legendary Pokémon.",
     );
-    await expect(warning).toContainText("You can still add it.");
     await expectAccessible(page);
 
     /* A nickname settles that rule as it's typed; the rest stay. */

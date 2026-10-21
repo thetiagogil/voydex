@@ -112,6 +112,7 @@ export const AddPokemonSheet = ({
   const [presetMissing, setPresetMissing] = useState(false);
   const [query, setQuery] = useState("");
   const [shownCount, setShownCount] = useState(choiceBatchSize);
+  const [rulesOnly, setRulesOnly] = useState(false);
   const [picked, setPicked] = useState<PokemonChoice | null>(null);
   const [nickname, setNickname] = useState("");
   const [level, setLevel] = useState("");
@@ -308,6 +309,8 @@ export const AddPokemonSheet = ({
   const stepOne = (
     <AddPokemonChoiceStep
       getBrokenRules={getBrokenRules}
+      rulesOnly={rulesOnly}
+      onRulesOnlyChange={setRulesOnly}
       loadState={loadState}
       onPick={setPicked}
       onRetry={() => setLoadState({ status: "idle" })}

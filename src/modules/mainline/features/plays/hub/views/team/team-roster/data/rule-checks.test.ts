@@ -6,7 +6,7 @@ import {
   buildCheckedRules,
   checkPokemonRules,
   emptyRuleCheckContext,
-  groupRuleBreaks,
+  collectRuleBreaks,
   type CheckedRule,
   type RuleCheckContext,
   type RuleCheckPokemon,
@@ -318,44 +318,42 @@ describe("checkPokemonRules", () => {
   });
 });
 
-describe("groupRuleBreaks", () => {
-  it("groups the team's warnings by rule, in the Library's order", () => {
-    const warning = (
-      key: string,
-      ruleKind: "monotype" | "shiny_only",
-      text: string,
-    ) => ({
-      key,
-      ruleId: ruleKind,
-      ruleKind,
-      ruleName: ruleKind === "monotype" ? "Monotype" : "Shiny only",
+describe("collectRuleBreaks", () => {
+  const breaker = (
+    name: string,
+    warnings: { kind: "monotype" | "shiny_only"; text: string }[],
+  ) => ({
+    imageUrl: null,
+    name,
+    playPokemonId: name,
+    typeSlug: null,
+    warnings: warnings.map(({ kind, text }) => ({
+      key: `${name}:${kind}`,
+      ruleId: kind,
+      ruleKind: kind,
+      ruleName: kind === "monotype" ? "Monotype" : "Shiny only",
       text,
-    });
-
-    expect(
-      groupRuleBreaks([
-        warning("a:m", "monotype", "Pikachu isn't Water type."),
-        warning("a:s", "shiny_only", "Pikachu isn't shiny."),
-        warning("b:m", "monotype", "Eevee isn't Water type."),
-      ]),
-    ).toEqual([
-      {
-        lines: [{ key: "a:s", text: "Pikachu isn't shiny." }],
-        ruleId: "shiny_only",
-        ruleName: "Shiny only",
-      },
-      {
-        lines: [
-          { key: "a:m", text: "Pikachu isn't Water type." },
-          { key: "b:m", text: "Eevee isn't Water type." },
-        ],
-        ruleId: "monotype",
-        ruleName: "Monotype",
-      },
-    ]);
+    })),
   });
 
-  it("says nothing without warnings", () => {
-    expect(groupRuleBreaks([])).toEqual([]);
+  it("names each broken rule once, in the Library's order", () => {
+    const pokemon = [
+      breaker("Pikachu", [
+        { kind: "monotype", text: "Pikachu isn't Water type." },
+      ]),
+      breaker("Eevee", [
+        { kind: "shiny_only", text: "Eevee isn't shiny." },
+        { kind: "monotype", text: "Eevee isn't Water type." },
+      ]),
+    ];
+
+    expect(collectRuleBreaks(pokemon)).toEqual({
+      pokemon,
+      ruleNames: ["Shiny only", "Monotype"],
+    });
+  });
+
+  it("says nothing without Pokémon that break a rule", () => {
+    expect(collectRuleBreaks([])).toEqual({ pokemon: [], ruleNames: [] });
   });
 });

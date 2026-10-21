@@ -1,5 +1,3 @@
-import type { ReactNode } from "react";
-
 import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
@@ -14,13 +12,10 @@ import {
  * no note.
  */
 export const RuleWarningsNote = ({
-  children,
   className,
   title = "Against this Play's rules",
   warnings,
 }: {
-  /* A closing line, such as "You can still add it." */
-  children?: ReactNode;
   className?: string;
   title?: string;
   warnings: (RuleWarning & { key: string })[];
@@ -38,7 +33,6 @@ export const RuleWarningsNote = ({
             </li>
           ))}
         </ul>
-        {children}
       </AlertDescription>
     </Alert>
   ) : null;

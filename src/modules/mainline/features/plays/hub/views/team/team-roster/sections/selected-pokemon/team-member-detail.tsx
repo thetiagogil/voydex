@@ -93,7 +93,7 @@ export const TeamMemberDetail = ({
           <RuleWarningsNote
             title="Breaks this Play's rules"
             warnings={warnings}
-            className="mb-4"
+            className="mt-4.5"
           />
         }
         title={

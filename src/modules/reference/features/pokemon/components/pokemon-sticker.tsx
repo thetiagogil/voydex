@@ -151,19 +151,6 @@ export const PokemonSticker = ({
           {slotLabel}
         </span>
       ) : null}
-      {shiny ? (
-        <>
-          <AppIcon
-            icon={appIcons.product.shiny}
-            size="md"
-            className={cn(
-              "type-ink absolute top-2.5",
-              warning ? "right-10" : "right-2.5",
-            )}
-          />
-          <span className="sr-only">Shiny</span>
-        </>
-      ) : null}
       <span
         className={cn(
           "relative grid place-items-center rounded-full bg-white/55",
@@ -210,11 +197,33 @@ export const PokemonSticker = ({
           />
         ) : null}
       </span>
-      {/* Last, so its words follow the name; it sits in the corner. */}
-      {warning ? (
-        <span className="bg-warn-soft text-warn-ink absolute top-2 right-2 grid size-7 place-items-center rounded-full shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]">
-          <AppIcon icon={appIcons.status.warning} size="sm" />
-          <span className="sr-only">, {warning}</span>
+      {/*
+        The corner marks, last so their words follow the name: shiny, then
+        the warning, centred on one line.
+      */}
+      {shiny || warning ? (
+        <span
+          className={cn(
+            "absolute flex items-center gap-1.5",
+            warning ? "top-2 right-2 h-7" : "top-2.5 right-2.5",
+          )}
+        >
+          {shiny ? (
+            <>
+              <AppIcon
+                icon={appIcons.product.shiny}
+                size="md"
+                className="type-ink"
+              />
+              <span className="sr-only">, Shiny</span>
+            </>
+          ) : null}
+          {warning ? (
+            <span className="bg-warn-soft text-warn-ink grid size-7 place-items-center rounded-full shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]">
+              <AppIcon icon={appIcons.status.warning} size="sm" />
+              <span className="sr-only">, {warning}</span>
+            </span>
+          ) : null}
         </span>
       ) : null}
     </>

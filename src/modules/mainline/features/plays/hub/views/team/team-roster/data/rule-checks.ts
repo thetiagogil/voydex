@@ -209,37 +209,37 @@ export const checkPokemonRules = (
       : [];
   });
 
-/* One broken rule and what breaks it, one line per Pokémon. */
-export type RuleBreak = {
-  lines: { key: string; text: string }[];
-  ruleId: string;
-  ruleName: string;
+/* A Pokémon you have now that breaks the Play's rules, and how. */
+export type RuleBreaker = {
+  imageUrl: string | null;
+  name: string;
+  playPokemonId: string;
+  /* Its first type, for its art's tint. */
+  typeSlug: string | null;
+  warnings: (RuleWarning & { key: string })[];
 };
 
-/*
- * The team's warnings by rule, in the Library's order, each rule's lines in
- * the team's: what the Play header counts and its sheet lists.
- */
-export const groupRuleBreaks = (
-  warnings: (RuleWarning & { key: string })[],
-): RuleBreak[] => {
-  const breaks = new Map<string, RuleBreak>();
-  const ordered = warnings.toSorted(
-    (left, right) =>
-      checkedRuleKinds.indexOf(left.ruleKind) -
-      checkedRuleKinds.indexOf(right.ruleKind),
-  );
-
-  for (const warning of ordered) {
-    const ruleBreak = breaks.get(warning.ruleId) ?? {
-      lines: [],
-      ruleId: warning.ruleId,
-      ruleName: warning.ruleName,
-    };
-
-    ruleBreak.lines.push({ key: warning.key, text: warning.text });
-    breaks.set(warning.ruleId, ruleBreak);
-  }
-
-  return [...breaks.values()];
+/* The team's rule breaks, for the Play head: how many rules, and who. */
+export type RuleBreaks = {
+  pokemon: RuleBreaker[];
+  ruleNames: string[];
 };
+
+export const emptyRuleBreaks: RuleBreaks = { pokemon: [], ruleNames: [] };
+
+/* The rules the Pokémon break, each once, in the Library's order. */
+export const collectRuleBreaks = (pokemon: RuleBreaker[]): RuleBreaks => ({
+  pokemon,
+  ruleNames: [
+    ...new Map(
+      pokemon
+        .flatMap((breaker) => breaker.warnings)
+        .toSorted(
+          (left, right) =>
+            checkedRuleKinds.indexOf(left.ruleKind) -
+            checkedRuleKinds.indexOf(right.ruleKind),
+        )
+        .map((warning) => [warning.ruleId, warning.ruleName]),
+    ).values(),
+  ],
+});

@@ -1,10 +1,14 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   checkPokemonRules,
+  type RuleBreaker,
   type RuleCheckContext,
   type RuleCheckPokemon,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
-import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   getPlayTeamSlots,
   playTeamSize,
@@ -148,15 +152,27 @@ export const getMemberRuleWarnings = (
 };
 
 /*
- * What the Play's rules say about the Pokémon you have now, the team then
- * the reserve, each in slot order. Retired and replaced Pokémon are past.
+ * The Pokémon you have now that break the Play's rules, the team then the
+ * reserve, each in slot order. Retired and replaced Pokémon are past.
  */
-export const getTeamRuleWarnings = (
+export const getTeamRuleBreakers = (
   roster: MainlinePlayTeamMember[],
   context: RuleCheckContext,
-) =>
+): RuleBreaker[] =>
   (["active", "reserve"] as const).flatMap((group) =>
-    getTeamRosterSlots(roster, group).flatMap(({ member }) =>
-      member ? getMemberRuleWarnings(member, context) : [],
-    ),
+    getTeamRosterSlots(roster, group).flatMap(({ member }) => {
+      const warnings = member ? getMemberRuleWarnings(member, context) : [];
+
+      return member?.play_pokemon_id && warnings.length
+        ? [
+            {
+              imageUrl: getPlayTeamMemberImageUrl(member),
+              name: getPlayTeamMemberName(member),
+              playPokemonId: member.play_pokemon_id,
+              typeSlug: member.primaryType?.slug ?? null,
+              warnings,
+            },
+          ]
+        : [];
+    }),
   );

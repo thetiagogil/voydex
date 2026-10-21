@@ -21,7 +21,7 @@ import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/vi
 import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type {
-  RuleBreak,
+  RuleBreaks,
   RuleCheckContext,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
@@ -214,7 +214,7 @@ export type MainlinePlayShellData = {
   play: MainlinePlaySummary;
   region: Region | null;
   /* The rules the team breaks now, for the head's chip and its sheet. */
-  ruleBreaks: RuleBreak[];
+  ruleBreaks: RuleBreaks;
   rules: MainlinePlayRule[];
   /* The Play's tags by name, shown in Play details. */
   tags: string[];

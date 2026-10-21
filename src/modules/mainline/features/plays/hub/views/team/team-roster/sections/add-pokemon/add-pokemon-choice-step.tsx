@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   Alert,
@@ -11,6 +13,7 @@ import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { Switch } from "@/shared/components/ui/switch";
 
 import {
   formatPokemonChoiceNumber,
@@ -81,7 +84,9 @@ const ChoiceButton = ({
 
 /*
  * Step 1, which Pokémon: the whole of the Play's Pokédex in order, or what
- * the search finds, drawn in batches as you scroll.
+ * the search finds, drawn in batches as you scroll. When some break the
+ * Play's rules, a note says the faded ones do, with a switch to show only
+ * the ones that follow them.
  */
 export const AddPokemonChoiceStep = ({
   getBrokenRules,
@@ -93,10 +98,15 @@ export const AddPokemonChoiceStep = ({
   presetMissing,
   query,
   results,
+  rulesOnly,
+  onRulesOnlyChange,
   shownCount,
 }: {
   /* The Play's rules a Pokémon would break, by name; none to fade it. */
   getBrokenRules: (choice: PokemonChoice) => string[];
+  /* Shows only the Pokémon that follow the Play's rules. */
+  rulesOnly: boolean;
+  onRulesOnlyChange: (rulesOnly: boolean) => void;
   loadState: AddPokemonLoadState;
   onPick: (choice: PokemonChoice) => void;
   onRetry: () => void;
@@ -107,10 +117,16 @@ export const AddPokemonChoiceStep = ({
   results: PokemonChoice[];
   shownCount: number;
 }) => {
-  const shown = results.slice(0, shownCount).map((choice) => ({
+  const switchId = useId();
+  const checked = results.map((choice) => ({
     brokenRules: getBrokenRules(choice),
     choice,
   }));
+  const someBreak = checked.some((item) => item.brokenRules.length);
+  const listed = rulesOnly
+    ? checked.filter((item) => !item.brokenRules.length)
+    : checked;
+  const shown = listed.slice(0, shownCount);
 
   return (
     <div className="grid gap-4">
@@ -141,13 +157,22 @@ export const AddPokemonChoiceStep = ({
         />
       ) : (
         <div className="grid gap-2">
-          {shown.some((item) => item.brokenRules.length) ? (
+          {someBreak ? (
             <Alert role="status" variant="warning">
               <AppIcon icon={appIcons.status.warning} />
               <AlertTitle>
                 Faded Pokémon break this Play&apos;s rules
               </AlertTitle>
-              <AlertDescription>You can still add them.</AlertDescription>
+              <AlertDescription className="mt-1.5 flex items-center justify-between gap-3">
+                <label htmlFor={switchId}>
+                  Only show the ones that follow them
+                </label>
+                <Switch
+                  id={switchId}
+                  checked={rulesOnly}
+                  onCheckedChange={onRulesOnlyChange}
+                />
+              </AlertDescription>
             </Alert>
           ) : null}
           {query.trim() ? null : (
@@ -162,6 +187,12 @@ export const AddPokemonChoiceStep = ({
               </p>
             </>
           )}
+          {listed.length ? null : (
+            <EmptyState
+              variant="bare"
+              title="None of these follow this Play's rules."
+            />
+          )}
           <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
             {shown.map(({ brokenRules, choice }) => (
               <ChoiceButton
@@ -172,7 +203,7 @@ export const AddPokemonChoiceStep = ({
               />
             ))}
           </ul>
-          {results.length > shownCount ? (
+          {listed.length > shownCount ? (
             <LoadMoreTrigger
               label="Show more Pokémon"
               onLoadMore={onShowMore}

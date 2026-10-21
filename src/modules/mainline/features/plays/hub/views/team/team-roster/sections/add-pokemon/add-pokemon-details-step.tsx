@@ -59,13 +59,7 @@ export const AddPokemonDetailsStep = ({
         onSubmit();
       }}
     >
-      <RuleWarningsNote warnings={warnings}>
-        <p className="mt-1">
-          {replacesName !== null
-            ? "You can still pick it."
-            : "You can still add it."}
-        </p>
-      </RuleWarningsNote>
+      <RuleWarningsNote warnings={warnings} />
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field>
           <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>

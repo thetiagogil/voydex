@@ -43,7 +43,7 @@ export const TeamMemberProfile = ({
   actionsBesideClose?: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
-  /* A note under the art, before its name, such as the rules it breaks. */
+  /* A note under its types, such as the rules it breaks. */
   notice?: ReactNode;
   title: ReactNode;
 }) => {
@@ -90,7 +90,6 @@ export const TeamMemberProfile = ({
         />
       </div>
 
-      {notice}
       {title}
       <p className="text-ink-2 mt-1 mb-3 font-semibold">
         {getTeamMemberMeta(member, mechanics)}
@@ -102,6 +101,7 @@ export const TeamMemberProfile = ({
         badgeSize="lg"
         className="flex-wrap gap-2"
       />
+      {notice}
 
       {facts.length ? (
         <dl className="mt-5 grid gap-x-4.5 gap-y-3.5 pt-4.5 sm:grid-cols-2">
