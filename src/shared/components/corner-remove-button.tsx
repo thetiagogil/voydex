@@ -25,7 +25,7 @@ export const CornerRemoveButton = ({
     type="button"
     aria-label={label}
     className={cn(
-      "text-ink-2 hover:text-ink bg-surface bubble focus-ring absolute -top-2 -right-2 z-10 grid size-6 place-items-center rounded-full focus-visible:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/removable:opacity-100",
+      "text-ink-2 hover:text-ink bg-surface bubble focus-ring absolute -top-2 -right-2 z-20 grid size-6 place-items-center rounded-full focus-visible:opacity-100 pointer-fine:opacity-0 pointer-fine:group-hover/removable:opacity-100",
       className,
     )}
     {...props}

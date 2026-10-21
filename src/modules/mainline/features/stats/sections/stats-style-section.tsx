@@ -335,7 +335,7 @@ export const StatsStyleSection = ({
                     showTypes={false}
                   />
                   {friend.family.length > 1 ? (
-                    <CornerBubble corner="top-left">
+                    <CornerBubble corner="inside-top-left">
                       <ExplanatoryTip
                         triggerVariant="raised"
                         triggerLabel={`${friend.entry.name}'s family`}

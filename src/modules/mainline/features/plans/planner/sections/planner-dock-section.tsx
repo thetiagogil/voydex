@@ -159,7 +159,7 @@ export const PlannerDockSection = ({
             {filled} of 6
           </span>
           {locked ? null : (
-            <div className="-mx-1 -mt-1 -mb-2 flex scrollbar-none items-center gap-1 overflow-x-auto px-1 pt-1 pb-2 *:shrink-0 max-sm:w-full sm:ml-auto sm:gap-1.5">
+            <div className="flex items-center gap-1 max-sm:w-full sm:ml-auto sm:gap-1.5">
               <DropdownMenu>
                 <DropdownMenuTrigger
                   render={

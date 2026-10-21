@@ -17,7 +17,7 @@ export const PickedMark = ({
   <span
     aria-hidden
     className={cn(
-      "bg-action bubble pointer-events-none absolute z-2 grid place-items-center rounded-full text-white",
+      "bg-action bubble pointer-events-none absolute z-20 grid place-items-center rounded-full text-white",
       size === "md" ? "top-2 right-2 size-7" : "top-1.5 right-1.5 size-6",
       className,
     )}

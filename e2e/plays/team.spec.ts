@@ -41,7 +41,7 @@ test.describe("Team", () => {
       forTheAnswer,
     );
     const sparky = activeTeam.getByRole("button", {
-      name: /^2 Sparky Lv\. 12.*, Active slot 2$/,
+      name: /^Sparky Lv\. 12.*, Active slot 2$/,
     });
     await expect(sparky).toBeVisible();
 
@@ -89,7 +89,7 @@ test.describe("Team", () => {
     await expect(
       page
         .getByRole("region", { name: /^Active team/ })
-        .getByRole("button", { name: /^1 Wartortle\b.*, Active slot 1$/ }),
+        .getByRole("button", { name: /^Wartortle\b.*, Active slot 1$/ }),
     ).toBeVisible();
 
     optionsLoaded = waitForAction(page);

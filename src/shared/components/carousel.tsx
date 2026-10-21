@@ -46,7 +46,7 @@ const scrollBehavior = (): ScrollBehavior =>
 
 // v3 .hh-arr: a round quiet button floating over the row's ends.
 const arrowClassName =
-  "absolute top-[calc(50%+12px)] z-10 -translate-y-1/2 max-sm:hidden";
+  "absolute top-[calc(50%+12px)] z-20 -translate-y-1/2 max-sm:hidden";
 
 /*
  * v3's sideways shelf for every row of covers (the game picker, Home's
