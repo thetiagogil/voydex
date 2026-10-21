@@ -223,7 +223,9 @@ describe("checkPokemonRules", () => {
           reuse("form"),
         ),
       ).toEqual([
-        expect.objectContaining({ text: "You used Raichu in Moon run." }),
+        expect.objectContaining({
+          text: "Raichu was already used in Moon run.",
+        }),
       ]);
       expect(
         checkPokemonRules(
@@ -240,7 +242,9 @@ describe("checkPokemonRules", () => {
           reuse("species"),
         ),
       ).toEqual([
-        expect.objectContaining({ text: "You used Raichu in Moon run." }),
+        expect.objectContaining({
+          text: "Raichu was already used in Moon run.",
+        }),
       ]);
       expect(checkPokemonRules(pikachu, reuse("species"))).toEqual([]);
     });
@@ -248,7 +252,7 @@ describe("checkPokemonRules", () => {
     it("by evolution family, the whole line counts", () => {
       expect(checkPokemonRules(pikachu, reuse("evolution_family"))).toEqual([
         expect.objectContaining({
-          text: "You used Raichu, of the same evolution family, in Moon run.",
+          text: "Pikachu's evolution family was already used in Moon run (Raichu).",
         }),
       ]);
       expect(
@@ -257,6 +261,42 @@ describe("checkPokemonRules", () => {
           reuse("evolution_family"),
         ),
       ).toEqual([]);
+    });
+
+    it("names the closest earlier use: its species before its family", () => {
+      const context = withRules(
+        [
+          {
+            id: "r",
+            kind: "no_pokemon_reuse",
+            name: "No Pokémon reuse",
+            scope: "evolution_family",
+          },
+        ],
+        {
+          ...used,
+          usedElsewhere: [
+            ...used.usedElsewhere,
+            {
+              formId: 25,
+              playName: "Red run",
+              speciesId: 25,
+              speciesName: "Pikachu",
+            },
+          ],
+        },
+      );
+
+      expect(
+        checkPokemonRules(
+          { ...pikachu, name: "Sparky", nickname: "Sparky" },
+          context,
+        ),
+      ).toEqual([
+        expect.objectContaining({
+          text: "Sparky was already used in Red run.",
+        }),
+      ]);
     });
   });
 

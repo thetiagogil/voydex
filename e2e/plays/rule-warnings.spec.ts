@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
-import { forTheAnswer } from "../support/actions";
+import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Rule warnings", () => {
@@ -91,14 +91,55 @@ test.describe("Rule warnings", () => {
     /* Any earlier Play of this trainer's with a Bulbasaur may be named. */
     await expect(
       page.getByRole("status").filter({ hasText: "Against this Play's rules" }),
-    ).toContainText(/No Pokémon reuse: You used Bulbasaur in .+\./);
+    ).toContainText(/No Pokémon reuse: Bulbasaur was already used in .+\./);
+  });
+
+  test("No Pokémon reuse still knows a Pokémon that evolved since", async ({
+    page,
+  }) => {
+    const first = uniquePlayName("Evolved run");
+    const firstId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: first,
+      partner: "Charmander",
+    });
+
+    await page.goto(`/mainline/plays/${firstId}/team`, {
+      waitUntil: "networkidle",
+    });
+    const optionsLoaded = waitForAction(page);
+    await page.getByRole("button", { name: "Edit Charmander" }).click();
+    await optionsLoaded;
+    const evolve = page.getByRole("button", { name: "Evolve into Charmeleon" });
+    await expect(evolve).toBeEnabled();
+    const evolved = waitForAction(page);
+    await evolve.click();
+    await evolved;
+    await expect(
+      page.getByText("Charmander evolved into Charmeleon"),
+    ).toBeVisible(forTheAnswer);
+
+    const playId = await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: uniquePlayName("Fresh run"),
+      partner: "Charmander",
+      rules: [{ name: "No Pokémon reuse", withOptions: true }],
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team`, {
+      waitUntil: "networkidle",
+    });
+    /* By exact form: the Charmander it was still counts. */
+    await expect(
+      page.getByRole("status").filter({ hasText: "Against this Play's rules" }),
+    ).toContainText(/No Pokémon reuse: Charmander was already used in .+\./);
   });
 
   test("a Play without rules shows no note", async ({ page }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: uniquePlayName("Free run"),
-      partner: "Charmander",
+      partner: "Squirtle",
     });
 
     await page.goto(`/mainline/plays/${playId}/team`, {

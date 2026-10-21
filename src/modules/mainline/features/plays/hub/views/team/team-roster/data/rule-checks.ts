@@ -131,21 +131,35 @@ export type RuleWarning = {
   text: string;
 };
 
+/*
+ * The earlier use the rule's scope counts, the closest first: the same form,
+ * then the same species, then the same evolution family.
+ */
 const findReuse = (
   pokemon: RuleCheckPokemon,
   scope: ReuseScope,
   context: RuleCheckContext,
 ) => {
   const family = context.familyBySpecies[pokemon.speciesId];
-
-  return context.usedElsewhere.find((used) =>
+  const sameForm = (used: UsedPokemon) => used.formId === pokemon.formId;
+  const sameSpecies = (used: UsedPokemon) =>
+    used.speciesId === pokemon.speciesId;
+  const sameFamily = (used: UsedPokemon) =>
+    family !== undefined && context.familyBySpecies[used.speciesId] === family;
+  const counted =
     scope === "form"
-      ? used.formId === pokemon.formId
+      ? [sameForm]
       : scope === "species"
-        ? used.speciesId === pokemon.speciesId
-        : family !== undefined &&
-          context.familyBySpecies[used.speciesId] === family,
-  );
+        ? [sameForm, sameSpecies]
+        : [sameForm, sameSpecies, sameFamily];
+
+  for (const matches of counted) {
+    const used = context.usedElsewhere.find(matches);
+
+    if (used) return used;
+  }
+
+  return undefined;
 };
 
 const checkRule = (
@@ -173,8 +187,8 @@ const checkRule = (
       if (!used) return null;
 
       return used.speciesId === pokemon.speciesId
-        ? `You used ${used.speciesName} in ${used.playName}.`
-        : `You used ${used.speciesName}, of the same evolution family, in ${used.playName}.`;
+        ? `${pokemon.name} was already used in ${used.playName}.`
+        : `${pokemon.name}'s evolution family was already used in ${used.playName} (${used.speciesName}).`;
     }
     case "shiny_only":
       return pokemon.isShiny === false ? `${pokemon.name} isn't shiny.` : null;

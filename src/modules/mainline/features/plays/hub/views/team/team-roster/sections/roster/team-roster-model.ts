@@ -3,7 +3,7 @@ import {
   checkPokemonRules,
   type RuleCheckContext,
   type RuleCheckPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   getPlayTeamSlots,

@@ -272,7 +272,11 @@ as a field, `sm` 36px inside cards and rows, `lg` 56px for a page's one call to
 action; `icon`, `icon-sm`, `icon-xs` and `icon-lg` are round. Words that go
 somewhere are a `TextLink`, never a button), `Card` (`default`, `inset`,
 `interactive`), `Badge` (tones `neutral`, `outline`, `ok`, `warn`, `calm`,
-`danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`), `Dialog`,
+`danger`, `gold`, `tint`, `select`, `paper`; sizes `xs`, `sm`, `md`),
+`Alert` (a quiet note in a page, form or sheet, never a filled banner:
+`default` the inset fill, `warning` the soft amber for something that blocks
+nothing, such as a Play's rule broken, `destructive` the soft danger tint for
+an error; a note that only informs takes `role="status"`), `Dialog`,
 `Sheet`, `DropdownMenu`,
 `Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
 `ButtonGroup`, `Switch`, `Progress` (how far along, in the progress blue like an EXP bar, never the red accent),

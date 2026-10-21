@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   Alert,
@@ -26,9 +26,7 @@ export const RuleWarningsNote = ({
   warnings.length ? (
     <Alert role="status" variant="warning" className={className}>
       <AppIcon icon={appIcons.status.warning} />
-      <AlertTitle className="text-warn-ink">
-        Against this Play&apos;s rules
-      </AlertTitle>
+      <AlertTitle>Against this Play&apos;s rules</AlertTitle>
       <AlertDescription className="text-pretty">
         <ul className="grid gap-0.5">
           {warnings.map((warning) => (

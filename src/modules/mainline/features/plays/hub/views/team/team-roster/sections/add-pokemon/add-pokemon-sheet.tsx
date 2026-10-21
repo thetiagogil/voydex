@@ -15,7 +15,7 @@ import {
   checkPokemonRules,
   emptyRuleCheckContext,
   type RuleCheckContext,
-} from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";

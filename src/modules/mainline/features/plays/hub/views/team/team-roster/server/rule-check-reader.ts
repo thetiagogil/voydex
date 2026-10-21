@@ -3,7 +3,7 @@ import {
   buildCheckedRules,
   type RuleCheckContext,
   type UsedPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -30,8 +30,10 @@ const readLegendarySpecies = async (supabase: ServerSupabaseClient) => {
 };
 
 /*
- * The Pokémon of your Plays started before this one, for No Pokémon reuse:
- * a later Play reuses an earlier one's Pokémon, never the other way round.
+ * Every Pokémon your Plays started before this one used, for No Pokémon
+ * reuse: a later Play reuses an earlier one's Pokémon, never the other way
+ * round. Used identities, not just current ones, so a Charmander that has
+ * since evolved still counts as a Charmander.
  */
 const readUsedElsewhere = async (
   supabase: ServerSupabaseClient,
@@ -67,7 +69,7 @@ const readUsedElsewhere = async (
     (from, to) =>
       supabase
         .schema("views")
-        .from("mainline_play_team_detail")
+        .from("mainline_collection_used_identities")
         .select(
           "evolution_family_id, form_id, play_id, species_id, species_name",
         )
@@ -75,15 +77,19 @@ const readUsedElsewhere = async (
           "play_id",
           plays.map((row) => row.id),
         )
-        .order("play_id", { ascending: true })
-        .order("play_pokemon_id", { ascending: true })
+        .order("source_row_id", { ascending: true })
         .range(from, to),
     "Unable to load your earlier Plays' Pokémon.",
   );
 
   return {
     families: uniqueNumberIds(rows.map((row) => row.evolution_family_id)),
-    used: rows.flatMap((row): UsedPokemon[] =>
+    /* One per Play and form: a Pokémon shows up in many moments. */
+    used: [
+      ...new Map(
+        rows.map((row) => [`${row.play_id}:${row.form_id}`, row]),
+      ).values(),
+    ].flatMap((row): UsedPokemon[] =>
       row.form_id && row.species_id && row.play_id
         ? [
             {

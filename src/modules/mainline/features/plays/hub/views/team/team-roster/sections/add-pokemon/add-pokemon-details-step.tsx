@@ -2,7 +2,7 @@ import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
-import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 
 import type { PokemonChoice } from "../../utils/pokemon-choices";
 import { RuleWarningsNote } from "../roster/rule-warnings-note";

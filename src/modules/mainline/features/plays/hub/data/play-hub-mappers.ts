@@ -34,7 +34,7 @@ import {
   isOverviewFreshPlay,
   type OverviewPartnerFormRows,
 } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
-import type { RuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+import type { RuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
   describeRuleConfig,

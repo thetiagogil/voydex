@@ -61,7 +61,7 @@ whether Voydex can evaluate it or only record it.
 Voydex checks five of its own rules against the Pokémon you have now (the
 team and the reserve) and says so in a quiet note on the Team page, and in
 Add Pokémon as you pick one; it never blocks
-(`src/modules/mainline/features/plays/hub/views/team/data/rule-checks.ts`):
+(`src/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks.ts`):
 
 - **Shiny only:** a Pokémon recorded as not shiny (Add Pokémon can't know
   yet, so only the Team page says it).
@@ -69,7 +69,8 @@ Add Pokémon as you pick one; it never blocks
 - **Monotype:** a Pokémon without the type, by its types in the Play's game.
 - **No legendaries:** a Legendary or Mythical species.
 - **No Pokémon reuse:** a Pokémon one of your earlier Plays (started before
-  this one) recorded, by the rule's scope.
+  this one) used, even one that has evolved since, by the rule's scope; the
+  note names the closest use (same form, then species, then family).
 
 Level caps waits for Gym Leader levels (issue #20). The rest happen in the
 game and stay labels, as does every rule of yours, even one named like

@@ -38,7 +38,7 @@ import {
   readMainlinePlayFollowablePlans,
   readMainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
-import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/server/rule-check-reader";
+import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/server/rule-check-reader";
 import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
 import { readMainlinePlayStoryMatchupRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
 import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/team-analysis-reader";

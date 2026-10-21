@@ -20,7 +20,7 @@ import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/vi
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
-import type { RuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/data/rule-checks";
+import type { RuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
