@@ -157,6 +157,8 @@ const battleKinds: Record<string, string> = {
 type OpponentRef = {
   opponent_id: number;
   name: string;
+  /* Where the battle happens, when it isn't the story point's own event. */
+  notes: string | null;
   opponent_role: string;
   primary_type_id: number | null;
   secondary_type_id: number | null;
@@ -175,6 +177,7 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
           ? [
               {
                 name: ref.name,
+                notes: typeof ref.notes === "string" ? ref.notes : null,
                 opponent_id: ref.opponent_id,
                 opponent_role: ref.opponent_role,
                 primary_type_id:
@@ -437,7 +440,8 @@ export const buildStoryMatchupsModel = ({
         specialtyTypes,
         state: isWon ? "won" : "ahead",
         teamThen: snapshotsByMilestoneId.get(milestone.milestone_id) ?? [],
-        where: milestone.description ?? milestone.category_name ?? null,
+        where:
+          ref.notes ?? milestone.description ?? milestone.category_name ?? null,
       });
     }
   }

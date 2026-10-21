@@ -19,9 +19,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   notes
 ) VALUES
   -- Boulder Badge -> Brock
-  (10003, 1001, 1, 'battle-opponent', 1, NULL),
+  (10003, 1001, 1, 'battle-opponent', 2, NULL),
   -- Cascade Badge -> Misty
-  (10005, 1002, 1, 'battle-opponent', 1, NULL),
+  (10005, 1002, 1, 'battle-opponent', 2, NULL),
   -- Thunder Badge -> Lt. Surge
   (10006, 1003, 1, 'battle-opponent', 1, NULL),
   -- Rainbow Badge -> Erika
@@ -35,7 +35,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Earth Badge -> Giovanni
   (10012, 1008, 1, 'battle-opponent', 1, NULL),
   -- Elite Four Lorelei -> Lorelei
-  (10013, 1009, 1, 'battle-opponent', 1, NULL),
+  (10013, 1009, 1, 'battle-opponent', 2, NULL),
   -- Elite Four Bruno -> Bruno
   (10014, 1010, 1, 'battle-opponent', 1, NULL),
   -- Elite Four Agatha -> Agatha
@@ -43,4 +43,22 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Lance -> Lance
   (10016, 1012, 1, 'battle-opponent', 1, NULL),
   -- Champion Blue -> Blue
-  (10017, 1013, 1, 'battle-opponent', 1, NULL);
+  (10017, 1013, 1, 'battle-opponent', 1, NULL),
+  -- Choose Starter -> Blue
+  (10001, 1014, 1, 'battle-opponent', 1, 'Oak''s Lab, Pallet Town'),
+  -- Boulder Badge -> Blue
+  (10003, 1014, 1, 'battle-opponent', 1, 'Route 22. You can skip this battle.'),
+  -- Cascade Badge -> Blue
+  (10005, 1014, 1, 'battle-opponent', 1, 'Cerulean City (north exit, before Nugget Bridge)'),
+  -- S.S. Anne -> Blue
+  (10019, 1014, 1, 'battle-opponent', 1, 'S.S. Anne 2F, Vermilion City'),
+  -- Pokémon Tower -> Blue
+  (10021, 1014, 1, 'battle-opponent', 1, 'Pokémon Tower 2F, Lavender Town'),
+  -- Rocket Hideout -> Giovanni
+  (10020, 1015, 1, 'battle-opponent', 1, 'Rocket Hideout B4F, Celadon City'),
+  -- Silph Co. -> Blue
+  (10022, 1014, 1, 'battle-opponent', 1, 'Silph Co. 7F, Saffron City'),
+  -- Silph Co. -> Giovanni
+  (10022, 1015, 1, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City'),
+  -- Elite Four Lorelei -> Blue
+  (10013, 1014, 1, 'battle-opponent', 1, 'Route 22');

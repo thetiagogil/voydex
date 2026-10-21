@@ -47,4 +47,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Lance
   (2012, 2, NULL, 'lance', 'Lance', 'elite-four', 15, NULL, 'lance', 12),
   -- Blue
-  (2013, 2, NULL, 'blue', 'Blue', 'champion', NULL, NULL, 'blue', 13);
+  (2013, 2, NULL, 'blue', 'Blue', 'champion', NULL, NULL, 'blue', 13),
+  -- Blue (rival)
+  (2014, 2, NULL, 'blue-rival', 'Blue', 'rival', NULL, NULL, 'blue', 14),
+  -- Giovanni (boss)
+  (2015, 2, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15);

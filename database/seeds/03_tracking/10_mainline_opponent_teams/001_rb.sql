@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Red / Blue Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Red / Blue Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
+-- Rival and Giovanni battles: the pret pokered disassembly's trainer parties, cross-checked with Bulbapedia's rival and Giovanni pages.
 -- Scope: Pokémon Red / Blue Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -154,4 +155,180 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Blue (chose Squirtle) 5: Arcanine Lv. 63
   (10017, 1013, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 59, 5900, 63),
   -- Blue (chose Squirtle) 6: Venusaur Lv. 65
-  (10017, 1013, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 65);
+  (10017, 1013, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 65),
+  -- Blue (chose Bulbasaur), Choose Starter 1: Charmander Lv. 5
+  (10001, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 4, 400, 5),
+  -- Blue (chose Charmander), Choose Starter 1: Squirtle Lv. 5
+  (10001, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 7, 700, 5),
+  -- Blue (chose Squirtle), Choose Starter 1: Bulbasaur Lv. 5
+  (10001, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 1, 100, 5),
+  -- Blue (chose Bulbasaur), Boulder Badge 1: Pidgey Lv. 9
+  (10003, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 16, 1600, 9),
+  -- Blue (chose Bulbasaur), Boulder Badge 2: Charmander Lv. 8
+  (10003, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 4, 400, 8),
+  -- Blue (chose Charmander), Boulder Badge 1: Pidgey Lv. 9
+  (10003, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 16, 1600, 9),
+  -- Blue (chose Charmander), Boulder Badge 2: Squirtle Lv. 8
+  (10003, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 7, 700, 8),
+  -- Blue (chose Squirtle), Boulder Badge 1: Pidgey Lv. 9
+  (10003, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 16, 1600, 9),
+  -- Blue (chose Squirtle), Boulder Badge 2: Bulbasaur Lv. 8
+  (10003, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 1, 100, 8),
+  -- Blue (chose Bulbasaur), Cascade Badge 1: Pidgeotto Lv. 18
+  (10005, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 17, 1700, 18),
+  -- Blue (chose Bulbasaur), Cascade Badge 2: Abra Lv. 15
+  (10005, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 63, 6300, 15),
+  -- Blue (chose Bulbasaur), Cascade Badge 3: Rattata Lv. 15
+  (10005, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 19, 1900, 15),
+  -- Blue (chose Bulbasaur), Cascade Badge 4: Charmander Lv. 17
+  (10005, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 4, 400, 17),
+  -- Blue (chose Charmander), Cascade Badge 1: Pidgeotto Lv. 18
+  (10005, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 17, 1700, 18),
+  -- Blue (chose Charmander), Cascade Badge 2: Abra Lv. 15
+  (10005, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 63, 6300, 15),
+  -- Blue (chose Charmander), Cascade Badge 3: Rattata Lv. 15
+  (10005, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 19, 1900, 15),
+  -- Blue (chose Charmander), Cascade Badge 4: Squirtle Lv. 17
+  (10005, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 7, 700, 17),
+  -- Blue (chose Squirtle), Cascade Badge 1: Pidgeotto Lv. 18
+  (10005, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 17, 1700, 18),
+  -- Blue (chose Squirtle), Cascade Badge 2: Abra Lv. 15
+  (10005, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 63, 6300, 15),
+  -- Blue (chose Squirtle), Cascade Badge 3: Rattata Lv. 15
+  (10005, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 19, 1900, 15),
+  -- Blue (chose Squirtle), Cascade Badge 4: Bulbasaur Lv. 17
+  (10005, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 1, 100, 17),
+  -- Blue (chose Bulbasaur), S.S. Anne 1: Pidgeotto Lv. 19
+  (10019, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 17, 1700, 19),
+  -- Blue (chose Bulbasaur), S.S. Anne 2: Raticate Lv. 16
+  (10019, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 20, 2000, 16),
+  -- Blue (chose Bulbasaur), S.S. Anne 3: Kadabra Lv. 18
+  (10019, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 64, 6400, 18),
+  -- Blue (chose Bulbasaur), S.S. Anne 4: Charmeleon Lv. 20
+  (10019, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 5, 500, 20),
+  -- Blue (chose Charmander), S.S. Anne 1: Pidgeotto Lv. 19
+  (10019, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 17, 1700, 19),
+  -- Blue (chose Charmander), S.S. Anne 2: Raticate Lv. 16
+  (10019, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 20, 2000, 16),
+  -- Blue (chose Charmander), S.S. Anne 3: Kadabra Lv. 18
+  (10019, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 64, 6400, 18),
+  -- Blue (chose Charmander), S.S. Anne 4: Wartortle Lv. 20
+  (10019, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 8, 800, 20),
+  -- Blue (chose Squirtle), S.S. Anne 1: Pidgeotto Lv. 19
+  (10019, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 17, 1700, 19),
+  -- Blue (chose Squirtle), S.S. Anne 2: Raticate Lv. 16
+  (10019, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 20, 2000, 16),
+  -- Blue (chose Squirtle), S.S. Anne 3: Kadabra Lv. 18
+  (10019, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 64, 6400, 18),
+  -- Blue (chose Squirtle), S.S. Anne 4: Ivysaur Lv. 20
+  (10019, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 2, 200, 20),
+  -- Blue (chose Bulbasaur), Pokémon Tower 1: Pidgeotto Lv. 25
+  (10021, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 17, 1700, 25),
+  -- Blue (chose Bulbasaur), Pokémon Tower 2: Exeggcute Lv. 23
+  (10021, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 102, 10200, 23),
+  -- Blue (chose Bulbasaur), Pokémon Tower 3: Gyarados Lv. 22
+  (10021, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 130, 13000, 22),
+  -- Blue (chose Bulbasaur), Pokémon Tower 4: Kadabra Lv. 20
+  (10021, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 64, 6400, 20),
+  -- Blue (chose Bulbasaur), Pokémon Tower 5: Charmeleon Lv. 25
+  (10021, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 5, 5, 500, 25),
+  -- Blue (chose Charmander), Pokémon Tower 1: Pidgeotto Lv. 25
+  (10021, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 17, 1700, 25),
+  -- Blue (chose Charmander), Pokémon Tower 2: Growlithe Lv. 23
+  (10021, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 58, 5800, 23),
+  -- Blue (chose Charmander), Pokémon Tower 3: Exeggcute Lv. 22
+  (10021, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 102, 10200, 22),
+  -- Blue (chose Charmander), Pokémon Tower 4: Kadabra Lv. 20
+  (10021, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 64, 6400, 20),
+  -- Blue (chose Charmander), Pokémon Tower 5: Wartortle Lv. 25
+  (10021, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 5, 8, 800, 25),
+  -- Blue (chose Squirtle), Pokémon Tower 1: Pidgeotto Lv. 25
+  (10021, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 17, 1700, 25),
+  -- Blue (chose Squirtle), Pokémon Tower 2: Gyarados Lv. 23
+  (10021, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 130, 13000, 23),
+  -- Blue (chose Squirtle), Pokémon Tower 3: Growlithe Lv. 22
+  (10021, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 58, 5800, 22),
+  -- Blue (chose Squirtle), Pokémon Tower 4: Kadabra Lv. 20
+  (10021, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 64, 6400, 20),
+  -- Blue (chose Squirtle), Pokémon Tower 5: Ivysaur Lv. 25
+  (10021, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 2, 200, 25),
+  -- Giovanni, Rocket Hideout 1: Onix Lv. 25
+  (10020, 1015, 1, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 25),
+  -- Giovanni, Rocket Hideout 2: Rhyhorn Lv. 24
+  (10020, 1015, 1, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 24),
+  -- Giovanni, Rocket Hideout 3: Kangaskhan Lv. 29
+  (10020, 1015, 1, NULL, NULL, NULL, NULL, NULL, 3, 115, 11500, 29),
+  -- Blue (chose Bulbasaur), Silph Co. 1: Pidgeot Lv. 37
+  (10022, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 37),
+  -- Blue (chose Bulbasaur), Silph Co. 2: Exeggcute Lv. 38
+  (10022, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 102, 10200, 38),
+  -- Blue (chose Bulbasaur), Silph Co. 3: Gyarados Lv. 35
+  (10022, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 130, 13000, 35),
+  -- Blue (chose Bulbasaur), Silph Co. 4: Alakazam Lv. 35
+  (10022, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 65, 6500, 35),
+  -- Blue (chose Bulbasaur), Silph Co. 5: Charizard Lv. 40
+  (10022, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 5, 6, 600, 40),
+  -- Blue (chose Charmander), Silph Co. 1: Pidgeot Lv. 37
+  (10022, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 18, 1800, 37),
+  -- Blue (chose Charmander), Silph Co. 2: Growlithe Lv. 38
+  (10022, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 58, 5800, 38),
+  -- Blue (chose Charmander), Silph Co. 3: Exeggcute Lv. 35
+  (10022, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 102, 10200, 35),
+  -- Blue (chose Charmander), Silph Co. 4: Alakazam Lv. 35
+  (10022, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 65, 6500, 35),
+  -- Blue (chose Charmander), Silph Co. 5: Blastoise Lv. 40
+  (10022, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 5, 9, 900, 40),
+  -- Blue (chose Squirtle), Silph Co. 1: Pidgeot Lv. 37
+  (10022, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 18, 1800, 37),
+  -- Blue (chose Squirtle), Silph Co. 2: Gyarados Lv. 38
+  (10022, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 130, 13000, 38),
+  -- Blue (chose Squirtle), Silph Co. 3: Growlithe Lv. 35
+  (10022, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 58, 5800, 35),
+  -- Blue (chose Squirtle), Silph Co. 4: Alakazam Lv. 35
+  (10022, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 65, 6500, 35),
+  -- Blue (chose Squirtle), Silph Co. 5: Venusaur Lv. 40
+  (10022, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 3, 300, 40),
+  -- Giovanni, Silph Co. 1: Nidorino Lv. 37
+  (10022, 1015, 1, NULL, NULL, NULL, NULL, NULL, 1, 33, 3300, 37),
+  -- Giovanni, Silph Co. 2: Kangaskhan Lv. 35
+  (10022, 1015, 1, NULL, NULL, NULL, NULL, NULL, 2, 115, 11500, 35),
+  -- Giovanni, Silph Co. 3: Rhyhorn Lv. 37
+  (10022, 1015, 1, NULL, NULL, NULL, NULL, NULL, 3, 111, 11100, 37),
+  -- Giovanni, Silph Co. 4: Nidoqueen Lv. 41
+  (10022, 1015, 1, NULL, NULL, NULL, NULL, NULL, 4, 31, 3100, 41),
+  -- Blue (chose Bulbasaur), Elite Four Lorelei 1: Pidgeot Lv. 47
+  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 47),
+  -- Blue (chose Bulbasaur), Elite Four Lorelei 2: Rhyhorn Lv. 45
+  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 111, 11100, 45),
+  -- Blue (chose Bulbasaur), Elite Four Lorelei 3: Exeggcute Lv. 45
+  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 102, 10200, 45),
+  -- Blue (chose Bulbasaur), Elite Four Lorelei 4: Gyarados Lv. 47
+  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 130, 13000, 47),
+  -- Blue (chose Bulbasaur), Elite Four Lorelei 5: Alakazam Lv. 50
+  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 5, 65, 6500, 50),
+  -- Blue (chose Bulbasaur), Elite Four Lorelei 6: Charizard Lv. 53
+  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 6, 6, 600, 53),
+  -- Blue (chose Charmander), Elite Four Lorelei 1: Pidgeot Lv. 47
+  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 18, 1800, 47),
+  -- Blue (chose Charmander), Elite Four Lorelei 2: Rhyhorn Lv. 45
+  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 111, 11100, 45),
+  -- Blue (chose Charmander), Elite Four Lorelei 3: Growlithe Lv. 45
+  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 58, 5800, 45),
+  -- Blue (chose Charmander), Elite Four Lorelei 4: Exeggcute Lv. 47
+  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 102, 10200, 47),
+  -- Blue (chose Charmander), Elite Four Lorelei 5: Alakazam Lv. 50
+  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 5, 65, 6500, 50),
+  -- Blue (chose Charmander), Elite Four Lorelei 6: Blastoise Lv. 53
+  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 6, 9, 900, 53),
+  -- Blue (chose Squirtle), Elite Four Lorelei 1: Pidgeot Lv. 47
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 18, 1800, 47),
+  -- Blue (chose Squirtle), Elite Four Lorelei 2: Rhyhorn Lv. 45
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 111, 11100, 45),
+  -- Blue (chose Squirtle), Elite Four Lorelei 3: Gyarados Lv. 45
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 130, 13000, 45),
+  -- Blue (chose Squirtle), Elite Four Lorelei 4: Growlithe Lv. 47
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 58, 5800, 47),
+  -- Blue (chose Squirtle), Elite Four Lorelei 5: Alakazam Lv. 50
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 65, 6500, 50),
+  -- Blue (chose Squirtle), Elite Four Lorelei 6: Venusaur Lv. 53
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 53);

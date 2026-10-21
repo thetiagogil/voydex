@@ -25,6 +25,7 @@ const milestone = (
     gameId?: number;
     id: number;
     name: string;
+    notes?: string;
     role: string;
     typeId: number;
   }[],
@@ -40,6 +41,7 @@ const milestone = (
   milestone_name: `Milestone ${id}`,
   opponent_refs: opponents.map((opponent) => ({
     name: opponent.name,
+    notes: opponent.notes ?? null,
     opponent_id: opponent.id,
     opponent_role: opponent.role,
     primary_type_id: opponent.typeId,
@@ -129,10 +131,20 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
       milestone(
         5,
         [
-          { id: 9, name: "Blue", role: "rival", typeId: 11 },
+          {
+            id: 9,
+            name: "Blue",
+            notes: "Cerulean City",
+            role: "rival",
+            typeId: 11,
+          },
           { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
         ],
-        { is_completed: true, milestone_name: "Cascade Badge" },
+        {
+          description: "Defeat Misty at Cerulean Gym.",
+          is_completed: true,
+          milestone_name: "Cascade Badge",
+        },
       ),
     ],
     partyRows: [],
@@ -147,6 +159,13 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
     ).toEqual([
       ["5/9", "Blue", "Cascade Badge"],
       ["5/2", "Misty", "Cascade Badge"],
+    ]);
+  });
+
+  it("says where each battle happens", () => {
+    expect(battles.map((battle) => battle.where)).toEqual([
+      "Cerulean City",
+      "Defeat Misty at Cerulean Gym.",
     ]);
   });
 

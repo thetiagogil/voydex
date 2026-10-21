@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Yellow Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Yellow Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
+-- Rival and Giovanni battles: the pret pokeyellow disassembly's trainer parties, cross-checked with Bulbapedia's rival and Giovanni pages.
 -- Scope: Pokémon Yellow Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -146,4 +147,136 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Blue (Rival's Eevee evolved into Vaporeon) 5: Magneton Lv. 63
   (20017, 2013, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 5, 82, 8200, 63),
   -- Blue (Rival's Eevee evolved into Vaporeon) 6: Vaporeon Lv. 65
-  (20017, 2013, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 65);
+  (20017, 2013, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 65),
+  -- Blue, Receive Pikachu 1: Eevee Lv. 5
+  (20001, 2014, 2, NULL, NULL, NULL, NULL, NULL, 1, 133, 13300, 5),
+  -- Blue, Boulder Badge 1: Spearow Lv. 9
+  (20003, 2014, 2, NULL, NULL, NULL, NULL, NULL, 1, 21, 2100, 9),
+  -- Blue, Boulder Badge 2: Eevee Lv. 8
+  (20003, 2014, 2, NULL, NULL, NULL, NULL, NULL, 2, 133, 13300, 8),
+  -- Blue, Cascade Badge 1: Spearow Lv. 18
+  (20005, 2014, 2, NULL, NULL, NULL, NULL, NULL, 1, 21, 2100, 18),
+  -- Blue, Cascade Badge 2: Sandshrew Lv. 15
+  (20005, 2014, 2, NULL, NULL, NULL, NULL, NULL, 2, 27, 2700, 15),
+  -- Blue, Cascade Badge 3: Rattata Lv. 15
+  (20005, 2014, 2, NULL, NULL, NULL, NULL, NULL, 3, 19, 1900, 15),
+  -- Blue, Cascade Badge 4: Eevee Lv. 17
+  (20005, 2014, 2, NULL, NULL, NULL, NULL, NULL, 4, 133, 13300, 17),
+  -- Blue, S.S. Anne 1: Spearow Lv. 19
+  (20019, 2014, 2, NULL, NULL, NULL, NULL, NULL, 1, 21, 2100, 19),
+  -- Blue, S.S. Anne 2: Rattata Lv. 16
+  (20019, 2014, 2, NULL, NULL, NULL, NULL, NULL, 2, 19, 1900, 16),
+  -- Blue, S.S. Anne 3: Sandshrew Lv. 18
+  (20019, 2014, 2, NULL, NULL, NULL, NULL, NULL, 3, 27, 2700, 18),
+  -- Blue, S.S. Anne 4: Eevee Lv. 20
+  (20019, 2014, 2, NULL, NULL, NULL, NULL, NULL, 4, 133, 13300, 20),
+  -- Blue (Rival's Eevee will evolve into Jolteon), Pokémon Tower 1: Fearow Lv. 25
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee will evolve into Jolteon', 1, 22, 2200, 25),
+  -- Blue (Rival's Eevee will evolve into Jolteon), Pokémon Tower 2: Shellder Lv. 23
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee will evolve into Jolteon', 2, 90, 9000, 23),
+  -- Blue (Rival's Eevee will evolve into Jolteon), Pokémon Tower 3: Vulpix Lv. 22
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee will evolve into Jolteon', 3, 37, 3700, 22),
+  -- Blue (Rival's Eevee will evolve into Jolteon), Pokémon Tower 4: Sandshrew Lv. 20
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee will evolve into Jolteon', 4, 27, 2700, 20),
+  -- Blue (Rival's Eevee will evolve into Jolteon), Pokémon Tower 5: Eevee Lv. 25
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee will evolve into Jolteon', 5, 133, 13300, 25),
+  -- Blue (Rival's Eevee will evolve into Flareon), Pokémon Tower 1: Fearow Lv. 25
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee will evolve into Flareon', 1, 22, 2200, 25),
+  -- Blue (Rival's Eevee will evolve into Flareon), Pokémon Tower 2: Magnemite Lv. 23
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee will evolve into Flareon', 2, 81, 8100, 23),
+  -- Blue (Rival's Eevee will evolve into Flareon), Pokémon Tower 3: Shellder Lv. 22
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee will evolve into Flareon', 3, 90, 9000, 22),
+  -- Blue (Rival's Eevee will evolve into Flareon), Pokémon Tower 4: Sandshrew Lv. 20
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee will evolve into Flareon', 4, 27, 2700, 20),
+  -- Blue (Rival's Eevee will evolve into Flareon), Pokémon Tower 5: Eevee Lv. 25
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee will evolve into Flareon', 5, 133, 13300, 25),
+  -- Blue (Rival's Eevee will evolve into Vaporeon), Pokémon Tower 1: Fearow Lv. 25
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee will evolve into Vaporeon', 1, 22, 2200, 25),
+  -- Blue (Rival's Eevee will evolve into Vaporeon), Pokémon Tower 2: Vulpix Lv. 23
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee will evolve into Vaporeon', 2, 37, 3700, 23),
+  -- Blue (Rival's Eevee will evolve into Vaporeon), Pokémon Tower 3: Magnemite Lv. 22
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee will evolve into Vaporeon', 3, 81, 8100, 22),
+  -- Blue (Rival's Eevee will evolve into Vaporeon), Pokémon Tower 4: Sandshrew Lv. 20
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee will evolve into Vaporeon', 4, 27, 2700, 20),
+  -- Blue (Rival's Eevee will evolve into Vaporeon), Pokémon Tower 5: Eevee Lv. 25
+  (20021, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee will evolve into Vaporeon', 5, 133, 13300, 25),
+  -- Giovanni, Rocket Hideout 1: Onix Lv. 25
+  (20020, 2015, 2, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 25),
+  -- Giovanni, Rocket Hideout 2: Rhyhorn Lv. 24
+  (20020, 2015, 2, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 24),
+  -- Giovanni, Rocket Hideout 3: Persian Lv. 29
+  (20020, 2015, 2, NULL, NULL, NULL, NULL, NULL, 3, 53, 5300, 29),
+  -- Blue (Rival's Eevee evolved into Jolteon), Silph Co. 1: Sandslash Lv. 38
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 1, 28, 2800, 38),
+  -- Blue (Rival's Eevee evolved into Jolteon), Silph Co. 2: Ninetales Lv. 35
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 2, 38, 3800, 35),
+  -- Blue (Rival's Eevee evolved into Jolteon), Silph Co. 3: Cloyster Lv. 37
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 3, 91, 9100, 37),
+  -- Blue (Rival's Eevee evolved into Jolteon), Silph Co. 4: Kadabra Lv. 35
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 4, 64, 6400, 35),
+  -- Blue (Rival's Eevee evolved into Jolteon), Silph Co. 5: Jolteon Lv. 40
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 5, 135, 13500, 40),
+  -- Blue (Rival's Eevee evolved into Flareon), Silph Co. 1: Sandslash Lv. 38
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 1, 28, 2800, 38),
+  -- Blue (Rival's Eevee evolved into Flareon), Silph Co. 2: Cloyster Lv. 35
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 2, 91, 9100, 35),
+  -- Blue (Rival's Eevee evolved into Flareon), Silph Co. 3: Magneton Lv. 37
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 3, 82, 8200, 37),
+  -- Blue (Rival's Eevee evolved into Flareon), Silph Co. 4: Kadabra Lv. 35
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 4, 64, 6400, 35),
+  -- Blue (Rival's Eevee evolved into Flareon), Silph Co. 5: Flareon Lv. 40
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 5, 136, 13600, 40),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Silph Co. 1: Sandslash Lv. 38
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 1, 28, 2800, 38),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Silph Co. 2: Magneton Lv. 35
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 2, 82, 8200, 35),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Silph Co. 3: Ninetales Lv. 37
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 3, 38, 3800, 37),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Silph Co. 4: Kadabra Lv. 35
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 4, 64, 6400, 35),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Silph Co. 5: Vaporeon Lv. 40
+  (20022, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 5, 134, 13400, 40),
+  -- Giovanni, Silph Co. 1: Nidorino Lv. 37
+  (20022, 2015, 2, NULL, NULL, NULL, NULL, NULL, 1, 33, 3300, 37),
+  -- Giovanni, Silph Co. 2: Persian Lv. 35
+  (20022, 2015, 2, NULL, NULL, NULL, NULL, NULL, 2, 53, 5300, 35),
+  -- Giovanni, Silph Co. 3: Rhyhorn Lv. 37
+  (20022, 2015, 2, NULL, NULL, NULL, NULL, NULL, 3, 111, 11100, 37),
+  -- Giovanni, Silph Co. 4: Nidoqueen Lv. 41
+  (20022, 2015, 2, NULL, NULL, NULL, NULL, NULL, 4, 31, 3100, 41),
+  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 1: Sandslash Lv. 47
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 1, 28, 2800, 47),
+  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 2: Exeggcute Lv. 45
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 2, 102, 10200, 45),
+  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 3: Ninetales Lv. 45
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 3, 38, 3800, 45),
+  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 4: Cloyster Lv. 47
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 4, 91, 9100, 47),
+  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 5: Kadabra Lv. 50
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 5, 64, 6400, 50),
+  -- Blue (Rival's Eevee evolved into Jolteon), Elite Four Lorelei 6: Jolteon Lv. 53
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-jolteon', 'Rival''s Eevee evolved into Jolteon', 6, 135, 13500, 53),
+  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 1: Sandslash Lv. 47
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 1, 28, 2800, 47),
+  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 2: Exeggcute Lv. 45
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 2, 102, 10200, 45),
+  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 3: Cloyster Lv. 45
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 3, 91, 9100, 45),
+  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 4: Magneton Lv. 47
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 4, 82, 8200, 47),
+  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 5: Kadabra Lv. 50
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 5, 64, 6400, 50),
+  -- Blue (Rival's Eevee evolved into Flareon), Elite Four Lorelei 6: Flareon Lv. 53
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-flareon', 'Rival''s Eevee evolved into Flareon', 6, 136, 13600, 53),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 1: Sandslash Lv. 47
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 1, 28, 2800, 47),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 2: Exeggcute Lv. 45
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 2, 102, 10200, 45),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 3: Magneton Lv. 45
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 3, 82, 8200, 45),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 4: Ninetales Lv. 47
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 4, 38, 3800, 47),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 5: Kadabra Lv. 50
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 5, 64, 6400, 50),
+  -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 6: Vaporeon Lv. 53
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 53);
