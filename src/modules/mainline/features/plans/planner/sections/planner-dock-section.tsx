@@ -280,9 +280,9 @@ export const PlannerDockSection = ({
               )}
             >
               {/*
-               * The same picked card as in the pool below, with its slot in
-               * the same corner dot, so a planned Pokémon looks the same in
-               * both places. Owned Pokémon keep the sticker.
+               * A team member as the Play roster draws one: the sticker's
+               * white band, its slot in the corner dot. The pool below keeps
+               * the type-colour band for what is on the team.
                */}
               <button
                 type="button"
@@ -293,7 +293,7 @@ export const PlannerDockSection = ({
                 <PokemonCard
                   state="plain"
                   size="fluid"
-                  picked
+                  sticker
                   imageAlt=""
                   imageUrl={pokemon.imageUrl}
                   name={pokemon.name}

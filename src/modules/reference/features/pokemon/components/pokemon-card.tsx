@@ -13,14 +13,6 @@ import { cn } from "@/shared/utils/cn";
 
 export type PokemonCardState = "caught" | "missing" | "plain" | "seen";
 
-/*
- * A picked Pokémon: the same sticker as one you own (its type's tint in a
- * 4px band on a soft shadow), with the band in its type's colour instead of
- * white. Set the type's colour (`--t`, `getPokemonTypeCssVariables`).
- */
-export const pokemonCardPickedClassName =
-  "sticker sticker-type-band [--sticker-shadow:var(--shadow-soft-value)]";
-
 type PokemonCardType = { name: string; slug: string };
 
 type PokemonCardProps = {
@@ -39,6 +31,11 @@ type PokemonCardProps = {
   onAnimationEnd?: () => void;
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
+  /*
+   * On a team, as a roster sticker: the sticker's white band on a soft
+   * shadow, with no Play state mark. `picked` turns the band its type's colour.
+   */
+  sticker?: boolean;
   /*
    * `md` is the grid card. `sm` fits three cards in a narrow card; `fluid` is
    * `sm` on phones and `md` from `sm` up.
@@ -165,6 +162,7 @@ export const PokemonCard = ({
   motion = null,
   picked = false,
   size = "md",
+  sticker = false,
   state,
   subtitle,
   target = false,
@@ -172,6 +170,7 @@ export const PokemonCard = ({
 }: PokemonCardProps & { state: PokemonCardState }) => {
   const primaryType = types.find((type) => isPokemonTypeSlug(type.slug));
   const sizes = sizeClassNames[size];
+  const isSticker = picked || sticker;
 
   return (
     <div
@@ -181,16 +180,20 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-xl text-center transition-transform duration-150 hover:-translate-y-0.75",
-        picked
-          ? target
-            ? /* The ring takes the soft shadow's place. */
-              "sticker sticker-type-band sticker-picked"
-            : pokemonCardPickedClassName
+        isSticker
+          ? cn(
+              "sticker",
+              picked && "sticker-type-band",
+              /* A target's ring takes the soft shadow's place. */
+              target
+                ? "sticker-picked"
+                : "[--sticker-shadow:var(--shadow-soft-value)]",
+            )
           : stateClassNames[state],
-        target && !picked && dropTargetRingClassName,
-        /* A pick wears the sticker's 4px band, so it takes the sticker's padding. */
+        target && !isSticker && dropTargetRingClassName,
+        /* A sticker wears the 4px band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
-          picked ? "caught" : state
+          isSticker ? "caught" : state
         ],
         motion === "pop" && "animate-pop",
         motion === "settle" && "animate-settle",
@@ -217,8 +220,8 @@ export const PokemonCard = ({
         className={cn(
           "relative mt-0.5 mb-1.5 grid place-items-center rounded-full",
           sizes.circle,
-          (state === "caught" || picked) && "bg-white/55",
-          !picked &&
+          (state === "caught" || isSticker) && "bg-white/55",
+          !isSticker &&
             (state === "plain" || state === "seen") &&
             "bg-[color-mix(in_oklab,var(--t)_10%,var(--surface))]",
         )}

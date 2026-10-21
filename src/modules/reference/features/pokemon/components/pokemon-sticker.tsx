@@ -119,7 +119,7 @@ const variantClassNames: Record<
  * every Pokémon card. The default sticker's art hops on hover;
  * the compact one fills roster grids, carries its slot and shiny marks, and
  * can be picked as a button: picked, its border takes its type's colour, the
- * one picked-Pokémon look (`pokemonCardPickedClassName` on a plain card).
+ * one picked-Pokémon look (`picked` on a `PokemonCard`).
  */
 export const PokemonSticker = ({
   className,
