@@ -42,10 +42,7 @@ export const LibraryOwnerGroups = <
       ) : null}
       {voydex.length ? (
         <section aria-label="Made by Voydex" className="grid gap-4">
-          <SectionHead
-            title="Made by Voydex"
-            aside="Use them in any Play; they can't be changed"
-          />
+          <SectionHead title="Made by Voydex" aside={voydex.length} />
           {grid(voydex)}
         </section>
       ) : null}

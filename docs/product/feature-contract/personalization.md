@@ -89,7 +89,8 @@ shared Tag from one record does not delete the reusable Tag.
 
 The Library (`/mainline/library`) keeps the rules, presets and tags you
 reuse across Plays, in three tabs. Rules and Presets each list yours first,
-then Voydex's own under "Made by Voydex" (used in any Play, never changed):
+then Voydex's own under "Made by Voydex" (any Play can use them; nobody
+can change them):
 
 - **Presets** have their own tab, between Rules and Tags, with a search and
   New preset as the head's main button: a card per preset with its rules.
