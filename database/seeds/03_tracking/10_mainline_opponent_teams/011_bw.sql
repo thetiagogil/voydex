@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Black / White Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Black / White Gym Leaders and Elite Four page.
+-- Cheren's slot order: the Pokémon Black ROM trainer data, matching Serebii and PKMN.NET.
 -- Cheren, Bianca and N battles: Bulbapedia, cross-checked with Serebii, PokéWiki and the Japanese Pokémon Wiki.
 -- Scope: Pokémon Black / White Story battle opponent teams.
 -- ============================================================================
@@ -246,26 +247,26 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (110006, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 499, 49900, 20),
   -- Cheren (chose Snivy), Bolt Badge 1: Pidove Lv. 20
   (110006, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 519, 51900, 20),
-  -- Cheren (chose Snivy), Bolt Badge 2: Pansage Lv. 20
-  (110006, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 511, 51100, 20),
-  -- Cheren (chose Snivy), Bolt Badge 3: Liepard Lv. 20
-  (110006, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 510, 51000, 20),
+  -- Cheren (chose Snivy), Bolt Badge 2: Liepard Lv. 20
+  (110006, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 510, 51000, 20),
+  -- Cheren (chose Snivy), Bolt Badge 3: Pansage Lv. 20
+  (110006, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 511, 51100, 20),
   -- Cheren (chose Snivy), Bolt Badge 4: Pignite Lv. 22
   (110006, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 499, 49900, 22),
   -- Cheren (chose Tepig), Bolt Badge 1: Pidove Lv. 20
   (110006, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 519, 51900, 20),
-  -- Cheren (chose Tepig), Bolt Badge 2: Pansear Lv. 20
-  (110006, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 513, 51300, 20),
-  -- Cheren (chose Tepig), Bolt Badge 3: Liepard Lv. 20
-  (110006, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 510, 51000, 20),
+  -- Cheren (chose Tepig), Bolt Badge 2: Liepard Lv. 20
+  (110006, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 510, 51000, 20),
+  -- Cheren (chose Tepig), Bolt Badge 3: Pansear Lv. 20
+  (110006, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 513, 51300, 20),
   -- Cheren (chose Tepig), Bolt Badge 4: Dewott Lv. 22
   (110006, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 502, 50200, 22),
   -- Cheren (chose Oshawott), Bolt Badge 1: Pidove Lv. 20
   (110006, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 519, 51900, 20),
-  -- Cheren (chose Oshawott), Bolt Badge 2: Panpour Lv. 20
-  (110006, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 515, 51500, 20),
-  -- Cheren (chose Oshawott), Bolt Badge 3: Liepard Lv. 20
-  (110006, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 510, 51000, 20),
+  -- Cheren (chose Oshawott), Bolt Badge 2: Liepard Lv. 20
+  (110006, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 510, 51000, 20),
+  -- Cheren (chose Oshawott), Bolt Badge 3: Panpour Lv. 20
+  (110006, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 515, 51500, 20),
   -- Cheren (chose Oshawott), Bolt Badge 4: Servine Lv. 22
   (110006, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 496, 49600, 22),
   -- N, Bolt Badge 1: Sandile Lv. 22
@@ -334,26 +335,26 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (110008, 11013, 11, NULL, NULL, NULL, NULL, NULL, 4, 599, 59900, 28),
   -- Cheren (chose Snivy), Freeze Badge 1: Unfezant Lv. 33
   (110009, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 521, 52100, 33),
-  -- Cheren (chose Snivy), Freeze Badge 2: Simisage Lv. 33
-  (110009, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 512, 51200, 33),
-  -- Cheren (chose Snivy), Freeze Badge 3: Liepard Lv. 33
-  (110009, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 510, 51000, 33),
+  -- Cheren (chose Snivy), Freeze Badge 2: Liepard Lv. 33
+  (110009, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 510, 51000, 33),
+  -- Cheren (chose Snivy), Freeze Badge 3: Simisage Lv. 33
+  (110009, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 512, 51200, 33),
   -- Cheren (chose Snivy), Freeze Badge 4: Pignite Lv. 35
   (110009, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 499, 49900, 35),
   -- Cheren (chose Tepig), Freeze Badge 1: Unfezant Lv. 33
   (110009, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 521, 52100, 33),
-  -- Cheren (chose Tepig), Freeze Badge 2: Simisear Lv. 33
-  (110009, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 514, 51400, 33),
-  -- Cheren (chose Tepig), Freeze Badge 3: Liepard Lv. 33
-  (110009, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 510, 51000, 33),
+  -- Cheren (chose Tepig), Freeze Badge 2: Liepard Lv. 33
+  (110009, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 510, 51000, 33),
+  -- Cheren (chose Tepig), Freeze Badge 3: Simisear Lv. 33
+  (110009, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 514, 51400, 33),
   -- Cheren (chose Tepig), Freeze Badge 4: Dewott Lv. 35
   (110009, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 502, 50200, 35),
   -- Cheren (chose Oshawott), Freeze Badge 1: Unfezant Lv. 33
   (110009, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 521, 52100, 33),
-  -- Cheren (chose Oshawott), Freeze Badge 2: Simipour Lv. 33
-  (110009, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 516, 51600, 33),
-  -- Cheren (chose Oshawott), Freeze Badge 3: Liepard Lv. 33
-  (110009, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 510, 51000, 33),
+  -- Cheren (chose Oshawott), Freeze Badge 2: Liepard Lv. 33
+  (110009, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 510, 51000, 33),
+  -- Cheren (chose Oshawott), Freeze Badge 3: Simipour Lv. 33
+  (110009, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 516, 51600, 33),
   -- Cheren (chose Oshawott), Freeze Badge 4: Servine Lv. 35
   (110009, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 496, 49600, 35),
   -- Bianca (chose Snivy), Legend Badge 1: Stoutland Lv. 38
@@ -382,25 +383,25 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (110010, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 500, 50000, 40),
   -- Cheren (chose Snivy), Legend Badge 1: Unfezant Lv. 43
   (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 521, 52100, 43),
-  -- Cheren (chose Snivy), Legend Badge 2: Simisage Lv. 43
-  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 512, 51200, 43),
-  -- Cheren (chose Snivy), Legend Badge 3: Liepard Lv. 43
-  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 510, 51000, 43),
+  -- Cheren (chose Snivy), Legend Badge 2: Liepard Lv. 43
+  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 510, 51000, 43),
+  -- Cheren (chose Snivy), Legend Badge 3: Simisage Lv. 43
+  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 512, 51200, 43),
   -- Cheren (chose Snivy), Legend Badge 4: Emboar Lv. 45
   (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 500, 50000, 45),
   -- Cheren (chose Tepig), Legend Badge 1: Unfezant Lv. 43
   (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 521, 52100, 43),
-  -- Cheren (chose Tepig), Legend Badge 2: Simisear Lv. 43
-  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 514, 51400, 43),
-  -- Cheren (chose Tepig), Legend Badge 3: Liepard Lv. 43
-  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 510, 51000, 43),
+  -- Cheren (chose Tepig), Legend Badge 2: Liepard Lv. 43
+  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 510, 51000, 43),
+  -- Cheren (chose Tepig), Legend Badge 3: Simisear Lv. 43
+  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 514, 51400, 43),
   -- Cheren (chose Tepig), Legend Badge 4: Samurott Lv. 45
   (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 503, 50300, 45),
   -- Cheren (chose Oshawott), Legend Badge 1: Unfezant Lv. 43
   (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 521, 52100, 43),
-  -- Cheren (chose Oshawott), Legend Badge 2: Simipour Lv. 43
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 516, 51600, 43),
-  -- Cheren (chose Oshawott), Legend Badge 3: Liepard Lv. 43
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 510, 51000, 43),
+  -- Cheren (chose Oshawott), Legend Badge 2: Liepard Lv. 43
+  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 510, 51000, 43),
+  -- Cheren (chose Oshawott), Legend Badge 3: Simipour Lv. 43
+  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 516, 51600, 43),
   -- Cheren (chose Oshawott), Legend Badge 4: Serperior Lv. 45
   (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 497, 49700, 45);

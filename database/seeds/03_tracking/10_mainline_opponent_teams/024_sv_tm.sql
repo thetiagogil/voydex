@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii The Teal Mask Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
+-- After-The-Way-Home teams: the game's trainer and event-battle data, cross-checked with Bulbapedia and Serebii.
 -- Kieran and Carmine battles: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon The Teal Mask Story battle opponent teams.
 -- ============================================================================
@@ -26,24 +27,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   form_id,
   level
 ) VALUES
-  -- Kieran, Arrive in Kitakami 1: Sentret Lv. 12
-  (240001, 24001, 24, NULL, NULL, NULL, NULL, NULL, 1, 161, 16100, 12),
-  -- Kieran, Arrive in Kitakami 2: Yanma Lv. 12
-  (240001, 24001, 24, NULL, NULL, NULL, NULL, NULL, 2, 193, 19300, 12),
-  -- The Loyal Three 1: Okidogi Lv. 35
-  (240004, 24002, 24, NULL, NULL, NULL, NULL, NULL, 1, 1014, 101400, 35),
-  -- The Loyal Three 2: Munkidori Lv. 35
-  (240004, 24002, 24, NULL, NULL, NULL, NULL, NULL, 2, 1015, 101500, 35),
-  -- The Loyal Three 3: Fezandipiti Lv. 35
-  (240004, 24002, 24, NULL, NULL, NULL, NULL, NULL, 3, 1016, 101600, 35),
-  -- Ogerpon 1: Ogerpon (Hearthflame Mask) Lv. 20
-  (240005, 24003, 24, NULL, NULL, NULL, NULL, NULL, 1, 1017, 101702, 20),
-  -- Ogerpon 2: Ogerpon (Wellspring Mask) Lv. 20
-  (240005, 24003, 24, NULL, NULL, NULL, NULL, NULL, 2, 1017, 101701, 20),
-  -- Ogerpon 3: Ogerpon (Cornerstone Mask) Lv. 20
-  (240005, 24003, 24, NULL, NULL, NULL, NULL, NULL, 3, 1017, 101703, 20),
-  -- Ogerpon 4: Ogerpon Lv. 20
-  (240005, 24003, 24, NULL, NULL, NULL, NULL, NULL, 4, 1017, 101700, 20),
+  -- Kieran, Arrive in Kitakami (You had not finished The Way Home yet) 1: Sentret Lv. 12
+  (240001, 24001, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 161, 16100, 12),
+  -- Kieran, Arrive in Kitakami (You had not finished The Way Home yet) 2: Yanma Lv. 12
+  (240001, 24001, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 2, 193, 19300, 12),
+  -- Kieran, Arrive in Kitakami (You had already finished The Way Home) 1: Sentret Lv. 59
+  (240001, 24001, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 161, 16100, 59),
+  -- Kieran, Arrive in Kitakami (You had already finished The Way Home) 2: Yanma Lv. 60
+  (240001, 24001, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 2, 193, 19300, 60),
+  -- The Loyal Three (You had not finished The Way Home yet) 1: Okidogi Lv. 35
+  (240004, 24002, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1014, 101400, 35),
+  -- The Loyal Three (You had not finished The Way Home yet) 2: Munkidori Lv. 35
+  (240004, 24002, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 2, 1015, 101500, 35),
+  -- The Loyal Three (You had not finished The Way Home yet) 3: Fezandipiti Lv. 35
+  (240004, 24002, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 3, 1016, 101600, 35),
+  -- The Loyal Three (You had already finished The Way Home) 1: Okidogi Lv. 85
+  (240004, 24002, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1014, 101400, 85),
+  -- The Loyal Three (You had already finished The Way Home) 2: Munkidori Lv. 85
+  (240004, 24002, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 2, 1015, 101500, 85),
+  -- The Loyal Three (You had already finished The Way Home) 3: Fezandipiti Lv. 85
+  (240004, 24002, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 3, 1016, 101600, 85),
+  -- Ogerpon (You had not finished The Way Home yet) 1: Ogerpon (Hearthflame Mask) Lv. 20
+  (240005, 24003, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1017, 101702, 20),
+  -- Ogerpon (You had not finished The Way Home yet) 2: Ogerpon (Wellspring Mask) Lv. 20
+  (240005, 24003, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 2, 1017, 101701, 20),
+  -- Ogerpon (You had not finished The Way Home yet) 3: Ogerpon (Cornerstone Mask) Lv. 20
+  (240005, 24003, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 3, 1017, 101703, 20),
+  -- Ogerpon (You had not finished The Way Home yet) 4: Ogerpon Lv. 20
+  (240005, 24003, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 4, 1017, 101700, 20),
+  -- Ogerpon (You had already finished The Way Home) 1: Ogerpon (Hearthflame Mask) Lv. 70
+  (240005, 24003, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1017, 101702, 70),
+  -- Ogerpon (You had already finished The Way Home) 2: Ogerpon (Wellspring Mask) Lv. 70
+  (240005, 24003, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 2, 1017, 101701, 70),
+  -- Ogerpon (You had already finished The Way Home) 3: Ogerpon (Cornerstone Mask) Lv. 70
+  (240005, 24003, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 3, 1017, 101703, 70),
+  -- Ogerpon (You had already finished The Way Home) 4: Ogerpon Lv. 70
+  (240005, 24003, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 4, 1017, 101700, 70),
   -- Bloodmoon Ursaluna 1: Ursaluna (Bloodmoon) Lv. 70
   (240007, 24004, 24, NULL, NULL, NULL, NULL, NULL, 1, 901, 90101, 70),
   -- Carmine (You had not finished The Way Home yet), Arrive in Kitakami 1: Poochyena Lv. 12

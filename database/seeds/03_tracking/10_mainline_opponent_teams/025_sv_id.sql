@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii The Indigo Disk Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
+-- Carmine's lead pair: the game's trainer data, matching Serebii.
 -- Carmine, Kieran, Nemona and Arven & Penny battles: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================
@@ -90,10 +91,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250008, 25006, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102400, 85),
   -- Pecharunt 1: Pecharunt Lv. 88
   (250009, 25007, 25, NULL, NULL, NULL, NULL, NULL, 1, 1025, 102500, 88),
-  -- Carmine, Arrive at Blueberry Academy 1: Toucannon Lv. 74
-  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 1, 733, 73300, 74),
-  -- Carmine, Arrive at Blueberry Academy 2: Mightyena Lv. 74
-  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 74),
+  -- Carmine, Arrive at Blueberry Academy 1: Mightyena Lv. 74
+  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 74),
+  -- Carmine, Arrive at Blueberry Academy 2: Toucannon Lv. 74
+  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 2, 733, 73300, 74),
   -- Carmine, Arrive at Blueberry Academy 3: Scrafty Lv. 74
   (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 3, 560, 56000, 74),
   -- Carmine, Arrive at Blueberry Academy 4: Sinistcha Lv. 75
