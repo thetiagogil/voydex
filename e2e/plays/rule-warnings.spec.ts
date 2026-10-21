@@ -40,6 +40,13 @@ test.describe("Rule warnings", () => {
     await expect(breaks).toContainText("Nickname everything");
     await expect(breaks).toContainText("Squirtle has no nickname.");
     await expect(breaks).not.toContainText("Monotype");
+    /* Settings changes the rules; Team changes the Pokémon. */
+    await expect(
+      breaks.getByRole("button", { name: "Open Settings" }),
+    ).toHaveAttribute("href", `/mainline/plays/${playId}/settings`);
+    await expect(
+      breaks.getByRole("button", { name: "Open Team" }),
+    ).toHaveAttribute("href", `/mainline/plays/${playId}/team`);
     await page.keyboard.press("Escape");
     await expect(breaks).toBeHidden();
 

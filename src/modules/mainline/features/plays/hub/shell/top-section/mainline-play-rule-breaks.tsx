@@ -147,15 +147,34 @@ export const MainlinePlayRuleBreaks = ({
           </div>
         }
         footer={
-          <Button
-            nativeButton={false}
-            className="w-full sm:ml-auto sm:w-auto"
-            render={
-              <Link href={appRoutes.mainlinePlayTeam(playId)} onClick={close} />
-            }
-          >
-            Open Team
-          </Button>
+          <>
+            {/* Settings changes the rules; Team changes the Pokémon. */}
+            <Button
+              variant="secondary"
+              nativeButton={false}
+              className="flex-1 sm:ml-auto sm:flex-none"
+              render={
+                <Link
+                  href={appRoutes.mainlinePlaySettings(playId)}
+                  onClick={close}
+                />
+              }
+            >
+              Open Settings
+            </Button>
+            <Button
+              nativeButton={false}
+              className="flex-1 sm:flex-none"
+              render={
+                <Link
+                  href={appRoutes.mainlinePlayTeam(playId)}
+                  onClick={close}
+                />
+              }
+            >
+              Open Team
+            </Button>
+          </>
         }
       >
         <ul className="grid gap-3">
