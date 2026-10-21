@@ -44,10 +44,12 @@ export const buildMainlinePlayTeamAnalysisData = ({
     storyMatchups:
       storyRows && rows.generation
         ? buildStoryMatchupsModel({
+            chosenChoiceKeys: storyRows.chosenChoiceKeys,
             generationOrder: rows.generation.sort_order,
             members: analysis?.members ?? [],
             opponentGameIdById: storyRows.opponentGameIdById,
             orderedMilestones: storyRows.orderedMilestones,
+            partyRows: storyRows.partyRows,
             playGameId: play.game_id,
             snapshotsByMilestoneId: storyRows.snapshotsByMilestoneId,
             types: rows.teamRows.types,
