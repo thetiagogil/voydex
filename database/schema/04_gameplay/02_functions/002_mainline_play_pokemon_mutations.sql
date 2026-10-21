@@ -539,6 +539,112 @@ WHERE
 END;
 $$;
 
+CREATE FUNCTION gameplay.move_mainline_play_pokemon (p_play_pokemon_id uuid, p_to_slot integer)
+    RETURNS TABLE (
+        result_play_pokemon_id uuid,
+        result_swapped_play_pokemon_id uuid)
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_play_id uuid;
+    v_play_pokemon gameplay.mainline_play_pokemon%ROWTYPE;
+    v_occupant_id uuid;
+BEGIN
+    IF p_play_pokemon_id IS NULL THEN
+        RAISE EXCEPTION 'play_pokemon_id is required'
+            USING ERRCODE = '23502';
+    END IF;
+    IF p_to_slot IS NULL OR p_to_slot NOT BETWEEN 1 AND 12 THEN
+        RAISE EXCEPTION 'A roster slot runs from 1 to 12'
+            USING ERRCODE = '23514';
+    END IF;
+    SELECT
+        mainline_play_pokemon.play_id
+    INTO
+        v_play_id
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.id = p_play_pokemon_id;
+    IF v_play_id IS NULL THEN
+        RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id %', p_play_pokemon_id
+            USING ERRCODE = '23503';
+    END IF;
+    -- The Play lock comes before any row lock, so two moves on one roster
+    -- queue instead of deadlocking on each other's rows.
+    PERFORM
+        pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_id::text)::bigint);
+    SELECT
+        mainline_play_pokemon.*
+    INTO
+        v_play_pokemon
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.id = p_play_pokemon_id
+    FOR UPDATE;
+    IF v_play_pokemon.id IS NULL THEN
+        RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id %', p_play_pokemon_id
+            USING ERRCODE = '23503';
+    END IF;
+    IF v_play_pokemon.slot IS NULL THEN
+        RAISE EXCEPTION 'Only team and reserve Pokémon can move'
+            USING ERRCODE = '23514';
+    END IF;
+    IF v_play_pokemon.slot = p_to_slot THEN
+        RETURN QUERY
+        SELECT
+            p_play_pokemon_id,
+            NULL::uuid;
+        RETURN;
+    END IF;
+    SELECT
+        mainline_play_pokemon.id
+    INTO
+        v_occupant_id
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.play_id = v_play_pokemon.play_id
+        AND mainline_play_pokemon.slot = p_to_slot
+    FOR UPDATE;
+    -- The team keeps at least one Pokémon: a team Pokémon may leave for an
+    -- empty reserve slot only while another Pokémon stays on the team.
+    IF v_play_pokemon.slot <= 6 AND p_to_slot >= 7 AND v_occupant_id IS NULL AND NOT EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_play_pokemon
+        WHERE
+            mainline_play_pokemon.play_id = v_play_pokemon.play_id AND mainline_play_pokemon.roster_state_id = 1 AND mainline_play_pokemon.id <> p_play_pokemon_id) THEN
+        RAISE EXCEPTION 'The team needs at least one Pokémon'
+            USING ERRCODE = '23514';
+    END IF;
+    -- One statement moves both Pokémon; the deferrable slot constraint is
+    -- checked once both have their new slots. The state follows the slot.
+    UPDATE
+        gameplay.mainline_play_pokemon
+    SET
+        slot = placements.to_slot,
+        roster_state_id = CASE WHEN placements.to_slot <= 6 THEN
+            1
+        ELSE
+            2
+        END
+    FROM (
+        VALUES (p_play_pokemon_id, p_to_slot),
+            (v_occupant_id, v_play_pokemon.slot)) AS placements (play_pokemon_id, to_slot)
+WHERE
+    mainline_play_pokemon.id = placements.play_pokemon_id;
+    RETURN QUERY
+    SELECT
+        p_play_pokemon_id,
+        v_occupant_id;
+END;
+$$;
+
 CREATE FUNCTION gameplay.remove_mainline_play_pokemon (p_play_pokemon_id uuid, p_remove_added_moment boolean DEFAULT FALSE)
     RETURNS TABLE (
         result_play_pokemon_id uuid,
@@ -641,6 +747,12 @@ REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGE
 
 GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) TO authenticated, service_role;
 
+REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM anon;
+
+GRANT EXECUTE ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) TO authenticated, service_role;
+
 REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM PUBLIC;
 
 REVOKE ALL ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) FROM anon;
@@ -658,5 +770,7 @@ COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, 
 COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+
+COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.remove_mainline_play_pokemon (UUID, BOOLEAN) IS 'Atomically deletes a play Pokémon recorded by mistake and, when asked (undoing an add), its own Pokémon Added moment. Its other moments stay in History with the Pokémon link cleared. Runs as SECURITY INVOKER so gameplay RLS applies.';

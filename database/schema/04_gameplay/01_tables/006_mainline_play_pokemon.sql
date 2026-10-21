@@ -26,6 +26,7 @@ CREATE TABLE gameplay.mainline_play_pokemon (
     updated_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT play_pokemon_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT play_pokemon_id_play_unique UNIQUE (id, play_id),
+    CONSTRAINT play_pokemon_play_slot_unique UNIQUE (play_id, slot) DEFERRABLE INITIALLY IMMEDIATE,
     CONSTRAINT play_pokemon_slot_range_check CHECK (slot IS NULL OR slot BETWEEN 1 AND 12),
     CONSTRAINT play_pokemon_current_slot_check CHECK ((roster_state_id = 1 AND slot BETWEEN 1 AND 6) OR (roster_state_id = 2 AND slot BETWEEN 7 AND 12) OR (roster_state_id IN (3, 4) AND slot IS NULL)),
     CONSTRAINT play_pokemon_level_range_check CHECK (level IS NULL OR level BETWEEN 1 AND 100),
@@ -41,10 +42,6 @@ CREATE TRIGGER set_play_pokemon_updated_at
     BEFORE UPDATE ON gameplay.mainline_play_pokemon
     FOR EACH ROW
     EXECUTE FUNCTION private.set_updated_at ();
-
-CREATE UNIQUE INDEX play_pokemon_play_slot_unique ON gameplay.mainline_play_pokemon (play_id, slot)
-WHERE
-    slot IS NOT NULL;
 
 CREATE INDEX play_pokemon_play_roster_state_idx ON gameplay.mainline_play_pokemon (play_id, roster_state_id);
 
@@ -75,3 +72,5 @@ COMMENT ON TABLE gameplay.mainline_play_pokemon IS 'Pokémon recorded in a play.
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.roster_state_id IS 'Stable lookup IDs: 1 active, 2 reserve, 3 retired, 4 replaced.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.slot IS 'Current roster slot. Active uses 1 to 6; reserve uses 7 to 12; retired/replaced rows have no slot.';
+
+COMMENT ON CONSTRAINT play_pokemon_play_slot_unique ON gameplay.mainline_play_pokemon IS 'One Pokémon per current slot. Deferrable and checked at the end of each statement, so a single update can swap two Pokémon. Past Pokémon have no slot and never clash.';
