@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Crystal Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Crystal Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
+-- Rival battles: the pret pokecrystal disassembly's trainer parties, cross-checked with Bulbapedia and Serebii.
 -- Scope: Pokémon Crystal Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -204,4 +205,154 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Red 5: Charizard Lv. 77
   (40025, 4022, 4, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 77),
   -- Red 6: Blastoise Lv. 77
-  (40025, 4022, 4, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 77);
+  (40025, 4022, 4, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 77),
+  -- Silver (chose Chikorita), Receive Pokedex 1: Cyndaquil Lv. 5
+  (40002, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 155, 15500, 5),
+  -- Silver (chose Cyndaquil), Receive Pokedex 1: Totodile Lv. 5
+  (40002, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 158, 15800, 5),
+  -- Silver (chose Totodile), Receive Pokedex 1: Chikorita Lv. 5
+  (40002, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 152, 15200, 5),
+  -- Silver (chose Chikorita), Hive Badge 1: Gastly Lv. 12
+  (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 92, 9200, 12),
+  -- Silver (chose Chikorita), Hive Badge 2: Zubat Lv. 14
+  (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 41, 4100, 14),
+  -- Silver (chose Chikorita), Hive Badge 3: Quilava Lv. 16
+  (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 156, 15600, 16),
+  -- Silver (chose Cyndaquil), Hive Badge 1: Gastly Lv. 12
+  (40004, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 92, 9200, 12),
+  -- Silver (chose Cyndaquil), Hive Badge 2: Zubat Lv. 14
+  (40004, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 41, 4100, 14),
+  -- Silver (chose Cyndaquil), Hive Badge 3: Croconaw Lv. 16
+  (40004, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 159, 15900, 16),
+  -- Silver (chose Totodile), Hive Badge 1: Gastly Lv. 12
+  (40004, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 92, 9200, 12),
+  -- Silver (chose Totodile), Hive Badge 2: Zubat Lv. 14
+  (40004, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 41, 4100, 14),
+  -- Silver (chose Totodile), Hive Badge 3: Bayleef Lv. 16
+  (40004, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 153, 15300, 16),
+  -- Silver (chose Chikorita), Burned Tower 1: Haunter Lv. 20
+  (40026, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 93, 9300, 20),
+  -- Silver (chose Chikorita), Burned Tower 2: Magnemite Lv. 18
+  (40026, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 81, 8100, 18),
+  -- Silver (chose Chikorita), Burned Tower 3: Zubat Lv. 20
+  (40026, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 41, 4100, 20),
+  -- Silver (chose Chikorita), Burned Tower 4: Quilava Lv. 22
+  (40026, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 156, 15600, 22),
+  -- Silver (chose Cyndaquil), Burned Tower 1: Haunter Lv. 20
+  (40026, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 93, 9300, 20),
+  -- Silver (chose Cyndaquil), Burned Tower 2: Magnemite Lv. 18
+  (40026, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 81, 8100, 18),
+  -- Silver (chose Cyndaquil), Burned Tower 3: Zubat Lv. 20
+  (40026, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 41, 4100, 20),
+  -- Silver (chose Cyndaquil), Burned Tower 4: Croconaw Lv. 22
+  (40026, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 159, 15900, 22),
+  -- Silver (chose Totodile), Burned Tower 1: Haunter Lv. 20
+  (40026, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 93, 9300, 20),
+  -- Silver (chose Totodile), Burned Tower 2: Magnemite Lv. 18
+  (40026, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 81, 8100, 18),
+  -- Silver (chose Totodile), Burned Tower 3: Zubat Lv. 20
+  (40026, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 41, 4100, 20),
+  -- Silver (chose Totodile), Burned Tower 4: Bayleef Lv. 22
+  (40026, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 153, 15300, 22),
+  -- Silver (chose Chikorita), Radio Tower 1: Golbat Lv. 30
+  (40027, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 42, 4200, 30),
+  -- Silver (chose Chikorita), Radio Tower 2: Magnemite Lv. 28
+  (40027, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 81, 8100, 28),
+  -- Silver (chose Chikorita), Radio Tower 3: Haunter Lv. 30
+  (40027, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 93, 9300, 30),
+  -- Silver (chose Chikorita), Radio Tower 4: Sneasel Lv. 32
+  (40027, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 215, 21500, 32),
+  -- Silver (chose Chikorita), Radio Tower 5: Quilava Lv. 32
+  (40027, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 156, 15600, 32),
+  -- Silver (chose Cyndaquil), Radio Tower 1: Golbat Lv. 30
+  (40027, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 42, 4200, 30),
+  -- Silver (chose Cyndaquil), Radio Tower 2: Magnemite Lv. 28
+  (40027, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 81, 8100, 28),
+  -- Silver (chose Cyndaquil), Radio Tower 3: Haunter Lv. 30
+  (40027, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 93, 9300, 30),
+  -- Silver (chose Cyndaquil), Radio Tower 4: Sneasel Lv. 32
+  (40027, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 215, 21500, 32),
+  -- Silver (chose Cyndaquil), Radio Tower 5: Feraligatr Lv. 32
+  (40027, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 160, 16000, 32),
+  -- Silver (chose Totodile), Radio Tower 1: Golbat Lv. 30
+  (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 42, 4200, 30),
+  -- Silver (chose Totodile), Radio Tower 2: Magnemite Lv. 28
+  (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 81, 8100, 28),
+  -- Silver (chose Totodile), Radio Tower 3: Haunter Lv. 30
+  (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 93, 9300, 30),
+  -- Silver (chose Totodile), Radio Tower 4: Sneasel Lv. 32
+  (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 215, 21500, 32),
+  -- Silver (chose Totodile), Radio Tower 5: Meganium Lv. 32
+  (40027, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 154, 15400, 32),
+  -- Silver (chose Chikorita), Elite Four Will 1: Sneasel Lv. 34
+  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 215, 21500, 34),
+  -- Silver (chose Chikorita), Elite Four Will 2: Golbat Lv. 36
+  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 42, 4200, 36),
+  -- Silver (chose Chikorita), Elite Four Will 3: Magneton Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 82, 8200, 35),
+  -- Silver (chose Chikorita), Elite Four Will 4: Haunter Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 93, 9300, 35),
+  -- Silver (chose Chikorita), Elite Four Will 5: Kadabra Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 64, 6400, 35),
+  -- Silver (chose Chikorita), Elite Four Will 6: Typhlosion Lv. 38
+  (40011, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 6, 157, 15700, 38),
+  -- Silver (chose Cyndaquil), Elite Four Will 1: Sneasel Lv. 34
+  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 215, 21500, 34),
+  -- Silver (chose Cyndaquil), Elite Four Will 2: Golbat Lv. 36
+  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 42, 4200, 36),
+  -- Silver (chose Cyndaquil), Elite Four Will 3: Magneton Lv. 34
+  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 82, 8200, 34),
+  -- Silver (chose Cyndaquil), Elite Four Will 4: Haunter Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 93, 9300, 35),
+  -- Silver (chose Cyndaquil), Elite Four Will 5: Kadabra Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 64, 6400, 35),
+  -- Silver (chose Cyndaquil), Elite Four Will 6: Feraligatr Lv. 38
+  (40011, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 6, 160, 16000, 38),
+  -- Silver (chose Totodile), Elite Four Will 1: Sneasel Lv. 34
+  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 215, 21500, 34),
+  -- Silver (chose Totodile), Elite Four Will 2: Golbat Lv. 36
+  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 42, 4200, 36),
+  -- Silver (chose Totodile), Elite Four Will 3: Magneton Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 82, 8200, 35),
+  -- Silver (chose Totodile), Elite Four Will 4: Haunter Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 93, 9300, 35),
+  -- Silver (chose Totodile), Elite Four Will 5: Kadabra Lv. 35
+  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 64, 6400, 35),
+  -- Silver (chose Totodile), Elite Four Will 6: Meganium Lv. 38
+  (40011, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 38),
+  -- Silver (chose Chikorita), Boulder Badge 1: Sneasel Lv. 41
+  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 215, 21500, 41),
+  -- Silver (chose Chikorita), Boulder Badge 2: Golbat Lv. 42
+  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 2, 42, 4200, 42),
+  -- Silver (chose Chikorita), Boulder Badge 3: Magneton Lv. 41
+  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 3, 82, 8200, 41),
+  -- Silver (chose Chikorita), Boulder Badge 4: Gengar Lv. 43
+  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 4, 94, 9400, 43),
+  -- Silver (chose Chikorita), Boulder Badge 5: Alakazam Lv. 43
+  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 5, 65, 6500, 43),
+  -- Silver (chose Chikorita), Boulder Badge 6: Typhlosion Lv. 45
+  (40017, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 6, 157, 15700, 45),
+  -- Silver (chose Cyndaquil), Boulder Badge 1: Sneasel Lv. 41
+  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 215, 21500, 41),
+  -- Silver (chose Cyndaquil), Boulder Badge 2: Golbat Lv. 42
+  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 2, 42, 4200, 42),
+  -- Silver (chose Cyndaquil), Boulder Badge 3: Magneton Lv. 41
+  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 3, 82, 8200, 41),
+  -- Silver (chose Cyndaquil), Boulder Badge 4: Gengar Lv. 43
+  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 4, 94, 9400, 43),
+  -- Silver (chose Cyndaquil), Boulder Badge 5: Alakazam Lv. 43
+  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 5, 65, 6500, 43),
+  -- Silver (chose Cyndaquil), Boulder Badge 6: Feraligatr Lv. 45
+  (40017, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 6, 160, 16000, 45),
+  -- Silver (chose Totodile), Boulder Badge 1: Sneasel Lv. 41
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 215, 21500, 41),
+  -- Silver (chose Totodile), Boulder Badge 2: Golbat Lv. 42
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 2, 42, 4200, 42),
+  -- Silver (chose Totodile), Boulder Badge 3: Magneton Lv. 41
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 3, 82, 8200, 41),
+  -- Silver (chose Totodile), Boulder Badge 4: Gengar Lv. 43
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 4, 94, 9400, 43),
+  -- Silver (chose Totodile), Boulder Badge 5: Alakazam Lv. 43
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 65, 6500, 43),
+  -- Silver (chose Totodile), Boulder Badge 6: Meganium Lv. 45
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 45);

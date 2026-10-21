@@ -25,16 +25,16 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (100004, 100003, 10, 1, 1, NULL),
   -- Plain Badge <- Hive Badge
   (100005, 100004, 10, 1, 1, NULL),
-  -- Fog Badge <- Plain Badge
-  (100006, 100005, 10, 1, 1, NULL),
+  -- Fog Badge <- Burned Tower
+  (100006, 100028, 10, 1, 1, NULL),
   -- Storm Badge <- Fog Badge
   (100007, 100006, 10, 1, 1, NULL),
   -- Mineral Badge <- Storm Badge
   (100008, 100007, 10, 1, 1, NULL),
   -- Glacier Badge <- Mineral Badge
   (100009, 100008, 10, 1, 1, NULL),
-  -- Rising Badge <- Glacier Badge
-  (100010, 100009, 10, 1, 1, NULL),
+  -- Rising Badge <- Radio Tower
+  (100010, 100029, 10, 1, 1, NULL),
   -- Elite Four Will <- Rising Badge
   (100011, 100010, 10, 1, 1, NULL),
   -- Elite Four Koga <- Elite Four Will
@@ -68,4 +68,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Choose Kanto Starter <- Defeat Red
   (100026, 100025, 10, 1, 1, NULL),
   -- Choose Hoenn Starter <- Choose Kanto Starter
-  (100027, 100026, 10, 1, 1, NULL);
+  (100027, 100026, 10, 1, 1, NULL),
+  -- Burned Tower <- Plain Badge
+  (100028, 100005, 10, 1, 1, NULL),
+  -- Radio Tower <- Glacier Badge
+  (100029, 100009, 10, 1, 1, NULL);

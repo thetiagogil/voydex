@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Crystal source page.
+-- Story points with rival battles: Bulbapedia walkthrough pages and the pret pokecrystal map scripts.
 -- Scope: Pokémon Crystal major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -37,16 +38,20 @@ INSERT INTO tracking.mainline_milestones (
   (40004, 4, NULL, 401, 2, 2, NULL, 'hive-badge', 'Hive Badge', 'Defeat Bugsy at Azalea Gym and receive the Hive Badge.', 4, true),
   -- Plain Badge
   (40005, 4, NULL, 401, 2, 2, NULL, 'plain-badge', 'Plain Badge', 'Defeat Whitney at Goldenrod Gym and receive the Plain Badge.', 5, true),
+  -- Burned Tower
+  (40026, 4, NULL, 401, 1, 2, NULL, 'burned-tower', 'Burned Tower', 'Explore the Burned Tower in Ecruteak City with Eusine, battle your rival, and watch Raikou, Entei and Suicune flee, which opens the Ecruteak Gym.', 6, true),
   -- Fog Badge
-  (40006, 4, NULL, 401, 2, 2, NULL, 'fog-badge', 'Fog Badge', 'Defeat Morty at Ecruteak Gym and receive the Fog Badge.', 6, true),
+  (40006, 4, NULL, 401, 2, 2, NULL, 'fog-badge', 'Fog Badge', 'Defeat Morty at Ecruteak Gym and receive the Fog Badge.', 7, true),
   -- Storm Badge
-  (40007, 4, NULL, 401, 2, 2, NULL, 'storm-badge', 'Storm Badge', 'Defeat Chuck at Cianwood Gym and receive the Storm Badge.', 7, true),
+  (40007, 4, NULL, 401, 2, 2, NULL, 'storm-badge', 'Storm Badge', 'Defeat Chuck at Cianwood Gym and receive the Storm Badge.', 8, true),
   -- Mineral Badge
-  (40008, 4, NULL, 401, 2, 2, NULL, 'mineral-badge', 'Mineral Badge', 'Defeat Jasmine at Olivine Gym and receive the Mineral Badge.', 8, true),
+  (40008, 4, NULL, 401, 2, 2, NULL, 'mineral-badge', 'Mineral Badge', 'Defeat Jasmine at Olivine Gym and receive the Mineral Badge.', 9, true),
   -- Glacier Badge
-  (40009, 4, NULL, 401, 2, 2, NULL, 'glacier-badge', 'Glacier Badge', 'Defeat Pryce at Mahogany Gym and receive the Glacier Badge.', 9, true),
+  (40009, 4, NULL, 401, 2, 2, NULL, 'glacier-badge', 'Glacier Badge', 'Defeat Pryce at Mahogany Gym and receive the Glacier Badge.', 10, true),
+  -- Radio Tower
+  (40027, 4, NULL, 401, 1, 2, NULL, 'radio-tower', 'Radio Tower', 'Free the Goldenrod Radio Tower from Team Rocket, going through the underground to rescue the Director.', 11, true),
   -- Rising Badge
-  (40010, 4, NULL, 401, 2, 2, NULL, 'rising-badge', 'Rising Badge', 'Defeat Clair at Blackthorn Gym and receive the Rising Badge.', 10, true),
+  (40010, 4, NULL, 401, 2, 2, NULL, 'rising-badge', 'Rising Badge', 'Defeat Clair at Blackthorn Gym and receive the Rising Badge.', 12, true),
   -- Elite Four Will
   (40011, 4, NULL, 402, 7, 2, NULL, 'elite-four-will', 'Elite Four Will', 'Defeat Will at the Indigo Plateau.', 1, true),
   -- Elite Four Koga
