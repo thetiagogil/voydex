@@ -41,8 +41,12 @@ INSERT INTO tracking.mainline_milestones (
   (210008, 21, NULL, 2101, 2, 2, NULL, 'mine-badge', 'Mine Badge', 'Defeat Byron at Canalave Gym and receive the Mine Badge.', 8, true),
   -- Icicle Badge
   (210009, 21, NULL, 2101, 2, 2, NULL, 'icicle-badge', 'Icicle Badge', 'Defeat Candice at Snowpoint Gym and receive the Icicle Badge.', 9, true),
+  -- Team Galactic HQ
+  (210018, 21, NULL, 2101, 1, 2, NULL, 'galactic-hq', 'Team Galactic HQ', 'Raid Team Galactic''s headquarters in Veilstone City, defeat Cyrus and free Uxie, Mesprit and Azelf.', 10, true),
+  -- Spear Pillar
+  (210019, 21, NULL, 2101, 1, 2, NULL, 'spear-pillar', 'Spear Pillar', 'Climb Mt. Coronet to Spear Pillar, stop Cyrus and face Dialga (Brilliant Diamond) or Palkia (Shining Pearl).', 11, true),
   -- Beacon Badge
-  (210010, 21, NULL, 2101, 2, 2, NULL, 'beacon-badge', 'Beacon Badge', 'Defeat Volkner at Sunyshore Gym and receive the Beacon Badge.', 10, true),
+  (210010, 21, NULL, 2101, 2, 2, NULL, 'beacon-badge', 'Beacon Badge', 'Defeat Volkner at Sunyshore Gym and receive the Beacon Badge.', 12, true),
   -- Elite Four Aaron
   (210011, 21, NULL, 2102, 7, 2, NULL, 'elite-four-aaron', 'Elite Four Aaron', 'Defeat Aaron at the Pokémon League.', 1, true),
   -- Elite Four Bertha
@@ -56,4 +60,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (210016, 21, NULL, 2102, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Ramanas Park
-  (210017, 21, NULL, 2103, 1, 1, NULL, 'ramanas-park', 'Ramanas Park', 'Unlock Ramanas Park after entering the Hall of Fame and completing the Sinnoh Pokedex.', 1, false);
+  (210017, 21, NULL, 2103, 1, 1, NULL, 'ramanas-park', 'Ramanas Park', 'Unlock Ramanas Park after entering the Hall of Fame and completing the Sinnoh Pokedex.', 2, false),
+  -- Fight Area
+  (210020, 21, NULL, 2103, 1, 2, NULL, 'fight-area', 'Fight Area', 'Take the ship from Snowpoint City to the Fight Area in the Battle Zone.', 1, false);

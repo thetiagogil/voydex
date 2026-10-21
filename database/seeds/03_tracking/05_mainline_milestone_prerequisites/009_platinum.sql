@@ -29,12 +29,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (90006, 90005, 9, 1, 1, NULL),
   -- Fen Badge <- Cobble Badge
   (90007, 90006, 9, 1, 1, NULL),
-  -- Mine Badge <- Fen Badge
-  (90008, 90007, 9, 1, 1, NULL),
+  -- Mine Badge <- Celestic Town
+  (90008, 90017, 9, 1, 1, NULL),
   -- Icicle Badge <- Mine Badge
   (90009, 90008, 9, 1, 1, NULL),
-  -- Beacon Badge <- Icicle Badge
-  (90010, 90009, 9, 1, 1, NULL),
+  -- Beacon Badge <- Distortion World
+  (90010, 90019, 9, 1, 1, NULL),
   -- Elite Four Aaron <- Beacon Badge
   (90011, 90010, 9, 1, 1, NULL),
   -- Elite Four Bertha <- Elite Four Aaron
@@ -46,4 +46,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Cynthia <- Elite Four Lucian
   (90015, 90014, 9, 1, 1, NULL),
   -- Hall of Fame <- Champion Cynthia
-  (90016, 90015, 9, 1, 1, NULL);
+  (90016, 90015, 9, 1, 1, NULL),
+  -- Celestic Town <- Fen Badge
+  (90017, 90007, 9, 1, 1, NULL),
+  -- Team Galactic HQ <- Icicle Badge
+  (90018, 90009, 9, 1, 1, NULL),
+  -- Distortion World <- Team Galactic HQ
+  (90019, 90018, 9, 1, 1, NULL),
+  -- Stark Mountain <- Hall of Fame
+  (90020, 90016, 9, 1, 1, NULL);
