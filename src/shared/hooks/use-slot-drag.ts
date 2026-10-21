@@ -41,13 +41,29 @@ export const useSlotDrag = <TItem extends number | string, TSlot>({
         event.currentTarget.querySelector<HTMLElement>("[data-drag-image]");
 
       if (image) {
+        /*
+         * A copy off the page: the browser draws a drag picture from the
+         * screen, so the real one would take along whatever sits over it,
+         * such as the corner ×.
+         */
         const box = image.getBoundingClientRect();
+        const copy = image.cloneNode(true) as HTMLElement;
 
+        Object.assign(copy.style, {
+          height: `${box.height}px`,
+          left: "-10000px",
+          pointerEvents: "none",
+          position: "fixed",
+          top: "0",
+          width: `${box.width}px`,
+        });
+        document.body.append(copy);
         event.dataTransfer.setDragImage(
-          image,
+          copy,
           event.clientX - box.left,
           event.clientY - box.top,
         );
+        window.setTimeout(() => copy.remove());
       }
 
       event.dataTransfer.effectAllowed = "move";
