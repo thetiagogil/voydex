@@ -5,7 +5,6 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
-import { describeLevelCap } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import {
   formatPlayDate,
@@ -13,6 +12,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -31,20 +31,29 @@ type PlayDetailRow = {
   value: ReactNode;
 };
 
-/* Rules and tags as small chips, so a long list wraps instead of piling up. */
+/*
+ * Rules and tags as small chips, so a long list wraps instead of piling up.
+ * A chip with more to say (Level caps' cap) carries an "i" tip beside it.
+ */
 const PlayDetailChips = ({
   items,
   label,
 }: {
-  items: { id: string; name: string; title?: string }[];
+  items: { id: string; name: string; tip?: ReactNode; title?: string }[];
   label: string;
 }) => (
   <ul aria-label={label} className="flex flex-wrap gap-1.5">
     {items.map((item) => (
-      <li key={item.id}>
+      <li key={item.id} className="flex items-center gap-1">
         <Badge size="md" title={item.title} className="whitespace-normal">
           {item.name}
         </Badge>
+        {item.tip ? (
+          <ExplanatoryTip
+            content={item.tip}
+            triggerLabel={`About ${item.name}`}
+          />
+        ) : null}
       </li>
     ))}
   </ul>
@@ -90,23 +99,15 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
           label: "Rules",
           stacked: true,
           value: (
-            <div className="grid gap-2">
-              <PlayDetailChips
-                label="Rules"
-                items={data.rules.map((rule) => ({
-                  id: rule.id,
-                  name: rule.label,
-                  title: rule.description ?? undefined,
-                }))}
-              />
-              {/* Level caps' cap, or why levels aren't checked. */}
-              {data.levelCap ? (
-                <p className="text-ink-2 text-13 font-semibold text-pretty">
-                  <span className="text-ink font-extrabold">Level caps:</span>{" "}
-                  {describeLevelCap(data.levelCap)}
-                </p>
-              ) : null}
-            </div>
+            <PlayDetailChips
+              label="Rules"
+              items={data.rules.map((rule) => ({
+                id: rule.id,
+                name: rule.label,
+                tip: data.ruleNotes[rule.id],
+                title: rule.description ?? undefined,
+              }))}
+            />
           ),
         }
       : null,

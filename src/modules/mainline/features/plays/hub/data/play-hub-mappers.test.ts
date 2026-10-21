@@ -4,11 +4,13 @@ import { describe, expect, it } from "vitest";
 import {
   buildMainlinePlayOverviewData,
   buildMainlinePlayRules,
+  buildMainlinePlayShellData,
   buildMainlinePlayTeamRosterData,
   buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import type {
   MainlineChallengeRule,
+  MainlinePlayGameContextRows,
   MainlinePlayChallengeRuleLink,
   MainlinePlayTeamMemberRow,
   MainlinePlayTeamPreviewRow,
@@ -80,6 +82,41 @@ describe("buildMainlinePlayRules", () => {
       "First catch per area · except shinies",
       "Level caps",
     ]);
+  });
+});
+
+describe("buildMainlinePlayShellData rule notes", () => {
+  const build = (
+    ruleChecks: Parameters<typeof buildMainlinePlayShellData>[0]["ruleChecks"],
+  ) =>
+    buildMainlinePlayShellData({
+      collectiblesAvailable: false,
+      gameContext: { game: null, region: null } as MainlinePlayGameContextRows,
+      play: {} as Parameters<typeof buildMainlinePlayShellData>[0]["play"],
+      ruleChecks,
+      ruleRows: { links: [], rules: [], types: [] },
+      tags: [],
+      teamRows: null,
+    }).ruleNotes;
+
+  it("puts Level caps' cap beside its rule", () => {
+    expect(
+      build({
+        ...emptyRuleCheckContext,
+        levelCap: {
+          battle: { kind: "Gym Leader", name: "Brock" },
+          level: 14,
+          status: "capped",
+        },
+        rules: [{ id: "caps", kind: "level_caps", name: "Level caps" }],
+      }),
+    ).toEqual({
+      caps: "Lv. 14, the highest level on Gym Leader Brock's team, the next leader you face.",
+    });
+  });
+
+  it("has nothing to say without Level caps", () => {
+    expect(build(emptyRuleCheckContext)).toEqual({});
   });
 });
 

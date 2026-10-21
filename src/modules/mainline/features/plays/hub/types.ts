@@ -230,10 +230,10 @@ export type MainlinePlayShellData = {
   game: Game | null;
   play: MainlinePlaySummary;
   region: Region | null;
-  /* Level caps' cap now, for Play details; null when the Play doesn't use it. */
-  levelCap: MainlinePlayLevelCap | null;
   /* The rules the team breaks now, for the head's chip and its sheet. */
   ruleBreaks: RuleBreaks;
+  /* What Play details' tip beside a rule says (Level caps' cap), by rule id. */
+  ruleNotes: Record<string, string>;
   rules: MainlinePlayRule[];
   /* The Play's tags by name, shown in Play details. */
   tags: string[];

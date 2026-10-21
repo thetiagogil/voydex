@@ -197,12 +197,12 @@ test.describe("Rule warnings", () => {
 
     /* Brock's Onix is Lv. 14, and Brock is the first battle ahead. */
     await page.getByRole("button", { name: "Play details" }).click();
+    await page.getByRole("button", { name: "About Level caps" }).click();
     await expect(
       page.getByText(
         "Lv. 14, the highest level on Gym Leader Brock's team, the next leader you face.",
       ),
     ).toBeVisible();
-    await page.keyboard.press("Escape");
 
     await page.goto(`/mainline/plays/${playId}/team`, {
       waitUntil: "networkidle",

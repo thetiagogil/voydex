@@ -55,7 +55,6 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
   collectiblesAvailable: true,
   coverImageUrl: getGameCoverImageUrlBySlug(play.game.slug),
   game: null,
-  levelCap: null,
   play: {
     active_team_count: null,
     archived_at: null,
@@ -96,6 +95,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
     sort_order: 0,
   },
   ruleBreaks: { pokemon: [], ruleNames: [] },
+  ruleNotes: {},
   rules: [],
   tags: [],
 });
