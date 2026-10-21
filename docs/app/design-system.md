@@ -224,9 +224,10 @@ on a hard lip, a press that moves, a gradient fill or glass.
   `CornerBubble`: the slot number (`SlotMark`) top-right, a warning
   (`WarningMark`, or the raised `ExplanatoryTip` where the mark opens a tip)
   top-left, where the Pokédex number (plain text) would be, and the shiny mark
-  per the line below. A Pokédex card has no slot, so its Play state mark (a
+  (`ShinyMark`, a sticker's `shiny`) on the slot number's right edge, level
+  with the art's lower corner (chosen 2026-10-21). A Pokédex card has no slot, so its Play state mark (a
   Poké Ball or an eye) takes the top-right. Every mark is a 24px disc in the
-  one `bubble` white band, inside the card (`inside-top-*`, 12px in) so a list
+  one `bubble` white band, inside the card (`inside-top-*`, 8px in) so a list
   that clips its edges never cuts it and the card lifts with it. Never place
   a mark by hand: `npm run design:check` fails a Pokémon card file that does.
 - **Focus rings are never cut off**: the one `focus-ring` lifts the focused

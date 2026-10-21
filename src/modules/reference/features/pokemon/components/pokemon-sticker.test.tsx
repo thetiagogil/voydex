@@ -23,6 +23,10 @@ describe("PokemonSticker corners", () => {
     expect(cornerOf(render({ slot: "4" }), ">4<")).toBe("inside-top-right");
   });
 
+  it("puts the shiny mark on the slot number's right edge", () => {
+    expect(cornerOf(render({ shiny: true }), ", Shiny")).toBe("inside-right");
+  });
+
   it("puts a warning top-left", () => {
     expect(
       cornerOf(render({ warning: "Breaks a rule" }), "Breaks a rule"),
