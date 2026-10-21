@@ -28,22 +28,22 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (13001, 13, NULL, NULL, NULL, NULL, NULL, 1, 283, 28300, 10),
   -- Viola 2: Vivillon Lv. 12
   (13001, 13, NULL, NULL, NULL, NULL, NULL, 2, 666, 66600, 12),
-  -- Grant 1: Tyrunt Lv. 25
-  (13002, 13, NULL, NULL, NULL, NULL, NULL, 1, 696, 69600, 25),
-  -- Grant 2: Amaura Lv. 25
-  (13002, 13, NULL, NULL, NULL, NULL, NULL, 2, 698, 69800, 25),
+  -- Grant 1: Amaura Lv. 25
+  (13002, 13, NULL, NULL, NULL, NULL, NULL, 1, 698, 69800, 25),
+  -- Grant 2: Tyrunt Lv. 25
+  (13002, 13, NULL, NULL, NULL, NULL, NULL, 2, 696, 69600, 25),
   -- Korrina 1: Mienfoo Lv. 29
   (13003, 13, NULL, NULL, NULL, NULL, NULL, 1, 619, 61900, 29),
-  -- Korrina 2: Hawlucha Lv. 32
-  (13003, 13, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 32),
-  -- Korrina 3: Machoke Lv. 28
-  (13003, 13, NULL, NULL, NULL, NULL, NULL, 3, 67, 6700, 28),
+  -- Korrina 2: Machoke Lv. 28
+  (13003, 13, NULL, NULL, NULL, NULL, NULL, 2, 67, 6700, 28),
+  -- Korrina 3: Hawlucha Lv. 32
+  (13003, 13, NULL, NULL, NULL, NULL, NULL, 3, 701, 70100, 32),
   -- Ramos 1: Jumpluff Lv. 30
   (13004, 13, NULL, NULL, NULL, NULL, NULL, 1, 189, 18900, 30),
-  -- Ramos 2: Gogoat Lv. 34
-  (13004, 13, NULL, NULL, NULL, NULL, NULL, 2, 673, 67300, 34),
-  -- Ramos 3: Weepinbell Lv. 31
-  (13004, 13, NULL, NULL, NULL, NULL, NULL, 3, 70, 7000, 31),
+  -- Ramos 2: Weepinbell Lv. 31
+  (13004, 13, NULL, NULL, NULL, NULL, NULL, 2, 70, 7000, 31),
+  -- Ramos 3: Gogoat Lv. 34
+  (13004, 13, NULL, NULL, NULL, NULL, NULL, 3, 673, 67300, 34),
   -- Clemont 1: Emolga Lv. 35
   (13005, 13, NULL, NULL, NULL, NULL, NULL, 1, 587, 58700, 35),
   -- Clemont 2: Magneton Lv. 35
