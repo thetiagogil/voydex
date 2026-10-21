@@ -39,6 +39,11 @@ completion. Games with distinct Main Story, Postgame, DLC, or parallel paths
 may expose a compact game-aware content-scope switcher in the milestone Card
 header; games without separately authored scopes should retain one simple list.
 
+Story holds story points, not one milestone per battle. A story point names
+the battles fought there or on the way to it (a rival before a Gym sits with
+that badge; battles fought together share one point), and a new story point
+is added only for a real story beat (S.S. Anne, Silph Co., Team Flare's HQ).
+
 Milestone rows provide completion state, identity, concise location or context,
 type, and restrained decision or snapshot cues. The selected detail owns the
 description, prerequisites, recorded decision, snapshot availability, notes,

@@ -145,10 +145,13 @@ can define a reliable and explainable review model; do not replace its
 unresolved strategy with invented matchup, balance, coverage, role, damage, or
 competitive claims. Its Overall reading covers defensive matchups and recorded
 damaging-move coverage. **Story matchups** (`?reading=story`) lists the
-Play's Story battles by chapter. A battle won keeps who you faced, their team
+Play's Story battles by chapter: every opponent a story point names is its
+own battle (a rival on the way to a Gym sits under that badge), with where it
+happens. A battle won keeps who you faced, their team
 and the team saved with it, and reads nothing. A battle ahead reads your
-active team against their first-battle team
-(`tracking.mainline_opponent_team_members`) by types, recorded damaging moves
+active team against their team in that battle
+(`tracking.mainline_opponent_team_members`, keyed by story point and
+opponent) by types, recorded damaging moves
 and levels, following v3: each of your Pokémon is Advantage (an answer and
 no 2× weakness), At risk (a 2× weakness and no answer), Even, or Not recorded
 (no types or no damaging moves); its best hit is its strongest move against
@@ -157,8 +160,8 @@ Pokémon have an answer, three or more of yours are at risk, or their ace is 8
 or more levels above your best; **Strong** when every one of theirs has an
 answer, at most one of yours is at risk, one answers without a 2× weakness,
 and your levels are recorded with their ace at most 3 levels above;
-**Balanced** otherwise. A team belongs to the first battle that names its
-opponent; a rematch keeps the specialty reading. One sentence
+**Balanced** otherwise. Each battle has its own team, so a rematch reads the
+team you face then. One sentence
 names your answers and the thing that matters most against you. A team that
 depends on a recorded choice (usually the starter) follows the Play's
 choice; while it isn't recorded the report reads the first and says so.
