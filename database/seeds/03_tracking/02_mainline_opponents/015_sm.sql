@@ -50,4 +50,14 @@ INSERT INTO tracking.mainline_opponents (
   -- Kahili
   (15014, 15, NULL, 'kahili', 'Kahili', 'elite-four', 10, NULL, 'kahili', 14),
   -- Professor Kukui
-  (15015, 15, NULL, 'kukui', 'Professor Kukui', 'champion', NULL, NULL, 'kukui', 15);
+  (15015, 15, NULL, 'kukui', 'Professor Kukui', 'champion', NULL, NULL, 'kukui', 15),
+  -- Hau (rival)
+  (15016, 15, NULL, 'hau', 'Hau', 'rival', NULL, NULL, 'hau', 16),
+  -- Gladion (rival)
+  (15017, 15, NULL, 'gladion', 'Gladion', 'rival', NULL, NULL, 'gladion', 17),
+  -- Hau & Gladion (rival)
+  (15018, 15, NULL, 'hau-gladion', 'Hau & Gladion', 'rival', NULL, NULL, 'hau', 18),
+  -- Guzma (boss)
+  (15019, 15, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', 19),
+  -- Lusamine (boss)
+  (15020, 15, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', 20);

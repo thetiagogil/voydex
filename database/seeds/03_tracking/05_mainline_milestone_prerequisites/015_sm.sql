@@ -37,10 +37,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (150010, 150009, 15, 1, 1, NULL),
   -- Grand Trial Nanu <- Acerola Trial
   (150011, 150010, 15, 1, 1, NULL),
-  -- Vast Poni Canyon Trial <- Grand Trial Nanu
-  (150012, 150011, 15, 1, 1, NULL),
-  -- Grand Trial Hapu <- Vast Poni Canyon Trial
-  (150013, 150012, 15, 1, 1, NULL),
+  -- Vast Poni Canyon Trial <- Aether Paradise
+  (150012, 150021, 15, 1, 1, NULL),
+  -- Grand Trial Hapu <- Ultra Space
+  (150013, 150022, 15, 1, 1, NULL),
   -- Elite Four Hala <- Grand Trial Hapu
   (150014, 150013, 15, 1, 1, NULL),
   -- Elite Four Olivia <- Elite Four Hala
@@ -54,4 +54,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Hall of Fame <- Professor Kukui
   (150019, 150018, 15, 1, 1, NULL),
   -- Ultra Beast Missions <- Hall of Fame
-  (150020, 150019, 15, 1, 1, NULL);
+  (150020, 150019, 15, 1, 1, NULL),
+  -- Aether Paradise <- Grand Trial Nanu
+  (150021, 150011, 15, 1, 1, NULL),
+  -- Ultra Space <- Vast Poni Canyon Trial
+  (150022, 150012, 15, 1, 1, NULL);

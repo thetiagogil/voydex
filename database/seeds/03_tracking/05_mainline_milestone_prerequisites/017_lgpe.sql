@@ -23,12 +23,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (170003, 170002, 17, 1, 1, NULL),
   -- Cascade Badge <- Boulder Badge
   (170004, 170003, 17, 1, 1, NULL),
-  -- Thunder Badge <- Cascade Badge
-  (170005, 170004, 17, 1, 1, NULL),
+  -- Thunder Badge <- S.S. Anne
+  (170005, 170020, 17, 1, 1, NULL),
   -- Rainbow Badge <- Thunder Badge
   (170006, 170005, 17, 1, 1, NULL),
-  -- Snorlax Encounter <- Rainbow Badge
-  (170007, 170006, 17, 1, 1, NULL),
+  -- Snorlax Encounter <- Silph Co.
+  (170007, 170022, 17, 1, 1, NULL),
   -- Soul Badge <- Snorlax Encounter
   (170008, 170007, 17, 1, 1, NULL),
   -- Marsh Badge <- Soul Badge
@@ -52,4 +52,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Battle Blue <- Hall of Fame
   (170018, 170017, 17, 1, 1, NULL),
   -- Battle Green <- Battle Blue
-  (170019, 170018, 17, 1, 1, NULL);
+  (170019, 170018, 17, 1, 1, NULL),
+  -- S.S. Anne <- Cascade Badge
+  (170020, 170004, 17, 1, 1, NULL),
+  -- Rocket Hideout <- Rainbow Badge
+  (170021, 170006, 17, 1, 1, NULL),
+  -- Silph Co. <- Rocket Hideout
+  (170022, 170021, 17, 1, 1, NULL);

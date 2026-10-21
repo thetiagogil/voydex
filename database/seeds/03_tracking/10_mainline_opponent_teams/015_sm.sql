@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Sun / Moon Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
+-- Hau, Gladion, Guzma and Lusamine battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Scope: Pokémon Sun / Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -160,4 +161,170 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Professor Kukui (chose Popplio) 5: Snorlax Lv. 56
   (150018, 15015, 15, NULL, 150001, 'popplio', NULL, NULL, 5, 143, 14300, 56),
   -- Professor Kukui (chose Popplio) 6: Decidueye Lv. 58
-  (150018, 15015, 15, NULL, 150001, 'popplio', NULL, NULL, 6, 724, 72400, 58);
+  (150018, 15015, 15, NULL, 150001, 'popplio', NULL, NULL, 6, 724, 72400, 58),
+  -- Hau (chose Rowlet), Choose Starter 1: Popplio Lv. 5
+  (150001, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 728, 72800, 5),
+  -- Hau (chose Litten), Choose Starter 1: Rowlet Lv. 5
+  (150001, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 722, 72200, 5),
+  -- Hau (chose Popplio), Choose Starter 1: Litten Lv. 5
+  (150001, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 725, 72500, 5),
+  -- Hau (chose Rowlet), Receive Pokedex 1: Pichu Lv. 6
+  (150002, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 172, 17200, 6),
+  -- Hau (chose Rowlet), Receive Pokedex 2: Popplio Lv. 7
+  (150002, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 728, 72800, 7),
+  -- Hau (chose Litten), Receive Pokedex 1: Pichu Lv. 6
+  (150002, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 172, 17200, 6),
+  -- Hau (chose Litten), Receive Pokedex 2: Rowlet Lv. 7
+  (150002, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 722, 72200, 7),
+  -- Hau (chose Popplio), Receive Pokedex 1: Pichu Lv. 6
+  (150002, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 172, 17200, 6),
+  -- Hau (chose Popplio), Receive Pokedex 2: Litten Lv. 7
+  (150002, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 725, 72500, 7),
+  -- Hau (chose Rowlet), Grand Trial Hala 1: Pikachu Lv. 13
+  (150004, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 25, 2500, 13),
+  -- Hau (chose Rowlet), Grand Trial Hala 2: Popplio Lv. 14
+  (150004, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 728, 72800, 14),
+  -- Hau (chose Litten), Grand Trial Hala 1: Pikachu Lv. 13
+  (150004, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 25, 2500, 13),
+  -- Hau (chose Litten), Grand Trial Hala 2: Rowlet Lv. 14
+  (150004, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 722, 72200, 14),
+  -- Hau (chose Popplio), Grand Trial Hala 1: Pikachu Lv. 13
+  (150004, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 25, 2500, 13),
+  -- Hau (chose Popplio), Grand Trial Hala 2: Litten Lv. 14
+  (150004, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 725, 72500, 14),
+  -- Hau (chose Rowlet), Lana Trial 1: Pikachu Lv. 16
+  (150005, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 25, 2500, 16),
+  -- Hau (chose Rowlet), Lana Trial 2: Brionne Lv. 17
+  (150005, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 729, 72900, 17),
+  -- Hau (chose Litten), Lana Trial 1: Pikachu Lv. 16
+  (150005, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 25, 2500, 16),
+  -- Hau (chose Litten), Lana Trial 2: Dartrix Lv. 17
+  (150005, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 723, 72300, 17),
+  -- Hau (chose Popplio), Lana Trial 1: Pikachu Lv. 16
+  (150005, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 25, 2500, 16),
+  -- Hau (chose Popplio), Lana Trial 2: Torracat Lv. 17
+  (150005, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 726, 72600, 17),
+  -- Gladion, Lana Trial 1: Zubat Lv. 17
+  (150005, 15017, 15, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 17),
+  -- Gladion, Lana Trial 2: Type: Null Lv. 18
+  (150005, 15017, 15, NULL, NULL, NULL, NULL, NULL, 2, 772, 77200, 18),
+  -- Hau & Gladion (chose Rowlet), Kiawe Trial 1: Brionne Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 729, 72900, 19),
+  -- Hau & Gladion (chose Rowlet), Kiawe Trial 2: Type: Null Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 772, 77200, 19),
+  -- Hau & Gladion (chose Litten), Kiawe Trial 1: Dartrix Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'litten', NULL, NULL, 1, 723, 72300, 19),
+  -- Hau & Gladion (chose Litten), Kiawe Trial 2: Type: Null Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'litten', NULL, NULL, 2, 772, 77200, 19),
+  -- Hau & Gladion (chose Popplio), Kiawe Trial 1: Torracat Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 726, 72600, 19),
+  -- Hau & Gladion (chose Popplio), Kiawe Trial 2: Type: Null Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 772, 77200, 19),
+  -- Hau (chose Rowlet), Sophocles Trial 1: Alolan Raichu Lv. 28
+  (150009, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 26, 2601, 28),
+  -- Hau (chose Rowlet), Sophocles Trial 2: Flareon Lv. 28
+  (150009, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 136, 13600, 28),
+  -- Hau (chose Rowlet), Sophocles Trial 3: Brionne Lv. 29
+  (150009, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 729, 72900, 29),
+  -- Hau (chose Litten), Sophocles Trial 1: Alolan Raichu Lv. 28
+  (150009, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 26, 2601, 28),
+  -- Hau (chose Litten), Sophocles Trial 2: Vaporeon Lv. 28
+  (150009, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 134, 13400, 28),
+  -- Hau (chose Litten), Sophocles Trial 3: Dartrix Lv. 29
+  (150009, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 3, 723, 72300, 29),
+  -- Hau (chose Popplio), Sophocles Trial 1: Alolan Raichu Lv. 28
+  (150009, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 26, 2601, 28),
+  -- Hau (chose Popplio), Sophocles Trial 2: Leafeon Lv. 28
+  (150009, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 470, 47000, 28),
+  -- Hau (chose Popplio), Sophocles Trial 3: Torracat Lv. 29
+  (150009, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 726, 72600, 29),
+  -- Guzma, Sophocles Trial 1: Golisopod Lv. 31
+  (150009, 15019, 15, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 31),
+  -- Guzma, Sophocles Trial 2: Ariados Lv. 30
+  (150009, 15019, 15, NULL, NULL, NULL, NULL, NULL, 2, 168, 16800, 30),
+  -- Guzma, Grand Trial Nanu 1: Golisopod Lv. 37
+  (150011, 15019, 15, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 37),
+  -- Guzma, Grand Trial Nanu 2: Ariados Lv. 36
+  (150011, 15019, 15, NULL, NULL, NULL, NULL, NULL, 2, 168, 16800, 36),
+  -- Gladion, Grand Trial Nanu 1: Golbat Lv. 37
+  (150011, 15017, 15, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37),
+  -- Gladion, Grand Trial Nanu 2: Sneasel Lv. 37
+  (150011, 15017, 15, NULL, NULL, NULL, NULL, NULL, 2, 215, 21500, 37),
+  -- Gladion, Grand Trial Nanu 3: Type: Null Lv. 38
+  (150011, 15017, 15, NULL, NULL, NULL, NULL, NULL, 3, 772, 77200, 38),
+  -- Guzma, Aether Paradise 1: Golisopod Lv. 41
+  (150021, 15019, 15, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 41),
+  -- Guzma, Aether Paradise 2: Ariados Lv. 40
+  (150021, 15019, 15, NULL, NULL, NULL, NULL, NULL, 2, 168, 16800, 40),
+  -- Guzma, Aether Paradise 3: Masquerain Lv. 40
+  (150021, 15019, 15, NULL, NULL, NULL, NULL, NULL, 3, 284, 28400, 40),
+  -- Guzma, Aether Paradise 4: Pinsir Lv. 40
+  (150021, 15019, 15, NULL, NULL, NULL, NULL, NULL, 4, 127, 12700, 40),
+  -- Lusamine, Aether Paradise 1: Clefable Lv. 41
+  (150021, 15020, 15, NULL, NULL, NULL, NULL, NULL, 1, 36, 3600, 41),
+  -- Lusamine, Aether Paradise 2: Lilligant Lv. 41
+  (150021, 15020, 15, NULL, NULL, NULL, NULL, NULL, 2, 549, 54900, 41),
+  -- Lusamine, Aether Paradise 3: Mismagius Lv. 41
+  (150021, 15020, 15, NULL, NULL, NULL, NULL, NULL, 3, 429, 42900, 41),
+  -- Lusamine, Aether Paradise 4: Milotic Lv. 41
+  (150021, 15020, 15, NULL, NULL, NULL, NULL, NULL, 4, 350, 35000, 41),
+  -- Lusamine, Aether Paradise 5: Bewear Lv. 41
+  (150021, 15020, 15, NULL, NULL, NULL, NULL, NULL, 5, 760, 76000, 41),
+  -- Lusamine, Ultra Space 1: Clefable Lv. 50
+  (150022, 15020, 15, NULL, NULL, NULL, NULL, NULL, 1, 36, 3600, 50),
+  -- Lusamine, Ultra Space 2: Lilligant Lv. 50
+  (150022, 15020, 15, NULL, NULL, NULL, NULL, NULL, 2, 549, 54900, 50),
+  -- Lusamine, Ultra Space 3: Mismagius Lv. 50
+  (150022, 15020, 15, NULL, NULL, NULL, NULL, NULL, 3, 429, 42900, 50),
+  -- Lusamine, Ultra Space 4: Milotic Lv. 50
+  (150022, 15020, 15, NULL, NULL, NULL, NULL, NULL, 4, 350, 35000, 50),
+  -- Lusamine, Ultra Space 5: Bewear Lv. 50
+  (150022, 15020, 15, NULL, NULL, NULL, NULL, NULL, 5, 760, 76000, 50),
+  -- Gladion (chose Rowlet), Elite Four Hala 1: Crobat Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 169, 16900, 52),
+  -- Gladion (chose Rowlet), Elite Four Hala 2: Weavile Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 461, 46100, 52),
+  -- Gladion (chose Rowlet), Elite Four Hala 3: Lucario Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 448, 44800, 52),
+  -- Gladion (chose Rowlet), Elite Four Hala 4: Silvally (Fire) Lv. 53
+  (150014, 15017, 15, NULL, 150001, 'rowlet', NULL, NULL, 4, 773, 77309, 53),
+  -- Gladion (chose Litten), Elite Four Hala 1: Crobat Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 1, 169, 16900, 52),
+  -- Gladion (chose Litten), Elite Four Hala 2: Weavile Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 2, 461, 46100, 52),
+  -- Gladion (chose Litten), Elite Four Hala 3: Lucario Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 3, 448, 44800, 52),
+  -- Gladion (chose Litten), Elite Four Hala 4: Silvally (Water) Lv. 53
+  (150014, 15017, 15, NULL, 150001, 'litten', NULL, NULL, 4, 773, 77310, 53),
+  -- Gladion (chose Popplio), Elite Four Hala 1: Crobat Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 169, 16900, 52),
+  -- Gladion (chose Popplio), Elite Four Hala 2: Weavile Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 461, 46100, 52),
+  -- Gladion (chose Popplio), Elite Four Hala 3: Lucario Lv. 52
+  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 448, 44800, 52),
+  -- Gladion (chose Popplio), Elite Four Hala 4: Silvally (Grass) Lv. 53
+  (150014, 15017, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 773, 77311, 53),
+  -- Hau (chose Rowlet), Elite Four Hala 1: Alolan Raichu Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 26, 2601, 53),
+  -- Hau (chose Rowlet), Elite Four Hala 2: Flareon Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 136, 13600, 53),
+  -- Hau (chose Rowlet), Elite Four Hala 3: Komala Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 775, 77500, 53),
+  -- Hau (chose Rowlet), Elite Four Hala 4: Primarina Lv. 54
+  (150014, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 4, 730, 73000, 54),
+  -- Hau (chose Litten), Elite Four Hala 1: Alolan Raichu Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 26, 2601, 53),
+  -- Hau (chose Litten), Elite Four Hala 2: Vaporeon Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 134, 13400, 53),
+  -- Hau (chose Litten), Elite Four Hala 3: Komala Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 3, 775, 77500, 53),
+  -- Hau (chose Litten), Elite Four Hala 4: Decidueye Lv. 54
+  (150014, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 4, 724, 72400, 54),
+  -- Hau (chose Popplio), Elite Four Hala 1: Alolan Raichu Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 26, 2601, 53),
+  -- Hau (chose Popplio), Elite Four Hala 2: Leafeon Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 470, 47000, 53),
+  -- Hau (chose Popplio), Elite Four Hala 3: Komala Lv. 53
+  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 775, 77500, 53),
+  -- Hau (chose Popplio), Elite Four Hala 4: Incineroar Lv. 54
+  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 727, 72700, 54);

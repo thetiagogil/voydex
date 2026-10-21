@@ -45,10 +45,14 @@ INSERT INTO tracking.mainline_milestones (
   (150010, 15, NULL, 1502, 3, 2, NULL, 'acerola-trial', 'Acerola Trial', 'Complete Acerola''s Thrifty Megamart trial.', 8, true),
   -- Grand Trial Nanu
   (150011, 15, NULL, 1502, 4, 2, NULL, 'grand-trial-nanu', 'Grand Trial Nanu', 'Defeat Island Kahuna Nanu in the Ula''ula grand trial.', 9, true),
+  -- Aether Paradise
+  (150021, 15, NULL, 1502, 1, 2, NULL, 'aether-paradise', 'Aether Paradise', 'Storm Aether Paradise with Gladion and Hau to rescue Lillie, then defeat Guzma and Lusamine.', 10, true),
   -- Vast Poni Canyon Trial
-  (150012, 15, NULL, 1502, 3, 2, NULL, 'vast-poni-canyon-trial', 'Vast Poni Canyon Trial', 'Complete the trial in Vast Poni Canyon.', 10, true),
+  (150012, 15, NULL, 1502, 3, 2, NULL, 'vast-poni-canyon-trial', 'Vast Poni Canyon Trial', 'Complete the trial in Vast Poni Canyon.', 11, true),
+  -- Ultra Space
+  (150022, 15, NULL, 1502, 1, 2, NULL, 'ultra-space', 'Ultra Space', 'Summon Solgaleo or Lunala at the altar on Poni Island and follow Lusamine into Ultra Space to stop her.', 12, true),
   -- Grand Trial Hapu
-  (150013, 15, NULL, 1502, 4, 2, NULL, 'grand-trial-hapu', 'Grand Trial Hapu', 'Defeat Island Kahuna Hapu in the Poni grand trial.', 11, true),
+  (150013, 15, NULL, 1502, 4, 2, NULL, 'grand-trial-hapu', 'Grand Trial Hapu', 'Defeat Island Kahuna Hapu in the Poni grand trial.', 13, true),
   -- Elite Four Hala
   (150014, 15, NULL, 1503, 7, 2, NULL, 'elite-four-hala', 'Elite Four Hala', 'Defeat Hala at the Pokémon League.', 1, true),
   -- Elite Four Olivia

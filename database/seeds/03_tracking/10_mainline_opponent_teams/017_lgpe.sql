@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Let's Go, Pikachu! / Let's Go, Eevee! Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Let's Go, Pikachu! / Let's Go, Eevee! Gym Leaders and Elite Four page.
+-- Trace and Giovanni battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -164,4 +165,78 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Green 5: Ninetales Lv. 66
   (170019, 17015, 17, NULL, NULL, NULL, NULL, NULL, 5, 38, 3800, 66),
   -- Green 6: Blastoise Lv. 68
-  (170019, 17015, 17, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 68);
+  (170019, 17015, 17, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 68),
+  -- Trace (Lets Go Pikachu), Receive Pokedex 1: Eevee Lv. 6
+  (170002, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 133, 13300, 6),
+  -- Trace (Lets Go Eevee), Receive Pokedex 1: Pikachu Lv. 6
+  (170002, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 25, 2500, 6),
+  -- Trace (Lets Go Pikachu), Boulder Badge 1: Pidgey Lv. 3
+  (170003, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 16, 1600, 3),
+  -- Trace (Lets Go Pikachu), Boulder Badge 2: Eevee Lv. 7
+  (170003, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 133, 13300, 7),
+  -- Trace (Lets Go Eevee), Boulder Badge 1: Pidgey Lv. 3
+  (170003, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 16, 1600, 3),
+  -- Trace (Lets Go Eevee), Boulder Badge 2: Pikachu Lv. 7
+  (170003, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 25, 2500, 7),
+  -- Trace (Lets Go Pikachu), Cascade Badge 1: Pidgey Lv. 12
+  (170004, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 16, 1600, 12),
+  -- Trace (Lets Go Pikachu), Cascade Badge 2: Oddish Lv. 12
+  (170004, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 43, 4300, 12),
+  -- Trace (Lets Go Pikachu), Cascade Badge 3: Eevee Lv. 13
+  (170004, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 133, 13300, 13),
+  -- Trace (Lets Go Eevee), Cascade Badge 1: Pidgey Lv. 12
+  (170004, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 16, 1600, 12),
+  -- Trace (Lets Go Eevee), Cascade Badge 2: Oddish Lv. 12
+  (170004, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 43, 4300, 12),
+  -- Trace (Lets Go Eevee), Cascade Badge 3: Pikachu Lv. 13
+  (170004, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 25, 2500, 13),
+  -- Trace (Lets Go Pikachu), S.S. Anne 1: Pidgeotto Lv. 20
+  (170020, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 17, 1700, 20),
+  -- Trace (Lets Go Pikachu), S.S. Anne 2: Oddish Lv. 20
+  (170020, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 43, 4300, 20),
+  -- Trace (Lets Go Pikachu), S.S. Anne 3: Eevee Lv. 21
+  (170020, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 133, 13300, 21),
+  -- Trace (Lets Go Eevee), S.S. Anne 1: Pidgeotto Lv. 20
+  (170020, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 17, 1700, 20),
+  -- Trace (Lets Go Eevee), S.S. Anne 2: Oddish Lv. 20
+  (170020, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 43, 4300, 20),
+  -- Trace (Lets Go Eevee), S.S. Anne 3: Pikachu Lv. 21
+  (170020, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 25, 2500, 21),
+  -- Trace (Lets Go Pikachu), Rainbow Badge 1: Pidgeotto Lv. 27
+  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
+  -- Trace (Lets Go Pikachu), Rainbow Badge 2: Gloom Lv. 27
+  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
+  -- Trace (Lets Go Pikachu), Rainbow Badge 3: Jolteon Lv. 28
+  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 135, 13500, 28),
+  -- Trace (Lets Go Eevee), Rainbow Badge 1: Pidgeotto Lv. 27
+  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
+  -- Trace (Lets Go Eevee), Rainbow Badge 2: Gloom Lv. 27
+  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
+  -- Trace (Lets Go Eevee), Rainbow Badge 3: Raichu Lv. 28
+  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 26, 2600, 28),
+  -- Giovanni, Rocket Hideout 1: Persian Lv. 35
+  (170021, 17017, 17, NULL, NULL, NULL, NULL, NULL, 1, 53, 5300, 35),
+  -- Giovanni, Rocket Hideout 2: Rhyhorn Lv. 35
+  (170021, 17017, 17, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 35),
+  -- Giovanni, Silph Co. 1: Persian Lv. 39
+  (170022, 17017, 17, NULL, NULL, NULL, NULL, NULL, 1, 53, 5300, 39),
+  -- Giovanni, Silph Co. 2: Rhyhorn Lv. 39
+  (170022, 17017, 17, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 39),
+  -- Giovanni, Silph Co. 3: Nidoqueen Lv. 39
+  (170022, 17017, 17, NULL, NULL, NULL, NULL, NULL, 3, 31, 3100, 39),
+  -- Trace (Lets Go Pikachu), Elite Four Lorelei 1: Pidgeot Lv. 50
+  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 18, 1800, 50),
+  -- Trace (Lets Go Pikachu), Elite Four Lorelei 2: Vileplume Lv. 50
+  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 45, 4500, 50),
+  -- Trace (Lets Go Pikachu), Elite Four Lorelei 3: Marowak Lv. 50
+  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
+  -- Trace (Lets Go Pikachu), Elite Four Lorelei 4: Jolteon Lv. 51
+  (170012, 17016, 17, 29, NULL, NULL, NULL, NULL, 4, 135, 13500, 51),
+  -- Trace (Lets Go Eevee), Elite Four Lorelei 1: Pidgeot Lv. 50
+  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 18, 1800, 50),
+  -- Trace (Lets Go Eevee), Elite Four Lorelei 2: Vileplume Lv. 50
+  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 45, 4500, 50),
+  -- Trace (Lets Go Eevee), Elite Four Lorelei 3: Marowak Lv. 50
+  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
+  -- Trace (Lets Go Eevee), Elite Four Lorelei 4: Raichu Lv. 51
+  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 51);

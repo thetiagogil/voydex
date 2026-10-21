@@ -50,4 +50,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Blue
   (17014, 17, NULL, 'blue', 'Blue', 'boss', NULL, NULL, 'blue', 14),
   -- Green
-  (17015, 17, NULL, 'green', 'Green', 'boss', NULL, NULL, 'green', 15);
+  (17015, 17, NULL, 'green', 'Green', 'boss', NULL, NULL, 'green', 15),
+  -- Trace (rival)
+  (17016, 17, NULL, 'trace', 'Trace', 'rival', NULL, NULL, 'trace', 16),
+  -- Giovanni (boss)
+  (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 17);

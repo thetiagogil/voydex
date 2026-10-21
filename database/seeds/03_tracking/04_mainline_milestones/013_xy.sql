@@ -45,8 +45,12 @@ INSERT INTO tracking.mainline_milestones (
   (130010, 13, NULL, 1301, 2, 2, NULL, 'fairy-badge', 'Fairy Badge', 'Defeat Valerie at Laverre Gym and receive the Fairy Badge.', 10, true),
   -- Psychic Badge
   (130011, 13, NULL, 1301, 2, 2, NULL, 'psychic-badge', 'Psychic Badge', 'Defeat Olympia at Anistar Gym and receive the Psychic Badge.', 11, true),
+  -- Lysandre Labs
+  (130021, 13, NULL, 1301, 1, 2, NULL, 'lysandre-labs', 'Lysandre Labs', 'Confront Lysandre, revealed as Team Flare''s boss, in the lab under Lysandre Café in Lumiose City.', 12, true),
+  -- Team Flare Secret HQ
+  (130022, 13, NULL, 1301, 1, 2, NULL, 'team-flare-secret-hq', 'Team Flare Secret HQ', 'Storm Team Flare''s hideout in Geosenge Town, meet Xerneas or Yveltal and stop Lysandre''s ultimate weapon.', 13, true),
   -- Iceberg Badge
-  (130012, 13, NULL, 1301, 2, 2, NULL, 'iceberg-badge', 'Iceberg Badge', 'Defeat Wulfric at Snowbelle Gym and receive the Iceberg Badge.', 12, true),
+  (130012, 13, NULL, 1301, 2, 2, NULL, 'iceberg-badge', 'Iceberg Badge', 'Defeat Wulfric at Snowbelle Gym and receive the Iceberg Badge.', 14, true),
   -- Elite Four Malva
   (130013, 13, NULL, 1302, 7, 2, NULL, 'elite-four-malva', 'Elite Four Malva', 'Defeat Malva at the Pokémon League.', 1, true),
   -- Elite Four Siebold
@@ -60,6 +64,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (130018, 13, NULL, 1302, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Battle AZ
-  (130019, 13, NULL, 1301, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 13, true),
+  (130019, 13, NULL, 1301, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 15, true),
   -- Looker Bureau
   (130020, 13, NULL, 1303, 1, 1, NULL, 'looker-bureau', 'Looker Bureau', 'Complete the Looker Bureau quest in Lumiose City.', 1, false);

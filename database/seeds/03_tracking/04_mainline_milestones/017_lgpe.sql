@@ -31,20 +31,26 @@ INSERT INTO tracking.mainline_milestones (
   (170003, 17, NULL, 1701, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Defeat Brock at Pewter Gym and receive the Boulder Badge.', 3, true),
   -- Cascade Badge
   (170004, 17, NULL, 1701, 2, 2, NULL, 'cascade-badge', 'Cascade Badge', 'Defeat Misty at Cerulean Gym and receive the Cascade Badge.', 4, true),
+  -- S.S. Anne
+  (170020, 17, NULL, 1701, 1, 2, NULL, 'ss-anne', 'S.S. Anne', 'Board the S.S. Anne in Vermilion City and help the seasick captain to get HM01 Cut.', 5, true),
   -- Thunder Badge
-  (170005, 17, NULL, 1701, 2, 2, NULL, 'thunder-badge', 'Thunder Badge', 'Defeat Lt. Surge at Vermilion Gym and receive the Thunder Badge.', 5, true),
+  (170005, 17, NULL, 1701, 2, 2, NULL, 'thunder-badge', 'Thunder Badge', 'Defeat Lt. Surge at Vermilion Gym and receive the Thunder Badge.', 6, true),
   -- Rainbow Badge
-  (170006, 17, NULL, 1701, 2, 2, NULL, 'rainbow-badge', 'Rainbow Badge', 'Defeat Erika at Celadon Gym and receive the Rainbow Badge.', 6, true),
+  (170006, 17, NULL, 1701, 2, 2, NULL, 'rainbow-badge', 'Rainbow Badge', 'Defeat Erika at Celadon Gym and receive the Rainbow Badge.', 7, true),
+  -- Rocket Hideout
+  (170021, 17, NULL, 1701, 1, 2, NULL, 'rocket-hideout', 'Rocket Hideout', 'Raid Team Rocket''s hideout under the Celadon Game Corner and defeat Giovanni to get the Silph Scope.', 8, true),
+  -- Silph Co.
+  (170022, 17, NULL, 1701, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni.', 9, true),
   -- Snorlax Encounter
-  (170007, 17, NULL, 1701, 1, 1, NULL, 'snorlax-encounter', 'Snorlax Encounter', 'Wake the sleeping Snorlax blocking the road.', 7, true),
+  (170007, 17, NULL, 1701, 1, 1, NULL, 'snorlax-encounter', 'Snorlax Encounter', 'Wake the sleeping Snorlax blocking the road.', 10, true),
   -- Soul Badge
-  (170008, 17, NULL, 1701, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 8, true),
+  (170008, 17, NULL, 1701, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 11, true),
   -- Marsh Badge
-  (170009, 17, NULL, 1701, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 9, true),
+  (170009, 17, NULL, 1701, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 12, true),
   -- Volcano Badge
-  (170010, 17, NULL, 1701, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 10, true),
+  (170010, 17, NULL, 1701, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 13, true),
   -- Earth Badge
-  (170011, 17, NULL, 1701, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Giovanni at Viridian Gym and receive the Earth Badge.', 11, true),
+  (170011, 17, NULL, 1701, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Giovanni at Viridian Gym and receive the Earth Badge.', 14, true),
   -- Elite Four Lorelei
   (170012, 17, NULL, 1702, 7, 2, NULL, 'elite-four-lorelei', 'Elite Four Lorelei', 'Defeat Lorelei at Indigo Plateau.', 1, true),
   -- Elite Four Bruno
