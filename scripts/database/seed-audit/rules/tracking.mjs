@@ -733,6 +733,18 @@ export function assertOpponentTeamRows(context, tableRows) {
       ({ row }) => `${row.game_id}/${row.version_group_id}`,
     ),
   );
+  const versionGroupsById = mapRowsByColumn(
+    tableRows.get("reference.version_groups") ?? [],
+    "id",
+  );
+  /* The earliest generation each form has types for. */
+  const firstAttributeGenerationByForm = new Map();
+  for (const { row } of tableRows.get("reference.pokemon_attributes") ?? []) {
+    const current = firstAttributeGenerationByForm.get(row.form_id);
+    if (current === undefined || row.generation_start_id < current) {
+      firstAttributeGenerationByForm.set(row.form_id, row.generation_start_id);
+    }
+  }
   const optionSlugsByMilestone = new Map();
   for (const { row } of tableRows.get(
     "tracking.mainline_milestone_decision_options",
@@ -785,6 +797,18 @@ export function assertOpponentTeamRows(context, tableRows) {
     if (!formKeys.has(`${row.species_id}/${row.form_id}`)) {
       context.errors.push(
         `${label} references unseeded form ${row.species_id}/${row.form_id}.`,
+      );
+    }
+    const generationId = versionGroupsById.get(
+      row.version_group_id,
+    )?.generation_id;
+    const firstGeneration = firstAttributeGenerationByForm.get(row.form_id);
+    if (
+      generationId !== undefined &&
+      (firstGeneration === undefined || firstGeneration > generationId)
+    ) {
+      context.errors.push(
+        `${label} names form ${row.form_id}, which has no types in generation ${generationId}.`,
       );
     }
     if (!(row.level >= 1 && row.level <= 100)) {
