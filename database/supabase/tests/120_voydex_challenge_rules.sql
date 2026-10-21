@@ -12,7 +12,7 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
 INSERT INTO gameplay.mainline_challenge_rules (id, user_id, rule_type_id, slug, name)
     VALUES ('80000000-0000-0000-0000-0000000000e2', '00000000-0000-0000-0000-0000000000e2', 5, 'their_rule', 'Their rule');
 SELECT
-    plan (24);
+    plan (27);
 -- The catalogue
 SELECT
     results_eq ($$
@@ -228,7 +228,20 @@ SELECT
                 name IN ('Borrowed Rule', 'Fairy Red', 'Not A List')),
             0,
             'a refused start leaves no Play behind');
+-- What the soft rule checks read
+SELECT
+    results_eq ($$
+        SELECT
+            slug, is_legendary, is_mythical FROM reference.pokemon_species
+            WHERE
+                slug IN ('pikachu', 'mewtwo', 'mew')
+            ORDER BY slug $$, $$
+            VALUES ('mew'::text, FALSE, TRUE), ('mewtwo'::text, TRUE, FALSE), ('pikachu'::text, FALSE, FALSE) $$, 'No legendaries reads a trainer-visible Legendary and Mythical flag');
 RESET ROLE;
+SELECT
+    hasnt_column ('public', 'user_preferences', 'pokemon_reuse_scope', 'Pokémon reuse is a Play''s rule, not a global preference');
+SELECT
+    hasnt_column ('public', 'user_preferences', 'pokemon_reuse_behavior', 'reuse has no global warn or hide setting');
 SELECT
     *
 FROM

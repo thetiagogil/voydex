@@ -49,8 +49,9 @@ Some derived values may be cached later for performance, but caching should not 
 
 Supabase Auth owns account identity, email, password, confirmation, recovery,
 and authenticated session truth. `public.profiles` owns the optional Voydex
-Display name, while `public.user_preferences` owns global Pokémon reuse scope
-and warn/filter behavior.
+Display name. `public.user_preferences` is the home for global defaults that
+are not play-specific; it holds none yet. Pokémon reuse is a Play's No
+Pokémon reuse rule.
 
 The game and partner picked on Start a Play are a wish, not a record: they
 travel as `?game=` and `?partner=`, then wait on the Auth user's metadata

@@ -62,10 +62,9 @@ entry. Until that operation exists the action is pending data.
 
 Look and feel (mode, colour theme, motion) and New Play defaults (Pokédex
 mode, Story and Collectibles tracking) are drawn with pending markers until
-`public.user_preferences` stores them; only the light look is designed. The
-accepted Pokémon reuse preference (what counts as reuse, and warn or hide) is
-not on the page yet. A Pokémon icon for the profile and a default trainer
-name are pending too.
+`public.user_preferences` stores them; only the light look is designed.
+Pokémon reuse is a Play's No Pokémon reuse rule, not a setting. A Pokémon
+icon for the profile and a default trainer name are pending too.
 
 Play-specific completion choices, optional content, Pokédex and Collectible
 scope, Rules, Tags, lifecycle, and metadata remain inside the owning Play or
