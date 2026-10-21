@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Emerald, and Steven Stone pages.
 -- Cross-check: Pokémon Emerald source page.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Emerald major opponent data.
 -- ============================================================================
 -- File Scope
@@ -59,4 +60,20 @@ INSERT INTO tracking.mainline_opponents (
   -- Maxie & Tabitha (boss)
   (7018, 7, NULL, 'maxie-tabitha', 'Maxie & Tabitha', 'boss', NULL, NULL, 'maxie', 18),
   -- Archie (boss)
-  (7019, 7, NULL, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 19);
+  (7019, 7, NULL, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 19),
+  -- Regirock (boss)
+  (7020, 7, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', 20),
+  -- Regice (boss)
+  (7021, 7, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', 21),
+  -- Registeel (boss)
+  (7022, 7, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', 22),
+  -- Rayquaza (boss)
+  (7023, 7, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 23),
+  -- Groudon (boss)
+  (7024, 7, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', 24),
+  -- Kyogre (boss)
+  (7025, 7, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', 25),
+  -- Latias (boss)
+  (7026, 7, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', 26),
+  -- Latios (boss)
+  (7027, 7, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', 27);

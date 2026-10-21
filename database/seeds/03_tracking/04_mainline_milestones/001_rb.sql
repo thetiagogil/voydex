@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: legacy Voydex Red / Blue tracking seeds.
 -- Story points with rival and Giovanni battles: Bulbapedia walkthrough and location pages, and the pret pokered map data.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Red / Blue shared story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -55,6 +56,14 @@ INSERT INTO tracking.mainline_milestones (
   (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 13, true),
   -- Fighting Dojo Choice
   (10010, 1, NULL, 104, 12, 1, NULL, 'fighting-dojo-choice', 'Fighting Dojo Choice', 'Choose Hitmonlee or Hitmonchan after defeating the Fighting Dojo master.', 1, false),
+  -- Power Plant
+  (10023, 1, NULL, 104, 6, 2, NULL, 'power-plant', 'Power Plant', 'Catch or defeat Zapdos at the back of the Power Plant on Route 10.', 2, false),
+  -- Seafoam Islands
+  (10024, 1, NULL, 104, 6, 2, NULL, 'seafoam-islands', 'Seafoam Islands', 'Catch or defeat Articuno on the lowest floor of the Seafoam Islands.', 3, false),
+  -- Victory Road
+  (10025, 1, NULL, 104, 6, 2, NULL, 'victory-road', 'Victory Road', 'Catch or defeat Moltres inside Victory Road on the way to the Pokémon League.', 4, false),
+  -- Cerulean Cave
+  (10026, 1, NULL, 104, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Catch or defeat Mewtwo deep in Cerulean Cave after entering the Hall of Fame.', 5, false),
   -- Volcano Badge
   (10011, 1, NULL, 101, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 14, true),
   -- Earth Badge

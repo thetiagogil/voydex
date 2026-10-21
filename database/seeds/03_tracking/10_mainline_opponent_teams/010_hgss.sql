@@ -4,6 +4,7 @@
 -- Primary: Serebii HeartGold / SoulSilver Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database HeartGold / SoulSilver Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival battles: the pret pokeheartgold decompilation's trainer data, cross-checked with Serebii and Bulbapedia.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon HeartGold / SoulSilver Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -355,4 +356,36 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Silver (chose Totodile), Boulder Badge 5: Alakazam Lv. 48
   (100017, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 5, 65, 6500, 48),
   -- Silver (chose Totodile), Boulder Badge 6: Meganium Lv. 50
-  (100017, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 6, 154, 15400, 50);
+  (100017, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 6, 154, 15400, 50),
+  -- Ho-Oh, Kimono Girls' Ritual 1: Ho-Oh Lv. 45
+  (100030, 10024, 10, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 45),
+  -- Lugia, Kimono Girls' Ritual 1: Lugia Lv. 45
+  (100030, 10025, 10, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 45),
+  -- Raikou, Roaming Raikou 1: Raikou Lv. 40
+  (100031, 10026, 10, NULL, NULL, NULL, NULL, NULL, 1, 243, 24300, 40),
+  -- Entei, Roaming Entei 1: Entei Lv. 40
+  (100032, 10027, 10, NULL, NULL, NULL, NULL, NULL, 1, 244, 24400, 40),
+  -- Latias, Roaming Latias or Latios 1: Latias Lv. 35
+  (100033, 10028, 10, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 35),
+  -- Latios, Roaming Latias or Latios 1: Latios Lv. 35
+  (100033, 10029, 10, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 35),
+  -- Suicune, Route 25 1: Suicune Lv. 40
+  (100034, 10030, 10, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 40),
+  -- Zapdos, Power Plant 1: Zapdos Lv. 50
+  (100035, 10031, 10, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
+  -- Articuno, Seafoam Islands 1: Articuno Lv. 50
+  (100036, 10032, 10, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 50),
+  -- Moltres, Mt. Silver Cave 1: Moltres Lv. 50
+  (100037, 10033, 10, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
+  -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
+  (100038, 10034, 10, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70),
+  -- Lugia, Pewter City Wing 1: Lugia Lv. 70
+  (100039, 10035, 10, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 70),
+  -- Ho-Oh, Pewter City Wing 1: Ho-Oh Lv. 70
+  (100039, 10036, 10, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 70),
+  -- Kyogre, Embedded Tower 1: Kyogre Lv. 50
+  (100040, 10037, 10, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 50),
+  -- Groudon, Embedded Tower 1: Groudon Lv. 50
+  (100040, 10038, 10, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 50),
+  -- Rayquaza, Embedded Tower 1: Rayquaza Lv. 50
+  (100040, 10039, 10, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 50);

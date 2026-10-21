@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Arceus, Noble Pokémon, Volo, Arceus, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Scope: Pokémon Legends: Arceus major opponent data.
 -- ============================================================================
 -- File Scope
@@ -38,4 +39,30 @@ INSERT INTO tracking.mainline_opponents (
   -- Volo
   (22008, 22, NULL, 'volo', 'Volo', 'boss', NULL, NULL, 'volo', 8),
   -- Arceus
-  (22009, 22, NULL, 'arceus', 'Arceus', 'boss', 1, NULL, 'arceus', 9);
+  (22009, 22, NULL, 'arceus', 'Arceus', 'boss', 1, NULL, 'arceus', 9),
+  -- Dialga / Palkia (boss)
+  (22010, 22, NULL, 'dialga-palkia', 'Dialga / Palkia', 'boss', 15, NULL, 'dialga-palkia', 10),
+  -- Giratina (boss)
+  (22011, 22, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', 11),
+  -- Uxie (boss)
+  (22012, 22, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', 12),
+  -- Mesprit (boss)
+  (22013, 22, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', 13),
+  -- Azelf (boss)
+  (22014, 22, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', 14),
+  -- Heatran (boss)
+  (22015, 22, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 15),
+  -- Cresselia (boss)
+  (22016, 22, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 16),
+  -- Regigigas (boss)
+  (22017, 22, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 17),
+  -- Manaphy (boss)
+  (22018, 22, NULL, 'manaphy', 'Manaphy', 'boss', 3, NULL, 'manaphy', 18),
+  -- Tornadus (boss)
+  (22019, 22, NULL, 'tornadus', 'Tornadus', 'boss', 10, NULL, 'tornadus', 19),
+  -- Thundurus (boss)
+  (22020, 22, NULL, 'thundurus', 'Thundurus', 'boss', 4, 10, 'thundurus', 20),
+  -- Landorus (boss)
+  (22021, 22, NULL, 'landorus', 'Landorus', 'boss', 9, 10, 'landorus', 21),
+  -- Enamorus (boss)
+  (22022, 22, NULL, 'enamorus', 'Enamorus', 'boss', 18, 10, 'enamorus', 22);

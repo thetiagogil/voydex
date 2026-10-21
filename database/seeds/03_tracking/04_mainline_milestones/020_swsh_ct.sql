@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia The Crown Tundra, Crown Tundra expedition, Calyrex, and Legendary clue pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Scope: Pokémon The Crown Tundra major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -38,4 +39,8 @@ INSERT INTO tracking.mainline_milestones (
   -- Galarian Birds
   (200007, 20, NULL, 2001, 1, 3, NULL, 'galarian-birds', 'Galarian Birds', 'Complete A Legendary Tree of a Legendary Three.', 7, true),
   -- Finish Crown Tundra Expeditions
-  (200008, 20, NULL, 2001, 1, 3, NULL, 'finish-expeditions', 'Finish Crown Tundra Expeditions', 'Report the completed Legendary Clues to Peony.', 8, true);
+  (200008, 20, NULL, 2001, 1, 3, NULL, 'finish-expeditions', 'Finish Crown Tundra Expeditions', 'Report the completed Legendary Clues to Peony.', 8, true),
+  -- Swords of Justice
+  (200009, 20, NULL, 2002, 6, 2, NULL, 'swords-of-justice', 'Swords of Justice', 'Track Sonia''s footprints to find and battle Cobalion, Terrakion and Virizion across the Crown Tundra.', 1, false),
+  -- Ballimere Lake
+  (200010, 20, NULL, 2002, 6, 2, NULL, 'ballimere-lake', 'Ballimere Lake', 'Cook a curry with Cobalion, Terrakion and Virizion on Ballimere Lake''s island to meet Keldeo.', 2, false);

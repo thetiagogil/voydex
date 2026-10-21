@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Sun / Moon, Island challenge, Elite Four, Champion, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Sun / Moon major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -66,4 +67,12 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (150019, 15, NULL, 1503, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame as Alola''s first Champion.', 6, true),
   -- Ultra Beast Missions
-  (150020, 15, NULL, 1504, 1, 1, NULL, 'ultra-beast-missions', 'Ultra Beast Missions', 'Complete the post-game Ultra Beast missions.', 1, false);
+  (150020, 15, NULL, 1504, 1, 1, NULL, 'ultra-beast-missions', 'Ultra Beast Missions', 'Complete the post-game Ultra Beast missions.', 1, false),
+  -- Ruins of Life
+  (150023, 15, NULL, 1505, 6, 2, NULL, 'ruins-of-life', 'Ruins of Life', 'Catch or defeat Tapu Lele, Akala''s guardian, at the Ruins of Life after becoming Champion.', 1, false),
+  -- Ruins of Abundance
+  (150024, 15, NULL, 1505, 6, 2, NULL, 'ruins-of-abundance', 'Ruins of Abundance', 'Catch or defeat Tapu Bulu, Ula''ula''s guardian, at the Ruins of Abundance beyond Haina Desert after becoming Champion.', 2, false),
+  -- Ruins of Hope
+  (150025, 15, NULL, 1505, 6, 2, NULL, 'ruins-of-hope', 'Ruins of Hope', 'Catch or defeat Tapu Fini, Poni''s guardian, at the Ruins of Hope after becoming Champion.', 3, false),
+  -- Ten Carat Hill
+  (150026, 15, NULL, 1505, 6, 2, NULL, 'ten-carat-hill', 'Ten Carat Hill', 'Catch or defeat Necrozma in the Farthest Hollow of Ten Carat Hill after the Ultra Beast missions.', 4, false);

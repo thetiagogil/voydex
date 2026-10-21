@@ -4,6 +4,7 @@
 -- Primary: Serebii Red / Blue Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Red / Blue Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival and Giovanni battles: the pret pokered disassembly's trainer parties, cross-checked with Bulbapedia's rival and Giovanni pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Red / Blue Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -331,4 +332,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Blue (chose Squirtle), Elite Four Lorelei 5: Alakazam Lv. 50
   (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 65, 6500, 50),
   -- Blue (chose Squirtle), Elite Four Lorelei 6: Venusaur Lv. 53
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 53);
+  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 53),
+  -- Zapdos, Power Plant 1: Zapdos Lv. 50
+  (10023, 1016, 1, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
+  -- Articuno, Seafoam Islands 1: Articuno Lv. 50
+  (10024, 1017, 1, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 50),
+  -- Moltres, Victory Road 1: Moltres Lv. 50
+  (10025, 1018, 1, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
+  -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
+  (10026, 1019, 1, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);

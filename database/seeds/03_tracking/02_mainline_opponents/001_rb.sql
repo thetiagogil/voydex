@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Brock, Badge, and Elite Four pages.
 -- Cross-check: legacy Voydex Red / Blue tracking seeds.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Red / Blue shared Gym Leader, Elite Four, and Champion data.
 -- ============================================================================
 -- File Scope
@@ -51,4 +52,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Blue (rival)
   (1014, 1, NULL, 'blue-rival', 'Blue', 'rival', NULL, NULL, 'blue', 14),
   -- Giovanni (boss)
-  (1015, 1, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15);
+  (1015, 1, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15),
+  -- Zapdos (boss)
+  (1016, 1, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 16),
+  -- Articuno (boss)
+  (1017, 1, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 17),
+  -- Moltres (boss)
+  (1018, 1, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 18),
+  -- Mewtwo (boss)
+  (1019, 1, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 19);

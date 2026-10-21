@@ -5,6 +5,7 @@
 -- partner Pokémon pages.
 -- Cross-check: Pokémon Platinum source page.
 -- Story points with rival and Cyrus battles: Bulbapedia walkthrough pages and the pret pokeplatinum map scripts.
+-- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Platinum major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -68,4 +69,18 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (90016, 9, NULL, 902, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Stark Mountain
-  (90020, 9, NULL, 903, 1, 2, NULL, 'stark-mountain', 'Stark Mountain', 'Go through Stark Mountain in the Battle Zone with Buck and stop Charon of Team Galactic.', 1, false);
+  (90020, 9, NULL, 903, 1, 2, NULL, 'stark-mountain', 'Stark Mountain', 'Go through Stark Mountain in the Battle Zone with Buck and stop Charon of Team Galactic.', 1, false),
+  -- Lake Guardians
+  (90021, 9, NULL, 904, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After the Distortion World and the visit to Professor Rowan, find Uxie in Acuity Cavern and Azelf in Valor Cavern, and meet Mesprit at Verity Cavern before it starts roaming Sinnoh.', 1, false),
+  -- Roaming Cresselia
+  (90022, 9, NULL, 904, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, sail to Fullmoon Island to help Sailor Eldritch''s son; Cresselia then roams Sinnoh.', 2, false),
+  -- Snowpoint Temple
+  (90023, 9, NULL, 904, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, reach the bottom of Snowpoint Temple with Regirock, Regice and Registeel in the party to wake Regigigas.', 3, false),
+  -- Spear Pillar
+  (90024, 9, NULL, 904, 6, 2, NULL, 'spear-pillar', 'Spear Pillar', 'With the National Pokédex, carry the Adamant Orb and the Lustrous Orb back to Spear Pillar and enter the rifts to face Dialga and Palkia.', 4, false),
+  -- Roaming Articuno
+  (90025, 9, NULL, 904, 6, 2, NULL, 'roaming-articuno', 'Roaming Articuno', 'With the National Pokédex, talk to Professor Oak in Eterna City; Articuno then roams Sinnoh.', 5, false),
+  -- Roaming Zapdos
+  (90026, 9, NULL, 904, 6, 2, NULL, 'roaming-zapdos', 'Roaming Zapdos', 'With the National Pokédex, talk to Professor Oak in Eterna City; Zapdos then roams Sinnoh.', 6, false),
+  -- Roaming Moltres
+  (90027, 9, NULL, 904, 6, 2, NULL, 'roaming-moltres', 'Roaming Moltres', 'With the National Pokédex, talk to Professor Oak in Eterna City; Moltres then roams Sinnoh.', 7, false);

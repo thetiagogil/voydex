@@ -4,6 +4,7 @@
 -- Primary: Serebii Sword / Shield Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
 -- Hop, Bede, Marnie and Rose battles: Bulbapedia, cross-checked with Serebii's Galar location pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Scope: Pokémon Sword / Shield Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -521,4 +522,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hop (Shield, chose Sobble), Post-Game Episode 5: Cinderace Lv. 70
   (180014, 18013, 18, 32, 180001, 'sobble', NULL, NULL, 5, 815, 81500, 70),
   -- Hop (Shield, chose Sobble), Post-Game Episode 6: Zacian Lv. 70
-  (180014, 18013, 18, 32, 180001, 'sobble', NULL, NULL, 6, 888, 88800, 70);
+  (180014, 18013, 18, 32, 180001, 'sobble', NULL, NULL, 6, 888, 88800, 70),
+  -- Zamazenta, Post-Game Episode 1: Zamazenta Lv. 70
+  (180014, 18017, 18, NULL, NULL, NULL, NULL, NULL, 1, 889, 88900, 70),
+  -- Zacian, Post-Game Episode 1: Zacian Lv. 70
+  (180014, 18018, 18, NULL, NULL, NULL, NULL, NULL, 1, 888, 88800, 70),
+  -- Zacian, Post-Game Episode 1: Zacian Lv. 70
+  (180014, 18019, 18, NULL, NULL, NULL, NULL, NULL, 1, 888, 88800, 70),
+  -- Zamazenta, Post-Game Episode 1: Zamazenta Lv. 70
+  (180014, 18020, 18, NULL, NULL, NULL, NULL, NULL, 1, 889, 88900, 70);

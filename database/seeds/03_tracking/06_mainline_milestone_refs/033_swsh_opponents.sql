@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Sword / Shield, Badge, Gym Leader, Champion Cup, Legendary Pokémon, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Scope: Pokémon Sword / Shield milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -82,4 +83,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Post-Game Episode -> Bede
   (180014, 18014, 18, 'battle-opponent', 1, 'Ballonlea Stadium'),
   -- Post-Game Episode -> Hop
-  (180014, 18013, 18, 'battle-opponent', 2, 'Slumbering Weald');
+  (180014, 18013, 18, 'battle-opponent', 2, 'Slumbering Weald'),
+  -- Post-Game Episode -> Zamazenta
+  (180014, 18017, 18, 'battle-opponent', 3, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Sordward'),
+  -- Post-Game Episode -> Zacian
+  (180014, 18018, 18, 'battle-opponent', 4, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Shielbert'),
+  -- Post-Game Episode -> Zacian
+  (180014, 18019, 18, 'battle-opponent', 5, 'Tower Summit, Hammerlocke (above the Energy Plant)'),
+  -- Post-Game Episode -> Zamazenta
+  (180014, 18020, 18, 'battle-opponent', 6, 'Tower Summit, Hammerlocke (above the Energy Plant)');

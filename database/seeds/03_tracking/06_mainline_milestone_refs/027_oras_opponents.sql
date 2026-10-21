@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Omega Ruby / Alpha Sapphire, Fossil, Delta Episode, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -32,7 +33,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mind Badge -> Tate & Liza
   (140010, 14007, 14, 'battle-opponent', 2, NULL),
   -- Rain Badge -> Wallace
-  (140011, 14008, 14, 'battle-opponent', 1, NULL),
+  (140011, 14008, 14, 'battle-opponent', 3, NULL),
   -- Elite Four Sidney -> Sidney
   (140012, 14009, 14, 'battle-opponent', 2, NULL),
   -- Elite Four Phoebe -> Phoebe
@@ -44,7 +45,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Champion Steven -> Steven
   (140016, 14013, 14, 'battle-opponent', 1, NULL),
   -- Delta Episode -> Zinnia
-  (140018, 14014, 14, 'battle-opponent', 1, NULL),
+  (140018, 14014, 14, 'battle-opponent', 2, NULL),
   -- Receive Pokedex -> May / Brendan
   (140002, 14015, 14, 'battle-opponent', 1, 'Route 103'),
   -- Dynamo Badge -> May / Brendan
@@ -66,4 +67,64 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Sidney -> Wally
   (140012, 14016, 14, 'battle-opponent', 1, 'Victory Road'),
   -- Hall of Fame -> May / Brendan
-  (140017, 14015, 14, 'battle-opponent', 1, 'Route 103');
+  (140017, 14015, 14, 'battle-opponent', 1, 'Route 103'),
+  -- Rain Badge -> Groudon
+  (140011, 14019, 14, 'battle-opponent', 1, 'Cave of Origin, deepest chamber'),
+  -- Rain Badge -> Kyogre
+  (140011, 14020, 14, 'battle-opponent', 2, 'Cave of Origin, deepest chamber'),
+  -- Delta Episode -> Rayquaza
+  (140018, 14021, 14, 'battle-opponent', 1, 'Sky Pillar summit'),
+  -- Delta Episode -> Deoxys
+  (140018, 14022, 14, 'battle-opponent', 3, 'Edge of space (met location Sky Pillar)'),
+  -- Sealed Chamber -> Regirock
+  (140021, 14023, 14, 'battle-opponent', 1, 'Desert Ruins (Route 111). You can skip this battle.'),
+  -- Sealed Chamber -> Regice
+  (140021, 14024, 14, 'battle-opponent', 2, 'Island Cave (Route 105). You can skip this battle.'),
+  -- Sealed Chamber -> Registeel
+  (140021, 14025, 14, 'battle-opponent', 3, 'Ancient Tomb (Route 120). You can skip this battle.'),
+  -- Scorched Slab -> Heatran
+  (140022, 14026, 14, 'battle-opponent', 1, 'Scorched Slab B3F (portal). You can skip this battle.'),
+  -- Sea Mauville -> Ho-Oh
+  (140023, 14027, 14, 'battle-opponent', 1, 'Sea Mauville, end of the upper beam (portal). You can skip this battle.'),
+  -- Sea Mauville -> Lugia
+  (140023, 14028, 14, 'battle-opponent', 2, 'Sea Mauville, underwater control room (portal). You can skip this battle.'),
+  -- Crescent Isle -> Cresselia
+  (140024, 14029, 14, 'battle-opponent', 1, 'Crescent Isle Mirage spot (portal). You can skip this battle.'),
+  -- Storm Clouds -> Tornadus
+  (140025, 14030, 14, 'battle-opponent', 1, 'Storm cloud above Fortree City (soaring). You can skip this battle.'),
+  -- Storm Clouds -> Thundurus
+  (140025, 14031, 14, 'battle-opponent', 2, 'Storm cloud above Fortree City (soaring). You can skip this battle.'),
+  -- Storm Clouds -> Landorus
+  (140025, 14032, 14, 'battle-opponent', 3, 'Storm cloud above Fortree City (soaring). You can skip this battle.'),
+  -- Regigigas in Island Cave -> Regigigas
+  (140026, 14033, 14, 'battle-opponent', 1, 'Island Cave (Route 105), Regice''s chamber. You can skip this battle.'),
+  -- Trackless Forest -> Raikou
+  (140027, 14034, 14, 'battle-opponent', 1, 'Trackless Forest Mirage spot (portal). You can skip this battle.'),
+  -- Trackless Forest -> Entei
+  (140027, 14035, 14, 'battle-opponent', 2, 'Trackless Forest Mirage spot (portal). You can skip this battle.'),
+  -- Trackless Forest -> Suicune
+  (140027, 14036, 14, 'battle-opponent', 3, 'Trackless Forest Mirage spot (portal). You can skip this battle.'),
+  -- Nameless Cavern -> Uxie
+  (140028, 14037, 14, 'battle-opponent', 1, 'Nameless Cavern Mirage spot (portal). You can skip this battle.'),
+  -- Nameless Cavern -> Mesprit
+  (140028, 14038, 14, 'battle-opponent', 2, 'Nameless Cavern Mirage spot (portal). You can skip this battle.'),
+  -- Nameless Cavern -> Azelf
+  (140028, 14039, 14, 'battle-opponent', 3, 'Nameless Cavern Mirage spot (portal). You can skip this battle.'),
+  -- Dimensional Rift -> Palkia
+  (140029, 14040, 14, 'battle-opponent', 1, 'Dimensional rift south of Dewford Town (soaring). You can skip this battle.'),
+  -- Dimensional Rift -> Dialga
+  (140029, 14041, 14, 'battle-opponent', 2, 'Dimensional rift south of Dewford Town (soaring). You can skip this battle.'),
+  -- Dimensional Rift -> Giratina
+  (140029, 14042, 14, 'battle-opponent', 3, 'Dimensional rift south of Dewford Town (soaring). You can skip this battle.'),
+  -- Pathless Plain -> Cobalion
+  (140030, 14043, 14, 'battle-opponent', 1, 'Pathless Plain Mirage spot (portal). You can skip this battle.'),
+  -- Pathless Plain -> Terrakion
+  (140030, 14044, 14, 'battle-opponent', 2, 'Pathless Plain Mirage spot (portal). You can skip this battle.'),
+  -- Pathless Plain -> Virizion
+  (140030, 14045, 14, 'battle-opponent', 3, 'Pathless Plain Mirage spot (portal). You can skip this battle.'),
+  -- Fabled Cave -> Reshiram
+  (140031, 14046, 14, 'battle-opponent', 1, 'Fabled Cave Mirage spot (portal). You can skip this battle.'),
+  -- Fabled Cave -> Zekrom
+  (140031, 14047, 14, 'battle-opponent', 2, 'Fabled Cave Mirage spot (portal). You can skip this battle.'),
+  -- Gnarled Den -> Kyurem
+  (140032, 14048, 14, 'battle-opponent', 1, 'Gnarled Den Mirage spot (portal). You can skip this battle.');

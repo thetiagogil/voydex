@@ -4,6 +4,7 @@
 -- Primary: Serebii Emerald Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Emerald Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival, Wally, Maxie and Archie battles: the pret pokeemerald disassembly's trainer parties, cross-checked with Bulbapedia.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Emerald Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -331,4 +332,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wally, Hall of Fame 4: Magneton Lv. 44
   (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 44),
   -- Wally, Hall of Fame 5: Gardevoir Lv. 48
-  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48);
+  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48),
+  -- Regirock, Sealed Chamber 1: Regirock Lv. 40
+  (70023, 7020, 7, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 40),
+  -- Regice, Sealed Chamber 1: Regice Lv. 40
+  (70023, 7021, 7, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 40),
+  -- Registeel, Sealed Chamber 1: Registeel Lv. 40
+  (70023, 7022, 7, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 40),
+  -- Rayquaza, Sky Pillar 1: Rayquaza Lv. 70
+  (70024, 7023, 7, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 70),
+  -- Groudon, Terra Cave 1: Groudon Lv. 70
+  (70025, 7024, 7, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 70),
+  -- Kyogre, Marine Cave 1: Kyogre Lv. 70
+  (70026, 7025, 7, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 70),
+  -- Latias (chose Latias), Lati Choice 1: Latias Lv. 40
+  (70018, 7026, 7, NULL, 70018, 'latias', NULL, NULL, 1, 380, 38000, 40),
+  -- Latios (chose Latios), Lati Choice 1: Latios Lv. 40
+  (70018, 7027, 7, NULL, 70018, 'latios', NULL, NULL, 1, 381, 38100, 40);

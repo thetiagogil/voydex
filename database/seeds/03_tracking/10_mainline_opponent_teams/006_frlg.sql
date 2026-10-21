@@ -4,6 +4,8 @@
 -- Primary: Serebii FireRed / LeafGreen Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database FireRed / LeafGreen Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival and Giovanni battles: the pret pokefirered disassembly's trainer parties, cross-checked with Bulbapedia's rival and Giovanni pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
 -- Scope: Pokémon FireRed / LeafGreen Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -331,4 +333,26 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Blue (chose Squirtle), Elite Four Lorelei 5: Alakazam Lv. 47
   (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 5, 65, 6500, 47),
   -- Blue (chose Squirtle), Elite Four Lorelei 6: Venusaur Lv. 53
-  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 6, 3, 300, 53);
+  (60013, 6014, 6, NULL, 60001, 'squirtle', NULL, NULL, 6, 3, 300, 53),
+  -- Zapdos, Power Plant 1: Zapdos Lv. 50
+  (60023, 6016, 6, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
+  -- Articuno, Seafoam Islands 1: Articuno Lv. 50
+  (60024, 6017, 6, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 50),
+  -- Moltres, Mt. Ember 1: Moltres Lv. 50
+  (60025, 6018, 6, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
+  -- Ho-Oh, Navel Rock 1: Ho-Oh Lv. 70
+  (60026, 6019, 6, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 70),
+  -- Lugia, Navel Rock 1: Lugia Lv. 70
+  (60026, 6020, 6, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 70),
+  -- Deoxys, Birth Island 1: Deoxys (Attack) Lv. 30
+  (60027, 6021, 6, NULL, NULL, NULL, NULL, NULL, 1, 386, 38601, 30),
+  -- Deoxys, Birth Island 1: Deoxys (Defense) Lv. 30
+  (60027, 6022, 6, NULL, NULL, NULL, NULL, NULL, 1, 386, 38602, 30),
+  -- Raikou (chose Squirtle), Roaming Legendary Beast 1: Raikou Lv. 50
+  (60028, 6023, 6, NULL, 60001, 'squirtle', NULL, NULL, 1, 243, 24300, 50),
+  -- Entei (chose Bulbasaur), Roaming Legendary Beast 1: Entei Lv. 50
+  (60028, 6024, 6, NULL, 60001, 'bulbasaur', NULL, NULL, 1, 244, 24400, 50),
+  -- Suicune (chose Charmander), Roaming Legendary Beast 1: Suicune Lv. 50
+  (60028, 6025, 6, NULL, 60001, 'charmander', NULL, NULL, 1, 245, 24500, 50),
+  -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
+  (60029, 6026, 6, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);

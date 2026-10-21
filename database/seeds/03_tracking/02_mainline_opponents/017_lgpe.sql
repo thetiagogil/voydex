@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Let's Go, Pikachu! / Let's Go, Eevee!, Badge, Elite Four, and Gift Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! major opponent data.
 -- ============================================================================
 -- File Scope
@@ -54,4 +55,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Trace (rival)
   (17016, 17, NULL, 'trace', 'Trace', 'rival', NULL, NULL, 'trace', 16),
   -- Giovanni (boss)
-  (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 17);
+  (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 17),
+  -- Zapdos (boss)
+  (17018, 17, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 18),
+  -- Articuno (boss)
+  (17019, 17, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 19),
+  -- Moltres (boss)
+  (17020, 17, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 20),
+  -- Mewtwo (boss)
+  (17021, 17, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 21);

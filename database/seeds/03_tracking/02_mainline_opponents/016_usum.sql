@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Ultra Sun / Ultra Moon, Island challenge, Elite Four, Champion, Team Rainbow Rocket, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Scope: Pokémon Ultra Sun / Ultra Moon major opponent data.
 -- ============================================================================
 -- File Scope
@@ -66,4 +68,30 @@ INSERT INTO tracking.mainline_opponents (
   -- Guzma (boss)
   (16022, 16, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', 22),
   -- Lusamine (boss)
-  (16023, 16, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', 23);
+  (16023, 16, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', 23),
+  -- Nihilego (boss)
+  (16024, 16, NULL, 'nihilego', 'Nihilego', 'boss', 13, 8, 'nihilego', 24),
+  -- Necrozma (boss, ultra-sun)
+  (16025, 16, 27, 'necrozma-dusk-mane', 'Necrozma', 'boss', 11, 17, 'necrozma', 1),
+  -- Necrozma (boss, ultra-moon)
+  (16026, 16, 28, 'necrozma-dawn-wings', 'Necrozma', 'boss', 11, 14, 'necrozma', 1),
+  -- Solgaleo (boss, ultra-sun)
+  (16027, 16, 27, 'solgaleo', 'Solgaleo', 'boss', 11, 17, 'solgaleo', 2),
+  -- Lunala (boss, ultra-moon)
+  (16028, 16, 28, 'lunala', 'Lunala', 'boss', 11, 14, 'lunala', 2),
+  -- Necrozma (boss)
+  (16029, 16, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', 25),
+  -- Tapu Koko (boss)
+  (16030, 16, NULL, 'tapu-koko', 'Tapu Koko', 'boss', 4, 18, 'tapu-koko', 26),
+  -- Tapu Lele (boss)
+  (16031, 16, NULL, 'tapu-lele', 'Tapu Lele', 'boss', 11, 18, 'tapu-lele', 27),
+  -- Tapu Bulu (boss)
+  (16032, 16, NULL, 'tapu-bulu', 'Tapu Bulu', 'boss', 5, 18, 'tapu-bulu', 28),
+  -- Tapu Fini (boss)
+  (16033, 16, NULL, 'tapu-fini', 'Tapu Fini', 'boss', 3, 18, 'tapu-fini', 29),
+  -- Zygarde (boss)
+  (16034, 16, NULL, 'zygarde', 'Zygarde', 'boss', 15, 9, 'zygarde', 30),
+  -- Blacephalon (boss, ultra-sun)
+  (16035, 16, 27, 'blacephalon', 'Blacephalon', 'boss', 2, 14, 'blacephalon', 3),
+  -- Stakataka (boss, ultra-moon)
+  (16036, 16, 28, 'stakataka', 'Stakataka', 'boss', 13, 17, 'stakataka', 3);

@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black 2 / White 2, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black 2 / White 2 milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -66,4 +67,38 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Hall of Fame -> Hugh
   (120018, 12016, 12, 'battle-opponent', 1, 'Undella Town. You can skip this battle.'),
   -- Hall of Fame -> Colress
-  (120018, 12009, 12, 'battle-opponent', 2, 'Plasma Frigate (docked at the P2 Laboratory). You can skip this battle.');
+  (120018, 12009, 12, 'battle-opponent', 2, 'Plasma Frigate (docked at the P2 Laboratory). You can skip this battle.'),
+  -- Swords of Justice -> Cobalion
+  (120019, 12018, 12, 'battle-opponent', 1, 'Route 13 (northern part, above the cuttable trees). You can skip this battle.'),
+  -- Swords of Justice -> Virizion
+  (120019, 12019, 12, 'battle-opponent', 2, 'Route 11 (western end, by the waterfall). You can skip this battle.'),
+  -- Swords of Justice -> Terrakion
+  (120019, 12020, 12, 'battle-opponent', 3, 'Route 22 (middle of the route). You can skip this battle.'),
+  -- Dreamyard -> Latios
+  (120020, 12021, 12, 'battle-opponent', 1, 'Dreamyard (ruins, after a chase). You can skip this battle.'),
+  -- Dreamyard -> Latias
+  (120020, 12022, 12, 'battle-opponent', 2, 'Dreamyard (ruins, after a chase). You can skip this battle.'),
+  -- Cave of Being -> Uxie
+  (120021, 12023, 12, 'battle-opponent', 1, 'Nacrene City (outside the museum). You can skip this battle.'),
+  -- Cave of Being -> Mesprit
+  (120021, 12024, 12, 'battle-opponent', 2, 'Celestial Tower (summit). You can skip this battle.'),
+  -- Cave of Being -> Azelf
+  (120021, 12025, 12, 'battle-opponent', 3, 'Route 23 (pedestal, needs Cut). You can skip this battle.'),
+  -- Dragonspiral Tower -> Zekrom
+  (120022, 12026, 12, 'battle-opponent', 1, 'Dragonspiral Tower (top, with the Dark Stone). You can skip this battle.'),
+  -- Dragonspiral Tower -> Reshiram
+  (120022, 12027, 12, 'battle-opponent', 2, 'Dragonspiral Tower (top, with the Light Stone). You can skip this battle.'),
+  -- Giant Chasm -> Kyurem
+  (120023, 12017, 12, 'battle-opponent', 1, 'Giant Chasm (cave depths). You can skip this battle.'),
+  -- Underground Ruins -> Regirock
+  (120024, 12028, 12, 'battle-opponent', 1, 'Underground Ruins (Rock Peak Chamber, Clay Tunnel). You can skip this battle.'),
+  -- Underground Ruins -> Registeel
+  (120024, 12029, 12, 'battle-opponent', 2, 'Underground Ruins (Iron Chamber, Clay Tunnel). You can skip this battle.'),
+  -- Underground Ruins -> Regice
+  (120024, 12030, 12, 'battle-opponent', 3, 'Underground Ruins (Iceberg Chamber, Clay Tunnel). You can skip this battle.'),
+  -- Twist Mountain -> Regigigas
+  (120025, 12031, 12, 'battle-opponent', 1, 'Twist Mountain (room behind the Ice Rock). You can skip this battle.'),
+  -- Reversal Mountain -> Heatran
+  (120026, 12032, 12, 'battle-opponent', 1, 'Reversal Mountain (B1F special chamber). You can skip this battle.'),
+  -- Marvelous Bridge -> Cresselia
+  (120027, 12033, 12, 'battle-opponent', 1, 'Marvelous Bridge (centre). You can skip this battle.');

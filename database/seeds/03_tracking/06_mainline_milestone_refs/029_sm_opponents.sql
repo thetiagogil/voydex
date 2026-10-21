@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Sun / Moon, Island challenge, Elite Four, Champion, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Sun / Moon milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -30,7 +31,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Grand Trial Olivia -> Olivia
   (150008, 15006, 15, 'battle-opponent', 1, NULL),
   -- Sophocles Trial -> Sophocles
-  (150009, 15007, 15, 'battle-opponent', 3, NULL),
+  (150009, 15007, 15, 'battle-opponent', 4, NULL),
   -- Acerola Trial -> Acerola
   (150010, 15008, 15, 'battle-opponent', 1, NULL),
   -- Grand Trial Nanu -> Nanu
@@ -60,9 +61,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Kiawe Trial -> Hau & Gladion
   (150006, 15018, 15, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue'),
   -- Sophocles Trial -> Hau
-  (150009, 15016, 15, 'battle-opponent', 1, 'Malie City'),
+  (150009, 15016, 15, 'battle-opponent', 2, 'Malie City'),
   -- Sophocles Trial -> Guzma
-  (150009, 15019, 15, 'battle-opponent', 2, 'Malie Garden'),
+  (150009, 15019, 15, 'battle-opponent', 3, 'Malie Garden'),
   -- Grand Trial Nanu -> Guzma
   (150011, 15019, 15, 'battle-opponent', 1, 'Shady House, Po Town'),
   -- Grand Trial Nanu -> Gladion
@@ -76,4 +77,34 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Hala -> Gladion
   (150014, 15017, 15, 'battle-opponent', 1, 'Mount Lanakila (base)'),
   -- Elite Four Hala -> Hau
-  (150014, 15016, 15, 'battle-opponent', 2, 'Mount Lanakila (peak)');
+  (150014, 15016, 15, 'battle-opponent', 2, 'Mount Lanakila (peak)'),
+  -- Sophocles Trial -> Nihilego
+  (150009, 15021, 15, 'battle-opponent', 1, 'Aether Paradise (first visit)'),
+  -- Ultra Space -> Solgaleo
+  (150022, 15022, 15, 'battle-opponent', 2, 'Altar of the Sunne (Poni Island)'),
+  -- Ultra Space -> Lunala
+  (150022, 15023, 15, 'battle-opponent', 3, 'Altar of the Moone (Poni Island)'),
+  -- Hall of Fame -> Tapu Koko
+  (150019, 15024, 15, 'battle-opponent', 1, 'Ruins of Conflict (Melemele Island)'),
+  -- Ultra Beast Missions -> Nihilego
+  (150020, 15021, 15, 'battle-opponent', 1, 'Diglett''s Tunnel / Wela Volcano Park (Akala Island). You can skip this battle.'),
+  -- Ultra Beast Missions -> Buzzwole
+  (150020, 15025, 15, 'battle-opponent', 2, 'Melemele Meadow (Melemele Island). You can skip this battle.'),
+  -- Ultra Beast Missions -> Pheromosa
+  (150020, 15026, 15, 'battle-opponent', 3, 'Verdant Cavern (Melemele Island). You can skip this battle.'),
+  -- Ultra Beast Missions -> Xurkitree
+  (150020, 15027, 15, 'battle-opponent', 4, 'Lush Jungle / Memorial Hill (Akala Island). You can skip this battle.'),
+  -- Ultra Beast Missions -> Kartana
+  (150020, 15028, 15, 'battle-opponent', 5, 'Route 17 / Malie Garden (Ula''ula Island). You can skip this battle.'),
+  -- Ultra Beast Missions -> Celesteela
+  (150020, 15029, 15, 'battle-opponent', 6, 'Haina Desert / Malie Garden (Ula''ula Island). You can skip this battle.'),
+  -- Ultra Beast Missions -> Guzzlord
+  (150020, 15030, 15, 'battle-opponent', 7, 'Resolution Cave B1F (Poni Island). You can skip this battle.'),
+  -- Ruins of Life -> Tapu Lele
+  (150023, 15031, 15, 'battle-opponent', 1, 'Ruins of Life (Akala Island). You can skip this battle.'),
+  -- Ruins of Abundance -> Tapu Bulu
+  (150024, 15032, 15, 'battle-opponent', 1, 'Ruins of Abundance (Ula''ula Island, beyond Haina Desert). You can skip this battle.'),
+  -- Ruins of Hope -> Tapu Fini
+  (150025, 15033, 15, 'battle-opponent', 1, 'Ruins of Hope (Poni Island). You can skip this battle.'),
+  -- Ten Carat Hill -> Necrozma
+  (150026, 15034, 15, 'battle-opponent', 1, 'Ten Carat Hill, Farthest Hollow (Melemele Island). You can skip this battle.');

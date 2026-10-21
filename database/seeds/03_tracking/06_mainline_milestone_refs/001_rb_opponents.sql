@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: legacy Voydex Red / Blue tracking seeds.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Red / Blue milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -61,4 +62,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Silph Co. -> Giovanni
   (10022, 1015, 1, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City'),
   -- Elite Four Lorelei -> Blue
-  (10013, 1014, 1, 'battle-opponent', 1, 'Route 22');
+  (10013, 1014, 1, 'battle-opponent', 1, 'Route 22'),
+  -- Power Plant -> Zapdos
+  (10023, 1016, 1, 'battle-opponent', 1, 'Power Plant. You can skip this battle.'),
+  -- Seafoam Islands -> Articuno
+  (10024, 1017, 1, 'battle-opponent', 1, 'Seafoam Islands B4F. You can skip this battle.'),
+  -- Victory Road -> Moltres
+  (10025, 1018, 1, 'battle-opponent', 1, 'Victory Road 2F. You can skip this battle.'),
+  -- Cerulean Cave -> Mewtwo
+  (10026, 1019, 1, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');

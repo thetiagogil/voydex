@@ -4,6 +4,7 @@
 -- Primary: Serebii Black 2 / White 2 Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Black 2 / White 2 Gym Leaders and Elite Four page.
 -- Hugh, Colress and Kyurem battles: Bulbapedia, cross-checked with Serebii and GamerGuides.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black 2 / White 2 Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -269,4 +270,38 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Colress, Hall of Fame 5: Magnezone Lv. 72
   (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 5, 462, 46200, 72),
   -- Colress, Hall of Fame 6: Klinklang Lv. 74
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 6, 601, 60100, 74);
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 6, 601, 60100, 74),
+  -- Cobalion, Swords of Justice 1: Cobalion Lv. 45
+  (120019, 12018, 12, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 45),
+  -- Virizion, Swords of Justice 1: Virizion Lv. 45
+  (120019, 12019, 12, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 45),
+  -- Terrakion, Swords of Justice 1: Terrakion Lv. 45
+  (120019, 12020, 12, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 45),
+  -- Latios, Dreamyard 1: Latios Lv. 68
+  (120020, 12021, 12, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 68),
+  -- Latias, Dreamyard 1: Latias Lv. 68
+  (120020, 12022, 12, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 68),
+  -- Uxie, Cave of Being 1: Uxie Lv. 65
+  (120021, 12023, 12, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 65),
+  -- Mesprit, Cave of Being 1: Mesprit Lv. 65
+  (120021, 12024, 12, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 65),
+  -- Azelf, Cave of Being 1: Azelf Lv. 65
+  (120021, 12025, 12, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 65),
+  -- Zekrom, Dragonspiral Tower 1: Zekrom Lv. 70
+  (120022, 12026, 12, NULL, NULL, NULL, NULL, NULL, 1, 644, 64400, 70),
+  -- Reshiram, Dragonspiral Tower 1: Reshiram Lv. 70
+  (120022, 12027, 12, NULL, NULL, NULL, NULL, NULL, 1, 643, 64300, 70),
+  -- Kyurem, Giant Chasm 1: Kyurem Lv. 70
+  (120023, 12017, 12, NULL, NULL, NULL, NULL, NULL, 1, 646, 64600, 70),
+  -- Regirock, Underground Ruins 1: Regirock Lv. 65
+  (120024, 12028, 12, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 65),
+  -- Registeel, Underground Ruins 1: Registeel Lv. 65
+  (120024, 12029, 12, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 65),
+  -- Regice, Underground Ruins 1: Regice Lv. 65
+  (120024, 12030, 12, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 65),
+  -- Regigigas, Twist Mountain 1: Regigigas Lv. 68
+  (120025, 12031, 12, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 68),
+  -- Heatran, Reversal Mountain 1: Heatran Lv. 68
+  (120026, 12032, 12, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 68),
+  -- Cresselia, Marvelous Bridge 1: Cresselia Lv. 68
+  (120027, 12033, 12, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 68);

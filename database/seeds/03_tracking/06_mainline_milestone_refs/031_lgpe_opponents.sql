@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Let's Go, Pikachu! / Let's Go, Eevee!, Badge, Elite Four, and Gift Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -62,4 +63,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Silph Co. -> Giovanni
   (170022, 17017, 17, 'battle-opponent', 1, 'Silph Co. 11F, Saffron City'),
   -- Elite Four Lorelei -> Trace
-  (170012, 17016, 17, 'battle-opponent', 1, 'Route 22');
+  (170012, 17016, 17, 'battle-opponent', 1, 'Route 22'),
+  -- Power Plant -> Zapdos
+  (170023, 17018, 17, 'battle-opponent', 1, 'Power Plant. You can skip this battle.'),
+  -- Seafoam Islands -> Articuno
+  (170024, 17019, 17, 'battle-opponent', 1, 'Seafoam Islands B4F. You can skip this battle.'),
+  -- Victory Road -> Moltres
+  (170025, 17020, 17, 'battle-opponent', 1, 'Victory Road. You can skip this battle.'),
+  -- Cerulean Cave -> Mewtwo
+  (170026, 17021, 17, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');

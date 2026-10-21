@@ -4,6 +4,7 @@
 -- Primary: Serebii Scarlet / Violet Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Scarlet / Violet Gym Leaders and Elite Four page.
 -- Nemona and Arven battles: Bulbapedia, cross-checked with Serebii.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -389,4 +390,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Arven, Academy Ace Tournament 5: Garganacl Lv. 67
   (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 5, 934, 93400, 67),
   -- Arven, Academy Ace Tournament 6: Mabosstiff Lv. 68
-  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 6, 943, 94300, 68);
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 6, 943, 94300, 68),
+  -- Koraidon, Defeat AI Professor 1: Koraidon Lv. 72
+  (230031, 23030, 23, NULL, NULL, NULL, NULL, NULL, 1, 1007, 100700, 72),
+  -- Miraidon, Defeat AI Professor 1: Miraidon Lv. 72
+  (230031, 23031, 23, NULL, NULL, NULL, NULL, NULL, 1, 1008, 100800, 72),
+  -- Wo-Chien, Grasswither Shrine 1: Wo-Chien Lv. 60
+  (230033, 23032, 23, NULL, NULL, NULL, NULL, NULL, 1, 1001, 100100, 60),
+  -- Chien-Pao, Icerend Shrine 1: Chien-Pao Lv. 60
+  (230034, 23033, 23, NULL, NULL, NULL, NULL, NULL, 1, 1002, 100200, 60),
+  -- Ting-Lu, Groundblight Shrine 1: Ting-Lu Lv. 60
+  (230035, 23034, 23, NULL, NULL, NULL, NULL, NULL, 1, 1003, 100300, 60),
+  -- Chi-Yu, Firescourge Shrine 1: Chi-Yu Lv. 60
+  (230036, 23035, 23, NULL, NULL, NULL, NULL, NULL, 1, 1004, 100400, 60),
+  -- Koraidon, Area Zero Depths 1: Koraidon Lv. 72
+  (230037, 23030, 23, NULL, NULL, NULL, NULL, NULL, 1, 1007, 100700, 72),
+  -- Miraidon, Area Zero Depths 1: Miraidon Lv. 72
+  (230037, 23031, 23, NULL, NULL, NULL, NULL, NULL, 1, 1008, 100800, 72);

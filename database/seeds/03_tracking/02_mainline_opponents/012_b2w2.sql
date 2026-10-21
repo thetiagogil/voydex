@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black 2 / White 2, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black 2 / White 2 major opponent data.
 -- ============================================================================
 -- File Scope
@@ -54,4 +55,36 @@ INSERT INTO tracking.mainline_opponents (
   -- Hugh (rival)
   (12016, 12, NULL, 'hugh', 'Hugh', 'rival', NULL, NULL, 'hugh', 16),
   -- Kyurem (boss)
-  (12017, 12, NULL, 'kyurem', 'Kyurem', 'boss', NULL, NULL, 'kyurem', 17);
+  (12017, 12, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', 17),
+  -- Cobalion (boss)
+  (12018, 12, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', 18),
+  -- Virizion (boss)
+  (12019, 12, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', 19),
+  -- Terrakion (boss)
+  (12020, 12, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', 20),
+  -- Latios (boss, black-2)
+  (12021, 12, 19, 'latios', 'Latios', 'boss', 15, 11, 'latios', 1),
+  -- Latias (boss, white-2)
+  (12022, 12, 20, 'latias', 'Latias', 'boss', 15, 11, 'latias', 1),
+  -- Uxie (boss)
+  (12023, 12, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', 21),
+  -- Mesprit (boss)
+  (12024, 12, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', 22),
+  -- Azelf (boss)
+  (12025, 12, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', 23),
+  -- Zekrom (boss, black-2)
+  (12026, 12, 19, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', 2),
+  -- Reshiram (boss, white-2)
+  (12027, 12, 20, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', 2),
+  -- Regirock (boss)
+  (12028, 12, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', 24),
+  -- Registeel (boss)
+  (12029, 12, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', 25),
+  -- Regice (boss)
+  (12030, 12, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', 26),
+  -- Regigigas (boss)
+  (12031, 12, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 27),
+  -- Heatran (boss)
+  (12032, 12, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 28),
+  -- Cresselia (boss)
+  (12033, 12, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 29);

@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: Pokémon Ruby / Sapphire source pages.
 -- Story points with rival and villain battles: Bulbapedia walkthrough pages and the pret pokeruby map scripts.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Ruby / Sapphire major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -41,6 +42,12 @@ INSERT INTO tracking.mainline_milestones (
   (50018, 5, NULL, 501, 1, 2, NULL, 'mt-chimney', 'Mt. Chimney', 'Ride the cable car up Mt. Chimney and stop Team Magma (Ruby) or Team Aqua (Sapphire) from using the Meteorite on the volcano.', 6, true),
   -- Fossil Choice
   (50006, 5, NULL, 504, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Root Fossil or Claw Fossil in the Route 111 desert.', 1, false),
+  -- Sealed Chamber
+  (50020, 5, NULL, 504, 6, 2, NULL, 'sealed-chamber', 'Sealed Chamber', 'Open the Sealed Chamber with Relicanth first and Wailord last in your party, then solve the Braille puzzles to meet Regirock, Regice and Registeel.', 2, false),
+  -- Sky Pillar
+  (50021, 5, NULL, 504, 6, 2, NULL, 'sky-pillar', 'Sky Pillar', 'Climb the Sky Pillar after entering the Hall of Fame and catch or defeat Rayquaza at the top.', 3, false),
+  -- Roaming Latios or Latias
+  (50022, 5, NULL, 504, 6, 2, NULL, 'roaming-lati', 'Roaming Latios or Latias', 'After entering the Hall of Fame, a TV news report sets Latios (Ruby) or Latias (Sapphire) roaming Hoenn.', 4, false),
   -- Heat Badge
   (50007, 5, NULL, 501, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 7, true),
   -- Balance Badge

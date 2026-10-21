@@ -43,6 +43,15 @@ Story holds story points, not one milestone per battle. A story point names
 the battles fought there or on the way to it (a rival before a Gym sits with
 that badge; battles fought together share one point), and a new story point
 is added only for a real story beat (S.S. Anne, Silph Co., Team Flare's HQ).
+A legendary the story makes you face is a Boss battle on its story point.
+Optional and roaming legendaries are optional Side Content story points
+(never counted, no prerequisites): one per place or quest (the Regis behind
+the Sealed Chamber share one), else one per legendary, each battle with its
+level and where it happens or roams. Where Story already has the place
+(Ramanas Park, Stark Mountain) or the choice (Emerald's roaming Lati), the
+battle sits there. Event-only legendaries stay out, unless a re-release hands
+them out in normal play (FireRed / LeafGreen's island tickets on Switch,
+Crystal's GS Ball on 3DS); the seed header says so.
 
 Milestone rows provide completion state, identity, concise location or context,
 type, and restrained decision or snapshot cues. The selected detail owns the

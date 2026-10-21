@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Scarlet / Violet, Gym Leader, Elite Four, Champion, Team Star, Titan Pokémon, The Way Home, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Scarlet / Violet major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -86,4 +87,14 @@ INSERT INTO tracking.mainline_milestones (
   -- Defeat AI Professor
   (230031, 23, NULL, 2305, 6, 3, NULL, 'defeat-ai-professor', 'Defeat AI Professor', 'Defeat the AI Professor and complete The Way Home.', 2, true),
   -- Academy Ace Tournament
-  (230032, 23, NULL, 2306, 1, 1, NULL, 'academy-ace-tournament', 'Academy Ace Tournament', 'Win the Academy Ace Tournament.', 1, false);
+  (230032, 23, NULL, 2306, 1, 1, NULL, 'academy-ace-tournament', 'Academy Ace Tournament', 'Win the Academy Ace Tournament.', 1, false),
+  -- Grasswither Shrine
+  (230033, 23, NULL, 2307, 6, 2, NULL, 'grasswither-shrine', 'Grasswither Shrine', 'Pull the eight purple stakes nearby to open the Grasswither Shrine and battle Wo-Chien.', 1, false),
+  -- Icerend Shrine
+  (230034, 23, NULL, 2307, 6, 2, NULL, 'icerend-shrine', 'Icerend Shrine', 'Pull the eight yellow stakes nearby to open the Icerend Shrine and battle Chien-Pao.', 2, false),
+  -- Groundblight Shrine
+  (230035, 23, NULL, 2307, 6, 2, NULL, 'groundblight-shrine', 'Groundblight Shrine', 'Pull the eight green stakes nearby to open the Groundblight Shrine and battle Ting-Lu.', 3, false),
+  -- Firescourge Shrine
+  (230036, 23, NULL, 2307, 6, 2, NULL, 'firescourge-shrine', 'Firescourge Shrine', 'Pull the eight light-blue stakes nearby to open the Firescourge Shrine and battle Chi-Yu.', 4, false),
+  -- Area Zero Depths
+  (230037, 23, NULL, 2307, 6, 2, NULL, 'area-zero-depths', 'Area Zero Depths', 'After The Way Home, battle and catch a second Koraidon (Scarlet) or Miraidon (Violet) at the bottom of Area Zero.', 5, false);

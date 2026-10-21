@@ -4,6 +4,7 @@
 -- Primary: Serebii Gold / Silver Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Gold / Silver Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival battles: the pret pokegold disassembly's trainer parties, cross-checked with Bulbapedia and Serebii.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Scope: Pokémon Gold / Silver Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -355,4 +356,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Silver (chose Totodile), Boulder Badge 5: Alakazam Lv. 43
   (30017, 3023, 3, NULL, 30001, 'totodile', NULL, NULL, 5, 65, 6500, 43),
   -- Silver (chose Totodile), Boulder Badge 6: Meganium Lv. 45
-  (30017, 3023, 3, NULL, 30001, 'totodile', NULL, NULL, 6, 154, 15400, 45);
+  (30017, 3023, 3, NULL, 30001, 'totodile', NULL, NULL, 6, 154, 15400, 45),
+  -- Raikou, Roaming Raikou 1: Raikou Lv. 40
+  (30028, 3024, 3, NULL, NULL, NULL, NULL, NULL, 1, 243, 24300, 40),
+  -- Entei, Roaming Entei 1: Entei Lv. 40
+  (30029, 3025, 3, NULL, NULL, NULL, NULL, NULL, 1, 244, 24400, 40),
+  -- Suicune, Roaming Suicune 1: Suicune Lv. 40
+  (30030, 3026, 3, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 40),
+  -- Ho-Oh, Tin Tower 1: Ho-Oh Lv. 40
+  (30031, 3027, 3, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 40),
+  -- Ho-Oh, Tin Tower 1: Ho-Oh Lv. 70
+  (30031, 3028, 3, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 70),
+  -- Lugia, Whirl Islands 1: Lugia Lv. 40
+  (30032, 3029, 3, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 40),
+  -- Lugia, Whirl Islands 1: Lugia Lv. 70
+  (30032, 3030, 3, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 70);

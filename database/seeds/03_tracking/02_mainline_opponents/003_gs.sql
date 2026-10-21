@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Gold / Silver source pages.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Scope: Pokémon Gold / Silver major opponent data.
 -- ============================================================================
 -- File Scope
@@ -68,4 +69,18 @@ INSERT INTO tracking.mainline_opponents (
   -- Red
   (3022, 3, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 22),
   -- Silver (rival)
-  (3023, 3, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23);
+  (3023, 3, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23),
+  -- Raikou (boss)
+  (3024, 3, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', 24),
+  -- Entei (boss)
+  (3025, 3, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', 25),
+  -- Suicune (boss)
+  (3026, 3, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', 26),
+  -- Ho-Oh (boss, gold)
+  (3027, 3, 4, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', 1),
+  -- Ho-Oh (boss, silver)
+  (3028, 3, 5, 'ho-oh-silver', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', 1),
+  -- Lugia (boss, silver)
+  (3029, 3, 5, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', 2),
+  -- Lugia (boss, gold)
+  (3030, 3, 4, 'lugia-gold', 'Lugia', 'boss', 11, 10, 'lugia', 2);

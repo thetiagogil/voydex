@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, X / Y, Gift Pokémon, Fossil, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon X / Y major opponent data.
 -- ============================================================================
 -- File Scope
@@ -60,4 +61,18 @@ INSERT INTO tracking.mainline_opponents (
   -- Lysandre (boss)
   (13019, 13, NULL, 'lysandre', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 19),
   -- Trevor (rival)
-  (13020, 13, NULL, 'trevor', 'Trevor', 'rival', NULL, NULL, 'trevor', 20);
+  (13020, 13, NULL, 'trevor', 'Trevor', 'rival', NULL, NULL, 'trevor', 20),
+  -- Xerneas (boss, x)
+  (13021, 13, 21, 'xerneas', 'Xerneas', 'boss', 18, NULL, 'xerneas', 1),
+  -- Yveltal (boss, y)
+  (13022, 13, 22, 'yveltal', 'Yveltal', 'boss', 16, 10, 'yveltal', 1),
+  -- Zygarde (boss)
+  (13023, 13, NULL, 'zygarde', 'Zygarde', 'boss', 15, 9, 'zygarde', 21),
+  -- Mewtwo (boss)
+  (13024, 13, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 22),
+  -- Articuno (boss)
+  (13025, 13, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 23),
+  -- Zapdos (boss)
+  (13026, 13, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 24),
+  -- Moltres (boss)
+  (13027, 13, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 25);

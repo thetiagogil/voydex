@@ -4,6 +4,7 @@
 -- Primary: Serebii Brilliant Diamond / Shining Pearl Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Brilliant Diamond / Shining Pearl Gym Leaders and Elite Four page.
 -- Barry and Cyrus battles: Serebii, cross-checked with PokéWiki and Bulbapedia.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Scope: Pokémon Brilliant Diamond / Shining Pearl Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -305,4 +306,58 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Barry (chose Piplup), Fight Area 5: Snorlax Lv. 60
   (210020, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 143, 14300, 60),
   -- Barry (chose Piplup), Fight Area 6: Torterra Lv. 64
-  (210020, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 64);
+  (210020, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 64),
+  -- Dialga, Spear Pillar 1: Dialga Lv. 47
+  (210019, 21016, 21, NULL, NULL, NULL, NULL, NULL, 1, 483, 48300, 47),
+  -- Palkia, Spear Pillar 1: Palkia Lv. 47
+  (210019, 21017, 21, NULL, NULL, NULL, NULL, NULL, 1, 484, 48400, 47),
+  -- Uxie, Lake Guardians 1: Uxie Lv. 50
+  (210021, 21018, 21, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50),
+  -- Azelf, Lake Guardians 1: Azelf Lv. 50
+  (210021, 21019, 21, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50),
+  -- Mesprit, Lake Guardians 1: Mesprit Lv. 50
+  (210021, 21020, 21, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50),
+  -- Giratina, Turnback Cave 1: Giratina Lv. 70
+  (210022, 21021, 21, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 70),
+  -- Cresselia, Roaming Cresselia 1: Cresselia Lv. 50
+  (210023, 21022, 21, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 50),
+  -- Heatran, Stark Mountain 1: Heatran Lv. 70
+  (210024, 21023, 21, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 70),
+  -- Regigigas, Snowpoint Temple 1: Regigigas Lv. 70
+  (210025, 21024, 21, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 70),
+  -- Regirock, Ramanas Park 1: Regirock Lv. 70
+  (210017, 21025, 21, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 70),
+  -- Regice, Ramanas Park 1: Regice Lv. 70
+  (210017, 21026, 21, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 70),
+  -- Registeel, Ramanas Park 1: Registeel Lv. 70
+  (210017, 21027, 21, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 70),
+  -- Raikou, Ramanas Park 1: Raikou Lv. 70
+  (210017, 21028, 21, NULL, NULL, NULL, NULL, NULL, 1, 243, 24300, 70),
+  -- Entei, Ramanas Park 1: Entei Lv. 70
+  (210017, 21029, 21, NULL, NULL, NULL, NULL, NULL, 1, 244, 24400, 70),
+  -- Suicune, Ramanas Park 1: Suicune Lv. 70
+  (210017, 21030, 21, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 70),
+  -- Articuno, Ramanas Park 1: Articuno Lv. 70
+  (210017, 21031, 21, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 70),
+  -- Zapdos, Ramanas Park 1: Zapdos Lv. 70
+  (210017, 21032, 21, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 70),
+  -- Moltres, Ramanas Park 1: Moltres Lv. 70
+  (210017, 21033, 21, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 70),
+  -- Latias, Ramanas Park 1: Latias Lv. 70
+  (210017, 21034, 21, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 70),
+  -- Latios, Ramanas Park 1: Latios Lv. 70
+  (210017, 21035, 21, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 70),
+  -- Ho-Oh, Ramanas Park 1: Ho-Oh Lv. 70
+  (210017, 21036, 21, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 70),
+  -- Lugia, Ramanas Park 1: Lugia Lv. 70
+  (210017, 21037, 21, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 70),
+  -- Kyogre, Ramanas Park 1: Kyogre Lv. 70
+  (210017, 21038, 21, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 70),
+  -- Groudon, Ramanas Park 1: Groudon Lv. 70
+  (210017, 21039, 21, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 70),
+  -- Rayquaza, Ramanas Park 1: Rayquaza Lv. 70
+  (210017, 21040, 21, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 70),
+  -- Mewtwo, Ramanas Park 1: Mewtwo Lv. 70
+  (210017, 21041, 21, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70),
+  -- Giratina, Ramanas Park 1: Giratina (Origin) Lv. 100
+  (210017, 21021, 21, NULL, NULL, NULL, NULL, NULL, 1, 487, 48701, 100);

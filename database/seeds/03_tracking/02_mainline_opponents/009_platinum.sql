@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and Platinum pages.
 -- Cross-check: Pokémon Platinum source page.
+-- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Platinum major opponent data.
 -- ============================================================================
 -- File Scope
@@ -51,4 +52,28 @@ INSERT INTO tracking.mainline_opponents (
   -- Barry (rival)
   (9014, 9, NULL, 'barry', 'Barry', 'rival', NULL, NULL, 'barry', 14),
   -- Cyrus (boss)
-  (9015, 9, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', 15);
+  (9015, 9, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', 15),
+  -- Giratina (boss)
+  (9016, 9, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', 16),
+  -- Uxie (boss)
+  (9017, 9, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', 17),
+  -- Azelf (boss)
+  (9018, 9, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', 18),
+  -- Mesprit (boss)
+  (9019, 9, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', 19),
+  -- Heatran (boss)
+  (9020, 9, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 20),
+  -- Cresselia (boss)
+  (9021, 9, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 21),
+  -- Regigigas (boss)
+  (9022, 9, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 22),
+  -- Dialga (boss)
+  (9023, 9, NULL, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', 23),
+  -- Palkia (boss)
+  (9024, 9, NULL, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', 24),
+  -- Articuno (boss)
+  (9025, 9, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 25),
+  -- Zapdos (boss)
+  (9026, 9, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 26),
+  -- Moltres (boss)
+  (9027, 9, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 27);

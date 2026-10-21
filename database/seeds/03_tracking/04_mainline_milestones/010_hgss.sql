@@ -5,6 +5,7 @@
 -- and First partner Pokémon pages.
 -- Cross-check: Pokémon HeartGold / SoulSilver source page.
 -- Story points with rival battles: Bulbapedia walkthrough pages and the pret pokeheartgold scripts.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon HeartGold / SoulSilver major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -53,6 +54,8 @@ INSERT INTO tracking.mainline_milestones (
   (100029, 10, NULL, 1001, 1, 2, NULL, 'radio-tower', 'Radio Tower', 'Free the Goldenrod Radio Tower from Team Rocket, going through Goldenrod Tunnel to rescue the Director.', 11, true),
   -- Rising Badge
   (100010, 10, NULL, 1001, 2, 2, NULL, 'rising-badge', 'Rising Badge', 'Defeat Clair at Blackthorn Gym and receive the Rising Badge.', 12, true),
+  -- Kimono Girls' Ritual
+  (100030, 10, NULL, 1001, 6, 3, NULL, 'kimono-girls-ritual', 'Kimono Girls'' Ritual', 'Defeat the five Kimono Girls at the Ecruteak Dance Theater, then face Ho-Oh atop the Bell Tower (HeartGold) or Lugia deep in the Whirl Islands (SoulSilver).', 13, true),
   -- Elite Four Will
   (100011, 10, NULL, 1002, 7, 2, NULL, 'elite-four-will', 'Elite Four Will', 'Defeat Will at Indigo Plateau.', 1, true),
   -- Elite Four Koga
@@ -86,4 +89,24 @@ INSERT INTO tracking.mainline_milestones (
   -- Choose Kanto Starter
   (100026, 10, NULL, 1003, 12, 1, NULL, 'choose-kanto-starter', 'Choose Kanto Starter', 'Choose Bulbasaur, Charmander, or Squirtle from Professor Oak after defeating Red.', 10, false),
   -- Choose Hoenn Starter
-  (100027, 10, NULL, 1003, 12, 1, NULL, 'choose-hoenn-starter', 'Choose Hoenn Starter', 'Choose Treecko, Torchic, or Mudkip from Steven Stone after defeating Red.', 11, false);
+  (100027, 10, NULL, 1003, 12, 1, NULL, 'choose-hoenn-starter', 'Choose Hoenn Starter', 'Choose Treecko, Torchic, or Mudkip from Steven Stone after defeating Red.', 11, false),
+  -- Roaming Raikou
+  (100031, 10, NULL, 1004, 6, 2, NULL, 'roaming-raikou', 'Roaming Raikou', 'Track down and catch or defeat Raikou, which roams the Johto routes after it flees the Burned Tower.', 1, false),
+  -- Roaming Entei
+  (100032, 10, NULL, 1004, 6, 2, NULL, 'roaming-entei', 'Roaming Entei', 'Track down and catch or defeat Entei, which roams the Johto routes after it flees the Burned Tower.', 2, false),
+  -- Roaming Latias or Latios
+  (100033, 10, NULL, 1004, 6, 2, NULL, 'roaming-latias-or-latios', 'Roaming Latias or Latios', 'After Steven meets you outside the Pokémon Fan Club in Vermilion City, track down and catch or defeat Latias (HeartGold) or Latios (SoulSilver) roaming Kanto.', 3, false),
+  -- Route 25
+  (100034, 10, NULL, 1004, 6, 2, NULL, 'route-25', 'Route 25', 'Follow Suicune across Johto and Kanto until it stops outside Bill''s house on Route 25, then catch or defeat it.', 4, false),
+  -- Power Plant
+  (100035, 10, NULL, 1004, 6, 2, NULL, 'power-plant', 'Power Plant', 'With all 16 Badges, catch or defeat Zapdos outside the Power Plant on Route 10.', 5, false),
+  -- Seafoam Islands
+  (100036, 10, NULL, 1004, 6, 2, NULL, 'seafoam-islands', 'Seafoam Islands', 'With all 16 Badges, catch or defeat Articuno deep in the Seafoam Islands.', 6, false),
+  -- Mt. Silver Cave
+  (100037, 10, NULL, 1004, 6, 2, NULL, 'mt-silver-cave', 'Mt. Silver Cave', 'With all 16 Badges, catch or defeat Moltres in its chamber inside Mt. Silver.', 7, false),
+  -- Cerulean Cave
+  (100038, 10, NULL, 1004, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'With all the Kanto Badges, catch or defeat Mewtwo deep in Cerulean Cave.', 8, false),
+  -- Pewter City Wing
+  (100039, 10, NULL, 1004, 6, 2, NULL, 'version-wing-legendary', 'Pewter City Wing', 'Get the Silver Wing (HeartGold) or Rainbow Wing (SoulSilver) from an old man in Pewter City and catch or defeat Lugia in the Whirl Islands or Ho-Oh atop the Bell Tower.', 9, false),
+  -- Embedded Tower
+  (100040, 10, NULL, 1004, 6, 2, NULL, 'embedded-tower', 'Embedded Tower', 'After defeating Red, take Mr. Pokémon''s orb to the Embedded Tower on Route 47 for Kyogre or Groudon, then return with the Jade Orb for Rayquaza.', 10, false);

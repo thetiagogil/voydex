@@ -5,6 +5,8 @@
 -- Cross-check: Serebii trainer pages per battle.
 -- After-The-Way-Home teams: the game's trainer and event-battle data, cross-checked with Bulbapedia and Serebii.
 -- Kieran and Carmine battles: Bulbapedia, cross-checked with Serebii.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- The Dreaded Den Munkidori (Lv. 30, or 70 after The Way Home) is confirmed by data-mined game data only.
 -- Scope: Pokémon The Teal Mask Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -35,18 +37,6 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (240001, 24001, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 161, 16100, 59),
   -- Kieran, Arrive in Kitakami (You had already finished The Way Home) 2: Yanma Lv. 60
   (240001, 24001, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 2, 193, 19300, 60),
-  -- The Loyal Three (You had not finished The Way Home yet) 1: Okidogi Lv. 35
-  (240004, 24002, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1014, 101400, 35),
-  -- The Loyal Three (You had not finished The Way Home yet) 2: Munkidori Lv. 35
-  (240004, 24002, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 2, 1015, 101500, 35),
-  -- The Loyal Three (You had not finished The Way Home yet) 3: Fezandipiti Lv. 35
-  (240004, 24002, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 3, 1016, 101600, 35),
-  -- The Loyal Three (You had already finished The Way Home) 1: Okidogi Lv. 85
-  (240004, 24002, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1014, 101400, 85),
-  -- The Loyal Three (You had already finished The Way Home) 2: Munkidori Lv. 85
-  (240004, 24002, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 2, 1015, 101500, 85),
-  -- The Loyal Three (You had already finished The Way Home) 3: Fezandipiti Lv. 85
-  (240004, 24002, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 3, 1016, 101600, 85),
   -- Ogerpon (You had not finished The Way Home yet) 1: Ogerpon (Hearthflame Mask) Lv. 20
   (240005, 24003, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1017, 101702, 20),
   -- Ogerpon (You had not finished The Way Home yet) 2: Ogerpon (Wellspring Mask) Lv. 20
@@ -184,4 +174,26 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Carmine (You had already finished The Way Home), Kieran Rematch 4: Ninetales Lv. 72
   (240006, 24005, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 4, 38, 3800, 72),
   -- Carmine (You had already finished The Way Home), Kieran Rematch 5: Sinistcha Lv. 74
-  (240006, 24005, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 5, 1013, 101300, 74);
+  (240006, 24005, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 5, 1013, 101300, 74),
+  -- Munkidori (You had not finished The Way Home yet), Loyal Three Quest 1: Munkidori Lv. 30
+  (240004, 24006, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1015, 101500, 30),
+  -- Munkidori (You had already finished The Way Home), Loyal Three Quest 1: Munkidori Lv. 70
+  (240004, 24006, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1015, 101500, 70),
+  -- Okidogi (You had not finished The Way Home yet), Loyal Three Quest 1: Okidogi Lv. 35
+  (240004, 24007, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1014, 101400, 35),
+  -- Okidogi (You had already finished The Way Home), Loyal Three Quest 1: Okidogi Lv. 85
+  (240004, 24007, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1014, 101400, 85),
+  -- Munkidori (You had not finished The Way Home yet), Loyal Three Quest 1: Munkidori Lv. 35
+  (240004, 24008, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1015, 101500, 35),
+  -- Munkidori (You had already finished The Way Home), Loyal Three Quest 1: Munkidori Lv. 85
+  (240004, 24008, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1015, 101500, 85),
+  -- Fezandipiti (You had not finished The Way Home yet), Loyal Three Quest 1: Fezandipiti Lv. 35
+  (240004, 24009, 24, NULL, NULL, NULL, 'before-the-way-home', 'You had not finished The Way Home yet', 1, 1016, 101600, 35),
+  -- Fezandipiti (You had already finished The Way Home), Loyal Three Quest 1: Fezandipiti Lv. 85
+  (240004, 24009, 24, NULL, NULL, NULL, 'after-the-way-home', 'You had already finished The Way Home', 1, 1016, 101600, 85),
+  -- Okidogi, Paradise Barrens 1: Okidogi Lv. 70
+  (240008, 24010, 24, NULL, NULL, NULL, NULL, NULL, 1, 1014, 101400, 70),
+  -- Munkidori, Wistful Fields 1: Munkidori Lv. 70
+  (240009, 24006, 24, NULL, NULL, NULL, NULL, NULL, 1, 1015, 101500, 70),
+  -- Fezandipiti, Oni Mountain 1: Fezandipiti Lv. 70
+  (240010, 24011, 24, NULL, NULL, NULL, NULL, NULL, 1, 1016, 101600, 70);

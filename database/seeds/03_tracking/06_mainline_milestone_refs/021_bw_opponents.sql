@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black / White, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black / White milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -42,7 +43,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Marshal -> Marshal
   (110014, 11012, 11, 'battle-opponent', 1, NULL),
   -- Battle N -> N
-  (110015, 11013, 11, 'battle-opponent', 1, NULL),
+  (110015, 11013, 11, 'battle-opponent', 3, NULL),
   -- Defeat Ghetsis -> Ghetsis
   (110016, 11014, 11, 'battle-opponent', 1, NULL),
   -- Champion Alder -> Alder
@@ -78,4 +79,22 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Legend Badge -> Bianca
   (110010, 11016, 11, 'battle-opponent', 1, 'Route 8'),
   -- Legend Badge -> Cheren
-  (110010, 11017, 11, 'battle-opponent', 3, 'Route 10');
+  (110010, 11017, 11, 'battle-opponent', 3, 'Route 10'),
+  -- Battle N -> Reshiram
+  (110015, 11018, 11, 'battle-opponent', 1, 'N''s Castle (throne room, before the battle with N)'),
+  -- Battle N -> Zekrom
+  (110015, 11019, 11, 'battle-opponent', 2, 'N''s Castle (throne room, before the battle with N)'),
+  -- Swords of Justice -> Cobalion
+  (110019, 11020, 11, 'battle-opponent', 1, 'Mistralton Cave (Guidance Chamber, needs Surf). You can skip this battle.'),
+  -- Swords of Justice -> Terrakion
+  (110019, 11021, 11, 'battle-opponent', 2, 'Victory Road (Trial Chamber, needs Strength). You can skip this battle.'),
+  -- Swords of Justice -> Virizion
+  (110019, 11022, 11, 'battle-opponent', 3, 'Pinwheel Forest (Rumination Field). You can skip this battle.'),
+  -- Roaming Tornadus or Thundurus -> Tornadus
+  (110020, 11023, 11, 'battle-opponent', 1, 'Roams Unova routes (time-based: 12-15, 2/3/18, 4/5/16, 6-8, 9-11); released at the second house on Route 7. You can skip this battle.'),
+  -- Roaming Tornadus or Thundurus -> Thundurus
+  (110020, 11024, 11, 'battle-opponent', 2, 'Roams Unova routes (time-based: 12-15, 2/3/18, 4/5/16, 6-8, 9-11); released at the second house on Route 7. You can skip this battle.'),
+  -- Giant Chasm -> Kyurem
+  (110021, 11025, 11, 'battle-opponent', 1, 'Giant Chasm (cave depths, reached once the forest freezes). You can skip this battle.'),
+  -- Abundant Shrine -> Landorus
+  (110022, 11026, 11, 'battle-opponent', 1, 'Abundant Shrine (off Route 14, needs Surf and Waterfall). You can skip this battle.');

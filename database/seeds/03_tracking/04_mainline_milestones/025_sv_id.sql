@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia The Indigo Disk, Blueberry League, Kieran, Terapagos, and Mochi Mayhem pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Scope: Pokémon The Indigo Disk major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -40,4 +41,10 @@ INSERT INTO tracking.mainline_milestones (
   -- Terapagos Battle
   (250008, 25, NULL, 2501, 6, 3, NULL, 'terapagos-battle', 'Terapagos Battle', 'Battle Terapagos and complete the main Indigo Disk story.', 8, true),
   -- Mochi Mayhem
-  (250009, 25, NULL, 2502, 6, 3, NULL, 'mochi-mayhem', 'Mochi Mayhem', 'Complete the Mochi Mayhem epilogue and battle Pecharunt.', 1, false);
+  (250009, 25, NULL, 2502, 6, 3, NULL, 'mochi-mayhem', 'Mochi Mayhem', 'Complete the Mochi Mayhem epilogue and battle Pecharunt.', 1, false),
+  -- Coastal Biome
+  (250010, 25, NULL, 2502, 6, 2, NULL, 'coastal-biome', 'Coastal Biome', 'Spin in the leaf cyclone east of the Coastal Outdoor Classroom, then use the sepia camera filter to call Meloetta.', 2, false),
+  -- Perrin's Paradox Photos
+  (250011, 25, NULL, 2502, 6, 2, NULL, 'perrins-paradox-photos', 'Perrin''s Paradox Photos', 'Reach 200 Blueberry Pokédex entries, then use Perrin''s photos to find two Paradox Pokémon in Area Zero.', 3, false),
+  -- Snacksworth's Legendary Treats
+  (250012, 25, NULL, 2502, 6, 2, NULL, 'snacksworth-legendary-treats', 'Snacksworth''s Legendary Treats', 'Trade Blueberry Quests for Snacksworth''s treats, then find each returning Legendary Pokémon in Paldea.', 4, false);

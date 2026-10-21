@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and HeartGold / SoulSilver pages.
 -- Cross-check: Pokémon HeartGold / SoulSilver source page.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon HeartGold / SoulSilver major opponent data.
 -- ============================================================================
 -- File Scope
@@ -68,4 +69,36 @@ INSERT INTO tracking.mainline_opponents (
   -- Red
   (10022, 10, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 22),
   -- Silver (rival)
-  (10023, 10, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23);
+  (10023, 10, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23),
+  -- Ho-Oh (boss, heartgold)
+  (10024, 10, 15, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', 1),
+  -- Lugia (boss, soulsilver)
+  (10025, 10, 16, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', 1),
+  -- Raikou (boss)
+  (10026, 10, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', 24),
+  -- Entei (boss)
+  (10027, 10, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', 25),
+  -- Latias (boss, heartgold)
+  (10028, 10, 15, 'latias', 'Latias', 'boss', 15, 11, 'latias', 2),
+  -- Latios (boss, soulsilver)
+  (10029, 10, 16, 'latios', 'Latios', 'boss', 15, 11, 'latios', 2),
+  -- Suicune (boss)
+  (10030, 10, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', 26),
+  -- Zapdos (boss)
+  (10031, 10, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 27),
+  -- Articuno (boss)
+  (10032, 10, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 28),
+  -- Moltres (boss)
+  (10033, 10, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 29),
+  -- Mewtwo (boss)
+  (10034, 10, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 30),
+  -- Lugia (boss, heartgold)
+  (10035, 10, 15, 'lugia-heartgold', 'Lugia', 'boss', 11, 10, 'lugia', 3),
+  -- Ho-Oh (boss, soulsilver)
+  (10036, 10, 16, 'ho-oh-soulsilver', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', 3),
+  -- Kyogre (boss, heartgold)
+  (10037, 10, 15, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', 4),
+  -- Groudon (boss, soulsilver)
+  (10038, 10, 16, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', 4),
+  -- Rayquaza (boss)
+  (10039, 10, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 31);

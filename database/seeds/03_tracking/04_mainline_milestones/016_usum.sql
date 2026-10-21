@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Ultra Sun / Ultra Moon, Island challenge, Elite Four, Champion, Team Rainbow Rocket, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Scope: Pokémon Ultra Sun / Ultra Moon major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -68,4 +70,20 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (160021, 16, NULL, 1603, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame as Alola''s first Champion.', 6, true),
   -- Team Rainbow Rocket
-  (160022, 16, NULL, 1604, 6, 3, NULL, 'team-rainbow-rocket', 'Team Rainbow Rocket', 'Complete the Team Rainbow Rocket Episode and defeat Giovanni.', 1, true);
+  (160022, 16, NULL, 1604, 6, 3, NULL, 'team-rainbow-rocket', 'Team Rainbow Rocket', 'Complete the Team Rainbow Rocket Episode and defeat Giovanni.', 1, true),
+  -- Mahalo Trail
+  (160024, 16, NULL, 1605, 6, 2, NULL, 'mahalo-trail', 'Mahalo Trail', 'Battle and catch Nebby, now Solgaleo or Lunala, when Lillie hands it over on Mahalo Trail''s plank bridge.', 1, false),
+  -- Mount Lanakila Crater
+  (160025, 16, NULL, 1605, 6, 2, NULL, 'mount-lanakila-crater', 'Mount Lanakila Crater', 'Share your Z-Ring''s light with the weakened Necrozma in Mount Lanakila''s crater, then catch or defeat it.', 2, false),
+  -- Ruins of Conflict
+  (160026, 16, NULL, 1605, 6, 2, NULL, 'ruins-of-conflict', 'Ruins of Conflict', 'Catch or defeat Tapu Koko, Melemele''s guardian, at the Ruins of Conflict after becoming Champion.', 3, false),
+  -- Ruins of Life
+  (160027, 16, NULL, 1605, 6, 2, NULL, 'ruins-of-life', 'Ruins of Life', 'Catch or defeat Tapu Lele, Akala''s guardian, at the Ruins of Life after becoming Champion.', 4, false),
+  -- Ruins of Abundance
+  (160028, 16, NULL, 1605, 6, 2, NULL, 'ruins-of-abundance', 'Ruins of Abundance', 'Catch or defeat Tapu Bulu, Ula''ula''s guardian, at the Ruins of Abundance beyond Haina Desert after becoming Champion.', 5, false),
+  -- Ruins of Hope
+  (160029, 16, NULL, 1605, 6, 2, NULL, 'ruins-of-hope', 'Ruins of Hope', 'Catch or defeat Tapu Fini, Poni''s guardian, at the Ruins of Hope after becoming Champion.', 6, false),
+  -- Resolution Cave
+  (160030, 16, NULL, 1605, 6, 2, NULL, 'resolution-cave', 'Resolution Cave', 'Catch or defeat Zygarde in Resolution Cave on Poni Island after becoming Champion.', 7, false),
+  -- Poni Grove
+  (160031, 16, NULL, 1605, 6, 2, NULL, 'poni-grove', 'Poni Grove', 'Help the Ultra Recon Squad and Hau secure the Ultra Beasts loose in Poni Grove after becoming Champion.', 8, false);

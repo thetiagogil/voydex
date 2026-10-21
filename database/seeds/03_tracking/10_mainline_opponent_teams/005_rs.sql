@@ -4,6 +4,7 @@
 -- Primary: Serebii Ruby / Sapphire Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Ruby / Sapphire Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival, Wally, Maxie and Archie battles: the pret pokeruby disassembly's trainer parties, cross-checked with Bulbapedia and Serebii.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Ruby / Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -255,4 +256,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wally, Hall of Fame 4: Magneton Lv. 44
   (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 44),
   -- Wally, Hall of Fame 5: Gardevoir Lv. 48
-  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48);
+  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48),
+  -- Groudon, Rain Badge 1: Groudon Lv. 45
+  (50011, 5018, 5, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 45),
+  -- Kyogre, Rain Badge 1: Kyogre Lv. 45
+  (50011, 5019, 5, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 45),
+  -- Regirock, Sealed Chamber 1: Regirock Lv. 40
+  (50020, 5020, 5, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 40),
+  -- Regice, Sealed Chamber 1: Regice Lv. 40
+  (50020, 5021, 5, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 40),
+  -- Registeel, Sealed Chamber 1: Registeel Lv. 40
+  (50020, 5022, 5, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 40),
+  -- Rayquaza, Sky Pillar 1: Rayquaza Lv. 70
+  (50021, 5023, 5, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 70),
+  -- Latios, Roaming Latios or Latias 1: Latios Lv. 40
+  (50022, 5024, 5, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 40),
+  -- Latias, Roaming Latios or Latias 1: Latias Lv. 40
+  (50022, 5025, 5, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 40);

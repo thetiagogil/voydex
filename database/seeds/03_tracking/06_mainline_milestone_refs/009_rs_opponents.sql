@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: Pokémon Ruby / Sapphire source pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Ruby / Sapphire milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -33,7 +34,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mind Badge -> Tate & Liza
   (50010, 5007, 5, 'battle-opponent', 2, NULL),
   -- Rain Badge -> Wallace
-  (50011, 5008, 5, 'battle-opponent', 1, NULL),
+  (50011, 5008, 5, 'battle-opponent', 3, NULL),
   -- Elite Four Sidney -> Sidney
   (50012, 5009, 5, 'battle-opponent', 2, NULL),
   -- Elite Four Phoebe -> Phoebe
@@ -65,4 +66,20 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Sidney -> Wally
   (50012, 5015, 5, 'battle-opponent', 1, 'Victory Road'),
   -- Hall of Fame -> Wally
-  (50017, 5015, 5, 'battle-opponent', 1, 'Victory Road. You can skip this battle.');
+  (50017, 5015, 5, 'battle-opponent', 1, 'Victory Road. You can skip this battle.'),
+  -- Rain Badge -> Groudon
+  (50011, 5018, 5, 'battle-opponent', 1, 'Cave of Origin B4F'),
+  -- Rain Badge -> Kyogre
+  (50011, 5019, 5, 'battle-opponent', 2, 'Cave of Origin B4F'),
+  -- Sealed Chamber -> Regirock
+  (50020, 5020, 5, 'battle-opponent', 1, 'Desert Ruins (Route 111). You can skip this battle.'),
+  -- Sealed Chamber -> Regice
+  (50020, 5021, 5, 'battle-opponent', 2, 'Island Cave (Route 105). You can skip this battle.'),
+  -- Sealed Chamber -> Registeel
+  (50020, 5022, 5, 'battle-opponent', 3, 'Ancient Tomb (Route 120). You can skip this battle.'),
+  -- Sky Pillar -> Rayquaza
+  (50021, 5023, 5, 'battle-opponent', 1, 'Sky Pillar summit. You can skip this battle.'),
+  -- Roaming Latios or Latias -> Latios
+  (50022, 5024, 5, 'battle-opponent', 1, 'Roams Hoenn routes. You can skip this battle.'),
+  -- Roaming Latios or Latias -> Latias
+  (50022, 5025, 5, 'battle-opponent', 2, 'Roams Hoenn routes. You can skip this battle.');

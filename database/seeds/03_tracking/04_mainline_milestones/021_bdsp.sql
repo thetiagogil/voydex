@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Brilliant Diamond / Shining Pearl, Badge, Elite Four, Champion, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Scope: Pokémon Brilliant Diamond / Shining Pearl major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -62,4 +63,14 @@ INSERT INTO tracking.mainline_milestones (
   -- Ramanas Park
   (210017, 21, NULL, 2103, 1, 1, NULL, 'ramanas-park', 'Ramanas Park', 'Unlock Ramanas Park after entering the Hall of Fame and completing the Sinnoh Pokedex.', 2, false),
   -- Fight Area
-  (210020, 21, NULL, 2103, 1, 2, NULL, 'fight-area', 'Fight Area', 'Take the ship from Snowpoint City to the Fight Area in the Battle Zone.', 1, false);
+  (210020, 21, NULL, 2103, 1, 2, NULL, 'fight-area', 'Fight Area', 'Take the ship from Snowpoint City to the Fight Area in the Battle Zone.', 1, false),
+  -- Lake Guardians
+  (210021, 21, NULL, 2104, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After Spear Pillar, find Uxie in Acuity Cavern and Azelf in Valor Cavern, and meet Mesprit at Verity Cavern before it starts roaming Sinnoh.', 1, false),
+  -- Turnback Cave
+  (210022, 21, NULL, 2104, 6, 2, NULL, 'turnback-cave', 'Turnback Cave', 'After the Hall of Fame and the National Pokédex, find a way through Turnback Cave beyond Sendoff Spring to face Giratina.', 2, false),
+  -- Roaming Cresselia
+  (210023, 21, NULL, 2104, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, sail to Fullmoon Island to help Sailor Eldritch''s son; Cresselia then roams Sinnoh.', 3, false),
+  -- Stark Mountain
+  (210024, 21, NULL, 2104, 6, 2, NULL, 'stark-mountain', 'Stark Mountain', 'In the Battle Zone, help Buck through Stark Mountain, then speak to his grandfather in the Survival Area so Heatran appears in the deepest room.', 4, false),
+  -- Snowpoint Temple
+  (210025, 21, NULL, 2104, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, reach the bottom of Snowpoint Temple with Regirock, Regice and Registeel from Ramanas Park in the party to wake Regigigas.', 5, false);

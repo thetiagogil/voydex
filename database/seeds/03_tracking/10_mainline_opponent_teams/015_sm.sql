@@ -4,6 +4,7 @@
 -- Primary: Serebii Sun / Moon Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
 -- Hau, Gladion, Guzma and Lusamine battles: Bulbapedia, cross-checked with Serebii and Pokébip.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Sun / Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -327,4 +328,34 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hau (chose Popplio), Elite Four Hala 3: Komala Lv. 53
   (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 775, 77500, 53),
   -- Hau (chose Popplio), Elite Four Hala 4: Incineroar Lv. 54
-  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 727, 72700, 54);
+  (150014, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 4, 727, 72700, 54),
+  -- Nihilego, Sophocles Trial 1: Nihilego Lv. 27
+  (150009, 15021, 15, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 27),
+  -- Solgaleo, Ultra Space 1: Solgaleo Lv. 55
+  (150022, 15022, 15, NULL, NULL, NULL, NULL, NULL, 1, 791, 79100, 55),
+  -- Lunala, Ultra Space 1: Lunala Lv. 55
+  (150022, 15023, 15, NULL, NULL, NULL, NULL, NULL, 1, 792, 79200, 55),
+  -- Tapu Koko, Hall of Fame 1: Tapu Koko Lv. 60
+  (150019, 15024, 15, NULL, NULL, NULL, NULL, NULL, 1, 785, 78500, 60),
+  -- Nihilego, Ultra Beast Missions 1: Nihilego Lv. 55
+  (150020, 15021, 15, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 55),
+  -- Buzzwole, Ultra Beast Missions 1: Buzzwole Lv. 65
+  (150020, 15025, 15, NULL, NULL, NULL, NULL, NULL, 1, 794, 79400, 65),
+  -- Pheromosa, Ultra Beast Missions 1: Pheromosa Lv. 60
+  (150020, 15026, 15, NULL, NULL, NULL, NULL, NULL, 1, 795, 79500, 60),
+  -- Xurkitree, Ultra Beast Missions 1: Xurkitree Lv. 65
+  (150020, 15027, 15, NULL, NULL, NULL, NULL, NULL, 1, 796, 79600, 65),
+  -- Kartana, Ultra Beast Missions 1: Kartana Lv. 60
+  (150020, 15028, 15, NULL, NULL, NULL, NULL, NULL, 1, 798, 79800, 60),
+  -- Celesteela, Ultra Beast Missions 1: Celesteela Lv. 65
+  (150020, 15029, 15, NULL, NULL, NULL, NULL, NULL, 1, 797, 79700, 65),
+  -- Guzzlord, Ultra Beast Missions 1: Guzzlord Lv. 70
+  (150020, 15030, 15, NULL, NULL, NULL, NULL, NULL, 1, 799, 79900, 70),
+  -- Tapu Lele, Ruins of Life 1: Tapu Lele Lv. 60
+  (150023, 15031, 15, NULL, NULL, NULL, NULL, NULL, 1, 786, 78600, 60),
+  -- Tapu Bulu, Ruins of Abundance 1: Tapu Bulu Lv. 60
+  (150024, 15032, 15, NULL, NULL, NULL, NULL, NULL, 1, 787, 78700, 60),
+  -- Tapu Fini, Ruins of Hope 1: Tapu Fini Lv. 60
+  (150025, 15033, 15, NULL, NULL, NULL, NULL, NULL, 1, 788, 78800, 60),
+  -- Necrozma, Ten Carat Hill 1: Necrozma Lv. 75
+  (150026, 15034, 15, NULL, NULL, NULL, NULL, NULL, 1, 800, 80000, 75);

@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and Pokémon Yellow pages.
 -- Cross-check: Red / Blue tracking seed structure.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Yellow milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -61,4 +62,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Silph Co. -> Giovanni
   (20022, 2015, 2, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City'),
   -- Elite Four Lorelei -> Blue
-  (20013, 2014, 2, 'battle-opponent', 1, 'Route 22');
+  (20013, 2014, 2, 'battle-opponent', 1, 'Route 22'),
+  -- Power Plant -> Zapdos
+  (20023, 2016, 2, 'battle-opponent', 1, 'Power Plant. You can skip this battle.'),
+  -- Seafoam Islands -> Articuno
+  (20024, 2017, 2, 'battle-opponent', 1, 'Seafoam Islands B4F. You can skip this battle.'),
+  -- Victory Road -> Moltres
+  (20025, 2018, 2, 'battle-opponent', 1, 'Victory Road 2F. You can skip this battle.'),
+  -- Cerulean Cave -> Mewtwo
+  (20026, 2019, 2, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');

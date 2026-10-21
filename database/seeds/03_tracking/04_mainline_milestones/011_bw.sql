@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black / White, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black / White major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -58,4 +59,12 @@ INSERT INTO tracking.mainline_milestones (
   -- Champion Alder
   (110017, 11, NULL, 1103, 8, 2, NULL, 'champion-alder', 'Champion Alder', 'Defeat Champion Alder at the Pokémon League.', 1, true),
   -- Hall of Fame
-  (110018, 11, NULL, 1103, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after defeating Champion Alder.', 2, true);
+  (110018, 11, NULL, 1103, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after defeating Champion Alder.', 2, true),
+  -- Swords of Justice
+  (110019, 11, NULL, 1104, 6, 2, NULL, 'swords-of-justice', 'Swords of Justice', 'Find Cobalion deep in Mistralton Cave, which opens the way to Terrakion in Victory Road and Virizion in Pinwheel Forest.', 1, false),
+  -- Roaming Tornadus or Thundurus
+  (110020, 11, NULL, 1104, 6, 2, NULL, 'roaming-tornadus-thundurus', 'Roaming Tornadus or Thundurus', 'After the Legend Badge, follow the storm on Route 7 to release Tornadus (Black) or Thundurus (White), which then roams Unova.', 2, false),
+  -- Giant Chasm
+  (110021, 11, NULL, 1104, 6, 2, NULL, 'giant-chasm', 'Giant Chasm', 'After stopping Team Plasma, reach the frozen cave at the heart of the Giant Chasm and face Kyurem.', 3, false),
+  -- Abundant Shrine
+  (110022, 11, NULL, 1104, 6, 2, NULL, 'abundant-shrine', 'Abundant Shrine', 'Bring both Tornadus and Thundurus to the Abundant Shrine off Route 14 to make Landorus appear.', 4, false);

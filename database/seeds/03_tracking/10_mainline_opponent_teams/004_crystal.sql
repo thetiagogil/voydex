@@ -4,6 +4,8 @@
 -- Primary: Serebii Crystal Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Crystal Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival battles: the pret pokecrystal disassembly's trainer parties, cross-checked with Bulbapedia and Serebii.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
+-- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
 -- Scope: Pokémon Crystal Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -355,4 +357,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Silver (chose Totodile), Boulder Badge 5: Alakazam Lv. 43
   (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 5, 65, 6500, 43),
   -- Silver (chose Totodile), Boulder Badge 6: Meganium Lv. 45
-  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 45);
+  (40017, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 6, 154, 15400, 45),
+  -- Raikou, Roaming Raikou 1: Raikou Lv. 40
+  (40028, 4024, 4, NULL, NULL, NULL, NULL, NULL, 1, 243, 24300, 40),
+  -- Entei, Roaming Entei 1: Entei Lv. 40
+  (40029, 4025, 4, NULL, NULL, NULL, NULL, NULL, 1, 244, 24400, 40),
+  -- Suicune, Tin Tower 1: Suicune Lv. 40
+  (40030, 4026, 4, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 40),
+  -- Ho-Oh, Tin Tower 1: Ho-Oh Lv. 60
+  (40030, 4027, 4, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 60),
+  -- Lugia, Whirl Islands 1: Lugia Lv. 60
+  (40031, 4028, 4, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 60),
+  -- Celebi, Ilex Forest Shrine 1: Celebi Lv. 30
+  (40032, 4029, 4, NULL, NULL, NULL, NULL, NULL, 1, 251, 25100, 30);

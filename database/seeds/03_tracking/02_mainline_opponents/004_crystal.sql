@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Crystal source page.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
+-- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
 -- Scope: Pokémon Crystal major opponent data.
 -- ============================================================================
 -- File Scope
@@ -68,4 +70,16 @@ INSERT INTO tracking.mainline_opponents (
   -- Red
   (4022, 4, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 22),
   -- Silver (rival)
-  (4023, 4, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23);
+  (4023, 4, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23),
+  -- Raikou (boss)
+  (4024, 4, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', 24),
+  -- Entei (boss)
+  (4025, 4, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', 25),
+  -- Suicune (boss)
+  (4026, 4, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', 26),
+  -- Ho-Oh (boss)
+  (4027, 4, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', 27),
+  -- Lugia (boss)
+  (4028, 4, NULL, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', 28),
+  -- Celebi (boss)
+  (4029, 4, NULL, 'celebi', 'Celebi', 'boss', 11, 5, 'celebi', 29);
