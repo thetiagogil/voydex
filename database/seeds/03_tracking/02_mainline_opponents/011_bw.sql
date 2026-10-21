@@ -50,4 +50,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Ghetsis
   (11014, 11, NULL, 'ghetsis', 'Ghetsis', 'boss', NULL, NULL, 'ghetsis', 14),
   -- Alder
-  (11015, 11, NULL, 'alder', 'Alder', 'champion', NULL, NULL, 'alder', 15);
+  (11015, 11, NULL, 'alder', 'Alder', 'champion', NULL, NULL, 'alder', 15),
+  -- Bianca (rival)
+  (11016, 11, NULL, 'bianca', 'Bianca', 'rival', NULL, NULL, 'bianca', 16),
+  -- Cheren (rival)
+  (11017, 11, NULL, 'cheren', 'Cheren', 'rival', NULL, NULL, 'cheren', 17);

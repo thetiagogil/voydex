@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Black 2 / White 2 Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Black 2 / White 2 Gym Leaders and Elite Four page.
+-- Hugh, Colress and Kyurem battles: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Scope: Pokémon Black 2 / White 2 Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -134,4 +135,138 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Iris 5: Lapras Lv. 57
   (120017, 12015, 12, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 57),
   -- Iris 6: Haxorus Lv. 59
-  (120017, 12015, 12, NULL, NULL, NULL, NULL, NULL, 6, 612, 61200, 59);
+  (120017, 12015, 12, NULL, NULL, NULL, NULL, NULL, 6, 612, 61200, 59),
+  -- Hugh (chose Snivy), Choose Starter 1: Tepig Lv. 5
+  (120001, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 498, 49800, 5),
+  -- Hugh (chose Tepig), Choose Starter 1: Oshawott Lv. 5
+  (120001, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 501, 50100, 5),
+  -- Hugh (chose Oshawott), Choose Starter 1: Snivy Lv. 5
+  (120001, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 495, 49500, 5),
+  -- Hugh (chose Snivy), Basic Badge 1: Tepig Lv. 8
+  (120003, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 498, 49800, 8),
+  -- Hugh (chose Tepig), Basic Badge 1: Oshawott Lv. 8
+  (120003, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 501, 50100, 8),
+  -- Hugh (chose Oshawott), Basic Badge 1: Snivy Lv. 8
+  (120003, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 495, 49500, 8),
+  -- Colress, Bolt Badge 1: Magnemite Lv. 21
+  (120006, 12009, 12, NULL, NULL, NULL, NULL, NULL, 1, 81, 8100, 21),
+  -- Colress, Bolt Badge 2: Klink Lv. 23
+  (120006, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 599, 59900, 23),
+  -- Hugh (chose Snivy), Jet Badge 1: Pignite Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 499, 49900, 25),
+  -- Hugh (chose Snivy), Jet Badge 2: Simipour Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 25),
+  -- Hugh (chose Snivy), Jet Badge 3: Tranquill Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 520, 52000, 25),
+  -- Hugh (chose Tepig), Jet Badge 1: Dewott Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 502, 50200, 25),
+  -- Hugh (chose Tepig), Jet Badge 2: Simisage Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 25),
+  -- Hugh (chose Tepig), Jet Badge 3: Tranquill Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 520, 52000, 25),
+  -- Hugh (chose Oshawott), Jet Badge 1: Servine Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 496, 49600, 25),
+  -- Hugh (chose Oshawott), Jet Badge 2: Simisear Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 25),
+  -- Hugh (chose Oshawott), Jet Badge 3: Tranquill Lv. 25
+  (120008, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 520, 52000, 25),
+  -- Colress, Jet Badge 1: Magneton Lv. 25
+  (120008, 12009, 12, NULL, NULL, NULL, NULL, NULL, 1, 82, 8200, 25),
+  -- Colress, Jet Badge 2: Elgyem Lv. 25
+  (120008, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 605, 60500, 25),
+  -- Colress, Jet Badge 3: Klink Lv. 25
+  (120008, 12009, 12, NULL, NULL, NULL, NULL, NULL, 3, 599, 59900, 25),
+  -- Hugh (chose Snivy), Legend Badge 1: Unfezant Lv. 39
+  (120009, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 39),
+  -- Hugh (chose Snivy), Legend Badge 2: Simipour Lv. 39
+  (120009, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 39),
+  -- Hugh (chose Snivy), Legend Badge 3: Emboar Lv. 41
+  (120009, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 500, 50000, 41),
+  -- Hugh (chose Tepig), Legend Badge 1: Unfezant Lv. 39
+  (120009, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 39),
+  -- Hugh (chose Tepig), Legend Badge 2: Simisage Lv. 39
+  (120009, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 39),
+  -- Hugh (chose Tepig), Legend Badge 3: Samurott Lv. 41
+  (120009, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 503, 50300, 41),
+  -- Hugh (chose Oshawott), Legend Badge 1: Unfezant Lv. 39
+  (120009, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 39),
+  -- Hugh (chose Oshawott), Legend Badge 2: Simisear Lv. 39
+  (120009, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 39),
+  -- Hugh (chose Oshawott), Legend Badge 3: Serperior Lv. 41
+  (120009, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 497, 49700, 41),
+  -- Kyurem (Black 2), Defeat Ghetsis 1: Kyurem (Black) Lv. 55
+  (120012, 12017, 12, 19, NULL, NULL, NULL, NULL, 1, 646, 64602, 55),
+  -- Kyurem (White 2), Defeat Ghetsis 1: Kyurem (White) Lv. 55
+  (120012, 12017, 12, 20, NULL, NULL, NULL, NULL, 1, 646, 64601, 55),
+  -- Hugh (chose Snivy), Defeat Ghetsis 1: Unfezant Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 55),
+  -- Hugh (chose Snivy), Defeat Ghetsis 2: Simipour Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 55),
+  -- Hugh (chose Snivy), Defeat Ghetsis 3: Bouffalant Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 626, 62600, 55),
+  -- Hugh (chose Snivy), Defeat Ghetsis 4: Emboar Lv. 57
+  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 4, 500, 50000, 57),
+  -- Hugh (chose Tepig), Defeat Ghetsis 1: Unfezant Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 55),
+  -- Hugh (chose Tepig), Defeat Ghetsis 2: Simisage Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 55),
+  -- Hugh (chose Tepig), Defeat Ghetsis 3: Bouffalant Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 626, 62600, 55),
+  -- Hugh (chose Tepig), Defeat Ghetsis 4: Samurott Lv. 57
+  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 4, 503, 50300, 57),
+  -- Hugh (chose Oshawott), Defeat Ghetsis 1: Unfezant Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 55),
+  -- Hugh (chose Oshawott), Defeat Ghetsis 2: Simisear Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 55),
+  -- Hugh (chose Oshawott), Defeat Ghetsis 3: Bouffalant Lv. 55
+  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 626, 62600, 55),
+  -- Hugh (chose Oshawott), Defeat Ghetsis 4: Serperior Lv. 57
+  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 4, 497, 49700, 57),
+  -- Hugh (chose Snivy), Hall of Fame 1: Unfezant Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 62),
+  -- Hugh (chose Snivy), Hall of Fame 2: Simipour Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 62),
+  -- Hugh (chose Snivy), Hall of Fame 3: Bouffalant Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 626, 62600, 62),
+  -- Hugh (chose Snivy), Hall of Fame 4: Flygon Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 4, 330, 33000, 62),
+  -- Hugh (chose Snivy), Hall of Fame 5: Eelektross Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 5, 604, 60400, 62),
+  -- Hugh (chose Snivy), Hall of Fame 6: Emboar Lv. 64
+  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 6, 500, 50000, 64),
+  -- Hugh (chose Tepig), Hall of Fame 1: Unfezant Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 62),
+  -- Hugh (chose Tepig), Hall of Fame 2: Simisage Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 62),
+  -- Hugh (chose Tepig), Hall of Fame 3: Bouffalant Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 626, 62600, 62),
+  -- Hugh (chose Tepig), Hall of Fame 4: Flygon Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 4, 330, 33000, 62),
+  -- Hugh (chose Tepig), Hall of Fame 5: Eelektross Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 5, 604, 60400, 62),
+  -- Hugh (chose Tepig), Hall of Fame 6: Samurott Lv. 64
+  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 6, 503, 50300, 64),
+  -- Hugh (chose Oshawott), Hall of Fame 1: Unfezant Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 62),
+  -- Hugh (chose Oshawott), Hall of Fame 2: Simisear Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 62),
+  -- Hugh (chose Oshawott), Hall of Fame 3: Bouffalant Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 626, 62600, 62),
+  -- Hugh (chose Oshawott), Hall of Fame 4: Flygon Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 4, 330, 33000, 62),
+  -- Hugh (chose Oshawott), Hall of Fame 5: Eelektross Lv. 62
+  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 5, 604, 60400, 62),
+  -- Hugh (chose Oshawott), Hall of Fame 6: Serperior Lv. 64
+  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 6, 497, 49700, 64),
+  -- Colress, Hall of Fame 1: Magneton Lv. 72
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 1, 82, 8200, 72),
+  -- Colress, Hall of Fame 2: Rotom (Wash) Lv. 72
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 479, 47902, 72),
+  -- Colress, Hall of Fame 3: Metagross Lv. 72
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 3, 376, 37600, 72),
+  -- Colress, Hall of Fame 4: Beheeyem Lv. 72
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 4, 606, 60600, 72),
+  -- Colress, Hall of Fame 5: Magnezone Lv. 72
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 5, 462, 46200, 72),
+  -- Colress, Hall of Fame 6: Klinklang Lv. 74
+  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 6, 601, 60100, 74);
