@@ -18,12 +18,12 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            sets.slug, rules.slug, links.sort_order FROM gameplay.mainline_challenge_rule_set_rules AS links
+            sets.slug, rules.slug FROM gameplay.mainline_challenge_rule_set_rules AS links
             JOIN gameplay.mainline_challenge_rule_sets AS sets ON sets.id = links.rule_set_id
             JOIN gameplay.mainline_challenge_rules AS rules ON rules.id = links.challenge_rule_id
             WHERE
-                sets.user_id IS NULL ORDER BY sets.slug, links.sort_order $$, $$
-            VALUES ('hardcore_nuzlocke', 'first_catch_per_area', 1), ('hardcore_nuzlocke', 'release_on_faint', 2), ('hardcore_nuzlocke', 'nickname_everything', 3), ('hardcore_nuzlocke', 'whiteout_ends_run', 4), ('hardcore_nuzlocke', 'level_caps', 5), ('hardcore_nuzlocke', 'no_battle_items', 6), ('hardcore_nuzlocke', 'set_battle_mode', 7), ('nuzlocke', 'first_catch_per_area', 1), ('nuzlocke', 'release_on_faint', 2), ('nuzlocke', 'nickname_everything', 3), ('nuzlocke', 'whiteout_ends_run', 4) $$, 'Voydex ships Nuzlocke and Hardcore Nuzlocke, in order');
+                sets.user_id IS NULL ORDER BY sets.slug, rules.slug $$, $$
+            VALUES ('hardcore_nuzlocke', 'first_catch_per_area'), ('hardcore_nuzlocke', 'level_caps'), ('hardcore_nuzlocke', 'nickname_everything'), ('hardcore_nuzlocke', 'no_battle_items'), ('hardcore_nuzlocke', 'release_on_faint'), ('hardcore_nuzlocke', 'set_battle_mode'), ('hardcore_nuzlocke', 'whiteout_ends_run'), ('nuzlocke', 'first_catch_per_area'), ('nuzlocke', 'nickname_everything'), ('nuzlocke', 'release_on_faint'), ('nuzlocke', 'whiteout_ends_run') $$, 'Voydex ships Nuzlocke and Hardcore Nuzlocke');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f1', TRUE);
 SET LOCAL ROLE authenticated;
@@ -58,8 +58,8 @@ WHERE slug = 'hardcore_nuzlocke'
 DELETE FROM gameplay.mainline_challenge_rule_set_rules
 WHERE rule_set_id = md5('voydex:rule-set:nuzlocke')::uuid;
 SELECT
-    throws_ok ($$ INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id, sort_order)
-            VALUES (md5('voydex:rule-set:nuzlocke')::uuid, md5('voydex:rule:shiny_only')::uuid, 9) $$, '42501', NULL, 'a trainer cannot add to a Voydex preset');
+    throws_ok ($$ INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
+            VALUES (md5('voydex:rule-set:nuzlocke')::uuid, md5('voydex:rule:shiny_only')::uuid) $$, '42501', NULL, 'a trainer cannot add to a Voydex preset');
 SELECT
     throws_ok ($$ INSERT INTO gameplay.mainline_challenge_rule_sets (user_id, slug, name)
             VALUES (NULL, 'fake_preset', 'Fake') $$, '42501', NULL, 'a trainer cannot make a Voydex preset');
@@ -86,8 +86,8 @@ SELECT
             11,
             'a trainer cannot delete a Voydex preset or its rules');
 SELECT
-    throws_ok ($$ INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id, sort_order)
-            VALUES (md5('voydex:rule-set:nuzlocke')::uuid, '80000000-0000-0000-0000-0000000000f1', 9) $$, '23514', NULL, 'a Voydex preset holds only Voydex''s rules');
+    throws_ok ($$ INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
+            VALUES (md5('voydex:rule-set:nuzlocke')::uuid, '80000000-0000-0000-0000-0000000000f1') $$, '23514', NULL, 'a Voydex preset holds only Voydex''s rules');
 -- Saving your own
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f1', TRUE);
@@ -108,14 +108,17 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            challenge_rule_id, sort_order FROM gameplay.mainline_challenge_rule_set_rules
+            challenge_rule_id FROM gameplay.mainline_challenge_rule_set_rules
             WHERE
                 rule_set_id = (
                     SELECT
                         id
                     FROM saved_set)
-        ORDER BY sort_order $$, $$
-        VALUES ('80000000-0000-0000-0000-0000000000f1'::uuid, 1), (md5('voydex:rule:monotype')::uuid, 2) $$, 'its rules keep their order, each once');
+        ORDER BY challenge_rule_id $$, $$
+            SELECT
+                id FROM (
+                    VALUES ('80000000-0000-0000-0000-0000000000f1'::uuid), (md5('voydex:rule:monotype')::uuid)) AS expected (id)
+                ORDER BY id $$, 'its rules are kept, each once');
 SELECT
     lives_ok ($$
         SELECT

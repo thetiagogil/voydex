@@ -14,8 +14,12 @@ test.describe("Presets", () => {
     const details = page.getByRole("dialog", { name: "Nuzlocke" });
 
     await expect(details.getByText("Preset · Made by Voydex")).toBeVisible();
-    await expect(details.getByText("1. First catch per area")).toBeVisible();
-    await expect(details.getByText("4. Whiteout ends the run")).toBeVisible();
+    await expect(
+      details.getByText("First catch per area", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      details.getByText("Whiteout ends the run", { exact: true }),
+    ).toBeVisible();
     await expect(details.getByRole("button", { name: "Save" })).toHaveCount(0);
     await expectAccessible(page);
   });
@@ -32,10 +36,9 @@ test.describe("Presets", () => {
     const board = page.getByRole("dialog", { name: "New preset" });
 
     await board.getByRole("textbox", { name: "Preset name" }).fill(name);
-    /* Tap: add two rules, then move the second up. */
+    /* Tap: add two rules. */
     await board.getByRole("button", { name: "Add Level caps" }).click();
     await board.getByRole("button", { name: "Add Shiny only" }).click();
-    await board.getByRole("button", { name: "Move Shiny only up" }).click();
     /* Drag: a third rule (the first left to add, so both are in view) in. */
     const inPreset = board.getByRole("region", { name: /^In this preset/ });
 
@@ -53,10 +56,11 @@ test.describe("Presets", () => {
       { steps: 10 },
     );
     await page.mouse.up();
+    /* Shown by kind (Catching, then Battles), then by name. */
     await expect(inPreset.getByRole("listitem")).toHaveText([
+      /First catch per area/,
       /Shiny only/,
       /Level caps/,
-      /First catch per area/,
     ]);
     await expectAccessible(page);
     const saved = waitForAction(page);

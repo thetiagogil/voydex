@@ -8,7 +8,7 @@ export type RulePreset = {
   id: string;
   isBuiltIn: boolean;
   name: string;
-  /* Its rules, in the preset's order. */
+  /* Its rules; they keep no order (a Play takes them all). */
   ruleIds: string[];
 };
 
@@ -22,13 +22,12 @@ type PresetRow = {
 type PresetRuleRow = {
   challenge_rule_id: string;
   rule_set_id: string;
-  sort_order: number;
 };
 
 /*
- * The presets a picker or the Library offers: each with its rules in order,
- * leaving out a rule you can't pick and a preset left with none. Voydex's
- * come first, then yours, each by name.
+ * The presets a picker or the Library offers: each with its rules, leaving
+ * out a rule you can't pick and a preset left with none. Voydex's come
+ * first, then yours, each by name.
  */
 export const buildRulePresets = (
   presets: readonly PresetRow[],
@@ -47,7 +46,6 @@ export const buildRulePresets = (
             link.rule_set_id === preset.id &&
             pickableRuleIds.has(link.challenge_rule_id),
         )
-        .toSorted((left, right) => left.sort_order - right.sort_order)
         .map((link) => link.challenge_rule_id),
     }))
     .filter((preset) => preset.ruleIds.length > 0)

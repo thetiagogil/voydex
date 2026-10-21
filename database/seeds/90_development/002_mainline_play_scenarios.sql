@@ -60,17 +60,16 @@ SELECT
   custom_sets.description
 FROM custom_sets;
 
-WITH set_rules (rule_slug, sort_order) AS (
+WITH set_rules (rule_slug) AS (
   VALUES
-    ('first_catch_per_area', 1),
-    ('no_pokemon_reuse', 2),
-    ('fixture_no_poke_centers', 3)
+    ('first_catch_per_area'),
+    ('no_pokemon_reuse'),
+    ('fixture_no_poke_centers')
 )
-INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id, sort_order)
+INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
 SELECT
   md5('voydex-fixture:rule-set:my-run')::uuid,
-  mainline_challenge_rules.id,
-  set_rules.sort_order
+  mainline_challenge_rules.id
 FROM
   set_rules
   JOIN gameplay.mainline_challenge_rules ON mainline_challenge_rules.slug = set_rules.rule_slug;

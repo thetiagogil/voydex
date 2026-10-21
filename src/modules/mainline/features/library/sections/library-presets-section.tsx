@@ -10,7 +10,11 @@ import {
   deleteLibraryPresetAction,
   saveLibraryPresetAction,
 } from "@/modules/mainline/features/library/server/library-actions";
-import type { LibraryRule } from "@/modules/mainline/features/library/types";
+import { orderPresetRules } from "@/modules/mainline/features/library/data/preset-board";
+import type {
+  LibraryRule,
+  LibraryRuleKind,
+} from "@/modules/mainline/features/library/types";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SectionHead } from "@/shared/components/section-head";
@@ -24,7 +28,7 @@ type PresetDialog =
   | { mode: "view"; preset: RulePreset };
 
 /*
- * One preset as a card: its name, what it's for and its rules in order.
+ * One preset as a card: its name and its rules, by kind.
  * Tapping it opens it in full; Voydex's own wears a lock.
  */
 const PresetCard = ({
@@ -80,16 +84,17 @@ const PresetCard = ({
  * head; a preset of yours is built on a board.
  */
 export const LibraryPresetsSection = ({
+  kinds,
   presets,
   rules,
 }: {
+  kinds: LibraryRuleKind[];
   presets: RulePreset[];
   /* Every rule you can pick, for names and the board. */
   rules: LibraryRule[];
 }) => {
   const router = useRouter();
   const [dialog, setDialog] = useState<PresetDialog | null>(null);
-  const ruleNameById = new Map(rules.map((rule) => [rule.id, rule.name]));
   const close = (open: boolean) => {
     if (!open) setDialog(null);
   };
@@ -143,8 +148,8 @@ export const LibraryPresetsSection = ({
           <PresetCard
             key={preset.id}
             preset={preset}
-            ruleNames={preset.ruleIds.flatMap(
-              (id) => ruleNameById.get(id) ?? [],
+            ruleNames={orderPresetRules(preset.ruleIds, rules, kinds).map(
+              (rule) => rule.name,
             )}
             onView={() => setDialog({ mode: "view", preset })}
           />
@@ -155,6 +160,7 @@ export const LibraryPresetsSection = ({
         <LibraryPresetDetails
           open
           preset={null}
+          kinds={kinds}
           rules={rules}
           onOpenChange={close}
           onSave={save()}
@@ -166,6 +172,7 @@ export const LibraryPresetsSection = ({
           key={dialog.preset.id}
           open
           preset={dialog.preset}
+          kinds={kinds}
           rules={rules}
           onOpenChange={close}
           onSave={save(dialog.preset.id)}

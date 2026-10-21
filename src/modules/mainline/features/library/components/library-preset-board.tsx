@@ -3,11 +3,14 @@
 import { useState, type DragEvent, type ReactNode } from "react";
 
 import {
+  orderPresetRules,
   putPresetRule,
-  shiftPresetRule,
   takePresetRule,
 } from "@/modules/mainline/features/library/data/preset-board";
-import type { LibraryRule } from "@/modules/mainline/features/library/types";
+import type {
+  LibraryRule,
+  LibraryRuleKind,
+} from "@/modules/mainline/features/library/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
@@ -22,35 +25,20 @@ const dragType = "application/x-voydex-rule";
 const BoardRule = ({
   actions,
   onDragStart,
-  onDrop,
   rule,
 }: {
   actions: ReactNode;
   onDragStart: (event: DragEvent) => void;
-  /* Dropping another rule here puts it before this one. */
-  onDrop?: (ruleId: string) => void;
   rule: LibraryRule;
 }) => (
   <li
     draggable
     onDragStart={onDragStart}
-    onDragOver={(event) => {
-      if (onDrop) event.preventDefault();
-    }}
-    onDrop={(event) => {
-      const ruleId = event.dataTransfer.getData(dragType);
-
-      if (onDrop && ruleId) {
-        event.preventDefault();
-        event.stopPropagation();
-        onDrop(ruleId);
-      }
-    }}
     /*
      * Its own layer (`translate3d`), so the browser's drag picture is just
      * the rounded row, not the square of the column behind its corners.
      */
-    className="bg-surface shadow-card flex min-h-12 [transform:translate3d(0,0,0)] cursor-grab items-center gap-2 rounded-xl py-1.5 pr-1.5 pl-2 active:cursor-grabbing"
+    className="bg-surface shadow-card flex min-h-12 transform-[translate3d(0,0,0)] cursor-grab items-center gap-2 rounded-xl py-1.5 pr-1.5 pl-2 active:cursor-grabbing"
   >
     <AppIcon
       icon={appIcons.actions.dragHandle}
@@ -111,25 +99,31 @@ const BoardColumn = ({
 );
 
 /*
- * A preset's board (#84): the rules in it, in order, beside the rules you
- * can add. Drag a rule across or along to place it; on a phone or with a
- * keyboard, each rule's buttons add it, move it up or down, or take it out.
+ * A preset's board (#84): the rules in it beside the rules you can add, each
+ * shown by kind then name. Drag a rule across to put it in or take it out;
+ * on a phone or with a keyboard, each rule's button does the same.
  */
 export const LibraryPresetBoard = ({
+  kinds,
   onChange,
   ruleIds,
   rules,
 }: {
+  /* The rule kinds in their order, to group the rules. */
+  kinds: LibraryRuleKind[];
   onChange: (ruleIds: string[]) => void;
-  /* The rules in the preset, in order. */
+  /* The rules in the preset. */
   ruleIds: string[];
   /* Every rule you can put in a preset. */
   rules: LibraryRule[];
 }) => {
   const [target, setTarget] = useState<"in" | "out" | null>(null);
-  const ruleById = new Map(rules.map((rule) => [rule.id, rule]));
-  const inPreset = ruleIds.flatMap((id) => ruleById.get(id) ?? []);
-  const toAdd = rules.filter((rule) => !ruleIds.includes(rule.id));
+  const inPreset = orderPresetRules(ruleIds, rules, kinds);
+  const toAdd = orderPresetRules(
+    rules.filter((rule) => !ruleIds.includes(rule.id)).map((rule) => rule.id),
+    rules,
+    kinds,
+  );
   const dragStart = (ruleId: string) => (event: DragEvent) => {
     event.dataTransfer.setData(dragType, ruleId);
     event.dataTransfer.effectAllowed = "move";
@@ -168,51 +162,21 @@ export const LibraryPresetBoard = ({
           onDragLeave={() => setTarget(null)}
           onDrop={dropOn("in")}
         >
-          {inPreset.map((rule, index) => (
+          {inPreset.map((rule) => (
             <BoardRule
               key={rule.id}
               rule={rule}
               onDragStart={dragStart(rule.id)}
-              onDrop={(ruleId) => {
-                setTarget(null);
-                onChange(putPresetRule(ruleIds, ruleId, index));
-              }}
               actions={
-                <>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon-sm"
-                    aria-label={`Move ${rule.name} up`}
-                    disabled={index === 0}
-                    onClick={() =>
-                      onChange(shiftPresetRule(ruleIds, rule.id, -1))
-                    }
-                  >
-                    <AppIcon icon={appIcons.actions.moveUp} />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon-sm"
-                    aria-label={`Move ${rule.name} down`}
-                    disabled={index === inPreset.length - 1}
-                    onClick={() =>
-                      onChange(shiftPresetRule(ruleIds, rule.id, 1))
-                    }
-                  >
-                    <AppIcon icon={appIcons.actions.moveDown} />
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon-sm"
-                    aria-label={`Take ${rule.name} out`}
-                    onClick={() => onChange(takePresetRule(ruleIds, rule.id))}
-                  >
-                    <AppIcon icon={appIcons.actions.clear} />
-                  </Button>
-                </>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label={`Take ${rule.name} out`}
+                  onClick={() => onChange(takePresetRule(ruleIds, rule.id))}
+                >
+                  <AppIcon icon={appIcons.actions.clear} />
+                </Button>
               }
             />
           ))}

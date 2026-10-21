@@ -54,24 +54,15 @@ BEGIN
         DELETE FROM gameplay.mainline_challenge_rule_set_rules
         WHERE rule_set_id = v_rule_set_id;
     END IF;
-    -- Its rules in the order given, each once; the scope trigger refuses
-    -- another trainer's rule.
-    INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id, sort_order)
-    SELECT
+    -- Its rules, each once; the scope trigger refuses another trainer's rule.
+    INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
+    SELECT DISTINCT
         v_rule_set_id,
-        picked.rule_id,
-        ROW_NUMBER() OVER (ORDER BY picked.first_position)::integer
-    FROM (
-        SELECT
-            requested.rule_id,
-            MIN(requested.position) AS first_position
-        FROM
-            UNNEST(p_rule_ids)
-            WITH ORDINALITY AS requested (rule_id, position)
-        WHERE
-            requested.rule_id IS NOT NULL
-        GROUP BY
-            requested.rule_id) AS picked;
+        requested.rule_id
+    FROM
+        UNNEST(p_rule_ids) AS requested (rule_id)
+WHERE
+    requested.rule_id IS NOT NULL;
     RETURN v_rule_set_id;
 END;
 $$;
@@ -82,4 +73,4 @@ REVOKE ALL ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UU
 
 GRANT EXECUTE ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) TO authenticated, service_role;
 
-COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, in the order given and each once. A preset needs at least one rule. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, each once. A preset needs at least one rule. Runs as SECURITY INVOKER so gameplay RLS applies.';

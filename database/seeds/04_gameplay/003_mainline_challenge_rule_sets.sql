@@ -26,25 +26,24 @@ SELECT
   voydex_sets.description
 FROM voydex_sets;
 
-WITH set_rules (set_slug, rule_slug, sort_order) AS (
+WITH set_rules (set_slug, rule_slug) AS (
   VALUES
     -- Nuzlocke: its four rules.
-    ('nuzlocke', 'first_catch_per_area', 1),
-    ('nuzlocke', 'release_on_faint', 2),
-    ('nuzlocke', 'nickname_everything', 3),
-    ('nuzlocke', 'whiteout_ends_run', 4),
+    ('nuzlocke', 'first_catch_per_area'),
+    ('nuzlocke', 'release_on_faint'),
+    ('nuzlocke', 'nickname_everything'),
+    ('nuzlocke', 'whiteout_ends_run'),
     -- Hardcore Nuzlocke: the Nuzlocke, then three more.
-    ('hardcore_nuzlocke', 'first_catch_per_area', 1),
-    ('hardcore_nuzlocke', 'release_on_faint', 2),
-    ('hardcore_nuzlocke', 'nickname_everything', 3),
-    ('hardcore_nuzlocke', 'whiteout_ends_run', 4),
-    ('hardcore_nuzlocke', 'level_caps', 5),
-    ('hardcore_nuzlocke', 'no_battle_items', 6),
-    ('hardcore_nuzlocke', 'set_battle_mode', 7)
+    ('hardcore_nuzlocke', 'first_catch_per_area'),
+    ('hardcore_nuzlocke', 'release_on_faint'),
+    ('hardcore_nuzlocke', 'nickname_everything'),
+    ('hardcore_nuzlocke', 'whiteout_ends_run'),
+    ('hardcore_nuzlocke', 'level_caps'),
+    ('hardcore_nuzlocke', 'no_battle_items'),
+    ('hardcore_nuzlocke', 'set_battle_mode')
 )
-INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id, sort_order)
+INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
 SELECT
   md5('voydex:rule-set:' || set_rules.set_slug)::uuid,
-  md5('voydex:rule:' || set_rules.rule_slug)::uuid,
-  set_rules.sort_order
+  md5('voydex:rule:' || set_rules.rule_slug)::uuid
 FROM set_rules;

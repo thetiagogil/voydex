@@ -1,19 +1,17 @@
 -- ============================================================================
 -- Table: gameplay.mainline_challenge_rule_set_rules
--- The rules in each preset, in order.
+-- The rules in each preset (they keep no order: a Play adds them all).
 -- ============================================================================
 CREATE TABLE gameplay.mainline_challenge_rule_set_rules (
     rule_set_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rule_sets (id) ON UPDATE CASCADE ON DELETE CASCADE,
     challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    sort_order integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT challenge_rule_set_rules_primary_key PRIMARY KEY (rule_set_id, challenge_rule_id),
-    CONSTRAINT challenge_rule_set_rules_sort_order_positive_check CHECK (sort_order > 0)
+    CONSTRAINT challenge_rule_set_rules_primary_key PRIMARY KEY (rule_set_id, challenge_rule_id)
 );
 
 CREATE INDEX challenge_rule_set_rules_challenge_rule_idx ON gameplay.mainline_challenge_rule_set_rules (challenge_rule_id);
 
-COMMENT ON TABLE gameplay.mainline_challenge_rule_set_rules IS 'The rules in each preset, in the order the preset lists them.';
+COMMENT ON TABLE gameplay.mainline_challenge_rule_set_rules IS 'The rules in each preset; they keep no order, as a Play takes them all at once.';
 
 CREATE FUNCTION private.enforce_challenge_rule_set_rule_scope ()
     RETURNS TRIGGER

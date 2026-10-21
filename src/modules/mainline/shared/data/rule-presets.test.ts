@@ -11,14 +11,14 @@ const nuzlocke = {
 const mine = { description: null, id: "mine", name: "A run", user_id: "u" };
 const empty = { description: null, id: "empty", name: "Empty", user_id: "u" };
 const links = [
-  { challenge_rule_id: "faint", rule_set_id: "nuzlocke", sort_order: 2 },
-  { challenge_rule_id: "catch", rule_set_id: "nuzlocke", sort_order: 1 },
-  { challenge_rule_id: "theirs", rule_set_id: "empty", sort_order: 1 },
-  { challenge_rule_id: "catch", rule_set_id: "mine", sort_order: 1 },
+  { challenge_rule_id: "catch", rule_set_id: "nuzlocke" },
+  { challenge_rule_id: "faint", rule_set_id: "nuzlocke" },
+  { challenge_rule_id: "theirs", rule_set_id: "empty" },
+  { challenge_rule_id: "catch", rule_set_id: "mine" },
 ];
 
 describe("buildRulePresets", () => {
-  it("orders each preset's rules, Voydex's presets first", () => {
+  it("gathers each preset's rules, Voydex's presets first", () => {
     expect(
       buildRulePresets(
         [mine, nuzlocke],

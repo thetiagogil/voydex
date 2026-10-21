@@ -3,7 +3,11 @@
 import { useId, useState, useTransition } from "react";
 
 import { LibraryPresetBoard } from "@/modules/mainline/features/library/components/library-preset-board";
-import type { LibraryRule } from "@/modules/mainline/features/library/types";
+import { orderPresetRules } from "@/modules/mainline/features/library/data/preset-board";
+import type {
+  LibraryRule,
+  LibraryRuleKind,
+} from "@/modules/mainline/features/library/types";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import {
@@ -26,11 +30,12 @@ export type LibraryPresetDraft = {
 
 /*
  * A preset in full, opened from its card or made with New preset. Voydex's
- * own reads as it is: what it's for and its rules in order. Yours (or a new
+ * own reads as it is: what it's for and its rules by kind. Yours (or a new
  * one) is its name, what it's for and its board, with Save, and Delete for
  * one you already have.
  */
 export const LibraryPresetDetails = ({
+  kinds,
   onDelete,
   onOpenChange,
   onSave,
@@ -38,6 +43,8 @@ export const LibraryPresetDetails = ({
   preset,
   rules,
 }: {
+  /* The rule kinds in their order, to group a preset's rules. */
+  kinds: LibraryRuleKind[];
   onDelete?: () => void;
   onOpenChange: (open: boolean) => void;
   /* Saves the draft; a message keeps it open and shows it. */
@@ -61,10 +68,9 @@ export const LibraryPresetDetails = ({
   const isDirty =
     draft.name !== initial.name ||
     draft.description !== initial.description ||
-    draft.ruleIds.join() !== initial.ruleIds.join();
+    draft.ruleIds.toSorted().join() !== initial.ruleIds.toSorted().join();
   const canSave =
     isDirty && Boolean(draft.name.trim()) && draft.ruleIds.length > 0;
-  const ruleById = new Map(rules.map((rule) => [rule.id, rule]));
   const change = (next: Partial<LibraryPresetDraft>) => {
     setDraft((current) => ({ ...current, ...next }));
     setError(null);
@@ -118,29 +124,23 @@ export const LibraryPresetDetails = ({
             title="Its rules"
             aside={`${preset.ruleIds.length} rules`}
           >
-            <ol className="grid gap-2">
-              {preset.ruleIds.flatMap((ruleId, index) => {
-                const rule = ruleById.get(ruleId);
-
-                return rule ? (
-                  <li
-                    key={ruleId}
-                    className="bg-surface-2 grid gap-0.5 rounded-xl px-4 py-3"
-                  >
-                    <span className="text-ink text-15 font-bold">
-                      {index + 1}. {rule.name}
+            <ul className="grid gap-2">
+              {orderPresetRules(preset.ruleIds, rules, kinds).map((rule) => (
+                <li
+                  key={rule.id}
+                  className="bg-surface-2 grid gap-0.5 rounded-xl px-4 py-3"
+                >
+                  <span className="text-ink text-15 font-bold">
+                    {rule.name}
+                  </span>
+                  {rule.description ? (
+                    <span className="text-ink-2 text-14 font-semibold">
+                      {rule.description}
                     </span>
-                    {rule.description ? (
-                      <span className="text-ink-2 text-14 font-semibold">
-                        {rule.description}
-                      </span>
-                    ) : null}
-                  </li>
-                ) : (
-                  []
-                );
-              })}
-            </ol>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
           </SheetSection>
         </div>
       ) : (
@@ -185,6 +185,7 @@ export const LibraryPresetDetails = ({
           </Field>
           <SheetSection title="Its rules" aside="Drag them in, or tap +">
             <LibraryPresetBoard
+              kinds={kinds}
               rules={rules}
               ruleIds={draft.ruleIds}
               onChange={(ruleIds) => change({ ruleIds })}

@@ -4438,20 +4438,18 @@ COMMENT ON COLUMN gameplay.mainline_challenge_rule_sets.user_id IS 'NULL for Voy
 -- ============================================================================
 -- ============================================================================
 -- Table: gameplay.mainline_challenge_rule_set_rules
--- The rules in each preset, in order.
+-- The rules in each preset (they keep no order: a Play adds them all).
 -- ============================================================================
 CREATE TABLE gameplay.mainline_challenge_rule_set_rules (
     rule_set_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rule_sets (id) ON UPDATE CASCADE ON DELETE CASCADE,
     challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    sort_order integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT challenge_rule_set_rules_primary_key PRIMARY KEY (rule_set_id, challenge_rule_id),
-    CONSTRAINT challenge_rule_set_rules_sort_order_positive_check CHECK (sort_order > 0)
+    CONSTRAINT challenge_rule_set_rules_primary_key PRIMARY KEY (rule_set_id, challenge_rule_id)
 );
 
 CREATE INDEX challenge_rule_set_rules_challenge_rule_idx ON gameplay.mainline_challenge_rule_set_rules (challenge_rule_id);
 
-COMMENT ON TABLE gameplay.mainline_challenge_rule_set_rules IS 'The rules in each preset, in the order the preset lists them.';
+COMMENT ON TABLE gameplay.mainline_challenge_rule_set_rules IS 'The rules in each preset; they keep no order, as a Play takes them all at once.';
 
 CREATE FUNCTION private.enforce_challenge_rule_set_rule_scope ()
     RETURNS TRIGGER
@@ -6630,24 +6628,15 @@ BEGIN
         DELETE FROM gameplay.mainline_challenge_rule_set_rules
         WHERE rule_set_id = v_rule_set_id;
     END IF;
-    -- Its rules in the order given, each once; the scope trigger refuses
-    -- another trainer's rule.
-    INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id, sort_order)
-    SELECT
+    -- Its rules, each once; the scope trigger refuses another trainer's rule.
+    INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
+    SELECT DISTINCT
         v_rule_set_id,
-        picked.rule_id,
-        ROW_NUMBER() OVER (ORDER BY picked.first_position)::integer
-    FROM (
-        SELECT
-            requested.rule_id,
-            MIN(requested.position) AS first_position
-        FROM
-            UNNEST(p_rule_ids)
-            WITH ORDINALITY AS requested (rule_id, position)
-        WHERE
-            requested.rule_id IS NOT NULL
-        GROUP BY
-            requested.rule_id) AS picked;
+        requested.rule_id
+    FROM
+        UNNEST(p_rule_ids) AS requested (rule_id)
+WHERE
+    requested.rule_id IS NOT NULL;
     RETURN v_rule_set_id;
 END;
 $$;
@@ -6658,7 +6647,7 @@ REVOKE ALL ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UU
 
 GRANT EXECUTE ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) TO authenticated, service_role;
 
-COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, in the order given and each once. A preset needs at least one rule. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, each once. A preset needs at least one rule. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/03_policies/001_rls_and_grants.sql

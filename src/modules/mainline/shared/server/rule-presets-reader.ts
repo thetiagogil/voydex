@@ -6,7 +6,7 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
  * The presets you can pick (Voydex's and yours; row-level security shows no
- * one else's), each with its rules in order, keeping only `pickableRuleIds`.
+ * one else's), each with its rules, keeping only `pickableRuleIds`.
  */
 export const readRulePresets = async (
   supabase: ServerSupabaseClient,
@@ -20,7 +20,7 @@ export const readRulePresets = async (
     supabase
       .schema("gameplay")
       .from("mainline_challenge_rule_set_rules")
-      .select("rule_set_id, challenge_rule_id, sort_order"),
+      .select("rule_set_id, challenge_rule_id"),
   ]);
 
   if (presetsResult.error || linksResult.error) {

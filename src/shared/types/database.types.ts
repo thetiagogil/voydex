@@ -14,20 +14,17 @@ export type Database = {
           challenge_rule_id: string;
           created_at: string;
           rule_set_id: string;
-          sort_order: number;
         };
         ComputedFields: never;
         Insert: {
           challenge_rule_id: string;
           created_at?: string;
           rule_set_id: string;
-          sort_order: number;
         };
         Update: {
           challenge_rule_id?: string;
           created_at?: string;
           rule_set_id?: string;
-          sort_order?: number;
         };
         Relationships: [
           {

@@ -237,7 +237,11 @@ export const LibraryBrowser = ({
         <div className="grid gap-8 sm:gap-10">
           {/* Presets show while the bar doesn't narrow the rules. */}
           {hasActiveFilters ? null : (
-            <LibraryPresetsSection presets={data.presets} rules={data.rules} />
+            <LibraryPresetsSection
+              kinds={data.kinds}
+              presets={data.presets}
+              rules={data.rules}
+            />
           )}
           <LibraryRulesSection
             kinds={data.kinds}
