@@ -62,7 +62,9 @@ from a Team that is only partially recorded.
 One Move workflow covers current-roster placement. Choosing a confirmed-empty
 slot moves the selected member; choosing an occupied slot swaps the two members.
 A not-recorded slot is never available capacity. Move, swap, and reorder succeed
-atomically, remain quiet in History, and never write Plan data. The V1 path for
+atomically, remain quiet in History, and never write Plan data. The team keeps
+at least one Pokémon: its last member can swap with a reserve Pokémon but not
+move to an empty reserve slot. The V1 path for
 preserving a meaningful lineup is `Record Team moment`.
 
 The selected-Pokémon detail is an identity-first Play member record. It leads
@@ -133,8 +135,9 @@ together. **Edit Pokémon** is the same kind of sheet: Who,
 Where, Build and Met, then Review changes before Save, offering only what the
 game records. Evolve and Change form record their moment; Replace (picking
 the incoming Pokémon in the Add sheet), Retire and Delete record act from its
-head. Moving between team and reserve, or to another slot, waits on an atomic
-roster-placement operation.
+head. Where moves it straight away to another team or reserve slot, swapping
+with the Pokémon there; dragging a roster sticker onto another slot does the
+same, and the roster redraws at once while the move saves.
 
 Team Analysis is the Team-owned review view. Its final metrics, calculation
 strategy and evidence disclosure are deliberately deferred until the product

@@ -102,9 +102,8 @@ confirm the linked Supabase migration list before any remote database write.
   moves each into one database function.
 - Secure account deletion has no reviewed server-owned operation proving Auth
   identity removal, owned-data cascades, session invalidation and rollback.
-- Roster placement (moving between team and reserve or slots), Plan Detail,
-  Create Play from a Plan, the shared-edit warning and the Game List are not
-  built.
+- Plan Detail, Create Play from a Plan, the shared-edit warning and the Game
+  List are not built.
 - Pokémon Browse maps the latest available attributes to its cards, so a card
   and the entry it opens can disagree until the scoped query is corrected.
 - The development Team fixture still stores a non-ball item in `ball_item_id`;
@@ -116,7 +115,7 @@ confirm the linked Supabase migration list before any remote database write.
 
 Where v3 needs data Voydex doesn't have, the screen shows `PendingData` and a
 `TODO(v3-data)` comment names what it waits on (`grep -rn "TODO(v3-data)" src`
-finds all 46). Grouped by what they wait on:
+finds all 45). Grouped by what they wait on:
 
 - `public.profiles`: a Pokémon icon, a default trainer name for new Plays and a
   first-run flag for Welcome.
@@ -126,7 +125,7 @@ finds all 46). Grouped by what they wait on:
   flags and a Pokédex mode (caught only, or caught and seen).
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
 - `planning.mainline_team_plans`: a version preference.
-- An atomic roster-placement function, and a reviewed account deletion.
+- A reviewed account deletion.
 - Opponent parties (species, level, moves) for Story matchups, and an anon read
   grant plus town and ace for the Codex game page's leaders.
 - Reference catalogue: one-per-save and either-or groups, route and encounter

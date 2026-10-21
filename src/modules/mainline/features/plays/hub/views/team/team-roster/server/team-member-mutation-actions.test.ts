@@ -1,6 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { removeMainlinePlayPokemonAction } from "./team-member-mutation-actions";
+import {
+  moveMainlinePlayPokemonAction,
+  removeMainlinePlayPokemonAction,
+} from "./team-member-mutation-actions";
 
 const rpc = vi.fn();
 const from = vi.fn();
@@ -59,5 +62,60 @@ describe("removeMainlinePlayPokemonAction", () => {
       removeMainlinePlayPokemonAction({ ...target, undoAdd: true }),
     ).resolves.toEqual({ message: "Unable to delete it.", status: "error" });
     expect(revalidateTeamPaths).not.toHaveBeenCalled();
+  });
+});
+
+describe("moveMainlinePlayPokemonAction", () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    rpc.mockResolvedValue({ data: [], error: null });
+  });
+
+  it("moves or swaps in one database call", async () => {
+    await expect(
+      moveMainlinePlayPokemonAction({ ...target, toSlot: 8 }),
+    ).resolves.toEqual({
+      message: "Moved",
+      playPokemonId: target.playPokemonId,
+      status: "success",
+    });
+    expect(rpc).toHaveBeenCalledExactlyOnceWith("move_mainline_play_pokemon", {
+      p_play_pokemon_id: target.playPokemonId,
+      p_to_slot: 8,
+    });
+    expect(revalidateTeamPaths).toHaveBeenCalledWith(target.playId);
+  });
+
+  it("refuses a slot past the reserve before calling the database", async () => {
+    await expect(
+      moveMainlinePlayPokemonAction({ ...target, toSlot: 13 }),
+    ).resolves.toEqual({
+      message: "Pick a team or reserve slot.",
+      status: "error",
+    });
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
+  it("says why when the team would be left empty", async () => {
+    rpc.mockResolvedValue({
+      data: null,
+      error: { code: "23514", message: "The team needs at least one Pokémon" },
+    });
+
+    await expect(
+      moveMainlinePlayPokemonAction({ ...target, toSlot: 8 }),
+    ).resolves.toEqual({
+      message: "Your team needs at least one Pokémon.",
+      status: "error",
+    });
+    expect(revalidateTeamPaths).not.toHaveBeenCalled();
+  });
+
+  it("reports any other refusal plainly", async () => {
+    rpc.mockResolvedValue({ data: null, error: { code: "23503" } });
+
+    await expect(
+      moveMainlinePlayPokemonAction({ ...target, toSlot: 2 }),
+    ).resolves.toEqual({ message: "Unable to move it.", status: "error" });
   });
 });

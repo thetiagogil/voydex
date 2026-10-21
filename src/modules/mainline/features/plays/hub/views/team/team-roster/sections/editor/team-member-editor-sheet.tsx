@@ -17,9 +17,7 @@ import {
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { SheetSection } from "@/shared/components/sheet-section";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
 import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -41,29 +39,37 @@ import {
 } from "./team-member-editor-build-step";
 import { TeamMemberEditorMetStep } from "./team-member-editor-met-step";
 import { TeamMemberEditorReview } from "./team-member-editor-review";
+import { TeamMemberEditorWhereStep } from "./team-member-editor-where-step";
 import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
 
 /*
  * Edit Pokémon (v3 `editor`): a side sheet over the Roster (a bottom sheet
  * on phones). Who, Where, Build and Met, then Review changes before Save.
  * Only what the Play's game records is offered. Evolve, Change form, Replace
- * and Retire act straight away from the head; Delete record is for mistakes.
+ * and Retire act straight away from the head, and Where's move straight away
+ * from its step; Delete record is for mistakes.
  */
 export const TeamMemberEditorSheet = ({
+  isMoving,
   mechanics,
   member,
+  onMove,
   onOpenChange,
   onReplace,
   open,
   playId,
+  roster,
 }: {
+  isMoving: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
+  onMove: (playPokemonId: string, toSlot: number) => void;
   onOpenChange: (open: boolean) => void;
   /* Opens the species picker to choose who takes its place. */
   onReplace: () => void;
   open: boolean;
   playId: string;
+  roster: readonly MainlinePlayTeamMember[];
 }) => {
   const router = useRouter();
   const id = useId();
@@ -200,7 +206,7 @@ export const TeamMemberEditorSheet = ({
   const placeLabel =
     member.roster_state_slug === "active"
       ? `On the team · Slot ${member.slot ?? "?"}`
-      : "In reserve";
+      : `In reserve · R${member.slot ? member.slot - 6 : "?"}`;
   const primaryTypeSlug =
     member.primaryType && isPokemonTypeSlug(member.primaryType.slug)
       ? member.primaryType.slug
@@ -221,13 +227,14 @@ export const TeamMemberEditorSheet = ({
         member={member}
         supportsGender={supports.gender}
       />
-      <SheetSection title="Where" aside={placeLabel}>
-        {/* TODO(v3-data): moving between the team and the reserve, or to another slot, needs an atomic roster-placement RPC (swaps break the per-slot unique index mid-update). */}
-        <PendingData
-          label="Moving it isn't in Voydex yet"
-          note="Swapping slots or moving between team and reserve waits for a safe roster move."
-        />
-      </SheetSection>
+      <TeamMemberEditorWhereStep
+        id={id}
+        isMoving={isMoving}
+        member={member}
+        onMove={onMove}
+        placeLabel={placeLabel}
+        roster={roster}
+      />
       <TeamMemberEditorBuildStep
         {...stepProps}
         member={member}

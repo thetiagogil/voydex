@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
 import type {
@@ -32,6 +33,12 @@ import {
   TeamRosterStart,
 } from "./sections/selected-pokemon/team-member-detail";
 import { TeamMemberDetailSheet } from "./sections/selected-pokemon/team-member-detail-sheet";
+import { moveMainlinePlayPokemonAction } from "./server/team-member-mutation-actions";
+import {
+  applyRosterMove,
+  describeRosterMove,
+  getRosterMove,
+} from "./utils/roster-moves";
 
 type MainlinePlayTeamRosterProps = {
   /*
@@ -49,7 +56,9 @@ type MainlinePlayTeamRosterProps = {
  * The Roster, as v3 draws it: the page head with Add Pokémon, the Active
  * team and the Reserve as stickers, and the selected Pokémon's profile
  * beside them (a bottom sheet on phones and tablets). Edit opens the
- * editor; Add Pokémon and Replace share one species picker.
+ * editor; Add Pokémon and Replace share one species picker. A Pokémon moves
+ * by dragging it onto another slot or from the editor's Where, and the
+ * roster redraws at once while the move saves.
  */
 export const MainlinePlayTeamRoster = ({
   addRequest = null,
@@ -58,7 +67,13 @@ export const MainlinePlayTeamRoster = ({
   playId,
 }: MainlinePlayTeamRosterProps) => {
   const router = useRouter();
-  const { mechanics, roster } = data;
+  const { mechanics } = data;
+  const [roster, showMove] = useOptimistic(
+    data.roster,
+    (current, move: { playPokemonId: string; toSlot: number }) =>
+      applyRosterMove(current, move.playPokemonId, move.toSlot),
+  );
+  const [isMoving, startMoving] = useTransition();
   const versionGroupSlug = data.play.version_group_slug;
   const defaultMember = getDefaultTeamMember(roster, initialPokemonId);
   const [detailPanelStyle, bindDetailPanel] = useStickyPanel<HTMLDivElement>();
@@ -102,6 +117,60 @@ export const MainlinePlayTeamRoster = ({
     }
   };
 
+  /* Saves a move; the roster shows it at once and settles when it lands. */
+  const saveMove = (
+    playPokemonId: string,
+    toSlot: number,
+    onSaved: () => void,
+  ) => {
+    startMoving(async () => {
+      showMove({ playPokemonId, toSlot });
+      const result = await moveMainlinePlayPokemonAction({
+        playId,
+        playPokemonId,
+        toSlot,
+      });
+
+      if (result.status === "error") {
+        toast.error(result.message);
+        return;
+      }
+
+      onSaved();
+      router.refresh();
+    });
+  };
+
+  /* A drop or the editor's Where; the toast's Undo moves it back. */
+  const moveMember = (playPokemonId: string, toSlot: number) => {
+    const member = roster.find(
+      (candidate) => candidate.play_pokemon_id === playPokemonId,
+    );
+    const fromSlot = member?.slot;
+    const move = getRosterMove(roster, playPokemonId, toSlot);
+
+    if (!member || !fromSlot || move.kind === "stay") {
+      return;
+    }
+
+    if (move.kind === "blocked") {
+      toast.error(move.reason);
+      return;
+    }
+
+    saveMove(playPokemonId, toSlot, () =>
+      toast.success(describeRosterMove(member, move), {
+        action: {
+          label: "Undo",
+          onClick: () =>
+            saveMove(playPokemonId, fromSlot, () =>
+              toast.success("Moved back"),
+            ),
+        },
+      }),
+    );
+  };
+
   const openAdd = () => {
     setPickerMode({ kind: "add" });
     setPickerOpen(true);
@@ -136,6 +205,8 @@ export const MainlinePlayTeamRoster = ({
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         <TeamRosterSection
           brokenRulesById={brokenRulesById}
+          isMoving={isMoving}
+          onMove={moveMember}
           roster={roster}
           selectedMemberId={selectedMember?.play_pokemon_id ?? null}
           onSelect={selectMember}
@@ -176,8 +247,10 @@ export const MainlinePlayTeamRoster = ({
       {selectedMember?.play_pokemon_id ? (
         <TeamMemberEditorSheet
           key={sheetKeys.editor}
+          isMoving={isMoving}
           mechanics={mechanics}
           member={selectedMember}
+          onMove={moveMember}
           open={editorOpen}
           onOpenChange={setEditorOpen}
           onReplace={() => {
@@ -190,6 +263,7 @@ export const MainlinePlayTeamRoster = ({
             setPickerOpen(true);
           }}
           playId={playId}
+          roster={roster}
         />
       ) : null}
 

@@ -31,6 +31,8 @@ const SEARCH_FROM_OPTION_COUNT = 10;
 export type SelectControlOption = {
   /* A second, quieter line in the list, such as a generation's region. */
   description?: string;
+  /* Shown but not pickable, such as a move the rules refuse. */
+  disabled?: boolean;
   /* A picture on the option's tile: an icon, a game or type mark. */
   icon?: ReactNode;
   label: string;
@@ -245,7 +247,11 @@ export const SelectControl = ({
           <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
           <ComboboxList>
             {(option: SelectControlOption) => (
-              <ComboboxItem key={option.value} value={option}>
+              <ComboboxItem
+                key={option.value}
+                value={option}
+                disabled={option.disabled}
+              >
                 <OptionContent option={option} />
               </ComboboxItem>
             )}
@@ -306,7 +312,11 @@ export const SelectControl = ({
       <SelectContent>
         <SelectGroup>
           {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
               <OptionContent option={option} />
             </SelectItem>
           ))}
