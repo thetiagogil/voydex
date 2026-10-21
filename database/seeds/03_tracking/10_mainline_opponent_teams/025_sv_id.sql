@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii The Indigo Disk Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
+-- Carmine, Kieran, Nemona and Arven & Penny battles: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -88,4 +89,62 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Terapagos 1: Terapagos Lv. 85
   (250008, 25006, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102400, 85),
   -- Pecharunt 1: Pecharunt Lv. 88
-  (250009, 25007, 25, NULL, NULL, NULL, NULL, NULL, 1, 1025, 102500, 88);
+  (250009, 25007, 25, NULL, NULL, NULL, NULL, NULL, 1, 1025, 102500, 88),
+  -- Carmine, Arrive at Blueberry Academy 1: Toucannon Lv. 74
+  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 1, 733, 73300, 74),
+  -- Carmine, Arrive at Blueberry Academy 2: Mightyena Lv. 74
+  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 74),
+  -- Carmine, Arrive at Blueberry Academy 3: Scrafty Lv. 74
+  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 3, 560, 56000, 74),
+  -- Carmine, Arrive at Blueberry Academy 4: Sinistcha Lv. 75
+  (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 4, 1013, 101300, 75),
+  -- Kieran, Terapagos Battle 1: Terapagos Lv. 85
+  (250008, 25009, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102400, 85),
+  -- Arven & Penny, Mochi Mayhem 1: Greedent Lv. 82
+  (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 1, 820, 82000, 82),
+  -- Arven & Penny, Mochi Mayhem 2: Cloyster Lv. 82
+  (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 82),
+  -- Arven & Penny, Mochi Mayhem 3: Mabosstiff Lv. 83
+  (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 3, 943, 94300, 83),
+  -- Arven & Penny, Mochi Mayhem 4: Umbreon Lv. 84
+  (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 4, 197, 19700, 84),
+  -- Arven & Penny, Mochi Mayhem 5: Leafeon Lv. 84
+  (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 5, 470, 47000, 84),
+  -- Arven & Penny, Mochi Mayhem 6: Sylveon Lv. 85
+  (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 6, 700, 70000, 85),
+  -- Nemona (You chose Sprigatito in Scarlet / Violet), Mochi Mayhem 1: Lycanroc Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-sprigatito', 'You chose Sprigatito in Scarlet / Violet', 1, 745, 74500, 86),
+  -- Nemona (You chose Sprigatito in Scarlet / Violet), Mochi Mayhem 2: Kommo-o Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-sprigatito', 'You chose Sprigatito in Scarlet / Violet', 2, 784, 78400, 86),
+  -- Nemona (You chose Sprigatito in Scarlet / Violet), Mochi Mayhem 3: Goodra Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-sprigatito', 'You chose Sprigatito in Scarlet / Violet', 3, 706, 70600, 86),
+  -- Nemona (You chose Sprigatito in Scarlet / Violet), Mochi Mayhem 4: Ribombee Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-sprigatito', 'You chose Sprigatito in Scarlet / Violet', 4, 743, 74300, 86),
+  -- Nemona (You chose Sprigatito in Scarlet / Violet), Mochi Mayhem 5: Pawmot Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-sprigatito', 'You chose Sprigatito in Scarlet / Violet', 5, 923, 92300, 86),
+  -- Nemona (You chose Sprigatito in Scarlet / Violet), Mochi Mayhem 6: Quaquaval Lv. 87
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-sprigatito', 'You chose Sprigatito in Scarlet / Violet', 6, 914, 91400, 87),
+  -- Nemona (You chose Fuecoco in Scarlet / Violet), Mochi Mayhem 1: Lycanroc Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-fuecoco', 'You chose Fuecoco in Scarlet / Violet', 1, 745, 74500, 86),
+  -- Nemona (You chose Fuecoco in Scarlet / Violet), Mochi Mayhem 2: Kommo-o Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-fuecoco', 'You chose Fuecoco in Scarlet / Violet', 2, 784, 78400, 86),
+  -- Nemona (You chose Fuecoco in Scarlet / Violet), Mochi Mayhem 3: Goodra Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-fuecoco', 'You chose Fuecoco in Scarlet / Violet', 3, 706, 70600, 86),
+  -- Nemona (You chose Fuecoco in Scarlet / Violet), Mochi Mayhem 4: Milotic Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-fuecoco', 'You chose Fuecoco in Scarlet / Violet', 4, 350, 35000, 86),
+  -- Nemona (You chose Fuecoco in Scarlet / Violet), Mochi Mayhem 5: Pawmot Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-fuecoco', 'You chose Fuecoco in Scarlet / Violet', 5, 923, 92300, 86),
+  -- Nemona (You chose Fuecoco in Scarlet / Violet), Mochi Mayhem 6: Meowscarada Lv. 87
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-fuecoco', 'You chose Fuecoco in Scarlet / Violet', 6, 908, 90800, 87),
+  -- Nemona (You chose Quaxly in Scarlet / Violet), Mochi Mayhem 1: Lycanroc Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-quaxly', 'You chose Quaxly in Scarlet / Violet', 1, 745, 74500, 86),
+  -- Nemona (You chose Quaxly in Scarlet / Violet), Mochi Mayhem 2: Kommo-o Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-quaxly', 'You chose Quaxly in Scarlet / Violet', 2, 784, 78400, 86),
+  -- Nemona (You chose Quaxly in Scarlet / Violet), Mochi Mayhem 3: Goodra Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-quaxly', 'You chose Quaxly in Scarlet / Violet', 3, 706, 70600, 86),
+  -- Nemona (You chose Quaxly in Scarlet / Violet), Mochi Mayhem 4: Dusknoir Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-quaxly', 'You chose Quaxly in Scarlet / Violet', 4, 477, 47700, 86),
+  -- Nemona (You chose Quaxly in Scarlet / Violet), Mochi Mayhem 5: Pawmot Lv. 86
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-quaxly', 'You chose Quaxly in Scarlet / Violet', 5, 923, 92300, 86),
+  -- Nemona (You chose Quaxly in Scarlet / Violet), Mochi Mayhem 6: Skeledirge Lv. 87
+  (250009, 25011, 25, NULL, NULL, NULL, 'chose-quaxly', 'You chose Quaxly in Scarlet / Violet', 6, 911, 91100, 87);

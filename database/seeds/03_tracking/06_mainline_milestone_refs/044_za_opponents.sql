@@ -22,4 +22,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Confront Lysandre -> Lysandre
   (260007, 26003, 26, 'battle-opponent', 1, NULL),
   -- Stop the Ange Crisis -> Zygarde
-  (260008, 26004, 26, 'battle-opponent', 1, NULL);
+  (260008, 26004, 26, 'battle-opponent', 2, NULL),
+  -- Join Team MZ -> Taunie / Urbain
+  (260003, 26001, 26, 'battle-opponent', 1, 'In front of Hotel Z'),
+  -- Unlock Mega Evolution -> Taunie / Urbain
+  (260005, 26001, 26, 'battle-opponent', 2, 'Hotel Z'),
+  -- Stop the Ange Crisis -> Taunie / Urbain
+  (260008, 26001, 26, 'battle-opponent', 1, 'Centrico Plaza, in front of Prism Tower');

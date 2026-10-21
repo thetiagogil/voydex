@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Scarlet / Violet Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Scarlet / Violet Gym Leaders and Elite Four page.
+-- Nemona and Arven battles: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -290,4 +291,102 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- AI Professor (Violet) 5: Iron Thorns Lv. 66
   (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 5, 995, 99500, 66),
   -- AI Professor (Violet) 6: Iron Valiant Lv. 67
-  (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 6, 1006, 100600, 67);
+  (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 6, 1006, 100600, 67),
+  -- Nemona (chose Sprigatito), Choose Starter 1: Quaxly Lv. 5
+  (230001, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 912, 91200, 5),
+  -- Nemona (chose Fuecoco), Choose Starter 1: Sprigatito Lv. 5
+  (230001, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 906, 90600, 5),
+  -- Nemona (chose Quaxly), Choose Starter 1: Fuecoco Lv. 5
+  (230001, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 909, 90900, 5),
+  -- Arven, Receive Pokedex 1: Skwovet Lv. 5
+  (230002, 23027, 23, NULL, NULL, NULL, NULL, NULL, 1, 819, 81900, 5),
+  -- Nemona (chose Sprigatito), Receive Pokedex 1: Quaxly Lv. 8
+  (230002, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 912, 91200, 8),
+  -- Nemona (chose Sprigatito), Receive Pokedex 2: Pawmi Lv. 9
+  (230002, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 921, 92100, 9),
+  -- Nemona (chose Fuecoco), Receive Pokedex 1: Sprigatito Lv. 8
+  (230002, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 906, 90600, 8),
+  -- Nemona (chose Fuecoco), Receive Pokedex 2: Pawmi Lv. 9
+  (230002, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 921, 92100, 9),
+  -- Nemona (chose Quaxly), Receive Pokedex 1: Fuecoco Lv. 8
+  (230002, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 909, 90900, 8),
+  -- Nemona (chose Quaxly), Receive Pokedex 2: Pawmi Lv. 9
+  (230002, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 921, 92100, 9),
+  -- Nemona (chose Sprigatito), Electric Badge 1: Rockruff Lv. 21
+  (230005, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 744, 74400, 21),
+  -- Nemona (chose Sprigatito), Electric Badge 2: Pawmi Lv. 21
+  (230005, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 921, 92100, 21),
+  -- Nemona (chose Sprigatito), Electric Badge 3: Quaxwell Lv. 22
+  (230005, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 913, 91300, 22),
+  -- Nemona (chose Fuecoco), Electric Badge 1: Rockruff Lv. 21
+  (230005, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 744, 74400, 21),
+  -- Nemona (chose Fuecoco), Electric Badge 2: Pawmi Lv. 21
+  (230005, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 921, 92100, 21),
+  -- Nemona (chose Fuecoco), Electric Badge 3: Floragato Lv. 22
+  (230005, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 907, 90700, 22),
+  -- Nemona (chose Quaxly), Electric Badge 1: Rockruff Lv. 21
+  (230005, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 744, 74400, 21),
+  -- Nemona (chose Quaxly), Electric Badge 2: Pawmi Lv. 21
+  (230005, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 921, 92100, 21),
+  -- Nemona (chose Quaxly), Electric Badge 3: Crocalor Lv. 22
+  (230005, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 910, 91000, 22),
+  -- Nemona (chose Sprigatito), Normal Badge 1: Lycanroc Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 745, 74500, 36),
+  -- Nemona (chose Sprigatito), Normal Badge 2: Goomy Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 704, 70400, 36),
+  -- Nemona (chose Sprigatito), Normal Badge 3: Pawmo Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 922, 92200, 36),
+  -- Nemona (chose Sprigatito), Normal Badge 4: Quaquaval Lv. 37
+  (230007, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 4, 914, 91400, 37),
+  -- Nemona (chose Fuecoco), Normal Badge 1: Lycanroc Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 745, 74500, 36),
+  -- Nemona (chose Fuecoco), Normal Badge 2: Goomy Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 704, 70400, 36),
+  -- Nemona (chose Fuecoco), Normal Badge 3: Pawmo Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 922, 92200, 36),
+  -- Nemona (chose Fuecoco), Normal Badge 4: Meowscarada Lv. 37
+  (230007, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 4, 908, 90800, 37),
+  -- Nemona (chose Quaxly), Normal Badge 1: Lycanroc Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 745, 74500, 36),
+  -- Nemona (chose Quaxly), Normal Badge 2: Goomy Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 704, 70400, 36),
+  -- Nemona (chose Quaxly), Normal Badge 3: Pawmo Lv. 36
+  (230007, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 922, 92200, 36),
+  -- Nemona (chose Quaxly), Normal Badge 4: Skeledirge Lv. 37
+  (230007, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 4, 911, 91100, 37),
+  -- Nemona (chose Sprigatito), Psychic Badge 1: Lycanroc Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 745, 74500, 42),
+  -- Nemona (chose Sprigatito), Psychic Badge 2: Sliggoo Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 2, 705, 70500, 42),
+  -- Nemona (chose Sprigatito), Psychic Badge 3: Pawmot Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 3, 923, 92300, 42),
+  -- Nemona (chose Sprigatito), Psychic Badge 4: Quaquaval Lv. 43
+  (230009, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 4, 914, 91400, 43),
+  -- Nemona (chose Fuecoco), Psychic Badge 1: Lycanroc Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 1, 745, 74500, 42),
+  -- Nemona (chose Fuecoco), Psychic Badge 2: Sliggoo Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 2, 705, 70500, 42),
+  -- Nemona (chose Fuecoco), Psychic Badge 3: Pawmot Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 3, 923, 92300, 42),
+  -- Nemona (chose Fuecoco), Psychic Badge 4: Meowscarada Lv. 43
+  (230009, 23029, 23, NULL, 230001, 'fuecoco', NULL, NULL, 4, 908, 90800, 43),
+  -- Nemona (chose Quaxly), Psychic Badge 1: Lycanroc Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 1, 745, 74500, 42),
+  -- Nemona (chose Quaxly), Psychic Badge 2: Sliggoo Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 2, 705, 70500, 42),
+  -- Nemona (chose Quaxly), Psychic Badge 3: Pawmot Lv. 42
+  (230009, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 3, 923, 92300, 42),
+  -- Nemona (chose Quaxly), Psychic Badge 4: Skeledirge Lv. 43
+  (230009, 23029, 23, NULL, 230001, 'quaxly', NULL, NULL, 4, 911, 91100, 43),
+  -- Arven, Academy Ace Tournament 1: Greedent Lv. 67
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 1, 820, 82000, 67),
+  -- Arven, Academy Ace Tournament 2: Cloyster Lv. 67
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 67),
+  -- Arven, Academy Ace Tournament 3: Scovillain Lv. 67
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 3, 952, 95200, 67),
+  -- Arven, Academy Ace Tournament 4: Toedscruel Lv. 67
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 4, 949, 94900, 67),
+  -- Arven, Academy Ace Tournament 5: Garganacl Lv. 67
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 5, 934, 93400, 67),
+  -- Arven, Academy Ace Tournament 6: Mabosstiff Lv. 68
+  (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 6, 943, 94300, 68);

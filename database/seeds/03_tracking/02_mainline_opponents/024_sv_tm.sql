@@ -28,4 +28,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Ogerpon
   (24003, 24, NULL, 'ogerpon', 'Ogerpon', 'boss', 5, NULL, 'ogerpon', 3),
   -- Bloodmoon Ursaluna
-  (24004, 24, NULL, 'bloodmoon-ursaluna', 'Bloodmoon Ursaluna', 'boss', 9, 1, 'bloodmoon-ursaluna', 4);
+  (24004, 24, NULL, 'bloodmoon-ursaluna', 'Bloodmoon Ursaluna', 'boss', 9, 1, 'bloodmoon-ursaluna', 4),
+  -- Carmine (rival)
+  (24005, 24, NULL, 'carmine', 'Carmine', 'rival', NULL, NULL, 'carmine', 5);
