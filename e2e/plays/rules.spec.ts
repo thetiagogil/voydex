@@ -172,7 +172,9 @@ test.describe("Challenge rules", () => {
     });
 
     /* Locked: a Voydex mark, and no ⋯ to edit or delete it. */
-    await expect(card.getByText("Voydex", { exact: true })).toBeVisible();
+    await expect(
+      card.getByText("Made by Voydex", { exact: true }),
+    ).toBeVisible();
     await expect(
       card.getByRole("button", { name: /more actions/ }),
     ).toHaveCount(0);
