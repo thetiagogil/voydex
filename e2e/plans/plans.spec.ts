@@ -66,6 +66,42 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
   });
 
+  test("drags a Pokémon onto another slot to swap them", async ({ page }) => {
+    await page.goto("/mainline/plans/new?vg=rb");
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await openSearchBar(page);
+    const search = picker.getByRole("searchbox");
+    for (const member of ["Venusaur", "Charizard"]) {
+      await search.fill(member);
+      await picker
+        .getByRole("button", { name: new RegExp(`^#\\d+ ${member}\\b`) })
+        .click();
+    }
+
+    /* A real drag: press, travel in steps, let go (`dragTo` is too quick). */
+    const team = page.getByRole("region", { name: "Your team" });
+    await team
+      .getByRole("button", { name: /^Venusaur\b.*slot 1\. Edit$/ })
+      .hover();
+    await page.mouse.down();
+    const target = (await team
+      .getByRole("button", { name: /^Charizard\b.*slot 2\. Edit$/ })
+      .boundingBox())!;
+    await page.mouse.move(
+      target.x + target.width / 2,
+      target.y + target.height / 2,
+      { steps: 10 },
+    );
+    await page.mouse.up();
+
+    await expect(
+      team.getByRole("button", { name: /^Charizard\b.*slot 1\. Edit$/ }),
+    ).toBeVisible();
+    await expect(
+      team.getByRole("button", { name: /^Venusaur\b.*slot 2\. Edit$/ }),
+    ).toBeVisible();
+  });
+
   test("follows a Plan from a Play", async ({ page }) => {
     const planName = uniquePlayName("Fire plan");
     const planId = await savePlan(page, planName, ["Charizard", "Rapidash"]);

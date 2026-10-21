@@ -7,6 +7,7 @@ import {
   positiveIntegerSchema,
 } from "@/shared/utils/input-schemas";
 
+import { teamNeedsOneMessage } from "../utils/roster-moves";
 import {
   validateUpdateMainlinePlayPokemon,
   type UpdateMainlinePlayPokemonInput,
@@ -22,6 +23,13 @@ const failure = (error: unknown, fallback: string): TeamMemberActionResult => ({
   message: error instanceof Error ? error.message : fallback,
   status: "error",
 });
+
+const rosterSlotMessage = "Pick a team or reserve slot.";
+const rosterSlotSchema = z
+  .number({ error: rosterSlotMessage })
+  .int({ error: rosterSlotMessage })
+  .min(1, { error: rosterSlotMessage })
+  .max(12, { error: rosterSlotMessage });
 
 const evolveTargetSchema = z.object({
   toFormId: positiveIntegerSchema("It doesn't evolve into that."),
@@ -64,6 +72,48 @@ export const updateMainlinePlayPokemonAction = async ({
     return { message: "Changes saved", playPokemonId, status: "success" };
   } catch (error) {
     return failure(error, "Unable to save those changes.");
+  }
+};
+
+/*
+ * Move: to another team or reserve slot, swapping with the Pokémon there, in
+ * one database call. The team keeps at least one Pokémon, and a move is not
+ * a History moment.
+ */
+export const moveMainlinePlayPokemonAction = async ({
+  playId,
+  playPokemonId,
+  toSlot: rawToSlot,
+}: {
+  playId: string;
+  playPokemonId: string;
+  toSlot: number;
+}): Promise<TeamMemberActionResult> => {
+  try {
+    const { supabase } = await getOwnedPlayPokemon({ playId, playPokemonId });
+    const toSlot = parseInput(rosterSlotSchema, rawToSlot);
+    const result = await supabase
+      .schema("gameplay")
+      .rpc("move_mainline_play_pokemon", {
+        p_play_pokemon_id: playPokemonId,
+        p_to_slot: toSlot,
+      });
+
+    if (result.error) {
+      throw new Error(
+        result.error.hint === "team-needs-one"
+          ? teamNeedsOneMessage
+          : result.error.code === "40001"
+            ? "The roster changed meanwhile. Try again."
+            : "Unable to move it.",
+      );
+    }
+
+    revalidateTeamPaths(playId);
+
+    return { message: "Moved", playPokemonId, status: "success" };
+  } catch (error) {
+    return failure(error, "Unable to move it.");
   }
 };
 

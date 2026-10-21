@@ -110,4 +110,103 @@ test.describe("Team", () => {
       page.getByRole("region", { name: /^Active team/ }).getByRole("heading"),
     ).toContainText("0 / 6");
   });
+  test("moves Pokémon between slots without dragging @phone", async ({
+    page,
+  }) => {
+    const activeTeam = page.getByRole("region", { name: /^Active team/ });
+    const reserve = page.getByRole("region", { name: /^Reserve/ });
+    /* Pick it on the roster (a sheet on phones), then Edit and Where. */
+    const openWhere = async (name: string) => {
+      await page
+        .getByRole("button", {
+          name: new RegExp(`\\b${name}\\b.*, \\w+ slot \\d$`),
+        })
+        .click();
+      const optionsLoaded = waitForAction(page);
+      await page.getByRole("button", { name: `Edit ${name}` }).click();
+      await optionsLoaded;
+      await page.getByRole("combobox", { name: `Move ${name} to` }).click();
+    };
+
+    /* The team's only Pokémon can't leave it for an open reserve slot. */
+    await openWhere("Squirtle");
+    await expect(
+      page.getByRole("option", { name: /^Reserve R1/ }),
+    ).toBeDisabled();
+    const moved = waitForAction(page);
+    await page.getByRole("option", { name: /^Team slot 3/ }).click();
+    await moved;
+    await expect(page.getByText("Squirtle moved to Team slot 3")).toBeVisible(
+      forTheAnswer,
+    );
+    await page.keyboard.press("Escape");
+    await expect(
+      activeTeam.getByRole("button", {
+        name: /\bSquirtle\b.*, Active slot 3$/,
+      }),
+    ).toBeVisible();
+
+    await page.getByRole("button", { name: "Add Pokémon" }).first().click();
+    await page
+      .getByRole("dialog", { name: "Which Pokémon?" })
+      .getByRole("button", { name: "Pidgey, #016" })
+      .click();
+    const details = page.getByRole("dialog", { name: "Pidgey" });
+    await details.getByRole("button", { name: "Reserve" }).click();
+    await details.getByRole("button", { name: "Add Pidgey" }).click();
+    await expect(
+      reserve.getByRole("button", { name: /\bPidgey\b.*, Reserve slot 1$/ }),
+    ).toBeVisible(forTheAnswer);
+
+    /* A taken slot swaps the two, across the team and the reserve. */
+    await openWhere("Squirtle");
+    const swapped = waitForAction(page);
+    await page.getByRole("option", { name: /^Reserve R1/ }).click();
+    await swapped;
+    await expect(page.getByText("Squirtle swapped with Pidgey")).toBeVisible(
+      forTheAnswer,
+    );
+    await page.reload();
+    await expect(
+      activeTeam.getByRole("button", { name: /\bPidgey\b.*, Active slot 3$/ }),
+    ).toBeVisible();
+    await expect(
+      reserve.getByRole("button", { name: /\bSquirtle\b.*, Reserve slot 1$/ }),
+    ).toBeVisible();
+    await expectAccessible(page);
+  });
+
+  test("drags a Pokémon onto another slot", async ({ page }) => {
+    const activeTeam = page.getByRole("region", { name: /^Active team/ });
+    const moved = waitForAction(page);
+
+    /*
+     * A real drag: press, travel in steps, let go (`dragTo` is too quick).
+     * Along the row, so the page doesn't scroll under the pointer.
+     */
+    await activeTeam
+      .getByRole("button", { name: /\bSquirtle\b.*, Active slot 1$/ })
+      .hover();
+    await page.mouse.down();
+    const target = (await activeTeam
+      .getByRole("img", { name: "Empty active slot 3" })
+      .boundingBox())!;
+    await page.mouse.move(
+      target.x + target.width / 2,
+      target.y + target.height / 2,
+      { steps: 10 },
+    );
+    await page.mouse.up();
+    await moved;
+    await expect(page.getByText("Squirtle moved to Team slot 3")).toBeVisible(
+      forTheAnswer,
+    );
+
+    await page.reload();
+    await expect(
+      activeTeam.getByRole("button", {
+        name: /\bSquirtle\b.*, Active slot 3$/,
+      }),
+    ).toBeVisible();
+  });
 });

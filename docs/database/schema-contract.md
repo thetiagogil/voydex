@@ -37,6 +37,8 @@ Current roster rules are authoritative and distinct from planning groups:
 - Active Pokémon use slots 1–6.
 - Reserve Pokémon use slots 7–12.
 - Retired and replaced Pokémon have no current slot.
+- One Pokémon per current slot, checked at the end of each statement
+  (deferrable), so one update can swap two Pokémon.
 - Current move slots are normalized and limited to four.
 
 Play Pokémon rows represent current mutable identity. Timeline Pokémon refs and
@@ -105,6 +107,12 @@ Use reviewed security-invoker functions for atomic workflows:
 - `gameplay.update_mainline_play_pokemon` saves a Play Pokémon's editable
   details (every field is written) and replaces its current moves in slot
   order, at most four, in one transaction. It is not a moment.
+- `gameplay.move_mainline_play_pokemon` moves a team or reserve Pokémon to
+  another slot (1–6 team, 7–12 reserve; the state follows the slot) and swaps
+  it with the Pokémon already there, in one statement. It refuses to leave the
+  team empty and is not a moment. That rule belongs to moves only: retiring or
+  removing the last team Pokémon is allowed. It locks the rows, then the Play,
+  in the order every roster function does.
 - `gameplay.remove_mainline_play_pokemon` deletes a Pokémon recorded by
   mistake; when it undoes an add it also deletes that Pokémon's own Added
   moment in the same transaction. Its other moments stay, with the Pokémon

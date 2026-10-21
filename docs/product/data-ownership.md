@@ -184,9 +184,9 @@ found by the database from the Play's game, with that choice and the team it
 starts; Undo (`undo_mainline_play_partner`) reverses both in one call.
 Saving a Pokémon's details replaces its moves in the same call
 (`update_mainline_play_pokemon`) and is not a moment.
-Moving a member between team and reserve, or to another slot, waits on an
-atomic roster-placement operation (a swap breaks the per-slot unique index
-mid-update).
+Moving a member to another team or reserve slot, or swapping it with the one
+there, is one call (`move_mainline_play_pokemon`); its state follows the slot,
+the team keeps at least one Pokémon, and a move is not a moment.
 
 Important team actions can create timeline events:
 

@@ -31,6 +31,8 @@ const SEARCH_FROM_OPTION_COUNT = 10;
 export type SelectControlOption = {
   /* A second, quieter line in the list, such as a generation's region. */
   description?: string;
+  /* Shown but not pickable, such as a move the rules refuse. */
+  disabled?: boolean;
   /* A picture on the option's tile: an icon, a game or type mark. */
   icon?: ReactNode;
   label: string;
@@ -41,6 +43,7 @@ type SelectControlProps = {
   ariaLabel: string;
   className?: string;
   defaultValue?: string;
+  disabled?: boolean;
   id?: string;
   name?: string;
   onValueChange?: (value: string) => void;
@@ -136,6 +139,7 @@ export const SelectControl = ({
   ariaLabel,
   className,
   defaultValue,
+  disabled = false,
   id,
   name,
   onValueChange,
@@ -180,6 +184,7 @@ export const SelectControl = ({
 
     return (
       <Combobox
+        disabled={disabled}
         items={options as SelectControlOption[]}
         value={selectedOption}
         onValueChange={(option: SelectControlOption | null) => {
@@ -245,7 +250,11 @@ export const SelectControl = ({
           <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
           <ComboboxList>
             {(option: SelectControlOption) => (
-              <ComboboxItem key={option.value} value={option}>
+              <ComboboxItem
+                key={option.value}
+                value={option}
+                disabled={option.disabled}
+              >
                 <OptionContent option={option} />
               </ComboboxItem>
             )}
@@ -266,6 +275,7 @@ export const SelectControl = ({
           ? undefined
           : `${name ?? ariaLabel}:${normalizedDefaultValue}`
       }
+      disabled={disabled}
       name={name}
       {...selectValueProps}
       onValueChange={(nextValue) => {
@@ -306,7 +316,11 @@ export const SelectControl = ({
       <SelectContent>
         <SelectGroup>
           {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
+            <SelectItem
+              key={option.value}
+              value={option.value}
+              disabled={option.disabled}
+            >
               <OptionContent option={option} />
             </SelectItem>
           ))}

@@ -1221,6 +1221,13 @@ export type Database = {
           removed_team_snapshot_count: number;
         }[];
       };
+      move_mainline_play_pokemon: {
+        Args: { p_play_pokemon_id: string; p_to_slot: number };
+        Returns: {
+          result_play_pokemon_id: string;
+          result_swapped_play_pokemon_id: string;
+        }[];
+      };
       remove_mainline_play_pokemon: {
         Args: { p_play_pokemon_id: string; p_remove_added_moment?: boolean };
         Returns: {

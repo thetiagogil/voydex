@@ -3,7 +3,6 @@
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { TextLink } from "@/shared/components/text-link";
-import { useState, type DragEvent } from "react";
 
 import type { PlannerSlots } from "@/modules/mainline/features/plans/planner/client/use-planner-team";
 import {
@@ -27,6 +26,10 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import {
+  slotDragSourceClassName,
+  useSlotDrag,
+} from "@/shared/hooks/use-slot-drag";
 import { cn } from "@/shared/utils/cn";
 
 /* The tip's mark on the band: its tint in a white band, as a sticker. */
@@ -117,8 +120,7 @@ export const PlannerDockSection = ({
   slots,
   tip,
 }: PlannerDockSectionProps) => {
-  const [dragFrom, setDragFrom] = useState<number | null>(null);
-  const [dropTarget, setDropTarget] = useState<number | null>(null);
+  const drag = useSlotDrag<number, number>({ onDrop: onMove });
   const filled = slots.filter(Boolean).length;
 
   return (
@@ -226,24 +228,13 @@ export const PlannerDockSection = ({
           const worst = member
             ? getWorstIssueFor(member.speciesId, issues)
             : null;
-          const dragProps = {
-            onDragLeave: () => setDropTarget(null),
-            onDragOver: (event: DragEvent) => {
-              if (dragFrom === null) return;
-              event.preventDefault();
-              setDropTarget(index);
-            },
-            onDrop: (event: DragEvent) => {
-              event.preventDefault();
-              if (dragFrom !== null) onMove(dragFrom, index);
-              setDragFrom(null);
-              setDropTarget(null);
-            },
-          };
+          const dropProps = drag.targetProps(index, {
+            item: member ? index : null,
+          });
 
           if (!member || !pokemon) {
             return (
-              <li key={`open-${index}`} className="min-w-0" {...dragProps}>
+              <li key={`open-${index}`} className="min-w-0" {...dropProps}>
                 {replacing ? (
                   <button
                     type="button"
@@ -262,10 +253,8 @@ export const PlannerDockSection = ({
                     label={`Empty slot ${index + 1}`}
                     text="Empty"
                     variant="compact"
-                    className={cn(
-                      "text-14 h-full",
-                      dropTarget === index && "bg-white/50",
-                    )}
+                    className="text-14 h-full"
+                    target={drag.isOver(index)}
                   />
                 )}
               </li>
@@ -275,50 +264,45 @@ export const PlannerDockSection = ({
           return (
             <li
               key={`${member.speciesId}-${index}`}
-              draggable={!replacing}
-              onDragStart={(event) => {
-                setDragFrom(index);
-                event.dataTransfer.effectAllowed = "move";
-              }}
-              onDragEnd={() => {
-                setDragFrom(null);
-                setDropTarget(null);
-              }}
-              {...dragProps}
+              {...drag.sourceProps(index, { disabled: Boolean(replacing) })}
+              {...dropProps}
               className={cn(
-                /* The slot lifts as one, with its × and "!". */
+                /*
+                 * The slot lifts as one, with its × and "!"; a drag carries
+                 * the card alone (`data-drag-image`).
+                 */
                 "group/removable relative min-w-0 rounded-xl transition-transform duration-150",
+                slotDragSourceClassName,
                 replacing
                   ? "motion-safe:animate-wiggle hover:animate-none"
                   : "hover:-translate-y-0.75",
-                dragFrom === index && "opacity-60",
+                drag.dragging === index && "opacity-60",
               )}
             >
               {/*
-               * The same picked card as in the pool below, with its slot in
-               * the same corner dot, so a planned Pokémon looks the same in
-               * both places. Owned Pokémon keep the sticker.
+               * A team member as the Play roster draws one: the sticker's
+               * white band, its slot in the corner dot. The pool below keeps
+               * the type-colour band for what is on the team.
                */}
               <button
                 type="button"
+                data-drag-image
                 onClick={() => (replacing ? onPlace(index) : onOpenSlot(index))}
                 className="focus-ring block h-full w-full rounded-lg"
               >
                 <PokemonCard
                   state="plain"
                   size="fluid"
-                  picked
+                  sticker
                   imageAlt=""
                   imageUrl={pokemon.imageUrl}
                   name={pokemon.name}
                   subtitle={replacing ? "Replace" : undefined}
                   types={pokemon.types}
-                  className={cn(
-                    /* The slot lifts instead. */
-                    "hover:translate-y-0",
-                    (dropTarget === index || replacing) &&
-                      "shadow-[inset_0_0_0_3px_color-mix(in_oklab,var(--t)_85%,white)]",
-                  )}
+                  /* Under a drag, or any card while one waits to replace it. */
+                  target={drag.isOver(index) || Boolean(replacing)}
+                  /* The slot lifts instead. */
+                  className="hover:translate-y-0"
                 />
                 <span className="sr-only">
                   , slot {index + 1}.{" "}

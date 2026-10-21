@@ -1,3 +1,5 @@
+"use client";
+
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   getPlayTeamMemberImageUrl,
@@ -8,12 +10,23 @@ import {
   PokemonEmptySlot,
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import {
+  slotDragSourceClassName,
+  useSlotDrag,
+} from "@/shared/hooks/use-slot-drag";
+import { cn } from "@/shared/utils/cn";
+
+import { getRosterMove } from "../../utils/roster-moves";
 
 import { getTeamRosterSlots, type TeamRosterGroup } from "./team-roster-model";
 
 type TeamRosterSectionProps = {
   /* The names of the Play's rules each Pokémon breaks, by its id. */
   brokenRulesById: Record<string, string[]>;
+  /* A move is saving: dragging waits until it lands. */
+  isMoving: boolean;
+  /* Drops a Pokémon on a stored slot, 1 to 12; a taken slot swaps. */
+  onMove: (playPokemonId: string, toSlot: number) => void;
   onSelect: (member: MainlinePlayTeamMember) => void;
   roster: MainlinePlayTeamMember[];
   selectedMemberId: string | null;
@@ -26,12 +39,16 @@ const groupTitles: Record<TeamRosterGroup, string> = {
 
 type TeamRosterStickerProps = {
   brokenRules: string[];
+  dropTarget: boolean;
   member: MainlinePlayTeamMember;
   onSelect: (member: MainlinePlayTeamMember) => void;
   selected: boolean;
   slotLabel: string;
   slotName: string;
 };
+
+/* One drag shared by both groups: a Pokémon's id onto a stored slot. */
+type RosterDrag = ReturnType<typeof useSlotDrag<string, number>>;
 
 /*
  * A roster Pokémon as a compact sticker that opens its detail: one name (the
@@ -40,6 +57,7 @@ type TeamRosterStickerProps = {
  */
 const TeamRosterSticker = ({
   brokenRules,
+  dropTarget,
   member,
   onSelect,
   selected,
@@ -52,6 +70,7 @@ const TeamRosterSticker = ({
     <PokemonSticker
       variant="compact"
       className="size-full"
+      target={dropTarget}
       imageUrl={getPlayTeamMemberImageUrl(member)}
       name={name}
       level={member.level}
@@ -74,11 +93,14 @@ const TeamRosterSticker = ({
 
 const TeamRosterGroupList = ({
   brokenRulesById,
+  drag,
   group,
+  isMoving,
   onSelect,
   roster,
   selectedMemberId,
 }: TeamRosterSectionProps & {
+  drag: RosterDrag;
   group: TeamRosterGroup;
 }) => {
   const slots = getTeamRosterSlots(roster, group);
@@ -98,28 +120,48 @@ const TeamRosterGroupList = ({
         </span>
       </h3>
       <ul className="grid grid-cols-2 gap-x-4 gap-y-4.5 sm:grid-cols-3">
-        {slots.map((slot) => (
-          <li key={slot.position} className="min-w-0">
-            {slot.member ? (
-              <TeamRosterSticker
-                brokenRules={
-                  brokenRulesById[slot.member.play_pokemon_id ?? ""] ?? []
-                }
-                member={slot.member}
-                onSelect={onSelect}
-                selected={slot.member.play_pokemon_id === selectedMemberId}
-                slotLabel={slot.label}
-                slotName={`${groupName} slot ${slot.position}`}
-              />
-            ) : (
-              <PokemonEmptySlot
-                label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
-                variant="compact"
-                className="text-14 h-full"
-              />
-            )}
-          </li>
-        ))}
+        {slots.map((slot) => {
+          const storedSlot =
+            slot.position + (group === "active" ? 0 : playTeamSize);
+          const memberId = slot.member?.play_pokemon_id ?? null;
+          return (
+            <li
+              key={slot.position}
+              {...(memberId
+                ? drag.sourceProps(memberId, { disabled: isMoving })
+                : {})}
+              {...drag.targetProps(storedSlot, { item: memberId })}
+              className={cn(
+                "min-w-0",
+                slotDragSourceClassName,
+                drag.dragging !== null &&
+                  drag.dragging === memberId &&
+                  "opacity-60",
+              )}
+            >
+              {slot.member ? (
+                <TeamRosterSticker
+                  brokenRules={
+                    brokenRulesById[slot.member.play_pokemon_id ?? ""] ?? []
+                  }
+                  dropTarget={drag.isOver(storedSlot)}
+                  member={slot.member}
+                  onSelect={onSelect}
+                  selected={slot.member.play_pokemon_id === selectedMemberId}
+                  slotLabel={slot.label}
+                  slotName={`${groupName} slot ${slot.position}`}
+                />
+              ) : (
+                <PokemonEmptySlot
+                  label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
+                  variant="compact"
+                  className="text-14 h-full"
+                  target={drag.isOver(storedSlot)}
+                />
+              )}
+            </li>
+          );
+        })}
       </ul>
     </section>
   );
@@ -127,13 +169,25 @@ const TeamRosterGroupList = ({
 
 /*
  * Your team and reserve as stickers: the loud part of the page. The reserve
- * always shows its six slots, as v3 does.
+ * always shows its six slots, as v3 does. Drag a Pokémon onto another slot,
+ * in either group, to move it there or swap with the one there; the editor's
+ * Where does the same without dragging.
  */
 export const TeamRosterSection = (props: TeamRosterSectionProps) => {
+  /*
+   * A refused drop, such as the team's last Pokémon onto an empty reserve
+   * slot, shows no ring; dropped anyway, it snaps back and the toast says why.
+   */
+  const drag = useSlotDrag<string, number>({
+    accepts: (playPokemonId, slot) =>
+      getRosterMove(props.roster, playPokemonId, slot).kind !== "blocked",
+    onDrop: props.onMove,
+  });
+
   return (
     <div className="grid min-w-0 content-start gap-6.5">
-      <TeamRosterGroupList group="active" {...props} />
-      <TeamRosterGroupList group="reserve" {...props} />
+      <TeamRosterGroupList group="active" drag={drag} {...props} />
+      <TeamRosterGroupList group="reserve" drag={drag} {...props} />
     </div>
   );
 };
