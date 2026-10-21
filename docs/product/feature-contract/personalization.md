@@ -87,13 +87,15 @@ shared Tag from one record does not delete the reusable Tag.
 
 ## Library
 
-The Library (`/mainline/library`) keeps the rules and tags you reuse across
-Plays, in two tabs:
+The Library (`/mainline/library`) keeps the rules, presets and tags you
+reuse across Plays, in three tabs:
 
-- **Presets** sit first on the Rules tab: a card per preset with its rules;
+- **Presets** have their own tab, between Rules and Tags, with a search, a
+  Made by filter and New preset as the head's main button: a card per
+  preset with its rules;
   Voydex's wear a lock. A preset keeps no order (a Play takes all its rules
   at once), so its rules always show by kind, then by name. A preset opens
-  in full; yours (or New preset, in the section's head) is its name, what
+  in full; yours (or New preset) is its name, what
   it's for and its board: the rules in it beside the rules to add. Drag a
   rule across, or use its button (add, take out) on a phone or a keyboard.
   A preset needs at least one rule.

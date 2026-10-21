@@ -17,14 +17,12 @@ import type {
 } from "@/modules/mainline/features/library/types";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { SectionHead } from "@/shared/components/section-head";
+import { EmptyState } from "@/shared/components/empty-state";
 import { Badge } from "@/shared/components/ui/badge";
-import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 
 type PresetDialog =
   | { mode: "delete"; preset: RulePreset }
-  | { mode: "new" }
   | { mode: "view"; preset: RulePreset };
 
 /*
@@ -79,9 +77,9 @@ const PresetCard = ({
 );
 
 /*
- * Presets, first in the Rules tab: Voydex's Nuzlockes and yours, each a
- * group of rules a Play takes in one go. New preset sits in the section's
- * head; a preset of yours is built on a board.
+ * Presets: Voydex's Nuzlockes and yours, each a group of rules a Play takes
+ * in one go. New preset sits in the page's head; a preset of yours is built
+ * on a board.
  */
 export const LibraryPresetsSection = ({
   kinds,
@@ -126,23 +124,13 @@ export const LibraryPresetsSection = ({
     };
 
   return (
-    <section aria-labelledby="library-presets" className="grid gap-4">
-      <SectionHead
-        title="Presets"
-        titleId="library-presets"
-        headingLevel={2}
-        aside="Rules that go together, added in one go"
-        action={
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => setDialog({ mode: "new" })}
-          >
-            <AppIcon icon={appIcons.actions.create} inline="start" />
-            New preset
-          </Button>
-        }
-      />
+    <section aria-label="Presets">
+      {presets.length ? null : (
+        <EmptyState
+          variant="bare"
+          title="No presets yet. New preset makes one."
+        />
+      )}
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {presets.map((preset) => (
           <PresetCard
@@ -155,17 +143,6 @@ export const LibraryPresetsSection = ({
           />
         ))}
       </ul>
-
-      {dialog?.mode === "new" ? (
-        <LibraryPresetDetails
-          open
-          preset={null}
-          kinds={kinds}
-          rules={rules}
-          onOpenChange={close}
-          onSave={save()}
-        />
-      ) : null}
 
       {dialog?.mode === "view" ? (
         <LibraryPresetDetails

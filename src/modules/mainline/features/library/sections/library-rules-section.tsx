@@ -19,7 +19,6 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Card } from "@/shared/components/ui/card";
-import { SectionHead } from "@/shared/components/section-head";
 
 type RuleDialog =
   | { mode: "delete"; rule: LibraryRule }
@@ -92,12 +91,9 @@ const RuleCard = ({
 export const LibraryRulesSection = ({
   kinds,
   rules,
-  showHead = false,
 }: {
   kinds: LibraryRuleKind[];
   rules: LibraryRule[];
-  /* Its own heading, under the presets. */
-  showHead?: boolean;
 }) => {
   const router = useRouter();
   const [dialog, setDialog] = useState<RuleDialog | null>(null);
@@ -106,13 +102,7 @@ export const LibraryRulesSection = ({
   };
 
   return (
-    <section aria-label="Rules" className="grid gap-4">
-      {showHead ? (
-        <SectionHead
-          title="Rules"
-          aside="One idea each; New rule makes one of yours"
-        />
-      ) : null}
+    <section aria-label="Rules">
       {rules.length ? null : (
         <EmptyState variant="bare" title="No rules yet. New rule makes one." />
       )}

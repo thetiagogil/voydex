@@ -25,7 +25,7 @@ export type LibraryRule = LibraryUsage & {
 
 export type LibraryTag = LibraryUsage & { id: string; name: string };
 
-export type LibraryTab = "rules" | "tags";
+export type LibraryTab = "presets" | "rules" | "tags";
 
 /* The Library: your rules and tags, kept for every Play. */
 export type LibraryPageData = {

@@ -52,7 +52,7 @@ export const getLibraryDeleteNote = ({
 
 /* The tab a link asks for; Rules when it names none or one we don't have. */
 export const parseLibraryTab = (value: unknown): LibraryTab =>
-  value === "tags" ? "tags" : "rules";
+  value === "tags" || value === "presets" ? value : "rules";
 
 export type LibrarySort = "name" | "used";
 
@@ -80,6 +80,13 @@ export const libraryMakerLabels: Record<LibraryMaker, string> = {
   voydex: "Voydex's",
   yours: "Yours",
 };
+
+/* Presets have no kind and no use count: search and who made them only. */
+export const toPresetFilters = (filters: LibraryFilters): LibraryFilters => ({
+  ...filters,
+  kind: "",
+  sort: "name",
+});
 
 /* Filters that leave tags alone: tags have no kind and are all yours. */
 export const toTagFilters = (filters: LibraryFilters): LibraryFilters => ({
@@ -110,9 +117,9 @@ const toSearchText = (text: string) =>
     .trim();
 
 const byUse = (
-  left: Pick<LibraryUsage, "playCount">,
-  right: Pick<LibraryUsage, "playCount">,
-) => right.playCount - left.playCount;
+  left: Partial<Pick<LibraryUsage, "playCount">>,
+  right: Partial<Pick<LibraryUsage, "playCount">>,
+) => (right.playCount ?? 0) - (left.playCount ?? 0);
 
 /*
  * The rules or tags the bar leaves: the search matches a name (and a
@@ -120,7 +127,7 @@ const byUse = (
  * name or by how many Plays use each.
  */
 export const filterAndSortLibrary = <
-  TItem extends Pick<LibraryUsage, "playCount"> & {
+  TItem extends Partial<Pick<LibraryUsage, "playCount">> & {
     isBuiltIn?: boolean;
     kind?: { slug: string; name: string };
     name: string;
