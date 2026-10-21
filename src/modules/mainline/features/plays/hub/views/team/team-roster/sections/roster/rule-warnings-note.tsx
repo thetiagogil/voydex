@@ -6,6 +6,8 @@ import {
   AlertTitle,
 } from "@/shared/components/ui/alert";
 
+import { RuleWarningText } from "./rule-warning-text";
+
 /*
  * What a Play's rules say, as a quiet amber note: each line names the rule,
  * then what breaks it. It only warns; nothing is blocked. Nothing to say,
@@ -29,7 +31,7 @@ export const RuleWarningsNote = ({
           {warnings.map((warning) => (
             <li key={warning.key}>
               <span className="font-extrabold">{warning.ruleName}:</span>{" "}
-              {warning.text}
+              <RuleWarningText warning={warning} />
             </li>
           ))}
         </ul>

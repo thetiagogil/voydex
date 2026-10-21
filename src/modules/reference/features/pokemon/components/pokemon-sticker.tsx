@@ -147,7 +147,7 @@ export const PokemonSticker = ({
   const content: ReactNode = (
     <>
       {slotLabel ? (
-        <span className="text-ink-tint text-12 absolute top-2.5 left-3 font-extrabold tabular-nums">
+        <span className="text-ink-tint text-12 absolute top-2 left-3 flex h-7 items-center font-extrabold tabular-nums">
           {slotLabel}
         </span>
       ) : null}
@@ -199,21 +199,17 @@ export const PokemonSticker = ({
       </span>
       {/*
         The corner marks, last so their words follow the name: shiny, then
-        the warning, centred on one line.
+        the warning. Both top corners share one 28px line, so the slot number
+        and the marks sit level.
       */}
       {shiny || warning ? (
-        <span
-          className={cn(
-            "absolute flex items-center gap-1.5",
-            warning ? "top-2 right-2 h-7" : "top-2.5 right-2.5",
-          )}
-        >
+        <span className="absolute top-2 right-2 flex h-7 items-center gap-1.5">
           {shiny ? (
             <>
               <AppIcon
                 icon={appIcons.product.shiny}
                 size="md"
-                className="type-ink"
+                className={cn("type-ink", !warning && "mr-1")}
               />
               <span className="sr-only">, Shiny</span>
             </>

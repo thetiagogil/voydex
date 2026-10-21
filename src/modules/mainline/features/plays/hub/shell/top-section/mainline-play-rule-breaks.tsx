@@ -15,6 +15,7 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
+import { RuleWarningText } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/rule-warning-text";
 import { Card } from "@/shared/components/ui/card";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 
@@ -29,7 +30,9 @@ const listNames = (names: string[]) =>
 
 /*
  * One Pokémon that breaks the rules: its art on its type's tint, its name,
- * and each rule it breaks with why. It opens that Pokémon on the Team page.
+ * and each rule it breaks with why, its warning mark centred on the line's
+ * first row. The whole card opens that Pokémon on the Team page; a link in
+ * a reason (No Pokémon reuse's Plays) sits above it.
  */
 const RuleBreakerRow = ({
   breaker,
@@ -41,50 +44,50 @@ const RuleBreakerRow = ({
   playId: string;
 }) => (
   <li>
-    <Link
-      href={appRoutes.mainlinePlayTeamPokemon(playId, breaker.playPokemonId)}
-      onClick={onNavigate}
-      className="group/card-link block rounded-xl"
+    <Card
+      variant="interactive"
+      style={getPokemonTypeCssVariables(
+        breaker.typeSlug && isPokemonTypeSlug(breaker.typeSlug)
+          ? breaker.typeSlug
+          : null,
+      )}
+      className="relative flex-row items-center gap-3.5 px-3.5 py-3"
     >
-      <Card
-        variant="interactive"
-        style={getPokemonTypeCssVariables(
-          breaker.typeSlug && isPokemonTypeSlug(breaker.typeSlug)
-            ? breaker.typeSlug
-            : null,
-        )}
-        className="flex-row items-center gap-3.5 px-3.5 py-3"
-      >
-        <span className="type-tint grid size-16 shrink-0 place-items-center rounded-full">
-          <FallbackImage
-            src={breaker.imageUrl}
-            name={breaker.name}
-            className="size-14"
-          />
-        </span>
-        <span className="grid min-w-0 flex-1 gap-1">
-          <span className="font-display text-18 truncate leading-tight font-semibold">
-            {breaker.name}
-          </span>
-          <ul className="text-warn-ink text-14 grid gap-0.5 font-semibold">
-            {breaker.warnings.map((warning) => (
-              <li key={warning.key} className="flex gap-1.5">
-                <AppIcon
-                  icon={appIcons.status.warning}
-                  size="md"
-                  className="mt-0.5 shrink-0"
-                />
-                <span>
-                  <span className="font-extrabold">{warning.ruleName}:</span>{" "}
-                  {warning.text}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </span>
-        <AppIcon icon={appIcons.actions.next} className="text-ink-3 shrink-0" />
-      </Card>
-    </Link>
+      <span className="type-tint grid size-16 shrink-0 place-items-center rounded-full">
+        <FallbackImage
+          src={breaker.imageUrl}
+          name={breaker.name}
+          className="size-14"
+        />
+      </span>
+      <span className="grid min-w-0 flex-1 gap-1">
+        <Link
+          href={appRoutes.mainlinePlayTeamPokemon(
+            playId,
+            breaker.playPokemonId,
+          )}
+          onClick={onNavigate}
+          data-slot="card-open"
+          className="font-display text-18 truncate leading-tight font-semibold outline-none after:absolute after:inset-0 after:content-['']"
+        >
+          {breaker.name}
+        </Link>
+        <ul className="text-warn-ink text-14 grid gap-1 font-semibold">
+          {breaker.warnings.map((warning) => (
+            <li key={warning.key} className="flex gap-1.5">
+              <span className="flex h-lh shrink-0 items-center">
+                <AppIcon icon={appIcons.status.warning} size="md" />
+              </span>
+              <span>
+                <span className="font-extrabold">{warning.ruleName}:</span>{" "}
+                <RuleWarningText warning={warning} />
+              </span>
+            </li>
+          ))}
+        </ul>
+      </span>
+      <AppIcon icon={appIcons.actions.next} className="text-ink-3 shrink-0" />
+    </Card>
   </li>
 );
 

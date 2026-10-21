@@ -118,10 +118,23 @@ test.describe("Rule warnings", () => {
       waitUntil: "networkidle",
     });
 
-    /* Any earlier Play of this trainer's with a Bulbasaur may be named. */
-    await expect(await openRuleBreaks(page, "1 rule broken")).toContainText(
-      /Bulbasaur was already used in .+\./,
+    /* Every earlier Play of this trainer's with a Bulbasaur counts. */
+    const breaks = await openRuleBreaks(page, "1 rule broken");
+
+    await expect(breaks).toContainText(
+      /Bulbasaur was already used in (another Play|\d+ other Plays)\./,
     );
+    await breaks
+      .getByRole("button", { name: /^(another Play|\d+ other Plays)$/ })
+      .click();
+    const plays = page.getByRole("dialog", {
+      name: "Plays that used Bulbasaur",
+    });
+
+    await expect(
+      plays.getByRole("link", { name: new RegExp(first) }),
+    ).toBeVisible(forTheAnswer);
+    await expectAccessible(page);
   });
 
   test("No Pokémon reuse still knows a Pokémon that evolved since", async ({
@@ -161,7 +174,7 @@ test.describe("Rule warnings", () => {
     });
     /* By exact form: the Charmander it was still counts. */
     await expect(await openRuleBreaks(page, "1 rule broken")).toContainText(
-      /Charmander was already used in .+\./,
+      /Charmander was already used in (another Play|\d+ other Plays)\./,
     );
   });
 

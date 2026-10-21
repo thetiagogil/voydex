@@ -12,6 +12,11 @@ export type PlayTeam = {
   playName: string;
 };
 
+/* Plays with their teams, as a Server Action reads them for a dialog. */
+export type PlayTeamsResult =
+  | { plays: PlayTeam[]; status: "success" }
+  | { message: string; status: "error" };
+
 export type LibraryChoice = {
   description?: string | null;
   detail?: string | null;

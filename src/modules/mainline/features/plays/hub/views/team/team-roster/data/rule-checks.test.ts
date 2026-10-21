@@ -205,9 +205,7 @@ describe("checkPokemonRules", () => {
     const alolanRaichu = { formId: 10100, speciesId: 26 };
     const used = {
       familyBySpecies: { 25: 10, 26: 10, 172: 10 },
-      usedElsewhere: [
-        { ...alolanRaichu, playName: "Moon run", speciesName: "Raichu" },
-      ],
+      usedElsewhere: [{ ...alolanRaichu, playId: "moon" }],
     };
     const reuse = (scope: "evolution_family" | "form" | "species") =>
       withRules(
@@ -230,7 +228,8 @@ describe("checkPokemonRules", () => {
         ),
       ).toEqual([
         expect.objectContaining({
-          text: "Raichu was already used in Moon run.",
+          reuse: { family: false, name: "Raichu", playIds: ["moon"] },
+          text: "Raichu was already used in",
         }),
       ]);
       expect(
@@ -248,9 +247,7 @@ describe("checkPokemonRules", () => {
           reuse("species"),
         ),
       ).toEqual([
-        expect.objectContaining({
-          text: "Raichu was already used in Moon run.",
-        }),
+        expect.objectContaining({ text: "Raichu was already used in" }),
       ]);
       expect(checkPokemonRules(pikachu, reuse("species"))).toEqual([]);
     });
@@ -258,7 +255,8 @@ describe("checkPokemonRules", () => {
     it("by evolution family, the whole line counts", () => {
       expect(checkPokemonRules(pikachu, reuse("evolution_family"))).toEqual([
         expect.objectContaining({
-          text: "Pikachu's evolution family was already used in Moon run (Raichu).",
+          reuse: { family: true, name: "Pikachu", playIds: ["moon"] },
+          text: "Pikachu's evolution family was already used in",
         }),
       ]);
       expect(
@@ -269,7 +267,7 @@ describe("checkPokemonRules", () => {
       ).toEqual([]);
     });
 
-    it("names the closest earlier use: its species before its family", () => {
+    it("counts every earlier Play once, and says it was used when its species was", () => {
       const context = withRules(
         [
           {
@@ -283,12 +281,8 @@ describe("checkPokemonRules", () => {
           ...used,
           usedElsewhere: [
             ...used.usedElsewhere,
-            {
-              formId: 25,
-              playName: "Red run",
-              speciesId: 25,
-              speciesName: "Pikachu",
-            },
+            { formId: 25, playId: "red", speciesId: 25 },
+            { formId: 26, playId: "red", speciesId: 26 },
           ],
         },
       );
@@ -300,7 +294,8 @@ describe("checkPokemonRules", () => {
         ),
       ).toEqual([
         expect.objectContaining({
-          text: "Sparky was already used in Red run.",
+          reuse: { family: false, name: "Sparky", playIds: ["moon", "red"] },
+          text: "Sparky was already used in",
         }),
       ]);
     });

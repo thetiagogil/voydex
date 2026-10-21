@@ -6,13 +6,15 @@ import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import { PlayTeamList } from "@/modules/mainline/shared/components/play-team-list";
+import {
+  PlayTeamsDialog,
+  usePlayTeamsDialog,
+} from "@/modules/mainline/shared/components/play-teams-dialog";
 import { PlanNameDialog } from "@/modules/mainline/features/plans/components/plan-name-dialog";
 import { deletePlanAction } from "@/modules/mainline/features/plans/server/delete-plan-action";
 import { readPlanFollowersAction } from "@/modules/mainline/features/plans/server/plan-followers-action";
 import { setPlanArchivedAction } from "@/modules/mainline/features/plans/server/plan-archive-action";
 import { renamePlanAction } from "@/modules/mainline/features/plans/server/plan-rename-action";
-import type { PlayTeam } from "@/modules/mainline/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   AlertDialog,
@@ -24,13 +26,6 @@ import {
   AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -85,25 +80,7 @@ export const PlanActionsMenu = ({
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isWorking, startWorking] = useTransition();
-  const [isPlaysOpen, setIsPlaysOpen] = useState(false);
-  const [followers, setFollowers] = useState<PlayTeam[] | null>(null);
-  const [isLoadingPlays, startLoadingPlays] = useTransition();
-
-  const seePlays = () => {
-    setError(null);
-    setFollowers(null);
-    setIsPlaysOpen(true);
-    startLoadingPlays(async () => {
-      const result = await readPlanFollowersAction(plan.id);
-
-      if (result.status === "error") {
-        setError(result.message);
-        return;
-      }
-
-      setFollowers(result.followers);
-    });
-  };
+  const plays = usePlayTeamsDialog(() => readPlanFollowersAction(plan.id));
 
   const toggleArchived = () =>
     startWorking(async () => {
@@ -167,7 +144,7 @@ export const PlanActionsMenu = ({
             </DropdownMenuItem>
           ) : null}
           {plan.linkedPlayCount ? (
-            <DropdownMenuItem onClick={seePlays}>
+            <DropdownMenuItem onClick={plays.show}>
               <AppIcon icon={appIcons.views.mainline.plays} />
               See Plays
             </DropdownMenuItem>
@@ -237,33 +214,12 @@ export const PlanActionsMenu = ({
         />
       ) : null}
 
-      <Dialog open={isPlaysOpen} onOpenChange={setIsPlaysOpen}>
-        <DialogContent className="sm:max-w-lg">
-          <DialogHeader>
-            <DialogTitle>Plays following this Plan</DialogTitle>
-            <DialogDescription>
-              Each Play&apos;s team now. Open one to go to it.
-            </DialogDescription>
-          </DialogHeader>
-          {isLoadingPlays ? (
-            <p
-              role="status"
-              className="text-ink-2 text-14 flex items-center gap-2 font-semibold"
-            >
-              <Spinner />
-              Loading the Plays
-            </p>
-          ) : error ? (
-            <p role="alert" className="text-danger text-13 font-bold">
-              {error}
-            </p>
-          ) : followers?.length ? (
-            <PlayTeamList plays={followers} />
-          ) : (
-            <p className="text-ink-2 text-14">No Play follows this Plan yet.</p>
-          )}
-        </DialogContent>
-      </Dialog>
+      <PlayTeamsDialog
+        dialog={plays.dialog}
+        title="Plays following this Plan"
+        description="Each Play's team now. Open one to go to it."
+        empty="No Play follows this Plan yet."
+      />
 
       <AlertDialog
         open={isDeleteOpen}

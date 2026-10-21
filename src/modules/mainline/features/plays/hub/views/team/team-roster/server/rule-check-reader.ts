@@ -45,7 +45,7 @@ const readUsedElsewhere = async (
   const playsResult = await supabase
     .schema("gameplay")
     .from("mainline_plays")
-    .select("id, name")
+    .select("id")
     .eq("user_id", userId)
     .neq("id", play.play_id)
     .lt("created_at", play.created_at);
@@ -54,29 +54,22 @@ const readUsedElsewhere = async (
     throw new Error("Unable to load your earlier Plays.");
   }
 
-  const plays = playsResult.data ?? [];
+  const playIds = (playsResult.data ?? []).map((row) => row.id);
 
-  if (!plays.length) return { families: [], used: [] };
+  if (!playIds.length) return { families: [], used: [] };
 
-  const playNameById = new Map(plays.map((row) => [row.id, row.name]));
   const rows = await loadPagedReferenceRows<{
     evolution_family_id: number | null;
     form_id: number | null;
     play_id: string | null;
     species_id: number | null;
-    species_name: string | null;
   }>(
     (from, to) =>
       supabase
         .schema("views")
         .from("mainline_collection_used_identities")
-        .select(
-          "evolution_family_id, form_id, play_id, species_id, species_name",
-        )
-        .in(
-          "play_id",
-          plays.map((row) => row.id),
-        )
+        .select("evolution_family_id, form_id, play_id, species_id")
+        .in("play_id", playIds)
         .order("source_row_id", { ascending: true })
         .range(from, to),
     "Unable to load your earlier Plays' Pokémon.",
@@ -94,9 +87,8 @@ const readUsedElsewhere = async (
         ? [
             {
               formId: row.form_id,
-              playName: playNameById.get(row.play_id) ?? "another Play",
+              playId: row.play_id,
               speciesId: row.species_id,
-              speciesName: row.species_name ?? "a Pokémon",
             },
           ]
         : [],

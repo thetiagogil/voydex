@@ -90,9 +90,8 @@ export const buildCheckedRules = (
 /* A Pokémon from an earlier Play, for No Pokémon reuse. */
 export type UsedPokemon = {
   formId: number;
-  playName: string;
+  playId: string;
   speciesId: number;
-  speciesName: string;
 };
 
 /* What the checks read besides the Pokémon itself. */
@@ -125,7 +124,20 @@ export type RuleCheckPokemon = {
   typeIds: number[];
 };
 
+/*
+ * No Pokémon reuse's earlier Plays: the warning's text ends where a link to
+ * them goes ("…was already used in" 2 other Plays).
+ */
+export type RuleWarningReuse = {
+  /* Only its evolution family was used, not it. */
+  family: boolean;
+  /* Whose use it is, as the text calls it. */
+  name: string;
+  playIds: string[];
+};
+
 export type RuleWarning = {
+  reuse?: RuleWarningReuse;
   ruleId: string;
   ruleKind: CheckedRuleKind;
   ruleName: string;
@@ -133,8 +145,8 @@ export type RuleWarning = {
 };
 
 /*
- * The earlier use the rule's scope counts, the closest first: the same form,
- * then the same species, then the same evolution family.
+ * The earlier uses the rule's scope counts: the same form, the same species
+ * or the same evolution family.
  */
 const findReuse = (
   pokemon: RuleCheckPokemon,
@@ -142,57 +154,61 @@ const findReuse = (
   context: RuleCheckContext,
 ) => {
   const family = context.familyBySpecies[pokemon.speciesId];
-  const sameForm = (used: UsedPokemon) => used.formId === pokemon.formId;
   const sameSpecies = (used: UsedPokemon) =>
     used.speciesId === pokemon.speciesId;
-  const sameFamily = (used: UsedPokemon) =>
-    family !== undefined && context.familyBySpecies[used.speciesId] === family;
-  const counted =
+
+  return context.usedElsewhere.filter((used) =>
     scope === "form"
-      ? [sameForm]
+      ? used.formId === pokemon.formId
       : scope === "species"
-        ? [sameForm, sameSpecies]
-        : [sameForm, sameSpecies, sameFamily];
-
-  for (const matches of counted) {
-    const used = context.usedElsewhere.find(matches);
-
-    if (used) return used;
-  }
-
-  return undefined;
+        ? sameSpecies(used)
+        : sameSpecies(used) ||
+          (family !== undefined &&
+            context.familyBySpecies[used.speciesId] === family),
+  );
 };
 
 const checkRule = (
   rule: CheckedRule,
   pokemon: RuleCheckPokemon,
   context: RuleCheckContext,
-): string | null => {
+): Pick<RuleWarning, "reuse" | "text"> | null => {
   switch (rule.kind) {
     case "monotype":
       return pokemon.typeIds.length && !pokemon.typeIds.includes(rule.typeId)
-        ? `${pokemon.name} isn't ${rule.typeName} type.`
+        ? { text: `${pokemon.name} isn't ${rule.typeName} type.` }
         : null;
     case "nickname_everything":
       return pokemon.nickname?.trim()
         ? null
-        : `${pokemon.name} has no nickname.`;
+        : { text: `${pokemon.name} has no nickname.` };
     case "no_legendaries": {
       const kind = context.legendaryBySpecies[pokemon.speciesId];
 
-      return kind ? `${pokemon.name} is a ${kind} Pokémon.` : null;
+      return kind ? { text: `${pokemon.name} is a ${kind} Pokémon.` } : null;
     }
     case "no_pokemon_reuse": {
       const used = findReuse(pokemon, rule.scope, context);
 
-      if (!used) return null;
+      if (!used.length) return null;
 
-      return used.speciesId === pokemon.speciesId
-        ? `${pokemon.name} was already used in ${used.playName}.`
-        : `${pokemon.name}'s evolution family was already used in ${used.playName} (${used.speciesName}).`;
+      const family = !used.some((use) => use.speciesId === pokemon.speciesId);
+
+      return {
+        reuse: {
+          family,
+          name: pokemon.name,
+          playIds: [...new Set(used.map((use) => use.playId))],
+        },
+        text: family
+          ? `${pokemon.name}'s evolution family was already used in`
+          : `${pokemon.name} was already used in`,
+      };
     }
     case "shiny_only":
-      return pokemon.isShiny === false ? `${pokemon.name} isn't shiny.` : null;
+      return pokemon.isShiny === false
+        ? { text: `${pokemon.name} isn't shiny.` }
+        : null;
   }
 };
 
@@ -202,10 +218,17 @@ export const checkPokemonRules = (
   context: RuleCheckContext,
 ): RuleWarning[] =>
   context.rules.flatMap((rule) => {
-    const text = checkRule(rule, pokemon, context);
+    const result = checkRule(rule, pokemon, context);
 
-    return text
-      ? [{ ruleId: rule.id, ruleKind: rule.kind, ruleName: rule.name, text }]
+    return result
+      ? [
+          {
+            ...result,
+            ruleId: rule.id,
+            ruleKind: rule.kind,
+            ruleName: rule.name,
+          },
+        ]
       : [];
   });
 
