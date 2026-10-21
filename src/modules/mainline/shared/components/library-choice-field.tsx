@@ -14,10 +14,13 @@ import { RemovableChip } from "@/shared/components/removable-chip";
 import { Button } from "@/shared/components/ui/button";
 import {
   Combobox,
+  ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
+  ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
@@ -47,6 +50,8 @@ type PickerItem = LibraryChoice & {
   bundle?: string[];
   isNew?: boolean;
 };
+
+type PickerGroup = { items: PickerItem[]; value: string };
 
 /* Searching ignores case and accents, so "pokemon" finds "Pokémon". */
 const toSearchText = (text: string) =>
@@ -173,30 +178,37 @@ export const LibraryChoiceField = ({
   const isTaken = known.some(
     (choice) => toSearchText(choice.name) === toSearchText(name),
   );
-  const items: PickerItem[] = [
-    ...bundles.flatMap((bundle) => {
-      const missing = bundle.choiceIds.filter(
-        (id) => byId.has(id) && !selectedIds.includes(id),
-      );
+  const bundleItems: PickerItem[] = bundles.flatMap((bundle) => {
+    const missing = bundle.choiceIds.filter(
+      (id) => byId.has(id) && !selectedIds.includes(id),
+    );
 
-      return missing.length
-        ? [
-            {
-              bundle: bundle.choiceIds,
-              description:
-                bundle.description ??
-                bundle.choiceIds
-                  .flatMap((id) => byId.get(id)?.name ?? [])
-                  .join(", "),
-              id: `bundle:${bundle.id}`,
-              name: bundle.name,
-            },
-          ]
-        : [];
-    }),
+    return missing.length
+      ? [
+          {
+            bundle: bundle.choiceIds,
+            description:
+              bundle.description ??
+              bundle.choiceIds
+                .flatMap((id) => byId.get(id)?.name ?? [])
+                .join(", "),
+            id: `bundle:${bundle.id}`,
+            name: bundle.name,
+          },
+        ]
+      : [];
+  });
+  const choiceItems: PickerItem[] = [
     ...known.filter((choice) => !selectedIds.includes(choice.id)),
     ...(name && !isTaken ? [{ id: newItemId, isNew: true, name }] : []),
   ];
+  /* With presets to offer, the list reads in two groups: presets, then rules. */
+  const groups: PickerGroup[] | null = bundleItems.length
+    ? [
+        { items: bundleItems, value: "Presets" },
+        { items: choiceItems, value: noun === "rule" ? "Rules" : "Tags" },
+      ]
+    : null;
   const isBusy = disabled || isCreating;
 
   const hasOptions = (choice: LibraryChoice) =>
@@ -232,6 +244,29 @@ export const LibraryChoiceField = ({
 
     if (waiting) openOptions(waiting);
   };
+
+  const renderItem = (item: PickerItem) => (
+    <ComboboxItem
+      key={item.id}
+      value={item}
+      check={false}
+      aria-label={item.isNew ? undefined : item.name}
+      aria-description={item.description ?? undefined}
+    >
+      {item.isNew ? (
+        <span className="flex min-w-0 items-center gap-2">
+          <AppIcon icon={appIcons.actions.create} size="sm" />
+          <span className="truncate">Create “{item.name}”</span>
+        </span>
+      ) : (
+        <ChoiceOptionLabel
+          description={item.description}
+          meta={item.bundle ? `${item.bundle.length} rules` : undefined}
+          name={item.name}
+        />
+      )}
+    </ComboboxItem>
+  );
 
   const create = (newName: string) =>
     startCreating(async () => {
@@ -282,7 +317,7 @@ export const LibraryChoiceField = ({
         );
       })}
       <Combobox
-        items={items}
+        items={groups ?? choiceItems}
         value={null}
         inputValue={query}
         onInputValueChange={setQuery}
@@ -341,30 +376,14 @@ export const LibraryChoiceField = ({
           />
           <ComboboxEmpty>{`Type a name to make a new ${noun}.`}</ComboboxEmpty>
           <ComboboxList>
-            {(item: PickerItem) => (
-              <ComboboxItem
-                key={item.id}
-                value={item}
-                check={false}
-                aria-label={item.isNew ? undefined : item.name}
-                aria-description={item.description ?? undefined}
-              >
-                {item.isNew ? (
-                  <span className="flex min-w-0 items-center gap-2">
-                    <AppIcon icon={appIcons.actions.create} size="sm" />
-                    <span className="truncate">Create “{item.name}”</span>
-                  </span>
-                ) : (
-                  <ChoiceOptionLabel
-                    description={item.description}
-                    meta={
-                      item.bundle ? `${item.bundle.length} rules` : undefined
-                    }
-                    name={item.name}
-                  />
-                )}
-              </ComboboxItem>
-            )}
+            {groups
+              ? (group: PickerGroup) => (
+                  <ComboboxGroup key={group.value} items={group.items}>
+                    <ComboboxLabel>{group.value}</ComboboxLabel>
+                    <ComboboxCollection>{renderItem}</ComboboxCollection>
+                  </ComboboxGroup>
+                )
+              : renderItem}
           </ComboboxList>
           {showLibraryLink ? (
             <>

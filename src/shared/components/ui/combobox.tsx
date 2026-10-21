@@ -2,6 +2,7 @@
 
 import {
   menuCheckClassName,
+  menuGroupLabelClassName,
   menuOptionClassName,
   menuOptionSelectedClassName,
   menuPanelClassName,
@@ -206,6 +207,39 @@ const ComboboxItem = ({
   );
 };
 
+/*
+ * Grouped items (`items` as `{ value, items }[]`): the list renders each
+ * group, the group its label, then its own items through the collection.
+ * A group nothing in it matches leaves the list.
+ */
+const ComboboxGroup = ({
+  className,
+  ...props
+}: ComboboxPrimitive.Group.Props) => {
+  return (
+    <ComboboxPrimitive.Group
+      data-slot="combobox-group"
+      className={cn("space-y-0.5", className)}
+      {...props}
+    />
+  );
+};
+
+const ComboboxLabel = ({
+  className,
+  ...props
+}: ComboboxPrimitive.GroupLabel.Props) => {
+  return (
+    <ComboboxPrimitive.GroupLabel
+      data-slot="combobox-label"
+      className={cn(menuGroupLabelClassName, className)}
+      {...props}
+    />
+  );
+};
+
+const ComboboxCollection = ComboboxPrimitive.Collection;
+
 const ComboboxEmpty = ({
   className,
   ...props
@@ -224,10 +258,13 @@ const ComboboxEmpty = ({
 
 export {
   Combobox,
+  ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
+  ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
   ComboboxTrigger,
   ComboboxValue,

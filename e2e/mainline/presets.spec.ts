@@ -100,9 +100,26 @@ test.describe("Presets", () => {
     const rules = dialog.getByRole("group", { name: "Challenge rules" });
 
     await rules.getByRole("combobox", { name: "Add rule" }).click();
-    await page
-      .getByRole("combobox", { name: "Search or name a new rule" })
-      .fill("Hardcore");
+    /* Presets first, then rules, each under its own label. */
+    const list = page.getByRole("listbox");
+    const search = page.getByRole("combobox", {
+      name: "Search or name a new rule",
+    });
+
+    await expect(
+      list
+        .getByRole("group", { name: "Presets" })
+        .getByRole("option", { name: "Nuzlocke", exact: true }),
+    ).toBeVisible();
+    await expect(
+      list
+        .getByRole("group", { name: "Rules" })
+        .getByRole("option", { name: "Monotype", exact: true }),
+    ).toBeAttached();
+    /* A group nothing matches leaves the list. */
+    await search.fill("Monotype");
+    await expect(list.getByRole("group", { name: "Presets" })).toHaveCount(0);
+    await search.fill("Hardcore");
     await page.getByRole("option", { name: "Hardcore Nuzlocke" }).click();
 
     for (const rule of [
