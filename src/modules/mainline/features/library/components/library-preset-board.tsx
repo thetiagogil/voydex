@@ -9,15 +9,15 @@ import {
 } from "@/modules/mainline/features/library/data/preset-board";
 import type { LibraryRule } from "@/modules/mainline/features/library/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 const dragType = "application/x-voydex-rule";
 
 /*
- * One rule on the board: its handle, name and kind, then an "i" with what
- * it asks (as in the rule pickers) and its buttons.
+ * One rule on the board, read like a preset's rule list: its handle, its
+ * name over what it asks (its kind when it asks nothing written), then its
+ * buttons.
  */
 const BoardRule = ({
   actions,
@@ -57,28 +57,13 @@ const BoardRule = ({
       size="sm"
       className="text-ink-3 shrink-0"
     />
-    <span className="grid min-w-0 flex-1">
-      <span className="text-ink text-15 truncate font-bold">{rule.name}</span>
-      <span className="text-ink-3 text-13 font-semibold">{rule.kind.name}</span>
+    <span className="grid min-w-0 flex-1 gap-0.5 py-1">
+      <span className="text-ink text-15 font-bold">{rule.name}</span>
+      <span className="text-ink-2 text-14 font-semibold">
+        {rule.description ?? rule.kind.name}
+      </span>
     </span>
-    <span className="flex shrink-0 items-center gap-0.5">
-      {rule.description ? (
-        <ExplanatoryTip
-          content={rule.description}
-          trigger={
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              aria-label={`What ${rule.name} asks`}
-            >
-              <AppIcon icon={appIcons.status.info} />
-            </Button>
-          }
-        />
-      ) : null}
-      {actions}
-    </span>
+    <span className="flex shrink-0 items-center gap-0.5">{actions}</span>
   </li>
 );
 
