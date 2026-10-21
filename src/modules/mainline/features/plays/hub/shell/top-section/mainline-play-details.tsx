@@ -22,6 +22,7 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
+import { cn } from "@/shared/utils/cn";
 
 type PlayDetailRow = {
   key: string;
@@ -33,7 +34,7 @@ type PlayDetailRow = {
 
 /*
  * Rules and tags as small chips, so a long list wraps instead of piling up.
- * A chip with more to say (Level caps' cap) carries an "i" tip beside it.
+ * A chip with more to say (Level caps' cap) ends with an "i" tip.
  */
 const PlayDetailChips = ({
   items,
@@ -44,16 +45,25 @@ const PlayDetailChips = ({
 }) => (
   <ul aria-label={label} className="flex flex-wrap gap-1.5">
     {items.map((item) => (
-      <li key={item.id} className="flex items-center gap-1">
-        <Badge size="md" title={item.title} className="whitespace-normal">
+      <li key={item.id}>
+        <Badge
+          size="md"
+          title={item.title}
+          className={cn(
+            "whitespace-normal",
+            /* The tip's hit area reaches past the chip's edge. */
+            item.tip && "overflow-visible pr-1.5",
+          )}
+        >
           {item.name}
+          {item.tip ? (
+            <ExplanatoryTip
+              content={item.tip}
+              triggerLabel={`About ${item.name}`}
+              triggerVariant="chip"
+            />
+          ) : null}
         </Badge>
-        {item.tip ? (
-          <ExplanatoryTip
-            content={item.tip}
-            triggerLabel={`About ${item.name}`}
-          />
-        ) : null}
       </li>
     ))}
   </ul>
