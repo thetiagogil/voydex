@@ -30,15 +30,15 @@
   box-shadow: var(--sticker-shadow, 0 10px 20px -16px rgb(var(--shade) / 0.3));
 }
 
-/*
- * A sticker marked as the target, such as a planner slot under a drag: it
- * keeps its own border, and a thin ring in the accent wraps it.
- */
 /* A picked sticker's band, in its type's colour instead of white. */
 @utility sticker-type-band {
   --sticker-border: color-mix(in oklab, var(--t) 55%, white);
 }
 
+/*
+ * A sticker marked as the target, such as a slot under a drag: it keeps its
+ * own border, and a thin ring in the accent wraps it.
+ */
 @utility sticker-picked {
   --sticker-shadow: 0 0 0 2.5px var(--action);
 }

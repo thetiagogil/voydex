@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, type DragEvent } from "react";
-
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   getPlayTeamMemberImageUrl,
@@ -12,6 +10,10 @@ import {
   PokemonEmptySlot,
   PokemonSticker,
 } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import {
+  slotDragSourceClassName,
+  useSlotDrag,
+} from "@/shared/hooks/use-slot-drag";
 import { cn } from "@/shared/utils/cn";
 
 import { getRosterMove } from "../../utils/roster-moves";
@@ -45,13 +47,8 @@ type TeamRosterStickerProps = {
   slotName: string;
 };
 
-/* The Pokémon being dragged and the slot it is over, shared by both groups. */
-type RosterDrag = {
-  dragId: string | null;
-  dropSlot: number | null;
-  setDragId: (playPokemonId: string | null) => void;
-  setDropSlot: (slot: number | null) => void;
-};
+/* One drag shared by both groups: a Pokémon's id onto a stored slot. */
+type RosterDrag = ReturnType<typeof useSlotDrag<string, number>>;
 
 /*
  * A roster Pokémon as a compact sticker that opens its detail: one name (the
@@ -72,7 +69,8 @@ const TeamRosterSticker = ({
   return (
     <PokemonSticker
       variant="compact"
-      className={cn("size-full", dropTarget && "sticker-picked")}
+      className="size-full"
+      target={dropTarget}
       imageUrl={getPlayTeamMemberImageUrl(member)}
       name={name}
       level={member.level}
@@ -98,7 +96,6 @@ const TeamRosterGroupList = ({
   drag,
   group,
   isMoving,
-  onMove,
   onSelect,
   roster,
   selectedMemberId,
@@ -127,55 +124,18 @@ const TeamRosterGroupList = ({
           const storedSlot =
             slot.position + (group === "active" ? 0 : playTeamSize);
           const memberId = slot.member?.play_pokemon_id ?? null;
-          const canDrop = drag.dragId !== null && drag.dragId !== memberId;
-          /*
-           * A refused drop, such as the team's last Pokémon to an empty
-           * reserve slot, shows no ring; dropped anyway, it snaps back and
-           * the toast says why.
-           */
-          const isDropTarget =
-            canDrop &&
-            drag.dragId !== null &&
-            drag.dropSlot === storedSlot &&
-            getRosterMove(roster, drag.dragId, storedSlot).kind !== "blocked";
-          const endDrag = () => {
-            drag.setDragId(null);
-            drag.setDropSlot(null);
-          };
-
           return (
             <li
               key={slot.position}
-              draggable={Boolean(memberId) && !isMoving}
-              onDragStart={(event: DragEvent) => {
-                if (!memberId) return;
-                drag.setDragId(memberId);
-                event.dataTransfer.effectAllowed = "move";
-                /* Some browsers start a drag only once it carries data. */
-                event.dataTransfer.setData("text/plain", memberId);
-              }}
-              onDragEnd={endDrag}
-              onDragOver={(event: DragEvent) => {
-                if (!canDrop) return;
-                event.preventDefault();
-                drag.setDropSlot(storedSlot);
-              }}
-              onDragLeave={() => {
-                if (drag.dropSlot === storedSlot) drag.setDropSlot(null);
-              }}
-              onDrop={(event: DragEvent) => {
-                event.preventDefault();
-                if (canDrop && drag.dragId) onMove(drag.dragId, storedSlot);
-                endDrag();
-              }}
+              {...(memberId
+                ? drag.sourceProps(memberId, { disabled: isMoving })
+                : {})}
+              {...drag.targetProps(storedSlot, { item: memberId })}
               className={cn(
-                /*
-                 * The slot is what drags, not its picture: an image would
-                 * start a drag of its own and end it if it redraws.
-                 */
-                "min-w-0 [&_img]:pointer-events-none",
-                drag.dragId !== null &&
-                  drag.dragId === memberId &&
+                "min-w-0",
+                slotDragSourceClassName,
+                drag.dragging !== null &&
+                  drag.dragging === memberId &&
                   "opacity-60",
               )}
             >
@@ -184,7 +144,7 @@ const TeamRosterGroupList = ({
                   brokenRules={
                     brokenRulesById[slot.member.play_pokemon_id ?? ""] ?? []
                   }
-                  dropTarget={isDropTarget}
+                  dropTarget={drag.isOver(storedSlot)}
                   member={slot.member}
                   onSelect={onSelect}
                   selected={slot.member.play_pokemon_id === selectedMemberId}
@@ -196,7 +156,7 @@ const TeamRosterGroupList = ({
                   label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
                   variant="compact"
                   className="text-14 h-full"
-                  target={isDropTarget}
+                  target={drag.isOver(storedSlot)}
                 />
               )}
             </li>
@@ -214,9 +174,15 @@ const TeamRosterGroupList = ({
  * Where does the same without dragging.
  */
 export const TeamRosterSection = (props: TeamRosterSectionProps) => {
-  const [dragId, setDragId] = useState<string | null>(null);
-  const [dropSlot, setDropSlot] = useState<number | null>(null);
-  const drag = { dragId, dropSlot, setDragId, setDropSlot };
+  /*
+   * A refused drop, such as the team's last Pokémon onto an empty reserve
+   * slot, shows no ring; dropped anyway, it snaps back and the toast says why.
+   */
+  const drag = useSlotDrag<string, number>({
+    accepts: (playPokemonId, slot) =>
+      getRosterMove(props.roster, playPokemonId, slot).kind !== "blocked",
+    onDrop: props.onMove,
+  });
 
   return (
     <div className="grid min-w-0 content-start gap-6.5">

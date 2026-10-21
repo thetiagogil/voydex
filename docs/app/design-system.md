@@ -399,8 +399,9 @@ with the heading inside (`DetailSectionCard`).
 The utilities in `app-utilities.css` carry the recipes features may need
 without the component: `sticker` (an owned thing's surface: type tint from
 `--t`, a 4px white border on a soft shadow; override `--sticker-border` and
-`--sticker-shadow`; `sticker-picked` rings a drop target in the Play's
-colour), `bubble` (a small mark's white band and soft shadow: corner marks,
+`--sticker-shadow`; `sticker-picked` rings a drop target in the accent.
+Stickers, cards and open slots take it through their `target` option, and
+`useSlotDrag` is the one drag and drop between slots), `bubble` (a small mark's white band and soft shadow: corner marks,
 picked pills and tabs), `focus-ring` and `focus-ring-inset` (the one
 keyboard ring, 3px of `focus`; inset for segments, joined buttons and an
 index in a scrolling column), `moment-ring` and `moment-ring-small` (a

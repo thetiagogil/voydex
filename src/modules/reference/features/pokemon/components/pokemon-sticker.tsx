@@ -15,6 +15,12 @@ import { IconDisc } from "@/shared/components/icon-disc";
 
 type StickerType = { name: string; slug: string };
 
+/*
+ * Where a dragged Pokémon would land, on a tile that isn't a sticker (an open
+ * slot, a plain card): the same accent ring `sticker-picked` puts round one.
+ */
+export const dropTargetRingClassName = "ring-action ring-[2.5px]";
+
 /* A picked sticker: its border in its type's colour, as a picked card's ring. */
 const pokemonStickerPickedClassName = "sticker-type-band";
 
@@ -47,6 +53,8 @@ type PokemonStickerProps = {
   showTypes?: boolean;
   /* A small slot number in the top-left corner. */
   slotLabel?: string;
+  /* Where a dragged Pokémon would land: the accent ring round its band. */
+  target?: boolean;
   /*
    * An amber warning mark in the top-right corner, such as a Play's rule it
    * breaks; the words are read, not seen. The shiny mark steps left of it.
@@ -126,6 +134,7 @@ export const PokemonSticker = ({
   showTypes = true,
   slotLabel,
   subtitle,
+  target = false,
   types,
   variant = "default",
   warning,
@@ -138,9 +147,13 @@ export const PokemonSticker = ({
   const stickerClassName = cn(
     "group/sticker relative flex min-w-0 flex-col items-center rounded-xl px-2.5 pt-3 text-center transition-transform duration-150 hover:-translate-y-0.75",
     "sticker",
-    variant === "default" && "[--sticker-shadow:var(--shadow-soft-value)]",
+    /* The target's ring takes the shadow's place. */
+    variant === "default" &&
+      !target &&
+      "[--sticker-shadow:var(--shadow-soft-value)]",
     selected && pokemonStickerPickedClassName,
     variantClassName.sticker,
+    target && "sticker-picked",
     variant !== "default" && variantClassName.height,
     className,
   );
@@ -284,7 +297,7 @@ export const PokemonEmptySlot = ({
   const slotClassName = cn(
     "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl font-bold",
     variantClassNames[variant].height,
-    target && "ring-action ring-[2.5px]",
+    target && dropTargetRingClassName,
     className,
   );
   const body = (

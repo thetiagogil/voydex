@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -44,6 +45,11 @@ type PokemonCardProps = {
    */
   size?: PokemonCardSize;
   subtitle?: string | null;
+  /*
+   * Where a dragged Pokémon would land: the accent ring, as on a sticker or
+   * an open slot.
+   */
+  target?: boolean;
   types: PokemonCardType[];
 };
 
@@ -161,6 +167,7 @@ export const PokemonCard = ({
   size = "md",
   state,
   subtitle,
+  target = false,
   types,
 }: PokemonCardProps & { state: PokemonCardState }) => {
   const primaryType = types.find((type) => isPokemonTypeSlug(type.slug));
@@ -174,7 +181,13 @@ export const PokemonCard = ({
       )}
       className={cn(
         "relative flex h-full min-w-0 flex-col items-center rounded-xl text-center transition-transform duration-150 hover:-translate-y-0.75",
-        picked ? pokemonCardPickedClassName : stateClassNames[state],
+        picked
+          ? target
+            ? /* The ring takes the soft shadow's place. */
+              "sticker sticker-type-band sticker-picked"
+            : pokemonCardPickedClassName
+          : stateClassNames[state],
+        target && !picked && dropTargetRingClassName,
         /* A pick wears the sticker's 4px band, so it takes the sticker's padding. */
         paddingClassNames[size === "sm" ? "sm" : "md"][
           picked ? "caught" : state
