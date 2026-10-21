@@ -21,21 +21,21 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await expect(page.getByText("1 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 21 milestones")).toBeVisible();
     await expectAccessible(page);
 
     /* The record shows at once; wait for its save before reloading. */
     const saved = waitForAction(page);
     await page.getByRole("button", { name: "Record Receive Pokedex" }).click();
 
-    await expect(page.getByText("2 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("2 of 21 milestones")).toBeVisible();
     await expect(
       page.getByRole("region", { name: "Boulder Badge" }),
     ).toBeVisible();
     await saved;
 
     await page.reload();
-    await expect(page.getByText("2 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("2 of 21 milestones")).toBeVisible();
 
     await page.goto(`/mainline/plays/${playId}/history`);
     await expect(page.getByText("Receive Pokedex").first()).toBeVisible();
@@ -48,7 +48,7 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await expect(page.getByText("1 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 21 milestones")).toBeVisible();
 
     /* Boulder Badge with Receive Pokedex, the one before it, still open. */
     await page
@@ -64,9 +64,9 @@ test.describe("Progress", () => {
     const saved = waitForAction(page, 2);
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await expect(
-      page.getByText("Boulder Badge and the one before it recorded · 3 of 17"),
+      page.getByText("Boulder Badge and the one before it recorded · 3 of 21"),
     ).toBeVisible();
-    await expect(page.getByText("3 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("3 of 21 milestones")).toBeVisible();
 
     await page.getByRole("button", { name: "Undo" }).click();
     await saved;
@@ -76,7 +76,7 @@ test.describe("Progress", () => {
       ),
     ).toBeVisible(forTheAnswer);
     await page.reload();
-    await expect(page.getByText("1 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 21 milestones")).toBeVisible();
   });
 
   test("clears the ones after it, and a confirm closes without an answer", async ({
@@ -93,7 +93,7 @@ test.describe("Progress", () => {
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await saved;
     await page.reload();
-    await expect(page.getByText("3 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("3 of 21 milestones")).toBeVisible();
 
     const openConfirm = async () => {
       await page
@@ -122,11 +122,11 @@ test.describe("Progress", () => {
     const cleared = waitForAction(page);
     await confirm.getByRole("button", { name: "Mark incomplete" }).click();
     await cleared;
-    await expect(page.getByText("1 of 17 milestones")).toBeVisible(
+    await expect(page.getByText("1 of 21 milestones")).toBeVisible(
       forTheAnswer,
     );
     await page.reload();
-    await expect(page.getByText("1 of 17 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 21 milestones")).toBeVisible();
   });
 
   test("opens a milestone from its stamp", async ({ page }) => {
