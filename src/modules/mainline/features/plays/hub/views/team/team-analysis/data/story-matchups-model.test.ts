@@ -292,6 +292,96 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
   });
 });
 
+describe("buildStoryMatchupsModel with a battle only one choice leads to", () => {
+  /* The roaming beast your starter picks: Raikou after Squirtle, Entei after Bulbasaur. */
+  const beastRow = (
+    opponentId: number,
+    name: string,
+    choice: { slug: string; label: string },
+  ): StoryOpponentPartyRow => ({
+    choiceKey: `10001/${choice.slug}`,
+    formSlug: name.toLowerCase(),
+    gameId: null,
+    level: 50,
+    milestoneId: 7,
+    name,
+    opponentId,
+    primaryTypeId: 10,
+    secondaryTypeId: null,
+    slot: 1,
+    variantKey: null,
+    variantLabel: choice.label,
+  });
+  const build = (chosen: string[]) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(chosen),
+      generationOrder: 1,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(7, [
+          { id: 71, name: "Raikou", role: "boss", typeId: 10 },
+          { id: 72, name: "Entei", role: "boss", typeId: 10 },
+        ]),
+      ],
+      partyRows: [
+        beastRow(71, "Raikou", { slug: "squirtle", label: "Squirtle" }),
+        beastRow(72, "Entei", { slug: "bulbasaur", label: "Bulbasaur" }),
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+
+  it("shows only the battle the Play's recorded choice leads to", () => {
+    const battles = build(["10001/squirtle"]);
+
+    expect(battles.map((battle) => battle.name)).toEqual(["Raikou"]);
+    expect(battles[0]?.party?.note).toBeNull();
+  });
+
+  it("leaves both out when the Play chose a third option", () => {
+    expect(build(["10001/charmander"])).toEqual([]);
+  });
+
+  it("never reads a team a recorded choice has ruled out", () => {
+    const battle = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(["10001/charmander"]),
+      generationOrder: 1,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(8, [{ id: 81, name: "Rival", role: "rival", typeId: 10 }]),
+      ],
+      partyRows: [
+        {
+          ...beastRow(81, "Raikou", { slug: "squirtle", label: "Squirtle" }),
+          milestoneId: 8,
+        },
+        {
+          ...beastRow(81, "Entei", { slug: "fossil", label: "Dome Fossil" }),
+          choiceKey: "10002/dome",
+          milestoneId: 8,
+        },
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters[0]?.battles[0];
+
+    expect(battle?.party?.pokemon[0]?.name).toBe("Entei");
+  });
+
+  it("shows each one and says which choice it needs while the choice isn't recorded", () => {
+    const battles = build([]);
+
+    expect(battles.map((battle) => battle.name)).toEqual(["Raikou", "Entei"]);
+    expect(battles[0]?.party?.note).toBe(
+      "You face them only if you chose Squirtle, and this Play hasn't recorded that choice.",
+    );
+  });
+});
+
 describe("buildStoryMatchupsModel with game and outcome teams", () => {
   const row = (
     overrides: Partial<StoryOpponentPartyRow>,

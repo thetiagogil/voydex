@@ -64,6 +64,10 @@ export type StoryOpponentPartyRow = {
 export const getStoryChoiceKey = (milestoneId: number, optionSlug: string) =>
   `${milestoneId}/${optionSlug}`;
 
+/* The choice milestone a choice key belongs to ("10001/bulbasaur" -> "10001"). */
+const getChoiceMilestoneKey = (choiceKey: string) =>
+  choiceKey.slice(0, choiceKey.indexOf("/"));
+
 /* What the reader hands the model. */
 export type StoryMatchupsRows = {
   /* The choices the Play has recorded, such as its starter, by `getStoryChoiceKey`. */
@@ -262,22 +266,52 @@ const groupParties = (
 
 /*
  * An opponent's team in one battle, picked by the Play's recorded choice.
- * Null when Voydex doesn't have it.
+ * Null when Voydex doesn't have it, or "skip" when the battle only happens
+ * after a choice the Play made differently (the roaming bird your starter
+ * picks).
  */
 const resolveParty = (
   battleOpponentKey: string,
   partiesByBattleOpponent: ReturnType<typeof groupParties>,
   chosenChoiceKeys: ReadonlySet<string>,
-): StoryMatchupParty | null => {
+): StoryMatchupParty | "skip" | null => {
   const parties = [
     ...(partiesByBattleOpponent.get(battleOpponentKey)?.values() ?? []),
   ];
-  const chosen =
-    parties.find(
+  const matched = parties.find(
+    (party) =>
+      party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
+  );
+  const recordedChoiceMilestones = new Set(
+    [...chosenChoiceKeys].map(getChoiceMilestoneKey),
+  );
+
+  if (
+    !matched &&
+    parties.length > 0 &&
+    parties.every(
       (party) =>
-        party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
-    ) ?? (parties.length === 1 ? parties[0] : null);
-  const party = chosen ?? parties[0];
+        party.choiceKey !== null &&
+        recordedChoiceMilestones.has(getChoiceMilestoneKey(party.choiceKey)),
+    )
+  ) {
+    return "skip";
+  }
+
+  const chosen =
+    matched ??
+    (parties.length === 1 && parties[0].choiceKey === null ? parties[0] : null);
+  /* Never fall back to a team a recorded choice has already ruled out. */
+  const party =
+    chosen ??
+    parties.find(
+      (candidate) =>
+        candidate.choiceKey === null ||
+        !recordedChoiceMilestones.has(
+          getChoiceMilestoneKey(candidate.choiceKey),
+        ),
+    ) ??
+    parties[0];
 
   if (!party) {
     return null;
@@ -286,9 +320,11 @@ const resolveParty = (
   const note =
     chosen || !party.label
       ? null
-      : party.choiceKey
-        ? `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`
-        : `Their team depends on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`;
+      : !party.choiceKey
+        ? `Their team depends on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`
+        : parties.length === 1
+          ? `You face them only if you chose ${party.label}, and this Play hasn't recorded that choice.`
+          : `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`;
 
   return { note, pokemon: party.pokemon };
 };
@@ -301,7 +337,8 @@ const resolveParty = (
  * their team in that battle, or, where Voydex doesn't have it, the
  * opponent's specialty type only. Each battle has its own team, so a rematch
  * reads the team you face then. Opponents for the Play's other version are
- * left out.
+ * left out, as is a battle that only happens after a choice the Play made
+ * differently.
  */
 export const buildStoryMatchupsModel = ({
   chosenChoiceKeys,
@@ -366,6 +403,10 @@ export const buildStoryMatchupsModel = ({
         partiesByBattleOpponent,
         chosenChoiceKeys,
       );
+
+      if (party === "skip") {
+        continue;
+      }
       const reading =
         party && !isWon
           ? readStoryBattle({
