@@ -25,14 +25,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (60004, 60003, 6, 1, 1, NULL),
   -- Cascade Badge <- Fossil Choice
   (60005, 60004, 6, 1, 1, NULL),
-  -- Thunder Badge <- Cascade Badge
-  (60006, 60005, 6, 1, 1, NULL),
+  -- Thunder Badge <- S.S. Anne
+  (60006, 60019, 6, 1, 1, NULL),
   -- Rainbow Badge <- Thunder Badge
   (60007, 60006, 6, 1, 1, NULL),
-  -- Soul Badge <- Rainbow Badge
-  (60008, 60007, 6, 1, 1, NULL),
-  -- Marsh Badge <- Soul Badge
-  (60009, 60008, 6, 1, 1, NULL),
+  -- Soul Badge <- Pokémon Tower
+  (60008, 60021, 6, 1, 1, NULL),
+  -- Marsh Badge <- Silph Co.
+  (60009, 60022, 6, 1, 1, NULL),
   -- Volcano Badge <- Marsh Badge
   (60011, 60009, 6, 1, 1, NULL),
   -- Earth Badge <- Volcano Badge
@@ -48,4 +48,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Blue <- Elite Four Lance
   (60017, 60016, 6, 1, 1, NULL),
   -- Hall of Fame <- Champion Blue
-  (60018, 60017, 6, 1, 1, NULL);
+  (60018, 60017, 6, 1, 1, NULL),
+  -- S.S. Anne <- Cascade Badge
+  (60019, 60005, 6, 1, 1, NULL),
+  -- Rocket Hideout <- Rainbow Badge
+  (60020, 60007, 6, 1, 1, NULL),
+  -- Pokémon Tower <- Rocket Hideout
+  (60021, 60020, 6, 1, 1, NULL),
+  -- Silph Co. <- Soul Badge
+  (60022, 60008, 6, 1, 1, NULL);

@@ -19,9 +19,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   notes
 ) VALUES
   -- Boulder Badge -> Brock
-  (20003, 2001, 2, 'battle-opponent', 1, NULL),
+  (20003, 2001, 2, 'battle-opponent', 2, NULL),
   -- Cascade Badge -> Misty
-  (20005, 2002, 2, 'battle-opponent', 1, NULL),
+  (20005, 2002, 2, 'battle-opponent', 2, NULL),
   -- Thunder Badge -> Lt. Surge
   (20006, 2003, 2, 'battle-opponent', 1, NULL),
   -- Rainbow Badge -> Erika
@@ -35,7 +35,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Earth Badge -> Giovanni
   (20012, 2008, 2, 'battle-opponent', 1, NULL),
   -- Elite Four Lorelei -> Lorelei
-  (20013, 2009, 2, 'battle-opponent', 1, NULL),
+  (20013, 2009, 2, 'battle-opponent', 2, NULL),
   -- Elite Four Bruno -> Bruno
   (20014, 2010, 2, 'battle-opponent', 1, NULL),
   -- Elite Four Agatha -> Agatha
@@ -43,4 +43,22 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Lance -> Lance
   (20016, 2012, 2, 'battle-opponent', 1, NULL),
   -- Champion Blue -> Blue
-  (20017, 2013, 2, 'battle-opponent', 1, NULL);
+  (20017, 2013, 2, 'battle-opponent', 1, NULL),
+  -- Receive Pikachu -> Blue
+  (20001, 2014, 2, 'battle-opponent', 1, 'Oak''s Lab, Pallet Town'),
+  -- Boulder Badge -> Blue
+  (20003, 2014, 2, 'battle-opponent', 1, 'Route 22. You can skip this battle.'),
+  -- Cascade Badge -> Blue
+  (20005, 2014, 2, 'battle-opponent', 1, 'Cerulean City (north exit, before Nugget Bridge)'),
+  -- S.S. Anne -> Blue
+  (20019, 2014, 2, 'battle-opponent', 1, 'S.S. Anne 2F, Vermilion City'),
+  -- Pokémon Tower -> Blue
+  (20021, 2014, 2, 'battle-opponent', 1, 'Pokémon Tower 2F, Lavender Town'),
+  -- Rocket Hideout -> Giovanni
+  (20020, 2015, 2, 'battle-opponent', 1, 'Rocket Hideout B4F, Celadon City'),
+  -- Silph Co. -> Blue
+  (20022, 2014, 2, 'battle-opponent', 1, 'Silph Co. 7F, Saffron City'),
+  -- Silph Co. -> Giovanni
+  (20022, 2015, 2, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City'),
+  -- Elite Four Lorelei -> Blue
+  (20013, 2014, 2, 'battle-opponent', 1, 'Route 22');

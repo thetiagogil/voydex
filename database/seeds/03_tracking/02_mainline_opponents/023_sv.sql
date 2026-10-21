@@ -76,4 +76,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Arven
   (23027, 23, NULL, 'arven', 'Arven', 'rival', NULL, NULL, 'arven', 27),
   -- AI Professor
-  (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, 'ai-professor', 28);
+  (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, 'ai-professor', 28),
+  -- Nemona (rival)
+  (23029, 23, NULL, 'nemona-rival', 'Nemona', 'rival', NULL, NULL, 'nemona', 29);

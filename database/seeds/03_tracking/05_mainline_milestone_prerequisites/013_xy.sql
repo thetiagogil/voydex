@@ -37,8 +37,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (130010, 130009, 13, 1, 1, NULL),
   -- Psychic Badge <- Fairy Badge
   (130011, 130010, 13, 1, 1, NULL),
-  -- Iceberg Badge <- Psychic Badge
-  (130012, 130011, 13, 1, 1, NULL),
+  -- Iceberg Badge <- Team Flare Secret HQ
+  (130012, 130022, 13, 1, 1, NULL),
   -- Battle AZ <- Iceberg Badge
   (130019, 130012, 13, 1, 1, NULL),
   -- Elite Four Malva <- Battle AZ
@@ -54,4 +54,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Hall of Fame <- Champion Diantha
   (130018, 130017, 13, 1, 1, NULL),
   -- Looker Bureau <- Hall of Fame
-  (130020, 130018, 13, 1, 1, NULL);
+  (130020, 130018, 13, 1, 1, NULL),
+  -- Lysandre Labs <- Psychic Badge
+  (130021, 130011, 13, 1, 1, NULL),
+  -- Team Flare Secret HQ <- Lysandre Labs
+  (130022, 130021, 13, 1, 1, NULL);

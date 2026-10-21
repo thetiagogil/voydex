@@ -66,4 +66,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Blue
   (4021, 4, NULL, 'blue', 'Blue', 'gym-leader', NULL, NULL, 'blue', 21),
   -- Red
-  (4022, 4, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 22);
+  (4022, 4, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 22),
+  -- Silver (rival)
+  (4023, 4, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', 23);

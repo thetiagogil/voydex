@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Badge, Elite Four, Platinum, Gift Pokémon, and First
 -- partner Pokémon pages.
 -- Cross-check: Pokémon Platinum source page.
+-- Story points with rival and Cyrus battles: Bulbapedia walkthrough pages and the pret pokeplatinum map scripts.
 -- Scope: Pokémon Platinum major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -42,12 +43,18 @@ INSERT INTO tracking.mainline_milestones (
   (90006, 9, NULL, 901, 2, 2, NULL, 'cobble-badge', 'Cobble Badge', 'Defeat Maylene at Veilstone Gym and receive the Cobble Badge.', 6, true),
   -- Fen Badge
   (90007, 9, NULL, 901, 2, 2, NULL, 'fen-badge', 'Fen Badge', 'Defeat Crasher Wake at Pastoria Gym and receive the Fen Badge.', 7, true),
+  -- Celestic Town
+  (90017, 9, NULL, 901, 1, 2, NULL, 'celestic-town', 'Celestic Town', 'Defeat Cyrus at the Celestic Town ruins to protect the cave painting, and receive HM03 Surf from the elder.', 8, true),
   -- Mine Badge
-  (90008, 9, NULL, 901, 2, 2, NULL, 'mine-badge', 'Mine Badge', 'Defeat Byron at Canalave Gym and receive the Mine Badge.', 8, true),
+  (90008, 9, NULL, 901, 2, 2, NULL, 'mine-badge', 'Mine Badge', 'Defeat Byron at Canalave Gym and receive the Mine Badge.', 9, true),
   -- Icicle Badge
-  (90009, 9, NULL, 901, 2, 2, NULL, 'icicle-badge', 'Icicle Badge', 'Defeat Candice at Snowpoint Gym and receive the Icicle Badge.', 9, true),
+  (90009, 9, NULL, 901, 2, 2, NULL, 'icicle-badge', 'Icicle Badge', 'Defeat Candice at Snowpoint Gym and receive the Icicle Badge.', 10, true),
+  -- Team Galactic HQ
+  (90018, 9, NULL, 901, 1, 2, NULL, 'galactic-hq', 'Team Galactic HQ', 'Raid Team Galactic''s headquarters in Veilstone City, defeat Cyrus and free Uxie, Mesprit and Azelf.', 11, true),
+  -- Distortion World
+  (90019, 9, NULL, 901, 1, 2, NULL, 'distortion-world', 'Distortion World', 'Follow Cyrus from Spear Pillar into the Distortion World, defeat him and face Giratina.', 12, true),
   -- Beacon Badge
-  (90010, 9, NULL, 901, 2, 2, NULL, 'beacon-badge', 'Beacon Badge', 'Defeat Volkner at Sunyshore Gym and receive the Beacon Badge.', 10, true),
+  (90010, 9, NULL, 901, 2, 2, NULL, 'beacon-badge', 'Beacon Badge', 'Defeat Volkner at Sunyshore Gym and receive the Beacon Badge.', 13, true),
   -- Elite Four Aaron
   (90011, 9, NULL, 902, 7, 2, NULL, 'elite-four-aaron', 'Elite Four Aaron', 'Defeat Aaron at the Pokémon League.', 1, true),
   -- Elite Four Bertha
@@ -59,4 +66,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Champion Cynthia
   (90015, 9, NULL, 902, 8, 2, NULL, 'champion-cynthia', 'Champion Cynthia', 'Defeat Champion Cynthia at the Pokémon League.', 5, true),
   -- Hall of Fame
-  (90016, 9, NULL, 902, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true);
+  (90016, 9, NULL, 902, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
+  -- Stark Mountain
+  (90020, 9, NULL, 903, 1, 2, NULL, 'stark-mountain', 'Stark Mountain', 'Go through Stark Mountain in the Battle Zone with Buck and stop Charon of Team Galactic.', 1, false);

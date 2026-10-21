@@ -4403,6 +4403,7 @@ export type Database = {
           game_id: number | null;
           id: number;
           level: number;
+          milestone_id: number;
           opponent_id: number;
           slot: number;
           species_id: number;
@@ -4419,6 +4420,7 @@ export type Database = {
           game_id?: number | null;
           id?: never;
           level: number;
+          milestone_id: number;
           opponent_id: number;
           slot: number;
           species_id: number;
@@ -4434,6 +4436,7 @@ export type Database = {
           game_id?: number | null;
           id?: never;
           level?: number;
+          milestone_id?: number;
           opponent_id?: number;
           slot?: number;
           species_id?: number;
@@ -4442,6 +4445,17 @@ export type Database = {
           version_group_id?: number;
         };
         Relationships: [
+          {
+            foreignKeyName: "mainline_opponent_team_members_battle_fkey";
+            columns: ["milestone_id", "opponent_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_milestone_opponent_refs";
+            referencedColumns: [
+              "milestone_id",
+              "opponent_id",
+              "version_group_id",
+            ];
+          },
           {
             foreignKeyName: "mainline_opponent_team_members_decision_option_fkey";
             columns: ["decision_milestone_id", "decision_option_slug"];

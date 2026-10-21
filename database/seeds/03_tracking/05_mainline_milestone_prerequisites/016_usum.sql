@@ -37,8 +37,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (160010, 160009, 16, 1, 1, NULL),
   -- Grand Trial Nanu <- Acerola Trial
   (160011, 160010, 16, 1, 1, NULL),
-  -- Vast Poni Canyon Trial <- Grand Trial Nanu
-  (160013, 160011, 16, 1, 1, NULL),
+  -- Vast Poni Canyon Trial <- Aether Paradise
+  (160013, 160023, 16, 1, 1, NULL),
   -- Ultra Necrozma <- Vast Poni Canyon Trial
   (160015, 160013, 16, 1, 1, NULL),
   -- Mina Trial <- Ultra Necrozma
@@ -58,4 +58,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Hall of Fame <- Champion Battle Hau
   (160021, 160020, 16, 1, 1, NULL),
   -- Team Rainbow Rocket <- Hall of Fame
-  (160022, 160021, 16, 1, 1, NULL);
+  (160022, 160021, 16, 1, 1, NULL),
+  -- Aether Paradise <- Grand Trial Nanu
+  (160023, 160011, 16, 1, 1, NULL);

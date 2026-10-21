@@ -183,7 +183,7 @@ export const StoryBattleReport = ({
       <SheetSection className="mt-9 gap-3" title="Their team">
         {battle.specialtyTypes.length ? (
           <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
-            {battle.opponents.length > 1 ? "Specialties" : "Specialty"}
+            {battle.specialtyTypes.length > 1 ? "Specialties" : "Specialty"}
             <PokemonTypeList
               types={battle.specialtyTypes}
               badgeDisplay="icon-label"
@@ -197,13 +197,7 @@ export const StoryBattleReport = ({
         ) : (
           <PendingData
             label="Their Pokémon aren't in Voydex yet"
-            note={
-              battle.opponents.length > 1
-                ? `Voydex knows who you face (${battle.opponents
-                    .map((opponent) => opponent.name)
-                    .join(", ")}), not their teams.`
-                : "Voydex knows who you face, not their team."
-            }
+            note="Voydex knows who you face, not their team."
           />
         )}
         {reading?.uncoveredTypes.length ? (
@@ -351,7 +345,7 @@ export const StoryBattleReport = ({
                     value={formatLevelRange(reading.levels.team)}
                   />
                   <StatTile
-                    label={battle.opponents.length === 1 ? battle.name : "Them"}
+                    label={battle.name}
                     value={formatLevelRange(reading.levels.their)}
                   />
                 </div>

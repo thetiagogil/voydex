@@ -34,4 +34,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Terapagos
   (25006, 25, NULL, 'terapagos', 'Terapagos', 'boss', 1, NULL, 'terapagos', 6),
   -- Pecharunt
-  (25007, 25, NULL, 'pecharunt', 'Pecharunt', 'boss', 8, 14, 'pecharunt', 7);
+  (25007, 25, NULL, 'pecharunt', 'Pecharunt', 'boss', 8, 14, 'pecharunt', 7),
+  -- Carmine (rival)
+  (25008, 25, NULL, 'carmine', 'Carmine', 'rival', NULL, NULL, 'carmine', 8),
+  -- Kieran (rival)
+  (25009, 25, NULL, 'kieran-rival', 'Kieran', 'rival', NULL, NULL, 'kieran', 9),
+  -- Arven & Penny (rival)
+  (25010, 25, NULL, 'arven-penny', 'Arven & Penny', 'rival', NULL, NULL, 'arven', 10),
+  -- Nemona (rival)
+  (25011, 25, NULL, 'nemona', 'Nemona', 'rival', NULL, NULL, 'nemona', 11);

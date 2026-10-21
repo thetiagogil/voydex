@@ -47,8 +47,10 @@ INSERT INTO tracking.mainline_milestones (
   (180009, 18, NULL, 1801, 2, 2, NULL, 'dark-badge', 'Dark Badge', 'Defeat Piers at Spikemuth Gym and receive the Dark Badge.', 9, true),
   -- Dragon Badge
   (180010, 18, NULL, 1801, 2, 2, NULL, 'dragon-badge', 'Dragon Badge', 'Defeat Raihan at Hammerlocke Stadium and receive the Dragon Badge.', 10, true),
+  -- Champion Cup
+  (180015, 18, NULL, 1801, 1, 2, NULL, 'champion-cup', 'Champion Cup', 'Win the Champion Cup semifinals and finals at Wyndon Stadium to earn the right to challenge Leon.', 11, true),
   -- Defeat Eternatus
-  (180011, 18, NULL, 1801, 6, 3, NULL, 'defeat-eternatus', 'Defeat Eternatus', 'Defeat Eternatus during the Darkest Day crisis.', 11, true),
+  (180011, 18, NULL, 1801, 6, 3, NULL, 'defeat-eternatus', 'Defeat Eternatus', 'Defeat Eternatus during the Darkest Day crisis.', 12, true),
   -- Champion Leon
   (180012, 18, NULL, 1802, 8, 2, NULL, 'champion-leon', 'Champion Leon', 'Defeat Champion Leon at Wyndon Stadium.', 1, true),
   -- Hall of Fame

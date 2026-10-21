@@ -25,16 +25,16 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (70004, 70003, 7, 1, 1, NULL),
   -- Dynamo Badge <- Knuckle Badge
   (70005, 70004, 7, 1, 1, NULL),
-  -- Heat Badge <- Dynamo Badge
-  (70007, 70005, 7, 1, 1, NULL),
+  -- Heat Badge <- Mt. Chimney
+  (70007, 70020, 7, 1, 1, NULL),
   -- Balance Badge <- Heat Badge
   (70008, 70007, 7, 1, 1, NULL),
   -- Feather Badge <- Balance Badge
   (70009, 70008, 7, 1, 1, NULL),
-  -- Mind Badge <- Feather Badge
-  (70010, 70009, 7, 1, 1, NULL),
-  -- Rain Badge <- Mind Badge
-  (70011, 70010, 7, 1, 1, NULL),
+  -- Mind Badge <- Magma Hideout
+  (70010, 70021, 7, 1, 1, NULL),
+  -- Rain Badge <- Seafloor Cavern
+  (70011, 70022, 7, 1, 1, NULL),
   -- Elite Four Sidney <- Rain Badge
   (70012, 70011, 7, 1, 1, NULL),
   -- Elite Four Phoebe <- Elite Four Sidney
@@ -50,4 +50,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Lati Choice <- Hall of Fame
   (70018, 70017, 7, 1, 1, NULL),
   -- Defeat Steven <- Lati Choice
-  (70019, 70018, 7, 1, 1, NULL);
+  (70019, 70018, 7, 1, 1, NULL),
+  -- Mt. Chimney <- Dynamo Badge
+  (70020, 70005, 7, 1, 1, NULL),
+  -- Magma Hideout <- Feather Badge
+  (70021, 70009, 7, 1, 1, NULL),
+  -- Seafloor Cavern <- Mind Badge
+  (70022, 70010, 7, 1, 1, NULL);

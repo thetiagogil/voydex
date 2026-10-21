@@ -43,11 +43,13 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (180009, 183208, 18, 1, 2, NULL),
   -- Dragon Badge <- Dark Badge
   (180010, 180009, 18, 1, 1, NULL),
-  -- Defeat Eternatus <- Dragon Badge
-  (180011, 180010, 18, 1, 1, NULL),
+  -- Defeat Eternatus <- Champion Cup
+  (180011, 180015, 18, 1, 1, NULL),
   -- Champion Leon <- Defeat Eternatus
   (180012, 180011, 18, 1, 1, NULL),
   -- Hall of Fame <- Champion Leon
   (180013, 180012, 18, 1, 1, NULL),
   -- Post-Game Episode <- Hall of Fame
-  (180014, 180013, 18, 1, 1, NULL);
+  (180014, 180013, 18, 1, 1, NULL),
+  -- Champion Cup <- Dragon Badge
+  (180015, 180010, 18, 1, 1, NULL);

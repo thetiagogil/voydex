@@ -22,15 +22,15 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Grass Badge -> Brassius
   (230004, 23002, 23, 'battle-opponent', 1, NULL),
   -- Electric Badge -> Iono
-  (230005, 23003, 23, 'battle-opponent', 1, NULL),
+  (230005, 23003, 23, 'battle-opponent', 2, NULL),
   -- Water Badge -> Kofu
   (230006, 23004, 23, 'battle-opponent', 1, NULL),
   -- Normal Badge -> Larry
-  (230007, 23005, 23, 'battle-opponent', 1, NULL),
+  (230007, 23005, 23, 'battle-opponent', 2, NULL),
   -- Ghost Badge -> Ryme
   (230008, 23006, 23, 'battle-opponent', 1, NULL),
   -- Psychic Badge -> Tulip
-  (230009, 23007, 23, 'battle-opponent', 1, NULL),
+  (230009, 23007, 23, 'battle-opponent', 2, NULL),
   -- Ice Badge -> Grusha
   (230010, 23008, 23, 'battle-opponent', 1, NULL),
   -- Elite Four Rika -> Rika
@@ -72,4 +72,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Defeat Arven -> Arven
   (230029, 23027, 23, 'battle-opponent', 1, NULL),
   -- Defeat AI Professor -> AI Professor
-  (230031, 23028, 23, 'battle-opponent', 1, NULL);
+  (230031, 23028, 23, 'battle-opponent', 1, NULL),
+  -- Choose Starter -> Nemona
+  (230001, 23029, 23, 'battle-opponent', 1, 'Cabo Poco (beach behind her house)'),
+  -- Receive Pokedex -> Arven
+  (230002, 23027, 23, 'battle-opponent', 1, 'Poco Path lighthouse'),
+  -- Receive Pokedex -> Nemona
+  (230002, 23029, 23, 'battle-opponent', 2, 'South gate of Mesagoza (South Province Area One)'),
+  -- Electric Badge -> Nemona
+  (230005, 23029, 23, 'battle-opponent', 1, 'Outside your third Gym'),
+  -- Normal Badge -> Nemona
+  (230007, 23029, 23, 'battle-opponent', 1, 'Outside your fifth Gym'),
+  -- Psychic Badge -> Nemona
+  (230009, 23029, 23, 'battle-opponent', 1, 'Outside your seventh Gym'),
+  -- Academy Ace Tournament -> Arven
+  (230032, 23027, 23, 'battle-opponent', 1, 'Academy Ace Tournament, Mesagoza (first round of the first tournament). You can skip this battle.');

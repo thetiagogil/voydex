@@ -29,7 +29,7 @@ const battle = (
   badgeType: null,
   chapter: "Main Story",
   completedAt: null,
-  id: 1,
+  id: "1/1",
   kind: "Gym Leader",
   members: [
     {
@@ -41,15 +41,6 @@ const battle = (
   ],
   milestoneName: "Boulder Badge",
   name: "Brock",
-  opponents: [
-    {
-      id: 1,
-      name: "Brock",
-      primaryType: rock,
-      role: "gym-leader",
-      secondaryType: null,
-    },
-  ],
   party: null,
   partyLevels: null,
   reading: null,

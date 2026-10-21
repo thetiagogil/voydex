@@ -25,16 +25,16 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (50004, 50003, 5, 1, 1, NULL),
   -- Dynamo Badge <- Knuckle Badge
   (50005, 50004, 5, 1, 1, NULL),
-  -- Heat Badge <- Dynamo Badge
-  (50007, 50005, 5, 1, 1, NULL),
+  -- Heat Badge <- Mt. Chimney
+  (50007, 50018, 5, 1, 1, NULL),
   -- Balance Badge <- Heat Badge
   (50008, 50007, 5, 1, 1, NULL),
   -- Feather Badge <- Balance Badge
   (50009, 50008, 5, 1, 1, NULL),
   -- Mind Badge <- Feather Badge
   (50010, 50009, 5, 1, 1, NULL),
-  -- Rain Badge <- Mind Badge
-  (50011, 50010, 5, 1, 1, NULL),
+  -- Rain Badge <- Seafloor Cavern
+  (50011, 50019, 5, 1, 1, NULL),
   -- Elite Four Sidney <- Rain Badge
   (50012, 50011, 5, 1, 1, NULL),
   -- Elite Four Phoebe <- Elite Four Sidney
@@ -46,4 +46,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Steven <- Elite Four Drake
   (50016, 50015, 5, 1, 1, NULL),
   -- Hall of Fame <- Champion Steven
-  (50017, 50016, 5, 1, 1, NULL);
+  (50017, 50016, 5, 1, 1, NULL),
+  -- Mt. Chimney <- Dynamo Badge
+  (50018, 50005, 5, 1, 1, NULL),
+  -- Seafloor Cavern <- Mind Badge
+  (50019, 50010, 5, 1, 1, NULL);

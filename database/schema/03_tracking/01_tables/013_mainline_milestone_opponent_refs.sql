@@ -17,7 +17,7 @@ CREATE TABLE tracking.mainline_milestone_opponent_refs (
     CONSTRAINT mainline_milestone_opponent_refs_relation_kind_format_check CHECK (relation_kind = LOWER(relation_kind) AND relation_kind ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(relation_kind) <= 80),
     CONSTRAINT mainline_milestone_opponent_refs_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_milestone_opponent_refs_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 1000),
-    CONSTRAINT mainline_milestone_opponent_refs_unique UNIQUE (milestone_id, opponent_id, version_group_id, relation_kind)
+    CONSTRAINT mainline_milestone_opponent_refs_unique UNIQUE (milestone_id, opponent_id, version_group_id)
 );
 
 CREATE UNIQUE INDEX mainline_milestone_opponent_refs_sort_order_unique ON tracking.mainline_milestone_opponent_refs (milestone_id, sort_order);

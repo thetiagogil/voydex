@@ -47,4 +47,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Lucian
   (9012, 9, NULL, 'lucian', 'Lucian', 'elite-four', 11, NULL, 'lucian', 12),
   -- Cynthia
-  (9013, 9, NULL, 'cynthia', 'Cynthia', 'champion', NULL, NULL, 'cynthia', 13);
+  (9013, 9, NULL, 'cynthia', 'Cynthia', 'champion', NULL, NULL, 'cynthia', 13),
+  -- Barry (rival)
+  (9014, 9, NULL, 'barry', 'Barry', 'rival', NULL, NULL, 'barry', 14),
+  -- Cyrus (boss)
+  (9015, 9, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', 15);

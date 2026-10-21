@@ -48,4 +48,16 @@ INSERT INTO tracking.mainline_opponents (
   -- Diantha
   (13013, 13, NULL, 'diantha', 'Diantha', 'champion', NULL, NULL, 'diantha', 13),
   -- AZ
-  (13014, 13, NULL, 'az', 'AZ', 'boss', NULL, NULL, 'az', 14);
+  (13014, 13, NULL, 'az', 'AZ', 'boss', NULL, NULL, 'az', 14),
+  -- Shauna (rival)
+  (13015, 13, NULL, 'shauna', 'Shauna', 'rival', NULL, NULL, 'shauna', 15),
+  -- Tierno (rival)
+  (13016, 13, NULL, 'tierno', 'Tierno', 'rival', NULL, NULL, 'tierno', 16),
+  -- Tierno & Trevor (rival)
+  (13017, 13, NULL, 'tierno-trevor', 'Tierno & Trevor', 'rival', NULL, NULL, 'tierno', 17),
+  -- Serena / Calem (rival)
+  (13018, 13, NULL, 'serena-calem', 'Serena / Calem', 'rival', NULL, NULL, 'serena', 18),
+  -- Lysandre (boss)
+  (13019, 13, NULL, 'lysandre', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 19),
+  -- Trevor (rival)
+  (13020, 13, NULL, 'trevor', 'Trevor', 'rival', NULL, NULL, 'trevor', 20);

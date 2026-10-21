@@ -25,14 +25,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (10004, 10003, 1, 1, 1, NULL),
   -- Cascade Badge <- Fossil Choice
   (10005, 10004, 1, 1, 1, NULL),
-  -- Thunder Badge <- Cascade Badge
-  (10006, 10005, 1, 1, 1, NULL),
+  -- Thunder Badge <- S.S. Anne
+  (10006, 10019, 1, 1, 1, NULL),
   -- Rainbow Badge <- Thunder Badge
   (10007, 10006, 1, 1, 1, NULL),
-  -- Soul Badge <- Rainbow Badge
-  (10008, 10007, 1, 1, 1, NULL),
-  -- Marsh Badge <- Soul Badge
-  (10009, 10008, 1, 1, 1, NULL),
+  -- Soul Badge <- Pokémon Tower
+  (10008, 10021, 1, 1, 1, NULL),
+  -- Marsh Badge <- Silph Co.
+  (10009, 10022, 1, 1, 1, NULL),
   -- Volcano Badge <- Marsh Badge
   (10011, 10009, 1, 1, 1, NULL),
   -- Earth Badge <- Volcano Badge
@@ -48,4 +48,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Blue <- Elite Four Lance
   (10017, 10016, 1, 1, 1, NULL),
   -- Hall of Fame <- Champion Blue
-  (10018, 10017, 1, 1, 1, NULL);
+  (10018, 10017, 1, 1, 1, NULL),
+  -- S.S. Anne <- Cascade Badge
+  (10019, 10005, 1, 1, 1, NULL),
+  -- Rocket Hideout <- Rainbow Badge
+  (10020, 10007, 1, 1, 1, NULL),
+  -- Pokémon Tower <- Rocket Hideout
+  (10021, 10020, 1, 1, 1, NULL),
+  -- Silph Co. <- Soul Badge
+  (10022, 10008, 1, 1, 1, NULL);

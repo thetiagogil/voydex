@@ -33,8 +33,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (80008, 80007, 8, 1, 1, NULL),
   -- Icicle Badge <- Mine Badge
   (80009, 80008, 8, 1, 1, NULL),
-  -- Beacon Badge <- Icicle Badge
-  (80010, 80009, 8, 1, 1, NULL),
+  -- Beacon Badge <- Spear Pillar
+  (80010, 80018, 8, 1, 1, NULL),
   -- Elite Four Aaron <- Beacon Badge
   (80011, 80010, 8, 1, 1, NULL),
   -- Elite Four Bertha <- Elite Four Aaron
@@ -46,4 +46,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Cynthia <- Elite Four Lucian
   (80015, 80014, 8, 1, 1, NULL),
   -- Hall of Fame <- Champion Cynthia
-  (80016, 80015, 8, 1, 1, NULL);
+  (80016, 80015, 8, 1, 1, NULL),
+  -- Team Galactic HQ <- Icicle Badge
+  (80017, 80009, 8, 1, 1, NULL),
+  -- Spear Pillar <- Team Galactic HQ
+  (80018, 80017, 8, 1, 1, NULL),
+  -- Fight Area <- Hall of Fame
+  (80019, 80016, 8, 1, 1, NULL);

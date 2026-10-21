@@ -537,9 +537,8 @@ export function assertTrackingCoreRows(context, tableRows) {
     context,
     "tracking.mainline_milestone_opponent_refs",
     opponentRefs,
-    "milestone_id/opponent_id/version_group_id/relation_kind",
-    (row) =>
-      `${row.milestone_id}/${row.opponent_id}/${row.version_group_id}/${row.relation_kind}`,
+    "milestone_id/opponent_id/version_group_id",
+    (row) => `${row.milestone_id}/${row.opponent_id}/${row.version_group_id}`,
   );
   addCompositeDuplicateErrors(
     context,
@@ -706,11 +705,12 @@ export function assertTrackingCoreRows(context, tableRows) {
 }
 
 /*
- * Opponent teams: each row belongs to a seeded opponent in its version group,
- * names a seeded form and level, and each team (one per game, choice or
- * variant) fills slots 1..n. An opponent's teams are either one plain team
- * or teams that each follow a choice or variant; teams that follow a choice
- * cover every option of it.
+ * Opponent teams: each row belongs to one Story battle (a milestone's
+ * opponent ref) of a seeded opponent in its version group, names a seeded
+ * form and level, and each team (one per game, choice or variant) fills slots
+ * 1..n. An opponent's teams in one battle are either one plain team or teams
+ * that each follow a choice or variant; teams that follow a choice cover
+ * every option of it.
  */
 export function assertOpponentTeamRows(context, tableRows) {
   const table = "tracking.mainline_opponent_team_members";
@@ -722,6 +722,11 @@ export function assertOpponentTeamRows(context, tableRows) {
   const milestonesById = mapRowsByColumn(
     tableRows.get("tracking.mainline_milestones") ?? [],
     "id",
+  );
+  const battleKeys = new Set(
+    (tableRows.get("tracking.mainline_milestone_opponent_refs") ?? []).map(
+      ({ row }) => `${row.milestone_id}/${row.opponent_id}`,
+    ),
   );
   const formKeys = new Set(
     (tableRows.get("reference.pokemon_forms") ?? []).map(
@@ -754,8 +759,10 @@ export function assertOpponentTeamRows(context, tableRows) {
     }
     optionSlugsByMilestone.get(row.milestone_id).add(row.slug);
   }
+  const battleKey = (row) => `${row.milestone_id}/${row.opponent_id}`;
   const teamKey = (row) =>
     [
+      row.milestone_id,
       row.opponent_id,
       row.game_id ?? "",
       row.decision_milestone_id ?? "",
@@ -766,12 +773,12 @@ export function assertOpponentTeamRows(context, tableRows) {
     context,
     table,
     rows,
-    "opponent/game/choice/variant/slot",
+    "milestone/opponent/game/choice/variant/slot",
     (row) => `${teamKey(row)}/${row.slot}`,
   );
 
   const slotsByTeam = new Map();
-  const teamsByOpponentGame = new Map();
+  const teamsByBattleGame = new Map();
   for (const { row, filePath } of rows) {
     const label = `${relative(filePath)}: ${table} row ${teamKey(row)}/${row.slot}`;
     const opponent = opponentsById.get(row.opponent_id);
@@ -784,6 +791,11 @@ export function assertOpponentTeamRows(context, tableRows) {
     } else if (row.game_id !== null && opponent.game_id !== null) {
       context.errors.push(
         `${label} names a game for an opponent that already belongs to one.`,
+      );
+    }
+    if (!battleKeys.has(battleKey(row))) {
+      context.errors.push(
+        `${label} names milestone_id ${row.milestone_id}, which is not a Story battle of opponent ${row.opponent_id}.`,
       );
     }
     if (
@@ -833,26 +845,27 @@ export function assertOpponentTeamRows(context, tableRows) {
     const key = teamKey(row);
     if (!slotsByTeam.has(key)) slotsByTeam.set(key, { filePath, slots: [] });
     slotsByTeam.get(key).slots.push(row.slot);
-    const opponentGameKey = `${row.opponent_id}/${row.game_id ?? ""}`;
-    if (!teamsByOpponentGame.has(opponentGameKey)) {
-      teamsByOpponentGame.set(opponentGameKey, { filePath, teams: new Map() });
+    const battleGameKey = `${battleKey(row)}/${row.game_id ?? ""}`;
+    if (!teamsByBattleGame.has(battleGameKey)) {
+      teamsByBattleGame.set(battleGameKey, { filePath, teams: new Map() });
     }
-    teamsByOpponentGame.get(opponentGameKey).teams.set(key, row);
+    teamsByBattleGame.get(battleGameKey).teams.set(key, row);
   }
 
-  const gameKindsByOpponent = new Map();
+  const gameKindsByBattle = new Map();
   for (const { row, filePath } of rows) {
-    if (!gameKindsByOpponent.has(row.opponent_id)) {
-      gameKindsByOpponent.set(row.opponent_id, { filePath, kinds: new Set() });
+    const key = battleKey(row);
+    if (!gameKindsByBattle.has(key)) {
+      gameKindsByBattle.set(key, { filePath, kinds: new Set() });
     }
-    gameKindsByOpponent
-      .get(row.opponent_id)
+    gameKindsByBattle
+      .get(key)
       .kinds.add(row.game_id === null ? "version-group" : "game");
   }
-  for (const [opponentId, { filePath, kinds }] of gameKindsByOpponent) {
+  for (const [key, { filePath, kinds }] of gameKindsByBattle) {
     if (kinds.size > 1) {
       context.errors.push(
-        `${relative(filePath)}: ${table} opponent ${opponentId} mixes a version-group team with game teams; give every team its game.`,
+        `${relative(filePath)}: ${table} battle ${key} mixes a version-group team with game teams; give every team its game.`,
       );
     }
   }
@@ -865,14 +878,14 @@ export function assertOpponentTeamRows(context, tableRows) {
       );
     }
   }
-  for (const [key, { filePath, teams }] of teamsByOpponentGame) {
+  for (const [key, { filePath, teams }] of teamsByBattleGame) {
     const teamRows = [...teams.values()];
     const plainCount = teamRows.filter(
       (row) => row.decision_milestone_id === null && row.variant_slug === null,
     ).length;
     if (plainCount > 0 && teamRows.length > 1) {
       context.errors.push(
-        `${relative(filePath)}: ${table} opponent ${key} mixes a plain team with choice or variant teams.`,
+        `${relative(filePath)}: ${table} battle ${key} mixes a plain team with choice or variant teams.`,
       );
     }
     const choiceMilestones = new Set(
@@ -891,7 +904,7 @@ export function assertOpponentTeamRows(context, tableRows) {
         .sort();
       if (missing.length) {
         context.errors.push(
-          `${relative(filePath)}: ${table} opponent ${key} follows milestone ${milestoneId} but has no team for ${missing.join(", ")}.`,
+          `${relative(filePath)}: ${table} battle ${key} follows milestone ${milestoneId} but has no team for ${missing.join(", ")}.`,
         );
       }
     }

@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Badge, Elite Four, Diamond / Pearl, Gift Pokémon, and
 -- First partner Pokémon pages.
 -- Cross-check: Pokémon Diamond / Pearl source page.
+-- Story points with rival and Cyrus battles: Bulbapedia walkthrough pages.
 -- Scope: Pokémon Diamond / Pearl major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -45,8 +46,12 @@ INSERT INTO tracking.mainline_milestones (
   (80008, 8, NULL, 801, 2, 2, NULL, 'mine-badge', 'Mine Badge', 'Defeat Byron at Canalave Gym and receive the Mine Badge.', 8, true),
   -- Icicle Badge
   (80009, 8, NULL, 801, 2, 2, NULL, 'icicle-badge', 'Icicle Badge', 'Defeat Candice at Snowpoint Gym and receive the Icicle Badge.', 9, true),
+  -- Team Galactic HQ
+  (80017, 8, NULL, 801, 1, 2, NULL, 'galactic-hq', 'Team Galactic HQ', 'Raid Team Galactic''s headquarters in Veilstone City, defeat Cyrus and free Uxie, Mesprit and Azelf.', 10, true),
+  -- Spear Pillar
+  (80018, 8, NULL, 801, 1, 2, NULL, 'spear-pillar', 'Spear Pillar', 'Climb Mt. Coronet to Spear Pillar, stop Cyrus and face Dialga (Diamond) or Palkia (Pearl).', 11, true),
   -- Beacon Badge
-  (80010, 8, NULL, 801, 2, 2, NULL, 'beacon-badge', 'Beacon Badge', 'Defeat Volkner at Sunyshore Gym and receive the Beacon Badge.', 10, true),
+  (80010, 8, NULL, 801, 2, 2, NULL, 'beacon-badge', 'Beacon Badge', 'Defeat Volkner at Sunyshore Gym and receive the Beacon Badge.', 12, true),
   -- Elite Four Aaron
   (80011, 8, NULL, 802, 7, 2, NULL, 'elite-four-aaron', 'Elite Four Aaron', 'Defeat Aaron at the Pokémon League.', 1, true),
   -- Elite Four Bertha
@@ -58,4 +63,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Champion Cynthia
   (80015, 8, NULL, 802, 8, 2, NULL, 'champion-cynthia', 'Champion Cynthia', 'Defeat Champion Cynthia at the Pokémon League.', 5, true),
   -- Hall of Fame
-  (80016, 8, NULL, 802, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true);
+  (80016, 8, NULL, 802, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
+  -- Fight Area
+  (80019, 8, NULL, 803, 1, 2, NULL, 'fight-area', 'Fight Area', 'With the National Pokédex, take the ship to the Fight Area in the Battle Zone.', 1, false);

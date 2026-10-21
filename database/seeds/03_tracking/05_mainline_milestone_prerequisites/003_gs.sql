@@ -25,16 +25,16 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (30004, 30003, 3, 1, 1, NULL),
   -- Plain Badge <- Hive Badge
   (30005, 30004, 3, 1, 1, NULL),
-  -- Fog Badge <- Plain Badge
-  (30006, 30005, 3, 1, 1, NULL),
+  -- Fog Badge <- Burned Tower
+  (30006, 30026, 3, 1, 1, NULL),
   -- Storm Badge <- Fog Badge
   (30007, 30006, 3, 1, 1, NULL),
   -- Mineral Badge <- Storm Badge
   (30008, 30007, 3, 1, 1, NULL),
   -- Glacier Badge <- Mineral Badge
   (30009, 30008, 3, 1, 1, NULL),
-  -- Rising Badge <- Glacier Badge
-  (30010, 30009, 3, 1, 1, NULL),
+  -- Rising Badge <- Radio Tower
+  (30010, 30027, 3, 1, 1, NULL),
   -- Elite Four Will <- Rising Badge
   (30011, 30010, 3, 1, 1, NULL),
   -- Elite Four Koga <- Elite Four Will
@@ -64,4 +64,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Earth Badge <- Volcano Badge
   (30024, 30023, 3, 1, 1, NULL),
   -- Defeat Red <- Earth Badge
-  (30025, 30024, 3, 1, 1, NULL);
+  (30025, 30024, 3, 1, 1, NULL),
+  -- Burned Tower <- Plain Badge
+  (30026, 30005, 3, 1, 1, NULL),
+  -- Radio Tower <- Glacier Badge
+  (30027, 30009, 3, 1, 1, NULL);

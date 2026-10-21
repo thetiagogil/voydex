@@ -28,6 +28,14 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- BB Champion Kieran -> Kieran
   (250006, 25005, 25, 'battle-opponent', 1, NULL),
   -- Terapagos Battle -> Terapagos
-  (250008, 25006, 25, 'battle-opponent', 1, NULL),
+  (250008, 25006, 25, 'battle-opponent', 2, NULL),
   -- Mochi Mayhem -> Pecharunt
-  (250009, 25007, 25, 'battle-opponent', 1, NULL);
+  (250009, 25007, 25, 'battle-opponent', 3, NULL),
+  -- Arrive at Blueberry Academy -> Carmine
+  (250001, 25008, 25, 'battle-opponent', 1, 'Central Plaza, Terarium'),
+  -- Terapagos Battle -> Kieran
+  (250008, 25009, 25, 'battle-opponent', 1, 'Area Zero Underdepths'),
+  -- Mochi Mayhem -> Arven & Penny
+  (250009, 25010, 25, 'battle-opponent', 1, 'Mossui Town (Peachy''s). You can skip this battle.'),
+  -- Mochi Mayhem -> Nemona
+  (250009, 25011, 25, 'battle-opponent', 2, 'Loyalty Plaza. You can skip this battle.');

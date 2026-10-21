@@ -47,4 +47,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Drake
   (5012, 5, NULL, 'drake', 'Drake', 'elite-four', 15, NULL, 'drake', 12),
   -- Steven
-  (5013, 5, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 13);
+  (5013, 5, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 13),
+  -- May / Brendan (rival)
+  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', 14),
+  -- Wally (rival)
+  (5015, 5, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', 15),
+  -- Maxie (boss, ruby)
+  (5016, 5, 7, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', 1),
+  -- Archie (boss, sapphire)
+  (5017, 5, 8, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 1);

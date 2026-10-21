@@ -50,4 +50,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Marshal
   (12014, 12, NULL, 'marshal', 'Marshal', 'elite-four', 7, NULL, 'marshal', 14),
   -- Iris
-  (12015, 12, NULL, 'iris', 'Iris', 'champion', 15, NULL, 'iris', 15);
+  (12015, 12, NULL, 'iris', 'Iris', 'champion', 15, NULL, 'iris', 15),
+  -- Hugh (rival)
+  (12016, 12, NULL, 'hugh', 'Hugh', 'rival', NULL, NULL, 'hugh', 16),
+  -- Kyurem (boss)
+  (12017, 12, NULL, 'kyurem', 'Kyurem', 'boss', NULL, NULL, 'kyurem', 17);

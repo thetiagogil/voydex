@@ -56,4 +56,14 @@ INSERT INTO tracking.mainline_opponents (
   -- Hau
   (16017, 16, NULL, 'hau', 'Hau', 'champion', NULL, NULL, 'hau', 17),
   -- Giovanni
-  (16018, 16, NULL, 'giovanni', 'Giovanni', 'boss', 9, NULL, 'giovanni', 18);
+  (16018, 16, NULL, 'giovanni', 'Giovanni', 'boss', 9, NULL, 'giovanni', 18),
+  -- Hau (rival)
+  (16019, 16, NULL, 'hau-rival', 'Hau', 'rival', NULL, NULL, 'hau', 19),
+  -- Gladion (rival)
+  (16020, 16, NULL, 'gladion', 'Gladion', 'rival', NULL, NULL, 'gladion', 20),
+  -- Hau & Gladion (rival)
+  (16021, 16, NULL, 'hau-gladion', 'Hau & Gladion', 'rival', NULL, NULL, 'hau', 21),
+  -- Guzma (boss)
+  (16022, 16, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', 22),
+  -- Lusamine (boss)
+  (16023, 16, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', 23);

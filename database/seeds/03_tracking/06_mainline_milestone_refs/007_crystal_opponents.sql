@@ -35,7 +35,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Rising Badge -> Clair
   (40010, 4008, 4, 'battle-opponent', 1, NULL),
   -- Elite Four Will -> Will
-  (40011, 4009, 4, 'battle-opponent', 1, NULL),
+  (40011, 4009, 4, 'battle-opponent', 2, NULL),
   -- Elite Four Koga -> Koga
   (40012, 4010, 4, 'battle-opponent', 1, NULL),
   -- Elite Four Bruno -> Bruno
@@ -61,4 +61,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Earth Badge -> Blue
   (40024, 4021, 4, 'battle-opponent', 1, NULL),
   -- Defeat Red -> Red
-  (40025, 4022, 4, 'battle-opponent', 1, NULL);
+  (40025, 4022, 4, 'battle-opponent', 1, NULL),
+  -- Receive Pokedex -> Silver
+  (40002, 4023, 4, 'battle-opponent', 1, 'Cherrygrove City'),
+  -- Hive Badge -> Silver
+  (40004, 4023, 4, 'battle-opponent', 2, 'Azalea Town (west exit to Ilex Forest)'),
+  -- Burned Tower -> Silver
+  (40026, 4023, 4, 'battle-opponent', 1, 'Burned Tower 1F, Ecruteak City'),
+  -- Radio Tower -> Silver
+  (40027, 4023, 4, 'battle-opponent', 1, 'Goldenrod Underground (switch room entrances)'),
+  -- Elite Four Will -> Silver
+  (40011, 4023, 4, 'battle-opponent', 1, 'Victory Road (near the exit to Indigo Plateau)'),
+  -- Boulder Badge -> Silver
+  (40017, 4023, 4, 'battle-opponent', 2, 'Mt. Moon. You can skip this battle.');
