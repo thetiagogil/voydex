@@ -45,15 +45,14 @@ SELECT
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (milestone_id, opponent_id, version_group_id, variant_slug, variant_label, slot, species_id, form_id, level)
             VALUES (10005, 1001, 1, 'pgtap', 'pgTAP', 1, 74, 7400, 12) $$, '23503', NULL, 'a team row belongs to a Story battle its opponent is in');
--- Kieran (The Teal Mask) battles twice, and each battle has its own team.
+-- Kieran (The Teal Mask) battles you again after the Ogerpon story, with his own team then.
 SELECT
-    IS ((
-            SELECT
-                COUNT(DISTINCT milestone_id)::integer
-            FROM
-                tracking.mainline_opponent_team_members
+    isnt_empty ($$
+        SELECT
+            id FROM tracking.mainline_opponent_team_members
             WHERE
-                opponent_id = 24001), 2, 'a rematch has its own team');
+                milestone_id = 240006
+                AND opponent_id = 24001 $$, 'a rematch has its own team');
 -- Every League battle Story matchups reads has its opponent's team.
 SELECT
     is_empty ($$
