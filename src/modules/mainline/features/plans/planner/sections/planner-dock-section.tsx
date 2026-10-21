@@ -262,10 +262,8 @@ export const PlannerDockSection = ({
                     label={`Empty slot ${index + 1}`}
                     text="Empty"
                     variant="compact"
-                    className={cn(
-                      "text-14 h-full",
-                      dropTarget === index && "bg-white/50",
-                    )}
+                    className="text-14 h-full"
+                    target={dropTarget === index}
                   />
                 )}
               </li>
@@ -279,6 +277,8 @@ export const PlannerDockSection = ({
               onDragStart={(event) => {
                 setDragFrom(index);
                 event.dataTransfer.effectAllowed = "move";
+                /* Some browsers start a drag only once it carries data. */
+                event.dataTransfer.setData("text/plain", String(index));
               }}
               onDragEnd={() => {
                 setDragFrom(null);

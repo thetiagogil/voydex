@@ -101,9 +101,11 @@ export const moveMainlinePlayPokemonAction = async ({
 
     if (result.error) {
       throw new Error(
-        result.error.message === "The team needs at least one Pokémon"
+        result.error.hint === "team-needs-one"
           ? teamNeedsOneMessage
-          : "Unable to move it.",
+          : result.error.code === "40001"
+            ? "The roster changed meanwhile. Try again."
+            : "Unable to move it.",
       );
     }
 

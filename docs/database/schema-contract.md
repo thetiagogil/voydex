@@ -110,7 +110,9 @@ Use reviewed security-invoker functions for atomic workflows:
 - `gameplay.move_mainline_play_pokemon` moves a team or reserve Pokémon to
   another slot (1–6 team, 7–12 reserve; the state follows the slot) and swaps
   it with the Pokémon already there, in one statement. It refuses to leave the
-  team empty and is not a moment.
+  team empty and is not a moment. That rule belongs to moves only: retiring or
+  removing the last team Pokémon is allowed. It locks the rows, then the Play,
+  in the order every roster function does.
 - `gameplay.remove_mainline_play_pokemon` deletes a Pokémon recorded by
   mistake; when it undoes an add it also deletes that Pokémon's own Added
   moment in the same transaction. Its other moments stay, with the Pokémon

@@ -265,6 +265,7 @@ export const PokemonEmptySlot = ({
   href,
   label,
   ring = false,
+  target = false,
   text = "Open slot",
   variant = "default",
 }: {
@@ -273,6 +274,8 @@ export const PokemonEmptySlot = ({
   /* The slot's name when it is a picture, not a link. */
   label: string;
   ring?: boolean;
+  /* Marked as where a dragged Pokémon would land: the accent ring. */
+  target?: boolean;
   /* What it says inside; "Open slot" unless the slot means something else. */
   text?: string;
   /* Matches the stickers it sits among. */
@@ -281,6 +284,7 @@ export const PokemonEmptySlot = ({
   const slotClassName = cn(
     "empty-slot text-ink-3 text-14 flex min-w-0 flex-col items-center justify-center gap-3 rounded-xl font-bold",
     variantClassNames[variant].height,
+    target && "ring-action ring-[2.5px]",
     className,
   );
   const body = (

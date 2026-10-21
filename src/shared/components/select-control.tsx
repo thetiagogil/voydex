@@ -43,6 +43,7 @@ type SelectControlProps = {
   ariaLabel: string;
   className?: string;
   defaultValue?: string;
+  disabled?: boolean;
   id?: string;
   name?: string;
   onValueChange?: (value: string) => void;
@@ -138,6 +139,7 @@ export const SelectControl = ({
   ariaLabel,
   className,
   defaultValue,
+  disabled = false,
   id,
   name,
   onValueChange,
@@ -182,6 +184,7 @@ export const SelectControl = ({
 
     return (
       <Combobox
+        disabled={disabled}
         items={options as SelectControlOption[]}
         value={selectedOption}
         onValueChange={(option: SelectControlOption | null) => {
@@ -272,6 +275,7 @@ export const SelectControl = ({
           ? undefined
           : `${name ?? ariaLabel}:${normalizedDefaultValue}`
       }
+      disabled={disabled}
       name={name}
       {...selectValueProps}
       onValueChange={(nextValue) => {

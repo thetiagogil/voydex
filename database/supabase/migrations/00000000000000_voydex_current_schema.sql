@@ -5596,9 +5596,9 @@ CREATE FUNCTION gameplay.move_mainline_play_pokemon (p_play_pokemon_id uuid, p_t
     SET search_path = ''
     AS $$
 DECLARE
-    v_play_id uuid;
     v_play_pokemon gameplay.mainline_play_pokemon%ROWTYPE;
     v_occupant_id uuid;
+    v_locked_occupant_id uuid;
 BEGIN
     IF p_play_pokemon_id IS NULL THEN
         RAISE EXCEPTION 'play_pokemon_id is required'
@@ -5609,21 +5609,42 @@ BEGIN
             USING ERRCODE = '23514';
     END IF;
     SELECT
-        mainline_play_pokemon.play_id
+        mainline_play_pokemon.*
     INTO
-        v_play_id
+        v_play_pokemon
     FROM
         gameplay.mainline_play_pokemon
     WHERE
         mainline_play_pokemon.id = p_play_pokemon_id;
-    IF v_play_id IS NULL THEN
+    IF v_play_pokemon.id IS NULL THEN
         RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id %', p_play_pokemon_id
             USING ERRCODE = '23503';
     END IF;
-    -- The Play lock comes before any row lock, so two moves on one roster
-    -- queue instead of deadlocking on each other's rows.
+    SELECT
+        mainline_play_pokemon.id
+    INTO
+        v_occupant_id
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.play_id = v_play_pokemon.play_id
+        AND mainline_play_pokemon.slot = p_to_slot
+        AND mainline_play_pokemon.id <> p_play_pokemon_id;
+    -- Rows first, then the Play lock, in the order every roster function
+    -- takes them, so a move never waits on a row while holding the Play.
+    -- Both rows lock in id order, so two crossing moves queue.
     PERFORM
-        pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_id::text)::bigint);
+        1
+    FROM
+        gameplay.mainline_play_pokemon
+    WHERE
+        mainline_play_pokemon.id IN (p_play_pokemon_id, v_occupant_id)
+    ORDER BY
+        mainline_play_pokemon.id
+    FOR UPDATE;
+    PERFORM
+        pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_pokemon.play_id::text)::bigint);
+    -- Read again under the locks: another write may have landed meanwhile.
     SELECT
         mainline_play_pokemon.*
     INTO
@@ -5631,8 +5652,7 @@ BEGIN
     FROM
         gameplay.mainline_play_pokemon
     WHERE
-        mainline_play_pokemon.id = p_play_pokemon_id
-    FOR UPDATE;
+        mainline_play_pokemon.id = p_play_pokemon_id;
     IF v_play_pokemon.id IS NULL THEN
         RAISE EXCEPTION 'Unknown or unavailable play_pokemon_id %', p_play_pokemon_id
             USING ERRCODE = '23503';
@@ -5651,13 +5671,16 @@ BEGIN
     SELECT
         mainline_play_pokemon.id
     INTO
-        v_occupant_id
+        v_locked_occupant_id
     FROM
         gameplay.mainline_play_pokemon
     WHERE
         mainline_play_pokemon.play_id = v_play_pokemon.play_id
-        AND mainline_play_pokemon.slot = p_to_slot
-    FOR UPDATE;
+        AND mainline_play_pokemon.slot = p_to_slot;
+    IF v_locked_occupant_id IS DISTINCT FROM v_occupant_id THEN
+        RAISE EXCEPTION 'The roster changed while moving'
+            USING ERRCODE = '40001', HINT = 'Try the move again.';
+    END IF;
     -- The team keeps at least one Pokémon: a team Pokémon may leave for an
     -- empty reserve slot only while another Pokémon stays on the team.
     IF v_play_pokemon.slot <= 6 AND p_to_slot >= 7 AND v_occupant_id IS NULL AND NOT EXISTS (
@@ -5668,7 +5691,7 @@ BEGIN
         WHERE
             mainline_play_pokemon.play_id = v_play_pokemon.play_id AND mainline_play_pokemon.roster_state_id = 1 AND mainline_play_pokemon.id <> p_play_pokemon_id) THEN
         RAISE EXCEPTION 'The team needs at least one Pokémon'
-            USING ERRCODE = '23514';
+            USING ERRCODE = '23514', HINT = 'team-needs-one';
     END IF;
     -- One statement moves both Pokémon; the deferrable slot constraint is
     -- checked once both have their new slots. The state follows the slot.

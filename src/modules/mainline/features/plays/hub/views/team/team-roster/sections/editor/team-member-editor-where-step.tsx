@@ -74,8 +74,15 @@ export const TeamMemberEditorWhereStep = ({
       value: String(slot),
     };
   });
-  const isLastOnTeam = options.some(
-    (option) => option.disabled && option.description === teamNeedsOneMessage,
+  const isLastOnTeam =
+    member.roster_state_slug === "active" &&
+    !roster.some(
+      (other) =>
+        other.play_pokemon_id !== playPokemonId &&
+        other.roster_state_slug === "active",
+    );
+  const hasReserve = roster.some(
+    (other) => other.roster_state_slug === "reserve",
   );
 
   return (
@@ -86,6 +93,7 @@ export const TeamMemberEditorWhereStep = ({
           id={`${id}-where`}
           ariaLabel={`Move ${getPlayTeamMemberName(member)} to`}
           className="w-full"
+          disabled={isMoving}
           options={options}
           placeholder="Pick a slot"
           searchable={false}
@@ -93,14 +101,16 @@ export const TeamMemberEditorWhereStep = ({
           onValueChange={(value) => {
             const toSlot = Number(value);
 
-            if (!isMoving && toSlot) {
+            if (toSlot) {
               onMove(playPokemonId, toSlot);
             }
           }}
         />
         <FieldDescription>
           {isLastOnTeam
-            ? `${teamNeedsOneMessage} It can still swap with a reserve Pokémon.`
+            ? hasReserve
+              ? `${teamNeedsOneMessage} It can still swap with a reserve Pokémon.`
+              : teamNeedsOneMessage
             : "It moves straight away. A taken slot swaps the two Pokémon."}
         </FieldDescription>
       </Field>

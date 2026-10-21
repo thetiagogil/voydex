@@ -127,12 +127,17 @@ const TeamRosterGroupList = ({
           const storedSlot =
             slot.position + (group === "active" ? 0 : playTeamSize);
           const memberId = slot.member?.play_pokemon_id ?? null;
-          /* A refused drop, such as the team's last Pokémon, snaps back. */
-          const canDrop =
+          const canDrop = drag.dragId !== null && drag.dragId !== memberId;
+          /*
+           * A refused drop, such as the team's last Pokémon to an empty
+           * reserve slot, shows no ring; dropped anyway, it snaps back and
+           * the toast says why.
+           */
+          const isDropTarget =
+            canDrop &&
             drag.dragId !== null &&
-            drag.dragId !== memberId &&
+            drag.dropSlot === storedSlot &&
             getRosterMove(roster, drag.dragId, storedSlot).kind !== "blocked";
-          const isDropTarget = canDrop && drag.dropSlot === storedSlot;
           const endDrag = () => {
             drag.setDragId(null);
             drag.setDropSlot(null);
@@ -146,6 +151,8 @@ const TeamRosterGroupList = ({
                 if (!memberId) return;
                 drag.setDragId(memberId);
                 event.dataTransfer.effectAllowed = "move";
+                /* Some browsers start a drag only once it carries data. */
+                event.dataTransfer.setData("text/plain", memberId);
               }}
               onDragEnd={endDrag}
               onDragOver={(event: DragEvent) => {
@@ -188,10 +195,8 @@ const TeamRosterGroupList = ({
                 <PokemonEmptySlot
                   label={`Empty ${groupName.toLowerCase()} slot ${slot.position}`}
                   variant="compact"
-                  className={cn(
-                    "text-14 h-full",
-                    isDropTarget && "ring-action ring-[2.5px]",
-                  )}
+                  className="text-14 h-full"
+                  target={isDropTarget}
                 />
               )}
             </li>

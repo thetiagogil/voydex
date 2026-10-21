@@ -4,6 +4,7 @@ import { useEffect, useId, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
+import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
@@ -206,7 +207,7 @@ export const TeamMemberEditorSheet = ({
   const placeLabel =
     member.roster_state_slug === "active"
       ? `On the team · Slot ${member.slot ?? "?"}`
-      : `In reserve · R${member.slot ? member.slot - 6 : "?"}`;
+      : `In reserve · R${member.slot ? member.slot - playTeamSize : "?"}`;
   const primaryTypeSlug =
     member.primaryType && isPokemonTypeSlug(member.primaryType.slug)
       ? member.primaryType.slug

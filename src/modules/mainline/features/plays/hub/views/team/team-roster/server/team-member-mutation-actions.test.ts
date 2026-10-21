@@ -99,7 +99,11 @@ describe("moveMainlinePlayPokemonAction", () => {
   it("says why when the team would be left empty", async () => {
     rpc.mockResolvedValue({
       data: null,
-      error: { code: "23514", message: "The team needs at least one Pokémon" },
+      error: {
+        code: "23514",
+        hint: "team-needs-one",
+        message: "The team needs at least one Pokémon",
+      },
     });
 
     await expect(
