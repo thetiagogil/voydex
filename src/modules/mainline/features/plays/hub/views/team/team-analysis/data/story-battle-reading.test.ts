@@ -82,6 +82,7 @@ const opponent = (
   formSlug: name.toLowerCase(),
   imageUrl: null,
   key: name,
+  legendary: null,
   level,
   name,
   types: opponentTypes.map(typeOf),
@@ -239,6 +240,46 @@ describe("readStoryBattle", () => {
   });
 });
 
+describe("readStoryBattle for a legendary", () => {
+  const raikou = [opponent("Raikou", ["electric"], 40)];
+  const read = (
+    members: MainlinePlayTeamMember[],
+    opponentKind: "legendary" | "trainer" = "legendary",
+  ) =>
+    readStoryBattle({
+      generationOrder: 2,
+      members,
+      opponentKind,
+      opponentName: "Raikou",
+      their: raikou,
+      types,
+    });
+
+  it("names the legendary where a trainer would be 'their team'", () => {
+    const ground = member("a", ["ground"], 40, [move("Earthquake", "ground")]);
+
+    expect(read([ground]).summary).toBe(
+      "You have an answer to Raikou, and it doesn't hit your team for 2×.",
+    );
+    expect(read([ground], "trainer").summary).toBe(
+      "You have an answer to Raikou's Pokémon, and nothing of theirs hits your team for 2×.",
+    );
+  });
+
+  it("says when none of your moves hits it for 2×, and when it is above your team", () => {
+    expect(
+      read([member("a", ["water"], 40, [move("Surf", "water")])]).summary,
+    ).toBe(
+      "None of your recorded moves hits Raikou for 2×, and your Pokémon takes 2× or more.",
+    );
+    expect(
+      read([member("a", ["grass"], 20, [move("Vine Whip", "grass")])]).summary,
+    ).toBe(
+      "None of your recorded moves hits Raikou for 2×, and it's 20 levels above your team.",
+    );
+  });
+});
+
 describe("level wording", () => {
   it("writes ranges and the gap", () => {
     expect(formatLevelRange({ max: 65, min: 62 })).toBe("Lv. 62–65");
@@ -259,5 +300,24 @@ describe("level wording", () => {
         their: { max: 14, min: 12 },
       }),
     ).toBe("Your levels are close to theirs");
+  });
+
+  it("reads 'it' for a legendary", () => {
+    const levels = (gap: number) => ({
+      gap,
+      state: "balanced" as const,
+      team: { max: 50, min: 50 },
+      their: { max: 50 - gap, min: 50 - gap },
+    });
+
+    expect(getLevelsSentence(levels(-12), "legendary")).toBe(
+      "It's 12 levels above your team",
+    );
+    expect(getLevelsSentence(levels(5), "legendary")).toBe(
+      "You're 5 levels above it",
+    );
+    expect(getLevelsSentence(levels(1), "legendary")).toBe(
+      "Your levels are close to its",
+    );
   });
 });

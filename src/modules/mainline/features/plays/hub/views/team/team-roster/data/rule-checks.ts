@@ -8,6 +8,7 @@ import {
   resolveRuleConfig,
   type ReuseScope,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
+import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 
 /*
  * Soft rule checks: what a Play's own rules say about a Pokémon on its team.
@@ -105,7 +106,7 @@ export type RuleCheckContext = {
   /* Each species in an evolution family an earlier Play used, by family. */
   familyBySpecies: Record<number, number>;
   /* Legendary and Mythical species, by id. */
-  legendaryBySpecies: Record<number, "Legendary" | "Mythical">;
+  legendaryBySpecies: Record<number, LegendaryRarity>;
   /* Level caps' cap now; null when the Play doesn't use the rule. */
   levelCap: MainlinePlayLevelCap | null;
   rules: CheckedRule[];

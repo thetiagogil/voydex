@@ -6,6 +6,7 @@ import {
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { resolveLatestAttributesByForm } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { readLegendarySpecies } from "@/modules/reference/features/pokemon/server/legendary-species-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -77,28 +78,30 @@ const readOpponentTeams = async (
   const decisionMilestoneIds = uniqueNumberIds(
     members.map((member) => member.decision_milestone_id),
   );
-  const [formsResult, attributesResult, optionsResult] = await Promise.all([
-    supabase
-      .schema("reference")
-      .from("pokemon_forms")
-      .select("id, slug, name")
-      .in("id", formIds),
-    generationId
-      ? supabase
-          .schema("reference")
-          .from("pokemon_attributes")
-          .select("*")
-          .in("form_id", formIds)
-          .lte("generation_start_id", generationId)
-      : null,
-    decisionMilestoneIds.length
-      ? supabase
-          .schema("tracking")
-          .from("mainline_milestone_decision_options")
-          .select("id, milestone_id, slug, label")
-          .in("milestone_id", decisionMilestoneIds)
-      : null,
-  ]);
+  const [formsResult, attributesResult, optionsResult, legendaryBySpecies] =
+    await Promise.all([
+      supabase
+        .schema("reference")
+        .from("pokemon_forms")
+        .select("id, slug, name, species_id")
+        .in("id", formIds),
+      generationId
+        ? supabase
+            .schema("reference")
+            .from("pokemon_attributes")
+            .select("*")
+            .in("form_id", formIds)
+            .lte("generation_start_id", generationId)
+        : null,
+      decisionMilestoneIds.length
+        ? supabase
+            .schema("tracking")
+            .from("mainline_milestone_decision_options")
+            .select("id, milestone_id, slug, label")
+            .in("milestone_id", decisionMilestoneIds)
+        : null,
+      readLegendarySpecies(supabase),
+    ]);
 
   if (formsResult.error || attributesResult?.error || optionsResult?.error) {
     throw new Error("Unable to load the Play's Story opponents' Pokémon.");
@@ -152,6 +155,7 @@ const readOpponentTeams = async (
           choiceKey,
           formSlug: form.slug,
           gameId: member.game_id,
+          legendary: legendaryBySpecies[form.species_id] ?? null,
           level: member.level,
           milestoneId: member.milestone_id,
           name: form.name,
@@ -192,7 +196,7 @@ export const readMainlinePlayStoryMatchupRows = async (
         .schema("views")
         .from("mainline_play_milestone_detail")
         .select(
-          "badge_refs, category_id, category_name, completed_at, description, is_completed, milestone_id, milestone_name, opponent_refs, sort_order",
+          "badge_refs, category_id, category_name, completed_at, description, is_completed, is_required_for_completion, milestone_id, milestone_name, opponent_refs, sort_order",
         )
         .eq("play_id", playId),
       teamsThen

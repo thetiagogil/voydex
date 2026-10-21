@@ -30,6 +30,7 @@ const battle = (
   chapter: "Main Story",
   completedAt: null,
   id: "1/1",
+  isOptional: false,
   kind: "Gym Leader",
   members: [
     {
@@ -41,6 +42,7 @@ const battle = (
   ],
   milestoneName: "Boulder Badge",
   name: "Brock",
+  opponentKind: "trainer",
   party: null,
   partyLevels: null,
   reading: null,
@@ -52,11 +54,26 @@ const battle = (
 });
 
 const render = (battles: StoryMatchupBattle[]) => {
+  const optional = battles.filter(
+    (item) => item.opponentKind === "legendary" && item.isOptional,
+  );
+  const counted = battles.filter((item) => !optional.includes(item));
   const model: StoryMatchupsModel = {
-    battleCount: battles.length,
-    chapters: [{ battles, key: "main", name: "Main Story", wonCount: 0 }],
+    battleCount: counted.length,
+    chapters: [
+      {
+        battleCount: counted.length,
+        battles,
+        key: "main",
+        name: "Main Story",
+        optionalCount: optional.length,
+        optionalDoneCount: optional.filter((item) => item.state === "won")
+          .length,
+        wonCount: counted.filter((item) => item.state === "won").length,
+      },
+    ],
     defaultBattleId: battles[0]?.id ?? null,
-    wonCount: 0,
+    wonCount: counted.filter((item) => item.state === "won").length,
   };
 
   return renderToStaticMarkup(<StoryMatchupsSection model={model} />);
@@ -72,6 +89,7 @@ const withTeam = battle({
           formSlug: "onix",
           imageUrl: null,
           key: "onix",
+          legendary: null,
           level: 14,
           name: "Onix",
           types: [rock],
@@ -89,6 +107,7 @@ const withTeam = battle({
         formSlug: "onix",
         imageUrl: null,
         key: "onix",
+        legendary: null,
         level: 14,
         name: "Onix",
         types: [rock],
@@ -150,5 +169,74 @@ describe("StoryMatchupsSection", () => {
     ]);
 
     expect(html).toContain("so this reads the one for Bulbasaur");
+  });
+  describe("for a legendary encounter", () => {
+    const raikou = battle({
+      isOptional: true,
+      kind: "Legendary",
+      milestoneName: "Roaming Raikou",
+      name: "Raikou",
+      opponentKind: "legendary",
+      party: {
+        note: null,
+        pokemon: [
+          {
+            formSlug: "raikou",
+            imageUrl: null,
+            key: "raikou",
+            legendary: "Legendary",
+            level: 40,
+            name: "Raikou",
+            types: [water],
+          },
+        ],
+      },
+      partyLevels: "Lv. 40",
+      reading: {
+        levels: {
+          gap: -20,
+          state: "challenging",
+          team: { max: 20, min: 20 },
+          their: { max: 40, min: 40 },
+        },
+        state: "challenging",
+        summary:
+          "Your team's moves aren't recorded, and it's 20 levels above your team.",
+        uncoveredTypes: [rock],
+      },
+      specialtyTypes: [water],
+    });
+
+    it("reads as a legendary and one Pokémon, never a trainer's team", () => {
+      const html = render([raikou]);
+
+      expect(html).toContain("Legendary");
+      expect(html).toContain("Optional");
+      expect(html).toContain("The Pokémon");
+      expect(html).toContain("It&#x27;s weak to");
+      expect(html).toContain("It&#x27;s 20 levels above your team");
+      expect(html).toContain("Its moves aren&#x27;t in Voydex");
+      expect(html).not.toContain("Boss");
+      expect(html).not.toContain("Their team");
+      expect(html).not.toContain("Their moves");
+      expect(html).not.toContain("Some of them");
+    });
+
+    it("is done, not won, once recorded", () => {
+      const html = render([
+        { ...raikou, completedAt: "2026-10-12T10:00:00Z", state: "won" },
+      ]);
+
+      expect(html).toContain("Done");
+      expect(html).toContain("Voydex keeps who you met");
+      expect(html).not.toContain("Won");
+    });
+
+    it("tallies optional legendaries as done, apart from battles won", () => {
+      expect(render([raikou])).toContain("0 of 1 done");
+      expect(render([withTeam, raikou])).toContain(
+        "0 of 1 won · 0 of 1 legendaries done",
+      );
+    });
   });
 });

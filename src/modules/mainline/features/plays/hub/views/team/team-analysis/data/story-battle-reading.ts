@@ -7,6 +7,7 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import type { Type } from "@/modules/reference/types";
 
 import { getDamagingMoveTypeSlug } from "./team-analysis-rows";
@@ -14,11 +15,19 @@ import { getDamagingMoveTypeSlug } from "./team-analysis-rows";
 /* The three readings a battle, one of your Pokémon or the levels can take. */
 export type MatchupState = "balanced" | "challenging" | "strong";
 
+/*
+ * Who the opponent is: a trainer with a team, or a legendary Pokémon met on
+ * its own, which reads as "it" and not as "them".
+ */
+export type StoryOpponentKind = "legendary" | "trainer";
+
 /* One Pokémon on the opponent's team, by its types in the Play's game. */
 export type StoryOpponentPokemon = {
   formSlug: string;
   imageUrl: string | null;
   key: string;
+  /* Set when the species is Legendary or Mythical. */
+  legendary: LegendaryRarity | null;
   level: number;
   name: string;
   types: Type[];
@@ -82,12 +91,18 @@ export const formatLevelRange = ({ max, min }: StoryLevelRange) =>
 const getLevelState = (gap: number): MatchupState =>
   gap >= 2 ? "strong" : gap <= -2 ? "challenging" : "balanced";
 
-export const getLevelsSentence = (levels: StoryLevelsReading) =>
-  levels.gap <= -2
-    ? `They're ${-levels.gap} ${levelWord(-levels.gap)} above your team`
+export const getLevelsSentence = (
+  levels: StoryLevelsReading,
+  opponentKind: StoryOpponentKind = "trainer",
+) => {
+  const isLegendary = opponentKind === "legendary";
+
+  return levels.gap <= -2
+    ? `${isLegendary ? "It's" : "They're"} ${-levels.gap} ${levelWord(-levels.gap)} above your team`
     : levels.gap >= 2
-      ? `You're ${levels.gap} ${levelWord(levels.gap)} above them`
-      : "Your levels are close to theirs";
+      ? `You're ${levels.gap} ${levelWord(levels.gap)} above ${isLegendary ? "it" : "them"}`
+      : `Your levels are close to ${isLegendary ? "its" : "theirs"}`;
+};
 
 /*
  * Reads your active team against one opponent's team by types, recorded
@@ -98,12 +113,14 @@ export const getLevelsSentence = (levels: StoryLevelsReading) =>
 export const readStoryBattle = ({
   generationOrder,
   members,
+  opponentKind = "trainer",
   opponentName,
   their,
   types,
 }: {
   generationOrder: number;
   members: MainlinePlayTeamMember[];
+  opponentKind?: StoryOpponentKind;
   /* "Leon", or null when the battle has more than one opponent. */
   opponentName: string | null;
   their: StoryOpponentPokemon[];
@@ -255,6 +272,7 @@ export const readStoryBattle = ({
       exposedCount,
       gap: levels?.gap ?? null,
       hasRecordedMoves: recordedSlugs.size > 0,
+      opponentKind,
       opponentName,
       teamCount: members.length,
       theirCount: their.length,
@@ -273,6 +291,7 @@ const getSummary = ({
   exposedCount,
   gap,
   hasRecordedMoves,
+  opponentKind,
   opponentName,
   teamCount,
   theirCount,
@@ -281,25 +300,36 @@ const getSummary = ({
   exposedCount: number;
   gap: number | null;
   hasRecordedMoves: boolean;
+  opponentKind: StoryOpponentKind;
   opponentName: string | null;
   teamCount: number;
   theirCount: number;
 }) => {
   const owner = opponentName ? `${opponentName}'s` : "their";
+  const isLegendary = opponentKind === "legendary";
+  /* A legendary is named, not counted: "an answer to Raikou". */
+  const subject = isLegendary ? (opponentName ?? "it") : null;
   const answersAll = answeredCount === theirCount;
   const answers = !hasRecordedMoves
     ? "Your team's moves aren't recorded"
-    : answersAll
-      ? theirCount === 1
-        ? `You have an answer to ${owner} Pokémon`
-        : `You have an answer to each of ${owner} ${countWord(theirCount)} Pokémon`
-      : answeredCount === 0
-        ? `None of your recorded moves hits ${owner} Pokémon for 2×`
-        : `You have an answer to ${answeredCount} of ${owner} ${theirCount} Pokémon`;
+    : subject
+      ? answersAll
+        ? `You have an answer to ${subject}`
+        : `None of your recorded moves hits ${subject} for 2×`
+      : answersAll
+        ? theirCount === 1
+          ? `You have an answer to ${owner} Pokémon`
+          : `You have an answer to each of ${owner} ${countWord(theirCount)} Pokémon`
+        : answeredCount === 0
+          ? `None of your recorded moves hits ${owner} Pokémon for 2×`
+          : `You have an answer to ${answeredCount} of ${owner} ${theirCount} Pokémon`;
 
   const [other, isGood] =
     gap !== null && gap <= -2
-      ? [`they're ${-gap} ${levelWord(-gap)} above your team`, false]
+      ? [
+          `${isLegendary ? "it's" : "they're"} ${-gap} ${levelWord(-gap)} above your team`,
+          false,
+        ]
       : exposedCount > 0
         ? [
             teamCount === 1
@@ -310,8 +340,16 @@ const getSummary = ({
             false,
           ]
         : gap !== null && gap >= 2
-          ? [`you're ${gap} ${levelWord(gap)} above them`, true]
-          : ["nothing of theirs hits your team for 2×", true];
+          ? [
+              `you're ${gap} ${levelWord(gap)} above ${isLegendary ? "it" : "them"}`,
+              true,
+            ]
+          : [
+              isLegendary
+                ? "it doesn't hit your team for 2×"
+                : "nothing of theirs hits your team for 2×",
+              true,
+            ];
 
   const isAnswersGood = hasRecordedMoves && answersAll;
 

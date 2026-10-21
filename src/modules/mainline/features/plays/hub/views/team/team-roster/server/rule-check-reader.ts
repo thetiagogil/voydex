@@ -6,29 +6,10 @@ import {
   type UsedPokemon,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { readLegendarySpecies } from "@/modules/reference/features/pokemon/server/legendary-species-reader";
 import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
-
-/* Legendary and Mythical species, for No legendaries. */
-const readLegendarySpecies = async (supabase: ServerSupabaseClient) => {
-  const result = await supabase
-    .schema("reference")
-    .from("pokemon_species")
-    .select("id, is_legendary, is_mythical")
-    .or("is_legendary.eq.true,is_mythical.eq.true");
-
-  if (result.error) {
-    throw new Error("Unable to load legendary Pokémon.");
-  }
-
-  return Object.fromEntries(
-    (result.data ?? []).map((species) => [
-      species.id,
-      species.is_mythical ? ("Mythical" as const) : ("Legendary" as const),
-    ]),
-  );
-};
 
 /*
  * Every Pokémon your Plays started before this one used, for No Pokémon

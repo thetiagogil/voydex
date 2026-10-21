@@ -6,6 +6,7 @@ import type {
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import { getDefensiveTypeMultiplier } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import {
   isPokemonTypeSlug,
@@ -20,6 +21,7 @@ import {
   readStoryBattle,
   type StoryBattleReading,
   type StoryMemberReading,
+  type StoryOpponentKind,
   type StoryOpponentPokemon,
 } from "./story-battle-reading";
 
@@ -31,6 +33,7 @@ export type StoryMatchupMilestone = Pick<
   | "completed_at"
   | "description"
   | "is_completed"
+  | "is_required_for_completion"
   | "milestone_id"
   | "milestone_name"
   | "opponent_refs"
@@ -47,6 +50,8 @@ export type StoryOpponentPartyRow = {
   formSlug: string;
   /* Set when the team is one game's of its version group. */
   gameId: number | null;
+  /* Set when the species is Legendary or Mythical. */
+  legendary: LegendaryRarity | null;
   level: number;
   /* The Story battle this team is for. */
   milestoneId: number;
@@ -99,6 +104,16 @@ export type StoryMatchupParty = {
   pokemon: StoryOpponentPokemon[];
 };
 
+/*
+ * A legendary encounter: the Story's boss battle where the opponent is one
+ * Legendary or Mythical Pokémon, not a trainer's team.
+ */
+const getLegendaryRarity = (
+  role: string,
+  pokemon: StoryOpponentPokemon[] | undefined,
+): LegendaryRarity | null =>
+  role === "boss" && pokemon?.length === 1 ? pokemon[0].legendary : null;
+
 export type StoryMatchupBattle = {
   /* A gym's badge type, so a battle won wears its badge. */
   badgeType: PokemonTypeSlug | null;
@@ -106,13 +121,17 @@ export type StoryMatchupBattle = {
   completedAt: string | null;
   /* The story point and opponent ("10005/1002"): a story point can hold several battles. */
   id: string;
-  /* "Gym Leader", "Champion" and so on. */
+  /* "Gym Leader", "Champion" and so on; "Legendary" or "Mythical" for those encounters. */
   kind: string;
   members: StoryMatchupMember[];
   /* The story point the battle belongs to. */
   milestoneName: string;
   /* The opponent's name. */
   name: string;
+  /* A legendary is met as one Pokémon, so it reads as "it" and not "them". */
+  opponentKind: StoryOpponentKind;
+  /* Not needed to finish the Story, such as a roaming legendary you may skip. */
+  isOptional: boolean;
   /* Their team, or null where Voydex doesn't have it. */
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
@@ -127,20 +146,32 @@ export type StoryMatchupBattle = {
   where: string | null;
 };
 
+/*
+ * A chapter's battles won, of the battles that count; an optional legendary
+ * is a catch you may skip, so it has its own tally.
+ */
 export type StoryMatchupChapter = {
+  battleCount: number;
   battles: StoryMatchupBattle[];
   key: string;
   name: string;
+  optionalCount: number;
+  optionalDoneCount: number;
   wonCount: number;
 };
 
 export type StoryMatchupsModel = {
+  /* Battles that count: an optional legendary encounter doesn't. */
   battleCount: number;
   chapters: StoryMatchupChapter[];
   /* The battle the report opens on: the next one, else the last. */
   defaultBattleId: string | null;
   wonCount: number;
 };
+
+/* An optional legendary is met, caught or not, never won: it isn't a battle to win. */
+const isOptionalLegendary = (battle: StoryMatchupBattle) =>
+  battle.opponentKind === "legendary" && battle.isOptional;
 
 /*
  * The battles Story matchups reads: v3's Gym Leaders and Champion, and every
@@ -254,6 +285,7 @@ const groupParties = (
       formSlug: row.formSlug,
       imageUrl: getPokemonFormImageUrl({ name: row.name, slug: row.formSlug }),
       key: `${battleOpponentKey}-${key}-${row.slot}`,
+      legendary: row.legendary,
       level: row.level,
       name: row.name,
       types: [typeOf(row.primaryTypeId), typeOf(row.secondaryTypeId)].filter(
@@ -273,6 +305,7 @@ const groupParties = (
  */
 const resolveParty = (
   battleOpponentKey: string,
+  role: string,
   partiesByBattleOpponent: ReturnType<typeof groupParties>,
   chosenChoiceKeys: ReadonlySet<string>,
 ): StoryMatchupParty | "skip" | null => {
@@ -318,14 +351,15 @@ const resolveParty = (
     return null;
   }
 
+  const isLegendary = Boolean(getLegendaryRarity(role, party.pokemon));
   const note =
     chosen || !party.label
       ? null
       : !party.choiceKey
-        ? `Their team depends on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`
+        ? `${isLegendary ? "It depends" : "Their team depends"} on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`
         : parties.length === 1
-          ? `You face them only if you chose ${party.label}, and this Play hasn't recorded that choice.`
-          : `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`;
+          ? `You ${isLegendary ? "meet it" : "face them"} only if you chose ${party.label}, and this Play hasn't recorded that choice.`
+          : `${isLegendary ? "It depends" : "Their team depends"} on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`;
 
   return { note, pokemon: party.pokemon };
 };
@@ -401,6 +435,7 @@ export const buildStoryMatchupsModel = ({
       ].filter((type): type is Type => type !== null);
       const party = resolveParty(
         getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
+        ref.opponent_role,
         partiesByBattleOpponent,
         chosenChoiceKeys,
       );
@@ -408,11 +443,16 @@ export const buildStoryMatchupsModel = ({
       if (party === "skip") {
         continue;
       }
+      const legendary = getLegendaryRarity(ref.opponent_role, party?.pokemon);
+      const opponentKind: StoryOpponentKind = legendary
+        ? "legendary"
+        : "trainer";
       const reading =
         party && !isWon
           ? readStoryBattle({
               generationOrder,
               members,
+              opponentKind,
               opponentName: ref.name,
               their: party.pokemon,
               types,
@@ -432,7 +472,8 @@ export const buildStoryMatchupsModel = ({
         chapter: milestone.category_name ?? "Story",
         completedAt: milestone.completed_at,
         id: getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
-        kind: battleKinds[ref.opponent_role],
+        isOptional: !milestone.is_required_for_completion,
+        kind: legendary ?? battleKinds[ref.opponent_role],
         members: members.map((member, index) => {
           const memberReading = reading?.members[index];
 
@@ -469,6 +510,7 @@ export const buildStoryMatchupsModel = ({
         }),
         milestoneName: milestone.milestone_name ?? "Battle",
         name: ref.name,
+        opponentKind,
         party,
         partyLevels: partyRange ? formatLevelRange(partyRange) : null,
         reading: reading
@@ -503,25 +545,42 @@ export const buildStoryMatchupsModel = ({
       current.battles.push(battle);
     } else {
       chapters.push({
+        battleCount: 0,
         battles: [battle],
-        key: `${battle.chapter}-${chapters.length}`,
+        /* Doubles as an element id, so no spaces. */
+        key: `${battle.chapter.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${chapters.length}`,
         name: battle.chapter,
+        optionalCount: 0,
+        optionalDoneCount: 0,
         wonCount: 0,
       });
     }
   }
 
   for (const chapter of chapters) {
-    chapter.wonCount = chapter.battles.filter(
+    const optional = chapter.battles.filter(isOptionalLegendary);
+    const counted = chapter.battles.filter(
+      (battle) => !isOptionalLegendary(battle),
+    );
+
+    chapter.battleCount = counted.length;
+    chapter.optionalCount = optional.length;
+    chapter.optionalDoneCount = optional.filter(
+      (battle) => battle.state === "won",
+    ).length;
+    chapter.wonCount = counted.filter(
       (battle) => battle.state === "won",
     ).length;
   }
 
   return {
-    battleCount: battles.length,
+    battleCount: chapters.reduce(
+      (sum, chapter) => sum + chapter.battleCount,
+      0,
+    ),
     chapters,
     defaultBattleId: nextBattle?.id ?? battles.at(-1)?.id ?? null,
-    wonCount: battles.filter((battle) => battle.state === "won").length,
+    wonCount: chapters.reduce((sum, chapter) => sum + chapter.wonCount, 0),
   };
 };
 

@@ -90,6 +90,34 @@ const TypeNames = ({ types }: { types: { name: string; slug: string }[] }) =>
     </span>
   ));
 
+/* The words that change when the opponent is one legendary, not a team. */
+const reportWording = {
+  legendary: {
+    doneLabel: "Done",
+    doneNote:
+      "Voydex keeps who you met as part of your journey. It reads matchups only for encounters still ahead: the team you travel with now isn't the one you had then.",
+    levels: (range: string | null) =>
+      `It's ${range}. Your team's levels aren't recorded yet.`,
+    moves:
+      "Its moves aren't in Voydex, so this reads its types against your recorded moves.",
+    opponentTitle: "The Pokémon",
+    specialty: ["Type", "Types"],
+    weakness: "It's weak to",
+  },
+  trainer: {
+    doneLabel: "Won",
+    doneNote:
+      "Voydex keeps who you faced as part of your journey. It reads matchups only for battles still ahead: the team you travel with now isn't the one that won this.",
+    levels: (range: string | null) =>
+      `Their team is ${range}. Your team's levels aren't recorded yet.`,
+    moves:
+      "Their moves aren't in Voydex, so this reads their types against your recorded moves.",
+    opponentTitle: "Their team",
+    specialty: ["Specialty", "Specialties"],
+    weakness: "Some of them are weak to",
+  },
+} as const;
+
 /* Their team (v3 `.opp`): the app's Pokémon card with less on it. */
 const TheirTeam = ({ party }: { party: StoryMatchupParty }) => (
   <>
@@ -129,7 +157,8 @@ export const StoryBattleReport = ({
   titleId: string;
 }) => {
   const isWon = battle.state === "won";
-  const { party, reading } = battle;
+  const { opponentKind, party, reading } = battle;
+  const wording = reportWording[opponentKind];
 
   return (
     <div className="min-w-0">
@@ -138,7 +167,7 @@ export const StoryBattleReport = ({
       >
         {isWon ? (
           <>
-            Won
+            {wording.doneLabel}
             {battle.completedAt ? (
               <>
                 {" "}
@@ -152,6 +181,9 @@ export const StoryBattleReport = ({
           "Still ahead"
         )}{" "}
         · {battle.kind}
+        {battle.isOptional && opponentKind === "legendary"
+          ? " · Optional"
+          : null}
       </ObjectiveEyebrow>
       <h2 id={titleId} tabIndex={-1} className={objectiveTitleClassNames.md}>
         {battle.name}
@@ -180,10 +212,10 @@ export const StoryBattleReport = ({
         />
       )}
 
-      <SheetSection className="mt-9 gap-3" title="Their team">
+      <SheetSection className="mt-9 gap-3" title={wording.opponentTitle}>
         {battle.specialtyTypes.length ? (
           <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
-            {battle.specialtyTypes.length > 1 ? "Specialties" : "Specialty"}
+            {wording.specialty[battle.specialtyTypes.length > 1 ? 1 : 0]}
             <PokemonTypeList
               types={battle.specialtyTypes}
               badgeDisplay="icon-label"
@@ -202,7 +234,7 @@ export const StoryBattleReport = ({
         )}
         {reading?.uncoveredTypes.length ? (
           <p className="text-ink-2 text-14 font-semibold">
-            Some of them are weak to{" "}
+            {wording.weakness}{" "}
             <TypeNames types={reading.uncoveredTypes.slice(0, 4)} />, and none
             of your moves is one of those types.
           </p>
@@ -227,9 +259,7 @@ export const StoryBattleReport = ({
             </SheetSection>
           ) : null}
           <p className="text-ink-3 text-13 mt-5 font-semibold">
-            Voydex keeps who you faced as part of your journey. It reads
-            matchups only for battles still ahead: the team you travel with now
-            isn&apos;t the one that won this.
+            {wording.doneNote}
           </p>
         </>
       ) : (
@@ -337,7 +367,7 @@ export const StoryBattleReport = ({
                   state={reading.levels.state}
                   className="text-15"
                 >
-                  {getLevelsSentence(reading.levels)}
+                  {getLevelsSentence(reading.levels, opponentKind)}
                 </MatchupStateLabel>
                 <div className="grid grid-cols-2 gap-2.5">
                   <StatTile
@@ -352,8 +382,7 @@ export const StoryBattleReport = ({
               </>
             ) : party ? (
               <p className="text-ink-2 text-14 font-semibold">
-                Their team is {battle.partyLevels}. Your team&apos;s levels
-                aren&apos;t recorded yet.
+                {wording.levels(battle.partyLevels)}
               </p>
             ) : (
               <PendingData
@@ -364,7 +393,7 @@ export const StoryBattleReport = ({
           </SheetSection>
           <p className="text-ink-3 text-13 mt-5 font-semibold">
             {party
-              ? "Their moves aren't in Voydex, so this reads their types against your recorded moves."
+              ? wording.moves
               : "\u201cWeak to\u201d reads their specialty against each Pokémon's own types."}
           </p>
         </>

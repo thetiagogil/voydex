@@ -172,6 +172,17 @@ Their moves aren't in Voydex, so their threat is read from their types.
 Games without their teams keep the specialty reading and an honest
 placeholder.
 
+A **legendary encounter** is a Boss whose team is one Legendary or Mythical
+Pokémon (by its species, `reference.pokemon_species`). It reads as that
+kind (Legendary or Mythical, never Boss), its report speaks of one Pokémon
+("it", "The Pokémon", the Pokémon's types) and not of a team, it is **Done**
+rather than won, and an optional one (its story point is not required) is
+marked Optional. The count of battles won ("N of M battles won", and each
+chapter's) leaves out optional legendary encounters, which are catches you
+may skip and may not be battles at all; a chapter counts them apart ("2 of 5
+done"). A required legendary, like Groudon in Ruby, still counts. Roaming
+shows in the story point's name and where it roams, not as a kind of its own.
+
 There is no separate Team History. Team events (additions, evolutions, form
 changes, replacements, retirements, removals and returns) are History's Team
 filter, with event-time Pokémon identity.
