@@ -443,9 +443,12 @@ There are no site-only stills: a public picture uses the app's own component.
   Two to four choices share a `segment` track (a light ink wash, so it shows
   on the ground, a band and a white card alike); long sets that wrap
   (generations, Pokédexes) stay loose `pills`.
+- **Dialog or sheet**: a dialog is for something quick (a rule's details, a
+  name, a confirm); a sheet is for more involved work that still doesn't
+  need its own page (a Pokémon's build, a preset's board, a Plan's slot).
 - **Sheets**: below 1024px every sheet opens from the bottom
   (`useBottomSheetLayout`, `BottomSheet`); from 1024px a detail opens beside
-  its list or as a side sheet. Every overlay closes from the same `soft`
+  its list or as a side sheet, its title pinned while the body scrolls. Every overlay closes from the same `soft`
   `icon-sm` button in its top-right corner (16px in), confirms included.
   Every overlay also closes on Escape or a tap outside; for a confirm
   (delete, remove, mark incomplete, `AlertDialog`) that means "no". A long

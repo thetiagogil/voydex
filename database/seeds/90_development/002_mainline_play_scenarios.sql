@@ -46,6 +46,34 @@ SELECT
   custom_rules.config
 FROM custom_rules;
 
+-- The fixture user's own preset: Voydex's rules beside one of theirs.
+WITH custom_sets (seed_key, slug, name, description) AS (
+  VALUES
+    ('my-run', 'fixture_my_run', 'My usual run', 'What every run of mine keeps.')
+)
+INSERT INTO gameplay.mainline_challenge_rule_sets (id, user_id, slug, name, description)
+SELECT
+  md5('voydex-fixture:rule-set:' || custom_sets.seed_key)::uuid,
+  '46ba21ff-6955-4252-8913-35b50de51456'::uuid,
+  custom_sets.slug,
+  custom_sets.name,
+  custom_sets.description
+FROM custom_sets;
+
+WITH set_rules (rule_slug) AS (
+  VALUES
+    ('first_catch_per_area'),
+    ('no_pokemon_reuse'),
+    ('fixture_no_poke_centers')
+)
+INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
+SELECT
+  md5('voydex-fixture:rule-set:my-run')::uuid,
+  mainline_challenge_rules.id
+FROM
+  set_rules
+  JOIN gameplay.mainline_challenge_rules ON mainline_challenge_rules.slug = set_rules.rule_slug;
+
 WITH scenario_matrix (
   version_group_id,
   populated_game_id,

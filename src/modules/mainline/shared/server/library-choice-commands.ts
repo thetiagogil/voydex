@@ -326,3 +326,85 @@ export const deleteTag = async (
 
   assertOwnRow(result, "Unable to delete that tag.");
 };
+
+/*
+ * Makes or changes one of your presets and its rules in one step
+ * (`gameplay.save_mainline_challenge_rule_set`). A name another preset of
+ * yours has is refused; the database refuses a rule you can't pick.
+ */
+export const saveRulePreset = async (
+  supabase: ServerSupabaseClient,
+  {
+    description,
+    id,
+    name,
+    ruleIds,
+    userId,
+  }: {
+    description: string | null;
+    /* Your preset's id to change it; left out makes a new one. */
+    id?: string;
+    name: string;
+    ruleIds: string[];
+    userId: string;
+  },
+): Promise<LibraryChoice> => {
+  const presetsResult = await supabase
+    .schema("gameplay")
+    .from("mainline_challenge_rule_sets")
+    .select("id, name")
+    .eq("user_id", userId);
+
+  if (presetsResult.error) {
+    throw new Error("Unable to read your presets.");
+  }
+
+  const taken = (presetsResult.data ?? []).find(
+    (preset) => preset.id !== id && isSameName(preset.name, name),
+  );
+
+  if (taken) {
+    throw new Error(`You already have a preset called ${taken.name}.`);
+  }
+
+  const preset = await writeWithSlug(name, {
+    fallback: "preset",
+    maximum: 120,
+    separator: "_",
+    write: async (slug) => {
+      const { data, error } = await supabase
+        .schema("gameplay")
+        .rpc("save_mainline_challenge_rule_set", {
+          p_description: description ?? undefined,
+          p_name: name,
+          p_rule_ids: ruleIds,
+          p_rule_set_id: id,
+          p_slug: slug,
+        });
+
+      return { data: data ? { id: data, name } : null, error };
+    },
+  });
+
+  if (!preset) {
+    throw new Error("Unable to save that preset.");
+  }
+
+  return preset;
+};
+
+/* Deletes one of your presets for good; its rules stay. */
+export const deleteRulePreset = async (
+  supabase: ServerSupabaseClient,
+  { id, userId }: { id: string; userId: string },
+) => {
+  const result = await supabase
+    .schema("gameplay")
+    .from("mainline_challenge_rule_sets")
+    .delete()
+    .eq("id", id)
+    .eq("user_id", userId)
+    .select("id");
+
+  assertOwnRow(result, "Unable to delete that preset.");
+};

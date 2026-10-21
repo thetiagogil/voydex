@@ -52,40 +52,34 @@ export const getLibraryDeleteNote = ({
 
 /* The tab a link asks for; Rules when it names none or one we don't have. */
 export const parseLibraryTab = (value: unknown): LibraryTab =>
-  value === "tags" ? "tags" : "rules";
+  value === "tags" || value === "presets" ? value : "rules";
 
 export type LibrarySort = "name" | "used";
-
-/* Who made a rule: Voydex, you, or "" for both. */
-export type LibraryMaker = "" | "voydex" | "yours";
 
 export type LibraryFilters = {
   /* A rule kind's slug, or "" for every kind; tags ignore it. */
   kind: string;
-  /* Tags are all yours, so they ignore it. */
-  maker: LibraryMaker;
   query: string;
   sort: LibrarySort;
 };
 
 export const defaultLibraryFilters: LibraryFilters = {
   kind: "",
-  maker: "",
   query: "",
   sort: "name",
 };
 
-export const libraryMakerLabels: Record<LibraryMaker, string> = {
-  "": "Voydex's and yours",
-  voydex: "Voydex's",
-  yours: "Yours",
-};
+/* Presets have no kind and no use count: search only. */
+export const toPresetFilters = (filters: LibraryFilters): LibraryFilters => ({
+  ...filters,
+  kind: "",
+  sort: "name",
+});
 
-/* Filters that leave tags alone: tags have no kind and are all yours. */
+/* Filters that leave tags alone: tags have no kind. */
 export const toTagFilters = (filters: LibraryFilters): LibraryFilters => ({
   ...filters,
   kind: "",
-  maker: "",
 });
 
 export const librarySortLabels: Record<LibrarySort, string> = {
@@ -95,11 +89,11 @@ export const librarySortLabels: Record<LibrarySort, string> = {
 
 /* Whether a filter narrows the list (the order alone doesn't). */
 export const hasActiveLibraryFilters = (filters: LibraryFilters) =>
-  filters.query.trim() !== "" || filters.kind !== "" || filters.maker !== "";
+  filters.query.trim() !== "" || filters.kind !== "";
 
 /* How many of the bar's filters (not the search) narrow the list. */
 export const countActiveLibraryFilters = (filters: LibraryFilters) =>
-  Number(filters.kind !== "") + Number(filters.maker !== "");
+  Number(filters.kind !== "");
 
 /* Searching ignores case and accents, so "pokemon" finds "Pokémon". */
 const toSearchText = (text: string) =>
@@ -110,18 +104,17 @@ const toSearchText = (text: string) =>
     .trim();
 
 const byUse = (
-  left: Pick<LibraryUsage, "playCount">,
-  right: Pick<LibraryUsage, "playCount">,
-) => right.playCount - left.playCount;
+  left: Partial<Pick<LibraryUsage, "playCount">>,
+  right: Partial<Pick<LibraryUsage, "playCount">>,
+) => (right.playCount ?? 0) - (left.playCount ?? 0);
 
 /*
  * The rules or tags the bar leaves: the search matches a name (and a
- * rule's kind), the kind and who made it narrow rules, and the order is by
- * name or by how many Plays use each.
+ * rule's kind), the kind narrows rules, and the order is by name or by how
+ * many Plays use each.
  */
 export const filterAndSortLibrary = <
-  TItem extends Pick<LibraryUsage, "playCount"> & {
-    isBuiltIn?: boolean;
+  TItem extends Partial<Pick<LibraryUsage, "playCount">> & {
     kind?: { slug: string; name: string };
     name: string;
   },
@@ -138,11 +131,6 @@ export const filterAndSortLibrary = <
         toSearchText(`${item.name} ${item.kind?.name ?? ""}`).includes(query),
     )
     .filter((item) => !filters.kind || item.kind?.slug === filters.kind)
-    .filter(
-      (item) =>
-        !filters.maker ||
-        (filters.maker === "voydex") === Boolean(item.isBuiltIn),
-    )
     .toSorted(
       (left, right) =>
         (filters.sort === "used" ? byUse(left, right) : 0) ||

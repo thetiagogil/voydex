@@ -9,6 +9,71 @@ export type Json =
 export type Database = {
   gameplay: {
     Tables: {
+      mainline_challenge_rule_set_rules: {
+        Row: {
+          challenge_rule_id: string;
+          created_at: string;
+          rule_set_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          challenge_rule_id: string;
+          created_at?: string;
+          rule_set_id: string;
+        };
+        Update: {
+          challenge_rule_id?: string;
+          created_at?: string;
+          rule_set_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mainline_challenge_rule_set_rules_challenge_rule_id_fkey";
+            columns: ["challenge_rule_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_challenge_rules";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "mainline_challenge_rule_set_rules_rule_set_id_fkey";
+            columns: ["rule_set_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_challenge_rule_sets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      mainline_challenge_rule_sets: {
+        Row: {
+          created_at: string;
+          description: string | null;
+          id: string;
+          name: string;
+          slug: string;
+          updated_at: string;
+          user_id: string | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          name: string;
+          slug: string;
+          updated_at?: string;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          description?: string | null;
+          id?: string;
+          name?: string;
+          slug?: string;
+          updated_at?: string;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
       mainline_challenge_rule_types: {
         Row: {
           created_at: string;
@@ -1207,6 +1272,16 @@ export type Database = {
           result_event_id: string;
           result_play_pokemon_id: string;
         }[];
+      };
+      save_mainline_challenge_rule_set: {
+        Args: {
+          p_description?: string;
+          p_name: string;
+          p_rule_ids: string[];
+          p_rule_set_id?: string;
+          p_slug: string;
+        };
+        Returns: string;
       };
       set_mainline_play_collectible_entry_progress: {
         Args: {

@@ -353,6 +353,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           <NewPlayTracking />
           <NewPlayRules
             ruleChoices={data.rules}
+            presets={data.presets}
             rules={rules}
             types={types}
             onChange={setRules}

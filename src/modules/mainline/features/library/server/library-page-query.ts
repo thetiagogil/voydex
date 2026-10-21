@@ -1,6 +1,7 @@
 import { getRuleOptionKeys } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { gatherLibraryUsage } from "@/modules/mainline/features/library/data/library-model";
 import type { LibraryPageData } from "@/modules/mainline/features/library/types";
+import { readRulePresets } from "@/modules/mainline/shared/server/rule-presets-reader";
 import { readPlayTeams } from "@/modules/mainline/shared/server/play-team-reader";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -77,8 +78,14 @@ export const getLibraryPageData = async (): Promise<LibraryPageData> => {
     plays,
   );
 
+  const presets = await readRulePresets(
+    supabase,
+    new Set((rulesResult.data ?? []).map((rule) => rule.id)),
+  );
+
   return {
     kinds,
+    presets,
     rules: (rulesResult.data ?? []).flatMap((rule) => {
       const kind = kindsById.get(rule.rule_type_id);
 

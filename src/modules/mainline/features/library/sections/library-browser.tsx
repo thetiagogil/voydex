@@ -2,18 +2,19 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
+import { appRoutes } from "@/config/routes";
 import {
   countActiveLibraryFilters,
   defaultLibraryFilters,
   filterAndSortLibrary,
   hasActiveLibraryFilters,
-  libraryMakerLabels,
   librarySortLabels,
+  toPresetFilters,
   toTagFilters,
   type LibraryFilters,
-  type LibraryMaker,
   type LibrarySort,
 } from "@/modules/mainline/features/library/data/library-model";
+import { LibraryPresetsSection } from "@/modules/mainline/features/library/sections/library-presets-section";
 import { LibraryRulesSection } from "@/modules/mainline/features/library/sections/library-rules-section";
 import { LibraryTagsSection } from "@/modules/mainline/features/library/sections/library-tags-section";
 import type {
@@ -35,45 +36,56 @@ import {
 import { PageBand } from "@/shared/components/page-band";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { SearchControl } from "@/shared/components/search-control";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 
 /*
  * The Library's band (its head, the tabs and, folded under the head's
  * search button, the bar) and the open tab's list. Rules search by name or
- * kind, narrow by kind and by who made them (Voydex or you) and sort by
- * name or use; tags search and sort.
+ * kind, narrow by kind and sort by name or use; presets search; tags search
+ * and sort.
  */
 export const LibraryBrowser = ({
   data,
   head,
   tab,
-  tabs,
 }: {
   data: LibraryPageData;
   head: ReactNode;
   tab: LibraryTab;
-  tabs: ReactNode;
 }) => {
   const [filters, setFilters] = useState<LibraryFilters>(defaultLibraryFilters);
   const fold = useFold({ defaultOpen: false });
   const isRules = tab === "rules";
-  const all = isRules ? data.rules : data.tags;
+  const isPresets = tab === "presets";
+  const all = isRules ? data.rules : isPresets ? data.presets : data.tags;
   const rules = useMemo(
     () => filterAndSortLibrary(data.rules, filters),
     [data.rules, filters],
+  );
+  const presets = useMemo(
+    () => filterAndSortLibrary(data.presets, toPresetFilters(filters)),
+    [data.presets, filters],
   );
   const tags = useMemo(
     () => filterAndSortLibrary(data.tags, toTagFilters(filters)),
     [data.tags, filters],
   );
-  const shownCount = isRules ? rules.length : tags.length;
-  const noun = isRules ? "rules" : "tags";
+  const shownCount = isRules
+    ? rules.length
+    : isPresets
+      ? presets.length
+      : tags.length;
+  const noun = isRules ? "rules" : isPresets ? "presets" : "tags";
+  const tabFilters = isRules
+    ? filters
+    : isPresets
+      ? toPresetFilters(filters)
+      : toTagFilters(filters);
   const update = (next: Partial<LibraryFilters>) =>
     setFilters((current) => ({ ...current, ...next }));
   const resetList = () => setFilters(defaultLibraryFilters);
-  const hasActiveFilters = hasActiveLibraryFilters(
-    isRules ? filters : toTagFilters(filters),
-  );
+  const hasActiveFilters = hasActiveLibraryFilters(tabFilters);
 
   return (
     <>
@@ -89,12 +101,42 @@ export const LibraryBrowser = ({
         >
           {head}
         </FoldHead>
-        {tabs}
+        {/*
+         * Built here, not handed in by the page: a server-made element loose
+         * among the band's children can reach React unchecked and warn about
+         * a missing key.
+         */}
+        <SegmentedControl
+          ariaLabel="Library sections"
+          className="mt-5"
+          selectedTone="strong"
+          value={tab}
+          options={[
+            {
+              count: data.rules.length,
+              href: appRoutes.mainlineLibraryTab("rules"),
+              label: "Rules",
+              value: "rules",
+            },
+            {
+              count: data.presets.length,
+              href: appRoutes.mainlineLibraryTab("presets"),
+              label: "Presets",
+              value: "presets",
+            },
+            {
+              count: data.tags.length,
+              href: appRoutes.mainlineLibraryTab("tags"),
+              label: "Tags",
+              value: "tags",
+            },
+          ]}
+        />
         <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel={`Filter your ${noun}`}
             className="mt-5"
-            activeCount={isRules ? countActiveLibraryFilters(filters) : 0}
+            activeCount={countActiveLibraryFilters(tabFilters)}
             resultLabel={`Show ${shownCount} ${shownCount === 1 ? noun.slice(0, -1) : noun}`}
             search={
               <SearchControl
@@ -131,86 +173,54 @@ export const LibraryBrowser = ({
                       />
                     );
 
-                    const maker = (
+                    return placement === "line" ? (
+                      kind
+                    ) : (
+                      <FilterSheetRow htmlFor="library-sheet-kind" label="Kind">
+                        {kind}
+                      </FilterSheetRow>
+                    );
+                  }
+                : undefined
+            }
+            controls={
+              isPresets
+                ? undefined
+                : (placement) => {
+                    const sort = (
                       <SelectControl
                         id={
                           placement === "line"
-                            ? "library-maker"
-                            : "library-sheet-maker"
+                            ? "library-sort"
+                            : "library-sheet-sort"
                         }
-                        ariaLabel="Filter rules by who made them"
-                        resetValue=""
+                        ariaLabel={`Sort ${noun}`}
+                        resetValue={defaultLibraryFilters.sort}
                         variant="ghost"
-                        placeholder={libraryMakerLabels[""]}
-                        value={filters.maker}
-                        onValueChange={(value) =>
-                          update({ maker: value as LibraryMaker })
+                        prefix={placement === "line" ? "Sort" : undefined}
+                        placeholder={librarySortLabels.name}
+                        value={filters.sort}
+                        onValueChange={(sort) =>
+                          update({ sort: sort as LibrarySort })
                         }
                         options={(
-                          Object.keys(libraryMakerLabels) as LibraryMaker[]
-                        ).map((value) => ({
-                          label: libraryMakerLabels[value],
-                          value,
+                          Object.keys(librarySortLabels) as LibrarySort[]
+                        ).map((sort) => ({
+                          label: librarySortLabels[sort],
+                          value: sort,
                         }))}
                       />
                     );
 
                     return placement === "line" ? (
-                      <>
-                        {kind}
-                        {maker}
-                      </>
+                      sort
                     ) : (
-                      <>
-                        <FilterSheetRow
-                          htmlFor="library-sheet-kind"
-                          label="Kind"
-                        >
-                          {kind}
-                        </FilterSheetRow>
-                        <FilterSheetRow
-                          htmlFor="library-sheet-maker"
-                          label="Made by"
-                        >
-                          {maker}
-                        </FilterSheetRow>
-                      </>
+                      <FilterSheetRow htmlFor="library-sheet-sort" label="Sort">
+                        {sort}
+                      </FilterSheetRow>
                     );
                   }
-                : undefined
             }
-            controls={(placement) => {
-              const sort = (
-                <SelectControl
-                  id={
-                    placement === "line" ? "library-sort" : "library-sheet-sort"
-                  }
-                  ariaLabel={`Sort ${noun}`}
-                  resetValue={defaultLibraryFilters.sort}
-                  variant="ghost"
-                  prefix={placement === "line" ? "Sort" : undefined}
-                  placeholder={librarySortLabels.name}
-                  value={filters.sort}
-                  onValueChange={(sort) =>
-                    update({ sort: sort as LibrarySort })
-                  }
-                  options={(
-                    Object.keys(librarySortLabels) as LibrarySort[]
-                  ).map((sort) => ({
-                    label: librarySortLabels[sort],
-                    value: sort,
-                  }))}
-                />
-              );
-
-              return placement === "line" ? (
-                sort
-              ) : (
-                <FilterSheetRow htmlFor="library-sheet-sort" label="Sort">
-                  {sort}
-                </FilterSheetRow>
-              );
-            }}
           />
           <FilterResultsLine
             className="mt-3"
@@ -232,7 +242,18 @@ export const LibraryBrowser = ({
           action={<ResetListButton onClick={resetList} />}
         />
       ) : isRules ? (
-        <LibraryRulesSection kinds={data.kinds} rules={rules} />
+        <LibraryRulesSection
+          isFiltered={hasActiveFilters}
+          kinds={data.kinds}
+          rules={rules}
+        />
+      ) : isPresets ? (
+        <LibraryPresetsSection
+          isFiltered={hasActiveFilters}
+          kinds={data.kinds}
+          presets={presets}
+          rules={data.rules}
+        />
       ) : (
         <LibraryTagsSection tags={tags} />
       )}

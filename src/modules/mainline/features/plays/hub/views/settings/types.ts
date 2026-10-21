@@ -2,6 +2,7 @@ import type {
   ChallengeRuleChoice,
   PlayRuleSelection,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
+import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import type { GameTypeChoice } from "@/modules/reference/features/games/domain/game-types";
 
 export type PlaySettingsStatus = { id: number; name: string; slug: string };
@@ -26,6 +27,8 @@ export type MainlinePlaySettingsData = {
   };
   /* Archived Plays offer Restore where others offer Archive. */
   isArchived: boolean;
+  /* Voydex's presets and yours, each adding its rules in one go. */
+  presets: RulePreset[];
   /* The rules you can attach: Voydex's own catalogue and your own. */
   rules: ChallengeRuleChoice[];
   selectedExpansionIds: number[];

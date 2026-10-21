@@ -18,6 +18,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsUp,
+  GripVertical,
   Circle,
   CircleHelp,
   CircleOff,
@@ -109,6 +110,8 @@ export const appIcons = {
     menu: Menu,
     more: EllipsisVertical,
     move: ArrowLeftRight,
+    /* A row you drag between lists. */
+    dragHandle: GripVertical,
     next: ChevronRight,
     previous: ChevronLeft,
     random: Dices,

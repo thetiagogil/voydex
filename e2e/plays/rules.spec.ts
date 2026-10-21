@@ -167,12 +167,19 @@ test.describe("Challenge rules", () => {
     await page.goto("/mainline/library?tab=rules", {
       waitUntil: "networkidle",
     });
-    const card = page.getByRole("listitem").filter({
+    /* Apart from yours: under Made by Voydex, never under Yours. */
+    const voydex = page.getByRole("region", { name: "Made by Voydex" });
+    const card = voydex.getByRole("listitem").filter({
       has: page.getByRole("heading", { name: "No Pokémon reuse" }),
     });
 
-    /* Locked: a Voydex mark, and no ⋯ to edit or delete it. */
-    await expect(card.getByText("Voydex", { exact: true })).toBeVisible();
+    await expect(card).toBeVisible();
+    await expect(
+      page
+        .getByRole("region", { name: "Yours" })
+        .getByRole("heading", { name: "No Pokémon reuse" }),
+    ).toHaveCount(0);
+    /* Locked: no ⋯ to edit or delete it. */
     await expect(
       card.getByRole("button", { name: /more actions/ }),
     ).toHaveCount(0);
@@ -193,18 +200,5 @@ test.describe("Challenge rules", () => {
     await expectAccessible(page);
     await page.keyboard.press("Escape");
     await expect(details).toBeHidden();
-
-    /* Made by: Yours leaves Voydex's rules out. */
-    await page
-      .getByRole("button", { name: /search/i })
-      .first()
-      .click();
-    await page
-      .getByRole("combobox", { name: "Filter rules by who made them" })
-      .click();
-    await page.getByRole("option", { name: "Yours", exact: true }).click();
-    await expect(
-      page.getByRole("heading", { name: "No Pokémon reuse" }),
-    ).toBeHidden();
   });
 });

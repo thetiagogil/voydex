@@ -17,5 +17,7 @@ export type LibraryChoice = {
   detail?: string | null;
   hasOptions?: boolean;
   id: string;
+  /* Its options wait on a pick before it can be kept (Monotype's type). */
+  needsOptions?: boolean;
   name: string;
 };

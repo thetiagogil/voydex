@@ -4393,6 +4393,130 @@ CREATE INDEX user_game_library_entries_user_status_idx ON gameplay.user_game_lib
 COMMENT ON TABLE gameplay.user_game_library_entries IS 'User-owned game backlog, wishlist, and intent state. Independent from concrete mainline plays.';
 
 -- ============================================================================
+-- Source: database/schema/04_gameplay/01_tables/026_mainline_challenge_rule_sets.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: gameplay.mainline_challenge_rule_sets
+-- Presets: named groups of challenge rules, Voydex's own and user-authored.
+-- ============================================================================
+CREATE TABLE gameplay.mainline_challenge_rule_sets (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid (),
+    user_id uuid REFERENCES public.profiles (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    slug text NOT NULL,
+    name text NOT NULL,
+    description text,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    updated_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT challenge_rule_sets_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:_[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
+    CONSTRAINT challenge_rule_sets_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 160),
+    CONSTRAINT challenge_rule_sets_description_length_check CHECK (description IS NULL OR CHAR_LENGTH(BTRIM(description)) BETWEEN 1 AND 5000)
+);
+
+CREATE TRIGGER set_challenge_rule_sets_updated_at
+    BEFORE UPDATE ON gameplay.mainline_challenge_rule_sets
+    FOR EACH ROW
+    EXECUTE FUNCTION private.set_updated_at ();
+
+CREATE UNIQUE INDEX challenge_rule_sets_predefined_slug_unique ON gameplay.mainline_challenge_rule_sets (slug)
+WHERE
+    user_id IS NULL;
+
+CREATE UNIQUE INDEX challenge_rule_sets_user_slug_unique ON gameplay.mainline_challenge_rule_sets (user_id, slug)
+WHERE
+    user_id IS NOT NULL;
+
+CREATE INDEX challenge_rule_sets_user_idx ON gameplay.mainline_challenge_rule_sets (user_id)
+WHERE
+    user_id IS NOT NULL;
+
+COMMENT ON TABLE gameplay.mainline_challenge_rule_sets IS 'Presets: named groups of challenge rules (a Nuzlocke) that a Play takes in one go. Adding one to a Play adds its rules; the Play keeps no link to the set.';
+
+COMMENT ON COLUMN gameplay.mainline_challenge_rule_sets.user_id IS 'NULL for Voydex''s own presets; set for a user''s own.';
+
+-- ============================================================================
+-- Source: database/schema/04_gameplay/01_tables/027_mainline_challenge_rule_set_rules.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: gameplay.mainline_challenge_rule_set_rules
+-- The rules in each preset (they keep no order: a Play adds them all).
+-- ============================================================================
+CREATE TABLE gameplay.mainline_challenge_rule_set_rules (
+    rule_set_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rule_sets (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    challenge_rule_id uuid NOT NULL REFERENCES gameplay.mainline_challenge_rules (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT challenge_rule_set_rules_primary_key PRIMARY KEY (rule_set_id, challenge_rule_id)
+);
+
+CREATE INDEX challenge_rule_set_rules_challenge_rule_idx ON gameplay.mainline_challenge_rule_set_rules (challenge_rule_id);
+
+COMMENT ON TABLE gameplay.mainline_challenge_rule_set_rules IS 'The rules in each preset; they keep no order, as a Play takes them all at once.';
+
+CREATE FUNCTION private.enforce_challenge_rule_set_rule_scope ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    SECURITY DEFINER
+    SET search_path = ''
+    AS $$
+DECLARE
+    set_found boolean;
+    set_user_id uuid;
+    rule_found boolean;
+    rule_user_id uuid;
+BEGIN
+    SELECT
+        TRUE,
+        mainline_challenge_rule_sets.user_id
+    INTO
+        set_found,
+        set_user_id
+    FROM
+        gameplay.mainline_challenge_rule_sets
+    WHERE
+        mainline_challenge_rule_sets.id = NEW.rule_set_id;
+    SELECT
+        TRUE,
+        mainline_challenge_rules.user_id
+    INTO
+        rule_found,
+        rule_user_id
+    FROM
+        gameplay.mainline_challenge_rules
+    WHERE
+        mainline_challenge_rules.id = NEW.challenge_rule_id;
+    IF set_found IS NULL THEN
+        RAISE EXCEPTION 'Unknown rule_set_id %', NEW.rule_set_id
+            USING ERRCODE = '23503';
+    END IF;
+    IF rule_found IS NULL THEN
+        RAISE EXCEPTION 'Unknown challenge_rule_id %', NEW.challenge_rule_id
+            USING ERRCODE = '23503';
+    END IF;
+    -- Voydex's presets hold only Voydex's rules; yours hold Voydex's and yours.
+    IF rule_user_id IS NOT NULL AND rule_user_id IS DISTINCT FROM set_user_id THEN
+        RAISE EXCEPTION 'Challenge rule % does not belong to the owner of rule set %', NEW.challenge_rule_id, NEW.rule_set_id
+            USING ERRCODE = '23514';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION private.enforce_challenge_rule_set_rule_scope () FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION private.enforce_challenge_rule_set_rule_scope () FROM anon;
+
+REVOKE ALL ON FUNCTION private.enforce_challenge_rule_set_rule_scope () FROM authenticated;
+
+GRANT EXECUTE ON FUNCTION private.enforce_challenge_rule_set_rule_scope () TO service_role;
+
+CREATE TRIGGER enforce_challenge_rule_set_rule_scope
+    BEFORE INSERT OR UPDATE OF rule_set_id,
+    challenge_rule_id ON gameplay.mainline_challenge_rule_set_rules
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_challenge_rule_set_rule_scope ();
+
+COMMENT ON FUNCTION private.enforce_challenge_rule_set_rule_scope () IS 'Lets a preset hold Voydex''s rules and its owner''s own rules only, so Voydex''s presets hold only Voydex''s rules.';
+
+-- ============================================================================
 -- Source: database/schema/04_gameplay/02_functions/001_mainline_play_milestone_mutations.sql
 -- ============================================================================
 -- ============================================================================
@@ -6446,6 +6570,86 @@ COMMENT ON FUNCTION gameplay.choose_mainline_play_partner (UUID, INTEGER) IS 'At
 COMMENT ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) IS 'Atomically undoes a Play''s partner choice: marks the partner milestone incomplete (refused when anything recorded since depends on it), removing its decision, moment and snapshot, and deletes the partner Pokémon that choice added. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 -- ============================================================================
+-- Source: database/schema/04_gameplay/02_functions/005_mainline_challenge_rule_set_mutations.sql
+-- ============================================================================
+-- ============================================================================
+-- Function: gameplay.save_mainline_challenge_rule_set
+-- Makes or changes one of your presets and its rules in one transaction.
+-- ============================================================================
+CREATE FUNCTION gameplay.save_mainline_challenge_rule_set (p_slug text, p_name text, p_rule_ids uuid[], p_description text DEFAULT NULL, p_rule_set_id uuid DEFAULT NULL)
+    RETURNS uuid
+    LANGUAGE plpgsql
+    SECURITY INVOKER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_user_id uuid := auth.uid ();
+    v_rule_set_id uuid;
+BEGIN
+    IF v_user_id IS NULL THEN
+        RAISE EXCEPTION 'An authenticated user is required to save a preset'
+            USING ERRCODE = '42501';
+    END IF;
+    p_name := NULLIF (BTRIM(p_name), '');
+    p_description := NULLIF (BTRIM(p_description), '');
+    IF p_name IS NULL THEN
+        RAISE EXCEPTION 'name is required'
+            USING ERRCODE = '23502';
+    END IF;
+    IF COALESCE(CARDINALITY(ARRAY_REMOVE(p_rule_ids, NULL)), 0) = 0 THEN
+        RAISE EXCEPTION 'A preset needs at least one rule'
+            USING ERRCODE = '22023';
+    END IF;
+    IF p_rule_set_id IS NULL THEN
+        INSERT INTO gameplay.mainline_challenge_rule_sets (user_id, slug, name, description)
+            VALUES (v_user_id, p_slug, p_name, p_description)
+        RETURNING
+            id
+        INTO
+            v_rule_set_id;
+    ELSE
+        UPDATE
+            gameplay.mainline_challenge_rule_sets
+        SET
+            slug = p_slug,
+            name = p_name,
+            description = p_description
+        WHERE
+            id = p_rule_set_id
+            AND user_id = v_user_id
+        RETURNING
+            id
+        INTO
+            v_rule_set_id;
+        IF v_rule_set_id IS NULL THEN
+            RAISE EXCEPTION 'Preset % is not one of yours', p_rule_set_id
+                USING ERRCODE = '42501';
+        END IF;
+        DELETE FROM gameplay.mainline_challenge_rule_set_rules
+        WHERE rule_set_id = v_rule_set_id;
+    END IF;
+    -- Its rules, each once; the scope trigger refuses another trainer's rule.
+    INSERT INTO gameplay.mainline_challenge_rule_set_rules (rule_set_id, challenge_rule_id)
+    SELECT DISTINCT
+        v_rule_set_id,
+        requested.rule_id
+    FROM
+        UNNEST(p_rule_ids) AS requested (rule_id)
+WHERE
+    requested.rule_id IS NOT NULL;
+    RETURN v_rule_set_id;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) FROM anon;
+
+GRANT EXECUTE ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) TO authenticated, service_role;
+
+COMMENT ON FUNCTION gameplay.save_mainline_challenge_rule_set (TEXT, TEXT, UUID[], TEXT, UUID) IS 'Atomically makes (no id) or changes (your preset''s id) one of your presets: its slug, name and description and its rules, each once. A preset needs at least one rule. Runs as SECURITY INVOKER so gameplay RLS applies.';
+
+-- ============================================================================
 -- Source: database/schema/04_gameplay/03_policies/001_rls_and_grants.sql
 -- ============================================================================
 -- ============================================================================
@@ -6495,6 +6699,10 @@ ALTER TABLE gameplay.mainline_challenge_rules ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE gameplay.mainline_play_challenge_rules ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE gameplay.mainline_challenge_rule_sets ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE gameplay.mainline_challenge_rule_set_rules ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE gameplay.user_game_library_statuses ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE gameplay.user_game_library_entries ENABLE ROW LEVEL SECURITY;
@@ -6542,6 +6750,10 @@ REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_types FROM anon, authentica
 REVOKE ALL ON TABLE gameplay.mainline_challenge_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.mainline_play_challenge_rules FROM anon, authenticated;
+
+REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_sets FROM anon, authenticated;
+
+REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_set_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.user_game_library_statuses FROM anon, authenticated;
 
@@ -6593,6 +6805,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rules 
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_play_challenge_rules TO authenticated;
 
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_sets TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_set_rules TO authenticated;
+
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.user_game_library_entries TO authenticated;
 
 GRANT ALL ON TABLE gameplay.mainline_play_statuses TO service_role;
@@ -6638,6 +6854,10 @@ GRANT ALL ON TABLE gameplay.mainline_challenge_rule_types TO service_role;
 GRANT ALL ON TABLE gameplay.mainline_challenge_rules TO service_role;
 
 GRANT ALL ON TABLE gameplay.mainline_play_challenge_rules TO service_role;
+
+GRANT ALL ON TABLE gameplay.mainline_challenge_rule_sets TO service_role;
+
+GRANT ALL ON TABLE gameplay.mainline_challenge_rule_set_rules TO service_role;
 
 GRANT ALL ON TABLE gameplay.user_game_library_statuses TO service_role;
 
@@ -6701,6 +6921,55 @@ CREATE POLICY challenge_rules_update_own ON gameplay.mainline_challenge_rules
 CREATE POLICY challenge_rules_delete_own ON gameplay.mainline_challenge_rules
     FOR DELETE TO authenticated
     USING (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_select_available ON gameplay.mainline_challenge_rule_sets
+    FOR SELECT TO authenticated
+    USING (user_id IS NULL
+        OR user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_insert_own ON gameplay.mainline_challenge_rule_sets
+    FOR INSERT TO authenticated
+    WITH CHECK (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_update_own ON gameplay.mainline_challenge_rule_sets
+    FOR UPDATE TO authenticated
+    USING (user_id = auth.uid ())
+    WITH CHECK (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_sets_delete_own ON gameplay.mainline_challenge_rule_sets
+    FOR DELETE TO authenticated
+    USING (user_id = auth.uid ());
+
+CREATE POLICY challenge_rule_set_rules_select_available ON gameplay.mainline_challenge_rule_set_rules
+    FOR SELECT TO authenticated
+    USING (EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_challenge_rule_sets
+        WHERE
+            mainline_challenge_rule_sets.id = rule_set_id
+            AND (mainline_challenge_rule_sets.user_id IS NULL
+            OR mainline_challenge_rule_sets.user_id = auth.uid ())));
+
+CREATE POLICY challenge_rule_set_rules_write_own ON gameplay.mainline_challenge_rule_set_rules
+    FOR ALL TO authenticated
+    USING (EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_challenge_rule_sets
+        WHERE
+            mainline_challenge_rule_sets.id = rule_set_id
+            AND mainline_challenge_rule_sets.user_id = auth.uid ()))
+    WITH CHECK (EXISTS (
+        SELECT
+            1
+        FROM
+            gameplay.mainline_challenge_rule_sets
+        WHERE
+            mainline_challenge_rule_sets.id = rule_set_id
+            AND mainline_challenge_rule_sets.user_id = auth.uid ()));
 
 CREATE POLICY user_game_library_entries_select_own ON gameplay.user_game_library_entries
     FOR SELECT TO authenticated

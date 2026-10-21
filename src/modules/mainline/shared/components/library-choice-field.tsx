@@ -34,7 +34,19 @@ export type LibraryCreateResult =
   | { choice: LibraryChoice; status: "success" }
   | { message: string; status: "error" };
 
-type PickerItem = LibraryChoice & { isNew?: boolean };
+/* A group of choices picked in one go, such as a preset of rules. */
+export type LibraryChoiceBundle = {
+  choiceIds: string[];
+  description?: string | null;
+  id: string;
+  name: string;
+};
+
+type PickerItem = LibraryChoice & {
+  /* A bundle's choices: picking it adds them all. */
+  bundle?: string[];
+  isNew?: boolean;
+};
 
 /* Searching ignores case and accents, so "pokemon" finds "Pokémon". */
 const toSearchText = (text: string) =>
@@ -53,14 +65,22 @@ const newItemId = "new";
  */
 const ChoiceOptionLabel = ({
   description,
+  meta,
   name,
 }: {
   description?: string | null;
+  /* A quiet word after the name, such as a preset's "4 rules". */
+  meta?: string;
   name: string;
 }) => (
   <span className="flex min-w-0 flex-1 items-center gap-2">
     <span className="grid min-w-0 flex-1">
-      <span className="truncate">{name}</span>
+      <span className="truncate">
+        {name}
+        {meta ? (
+          <span className="text-ink-3 text-13 ml-2 font-semibold">{meta}</span>
+        ) : null}
+      </span>
       {description ? (
         <span
           aria-hidden
@@ -99,6 +119,7 @@ const ChoiceOptionLabel = ({
  */
 export const LibraryChoiceField = ({
   addLabel,
+  bundles = [],
   choices,
   disabled = false,
   label,
@@ -111,6 +132,8 @@ export const LibraryChoiceField = ({
 }: {
   /* The chip's words, such as "Add rule". */
   addLabel: string;
+  /* Groups listed first (presets): picking one adds all its choices. */
+  bundles?: LibraryChoiceBundle[];
   /* Everything you can pick, picked or not. */
   choices: LibraryChoice[];
   disabled?: boolean;
@@ -151,6 +174,26 @@ export const LibraryChoiceField = ({
     (choice) => toSearchText(choice.name) === toSearchText(name),
   );
   const items: PickerItem[] = [
+    ...bundles.flatMap((bundle) => {
+      const missing = bundle.choiceIds.filter(
+        (id) => byId.has(id) && !selectedIds.includes(id),
+      );
+
+      return missing.length
+        ? [
+            {
+              bundle: bundle.choiceIds,
+              description:
+                bundle.description ??
+                bundle.choiceIds
+                  .flatMap((id) => byId.get(id)?.name ?? [])
+                  .join(", "),
+              id: `bundle:${bundle.id}`,
+              name: bundle.name,
+            },
+          ]
+        : [];
+    }),
     ...known.filter((choice) => !selectedIds.includes(choice.id)),
     ...(name && !isTaken ? [{ id: newItemId, isNew: true, name }] : []),
   ];
@@ -170,6 +213,24 @@ export const LibraryChoiceField = ({
 
       if (hasOptions(choice)) openOptions(choice);
     }
+  };
+
+  /*
+   * A bundle adds the choices this field doesn't keep yet, then opens the
+   * options of the first that still needs a pick (Monotype's type).
+   */
+  const addBundle = (choiceIds: string[]) => {
+    const added = choiceIds.filter(
+      (id) => byId.has(id) && !selectedIds.includes(id),
+    );
+
+    onChange([...selectedIds, ...added]);
+
+    const waiting = added
+      .map((id) => byId.get(id))
+      .find((choice) => choice?.needsOptions && hasOptions(choice));
+
+    if (waiting) openOptions(waiting);
   };
 
   const create = (newName: string) =>
@@ -236,6 +297,8 @@ export const LibraryChoiceField = ({
 
           if (item.isNew) {
             create(item.name);
+          } else if (item.bundle) {
+            addBundle(item.bundle);
           } else {
             add(item);
           }
@@ -294,6 +357,9 @@ export const LibraryChoiceField = ({
                 ) : (
                   <ChoiceOptionLabel
                     description={item.description}
+                    meta={
+                      item.bundle ? `${item.bundle.length} rules` : undefined
+                    }
                     name={item.name}
                   />
                 )}

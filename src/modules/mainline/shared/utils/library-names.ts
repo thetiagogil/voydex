@@ -41,7 +41,7 @@ export const toLibrarySlug = (
 };
 
 /* The longest name a rule or tag can have, wherever it's made or renamed. */
-export const libraryNameMaxLength = { rule: 80, tag: 40 } as const;
+export const libraryNameMaxLength = { preset: 80, rule: 80, tag: 40 } as const;
 
 /* How long what a rule of yours asks can be. */
 export const ruleDescriptionMaxLength = 300;
