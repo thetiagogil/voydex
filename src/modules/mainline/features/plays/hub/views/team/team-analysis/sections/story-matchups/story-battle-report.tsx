@@ -168,7 +168,7 @@ export const StoryBattleReport = ({
         <PendingData
           className="mt-4"
           label="No reading yet"
-          note="How you'd fare needs their team, which isn't in Voydex for this game yet."
+          note="How you'd fare needs their team, which isn't in Voydex yet."
         />
       )}
 
