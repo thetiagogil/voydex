@@ -4,6 +4,7 @@
 -- Primary: Serebii Legends: Arceus Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
 -- Volo's earlier battles: Bulbapedia, cross-checked with Serebii's Volo page.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Scope: Pokémon Legends: Arceus Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -59,4 +60,36 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Volo, Noble Lilligant 1: Togepi Lv. 22
   (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 1, 175, 17500, 22),
   -- Volo, Noble Lilligant 2: Gible Lv. 22
-  (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 2, 443, 44300, 22);
+  (220004, 22008, 22, NULL, NULL, NULL, NULL, NULL, 2, 443, 44300, 22),
+  -- Dialga / Palkia (chose Adaman), Origin Pokémon 1: Dialga Lv. 65
+  (220010, 22010, 22, NULL, 220008, 'adaman', NULL, NULL, 1, 483, 48300, 65),
+  -- Dialga / Palkia (chose Irida), Origin Pokémon 1: Palkia Lv. 65
+  (220010, 22010, 22, NULL, 220008, 'irida', NULL, NULL, 1, 484, 48400, 65),
+  -- Giratina, Defeat Volo 1: Giratina Lv. 70
+  (220011, 22011, 22, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 70),
+  -- Giratina, Defeat Volo 2: Giratina (Origin) Lv. 70
+  (220011, 22011, 22, NULL, NULL, NULL, NULL, NULL, 2, 487, 48701, 70),
+  -- Uxie, The Plate of the Lakes 1: Uxie Lv. 70
+  (220013, 22012, 22, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 70),
+  -- Mesprit, The Plate of the Lakes 1: Mesprit Lv. 70
+  (220013, 22013, 22, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 70),
+  -- Azelf, The Plate of the Lakes 1: Azelf Lv. 70
+  (220013, 22014, 22, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 70),
+  -- Heatran, The Plate of Firespit Island 1: Heatran Lv. 70
+  (220014, 22015, 22, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 70),
+  -- Cresselia, The Plate of Moonview Arena 1: Cresselia Lv. 70
+  (220015, 22016, 22, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 70),
+  -- Regigigas, The Plate of Snowpoint Temple 1: Regigigas Lv. 70
+  (220016, 22017, 22, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 70),
+  -- Manaphy, The Sea's Legend 1: Manaphy Lv. 50
+  (220017, 22018, 22, NULL, NULL, NULL, NULL, NULL, 1, 490, 49000, 50),
+  -- Giratina, On the Trail of Giratina 1: Giratina (Origin) Lv. 70
+  (220018, 22011, 22, NULL, NULL, NULL, NULL, NULL, 1, 487, 48701, 70),
+  -- Tornadus, Incarnate Forces of Hisui 1: Tornadus Lv. 70
+  (220019, 22019, 22, NULL, NULL, NULL, NULL, NULL, 1, 641, 64100, 70),
+  -- Thundurus, Incarnate Forces of Hisui 1: Thundurus Lv. 70
+  (220019, 22020, 22, NULL, NULL, NULL, NULL, NULL, 1, 642, 64200, 70),
+  -- Landorus, Incarnate Forces of Hisui 1: Landorus Lv. 70
+  (220019, 22021, 22, NULL, NULL, NULL, NULL, NULL, 1, 645, 64500, 70),
+  -- Enamorus, Incarnate Forces of Hisui 1: Enamorus Lv. 70
+  (220019, 22022, 22, NULL, NULL, NULL, NULL, NULL, 1, 905, 90500, 70);

@@ -35,8 +35,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (100009, 100008, 10, 1, 1, NULL),
   -- Rising Badge <- Radio Tower
   (100010, 100029, 10, 1, 1, NULL),
-  -- Elite Four Will <- Rising Badge
-  (100011, 100010, 10, 1, 1, NULL),
+  -- Elite Four Will <- Kimono Girls' Ritual
+  (100011, 100030, 10, 1, 1, NULL),
   -- Elite Four Koga <- Elite Four Will
   (100012, 100011, 10, 1, 1, NULL),
   -- Elite Four Bruno <- Elite Four Koga
@@ -72,4 +72,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Burned Tower <- Plain Badge
   (100028, 100005, 10, 1, 1, NULL),
   -- Radio Tower <- Glacier Badge
-  (100029, 100009, 10, 1, 1, NULL);
+  (100029, 100009, 10, 1, 1, NULL),
+  -- Kimono Girls' Ritual <- Rising Badge
+  (100030, 100010, 10, 1, 1, NULL);

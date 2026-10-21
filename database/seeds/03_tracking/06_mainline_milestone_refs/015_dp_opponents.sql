@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and Diamond / Pearl pages.
 -- Cross-check: Pokémon Diamond / Pearl source page.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Diamond / Pearl milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -59,4 +60,22 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Aaron -> Barry
   (80011, 8014, 8, 'battle-opponent', 1, 'Pokémon League'),
   -- Fight Area -> Barry
-  (80019, 8014, 8, 'battle-opponent', 1, 'Fight Area. You can skip this battle.');
+  (80019, 8014, 8, 'battle-opponent', 1, 'Fight Area. You can skip this battle.'),
+  -- Spear Pillar -> Dialga
+  (80018, 8016, 8, 'battle-opponent', 2, 'Spear Pillar, Mt. Coronet (after defeating Cyrus)'),
+  -- Spear Pillar -> Palkia
+  (80018, 8017, 8, 'battle-opponent', 3, 'Spear Pillar, Mt. Coronet (after defeating Cyrus)'),
+  -- Lake Guardians -> Uxie
+  (80020, 8018, 8, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity. You can skip this battle.'),
+  -- Lake Guardians -> Azelf
+  (80020, 8019, 8, 'battle-opponent', 2, 'Valor Cavern, Lake Valor. You can skip this battle.'),
+  -- Lake Guardians -> Mesprit
+  (80020, 8020, 8, 'battle-opponent', 3, 'Roams Sinnoh after fleeing from Verity Cavern, Lake Verity. You can skip this battle.'),
+  -- Turnback Cave -> Giratina
+  (80021, 8021, 8, 'battle-opponent', 1, 'Turnback Cave, Giratina''s room (Altered Forme). You can skip this battle.'),
+  -- Roaming Cresselia -> Cresselia
+  (80022, 8022, 8, 'battle-opponent', 1, 'Roams Sinnoh after meeting it on Fullmoon Island. You can skip this battle.'),
+  -- Snowpoint Temple -> Regigigas
+  (80023, 8023, 8, 'battle-opponent', 1, 'Snowpoint Temple B5F. You can skip this battle.'),
+  -- Stark Mountain -> Heatran
+  (80024, 8024, 8, 'battle-opponent', 1, 'Stark Mountain, deepest room. You can skip this battle.');

@@ -4,6 +4,7 @@
 -- Primary: Serebii X / Y Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database X / Y Gym Leaders and Elite Four page.
 -- Rival and Lysandre battles: Bulbapedia, cross-checked with Pokébip and Serebii.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon X / Y Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -467,4 +468,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 5: Altaria Lv. 67
   (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 5, 334, 33400, 67),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 6: Chesnaught Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 6, 652, 65200, 70);
+  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 6, 652, 65200, 70),
+  -- Xerneas, Team Flare Secret HQ 1: Xerneas Lv. 50
+  (130022, 13021, 13, NULL, NULL, NULL, NULL, NULL, 1, 716, 71600, 50),
+  -- Yveltal, Team Flare Secret HQ 1: Yveltal Lv. 50
+  (130022, 13022, 13, NULL, NULL, NULL, NULL, NULL, 1, 717, 71700, 50),
+  -- Zygarde, Terminus Cave 1: Zygarde Lv. 70
+  (130023, 13023, 13, NULL, NULL, NULL, NULL, NULL, 1, 718, 71800, 70),
+  -- Mewtwo, Unknown Dungeon 1: Mewtwo Lv. 70
+  (130024, 13024, 13, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70),
+  -- Articuno (chose Chespin), Roaming Legendary Bird 1: Articuno Lv. 70
+  (130025, 13025, 13, NULL, 130001, 'chespin', NULL, NULL, 1, 144, 14400, 70),
+  -- Zapdos (chose Fennekin), Roaming Legendary Bird 1: Zapdos Lv. 70
+  (130025, 13026, 13, NULL, 130001, 'fennekin', NULL, NULL, 1, 145, 14500, 70),
+  -- Moltres (chose Froakie), Roaming Legendary Bird 1: Moltres Lv. 70
+  (130025, 13027, 13, NULL, 130001, 'froakie', NULL, NULL, 1, 146, 14600, 70);

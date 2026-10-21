@@ -5,6 +5,7 @@
 -- First partner Pokémon pages.
 -- Cross-check: Pokémon Diamond / Pearl source page.
 -- Story points with rival and Cyrus battles: Bulbapedia walkthrough pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Diamond / Pearl major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -65,4 +66,14 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (80016, 8, NULL, 802, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Fight Area
-  (80019, 8, NULL, 803, 1, 2, NULL, 'fight-area', 'Fight Area', 'With the National Pokédex, take the ship to the Fight Area in the Battle Zone.', 1, false);
+  (80019, 8, NULL, 803, 1, 2, NULL, 'fight-area', 'Fight Area', 'With the National Pokédex, take the ship to the Fight Area in the Battle Zone.', 1, false),
+  -- Lake Guardians
+  (80020, 8, NULL, 804, 6, 2, NULL, 'lake-guardians', 'Lake Guardians', 'After Spear Pillar, find Uxie in Acuity Cavern and Azelf in Valor Cavern, and meet Mesprit at Verity Cavern before it starts roaming Sinnoh.', 1, false),
+  -- Turnback Cave
+  (80021, 8, NULL, 804, 6, 2, NULL, 'turnback-cave', 'Turnback Cave', 'After entering the Hall of Fame, find a way through Turnback Cave beyond Sendoff Spring to face Giratina.', 2, false),
+  -- Roaming Cresselia
+  (80022, 8, NULL, 804, 6, 2, NULL, 'roaming-cresselia', 'Roaming Cresselia', 'With the National Pokédex, sail to Fullmoon Island to help Sailor Eldritch''s son; Cresselia then roams Sinnoh.', 3, false),
+  -- Snowpoint Temple
+  (80023, 8, NULL, 804, 6, 2, NULL, 'snowpoint-temple', 'Snowpoint Temple', 'With the National Pokédex, reach the bottom of Snowpoint Temple with Regirock, Regice and Registeel in the party to wake Regigigas.', 4, false),
+  -- Stark Mountain
+  (80024, 8, NULL, 804, 6, 2, NULL, 'stark-mountain', 'Stark Mountain', 'In the Battle Zone, help Buck through Stark Mountain, then speak to his grandfather in the Survival Area so Heatran appears in the deepest room.', 5, false);

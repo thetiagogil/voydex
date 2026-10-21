@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Taunie and Urbain pages.
 -- Cross-check: Serebii Legends: Z-A main mission pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Zygarde's story levels (10% Forme Lv. 33, 50% Forme Lv. 57) are confirmed by one source only.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -126,4 +128,14 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 5: Manectric Lv. 63
   (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 5, 310, 31000, 63),
   -- Taunie / Urbain (Rival is Urbain (you play as Harmony), you chose Totodile), Stop the Ange Crisis 6: Meganium Lv. 64
-  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 6, 154, 15400, 64);
+  (260008, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 6, 154, 15400, 64),
+  -- Zygarde, Unlock Mega Evolution 1: Zygarde (10% Forme) Lv. 33
+  (260005, 26004, 26, NULL, NULL, NULL, NULL, NULL, 1, 718, 71801, 33),
+  -- Zygarde, Reach Rank A 1: Zygarde Lv. 57
+  (260006, 26004, 26, NULL, NULL, NULL, NULL, NULL, 1, 718, 71800, 57),
+  -- Xerneas, The One That Gives 1: Xerneas Lv. 75
+  (260010, 26005, 26, NULL, NULL, NULL, NULL, NULL, 1, 716, 71600, 75),
+  -- Yveltal, The One That Takes 1: Yveltal Lv. 75
+  (260011, 26006, 26, NULL, NULL, NULL, NULL, NULL, 1, 717, 71700, 75),
+  -- Zygarde, To Keep the World in Balance 1: Zygarde (10% Forme) Lv. 84
+  (260012, 26004, 26, NULL, NULL, NULL, NULL, NULL, 1, 718, 71801, 84);

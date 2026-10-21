@@ -4,6 +4,8 @@
 -- Primary: Serebii Ultra Sun / Ultra Moon Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
 -- Hau, Gladion, Guzma and Lusamine battles: Bulbapedia, cross-checked with Serebii and Pokébip.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Scope: Pokémon Ultra Sun / Ultra Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -347,4 +349,30 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Gladion (chose Popplio), Elite Four Molayne 3: Silvally (Grass) Lv. 55
   (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 3, 773, 77311, 55),
   -- Gladion (chose Popplio), Elite Four Molayne 4: Lucario Lv. 53
-  (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 4, 448, 44800, 53);
+  (160016, 16020, 16, NULL, 160001, 'popplio', NULL, NULL, 4, 448, 44800, 53),
+  -- Nihilego, Sophocles Trial 1: Nihilego Lv. 27
+  (160009, 16024, 16, NULL, NULL, NULL, NULL, NULL, 1, 793, 79300, 27),
+  -- Necrozma, Ultra Necrozma 1: Necrozma (Dusk Mane) Lv. 50
+  (160015, 16025, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80001, 50),
+  -- Necrozma, Ultra Necrozma 1: Necrozma (Dawn Wings) Lv. 50
+  (160015, 16026, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80002, 50),
+  -- Solgaleo, Mahalo Trail 1: Solgaleo Lv. 60
+  (160024, 16027, 16, NULL, NULL, NULL, NULL, NULL, 1, 791, 79100, 60),
+  -- Lunala, Mahalo Trail 1: Lunala Lv. 60
+  (160024, 16028, 16, NULL, NULL, NULL, NULL, NULL, 1, 792, 79200, 60),
+  -- Necrozma, Mount Lanakila Crater 1: Necrozma Lv. 65
+  (160025, 16029, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80000, 65),
+  -- Tapu Koko, Ruins of Conflict 1: Tapu Koko Lv. 60
+  (160026, 16030, 16, NULL, NULL, NULL, NULL, NULL, 1, 785, 78500, 60),
+  -- Tapu Lele, Ruins of Life 1: Tapu Lele Lv. 60
+  (160027, 16031, 16, NULL, NULL, NULL, NULL, NULL, 1, 786, 78600, 60),
+  -- Tapu Bulu, Ruins of Abundance 1: Tapu Bulu Lv. 60
+  (160028, 16032, 16, NULL, NULL, NULL, NULL, NULL, 1, 787, 78700, 60),
+  -- Tapu Fini, Ruins of Hope 1: Tapu Fini Lv. 60
+  (160029, 16033, 16, NULL, NULL, NULL, NULL, NULL, 1, 788, 78800, 60),
+  -- Zygarde, Resolution Cave 1: Zygarde Lv. 60
+  (160030, 16034, 16, NULL, NULL, NULL, NULL, NULL, 1, 718, 71800, 60),
+  -- Blacephalon, Poni Grove 1: Blacephalon Lv. 60
+  (160031, 16035, 16, NULL, NULL, NULL, NULL, NULL, 1, 806, 80600, 60),
+  -- Stakataka, Poni Grove 1: Stakataka Lv. 60
+  (160031, 16036, 16, NULL, NULL, NULL, NULL, NULL, 1, 805, 80500, 60);

@@ -164,7 +164,10 @@ and your levels are recorded with their ace at most 3 levels above;
 team you face then. One sentence
 names your answers and the thing that matters most against you. A team that
 depends on a recorded choice (usually the starter) follows the Play's
-choice; while it isn't recorded the report reads the first and says so.
+choice; while it isn't recorded the report reads the first and says so. A
+battle that only one choice leads to (the roaming legendary your starter
+picks) is left out once the Play records another option, and says which
+choice it needs while none is recorded.
 Their moves aren't in Voydex, so their threat is read from their types.
 Games without their teams keep the specialty reading and an honest
 placeholder.

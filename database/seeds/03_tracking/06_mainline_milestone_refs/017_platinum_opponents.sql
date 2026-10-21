@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and Platinum pages.
 -- Cross-check: Pokémon Platinum source page.
+-- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Platinum milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -63,4 +64,28 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Aaron -> Barry
   (90011, 9014, 9, 'battle-opponent', 1, 'Pokémon League'),
   -- Stark Mountain -> Barry
-  (90020, 9014, 9, 'battle-opponent', 1, 'Survival Area. You can skip this battle.');
+  (90020, 9014, 9, 'battle-opponent', 1, 'Survival Area. You can skip this battle.'),
+  -- Distortion World -> Giratina
+  (90019, 9016, 9, 'battle-opponent', 2, 'Distortion World, Giratina''s room (after defeating Cyrus)'),
+  -- Lake Guardians -> Uxie
+  (90021, 9017, 9, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity. You can skip this battle.'),
+  -- Lake Guardians -> Azelf
+  (90021, 9018, 9, 'battle-opponent', 2, 'Valor Cavern, Lake Valor. You can skip this battle.'),
+  -- Lake Guardians -> Mesprit
+  (90021, 9019, 9, 'battle-opponent', 3, 'Roams Sinnoh after fleeing from Verity Cavern, Lake Verity. You can skip this battle.'),
+  -- Stark Mountain -> Heatran
+  (90020, 9020, 9, 'battle-opponent', 2, 'Stark Mountain, room where Charon was arrested. You can skip this battle.'),
+  -- Roaming Cresselia -> Cresselia
+  (90022, 9021, 9, 'battle-opponent', 1, 'Roams Sinnoh after meeting it on Fullmoon Island. You can skip this battle.'),
+  -- Snowpoint Temple -> Regigigas
+  (90023, 9022, 9, 'battle-opponent', 1, 'Snowpoint Temple B5F. You can skip this battle.'),
+  -- Spear Pillar -> Dialga
+  (90024, 9023, 9, 'battle-opponent', 1, 'Spear Pillar, blue rift (Adamant Orb). You can skip this battle.'),
+  -- Spear Pillar -> Palkia
+  (90024, 9024, 9, 'battle-opponent', 2, 'Spear Pillar, pink rift (Lustrous Orb). You can skip this battle.'),
+  -- Roaming Articuno -> Articuno
+  (90025, 9025, 9, 'battle-opponent', 1, 'Roams Sinnoh after talking to Professor Oak in Eterna City. You can skip this battle.'),
+  -- Roaming Zapdos -> Zapdos
+  (90026, 9026, 9, 'battle-opponent', 1, 'Roams Sinnoh after talking to Professor Oak in Eterna City. You can skip this battle.'),
+  -- Roaming Moltres -> Moltres
+  (90027, 9027, 9, 'battle-opponent', 1, 'Roams Sinnoh after talking to Professor Oak in Eterna City. You can skip this battle.');

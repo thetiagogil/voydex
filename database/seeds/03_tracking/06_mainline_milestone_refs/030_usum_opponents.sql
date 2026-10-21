@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Ultra Sun / Ultra Moon, Island challenge, Elite Four, Champion, Team Rainbow Rocket, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Scope: Pokémon Ultra Sun / Ultra Moon milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -30,7 +32,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Grand Trial Olivia -> Olivia
   (160008, 16006, 16, 'battle-opponent', 1, NULL),
   -- Sophocles Trial -> Sophocles
-  (160009, 16007, 16, 'battle-opponent', 3, NULL),
+  (160009, 16007, 16, 'battle-opponent', 4, NULL),
   -- Acerola Trial -> Acerola
   (160010, 16008, 16, 'battle-opponent', 1, NULL),
   -- Grand Trial Nanu -> Nanu
@@ -40,7 +42,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Grand Trial Hapu -> Hapu
   (160014, 16011, 16, 'battle-opponent', 1, NULL),
   -- Ultra Necrozma -> Ultra Necrozma
-  (160015, 16012, 16, 'battle-opponent', 1, NULL),
+  (160015, 16012, 16, 'battle-opponent', 3, NULL),
   -- Elite Four Molayne -> Molayne
   (160016, 16013, 16, 'battle-opponent', 2, NULL),
   -- Elite Four Olivia -> Olivia
@@ -66,9 +68,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Kiawe Trial -> Hau & Gladion
   (160006, 16021, 16, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue'),
   -- Sophocles Trial -> Hau
-  (160009, 16019, 16, 'battle-opponent', 1, 'Malie City'),
+  (160009, 16019, 16, 'battle-opponent', 2, 'Malie City'),
   -- Sophocles Trial -> Guzma
-  (160009, 16022, 16, 'battle-opponent', 2, 'Malie Garden'),
+  (160009, 16022, 16, 'battle-opponent', 3, 'Malie Garden'),
   -- Grand Trial Nanu -> Guzma
   (160011, 16022, 16, 'battle-opponent', 1, 'Shady House, Po Town'),
   -- Grand Trial Nanu -> Gladion
@@ -78,4 +80,30 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Aether Paradise -> Lusamine
   (160023, 16023, 16, 'battle-opponent', 2, 'Aether Paradise'),
   -- Elite Four Molayne -> Gladion
-  (160016, 16020, 16, 'battle-opponent', 1, 'Mount Lanakila');
+  (160016, 16020, 16, 'battle-opponent', 1, 'Mount Lanakila'),
+  -- Sophocles Trial -> Nihilego
+  (160009, 16024, 16, 'battle-opponent', 1, 'Aether Paradise (first visit)'),
+  -- Ultra Necrozma -> Necrozma
+  (160015, 16025, 16, 'battle-opponent', 1, 'Altar of the Sunne (Poni Island)'),
+  -- Ultra Necrozma -> Necrozma
+  (160015, 16026, 16, 'battle-opponent', 2, 'Altar of the Moone (Poni Island)'),
+  -- Mahalo Trail -> Solgaleo
+  (160024, 16027, 16, 'battle-opponent', 1, 'Mahalo Trail, plank bridge (Melemele Island). You can skip this battle.'),
+  -- Mahalo Trail -> Lunala
+  (160024, 16028, 16, 'battle-opponent', 2, 'Mahalo Trail, plank bridge (Melemele Island). You can skip this battle.'),
+  -- Mount Lanakila Crater -> Necrozma
+  (160025, 16029, 16, 'battle-opponent', 1, 'Mount Lanakila, crater. You can skip this battle.'),
+  -- Ruins of Conflict -> Tapu Koko
+  (160026, 16030, 16, 'battle-opponent', 1, 'Ruins of Conflict (Melemele Island). You can skip this battle.'),
+  -- Ruins of Life -> Tapu Lele
+  (160027, 16031, 16, 'battle-opponent', 1, 'Ruins of Life (Akala Island). You can skip this battle.'),
+  -- Ruins of Abundance -> Tapu Bulu
+  (160028, 16032, 16, 'battle-opponent', 1, 'Ruins of Abundance (Ula''ula Island, beyond Haina Desert). You can skip this battle.'),
+  -- Ruins of Hope -> Tapu Fini
+  (160029, 16033, 16, 'battle-opponent', 1, 'Ruins of Hope (Poni Island). You can skip this battle.'),
+  -- Resolution Cave -> Zygarde
+  (160030, 16034, 16, 'battle-opponent', 1, 'Resolution Cave (Poni Island). You can skip this battle.'),
+  -- Poni Grove -> Blacephalon
+  (160031, 16035, 16, 'battle-opponent', 1, 'Poni Grove (Poni Island). You can skip this battle.'),
+  -- Poni Grove -> Stakataka
+  (160031, 16036, 16, 'battle-opponent', 2, 'Poni Grove (Poni Island). You can skip this battle.');

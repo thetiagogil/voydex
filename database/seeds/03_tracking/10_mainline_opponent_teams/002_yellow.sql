@@ -4,6 +4,7 @@
 -- Primary: Serebii Yellow Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Yellow Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival and Giovanni battles: the pret pokeyellow disassembly's trainer parties, cross-checked with Bulbapedia's rival and Giovanni pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Yellow Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -279,4 +280,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 5: Kadabra Lv. 50
   (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 5, 64, 6400, 50),
   -- Blue (Rival's Eevee evolved into Vaporeon), Elite Four Lorelei 6: Vaporeon Lv. 53
-  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 53);
+  (20013, 2014, 2, NULL, NULL, NULL, 'rival-vaporeon', 'Rival''s Eevee evolved into Vaporeon', 6, 134, 13400, 53),
+  -- Zapdos, Power Plant 1: Zapdos Lv. 50
+  (20023, 2016, 2, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
+  -- Articuno, Seafoam Islands 1: Articuno Lv. 50
+  (20024, 2017, 2, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 50),
+  -- Moltres, Victory Road 1: Moltres Lv. 50
+  (20025, 2018, 2, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
+  -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
+  (20026, 2019, 2, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);

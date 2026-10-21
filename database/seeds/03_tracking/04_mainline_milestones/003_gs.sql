@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Gold / Silver source pages.
 -- Story points with rival battles: Bulbapedia walkthrough pages and the pret pokegold map scripts.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Scope: Pokémon Gold / Silver major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -80,4 +81,14 @@ INSERT INTO tracking.mainline_milestones (
   -- Earth Badge
   (30024, 3, NULL, 303, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Blue at Viridian Gym and receive the Earth Badge.', 8, true),
   -- Red
-  (30025, 3, NULL, 303, 6, 3, NULL, 'defeat-red', 'Defeat Red', 'Defeat Red at Mt. Silver.', 9, true);
+  (30025, 3, NULL, 303, 6, 3, NULL, 'defeat-red', 'Defeat Red', 'Defeat Red at Mt. Silver.', 9, true),
+  -- Roaming Raikou
+  (30028, 3, NULL, 304, 6, 2, NULL, 'roaming-raikou', 'Roaming Raikou', 'Track down and catch or defeat Raikou, which roams the Johto routes after it flees the Burned Tower.', 1, false),
+  -- Roaming Entei
+  (30029, 3, NULL, 304, 6, 2, NULL, 'roaming-entei', 'Roaming Entei', 'Track down and catch or defeat Entei, which roams the Johto routes after it flees the Burned Tower.', 2, false),
+  -- Roaming Suicune
+  (30030, 3, NULL, 304, 6, 2, NULL, 'roaming-suicune', 'Roaming Suicune', 'Track down and catch or defeat Suicune, which roams the Johto routes after it flees the Burned Tower.', 3, false),
+  -- Tin Tower
+  (30031, 3, NULL, 304, 6, 2, NULL, 'tin-tower', 'Tin Tower', 'Climb the Tin Tower in Ecruteak City with the Rainbow Wing and catch or defeat Ho-Oh on the roof.', 4, false),
+  -- Whirl Islands
+  (30032, 3, NULL, 304, 6, 2, NULL, 'whirl-islands', 'Whirl Islands', 'Bring the Silver Wing to the depths of the Whirl Islands and catch or defeat Lugia.', 5, false);

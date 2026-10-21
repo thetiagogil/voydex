@@ -5,6 +5,7 @@
 -- Cross-check: Pokémon Database Black / White Gym Leaders and Elite Four page.
 -- Cheren's slot order: the Pokémon Black ROM trainer data, matching Serebii and PKMN.NET.
 -- Cheren, Bianca and N battles: Bulbapedia, cross-checked with Serebii, PokéWiki and the Japanese Pokémon Wiki.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black / White Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -404,4 +405,22 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Cheren (chose Oshawott), Legend Badge 3: Simipour Lv. 43
   (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 516, 51600, 43),
   -- Cheren (chose Oshawott), Legend Badge 4: Serperior Lv. 45
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 497, 49700, 45);
+  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 497, 49700, 45),
+  -- Reshiram, Battle N 1: Reshiram Lv. 50
+  (110015, 11018, 11, NULL, NULL, NULL, NULL, NULL, 1, 643, 64300, 50),
+  -- Zekrom, Battle N 1: Zekrom Lv. 50
+  (110015, 11019, 11, NULL, NULL, NULL, NULL, NULL, 1, 644, 64400, 50),
+  -- Cobalion, Swords of Justice 1: Cobalion Lv. 42
+  (110019, 11020, 11, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 42),
+  -- Terrakion, Swords of Justice 1: Terrakion Lv. 42
+  (110019, 11021, 11, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 42),
+  -- Virizion, Swords of Justice 1: Virizion Lv. 42
+  (110019, 11022, 11, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 42),
+  -- Tornadus, Roaming Tornadus or Thundurus 1: Tornadus Lv. 40
+  (110020, 11023, 11, NULL, NULL, NULL, NULL, NULL, 1, 641, 64100, 40),
+  -- Thundurus, Roaming Tornadus or Thundurus 1: Thundurus Lv. 40
+  (110020, 11024, 11, NULL, NULL, NULL, NULL, NULL, 1, 642, 64200, 40),
+  -- Kyurem, Giant Chasm 1: Kyurem Lv. 75
+  (110021, 11025, 11, NULL, NULL, NULL, NULL, NULL, 1, 646, 64600, 75),
+  -- Landorus, Abundant Shrine 1: Landorus Lv. 70
+  (110022, 11026, 11, NULL, NULL, NULL, NULL, NULL, 1, 645, 64500, 70);

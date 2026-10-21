@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A, Z-A Royale, Rogue Mega Evolution, Zygarde, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Zygarde's story levels (10% Forme Lv. 33, 50% Forme Lv. 57) are confirmed by one source only.
 -- Scope: Pokémon Legends: Z-A major opponent data.
 -- ============================================================================
 -- File Scope
@@ -28,4 +30,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Lysandre
   (26003, 26, NULL, 'lysandre', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 3),
   -- Zygarde
-  (26004, 26, NULL, 'zygarde', 'Zygarde', 'boss', 15, 9, 'zygarde', 4);
+  (26004, 26, NULL, 'zygarde', 'Zygarde', 'boss', 15, 9, 'zygarde', 4),
+  -- Xerneas (boss)
+  (26005, 26, NULL, 'xerneas', 'Xerneas', 'boss', 18, NULL, 'xerneas', 5),
+  -- Yveltal (boss)
+  (26006, 26, NULL, 'yveltal', 'Yveltal', 'boss', 16, 10, 'yveltal', 6);

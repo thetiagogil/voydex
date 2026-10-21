@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and Pokémon Yellow pages.
 -- Cross-check: Red / Blue tracking seed structure.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Yellow Gym Leader, Elite Four, and Champion data.
 -- ============================================================================
 -- File Scope
@@ -51,4 +52,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Blue (rival)
   (2014, 2, NULL, 'blue-rival', 'Blue', 'rival', NULL, NULL, 'blue', 14),
   -- Giovanni (boss)
-  (2015, 2, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15);
+  (2015, 2, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15),
+  -- Zapdos (boss)
+  (2016, 2, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 16),
+  -- Articuno (boss)
+  (2017, 2, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 17),
+  -- Moltres (boss)
+  (2018, 2, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 18),
+  -- Mewtwo (boss)
+  (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 19);

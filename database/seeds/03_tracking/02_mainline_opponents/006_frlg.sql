@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and FireRed / LeafGreen pages.
 -- Cross-check: Pokémon FireRed / LeafGreen source pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
 -- Scope: Pokémon FireRed / LeafGreen major opponent data.
 -- ============================================================================
 -- File Scope
@@ -51,4 +53,26 @@ INSERT INTO tracking.mainline_opponents (
   -- Blue (rival)
   (6014, 6, NULL, 'blue-rival', 'Blue', 'rival', NULL, NULL, 'blue', 14),
   -- Giovanni (boss)
-  (6015, 6, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15);
+  (6015, 6, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 15),
+  -- Zapdos (boss)
+  (6016, 6, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 16),
+  -- Articuno (boss)
+  (6017, 6, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 17),
+  -- Moltres (boss)
+  (6018, 6, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 18),
+  -- Ho-Oh (boss)
+  (6019, 6, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', 19),
+  -- Lugia (boss)
+  (6020, 6, NULL, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', 20),
+  -- Deoxys (boss, firered)
+  (6021, 6, 9, 'deoxys', 'Deoxys', 'boss', 11, NULL, 'deoxys', 1),
+  -- Deoxys (boss, leafgreen)
+  (6022, 6, 10, 'deoxys-leafgreen', 'Deoxys', 'boss', 11, NULL, 'deoxys', 1),
+  -- Raikou (boss)
+  (6023, 6, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', 21),
+  -- Entei (boss)
+  (6024, 6, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', 22),
+  -- Suicune (boss)
+  (6025, 6, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', 23),
+  -- Mewtwo (boss)
+  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 24);

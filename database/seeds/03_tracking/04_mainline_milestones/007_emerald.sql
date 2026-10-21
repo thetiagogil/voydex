@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Badge, Elite Four, Emerald, and Steven Stone pages.
 -- Cross-check: Pokémon Emerald source page.
 -- Story points with rival and villain battles: Bulbapedia walkthrough pages and the pret pokeemerald map scripts.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Emerald major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -41,6 +42,14 @@ INSERT INTO tracking.mainline_milestones (
   (70020, 7, NULL, 701, 1, 2, NULL, 'mt-chimney', 'Mt. Chimney', 'Ride the cable car up Mt. Chimney and stop Team Magma from using the Meteorite to make the volcano erupt.', 6, true),
   -- Fossil Choice
   (70006, 7, NULL, 704, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Root Fossil or Claw Fossil in Mirage Tower.', 1, false),
+  -- Sealed Chamber
+  (70023, 7, NULL, 704, 6, 2, NULL, 'sealed-chamber', 'Sealed Chamber', 'Open the Sealed Chamber with Wailord first and Relicanth last in your party, then solve the Braille puzzles to meet Regirock, Regice and Registeel.', 2, false),
+  -- Sky Pillar
+  (70024, 7, NULL, 704, 6, 2, NULL, 'sky-pillar', 'Sky Pillar', 'Return to the top of the Sky Pillar after the Sootopolis crisis and catch or defeat Rayquaza.', 3, false),
+  -- Terra Cave
+  (70025, 7, NULL, 704, 6, 2, NULL, 'terra-cave', 'Terra Cave', 'After entering the Hall of Fame, follow the Weather Institute''s report of harsh sunlight to the Terra Cave and catch or defeat Groudon.', 4, false),
+  -- Marine Cave
+  (70026, 7, NULL, 704, 6, 2, NULL, 'marine-cave', 'Marine Cave', 'After entering the Hall of Fame, follow the Weather Institute''s report of heavy rain, dive into the Marine Cave and catch or defeat Kyogre.', 5, false),
   -- Heat Badge
   (70007, 7, NULL, 701, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 7, true),
   -- Balance Badge

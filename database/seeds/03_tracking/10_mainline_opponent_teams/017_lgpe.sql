@@ -4,6 +4,7 @@
 -- Primary: Serebii Let's Go, Pikachu! / Let's Go, Eevee! Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Let's Go, Pikachu! / Let's Go, Eevee! Gym Leaders and Elite Four page.
 -- Trace and Giovanni battles: Bulbapedia, cross-checked with Serebii and Pokébip.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -239,4 +240,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Trace (Lets Go Eevee), Elite Four Lorelei 3: Marowak Lv. 50
   (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 105, 10500, 50),
   -- Trace (Lets Go Eevee), Elite Four Lorelei 4: Raichu Lv. 51
-  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 51);
+  (170012, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 51),
+  -- Zapdos, Power Plant 1: Zapdos Lv. 50
+  (170023, 17018, 17, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
+  -- Articuno, Seafoam Islands 1: Articuno Lv. 50
+  (170024, 17019, 17, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 50),
+  -- Moltres, Victory Road 1: Moltres Lv. 50
+  (170025, 17020, 17, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
+  -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
+  (170026, 17021, 17, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);

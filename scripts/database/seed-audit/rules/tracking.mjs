@@ -878,6 +878,25 @@ export function assertOpponentTeamRows(context, tableRows) {
       );
     }
   }
+  /*
+   * The options each story point's battles cover per game and choice, so a
+   * battle only one option leads to (the roaming bird your starter picks)
+   * is accepted when the point's other battles cover the other options.
+   */
+  const pointChoiceKey = (row, milestoneId) =>
+    `${row.milestone_id}/${row.game_id ?? ""}/${milestoneId}`;
+  const optionsByPointChoice = new Map();
+  for (const { teams } of teamsByBattleGame.values()) {
+    for (const row of teams.values()) {
+      if (row.decision_milestone_id === null) continue;
+      const pointKey = pointChoiceKey(row, row.decision_milestone_id);
+      if (!optionsByPointChoice.has(pointKey)) {
+        optionsByPointChoice.set(pointKey, new Set());
+      }
+      optionsByPointChoice.get(pointKey).add(row.decision_option_slug);
+    }
+  }
+
   for (const [key, { filePath, teams }] of teamsByBattleGame) {
     const teamRows = [...teams.values()];
     const plainCount = teamRows.filter(
@@ -902,7 +921,15 @@ export function assertOpponentTeamRows(context, tableRows) {
       const missing = [...(optionSlugsByMilestone.get(milestoneId) ?? [])]
         .filter((slug) => !covered.has(slug))
         .sort();
-      if (missing.length) {
+      const pointCovered = optionsByPointChoice.get(
+        pointChoiceKey(teamRows[0], milestoneId),
+      );
+      const isOneOptionBattle =
+        covered.size === 1 &&
+        [...(optionSlugsByMilestone.get(milestoneId) ?? [])].every((slug) =>
+          pointCovered?.has(slug),
+        );
+      if (missing.length && !isOneOptionBattle) {
         context.errors.push(
           `${relative(filePath)}: ${table} battle ${key} follows milestone ${milestoneId} but has no team for ${missing.join(", ")}.`,
         );

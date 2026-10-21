@@ -4,6 +4,7 @@
 -- Primary: Serebii Platinum Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Platinum Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Barry and Cyrus battles: the pret pokeplatinum trainer data and map scripts, cross-checked with Bulbapedia, Serebii and PokéWiki.
+-- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Platinum Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -319,4 +320,28 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Barry (chose Piplup), Stark Mountain 5: Snorlax Lv. 63
   (90020, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 5, 143, 14300, 63),
   -- Barry (chose Piplup), Stark Mountain 6: Torterra Lv. 65
-  (90020, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 65);
+  (90020, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 65),
+  -- Giratina, Distortion World 1: Giratina (Origin) Lv. 47
+  (90019, 9016, 9, NULL, NULL, NULL, NULL, NULL, 1, 487, 48701, 47),
+  -- Uxie, Lake Guardians 1: Uxie Lv. 50
+  (90021, 9017, 9, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50),
+  -- Azelf, Lake Guardians 1: Azelf Lv. 50
+  (90021, 9018, 9, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50),
+  -- Mesprit, Lake Guardians 1: Mesprit Lv. 50
+  (90021, 9019, 9, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50),
+  -- Heatran, Stark Mountain 1: Heatran Lv. 50
+  (90020, 9020, 9, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 50),
+  -- Cresselia, Roaming Cresselia 1: Cresselia Lv. 50
+  (90022, 9021, 9, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 50),
+  -- Regigigas, Snowpoint Temple 1: Regigigas Lv. 1
+  (90023, 9022, 9, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 1),
+  -- Dialga, Spear Pillar 1: Dialga Lv. 70
+  (90024, 9023, 9, NULL, NULL, NULL, NULL, NULL, 1, 483, 48300, 70),
+  -- Palkia, Spear Pillar 1: Palkia Lv. 70
+  (90024, 9024, 9, NULL, NULL, NULL, NULL, NULL, 1, 484, 48400, 70),
+  -- Articuno, Roaming Articuno 1: Articuno Lv. 60
+  (90025, 9025, 9, NULL, NULL, NULL, NULL, NULL, 1, 144, 14400, 60),
+  -- Zapdos, Roaming Zapdos 1: Zapdos Lv. 60
+  (90026, 9026, 9, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 60),
+  -- Moltres, Roaming Moltres 1: Moltres Lv. 60
+  (90027, 9027, 9, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 60);

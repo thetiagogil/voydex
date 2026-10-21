@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Sword / Shield, Badge, Gym Leader, Champion Cup, Legendary Pokémon, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Scope: Pokémon Sword / Shield major opponent data.
 -- ============================================================================
 -- File Scope
@@ -52,4 +53,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Marnie (rival)
   (18015, 18, NULL, 'marnie', 'Marnie', 'rival', NULL, NULL, 'marnie', 13),
   -- Rose (boss)
-  (18016, 18, NULL, 'rose', 'Rose', 'boss', NULL, NULL, 'rose', 14);
+  (18016, 18, NULL, 'rose', 'Rose', 'boss', NULL, NULL, 'rose', 14),
+  -- Zamazenta (boss, sword)
+  (18017, 18, 31, 'zamazenta', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', 7),
+  -- Zacian (boss, shield)
+  (18018, 18, 32, 'zacian', 'Zacian', 'boss', 18, NULL, 'zacian', 7),
+  -- Zacian (boss, sword)
+  (18019, 18, 31, 'zacian-sword', 'Zacian', 'boss', 18, NULL, 'zacian', 8),
+  -- Zamazenta (boss, shield)
+  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', 8);

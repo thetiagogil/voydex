@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A, Z-A Royale, Rogue Mega Evolution, Zygarde, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Zygarde's story levels (10% Forme Lv. 33, 50% Forme Lv. 57) are confirmed by one source only.
 -- Scope: Pokémon Legends: Z-A major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -40,4 +42,10 @@ INSERT INTO tracking.mainline_milestones (
   -- Stop the Ange Crisis
   (260008, 26, NULL, 2604, 6, 3, NULL, 'stop-ange-crisis', 'Stop the Ange Crisis', 'Stop the Prism Tower Ange crisis with Zygarde.', 2, true),
   -- Infinite Z-A Royale
-  (260009, 26, NULL, 2605, 1, 1, NULL, 'infinite-za-royale', 'Infinite Z-A Royale', 'Unlock the Infinite Z-A Royale after the main story.', 1, false);
+  (260009, 26, NULL, 2605, 1, 1, NULL, 'infinite-za-royale', 'Infinite Z-A Royale', 'Unlock the Infinite Z-A Royale after the main story.', 1, false),
+  -- The One That Gives
+  (260010, 26, NULL, 2606, 6, 2, NULL, 'the-one-that-gives', 'The One That Gives', 'Calm the anomalous Alphas for Mable, then catch Xerneas in Wild Zone 11.', 1, false),
+  -- The One That Takes
+  (260011, 26, NULL, 2606, 6, 2, NULL, 'the-one-that-takes', 'The One That Takes', 'Clear Vinnie''s Rogue Mega simulator, then catch Yveltal on the Galerie de la Lune roof.', 2, false),
+  -- To Keep the World in Balance
+  (260012, 26, NULL, 2606, 6, 2, NULL, 'to-keep-the-world-in-balance', 'To Keep the World in Balance', 'Beat L at Hotel Z, then battle and catch Zygarde beneath Prism Tower.', 3, false);

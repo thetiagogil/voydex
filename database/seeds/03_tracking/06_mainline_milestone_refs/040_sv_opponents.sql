@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Scarlet / Violet, Gym Leader, Elite Four, Champion, Team Star, Titan Pokémon, The Way Home, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Scarlet / Violet milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -86,4 +87,20 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Psychic Badge -> Nemona
   (230009, 23029, 23, 'battle-opponent', 1, 'Outside your seventh Gym'),
   -- Academy Ace Tournament -> Arven
-  (230032, 23027, 23, 'battle-opponent', 1, 'Academy Ace Tournament, Mesagoza (first round of the first tournament). You can skip this battle.');
+  (230032, 23027, 23, 'battle-opponent', 1, 'Academy Ace Tournament, Mesagoza (first round of the first tournament). You can skip this battle.'),
+  -- Defeat AI Professor -> Koraidon
+  (230031, 23030, 23, 'battle-opponent', 2, 'Zero Lab, Area Zero (the Paradise Protection Protocol battle)'),
+  -- Defeat AI Professor -> Miraidon
+  (230031, 23031, 23, 'battle-opponent', 3, 'Zero Lab, Area Zero (the Paradise Protection Protocol battle)'),
+  -- Grasswither Shrine -> Wo-Chien
+  (230033, 23032, 23, 'battle-opponent', 1, 'Grasswither Shrine, South Province (Area One). You can skip this battle.'),
+  -- Icerend Shrine -> Chien-Pao
+  (230034, 23033, 23, 'battle-opponent', 1, 'Icerend Shrine, West Province (Area One). You can skip this battle.'),
+  -- Groundblight Shrine -> Ting-Lu
+  (230035, 23034, 23, 'battle-opponent', 1, 'Groundblight Shrine, Socarrat Trail. You can skip this battle.'),
+  -- Firescourge Shrine -> Chi-Yu
+  (230036, 23035, 23, 'battle-opponent', 1, 'Firescourge Shrine, North Province (Area Two). You can skip this battle.'),
+  -- Area Zero Depths -> Koraidon
+  (230037, 23030, 23, 'battle-opponent', 1, 'Area Zero, bottom of the crater near the Zero Lab. You can skip this battle.'),
+  -- Area Zero Depths -> Miraidon
+  (230037, 23031, 23, 'battle-opponent', 2, 'Area Zero, bottom of the crater near the Zero Lab. You can skip this battle.');

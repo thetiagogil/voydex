@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black 2 / White 2, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black 2 / White 2 major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -58,4 +59,22 @@ INSERT INTO tracking.mainline_milestones (
   -- Champion Iris
   (120017, 12, NULL, 1202, 8, 2, NULL, 'champion-iris', 'Champion Iris', 'Defeat Champion Iris at the Pokémon League.', 5, true),
   -- Hall of Fame
-  (120018, 12, NULL, 1202, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true);
+  (120018, 12, NULL, 1202, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
+  -- Swords of Justice
+  (120019, 12, NULL, 1204, 6, 2, NULL, 'swords-of-justice', 'Swords of Justice', 'Find Cobalion on Route 13, Virizion on Route 11 and, after the Wave Badge, Terrakion on Route 22.', 1, false),
+  -- Dreamyard
+  (120020, 12, NULL, 1204, 6, 2, NULL, 'dreamyard', 'Dreamyard', 'After the Hall of Fame, chase Latios (Black 2) or Latias (White 2) through the Dreamyard until it stops to battle.', 2, false),
+  -- Cave of Being
+  (120021, 12, NULL, 1204, 6, 2, NULL, 'cave-of-being', 'Cave of Being', 'After the Hall of Fame, meet Professor Juniper in the Cave of Being, then find Uxie, Mesprit and Azelf where they fled.', 3, false),
+  -- Dragonspiral Tower
+  (120022, 12, NULL, 1204, 6, 2, NULL, 'dragonspiral-tower', 'Dragonspiral Tower', 'Take the stone N gives you in N''s Castle to Dragonspiral Tower to face Zekrom (Black 2) or Reshiram (White 2).', 4, false),
+  -- Giant Chasm
+  (120023, 12, NULL, 1204, 6, 2, NULL, 'giant-chasm', 'Giant Chasm', 'After Dragonspiral Tower, return to the Giant Chasm''s deepest cave to face Kyurem in its normal form.', 5, false),
+  -- Underground Ruins
+  (120024, 12, NULL, 1204, 6, 2, NULL, 'underground-ruins', 'Underground Ruins', 'Solve the door puzzle in the Underground Ruins under Clay Tunnel to face Regirock, then Registeel or Regice with the matching key.', 6, false),
+  -- Twist Mountain
+  (120025, 12, NULL, 1204, 6, 2, NULL, 'twist-mountain', 'Twist Mountain', 'Bring Regirock, Regice and Registeel to the chamber behind the Ice Rock in Twist Mountain to wake Regigigas.', 7, false),
+  -- Reversal Mountain
+  (120026, 12, NULL, 1204, 6, 2, NULL, 'reversal-mountain', 'Reversal Mountain', 'Bring the Magma Stone from Route 18 to Reversal Mountain''s lowest floor to make Heatran appear.', 8, false),
+  -- Marvelous Bridge
+  (120027, 12, NULL, 1204, 6, 2, NULL, 'marvelous-bridge', 'Marvelous Bridge', 'Take the Lunar Wing from the Strange House to Marvelous Bridge to face Cresselia.', 9, false);

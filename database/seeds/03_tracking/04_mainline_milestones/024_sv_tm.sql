@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia The Teal Mask, Kitakami, Kieran, Ogerpon, Loyal Three, and Bloodmoon Ursaluna pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- The Dreaded Den Munkidori (Lv. 30, or 70 after The Way Home) is confirmed by data-mined game data only.
 -- Scope: Pokémon The Teal Mask major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -36,4 +38,10 @@ INSERT INTO tracking.mainline_milestones (
   -- Kieran Rematch
   (240006, 24, NULL, 2401, 5, 2, NULL, 'kieran-battle-2', 'Kieran Rematch', 'Battle Kieran after the Ogerpon story climax.', 6, true),
   -- Bloodmoon Ursaluna
-  (240007, 24, NULL, 2402, 6, 3, NULL, 'bloodmoon-ursaluna', 'Bloodmoon Ursaluna', 'Complete the Perrin quest and encounter Bloodmoon Ursaluna.', 1, false);
+  (240007, 24, NULL, 2402, 6, 3, NULL, 'bloodmoon-ursaluna', 'Bloodmoon Ursaluna', 'Complete the Perrin quest and encounter Bloodmoon Ursaluna.', 1, false),
+  -- Paradise Barrens
+  (240008, 24, NULL, 2402, 6, 2, NULL, 'paradise-barrens', 'Paradise Barrens', 'After catching Ogerpon, battle and catch Okidogi where you fought its titan form.', 2, false),
+  -- Wistful Fields
+  (240009, 24, NULL, 2402, 6, 2, NULL, 'wistful-fields', 'Wistful Fields', 'After catching Ogerpon, battle and catch Munkidori at the pond where you fought its titan form.', 3, false),
+  -- Oni Mountain
+  (240010, 24, NULL, 2402, 6, 2, NULL, 'oni-mountain', 'Oni Mountain', 'After catching Ogerpon, battle and catch Fezandipiti on Oni Mountain where you fought its titan form.', 4, false);

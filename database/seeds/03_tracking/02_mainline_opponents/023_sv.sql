@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Scarlet / Violet, Gym Leader, Elite Four, Champion, Team Star, Titan Pokémon, The Way Home, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Scarlet / Violet major opponent data.
 -- ============================================================================
 -- File Scope
@@ -78,4 +79,16 @@ INSERT INTO tracking.mainline_opponents (
   -- AI Professor
   (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, 'ai-professor', 28),
   -- Nemona (rival)
-  (23029, 23, NULL, 'nemona-rival', 'Nemona', 'rival', NULL, NULL, 'nemona', 29);
+  (23029, 23, NULL, 'nemona-rival', 'Nemona', 'rival', NULL, NULL, 'nemona', 29),
+  -- Koraidon (boss, scarlet)
+  (23030, 23, 36, 'koraidon', 'Koraidon', 'boss', 7, 15, 'koraidon', 1),
+  -- Miraidon (boss, violet)
+  (23031, 23, 37, 'miraidon', 'Miraidon', 'boss', 4, 15, 'miraidon', 1),
+  -- Wo-Chien (boss)
+  (23032, 23, NULL, 'wo-chien', 'Wo-Chien', 'boss', 16, 5, 'wo-chien', 30),
+  -- Chien-Pao (boss)
+  (23033, 23, NULL, 'chien-pao', 'Chien-Pao', 'boss', 16, 6, 'chien-pao', 31),
+  -- Ting-Lu (boss)
+  (23034, 23, NULL, 'ting-lu', 'Ting-Lu', 'boss', 16, 9, 'ting-lu', 32),
+  -- Chi-Yu (boss)
+  (23035, 23, NULL, 'chi-yu', 'Chi-Yu', 'boss', 16, 2, 'chi-yu', 33);

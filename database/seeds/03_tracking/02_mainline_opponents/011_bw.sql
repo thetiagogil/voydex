@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black / White, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Black / White major opponent data.
 -- ============================================================================
 -- File Scope
@@ -54,4 +55,22 @@ INSERT INTO tracking.mainline_opponents (
   -- Bianca (rival)
   (11016, 11, NULL, 'bianca', 'Bianca', 'rival', NULL, NULL, 'bianca', 16),
   -- Cheren (rival)
-  (11017, 11, NULL, 'cheren', 'Cheren', 'rival', NULL, NULL, 'cheren', 17);
+  (11017, 11, NULL, 'cheren', 'Cheren', 'rival', NULL, NULL, 'cheren', 17),
+  -- Reshiram (boss, black)
+  (11018, 11, 17, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', 1),
+  -- Zekrom (boss, white)
+  (11019, 11, 18, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', 1),
+  -- Cobalion (boss)
+  (11020, 11, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', 18),
+  -- Terrakion (boss)
+  (11021, 11, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', 19),
+  -- Virizion (boss)
+  (11022, 11, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', 20),
+  -- Tornadus (boss, black)
+  (11023, 11, 17, 'tornadus', 'Tornadus', 'boss', 10, NULL, 'tornadus', 2),
+  -- Thundurus (boss, white)
+  (11024, 11, 18, 'thundurus', 'Thundurus', 'boss', 4, 10, 'thundurus', 2),
+  -- Kyurem (boss)
+  (11025, 11, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', 21),
+  -- Landorus (boss)
+  (11026, 11, NULL, 'landorus', 'Landorus', 'boss', 9, 10, 'landorus', 22);

@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and Diamond / Pearl pages.
 -- Cross-check: Pokémon Diamond / Pearl source page.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Diamond / Pearl major opponent data.
 -- ============================================================================
 -- File Scope
@@ -51,4 +52,22 @@ INSERT INTO tracking.mainline_opponents (
   -- Barry (rival)
   (8014, 8, NULL, 'barry', 'Barry', 'rival', NULL, NULL, 'barry', 14),
   -- Cyrus (boss)
-  (8015, 8, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', 15);
+  (8015, 8, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', 15),
+  -- Dialga (boss, diamond)
+  (8016, 8, 12, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', 1),
+  -- Palkia (boss, pearl)
+  (8017, 8, 13, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', 1),
+  -- Uxie (boss)
+  (8018, 8, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', 16),
+  -- Azelf (boss)
+  (8019, 8, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', 17),
+  -- Mesprit (boss)
+  (8020, 8, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', 18),
+  -- Giratina (boss)
+  (8021, 8, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', 19),
+  -- Cresselia (boss)
+  (8022, 8, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 20),
+  -- Regigigas (boss)
+  (8023, 8, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 21),
+  -- Heatran (boss)
+  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 22);

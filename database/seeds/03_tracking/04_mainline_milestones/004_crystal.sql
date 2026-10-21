@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Crystal source page.
 -- Story points with rival battles: Bulbapedia walkthrough pages and the pret pokecrystal map scripts.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
+-- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
 -- Scope: Pokémon Crystal major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -81,4 +83,14 @@ INSERT INTO tracking.mainline_milestones (
   -- Earth Badge
   (40024, 4, NULL, 403, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Blue at Viridian Gym and receive the Earth Badge.', 8, true),
   -- Red
-  (40025, 4, NULL, 403, 6, 3, NULL, 'defeat-red', 'Defeat Red', 'Defeat Red at Mt. Silver.', 9, true);
+  (40025, 4, NULL, 403, 6, 3, NULL, 'defeat-red', 'Defeat Red', 'Defeat Red at Mt. Silver.', 9, true),
+  -- Roaming Raikou
+  (40028, 4, NULL, 404, 6, 2, NULL, 'roaming-raikou', 'Roaming Raikou', 'Track down and catch or defeat Raikou, which roams the Johto routes after it flees the Burned Tower.', 1, false),
+  -- Roaming Entei
+  (40029, 4, NULL, 404, 6, 2, NULL, 'roaming-entei', 'Roaming Entei', 'Track down and catch or defeat Entei, which roams the Johto routes after it flees the Burned Tower.', 2, false),
+  -- Tin Tower
+  (40030, 4, NULL, 404, 6, 2, NULL, 'tin-tower', 'Tin Tower', 'Bring the Clear Bell to the Tin Tower to face Suicune, then return after the Hall of Fame with all three beasts caught to receive the Rainbow Wing and face Ho-Oh on the roof.', 3, false),
+  -- Whirl Islands
+  (40031, 4, NULL, 404, 6, 2, NULL, 'whirl-islands', 'Whirl Islands', 'Bring the Silver Wing from Pewter City to the depths of the Whirl Islands and catch or defeat Lugia.', 4, false),
+  -- Ilex Forest Shrine
+  (40032, 4, NULL, 404, 6, 2, NULL, 'ilex-forest-shrine', 'Ilex Forest Shrine', 'Have Kurt examine the GS Ball, then place it at the Ilex Forest shrine to catch or defeat Celebi.', 5, false);

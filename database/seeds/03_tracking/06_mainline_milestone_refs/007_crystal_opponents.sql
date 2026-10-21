@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Crystal source page.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
+-- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
 -- Scope: Pokémon Crystal milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -73,4 +75,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Will -> Silver
   (40011, 4023, 4, 'battle-opponent', 1, 'Victory Road (near the exit to Indigo Plateau)'),
   -- Boulder Badge -> Silver
-  (40017, 4023, 4, 'battle-opponent', 2, 'Mt. Moon. You can skip this battle.');
+  (40017, 4023, 4, 'battle-opponent', 2, 'Mt. Moon. You can skip this battle.'),
+  -- Roaming Raikou -> Raikou
+  (40028, 4024, 4, 'battle-opponent', 1, 'Roams Johto routes (29-46) after the Burned Tower. You can skip this battle.'),
+  -- Roaming Entei -> Entei
+  (40029, 4025, 4, 'battle-opponent', 1, 'Roams Johto routes (29-46) after the Burned Tower. You can skip this battle.'),
+  -- Tin Tower -> Suicune
+  (40030, 4026, 4, 'battle-opponent', 1, 'Tin Tower 1F. You can skip this battle.'),
+  -- Tin Tower -> Ho-Oh
+  (40030, 4027, 4, 'battle-opponent', 2, 'Tin Tower roof. You can skip this battle.'),
+  -- Whirl Islands -> Lugia
+  (40031, 4028, 4, 'battle-opponent', 1, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.'),
+  -- Ilex Forest Shrine -> Celebi
+  (40032, 4029, 4, 'battle-opponent', 1, 'Ilex Forest shrine. You can skip this battle.');

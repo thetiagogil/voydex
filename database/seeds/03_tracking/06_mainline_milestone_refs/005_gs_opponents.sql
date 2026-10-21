@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Gold / Silver source pages.
+-- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Scope: Pokémon Gold / Silver milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -73,4 +74,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Elite Four Will -> Silver
   (30011, 3023, 3, 'battle-opponent', 1, 'Victory Road (near the exit to Indigo Plateau)'),
   -- Boulder Badge -> Silver
-  (30017, 3023, 3, 'battle-opponent', 2, 'Mt. Moon. You can skip this battle.');
+  (30017, 3023, 3, 'battle-opponent', 2, 'Mt. Moon. You can skip this battle.'),
+  -- Roaming Raikou -> Raikou
+  (30028, 3024, 3, 'battle-opponent', 1, 'Roams Johto routes (29-46) after the Burned Tower. You can skip this battle.'),
+  -- Roaming Entei -> Entei
+  (30029, 3025, 3, 'battle-opponent', 1, 'Roams Johto routes (29-46) after the Burned Tower. You can skip this battle.'),
+  -- Roaming Suicune -> Suicune
+  (30030, 3026, 3, 'battle-opponent', 1, 'Roams Johto routes (29-46) after the Burned Tower. You can skip this battle.'),
+  -- Tin Tower -> Ho-Oh
+  (30031, 3027, 3, 'battle-opponent', 1, 'Tin Tower roof. You can skip this battle.'),
+  -- Tin Tower -> Ho-Oh
+  (30031, 3028, 3, 'battle-opponent', 2, 'Tin Tower roof. You can skip this battle.'),
+  -- Whirl Islands -> Lugia
+  (30032, 3029, 3, 'battle-opponent', 1, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.'),
+  -- Whirl Islands -> Lugia
+  (30032, 3030, 3, 'battle-opponent', 2, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.');

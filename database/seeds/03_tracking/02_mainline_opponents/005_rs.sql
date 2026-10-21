@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: Pokémon Ruby / Sapphire source pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Ruby / Sapphire major opponent data.
 -- ============================================================================
 -- File Scope
@@ -55,4 +56,20 @@ INSERT INTO tracking.mainline_opponents (
   -- Maxie (boss, ruby)
   (5016, 5, 7, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', 1),
   -- Archie (boss, sapphire)
-  (5017, 5, 8, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 1);
+  (5017, 5, 8, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 1),
+  -- Groudon (boss, ruby)
+  (5018, 5, 7, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', 2),
+  -- Kyogre (boss, sapphire)
+  (5019, 5, 8, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', 2),
+  -- Regirock (boss)
+  (5020, 5, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', 16),
+  -- Regice (boss)
+  (5021, 5, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', 17),
+  -- Registeel (boss)
+  (5022, 5, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', 18),
+  -- Rayquaza (boss)
+  (5023, 5, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 19),
+  -- Latios (boss, ruby)
+  (5024, 5, 7, 'latios', 'Latios', 'boss', 15, 11, 'latios', 3),
+  -- Latias (boss, sapphire)
+  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, 'latias', 3);

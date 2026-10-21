@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, and FireRed / LeafGreen pages.
 -- Cross-check: Pokémon FireRed / LeafGreen source pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
 -- Scope: Pokémon FireRed / LeafGreen milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -61,4 +63,26 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Silph Co. -> Giovanni
   (60022, 6015, 6, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City'),
   -- Elite Four Lorelei -> Blue
-  (60013, 6014, 6, 'battle-opponent', 1, 'Route 22');
+  (60013, 6014, 6, 'battle-opponent', 1, 'Route 22'),
+  -- Power Plant -> Zapdos
+  (60023, 6016, 6, 'battle-opponent', 1, 'Power Plant. You can skip this battle.'),
+  -- Seafoam Islands -> Articuno
+  (60024, 6017, 6, 'battle-opponent', 1, 'Seafoam Islands B4F. You can skip this battle.'),
+  -- Mt. Ember -> Moltres
+  (60025, 6018, 6, 'battle-opponent', 1, 'Mt. Ember summit (One Island). You can skip this battle.'),
+  -- Navel Rock -> Ho-Oh
+  (60026, 6019, 6, 'battle-opponent', 1, 'Navel Rock summit (4F). You can skip this battle.'),
+  -- Navel Rock -> Lugia
+  (60026, 6020, 6, 'battle-opponent', 2, 'Navel Rock base (B14F). You can skip this battle.'),
+  -- Birth Island -> Deoxys
+  (60027, 6021, 6, 'battle-opponent', 1, 'Birth Island. You can skip this battle.'),
+  -- Birth Island -> Deoxys
+  (60027, 6022, 6, 'battle-opponent', 2, 'Birth Island. You can skip this battle.'),
+  -- Roaming Legendary Beast -> Raikou
+  (60028, 6023, 6, 'battle-opponent', 1, 'Roams Kanto routes. You can skip this battle.'),
+  -- Roaming Legendary Beast -> Entei
+  (60028, 6024, 6, 'battle-opponent', 2, 'Roams Kanto routes. You can skip this battle.'),
+  -- Roaming Legendary Beast -> Suicune
+  (60028, 6025, 6, 'battle-opponent', 3, 'Roams Kanto routes. You can skip this battle.'),
+  -- Cerulean Cave -> Mewtwo
+  (60029, 6026, 6, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');

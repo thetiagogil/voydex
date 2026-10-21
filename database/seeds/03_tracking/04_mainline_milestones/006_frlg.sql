@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, and FireRed / LeafGreen pages.
 -- Cross-check: Pokémon FireRed / LeafGreen source pages.
 -- Story points with rival and Giovanni battles: Bulbapedia walkthrough and location pages, and the pret pokefirered map data.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
 -- Scope: Pokémon FireRed / LeafGreen major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -55,6 +57,20 @@ INSERT INTO tracking.mainline_milestones (
   (60009, 6, NULL, 601, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 13, true),
   -- Fighting Dojo Choice
   (60010, 6, NULL, 604, 12, 1, NULL, 'fighting-dojo-choice', 'Fighting Dojo Choice', 'Choose Hitmonlee or Hitmonchan after defeating the Fighting Dojo master.', 1, false),
+  -- Power Plant
+  (60023, 6, NULL, 604, 6, 2, NULL, 'power-plant', 'Power Plant', 'Catch or defeat Zapdos at the back of the Power Plant on Route 10.', 2, false),
+  -- Seafoam Islands
+  (60024, 6, NULL, 604, 6, 2, NULL, 'seafoam-islands', 'Seafoam Islands', 'Catch or defeat Articuno on the lowest floor of the Seafoam Islands.', 3, false),
+  -- Mt. Ember
+  (60025, 6, NULL, 604, 6, 2, NULL, 'mt-ember', 'Mt. Ember', 'Catch or defeat Moltres at the summit of Mt. Ember on One Island.', 4, false),
+  -- Navel Rock
+  (60026, 6, NULL, 604, 6, 2, NULL, 'navel-rock', 'Navel Rock', 'Sail to Navel Rock with the Mystic Ticket to catch or defeat Ho-Oh and Lugia.', 5, false),
+  -- Birth Island
+  (60027, 6, NULL, 604, 6, 2, NULL, 'birth-island', 'Birth Island', 'Sail to Birth Island with the Aurora Ticket and solve the triangle puzzle to face Deoxys.', 6, false),
+  -- Roaming Legendary Beast
+  (60028, 6, NULL, 604, 6, 2, NULL, 'roaming-legendary-beast', 'Roaming Legendary Beast', 'Track down the legendary beast that roams Kanto''s routes: Raikou if you chose Squirtle, Entei if you chose Bulbasaur, Suicune if you chose Charmander.', 7, false),
+  -- Cerulean Cave
+  (60029, 6, NULL, 604, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Catch or defeat Mewtwo deep in Cerulean Cave once the Sevii Islands network is restored.', 8, false),
   -- Volcano Badge
   (60011, 6, NULL, 601, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 14, true),
   -- Earth Badge

@@ -35,7 +35,15 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (220009, 220008, 22, 1, 1, NULL),
   -- Origin Pokémon <- Commander Kamado
   (220010, 220009, 22, 1, 1, NULL),
-  -- Defeat Volo <- Origin Pokémon
-  (220011, 220010, 22, 1, 1, NULL),
+  -- Defeat Volo <- The Plate of Snowpoint Temple
+  (220011, 220016, 22, 1, 1, NULL),
   -- Meet Arceus <- Defeat Volo
-  (220012, 220011, 22, 1, 1, NULL);
+  (220012, 220011, 22, 1, 1, NULL),
+  -- The Plate of the Lakes <- Origin Pokémon
+  (220013, 220010, 22, 1, 1, NULL),
+  -- The Plate of Firespit Island <- The Plate of the Lakes
+  (220014, 220013, 22, 1, 1, NULL),
+  -- The Plate of Moonview Arena <- The Plate of Firespit Island
+  (220015, 220014, 22, 1, 1, NULL),
+  -- The Plate of Snowpoint Temple <- The Plate of Moonview Arena
+  (220016, 220015, 22, 1, 1, NULL);

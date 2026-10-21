@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Sword / Shield, Badge, Gym Leader, Champion Cup, Legendary Pokémon, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Scope: Pokémon Sword / Shield major story and decision milestones.
 -- ============================================================================
 -- File Scope

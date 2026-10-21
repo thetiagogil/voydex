@@ -4,6 +4,7 @@
 -- Primary: Serebii Omega Ruby / Alpha Sapphire Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Omega Ruby / Alpha Sapphire Gym Leaders and Elite Four page.
 -- Rival, Wally, Maxie and Archie battles: Bulbapedia, cross-checked with Serebii's rival, Wally and Team Aqua / Magma pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -271,4 +272,64 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- May / Brendan (chose Mudkip), Hall of Fame 4: Wailord Lv. 48
   (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 321, 32100, 48),
   -- May / Brendan (chose Mudkip), Hall of Fame 5: Sceptile Lv. 50
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25400, 50);
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25400, 50),
+  -- Groudon, Rain Badge 1: Groudon Lv. 45
+  (140011, 14019, 14, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 45),
+  -- Kyogre, Rain Badge 1: Kyogre Lv. 45
+  (140011, 14020, 14, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 45),
+  -- Rayquaza, Delta Episode 1: Rayquaza Lv. 70
+  (140018, 14021, 14, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 70),
+  -- Deoxys, Delta Episode 1: Deoxys Lv. 80
+  (140018, 14022, 14, NULL, NULL, NULL, NULL, NULL, 1, 386, 38600, 80),
+  -- Regirock, Sealed Chamber 1: Regirock Lv. 40
+  (140021, 14023, 14, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 40),
+  -- Regice, Sealed Chamber 1: Regice Lv. 40
+  (140021, 14024, 14, NULL, NULL, NULL, NULL, NULL, 1, 378, 37800, 40),
+  -- Registeel, Sealed Chamber 1: Registeel Lv. 40
+  (140021, 14025, 14, NULL, NULL, NULL, NULL, NULL, 1, 379, 37900, 40),
+  -- Heatran, Scorched Slab 1: Heatran Lv. 50
+  (140022, 14026, 14, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 50),
+  -- Ho-Oh, Sea Mauville 1: Ho-Oh Lv. 50
+  (140023, 14027, 14, NULL, NULL, NULL, NULL, NULL, 1, 250, 25000, 50),
+  -- Lugia, Sea Mauville 1: Lugia Lv. 50
+  (140023, 14028, 14, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 50),
+  -- Cresselia, Crescent Isle 1: Cresselia Lv. 50
+  (140024, 14029, 14, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 50),
+  -- Tornadus, Storm Clouds 1: Tornadus Lv. 50
+  (140025, 14030, 14, NULL, NULL, NULL, NULL, NULL, 1, 641, 64100, 50),
+  -- Thundurus, Storm Clouds 1: Thundurus Lv. 50
+  (140025, 14031, 14, NULL, NULL, NULL, NULL, NULL, 1, 642, 64200, 50),
+  -- Landorus, Storm Clouds 1: Landorus Lv. 50
+  (140025, 14032, 14, NULL, NULL, NULL, NULL, NULL, 1, 645, 64500, 50),
+  -- Regigigas, Regigigas in Island Cave 1: Regigigas Lv. 50
+  (140026, 14033, 14, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 50),
+  -- Raikou, Trackless Forest 1: Raikou Lv. 50
+  (140027, 14034, 14, NULL, NULL, NULL, NULL, NULL, 1, 243, 24300, 50),
+  -- Entei, Trackless Forest 1: Entei Lv. 50
+  (140027, 14035, 14, NULL, NULL, NULL, NULL, NULL, 1, 244, 24400, 50),
+  -- Suicune, Trackless Forest 1: Suicune Lv. 50
+  (140027, 14036, 14, NULL, NULL, NULL, NULL, NULL, 1, 245, 24500, 50),
+  -- Uxie, Nameless Cavern 1: Uxie Lv. 50
+  (140028, 14037, 14, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50),
+  -- Mesprit, Nameless Cavern 1: Mesprit Lv. 50
+  (140028, 14038, 14, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50),
+  -- Azelf, Nameless Cavern 1: Azelf Lv. 50
+  (140028, 14039, 14, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50),
+  -- Palkia, Dimensional Rift 1: Palkia Lv. 50
+  (140029, 14040, 14, NULL, NULL, NULL, NULL, NULL, 1, 484, 48400, 50),
+  -- Dialga, Dimensional Rift 1: Dialga Lv. 50
+  (140029, 14041, 14, NULL, NULL, NULL, NULL, NULL, 1, 483, 48300, 50),
+  -- Giratina, Dimensional Rift 1: Giratina Lv. 50
+  (140029, 14042, 14, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 50),
+  -- Cobalion, Pathless Plain 1: Cobalion Lv. 50
+  (140030, 14043, 14, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 50),
+  -- Terrakion, Pathless Plain 1: Terrakion Lv. 50
+  (140030, 14044, 14, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 50),
+  -- Virizion, Pathless Plain 1: Virizion Lv. 50
+  (140030, 14045, 14, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 50),
+  -- Reshiram, Fabled Cave 1: Reshiram Lv. 50
+  (140031, 14046, 14, NULL, NULL, NULL, NULL, NULL, 1, 643, 64300, 50),
+  -- Zekrom, Fabled Cave 1: Zekrom Lv. 50
+  (140031, 14047, 14, NULL, NULL, NULL, NULL, NULL, 1, 644, 64400, 50),
+  -- Kyurem, Gnarled Den 1: Kyurem Lv. 50
+  (140032, 14048, 14, NULL, NULL, NULL, NULL, NULL, 1, 646, 64600, 50);

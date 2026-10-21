@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Sun / Moon, Island challenge, Elite Four, Champion, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Sun / Moon major opponent data.
 -- ============================================================================
 -- File Scope
@@ -60,4 +61,32 @@ INSERT INTO tracking.mainline_opponents (
   -- Guzma (boss)
   (15019, 15, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', 19),
   -- Lusamine (boss)
-  (15020, 15, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', 20);
+  (15020, 15, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', 20),
+  -- Nihilego (boss)
+  (15021, 15, NULL, 'nihilego', 'Nihilego', 'boss', 13, 8, 'nihilego', 21),
+  -- Solgaleo (boss, sun)
+  (15022, 15, 25, 'solgaleo', 'Solgaleo', 'boss', 11, 17, 'solgaleo', 1),
+  -- Lunala (boss, moon)
+  (15023, 15, 26, 'lunala', 'Lunala', 'boss', 11, 14, 'lunala', 1),
+  -- Tapu Koko (boss)
+  (15024, 15, NULL, 'tapu-koko', 'Tapu Koko', 'boss', 4, 18, 'tapu-koko', 22),
+  -- Buzzwole (boss, sun)
+  (15025, 15, 25, 'buzzwole', 'Buzzwole', 'boss', 12, 7, 'buzzwole', 2),
+  -- Pheromosa (boss, moon)
+  (15026, 15, 26, 'pheromosa', 'Pheromosa', 'boss', 12, 7, 'pheromosa', 2),
+  -- Xurkitree (boss)
+  (15027, 15, NULL, 'xurkitree', 'Xurkitree', 'boss', 4, NULL, 'xurkitree', 23),
+  -- Kartana (boss, sun)
+  (15028, 15, 25, 'kartana', 'Kartana', 'boss', 5, 17, 'kartana', 3),
+  -- Celesteela (boss, moon)
+  (15029, 15, 26, 'celesteela', 'Celesteela', 'boss', 17, 10, 'celesteela', 3),
+  -- Guzzlord (boss)
+  (15030, 15, NULL, 'guzzlord', 'Guzzlord', 'boss', 16, 15, 'guzzlord', 24),
+  -- Tapu Lele (boss)
+  (15031, 15, NULL, 'tapu-lele', 'Tapu Lele', 'boss', 11, 18, 'tapu-lele', 25),
+  -- Tapu Bulu (boss)
+  (15032, 15, NULL, 'tapu-bulu', 'Tapu Bulu', 'boss', 5, 18, 'tapu-bulu', 26),
+  -- Tapu Fini (boss)
+  (15033, 15, NULL, 'tapu-fini', 'Tapu Fini', 'boss', 3, 18, 'tapu-fini', 27),
+  -- Necrozma (boss)
+  (15034, 15, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', 28);

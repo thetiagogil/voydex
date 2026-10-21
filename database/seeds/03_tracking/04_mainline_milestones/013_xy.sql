@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, X / Y, Gift Pokémon, Fossil, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon X / Y major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -66,4 +67,10 @@ INSERT INTO tracking.mainline_milestones (
   -- Battle AZ
   (130019, 13, NULL, 1301, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 15, true),
   -- Looker Bureau
-  (130020, 13, NULL, 1303, 1, 1, NULL, 'looker-bureau', 'Looker Bureau', 'Complete the Looker Bureau quest in Lumiose City.', 1, false);
+  (130020, 13, NULL, 1303, 1, 1, NULL, 'looker-bureau', 'Looker Bureau', 'Complete the Looker Bureau quest in Lumiose City.', 1, false),
+  -- Terminus Cave
+  (130023, 13, NULL, 1304, 6, 2, NULL, 'terminus-cave', 'Terminus Cave', 'Catch or defeat Zygarde in the deepest chamber of Terminus Cave after entering the Hall of Fame.', 1, false),
+  -- Unknown Dungeon
+  (130024, 13, NULL, 1304, 6, 2, NULL, 'unknown-dungeon', 'Unknown Dungeon', 'Catch or defeat Mewtwo in the Unknown Dungeon off Pokémon Village after entering the Hall of Fame.', 2, false),
+  -- Roaming Legendary Bird
+  (130025, 13, NULL, 1304, 6, 2, NULL, 'roaming-legendary-bird', 'Roaming Legendary Bird', 'Chase the legendary bird that roams Kalos after the Hall of Fame until it settles in Sea Spirit''s Den, then catch or defeat it.', 3, false);

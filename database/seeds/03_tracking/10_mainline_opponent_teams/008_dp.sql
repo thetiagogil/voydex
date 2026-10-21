@@ -4,6 +4,7 @@
 -- Primary: Serebii Diamond / Pearl Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Diamond / Pearl Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Barry and Cyrus battles: the pret pokediamond trainer data, cross-checked with Bulbapedia, Serebii and PokéWiki.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Scope: Pokémon Diamond / Pearl Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -305,4 +306,22 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Barry (chose Piplup), Fight Area 5: Snorlax Lv. 60
   (80019, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 5, 143, 14300, 60),
   -- Barry (chose Piplup), Fight Area 6: Torterra Lv. 64
-  (80019, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 6, 389, 38900, 64);
+  (80019, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 6, 389, 38900, 64),
+  -- Dialga, Spear Pillar 1: Dialga Lv. 47
+  (80018, 8016, 8, NULL, NULL, NULL, NULL, NULL, 1, 483, 48300, 47),
+  -- Palkia, Spear Pillar 1: Palkia Lv. 47
+  (80018, 8017, 8, NULL, NULL, NULL, NULL, NULL, 1, 484, 48400, 47),
+  -- Uxie, Lake Guardians 1: Uxie Lv. 50
+  (80020, 8018, 8, NULL, NULL, NULL, NULL, NULL, 1, 480, 48000, 50),
+  -- Azelf, Lake Guardians 1: Azelf Lv. 50
+  (80020, 8019, 8, NULL, NULL, NULL, NULL, NULL, 1, 482, 48200, 50),
+  -- Mesprit, Lake Guardians 1: Mesprit Lv. 50
+  (80020, 8020, 8, NULL, NULL, NULL, NULL, NULL, 1, 481, 48100, 50),
+  -- Giratina, Turnback Cave 1: Giratina Lv. 70
+  (80021, 8021, 8, NULL, NULL, NULL, NULL, NULL, 1, 487, 48700, 70),
+  -- Cresselia, Roaming Cresselia 1: Cresselia Lv. 50
+  (80022, 8022, 8, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 50),
+  -- Regigigas, Snowpoint Temple 1: Regigigas Lv. 70
+  (80023, 8023, 8, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 70),
+  -- Heatran, Stark Mountain 1: Heatran Lv. 70
+  (80024, 8024, 8, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 70);

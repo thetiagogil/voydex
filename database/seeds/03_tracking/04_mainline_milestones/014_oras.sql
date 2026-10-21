@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Omega Ruby / Alpha Sapphire, Fossil, Delta Episode, and First partner Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -37,6 +38,30 @@ INSERT INTO tracking.mainline_milestones (
   (140019, 14, NULL, 1401, 1, 2, NULL, 'mt-chimney', 'Mt. Chimney', 'Ride the cable car up Mt. Chimney and stop Maxie (Omega Ruby) or Archie (Alpha Sapphire) from using the Meteorite on the volcano.', 6, true),
   -- Fossil Choice
   (140006, 14, NULL, 1404, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Root Fossil or Claw Fossil in the desert on Route 111.', 1, false),
+  -- Sealed Chamber
+  (140021, 14, NULL, 1404, 6, 2, NULL, 'sealed-chamber', 'Sealed Chamber', 'Open the Sealed Chamber with Relicanth first and Wailord last in your party, then solve the Braille puzzles to meet Regirock, Regice and Registeel.', 2, false),
+  -- Scorched Slab
+  (140022, 14, NULL, 1404, 6, 2, NULL, 'scorched-slab', 'Scorched Slab', 'After the Primal Groudon or Kyogre crisis, go to the bottom of the Scorched Slab and battle Heatran through a portal.', 3, false),
+  -- Sea Mauville
+  (140023, 14, NULL, 1404, 6, 2, NULL, 'sea-mauville', 'Sea Mauville', 'Trade Captain Stern the Scanner for the Clear Bell or Tidal Bell, then meet Ho-Oh (Omega Ruby) or Lugia (Alpha Sapphire) at Sea Mauville.', 4, false),
+  -- Crescent Isle
+  (140024, 14, NULL, 1404, 6, 2, NULL, 'crescent-isle', 'Crescent Isle', 'Soar to Crescent Isle when it appears as the day''s Mirage spot and battle Cresselia.', 5, false),
+  -- Storm Clouds
+  (140025, 14, NULL, 1404, 6, 2, NULL, 'storm-clouds', 'Storm Clouds', 'Soar into the black clouds above Fortree City with Castform, then with Tornadus and Thundurus, to battle the forces of nature.', 6, false),
+  -- Regigigas in Island Cave
+  (140026, 14, NULL, 1404, 6, 2, NULL, 'island-cave-regigigas', 'Regigigas in Island Cave', 'With Regirock, Registeel and a nicknamed Regice holding a cold item in your party, return to Island Cave by day to battle Regigigas.', 7, false),
+  -- Trackless Forest
+  (140027, 14, NULL, 1404, 6, 2, NULL, 'trackless-forest', 'Trackless Forest', 'Soar to the Trackless Forest with Ho-Oh or Lugia in your party and battle Raikou, Entei and Suicune.', 8, false),
+  -- Nameless Cavern
+  (140028, 14, NULL, 1404, 6, 2, NULL, 'nameless-cavern', 'Nameless Cavern', 'Soar to the Nameless Cavern with three Pokémon at maximum friendship and battle Uxie, Mesprit and Azelf.', 9, false),
+  -- Dimensional Rift
+  (140029, 14, NULL, 1404, 6, 2, NULL, 'dimensional-rift', 'Dimensional Rift', 'Soar into the rifts south of Dewford Town with the lake trio, then with Dialga and Palkia, to battle the Sinnoh dragons.', 10, false),
+  -- Pathless Plain
+  (140030, 14, NULL, 1404, 6, 2, NULL, 'pathless-plain', 'Pathless Plain', 'Soar to the Pathless Plain with three Pokémon with maximum EVs and battle Cobalion, Terrakion and Virizion.', 11, false),
+  -- Fabled Cave
+  (140031, 14, NULL, 1404, 6, 2, NULL, 'fabled-cave', 'Fabled Cave', 'Soar to the Fabled Cave with a level 100 Pokémon in your party and battle Reshiram (Omega Ruby) or Zekrom (Alpha Sapphire).', 12, false),
+  -- Gnarled Den
+  (140032, 14, NULL, 1404, 6, 2, NULL, 'gnarled-den', 'Gnarled Den', 'Soar to the Gnarled Den with Reshiram and Zekrom in your party and battle Kyurem.', 13, false),
   -- Heat Badge
   (140007, 14, NULL, 1401, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 7, true),
   -- Balance Badge

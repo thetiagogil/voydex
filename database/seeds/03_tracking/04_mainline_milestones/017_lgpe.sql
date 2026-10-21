@@ -2,6 +2,7 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia Let's Go, Pikachu! / Let's Go, Eevee!, Badge, Elite Four, and Gift Pokémon pages.
+-- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -66,4 +67,12 @@ INSERT INTO tracking.mainline_milestones (
   -- Battle Blue
   (170018, 17, NULL, 1703, 6, 2, NULL, 'blue-battle', 'Battle Blue', 'Battle Blue at Viridian Gym after becoming Champion.', 1, false),
   -- Battle Green
-  (170019, 17, NULL, 1703, 6, 2, NULL, 'green-battle', 'Battle Green', 'Battle Green after catching Mewtwo.', 2, false);
+  (170019, 17, NULL, 1703, 6, 2, NULL, 'green-battle', 'Battle Green', 'Battle Green after catching Mewtwo.', 2, false),
+  -- Power Plant
+  (170023, 17, NULL, 1704, 6, 2, NULL, 'power-plant', 'Power Plant', 'Battle and catch Zapdos at the back of the Power Plant on Route 10.', 1, false),
+  -- Seafoam Islands
+  (170024, 17, NULL, 1704, 6, 2, NULL, 'seafoam-islands', 'Seafoam Islands', 'Battle and catch Articuno on the lowest floor of the Seafoam Islands.', 2, false),
+  -- Victory Road
+  (170025, 17, NULL, 1704, 6, 2, NULL, 'victory-road', 'Victory Road', 'Battle and catch Moltres inside Victory Road on the way to the Pokémon League.', 3, false),
+  -- Cerulean Cave
+  (170026, 17, NULL, 1704, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Battle and catch Mewtwo deep in Cerulean Cave after entering the Hall of Fame.', 4, false);
