@@ -15,8 +15,8 @@ Plays should support metadata useful for old and current games:
 
 ## Rules And Challenges
 
-Rules/challenges attach to Plays. A Plan is a team, so it keeps none; rule
-sets (such as a Nuzlocke) will live in the Library.
+Rules/challenges attach to Plays. A Plan is a team, so it keeps none; presets
+(such as a Nuzlocke) live in the Library.
 
 Voydex ships its own rules, one small idea each, grouped by kind
 (`database/seeds/04_gameplay/002_mainline_challenge_rules.sql`):
@@ -56,8 +56,24 @@ them at once.
 
 Rules should be modeled flexibly. The app should support immutable predefined
 rules and reusable user-authored custom rules. A rule explicitly declares
-whether Voydex can evaluate it or only record it. Pokémon reuse rules apply
-when adding Pokémon to a Play's team.
+whether Voydex can evaluate it or only record it.
+
+Voydex checks five of its own rules against the Pokémon you have now (the
+team and the reserve) and says so in a quiet note on the Team page, and in
+Add Pokémon as you pick one; it never blocks
+(`src/modules/mainline/features/plays/hub/views/team/data/rule-checks.ts`):
+
+- **Shiny only:** a Pokémon recorded as not shiny (Add Pokémon can't know
+  yet, so only the Team page says it).
+- **Nickname everything:** a Pokémon with no nickname.
+- **Monotype:** a Pokémon without the type, by its types in the Play's game.
+- **No legendaries:** a Legendary or Mythical species.
+- **No Pokémon reuse:** a Pokémon one of your earlier Plays (started before
+  this one) recorded, by the rule's scope.
+
+Level caps waits for Gym Leader levels (issue #20). The rest happen in the
+game and stay labels, as does every rule of yours, even one named like
+Voydex's.
 
 For V1, the shipped application catalogue owns that capability and the supported
 configuration for predefined rules; custom rules are recorded only. A later
