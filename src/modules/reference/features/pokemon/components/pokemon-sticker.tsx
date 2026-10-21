@@ -9,6 +9,12 @@ import {
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  CornerBubble,
+  ShinyMark,
+  SlotMark,
+  WarningMark,
+} from "@/shared/components/corner-bubble";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
@@ -51,13 +57,15 @@ type PokemonStickerProps = {
    * still follows `types`.
    */
   showTypes?: boolean;
-  /* A small slot number in the top-left corner. */
-  slotLabel?: string;
+  /* Its Pokédex number, as plain text in the top-left corner. */
+  number?: string;
+  /* Its slot on a team, as the red number in the top-right corner. */
+  slot?: string;
   /* Where a dragged Pokémon would land: the accent ring round its band. */
   target?: boolean;
   /*
-   * An amber warning mark in the top-right corner, such as a Play's rule it
-   * breaks; the words are read, not seen. The shiny mark steps left of it.
+   * An amber warning mark in the top-left corner, such as a Play's rule it
+   * breaks; the words are read, not seen. It takes the place of the number; a card carries one of the two.
    */
   warning?: string;
   /*
@@ -128,11 +136,12 @@ export const PokemonSticker = ({
   imageUrl,
   level,
   name,
+  number,
   onClick,
   selected = false,
   shiny = false,
   showTypes = true,
-  slotLabel,
+  slot,
   subtitle,
   target = false,
   types,
@@ -159,10 +168,14 @@ export const PokemonSticker = ({
   );
   const content: ReactNode = (
     <>
-      {slotLabel ? (
-        <span className="text-ink-tint text-12 absolute top-2 left-3 flex h-7 items-center font-extrabold tabular-nums">
-          {slotLabel}
-        </span>
+      {number && !warning ? (
+        <CornerBubble
+          border="sticker"
+          corner="inside-top-left"
+          className="text-ink-tint text-12 h-6 font-extrabold tabular-nums"
+        >
+          {number}
+        </CornerBubble>
       ) : null}
       <span
         className={cn(
@@ -211,29 +224,23 @@ export const PokemonSticker = ({
         ) : null}
       </span>
       {/*
-        The corner marks, last so their words follow the name: shiny, then
-        the warning. Both top corners share one 28px line, so the slot number
-        and the marks sit level.
+        The corner marks, last so their words follow the name: a warning
+        top-left, the slot top-right with the shiny mark right below it.
       */}
-      {shiny || warning ? (
-        <span className="absolute top-2 right-2 flex h-7 items-center gap-1.5">
-          {shiny ? (
-            <>
-              <AppIcon
-                icon={appIcons.product.shiny}
-                size="md"
-                className={cn("type-ink", !warning && "mr-1")}
-              />
-              <span className="sr-only">, Shiny</span>
-            </>
-          ) : null}
-          {warning ? (
-            <span className="bg-warn-soft text-warn-ink grid size-7 place-items-center rounded-full shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]">
-              <AppIcon icon={appIcons.status.warning} size="sm" />
-              <span className="sr-only">, {warning}</span>
-            </span>
-          ) : null}
-        </span>
+      {warning ? (
+        <CornerBubble border="sticker" corner="inside-top-left">
+          <WarningMark label={warning} />
+        </CornerBubble>
+      ) : null}
+      {slot || shiny ? (
+        <CornerBubble
+          border="sticker"
+          corner="inside-top-right"
+          className="flex-col gap-2"
+        >
+          {slot ? <SlotMark>{slot}</SlotMark> : null}
+          {shiny ? <ShinyMark /> : null}
+        </CornerBubble>
       ) : null}
     </>
   );

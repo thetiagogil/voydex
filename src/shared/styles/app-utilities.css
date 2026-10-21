@@ -448,7 +448,14 @@
  * keyboard shows it (`focus-visible`). `focus-ring-inset` draws it inside
  * the element, for anything a track or a neighbour would cut (segments,
  * joined buttons, an index in a scrolling column). It wins over a stray
- * `outline-none`, and a `focus-visible:` class can still adjust it.
+ * `outline-none`, and a `focus-visible:` class can still adjust it. A focused
+ * element lifts to `z-index: 20` (above the page, below the bars at 30 and 40
+ * and the sheets and dialogs at 50), so no sibling covers its ring; the
+ * ring still needs 5px of room inside any parent that clips (`overflow`). A
+ * static element is made `relative` while focused so the lift applies; one
+ * that is positioned by a breakpoint class (`md:absolute`) must not use it
+ * (`design:check` fails that), and a parent with `transform` or `mask` keeps
+ * the lift inside its own stacking context.
  */
 @utility focus-ring {
   outline: none;
@@ -456,6 +463,12 @@
   &:focus-visible {
     outline: 3px solid var(--focus);
     outline-offset: 2px;
+    /* Lifted above its siblings, so a neighbour never covers the ring. */
+    z-index: 20;
+  }
+
+  &:focus-visible:not(.absolute, .fixed, .relative, .sticky) {
+    position: relative;
   }
 }
 

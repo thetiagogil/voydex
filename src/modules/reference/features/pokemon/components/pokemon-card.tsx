@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { CornerBubble } from "@/shared/components/corner-bubble";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { dropTargetRingClassName } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -28,6 +29,11 @@ type PokemonCardProps = {
   name: string;
   /* Its national number; left out where the number says nothing (the Planner's team), keeping the line. */
   number?: string;
+  /*
+   * Takes the number off the screen but keeps it in the card's words, for a
+   * corner mark (a warning) that stands where it would.
+   */
+  numberHidden?: boolean;
   onAnimationEnd?: () => void;
   /* The one picked (a Planner pick, the evolution you are reading): its type's tint inside a ring. */
   picked?: boolean;
@@ -111,12 +117,18 @@ const paddingClassNames: Record<
   },
 };
 
-/* The state mark in the top corner: a Poké Ball on white when caught, an eye when seen. */
+/*
+ * The Play state mark in the top-right corner, in the one corner-mark band: a
+ * Poké Ball on white when caught, an eye when seen. A Pokédex has no slots,
+ * so this is the number a team's card would carry there.
+ */
 const PokemonCardMark = ({
+  border,
   className,
   iconClassName,
   state,
 }: {
+  border: "line" | "sticker";
   className: string;
   iconClassName: string;
   state: "caught" | "seen";
@@ -124,23 +136,27 @@ const PokemonCardMark = ({
   const isCaught = state === "caught";
 
   return (
-    <span
-      role="img"
-      aria-label={isCaught ? "Caught" : "Seen"}
-      className={cn(
-        "pointer-events-none absolute top-1.75 right-1.75 z-10 grid place-items-center rounded-full",
-        isCaught
-          ? "text-ball bg-white shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]"
-          : "bg-surface-2 text-ink-2",
-        className,
-      )}
+    <CornerBubble
+      border={border}
+      corner="inside-top-right"
+      className="pointer-events-none"
     >
-      <AppIcon
-        icon={isCaught ? appIcons.product.caught : appIcons.product.seen}
-        className={iconClassName}
-        aria-hidden
-      />
-    </span>
+      <span
+        role="img"
+        aria-label={isCaught ? "Caught" : "Seen"}
+        className={cn(
+          "bubble grid place-items-center rounded-full",
+          isCaught ? "text-ball bg-white" : "bg-surface-2 text-ink-2",
+          className,
+        )}
+      >
+        <AppIcon
+          icon={isCaught ? appIcons.product.caught : appIcons.product.seen}
+          className={iconClassName}
+          aria-hidden
+        />
+      </span>
+    </CornerBubble>
   );
 };
 
@@ -158,6 +174,7 @@ export const PokemonCard = ({
   imageUrl,
   name,
   number,
+  numberHidden = false,
   onAnimationEnd,
   motion = null,
   picked = false,
@@ -205,12 +222,14 @@ export const PokemonCard = ({
         className={cn(
           "text-12 flex w-full justify-between px-1 font-extrabold tabular-nums",
           state === "caught" ? "text-ink-tint" : "text-ink-3",
+          numberHidden && "opacity-0",
         )}
       >
         {number ?? "\u00a0"}
       </span>
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark
+          border={state === "caught" || isSticker ? "sticker" : "line"}
           state={state}
           className={sizes.mark}
           iconClassName={sizes.markIcon}

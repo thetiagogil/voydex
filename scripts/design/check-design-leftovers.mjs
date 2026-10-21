@@ -88,7 +88,8 @@ const retired = [
 /*
  * Rules for the app's own source only (src/), where the components live:
  * each names what replaced the retired look. `allow` lists the files a rule
- * permits on purpose.
+ * permits on purpose, `only` limits it to some folders and `fileContains`
+ * to files whose text matches.
  */
 const sourceRules = [
   {
@@ -153,6 +154,38 @@ const sourceRules = [
     label: "Button link variant (words that go somewhere are a TextLink)",
     pattern: /variant(?:=|:\s*)"link"/,
   },
+  {
+    label:
+      "a focus lift by hand (focus-ring already lifts the focused element above its siblings)",
+    pattern: /focus(?:-visible|-within)?:(?:relative|z-)/,
+    allow: [path.join("src", "shared", "components", "ui", "button-group.tsx")],
+  },
+  {
+    label:
+      "a control that changes position by breakpoint beside focus-ring (focus-ring sets position: relative while focused, so give it a plain absolute, fixed or sticky class)",
+    pattern:
+      /(?=.*\bfocus-ring\b)(?=.*(?:^|[\s"'`])(?:max-)?(?:sm|md|lg|xl|2xl):(?:absolute|fixed|sticky)\b)/,
+  },
+  /*
+   * The card-corner rule (Design System, Card corners): a Pokémon card's
+   * marks (slot number, warning, shiny, state, Pokédex number) are drawn by
+   * the shared marks in `corner-bubble.tsx` and placed by `CornerBubble`,
+   * never by hand.
+   */
+  {
+    label:
+      "a corner mark placed by hand on a Pokémon card (use CornerBubble with SlotMark, WarningMark or ShinyMark)",
+    pattern:
+      /(?<![-\w])absolute\b[^"'`]*(?<![-\w])-?(?:top|right|bottom|left|start|end)-(?:\d|\[)|(?<![-\w])-?(?:top|right|bottom|left|start|end)-(?:\d|\[)[^"'`]*(?<![-\w])absolute\b/,
+    fileContains: /\bPokemon(?:Card|Sticker)\b/,
+  },
+  {
+    label:
+      "a corner mark's band or shadow drawn by hand on a Pokémon card (use the shared mark, drawn with bubble)",
+    pattern:
+      /(?<![-\w])bubble\b[^"'`]*(?<![-\w])absolute\b|(?<![-\w])absolute\b[^"'`]*(?<![-\w])bubble\b/,
+    fileContains: /\bPokemon(?:Card|Sticker)\b/,
+  },
 ];
 
 /* Vendored third-party skills describe their own examples, not Voydex. */
@@ -188,13 +221,15 @@ const findings = [];
 for (const file of files) {
   const lines = fs.readFileSync(path.join(rootDir, file), "utf8").split("\n");
 
+  const text = lines.join("\n");
   const rules = file.startsWith(`src${path.sep}`)
     ? [
         ...retired,
         ...sourceRules.filter(
           (rule) =>
             !rule.allow?.includes(file) &&
-            (!rule.only || rule.only.some((scope) => file.startsWith(scope))),
+            (!rule.only || rule.only.some((scope) => file.startsWith(scope))) &&
+            (!rule.fileContains || rule.fileContains.test(text)),
         ),
       ]
     : retired;
