@@ -33,7 +33,7 @@ const readOpponentIds = (milestones: StoryMatchupMilestone[]) => [
 ];
 
 /*
- * Each opponent's first-battle team, with each Pokémon's name and types in
+ * Each opponent's team in each Story battle, with each Pokémon's name and types in
  * the Play's generation, and the choices (such as the starter) the Play has
  * recorded, so a team that depends on one can be picked.
  */
@@ -50,7 +50,7 @@ const readOpponentTeams = async (
       .schema("tracking")
       .from("mainline_opponent_team_members")
       .select(
-        "opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level",
+        "milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level",
       )
       .in("opponent_id", opponentIds)
       .order("id", { ascending: true }),
@@ -151,6 +151,7 @@ const readOpponentTeams = async (
           formSlug: form.slug,
           gameId: member.game_id,
           level: member.level,
+          milestoneId: member.milestone_id,
           name: form.name,
           opponentId: member.opponent_id,
           primaryTypeId: attributes?.primary_type_id ?? null,

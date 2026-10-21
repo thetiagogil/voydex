@@ -3,15 +3,16 @@
 -- ============================================================================
 -- Primary: Serebii Gold / Silver Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Gold / Silver Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
--- Scope: Pokémon Gold / Silver first-battle opponent teams.
+-- Scope: Pokémon Gold / Silver Story battle opponent teams.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- The Pokémon each Gold / Silver opponent uses the first time you battle them, by
+-- The Pokémon each Gold / Silver opponent uses in each Story battle, by
 -- slot. A team that depends on your starter is given once per starter.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_opponent_team_members (
+  milestone_id,
   opponent_id,
   version_group_id,
   game_id,
@@ -25,182 +26,182 @@ INSERT INTO tracking.mainline_opponent_team_members (
   level
 ) VALUES
   -- Falkner 1: Pidgey Lv. 7
-  (3001, 3, NULL, NULL, NULL, NULL, NULL, 1, 16, 1600, 7),
+  (30003, 3001, 3, NULL, NULL, NULL, NULL, NULL, 1, 16, 1600, 7),
   -- Falkner 2: Pidgeotto Lv. 9
-  (3001, 3, NULL, NULL, NULL, NULL, NULL, 2, 17, 1700, 9),
+  (30003, 3001, 3, NULL, NULL, NULL, NULL, NULL, 2, 17, 1700, 9),
   -- Bugsy 1: Metapod Lv. 14
-  (3002, 3, NULL, NULL, NULL, NULL, NULL, 1, 11, 1100, 14),
+  (30004, 3002, 3, NULL, NULL, NULL, NULL, NULL, 1, 11, 1100, 14),
   -- Bugsy 2: Kakuna Lv. 14
-  (3002, 3, NULL, NULL, NULL, NULL, NULL, 2, 14, 1400, 14),
+  (30004, 3002, 3, NULL, NULL, NULL, NULL, NULL, 2, 14, 1400, 14),
   -- Bugsy 3: Scyther Lv. 16
-  (3002, 3, NULL, NULL, NULL, NULL, NULL, 3, 123, 12300, 16),
+  (30004, 3002, 3, NULL, NULL, NULL, NULL, NULL, 3, 123, 12300, 16),
   -- Whitney 1: Clefairy Lv. 18
-  (3003, 3, NULL, NULL, NULL, NULL, NULL, 1, 35, 3500, 18),
+  (30005, 3003, 3, NULL, NULL, NULL, NULL, NULL, 1, 35, 3500, 18),
   -- Whitney 2: Miltank Lv. 20
-  (3003, 3, NULL, NULL, NULL, NULL, NULL, 2, 241, 24100, 20),
+  (30005, 3003, 3, NULL, NULL, NULL, NULL, NULL, 2, 241, 24100, 20),
   -- Morty 1: Gastly Lv. 21
-  (3004, 3, NULL, NULL, NULL, NULL, NULL, 1, 92, 9200, 21),
+  (30006, 3004, 3, NULL, NULL, NULL, NULL, NULL, 1, 92, 9200, 21),
   -- Morty 2: Haunter Lv. 21
-  (3004, 3, NULL, NULL, NULL, NULL, NULL, 2, 93, 9300, 21),
+  (30006, 3004, 3, NULL, NULL, NULL, NULL, NULL, 2, 93, 9300, 21),
   -- Morty 3: Gengar Lv. 25
-  (3004, 3, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 25),
+  (30006, 3004, 3, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 25),
   -- Morty 4: Haunter Lv. 23
-  (3004, 3, NULL, NULL, NULL, NULL, NULL, 4, 93, 9300, 23),
+  (30006, 3004, 3, NULL, NULL, NULL, NULL, NULL, 4, 93, 9300, 23),
   -- Chuck 1: Primeape Lv. 27
-  (3005, 3, NULL, NULL, NULL, NULL, NULL, 1, 57, 5700, 27),
+  (30007, 3005, 3, NULL, NULL, NULL, NULL, NULL, 1, 57, 5700, 27),
   -- Chuck 2: Poliwrath Lv. 30
-  (3005, 3, NULL, NULL, NULL, NULL, NULL, 2, 62, 6200, 30),
+  (30007, 3005, 3, NULL, NULL, NULL, NULL, NULL, 2, 62, 6200, 30),
   -- Jasmine 1: Magnemite Lv. 30
-  (3006, 3, NULL, NULL, NULL, NULL, NULL, 1, 81, 8100, 30),
+  (30008, 3006, 3, NULL, NULL, NULL, NULL, NULL, 1, 81, 8100, 30),
   -- Jasmine 2: Magnemite Lv. 30
-  (3006, 3, NULL, NULL, NULL, NULL, NULL, 2, 81, 8100, 30),
+  (30008, 3006, 3, NULL, NULL, NULL, NULL, NULL, 2, 81, 8100, 30),
   -- Jasmine 3: Steelix Lv. 35
-  (3006, 3, NULL, NULL, NULL, NULL, NULL, 3, 208, 20800, 35),
+  (30008, 3006, 3, NULL, NULL, NULL, NULL, NULL, 3, 208, 20800, 35),
   -- Pryce 1: Seel Lv. 27
-  (3007, 3, NULL, NULL, NULL, NULL, NULL, 1, 86, 8600, 27),
+  (30009, 3007, 3, NULL, NULL, NULL, NULL, NULL, 1, 86, 8600, 27),
   -- Pryce 2: Dewgong Lv. 29
-  (3007, 3, NULL, NULL, NULL, NULL, NULL, 2, 87, 8700, 29),
+  (30009, 3007, 3, NULL, NULL, NULL, NULL, NULL, 2, 87, 8700, 29),
   -- Pryce 3: Piloswine Lv. 31
-  (3007, 3, NULL, NULL, NULL, NULL, NULL, 3, 221, 22100, 31),
+  (30009, 3007, 3, NULL, NULL, NULL, NULL, NULL, 3, 221, 22100, 31),
   -- Clair 1: Dragonair Lv. 37
-  (3008, 3, NULL, NULL, NULL, NULL, NULL, 1, 148, 14800, 37),
+  (30010, 3008, 3, NULL, NULL, NULL, NULL, NULL, 1, 148, 14800, 37),
   -- Clair 2: Dragonair Lv. 37
-  (3008, 3, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 37),
+  (30010, 3008, 3, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 37),
   -- Clair 3: Dragonair Lv. 37
-  (3008, 3, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 37),
+  (30010, 3008, 3, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 37),
   -- Clair 4: Kingdra Lv. 40
-  (3008, 3, NULL, NULL, NULL, NULL, NULL, 4, 230, 23000, 40),
+  (30010, 3008, 3, NULL, NULL, NULL, NULL, NULL, 4, 230, 23000, 40),
   -- Will 1: Xatu Lv. 40
-  (3009, 3, NULL, NULL, NULL, NULL, NULL, 1, 178, 17800, 40),
+  (30011, 3009, 3, NULL, NULL, NULL, NULL, NULL, 1, 178, 17800, 40),
   -- Will 2: Jynx Lv. 41
-  (3009, 3, NULL, NULL, NULL, NULL, NULL, 2, 124, 12400, 41),
+  (30011, 3009, 3, NULL, NULL, NULL, NULL, NULL, 2, 124, 12400, 41),
   -- Will 3: Exeggutor Lv. 41
-  (3009, 3, NULL, NULL, NULL, NULL, NULL, 3, 103, 10300, 41),
+  (30011, 3009, 3, NULL, NULL, NULL, NULL, NULL, 3, 103, 10300, 41),
   -- Will 4: Slowbro Lv. 41
-  (3009, 3, NULL, NULL, NULL, NULL, NULL, 4, 80, 8000, 41),
+  (30011, 3009, 3, NULL, NULL, NULL, NULL, NULL, 4, 80, 8000, 41),
   -- Will 5: Xatu Lv. 42
-  (3009, 3, NULL, NULL, NULL, NULL, NULL, 5, 178, 17800, 42),
+  (30011, 3009, 3, NULL, NULL, NULL, NULL, NULL, 5, 178, 17800, 42),
   -- Koga 1: Ariados Lv. 40
-  (3010, 3, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 40),
+  (30012, 3010, 3, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 40),
   -- Koga 2: Venomoth Lv. 41
-  (3010, 3, NULL, NULL, NULL, NULL, NULL, 2, 49, 4900, 41),
+  (30012, 3010, 3, NULL, NULL, NULL, NULL, NULL, 2, 49, 4900, 41),
   -- Koga 3: Forretress Lv. 43
-  (3010, 3, NULL, NULL, NULL, NULL, NULL, 3, 205, 20500, 43),
+  (30012, 3010, 3, NULL, NULL, NULL, NULL, NULL, 3, 205, 20500, 43),
   -- Koga 4: Muk Lv. 42
-  (3010, 3, NULL, NULL, NULL, NULL, NULL, 4, 89, 8900, 42),
+  (30012, 3010, 3, NULL, NULL, NULL, NULL, NULL, 4, 89, 8900, 42),
   -- Koga 5: Crobat Lv. 44
-  (3010, 3, NULL, NULL, NULL, NULL, NULL, 5, 169, 16900, 44),
+  (30012, 3010, 3, NULL, NULL, NULL, NULL, NULL, 5, 169, 16900, 44),
   -- Bruno 1: Hitmontop Lv. 42
-  (3011, 3, NULL, NULL, NULL, NULL, NULL, 1, 237, 23700, 42),
+  (30013, 3011, 3, NULL, NULL, NULL, NULL, NULL, 1, 237, 23700, 42),
   -- Bruno 2: Hitmonlee Lv. 42
-  (3011, 3, NULL, NULL, NULL, NULL, NULL, 2, 106, 10600, 42),
+  (30013, 3011, 3, NULL, NULL, NULL, NULL, NULL, 2, 106, 10600, 42),
   -- Bruno 3: Hitmonchan Lv. 42
-  (3011, 3, NULL, NULL, NULL, NULL, NULL, 3, 107, 10700, 42),
+  (30013, 3011, 3, NULL, NULL, NULL, NULL, NULL, 3, 107, 10700, 42),
   -- Bruno 4: Onix Lv. 43
-  (3011, 3, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 43),
+  (30013, 3011, 3, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 43),
   -- Bruno 5: Machamp Lv. 46
-  (3011, 3, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 46),
+  (30013, 3011, 3, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 46),
   -- Karen 1: Umbreon Lv. 42
-  (3012, 3, NULL, NULL, NULL, NULL, NULL, 1, 197, 19700, 42),
+  (30014, 3012, 3, NULL, NULL, NULL, NULL, NULL, 1, 197, 19700, 42),
   -- Karen 2: Vileplume Lv. 42
-  (3012, 3, NULL, NULL, NULL, NULL, NULL, 2, 45, 4500, 42),
+  (30014, 3012, 3, NULL, NULL, NULL, NULL, NULL, 2, 45, 4500, 42),
   -- Karen 3: Gengar Lv. 45
-  (3012, 3, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 45),
+  (30014, 3012, 3, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 45),
   -- Karen 4: Murkrow Lv. 44
-  (3012, 3, NULL, NULL, NULL, NULL, NULL, 4, 198, 19800, 44),
+  (30014, 3012, 3, NULL, NULL, NULL, NULL, NULL, 4, 198, 19800, 44),
   -- Karen 5: Houndoom Lv. 47
-  (3012, 3, NULL, NULL, NULL, NULL, NULL, 5, 229, 22900, 47),
+  (30014, 3012, 3, NULL, NULL, NULL, NULL, NULL, 5, 229, 22900, 47),
   -- Lance 1: Gyarados Lv. 44
-  (3013, 3, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 44),
+  (30015, 3013, 3, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 44),
   -- Lance 2: Dragonite Lv. 47
-  (3013, 3, NULL, NULL, NULL, NULL, NULL, 2, 149, 14900, 47),
+  (30015, 3013, 3, NULL, NULL, NULL, NULL, NULL, 2, 149, 14900, 47),
   -- Lance 3: Dragonite Lv. 47
-  (3013, 3, NULL, NULL, NULL, NULL, NULL, 3, 149, 14900, 47),
+  (30015, 3013, 3, NULL, NULL, NULL, NULL, NULL, 3, 149, 14900, 47),
   -- Lance 4: Aerodactyl Lv. 46
-  (3013, 3, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 46),
+  (30015, 3013, 3, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 46),
   -- Lance 5: Charizard Lv. 46
-  (3013, 3, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 46),
+  (30015, 3013, 3, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 46),
   -- Lance 6: Dragonite Lv. 50
-  (3013, 3, NULL, NULL, NULL, NULL, NULL, 6, 149, 14900, 50),
+  (30015, 3013, 3, NULL, NULL, NULL, NULL, NULL, 6, 149, 14900, 50),
   -- Brock 1: Graveler Lv. 41
-  (3014, 3, NULL, NULL, NULL, NULL, NULL, 1, 75, 7500, 41),
+  (30017, 3014, 3, NULL, NULL, NULL, NULL, NULL, 1, 75, 7500, 41),
   -- Brock 2: Rhyhorn Lv. 41
-  (3014, 3, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 41),
+  (30017, 3014, 3, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 41),
   -- Brock 3: Omastar Lv. 42
-  (3014, 3, NULL, NULL, NULL, NULL, NULL, 3, 139, 13900, 42),
+  (30017, 3014, 3, NULL, NULL, NULL, NULL, NULL, 3, 139, 13900, 42),
   -- Brock 4: Onix Lv. 44
-  (3014, 3, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 44),
+  (30017, 3014, 3, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 44),
   -- Brock 5: Kabutops Lv. 42
-  (3014, 3, NULL, NULL, NULL, NULL, NULL, 5, 141, 14100, 42),
+  (30017, 3014, 3, NULL, NULL, NULL, NULL, NULL, 5, 141, 14100, 42),
   -- Misty 1: Golduck Lv. 42
-  (3015, 3, NULL, NULL, NULL, NULL, NULL, 1, 55, 5500, 42),
+  (30018, 3015, 3, NULL, NULL, NULL, NULL, NULL, 1, 55, 5500, 42),
   -- Misty 2: Quagsire Lv. 42
-  (3015, 3, NULL, NULL, NULL, NULL, NULL, 2, 195, 19500, 42),
+  (30018, 3015, 3, NULL, NULL, NULL, NULL, NULL, 2, 195, 19500, 42),
   -- Misty 3: Lapras Lv. 44
-  (3015, 3, NULL, NULL, NULL, NULL, NULL, 3, 131, 13100, 44),
+  (30018, 3015, 3, NULL, NULL, NULL, NULL, NULL, 3, 131, 13100, 44),
   -- Misty 4: Starmie Lv. 47
-  (3015, 3, NULL, NULL, NULL, NULL, NULL, 4, 121, 12100, 47),
+  (30018, 3015, 3, NULL, NULL, NULL, NULL, NULL, 4, 121, 12100, 47),
   -- Lt. Surge 1: Raichu Lv. 44
-  (3016, 3, NULL, NULL, NULL, NULL, NULL, 1, 26, 2600, 44),
+  (30019, 3016, 3, NULL, NULL, NULL, NULL, NULL, 1, 26, 2600, 44),
   -- Lt. Surge 2: Electrode Lv. 40
-  (3016, 3, NULL, NULL, NULL, NULL, NULL, 2, 101, 10100, 40),
+  (30019, 3016, 3, NULL, NULL, NULL, NULL, NULL, 2, 101, 10100, 40),
   -- Lt. Surge 3: Magneton Lv. 40
-  (3016, 3, NULL, NULL, NULL, NULL, NULL, 3, 82, 8200, 40),
+  (30019, 3016, 3, NULL, NULL, NULL, NULL, NULL, 3, 82, 8200, 40),
   -- Lt. Surge 4: Electrode Lv. 40
-  (3016, 3, NULL, NULL, NULL, NULL, NULL, 4, 101, 10100, 40),
+  (30019, 3016, 3, NULL, NULL, NULL, NULL, NULL, 4, 101, 10100, 40),
   -- Lt. Surge 5: Electabuzz Lv. 46
-  (3016, 3, NULL, NULL, NULL, NULL, NULL, 5, 125, 12500, 46),
+  (30019, 3016, 3, NULL, NULL, NULL, NULL, NULL, 5, 125, 12500, 46),
   -- Erika 1: Tangela Lv. 42
-  (3017, 3, NULL, NULL, NULL, NULL, NULL, 1, 114, 11400, 42),
+  (30020, 3017, 3, NULL, NULL, NULL, NULL, NULL, 1, 114, 11400, 42),
   -- Erika 2: Jumpluff Lv. 41
-  (3017, 3, NULL, NULL, NULL, NULL, NULL, 2, 189, 18900, 41),
+  (30020, 3017, 3, NULL, NULL, NULL, NULL, NULL, 2, 189, 18900, 41),
   -- Erika 3: Victreebel Lv. 46
-  (3017, 3, NULL, NULL, NULL, NULL, NULL, 3, 71, 7100, 46),
+  (30020, 3017, 3, NULL, NULL, NULL, NULL, NULL, 3, 71, 7100, 46),
   -- Erika 4: Bellossom Lv. 46
-  (3017, 3, NULL, NULL, NULL, NULL, NULL, 4, 182, 18200, 46),
+  (30020, 3017, 3, NULL, NULL, NULL, NULL, NULL, 4, 182, 18200, 46),
   -- Janine 1: Crobat Lv. 36
-  (3018, 3, NULL, NULL, NULL, NULL, NULL, 1, 169, 16900, 36),
+  (30021, 3018, 3, NULL, NULL, NULL, NULL, NULL, 1, 169, 16900, 36),
   -- Janine 2: Weezing Lv. 36
-  (3018, 3, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 36),
+  (30021, 3018, 3, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 36),
   -- Janine 3: Weezing Lv. 36
-  (3018, 3, NULL, NULL, NULL, NULL, NULL, 3, 110, 11000, 36),
+  (30021, 3018, 3, NULL, NULL, NULL, NULL, NULL, 3, 110, 11000, 36),
   -- Janine 4: Ariados Lv. 33
-  (3018, 3, NULL, NULL, NULL, NULL, NULL, 4, 168, 16800, 33),
+  (30021, 3018, 3, NULL, NULL, NULL, NULL, NULL, 4, 168, 16800, 33),
   -- Janine 5: Venomoth Lv. 39
-  (3018, 3, NULL, NULL, NULL, NULL, NULL, 5, 49, 4900, 39),
+  (30021, 3018, 3, NULL, NULL, NULL, NULL, NULL, 5, 49, 4900, 39),
   -- Sabrina 1: Espeon Lv. 46
-  (3019, 3, NULL, NULL, NULL, NULL, NULL, 1, 196, 19600, 46),
+  (30022, 3019, 3, NULL, NULL, NULL, NULL, NULL, 1, 196, 19600, 46),
   -- Sabrina 2: Mr. Mime Lv. 46
-  (3019, 3, NULL, NULL, NULL, NULL, NULL, 2, 122, 12200, 46),
+  (30022, 3019, 3, NULL, NULL, NULL, NULL, NULL, 2, 122, 12200, 46),
   -- Sabrina 3: Alakazam Lv. 48
-  (3019, 3, NULL, NULL, NULL, NULL, NULL, 3, 65, 6500, 48),
+  (30022, 3019, 3, NULL, NULL, NULL, NULL, NULL, 3, 65, 6500, 48),
   -- Blaine 1: Magcargo Lv. 45
-  (3020, 3, NULL, NULL, NULL, NULL, NULL, 1, 219, 21900, 45),
+  (30023, 3020, 3, NULL, NULL, NULL, NULL, NULL, 1, 219, 21900, 45),
   -- Blaine 2: Magmar Lv. 45
-  (3020, 3, NULL, NULL, NULL, NULL, NULL, 2, 126, 12600, 45),
+  (30023, 3020, 3, NULL, NULL, NULL, NULL, NULL, 2, 126, 12600, 45),
   -- Blaine 3: Rapidash Lv. 50
-  (3020, 3, NULL, NULL, NULL, NULL, NULL, 3, 78, 7800, 50),
+  (30023, 3020, 3, NULL, NULL, NULL, NULL, NULL, 3, 78, 7800, 50),
   -- Blue 1: Pidgeot Lv. 56
-  (3021, 3, NULL, NULL, NULL, NULL, NULL, 1, 18, 1800, 56),
+  (30024, 3021, 3, NULL, NULL, NULL, NULL, NULL, 1, 18, 1800, 56),
   -- Blue 2: Alakazam Lv. 54
-  (3021, 3, NULL, NULL, NULL, NULL, NULL, 2, 65, 6500, 54),
+  (30024, 3021, 3, NULL, NULL, NULL, NULL, NULL, 2, 65, 6500, 54),
   -- Blue 3: Rhydon Lv. 56
-  (3021, 3, NULL, NULL, NULL, NULL, NULL, 3, 112, 11200, 56),
+  (30024, 3021, 3, NULL, NULL, NULL, NULL, NULL, 3, 112, 11200, 56),
   -- Blue 4: Gyarados Lv. 58
-  (3021, 3, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 58),
+  (30024, 3021, 3, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 58),
   -- Blue 5: Exeggutor Lv. 58
-  (3021, 3, NULL, NULL, NULL, NULL, NULL, 5, 103, 10300, 58),
+  (30024, 3021, 3, NULL, NULL, NULL, NULL, NULL, 5, 103, 10300, 58),
   -- Blue 6: Arcanine Lv. 58
-  (3021, 3, NULL, NULL, NULL, NULL, NULL, 6, 59, 5900, 58),
+  (30024, 3021, 3, NULL, NULL, NULL, NULL, NULL, 6, 59, 5900, 58),
   -- Red 1: Pikachu Lv. 81
-  (3022, 3, NULL, NULL, NULL, NULL, NULL, 1, 25, 2500, 81),
+  (30025, 3022, 3, NULL, NULL, NULL, NULL, NULL, 1, 25, 2500, 81),
   -- Red 2: Espeon Lv. 73
-  (3022, 3, NULL, NULL, NULL, NULL, NULL, 2, 196, 19600, 73),
+  (30025, 3022, 3, NULL, NULL, NULL, NULL, NULL, 2, 196, 19600, 73),
   -- Red 3: Snorlax Lv. 75
-  (3022, 3, NULL, NULL, NULL, NULL, NULL, 3, 143, 14300, 75),
+  (30025, 3022, 3, NULL, NULL, NULL, NULL, NULL, 3, 143, 14300, 75),
   -- Red 4: Venusaur Lv. 77
-  (3022, 3, NULL, NULL, NULL, NULL, NULL, 4, 3, 300, 77),
+  (30025, 3022, 3, NULL, NULL, NULL, NULL, NULL, 4, 3, 300, 77),
   -- Red 5: Charizard Lv. 77
-  (3022, 3, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 77),
+  (30025, 3022, 3, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 77),
   -- Red 6: Blastoise Lv. 77
-  (3022, 3, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 77);
+  (30025, 3022, 3, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 77);

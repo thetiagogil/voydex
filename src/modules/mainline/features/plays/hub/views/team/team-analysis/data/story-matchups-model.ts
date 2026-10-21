@@ -37,7 +37,7 @@ export type StoryMatchupMilestone = Pick<
 >;
 
 /*
- * One Pokémon on an opponent's team in its first battle. A team that depends
+ * One Pokémon on an opponent's team in one Story battle. A team that depends
  * on a Play's choice (usually the starter) has one set of rows per choice.
  */
 export type StoryOpponentPartyRow = {
@@ -47,6 +47,8 @@ export type StoryOpponentPartyRow = {
   /* Set when the team is one game's of its version group. */
   gameId: number | null;
   level: number;
+  /* The Story battle this team is for. */
+  milestoneId: number;
   name: string;
   opponentId: number;
   primaryTypeId: number | null;
@@ -70,14 +72,6 @@ export type StoryMatchupsRows = {
   orderedMilestones: StoryMatchupMilestone[];
   partyRows: StoryOpponentPartyRow[];
   snapshotsByMilestoneId: ReadonlyMap<number, PlayTeamSnapshotMember[]>;
-};
-
-export type StoryMatchupOpponent = {
-  id: number;
-  name: string;
-  primaryType: Type | null;
-  role: string;
-  secondaryType: Type | null;
 };
 
 /* One of your active Pokémon against a battle still ahead. */
@@ -105,20 +99,22 @@ export type StoryMatchupBattle = {
   badgeType: PokemonTypeSlug | null;
   chapter: string;
   completedAt: string | null;
-  id: number;
+  /* The story point and opponent ("10005/1002"): a story point can hold several battles. */
+  id: string;
   /* "Gym Leader", "Champion" and so on. */
   kind: string;
   members: StoryMatchupMember[];
+  /* The story point the battle belongs to. */
   milestoneName: string;
+  /* The opponent's name. */
   name: string;
-  opponents: StoryMatchupOpponent[];
   /* Their team, or null where Voydex doesn't have it. */
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
   partyLevels: string | null;
   /* The reading of a battle ahead against their team; null once won or without their team. */
   reading: Omit<StoryBattleReading, "members"> | null;
-  /* The types the opponents specialise in, without repeats. */
+  /* The types the opponent specialises in. */
   specialtyTypes: Type[];
   state: "ahead" | "next" | "won";
   /* "Your team then": the team saved when the battle was recorded. */
@@ -137,7 +133,7 @@ export type StoryMatchupsModel = {
   battleCount: number;
   chapters: StoryMatchupChapter[];
   /* The battle the report opens on: the next one, else the last. */
-  defaultBattleId: number | null;
+  defaultBattleId: string | null;
   wonCount: number;
 };
 
@@ -200,16 +196,21 @@ const getTypeSlugs = (types: (Type | null)[]) =>
     type && isPokemonTypeSlug(type.slug) ? [type.slug] : [],
   );
 
+/* The key one opponent's teams in one battle share. */
+const getBattleOpponentKey = (milestoneId: number, opponentId: number) =>
+  `${milestoneId}/${opponentId}`;
+
 /*
- * An opponent's teams by the choice each follows, in the order Voydex lists
- * them, so the first is the one read while the choice isn't recorded.
+ * Each opponent's teams in each battle by the choice each follows, in the
+ * order Voydex lists them, so the first is the one read while the choice
+ * isn't recorded.
  */
 const groupParties = (
   rows: StoryOpponentPartyRow[],
   typeOf: (id: number | null) => Type | null,
 ) => {
-  const partiesByOpponentId = new Map<
-    number,
+  const partiesByBattleOpponent = new Map<
+    string,
     Map<
       string,
       {
@@ -221,9 +222,15 @@ const groupParties = (
   >();
 
   for (const row of [...rows].sort((left, right) => left.slot - right.slot)) {
+    const battleOpponentKey = getBattleOpponentKey(
+      row.milestoneId,
+      row.opponentId,
+    );
     const parties =
-      partiesByOpponentId.get(row.opponentId) ??
-      partiesByOpponentId.set(row.opponentId, new Map()).get(row.opponentId)!;
+      partiesByBattleOpponent.get(battleOpponentKey) ??
+      partiesByBattleOpponent
+        .set(battleOpponentKey, new Map())
+        .get(battleOpponentKey)!;
     const key = `${row.gameId ?? ""}:${row.choiceKey ?? ""}:${row.variantKey ?? ""}`;
     const party =
       parties.get(key) ??
@@ -238,7 +245,7 @@ const groupParties = (
     party.pokemon.push({
       formSlug: row.formSlug,
       imageUrl: getPokemonFormImageUrl({ name: row.name, slug: row.formSlug }),
-      key: `${row.opponentId}-${key}-${row.slot}`,
+      key: `${battleOpponentKey}-${key}-${row.slot}`,
       level: row.level,
       name: row.name,
       types: [typeOf(row.primaryTypeId), typeOf(row.secondaryTypeId)].filter(
@@ -247,63 +254,51 @@ const groupParties = (
     });
   }
 
-  return partiesByOpponentId;
+  return partiesByBattleOpponent;
 };
 
 /*
- * Every opponent's team in one battle, each picked by the Play's recorded
- * choice. Null unless Voydex has a team for every opponent in it.
+ * An opponent's team in one battle, picked by the Play's recorded choice.
+ * Null when Voydex doesn't have it.
  */
 const resolveParty = (
-  opponentIds: number[],
-  partiesByOpponentId: ReturnType<typeof groupParties>,
+  battleOpponentKey: string,
+  partiesByBattleOpponent: ReturnType<typeof groupParties>,
   chosenChoiceKeys: ReadonlySet<string>,
 ): StoryMatchupParty | null => {
-  const pokemon: StoryOpponentPokemon[] = [];
-  const assumedChoices: string[] = [];
-  const assumedOutcomes: string[] = [];
+  const parties = [
+    ...(partiesByBattleOpponent.get(battleOpponentKey)?.values() ?? []),
+  ];
+  const chosen =
+    parties.find(
+      (party) =>
+        party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
+    ) ?? (parties.length === 1 ? parties[0] : null);
+  const party = chosen ?? parties[0];
 
-  for (const opponentId of opponentIds) {
-    const parties = [...(partiesByOpponentId.get(opponentId)?.values() ?? [])];
-    const chosen =
-      parties.find(
-        (party) =>
-          party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
-      ) ?? (parties.length === 1 ? parties[0] : null);
-    const party = chosen ?? parties[0];
-
-    if (!party) {
-      return null;
-    }
-
-    if (!chosen && party.label) {
-      (party.choiceKey ? assumedChoices : assumedOutcomes).push(party.label);
-    }
-
-    pokemon.push(...party.pokemon);
+  if (!party) {
+    return null;
   }
 
-  const notes = [
-    assumedChoices.length
-      ? `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${assumedChoices.join(" and ")}.`
-      : null,
-    assumedOutcomes.length
-      ? `Their team depends on something Voydex doesn't record, so this reads one way it can go: ${assumedOutcomes.join(" and ")}.`
-      : null,
-  ].filter((note) => note !== null);
+  const note =
+    chosen || !party.label
+      ? null
+      : party.choiceKey
+        ? `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`
+        : `Their team depends on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`;
 
-  return { note: notes.length ? notes.join(" ") : null, pokemon };
+  return { note, pokemon: party.pokemon };
 };
 
 /*
  * Story matchups (v3 `matchups`): every battle the Story names (Gym
  * Leaders, Kahunas, the Elite Four, Champions, rivals and bosses), by
- * chapter in Story's order. A battle won keeps its date, their team and the
+ * chapter in Story's order, each opponent of a story point its own battle. A battle won keeps its date, their team and the
  * team saved with it; a battle ahead is read against the active team and
- * their first-battle team, or, where Voydex doesn't have it, the opponent's
- * specialty type only. A team belongs to the first battle that names its
- * opponent: a rematch keeps the specialty reading. Opponents for the Play's
- * other version are left out.
+ * their team in that battle, or, where Voydex doesn't have it, the
+ * opponent's specialty type only. Each battle has its own team, so a rematch
+ * reads the team you face then. Opponents for the Play's other version are
+ * left out.
  */
 export const buildStoryMatchupsModel = ({
   chosenChoiceKeys,
@@ -331,9 +326,8 @@ export const buildStoryMatchupsModel = ({
   const typeOf = (id: number | null) =>
     id === null ? null : (typeById.get(id) ?? null);
   const battles: StoryMatchupBattle[] = [];
-  const teamedOpponentIds = new Set<number>();
   /* A team for the Play's other version is left out, as its leaders are. */
-  const partiesByOpponentId = groupParties(
+  const partiesByBattleOpponent = groupParties(
     partyRows.filter((row) => row.gameId === null || row.gameId === playGameId),
     typeOf,
   );
@@ -353,124 +347,99 @@ export const buildStoryMatchupsModel = ({
         );
       },
     );
-
-    if (!opponents.length) {
-      continue;
-    }
-
-    const specialtyTypes = [
-      ...new Map(
-        opponents
-          .flatMap((ref) => [
-            typeOf(ref.primary_type_id),
-            typeOf(ref.secondary_type_id),
-          ])
-          .filter((type): type is Type => type !== null)
-          .map((type) => [type.id, type]),
-      ).values(),
-    ];
-
     const badgeSlug = typeOf(
       getMilestoneBadgeTypeId(milestone.badge_refs),
     )?.slug;
-
     const isWon = Boolean(milestone.is_completed);
-    /* Their first-battle team, so a later battle with them (a rematch) has none. */
-    const isRematch = opponents.some((ref) =>
-      teamedOpponentIds.has(ref.opponent_id),
-    );
-    const party = isRematch
-      ? null
-      : resolveParty(
-          opponents.map((ref) => ref.opponent_id),
-          partiesByOpponentId,
-          chosenChoiceKeys,
-        );
 
+    /* A story point can hold several battles, such as a rival before a Gym. */
     for (const ref of opponents) {
-      teamedOpponentIds.add(ref.opponent_id);
-    }
-    const reading =
-      party && !isWon
-        ? readStoryBattle({
-            generationOrder,
-            members,
-            opponentName: opponents.length === 1 ? opponents[0].name : null,
-            their: party.pokemon,
-            types,
-          })
+      const specialtyTypes = [
+        typeOf(ref.primary_type_id),
+        typeOf(ref.secondary_type_id),
+      ].filter((type): type is Type => type !== null);
+      const party = resolveParty(
+        getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
+        partiesByBattleOpponent,
+        chosenChoiceKeys,
+      );
+      const reading =
+        party && !isWon
+          ? readStoryBattle({
+              generationOrder,
+              members,
+              opponentName: ref.name,
+              their: party.pokemon,
+              types,
+            })
+          : null;
+      const partyRange = party
+        ? getLevelRange(party.pokemon.map((pokemon) => pokemon.level))
         : null;
-    const partyRange = party
-      ? getLevelRange(party.pokemon.map((pokemon) => pokemon.level))
-      : null;
 
-    battles.push({
-      badgeType: badgeSlug && isPokemonTypeSlug(badgeSlug) ? badgeSlug : null,
-      chapter: milestone.category_name ?? "Story",
-      completedAt: milestone.completed_at,
-      id: milestone.milestone_id,
-      kind: battleKinds[opponents[0].opponent_role],
-      members: members.map((member, index) => {
-        const memberReading = reading?.members[index];
+      battles.push({
+        badgeType:
+          ref.opponent_role === "gym-leader" &&
+          badgeSlug &&
+          isPokemonTypeSlug(badgeSlug)
+            ? badgeSlug
+            : null,
+        chapter: milestone.category_name ?? "Story",
+        completedAt: milestone.completed_at,
+        id: getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
+        kind: battleKinds[ref.opponent_role],
+        members: members.map((member, index) => {
+          const memberReading = reading?.members[index];
 
-        if (memberReading) {
-          return {
-            bestHit: memberReading.bestHit,
-            member,
-            role: memberReading.role,
-            weakTo: memberReading.weakTo,
-          };
-        }
-
-        const memberTypes = getTypeSlugs([
-          member.primaryType,
-          member.secondaryType,
-        ]);
-
-        return {
-          bestHit: null,
-          member,
-          role: null,
-          weakTo: memberTypes.length
-            ? specialtyTypes.filter(
-                (type) =>
-                  isPokemonTypeSlug(type.slug) &&
-                  getDefensiveTypeMultiplier(
-                    type.slug,
-                    memberTypes,
-                    generationOrder,
-                  ) >= 2,
-              )
-            : [],
-        };
-      }),
-      milestoneName: milestone.milestone_name ?? "Battle",
-      name:
-        opponents.length === 1
-          ? opponents[0].name
-          : (milestone.milestone_name ?? opponents[0].name),
-      opponents: opponents.map((ref) => ({
-        id: ref.opponent_id,
-        name: ref.name,
-        primaryType: typeOf(ref.primary_type_id),
-        role: ref.opponent_role,
-        secondaryType: typeOf(ref.secondary_type_id),
-      })),
-      party,
-      partyLevels: partyRange ? formatLevelRange(partyRange) : null,
-      reading: reading
-        ? {
-            levels: reading.levels,
-            state: reading.state,
-            summary: reading.summary,
-            uncoveredTypes: reading.uncoveredTypes,
+          if (memberReading) {
+            return {
+              bestHit: memberReading.bestHit,
+              member,
+              role: memberReading.role,
+              weakTo: memberReading.weakTo,
+            };
           }
-        : null,
-      specialtyTypes,
-      state: isWon ? "won" : "ahead",
-      teamThen: snapshotsByMilestoneId.get(milestone.milestone_id) ?? [],
-      where: milestone.description ?? milestone.category_name ?? null,
-    });
+
+          const memberTypes = getTypeSlugs([
+            member.primaryType,
+            member.secondaryType,
+          ]);
+
+          return {
+            bestHit: null,
+            member,
+            role: null,
+            weakTo: memberTypes.length
+              ? specialtyTypes.filter(
+                  (type) =>
+                    isPokemonTypeSlug(type.slug) &&
+                    getDefensiveTypeMultiplier(
+                      type.slug,
+                      memberTypes,
+                      generationOrder,
+                    ) >= 2,
+                )
+              : [],
+          };
+        }),
+        milestoneName: milestone.milestone_name ?? "Battle",
+        name: ref.name,
+        party,
+        partyLevels: partyRange ? formatLevelRange(partyRange) : null,
+        reading: reading
+          ? {
+              levels: reading.levels,
+              state: reading.state,
+              summary: reading.summary,
+              uncoveredTypes: reading.uncoveredTypes,
+            }
+          : null,
+        specialtyTypes,
+        state: isWon ? "won" : "ahead",
+        teamThen: snapshotsByMilestoneId.get(milestone.milestone_id) ?? [],
+        where: milestone.description ?? milestone.category_name ?? null,
+      });
+    }
   }
 
   const nextBattle = battles.find((battle) => battle.state !== "won");

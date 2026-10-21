@@ -1,9 +1,10 @@
 -- ============================================================================
 -- Table: tracking.mainline_opponent_team_members
--- The Pokémon each opponent uses in its first battle, slot by slot.
+-- The Pokémon each opponent uses in each Story battle, slot by slot.
 -- ============================================================================
 CREATE TABLE tracking.mainline_opponent_team_members (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    milestone_id integer NOT NULL,
     opponent_id integer NOT NULL,
     version_group_id integer NOT NULL,
     game_id integer,
@@ -17,6 +18,7 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     level integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_opponent_team_members_id_positive_check CHECK (id > 0),
+    CONSTRAINT mainline_opponent_team_members_battle_fkey FOREIGN KEY (milestone_id, opponent_id, version_group_id) REFERENCES tracking.mainline_milestone_opponent_refs (milestone_id, opponent_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_opponent_team_members_opponent_version_group_fkey FOREIGN KEY (opponent_id, version_group_id) REFERENCES tracking.mainline_opponents (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_opponent_team_members_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_opponent_team_members_decision_option_fkey FOREIGN KEY (decision_milestone_id, decision_option_slug) REFERENCES tracking.mainline_milestone_decision_options (milestone_id, slug) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -28,8 +30,10 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     CONSTRAINT mainline_opponent_team_members_variant_label_length_check CHECK (variant_label IS NULL OR CHAR_LENGTH(BTRIM(variant_label)) BETWEEN 1 AND 120),
     CONSTRAINT mainline_opponent_team_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
     CONSTRAINT mainline_opponent_team_members_level_range_check CHECK (level BETWEEN 1 AND 100),
-    CONSTRAINT mainline_opponent_team_members_slot_unique UNIQUE NULLS NOT DISTINCT (opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, slot)
+    CONSTRAINT mainline_opponent_team_members_slot_unique UNIQUE NULLS NOT DISTINCT (milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, slot)
 );
+
+CREATE INDEX mainline_opponent_team_members_opponent_idx ON tracking.mainline_opponent_team_members (opponent_id);
 
 CREATE INDEX mainline_opponent_team_members_version_group_game_idx ON tracking.mainline_opponent_team_members (version_group_id, game_id);
 
@@ -39,7 +43,9 @@ WHERE
 
 CREATE INDEX mainline_opponent_team_members_form_idx ON tracking.mainline_opponent_team_members (species_id, form_id);
 
-COMMENT ON TABLE tracking.mainline_opponent_team_members IS 'Curated first-battle teams of mainline_opponents: one row per Pokémon, in slot order.';
+COMMENT ON TABLE tracking.mainline_opponent_team_members IS 'Curated teams of mainline_opponents in each Story battle: one row per Pokémon, in slot order.';
+
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.milestone_id IS 'With opponent_id: the Story battle (a mainline_milestone_opponent_refs row) this team is for, so a rematch has its own team.';
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.game_id IS 'Set when a version-group-wide opponent uses a different team in each game of the version group; then every team of that opponent names its game.';
 

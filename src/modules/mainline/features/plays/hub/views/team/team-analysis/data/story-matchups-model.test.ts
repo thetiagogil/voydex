@@ -105,7 +105,7 @@ describe("buildStoryMatchupsModel", () => {
     ]);
     expect(model).toMatchObject({
       battleCount: 4,
-      defaultBattleId: 2,
+      defaultBattleId: "2/2",
       wonCount: 1,
     });
     expect(battles[0]?.badgeType).toBe("grass");
@@ -116,6 +116,42 @@ describe("buildStoryMatchupsModel", () => {
       "fire",
     ]);
     expect(battles[2]?.members[0]?.weakTo).toEqual([]);
+  });
+});
+
+describe("buildStoryMatchupsModel with several battles at one story point", () => {
+  const battles = buildStoryMatchupsModel({
+    chosenChoiceKeys: new Set(),
+    generationOrder: 1,
+    members: [grassMember],
+    opponentGameIdById: new Map(),
+    orderedMilestones: [
+      milestone(
+        5,
+        [
+          { id: 9, name: "Blue", role: "rival", typeId: 11 },
+          { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
+        ],
+        { is_completed: true, milestone_name: "Cascade Badge" },
+      ),
+    ],
+    partyRows: [],
+    playGameId: 1,
+    snapshotsByMilestoneId: new Map(),
+    types,
+  }).chapters.flatMap((chapter) => chapter.battles);
+
+  it("lists each opponent as its own battle under the story point", () => {
+    expect(
+      battles.map((battle) => [battle.id, battle.name, battle.milestoneName]),
+    ).toEqual([
+      ["5/9", "Blue", "Cascade Badge"],
+      ["5/2", "Misty", "Cascade Badge"],
+    ]);
+  });
+
+  it("gives the badge to the Gym Leader's battle only", () => {
+    expect(battles.map((battle) => battle.badgeType)).toEqual([null, "water"]);
   });
 });
 
@@ -132,6 +168,8 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     formSlug: name.toLowerCase(),
     gameId: null,
     level,
+    /* Each of these opponents has one battle, numbered like them. */
+    milestoneId: opponentId,
     name,
     opponentId,
     primaryTypeId,
@@ -243,6 +281,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
     formSlug: "sandslash",
     gameId: null,
     level: 61,
+    milestoneId: 1,
     name: "Sandslash",
     opponentId: 1,
     primaryTypeId: 13,
@@ -299,8 +338,26 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
 });
 
 describe("buildStoryMatchupsModel with a rematch", () => {
-  it("gives the team to the first battle only, so a rematch keeps the specialty reading", () => {
-    const battles = buildStoryMatchupsModel({
+  const kieranRow = (
+    milestoneId: number,
+    name: string,
+    level: number,
+  ): StoryOpponentPartyRow => ({
+    choiceKey: null,
+    formSlug: name.toLowerCase(),
+    gameId: null,
+    level,
+    milestoneId,
+    name,
+    opponentId: 7,
+    primaryTypeId: 5,
+    secondaryTypeId: null,
+    slot: 1,
+    variantKey: null,
+    variantLabel: null,
+  });
+  const build = (partyRows: StoryOpponentPartyRow[]) =>
+    buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(),
       generationOrder: 9,
       members: [grassMember],
@@ -309,25 +366,31 @@ describe("buildStoryMatchupsModel with a rematch", () => {
         milestone(1, [{ id: 7, name: "Kieran", role: "rival", typeId: 5 }]),
         milestone(2, [{ id: 7, name: "Kieran", role: "rival", typeId: 5 }]),
       ],
-      partyRows: [
-        {
-          choiceKey: null,
-          formSlug: "sentret",
-          gameId: null,
-          level: 12,
-          name: "Sentret",
-          opponentId: 7,
-          primaryTypeId: 5,
-          secondaryTypeId: null,
-          slot: 1,
-          variantKey: null,
-          variantLabel: null,
-        },
-      ],
+      partyRows,
       playGameId: 1,
       snapshotsByMilestoneId: new Map(),
       types,
     }).chapters.flatMap((chapter) => chapter.battles);
+
+  it("reads each battle's own team, so a rematch reads the team you face then", () => {
+    const battles = build([
+      kieranRow(1, "Sentret", 12),
+      kieranRow(2, "Furret", 24),
+    ]);
+
+    expect(
+      battles.map((battle) =>
+        battle.party?.pokemon.map((pokemon) => pokemon.name),
+      ),
+    ).toEqual([["Sentret"], ["Furret"]]);
+    expect(battles.map((battle) => battle.partyLevels)).toEqual([
+      "Lv. 12",
+      "Lv. 24",
+    ]);
+  });
+
+  it("keeps the specialty reading for a battle without its own team", () => {
+    const battles = build([kieranRow(1, "Sentret", 12)]);
 
     expect(battles.map((battle) => battle.partyLevels)).toEqual([
       "Lv. 12",
