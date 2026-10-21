@@ -72,11 +72,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Dark Badge -> Marnie
   (180009, 18015, 18, 'battle-opponent', 2, 'Route 9, outside Spikemuth'),
   -- Champion Cup -> Marnie
-  (183209, 18015, 18, 'battle-opponent', 1, 'Wyndon Stadium (semifinal)'),
+  (180015, 18015, 18, 'battle-opponent', 1, 'Wyndon Stadium (semifinal)'),
   -- Champion Cup -> Hop
-  (183209, 18013, 18, 'battle-opponent', 2, 'Wyndon Stadium (semifinal)'),
+  (180015, 18013, 18, 'battle-opponent', 2, 'Wyndon Stadium (semifinal)'),
   -- Champion Cup -> Bede
-  (183209, 18014, 18, 'battle-opponent', 3, 'Wyndon Stadium (final)'),
+  (180015, 18014, 18, 'battle-opponent', 3, 'Wyndon Stadium (final)'),
   -- Defeat Eternatus -> Rose
   (180011, 18016, 18, 'battle-opponent', 1, 'Energy Plant, Hammerlocke'),
   -- Post-Game Episode -> Bede

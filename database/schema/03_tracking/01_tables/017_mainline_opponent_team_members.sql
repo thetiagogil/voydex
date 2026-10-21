@@ -47,7 +47,7 @@ COMMENT ON TABLE tracking.mainline_opponent_team_members IS 'Curated teams of ma
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.milestone_id IS 'With opponent_id: the Story battle (a mainline_milestone_opponent_refs row) this team is for, so a rematch has its own team.';
 
-COMMENT ON COLUMN tracking.mainline_opponent_team_members.game_id IS 'Set when a version-group-wide opponent uses a different team in each game of the version group; then every team of that opponent names its game.';
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.game_id IS 'Set when a version-group-wide opponent uses a different team in each game of the version group in one battle; then every team of that opponent in that battle names its game, and it is the battle''s game when the story point belongs to one.';
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.decision_milestone_id IS 'With decision_option_slug: the Play choice (usually the starter) this team follows. A Play reads the team for the option it recorded.';
 
@@ -60,6 +60,7 @@ CREATE FUNCTION private.enforce_mainline_opponent_team_member_scope ()
     AS $$
 DECLARE
     opponent_game_id integer;
+    milestone_game_id integer;
     decision_version_group_id integer;
 BEGIN
     SELECT
@@ -72,6 +73,18 @@ BEGIN
         mainline_opponents.id = NEW.opponent_id;
     IF opponent_game_id IS NOT NULL AND NEW.game_id IS NOT NULL THEN
         RAISE EXCEPTION 'Opponent % already belongs to one game; its team cannot name another', NEW.opponent_id
+            USING ERRCODE = '23514';
+    END IF;
+    SELECT
+        mainline_milestones.game_id
+    INTO
+        milestone_game_id
+    FROM
+        tracking.mainline_milestones
+    WHERE
+        mainline_milestones.id = NEW.milestone_id;
+    IF milestone_game_id IS NOT NULL AND NEW.game_id IS NOT NULL AND NEW.game_id <> milestone_game_id THEN
+        RAISE EXCEPTION 'Story battle % belongs to game %; its team cannot name another', NEW.milestone_id, milestone_game_id
             USING ERRCODE = '23514';
     END IF;
     IF NEW.decision_milestone_id IS NOT NULL THEN
@@ -101,11 +114,12 @@ REVOKE ALL ON FUNCTION private.enforce_mainline_opponent_team_member_scope () FR
 GRANT EXECUTE ON FUNCTION private.enforce_mainline_opponent_team_member_scope () TO service_role;
 
 CREATE TRIGGER enforce_mainline_opponent_team_member_scope
-    BEFORE INSERT OR UPDATE OF opponent_id,
+    BEFORE INSERT OR UPDATE OF milestone_id,
+    opponent_id,
     version_group_id,
     game_id,
     decision_milestone_id ON tracking.mainline_opponent_team_members
     FOR EACH ROW
     EXECUTE FUNCTION private.enforce_mainline_opponent_team_member_scope ();
 
-COMMENT ON FUNCTION private.enforce_mainline_opponent_team_member_scope () IS 'Keeps an opponent team row in its opponent''s game and version group.';
+COMMENT ON FUNCTION private.enforce_mainline_opponent_team_member_scope () IS 'Keeps an opponent team row in its opponent''s and its Story battle''s game, and in its version group.';

@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (12);
+    plan (13);
 SET LOCAL ROLE anon;
 SELECT
     throws_ok ($$
@@ -41,6 +41,10 @@ SELECT
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (milestone_id, opponent_id, version_group_id, variant_slug, variant_label, slot, species_id, form_id, level)
             VALUES (10003, 1001, 2, 'pgtap', 'pgTAP', 3, 74, 7400, 12) $$, '23503', NULL, 'a team row stays in its opponent''s version group');
+-- Hop's Stow-on-Side battle is Sword's (its Gym is), so its team cannot be Shield's.
+SELECT
+    throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (milestone_id, opponent_id, version_group_id, game_id, variant_slug, variant_label, slot, species_id, form_id, level)
+            VALUES (183106, 18013, 18, 32, 'pgtap', 'pgTAP', 1, 832, 83200, 30) $$, '23514', NULL, 'a team names its Story battle''s game');
 -- Brock's team cannot sit on Misty's battle.
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (milestone_id, opponent_id, version_group_id, variant_slug, variant_label, slot, species_id, form_id, level)

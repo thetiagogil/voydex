@@ -385,53 +385,53 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Marnie, Dark Badge 4: Morpeko Lv. 44
   (180009, 18015, 18, NULL, NULL, NULL, NULL, NULL, 4, 877, 87700, 44),
   -- Marnie, Champion Cup 1: Liepard Lv. 47
-  (183209, 18015, 18, NULL, NULL, NULL, NULL, NULL, 1, 510, 51000, 47),
+  (180015, 18015, 18, NULL, NULL, NULL, NULL, NULL, 1, 510, 51000, 47),
   -- Marnie, Champion Cup 2: Toxicroak Lv. 47
-  (183209, 18015, 18, NULL, NULL, NULL, NULL, NULL, 2, 454, 45400, 47),
+  (180015, 18015, 18, NULL, NULL, NULL, NULL, NULL, 2, 454, 45400, 47),
   -- Marnie, Champion Cup 3: Scrafty Lv. 47
-  (183209, 18015, 18, NULL, NULL, NULL, NULL, NULL, 3, 560, 56000, 47),
+  (180015, 18015, 18, NULL, NULL, NULL, NULL, NULL, 3, 560, 56000, 47),
   -- Marnie, Champion Cup 4: Morpeko Lv. 48
-  (183209, 18015, 18, NULL, NULL, NULL, NULL, NULL, 4, 877, 87700, 48),
+  (180015, 18015, 18, NULL, NULL, NULL, NULL, NULL, 4, 877, 87700, 48),
   -- Marnie, Champion Cup 5: Grimmsnarl Lv. 49
-  (183209, 18015, 18, NULL, NULL, NULL, NULL, NULL, 5, 861, 86100, 49),
+  (180015, 18015, 18, NULL, NULL, NULL, NULL, NULL, 5, 861, 86100, 49),
   -- Hop (chose Grookey), Champion Cup 1: Dubwool Lv. 48
-  (183209, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 832, 83200, 48),
+  (180015, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 832, 83200, 48),
   -- Hop (chose Grookey), Champion Cup 2: Corviknight Lv. 48
-  (183209, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 823, 82300, 48),
+  (180015, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 823, 82300, 48),
   -- Hop (chose Grookey), Champion Cup 3: Pincurchin Lv. 47
-  (183209, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 871, 87100, 47),
+  (180015, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 871, 87100, 47),
   -- Hop (chose Grookey), Champion Cup 4: Snorlax Lv. 47
-  (183209, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 4, 143, 14300, 47),
+  (180015, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 4, 143, 14300, 47),
   -- Hop (chose Grookey), Champion Cup 5: Inteleon Lv. 49
-  (183209, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 5, 818, 81800, 49),
+  (180015, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 5, 818, 81800, 49),
   -- Hop (chose Scorbunny), Champion Cup 1: Dubwool Lv. 48
-  (183209, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 832, 83200, 48),
+  (180015, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 832, 83200, 48),
   -- Hop (chose Scorbunny), Champion Cup 2: Corviknight Lv. 48
-  (183209, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 823, 82300, 48),
+  (180015, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 823, 82300, 48),
   -- Hop (chose Scorbunny), Champion Cup 3: Pincurchin Lv. 47
-  (183209, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 871, 87100, 47),
+  (180015, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 871, 87100, 47),
   -- Hop (chose Scorbunny), Champion Cup 4: Snorlax Lv. 47
-  (183209, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 4, 143, 14300, 47),
+  (180015, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 4, 143, 14300, 47),
   -- Hop (chose Scorbunny), Champion Cup 5: Rillaboom Lv. 49
-  (183209, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 5, 812, 81200, 49),
+  (180015, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 5, 812, 81200, 49),
   -- Hop (chose Sobble), Champion Cup 1: Dubwool Lv. 48
-  (183209, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 832, 83200, 48),
+  (180015, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 832, 83200, 48),
   -- Hop (chose Sobble), Champion Cup 2: Corviknight Lv. 48
-  (183209, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 823, 82300, 48),
+  (180015, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 823, 82300, 48),
   -- Hop (chose Sobble), Champion Cup 3: Pincurchin Lv. 47
-  (183209, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 871, 87100, 47),
+  (180015, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 871, 87100, 47),
   -- Hop (chose Sobble), Champion Cup 4: Snorlax Lv. 47
-  (183209, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 4, 143, 14300, 47),
+  (180015, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 4, 143, 14300, 47),
   -- Hop (chose Sobble), Champion Cup 5: Cinderace Lv. 49
-  (183209, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 5, 815, 81500, 49),
+  (180015, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 5, 815, 81500, 49),
   -- Bede, Champion Cup 1: Mawile Lv. 51
-  (183209, 18014, 18, NULL, NULL, NULL, NULL, NULL, 1, 303, 30300, 51),
+  (180015, 18014, 18, NULL, NULL, NULL, NULL, NULL, 1, 303, 30300, 51),
   -- Bede, Champion Cup 2: Gardevoir Lv. 51
-  (183209, 18014, 18, NULL, NULL, NULL, NULL, NULL, 2, 282, 28200, 51),
+  (180015, 18014, 18, NULL, NULL, NULL, NULL, NULL, 2, 282, 28200, 51),
   -- Bede, Champion Cup 3: Galarian Rapidash Lv. 52
-  (183209, 18014, 18, NULL, NULL, NULL, NULL, NULL, 3, 78, 7801, 52),
+  (180015, 18014, 18, NULL, NULL, NULL, NULL, NULL, 3, 78, 7801, 52),
   -- Bede, Champion Cup 4: Hatterene Lv. 53
-  (183209, 18014, 18, NULL, NULL, NULL, NULL, NULL, 4, 858, 85800, 53),
+  (180015, 18014, 18, NULL, NULL, NULL, NULL, NULL, 4, 858, 85800, 53),
   -- Rose, Defeat Eternatus 1: Escavalier Lv. 55
   (180011, 18016, 18, NULL, NULL, NULL, NULL, NULL, 1, 589, 58900, 55),
   -- Rose, Defeat Eternatus 2: Ferrothorn Lv. 55
