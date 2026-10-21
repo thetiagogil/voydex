@@ -76,7 +76,7 @@ const getChapterCount = (chapter: StoryMatchupChapter) => {
     ? won
     : !chapter.battleCount
       ? `${optional} done`
-      : `${won} · ${optional} legendaries done`;
+      : `${won} · ${optional} optional done`;
 };
 
 /*

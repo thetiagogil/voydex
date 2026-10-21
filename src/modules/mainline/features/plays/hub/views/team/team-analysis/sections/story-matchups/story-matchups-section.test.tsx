@@ -235,7 +235,7 @@ describe("StoryMatchupsSection", () => {
     it("tallies optional legendaries as done, apart from battles won", () => {
       expect(render([raikou])).toContain("0 of 1 done");
       expect(render([withTeam, raikou])).toContain(
-        "0 of 1 won · 0 of 1 legendaries done",
+        "0 of 1 won · 0 of 1 optional done",
       );
     });
   });

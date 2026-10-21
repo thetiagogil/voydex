@@ -530,7 +530,11 @@ export const buildStoryMatchupsModel = ({
     }
   }
 
-  const nextBattle = battles.find((battle) => battle.state !== "won");
+  /* An optional legendary is a side catch, so the next objective is a real battle when one is left. */
+  const nextBattle =
+    battles.find(
+      (battle) => battle.state !== "won" && !isOptionalLegendary(battle),
+    ) ?? battles.find((battle) => battle.state !== "won");
 
   if (nextBattle) {
     nextBattle.state = "next";

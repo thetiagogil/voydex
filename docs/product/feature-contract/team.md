@@ -182,6 +182,9 @@ chapter's) leaves out optional legendary encounters, which are catches you
 may skip and may not be battles at all; a chapter counts them apart ("2 of 5
 done"). A required legendary, like Groudon in Ruby, still counts. Roaming
 shows in the story point's name and where it roams, not as a kind of its own.
+Boss is only the seeded role of these opponents; Story matchups reads one
+as a legendary once its team is in Voydex, so a game without that team still
+reads it as a Boss.
 
 There is no separate Team History. Team events (additions, evolutions, form
 changes, replacements, retirements, removals and returns) are History's Team

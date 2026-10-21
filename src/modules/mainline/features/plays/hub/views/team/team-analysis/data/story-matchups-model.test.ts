@@ -770,4 +770,37 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
       0, 1,
     ]);
   });
+
+  it("leaves a legendary in a team, or a legendary rival, as a trainer", () => {
+    const [team, rival] = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(11, [{ id: 11, name: "Volo", role: "boss", typeId: 10 }]),
+        milestone(12, [{ id: 12, name: "Lance", role: "rival", typeId: 10 }]),
+      ],
+      partyRows: [
+        row(11, 1, "Giratina", "Legendary"),
+        row(11, 2, "Dialga", "Legendary"),
+        { ...row(12, 1, "Mew", "Mythical"), milestoneId: 12 },
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+
+    expect([team?.kind, team?.opponentKind]).toEqual(["Boss", "trainer"]);
+    expect([rival?.kind, rival?.opponentKind]).toEqual(["Rival", "trainer"]);
+  });
+
+  it("makes the next objective a real battle while one is left", () => {
+    const model = build();
+
+    /* Giovanni and Reshiram count; Raikou and Mew are optional catches. */
+    expect(model.defaultBattleId).toBe("1/1");
+    expect(build([1, 2]).defaultBattleId).toBe("5/5");
+    expect(build([1, 2, 5]).defaultBattleId).toBe("3/3");
+  });
 });
