@@ -59,9 +59,13 @@ rules and reusable user-authored custom rules. A rule explicitly declares
 whether Voydex can evaluate it or only record it.
 
 Voydex checks five of its own rules against the Pokémon you have now (the
-team and the reserve) and says so in a quiet note on the Team page, and in
-Add Pokémon as you pick one; it never blocks
+team and the reserve) and warns, but never blocks
 (`src/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks.ts`):
+an amber "N rules broken" chip in the Play's head opens a sheet listing
+each broken rule and the Pokémon that break it; on the Team page each such
+Pokémon's sticker carries a warning mark and its profile a note naming the
+rules; in Add Pokémon the Pokémon that would break a rule are faded (you can
+still pick them) and the details step lists what the pick breaks.
 
 - **Shiny only:** a Pokémon recorded as not shiny (Add Pokémon can't know
   yet, so only the Team page says it).

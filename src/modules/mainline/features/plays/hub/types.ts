@@ -20,7 +20,10 @@ import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/vi
 import type { OverviewFreshPlay } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import type { JourneyPosition } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
-import type { RuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type {
+  RuleBreak,
+  RuleCheckContext,
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -210,6 +213,8 @@ export type MainlinePlayShellData = {
   game: Game | null;
   play: MainlinePlaySummary;
   region: Region | null;
+  /* The rules the team breaks now, for the head's chip and its sheet. */
+  ruleBreaks: RuleBreak[];
   rules: MainlinePlayRule[];
   /* The Play's tags by name, shown in Play details. */
   tags: string[];

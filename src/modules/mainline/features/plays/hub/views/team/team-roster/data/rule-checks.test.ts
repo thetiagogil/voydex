@@ -6,6 +6,7 @@ import {
   buildCheckedRules,
   checkPokemonRules,
   emptyRuleCheckContext,
+  groupRuleBreaks,
   type CheckedRule,
   type RuleCheckContext,
   type RuleCheckPokemon,
@@ -133,7 +134,12 @@ describe("checkPokemonRules", () => {
     ]);
 
     expect(checkPokemonRules(pikachu, context)).toEqual([
-      { ruleId: "m", ruleName: "Monotype", text: "Pikachu isn't Water type." },
+      {
+        ruleId: "m",
+        ruleKind: "monotype",
+        ruleName: "Monotype",
+        text: "Pikachu isn't Water type.",
+      },
     ]);
     expect(
       checkPokemonRules({ ...pikachu, typeIds: [electric, water] }, context),
@@ -309,5 +315,47 @@ describe("checkPokemonRules", () => {
     expect(
       checkPokemonRules(pikachu, context).map((warning) => warning.ruleId),
     ).toEqual(["s", "n"]);
+  });
+});
+
+describe("groupRuleBreaks", () => {
+  it("groups the team's warnings by rule, in the Library's order", () => {
+    const warning = (
+      key: string,
+      ruleKind: "monotype" | "shiny_only",
+      text: string,
+    ) => ({
+      key,
+      ruleId: ruleKind,
+      ruleKind,
+      ruleName: ruleKind === "monotype" ? "Monotype" : "Shiny only",
+      text,
+    });
+
+    expect(
+      groupRuleBreaks([
+        warning("a:m", "monotype", "Pikachu isn't Water type."),
+        warning("a:s", "shiny_only", "Pikachu isn't shiny."),
+        warning("b:m", "monotype", "Eevee isn't Water type."),
+      ]),
+    ).toEqual([
+      {
+        lines: [{ key: "a:s", text: "Pikachu isn't shiny." }],
+        ruleId: "shiny_only",
+        ruleName: "Shiny only",
+      },
+      {
+        lines: [
+          { key: "a:m", text: "Pikachu isn't Water type." },
+          { key: "b:m", text: "Eevee isn't Water type." },
+        ],
+        ruleId: "monotype",
+        ruleName: "Monotype",
+      },
+    ]);
+  });
+
+  it("says nothing without warnings", () => {
+    expect(groupRuleBreaks([])).toEqual([]);
   });
 });

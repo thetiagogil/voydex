@@ -15,6 +15,7 @@ import {
   checkPokemonRules,
   emptyRuleCheckContext,
   type RuleCheckContext,
+  type RuleCheckPokemon,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -44,6 +45,19 @@ import {
   AddPokemonDetailsStep,
   type AddPokemonPlacement,
 } from "./add-pokemon-details-step";
+
+/* A Pokémon to pick as the Play's rule checks read it; its shininess isn't known yet. */
+const toChoiceRuleCheck = (
+  choice: PokemonChoice,
+  nickname: string | null,
+): RuleCheckPokemon => ({
+  formId: choice.formId,
+  isShiny: null,
+  name: choice.speciesName,
+  nickname,
+  speciesId: choice.speciesId,
+  typeIds: getPokemonChoiceTypes(choice).map((type) => type.id),
+});
 
 export type AddPokemonPreset = {
   formSlug: string | null;
@@ -282,8 +296,18 @@ export const AddPokemonSheet = ({
     />
   );
 
+  /*
+   * The rules a Pokémon would break as it stands. Its nickname is chosen in
+   * the next step, so Nickname everything waits for it.
+   */
+  const getBrokenRules = (choice: PokemonChoice) =>
+    checkPokemonRules(toChoiceRuleCheck(choice, null), ruleChecks)
+      .filter((warning) => warning.ruleKind !== "nickname_everything")
+      .map((warning) => warning.ruleName);
+
   const stepOne = (
     <AddPokemonChoiceStep
+      getBrokenRules={getBrokenRules}
       loadState={loadState}
       onPick={setPicked}
       onRetry={() => setLoadState({ status: "idle" })}
@@ -298,14 +322,7 @@ export const AddPokemonSheet = ({
 
   const warnings = picked
     ? checkPokemonRules(
-        {
-          formId: picked.formId,
-          isShiny: null,
-          name: picked.speciesName,
-          nickname: nickname.trim() || null,
-          speciesId: picked.speciesId,
-          typeIds: getPokemonChoiceTypes(picked).map((type) => type.id),
-        },
+        toChoiceRuleCheck(picked, nickname.trim() || null),
         ruleChecks,
       ).map((warning) => ({ ...warning, key: warning.ruleId }))
     : [];

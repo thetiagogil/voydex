@@ -23,10 +23,9 @@ import {
   formatTeamRosterSummary,
   getDefaultTeamMember,
   getTeamRosterSheetKeys,
+  getMemberRuleWarnings,
   getTeamRosterSummary,
-  getTeamRuleWarnings,
 } from "./sections/roster/team-roster-model";
-import { RuleWarningsNote } from "./sections/roster/rule-warnings-note";
 import { TeamRosterSection } from "./sections/roster/team-roster-section";
 import {
   TeamMemberDetail,
@@ -82,6 +81,17 @@ export const MainlinePlayTeamRoster = ({
     roster.find((member) => member.play_pokemon_id === selectedMemberId) ??
     defaultMember;
   const summary = getTeamRosterSummary(roster);
+  const selectedWarnings = selectedMember
+    ? getMemberRuleWarnings(selectedMember, data.ruleChecks)
+    : [];
+  const brokenRulesById = Object.fromEntries(
+    roster.map((member) => [
+      member.play_pokemon_id ?? "",
+      getMemberRuleWarnings(member, data.ruleChecks).map(
+        (warning) => warning.ruleName,
+      ),
+    ]),
+  );
   const playLabel = data.play.play_name ?? data.play.game_name ?? "This Play";
 
   const selectMember = (member: MainlinePlayTeamMember) => {
@@ -123,12 +133,9 @@ export const MainlinePlayTeamRoster = ({
         summary={formatTeamRosterSummary(summary)}
       />
 
-      <RuleWarningsNote
-        warnings={getTeamRuleWarnings(roster, data.ruleChecks)}
-      />
-
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
         <TeamRosterSection
+          brokenRulesById={brokenRulesById}
           roster={roster}
           selectedMemberId={selectedMember?.play_pokemon_id ?? null}
           onSelect={selectMember}
@@ -145,6 +152,7 @@ export const MainlinePlayTeamRoster = ({
             onEdit={openEditor}
             playId={playId}
             versionGroupSlug={versionGroupSlug}
+            warnings={selectedWarnings}
           />
         </div>
         {selectedMember ? null : (
@@ -162,6 +170,7 @@ export const MainlinePlayTeamRoster = ({
         open={mobileDetailOpen && usesDetailSheet}
         onOpenChange={setMobileDetailOpen}
         versionGroupSlug={versionGroupSlug}
+        warnings={selectedWarnings}
       />
 
       {selectedMember?.play_pokemon_id ? (

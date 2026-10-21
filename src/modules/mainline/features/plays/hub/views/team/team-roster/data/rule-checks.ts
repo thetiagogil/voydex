@@ -127,6 +127,7 @@ export type RuleCheckPokemon = {
 
 export type RuleWarning = {
   ruleId: string;
+  ruleKind: CheckedRuleKind;
   ruleName: string;
   text: string;
 };
@@ -203,5 +204,42 @@ export const checkPokemonRules = (
   context.rules.flatMap((rule) => {
     const text = checkRule(rule, pokemon, context);
 
-    return text ? [{ ruleId: rule.id, ruleName: rule.name, text }] : [];
+    return text
+      ? [{ ruleId: rule.id, ruleKind: rule.kind, ruleName: rule.name, text }]
+      : [];
   });
+
+/* One broken rule and what breaks it, one line per Pokémon. */
+export type RuleBreak = {
+  lines: { key: string; text: string }[];
+  ruleId: string;
+  ruleName: string;
+};
+
+/*
+ * The team's warnings by rule, in the Library's order, each rule's lines in
+ * the team's: what the Play header counts and its sheet lists.
+ */
+export const groupRuleBreaks = (
+  warnings: (RuleWarning & { key: string })[],
+): RuleBreak[] => {
+  const breaks = new Map<string, RuleBreak>();
+  const ordered = warnings.toSorted(
+    (left, right) =>
+      checkedRuleKinds.indexOf(left.ruleKind) -
+      checkedRuleKinds.indexOf(right.ruleKind),
+  );
+
+  for (const warning of ordered) {
+    const ruleBreak = breaks.get(warning.ruleId) ?? {
+      lines: [],
+      ruleId: warning.ruleId,
+      ruleName: warning.ruleName,
+    };
+
+    ruleBreak.lines.push({ key: warning.key, text: warning.text });
+    breaks.set(warning.ruleId, ruleBreak);
+  }
+
+  return [...breaks.values()];
+};

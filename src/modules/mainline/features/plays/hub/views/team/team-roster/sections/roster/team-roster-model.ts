@@ -132,6 +132,21 @@ export const toRuleCheckPokemon = (
       }
     : null;
 
+/* What the Play's rules say about one Pokémon on the team, keyed for lists. */
+export const getMemberRuleWarnings = (
+  member: MainlinePlayTeamMember,
+  context: RuleCheckContext,
+) => {
+  const pokemon = toRuleCheckPokemon(member);
+
+  return pokemon
+    ? checkPokemonRules(pokemon, context).map((warning) => ({
+        ...warning,
+        key: `${member.play_pokemon_id}:${warning.ruleId}`,
+      }))
+    : [];
+};
+
 /*
  * What the Play's rules say about the Pokémon you have now, the team then
  * the reserve, each in slot order. Retired and replaced Pokémon are past.
@@ -141,14 +156,7 @@ export const getTeamRuleWarnings = (
   context: RuleCheckContext,
 ) =>
   (["active", "reserve"] as const).flatMap((group) =>
-    getTeamRosterSlots(roster, group).flatMap(({ member }) => {
-      const pokemon = member ? toRuleCheckPokemon(member) : null;
-
-      return pokemon
-        ? checkPokemonRules(pokemon, context).map((warning) => ({
-            ...warning,
-            key: `${member?.play_pokemon_id}:${warning.ruleId}`,
-          }))
-        : [];
-    }),
+    getTeamRosterSlots(roster, group).flatMap(({ member }) =>
+      member ? getMemberRuleWarnings(member, context) : [],
+    ),
   );

@@ -1,8 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
+
+/* The Play head's chip, opened: each broken rule and what breaks it. */
+const openRuleBreaks = async (page: Page, count: string) => {
+  await page.getByRole("button", { name: count }).click();
+
+  return page.getByRole("dialog", { name: count });
+};
 
 test.describe("Rule warnings", () => {
   test("a Play's rules warn about its team and never block @phone", async ({
@@ -22,22 +29,37 @@ test.describe("Rule warnings", () => {
     await page.goto(`/mainline/plays/${playId}/team`, {
       waitUntil: "networkidle",
     });
-    const note = page.getByRole("status").filter({
-      hasText: "Against this Play's rules",
-    });
-
     /* Squirtle is Water, but has no nickname yet. */
-    await expect(note).toContainText(
-      "Nickname everything: Squirtle has no nickname.",
-    );
-    await expect(note).not.toContainText("Monotype");
+    await expect(
+      page.getByRole("button", {
+        name: /Squirtle.*Breaks this Play's rules: Nickname everything/,
+      }),
+    ).toBeVisible();
+    let breaks = await openRuleBreaks(page, "1 rule broken");
+
+    await expect(breaks).toContainText("Nickname everything");
+    await expect(breaks).toContainText("Squirtle has no nickname.");
+    await expect(breaks).not.toContainText("Monotype");
+    await page.keyboard.press("Escape");
+    await expect(breaks).toBeHidden();
 
     await page.getByRole("button", { name: "Add Pokémon" }).first().click();
-    await page
-      .getByRole("dialog", { name: "Which Pokémon?" })
+    const choices = page.getByRole("dialog", { name: "Which Pokémon?" });
+
+    await choices
       .getByRole("searchbox", { name: "Search Pokémon" })
       .fill("mewtwo");
-    await page.getByRole("button", { name: "Mewtwo, #150" }).click();
+    /* Faded, but it can still be picked; its nickname comes later. */
+    await expect(
+      choices.getByRole("status").filter({
+        hasText: "Faded Pokémon break this Play's rules",
+      }),
+    ).toBeVisible();
+    await choices
+      .getByRole("button", {
+        name: "Mewtwo, #150, breaks this Play's rules: Monotype, No legendaries",
+      })
+      .click();
     const details = page.getByRole("dialog", { name: "Mewtwo" });
     const warning = details.getByRole("status");
 
@@ -57,13 +79,9 @@ test.describe("Rule warnings", () => {
     await details.getByRole("button", { name: "Add Mewtwo" }).click();
     await expect(details).toBeHidden();
 
-    await expect(note).toContainText(
-      "Monotype: Psy isn't Water type.",
-      forTheAnswer,
-    );
-    await expect(note).toContainText(
-      "No legendaries: Psy is a Legendary Pokémon.",
-    );
+    breaks = await openRuleBreaks(page, "3 rules broken");
+    await expect(breaks).toContainText("Psy isn't Water type.", forTheAnswer);
+    await expect(breaks).toContainText("Psy is a Legendary Pokémon.");
     await expectAccessible(page);
   });
 
@@ -89,9 +107,9 @@ test.describe("Rule warnings", () => {
     });
 
     /* Any earlier Play of this trainer's with a Bulbasaur may be named. */
-    await expect(
-      page.getByRole("status").filter({ hasText: "Against this Play's rules" }),
-    ).toContainText(/No Pokémon reuse: Bulbasaur was already used in .+\./);
+    await expect(await openRuleBreaks(page, "1 rule broken")).toContainText(
+      /Bulbasaur was already used in .+\./,
+    );
   });
 
   test("No Pokémon reuse still knows a Pokémon that evolved since", async ({
@@ -130,12 +148,12 @@ test.describe("Rule warnings", () => {
       waitUntil: "networkidle",
     });
     /* By exact form: the Charmander it was still counts. */
-    await expect(
-      page.getByRole("status").filter({ hasText: "Against this Play's rules" }),
-    ).toContainText(/No Pokémon reuse: Charmander was already used in .+\./);
+    await expect(await openRuleBreaks(page, "1 rule broken")).toContainText(
+      /Charmander was already used in .+\./,
+    );
   });
 
-  test("a Play without rules shows no note", async ({ page }) => {
+  test("a Play without rules shows no chip", async ({ page }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: uniquePlayName("Free run"),
@@ -146,6 +164,7 @@ test.describe("Rule warnings", () => {
       waitUntil: "networkidle",
     });
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    await expect(page.getByText("Against this Play's rules")).toHaveCount(0);
+    await expect(page.getByText(/rules? broken/)).toHaveCount(0);
+    await expect(page.getByText(/Breaks this Play's rules/)).toHaveCount(0);
   });
 });

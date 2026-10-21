@@ -38,6 +38,7 @@ import {
   readMainlinePlayFollowablePlans,
   readMainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/server/rule-check-reader";
 import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
 import { readMainlinePlayStoryMatchupRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
@@ -85,6 +86,29 @@ const getMainlinePlayRequestContext = cache(async (playId: string) => {
   return { play, supabase, userId };
 });
 
+/* The team and reserve, once per request: the head's rule count and the Roster share them. */
+const getMainlinePlayTeamRows = cache(async (playId: string) => {
+  const context = await getMainlinePlayRequestContext(playId);
+
+  return context
+    ? readMainlinePlayTeamRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+        context.play.version_group_id,
+      )
+    : null;
+});
+
+/* What the Play's rules check, once per request, as for the team rows. */
+const getMainlinePlayRuleChecks = cache(async (playId: string) => {
+  const context = await getMainlinePlayRequestContext(playId);
+
+  return context
+    ? readPlayRuleCheckContext(context.supabase, context.play, context.userId)
+    : emptyRuleCheckContext;
+});
+
 export const getMainlinePlayShellData = cache(
   async (playId: string): Promise<MainlinePlayShellData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
@@ -93,20 +117,27 @@ export const getMainlinePlayShellData = cache(
       return null;
     }
 
-    const [collectiblesAvailable, gameContext, ruleRows, tags] =
+    const [collectiblesAvailable, gameContext, ruleRows, tags, ruleChecks] =
       await Promise.all([
         readMainlinePlayCollectiblesAvailability(context.supabase, playId),
         readMainlinePlayGameContext(context.supabase, context.play.game_id),
         readMainlinePlayRuleRows(context.supabase, playId),
         readMainlinePlayTagNames(context.supabase, playId),
+        getMainlinePlayRuleChecks(playId),
       ]);
+    /* The team is only read when a rule could be broken. */
+    const teamRows = ruleChecks.rules.length
+      ? await getMainlinePlayTeamRows(playId)
+      : null;
 
     return buildMainlinePlayShellData({
       collectiblesAvailable,
       gameContext,
       play: context.play,
+      ruleChecks,
       ruleRows,
       tags,
+      teamRows,
     });
   },
 );
@@ -187,14 +218,13 @@ export const getMainlinePlayTeamRosterData = cache(
     }
 
     const [teamRows, ruleChecks] = await Promise.all([
-      readMainlinePlayTeamRows(
-        context.supabase,
-        playId,
-        context.play.generation_id,
-        context.play.version_group_id,
-      ),
-      readPlayRuleCheckContext(context.supabase, context.play, context.userId),
+      getMainlinePlayTeamRows(playId),
+      getMainlinePlayRuleChecks(playId),
     ]);
+
+    if (!teamRows) {
+      return null;
+    }
 
     return buildMainlinePlayTeamRosterData({
       play: context.play,

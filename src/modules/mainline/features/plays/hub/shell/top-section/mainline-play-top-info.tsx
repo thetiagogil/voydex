@@ -3,6 +3,7 @@ import { StatusBadge } from "@/shared/components/status-badge";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 
+import { MainlinePlayRuleBreaks } from "./mainline-play-rule-breaks";
 import { getPlayTitle } from "./play-title";
 
 type MainlinePlayTopInfoProps = {
@@ -56,6 +57,17 @@ export const MainlinePlayTopInfo = ({
             <MainlinePlayStatus data={data} />
           </dd>
         </div>
+        {data.ruleBreaks.length ? (
+          <div className="contents">
+            <dt className="sr-only">Rules</dt>
+            <dd>
+              <MainlinePlayRuleBreaks
+                playId={data.play.play_id}
+                ruleBreaks={data.ruleBreaks}
+              />
+            </dd>
+          </div>
+        ) : null}
         {data.play.trainer_name ? (
           <div className="contents">
             <dt className="sr-only">Trainer</dt>

@@ -16,17 +16,19 @@ import {
 export const RuleWarningsNote = ({
   children,
   className,
+  title = "Against this Play's rules",
   warnings,
 }: {
   /* A closing line, such as "You can still add it." */
   children?: ReactNode;
   className?: string;
+  title?: string;
   warnings: (RuleWarning & { key: string })[];
 }) =>
   warnings.length ? (
     <Alert role="status" variant="warning" className={className}>
       <AppIcon icon={appIcons.status.warning} />
-      <AlertTitle>Against this Play&apos;s rules</AlertTitle>
+      <AlertTitle>{title}</AlertTitle>
       <AlertDescription className="text-pretty">
         <ul className="grid gap-0.5">
           {warnings.map((warning) => (

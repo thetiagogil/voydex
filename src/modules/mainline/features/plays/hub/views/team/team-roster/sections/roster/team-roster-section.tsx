@@ -12,6 +12,8 @@ import {
 import { getTeamRosterSlots, type TeamRosterGroup } from "./team-roster-model";
 
 type TeamRosterSectionProps = {
+  /* The names of the Play's rules each Pokémon breaks, by its id. */
+  brokenRulesById: Record<string, string[]>;
   onSelect: (member: MainlinePlayTeamMember) => void;
   roster: MainlinePlayTeamMember[];
   selectedMemberId: string | null;
@@ -23,6 +25,7 @@ const groupTitles: Record<TeamRosterGroup, string> = {
 };
 
 type TeamRosterStickerProps = {
+  brokenRules: string[];
   member: MainlinePlayTeamMember;
   onSelect: (member: MainlinePlayTeamMember) => void;
   selected: boolean;
@@ -32,9 +35,11 @@ type TeamRosterStickerProps = {
 
 /*
  * A roster Pokémon as a compact sticker that opens its detail: one name (the
- * nickname, or the species without one) and its level as a chip.
+ * nickname, or the species without one), its level as a chip, and a warning
+ * mark when it breaks the Play's rules.
  */
 const TeamRosterSticker = ({
+  brokenRules,
   member,
   onSelect,
   selected,
@@ -58,11 +63,17 @@ const TeamRosterSticker = ({
       selected={selected}
       onClick={() => onSelect(member)}
       detail={slotName}
+      warning={
+        brokenRules.length
+          ? `Breaks this Play's rules: ${brokenRules.join(", ")}`
+          : undefined
+      }
     />
   );
 };
 
 const TeamRosterGroupList = ({
+  brokenRulesById,
   group,
   onSelect,
   roster,
@@ -91,6 +102,9 @@ const TeamRosterGroupList = ({
           <li key={slot.position} className="min-w-0">
             {slot.member ? (
               <TeamRosterSticker
+                brokenRules={
+                  brokenRulesById[slot.member.play_pokemon_id ?? ""] ?? []
+                }
                 member={slot.member}
                 onSelect={onSelect}
                 selected={slot.member.play_pokemon_id === selectedMemberId}

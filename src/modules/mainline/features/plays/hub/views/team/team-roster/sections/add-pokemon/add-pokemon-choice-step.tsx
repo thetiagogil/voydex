@@ -1,3 +1,10 @@
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/shared/components/ui/alert";
+import { cn } from "@/shared/utils/cn";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { EmptyState } from "@/shared/components/empty-state";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
@@ -20,11 +27,16 @@ export type AddPokemonLoadState =
       status: "ready";
     };
 
-/* One Pokémon to pick: the plain card, as a button. */
+/*
+ * One Pokémon to pick: the plain card, as a button. One that breaks the
+ * Play's rules is faded, and says which; it can still be picked.
+ */
 const ChoiceButton = ({
+  brokenRules,
   choice,
   onPick,
 }: {
+  brokenRules: string[];
   choice: PokemonChoice;
   onPick: (choice: PokemonChoice) => void;
 }) => (
@@ -32,8 +44,26 @@ const ChoiceButton = ({
     <button
       type="button"
       onClick={() => onPick(choice)}
-      aria-label={`${choice.speciesName}${choice.formName ? `, ${choice.formName}` : ""}, ${formatPokemonChoiceNumber(choice.number)}`}
-      className="focus-ring block w-full rounded-lg outline-offset-2"
+      aria-label={[
+        choice.speciesName,
+        choice.formName,
+        formatPokemonChoiceNumber(choice.number),
+        brokenRules.length
+          ? `breaks this Play's rules: ${brokenRules.join(", ")}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(", ")}
+      title={
+        brokenRules.length
+          ? `Breaks this Play's rules: ${brokenRules.join(", ")}`
+          : undefined
+      }
+      className={cn(
+        "focus-ring block w-full rounded-lg outline-offset-2",
+        brokenRules.length &&
+          "opacity-40 transition-opacity hover:opacity-70 focus-visible:opacity-100",
+      )}
     >
       <PokemonCard
         state="plain"
@@ -54,6 +84,7 @@ const ChoiceButton = ({
  * the search finds, drawn in batches as you scroll.
  */
 export const AddPokemonChoiceStep = ({
+  getBrokenRules,
   loadState,
   onPick,
   onRetry,
@@ -64,6 +95,8 @@ export const AddPokemonChoiceStep = ({
   results,
   shownCount,
 }: {
+  /* The Play's rules a Pokémon would break, by name; none to fade it. */
+  getBrokenRules: (choice: PokemonChoice) => string[];
   loadState: AddPokemonLoadState;
   onPick: (choice: PokemonChoice) => void;
   onRetry: () => void;
@@ -73,59 +106,80 @@ export const AddPokemonChoiceStep = ({
   query: string;
   results: PokemonChoice[];
   shownCount: number;
-}) => (
-  <div className="grid gap-4">
-    {presetMissing ? (
-      <p role="status" className="text-ink-2 text-14 font-semibold">
-        That Pokémon isn&apos;t in this Play&apos;s Pokédex. Search for another.
-      </p>
-    ) : null}
-    {loadState.status === "idle" ? (
-      <div className="grid place-items-center py-10">
-        <Spinner aria-label="Loading Pokémon" className="text-action" />
-      </div>
-    ) : loadState.status === "error" ? (
-      <EmptyState
-        variant="bare"
-        title={loadState.message}
-        action={
-          <Button type="button" variant="secondary" onClick={onRetry}>
-            Try again
-          </Button>
-        }
-      />
-    ) : query.trim() && !results.length ? (
-      <EmptyState
-        variant="bare"
-        title={`Nothing in the ${pokedexName} matches “${query.trim()}”.`}
-      />
-    ) : (
-      <div className="grid gap-2">
-        {query.trim() ? null : (
-          <>
-            <p className="text-ink-3 text-13 flex flex-wrap items-center gap-2 font-extrabold">
-              Around the first routes
-              {/* TODO(v3-data): route and encounter locations, to suggest the Pokémon found on the first routes. */}
-              <PendingData variant="inline" label="Not in Voydex yet" />
-            </p>
-            <p className="text-ink-3 text-13 font-extrabold">
-              The whole {pokedexName}
-            </p>
-          </>
-        )}
-        <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
-          {results.slice(0, shownCount).map((choice) => (
-            <ChoiceButton
-              key={`${choice.speciesId}-${choice.formId}`}
-              choice={choice}
-              onPick={onPick}
+}) => {
+  const shown = results.slice(0, shownCount).map((choice) => ({
+    brokenRules: getBrokenRules(choice),
+    choice,
+  }));
+
+  return (
+    <div className="grid gap-4">
+      {presetMissing ? (
+        <p role="status" className="text-ink-2 text-14 font-semibold">
+          That Pokémon isn&apos;t in this Play&apos;s Pokédex. Search for
+          another.
+        </p>
+      ) : null}
+      {loadState.status === "idle" ? (
+        <div className="grid place-items-center py-10">
+          <Spinner aria-label="Loading Pokémon" className="text-action" />
+        </div>
+      ) : loadState.status === "error" ? (
+        <EmptyState
+          variant="bare"
+          title={loadState.message}
+          action={
+            <Button type="button" variant="secondary" onClick={onRetry}>
+              Try again
+            </Button>
+          }
+        />
+      ) : query.trim() && !results.length ? (
+        <EmptyState
+          variant="bare"
+          title={`Nothing in the ${pokedexName} matches “${query.trim()}”.`}
+        />
+      ) : (
+        <div className="grid gap-2">
+          {shown.some((item) => item.brokenRules.length) ? (
+            <Alert role="status" variant="warning">
+              <AppIcon icon={appIcons.status.warning} />
+              <AlertTitle>
+                Faded Pokémon break this Play&apos;s rules
+              </AlertTitle>
+              <AlertDescription>You can still add them.</AlertDescription>
+            </Alert>
+          ) : null}
+          {query.trim() ? null : (
+            <>
+              <p className="text-ink-3 text-13 flex flex-wrap items-center gap-2 font-extrabold">
+                Around the first routes
+                {/* TODO(v3-data): route and encounter locations, to suggest the Pokémon found on the first routes. */}
+                <PendingData variant="inline" label="Not in Voydex yet" />
+              </p>
+              <p className="text-ink-3 text-13 font-extrabold">
+                The whole {pokedexName}
+              </p>
+            </>
+          )}
+          <ul className="grid grid-cols-3 gap-2.5 sm:grid-cols-4">
+            {shown.map(({ brokenRules, choice }) => (
+              <ChoiceButton
+                key={`${choice.speciesId}-${choice.formId}`}
+                brokenRules={brokenRules}
+                choice={choice}
+                onPick={onPick}
+              />
+            ))}
+          </ul>
+          {results.length > shownCount ? (
+            <LoadMoreTrigger
+              label="Show more Pokémon"
+              onLoadMore={onShowMore}
             />
-          ))}
-        </ul>
-        {results.length > shownCount ? (
-          <LoadMoreTrigger label="Show more Pokémon" onLoadMore={onShowMore} />
-        ) : null}
-      </div>
-    )}
-  </div>
-);
+          ) : null}
+        </div>
+      )}
+    </div>
+  );
+};

@@ -48,6 +48,11 @@ type PokemonStickerProps = {
   /* A small slot number in the top-left corner. */
   slotLabel?: string;
   /*
+   * An amber warning mark in the top-right corner, such as a Play's rule it
+   * breaks; the words are read, not seen. The shiny mark steps left of it.
+   */
+  warning?: string;
+  /*
    * A line under the name, such as how many Plays it is in. Leave it out for
    * no line; `null` keeps the line empty so a grid's names line up.
    */
@@ -123,6 +128,7 @@ export const PokemonSticker = ({
   subtitle,
   types,
   variant = "default",
+  warning,
 }: PokemonStickerProps) => {
   const variantClassName = variantClassNames[variant];
   const primaryType = types.find((type) => isPokemonTypeSlug(type.slug));
@@ -150,7 +156,10 @@ export const PokemonSticker = ({
           <AppIcon
             icon={appIcons.product.shiny}
             size="md"
-            className="type-ink absolute top-2.5 right-2.5"
+            className={cn(
+              "type-ink absolute top-2.5",
+              warning ? "right-10" : "right-2.5",
+            )}
           />
           <span className="sr-only">Shiny</span>
         </>
@@ -201,6 +210,13 @@ export const PokemonSticker = ({
           />
         ) : null}
       </span>
+      {/* Last, so its words follow the name; it sits in the corner. */}
+      {warning ? (
+        <span className="bg-warn-soft text-warn-ink absolute top-2 right-2 grid size-7 place-items-center rounded-full shadow-[0_2px_5px_-2px_rgb(var(--shade)/0.35)]">
+          <AppIcon icon={appIcons.status.warning} size="sm" />
+          <span className="sr-only">, {warning}</span>
+        </span>
+      ) : null}
     </>
   );
 

@@ -9,6 +9,9 @@ import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
+import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+
+import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
 import {
   TeamMemberProfile,
@@ -22,6 +25,8 @@ type TeamMemberDetailSheetProps = {
   onOpenChange: (open: boolean) => void;
   open: boolean;
   versionGroupSlug: string | null;
+  /* What the Play's rules say about it. */
+  warnings: (RuleWarning & { key: string })[];
 };
 
 /*
@@ -35,6 +40,7 @@ export const TeamMemberDetailSheet = ({
   onOpenChange,
   open,
   versionGroupSlug,
+  warnings,
 }: TeamMemberDetailSheetProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const name = member ? getPlayTeamMemberName(member) : "Team member";
@@ -59,6 +65,13 @@ export const TeamMemberDetailSheet = ({
           actionsBesideClose
           mechanics={mechanics}
           member={member}
+          notice={
+            <RuleWarningsNote
+              title="Breaks this Play's rules"
+              warnings={warnings}
+              className="mb-4"
+            />
+          }
           title={
             <SheetTitle
               ref={titleRef}
