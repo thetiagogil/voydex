@@ -5,7 +5,6 @@ import { cn } from "@/shared/utils/cn";
 
 export type CornerBubbleCorner =
   | "bottom"
-  | "inside-right"
   | "inside-top-left"
   | "inside-top-right"
   | "top-left"
@@ -47,12 +46,10 @@ const getCornerClassName = (
 
   /*
    * Inside a card, clear of its edge so a list that clips never cuts it.
-   * `inside-right` is on the slot number's right edge, for a mark that sits
-   * lower (the shiny mark by the art): the caller sets `top-*`.
+   * Marks that share a corner stack with `flex-col` (the shiny mark under
+   * the slot number).
    */
   switch (corner) {
-    case "inside-right":
-      return inset.right;
     case "inside-top-left":
       return `${inset.top} ${inset.left}`;
     case "inside-top-right":

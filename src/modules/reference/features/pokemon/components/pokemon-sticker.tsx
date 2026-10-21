@@ -87,8 +87,6 @@ const variantClassNames: Record<
     height: string;
     marks: string;
     name: string;
-    /* How far down the shiny mark sits: level with the art's lower right. */
-    shinyTop: string;
     sticker: string;
     typeSize: "md" | "sm";
   }
@@ -99,7 +97,6 @@ const variantClassNames: Record<
     height: "min-h-48.5",
     marks: "mt-1.5 gap-1",
     name: "text-16 mt-0.5",
-    shinyTop: "top-19",
     sticker: "pb-3.5",
     typeSize: "sm",
   },
@@ -110,7 +107,6 @@ const variantClassNames: Record<
     height: "min-h-33",
     marks: "mt-1 gap-1",
     name: "text-16 mt-0.5",
-    shinyTop: "top-11.5",
     sticker: "pb-3",
     typeSize: "sm",
   },
@@ -120,7 +116,6 @@ const variantClassNames: Record<
     height: "min-h-53",
     marks: "mt-2 gap-1.5",
     name: "mt-2 text-17",
-    shinyTop: "top-25 sm:top-31",
     sticker: "pb-4",
     typeSize: "md",
   },
@@ -230,26 +225,21 @@ export const PokemonSticker = ({
       </span>
       {/*
         The corner marks, last so their words follow the name: a warning
-        top-left, the slot top-right, the shiny mark on the same right edge
-        by the art's lower corner.
+        top-left, the slot top-right with the shiny mark right below it.
       */}
       {warning ? (
         <CornerBubble border="sticker" corner="inside-top-left">
           <WarningMark label={warning} />
         </CornerBubble>
       ) : null}
-      {slot ? (
-        <CornerBubble border="sticker" corner="inside-top-right">
-          <SlotMark>{slot}</SlotMark>
-        </CornerBubble>
-      ) : null}
-      {shiny ? (
+      {slot || shiny ? (
         <CornerBubble
           border="sticker"
-          corner="inside-right"
-          className={variantClassName.shinyTop}
+          corner="inside-top-right"
+          className="flex-col gap-2"
         >
-          <ShinyMark />
+          {slot ? <SlotMark>{slot}</SlotMark> : null}
+          {shiny ? <ShinyMark /> : null}
         </CornerBubble>
       ) : null}
     </>
