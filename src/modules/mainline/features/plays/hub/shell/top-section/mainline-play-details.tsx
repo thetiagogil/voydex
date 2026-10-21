@@ -34,7 +34,7 @@ type PlayDetailRow = {
 
 /*
  * Rules and tags as small chips, so a long list wraps instead of piling up.
- * A chip with more to say (Level caps' cap) ends with an "i" tip.
+ * A chip with more to say (Level caps' cap) ends with an info icon and its tip.
  */
 const PlayDetailChips = ({
   items,
@@ -60,7 +60,7 @@ const PlayDetailChips = ({
             <ExplanatoryTip
               content={item.tip}
               triggerLabel={`About ${item.name}`}
-              triggerVariant="chip"
+              triggerVariant="icon"
             />
           ) : null}
         </Badge>
