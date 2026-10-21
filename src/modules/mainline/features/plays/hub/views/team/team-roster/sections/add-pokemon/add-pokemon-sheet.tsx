@@ -56,7 +56,11 @@ const toChoiceRuleCheck = (
 ): RuleCheckPokemon => ({
   formId: choice.formId,
   isShiny: null,
-  level: level !== null && Number.isFinite(level) ? level : null,
+  /* Only a level the save would take: a whole number from 1 to 100. */
+  level:
+    level !== null && Number.isInteger(level) && level >= 1 && level <= 100
+      ? level
+      : null,
   name: choice.speciesName,
   nickname,
   speciesId: choice.speciesId,

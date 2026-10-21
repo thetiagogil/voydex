@@ -199,7 +199,7 @@ test.describe("Rule warnings", () => {
     await page.getByRole("button", { name: "Play details" }).click();
     await expect(
       page.getByText(
-        "Lv. 14, the strongest Pokémon of Gym Leader Brock, your next battle.",
+        "Lv. 14, the highest level on Gym Leader Brock's team, the next leader you face.",
       ),
     ).toBeVisible();
     await page.keyboard.press("Escape");

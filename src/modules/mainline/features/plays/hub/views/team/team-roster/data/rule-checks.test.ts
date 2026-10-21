@@ -374,7 +374,7 @@ describe("Level caps", () => {
     expect(
       describeLevelCap({ battle: misty, level: 21, status: "capped" }),
     ).toBe(
-      "Lv. 21, the strongest Pokémon of Gym Leader Misty, your next battle.",
+      "Lv. 21, the highest level on Gym Leader Misty's team, the next leader you face.",
     );
     expect(describeLevelCap({ battle: misty, status: "no-team" })).toBe(
       "No cap for now: Voydex doesn't have Gym Leader Misty's team yet, so levels aren't checked.",

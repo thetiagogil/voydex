@@ -254,7 +254,7 @@ export const readMainlinePlayStoryMatchupRows = async (
 /* Level caps' cap now, from the Play's progress through Story. */
 export const readMainlinePlayLevelCap = async (
   supabase: ServerSupabaseClient,
-  play: Pick<MainlinePlaySummary, "game_id" | "generation_id"> & {
+  play: Pick<MainlinePlaySummary, "game_id"> & {
     play_id: string;
   },
 ) =>
@@ -263,7 +263,8 @@ export const readMainlinePlayLevelCap = async (
     rows: await readMainlinePlayStoryMatchupRows(
       supabase,
       play.play_id,
-      play.generation_id,
+      /* No generation: the cap needs levels only, not the Pokémon's types. */
+      null,
       { teamsThen: false },
     ),
   });

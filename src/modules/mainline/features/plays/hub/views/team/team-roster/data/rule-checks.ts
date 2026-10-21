@@ -190,7 +190,7 @@ const formatCapBattle = (battle: MainlinePlayCapBattle) =>
 export const describeLevelCap = (cap: MainlinePlayLevelCap) => {
   switch (cap.status) {
     case "capped":
-      return `Lv. ${cap.level}, the strongest Pokémon of ${formatCapBattle(cap.battle)}, your next battle.`;
+      return `Lv. ${cap.level}, the highest level on ${formatCapBattle(cap.battle)}'s team, the next leader you face.`;
     case "no-team":
       return `No cap for now: Voydex doesn't have ${formatCapBattle(cap.battle)}'s team yet, so levels aren't checked.`;
     case "no-battle":

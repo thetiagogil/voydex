@@ -602,6 +602,32 @@ describe("buildStoryLevelCap", () => {
     });
   });
 
+  it("reads the Play's own game's team where the versions' teams differ", () => {
+    expect(
+      buildStoryLevelCap({
+        playGameId: 2,
+        rows: {
+          chosenChoiceKeys: new Set(),
+          opponentGameIdById: new Map(),
+          orderedMilestones: [
+            milestone(1, [
+              { id: 1, name: "Drayden", role: "gym-leader", typeId: 5 },
+            ]),
+          ],
+          partyRows: [
+            { ...partyRow(1, 1, 1, 43), gameId: 1 },
+            { ...partyRow(1, 1, 1, 48), gameId: 2 },
+          ],
+          snapshotsByMilestoneId: new Map(),
+        },
+      }),
+    ).toEqual({
+      battle: { kind: "Gym Leader", name: "Drayden" },
+      level: 48,
+      status: "capped",
+    });
+  });
+
   it("has no cap after the Champion", () => {
     expect(build([1, 2, 4, 5, 6])).toEqual({ status: "no-battle" });
   });
