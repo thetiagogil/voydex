@@ -5,6 +5,24 @@ import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Library", () => {
+  test("its tabs switch without a console error", async ({ page }) => {
+    const errors: string[] = [];
+
+    page.on("console", (message) => {
+      if (message.type() === "error") errors.push(message.text());
+    });
+    await page.goto("/mainline/library", { waitUntil: "networkidle" });
+    const tabs = page.getByRole("navigation", { name: "Library sections" });
+
+    for (const name of ["Presets", "Tags", "Rules"]) {
+      await tabs.getByRole("link", { name: new RegExp(`^${name}`) }).click();
+      await expect(
+        tabs.getByRole("link", { name: new RegExp(`^${name}`) }),
+      ).toHaveAttribute("aria-current", "page");
+    }
+    expect(errors).toEqual([]);
+  });
+
   test("a tag made on a Play is renamed and deleted from the Library", async ({
     page,
   }) => {

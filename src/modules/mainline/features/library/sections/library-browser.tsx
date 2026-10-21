@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
+import { appRoutes } from "@/config/routes";
 import {
   countActiveLibraryFilters,
   defaultLibraryFilters,
@@ -35,24 +36,23 @@ import {
 import { PageBand } from "@/shared/components/page-band";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { SearchControl } from "@/shared/components/search-control";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 
 /*
  * The Library's band (its head, the tabs and, folded under the head's
- * search button, the bar) and the open tab's list: on Rules, the presets
- * then the rules. Rules search by name or
- * kind, narrow by kind and sort by name or use; tags search and sort.
+ * search button, the bar) and the open tab's list. Rules search by name or
+ * kind, narrow by kind and sort by name or use; presets search; tags search
+ * and sort.
  */
 export const LibraryBrowser = ({
   data,
   head,
   tab,
-  tabs,
 }: {
   data: LibraryPageData;
   head: ReactNode;
   tab: LibraryTab;
-  tabs: ReactNode;
 }) => {
   const [filters, setFilters] = useState<LibraryFilters>(defaultLibraryFilters);
   const fold = useFold({ defaultOpen: false });
@@ -101,7 +101,37 @@ export const LibraryBrowser = ({
         >
           {head}
         </FoldHead>
-        {tabs}
+        {/*
+         * Built here, not handed in by the page: a server-made element loose
+         * among the band's children can reach React unchecked and warn about
+         * a missing key.
+         */}
+        <SegmentedControl
+          ariaLabel="Library sections"
+          className="mt-5"
+          selectedTone="strong"
+          value={tab}
+          options={[
+            {
+              count: data.rules.length,
+              href: appRoutes.mainlineLibraryTab("rules"),
+              label: "Rules",
+              value: "rules",
+            },
+            {
+              count: data.presets.length,
+              href: appRoutes.mainlineLibraryTab("presets"),
+              label: "Presets",
+              value: "presets",
+            },
+            {
+              count: data.tags.length,
+              href: appRoutes.mainlineLibraryTab("tags"),
+              label: "Tags",
+              value: "tags",
+            },
+          ]}
+        />
         <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel={`Filter your ${noun}`}

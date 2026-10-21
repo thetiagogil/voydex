@@ -1,4 +1,3 @@
-import { appRoutes } from "@/config/routes";
 import { LibraryNewPresetButton } from "@/modules/mainline/features/library/components/library-new-preset-button";
 import { LibraryNewButton } from "@/modules/mainline/features/library/components/library-new-button";
 import { LibraryBrowser } from "@/modules/mainline/features/library/sections/library-browser";
@@ -7,7 +6,6 @@ import type {
   LibraryTab,
 } from "@/modules/mainline/features/library/types";
 import { PageHeader } from "@/shared/components/page-header";
-import { SegmentedControl } from "@/shared/components/segmented-control";
 
 /*
  * Library: the challenge rules, presets and tags you keep for every Play,
@@ -40,34 +38,6 @@ export const MainlineLibraryPage = ({
               <LibraryNewButton noun="tag" />
             )
           }
-        />
-      }
-      tabs={
-        <SegmentedControl
-          ariaLabel="Library sections"
-          className="mt-5"
-          selectedTone="strong"
-          value={tab}
-          options={[
-            {
-              count: data.rules.length,
-              href: appRoutes.mainlineLibraryTab("rules"),
-              label: "Rules",
-              value: "rules",
-            },
-            {
-              count: data.presets.length,
-              href: appRoutes.mainlineLibraryTab("presets"),
-              label: "Presets",
-              value: "presets",
-            },
-            {
-              count: data.tags.length,
-              href: appRoutes.mainlineLibraryTab("tags"),
-              label: "Tags",
-              value: "tags",
-            },
-          ]}
         />
       }
     />
