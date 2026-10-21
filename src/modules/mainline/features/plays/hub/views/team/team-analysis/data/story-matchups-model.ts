@@ -260,7 +260,8 @@ const resolveParty = (
   chosenChoiceKeys: ReadonlySet<string>,
 ): StoryMatchupParty | null => {
   const pokemon: StoryOpponentPokemon[] = [];
-  const assumedLabels: string[] = [];
+  const assumedChoices: string[] = [];
+  const assumedOutcomes: string[] = [];
 
   for (const opponentId of opponentIds) {
     const parties = [...(partiesByOpponentId.get(opponentId)?.values() ?? [])];
@@ -276,18 +277,22 @@ const resolveParty = (
     }
 
     if (!chosen && party.label) {
-      assumedLabels.push(party.label);
+      (party.choiceKey ? assumedChoices : assumedOutcomes).push(party.label);
     }
 
     pokemon.push(...party.pokemon);
   }
 
-  return {
-    note: assumedLabels.length
-      ? `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${assumedLabels.join(" and ")}.`
+  const notes = [
+    assumedChoices.length
+      ? `Their team depends on a choice this Play hasn't recorded, so this reads the one for ${assumedChoices.join(" and ")}.`
       : null,
-    pokemon,
-  };
+    assumedOutcomes.length
+      ? `Their team depends on something Voydex doesn't record, so this reads one way it can go: ${assumedOutcomes.join(" and ")}.`
+      : null,
+  ].filter((note) => note !== null);
+
+  return { note: notes.length ? notes.join(" ") : null, pokemon };
 };
 
 /*

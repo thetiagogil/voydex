@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (9);
+    plan (10);
 SET LOCAL ROLE anon;
 SELECT
     throws_ok ($$
@@ -41,6 +41,19 @@ SELECT
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (opponent_id, version_group_id, variant_slug, variant_label, slot, species_id, form_id, level)
             VALUES (1001, 2, 'pgtap', 'pgTAP', 3, 74, 7400, 12) $$, '23503', NULL, 'a team row stays in its opponent''s version group');
+-- Every League battle Story matchups reads has its opponent's team.
+SELECT
+    is_empty ($$
+        SELECT
+            id FROM tracking.mainline_opponents
+            WHERE
+                opponent_role IN ('gym-leader', 'kahuna', 'elite-four', 'champion')
+                AND NOT EXISTS (
+                    SELECT
+                        1
+                    FROM tracking.mainline_opponent_team_members
+                    WHERE
+                        mainline_opponent_team_members.opponent_id = mainline_opponents.id) $$, 'every Gym Leader, Kahuna, Elite Four member and Champion has a team');
 SELECT
     *
 FROM

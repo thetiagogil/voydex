@@ -234,3 +234,66 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     expect(lance?.members[0]).toMatchObject({ bestHit: null, role: null });
   });
 });
+
+describe("buildStoryMatchupsModel with game and outcome teams", () => {
+  const row = (
+    overrides: Partial<StoryOpponentPartyRow>,
+  ): StoryOpponentPartyRow => ({
+    choiceKey: null,
+    formSlug: "sandslash",
+    gameId: null,
+    level: 61,
+    name: "Sandslash",
+    opponentId: 1,
+    primaryTypeId: 13,
+    secondaryTypeId: null,
+    slot: 1,
+    variantKey: null,
+    variantLabel: null,
+    ...overrides,
+  });
+  const build = (partyRows: StoryOpponentPartyRow[]) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(1, [{ id: 1, name: "Blue", role: "champion", typeId: 13 }]),
+      ],
+      partyRows,
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters[0]?.battles[0];
+
+  it("reads the Play's own game's team", () => {
+    const blue = build([
+      row({ gameId: 2, name: "Arbok" }),
+      row({ gameId: 1, name: "Sandslash" }),
+    ]);
+
+    expect(blue?.party).toEqual(expect.objectContaining({ note: null }));
+    expect(blue?.party?.pokemon.map((pokemon) => pokemon.name)).toEqual([
+      "Sandslash",
+    ]);
+  });
+
+  it("says which outcome it reads when the team depends on one Voydex doesn't record", () => {
+    const blue = build([
+      row({
+        variantKey: "rival-jolteon",
+        variantLabel: "Rival's Eevee evolved into Jolteon",
+      }),
+      row({
+        name: "Ninetales",
+        variantKey: "rival-flareon",
+        variantLabel: "Rival's Eevee evolved into Flareon",
+      }),
+    ]);
+
+    expect(blue?.party?.note).toBe(
+      "Their team depends on something Voydex doesn't record, so this reads one way it can go: Rival's Eevee evolved into Jolteon.",
+    );
+  });
+});
