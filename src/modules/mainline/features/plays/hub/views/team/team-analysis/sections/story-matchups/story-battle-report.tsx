@@ -16,6 +16,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
+import { StatTile } from "@/shared/components/stat-tile";
 import {
   Alert,
   AlertDescription,
@@ -60,6 +61,7 @@ const BestHit = ({ hit }: { hit: StoryBestHit }) => (
     title={`${hit.moveName}, ${formatMultiplier(hit.multiplier)} on ${hit.target.name}`}
   >
     <PokemonAvatar
+      decorative
       name={hit.target.name}
       className="size-10 shrink-0"
       imageUrl={hit.target.imageUrl}
@@ -343,22 +345,16 @@ export const StoryBattleReport = ({
                 >
                   {getLevelsSentence(reading.levels)}
                 </MatchupStateLabel>
-                <dl className="grid grid-cols-2 gap-2.5">
-                  <div className="bg-surface-2 rounded-md px-4 py-3">
-                    <dt className="text-ink-3 text-13 font-bold">Your team</dt>
-                    <dd className="font-display text-20 font-semibold tabular-nums">
-                      {formatLevelRange(reading.levels.team)}
-                    </dd>
-                  </div>
-                  <div className="bg-surface-2 rounded-md px-4 py-3">
-                    <dt className="text-ink-3 text-13 font-bold">
-                      {battle.opponents.length === 1 ? battle.name : "Them"}
-                    </dt>
-                    <dd className="font-display text-20 font-semibold tabular-nums">
-                      {formatLevelRange(reading.levels.their)}
-                    </dd>
-                  </div>
-                </dl>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <StatTile
+                    label="Your team"
+                    value={formatLevelRange(reading.levels.team)}
+                  />
+                  <StatTile
+                    label={battle.opponents.length === 1 ? battle.name : "Them"}
+                    value={formatLevelRange(reading.levels.their)}
+                  />
+                </div>
               </>
             ) : party ? (
               <p className="text-ink-2 text-14 font-semibold">

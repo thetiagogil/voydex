@@ -120,6 +120,9 @@ const StoryBattleRow = ({
               dot={false}
             >
               <AppIcon icon={matchupStates[battle.reading.state].icon} />
+              {battle.state === "next" ? (
+                <span className="sr-only">Next, </span>
+              ) : null}
               {matchupStates[battle.reading.state].label}
             </StatusBadge>
           ) : battle.state === "next" ? (

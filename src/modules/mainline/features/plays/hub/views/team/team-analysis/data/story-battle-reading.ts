@@ -231,13 +231,17 @@ export const readStoryBattle = ({
   const exposedCount = memberReadings.filter(
     (reading) => reading.weakTo.length,
   ).length;
-  const gap = levels?.gap ?? 0;
+  /* Strong needs the levels to hold; without your levels it can't say so. */
+  const gap = levels?.gap ?? null;
   const state: MatchupState =
-    answeredCount / their.length < 0.6 || atRiskCount >= 3 || gap <= -8
+    answeredCount / their.length < 0.6 ||
+    atRiskCount >= 3 ||
+    (gap !== null && gap <= -8)
       ? "challenging"
       : answeredCount === their.length &&
           atRiskCount <= 1 &&
           clearCount >= 1 &&
+          gap !== null &&
           gap >= -3
         ? "strong"
         : "balanced";

@@ -41,7 +41,7 @@ CREATE INDEX mainline_opponent_team_members_form_idx ON tracking.mainline_oppone
 
 COMMENT ON TABLE tracking.mainline_opponent_team_members IS 'Curated first-battle teams of mainline_opponents: one row per Pokémon, in slot order.';
 
-COMMENT ON COLUMN tracking.mainline_opponent_team_members.game_id IS 'Set when a version-group-wide opponent uses a different team in one game of the version group.';
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.game_id IS 'Set when a version-group-wide opponent uses a different team in each game of the version group; then every team of that opponent names its game.';
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.decision_milestone_id IS 'With decision_option_slug: the Play choice (usually the starter) this team follows. A Play reads the team for the option it recorded.';
 

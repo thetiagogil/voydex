@@ -210,8 +210,8 @@ describe("readStoryBattle", () => {
         opponentName: null,
         their: brock,
         types,
-      }).levels,
-    ).toBeNull();
+      }),
+    ).toMatchObject({ levels: null, state: "balanced" });
   });
 
   it("follows the generation's type chart", () => {

@@ -296,12 +296,14 @@ const resolveParty = (
 };
 
 /*
- * Story matchups (v3 `matchups`): every Gym Leader, Kahuna, Elite Four
- * member and Champion the Story names, by chapter in Story's order. A battle
- * won keeps its date and the team saved with it; a battle ahead is read
- * against the active team by the opponent's specialty type, the only part of
- * their team Voydex knows. Opponents for the Play's other version are left
- * out.
+ * Story matchups (v3 `matchups`): every battle the Story names (Gym
+ * Leaders, Kahunas, the Elite Four, Champions, rivals and bosses), by
+ * chapter in Story's order. A battle won keeps its date, their team and the
+ * team saved with it; a battle ahead is read against the active team and
+ * their first-battle team, or, where Voydex doesn't have it, the opponent's
+ * specialty type only. A team belongs to the first battle that names its
+ * opponent: a rematch keeps the specialty reading. Opponents for the Play's
+ * other version are left out.
  */
 export const buildStoryMatchupsModel = ({
   chosenChoiceKeys,
@@ -329,6 +331,7 @@ export const buildStoryMatchupsModel = ({
   const typeOf = (id: number | null) =>
     id === null ? null : (typeById.get(id) ?? null);
   const battles: StoryMatchupBattle[] = [];
+  const teamedOpponentIds = new Set<number>();
   /* A team for the Play's other version is left out, as its leaders are. */
   const partiesByOpponentId = groupParties(
     partyRows.filter((row) => row.gameId === null || row.gameId === playGameId),
@@ -372,11 +375,21 @@ export const buildStoryMatchupsModel = ({
     )?.slug;
 
     const isWon = Boolean(milestone.is_completed);
-    const party = resolveParty(
-      opponents.map((ref) => ref.opponent_id),
-      partiesByOpponentId,
-      chosenChoiceKeys,
+    /* Their first-battle team, so a later battle with them (a rematch) has none. */
+    const isRematch = opponents.some((ref) =>
+      teamedOpponentIds.has(ref.opponent_id),
     );
+    const party = isRematch
+      ? null
+      : resolveParty(
+          opponents.map((ref) => ref.opponent_id),
+          partiesByOpponentId,
+          chosenChoiceKeys,
+        );
+
+    for (const ref of opponents) {
+      teamedOpponentIds.add(ref.opponent_id);
+    }
     const reading =
       party && !isWon
         ? readStoryBattle({

@@ -816,6 +816,23 @@ export function assertOpponentTeamRows(context, tableRows) {
     teamsByOpponentGame.get(opponentGameKey).teams.set(key, row);
   }
 
+  const gameKindsByOpponent = new Map();
+  for (const { row, filePath } of rows) {
+    if (!gameKindsByOpponent.has(row.opponent_id)) {
+      gameKindsByOpponent.set(row.opponent_id, { filePath, kinds: new Set() });
+    }
+    gameKindsByOpponent
+      .get(row.opponent_id)
+      .kinds.add(row.game_id === null ? "version-group" : "game");
+  }
+  for (const [opponentId, { filePath, kinds }] of gameKindsByOpponent) {
+    if (kinds.size > 1) {
+      context.errors.push(
+        `${relative(filePath)}: ${table} opponent ${opponentId} mixes a version-group team with game teams; give every team its game.`,
+      );
+    }
+  }
+
   for (const [key, { filePath, slots }] of slotsByTeam) {
     const sorted = [...slots].sort((left, right) => left - right);
     if (sorted.some((slot, index) => slot !== index + 1)) {

@@ -52,7 +52,8 @@ const readOpponentTeams = async (
       .select(
         "opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level",
       )
-      .in("opponent_id", opponentIds),
+      .in("opponent_id", opponentIds)
+      .order("id", { ascending: true }),
     supabase
       .schema("gameplay")
       .from("mainline_play_milestone_decisions")
@@ -131,7 +132,7 @@ const readOpponentTeams = async (
       const form = formById.get(member.form_id);
 
       if (!form) {
-        return [];
+        throw new Error("Unable to load a Story opponent's Pokémon.");
       }
 
       const attributes = attributesByForm.get(member.form_id);

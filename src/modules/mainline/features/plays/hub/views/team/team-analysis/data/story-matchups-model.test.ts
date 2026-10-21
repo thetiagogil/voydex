@@ -297,3 +297,42 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
     );
   });
 });
+
+describe("buildStoryMatchupsModel with a rematch", () => {
+  it("gives the team to the first battle only, so a rematch keeps the specialty reading", () => {
+    const battles = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 9,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(1, [{ id: 7, name: "Kieran", role: "rival", typeId: 5 }]),
+        milestone(2, [{ id: 7, name: "Kieran", role: "rival", typeId: 5 }]),
+      ],
+      partyRows: [
+        {
+          choiceKey: null,
+          formSlug: "sentret",
+          gameId: null,
+          level: 12,
+          name: "Sentret",
+          opponentId: 7,
+          primaryTypeId: 5,
+          secondaryTypeId: null,
+          slot: 1,
+          variantKey: null,
+          variantLabel: null,
+        },
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+
+    expect(battles.map((battle) => battle.partyLevels)).toEqual([
+      "Lv. 12",
+      null,
+    ]);
+    expect(battles[1]).toMatchObject({ party: null, reading: null });
+  });
+});

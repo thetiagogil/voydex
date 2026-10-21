@@ -156,7 +156,9 @@ any of them. The battle reads **Challenging** when fewer than 60% of their
 Pokémon have an answer, three or more of yours are at risk, or their ace is 8
 or more levels above your best; **Strong** when every one of theirs has an
 answer, at most one of yours is at risk, one answers without a 2× weakness,
-and their ace is at most 3 levels above; **Balanced** otherwise. One sentence
+and your levels are recorded with their ace at most 3 levels above;
+**Balanced** otherwise. A team belongs to the first battle that names its
+opponent; a rematch keeps the specialty reading. One sentence
 names your answers and the thing that matters most against you. A team that
 depends on a recorded choice (usually the starter) follows the Play's
 choice; while it isn't recorded the report reads the first and says so.
