@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Ruby / Sapphire Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Ruby / Sapphire Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
+-- Rival, Wally, Maxie and Archie battles: the pret pokeruby disassembly's trainer parties, cross-checked with Bulbapedia and Serebii.
 -- Scope: Pokémon Ruby / Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -124,4 +125,134 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Steven 5: Armaldo Lv. 56
   (50016, 5013, 5, NULL, NULL, NULL, NULL, NULL, 5, 348, 34800, 56),
   -- Steven 6: Metagross Lv. 58
-  (50016, 5013, 5, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 58);
+  (50016, 5013, 5, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 58),
+  -- May / Brendan (chose Treecko), Receive Pokedex 1: Torchic Lv. 5
+  (50002, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 1, 255, 25500, 5),
+  -- May / Brendan (chose Torchic), Receive Pokedex 1: Mudkip Lv. 5
+  (50002, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 1, 258, 25800, 5),
+  -- May / Brendan (chose Mudkip), Receive Pokedex 1: Treecko Lv. 5
+  (50002, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 1, 252, 25200, 5),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 1: Wailmer Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 1, 320, 32000, 18),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 2: Shroomish Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 2, 285, 28500, 18),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Treecko), Dynamo Badge 3: Combusken Lv. 20
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-treecko', 'Rival is May (you play as Brendan), you chose Treecko', 3, 256, 25600, 20),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 1: Shroomish Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 1, 285, 28500, 18),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 2: Numel Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 2, 322, 32200, 18),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-torchic', 'Rival is May (you play as Brendan), you chose Torchic', 3, 259, 25900, 20),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 1: Wailmer Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 1, 320, 32000, 18),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 2: Numel Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 2, 322, 32200, 18),
+  -- May / Brendan (Rival is May (you play as Brendan), you chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
+  (50005, 5014, 5, NULL, NULL, NULL, 'may-mudkip', 'Rival is May (you play as Brendan), you chose Mudkip', 3, 253, 25300, 20),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 1: Wailmer Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 1, 320, 32000, 18),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 2: Shroomish Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 2, 285, 28500, 18),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Treecko), Dynamo Badge 3: Combusken Lv. 20
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-treecko', 'Rival is Brendan (you play as May), you chose Treecko', 3, 256, 25600, 20),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 1: Shroomish Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 1, 285, 28500, 18),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 2: Numel Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 2, 322, 32200, 18),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-torchic', 'Rival is Brendan (you play as May), you chose Torchic', 3, 259, 25900, 20),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 1: Numel Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 1, 322, 32200, 18),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 2: Wailmer Lv. 18
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 2, 320, 32000, 18),
+  -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
+  (50005, 5014, 5, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 3, 253, 25300, 20),
+  -- Wally, Dynamo Badge 1: Ralts Lv. 16
+  (50005, 5015, 5, NULL, NULL, NULL, NULL, NULL, 1, 280, 28000, 16),
+  -- Maxie, Mt. Chimney 1: Mightyena Lv. 24
+  (50018, 5016, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 24),
+  -- Maxie, Mt. Chimney 2: Golbat Lv. 24
+  (50018, 5016, 5, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 24),
+  -- Maxie, Mt. Chimney 3: Camerupt Lv. 25
+  (50018, 5016, 5, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 25),
+  -- Archie, Mt. Chimney 1: Mightyena Lv. 24
+  (50018, 5017, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 24),
+  -- Archie, Mt. Chimney 2: Golbat Lv. 24
+  (50018, 5017, 5, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 24),
+  -- Archie, Mt. Chimney 3: Sharpedo Lv. 25
+  (50018, 5017, 5, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 25),
+  -- May / Brendan (chose Treecko), Feather Badge 1: Wailmer Lv. 29
+  (50009, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 1, 320, 32000, 29),
+  -- May / Brendan (chose Treecko), Feather Badge 2: Shroomish Lv. 29
+  (50009, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 2, 285, 28500, 29),
+  -- May / Brendan (chose Treecko), Feather Badge 3: Combusken Lv. 31
+  (50009, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 3, 256, 25600, 31),
+  -- May / Brendan (chose Torchic), Feather Badge 1: Shroomish Lv. 29
+  (50009, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 1, 285, 28500, 29),
+  -- May / Brendan (chose Torchic), Feather Badge 2: Numel Lv. 29
+  (50009, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 2, 322, 32200, 29),
+  -- May / Brendan (chose Torchic), Feather Badge 3: Marshtomp Lv. 31
+  (50009, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 3, 259, 25900, 31),
+  -- May / Brendan (chose Mudkip), Feather Badge 1: Numel Lv. 29
+  (50009, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 1, 322, 32200, 29),
+  -- May / Brendan (chose Mudkip), Feather Badge 2: Wailmer Lv. 29
+  (50009, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 2, 320, 32000, 29),
+  -- May / Brendan (chose Mudkip), Feather Badge 3: Grovyle Lv. 31
+  (50009, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 3, 253, 25300, 31),
+  -- May / Brendan (chose Treecko), Mind Badge 1: Swellow Lv. 31
+  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 1, 277, 27700, 31),
+  -- May / Brendan (chose Treecko), Mind Badge 2: Wailmer Lv. 32
+  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 2, 320, 32000, 32),
+  -- May / Brendan (chose Treecko), Mind Badge 3: Shroomish Lv. 32
+  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 3, 285, 28500, 32),
+  -- May / Brendan (chose Treecko), Mind Badge 4: Combusken Lv. 34
+  (50010, 5014, 5, NULL, 50001, 'treecko', NULL, NULL, 4, 256, 25600, 34),
+  -- May / Brendan (chose Torchic), Mind Badge 1: Swellow Lv. 31
+  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 1, 277, 27700, 31),
+  -- May / Brendan (chose Torchic), Mind Badge 2: Shroomish Lv. 32
+  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 2, 285, 28500, 32),
+  -- May / Brendan (chose Torchic), Mind Badge 3: Numel Lv. 32
+  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 3, 322, 32200, 32),
+  -- May / Brendan (chose Torchic), Mind Badge 4: Marshtomp Lv. 34
+  (50010, 5014, 5, NULL, 50001, 'torchic', NULL, NULL, 4, 259, 25900, 34),
+  -- May / Brendan (chose Mudkip), Mind Badge 1: Swellow Lv. 31
+  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 1, 277, 27700, 31),
+  -- May / Brendan (chose Mudkip), Mind Badge 2: Numel Lv. 32
+  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 2, 322, 32200, 32),
+  -- May / Brendan (chose Mudkip), Mind Badge 3: Wailmer Lv. 32
+  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 3, 320, 32000, 32),
+  -- May / Brendan (chose Mudkip), Mind Badge 4: Grovyle Lv. 34
+  (50010, 5014, 5, NULL, 50001, 'mudkip', NULL, NULL, 4, 253, 25300, 34),
+  -- Maxie, Seafloor Cavern 1: Mightyena Lv. 41
+  (50019, 5016, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41),
+  -- Maxie, Seafloor Cavern 2: Crobat Lv. 41
+  (50019, 5016, 5, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 41),
+  -- Maxie, Seafloor Cavern 3: Camerupt Lv. 43
+  (50019, 5016, 5, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 43),
+  -- Archie, Seafloor Cavern 1: Mightyena Lv. 41
+  (50019, 5017, 5, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41),
+  -- Archie, Seafloor Cavern 2: Crobat Lv. 41
+  (50019, 5017, 5, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 41),
+  -- Archie, Seafloor Cavern 3: Sharpedo Lv. 43
+  (50019, 5017, 5, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 43),
+  -- Wally, Elite Four Sidney 1: Altaria Lv. 44
+  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 44),
+  -- Wally, Elite Four Sidney 2: Delcatty Lv. 43
+  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 43),
+  -- Wally, Elite Four Sidney 3: Roselia Lv. 44
+  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 44),
+  -- Wally, Elite Four Sidney 4: Magneton Lv. 41
+  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41),
+  -- Wally, Elite Four Sidney 5: Gardevoir Lv. 45
+  (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45),
+  -- Wally, Hall of Fame 1: Altaria Lv. 47
+  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 47),
+  -- Wally, Hall of Fame 2: Delcatty Lv. 46
+  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 46),
+  -- Wally, Hall of Fame 3: Roselia Lv. 47
+  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 47),
+  -- Wally, Hall of Fame 4: Magneton Lv. 44
+  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 44),
+  -- Wally, Hall of Fame 5: Gardevoir Lv. 48
+  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48);

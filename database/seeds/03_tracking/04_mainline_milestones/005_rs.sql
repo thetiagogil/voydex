@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: Pokémon Ruby / Sapphire source pages.
+-- Story points with rival and villain battles: Bulbapedia walkthrough pages and the pret pokeruby map scripts.
 -- Scope: Pokémon Ruby / Sapphire major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -36,18 +37,22 @@ INSERT INTO tracking.mainline_milestones (
   (50004, 5, NULL, 501, 2, 2, NULL, 'knuckle-badge', 'Knuckle Badge', 'Defeat Brawly at Dewford Gym and receive the Knuckle Badge.', 4, true),
   -- Dynamo Badge
   (50005, 5, NULL, 501, 2, 2, NULL, 'dynamo-badge', 'Dynamo Badge', 'Defeat Wattson at Mauville Gym and receive the Dynamo Badge.', 5, true),
+  -- Mt. Chimney
+  (50018, 5, NULL, 501, 1, 2, NULL, 'mt-chimney', 'Mt. Chimney', 'Ride the cable car up Mt. Chimney and stop Team Magma (Ruby) or Team Aqua (Sapphire) from using the Meteorite on the volcano.', 6, true),
   -- Fossil Choice
   (50006, 5, NULL, 504, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Root Fossil or Claw Fossil in the Route 111 desert.', 1, false),
   -- Heat Badge
-  (50007, 5, NULL, 501, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 6, true),
+  (50007, 5, NULL, 501, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 7, true),
   -- Balance Badge
-  (50008, 5, NULL, 501, 2, 2, NULL, 'balance-badge', 'Balance Badge', 'Defeat Norman at Petalburg Gym and receive the Balance Badge.', 7, true),
+  (50008, 5, NULL, 501, 2, 2, NULL, 'balance-badge', 'Balance Badge', 'Defeat Norman at Petalburg Gym and receive the Balance Badge.', 8, true),
   -- Feather Badge
-  (50009, 5, NULL, 501, 2, 2, NULL, 'feather-badge', 'Feather Badge', 'Defeat Winona at Fortree Gym and receive the Feather Badge.', 8, true),
+  (50009, 5, NULL, 501, 2, 2, NULL, 'feather-badge', 'Feather Badge', 'Defeat Winona at Fortree Gym and receive the Feather Badge.', 9, true),
   -- Mind Badge
-  (50010, 5, NULL, 501, 2, 2, NULL, 'mind-badge', 'Mind Badge', 'Defeat Tate & Liza at Mossdeep Gym and receive the Mind Badge.', 9, true),
+  (50010, 5, NULL, 501, 2, 2, NULL, 'mind-badge', 'Mind Badge', 'Defeat Tate & Liza at Mossdeep Gym and receive the Mind Badge.', 10, true),
+  -- Seafloor Cavern
+  (50019, 5, NULL, 501, 1, 2, NULL, 'seafloor-cavern', 'Seafloor Cavern', 'Dive down to the Seafloor Cavern and face Maxie (Ruby) or Archie (Sapphire), who then awakens Groudon or Kyogre.', 11, true),
   -- Rain Badge
-  (50011, 5, NULL, 501, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Wallace at Sootopolis Gym and receive the Rain Badge.', 10, true),
+  (50011, 5, NULL, 501, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Wallace at Sootopolis Gym and receive the Rain Badge.', 12, true),
   -- Elite Four Sidney
   (50012, 5, NULL, 502, 7, 2, NULL, 'elite-four-sidney', 'Elite Four Sidney', 'Defeat Sidney at Ever Grande City.', 1, true),
   -- Elite Four Phoebe

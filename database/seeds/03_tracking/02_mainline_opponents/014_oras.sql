@@ -48,4 +48,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Steven
   (14013, 14, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 13),
   -- Zinnia
-  (14014, 14, NULL, 'zinnia', 'Zinnia', 'boss', 15, NULL, 'zinnia', 14);
+  (14014, 14, NULL, 'zinnia', 'Zinnia', 'boss', 15, NULL, 'zinnia', 14),
+  -- May / Brendan (rival)
+  (14015, 14, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', 15),
+  -- Wally (rival)
+  (14016, 14, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', 16),
+  -- Maxie (boss, omega-ruby)
+  (14017, 14, 23, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', 1),
+  -- Archie (boss, alpha-sapphire)
+  (14018, 14, 24, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 1);

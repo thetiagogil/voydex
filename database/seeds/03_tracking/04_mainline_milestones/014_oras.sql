@@ -33,18 +33,22 @@ INSERT INTO tracking.mainline_milestones (
   (140004, 14, NULL, 1401, 2, 2, NULL, 'knuckle-badge', 'Knuckle Badge', 'Defeat Brawly at Dewford Gym and receive the Knuckle Badge.', 4, true),
   -- Dynamo Badge
   (140005, 14, NULL, 1401, 2, 2, NULL, 'dynamo-badge', 'Dynamo Badge', 'Defeat Wattson at Mauville Gym and receive the Dynamo Badge.', 5, true),
+  -- Mt. Chimney
+  (140019, 14, NULL, 1401, 1, 2, NULL, 'mt-chimney', 'Mt. Chimney', 'Ride the cable car up Mt. Chimney and stop Maxie (Omega Ruby) or Archie (Alpha Sapphire) from using the Meteorite on the volcano.', 6, true),
   -- Fossil Choice
   (140006, 14, NULL, 1404, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Root Fossil or Claw Fossil in the desert on Route 111.', 1, false),
   -- Heat Badge
-  (140007, 14, NULL, 1401, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 6, true),
+  (140007, 14, NULL, 1401, 2, 2, NULL, 'heat-badge', 'Heat Badge', 'Defeat Flannery at Lavaridge Gym and receive the Heat Badge.', 7, true),
   -- Balance Badge
-  (140008, 14, NULL, 1401, 2, 2, NULL, 'balance-badge', 'Balance Badge', 'Defeat Norman at Petalburg Gym and receive the Balance Badge.', 7, true),
+  (140008, 14, NULL, 1401, 2, 2, NULL, 'balance-badge', 'Balance Badge', 'Defeat Norman at Petalburg Gym and receive the Balance Badge.', 8, true),
   -- Feather Badge
-  (140009, 14, NULL, 1401, 2, 2, NULL, 'feather-badge', 'Feather Badge', 'Defeat Winona at Fortree Gym and receive the Feather Badge.', 8, true),
+  (140009, 14, NULL, 1401, 2, 2, NULL, 'feather-badge', 'Feather Badge', 'Defeat Winona at Fortree Gym and receive the Feather Badge.', 9, true),
   -- Mind Badge
-  (140010, 14, NULL, 1401, 2, 2, NULL, 'mind-badge', 'Mind Badge', 'Defeat Tate & Liza at Mossdeep Gym and receive the Mind Badge.', 9, true),
+  (140010, 14, NULL, 1401, 2, 2, NULL, 'mind-badge', 'Mind Badge', 'Defeat Tate & Liza at Mossdeep Gym and receive the Mind Badge.', 10, true),
+  -- Seafloor Cavern
+  (140020, 14, NULL, 1401, 1, 2, NULL, 'seafloor-cavern', 'Seafloor Cavern', 'Dive down to the Seafloor Cavern and face Maxie (Omega Ruby) or Archie (Alpha Sapphire), who then awakens Primal Groudon or Primal Kyogre.', 11, true),
   -- Rain Badge
-  (140011, 14, NULL, 1401, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Wallace at Sootopolis Gym and receive the Rain Badge.', 10, true),
+  (140011, 14, NULL, 1401, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Wallace at Sootopolis Gym and receive the Rain Badge.', 12, true),
   -- Elite Four Sidney
   (140012, 14, NULL, 1402, 7, 2, NULL, 'elite-four-sidney', 'Elite Four Sidney', 'Defeat Sidney at Ever Grande City.', 1, true),
   -- Elite Four Phoebe

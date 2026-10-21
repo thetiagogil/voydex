@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Omega Ruby / Alpha Sapphire Gym, Elite Four, League and story battle pages.
 -- Cross-check: Pokémon Database Omega Ruby / Alpha Sapphire Gym Leaders and Elite Four page.
+-- Rival, Wally, Maxie and Archie battles: Bulbapedia, cross-checked with Serebii's rival, Wally and Team Aqua / Magma pages.
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -134,4 +135,140 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Zinnia 4: Tyrantrum Lv. 60
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 4, 697, 69700, 60),
   -- Zinnia 5: Salamence Lv. 62
-  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 62);
+  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 62),
+  -- May / Brendan (chose Treecko), Receive Pokedex 1: Torchic Lv. 5
+  (140002, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 255, 25500, 5),
+  -- May / Brendan (chose Torchic), Receive Pokedex 1: Mudkip Lv. 5
+  (140002, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 258, 25800, 5),
+  -- May / Brendan (chose Mudkip), Receive Pokedex 1: Treecko Lv. 5
+  (140002, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 252, 25200, 5),
+  -- May / Brendan (chose Treecko), Dynamo Badge 1: Wailmer Lv. 18
+  (140005, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 18),
+  -- May / Brendan (chose Treecko), Dynamo Badge 2: Shroomish Lv. 18
+  (140005, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 18),
+  -- May / Brendan (chose Treecko), Dynamo Badge 3: Combusken Lv. 20
+  (140005, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 20),
+  -- May / Brendan (chose Torchic), Dynamo Badge 1: Shroomish Lv. 18
+  (140005, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 18),
+  -- May / Brendan (chose Torchic), Dynamo Badge 2: Slugma Lv. 18
+  (140005, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 18),
+  -- May / Brendan (chose Torchic), Dynamo Badge 3: Marshtomp Lv. 20
+  (140005, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 20),
+  -- May / Brendan (chose Mudkip), Dynamo Badge 1: Slugma Lv. 18
+  (140005, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 18),
+  -- May / Brendan (chose Mudkip), Dynamo Badge 2: Wailmer Lv. 18
+  (140005, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 18),
+  -- May / Brendan (chose Mudkip), Dynamo Badge 3: Grovyle Lv. 20
+  (140005, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 20),
+  -- Wally, Dynamo Badge 1: Ralts Lv. 17
+  (140005, 14016, 14, NULL, NULL, NULL, NULL, NULL, 1, 280, 28000, 17),
+  -- Maxie, Mt. Chimney 1: Mightyena Lv. 25
+  (140019, 14017, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 25),
+  -- Maxie, Mt. Chimney 2: Golbat Lv. 25
+  (140019, 14017, 14, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 25),
+  -- Maxie, Mt. Chimney 3: Camerupt Lv. 27
+  (140019, 14017, 14, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 27),
+  -- Archie, Mt. Chimney 1: Mightyena Lv. 25
+  (140019, 14018, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 25),
+  -- Archie, Mt. Chimney 2: Golbat Lv. 25
+  (140019, 14018, 14, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 25),
+  -- Archie, Mt. Chimney 3: Sharpedo Lv. 27
+  (140019, 14018, 14, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 27),
+  -- May / Brendan (chose Treecko), Feather Badge 1: Wailmer Lv. 31
+  (140009, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 31),
+  -- May / Brendan (chose Treecko), Feather Badge 2: Shroomish Lv. 31
+  (140009, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 31),
+  -- May / Brendan (chose Treecko), Feather Badge 3: Combusken Lv. 33
+  (140009, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 33),
+  -- May / Brendan (chose Torchic), Feather Badge 1: Shroomish Lv. 31
+  (140009, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 31),
+  -- May / Brendan (chose Torchic), Feather Badge 2: Slugma Lv. 31
+  (140009, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 31),
+  -- May / Brendan (chose Torchic), Feather Badge 3: Marshtomp Lv. 33
+  (140009, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 33),
+  -- May / Brendan (chose Mudkip), Feather Badge 1: Slugma Lv. 31
+  (140009, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 31),
+  -- May / Brendan (chose Mudkip), Feather Badge 2: Wailmer Lv. 31
+  (140009, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 31),
+  -- May / Brendan (chose Mudkip), Feather Badge 3: Grovyle Lv. 33
+  (140009, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 33),
+  -- May / Brendan (chose Treecko), Mind Badge 1: Swellow Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 37),
+  -- May / Brendan (chose Treecko), Mind Badge 2: Wailord Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 321, 32100, 37),
+  -- May / Brendan (chose Treecko), Mind Badge 3: Breloom Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 286, 28600, 37),
+  -- May / Brendan (chose Treecko), Mind Badge 4: Blaziken Lv. 39
+  (140010, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 257, 25700, 39),
+  -- May / Brendan (chose Torchic), Mind Badge 1: Swellow Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 37),
+  -- May / Brendan (chose Torchic), Mind Badge 2: Breloom Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 286, 28600, 37),
+  -- May / Brendan (chose Torchic), Mind Badge 3: Magcargo Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 219, 21900, 37),
+  -- May / Brendan (chose Torchic), Mind Badge 4: Swampert Lv. 39
+  (140010, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 260, 26000, 39),
+  -- May / Brendan (chose Mudkip), Mind Badge 1: Swellow Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 37),
+  -- May / Brendan (chose Mudkip), Mind Badge 2: Magcargo Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 219, 21900, 37),
+  -- May / Brendan (chose Mudkip), Mind Badge 3: Wailord Lv. 37
+  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 321, 32100, 37),
+  -- May / Brendan (chose Mudkip), Mind Badge 4: Sceptile Lv. 39
+  (140010, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 254, 25400, 39),
+  -- Maxie, Seafloor Cavern 1: Mightyena Lv. 41
+  (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41),
+  -- Maxie, Seafloor Cavern 2: Weezing Lv. 41
+  (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 41),
+  -- Maxie, Seafloor Cavern 3: Crobat Lv. 41
+  (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 3, 169, 16900, 41),
+  -- Maxie, Seafloor Cavern 4: Camerupt Lv. 43
+  (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 43),
+  -- Archie, Seafloor Cavern 1: Mightyena Lv. 41
+  (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41),
+  -- Archie, Seafloor Cavern 2: Muk Lv. 41
+  (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 2, 89, 8900, 41),
+  -- Archie, Seafloor Cavern 3: Crobat Lv. 41
+  (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 3, 169, 16900, 41),
+  -- Archie, Seafloor Cavern 4: Sharpedo Lv. 43
+  (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 4, 319, 31900, 43),
+  -- Wally, Elite Four Sidney 1: Altaria Lv. 46
+  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 46),
+  -- Wally, Elite Four Sidney 2: Delcatty Lv. 46
+  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 46),
+  -- Wally, Elite Four Sidney 3: Roselia Lv. 46
+  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 46),
+  -- Wally, Elite Four Sidney 4: Magneton Lv. 46
+  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 46),
+  -- Wally, Elite Four Sidney 5: Gallade Lv. 48
+  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 5, 475, 47500, 48),
+  -- May / Brendan (chose Treecko), Hall of Fame 1: Swellow Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 48),
+  -- May / Brendan (chose Treecko), Hall of Fame 2: Raichu Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 26, 2600, 48),
+  -- May / Brendan (chose Treecko), Hall of Fame 3: Wailord Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 321, 32100, 48),
+  -- May / Brendan (chose Treecko), Hall of Fame 4: Breloom Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 286, 28600, 48),
+  -- May / Brendan (chose Treecko), Hall of Fame 5: Blaziken Lv. 50
+  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 5, 257, 25700, 50),
+  -- May / Brendan (chose Torchic), Hall of Fame 1: Swellow Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 48),
+  -- May / Brendan (chose Torchic), Hall of Fame 2: Raichu Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 26, 2600, 48),
+  -- May / Brendan (chose Torchic), Hall of Fame 3: Breloom Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 286, 28600, 48),
+  -- May / Brendan (chose Torchic), Hall of Fame 4: Magcargo Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 219, 21900, 48),
+  -- May / Brendan (chose Torchic), Hall of Fame 5: Swampert Lv. 50
+  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 5, 260, 26000, 50),
+  -- May / Brendan (chose Mudkip), Hall of Fame 1: Swellow Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 48),
+  -- May / Brendan (chose Mudkip), Hall of Fame 2: Raichu Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 26, 2600, 48),
+  -- May / Brendan (chose Mudkip), Hall of Fame 3: Magcargo Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 219, 21900, 48),
+  -- May / Brendan (chose Mudkip), Hall of Fame 4: Wailord Lv. 48
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 321, 32100, 48),
+  -- May / Brendan (chose Mudkip), Hall of Fame 5: Sceptile Lv. 50
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25400, 50);

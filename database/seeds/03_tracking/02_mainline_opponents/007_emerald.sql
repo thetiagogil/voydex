@@ -49,4 +49,14 @@ INSERT INTO tracking.mainline_opponents (
   -- Wallace
   (7013, 7, NULL, 'wallace', 'Wallace', 'champion', 3, NULL, 'wallace', 13),
   -- Steven
-  (7014, 7, NULL, 'steven', 'Steven', 'boss', 17, NULL, 'steven', 14);
+  (7014, 7, NULL, 'steven', 'Steven', 'boss', 17, NULL, 'steven', 14),
+  -- May / Brendan (rival)
+  (7015, 7, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', 15),
+  -- Wally (rival)
+  (7016, 7, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', 16),
+  -- Maxie (boss)
+  (7017, 7, NULL, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', 17),
+  -- Maxie & Tabitha (boss)
+  (7018, 7, NULL, 'maxie-tabitha', 'Maxie & Tabitha', 'boss', NULL, NULL, 'maxie', 18),
+  -- Archie (boss)
+  (7019, 7, NULL, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 19);
