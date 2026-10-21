@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { LibraryVoydexBadge } from "@/modules/mainline/features/library/components/library-voydex-badge";
 import { LibraryDeleteDialog } from "@/modules/mainline/features/library/components/library-delete-dialog";
 import { LibraryRuleDetails } from "@/modules/mainline/features/library/components/library-rule-details";
 import { getLibraryUsageLabel } from "@/modules/mainline/features/library/data/library-model";
@@ -15,7 +16,6 @@ import type {
   LibraryRule,
   LibraryRuleKind,
 } from "@/modules/mainline/features/library/types";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Badge } from "@/shared/components/ui/badge";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Card } from "@/shared/components/ui/card";
@@ -69,14 +69,7 @@ const RuleCard = ({
         ) : null}
         <p className="text-ink-3 text-13 mt-auto font-semibold">{usageLabel}</p>
         {rule.isBuiltIn ? (
-          <Badge
-            variant="outline"
-            title="Made by Voydex: you can use it, not change it"
-            className="pointer-events-none absolute top-4 right-4"
-          >
-            <AppIcon icon={appIcons.status.locked} inline="start" />
-            Voydex
-          </Badge>
+          <LibraryVoydexBadge className="absolute top-4 right-4" />
         ) : null}
       </Card>
     </li>

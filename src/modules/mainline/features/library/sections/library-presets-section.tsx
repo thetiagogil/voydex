@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { LibraryVoydexBadge } from "@/modules/mainline/features/library/components/library-voydex-badge";
 import { LibraryDeleteDialog } from "@/modules/mainline/features/library/components/library-delete-dialog";
 import { LibraryPresetDetails } from "@/modules/mainline/features/library/components/library-preset-details";
 import {
@@ -16,7 +17,6 @@ import type {
   LibraryRuleKind,
 } from "@/modules/mainline/features/library/types";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Badge } from "@/shared/components/ui/badge";
 import { Card } from "@/shared/components/ui/card";
@@ -63,14 +63,7 @@ const PresetCard = ({
         {ruleNames.join(" · ")}
       </p>
       {preset.isBuiltIn ? (
-        <Badge
-          variant="outline"
-          title="Made by Voydex: you can use it, not change it"
-          className="pointer-events-none absolute top-4 right-4"
-        >
-          <AppIcon icon={appIcons.status.locked} inline="start" />
-          Voydex
-        </Badge>
+        <LibraryVoydexBadge className="absolute top-4 right-4" />
       ) : null}
     </Card>
   </li>
