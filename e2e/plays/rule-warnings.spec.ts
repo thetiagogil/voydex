@@ -185,6 +185,58 @@ test.describe("Rule warnings", () => {
     );
   });
 
+  test("Level caps warns above the next leader's strongest Pokémon @phone", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Capped run"),
+      partner: "Squirtle",
+      rules: [{ name: "Level caps" }],
+    });
+
+    /* Brock's Onix is Lv. 14, and Brock is the first battle ahead. */
+    await page.getByRole("button", { name: "Play details" }).click();
+    await expect(
+      page.getByText(
+        "Lv. 14, the strongest Pokémon of Gym Leader Brock, your next battle.",
+      ),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+
+    await page.goto(`/mainline/plays/${playId}/team`, {
+      waitUntil: "networkidle",
+    });
+    await expect(page.getByText(/rules? broken/)).toHaveCount(0);
+    await page.getByRole("button", { name: "Add Pokémon" }).first().click();
+    const choices = page.getByRole("dialog", { name: "Which Pokémon?" });
+
+    await choices
+      .getByRole("searchbox", { name: "Search Pokémon" })
+      .fill("pidgey");
+    await choices.getByRole("button", { name: /^Pidgey, #016/ }).click();
+    const details = page.getByRole("dialog", { name: "Pidgey" });
+    const level = details.getByRole("spinbutton", { name: "Level" });
+
+    /* At the cap it's fine; one level over, it warns as it's typed. */
+    await level.fill("14");
+    await expect(details.getByRole("status")).toHaveCount(0);
+    await level.fill("15");
+    await expect(details.getByRole("status")).toContainText(
+      "Level caps: Pidgey is Lv. 15, over the Lv. 14 cap from Gym Leader Brock.",
+    );
+    await details.getByRole("button", { name: "Add Pidgey" }).click();
+    await expect(details).toBeHidden();
+
+    const breaks = await openRuleBreaks(page, "1 rule broken");
+
+    await expect(breaks).toContainText(
+      "Pidgey is Lv. 15, over the Lv. 14 cap from Gym Leader Brock.",
+      forTheAnswer,
+    );
+    await expectAccessible(page);
+  });
+
   test("a Play without rules shows no chip", async ({ page }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",

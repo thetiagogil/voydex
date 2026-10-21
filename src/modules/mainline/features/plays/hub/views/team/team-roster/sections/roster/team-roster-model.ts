@@ -127,6 +127,7 @@ export const toRuleCheckPokemon = (
     ? {
         formId: member.form_id,
         isShiny: member.is_shiny,
+        level: member.level,
         name: getPlayTeamMemberName(member),
         nickname: member.nickname,
         speciesId: member.species_id,

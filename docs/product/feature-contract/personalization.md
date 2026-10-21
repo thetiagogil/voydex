@@ -58,7 +58,7 @@ Rules should be modeled flexibly. The app should support immutable predefined
 rules and reusable user-authored custom rules. A rule explicitly declares
 whether Voydex can evaluate it or only record it.
 
-Voydex checks five of its own rules against the Pokémon you have now (the
+Voydex checks six of its own rules against the Pokémon you have now (the
 team and the reserve) and warns, but never blocks
 (`src/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks.ts`):
 an amber "N rules broken" chip in the Play's head opens a sheet listing
@@ -75,9 +75,14 @@ still pick them) and the details step lists what the pick breaks.
 - **No Pokémon reuse:** a Pokémon one of your earlier Plays (started before
   this one) used, even one that has evolved since, by the rule's scope; the
   note names the closest use (same form, then species, then family).
+- **Level caps:** a Pokémon above the cap, the highest level on the team of
+  the first Gym Leader, Kahuna, Elite Four member or Champion Story still
+  has ahead (rivals and bosses don't set it), read as Story matchups reads
+  that battle. Add Pokémon checks the level once it's typed. Play details
+  shows the cap and its battle, or why there's none: Voydex doesn't have
+  that battle's team (no warning then), or no such battle is left.
 
-Level caps waits for its warning (issue #103); the levels it needs are in. The rest happen in the
-game and stay labels, as does every rule of yours, even one named like
+The rest happen in the game and stay labels, as does every rule of yours, even one named like
 Voydex's.
 
 For V1, the shipped application catalogue owns that capability and the supported

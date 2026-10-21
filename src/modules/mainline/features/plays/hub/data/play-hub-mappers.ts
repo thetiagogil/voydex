@@ -92,6 +92,7 @@ export const buildMainlinePlayShellData = (params: {
       ? getGameCoverImageUrl(params.gameContext.game)
       : null,
     game: params.gameContext.game,
+    levelCap: params.ruleChecks.levelCap,
     play: params.play,
     region: params.gameContext.region,
     ruleBreaks: params.teamRows

@@ -5,10 +5,12 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { resolveLatestAttributesByForm } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
 import {
+  buildStoryLevelCap,
   getStoryChoiceKey,
   type StoryMatchupMilestone,
   type StoryMatchupsRows,
@@ -171,12 +173,13 @@ const readOpponentTeams = async (
  * What Story matchups reads: the Play's milestones in Story's order with
  * their opponents, which game each opponent belongs to (version-only
  * leaders), their teams, and the team saved with each battle when it was
- * recorded.
+ * recorded (left out with `teamsThen: false`, for Level caps).
  */
 export const readMainlinePlayStoryMatchupRows = async (
   supabase: ServerSupabaseClient,
   playId: string,
   generationId: number | null,
+  { teamsThen = true }: { teamsThen?: boolean } = {},
 ): Promise<StoryMatchupsRows> => {
   const [categoriesResult, milestonesResult, snapshotEvents] =
     await Promise.all([
@@ -192,7 +195,9 @@ export const readMainlinePlayStoryMatchupRows = async (
           "badge_refs, category_id, category_name, completed_at, description, is_completed, milestone_id, milestone_name, opponent_refs, sort_order",
         )
         .eq("play_id", playId),
-      readMainlinePlayMilestoneTimelineSnapshots(supabase, playId),
+      teamsThen
+        ? readMainlinePlayMilestoneTimelineSnapshots(supabase, playId)
+        : [],
     ]);
 
   if (categoriesResult.error || milestonesResult.error) {
@@ -245,3 +250,20 @@ export const readMainlinePlayStoryMatchupRows = async (
     snapshotsByMilestoneId,
   };
 };
+
+/* Level caps' cap now, from the Play's progress through Story. */
+export const readMainlinePlayLevelCap = async (
+  supabase: ServerSupabaseClient,
+  play: Pick<MainlinePlaySummary, "game_id" | "generation_id"> & {
+    play_id: string;
+  },
+) =>
+  buildStoryLevelCap({
+    playGameId: play.game_id,
+    rows: await readMainlinePlayStoryMatchupRows(
+      supabase,
+      play.play_id,
+      play.generation_id,
+      { teamsThen: false },
+    ),
+  });

@@ -1,4 +1,5 @@
 import type {
+  MainlinePlayLevelCap,
   MainlinePlayMilestone,
   MainlinePlayTeamMember,
 } from "@/modules/mainline/features/plays/hub/types";
@@ -523,3 +524,57 @@ export const buildStoryMatchupsModel = ({
     wonCount: battles.filter((battle) => battle.state === "won").length,
   };
 };
+
+/* The battles Level caps takes its cap from. */
+const levelCapKinds = new Set([
+  battleKinds["gym-leader"],
+  battleKinds.kahuna,
+  battleKinds["elite-four"],
+  battleKinds.champion,
+]);
+
+/*
+ * Level caps' cap: the highest level on the team of the first Gym Leader,
+ * Kahuna, Elite Four member or Champion still ahead in Story, read as Story
+ * matchups reads that battle (its game's team, the one the Play's choice
+ * picks).
+ */
+export const getStoryLevelCap = (
+  model: StoryMatchupsModel,
+): MainlinePlayLevelCap => {
+  const battle = model.chapters
+    .flatMap((chapter) => chapter.battles)
+    .find(
+      (candidate) =>
+        candidate.state !== "won" && levelCapKinds.has(candidate.kind),
+    );
+
+  if (!battle) {
+    return { status: "no-battle" };
+  }
+
+  const capBattle = { kind: battle.kind, name: battle.name };
+  const levels = battle.party?.pokemon.map((pokemon) => pokemon.level) ?? [];
+
+  return levels.length
+    ? { battle: capBattle, level: Math.max(...levels), status: "capped" }
+    : { battle: capBattle, status: "no-team" };
+};
+
+/* Level caps' cap from the Play's Story rows; no team of yours is read. */
+export const buildStoryLevelCap = ({
+  playGameId,
+  rows,
+}: {
+  playGameId: number | null;
+  rows: StoryMatchupsRows;
+}) =>
+  getStoryLevelCap(
+    buildStoryMatchupsModel({
+      ...rows,
+      generationOrder: 0,
+      members: [],
+      playGameId,
+      types: [],
+    }),
+  );

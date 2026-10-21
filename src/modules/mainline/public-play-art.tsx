@@ -55,6 +55,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
   collectiblesAvailable: true,
   coverImageUrl: getGameCoverImageUrlBySlug(play.game.slug),
   game: null,
+  levelCap: null,
   play: {
     active_team_count: null,
     archived_at: null,

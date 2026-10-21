@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
 import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
+import { describeLevelCap } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import {
   formatPlayDate,
@@ -89,14 +90,23 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
           label: "Rules",
           stacked: true,
           value: (
-            <PlayDetailChips
-              label="Rules"
-              items={data.rules.map((rule) => ({
-                id: rule.id,
-                name: rule.label,
-                title: rule.description ?? undefined,
-              }))}
-            />
+            <div className="grid gap-2">
+              <PlayDetailChips
+                label="Rules"
+                items={data.rules.map((rule) => ({
+                  id: rule.id,
+                  name: rule.label,
+                  title: rule.description ?? undefined,
+                }))}
+              />
+              {/* Level caps' cap, or why levels aren't checked. */}
+              {data.levelCap ? (
+                <p className="text-ink-2 text-13 font-semibold text-pretty">
+                  <span className="text-ink font-extrabold">Level caps:</span>{" "}
+                  {describeLevelCap(data.levelCap)}
+                </p>
+              ) : null}
+            </div>
           ),
         }
       : null,

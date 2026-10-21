@@ -109,6 +109,23 @@ export type MainlinePlayRule = {
   label: string;
 };
 
+/* The battle Level caps takes its cap from: "Gym Leader" and "Misty". */
+export type MainlinePlayCapBattle = {
+  kind: string;
+  name: string;
+};
+
+/*
+ * Level caps' cap: the highest level on the team of the next Gym Leader,
+ * Kahuna, Elite Four member or Champion the Play hasn't beaten in Story.
+ * "no-team" when Voydex doesn't have that battle's team, "no-battle" when
+ * none is left (after the Champion) or the game has none.
+ */
+export type MainlinePlayLevelCap =
+  | { battle: MainlinePlayCapBattle; level: number; status: "capped" }
+  | { battle: MainlinePlayCapBattle; status: "no-team" }
+  | { status: "no-battle" };
+
 export type MainlinePlayTeamRows = {
   abilityAttributes: AbilityAttribute[];
   attributes: PokemonAttributes[];
@@ -213,6 +230,8 @@ export type MainlinePlayShellData = {
   game: Game | null;
   play: MainlinePlaySummary;
   region: Region | null;
+  /* Level caps' cap now, for Play details; null when the Play doesn't use it. */
+  levelCap: MainlinePlayLevelCap | null;
   /* The rules the team breaks now, for the head's chip and its sheet. */
   ruleBreaks: RuleBreaks;
   rules: MainlinePlayRule[];

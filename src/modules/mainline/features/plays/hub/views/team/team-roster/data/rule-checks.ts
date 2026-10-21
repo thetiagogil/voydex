@@ -1,4 +1,8 @@
-import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayCapBattle,
+  MainlinePlayLevelCap,
+  MainlinePlayRuleRows,
+} from "@/modules/mainline/features/plays/hub/types";
 import {
   defaultReuseScope,
   resolveRuleConfig,
@@ -18,6 +22,7 @@ export type CheckedRule =
       typeId: number;
       typeName: string;
     }
+  | { id: string; kind: "level_caps"; name: string }
   | { id: string; kind: "nickname_everything"; name: string }
   | { id: string; kind: "no_legendaries"; name: string }
   | { id: string; kind: "no_pokemon_reuse"; name: string; scope: ReuseScope }
@@ -32,6 +37,7 @@ export const checkedRuleKinds: readonly CheckedRuleKind[] = [
   "monotype",
   "no_legendaries",
   "no_pokemon_reuse",
+  "level_caps",
 ];
 
 const isCheckedRuleKind = (slug: string): slug is CheckedRuleKind =>
@@ -100,6 +106,8 @@ export type RuleCheckContext = {
   familyBySpecies: Record<number, number>;
   /* Legendary and Mythical species, by id. */
   legendaryBySpecies: Record<number, "Legendary" | "Mythical">;
+  /* Level caps' cap now; null when the Play doesn't use the rule. */
+  levelCap: MainlinePlayLevelCap | null;
   rules: CheckedRule[];
   usedElsewhere: UsedPokemon[];
 };
@@ -107,6 +115,7 @@ export type RuleCheckContext = {
 export const emptyRuleCheckContext: RuleCheckContext = {
   familyBySpecies: {},
   legendaryBySpecies: {},
+  levelCap: null,
   rules: [],
   usedElsewhere: [],
 };
@@ -119,6 +128,8 @@ export type RuleCheckPokemon = {
   nickname: string | null;
   /* Null while it isn't known yet, such as before it's added. */
   isShiny: boolean | null;
+  /* Null when it isn't recorded. */
+  level: number | null;
   speciesId: number;
   /* Its types in the Play's game; none when they aren't known. */
   typeIds: number[];
@@ -168,12 +179,42 @@ const findReuse = (
   );
 };
 
+/* "Gym Leader Misty". */
+const formatCapBattle = (battle: MainlinePlayCapBattle) =>
+  `${battle.kind} ${battle.name}`;
+
+/*
+ * Level caps' cap as Play details says it, and why there's none when there
+ * isn't: Voydex doesn't have the next battle's team, or no battle is left.
+ */
+export const describeLevelCap = (cap: MainlinePlayLevelCap) => {
+  switch (cap.status) {
+    case "capped":
+      return `Lv. ${cap.level}, the strongest Pokémon of ${formatCapBattle(cap.battle)}, your next battle.`;
+    case "no-team":
+      return `No cap for now: Voydex doesn't have ${formatCapBattle(cap.battle)}'s team yet, so levels aren't checked.`;
+    case "no-battle":
+      return "No cap: there's no Gym Leader, Kahuna, Elite Four or Champion battle ahead, so levels aren't checked.";
+  }
+};
+
 const checkRule = (
   rule: CheckedRule,
   pokemon: RuleCheckPokemon,
   context: RuleCheckContext,
 ): Pick<RuleWarning, "reuse" | "text"> | null => {
   switch (rule.kind) {
+    case "level_caps": {
+      const cap = context.levelCap;
+
+      return cap?.status === "capped" &&
+        pokemon.level !== null &&
+        pokemon.level > cap.level
+        ? {
+            text: `${pokemon.name} is Lv. ${pokemon.level}, over the Lv. ${cap.level} cap from ${formatCapBattle(cap.battle)}.`,
+          }
+        : null;
+    }
     case "monotype":
       return pokemon.typeIds.length && !pokemon.typeIds.includes(rule.typeId)
         ? { text: `${pokemon.name} isn't ${rule.typeName} type.` }

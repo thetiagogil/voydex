@@ -1,3 +1,4 @@
+import type { MainlinePlayLevelCap } from "@/modules/mainline/features/plays/hub/types";
 import { readMainlinePlayRuleRows } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
 import {
   buildCheckedRules,
@@ -124,22 +125,25 @@ const readFamilyBySpecies = async (
 /*
  * What the Play's checked rules read, and only what they need: the
  * legendary list for No legendaries, earlier Plays' Pokémon (and, by
- * family, their whole lines) for No Pokémon reuse.
+ * family, their whole lines) for No Pokémon reuse, and the cap for Level
+ * caps, which Story's battles give (`readLevelCap`, handed in by the Hub).
  */
 export const readPlayRuleCheckContext = async (
   supabase: ServerSupabaseClient,
   play: MainlinePlaySummary,
   userId: string,
+  { readLevelCap }: { readLevelCap: () => Promise<MainlinePlayLevelCap> },
 ): Promise<RuleCheckContext> => {
   const rules = play.play_id
     ? buildCheckedRules(await readMainlinePlayRuleRows(supabase, play.play_id))
     : [];
   const reuse = rules.find((rule) => rule.kind === "no_pokemon_reuse");
-  const [legendaryBySpecies, usedElsewhere] = await Promise.all([
+  const [legendaryBySpecies, usedElsewhere, levelCap] = await Promise.all([
     rules.some((rule) => rule.kind === "no_legendaries")
       ? readLegendarySpecies(supabase)
       : {},
     reuse ? readUsedElsewhere(supabase, play, userId) : null,
+    rules.some((rule) => rule.kind === "level_caps") ? readLevelCap() : null,
   ]);
   const familyBySpecies =
     reuse?.scope === "evolution_family" && usedElsewhere
@@ -149,6 +153,7 @@ export const readPlayRuleCheckContext = async (
   return {
     familyBySpecies,
     legendaryBySpecies,
+    levelCap,
     rules,
     usedElsewhere: usedElsewhere?.used ?? [],
   };
