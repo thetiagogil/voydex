@@ -314,6 +314,6 @@ VALUES
   -- #0130 Rayquaza - Static Encounter
   (384, 38400, 27, NULL, 2, NULL),
   -- #0131 Magearna - Static Encounter
-  (801, 80100, 27, NULL, 2, 'One-time Magearna encounter during Side Mission 195; Original Color form remains outside current Voydex form scope.'),
+  (801, 80100, 27, NULL, 2, 'One-time Magearna encounter during Side Mission 195.'),
   -- #0132 Zeraora - Event
   (807, 80700, 27, NULL, 11, 'Requires Mystery Gift activation in Mega Dimension.');

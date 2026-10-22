@@ -126,7 +126,8 @@ export const getTeamMemberEditorValues = (
     natureId: toText(member.nature_id),
     nickname: member.nickname ?? "",
     notes: member.personal_notes ?? "",
-    teraTypeId: toText(member.tera_type_id),
+    /* A form whose Tera Type is fixed (an Ogerpon mask) shows it. */
+    teraTypeId: toText(member.tera_type_id ?? member.fixed_tera_type_id),
   };
 };
 

@@ -175,9 +175,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       13,
       {
-        count: 232,
+        count: 234,
         sha256:
-          "e1b0d6d061003365320e9881437b8f84b05ae1ceb6a4595bb3318054db49ce2b",
+          "16a93d4c1900a2a1e707571100a108c805f6097c93e9a365db13e630a8c726d6",
       },
     ],
     [
@@ -207,9 +207,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       17,
       {
-        count: 23,
+        count: 32,
         sha256:
-          "5a485eb8d1cd0a4546ace1e4565830c62cc0d80fc46aeb8b685726a1f142ad62",
+          "96a2659e01161289b0a0734c1ac3522348367b944264f400223ea505cdf28075",
       },
     ],
     [
@@ -279,17 +279,17 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       26,
       {
-        count: 194,
+        count: 192,
         sha256:
-          "fc13d4fecfd7393f1f6862d494e1ad9fa8466b5fdd474665176b9ae8b3584ea6",
+          "71bc8ac69765ead8cdf09c5df145f7a44bdf72489c4fd4502285c999746098b9",
       },
     ],
     [
       27,
       {
-        count: 55,
+        count: 57,
         sha256:
-          "123b6b6eb130d342748e01fc5e5129f6c593b28361bd5d0dc656c577848d8c18",
+          "3521cb705dcd5f518bfbf399e769eeb4dc8308bda942fde6d76160dcd82e6a07",
       },
     ],
   ]);
@@ -354,9 +354,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
       "Mega Stone availability",
       {
         slugs: new Set(expectedMegaStoneItemSlugs),
-        count: 233,
+        count: 244,
         sha256:
-          "1f57c79af054361e7909f92d65be90aec032c38dfeacd13912f43fea2d0e312a",
+          "2118b5cfc0f4131c4c3030f650f702952edf3d1756703b24d2a99553093feedb",
       },
     ],
     [
@@ -365,7 +365,7 @@ export function assertItemAvailabilityRows(context, tableRows) {
         slugs: new Set(expectedGeneralHeldAvailableItemSlugs),
         count: 1380,
         sha256:
-          "8265847d156a61ac1c5880881c6cd1462830ce7887354ccd76a83ec247217dbe",
+          "6119df91383fb00a54380cac2931dba9c90dac9ba99836b1c13512f8ed4e37c0",
       },
     ],
   ]);
@@ -476,9 +476,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
       );
     }
   }
-  if (rows.length !== 3877) {
+  if (rows.length !== 3888) {
     context.errors.push(
-      `reference.item_availability: expected 3877 curated item availability rows, got ${rows.length}.`,
+      `reference.item_availability: expected 3888 curated item availability rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(
@@ -547,8 +547,8 @@ export function assertItemAvailabilityRows(context, tableRows) {
     { itemSlug: "blue-orb", versionGroupSlug: "sm" },
     { itemSlug: "red-orb", versionGroupSlug: "usum" },
     { itemSlug: "blue-orb", versionGroupSlug: "usum" },
-    { itemSlug: "red-orb", versionGroupSlug: "za" },
-    { itemSlug: "blue-orb", versionGroupSlug: "za" },
+    { itemSlug: "red-orb", versionGroupSlug: "za-md" },
+    { itemSlug: "blue-orb", versionGroupSlug: "za-md" },
   ]) {
     expectItemAvailability(expected);
   }
@@ -595,6 +595,8 @@ export function assertItemAvailabilityRows(context, tableRows) {
     { itemSlug: "blue-orb", versionGroupSlug: "rs" },
     { itemSlug: "red-orb", versionGroupSlug: "emerald" },
     { itemSlug: "blue-orb", versionGroupSlug: "emerald" },
+    { itemSlug: "red-orb", versionGroupSlug: "za" },
+    { itemSlug: "blue-orb", versionGroupSlug: "za" },
   ]) {
     expectNoAnyItemAvailability(expected);
   }
@@ -3128,9 +3130,9 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       18,
       {
-        count: 616,
+        count: 617,
         sha256:
-          "91aea79584350c63ff9ce4a79c9a02c1ce39d1b1f3601981ba0ea273f0bf0d03",
+          "3915145e6a49970e3e4a56d8c3d6677425155b5b823ff389751860e7ecb32296",
       },
     ],
     [
@@ -3168,9 +3170,9 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       23,
       {
-        count: 692,
+        count: 693,
         sha256:
-          "1708da1788b3e5db432c0b68cfeac9e67e64993afa09cc2e495ca4939db9ff48",
+          "827d5b9ea925eaf46abfac6866af30282747c6672857a57e6b3557708db887a6",
       },
     ],
     [
@@ -3192,9 +3194,9 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       26,
       {
-        count: 246,
+        count: 247,
         sha256:
-          "a76652ae527e87020ea152b99c42640a76716a33baea7e1f2786fbae5efb800f",
+          "0eff1f9bc8e23d780586607e6939a63e35a2001625508444c9263434d43f005d",
       },
     ],
     [
@@ -3202,7 +3204,7 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
       {
         count: 152,
         sha256:
-          "3b6b18d1f1dfbf8a58c92d838f350258f877579b023d2cccabb473f17a30b64e",
+          "36c6b83286b073dadcc835ce40270f0cfd4de28ef2711c3f6375638e9170dc57",
       },
     ],
   ]);

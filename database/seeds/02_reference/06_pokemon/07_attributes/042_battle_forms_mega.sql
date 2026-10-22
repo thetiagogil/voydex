@@ -191,6 +191,8 @@ VALUES
   (780, 78001, 9, 1, 15, NULL, NULL, NULL, 1, 13, 78, 85, 110, 160, 116, 36),
   -- #0801 Magearna - Mega Magearna (no ability in Legends: Z-A)
   (801, 80101, 9, 17, 18, NULL, NULL, NULL, 15, NULL, 80, 125, 115, 170, 115, 95),
+  -- #0801 Magearna - Mega Magearna (Original Color) (no ability in Legends: Z-A)
+  (801, 80103, 9, 17, 18, NULL, NULL, NULL, 15, NULL, 80, 125, 115, 170, 115, 95),
   -- #0807 Zeraora - Mega Zeraora (no ability in Legends: Z-A)
   (807, 80701, 9, 4, NULL, NULL, NULL, NULL, 15, NULL, 88, 157, 75, 147, 80, 153),
   -- #0870 Falinks - Mega Falinks (no ability in Legends: Z-A)

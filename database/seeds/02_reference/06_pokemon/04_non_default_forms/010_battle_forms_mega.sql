@@ -189,6 +189,8 @@ VALUES
   (78001, 780, 'mega-drampa', 'Mega Drampa', 9, FALSE, 2, NULL, NULL),
   -- Mega Magearna
   (80101, 801, 'mega-magearna', 'Mega Magearna', 9, FALSE, 2, NULL, NULL),
+  -- Mega Magearna (Original Color)
+  (80103, 801, 'mega-magearna-original-color', 'Mega Magearna (Original Color)', 9, FALSE, 4, NULL, NULL),
   -- Mega Zeraora
   (80701, 807, 'mega-zeraora', 'Mega Zeraora', 9, FALSE, 2, NULL, NULL),
   -- Mega Falinks

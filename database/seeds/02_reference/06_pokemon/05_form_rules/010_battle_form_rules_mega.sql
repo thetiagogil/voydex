@@ -187,6 +187,8 @@ VALUES
   (78001, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'mega-evolution', 'Mega Evolves in battle while holding Drampanite.', NULL),
   -- Mega Magearna
   (80101, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'mega-evolution', 'Mega Evolves in battle while holding Magearnite.', NULL),
+  -- Mega Magearna (Original Color)
+  (80103, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'mega-evolution', 'Mega Evolves in battle while holding Magearnite.', NULL),
   -- Mega Zeraora
   (80701, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'mega-evolution', 'Mega Evolves in battle while holding Zeraorite.', NULL),
   -- Mega Falinks

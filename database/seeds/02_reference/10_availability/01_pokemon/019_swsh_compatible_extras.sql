@@ -4,7 +4,7 @@
 -- Primary: Bulbapedia List of Pokémon by Galar Pokedex number, compatible Pokémon not in any Sword and Shield Pokedex section.
 -- Cross-check: PokemonDB Sword/Shield Pokedex and Bulbapedia Pokémon HOME compatibility notes.
 -- Scope note: base Sword/Shield compatibility extras only; Isle of Armor and Crown Tundra content-scope availability rows are seeded separately.
--- Source-visible forms excluded by current Voydex form policy: Keldeo Resolute Form, Gigantamax Melmetal, Magearna Original Color, Xerneas Active Mode, and Zygarde Complete Forme.
+-- Source-visible forms excluded by current Voydex form policy: Keldeo Resolute Form, Gigantamax Melmetal, Xerneas Active Mode, and Zygarde Complete Forme.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -78,6 +78,8 @@ VALUES
   (809, 80900, 18, NULL, 13, 'Compatible with Sword/Shield but not listed in any Sword/Shield Pokedex; available only through Pokémon HOME transfer or compatible import into the base game scope.'),
   -- #0801 Magearna - Transfer Only
   (801, 80100, 18, NULL, 13, 'Compatible with Sword/Shield but not listed in any Sword/Shield Pokedex; available only through Pokémon HOME transfer or compatible import into the base game scope.'),
+  -- #0801 Magearna (Original Color) - Transfer Only
+  (801, 80102, 18, NULL, 13, 'Compatible with Sword/Shield but not listed in any Sword/Shield Pokedex; available only through Pokémon HOME transfer or compatible import into the base game scope.'),
   -- #0243 Raikou - Transfer Only
   (243, 24300, 18, NULL, 13, 'Compatible with Sword/Shield but not listed in any Sword/Shield Pokedex; available only through Pokémon HOME transfer or compatible import into the base game scope.'),
   -- #0244 Entei - Transfer Only

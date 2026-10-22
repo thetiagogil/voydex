@@ -88,9 +88,9 @@ export function assertPokemonIdentityRows(context, tableRows) {
     (a, b) =>
       a.species_id - b.species_id || a.form_order - b.form_order || a.id - b.id,
     {
-      count: 1339,
+      count: 1342,
       sha256:
-        "06eda2f6a34f909f4987a33faa6842e0e99f0f0b70ba8d8780ac4debaeeeca9d",
+        "7c4b24f0dd582b457c801801a9bcabd747effe1cdb2b6cc1104958826e7584ed",
     },
   );
   if (familyRows.length !== 541) {
@@ -457,7 +457,7 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     {
       count: expectedAllNonDefaultFormSlugs.length,
       sha256:
-        "9a7fc43107b9f4ffeffa67b267af9dfe0993f30946e4d244a9d0c2ee1fc83335",
+        "2d95f5a357c47d28828bb920ce8ae6b35d898dbe25e80082cacd2e0e539772b1",
     },
   );
   if (ruleRows.length !== expectedAllNonDefaultFormSlugs.length) {
@@ -593,14 +593,14 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
       a.item_id - b.item_id ||
       a.generation_start_id - b.generation_start_id,
     {
-      count: 161,
+      count: 164,
       sha256:
-        "4a25ff526ff2401cb0ef7e69b03ded78aff56091849121c5ef78b785ebf50629",
+        "24011d67d5f84a8703d7e9f75e43b361706e218af0ee53d414510afbfcbd355b",
     },
   );
-  if (requirementRows.length !== 161) {
+  if (requirementRows.length !== 164) {
     context.errors.push(
-      `reference.pokemon_form_item_requirements: expected 161 item requirement rows, got ${requirementRows.length}.`,
+      `reference.pokemon_form_item_requirements: expected 164 item requirement rows, got ${requirementRows.length}.`,
     );
   }
   function requirementKey(row) {
@@ -755,6 +755,40 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
       typeSlug,
     });
   }
+  /* Player Primal Reversion: Omega Ruby / Alpha Sapphire to Ultra Sun / Ultra Moon, then Mega Dimension. */
+  for (const [formSlug, itemSlug] of [
+    ["primal-kyogre", "blue-orb"],
+    ["primal-groudon", "red-orb"],
+  ]) {
+    expectRequirement({
+      formSlug,
+      itemSlug,
+      generationStart: 6,
+      generationEnd: 7,
+      versionGroupStart: 14,
+      versionGroupEnd: 16,
+      kind: "required_held_item",
+    });
+    expectRequirement({
+      formSlug,
+      itemSlug,
+      generationStart: 9,
+      generationEnd: 9,
+      versionGroupStart: 27,
+      versionGroupEnd: 27,
+      kind: "required_held_item",
+    });
+  }
+  /* Ultra Burst exists only in Ultra Sun / Ultra Moon. */
+  expectRequirement({
+    formSlug: "ultra-necrozma",
+    itemSlug: "ultranecrozium-z",
+    generationStart: 7,
+    generationEnd: 7,
+    versionGroupStart: 16,
+    versionGroupEnd: 16,
+    kind: "required_held_item",
+  });
   for (const [formSlug, itemSlug, typeSlug] of [
     ["genesect-douse-drive", "douse-drive", "water"],
     ["genesect-shock-drive", "shock-drive", "electric"],
@@ -858,6 +892,7 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
     ["mega-golisopod", "golisopite", 9],
     ["mega-drampa", "drampanite", 9],
     ["mega-magearna", "magearnite", 9],
+    ["mega-magearna-original-color", "magearnite", 9],
     ["mega-zeraora", "zeraorite", 9],
     ["mega-falinks", "falinksite", 9],
     ["mega-scovillain", "scovillainite", 9],
@@ -866,9 +901,6 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
     ["mega-tatsugiri-droopy", "tatsugirinite", 9],
     ["mega-tatsugiri-stretchy", "tatsugirinite", 9],
     ["mega-baxcalibur", "baxcalibrite", 9],
-    ["primal-kyogre", "blue-orb", 6],
-    ["primal-groudon", "red-orb", 6],
-    ["ultra-necrozma", "ultranecrozium-z", 7],
     ["zacian-crowned", "rusted-sword", 8],
     ["zamazenta-crowned", "rusted-shield", 8],
   ]) {
@@ -1117,14 +1149,14 @@ export function assertPokemonAttributeRows(context, tableRows) {
       a.form_id - b.form_id ||
       a.generation_start_id - b.generation_start_id,
     {
-      count: 2417,
+      count: 2420,
       sha256:
-        "1fd5cede18ed32d006b3e44246aa064e742882f96176a8ccf0f4783d13b6c75e",
+        "8e15c5370ff7e3a234637e2b9c70b71e5c58aeee1df1136900c2f1b8c4188f6e",
     },
   );
-  if (rows.length !== 2417) {
+  if (rows.length !== 2420) {
     context.errors.push(
-      `reference.pokemon_attributes: expected 2417 curated attribute rows, got ${rows.length}.`,
+      `reference.pokemon_attributes: expected 2420 curated attribute rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(

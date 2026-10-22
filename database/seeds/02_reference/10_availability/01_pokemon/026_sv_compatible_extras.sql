@@ -5,7 +5,7 @@
 -- Cross-check: Serebii Scarlet/Violet Transfer Only Pokémon and Pokémon HOME compatibility wording.
 -- Scope note: base Scarlet/Violet compatibility extras only. Teal Mask and Indigo Disk native/static availability rows are seeded separately by their own version groups.
 -- Representation note: source-visible Galarian Meowth, Perrserker, Johtonian Wooper, and Quagsire are already represented in the base SV availability seed through normal base-game methods.
--- Form policy note: source-visible Pikachu cap forms, Pokeball Pattern Vivillon, Keldeo Resolute Form, Meloetta Pirouette Forme, Greninja Battle Bond, Magearna Original Color, Crowned Zacian/Zamazenta, and Dada Zarude remain excluded by the current Voydex form policy.
+-- Form policy note: source-visible Pikachu cap forms, Pokeball Pattern Vivillon, Keldeo Resolute Form, Meloetta Pirouette Forme, Greninja Battle Bond, Crowned Zacian/Zamazenta, and Dada Zarude remain excluded by the current Voydex form policy.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -365,6 +365,8 @@ VALUES
   (800, 80002, 23, NULL, 13, 'Compatible form outside the base Paldea Pokedex; available through Pokémon HOME transfer, compatible import, or the relevant in-game form system.'),
   -- #0801 Magearna - Transfer Only
   (801, 80100, 23, NULL, 13, 'Compatible with Scarlet/Violet but outside the base Paldea Pokedex; available through Pokémon HOME transfer or compatible import into the base scope.'),
+  -- #0801 Magearna (Original Color) - Transfer Only
+  (801, 80102, 23, NULL, 13, 'Compatible with Scarlet/Violet but outside the base Paldea Pokedex; available through Pokémon HOME transfer or compatible import into the base scope.'),
   -- #0810 Grookey - Transfer Only
   (810, 81000, 23, NULL, 13, 'Compatible with base Scarlet/Violet before later DLC Pokedex support; without optional DLC content, represented as Pokémon HOME transfer-compatible in the base scope.'),
   -- #0811 Thwackey - Transfer Only

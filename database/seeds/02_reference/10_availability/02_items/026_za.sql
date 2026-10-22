@@ -351,10 +351,6 @@ VALUES
   (328, 26, NULL, NULL, NULL),
   -- Normal Gem
   (329, 26, NULL, NULL, NULL),
-  -- Red Orb
-  (359, 26, NULL, NULL, NULL),
-  -- Blue Orb
-  (360, 26, NULL, NULL, NULL),
   -- Leek
   (363, 26, NULL, NULL, NULL),
   -- Light Ball

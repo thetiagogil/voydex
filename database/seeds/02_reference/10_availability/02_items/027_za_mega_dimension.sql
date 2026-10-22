@@ -90,6 +90,11 @@ VALUES
   (141, 27, NULL, NULL, NULL),
   -- Beast Ball
   (142, 27, NULL, NULL, NULL),
+  -- Primal Orbs
+  -- Red Orb
+  (359, 27, NULL, NULL, NULL),
+  -- Blue Orb
+  (360, 27, NULL, NULL, NULL),
   -- Mega Stones
   -- Heatranite
   (466, 27, NULL, NULL, NULL),

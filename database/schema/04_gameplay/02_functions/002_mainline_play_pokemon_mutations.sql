@@ -255,6 +255,16 @@ BEGIN
         ELSE
             gameplay.mainline_play_pokemon.held_item_id
         END,
+        tera_type_id = CASE WHEN gameplay.mainline_play_pokemon.tera_type_id IS NULL THEN
+            NULL
+        ELSE
+            COALESCE((
+                SELECT
+                    pokemon_fixed_tera_types.tera_type_id
+                FROM reference.pokemon_fixed_tera_types
+                WHERE
+                    pokemon_fixed_tera_types.form_id = p_to_form_id), gameplay.mainline_play_pokemon.tera_type_id)
+        END,
         updated_at = NOW()
     WHERE
         mainline_play_pokemon.id = p_play_pokemon_id;
@@ -788,7 +798,7 @@ COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, 
 
 COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
 

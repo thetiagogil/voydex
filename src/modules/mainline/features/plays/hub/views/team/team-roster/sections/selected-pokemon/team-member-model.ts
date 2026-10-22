@@ -196,8 +196,12 @@ export const getTeamMemberFacts = (
 
   if (supportsGameMechanic(mechanics, gameMechanics.terastal)) {
     facts.push(
-      member.tera_type_name
-        ? { detail: null, label: "Tera Type", value: member.tera_type_name }
+      member.tera_type_name || member.fixed_tera_type_name
+        ? {
+            detail: null,
+            label: "Tera Type",
+            value: member.tera_type_name ?? member.fixed_tera_type_name ?? "",
+          }
         : notRecorded("Tera Type"),
     );
   }

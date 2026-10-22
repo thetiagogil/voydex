@@ -61,6 +61,24 @@ VALUES
   (265, 17, NULL, NULL, NULL),
   -- Blastoisinite
   (266, 17, NULL, NULL, NULL),
+  -- Beedrillite
+  (267, 17, NULL, NULL, NULL),
+  -- Pidgeotite
+  (268, 17, NULL, NULL, NULL),
+  -- Alakazite
+  (269, 17, NULL, NULL, NULL),
+  -- Slowbronite
+  (270, 17, NULL, NULL, NULL),
+  -- Gengarite
+  (271, 17, NULL, NULL, NULL),
+  -- Kangaskhanite
+  (272, 17, NULL, NULL, NULL),
+  -- Pinsirite
+  (273, 17, NULL, NULL, NULL),
+  -- Gyaradosite
+  (274, 17, NULL, NULL, NULL),
+  -- Aerodactylite
+  (275, 17, NULL, NULL, NULL),
   -- Mewtwonite X
   (276, 17, NULL, NULL, NULL),
   -- Mewtwonite Y

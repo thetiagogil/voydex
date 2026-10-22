@@ -96,7 +96,9 @@ VALUES
   -- #0038 Flabebe - Native Encounter
   (669, 66900, 26, NULL, 1, 'Source displays form or size variants; current Voydex scope keeps the default/planning-relevant form row here.'),
   -- #0039 Floette - Native Encounter
-  (670, 67000, 26, NULL, 1, 'Standard Floette flower colors are available as wild encounters; Eternal Flower is excluded from current Voydex form scope.'),
+  (670, 67000, 26, NULL, 1, 'Standard Floette flower colors are available as wild encounters.'),
+  -- #0039 Floette (Eternal Flower) - Gift
+  (670, 67002, 26, NULL, 4, 'Received after the main story as a Z-A Royale reward.'),
   -- #0040 Florges - Native Encounter
   (671, 67100, 26, NULL, 1, 'Source displays form or size variants; current Voydex scope keeps the default/planning-relevant form row here.'),
   -- #0041 Skiddo - Native Encounter

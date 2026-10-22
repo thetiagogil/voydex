@@ -83,9 +83,8 @@ SELECT
             JOIN reference.pokemon_form_rules ON pokemon_form_rules.form_id = pokemon_battle_form_bases.base_form_id
             WHERE
                 NOT pokemon_form_rules.is_team_selectable $$, 'no base is itself a battle form');
--- Every Mega, Primal, Ultra Burst and Gigantamax form has a base, but two
--- no player's Pokémon reaches: Mega Floette (Eternal Flower Floette isn't
--- seeded) and Eternamax Eternatus.
+-- Every Mega, Primal, Ultra Burst and Gigantamax form has a base, but
+-- Eternamax Eternatus, which no player's Pokémon reaches.
 SELECT
     results_eq ($$
         SELECT
@@ -100,7 +99,7 @@ SELECT
                     WHERE
                         pokemon_battle_form_bases.battle_form_id = pokemon_form_rules.form_id)
             ORDER BY pokemon_forms.slug $$, $$
-            VALUES ('eternamax-eternatus'::text), ('mega-floette') $$, 'only Eternamax Eternatus and Mega Floette have no base');
+            VALUES ('eternamax-eternatus'::text) $$, 'only Eternamax Eternatus has no base');
 -- Regional and Partner forms reach no battle form.
 SELECT
     is_empty ($$

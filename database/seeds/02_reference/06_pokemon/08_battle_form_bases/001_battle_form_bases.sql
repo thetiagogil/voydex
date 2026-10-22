@@ -4,9 +4,10 @@
 -- Primary: Bulbapedia Mega Evolution, Primal Reversion, Ultra Burst and Gigantamax pages.
 -- Cross-check: Serebii form pages (Toxtricity, Urshifu, Necrozma, Tatsugiri, Meowstic).
 -- Scope note: only the stored forms that reach each battle form. Regional and Partner forms
--- (Alolan Raichu, Galarian Slowbro, Partner Pikachu and Eevee) reach none. Mega Floette
--- needs Eternal Flower Floette, which is not seeded yet, and Eternamax Eternatus is never a
--- player's Pokémon, so neither has a row. In-battle forms (Zen Mode and the like) are left out.
+-- (Alolan Raichu, Galarian Slowbro, Partner Pikachu and Eevee) reach none. Only Eternal
+-- Flower Floette reaches Mega Floette, and each Magearna reaches its own Mega. Eternamax
+-- Eternatus is never a player's Pokémon, so it has no row. In-battle forms (Zen Mode and the
+-- like) are left out.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -195,6 +196,8 @@ VALUES
   (65801, 65800, 658),
   -- Mega Pyroar <- Pyroar
   (66801, 66800, 668),
+  -- Mega Floette <- Floette (Eternal Flower)
+  (67001, 67002, 670),
   -- Mega Meowstic <- Meowstic
   (67802, 67800, 678),
   -- Mega Meowstic <- Meowstic (Female)
@@ -223,6 +226,8 @@ VALUES
   (80003, 80002, 800),
   -- Mega Magearna <- Magearna
   (80101, 80100, 801),
+  -- Mega Magearna (Original Color) <- Magearna (Original Color)
+  (80103, 80102, 801),
   -- Mega Zeraora <- Zeraora
   (80701, 80700, 807),
   -- Gigantamax Melmetal <- Melmetal

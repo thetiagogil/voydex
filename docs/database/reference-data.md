@@ -45,10 +45,22 @@ sources remain authoritative for game-specific mechanics and availability.
 - `reference.pokemon_battle_form_bases` names the stored forms that reach each
   Mega, Primal, Ultra Burst and Gigantamax form (Low Key Toxtricity reaches
   only its own Gigantamax form; Ultra Necrozma comes from Dusk Mane or Dawn
-  Wings). A battle form with no row is one no player's Pokémon reaches
-  (Eternamax Eternatus, and Mega Floette until Eternal Flower Floette is
-  seeded). Which games have each mechanic is the exact-game capability
-  contract's, not this table's.
+  Wings; only Eternal Flower Floette reaches Mega Floette; each Magearna
+  reaches its own Mega). A battle form with no row is one no player's Pokémon
+  reaches (Eternamax Eternatus). Which games have each mechanic is the
+  exact-game capability contract's, not this table's.
+- A battle form's held item is bounded to the games where a player's Pokémon
+  uses it: the Primal orbs from Omega Ruby / Alpha Sapphire to Ultra Sun /
+  Ultra Moon and again in Mega Dimension (the Rogue Primals are bosses), and
+  Ultranecrozium Z only in Ultra Sun / Ultra Moon.
+- `reference.tera_types` holds the 18 types (same id and slug as
+  `reference.types`) from Scarlet / Violet, plus Stellar (id 19, no type) from
+  The Indigo Disk. `reference.pokemon_fixed_tera_types` lists the forms whose
+  Tera Type never changes (each Ogerpon mask, Terapagos as Stellar); a trigger
+  refuses any other Tera Type on a Play member of that form.
+- Eternal Flower Floette and Original Color Magearna are stored forms with
+  their own attribute rows. Original Color Magearna's availability covers only
+  the HOME transfers into Sword / Shield and Scarlet / Violet.
 - Evolution edges, mechanics, move/ability attributes, and type matchups retain
   generation boundaries when behavior changed. A change row starts in the
   first generation that has the new value (Flamethrower 90 starts in

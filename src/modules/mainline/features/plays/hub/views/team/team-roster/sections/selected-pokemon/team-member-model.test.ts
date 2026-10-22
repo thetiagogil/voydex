@@ -244,6 +244,13 @@ describe("getTeamMemberFacts", () => {
     expect(
       getTeamMemberFacts(buddy, modernGame).map(({ label }) => label),
     ).not.toContain("Tera Type");
+    /* An Ogerpon mask fixes it, recorded or not. */
+    expect(
+      getTeamMemberFacts(
+        { ...buddy, fixed_tera_type_name: "Water", tera_type_name: null },
+        scarlet,
+      ).find((fact) => fact.label === "Tera Type")?.value,
+    ).toBe("Water");
   });
 
   it("keeps every supported fact in place when nothing is recorded", () => {

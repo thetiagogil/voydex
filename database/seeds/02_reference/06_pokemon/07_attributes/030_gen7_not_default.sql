@@ -104,4 +104,6 @@ VALUES
   -- #0800 Necrozma - Necrozma (Dusk Mane)
   (800, 80001, 7, 11, 17, 232, NULL, NULL, 15, NULL, 97, 157, 127, 113, 109, 77),
   -- #0800 Necrozma - Necrozma (Dawn Wings)
-  (800, 80002, 7, 11, 14, 232, NULL, NULL, 15, NULL, 97, 113, 109, 157, 127, 77);
+  (800, 80002, 7, 11, 14, 232, NULL, NULL, 15, NULL, 97, 113, 109, 157, 127, 77),
+  -- #0801 Magearna - Magearna (Original Color)
+  (801, 80102, 7, 17, 18, 220, NULL, NULL, 15, NULL, 80, 95, 115, 130, 115, 65);

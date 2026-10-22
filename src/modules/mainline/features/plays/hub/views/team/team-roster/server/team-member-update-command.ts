@@ -95,6 +95,7 @@ export const updatePlayPokemon = async (
     gameId: play.game_id,
     generationId: play.generation_id,
     mechanics,
+    playId,
     speciesId: pokemon.species_id,
     versionGroupId: play.version_group_id,
   });

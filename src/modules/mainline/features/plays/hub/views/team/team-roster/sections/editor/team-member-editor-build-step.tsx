@@ -152,6 +152,7 @@ export const TeamMemberEditorBuildStep = ({
             <EditorLabel edited={edited("teraTypeId")}>Tera Type</EditorLabel>
             <SelectControl
               ariaLabel="Tera Type"
+              disabled={member.fixed_tera_type_id !== null}
               placeholder="Not recorded"
               value={selectValue(values.teraTypeId)}
               onValueChange={(value) => change("teraTypeId", fromSelect(value))}

@@ -33,6 +33,7 @@ export const readTeamMemberEditorOptions = async (
     gameId,
     generationId,
     mechanics,
+    playId,
     speciesId,
     versionGroupId,
   }: {
@@ -40,6 +41,7 @@ export const readTeamMemberEditorOptions = async (
     gameId: number;
     generationId: number;
     mechanics: GameMechanicsProfile;
+    playId: string;
     speciesId: number;
     versionGroupId: number;
   },
@@ -57,6 +59,7 @@ export const readTeamMemberEditorOptions = async (
     speciesFormsResult,
     battleFormIds,
     teraTypesResult,
+    contentScopesResult,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -97,9 +100,16 @@ export const readTeamMemberEditorOptions = async (
     hasTerastal
       ? supabase
           .schema("reference")
-          .from("types")
-          .select("id, name")
+          .from("tera_types")
+          .select("id, name, introduced_version_group_id")
           .order("sort_order", { ascending: true })
+      : null,
+    hasTerastal
+      ? supabase
+          .schema("gameplay")
+          .from("mainline_play_optional_content_scopes")
+          .select("version_group_id")
+          .eq("play_id", playId)
       : null,
   ]);
 
@@ -109,7 +119,8 @@ export const readTeamMemberEditorOptions = async (
     ballCategoryResult.error ||
     edgesResult.error ||
     speciesFormsResult.error ||
-    teraTypesResult?.error
+    teraTypesResult?.error ||
+    contentScopesResult?.error
   ) {
     throw new Error("Unable to load what this Pokémon can record.");
   }
@@ -236,6 +247,16 @@ export const readTeamMemberEditorOptions = async (
       increased: nature.increased_stat,
       name: nature.name,
     })),
-    teraTypes: teraTypesResult?.data ?? [],
+    /* Stellar only when the Play includes The Indigo Disk. */
+    teraTypes: (teraTypesResult?.data ?? [])
+      .filter(
+        (teraType) =>
+          teraType.introduced_version_group_id === versionGroupId ||
+          (contentScopesResult?.data ?? []).some(
+            (scope) =>
+              scope.version_group_id === teraType.introduced_version_group_id,
+          ),
+      )
+      .map(({ id, name }) => ({ id, name })),
   };
 };

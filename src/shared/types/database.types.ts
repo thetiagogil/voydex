@@ -3290,6 +3290,43 @@ export type Database = {
           },
         ];
       };
+      pokemon_fixed_tera_types: {
+        Row: {
+          created_at: string;
+          form_id: number;
+          notes: string | null;
+          tera_type_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          form_id: number;
+          notes?: string | null;
+          tera_type_id: number;
+        };
+        Update: {
+          created_at?: string;
+          form_id?: number;
+          notes?: string | null;
+          tera_type_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_fixed_tera_types_form_id_fkey";
+            columns: ["form_id"];
+            isOneToOne: true;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pokemon_fixed_tera_types_tera_type_id_fkey";
+            columns: ["tera_type_id"];
+            isOneToOne: false;
+            referencedRelation: "tera_types";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       pokemon_form_item_requirements: {
         Row: {
           created_at: string;
@@ -3704,6 +3741,52 @@ export type Database = {
           sort_order?: number;
         };
         Relationships: [];
+      };
+      tera_types: {
+        Row: {
+          created_at: string;
+          id: number;
+          introduced_version_group_id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          type_id: number | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id: number;
+          introduced_version_group_id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          type_id?: number | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          introduced_version_group_id?: number;
+          name?: string;
+          slug?: string;
+          sort_order?: number;
+          type_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "tera_types_introduced_version_group_id_fkey";
+            columns: ["introduced_version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tera_types_type_id_fkey";
+            columns: ["type_id"];
+            isOneToOne: true;
+            referencedRelation: "types";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       type_matchups: {
         Row: {
@@ -5150,6 +5233,9 @@ export type Database = {
           created_at: string | null;
           evolution_family_id: number | null;
           final_status: string | null;
+          fixed_tera_type_id: number | null;
+          fixed_tera_type_name: string | null;
+          fixed_tera_type_slug: string | null;
           form_id: number | null;
           form_name: string | null;
           form_slug: string | null;
