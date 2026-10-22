@@ -1,3 +1,4 @@
+import { isValidElement, type ReactElement, type ReactNode } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
@@ -23,7 +24,43 @@ const render = (
     />,
   );
 
+type ButtonProps = { "aria-label": string; onClick: () => void };
+
+/* Every button the picker draws, found without a browser. */
+const buttonsOf = (node: ReactNode): ReactElement<ButtonProps>[] => {
+  if (Array.isArray(node)) return node.flatMap(buttonsOf);
+  if (!isValidElement<{ children?: ReactNode }>(node)) return [];
+  if (node.type === "button") return [node as ReactElement<ButtonProps>];
+
+  return typeof node.type === "function"
+    ? buttonsOf((node.type as (props: unknown) => ReactNode)(node.props))
+    : buttonsOf(node.props.children);
+};
+
 describe("SlotPicker", () => {
+  it("hands the picked slot's value to onPick, slot 0 included", () => {
+    const picked: number[] = [];
+    const buttons = buttonsOf(
+      <SlotPicker
+        ariaLabel="Move to slot"
+        groups={[
+          {
+            slots: [
+              slot({ label: "Slot 1", mark: "1", value: 0 }),
+              slot({ label: "Slot 2", mark: "2", value: 1 }),
+            ],
+          },
+        ]}
+        onPick={(value) => picked.push(value)}
+        selected={0}
+      />,
+    );
+
+    buttons.forEach((button) => button.props.onClick());
+
+    expect(picked).toEqual([0, 1]);
+  });
+
   it("is one named group of buttons, each read by its label", () => {
     const html = render([
       slot(),

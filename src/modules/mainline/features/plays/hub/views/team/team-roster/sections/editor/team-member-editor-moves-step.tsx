@@ -3,6 +3,7 @@ import {
   MoveSlotSelect,
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
+import { EditedMark } from "@/shared/components/edited-mark";
 import { SheetSection } from "@/shared/components/sheet-section";
 
 import type {
@@ -36,17 +37,21 @@ const toMoveOptions = (
 /* Moves: its four, picked from what it can learn here once that has loaded. */
 export const TeamMemberEditorMovesStep = ({
   change,
+  edited,
   member,
   options,
   values,
-}: Pick<TeamMemberEditorStepProps, "change" | "values"> & {
+}: Pick<TeamMemberEditorStepProps, "change" | "edited" | "values"> & {
   member: MainlinePlayTeamMember;
   options: TeamMemberEditorOptions;
 }) => {
   const moveOptions = toMoveOptions(options, member);
 
   return (
-    <SheetSection title="Moves" aside="Optional">
+    <SheetSection
+      title={<EditedMark edited={edited("moveIds")}>Moves</EditedMark>}
+      aside="Optional"
+    >
       <div className="grid gap-2.5 sm:grid-cols-2">
         {values.moveIds.map((moveId, index) => (
           <MoveSlotSelect

@@ -168,7 +168,10 @@ describe("getRosterSlotGroups", () => {
   it("blocks the team's last Pokémon from an open reserve slot only", () => {
     const solo = [member("Solo", "active", 1), member("Bench", "reserve", 7)];
 
-    expect(slotOf("Solo", 8, solo).disabledReason).toBe(teamNeedsOneMessage);
+    expect(slotOf("Solo", 8, solo)).toMatchObject({
+      disabledReason: teamNeedsOneMessage,
+      label: `Move to Reserve R2, ${teamNeedsOneMessage}`,
+    });
     expect(slotOf("Solo", 7, solo).disabledReason).toBeUndefined();
     expect(slotOf("Solo", 3, solo).disabledReason).toBeUndefined();
   });

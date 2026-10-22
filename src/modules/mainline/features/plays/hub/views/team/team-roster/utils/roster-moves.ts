@@ -16,6 +16,10 @@ export const isTeamSlot = (slot: number) => slot <= playTeamSize;
 
 export const teamNeedsOneMessage = "Your team needs at least one Pokémon.";
 
+/* A slot's short mark: "3" on the team, "R3" in the reserve. */
+export const formatRosterMark = (slot: number) =>
+  isTeamSlot(slot) ? String(slot) : `R${slot - playTeamSize}`;
+
 /* A slot as people read it: "Team slot 2" or "Reserve R3". */
 export const formatRosterSlot = (slot: number) =>
   isTeamSlot(slot) ? `Team slot ${slot}` : `Reserve R${slot - playTeamSize}`;
@@ -167,8 +171,10 @@ export const getRosterSlotGroups = (
             ? `${where}, here now`
             : move.kind === "swap"
               ? `Move to ${where}, swapping with ${getPlayTeamMemberName(move.with)}`
-              : `Move to ${where}`,
-        mark: isTeamSlot(slot) ? String(slot) : `R${slot - playTeamSize}`,
+              : move.kind === "blocked"
+                ? `Move to ${where}, ${move.reason}`
+                : `Move to ${where}`,
+        mark: formatRosterMark(slot),
         value: slot,
       };
     }),

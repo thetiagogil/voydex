@@ -12,8 +12,8 @@ export const TeamMemberEditorNotesStep = ({
   values,
 }: TeamMemberEditorStepProps) => (
   <SheetSection
-    title="Notes"
-    aside={<EditedMark edited={edited("notes")}>Optional</EditedMark>}
+    title={<EditedMark edited={edited("notes")}>Notes</EditedMark>}
+    aside="Optional"
   >
     <Textarea
       id={`${id}-notes`}

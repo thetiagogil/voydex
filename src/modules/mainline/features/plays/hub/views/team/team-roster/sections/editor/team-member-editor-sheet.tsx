@@ -253,6 +253,7 @@ export const TeamMemberEditorSheet = ({
       {options ? (
         <TeamMemberEditorMovesStep
           change={change}
+          edited={edited}
           member={member}
           options={options}
           values={values}
