@@ -6,6 +6,9 @@
 -- Rival, Wally, Maxie and Archie battles: Bulbapedia, cross-checked with Serebii's rival, Wally and Team Aqua / Magma pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii.
 -- Zinnia: cross-checked with Bulbapedia, whose slot order is used.
+-- Battle forms: Steven, Zinnia, Wally at Victory Road, and Maxie and Archie at
+-- Seafloor Cavern hold their ace's Mega Stone, and Groudon and Kyogre at the Cave
+-- of Origin are Primal, so each is stored in that form (Bulbapedia trainer pages).
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -126,8 +129,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140016, 14013, 14, NULL, NULL, NULL, NULL, NULL, 4, 346, 34600, 57),
   -- Steven 5: Armaldo Lv. 57
   (140016, 14013, 14, NULL, NULL, NULL, NULL, NULL, 5, 348, 34800, 57),
-  -- Steven 6: Metagross Lv. 59
-  (140016, 14013, 14, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 59),
+  -- Steven 6: Mega Metagross Lv. 59
+  (140016, 14013, 14, NULL, NULL, NULL, NULL, NULL, 6, 376, 37601, 59),
   -- Zinnia 1: Goodra Lv. 60
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 1, 706, 70600, 60),
   -- Zinnia 2: Tyrantrum Lv. 60
@@ -136,8 +139,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 3, 334, 33400, 60),
   -- Zinnia 4: Noivern Lv. 60
   (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 4, 715, 71500, 60),
-  -- Zinnia 5: Salamence Lv. 62
-  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 62),
+  -- Zinnia 5: Mega Salamence Lv. 62
+  (140018, 14014, 14, NULL, NULL, NULL, NULL, NULL, 5, 373, 37301, 62),
   -- May / Brendan (chose Treecko), Receive Pokedex 1: Torchic Lv. 5
   (140002, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 255, 25500, 5),
   -- May / Brendan (chose Torchic), Receive Pokedex 1: Mudkip Lv. 5
@@ -224,16 +227,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 41),
   -- Maxie, Seafloor Cavern 3: Crobat Lv. 41
   (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 3, 169, 16900, 41),
-  -- Maxie, Seafloor Cavern 4: Camerupt Lv. 43
-  (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 43),
+  -- Maxie, Seafloor Cavern 4: Mega Camerupt Lv. 43
+  (140020, 14017, 14, NULL, NULL, NULL, NULL, NULL, 4, 323, 32301, 43),
   -- Archie, Seafloor Cavern 1: Mightyena Lv. 41
   (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41),
   -- Archie, Seafloor Cavern 2: Muk Lv. 41
   (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 2, 89, 8900, 41),
   -- Archie, Seafloor Cavern 3: Crobat Lv. 41
   (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 3, 169, 16900, 41),
-  -- Archie, Seafloor Cavern 4: Sharpedo Lv. 43
-  (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 4, 319, 31900, 43),
+  -- Archie, Seafloor Cavern 4: Mega Sharpedo Lv. 43
+  (140020, 14018, 14, NULL, NULL, NULL, NULL, NULL, 4, 319, 31901, 43),
   -- Wally, Elite Four Sidney 1: Altaria Lv. 46
   (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 46),
   -- Wally, Elite Four Sidney 2: Delcatty Lv. 46
@@ -242,8 +245,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 46),
   -- Wally, Elite Four Sidney 4: Magneton Lv. 46
   (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 46),
-  -- Wally, Elite Four Sidney 5: Gallade Lv. 48
-  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 5, 475, 47500, 48),
+  -- Wally, Elite Four Sidney 5: Mega Gallade Lv. 48
+  (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 5, 475, 47501, 48),
   -- May / Brendan (chose Treecko), Hall of Fame 1: Swellow Lv. 48
   (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 48),
   -- May / Brendan (chose Treecko), Hall of Fame 2: Raichu Lv. 48
@@ -274,10 +277,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 321, 32100, 48),
   -- May / Brendan (chose Mudkip), Hall of Fame 5: Sceptile Lv. 50
   (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25400, 50),
-  -- Groudon, Rain Badge 1: Groudon Lv. 45
-  (140011, 14019, 14, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 45),
-  -- Kyogre, Rain Badge 1: Kyogre Lv. 45
-  (140011, 14020, 14, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 45),
+  -- Groudon, Rain Badge 1: Primal Groudon Lv. 45
+  (140011, 14019, 14, NULL, NULL, NULL, NULL, NULL, 1, 383, 38301, 45),
+  -- Kyogre, Rain Badge 1: Primal Kyogre Lv. 45
+  (140011, 14020, 14, NULL, NULL, NULL, NULL, NULL, 1, 382, 38201, 45),
   -- Rayquaza, Delta Episode 1: Rayquaza Lv. 70
   (140018, 14021, 14, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 70),
   -- Deoxys, Delta Episode 1: Deoxys Lv. 80

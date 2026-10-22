@@ -1,3 +1,5 @@
+import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
+import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import {
   gameMechanics,
@@ -52,6 +54,7 @@ export const readTeamMemberEditorOptions = async (
     learnsets,
     edgesResult,
     speciesFormsResult,
+    battleFormIds,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -88,6 +91,7 @@ export const readTeamMemberEditorOptions = async (
       .select("id, name, slug, species_id")
       .eq("species_id", speciesId)
       .order("form_order", { ascending: true }),
+    readBattleFormIds(supabase),
   ]);
 
   if (
@@ -118,7 +122,9 @@ export const readTeamMemberEditorOptions = async (
   const targetFormIds = [
     ...new Set([
       ...edges.map((edge) => edge.to_form_id),
-      ...(speciesFormsResult.data ?? []).map((form) => form.id),
+      ...withoutBattleForms(speciesFormsResult.data ?? [], battleFormIds).map(
+        (form) => form.id,
+      ),
     ]),
   ];
 

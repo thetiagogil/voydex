@@ -269,6 +269,15 @@ A form being available or team-selectable does not mean an existing Pokémon can
 change into it. Fixed form identity and form-transition capability are separate
 concepts.
 
+### Battle Form
+
+A form a Pokémon only takes during a battle: a Mega Evolution, Primal
+Reversion, Gigantamax, Ultra Necrozma, or a change an ability, move or held
+item makes mid-battle (Zen Mode, Blade Forme, School Form). It has its own
+types, stats and ability, and its form rule names the mechanic that reaches it.
+A Play or Plan member is never stored in one; an opponent that battles in one
+is.
+
 ### Form Rule
 
 Metadata describing how a form should behave in team builder, planning, and display.

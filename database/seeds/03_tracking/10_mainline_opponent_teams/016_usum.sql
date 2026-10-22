@@ -8,6 +8,7 @@
 -- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Totem trials, Ultra Necrozma and Giovanni: cross-checked with Bulbapedia; totem allies follow the order the totem calls them.
 -- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
+-- Battle forms: the Megalo Tower battle is against Ultra Necrozma itself.
 -- Scope: Pokémon Ultra Sun / Ultra Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -98,8 +99,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 3, 330, 33000, 53),
   -- Hapu 4: Mudsdale Lv. 54
   (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 4, 750, 75000, 54),
-  -- Ultra Necrozma 1: Necrozma Lv. 60
-  (160015, 16012, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80000, 60),
+  -- Ultra Necrozma 1: Ultra Necrozma Lv. 60
+  (160015, 16012, 16, NULL, NULL, NULL, NULL, NULL, 1, 800, 80003, 60),
   -- Molayne 1: Klefki Lv. 56
   (160016, 16013, 16, NULL, NULL, NULL, NULL, NULL, 1, 707, 70700, 56),
   -- Molayne 2: Bisharp Lv. 56

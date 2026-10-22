@@ -1991,6 +1991,43 @@ export type Database = {
         };
         Relationships: [];
       };
+      g_max_move_sources: {
+        Row: {
+          created_at: string;
+          form_id: number;
+          g_max_move_id: number;
+          species_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          form_id: number;
+          g_max_move_id: number;
+          species_id: number;
+        };
+        Update: {
+          created_at?: string;
+          form_id?: number;
+          g_max_move_id?: number;
+          species_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "g_max_move_sources_form_fkey";
+            columns: ["species_id", "form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "g_max_move_sources_g_max_move_id_fkey";
+            columns: ["g_max_move_id"];
+            isOneToOne: false;
+            referencedRelation: "moves";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       game_content_scopes: {
         Row: {
           created_at: string;
@@ -3303,6 +3340,7 @@ export type Database = {
       };
       pokemon_form_rules: {
         Row: {
+          battle_mechanic: string | null;
           condition_summary: string | null;
           created_at: string;
           form_id: number;
@@ -3316,6 +3354,7 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          battle_mechanic?: string | null;
           condition_summary?: string | null;
           created_at?: string;
           form_id: number;
@@ -3328,6 +3367,7 @@ export type Database = {
           notes?: string | null;
         };
         Update: {
+          battle_mechanic?: string | null;
           condition_summary?: string | null;
           created_at?: string;
           form_id?: number;
@@ -3752,6 +3792,83 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "version_groups";
             referencedColumns: ["id", "generation_id"];
+          },
+        ];
+      };
+      z_move_sources: {
+        Row: {
+          base_move_id: number | null;
+          base_type_id: number | null;
+          created_at: string;
+          form_id: number | null;
+          id: number;
+          item_id: number;
+          species_id: number | null;
+          z_move_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          base_move_id?: number | null;
+          base_type_id?: number | null;
+          created_at?: string;
+          form_id?: number | null;
+          id?: never;
+          item_id: number;
+          species_id?: number | null;
+          z_move_id: number;
+        };
+        Update: {
+          base_move_id?: number | null;
+          base_type_id?: number | null;
+          created_at?: string;
+          form_id?: number | null;
+          id?: never;
+          item_id?: number;
+          species_id?: number | null;
+          z_move_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "z_move_sources_base_move_id_fkey";
+            columns: ["base_move_id"];
+            isOneToOne: false;
+            referencedRelation: "moves";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "z_move_sources_base_type_id_fkey";
+            columns: ["base_type_id"];
+            isOneToOne: false;
+            referencedRelation: "types";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "z_move_sources_form_fkey";
+            columns: ["species_id", "form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "z_move_sources_item_id_fkey";
+            columns: ["item_id"];
+            isOneToOne: false;
+            referencedRelation: "items";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "z_move_sources_species_id_fkey";
+            columns: ["species_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_species";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "z_move_sources_z_move_id_fkey";
+            columns: ["z_move_id"];
+            isOneToOne: false;
+            referencedRelation: "moves";
+            referencedColumns: ["id"];
           },
         ];
       };

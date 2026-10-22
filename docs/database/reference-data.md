@@ -33,6 +33,15 @@ sources remain authoritative for game-specific mechanics and availability.
 - Learnsets preserve game/version context, method, level, machine, and source
   item where applicable.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Battle forms (Megas, Primals, Gigantamax and in-battle changes) are seeded as
+  non-team-selectable forms whose rule names their `battle_mechanic`. A trigger
+  refuses them as a Play or Plan member's form; opponent teams store the form a
+  Pokémon battles in. Megas new to Legends: Z-A have no ability, because that
+  game has none.
+- Z-Moves come from `reference.z_move_sources` (a type crystal and the move's
+  type, or an exclusive crystal, Pokémon and move); G-Max Moves from
+  `reference.g_max_move_sources`. A damaging move's Max Move is the Max Move of
+  its type, and a status move's is Max Guard.
 - Evolution edges, mechanics, move/ability attributes, and type matchups retain
   generation boundaries when behavior changed. A change row starts in the
   first generation that has the new value (Flamethrower 90 starts in

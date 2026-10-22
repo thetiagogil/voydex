@@ -12,6 +12,10 @@ ALTER TABLE reference.move_version_group_attributes ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.move_machines ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.z_move_sources ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.g_max_move_sources ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.item_categories ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.items ENABLE ROW LEVEL SECURITY;
@@ -31,6 +35,10 @@ REVOKE ALL ON TABLE reference.move_attributes FROM anon, authenticated;
 REVOKE ALL ON TABLE reference.move_version_group_attributes FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_machines FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.z_move_sources FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.g_max_move_sources FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.item_categories FROM anon, authenticated;
 
@@ -52,6 +60,10 @@ GRANT SELECT ON TABLE reference.move_version_group_attributes TO anon, authentic
 
 GRANT SELECT ON TABLE reference.move_machines TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.z_move_sources TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.g_max_move_sources TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.item_categories TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.items TO anon, authenticated;
@@ -71,6 +83,10 @@ GRANT ALL ON TABLE reference.move_attributes TO service_role;
 GRANT ALL ON TABLE reference.move_version_group_attributes TO service_role;
 
 GRANT ALL ON TABLE reference.move_machines TO service_role;
+
+GRANT ALL ON TABLE reference.z_move_sources TO service_role;
+
+GRANT ALL ON TABLE reference.g_max_move_sources TO service_role;
 
 GRANT ALL ON TABLE reference.item_categories TO service_role;
 
@@ -99,6 +115,14 @@ CREATE POLICY move_version_group_attributes_read_all ON reference.move_version_g
     USING (TRUE);
 
 CREATE POLICY move_machines_read_all ON reference.move_machines
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY z_move_sources_read_all ON reference.z_move_sources
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY g_max_move_sources_read_all ON reference.g_max_move_sources
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

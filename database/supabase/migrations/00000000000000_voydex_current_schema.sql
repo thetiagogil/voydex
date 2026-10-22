@@ -871,17 +871,56 @@ CREATE TABLE reference.pokemon_form_rules (
     is_cosmetic boolean NOT NULL DEFAULT FALSE,
     is_regional boolean NOT NULL DEFAULT FALSE,
     is_evolution_locked boolean NOT NULL DEFAULT FALSE,
+    battle_mechanic text,
     condition_summary text,
     notes text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT pokemon_form_rules_form_kind_check CHECK (form_kind IN ('default', 'regional', 'alternate', 'cosmetic', 'battle', 'special')),
     CONSTRAINT pokemon_form_rules_battle_kind_check CHECK (form_kind <> 'battle' OR is_battle_only),
     CONSTRAINT pokemon_form_rules_battle_not_team_selectable_check CHECK (NOT is_battle_only OR NOT is_team_selectable),
+    CONSTRAINT pokemon_form_rules_battle_mechanic_check CHECK (battle_mechanic IS NULL OR battle_mechanic IN ('mega-evolution', 'primal-reversion', 'ultra-burst', 'dynamax', 'in-battle')),
+    CONSTRAINT pokemon_form_rules_battle_mechanic_presence_check CHECK ((battle_mechanic IS NOT NULL) = is_battle_only),
     CONSTRAINT pokemon_form_rules_condition_summary_length_check CHECK (condition_summary IS NULL OR CHAR_LENGTH(BTRIM(condition_summary)) BETWEEN 1 AND 500),
     CONSTRAINT pokemon_form_rules_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 1000)
 );
 
 COMMENT ON TABLE reference.pokemon_form_rules IS 'UI and planning behavior metadata for Pokémon forms.';
+
+COMMENT ON COLUMN reference.pokemon_form_rules.battle_mechanic IS 'Battle forms only: the mechanic that reaches the form, so it shows only in games that have it. in-battle means an ability, move or held item changes it during any battle in a game with the Pokémon.';
+
+CREATE FUNCTION private.enforce_storable_pokemon_form ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    SECURITY DEFINER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_form_id integer := (TO_JSONB (NEW) ->> TG_ARGV[0])::integer;
+BEGIN
+    IF EXISTS (
+        SELECT
+            1
+        FROM
+            reference.pokemon_form_rules
+        WHERE
+            pokemon_form_rules.form_id = v_form_id
+            AND NOT pokemon_form_rules.is_team_selectable) THEN
+    RAISE EXCEPTION 'Form % is a battle form and cannot be a Pokémon''s stored form', v_form_id
+        USING ERRCODE = '23514';
+END IF;
+    RETURN NEW;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION private.enforce_storable_pokemon_form () FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION private.enforce_storable_pokemon_form () FROM anon;
+
+REVOKE ALL ON FUNCTION private.enforce_storable_pokemon_form () FROM authenticated;
+
+GRANT EXECUTE ON FUNCTION private.enforce_storable_pokemon_form () TO service_role;
+
+COMMENT ON FUNCTION private.enforce_storable_pokemon_form () IS 'Refuses a form that is not team selectable, such as a Mega or Gigantamax form, on a row that stores a Pokémon''s identity. TG_ARGV[0] names the form column.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/022_pokemon_form_item_requirements.sql
@@ -958,13 +997,15 @@ CREATE TABLE reference.pokemon_attributes (
     CONSTRAINT pokemon_attributes_egg_group_presence_check CHECK (secondary_egg_group_id IS NULL OR primary_egg_group_id IS NOT NULL),
     CONSTRAINT pokemon_attributes_egg_group_distinct_check CHECK (secondary_egg_group_id IS NULL OR secondary_egg_group_id <> primary_egg_group_id),
     CONSTRAINT pokemon_attributes_egg_group_generation_check CHECK ((generation_start_id = 1 AND primary_egg_group_id IS NULL AND secondary_egg_group_id IS NULL) OR (generation_start_id >= 2 AND primary_egg_group_id IS NOT NULL)),
-    CONSTRAINT pokemon_attributes_ability_generation_check CHECK ((generation_start_id < 3 AND primary_ability_id IS NULL AND secondary_ability_id IS NULL AND hidden_ability_id IS NULL) OR (generation_start_id >= 3 AND primary_ability_id IS NOT NULL AND (generation_start_id >= 5 OR hidden_ability_id IS NULL))),
+    CONSTRAINT pokemon_attributes_ability_generation_check CHECK ((generation_start_id < 3 AND primary_ability_id IS NULL AND secondary_ability_id IS NULL AND hidden_ability_id IS NULL) OR (generation_start_id >= 3 AND primary_ability_id IS NOT NULL AND (generation_start_id >= 5 OR hidden_ability_id IS NULL)) OR (generation_start_id >= 9 AND primary_ability_id IS NULL AND secondary_ability_id IS NULL AND hidden_ability_id IS NULL)),
     CONSTRAINT pokemon_attributes_base_stats_check CHECK (base_hp BETWEEN 1 AND 255 AND base_attack BETWEEN 1 AND 255 AND base_defense BETWEEN 1 AND 255 AND base_special_attack BETWEEN 1 AND 255 AND base_special_defense BETWEEN 1 AND 255 AND base_speed BETWEEN 1 AND 255)
 );
 
 COMMENT ON TABLE reference.pokemon_attributes IS 'Pokémon form types, abilities, egg groups, and base stats by generation change point.';
 
 COMMENT ON COLUMN reference.pokemon_attributes.generation_start_id IS 'First generation where this mechanics row applies.';
+
+COMMENT ON COLUMN reference.pokemon_attributes.primary_ability_id IS 'Required from Generation III. NULL from Generation IX only for a form that has no ability in its games, such as a Mega introduced in Legends: Z-A, which has no abilities.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/024_move_kinds.sql
@@ -1651,6 +1692,68 @@ CREATE TABLE reference.move_version_group_attributes (
 COMMENT ON TABLE reference.move_version_group_attributes IS 'Version-group overrides for move type, power, accuracy, PP, priority, and damage class, such as Let''s Go values. A row replaces the generation row for that version group only.';
 
 -- ============================================================================
+-- Source: database/schema/02_reference/01_tables/041_z_move_sources.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.z_move_sources
+-- Which Z-Crystal turns which move into which Z-Move.
+-- ============================================================================
+CREATE TABLE reference.z_move_sources (
+    id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    z_move_id integer NOT NULL REFERENCES reference.moves (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    item_id integer NOT NULL REFERENCES reference.items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    base_type_id integer REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    species_id integer REFERENCES reference.pokemon_species (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    form_id integer,
+    base_move_id integer REFERENCES reference.moves (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT z_move_sources_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT z_move_sources_one_source_kind_check CHECK ((base_type_id IS NOT NULL AND species_id IS NULL AND form_id IS NULL AND base_move_id IS NULL) OR (base_type_id IS NULL AND species_id IS NOT NULL AND base_move_id IS NOT NULL)),
+    CONSTRAINT z_move_sources_source_unique UNIQUE NULLS NOT DISTINCT (item_id, base_type_id, species_id, form_id, base_move_id)
+);
+
+CREATE INDEX z_move_sources_z_move_idx ON reference.z_move_sources (z_move_id);
+
+CREATE INDEX z_move_sources_item_idx ON reference.z_move_sources (item_id);
+
+CREATE INDEX z_move_sources_species_form_idx ON reference.z_move_sources (species_id, form_id)
+WHERE
+    species_id IS NOT NULL;
+
+CREATE INDEX z_move_sources_base_move_idx ON reference.z_move_sources (base_move_id)
+WHERE
+    base_move_id IS NOT NULL;
+
+COMMENT ON TABLE reference.z_move_sources IS 'How a held Z-Crystal turns a move into a Z-Move. A type crystal turns any damaging move of base_type_id into the Z-Move; an exclusive crystal turns base_move_id into the Z-Move only for that species (and form, when set).';
+
+COMMENT ON COLUMN reference.z_move_sources.base_type_id IS 'Type crystals only: the type of the damaging move the crystal powers up. Status moves keep their own move and gain a Z-effect instead.';
+
+COMMENT ON COLUMN reference.z_move_sources.form_id IS 'Exclusive crystals only: the one form that can use it. NULL means any form of species_id.';
+
+COMMENT ON COLUMN reference.z_move_sources.base_move_id IS 'Exclusive crystals only: the move the Pokémon must know.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/042_g_max_move_sources.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.g_max_move_sources
+-- The G-Max Move each Gigantamax form uses.
+-- ============================================================================
+CREATE TABLE reference.g_max_move_sources (
+    form_id integer PRIMARY KEY,
+    species_id integer NOT NULL,
+    g_max_move_id integer NOT NULL REFERENCES reference.moves (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT g_max_move_sources_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE INDEX g_max_move_sources_species_form_idx ON reference.g_max_move_sources (species_id, form_id);
+
+CREATE INDEX g_max_move_sources_move_idx ON reference.g_max_move_sources (g_max_move_id);
+
+COMMENT ON TABLE reference.g_max_move_sources IS 'The G-Max Move a Gigantamax form uses in place of the Max Move of the same type. Every other damaging move becomes the Max Move whose own type matches it, and status moves become Max Guard.';
+
+-- ============================================================================
 -- Source: database/schema/02_reference/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -1921,6 +2024,10 @@ ALTER TABLE reference.move_version_group_attributes ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.move_machines ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.z_move_sources ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.g_max_move_sources ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.item_categories ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.items ENABLE ROW LEVEL SECURITY;
@@ -1940,6 +2047,10 @@ REVOKE ALL ON TABLE reference.move_attributes FROM anon, authenticated;
 REVOKE ALL ON TABLE reference.move_version_group_attributes FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_machines FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.z_move_sources FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.g_max_move_sources FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.item_categories FROM anon, authenticated;
 
@@ -1961,6 +2072,10 @@ GRANT SELECT ON TABLE reference.move_version_group_attributes TO anon, authentic
 
 GRANT SELECT ON TABLE reference.move_machines TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.z_move_sources TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.g_max_move_sources TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.item_categories TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.items TO anon, authenticated;
@@ -1980,6 +2095,10 @@ GRANT ALL ON TABLE reference.move_attributes TO service_role;
 GRANT ALL ON TABLE reference.move_version_group_attributes TO service_role;
 
 GRANT ALL ON TABLE reference.move_machines TO service_role;
+
+GRANT ALL ON TABLE reference.z_move_sources TO service_role;
+
+GRANT ALL ON TABLE reference.g_max_move_sources TO service_role;
 
 GRANT ALL ON TABLE reference.item_categories TO service_role;
 
@@ -2008,6 +2127,14 @@ CREATE POLICY move_version_group_attributes_read_all ON reference.move_version_g
     USING (TRUE);
 
 CREATE POLICY move_machines_read_all ON reference.move_machines
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY z_move_sources_read_all ON reference.z_move_sources
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY g_max_move_sources_read_all ON reference.g_max_move_sources
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 
@@ -3599,6 +3726,11 @@ CREATE TRIGGER set_play_pokemon_updated_at
     BEFORE UPDATE ON gameplay.mainline_play_pokemon
     FOR EACH ROW
     EXECUTE FUNCTION private.set_updated_at ();
+
+CREATE TRIGGER enforce_play_pokemon_storable_form
+    BEFORE INSERT OR UPDATE OF form_id ON gameplay.mainline_play_pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_storable_pokemon_form ('form_id');
 
 CREATE INDEX play_pokemon_play_roster_state_idx ON gameplay.mainline_play_pokemon (play_id, roster_state_id);
 
@@ -7723,6 +7855,11 @@ CREATE TRIGGER set_team_plan_members_updated_at
     BEFORE UPDATE ON planning.mainline_team_plan_members
     FOR EACH ROW
     EXECUTE FUNCTION private.set_updated_at ();
+
+CREATE TRIGGER enforce_team_plan_members_storable_form
+    BEFORE INSERT OR UPDATE OF target_form_id ON planning.mainline_team_plan_members
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_storable_pokemon_form ('target_form_id');
 
 CREATE INDEX team_plan_members_target_identity_idx ON planning.mainline_team_plan_members (target_species_id, target_form_id);
 
