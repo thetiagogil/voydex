@@ -9,8 +9,9 @@ import {
 import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types";
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
+  battleFormsUseHeldItems,
   hasBattleFormMechanic,
-  type BattleFormMechanic,
+  type BattleFormLink,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import type {
   PokemonGenerationDetail,
@@ -113,24 +114,39 @@ const getVersionGroupScopeIds = (
 };
 
 /*
- * Whether a battle form's mechanic is in this entry: the base group or one
- * of its expansions has it (Primal Reversion arrives with Mega Dimension).
+ * Whether this entry offers a battle form: the base group or one of its
+ * expansions has the mechanic (Primal Reversion arrives with Mega
+ * Dimension), and where the game has held items, an item that reaches it can
+ * be had there (no Mega Sceptile in X and Y, where Sceptilite isn't).
  */
-const hasBattleMechanicInScope = (
+const isBattleFormInScope = (
   generation: PokemonGenerationDetail,
   versionGroup: PokemonDetailVersionGroupScope,
-  mechanic: BattleFormMechanic,
-) =>
-  [versionGroup.versionGroup, ...versionGroup.expansions].some((group) =>
-    hasBattleFormMechanic(
-      resolveVersionGroupMechanics({
+  link: BattleFormLink,
+) => {
+  const { mechanic, unlockItemVersionGroupIds } = link;
+
+  if (!mechanic) {
+    return false;
+  }
+
+  return [versionGroup.versionGroup, ...versionGroup.expansions].some(
+    (group) => {
+      const mechanics = resolveVersionGroupMechanics({
         gameIds: versionGroup.games.map((game) => game.id),
         generationId: generation.generation.id,
         versionGroupId: group.id,
-      }),
-      mechanic,
-    ),
+      });
+
+      return (
+        hasBattleFormMechanic(mechanics, mechanic) &&
+        (unlockItemVersionGroupIds === null ||
+          !battleFormsUseHeldItems(mechanics) ||
+          unlockItemVersionGroupIds.includes(group.id))
+      );
+    },
   );
+};
 
 /*
  * The forms found in the group, in the generation's order: those its
@@ -155,7 +171,7 @@ export const getScopedForms = (
       .filter(
         (link) =>
           link.baseFormIds.some((formId) => storedFormIds.has(formId)) &&
-          hasBattleMechanicInScope(generation, versionGroup, link.mechanic),
+          isBattleFormInScope(generation, versionGroup, link),
       )
       .map((link) => link.formId),
   );

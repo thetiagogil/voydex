@@ -166,13 +166,15 @@ export const getTeamMemberFacts = (
     );
   }
 
-  if (battleForm?.abilityName) {
+  const hasAbilities = supportsGameMechanic(mechanics, gameMechanics.abilities);
+
+  if (hasAbilities && battleForm?.abilityName) {
     facts.push({
       detail: null,
       label: "Ability",
       value: battleForm.abilityName,
     });
-  } else if (supportsGameMechanic(mechanics, gameMechanics.abilities)) {
+  } else if (hasAbilities) {
     facts.push(
       member.ability_name
         ? {

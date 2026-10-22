@@ -5,6 +5,7 @@ import type {
   MainlinePlayTeamMove,
 } from "@/modules/mainline/features/plays/hub/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { MemberBattleForm } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 
 import {
   canEditTeamMember,
@@ -18,6 +19,16 @@ const modernGame = resolveGameMechanics({
   gameId: 1,
   generationId: 8,
   versionGroupId: 1,
+});
+const xy = resolveGameMechanics({
+  gameId: 24,
+  generationId: 6,
+  versionGroupId: 13,
+});
+const letsGo = resolveGameMechanics({
+  gameId: 29,
+  generationId: 7,
+  versionGroupId: 17,
 });
 const firstGenerationGame = resolveGameMechanics({
   gameId: 1,
@@ -171,6 +182,68 @@ describe("getTeamMemberFacts", () => {
       { detail: null, empty: true, label: "Held item", value: "None" },
       { detail: null, label: "Met", value: "Lv. 5 · Poké Ball" },
     ]);
+  });
+
+  describe("in a battle form", () => {
+    const megaForm = {
+      abilityName: "Tough Claws",
+      formId: 601,
+      label: "Mega X",
+      maxMoves: null,
+      mechanic: "mega-evolution",
+      name: "Mega Charizard X",
+      primaryType: null,
+      secondaryType: null,
+      slug: "mega-charizard-x",
+      statChanges: [
+        { change: 46, key: "attack" },
+        { change: 21, key: "specialAttack" },
+      ],
+      warning: null,
+    } satisfies MemberBattleForm;
+
+    it("shows the form's ability and what it changes", () => {
+      expect(
+        getTeamMemberFacts(buddy, xy, megaForm).map(({ label, value }) => [
+          label,
+          value,
+        ]),
+      ).toEqual([
+        ["Nature", "Adamant"],
+        ["Ability", "Tough Claws"],
+        ["Held item", "Miracle Seed"],
+        ["Stat changes", "Atk +46 · Sp. Atk +21"],
+        ["Met", "Slumbering Weald"],
+      ]);
+    });
+
+    it("shows no ability in a game without abilities (Let's Go)", () => {
+      expect(
+        getTeamMemberFacts(buddy, letsGo, megaForm).map(({ label }) => label),
+      ).not.toContain("Ability");
+    });
+  });
+
+  it("adds the Tera Type in Scarlet / Violet, recorded or not", () => {
+    const scarlet = resolveGameMechanics({
+      gameId: 36,
+      generationId: 9,
+      versionGroupId: 23,
+    });
+
+    expect(
+      getTeamMemberFacts({ ...buddy, tera_type_name: "Ghost" }, scarlet).find(
+        (fact) => fact.label === "Tera Type",
+      )?.value,
+    ).toBe("Ghost");
+    expect(
+      getTeamMemberFacts(buddy, scarlet).find(
+        (fact) => fact.label === "Tera Type",
+      ),
+    ).toMatchObject({ empty: true, value: "Not recorded" });
+    expect(
+      getTeamMemberFacts(buddy, modernGame).map(({ label }) => label),
+    ).not.toContain("Tera Type");
   });
 
   it("keeps every supported fact in place when nothing is recorded", () => {

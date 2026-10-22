@@ -41,9 +41,16 @@ export const isBattleFormMechanic = (
  * that list a Pokémon's forms (the Codex entry).
  */
 export type BattleFormLink = {
+  /* Empty for one no player's Pokémon reaches (Eternamax Eternatus). */
   baseFormIds: number[];
   formId: number;
-  mechanic: BattleFormMechanic;
+  /* Null for a change mid-battle (Zen Mode), which an entry never offers. */
+  mechanic: BattleFormMechanic | null;
+  /*
+   * The version groups where a held item that reaches it can be had (Mega
+   * Sceptile only where Sceptilite is); null when it needs no item.
+   */
+  unlockItemVersionGroupIds: number[] | null;
 };
 
 /* Whether this game has the mechanic that reaches a battle form. */
@@ -105,8 +112,13 @@ export type BattleFormReference = {
   slug: string;
   speciesId: number;
   stats: BattleStats | null;
-  /* The held items that reach it here; empty when none is needed. */
+  /* The held items that reach it and can be had in this game. */
   unlockItems: BattleItem[];
+  /*
+   * It needs a held item at all: with none of them in this game (Sceptilite
+   * in X and Y), a game with held items never offers the form.
+   */
+  needsUnlockItem: boolean;
 };
 
 /* How a Z-Crystal turns a move into a Z-Move. */
@@ -351,11 +363,16 @@ export const resolveMemberBattle = ({
       (form) =>
         form.speciesId === member.speciesId &&
         form.baseFormIds.includes(member.formId) &&
-        hasBattleFormMechanic(mechanics, form.mechanic),
+        hasBattleFormMechanic(mechanics, form.mechanic) &&
+        !(checksHeldItem && form.needsUnlockItem && !form.unlockItems.length),
     )
     .map(
       (form): MemberBattleForm => ({
-        abilityName: form.abilityName,
+        // Gigantamax keeps the Pokémon's own ability.
+        abilityName:
+          form.mechanic === battleFormMechanics.dynamax
+            ? null
+            : form.abilityName,
         formId: form.formId,
         label: getBattleFormLabel(form),
         maxMoves:

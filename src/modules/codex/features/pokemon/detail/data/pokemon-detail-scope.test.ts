@@ -355,8 +355,18 @@ describe("battle forms in an entry", () => {
   const generation = {
     ...generationEight,
     battleForms: [
-      { baseFormIds: [600], formId: 601, mechanic: "mega-evolution" },
-      { baseFormIds: [600], formId: 603, mechanic: "dynamax" },
+      {
+        baseFormIds: [600],
+        formId: 601,
+        mechanic: "mega-evolution",
+        unlockItemVersionGroupIds: [13, 14],
+      },
+      {
+        baseFormIds: [600],
+        formId: 603,
+        mechanic: "dynamax",
+        unlockItemVersionGroupIds: null,
+      },
     ],
     forms: [charizard, megaX, gigantamax],
   } as unknown as PokemonGenerationDetail;
@@ -384,6 +394,41 @@ describe("battle forms in an entry", () => {
 
     expect(scope?.form?.form.slug).toBe("gigantamax-charizard");
     expect(scope?.availability).toHaveLength(2);
+  });
+
+  it("offers a Mega only where its stone can be had", () => {
+    const xy = versionGroup(13, "xy", "X / Y", 6);
+    const sceptile = form(25400, "sceptile", true);
+    const megaSceptile = form(25401, "mega-sceptile", false);
+    const generationSix = (stoneVersionGroupIds: number[]) =>
+      ({
+        ...generationEight,
+        availability: [availability(1, xy, { method: "Trade" })],
+        battleForms: [
+          {
+            baseFormIds: [25400],
+            formId: 25401,
+            mechanic: "mega-evolution",
+            unlockItemVersionGroupIds: stoneVersionGroupIds,
+          },
+        ],
+        forms: [sceptile, megaSceptile],
+        games: [game(24, "x", 13)],
+        generation: { id: 6, name: "Generation VI", sort_order: 6 },
+        versionGroups: [xy],
+      }) as unknown as PokemonGenerationDetail;
+    const formsIn = (stoneVersionGroupIds: number[]) =>
+      resolvePokemonDetailScope(
+        {
+          ...data,
+          generationDetails: [generationSix(stoneVersionGroupIds)],
+        } as unknown as PokemonDetailData,
+        { versionGroup: "xy" },
+      )?.forms.map((entry) => entry.form.slug);
+
+    /* Sceptilite arrives in Omega Ruby / Alpha Sapphire. */
+    expect(formsIn([14])).toEqual(["sceptile"]);
+    expect(formsIn([13, 14])).toEqual(["sceptile", "mega-sceptile"]);
   });
 
   it("leaves battle forms out of a group the Pokémon isn't found in", () => {

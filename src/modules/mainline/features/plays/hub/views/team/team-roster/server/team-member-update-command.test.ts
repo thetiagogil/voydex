@@ -18,10 +18,22 @@ vi.mock("./team-member-editor-options-reader", () => ({
   }),
 }));
 
+const reachesGigantamax = vi.hoisted(() => vi.fn().mockResolvedValue(false));
+
+vi.mock(
+  "@/modules/reference/features/pokemon/server/battle-form-reader",
+  () => ({
+    readReachesGigantamax: reachesGigantamax,
+  }),
+);
+
 type Result = { data: unknown; error: unknown };
 
 /* Reads by table name; every write is recorded and must be the one RPC. */
-const createFakeClient = (rpcResult: Result) => {
+const createFakeClient = (
+  rpcResult: Result,
+  overrides: Record<string, Result> = {},
+) => {
   const rpcCalls: { args: unknown; name: string }[] = [];
   const tableWrites: string[] = [];
   const reads: Record<string, Result> = {
@@ -40,6 +52,7 @@ const createFakeClient = (rpcResult: Result) => {
       data: { game_id: 25, generation_id: 7, version_group_id: 15 },
       error: null,
     },
+    ...overrides,
   };
   const from = (table: string) => {
     const builder: Record<string, unknown> & PromiseLike<Result> = {
@@ -178,4 +191,58 @@ describe("updatePlayPokemon", () => {
       expect(rpcCalls).toEqual([]);
     },
   );
+
+  describe("the Gigantamax Factor in Sword", () => {
+    const sword = (hasFactor: boolean) => ({
+      mainline_play_pokemon: {
+        data: {
+          ability_id: null,
+          has_gigantamax_factor: hasFactor,
+          held_item_id: null,
+          nature_id: null,
+        },
+        error: null,
+      },
+      mainline_play_summary: {
+        data: { game_id: 31, generation_id: 8, version_group_id: 18 },
+        error: null,
+      },
+    });
+    const withFactor = { ...input, hasGigantamaxFactor: true };
+
+    it("refuses it for a Pokémon that never Gigantamaxes", async () => {
+      reachesGigantamax.mockResolvedValueOnce(false);
+      const { client, rpcCalls } = createFakeClient(
+        { data: [], error: null },
+        sword(false),
+      );
+
+      await expect(
+        updatePlayPokemon(client, { ...target, input: withFactor }),
+      ).rejects.toThrow("It can't Gigantamax.");
+      expect(rpcCalls).toEqual([]);
+    });
+
+    it("saves it for one that reaches a Gigantamax form", async () => {
+      reachesGigantamax.mockResolvedValueOnce(true);
+      const { client, rpcCalls } = createFakeClient(
+        { data: [], error: null },
+        sword(false),
+      );
+
+      await updatePlayPokemon(client, { ...target, input: withFactor });
+      expect(rpcCalls).toHaveLength(1);
+    });
+
+    it("keeps one it already has, as after evolving", async () => {
+      reachesGigantamax.mockResolvedValueOnce(false);
+      const { client, rpcCalls } = createFakeClient(
+        { data: [], error: null },
+        sword(true),
+      );
+
+      await updatePlayPokemon(client, { ...target, input: withFactor });
+      expect(rpcCalls).toHaveLength(1);
+    });
+  });
 });

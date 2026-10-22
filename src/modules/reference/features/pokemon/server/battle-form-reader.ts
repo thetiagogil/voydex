@@ -40,54 +40,184 @@ export const readBattleFormIds = async (
 };
 
 /*
- * A species' battle forms reached through Mega Evolution, Primal Reversion,
- * Ultra Burst or Gigantamax, each with the stored forms that reach it. One a
- * player's Pokémon never reaches (Eternamax Eternatus) has no bases and is
- * left out.
+ * Where each item can be had, by the version groups whose resolved
+ * availability lists it, with each group's parent so an expansion's item
+ * counts for its base game.
+ */
+const readUnlockItemVersionGroups = async (
+  supabase: ServerSupabaseClient,
+  itemIds: number[],
+): Promise<{
+  data: {
+    itemId: number;
+    parentVersionGroupId: number | null;
+    versionGroupId: number;
+  }[];
+  error: boolean;
+}> => {
+  if (!itemIds.length) {
+    return { data: [], error: false };
+  }
+
+  const [availabilityResult, versionGroupsResult] = await Promise.all([
+    supabase
+      .schema("views")
+      .from("reference_resolved_item_availability")
+      .select("item_id, target_version_group_id")
+      .in("item_id", uniqueNumberIds(itemIds)),
+    supabase
+      .schema("reference")
+      .from("version_groups")
+      .select("id, parent_version_group_id"),
+  ]);
+
+  if (availabilityResult.error || versionGroupsResult.error) {
+    return { data: [], error: true };
+  }
+
+  const parentById = new Map(
+    (versionGroupsResult.data ?? []).map((group) => [
+      group.id,
+      group.parent_version_group_id,
+    ]),
+  );
+
+  return {
+    data: (availabilityResult.data ?? []).flatMap((row) =>
+      row.item_id !== null && row.target_version_group_id !== null
+        ? [
+            {
+              itemId: row.item_id,
+              parentVersionGroupId:
+                parentById.get(row.target_version_group_id) ?? null,
+              versionGroupId: row.target_version_group_id,
+            },
+          ]
+        : [],
+    ),
+    error: false,
+  };
+};
+
+/*
+ * Every battle form of a species, for an entry's form switch: the stored
+ * forms that reach it, its mechanic (null for a change mid-battle, never
+ * offered), and where a held item that reaches it can be had.
  */
 export const readSpeciesBattleFormLinks = async (
   supabase: ServerSupabaseClient,
   speciesId: number,
 ): Promise<BattleFormLink[]> => {
+  const [rulesResult, basesResult] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("pokemon_form_rules")
+      .select("form_id, battle_mechanic, pokemon_forms!inner(species_id)")
+      .eq("pokemon_forms.species_id", speciesId)
+      .eq("is_team_selectable", false),
+    supabase
+      .schema("reference")
+      .from("pokemon_battle_form_bases")
+      .select("battle_form_id, base_form_id")
+      .eq("species_id", speciesId),
+  ]);
+
+  if (rulesResult.error || basesResult.error) {
+    throw new Error("Unable to load battle forms.");
+  }
+
+  const rules = rulesResult.data ?? [];
+
+  if (!rules.length) {
+    return [];
+  }
+
+  const requirementsResult = await supabase
+    .schema("reference")
+    .from("pokemon_form_item_requirements")
+    .select("form_id, item_id")
+    .in(
+      "form_id",
+      rules.map((rule) => rule.form_id),
+    )
+    .in("requirement_kind", ["required_held_item", "alternative_held_item"]);
+
+  if (requirementsResult.error) {
+    throw new Error("Unable to load battle forms.");
+  }
+
+  const requirements = requirementsResult.data ?? [];
+  const itemAvailability = await readUnlockItemVersionGroups(
+    supabase,
+    requirements.map((row) => row.item_id),
+  );
+
+  if (itemAvailability.error) {
+    throw new Error("Unable to load battle forms.");
+  }
+
+  return rules.map((rule) => {
+    const itemIds = requirements
+      .filter((row) => row.form_id === rule.form_id)
+      .map((row) => row.item_id);
+
+    return {
+      baseFormIds: (basesResult.data ?? [])
+        .filter((base) => base.battle_form_id === rule.form_id)
+        .map((base) => base.base_form_id),
+      formId: rule.form_id,
+      mechanic: isBattleFormMechanic(rule.battle_mechanic)
+        ? rule.battle_mechanic
+        : null,
+      unlockItemVersionGroupIds: itemIds.length
+        ? uniqueNumberIds(
+            itemAvailability.data
+              .filter((row) => itemIds.includes(row.itemId))
+              .map((row) => row.versionGroupId),
+          )
+        : null,
+    };
+  });
+};
+
+/*
+ * Whether a stored form reaches a Gigantamax form, so it can hold the
+ * Gigantamax Factor (Low Key Toxtricity yes, Pidgey no).
+ */
+export const readReachesGigantamax = async (
+  supabase: ServerSupabaseClient,
+  formId: number,
+): Promise<boolean> => {
   const basesResult = await supabase
     .schema("reference")
     .from("pokemon_battle_form_bases")
-    .select("battle_form_id, base_form_id")
-    .eq("species_id", speciesId);
+    .select("battle_form_id")
+    .eq("base_form_id", formId);
 
   if (basesResult.error) {
     throw new Error("Unable to load battle forms.");
   }
 
-  const bases = basesResult.data ?? [];
+  const battleFormIds = (basesResult.data ?? []).map(
+    (base) => base.battle_form_id,
+  );
 
-  if (!bases.length) {
-    return [];
+  if (!battleFormIds.length) {
+    return false;
   }
 
   const rulesResult = await supabase
     .schema("reference")
     .from("pokemon_form_rules")
-    .select("form_id, battle_mechanic")
-    .in("form_id", uniqueNumberIds(bases.map((base) => base.battle_form_id)));
+    .select("form_id")
+    .in("form_id", battleFormIds)
+    .eq("battle_mechanic", "dynamax");
 
   if (rulesResult.error) {
     throw new Error("Unable to load battle forms.");
   }
 
-  return (rulesResult.data ?? []).flatMap((rule) =>
-    isBattleFormMechanic(rule.battle_mechanic)
-      ? [
-          {
-            baseFormIds: bases
-              .filter((base) => base.battle_form_id === rule.form_id)
-              .map((base) => base.base_form_id),
-            formId: rule.form_id,
-            mechanic: rule.battle_mechanic,
-          },
-        ]
-      : [],
-  );
+  return Boolean(rulesResult.data?.length);
 };
 
 /*
@@ -326,6 +456,7 @@ export const readBattleReference = async (
     itemsResult,
     abilitiesResult,
     requiredMovesResult,
+    itemAvailabilityResult,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -354,6 +485,10 @@ export const readBattleReference = async (
       .from("moves")
       .select("name, slug")
       .in("slug", requiredMoveSlugs),
+    readUnlockItemVersionGroups(
+      supabase,
+      requirements.map((row) => row.item_id),
+    ),
   ]);
 
   if (
@@ -361,7 +496,8 @@ export const readBattleReference = async (
     moveAttributesResult.error ||
     itemsResult.error ||
     abilitiesResult.error ||
-    requiredMovesResult.error
+    requiredMovesResult.error ||
+    itemAvailabilityResult.error
   ) {
     throw new Error("Unable to load battle forms.");
   }
@@ -370,6 +506,14 @@ export const readBattleReference = async (
     moveAttributesResult.data ?? [],
     (row) => row.move_id,
   );
+  /* In the Play's game or one of its expansions (Mega Dimension's stones). */
+  const itemInGame = (itemId: number, playVersionGroupId: number) =>
+    (itemAvailabilityResult.data ?? []).some(
+      (row) =>
+        row.itemId === itemId &&
+        (row.versionGroupId === playVersionGroupId ||
+          row.parentVersionGroupId === playVersionGroupId),
+    );
   const typeIds = uniqueNumberIds([
     ...battleFormIds.flatMap((formId) => [
       attributesByFormId.get(formId)?.primary_type_id ?? null,
@@ -436,8 +580,13 @@ export const readBattleReference = async (
         slug: form.slug,
         speciesId: form.species_id,
         stats: toStats(attribute),
+        needsUnlockItem: requirements.some((row) => row.form_id === form.id),
         unlockItems: requirements
-          .filter((row) => row.form_id === form.id)
+          .filter(
+            (row) =>
+              row.form_id === form.id &&
+              itemInGame(row.item_id, versionGroupId),
+          )
           .flatMap((row) => itemsById.get(row.item_id) ?? []),
       },
     ];

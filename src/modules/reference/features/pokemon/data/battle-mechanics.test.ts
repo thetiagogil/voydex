@@ -34,6 +34,7 @@ const charizardForm = (
   gMaxMove: null,
   mechanic: "mega-evolution",
   name: "Mega Charizard X",
+  needsUnlockItem: true,
   primaryType: fire,
   requiredMove: null,
   secondaryType: dragon,
@@ -66,8 +67,10 @@ const reference: BattleReference = {
         slug: "g-max-wildfire",
         type: fire,
       },
+      abilityName: "Blaze",
       mechanic: "dynamax",
       name: "Gigantamax Charizard",
+      needsUnlockItem: false,
       secondaryType: flying,
       slug: "gigantamax-charizard",
       stats: stats(84, 109),
@@ -198,6 +201,33 @@ describe("resolveMemberBattle", () => {
     );
   });
 
+  it("leaves out a Mega whose stone this game doesn't have", () => {
+    /* Sceptilite arrives in Omega Ruby / Alpha Sapphire, not X / Y. */
+    const sceptileReference: BattleReference = {
+      ...emptyBattleReference,
+      forms: [
+        charizardForm({
+          baseFormIds: [25400],
+          formId: 25401,
+          name: "Mega Sceptile",
+          slug: "mega-sceptile",
+          speciesId: 254,
+          unlockItems: [],
+        }),
+      ],
+    };
+    const sceptile = (mechanics: typeof xy) =>
+      resolveMemberBattle({
+        member: { ...charizard(), formId: 25400, speciesId: 254 },
+        mechanics,
+        reference: sceptileReference,
+      });
+
+    expect(sceptile(xy)).toBeNull();
+    /* Let's Go checks no stone at all. */
+    expect(sceptile(letsGo)?.forms.map((form) => form.label)).toEqual(["Mega"]);
+  });
+
   it("checks no stone in Let's Go, where Mega Stones stay in the bag", () => {
     const battle = resolveMemberBattle({
       member: charizard(),
@@ -217,6 +247,8 @@ describe("resolveMemberBattle", () => {
 
     expect(battle?.forms).toHaveLength(1);
     expect(battle?.forms[0]).toMatchObject({
+      /* Gigantamax keeps the Pokémon's own ability. */
+      abilityName: null,
       label: "Gigantamax",
       statChanges: [],
       warning: null,
@@ -340,6 +372,7 @@ describe("resolveMemberBattle", () => {
           baseFormIds: [38400],
           formId: 38401,
           name: "Mega Rayquaza",
+          needsUnlockItem: false,
           requiredMove: { name: "Dragon Ascent", slug: "dragon-ascent" },
           slug: "mega-rayquaza",
           speciesId: 384,

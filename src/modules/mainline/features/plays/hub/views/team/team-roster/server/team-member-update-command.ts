@@ -3,6 +3,7 @@ import {
   resolveGameMechanics,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
+import { readReachesGigantamax } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import { findUnofferedEditorChoice } from "../utils/team-member-editor-model";
@@ -40,7 +41,7 @@ export const updatePlayPokemon = async (
     supabase
       .schema("gameplay")
       .from("mainline_play_pokemon")
-      .select("ability_id, held_item_id, nature_id")
+      .select("ability_id, has_gigantamax_factor, held_item_id, nature_id")
       .eq("id", playPokemonId)
       .eq("play_id", playId)
       .maybeSingle(),
@@ -97,6 +98,18 @@ export const updatePlayPokemon = async (
     speciesId: pokemon.species_id,
     versionGroupId: play.version_group_id,
   });
+  /*
+   * The Factor is offered only to a Pokémon that reaches a Gigantamax form;
+   * one it already has stays (it keeps it when it evolves).
+   */
+  if (
+    input.hasGigantamaxFactor &&
+    !currentResult.data.has_gigantamax_factor &&
+    !(await readReachesGigantamax(supabase, pokemon.form_id))
+  ) {
+    throw new Error("It can't Gigantamax.");
+  }
+
   const unoffered = findUnofferedEditorChoice(input, options, {
     abilityId: currentResult.data.ability_id,
     heldItemId: currentResult.data.held_item_id,
