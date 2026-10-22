@@ -38,12 +38,6 @@ export type SegmentedControlOption<TValue extends string> = {
   href?: string;
   icon?: ReactNode;
   label: string;
-  /*
-   * The look of this option once picked, when the options mean different
-   * things: `ok` is the green of a yes, `plain` a white sticker for a no.
-   * Without it the control's `selectedTone` applies.
-   */
-  pickedTone?: "ok" | "plain";
   value: TValue;
 };
 
@@ -163,13 +157,9 @@ export const SegmentedControl = <TValue extends string>({
            * weight never changes, so picking one doesn't shift its row.
            */
           isActive
-            ? option.pickedTone === "ok"
-              ? "bg-ok bubble text-white"
-              : option.pickedTone === "plain"
-                ? "bg-surface bubble text-ink"
-                : selectedTone === "strong"
-                  ? "bg-action bubble text-white"
-                  : "bg-select-soft bubble text-select-ink"
+            ? selectedTone === "strong"
+              ? "bg-action bubble text-white"
+              : "bg-select-soft bubble text-select-ink"
             : "text-ink-2",
           !isActive && !isDisabled && "hover:text-ink hover:bg-hover",
           /*

@@ -205,18 +205,12 @@ test.describe("Team", () => {
     await expect(
       editor.getByRole("combobox", { name: "Poké Ball" }),
     ).toBeVisible();
-    /* Shiny is a No / Yes pair, No picked until it's answered. */
-    const shiny = editor.getByRole("group", { name: "Shiny" });
+    /* Shiny is a switch, off until it's turned on. */
+    const shiny = editor.getByRole("switch", { name: "Shiny" });
 
-    await expect(shiny.getByRole("button", { name: "No" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
-    await shiny.getByRole("button", { name: "Yes" }).click();
-    await expect(shiny.getByRole("button", { name: "Yes" })).toHaveAttribute(
-      "aria-pressed",
-      "true",
-    );
+    await expect(shiny).not.toBeChecked();
+    await shiny.click();
+    await expect(shiny).toBeChecked();
     await expectAccessible(page);
 
     const saved = waitForAction(page);

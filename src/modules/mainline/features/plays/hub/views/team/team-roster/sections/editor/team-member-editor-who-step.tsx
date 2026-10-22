@@ -5,7 +5,7 @@ import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { EditedMark } from "@/shared/components/edited-mark";
 import { SettingsRow } from "@/shared/components/settings-row";
-import { YesNoControl } from "@/shared/components/yes-no-control";
+import { Switch } from "@/shared/components/ui/switch";
 
 import {
   EditorLabel,
@@ -19,17 +19,24 @@ const genderOptions = [
   { label: "Not recorded", value: "unknown" },
 ] as const;
 
-/* Who: its species (fixed here), nickname, level, gender and shininess. */
+const yesNo = ["No", "Yes"] as const;
+
+/*
+ * Who: its species (fixed here), nickname, level, gender, shininess and, where
+ * its game has it, whether it can Gigantamax.
+ */
 export const TeamMemberEditorWhoStep = ({
   change,
   edited,
   id,
   member,
   supportsGender,
+  supportsGigantamax,
   values,
 }: TeamMemberEditorStepProps & {
   member: MainlinePlayTeamMember;
   supportsGender: boolean;
+  supportsGigantamax: boolean;
 }) => (
   <SheetSection title="Who">
     <div className="grid gap-4 sm:grid-cols-2">
@@ -99,12 +106,36 @@ export const TeamMemberEditorWhoStep = ({
       inline
       className="py-0"
       title={<EditedMark edited={edited("isShiny")}>Shiny</EditedMark>}
+      titleId={`${id}-shiny`}
     >
-      <YesNoControl
-        ariaLabel="Shiny"
-        value={values.isShiny}
-        onValueChange={(isShiny) => change("isShiny", isShiny)}
+      <Switch
+        size="lg"
+        labels={yesNo}
+        aria-labelledby={`${id}-shiny`}
+        checked={values.isShiny}
+        onCheckedChange={(checked) => change("isShiny", checked)}
       />
     </SettingsRow>
+    {supportsGigantamax ? (
+      <SettingsRow
+        inline
+        className="py-0"
+        title={
+          <EditedMark edited={edited("hasGigantamaxFactor")}>
+            Can Gigantamax
+          </EditedMark>
+        }
+        titleId={`${id}-gigantamax`}
+        description="It has the Gigantamax Factor and can take its special form."
+      >
+        <Switch
+          size="lg"
+          labels={yesNo}
+          aria-labelledby={`${id}-gigantamax`}
+          checked={values.hasGigantamaxFactor}
+          onCheckedChange={(checked) => change("hasGigantamaxFactor", checked)}
+        />
+      </SettingsRow>
+    ) : null}
   </SheetSection>
 );

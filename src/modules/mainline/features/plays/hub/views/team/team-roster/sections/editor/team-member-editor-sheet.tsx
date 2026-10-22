@@ -236,6 +236,7 @@ export const TeamMemberEditorSheet = ({
         {...stepProps}
         member={member}
         supportsGender={supports.gender}
+        supportsGigantamax={supports.gigantamax}
       />
       <TeamMemberEditorWhereStep
         isMoving={isMoving}

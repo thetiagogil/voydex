@@ -115,12 +115,12 @@ test.describe("Battle forms", () => {
 
     await page.getByRole("button", { name: "Edit Charizard" }).click();
     const editor = page.getByRole("dialog", { name: "Charizard" });
-    const canGigantamax = editor.getByRole("group", {
+    const canGigantamax = editor.getByRole("switch", {
       name: "Can Gigantamax",
     });
 
     await expect(canGigantamax).toBeVisible(forTheAnswer);
-    await canGigantamax.getByRole("button", { name: "Yes" }).click();
+    await canGigantamax.click();
     const saved = waitForAction(page);
     await editor.getByRole("button", { name: "Save", exact: true }).click();
     await saved;
