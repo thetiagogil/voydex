@@ -143,7 +143,7 @@ species and form). Pick a species of the Play's Pokédexes (base game and the
 expansions it tracks) by name or number, then its nickname, level and team
 or reserve; the server takes the first open slot, the moment joins History
 and the toast offers Undo, which deletes the Pokémon and that moment
-together. **Edit Pokémon** is the same kind of sheet: Who, Traits (shiny, can Gigantamax), Slot,
+together. **Edit Pokémon** is the same kind of sheet: Who (with shiny and can Gigantamax), Slot,
 Details (nature, ability, held item, Poké Ball, and where and at what level it
 was met), Moves and Notes, then Review changes before Save, offering only what
 the game records. Evolve and Change form record their moment; Replace (picking
