@@ -15,7 +15,8 @@ import {
   MoveSlotSelect,
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
-import { SearchSelect } from "@/shared/components/search-select";
+import { ItemIcon } from "@/shared/components/item-icon";
+import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
 
@@ -38,6 +39,8 @@ type PlannerSlotMovesProps = {
  * choices load when it opens: what the Pokémon learns in every game of the
  * version group, and held items only where the group has them.
  */
+const anyItem = "any";
+
 export const PlannerSlotMoves = ({
   heldItemsApply,
   member,
@@ -100,17 +103,26 @@ export const PlannerSlotMoves = ({
       {heldItemsApply ? (
         <Field>
           <FieldLabel htmlFor="plan-slot-held-item">Held item</FieldLabel>
-          <SearchSelect
+          <SelectControl
             id="plan-slot-held-item"
+            ariaLabel="Held item"
             placeholder="Any"
-            value={member.heldItemId ? String(member.heldItemId) : null}
+            value={member.heldItemId ? String(member.heldItemId) : anyItem}
             onValueChange={(value) =>
-              onChange({ heldItemId: value ? Number(value) : null })
+              onChange({ heldItemId: value === anyItem ? null : Number(value) })
             }
-            options={heldItems.map((item) => ({
-              label: item.name,
-              value: String(item.id),
-            }))}
+            options={[
+              {
+                icon: <ItemIcon kind="held" name="Any" />,
+                label: "Any",
+                value: anyItem,
+              },
+              ...heldItems.map((item) => ({
+                icon: <ItemIcon kind="held" name={item.name} />,
+                label: item.name,
+                value: String(item.id),
+              })),
+            ]}
           />
         </Field>
       ) : null}

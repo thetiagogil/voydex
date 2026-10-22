@@ -148,6 +148,12 @@ test.describe("Battle forms", () => {
 
     await editor.getByRole("combobox", { name: "Tera Type" }).click();
     await page.getByRole("option", { name: "Ghost", exact: true }).click();
+    /* A long list, so it opens with a search field. */
+    await editor.getByRole("combobox", { name: "Held item" }).click();
+    await page
+      .getByRole("combobox", { name: "Search held item" })
+      .fill("Leftovers");
+    await page.getByRole("option", { name: "Leftovers" }).click();
     const saved = waitForAction(page);
     await editor.getByRole("button", { name: "Save", exact: true }).click();
     await saved;
@@ -157,6 +163,7 @@ test.describe("Battle forms", () => {
 
     await expect(profile).toContainText("Tera Type");
     await expect(profile).toContainText("Ghost");
+    await expect(profile).toContainText("Leftovers");
     /* Scarlet has no battle forms to switch to. */
     await expect(
       profile.getByRole("combobox", { name: "Battle form" }),

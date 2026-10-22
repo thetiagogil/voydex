@@ -2,7 +2,6 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
 import { ItemIcon } from "@/shared/components/item-icon";
-import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
@@ -98,15 +97,18 @@ export const TeamMemberEditorDetailsStep = ({
             <EditorLabel htmlFor={`${id}-item`} edited={edited("heldItemId")}>
               Held item
             </EditorLabel>
-            <SearchSelect
+            <SelectControl
               id={`${id}-item`}
-              icon={<ItemIcon kind="held" name="Held item" />}
-              value={values.heldItemId || null}
-              onValueChange={(value) => change("heldItemId", value ?? "")}
-              options={optionsState.options.heldItems.map((item) => ({
-                label: item.name,
-                value: String(item.id),
-              }))}
+              ariaLabel="Held item"
+              placeholder="Not recorded"
+              value={selectValue(values.heldItemId)}
+              onValueChange={(value) => change("heldItemId", fromSelect(value))}
+              options={toSelectOptions(optionsState.options.heldItems).map(
+                (option) => ({
+                  ...option,
+                  icon: <ItemIcon kind="held" name={option.label} />,
+                }),
+              )}
             />
           </Field>
         ) : null}
