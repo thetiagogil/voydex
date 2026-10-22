@@ -12,6 +12,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -21,6 +22,7 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
+import { cn } from "@/shared/utils/cn";
 
 type PlayDetailRow = {
   key: string;
@@ -30,19 +32,37 @@ type PlayDetailRow = {
   value: ReactNode;
 };
 
-/* Rules and tags as small chips, so a long list wraps instead of piling up. */
+/*
+ * Rules and tags as small chips, so a long list wraps instead of piling up.
+ * A chip with more to say (Level caps' cap) ends with an info icon and its tip.
+ */
 const PlayDetailChips = ({
   items,
   label,
 }: {
-  items: { id: string; name: string; title?: string }[];
+  items: { id: string; name: string; tip?: ReactNode; title?: string }[];
   label: string;
 }) => (
   <ul aria-label={label} className="flex flex-wrap gap-1.5">
     {items.map((item) => (
       <li key={item.id}>
-        <Badge size="md" title={item.title} className="whitespace-normal">
+        <Badge
+          size="md"
+          title={item.title}
+          className={cn(
+            "whitespace-normal",
+            /* The tip's hit area reaches past the chip's edge. */
+            item.tip && "overflow-visible pr-1.5",
+          )}
+        >
           {item.name}
+          {item.tip ? (
+            <ExplanatoryTip
+              content={item.tip}
+              triggerLabel={`About ${item.name}`}
+              triggerVariant="icon"
+            />
+          ) : null}
         </Badge>
       </li>
     ))}
@@ -94,6 +114,7 @@ const getPlayDetailRows = (data: MainlinePlayShellData): PlayDetailRow[] => {
               items={data.rules.map((rule) => ({
                 id: rule.id,
                 name: rule.label,
+                tip: data.ruleNotes[rule.id],
                 title: rule.description ?? undefined,
               }))}
             />

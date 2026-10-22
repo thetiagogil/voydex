@@ -4,6 +4,7 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import type { Type } from "@/modules/reference/types";
 
 import {
+  buildStoryLevelCap,
   buildStoryMatchupsModel,
   type StoryMatchupMilestone,
   type StoryOpponentPartyRow,
@@ -506,5 +507,145 @@ describe("buildStoryMatchupsModel with a rematch", () => {
       null,
     ]);
     expect(battles[1]).toMatchObject({ party: null, reading: null });
+  });
+});
+
+describe("buildStoryLevelCap", () => {
+  const partyRow = (
+    milestoneId: number,
+    opponentId: number,
+    slot: number,
+    level: number,
+  ): StoryOpponentPartyRow => ({
+    choiceKey: null,
+    formSlug: `pokemon-${opponentId}-${slot}`,
+    gameId: null,
+    level,
+    milestoneId,
+    name: `Pokémon ${slot}`,
+    opponentId,
+    primaryTypeId: null,
+    secondaryTypeId: null,
+    slot,
+    variantKey: null,
+    variantLabel: null,
+  });
+  /* Kanto in short: Story's battles in order, and the ones won so far. */
+  const build = (won: number[]) =>
+    buildStoryLevelCap({
+      playGameId: 1,
+      rows: {
+        chosenChoiceKeys: new Set(),
+        opponentGameIdById: new Map([[5, 2]]),
+        orderedMilestones: [
+          milestone(1, [
+            { id: 1, name: "Brock", role: "gym-leader", typeId: 13 },
+          ]),
+          milestone(2, [{ id: 2, name: "Blue", role: "rival", typeId: 11 }]),
+          milestone(3, [
+            { id: 5, name: "Clair", role: "gym-leader", typeId: 11 },
+          ]),
+          milestone(4, [
+            { id: 3, name: "Misty", role: "gym-leader", typeId: 11 },
+          ]),
+          milestone(5, [
+            { id: 4, name: "Lorelei", role: "elite-four", typeId: 11 },
+          ]),
+          milestone(6, [{ id: 6, name: "Blue", role: "champion", typeId: 11 }]),
+        ].map((item) =>
+          won.includes(item.milestone_id ?? 0)
+            ? { ...item, is_completed: true }
+            : item,
+        ),
+        partyRows: [
+          partyRow(1, 1, 1, 12),
+          partyRow(1, 1, 2, 14),
+          partyRow(2, 2, 1, 30),
+          partyRow(3, 5, 1, 40),
+          partyRow(4, 3, 2, 21),
+          partyRow(4, 3, 1, 18),
+          partyRow(6, 6, 1, 63),
+          partyRow(6, 6, 2, 65),
+        ],
+        snapshotsByMilestoneId: new Map(),
+      },
+    });
+
+  it("caps at the first Gym Leader's strongest Pokémon on a new Play", () => {
+    expect(build([])).toEqual({
+      battle: { kind: "Gym Leader", name: "Brock" },
+      level: 14,
+      status: "capped",
+    });
+  });
+
+  it("moves mid-game to the next leader, past rivals and the other version's leader", () => {
+    expect(build([1])).toEqual({
+      battle: { kind: "Gym Leader", name: "Misty" },
+      level: 21,
+      status: "capped",
+    });
+  });
+
+  it("names the next battle when Voydex doesn't have its team", () => {
+    expect(build([1, 2, 4])).toEqual({
+      battle: { kind: "Elite Four", name: "Lorelei" },
+      status: "no-team",
+    });
+  });
+
+  it("caps at the Champion's ace once the Elite Four is beaten", () => {
+    expect(build([1, 2, 4, 5])).toEqual({
+      battle: { kind: "Champion", name: "Blue" },
+      level: 65,
+      status: "capped",
+    });
+  });
+
+  it("reads the Play's own game's team where the versions' teams differ", () => {
+    expect(
+      buildStoryLevelCap({
+        playGameId: 2,
+        rows: {
+          chosenChoiceKeys: new Set(),
+          opponentGameIdById: new Map(),
+          orderedMilestones: [
+            milestone(1, [
+              { id: 1, name: "Drayden", role: "gym-leader", typeId: 5 },
+            ]),
+          ],
+          partyRows: [
+            { ...partyRow(1, 1, 1, 43), gameId: 1 },
+            { ...partyRow(1, 1, 1, 48), gameId: 2 },
+          ],
+          snapshotsByMilestoneId: new Map(),
+        },
+      }),
+    ).toEqual({
+      battle: { kind: "Gym Leader", name: "Drayden" },
+      level: 48,
+      status: "capped",
+    });
+  });
+
+  it("has no cap after the Champion", () => {
+    expect(build([1, 2, 4, 5, 6])).toEqual({ status: "no-battle" });
+  });
+
+  it("has no cap in a game whose Story has no leader battles", () => {
+    expect(
+      buildStoryLevelCap({
+        playGameId: 1,
+        rows: {
+          chosenChoiceKeys: new Set(),
+          opponentGameIdById: new Map(),
+          orderedMilestones: [
+            milestone(1, [{ id: 1, name: "Kamado", role: "noble", typeId: 5 }]),
+          ],
+          partyRows: [partyRow(1, 1, 1, 30)],
+          snapshotsByMilestoneId: new Map(),
+        },
+      }),
+    ).toEqual({ status: "no-battle" });
   });
 });

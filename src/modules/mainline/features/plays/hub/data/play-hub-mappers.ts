@@ -36,6 +36,7 @@ import {
 } from "@/modules/mainline/features/plays/hub/views/overview/data/partner-choice-mapper";
 import {
   collectRuleBreaks,
+  describeLevelCap,
   emptyRuleBreaks,
   type RuleCheckContext,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
@@ -76,6 +77,15 @@ export const buildMainlinePlayRules = (
   });
 };
 
+/* Level caps' cap, or why levels aren't checked, beside its rule. */
+const getRuleNotes = ({ levelCap, rules }: RuleCheckContext) => {
+  const levelCaps = rules.find((rule) => rule.kind === "level_caps");
+
+  return levelCaps && levelCap
+    ? { [levelCaps.id]: describeLevelCap(levelCap) }
+    : {};
+};
+
 export const buildMainlinePlayShellData = (params: {
   collectiblesAvailable: boolean;
   gameContext: MainlinePlayGameContextRows;
@@ -102,6 +112,7 @@ export const buildMainlinePlayShellData = (params: {
           ),
         )
       : emptyRuleBreaks,
+    ruleNotes: getRuleNotes(params.ruleChecks),
     rules: buildMainlinePlayRules(params.ruleRows),
     tags: params.tags,
   };

@@ -46,13 +46,21 @@ import {
   type AddPokemonPlacement,
 } from "./add-pokemon-details-step";
 
-/* A Pokémon to pick as the Play's rule checks read it; its shininess isn't known yet. */
+/*
+ * A Pokémon to pick as the Play's rule checks read it; its shininess isn't
+ * known yet, and its nickname and level only once they're typed.
+ */
 const toChoiceRuleCheck = (
   choice: PokemonChoice,
-  nickname: string | null,
+  { level, nickname }: { level: number | null; nickname: string | null },
 ): RuleCheckPokemon => ({
   formId: choice.formId,
   isShiny: null,
+  /* Only a level the save would take: a whole number from 1 to 100. */
+  level:
+    level !== null && Number.isInteger(level) && level >= 1 && level <= 100
+      ? level
+      : null,
   name: choice.speciesName,
   nickname,
   speciesId: choice.speciesId,
@@ -298,11 +306,15 @@ export const AddPokemonSheet = ({
   );
 
   /*
-   * The rules a Pokémon would break as it stands. Its nickname is chosen in
-   * the next step, so Nickname everything waits for it.
+   * The rules a Pokémon would break as it stands. Its nickname and level are
+   * chosen in the next step, so Nickname everything and Level caps wait for
+   * them.
    */
   const getBrokenRules = (choice: PokemonChoice) =>
-    checkPokemonRules(toChoiceRuleCheck(choice, null), ruleChecks)
+    checkPokemonRules(
+      toChoiceRuleCheck(choice, { level: null, nickname: null }),
+      ruleChecks,
+    )
       .filter((warning) => warning.ruleKind !== "nickname_everything")
       .map((warning) => warning.ruleName);
 
@@ -325,7 +337,10 @@ export const AddPokemonSheet = ({
 
   const warnings = picked
     ? checkPokemonRules(
-        toChoiceRuleCheck(picked, nickname.trim() || null),
+        toChoiceRuleCheck(picked, {
+          level: parsedLevel,
+          nickname: nickname.trim() || null,
+        }),
         ruleChecks,
       ).map((warning) => ({ ...warning, key: warning.ruleId }))
     : [];

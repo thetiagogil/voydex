@@ -41,7 +41,10 @@ import {
 import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/server/rule-check-reader";
 import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
-import { readMainlinePlayStoryMatchupRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
+import {
+  readMainlinePlayLevelCap,
+  readMainlinePlayStoryMatchupRows,
+} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
 import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/team-analysis-reader";
 import type {
   MainlinePlayTeamAnalysisData,
@@ -105,7 +108,13 @@ const getMainlinePlayRuleChecks = cache(async (playId: string) => {
   const context = await getMainlinePlayRequestContext(playId);
 
   return context
-    ? readPlayRuleCheckContext(context.supabase, context.play, context.userId)
+    ? readPlayRuleCheckContext(context.supabase, context.play, context.userId, {
+        readLevelCap: () =>
+          readMainlinePlayLevelCap(context.supabase, {
+            ...context.play,
+            play_id: playId,
+          }),
+      })
     : emptyRuleCheckContext;
 });
 

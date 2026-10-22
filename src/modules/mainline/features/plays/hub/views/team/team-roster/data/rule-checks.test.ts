@@ -5,6 +5,7 @@ import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/hub
 import {
   buildCheckedRules,
   checkPokemonRules,
+  describeLevelCap,
   emptyRuleCheckContext,
   collectRuleBreaks,
   type CheckedRule,
@@ -18,6 +19,7 @@ const electric = 13;
 const pikachu: RuleCheckPokemon = {
   formId: 25,
   isShiny: false,
+  level: 20,
   name: "Pikachu",
   nickname: null,
   speciesId: 25,
@@ -95,12 +97,12 @@ describe("buildCheckedRules", () => {
 
   it("leaves out a rule of yours, even one named like Voydex's, and rules it can't see", () => {
     const yours = ruleRow("monotype", { type_id: water }, "trainer");
-    const levelCaps = ruleRow("level_caps");
+    const noItems = ruleRow("no_battle_items");
 
     expect(
       buildCheckedRules({
-        links: [link(yours.id, { type_id: water }), link(levelCaps.id)],
-        rules: [yours, levelCaps],
+        links: [link(yours.id, { type_id: water }), link(noItems.id)],
+        rules: [yours, noItems],
         types: [{ id: water, name: "Water" }],
       }),
     ).toEqual([]);
@@ -310,6 +312,76 @@ describe("checkPokemonRules", () => {
     expect(
       checkPokemonRules(pikachu, context).map((warning) => warning.ruleId),
     ).toEqual(["s", "n"]);
+  });
+});
+
+describe("Level caps", () => {
+  const rules: CheckedRule[] = [
+    { id: "caps", kind: "level_caps", name: "Level caps" },
+  ];
+  const misty = { kind: "Gym Leader", name: "Misty" };
+  const capped = withRules(rules, {
+    levelCap: { battle: misty, level: 21, status: "capped" },
+  });
+
+  it("is checked, last in the Library's order", () => {
+    const caps = ruleRow("level_caps");
+    const shiny = ruleRow("shiny_only");
+
+    expect(
+      buildCheckedRules({
+        links: [link(caps.id), link(shiny.id)],
+        rules: [caps, shiny],
+        types: [],
+      }).map((rule) => rule.kind),
+    ).toEqual(["shiny_only", "level_caps"]);
+  });
+
+  it("warns above the cap with the cap and the battle it comes from", () => {
+    expect(checkPokemonRules({ ...pikachu, level: 25 }, capped)).toEqual([
+      {
+        ruleId: "caps",
+        ruleKind: "level_caps",
+        ruleName: "Level caps",
+        text: "Pikachu is Lv. 25, over the Lv. 21 cap from Gym Leader Misty.",
+      },
+    ]);
+  });
+
+  it("lets a Pokémon at or under the cap, or without a level, pass", () => {
+    expect(checkPokemonRules({ ...pikachu, level: 21 }, capped)).toEqual([]);
+    expect(checkPokemonRules({ ...pikachu, level: null }, capped)).toEqual([]);
+  });
+
+  it("doesn't warn without a cap", () => {
+    const high = { ...pikachu, level: 99 };
+
+    expect(
+      checkPokemonRules(
+        high,
+        withRules(rules, { levelCap: { battle: misty, status: "no-team" } }),
+      ),
+    ).toEqual([]);
+    expect(
+      checkPokemonRules(
+        high,
+        withRules(rules, { levelCap: { status: "no-battle" } }),
+      ),
+    ).toEqual([]);
+  });
+
+  it("says the cap, or why there's none", () => {
+    expect(
+      describeLevelCap({ battle: misty, level: 21, status: "capped" }),
+    ).toBe(
+      "Lv. 21, the highest level on Gym Leader Misty's team, the next leader you face.",
+    );
+    expect(describeLevelCap({ battle: misty, status: "no-team" })).toBe(
+      "No cap for now: Voydex doesn't have Gym Leader Misty's team yet, so levels aren't checked.",
+    );
+    expect(describeLevelCap({ status: "no-battle" })).toMatch(
+      /^No cap: there's no Gym Leader, Kahuna, Elite Four or Champion battle ahead/,
+    );
   });
 });
 

@@ -7,6 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 const hoverDelay = 200;
@@ -31,13 +32,14 @@ type ExplanatoryTipProps = Pick<
    */
   triggerTone?: InfoDotTone;
   /*
-   * `dot` is the small inset dot for text; `raised` is a 24px cream bubble
-   * for a card's corner (inside a `CornerBubble`).
+   * `dot` is the small inset dot for text; `icon` is the outlined info icon
+   * a Library choice wears, for the end of a chip; `raised` is a 24px cream
+   * bubble for a card's corner (inside a `CornerBubble`).
    */
   triggerVariant?: InfoDotVariant;
 };
 
-type InfoDotVariant = "dot" | "raised";
+type InfoDotVariant = "dot" | "icon" | "raised";
 type InfoDotTone = "danger" | "info" | "warn";
 
 const infoDotToneClassNames: Record<InfoDotTone, string> = {
@@ -57,6 +59,10 @@ const infoDotVariantClassNames: Record<
   dot: {
     dot: "bg-surface-2 size-4.5 after:absolute after:-inset-2.5",
     glyph: "text-12",
+  },
+  icon: {
+    dot: "text-ink-3 size-4.5 after:absolute after:-inset-2.5",
+    glyph: "",
   },
   raised: {
     dot: "bg-surface bubble size-6 after:absolute after:-inset-2",
@@ -178,7 +184,9 @@ export const ExplanatoryTip = ({
         }}
       >
         {children ??
-          (trigger ? null : (
+          (trigger ? null : triggerVariant === "icon" ? (
+            <AppIcon icon={appIcons.status.info} size="sm" />
+          ) : (
             <span
               aria-hidden
               className={cn(

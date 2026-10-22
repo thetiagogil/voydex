@@ -95,6 +95,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
     sort_order: 0,
   },
   ruleBreaks: { pokemon: [], ruleNames: [] },
+  ruleNotes: {},
   rules: [],
   tags: [],
 });
