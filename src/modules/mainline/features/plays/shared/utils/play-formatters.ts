@@ -1,4 +1,4 @@
-const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/;
+import { formatCalendarDay } from "@/shared/utils/calendar-day";
 
 /*
  * A calendar day ("2025-05-07", like `started_on`) as "May 7, 2025". It is not
@@ -6,24 +6,8 @@ const dateOnlyPattern = /^\d{4}-\d{2}-\d{2}$/;
  * instants and take the fallback here: read them in the viewer's zone through
  * `PlayMomentTime` or `formatPlayMoment` instead.
  */
-export const formatPlayDate = (value: string | null, fallback = "Not set") => {
-  if (!value || !dateOnlyPattern.test(value)) {
-    return fallback;
-  }
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) {
-    return fallback;
-  }
-
-  return new Intl.DateTimeFormat("en", {
-    day: "numeric",
-    month: "short",
-    timeZone: "UTC",
-    year: "numeric",
-  }).format(date);
-};
+export const formatPlayDate = (value: string | null, fallback = "Not set") =>
+  formatCalendarDay(value, fallback);
 
 export const formatPlayMinutes = (value: number | null) => {
   if (value === null) {

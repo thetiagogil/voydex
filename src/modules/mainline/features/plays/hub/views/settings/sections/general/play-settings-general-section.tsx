@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { EditedMark } from "@/shared/components/edited-mark";
+import { DatePicker } from "@/shared/components/date-picker";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SettingsRow } from "@/shared/components/settings-row";
@@ -140,11 +141,11 @@ export const PlaySettingsGeneralSection = ({
             >
               Started on
             </SettingsFieldLabel>
-            <Input
+            <DatePicker
               id={`${id}-started`}
-              type="date"
+              label="Started on"
               value={values.startedOn}
-              onChange={(event) => change("startedOn", event.target.value)}
+              onValueChange={(day) => change("startedOn", day)}
             />
           </Field>
           <Field role="group" aria-labelledby={`${id}-playtime`}>
