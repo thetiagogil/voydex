@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia individual item, evolution item, form item, and game item pages.
 -- Cross-check: Serebii item location pages and PokemonDB item pages where available.
 -- Scope note: curated Pokémon-relevant item availability, not a full item encyclopedia.
+-- Poke Ball rule: a ball is listed when it exists in this game's item data, including event-only (Cherish Ball) and transfer-only balls; checked against Serebii ItemDex per-game ball descriptions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -127,6 +128,8 @@ VALUES
   (127, 21, NULL, NULL, NULL),
   -- Moon Ball
   (128, 21, NULL, NULL, NULL),
+  -- Sport Ball
+  (129, 21, NULL, NULL, 'Sport Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Net Ball
   (130, 21, NULL, NULL, NULL),
   -- Dive Ball
@@ -147,6 +150,12 @@ VALUES
   (138, 21, NULL, NULL, NULL),
   -- Quick Ball
   (139, 21, NULL, NULL, NULL),
+  -- Cherish Ball
+  (140, 21, NULL, NULL, 'Cherish Ball comes only with event Pokémon in this scope; the ball itself cannot be obtained.'),
+  -- Dream Ball
+  (141, 21, NULL, NULL, 'Dream Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Beast Ball
+  (142, 21, NULL, NULL, 'Beast Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Fossils
   -- Helix Fossil
   (153, 21, NULL, NULL, NULL),

@@ -2372,6 +2372,7 @@ export type Database = {
       items: {
         Row: {
           created_at: string;
+          effect_summary: string | null;
           external_id: number | null;
           id: number;
           introduced_generation_id: number;
@@ -2383,6 +2384,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          effect_summary?: string | null;
           external_id?: number | null;
           id: number;
           introduced_generation_id: number;
@@ -2393,6 +2395,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          effect_summary?: string | null;
           external_id?: number | null;
           id?: number;
           introduced_generation_id?: number;

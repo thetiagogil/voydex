@@ -24,7 +24,6 @@ import {
   expectedNonZCrystalFormChangeItemSlugs,
   expectedPokeBallAvailabilityRowCount,
   expectedPokeBallAvailabilitySlugsByVersionGroup,
-  expectedPokeBallAvailableItemSlugs,
   expectedPokeBallItemSlugs,
   expectedZCrystalAvailabilityRowCount,
   expectedZCrystalAvailabilitySlugsByVersionGroup,
@@ -135,89 +134,89 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       8,
       {
-        count: 188,
+        count: 189,
         sha256:
-          "ff0bbd22100e83ac605d07d64d183da96e6ca6725d9530a1dfbfa752bb5163cb",
+          "35346f1397c0aac4b2a21825fc210c9966303141f1c80b6f64ee1064f4836f36",
       },
     ],
     [
       9,
       {
-        count: 190,
+        count: 191,
         sha256:
-          "4ed0edc8fe2e83b5497534f81b3ab5aa491c6e11878393932b994e1ffc5c81c1",
+          "e22e96f4299ab516a0fd9d15e9f476926144e2f58e76b4bd0bf0d182034a7f1f",
       },
     ],
     [
       10,
       {
-        count: 182,
+        count: 183,
         sha256:
-          "1db1982e3ab5e8794dc458d1ac50d0187221b6eb6e5be2fc10ff8e222103e8e9",
+          "ebd8f51d037232acf741172264737901743e61cbac283132da98b67927a1e8c6",
       },
     ],
     [
       11,
       {
-        count: 193,
+        count: 203,
         sha256:
-          "e70778ee8a4a28e2faa6bc4c57fe61eb5ad9fd7aa3cb52521c04e85e65f60b9d",
+          "06c3862499b9c072e1069bea37cb35e2e207145d294825492b1eeae0070dbed1",
       },
     ],
     [
       12,
       {
-        count: 210,
+        count: 220,
         sha256:
-          "17d1995651a8b5c1ff171e54de6b2d630640de241c0d2b7fb0ffb4e4653671a8",
+          "956f235437196a7c641e84c78a85adcc241dfa85132febdafb67e69ae500a45c",
       },
     ],
     [
       13,
       {
-        count: 234,
+        count: 245,
         sha256:
-          "16a93d4c1900a2a1e707571100a108c805f6097c93e9a365db13e630a8c726d6",
+          "bbea750d2e0af5b51a0bd1b00a04d40c866c9983874b2c22c34e3380be16fee7",
       },
     ],
     [
       14,
       {
-        count: 264,
+        count: 275,
         sha256:
-          "7eeb89c881229df2f46d366a55d43fe0e4ac4d89d7cc4ac3293ff53c38e53fd3",
+          "539be28d1b2732aa54dcf5f96eed7417f4c289247c1502d099426efede7f5c77",
       },
     ],
     [
       15,
       {
-        count: 278,
+        count: 282,
         sha256:
-          "e5572c27f0be27694f26f2bfd955f1696282582de89bc4857885fa0ede9b8b3d",
+          "b6f4148e7049b148caa02078a4e700612bd9721e2a9182f4062c58fb5f84381d",
       },
     ],
     [
       16,
       {
-        count: 327,
+        count: 331,
         sha256:
-          "218f9f81909ff253e973ce4b2175944c3417a759496649ab2e91934b94e588b9",
+          "c065cbd7117ede4e96746ef31f5c86567294a8ff99224cd1c570c6fa97798c06",
       },
     ],
     [
       17,
       {
-        count: 32,
+        count: 33,
         sha256:
-          "96a2659e01161289b0a0734c1ac3522348367b944264f400223ea505cdf28075",
+          "8b1e3a773ac39e3025fd2bde6e8a4e9ba16fa24b0ffb6c86dfb846acc827b04a",
       },
     ],
     [
       18,
       {
-        count: 235,
+        count: 236,
         sha256:
-          "f18352a2e10829d586a5f8c6252cb5397fb9a7ec5f714ce6043abdac8965ff15",
+          "345588dead00ab19a4b8e2cd71dad75fb033449c81a515e4fbbca4674330bcee",
       },
     ],
     [
@@ -239,9 +238,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       21,
       {
-        count: 217,
+        count: 221,
         sha256:
-          "89ec364c83cab89ff088a9fec8fdb5f4ee4f1ecdad8293189216ad4d2ff9dbf1",
+          "2bb381859afa4aa99245730c3ae17bc18511d3d5e23757aea8ee05d679cf6c15",
       },
     ],
     [
@@ -255,9 +254,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       23,
       {
-        count: 218,
+        count: 229,
         sha256:
-          "6f960d31733fc8cbdf7962701f9f200818f8971f01c4ea2542858adad627ead3",
+          "277e823202338f32154c04d7d988453ce4cfb68fe7cce9103c21d5bff595e227",
       },
     ],
     [
@@ -279,9 +278,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
     [
       26,
       {
-        count: 192,
+        count: 203,
         sha256:
-          "71bc8ac69765ead8cdf09c5df145f7a44bdf72489c4fd4502285c999746098b9",
+          "e36394bf741db2a556047a7f3130fb8e3b234bafb37845de50d5ef7d4993c415",
       },
     ],
     [
@@ -462,7 +461,7 @@ export function assertItemAvailabilityRows(context, tableRows) {
     ...expectedFormChangeItemSlugs,
     ...expectedEvolutionItemSlugs,
     "griseous-core",
-    ...expectedPokeBallAvailableItemSlugs,
+    ...expectedPokeBallItemSlugs,
     ...expectedFossilItemSlugs,
     ...expectedBerryItemSlugs,
     ...expectedAdditionalZCrystalItemSlugs,
@@ -476,9 +475,9 @@ export function assertItemAvailabilityRows(context, tableRows) {
       );
     }
   }
-  if (rows.length !== 3888) {
+  if (rows.length !== 3969) {
     context.errors.push(
-      `reference.item_availability: expected 3888 curated item availability rows, got ${rows.length}.`,
+      `reference.item_availability: expected 3969 curated item availability rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(
@@ -625,11 +624,6 @@ export function assertItemAvailabilityRows(context, tableRows) {
     if (!expectedPokeBallSlugSet.has(itemSlug)) {
       context.errors.push(
         `reference.item_availability: unexpected Poke Ball availability item ${itemSlug}.`,
-      );
-    }
-    if (itemSlug === "cherish-ball") {
-      context.errors.push(
-        "reference.item_availability: Cherish Ball must remain catalog-only and must not have normal item availability rows.",
       );
     }
     if (

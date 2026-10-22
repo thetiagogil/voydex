@@ -72,6 +72,16 @@ sources remain authoritative for game-specific mechanics and availability.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
   Stones, and Z-Crystals.
+- Every held item has a `reference.items.effect_summary`: one short sentence in
+  our own words on what it does in recent games, with an "In Gen X-Y" note only
+  when an older behaviour matters. Items that are never held (Poké Balls,
+  evolution stones, fossils) leave it empty.
+- A Poké Ball is available in a game when that game's item data has it, so
+  event-only balls (the Cherish Ball) and balls that only arrive on transferred
+  or traded Pokémon count; their rows say so in `notes`. Park Ball and Strange
+  Ball stay out of the catalog, and Legends: Arceus lists only its own balls.
+  Let's Go lists only the balls a Pokémon there can be in, plus the Cherish
+  Ball.
 
 ## Audit Contract
 

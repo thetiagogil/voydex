@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia individual item, evolution item, form item, and game item pages.
 -- Cross-check: Serebii item location pages and PokemonDB item pages where available.
 -- Scope note: curated Pokémon-relevant item availability, not a full item encyclopedia.
+-- Poke Ball rule: a ball is listed when it exists in this game's item data, including event-only (Cherish Ball) and transfer-only balls; checked against Serebii ItemDex per-game ball descriptions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -156,10 +157,32 @@ VALUES
   (138, 23, NULL, NULL, NULL),
   -- Quick Ball
   (139, 23, NULL, NULL, NULL),
+  -- Cherish Ball
+  (140, 23, NULL, NULL, 'Cherish Ball comes only with event Pokémon in this scope; the ball itself cannot be obtained.'),
   -- Dream Ball
   (141, 23, NULL, NULL, NULL),
   -- Beast Ball
   (142, 23, NULL, NULL, NULL),
+  -- Poke Ball (Hisui)
+  (143, 23, NULL, NULL, 'Poke Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Great Ball (Hisui)
+  (144, 23, NULL, NULL, 'Great Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Ultra Ball (Hisui)
+  (145, 23, NULL, NULL, 'Ultra Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Heavy Ball (Hisui)
+  (146, 23, NULL, NULL, 'Heavy Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Leaden Ball
+  (147, 23, NULL, NULL, 'Leaden Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Gigaton Ball
+  (148, 23, NULL, NULL, 'Gigaton Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Feather Ball
+  (149, 23, NULL, NULL, 'Feather Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Wing Ball
+  (150, 23, NULL, NULL, 'Wing Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Jet Ball
+  (151, 23, NULL, NULL, 'Jet Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Origin Ball
+  (152, 23, NULL, NULL, 'Origin Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Modern Berries
   -- Cheri Berry
   (178, 23, NULL, NULL, NULL),

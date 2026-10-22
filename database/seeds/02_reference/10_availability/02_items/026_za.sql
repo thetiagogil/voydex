@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia individual item, evolution item, form item, and game item pages.
 -- Cross-check: Serebii item location pages and PokemonDB item pages where available.
 -- Scope note: curated Pokémon-relevant item availability, not a full item encyclopedia.
+-- Poke Ball rule: a ball is listed when it exists in this game's item data, including event-only (Cherish Ball) and transfer-only balls; checked against Serebii ItemDex per-game ball descriptions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -95,10 +96,32 @@ VALUES
   (138, 26, NULL, NULL, NULL),
   -- Quick Ball
   (139, 26, NULL, NULL, NULL),
+  -- Cherish Ball
+  (140, 26, NULL, NULL, 'Cherish Ball comes only with event Pokémon in this scope; the ball itself cannot be obtained.'),
   -- Dream Ball
   (141, 26, NULL, NULL, NULL),
   -- Beast Ball
   (142, 26, NULL, NULL, NULL),
+  -- Poke Ball (Hisui)
+  (143, 26, NULL, NULL, 'Poke Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Great Ball (Hisui)
+  (144, 26, NULL, NULL, 'Great Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Ultra Ball (Hisui)
+  (145, 26, NULL, NULL, 'Ultra Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Heavy Ball (Hisui)
+  (146, 26, NULL, NULL, 'Heavy Ball (Hisui) exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Leaden Ball
+  (147, 26, NULL, NULL, 'Leaden Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Gigaton Ball
+  (148, 26, NULL, NULL, 'Gigaton Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Feather Ball
+  (149, 26, NULL, NULL, 'Feather Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Wing Ball
+  (150, 26, NULL, NULL, 'Wing Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Jet Ball
+  (151, 26, NULL, NULL, 'Jet Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Origin Ball
+  (152, 26, NULL, NULL, 'Origin Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Fossils
   -- Old Amber
   (155, 26, NULL, NULL, NULL),
