@@ -14,7 +14,7 @@ INSERT INTO gameplay.mainline_play_pokemon (id, play_id, roster_state_id, slot, 
 INSERT INTO planning.mainline_team_plans (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('78000000-0000-0000-0000-0000000000a0', '00000000-0000-0000-0000-0000000000f1', 25, 15, 1, 'Battle Form Plan');
 SELECT
-    plan (14);
+    plan (15);
 -- Every battle form is battle-only and never team selectable.
 SELECT
     is_empty ($$
@@ -157,6 +157,19 @@ SELECT
                 AND mainline_opponent_team_members.species_id IN (376, 383)
             ORDER BY pokemon_forms.slug $$, $$
             VALUES ('Steven'::text, 'mega-metagross'::text), ('Groudon'::text, 'primal-groudon'::text) $$, 'Steven''s Metagross is Mega and the Cave of Origin Groudon is Primal');
+-- Legends: Z-A: Grisham's ace is Mega Charizard X, and every promotion ace
+-- from Vinnie on battles as a Mega.
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_opponents.slug, pokemon_forms.slug FROM tracking.mainline_opponent_team_members
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
+            WHERE
+                mainline_opponent_team_members.version_group_id = 26
+                AND mainline_opponents.slug IN ('vinnie', 'grisham')
+                AND pokemon_forms.slug LIKE 'mega-%' ORDER BY mainline_opponents.slug $$, $$
+            VALUES ('grisham'::text, 'mega-charizard-x'::text), ('vinnie'::text, 'mega-drampa'::text) $$, 'Z-A promotion aces battle as their Mega');
 SELECT
     *
 FROM
