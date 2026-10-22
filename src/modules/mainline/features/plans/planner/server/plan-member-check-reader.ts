@@ -3,6 +3,7 @@ import type { PlanMember } from "@/modules/mainline/features/plans/types";
 import {
   getLearnableMoveIds,
   readFormLearnsetRows,
+  readHeldItemOptions,
 } from "@/modules/mainline/shared/server/build-option-readers";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type { PokedexEntry } from "@/modules/reference/types";
@@ -87,12 +88,8 @@ export const readPlanMemberCheckRows = async (
       .in("form_id", formIds)
       .lte("generation_start_id", generationId),
     heldItemIds.length
-      ? reference
-          .from("items")
-          .select("id")
-          .in("id", heldItemIds)
-          .lte("introduced_generation_id", generationId)
-      : null,
+      ? readHeldItemOptions(supabase, { gameIds, versionGroupId })
+      : [],
     natureIds.length
       ? reference
           .from("natures")
@@ -106,7 +103,6 @@ export const readPlanMemberCheckRows = async (
     formsResult.error ||
     speciesResult.error ||
     attributesResult.error ||
-    items?.error ||
     natures?.error
   ) {
     throw new Error(readFailure);
@@ -154,7 +150,8 @@ export const readPlanMemberCheckRows = async (
         ),
       ]),
     ),
-    heldItemIds: new Set((items?.data ?? []).map((item) => item.id)),
+    /* The held items this version group has, as the slot sheet offers them. */
+    heldItemIds: new Set(items.map((item) => item.id)),
     learnableMoveIdsByFormId: new Map(learnsets),
     natureIds: new Set((natures?.data ?? []).map((nature) => nature.id)),
     poolSpeciesIds: new Set(entries.map((entry) => entry.species_id)),

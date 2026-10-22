@@ -130,6 +130,16 @@ test.describe("Battle forms", () => {
     await search.fill("leftovers");
     await expect(page.getByRole("option", { name: "Leftovers" })).toBeVisible();
     await page.keyboard.press("Escape");
+    /* And only Sword's own Poké Balls: no Hisuian Feather Ball. */
+    await editor.getByRole("combobox", { name: "Poké Ball" }).click();
+    const ballSearch = page.getByRole("combobox", { name: "Search poké ball" });
+    await ballSearch.fill("feather");
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await ballSearch.fill("dream");
+    await expect(
+      page.getByRole("option", { name: "Dream Ball" }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
     await canGigantamax.click();
     const saved = waitForAction(page);
     await editor.getByRole("button", { name: "Save", exact: true }).click();

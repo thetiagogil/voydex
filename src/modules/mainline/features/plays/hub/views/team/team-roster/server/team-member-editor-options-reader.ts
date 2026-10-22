@@ -11,14 +11,13 @@ import {
   getLearnableMoveIds,
   readFormLearnsetRows,
   readHeldItemOptions,
+  readPokeBallOptions,
   readMoveOptions,
 } from "@/modules/mainline/shared/server/build-option-readers";
-import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type {
   EditorFormOption,
-  EditorOption,
   TeamMemberEditorOptions,
 } from "../utils/team-member-editor-model";
 
@@ -54,7 +53,6 @@ export const readTeamMemberEditorOptions = async (
   const [
     attributesResult,
     naturesResult,
-    ballCategoryResult,
     learnsets,
     edgesResult,
     speciesFormsResult,
@@ -78,12 +76,6 @@ export const readTeamMemberEditorOptions = async (
           .lte("introduced_generation_id", generationId)
           .order("name", { ascending: true })
       : null,
-    supabase
-      .schema("reference")
-      .from("item_categories")
-      .select("id")
-      .eq("slug", "poke_ball")
-      .maybeSingle(),
     readFormLearnsetRows(supabase, { formId, versionGroupId }),
     supabase
       .schema("reference")
@@ -117,7 +109,6 @@ export const readTeamMemberEditorOptions = async (
   if (
     attributesResult.error ||
     naturesResult?.error ||
-    ballCategoryResult.error ||
     edgesResult.error ||
     speciesFormsResult.error ||
     teraTypesResult?.error ||
@@ -180,20 +171,7 @@ export const readTeamMemberEditorOptions = async (
           .from("version_groups")
           .select("id, sort_order")
       : null,
-    ballCategoryResult.data
-      ? loadPagedReferenceRows<EditorOption>(
-          (from, to) =>
-            supabase
-              .schema("reference")
-              .from("items")
-              .select("id, name")
-              .eq("primary_category_id", ballCategoryResult.data?.id ?? -1)
-              .lte("introduced_generation_id", generationId)
-              .order("name", { ascending: true })
-              .range(from, to),
-          "Unable to load Poké Balls.",
-        )
-      : [],
+    readPokeBallOptions(supabase, { gameIds: [gameId], versionGroupId }),
     hasHeldItems
       ? readHeldItemOptions(supabase, { gameIds: [gameId], versionGroupId })
       : [],

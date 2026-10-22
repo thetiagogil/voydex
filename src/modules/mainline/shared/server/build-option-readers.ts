@@ -103,13 +103,23 @@ export const getAvailableItemIds = (
 ];
 
 /*
- * The items a Pokémon can hold in this exact game (or a version group's
- * games): the ones that game's item availability lists and the database marks
- * as holdable, each with its category, grouped by category order then name.
+ * The items of one kind (`category`: holdable items, Poké Balls) in this
+ * exact game, or a version group's games: only what that game's own item
+ * availability lists, never everything since the item's generation (Sword has
+ * no Gen II Berry and no Mega Stones). Each comes with its primary category,
+ * ordered by category then name.
  */
-export const readHeldItemOptions = async (
+const readGameItemOptions = async (
   supabase: ServerSupabaseClient,
-  { gameIds, versionGroupId }: { gameIds: number[]; versionGroupId: number },
+  {
+    category: categorySlug,
+    gameIds,
+    versionGroupId,
+  }: {
+    category: "held_item" | "poke_ball";
+    gameIds: number[];
+    versionGroupId: number;
+  },
 ): Promise<BuildItemOption[]> => {
   const [availabilityRows, categoriesResult] = await Promise.all([
     loadPagedReferenceRows<ItemAvailabilityRow>(
@@ -121,7 +131,7 @@ export const readHeldItemOptions = async (
           .eq("target_version_group_id", versionGroupId)
           .order("id", { ascending: true })
           .range(from, to),
-      "Unable to load held items.",
+      "Unable to load items.",
     ),
     supabase
       .schema("reference")
@@ -130,16 +140,14 @@ export const readHeldItemOptions = async (
   ]);
 
   if (categoriesResult.error) {
-    throw new Error("Unable to load held items.");
+    throw new Error("Unable to load items.");
   }
 
   const categories = categoriesResult.data ?? [];
-  const heldCategory = categories.find(
-    (category) => category.slug === "held_item",
-  );
+  const kind = categories.find((category) => category.slug === categorySlug);
   const availableIds = getAvailableItemIds(availabilityRows, gameIds);
 
-  if (!heldCategory || !availableIds.length) {
+  if (!kind || !availableIds.length) {
     return [];
   }
 
@@ -150,11 +158,11 @@ export const readHeldItemOptions = async (
         .schema("reference")
         .from("item_category_memberships")
         .select("item_id")
-        .eq("category_id", heldCategory.id)
+        .eq("category_id", kind.id)
         .in("item_id", ids)
         .order("item_id", { ascending: true })
         .range(from, to),
-    "Unable to load held items.",
+    "Unable to load items.",
   );
   const items = await loadChunkedReferenceRows<{
     id: number;
@@ -170,7 +178,7 @@ export const readHeldItemOptions = async (
         .in("id", ids)
         .order("id", { ascending: true })
         .range(from, to),
-    "Unable to load held items.",
+    "Unable to load items.",
   );
   const categoryById = new Map(
     categories.map((category) => [category.id, category]),
@@ -193,6 +201,18 @@ export const readHeldItemOptions = async (
         left.name.localeCompare(right.name),
     );
 };
+
+/* What a Pokémon can hold in the game(s). */
+export const readHeldItemOptions = (
+  supabase: ServerSupabaseClient,
+  games: { gameIds: number[]; versionGroupId: number },
+) => readGameItemOptions(supabase, { ...games, category: "held_item" });
+
+/* The Poké Balls the game(s) have, for what a Pokémon was caught in. */
+export const readPokeBallOptions = (
+  supabase: ServerSupabaseClient,
+  games: { gameIds: number[]; versionGroupId: number },
+) => readGameItemOptions(supabase, { ...games, category: "poke_ball" });
 
 const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
   rows.toSorted(
