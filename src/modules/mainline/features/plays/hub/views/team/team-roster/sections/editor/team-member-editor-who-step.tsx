@@ -1,11 +1,9 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
-import { EditedMark } from "@/shared/components/edited-mark";
-import { SettingsRow } from "@/shared/components/settings-row";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { Switch } from "@/shared/components/ui/switch";
+import { SwitchField } from "@/shared/components/switch-field";
 
 import {
   EditorLabel,
@@ -18,8 +16,6 @@ const genderOptions = [
   { label: "Genderless", value: "genderless" },
   { label: "Not recorded", value: "unknown" },
 ] as const;
-
-const yesNo = ["No", "Yes"] as const;
 
 /*
  * Who: its species (fixed here), nickname, level, gender, shininess and, where
@@ -109,39 +105,21 @@ export const TeamMemberEditorWhoStep = ({
         </Field>
       ) : null}
     </div>
-    <SettingsRow
-      inline
-      className="py-0"
-      title={<EditedMark edited={edited("isShiny")}>Shiny</EditedMark>}
-      titleId={`${id}-shiny`}
-    >
-      <Switch
-        size="lg"
-        labels={yesNo}
-        aria-labelledby={`${id}-shiny`}
+    <div className="grid gap-4 sm:grid-cols-2">
+      <SwitchField
+        label="Shiny"
+        edited={edited("isShiny")}
         checked={values.isShiny}
         onCheckedChange={(checked) => change("isShiny", checked)}
       />
-    </SettingsRow>
-    {supportsGigantamax ? (
-      <SettingsRow
-        inline
-        className="py-0"
-        title={
-          <EditedMark edited={edited("hasGigantamaxFactor")}>
-            Can Gigantamax
-          </EditedMark>
-        }
-        titleId={`${id}-gigantamax`}
-      >
-        <Switch
-          size="lg"
-          labels={yesNo}
-          aria-labelledby={`${id}-gigantamax`}
+      {supportsGigantamax ? (
+        <SwitchField
+          label="Can Gigantamax"
+          edited={edited("hasGigantamaxFactor")}
           checked={values.hasGigantamaxFactor}
           onCheckedChange={(checked) => change("hasGigantamaxFactor", checked)}
         />
-      </SettingsRow>
-    ) : null}
+      ) : null}
+    </div>
   </SheetSection>
 );
