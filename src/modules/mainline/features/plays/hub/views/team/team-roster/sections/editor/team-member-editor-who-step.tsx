@@ -3,6 +3,8 @@ import { SheetSection } from "@/shared/components/sheet-section";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
+import { EditedMark } from "@/shared/components/edited-mark";
+import { SettingsRow } from "@/shared/components/settings-row";
 import { Switch } from "@/shared/components/ui/switch";
 
 import {
@@ -92,18 +94,18 @@ export const TeamMemberEditorWhoStep = ({
           />
         </Field>
       ) : null}
-      <Field className="w-auto">
-        <EditorLabel htmlFor={`${id}-shiny`} edited={edited("isShiny")}>
-          Shiny
-        </EditorLabel>
-        <div className="flex h-12 items-center">
-          <Switch
-            id={`${id}-shiny`}
-            checked={values.isShiny}
-            onCheckedChange={(checked) => change("isShiny", checked)}
-          />
-        </div>
-      </Field>
     </div>
+    <SettingsRow
+      inline
+      className="min-h-12 py-0"
+      title={<EditedMark edited={edited("isShiny")}>Shiny</EditedMark>}
+      titleId={`${id}-shiny`}
+    >
+      <Switch
+        aria-labelledby={`${id}-shiny`}
+        checked={values.isShiny}
+        onCheckedChange={(checked) => change("isShiny", checked)}
+      />
+    </SettingsRow>
   </SheetSection>
 );

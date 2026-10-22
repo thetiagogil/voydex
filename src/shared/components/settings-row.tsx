@@ -7,6 +7,8 @@ type SettingsRowProps = {
   children: ReactNode;
   className?: string;
   description?: ReactNode;
+  /* Keeps the control at the end on phones too, for a short one such as a switch. */
+  inline?: boolean;
   title: ReactNode;
   /* Ties the row's words to its control, such as a switch's `aria-labelledby`. */
   titleId?: string;
@@ -15,18 +17,21 @@ type SettingsRowProps = {
 /*
  * A settings row (v3 `.trow`): what it is, one line on what it means, and its
  * control at the end; space separates the rows. On phones the control drops
- * below the words. App settings and Play settings.
+ * below the words, unless `inline`. App settings, Play settings and a
+ * switch in a form (Shiny, Gigantamax Factor).
  */
 export const SettingsRow = ({
   children,
   className,
   description,
+  inline = false,
   title,
   titleId,
 }: SettingsRowProps) => (
   <div
     className={cn(
-      "flex flex-col items-start gap-3 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-5",
+      "flex gap-3 py-3.5 sm:flex-row sm:items-center sm:justify-between sm:gap-5",
+      inline ? "items-center justify-between" : "flex-col items-start",
       className,
     )}
   >

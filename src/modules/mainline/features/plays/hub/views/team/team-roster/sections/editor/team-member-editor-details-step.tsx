@@ -1,8 +1,10 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
+import { EditedMark } from "@/shared/components/edited-mark";
 import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
+import { SettingsRow } from "@/shared/components/settings-row";
 import { Field } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -58,100 +60,108 @@ export const TeamMemberEditorDetailsStep = ({
         />
       </div>
     ) : (
-      <div className="grid gap-4 sm:grid-cols-2">
-        {supports.natures ? (
-          <Field>
-            <EditorLabel edited={edited("natureId")}>Nature</EditorLabel>
-            <SelectControl
-              ariaLabel="Nature"
-              placeholder="Not recorded"
-              value={selectValue(values.natureId)}
-              onValueChange={(value) => change("natureId", fromSelect(value))}
-              options={[
-                { label: "Not recorded", value: noneValue },
-                ...optionsState.options.natures.map((nature) => ({
-                  description:
-                    nature.increased && nature.decreased
-                      ? `+${nature.increased} · −${nature.decreased}`
-                      : undefined,
-                  label: nature.name,
-                  value: String(nature.id),
-                })),
-              ]}
-            />
-          </Field>
-        ) : null}
-        {supports.abilities ? (
-          <Field>
-            <EditorLabel edited={edited("abilityId")}>Ability</EditorLabel>
-            <SelectControl
-              ariaLabel="Ability"
-              placeholder="Not recorded"
-              value={selectValue(values.abilityId)}
-              onValueChange={(value) => change("abilityId", fromSelect(value))}
-              options={toSelectOptions(optionsState.options.abilities)}
-            />
-          </Field>
-        ) : null}
-        {supports.heldItems ? (
-          <Field>
-            <EditorLabel htmlFor={`${id}-item`} edited={edited("heldItemId")}>
-              Held item
-            </EditorLabel>
-            <SearchSelect
-              id={`${id}-item`}
-              value={values.heldItemId || null}
-              onValueChange={(value) => change("heldItemId", value ?? "")}
-              options={optionsState.options.heldItems.map((item) => ({
-                label: item.name,
-                value: String(item.id),
-              }))}
-            />
-          </Field>
-        ) : null}
-        <Field>
-          <EditorLabel edited={edited("ballItemId")}>Poké Ball</EditorLabel>
-          <SelectControl
-            ariaLabel="Poké Ball"
-            placeholder="Not recorded"
-            value={selectValue(values.ballItemId)}
-            onValueChange={(value) => change("ballItemId", fromSelect(value))}
-            options={toSelectOptions(optionsState.options.balls)}
-          />
-        </Field>
-        {supports.terastal ? (
-          <Field>
-            <EditorLabel edited={edited("teraTypeId")}>Tera Type</EditorLabel>
-            <SelectControl
-              ariaLabel="Tera Type"
-              disabled={member.fixed_tera_type_id !== null}
-              placeholder="Not recorded"
-              value={selectValue(values.teraTypeId)}
-              onValueChange={(value) => change("teraTypeId", fromSelect(value))}
-              options={toSelectOptions(optionsState.options.teraTypes)}
-            />
-          </Field>
-        ) : null}
-        {supports.gigantamax ? (
-          <Field className="w-auto">
-            <EditorLabel
-              htmlFor={`${id}-gigantamax`}
-              edited={edited("hasGigantamaxFactor")}
-            >
-              Gigantamax Factor
-            </EditorLabel>
-            <div className="flex h-12 items-center">
-              <Switch
-                id={`${id}-gigantamax`}
-                checked={values.hasGigantamaxFactor}
-                onCheckedChange={(checked) =>
-                  change("hasGigantamaxFactor", checked)
-                }
+      <>
+        <div className="grid gap-4 sm:grid-cols-2">
+          {supports.natures ? (
+            <Field>
+              <EditorLabel edited={edited("natureId")}>Nature</EditorLabel>
+              <SelectControl
+                ariaLabel="Nature"
+                placeholder="Not recorded"
+                value={selectValue(values.natureId)}
+                onValueChange={(value) => change("natureId", fromSelect(value))}
+                options={[
+                  { label: "Not recorded", value: noneValue },
+                  ...optionsState.options.natures.map((nature) => ({
+                    description:
+                      nature.increased && nature.decreased
+                        ? `+${nature.increased} · −${nature.decreased}`
+                        : undefined,
+                    label: nature.name,
+                    value: String(nature.id),
+                  })),
+                ]}
               />
-            </div>
+            </Field>
+          ) : null}
+          {supports.abilities ? (
+            <Field>
+              <EditorLabel edited={edited("abilityId")}>Ability</EditorLabel>
+              <SelectControl
+                ariaLabel="Ability"
+                placeholder="Not recorded"
+                value={selectValue(values.abilityId)}
+                onValueChange={(value) =>
+                  change("abilityId", fromSelect(value))
+                }
+                options={toSelectOptions(optionsState.options.abilities)}
+              />
+            </Field>
+          ) : null}
+          {supports.heldItems ? (
+            <Field>
+              <EditorLabel htmlFor={`${id}-item`} edited={edited("heldItemId")}>
+                Held item
+              </EditorLabel>
+              <SearchSelect
+                id={`${id}-item`}
+                value={values.heldItemId || null}
+                onValueChange={(value) => change("heldItemId", value ?? "")}
+                options={optionsState.options.heldItems.map((item) => ({
+                  label: item.name,
+                  value: String(item.id),
+                }))}
+              />
+            </Field>
+          ) : null}
+          <Field>
+            <EditorLabel edited={edited("ballItemId")}>Poké Ball</EditorLabel>
+            <SelectControl
+              ariaLabel="Poké Ball"
+              placeholder="Not recorded"
+              value={selectValue(values.ballItemId)}
+              onValueChange={(value) => change("ballItemId", fromSelect(value))}
+              options={toSelectOptions(optionsState.options.balls)}
+            />
           </Field>
+          {supports.terastal ? (
+            <Field>
+              <EditorLabel edited={edited("teraTypeId")}>Tera Type</EditorLabel>
+              <SelectControl
+                ariaLabel="Tera Type"
+                disabled={member.fixed_tera_type_id !== null}
+                placeholder="Not recorded"
+                value={selectValue(values.teraTypeId)}
+                onValueChange={(value) =>
+                  change("teraTypeId", fromSelect(value))
+                }
+                options={toSelectOptions(optionsState.options.teraTypes)}
+              />
+            </Field>
+          ) : null}
+        </div>
+        {supports.gigantamax ? (
+          <SettingsRow
+            inline
+            className="min-h-12 py-0"
+            title={
+              <EditedMark edited={edited("hasGigantamaxFactor")}>
+                Gigantamax Factor
+              </EditedMark>
+            }
+            titleId={`${id}-gigantamax`}
+            description="Lets it Gigantamax into its special form."
+          >
+            <Switch
+              aria-labelledby={`${id}-gigantamax`}
+              checked={values.hasGigantamaxFactor}
+              onCheckedChange={(checked) =>
+                change("hasGigantamaxFactor", checked)
+              }
+            />
+          </SettingsRow>
         ) : null}
-      </div>
+      </>
     );
 
   return (
