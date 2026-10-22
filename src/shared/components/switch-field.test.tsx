@@ -16,19 +16,18 @@ const render = (props: { checked?: boolean; edited?: boolean } = {}) =>
 describe("SwitchField", () => {
   it("names its switch by the label beside it", () => {
     const html = render();
-    const labelId = html.match(/<span id="([^"]+)"/)?.[1];
+    const labelId = html.match(/<label[^>]* id="([^"]+)"/)?.[1];
 
     expect(labelId).toBeTruthy();
     expect(html).toContain(`aria-labelledby="${labelId}"`);
     expect(html).toContain('role="switch"');
   });
 
-  it("is a field-height pill with the large switch saying No or Yes", () => {
+  it("puts the name above a large switch saying No or Yes", () => {
     const off = render();
     const on = render({ checked: true });
 
-    expect(off).toContain("h-12");
-    expect(off).toContain("rounded-full");
+    expect(off.indexOf("Shiny")).toBeLessThan(off.indexOf('role="switch"'));
     expect(off).toContain('data-size="lg"');
     expect(off).toContain(">No<");
     expect(on).toContain(">Yes<");
