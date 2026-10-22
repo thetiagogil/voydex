@@ -149,9 +149,6 @@ test.describe("Team", () => {
     await expect(
       slots.getByRole("button", { name: "Move to Team slot 3" }),
     ).toHaveAttribute("aria-pressed", "true");
-    await expect(
-      editor.getByText("Saving moves it to Team slot 3."),
-    ).toBeVisible();
     await expect(save).toBeEnabled();
 
     /* Cancel drops it. */
@@ -196,7 +193,13 @@ test.describe("Team", () => {
         name: "Move to Reserve R1, swapping with Pidgey",
       })
       .click();
-    await expect(page.getByText("Saving swaps it with Pidgey.")).toBeVisible();
+    await expect(
+      page
+        .getByRole("group", { name: "Move Squirtle to" })
+        .getByRole("button", {
+          name: "Move to Reserve R1, swapping with Pidgey",
+        }),
+    ).toHaveAttribute("aria-pressed", "true");
     const swapped = waitForAction(page);
     await page
       .getByRole("dialog", { name: "Squirtle" })

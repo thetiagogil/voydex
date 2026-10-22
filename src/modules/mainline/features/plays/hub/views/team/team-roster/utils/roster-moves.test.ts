@@ -175,4 +175,25 @@ describe("getRosterSlotGroups", () => {
     expect(slotOf("Solo", 7, solo).disabledReason).toBeUndefined();
     expect(slotOf("Solo", 3, solo).disabledReason).toBeUndefined();
   });
+
+  it("previews the team after the move, marking where it left", () => {
+    const slots = (draft: number) =>
+      getRosterSlotGroups(roster, "Leaf", draft).flatMap(
+        (group) => group.slots,
+      );
+    const at = (slot: number, draft: number) =>
+      slots(draft).find((entry) => entry.value === slot)!;
+
+    /* Onto a taken slot: the two trade places on screen. */
+    expect(at(2, 2).image).toMatchObject({ name: "Leaf" });
+    expect(at(1, 2)).toMatchObject({ image: { name: "Ember" }, tone: "from" });
+    /* Onto an open slot: where it was shows open. */
+    expect(at(4, 4).image).toMatchObject({ name: "Leaf" });
+    expect(at(1, 4)).toMatchObject({ image: null, tone: "from" });
+    /* Staying, or a refused slot, previews nothing. */
+    expect(at(1, 1)).toMatchObject({ image: { name: "Leaf" } });
+    expect(at(1, 1).tone).toBeUndefined();
+    expect(at(1, 13).tone).toBeUndefined();
+    expect(slots(1).some((entry) => entry.tone)).toBe(false);
+  });
 });

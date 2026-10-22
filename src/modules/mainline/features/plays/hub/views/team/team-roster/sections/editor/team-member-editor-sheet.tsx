@@ -37,6 +37,7 @@ import {
   TeamMemberEditorDetailsStep,
   type TeamMemberEditorOptionsState,
 } from "./team-member-editor-details-step";
+import { TeamMemberEditorFormsStep } from "./team-member-editor-forms-step";
 import { TeamMemberEditorMovesStep } from "./team-member-editor-moves-step";
 import { TeamMemberEditorNotesStep } from "./team-member-editor-notes-step";
 import { TeamMemberEditorReview } from "./team-member-editor-review";
@@ -45,7 +46,7 @@ import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
 
 /*
  * Edit Pokémon (v3 `editor`): a side sheet over the Roster (a bottom sheet
- * on phones). Who, Slot, Details, Moves and Notes, then Review changes before
+ * on phones). Who, Forms, Slot, Details, Moves and Notes, then Review changes before
  * Save. Only what the Play's game records is offered. Evolve, Change form,
  * Replace and Retire act straight away from the head, and a pick in Slot
  * moves it straight away; Delete record is for mistakes.
@@ -248,12 +249,14 @@ export const TeamMemberEditorSheet = ({
         {...stepProps}
         member={member}
         supportsGender={supports.gender}
+      />
+      <TeamMemberEditorFormsStep
+        {...stepProps}
         supportsGigantamax={supports.gigantamax}
       />
       <TeamMemberEditorWhereStep
         member={member}
         onPick={(slot) => change("slot", String(slot))}
-        placeLabel={placeLabel}
         roster={roster}
         slot={Number(values.slot)}
       />

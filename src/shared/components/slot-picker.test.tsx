@@ -38,6 +38,19 @@ const buttonsOf = (node: ReactNode): ReactElement<ButtonProps>[] => {
 };
 
 describe("SlotPicker", () => {
+  it("tints the place a previewed move leaves in blue, not the picked one", () => {
+    const html = render(
+      [
+        slot({ tone: "from" }),
+        slot({ label: "Move to slot 2", mark: "2", value: 2 }),
+      ],
+      { selected: 2 },
+    );
+
+    expect(html.match(/bg-calm-soft/g)).toHaveLength(1);
+    expect(html.match(/border-action/g)).toHaveLength(1);
+  });
+
   it("hands the picked slot's value to onPick, slot 0 included", () => {
     const picked: number[] = [];
     const buttons = buttonsOf(

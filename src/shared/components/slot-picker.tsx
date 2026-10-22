@@ -10,6 +10,11 @@ export type SlotPickerSlot = {
   label: string;
   /* What it shows: its number, or "R1" in a reserve. */
   mark: string;
+  /*
+   * In a preview of a move, the place it leaves (`from`, blue); the slot it
+   * goes to is the picked one, in red.
+   */
+  tone?: "from";
   value: number;
 };
 
@@ -21,8 +26,9 @@ export type SlotPickerGroup = {
 
 /*
  * The slots of a team as small squares, six to a row: each shows its sprite
- * and number, and the picked one takes the selected tint. One picker for
- * the roster editor (team and reserve) and the Team Planner's slot sheet.
+ * and number, and the picked one takes the selected tint with its border (a
+ * move being previewed also marks the place it leaves, in blue). One picker
+ * for the roster editor (team and reserve) and the Team Planner's slot sheet.
  */
 export const SlotPicker = ({
   ariaLabel,
@@ -57,10 +63,12 @@ export const SlotPicker = ({
                 title={slot.disabledReason}
                 onClick={() => onPick(slot.value)}
                 className={cn(
-                  "text-13 focus-ring flex h-15 min-w-0 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums disabled:opacity-50",
+                  "text-13 focus-ring flex h-15 min-w-0 flex-col items-center justify-center gap-0.5 rounded-md border-[1.5px] font-extrabold tabular-nums disabled:opacity-50",
                   isSelected
-                    ? "bg-select-soft text-select-ink"
-                    : "bg-surface-2 text-ink-2 hover:bg-hover",
+                    ? "bg-select-soft text-select-ink border-action"
+                    : slot.tone === "from"
+                      ? "bg-calm-soft text-calm-ink border-calm"
+                      : "bg-surface-2 text-ink-2 hover:bg-hover border-transparent",
                 )}
               >
                 {slot.image ? (

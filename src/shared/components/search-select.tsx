@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 import {
   Combobox,
   ComboboxContent,
@@ -8,6 +10,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/shared/components/ui/combobox";
+import { InputGroupAddon } from "@/shared/components/ui/input-group";
 
 export type SearchSelectOption = {
   /* A second, quieter line, such as a move's type. */
@@ -23,6 +26,7 @@ export type SearchSelectOption = {
  */
 export const SearchSelect = ({
   ariaLabel,
+  icon,
   id,
   onValueChange,
   options,
@@ -30,6 +34,8 @@ export const SearchSelect = ({
   value,
 }: {
   ariaLabel?: string;
+  /* A picture at the start of the field, such as an item's sprite. */
+  icon?: ReactNode;
   id?: string;
   onValueChange: (value: string | null) => void;
   options: SearchSelectOption[];
@@ -59,7 +65,13 @@ export const SearchSelect = ({
         placeholder={placeholder}
         showClear={Boolean(selected)}
         className="w-full"
-      />
+      >
+        {icon ? (
+          <InputGroupAddon align="inline-start" aria-hidden>
+            {icon}
+          </InputGroupAddon>
+        ) : null}
+      </ComboboxInput>
       <ComboboxContent>
         <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
         <ComboboxList className="max-h-72">

@@ -164,6 +164,8 @@ export const appIcons = {
     genderless: CircleOff,
     genderMale: Mars,
     health: HeartPulse,
+    /* A held item's stand-in until it has its own sprite. */
+    heldItem: Package,
     journey: Compass,
     location: MapPin,
     milestone: ListChecks,

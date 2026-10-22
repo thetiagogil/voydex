@@ -1,6 +1,7 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
+import { ItemIcon } from "@/shared/components/item-icon";
 import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -99,6 +100,7 @@ export const TeamMemberEditorDetailsStep = ({
             </EditorLabel>
             <SearchSelect
               id={`${id}-item`}
+              icon={<ItemIcon kind="held" name="Held item" />}
               value={values.heldItemId || null}
               onValueChange={(value) => change("heldItemId", value ?? "")}
               options={optionsState.options.heldItems.map((item) => ({
@@ -115,7 +117,12 @@ export const TeamMemberEditorDetailsStep = ({
             placeholder="Not recorded"
             value={selectValue(values.ballItemId)}
             onValueChange={(value) => change("ballItemId", fromSelect(value))}
-            options={toSelectOptions(optionsState.options.balls)}
+            options={toSelectOptions(optionsState.options.balls).map(
+              (option) => ({
+                ...option,
+                icon: <ItemIcon kind="ball" name={option.label} />,
+              }),
+            )}
           />
         </Field>
         {supports.terastal ? (

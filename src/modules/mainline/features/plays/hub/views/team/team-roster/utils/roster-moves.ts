@@ -132,13 +132,30 @@ export const describeRosterMove = (
 /*
  * The twelve slots as a Pokémon sees them for the editor's slot picker: the
  * team, then the reserve, each showing who sits there and what picking it
- * does (a move, a swap, or why it can't).
+ * does (a move, a swap, or why it can't). With a `draftSlot` picked, the
+ * slots show the team as it would look after the move: the Pokémon at the
+ * slot it goes to (`to`) and whoever it swaps with, or an open slot, where
+ * it was (`from`).
  */
 export const getRosterSlotGroups = (
   roster: readonly MainlinePlayTeamMember[],
   playPokemonId: string,
-): SlotPickerGroup[] =>
-  [
+  draftSlot?: number,
+): SlotPickerGroup[] => {
+  const member = roster.find(
+    (candidate) => candidate.play_pokemon_id === playPokemonId,
+  );
+  const fromSlot = member?.slot ?? null;
+  const isPreview =
+    draftSlot !== undefined &&
+    fromSlot !== null &&
+    draftSlot !== fromSlot &&
+    getRosterMove(roster, playPokemonId, draftSlot).kind !== "blocked";
+  const shown = isPreview
+    ? applyRosterMove(roster, playPokemonId, draftSlot)
+    : roster;
+
+  return [
     { label: "Team", slots: rosterSlots.filter(isTeamSlot) },
     {
       label: "Reserve",
@@ -148,14 +165,9 @@ export const getRosterSlotGroups = (
     label,
     slots: slots.map((slot) => {
       const move = getRosterMove(roster, playPokemonId, slot);
-      const occupant =
-        move.kind === "swap"
-          ? move.with
-          : move.kind === "stay"
-            ? roster.find(
-                (candidate) => candidate.play_pokemon_id === playPokemonId,
-              )
-            : null;
+      const occupant = shown.find(
+        (candidate) => isCurrent(candidate) && candidate.slot === slot,
+      );
       const where = formatRosterSlot(slot);
 
       return {
@@ -175,7 +187,9 @@ export const getRosterSlotGroups = (
                 ? `Move to ${where}, ${move.reason}`
                 : `Move to ${where}`,
         mark: formatRosterMark(slot),
+        tone: isPreview && slot === fromSlot ? ("from" as const) : undefined,
         value: slot,
       };
     }),
   }));
+};
