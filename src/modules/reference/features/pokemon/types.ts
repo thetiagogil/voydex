@@ -1,3 +1,4 @@
+import type { BattleFormLink } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import type {
   Ability,
   AbilityAttribute,
@@ -129,6 +130,8 @@ export type PokemonLearnsetSummary = {
 
 export type PokemonGenerationDetail = {
   availability: PokemonAvailabilitySummary[];
+  /* Its battle forms, shown only in the games that have their mechanic. */
+  battleForms: BattleFormLink[];
   forms: PokemonGenerationFormSummary[];
   games: Game[];
   generation: Generation;
