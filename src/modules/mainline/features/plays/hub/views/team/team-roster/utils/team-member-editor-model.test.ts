@@ -83,6 +83,25 @@ describe("Pokémon editor model", () => {
     ]);
   });
 
+  it("lists a picked slot as a change in words, and leaves it out of the save input", () => {
+    const initial = getTeamMemberEditorValues({ ...member, slot: 1 });
+    const current = { ...initial, slot: "8" };
+
+    expect(
+      getTeamMemberEditorChanges(initial, current, (_field, value) => value),
+    ).toEqual([
+      {
+        field: "slot",
+        label: "Slot",
+        next: "Reserve R2",
+        previous: "Team slot 1",
+      },
+    ]);
+    expect(toUpdateTeamMemberInput(current, allSupported)).not.toHaveProperty(
+      "slot",
+    );
+  });
+
   it("turns the fields into the save input", () => {
     expect(
       toUpdateTeamMemberInput(

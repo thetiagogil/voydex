@@ -141,13 +141,36 @@ test.describe("Team", () => {
     await expect(
       slots.getByRole("button", { name: /^Move to Reserve R1/ }),
     ).toBeDisabled();
-    const moved = waitForAction(page);
+    const editor = page.getByRole("dialog", { name: "Squirtle" });
+    const save = editor.getByRole("button", { name: "Save", exact: true });
+
     await slots.getByRole("button", { name: "Move to Team slot 3" }).click();
+    /* Picking a square only marks it: nothing moves until Save (Cancel shows). */
+    await expect(
+      slots.getByRole("button", { name: "Move to Team slot 3" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      editor.getByText("Saving moves it to Team slot 3."),
+    ).toBeVisible();
+    await expect(save).toBeEnabled();
+
+    /* Cancel drops it. */
+    await editor.getByRole("button", { name: "Cancel" }).click();
+    await expect(editor).toBeHidden();
+    await expect(
+      activeTeam.getByRole("button", {
+        name: /\bSquirtle\b.*, Active slot 1$/,
+      }),
+    ).toBeVisible();
+
+    slots = await openSlots("Squirtle");
+    await slots.getByRole("button", { name: "Move to Team slot 3" }).click();
+    const moved = waitForAction(page);
+    await save.click();
     await moved;
     await expect(page.getByText("Squirtle moved to Team slot 3")).toBeVisible(
       forTheAnswer,
     );
-    await page.keyboard.press("Escape");
     await expect(
       activeTeam.getByRole("button", {
         name: /\bSquirtle\b.*, Active slot 3$/,
@@ -168,11 +191,16 @@ test.describe("Team", () => {
 
     /* A taken slot swaps the two, across the team and the reserve. */
     slots = await openSlots("Squirtle");
-    const swapped = waitForAction(page);
     await slots
       .getByRole("button", {
         name: "Move to Reserve R1, swapping with Pidgey",
       })
+      .click();
+    await expect(page.getByText("Saving swaps it with Pidgey.")).toBeVisible();
+    const swapped = waitForAction(page);
+    await page
+      .getByRole("dialog", { name: "Squirtle" })
+      .getByRole("button", { name: "Save", exact: true })
       .click();
     await swapped;
     await expect(page.getByText("Squirtle swapped with Pidgey")).toBeVisible(
@@ -205,8 +233,8 @@ test.describe("Team", () => {
     await expect(
       editor.getByRole("combobox", { name: "Poké Ball" }),
     ).toBeVisible();
-    /* Shiny is a switch, off until it's turned on. */
-    const shiny = editor.getByRole("switch", { name: "Shiny" });
+    /* Shiny is a checkbox, unticked until it's ticked. */
+    const shiny = editor.getByRole("checkbox", { name: "Shiny" });
 
     await expect(shiny).not.toBeChecked();
     await shiny.click();

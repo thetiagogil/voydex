@@ -3,7 +3,9 @@ import { SheetSection } from "@/shared/components/sheet-section";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { SwitchField } from "@/shared/components/switch-field";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { CheckboxCard } from "@/shared/components/checkbox-card";
+import { EditedMark } from "@/shared/components/edited-mark";
 
 import {
   EditorLabel,
@@ -11,10 +13,26 @@ import {
 } from "./team-member-editor-fields";
 
 const genderOptions = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Genderless", value: "genderless" },
-  { label: "Not recorded", value: "unknown" },
+  {
+    icon: <AppIcon icon={appIcons.product.genderMale} size="md" />,
+    label: "Male",
+    value: "male",
+  },
+  {
+    icon: <AppIcon icon={appIcons.product.genderFemale} size="md" />,
+    label: "Female",
+    value: "female",
+  },
+  {
+    icon: <AppIcon icon={appIcons.product.genderless} size="md" />,
+    label: "Genderless",
+    value: "genderless",
+  },
+  {
+    icon: <AppIcon icon={appIcons.status.unknown} size="md" />,
+    label: "Not recorded",
+    value: "unknown",
+  },
 ] as const;
 
 /*
@@ -100,18 +118,26 @@ export const TeamMemberEditorWhoStep = ({
           />
         </Field>
       ) : null}
-      <SwitchField
-        label="Shiny"
-        edited={edited("isShiny")}
+      <CheckboxCard
+        size="compact"
+        id={`${id}-shiny`}
+        title={<EditedMark edited={edited("isShiny")}>Shiny</EditedMark>}
         checked={values.isShiny}
-        onCheckedChange={(checked) => change("isShiny", checked)}
+        onCheckedChange={(checked) => change("isShiny", checked === true)}
       />
       {supportsGigantamax ? (
-        <SwitchField
-          label="Can Gigantamax"
-          edited={edited("hasGigantamaxFactor")}
+        <CheckboxCard
+          size="compact"
+          id={`${id}-gigantamax`}
+          title={
+            <EditedMark edited={edited("hasGigantamaxFactor")}>
+              Can Gigantamax
+            </EditedMark>
+          }
           checked={values.hasGigantamaxFactor}
-          onCheckedChange={(checked) => change("hasGigantamaxFactor", checked)}
+          onCheckedChange={(checked) =>
+            change("hasGigantamaxFactor", checked === true)
+          }
         />
       ) : null}
     </div>

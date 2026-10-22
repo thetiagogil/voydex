@@ -13,11 +13,13 @@ import { cn } from "@/shared/utils/cn";
 
 type CheckboxCardProps = Omit<
   ComponentProps<typeof Checkbox>,
-  "children" | "className" | "id"
+  "children" | "className" | "id" | "title"
 > & {
   className?: string;
   description?: ReactNode;
   id: string;
+  /* `compact` is one field tall (48px) with the box centred, for a card with no description. */
+  size?: "compact" | "default";
   title: ReactNode;
 };
 
@@ -27,6 +29,7 @@ export const CheckboxCard = ({
   description,
   disabled,
   id,
+  size = "default",
   title,
   ...checkboxProps
 }: CheckboxCardProps) => {
@@ -40,12 +43,15 @@ export const CheckboxCard = ({
     >
       <Field
         orientation="horizontal"
-        className="min-h-16 gap-3"
+        className={cn(
+          "gap-3",
+          size === "compact" ? "min-h-12 items-center py-0" : "min-h-16",
+        )}
         data-disabled={disabled || undefined}
       >
         <Checkbox
           {...checkboxProps}
-          className="mt-0.5"
+          className={size === "compact" ? undefined : "mt-0.5"}
           disabled={disabled}
           id={id}
         />

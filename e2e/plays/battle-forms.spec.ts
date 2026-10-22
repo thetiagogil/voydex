@@ -115,7 +115,7 @@ test.describe("Battle forms", () => {
 
     await page.getByRole("button", { name: "Edit Charizard" }).click();
     const editor = page.getByRole("dialog", { name: "Charizard" });
-    const canGigantamax = editor.getByRole("switch", {
+    const canGigantamax = editor.getByRole("checkbox", {
       name: "Can Gigantamax",
     });
 

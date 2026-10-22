@@ -148,7 +148,7 @@ export const MainlinePlayTeamRoster = ({
     });
   };
 
-  /* A drop or the editor's Where; the toast's Undo moves it back. */
+  /* A drop, or the editor's Slot once saved; the toast's Undo moves it back. */
   const moveMember = (playPokemonId: string, toSlot: number) => {
     const member = roster.find(
       (candidate) => candidate.play_pokemon_id === playPokemonId,
@@ -261,7 +261,6 @@ export const MainlinePlayTeamRoster = ({
               (form) => form.mechanic === battleFormMechanics.dynamax,
             ) ?? false
           }
-          isMoving={isMoving}
           mechanics={mechanics}
           member={selectedMember}
           onMove={moveMember}

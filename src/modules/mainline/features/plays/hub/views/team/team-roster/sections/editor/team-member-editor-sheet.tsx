@@ -52,7 +52,6 @@ import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
  */
 export const TeamMemberEditorSheet = ({
   canGigantamax,
-  isMoving,
   mechanics,
   member,
   onMove,
@@ -64,7 +63,6 @@ export const TeamMemberEditorSheet = ({
 }: {
   /* It reaches a Gigantamax form, so the Gigantamax Factor is offered. */
   canGigantamax: boolean;
-  isMoving: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
   onMove: (playPokemonId: string, toSlot: number) => void;
@@ -186,22 +184,36 @@ export const TeamMemberEditorSheet = ({
   };
 
   const save = () => {
+    const hasFieldChanges = changes.some((item) => item.field !== "slot");
+    const toSlot = edited("slot") ? Number(values.slot) : null;
+
     startSaving(async () => {
       try {
-        const result = await updateMainlinePlayPokemonAction({
-          changes: toUpdateTeamMemberInput(values, supports),
-          playId,
-          playPokemonId,
-        });
+        if (hasFieldChanges) {
+          const result = await updateMainlinePlayPokemonAction({
+            changes: toUpdateTeamMemberInput(values, supports),
+            playId,
+            playPokemonId,
+          });
 
-        if (result.status === "error") {
-          setError(result.message);
-          return;
+          if (result.status === "error") {
+            setError(result.message);
+            return;
+          }
+
+          toast.success(
+            `${values.nickname.trim() || member.species_name} saved`,
+          );
         }
 
         onOpenChange(false);
         setIsReviewing(false);
-        toast.success(`${values.nickname.trim() || member.species_name} saved`);
+
+        /* The move is its own save, with its own toast and Undo. */
+        if (toSlot !== null) {
+          onMove(playPokemonId, toSlot);
+        }
+
         router.refresh();
       } catch (saveError) {
         setError(
@@ -239,11 +251,11 @@ export const TeamMemberEditorSheet = ({
         supportsGigantamax={supports.gigantamax}
       />
       <TeamMemberEditorWhereStep
-        isMoving={isMoving}
         member={member}
-        onMove={onMove}
+        onPick={(slot) => change("slot", String(slot))}
         placeLabel={placeLabel}
         roster={roster}
+        slot={Number(values.slot)}
       />
       <TeamMemberEditorDetailsStep
         {...stepProps}
