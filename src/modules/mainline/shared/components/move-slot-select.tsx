@@ -47,7 +47,8 @@ const MoveType = ({ option }: { option: MoveSlotOption }) => {
 
 /*
  * v3 `.mvslot`: one of a Pokémon's four moves, tinted by the move's type,
- * with its slot number, type, name and category. It opens a searchable list;
+ * with its slot number, type icon and name, and its category (Physical,
+ * Special or Status) at the end, all on one line. It opens a searchable list;
  * the first entry leaves the slot empty. Shared by a Play's roster editor
  * and the Team Planner's slot sheet.
  */
@@ -104,7 +105,7 @@ export const MoveSlotSelect = ({
             <MoveType option={selected} />
             <b className="min-w-0 truncate font-extrabold">{selected.label}</b>
             {selected.category ? (
-              <span className="text-ink-3 text-12 shrink-0 font-bold capitalize">
+              <span className="text-ink-3 text-12 ml-auto shrink-0 font-bold capitalize">
                 {selected.category}
               </span>
             ) : null}
@@ -114,7 +115,6 @@ export const MoveSlotSelect = ({
             {emptyLabel}
           </span>
         )}
-        <span className="ml-auto" />
       </ComboboxTrigger>
       {/* The search sits in the list and takes focus as it opens. */}
       <ComboboxContent className="min-w-64">
@@ -132,16 +132,14 @@ export const MoveSlotSelect = ({
               ) : (
                 <>
                   <MoveType option={option} />
-                  <span className="grid min-w-0">
-                    <span className="truncate">{option.label}</span>
-                    {option.category || option.typeName ? (
-                      <span className="text-ink-3 text-12 font-semibold">
-                        {[option.typeName, option.category]
-                          .filter(Boolean)
-                          .join(" · ")}
-                      </span>
-                    ) : null}
+                  <span className="min-w-0 flex-1 truncate">
+                    {option.label}
                   </span>
+                  {option.category ? (
+                    <span className="text-ink-3 text-12 shrink-0 font-bold capitalize">
+                      {option.category}
+                    </span>
+                  ) : null}
                 </>
               )}
             </ComboboxItem>

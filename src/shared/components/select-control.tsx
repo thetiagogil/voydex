@@ -36,6 +36,8 @@ export type SelectControlOption = {
   /* A picture on the option's tile: an icon, a game or type mark. */
   icon?: ReactNode;
   label: string;
+  /* A short mark at the end of the row and beside the picked value, such as a nature's stats. */
+  trailing?: ReactNode;
   value: string;
 };
 
@@ -110,13 +112,18 @@ const SelectedOption = ({
   option: SelectControlOption;
   showIcon: boolean;
 }) => (
-  <span className="flex min-w-0 items-center gap-2">
+  <span className="flex w-full min-w-0 items-center gap-2">
     {showIcon && option.icon ? (
       <span aria-hidden className="flex shrink-0">
         {option.icon}
       </span>
     ) : null}
     <span className="truncate">{option.label}</span>
+    {option.trailing ? (
+      <span className="ml-auto flex shrink-0 items-center pl-2">
+        {option.trailing}
+      </span>
+    ) : null}
   </span>
 );
 
@@ -125,6 +132,7 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
     description={option.description}
     leading={option.icon}
     title={option.label}
+    trailing={option.trailing}
   />
 );
 

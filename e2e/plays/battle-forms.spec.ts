@@ -146,6 +146,16 @@ test.describe("Battle forms", () => {
     await page.getByRole("button", { name: "Edit Fuecoco" }).click();
     const editor = page.getByRole("dialog", { name: "Fuecoco" });
 
+    /* Every nature says what it does, the neutral ones too. */
+    await editor.getByRole("combobox", { name: "Nature" }).click();
+    await expect(
+      page.getByRole("option", { name: /Hardy.*Neutral/ }),
+    ).toBeVisible();
+    await page
+      .getByRole("option", {
+        name: /Adamant.*Raises Attack, lowers Special Attack/,
+      })
+      .click();
     await editor.getByRole("combobox", { name: "Tera Type" }).click();
     await page.getByRole("option", { name: "Ghost", exact: true }).click();
     /* A long list, so it opens with a search field. */
@@ -164,6 +174,7 @@ test.describe("Battle forms", () => {
     await expect(profile).toContainText("Tera Type");
     await expect(profile).toContainText("Ghost");
     await expect(profile).toContainText("Leftovers");
+    await expect(profile).toContainText("Adamant");
     /* Scarlet has no battle forms to switch to. */
     await expect(
       profile.getByRole("combobox", { name: "Battle form" }),

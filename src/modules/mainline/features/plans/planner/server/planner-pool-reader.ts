@@ -53,7 +53,14 @@ export type PlannerPoolRows = {
   evolutionMethods: Pick<EvolutionMethod, "id" | "slug">[];
   forms: PokemonForm[];
   heldItems: { id: number; name: string }[];
-  natures: Pick<Nature, "id" | "introduced_generation_id" | "name">[];
+  natures: Pick<
+    Nature,
+    | "decreased_stat"
+    | "id"
+    | "increased_stat"
+    | "introduced_generation_id"
+    | "name"
+  >[];
   pokedexes: Pokedex[];
   species: PokemonSpecies[];
 };
@@ -179,7 +186,9 @@ export const readPlannerPoolRows = async (
     reference.from("evolution_methods").select("id, slug"),
     reference
       .from("natures")
-      .select("id, introduced_generation_id, name")
+      .select(
+        "id, introduced_generation_id, name, increased_stat, decreased_stat",
+      )
       .order("sort_order"),
     readBattleFormIds(supabase),
   ]);

@@ -260,7 +260,12 @@ export const buildPlannerContext = ({
     natures: buildFields.nature
       ? pool.natures
           .filter((nature) => nature.introduced_generation_id <= generationId)
-          .map((nature) => ({ id: nature.id, name: nature.name }))
+          .map((nature) => ({
+            decreased_stat: nature.decreased_stat,
+            id: nature.id,
+            increased_stat: nature.increased_stat,
+            name: nature.name,
+          }))
       : [],
     pokemon,
     sections,

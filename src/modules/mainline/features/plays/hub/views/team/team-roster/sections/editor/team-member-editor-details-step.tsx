@@ -1,6 +1,7 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
+import { NatureEffect } from "@/modules/reference/features/pokemon/components/nature-effect";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -69,11 +70,13 @@ export const TeamMemberEditorDetailsStep = ({
               options={[
                 { label: "Not recorded", value: noneValue },
                 ...optionsState.options.natures.map((nature) => ({
-                  description:
-                    nature.increased && nature.decreased
-                      ? `+${nature.increased} · −${nature.decreased}`
-                      : undefined,
                   label: nature.name,
+                  trailing: (
+                    <NatureEffect
+                      increased={nature.increased}
+                      decreased={nature.decreased}
+                    />
+                  ),
                   value: String(nature.id),
                 })),
               ]}

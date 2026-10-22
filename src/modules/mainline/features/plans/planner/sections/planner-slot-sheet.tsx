@@ -21,6 +21,7 @@ import {
   type ShownPlanSlot,
 } from "@/modules/mainline/features/plans/planner/utils/plan-shown-slot";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { NatureEffect } from "@/modules/reference/features/pokemon/components/nature-effect";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -44,7 +45,12 @@ type PlannerSlotSheetProps = {
   buildFields: PlannerBuildFields;
   byId: Map<number, PlannerPokemon>;
   index: number | null;
-  natures: { id: number; name: string }[];
+  natures: {
+    decreased_stat: string | null;
+    id: number;
+    increased_stat: string | null;
+    name: string;
+  }[];
   onClose: () => void;
   onMove: (from: number, to: number) => void;
   onRemove: (index: number) => void;
@@ -343,6 +349,12 @@ export const PlannerSlotSheet = ({
                         { label: "Any", value: anyValue },
                         ...natures.map((nature) => ({
                           label: nature.name,
+                          trailing: (
+                            <NatureEffect
+                              increased={nature.increased_stat}
+                              decreased={nature.decreased_stat}
+                            />
+                          ),
                           value: String(nature.id),
                         })),
                       ]}

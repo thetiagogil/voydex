@@ -12,12 +12,24 @@ import {
 
 const genderOptions = [
   {
-    icon: <AppIcon icon={appIcons.product.genderMale} size="md" />,
+    icon: (
+      <AppIcon
+        icon={appIcons.product.genderMale}
+        size="md"
+        className="text-calm-ink"
+      />
+    ),
     label: "Male",
     value: "male",
   },
   {
-    icon: <AppIcon icon={appIcons.product.genderFemale} size="md" />,
+    icon: (
+      <AppIcon
+        icon={appIcons.product.genderFemale}
+        size="md"
+        className="text-female"
+      />
+    ),
     label: "Female",
     value: "female",
   },
