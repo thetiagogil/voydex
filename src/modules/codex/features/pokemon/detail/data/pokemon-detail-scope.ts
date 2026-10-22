@@ -4,6 +4,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import {
   getFormAvailabilityInVersionGroup,
+  getRowsForm,
   getScopedAvailability,
   getScopedForms,
   getScopedLearnsets,
@@ -81,10 +82,25 @@ export const resolvePokemonDetailScope = (
     }
 
     const scopedForms = getScopedForms(generation, versionGroup);
-    const forms = scopedForms.length ? scopedForms : generation.forms;
+    // Not found in the group: every stored form, never a battle form.
+    const forms = scopedForms.length
+      ? scopedForms
+      : generation.forms.filter((candidate) => {
+          return !generation.battleForms.some((link) => {
+            return link.formId === candidate.form.id;
+          });
+        });
     const form = getDefaultForm(forms, params.form);
-    const availability = getScopedAvailability(generation, versionGroup, form);
-    const learnsets = getScopedLearnsets(generation, versionGroup, form);
+    // A battle form's rows are those of the stored form that reaches it.
+    const rowsFormIn = (scope: PokemonDetailVersionGroupScope) =>
+      getRowsForm(generation, scope, form);
+    const rowsForm = rowsFormIn(versionGroup);
+    const availability = getScopedAvailability(
+      generation,
+      versionGroup,
+      rowsForm,
+    );
+    const learnsets = getScopedLearnsets(generation, versionGroup, rowsForm);
     const isFormFoundIn = (scope: PokemonDetailVersionGroupScope) => {
       return (
         scope === versionGroup ||
@@ -103,7 +119,11 @@ export const resolvePokemonDetailScope = (
         availability:
           scope === versionGroup
             ? availability
-            : getFormAvailabilityInVersionGroup(generation, scope, form),
+            : getFormAvailabilityInVersionGroup(
+                generation,
+                scope,
+                rowsFormIn(scope),
+              ),
         versionGroup: scope,
       })),
       generationForms: getGenerationForms(generation, versionGroups, {
@@ -115,7 +135,7 @@ export const resolvePokemonDetailScope = (
         learnsets:
           scope === versionGroup
             ? learnsets
-            : getScopedLearnsets(generation, scope, form),
+            : getScopedLearnsets(generation, scope, rowsFormIn(scope)),
         versionGroup: scope,
       })),
       /* Another group's Pokédexes count only when the form is found there. */
@@ -124,12 +144,14 @@ export const resolvePokemonDetailScope = (
           return [];
         }
 
-        return getScopedPokedexEntries(scope, form, generation).map(
-          (entry) => ({
-            ...entry,
-            versionGroupSlug: scope.versionGroup.slug,
-          }),
-        );
+        return getScopedPokedexEntries(
+          scope,
+          rowsFormIn(scope),
+          generation,
+        ).map((entry) => ({
+          ...entry,
+          versionGroupSlug: scope.versionGroup.slug,
+        }));
       }),
       learnsets,
       mechanics: resolveVersionGroupMechanics({
@@ -137,7 +159,11 @@ export const resolvePokemonDetailScope = (
         generationId: generation.generation.id,
         versionGroupId: versionGroup.versionGroup.id,
       }),
-      pokedexEntries: getScopedPokedexEntries(versionGroup, form, generation),
+      pokedexEntries: getScopedPokedexEntries(
+        versionGroup,
+        rowsForm,
+        generation,
+      ),
       versionGroup,
       versionGroups,
     };

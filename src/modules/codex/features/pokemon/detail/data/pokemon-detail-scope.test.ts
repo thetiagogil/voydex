@@ -75,6 +75,7 @@ const generationEight = {
     availability(1, swsh, { game: sword, method: "Wild" }),
     availability(2, isleOfArmor, { method: "Max Raid" }),
   ],
+  battleForms: [],
   forms: [],
   games: [sword, shield, game(33, "brilliant-diamond", 21)],
   generation: { id: 8, name: "Generation VIII", sort_order: 8 } as Generation,
@@ -340,6 +341,57 @@ describe("the entry's generation-wide reading", () => {
       ["arcanine", "swsh"],
       ["hisuian-arcanine", "bdsp"],
     ]);
+  });
+});
+
+describe("battle forms in an entry", () => {
+  const form = (id: number, slug: string, isDefault: boolean) =>
+    ({
+      form: { id, is_default: isDefault, name: slug, slug },
+    }) as unknown as PokemonGenerationDetail["forms"][number];
+  const charizard = form(600, "charizard", true);
+  const megaX = form(601, "mega-charizard-x", false);
+  const gigantamax = form(603, "gigantamax-charizard", false);
+  const generation = {
+    ...generationEight,
+    battleForms: [
+      { baseFormIds: [600], formId: 601, mechanic: "mega-evolution" },
+      { baseFormIds: [600], formId: 603, mechanic: "dynamax" },
+    ],
+    forms: [charizard, megaX, gigantamax],
+  } as unknown as PokemonGenerationDetail;
+  const generationData = {
+    ...data,
+    generationDetails: [generation],
+  } as unknown as PokemonDetailData;
+
+  it("offers Gigantamax in Sword and Shield, never a Mega", () => {
+    const scope = resolvePokemonDetailScope(generationData, {
+      versionGroup: "swsh",
+    });
+
+    expect(scope?.forms.map((entry) => entry.form.slug)).toEqual([
+      "charizard",
+      "gigantamax-charizard",
+    ]);
+  });
+
+  it("reads a battle form's rows from the form that reaches it", () => {
+    const scope = resolvePokemonDetailScope(generationData, {
+      form: "gigantamax-charizard",
+      versionGroup: "swsh",
+    });
+
+    expect(scope?.form?.form.slug).toBe("gigantamax-charizard");
+    expect(scope?.availability).toHaveLength(2);
+  });
+
+  it("leaves battle forms out of a group the Pokémon isn't found in", () => {
+    const scope = resolvePokemonDetailScope(generationData, {
+      versionGroup: "bdsp",
+    });
+
+    expect(scope?.forms.map((entry) => entry.form.slug)).toEqual(["charizard"]);
   });
 });
 
