@@ -24,6 +24,8 @@ ALTER TABLE reference.pokemon_form_rules ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokemon_form_item_requirements ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.pokemon_battle_form_bases ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.pokemon_attributes ENABLE ROW LEVEL SECURITY;
 
 REVOKE ALL ON TABLE reference.types FROM anon, authenticated;
@@ -47,6 +49,8 @@ REVOKE ALL ON TABLE reference.pokemon_forms FROM anon, authenticated;
 REVOKE ALL ON TABLE reference.pokemon_form_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_form_item_requirements FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_battle_form_bases FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_attributes FROM anon, authenticated;
 
@@ -72,6 +76,8 @@ GRANT SELECT ON TABLE reference.pokemon_form_rules TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokemon_form_item_requirements TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.pokemon_battle_form_bases TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.pokemon_attributes TO anon, authenticated;
 
 GRANT ALL ON TABLE reference.types TO service_role;
@@ -95,6 +101,8 @@ GRANT ALL ON TABLE reference.pokemon_forms TO service_role;
 GRANT ALL ON TABLE reference.pokemon_form_rules TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_form_item_requirements TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_battle_form_bases TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_attributes TO service_role;
 
@@ -139,6 +147,10 @@ CREATE POLICY pokemon_form_rules_read_all ON reference.pokemon_form_rules
     USING (TRUE);
 
 CREATE POLICY pokemon_form_item_requirements_read_all ON reference.pokemon_form_item_requirements
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_battle_form_bases_read_all ON reference.pokemon_battle_form_bases
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

@@ -30,6 +30,10 @@ SELECT
     abilities.name AS ability_name,
     mainline_play_pokemon.held_item_id,
     held_items.name AS held_item_name,
+    mainline_play_pokemon.tera_type_id,
+    tera_types.slug AS tera_type_slug,
+    tera_types.name AS tera_type_name,
+    mainline_play_pokemon.has_gigantamax_factor,
     mainline_play_pokemon.ball_item_id,
     ball_items.name AS ball_item_name,
     mainline_play_pokemon.met_location_label,
@@ -51,6 +55,7 @@ FROM
     LEFT JOIN reference.natures ON natures.id = mainline_play_pokemon.nature_id
     LEFT JOIN reference.abilities ON abilities.id = mainline_play_pokemon.ability_id
     LEFT JOIN reference.items AS held_items ON held_items.id = mainline_play_pokemon.held_item_id
+    LEFT JOIN reference.types AS tera_types ON tera_types.id = mainline_play_pokemon.tera_type_id
     LEFT JOIN reference.items AS ball_items ON ball_items.id = mainline_play_pokemon.ball_item_id
     LEFT JOIN LATERAL (
         SELECT

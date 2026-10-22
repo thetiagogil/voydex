@@ -42,6 +42,13 @@ sources remain authoritative for game-specific mechanics and availability.
   type, or an exclusive crystal, Pokémon and move); G-Max Moves from
   `reference.g_max_move_sources`. A damaging move's Max Move is the Max Move of
   its type, and a status move's is Max Guard.
+- `reference.pokemon_battle_form_bases` names the stored forms that reach each
+  Mega, Primal, Ultra Burst and Gigantamax form (Low Key Toxtricity reaches
+  only its own Gigantamax form; Ultra Necrozma comes from Dusk Mane or Dawn
+  Wings). A battle form with no row is one no player's Pokémon reaches
+  (Eternamax Eternatus, and Mega Floette until Eternal Flower Floette is
+  seeded). Which games have each mechanic is the exact-game capability
+  contract's, not this table's.
 - Evolution edges, mechanics, move/ability attributes, and type matchups retain
   generation boundaries when behavior changed. A change row starts in the
   first generation that has the new value (Flamethrower 90 starts in

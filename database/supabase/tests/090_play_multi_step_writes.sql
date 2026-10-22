@@ -661,7 +661,7 @@ SELECT
     ok (NOT has_function_privilege('anon', 'gameplay.choose_mainline_play_partner(uuid, integer)', 'EXECUTE')
         AND NOT has_function_privilege('anon', 'gameplay.undo_mainline_play_partner(uuid, uuid)', 'EXECUTE')
         AND NOT has_function_privilege('anon', 'gameplay.update_mainline_play_general_settings(uuid, text, integer, text, date, integer)', 'EXECUTE')
-        AND NOT has_function_privilege('anon', 'gameplay.update_mainline_play_pokemon(uuid, text, integer, text, boolean, integer, integer, integer, text, integer, integer, text, integer[])', 'EXECUTE')
+        AND NOT has_function_privilege('anon', 'gameplay.update_mainline_play_pokemon(uuid, text, integer, text, boolean, integer, integer, integer, text, integer, integer, text, integer[], integer, boolean)', 'EXECUTE')
         AND NOT has_function_privilege('anon', 'gameplay.remove_mainline_play_pokemon(uuid, boolean)', 'EXECUTE')
         AND NOT has_function_privilege('anon', 'gameplay.find_mainline_partner_milestone(integer)', 'EXECUTE'),
         'anonymous users cannot execute the multi-step write functions');
