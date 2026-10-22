@@ -167,6 +167,7 @@ describe("findUnofferedEditorChoice", () => {
     moves: [
       {
         damageClass: "special",
+        effect: null,
         id: 53,
         name: "Flamethrower",
         typeName: "Fire",

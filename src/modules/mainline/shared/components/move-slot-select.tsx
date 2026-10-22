@@ -8,6 +8,7 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import {
   Combobox,
   ComboboxContent,
@@ -17,10 +18,17 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 
 export type MoveSlotOption = {
   /* Physical, Special or Status. */
   category?: string | null;
+  /* What the move does: a faint "i" in the list, and the field's hover. */
+  info?: string | null;
   label: string;
   typeName?: string | null;
   typeSlug?: string | null;
@@ -72,7 +80,7 @@ export const MoveSlotSelect = ({
   const selected = options.find((option) => option.value === value) ?? null;
   const type = toTypeSlug(selected?.typeSlug);
 
-  return (
+  const field = (
     <Combobox
       items={items}
       value={selected ?? empty}
@@ -94,6 +102,7 @@ export const MoveSlotSelect = ({
     >
       <ComboboxTrigger
         aria-label={`Move ${slot}: ${selected?.label ?? emptyLabel}`}
+        aria-description={selected?.info ?? undefined}
         style={getPokemonTypeCssVariables(type)}
         className="text-14 focus-ring flex h-13 w-full min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
       >
@@ -140,6 +149,16 @@ export const MoveSlotSelect = ({
                       {option.category}
                     </span>
                   ) : null}
+                  {option.info ? (
+                    <>
+                      <span className="sr-only">, {option.info}</span>
+                      <ExplanatoryTip
+                        inert
+                        content={option.info}
+                        triggerVariant="subtle"
+                      />
+                    </>
+                  ) : null}
                 </>
               )}
             </ComboboxItem>
@@ -147,5 +166,17 @@ export const MoveSlotSelect = ({
         </ComboboxList>
       </ComboboxContent>
     </Combobox>
+  );
+
+  /* A picked move shows what it does on hover, as the ability field does. */
+  return selected?.info ? (
+    <Tooltip>
+      <TooltipTrigger render={<div className="min-w-0" />}>
+        {field}
+      </TooltipTrigger>
+      <TooltipContent className="max-w-72">{selected.info}</TooltipContent>
+    </Tooltip>
+  ) : (
+    field
   );
 };

@@ -1,5 +1,6 @@
 import { useId } from "react";
 
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -36,6 +37,13 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
         <span className="text-ink-tint text-12 shrink-0 font-bold capitalize">
           {end}
         </span>
+      ) : null}
+      {move.effect ? (
+        <ExplanatoryTip
+          content={move.effect}
+          triggerLabel={`About ${move.name}`}
+          triggerVariant="subtle"
+        />
       ) : null}
     </li>
   );

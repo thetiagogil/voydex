@@ -25,6 +25,11 @@ import {
   selectTriggerVariants,
   SelectValue,
 } from "@/shared/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 const EMPTY_SELECT_VALUE = "";
@@ -184,16 +189,26 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
   <MenuOptionContent
     description={option.description}
     leading={option.icon}
-    title={option.label}
-    titleAccessory={
-      option.info ? (
-        <>
-          <ExplanatoryTip inert content={option.info} triggerVariant="raised" />
-          <span className="sr-only">, {option.info}</span>
-        </>
-      ) : null
+    title={
+      <>
+        {option.label}
+        {option.info ? <span className="sr-only">, {option.info}</span> : null}
+      </>
     }
-    trailing={option.trailing}
+    trailing={
+      option.trailing || option.info ? (
+        <span className="flex items-center gap-2.5">
+          {option.trailing}
+          {option.info ? (
+            <ExplanatoryTip
+              inert
+              content={option.info}
+              triggerVariant="subtle"
+            />
+          ) : null}
+        </span>
+      ) : undefined
+    }
   />
 );
 
@@ -201,7 +216,7 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
  * Every select in Voydex: a field (`default`) or a toolbar's quiet select
  * (`ghost`), with an optional word before the value. Its list is the one
  * picker look every popup shares: each option a 48px row with an optional
- * picture and description, the pick in the selected tint with a check. Long
+ * picture and description, the pick in the selected tint. Long
  * lists open with a search field at the top that matches the label and the
  * description.
  */
@@ -223,10 +238,10 @@ const SelectControlField = ({
   triggerContent,
   value,
   variant,
-  reserveEnd = false,
+  triggerDescription,
 }: SelectControlProps & {
-  /* Room at the value's end for the picked option's "i", which sits over it. */
-  reserveEnd?: boolean;
+  /* Read with the field and shown on hover, such as the picked ability's effect. */
+  triggerDescription?: string;
 }) => {
   const isControlled = value !== undefined;
   const normalizedDefaultValue = normalizeSelectValue(defaultValue);
@@ -285,6 +300,7 @@ const SelectControlField = ({
         <ComboboxTrigger
           id={id}
           aria-label={ariaLabel}
+          aria-description={triggerDescription}
           data-changed={isChanged || undefined}
           data-size={size}
           className={cn(selectTriggerVariants({ variant }), className)}
@@ -295,7 +311,6 @@ const SelectControlField = ({
               <span
                 className={cn(
                   "line-clamp-1 flex flex-1 items-center gap-1.5 text-left",
-                  reserveEnd && "pr-9",
                   !selectedOption && "text-ink-3",
                 )}
               >
@@ -383,6 +398,7 @@ const SelectControlField = ({
       <SelectTrigger
         id={id}
         aria-label={ariaLabel}
+        aria-description={triggerDescription}
         className={className}
         data-changed={isChanged || undefined}
         size={size}
@@ -391,10 +407,7 @@ const SelectControlField = ({
         {triggerContent ?? (
           <>
             {prefixWord}
-            <SelectValue
-              placeholder={placeholder}
-              className={reserveEnd ? "pr-9" : undefined}
-            >
+            <SelectValue placeholder={placeholder}>
               {(selectedValue) => {
                 const selectedOption = getOptionByValue(selectedValue);
 
@@ -429,33 +442,26 @@ const SelectControlField = ({
 };
 
 /*
- * With options that carry `info`, the picked one's "i" sits in the field just
- * before the arrow, its own button beside the select's (one button can't
- * hold another).
+ * With options that carry `info`, the field shows the picked one's on hover
+ * and reads it with the field; the list marks each row with a faint "i".
  */
 export const SelectControl = (props: SelectControlProps) => {
-  if (!props.options.some((option) => option.info)) {
+  const picked = props.options.find((option) => option.value === props.value);
+
+  if (!picked?.info) {
     return <SelectControlField {...props} />;
   }
 
-  const picked = props.options.find((option) => option.value === props.value);
-
   return (
-    <div className="relative min-w-0">
-      <SelectControlField
-        {...props}
-        reserveEnd
-        className={cn("w-full", props.className)}
-      />
-      {picked?.info ? (
-        <span className="absolute top-1/2 right-12 flex -translate-y-1/2">
-          <ExplanatoryTip
-            content={picked.info}
-            triggerLabel={`About ${picked.label}`}
-            triggerVariant="raised"
-          />
-        </span>
-      ) : null}
-    </div>
+    <Tooltip>
+      <TooltipTrigger render={<div className="min-w-0" />}>
+        <SelectControlField
+          {...props}
+          className={cn("w-full", props.className)}
+          triggerDescription={picked.info}
+        />
+      </TooltipTrigger>
+      <TooltipContent className="max-w-72">{picked.info}</TooltipContent>
+    </Tooltip>
   );
 };

@@ -84,6 +84,7 @@ export const PlannerSlotMoves = ({
   const { heldItems, moves } = state.options;
   const moveOptions: MoveSlotOption[] = moves.map((move) => ({
     category: move.damageClass,
+    info: move.effect,
     label: move.name,
     typeName: move.typeName,
     typeSlug: move.typeSlug,

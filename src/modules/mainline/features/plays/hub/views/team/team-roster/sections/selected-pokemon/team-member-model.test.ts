@@ -291,12 +291,14 @@ describe("getTeamMoves", () => {
     ).toEqual([
       {
         category: "special",
+        effect: null,
         name: "Thunderbolt",
         position: 1,
         type: electricType,
       },
       {
         category: "status",
+        effect: null,
         name: "Thunder Wave",
         position: 3,
         type: electricType,

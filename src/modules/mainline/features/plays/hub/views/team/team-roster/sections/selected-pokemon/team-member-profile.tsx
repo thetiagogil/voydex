@@ -194,7 +194,7 @@ export const TeamMemberProfile = ({
                     <ExplanatoryTip
                       content={fact.detail}
                       triggerLabel={`About ${fact.value}`}
-                      triggerVariant="raised"
+                      triggerVariant="subtle"
                     />
                   ) : null}
                 </dd>

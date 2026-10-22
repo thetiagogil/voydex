@@ -18,6 +18,7 @@ const toMoveOptions = (
 ): MoveSlotOption[] => [
   ...options.moves.map((move) => ({
     category: move.damageClass,
+    info: move.effect,
     label: move.name,
     typeName: move.typeName,
     typeSlug: move.typeSlug,
@@ -27,6 +28,8 @@ const toMoveOptions = (
   ...member.moves
     .filter((move) => !options.moves.some((option) => option.id === move.id))
     .map((move) => ({
+      category: move.attributes?.damage_class ?? null,
+      info: move.attributes?.effect_summary ?? null,
       label: move.name,
       typeName: move.type?.name ?? null,
       typeSlug: move.type?.slug ?? null,

@@ -12,6 +12,7 @@ export type EditorOption = { id: number; name: string };
 
 export type EditorMoveOption = EditorOption & {
   damageClass: string | null;
+  effect: string | null;
   typeName: string | null;
   typeSlug: string | null;
 };

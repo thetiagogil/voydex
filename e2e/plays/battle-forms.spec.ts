@@ -175,10 +175,13 @@ test.describe("Battle forms", () => {
     await expect(blaze).toBeVisible();
     await expectAccessible(page);
     await blaze.click();
-    /* The picked one keeps its "i" in the field. */
-    await expect(
-      editor.getByRole("button", { name: "About Blaze" }),
-    ).toBeVisible();
+    /* The field reads what the picked one does, and shows it on hover. */
+    const abilityField = editor.getByRole("combobox", { name: "Ability" });
+    await expect(abilityField).toHaveAccessibleDescription(
+      /Powers up Fire-type moves/,
+    );
+    await abilityField.hover();
+    await expect(page.getByText(/Powers up Fire-type moves/)).toBeVisible();
     /* Every nature says what it does, the neutral ones too. */
     await editor.getByRole("combobox", { name: "Nature" }).click();
     await expect(

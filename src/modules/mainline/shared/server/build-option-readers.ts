@@ -20,6 +20,8 @@ export type BuildItemOption = BuildOption & {
 
 export type BuildMoveOption = BuildOption & {
   damageClass: string | null;
+  /* What the move does, as of the generation. */
+  effect: string | null;
   typeName: string | null;
   typeSlug: string | null;
 };
@@ -219,7 +221,7 @@ const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
     (left, right) => right.generation_start_id - left.generation_start_id,
   );
 
-/* The given moves with their type and category as of this generation, by name. */
+/* The given moves with their type, category and effect as of this generation, by name. */
 export const readMoveOptions = async (
   supabase: ServerSupabaseClient,
   { generationId, moveIds }: { generationId: number; moveIds: number[] },
@@ -237,7 +239,9 @@ export const readMoveOptions = async (
     supabase
       .schema("reference")
       .from("move_attributes")
-      .select("move_id, generation_start_id, type_id, damage_class")
+      .select(
+        "move_id, generation_start_id, type_id, damage_class, effect_summary",
+      )
       .in("move_id", moveIds)
       .lte("generation_start_id", generationId),
   ]);
@@ -248,7 +252,7 @@ export const readMoveOptions = async (
 
   const attributeByMoveId = new Map<
     number,
-    { damage_class: string; type_id: number }
+    { damage_class: string; effect_summary: string | null; type_id: number }
   >();
 
   for (const row of newestFirst(attributesResult.data ?? [])) {
@@ -283,6 +287,7 @@ export const readMoveOptions = async (
 
       return {
         damageClass: attributes?.damage_class ?? null,
+        effect: attributes?.effect_summary ?? null,
         id: move.id,
         name: move.name,
         typeName: type?.name ?? null,

@@ -20,6 +20,8 @@ export type TeamMove = {
   category: string | null;
   /* Takes the category's place, such as "From Flamethrower" for a Z-Move. */
   detail?: string;
+  /* What the move does, behind a faint "i" at the row's end. */
+  effect: string | null;
   name: string;
   position: number;
   type: Pick<NonNullable<MainlinePlayTeamMove["type"]>, "name" | "slug"> | null;
@@ -121,6 +123,7 @@ export const getBattleMoves = (moves: MemberBattleMove[]): TeamMove[] =>
   moves.map((move, index) => ({
     category: null,
     detail: `From ${move.fromMoveName}`,
+    effect: null,
     name: move.move.name,
     position: index + 1,
     type: move.move.type,
@@ -248,6 +251,7 @@ export const getTeamMoves = (moves: MainlinePlayTeamMove[]): TeamMove[] => {
     .toSorted((left, right) => left.slot - right.slot)
     .map((move) => ({
       category: move.attributes?.damage_class ?? null,
+      effect: move.attributes?.effect_summary ?? null,
       name: move.name,
       position: move.slot,
       type: move.type,

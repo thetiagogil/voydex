@@ -174,11 +174,11 @@ const ComboboxList = ({
 };
 
 /*
- * `check={false}` is for a list that only adds (a picked option leaves it):
- * no option is ever ticked, so the row gives up the check's room at its end.
+ * The pick is marked by its tint alone, as in a select. `check` adds a tick
+ * at the row's end for a list that needs one.
  */
 const ComboboxItem = ({
-  check = true,
+  check = false,
   className,
   children,
   ...props
@@ -190,7 +190,7 @@ const ComboboxItem = ({
         menuOptionClassName,
         menuOptionSelectedClassName,
         "[&_svg:not([class*='size-'])]:size-4",
-        !check && "pr-2",
+        !check && "pr-3",
         className,
       )}
       {...props}

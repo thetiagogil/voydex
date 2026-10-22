@@ -156,11 +156,14 @@ and calm meanings (settled 2026-10-19).
   (`menuPanelClassName` in `ui/menu-surface.ts`, a hairline on the float
   shadow) with the same 48px option row (`menuOptionClassName`): an optional
   picture on a 36px tile, the title, a quieter line under it, the pick in
-  the selected tint with a check (`MenuOptionContent`). `SelectControl`
+  the selected tint (`MenuOptionContent`); a select's pick is its tint alone,
+  with no check (2026-10-22), and a menu's current item keeps its check.
+  `SelectControl`
   takes `icon`, `description`, `trailing` (a short mark at the row's end
   and beside the picked value, such as a nature's stats) and `info` (what
-  the option is, behind the raised "i" beside its name in the list and
-  beside the picked value in the field, as an ability's effect) per option and
+  the option is, behind a faint small "i" at the row's end, `ExplanatoryTip`
+  `subtle`; the field shows the picked one's on hover and reads it with the
+  field, as an ability's or a move's effect) per option and
   opens with a search field for lists longer than ten (`searchable`); a
   searchable list groups its options under headings by `group` (natures by
   the stat they raise, held items by category), and its search also matches
@@ -173,7 +176,7 @@ and calm meanings (settled 2026-10-19).
 - **Selected controls**: the one picked is a small sticker, its fill in a
   white band (`bubble`), and its weight never changes. Rows, chips and filter
   pills take `bg-select-soft text-select-ink` (the soft tint of the context
-  colour with deep ink); menu and select rows take the tint with a check. A mode
+  colour with deep ink); menu rows take the tint with a check, select rows the tint alone. A mode
   switch (`SegmentedControl` `segment`, v3's `.mode-seg`) takes `bg-action`
   with a white label. A scope picker (pills choosing which part you look at: a Pokédex, a
   Story journey, a collectible set, a game version; v3's `.pill.is-on`) takes
