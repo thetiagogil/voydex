@@ -1,6 +1,9 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
-import type { BuildItemOption } from "@/modules/mainline/shared/server/build-option-readers";
+import type {
+  BuildItemOption,
+  MoveLearnMethod,
+} from "@/modules/mainline/shared/server/build-option-readers";
 
 import { formatRosterSlot } from "./roster-moves";
 import type {
@@ -13,6 +16,7 @@ export type EditorOption = { id: number; name: string };
 export type EditorMoveOption = EditorOption & {
   damageClass: string | null;
   effect: string | null;
+  learn: MoveLearnMethod | null;
   typeName: string | null;
   typeSlug: string | null;
 };

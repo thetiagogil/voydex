@@ -175,7 +175,11 @@ export const readTeamMemberEditorOptions = async (
     hasHeldItems
       ? readHeldItemOptions(supabase, { gameIds: [gameId], versionGroupId })
       : [],
-    readMoveOptions(supabase, { generationId, moveIds }),
+    readMoveOptions(supabase, {
+      generationId,
+      learnedBy: { formId, gameIds: [gameId], versionGroupId },
+      moveIds,
+    }),
     targetFormIds.length
       ? supabase
           .schema("reference")

@@ -168,6 +168,7 @@ describe("findUnofferedEditorChoice", () => {
       {
         damageClass: "special",
         effect: null,
+        learn: null,
         id: 53,
         name: "Flamethrower",
         typeName: "Fire",

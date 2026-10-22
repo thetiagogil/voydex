@@ -1,4 +1,8 @@
 import {
+  formatLearnMethodDetail,
+  getLearnMethodLabel,
+} from "@/modules/reference/features/pokemon/domain/learn-methods";
+import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
 } from "@/modules/reference/reference-rows";
@@ -22,8 +26,22 @@ export type BuildMoveOption = BuildOption & {
   damageClass: string | null;
   /* What the move does, as of the generation. */
   effect: string | null;
+  /* How it learns it here, for grouping the picker; null when unknown. */
+  learn: MoveLearnMethod | null;
   typeName: string | null;
   typeSlug: string | null;
+};
+
+/*
+ * How a form learns a move in a version group, its first way by the methods'
+ * own order: the group ("Level up", "TM"), the row's detail ("Lv. 12",
+ * "TM 08") and the order within the group (level, then machine number).
+ */
+export type MoveLearnMethod = {
+  detail: string;
+  label: string;
+  methodOrder: number;
+  order: number;
 };
 
 type LearnsetRow = {
@@ -216,6 +234,112 @@ export const readPokeBallOptions = (
   games: { gameIds: number[]; versionGroupId: number },
 ) => readGameItemOptions(supabase, { ...games, category: "poke_ball" });
 
+type ResolvedLearnsetRow = {
+  game_id: number | null;
+  learn_method_id: number | null;
+  level_learned_at: number | null;
+  machine_label: string | null;
+  move_id: number | null;
+  sort_order: number | null;
+};
+
+/*
+ * Each move's first way to learn it in the game(s): by method order (level
+ * up before TMs before eggs…), then the earliest row (lowest level, lowest
+ * machine number). A row for another game doesn't count.
+ */
+export const pickMoveLearnMethods = (
+  rows: readonly ResolvedLearnsetRow[],
+  methods: readonly {
+    id: number;
+    name: string;
+    slug: string;
+    sort_order: number;
+  }[],
+  gameIds: readonly number[],
+): Map<number, MoveLearnMethod> => {
+  const methodById = new Map(methods.map((method) => [method.id, method]));
+  const picked = new Map<number, MoveLearnMethod>();
+
+  for (const row of rows) {
+    const method = row.learn_method_id
+      ? methodById.get(row.learn_method_id)
+      : undefined;
+
+    if (
+      row.move_id === null ||
+      !method ||
+      (row.game_id !== null && !gameIds.includes(row.game_id))
+    ) {
+      continue;
+    }
+
+    const candidate: MoveLearnMethod = {
+      detail: formatLearnMethodDetail({
+        level: row.level_learned_at,
+        machineLabel: row.machine_label,
+        name: method.name,
+        slug: method.slug,
+      }),
+      label: getLearnMethodLabel(method.slug, method.name),
+      methodOrder: method.sort_order,
+      order:
+        method.slug === "level_up"
+          ? (row.level_learned_at ?? 0)
+          : (row.sort_order ?? Number.MAX_SAFE_INTEGER),
+    };
+    const current = picked.get(row.move_id);
+
+    if (
+      !current ||
+      candidate.methodOrder < current.methodOrder ||
+      (candidate.methodOrder === current.methodOrder &&
+        candidate.order < current.order)
+    ) {
+      picked.set(row.move_id, candidate);
+    }
+  }
+
+  return picked;
+};
+
+/* How a form learns each of its moves in the version group's game(s). */
+export const readMoveLearnMethods = async (
+  supabase: ServerSupabaseClient,
+  {
+    formId,
+    gameIds,
+    versionGroupId,
+  }: { formId: number; gameIds: number[]; versionGroupId: number },
+) => {
+  const [rows, methodsResult] = await Promise.all([
+    loadPagedReferenceRows<ResolvedLearnsetRow>(
+      (from, to) =>
+        supabase
+          .schema("views")
+          .from("reference_resolved_pokemon_learnsets")
+          .select(
+            "move_id, game_id, learn_method_id, level_learned_at, machine_label, sort_order",
+          )
+          .eq("form_id", formId)
+          .eq("target_version_group_id", versionGroupId)
+          .order("sort_order", { ascending: true })
+          .range(from, to),
+      "Unable to load its moves.",
+    ),
+    supabase
+      .schema("reference")
+      .from("learn_methods")
+      .select("id, name, slug, sort_order"),
+  ]);
+
+  if (methodsResult.error) {
+    throw new Error("Unable to load its moves.");
+  }
+
+  return pickMoveLearnMethods(rows, methodsResult.data ?? [], gameIds);
+};
+
 const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
   rows.toSorted(
     (left, right) => right.generation_start_id - left.generation_start_id,
@@ -224,13 +348,22 @@ const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
 /* The given moves with their type, category and effect as of this generation, by name. */
 export const readMoveOptions = async (
   supabase: ServerSupabaseClient,
-  { generationId, moveIds }: { generationId: number; moveIds: number[] },
+  {
+    generationId,
+    learnedBy,
+    moveIds,
+  }: {
+    generationId: number;
+    /* The form and game(s) whose learnset says how each move is learned. */
+    learnedBy?: { formId: number; gameIds: number[]; versionGroupId: number };
+    moveIds: number[];
+  },
 ): Promise<BuildMoveOption[]> => {
   if (!moveIds.length) {
     return [];
   }
 
-  const [movesResult, attributesResult] = await Promise.all([
+  const [movesResult, attributesResult, learnMethods] = await Promise.all([
     supabase
       .schema("reference")
       .from("moves")
@@ -244,6 +377,7 @@ export const readMoveOptions = async (
       )
       .in("move_id", moveIds)
       .lte("generation_start_id", generationId),
+    learnedBy ? readMoveLearnMethods(supabase, learnedBy) : null,
   ]);
 
   if (movesResult.error || attributesResult.error) {
@@ -289,6 +423,7 @@ export const readMoveOptions = async (
         damageClass: attributes?.damage_class ?? null,
         effect: attributes?.effect_summary ?? null,
         id: move.id,
+        learn: learnMethods?.get(move.id) ?? null,
         name: move.name,
         typeName: type?.name ?? null,
         typeSlug: type?.slug ?? null,

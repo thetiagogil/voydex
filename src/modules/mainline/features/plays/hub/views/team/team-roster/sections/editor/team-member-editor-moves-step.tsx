@@ -19,6 +19,7 @@ const toMoveOptions = (
   ...options.moves.map((move) => ({
     category: move.damageClass,
     info: move.effect,
+    learn: move.learn,
     label: move.name,
     typeName: move.typeName,
     typeSlug: move.typeSlug,

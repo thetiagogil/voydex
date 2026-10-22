@@ -104,6 +104,7 @@ export const loadPlanMemberOptionsAction = async (input: {
         : [],
       readMoveOptions(supabase, {
         generationId: group.generation_id,
+        learnedBy: { formId, gameIds, versionGroupId: group.id },
         moveIds: getLearnableMoveIds(learnsets, gameIds),
       }),
     ]);
