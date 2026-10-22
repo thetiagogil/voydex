@@ -21,6 +21,9 @@ import type {
   VersionGroup,
 } from "@/modules/reference/shared/database-types";
 
+/* What a Legendary or Mythical species is called. */
+export type LegendaryRarity = "Legendary" | "Mythical";
+
 export type PokemonTypePair = {
   primaryType: Type | null;
   secondaryType: Type | null;

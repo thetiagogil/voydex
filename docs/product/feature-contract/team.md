@@ -173,6 +173,20 @@ Every Story battle has its opponent's team (a database test holds this); a
 battle that somehow had none would keep the specialty reading and an honest
 placeholder.
 
+A **legendary encounter** is a Boss whose team is one Legendary or Mythical
+Pokémon (by its species, `reference.pokemon_species`). It reads as that
+kind (Legendary or Mythical, never Boss), its report speaks of one Pokémon
+("it", "The Pokémon", the Pokémon's types) and not of a team, it is **Done**
+rather than won, and an optional one (its story point is not required) is
+marked Optional. The count of battles won ("N of M battles won", and each
+chapter's) leaves out optional legendary encounters, which are catches you
+may skip and may not be battles at all; a chapter counts them apart ("2 of 5
+done"). A required legendary, like Groudon in Ruby, still counts. Roaming
+shows in the story point's name and where it roams, not as a kind of its own.
+Boss is only the seeded role of these opponents; Story matchups reads one
+as a legendary once its team is in Voydex, so a game without that team still
+reads it as a Boss.
+
 There is no separate Team History. Team events (additions, evolutions, form
 changes, replacements, retirements, removals and returns) are History's Team
 filter, with event-time Pokémon identity.

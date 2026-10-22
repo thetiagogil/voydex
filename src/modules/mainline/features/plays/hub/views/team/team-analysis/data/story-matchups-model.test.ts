@@ -38,6 +38,7 @@ const milestone = (
   completed_at: null,
   description: null,
   is_completed: false,
+  is_required_for_completion: true,
   milestone_id: id,
   milestone_name: `Milestone ${id}`,
   opponent_refs: opponents.map((opponent) => ({
@@ -96,6 +97,12 @@ describe("buildStoryMatchupsModel", () => {
       ["Kabu", "Gym Leader"],
       ["Allister", "Gym Leader"],
       ["Hop", "Rival"],
+    ]);
+  });
+
+  it("keys a chapter so it can name its heading by id", () => {
+    expect(model.chapters.map((chapter) => chapter.key)).toEqual([
+      "main-story-0",
     ]);
   });
 
@@ -187,6 +194,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     choiceKey: choice ? `10001/${choice.slug}` : null,
     formSlug: name.toLowerCase(),
     gameId: null,
+    legendary: null,
     level,
     /* Each of these opponents has one battle, numbered like them. */
     milestoneId: opponentId,
@@ -303,6 +311,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     choiceKey: `10001/${choice.slug}`,
     formSlug: name.toLowerCase(),
     gameId: null,
+    legendary: "Legendary",
     level: 50,
     milestoneId: 7,
     name,
@@ -378,7 +387,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
 
     expect(battles.map((battle) => battle.name)).toEqual(["Raikou", "Entei"]);
     expect(battles[0]?.party?.note).toBe(
-      "You face them only if you chose Squirtle, and this Play hasn't recorded that choice.",
+      "You meet it only if you chose Squirtle, and this Play hasn't recorded that choice.",
     );
   });
 });
@@ -390,6 +399,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
     choiceKey: null,
     formSlug: "sandslash",
     gameId: null,
+    legendary: null,
     level: 61,
     milestoneId: 1,
     name: "Sandslash",
@@ -456,6 +466,7 @@ describe("buildStoryMatchupsModel with a rematch", () => {
     choiceKey: null,
     formSlug: name.toLowerCase(),
     gameId: null,
+    legendary: null,
     level,
     milestoneId,
     name,
@@ -520,6 +531,7 @@ describe("buildStoryLevelCap", () => {
     choiceKey: null,
     formSlug: `pokemon-${opponentId}-${slot}`,
     gameId: null,
+    legendary: null,
     level,
     milestoneId,
     name: `Pokémon ${slot}`,
@@ -647,5 +659,148 @@ describe("buildStoryLevelCap", () => {
         },
       }),
     ).toEqual({ status: "no-battle" });
+  });
+});
+
+describe("buildStoryMatchupsModel with legendary encounters", () => {
+  const row = (
+    opponentId: number,
+    slot: number,
+    name: string,
+    legendary: StoryOpponentPartyRow["legendary"],
+  ): StoryOpponentPartyRow => ({
+    choiceKey: null,
+    formSlug: name.toLowerCase(),
+    gameId: null,
+    legendary,
+    level: 40,
+    milestoneId: opponentId,
+    name,
+    opponentId,
+    primaryTypeId: 10,
+    secondaryTypeId: null,
+    slot,
+    variantKey: null,
+    variantLabel: null,
+  });
+  /* A required boss, a required legendary, an optional legendary, a Mythical and an optional trainer boss. */
+  const build = (completed: number[] = []) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(1, [{ id: 1, name: "Giovanni", role: "boss", typeId: 13 }]),
+        milestone(2, [{ id: 2, name: "Reshiram", role: "boss", typeId: 10 }]),
+        milestone(3, [{ id: 3, name: "Raikou", role: "boss", typeId: 10 }], {
+          category_name: "Side Content",
+          is_required_for_completion: false,
+          milestone_name: "Roaming Raikou",
+        }),
+        milestone(4, [{ id: 4, name: "Mew", role: "boss", typeId: 10 }], {
+          category_name: "Side Content",
+          is_required_for_completion: false,
+        }),
+        milestone(5, [{ id: 5, name: "Red", role: "boss", typeId: 13 }], {
+          category_name: "Side Content",
+          is_required_for_completion: false,
+        }),
+      ].map((item) => ({
+        ...item,
+        is_completed: completed.includes(item.milestone_id ?? 0),
+      })),
+      partyRows: [
+        row(1, 1, "Rhyhorn", null),
+        row(1, 2, "Persian", null),
+        row(2, 1, "Reshiram", "Legendary"),
+        row(3, 1, "Raikou", "Legendary"),
+        row(4, 1, "Mew", "Mythical"),
+        row(5, 1, "Pikachu", null),
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    });
+  const battles = build().chapters.flatMap((chapter) => chapter.battles);
+
+  it("calls a boss that is one Legendary or Mythical Pokémon a legendary, not a Boss", () => {
+    expect(battles.map((battle) => [battle.name, battle.kind])).toEqual([
+      ["Giovanni", "Boss"],
+      ["Reshiram", "Legendary"],
+      ["Raikou", "Legendary"],
+      ["Mew", "Mythical"],
+      ["Red", "Boss"],
+    ]);
+    expect(battles.map((battle) => battle.opponentKind)).toEqual([
+      "trainer",
+      "legendary",
+      "legendary",
+      "legendary",
+      "trainer",
+    ]);
+  });
+
+  it("reads a legendary as one Pokémon", () => {
+    const raikou = battles[2];
+
+    expect(raikou?.reading?.summary).toBe(
+      "Your team's moves aren't recorded, and it's 20 levels above your team.",
+    );
+  });
+
+  it("counts a required legendary and an optional trainer but not an optional legendary", () => {
+    const model = build();
+
+    expect(model.battleCount).toBe(3);
+    expect(model.chapters.map((chapter) => chapter.battleCount)).toEqual([
+      2, 1,
+    ]);
+    expect(model.chapters.map((chapter) => chapter.optionalCount)).toEqual([
+      0, 2,
+    ]);
+  });
+
+  it("counts a legendary won only when it is a battle that counts, and tallies optional ones apart", () => {
+    const model = build([2, 3, 5]);
+
+    expect(model.wonCount).toBe(2);
+    expect(model.chapters.map((chapter) => chapter.wonCount)).toEqual([1, 1]);
+    expect(model.chapters.map((chapter) => chapter.optionalDoneCount)).toEqual([
+      0, 1,
+    ]);
+  });
+
+  it("leaves a legendary in a team, or a legendary rival, as a trainer", () => {
+    const [team, rival] = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(11, [{ id: 11, name: "Volo", role: "boss", typeId: 10 }]),
+        milestone(12, [{ id: 12, name: "Lance", role: "rival", typeId: 10 }]),
+      ],
+      partyRows: [
+        row(11, 1, "Giratina", "Legendary"),
+        row(11, 2, "Dialga", "Legendary"),
+        { ...row(12, 1, "Mew", "Mythical"), milestoneId: 12 },
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+
+    expect([team?.kind, team?.opponentKind]).toEqual(["Boss", "trainer"]);
+    expect([rival?.kind, rival?.opponentKind]).toEqual(["Rival", "trainer"]);
+  });
+
+  it("makes the next objective a real battle while one is left", () => {
+    const model = build();
+
+    /* Giovanni and Reshiram count; Raikou and Mew are optional catches. */
+    expect(model.defaultBattleId).toBe("1/1");
+    expect(build([1, 2]).defaultBattleId).toBe("5/5");
+    expect(build([1, 2, 5]).defaultBattleId).toBe("3/3");
   });
 });

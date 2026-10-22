@@ -13,6 +13,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/components/milestone-pick-row";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
@@ -26,6 +27,7 @@ import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
 import type {
   StoryMatchupBattle,
+  StoryMatchupChapter,
   StoryMatchupsModel,
 } from "../../data/story-matchups-model";
 import { StoryBattleReport } from "./story-battle-report";
@@ -33,18 +35,49 @@ import { matchupStates } from "./story-matchup-state";
 
 const reportTitleId = "story-battle-report-title";
 
-const getBattleMedallion = (battle: StoryMatchupBattle): MedallionContent =>
-  battle.state === "won"
+/* A legendary wears its own art, not a trainer's badge or the Champion's crown. */
+const getBattleMedallion = (battle: StoryMatchupBattle): MedallionContent => {
+  const legendary =
+    battle.opponentKind === "legendary" ? battle.party?.pokemon[0] : null;
+
+  if (legendary?.imageUrl) {
+    const typeSlug = legendary.types[0]?.slug;
+
+    return {
+      imageUrl: legendary.imageUrl,
+      kind: "pokemon",
+      name: legendary.name,
+      type: typeSlug && isPokemonTypeSlug(typeSlug) ? typeSlug : null,
+    };
+  }
+
+  return battle.state === "won"
     ? battle.badgeType
       ? { kind: "badge", type: battle.badgeType }
       : { icon: appIcons.milestones.champion, kind: "gold" }
     : { icon: appIcons.product.battle, kind: "status" };
+};
 
 const battleRowStates = {
   ahead: "todo",
   next: "next",
   won: "done",
 } as const satisfies Record<StoryMatchupBattle["state"], PlayMilestoneState>;
+
+/*
+ * A chapter's tally: battles won, and the optional legendaries done, which
+ * aren't battles to win. A chapter of only optional legendaries counts those.
+ */
+const getChapterCount = (chapter: StoryMatchupChapter) => {
+  const won = `${chapter.wonCount} of ${chapter.battleCount} won`;
+  const optional = `${chapter.optionalDoneCount} of ${chapter.optionalCount}`;
+
+  return !chapter.optionalCount
+    ? won
+    : !chapter.battleCount
+      ? `${optional} done`
+      : `${won} · ${optional} optional done`;
+};
 
 /*
  * One battle in its chapter, picked to read its report: the same pick row as
@@ -106,7 +139,7 @@ const StoryBattleRow = ({
           {battle.state === "won" ? (
             <StatusBadge tone="ok" dot={false}>
               <AppIcon icon={appIcons.status.active} />
-              Won
+              {battle.opponentKind === "legendary" ? "Done" : "Won"}
               {battle.completedAt ? (
                 <>
                   {" "}
@@ -184,7 +217,7 @@ export const StoryMatchupsSection = ({
                 headingLevel={3}
                 title={chapter.name}
                 titleId={headingId}
-                count={`${chapter.wonCount} of ${chapter.battles.length} won`}
+                count={getChapterCount(chapter)}
               />
               <ul className="mt-3.5 grid gap-2">
                 {chapter.battles.map((battle) => (
