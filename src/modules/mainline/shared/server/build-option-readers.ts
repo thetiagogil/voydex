@@ -6,6 +6,11 @@ import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
 } from "@/modules/reference/reference-rows";
+import type {
+  BuildItemOption,
+  BuildMoveOption,
+  MoveLearnMethod,
+} from "@/modules/mainline/shared/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
@@ -14,37 +19,11 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
  * through the exact game (or version group) and its capability profile.
  */
 
-export type BuildOption = { id: number; name: string };
-
-/* A held item with the category the list groups it under, in the database's own order. */
-export type BuildItemOption = BuildOption & {
-  category: string;
-  categoryOrder: number;
-  /* What a held item does; balls have none. */
-  effect: string | null;
-};
-
-export type BuildMoveOption = BuildOption & {
-  damageClass: string | null;
-  /* What the move does, as of the generation. */
-  effect: string | null;
-  /* How it learns it here, for grouping the picker; null when unknown. */
-  learn: MoveLearnMethod | null;
-  typeName: string | null;
-  typeSlug: string | null;
-};
-
-/*
- * How a form learns a move in a version group, its first way by the methods'
- * own order: the group ("Level up", "TM"), the row's detail ("Lv. 12",
- * "TM 08") and the order within the group (level, then machine number).
- */
-export type MoveLearnMethod = {
-  detail: string;
-  label: string;
-  methodOrder: number;
-  order: number;
-};
+export type {
+  BuildItemOption,
+  BuildMoveOption,
+  MoveLearnMethod,
+} from "@/modules/mainline/shared/types";
 
 type LearnsetRow = {
   game_id: number | null;
@@ -126,7 +105,7 @@ export const getAvailableItemIds = (
 
 /*
  * The items of one kind (`category`: holdable items, Poké Balls) in this
- * exact game, or a version group's games: only what that game's own item
+ * exact game, or a version group's games, with the add-ons it includes: only what that game's own item
  * availability lists, never everything since the item's generation (Sword has
  * no Gen II Berry and no Mega Stones). Each comes with its primary category,
  * ordered by category then name.
@@ -136,11 +115,12 @@ const readGameItemOptions = async (
   {
     category: categorySlug,
     gameIds,
-    versionGroupId,
+    versionGroupIds,
   }: {
     category: "held_item" | "poke_ball";
     gameIds: number[];
-    versionGroupId: number;
+    /* The game's version group and every add-on the Play or Plan includes. */
+    versionGroupIds: number[];
   },
 ): Promise<BuildItemOption[]> => {
   const [availabilityRows, categoriesResult] = await Promise.all([
@@ -150,7 +130,7 @@ const readGameItemOptions = async (
           .schema("views")
           .from("reference_resolved_item_availability")
           .select("item_id, game_id")
-          .eq("target_version_group_id", versionGroupId)
+          .in("target_version_group_id", versionGroupIds)
           .order("id", { ascending: true })
           .range(from, to),
       "Unable to load items.",
@@ -229,13 +209,13 @@ const readGameItemOptions = async (
 /* What a Pokémon can hold in the game(s). */
 export const readHeldItemOptions = (
   supabase: ServerSupabaseClient,
-  games: { gameIds: number[]; versionGroupId: number },
+  games: { gameIds: number[]; versionGroupIds: number[] },
 ) => readGameItemOptions(supabase, { ...games, category: "held_item" });
 
 /* The Poké Balls the game(s) have, for what a Pokémon was caught in. */
 export const readPokeBallOptions = (
   supabase: ServerSupabaseClient,
-  games: { gameIds: number[]; versionGroupId: number },
+  games: { gameIds: number[]; versionGroupIds: number[] },
 ) => readGameItemOptions(supabase, { ...games, category: "poke_ball" });
 
 type ResolvedLearnsetRow = {

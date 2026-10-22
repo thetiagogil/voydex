@@ -48,8 +48,9 @@ import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
  * Edit Pokémon (v3 `editor`): a side sheet over the Roster (a bottom sheet
  * on phones). Who, Forms, Slot, Details, Moves and Notes, then Review changes before
  * Save. Only what the Play's game records is offered. Evolve, Change form,
- * Replace and Retire act straight away from the head, and a pick in Slot
- * moves it straight away; Delete record is for mistakes.
+ * Replace and Retire act straight away from the head; a pick in Slot only
+ * previews the move, which Save applies after the fields; Delete record is
+ * for mistakes.
  */
 export const TeamMemberEditorSheet = ({
   canGigantamax,
@@ -84,6 +85,22 @@ export const TeamMemberEditorSheet = ({
     });
   const [isReviewing, setIsReviewing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /*
+   * Each opening starts from what is saved now: a drag on the roster, an
+   * Undo or a save since the last opening must not leave a stale draft
+   * (a slot it no longer sits in would read as a change).
+   */
+  const [wasOpen, setWasOpen] = useState(open);
+
+  if (open !== wasOpen) {
+    setWasOpen(open);
+
+    if (open) {
+      setValues(initial);
+      setIsReviewing(false);
+      setError(null);
+    }
+  }
   const [isSaving, startSaving] = useTransition();
   const playPokemonId = member.play_pokemon_id ?? "";
   const name = getPlayTeamMemberName(member);

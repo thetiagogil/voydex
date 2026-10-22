@@ -3,7 +3,7 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import type {
   BuildItemOption,
   MoveLearnMethod,
-} from "@/modules/mainline/shared/server/build-option-readers";
+} from "@/modules/mainline/shared/types";
 
 import { formatRosterSlot } from "./roster-moves";
 import type {

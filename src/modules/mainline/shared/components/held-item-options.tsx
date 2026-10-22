@@ -1,4 +1,4 @@
-import type { BuildItemOption } from "@/modules/mainline/shared/server/build-option-readers";
+import type { BuildItemOption } from "@/modules/mainline/shared/types";
 import { ItemIcon } from "@/shared/components/item-icon";
 import type { SelectControlOption } from "@/shared/components/select-control";
 

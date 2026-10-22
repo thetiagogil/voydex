@@ -276,6 +276,17 @@ test.describe("Team", () => {
       forTheAnswer,
     );
 
+    /* The editor opens on where it sits now: the drag is no change to save. */
+    await openEditor(page, "Squirtle");
+    const editor = page.getByRole("dialog", { name: "Squirtle" });
+
+    await expect(editor.getByText("No changes yet")).toBeVisible();
+    await expect(
+      editor.getByRole("button", { name: "Save", exact: true }),
+    ).toBeDisabled();
+    await page.keyboard.press("Escape");
+    await expect(editor).toBeHidden();
+
     await page.reload();
     await expect(
       activeTeam.getByRole("button", {

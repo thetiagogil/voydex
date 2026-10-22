@@ -9,6 +9,7 @@ import {
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
+import { HoverInfo } from "@/shared/components/hover-info";
 import {
   Combobox,
   ComboboxCollection,
@@ -21,11 +22,6 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
 
 export type MoveSlotOption = {
   /* Physical, Special or Status. */
@@ -234,14 +230,5 @@ export const MoveSlotSelect = ({
   );
 
   /* A picked move shows what it does on hover, as the ability field does. */
-  return selected?.info ? (
-    <Tooltip>
-      <TooltipTrigger render={<div className="min-w-0" />}>
-        {field}
-      </TooltipTrigger>
-      <TooltipContent className="max-w-72">{selected.info}</TooltipContent>
-    </Tooltip>
-  ) : (
-    field
-  );
+  return <HoverInfo info={selected?.info}>{field}</HoverInfo>;
 };

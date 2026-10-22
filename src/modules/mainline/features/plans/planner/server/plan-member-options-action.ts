@@ -76,21 +76,32 @@ export const loadPlanMemberOptionsAction = async (input: {
       throw new Error("Pick a game for the Plan.");
     }
 
-    const [gamesResult, learnsets] = await Promise.all([
+    const [gamesResult, addOnsResult, learnsets] = await Promise.all([
       supabase
         .schema("reference")
         .from("games")
         .select("id")
         .eq("version_group_id", group.id),
+      /* A Plan covers the game and its add-ons, as the Planner's pool does. */
+      supabase
+        .schema("reference")
+        .from("version_groups")
+        .select("id")
+        .eq("parent_version_group_id", group.id),
       readFormLearnsetRows(supabase, {
         formId,
         versionGroupId: group.id,
       }),
     ]);
 
-    if (gamesResult.error) {
+    if (gamesResult.error || addOnsResult.error) {
       throw new Error("Unable to read the Plan's game.");
     }
+
+    const familyVersionGroupIds = [
+      group.id,
+      ...(addOnsResult.data ?? []).map((addOn) => addOn.id),
+    ];
 
     const gameIds = (gamesResult.data ?? []).map((game) => game.id);
     const mechanics = resolveVersionGroupMechanics({
@@ -100,7 +111,10 @@ export const loadPlanMemberOptionsAction = async (input: {
     });
     const [heldItems, moves] = await Promise.all([
       supportsGameMechanic(mechanics, gameMechanics.heldItems)
-        ? readHeldItemOptions(supabase, { gameIds, versionGroupId: group.id })
+        ? readHeldItemOptions(supabase, {
+            gameIds,
+            versionGroupIds: familyVersionGroupIds,
+          })
         : [],
       readMoveOptions(supabase, {
         generationId: group.generation_id,

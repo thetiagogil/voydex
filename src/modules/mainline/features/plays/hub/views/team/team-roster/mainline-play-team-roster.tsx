@@ -59,8 +59,8 @@ type MainlinePlayTeamRosterProps = {
  * team and the Reserve as stickers, and the selected Pokémon's profile
  * beside them (a bottom sheet on phones and tablets). Edit opens the
  * editor; Add Pokémon and Replace share one species picker. A Pokémon moves
- * by dragging it onto another slot or from the editor's Where, and the
- * roster redraws at once while the move saves.
+ * by dragging it onto another slot (at once) or from the editor's Slot (on
+ * Save), and the roster redraws at once while the move saves.
  */
 export const MainlinePlayTeamRoster = ({
   addRequest = null,

@@ -22,6 +22,27 @@ import {
   type TeamMemberEditorStepProps,
 } from "./team-member-editor-fields";
 
+/*
+ * What it already has stays pickable when the game's list doesn't offer it
+ * (recorded before the lists followed each game), as moves it knows do.
+ */
+const keptChoice = (
+  offered: readonly { id: number }[],
+  id: number | null,
+  name: string | null,
+  kind: "ball" | "held",
+) =>
+  id !== null && name && !offered.some((option) => option.id === id)
+    ? [
+        {
+          group: "Recorded before",
+          icon: <ItemIcon kind={kind} name={name} />,
+          label: name,
+          value: String(id),
+        },
+      ]
+    : [];
+
 export type TeamMemberEditorOptionsState =
   | { status: "loading" }
   | { message: string; status: "error" }
@@ -112,6 +133,12 @@ export const TeamMemberEditorDetailsStep = ({
                   value: noneValue,
                 },
                 ...toHeldItemOptions(optionsState.options.heldItems),
+                ...keptChoice(
+                  optionsState.options.heldItems,
+                  member.held_item_id,
+                  member.held_item_name,
+                  "held",
+                ),
               ]}
             />
           </Field>
@@ -123,12 +150,18 @@ export const TeamMemberEditorDetailsStep = ({
             placeholder="Not recorded"
             value={selectValue(values.ballItemId)}
             onValueChange={(value) => change("ballItemId", fromSelect(value))}
-            options={toSelectOptions(optionsState.options.balls).map(
-              (option) => ({
+            options={[
+              ...toSelectOptions(optionsState.options.balls).map((option) => ({
                 ...option,
                 icon: <ItemIcon kind="ball" name={option.label} />,
-              }),
-            )}
+              })),
+              ...keptChoice(
+                optionsState.options.balls,
+                member.ball_item_id,
+                member.ball_item_name,
+                "ball",
+              ),
+            ]}
           />
         </Field>
         {supports.terastal ? (

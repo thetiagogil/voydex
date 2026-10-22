@@ -97,13 +97,12 @@ export const readTeamMemberEditorOptions = async (
           .select("id, name, introduced_version_group_id")
           .order("sort_order", { ascending: true })
       : null,
-    hasTerastal
-      ? supabase
-          .schema("gameplay")
-          .from("mainline_play_optional_content_scopes")
-          .select("version_group_id")
-          .eq("play_id", playId)
-      : null,
+    /* The add-ons the Play includes: their items, balls and Stellar. */
+    supabase
+      .schema("gameplay")
+      .from("mainline_play_optional_content_scopes")
+      .select("version_group_id")
+      .eq("play_id", playId),
   ]);
 
   if (
@@ -112,11 +111,15 @@ export const readTeamMemberEditorOptions = async (
     edgesResult.error ||
     speciesFormsResult.error ||
     teraTypesResult?.error ||
-    contentScopesResult?.error
+    contentScopesResult.error
   ) {
     throw new Error("Unable to load what this Pokémon can record.");
   }
 
+  const playVersionGroupIds = [
+    versionGroupId,
+    ...(contentScopesResult.data ?? []).map((scope) => scope.version_group_id),
+  ];
   const attribute = newestFirst(attributesResult.data ?? [])[0];
   const abilityIds =
     hasAbilities && attribute
@@ -171,9 +174,15 @@ export const readTeamMemberEditorOptions = async (
           .from("version_groups")
           .select("id, sort_order")
       : null,
-    readPokeBallOptions(supabase, { gameIds: [gameId], versionGroupId }),
+    readPokeBallOptions(supabase, {
+      gameIds: [gameId],
+      versionGroupIds: playVersionGroupIds,
+    }),
     hasHeldItems
-      ? readHeldItemOptions(supabase, { gameIds: [gameId], versionGroupId })
+      ? readHeldItemOptions(supabase, {
+          gameIds: [gameId],
+          versionGroupIds: playVersionGroupIds,
+        })
       : [],
     readMoveOptions(supabase, {
       generationId,
@@ -261,7 +270,7 @@ export const readTeamMemberEditorOptions = async (
       .filter(
         (teraType) =>
           teraType.introduced_version_group_id === versionGroupId ||
-          (contentScopesResult?.data ?? []).some(
+          (contentScopesResult.data ?? []).some(
             (scope) =>
               scope.version_group_id === teraType.introduced_version_group_id,
           ),

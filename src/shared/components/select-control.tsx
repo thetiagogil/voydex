@@ -3,6 +3,7 @@
 import { useState, type ComponentProps, type ReactNode } from "react";
 
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
+import { HoverInfo } from "@/shared/components/hover-info";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import {
   Combobox,
@@ -25,11 +26,6 @@ import {
   selectTriggerVariants,
   SelectValue,
 } from "@/shared/components/ui/select";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 const EMPTY_SELECT_VALUE = "";
@@ -446,22 +442,19 @@ const SelectControlField = ({
  * and reads it with the field; the list marks each row with a faint "i".
  */
 export const SelectControl = (props: SelectControlProps) => {
-  const picked = props.options.find((option) => option.value === props.value);
-
-  if (!picked?.info) {
+  if (!props.options.some((option) => option.info)) {
     return <SelectControlField {...props} />;
   }
 
+  const picked = props.options.find((option) => option.value === props.value);
+
   return (
-    <Tooltip>
-      <TooltipTrigger render={<div className="min-w-0" />}>
-        <SelectControlField
-          {...props}
-          className={cn("w-full", props.className)}
-          triggerDescription={picked.info}
-        />
-      </TooltipTrigger>
-      <TooltipContent className="max-w-72">{picked.info}</TooltipContent>
-    </Tooltip>
+    <HoverInfo info={picked?.info}>
+      <SelectControlField
+        {...props}
+        className={cn("w-full", props.className)}
+        triggerDescription={picked?.info}
+      />
+    </HoverInfo>
   );
 };

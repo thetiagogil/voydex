@@ -88,7 +88,10 @@ export const readPlanMemberCheckRows = async (
       .in("form_id", formIds)
       .lte("generation_start_id", generationId),
     heldItemIds.length
-      ? readHeldItemOptions(supabase, { gameIds, versionGroupId })
+      ? readHeldItemOptions(supabase, {
+          gameIds,
+          versionGroupIds: familyVersionGroupIds,
+        })
       : [],
     natureIds.length
       ? reference

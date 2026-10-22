@@ -149,9 +149,11 @@ was met; held items are only the holdable items the Play's exact game has,
 grouped by category), Moves and Notes, then Review changes before Save, offering only what
 the game records. Evolve and Change form record their moment; Replace (picking
 the incoming Pokémon in the Add sheet), Retire and Delete record act from its
-head. Slot shows the twelve slots as squares and moves it straight away to the
-one picked, swapping with the Pokémon there (picking only previews the team after the move, the picked slot in red and the place it leaves in blue; the move is saved with Save); dragging a roster sticker onto another slot does the
-same, and the roster redraws at once while the move saves.
+head. Slot shows the twelve slots as squares; picking one previews the team
+after the move (the picked slot in red, the place it leaves in blue, a taken
+slot swapping), and Save applies it after the other changes. Dragging a
+roster sticker onto another slot moves it at once, and the roster redraws
+while the move saves.
 
 Team Analysis is the Team-owned review view. Its final metrics, calculation
 strategy and evidence disclosure are deliberately deferred until the product
