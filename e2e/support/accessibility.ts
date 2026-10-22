@@ -9,22 +9,42 @@ const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
  * dialog is read at rest.
  */
 export const expectAccessible = async (page: Page) => {
-  await page.evaluate(() =>
-    Promise.race([
-      Promise.all(
-        document
-          .getAnimations()
-          /* A spinner loops for ever; only wait for what ends. */
-          .filter(
-            (animation) =>
-              animation.effect?.getTiming().iterations !== Infinity,
-          )
-          .map((animation) => animation.finished.catch(() => undefined)),
-      ),
-      /* Never longer than a second: a paused animation never finishes. */
-      new Promise((resolve) => setTimeout(resolve, 1000)),
-    ]),
-  );
+  await page.evaluate(async () => {
+    const nextFrame = () =>
+      new Promise((resolve) => requestAnimationFrame(resolve));
+    /* Never longer than two seconds, whatever keeps moving. */
+    const deadline = performance.now() + 2000;
+
+    /*
+     * A sheet that has just opened starts its transition a frame later, so
+     * look again after a couple of frames until nothing that ends still runs.
+     */
+    while (performance.now() < deadline) {
+      await nextFrame();
+      await nextFrame();
+      const running = document
+        .getAnimations()
+        /* A spinner loops for ever and a paused one never ends. */
+        .filter(
+          (animation) =>
+            animation.playState === "running" &&
+            animation.effect?.getTiming().iterations !== Infinity,
+        );
+
+      if (!running.length) {
+        return;
+      }
+
+      await Promise.race([
+        Promise.all(
+          running.map((animation) => animation.finished.catch(() => undefined)),
+        ),
+        new Promise((resolve) =>
+          setTimeout(resolve, deadline - performance.now()),
+        ),
+      ]);
+    }
+  });
   const { violations } = await new AxeBuilder({ page })
     .withTags(wcagTags)
     /*
