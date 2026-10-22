@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Pokémon Legends: Z-A, Z-A Royale, Rogue Mega Evolution, Zygarde, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Zygarde's story levels (10% Forme Lv. 33, 50% Forme Lv. 57) are confirmed by one source only.
+-- Lysandre Labs and L's only battle (Main Mission 42): Bulbapedia, cross-checked with Nintendo Life.
 -- Scope: Pokémon Legends: Z-A major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -37,8 +38,8 @@ INSERT INTO tracking.mainline_milestones (
   (260005, 26, NULL, 2603, 6, 3, NULL, 'unlock-mega-evolution', 'Unlock Mega Evolution', 'Gain access to Mega Evolution during the Rogue Mega Evolution story.', 1, true),
   -- Reach Rank A
   (260006, 26, NULL, 2602, 1, 3, NULL, 'reach-rank-a', 'Reach Rank A', 'Reach Rank A in the Z-A Royale.', 2, true),
-  -- Confront Lysandre
-  (260007, 26, NULL, 2604, 6, 3, NULL, 'confront-lysandre', 'Confront Lysandre', 'Confront Lysandre during the Lumiose City climax.', 1, true),
+  -- Explore Lysandre Labs
+  (260007, 26, NULL, 2604, 1, 3, NULL, 'explore-lysandre-labs', 'Explore Lysandre Labs', 'Explore Lysandre Labs beneath Lysandre Café, where L explains Ange and the ultimate weapon.', 1, true),
   -- Stop the Ange Crisis
   (260008, 26, NULL, 2604, 6, 3, NULL, 'stop-ange-crisis', 'Stop the Ange Crisis', 'Stop the Prism Tower Ange crisis with Zygarde.', 2, true),
   -- Infinite Z-A Royale

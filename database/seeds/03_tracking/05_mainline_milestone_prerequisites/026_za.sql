@@ -27,9 +27,9 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (260006, 260004, 26, 1, 1, NULL),
   -- Unlock Mega Evolution <- Reach Rank A
   (260005, 260006, 26, 1, 1, NULL),
-  -- Confront Lysandre <- Unlock Mega Evolution
+  -- Explore Lysandre Labs <- Unlock Mega Evolution
   (260007, 260005, 26, 1, 1, NULL),
-  -- Stop the Ange Crisis <- Confront Lysandre
+  -- Stop the Ange Crisis <- Explore Lysandre Labs
   (260008, 260007, 26, 1, 1, NULL),
   -- Infinite Z-A Royale <- Stop the Ange Crisis
   (260009, 260008, 26, 1, 1, NULL);

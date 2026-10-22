@@ -7,6 +7,7 @@
 -- Kieran and Carmine battles: Bulbapedia, cross-checked with Serebii.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- The Dreaded Den Munkidori (Lv. 30, or 70 after The Way Home) is confirmed by data-mined game data only.
+-- Kieran and Bloodmoon Ursaluna: cross-checked with Bulbapedia.
 -- Scope: Pokémon The Teal Mask Story battle opponent teams.
 -- ============================================================================
 -- File Scope

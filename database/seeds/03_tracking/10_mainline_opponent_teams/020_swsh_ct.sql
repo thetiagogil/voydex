@@ -4,6 +4,8 @@
 -- Primary: Serebii The Crown Tundra Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
+-- Peony: Bulbapedia, cross-checked with GamerGuides and Gfinity.
+-- Calyrex: cross-checked with GamerGuides.
 -- Scope: Pokémon The Crown Tundra Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -57,4 +59,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Virizion, Swords of Justice 1: Virizion Lv. 70
   (200009, 20015, 20, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 70),
   -- Keldeo, Ballimere Lake 1: Keldeo Lv. 65
-  (200010, 20016, 20, NULL, NULL, NULL, NULL, NULL, 1, 647, 64700, 65);
+  (200010, 20016, 20, NULL, NULL, NULL, NULL, NULL, 1, 647, 64700, 65),
+  -- Peony, Battle Peony 1: Copperajah Lv. 70
+  (200002, 20001, 20, NULL, NULL, NULL, NULL, NULL, 1, 879, 87900, 70),
+  -- Peony, Battle Peony 2: Aggron Lv. 70
+  (200002, 20001, 20, NULL, NULL, NULL, NULL, NULL, 2, 306, 30600, 70);

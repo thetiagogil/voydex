@@ -5,6 +5,7 @@
 -- Cross-check: Serebii trainer pages per battle.
 -- Hop, Bede, Marnie and Rose battles: Bulbapedia, cross-checked with Serebii's Galar location pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
+-- Leon and Eternatus: cross-checked with Bulbapedia and Dexerto.
 -- Scope: Pokémon Sword / Shield Story battle opponent teams.
 -- ============================================================================
 -- File Scope

@@ -5,6 +5,7 @@
 -- Cross-check: Pokémon Database Scarlet / Violet Gym Leaders and Elite Four page.
 -- Nemona and Arven battles: Bulbapedia, cross-checked with Serebii.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
+-- Clavell, Titans, Arven and the AI Professors: cross-checked with Bulbapedia.
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope

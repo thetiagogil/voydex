@@ -5,6 +5,7 @@
 -- Cross-check: Serebii trainer pages per battle.
 -- Battle Court post-game levels: Bulbapedia, cross-checked with Serebii.
 -- Klara and Avery battles: Bulbapedia, cross-checked with Serebii.
+-- Mustard: cross-checked with Bulbapedia, whose slot order is used.
 -- Scope: Pokémon The Isle of Armor Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -63,10 +64,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 1, 620, 62000, 73),
   -- Mustard (chose Tower of Darkness (Single Strike)) 2: Luxray Lv. 73
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 2, 405, 40500, 73),
-  -- Mustard (chose Tower of Darkness (Single Strike)) 3: Lycanroc Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 3, 745, 74500, 75),
-  -- Mustard (chose Tower of Darkness (Single Strike)) 4: Corviknight Lv. 74
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 4, 823, 82300, 74),
+  -- Mustard (chose Tower of Darkness (Single Strike)) 3: Corviknight Lv. 74
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 3, 823, 82300, 74),
+  -- Mustard (chose Tower of Darkness (Single Strike)) 4: Lycanroc Lv. 75
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 4, 745, 74500, 75),
   -- Mustard (chose Tower of Darkness (Single Strike)) 5: Kommo-o Lv. 75
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 5, 784, 78400, 75),
   -- Mustard (chose Tower of Darkness (Single Strike)) 6: Urshifu (Rapid Strike) Lv. 75
@@ -75,10 +76,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 1, 620, 62000, 73),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 2: Luxray Lv. 73
   (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 2, 405, 40500, 73),
-  -- Mustard (chose Tower of Waters (Rapid Strike)) 3: Lycanroc Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 3, 745, 74500, 75),
-  -- Mustard (chose Tower of Waters (Rapid Strike)) 4: Corviknight Lv. 74
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 4, 823, 82300, 74),
+  -- Mustard (chose Tower of Waters (Rapid Strike)) 3: Corviknight Lv. 74
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 3, 823, 82300, 74),
+  -- Mustard (chose Tower of Waters (Rapid Strike)) 4: Lycanroc Lv. 75
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 4, 745, 74500, 75),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 5: Kommo-o Lv. 75
   (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 5, 784, 78400, 75),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 6: Urshifu Lv. 75

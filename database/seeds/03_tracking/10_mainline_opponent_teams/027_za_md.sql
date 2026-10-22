@@ -4,6 +4,7 @@
 -- Primary: Serebii Mega Dimension Gym, Elite Four, League and story battle pages.
 -- Cross-check: Serebii trainer pages per battle.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Rogue Mega and Primal battles: cross-checked with Bulbapedia's Rogue Mega Evolution page.
 -- Scope: Pokémon Mega Dimension Story battle opponent teams.
 -- ============================================================================
 -- File Scope

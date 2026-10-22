@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (13);
+    plan (15);
 SET LOCAL ROLE anon;
 SELECT
     throws_ok ($$
@@ -72,6 +72,28 @@ SELECT
                     WHERE
                         mainline_opponent_team_members.milestone_id = mainline_milestone_opponent_refs.milestone_id
                         AND mainline_opponent_team_members.opponent_id = mainline_milestone_opponent_refs.opponent_id) $$, 'every Gym Leader, Kahuna, Elite Four and Champion battle has a team');
+-- Every Story battle, bosses and rivals included, has its opponent's team.
+SELECT
+    is_empty ($$
+        SELECT
+            mainline_milestone_opponent_refs.id FROM tracking.mainline_milestone_opponent_refs
+            WHERE
+                NOT EXISTS (
+                    SELECT
+                        1
+                    FROM tracking.mainline_opponent_team_members
+                    WHERE
+                        mainline_opponent_team_members.milestone_id = mainline_milestone_opponent_refs.milestone_id
+                        AND mainline_opponent_team_members.opponent_id = mainline_milestone_opponent_refs.opponent_id) $$, 'every Story battle has a team');
+-- X / Y: Lysandre fights at the Team Flare Secret HQ before and after Xerneas / Yveltal.
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_opponents.name, mainline_milestone_opponent_refs.sort_order FROM tracking.mainline_milestone_opponent_refs
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_milestone_opponent_refs.opponent_id
+            WHERE
+                mainline_milestone_opponent_refs.milestone_id = 130022 ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
+            VALUES ('Lysandre'::text, 1), ('Xerneas', 2), ('Yveltal', 3), ('Lysandre', 4) $$, 'Lysandre battles twice at the Team Flare Secret HQ, around the legendary');
 SELECT
     *
 FROM
