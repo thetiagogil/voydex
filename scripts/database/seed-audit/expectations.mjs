@@ -250,6 +250,7 @@ export const expectedSlugs = {
     "noble",
     "decision",
     "hall-of-fame",
+    "promotion-match",
   ],
   "tracking.mainline_milestone_prerequisite_kinds": [
     "suggested",

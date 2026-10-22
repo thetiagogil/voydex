@@ -39,4 +39,61 @@ test.describe("Story matchups", () => {
     await expect(page.getByText(/ battles won$/)).not.toContainText("legendar");
     await expectAccessible(page);
   });
+
+  test("lists Legends: Z-A's promotion matches in the game's order", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Legends: Z-A, 2025",
+      name: uniquePlayName("Royale run"),
+      partner: "Chikorita",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    /* Ranks Y to V come before Mega Evolution, F to B after it. */
+    const royale = page.getByRole("region", { name: /^Z-A Royale/ });
+    await expect(
+      royale.getByRole("button", { name: /^(Zach|Yvon|Xavi|Rintaro)\b/ }),
+    ).toHaveCount(4, forTheAnswer);
+
+    const megaChapter = page.getByRole("region", {
+      name: /^Rogue Mega Evolution/,
+    });
+    const megaBattles = megaChapter.getByRole("button");
+    await expect(megaBattles.first()).toBeVisible();
+    const names = (await megaBattles.allTextContents()).map(
+      (text) => text.match(/^[A-Z][a-z]+/)?.[0],
+    );
+    expect(names).toEqual(
+      expect.arrayContaining([
+        "Vinnie",
+        "Canari",
+        "Ivor",
+        "Corbeau",
+        "Jacinthe",
+      ]),
+    );
+    /* Jacinthe's tournament: Canari, Ivor and Corbeau again, then the final. */
+    expect(names.lastIndexOf("Canari")).toBeLessThan(names.indexOf("Jacinthe"));
+
+    const jacinthe = megaChapter.getByRole("button", { name: /^Jacinthe/ });
+    await expect(jacinthe).toContainText("Z-A Royale");
+    await jacinthe.click();
+
+    const report = page.getByRole("region", { name: "Jacinthe" });
+    await expect(report).toContainText("Z-A Royale");
+    await expect(report).toContainText("Clefable");
+    await expect(report).toContainText("Hotel Richissime");
+
+    /* Rank A is the Finale's, after Lysandre Labs. */
+    await expect(
+      page
+        .getByRole("region", { name: /^Finale/ })
+        .getByRole("button", { name: /^Grisham/ }),
+    ).toBeVisible();
+    await expectAccessible(page);
+  });
 });

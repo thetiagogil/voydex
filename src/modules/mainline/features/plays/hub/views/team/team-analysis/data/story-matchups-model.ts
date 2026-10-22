@@ -188,6 +188,8 @@ const battleKinds: Record<string, string> = {
   "team-star-boss": "Team Star boss",
   titan: "Titan",
   "trial-captain": "Trial captain",
+  /* Legends: Z-A's promotion matches and Jacinthe's tournament. */
+  "za-royale": "Z-A Royale",
 };
 
 type OpponentRef = {
@@ -588,40 +590,75 @@ export const buildStoryMatchupsModel = ({
   };
 };
 
-/* The battles Level caps takes its cap from. */
+/* The battles Level caps takes its cap from; Z-A's promotion matches stand in for gyms. */
 const levelCapKinds = new Set([
   battleKinds["gym-leader"],
   battleKinds.kahuna,
   battleKinds["elite-four"],
   battleKinds.champion,
+  battleKinds["za-royale"],
 ]);
+
+/* The story point a battle belongs to ("10005/1002" -> "10005"). */
+const getBattleMilestoneKey = (battleId: string) =>
+  battleId.slice(0, battleId.indexOf("/"));
+
+const toCapBattle = ({ kind, name }: StoryMatchupBattle) => ({
+  isPromotionMatch: kind === battleKinds["za-royale"],
+  kind,
+  name,
+});
+
+const getPartyAce = (battle: StoryMatchupBattle) =>
+  battle.party?.pokemon.length
+    ? Math.max(...battle.party.pokemon.map((pokemon) => pokemon.level))
+    : null;
 
 /*
  * Level caps' cap: the highest level on the team of the first Gym Leader,
- * Kahuna, Elite Four member or Champion still ahead in Story, read as Story
- * matchups reads that battle (its game's team, the one the Play's choice
- * picks).
+ * Kahuna, Elite Four member, Champion or Z-A promotion match still ahead in
+ * Story, read as Story matchups reads that battle (its game's team, the one
+ * the Play's choice picks). Where that story point holds several such
+ * battles in a row, such as Jacinthe's tournament, the cap is the strongest
+ * of them.
  */
 export const getStoryLevelCap = (
   model: StoryMatchupsModel,
 ): MainlinePlayLevelCap => {
-  const battle = model.chapters
+  const capBattles = model.chapters
     .flatMap((chapter) => chapter.battles)
-    .find(
+    .filter(
       (candidate) =>
         candidate.state !== "won" && levelCapKinds.has(candidate.kind),
     );
+  const first = capBattles[0];
 
-  if (!battle) {
+  if (!first) {
     return { status: "no-battle" };
   }
 
-  const capBattle = { kind: battle.kind, name: battle.name };
-  const levels = battle.party?.pokemon.map((pokemon) => pokemon.level) ?? [];
+  const milestoneKey = getBattleMilestoneKey(first.id);
+  let capped: { battle: StoryMatchupBattle; level: number } | null = null;
 
-  return levels.length
-    ? { battle: capBattle, level: Math.max(...levels), status: "capped" }
-    : { battle: capBattle, status: "no-team" };
+  for (const battle of capBattles) {
+    if (getBattleMilestoneKey(battle.id) !== milestoneKey) {
+      break;
+    }
+
+    const level = getPartyAce(battle);
+
+    if (level !== null && (!capped || level > capped.level)) {
+      capped = { battle, level };
+    }
+  }
+
+  return capped
+    ? {
+        battle: toCapBattle(capped.battle),
+        level: capped.level,
+        status: "capped",
+      }
+    : { battle: toCapBattle(first), status: "no-team" };
 };
 
 /* Level caps' cap from the Play's Story rows; no team of yours is read. */

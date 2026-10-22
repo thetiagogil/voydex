@@ -30,7 +30,8 @@ VALUES
   (10, 'team-star', 'Team Star', 10),
   (11, 'noble', 'Noble Pokémon', 11),
   (12, 'decision', 'Decision', 12),
-  (13, 'hall-of-fame', 'Hall of Fame', 13);
+  (13, 'hall-of-fame', 'Hall of Fame', 13),
+  (14, 'promotion-match', 'Promotion Match', 14);
 
 INSERT INTO tracking.mainline_milestone_prerequisite_kinds (id, slug, name, description, sort_order)
 VALUES
