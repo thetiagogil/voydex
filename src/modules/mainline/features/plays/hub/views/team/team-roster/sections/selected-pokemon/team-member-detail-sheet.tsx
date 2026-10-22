@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
@@ -19,6 +20,8 @@ import {
 } from "./team-member-profile";
 
 type TeamMemberDetailSheetProps = {
+  /* Its battle forms and Z-Moves in this game. */
+  battle: MemberBattle | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
   onEdit: () => void;
@@ -34,6 +37,7 @@ type TeamMemberDetailSheetProps = {
  * and Open in Codex in its art's corner as on wide screens.
  */
 export const TeamMemberDetailSheet = ({
+  battle,
   mechanics,
   member,
   onEdit,
@@ -63,6 +67,7 @@ export const TeamMemberDetailSheet = ({
             />
           }
           actionsBesideClose
+          battle={battle}
           mechanics={mechanics}
           member={member}
           notice={

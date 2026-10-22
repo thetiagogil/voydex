@@ -14,6 +14,7 @@ vi.mock("./team-member-editor-options-reader", () => ({
     heldItems: [],
     moves: [{ id: 3 }, { id: 4 }],
     natures: [],
+    teraTypes: [],
   }),
 }));
 
@@ -79,6 +80,7 @@ const input: UpdateMainlinePlayPokemonInput = {
   abilityId: null,
   ballItemId: null,
   gender: "unknown",
+  hasGigantamaxFactor: false,
   heldItemId: null,
   isShiny: true,
   level: 30,
@@ -88,6 +90,7 @@ const input: UpdateMainlinePlayPokemonInput = {
   natureId: null,
   nickname: "Hoot",
   notes: null,
+  teraTypeId: null,
 };
 
 const target = {
@@ -116,6 +119,7 @@ describe("updatePlayPokemon", () => {
           p_ability_id: undefined,
           p_ball_item_id: undefined,
           p_gender: "unknown",
+          p_has_gigantamax_factor: false,
           p_held_item_id: undefined,
           p_is_shiny: true,
           p_level: 30,
@@ -126,6 +130,7 @@ describe("updatePlayPokemon", () => {
           p_nickname: "Hoot",
           p_personal_notes: undefined,
           p_play_pokemon_id: target.playPokemonId,
+          p_tera_type_id: undefined,
         },
         name: "update_mainline_play_pokemon",
       },
@@ -155,4 +160,22 @@ describe("updatePlayPokemon", () => {
     ).rejects.toThrow("It can't learn that move in this game.");
     expect(rpcCalls).toEqual([]);
   });
+
+  it.each([
+    ["a Tera Type", { teraTypeId: 2 }],
+    ["the Gigantamax Factor", { hasGigantamaxFactor: true }],
+  ])(
+    "refuses %s in a game without it (Sun / Moon) before writing",
+    async (_name, change) => {
+      const { client, rpcCalls } = createFakeClient({ data: [], error: null });
+
+      await expect(
+        updatePlayPokemon(client, {
+          ...target,
+          input: { ...input, ...change },
+        }),
+      ).rejects.toThrow("This game doesn't record that.");
+      expect(rpcCalls).toEqual([]);
+    },
+  );
 });

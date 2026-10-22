@@ -47,6 +47,7 @@ export const readTeamMemberEditorOptions = async (
   const hasAbilities = supportsGameMechanic(mechanics, gameMechanics.abilities);
   const hasNatures = supportsGameMechanic(mechanics, gameMechanics.natures);
   const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
+  const hasTerastal = supportsGameMechanic(mechanics, gameMechanics.terastal);
   const [
     attributesResult,
     naturesResult,
@@ -55,6 +56,7 @@ export const readTeamMemberEditorOptions = async (
     edgesResult,
     speciesFormsResult,
     battleFormIds,
+    teraTypesResult,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -92,6 +94,13 @@ export const readTeamMemberEditorOptions = async (
       .eq("species_id", speciesId)
       .order("form_order", { ascending: true }),
     readBattleFormIds(supabase),
+    hasTerastal
+      ? supabase
+          .schema("reference")
+          .from("types")
+          .select("id, name")
+          .order("sort_order", { ascending: true })
+      : null,
   ]);
 
   if (
@@ -99,7 +108,8 @@ export const readTeamMemberEditorOptions = async (
     naturesResult?.error ||
     ballCategoryResult.error ||
     edgesResult.error ||
-    speciesFormsResult.error
+    speciesFormsResult.error ||
+    teraTypesResult?.error
   ) {
     throw new Error("Unable to load what this Pokémon can record.");
   }
@@ -226,5 +236,6 @@ export const readTeamMemberEditorOptions = async (
       increased: nature.increased_stat,
       name: nature.name,
     })),
+    teraTypes: teraTypesResult?.data ?? [],
   };
 };

@@ -285,6 +285,7 @@ export const replaceMainlinePlayPokemonAction = async ({
       abilityId: null,
       ballItemId: null,
       gender: "unknown",
+      hasGigantamaxFactor: false,
       heldItemId: null,
       isShiny: false,
       level,
@@ -294,6 +295,7 @@ export const replaceMainlinePlayPokemonAction = async ({
       natureId: null,
       nickname,
       notes: null,
+      teraTypeId: null,
     });
     const result = await supabase
       .schema("gameplay")

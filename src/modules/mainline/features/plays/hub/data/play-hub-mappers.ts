@@ -21,6 +21,11 @@ import type {
 } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  emptyBattleReference,
+  type BattleReference,
+} from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { buildTeamMemberBattles } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/team-member-battles";
 import { isTrophyMilestone } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import { buildMainlinePlayBadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import {
@@ -208,12 +213,23 @@ const resolvePlayMechanics = (play: MainlinePlaySummary) =>
 
 /* The Roster: the team and reserve, and what this game records. */
 export const buildMainlinePlayTeamRosterData = (
-  params: MainlinePlayTeamContextParams & { ruleChecks: RuleCheckContext },
+  params: MainlinePlayTeamContextParams & {
+    battleReference?: BattleReference;
+    ruleChecks: RuleCheckContext;
+  },
 ): MainlinePlayTeamRosterData => {
+  const mechanics = resolvePlayMechanics(params.play);
+  const roster = buildMainlinePlayTeamPreview(params.teamRows);
+
   return {
-    mechanics: resolvePlayMechanics(params.play),
+    battles: buildTeamMemberBattles(
+      roster,
+      params.battleReference ?? emptyBattleReference,
+      mechanics,
+    ),
+    mechanics,
     play: params.play,
-    roster: buildMainlinePlayTeamPreview(params.teamRows),
+    roster,
     ruleChecks: params.ruleChecks,
   };
 };

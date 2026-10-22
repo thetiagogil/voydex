@@ -33,6 +33,8 @@ import {
   TeamRosterStart,
 } from "./sections/selected-pokemon/team-member-detail";
 import { TeamMemberDetailSheet } from "./sections/selected-pokemon/team-member-detail-sheet";
+import { battleFormMechanics } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+
 import { moveMainlinePlayPokemonAction } from "./server/team-member-mutation-actions";
 import {
   applyRosterMove,
@@ -95,6 +97,9 @@ export const MainlinePlayTeamRoster = ({
   const selectedMember =
     roster.find((member) => member.play_pokemon_id === selectedMemberId) ??
     defaultMember;
+  const selectedBattle = selectedMember?.play_pokemon_id
+    ? (data.battles[selectedMember.play_pokemon_id] ?? null)
+    : null;
   const summary = getTeamRosterSummary(roster);
   const selectedWarnings = selectedMember
     ? getMemberRuleWarnings(selectedMember, data.ruleChecks)
@@ -219,6 +224,7 @@ export const MainlinePlayTeamRoster = ({
           className="sticky-panel hidden min-w-0 lg:block"
         >
           <TeamMemberDetail
+            battle={selectedBattle}
             mechanics={mechanics}
             member={selectedMember}
             onAdd={openAdd}
@@ -237,6 +243,7 @@ export const MainlinePlayTeamRoster = ({
 
       {/* Only in the sheet layout: widen the window and the panel takes over. */}
       <TeamMemberDetailSheet
+        battle={selectedBattle}
         mechanics={mechanics}
         member={selectedMember}
         onEdit={openEditor}
@@ -249,6 +256,11 @@ export const MainlinePlayTeamRoster = ({
       {selectedMember?.play_pokemon_id ? (
         <TeamMemberEditorSheet
           key={sheetKeys.editor}
+          canGigantamax={
+            selectedBattle?.forms.some(
+              (form) => form.mechanic === battleFormMechanics.dynamax,
+            ) ?? false
+          }
           isMoving={isMoving}
           mechanics={mechanics}
           member={selectedMember}

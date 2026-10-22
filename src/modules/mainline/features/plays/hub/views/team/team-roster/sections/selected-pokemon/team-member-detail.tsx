@@ -3,6 +3,7 @@ import { useId } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { appRoutes } from "@/config/routes";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Button } from "@/shared/components/ui/button";
@@ -50,6 +51,7 @@ export const TeamRosterStart = ({
 
 /* Beside the roster on wide screens: the selected Pokémon, in a quiet card. */
 export const TeamMemberDetail = ({
+  battle,
   mechanics,
   member,
   onAdd,
@@ -58,6 +60,8 @@ export const TeamMemberDetail = ({
   versionGroupSlug,
   warnings,
 }: {
+  /* Its battle forms and Z-Moves in this game. */
+  battle: MemberBattle | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
   onAdd: () => void;
@@ -87,6 +91,7 @@ export const TeamMemberDetail = ({
             versionGroupSlug={versionGroupSlug}
           />
         }
+        battle={battle}
         mechanics={mechanics}
         member={member}
         notice={

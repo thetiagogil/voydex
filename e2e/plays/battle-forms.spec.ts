@@ -1,6 +1,6 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-import { forTheAnswer } from "../support/actions";
+import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Battle forms", () => {
@@ -40,5 +40,115 @@ test.describe("Battle forms", () => {
     await expect(details).toContainText("Flying");
     await expect(details).not.toContainText("Dragon");
     await expect(page.getByRole("dialog", { name: /Mega/ })).toHaveCount(0);
+  });
+
+  /* Adds a Pokémon through the "Add to a Play" link and opens its profile. */
+  const addFromLink = async (page: Page, playId: string, name: string) => {
+    await page.goto(
+      `/mainline/plays/${playId}/team?add=${name.toLowerCase()}`,
+      { waitUntil: "networkidle" },
+    );
+    const details = page.getByRole("dialog", { name });
+
+    await details.getByRole("button", { name: `Add ${name}` }).click();
+    await expect(details).toBeHidden(forTheAnswer);
+    await page
+      .getByRole("region", { name: /^Active team/ })
+      .getByRole("button", { name: new RegExp(`^${name}\\b`) })
+      .click();
+
+    return page.getByRole("region", { name });
+  };
+
+  test("a member shows its Mega form and warns about its Mega Stone", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon X, 2013",
+      name: uniquePlayName("Kalos Megas"),
+      partner: null,
+    });
+    const profile = await addFromLink(page, playId, "Charizard");
+    const switcher = profile.getByRole("group", { name: "Battle form" });
+
+    await switcher.getByRole("button", { name: "Mega X" }).click();
+    await expect(profile).toContainText("Mega Charizard X");
+    await expect(profile).toContainText("Dragon");
+    await expect(profile.getByRole("status")).toContainText(
+      "Needs to hold Charizardite X to Mega Evolve.",
+    );
+
+    await switcher.getByRole("button", { name: "Base" }).click();
+    await expect(profile).not.toContainText("Dragon");
+    await expect(profile.getByRole("status")).toHaveCount(0);
+  });
+
+  test("Gigantamax needs the Factor, which the editor saves", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Sword, 2019",
+      name: uniquePlayName("Galar Gigantamax"),
+      partner: null,
+    });
+    const profile = await addFromLink(page, playId, "Charizard");
+    const switcher = profile.getByRole("group", { name: "Battle form" });
+
+    /* No Megas in Sword: only Gigantamax. */
+    await expect(switcher.getByRole("button")).toHaveText([
+      "Base",
+      "Gigantamax",
+    ]);
+    await switcher.getByRole("button", { name: "Gigantamax" }).click();
+    await expect(profile.getByRole("status")).toContainText(
+      "Doesn't have the Gigantamax Factor.",
+    );
+
+    await page.getByRole("button", { name: "Edit Charizard" }).click();
+    const editor = page.getByRole("dialog", { name: "Charizard" });
+    const factor = editor.getByRole("switch", { name: "Gigantamax Factor" });
+
+    await expect(factor).toBeVisible(forTheAnswer);
+    await factor.click();
+    const saved = waitForAction(page);
+    await editor.getByRole("button", { name: "Save Charizard" }).click();
+    await saved;
+    await expect(editor).toBeHidden(forTheAnswer);
+
+    await switcher.getByRole("button", { name: "Gigantamax" }).click();
+    await expect(profile.getByRole("status")).toHaveCount(0, forTheAnswer);
+    await expect(profile).toContainText("Gigantamax Charizard");
+  });
+
+  test("a Tera Type is recorded only where the game has Terastal", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Scarlet, 2022",
+      name: uniquePlayName("Paldea Tera"),
+      partner: "Fuecoco",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team`, {
+      waitUntil: "networkidle",
+    });
+    await page.getByRole("button", { name: "Edit Fuecoco" }).click();
+    const editor = page.getByRole("dialog", { name: "Fuecoco" });
+
+    await editor.getByRole("combobox", { name: "Tera Type" }).click();
+    await page.getByRole("option", { name: "Ghost", exact: true }).click();
+    const saved = waitForAction(page);
+    await editor.getByRole("button", { name: "Save Fuecoco" }).click();
+    await saved;
+    await expect(editor).toBeHidden(forTheAnswer);
+
+    const profile = page.getByRole("region", { name: "Fuecoco" });
+
+    await expect(profile).toContainText("Tera Type");
+    await expect(profile).toContainText("Ghost");
+    /* Scarlet has no battle forms to switch to. */
+    await expect(
+      profile.getByRole("group", { name: "Battle form" }),
+    ).toHaveCount(0);
   });
 });

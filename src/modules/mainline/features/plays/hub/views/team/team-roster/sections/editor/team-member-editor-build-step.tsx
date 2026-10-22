@@ -10,9 +10,11 @@ import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { Switch } from "@/shared/components/ui/switch";
 
 import type {
   TeamMemberEditorOptions,
+  TeamMemberEditorSupport,
   TeamMemberEditorValues,
 } from "../../utils/team-member-editor-model";
 import {
@@ -52,7 +54,8 @@ const toMoveOptions = (
 ];
 
 /*
- * Build: nature, ability, held item, Poké Ball and four moves, offered only
+ * Build: nature, ability, held item, Tera Type, Gigantamax Factor, Poké Ball
+ * and four moves, offered only
  * where the Play's game records them, once the choices have loaded.
  */
 export const TeamMemberEditorBuildStep = ({
@@ -66,7 +69,10 @@ export const TeamMemberEditorBuildStep = ({
 }: TeamMemberEditorStepProps & {
   member: MainlinePlayTeamMember;
   optionsState: TeamMemberEditorOptionsState;
-  supports: { abilities: boolean; heldItems: boolean; natures: boolean };
+  supports: Pick<
+    TeamMemberEditorSupport,
+    "abilities" | "gigantamax" | "heldItems" | "natures" | "terastal"
+  >;
 }) => {
   if (optionsState.status !== "ready") {
     return (
@@ -139,6 +145,37 @@ export const TeamMemberEditorBuildStep = ({
                 value: String(item.id),
               }))}
             />
+          </Field>
+        ) : null}
+        {supports.terastal ? (
+          <Field>
+            <EditorLabel edited={edited("teraTypeId")}>Tera Type</EditorLabel>
+            <SelectControl
+              ariaLabel="Tera Type"
+              placeholder="Not recorded"
+              value={selectValue(values.teraTypeId)}
+              onValueChange={(value) => change("teraTypeId", fromSelect(value))}
+              options={toSelectOptions(options.teraTypes)}
+            />
+          </Field>
+        ) : null}
+        {supports.gigantamax ? (
+          <Field className="w-auto">
+            <EditorLabel
+              htmlFor={`${id}-gigantamax`}
+              edited={edited("hasGigantamaxFactor")}
+            >
+              Gigantamax Factor
+            </EditorLabel>
+            <div className="flex h-12 items-center">
+              <Switch
+                id={`${id}-gigantamax`}
+                checked={values.hasGigantamaxFactor}
+                onCheckedChange={(checked) =>
+                  change("hasGigantamaxFactor", checked)
+                }
+              />
+            </div>
           </Field>
         ) : null}
         <Field>

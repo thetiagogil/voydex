@@ -78,7 +78,9 @@ export const updatePlayPokemon = async (
     (input.natureId !== null && refuses(gameMechanics.natures)) ||
     (input.abilityId !== null && refuses(gameMechanics.abilities)) ||
     (input.heldItemId !== null && refuses(gameMechanics.heldItems)) ||
-    (input.gender !== "unknown" && refuses(gameMechanics.pokemonGender))
+    (input.gender !== "unknown" && refuses(gameMechanics.pokemonGender)) ||
+    (input.teraTypeId !== null && refuses(gameMechanics.terastal)) ||
+    (input.hasGigantamaxFactor && refuses(gameMechanics.dynamax))
   ) {
     throw new Error("This game doesn't record that.");
   }
@@ -113,6 +115,7 @@ export const updatePlayPokemon = async (
       p_ability_id: input.abilityId ?? undefined,
       p_ball_item_id: input.ballItemId ?? undefined,
       p_gender: input.gender,
+      p_has_gigantamax_factor: input.hasGigantamaxFactor,
       p_held_item_id: input.heldItemId ?? undefined,
       p_is_shiny: input.isShiny,
       p_level: input.level ?? undefined,
@@ -123,6 +126,7 @@ export const updatePlayPokemon = async (
       p_nickname: input.nickname ?? undefined,
       p_personal_notes: input.notes ?? undefined,
       p_play_pokemon_id: playPokemonId,
+      p_tera_type_id: input.teraTypeId ?? undefined,
     });
 
   if (saveResult.error) {

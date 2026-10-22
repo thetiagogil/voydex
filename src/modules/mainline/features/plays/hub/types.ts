@@ -14,6 +14,7 @@ import type {
   VersionGroup,
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import type { StoryMilestone } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
@@ -262,6 +263,8 @@ export type MainlinePlayOverviewData = {
 };
 
 export type MainlinePlayTeamRosterData = {
+  /* Each member's battle forms and Z-Moves, by Play Pokémon id. */
+  battles: Record<string, MemberBattle>;
   mechanics: GameMechanicsProfile;
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
