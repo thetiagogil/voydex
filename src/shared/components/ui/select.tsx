@@ -56,6 +56,9 @@ const selectTriggerVariants = cva(
         ghost:
           "rounded-full border-[1.5px] border-transparent bg-transparent px-3 text-ink-2 transition-colors hover:bg-hover hover:text-ink aria-expanded:bg-hover aria-expanded:text-ink data-placeholder:text-ink-2 data-changed:bg-select-soft data-changed:text-select-ink data-changed:hover:bg-select-soft-hover data-changed:aria-expanded:bg-select-soft-hover data-changed:[&_svg]:text-select-ink",
         card: "h-auto! min-h-16 gap-3 rounded-xl bg-surface px-3 py-2 text-left text-ink shadow-card transition-colors hover:bg-hover aria-expanded:bg-hover",
+        /* A white pill sitting on a picture, like the Shiny tag on art. */
+        paper:
+          "rounded-full bg-white pr-2.5 pl-3 text-ink shadow-soft transition-colors hover:bg-hover aria-expanded:bg-hover",
       },
     },
     defaultVariants: {

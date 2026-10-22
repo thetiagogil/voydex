@@ -4,7 +4,10 @@ import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 
 import type { PokemonDetailFormOption } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
-import { toPokemonFormOption } from "@/modules/reference/features/pokemon/components/pokemon-form-option";
+import {
+  PokemonFormMenu,
+  toPokemonFormOption,
+} from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
 
 import type { PokemonDetailHeroSentencePart } from "@/modules/codex/features/pokemon/detail/sections/hero/pokemon-detail-hero-model";
 import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pending-value";
@@ -15,7 +18,6 @@ import type { PokemonTypePair } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { IconTip } from "@/shared/components/icon-tip";
 import { PendingData } from "@/shared/components/pending-data";
-import { SelectControl } from "@/shared/components/select-control";
 import { Button } from "@/shared/components/ui/button";
 
 type PokemonDetailHeroProps = {
@@ -83,15 +85,34 @@ export const PokemonDetailHero = ({
       aria-label={name}
       className="mt-6 grid items-center gap-4.5 md:grid-cols-[min(460px,calc((100%-2.5rem)/2))_minmax(0,40rem)] md:justify-center md:gap-10"
     >
-      <PokemonPortrait
-        alt={isShowingShiny ? `Shiny ${imageAlt}` : imageAlt}
-        imageUrl={isShowingShiny ? shinyImageUrl : imageUrl}
-        name={name}
-        type={typeSlug}
-        preload
-        className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
-        imageClassName="p-[9%]"
-      />
+      {/* The form menu sits on the art, since a form is what it shows. */}
+      <div className="relative">
+        <PokemonPortrait
+          alt={isShowingShiny ? `Shiny ${imageAlt}` : imageAlt}
+          imageUrl={isShowingShiny ? shinyImageUrl : imageUrl}
+          name={name}
+          type={typeSlug}
+          preload
+          className="shadow-soft aspect-[1.08] w-full rounded-[44%_56%_52%_48%/50%_44%_56%_50%] border-6 border-white"
+          imageClassName="p-[9%]"
+        />
+        {formOptions.length > 1 ? (
+          <PokemonFormMenu
+            className="absolute bottom-2 left-1/2 z-10 -translate-x-1/2"
+            value={activeFormSlug}
+            onValueChange={(formSlug) => {
+              const picked = formOptions.find(
+                (option) => option.value === formSlug,
+              );
+
+              if (picked) {
+                router.push(picked.href, { scroll: false });
+              }
+            }}
+            options={formOptions.map(toPokemonFormOption)}
+          />
+        ) : null}
+      </div>
 
       <div className="min-w-0">
         <p className="text-16 text-ink-3 font-extrabold tabular-nums">
@@ -117,29 +138,11 @@ export const PokemonDetailHero = ({
         />
 
         {/*
-         * One line: the form switch, then the actions as icons naming
+         * One line: the actions as icons naming
          * themselves on hover: the route's (Your Plays), Favourite and the
          * shiny toggle.
          */}
         <div className="flex flex-wrap items-center gap-2.5">
-          {formOptions.length > 1 ? (
-            <SelectControl
-              ariaLabel="Form"
-              prefix="Form"
-              placeholder="Form"
-              value={activeFormSlug ?? undefined}
-              onValueChange={(formSlug) => {
-                const picked = formOptions.find(
-                  (option) => option.value === formSlug,
-                );
-
-                if (picked) {
-                  router.push(picked.href, { scroll: false });
-                }
-              }}
-              options={formOptions.map(toPokemonFormOption)}
-            />
-          ) : null}
           {/* The icons wrap as one group, never one by one. */}
           <div className="flex items-center gap-2.5">
             {actions}

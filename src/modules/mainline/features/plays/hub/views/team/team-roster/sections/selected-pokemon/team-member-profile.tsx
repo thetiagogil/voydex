@@ -11,13 +11,15 @@ import {
   battleFormMechanicNames,
   type MemberBattle,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
-import { toPokemonFormOption } from "@/modules/reference/features/pokemon/components/pokemon-form-option";
+import {
+  PokemonFormMenu,
+  toPokemonFormOption,
+} from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { SelectControl } from "@/shared/components/select-control";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { cn } from "@/shared/utils/cn";
 
@@ -38,7 +40,7 @@ const baseFormValue = "base";
  * The selected Pokémon: its art on the type's tint (lively), with the shiny
  * tag top left and its actions top right, then a quiet record of who it is,
  * what it knows and where you met it. Where the game has battle forms, a
- * form menu beside its types shows one (Mega, Primal, Gigantamax): the art, types,
+ * form menu on its art shows one (Mega, Primal, Gigantamax): the art, types,
  * ability and moves become the form's, with a note when what it holds or
  * knows can't reach it. The member itself stays its stored form.
  */
@@ -120,32 +122,10 @@ export const TeamMemberProfile = ({
             {actions}
           </div>
         ) : null}
-        <FallbackImage
-          src={imageUrl}
-          name={getPlayTeamMemberName(member)}
-          fallback="badge"
-          className="relative size-42.5 sm:size-55"
-        />
-      </div>
-
-      {title}
-      <p className="text-ink-2 mt-1 mb-3 font-semibold">
-        {getTeamMemberMeta(shown, mechanics)}
-      </p>
-      <div className="flex flex-wrap items-center gap-2">
-        <PokemonTypeList
-          primaryType={types.primaryType}
-          secondaryType={types.secondaryType}
-          badgeDisplay="icon-label"
-          badgeSize="lg"
-          className="flex-wrap gap-2"
-        />
         {battle?.forms.length ? (
-          <SelectControl
+          <PokemonFormMenu
             ariaLabel="Battle form"
-            prefix="Form"
-            placeholder="Base"
-            size="sm"
+            className="absolute bottom-3 left-3 z-10"
             value={battleForm?.slug ?? baseFormValue}
             onValueChange={(formSlug) =>
               setPicked({ formSlug, memberId: member.play_pokemon_id })
@@ -175,7 +155,25 @@ export const TeamMemberProfile = ({
             ]}
           />
         ) : null}
+        <FallbackImage
+          src={imageUrl}
+          name={getPlayTeamMemberName(member)}
+          fallback="badge"
+          className="relative size-42.5 sm:size-55"
+        />
       </div>
+
+      {title}
+      <p className="text-ink-2 mt-1 mb-3 font-semibold">
+        {getTeamMemberMeta(shown, mechanics)}
+      </p>
+      <PokemonTypeList
+        primaryType={types.primaryType}
+        secondaryType={types.secondaryType}
+        badgeDisplay="icon-label"
+        badgeSize="lg"
+        className="flex-wrap gap-2"
+      />
       {battleForm?.warning ? (
         <Alert role="status" variant="warning" className="mt-4.5">
           <AppIcon icon={appIcons.status.warning} />
