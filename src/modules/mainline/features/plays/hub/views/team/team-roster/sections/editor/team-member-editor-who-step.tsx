@@ -5,7 +5,7 @@ import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { EditedMark } from "@/shared/components/edited-mark";
 import { SettingsRow } from "@/shared/components/settings-row";
-import { Switch } from "@/shared/components/ui/switch";
+import { YesNoControl } from "@/shared/components/yes-no-control";
 
 import {
   EditorLabel,
@@ -97,14 +97,13 @@ export const TeamMemberEditorWhoStep = ({
     </div>
     <SettingsRow
       inline
-      className="min-h-12 py-0"
+      className="py-0"
       title={<EditedMark edited={edited("isShiny")}>Shiny</EditedMark>}
-      titleId={`${id}-shiny`}
     >
-      <Switch
-        aria-labelledby={`${id}-shiny`}
-        checked={values.isShiny}
-        onCheckedChange={(checked) => change("isShiny", checked)}
+      <YesNoControl
+        ariaLabel="Shiny"
+        value={values.isShiny}
+        onValueChange={(isShiny) => change("isShiny", isShiny)}
       />
     </SettingsRow>
   </SheetSection>

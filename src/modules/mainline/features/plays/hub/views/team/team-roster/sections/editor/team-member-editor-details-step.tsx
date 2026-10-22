@@ -8,7 +8,7 @@ import { SettingsRow } from "@/shared/components/settings-row";
 import { Field } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
-import { Switch } from "@/shared/components/ui/switch";
+import { YesNoControl } from "@/shared/components/yes-no-control";
 
 import type {
   TeamMemberEditorOptions,
@@ -143,20 +143,19 @@ export const TeamMemberEditorDetailsStep = ({
         {supports.gigantamax ? (
           <SettingsRow
             inline
-            className="min-h-12 py-0"
+            className="py-0"
             title={
               <EditedMark edited={edited("hasGigantamaxFactor")}>
-                Gigantamax Factor
+                Can Gigantamax
               </EditedMark>
             }
-            titleId={`${id}-gigantamax`}
-            description="Lets it Gigantamax into its special form."
+            description="It has the Gigantamax Factor and can take its special form."
           >
-            <Switch
-              aria-labelledby={`${id}-gigantamax`}
-              checked={values.hasGigantamaxFactor}
-              onCheckedChange={(checked) =>
-                change("hasGigantamaxFactor", checked)
+            <YesNoControl
+              ariaLabel="Can Gigantamax"
+              value={values.hasGigantamaxFactor}
+              onValueChange={(canGigantamax) =>
+                change("hasGigantamaxFactor", canGigantamax)
               }
             />
           </SettingsRow>

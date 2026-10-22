@@ -74,7 +74,7 @@ const fieldLabels: Record<TeamMemberEditorField, string> = {
   abilityId: "Ability",
   ballItemId: "Poké Ball",
   gender: "Gender",
-  hasGigantamaxFactor: "Gigantamax Factor",
+  hasGigantamaxFactor: "Can Gigantamax",
   heldItemId: "Held item",
   isShiny: "Shiny",
   level: "Level",
