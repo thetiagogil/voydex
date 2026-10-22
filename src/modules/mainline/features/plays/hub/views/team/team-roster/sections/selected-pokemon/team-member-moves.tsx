@@ -9,12 +9,11 @@ import type { TeamMove } from "./team-member-model";
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   const typeSlug =
     move.type && isPokemonTypeSlug(move.type.slug) ? move.type.slug : null;
-  const category = [
-    move.type?.name ?? "Type not recorded",
-    move.isStatus ? "Status" : null,
-  ]
-    .filter(Boolean)
-    .join(" · ");
+  const category =
+    move.detail ??
+    [move.type?.name ?? "Type not recorded", move.isStatus ? "Status" : null]
+      .filter(Boolean)
+      .join(" · ");
 
   return (
     <li
@@ -46,15 +45,30 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   );
 };
 
-/* The recorded moves, each on its type's tint. */
-export const TeamMemberMoves = ({ moves }: { moves: TeamMove[] }) => {
+/*
+ * The recorded moves, each on its type's tint; or what a battle mechanic
+ * turns them into (Z-Moves, Max Moves), under its own title.
+ */
+export const TeamMemberMoves = ({
+  empty,
+  moves,
+  title = "Moves",
+}: {
+  /* Said when no move qualifies, such as none matching a Z-Crystal. */
+  empty?: string;
+  moves: TeamMove[];
+  title?: string;
+}) => {
   const labelId = useId();
 
   return (
     <div className="mt-5">
       <p id={labelId} className="text-ink-3 text-13 mb-2.5 font-extrabold">
-        Moves
+        {title}
       </p>
+      {!moves.length && empty ? (
+        <p className="text-ink-2 text-14 font-semibold">{empty}</p>
+      ) : null}
       <ol aria-labelledby={labelId} className="grid gap-2 sm:grid-cols-2">
         {moves.map((move) => (
           <TeamMoveRow key={move.position} move={move} />

@@ -5,7 +5,19 @@ import {
   getGameMechanicAbsence,
   resolveGameMechanics,
   resolveVersionGroupMechanics,
+  type GameMechanicsProfile,
 } from "@/modules/reference/features/games/domain/game-mechanics";
+
+const buildMechanics = [
+  gameMechanics.abilities,
+  gameMechanics.breeding,
+  gameMechanics.heldItems,
+  gameMechanics.natures,
+  gameMechanics.pokemonGender,
+];
+
+const buildSupport = (profile: GameMechanicsProfile) =>
+  buildMechanics.map((mechanic) => profile.support[mechanic]);
 
 const buildContext = (generationId: number) => ({
   gameId: generationId,
@@ -17,7 +29,7 @@ describe("resolveGameMechanics", () => {
   it("marks all initial build mechanics unsupported in Generation I", () => {
     const profile = resolveGameMechanics(buildContext(1));
 
-    expect(profile.support).toEqual({
+    expect(profile.support).toMatchObject({
       [gameMechanics.abilities]: "unsupported",
       [gameMechanics.breeding]: "unsupported",
       [gameMechanics.heldItems]: "unsupported",
@@ -41,7 +53,7 @@ describe("resolveGameMechanics", () => {
   it("enables abilities and natures from Generation III", () => {
     const profile = resolveGameMechanics(buildContext(3));
 
-    expect(Object.values(profile.support)).toEqual([
+    expect(buildSupport(profile)).toEqual([
       "supported",
       "supported",
       "supported",
@@ -57,13 +69,9 @@ describe("resolveGameMechanics", () => {
       versionGroupId: null,
     });
 
-    expect(Object.values(profile.support)).toEqual([
-      "unknown",
-      "unknown",
-      "unknown",
-      "unknown",
-      "unknown",
-    ]);
+    expect(new Set(Object.values(profile.support))).toEqual(
+      new Set(["unknown"]),
+    );
   });
 });
 
@@ -87,8 +95,6 @@ describe("exact-title exceptions", () => {
   it.each([
     ["Let's Go, Pikachu!", 29, 7, 17],
     ["Legends: Arceus", 35, 8, 22],
-    ["Legends: Z-A", 38, 9, 26],
-    ["Mega Dimension", 38, 9, 27],
   ])(
     "drops abilities and held items but keeps natures in %s",
     (_name, gameId, generationId, versionGroupId) => {
@@ -101,6 +107,23 @@ describe("exact-title exceptions", () => {
       expect(profile.support[gameMechanics.abilities]).toBe("unsupported");
       expect(profile.support[gameMechanics.heldItems]).toBe("unsupported");
       expect(profile.support[gameMechanics.natures]).toBe("supported");
+    },
+  );
+
+  it.each([
+    ["Legends: Z-A", 38, 9, 26],
+    ["Mega Dimension", 38, 9, 27],
+  ])(
+    "drops abilities but keeps held items (Mega Stones included) in %s",
+    (_name, gameId, generationId, versionGroupId) => {
+      const profile = resolveGameMechanics({
+        gameId,
+        generationId,
+        versionGroupId,
+      });
+
+      expect(profile.support[gameMechanics.abilities]).toBe("unsupported");
+      expect(profile.support[gameMechanics.heldItems]).toBe("supported");
     },
   );
 
@@ -133,6 +156,83 @@ describe("exact-title exceptions", () => {
   });
 });
 
+describe("battle mechanics", () => {
+  const battleMechanics = [
+    gameMechanics.megaEvolution,
+    gameMechanics.primalReversion,
+    gameMechanics.ultraBurst,
+    gameMechanics.zMoves,
+    gameMechanics.dynamax,
+    gameMechanics.terastal,
+  ];
+  const supportedIn = (versionGroupId: number, generationId: number) => {
+    const profile = resolveGameMechanics({
+      gameId: 1,
+      generationId,
+      versionGroupId,
+    });
+
+    return battleMechanics.filter(
+      (mechanic) => profile.support[mechanic] === "supported",
+    );
+  };
+
+  it.each([
+    [
+      "Omega Ruby / Alpha Sapphire",
+      14,
+      6,
+      ["mega-evolution", "primal-reversion"],
+    ],
+    ["X / Y", 13, 6, ["mega-evolution"]],
+    ["Sun / Moon", 15, 7, ["mega-evolution", "primal-reversion", "z-moves"]],
+    [
+      "Ultra Sun / Ultra Moon",
+      16,
+      7,
+      ["mega-evolution", "primal-reversion", "ultra-burst", "z-moves"],
+    ],
+    ["Let's Go", 17, 7, ["mega-evolution"]],
+    ["Sword / Shield", 18, 8, ["dynamax"]],
+    ["The Crown Tundra", 20, 8, ["dynamax"]],
+    ["Brilliant Diamond / Shining Pearl", 21, 8, []],
+    ["Legends: Arceus", 22, 8, []],
+    ["Scarlet / Violet", 23, 9, ["terastal"]],
+    ["The Indigo Disk", 25, 9, ["terastal"]],
+    ["Legends: Z-A", 26, 9, ["mega-evolution"]],
+    ["Mega Dimension", 27, 9, ["mega-evolution", "primal-reversion"]],
+    ["Black 2 / White 2", 12, 5, []],
+  ])("%s has only its own", (_name, versionGroupId, generationId, expected) => {
+    expect(supportedIn(versionGroupId, generationId)).toEqual(expected);
+  });
+
+  it("says a later game of the same generation leaves Megas out", () => {
+    expect(
+      getGameMechanicAbsence(
+        resolveGameMechanics({
+          gameId: 31,
+          generationId: 8,
+          versionGroupId: 18,
+        }),
+        gameMechanics.megaEvolution,
+      ),
+    ).toEqual({ kind: "not-in-game" });
+  });
+
+  it("says Terastal comes in a later generation", () => {
+    expect(
+      getGameMechanicAbsence(
+        resolveGameMechanics({
+          gameId: 31,
+          generationId: 8,
+          versionGroupId: 18,
+        }),
+        gameMechanics.terastal,
+      ),
+    ).toEqual({ introducedGeneration: 9, kind: "later-generation" });
+  });
+});
+
 describe("resolveVersionGroupMechanics", () => {
   it("resolves a version group from every game in it", () => {
     const profile = resolveVersionGroupMechanics({
@@ -142,7 +242,7 @@ describe("resolveVersionGroupMechanics", () => {
     });
 
     expect(profile.context.gameId).toBeNull();
-    expect(Object.values(profile.support)).toEqual([
+    expect(buildSupport(profile)).toEqual([
       "supported",
       "supported",
       "supported",
@@ -168,7 +268,7 @@ describe("resolveVersionGroupMechanics", () => {
       versionGroupId: 19,
     });
 
-    expect(Object.values(profile.support)).toEqual([
+    expect(buildSupport(profile)).toEqual([
       "unknown",
       "unknown",
       "unknown",

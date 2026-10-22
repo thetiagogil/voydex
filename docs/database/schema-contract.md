@@ -19,6 +19,11 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   forms, mechanics, moves, items, evolution, availability, learnsets, and
   Pokedex definitions.
 - Generation-aware attributes preserve mechanics that changed over time.
+- `reference.tera_types` is the Tera Type lookup (the 18 types plus Stellar).
+  `gameplay.mainline_play_pokemon.tera_type_id` points at it, and a form in
+  `reference.pokemon_fixed_tera_types` accepts only its fixed Tera Type (or
+  none). `views.mainline_play_team_detail` exposes the member's Tera Type and
+  the form's `fixed_tera_type_*` columns.
 - Application read models resolve mechanic support from one exact game,
   version-group, and generation context owned by the `reference` module.
 - Optional content is modeled as content-scope deltas and dependencies instead

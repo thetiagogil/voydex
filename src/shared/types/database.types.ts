@@ -649,6 +649,7 @@ export type Database = {
           final_status: string | null;
           form_id: number;
           gender: string;
+          has_gigantamax_factor: boolean;
           held_item_id: number | null;
           id: string;
           is_mvp: boolean;
@@ -663,6 +664,7 @@ export type Database = {
           roster_state_id: number;
           slot: number | null;
           species_id: number;
+          tera_type_id: number | null;
           updated_at: string;
         };
         ComputedFields: never;
@@ -673,6 +675,7 @@ export type Database = {
           final_status?: string | null;
           form_id: number;
           gender?: string;
+          has_gigantamax_factor?: boolean;
           held_item_id?: number | null;
           id?: string;
           is_mvp?: boolean;
@@ -687,6 +690,7 @@ export type Database = {
           roster_state_id: number;
           slot?: number | null;
           species_id: number;
+          tera_type_id?: number | null;
           updated_at?: string;
         };
         Update: {
@@ -696,6 +700,7 @@ export type Database = {
           final_status?: string | null;
           form_id?: number;
           gender?: string;
+          has_gigantamax_factor?: boolean;
           held_item_id?: number | null;
           id?: string;
           is_mvp?: boolean;
@@ -710,6 +715,7 @@ export type Database = {
           roster_state_id?: number;
           slot?: number | null;
           species_id?: number;
+          tera_type_id?: number | null;
           updated_at?: string;
         };
         Relationships: [
@@ -1348,6 +1354,7 @@ export type Database = {
           p_ability_id?: number;
           p_ball_item_id?: number;
           p_gender?: string;
+          p_has_gigantamax_factor?: boolean;
           p_held_item_id?: number;
           p_is_shiny?: boolean;
           p_level?: number;
@@ -1358,6 +1365,7 @@ export type Database = {
           p_nickname?: string;
           p_personal_notes?: string;
           p_play_pokemon_id: string;
+          p_tera_type_id?: number;
         };
         Returns: {
           result_move_count: number;
@@ -3111,6 +3119,43 @@ export type Database = {
           },
         ];
       };
+      pokemon_battle_form_bases: {
+        Row: {
+          base_form_id: number;
+          battle_form_id: number;
+          created_at: string;
+          species_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          base_form_id: number;
+          battle_form_id: number;
+          created_at?: string;
+          species_id: number;
+        };
+        Update: {
+          base_form_id?: number;
+          battle_form_id?: number;
+          created_at?: string;
+          species_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_battle_form_bases_base_form_fkey";
+            columns: ["species_id", "base_form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "pokemon_battle_form_bases_battle_form_fkey";
+            columns: ["species_id", "battle_form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+        ];
+      };
       pokemon_evolution_edges: {
         Row: {
           condition_data: Json | null;
@@ -3241,6 +3286,43 @@ export type Database = {
             columns: ["version_group_id"];
             isOneToOne: false;
             referencedRelation: "version_groups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      pokemon_fixed_tera_types: {
+        Row: {
+          created_at: string;
+          form_id: number;
+          notes: string | null;
+          tera_type_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          form_id: number;
+          notes?: string | null;
+          tera_type_id: number;
+        };
+        Update: {
+          created_at?: string;
+          form_id?: number;
+          notes?: string | null;
+          tera_type_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_fixed_tera_types_form_id_fkey";
+            columns: ["form_id"];
+            isOneToOne: true;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pokemon_fixed_tera_types_tera_type_id_fkey";
+            columns: ["tera_type_id"];
+            isOneToOne: false;
+            referencedRelation: "tera_types";
             referencedColumns: ["id"];
           },
         ];
@@ -3659,6 +3741,52 @@ export type Database = {
           sort_order?: number;
         };
         Relationships: [];
+      };
+      tera_types: {
+        Row: {
+          created_at: string;
+          id: number;
+          introduced_version_group_id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          type_id: number | null;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id: number;
+          introduced_version_group_id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+          type_id?: number | null;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          introduced_version_group_id?: number;
+          name?: string;
+          slug?: string;
+          sort_order?: number;
+          type_id?: number | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "tera_types_introduced_version_group_id_fkey";
+            columns: ["introduced_version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "tera_types_type_id_fkey";
+            columns: ["type_id"];
+            isOneToOne: true;
+            referencedRelation: "types";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       type_matchups: {
         Row: {
@@ -5105,10 +5233,14 @@ export type Database = {
           created_at: string | null;
           evolution_family_id: number | null;
           final_status: string | null;
+          fixed_tera_type_id: number | null;
+          fixed_tera_type_name: string | null;
+          fixed_tera_type_slug: string | null;
           form_id: number | null;
           form_name: string | null;
           form_slug: string | null;
           gender: string | null;
+          has_gigantamax_factor: boolean | null;
           held_item_id: number | null;
           held_item_name: string | null;
           is_default_form: boolean | null;
@@ -5132,6 +5264,9 @@ export type Database = {
           species_id: number | null;
           species_name: string | null;
           species_slug: string | null;
+          tera_type_id: number | null;
+          tera_type_name: string | null;
+          tera_type_slug: string | null;
           updated_at: string | null;
         };
         ComputedFields: never;

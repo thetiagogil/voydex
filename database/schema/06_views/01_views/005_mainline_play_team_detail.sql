@@ -30,6 +30,10 @@ SELECT
     abilities.name AS ability_name,
     mainline_play_pokemon.held_item_id,
     held_items.name AS held_item_name,
+    mainline_play_pokemon.tera_type_id,
+    tera_types.slug AS tera_type_slug,
+    tera_types.name AS tera_type_name,
+    mainline_play_pokemon.has_gigantamax_factor,
     mainline_play_pokemon.ball_item_id,
     ball_items.name AS ball_item_name,
     mainline_play_pokemon.met_location_label,
@@ -41,7 +45,10 @@ SELECT
     mainline_play_pokemon.updated_at,
     COALESCE(
         moves.moves, '[]'::jsonb
-) AS moves
+) AS moves,
+    pokemon_fixed_tera_types.tera_type_id AS fixed_tera_type_id,
+    fixed_tera_types.slug AS fixed_tera_type_slug,
+    fixed_tera_types.name AS fixed_tera_type_name
 FROM
     gameplay.mainline_play_pokemon
     JOIN gameplay.mainline_play_pokemon_roster_states AS roster_states ON roster_states.id = mainline_play_pokemon.roster_state_id
@@ -51,6 +58,9 @@ FROM
     LEFT JOIN reference.natures ON natures.id = mainline_play_pokemon.nature_id
     LEFT JOIN reference.abilities ON abilities.id = mainline_play_pokemon.ability_id
     LEFT JOIN reference.items AS held_items ON held_items.id = mainline_play_pokemon.held_item_id
+    LEFT JOIN reference.tera_types ON tera_types.id = mainline_play_pokemon.tera_type_id
+    LEFT JOIN reference.pokemon_fixed_tera_types ON pokemon_fixed_tera_types.form_id = mainline_play_pokemon.form_id
+    LEFT JOIN reference.tera_types AS fixed_tera_types ON fixed_tera_types.id = pokemon_fixed_tera_types.tera_type_id
     LEFT JOIN reference.items AS ball_items ON ball_items.id = mainline_play_pokemon.ball_item_id
     LEFT JOIN LATERAL (
         SELECT
@@ -66,4 +76,4 @@ FROM
             mainline_play_pokemon_moves.play_pokemon_id = mainline_play_pokemon.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity and move slots. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity, move slots and the form''s fixed Tera Type, if any. Uses security_invoker so gameplay RLS applies to the caller.';

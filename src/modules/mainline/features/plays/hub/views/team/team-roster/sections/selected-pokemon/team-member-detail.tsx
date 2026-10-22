@@ -3,6 +3,7 @@ import { useId } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { appRoutes } from "@/config/routes";
 import { EmptyState } from "@/shared/components/empty-state";
 import { Button } from "@/shared/components/ui/button";
@@ -13,6 +14,7 @@ import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/te
 
 import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
+import { useBattleFormPick } from "./use-battle-form-pick";
 import {
   TeamMemberProfile,
   teamMemberNameClassName,
@@ -50,6 +52,7 @@ export const TeamRosterStart = ({
 
 /* Beside the roster on wide screens: the selected Pokémon, in a quiet card. */
 export const TeamMemberDetail = ({
+  battle,
   mechanics,
   member,
   onAdd,
@@ -58,6 +61,8 @@ export const TeamMemberDetail = ({
   versionGroupSlug,
   warnings,
 }: {
+  /* Its battle forms and Z-Moves in this game. */
+  battle: MemberBattle | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
   onAdd: () => void;
@@ -68,6 +73,7 @@ export const TeamMemberDetail = ({
   warnings: (RuleWarning & { key: string })[];
 }) => {
   const titleId = useId();
+  const { battleForm, renderFormMenu } = useBattleFormPick(member, battle);
 
   if (!member) {
     return <TeamRosterStart onAdd={onAdd} playId={playId} />;
@@ -87,6 +93,9 @@ export const TeamMemberDetail = ({
             versionGroupSlug={versionGroupSlug}
           />
         }
+        battle={battle}
+        battleForm={battleForm}
+        formMenu={renderFormMenu()}
         mechanics={mechanics}
         member={member}
         notice={

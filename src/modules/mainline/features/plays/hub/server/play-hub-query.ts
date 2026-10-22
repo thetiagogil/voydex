@@ -40,6 +40,10 @@ import {
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
 import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/server/rule-check-reader";
+import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import { hasAnyBattleMechanic } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { readBattleReference } from "@/modules/reference/features/pokemon/server/battle-form-reader";
+import { uniqueNumberIds } from "@/shared/utils/collections";
 import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-mapper";
 import {
   readMainlinePlayLevelCap,
@@ -235,7 +239,27 @@ export const getMainlinePlayTeamRosterData = cache(
       return null;
     }
 
+    const mechanics = resolveGameMechanics({
+      gameId: context.play.game_id,
+      generationId: context.play.generation_id,
+      versionGroupId: context.play.version_group_id,
+    });
+    const battleReference = hasAnyBattleMechanic(mechanics)
+      ? await readBattleReference(context.supabase, {
+          formIds: uniqueNumberIds(
+            teamRows.members.map((member) => member.form_id),
+          ),
+          generationId: context.play.generation_id,
+          mechanics,
+          speciesIds: uniqueNumberIds(
+            teamRows.members.map((member) => member.species_id),
+          ),
+          versionGroupId: context.play.version_group_id,
+        })
+      : undefined;
+
     return buildMainlinePlayTeamRosterData({
+      battleReference,
       play: context.play,
       ruleChecks,
       teamRows,

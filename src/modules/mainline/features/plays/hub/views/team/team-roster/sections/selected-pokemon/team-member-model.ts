@@ -7,6 +7,11 @@ import {
   supportsGameMechanic,
   type GameMechanicsProfile,
 } from "@/modules/reference/features/games/domain/game-mechanics";
+import type {
+  BattleStatKey,
+  MemberBattleForm,
+  MemberBattleMove,
+} from "@/modules/reference/features/pokemon/data/battle-mechanics";
 
 import {
   formatTeamMemberGender,
@@ -14,10 +19,12 @@ import {
 } from "../../utils/team-member-display";
 
 export type TeamMove = {
+  /* Replaces the type line, such as "From Flamethrower" for a Z-Move. */
+  detail?: string;
   isStatus: boolean;
   name: string;
   position: number;
-  type: MainlinePlayTeamMove["type"];
+  type: Pick<NonNullable<MainlinePlayTeamMove["type"]>, "name" | "slug"> | null;
 };
 
 export type TeamMemberFact = {
@@ -103,10 +110,46 @@ export const getTeamMemberMeta = (
     .join(" · ");
 };
 
-/* Only what was recorded, and only what the game has. */
+const battleStatLabels: Record<BattleStatKey, string> = {
+  attack: "Atk",
+  defense: "Def",
+  hp: "HP",
+  specialAttack: "Sp. Atk",
+  specialDefense: "Sp. Def",
+  speed: "Speed",
+};
+
+/* "Atk +46 · Def +33 · Sp. Atk +21": what a battle form changes. */
+export const formatBattleStatChanges = (
+  changes: MemberBattleForm["statChanges"],
+): string | null =>
+  changes.length
+    ? changes
+        .map(
+          ({ change, key }) =>
+            `${battleStatLabels[key]} ${change > 0 ? "+" : "−"}${Math.abs(change)}`,
+        )
+        .join(" · ")
+    : null;
+
+/* Moves a battle mechanic turns into others, each saying where it came from. */
+export const getBattleMoves = (moves: MemberBattleMove[]): TeamMove[] =>
+  moves.map((move, index) => ({
+    detail: `From ${move.fromMoveName}`,
+    isStatus: false,
+    name: move.move.name,
+    position: index + 1,
+    type: move.move.type,
+  }));
+
+/*
+ * Only what was recorded, and only what the game has. In a battle form the
+ * ability is the form's own and its stat changes join the facts.
+ */
 export const getTeamMemberFacts = (
   member: MainlinePlayTeamMember,
   mechanics: GameMechanicsProfile,
+  battleForm: MemberBattleForm | null = null,
 ): TeamMemberFact[] => {
   const facts: TeamMemberFact[] = [];
 
@@ -123,7 +166,15 @@ export const getTeamMemberFacts = (
     );
   }
 
-  if (supportsGameMechanic(mechanics, gameMechanics.abilities)) {
+  const hasAbilities = supportsGameMechanic(mechanics, gameMechanics.abilities);
+
+  if (hasAbilities && battleForm?.abilityName) {
+    facts.push({
+      detail: null,
+      label: "Ability",
+      value: battleForm.abilityName,
+    });
+  } else if (hasAbilities) {
     facts.push(
       member.ability_name
         ? {
@@ -141,6 +192,26 @@ export const getTeamMemberFacts = (
         ? { detail: null, label: "Held item", value: member.held_item_name }
         : notRecorded("Held item", "None"),
     );
+  }
+
+  if (supportsGameMechanic(mechanics, gameMechanics.terastal)) {
+    facts.push(
+      member.tera_type_name || member.fixed_tera_type_name
+        ? {
+            detail: null,
+            label: "Tera Type",
+            value: member.tera_type_name ?? member.fixed_tera_type_name ?? "",
+          }
+        : notRecorded("Tera Type"),
+    );
+  }
+
+  const statChanges = battleForm
+    ? formatBattleStatChanges(battleForm.statChanges)
+    : null;
+
+  if (statChanges) {
+    facts.push({ detail: null, label: "Stat changes", value: statChanges });
   }
 
   const metDetail =

@@ -255,6 +255,16 @@ BEGIN
         ELSE
             gameplay.mainline_play_pokemon.held_item_id
         END,
+        tera_type_id = CASE WHEN gameplay.mainline_play_pokemon.tera_type_id IS NULL THEN
+            NULL
+        ELSE
+            COALESCE((
+                SELECT
+                    pokemon_fixed_tera_types.tera_type_id
+                FROM reference.pokemon_fixed_tera_types
+                WHERE
+                    pokemon_fixed_tera_types.form_id = p_to_form_id), gameplay.mainline_play_pokemon.tera_type_id)
+        END,
         updated_at = NOW()
     WHERE
         mainline_play_pokemon.id = p_play_pokemon_id;
@@ -463,7 +473,7 @@ WHERE
 END;
 $$;
 
-CREATE FUNCTION gameplay.update_mainline_play_pokemon (p_play_pokemon_id uuid, p_nickname text DEFAULT NULL, p_level integer DEFAULT NULL, p_gender text DEFAULT 'unknown', p_is_shiny boolean DEFAULT FALSE, p_nature_id integer DEFAULT NULL, p_ability_id integer DEFAULT NULL, p_held_item_id integer DEFAULT NULL, p_met_location_label text DEFAULT NULL, p_met_level integer DEFAULT NULL, p_ball_item_id integer DEFAULT NULL, p_personal_notes text DEFAULT NULL, p_move_ids integer[] DEFAULT '{}'::integer[])
+CREATE FUNCTION gameplay.update_mainline_play_pokemon (p_play_pokemon_id uuid, p_nickname text DEFAULT NULL, p_level integer DEFAULT NULL, p_gender text DEFAULT 'unknown', p_is_shiny boolean DEFAULT FALSE, p_nature_id integer DEFAULT NULL, p_ability_id integer DEFAULT NULL, p_held_item_id integer DEFAULT NULL, p_met_location_label text DEFAULT NULL, p_met_level integer DEFAULT NULL, p_ball_item_id integer DEFAULT NULL, p_personal_notes text DEFAULT NULL, p_move_ids integer[] DEFAULT '{}'::integer[], p_tera_type_id integer DEFAULT NULL, p_has_gigantamax_factor boolean DEFAULT FALSE)
     RETURNS TABLE (
         result_play_pokemon_id uuid,
         result_move_count integer)
@@ -513,6 +523,8 @@ BEGIN
         nature_id = p_nature_id,
         ability_id = p_ability_id,
         held_item_id = p_held_item_id,
+        tera_type_id = p_tera_type_id,
+        has_gigantamax_factor = COALESCE(p_has_gigantamax_factor, FALSE),
         met_location_label = p_met_location_label,
         met_level = p_met_level,
         ball_item_id = p_ball_item_id,
@@ -764,11 +776,11 @@ REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, IN
 
 GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) FROM anon;
+REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM PUBLIC;
 
@@ -786,13 +798,13 @@ COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, 
 
 COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 

@@ -16,6 +16,8 @@ CREATE TABLE gameplay.mainline_play_pokemon (
     nature_id integer REFERENCES reference.natures (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     ability_id integer REFERENCES reference.abilities (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     held_item_id integer REFERENCES reference.items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    tera_type_id integer REFERENCES reference.tera_types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    has_gigantamax_factor boolean NOT NULL DEFAULT FALSE,
     met_location_label text,
     met_level integer,
     ball_item_id integer REFERENCES reference.items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -48,6 +50,12 @@ CREATE TRIGGER enforce_play_pokemon_storable_form
     FOR EACH ROW
     EXECUTE FUNCTION private.enforce_storable_pokemon_form ('form_id');
 
+CREATE TRIGGER enforce_play_pokemon_fixed_tera_type
+    BEFORE INSERT OR UPDATE OF tera_type_id,
+    form_id ON gameplay.mainline_play_pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_fixed_tera_type ('form_id', 'tera_type_id');
+
 CREATE INDEX play_pokemon_play_roster_state_idx ON gameplay.mainline_play_pokemon (play_id, roster_state_id);
 
 CREATE INDEX play_pokemon_roster_state_idx ON gameplay.mainline_play_pokemon (roster_state_id);
@@ -68,6 +76,10 @@ CREATE INDEX play_pokemon_held_item_idx ON gameplay.mainline_play_pokemon (held_
 WHERE
     held_item_id IS NOT NULL;
 
+CREATE INDEX play_pokemon_tera_type_idx ON gameplay.mainline_play_pokemon (tera_type_id)
+WHERE
+    tera_type_id IS NOT NULL;
+
 CREATE INDEX play_pokemon_ball_item_idx ON gameplay.mainline_play_pokemon (ball_item_id)
 WHERE
     ball_item_id IS NOT NULL;
@@ -75,6 +87,10 @@ WHERE
 COMMENT ON TABLE gameplay.mainline_play_pokemon IS 'Pokémon recorded in a play. Current identity can change through recorded evolutions or form changes.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.roster_state_id IS 'Stable lookup IDs: 1 active, 2 reserve, 3 retired, 4 replaced.';
+
+COMMENT ON COLUMN gameplay.mainline_play_pokemon.tera_type_id IS 'The Tera Type it Terastallizes into (a type or Stellar), in games with Terastal. NULL means not recorded. A form with a fixed Tera Type (reference.pokemon_fixed_tera_types) accepts only that one.';
+
+COMMENT ON COLUMN gameplay.mainline_play_pokemon.has_gigantamax_factor IS 'Whether it can Gigantamax, in games with Dynamax. It keeps the Factor when it evolves.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.slot IS 'Current roster slot. Active uses 1 to 6; reserve uses 7 to 12; retired/replaced rows have no slot.';
 

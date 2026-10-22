@@ -142,6 +142,7 @@ export type UpdateMainlinePlayPokemonInput = {
   abilityId: number | null;
   ballItemId: number | null;
   gender: MainlineTeamGender;
+  hasGigantamaxFactor: boolean;
   heldItemId: number | null;
   isShiny: boolean;
   level: number | null;
@@ -152,6 +153,7 @@ export type UpdateMainlinePlayPokemonInput = {
   natureId: number | null;
   nickname: string | null;
   notes: string | null;
+  teraTypeId: number | null;
 };
 
 const optionalTextSchema = (label: string, maximum: number) =>
@@ -197,6 +199,7 @@ const updateMainlinePlayPokemonSchema = z.object({
   abilityId: optionalIdSchema("Ability"),
   heldItemId: optionalIdSchema("Held item"),
   ballItemId: optionalIdSchema("Poké Ball"),
+  teraTypeId: optionalIdSchema("Tera Type"),
   moveIds: z
     .array(integerInRangeSchema("Move", 1, Number.MAX_SAFE_INTEGER), {
       error: "Pick moves from the list.",
@@ -206,6 +209,7 @@ const updateMainlinePlayPokemonSchema = z.object({
       error: "A move can only be known once.",
     }),
   isShiny: z.unknown().transform((value) => value === true),
+  hasGigantamaxFactor: z.unknown().transform((value) => value === true),
 });
 
 export const validateUpdateMainlinePlayPokemon = (

@@ -7,6 +7,12 @@ import {
   isPokemonLearnsetInVersionGroupScope,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-learnsets";
 import type { PokemonDetailVersionGroupScope } from "@/modules/codex/features/pokemon/detail/types";
+import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  battleFormsUseHeldItems,
+  hasBattleFormMechanic,
+  type BattleFormLink,
+} from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import type {
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
@@ -107,11 +113,51 @@ const getVersionGroupScopeIds = (
   ]);
 };
 
+/*
+ * Whether this entry offers a battle form: the base group or one of its
+ * expansions has the mechanic (Primal Reversion arrives with Mega
+ * Dimension), and where the game has held items, an item that reaches it can
+ * be had there (no Mega Sceptile in X and Y, where Sceptilite isn't).
+ */
+const isBattleFormInScope = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope,
+  link: BattleFormLink,
+) => {
+  const { mechanic, unlockItemVersionGroupIds } = link;
+
+  if (!mechanic) {
+    return false;
+  }
+
+  return [versionGroup.versionGroup, ...versionGroup.expansions].some(
+    (group) => {
+      const mechanics = resolveVersionGroupMechanics({
+        gameIds: versionGroup.games.map((game) => game.id),
+        generationId: generation.generation.id,
+        versionGroupId: group.id,
+      });
+
+      return (
+        hasBattleFormMechanic(mechanics, mechanic) &&
+        (unlockItemVersionGroupIds === null ||
+          !battleFormsUseHeldItems(mechanics) ||
+          unlockItemVersionGroupIds.includes(group.id))
+      );
+    },
+  );
+};
+
+/*
+ * The forms found in the group, in the generation's order: those its
+ * availability lists, and the battle forms they reach where the group has
+ * the mechanic (Mega Charizard X in X and Y, never in Sword and Shield).
+ */
 export const getScopedForms = (
   generation: PokemonGenerationDetail,
   versionGroup: PokemonDetailVersionGroupScope,
 ) => {
-  return generation.forms.filter((form) => {
+  const storedForms = generation.forms.filter((form) => {
     return generation.availability.some((row) => {
       return (
         isPokemonAvailabilityInVersionGroupScope(row, versionGroup) &&
@@ -119,6 +165,56 @@ export const getScopedForms = (
       );
     });
   });
+  const storedFormIds = new Set(storedForms.map((form) => form.form.id));
+  const battleFormIds = new Set(
+    generation.battleForms
+      .filter(
+        (link) =>
+          link.baseFormIds.some((formId) => storedFormIds.has(formId)) &&
+          isBattleFormInScope(generation, versionGroup, link),
+      )
+      .map((link) => link.formId),
+  );
+
+  return generation.forms.filter((form) => {
+    return storedFormIds.has(form.form.id) || battleFormIds.has(form.form.id);
+  });
+};
+
+/*
+ * The form whose rows (availability, learnsets, Pokédex entries) an entry
+ * reads: a battle form reads the stored form that reaches it, preferring
+ * one found in the group, since it is the same Pokémon met and raised.
+ */
+export const getRowsForm = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope,
+  form: PokemonGenerationFormSummary | null,
+): PokemonGenerationFormSummary | null => {
+  const link = form
+    ? generation.battleForms.find((candidate) => {
+        return candidate.formId === form.form.id;
+      })
+    : null;
+
+  if (!link) {
+    return form;
+  }
+
+  const bases = generation.forms.filter((candidate) => {
+    return link.baseFormIds.includes(candidate.form.id);
+  });
+  const scopedFormIds = new Set(
+    getScopedForms(generation, versionGroup).map((candidate) => {
+      return candidate.form.id;
+    }),
+  );
+
+  return (
+    bases.find((candidate) => scopedFormIds.has(candidate.form.id)) ??
+    bases[0] ??
+    form
+  );
 };
 
 export const getScopedAvailability = (

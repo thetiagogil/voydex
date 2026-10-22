@@ -4,6 +4,7 @@ import { useRef } from "react";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
+import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { SheetTitle } from "@/shared/components/ui/sheet";
 import { cn } from "@/shared/utils/cn";
@@ -13,12 +14,15 @@ import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/te
 
 import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
+import { useBattleFormPick } from "./use-battle-form-pick";
 import {
   TeamMemberProfile,
   teamMemberNameClassName,
 } from "./team-member-profile";
 
 type TeamMemberDetailSheetProps = {
+  /* Its battle forms and Z-Moves in this game. */
+  battle: MemberBattle | null;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember | null;
   onEdit: () => void;
@@ -30,10 +34,12 @@ type TeamMemberDetailSheetProps = {
 };
 
 /*
- * On phones and tablets the selected Pokémon opens in a bottom sheet, Edit
- * and Open in Codex in its art's corner as on wide screens.
+ * On phones and tablets the selected Pokémon opens in a bottom sheet. Its
+ * form menu, Edit and Open in Codex sit in a row under the art, clear of the
+ * sheet's close button in the art's corner.
  */
 export const TeamMemberDetailSheet = ({
+  battle,
   mechanics,
   member,
   onEdit,
@@ -44,6 +50,7 @@ export const TeamMemberDetailSheet = ({
 }: TeamMemberDetailSheetProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const name = member ? getPlayTeamMemberName(member) : "Team member";
+  const { battleForm, renderFormMenu } = useBattleFormPick(member, battle);
 
   return (
     <BottomSheet
@@ -55,14 +62,18 @@ export const TeamMemberDetailSheet = ({
     >
       {member ? (
         <TeamMemberProfile
-          actions={
-            <TeamMemberActions
-              member={member}
-              onEdit={onEdit}
-              versionGroupSlug={versionGroupSlug}
-            />
+          battle={battle}
+          battleForm={battleForm}
+          toolbar={
+            <>
+              {renderFormMenu() ?? <span />}
+              <TeamMemberActions
+                member={member}
+                onEdit={onEdit}
+                versionGroupSlug={versionGroupSlug}
+              />
+            </>
           }
-          actionsBesideClose
           mechanics={mechanics}
           member={member}
           notice={

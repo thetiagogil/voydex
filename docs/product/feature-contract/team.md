@@ -74,6 +74,18 @@ setup, origin and personal facts, four ordered move positions, notes, and
 contextual member actions follow in progressive groups. Missing imported facts
 remain explicitly unrecorded, and fields unsupported by the game are omitted.
 
+The member stays its stored form. Where the Play's game has the mechanic, a
+`Battle form` switch under its name shows a Mega, Primal, Ultra Burst or
+Gigantamax form its stored form reaches: art, types, ability and stat changes
+become the form's, and a Gigantamax form lists its Max Moves. A quiet note says
+when the member can't reach it as recorded (a wrong or missing Mega Stone, no
+Gigantamax Factor, Mega Rayquaza without Dragon Ascent or holding a Z-Crystal);
+Let's Go keeps Mega Stones in the bag, so it checks none. In Sun / Moon and
+Ultra Sun / Ultra Moon a held Z-Crystal lists the Z-Moves its moves become.
+Tera Type (Scarlet / Violet) and the Gigantamax Factor (Sword / Shield, for a
+Pokémon that reaches a Gigantamax form) are member fields in the editor, only
+in their games.
+
 The panel does not duplicate generic species reference, Team-wide analysis,
 complete member history, or complete Plan detail. Those route to Codex, Team
 Analysis, History, and Plan respectively. Current HP, battle status, and current

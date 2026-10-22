@@ -1754,6 +1754,115 @@ CREATE INDEX g_max_move_sources_move_idx ON reference.g_max_move_sources (g_max_
 COMMENT ON TABLE reference.g_max_move_sources IS 'The G-Max Move a Gigantamax form uses in place of the Max Move of the same type. Every other damaging move becomes the Max Move whose own type matches it, and status moves become Max Guard.';
 
 -- ============================================================================
+-- Source: database/schema/02_reference/01_tables/043_pokemon_battle_form_bases.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.pokemon_battle_form_bases
+-- Which stored form of a Pokémon reaches each battle form.
+-- ============================================================================
+CREATE TABLE reference.pokemon_battle_form_bases (
+    battle_form_id integer NOT NULL,
+    base_form_id integer NOT NULL,
+    species_id integer NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT pokemon_battle_form_bases_primary_key PRIMARY KEY (battle_form_id, base_form_id),
+    CONSTRAINT pokemon_battle_form_bases_battle_form_fkey FOREIGN KEY (species_id, battle_form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT pokemon_battle_form_bases_base_form_fkey FOREIGN KEY (species_id, base_form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT pokemon_battle_form_bases_distinct_forms_check CHECK (battle_form_id <> base_form_id)
+);
+
+CREATE INDEX pokemon_battle_form_bases_base_form_idx ON reference.pokemon_battle_form_bases (species_id, base_form_id);
+
+CREATE INDEX pokemon_battle_form_bases_battle_form_idx ON reference.pokemon_battle_form_bases (species_id, battle_form_id);
+
+COMMENT ON TABLE reference.pokemon_battle_form_bases IS 'Which stored form reaches each battle form: Gigantamax Toxtricity (Low Key) only from Low Key Toxtricity, Ultra Necrozma from Dusk Mane or Dawn Wings. A base is always a form a Pokémon can be stored in; a battle form with no row is one no player''s Pokémon reaches, such as Eternamax Eternatus.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/044_tera_types.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.tera_types
+-- The types a Pokémon can Terastallize into.
+-- ============================================================================
+CREATE TABLE reference.tera_types (
+    id integer PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    name text NOT NULL UNIQUE,
+    type_id integer UNIQUE REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    introduced_version_group_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    sort_order integer NOT NULL UNIQUE,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT tera_types_id_positive_check CHECK (id > 0),
+    CONSTRAINT tera_types_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
+    CONSTRAINT tera_types_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 80),
+    CONSTRAINT tera_types_sort_order_positive_check CHECK (sort_order > 0),
+    CONSTRAINT tera_types_type_id_matches_check CHECK (type_id IS NULL OR type_id = id)
+);
+
+COMMENT ON TABLE reference.tera_types IS 'Tera Types: the 18 types, whose id equals their reference.types id, plus Stellar, which has no type.';
+
+COMMENT ON COLUMN reference.tera_types.type_id IS 'The matching type. NULL only for Stellar.';
+
+COMMENT ON COLUMN reference.tera_types.introduced_version_group_id IS 'First version group with this Tera Type: Scarlet / Violet for the 18 types, The Indigo Disk for Stellar.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/045_pokemon_fixed_tera_types.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.pokemon_fixed_tera_types
+-- Forms whose Tera Type is fixed and cannot be changed.
+-- ============================================================================
+CREATE TABLE reference.pokemon_fixed_tera_types (
+    form_id integer PRIMARY KEY REFERENCES reference.pokemon_forms (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    tera_type_id integer NOT NULL REFERENCES reference.tera_types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    notes text,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT pokemon_fixed_tera_types_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 1000)
+);
+
+COMMENT ON TABLE reference.pokemon_fixed_tera_types IS 'Forms that always have the same Tera Type, such as each Ogerpon mask and Terapagos, always Stellar. A form with no row can have any Tera Type.';
+
+CREATE FUNCTION private.enforce_fixed_tera_type ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    SECURITY DEFINER
+    SET search_path = ''
+    AS $$
+DECLARE
+    v_form_id integer := (TO_JSONB (NEW) ->> TG_ARGV[0])::integer;
+    v_tera_type_id integer := (TO_JSONB (NEW) ->> TG_ARGV[1])::integer;
+    v_fixed_tera_type_id integer;
+BEGIN
+    IF v_tera_type_id IS NULL THEN
+        RETURN NEW;
+    END IF;
+    SELECT
+        pokemon_fixed_tera_types.tera_type_id
+    INTO
+        v_fixed_tera_type_id
+    FROM
+        reference.pokemon_fixed_tera_types
+    WHERE
+        pokemon_fixed_tera_types.form_id = v_form_id;
+    IF FOUND AND v_fixed_tera_type_id <> v_tera_type_id THEN
+        RAISE EXCEPTION 'Form % always has Tera Type %, not %', v_form_id, v_fixed_tera_type_id, v_tera_type_id
+            USING ERRCODE = '23514';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION private.enforce_fixed_tera_type () FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION private.enforce_fixed_tera_type () FROM anon;
+
+REVOKE ALL ON FUNCTION private.enforce_fixed_tera_type () FROM authenticated;
+
+GRANT EXECUTE ON FUNCTION private.enforce_fixed_tera_type () TO service_role;
+
+COMMENT ON FUNCTION private.enforce_fixed_tera_type () IS 'Refuses a Tera Type that differs from the form''s fixed one (reference.pokemon_fixed_tera_types); no Tera Type is always allowed. TG_ARGV[0] names the form column and TG_ARGV[1] the Tera Type column.';
+
+-- ============================================================================
 -- Source: database/schema/02_reference/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -1865,6 +1974,8 @@ CREATE POLICY game_platforms_read_all ON reference.game_platforms
 -- ============================================================================
 ALTER TABLE reference.types ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.tera_types ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.type_matchups ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.natures ENABLE ROW LEVEL SECURITY;
@@ -1885,9 +1996,15 @@ ALTER TABLE reference.pokemon_form_rules ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokemon_form_item_requirements ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.pokemon_battle_form_bases ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.pokemon_fixed_tera_types ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.pokemon_attributes ENABLE ROW LEVEL SECURITY;
 
 REVOKE ALL ON TABLE reference.types FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.tera_types FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.type_matchups FROM anon, authenticated;
 
@@ -1909,9 +2026,15 @@ REVOKE ALL ON TABLE reference.pokemon_form_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_form_item_requirements FROM anon, authenticated;
 
+REVOKE ALL ON TABLE reference.pokemon_battle_form_bases FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_fixed_tera_types FROM anon, authenticated;
+
 REVOKE ALL ON TABLE reference.pokemon_attributes FROM anon, authenticated;
 
 GRANT SELECT ON TABLE reference.types TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.tera_types TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.type_matchups TO anon, authenticated;
 
@@ -1933,9 +2056,15 @@ GRANT SELECT ON TABLE reference.pokemon_form_rules TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokemon_form_item_requirements TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.pokemon_battle_form_bases TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.pokemon_fixed_tera_types TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.pokemon_attributes TO anon, authenticated;
 
 GRANT ALL ON TABLE reference.types TO service_role;
+
+GRANT ALL ON TABLE reference.tera_types TO service_role;
 
 GRANT ALL ON TABLE reference.type_matchups TO service_role;
 
@@ -1957,9 +2086,17 @@ GRANT ALL ON TABLE reference.pokemon_form_rules TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_form_item_requirements TO service_role;
 
+GRANT ALL ON TABLE reference.pokemon_battle_form_bases TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_fixed_tera_types TO service_role;
+
 GRANT ALL ON TABLE reference.pokemon_attributes TO service_role;
 
 CREATE POLICY types_read_all ON reference.types
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY tera_types_read_all ON reference.tera_types
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 
@@ -2000,6 +2137,14 @@ CREATE POLICY pokemon_form_rules_read_all ON reference.pokemon_form_rules
     USING (TRUE);
 
 CREATE POLICY pokemon_form_item_requirements_read_all ON reference.pokemon_form_item_requirements
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_battle_form_bases_read_all ON reference.pokemon_battle_form_bases
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_fixed_tera_types_read_all ON reference.pokemon_fixed_tera_types
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 
@@ -3700,6 +3845,8 @@ CREATE TABLE gameplay.mainline_play_pokemon (
     nature_id integer REFERENCES reference.natures (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     ability_id integer REFERENCES reference.abilities (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     held_item_id integer REFERENCES reference.items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    tera_type_id integer REFERENCES reference.tera_types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    has_gigantamax_factor boolean NOT NULL DEFAULT FALSE,
     met_location_label text,
     met_level integer,
     ball_item_id integer REFERENCES reference.items (id) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -3732,6 +3879,12 @@ CREATE TRIGGER enforce_play_pokemon_storable_form
     FOR EACH ROW
     EXECUTE FUNCTION private.enforce_storable_pokemon_form ('form_id');
 
+CREATE TRIGGER enforce_play_pokemon_fixed_tera_type
+    BEFORE INSERT OR UPDATE OF tera_type_id,
+    form_id ON gameplay.mainline_play_pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_fixed_tera_type ('form_id', 'tera_type_id');
+
 CREATE INDEX play_pokemon_play_roster_state_idx ON gameplay.mainline_play_pokemon (play_id, roster_state_id);
 
 CREATE INDEX play_pokemon_roster_state_idx ON gameplay.mainline_play_pokemon (roster_state_id);
@@ -3752,6 +3905,10 @@ CREATE INDEX play_pokemon_held_item_idx ON gameplay.mainline_play_pokemon (held_
 WHERE
     held_item_id IS NOT NULL;
 
+CREATE INDEX play_pokemon_tera_type_idx ON gameplay.mainline_play_pokemon (tera_type_id)
+WHERE
+    tera_type_id IS NOT NULL;
+
 CREATE INDEX play_pokemon_ball_item_idx ON gameplay.mainline_play_pokemon (ball_item_id)
 WHERE
     ball_item_id IS NOT NULL;
@@ -3759,6 +3916,10 @@ WHERE
 COMMENT ON TABLE gameplay.mainline_play_pokemon IS 'Pokémon recorded in a play. Current identity can change through recorded evolutions or form changes.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.roster_state_id IS 'Stable lookup IDs: 1 active, 2 reserve, 3 retired, 4 replaced.';
+
+COMMENT ON COLUMN gameplay.mainline_play_pokemon.tera_type_id IS 'The Tera Type it Terastallizes into (a type or Stellar), in games with Terastal. NULL means not recorded. A form with a fixed Tera Type (reference.pokemon_fixed_tera_types) accepts only that one.';
+
+COMMENT ON COLUMN gameplay.mainline_play_pokemon.has_gigantamax_factor IS 'Whether it can Gigantamax, in games with Dynamax. It keeps the Factor when it evolves.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.slot IS 'Current roster slot. Active uses 1 to 6; reserve uses 7 to 12; retired/replaced rows have no slot.';
 
@@ -5576,6 +5737,16 @@ BEGIN
         ELSE
             gameplay.mainline_play_pokemon.held_item_id
         END,
+        tera_type_id = CASE WHEN gameplay.mainline_play_pokemon.tera_type_id IS NULL THEN
+            NULL
+        ELSE
+            COALESCE((
+                SELECT
+                    pokemon_fixed_tera_types.tera_type_id
+                FROM reference.pokemon_fixed_tera_types
+                WHERE
+                    pokemon_fixed_tera_types.form_id = p_to_form_id), gameplay.mainline_play_pokemon.tera_type_id)
+        END,
         updated_at = NOW()
     WHERE
         mainline_play_pokemon.id = p_play_pokemon_id;
@@ -5784,7 +5955,7 @@ WHERE
 END;
 $$;
 
-CREATE FUNCTION gameplay.update_mainline_play_pokemon (p_play_pokemon_id uuid, p_nickname text DEFAULT NULL, p_level integer DEFAULT NULL, p_gender text DEFAULT 'unknown', p_is_shiny boolean DEFAULT FALSE, p_nature_id integer DEFAULT NULL, p_ability_id integer DEFAULT NULL, p_held_item_id integer DEFAULT NULL, p_met_location_label text DEFAULT NULL, p_met_level integer DEFAULT NULL, p_ball_item_id integer DEFAULT NULL, p_personal_notes text DEFAULT NULL, p_move_ids integer[] DEFAULT '{}'::integer[])
+CREATE FUNCTION gameplay.update_mainline_play_pokemon (p_play_pokemon_id uuid, p_nickname text DEFAULT NULL, p_level integer DEFAULT NULL, p_gender text DEFAULT 'unknown', p_is_shiny boolean DEFAULT FALSE, p_nature_id integer DEFAULT NULL, p_ability_id integer DEFAULT NULL, p_held_item_id integer DEFAULT NULL, p_met_location_label text DEFAULT NULL, p_met_level integer DEFAULT NULL, p_ball_item_id integer DEFAULT NULL, p_personal_notes text DEFAULT NULL, p_move_ids integer[] DEFAULT '{}'::integer[], p_tera_type_id integer DEFAULT NULL, p_has_gigantamax_factor boolean DEFAULT FALSE)
     RETURNS TABLE (
         result_play_pokemon_id uuid,
         result_move_count integer)
@@ -5834,6 +6005,8 @@ BEGIN
         nature_id = p_nature_id,
         ability_id = p_ability_id,
         held_item_id = p_held_item_id,
+        tera_type_id = p_tera_type_id,
+        has_gigantamax_factor = COALESCE(p_has_gigantamax_factor, FALSE),
         met_location_label = p_met_location_label,
         met_level = p_met_level,
         ball_item_id = p_ball_item_id,
@@ -6085,11 +6258,11 @@ REVOKE ALL ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, IN
 
 GRANT EXECUTE ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) FROM PUBLIC;
+REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) FROM anon;
+REVOKE ALL ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) FROM PUBLIC;
 
@@ -6107,13 +6280,13 @@ COMMENT ON FUNCTION gameplay.add_mainline_play_pokemon (UUID, INTEGER, INTEGER, 
 
 COMMENT ON FUNCTION gameplay.evolve_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game evolution, updates current Pokémon identity, and writes from/to event refs for history and Collection. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.change_mainline_play_pokemon_form (UUID, INTEGER, INTEGER, INTEGER, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Records an in-game form change, updates current form and optional held item state, and writes from/to event refs. A recorded Tera Type follows a form whose Tera Type is fixed (an Ogerpon mask). Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Moves a play Pokémon to retired state and optionally writes a Pokémon Retired event/ref. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[]) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
@@ -9321,6 +9494,10 @@ SELECT
     abilities.name AS ability_name,
     mainline_play_pokemon.held_item_id,
     held_items.name AS held_item_name,
+    mainline_play_pokemon.tera_type_id,
+    tera_types.slug AS tera_type_slug,
+    tera_types.name AS tera_type_name,
+    mainline_play_pokemon.has_gigantamax_factor,
     mainline_play_pokemon.ball_item_id,
     ball_items.name AS ball_item_name,
     mainline_play_pokemon.met_location_label,
@@ -9332,7 +9509,10 @@ SELECT
     mainline_play_pokemon.updated_at,
     COALESCE(
         moves.moves, '[]'::jsonb
-) AS moves
+) AS moves,
+    pokemon_fixed_tera_types.tera_type_id AS fixed_tera_type_id,
+    fixed_tera_types.slug AS fixed_tera_type_slug,
+    fixed_tera_types.name AS fixed_tera_type_name
 FROM
     gameplay.mainline_play_pokemon
     JOIN gameplay.mainline_play_pokemon_roster_states AS roster_states ON roster_states.id = mainline_play_pokemon.roster_state_id
@@ -9342,6 +9522,9 @@ FROM
     LEFT JOIN reference.natures ON natures.id = mainline_play_pokemon.nature_id
     LEFT JOIN reference.abilities ON abilities.id = mainline_play_pokemon.ability_id
     LEFT JOIN reference.items AS held_items ON held_items.id = mainline_play_pokemon.held_item_id
+    LEFT JOIN reference.tera_types ON tera_types.id = mainline_play_pokemon.tera_type_id
+    LEFT JOIN reference.pokemon_fixed_tera_types ON pokemon_fixed_tera_types.form_id = mainline_play_pokemon.form_id
+    LEFT JOIN reference.tera_types AS fixed_tera_types ON fixed_tera_types.id = pokemon_fixed_tera_types.tera_type_id
     LEFT JOIN reference.items AS ball_items ON ball_items.id = mainline_play_pokemon.ball_item_id
     LEFT JOIN LATERAL (
         SELECT
@@ -9357,7 +9540,7 @@ FROM
             mainline_play_pokemon_moves.play_pokemon_id = mainline_play_pokemon.id
 ) AS moves ON TRUE;
 
-COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity and move slots. Uses security_invoker so gameplay RLS applies to the caller.';
+COMMENT ON VIEW views.mainline_play_team_detail IS 'Pokémon team detail rows with display identity, move slots and the form''s fixed Tera Type, if any. Uses security_invoker so gameplay RLS applies to the caller.';
 
 -- ============================================================================
 -- Source: database/schema/06_views/01_views/006_mainline_play_timeline_detail.sql

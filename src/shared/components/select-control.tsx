@@ -100,7 +100,8 @@ const matchesQuery = (option: SelectControlOption, query: string) => {
 
 /*
  * The picked option as the trigger shows it: its label, after its picture in
- * a field. A toolbar's quiet select shows the words alone.
+ * a field. A toolbar's quiet select, and a pill on a picture (which would
+ * only repeat the picture), show the words alone.
  */
 const SelectedOption = ({
   option,
@@ -226,7 +227,7 @@ export const SelectControl = ({
                 {selectedOption ? (
                   <SelectedOption
                     option={selectedOption}
-                    showIcon={variant !== "ghost"}
+                    showIcon={variant !== "ghost" && variant !== "paper"}
                   />
                 ) : (
                   placeholder
@@ -303,7 +304,7 @@ export const SelectControl = ({
                 return selectedOption ? (
                   <SelectedOption
                     option={selectedOption}
-                    showIcon={variant !== "ghost"}
+                    showIcon={variant !== "ghost" && variant !== "paper"}
                   />
                 ) : (
                   placeholder

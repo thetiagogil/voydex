@@ -33,6 +33,7 @@ export const readTeamMemberEditorOptions = async (
     gameId,
     generationId,
     mechanics,
+    playId,
     speciesId,
     versionGroupId,
   }: {
@@ -40,6 +41,7 @@ export const readTeamMemberEditorOptions = async (
     gameId: number;
     generationId: number;
     mechanics: GameMechanicsProfile;
+    playId: string;
     speciesId: number;
     versionGroupId: number;
   },
@@ -47,6 +49,7 @@ export const readTeamMemberEditorOptions = async (
   const hasAbilities = supportsGameMechanic(mechanics, gameMechanics.abilities);
   const hasNatures = supportsGameMechanic(mechanics, gameMechanics.natures);
   const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
+  const hasTerastal = supportsGameMechanic(mechanics, gameMechanics.terastal);
   const [
     attributesResult,
     naturesResult,
@@ -55,6 +58,8 @@ export const readTeamMemberEditorOptions = async (
     edgesResult,
     speciesFormsResult,
     battleFormIds,
+    teraTypesResult,
+    contentScopesResult,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -92,6 +97,20 @@ export const readTeamMemberEditorOptions = async (
       .eq("species_id", speciesId)
       .order("form_order", { ascending: true }),
     readBattleFormIds(supabase),
+    hasTerastal
+      ? supabase
+          .schema("reference")
+          .from("tera_types")
+          .select("id, name, introduced_version_group_id")
+          .order("sort_order", { ascending: true })
+      : null,
+    hasTerastal
+      ? supabase
+          .schema("gameplay")
+          .from("mainline_play_optional_content_scopes")
+          .select("version_group_id")
+          .eq("play_id", playId)
+      : null,
   ]);
 
   if (
@@ -99,7 +118,9 @@ export const readTeamMemberEditorOptions = async (
     naturesResult?.error ||
     ballCategoryResult.error ||
     edgesResult.error ||
-    speciesFormsResult.error
+    speciesFormsResult.error ||
+    teraTypesResult?.error ||
+    contentScopesResult?.error
   ) {
     throw new Error("Unable to load what this Pokémon can record.");
   }
@@ -226,5 +247,16 @@ export const readTeamMemberEditorOptions = async (
       increased: nature.increased_stat,
       name: nature.name,
     })),
+    /* Stellar only when the Play includes The Indigo Disk. */
+    teraTypes: (teraTypesResult?.data ?? [])
+      .filter(
+        (teraType) =>
+          teraType.introduced_version_group_id === versionGroupId ||
+          (contentScopesResult?.data ?? []).some(
+            (scope) =>
+              scope.version_group_id === teraType.introduced_version_group_id,
+          ),
+      )
+      .map(({ id, name }) => ({ id, name })),
   };
 };

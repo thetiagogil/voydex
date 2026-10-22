@@ -84,6 +84,7 @@ export const buildPokemonDetailData = ({
     forms,
     generationDetails: buildPokemonGenerationDetails({
       availability,
+      battleForms: speciesRows.battleFormLinks,
       forms,
       games: baseRows.games,
       generations: baseRows.generations,

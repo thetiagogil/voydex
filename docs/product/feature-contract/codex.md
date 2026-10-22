@@ -58,7 +58,9 @@ the group instead). It must:
 - retain a searchable, contextual species switcher and direct Shiny artwork
   toggle;
 - show a form selector only for persistent forms valid or meaningful in the
-  current context, excluding temporary battle and cosmetic variants;
+  current context, excluding cosmetic variants; battle forms (Mega, Primal,
+  Ultra Burst, Gigantamax) join it only in the games that have their mechanic,
+  reading where to find and learnsets from the form that reaches them;
 - organize reference content as identity/context, overview, evolution/forms,
   selected-game availability, type matchups, learnset, and Pokédex placement;
 - omit absent optional facts instead of filling important space with `Unknown`;

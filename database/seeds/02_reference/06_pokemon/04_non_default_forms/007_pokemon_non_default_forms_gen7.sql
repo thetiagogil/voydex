@@ -104,4 +104,6 @@ VALUES
   -- Necrozma (Dusk Mane)
   (80001, 800, 'necrozma-dusk-mane', 'Necrozma (Dusk Mane)', 7, FALSE, 2, NULL, NULL),
   -- Necrozma (Dawn Wings)
-  (80002, 800, 'necrozma-dawn-wings', 'Necrozma (Dawn Wings)', 7, FALSE, 3, NULL, NULL);
+  (80002, 800, 'necrozma-dawn-wings', 'Necrozma (Dawn Wings)', 7, FALSE, 3, NULL, NULL),
+  -- Magearna (Original Color)
+  (80102, 801, 'magearna-original-color', 'Magearna (Original Color)', 7, FALSE, 3, NULL, NULL);

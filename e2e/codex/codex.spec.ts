@@ -28,6 +28,29 @@ test.describe("Codex", () => {
     await expectAccessible(page);
   });
 
+  test("shows a battle form only in the games that have it", async ({
+    page,
+  }) => {
+    const menu = page.getByRole("combobox", { name: "Form" });
+    const options = page.getByRole("option");
+
+    await page.goto("/codex/pokemon/xy/charizard");
+    await menu.click();
+    await expect(options).toHaveCount(3);
+    await expect(options.nth(1)).toContainText("Mega Charizard X");
+    await expect(options.nth(1)).toContainText("In battle · Mega Evolution");
+    await options.nth(1).click();
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Mega Charizard X" }),
+    ).toBeVisible();
+    await expectAccessible(page);
+
+    await page.goto("/codex/pokemon/swsh/charizard");
+    await menu.click();
+    await expect(options).toHaveCount(2);
+    await expect(options.nth(1)).toContainText("Gigantamax Charizard");
+  });
+
   test("filters Pokémon by type", async ({ page }) => {
     await page.goto("/codex/pokemon");
     const { filters } = await openFilters(page);

@@ -52,6 +52,7 @@ export const loadTeamMemberEditorOptionsAction = async ({
         generationId: play.generation_id,
         versionGroupId: play.version_group_id,
       }),
+      playId,
       speciesId: pokemon.species_id,
       versionGroupId: play.version_group_id,
     });

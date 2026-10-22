@@ -59,7 +59,8 @@ SELECT
                 pokemon_forms.slug IN ('primal-groudon', 'mega-charizard-x', 'ultra-necrozma')
             ORDER BY pokemon_forms.id $$, $$
             VALUES ('fire'::text, 'dragon'::text), ('ground'::text, 'fire'::text), ('psychic'::text, 'dragon'::text) $$, 'Mega Charizard X, Primal Groudon and Ultra Necrozma have their battle types');
--- Every Mega Stone unlocks exactly one Mega form (Tatsugirinite one per Tatsugiri form).
+-- Every Mega Stone unlocks exactly one Mega form (Tatsugirinite one per Tatsugiri form,
+-- Magearnite one per Magearna form).
 SELECT
     is_empty ($$
         SELECT
@@ -76,6 +77,8 @@ SELECT
                         pokemon_form_item_requirements.item_id = items.id
                         AND pokemon_forms.slug LIKE 'mega-%') <> CASE WHEN items.slug = 'tatsugirinite' THEN
                         3
+                    WHEN items.slug = 'magearnite' THEN
+                        2
                     ELSE
                         1
                     END $$, 'every Mega Stone unlocks its Mega');

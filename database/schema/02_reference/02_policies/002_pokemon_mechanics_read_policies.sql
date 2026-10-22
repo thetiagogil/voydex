@@ -4,6 +4,8 @@
 -- ============================================================================
 ALTER TABLE reference.types ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.tera_types ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.type_matchups ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.natures ENABLE ROW LEVEL SECURITY;
@@ -24,9 +26,15 @@ ALTER TABLE reference.pokemon_form_rules ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokemon_form_item_requirements ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.pokemon_battle_form_bases ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.pokemon_fixed_tera_types ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.pokemon_attributes ENABLE ROW LEVEL SECURITY;
 
 REVOKE ALL ON TABLE reference.types FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.tera_types FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.type_matchups FROM anon, authenticated;
 
@@ -48,9 +56,15 @@ REVOKE ALL ON TABLE reference.pokemon_form_rules FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_form_item_requirements FROM anon, authenticated;
 
+REVOKE ALL ON TABLE reference.pokemon_battle_form_bases FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_fixed_tera_types FROM anon, authenticated;
+
 REVOKE ALL ON TABLE reference.pokemon_attributes FROM anon, authenticated;
 
 GRANT SELECT ON TABLE reference.types TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.tera_types TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.type_matchups TO anon, authenticated;
 
@@ -72,9 +86,15 @@ GRANT SELECT ON TABLE reference.pokemon_form_rules TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokemon_form_item_requirements TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.pokemon_battle_form_bases TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.pokemon_fixed_tera_types TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.pokemon_attributes TO anon, authenticated;
 
 GRANT ALL ON TABLE reference.types TO service_role;
+
+GRANT ALL ON TABLE reference.tera_types TO service_role;
 
 GRANT ALL ON TABLE reference.type_matchups TO service_role;
 
@@ -96,9 +116,17 @@ GRANT ALL ON TABLE reference.pokemon_form_rules TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_form_item_requirements TO service_role;
 
+GRANT ALL ON TABLE reference.pokemon_battle_form_bases TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_fixed_tera_types TO service_role;
+
 GRANT ALL ON TABLE reference.pokemon_attributes TO service_role;
 
 CREATE POLICY types_read_all ON reference.types
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY tera_types_read_all ON reference.tera_types
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 
@@ -139,6 +167,14 @@ CREATE POLICY pokemon_form_rules_read_all ON reference.pokemon_form_rules
     USING (TRUE);
 
 CREATE POLICY pokemon_form_item_requirements_read_all ON reference.pokemon_form_item_requirements
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_battle_form_bases_read_all ON reference.pokemon_battle_form_bases
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_fixed_tera_types_read_all ON reference.pokemon_fixed_tera_types
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

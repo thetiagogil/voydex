@@ -14,6 +14,8 @@ INSERT INTO reference.pokemon_form_rules (form_id, form_kind, is_team_selectable
 VALUES
   -- Arceus (Fairy)
   (49317, 'special', TRUE, FALSE, FALSE, FALSE, FALSE, 'Type form selected by Multitype when holding a matching Plate or type-specific Z-Crystal where supported.', NULL),
+  -- Floette (Eternal Flower)
+  (67002, 'special', TRUE, FALSE, FALSE, FALSE, FALSE, 'Floette that carries the Eternal Flower, with its own stats; it cannot evolve into Florges.', NULL),
   -- Meowstic (Female)
   (67801, 'alternate', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent selectable form with gameplay-relevant type, stat, ability, evolution, or availability differences.', NULL),
   -- Pumpkaboo (Small)

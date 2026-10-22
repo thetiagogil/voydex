@@ -103,4 +103,6 @@ VALUES
   -- Necrozma (Dusk Mane)
   (80001, 'special', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent Necrozma fusion form.', NULL),
   -- Necrozma (Dawn Wings)
-  (80002, 'special', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent Necrozma fusion form.', NULL);
+  (80002, 'special', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent Necrozma fusion form.', NULL),
+  -- Magearna (Original Color)
+  (80102, 'special', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent gift form with the same type, stats and ability as Magearna.', NULL);

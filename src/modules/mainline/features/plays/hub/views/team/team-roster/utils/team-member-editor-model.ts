@@ -33,6 +33,8 @@ export type TeamMemberEditorOptions = {
   forms: EditorFormOption[];
   heldItems: EditorOption[];
   moves: EditorMoveOption[];
+  /* The 18 types, in games with Terastal; empty elsewhere. */
+  teraTypes: EditorOption[];
   natures: (EditorOption & {
     decreased: string | null;
     increased: string | null;
@@ -44,6 +46,7 @@ export type TeamMemberEditorValues = {
   abilityId: string;
   ballItemId: string;
   gender: MainlineTeamGender;
+  hasGigantamaxFactor: boolean;
   heldItemId: string;
   isShiny: boolean;
   level: string;
@@ -54,6 +57,7 @@ export type TeamMemberEditorValues = {
   natureId: string;
   nickname: string;
   notes: string;
+  teraTypeId: string;
 };
 
 export type TeamMemberEditorField = keyof TeamMemberEditorValues;
@@ -70,6 +74,7 @@ const fieldLabels: Record<TeamMemberEditorField, string> = {
   abilityId: "Ability",
   ballItemId: "Poké Ball",
   gender: "Gender",
+  hasGigantamaxFactor: "Gigantamax Factor",
   heldItemId: "Held item",
   isShiny: "Shiny",
   level: "Level",
@@ -79,6 +84,7 @@ const fieldLabels: Record<TeamMemberEditorField, string> = {
   natureId: "Nature",
   nickname: "Nickname",
   notes: "Notes",
+  teraTypeId: "Tera Type",
 };
 
 const genderLabels: Record<MainlineTeamGender, string> = {
@@ -105,6 +111,7 @@ export const getTeamMemberEditorValues = (
     abilityId: toText(member.ability_id),
     ballItemId: toText(member.ball_item_id),
     gender: toGender(member.gender),
+    hasGigantamaxFactor: member.has_gigantamax_factor === true,
     heldItemId: toText(member.held_item_id),
     isShiny: member.is_shiny === true,
     level: toText(member.level),
@@ -119,6 +126,8 @@ export const getTeamMemberEditorValues = (
     natureId: toText(member.nature_id),
     nickname: member.nickname ?? "",
     notes: member.personal_notes ?? "",
+    /* A form whose Tera Type is fixed (an Ogerpon mask) shows it. */
+    teraTypeId: toText(member.tera_type_id ?? member.fixed_tera_type_id),
   };
 };
 
@@ -148,8 +157,8 @@ export const getTeamMemberEditorChanges = (
       return genderLabels[values.gender];
     }
 
-    if (field === "isShiny") {
-      return values.isShiny ? "Yes" : "No";
+    if (field === "isShiny" || field === "hasGigantamaxFactor") {
+      return values[field] ? "Yes" : "No";
     }
 
     if (field === "moveIds") {
@@ -198,8 +207,11 @@ const toOptionalNumber = (value: string, label: string) => {
 export type TeamMemberEditorSupport = {
   abilities: boolean;
   gender: boolean;
+  /* Sword and Shield, for a Pokémon whose line can Gigantamax. */
+  gigantamax: boolean;
   heldItems: boolean;
   natures: boolean;
+  terastal: boolean;
 };
 
 /*
@@ -216,6 +228,7 @@ export const toUpdateTeamMemberInput = (
     : null,
   ballItemId: toOptionalNumber(values.ballItemId, "Poké Ball"),
   gender: supports.gender ? values.gender : "unknown",
+  hasGigantamaxFactor: supports.gigantamax && values.hasGigantamaxFactor,
   heldItemId: supports.heldItems
     ? toOptionalNumber(values.heldItemId, "Held item")
     : null,
@@ -232,6 +245,9 @@ export const toUpdateTeamMemberInput = (
     : null,
   nickname: values.nickname,
   notes: values.notes,
+  teraTypeId: supports.terastal
+    ? toOptionalNumber(values.teraTypeId, "Tera Type")
+    : null,
 });
 
 /* What the Pokémon has recorded now, so unchanged choices aren't re-judged. */
@@ -250,11 +266,11 @@ export type TeamMemberCurrentChoices = {
 export const findUnofferedEditorChoice = (
   input: Pick<
     UpdateMainlinePlayPokemonInput,
-    "abilityId" | "heldItemId" | "moveIds" | "natureId"
+    "abilityId" | "heldItemId" | "moveIds" | "natureId" | "teraTypeId"
   >,
   options: Pick<
     TeamMemberEditorOptions,
-    "abilities" | "heldItems" | "moves" | "natures"
+    "abilities" | "heldItems" | "moves" | "natures" | "teraTypes"
   >,
   current: TeamMemberCurrentChoices,
 ): string | null => {
@@ -292,6 +308,13 @@ export const findUnofferedEditorChoice = (
     !offers(options.natures, input.natureId)
   ) {
     return "That nature isn't in this game.";
+  }
+
+  if (
+    input.teraTypeId !== null &&
+    !offers(options.teraTypes, input.teraTypeId)
+  ) {
+    return "That Tera Type isn't in this game.";
   }
 
   return null;

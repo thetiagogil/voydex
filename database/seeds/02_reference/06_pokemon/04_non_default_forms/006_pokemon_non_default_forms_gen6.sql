@@ -15,6 +15,8 @@ INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_gene
 VALUES
   -- Arceus (Fairy)
   (49317, 493, 'arceus-fairy', 'Arceus (Fairy)', 6, FALSE, 18, NULL, NULL),
+  -- Floette (Eternal Flower)
+  (67002, 670, 'floette-eternal-flower', 'Floette (Eternal Flower)', 6, FALSE, 3, NULL, NULL),
   -- Meowstic (Female)
   (67801, 678, 'meowstic-female', 'Meowstic (Female)', 6, FALSE, 2, NULL, NULL),
   -- Pumpkaboo (Small)

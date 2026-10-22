@@ -5,6 +5,16 @@ export const gameMechanics = {
   heldItems: "held-items",
   natures: "natures",
   pokemonGender: "pokemon-gender",
+  /*
+   * Battle mechanics: each one exists only in the exact games listed in
+   * `supportedVersionGroupIdsByMechanic`, never generation-wide.
+   */
+  dynamax: "dynamax",
+  megaEvolution: "mega-evolution",
+  primalReversion: "primal-reversion",
+  terastal: "terastal",
+  ultraBurst: "ultra-burst",
+  zMoves: "z-moves",
 } as const;
 
 export type GameMechanic = (typeof gameMechanics)[keyof typeof gameMechanics];
@@ -28,16 +38,41 @@ const introducedGenerationByMechanic = {
   [gameMechanics.heldItems]: 2,
   [gameMechanics.natures]: 3,
   [gameMechanics.pokemonGender]: 2,
+  [gameMechanics.dynamax]: 8,
+  [gameMechanics.megaEvolution]: 6,
+  [gameMechanics.primalReversion]: 6,
+  [gameMechanics.terastal]: 9,
+  [gameMechanics.ultraBurst]: 7,
+  [gameMechanics.zMoves]: 7,
 } satisfies Record<GameMechanic, number>;
+
+/*
+ * The battle mechanics a player's own Pokémon can use, by the exact games
+ * (seeded version group ids) that have them: X / Y (13), Omega Ruby / Alpha
+ * Sapphire (14), Sun / Moon (15), Ultra Sun / Ultra Moon (16), Let's Go
+ * (17), Sword / Shield (18) with The Isle of Armor (19) and The Crown Tundra
+ * (20), Scarlet / Violet (23) with The Teal Mask (24) and The Indigo Disk
+ * (25), and Legends: Z-A (26) with Mega Dimension (27). A game outside its
+ * list doesn't have it, even within the generation that introduced it.
+ */
+const supportedVersionGroupIdsByMechanic: Partial<
+  Record<GameMechanic, ReadonlySet<number>>
+> = {
+  [gameMechanics.dynamax]: new Set([18, 19, 20]),
+  [gameMechanics.megaEvolution]: new Set([13, 14, 15, 16, 17, 26, 27]),
+  [gameMechanics.primalReversion]: new Set([14, 15, 16, 27]),
+  [gameMechanics.terastal]: new Set([23, 24, 25]),
+  [gameMechanics.ultraBurst]: new Set([16]),
+  [gameMechanics.zMoves]: new Set([15, 16]),
+};
 
 /*
  * Exact-title exceptions, by the seeded version group id (an expansion such
  * as Mega Dimension has its own id, so it is listed beside its base game).
  * The Let's Go games (17) and both Legends games, Arceus (22) and Z-A (26,
  * Mega Dimension 27), have no abilities and no eggs or Day Care. Let's Go and
- * Legends: Arceus also have no held items; Legends: Z-A lets a Pokémon hold
- * only its Mega Stone, which Voydex records as the Mega form rather than as a
- * held item, so the general held-item slot is unsupported there too.
+ * Legends: Arceus also have no held items (Let's Go keeps Mega Stones in the
+ * bag); Legends: Z-A has them, its Mega Stones included.
  */
 const letsGoVersionGroupIds = [17];
 const legendsArceusVersionGroupIds = [22];
@@ -59,8 +94,17 @@ const unsupportedVersionGroupIdsByMechanic: Partial<
   [gameMechanics.heldItems]: new Set([
     ...letsGoVersionGroupIds,
     ...legendsArceusVersionGroupIds,
-    ...legendsZaVersionGroupIds,
   ]),
+};
+
+const allGameMechanics = Object.values(gameMechanics);
+
+const mapGameMechanics = (
+  resolve: (mechanic: GameMechanic) => GameMechanicSupport,
+): Record<GameMechanic, GameMechanicSupport> => {
+  return Object.fromEntries(
+    allGameMechanics.map((mechanic) => [mechanic, resolve(mechanic)]),
+  ) as Record<GameMechanic, GameMechanicSupport>;
 };
 
 const isPositiveInteger = (value: number | null): value is number => {
@@ -85,6 +129,14 @@ const resolveMechanicSupport = (
     return "unsupported";
   }
 
+  const supportedVersionGroupIds = supportedVersionGroupIdsByMechanic[mechanic];
+
+  if (supportedVersionGroupIds) {
+    return supportedVersionGroupIds.has(context.versionGroupId)
+      ? "supported"
+      : "unsupported";
+  }
+
   return context.generationId >= introducedGenerationByMechanic[mechanic]
     ? "supported"
     : "unsupported";
@@ -102,28 +154,9 @@ export const resolveGameMechanics = (
 ): GameMechanicsProfile => {
   return {
     context,
-    support: {
-      [gameMechanics.abilities]: resolveMechanicSupport(
-        context,
-        gameMechanics.abilities,
-      ),
-      [gameMechanics.breeding]: resolveMechanicSupport(
-        context,
-        gameMechanics.breeding,
-      ),
-      [gameMechanics.heldItems]: resolveMechanicSupport(
-        context,
-        gameMechanics.heldItems,
-      ),
-      [gameMechanics.natures]: resolveMechanicSupport(
-        context,
-        gameMechanics.natures,
-      ),
-      [gameMechanics.pokemonGender]: resolveMechanicSupport(
-        context,
-        gameMechanics.pokemonGender,
-      ),
-    },
+    support: mapGameMechanics((mechanic) => {
+      return resolveMechanicSupport(context, mechanic);
+    }),
   };
 };
 
@@ -198,14 +231,6 @@ export const resolveVersionGroupMechanics = ({
 
   return {
     context: { gameId: null, generationId, versionGroupId },
-    support: {
-      [gameMechanics.abilities]: resolveAgreedSupport(gameMechanics.abilities),
-      [gameMechanics.breeding]: resolveAgreedSupport(gameMechanics.breeding),
-      [gameMechanics.heldItems]: resolveAgreedSupport(gameMechanics.heldItems),
-      [gameMechanics.natures]: resolveAgreedSupport(gameMechanics.natures),
-      [gameMechanics.pokemonGender]: resolveAgreedSupport(
-        gameMechanics.pokemonGender,
-      ),
-    },
+    support: mapGameMechanics(resolveAgreedSupport),
   };
 };

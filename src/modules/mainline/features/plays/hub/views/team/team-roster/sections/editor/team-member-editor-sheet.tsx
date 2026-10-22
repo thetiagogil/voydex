@@ -51,6 +51,7 @@ import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
  * from its step; Delete record is for mistakes.
  */
 export const TeamMemberEditorSheet = ({
+  canGigantamax,
   isMoving,
   mechanics,
   member,
@@ -61,6 +62,8 @@ export const TeamMemberEditorSheet = ({
   playId,
   roster,
 }: {
+  /* It reaches a Gigantamax form, so the Gigantamax Factor is offered. */
+  canGigantamax: boolean;
   isMoving: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
@@ -89,8 +92,12 @@ export const TeamMemberEditorSheet = ({
   const supports = {
     abilities: supportsGameMechanic(mechanics, gameMechanics.abilities),
     gender: supportsGameMechanic(mechanics, gameMechanics.pokemonGender),
+    gigantamax:
+      supportsGameMechanic(mechanics, gameMechanics.dynamax) &&
+      (canGigantamax || member.has_gigantamax_factor === true),
     heldItems: supportsGameMechanic(mechanics, gameMechanics.heldItems),
     natures: supportsGameMechanic(mechanics, gameMechanics.natures),
+    terastal: supportsGameMechanic(mechanics, gameMechanics.terastal),
   };
 
   useEffect(() => {
@@ -131,12 +138,14 @@ export const TeamMemberEditorSheet = ({
         ...member.moves.map((move) => ({ id: move.id, name: move.name })),
       ],
       natureId: options?.natures,
+      teraTypeId: options?.teraTypes,
     };
     const fromMember: Partial<Record<TeamMemberEditorField, string | null>> = {
       abilityId: member.ability_name,
       ballItemId: member.ball_item_name,
       heldItemId: member.held_item_name,
       natureId: member.nature_name,
+      teraTypeId: member.tera_type_name,
     };
 
     return (

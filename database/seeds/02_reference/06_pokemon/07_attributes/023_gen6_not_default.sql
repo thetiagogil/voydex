@@ -15,6 +15,8 @@ INSERT INTO reference.pokemon_attributes (species_id, form_id, generation_start_
 VALUES
   -- #0493 Arceus - Arceus (Fairy)
   (493, 49317, 6, 18, NULL, 121, NULL, NULL, 15, NULL, 120, 120, 120, 120, 120, 120),
+  -- #0670 Floette - Floette (Eternal Flower)
+  (670, 67002, 6, 18, NULL, 166, NULL, 180, 8, NULL, 74, 65, 67, 125, 128, 92),
   -- #0678 Meowstic - Meowstic (Female)
   (678, 67801, 6, 11, NULL, 51, 151, 172, 7, NULL, 74, 48, 76, 83, 81, 104),
   -- #0710 Pumpkaboo - Pumpkaboo (Small)

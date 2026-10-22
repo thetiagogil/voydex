@@ -186,6 +186,8 @@ VALUES
   (78001, 484, 9, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Applies only in games with Mega Evolution.'),
   -- Mega Magearna -> Magearnite -> required_held_item
   (80101, 498, 9, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Applies only in games with Mega Evolution.'),
+  -- Mega Magearna (Original Color) -> Magearnite -> required_held_item
+  (80103, 498, 9, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Applies only in games with Mega Evolution.'),
   -- Mega Zeraora -> Zeraorite -> required_held_item
   (80701, 485, 9, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Applies only in games with Mega Evolution.'),
   -- Mega Falinks -> Falinksite -> required_held_item

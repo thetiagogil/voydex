@@ -298,6 +298,8 @@ VALUES
   (282, 13, NULL, NULL, NULL),
   -- Tyranitarite
   (283, 13, NULL, NULL, NULL),
+  -- Gardevoirite
+  (287, 13, NULL, 5, 'Held by the Ralts received in an in-game trade in X / Y.'),
   -- Mawilite
   (289, 13, NULL, NULL, NULL),
   -- Aggronite
@@ -312,6 +314,8 @@ VALUES
   (297, 13, NULL, NULL, NULL),
   -- Garchompite
   (304, 13, NULL, NULL, NULL),
+  -- Lucarionite
+  (305, 13, NULL, 4, 'Held by the Lucario received as a gift in X / Y.'),
   -- Abomasite
   (306, 13, NULL, NULL, NULL),
   -- General Held Items

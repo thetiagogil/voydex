@@ -65,6 +65,7 @@ describe("validateUpdateMainlinePlayPokemon", () => {
     abilityId: 65,
     ballItemId: 4,
     gender: "male" as const,
+    hasGigantamaxFactor: false,
     heldItemId: null,
     isShiny: false,
     level: 34,
@@ -74,6 +75,7 @@ describe("validateUpdateMainlinePlayPokemon", () => {
     natureId: 3,
     nickname: "  ",
     notes: null,
+    teraTypeId: null,
   };
 
   it("trims text and keeps empty text as not recorded", () => {

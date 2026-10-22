@@ -1,3 +1,4 @@
+import type { BattleFormLink } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { getGenerationSortOrder } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-generation-utils";
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
 import type {
@@ -16,6 +17,7 @@ import type {
 
 type PokemonGenerationDetailsParams = {
   availability: PokemonAvailabilitySummary[];
+  battleForms: BattleFormLink[];
   forms: PokemonFormSummary[];
   games: Game[];
   generations: Generation[];
@@ -106,6 +108,7 @@ const sortGamesByVersionGroupAndSortOrder = (
 
 export const buildPokemonGenerationDetails = ({
   availability,
+  battleForms,
   forms,
   games,
   generations,
@@ -185,6 +188,9 @@ export const buildPokemonGenerationDetails = ({
 
       return {
         availability: generationAvailability,
+        battleForms: battleForms.filter((link) =>
+          generationForms.some((form) => form.form.id === link.formId),
+        ),
         forms: generationForms,
         games: sortGamesByVersionGroupAndSortOrder(
           generationGames,

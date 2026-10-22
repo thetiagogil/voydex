@@ -30,8 +30,10 @@ const member = {
 const allSupported = {
   abilities: true,
   gender: true,
+  gigantamax: true,
   heldItems: true,
   natures: true,
+  terastal: true,
 };
 
 const names: Record<string, string> = {
@@ -94,6 +96,26 @@ describe("Pokémon editor model", () => {
     ).toMatchObject({ abilityId: 65, level: null, moveIds: [52] });
   });
 
+  it("sends Tera Type and the Gigantamax Factor only where the game has them", () => {
+    const values = {
+      ...getTeamMemberEditorValues(member),
+      hasGigantamaxFactor: true,
+      teraTypeId: "2",
+    };
+
+    expect(toUpdateTeamMemberInput(values, allSupported)).toMatchObject({
+      hasGigantamaxFactor: true,
+      teraTypeId: 2,
+    });
+    expect(
+      toUpdateTeamMemberInput(values, {
+        ...allSupported,
+        gigantamax: false,
+        terastal: false,
+      }),
+    ).toMatchObject({ hasGigantamaxFactor: false, teraTypeId: null });
+  });
+
   it("sends a mechanic the game doesn't record empty, so a kept value can't block a save", () => {
     /* Legends: Arceus records natures and gender, not abilities or held items. */
     expect(
@@ -120,6 +142,7 @@ describe("findUnofferedEditorChoice", () => {
       },
     ],
     natures: [{ decreased: null, id: 3, increased: null, name: "Hardy" }],
+    teraTypes: [{ id: 2, name: "Fire" }],
   };
   const current = {
     abilityId: null,
@@ -132,6 +155,7 @@ describe("findUnofferedEditorChoice", () => {
     heldItemId: 200,
     moveIds: [33, 53],
     natureId: 3,
+    teraTypeId: null,
   };
 
   it("accepts offered choices and moves it already knows", () => {
@@ -155,6 +179,9 @@ describe("findUnofferedEditorChoice", () => {
     expect(
       findUnofferedEditorChoice({ ...input, natureId: 9 }, options, current),
     ).toBe("That nature isn't in this game.");
+    expect(
+      findUnofferedEditorChoice({ ...input, teraTypeId: 19 }, options, current),
+    ).toBe("That Tera Type isn't in this game.");
   });
 
   it("lets an already recorded ability stay when the options no longer list it", () => {
