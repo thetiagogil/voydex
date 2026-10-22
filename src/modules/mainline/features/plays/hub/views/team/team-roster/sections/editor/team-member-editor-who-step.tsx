@@ -1,6 +1,6 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
-import { SegmentedControl } from "@/shared/components/segmented-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { SwitchField } from "@/shared/components/switch-field";
@@ -66,14 +66,6 @@ export const TeamMemberEditorWhoStep = ({
           onChange={(event) => change("nickname", event.target.value)}
         />
       </Field>
-    </div>
-    <div
-      className={
-        supportsGender
-          ? "grid min-w-0 gap-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]"
-          : "grid min-w-0 gap-4"
-      }
-    >
       <Field>
         <EditorLabel htmlFor={`${id}-level`} edited={edited("level")}>
           Level
@@ -90,22 +82,24 @@ export const TeamMemberEditorWhoStep = ({
         />
       </Field>
       {supportsGender ? (
-        <Field className="min-w-0">
-          <EditorLabel edited={edited("gender")}>
-            <span id={`${id}-gender`}>Gender</span>
-          </EditorLabel>
-          <SegmentedControl
+        <Field>
+          <EditorLabel edited={edited("gender")}>Gender</EditorLabel>
+          <SelectControl
             ariaLabel="Gender"
-            variant="segment"
-            fullWidth
+            placeholder="Not recorded"
+            searchable={false}
             value={values.gender}
-            onValueChange={(value) => change("gender", value)}
+            onValueChange={(value) => {
+              const gender = genderOptions.find(
+                (option) => option.value === value,
+              );
+
+              if (gender) change("gender", gender.value);
+            }}
             options={genderOptions}
           />
         </Field>
       ) : null}
-    </div>
-    <div className="grid gap-4 sm:grid-cols-2">
       <SwitchField
         label="Shiny"
         edited={edited("isShiny")}
