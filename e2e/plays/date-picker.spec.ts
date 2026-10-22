@@ -133,6 +133,37 @@ test.describe("Date picker", () => {
     ).toBeVisible();
   });
 
+  test("keeps room above and below the year list @phone", async ({
+    isMobile,
+    page,
+  }) => {
+    test.skip(!isMobile, "The phone project checks the list.");
+    const general = await openSettings(page);
+
+    await general.getByRole("button", { name: /^Started on:/ }).click();
+    await pickerOf(page)
+      .getByRole("combobox", { name: "Choose the Year" })
+      .click();
+    const list = page.locator('[data-slot="select-content"]');
+
+    await expectAccessible(page);
+    /* The picked year opens at the end of the list: it must not touch the edge. */
+    const gaps = await list.evaluate((popup) => {
+      const popupBox = popup.getBoundingClientRect();
+      const itemBox = popup
+        .querySelector("[data-selected]")!
+        .getBoundingClientRect();
+
+      return {
+        bottom: popupBox.bottom - itemBox.bottom,
+        top: itemBox.top - popupBox.top,
+      };
+    });
+
+    expect(gaps.bottom).toBeGreaterThanOrEqual(12);
+    expect(gaps.top).toBeGreaterThanOrEqual(8);
+  });
+
   test("opens as a bottom sheet on a phone @phone", async ({
     isMobile,
     page,

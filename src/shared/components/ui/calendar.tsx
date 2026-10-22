@@ -99,7 +99,7 @@ const CalendarChevron = ({
 );
 
 const dayButtonClassName =
-  "text-15 flex size-11 items-center justify-center rounded-full font-bold transition-colors lg:size-10 hover:bg-hover focus-ring-inset in-data-outside:text-ink-3 in-data-disabled:pointer-events-none in-data-disabled:opacity-40 in-data-today:border-[1.5px] in-data-today:border-line in-data-selected:bubble in-data-selected:border-transparent in-data-selected:bg-select-soft in-data-selected:text-select-ink";
+  "text-15 mx-auto flex size-11 items-center justify-center rounded-full font-bold transition-colors lg:size-10 hover:bg-hover focus-ring-inset in-data-outside:text-ink-3 in-data-disabled:pointer-events-none in-data-disabled:opacity-40 in-data-today:border-[1.5px] in-data-today:border-line in-data-selected:bubble in-data-selected:border-transparent in-data-selected:bg-select-soft in-data-selected:text-select-ink";
 
 /*
  * A day's name for screen readers: "Wednesday, May 7, 2025", the day number
@@ -117,7 +117,8 @@ const formatDayName = (date: Date) =>
  * The one calendar (shadcn's Calendar on react-day-picker, restyled): a
  * 7-column month with the month and year as quiet selects and arrows to
  * step. The picked day is the selected tint in a white band, today a
- * hairline ring. 44px days on phones and tablets, 40px from 1024px.
+ * hairline ring. 44px days filling the width on phones and tablets, 40px
+ * columns from 1024px.
  */
 export const Calendar = ({
   className,
@@ -130,9 +131,9 @@ export const Calendar = ({
   <DayPicker
     animate={false}
     captionLayout="dropdown"
-    className={cn("w-fit", className)}
+    className={cn("w-full lg:w-fit", className)}
     classNames={{
-      root: "w-fit",
+      root: "w-full lg:w-fit",
       months: "relative flex flex-col gap-2",
       month: "flex flex-col gap-2",
       nav: "absolute top-0 right-0 flex h-10 items-center gap-1",
@@ -142,11 +143,11 @@ export const Calendar = ({
       dropdowns: "flex items-center gap-1",
       dropdown_root: "relative",
       month_grid: "w-full border-collapse",
-      weekdays: "flex",
+      weekdays: "grid grid-cols-7 lg:grid-cols-[repeat(7,2.5rem)]",
       weekday:
-        "text-13 text-ink-3 flex size-11 items-center justify-center font-bold lg:size-10",
-      week: "mt-1 flex w-full",
-      day: "relative flex size-11 items-center justify-center p-0 text-center lg:size-10",
+        "text-13 text-ink-3 flex h-11 items-center justify-center font-bold lg:h-10",
+      week: "mt-1 grid grid-cols-7 lg:grid-cols-[repeat(7,2.5rem)]",
+      day: "relative flex h-11 items-center justify-center p-0 text-center lg:h-10",
       day_button: dayButtonClassName,
       ...classNames,
     }}
