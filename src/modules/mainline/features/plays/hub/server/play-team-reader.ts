@@ -34,6 +34,9 @@ export const readMainlinePlayTeamRows = async (
   const ballItemIds = uniqueNumberIds(
     members.map((member) => member.ball_item_id),
   );
+  const heldItemIds = uniqueNumberIds(
+    members.map((member) => member.held_item_id),
+  );
 
   let attributesQuery = supabase
     .schema("reference")
@@ -69,6 +72,7 @@ export const readMainlinePlayTeamRows = async (
     moveAttributesResult,
     ballItemsResult,
     pokeBallCategoryResult,
+    heldItemsResult,
     naturesResult,
     evolutionEdgesResult,
     versionGroupsResult,
@@ -97,6 +101,11 @@ export const readMainlinePlayTeamRows = async (
       .maybeSingle(),
     supabase
       .schema("reference")
+      .from("items")
+      .select("id, effect_summary")
+      .in("id", heldItemIds.length ? heldItemIds : [-1]),
+    supabase
+      .schema("reference")
       .from("natures")
       .select("*")
       .in("id", natureIds.length ? natureIds : [-1]),
@@ -121,6 +130,7 @@ export const readMainlinePlayTeamRows = async (
     moveAttributesResult.error ||
     ballItemsResult.error ||
     pokeBallCategoryResult.error ||
+    heldItemsResult.error ||
     naturesResult.error ||
     evolutionEdgesResult.error ||
     versionGroupsResult.error
@@ -157,6 +167,11 @@ export const readMainlinePlayTeamRows = async (
     abilityAttributes: abilityAttributesResult.data ?? [],
     attributes,
     evolutionEdges: evolutionEdgesResult.data ?? [],
+    heldItemEffects: Object.fromEntries(
+      (heldItemsResult.data ?? []).flatMap((item) =>
+        item.effect_summary ? [[item.id, item.effect_summary]] : [],
+      ),
+    ),
     members,
     moveAttributes,
     natures: naturesResult.data ?? [],

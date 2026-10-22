@@ -5,8 +5,20 @@ import { toHeldItemOptions } from "./held-item-options";
 describe("toHeldItemOptions", () => {
   it("puts each item under its category, with an icon and its id", () => {
     const options = toHeldItemOptions([
-      { category: "Berries", categoryOrder: 6, id: 10, name: "Oran Berry" },
-      { category: "Mega Stones", categoryOrder: 7, id: 20, name: "Abomasite" },
+      {
+        category: "Berries",
+        categoryOrder: 6,
+        effect: null,
+        id: 10,
+        name: "Oran Berry",
+      },
+      {
+        category: "Mega Stones",
+        categoryOrder: 7,
+        effect: null,
+        id: 20,
+        name: "Abomasite",
+      },
     ]);
 
     expect(

@@ -13,6 +13,7 @@ export const toHeldItemOptions = (
   items.map((item) => ({
     group: item.category,
     icon: <ItemIcon kind="held" name={item.name} />,
+    info: item.effect ?? undefined,
     label: item.name,
     value: String(item.id),
   }));

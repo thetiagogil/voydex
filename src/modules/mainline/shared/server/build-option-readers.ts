@@ -20,6 +20,8 @@ export type BuildOption = { id: number; name: string };
 export type BuildItemOption = BuildOption & {
   category: string;
   categoryOrder: number;
+  /* What a held item does; balls have none. */
+  effect: string | null;
 };
 
 export type BuildMoveOption = BuildOption & {
@@ -185,6 +187,7 @@ const readGameItemOptions = async (
     "Unable to load items.",
   );
   const items = await loadChunkedReferenceRows<{
+    effect_summary: string | null;
     id: number;
     name: string;
     primary_category_id: number;
@@ -194,7 +197,7 @@ const readGameItemOptions = async (
       supabase
         .schema("reference")
         .from("items")
-        .select("id, name, primary_category_id")
+        .select("id, name, primary_category_id, effect_summary")
         .in("id", ids)
         .order("id", { ascending: true })
         .range(from, to),
@@ -211,6 +214,7 @@ const readGameItemOptions = async (
       return {
         category: category?.name ?? "Other",
         categoryOrder: category?.sort_order ?? Number.MAX_SAFE_INTEGER,
+        effect: item.effect_summary,
         id: item.id,
         name: item.name,
       };

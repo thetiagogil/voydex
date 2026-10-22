@@ -190,9 +190,9 @@ export const TeamMemberProfile = ({
                     <ItemIcon kind={fact.item} name={fact.value} />
                   ) : null}
                   <span className="min-w-0">{fact.value}</span>
-                  {fact.detail ? (
+                  {fact.detail || fact.info ? (
                     <ExplanatoryTip
-                      content={fact.detail}
+                      content={fact.detail ?? fact.info}
                       triggerLabel={`About ${fact.value}`}
                       triggerVariant="subtle"
                     />

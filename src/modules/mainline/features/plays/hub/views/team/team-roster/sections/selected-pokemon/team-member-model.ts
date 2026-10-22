@@ -31,6 +31,8 @@ export type TeamMemberFact = {
   detail: string | null;
   /* Nothing recorded: the value is a quiet placeholder. */
   empty?: true;
+  /* What it is, behind a faint "i" beside the value (a held item's effect). */
+  info?: string | null;
   /* An item's picture goes before the value: a held item or a Poké Ball. */
   item?: "ball" | "held";
   label: string;
@@ -185,6 +187,7 @@ export const getTeamMemberFacts = (
       member.held_item_name
         ? {
             detail: null,
+            info: member.heldItemEffectSummary,
             item: "held",
             label: "Held item",
             value: member.held_item_name,

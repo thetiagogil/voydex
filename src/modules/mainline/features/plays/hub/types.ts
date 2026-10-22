@@ -51,6 +51,8 @@ export type MainlinePlayTeamMember = Omit<
   "moves"
 > & {
   abilityEffectSummary: string | null;
+  /* What its held item does, when one is recorded. */
+  heldItemEffectSummary: string | null;
   moves: MainlinePlayTeamMove[];
   natureDecreasedStat: string | null;
   natureIncreasedStat: string | null;
@@ -132,6 +134,8 @@ export type MainlinePlayLevelCap =
 
 export type MainlinePlayTeamRows = {
   abilityAttributes: AbilityAttribute[];
+  /* What each recorded held item does, by its id. */
+  heldItemEffects?: Record<number, string>;
   attributes: PokemonAttributes[];
   evolutionEdges?: PokemonEvolutionEdge[];
   members: MainlinePlayTeamMemberRow[];

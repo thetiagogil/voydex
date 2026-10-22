@@ -160,6 +160,7 @@ describe("findUnofferedEditorChoice", () => {
       {
         category: "Type-Enhancing Items",
         categoryOrder: 9,
+        effect: null,
         id: 200,
         name: "Charcoal",
       },
