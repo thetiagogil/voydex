@@ -37,7 +37,7 @@ export type EditorFormOption = {
 export type TeamMemberEditorOptions = {
   /* Each with what it does in the Play's game, when known. */
   abilities: (EditorOption & { effect: string | null })[];
-  balls: EditorOption[];
+  balls: BuildItemOption[];
   evolutions: EditorFormOption[];
   forms: EditorFormOption[];
   heldItems: BuildItemOption[];

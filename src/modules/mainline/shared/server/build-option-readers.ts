@@ -171,13 +171,14 @@ const readGameItemOptions = async (
     id: number;
     name: string;
     primary_category_id: number;
+    slug: string;
   }>(
     memberRows.map((row) => row.item_id),
     (ids, from, to) =>
       supabase
         .schema("reference")
         .from("items")
-        .select("id, name, primary_category_id, effect_summary")
+        .select("id, name, primary_category_id, effect_summary, slug")
         .in("id", ids)
         .order("id", { ascending: true })
         .range(from, to),
@@ -197,6 +198,7 @@ const readGameItemOptions = async (
         effect: item.effect_summary,
         id: item.id,
         name: item.name,
+        slug: item.slug,
       };
     })
     .toSorted(

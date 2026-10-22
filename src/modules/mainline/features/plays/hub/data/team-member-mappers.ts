@@ -146,8 +146,15 @@ export const buildMainlinePlayTeamPreview = (
       heldItemEffectSummary: member.held_item_id
         ? (rows.heldItemEffects?.[member.held_item_id] ?? null)
         : null,
+      heldItemSlug: member.held_item_id
+        ? (rows.itemSlugs?.[member.held_item_id] ?? null)
+        : null,
       ball_item_id: hasValidBall ? member.ball_item_id : null,
       ball_item_name: hasValidBall ? member.ball_item_name : null,
+      ballItemSlug:
+        hasValidBall && member.ball_item_id
+          ? (rows.itemSlugs?.[member.ball_item_id] ?? null)
+          : null,
       moves,
       natureDecreasedStat: nature?.decreased_stat ?? null,
       natureIncreasedStat: nature?.increased_stat ?? null,

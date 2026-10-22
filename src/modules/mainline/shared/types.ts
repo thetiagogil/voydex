@@ -36,6 +36,8 @@ export type BuildItemOption = BuildOption & {
   categoryOrder: number;
   /* What a held item does; balls have none. */
   effect: string | null;
+  /* For its sprite. */
+  slug: string;
 };
 
 export type BuildMoveOption = BuildOption & {

@@ -34,7 +34,7 @@ export type TeamMemberFact = {
   /* What it is, behind a faint "i" beside the value (a held item's effect). */
   info?: string | null;
   /* An item's picture goes before the value: a held item or a Poké Ball. */
-  item?: "ball" | "held";
+  item?: { kind: "ball" | "held"; slug: string | null };
   label: string;
   /* A nature's stats, drawn under it as arrows. */
   nature?: { decreased: string | null; increased: string | null };
@@ -188,11 +188,14 @@ export const getTeamMemberFacts = (
         ? {
             detail: null,
             info: member.heldItemEffectSummary,
-            item: "held",
+            item: { kind: "held", slug: member.heldItemSlug },
             label: "Held item",
             value: member.held_item_name,
           }
-        : { ...notRecorded("Held item", "None"), item: "held" },
+        : {
+            ...notRecorded("Held item", "None"),
+            item: { kind: "held", slug: null },
+          },
     );
   }
 
@@ -200,11 +203,11 @@ export const getTeamMemberFacts = (
     member.ball_item_name
       ? {
           detail: null,
-          item: "ball",
+          item: { kind: "ball", slug: member.ballItemSlug },
           label: "Poké Ball",
           value: member.ball_item_name,
         }
-      : { ...notRecorded("Poké Ball"), item: "ball" },
+      : { ...notRecorded("Poké Ball"), item: { kind: "ball", slug: null } },
   );
 
   if (supportsGameMechanic(mechanics, gameMechanics.terastal)) {

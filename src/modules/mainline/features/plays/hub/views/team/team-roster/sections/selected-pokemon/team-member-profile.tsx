@@ -11,6 +11,7 @@ import type {
   MemberBattle,
   MemberBattleForm,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { GenderIcon } from "@/modules/reference/features/pokemon/components/gender-icon";
 import { NatureEffect } from "@/modules/reference/features/pokemon/components/nature-effect";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -187,7 +188,11 @@ export const TeamMemberProfile = ({
                   )}
                 >
                   {fact.item ? (
-                    <ItemIcon kind={fact.item} name={fact.value} />
+                    <ItemIcon
+                      kind={fact.item.kind}
+                      name={fact.value}
+                      src={getItemImageUrl(fact.item.slug)}
+                    />
                   ) : null}
                   <span className="min-w-0">{fact.value}</span>
                   {fact.detail || fact.info ? (

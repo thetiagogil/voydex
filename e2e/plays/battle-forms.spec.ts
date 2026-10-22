@@ -181,7 +181,9 @@ test.describe("Battle forms", () => {
       /Powers up Fire-type moves/,
     );
     await abilityField.hover();
-    await expect(page.getByText(/Powers up Fire-type moves/)).toBeVisible();
+    await expect(page.locator('[data-slot="tooltip-content"]')).toContainText(
+      "Powers up Fire-type moves",
+    );
     /* Every nature says what it does, the neutral ones too. */
     await editor.getByRole("combobox", { name: "Nature" }).click();
     await expect(

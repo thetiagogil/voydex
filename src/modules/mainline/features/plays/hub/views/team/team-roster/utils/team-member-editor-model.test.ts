@@ -163,6 +163,7 @@ describe("findUnofferedEditorChoice", () => {
         effect: null,
         id: 200,
         name: "Charcoal",
+        slug: "charcoal",
       },
     ],
     moves: [

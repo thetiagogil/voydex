@@ -2,7 +2,8 @@ import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/h
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
 import { toNatureOptions } from "@/modules/reference/features/pokemon/components/nature-options";
-import { toHeldItemOptions } from "@/modules/mainline/shared/components/held-item-options";
+import { toItemOptions } from "@/modules/mainline/shared/components/item-options";
+import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -30,13 +31,16 @@ const keptChoice = (
   offered: readonly { id: number }[],
   id: number | null,
   name: string | null,
+  slug: string | null,
   kind: "ball" | "held",
 ) =>
   id !== null && name && !offered.some((option) => option.id === id)
     ? [
         {
           group: "Recorded before",
-          icon: <ItemIcon kind={kind} name={name} />,
+          icon: (
+            <ItemIcon kind={kind} name={name} src={getItemImageUrl(slug)} />
+          ),
           label: name,
           value: String(id),
         },
@@ -132,11 +136,12 @@ export const TeamMemberEditorDetailsStep = ({
                   label: "Not recorded",
                   value: noneValue,
                 },
-                ...toHeldItemOptions(optionsState.options.heldItems),
+                ...toItemOptions(optionsState.options.heldItems, "held"),
                 ...keptChoice(
                   optionsState.options.heldItems,
                   member.held_item_id,
                   member.held_item_name,
+                  member.heldItemSlug,
                   "held",
                 ),
               ]}
@@ -151,14 +156,12 @@ export const TeamMemberEditorDetailsStep = ({
             value={selectValue(values.ballItemId)}
             onValueChange={(value) => change("ballItemId", fromSelect(value))}
             options={[
-              ...toSelectOptions(optionsState.options.balls).map((option) => ({
-                ...option,
-                icon: <ItemIcon kind="ball" name={option.label} />,
-              })),
+              ...toItemOptions(optionsState.options.balls, "ball"),
               ...keptChoice(
                 optionsState.options.balls,
                 member.ball_item_id,
                 member.ball_item_name,
+                member.ballItemSlug,
                 "ball",
               ),
             ]}

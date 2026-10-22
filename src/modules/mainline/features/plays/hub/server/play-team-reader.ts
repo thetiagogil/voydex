@@ -91,7 +91,7 @@ export const readMainlinePlayTeamRows = async (
     supabase
       .schema("reference")
       .from("items")
-      .select("id, primary_category_id")
+      .select("id, primary_category_id, slug")
       .in("id", ballItemIds.length ? ballItemIds : [-1]),
     supabase
       .schema("reference")
@@ -102,7 +102,7 @@ export const readMainlinePlayTeamRows = async (
     supabase
       .schema("reference")
       .from("items")
-      .select("id, effect_summary")
+      .select("id, effect_summary, slug")
       .in("id", heldItemIds.length ? heldItemIds : [-1]),
     supabase
       .schema("reference")
@@ -170,6 +170,11 @@ export const readMainlinePlayTeamRows = async (
     heldItemEffects: Object.fromEntries(
       (heldItemsResult.data ?? []).flatMap((item) =>
         item.effect_summary ? [[item.id, item.effect_summary]] : [],
+      ),
+    ),
+    itemSlugs: Object.fromEntries(
+      [...(ballItemsResult.data ?? []), ...(heldItemsResult.data ?? [])].map(
+        (item) => [item.id, item.slug],
       ),
     ),
     members,

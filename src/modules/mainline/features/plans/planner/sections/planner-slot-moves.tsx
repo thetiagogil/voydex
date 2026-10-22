@@ -15,7 +15,7 @@ import {
   MoveSlotSelect,
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
-import { toHeldItemOptions } from "@/modules/mainline/shared/components/held-item-options";
+import { toItemOptions } from "@/modules/mainline/shared/components/item-options";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
@@ -120,7 +120,7 @@ export const PlannerSlotMoves = ({
                 label: "Any",
                 value: anyItem,
               },
-              ...toHeldItemOptions(heldItems),
+              ...toItemOptions(heldItems, "held"),
             ]}
           />
         </Field>
