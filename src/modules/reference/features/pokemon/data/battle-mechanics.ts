@@ -193,6 +193,14 @@ export type MemberBattle = {
   zMoves: MemberBattleMove[];
 };
 
+/* What a form menu says under a battle form: "In battle · Mega Evolution". */
+export const battleFormMechanicNames: Record<BattleFormMechanic, string> = {
+  [battleFormMechanics.dynamax]: "Gigantamax",
+  [battleFormMechanics.megaEvolution]: "Mega Evolution",
+  [battleFormMechanics.primalReversion]: "Primal Reversion",
+  [battleFormMechanics.ultraBurst]: "Ultra Burst",
+};
+
 const mechanicLabels: Record<BattleFormMechanic, string> = {
   [battleFormMechanics.dynamax]: "Gigantamax",
   [battleFormMechanics.megaEvolution]: "Mega",

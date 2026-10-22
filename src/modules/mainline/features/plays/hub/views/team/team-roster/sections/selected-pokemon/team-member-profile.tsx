@@ -7,13 +7,17 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
-import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import {
+  battleFormMechanicNames,
+  type MemberBattle,
+} from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { toPokemonFormOption } from "@/modules/reference/features/pokemon/components/pokemon-form-option";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { SegmentedControl } from "@/shared/components/segmented-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { cn } from "@/shared/utils/cn";
 
@@ -34,7 +38,7 @@ const baseFormValue = "base";
  * The selected Pokémon: its art on the type's tint (lively), with the shiny
  * tag top left and its actions top right, then a quiet record of who it is,
  * what it knows and where you met it. Where the game has battle forms, a
- * switch under its name shows one (Mega, Primal, Gigantamax): the art, types,
+ * form menu beside its types shows one (Mega, Primal, Gigantamax): the art, types,
  * ability and moves become the form's, with a note when what it holds or
  * knows can't reach it. The member itself stays its stored form.
  */
@@ -128,31 +132,50 @@ export const TeamMemberProfile = ({
       <p className="text-ink-2 mt-1 mb-3 font-semibold">
         {getTeamMemberMeta(shown, mechanics)}
       </p>
-      {battle?.forms.length ? (
-        <SegmentedControl
-          ariaLabel="Battle form"
-          variant="segment"
-          className="mb-3.5"
-          value={battleForm?.slug ?? baseFormValue}
-          onValueChange={(formSlug) =>
-            setPicked({ formSlug, memberId: member.play_pokemon_id })
-          }
-          options={[
-            { label: "Base", value: baseFormValue },
-            ...battle.forms.map((form) => ({
-              label: form.label,
-              value: form.slug,
-            })),
-          ]}
+      <div className="flex flex-wrap items-center gap-2">
+        <PokemonTypeList
+          primaryType={types.primaryType}
+          secondaryType={types.secondaryType}
+          badgeDisplay="icon-label"
+          badgeSize="lg"
+          className="flex-wrap gap-2"
         />
-      ) : null}
-      <PokemonTypeList
-        primaryType={types.primaryType}
-        secondaryType={types.secondaryType}
-        badgeDisplay="icon-label"
-        badgeSize="lg"
-        className="flex-wrap gap-2"
-      />
+        {battle?.forms.length ? (
+          <SelectControl
+            ariaLabel="Battle form"
+            prefix="Form"
+            placeholder="Base"
+            size="sm"
+            value={battleForm?.slug ?? baseFormValue}
+            onValueChange={(formSlug) =>
+              setPicked({ formSlug, memberId: member.play_pokemon_id })
+            }
+            options={[
+              toPokemonFormOption({
+                description: getPlayTeamMemberName(member),
+                imageUrl: getPlayTeamMemberImageUrl(member, "sm"),
+                label: "Base",
+                name: getPlayTeamMemberName(member),
+                typeSlug: member.primaryType?.slug ?? null,
+                value: baseFormValue,
+              }),
+              ...battle.forms.map((form) =>
+                toPokemonFormOption({
+                  description: `In battle · ${battleFormMechanicNames[form.mechanic]}`,
+                  imageUrl: getPlayTeamMemberImageUrl(
+                    { ...member, form_name: form.name, form_slug: form.slug },
+                    "sm",
+                  ),
+                  label: form.label,
+                  name: form.name,
+                  typeSlug: form.primaryType?.slug ?? null,
+                  value: form.slug,
+                }),
+              ),
+            ]}
+          />
+        ) : null}
+      </div>
       {battleForm?.warning ? (
         <Alert role="status" variant="warning" className="mt-4.5">
           <AppIcon icon={appIcons.status.warning} />

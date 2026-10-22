@@ -33,7 +33,7 @@ import {
   getPokemonDetailFormImageAlt,
   getPokemonDetailFormImageUrl,
   getPokemonDetailFormShinyImageUrl,
-  getPokemonDetailFormSwitchOptions,
+  getPokemonDetailFormOptions,
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import { getPokemonDetailGenerationOptions } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
@@ -186,7 +186,8 @@ export const PokemonDetailShell = ({
               form,
               species: data.species,
             })}
-            formSwitchOptions={getPokemonDetailFormSwitchOptions({
+            formOptions={getPokemonDetailFormOptions({
+              battleForms: scope.generation.battleForms,
               forms: scope.generationForms,
               speciesName: data.species.name,
               speciesSlug: data.species.slug,

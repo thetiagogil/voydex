@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Locator, type Page } from "@playwright/test";
 
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
@@ -60,6 +60,15 @@ test.describe("Battle forms", () => {
     return page.getByRole("region", { name });
   };
 
+  /* Picks a form in a form menu; an option's name starts with its label. */
+  const pickForm = async (page: Page, menu: Locator, label: string) => {
+    await menu.click();
+    await page
+      .getByRole("option", { name: new RegExp(`^${label}\\b`) })
+      .click();
+    await expect(menu).toContainText(label);
+  };
+
   test("a member shows its Mega form and warns about its Mega Stone", async ({
     page,
   }) => {
@@ -69,16 +78,16 @@ test.describe("Battle forms", () => {
       partner: null,
     });
     const profile = await addFromLink(page, playId, "Charizard");
-    const switcher = profile.getByRole("group", { name: "Battle form" });
+    const menu = profile.getByRole("combobox", { name: "Battle form" });
 
-    await switcher.getByRole("button", { name: "Mega X" }).click();
+    await pickForm(page, menu, "Mega X");
     await expect(profile).toContainText("Mega Charizard X");
     await expect(profile).toContainText("Dragon");
     await expect(profile.getByRole("status")).toContainText(
       "Needs to hold Charizardite X to Mega Evolve.",
     );
 
-    await switcher.getByRole("button", { name: "Base" }).click();
+    await pickForm(page, menu, "Base");
     await expect(profile).not.toContainText("Dragon");
     await expect(profile.getByRole("status")).toHaveCount(0);
   });
@@ -92,14 +101,14 @@ test.describe("Battle forms", () => {
       partner: null,
     });
     const profile = await addFromLink(page, playId, "Charizard");
-    const switcher = profile.getByRole("group", { name: "Battle form" });
+    const menu = profile.getByRole("combobox", { name: "Battle form" });
 
     /* No Megas in Sword: only Gigantamax. */
-    await expect(switcher.getByRole("button")).toHaveText([
-      "Base",
-      "Gigantamax",
-    ]);
-    await switcher.getByRole("button", { name: "Gigantamax" }).click();
+    await menu.click();
+    await expect(page.getByRole("option")).toHaveCount(2);
+    await expect(page.getByRole("option").nth(1)).toContainText("Gigantamax");
+    await page.keyboard.press("Escape");
+    await pickForm(page, menu, "Gigantamax");
     await expect(profile.getByRole("status")).toContainText(
       "Doesn't have the Gigantamax Factor.",
     );
@@ -115,7 +124,7 @@ test.describe("Battle forms", () => {
     await saved;
     await expect(editor).toBeHidden(forTheAnswer);
 
-    await switcher.getByRole("button", { name: "Gigantamax" }).click();
+    await expect(menu).toContainText("Gigantamax");
     await expect(profile.getByRole("status")).toHaveCount(0, forTheAnswer);
     await expect(profile).toContainText("Gigantamax Charizard");
   });
@@ -148,7 +157,7 @@ test.describe("Battle forms", () => {
     await expect(profile).toContainText("Ghost");
     /* Scarlet has no battle forms to switch to. */
     await expect(
-      profile.getByRole("group", { name: "Battle form" }),
+      profile.getByRole("combobox", { name: "Battle form" }),
     ).toHaveCount(0);
   });
 });
