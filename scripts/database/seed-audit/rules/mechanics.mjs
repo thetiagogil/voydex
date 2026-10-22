@@ -158,9 +158,9 @@ export function assertMoveAttributeRows(context, tableRows) {
     "g-max-hydrosnipe",
   ]);
   const rowsByMoveId = new Map();
-  if (attributeRows.length !== 1149) {
+  if (attributeRows.length !== 1159) {
     context.errors.push(
-      `reference.move_attributes: expected 1149 generation change-point rows, got ${attributeRows.length}.`,
+      `reference.move_attributes: expected 1159 generation change-point rows, got ${attributeRows.length}.`,
     );
   }
   addCompositeDuplicateErrors(
@@ -231,6 +231,14 @@ export function assertMoveAttributeRows(context, tableRows) {
     ) {
       context.errors.push(
         `${relative(filePath)}: move attribute for ${move.slug} has invalid priority ${row.priority}.`,
+      );
+    }
+    if (
+      typeof row.effect_summary !== "string" ||
+      row.effect_summary.trim().length === 0
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: move attribute for ${move.slug} generation ${row.generation_start_id} must have an effect_summary.`,
       );
     }
     if (!rowsByMoveId.has(row.move_id)) rowsByMoveId.set(row.move_id, []);

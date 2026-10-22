@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (24);
+    plan (25);
 -- Move change rows start in the first generation that has the new value.
 SELECT
     IS ((
@@ -262,6 +262,13 @@ SELECT
                 AND items.effect_summary IS NOT NULL $$, 'Poke Balls have no held-item effect summary');
 SELECT
     throws_ok ($$ UPDATE reference.items SET effect_summary = '   ' WHERE slug = 'leftovers' $$, '23514', NULL, 'an effect summary cannot be blank');
+-- Every move attribute row says what the move does in that generation.
+SELECT
+    is_empty ($$
+        SELECT
+            move_id, generation_start_id FROM reference.move_attributes
+            WHERE
+                effect_summary IS NULL $$, 'every move attribute row has an effect summary');
 -- A ball is in a game when the game's item data has it, event and transfer balls included.
 SELECT
     results_eq ($$

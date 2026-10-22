@@ -11,7 +11,7 @@
 -- Table: reference.move_attributes
 -- ============================================================================
 
-INSERT INTO reference.move_attributes (move_id, generation_start_id, type_id, power, accuracy, pp, priority, damage_class)
+INSERT INTO reference.move_attributes (move_id, generation_start_id, type_id, power, accuracy, pp, priority, damage_class, effect_summary)
 VALUES
   -- Mist Ball Generation IX
-  (296, 9, 11, 95, 100, 5, 0, 'special');
+  (296, 9, 11, 95, 100, 5, 0, 'special', 'May lower the target''s Sp. Atk by one stage (50% chance).');

@@ -76,6 +76,10 @@ sources remain authoritative for game-specific mechanics and availability.
   our own words on what it does in recent games, with an "In Gen X-Y" note only
   when an older behaviour matters. Items that are never held (Poké Balls,
   evolution stones, fossils) leave it empty.
+- Every `reference.move_attributes` row has an `effect_summary`: one short
+  sentence in our own words on what the move does from that row's generation,
+  worded the same way for the same effect. When behaviour changed inside a
+  row's range without a numeric change, the row adds an "In Gen X" note.
 - A Poké Ball is available in a game when that game's item data has it, so
   event-only balls (the Cherish Ball) and balls that only arrive on transferred
   or traded Pokémon count; their rows say so in `notes`. Park Ball and Strange

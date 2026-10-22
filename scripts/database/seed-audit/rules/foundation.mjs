@@ -331,9 +331,9 @@ export function assertCoreMechanicsRowsetFingerprints(context, tableRows) {
       ],
       sortColumns: ["move_id", "generation_start_id"],
       expected: {
-        count: 1149,
+        count: 1159,
         sha256:
-          "a7c489e5f572a0da9566f8790e421704f7bcd03c63a5bbfb0ea691fa1dc6d83c",
+          "0b83b9076a6e011f76310dfe28aeb9922415aefb0bc407bb0735a24b3fda0c28",
       },
     },
   ];
