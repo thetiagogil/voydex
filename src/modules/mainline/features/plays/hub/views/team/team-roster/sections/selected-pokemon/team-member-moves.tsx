@@ -9,16 +9,12 @@ import type { TeamMove } from "./team-member-model";
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   const typeSlug =
     move.type && isPokemonTypeSlug(move.type.slug) ? move.type.slug : null;
-  const category =
-    move.detail ??
-    [move.type?.name ?? "Type not recorded", move.isStatus ? "Status" : null]
-      .filter(Boolean)
-      .join(" · ");
+  const end = move.detail ?? move.category;
 
   return (
     <li
       style={getPokemonTypeCssVariables(typeSlug)}
-      className="flex min-h-15 min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
+      className="flex min-h-13 min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-3 py-2.5"
     >
       {typeSlug ? (
         <PokemonTypeBadge
@@ -33,21 +29,23 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
           className="empty-slot size-5.5 shrink-0 rounded-full"
         />
       )}
-      <span className="min-w-0">
-        <span className="text-15 block truncate font-extrabold">
-          {move.name}
-        </span>
-        <span className="text-ink-tint text-12 block truncate font-bold">
-          {category}
-        </span>
+      <span className="text-15 min-w-0 flex-1 truncate font-extrabold">
+        {move.name}
       </span>
+      {end ? (
+        <span className="text-ink-tint text-12 shrink-0 font-bold capitalize">
+          {end}
+        </span>
+      ) : null}
     </li>
   );
 };
 
 /*
- * The recorded moves, each on its type's tint; or what a battle mechanic
- * turns them into (Z-Moves, Max Moves), under its own title.
+ * The recorded moves, each on its type's tint in one line like the editor's:
+ * type icon, name, and its category (or what it came from) at the end; or
+ * what a battle mechanic turns them into (Z-Moves, Max Moves), under its own
+ * title.
  */
 export const TeamMemberMoves = ({
   empty,

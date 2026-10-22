@@ -13,17 +13,6 @@ export const getTeamMemberIdentity = (
   return formName;
 };
 
-/* A recorded gender, or null when it wasn't recorded. */
-export const formatTeamMemberGender = (
-  gender: string | null,
-): string | null => {
-  if (!gender || gender === "unknown") {
-    return null;
-  }
-
-  return gender.charAt(0).toUpperCase() + gender.slice(1);
-};
-
 /*
  * The editor head's line under the name, such as "Rillaboom · Lv. 48". It
  * shows what is saved, like the name above it, never the unsaved form.

@@ -7,21 +7,26 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
-import type {
-  MemberBattle,
-  MemberBattleForm,
+import {
+  battleFormMechanics,
+  type MemberBattle,
+  type MemberBattleForm,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { GenderIcon } from "@/modules/reference/features/pokemon/components/gender-icon";
+import { NatureEffect } from "@/modules/reference/features/pokemon/components/nature-effect";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import { ItemIcon } from "@/shared/components/item-icon";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
 import { cn } from "@/shared/utils/cn";
 
 import {
   getBattleMoves,
   getTeamMemberFacts,
+  getTeamMemberGender,
   getTeamMemberMeta,
   getTeamMoves,
 } from "./team-member-model";
@@ -83,7 +88,13 @@ export const TeamMemberProfile = ({
     types.primaryType && isPokemonTypeSlug(types.primaryType.slug)
       ? types.primaryType.slug
       : null;
-  const facts = getTeamMemberFacts(member, mechanics, battleForm);
+  const facts = getTeamMemberFacts(member, mechanics, battleForm, {
+    canGigantamax:
+      battle?.forms.some(
+        (form) => form.mechanic === battleFormMechanics.dynamax,
+      ) ?? false,
+  });
+  const gender = getTeamMemberGender(member, mechanics);
   const moves = battleForm?.maxMoves
     ? getBattleMoves(battleForm.maxMoves)
     : getTeamMoves(member.moves);
@@ -131,8 +142,14 @@ export const TeamMemberProfile = ({
       ) : null}
 
       {title}
-      <p className="text-ink-2 mt-1 mb-3 font-semibold">
-        {getTeamMemberMeta(shown, mechanics)}
+      <p className="text-ink-2 mt-1 mb-3 flex flex-wrap items-center gap-x-1.5 font-semibold">
+        <span>{getTeamMemberMeta(shown)}</span>
+        {gender ? (
+          <>
+            <span aria-hidden>·</span>
+            <GenderIcon gender={gender} labelled />
+          </>
+        ) : null}
       </p>
       <PokemonTypeList
         primaryType={types.primaryType}
@@ -151,28 +168,50 @@ export const TeamMemberProfile = ({
       ) : null}
       {notice}
 
-      {facts.length ? (
-        <dl className="mt-5 grid gap-x-4.5 gap-y-3.5 pt-4.5 sm:grid-cols-2">
-          {facts.map((fact) => (
-            <div key={fact.label} className="min-w-0">
-              <dt className="text-ink-2 text-13 font-bold">{fact.label}</dt>
-              <dd
-                className={cn(
-                  "text-16 mt-0.5 wrap-break-word",
-                  fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
-                )}
-              >
-                {fact.value}
-              </dd>
-              {fact.detail ? (
-                <dd className="text-ink-2 text-13 font-semibold">
-                  {fact.detail}
+      {[
+        facts.filter((fact) => fact.section !== "met"),
+        facts.filter((fact) => fact.section === "met"),
+      ].map((group, index) =>
+        group.length ? (
+          <dl
+            key={index === 0 ? "details" : "met"}
+            className={cn(
+              "grid gap-x-4.5 gap-y-3.5 sm:grid-cols-2",
+              index === 0 ? "mt-5 pt-4.5" : "mt-3.5",
+            )}
+          >
+            {group.map((fact) => (
+              <div key={fact.label} className="min-w-0">
+                <dt className="text-ink-2 text-13 font-bold">{fact.label}</dt>
+                <dd
+                  className={cn(
+                    "text-16 mt-0.5 flex items-center gap-2 wrap-break-word",
+                    fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
+                  )}
+                >
+                  {fact.item ? (
+                    <ItemIcon kind={fact.item} name={fact.value} />
+                  ) : null}
+                  <span className="min-w-0">{fact.value}</span>
                 </dd>
-              ) : null}
-            </div>
-          ))}
-        </dl>
-      ) : null}
+                {fact.nature ? (
+                  <dd className="mt-0.5">
+                    <NatureEffect
+                      increased={fact.nature.increased}
+                      decreased={fact.nature.decreased}
+                    />
+                  </dd>
+                ) : null}
+                {fact.detail ? (
+                  <dd className="text-ink-2 text-13 font-semibold">
+                    {fact.detail}
+                  </dd>
+                ) : null}
+              </div>
+            ))}
+          </dl>
+        ) : null,
+      )}
 
       {moves.length ? (
         <TeamMemberMoves

@@ -3,47 +3,23 @@ import { SheetSection } from "@/shared/components/sheet-section";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import {
+  GenderIcon,
+  genderLabels,
+} from "@/modules/reference/features/pokemon/components/gender-icon";
 
 import {
   EditorLabel,
   type TeamMemberEditorStepProps,
 } from "./team-member-editor-fields";
 
-const genderOptions = [
-  {
-    icon: (
-      <AppIcon
-        icon={appIcons.product.genderMale}
-        size="md"
-        className="text-calm-ink"
-      />
-    ),
-    label: "Male",
-    value: "male",
-  },
-  {
-    icon: (
-      <AppIcon
-        icon={appIcons.product.genderFemale}
-        size="md"
-        className="text-female"
-      />
-    ),
-    label: "Female",
-    value: "female",
-  },
-  {
-    icon: <AppIcon icon={appIcons.product.genderless} size="md" />,
-    label: "Genderless",
-    value: "genderless",
-  },
-  {
-    icon: <AppIcon icon={appIcons.status.unknown} size="md" />,
-    label: "Not recorded",
-    value: "unknown",
-  },
-] as const;
+const genderOptions = (
+  ["male", "female", "genderless", "unknown"] as const
+).map((gender) => ({
+  icon: <GenderIcon gender={gender} />,
+  label: genderLabels[gender],
+  value: gender,
+}));
 
 /* Who: its species (fixed here), nickname, level and gender. */
 export const TeamMemberEditorWhoStep = ({

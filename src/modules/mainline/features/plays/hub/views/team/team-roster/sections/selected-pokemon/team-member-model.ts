@@ -13,15 +13,13 @@ import type {
   MemberBattleMove,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 
-import {
-  formatTeamMemberGender,
-  getTeamMemberIdentity,
-} from "../../utils/team-member-display";
+import { getTeamMemberIdentity } from "../../utils/team-member-display";
 
 export type TeamMove = {
-  /* Replaces the type line, such as "From Flamethrower" for a Z-Move. */
+  /* Physical, Special or Status, at the end of the row. */
+  category: string | null;
+  /* Takes the category's place, such as "From Flamethrower" for a Z-Move. */
   detail?: string;
-  isStatus: boolean;
   name: string;
   position: number;
   type: Pick<NonNullable<MainlinePlayTeamMove["type"]>, "name" | "slug"> | null;
@@ -31,7 +29,13 @@ export type TeamMemberFact = {
   detail: string | null;
   /* Nothing recorded: the value is a quiet placeholder. */
   empty?: true;
+  /* An item's picture goes before the value: a held item or a Poké Ball. */
+  item?: "ball" | "held";
   label: string;
+  /* A nature's stats, drawn under it as arrows. */
+  nature?: { decreased: string | null; increased: string | null };
+  /* Where and at what level you met it: a row of its own, as in the editor. */
+  section?: "met";
   value: string;
 };
 
@@ -45,33 +49,6 @@ const notRecorded = (
   value,
 });
 
-const teamStatLabels: Record<string, string> = {
-  attack: "Attack",
-  defense: "Defense",
-  special_attack: "Sp. Atk",
-  special_defense: "Sp. Def",
-  speed: "Speed",
-};
-
-export const getTeamNatureEffectSummary = (
-  member: MainlinePlayTeamMember,
-): string | null => {
-  if (!member.nature_name) {
-    return null;
-  }
-
-  if (!member.natureIncreasedStat || !member.natureDecreasedStat) {
-    return "No stat changes";
-  }
-
-  const increasedStat =
-    teamStatLabels[member.natureIncreasedStat] ?? member.natureIncreasedStat;
-  const decreasedStat =
-    teamStatLabels[member.natureDecreasedStat] ?? member.natureDecreasedStat;
-
-  return `+${increasedStat} · −${decreasedStat}`;
-};
-
 /*
  * Only a Pokémon still on the team or in reserve can be edited. One that
  * retired or was replaced is History's now: a link (the Collection's sheet)
@@ -81,14 +58,12 @@ export const canEditTeamMember = (member: MainlinePlayTeamMember) =>
   member.roster_state_slug === "active" ||
   member.roster_state_slug === "reserve";
 
-/* Under the name: who it is, its level, gender and where it sits (or that it left). */
-export const getTeamMemberMeta = (
-  member: MainlinePlayTeamMember,
-  mechanics: GameMechanicsProfile,
-): string => {
-  const gender = supportsGameMechanic(mechanics, gameMechanics.pokemonGender)
-    ? formatTeamMemberGender(member.gender)
-    : null;
+/*
+ * Under the name: who it is and its level, and that it sits in reserve or
+ * has left. Its gender follows as a symbol (`getTeamMemberGender`); its slot
+ * shows on the roster itself.
+ */
+export const getTeamMemberMeta = (member: MainlinePlayTeamMember): string => {
   const position =
     member.roster_state_slug === "reserve"
       ? "Reserve"
@@ -96,19 +71,28 @@ export const getTeamMemberMeta = (
         ? "Retired"
         : member.roster_state_slug === "replaced"
           ? "Replaced"
-          : member.slot
-            ? `Slot ${member.slot}`
-            : null;
+          : null;
 
   return [
     getTeamMemberIdentity(member),
     member.level ? `Lv. ${member.level}` : null,
-    gender,
     position,
   ]
     .filter(Boolean)
     .join(" · ");
 };
+
+/* Its recorded gender where the game has genders; null otherwise. */
+export const getTeamMemberGender = (
+  member: MainlinePlayTeamMember,
+  mechanics: GameMechanicsProfile,
+): "female" | "genderless" | "male" | null =>
+  supportsGameMechanic(mechanics, gameMechanics.pokemonGender) &&
+  (member.gender === "female" ||
+    member.gender === "genderless" ||
+    member.gender === "male")
+    ? member.gender
+    : null;
 
 const battleStatLabels: Record<BattleStatKey, string> = {
   attack: "Atk",
@@ -135,21 +119,24 @@ export const formatBattleStatChanges = (
 /* Moves a battle mechanic turns into others, each saying where it came from. */
 export const getBattleMoves = (moves: MemberBattleMove[]): TeamMove[] =>
   moves.map((move, index) => ({
+    category: null,
     detail: `From ${move.fromMoveName}`,
-    isStatus: false,
     name: move.move.name,
     position: index + 1,
     type: move.move.type,
   }));
 
 /*
- * Only what was recorded, and only what the game has. In a battle form the
- * ability is the form's own and its stat changes join the facts.
+ * Only what the game has, in the edit sheet's order: nature, ability, held
+ * item, Poké Ball, Tera Type and whether it can Gigantamax, then where and at
+ * what level you met it (`section: "met"`, a row of its own). In a battle form the ability is the form's
+ * own and its stat changes join the facts.
  */
 export const getTeamMemberFacts = (
   member: MainlinePlayTeamMember,
   mechanics: GameMechanicsProfile,
   battleForm: MemberBattleForm | null = null,
+  { canGigantamax = false }: { canGigantamax?: boolean } = {},
 ): TeamMemberFact[] => {
   const facts: TeamMemberFact[] = [];
 
@@ -158,8 +145,12 @@ export const getTeamMemberFacts = (
     facts.push(
       member.nature_name
         ? {
-            detail: getTeamNatureEffectSummary(member),
+            detail: null,
             label: "Nature",
+            nature: {
+              decreased: member.natureDecreasedStat,
+              increased: member.natureIncreasedStat,
+            },
             value: member.nature_name,
           }
         : notRecorded("Nature"),
@@ -189,10 +180,26 @@ export const getTeamMemberFacts = (
   if (supportsGameMechanic(mechanics, gameMechanics.heldItems)) {
     facts.push(
       member.held_item_name
-        ? { detail: null, label: "Held item", value: member.held_item_name }
-        : notRecorded("Held item", "None"),
+        ? {
+            detail: null,
+            item: "held",
+            label: "Held item",
+            value: member.held_item_name,
+          }
+        : { ...notRecorded("Held item", "None"), item: "held" },
     );
   }
+
+  facts.push(
+    member.ball_item_name
+      ? {
+          detail: null,
+          item: "ball",
+          label: "Poké Ball",
+          value: member.ball_item_name,
+        }
+      : { ...notRecorded("Poké Ball"), item: "ball" },
+  );
 
   if (supportsGameMechanic(mechanics, gameMechanics.terastal)) {
     facts.push(
@@ -206,6 +213,17 @@ export const getTeamMemberFacts = (
     );
   }
 
+  if (
+    supportsGameMechanic(mechanics, gameMechanics.dynamax) &&
+    (canGigantamax || member.has_gigantamax_factor === true)
+  ) {
+    facts.push({
+      detail: null,
+      label: "Can Gigantamax",
+      value: member.has_gigantamax_factor ? "Yes" : "No",
+    });
+  }
+
   const statChanges = battleForm
     ? formatBattleStatChanges(battleForm.statChanges)
     : null;
@@ -214,22 +232,24 @@ export const getTeamMemberFacts = (
     facts.push({ detail: null, label: "Stat changes", value: statChanges });
   }
 
-  const metDetail =
-    [member.met_level ? `Lv. ${member.met_level}` : null, member.ball_item_name]
-      .filter(Boolean)
-      .join(" · ") || null;
-
-  if (member.met_location_label) {
-    facts.push({
-      detail: metDetail,
-      label: "Met",
-      value: member.met_location_label,
-    });
-  } else if (metDetail) {
-    facts.push({ detail: null, label: "Met", value: metDetail });
-  } else {
-    facts.push(notRecorded("Met"));
-  }
+  facts.push(
+    member.met_location_label
+      ? {
+          detail: null,
+          label: "Met location",
+          section: "met",
+          value: member.met_location_label,
+        }
+      : { ...notRecorded("Met location"), section: "met" },
+    member.met_level
+      ? {
+          detail: null,
+          label: "Met level",
+          section: "met",
+          value: `Lv. ${member.met_level}`,
+        }
+      : { ...notRecorded("Met level"), section: "met" },
+  );
 
   return facts;
 };
@@ -240,7 +260,7 @@ export const getTeamMoves = (moves: MainlinePlayTeamMove[]): TeamMove[] => {
     .filter((move) => move.name)
     .toSorted((left, right) => left.slot - right.slot)
     .map((move) => ({
-      isStatus: move.attributes?.damage_class === "status",
+      category: move.attributes?.damage_class ?? null,
       name: move.name,
       position: move.slot,
       type: move.type,
