@@ -43,6 +43,11 @@ CREATE TRIGGER set_play_pokemon_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION private.set_updated_at ();
 
+CREATE TRIGGER enforce_play_pokemon_storable_form
+    BEFORE INSERT OR UPDATE OF form_id ON gameplay.mainline_play_pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_storable_pokemon_form ('form_id');
+
 CREATE INDEX play_pokemon_play_roster_state_idx ON gameplay.mainline_play_pokemon (play_id, roster_state_id);
 
 CREATE INDEX play_pokemon_roster_state_idx ON gameplay.mainline_play_pokemon (roster_state_id);

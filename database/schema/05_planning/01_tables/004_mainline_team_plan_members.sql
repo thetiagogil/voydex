@@ -28,6 +28,11 @@ CREATE TRIGGER set_team_plan_members_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION private.set_updated_at ();
 
+CREATE TRIGGER enforce_team_plan_members_storable_form
+    BEFORE INSERT OR UPDATE OF target_form_id ON planning.mainline_team_plan_members
+    FOR EACH ROW
+    EXECUTE FUNCTION private.enforce_storable_pokemon_form ('target_form_id');
+
 CREATE INDEX team_plan_members_target_identity_idx ON planning.mainline_team_plan_members (target_species_id, target_form_id);
 
 CREATE INDEX team_plan_members_plan_idx ON planning.mainline_team_plan_members (team_plan_id);

@@ -1,3 +1,5 @@
+import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
+import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
@@ -128,55 +130,65 @@ export const readPlannerPoolRows = async (
     ...extraSpeciesIds,
   ]);
 
-  const [species, forms, availability, methods, evolutionMethods, natures] =
-    await Promise.all([
-      loadChunkedReferenceRows<PokemonSpecies>(
-        speciesIds,
-        (ids, from, to) =>
-          reference
-            .from("pokemon_species")
-            .select("*")
-            .in("id", ids)
-            .order("id")
-            .range(from, to),
-        "Unable to load Pokémon for the Team Planner.",
-      ),
-      loadChunkedReferenceRows<PokemonForm>(
-        speciesIds,
-        (ids, from, to) =>
-          reference
-            .from("pokemon_forms")
-            .select("*")
-            .in("species_id", ids)
-            .order("species_id")
-            .order("form_order")
-            .range(from, to),
-        "Unable to load Pokémon forms for the Team Planner.",
-      ),
-      loadPagedReferenceRows<PlannerAvailabilityRow>(
-        (from, to) =>
-          supabase
-            .schema("views")
-            .from("reference_resolved_pokemon_availability")
-            .select(
-              "availability_method_id, form_id, game_id, source_version_group_id, species_id, target_version_group_id",
-            )
-            .in("target_version_group_id", familyVersionGroupIds)
-            .order("id")
-            .range(from, to),
-        "Unable to load where Pokémon can be found.",
-      ),
-      reference.from("availability_methods").select("id, slug"),
-      reference.from("evolution_methods").select("id, slug"),
-      reference
-        .from("natures")
-        .select("id, introduced_generation_id, name")
-        .order("sort_order"),
-    ]);
+  const [
+    species,
+    allForms,
+    availability,
+    methods,
+    evolutionMethods,
+    natures,
+    battleFormIds,
+  ] = await Promise.all([
+    loadChunkedReferenceRows<PokemonSpecies>(
+      speciesIds,
+      (ids, from, to) =>
+        reference
+          .from("pokemon_species")
+          .select("*")
+          .in("id", ids)
+          .order("id")
+          .range(from, to),
+      "Unable to load Pokémon for the Team Planner.",
+    ),
+    loadChunkedReferenceRows<PokemonForm>(
+      speciesIds,
+      (ids, from, to) =>
+        reference
+          .from("pokemon_forms")
+          .select("*")
+          .in("species_id", ids)
+          .order("species_id")
+          .order("form_order")
+          .range(from, to),
+      "Unable to load Pokémon forms for the Team Planner.",
+    ),
+    loadPagedReferenceRows<PlannerAvailabilityRow>(
+      (from, to) =>
+        supabase
+          .schema("views")
+          .from("reference_resolved_pokemon_availability")
+          .select(
+            "availability_method_id, form_id, game_id, source_version_group_id, species_id, target_version_group_id",
+          )
+          .in("target_version_group_id", familyVersionGroupIds)
+          .order("id")
+          .range(from, to),
+      "Unable to load where Pokémon can be found.",
+    ),
+    reference.from("availability_methods").select("id, slug"),
+    reference.from("evolution_methods").select("id, slug"),
+    reference
+      .from("natures")
+      .select("id, introduced_generation_id, name")
+      .order("sort_order"),
+    readBattleFormIds(supabase),
+  ]);
 
   if (methods.error || evolutionMethods.error || natures.error) {
     throw new Error("Unable to load the Team Planner's reference data.");
   }
+
+  const forms = withoutBattleForms(allForms, battleFormIds);
 
   const formIds = forms.map((form) => form.id);
   const [attributes, edges] = await Promise.all([

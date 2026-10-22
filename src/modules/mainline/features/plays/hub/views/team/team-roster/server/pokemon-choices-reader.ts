@@ -1,3 +1,5 @@
+import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
+import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -80,7 +82,7 @@ export const readMainlinePlayPokemonChoices = async (
       entries.flatMap((entry) => (entry.species_id ? [entry.species_id] : [])),
     ),
   ];
-  const [forms, typesResult] = await Promise.all([
+  const [allForms, typesResult, battleFormIds] = await Promise.all([
     loadChunkedReferenceRows<PokemonChoiceSourceRows["forms"][number]>(
       speciesIds,
       (ids, from, to) =>
@@ -94,7 +96,9 @@ export const readMainlinePlayPokemonChoices = async (
       "Unable to load Pokémon forms.",
     ),
     supabase.schema("reference").from("types").select("id, name, slug"),
+    readBattleFormIds(supabase),
   ]);
+  const forms = withoutBattleForms(allForms, battleFormIds);
 
   if (typesResult.error) {
     throw new Error("Unable to load Pokémon types.");

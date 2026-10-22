@@ -554,3 +554,98 @@ export function assertTypeMatchupRows(context, tableRows) {
     }
   }
 }
+
+/*
+ * Z-Move and G-Max Move sources: every Z-Move but the cap Pikachu one has a
+ * crystal, each type crystal powers one type, and every Gigantamax form has
+ * exactly one G-Max Move.
+ */
+export function assertBattleMoveSourceRows(context, tableRows) {
+  const movesById = mapRowsByColumn(
+    tableRows.get("reference.moves") ?? [],
+    "id",
+  );
+  const itemsById = mapRowsByColumn(
+    tableRows.get("reference.items") ?? [],
+    "id",
+  );
+  const formsById = mapRowsByColumn(
+    tableRows.get("reference.pokemon_forms") ?? [],
+    "id",
+  );
+  const zRows = tableRows.get("reference.z_move_sources") ?? [];
+  const gMaxRows = tableRows.get("reference.g_max_move_sources") ?? [];
+  const zMoveIdsWithSource = new Set();
+  const typeIdsWithCrystal = new Set();
+  for (const { row, filePath } of zRows) {
+    const zMove = movesById.get(row.z_move_id);
+    const item = itemsById.get(row.item_id);
+    if (zMove?.move_kind_id !== 2) {
+      context.errors.push(
+        `${relative(filePath)}: z_move_id ${row.z_move_id} must be a Z-Move.`,
+      );
+    }
+    if (!item?.slug.endsWith("-z")) {
+      context.errors.push(
+        `${relative(filePath)}: item_id ${row.item_id} must be a Z-Crystal.`,
+      );
+    }
+    if (row.base_move_id !== null) {
+      if (movesById.get(row.base_move_id)?.move_kind_id !== 1) {
+        context.errors.push(
+          `${relative(filePath)}: base_move_id ${row.base_move_id} must be a regular move.`,
+        );
+      }
+      if (row.form_id !== null && !formsById.has(row.form_id)) {
+        context.errors.push(
+          `${relative(filePath)}: form_id ${row.form_id} is not seeded.`,
+        );
+      }
+    } else if (typeIdsWithCrystal.has(row.base_type_id)) {
+      context.errors.push(
+        `${relative(filePath)}: type ${row.base_type_id} has more than one type crystal.`,
+      );
+    } else {
+      typeIdsWithCrystal.add(row.base_type_id);
+    }
+    zMoveIdsWithSource.add(row.z_move_id);
+  }
+  if (typeIdsWithCrystal.size !== 18) {
+    context.errors.push(
+      `reference.z_move_sources: expected one type crystal for each of the 18 types, got ${typeIdsWithCrystal.size}.`,
+    );
+  }
+  for (const move of movesById.values()) {
+    if (
+      move.move_kind_id === 2 &&
+      move.slug !== "10-000-000-volt-thunderbolt" &&
+      !zMoveIdsWithSource.has(move.id)
+    ) {
+      context.errors.push(
+        `reference.z_move_sources: Z-Move ${move.slug} has no crystal.`,
+      );
+    }
+  }
+  const gMaxFormIds = new Set();
+  for (const { row, filePath } of gMaxRows) {
+    const form = formsById.get(row.form_id);
+    if (!form?.slug.startsWith("gigantamax-")) {
+      context.errors.push(
+        `${relative(filePath)}: form_id ${row.form_id} must be a Gigantamax form.`,
+      );
+    }
+    if (movesById.get(row.g_max_move_id)?.move_kind_id !== 4) {
+      context.errors.push(
+        `${relative(filePath)}: g_max_move_id ${row.g_max_move_id} must be a G-Max Move.`,
+      );
+    }
+    gMaxFormIds.add(row.form_id);
+  }
+  for (const form of formsById.values()) {
+    if (form.slug.startsWith("gigantamax-") && !gMaxFormIds.has(form.id)) {
+      context.errors.push(
+        `reference.g_max_move_sources: Gigantamax form ${form.slug} has no G-Max Move.`,
+      );
+    }
+  }
+}

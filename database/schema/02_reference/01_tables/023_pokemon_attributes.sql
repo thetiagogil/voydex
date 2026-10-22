@@ -28,10 +28,12 @@ CREATE TABLE reference.pokemon_attributes (
     CONSTRAINT pokemon_attributes_egg_group_presence_check CHECK (secondary_egg_group_id IS NULL OR primary_egg_group_id IS NOT NULL),
     CONSTRAINT pokemon_attributes_egg_group_distinct_check CHECK (secondary_egg_group_id IS NULL OR secondary_egg_group_id <> primary_egg_group_id),
     CONSTRAINT pokemon_attributes_egg_group_generation_check CHECK ((generation_start_id = 1 AND primary_egg_group_id IS NULL AND secondary_egg_group_id IS NULL) OR (generation_start_id >= 2 AND primary_egg_group_id IS NOT NULL)),
-    CONSTRAINT pokemon_attributes_ability_generation_check CHECK ((generation_start_id < 3 AND primary_ability_id IS NULL AND secondary_ability_id IS NULL AND hidden_ability_id IS NULL) OR (generation_start_id >= 3 AND primary_ability_id IS NOT NULL AND (generation_start_id >= 5 OR hidden_ability_id IS NULL))),
+    CONSTRAINT pokemon_attributes_ability_generation_check CHECK ((generation_start_id < 3 AND primary_ability_id IS NULL AND secondary_ability_id IS NULL AND hidden_ability_id IS NULL) OR (generation_start_id >= 3 AND primary_ability_id IS NOT NULL AND (generation_start_id >= 5 OR hidden_ability_id IS NULL)) OR (generation_start_id >= 9 AND primary_ability_id IS NULL AND secondary_ability_id IS NULL AND hidden_ability_id IS NULL)),
     CONSTRAINT pokemon_attributes_base_stats_check CHECK (base_hp BETWEEN 1 AND 255 AND base_attack BETWEEN 1 AND 255 AND base_defense BETWEEN 1 AND 255 AND base_special_attack BETWEEN 1 AND 255 AND base_special_defense BETWEEN 1 AND 255 AND base_speed BETWEEN 1 AND 255)
 );
 
 COMMENT ON TABLE reference.pokemon_attributes IS 'Pokémon form types, abilities, egg groups, and base stats by generation change point.';
 
 COMMENT ON COLUMN reference.pokemon_attributes.generation_start_id IS 'First generation where this mechanics row applies.';
+
+COMMENT ON COLUMN reference.pokemon_attributes.primary_ability_id IS 'Required from Generation III. NULL from Generation IX only for a form that has no ability in its games, such as a Mega introduced in Legends: Z-A, which has no abilities.';

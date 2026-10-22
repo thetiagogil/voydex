@@ -8,6 +8,8 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Blueberry League and Pecharunt: cross-checked with Bulbapedia; Kieran's slot order is Bulbapedia's.
 -- Terapagos: cross-checked with Prima Games.
+-- Battle forms: Tera Shift puts Terapagos in its Terastal Form in every battle; the
+-- final battle is against its Stellar Form.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -90,8 +92,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 5, 727, 72700, 81),
   -- Kieran 6: Hydrapple Lv. 82
   (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 6, 1019, 101900, 82),
-  -- Terapagos 1: Terapagos Lv. 85
-  (250008, 25006, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102400, 85),
+  -- Terapagos 1: Terapagos (Stellar Form) Lv. 85
+  (250008, 25006, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102402, 85),
   -- Pecharunt 1: Pecharunt Lv. 88
   (250009, 25007, 25, NULL, NULL, NULL, NULL, NULL, 1, 1025, 102500, 88),
   -- Carmine, Arrive at Blueberry Academy 1: Mightyena Lv. 74
@@ -102,8 +104,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 3, 560, 56000, 74),
   -- Carmine, Arrive at Blueberry Academy 4: Sinistcha Lv. 75
   (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 4, 1013, 101300, 75),
-  -- Kieran, Terapagos Battle 1: Terapagos Lv. 85
-  (250008, 25009, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102400, 85),
+  -- Kieran, Terapagos Battle 1: Terapagos (Terastal Form) Lv. 85
+  (250008, 25009, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102401, 85),
   -- Arven & Penny, Mochi Mayhem 1: Greedent Lv. 82
   (250009, 25010, 25, NULL, NULL, NULL, NULL, NULL, 1, 820, 82000, 82),
   -- Arven & Penny, Mochi Mayhem 2: Cloyster Lv. 82

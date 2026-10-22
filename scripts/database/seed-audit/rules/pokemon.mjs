@@ -7,12 +7,22 @@ import {
 } from "../core.mjs";
 import {
   excludedNonDefaultFormSlugs,
+  expectedAbilitylessFormSlugs,
   expectedBabyPokemonSlugs,
+  expectedBattleFormSlugs,
   expectedLegendaryPokemonSlugs,
   expectedMythicalPokemonSlugs,
   expectedNonDefaultFormSlugs,
   expectedPokemonGenerationRanges,
 } from "../expectations.mjs";
+
+/* Every seeded non-default form: the curated persistent forms, then the battle forms. */
+const expectedAllNonDefaultFormSlugs = [
+  ...expectedNonDefaultFormSlugs,
+  ...expectedBattleFormSlugs,
+];
+const expectedBattleFormSlugSet = new Set(expectedBattleFormSlugs);
+const expectedAbilitylessFormSlugSet = new Set(expectedAbilitylessFormSlugs);
 
 export function assertPokemonIdentityRows(context, tableRows) {
   const familyRows = tableRows.get("reference.evolution_families") ?? [];
@@ -78,9 +88,9 @@ export function assertPokemonIdentityRows(context, tableRows) {
     (a, b) =>
       a.species_id - b.species_id || a.form_order - b.form_order || a.id - b.id,
     {
-      count: 1185,
+      count: 1339,
       sha256:
-        "5a1a288a2bab91f689b7380dc57dbfe3b900dbc38599a99d3a0313d954e0ef43",
+        "06eda2f6a34f909f4987a33faa6842e0e99f0f0b70ba8d8780ac4debaeeeca9d",
     },
   );
   if (familyRows.length !== 541) {
@@ -97,15 +107,15 @@ export function assertPokemonIdentityRows(context, tableRows) {
   const nonDefaultFormRows = formRows.filter(
     ({ row }) => row.is_default === false,
   );
-  const expectedNonDefaultFormSlugSet = new Set(expectedNonDefaultFormSlugs);
+  const expectedNonDefaultFormSlugSet = new Set(expectedAllNonDefaultFormSlugs);
   if (defaultFormRows.length !== 1025) {
     context.errors.push(
       `reference.pokemon_forms: expected 1025 default forms, got ${defaultFormRows.length}.`,
     );
   }
-  if (nonDefaultFormRows.length !== expectedNonDefaultFormSlugs.length) {
+  if (nonDefaultFormRows.length !== expectedAllNonDefaultFormSlugs.length) {
     context.errors.push(
-      `reference.pokemon_forms: expected ${expectedNonDefaultFormSlugs.length} curated non-default forms, got ${nonDefaultFormRows.length}.`,
+      `reference.pokemon_forms: expected ${expectedAllNonDefaultFormSlugs.length} curated non-default forms, got ${nonDefaultFormRows.length}.`,
     );
   }
   for (let id = 1; id <= 1025; id += 1) {
@@ -256,7 +266,7 @@ export function assertPokemonIdentityRows(context, tableRows) {
     "species_id/form_order",
     (row) => `${row.species_id}/${row.form_order}`,
   );
-  for (const expectedSlug of expectedNonDefaultFormSlugs) {
+  for (const expectedSlug of expectedAllNonDefaultFormSlugs) {
     if (!actualNonDefaultFormSlugs.includes(expectedSlug)) {
       context.errors.push(
         `reference.pokemon_forms: missing expected curated non-default form ${expectedSlug}.`,
@@ -445,14 +455,14 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     ],
     (a, b) => a.form_id - b.form_id,
     {
-      count: expectedNonDefaultFormSlugs.length,
+      count: expectedAllNonDefaultFormSlugs.length,
       sha256:
-        "caf56fef5c57fabb536611a9e4d22ad810ffa51e7d7613d7e2fbabb5d2a45bb6",
+        "27290848457c8f90ccab4fc29798a17362a9c9cfc372f6a222af254afeb983b6",
     },
   );
-  if (ruleRows.length !== expectedNonDefaultFormSlugs.length) {
+  if (ruleRows.length !== expectedAllNonDefaultFormSlugs.length) {
     context.errors.push(
-      `reference.pokemon_form_rules: expected ${expectedNonDefaultFormSlugs.length} form-rule rows, got ${ruleRows.length}.`,
+      `reference.pokemon_form_rules: expected ${expectedAllNonDefaultFormSlugs.length} form-rule rows, got ${ruleRows.length}.`,
     );
   }
   for (const form of nonDefaultForms) {
@@ -475,12 +485,28 @@ export function assertPokemonFormRuleRows(context, tableRows) {
         `${relative(filePath)}: default form ${form.slug} should use implicit default behavior, not a seeded form rule.`,
       );
     }
-    if (row.is_team_selectable !== true) {
+    const isBattleForm = expectedBattleFormSlugSet.has(form.slug);
+    if (isBattleForm) {
+      if (
+        row.form_kind !== "battle" ||
+        row.is_team_selectable !== false ||
+        row.is_battle_only !== true
+      ) {
+        context.errors.push(
+          `${relative(filePath)}: battle form ${form.slug} must be form_kind=battle, battle-only and not team selectable.`,
+        );
+      }
+      if (row.condition_summary === null) {
+        context.errors.push(
+          `${relative(filePath)}: battle form ${form.slug} must say how it is reached in condition_summary.`,
+        );
+      }
+    } else if (row.is_team_selectable !== true) {
       context.errors.push(
         `${relative(filePath)}: curated form ${form.slug} must be team selectable.`,
       );
     }
-    if (row.is_battle_only !== false) {
+    if (!isBattleForm && row.is_battle_only !== false) {
       context.errors.push(
         `${relative(filePath)}: curated form ${form.slug} must not be battle-only.`,
       );
@@ -491,11 +517,12 @@ export function assertPokemonFormRuleRows(context, tableRows) {
       );
     }
     const shouldBeRegional =
-      form.slug.startsWith("alolan-") ||
-      form.slug.startsWith("galarian-") ||
-      form.slug.startsWith("hisuian-") ||
-      form.slug.startsWith("paldea-") ||
-      form.slug === "basculin-white-striped";
+      !isBattleForm &&
+      (form.slug.startsWith("alolan-") ||
+        form.slug.startsWith("galarian-") ||
+        form.slug.startsWith("hisuian-") ||
+        form.slug.startsWith("paldea-") ||
+        form.slug === "basculin-white-striped");
     if (row.is_regional !== shouldBeRegional) {
       context.errors.push(
         `${relative(filePath)}: form ${form.slug} expected is_regional=${shouldBeRegional}.`,
@@ -566,14 +593,14 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
       a.item_id - b.item_id ||
       a.generation_start_id - b.generation_start_id,
     {
-      count: 62,
+      count: 161,
       sha256:
-        "c356424acd193dbb355ed2550c28a481a0aa87a316690ebbbd2e86ee690dbe0c",
+        "2a5b1ea77572180ebbcc5e9b3f2d7bd76b70a84df182ceb3c5c8a8021574ea0c",
     },
   );
-  if (requirementRows.length !== 62) {
+  if (requirementRows.length !== 161) {
     context.errors.push(
-      `reference.pokemon_form_item_requirements: expected 62 item requirement rows, got ${requirementRows.length}.`,
+      `reference.pokemon_form_item_requirements: expected 161 item requirement rows, got ${requirementRows.length}.`,
     );
   }
   function requirementKey(row) {
@@ -741,6 +768,115 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
       kind: "required_held_item",
       typeEffectScope: "signature_move_type",
       typeSlug,
+    });
+  }
+  /* Each battle form's Mega Stone, orb, crystal or relic, held as it enters battle. */
+  for (const [formSlug, itemSlug, generationStart] of [
+    ["mega-venusaur", "venusaurite", 6],
+    ["mega-charizard-x", "charizardite-x", 6],
+    ["mega-charizard-y", "charizardite-y", 6],
+    ["mega-blastoise", "blastoisinite", 6],
+    ["mega-beedrill", "beedrillite", 6],
+    ["mega-pidgeot", "pidgeotite", 6],
+    ["mega-alakazam", "alakazite", 6],
+    ["mega-slowbro", "slowbronite", 6],
+    ["mega-gengar", "gengarite", 6],
+    ["mega-kangaskhan", "kangaskhanite", 6],
+    ["mega-pinsir", "pinsirite", 6],
+    ["mega-gyarados", "gyaradosite", 6],
+    ["mega-aerodactyl", "aerodactylite", 6],
+    ["mega-mewtwo-x", "mewtwonite-x", 6],
+    ["mega-mewtwo-y", "mewtwonite-y", 6],
+    ["mega-ampharos", "ampharosite", 6],
+    ["mega-steelix", "steelixite", 6],
+    ["mega-scizor", "scizorite", 6],
+    ["mega-heracross", "heracronite", 6],
+    ["mega-houndoom", "houndoominite", 6],
+    ["mega-tyranitar", "tyranitarite", 6],
+    ["mega-sceptile", "sceptilite", 6],
+    ["mega-blaziken", "blazikenite", 6],
+    ["mega-swampert", "swampertite", 6],
+    ["mega-gardevoir", "gardevoirite", 6],
+    ["mega-sableye", "sablenite", 6],
+    ["mega-mawile", "mawilite", 6],
+    ["mega-aggron", "aggronite", 6],
+    ["mega-medicham", "medichamite", 6],
+    ["mega-manectric", "manectite", 6],
+    ["mega-sharpedo", "sharpedonite", 6],
+    ["mega-camerupt", "cameruptite", 6],
+    ["mega-altaria", "altarianite", 6],
+    ["mega-banette", "banettite", 6],
+    ["mega-absol", "absolite", 6],
+    ["mega-glalie", "glalitite", 6],
+    ["mega-salamence", "salamencite", 6],
+    ["mega-metagross", "metagrossite", 6],
+    ["mega-latias", "latiasite", 6],
+    ["mega-latios", "latiosite", 6],
+    ["mega-lopunny", "lopunnite", 6],
+    ["mega-garchomp", "garchompite", 6],
+    ["mega-lucario", "lucarionite", 6],
+    ["mega-abomasnow", "abomasite", 6],
+    ["mega-gallade", "galladite", 6],
+    ["mega-audino", "audinite", 6],
+    ["mega-diancie", "diancite", 6],
+    ["mega-raichu-x", "raichunite-x", 9],
+    ["mega-raichu-y", "raichunite-y", 9],
+    ["mega-clefable", "clefablite", 9],
+    ["mega-victreebel", "victreebelite", 9],
+    ["mega-starmie", "starminite", 9],
+    ["mega-dragonite", "dragoninite", 9],
+    ["mega-meganium", "meganiumite", 9],
+    ["mega-feraligatr", "feraligite", 9],
+    ["mega-skarmory", "skarmorite", 9],
+    ["mega-chimecho", "chimechite", 9],
+    ["mega-absol-z", "absolite-z", 9],
+    ["mega-staraptor", "staraptite", 9],
+    ["mega-garchomp-z", "garchompite-z", 9],
+    ["mega-lucario-z", "lucarionite-z", 9],
+    ["mega-froslass", "froslassite", 9],
+    ["mega-heatran", "heatranite", 9],
+    ["mega-darkrai", "darkranite", 9],
+    ["mega-emboar", "emboarite", 9],
+    ["mega-excadrill", "excadrite", 9],
+    ["mega-scolipede", "scolipite", 9],
+    ["mega-scrafty", "scraftinite", 9],
+    ["mega-eelektross", "eelektrossite", 9],
+    ["mega-chandelure", "chandelurite", 9],
+    ["mega-golurk", "golurkite", 9],
+    ["mega-chesnaught", "chesnaughtite", 9],
+    ["mega-delphox", "delphoxite", 9],
+    ["mega-greninja", "greninjite", 9],
+    ["mega-pyroar", "pyroarite", 9],
+    ["mega-floette", "floettite", 9],
+    ["mega-meowstic", "meowsticite", 9],
+    ["mega-malamar", "malamarite", 9],
+    ["mega-barbaracle", "barbaracite", 9],
+    ["mega-dragalge", "dragalgite", 9],
+    ["mega-hawlucha", "hawluchanite", 9],
+    ["mega-zygarde", "zygardite", 9],
+    ["mega-crabominable", "crabominite", 9],
+    ["mega-golisopod", "golisopite", 9],
+    ["mega-drampa", "drampanite", 9],
+    ["mega-magearna", "magearnite", 9],
+    ["mega-zeraora", "zeraorite", 9],
+    ["mega-falinks", "falinksite", 9],
+    ["mega-scovillain", "scovillainite", 9],
+    ["mega-glimmora", "glimmoranite", 9],
+    ["mega-tatsugiri", "tatsugirinite", 9],
+    ["mega-tatsugiri-droopy", "tatsugirinite", 9],
+    ["mega-tatsugiri-stretchy", "tatsugirinite", 9],
+    ["mega-baxcalibur", "baxcalibrite", 9],
+    ["primal-kyogre", "blue-orb", 6],
+    ["primal-groudon", "red-orb", 6],
+    ["ultra-necrozma", "ultranecrozium-z", 7],
+    ["zacian-crowned", "rusted-sword", 8],
+    ["zamazenta-crowned", "rusted-shield", 8],
+  ]) {
+    expectRequirement({
+      formSlug,
+      itemSlug,
+      generationStart,
+      kind: "required_held_item",
     });
   }
   for (const { row, filePath } of requirementRows) {
@@ -981,14 +1117,14 @@ export function assertPokemonAttributeRows(context, tableRows) {
       a.form_id - b.form_id ||
       a.generation_start_id - b.generation_start_id,
     {
-      count: 2259,
+      count: 2417,
       sha256:
-        "a13c1ac144cc81a87a635dd3088321830e2c63d8f811d6157f1618fe70a80df7",
+        "1fd5cede18ed32d006b3e44246aa064e742882f96176a8ccf0f4783d13b6c75e",
     },
   );
-  if (rows.length !== 2259) {
+  if (rows.length !== 2417) {
     context.errors.push(
-      `reference.pokemon_attributes: expected 2259 curated attribute rows, got ${rows.length}.`,
+      `reference.pokemon_attributes: expected 2417 curated attribute rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(
@@ -1113,7 +1249,14 @@ export function assertPokemonAttributeRows(context, tableRows) {
         `${relative(filePath)}: Generation ${row.generation_start_id} attribute rows must not set abilities.`,
       );
     }
-    if (row.generation_start_id >= 3 && row.primary_ability_id === null) {
+    if (
+      row.generation_start_id >= 3 &&
+      row.primary_ability_id === null &&
+      !(
+        row.generation_start_id >= 9 &&
+        expectedAbilitylessFormSlugSet.has(formsById.get(row.form_id)?.slug)
+      )
+    ) {
       context.errors.push(
         `${relative(filePath)}: Generation ${row.generation_start_id} attribute rows must set a primary ability.`,
       );
@@ -1329,6 +1472,52 @@ export function assertPokemonAttributeRows(context, tableRows) {
       }
     }
   }
+  expectAttribute({
+    formSlug: "mega-charizard-x",
+    generationStart: 6,
+    primaryTypeSlug: "fire",
+    secondaryTypeSlug: "dragon",
+    primaryAbilitySlug: "tough-claws",
+    stats: [78, 130, 111, 130, 85, 100],
+  });
+  expectAttribute({
+    formSlug: "mega-alakazam",
+    generationStart: 7,
+    primaryTypeSlug: "psychic",
+    primaryAbilitySlug: "trace",
+    stats: [55, 50, 65, 175, 105, 150],
+  });
+  expectAttribute({
+    formSlug: "primal-groudon",
+    generationStart: 6,
+    primaryTypeSlug: "ground",
+    secondaryTypeSlug: "fire",
+    primaryAbilitySlug: "desolate-land",
+    stats: [100, 180, 160, 150, 90, 90],
+  });
+  expectAttribute({
+    formSlug: "mega-starmie",
+    generationStart: 9,
+    primaryTypeSlug: "water",
+    secondaryTypeSlug: "psychic",
+    stats: [60, 140, 105, 130, 105, 120],
+  });
+  expectAttribute({
+    formSlug: "gigantamax-urshifu-rapid-strike",
+    generationStart: 8,
+    primaryTypeSlug: "fighting",
+    secondaryTypeSlug: "water",
+    primaryAbilitySlug: "unseen-fist",
+    stats: [100, 130, 100, 63, 60, 97],
+  });
+  expectAttribute({
+    formSlug: "zacian-crowned",
+    generationStart: 9,
+    primaryTypeSlug: "fairy",
+    secondaryTypeSlug: "steel",
+    primaryAbilitySlug: "intrepid-sword",
+    stats: [92, 150, 115, 80, 115, 148],
+  });
   expectAttribute({
     formSlug: "bulbasaur",
     generationStart: 1,

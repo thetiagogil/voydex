@@ -7,6 +7,8 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- AZ and Lysandre's first Team Flare Secret HQ team: Bulbapedia, cross-checked with Pokébip and Serebii.
 -- Lysandre's first HQ Mienshao: Bulbapedia and Pokébip say Lv. 47, Serebii and GamerGuides say Lv. 48; Lv. 47 is used.
+-- Battle forms: Diantha's Gardevoir and Lysandre's Gyarados in his last battle
+-- hold their Mega Stone, so they are stored as their Mega (Bulbapedia trainer pages).
 -- Scope: Pokémon X / Y Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -115,8 +117,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (130017, 13013, 13, NULL, NULL, NULL, NULL, NULL, 4, 711, 71100, 65),
   -- Diantha 5: Goodra Lv. 66
   (130017, 13013, 13, NULL, NULL, NULL, NULL, NULL, 5, 706, 70600, 66),
-  -- Diantha 6: Gardevoir Lv. 68
-  (130017, 13013, 13, NULL, NULL, NULL, NULL, NULL, 6, 282, 28200, 68),
+  -- Diantha 6: Mega Gardevoir Lv. 68
+  (130017, 13013, 13, NULL, NULL, NULL, NULL, NULL, 6, 282, 28201, 68),
   -- AZ 1: Torkoal Lv. 60
   (130019, 13014, 13, NULL, NULL, NULL, NULL, NULL, 1, 324, 32400, 60),
   -- AZ 2: Golurk Lv. 60
@@ -315,8 +317,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (130022, 13019, 13, NULL, NULL, NULL, NULL, NULL, 2, 430, 43000, 49),
   -- Lysandre, Team Flare Secret HQ 3: Pyroar Lv. 51
   (130022, 13019, 13, NULL, NULL, NULL, NULL, NULL, 3, 668, 66800, 51),
-  -- Lysandre, Team Flare Secret HQ 4: Gyarados Lv. 53
-  (130022, 13019, 13, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 53),
+  -- Lysandre, Team Flare Secret HQ 4: Mega Gyarados Lv. 53
+  (130022, 13019, 13, NULL, NULL, NULL, NULL, NULL, 4, 130, 13001, 53),
   -- Shauna (chose Chespin), Iceberg Badge 1: Delcatty Lv. 49
   (130012, 13015, 13, NULL, 130001, 'chespin', NULL, NULL, 1, 301, 30100, 49),
   -- Shauna (chose Chespin), Iceberg Badge 2: Goodra Lv. 49
