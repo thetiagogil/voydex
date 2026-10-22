@@ -17,6 +17,7 @@ import { PokemonTypeList } from "@/modules/reference/features/pokemon/components
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { Alert, AlertDescription } from "@/shared/components/ui/alert";
@@ -176,10 +177,18 @@ export const TeamMemberProfile = ({
           >
             {group.map((fact) => (
               <div key={fact.label} className="min-w-0">
-                <dt className="text-ink-2 text-13 font-bold">{fact.label}</dt>
+                <dt className="text-ink-2 text-13 flex h-5 items-center gap-1.5 font-bold">
+                  {fact.label}
+                  {fact.detail ? (
+                    <ExplanatoryTip
+                      content={fact.detail}
+                      triggerLabel={`More about ${fact.value}`}
+                    />
+                  ) : null}
+                </dt>
                 <dd
                   className={cn(
-                    "text-16 mt-0.5 flex items-center gap-2 wrap-break-word",
+                    "text-16 mt-0.5 flex min-h-6 items-center gap-2 wrap-break-word",
                     fact.empty ? "text-ink-3 font-semibold" : "font-extrabold",
                   )}
                 >
@@ -197,8 +206,9 @@ export const TeamMemberProfile = ({
                     />
                   </dd>
                 ) : null}
+                {/* One line, so a long effect never moves the rows below; the "i" has it all. */}
                 {fact.detail ? (
-                  <dd className="text-ink-2 text-13 font-semibold">
+                  <dd className="text-ink-2 text-13 h-5 truncate leading-5 font-semibold">
                     {fact.detail}
                   </dd>
                 ) : null}
