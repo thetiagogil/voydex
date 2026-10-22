@@ -179,12 +179,6 @@ export const TeamMemberProfile = ({
               <div key={fact.label} className="min-w-0">
                 <dt className="text-ink-2 text-13 flex h-5 items-center gap-1.5 font-bold">
                   {fact.label}
-                  {fact.detail ? (
-                    <ExplanatoryTip
-                      content={fact.detail}
-                      triggerLabel={`More about ${fact.value}`}
-                    />
-                  ) : null}
                 </dt>
                 <dd
                   className={cn(
@@ -196,6 +190,13 @@ export const TeamMemberProfile = ({
                     <ItemIcon kind={fact.item} name={fact.value} />
                   ) : null}
                   <span className="min-w-0">{fact.value}</span>
+                  {fact.detail ? (
+                    <ExplanatoryTip
+                      content={fact.detail}
+                      triggerLabel={`About ${fact.value}`}
+                      triggerVariant="raised"
+                    />
+                  ) : null}
                 </dd>
                 {fact.nature ? (
                   <dd className="mt-0.5">

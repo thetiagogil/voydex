@@ -20,6 +20,12 @@ type ExplanatoryTipProps = Pick<
   children?: ReactNode;
   content: ReactNode;
   contentClassName?: string;
+  /*
+   * Inside a list's row (a select's option): the dot opens on hover or its
+   * own press but never takes focus or picks the row. Give the row the same
+   * words for a screen reader, as the dot is hidden from it.
+   */
+  inert?: boolean;
   nativeButton?: ComponentProps<typeof PopoverTrigger>["nativeButton"];
   pinOnPress?: boolean;
   /* Without a trigger, the tip opens from v3's small "i" dot. */
@@ -76,6 +82,7 @@ export const ExplanatoryTip = ({
   children,
   content,
   contentClassName,
+  inert = false,
   nativeButton,
   pinOnPress = true,
   side = "top",
@@ -123,9 +130,27 @@ export const ExplanatoryTip = ({
         openOnHover
         delay={hoverDelay}
         closeDelay={hoverCloseDelay}
-        nativeButton={nativeButton}
+        nativeButton={inert ? false : nativeButton}
+        /* In a list's row it is no control of its own: never a tab stop. */
+        {...(inert ? { role: "presentation", tabIndex: -1 } : {})}
         render={
-          trigger ?? (
+          trigger ??
+          (inert ? (
+            <span
+              aria-hidden
+              className={cn(
+                infoDotClassName,
+                infoDotVariantClassNames[triggerVariant].dot,
+                infoDotToneClassNames[triggerTone],
+              )}
+              /* Its own press opens the tip; the row under it stays unpicked. */
+              onClick={(event) => event.stopPropagation()}
+              onMouseDown={(event) => event.stopPropagation()}
+              onMouseUp={(event) => event.stopPropagation()}
+              onPointerDown={(event) => event.stopPropagation()}
+              onPointerUp={(event) => event.stopPropagation()}
+            />
+          ) : (
             <button
               type="button"
               aria-label={triggerLabel}
@@ -135,7 +160,7 @@ export const ExplanatoryTip = ({
                 infoDotToneClassNames[triggerTone],
               )}
             />
-          )
+          ))
         }
         onFocus={(event) => {
           if (

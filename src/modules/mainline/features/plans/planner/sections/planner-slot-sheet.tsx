@@ -1,6 +1,5 @@
 "use client";
 
-import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
@@ -313,17 +312,7 @@ export const PlannerSlotSheet = ({
               <div className={fieldRowClassName}>
                 {buildFields.ability && pokemon.abilities.length ? (
                   <Field>
-                    <div className="flex items-center gap-1.5">
-                      <FieldLabel htmlFor="plan-slot-ability">
-                        Ability
-                      </FieldLabel>
-                      {member.abilityId && abilityEffects[member.abilityId] ? (
-                        <ExplanatoryTip
-                          content={abilityEffects[member.abilityId]}
-                          triggerLabel="What this ability does"
-                        />
-                      ) : null}
-                    </div>
+                    <FieldLabel htmlFor="plan-slot-ability">Ability</FieldLabel>
                     <SelectControl
                       id="plan-slot-ability"
                       ariaLabel="Ability"
@@ -337,7 +326,7 @@ export const PlannerSlotSheet = ({
                       options={[
                         { label: "Any", value: anyValue },
                         ...pokemon.abilities.map((ability) => ({
-                          description: abilityEffects[ability.id],
+                          info: abilityEffects[ability.id],
                           label: ability.hidden
                             ? `${ability.name} (hidden)`
                             : ability.name,

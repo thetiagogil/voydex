@@ -157,8 +157,10 @@ and calm meanings (settled 2026-10-19).
   shadow) with the same 48px option row (`menuOptionClassName`): an optional
   picture on a 36px tile, the title, a quieter line under it, the pick in
   the selected tint with a check (`MenuOptionContent`). `SelectControl`
-  takes `icon`, `description` and `trailing` (a short mark at the row's end
-  and beside the picked value, such as a nature's stats) per option and
+  takes `icon`, `description`, `trailing` (a short mark at the row's end
+  and beside the picked value, such as a nature's stats) and `info` (what
+  the option is, behind the raised "i" beside its name in the list and
+  beside the picked value in the field, as an ability's effect) per option and
   opens with a search field for lists longer than ten (`searchable`); a
   searchable list groups its options under headings by `group` (natures by
   the stat they raise, held items by category), and its search also matches

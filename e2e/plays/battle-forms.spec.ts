@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
+import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -166,13 +167,17 @@ test.describe("Battle forms", () => {
     await page.getByRole("button", { name: "Edit Fuecoco" }).click();
     const editor = page.getByRole("dialog", { name: "Fuecoco" });
 
-    /* Each ability says what it does, and the picked one keeps an "i". */
+    /* Each ability has an "i" with what it does, read aloud with it. */
     await editor.getByRole("combobox", { name: "Ability" }).click();
-    await page
-      .getByRole("option", { name: /Blaze.*Powers up Fire-type moves/ })
-      .click();
+    const blaze = page.getByRole("option", {
+      name: /Blaze.*Powers up Fire-type moves/,
+    });
+    await expect(blaze).toBeVisible();
+    await expectAccessible(page);
+    await blaze.click();
+    /* The picked one keeps its "i" in the field. */
     await expect(
-      editor.getByRole("button", { name: "What this ability does" }),
+      editor.getByRole("button", { name: "About Blaze" }),
     ).toBeVisible();
     /* Every nature says what it does, the neutral ones too. */
     await editor.getByRole("combobox", { name: "Nature" }).click();

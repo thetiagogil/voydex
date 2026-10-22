@@ -2,6 +2,7 @@
 
 import { useState, type ComponentProps, type ReactNode } from "react";
 
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import {
   Combobox,
@@ -44,6 +45,12 @@ export type SelectControlOption = {
   group?: string;
   /* A picture on the option's tile: an icon, a game or type mark. */
   icon?: ReactNode;
+  /*
+   * What the option is, behind an "i" beside its name in the list and beside
+   * the picked value in the field (an ability's effect). Read aloud with the
+   * option.
+   */
+  info?: string;
   label: string;
   /* A short mark at the end of the row and beside the picked value, such as a nature's stats. */
   trailing?: ReactNode;
@@ -178,6 +185,14 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
     description={option.description}
     leading={option.icon}
     title={option.label}
+    titleAccessory={
+      option.info ? (
+        <>
+          <ExplanatoryTip inert content={option.info} triggerVariant="raised" />
+          <span className="sr-only">, {option.info}</span>
+        </>
+      ) : null
+    }
     trailing={option.trailing}
   />
 );
@@ -190,7 +205,7 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
  * lists open with a search field at the top that matches the label and the
  * description.
  */
-export const SelectControl = ({
+const SelectControlField = ({
   ariaLabel,
   className,
   defaultValue,
@@ -208,7 +223,11 @@ export const SelectControl = ({
   triggerContent,
   value,
   variant,
-}: SelectControlProps) => {
+  reserveEnd = false,
+}: SelectControlProps & {
+  /* Room at the value's end for the picked option's "i", which sits over it. */
+  reserveEnd?: boolean;
+}) => {
   const isControlled = value !== undefined;
   const normalizedDefaultValue = normalizeSelectValue(defaultValue);
   const [uncontrolledValue, setUncontrolledValue] = useState(
@@ -276,6 +295,7 @@ export const SelectControl = ({
               <span
                 className={cn(
                   "line-clamp-1 flex flex-1 items-center gap-1.5 text-left",
+                  reserveEnd && "pr-9",
                   !selectedOption && "text-ink-3",
                 )}
               >
@@ -371,7 +391,10 @@ export const SelectControl = ({
         {triggerContent ?? (
           <>
             {prefixWord}
-            <SelectValue placeholder={placeholder}>
+            <SelectValue
+              placeholder={placeholder}
+              className={reserveEnd ? "pr-9" : undefined}
+            >
               {(selectedValue) => {
                 const selectedOption = getOptionByValue(selectedValue);
 
@@ -402,5 +425,37 @@ export const SelectControl = ({
         </SelectGroup>
       </SelectContent>
     </Select>
+  );
+};
+
+/*
+ * With options that carry `info`, the picked one's "i" sits in the field just
+ * before the arrow, its own button beside the select's (one button can't
+ * hold another).
+ */
+export const SelectControl = (props: SelectControlProps) => {
+  if (!props.options.some((option) => option.info)) {
+    return <SelectControlField {...props} />;
+  }
+
+  const picked = props.options.find((option) => option.value === props.value);
+
+  return (
+    <div className="relative min-w-0">
+      <SelectControlField
+        {...props}
+        reserveEnd
+        className={cn("w-full", props.className)}
+      />
+      {picked?.info ? (
+        <span className="absolute top-1/2 right-12 flex -translate-y-1/2">
+          <ExplanatoryTip
+            content={picked.info}
+            triggerLabel={`About ${picked.label}`}
+            triggerVariant="raised"
+          />
+        </span>
+      ) : null}
+    </div>
   );
 };
