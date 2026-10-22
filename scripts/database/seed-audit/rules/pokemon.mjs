@@ -457,7 +457,7 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     {
       count: expectedAllNonDefaultFormSlugs.length,
       sha256:
-        "27290848457c8f90ccab4fc29798a17362a9c9cfc372f6a222af254afeb983b6",
+        "9a7fc43107b9f4ffeffa67b267af9dfe0993f30946e4d244a9d0c2ee1fc83335",
     },
   );
   if (ruleRows.length !== expectedAllNonDefaultFormSlugs.length) {
@@ -595,7 +595,7 @@ export function assertPokemonFormItemRequirementRows(context, tableRows) {
     {
       count: 161,
       sha256:
-        "2a5b1ea77572180ebbcc5e9b3f2d7bd76b70a84df182ceb3c5c8a8021574ea0c",
+        "4a25ff526ff2401cb0ef7e69b03ded78aff56091849121c5ef78b785ebf50629",
     },
   );
   if (requirementRows.length !== 161) {

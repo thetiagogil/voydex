@@ -5,6 +5,9 @@
 -- Cross-check: Serebii trainer pages per battle.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Rogue Mega and Primal battles: cross-checked with Bulbapedia's Rogue Mega Evolution page.
+-- Battle forms: Darkrai, Heatran and Rayquaza are fought as Rogue Megas and
+-- Groudon and Kyogre as Rogue Primals, so each is stored in that form (Darkrai's
+-- first phase is its base form; the Mega phase decides the matchup).
 -- Scope: Pokémon Mega Dimension Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -27,16 +30,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   form_id,
   level
 ) VALUES
-  -- Darkrai 1: Darkrai Lv. 85
-  (270003, 27001, 27, NULL, NULL, NULL, NULL, NULL, 1, 491, 49100, 85),
-  -- Groudon 1: Groudon Lv. 80
-  (270004, 27002, 27, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 80),
-  -- Kyogre 1: Kyogre Lv. 80
-  (270005, 27003, 27, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 80),
-  -- Rayquaza 1: Rayquaza Lv. 85
-  (270006, 27004, 27, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 85),
-  -- Heatran, Rogue Mega Darkrai 1: Heatran Lv. 80
-  (270003, 27005, 27, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 80),
+  -- Darkrai 1: Mega Darkrai Lv. 85
+  (270003, 27001, 27, NULL, NULL, NULL, NULL, NULL, 1, 491, 49101, 85),
+  -- Groudon 1: Primal Groudon Lv. 80
+  (270004, 27002, 27, NULL, NULL, NULL, NULL, NULL, 1, 383, 38301, 80),
+  -- Kyogre 1: Primal Kyogre Lv. 80
+  (270005, 27003, 27, NULL, NULL, NULL, NULL, NULL, 1, 382, 38201, 80),
+  -- Rayquaza 1: Mega Rayquaza Lv. 85
+  (270006, 27004, 27, NULL, NULL, NULL, NULL, NULL, 1, 384, 38401, 85),
+  -- Heatran, Rogue Mega Darkrai 1: Mega Heatran Lv. 80
+  (270003, 27005, 27, NULL, NULL, NULL, NULL, NULL, 1, 485, 48501, 80),
   -- Genesect, Collecting Four Drives 1: Genesect Lv. 60
   (270007, 27006, 27, NULL, NULL, NULL, NULL, NULL, 1, 649, 64900, 60),
   -- Marshadow, The Stealthy Shadow 1: Marshadow Lv. 80

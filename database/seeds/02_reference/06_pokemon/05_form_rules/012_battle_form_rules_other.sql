@@ -12,9 +12,9 @@
 INSERT INTO reference.pokemon_form_rules (form_id, form_kind, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, battle_mechanic, condition_summary, notes)
 VALUES
   -- Primal Kyogre
-  (38201, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'primal-reversion', 'Primal Reversion when it enters battle holding the Blue Orb.', NULL),
+  (38201, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'primal-reversion', 'Primal Reversion when it enters battle holding the Blue Orb, or as a Rogue Primal in Mega Dimension.', NULL),
   -- Primal Groudon
-  (38301, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'primal-reversion', 'Primal Reversion when it enters battle holding the Red Orb.', NULL),
+  (38301, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'primal-reversion', 'Primal Reversion when it enters battle holding the Red Orb, or as a Rogue Primal in Mega Dimension.', NULL),
   -- Castform (Sunny Form)
   (35101, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form in battle in harsh sunlight (Forecast).', NULL),
   -- Castform (Rainy Form)

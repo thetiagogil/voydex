@@ -13,9 +13,9 @@
 INSERT INTO reference.pokemon_form_item_requirements (form_id, item_id, generation_start_id, generation_end_id, version_group_start_id, version_group_end_id, requirement_kind, type_effect_scope, type_id, notes)
 VALUES
   -- Primal Kyogre -> Blue Orb -> required_held_item
-  (38201, 360, 6, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Applies only in Omega Ruby / Alpha Sapphire, Sun / Moon and Ultra Sun / Ultra Moon.'),
+  (38201, 360, 6, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Held-item trigger in Omega Ruby / Alpha Sapphire, Sun / Moon and Ultra Sun / Ultra Moon; the Rogue Primals of Mega Dimension need no orb.'),
   -- Primal Groudon -> Red Orb -> required_held_item
-  (38301, 359, 6, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Applies only in Omega Ruby / Alpha Sapphire, Sun / Moon and Ultra Sun / Ultra Moon.'),
+  (38301, 359, 6, NULL, NULL, NULL, 'required_held_item', NULL, NULL, 'Held-item trigger in Omega Ruby / Alpha Sapphire, Sun / Moon and Ultra Sun / Ultra Moon; the Rogue Primals of Mega Dimension need no orb.'),
   -- Ultra Necrozma -> Ultranecrozium Z -> required_held_item
   (80003, 262, 7, NULL, NULL, NULL, 'required_held_item', NULL, NULL, NULL),
   -- Zacian (Crowned Sword) -> Rusted Sword -> required_held_item
