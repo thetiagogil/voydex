@@ -1,39 +1,25 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import {
-  getPlayTeamMemberImageUrl,
-  getPlayTeamMemberName,
-} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { FallbackImage } from "@/shared/components/fallback-image";
-import { SelectControl } from "@/shared/components/select-control";
 import { SheetSection } from "@/shared/components/sheet-section";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/shared/components/ui/field";
+import { SlotPicker } from "@/shared/components/slot-picker";
+import { Field, FieldDescription } from "@/shared/components/ui/field";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
 import {
-  formatRosterSlot,
-  getRosterMove,
-  isTeamSlot,
-  rosterSlots,
+  getRosterSlotGroups,
   teamNeedsOneMessage,
 } from "../../utils/roster-moves";
 
 /*
- * Where: the move without dragging, for a keyboard or a phone. Picking a
- * slot moves it straight away, like Evolve; a taken slot swaps the two.
+ * Slot: the move without dragging, for a keyboard or a phone. Picking a slot
+ * moves it straight away, like Evolve; a taken slot swaps the two.
  */
 export const TeamMemberEditorWhereStep = ({
-  id,
   isMoving,
   member,
   onMove,
   placeLabel,
   roster,
 }: {
-  id: string;
   isMoving: boolean;
   member: MainlinePlayTeamMember;
   onMove: (playPokemonId: string, toSlot: number) => void;
@@ -41,39 +27,6 @@ export const TeamMemberEditorWhereStep = ({
   roster: readonly MainlinePlayTeamMember[];
 }) => {
   const playPokemonId = member.play_pokemon_id ?? "";
-  const options = rosterSlots.map((slot) => {
-    const move = getRosterMove(roster, playPokemonId, slot);
-    const occupant =
-      move.kind === "swap" ? move.with : move.kind === "stay" ? member : null;
-
-    return {
-      description:
-        move.kind === "stay"
-          ? "Here now"
-          : move.kind === "swap"
-            ? `Swap with ${getPlayTeamMemberName(move.with)}`
-            : move.kind === "blocked"
-              ? move.reason
-              : "Open",
-      disabled: move.kind === "blocked",
-      icon: occupant ? (
-        <FallbackImage
-          src={getPlayTeamMemberImageUrl(occupant)}
-          name={getPlayTeamMemberName(occupant)}
-          className="size-8"
-        />
-      ) : (
-        <AppIcon
-          icon={
-            isTeamSlot(slot) ? appIcons.product.team : appIcons.product.reserve
-          }
-          size="md"
-        />
-      ),
-      label: formatRosterSlot(slot),
-      value: String(slot),
-    };
-  });
   const isLastOnTeam =
     member.roster_state_slug === "active" &&
     !roster.some(
@@ -86,26 +39,17 @@ export const TeamMemberEditorWhereStep = ({
   );
 
   return (
-    <SheetSection title="Where" aside={placeLabel}>
+    <SheetSection title="Slot" aside={placeLabel}>
       <Field>
-        <FieldLabel htmlFor={`${id}-where`}>Move to</FieldLabel>
-        <SelectControl
-          id={`${id}-where`}
-          ariaLabel={`Move ${getPlayTeamMemberName(member)} to`}
-          className="w-full"
-          disabled={isMoving}
-          options={options}
-          placeholder="Pick a slot"
-          searchable={false}
-          value={member.slot ? String(member.slot) : ""}
-          onValueChange={(value) => {
-            const toSlot = Number(value);
-
-            if (toSlot) {
-              onMove(playPokemonId, toSlot);
-            }
-          }}
-        />
+        {/* While a move saves, every square waits. */}
+        <fieldset disabled={isMoving} className="m-0 min-w-0 border-0 p-0">
+          <SlotPicker
+            ariaLabel={`Move ${getPlayTeamMemberName(member)} to`}
+            groups={getRosterSlotGroups(roster, playPokemonId)}
+            selected={member.slot}
+            onPick={(slot) => onMove(playPokemonId, slot)}
+          />
+        </fieldset>
         <FieldDescription>
           {isLastOnTeam
             ? hasReserve

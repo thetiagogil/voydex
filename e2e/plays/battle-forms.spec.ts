@@ -120,7 +120,7 @@ test.describe("Battle forms", () => {
     await expect(factor).toBeVisible(forTheAnswer);
     await factor.click();
     const saved = waitForAction(page);
-    await editor.getByRole("button", { name: "Save Charizard" }).click();
+    await editor.getByRole("button", { name: "Save", exact: true }).click();
     await saved;
     await expect(editor).toBeHidden(forTheAnswer);
 
@@ -147,7 +147,7 @@ test.describe("Battle forms", () => {
     await editor.getByRole("combobox", { name: "Tera Type" }).click();
     await page.getByRole("option", { name: "Ghost", exact: true }).click();
     const saved = waitForAction(page);
-    await editor.getByRole("button", { name: "Save Fuecoco" }).click();
+    await editor.getByRole("button", { name: "Save", exact: true }).click();
     await saved;
     await expect(editor).toBeHidden(forTheAnswer);
 

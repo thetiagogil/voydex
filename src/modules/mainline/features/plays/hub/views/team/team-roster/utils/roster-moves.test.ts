@@ -7,6 +7,7 @@ import {
   describeRosterMove,
   formatRosterSlot,
   getRosterMove,
+  getRosterSlotGroups,
   teamNeedsOneMessage,
 } from "./roster-moves";
 
@@ -116,5 +117,59 @@ describe("roster move words", () => {
     expect(describeRosterMove(leaf!, { kind: "move", toSlot: 8 })).toBe(
       "Leaf moved to Reserve R2",
     );
+  });
+});
+
+describe("getRosterSlotGroups", () => {
+  const groups = (id: string, from = roster) => getRosterSlotGroups(from, id);
+  const slotOf = (id: string, slot: number, from = roster) =>
+    groups(id, from)
+      .flatMap((group) => group.slots)
+      .find((entry) => entry.value === slot)!;
+
+  it("lists the team's six slots, then the reserve's six", () => {
+    const [team, reserve] = groups("Leaf");
+
+    expect(team).toMatchObject({ label: "Team" });
+    expect(team!.slots.map((entry) => entry.mark)).toEqual([
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+    ]);
+    expect(reserve).toMatchObject({ label: "Reserve" });
+    expect(reserve!.slots.map((entry) => [entry.value, entry.mark])).toEqual([
+      [7, "R1"],
+      [8, "R2"],
+      [9, "R3"],
+      [10, "R4"],
+      [11, "R5"],
+      [12, "R6"],
+    ]);
+  });
+
+  it("shows itself here, who it would swap with, and open slots empty", () => {
+    expect(slotOf("Leaf", 1)).toMatchObject({
+      image: { name: "Leaf" },
+      label: "Team slot 1, here now",
+    });
+    expect(slotOf("Leaf", 7)).toMatchObject({
+      image: { name: "Peck" },
+      label: "Move to Reserve R1, swapping with Peck",
+    });
+    expect(slotOf("Leaf", 4)).toMatchObject({
+      image: null,
+      label: "Move to Team slot 4",
+    });
+  });
+
+  it("blocks the team's last Pokémon from an open reserve slot only", () => {
+    const solo = [member("Solo", "active", 1), member("Bench", "reserve", 7)];
+
+    expect(slotOf("Solo", 8, solo).disabledReason).toBe(teamNeedsOneMessage);
+    expect(slotOf("Solo", 7, solo).disabledReason).toBeUndefined();
+    expect(slotOf("Solo", 3, solo).disabledReason).toBeUndefined();
   });
 });

@@ -18,7 +18,6 @@ import {
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -35,20 +34,21 @@ import {
 import { getTeamMemberEditorHeadLine } from "../../utils/team-member-display";
 import { TeamMemberEditorActions } from "./team-member-editor-actions";
 import {
-  TeamMemberEditorBuildStep,
+  TeamMemberEditorDetailsStep,
   type TeamMemberEditorOptionsState,
-} from "./team-member-editor-build-step";
-import { TeamMemberEditorMetStep } from "./team-member-editor-met-step";
+} from "./team-member-editor-details-step";
+import { TeamMemberEditorMovesStep } from "./team-member-editor-moves-step";
+import { TeamMemberEditorNotesStep } from "./team-member-editor-notes-step";
 import { TeamMemberEditorReview } from "./team-member-editor-review";
 import { TeamMemberEditorWhereStep } from "./team-member-editor-where-step";
 import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
 
 /*
  * Edit Pokémon (v3 `editor`): a side sheet over the Roster (a bottom sheet
- * on phones). Who, Where, Build and Met, then Review changes before Save.
- * Only what the Play's game records is offered. Evolve, Change form, Replace
- * and Retire act straight away from the head, and Where's move straight away
- * from its step; Delete record is for mistakes.
+ * on phones). Who, Slot, Details, Moves and Notes, then Review changes before
+ * Save. Only what the Play's game records is offered. Evolve, Change form,
+ * Replace and Retire act straight away from the head, and a pick in Slot
+ * moves it straight away; Delete record is for mistakes.
  */
 export const TeamMemberEditorSheet = ({
   canGigantamax,
@@ -238,20 +238,27 @@ export const TeamMemberEditorSheet = ({
         supportsGender={supports.gender}
       />
       <TeamMemberEditorWhereStep
-        id={id}
         isMoving={isMoving}
         member={member}
         onMove={onMove}
         placeLabel={placeLabel}
         roster={roster}
       />
-      <TeamMemberEditorBuildStep
+      <TeamMemberEditorDetailsStep
         {...stepProps}
         member={member}
         optionsState={optionsState}
         supports={supports}
       />
-      <TeamMemberEditorMetStep {...stepProps} />
+      {options ? (
+        <TeamMemberEditorMovesStep
+          change={change}
+          member={member}
+          options={options}
+          values={values}
+        />
+      ) : null}
+      <TeamMemberEditorNotesStep {...stepProps} />
     </form>
   );
 
@@ -322,12 +329,8 @@ export const TeamMemberEditorSheet = ({
             disabled={isSaving || !changes.length}
             aria-busy={isSaving}
           >
-            {isSaving ? (
-              <Spinner data-icon="inline-start" />
-            ) : (
-              <AppIcon icon={appIcons.status.active} inline="start" />
-            )}
-            Save {values.nickname.trim() || member.species_name}
+            {isSaving ? <Spinner data-icon="inline-start" /> : null}
+            Save
           </Button>
         </>
       }

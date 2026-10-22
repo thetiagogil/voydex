@@ -1,8 +1,20 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { startPlay, uniquePlayName } from "../support/plays";
 import { forTheAnswer, waitForAction } from "../support/actions";
+
+/* Pick it on the roster (a sheet on phones), then Edit, once its choices load. */
+const openEditor = async (page: Page, name: string) => {
+  await page
+    .getByRole("button", {
+      name: new RegExp(`\\b${name}\\b.*, \\w+ slot \\d$`),
+    })
+    .click();
+  const optionsLoaded = waitForAction(page);
+  await page.getByRole("button", { name: `Edit ${name}` }).click();
+  await optionsLoaded;
+};
 
 test.describe("Team", () => {
   test.beforeEach(async ({ page }) => {
@@ -110,31 +122,27 @@ test.describe("Team", () => {
       page.getByRole("region", { name: /^Active team/ }).getByRole("heading"),
     ).toContainText("0 / 6");
   });
-  test("moves Pokémon between slots without dragging @phone", async ({
+  test("moves Pokémon between slots from the editor @phone", async ({
     page,
   }) => {
     const activeTeam = page.getByRole("region", { name: /^Active team/ });
     const reserve = page.getByRole("region", { name: /^Reserve/ });
-    /* Pick it on the roster (a sheet on phones), then Edit and Where. */
-    const openWhere = async (name: string) => {
-      await page
-        .getByRole("button", {
-          name: new RegExp(`\\b${name}\\b.*, \\w+ slot \\d$`),
-        })
-        .click();
-      const optionsLoaded = waitForAction(page);
-      await page.getByRole("button", { name: `Edit ${name}` }).click();
-      await optionsLoaded;
-      await page.getByRole("combobox", { name: `Move ${name} to` }).click();
+    const openSlots = async (name: string) => {
+      await openEditor(page, name);
+
+      return page.getByRole("group", { name: `Move ${name} to` });
     };
 
     /* The team's only Pokémon can't leave it for an open reserve slot. */
-    await openWhere("Squirtle");
+    let slots = await openSlots("Squirtle");
     await expect(
-      page.getByRole("option", { name: /^Reserve R1/ }),
+      slots.getByRole("button", { name: /^Team slot 1/ }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      slots.getByRole("button", { name: /^Move to Reserve R1/ }),
     ).toBeDisabled();
     const moved = waitForAction(page);
-    await page.getByRole("option", { name: /^Team slot 3/ }).click();
+    await slots.getByRole("button", { name: "Move to Team slot 3" }).click();
     await moved;
     await expect(page.getByText("Squirtle moved to Team slot 3")).toBeVisible(
       forTheAnswer,
@@ -159,9 +167,13 @@ test.describe("Team", () => {
     ).toBeVisible(forTheAnswer);
 
     /* A taken slot swaps the two, across the team and the reserve. */
-    await openWhere("Squirtle");
+    slots = await openSlots("Squirtle");
     const swapped = waitForAction(page);
-    await page.getByRole("option", { name: /^Reserve R1/ }).click();
+    await slots
+      .getByRole("button", {
+        name: "Move to Reserve R1, swapping with Pidgey",
+      })
+      .click();
     await swapped;
     await expect(page.getByText("Squirtle swapped with Pidgey")).toBeVisible(
       forTheAnswer,
@@ -174,6 +186,31 @@ test.describe("Team", () => {
       reserve.getByRole("button", { name: /\bSquirtle\b.*, Reserve slot 1$/ }),
     ).toBeVisible();
     await expectAccessible(page);
+  });
+
+  test("saves from a Save button that never takes the nickname @phone", async ({
+    page,
+  }) => {
+    await openEditor(page, "Squirtle");
+    const editor = page.getByRole("dialog", { name: "Squirtle" });
+    const save = editor.getByRole("button", { name: "Save", exact: true });
+
+    await expect(save).toBeDisabled();
+    await editor.getByRole("textbox", { name: "Nickname" }).fill("Squirty");
+    await expect(save).toBeEnabled();
+    /* The details sit together: build, items and where it was met. */
+    await expect(
+      editor.getByRole("textbox", { name: "Met location" }),
+    ).toBeVisible();
+    await expect(
+      editor.getByRole("combobox", { name: "Poké Ball" }),
+    ).toBeVisible();
+    await expectAccessible(page);
+
+    const saved = waitForAction(page);
+    await save.click();
+    await saved;
+    await expect(page.getByText("Squirty saved")).toBeVisible(forTheAnswer);
   });
 
   test("drags a Pokémon onto another slot", async ({ page }) => {

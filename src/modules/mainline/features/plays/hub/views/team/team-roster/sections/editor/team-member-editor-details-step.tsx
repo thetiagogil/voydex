@@ -1,21 +1,16 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import {
-  MoveSlotSelect,
-  type MoveSlotOption,
-} from "@/modules/mainline/shared/components/move-slot-select";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
-import { EditedMark } from "@/shared/components/edited-mark";
 import { SearchSelect } from "@/shared/components/search-select";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
+import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { Switch } from "@/shared/components/ui/switch";
 
 import type {
   TeamMemberEditorOptions,
   TeamMemberEditorSupport,
-  TeamMemberEditorValues,
 } from "../../utils/team-member-editor-model";
 import {
   EditorLabel,
@@ -31,34 +26,12 @@ export type TeamMemberEditorOptionsState =
   | { message: string; status: "error" }
   | { options: TeamMemberEditorOptions; status: "ready" };
 
-const toMoveOptions = (
-  options: TeamMemberEditorOptions,
-  member: MainlinePlayTeamMember,
-): MoveSlotOption[] => [
-  ...options.moves.map((move) => ({
-    category: move.damageClass,
-    label: move.name,
-    typeName: move.typeName,
-    typeSlug: move.typeSlug,
-    value: String(move.id),
-  })),
-  /* Moves it knows that its learnset here doesn't list stay pickable. */
-  ...member.moves
-    .filter((move) => !options.moves.some((option) => option.id === move.id))
-    .map((move) => ({
-      label: move.name,
-      typeName: move.type?.name ?? null,
-      typeSlug: move.type?.slug ?? null,
-      value: String(move.id),
-    })),
-];
-
 /*
- * Build: nature, ability, held item, Tera Type, Gigantamax Factor, Poké Ball
- * and four moves, offered only
- * where the Play's game records them, once the choices have loaded.
+ * Details: nature, ability, held item, Poké Ball, Tera Type and Gigantamax
+ * Factor (each offered only where the Play's game records it, once the
+ * choices have loaded), then where and at what level you met it.
  */
-export const TeamMemberEditorBuildStep = ({
+export const TeamMemberEditorDetailsStep = ({
   change,
   edited,
   id,
@@ -74,28 +47,17 @@ export const TeamMemberEditorBuildStep = ({
     "abilities" | "gigantamax" | "heldItems" | "natures" | "terastal"
   >;
 }) => {
-  if (optionsState.status !== "ready") {
-    return (
-      <SheetSection title="Build" aside="Optional">
-        {optionsState.status === "error" ? (
-          <EmptyState variant="bare" title={optionsState.message} />
-        ) : (
-          <div className="grid place-items-center py-6">
-            <Spinner
-              aria-label="Loading what it can record"
-              className="text-action"
-            />
-          </div>
-        )}
-      </SheetSection>
-    );
-  }
-
-  const { options } = optionsState;
-  const moveOptions = toMoveOptions(options, member);
-
-  return (
-    <SheetSection title="Build" aside="Optional">
+  const optionFields =
+    optionsState.status === "error" ? (
+      <EmptyState variant="bare" title={optionsState.message} />
+    ) : optionsState.status === "loading" ? (
+      <div className="grid place-items-center py-6">
+        <Spinner
+          aria-label="Loading what it can record"
+          className="text-action"
+        />
+      </div>
+    ) : (
       <div className="grid gap-4 sm:grid-cols-2">
         {supports.natures ? (
           <Field>
@@ -107,7 +69,7 @@ export const TeamMemberEditorBuildStep = ({
               onValueChange={(value) => change("natureId", fromSelect(value))}
               options={[
                 { label: "Not recorded", value: noneValue },
-                ...options.natures.map((nature) => ({
+                ...optionsState.options.natures.map((nature) => ({
                   description:
                     nature.increased && nature.decreased
                       ? `+${nature.increased} · −${nature.decreased}`
@@ -127,7 +89,7 @@ export const TeamMemberEditorBuildStep = ({
               placeholder="Not recorded"
               value={selectValue(values.abilityId)}
               onValueChange={(value) => change("abilityId", fromSelect(value))}
-              options={toSelectOptions(options.abilities)}
+              options={toSelectOptions(optionsState.options.abilities)}
             />
           </Field>
         ) : null}
@@ -140,13 +102,23 @@ export const TeamMemberEditorBuildStep = ({
               id={`${id}-item`}
               value={values.heldItemId || null}
               onValueChange={(value) => change("heldItemId", value ?? "")}
-              options={options.heldItems.map((item) => ({
+              options={optionsState.options.heldItems.map((item) => ({
                 label: item.name,
                 value: String(item.id),
               }))}
             />
           </Field>
         ) : null}
+        <Field>
+          <EditorLabel edited={edited("ballItemId")}>Poké Ball</EditorLabel>
+          <SelectControl
+            ariaLabel="Poké Ball"
+            placeholder="Not recorded"
+            value={selectValue(values.ballItemId)}
+            onValueChange={(value) => change("ballItemId", fromSelect(value))}
+            options={toSelectOptions(optionsState.options.balls)}
+          />
+        </Field>
         {supports.terastal ? (
           <Field>
             <EditorLabel edited={edited("teraTypeId")}>Tera Type</EditorLabel>
@@ -156,7 +128,7 @@ export const TeamMemberEditorBuildStep = ({
               placeholder="Not recorded"
               value={selectValue(values.teraTypeId)}
               onValueChange={(value) => change("teraTypeId", fromSelect(value))}
-              options={toSelectOptions(options.teraTypes)}
+              options={toSelectOptions(optionsState.options.teraTypes)}
             />
           </Field>
         ) : null}
@@ -179,43 +151,41 @@ export const TeamMemberEditorBuildStep = ({
             </div>
           </Field>
         ) : null}
+      </div>
+    );
+
+  return (
+    <SheetSection title="Details" aside="Optional">
+      {optionFields}
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field>
-          <EditorLabel edited={edited("ballItemId")}>Poké Ball</EditorLabel>
-          <SelectControl
-            ariaLabel="Poké Ball"
+          <EditorLabel htmlFor={`${id}-met`} edited={edited("metLocation")}>
+            Met location
+          </EditorLabel>
+          <Input
+            id={`${id}-met`}
+            maxLength={200}
             placeholder="Not recorded"
-            value={selectValue(values.ballItemId)}
-            onValueChange={(value) => change("ballItemId", fromSelect(value))}
-            options={toSelectOptions(options.balls)}
+            value={values.metLocation}
+            onChange={(event) => change("metLocation", event.target.value)}
+          />
+        </Field>
+        <Field>
+          <EditorLabel htmlFor={`${id}-met-level`} edited={edited("metLevel")}>
+            Met level
+          </EditorLabel>
+          <Input
+            id={`${id}-met-level`}
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={100}
+            placeholder="Not recorded"
+            value={values.metLevel}
+            onChange={(event) => change("metLevel", event.target.value)}
           />
         </Field>
       </div>
-      <fieldset className="grid gap-2.5">
-        <legend className="text-14 mb-2 font-extrabold">
-          <EditedMark edited={edited("moveIds")}>Moves</EditedMark>
-        </legend>
-        <div className="grid gap-2.5 sm:grid-cols-2">
-          {values.moveIds.map((moveId, index) => (
-            <MoveSlotSelect
-              key={index}
-              slot={index + 1}
-              value={moveId || null}
-              onValueChange={(value) => {
-                const next = [
-                  ...values.moveIds,
-                ] as TeamMemberEditorValues["moveIds"];
-                next[index] = value ?? "";
-                change("moveIds", next);
-              }}
-              options={moveOptions.filter(
-                (option) =>
-                  option.value === moveId ||
-                  !values.moveIds.includes(option.value),
-              )}
-            />
-          ))}
-        </div>
-      </fieldset>
     </SheetSection>
   );
 };
