@@ -102,7 +102,8 @@ export const FormOverlay = ({
       >
         {title}
       </Title>
-      {hero?.meta ? <div className="mt-1.5">{hero.meta}</div> : null}
+      {/* The meta line reads as part of the title: just the grid's small gap. */}
+      {hero?.meta ? <div>{hero.meta}</div> : null}
       {description ? <Description>{description}</Description> : null}
     </div>
   );
