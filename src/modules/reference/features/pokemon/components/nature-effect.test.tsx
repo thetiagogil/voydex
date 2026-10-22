@@ -31,3 +31,19 @@ describe("NatureEffect", () => {
     expect(html).not.toContain("<svg");
   });
 });
+
+describe("NatureEffect with room", () => {
+  it("names the stats a little longer, as Sp. Atk", () => {
+    const html = renderToStaticMarkup(
+      <NatureEffect
+        increased="special_attack"
+        decreased="speed"
+        size="label"
+      />,
+    );
+
+    expect(html).toContain("Sp. Atk");
+    expect(html).toContain("Speed");
+    expect(html).not.toContain(">SPA<");
+  });
+});

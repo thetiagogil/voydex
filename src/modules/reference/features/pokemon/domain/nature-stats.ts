@@ -6,14 +6,25 @@ export type NatureStat =
   | "special_defense"
   | "speed";
 
-const natureStats: Record<NatureStat, { abbreviation: string; name: string }> =
-  {
-    attack: { abbreviation: "ATK", name: "Attack" },
-    defense: { abbreviation: "DEF", name: "Defense" },
-    special_attack: { abbreviation: "SPA", name: "Special Attack" },
-    special_defense: { abbreviation: "SPD", name: "Special Defense" },
-    speed: { abbreviation: "SPE", name: "Speed" },
-  };
+/* Each stat as a list's short form ("SPA"), a panel's ("Sp. Atk") and in full. */
+const natureStats: Record<
+  NatureStat,
+  { abbreviation: string; label: string; name: string }
+> = {
+  attack: { abbreviation: "ATK", label: "Attack", name: "Attack" },
+  defense: { abbreviation: "DEF", label: "Defense", name: "Defense" },
+  special_attack: {
+    abbreviation: "SPA",
+    label: "Sp. Atk",
+    name: "Special Attack",
+  },
+  special_defense: {
+    abbreviation: "SPD",
+    label: "Sp. Def",
+    name: "Special Defense",
+  },
+  speed: { abbreviation: "SPE", label: "Speed", name: "Speed" },
+};
 
 const isNatureStat = (stat: string | null): stat is NatureStat =>
   stat !== null && Object.hasOwn(natureStats, stat);
@@ -21,8 +32,8 @@ const isNatureStat = (stat: string | null): stat is NatureStat =>
 export type NatureEffect =
   | { kind: "neutral" }
   | {
-      decreased: { abbreviation: string; name: string };
-      increased: { abbreviation: string; name: string };
+      decreased: { abbreviation: string; label: string; name: string };
+      increased: { abbreviation: string; label: string; name: string };
       kind: "stats";
     };
 

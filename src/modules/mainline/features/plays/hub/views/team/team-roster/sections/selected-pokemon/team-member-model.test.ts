@@ -128,16 +128,15 @@ describe("getTeamMemberFacts", () => {
         detail: null,
         label: "Met location",
         section: "met",
-        value: "Slumbering Weald",
+        value: "Slumbering Weald at Lv. 5",
       },
-      { detail: null, label: "Met level", section: "met", value: "Lv. 5" },
     ]);
     expect(
       getTeamMemberFacts(buddy, firstGenerationGame).map(({ label }) => label),
-    ).toEqual(["Poké Ball", "Met location", "Met level"]);
+    ).toEqual(["Poké Ball", "Met location"]);
   });
 
-  it("says whether it can Gigantamax where the game has Dynamax", () => {
+  it("leaves Can Gigantamax to the form menu", () => {
     const sword = resolveGameMechanics({
       gameId: 31,
       generationId: 8,
@@ -145,20 +144,7 @@ describe("getTeamMemberFacts", () => {
     });
 
     expect(
-      getTeamMemberFacts({ ...buddy, has_gigantamax_factor: true }, sword).find(
-        (fact) => fact.label === "Can Gigantamax",
-      ),
-    ).toEqual({ detail: null, label: "Can Gigantamax", value: "Yes" });
-    expect(
-      getTeamMemberFacts(buddy, sword, null, { canGigantamax: true }).find(
-        (fact) => fact.label === "Can Gigantamax",
-      ),
-    ).toEqual({ detail: null, label: "Can Gigantamax", value: "No" });
-    expect(
-      getTeamMemberFacts(buddy, sword).map(({ label }) => label),
-    ).not.toContain("Can Gigantamax");
-    expect(
-      getTeamMemberFacts(buddy, xy, null, { canGigantamax: true }).map(
+      getTeamMemberFacts({ ...buddy, has_gigantamax_factor: true }, sword).map(
         ({ label }) => label,
       ),
     ).not.toContain("Can Gigantamax");
@@ -181,8 +167,7 @@ describe("getTeamMemberFacts", () => {
       ["Ability", "Not recorded"],
       ["Held item", "None"],
       ["Poké Ball", "Poké Ball"],
-      ["Met location", "Not recorded"],
-      ["Met level", "Lv. 5"],
+      ["Met location", "At Lv. 5"],
     ]);
   });
 
@@ -216,8 +201,7 @@ describe("getTeamMemberFacts", () => {
         ["Held item", "Miracle Seed"],
         ["Poké Ball", "Poké Ball"],
         ["Stat changes", "Atk +46 · Sp. Atk +21"],
-        ["Met location", "Slumbering Weald"],
-        ["Met level", "Lv. 5"],
+        ["Met location", "Slumbering Weald at Lv. 5"],
       ]);
     });
 
@@ -277,7 +261,6 @@ describe("getTeamMemberFacts", () => {
       ["Held item", "None"],
       ["Poké Ball", "Not recorded"],
       ["Met location", "Not recorded"],
-      ["Met level", "Not recorded"],
     ]);
   });
 });

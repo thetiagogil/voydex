@@ -128,15 +128,15 @@ export const getBattleMoves = (moves: MemberBattleMove[]): TeamMove[] =>
 
 /*
  * Only what the game has, in the edit sheet's order: nature, ability, held
- * item, Poké Ball, Tera Type and whether it can Gigantamax, then where and at
- * what level you met it (`section: "met"`, a row of its own). In a battle form the ability is the form's
+ * item, Poké Ball and Tera Type, then where you met it and at what level
+ * ("Slumbering Weald at Lv. 5", `section: "met"`, a row of its own). Whether
+ * it can Gigantamax shows on the form menu, not here. In a battle form the ability is the form's
  * own and its stat changes join the facts.
  */
 export const getTeamMemberFacts = (
   member: MainlinePlayTeamMember,
   mechanics: GameMechanicsProfile,
   battleForm: MemberBattleForm | null = null,
-  { canGigantamax = false }: { canGigantamax?: boolean } = {},
 ): TeamMemberFact[] => {
   const facts: TeamMemberFact[] = [];
 
@@ -213,17 +213,6 @@ export const getTeamMemberFacts = (
     );
   }
 
-  if (
-    supportsGameMechanic(mechanics, gameMechanics.dynamax) &&
-    (canGigantamax || member.has_gigantamax_factor === true)
-  ) {
-    facts.push({
-      detail: null,
-      label: "Can Gigantamax",
-      value: member.has_gigantamax_factor ? "Yes" : "No",
-    });
-  }
-
   const statChanges = battleForm
     ? formatBattleStatChanges(battleForm.statChanges)
     : null;
@@ -232,23 +221,21 @@ export const getTeamMemberFacts = (
     facts.push({ detail: null, label: "Stat changes", value: statChanges });
   }
 
+  const metLevel = member.met_level ? `Lv. ${member.met_level}` : null;
+
   facts.push(
-    member.met_location_label
+    member.met_location_label || metLevel
       ? {
           detail: null,
           label: "Met location",
           section: "met",
-          value: member.met_location_label,
+          value: member.met_location_label
+            ? [member.met_location_label, metLevel ? `at ${metLevel}` : null]
+                .filter(Boolean)
+                .join(" ")
+            : `At ${metLevel}`,
         }
       : { ...notRecorded("Met location"), section: "met" },
-    member.met_level
-      ? {
-          detail: null,
-          label: "Met level",
-          section: "met",
-          value: `Lv. ${member.met_level}`,
-        }
-      : { ...notRecorded("Met level"), section: "met" },
   );
 
   return facts;

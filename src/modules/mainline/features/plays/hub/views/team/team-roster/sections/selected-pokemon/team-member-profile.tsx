@@ -7,10 +7,9 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
-import {
-  battleFormMechanics,
-  type MemberBattle,
-  type MemberBattleForm,
+import type {
+  MemberBattle,
+  MemberBattleForm,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { GenderIcon } from "@/modules/reference/features/pokemon/components/gender-icon";
 import { NatureEffect } from "@/modules/reference/features/pokemon/components/nature-effect";
@@ -88,12 +87,7 @@ export const TeamMemberProfile = ({
     types.primaryType && isPokemonTypeSlug(types.primaryType.slug)
       ? types.primaryType.slug
       : null;
-  const facts = getTeamMemberFacts(member, mechanics, battleForm, {
-    canGigantamax:
-      battle?.forms.some(
-        (form) => form.mechanic === battleFormMechanics.dynamax,
-      ) ?? false,
-  });
+  const facts = getTeamMemberFacts(member, mechanics, battleForm);
   const gender = getTeamMemberGender(member, mechanics);
   const moves = battleForm?.maxMoves
     ? getBattleMoves(battleForm.maxMoves)
@@ -199,6 +193,7 @@ export const TeamMemberProfile = ({
                     <NatureEffect
                       increased={fact.nature.increased}
                       decreased={fact.nature.decreased}
+                      size="label"
                     />
                   </dd>
                 ) : null}

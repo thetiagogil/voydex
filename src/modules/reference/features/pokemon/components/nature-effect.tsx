@@ -4,15 +4,18 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 /*
  * What a nature does, in one short line wherever natures are listed: the raised
  * stat with a red up arrow, the lowered one with a blue down arrow ("ATK
- * SPA"), or "Neutral" for a nature that changes nothing. A screen reader
+ * SPA", or "Attack Sp. Atk" with room), or "Neutral" for a nature that changes nothing. A screen reader
  * hears the words, not the abbreviations.
  */
 export const NatureEffect = ({
   decreased,
   increased,
+  size = "short",
 }: {
   decreased: string | null;
   increased: string | null;
+  /* `short` ("SPA") for a list's row end; `label` ("Sp. Atk") where there is room, such as a panel. */
+  size?: "label" | "short";
 }) => {
   const effect = getNatureEffect(increased, decreased);
 
@@ -27,11 +30,15 @@ export const NatureEffect = ({
       </span>
       <span aria-hidden className="text-action-ink flex items-center gap-0.5">
         <AppIcon icon={appIcons.status.statUp} size="sm" strokeWidth={3} />
-        {effect.increased.abbreviation}
+        {size === "label"
+          ? effect.increased.label
+          : effect.increased.abbreviation}
       </span>
       <span aria-hidden className="text-calm-ink flex items-center gap-0.5">
         <AppIcon icon={appIcons.status.statDown} size="sm" strokeWidth={3} />
-        {effect.decreased.abbreviation}
+        {size === "label"
+          ? effect.decreased.label
+          : effect.decreased.abbreviation}
       </span>
     </span>
   );

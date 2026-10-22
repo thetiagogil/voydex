@@ -5,8 +5,12 @@ import { getNatureEffect, getNatureFocus } from "./nature-stats";
 describe("getNatureEffect", () => {
   it("names the raised and lowered stats by their short forms", () => {
     expect(getNatureEffect("attack", "special_attack")).toEqual({
-      decreased: { abbreviation: "SPA", name: "Special Attack" },
-      increased: { abbreviation: "ATK", name: "Attack" },
+      decreased: {
+        abbreviation: "SPA",
+        label: "Sp. Atk",
+        name: "Special Attack",
+      },
+      increased: { abbreviation: "ATK", label: "Attack", name: "Attack" },
       kind: "stats",
     });
     expect(getNatureEffect("speed", "defense")).toMatchObject({
