@@ -180,9 +180,15 @@ const findReuse = (
   );
 };
 
-/* "Gym Leader Misty". */
+/* "Gym Leader Misty", or "Zach's promotion match". */
 const formatCapBattle = (battle: MainlinePlayCapBattle) =>
-  `${battle.kind} ${battle.name}`;
+  battle.isPromotionMatch
+    ? `${battle.name}'s promotion match`
+    : `${battle.kind} ${battle.name}`;
+
+/* Whose team the cap comes from: "Gym Leader Misty", or "Zach" for a promotion match. */
+const formatCapOpponent = (battle: MainlinePlayCapBattle) =>
+  battle.isPromotionMatch ? battle.name : `${battle.kind} ${battle.name}`;
 
 /*
  * Level caps' cap as Play details says it, and why there's none when there
@@ -191,11 +197,13 @@ const formatCapBattle = (battle: MainlinePlayCapBattle) =>
 export const describeLevelCap = (cap: MainlinePlayLevelCap) => {
   switch (cap.status) {
     case "capped":
-      return `Lv. ${cap.level}, the highest level on ${formatCapBattle(cap.battle)}'s team, the next leader you face.`;
+      return cap.battle.isPromotionMatch
+        ? `Lv. ${cap.level}, the highest level on ${cap.battle.name}'s team, your next promotion match.`
+        : `Lv. ${cap.level}, the highest level on ${formatCapOpponent(cap.battle)}'s team, the next leader you face.`;
     case "no-team":
-      return `No cap for now: Voydex doesn't have ${formatCapBattle(cap.battle)}'s team yet, so levels aren't checked.`;
+      return `No cap for now: Voydex doesn't have ${formatCapOpponent(cap.battle)}'s team yet, so levels aren't checked.`;
     case "no-battle":
-      return "No cap: there's no Gym Leader, Kahuna, Elite Four or Champion battle ahead, so levels aren't checked.";
+      return "No cap: there's no Gym Leader, Kahuna, Elite Four, Champion or promotion match ahead, so levels aren't checked.";
   }
 };
 

@@ -111,13 +111,16 @@ export type MainlinePlayRule = {
 
 /* The battle Level caps takes its cap from: "Gym Leader" and "Misty". */
 export type MainlinePlayCapBattle = {
+  /* A Legends: Z-A promotion match, named by its trainer alone ("Zach"). */
+  isPromotionMatch: boolean;
   kind: string;
   name: string;
 };
 
 /*
  * Level caps' cap: the highest level on the team of the next Gym Leader,
- * Kahuna, Elite Four member or Champion the Play hasn't beaten in Story.
+ * Kahuna, Elite Four member, Champion or Z-A promotion match the Play hasn't
+ * beaten in Story.
  * "no-team" when Voydex doesn't have that battle's team, "no-battle" when
  * none is left (after the Champion) or the game has none.
  */

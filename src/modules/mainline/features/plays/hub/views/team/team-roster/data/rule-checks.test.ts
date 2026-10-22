@@ -319,7 +319,7 @@ describe("Level caps", () => {
   const rules: CheckedRule[] = [
     { id: "caps", kind: "level_caps", name: "Level caps" },
   ];
-  const misty = { kind: "Gym Leader", name: "Misty" };
+  const misty = { isPromotionMatch: false, kind: "Gym Leader", name: "Misty" };
   const capped = withRules(rules, {
     levelCap: { battle: misty, level: 21, status: "capped" },
   });
@@ -380,8 +380,34 @@ describe("Level caps", () => {
       "No cap for now: Voydex doesn't have Gym Leader Misty's team yet, so levels aren't checked.",
     );
     expect(describeLevelCap({ status: "no-battle" })).toMatch(
-      /^No cap: there's no Gym Leader, Kahuna, Elite Four or Champion battle ahead/,
+      /^No cap: there's no Gym Leader, Kahuna, Elite Four, Champion or promotion match ahead/,
     );
+  });
+
+  it("names a Z-A promotion match by its trainer", () => {
+    const zach = { isPromotionMatch: true, kind: "Z-A Royale", name: "Zach" };
+
+    expect(describeLevelCap({ battle: zach, level: 9, status: "capped" })).toBe(
+      "Lv. 9, the highest level on Zach's team, your next promotion match.",
+    );
+    expect(describeLevelCap({ battle: zach, status: "no-team" })).toBe(
+      "No cap for now: Voydex doesn't have Zach's team yet, so levels aren't checked.",
+    );
+    expect(
+      checkPokemonRules(
+        { ...pikachu, level: 10 },
+        withRules(rules, {
+          levelCap: { battle: zach, level: 9, status: "capped" },
+        }),
+      ),
+    ).toEqual([
+      {
+        ruleId: "caps",
+        ruleKind: "level_caps",
+        ruleName: "Level caps",
+        text: "Pikachu is Lv. 10, over the Lv. 9 cap from Zach's promotion match.",
+      },
+    ]);
   });
 });
 

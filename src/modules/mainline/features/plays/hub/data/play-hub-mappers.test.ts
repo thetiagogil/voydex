@@ -104,7 +104,11 @@ describe("buildMainlinePlayShellData rule notes", () => {
       build({
         ...emptyRuleCheckContext,
         levelCap: {
-          battle: { kind: "Gym Leader", name: "Brock" },
+          battle: {
+            isPromotionMatch: false,
+            kind: "Gym Leader",
+            name: "Brock",
+          },
           level: 14,
           status: "capped",
         },
