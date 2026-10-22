@@ -120,6 +120,16 @@ test.describe("Battle forms", () => {
     });
 
     await expect(canGigantamax).toBeVisible(forTheAnswer);
+    /* Only the items Sword has: no Gen II Berry, no Mega Stones. */
+    await editor.getByRole("combobox", { name: "Held item" }).click();
+    const search = page.getByRole("combobox", { name: "Search held item" });
+    await search.fill("Berry (Gen II)");
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await search.fill("mega stones");
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await search.fill("leftovers");
+    await expect(page.getByRole("option", { name: "Leftovers" })).toBeVisible();
+    await page.keyboard.press("Escape");
     await canGigantamax.click();
     const saved = waitForAction(page);
     await editor.getByRole("button", { name: "Save", exact: true }).click();

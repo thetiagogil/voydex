@@ -157,8 +157,12 @@ and calm meanings (settled 2026-10-19).
   shadow) with the same 48px option row (`menuOptionClassName`): an optional
   picture on a 36px tile, the title, a quieter line under it, the pick in
   the selected tint with a check (`MenuOptionContent`). `SelectControl`
-  takes `icon` and `description` per option and opens with a search field
-  for lists longer than ten (`searchable`); a list of games shows each
+  takes `icon`, `description` and `trailing` (a short mark at the row's end
+  and beside the picked value, such as a nature's stats) per option and
+  opens with a search field for lists longer than ten (`searchable`); a
+  searchable list groups its options under headings by `group` (natures by
+  the stat they raise, held items by category), and its search also matches
+  the group's name; a list of games shows each
   game's cover (`GameOptionCover`), a generation its region. A toolbar's
   quiet select shows its words alone; a field shows the picture too. It
   takes the hover tint under the pointer, and given `resetValue` (what Reset

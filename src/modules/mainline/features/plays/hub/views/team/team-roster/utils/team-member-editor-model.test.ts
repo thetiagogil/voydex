@@ -150,7 +150,14 @@ describe("findUnofferedEditorChoice", () => {
   /* What the editor offered Charizard in Sword. */
   const options = {
     abilities: [{ id: 66, name: "Blaze" }],
-    heldItems: [{ id: 200, name: "Charcoal" }],
+    heldItems: [
+      {
+        category: "Type-Enhancing Items",
+        categoryOrder: 9,
+        id: 200,
+        name: "Charcoal",
+      },
+    ],
     moves: [
       {
         damageClass: "special",

@@ -43,3 +43,27 @@ export const getNatureEffect = (
         kind: "stats",
       }
     : { kind: "neutral" };
+
+/* The five stats in the order natures are grouped, with the neutral natures last. */
+const natureFocusOrder = [...Object.keys(natureStats), "neutral"] as const;
+
+export type NatureFocus = { label: string; order: number };
+
+/*
+ * What a nature is about, for grouping a list of them: the stat it raises
+ * ("Raises Attack": Lonely, Brave, Adamant, Naughty) or "Neutral" for the five
+ * that change nothing.
+ */
+export const getNatureFocus = (
+  increased: string | null,
+  decreased: string | null,
+): NatureFocus => {
+  const effect = getNatureEffect(increased, decreased);
+
+  return effect.kind === "stats" && isNatureStat(increased)
+    ? {
+        label: `Raises ${effect.increased.name}`,
+        order: natureFocusOrder.indexOf(increased),
+      }
+    : { label: "Neutral", order: natureFocusOrder.indexOf("neutral") };
+};

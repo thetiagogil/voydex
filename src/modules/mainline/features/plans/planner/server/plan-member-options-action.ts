@@ -8,8 +8,8 @@ import {
   readFormLearnsetRows,
   readHeldItemOptions,
   readMoveOptions,
+  type BuildItemOption,
   type BuildMoveOption,
-  type BuildOption,
 } from "@/modules/mainline/shared/server/build-option-readers";
 import {
   gameMechanics,
@@ -25,7 +25,7 @@ import {
 
 export type PlanMemberOptions = {
   /* Empty when the version group has no held items. */
-  heldItems: BuildOption[];
+  heldItems: BuildItemOption[];
   /* What it can learn in every game of the version group. */
   moves: BuildMoveOption[];
 };
@@ -100,7 +100,7 @@ export const loadPlanMemberOptionsAction = async (input: {
     });
     const [heldItems, moves] = await Promise.all([
       supportsGameMechanic(mechanics, gameMechanics.heldItems)
-        ? readHeldItemOptions(supabase, group.generation_id)
+        ? readHeldItemOptions(supabase, { gameIds, versionGroupId: group.id })
         : [],
       readMoveOptions(supabase, {
         generationId: group.generation_id,

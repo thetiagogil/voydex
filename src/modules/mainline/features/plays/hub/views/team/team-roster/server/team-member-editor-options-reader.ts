@@ -178,7 +178,9 @@ export const readTeamMemberEditorOptions = async (
           "Unable to load Poké Balls.",
         )
       : [],
-    hasHeldItems ? readHeldItemOptions(supabase, generationId) : [],
+    hasHeldItems
+      ? readHeldItemOptions(supabase, { gameIds: [gameId], versionGroupId })
+      : [],
     readMoveOptions(supabase, { generationId, moveIds }),
     targetFormIds.length
       ? supabase

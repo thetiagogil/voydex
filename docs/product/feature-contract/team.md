@@ -145,7 +145,8 @@ or reserve; the server takes the first open slot, the moment joins History
 and the toast offers Undo, which deletes the Pokémon and that moment
 together. **Edit Pokémon** is the same kind of sheet: Who, Forms (shiny, can Gigantamax), Slot,
 Details (nature, ability, held item, Poké Ball, and where and at what level it
-was met), Moves and Notes, then Review changes before Save, offering only what
+was met; held items are only the holdable items the Play's exact game has,
+grouped by category), Moves and Notes, then Review changes before Save, offering only what
 the game records. Evolve and Change form record their moment; Replace (picking
 the incoming Pokémon in the Add sheet), Retire and Delete record act from its
 head. Slot shows the twelve slots as squares and moves it straight away to the

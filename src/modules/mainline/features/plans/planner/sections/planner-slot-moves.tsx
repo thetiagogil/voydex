@@ -15,6 +15,7 @@ import {
   MoveSlotSelect,
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
+import { toHeldItemOptions } from "@/modules/mainline/shared/components/held-item-options";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
@@ -117,11 +118,7 @@ export const PlannerSlotMoves = ({
                 label: "Any",
                 value: anyItem,
               },
-              ...heldItems.map((item) => ({
-                icon: <ItemIcon kind="held" name={item.name} />,
-                label: item.name,
-                value: String(item.id),
-              })),
+              ...toHeldItemOptions(heldItems),
             ]}
           />
         </Field>

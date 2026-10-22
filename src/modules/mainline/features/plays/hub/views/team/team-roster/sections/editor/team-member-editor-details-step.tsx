@@ -1,7 +1,8 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
-import { NatureEffect } from "@/modules/reference/features/pokemon/components/nature-effect";
+import { toNatureOptions } from "@/modules/reference/features/pokemon/components/nature-options";
+import { toHeldItemOptions } from "@/modules/mainline/shared/components/held-item-options";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -69,16 +70,7 @@ export const TeamMemberEditorDetailsStep = ({
               onValueChange={(value) => change("natureId", fromSelect(value))}
               options={[
                 { label: "Not recorded", value: noneValue },
-                ...optionsState.options.natures.map((nature) => ({
-                  label: nature.name,
-                  trailing: (
-                    <NatureEffect
-                      increased={nature.increased}
-                      decreased={nature.decreased}
-                    />
-                  ),
-                  value: String(nature.id),
-                })),
+                ...toNatureOptions(optionsState.options.natures),
               ]}
             />
           </Field>
@@ -106,12 +98,14 @@ export const TeamMemberEditorDetailsStep = ({
               placeholder="Not recorded"
               value={selectValue(values.heldItemId)}
               onValueChange={(value) => change("heldItemId", fromSelect(value))}
-              options={toSelectOptions(optionsState.options.heldItems).map(
-                (option) => ({
-                  ...option,
-                  icon: <ItemIcon kind="held" name={option.label} />,
-                }),
-              )}
+              options={[
+                {
+                  icon: <ItemIcon kind="held" name="Not recorded" />,
+                  label: "Not recorded",
+                  value: noneValue,
+                },
+                ...toHeldItemOptions(optionsState.options.heldItems),
+              ]}
             />
           </Field>
         ) : null}

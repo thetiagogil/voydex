@@ -1,4 +1,7 @@
-import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
+import {
+  loadChunkedReferenceRows,
+  loadPagedReferenceRows,
+} from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
@@ -8,6 +11,12 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
  */
 
 export type BuildOption = { id: number; name: string };
+
+/* A held item with the category the list groups it under, in the database's own order. */
+export type BuildItemOption = BuildOption & {
+  category: string;
+  categoryOrder: number;
+};
 
 export type BuildMoveOption = BuildOption & {
   damageClass: string | null;
@@ -72,22 +81,118 @@ export const getLearnableMoveIds = (
   );
 };
 
-/* Every item a Pokémon could hold in this generation, by name. */
-export const readHeldItemOptions = (
+type ItemAvailabilityRow = { game_id: number | null; item_id: number | null };
+
+/*
+ * The items the game has: a row with no game is for every game of its version
+ * group, one with a game only for that game. With several games (a version
+ * group's), an item any of them has counts.
+ */
+export const getAvailableItemIds = (
+  rows: readonly ItemAvailabilityRow[],
+  gameIds: readonly number[],
+): number[] => [
+  ...new Set(
+    rows.flatMap((row) =>
+      row.item_id !== null &&
+      (row.game_id === null || gameIds.includes(row.game_id))
+        ? [row.item_id]
+        : [],
+    ),
+  ),
+];
+
+/*
+ * The items a Pokémon can hold in this exact game (or a version group's
+ * games): the ones that game's item availability lists and the database marks
+ * as holdable, each with its category, grouped by category order then name.
+ */
+export const readHeldItemOptions = async (
   supabase: ServerSupabaseClient,
-  generationId: number,
-) =>
-  loadPagedReferenceRows<BuildOption>(
-    (from, to) =>
+  { gameIds, versionGroupId }: { gameIds: number[]; versionGroupId: number },
+): Promise<BuildItemOption[]> => {
+  const [availabilityRows, categoriesResult] = await Promise.all([
+    loadPagedReferenceRows<ItemAvailabilityRow>(
+      (from, to) =>
+        supabase
+          .schema("views")
+          .from("reference_resolved_item_availability")
+          .select("item_id, game_id")
+          .eq("target_version_group_id", versionGroupId)
+          .order("id", { ascending: true })
+          .range(from, to),
+      "Unable to load held items.",
+    ),
+    supabase
+      .schema("reference")
+      .from("item_categories")
+      .select("id, slug, name, sort_order"),
+  ]);
+
+  if (categoriesResult.error) {
+    throw new Error("Unable to load held items.");
+  }
+
+  const categories = categoriesResult.data ?? [];
+  const heldCategory = categories.find(
+    (category) => category.slug === "held_item",
+  );
+  const availableIds = getAvailableItemIds(availabilityRows, gameIds);
+
+  if (!heldCategory || !availableIds.length) {
+    return [];
+  }
+
+  const memberRows = await loadChunkedReferenceRows<{ item_id: number }>(
+    availableIds,
+    (ids, from, to) =>
       supabase
         .schema("reference")
-        .from("items")
-        .select("id, name")
-        .lte("introduced_generation_id", generationId)
-        .order("name", { ascending: true })
+        .from("item_category_memberships")
+        .select("item_id")
+        .eq("category_id", heldCategory.id)
+        .in("item_id", ids)
+        .order("item_id", { ascending: true })
         .range(from, to),
     "Unable to load held items.",
   );
+  const items = await loadChunkedReferenceRows<{
+    id: number;
+    name: string;
+    primary_category_id: number;
+  }>(
+    memberRows.map((row) => row.item_id),
+    (ids, from, to) =>
+      supabase
+        .schema("reference")
+        .from("items")
+        .select("id, name, primary_category_id")
+        .in("id", ids)
+        .order("id", { ascending: true })
+        .range(from, to),
+    "Unable to load held items.",
+  );
+  const categoryById = new Map(
+    categories.map((category) => [category.id, category]),
+  );
+
+  return items
+    .map((item) => {
+      const category = categoryById.get(item.primary_category_id);
+
+      return {
+        category: category?.name ?? "Other",
+        categoryOrder: category?.sort_order ?? Number.MAX_SAFE_INTEGER,
+        id: item.id,
+        name: item.name,
+      };
+    })
+    .toSorted(
+      (left, right) =>
+        left.categoryOrder - right.categoryOrder ||
+        left.name.localeCompare(right.name),
+    );
+};
 
 const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
   rows.toSorted(

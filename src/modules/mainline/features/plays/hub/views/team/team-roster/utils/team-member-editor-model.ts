@@ -1,5 +1,7 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
+import type { BuildItemOption } from "@/modules/mainline/shared/server/build-option-readers";
+
 import { formatRosterSlot } from "./roster-moves";
 import type {
   MainlineTeamGender,
@@ -32,7 +34,7 @@ export type TeamMemberEditorOptions = {
   balls: EditorOption[];
   evolutions: EditorFormOption[];
   forms: EditorFormOption[];
-  heldItems: EditorOption[];
+  heldItems: BuildItemOption[];
   moves: EditorMoveOption[];
   /* The 18 types, in games with Terastal; empty elsewhere. */
   teraTypes: EditorOption[];

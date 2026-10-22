@@ -5,10 +5,13 @@ import { useState, type ComponentProps, type ReactNode } from "react";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import {
   Combobox,
+  ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
+  ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
@@ -33,6 +36,12 @@ export type SelectControlOption = {
   description?: string;
   /* Shown but not pickable, such as a move the rules refuse. */
   disabled?: boolean;
+  /*
+   * The heading it sits under in a searchable list, such as an item's
+   * category. Groups show in the order their first option appears; options
+   * with none lead the list under no heading.
+   */
+  group?: string;
   /* A picture on the option's tile: an icon, a game or type mark. */
   icon?: ReactNode;
   label: string;
@@ -84,19 +93,56 @@ const normalizeSelectValue = (nextValue?: string) => {
   return nextValue ?? EMPTY_SELECT_VALUE;
 };
 
-/* Searching ignores case and accents, so "pokedex" finds "Pokédex". */
+type SelectControlGroup = { items: SelectControlOption[]; value: string };
+
+/*
+ * The options as the list's groups, in the order each group first appears.
+ * Options with no `group` come first under an unnamed one; with no groups at
+ * all there is nothing to draw.
+ */
+export const groupSelectOptions = (
+  options: readonly SelectControlOption[],
+): SelectControlGroup[] => {
+  if (!options.some((option) => option.group)) {
+    return [];
+  }
+
+  const groups = new Map<string, SelectControlOption[]>([["", []]]);
+
+  for (const option of options) {
+    const key = option.group ?? "";
+    const group = groups.get(key) ?? [];
+
+    group.push(option);
+    groups.set(key, group);
+  }
+
+  return [...groups]
+    .filter(([, items]) => items.length)
+    .map(([value, items]) => ({ items, value }));
+};
+
+/*
+ * Searching ignores case and accents, so "pokedex" finds "Pokédex", and it
+ * reads the group too, so "berries" lists every berry.
+ */
 const toSearchText = (text: string) =>
   text
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
     .toLowerCase();
 
-const matchesQuery = (option: SelectControlOption, query: string) => {
+export const matchesSelectQuery = (
+  option: SelectControlOption,
+  query: string,
+) => {
   const needle = toSearchText(query.trim());
 
   return (
     !needle ||
-    toSearchText(`${option.label} ${option.description ?? ""}`).includes(needle)
+    toSearchText(
+      `${option.label} ${option.description ?? ""} ${option.group ?? ""}`,
+    ).includes(needle)
   );
 };
 
@@ -190,11 +236,12 @@ export const SelectControl = ({
 
   if (searchable) {
     const selectedOption = getOptionByValue(currentValue) ?? null;
+    const groups = groupSelectOptions(options);
 
     return (
       <Combobox
         disabled={disabled}
-        items={options as SelectControlOption[]}
+        items={groups.length ? groups : (options as SelectControlOption[])}
         value={selectedOption}
         onValueChange={(option: SelectControlOption | null) => {
           const nextValue = option?.value ?? EMPTY_SELECT_VALUE;
@@ -212,7 +259,7 @@ export const SelectControl = ({
           right: SelectControlOption,
         ) => left.value === right.value}
         filter={(option: SelectControlOption, query: string) =>
-          matchesQuery(option, query)
+          matchesSelectQuery(option, query)
         }
         autoHighlight
       >
@@ -258,15 +305,34 @@ export const SelectControl = ({
           />
           <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
           <ComboboxList>
-            {(option: SelectControlOption) => (
-              <ComboboxItem
-                key={option.value}
-                value={option}
-                disabled={option.disabled}
-              >
-                <OptionContent option={option} />
-              </ComboboxItem>
-            )}
+            {groups.length
+              ? (group: SelectControlGroup) => (
+                  <ComboboxGroup key={group.value} items={group.items}>
+                    {group.value ? (
+                      <ComboboxLabel>{group.value}</ComboboxLabel>
+                    ) : null}
+                    <ComboboxCollection>
+                      {(option: SelectControlOption) => (
+                        <ComboboxItem
+                          key={option.value}
+                          value={option}
+                          disabled={option.disabled}
+                        >
+                          <OptionContent option={option} />
+                        </ComboboxItem>
+                      )}
+                    </ComboboxCollection>
+                  </ComboboxGroup>
+                )
+              : (option: SelectControlOption) => (
+                  <ComboboxItem
+                    key={option.value}
+                    value={option}
+                    disabled={option.disabled}
+                  >
+                    <OptionContent option={option} />
+                  </ComboboxItem>
+                )}
           </ComboboxList>
         </ComboboxContent>
       </Combobox>
