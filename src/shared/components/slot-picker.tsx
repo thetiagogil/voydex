@@ -80,7 +80,7 @@ export const SlotPicker = ({
                 ) : (
                   <span
                     aria-hidden
-                    className="empty-slot size-7 rounded-full [border-width:2px]"
+                    className="empty-slot size-8 rounded-full [border-width:2px]"
                   />
                 )}
                 <span aria-hidden>{slot.mark}</span>

@@ -117,6 +117,17 @@ describe("SlotPicker", () => {
     expect(render([slot()])).not.toContain("<p");
   });
 
+  it("draws a sprite and an open slot's circle at one size, so the number never moves", () => {
+    const sprite = render([
+      slot({ image: { name: "Leaf", url: "https://example.test/leaf.png" } }),
+    ]);
+    const open = render([slot()]);
+
+    expect(sprite).toContain("size-8");
+    expect(open).toContain("size-8");
+    expect(open).not.toContain("size-7");
+  });
+
   it("shows who sits in a slot", () => {
     const html = render([
       slot({ image: { name: "Leaf", url: "https://example.test/leaf.png" } }),
