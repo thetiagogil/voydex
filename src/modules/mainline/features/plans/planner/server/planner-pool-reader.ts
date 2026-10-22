@@ -45,6 +45,12 @@ export type PlannerCatalogueRows = {
 /* One version group's Pokémon and what the Team check knows about them. */
 export type PlannerPoolRows = {
   abilities: Pick<Ability, "id" | "name">[];
+  /* What each ability does, every version group's row. */
+  abilityAttributes: {
+    ability_id: number;
+    effect_summary: string;
+    version_group_start_id: number;
+  }[];
   attributes: PokemonAttributes[];
   availability: PlannerAvailabilityRow[];
   availabilityMethods: Pick<AvailabilityMethod, "id" | "slug">[];
@@ -235,7 +241,7 @@ export const readPlannerPoolRows = async (
     ]),
   );
   const heldItemIds = uniqueNumberIds(edges.map((edge) => edge.held_item_id));
-  const [abilities, heldItems] = await Promise.all([
+  const [abilities, abilityAttributes, heldItems] = await Promise.all([
     loadChunkedReferenceRows<Pick<Ability, "id" | "name">>(
       abilityIds,
       (ids, from, to) =>
@@ -244,6 +250,18 @@ export const readPlannerPoolRows = async (
           .select("id, name")
           .in("id", ids)
           .order("id")
+          .range(from, to),
+      "Unable to load abilities for the Team Planner.",
+    ),
+    loadChunkedReferenceRows<PlannerPoolRows["abilityAttributes"][number]>(
+      abilityIds,
+      (ids, from, to) =>
+        reference
+          .from("ability_attributes")
+          .select("ability_id, version_group_start_id, effect_summary")
+          .in("ability_id", ids)
+          .order("ability_id")
+          .order("version_group_start_id")
           .range(from, to),
       "Unable to load abilities for the Team Planner.",
     ),
@@ -258,6 +276,7 @@ export const readPlannerPoolRows = async (
 
   return {
     abilities,
+    abilityAttributes,
     attributes,
     availability,
     availabilityMethods: methods.data,

@@ -109,6 +109,8 @@ export type PlannerBuildFields = {
 };
 
 export type PlannerContext = {
+  /* What each ability does in the version group, by its id. */
+  abilityEffects: Record<number, string>;
   buildFields: PlannerBuildFields;
   natures: {
     decreased_stat: string | null;

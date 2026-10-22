@@ -3,6 +3,7 @@ import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
 import { toNatureOptions } from "@/modules/reference/features/pokemon/components/nature-options";
 import { toHeldItemOptions } from "@/modules/mainline/shared/components/held-item-options";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
@@ -48,6 +49,13 @@ export const TeamMemberEditorDetailsStep = ({
     "abilities" | "heldItems" | "natures" | "terastal"
   >;
 }) => {
+  /* What the picked ability does, behind the "i" beside its label. */
+  const pickedAbilityEffect =
+    optionsState.status === "ready"
+      ? (optionsState.options.abilities.find(
+          (ability) => String(ability.id) === values.abilityId,
+        )?.effect ?? null)
+      : null;
   const optionFields =
     optionsState.status === "error" ? (
       <EmptyState variant="bare" title={optionsState.message} />
@@ -77,13 +85,28 @@ export const TeamMemberEditorDetailsStep = ({
         ) : null}
         {supports.abilities ? (
           <Field>
-            <EditorLabel edited={edited("abilityId")}>Ability</EditorLabel>
+            <div className="flex items-center gap-1.5">
+              <EditorLabel edited={edited("abilityId")}>Ability</EditorLabel>
+              {pickedAbilityEffect ? (
+                <ExplanatoryTip
+                  content={pickedAbilityEffect}
+                  triggerLabel="What this ability does"
+                />
+              ) : null}
+            </div>
             <SelectControl
               ariaLabel="Ability"
               placeholder="Not recorded"
               value={selectValue(values.abilityId)}
               onValueChange={(value) => change("abilityId", fromSelect(value))}
-              options={toSelectOptions(optionsState.options.abilities)}
+              options={[
+                { label: "Not recorded", value: noneValue },
+                ...optionsState.options.abilities.map((ability) => ({
+                  description: ability.effect ?? undefined,
+                  label: ability.name,
+                  value: String(ability.id),
+                })),
+              ]}
             />
           </Field>
         ) : null}

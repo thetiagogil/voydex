@@ -468,6 +468,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         buildFields={context.buildFields}
         byId={byId}
         index={openSlot}
+        abilityEffects={context.abilityEffects}
         natures={context.natures}
         onClose={() => setOpenSlot(null)}
         onMove={(from, to) => {

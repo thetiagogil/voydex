@@ -72,7 +72,8 @@ export const MenuOptionContent = ({
         {description ? (
           <span
             className={cn(
-              "text-13 mt-0.5 block truncate font-semibold",
+              /* Up to three lines, so an effect reads in full. */
+              "text-13 mt-0.5 line-clamp-3 font-semibold",
               active ? "text-select-ink" : "text-ink-2",
             )}
           >

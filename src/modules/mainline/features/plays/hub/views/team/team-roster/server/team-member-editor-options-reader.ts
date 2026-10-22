@@ -1,3 +1,4 @@
+import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
 import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
 import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
@@ -151,6 +152,8 @@ export const readTeamMemberEditorOptions = async (
 
   const [
     abilitiesResult,
+    abilityAttributesResult,
+    versionGroupsResult,
     balls,
     heldItems,
     moves,
@@ -163,6 +166,19 @@ export const readTeamMemberEditorOptions = async (
           .from("abilities")
           .select("id, name")
           .in("id", abilityIds)
+      : null,
+    abilityIds.length
+      ? supabase
+          .schema("reference")
+          .from("ability_attributes")
+          .select("ability_id, version_group_start_id, effect_summary")
+          .in("ability_id", abilityIds)
+      : null,
+    abilityIds.length
+      ? supabase
+          .schema("reference")
+          .from("version_groups")
+          .select("id, sort_order")
       : null,
     ballCategoryResult.data
       ? loadPagedReferenceRows<EditorOption>(
@@ -201,6 +217,8 @@ export const readTeamMemberEditorOptions = async (
 
   if (
     abilitiesResult?.error ||
+    abilityAttributesResult?.error ||
+    versionGroupsResult?.error ||
     targetFormsResult?.error ||
     targetAttributesResult?.error
   ) {
@@ -227,11 +245,18 @@ export const readTeamMemberEditorOptions = async (
   const abilityById = new Map(
     (abilitiesResult?.data ?? []).map((ability) => [ability.id, ability]),
   );
+  const abilityEffects = resolveAbilityEffects(
+    abilityAttributesResult?.data ?? [],
+    versionGroupId,
+    versionGroupsResult?.data ?? [],
+  );
 
   return {
     abilities: abilityIds.flatMap((id) => {
       const ability = abilityById.get(id);
-      return ability ? [ability] : [];
+      return ability
+        ? [{ ...ability, effect: abilityEffects.get(id) ?? null }]
+        : [];
     }),
     balls,
     evolutions: edges.flatMap((edge) => {

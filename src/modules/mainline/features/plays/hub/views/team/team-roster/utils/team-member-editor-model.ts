@@ -30,7 +30,8 @@ export type EditorFormOption = {
  * group, and where it can evolve or which forms it can take.
  */
 export type TeamMemberEditorOptions = {
-  abilities: EditorOption[];
+  /* Each with what it does in the Play's game, when known. */
+  abilities: (EditorOption & { effect: string | null })[];
   balls: EditorOption[];
   evolutions: EditorFormOption[];
   forms: EditorFormOption[];

@@ -1,5 +1,6 @@
 "use client";
 
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { TextLink } from "@/shared/components/text-link";
 import Link from "next/link";
@@ -42,6 +43,8 @@ import {
 } from "@/shared/components/ui/alert-dialog";
 
 type PlannerSlotSheetProps = {
+  /* What each ability does in the version group, by its id. */
+  abilityEffects: Record<number, string>;
   buildFields: PlannerBuildFields;
   byId: Map<number, PlannerPokemon>;
   index: number | null;
@@ -82,6 +85,7 @@ const anyValue = "";
  * first. On a locked Plan it reads, with Unlock to edit in Save's place.
  */
 export const PlannerSlotSheet = ({
+  abilityEffects,
   buildFields,
   byId,
   index,
@@ -309,7 +313,17 @@ export const PlannerSlotSheet = ({
               <div className={fieldRowClassName}>
                 {buildFields.ability && pokemon.abilities.length ? (
                   <Field>
-                    <FieldLabel htmlFor="plan-slot-ability">Ability</FieldLabel>
+                    <div className="flex items-center gap-1.5">
+                      <FieldLabel htmlFor="plan-slot-ability">
+                        Ability
+                      </FieldLabel>
+                      {member.abilityId && abilityEffects[member.abilityId] ? (
+                        <ExplanatoryTip
+                          content={abilityEffects[member.abilityId]}
+                          triggerLabel="What this ability does"
+                        />
+                      ) : null}
+                    </div>
                     <SelectControl
                       id="plan-slot-ability"
                       ariaLabel="Ability"
@@ -323,6 +337,7 @@ export const PlannerSlotSheet = ({
                       options={[
                         { label: "Any", value: anyValue },
                         ...pokemon.abilities.map((ability) => ({
+                          description: abilityEffects[ability.id],
                           label: ability.hidden
                             ? `${ability.name} (hidden)`
                             : ability.name,

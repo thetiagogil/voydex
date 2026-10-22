@@ -149,7 +149,13 @@ describe("Pokémon editor model", () => {
 describe("findUnofferedEditorChoice", () => {
   /* What the editor offered Charizard in Sword. */
   const options = {
-    abilities: [{ id: 66, name: "Blaze" }],
+    abilities: [
+      {
+        effect: "Powers up Fire-type moves in a pinch.",
+        id: 66,
+        name: "Blaze",
+      },
+    ],
     heldItems: [
       {
         category: "Type-Enhancing Items",

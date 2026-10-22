@@ -1,3 +1,4 @@
+import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
 import type {
   PlannerCatalogueRows,
   PlannerPoolRows,
@@ -256,6 +257,15 @@ export const buildPlannerContext = ({
   });
 
   return {
+    abilityEffects: buildFields.ability
+      ? Object.fromEntries(
+          resolveAbilityEffects(
+            pool.abilityAttributes,
+            versionGroup.id,
+            catalogue.versionGroups,
+          ),
+        )
+      : {},
     buildFields,
     natures: buildFields.nature
       ? pool.natures

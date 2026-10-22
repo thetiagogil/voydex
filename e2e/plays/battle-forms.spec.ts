@@ -156,6 +156,14 @@ test.describe("Battle forms", () => {
     await page.getByRole("button", { name: "Edit Fuecoco" }).click();
     const editor = page.getByRole("dialog", { name: "Fuecoco" });
 
+    /* Each ability says what it does, and the picked one keeps an "i". */
+    await editor.getByRole("combobox", { name: "Ability" }).click();
+    await page
+      .getByRole("option", { name: /Blaze.*Powers up Fire-type moves/ })
+      .click();
+    await expect(
+      editor.getByRole("button", { name: "What this ability does" }),
+    ).toBeVisible();
     /* Every nature says what it does, the neutral ones too. */
     await editor.getByRole("combobox", { name: "Nature" }).click();
     await expect(
