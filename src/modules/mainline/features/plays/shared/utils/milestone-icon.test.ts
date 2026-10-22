@@ -15,6 +15,11 @@ describe("isTrophyMilestone", () => {
     }
   });
 
+  it("counts Z-A's promotion matches as trophies, met as battles", () => {
+    expect(isTrophyMilestone("promotion-match")).toBe(true);
+    expect(getMilestoneIcon("promotion-match")).toBe(appIcons.product.battle);
+  });
+
   it("leaves story steps, choices, rivals and bosses out", () => {
     for (const slug of ["story", "decision", "rival", "boss", null]) {
       expect(isTrophyMilestone(slug)).toBe(false);

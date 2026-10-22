@@ -76,9 +76,11 @@ still pick them) and the details step lists what the pick breaks.
   this one) used, even one that has evolved since, by the rule's scope; the
   note names the closest use (same form, then species, then family).
 - **Level caps:** a Pokémon above the cap, the highest level on the team of
-  the first Gym Leader, Kahuna, Elite Four member or Champion Story still
-  has ahead (rivals and bosses don't set it), read as Story matchups reads
-  that battle. Add Pokémon checks the level once it's typed. In Play
+  the first Gym Leader, Kahuna, Elite Four member, Champion or Legends: Z-A
+  promotion match Story still has ahead (rivals and bosses don't set it),
+  read as Story matchups reads that battle. Where that story point holds
+  several such battles in a row, as Jacinthe's tournament does, the cap is
+  the strongest of them. Add Pokémon checks the level once it's typed. In Play
   details an "i" tip beside the rule gives the cap and its battle, or why
   there's none: Voydex doesn't have that battle's team (no warning then), or
   no such battle is left.

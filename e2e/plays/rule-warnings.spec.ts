@@ -237,6 +237,26 @@ test.describe("Rule warnings", () => {
     await expectAccessible(page);
   });
 
+  test("Level caps reads Legends: Z-A's next promotion match", async ({
+    page,
+  }) => {
+    await startPlay(page, {
+      game: "Pokémon Legends: Z-A, 2025",
+      name: uniquePlayName("Capped Royale run"),
+      partner: "Totodile",
+      rules: [{ name: "Level caps" }],
+    });
+
+    /* Zach's Pidgey and Pikachu are Lv. 9, and Zach is the first match ahead. */
+    await page.getByRole("button", { name: "Play details" }).click();
+    await page.getByRole("button", { name: "About Level caps" }).click();
+    await expect(
+      page.getByText(
+        "Lv. 9, the highest level on Zach's team, your next promotion match.",
+      ),
+    ).toBeVisible();
+  });
+
   test("a Play without rules shows no chip", async ({ page }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",

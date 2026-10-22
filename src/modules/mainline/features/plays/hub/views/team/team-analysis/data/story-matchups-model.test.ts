@@ -585,7 +585,7 @@ describe("buildStoryLevelCap", () => {
 
   it("caps at the first Gym Leader's strongest Pokémon on a new Play", () => {
     expect(build([])).toEqual({
-      battle: { kind: "Gym Leader", name: "Brock" },
+      battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Brock" },
       level: 14,
       status: "capped",
     });
@@ -593,7 +593,7 @@ describe("buildStoryLevelCap", () => {
 
   it("moves mid-game to the next leader, past rivals and the other version's leader", () => {
     expect(build([1])).toEqual({
-      battle: { kind: "Gym Leader", name: "Misty" },
+      battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Misty" },
       level: 21,
       status: "capped",
     });
@@ -601,14 +601,14 @@ describe("buildStoryLevelCap", () => {
 
   it("names the next battle when Voydex doesn't have its team", () => {
     expect(build([1, 2, 4])).toEqual({
-      battle: { kind: "Elite Four", name: "Lorelei" },
+      battle: { isPromotionMatch: false, kind: "Elite Four", name: "Lorelei" },
       status: "no-team",
     });
   });
 
   it("caps at the Champion's ace once the Elite Four is beaten", () => {
     expect(build([1, 2, 4, 5])).toEqual({
-      battle: { kind: "Champion", name: "Blue" },
+      battle: { isPromotionMatch: false, kind: "Champion", name: "Blue" },
       level: 65,
       status: "capped",
     });
@@ -634,7 +634,7 @@ describe("buildStoryLevelCap", () => {
         },
       }),
     ).toEqual({
-      battle: { kind: "Gym Leader", name: "Drayden" },
+      battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Drayden" },
       level: 48,
       status: "capped",
     });
@@ -642,6 +642,77 @@ describe("buildStoryLevelCap", () => {
 
   it("has no cap after the Champion", () => {
     expect(build([1, 2, 4, 5, 6])).toEqual({ status: "no-battle" });
+  });
+
+  /* Legends: Z-A in short: promotion matches, and Jacinthe's tournament as one story point. */
+  const buildZa = (won: number[]) =>
+    buildStoryLevelCap({
+      playGameId: 1,
+      rows: {
+        chosenChoiceKeys: new Set(),
+        opponentGameIdById: new Map(),
+        orderedMilestones: [
+          milestone(1, [{ id: 1, name: "Zach", role: "za-royale", typeId: 1 }]),
+          milestone(2, [
+            { id: 2, name: "Zygarde", role: "boss", typeId: 15 },
+            { id: 3, name: "Canari", role: "za-royale", typeId: 4 },
+          ]),
+          milestone(3, [
+            { id: 3, name: "Canari", role: "za-royale", typeId: 4 },
+            { id: 4, name: "Ivor", role: "za-royale", typeId: 7 },
+            { id: 2, name: "Zygarde", role: "boss", typeId: 15 },
+            { id: 5, name: "Jacinthe", role: "za-royale", typeId: 18 },
+          ]),
+          milestone(4, [
+            { id: 6, name: "Grisham", role: "za-royale", typeId: 1 },
+          ]),
+        ].map((item) =>
+          won.includes(item.milestone_id ?? 0)
+            ? { ...item, is_completed: true }
+            : item,
+        ),
+        partyRows: [
+          partyRow(1, 1, 1, 8),
+          partyRow(1, 1, 2, 9),
+          partyRow(2, 2, 1, 33),
+          partyRow(2, 3, 1, 39),
+          partyRow(3, 3, 1, 55),
+          partyRow(3, 4, 1, 55),
+          partyRow(3, 2, 1, 57),
+          partyRow(3, 5, 1, 58),
+          partyRow(3, 5, 2, 59),
+        ],
+        snapshotsByMilestoneId: new Map(),
+      },
+    });
+
+  it("caps a Z-A Play at the next promotion match, past a boss before it", () => {
+    expect(buildZa([])).toEqual({
+      battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Zach" },
+      level: 9,
+      status: "capped",
+    });
+    expect(buildZa([1])).toEqual({
+      battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Canari" },
+      level: 39,
+      status: "capped",
+    });
+  });
+
+  it("caps a tournament at its strongest battle, not its first round", () => {
+    expect(buildZa([1, 2])).toEqual({
+      battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Jacinthe" },
+      level: 59,
+      status: "capped",
+    });
+  });
+
+  it("moves on from a tournament to the next story point's battle", () => {
+    expect(buildZa([1, 2, 3])).toEqual({
+      battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Grisham" },
+      status: "no-team",
+    });
+    expect(buildZa([1, 2, 3, 4])).toEqual({ status: "no-battle" });
   });
 
   it("has no cap in a game whose Story has no leader battles", () => {

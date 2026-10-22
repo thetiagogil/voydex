@@ -3,8 +3,10 @@
 -- ============================================================================
 -- Primary: Bulbapedia Pokémon Legends: Z-A, Z-A Royale, Rogue Mega Evolution, Zygarde, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
--- Zygarde's story levels (10% Forme Lv. 33, 50% Forme Lv. 57) are confirmed by one source only.
+-- Zygarde's story levels: 10% Forme Lv. 33 is confirmed by one source only; Lv. 57 at Jacinthe's tournament is cross-checked with Thonky.
 -- Lysandre Labs and L's only battle (Main Mission 42): Bulbapedia, cross-checked with Nintendo Life.
+-- Promotion matches (Rank Z to Rank A): Bulbapedia Z-A Royale and trainer pages, cross-checked with Serebii, Thonky and Nintendo Life.
+-- Ten matches only: Vinnie's special promotion jumps from Rank V straight to Rank F. Jacinthe's tournament (Main Mission 30) is the Rank B match; Grisham's (end of Main Mission 35) is Rank A.
 -- Scope: Pokémon Legends: Z-A major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -36,12 +38,14 @@ INSERT INTO tracking.mainline_milestones (
   (260004, 26, NULL, 2602, 1, 1, NULL, 'enter-za-royale', 'Enter Z-A Royale', 'Enter the Z-A Royale and begin climbing from Rank Z toward Rank A.', 1, true),
   -- Unlock Mega Evolution
   (260005, 26, NULL, 2603, 6, 3, NULL, 'unlock-mega-evolution', 'Unlock Mega Evolution', 'Gain access to Mega Evolution during the Rogue Mega Evolution story.', 1, true),
-  -- Reach Rank A
-  (260006, 26, NULL, 2602, 1, 3, NULL, 'reach-rank-a', 'Reach Rank A', 'Reach Rank A in the Z-A Royale.', 2, true),
+  -- Reach Rank B (Jacinthe)
+  (260006, 26, NULL, 2603, 14, 2, NULL, 'reach-rank-b', 'Reach Rank B', 'Win Jacinthe''s tournament at Hotel Richissime and her promotion match to reach Rank B.', 6, true),
   -- Explore Lysandre Labs
   (260007, 26, NULL, 2604, 1, 3, NULL, 'explore-lysandre-labs', 'Explore Lysandre Labs', 'Explore Lysandre Labs beneath Lysandre Café, where L explains Ange and the ultimate weapon.', 1, true),
+  -- Reach Rank A (Grisham)
+  (260021, 26, NULL, 2604, 14, 2, NULL, 'reach-rank-a', 'Reach Rank A', 'Beat Grisham of Team Flare Nouveau in his promotion match to reach Rank A.', 2, true),
   -- Stop the Ange Crisis
-  (260008, 26, NULL, 2604, 6, 3, NULL, 'stop-ange-crisis', 'Stop the Ange Crisis', 'Stop the Prism Tower Ange crisis with Zygarde.', 2, true),
+  (260008, 26, NULL, 2604, 6, 3, NULL, 'stop-ange-crisis', 'Stop the Ange Crisis', 'Stop the Prism Tower Ange crisis with Zygarde.', 3, true),
   -- Infinite Z-A Royale
   (260009, 26, NULL, 2605, 1, 1, NULL, 'infinite-za-royale', 'Infinite Z-A Royale', 'Unlock the Infinite Z-A Royale after the main story.', 1, false),
   -- The One That Gives
@@ -49,4 +53,20 @@ INSERT INTO tracking.mainline_milestones (
   -- The One That Takes
   (260011, 26, NULL, 2606, 6, 2, NULL, 'the-one-that-takes', 'The One That Takes', 'Clear Vinnie''s Rogue Mega simulator, then catch Yveltal on the Galerie de la Lune roof.', 2, false),
   -- To Keep the World in Balance
-  (260012, 26, NULL, 2606, 6, 2, NULL, 'to-keep-the-world-in-balance', 'To Keep the World in Balance', 'Beat L at Hotel Z, then battle and catch Zygarde beneath Prism Tower.', 3, false);
+  (260012, 26, NULL, 2606, 6, 2, NULL, 'to-keep-the-world-in-balance', 'To Keep the World in Balance', 'Beat L at Hotel Z, then battle and catch Zygarde beneath Prism Tower.', 3, false),
+  -- Reach Rank Y (Zach)
+  (260013, 26, NULL, 2602, 14, 2, NULL, 'reach-rank-y', 'Reach Rank Y', 'Beat Zach in your first promotion match to reach Rank Y.', 2, true),
+  -- Reach Rank X (Yvon)
+  (260014, 26, NULL, 2602, 14, 2, NULL, 'reach-rank-x', 'Reach Rank X', 'Beat Yvon in a promotion match to reach Rank X.', 3, true),
+  -- Reach Rank W (Xavi)
+  (260015, 26, NULL, 2602, 14, 2, NULL, 'reach-rank-w', 'Reach Rank W', 'Beat Xavi in a promotion match to reach Rank W.', 4, true),
+  -- Reach Rank V (Rintaro)
+  (260016, 26, NULL, 2602, 14, 2, NULL, 'reach-rank-v', 'Reach Rank V', 'Beat Rintaro in a promotion match to reach Rank V.', 5, true),
+  -- Reach Rank F (Vinnie)
+  (260017, 26, NULL, 2603, 14, 2, NULL, 'reach-rank-f', 'Reach Rank F', 'Beat Vinnie in his special promotion match, which jumps you from Rank V to Rank F.', 2, true),
+  -- Reach Rank E (Canari)
+  (260018, 26, NULL, 2603, 14, 2, NULL, 'reach-rank-e', 'Reach Rank E', 'Beat Canari in a promotion match to reach Rank E.', 3, true),
+  -- Reach Rank D (Ivor)
+  (260019, 26, NULL, 2603, 14, 2, NULL, 'reach-rank-d', 'Reach Rank D', 'Beat Ivor in a promotion match to reach Rank D.', 4, true),
+  -- Reach Rank C (Corbeau)
+  (260020, 26, NULL, 2603, 14, 2, NULL, 'reach-rank-c', 'Reach Rank C', 'Beat Corbeau in a promotion match to reach Rank C.', 5, true);
