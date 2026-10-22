@@ -14,6 +14,7 @@ import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/te
 
 import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
+import { useBattleFormPick } from "./use-battle-form-pick";
 import {
   TeamMemberProfile,
   teamMemberNameClassName,
@@ -72,6 +73,7 @@ export const TeamMemberDetail = ({
   warnings: (RuleWarning & { key: string })[];
 }) => {
   const titleId = useId();
+  const { battleForm, renderFormMenu } = useBattleFormPick(member, battle);
 
   if (!member) {
     return <TeamRosterStart onAdd={onAdd} playId={playId} />;
@@ -92,6 +94,8 @@ export const TeamMemberDetail = ({
           />
         }
         battle={battle}
+        battleForm={battleForm}
+        formMenu={renderFormMenu()}
         mechanics={mechanics}
         member={member}
         notice={

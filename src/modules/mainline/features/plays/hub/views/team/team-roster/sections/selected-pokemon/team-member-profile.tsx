@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
@@ -7,14 +7,10 @@ import {
   getPlayTeamMemberName,
 } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
-import {
-  battleFormMechanicNames,
-  type MemberBattle,
+import type {
+  MemberBattle,
+  MemberBattleForm,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
-import {
-  PokemonFormMenu,
-  toPokemonFormOption,
-} from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -34,8 +30,6 @@ import { TeamMemberMoves } from "./team-member-moves";
 /* The name is the panel's heading: an h3 on the page, the title in a sheet. */
 export const teamMemberNameClassName = "title-page wrap-break-word";
 
-const baseFormValue = "base";
-
 /*
  * The selected Pokémon: its art on the type's tint (lively), with the shiny
  * tag top left and its actions top right, then a quiet record of who it is,
@@ -46,34 +40,34 @@ const baseFormValue = "base";
  */
 export const TeamMemberProfile = ({
   actions,
-  actionsBesideClose = false,
   battle = null,
+  battleForm = null,
+  formMenu,
   mechanics,
   member,
   notice,
   title,
+  toolbar,
 }: {
   /* Icon buttons in the art's top right corner (Edit, Open in Codex). */
   actions?: ReactNode;
-  /* A sheet's close button sits over the corner, so the actions step left. */
-  actionsBesideClose?: boolean;
   /* Its battle forms and Z-Moves in this game; null when it has none. */
   battle?: MemberBattle | null;
+  /* The battle form it shows (`useBattleFormPick`); null for its own. */
+  battleForm?: MemberBattleForm | null;
+  /* The form menu, in the art's bottom right corner. */
+  formMenu?: ReactNode;
+  /*
+   * Under the art in place of `actions` and `formMenu`, such as in a phone's
+   * sheet, where the close button sits over the art's corner.
+   */
+  toolbar?: ReactNode;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
   /* A note under its types, such as the rules it breaks. */
   notice?: ReactNode;
   title: ReactNode;
 }) => {
-  // The pick belongs to one member: selecting another shows its stored form.
-  const [picked, setPicked] = useState<{
-    formSlug: string;
-    memberId: string | null;
-  } | null>(null);
-  const battleForm =
-    picked?.memberId === member.play_pokemon_id
-      ? (battle?.forms.find((form) => form.slug === picked.formSlug) ?? null)
-      : null;
   // In a battle form it reads as that form, say "Mega Venusaur · Lv. 50".
   const shown: MainlinePlayTeamMember = battleForm
     ? {
@@ -97,7 +91,12 @@ export const TeamMemberProfile = ({
 
   return (
     <div style={getPokemonTypeCssVariables(primaryType)} className="min-w-0">
-      <div className="type-tint relative -mx-2 -mt-1.5 mb-4.5 grid h-50 place-items-center overflow-hidden rounded-xl sm:h-62.5">
+      <div
+        className={cn(
+          "type-tint relative -mx-2 -mt-1.5 grid h-62.5 place-items-center overflow-hidden rounded-xl",
+          toolbar ? "mb-3" : "mb-4.5",
+        )}
+      >
         <span
           aria-hidden
           className="absolute size-52.5 rounded-full bg-white/55"
@@ -113,47 +112,10 @@ export const TeamMemberProfile = ({
           </Badge>
         ) : null}
         {actions ? (
-          <div
-            className={cn(
-              "absolute top-3 z-10",
-              actionsBesideClose ? "right-14" : "right-3",
-            )}
-          >
-            {actions}
-          </div>
+          <div className="absolute top-3 right-3 z-10">{actions}</div>
         ) : null}
-        {battle?.forms.length ? (
-          <PokemonFormMenu
-            ariaLabel="Battle form"
-            className="absolute bottom-3 left-3 z-10"
-            value={battleForm?.slug ?? baseFormValue}
-            onValueChange={(formSlug) =>
-              setPicked({ formSlug, memberId: member.play_pokemon_id })
-            }
-            options={[
-              toPokemonFormOption({
-                description: getPlayTeamMemberName(member),
-                imageUrl: getPlayTeamMemberImageUrl(member, "sm"),
-                label: "Base",
-                name: getPlayTeamMemberName(member),
-                typeSlug: member.primaryType?.slug ?? null,
-                value: baseFormValue,
-              }),
-              ...battle.forms.map((form) =>
-                toPokemonFormOption({
-                  description: `In battle · ${battleFormMechanicNames[form.mechanic]}`,
-                  imageUrl: getPlayTeamMemberImageUrl(
-                    { ...member, form_name: form.name, form_slug: form.slug },
-                    "sm",
-                  ),
-                  label: form.label,
-                  name: form.name,
-                  typeSlug: form.primaryType?.slug ?? null,
-                  value: form.slug,
-                }),
-              ),
-            ]}
-          />
+        {formMenu ? (
+          <div className="absolute right-3 bottom-3 z-10">{formMenu}</div>
         ) : null}
         <FallbackImage
           src={imageUrl}
@@ -162,6 +124,11 @@ export const TeamMemberProfile = ({
           className="relative size-42.5 sm:size-55"
         />
       </div>
+      {toolbar ? (
+        <div className="mb-4.5 flex flex-wrap items-center justify-between gap-2">
+          {toolbar}
+        </div>
+      ) : null}
 
       {title}
       <p className="text-ink-2 mt-1 mb-3 font-semibold">

@@ -14,6 +14,7 @@ import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/te
 
 import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
+import { useBattleFormPick } from "./use-battle-form-pick";
 import {
   TeamMemberProfile,
   teamMemberNameClassName,
@@ -33,8 +34,9 @@ type TeamMemberDetailSheetProps = {
 };
 
 /*
- * On phones and tablets the selected Pokémon opens in a bottom sheet, Edit
- * and Open in Codex in its art's corner as on wide screens.
+ * On phones and tablets the selected Pokémon opens in a bottom sheet. Its
+ * form menu, Edit and Open in Codex sit in a row under the art, clear of the
+ * sheet's close button in the art's corner.
  */
 export const TeamMemberDetailSheet = ({
   battle,
@@ -48,6 +50,7 @@ export const TeamMemberDetailSheet = ({
 }: TeamMemberDetailSheetProps) => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const name = member ? getPlayTeamMemberName(member) : "Team member";
+  const { battleForm, renderFormMenu } = useBattleFormPick(member, battle);
 
   return (
     <BottomSheet
@@ -59,15 +62,18 @@ export const TeamMemberDetailSheet = ({
     >
       {member ? (
         <TeamMemberProfile
-          actions={
-            <TeamMemberActions
-              member={member}
-              onEdit={onEdit}
-              versionGroupSlug={versionGroupSlug}
-            />
-          }
-          actionsBesideClose
           battle={battle}
+          battleForm={battleForm}
+          toolbar={
+            <>
+              {renderFormMenu() ?? <span />}
+              <TeamMemberActions
+                member={member}
+                onEdit={onEdit}
+                versionGroupSlug={versionGroupSlug}
+              />
+            </>
+          }
           mechanics={mechanics}
           member={member}
           notice={
