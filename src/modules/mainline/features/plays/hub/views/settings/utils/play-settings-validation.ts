@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { isCalendarDay } from "@/shared/utils/calendar-day";
 import { parseInput } from "@/shared/utils/input-schemas";
 
 /* What the General section saves. */
@@ -26,18 +27,6 @@ export class PlaySettingsValidationError extends Error {
     this.name = "PlaySettingsValidationError";
   }
 }
-
-const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-
-const isCalendarDate = (value: string) => {
-  if (!datePattern.test(value)) {
-    return false;
-  }
-
-  const date = new Date(`${value}T00:00:00Z`);
-
-  return !Number.isNaN(date.getTime()) && date.toISOString().startsWith(value);
-};
 
 const toValidationError = (message: string) =>
   new PlaySettingsValidationError(message);
@@ -72,7 +61,7 @@ const playGeneralSettingsSchema = (allowedStatusIds: readonly number[]) =>
     startedOn: z
       .string({ error: "Pick the day the Play started." })
       .trim()
-      .refine((value) => !value || isCalendarDate(value), {
+      .refine((value) => !value || isCalendarDay(value), {
         error: "Pick the day the Play started.",
       }),
     statusId: z
