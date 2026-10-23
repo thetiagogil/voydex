@@ -137,4 +137,28 @@ describe("buildTeamAnalysisRows coverage", () => {
     expect(water?.moveCount).toBe(1);
     expect(grass?.hits.map((hit) => hit.memberName)).toEqual(["Squirtle"]);
   });
+
+  it("agrees with the count, and leaves out status moves", () => {
+    const { coverageRows } = buildTeamAnalysisRows({
+      generationOrder: 6,
+      members: [
+        member("Bulba", [
+          move("vine-whip", "physical", 45, "grass"),
+          move("razor-leaf", "physical", 55, "grass"),
+          move("leech-seed", "status", null, "grass"),
+        ]),
+      ],
+      types,
+    });
+
+    for (const row of coverageRows) {
+      expect(row.hits.reduce((sum, hit) => sum + hit.moves.length, 0)).toBe(
+        row.moveCount,
+      );
+    }
+    expect(
+      coverageRows.find((row) => row.defendingType.slug === "water")?.hits[0]
+        .moves,
+    ).toHaveLength(2);
+  });
 });

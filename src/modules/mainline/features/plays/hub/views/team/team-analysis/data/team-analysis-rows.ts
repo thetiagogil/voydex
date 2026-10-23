@@ -2,7 +2,10 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
 } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   buildTeamTypeCoverage,
   buildTeamTypeMatchups,
@@ -97,6 +100,7 @@ const getCoverageHits = ({
     return moves.length
       ? [
           {
+            imageUrl: getPlayTeamMemberImageUrl(member),
             memberId: getTeamAnalysisMemberId(member),
             memberName: getPlayTeamMemberName(member),
             moves,

@@ -12,6 +12,7 @@ export type TeamAnalysisDefensiveRow = TypeMatchupRow<Type>;
 
 /* One of yours and the recorded moves it hits a type super effectively with. */
 export type TeamAnalysisCoverageHit = {
+  imageUrl: string | null;
   memberId: string;
   memberName: string;
   moves: { name: string; typeSlug: string }[];

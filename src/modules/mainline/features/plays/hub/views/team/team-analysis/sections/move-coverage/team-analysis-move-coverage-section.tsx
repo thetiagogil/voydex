@@ -2,13 +2,10 @@
 
 import { useState } from "react";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type {
   TeamAnalysisCoverageRow,
   TeamAnalysisCoverageHit,
 } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
-import { getTeamAnalysisMemberId } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/data/team-analysis-rows";
-import { getPlayTeamMemberImageUrl } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { TypeCoverageChip } from "@/modules/mainline/shared/components/type-coverage-chip";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
@@ -27,13 +24,7 @@ const formatMoves = (hit: TeamAnalysisCoverageHit) =>
   hit.moves.map((move) => move.name).join(", ");
 
 /* Who hits this type and with what, or that nothing does. */
-const CoverageTip = ({
-  members,
-  row,
-}: {
-  members: MainlinePlayTeamMember[];
-  row: TeamAnalysisCoverageRow;
-}) => (
+const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => (
   <TipStack className="gap-2.5">
     <TipHead tone={row.moveCount ? "ok" : "warn"}>
       {row.moveCount
@@ -44,11 +35,6 @@ const CoverageTip = ({
       <TipSection title="Your team">
         <TipRows>
           {row.hits.map((hit) => {
-            const member = members.find(
-              (candidate) =>
-                getTeamAnalysisMemberId(candidate) === hit.memberId,
-            );
-
             return (
               <TipRow
                 key={hit.memberId}
@@ -59,7 +45,7 @@ const CoverageTip = ({
                     decorative
                     name={hit.memberName}
                     className="size-8 shrink-0"
-                    imageUrl={member ? getPlayTeamMemberImageUrl(member) : null}
+                    imageUrl={hit.imageUrl}
                     typeSlug={null}
                   />
                 }
@@ -84,10 +70,8 @@ const CoverageTip = ({
  * dims the rest and says who hits it and with what.
  */
 export const TeamAnalysisMoveCoverageSection = ({
-  members,
   rows,
 }: {
-  members: MainlinePlayTeamMember[];
   rows: TeamAnalysisCoverageRow[];
 }) => {
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -138,7 +122,7 @@ export const TeamAnalysisMoveCoverageSection = ({
                   className="focus-ring cursor-help rounded-full"
                 />
               }
-              content={<CoverageTip members={members} row={row} />}
+              content={<CoverageTip row={row} />}
             >
               <TypeCoverageChip
                 type={row.defendingType}
@@ -146,7 +130,7 @@ export const TeamAnalysisMoveCoverageSection = ({
                 count={row.moveCount}
                 spoken={
                   row.moveCount > 0
-                    ? `${row.moveCount} recorded ${row.moveCount === 1 ? "move" : "moves"}`
+                    ? `${row.moveCount} recorded ${row.moveCount === 1 ? "move" : "moves"}, from ${row.hits.map((hit) => hit.memberName).join(", ")}`
                     : "no recorded move"
                 }
               />
@@ -156,7 +140,7 @@ export const TeamAnalysisMoveCoverageSection = ({
       </ul>
       <p className="text-ink-2 text-13 mt-3 font-semibold">
         Each number counts your recorded damaging moves that hit that type super
-        effectively. Hover a type to see which.
+        effectively. Hover, focus or tap a type to see which.
       </p>
     </DetailSectionCard>
   );

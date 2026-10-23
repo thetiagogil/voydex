@@ -377,18 +377,29 @@ export const buildTeamAnalysisHealth = ({
           ],
           yours: withRoughNote(
             pressureReadings.length
-              ? pressureReadings
-                  .slice(0, TIP_TYPES)
-                  .map((reading): TeamAnalysisTipRow => {
-                    const open = !isAnswered(reading);
+              ? [
+                  ...pressureReadings
+                    .slice(0, TIP_TYPES)
+                    .map((reading): TeamAnalysisTipRow => {
+                      const open = !isAnswered(reading);
 
-                    return {
-                      chip: open ? "Unanswered" : "Answered",
-                      detail: `Beats ${joinTeamAnalysisList(reading.beats, "and")}`,
-                      subject: { type: reading.type },
-                      tone: open ? "danger" : "ok",
-                    };
-                  })
+                      return {
+                        chip: open ? "Unanswered" : "Answered",
+                        detail: `Beats ${joinTeamAnalysisList(reading.beats, "and")}`,
+                        subject: { type: reading.type },
+                        tone: open ? "danger" : "ok",
+                      };
+                    }),
+                  ...(pressureReadings.length > TIP_TYPES
+                    ? [
+                        {
+                          subject: {
+                            text: `and ${pressureReadings.length - TIP_TYPES} more`,
+                          },
+                        },
+                      ]
+                    : []),
+                ]
               : [
                   {
                     subject: {
