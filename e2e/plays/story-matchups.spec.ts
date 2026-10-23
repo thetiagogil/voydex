@@ -151,22 +151,19 @@ test.describe("Story matchups", () => {
       "This reads their moves against your team.",
     );
 
-    /* Onix's Gym Leader move, Bide, in its third slot. */
-    const onix = report.getByRole("button", { name: /Onix/ });
-    await expect(onix).toHaveAccessibleName(/knows Tackle, Screech, Bide/);
-    await onix.hover();
-    const tip = page.getByRole("dialog").filter({ hasText: "Onix · Lv. 14" });
-    await expect(tip).toContainText("Bide");
-
-    await page.mouse.move(0, 0);
-    await expect(tip).toBeHidden();
-
-    /* From the keyboard: Enter pins it and Escape closes it. */
-    await onix.focus();
-    await page.keyboard.press("Enter");
-    await expect(tip).toBeVisible();
-    await page.keyboard.press("Escape");
-    await expect(tip).toBeHidden();
+    /* Show moves turns each card over; Onix's Gym Leader move is Bide. */
+    const bide = report.getByRole("listitem").filter({ hasText: /^Bide$/ });
+    await expect(bide).toHaveCount(0);
+    const showMoves = report.getByRole("button", { name: "Show moves" });
+    await showMoves.click();
+    await expect(showMoves).toHaveAttribute("aria-pressed", "true");
+    await expect(bide).toBeVisible();
+    /* Geodude and Onix both know Tackle. */
+    await expect(
+      report.getByRole("listitem").filter({ hasText: /^Tackle$/ }),
+    ).toHaveCount(2);
+    await showMoves.click();
+    await expect(bide).toHaveCount(0);
     await expectAccessible(page);
   });
 });

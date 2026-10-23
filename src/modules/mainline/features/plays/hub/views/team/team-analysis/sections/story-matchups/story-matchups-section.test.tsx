@@ -158,7 +158,7 @@ describe("StoryMatchupsSection", () => {
     expect(html).not.toContain("aren&#x27;t in Voydex yet");
   });
 
-  it("lists their moves on each card that has them and says what it reads them by", () => {
+  it("turns their cards to their moves with Show moves and says what it reads them by", () => {
     const onix = withTeam.party!.pokemon[0];
     const known = {
       ...onix,
@@ -184,9 +184,13 @@ describe("StoryMatchupsSection", () => {
     expect(typesOnly).toContain(
       "Their moves aren&#x27;t in Voydex, so this reads their types",
     );
-    expect(typesOnly).not.toContain("knows");
-    expect(allKnown).toContain(", knows Rock Throw, Screech");
+    expect(typesOnly).not.toContain("Show moves");
+    /* The back of each card is there but turned away until Show moves. */
+    expect(allKnown).toContain('aria-pressed="false"');
+    expect(allKnown).toContain("Show moves");
+    expect(allKnown).toContain("Rock Throw");
     expect(allKnown).toContain("This reads their moves against your team.");
+    expect(someKnown).toContain("Its moves aren&#x27;t in Voydex.");
     expect(someKnown).toContain(
       "Voydex has the moves of 1 of their 2 Pokémon and reads the others by their types.",
     );

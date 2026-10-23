@@ -203,8 +203,9 @@ Physical or Special move counts by its type, varying power included, while
 status and set-damage moves count for nothing; Tera Blast takes its Tera Type,
 Judgment-like moves the user's type, and Hidden Power, whose type isn't known,
 is left out. A Pokémon whose moves Voydex doesn't have is read by its types
-instead, and the footnote says how many of theirs have moves. Each card with
-moves opens them on hover, focus or a tap.
+instead, and the footnote says how many of theirs have moves. Show moves, at
+the end of their team's heading, turns every card over to its moves (each on
+its type's tint) and back again.
 A Pokémon that Terastallizes in the battle is read by its Tera Type for what
 hits it (Stellar keeps its own types); without its moves, its own types and its
 Tera Type both count as its threat. Where the Play's game has the mechanic
