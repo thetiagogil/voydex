@@ -1,4 +1,7 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayLevelCap,
+  MainlinePlayTeamMember,
+} from "@/modules/mainline/features/plays/hub/types";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import {
   gameMechanics,
@@ -8,8 +11,12 @@ import {
 import type { Generation, Type } from "@/modules/reference/types";
 
 import type { TeamAnalysisModel } from "../types";
-import { buildTeamAnalysisHealth } from "./team-analysis-health";
+import {
+  buildTeamAnalysisHealth,
+  getTeamFieldRoughNote,
+} from "./team-analysis-health";
 import { buildTeamAnalysisRows } from "./team-analysis-rows";
+import { readTeamField } from "./team-field-reading";
 
 const getLineupLabel = (statusSlug: string | null) => {
   if (statusSlug === "completed") return "Final team";
@@ -19,12 +26,15 @@ const getLineupLabel = (statusSlug: string | null) => {
 
 export const buildTeamAnalysisModel = ({
   generation,
+  levelCap,
   mechanics,
   members,
   play,
   types,
 }: {
   generation: Generation;
+  /* The next leader battle the field reads at; null when it isn't read. */
+  levelCap: MainlinePlayLevelCap | null;
   mechanics: GameMechanicsProfile;
   members: MainlinePlayTeamMember[];
   play: MainlinePlaySummary;
@@ -50,19 +60,23 @@ export const buildTeamAnalysisModel = ({
       .length,
   };
 
+  const field = readTeamField({
+    generationOrder: generation.sort_order,
+    levelCap,
+    members: activeMembers,
+    types,
+  });
+
   return {
     abilitiesApply: supportsGameMechanic(mechanics, gameMechanics.abilities),
     coverageRows,
     defensiveRows,
     evidence,
     generation,
-    healthMetrics: buildTeamAnalysisHealth({
-      coverageRows,
-      defensiveRows,
-      evidence,
-    }),
+    healthMetrics: buildTeamAnalysisHealth({ evidence, field }),
     heldItemsApply: supportsGameMechanic(mechanics, gameMechanics.heldItems),
     lineupLabel: getLineupLabel(play.status_slug),
     members: activeMembers,
+    roughNote: getTeamFieldRoughNote(field),
   };
 };

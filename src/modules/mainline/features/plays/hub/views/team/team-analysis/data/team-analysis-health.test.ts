@@ -1,95 +1,89 @@
 import { describe, expect, it } from "vitest";
 
-import type {
-  TeamAnalysisCoverageRow,
-  TeamAnalysisDefensiveRow,
-  TeamAnalysisEvidence,
-  TeamAnalysisHealthStatus,
-} from "../types";
-import { buildTeamAnalysisHealth } from "./team-analysis-health";
+import type { Type } from "@/modules/reference/types";
 
-const referenceType = (id: number) => ({
-  created_at: "2026-01-01T00:00:00.000Z",
-  id,
-  introduced_generation_id: 1,
-  name: `Type ${id}`,
-  slug: `type-${id}`,
-  sort_order: id,
+import type { TeamAnalysisEvidence, TeamAnalysisHealthStatus } from "../types";
+import { buildTeamAnalysisHealth } from "./team-analysis-health";
+import type {
+  TeamFieldReading,
+  TeamFieldTypeReading,
+} from "./team-field-reading";
+
+const referenceType = (id: number) =>
+  ({
+    id,
+    introduced_generation_id: 1,
+    name: `Type ${id}`,
+    slug: `type-${id}`,
+    sort_order: id,
+  }) as Type;
+
+/* Ten types the team answers cheaply and knocks out in two hits, with these changed. */
+const typeReadings = (
+  changes: Record<number, Partial<Omit<TeamFieldTypeReading, "type">>> = {},
+) =>
+  Array.from(
+    { length: 10 },
+    (_, id): TeamFieldTypeReading => ({
+      answerCost: 0.2,
+      beats: [],
+      hitsToKnockOut: 2,
+      type: referenceType(id),
+      ...changes[id],
+    }),
+  );
+
+const field = ({
+  levelGap = 0,
+  unrecorded = { levels: 0, moves: 0 },
+  share = 0.2,
+  theirCount = 6,
+  types = typeReadings(),
+}: {
+  levelGap?: number | null;
+  unrecorded?: TeamFieldReading["unrecorded"];
+  share?: number;
+  theirCount?: number;
+  types?: TeamFieldTypeReading[];
+} = {}): TeamFieldReading => ({
+  benchmark: {
+    kind: "battle",
+    level: 34,
+    levels: Array(theirCount).fill(34),
+    name: "Fantina",
+  },
+  levelGap,
+  unrecorded,
+  share,
+  types,
 });
 
-const defensiveRow = ({
-  id,
-  immuneCount = 0,
-  resistCount = 0,
-  severeExposureCount = 0,
-  weakCount,
-}: {
-  id: number;
-  immuneCount?: number;
-  resistCount?: number;
-  severeExposureCount?: number;
-  weakCount: number;
-}) =>
-  ({
-    attackingType: referenceType(id),
-    cells: Array.from({ length: severeExposureCount }, (_, index) => ({
-      effectiveness: "weak",
-      memberId: `member-${id}-${index}`,
-      memberName: `Member ${index}`,
-      multiplier: 4,
-      multiplierLabel: "4×",
-    })),
-    immuneCount,
-    isPressure: weakCount >= 2 || severeExposureCount > 0,
-    resistCount,
-    weakCount,
-  }) as TeamAnalysisDefensiveRow;
-
-const coverageRows = (coveredTypeIds: number[], totalCount = 10) => {
-  return Array.from(
-    { length: totalCount },
-    (_, index) =>
-      ({
-        defendingType: referenceType(index),
-        moveCount: coveredTypeIds.includes(index) ? 1 : 0,
-      }) as TeamAnalysisCoverageRow,
-  );
-};
-
-const evidence = ({
-  recordedMoveCount = 24,
-  typedMemberCount = 6,
-}: {
-  recordedMoveCount?: number;
-  typedMemberCount?: number;
-} = {}): TeamAnalysisEvidence => ({
+const evidence = (typedMemberCount = 6): TeamAnalysisEvidence => ({
   activeCount: 6,
   possibleMoveCount: 24,
-  recordedMoveCount,
+  recordedMoveCount: 24,
   typedMemberCount,
 });
 
-const getStatuses = (metrics: ReturnType<typeof buildTeamAnalysisHealth>) => {
-  return Object.fromEntries(
-    metrics.map((metric) => [metric.id, metric.status]),
+const build = (reading: TeamFieldReading, typed = 6) =>
+  Object.fromEntries(
+    buildTeamAnalysisHealth({
+      evidence: evidence(typed),
+      field: reading,
+    }).map((metric) => [metric.id, metric]),
+  );
+
+const statuses = (reading: TeamFieldReading, typed = 6) =>
+  Object.fromEntries(
+    Object.entries(build(reading, typed)).map(([id, metric]) => [
+      id,
+      metric.status,
+    ]),
   ) as Record<string, TeamAnalysisHealthStatus>;
-};
 
 describe("buildTeamAnalysisHealth", () => {
-  it("rates a well-covered lineup as strong", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3, 4, 5, 6, 7]),
-      defensiveRows: Array.from({ length: 4 }, (_, index) =>
-        defensiveRow({
-          id: index,
-          resistCount: 1,
-          weakCount: 2,
-        }),
-      ),
-      evidence: evidence({ recordedMoveCount: 12 }),
-    });
-
-    expect(getStatuses(metrics)).toEqual({
+  it("rates a team that beats the field cheaply as strong", () => {
+    expect(statuses(field())).toEqual({
       "move-coverage": "strong",
       "team-health": "strong",
       "threat-response": "strong",
@@ -97,188 +91,156 @@ describe("buildTeamAnalysisHealth", () => {
     });
   });
 
-  it("keeps mixed signals in the moderate tier", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3, 4]),
-      defensiveRows: [
-        defensiveRow({ id: 1, resistCount: 1, weakCount: 2 }),
-        defensiveRow({ id: 2, resistCount: 1, weakCount: 1 }),
-        defensiveRow({
-          id: 8,
-          severeExposureCount: 1,
-          weakCount: 2,
-        }),
-        defensiveRow({ id: 9, resistCount: 1, weakCount: 1 }),
-      ],
-      evidence: evidence(),
-    });
-
-    expect(getStatuses(metrics)).toEqual({
-      "move-coverage": "moderate",
-      "team-health": "moderate",
-      "threat-response": "moderate",
-      "weakness-control": "moderate",
-    });
+  it("reads Team health from what beating the field costs, by Story's limits", () => {
+    expect(statuses(field({ share: 0.3 }))["team-health"]).toBe("strong");
+    expect(statuses(field({ share: 0.5 }))["team-health"]).toBe("moderate");
+    expect(statuses(field({ share: 0.9 }))["team-health"]).toBe("weak");
   });
 
-  it("marks multiple open gaps as weak", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2]),
-      defensiveRows: [
-        defensiveRow({ id: 0, resistCount: 1, weakCount: 1 }),
-        defensiveRow({
-          id: 5,
-          severeExposureCount: 1,
-          weakCount: 2,
-        }),
-        defensiveRow({
-          id: 6,
-          severeExposureCount: 1,
-          weakCount: 3,
-        }),
-        defensiveRow({ id: 7, weakCount: 1 }),
-      ],
-      evidence: evidence(),
+  it("leads Team health with a level edge, then the type to watch", () => {
+    expect(
+      build(field({ levelGap: -4, share: 0.6 }))["team-health"],
+    ).toMatchObject({
+      line: [{ text: "4 levels behind" }],
     });
+    expect(build(field({ levelGap: 3 }))["team-health"]?.line).toEqual([
+      { text: "3 levels ahead" },
+    ]);
 
-    expect(getStatuses(metrics)).toEqual({
-      "move-coverage": "weak",
-      "team-health": "weak",
-      "threat-response": "weak",
-      "weakness-control": "weak",
-    });
+    const metric = build(
+      field({ share: 0.5, types: typeReadings({ 4: { answerCost: 1.2 } }) }),
+    )["team-health"];
+
+    expect(metric?.line).toEqual([
+      { text: "Watch" },
+      { type: referenceType(4) },
+    ]);
+    expect(metric?.reason).toContain(
+      "at the levels of Fantina's 6 (Lv. 34), your next leader battle.",
+    );
+    expect(metric?.reason).toContain(
+      "Beating them costs about 50% of your team's HP.",
+    );
+    expect(metric?.reason).toContain("Type 4 costs you the most.");
   });
 
-  it("does not grade incomplete typing or absent move evidence", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([]),
-      defensiveRows: [defensiveRow({ id: 1, weakCount: 2 })],
-      evidence: evidence({
-        recordedMoveCount: 0,
-        typedMemberCount: 5,
+  it("says how far behind your levels are, then how many each side brings", () => {
+    expect(
+      build(field({ levelGap: -5, theirCount: 3 }))["team-health"]?.reason,
+    ).toContain(
+      "Your top level is 5 below their ace, and you bring 6 to their 3.",
+    );
+    expect(build(field({ theirCount: 3 }))["team-health"]?.reason).toContain(
+      "Your top level matches their ace, and you bring 6 to their 3.",
+    );
+  });
+
+  it("names three types and counts the rest", () => {
+    const reason = build(
+      field({
+        types: typeReadings({
+          1: { answerCost: 1.5 },
+          2: { answerCost: 1.4 },
+          3: { answerCost: 1.3 },
+          4: { answerCost: 1.2 },
+          5: { answerCost: 1.1 },
+        }),
       }),
-    });
+    )["threat-response"]?.reason;
 
-    expect(getStatuses(metrics)).toEqual({
+    expect(reason).toContain("; Type 1, Type 2, Type 3 and 2 more cost more.");
+  });
+
+  it("answers a type while your best answers beat it for less than 90% of a Pokémon", () => {
+    const one = build(
+      field({ types: typeReadings({ 3: { answerCost: 0.9 } }) }),
+    )["threat-response"];
+
+    expect(one?.status).toBe("moderate");
+    expect(one?.line).toEqual([{ text: "9 of 10 answered" }]);
+    expect(one?.reason).toContain("; Type 3 cost more.");
+    expect(
+      statuses(
+        field({
+          types: typeReadings({
+            1: { answerCost: 1 },
+            2: { answerCost: 1 },
+            3: { answerCost: 1 },
+          }),
+        }),
+      )["threat-response"],
+    ).toBe("weak");
+  });
+
+  it("counts the types your hardest hits knock out in two hits", () => {
+    const metric = build(
+      field({
+        types: typeReadings({
+          1: { hitsToKnockOut: 3 },
+          2: { hitsToKnockOut: 3 },
+          3: { hitsToKnockOut: Infinity },
+        }),
+      }),
+    )["move-coverage"];
+
+    expect(metric?.status).toBe("moderate");
+    expect(metric?.line).toEqual([{ text: "7 of 10 types" }]);
+    expect(metric?.reason).toContain("Type 1, Type 2 and Type 3 take more");
+    expect(metric?.reason).toContain("Strong from 8 types, Moderate from 5.");
+  });
+
+  it("flags a shared weak spot only while nothing answers it", () => {
+    const answered = build(
+      field({
+        types: typeReadings({ 5: { beats: ["Mismagius", "Luxray"] } }),
+      }),
+    )["weakness-control"];
+
+    expect(answered?.status).toBe("strong");
+    expect(answered?.line).toEqual([{ text: "1 shared, all answered" }]);
+    expect(answered?.reason).toContain("Type 5 (Mismagius and Luxray)");
+
+    const open = build(
+      field({
+        types: typeReadings({
+          5: { answerCost: 1.1, beats: ["Mismagius", "Luxray"] },
+          6: { answerCost: 1.3, beats: ["Luxray", "Staravia"] },
+        }),
+      }),
+    )["weakness-control"];
+
+    expect(open?.status).toBe("weak");
+    /* The costliest one leads. */
+    expect(open?.line).toEqual([
+      { type: referenceType(6) },
+      { text: "unanswered" },
+    ]);
+  });
+
+  it("says when a missing level or move makes every card a rough read", () => {
+    const metrics = build(field({ unrecorded: { levels: 2, moves: 1 } }));
+
+    for (const metric of Object.values(metrics)) {
+      expect(metric.reason).toContain(
+        "A rough read: 2 of yours have no level and 1 has no damaging move recorded.",
+      );
+    }
+    expect(metrics["move-coverage"]?.reason).toContain(
+      "Yours without a damaging move recorded hit with their own types.",
+    );
+    expect(
+      build(field({ unrecorded: { levels: 0, moves: 1 } }))["team-health"]
+        ?.reason,
+    ).toContain("A rough read: 1 of yours has no damaging move recorded.");
+    expect(build(field())["team-health"]?.reason).not.toContain("rough");
+  });
+
+  it("does not grade a team with typing missing", () => {
+    expect(statuses(field(), 5)).toEqual({
       "move-coverage": "limited-data",
       "team-health": "limited-data",
       "threat-response": "limited-data",
       "weakness-control": "limited-data",
     });
-  });
-
-  it("treats recorded counter-coverage as an answer to a 4× exposure", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3, 4, 5, 6, 7]),
-      defensiveRows: [
-        defensiveRow({
-          id: 4,
-          severeExposureCount: 1,
-          weakCount: 1,
-        }),
-      ],
-      evidence: evidence({ recordedMoveCount: 12 }),
-    });
-
-    expect(getStatuses(metrics)).toEqual({
-      "move-coverage": "strong",
-      "team-health": "strong",
-      "threat-response": "strong",
-      "weakness-control": "strong",
-    });
-  });
-
-  it("keeps overall health moderate until every dimension is strong", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3, 4, 5, 6]),
-      defensiveRows: [
-        defensiveRow({
-          id: 0,
-          resistCount: 1,
-          weakCount: 2,
-        }),
-      ],
-      evidence: evidence({ recordedMoveCount: 12 }),
-    });
-
-    expect(getStatuses(metrics)).toEqual({
-      "move-coverage": "moderate",
-      "team-health": "moderate",
-      "threat-response": "strong",
-      "weakness-control": "strong",
-    });
-  });
-
-  it("marks one weak dimension as weak overall when no dimension is strong", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3]),
-      defensiveRows: [
-        defensiveRow({ id: 0, resistCount: 1, weakCount: 1 }),
-        defensiveRow({ id: 6, resistCount: 1, weakCount: 1 }),
-        defensiveRow({ id: 7, resistCount: 1, weakCount: 1 }),
-        defensiveRow({
-          id: 8,
-          severeExposureCount: 1,
-          weakCount: 2,
-        }),
-      ],
-      evidence: evidence(),
-    });
-
-    expect(getStatuses(metrics)).toEqual({
-      "move-coverage": "weak",
-      "team-health": "weak",
-      "threat-response": "moderate",
-      "weakness-control": "moderate",
-    });
-  });
-
-  it("keeps one unanswered 4× exposure moderate rather than weak", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3, 5, 6, 7]),
-      defensiveRows: [
-        defensiveRow({
-          id: 4,
-          severeExposureCount: 1,
-          weakCount: 1,
-        }),
-      ],
-      evidence: evidence({ recordedMoveCount: 12 }),
-    });
-
-    expect(getStatuses(metrics)["weakness-control"]).toBe("moderate");
-  });
-
-  it("names the type to watch and whom it hits", () => {
-    const metrics = buildTeamAnalysisHealth({
-      coverageRows: coverageRows([0, 1, 2, 3, 5, 6, 7]),
-      defensiveRows: [
-        defensiveRow({
-          id: 4,
-          severeExposureCount: 1,
-          weakCount: 1,
-        }),
-      ],
-      evidence: evidence({ recordedMoveCount: 12 }),
-    });
-    const byId = Object.fromEntries(
-      metrics.map((metric) => [metric.id, metric]),
-    );
-
-    expect(byId["team-health"]?.line).toEqual([
-      { text: "Watch" },
-      { type: referenceType(4) },
-    ]);
-    expect(byId["team-health"]?.reason).toContain(
-      "Type 4 is the type to watch: it hits Member 0 4×.",
-    );
-    expect(byId["weakness-control"]?.line).toEqual([
-      { type: referenceType(4) },
-      { text: "unanswered" },
-    ]);
-    expect(byId["move-coverage"]?.line).toEqual([{ text: "7 of 10 types" }]);
-    expect(byId["move-coverage"]?.reason).toContain(
-      "Strong from 8 types, Moderate from 5",
-    );
   });
 });

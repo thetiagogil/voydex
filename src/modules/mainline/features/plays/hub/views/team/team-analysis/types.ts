@@ -53,6 +53,8 @@ export type TeamAnalysisModel = {
   heldItemsApply: boolean;
   lineupLabel: string;
   members: MainlinePlayTeamMember[];
+  /* What the team leaves out of the health cards' battle math; null when nothing. */
+  roughNote: string | null;
 };
 
 export type TeamAnalysisReading = "overall" | "story";

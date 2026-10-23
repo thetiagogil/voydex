@@ -108,6 +108,7 @@ const play = (statusSlug = "playing") =>
 describe("buildTeamAnalysisModel", () => {
   it("uses only Active members and generation-available types", () => {
     const model = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(1),
       mechanics: resolveGameMechanics({
         gameId: 1,
@@ -166,6 +167,7 @@ describe("buildTeamAnalysisModel", () => {
 
   it("counts every recorded move that hits a type super effectively", () => {
     const model = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(1),
       mechanics: resolveGameMechanics({
         gameId: 1,
@@ -215,6 +217,7 @@ describe("buildTeamAnalysisModel", () => {
 
   it("applies historical type rules for the Play generation", () => {
     const model = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(1),
       mechanics: resolveGameMechanics({
         gameId: 1,
@@ -244,6 +247,7 @@ describe("buildTeamAnalysisModel", () => {
 
   it("notes the abilities and held items only where the game has them", () => {
     const legacyModel = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(1),
       mechanics: resolveGameMechanics({
         gameId: 1,
@@ -262,6 +266,7 @@ describe("buildTeamAnalysisModel", () => {
       types: [fire],
     });
     const modernModel = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(3),
       mechanics: resolveGameMechanics({
         gameId: 10,
@@ -294,6 +299,7 @@ describe("buildTeamAnalysisModel", () => {
   it("does not claim type coverage for fixed-damage or reactive moves", () => {
     const fighting = type(2, "Fighting", "fighting");
     const model = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(1),
       mechanics: resolveGameMechanics({
         gameId: 1,
@@ -325,6 +331,7 @@ describe("buildTeamAnalysisModel", () => {
 
   it("lists attacking types hardest-hitting first and flags pressure", () => {
     const model = buildTeamAnalysisModel({
+      levelCap: null,
       generation: generation(1),
       mechanics: resolveGameMechanics({
         gameId: 1,

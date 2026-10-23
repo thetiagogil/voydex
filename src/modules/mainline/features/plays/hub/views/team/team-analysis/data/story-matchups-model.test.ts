@@ -687,6 +687,7 @@ describe("buildStoryLevelCap", () => {
       battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Brock" },
       level: 14,
       status: "capped",
+      teamLevels: [12, 14],
     });
   });
 
@@ -695,6 +696,7 @@ describe("buildStoryLevelCap", () => {
       battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Misty" },
       level: 21,
       status: "capped",
+      teamLevels: [18, 21],
     });
   });
 
@@ -710,6 +712,7 @@ describe("buildStoryLevelCap", () => {
       battle: { isPromotionMatch: false, kind: "Champion", name: "Blue" },
       level: 65,
       status: "capped",
+      teamLevels: [63, 65],
     });
   });
 
@@ -736,6 +739,7 @@ describe("buildStoryLevelCap", () => {
       battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Drayden" },
       level: 48,
       status: "capped",
+      teamLevels: [48],
     });
   });
 
@@ -790,11 +794,13 @@ describe("buildStoryLevelCap", () => {
       battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Zach" },
       level: 9,
       status: "capped",
+      teamLevels: [8, 9],
     });
     expect(buildZa([1])).toEqual({
       battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Canari" },
       level: 39,
       status: "capped",
+      teamLevels: [39],
     });
   });
 
@@ -803,6 +809,7 @@ describe("buildStoryLevelCap", () => {
       battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Jacinthe" },
       level: 59,
       status: "capped",
+      teamLevels: [58, 59],
     });
   });
 

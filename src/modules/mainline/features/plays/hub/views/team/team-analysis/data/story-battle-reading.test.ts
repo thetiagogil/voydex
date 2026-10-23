@@ -8,7 +8,6 @@ import type { Type } from "@/modules/reference/types";
 
 import {
   formatLevelRange,
-  getAnswerCost,
   getBattleState,
   getLevelsSentence,
   getPowerUpSentence,
@@ -688,15 +687,6 @@ describe("readStoryBattle by the battle math", () => {
 });
 
 describe("battle verdict", () => {
-  it("mixes your best answer with your second best, as the average player fights", () => {
-    expect(getAnswerCost([0.2, 0.6, 1])).toBeCloseTo(0.36);
-    /* One Pokémon is its own second best. */
-    expect(getAnswerCost([0.5])).toBeCloseTo(0.5);
-    /* One you can't beat costs your whole team, never more. */
-    expect(getAnswerCost([Infinity])).toBe(1);
-    expect(getAnswerCost([Infinity, Infinity, Infinity])).toBe(3);
-  });
-
   it("weighs what their whole team costs against the team you bring", () => {
     expect(getBattleState({ answerCosts: [0.2, 0.3], teamCount: 2 })).toBe(
       "strong",

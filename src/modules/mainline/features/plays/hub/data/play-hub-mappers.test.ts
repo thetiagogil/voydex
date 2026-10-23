@@ -111,6 +111,7 @@ describe("buildMainlinePlayShellData rule notes", () => {
           },
           level: 14,
           status: "capped",
+          teamLevels: [12, 14],
         },
         rules: [{ id: "caps", kind: "level_caps", name: "Level caps" }],
       }),
