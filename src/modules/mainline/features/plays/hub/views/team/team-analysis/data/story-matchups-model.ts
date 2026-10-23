@@ -120,7 +120,7 @@ export type StoryMatchupsRows = {
 /* One of your active Pokémon against a battle still ahead. */
 export type StoryMatchupMember = Pick<
   StoryMemberReading,
-  "bestHit" | "role"
+  "bestHit" | "lands" | "role" | "takes"
 > & {
   member: MainlinePlayTeamMember;
   /*
@@ -580,8 +580,10 @@ export const buildStoryMatchupsModel = ({
           if (memberReading) {
             return {
               bestHit: memberReading.bestHit,
+              lands: memberReading.lands,
               member,
               role: memberReading.role,
+              takes: memberReading.takes,
               weakTo: memberReading.weakTo,
             };
           }
@@ -593,8 +595,10 @@ export const buildStoryMatchupsModel = ({
 
           return {
             bestHit: null,
+            lands: [],
             member,
             role: null,
+            takes: [],
             weakTo: memberTypes.length
               ? specialtyTypes.filter(
                   (type) =>

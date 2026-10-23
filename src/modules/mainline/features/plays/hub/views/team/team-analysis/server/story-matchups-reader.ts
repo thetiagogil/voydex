@@ -61,8 +61,7 @@ export const readOpponentMoves = async (
   },
 ): Promise<Map<number, StoryOpponentMoveRow[]>> => {
   /* A game and its add-ons pass a page's 1,000 rows, so read them all page by page. */
-  const slots: { move_id: number; slot: number; team_member_id: number }[] =
-    [];
+  const slots: { move_id: number; slot: number; team_member_id: number }[] = [];
 
   for (let from = 0; ; from += OPPONENT_MOVES_PAGE_SIZE) {
     const slotsResult = await supabase

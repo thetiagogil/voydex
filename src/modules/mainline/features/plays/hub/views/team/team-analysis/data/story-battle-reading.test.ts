@@ -197,6 +197,40 @@ describe("readStoryBattle", () => {
     ]);
   });
 
+  it("says which of theirs hit each of yours and with what, and whom yours hit back", () => {
+    const reading = readStoryBattle({
+      generationOrder: 4,
+      members: [
+        member("a", ["grass"], 40, [
+          move("Razor Leaf", "grass"),
+          move("Bite", "dark"),
+        ]),
+      ],
+      opponentName: "Volkner",
+      their: [
+        {
+          ...opponent("Lanturn", ["water", "electric"], 40),
+          moves: [theirMove("Ice Beam", "ice"), theirMove("Surf", "water")],
+        },
+        opponent("Rapidash", ["fire"], 40),
+      ],
+      types,
+    });
+
+    expect(reading.members[0].takes).toEqual([
+      expect.objectContaining({
+        byType: false,
+        multiplier: 2,
+        via: ["Ice Beam"],
+      }),
+      expect.objectContaining({ byType: true, multiplier: 2, via: ["Fire"] }),
+    ]);
+    expect(reading.members[0].lands).toEqual([
+      expect.objectContaining({ multiplier: 2, via: ["Razor Leaf"] }),
+    ]);
+    expect(reading.members[0].lands[0].pokemon.name).toBe("Lanturn");
+  });
+
   it("reads each of their Pokémon by its moves or, without them, by its types", () => {
     const reading = readStoryBattle({
       generationOrder: 4,

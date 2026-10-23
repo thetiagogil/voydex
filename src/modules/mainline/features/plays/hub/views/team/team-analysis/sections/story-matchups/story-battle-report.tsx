@@ -23,11 +23,17 @@ import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/t
 import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
 import { Button } from "@/shared/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 import {
   Alert,
@@ -41,6 +47,7 @@ import {
   getLevelsSentence,
   getPowerUpSentence,
   type StoryBestHit,
+  type StoryHitDetail,
   type StoryOpponentKind,
   type StoryOpponentPokemon,
 } from "../../data/story-battle-reading";
@@ -70,31 +77,99 @@ const SmallSticker = ({
 
 const formatMultiplier = (multiplier: number) => `${multiplier}×`;
 
-/* Best hit (v3): the opponent it lands on, with how hard on a green mark. */
+/*
+ * Best hit (v3): the opponent it lands on, with how hard on a green mark,
+ * and the move and target in a tooltip.
+ */
 const BestHit = ({ hit }: { hit: StoryBestHit }) => (
-  <span
-    className="relative inline-flex"
-    title={`${hit.moveName}, ${formatMultiplier(hit.multiplier)} on ${hit.target.name}`}
-  >
-    <PokemonAvatar
-      decorative
-      name={hit.target.name}
-      className="size-10 shrink-0"
-      imageUrl={hit.target.imageUrl}
-      typeSlug={hit.target.types[0]?.slug ?? null}
-    />
-    <CornerBubble corner="bottom">
-      <span
-        aria-hidden
-        className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
-      >
-        {formatMultiplier(hit.multiplier)}
+  <Tooltip>
+    <TooltipTrigger render={<span className="relative inline-flex" />}>
+      <PokemonAvatar
+        decorative
+        name={hit.target.name}
+        className="size-10 shrink-0"
+        imageUrl={hit.target.imageUrl}
+        typeSlug={hit.target.types[0]?.slug ?? null}
+      />
+      <CornerBubble corner="bottom">
+        <span
+          aria-hidden
+          className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
+        >
+          {formatMultiplier(hit.multiplier)}
+        </span>
+      </CornerBubble>
+      <span className="sr-only">
+        {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
       </span>
-    </CornerBubble>
-    <span className="sr-only">
+    </TooltipTrigger>
+    <TooltipContent>
       {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
-    </span>
-  </span>
+    </TooltipContent>
+  </Tooltip>
+);
+
+/* What one side brings: move names, or "its Fire type" where their moves aren't known. */
+const formatVia = ({ byType, via }: StoryHitDetail) =>
+  byType
+    ? `its ${via.join(" and ")} type${via.length > 1 ? "s" : ""}`
+    : via.join(", ");
+
+/*
+ * The detail behind one of your Pokémon's row (its "i"): what of theirs hits
+ * it for 2× or more and with what, and whom it hits back and with which move.
+ */
+const MemberMatchups = ({
+  lands,
+  name,
+  recordedMoves,
+  takes,
+}: {
+  lands: StoryHitDetail[];
+  name: string;
+  recordedMoves: boolean;
+  takes: StoryHitDetail[];
+}) => (
+  <div className="grid gap-3">
+    <div className="grid gap-1">
+      <p>
+        <b>{name} takes 2× or more from</b>
+      </p>
+      {takes.length ? (
+        <ul className="grid gap-0.5">
+          {takes.map((hit) => (
+            <li key={hit.pokemon.key}>
+              <b>{hit.pokemon.name}</b>: {formatVia(hit)},{" "}
+              {formatMultiplier(hit.multiplier)}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Nothing of theirs.</p>
+      )}
+    </div>
+    <div className="grid gap-1">
+      <p>
+        <b>{name} hits</b>
+      </p>
+      {lands.length ? (
+        <ul className="grid gap-0.5">
+          {lands.map((hit) => (
+            <li key={hit.pokemon.key}>
+              <b>{hit.pokemon.name}</b> with {formatVia(hit)},{" "}
+              {formatMultiplier(hit.multiplier)}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>
+          {recordedMoves
+            ? "None of them for more than 1× with its recorded moves."
+            : "Nothing yet: its moves aren't recorded."}
+        </p>
+      )}
+    </div>
+  </div>
 );
 
 /* A list of types in a sentence: "Ice, Ground, Fire or Fighting". */
@@ -487,75 +562,102 @@ export const StoryBattleReport = ({
                     <th scope="col" className="pb-2 font-extrabold">
                       Weak to
                     </th>
+                    {party ? (
+                      <th scope="col" className="w-8 pb-2">
+                        <span className="sr-only">Matchups</span>
+                      </th>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody className="divide-line divide-y">
-                  {battle.members.map(({ bestHit, member, role, weakTo }) => {
-                    const name = getPlayTeamMemberName(member);
+                  {battle.members.map(
+                    ({ bestHit, lands, member, role, takes, weakTo }) => {
+                      const name = getPlayTeamMemberName(member);
 
-                    return (
-                      <tr key={member.play_pokemon_id} className="align-middle">
-                        <th scope="row" className="py-2 pr-2 font-normal">
-                          <span className="flex min-w-0 items-center gap-2.5">
-                            <SmallSticker
-                              imageUrl={getPlayTeamMemberImageUrl(member)}
-                              name=""
-                              typeSlug={member.primaryType?.slug ?? null}
-                            />
-                            <span className="grid min-w-0">
-                              <b className="text-14 truncate font-extrabold">
-                                {name}
-                              </b>
-                              {member.level ? (
-                                <span className="text-ink-3 text-12 font-semibold tabular-nums">
-                                  Lv. {member.level}
-                                </span>
-                              ) : null}
+                      return (
+                        <tr
+                          key={member.play_pokemon_id}
+                          className="align-middle"
+                        >
+                          <th scope="row" className="py-2 pr-2 font-normal">
+                            <span className="flex min-w-0 items-center gap-2.5">
+                              <SmallSticker
+                                imageUrl={getPlayTeamMemberImageUrl(member)}
+                                name=""
+                                typeSlug={member.primaryType?.slug ?? null}
+                              />
+                              <span className="grid min-w-0">
+                                <b className="text-14 truncate font-extrabold">
+                                  {name}
+                                </b>
+                                {member.level ? (
+                                  <span className="text-ink-3 text-12 font-semibold tabular-nums">
+                                    Lv. {member.level}
+                                  </span>
+                                ) : null}
+                              </span>
                             </span>
-                          </span>
-                        </th>
-                        {party ? (
-                          <td className="text-13 py-2">
-                            {role ? (
-                              <MatchupStateLabel state={role}>
-                                {matchupStates[role].role}
-                              </MatchupStateLabel>
+                          </th>
+                          {party ? (
+                            <td className="text-13 py-2">
+                              {role ? (
+                                <MatchupStateLabel state={role}>
+                                  {matchupStates[role].role}
+                                </MatchupStateLabel>
+                              ) : (
+                                <span className="text-ink-3 font-bold">
+                                  Not recorded
+                                </span>
+                              )}
+                            </td>
+                          ) : null}
+                          <td className="py-2">
+                            {bestHit ? (
+                              <BestHit hit={bestHit} />
+                            ) : party ? (
+                              <span className="text-ink-3 text-13 font-bold">
+                                None
+                              </span>
                             ) : (
-                              <span className="text-ink-3 font-bold">
-                                Not recorded
+                              /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
+                              <PendingData variant="inline" label="Not yet" />
+                            )}
+                          </td>
+                          <td className="py-2">
+                            {weakTo.length ? (
+                              <PokemonTypeList
+                                types={weakTo}
+                                badgeDisplay="icon"
+                                badgeSize="sm"
+                                className="flex flex-wrap gap-1"
+                              />
+                            ) : (
+                              <span className="text-ink-3 text-13 font-bold">
+                                None
                               </span>
                             )}
                           </td>
-                        ) : null}
-                        <td className="py-2">
-                          {bestHit ? (
-                            <BestHit hit={bestHit} />
-                          ) : party ? (
-                            <span className="text-ink-3 text-13 font-bold">
-                              None
-                            </span>
-                          ) : (
-                            /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
-                            <PendingData variant="inline" label="Not yet" />
-                          )}
-                        </td>
-                        <td className="py-2">
-                          {weakTo.length ? (
-                            <PokemonTypeList
-                              types={weakTo}
-                              badgeDisplay="icon"
-                              badgeSize="sm"
-                              className="flex flex-wrap gap-1"
-                            />
-                          ) : (
-                            <span className="text-ink-3 text-13 font-bold">
-                              None
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          {party ? (
+                            <td className="py-2 text-right">
+                              <ExplanatoryTip
+                                triggerVariant="subtle"
+                                triggerLabel={`How ${name} matches up`}
+                                side="left"
+                                content={
+                                  <MemberMatchups
+                                    lands={lands}
+                                    name={name}
+                                    recordedMoves={member.moves.length > 0}
+                                    takes={takes}
+                                  />
+                                }
+                              />
+                            </td>
+                          ) : null}
+                        </tr>
+                      );
+                    },
+                  )}
                 </tbody>
               </table>
             ) : (
