@@ -200,13 +200,14 @@ choice it needs while none is recorded.
 Their moves aren't in Voydex, so their threat is read from their types.
 A Pokémon that Terastallizes in the battle is read by its Tera Type for what
 hits it (Stellar keeps its own types), and its own types and its Tera Type
-both count as its threat. Where the Play's game has the mechanic (`resolveGameMechanics`), a card of
-theirs carries corner marks that keep every card the same height: its Tera
-Type's dot and the sprite of the item it holds (in games with held items,
-where Voydex has it). A sentence under their team says it in words, one per
-Pokémon: what it holds, that it Terastallizes, Dynamaxes, or holds a
-Z-Crystal for a Z-Move. A Pokémon that battles as its Mega, Primal or
-Gigantamax form is stored in that form, so its name already says it.
+both count as its threat. Where the Play's game has the mechanic
+(`resolveGameMechanics`), a card of theirs carries marks on its level line that
+keep every card the same height: its Tera Type as a Tera jewel (the type's icon
+on a diamond, never a round type dot) and the sprite of the item it holds (in
+games with held items, where Voydex has it). A sentence under their team says
+it in words, one per Pokémon: what it holds, that it Terastallizes, Dynamaxes,
+or holds a Z-Crystal for a Z-Move. A Pokémon that battles as its Mega, Primal
+or Gigantamax form is stored in that form, so its name already says it.
 Every Story battle has its opponent's team (a database test holds this); a
 battle that somehow had none would keep the specialty reading and an honest
 placeholder.

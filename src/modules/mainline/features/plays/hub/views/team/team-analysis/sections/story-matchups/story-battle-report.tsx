@@ -12,7 +12,8 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -125,9 +126,10 @@ const reportWording = {
 } as const;
 
 /*
- * Small marks in a card's corner for how one of their Pokémon powers up: its
- * Tera Type as that type's dot, and the item it holds as its sprite. The
- * sentence under the team says the same in words.
+ * Marks on a card's level line for how one of their Pokémon powers up: its
+ * Tera Type as a Tera jewel (the type's icon on a diamond in its colour, so
+ * it never reads as one of its own round type dots), and the item it holds
+ * as its sprite. The sentence under the team says the same in words.
  */
 const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
   const teraSlug =
@@ -138,25 +140,29 @@ const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
   return (
     <>
       {teraSlug && pokemon.mechanic ? (
-        <PokemonTypeBadge
-          type={teraSlug}
-          display="icon"
-          size="md"
-          label={pokemon.mechanic.label}
-          className="bubble rounded-full"
-        />
-      ) : null}
-      {pokemon.heldItem ? (
         <span
           role="img"
-          aria-label={`Holds ${pokemon.heldItem.name}`}
-          className="bubble bg-surface-2 grid size-5.5 place-items-center rounded-full"
+          aria-label={pokemon.mechanic.label}
+          style={getPokemonTypeCssVariables(teraSlug)}
+          className="relative grid size-5 place-items-center"
         >
+          <span
+            aria-hidden
+            className="absolute size-3.5 rotate-45 rounded-[3px] bg-(--t)"
+          />
+          <PokemonTypeIcon
+            type={teraSlug}
+            className="relative size-2.5 text-white"
+          />
+        </span>
+      ) : null}
+      {pokemon.heldItem ? (
+        <span role="img" aria-label={`Holds ${pokemon.heldItem.name}`}>
           <ItemIcon
             kind="held"
             name={pokemon.heldItem.name}
             src={getItemImageUrl(pokemon.heldItem.slug)}
-            className="my-0 size-6"
+            className="my-0 size-5"
           />
         </span>
       ) : null}
