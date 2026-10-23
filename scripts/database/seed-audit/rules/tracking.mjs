@@ -750,6 +750,43 @@ export function assertOpponentTeamRows(context, tableRows) {
       firstAttributeGenerationByForm.set(row.form_id, row.generation_start_id);
     }
   }
+  /*
+   * Battle mechanics by the exact version groups that have them, as
+   * `src/modules/reference/features/games/domain/game-mechanics.ts` lists
+   * them: Terastal in Scarlet / Violet and its DLC, Dynamax in Sword /
+   * Shield and its DLC, Z-Moves in Sun / Moon and Ultra Sun / Ultra Moon.
+   * Let's Go and Legends: Arceus have no held items.
+   */
+  const terastalVersionGroupIds = new Set([23, 24, 25]);
+  const dynamaxVersionGroupIds = new Set([18, 19, 20]);
+  const zMoveVersionGroupIds = new Set([15, 16]);
+  const noHeldItemVersionGroupIds = new Set([17, 22]);
+  const battleMechanicByForm = new Map(
+    (tableRows.get("reference.pokemon_form_rules") ?? []).map(({ row }) => [
+      row.form_id,
+      row.battle_mechanic,
+    ]),
+  );
+  const itemsById = mapRowsByColumn(
+    tableRows.get("reference.items") ?? [],
+    "id",
+  );
+  const zCrystalCategoryIds = new Set(
+    (tableRows.get("reference.item_categories") ?? [])
+      .filter(({ row }) => row.slug === "z_crystal")
+      .map(({ row }) => row.id),
+  );
+  /* The held items that put a form in its battle form (Mega Stones, the Orbs). */
+  const unlockItemIdsByForm = new Map();
+  for (const { row } of tableRows.get(
+    "reference.pokemon_form_item_requirements",
+  ) ?? []) {
+    if (row.requirement_kind === "form_change_item") continue;
+    if (!unlockItemIdsByForm.has(row.form_id)) {
+      unlockItemIdsByForm.set(row.form_id, new Set());
+    }
+    unlockItemIdsByForm.get(row.form_id).add(row.item_id);
+  }
   const optionSlugsByMilestone = new Map();
   for (const { row } of tableRows.get(
     "tracking.mainline_milestone_decision_options",
@@ -825,6 +862,55 @@ export function assertOpponentTeamRows(context, tableRows) {
     }
     if (!(row.level >= 1 && row.level <= 100)) {
       context.errors.push(`${label} has level ${row.level} outside 1-100.`);
+    }
+    const battleMechanic = battleMechanicByForm.get(row.form_id) ?? null;
+    if (
+      row.tera_type_id !== null &&
+      row.tera_type_id !== undefined &&
+      !terastalVersionGroupIds.has(row.version_group_id)
+    ) {
+      context.errors.push(`${label} Terastallizes in a game without Terastal.`);
+    }
+    if (
+      row.dynamaxes === true &&
+      !dynamaxVersionGroupIds.has(row.version_group_id)
+    ) {
+      context.errors.push(`${label} Dynamaxes in a game without Dynamax.`);
+    }
+    if (battleMechanic === "dynamax" && row.dynamaxes !== true) {
+      context.errors.push(
+        `${label} is a Gigantamax form, so it must be marked as Dynamaxing.`,
+      );
+    }
+    if (row.held_item_id !== null && row.held_item_id !== undefined) {
+      const item = itemsById.get(row.held_item_id);
+      if (!item) {
+        context.errors.push(
+          `${label} holds unseeded item_id ${row.held_item_id}.`,
+        );
+      } else if (noHeldItemVersionGroupIds.has(row.version_group_id)) {
+        context.errors.push(
+          `${label} holds an item in a game without held items.`,
+        );
+      } else if (
+        zCrystalCategoryIds.has(item.primary_category_id) &&
+        !zMoveVersionGroupIds.has(row.version_group_id)
+      ) {
+        context.errors.push(
+          `${label} holds a Z-Crystal in a game without Z-Moves.`,
+        );
+      }
+      const unlockItemIds = unlockItemIdsByForm.get(row.form_id);
+      if (
+        (battleMechanic === "mega-evolution" ||
+          battleMechanic === "primal-reversion") &&
+        unlockItemIds?.size &&
+        !unlockItemIds.has(row.held_item_id)
+      ) {
+        context.errors.push(
+          `${label} battles as form ${row.form_id} but holds an item that doesn't reach it.`,
+        );
+      }
     }
     if (row.decision_milestone_id !== null) {
       const milestone = milestonesById.get(row.decision_milestone_id);
