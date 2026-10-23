@@ -3,6 +3,7 @@ import {
   getPlayTeamSnapshotMemberName,
   type PlayTeamSnapshotMember,
 } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
+import { IconTip } from "@/shared/components/icon-tip";
 
 /*
  * The team as it stood when the milestone was recorded: small stickers. The
@@ -19,16 +20,19 @@ export const StoryTeamSnapshot = ({
         const name = getPlayTeamSnapshotMemberName(member);
 
         return (
-          <li
+          <IconTip
             key={`${member.position}-${member.speciesName}-${member.formName ?? ""}`}
-            title={name}
-          >
-            <PokemonAvatar
-              name={name}
-              imageUrl={member.imageUrl}
-              typeSlug={null}
-            />
-          </li>
+            label={name}
+            trigger={
+              <li>
+                <PokemonAvatar
+                  name={name}
+                  imageUrl={member.imageUrl}
+                  typeSlug={null}
+                />
+              </li>
+            }
+          />
         );
       })}
     </ul>

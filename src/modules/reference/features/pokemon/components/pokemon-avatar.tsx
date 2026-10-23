@@ -5,6 +5,7 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 /*
  * The one small Pokémon: its art on a round pale tint of its type (neutral
@@ -25,28 +26,31 @@ export const PokemonAvatar = ({
   imageUrl: string | null;
   name: string;
   typeSlug: string | null;
-}) => (
-  <span
-    style={getPokemonTypeCssVariables(
-      typeSlug && isPokemonTypeSlug(typeSlug)
-        ? (typeSlug as PokemonTypeSlug)
-        : null,
-    )}
-    title={decorative ? undefined : name}
-    className={cn(
-      "type-tint grid aspect-square place-items-center overflow-hidden rounded-full",
-      className,
-    )}
-  >
-    <FallbackImage
-      src={imageUrl}
-      name={name}
-      alt={decorative ? "" : name}
-      loading="lazy"
-      className="size-[88%] object-contain"
-    />
-  </span>
-);
+}) => {
+  const avatar = (
+    <span
+      style={getPokemonTypeCssVariables(
+        typeSlug && isPokemonTypeSlug(typeSlug)
+          ? (typeSlug as PokemonTypeSlug)
+          : null,
+      )}
+      className={cn(
+        "type-tint grid aspect-square place-items-center overflow-hidden rounded-full",
+        className,
+      )}
+    >
+      <FallbackImage
+        src={imageUrl}
+        name={name}
+        alt={decorative ? "" : name}
+        loading="lazy"
+        className="size-[88%] object-contain"
+      />
+    </span>
+  );
+
+  return decorative ? avatar : <IconTip label={name} trigger={avatar} />;
+};
 
 /* An open slot beside avatars: a dashed ring of the same size. */
 export const PokemonAvatarSlot = ({

@@ -9,18 +9,24 @@ import {
 } from "@/shared/components/ui/tooltip";
 
 /*
- * An icon-only action naming itself on hover and focus. The trigger keeps
- * its own `aria-label`; the tip only shows that name to sighted users.
+ * A hover and focus label for any element: an icon-only action naming
+ * itself, or a picture, mark or chip saying more. Never the browser's `title`
+ * attribute. The trigger keeps its own accessible name (an `aria-label` or
+ * hidden text); the tip only shows the label to sighted users.
  */
 export const IconTip = ({
   label,
   trigger,
 }: {
-  label: string;
+  /* Without a label there is no tip, only the trigger. */
+  label: string | null | undefined;
   trigger: ReactElement;
-}) => (
-  <Tooltip>
-    <TooltipTrigger render={trigger} />
-    <TooltipContent>{label}</TooltipContent>
-  </Tooltip>
-);
+}) =>
+  label ? (
+    <Tooltip>
+      <TooltipTrigger render={trigger} />
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
+  ) : (
+    trigger
+  );

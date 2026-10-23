@@ -16,6 +16,7 @@ import {
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 const headerCellClassName = "px-1.5 pt-2 pb-2 align-bottom";
 
@@ -141,12 +142,14 @@ export const DefensiveMatchupsTable = ({
                     member={member}
                     className="mx-auto -mb-0.5 size-13"
                   />
-                  <span
-                    title={name}
-                    className="text-ink mx-auto block max-w-24 truncate font-extrabold"
-                  >
-                    {name}
-                  </span>
+                  <IconTip
+                    label={name}
+                    trigger={
+                      <span className="text-ink mx-auto block max-w-24 truncate font-extrabold">
+                        {name}
+                      </span>
+                    }
+                  />
                 </th>
               );
             })}

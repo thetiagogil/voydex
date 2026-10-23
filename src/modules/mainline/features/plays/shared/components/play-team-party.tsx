@@ -4,6 +4,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 const partySize = 6;
 
@@ -40,23 +41,27 @@ export const PlayTeamParty = ({
     .join(", ")}`;
 
   return (
-    <span
-      role={decorative ? undefined : "img"}
-      aria-hidden={decorative || undefined}
-      aria-label={decorative ? undefined : label}
-      title="Your team then"
-      className={cn("hidden shrink-0 pl-1.5 sm:flex", className)}
-    >
-      {party.map((member) => (
-        <FallbackImage
-          key={`${member.position}-${member.speciesName}`}
-          src={member.imageUrl}
-          name={member.formName ?? member.speciesName}
-          fallback="badge"
-          loading="lazy"
-          className={cn("max-w-none object-contain", sizeClassNames[size])}
-        />
-      ))}
-    </span>
+    <IconTip
+      label={label}
+      trigger={
+        <span
+          role={decorative ? undefined : "img"}
+          aria-hidden={decorative || undefined}
+          aria-label={decorative ? undefined : label}
+          className={cn("hidden shrink-0 pl-1.5 sm:flex", className)}
+        >
+          {party.map((member) => (
+            <FallbackImage
+              key={`${member.position}-${member.speciesName}`}
+              src={member.imageUrl}
+              name={member.formName ?? member.speciesName}
+              fallback="badge"
+              loading="lazy"
+              className={cn("max-w-none object-contain", sizeClassNames[size])}
+            />
+          ))}
+        </span>
+      }
+    />
   );
 };

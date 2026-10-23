@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { IconTip } from "@/shared/components/icon-tip";
+
 /*
  * A field's label, marked once it changed: a dot that takes no width from
  * the row (so an inline field never wraps), named "Edited" for screen
@@ -16,12 +18,14 @@ export const EditedMark = ({
   <span className="relative">
     {children}
     {edited ? (
-      <span
-        title="Edited"
-        className="bg-action-ink absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full"
-      >
-        <span className="sr-only">, edited</span>
-      </span>
+      <IconTip
+        label="Edited"
+        trigger={
+          <span className="bg-action-ink absolute top-1/2 -right-3 size-1.5 -translate-y-1/2 rounded-full">
+            <span className="sr-only">, edited</span>
+          </span>
+        }
+      />
     ) : null}
   </span>
 );

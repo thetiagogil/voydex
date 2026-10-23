@@ -31,6 +31,7 @@ import {
   removeMainlinePlayPokemonAction,
   retireMainlinePlayPokemonAction,
 } from "../../server/team-member-mutation-actions";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type Confirm = "delete" | "retire" | null;
 
@@ -214,18 +215,22 @@ export const TeamMemberEditorActions = ({
           <AppIcon icon={appIcons.product.retired} inline="start" />
           Retire
         </Button>
-        <Button
-          type="button"
-          variant="destructive"
-          size="icon-sm"
-          className="ml-auto"
-          aria-label="Delete record"
-          title="Delete record"
-          disabled={isPending}
-          onClick={() => setConfirm("delete")}
-        >
-          <AppIcon icon={appIcons.actions.delete} />
-        </Button>
+        <IconTip
+          label="Delete record"
+          trigger={
+            <Button
+              type="button"
+              variant="destructive"
+              size="icon-sm"
+              className="ml-auto"
+              aria-label="Delete record"
+              disabled={isPending}
+              onClick={() => setConfirm("delete")}
+            >
+              <AppIcon icon={appIcons.actions.delete} />
+            </Button>
+          }
+        />
       </div>
       {options && !evolutions.length ? (
         <p className="text-ink-2 text-13 font-semibold">

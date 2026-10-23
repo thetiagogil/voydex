@@ -6,6 +6,7 @@ import {
   type PokemonCardSize,
 } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type CodexPokemonCardType = { name: string; slug: string };
 
@@ -22,7 +23,7 @@ type CodexPokemonCardLinkProps = {
   /* `md` in a list; `sm` where three share a narrow column. */
   size?: PokemonCardSize;
   /* A hover note, such as the other numbering. */
-  title?: string;
+  tip?: string;
   types: (CodexPokemonCardType | null)[];
 };
 
@@ -39,32 +40,33 @@ export const CodexPokemonCardLink = memo(
     name,
     number,
     size = "md",
-    title,
+    tip,
     types,
   }: CodexPokemonCardLinkProps) => {
     return (
-      <Link
-        href={href}
-        title={title}
-        className="block h-full min-w-0 rounded-lg"
-      >
-        <PokemonCard
-          state="plain"
-          className={cn(
-            "[content-visibility:auto]",
-            size === "sm"
-              ? "[contain-intrinsic-size:auto_112px_auto_140px]"
-              : "[contain-intrinsic-size:auto_128px_auto_172px]",
-          )}
-          imageAlt=""
-          imageUrl={imageUrl}
-          name={name}
-          number={number}
-          size={size}
-          types={types.filter((type) => type !== null)}
-        />
-        {detail ? <span className="sr-only">, {detail}</span> : null}
-      </Link>
+      <IconTip
+        label={tip}
+        trigger={
+          <Link href={href} className="block h-full min-w-0 rounded-lg">
+            <PokemonCard
+              state="plain"
+              className={cn(
+                "[content-visibility:auto]",
+                size === "sm"
+                  ? "[contain-intrinsic-size:auto_112px_auto_140px]"
+                  : "[contain-intrinsic-size:auto_128px_auto_172px]",
+              )}
+              imageAlt=""
+              imageUrl={imageUrl}
+              name={name}
+              number={number}
+              size={size}
+              types={types.filter((type) => type !== null)}
+            />
+            {detail ? <span className="sr-only">, {detail}</span> : null}
+          </Link>
+        }
+      />
     );
   },
 );

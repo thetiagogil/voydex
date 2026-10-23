@@ -3,6 +3,7 @@ import { GameCover } from "@/modules/reference/features/games/components/game-co
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type StatsRegionsSectionProps = {
   stats: StatsModel;
@@ -28,40 +29,44 @@ export const StatsRegionsSection = ({ stats }: StatsRegionsSectionProps) => {
             const count = region.playLabels.length;
 
             return (
-              <li
+              <IconTip
                 key={region.slug}
-                title={
+                label={
                   count
                     ? `${region.name} · ${region.playLabels.join(", ")}`
                     : `${region.name} · not visited yet`
                 }
-                className={cn(
-                  "flex min-w-0 flex-col items-center gap-1.5 rounded-lg px-2 pt-3 pb-2.5 text-center",
-                  count ? "bg-surface-2" : "empty-slot",
-                )}
-              >
-                <span className="grid h-16 place-items-center">
-                  {count && region.gameName ? (
-                    <GameCover
-                      alt=""
-                      coverImageUrl={region.coverImageUrl}
-                      gameName={region.gameName}
-                      gameSlug={region.gameSlug ?? undefined}
-                      className="text-16 h-16 w-auto max-w-14 rounded-xs"
-                    />
-                  ) : (
-                    <span className="empty-slot size-11 rounded-full" />
-                  )}
-                </span>
-                <b className="text-ink text-14 w-full truncate font-extrabold">
-                  {region.name}
-                </b>
-                <span className="text-ink-2 text-12 font-bold">
-                  {count
-                    ? `${count} ${count === 1 ? "Play" : "Plays"}`
-                    : "Not yet"}
-                </span>
-              </li>
+                trigger={
+                  <li
+                    className={cn(
+                      "flex min-w-0 flex-col items-center gap-1.5 rounded-lg px-2 pt-3 pb-2.5 text-center",
+                      count ? "bg-surface-2" : "empty-slot",
+                    )}
+                  >
+                    <span className="grid h-16 place-items-center">
+                      {count && region.gameName ? (
+                        <GameCover
+                          alt=""
+                          coverImageUrl={region.coverImageUrl}
+                          gameName={region.gameName}
+                          gameSlug={region.gameSlug ?? undefined}
+                          className="text-16 h-16 w-auto max-w-14 rounded-xs"
+                        />
+                      ) : (
+                        <span className="empty-slot size-11 rounded-full" />
+                      )}
+                    </span>
+                    <b className="text-ink text-14 w-full truncate font-extrabold">
+                      {region.name}
+                    </b>
+                    <span className="text-ink-2 text-12 font-bold">
+                      {count
+                        ? `${count} ${count === 1 ? "Play" : "Plays"}`
+                        : "Not yet"}
+                    </span>
+                  </li>
+                }
+              />
             );
           })}
         </ul>

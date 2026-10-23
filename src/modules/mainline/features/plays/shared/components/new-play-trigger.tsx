@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import { useNewPlayDialog } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type NewPlayTriggerProps = {
   "aria-label"?: string;
@@ -12,7 +13,8 @@ type NewPlayTriggerProps = {
   className?: string;
   /* Opens New Play with this game already picked. */
   gameSlug?: string;
-  title?: string;
+  /* A hover and focus label (a tip, never the browser's `title`). */
+  tip?: string;
 };
 
 /*
@@ -24,34 +26,42 @@ export const NewPlayTrigger = ({
   children,
   className,
   gameSlug,
-  title,
+  tip,
   "aria-label": ariaLabel,
 }: NewPlayTriggerProps) => {
   const opener = useNewPlayDialog();
 
   if (!opener) {
     return (
-      <Link
-        href={appRoutes.mainlineNewPlay(gameSlug)}
-        aria-label={ariaLabel}
-        title={title}
-        className={className}
-      >
-        {children}
-      </Link>
+      <IconTip
+        label={tip}
+        trigger={
+          <Link
+            href={appRoutes.mainlineNewPlay(gameSlug)}
+            aria-label={ariaLabel}
+            className={className}
+          >
+            {children}
+          </Link>
+        }
+      />
     );
   }
 
   return (
-    <button
-      type="button"
-      aria-haspopup="dialog"
-      aria-label={ariaLabel}
-      title={title}
-      className={className}
-      onClick={() => opener.open({ gameSlug })}
-    >
-      {children}
-    </button>
+    <IconTip
+      label={tip}
+      trigger={
+        <button
+          type="button"
+          aria-haspopup="dialog"
+          aria-label={ariaLabel}
+          className={className}
+          onClick={() => opener.open({ gameSlug })}
+        >
+          {children}
+        </button>
+      }
+    />
   );
 };

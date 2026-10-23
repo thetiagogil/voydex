@@ -27,6 +27,7 @@ import { selectTriggerVariants } from "@/shared/components/ui/select";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type PlannerTopSectionProps = {
   /* False while the Plan is locked: an edit asks to unlock it first. */
@@ -157,15 +158,19 @@ export const PlannerTopSection = ({
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
         {gameFixedReason ? (
           /* While Plays follow the Plan its game stays; the card only reads. */
-          <div
-            title={gameFixedReason}
-            className={cn(
-              selectTriggerVariants({ variant: "card" }),
-              "relative",
-            )}
-          >
-            {gameCard}
-          </div>
+          <IconTip
+            label={gameFixedReason}
+            trigger={
+              <div
+                className={cn(
+                  selectTriggerVariants({ variant: "card" }),
+                  "relative",
+                )}
+              >
+                {gameCard}
+              </div>
+            }
+          />
         ) : (
           <SelectControl
             ariaLabel={`Game: ${versionGroup.name}`}

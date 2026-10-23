@@ -13,6 +13,7 @@ import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/t
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Carousel } from "@/shared/components/carousel";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type HomePlayShelfProps = {
   currentPlayId: string;
@@ -83,61 +84,65 @@ export const HomePlayShelf = ({
               !isCurrent && getShelfItemClassName(index),
             )}
           >
-            <Link
-              href={appRoutes.mainlineHomePlay(play.id)}
-              scroll={false}
-              aria-current={isCurrent ? "true" : undefined}
-              aria-label={play.label}
-              title={play.label}
-              className={coverLinkClassName}
-              onClick={(event) => {
-                if (isPlainClick(event)) {
-                  event.preventDefault();
-                  onSelect(play.id);
-                }
-              }}
-            >
-              <span
-                className={cn(
-                  "ease-hop relative grid transition-transform duration-250",
-                  isCurrent
-                    ? "-translate-y-4"
-                    : "motion-safe:group-hover/shelf-item:-translate-y-2.5 motion-safe:group-hover/shelf-item:-rotate-2",
-                )}
-              >
-                <GameCover
-                  alt=""
-                  coverImageUrl={play.coverImageUrl}
-                  eager
-                  gameName={play.gameName}
-                  gameSlug={play.gameSlug ?? undefined}
-                  shape={play.coverShape}
-                  size="playShelf"
-                />
-                {isCurrent ? <PickedMark /> : null}
-                {play.lead ? (
-                  /* The partner as the one small portrait, in a corner mark's white ring. */
+            <IconTip
+              label={play.label}
+              trigger={
+                <Link
+                  href={appRoutes.mainlineHomePlay(play.id)}
+                  scroll={false}
+                  aria-current={isCurrent ? "true" : undefined}
+                  aria-label={play.label}
+                  className={coverLinkClassName}
+                  onClick={(event) => {
+                    if (isPlainClick(event)) {
+                      event.preventDefault();
+                      onSelect(play.id);
+                    }
+                  }}
+                >
                   <span
-                    aria-hidden
-                    className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full"
+                    className={cn(
+                      "ease-hop relative grid transition-transform duration-250",
+                      isCurrent
+                        ? "-translate-y-4"
+                        : "motion-safe:group-hover/shelf-item:-translate-y-2.5 motion-safe:group-hover/shelf-item:-rotate-2",
+                    )}
                   >
-                    <PokemonAvatar
-                      decorative
-                      imageUrl={play.lead.imageUrl}
-                      name={play.lead.name}
-                      typeSlug={leadType}
+                    <GameCover
+                      alt=""
+                      coverImageUrl={play.coverImageUrl}
+                      eager
+                      gameName={play.gameName}
+                      gameSlug={play.gameSlug ?? undefined}
+                      shape={play.coverShape}
+                      size="playShelf"
                     />
+                    {isCurrent ? <PickedMark /> : null}
+                    {play.lead ? (
+                      /* The partner as the one small portrait, in a corner mark's white ring. */
+                      <span
+                        aria-hidden
+                        className="bubble absolute -right-3 -bottom-3 size-11.5 rounded-full"
+                      >
+                        <PokemonAvatar
+                          decorative
+                          imageUrl={play.lead.imageUrl}
+                          name={play.lead.name}
+                          typeSlug={leadType}
+                        />
+                      </span>
+                    ) : null}
                   </span>
-                ) : null}
-              </span>
-            </Link>
+                </Link>
+              }
+            />
           </li>
         );
       })}
       <li className="shrink-0">
         <NewPlayTrigger
           aria-label="Start a new Play"
-          title="Start a new Play"
+          tip="Start a new Play"
           className={coverLinkClassName}
         >
           <span className="empty-slot text-ink-2 group-hover/shelf-item:bg-hover group-hover/shelf-item:text-ink grid h-22.5 w-17 place-items-center rounded-sm transition-colors sm:h-31 sm:w-23">

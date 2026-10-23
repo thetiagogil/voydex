@@ -7,6 +7,7 @@ import type {
 } from "@/modules/codex/features/pokemon/detail/sections/type-matchups/pokemon-detail-type-matchups-model";
 import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type PokemonDetailTypeMatchupsCardProps = {
   matchups: PokemonDetailTypeMatchups;
@@ -36,31 +37,35 @@ const MatchupChips = ({
         const isQuadruple = tone === "weak" && matchup.multiplier >= 4;
 
         return (
-          <li
+          <IconTip
             key={matchup.attackingType}
-            aria-label={`${matchup.typeLabel} ${matchup.multiplierLabel}`}
-            title={matchup.typeLabel}
-            className={cn(
-              "text-13 inline-flex items-center gap-1 rounded-full py-0.75 pr-2 pl-0.75 font-extrabold",
-              isQuadruple ? "bg-danger-soft" : "bg-surface-2",
-            )}
-          >
-            <PokemonTypeMark
-              type={matchup.attackingType}
-              className="size-6"
-              iconClassName="size-3.5"
-            />
-            <b
-              className={cn(
-                "pl-0.5 tabular-nums",
-                tone === "resist" && "text-ok",
-                tone === "weak" &&
-                  (isQuadruple ? "text-danger-deep" : "text-danger"),
-              )}
-            >
-              {matchup.multiplierLabel}
-            </b>
-          </li>
+            label={matchup.typeLabel}
+            trigger={
+              <li
+                aria-label={`${matchup.typeLabel} ${matchup.multiplierLabel}`}
+                className={cn(
+                  "text-13 inline-flex items-center gap-1 rounded-full py-0.75 pr-2 pl-0.75 font-extrabold",
+                  isQuadruple ? "bg-danger-soft" : "bg-surface-2",
+                )}
+              >
+                <PokemonTypeMark
+                  type={matchup.attackingType}
+                  className="size-6"
+                  iconClassName="size-3.5"
+                />
+                <b
+                  className={cn(
+                    "pl-0.5 tabular-nums",
+                    tone === "resist" && "text-ok",
+                    tone === "weak" &&
+                      (isQuadruple ? "text-danger-deep" : "text-danger"),
+                  )}
+                >
+                  {matchup.multiplierLabel}
+                </b>
+              </li>
+            }
+          />
         );
       })}
     </ul>
