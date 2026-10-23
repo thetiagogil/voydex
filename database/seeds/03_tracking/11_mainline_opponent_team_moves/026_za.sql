@@ -9,6 +9,8 @@
 -- Fixed encounters, totems, Titans, story bosses and trainers the sources
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
+-- Rogue Mega Absol: no source lists a moveset for Legends battles, so it gets
+-- the moves Serebii says it uses (Air Slash, and Dark Pulse as its charge move).
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Legends: Z-A Story battle opponents' moves.
 -- ============================================================================
@@ -133,6 +135,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (260011, 26006, NULL, NULL, NULL, NULL, 1, ARRAY[542, 399, 94, 613]),
     -- Zygarde: Mega Zygarde Lv. 84: Core Enforcer, Thousand Arrows, Thousand Waves, Land's Wrath
     (260012, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[687, 614, 615, 616]),
+    -- Rogue Mega Absol: Mega Absol Lv. 25: Air Slash, Dark Pulse
+    (260005, 26002, NULL, NULL, NULL, NULL, 1, ARRAY[403, 399]),
     -- Lysandre: Pyroar Lv. 78: Hyper Voice, Flamethrower, Snarl, Solar Beam
     (260012, 26003, NULL, NULL, NULL, NULL, 1, ARRAY[304, 53, 555, 76]),
     -- Lysandre: Florges Lv. 78: Energy Ball, Dazzling Gleam, Psychic, Calm Mind

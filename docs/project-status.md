@@ -126,9 +126,7 @@ finds all 45). Grouped by what they wait on:
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.
-- Opponents' moves for Z-A's rogue Mega Absol (Lv. 25), the one Story Pokémon
-  no source lists;
-  an anon read grant plus town and ace for the Codex game page's leaders.
+- An anon read grant plus town and ace for the Codex game page's leaders.
 - Reference catalogue: one-per-save and either-or groups, route and encounter
   locations, a badge count for Start a Play, region and version group
   descriptions.

@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Opponents' moves: up to four regular moves per opponent Pokémon, each one
 -- its game has, read by signed-in users only, and every Gen 1 to 4 team
--- complete from the games' own trainer data; Gen 5 to 9 as far as sources go.
+-- complete from the games' own trainer data; Gen 5 to 9 from reference sources.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
@@ -153,23 +153,18 @@ SELECT
                 AND mainline_opponents.slug = 'geeta'
                 AND pokemon_forms.slug = 'glimmora' GROUP BY mainline_opponent_team_members.id $$, $$
             VALUES ('tera-blast, sludge-wave, earth-power, dazzling-gleam'::text) $$, 'Scarlet / Violet Geeta''s Glimmora knows Tera Blast');
--- Every opponent Pokémon has moves except the few no source covers.
+-- Gen 5 to 9 too: every opponent Pokémon now has its moves.
 SELECT
-    IS ((
-            SELECT
-                count(*)::integer
-            FROM
-                tracking.mainline_opponent_team_members
+    is_empty ($$
+        SELECT
+            mainline_opponent_team_members.id FROM tracking.mainline_opponent_team_members
             WHERE
                 NOT EXISTS (
                     SELECT
                         1
-                    FROM
-                        tracking.mainline_opponent_team_member_moves
+                    FROM tracking.mainline_opponent_team_member_moves
                     WHERE
-                        mainline_opponent_team_member_moves.team_member_id = mainline_opponent_team_members.id)),
-                1,
-                'only the one opponent Pokémon no source covers is left without moves');
+                        mainline_opponent_team_member_moves.team_member_id = mainline_opponent_team_members.id) $$, 'every opponent Pokémon has its moves');
 SELECT
     results_eq ($$
         SELECT
