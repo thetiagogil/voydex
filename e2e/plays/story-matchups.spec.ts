@@ -32,7 +32,10 @@ test.describe("Story matchups", () => {
     await expect(
       report.getByRole("heading", { name: "The Pokémon" }),
     ).toBeVisible();
-    await expect(report).toContainText("Its moves aren't in Voydex");
+    /* Gold's own data gives Raikou its moves for its level. */
+    await expect(report).toContainText(
+      "This reads its moves against your team",
+    );
     await expect(report).not.toContainText("Their");
 
     /* The header counts battles won, not optional catches. */
@@ -123,6 +126,47 @@ test.describe("Story matchups", () => {
       glimmora.getByRole("img", { name: "Tera Rock" }),
     ).toBeVisible();
     await expect(report).toContainText("Glimmora Terastallizes into Rock.");
+    await expectAccessible(page);
+  });
+
+  test("shows what their Pokémon know and reads their moves", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Kanto run"),
+      partner: "Squirtle",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    const brock = page.getByRole("button", { name: /^Brock/ });
+    await expect(brock).toBeVisible(forTheAnswer);
+    await brock.click();
+
+    const report = page.getByRole("region", { name: "Brock" });
+    await expect(report).toContainText(
+      "This reads their moves against your team.",
+    );
+
+    /* Onix's Gym Leader move, Bide, in its third slot. */
+    const onix = report.getByRole("button", { name: /Onix/ });
+    await expect(onix).toHaveAccessibleName(/knows Tackle, Screech, Bide/);
+    await onix.hover();
+    const tip = page.getByRole("dialog").filter({ hasText: "Onix · Lv. 14" });
+    await expect(tip).toContainText("Bide");
+
+    await page.mouse.move(0, 0);
+    await expect(tip).toBeHidden();
+
+    /* From the keyboard: Enter pins it and Escape closes it. */
+    await onix.focus();
+    await page.keyboard.press("Enter");
+    await expect(tip).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(tip).toBeHidden();
     await expectAccessible(page);
   });
 });
