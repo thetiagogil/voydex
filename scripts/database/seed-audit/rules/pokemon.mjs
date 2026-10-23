@@ -10,6 +10,7 @@ import {
   expectedAbilitylessFormSlugs,
   expectedBabyPokemonSlugs,
   expectedBattleFormSlugs,
+  expectedChangeableFormSlugs,
   expectedLegendaryPokemonSlugs,
   expectedMythicalPokemonSlugs,
   expectedNonDefaultFormSlugs,
@@ -22,6 +23,7 @@ const expectedAllNonDefaultFormSlugs = [
   ...expectedBattleFormSlugs,
 ];
 const expectedBattleFormSlugSet = new Set(expectedBattleFormSlugs);
+const expectedChangeableFormSlugSet = new Set(expectedChangeableFormSlugs);
 const expectedAbilitylessFormSlugSet = new Set(expectedAbilitylessFormSlugs);
 
 export function assertPokemonIdentityRows(context, tableRows) {
@@ -444,7 +446,7 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     ruleRows,
     [
       "form_id",
-      "form_kind",
+      "form_class",
       "is_team_selectable",
       "is_battle_only",
       "is_cosmetic",
@@ -457,7 +459,7 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     {
       count: expectedAllNonDefaultFormSlugs.length,
       sha256:
-        "2d95f5a357c47d28828bb920ce8ae6b35d898dbe25e80082cacd2e0e539772b1",
+        "8c10c10a70cbfaa3761c26b8fe164369961538013cf78ffe2a493d92ae84788a",
     },
   );
   if (ruleRows.length !== expectedAllNonDefaultFormSlugs.length) {
@@ -488,12 +490,12 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     const isBattleForm = expectedBattleFormSlugSet.has(form.slug);
     if (isBattleForm) {
       if (
-        row.form_kind !== "battle" ||
+        row.form_class !== "battle" ||
         row.is_team_selectable !== false ||
         row.is_battle_only !== true
       ) {
         context.errors.push(
-          `${relative(filePath)}: battle form ${form.slug} must be form_kind=battle, battle-only and not team selectable.`,
+          `${relative(filePath)}: battle form ${form.slug} must be form_class=battle, battle-only and not team selectable.`,
         );
       }
       if (row.condition_summary === null) {
@@ -528,10 +530,15 @@ export function assertPokemonFormRuleRows(context, tableRows) {
         `${relative(filePath)}: form ${form.slug} expected is_regional=${shouldBeRegional}.`,
       );
     }
-    if (shouldBeRegional && row.form_kind !== "regional") {
-      context.errors.push(
-        `${relative(filePath)}: regional form ${form.slug} must use form_kind=regional.`,
-      );
+    if (!isBattleForm) {
+      const expectedClass = expectedChangeableFormSlugSet.has(form.slug)
+        ? "form"
+        : "variant";
+      if (row.form_class !== expectedClass) {
+        context.errors.push(
+          `${relative(filePath)}: form ${form.slug} must use form_class=${expectedClass}.`,
+        );
+      }
     }
   }
 }

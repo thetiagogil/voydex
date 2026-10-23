@@ -20,7 +20,7 @@ SELECT
     is_empty ($$
         SELECT
             form_id FROM reference.pokemon_form_rules
-            WHERE (form_kind = 'battle') <> (is_battle_only
+            WHERE (form_class = 'battle') <> (is_battle_only
                 AND NOT is_team_selectable) $$, 'battle forms are exactly the battle-only, non-selectable forms');
 -- A Play member is never stored as a battle form.
 SELECT

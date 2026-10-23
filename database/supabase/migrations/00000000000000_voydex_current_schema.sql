@@ -869,7 +869,7 @@ COMMENT ON TABLE reference.item_category_memberships IS 'Many-to-many category m
 -- ============================================================================
 CREATE TABLE reference.pokemon_form_rules (
     form_id integer PRIMARY KEY REFERENCES reference.pokemon_forms (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    form_kind text NOT NULL,
+    form_class text NOT NULL,
     is_team_selectable boolean NOT NULL DEFAULT TRUE,
     is_battle_only boolean NOT NULL DEFAULT FALSE,
     is_cosmetic boolean NOT NULL DEFAULT FALSE,
@@ -879,8 +879,8 @@ CREATE TABLE reference.pokemon_form_rules (
     condition_summary text,
     notes text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT pokemon_form_rules_form_kind_check CHECK (form_kind IN ('default', 'regional', 'alternate', 'cosmetic', 'battle', 'special')),
-    CONSTRAINT pokemon_form_rules_battle_kind_check CHECK (form_kind <> 'battle' OR is_battle_only),
+    CONSTRAINT pokemon_form_rules_form_class_check CHECK (form_class IN ('variant', 'form', 'battle')),
+    CONSTRAINT pokemon_form_rules_battle_class_check CHECK ((form_class = 'battle') = is_battle_only),
     CONSTRAINT pokemon_form_rules_battle_not_team_selectable_check CHECK (NOT is_battle_only OR NOT is_team_selectable),
     CONSTRAINT pokemon_form_rules_battle_mechanic_check CHECK (battle_mechanic IS NULL OR battle_mechanic IN ('mega-evolution', 'primal-reversion', 'ultra-burst', 'dynamax', 'in-battle')),
     CONSTRAINT pokemon_form_rules_battle_mechanic_presence_check CHECK ((battle_mechanic IS NOT NULL) = is_battle_only),
@@ -889,6 +889,8 @@ CREATE TABLE reference.pokemon_form_rules (
 );
 
 COMMENT ON TABLE reference.pokemon_form_rules IS 'UI and planning behavior metadata for Pokémon forms.';
+
+COMMENT ON COLUMN reference.pokemon_form_rules.form_class IS 'variant: a different Pokémon you catch and keep, chosen when it is added (Hisuian Arcanine). form: one the Pokémon can switch to and back on a Play (Rotom, Therian Formes, Arceus types). battle: only in battle (Mega, Gigantamax). A default form has no rule row.';
 
 COMMENT ON COLUMN reference.pokemon_form_rules.battle_mechanic IS 'Battle forms only: the mechanic that reaches the form, so it shows only in games that have it. in-battle means an ability, move or held item changes it during any battle in a game with the Pokémon.';
 
