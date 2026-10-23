@@ -187,20 +187,25 @@ damage from power, the attacking and defending stats, the same-type bonus,
 type effectiveness and accuracy). Each of yours hits with its recorded
 damaging moves (Hidden Power is left out, Judgment and its kind take its
 type, Tera Blast its Tera Type), or with its own types at a power usual for
-its level while none is recorded, as theirs do without moves; a two-turn
-move counts at half and one that knocks out its user not at all. Each of
+its level while none is recorded, as theirs do without moves; a set-damage
+move (Night Shade, Dragon Rage, Super Fang) deals its set amount, a two-turn
+move (Hyper Beam, Fly) counts at half, and one that knocks out its user not
+at all; a Dynamaxing opponent has twice its HP. Each of
 yours meets each of theirs one on one, both using their hardest hit, Speed
 deciding who moves first: what knocking it out costs you is the share of
-your HP lost. What one of theirs costs is your best answer mixed with your
+your HP lost, and one you can't beat costs your whole team. What one of theirs costs is your best answer mixed with your
 second best (60/40), as the average player fights; the battle adds those up
 across their team and shares them across yours: **Strong** at 0.3 of your
 team's HP or less, **Challenging** at 0.9 or more, **Balanced** between. So
 level weighs first, then how many they bring, then types. Each of your
 Pokémon is Advantage, Even or At risk by the same limits on what taking on
-their whole team alone would cost it, or Not recorded (no types). While
-your levels aren't recorded it reads yours at their ace's level, and while
-your moves aren't, by type; the verdict then says it is a rough read and
-what to record. Best hit and Weak to stay type readings: Best hit's tooltip
+their whole team alone would cost it, or Not recorded (no types). While a
+Pokémon's level isn't recorded it reads at their ace's level, and while its
+damaging moves aren't, by type; the verdict then says it is a rough read and
+what to record. A battle not fought with your team (a Pokémon lent for it,
+one of yours alone such as the Zero Lab ride legendary, or a frenzy that is
+mostly balms; `player_side` on the battle) gets no reading and says why.
+Best hit and Weak to stay type readings: Best hit's tooltip
 lists each of theirs it hits for more than 1× and with which move; Weak
 to's names which of theirs hit it for 2× or more and with what. Each battle has its own team, so a rematch reads the
 team you face then. One sentence leads with a level edge of 2 or more, then your answers to their team (or, without a level edge, your answers and then your exposure). A team that
