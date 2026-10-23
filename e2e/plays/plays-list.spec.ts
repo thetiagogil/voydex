@@ -68,4 +68,46 @@ test.describe("Plays list", () => {
     );
     await expect(library.getByRole("link")).toHaveCount(1, forTheAnswer);
   });
+
+  test("puts the Play you touched last on top, even for a team change", async ({
+    page,
+  }) => {
+    const label = uniquePlayName("Recent list");
+    const older = `${label} older`;
+    const newer = `${label} newer`;
+
+    await page.goto("/mainline/plays");
+    const olderId = await startPlay(page, {
+      game: "Pokémon Gold, 1999",
+      name: older,
+      partner: null,
+    });
+    await startPlay(page, {
+      game: "Pokémon Blue, 1996",
+      name: newer,
+      partner: null,
+    });
+
+    await page.goto(`/mainline/plays?q=${encodeURIComponent(label)}`);
+    const titles = page
+      .getByRole("region", { name: "Play library" })
+      .getByRole("heading", { level: 3 });
+    await expect(titles).toHaveText([newer, older], forTheAnswer);
+
+    await page.goto(`/mainline/plays/${olderId}`, { waitUntil: "networkidle" });
+    const partnerChoice = page.getByRole("region", {
+      name: "Which Pokémon did you choose?",
+    });
+    await partnerChoice
+      .getByRole("button", { name: "Totodile is my partner" })
+      .click();
+    const saved = waitForAction(page);
+    await partnerChoice
+      .getByRole("button", { name: "Choose Totodile" })
+      .click();
+    await saved;
+
+    await page.goto(`/mainline/plays?q=${encodeURIComponent(label)}`);
+    await expect(titles).toHaveText([older, newer], forTheAnswer);
+  });
 });

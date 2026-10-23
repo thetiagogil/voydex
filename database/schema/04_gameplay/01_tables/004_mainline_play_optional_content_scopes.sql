@@ -67,3 +67,8 @@ CREATE INDEX play_optional_content_scopes_game_scope_idx ON gameplay.mainline_pl
 CREATE INDEX play_optional_content_scopes_version_group_idx ON gameplay.mainline_play_optional_content_scopes (version_group_id);
 
 COMMENT ON FUNCTION private.enforce_play_optional_content_scope () IS 'Prevents inserting a play base content scope as optional content.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_optional_content_scopes
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

@@ -27,3 +27,8 @@ CREATE INDEX play_collectible_entry_progress_entry_idx ON gameplay.mainline_play
 COMMENT ON TABLE gameplay.mainline_play_collectible_entry_progress IS 'Sparse positive collectible progress. Row existence means collected.';
 
 COMMENT ON COLUMN gameplay.mainline_play_collectible_entry_progress.collected_at IS 'Nullable for imported historical mainline_plays where the exact collection time is unknown.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_collectible_entry_progress
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

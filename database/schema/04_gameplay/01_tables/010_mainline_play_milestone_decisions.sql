@@ -28,3 +28,8 @@ CREATE INDEX play_milestone_decisions_milestone_idx ON gameplay.mainline_play_mi
 CREATE INDEX play_milestone_decisions_option_milestone_idx ON gameplay.mainline_play_milestone_decisions (decision_option_id, milestone_id);
 
 COMMENT ON TABLE gameplay.mainline_play_milestone_decisions IS 'Selected decision option for a play milestone.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_milestone_decisions
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

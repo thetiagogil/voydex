@@ -95,3 +95,8 @@ COMMENT ON COLUMN gameplay.mainline_play_pokemon.has_gigantamax_factor IS 'Wheth
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.slot IS 'Current roster slot. Active uses 1 to 6; reserve uses 7 to 12; retired/replaced rows have no slot.';
 
 COMMENT ON CONSTRAINT play_pokemon_play_slot_unique ON gameplay.mainline_play_pokemon IS 'One Pokémon per current slot. Deferrable and checked at the end of each statement, so a single update can swap two Pokémon. Past Pokémon have no slot and never clash.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

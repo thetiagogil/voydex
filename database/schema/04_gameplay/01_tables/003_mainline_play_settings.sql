@@ -26,3 +26,8 @@ COMMENT ON TABLE gameplay.mainline_play_settings IS 'Per-play settings that infl
 COMMENT ON COLUMN gameplay.mainline_play_settings.include_optional_pokedexes_in_completion IS 'When true, optional Pokedex scopes such as National or special post-game Pokedexes count toward completion. DLC Pokedexes are controlled by selected optional content scopes.';
 
 COMMENT ON COLUMN gameplay.mainline_play_settings.include_optional_pokedex_entries_in_completion IS 'When true, source-visible optional Pokedex entries count toward completion. Only meaningful when Pokedex completion is included.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_settings
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

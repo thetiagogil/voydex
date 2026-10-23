@@ -129,3 +129,8 @@ CREATE TRIGGER enforce_play_challenge_rule_scope
     EXECUTE FUNCTION private.enforce_play_challenge_rule_scope ();
 
 COMMENT ON FUNCTION private.enforce_play_challenge_rule_scope () IS 'Allows predefined challenge rules for any play and custom challenge rules only for mainline_plays owned by the same user, and checks the options a play sets against its rule: known keys, matching value kinds, a known reuse scope, and a type, required where the rule has one, that exists in the play''s game.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_challenge_rules
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
