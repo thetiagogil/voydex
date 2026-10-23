@@ -129,6 +129,7 @@ describe("buildTeamAnalysisRows coverage", () => {
 
     expect(water?.hits).toEqual([
       {
+        imageUrl: null,
         memberId: "Bulba",
         memberName: "Bulba",
         moves: [{ name: "vine-whip", typeSlug: "grass" }],
