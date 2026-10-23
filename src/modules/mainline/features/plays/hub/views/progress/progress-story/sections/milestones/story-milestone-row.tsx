@@ -179,14 +179,16 @@ export const StoryMilestoneRow = ({
               <IconTip
                 label={`Decision: ${decision}`}
                 trigger={
-                  <FallbackImage
-                    src={decisionOption.imageUrl}
-                    name={decisionOption.speciesName ?? decisionOption.label}
-                    fallback="badge"
-                    alt={`Decision: ${decision}`}
-                    loading="lazy"
-                    className="size-7.5 max-w-none shrink-0 object-contain"
-                  />
+                  <span className="inline-flex shrink-0">
+                    <FallbackImage
+                      src={decisionOption.imageUrl}
+                      name={decisionOption.speciesName ?? decisionOption.label}
+                      fallback="badge"
+                      alt={`Decision: ${decision}`}
+                      loading="lazy"
+                      className="size-7.5 max-w-none shrink-0 object-contain"
+                    />
+                  </span>
                 }
               />
             ) : decision ? (

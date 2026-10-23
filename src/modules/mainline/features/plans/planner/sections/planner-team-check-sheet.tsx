@@ -181,13 +181,15 @@ export const PlannerTeamCheckSheet = ({
                                   key={speciesId}
                                   label={pokemon.name}
                                   trigger={
-                                    <FallbackImage
-                                      src={pokemon.imageUrl}
-                                      name={pokemon.name}
-                                      alt={pokemon.name}
-                                      fallback="badge"
-                                      className="size-9"
-                                    />
+                                    <span className="inline-flex">
+                                      <FallbackImage
+                                        src={pokemon.imageUrl}
+                                        name={pokemon.name}
+                                        alt={pokemon.name}
+                                        fallback="badge"
+                                        className="size-9"
+                                      />
+                                    </span>
                                   }
                                 />
                               ) : null;

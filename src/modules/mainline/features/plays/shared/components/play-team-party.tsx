@@ -42,7 +42,7 @@ export const PlayTeamParty = ({
 
   return (
     <IconTip
-      label={label}
+      label="Your team then"
       trigger={
         <span
           role={decorative ? undefined : "img"}

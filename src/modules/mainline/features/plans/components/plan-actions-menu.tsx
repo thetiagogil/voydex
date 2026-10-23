@@ -171,7 +171,7 @@ export const PlanActionsMenu = ({
           <IconTip
             label={plan.isArchived ? undefined : archiveBlockedReason}
             trigger={
-              <div>
+              <div role="presentation">
                 <DropdownMenuItem
                   disabled={Boolean(archiveBlockedReason) && !plan.isArchived}
                   onClick={toggleArchived}
