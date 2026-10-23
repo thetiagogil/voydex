@@ -14,6 +14,7 @@ import {
   type BattleStats,
   type BattleType,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { formItemRuleAppliesHere } from "@/modules/reference/features/pokemon/server/form-class-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import type { ReferenceRow } from "@/shared/types/database-helpers";
 import { byId, uniqueNumberIds } from "@/shared/utils/collections";
@@ -267,24 +268,6 @@ const toStats = (row: AttributeRow): BattleStats => ({
   speed: row.base_speed,
 });
 
-const appliesHere = (
-  row: Pick<
-    ReferenceRow<"pokemon_form_item_requirements">,
-    | "generation_end_id"
-    | "generation_start_id"
-    | "version_group_end_id"
-    | "version_group_start_id"
-  >,
-  generationId: number,
-  versionGroupId: number,
-) =>
-  row.generation_start_id <= generationId &&
-  (row.generation_end_id === null || row.generation_end_id >= generationId) &&
-  (row.version_group_start_id === null ||
-    row.version_group_start_id <= versionGroupId) &&
-  (row.version_group_end_id === null ||
-    row.version_group_end_id >= versionGroupId);
-
 /*
  * What a team's battle side needs in one game: the battle forms its species
  * reach (with types, stats, ability and the items that unlock them), the
@@ -429,7 +412,7 @@ export const readBattleReference = async (
     (row) => row.form_id,
   );
   const requirements = (requirementsResult.data ?? []).filter((row) =>
-    appliesHere(row, generationId, versionGroupId),
+    formItemRuleAppliesHere(row, generationId, versionGroupId),
   );
   const zSources = zSourcesResult?.data ?? [];
   const maxMoves = maxMovesResult?.data ?? [];

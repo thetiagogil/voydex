@@ -38,7 +38,10 @@ test.describe("Codex", () => {
     await menu.click();
     await expect(options).toHaveCount(3);
     await expect(options.nth(1)).toContainText("Mega Charizard X");
-    await expect(options.nth(1)).toContainText("In battle · Mega Evolution");
+    await expect(options.nth(1)).toContainText("Mega Evolution");
+    await expect(
+      page.getByRole("group", { name: "Battle forms" }),
+    ).toBeVisible();
     await options.nth(1).click();
     await expect(
       page.getByRole("heading", { level: 1, name: "Mega Charizard X" }),

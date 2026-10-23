@@ -19,6 +19,11 @@ export type PokemonChoice = {
 };
 
 export type PokemonChoiceSourceRows = {
+  /*
+   * The variants this Play's game has, each beside its species in the list
+   * (Hisuian Arcanine beside Arcanine), and the defaults of those species.
+   */
+  addableVariantFormIds?: ReadonlySet<number>;
   attributes: {
     form_id: number;
     generation_start_id: number;
@@ -56,8 +61,9 @@ const kindRank = (kind: string | null) => {
 /*
  * Each species of the Play's Pokédexes once, in the order of the first
  * Pokédex it appears in (regional first), drawn in its display form with
- * the types it has in the Play's generation. Forms without attributes in
- * that generation are left out.
+ * the types it has in the Play's generation, followed by the other variants
+ * the game has, each its own choice with the same number. Forms without
+ * attributes in that generation are left out.
  */
 export const buildPokemonChoices = (
   rows: PokemonChoiceSourceRows,
@@ -118,16 +124,29 @@ export const buildPokemonChoices = (
     }
 
     seen.add(entry.species_id);
-    choices.push(
-      toPokemonChoice({
-        attribute,
-        form,
-        number: entry.pokedex_number ?? 0,
-        speciesName: entry.species_name,
-        speciesSlug: entry.species_slug,
-        typeById,
-      }),
-    );
+
+    for (const choiceForm of [
+      form,
+      ...forms.filter(
+        (item) =>
+          item.id !== form.id && rows.addableVariantFormIds?.has(item.id),
+      ),
+    ]) {
+      const choiceAttribute = attributeByFormId.get(choiceForm.id);
+
+      if (choiceAttribute) {
+        choices.push(
+          toPokemonChoice({
+            attribute: choiceAttribute,
+            form: choiceForm,
+            number: entry.pokedex_number ?? 0,
+            speciesName: entry.species_name,
+            speciesSlug: entry.species_slug,
+            typeById,
+          }),
+        );
+      }
+    }
   }
 
   return choices;

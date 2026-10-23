@@ -43,3 +43,22 @@ export const resolveFormClasses = <Form extends { id: number }>(
     forms.map((form) => [form.id, classById.get(form.id) ?? defaultClass]),
   );
 };
+
+/*
+ * The forms a stored Pokémon can switch to on a Play, from its species'
+ * resolved classes: every other form of the form class, its default among
+ * them. A variant switches to nothing.
+ */
+export const getChangeableFormIds = <Form extends { id: number }>(
+  forms: readonly Form[],
+  classById: ReadonlyMap<number, FormClass | null>,
+  currentFormId: number,
+): number[] =>
+  classById.get(currentFormId) === "form"
+    ? forms
+        .filter(
+          (form) =>
+            form.id !== currentFormId && classById.get(form.id) === "form",
+        )
+        .map((form) => form.id)
+    : [];

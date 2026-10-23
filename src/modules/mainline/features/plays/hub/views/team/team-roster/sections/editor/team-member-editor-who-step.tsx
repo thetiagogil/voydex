@@ -1,4 +1,6 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { CheckboxCard } from "@/shared/components/checkbox-card";
+import { EditedMark } from "@/shared/components/edited-mark";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
@@ -21,17 +23,22 @@ const genderOptions = (
   value: gender,
 }));
 
-/* Who: its species (fixed here), nickname, level and gender. */
+/*
+ * Who: its species (fixed here), nickname, level and gender, shiny or not
+ * and, where its game has it and it can, whether it can Gigantamax.
+ */
 export const TeamMemberEditorWhoStep = ({
   change,
   edited,
   id,
   member,
   supportsGender,
+  supportsGigantamax,
   values,
 }: TeamMemberEditorStepProps & {
   member: MainlinePlayTeamMember;
   supportsGender: boolean;
+  supportsGigantamax: boolean;
 }) => (
   <SheetSection title="Who">
     <div className="grid gap-4 sm:grid-cols-2">
@@ -98,6 +105,28 @@ export const TeamMemberEditorWhoStep = ({
             options={genderOptions}
           />
         </Field>
+      ) : null}
+      <CheckboxCard
+        size="compact"
+        id={`${id}-shiny`}
+        title={<EditedMark edited={edited("isShiny")}>Shiny</EditedMark>}
+        checked={values.isShiny}
+        onCheckedChange={(checked) => change("isShiny", checked === true)}
+      />
+      {supportsGigantamax ? (
+        <CheckboxCard
+          size="compact"
+          id={`${id}-gigantamax`}
+          title={
+            <EditedMark edited={edited("hasGigantamaxFactor")}>
+              Can Gigantamax
+            </EditedMark>
+          }
+          checked={values.hasGigantamaxFactor}
+          onCheckedChange={(checked) =>
+            change("hasGigantamaxFactor", checked === true)
+          }
+        />
       ) : null}
     </div>
   </SheetSection>

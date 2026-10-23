@@ -1,6 +1,12 @@
 import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
-import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
-import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
+import {
+  getChangeableFormIds,
+  resolveFormClasses,
+} from "@/modules/reference/features/pokemon/domain/form-classes";
+import {
+  readFormClassById,
+  readHeldItemForms,
+} from "@/modules/reference/features/pokemon/server/form-class-reader";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import {
   gameMechanics,
@@ -56,7 +62,7 @@ export const readTeamMemberEditorOptions = async (
     learnsets,
     edgesResult,
     speciesFormsResult,
-    battleFormIds,
+    formClassById,
     teraTypesResult,
     contentScopesResult,
   ] = await Promise.all([
@@ -89,7 +95,7 @@ export const readTeamMemberEditorOptions = async (
       .select("id, name, slug, species_id")
       .eq("species_id", speciesId)
       .order("form_order", { ascending: true }),
-    readBattleFormIds(supabase),
+    readFormClassById(supabase, [speciesId]),
     hasTerastal
       ? supabase
           .schema("reference")
@@ -135,13 +141,14 @@ export const readTeamMemberEditorOptions = async (
       edge.version_group_id === null ||
       edge.version_group_id === versionGroupId,
   );
+  const speciesForms = speciesFormsResult.data ?? [];
+  const changeableFormIds = getChangeableFormIds(
+    speciesForms,
+    resolveFormClasses(speciesForms, formClassById),
+    formId,
+  );
   const targetFormIds = [
-    ...new Set([
-      ...edges.map((edge) => edge.to_form_id),
-      ...withoutBattleForms(speciesFormsResult.data ?? [], battleFormIds).map(
-        (form) => form.id,
-      ),
-    ]),
+    ...new Set([...edges.map((edge) => edge.to_form_id), ...changeableFormIds]),
   ];
 
   const [
@@ -153,6 +160,8 @@ export const readTeamMemberEditorOptions = async (
     moves,
     targetFormsResult,
     targetAttributesResult,
+    typesResult,
+    heldItemForms,
   ] = await Promise.all([
     abilityIds.length
       ? supabase
@@ -200,10 +209,20 @@ export const readTeamMemberEditorOptions = async (
       ? supabase
           .schema("reference")
           .from("pokemon_attributes")
-          .select("form_id")
+          .select(
+            "form_id, generation_start_id, primary_type_id, secondary_type_id",
+          )
           .in("form_id", targetFormIds)
           .lte("generation_start_id", generationId)
       : null,
+    targetFormIds.length
+      ? supabase.schema("reference").from("types").select("id, name, slug")
+      : null,
+    readHeldItemForms(supabase, {
+      formIds: changeableFormIds,
+      generationId,
+      versionGroupId,
+    }),
   ]);
 
   if (
@@ -211,27 +230,62 @@ export const readTeamMemberEditorOptions = async (
     abilityAttributesResult?.error ||
     versionGroupsResult?.error ||
     targetFormsResult?.error ||
-    targetAttributesResult?.error
+    targetAttributesResult?.error ||
+    typesResult?.error
   ) {
     throw new Error("Unable to load what this Pokémon can record.");
   }
 
-  const formsInGeneration = new Set(
-    (targetAttributesResult?.data ?? []).map((row) => row.form_id),
+  /* Each target's attributes in this generation, newest first. */
+  const attributeByFormId = new Map(
+    newestFirst(targetAttributesResult?.data ?? [])
+      .toReversed()
+      .map((row) => [row.form_id, row]),
   );
+  const typeById = new Map(
+    (typesResult?.data ?? []).map((type) => [type.id, type]),
+  );
+  /*
+   * A form a held item selects can't be picked: it says which item, and the
+   * default of such a Pokémon follows its held item too.
+   */
+  const followsHeldItem = (targetFormId: number) => {
+    const items = heldItemForms.get(targetFormId);
+
+    if (items?.length) {
+      return `Hold ${items.join(" or ")}`;
+    }
+
+    return heldItemForms.size && !formClassById.has(targetFormId)
+      ? "Follows its held item"
+      : null;
+  };
   const toFormOption = (form: {
     id: number;
     name: string;
     species_id: number;
     slug: string | null;
-  }): EditorFormOption => ({
-    formId: form.id,
-    imageUrl: getPokemonFormImageUrl(form),
-    name: form.name,
-    speciesId: form.species_id,
-  });
+  }): EditorFormOption => {
+    const attribute = attributeByFormId.get(form.id);
+
+    return {
+      formId: form.id,
+      heldItemNote:
+        form.species_id === speciesId ? followsHeldItem(form.id) : null,
+      imageUrl: getPokemonFormImageUrl(form, "sm"),
+      name: form.name,
+      speciesId: form.species_id,
+      types: [attribute?.primary_type_id, attribute?.secondary_type_id].flatMap(
+        (typeId) => {
+          const type = typeId ? typeById.get(typeId) : undefined;
+
+          return type ? [{ name: type.name, slug: type.slug }] : [];
+        },
+      ),
+    };
+  };
   const targetForms = (targetFormsResult?.data ?? []).filter((form) =>
-    formsInGeneration.has(form.id),
+    attributeByFormId.has(form.id),
   );
   const abilityById = new Map(
     (abilitiesResult?.data ?? []).map((ability) => [ability.id, ability]),
@@ -254,9 +308,11 @@ export const readTeamMemberEditorOptions = async (
       const form = targetForms.find((item) => item.id === edge.to_form_id);
       return form ? [toFormOption(form)] : [];
     }),
-    forms: targetForms
-      .filter((form) => form.species_id === speciesId && form.id !== formId)
-      .map(toFormOption),
+    forms: changeableFormIds.flatMap((id) => {
+      const form = targetForms.find((item) => item.id === id);
+
+      return form ? [toFormOption(form)] : [];
+    }),
     heldItems,
     moves,
     natures: (naturesResult?.data ?? []).map((nature) => ({
