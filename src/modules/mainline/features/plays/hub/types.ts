@@ -15,6 +15,7 @@ import type {
 } from "@/modules/reference/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import type { BaseStats } from "@/modules/reference/features/pokemon/domain/battle-math";
 import type { BadgeCase } from "@/modules/mainline/features/plays/hub/views/overview/data/badge-case-mapper";
 import type { StoryMilestone } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import type { OverviewMilestone } from "@/modules/mainline/features/plays/hub/views/overview/data/overview-milestones-mapper";
@@ -51,6 +52,8 @@ export type MainlinePlayTeamMember = Omit<
   "moves"
 > & {
   abilityEffectSummary: string | null;
+  /* Its form's base stats in the Play's generation; null without them. */
+  baseStats: BaseStats | null;
   /* What its held item does, when one is recorded. */
   heldItemEffectSummary: string | null;
   /* Its held item's and Poké Ball's slugs, for their sprites. */

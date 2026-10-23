@@ -10,6 +10,7 @@ import {
 } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { isBattleFormMechanic } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { toBaseStats } from "@/modules/reference/features/pokemon/domain/battle-math";
 import { applyMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/data/move-attribute-overrides";
 import { readMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/server/move-override-reader";
 import { readLegendarySpecies } from "@/modules/reference/features/pokemon/server/legendary-species-reader";
@@ -133,8 +134,10 @@ export const readOpponentMoves = async (
     const moves = movesByMember.get(slot.team_member_id) ?? [];
 
     moves.push({
+      accuracy: attributes?.accuracy ?? null,
       damageClass: attributes?.damage_class ?? null,
       name: move.name,
+      power: attributes?.power ?? null,
       slug: move.slug,
       typeId: attributes?.type_id ?? null,
     });
@@ -368,6 +371,7 @@ const readOpponentTeams = async (
 
       return [
         {
+          baseStats: attributes ? toBaseStats(attributes) : null,
           battleFormMechanic: battleMechanicByForm.get(member.form_id) ?? null,
           choiceKey,
           dynamaxes: member.dynamaxes,

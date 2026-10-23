@@ -9,6 +9,7 @@ import type {
   PokemonAttributes,
 } from "@/modules/reference/types";
 import { resolveAbilityAttributes } from "@/modules/reference/features/pokemon/data/ability-effects";
+import { toBaseStats } from "@/modules/reference/features/pokemon/domain/battle-math";
 import type { Json } from "@/shared/types/database.types";
 import { byId, uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -143,6 +144,7 @@ export const buildMainlinePlayTeamPreview = (
     return {
       ...member,
       abilityEffectSummary: abilityAttributes?.effect_summary ?? null,
+      baseStats: attributes ? toBaseStats(attributes) : null,
       heldItemEffectSummary: member.held_item_id
         ? (rows.heldItemEffects?.[member.held_item_id] ?? null)
         : null,

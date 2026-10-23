@@ -19,6 +19,10 @@ import {
   type BattleFormMechanic,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { isTypeEffectiveMove } from "@/modules/reference/features/moves/domain/move-hit-types";
+import {
+  toDamageClass,
+  type BaseStats,
+} from "@/modules/reference/features/pokemon/domain/battle-math";
 import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import { getDefensiveTypeMultiplier } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import {
@@ -57,9 +61,13 @@ export type StoryMatchupMilestone = Pick<
 
 /* One of their Pokémon's moves, as the Play's version group has it. */
 export type StoryOpponentMoveRow = {
+  /* Out of 100; null for a move that never misses or without details. */
+  accuracy: number | null;
   /* "physical", "special" or "status"; null when Voydex has no details for the generation. */
   damageClass: string | null;
   name: string;
+  /* Null when it varies or Voydex has no details. */
+  power: number | null;
   slug: string;
   typeId: number | null;
 };
@@ -69,6 +77,8 @@ export type StoryOpponentMoveRow = {
  * on a Play's choice (usually the starter) has one set of rows per choice.
  */
 export type StoryOpponentPartyRow = {
+  /* Its form's base stats in the Play's generation; null without them. */
+  baseStats: BaseStats | null;
   /* The mechanic its stored form needs (a Mega, a Gigantamax form); null for any other form. */
   battleFormMechanic: BattleFormMechanic | null;
   /* The Play's choice this team follows ("10001/bulbasaur"); null when it follows none. */
@@ -365,6 +375,7 @@ const groupParties = (
     const mechanic = getOpponentMechanic(row, mechanics);
 
     party.pokemon.push({
+      baseStats: row.baseStats,
       formSlug: row.formSlug,
       heldItem:
         hasHeldItems && row.heldItem
@@ -376,8 +387,11 @@ const groupParties = (
       level: row.level,
       mechanic,
       moves: row.moves.map((move) => ({
+        accuracy: move.accuracy,
+        damageClass: toDamageClass(move.damageClass),
         damaging: isTypeEffectiveMove(move),
         name: move.name,
+        power: move.power,
         slug: move.slug,
         type: typeOf(move.typeId),
       })),
@@ -620,6 +634,7 @@ export const buildStoryMatchupsModel = ({
         reading: reading
           ? {
               levels: reading.levels,
+              missing: reading.missing,
               state: reading.state,
               summary: reading.summary,
               uncoveredTypes: reading.uncoveredTypes,

@@ -484,6 +484,9 @@ export const StoryBattleReport = ({
           </AlertTitle>
           <AlertDescription className="text-ink-2 text-14 font-semibold">
             {reading.summary}
+            {reading.missing.length
+              ? ` A rough read: record your team's ${reading.missing.join(" and ")} for a closer one.`
+              : null}
           </AlertDescription>
         </Alert>
       ) : party ? null : (

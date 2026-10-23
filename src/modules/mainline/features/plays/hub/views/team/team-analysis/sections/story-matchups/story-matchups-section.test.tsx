@@ -89,6 +89,7 @@ const withTeam = battle({
         moveName: "Water Gun",
         multiplier: 4,
         target: {
+          baseStats: null,
           formSlug: "onix",
           heldItem: null,
           imageUrl: null,
@@ -113,6 +114,7 @@ const withTeam = battle({
     note: null,
     pokemon: [
       {
+        baseStats: null,
         formSlug: "onix",
         heldItem: null,
         imageUrl: null,
@@ -138,6 +140,7 @@ const withTeam = battle({
     state: "strong",
     summary:
       "You have an answer to Brock's Pokémon, and you're 6 levels above them.",
+    missing: [],
     uncoveredTypes: [],
   },
 });
@@ -192,8 +195,24 @@ describe("StoryMatchupsSection", () => {
     const known = {
       ...onix,
       moves: [
-        { damaging: true, name: "Rock Throw", slug: "rock-throw", type: rock },
-        { damaging: false, name: "Screech", slug: "screech", type: null },
+        {
+          accuracy: 90,
+          damageClass: "physical" as const,
+          damaging: true,
+          name: "Rock Throw",
+          power: 50,
+          slug: "rock-throw",
+          type: rock,
+        },
+        {
+          accuracy: 85,
+          damageClass: null,
+          damaging: false,
+          name: "Screech",
+          power: null,
+          slug: "screech",
+          type: null,
+        },
       ],
     };
     const typesOnly = render([withTeam]);
@@ -232,6 +251,7 @@ describe("StoryMatchupsSection", () => {
           note: null,
           pokemon: [
             {
+              baseStats: null,
               formSlug: "glimmora",
               heldItem: { name: "Focus Sash", slug: "focus-sash" },
               imageUrl: null,
@@ -263,6 +283,7 @@ describe("StoryMatchupsSection", () => {
           note: null,
           pokemon: [
             {
+              baseStats: null,
               formSlug: "gigantamax-charizard",
               heldItem: null,
               imageUrl: null,
@@ -314,6 +335,7 @@ describe("StoryMatchupsSection", () => {
         note: null,
         pokemon: [
           {
+            baseStats: null,
             formSlug: "raikou",
             heldItem: null,
             imageUrl: null,
@@ -339,6 +361,7 @@ describe("StoryMatchupsSection", () => {
         state: "challenging",
         summary:
           "Your team's moves aren't recorded, and it's 20 levels above your team.",
+        missing: [],
         uncoveredTypes: [rock],
       },
       specialtyTypes: [water],

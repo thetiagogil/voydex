@@ -201,6 +201,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     primaryTypeId: number,
     choice: { slug: string; label: string } | null = null,
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: choice ? `10001/${choice.slug}` : null,
     dynamaxes: false,
@@ -251,19 +252,25 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
           ...partyRow(2, 2, "Starmie", 21, 11),
           moves: [
             {
+              accuracy: 100,
               damageClass: "special",
+              power: 65,
               name: "Bubble Beam",
               slug: "bubble-beam",
               typeId: 11,
             },
             {
+              accuracy: 100,
               damageClass: "physical",
+              power: 65,
               name: "Seismic Toss",
               slug: "seismic-toss",
               typeId: 7,
             },
             {
+              accuracy: 100,
               damageClass: "status",
+              power: null,
               name: "Harden",
               slug: "harden",
               typeId: 1,
@@ -353,6 +360,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     name: string,
     choice: { slug: string; label: string },
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: `10001/${choice.slug}`,
     dynamaxes: false,
@@ -448,6 +456,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
   const row = (
     overrides: Partial<StoryOpponentPartyRow>,
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
@@ -521,6 +530,7 @@ describe("buildStoryMatchupsModel with a rematch", () => {
     name: string,
     level: number,
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
@@ -592,6 +602,7 @@ describe("buildStoryLevelCap", () => {
     slot: number,
     level: number,
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
@@ -809,6 +820,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     name: string,
     legendary: StoryOpponentPartyRow["legendary"],
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
@@ -891,7 +903,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     const raikou = battles[2];
 
     expect(raikou?.reading?.summary).toBe(
-      "By type, none of yours hits Raikou for 2×, and it's 20 levels above your team.",
+      "It's 20 levels above your team, and by type none of yours hits Raikou for 2×.",
     );
   });
 
@@ -971,6 +983,7 @@ describe("buildStoryMatchupsModel with battle mechanics", () => {
   const row = (
     overrides: Partial<StoryOpponentPartyRow>,
   ): StoryOpponentPartyRow => ({
+    baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
