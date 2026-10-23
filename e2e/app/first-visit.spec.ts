@@ -84,7 +84,10 @@ test.describe("The meadow's partners", () => {
 });
 
 test.describe("Statistics' title", () => {
-  /* The seeded trainer has Plays, so Statistics has a title to show. */
+  /*
+   * Each test logs in as the seeded trainer, who has Plays (so Statistics has
+   * a title to show), in a fresh tab that has seen no reveal.
+   */
   test.use({ storageState: signedOut });
 
   test("rises in once in a fresh tab, and stays still on a reload", async ({
