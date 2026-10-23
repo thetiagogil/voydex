@@ -1,6 +1,9 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 
-const subscribeToNothing = () => () => {};
+import {
+  getFirstVisitKey,
+  type FirstVisitName,
+} from "@/shared/utils/first-visit";
 
 /* Without storage it counts as a later visit, so nothing replays. */
 const readSeen = (key: string) => {
@@ -11,25 +14,34 @@ const readSeen = (key: string) => {
   }
 };
 
-/*
- * True the first time a piece is shown in a browser session, then false:
- * motion that rewards arriving (the meadow's partners popping in, the
- * Statistics title rising) plays once per visit and never on a redraw.
- */
-export const useFirstVisit = (key: string) => {
-  const seen = useSyncExternalStore(
-    subscribeToNothing,
-    () => readSeen(key),
-    () => false,
-  );
+const rememberSeen = (key: string) => {
+  try {
+    window.sessionStorage.setItem(key, "1");
+  } catch {
+    /* Storage is unavailable: nothing to remember. */
+  }
+};
 
-  useEffect(() => {
-    try {
-      window.sessionStorage.setItem(key, "1");
-    } catch {
-      /* Storage is unavailable: nothing to remember. */
-    }
+/*
+ * The reveal's `data-first-visit` value: its name the first time it is shown
+ * in a browser tab, then nothing.
+ *
+ * The server can't read the tab's storage, so it always sends the name, and
+ * FirstVisitGuard keeps a reveal this tab has seen still until the page
+ * hydrates. Arriving inside the app, the layout effect drops the name before
+ * the first paint. What the tab held when the piece mounted is kept for as
+ * long as it stays mounted, so a redraw never cuts a reveal short.
+ */
+export const useFirstVisit = (name: FirstVisitName) => {
+  const key = getFirstVisitKey(name);
+  const seenOnMount = useRef<boolean | null>(null);
+  const [seen, setSeen] = useState(false);
+
+  useLayoutEffect(() => {
+    seenOnMount.current ??= readSeen(key);
+    setSeen(seenOnMount.current);
+    rememberSeen(key);
   }, [key]);
 
-  return !seen;
+  return seen ? undefined : name;
 };

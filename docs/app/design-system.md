@@ -268,9 +268,13 @@ on a hard lip, a press that moves, a gradient fill or glass.
 
 Motion is a reward. Hover lifts and the Pokémon hop are fine on things you can
 open. `animate-stamp-slap`, `animate-pop` and `animate-hop` play only at the moment something is
-recorded or marked, never on load or redraw. The one exception is the
-meadow's partners, which pop in (`animate-meadow-pop`) once per visit. Nothing loops and controls don't
-bounce. `app-base.css` honours reduced motion.
+recorded or marked, never on load or redraw. The exceptions are the
+once-per-visit reveals: the meadow's partners pop in (`animate-meadow-pop`) and
+Statistics' title rises in, once per browser tab. A reveal takes its name from
+`useFirstVisit` as `data-first-visit`, and `FirstVisitGuard` in the root
+layout keeps one the tab has seen still from first paint, so a reload never
+starts it. Nothing loops and controls don't bounce. `app-base.css` honours
+reduced motion.
 
 Whatever lifts carries everything on it: a card's badges, its lock, its ⋯
 menu and its corner bubbles sit inside the element that moves, never as an

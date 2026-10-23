@@ -2,6 +2,7 @@ import {
   DatabaseHealthProvider,
   DatabaseHealthStatus,
 } from "@/features/system/components/database-health-status";
+import { FirstVisitGuard } from "@/shared/components/first-visit-guard";
 import { TooltipProvider } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 import type { Metadata } from "next";
@@ -24,6 +25,9 @@ export default function RootLayout({
       className={cn("h-full", nunito.variable)}
       suppressHydrationWarning
     >
+      <head>
+        <FirstVisitGuard />
+      </head>
       <body
         className="flex min-h-full flex-col antialiased"
         suppressHydrationWarning
