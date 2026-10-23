@@ -102,12 +102,12 @@ const getFieldRow = (
   field: TeamFieldReading,
   yourCount: number,
 ): TeamAnalysisTipRow => ({
-  detail: `A full team of six, one type each, as strong as yours, at ${
+  detail: `Not a real trainer: six typical Pokémon with every type mixed in, as strong as yours, at ${
     field.unrecorded.levels >= yourCount
       ? `Lv. ${field.level} (your levels aren't recorded)`
       : `your top level (Lv. ${field.level})`
   }`,
-  subject: { text: "Read against" },
+  subject: { text: "Yardstick" },
 });
 
 /* How many of the types fit in a tip before the rest are counted. */
@@ -265,7 +265,7 @@ export const buildTeamAnalysisHealth = ({
           yours: withRoughNote([
             {
               chip: shareWords(field.share),
-              detail: "Of your team's HP used up beating their six",
+              detail: "Of your team's HP used up beating six typical Pokémon",
               subject: { text: "HP used" },
               tone: statusTones[teamHealthStatus],
             },
@@ -280,9 +280,9 @@ export const buildTeamAnalysisHealth = ({
             ...(evidence.activeCount < field.theirCount
               ? [
                   {
-                    chip: `${evidence.activeCount} to ${field.theirCount}`,
-                    detail: `You bring ${evidence.activeCount}, they bring ${field.theirCount}`,
-                    subject: { text: "Numbers" },
+                    chip: `${evidence.activeCount} of ${field.theirCount}`,
+                    detail: `A full team has ${field.theirCount}; you have ${evidence.activeCount}`,
+                    subject: { text: "Team size" },
                     tone: "warn" as const,
                   },
                 ]

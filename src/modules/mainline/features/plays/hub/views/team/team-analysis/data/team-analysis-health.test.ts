@@ -147,10 +147,10 @@ describe("buildTeamAnalysisHealth", () => {
       { type: referenceType(4) },
     ]);
     expect(rated(metric)[0]).toBe(
-      "Read against | A full team of six, one type each, as strong as yours, at your top level (Lv. 34)",
+      "Yardstick | Not a real trainer: six typical Pokémon with every type mixed in, as strong as yours, at your top level (Lv. 34)",
     );
     expect(yours(metric)).toContain(
-      "HP used | Of your team's HP used up beating their six | about half",
+      "HP used | Of your team's HP used up beating six typical Pokémon | about half",
     );
     expect(yours(metric)).toContain(
       "Type 4 | Takes more than one of yours to beat",
@@ -206,9 +206,9 @@ describe("buildTeamAnalysisHealth", () => {
         ],
       ),
     ).toEqual([
-      "HP used | Of your team's HP used up beating their six | about a quarter",
+      "HP used | Of your team's HP used up beating six typical Pokémon | about a quarter",
       "Drifloon | 6 levels below your top (Lv. 34) | Lv. 28",
-      "Numbers | You bring 3, they bring 6 | 3 to 6",
+      "Team size | A full team has 6; you have 3 | 3 of 6",
     ]);
     expect(
       rated(
