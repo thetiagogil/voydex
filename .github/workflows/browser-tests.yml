@@ -50,10 +50,11 @@ jobs:
       # Pull the Supabase images from GitHub's registry; the default public
       # registry often refuses GitHub's shared runners ("Data limit exceeded").
       SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
-      # NEXT_PUBLIC_ASSETS_URL stays unset on purpose: without it every image
-      # shows its named stand-in, so the tests send no requests to the
-      # voydex-assets site (Vercel Hobby counts each one against 1M a month).
-      # Set it here to test the real images.
+      # Images come from a local stand-in (e2e/support/asset-stub-server.mjs),
+      # so the tests send no requests to the voydex-assets site: Vercel Hobby
+      # counts each one against 1M a month. Point this at the real site to
+      # test the real images.
+      NEXT_PUBLIC_ASSETS_URL: http://127.0.0.1:3999
 
     steps:
       - name: Check out repository
