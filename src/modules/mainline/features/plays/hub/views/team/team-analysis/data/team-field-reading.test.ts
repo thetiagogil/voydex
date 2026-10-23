@@ -116,10 +116,10 @@ describe("readTeamField", () => {
     const field = read(balanced(47), cap([48, 50, 50]));
 
     expect(field.benchmark).toEqual({
+      battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Roark" },
       kind: "battle",
       level: 50,
       levels: [48, 50, 50],
-      name: "Roark",
     });
     expect(field.levelGap).toBe(-3);
     expect(field.unrecorded).toEqual({ levels: 0, moves: 6 });
@@ -195,9 +195,87 @@ describe("readTeamField", () => {
       kind: "team",
       level: 62,
       levels: [62, 62],
-      name: null,
+      battle: null,
     });
     expect(field.levelGap).toBeNull();
+  });
+
+  it("reads at your top level while Voydex doesn't have the next leader's team", () => {
+    const roark = {
+      isPromotionMatch: false,
+      kind: "Gym Leader",
+      name: "Roark",
+    };
+    const field = read(balanced(20), { battle: roark, status: "no-team" });
+
+    expect(field.benchmark).toEqual({
+      battle: roark,
+      kind: "team",
+      level: 20,
+      levels: [20, 20, 20, 20, 20, 20],
+    });
+    expect(field.levelGap).toBeNull();
+  });
+
+  it("hits with recorded moves, set-damage ones included", () => {
+    const move = (slug: string, type: string, power: number | null) => ({
+      attributes: { accuracy: 100, damage_class: "special", power },
+      id: 1,
+      name: slug,
+      slot: 1,
+      slug,
+      type: typeOf(type),
+    });
+    const thunderbolt = {
+      ...member("Raichu", ["electric"], 40),
+      moves: [move("thunderbolt", "electric", 90)],
+    } as MainlinePlayTeamMember;
+    const nightShade = {
+      ...member("Gengar", ["ghost", "poison"], 40),
+      moves: [move("night-shade", "ghost", null)],
+    } as MainlinePlayTeamMember;
+    const byMoves = read([thunderbolt, nightShade], cap([40]), 1);
+    const water = (reading: ReturnType<typeof read>) =>
+      reading.types.find((type) => type.type.slug === "water")!;
+
+    expect(byMoves.unrecorded).toEqual({ levels: 0, moves: 0 });
+    /* Thunderbolt knocks out a Water-type faster than a typical Electric hit at Lv. 40. */
+    expect(water(byMoves).hitsToKnockOut).toBeLessThanOrEqual(
+      water(
+        read(
+          [
+            member("Raichu", ["electric"], 40),
+            member("Gengar", ["ghost", "poison"], 40),
+          ],
+          cap([40]),
+          1,
+        ),
+      ).hitsToKnockOut,
+    );
+    /* Night Shade still hurts a Normal-type Ghost moves can't touch. */
+    expect(
+      byMoves.types.find((type) => type.type.slug === "normal")!.hitsToKnockOut,
+    ).toBeLessThan(Infinity);
+  });
+
+  it("reads an empty team or a typeless Pokémon without breaking", () => {
+    const empty = read([], cap([12, 14]));
+
+    /* Nothing answers them: each of theirs costs a whole Pokémon. */
+    expect(empty.share).toBe(2);
+    expect(empty.types.every((type) => type.beats.length === 0)).toBe(true);
+
+    const typeless = read(
+      [
+        {
+          ...member("Missing", ["normal"], 30),
+          primaryType: null,
+        } as MainlinePlayTeamMember,
+      ],
+      cap([30]),
+    );
+
+    expect(typeless.types.every((type) => type.beats.length === 0)).toBe(true);
   });
 
   it("says what it had to assume when levels aren't recorded", () => {

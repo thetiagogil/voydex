@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  getTypeDamageClasses,
   getBattleStats,
   getDuel,
   getExpectedDamage,
@@ -184,5 +185,25 @@ describe("battle math", () => {
       }).yourShare;
 
     expect(share(1) / share(2)).toBeCloseTo(2);
+  });
+});
+
+describe("getTypeDamageClasses", () => {
+  const stats = {
+    attack: 100,
+    defense: 80,
+    hp: 80,
+    specialAttack: 60,
+    specialDefense: 80,
+    speed: 80,
+  };
+
+  it("gives a type's one category before Gen 4 and both from Gen 4", () => {
+    expect(getTypeDamageClasses("fire", 3, stats)).toEqual(["special"]);
+    expect(getTypeDamageClasses("rock", 3, stats)).toEqual(["physical"]);
+    expect(getTypeDamageClasses("fire", 4, stats)).toEqual([
+      "physical",
+      "special",
+    ]);
   });
 });

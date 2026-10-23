@@ -1,11 +1,12 @@
 import type {
+  MainlinePlayCapBattle,
   MainlinePlayLevelCap,
   MainlinePlayTeamMember,
 } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   getDuel,
-  getTypeDamageClass,
+  getTypeDamageClasses,
   getTypicalPower,
   type BaseStats,
   type BattleAttack,
@@ -28,17 +29,17 @@ import {
 
 /*
  * Where the field's levels come from: the team of the next leader battle in
- * Story (Level caps' battle), your own top level once none is ahead, or a
- * default while neither is known.
+ * Story (Level caps' battle), else your own top level, or a default while
+ * neither is known.
  */
 export type TeamFieldBenchmark = {
+  /* The next leader battle, whether or not Voydex has its team; null when none is left. */
+  battle: MainlinePlayCapBattle | null;
   kind: "battle" | "default" | "team";
-  /* The highest of `levels`: that battle's ace. */
+  /* The highest of `levels`: that battle's ace, or your top level. */
   level: number;
   /* One per Pokémon the field brings, at its level. */
   levels: number[];
-  /* The leader whose team it is ("Brock"); null unless `kind` is "battle". */
-  name: string | null;
 };
 
 /* Your team against a Pokémon of one type at the field's levels. */
@@ -83,10 +84,7 @@ const toFieldBattlers = (
   baseStats: BaseStats,
   generationOrder: number,
 ): Battler[] =>
-  (generationOrder <= 3
-    ? [getTypeDamageClass(typeSlug, generationOrder, baseStats)]
-    : (["physical", "special"] as const)
-  ).map(
+  getTypeDamageClasses(typeSlug, generationOrder, baseStats).map(
     (damageClass): Battler => ({
       attacks: [
         {
@@ -145,22 +143,22 @@ const getBenchmark = ({
 
   if (levelCap?.status === "capped") {
     return {
+      battle: levelCap.battle,
       kind: "battle",
       level: levelCap.level,
       levels: levelCap.teamLevels.length
         ? levelCap.teamLevels
         : [levelCap.level],
-      name: levelCap.battle.name,
     };
   }
 
   const level = recorded.length ? Math.max(...recorded) : DEFAULT_FIELD_LEVEL;
 
   return {
+    battle: levelCap?.status === "no-team" ? levelCap.battle : null,
     kind: recorded.length ? "team" : "default",
     level,
     levels: members.map(() => level),
-    name: null,
   };
 };
 

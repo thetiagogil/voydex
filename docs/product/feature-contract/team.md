@@ -176,14 +176,16 @@ than one opponent: a Pokémon of each type the generation has, with your
 active team's average base stats, hitting with a move of its type at a power
 usual for its level (from Gen 4 once physically and once specially,
 averaged), at each level on the team of the next leader battle in Story (the
-battle Level caps takes its cap from), as many as that team has. Once no
-leader battle is left the field is your top level and as many as you have;
-with no level recorded either, Lv. 50. Each of yours meets each of them one
+battle Level caps takes its cap from, a Z-A promotion match included), as
+many as that team has. While Voydex doesn't have that team, or once no leader
+battle is left, the field is your top level and as many as you have (with no
+level recorded either, Lv. 50), and the tooltip says why. Each of yours meets each of them one
 on one, and what one costs is your best answer mixed with your second best.
 **Team health** is what beating the field costs your team: Strong at 30% of
 its HP or less, Weak at 90% or more, Moderate between, so level weighs first,
 then how many each side has, then types; its line is a level edge of 2 or
-more ("5 levels behind"), else the type that costs the most. **Threat
+more ("5 levels behind"), else the type that costs the most, or "No type to
+watch" when none costs over 30% of a Pokémon's HP. **Threat
 response** counts the types your answers beat for less than 90% of one
 Pokémon's HP (Strong when all, Moderate from three in four). **Move
 coverage** counts the types your hardest hit knocks out in two hits or fewer
@@ -191,10 +193,10 @@ coverage** counts the types your hardest hit knocks out in two hits or fewer
 the types that hit two or more of yours (your only one in a team of one)
 super effectively and beat them one on one, and is Strong with none of them
 unanswered, Moderate with one, Weak with more. A Pokémon without a recorded
-level reads at the battle's ace's level and one without a damaging move by
-its types; a note under the cards and each card's tooltip then say it is a
+level reads at the battle's ace's level and one without a damaging move
+(set-damage moves count) by its types; a note under the cards and each card's tooltip then say it is a
 rough read and how many. Typing missing on any of yours leaves the cards
-ungraded. The defensive matchups matrix and the move coverage list below
+ungraded, without the note. The defensive matchups matrix and the move coverage list below
 stay by type. **Story matchups** (`?reading=story`) lists the
 Play's Story battles by chapter: every opponent a story point names is its
 own battle (a rival on the way to a Gym sits under that badge), with where it

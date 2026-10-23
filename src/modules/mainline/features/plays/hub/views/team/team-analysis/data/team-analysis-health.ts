@@ -109,16 +109,29 @@ export const getTeamFieldRoughNote = ({
 
 /* What the field is, in words: its Pokémon, their levels and how many. */
 const getFieldSentence = ({ benchmark }: TeamFieldReading) => {
+  const { battle } = benchmark;
   const count = benchmark.levels.length;
   const range = getLevelRange(benchmark.levels);
   const levels = range ? formatLevelRange(range) : `Lv. ${benchmark.level}`;
   const field = "Your team against a Pokémon of each type, as strong as yours";
 
-  return benchmark.kind === "battle"
-    ? `${field}, at the levels of ${benchmark.name}'s ${count === 1 ? "Pokémon" : count} (${levels}), your next leader battle.`
-    : benchmark.kind === "team"
-      ? `${field}, at your top level (${levels}), as many as you have: no leader battle is left.`
-      : `${field}, at ${levels}, as many as you have: your levels aren't recorded.`;
+  if (benchmark.kind === "battle" && battle) {
+    return `${field}, at the levels of ${battle.name}'s ${count === 1 ? "Pokémon" : count} (${levels}), ${
+      battle.isPromotionMatch
+        ? "your next promotion match"
+        : "your next leader battle"
+    }.`;
+  }
+
+  /* Whose team it would read, as Level caps names it: "Gym Leader Misty", or "Zach". */
+  const why = [
+    battle
+      ? `Voydex doesn't have ${battle.isPromotionMatch ? battle.name : `${battle.kind} ${battle.name}`}'s team yet`
+      : "no leader battle is left",
+    benchmark.kind === "default" ? "your levels aren't recorded" : null,
+  ].filter(Boolean);
+
+  return `${field}, at ${benchmark.kind === "team" ? `your top level (${levels})` : levels}, as many as you have: ${why.join(" and ")}.`;
 };
 
 /* Level first, then numbers: "Your top level is 5 below their ace, and you bring 3 to their 6." */
@@ -205,7 +218,9 @@ export const buildTeamAnalysisHealth = ({
       ? missingReason
       : withRoughNote([
           getFieldSentence(field),
-          `Beating them costs about ${percent(field.share)} of your team's HP.`,
+          field.share >= 1
+            ? "Beating them costs more than your whole team's HP."
+            : `Beating them costs about ${percent(field.share)} of your team's HP.`,
           getEdgeSentence({
             levelGap,
             theirCount,
@@ -281,8 +296,9 @@ export const buildTeamAnalysisHealth = ({
   };
 
   /* A shared weak spot outclasses two of yours, or your only one. */
-  const sharedWords =
-    evidence.activeCount === 1 ? "your Pokémon" : "two or more of yours";
+  const isAlone = evidence.activeCount === 1;
+  const sharedWords = isAlone ? "your Pokémon" : "two or more of yours";
+  const sharedPronoun = isAlone ? "it" : "them";
   const pressureReadings = byCost.filter(
     (reading) => reading.beats.length >= Math.min(2, evidence.activeCount),
   );
@@ -304,14 +320,14 @@ export const buildTeamAnalysisHealth = ({
           pressureReadings.length
             ? `${pressureReadings.length} ${
                 pressureReadings.length === 1 ? "type hits" : "types hit"
-              } ${sharedWords} super effectively and ${pressureReadings.length === 1 ? "beats" : "beat"} them one on one: ${listNames(
+              } ${sharedWords} super effectively and ${pressureReadings.length === 1 ? "beats" : "beat"} ${sharedPronoun} one on one: ${listNames(
                 pressureReadings.map(
                   (reading) =>
                     `${reading.type.name} (${joinTeamAnalysisList(reading.beats, "and")})`,
                 ),
                 "and",
               )}.`
-            : `No type hits ${sharedWords} super effectively and beats them one on one.`,
+            : `No type hits ${sharedWords} super effectively and beats ${sharedPronoun} one on one.`,
           !pressureReadings.length
             ? null
             : openPressure.length

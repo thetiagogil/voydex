@@ -1,4 +1,7 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayTeamMember,
+  MainlinePlayTeamMove,
+} from "@/modules/mainline/features/plays/hub/types";
 import {
   getTypeDamageClass,
   getTypicalPower,
@@ -51,9 +54,21 @@ export const toTypeAttacks = (
     typeSlug,
   }));
 
-/* Whether it has a recorded move the battle math reads by its type. */
+/* A set-damage move (Seismic Toss, Night Shade): no type coverage, but it still hurts. */
+const isSetDamageMove = (move: MainlinePlayTeamMove) => {
+  const damageClass = move.attributes?.damage_class;
+
+  return (
+    (damageClass === "physical" || damageClass === "special") &&
+    isFixedDamageMove(move.slug)
+  );
+};
+
+/* Whether it has a recorded move the battle math hits with, set-damage ones included. */
 export const hasRecordedDamagingMove = (member: MainlinePlayTeamMember) =>
-  member.moves.some((move) => getDamagingMoveTypeSlug(move, member));
+  member.moves.some(
+    (move) => getDamagingMoveTypeSlug(move, member) || isSetDamageMove(move),
+  );
 
 /*
  * One of yours as the battle math takes it: its recorded damaging moves, or
@@ -74,13 +89,9 @@ export const toYourBattler = (
   );
   const moveAttacks = member.moves.flatMap((move): BattleAttack[] => {
     const damageClass = move.attributes?.damage_class;
-    /* Set-damage moves claim no type coverage, but they still hurt. */
     const typeSlug =
       getDamagingMoveTypeSlug(move, member) ??
-      ((damageClass === "physical" || damageClass === "special") &&
-      isFixedDamageMove(move.slug)
-        ? (move.type?.slug ?? null)
-        : null);
+      (isSetDamageMove(move) ? (move.type?.slug ?? null) : null);
 
     return typeSlug && isPokemonTypeSlug(typeSlug)
       ? [

@@ -321,7 +321,12 @@ describe("Level caps", () => {
   ];
   const misty = { isPromotionMatch: false, kind: "Gym Leader", name: "Misty" };
   const capped = withRules(rules, {
-    levelCap: { battle: misty, level: 21, status: "capped", teamLevels: [21] },
+    levelCap: {
+      battle: misty,
+      level: 21,
+      status: "capped",
+      teamLevels: [18, 21],
+    },
   });
 
   it("is checked, last in the Library's order", () => {
@@ -376,7 +381,7 @@ describe("Level caps", () => {
         battle: misty,
         level: 21,
         status: "capped",
-        teamLevels: [21],
+        teamLevels: [18, 21],
       }),
     ).toBe(
       "Lv. 21, the highest level on Gym Leader Misty's team, the next leader you face.",
@@ -397,7 +402,7 @@ describe("Level caps", () => {
         battle: zach,
         level: 9,
         status: "capped",
-        teamLevels: [21],
+        teamLevels: [8, 9],
       }),
     ).toBe(
       "Lv. 9, the highest level on Zach's team, your next promotion match.",
@@ -413,7 +418,7 @@ describe("Level caps", () => {
             battle: zach,
             level: 9,
             status: "capped",
-            teamLevels: [21],
+            teamLevels: [8, 9],
           },
         }),
       ),

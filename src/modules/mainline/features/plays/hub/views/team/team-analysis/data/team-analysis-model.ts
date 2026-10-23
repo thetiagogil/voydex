@@ -67,16 +67,21 @@ export const buildTeamAnalysisModel = ({
     types,
   });
 
+  const healthMetrics = buildTeamAnalysisHealth({ evidence, field });
+
   return {
     abilitiesApply: supportsGameMechanic(mechanics, gameMechanics.abilities),
     coverageRows,
     defensiveRows,
     evidence,
     generation,
-    healthMetrics: buildTeamAnalysisHealth({ evidence, field }),
+    healthMetrics,
     heldItemsApply: supportsGameMechanic(mechanics, gameMechanics.heldItems),
     lineupLabel: getLineupLabel(play.status_slug),
     members: activeMembers,
-    roughNote: getTeamFieldRoughNote(field),
+    /* Only beside cards it grades. */
+    roughNote: healthMetrics.some((metric) => metric.status !== "limited-data")
+      ? getTeamFieldRoughNote(field)
+      : null,
   };
 };

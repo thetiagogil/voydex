@@ -33,13 +33,21 @@ const typeReadings = (
     }),
   );
 
+const fantina = {
+  isPromotionMatch: false,
+  kind: "Gym Leader",
+  name: "Fantina",
+};
+
 const field = ({
+  benchmark,
   levelGap = 0,
   unrecorded = { levels: 0, moves: 0 },
   share = 0.2,
   theirCount = 6,
   types = typeReadings(),
 }: {
+  benchmark?: Partial<TeamFieldReading["benchmark"]>;
   levelGap?: number | null;
   unrecorded?: TeamFieldReading["unrecorded"];
   share?: number;
@@ -47,10 +55,11 @@ const field = ({
   types?: TeamFieldTypeReading[];
 } = {}): TeamFieldReading => ({
   benchmark: {
+    battle: fantina,
     kind: "battle",
     level: 34,
     levels: Array(theirCount).fill(34),
-    name: "Fantina",
+    ...benchmark,
   },
   levelGap,
   unrecorded,
@@ -58,17 +67,20 @@ const field = ({
   types,
 });
 
-const evidence = (typedMemberCount = 6): TeamAnalysisEvidence => ({
-  activeCount: 6,
+const evidence = (
+  typedMemberCount = 6,
+  activeCount = 6,
+): TeamAnalysisEvidence => ({
+  activeCount,
   possibleMoveCount: 24,
   recordedMoveCount: 24,
   typedMemberCount,
 });
 
-const build = (reading: TeamFieldReading, typed = 6) =>
+const build = (reading: TeamFieldReading, typed = 6, active = 6) =>
   Object.fromEntries(
     buildTeamAnalysisHealth({
-      evidence: evidence(typed),
+      evidence: evidence(typed, active),
       field: reading,
     }).map((metric) => [metric.id, metric]),
   );
@@ -122,6 +134,39 @@ describe("buildTeamAnalysisHealth", () => {
       "Beating them costs about 50% of your team's HP.",
     );
     expect(metric?.reason).toContain("Type 4 costs you the most.");
+  });
+
+  it("says a field that costs more than the whole team as such", () => {
+    expect(build(field({ share: 2.4 }))["team-health"]?.reason).toContain(
+      "Beating them costs more than your whole team's HP.",
+    );
+  });
+
+  it("names where the field's levels come from", () => {
+    const reason = (benchmark: Partial<TeamFieldReading["benchmark"]>) =>
+      build(field({ benchmark, levelGap: null }))["team-health"]?.reason;
+
+    expect(
+      reason({
+        battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Zach" },
+        levels: [8, 9],
+      }),
+    ).toContain(
+      "at the levels of Zach's 2 (Lv. 8–9), your next promotion match.",
+    );
+    expect(reason({ kind: "team", level: 20, levels: [20, 20] })).toContain(
+      "at your top level (Lv. 20), as many as you have: Voydex doesn't have Gym Leader Fantina's team yet.",
+    );
+    expect(
+      reason({ battle: null, kind: "team", level: 70, levels: [70] }),
+    ).toContain(
+      "at your top level (Lv. 70), as many as you have: no leader battle is left.",
+    );
+    expect(
+      reason({ battle: null, kind: "default", level: 50, levels: [50] }),
+    ).toContain(
+      "at Lv. 50, as many as you have: no leader battle is left and your levels aren't recorded.",
+    );
   });
 
   it("says how far behind your levels are, then how many each side brings", () => {
@@ -215,6 +260,20 @@ describe("buildTeamAnalysisHealth", () => {
       { type: referenceType(6) },
       { text: "unanswered" },
     ]);
+  });
+
+  it("speaks of a team of one as it", () => {
+    const reason = build(
+      field({
+        types: typeReadings({ 5: { answerCost: 1.1, beats: ["Squirtle"] } }),
+      }),
+      1,
+      1,
+    )["weakness-control"]?.reason;
+
+    expect(reason).toContain(
+      "1 type hits your Pokémon super effectively and beats it one on one: Type 5 (Squirtle).",
+    );
   });
 
   it("says when a missing level or move makes every card a rough read", () => {
