@@ -18,24 +18,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   sort_order,
   notes
 ) VALUES
-  -- Noble Kleavor -> Kleavor
-  (220003, 22001, 22, 'battle-opponent', 1, NULL),
-  -- Noble Lilligant -> Hisuian Lilligant
-  (220004, 22002, 22, 'battle-opponent', 2, NULL),
-  -- Noble Arcanine -> Hisuian Arcanine
-  (220005, 22003, 22, 'battle-opponent', 1, NULL),
-  -- Noble Electrode -> Hisuian Electrode
-  (220006, 22004, 22, 'battle-opponent', 1, NULL),
-  -- Noble Avalugg -> Hisuian Avalugg
-  (220007, 22005, 22, 'battle-opponent', 1, NULL),
   -- Commander Kamado -> Commander Kamado
   (220009, 22006, 22, 'battle-opponent', 1, NULL),
-  -- Origin Pokémon -> Origin Dialga / Origin Palkia
-  (220010, 22007, 22, 'battle-opponent', 2, NULL),
   -- Defeat Volo -> Volo
   (220011, 22008, 22, 'battle-opponent', 1, NULL),
-  -- Meet Arceus -> Arceus
-  (220012, 22009, 22, 'battle-opponent', 1, NULL),
   -- Choose Starter -> Volo
   (220001, 22008, 22, 'battle-opponent', 1, 'Jubilife Village, front gate'),
   -- Noble Lilligant -> Volo
@@ -68,3 +54,28 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (220019, 22021, 22, 'battle-opponent', 3, 'Ramanas Island, Obsidian Fieldlands. You can skip this battle.'),
   -- Incarnate Forces of Hisui -> Enamorus
   (220019, 22022, 22, 'battle-opponent', 4, 'Scarlet Bog, Crimson Mirelands (after Tornadus, Thundurus and Landorus). You can skip this battle.');
+
+-- Frenzies fought mostly by dodging and throwing balms, not a battle with the player's team.
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  player_side
+) VALUES
+  -- Noble Kleavor -> Kleavor
+  (220003, 22001, 22, 'battle-opponent', 1, NULL, 'not-a-battle'),
+  -- Noble Lilligant -> Hisuian Lilligant
+  (220004, 22002, 22, 'battle-opponent', 2, NULL, 'not-a-battle'),
+  -- Noble Arcanine -> Hisuian Arcanine
+  (220005, 22003, 22, 'battle-opponent', 1, NULL, 'not-a-battle'),
+  -- Noble Electrode -> Hisuian Electrode
+  (220006, 22004, 22, 'battle-opponent', 1, NULL, 'not-a-battle'),
+  -- Noble Avalugg -> Hisuian Avalugg
+  (220007, 22005, 22, 'battle-opponent', 1, NULL, 'not-a-battle'),
+  -- Origin Pokémon -> Origin Dialga / Origin Palkia
+  (220010, 22007, 22, 'battle-opponent', 2, NULL, 'not-a-battle'),
+  -- Meet Arceus -> Arceus
+  (220012, 22009, 22, 'battle-opponent', 1, NULL, 'not-a-battle');

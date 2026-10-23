@@ -35,6 +35,7 @@ const milestone = (
     id: number;
     name: string;
     notes?: string;
+    playerSide?: string;
     role: string;
     typeId: number;
   }[],
@@ -54,6 +55,7 @@ const milestone = (
     notes: opponent.notes ?? null,
     opponent_id: opponent.id,
     opponent_role: opponent.role,
+    player_side: opponent.playerSide ?? "own-team",
     primary_type_id: opponent.typeId,
     secondary_type_id: null,
   })),
@@ -222,7 +224,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     variantKey: null,
     variantLabel: choice?.label ?? null,
   });
-  const build = (chosen: string[]) =>
+  const build = (chosen: string[], mistySide = "own-team") =>
     buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(chosen),
       generationOrder: 1,
@@ -238,7 +240,13 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
           },
         ),
         milestone(2, [
-          { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
+          {
+            id: 2,
+            name: "Misty",
+            playerSide: mistySide,
+            role: "gym-leader",
+            typeId: 11,
+          },
         ]),
         milestone(3, [{ id: 3, name: "Blue", role: "champion", typeId: 11 }]),
         milestone(4, [
@@ -295,6 +303,17 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
       snapshotsByMilestoneId: new Map(),
       types,
     }).chapters.flatMap((chapter) => chapter.battles);
+
+  it("reads nothing where you don't battle with your team", () => {
+    const misty = build([], "lent-pokemon")[1];
+
+    expect(misty).toMatchObject({
+      playerSide: "lent-pokemon",
+      reading: null,
+    });
+    expect(misty?.party?.pokemon.length).toBe(2);
+    expect(build([])[1]?.playerSide).toBe("own-team");
+  });
 
   it("reads a battle ahead against their team, in slot order", () => {
     const misty = build([])[1];

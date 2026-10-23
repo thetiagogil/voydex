@@ -32,6 +32,7 @@ const battle = (
   id: "1/1",
   isOptional: false,
   kind: "Gym Leader",
+  playerSide: "own-team",
   members: [
     {
       bestHit: null,
@@ -188,6 +189,18 @@ describe("StoryMatchupsSection", () => {
     ]);
 
     expect(html).toContain("Water type, 4× on Onix");
+  });
+
+  it("reads nothing where you don't battle with your team", () => {
+    const html = render([
+      { ...withTeam, playerSide: "lent-pokemon", reading: null },
+    ]);
+
+    expect(html).toContain(
+      "You battle with a Pokémon lent for this fight, not your team, so there&#x27;s no reading.",
+    );
+    expect(html).not.toContain("Your team");
+    expect(html).not.toContain("Advantage");
   });
 
   it("turns their cards to their moves with Show moves and says what it reads them by", () => {

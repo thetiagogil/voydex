@@ -191,8 +191,7 @@ export const getExpectedDamage = ({
     (attack.power ?? VARYING_POWER) *
     (attack.slug && twoTurnMoveSlugs.has(attack.slug) ? 0.5 : 1);
   const base =
-    ((((2 * attacker.level) / 5 + 2) * power * attacking) / defending) / 50 +
-    2;
+    (((2 * attacker.level) / 5 + 2) * power * attacking) / defending / 50 + 2;
   const stab = attacker.stabTypes.includes(attack.typeSlug) ? 1.5 : 1;
   const effectiveness = defender.types.length
     ? getDefensiveTypeMultiplier(
@@ -221,8 +220,7 @@ const getBestShare = (
     0,
     ...attacker.attacks.map(
       (attack) =>
-        getExpectedDamage({ attack, attacker, defender, generationOrder }) /
-        hp,
+        getExpectedDamage({ attack, attacker, defender, generationOrder }) / hp,
     ),
   );
 };

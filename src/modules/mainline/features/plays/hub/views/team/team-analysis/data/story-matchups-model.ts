@@ -179,7 +179,9 @@ export type StoryMatchupBattle = {
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
   partyLevels: string | null;
-  /* The reading of a battle ahead against their team; null once won or without their team. */
+  /* What you battle with; anything but your own team gets no reading. */
+  playerSide: StoryPlayerSide;
+  /* The reading of a battle ahead against their team; null once won, without their team, or when you don't battle with your team. */
   reading: Omit<StoryBattleReading, "members"> | null;
   /* The types the opponent specialises in. */
   specialtyTypes: Type[];
@@ -235,12 +237,34 @@ const battleKinds: Record<string, string> = {
   "za-royale": "Z-A Royale",
 };
 
+/*
+ * What you battle with: your own team, or (where nothing reads your team) a
+ * Pokémon lent for the fight, one of yours alone, or a frenzy that is mostly
+ * dodging and balms.
+ */
+export type StoryPlayerSide =
+  | "lent-pokemon"
+  | "not-a-battle"
+  | "one-own-pokemon"
+  | "own-team";
+
+const playerSides = new Set<StoryPlayerSide>([
+  "lent-pokemon",
+  "not-a-battle",
+  "one-own-pokemon",
+  "own-team",
+]);
+
+const isPlayerSide = (value: unknown): value is StoryPlayerSide =>
+  playerSides.has(value as StoryPlayerSide);
+
 type OpponentRef = {
   opponent_id: number;
   name: string;
   /* Where the battle happens, when it isn't the story point's own event. */
   notes: string | null;
   opponent_role: string;
+  player_side: StoryPlayerSide;
   primary_type_id: number | null;
   secondary_type_id: number | null;
 };
@@ -261,6 +285,9 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
                 notes: typeof ref.notes === "string" ? ref.notes : null,
                 opponent_id: ref.opponent_id,
                 opponent_role: ref.opponent_role,
+                player_side: isPlayerSide(ref.player_side)
+                  ? ref.player_side
+                  : "own-team",
                 primary_type_id:
                   typeof ref.primary_type_id === "number"
                     ? ref.primary_type_id
@@ -562,7 +589,7 @@ export const buildStoryMatchupsModel = ({
         ? "legendary"
         : "trainer";
       const reading =
-        party && !isWon
+        party && !isWon && ref.player_side === "own-team"
           ? readStoryBattle({
               generationOrder,
               members,
@@ -631,6 +658,7 @@ export const buildStoryMatchupsModel = ({
         opponentKind,
         party,
         partyLevels: partyRange ? formatLevelRange(partyRange) : null,
+        playerSide: ref.player_side,
         reading: reading
           ? {
               levels: reading.levels,

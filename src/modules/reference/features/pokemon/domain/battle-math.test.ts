@@ -55,9 +55,9 @@ describe("battle math", () => {
   it("reads a move's category by its type before Gen 4", () => {
     expect(getTypeDamageClass("dark", 3, even)).toBe("special");
     expect(getTypeDamageClass("ghost", 3, even)).toBe("physical");
-    expect(
-      getTypeDamageClass("dark", 4, { ...even, specialAttack: 120 }),
-    ).toBe("special");
+    expect(getTypeDamageClass("dark", 4, { ...even, specialAttack: 120 })).toBe(
+      "special",
+    );
   });
 
   it("weighs the same-type bonus, type effectiveness and accuracy", () => {

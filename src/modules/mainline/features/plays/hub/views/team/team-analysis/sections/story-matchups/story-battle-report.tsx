@@ -199,6 +199,16 @@ const TypeNames = ({ types }: { types: { name: string; slug: string }[] }) =>
     </span>
   ));
 
+/* Why a battle you don't fight with your team has no reading. */
+const playerSideNotes = {
+  "lent-pokemon":
+    "You battle with a Pokémon lent for this fight, not your team, so there's no reading.",
+  "not-a-battle":
+    "This is mostly dodging and throwing balms, not a battle with your team, so there's no reading.",
+  "one-own-pokemon":
+    "Only one of your Pokémon can fight here, not your team, so there's no reading.",
+} as const;
+
 /* The words that change when the opponent is one legendary, not a team. */
 const reportWording = {
   legendary: {
@@ -472,7 +482,11 @@ export const StoryBattleReport = ({
       </h2>
       {battle.where ? <ObjectiveWhere>{battle.where}</ObjectiveWhere> : null}
 
-      {isWon ? null : reading?.state ? (
+      {isWon ? null : battle.playerSide !== "own-team" ? (
+        <p className="text-ink-2 text-14 mt-5 font-semibold">
+          {playerSideNotes[battle.playerSide]}
+        </p>
+      ) : reading?.state ? (
         <Alert
           role="status"
           variant={matchupStates[reading.state].alert}
@@ -562,7 +576,7 @@ export const StoryBattleReport = ({
             {wording.doneNote}
           </p>
         </>
-      ) : (
+      ) : battle.playerSide !== "own-team" ? null : (
         <>
           <SheetSection className="mt-9 gap-3" title="Your team">
             {battle.members.length ? (
