@@ -6,7 +6,10 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import type { Type } from "@/modules/reference/types";
 
-import { getDamagingMoveTypeSlug } from "./team-analysis-rows";
+import {
+  buildTeamAnalysisRows,
+  getDamagingMoveTypeSlug,
+} from "./team-analysis-rows";
 
 const move = (
   slug: string,
@@ -84,5 +87,54 @@ describe("getDamagingMoveTypeSlug", () => {
         grassUser,
       ),
     ).toBe(null);
+  });
+});
+
+describe("buildTeamAnalysisRows coverage", () => {
+  const typeOf = (slug: string, id: number) =>
+    ({ id, name: slug, slug }) as Type;
+  const types = [typeOf("grass", 1), typeOf("water", 2), typeOf("fire", 3)];
+  const member = (
+    name: string,
+    moves: MainlinePlayTeamMove[],
+  ): MainlinePlayTeamMember =>
+    ({
+      moves,
+      nickname: name,
+      play_pokemon_id: name,
+      primaryType: typeOf("grass", 1),
+      secondaryType: null,
+      slot: 1,
+      tera_type_slug: null,
+    }) as unknown as MainlinePlayTeamMember;
+
+  it("names who hits a type super effectively, and with which moves", () => {
+    const { coverageRows } = buildTeamAnalysisRows({
+      generationOrder: 6,
+      members: [
+        member("Bulba", [
+          move("vine-whip", "physical", 45, "grass"),
+          move("tackle", "physical", 40, "normal"),
+        ]),
+        member("Squirtle", [move("flamethrower", "special", 90, "fire")]),
+      ],
+      types,
+    });
+    const water = coverageRows.find(
+      (row) => row.defendingType.slug === "water",
+    );
+    const grass = coverageRows.find(
+      (row) => row.defendingType.slug === "grass",
+    );
+
+    expect(water?.hits).toEqual([
+      {
+        memberId: "Bulba",
+        memberName: "Bulba",
+        moves: [{ name: "vine-whip", typeSlug: "grass" }],
+      },
+    ]);
+    expect(water?.moveCount).toBe(1);
+    expect(grass?.hits.map((hit) => hit.memberName)).toEqual(["Squirtle"]);
   });
 });

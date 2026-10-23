@@ -10,8 +10,17 @@ import type { StoryMatchupsModel } from "./data/story-matchups-model";
 /* One attacking type against the team, as Mainline's shared matchups draw it. */
 export type TeamAnalysisDefensiveRow = TypeMatchupRow<Type>;
 
+/* One of yours and the recorded moves it hits a type super effectively with. */
+export type TeamAnalysisCoverageHit = {
+  memberId: string;
+  memberName: string;
+  moves: { name: string; typeSlug: string }[];
+};
+
 export type TeamAnalysisCoverageRow = {
   defendingType: Type;
+  /* Who hits it and with what, in team order. */
+  hits: TeamAnalysisCoverageHit[];
   /* Recorded damaging moves across the team that hit this type super effectively. */
   moveCount: number;
 };

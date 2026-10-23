@@ -111,7 +111,10 @@ export const MainlinePlayTeamAnalysis = ({
         members={analysis.members}
         rows={analysis.defensiveRows}
       />
-      <TeamAnalysisMoveCoverageSection rows={analysis.coverageRows} />
+      <TeamAnalysisMoveCoverageSection
+        members={analysis.members}
+        rows={analysis.coverageRows}
+      />
     </div>
   );
 };
