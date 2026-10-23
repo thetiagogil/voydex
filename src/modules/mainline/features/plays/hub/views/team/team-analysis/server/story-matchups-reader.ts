@@ -42,11 +42,13 @@ const readOpponentIds = (milestones: StoryMatchupMilestone[]) => [
   ),
 ];
 
+const OPPONENT_MOVES_PAGE_SIZE = 1000;
+
 /*
  * Their Pokémon's moves by team row, in slot order, with each move's type
  * and category as the Play's generation and version group have them.
  */
-const readOpponentMoves = async (
+export const readOpponentMoves = async (
   supabase: ServerSupabaseClient,
   {
     generationId,
@@ -58,18 +60,32 @@ const readOpponentMoves = async (
     versionGroupId: number | null;
   },
 ): Promise<Map<number, StoryOpponentMoveRow[]>> => {
-  const slotsResult = await supabase
-    .schema("tracking")
-    .from("mainline_opponent_team_member_moves")
-    .select("team_member_id, slot, move_id")
-    .in("team_member_id", memberIds)
-    .order("slot", { ascending: true });
+  /* A game and its add-ons pass a page's 1,000 rows, so read them all page by page. */
+  const slots: { move_id: number; slot: number; team_member_id: number }[] =
+    [];
 
-  if (slotsResult.error) {
-    throw new Error("Unable to load the Play's Story opponents' moves.");
+  for (let from = 0; ; from += OPPONENT_MOVES_PAGE_SIZE) {
+    const slotsResult = await supabase
+      .schema("tracking")
+      .from("mainline_opponent_team_member_moves")
+      .select("team_member_id, slot, move_id")
+      .in("team_member_id", memberIds)
+      .order("team_member_id", { ascending: true })
+      .order("slot", { ascending: true })
+      .range(from, from + OPPONENT_MOVES_PAGE_SIZE - 1);
+
+    if (slotsResult.error) {
+      throw new Error("Unable to load the Play's Story opponents' moves.");
+    }
+
+    const page = slotsResult.data ?? [];
+
+    slots.push(...page);
+
+    if (page.length < OPPONENT_MOVES_PAGE_SIZE) {
+      break;
+    }
   }
-
-  const slots = slotsResult.data ?? [];
   const moveIds = uniqueNumberIds(slots.map((slot) => slot.move_id));
 
   if (!moveIds.length) {
