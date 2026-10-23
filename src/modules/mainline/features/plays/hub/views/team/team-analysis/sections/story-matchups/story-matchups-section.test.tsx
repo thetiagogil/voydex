@@ -155,7 +155,6 @@ describe("StoryMatchupsSection", () => {
 
     /* Hover labels are tooltips, never the browser's title. */
     expect(html).not.toMatch(/ title="[^"]/);
-    expect(html).toContain('aria-label="How Squirtle matches up"');
 
     expect(html).toContain("Strong");
     expect(html).toContain("You have an answer to Brock&#x27;s Pokémon");

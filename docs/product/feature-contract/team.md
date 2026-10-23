@@ -184,9 +184,9 @@ opponent) by types, recorded damaging moves
 and levels, following v3: each of your Pokémon is Advantage (an answer and
 no 2× weakness), At risk (a 2× weakness and no answer), Even, or Not recorded
 (no types or no damaging moves); its best hit is its strongest move against
-any of them (the move and target in a tooltip), and an "i" at the end of its
-row lists which of theirs hit it for 2× or more and with what, and whom it hits
-back and with which move. The battle reads **Challenging** when fewer than 60% of their
+any of them. Best hit's tooltip lists each of theirs it hits for more than 1×
+and with which move; Weak to's names which of theirs hit it for 2× or more and
+with what. The battle reads **Challenging** when fewer than 60% of their
 Pokémon have an answer, three or more of yours are at risk, or their ace is 8
 or more levels above your best; **Strong** when every one of theirs has an
 answer, at most one of yours is at risk, one answers without a 2× weakness,

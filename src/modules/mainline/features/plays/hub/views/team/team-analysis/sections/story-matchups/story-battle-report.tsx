@@ -21,9 +21,9 @@ import {
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
+import type { Type } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
-import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
@@ -77,11 +77,43 @@ const SmallSticker = ({
 
 const formatMultiplier = (multiplier: number) => `${multiplier}×`;
 
+/* What one side brings: move names, or "its Fire type" where their moves aren't known. */
+const formatVia = ({ byType, via }: StoryHitDetail) =>
+  byType
+    ? `its ${via.join(" and ")} type${via.length > 1 ? "s" : ""}`
+    : via.join(", ");
+
+/* Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse, 2×". */
+const HitLines = ({
+  hits,
+  joiner,
+}: {
+  hits: StoryHitDetail[];
+  joiner: ": " | " with ";
+}) => (
+  <ul className="grid gap-0.5 text-left">
+    {hits.map((hit) => (
+      <li key={hit.pokemon.key}>
+        <b>{hit.pokemon.name}</b>
+        {joiner}
+        {formatVia(hit)}, {formatMultiplier(hit.multiplier)}
+      </li>
+    ))}
+  </ul>
+);
+
 /*
- * Best hit (v3): the opponent it lands on, with how hard on a green mark,
- * and the move and target in a tooltip.
+ * Best hit (v3): the opponent it lands on, with how hard on a green mark.
+ * Its tooltip lists every one of theirs this Pokémon hits for more than 1×,
+ * and with which move.
  */
-const BestHit = ({ hit }: { hit: StoryBestHit }) => (
+const BestHit = ({
+  hit,
+  lands,
+}: {
+  hit: StoryBestHit;
+  lands: StoryHitDetail[];
+}) => (
   <Tooltip>
     <TooltipTrigger render={<span className="relative inline-flex" />}>
       <PokemonAvatar
@@ -104,73 +136,51 @@ const BestHit = ({ hit }: { hit: StoryBestHit }) => (
       </span>
     </TooltipTrigger>
     <TooltipContent>
-      {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
+      {lands.length > 1 ? (
+        <HitLines hits={lands} joiner=" with " />
+      ) : (
+        <>
+          {hit.moveName}, {formatMultiplier(hit.multiplier)} on{" "}
+          {hit.target.name}
+        </>
+      )}
     </TooltipContent>
   </Tooltip>
 );
 
-/* What one side brings: move names, or "its Fire type" where their moves aren't known. */
-const formatVia = ({ byType, via }: StoryHitDetail) =>
-  byType
-    ? `its ${via.join(" and ")} type${via.length > 1 ? "s" : ""}`
-    : via.join(", ");
-
 /*
- * The detail behind one of your Pokémon's row (its "i"): what of theirs hits
- * it for 2× or more and with what, and whom it hits back and with which move.
+ * Weak to: the types that hit this Pokémon for 2× or more. With their team,
+ * its tooltip names which of theirs bring them and with what.
  */
-const MemberMatchups = ({
-  lands,
-  name,
-  recordedMoves,
+const WeakTo = ({
   takes,
+  weakTo,
 }: {
-  lands: StoryHitDetail[];
-  name: string;
-  recordedMoves: boolean;
   takes: StoryHitDetail[];
-}) => (
-  <div className="grid gap-3">
-    <div className="grid gap-1">
-      <p>
-        <b>{name} takes 2× or more from</b>
-      </p>
-      {takes.length ? (
-        <ul className="grid gap-0.5">
-          {takes.map((hit) => (
-            <li key={hit.pokemon.key}>
-              <b>{hit.pokemon.name}</b>: {formatVia(hit)},{" "}
-              {formatMultiplier(hit.multiplier)}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>Nothing of theirs.</p>
-      )}
-    </div>
-    <div className="grid gap-1">
-      <p>
-        <b>{name} hits</b>
-      </p>
-      {lands.length ? (
-        <ul className="grid gap-0.5">
-          {lands.map((hit) => (
-            <li key={hit.pokemon.key}>
-              <b>{hit.pokemon.name}</b> with {formatVia(hit)},{" "}
-              {formatMultiplier(hit.multiplier)}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>
-          {recordedMoves
-            ? "None of them for more than 1× with its recorded moves."
-            : "Nothing yet: its moves aren't recorded."}
-        </p>
-      )}
-    </div>
-  </div>
-);
+  weakTo: Type[];
+}) => {
+  const types = (
+    <PokemonTypeList
+      types={weakTo}
+      badgeDisplay="icon"
+      badgeSize="sm"
+      className="flex flex-wrap gap-1"
+    />
+  );
+
+  return takes.length ? (
+    <Tooltip>
+      <TooltipTrigger render={<span className="inline-flex" />}>
+        {types}
+      </TooltipTrigger>
+      <TooltipContent>
+        <HitLines hits={takes} joiner=": " />
+      </TooltipContent>
+    </Tooltip>
+  ) : (
+    types
+  );
+};
 
 /* A list of types in a sentence: "Ice, Ground, Fire or Fighting". */
 const TypeNames = ({ types }: { types: { name: string; slug: string }[] }) =>
@@ -562,11 +572,6 @@ export const StoryBattleReport = ({
                     <th scope="col" className="pb-2 font-extrabold">
                       Weak to
                     </th>
-                    {party ? (
-                      <th scope="col" className="w-8 pb-2">
-                        <span className="sr-only">Matchups</span>
-                      </th>
-                    ) : null}
                   </tr>
                 </thead>
                 <tbody className="divide-line divide-y">
@@ -613,7 +618,7 @@ export const StoryBattleReport = ({
                           ) : null}
                           <td className="py-2">
                             {bestHit ? (
-                              <BestHit hit={bestHit} />
+                              <BestHit hit={bestHit} lands={lands} />
                             ) : party ? (
                               <span className="text-ink-3 text-13 font-bold">
                                 None
@@ -625,35 +630,13 @@ export const StoryBattleReport = ({
                           </td>
                           <td className="py-2">
                             {weakTo.length ? (
-                              <PokemonTypeList
-                                types={weakTo}
-                                badgeDisplay="icon"
-                                badgeSize="sm"
-                                className="flex flex-wrap gap-1"
-                              />
+                              <WeakTo takes={takes} weakTo={weakTo} />
                             ) : (
                               <span className="text-ink-3 text-13 font-bold">
                                 None
                               </span>
                             )}
                           </td>
-                          {party ? (
-                            <td className="py-2 text-right">
-                              <ExplanatoryTip
-                                triggerVariant="subtle"
-                                triggerLabel={`How ${name} matches up`}
-                                side="left"
-                                content={
-                                  <MemberMatchups
-                                    lands={lands}
-                                    name={name}
-                                    recordedMoves={member.moves.length > 0}
-                                    takes={takes}
-                                  />
-                                }
-                              />
-                            </td>
-                          ) : null}
                         </tr>
                       );
                     },
