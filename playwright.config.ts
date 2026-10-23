@@ -51,10 +51,22 @@ export default defineConfig({
       use: { ...devices["Pixel 7"], storageState: trainerStatePath },
     },
   ],
-  webServer: {
-    command: `npm run ${isCI ? "start" : "dev"} -- --port ${port}`,
-    url: baseURL,
-    reuseExistingServer: !isCI,
-    timeout: 180_000,
-  },
+  webServer: [
+    {
+      command: `npm run ${isCI ? "start" : "dev"} -- --port ${port}`,
+      url: baseURL,
+      reuseExistingServer: !isCI,
+      timeout: 180_000,
+    },
+    /* On GitHub the images come from a local stand-in, not the real site. */
+    ...(isCI
+      ? [
+          {
+            command: "node e2e/support/asset-stub-server.mjs",
+            url: "http://127.0.0.1:3999",
+            reuseExistingServer: false,
+          },
+        ]
+      : []),
+  ],
 });
