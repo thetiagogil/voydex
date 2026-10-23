@@ -168,8 +168,9 @@ distinguishes supported, unsupported, and unknown mechanics: Abilities,
 Breeding (eggs, the Day Care, egg groups), Held Items, Natures and Pokémon
 Gender, each from the generation it arrived in, with exact-title exceptions
 by version group: the Let's Go games (17), Legends: Arceus (22) and Legends:
-Z-A with Mega Dimension (26, 27) have no abilities, held items or breeding
-(Z-A's Mega Stones are recorded as the Mega form, not as a held item). Product modules
+Z-A with Mega Dimension (26, 27) have no abilities or breeding, and Let's Go
+and Legends: Arceus have no held items (Let's Go keeps Mega Stones in the bag;
+Z-A has held items, its Mega Stones included). Product modules
 use it to govern queries, presentation, authoring, validation, comparison, and
 derived status; components never infer mechanic support from absent data or
 generation checks.

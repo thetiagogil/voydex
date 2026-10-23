@@ -72,7 +72,7 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 13
-                AND mainline_opponents.slug = 'diantha' $$, $$
+                AND mainline_opponents.slug = 'diantha' ORDER BY pokemon_forms.slug $$, $$
             VALUES ('mega-gardevoir'::text, 'gardevoirite'::text) $$, 'Diantha''s Gardevoir holds Gardevoirite');
 -- Giovanni's Mewtwo Mega Evolves into X in Ultra Sun and Y in Ultra Moon.
 SELECT
@@ -86,8 +86,7 @@ SELECT
             WHERE
                 mainline_opponents.slug = 'giovanni'
                 AND mainline_opponent_team_members.version_group_id = 16
-                AND mainline_opponent_team_members.species_id = 150
-            ORDER BY games.id $$, $$
+                AND mainline_opponent_team_members.species_id = 150 ORDER BY games.id $$, $$
             VALUES ('ultra-sun'::text, 'mega-mewtwo-x'::text, 'mewtwonite-x'::text), ('ultra-moon'::text, 'mega-mewtwo-y'::text, 'mewtwonite-y'::text) $$, 'Giovanni''s Mewtwo is Mega Mewtwo X in Ultra Sun and Y in Ultra Moon');
 -- Kukui's ace holds the Z-Crystal of its type, by your starter.
 SELECT
@@ -99,14 +98,12 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 15
-                AND mainline_opponents.name = 'Professor Kukui'
-            ORDER BY mainline_opponent_team_members.decision_option_slug $$, $$
+                AND mainline_opponents.name = 'Professor Kukui' ORDER BY mainline_opponent_team_members.decision_option_slug $$, $$
             VALUES ('litten'::text, 'primarina'::text, 'waterium-z'::text), ('popplio'::text, 'decidueye'::text, 'grassium-z'::text), ('rowlet'::text, 'incineroar'::text, 'firium-z'::text) $$, 'Kukui''s ace holds the Z-Crystal of its type');
 -- Leon's Charizard Gigantamaxes; Nessa's Drednaw only Dynamaxes.
 SELECT
-    results_eq ($$
-        SELECT
-            DISTINCT mainline_opponents.slug, pokemon_forms.slug, mainline_opponent_team_members.dynamaxes FROM tracking.mainline_opponent_team_members
+    results_eq ($$ SELECT DISTINCT
+            mainline_opponents.slug, pokemon_forms.slug, mainline_opponent_team_members.dynamaxes FROM tracking.mainline_opponent_team_members
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
             WHERE
@@ -124,19 +121,17 @@ SELECT
             JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
             JOIN reference.tera_types ON tera_types.id = mainline_opponent_team_members.tera_type_id
             WHERE
-                mainline_opponents.slug = 'geeta' $$, $$
+                mainline_opponents.slug = 'geeta' ORDER BY pokemon_forms.slug $$, $$
             VALUES ('glimmora'::text, 'rock'::text) $$, 'Geeta''s Glimmora Terastallizes into Rock');
 SELECT
-    results_eq ($$
-        SELECT
-            DISTINCT pokemon_forms.slug, tera_types.slug, items.slug FROM tracking.mainline_opponent_team_members
+    results_eq ($$ SELECT DISTINCT
+            pokemon_forms.slug, tera_types.slug, items.slug FROM tracking.mainline_opponent_team_members
             JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
             JOIN reference.tera_types ON tera_types.id = mainline_opponent_team_members.tera_type_id
             LEFT JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 24
-                AND mainline_opponent_team_members.species_id = 1017
-            ORDER BY pokemon_forms.slug $$, $$
+                AND mainline_opponent_team_members.species_id = 1017 ORDER BY pokemon_forms.slug $$, $$
             VALUES ('ogerpon'::text, 'grass'::text, NULL::text), ('ogerpon-cornerstone'::text, 'rock'::text, 'cornerstone-mask'::text), ('ogerpon-hearthflame'::text, 'fire'::text, 'hearthflame-mask'::text), ('ogerpon-wellspring'::text, 'water'::text, 'wellspring-mask'::text) $$, 'Ogerpon Terastallizes into each mask''s type, holding the mask');
 -- Kieran's Terapagos doesn't Terastallize in his battle; the Stellar Form boss does.
 SELECT
@@ -146,8 +141,7 @@ SELECT
             JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
             LEFT JOIN reference.tera_types ON tera_types.id = mainline_opponent_team_members.tera_type_id
             WHERE
-                mainline_opponent_team_members.species_id = 1024
-            ORDER BY pokemon_forms.id $$, $$
+                mainline_opponent_team_members.species_id = 1024 ORDER BY pokemon_forms.id $$, $$
             VALUES ('terapagos-terastal'::text, NULL::text), ('terapagos-stellar'::text, 'stellar'::text) $$, 'only the Stellar Form Terapagos Terastallizes');
 -- The table refuses what no battle allows.
 SELECT

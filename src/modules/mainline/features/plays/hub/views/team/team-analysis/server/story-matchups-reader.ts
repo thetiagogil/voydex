@@ -80,12 +80,14 @@ const readOpponentTeams = async (
   const decisionMilestoneIds = uniqueNumberIds(
     members.map((member) => member.decision_milestone_id),
   );
-  const heldItemIds = uniqueNumberIds(
-    members.map((member) => member.held_item_id),
-  );
-  const teraTypeIds = uniqueNumberIds(
-    members.map((member) => member.tera_type_id),
-  );
+  /* Level caps read levels only (no generation), so no mechanic is read. */
+  const readsMechanics = generationId !== null;
+  const heldItemIds = readsMechanics
+    ? uniqueNumberIds(members.map((member) => member.held_item_id))
+    : [];
+  const teraTypeIds = readsMechanics
+    ? uniqueNumberIds(members.map((member) => member.tera_type_id))
+    : [];
   const [
     formsResult,
     formRulesResult,
@@ -101,11 +103,13 @@ const readOpponentTeams = async (
       .from("pokemon_forms")
       .select("id, slug, name, species_id")
       .in("id", formIds),
-    supabase
-      .schema("reference")
-      .from("pokemon_form_rules")
-      .select("form_id, battle_mechanic")
-      .in("form_id", formIds),
+    readsMechanics
+      ? supabase
+          .schema("reference")
+          .from("pokemon_form_rules")
+          .select("form_id, battle_mechanic")
+          .in("form_id", formIds)
+      : null,
     generationId
       ? supabase
           .schema("reference")
@@ -134,7 +138,7 @@ const readOpponentTeams = async (
           .from("item_categories")
           .select("id")
           .eq("slug", "z_crystal")
-          .maybeSingle()
+          .single()
       : null,
     teraTypeIds.length
       ? supabase
@@ -148,7 +152,7 @@ const readOpponentTeams = async (
 
   if (
     formsResult.error ||
-    formRulesResult.error ||
+    formRulesResult?.error ||
     attributesResult?.error ||
     optionsResult?.error ||
     itemsResult?.error ||
@@ -162,19 +166,17 @@ const readOpponentTeams = async (
     (formsResult.data ?? []).map((form) => [form.id, form]),
   );
   const battleMechanicByForm = new Map(
-    (formRulesResult.data ?? []).map((rule) => [
+    (formRulesResult?.data ?? []).map((rule) => [
       rule.form_id,
       isBattleFormMechanic(rule.battle_mechanic) ? rule.battle_mechanic : null,
     ]),
   );
-  const zCrystalCategoryId = zCrystalCategoryResult?.data?.id ?? null;
+  const zCrystalCategoryId = zCrystalCategoryResult?.data.id;
   const itemById = new Map(
     (itemsResult?.data ?? []).map((item) => [
       item.id,
       {
-        isZCrystal:
-          zCrystalCategoryId !== null &&
-          item.primary_category_id === zCrystalCategoryId,
+        isZCrystal: item.primary_category_id === zCrystalCategoryId,
         name: item.name,
         slug: item.slug,
       },
@@ -216,6 +218,19 @@ const readOpponentTeams = async (
         throw new Error("Unable to load a Story opponent's Pokémon.");
       }
 
+      const heldItem =
+        readsMechanics && member.held_item_id !== null
+          ? itemById.get(member.held_item_id)
+          : null;
+      const teraType =
+        readsMechanics && member.tera_type_id !== null
+          ? teraTypeById.get(member.tera_type_id)
+          : null;
+
+      if (heldItem === undefined || teraType === undefined) {
+        throw new Error("Unable to load a Story opponent's battle details.");
+      }
+
       const attributes = attributesByForm.get(member.form_id);
       const choiceKey =
         member.decision_milestone_id !== null &&
@@ -233,10 +248,7 @@ const readOpponentTeams = async (
           dynamaxes: member.dynamaxes,
           formSlug: form.slug,
           gameId: member.game_id,
-          heldItem:
-            member.held_item_id === null
-              ? null
-              : (itemById.get(member.held_item_id) ?? null),
+          heldItem,
           legendary: legendaryBySpecies[form.species_id] ?? null,
           level: member.level,
           milestoneId: member.milestone_id,
@@ -245,10 +257,7 @@ const readOpponentTeams = async (
           primaryTypeId: attributes?.primary_type_id ?? null,
           secondaryTypeId: attributes?.secondary_type_id ?? null,
           slot: member.slot,
-          teraType:
-            member.tera_type_id === null
-              ? null
-              : (teraTypeById.get(member.tera_type_id) ?? null),
+          teraType,
           variantKey: member.variant_slug,
           variantLabel: choiceKey
             ? (optionLabelByKey.get(choiceKey) ?? null)
