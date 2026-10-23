@@ -204,6 +204,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     battleFormMechanic: null,
     choiceKey: choice ? `10001/${choice.slug}` : null,
     dynamaxes: false,
+    moves: [],
     heldItem: null,
     teraType: null,
     formSlug: name.toLowerCase(),
@@ -246,7 +247,29 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
       partyRows: [
         partyRow(1, 1, "Geodude", 12, 13),
         partyRow(1, 2, "Onix", 14, 13),
-        partyRow(2, 2, "Starmie", 21, 11),
+        {
+          ...partyRow(2, 2, "Starmie", 21, 11),
+          moves: [
+            {
+              damageClass: "special",
+              name: "Bubble Beam",
+              slug: "bubble-beam",
+              typeId: 11,
+            },
+            {
+              damageClass: "physical",
+              name: "Seismic Toss",
+              slug: "seismic-toss",
+              typeId: 7,
+            },
+            {
+              damageClass: "status",
+              name: "Harden",
+              slug: "harden",
+              typeId: 1,
+            },
+          ],
+        },
         partyRow(2, 1, "Staryu", 18, 11),
         partyRow(3, 1, "Venusaur", 65, 5, {
           slug: "charmander",
@@ -273,6 +296,13 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
       "Staryu",
       "Starmie",
     ]);
+    expect(misty?.party?.pokemon[1]?.moves).toEqual([
+      expect.objectContaining({ damaging: true, name: "Bubble Beam" }),
+      /* Set damage hits for no type effectiveness. */
+      expect.objectContaining({ damaging: false, name: "Seismic Toss" }),
+      expect.objectContaining({ damaging: false, name: "Harden" }),
+    ]);
+    expect(misty?.party?.pokemon[1]?.moves[0]?.type?.id).toBe(11);
     expect(misty?.partyLevels).toBe("Lv. 18–21");
     expect(misty?.reading?.state).toBeDefined();
     expect(misty?.members[0]?.weakTo).toEqual([]);
@@ -326,6 +356,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     battleFormMechanic: null,
     choiceKey: `10001/${choice.slug}`,
     dynamaxes: false,
+    moves: [],
     heldItem: null,
     teraType: null,
     formSlug: name.toLowerCase(),
@@ -420,6 +451,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
+    moves: [],
     heldItem: null,
     teraType: null,
     formSlug: "sandslash",
@@ -492,6 +524,7 @@ describe("buildStoryMatchupsModel with a rematch", () => {
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
+    moves: [],
     heldItem: null,
     teraType: null,
     formSlug: name.toLowerCase(),
@@ -562,6 +595,7 @@ describe("buildStoryLevelCap", () => {
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
+    moves: [],
     heldItem: null,
     teraType: null,
     formSlug: `pokemon-${opponentId}-${slot}`,
@@ -778,6 +812,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
+    moves: [],
     heldItem: null,
     teraType: null,
     formSlug: name.toLowerCase(),
@@ -939,6 +974,7 @@ describe("buildStoryMatchupsModel with battle mechanics", () => {
     battleFormMechanic: null,
     choiceKey: null,
     dynamaxes: false,
+    moves: [],
     formSlug: "glimmora",
     gameId: null,
     heldItem: null,

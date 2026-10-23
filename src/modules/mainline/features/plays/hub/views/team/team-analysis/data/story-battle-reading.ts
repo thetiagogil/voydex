@@ -1,4 +1,5 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { getMoveHitTypeSlug } from "@/modules/reference/features/moves/domain/move-hit-types";
 import {
   getDefensiveTypeMultiplier,
   getPokemonTypesForGeneration,
@@ -41,7 +42,16 @@ export type StoryOpponentMechanic = {
   label: string;
 };
 
-/* One Pokémon on the opponent's team, by its types in the Play's game. */
+/* One of their moves, as the Play's game has it. */
+export type StoryOpponentMove = {
+  /* It hits by type effectiveness: not a status move or one that deals set damage. */
+  damaging: boolean;
+  name: string;
+  slug: string;
+  type: Type | null;
+};
+
+/* One Pokémon on the opponent's team, by its types and moves in the Play's game. */
 export type StoryOpponentPokemon = {
   formSlug: string;
   /* What it holds, where the game has held items and Voydex has it. */
@@ -52,6 +62,8 @@ export type StoryOpponentPokemon = {
   legendary: LegendaryRarity | null;
   level: number;
   mechanic: StoryOpponentMechanic | null;
+  /* Its moves in slot order; empty when Voydex doesn't have them. */
+  moves: StoryOpponentMove[];
   name: string;
   /*
    * The type it Terastallizes into, which replaces its own types for what
@@ -170,20 +182,40 @@ const getDefendingSlugs = (pokemon: StoryOpponentPokemon) =>
   toTypeSlugs(pokemon.teraType ? [pokemon.teraType] : pokemon.types);
 
 /*
- * What one of their Pokémon hits with: its own types, and its Tera Type too
- * once it Terastallizes, since it keeps its own types' moves.
+ * What one of their Pokémon hits with: the types of its damaging moves when
+ * Voydex has its moves (Tera Blast takes its Tera Type), else its own types,
+ * and its Tera Type too once it Terastallizes, since it keeps its own types'
+ * moves.
  */
 const getAttackingSlugs = (pokemon: StoryOpponentPokemon) =>
-  toTypeSlugs(
-    pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types,
-  );
+  pokemon.moves.length
+    ? pokemon.moves.flatMap((move): PokemonTypeSlug[] => {
+        const slug = move.damaging
+          ? getMoveHitTypeSlug({
+              moveTypeSlug: move.type?.slug ?? null,
+              slug: move.slug,
+              teraTypeSlug: pokemon.teraType?.slug ?? null,
+              userTypeSlugs: pokemon.types.map((type) => type.slug),
+            })
+          : null;
+
+        return slug && isPokemonTypeSlug(slug) ? [slug] : [];
+      })
+    : toTypeSlugs(
+        pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types,
+      );
+
+/* How many of their Pokémon Voydex has the moves of. */
+export const countOpponentsWithMoves = (their: StoryOpponentPokemon[]) =>
+  their.filter((pokemon) => pokemon.moves.length > 0).length;
 
 /*
  * Reads your active team against one opponent's team by types, recorded
  * moves and levels (v3 `storyMatchups()`): who answers whom, who is exposed,
- * and one verdict with the sentence behind it. Their moves aren't in Voydex,
- * so their threat is read from their own types and any Tera Type, and what
- * hits them from their Tera Type where they Terastallize.
+ * and one verdict with the sentence behind it. Their threat is read from
+ * their damaging moves where Voydex has them, else from their own types and
+ * any Tera Type, and what hits them from their Tera Type where they
+ * Terastallize.
  */
 export const readStoryBattle = ({
   generationOrder,

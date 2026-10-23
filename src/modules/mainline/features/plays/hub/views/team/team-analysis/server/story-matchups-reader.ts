@@ -4,9 +4,14 @@ import {
   type PlayTeamSnapshotMember,
 } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
-import { resolveLatestAttributesByForm } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
+import {
+  resolveLatestAttributesByForm,
+  resolveLatestAttributesByMove,
+} from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { isBattleFormMechanic } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { applyMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/data/move-attribute-overrides";
+import { readMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/server/move-override-reader";
 import { readLegendarySpecies } from "@/modules/reference/features/pokemon/server/legendary-species-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
@@ -16,6 +21,7 @@ import {
   getStoryChoiceKey,
   type StoryMatchupMilestone,
   type StoryMatchupsRows,
+  type StoryOpponentMoveRow,
   type StoryOpponentPartyRow,
 } from "../data/story-matchups-model";
 
@@ -37,10 +43,98 @@ const readOpponentIds = (milestones: StoryMatchupMilestone[]) => [
 ];
 
 /*
+ * Their Pokémon's moves by team row, in slot order, with each move's type
+ * and category as the Play's generation and version group have them.
+ */
+const readOpponentMoves = async (
+  supabase: ServerSupabaseClient,
+  {
+    generationId,
+    memberIds,
+    versionGroupId,
+  }: {
+    generationId: number;
+    memberIds: number[];
+    versionGroupId: number | null;
+  },
+): Promise<Map<number, StoryOpponentMoveRow[]>> => {
+  const slotsResult = await supabase
+    .schema("tracking")
+    .from("mainline_opponent_team_member_moves")
+    .select("team_member_id, slot, move_id")
+    .in("team_member_id", memberIds)
+    .order("slot", { ascending: true });
+
+  if (slotsResult.error) {
+    throw new Error("Unable to load the Play's Story opponents' moves.");
+  }
+
+  const slots = slotsResult.data ?? [];
+  const moveIds = uniqueNumberIds(slots.map((slot) => slot.move_id));
+
+  if (!moveIds.length) {
+    return new Map();
+  }
+
+  const [movesResult, attributesResult, overrides] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("moves")
+      .select("id, name, slug")
+      .in("id", moveIds),
+    supabase
+      .schema("reference")
+      .from("move_attributes")
+      .select("*")
+      .in("move_id", moveIds)
+      .lte("generation_start_id", generationId),
+    readMoveVersionGroupOverrides(supabase, { moveIds, versionGroupId }),
+  ]);
+
+  if (movesResult.error || attributesResult.error) {
+    throw new Error("Unable to load the Play's Story opponents' moves.");
+  }
+
+  const moveById = new Map(
+    (movesResult.data ?? []).map((move) => [move.id, move]),
+  );
+  const attributesByMove = resolveLatestAttributesByMove(
+    applyMoveVersionGroupOverrides(
+      attributesResult.data ?? [],
+      overrides,
+      versionGroupId,
+    ),
+  );
+  const movesByMember = new Map<number, StoryOpponentMoveRow[]>();
+
+  for (const slot of slots) {
+    const move = moveById.get(slot.move_id);
+
+    if (!move) {
+      throw new Error("Unable to load a Story opponent's move.");
+    }
+
+    const attributes = attributesByMove.get(slot.move_id);
+    const moves = movesByMember.get(slot.team_member_id) ?? [];
+
+    moves.push({
+      damageClass: attributes?.damage_class ?? null,
+      name: move.name,
+      slug: move.slug,
+      typeId: attributes?.type_id ?? null,
+    });
+    movesByMember.set(slot.team_member_id, moves);
+  }
+
+  return movesByMember;
+};
+
+/*
  * Each opponent's team in each Story battle, with each Pokémon's name and types in
  * the Play's generation, how it powers up (its battle form, Tera Type or
- * Dynamax) and what it holds, and the choices (such as the starter) the Play
- * has recorded, so a team that depends on one can be picked.
+ * Dynamax), what it holds and its moves as the Play's version group plays
+ * them, and the choices (such as the starter) the Play has recorded, so a
+ * team that depends on one can be picked.
  */
 const readOpponentTeams = async (
   supabase: ServerSupabaseClient,
@@ -48,14 +142,20 @@ const readOpponentTeams = async (
     generationId,
     opponentIds,
     playId,
-  }: { generationId: number | null; opponentIds: number[]; playId: string },
+    versionGroupId,
+  }: {
+    generationId: number | null;
+    opponentIds: number[];
+    playId: string;
+    versionGroupId: number | null;
+  },
 ): Promise<Pick<StoryMatchupsRows, "chosenChoiceKeys" | "partyRows">> => {
   const [membersResult, decisionsResult] = await Promise.all([
     supabase
       .schema("tracking")
       .from("mainline_opponent_team_members")
       .select(
-        "milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level, held_item_id, tera_type_id, dynamaxes",
+        "id, milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level, held_item_id, tera_type_id, dynamaxes",
       )
       .in("opponent_id", opponentIds)
       .order("id", { ascending: true }),
@@ -88,6 +188,14 @@ const readOpponentTeams = async (
   const teraTypeIds = readsMechanics
     ? uniqueNumberIds(members.map((member) => member.tera_type_id))
     : [];
+  const movesByMemberPromise =
+    generationId !== null
+      ? readOpponentMoves(supabase, {
+          generationId,
+          memberIds: members.map((member) => member.id),
+          versionGroupId,
+        })
+      : Promise.resolve(new Map<number, StoryOpponentMoveRow[]>());
   const [
     formsResult,
     formRulesResult,
@@ -97,6 +205,7 @@ const readOpponentTeams = async (
     zCrystalCategoryResult,
     teraTypesResult,
     legendaryBySpecies,
+    movesByMember,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -148,6 +257,7 @@ const readOpponentTeams = async (
           .in("id", teraTypeIds)
       : null,
     readLegendarySpecies(supabase),
+    movesByMemberPromise,
   ]);
 
   if (
@@ -251,6 +361,7 @@ const readOpponentTeams = async (
           heldItem,
           legendary: legendaryBySpecies[form.species_id] ?? null,
           level: member.level,
+          moves: movesByMember.get(member.id) ?? [],
           milestoneId: member.milestone_id,
           name: form.name,
           opponentId: member.opponent_id,
@@ -278,7 +389,10 @@ export const readMainlinePlayStoryMatchupRows = async (
   supabase: ServerSupabaseClient,
   playId: string,
   generationId: number | null,
-  { teamsThen = true }: { teamsThen?: boolean } = {},
+  {
+    teamsThen = true,
+    versionGroupId = null,
+  }: { teamsThen?: boolean; versionGroupId?: number | null } = {},
 ): Promise<StoryMatchupsRows> => {
   const [categoriesResult, milestonesResult, snapshotEvents] =
     await Promise.all([
@@ -312,7 +426,12 @@ export const readMainlinePlayStoryMatchupRows = async (
           .from("mainline_opponents")
           .select("id, game_id")
           .in("id", opponentIds),
-        readOpponentTeams(supabase, { generationId, opponentIds, playId }),
+        readOpponentTeams(supabase, {
+          generationId,
+          opponentIds,
+          playId,
+          versionGroupId,
+        }),
       ])
     : [null, { chosenChoiceKeys: new Set<string>(), partyRows: [] }];
 

@@ -80,7 +80,7 @@ export const resolveLatestAttributesByForm = (
   return latestAttributesByForm;
 };
 
-const resolveLatestAttributesByMove = (
+export const resolveLatestAttributesByMove = (
   attributes: MoveAttribute[],
 ): Map<number, MoveAttribute> => {
   const latestAttributesByMove = new Map<number, MoveAttribute>();

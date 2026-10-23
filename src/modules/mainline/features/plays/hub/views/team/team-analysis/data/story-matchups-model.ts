@@ -18,6 +18,7 @@ import {
   hasBattleFormMechanic,
   type BattleFormMechanic,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { isTypeEffectiveMove } from "@/modules/reference/features/moves/domain/move-hit-types";
 import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import { getDefensiveTypeMultiplier } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import {
@@ -54,6 +55,15 @@ export type StoryMatchupMilestone = Pick<
   | "sort_order"
 >;
 
+/* One of their Pokémon's moves, as the Play's version group has it. */
+export type StoryOpponentMoveRow = {
+  /* "physical", "special" or "status"; null when Voydex has no details for the generation. */
+  damageClass: string | null;
+  name: string;
+  slug: string;
+  typeId: number | null;
+};
+
 /*
  * One Pokémon on an opponent's team in one Story battle. A team that depends
  * on a Play's choice (usually the starter) has one set of rows per choice.
@@ -72,6 +82,8 @@ export type StoryOpponentPartyRow = {
   /* Set when the species is Legendary or Mythical. */
   legendary: LegendaryRarity | null;
   level: number;
+  /* Its moves in slot order; empty when Voydex doesn't have them. */
+  moves: StoryOpponentMoveRow[];
   /* The Story battle this team is for. */
   milestoneId: number;
   name: string;
@@ -363,6 +375,12 @@ const groupParties = (
       legendary: row.legendary,
       level: row.level,
       mechanic,
+      moves: row.moves.map((move) => ({
+        damaging: isTypeEffectiveMove(move),
+        name: move.name,
+        slug: move.slug,
+        type: typeOf(move.typeId),
+      })),
       name: row.name,
       teraType:
         mechanic?.kind === "tera" ? typeOf(row.teraType?.typeId ?? null) : null,

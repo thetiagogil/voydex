@@ -93,6 +93,7 @@ const withTeam = battle({
           legendary: null,
           level: 14,
           mechanic: null,
+          moves: [],
           name: "Onix",
           teraType: null,
           types: [rock],
@@ -114,6 +115,7 @@ const withTeam = battle({
         legendary: null,
         level: 14,
         mechanic: null,
+        moves: [],
         name: "Onix",
         teraType: null,
         types: [rock],
@@ -156,6 +158,40 @@ describe("StoryMatchupsSection", () => {
     expect(html).not.toContain("aren&#x27;t in Voydex yet");
   });
 
+  it("lists their moves on each card that has them and says what it reads them by", () => {
+    const onix = withTeam.party!.pokemon[0];
+    const known = {
+      ...onix,
+      moves: [
+        { damaging: true, name: "Rock Throw", slug: "rock-throw", type: rock },
+        { damaging: false, name: "Screech", slug: "screech", type: null },
+      ],
+    };
+    const typesOnly = render([withTeam]);
+    const allKnown = render([
+      { ...withTeam, party: { note: null, pokemon: [known] } },
+    ]);
+    const someKnown = render([
+      {
+        ...withTeam,
+        party: {
+          note: null,
+          pokemon: [known, { ...onix, key: "onix-2", name: "Geodude" }],
+        },
+      },
+    ]);
+
+    expect(typesOnly).toContain(
+      "Their moves aren&#x27;t in Voydex, so this reads their types",
+    );
+    expect(typesOnly).not.toContain("knows");
+    expect(allKnown).toContain(", knows Rock Throw, Screech");
+    expect(allKnown).toContain("This reads their moves against your team.");
+    expect(someKnown).toContain(
+      "Voydex has the moves of 1 of their 2 Pokémon and reads the others by their types.",
+    );
+  });
+
   it("marks their ace's mechanic and names what it holds", () => {
     const html = render([
       battle({
@@ -170,6 +206,7 @@ describe("StoryMatchupsSection", () => {
               legendary: null,
               level: 62,
               mechanic: { kind: "tera", label: "Tera Rock" },
+              moves: [],
               name: "Glimmora",
               teraType: rock,
               types: [rock],
@@ -200,6 +237,7 @@ describe("StoryMatchupsSection", () => {
               legendary: null,
               level: 65,
               mechanic: { kind: "gigantamax", label: "Gigantamax" },
+              moves: [],
               name: "Gigantamax Charizard",
               teraType: null,
               types: [rock],
@@ -250,6 +288,7 @@ describe("StoryMatchupsSection", () => {
             legendary: "Legendary",
             level: 40,
             mechanic: null,
+            moves: [],
             name: "Raikou",
             teraType: null,
             types: [water],

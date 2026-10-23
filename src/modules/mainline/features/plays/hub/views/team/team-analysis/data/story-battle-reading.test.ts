@@ -88,9 +88,22 @@ const opponent = (
   legendary: null,
   level,
   mechanic: teraType ? { kind: "tera", label: `Tera ${teraType}` } : null,
+  moves: [],
   name,
   teraType: teraType ? typeOf(teraType) : null,
   types: opponentTypes.map(typeOf),
+});
+
+/* One of their moves: a damaging one unless `damaging` says not. */
+const theirMove = (
+  name: string,
+  slug: (typeof slugs)[number],
+  damaging = true,
+) => ({
+  damaging,
+  name,
+  slug: name.toLowerCase().replaceAll(" ", "-"),
+  type: typeOf(slug),
 });
 
 const brock = [
@@ -144,6 +157,90 @@ describe("readStoryBattle", () => {
     expect(
       terastallized.members[0].weakTo.map((type) => type.slug).sort(),
     ).toEqual(["flying", "ice"]);
+  });
+
+  it("reads their threat from their damaging moves where Voydex has them", () => {
+    // Onix is Rock/Ground but knows only Normal and Rock moves: a Fire
+    // Pokémon takes 2× from Rock Throw, not from Ground it never uses, and
+    // Screech claims nothing.
+    const reading = readStoryBattle({
+      generationOrder: 1,
+      members: [
+        member("a", ["electric"], 14, [move("Thunder Shock", "electric")]),
+      ],
+      opponentName: "Brock",
+      their: [
+        {
+          ...opponent("Onix", ["rock", "ground"], 14),
+          moves: [
+            theirMove("Tackle", "normal"),
+            theirMove("Screech", "normal", false),
+            theirMove("Rock Throw", "rock"),
+          ],
+        },
+      ],
+      types,
+    });
+    const typesOnly = readStoryBattle({
+      generationOrder: 1,
+      members: [
+        member("a", ["electric"], 14, [move("Thunder Shock", "electric")]),
+      ],
+      opponentName: "Brock",
+      their: [opponent("Onix", ["rock", "ground"], 14)],
+      types,
+    });
+
+    expect(reading.members[0].weakTo).toEqual([]);
+    expect(typesOnly.members[0].weakTo.map((type) => type.slug)).toEqual([
+      "ground",
+    ]);
+  });
+
+  it("reads each of their Pokémon by its moves or, without them, by its types", () => {
+    const reading = readStoryBattle({
+      generationOrder: 4,
+      members: [member("a", ["grass"], 40, [move("Razor Leaf", "grass")])],
+      opponentName: "Volkner",
+      their: [
+        // Moves known: Ice Beam, though it is Water.
+        {
+          ...opponent("Lanturn", ["water", "electric"], 40),
+          moves: [theirMove("Ice Beam", "ice")],
+        },
+        // Moves unknown: its own Fire type.
+        opponent("Rapidash", ["fire"], 40),
+      ],
+      types,
+    });
+
+    expect(reading.members[0].weakTo.map((type) => type.slug).sort()).toEqual([
+      "fire",
+      "ice",
+    ]);
+  });
+
+  it("gives Tera Blast the Tera Type and leaves Hidden Power out", () => {
+    const reading = readStoryBattle({
+      generationOrder: 9,
+      members: [member("a", ["fire"], 62, [move("Flamethrower", "fire")])],
+      opponentName: "Geeta",
+      their: [
+        {
+          ...opponent("Glimmora", ["rock", "poison"], 62, "rock"),
+          moves: [theirMove("Tera Blast", "normal")],
+        },
+        {
+          ...opponent("Unown", ["psychic"], 62),
+          moves: [theirMove("Hidden Power", "normal")],
+        },
+      ],
+      types,
+    });
+
+    expect(reading.members[0].weakTo.map((type) => type.slug)).toEqual([
+      "rock",
+    ]);
   });
 
   it("reads Strong when every opponent has an answer and the levels hold", () => {
@@ -380,6 +477,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: { name: "Assault Vest", slug: "assault-vest" },
         mechanic: { kind: "tera", label: "Tera Fighting" },
+
         name: "Hydrapple",
       }),
     ).toBe("Hydrapple holds Assault Vest and Terastallizes into Fighting.");
@@ -387,6 +485,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: { name: "Rockium Z", slug: "rockium-z" },
         mechanic: { kind: "z-move", label: "Z-Move" },
+
         name: "Lycanroc",
       }),
     ).toBe("Lycanroc holds Rockium Z for a Z-Move.");
@@ -394,6 +493,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: null,
         mechanic: { kind: "dynamax", label: "Dynamax" },
+
         name: "Eldegoss",
       }),
     ).toBe("Eldegoss Dynamaxes.");
@@ -404,6 +504,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: { name: "Gardevoirite", slug: "gardevoirite" },
         mechanic: { kind: "mega", label: "Mega" },
+
         name: "Mega Gardevoir",
       }),
     ).toBe("Mega Gardevoir holds Gardevoirite.");
@@ -411,6 +512,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: null,
         mechanic: { kind: "gigantamax", label: "Gigantamax" },
+
         name: "Gigantamax Charizard",
       }),
     ).toBeNull();
