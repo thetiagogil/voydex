@@ -122,7 +122,13 @@ export const ExplanatoryTip = ({
           return;
         }
 
-        closedByEscape.current = !nextOpen && details.reason === "escape-key";
+        /* Focus inside the tip goes back to the trigger as Escape closes it. */
+        closedByEscape.current =
+          !nextOpen &&
+          details.reason === "escape-key" &&
+          Boolean(
+            document.activeElement?.closest('[data-slot="popover-content"]'),
+          );
 
         if (details.reason === "trigger-press") {
           pinned.current = nextOpen;
