@@ -1,10 +1,10 @@
 name: Browser Tests
 
+# Pull requests and manual runs only: a push to main repeats what the pull
+# request already ran. Run it by hand from the Actions tab when needed.
 on:
   pull_request:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -50,8 +50,10 @@ jobs:
       # Pull the Supabase images from GitHub's registry; the default public
       # registry often refuses GitHub's shared runners ("Data limit exceeded").
       SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
-      # Pokémon images come from the separate voydex-assets site.
-      NEXT_PUBLIC_ASSETS_URL: https://voydex-assets.vercel.app
+      # NEXT_PUBLIC_ASSETS_URL stays unset on purpose: without it every image
+      # shows its named stand-in, so the tests send no requests to the
+      # voydex-assets site (Vercel Hobby counts each one against 1M a month).
+      # Set it here to test the real images.
 
     steps:
       - name: Check out repository
