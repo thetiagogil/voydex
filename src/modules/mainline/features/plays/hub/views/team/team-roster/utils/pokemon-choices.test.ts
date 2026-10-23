@@ -82,3 +82,22 @@ describe("buildPokemonChoices", () => {
     ).toEqual(["arcanine", "poliwag"]);
   });
 });
+
+describe("buildPokemonChoices patterns", () => {
+  it("makes a look-only variant a pattern of its species' choice", () => {
+    const base = rows([5900, 5901]);
+    const [arcanine, ...rest] = buildPokemonChoices({
+      ...base,
+      cosmeticFormIds: new Set([5901]),
+    });
+
+    expect(rest.map((choice) => choice.formSlug)).toEqual(["poliwag"]);
+    expect(arcanine?.patterns.map((choice) => choice.formSlug)).toEqual([
+      "arcanine",
+      "hisuian-arcanine",
+    ]);
+    expect(arcanine?.patterns.every((choice) => !choice.patterns.length)).toBe(
+      true,
+    );
+  });
+});

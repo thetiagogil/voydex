@@ -58,8 +58,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (200009, 20014, 20, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 70),
   -- Virizion, Swords of Justice 1: Virizion Lv. 70
   (200009, 20015, 20, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 70),
-  -- Keldeo, Ballimere Lake 1: Keldeo Lv. 65
-  (200010, 20016, 20, NULL, NULL, NULL, NULL, NULL, 1, 647, 64700, 65),
+  -- Keldeo, Ballimere Lake 1: Keldeo (Resolute Form) Lv. 65
+  (200010, 20016, 20, NULL, NULL, NULL, NULL, NULL, 1, 647, 64701, 65),
   -- Peony, Battle Peony 1: Copperajah Lv. 70
   (200002, 20001, 20, NULL, NULL, NULL, NULL, NULL, 1, 879, 87900, 70),
   -- Peony, Battle Peony 2: Aggron Lv. 70

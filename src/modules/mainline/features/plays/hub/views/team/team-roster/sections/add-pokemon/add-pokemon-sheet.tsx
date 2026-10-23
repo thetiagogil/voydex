@@ -353,6 +353,9 @@ export const AddPokemonSheet = ({
       nickname={nickname}
       onLevelChange={setLevel}
       onNicknameChange={setNickname}
+      onPatternChange={(pattern) =>
+        setPicked({ ...pattern, patterns: picked.patterns })
+      }
       onPlacementChange={setPlacement}
       onSubmit={save}
       picked={picked}

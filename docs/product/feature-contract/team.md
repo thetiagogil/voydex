@@ -151,7 +151,9 @@ from the Roster head or `?add=` (the Codex's Add to a Play presets the
 species and form). Pick a species of the Play's Pokédexes (base game and the
 expansions it tracks) by name or number, each variant the game has standing
 beside its species as its own card with the same number (never a battle form
-or a form it switches to later), then its nickname, level and team
+or a form it switches to later); a variant that only changes its looks
+(Vivillon's patterns, Unown's letters, Gastrodon's seas) is picked from a
+Pattern select in the details step instead. Then its nickname, level and team
 or reserve; the server takes the first open slot, the moment joins History
 and the toast offers Undo, which deletes the Pokémon and that moment
 together. **Edit Pokémon** is the same kind of sheet: Who (with shiny and can Gigantamax), Slot,

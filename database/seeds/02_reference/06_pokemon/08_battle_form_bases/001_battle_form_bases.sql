@@ -264,6 +264,22 @@ VALUES
   (86101, 86100, 861),
   -- Gigantamax Alcremie <- Alcremie
   (86901, 86900, 869),
+  -- Gigantamax Alcremie <- Alcremie (Ruby Cream)
+  (86901, 86902, 869),
+  -- Gigantamax Alcremie <- Alcremie (Matcha Cream)
+  (86901, 86903, 869),
+  -- Gigantamax Alcremie <- Alcremie (Mint Cream)
+  (86901, 86904, 869),
+  -- Gigantamax Alcremie <- Alcremie (Lemon Cream)
+  (86901, 86905, 869),
+  -- Gigantamax Alcremie <- Alcremie (Salted Cream)
+  (86901, 86906, 869),
+  -- Gigantamax Alcremie <- Alcremie (Ruby Swirl)
+  (86901, 86907, 869),
+  -- Gigantamax Alcremie <- Alcremie (Caramel Swirl)
+  (86901, 86908, 869),
+  -- Gigantamax Alcremie <- Alcremie (Rainbow Swirl)
+  (86901, 86909, 869),
   -- Mega Falinks <- Falinks
   (87001, 87000, 870),
   -- Gigantamax Copperajah <- Copperajah

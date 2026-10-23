@@ -135,8 +135,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (130004, 13016, 13, NULL, NULL, NULL, NULL, NULL, 1, 341, 34100, 12),
   -- Tierno & Trevor, Fossil Choice 1: Pikachu Lv. 14
   (130005, 13017, 13, NULL, NULL, NULL, NULL, NULL, 1, 25, 2500, 14),
-  -- Tierno & Trevor, Fossil Choice 2: Flabebe Lv. 14
-  (130005, 13017, 13, NULL, NULL, NULL, NULL, NULL, 2, 669, 66900, 14),
+  -- Tierno & Trevor, Fossil Choice 2: Flabebe (Orange Flower) Lv. 14
+  (130005, 13017, 13, NULL, NULL, NULL, NULL, NULL, 2, 669, 66902, 14),
   -- Tierno & Trevor, Fossil Choice 3: Corphish Lv. 16
   (130005, 13017, 13, NULL, NULL, NULL, NULL, NULL, 3, 341, 34100, 16),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Rumble Badge 1: Meowstic (Female) Lv. 28
@@ -347,8 +347,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (130012, 13020, 13, NULL, NULL, NULL, NULL, NULL, 1, 26, 2600, 49),
   -- Trevor, Iceberg Badge 2: Aerodactyl Lv. 49
   (130012, 13020, 13, NULL, NULL, NULL, NULL, NULL, 2, 142, 14200, 49),
-  -- Trevor, Iceberg Badge 3: Florges Lv. 51
-  (130012, 13020, 13, NULL, NULL, NULL, NULL, NULL, 3, 671, 67100, 51),
+  -- Trevor, Iceberg Badge 3: Florges (Orange Flower) Lv. 51
+  (130012, 13020, 13, NULL, NULL, NULL, NULL, NULL, 3, 671, 67102, 51),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Elite Four Malva 1: Meowstic (Female) Lv. 57
   (130013, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 1, 678, 67801, 57),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Elite Four Malva 2: Jolteon Lv. 57

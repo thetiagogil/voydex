@@ -2,6 +2,7 @@ import {
   formatLearnMethodDetail,
   getLearnMethodLabel,
 } from "@/modules/reference/features/pokemon/domain/learn-methods";
+import { readLearnsetFormId } from "@/modules/reference/features/pokemon/server/learnset-form-reader";
 import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
@@ -31,23 +32,32 @@ type LearnsetRow = {
   scope_operation: string;
 };
 
-/* A form's learnset rows in one version group, every game's. */
-export const readFormLearnsetRows = (
+/*
+ * A form's learnset rows in one version group, every game's: its own, or
+ * its default's when it has none (see `readLearnsetFormId`).
+ */
+export const readFormLearnsetRows = async (
   supabase: ServerSupabaseClient,
   { formId, versionGroupId }: { formId: number; versionGroupId: number },
-) =>
-  loadPagedReferenceRows<LearnsetRow>(
+) => {
+  const learnsetFormId = await readLearnsetFormId(supabase, {
+    formId,
+    versionGroupId,
+  });
+
+  return loadPagedReferenceRows<LearnsetRow>(
     (from, to) =>
       supabase
         .schema("reference")
         .from("pokemon_learnsets")
         .select("move_id, game_id, scope_operation")
-        .eq("form_id", formId)
+        .eq("form_id", learnsetFormId)
         .eq("version_group_id", versionGroupId)
         .order("id", { ascending: true })
         .range(from, to),
     "Unable to load its moves.",
   );
+};
 
 /*
  * The moves a learnset lets it know in every one of the given games: a
@@ -298,6 +308,10 @@ export const readMoveLearnMethods = async (
     versionGroupId,
   }: { formId: number; gameIds: number[]; versionGroupId: number },
 ) => {
+  const learnsetFormId = await readLearnsetFormId(supabase, {
+    formId,
+    versionGroupId,
+  });
   const [rows, methodsResult] = await Promise.all([
     loadPagedReferenceRows<ResolvedLearnsetRow>(
       (from, to) =>
@@ -307,7 +321,7 @@ export const readMoveLearnMethods = async (
           .select(
             "move_id, game_id, learn_method_id, level_learned_at, machine_label, sort_order",
           )
-          .eq("form_id", formId)
+          .eq("form_id", learnsetFormId)
           .eq("target_version_group_id", versionGroupId)
           .order("sort_order", { ascending: true })
           .range(from, to),

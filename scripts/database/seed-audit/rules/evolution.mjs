@@ -590,9 +590,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     "move-known",
     "special-condition",
   ]);
-  if (edgeRows.length !== 579) {
+  if (edgeRows.length !== 591) {
     context.errors.push(
-      `reference.pokemon_evolution_edges: expected 579 curated evolution edge rows, got ${edgeRows.length}.`,
+      `reference.pokemon_evolution_edges: expected 591 curated evolution edge rows, got ${edgeRows.length}.`,
     );
   }
   assertContiguousSortOrder(
@@ -1494,6 +1494,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     ["buizel", "floatzel", "level-up", 26],
     ["cherubi", "cherrim", "level-up", 25],
     ["shellos", "gastrodon", "level-up", 30],
+    ["shellos-east", "gastrodon-east", "level-up", 30],
     ["drifloon", "drifblim", "level-up", 28],
     [
       "buneary",
@@ -1780,6 +1781,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     ["vanillite", "vanillish", "level-up", 35],
     ["vanillish", "vanilluxe", "level-up", 47],
     ["deerling", "sawsbuck", "level-up", 34],
+    ["deerling-summer", "sawsbuck-summer", "level-up", 34],
+    ["deerling-autumn", "sawsbuck-autumn", "level-up", 34],
+    ["deerling-winter", "sawsbuck-winter", "level-up", 34],
     [
       "karrablast",
       "escavalier",
@@ -2037,6 +2041,58 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     {
       fromForm: "floette",
       toForm: "florges",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "shiny-stone",
+    },
+    {
+      fromForm: "flabebe-yellow",
+      toForm: "floette-yellow",
+      methodSlug: "level-up",
+      minimumLevel: 19,
+    },
+    {
+      fromForm: "flabebe-orange",
+      toForm: "floette-orange",
+      methodSlug: "level-up",
+      minimumLevel: 19,
+    },
+    {
+      fromForm: "flabebe-blue",
+      toForm: "floette-blue",
+      methodSlug: "level-up",
+      minimumLevel: 19,
+    },
+    {
+      fromForm: "flabebe-white",
+      toForm: "floette-white",
+      methodSlug: "level-up",
+      minimumLevel: 19,
+    },
+    {
+      fromForm: "floette-yellow",
+      toForm: "florges-yellow",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "shiny-stone",
+    },
+    {
+      fromForm: "floette-orange",
+      toForm: "florges-orange",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "shiny-stone",
+    },
+    {
+      fromForm: "floette-blue",
+      toForm: "florges-blue",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "shiny-stone",
+    },
+    {
+      fromForm: "floette-white",
+      toForm: "florges-white",
       methodSlug: "item",
       minimumLevel: null,
       itemSlug: "shiny-stone",

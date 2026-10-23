@@ -36,6 +36,11 @@ sources remain authoritative for game-specific mechanics and availability.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
   list of switchable forms; every other curated form is a variant.
+- `is_cosmetic` marks a form that changes only looks (the audit holds the
+  list). Such forms repeat their default's attribute change points and have no
+  learnset rows: a form with no learnset rows in a version group learns its
+  default's. Alcremie is modelled by cream only; the sweet is a per-Pokémon
+  detail not yet recorded.
 - Battle forms (Megas, Primals, Gigantamax and in-battle changes) are seeded as
   non-team-selectable forms whose rule names their `battle_mechanic`. A trigger
   refuses them as a Play or Plan member's form; opponent teams store the form a

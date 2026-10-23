@@ -58,7 +58,8 @@ the group instead). It must:
 - retain a searchable, contextual species switcher and direct Shiny artwork
   toggle;
 - show a form selector only for persistent forms valid or meaningful in the
-  current context, excluding cosmetic variants, grouped by form class
+  current context, cosmetic ones (Vivillon patterns, Unown letters) included,
+  grouped by form class
   (Variants, Forms, Battle forms); battle forms (Mega, Primal, Ultra Burst,
   Gigantamax) join it only in the games that have their mechanic, reading
   where to find and learnsets from the form that reaches them;

@@ -64,8 +64,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 3, 730, 73000, 79),
   -- Lacey 4: Galarian Slowbro Lv. 79
   (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 4, 80, 8002, 79),
-  -- Lacey 5: Alcremie Lv. 79
-  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 5, 869, 86900, 79),
+  -- Lacey 5: Alcremie (Ruby Swirl) Lv. 79
+  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 5, 869, 86907, 79),
   -- Lacey 6: Excadrill Lv. 80
   (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 6, 530, 53000, 80),
   -- Drayton 1: Dragonite Lv. 78
