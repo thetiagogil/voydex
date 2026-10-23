@@ -61,7 +61,7 @@ export const MeadowPartners = ({
               pokemon={partner}
               loading={loading}
               className={cn(
-                "group-data-pop/meadow:animate-meadow-pop size-[calc(92px*var(--s))] [animation-delay:calc(var(--i)*70ms)] motion-reduce:animate-none sm:size-[calc(132px*var(--s))]",
+                "group-data-first-visit/meadow:animate-meadow-pop size-[calc(92px*var(--s))] [animation-delay:calc(var(--i)*70ms)] motion-reduce:animate-none sm:size-[calc(132px*var(--s))]",
                 openStart &&
                   "ease-hop transition-transform duration-300 group-hover/partner:-translate-y-3.5 motion-reduce:transition-none",
               )}

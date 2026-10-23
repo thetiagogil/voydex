@@ -36,7 +36,7 @@ const toTypeSlug = (slug: string): PokemonTypeSlug | null =>
 
 /* Fades up once per visit, after the title; `--i` staggers a row. */
 const fadeUpClassName =
-  "group-data-reveal/title:animate-fade-up motion-reduce:animate-none";
+  "group-data-first-visit/title:animate-fade-up motion-reduce:animate-none";
 
 /*
  * One figure under the title: big number, plain label, its icon. The label
@@ -123,7 +123,7 @@ const TitlePicture = ({
                 key={entry.speciesId}
                 style={{ "--i": index } as CSSProperties}
                 className={cn(
-                  "group-data-reveal/title:animate-meadow-pop [animation-delay:calc(450ms+var(--i)*90ms)] motion-reduce:animate-none",
+                  "group-data-first-visit/title:animate-meadow-pop [animation-delay:calc(450ms+var(--i)*90ms)] motion-reduce:animate-none",
                   index === 0 ? "relative z-10 order-2" : "mb-4 sm:mb-5",
                   index === 1 && "order-1 -mr-3",
                   index === 2 && "order-3 -ml-3",
@@ -166,7 +166,7 @@ export const StatsHeroSection = ({
   onOpenPokemon,
   stats,
 }: StatsHeroSectionProps) => {
-  const firstVisit = useFirstVisit("voydex:stats-title-seen");
+  const firstVisit = useFirstVisit("stats-title");
   const hours = Math.round(stats.minutes / 60);
   const firstPlay = formatMonthYear(stats.firstStartedOn);
   const { title } = stats;
@@ -198,7 +198,7 @@ export const StatsHeroSection = ({
       }
     >
       <div
-        data-reveal={firstVisit ? "" : undefined}
+        data-first-visit={firstVisit}
         className="group/title flex flex-col gap-5 sm:gap-6"
       >
         <div className="grid items-center gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:gap-8">
@@ -221,7 +221,7 @@ export const StatsHeroSection = ({
                   {index ? " " : null}
                   <span
                     style={{ "--i": index } as CSSProperties}
-                    className="group-data-reveal/title:animate-title-rise inline-block [animation-delay:calc(180ms+var(--i)*140ms)] motion-reduce:animate-none"
+                    className="group-data-first-visit/title:animate-title-rise inline-block [animation-delay:calc(180ms+var(--i)*140ms)] motion-reduce:animate-none"
                   >
                     {word}
                   </span>
