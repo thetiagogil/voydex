@@ -102,6 +102,7 @@ export const ExplanatoryTip = ({
   const openedByKeyboardFocus = useRef(false);
   const pinned = useRef(false);
   const pointerFocus = useRef(false);
+  const closedByEscape = useRef(false);
 
   const close = () => {
     openedByKeyboardFocus.current = false;
@@ -120,6 +121,14 @@ export const ExplanatoryTip = ({
         if (details.reason === "trigger-hover" && pinned.current) {
           return;
         }
+
+        /* Focus inside the tip goes back to the trigger as Escape closes it. */
+        closedByEscape.current =
+          !nextOpen &&
+          details.reason === "escape-key" &&
+          Boolean(
+            document.activeElement?.closest('[data-slot="popover-content"]'),
+          );
 
         if (details.reason === "trigger-press") {
           pinned.current = nextOpen;
@@ -169,6 +178,12 @@ export const ExplanatoryTip = ({
           ))
         }
         onFocus={(event) => {
+          /* Focus coming back to the trigger as Escape closes the tip keeps it closed. */
+          if (closedByEscape.current) {
+            closedByEscape.current = false;
+            return;
+          }
+
           if (
             !pointerFocus.current &&
             event.currentTarget.matches(":focus-visible")

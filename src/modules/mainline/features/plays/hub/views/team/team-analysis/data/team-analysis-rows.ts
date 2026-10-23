@@ -10,6 +10,7 @@ import {
   type TeamTypeMember,
 } from "@/modules/mainline/shared/data/team-type-analysis";
 import { toTypeMatchupRows } from "@/modules/mainline/shared/data/type-matchup-rows";
+import { isTypeEffectiveMove } from "@/modules/reference/features/moves/domain/move-hit-types";
 import type { Type } from "@/modules/reference/types";
 
 import type {
@@ -21,13 +22,15 @@ export const getTeamAnalysisMemberId = (member: MainlinePlayTeamMember) => {
   return member.play_pokemon_id ?? `slot-${member.slot ?? 0}`;
 };
 
-/* A damaging move's type; fixed-damage, reactive and status moves claim no type coverage. */
+/*
+ * A damaging move's type, varying power included (Low Kick, Gyro Ball);
+ * fixed-damage, reactive and status moves claim no type coverage.
+ */
 export const getDamagingMoveTypeSlug = (move: MainlinePlayTeamMove) => {
-  const isDamaging =
-    move.attributes &&
-    move.attributes.damage_class !== "status" &&
-    move.attributes.power !== null &&
-    move.attributes.power > 0;
+  const isDamaging = isTypeEffectiveMove({
+    damageClass: move.attributes?.damage_class,
+    slug: move.slug,
+  });
 
   return isDamaging ? move.type?.slug : null;
 };

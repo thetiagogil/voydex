@@ -1,4 +1,5 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { getMoveHitTypeSlug } from "@/modules/reference/features/moves/domain/move-hit-types";
 import {
   getDefensiveTypeMultiplier,
   getPokemonTypesForGeneration,
@@ -41,7 +42,16 @@ export type StoryOpponentMechanic = {
   label: string;
 };
 
-/* One Pokémon on the opponent's team, by its types in the Play's game. */
+/* One of their moves, as the Play's game has it. */
+export type StoryOpponentMove = {
+  /* It hits by type effectiveness: not a status move or one that deals set damage. */
+  damaging: boolean;
+  name: string;
+  slug: string;
+  type: Type | null;
+};
+
+/* One Pokémon on the opponent's team, by its types and moves in the Play's game. */
 export type StoryOpponentPokemon = {
   formSlug: string;
   /* What it holds, where the game has held items and Voydex has it. */
@@ -52,6 +62,8 @@ export type StoryOpponentPokemon = {
   legendary: LegendaryRarity | null;
   level: number;
   mechanic: StoryOpponentMechanic | null;
+  /* Its moves in slot order; empty when Voydex doesn't have them. */
+  moves: StoryOpponentMove[];
   name: string;
   /*
    * The type it Terastallizes into, which replaces its own types for what
@@ -69,9 +81,25 @@ export type StoryBestHit = {
 };
 
 /* How one of your Pokémon reads against their team. */
+/*
+ * One of their Pokémon in a matchup with one of yours, and what makes it
+ * count: move names, or its type names where Voydex doesn't have its moves.
+ */
+export type StoryHitDetail = {
+  /* True when `via` names its types, not moves. */
+  byType: boolean;
+  multiplier: number;
+  pokemon: StoryOpponentPokemon;
+  via: string[];
+};
+
 export type StoryMemberReading = {
   /* Your strongest recorded move against any of them, when it hits for more than 1×. */
   bestHit: StoryBestHit | null;
+  /* Their Pokémon this one hits for more than 1×, with which of its recorded moves, hardest first. */
+  lands: StoryHitDetail[];
+  /* Their Pokémon that hit this one for 2× or more, with what, hardest first. */
+  takes: StoryHitDetail[];
   /* Advantage, Even or At risk; null while its types or moves aren't recorded. */
   role: MatchupState | null;
   /* Their types that hit this Pokémon for 2× or more, strongest first. */
@@ -170,20 +198,81 @@ const getDefendingSlugs = (pokemon: StoryOpponentPokemon) =>
   toTypeSlugs(pokemon.teraType ? [pokemon.teraType] : pokemon.types);
 
 /*
- * What one of their Pokémon hits with: its own types, and its Tera Type too
- * once it Terastallizes, since it keeps its own types' moves.
+ * What one of their Pokémon hits with: the types of its damaging moves when
+ * Voydex has its moves (Tera Blast takes its Tera Type), else its own types,
+ * and its Tera Type too once it Terastallizes, since it keeps its own types'
+ * moves.
  */
+const getAttacks = (
+  pokemon: StoryOpponentPokemon,
+): { name: string; slug: PokemonTypeSlug }[] =>
+  pokemon.moves.length
+    ? pokemon.moves.flatMap((move) => {
+        const slug = move.damaging
+          ? getMoveHitTypeSlug({
+              moveTypeSlug: move.type?.slug ?? null,
+              slug: move.slug,
+              teraTypeSlug: pokemon.teraType?.slug ?? null,
+              userTypeSlugs: pokemon.types.map((type) => type.slug),
+            })
+          : null;
+
+        return slug && isPokemonTypeSlug(slug)
+          ? [{ name: move.name, slug }]
+          : [];
+      })
+    : (pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types)
+        .filter((type) => isPokemonTypeSlug(type.slug))
+        .map((type) => ({
+          name: type.name,
+          slug: type.slug as PokemonTypeSlug,
+        }));
+
 const getAttackingSlugs = (pokemon: StoryOpponentPokemon) =>
-  toTypeSlugs(
-    pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types,
-  );
+  getAttacks(pokemon).map((attack) => attack.slug);
+
+/* Groups hits by their Pokémon: each one's strongest multiplier and every name behind it. */
+const toHitDetails = (
+  hits: { index: number; multiplier: number; name: string }[],
+  their: StoryOpponentPokemon[],
+) => {
+  const byIndex = new Map<number, { multiplier: number; via: string[] }>();
+
+  for (const hit of hits) {
+    const detail = byIndex.get(hit.index) ?? { multiplier: 0, via: [] };
+
+    detail.multiplier = Math.max(detail.multiplier, hit.multiplier);
+
+    if (!detail.via.includes(hit.name)) {
+      detail.via.push(hit.name);
+    }
+
+    byIndex.set(hit.index, detail);
+  }
+
+  return [...byIndex]
+    .map(
+      ([index, detail]): StoryHitDetail => ({
+        byType: !their[index].moves.length,
+        multiplier: detail.multiplier,
+        pokemon: their[index],
+        via: detail.via,
+      }),
+    )
+    .sort((left, right) => right.multiplier - left.multiplier);
+};
+
+/* How many of their Pokémon Voydex has the moves of. */
+export const countOpponentsWithMoves = (their: StoryOpponentPokemon[]) =>
+  their.filter((pokemon) => pokemon.moves.length > 0).length;
 
 /*
  * Reads your active team against one opponent's team by types, recorded
  * moves and levels (v3 `storyMatchups()`): who answers whom, who is exposed,
- * and one verdict with the sentence behind it. Their moves aren't in Voydex,
- * so their threat is read from their own types and any Tera Type, and what
- * hits them from their Tera Type where they Terastallize.
+ * and one verdict with the sentence behind it. Their threat is read from
+ * their damaging moves where Voydex has them, else from their own types and
+ * any Tera Type, and what hits them from their Tera Type where they
+ * Terastallize.
  */
 export const readStoryBattle = ({
   generationOrder,
@@ -222,13 +311,36 @@ export const readStoryBattle = ({
     });
 
     let bestHit: StoryBestHit | null = null;
+    const landed: { index: number; multiplier: number; name: string }[] = [];
 
     for (const [index, pokemon] of their.entries()) {
       for (const { move, slug } of damagingMoves) {
         const multiplier = hitOn(slug, theirSlugs[index]);
 
+        if (multiplier > 1) {
+          landed.push({ index, multiplier, name: move.name });
+        }
+
         if (multiplier > 1 && (!bestHit || multiplier > bestHit.multiplier)) {
           bestHit = { moveName: move.name, multiplier, target: pokemon };
+        }
+      }
+    }
+
+    const taken: { index: number; multiplier: number; name: string }[] = [];
+
+    if (memberSlugs.length) {
+      for (const [index, pokemon] of their.entries()) {
+        for (const attack of getAttacks(pokemon)) {
+          const multiplier = getDefensiveTypeMultiplier(
+            attack.slug,
+            memberSlugs,
+            generationOrder,
+          );
+
+          if (multiplier >= 2) {
+            taken.push({ index, multiplier, name: attack.name });
+          }
         }
       }
     }
@@ -256,6 +368,8 @@ export const readStoryBattle = ({
 
     return {
       bestHit,
+      lands: toHitDetails(landed, their),
+      takes: toHitDetails(taken, their),
       role:
         !memberSlugs.length || !damagingMoves.length
           ? null

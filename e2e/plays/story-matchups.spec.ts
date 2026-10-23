@@ -32,7 +32,10 @@ test.describe("Story matchups", () => {
     await expect(
       report.getByRole("heading", { name: "The Pokémon" }),
     ).toBeVisible();
-    await expect(report).toContainText("Its moves aren't in Voydex");
+    /* Gold's own data gives Raikou its moves for its level. */
+    await expect(report).toContainText(
+      "This reads its moves against your team",
+    );
     await expect(report).not.toContainText("Their");
 
     /* The header counts battles won, not optional catches. */
@@ -123,6 +126,44 @@ test.describe("Story matchups", () => {
       glimmora.getByRole("img", { name: "Tera Rock" }),
     ).toBeVisible();
     await expect(report).toContainText("Glimmora Terastallizes into Rock.");
+    await expectAccessible(page);
+  });
+
+  test("shows what their Pokémon know and reads their moves", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Kanto run"),
+      partner: "Squirtle",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    const brock = page.getByRole("button", { name: /^Brock/ });
+    await expect(brock).toBeVisible(forTheAnswer);
+    await brock.click();
+
+    const report = page.getByRole("region", { name: "Brock" });
+    await expect(report).toContainText(
+      "This reads their moves against your team.",
+    );
+
+    /* Show moves turns each card over; Onix's Gym Leader move is Bide. */
+    const bide = report.getByRole("listitem").filter({ hasText: /^Bide$/ });
+    await expect(bide).toHaveCount(0);
+    const showMoves = report.getByRole("button", { name: "Show moves" });
+    await showMoves.click();
+    await expect(showMoves).toHaveAttribute("aria-pressed", "true");
+    await expect(bide).toBeVisible();
+    /* Geodude and Onix both know Tackle. */
+    await expect(
+      report.getByRole("listitem").filter({ hasText: /^Tackle$/ }),
+    ).toHaveCount(2);
+    await showMoves.click();
+    await expect(bide).toHaveCount(0);
     await expectAccessible(page);
   });
 });

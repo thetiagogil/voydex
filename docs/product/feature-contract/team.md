@@ -184,7 +184,9 @@ opponent) by types, recorded damaging moves
 and levels, following v3: each of your Pokémon is Advantage (an answer and
 no 2× weakness), At risk (a 2× weakness and no answer), Even, or Not recorded
 (no types or no damaging moves); its best hit is its strongest move against
-any of them. The battle reads **Challenging** when fewer than 60% of their
+any of them. Best hit's tooltip lists each of theirs it hits for more than 1×
+and with which move; Weak to's names which of theirs hit it for 2× or more and
+with what. The battle reads **Challenging** when fewer than 60% of their
 Pokémon have an answer, three or more of yours are at risk, or their ace is 8
 or more levels above your best; **Strong** when every one of theirs has an
 answer, at most one of yours is at risk, one answers without a 2× weakness,
@@ -197,10 +199,18 @@ choice; while it isn't recorded the report reads the first and says so. A
 battle that only one choice leads to (the roaming legendary your starter
 picks) is left out once the Play records another option, and says which
 choice it needs while none is recorded.
-Their moves aren't in Voydex, so their threat is read from their types.
+Their threat is read from each Pokémon's damaging moves
+(`tracking.mainline_opponent_team_member_moves`, up to four by slot): a
+Physical or Special move counts by its type, varying power included, while
+status and set-damage moves count for nothing; Tera Blast takes its Tera Type,
+Judgment-like moves the user's type, and Hidden Power, whose type isn't known,
+is left out. A Pokémon whose moves Voydex doesn't have is read by its types
+instead, and the footnote says how many of theirs have moves. Show moves, at
+the end of their team's heading, turns every card over to its moves (each on
+its type's tint) and back again.
 A Pokémon that Terastallizes in the battle is read by its Tera Type for what
-hits it (Stellar keeps its own types), and its own types and its Tera Type
-both count as its threat. Where the Play's game has the mechanic
+hits it (Stellar keeps its own types); without its moves, its own types and its
+Tera Type both count as its threat. Where the Play's game has the mechanic
 (`resolveGameMechanics`), a card of theirs carries marks on its level line that
 keep every card the same height: its Tera Type as a Tera jewel (the type's icon
 on a diamond, never a round type dot) and the sprite of the item it holds (in

@@ -4642,6 +4642,36 @@ export type Database = {
           },
         ];
       };
+      mainline_opponent_team_member_moves: {
+        Row: {
+          created_at: string;
+          move_id: number;
+          slot: number;
+          team_member_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          move_id: number;
+          slot: number;
+          team_member_id: number;
+        };
+        Update: {
+          created_at?: string;
+          move_id?: number;
+          slot?: number;
+          team_member_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "mainline_opponent_team_member_moves_team_member_id_fkey";
+            columns: ["team_member_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_opponent_team_members";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       mainline_opponent_team_members: {
         Row: {
           created_at: string;

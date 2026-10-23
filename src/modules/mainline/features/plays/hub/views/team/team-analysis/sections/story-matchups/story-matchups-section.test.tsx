@@ -35,8 +35,10 @@ const battle = (
   members: [
     {
       bestHit: null,
+      lands: [],
       member,
       role: null,
+      takes: [],
       weakTo: [],
     },
   ],
@@ -93,13 +95,16 @@ const withTeam = battle({
           legendary: null,
           level: 14,
           mechanic: null,
+          moves: [],
           name: "Onix",
           teraType: null,
           types: [rock],
         },
       },
+      lands: [],
       member,
       role: "strong",
+      takes: [],
       weakTo: [],
     },
   ],
@@ -114,6 +119,7 @@ const withTeam = battle({
         legendary: null,
         level: 14,
         mechanic: null,
+        moves: [],
         name: "Onix",
         teraType: null,
         types: [rock],
@@ -147,6 +153,9 @@ describe("StoryMatchupsSection", () => {
   it("reads a battle ahead against their team: verdict, cards, best hit and levels", () => {
     const html = render([withTeam]);
 
+    /* Hover labels are tooltips, never the browser's title. */
+    expect(html).not.toMatch(/ title="[^"]/);
+
     expect(html).toContain("Strong");
     expect(html).toContain("You have an answer to Brock&#x27;s Pokémon");
     expect(html).toContain("Lv. 14");
@@ -154,6 +163,44 @@ describe("StoryMatchupsSection", () => {
     expect(html).toContain("Water Gun, 4× on Onix");
     expect(html).toContain("You&#x27;re 6 levels above them");
     expect(html).not.toContain("aren&#x27;t in Voydex yet");
+  });
+
+  it("turns their cards to their moves with Show moves and says what it reads them by", () => {
+    const onix = withTeam.party!.pokemon[0];
+    const known = {
+      ...onix,
+      moves: [
+        { damaging: true, name: "Rock Throw", slug: "rock-throw", type: rock },
+        { damaging: false, name: "Screech", slug: "screech", type: null },
+      ],
+    };
+    const typesOnly = render([withTeam]);
+    const allKnown = render([
+      { ...withTeam, party: { note: null, pokemon: [known] } },
+    ]);
+    const someKnown = render([
+      {
+        ...withTeam,
+        party: {
+          note: null,
+          pokemon: [known, { ...onix, key: "onix-2", name: "Geodude" }],
+        },
+      },
+    ]);
+
+    expect(typesOnly).toContain(
+      "Their moves aren&#x27;t in Voydex, so this reads their types",
+    );
+    expect(typesOnly).not.toContain("Show moves");
+    /* The back of each card is there but turned away until Show moves. */
+    expect(allKnown).toContain('aria-pressed="false"');
+    expect(allKnown).toContain("Show moves");
+    expect(allKnown).toContain("Rock Throw");
+    expect(allKnown).toContain("This reads their moves against your team.");
+    expect(someKnown).toContain("Its moves aren&#x27;t in Voydex.");
+    expect(someKnown).toContain(
+      "Voydex has the moves of 1 of their 2 Pokémon and reads the others by their types.",
+    );
   });
 
   it("marks their ace's mechanic and names what it holds", () => {
@@ -170,6 +217,7 @@ describe("StoryMatchupsSection", () => {
               legendary: null,
               level: 62,
               mechanic: { kind: "tera", label: "Tera Rock" },
+              moves: [],
               name: "Glimmora",
               teraType: rock,
               types: [rock],
@@ -200,6 +248,7 @@ describe("StoryMatchupsSection", () => {
               legendary: null,
               level: 65,
               mechanic: { kind: "gigantamax", label: "Gigantamax" },
+              moves: [],
               name: "Gigantamax Charizard",
               teraType: null,
               types: [rock],
@@ -250,6 +299,7 @@ describe("StoryMatchupsSection", () => {
             legendary: "Legendary",
             level: 40,
             mechanic: null,
+            moves: [],
             name: "Raikou",
             teraType: null,
             types: [water],

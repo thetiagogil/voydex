@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   ObjectiveEyebrow,
   ObjectiveWhere,
@@ -12,16 +14,27 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
-import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import {
+  PokemonTypeBadge,
+  PokemonTypeIcon,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
+import type { Type } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
 import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
+import { Button } from "@/shared/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
+import { cn } from "@/shared/utils/cn";
 import {
   Alert,
   AlertDescription,
@@ -29,10 +42,13 @@ import {
 } from "@/shared/components/ui/alert";
 
 import {
+  countOpponentsWithMoves,
   formatLevelRange,
   getLevelsSentence,
   getPowerUpSentence,
   type StoryBestHit,
+  type StoryHitDetail,
+  type StoryOpponentKind,
   type StoryOpponentPokemon,
 } from "../../data/story-battle-reading";
 import type {
@@ -61,32 +77,110 @@ const SmallSticker = ({
 
 const formatMultiplier = (multiplier: number) => `${multiplier}×`;
 
-/* Best hit (v3): the opponent it lands on, with how hard on a green mark. */
-const BestHit = ({ hit }: { hit: StoryBestHit }) => (
-  <span
-    className="relative inline-flex"
-    title={`${hit.moveName}, ${formatMultiplier(hit.multiplier)} on ${hit.target.name}`}
-  >
-    <PokemonAvatar
-      decorative
-      name={hit.target.name}
-      className="size-10 shrink-0"
-      imageUrl={hit.target.imageUrl}
-      typeSlug={hit.target.types[0]?.slug ?? null}
-    />
-    <CornerBubble corner="bottom">
-      <span
-        aria-hidden
-        className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
-      >
-        {formatMultiplier(hit.multiplier)}
-      </span>
-    </CornerBubble>
-    <span className="sr-only">
-      {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
-    </span>
-  </span>
+/* What one side brings: move names, or "its Fire type" where their moves aren't known. */
+const formatVia = ({ byType, via }: StoryHitDetail) =>
+  byType
+    ? `its ${via.join(" and ")} type${via.length > 1 ? "s" : ""}`
+    : via.join(", ");
+
+/* Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse, 2×". */
+const HitLines = ({
+  hits,
+  joiner,
+}: {
+  hits: StoryHitDetail[];
+  joiner: ": " | " with ";
+}) => (
+  <ul className="grid gap-0.5 text-left">
+    {hits.map((hit) => (
+      <li key={hit.pokemon.key}>
+        <b>{hit.pokemon.name}</b>
+        {joiner}
+        {formatVia(hit)}, {formatMultiplier(hit.multiplier)}
+      </li>
+    ))}
+  </ul>
 );
+
+/*
+ * Best hit (v3): the opponent it lands on, with how hard on a green mark.
+ * Its tooltip lists every one of theirs this Pokémon hits for more than 1×,
+ * and with which move.
+ */
+const BestHit = ({
+  hit,
+  lands,
+}: {
+  hit: StoryBestHit;
+  lands: StoryHitDetail[];
+}) => (
+  <Tooltip>
+    <TooltipTrigger render={<span className="relative inline-flex" />}>
+      <PokemonAvatar
+        decorative
+        name={hit.target.name}
+        className="size-10 shrink-0"
+        imageUrl={hit.target.imageUrl}
+        typeSlug={hit.target.types[0]?.slug ?? null}
+      />
+      <CornerBubble corner="bottom">
+        <span
+          aria-hidden
+          className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
+        >
+          {formatMultiplier(hit.multiplier)}
+        </span>
+      </CornerBubble>
+      <span className="sr-only">
+        {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
+      </span>
+    </TooltipTrigger>
+    <TooltipContent>
+      {lands.length > 1 ? (
+        <HitLines hits={lands} joiner=" with " />
+      ) : (
+        <>
+          {hit.moveName}, {formatMultiplier(hit.multiplier)} on{" "}
+          {hit.target.name}
+        </>
+      )}
+    </TooltipContent>
+  </Tooltip>
+);
+
+/*
+ * Weak to: the types that hit this Pokémon for 2× or more. With their team,
+ * its tooltip names which of theirs bring them and with what.
+ */
+const WeakTo = ({
+  takes,
+  weakTo,
+}: {
+  takes: StoryHitDetail[];
+  weakTo: Type[];
+}) => {
+  const types = (
+    <PokemonTypeList
+      types={weakTo}
+      badgeDisplay="icon"
+      badgeSize="sm"
+      className="flex flex-wrap gap-1"
+    />
+  );
+
+  return takes.length ? (
+    <Tooltip>
+      <TooltipTrigger render={<span className="inline-flex" />}>
+        {types}
+      </TooltipTrigger>
+      <TooltipContent>
+        <HitLines hits={takes} joiner=": " />
+      </TooltipContent>
+    </Tooltip>
+  ) : (
+    types
+  );
+};
 
 /* A list of types in a sentence: "Ice, Ground, Fire or Fighting". */
 const TypeNames = ({ types }: { types: { name: string; slug: string }[] }) =>
@@ -105,8 +199,12 @@ const reportWording = {
       "Voydex keeps who you met as part of your journey. It reads matchups only for encounters still ahead: the team you travel with now isn't the one you had then.",
     levels: (range: string | null) =>
       `It's ${range}. Your team's levels aren't recorded yet.`,
-    moves:
-      "Its moves aren't in Voydex, so this reads its types against your recorded moves.",
+    moves: {
+      all: "This reads its moves against your team.",
+      none: "Its moves aren't in Voydex, so this reads its types against your recorded moves.",
+      /* One Pokémon: its moves are known or they aren't. */
+      some: () => "This reads its moves against your team.",
+    },
     opponentTitle: "The Pokémon",
     specialty: ["Type", "Types"],
     weakness: "It's weak to",
@@ -117,8 +215,12 @@ const reportWording = {
       "Voydex keeps who you faced as part of your journey. It reads matchups only for battles still ahead: the team you travel with now isn't the one that won this.",
     levels: (range: string | null) =>
       `Their team is ${range}. Your team's levels aren't recorded yet.`,
-    moves:
-      "Their moves aren't in Voydex, so this reads their types against your recorded moves.",
+    moves: {
+      all: "This reads their moves against your team.",
+      none: "Their moves aren't in Voydex, so this reads their types against your recorded moves.",
+      some: (known: number, count: number) =>
+        `Voydex has the moves of ${known} of their ${count} Pokémon and reads the others by their types.`,
+    },
     opponentTitle: "Their team",
     specialty: ["Specialty", "Specialties"],
     weakness: "Some of them are weak to",
@@ -170,11 +272,71 @@ const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
   );
 };
 
-/* Their team (v3 `.opp`): the app's Pokémon card with less on it. */
-const TheirTeam = ({ party }: { party: StoryMatchupParty }) => {
+/*
+ * The back of one of their cards: what it knows, each move on its type's
+ * icon, at the card's own size so flipping never moves the row.
+ */
+const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
+  <div className="plain-card flex h-full min-w-0 flex-col gap-1 rounded-xl px-2 pt-2 pb-2 text-left">
+    {/* Its level stays on the front; the back names whose moves these are. */}
+    <p className="text-ink-3 text-12 truncate px-1 font-extrabold">
+      {pokemon.name}
+    </p>
+    {pokemon.moves.length ? (
+      <ul className="grid gap-0.5">
+        {pokemon.moves.map((move) => {
+          const typeSlug =
+            move.type && isPokemonTypeSlug(move.type.slug)
+              ? move.type.slug
+              : null;
+
+          return (
+            <li
+              key={move.slug}
+              style={getPokemonTypeCssVariables(typeSlug)}
+              className="text-12 flex min-w-0 items-center gap-1.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface))] px-1.5 py-0.5 leading-tight font-extrabold"
+            >
+              {typeSlug ? (
+                /* On phones the tint carries the type; the icon's name stays for screen readers. */
+                <PokemonTypeBadge
+                  type={typeSlug}
+                  label={move.type?.name}
+                  display="icon"
+                  size="sm"
+                  className="max-sm:sr-only"
+                />
+              ) : null}
+              <span className="min-w-0 wrap-break-word">{move.name}</span>
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <p className="text-ink-3 text-12 px-1 font-semibold">
+        Its moves aren&apos;t in Voydex.
+      </p>
+    )}
+  </div>
+);
+
+/*
+ * Their team (v3 `.opp`): the app's Pokémon card with less on it. With
+ * `showMoves` each card flips over to what it knows; the face away from you
+ * is hidden from screen readers and the keyboard, and the card keeps its
+ * place, lifting with both faces.
+ */
+const TheirTeam = ({
+  party,
+  showMoves,
+}: {
+  party: StoryMatchupParty;
+  showMoves: boolean;
+}) => {
   const powerUps = party.pokemon.flatMap(
     (pokemon) => getPowerUpSentence(pokemon) ?? [],
   );
+  /* Without any of their moves there is no back to turn to. */
+  const hasBacks = countOpponentsWithMoves(party.pokemon) > 0;
 
   return (
     <>
@@ -183,21 +345,49 @@ const TheirTeam = ({ party }: { party: StoryMatchupParty }) => {
       ) : null}
       <ul className="grid grid-cols-3 gap-2.5">
         {party.pokemon.map((pokemon) => (
-          <li key={pokemon.key} className="min-w-0">
-            <PokemonCard
-              state="plain"
-              size="sm"
-              imageAlt=""
-              imageUrl={pokemon.imageUrl}
-              name={pokemon.name}
-              number={`Lv. ${pokemon.level}`}
-              types={pokemon.types}
-              marks={
-                pokemon.teraType || pokemon.heldItem ? (
-                  <OpponentMarks pokemon={pokemon} />
-                ) : null
-              }
-            />
+          <li
+            key={pokemon.key}
+            className="min-w-0 transition-transform duration-150 perspective-[60rem] hover:-translate-y-0.75"
+          >
+            <div
+              className={cn(
+                "grid h-full grid-cols-1 transition-transform duration-500 ease-out transform-3d",
+                showMoves && "transform-[rotateY(180deg)]",
+              )}
+            >
+              <div
+                aria-hidden={showMoves || undefined}
+                inert={showMoves}
+                /* An explicit turn keeps the front in the 3D scene, so its back hides. */
+                className="min-w-0 transform-[rotateY(0deg)] [grid-area:1/1] backface-hidden"
+              >
+                <PokemonCard
+                  state="plain"
+                  size="sm"
+                  imageAlt=""
+                  imageUrl={pokemon.imageUrl}
+                  name={pokemon.name}
+                  number={`Lv. ${pokemon.level}`}
+                  types={pokemon.types}
+                  marks={
+                    pokemon.teraType || pokemon.heldItem ? (
+                      <OpponentMarks pokemon={pokemon} />
+                    ) : null
+                  }
+                  /* The card's place lifts instead, carrying both faces. */
+                  className="hover:translate-y-0"
+                />
+              </div>
+              {hasBacks ? (
+                <div
+                  aria-hidden={!showMoves || undefined}
+                  inert={!showMoves}
+                  className="min-w-0 transform-[rotateY(180deg)] [grid-area:1/1] backface-hidden"
+                >
+                  <OpponentMoves pokemon={pokemon} />
+                </div>
+              ) : null}
+            </div>
           </li>
         ))}
       </ul>
@@ -206,6 +396,20 @@ const TheirTeam = ({ party }: { party: StoryMatchupParty }) => {
       ) : null}
     </>
   );
+};
+
+/* The footnote on what the reading reads them by: their moves, their types, or both. */
+const getMovesNote = (
+  notes: (typeof reportWording)[StoryOpponentKind]["moves"],
+  their: StoryOpponentPokemon[],
+) => {
+  const known = countOpponentsWithMoves(their);
+
+  return known === 0
+    ? notes.none
+    : known === their.length
+      ? notes.all
+      : notes.some(known, their.length);
 };
 
 /*
@@ -225,6 +429,10 @@ export const StoryBattleReport = ({
   const isWon = battle.state === "won";
   const { opponentKind, party, reading } = battle;
   const wording = reportWording[opponentKind];
+  /* Which battle's cards are turned to their moves, so another battle opens on its faces. */
+  const [movesShownFor, setMovesShownFor] = useState<string | null>(null);
+  const showMoves = movesShownFor === battle.id;
+  const hasMoves = party ? countOpponentsWithMoves(party.pokemon) > 0 : false;
 
   return (
     <div className="min-w-0">
@@ -278,7 +486,22 @@ export const StoryBattleReport = ({
         />
       )}
 
-      <SheetSection className="mt-9 gap-3" title={wording.opponentTitle}>
+      <SheetSection
+        className="mt-9 gap-3"
+        title={wording.opponentTitle}
+        action={
+          hasMoves ? (
+            <Button
+              variant="secondary"
+              size="sm"
+              aria-pressed={showMoves}
+              onClick={() => setMovesShownFor(showMoves ? null : battle.id)}
+            >
+              Show moves
+            </Button>
+          ) : null
+        }
+      >
         {battle.specialtyTypes.length ? (
           <div className="text-ink-2 text-14 mb-3 flex flex-wrap items-center gap-2 font-semibold">
             {wording.specialty[battle.specialtyTypes.length > 1 ? 1 : 0]}
@@ -291,7 +514,7 @@ export const StoryBattleReport = ({
           </div>
         ) : null}
         {party ? (
-          <TheirTeam party={party} />
+          <TheirTeam party={party} showMoves={showMoves} />
         ) : (
           <PendingData
             label="Their Pokémon aren't in Voydex yet"
@@ -352,72 +575,72 @@ export const StoryBattleReport = ({
                   </tr>
                 </thead>
                 <tbody className="divide-line divide-y">
-                  {battle.members.map(({ bestHit, member, role, weakTo }) => {
-                    const name = getPlayTeamMemberName(member);
+                  {battle.members.map(
+                    ({ bestHit, lands, member, role, takes, weakTo }) => {
+                      const name = getPlayTeamMemberName(member);
 
-                    return (
-                      <tr key={member.play_pokemon_id} className="align-middle">
-                        <th scope="row" className="py-2 pr-2 font-normal">
-                          <span className="flex min-w-0 items-center gap-2.5">
-                            <SmallSticker
-                              imageUrl={getPlayTeamMemberImageUrl(member)}
-                              name=""
-                              typeSlug={member.primaryType?.slug ?? null}
-                            />
-                            <span className="grid min-w-0">
-                              <b className="text-14 truncate font-extrabold">
-                                {name}
-                              </b>
-                              {member.level ? (
-                                <span className="text-ink-3 text-12 font-semibold tabular-nums">
-                                  Lv. {member.level}
-                                </span>
-                              ) : null}
+                      return (
+                        <tr
+                          key={member.play_pokemon_id}
+                          className="align-middle"
+                        >
+                          <th scope="row" className="py-2 pr-2 font-normal">
+                            <span className="flex min-w-0 items-center gap-2.5">
+                              <SmallSticker
+                                imageUrl={getPlayTeamMemberImageUrl(member)}
+                                name=""
+                                typeSlug={member.primaryType?.slug ?? null}
+                              />
+                              <span className="grid min-w-0">
+                                <b className="text-14 truncate font-extrabold">
+                                  {name}
+                                </b>
+                                {member.level ? (
+                                  <span className="text-ink-3 text-12 font-semibold tabular-nums">
+                                    Lv. {member.level}
+                                  </span>
+                                ) : null}
+                              </span>
                             </span>
-                          </span>
-                        </th>
-                        {party ? (
-                          <td className="text-13 py-2">
-                            {role ? (
-                              <MatchupStateLabel state={role}>
-                                {matchupStates[role].role}
-                              </MatchupStateLabel>
+                          </th>
+                          {party ? (
+                            <td className="text-13 py-2">
+                              {role ? (
+                                <MatchupStateLabel state={role}>
+                                  {matchupStates[role].role}
+                                </MatchupStateLabel>
+                              ) : (
+                                <span className="text-ink-3 font-bold">
+                                  Not recorded
+                                </span>
+                              )}
+                            </td>
+                          ) : null}
+                          <td className="py-2">
+                            {bestHit ? (
+                              <BestHit hit={bestHit} lands={lands} />
+                            ) : party ? (
+                              <span className="text-ink-3 text-13 font-bold">
+                                None
+                              </span>
                             ) : (
-                              <span className="text-ink-3 font-bold">
-                                Not recorded
+                              /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
+                              <PendingData variant="inline" label="Not yet" />
+                            )}
+                          </td>
+                          <td className="py-2">
+                            {weakTo.length ? (
+                              <WeakTo takes={takes} weakTo={weakTo} />
+                            ) : (
+                              <span className="text-ink-3 text-13 font-bold">
+                                None
                               </span>
                             )}
                           </td>
-                        ) : null}
-                        <td className="py-2">
-                          {bestHit ? (
-                            <BestHit hit={bestHit} />
-                          ) : party ? (
-                            <span className="text-ink-3 text-13 font-bold">
-                              None
-                            </span>
-                          ) : (
-                            /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
-                            <PendingData variant="inline" label="Not yet" />
-                          )}
-                        </td>
-                        <td className="py-2">
-                          {weakTo.length ? (
-                            <PokemonTypeList
-                              types={weakTo}
-                              badgeDisplay="icon"
-                              badgeSize="sm"
-                              className="flex gap-1"
-                            />
-                          ) : (
-                            <span className="text-ink-3 text-13 font-bold">
-                              None
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                        </tr>
+                      );
+                    },
+                  )}
                 </tbody>
               </table>
             ) : (
@@ -459,7 +682,7 @@ export const StoryBattleReport = ({
           </SheetSection>
           <p className="text-ink-3 text-13 mt-5 font-semibold">
             {party
-              ? wording.moves
+              ? getMovesNote(wording.moves, party.pokemon)
               : "\u201cWeak to\u201d reads their specialty against each Pokémon's own types."}
           </p>
         </>

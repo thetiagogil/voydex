@@ -327,6 +327,7 @@ export const getMainlinePlayTeamAnalysisData = cache(
             context.supabase,
             playId,
             context.play.generation_id,
+            { versionGroupId: context.play.version_group_id },
           )
         : null,
     ]);
