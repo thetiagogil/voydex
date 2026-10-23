@@ -19,6 +19,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   forms, mechanics, moves, items, evolution, availability, learnsets, and
   Pokedex definitions.
 - Generation-aware attributes preserve mechanics that changed over time.
+- `reference.items.effect_summary` is a short "what it does" sentence, set for
+  every held item and empty for items that are never held.
 - `reference.tera_types` is the Tera Type lookup (the 18 types plus Stellar).
   `gameplay.mainline_play_pokemon.tera_type_id` points at it, and a form in
   `reference.pokemon_fixed_tera_types` accepts only its fixed Tera Type (or

@@ -13,15 +13,15 @@ import type {
   MemberBattleMove,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 
-import {
-  formatTeamMemberGender,
-  getTeamMemberIdentity,
-} from "../../utils/team-member-display";
+import { getTeamMemberIdentity } from "../../utils/team-member-display";
 
 export type TeamMove = {
-  /* Replaces the type line, such as "From Flamethrower" for a Z-Move. */
+  /* Physical, Special or Status, at the end of the row. */
+  category: string | null;
+  /* Takes the category's place, such as "From Flamethrower" for a Z-Move. */
   detail?: string;
-  isStatus: boolean;
+  /* What the move does, behind a faint "i" at the row's end. */
+  effect: string | null;
   name: string;
   position: number;
   type: Pick<NonNullable<MainlinePlayTeamMove["type"]>, "name" | "slug"> | null;
@@ -31,7 +31,15 @@ export type TeamMemberFact = {
   detail: string | null;
   /* Nothing recorded: the value is a quiet placeholder. */
   empty?: true;
+  /* What it is, behind a faint "i" beside the value (a held item's effect). */
+  info?: string | null;
+  /* An item's picture goes before the value: a held item or a Poké Ball. */
+  item?: { kind: "ball" | "held"; slug: string | null };
   label: string;
+  /* A nature's stats, drawn under it as arrows. */
+  nature?: { decreased: string | null; increased: string | null };
+  /* Where and at what level you met it: a row of its own, as in the editor. */
+  section?: "met";
   value: string;
 };
 
@@ -45,33 +53,6 @@ const notRecorded = (
   value,
 });
 
-const teamStatLabels: Record<string, string> = {
-  attack: "Attack",
-  defense: "Defense",
-  special_attack: "Sp. Atk",
-  special_defense: "Sp. Def",
-  speed: "Speed",
-};
-
-export const getTeamNatureEffectSummary = (
-  member: MainlinePlayTeamMember,
-): string | null => {
-  if (!member.nature_name) {
-    return null;
-  }
-
-  if (!member.natureIncreasedStat || !member.natureDecreasedStat) {
-    return "No stat changes";
-  }
-
-  const increasedStat =
-    teamStatLabels[member.natureIncreasedStat] ?? member.natureIncreasedStat;
-  const decreasedStat =
-    teamStatLabels[member.natureDecreasedStat] ?? member.natureDecreasedStat;
-
-  return `+${increasedStat} · −${decreasedStat}`;
-};
-
 /*
  * Only a Pokémon still on the team or in reserve can be edited. One that
  * retired or was replaced is History's now: a link (the Collection's sheet)
@@ -81,14 +62,12 @@ export const canEditTeamMember = (member: MainlinePlayTeamMember) =>
   member.roster_state_slug === "active" ||
   member.roster_state_slug === "reserve";
 
-/* Under the name: who it is, its level, gender and where it sits (or that it left). */
-export const getTeamMemberMeta = (
-  member: MainlinePlayTeamMember,
-  mechanics: GameMechanicsProfile,
-): string => {
-  const gender = supportsGameMechanic(mechanics, gameMechanics.pokemonGender)
-    ? formatTeamMemberGender(member.gender)
-    : null;
+/*
+ * Under the name: who it is and its level, and that it sits in reserve or
+ * has left. Its gender follows as a symbol (`getTeamMemberGender`); its slot
+ * shows on the roster itself.
+ */
+export const getTeamMemberMeta = (member: MainlinePlayTeamMember): string => {
   const position =
     member.roster_state_slug === "reserve"
       ? "Reserve"
@@ -96,19 +75,28 @@ export const getTeamMemberMeta = (
         ? "Retired"
         : member.roster_state_slug === "replaced"
           ? "Replaced"
-          : member.slot
-            ? `Slot ${member.slot}`
-            : null;
+          : null;
 
   return [
     getTeamMemberIdentity(member),
     member.level ? `Lv. ${member.level}` : null,
-    gender,
     position,
   ]
     .filter(Boolean)
     .join(" · ");
 };
+
+/* Its recorded gender where the game has genders; null otherwise. */
+export const getTeamMemberGender = (
+  member: MainlinePlayTeamMember,
+  mechanics: GameMechanicsProfile,
+): "female" | "genderless" | "male" | null =>
+  supportsGameMechanic(mechanics, gameMechanics.pokemonGender) &&
+  (member.gender === "female" ||
+    member.gender === "genderless" ||
+    member.gender === "male")
+    ? member.gender
+    : null;
 
 const battleStatLabels: Record<BattleStatKey, string> = {
   attack: "Atk",
@@ -135,16 +123,20 @@ export const formatBattleStatChanges = (
 /* Moves a battle mechanic turns into others, each saying where it came from. */
 export const getBattleMoves = (moves: MemberBattleMove[]): TeamMove[] =>
   moves.map((move, index) => ({
+    category: null,
     detail: `From ${move.fromMoveName}`,
-    isStatus: false,
+    effect: null,
     name: move.move.name,
     position: index + 1,
     type: move.move.type,
   }));
 
 /*
- * Only what was recorded, and only what the game has. In a battle form the
- * ability is the form's own and its stat changes join the facts.
+ * Only what the game has, in the edit sheet's order: nature, ability, held
+ * item, Poké Ball and Tera Type, then where you met it and at what level
+ * ("Slumbering Weald at Lv. 5", `section: "met"`, a row of its own). Whether
+ * it can Gigantamax shows on the form menu, not here. In a battle form the ability is the form's
+ * own and its stat changes join the facts.
  */
 export const getTeamMemberFacts = (
   member: MainlinePlayTeamMember,
@@ -158,8 +150,12 @@ export const getTeamMemberFacts = (
     facts.push(
       member.nature_name
         ? {
-            detail: getTeamNatureEffectSummary(member),
+            detail: null,
             label: "Nature",
+            nature: {
+              decreased: member.natureDecreasedStat,
+              increased: member.natureIncreasedStat,
+            },
             value: member.nature_name,
           }
         : notRecorded("Nature"),
@@ -189,10 +185,30 @@ export const getTeamMemberFacts = (
   if (supportsGameMechanic(mechanics, gameMechanics.heldItems)) {
     facts.push(
       member.held_item_name
-        ? { detail: null, label: "Held item", value: member.held_item_name }
-        : notRecorded("Held item", "None"),
+        ? {
+            detail: null,
+            info: member.heldItemEffectSummary,
+            item: { kind: "held", slug: member.heldItemSlug },
+            label: "Held item",
+            value: member.held_item_name,
+          }
+        : {
+            ...notRecorded("Held item", "None"),
+            item: { kind: "held", slug: null },
+          },
     );
   }
+
+  facts.push(
+    member.ball_item_name
+      ? {
+          detail: null,
+          item: { kind: "ball", slug: member.ballItemSlug },
+          label: "Poké Ball",
+          value: member.ball_item_name,
+        }
+      : { ...notRecorded("Poké Ball"), item: { kind: "ball", slug: null } },
+  );
 
   if (supportsGameMechanic(mechanics, gameMechanics.terastal)) {
     facts.push(
@@ -214,22 +230,22 @@ export const getTeamMemberFacts = (
     facts.push({ detail: null, label: "Stat changes", value: statChanges });
   }
 
-  const metDetail =
-    [member.met_level ? `Lv. ${member.met_level}` : null, member.ball_item_name]
-      .filter(Boolean)
-      .join(" · ") || null;
+  const metLevel = member.met_level ? `Lv. ${member.met_level}` : null;
 
-  if (member.met_location_label) {
-    facts.push({
-      detail: metDetail,
-      label: "Met",
-      value: member.met_location_label,
-    });
-  } else if (metDetail) {
-    facts.push({ detail: null, label: "Met", value: metDetail });
-  } else {
-    facts.push(notRecorded("Met"));
-  }
+  facts.push(
+    member.met_location_label || metLevel
+      ? {
+          detail: null,
+          label: "Met location",
+          section: "met",
+          value: member.met_location_label
+            ? [member.met_location_label, metLevel ? `at ${metLevel}` : null]
+                .filter(Boolean)
+                .join(" ")
+            : `At ${metLevel}`,
+        }
+      : { ...notRecorded("Met location"), section: "met" },
+  );
 
   return facts;
 };
@@ -240,7 +256,8 @@ export const getTeamMoves = (moves: MainlinePlayTeamMove[]): TeamMove[] => {
     .filter((move) => move.name)
     .toSorted((left, right) => left.slot - right.slot)
     .map((move) => ({
-      isStatus: move.attributes?.damage_class === "status",
+      category: move.attributes?.damage_class ?? null,
+      effect: move.attributes?.effect_summary ?? null,
       name: move.name,
       position: move.slot,
       type: move.type,

@@ -1,3 +1,4 @@
+import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
 import type {
   PlannerCatalogueRows,
   PlannerPoolRows,
@@ -256,11 +257,25 @@ export const buildPlannerContext = ({
   });
 
   return {
+    abilityEffects: buildFields.ability
+      ? Object.fromEntries(
+          resolveAbilityEffects(
+            pool.abilityAttributes,
+            versionGroup.id,
+            catalogue.versionGroups,
+          ),
+        )
+      : {},
     buildFields,
     natures: buildFields.nature
       ? pool.natures
           .filter((nature) => nature.introduced_generation_id <= generationId)
-          .map((nature) => ({ id: nature.id, name: nature.name }))
+          .map((nature) => ({
+            decreased_stat: nature.decreased_stat,
+            id: nature.id,
+            increased_stat: nature.increased_stat,
+            name: nature.name,
+          }))
       : [],
     pokemon,
     sections,

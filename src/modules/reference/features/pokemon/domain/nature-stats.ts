@@ -1,0 +1,80 @@
+/* The stats a nature can raise or lower, as the natures table stores them. */
+export type NatureStat =
+  | "attack"
+  | "defense"
+  | "special_attack"
+  | "special_defense"
+  | "speed";
+
+/* Each stat as a list's short form ("SPA"), a panel's ("Sp. Atk") and in full. */
+const natureStats: Record<
+  NatureStat,
+  { abbreviation: string; label: string; name: string }
+> = {
+  attack: { abbreviation: "ATK", label: "Attack", name: "Attack" },
+  defense: { abbreviation: "DEF", label: "Defense", name: "Defense" },
+  special_attack: {
+    abbreviation: "SPA",
+    label: "Sp. Atk",
+    name: "Special Attack",
+  },
+  special_defense: {
+    abbreviation: "SPD",
+    label: "Sp. Def",
+    name: "Special Defense",
+  },
+  speed: { abbreviation: "SPE", label: "Speed", name: "Speed" },
+};
+
+const isNatureStat = (stat: string | null): stat is NatureStat =>
+  stat !== null && Object.hasOwn(natureStats, stat);
+
+export type NatureEffect =
+  | { kind: "neutral" }
+  | {
+      decreased: { abbreviation: string; label: string; name: string };
+      increased: { abbreviation: string; label: string; name: string };
+      kind: "stats";
+    };
+
+/*
+ * What a nature does to a Pokémon's stats: the one it raises and the one it
+ * lowers (as abbreviations, with their full names for a screen reader), or
+ * nothing at all for the five neutral natures (Hardy, Docile, Serious,
+ * Bashful and Quirky).
+ */
+export const getNatureEffect = (
+  increased: string | null,
+  decreased: string | null,
+): NatureEffect =>
+  isNatureStat(increased) && isNatureStat(decreased)
+    ? {
+        decreased: natureStats[decreased],
+        increased: natureStats[increased],
+        kind: "stats",
+      }
+    : { kind: "neutral" };
+
+/* The five stats in the order natures are grouped, with the neutral natures last. */
+const natureFocusOrder = [...Object.keys(natureStats), "neutral"] as const;
+
+export type NatureFocus = { label: string; order: number };
+
+/*
+ * What a nature is about, for grouping a list of them: the stat it raises
+ * ("Raises Attack": Lonely, Brave, Adamant, Naughty) or "Neutral" for the five
+ * that change nothing.
+ */
+export const getNatureFocus = (
+  increased: string | null,
+  decreased: string | null,
+): NatureFocus => {
+  const effect = getNatureEffect(increased, decreased);
+
+  return effect.kind === "stats" && isNatureStat(increased)
+    ? {
+        label: `Raises ${effect.increased.name}`,
+        order: natureFocusOrder.indexOf(increased),
+      }
+    : { label: "Neutral", order: natureFocusOrder.indexOf("neutral") };
+};

@@ -79,6 +79,8 @@
    * like the games' EXP bar; green stays for done ("Completed", "Found").
    */
   --progress: var(--calm);
+  /* The female symbol's pink (male wears the calm blue), 4.5:1 on white. */
+  --female: #c43d79;
   --ball: #d04c3c;
   /*
    * Your initial (the top bar, the You tab, your trainer card): yours, so it
@@ -257,6 +259,7 @@
   --color-calm-ink: var(--calm-ink);
   --color-calm-soft: var(--calm-soft);
   --color-progress: var(--progress);
+  --color-female: var(--female);
   --color-ball: var(--ball);
   --color-avatar: var(--avatar);
   --color-avatar-ink: var(--avatar-ink);

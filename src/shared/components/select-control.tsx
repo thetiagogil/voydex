@@ -2,13 +2,18 @@
 
 import { useState, type ComponentProps, type ReactNode } from "react";
 
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
+import { HoverInfo } from "@/shared/components/hover-info";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
 import {
   Combobox,
+  ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
+  ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
@@ -33,9 +38,23 @@ export type SelectControlOption = {
   description?: string;
   /* Shown but not pickable, such as a move the rules refuse. */
   disabled?: boolean;
+  /*
+   * The heading it sits under in a searchable list, such as an item's
+   * category. Groups show in the order their first option appears; options
+   * with none lead the list under no heading.
+   */
+  group?: string;
   /* A picture on the option's tile: an icon, a game or type mark. */
   icon?: ReactNode;
+  /*
+   * What the option is, behind an "i" beside its name in the list and beside
+   * the picked value in the field (an ability's effect). Read aloud with the
+   * option.
+   */
+  info?: string;
   label: string;
+  /* A short mark at the end of the row and beside the picked value, such as a nature's stats. */
+  trailing?: ReactNode;
   value: string;
 };
 
@@ -82,19 +101,56 @@ const normalizeSelectValue = (nextValue?: string) => {
   return nextValue ?? EMPTY_SELECT_VALUE;
 };
 
-/* Searching ignores case and accents, so "pokedex" finds "Pokédex". */
+type SelectControlGroup = { items: SelectControlOption[]; value: string };
+
+/*
+ * The options as the list's groups, in the order each group first appears.
+ * Options with no `group` come first under an unnamed one; with no groups at
+ * all there is nothing to draw.
+ */
+export const groupSelectOptions = (
+  options: readonly SelectControlOption[],
+): SelectControlGroup[] => {
+  if (!options.some((option) => option.group)) {
+    return [];
+  }
+
+  const groups = new Map<string, SelectControlOption[]>([["", []]]);
+
+  for (const option of options) {
+    const key = option.group ?? "";
+    const group = groups.get(key) ?? [];
+
+    group.push(option);
+    groups.set(key, group);
+  }
+
+  return [...groups]
+    .filter(([, items]) => items.length)
+    .map(([value, items]) => ({ items, value }));
+};
+
+/*
+ * Searching ignores case and accents, so "pokedex" finds "Pokédex", and it
+ * reads the group too, so "berries" lists every berry.
+ */
 const toSearchText = (text: string) =>
   text
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")
     .toLowerCase();
 
-const matchesQuery = (option: SelectControlOption, query: string) => {
+export const matchesSelectQuery = (
+  option: SelectControlOption,
+  query: string,
+) => {
   const needle = toSearchText(query.trim());
 
   return (
     !needle ||
-    toSearchText(`${option.label} ${option.description ?? ""}`).includes(needle)
+    toSearchText(
+      `${option.label} ${option.description ?? ""} ${option.group ?? ""}`,
+    ).includes(needle)
   );
 };
 
@@ -110,13 +166,18 @@ const SelectedOption = ({
   option: SelectControlOption;
   showIcon: boolean;
 }) => (
-  <span className="flex min-w-0 items-center gap-2">
+  <span className="flex w-full min-w-0 items-center gap-2">
     {showIcon && option.icon ? (
       <span aria-hidden className="flex shrink-0">
         {option.icon}
       </span>
     ) : null}
     <span className="truncate">{option.label}</span>
+    {option.trailing ? (
+      <span className="ml-auto flex shrink-0 items-center pl-2">
+        {option.trailing}
+      </span>
+    ) : null}
   </span>
 );
 
@@ -124,7 +185,26 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
   <MenuOptionContent
     description={option.description}
     leading={option.icon}
-    title={option.label}
+    title={
+      <>
+        {option.label}
+        {option.info ? <span className="sr-only">, {option.info}</span> : null}
+      </>
+    }
+    trailing={
+      option.trailing || option.info ? (
+        <span className="flex items-center gap-2.5">
+          {option.trailing}
+          {option.info ? (
+            <ExplanatoryTip
+              inert
+              content={option.info}
+              triggerVariant="subtle"
+            />
+          ) : null}
+        </span>
+      ) : undefined
+    }
   />
 );
 
@@ -132,11 +212,11 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
  * Every select in Voydex: a field (`default`) or a toolbar's quiet select
  * (`ghost`), with an optional word before the value. Its list is the one
  * picker look every popup shares: each option a 48px row with an optional
- * picture and description, the pick in the selected tint with a check. Long
+ * picture and description, the pick in the selected tint. Long
  * lists open with a search field at the top that matches the label and the
  * description.
  */
-export const SelectControl = ({
+const SelectControlField = ({
   ariaLabel,
   className,
   defaultValue,
@@ -154,7 +234,11 @@ export const SelectControl = ({
   triggerContent,
   value,
   variant,
-}: SelectControlProps) => {
+  triggerDescription,
+}: SelectControlProps & {
+  /* Read with the field and shown on hover, such as the picked ability's effect. */
+  triggerDescription?: string;
+}) => {
   const isControlled = value !== undefined;
   const normalizedDefaultValue = normalizeSelectValue(defaultValue);
   const [uncontrolledValue, setUncontrolledValue] = useState(
@@ -182,11 +266,12 @@ export const SelectControl = ({
 
   if (searchable) {
     const selectedOption = getOptionByValue(currentValue) ?? null;
+    const groups = groupSelectOptions(options);
 
     return (
       <Combobox
         disabled={disabled}
-        items={options as SelectControlOption[]}
+        items={groups.length ? groups : (options as SelectControlOption[])}
         value={selectedOption}
         onValueChange={(option: SelectControlOption | null) => {
           const nextValue = option?.value ?? EMPTY_SELECT_VALUE;
@@ -204,13 +289,14 @@ export const SelectControl = ({
           right: SelectControlOption,
         ) => left.value === right.value}
         filter={(option: SelectControlOption, query: string) =>
-          matchesQuery(option, query)
+          matchesSelectQuery(option, query)
         }
         autoHighlight
       >
         <ComboboxTrigger
           id={id}
           aria-label={ariaLabel}
+          aria-description={triggerDescription}
           data-changed={isChanged || undefined}
           data-size={size}
           className={cn(selectTriggerVariants({ variant }), className)}
@@ -250,15 +336,34 @@ export const SelectControl = ({
           />
           <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
           <ComboboxList>
-            {(option: SelectControlOption) => (
-              <ComboboxItem
-                key={option.value}
-                value={option}
-                disabled={option.disabled}
-              >
-                <OptionContent option={option} />
-              </ComboboxItem>
-            )}
+            {groups.length
+              ? (group: SelectControlGroup) => (
+                  <ComboboxGroup key={group.value} items={group.items}>
+                    {group.value ? (
+                      <ComboboxLabel>{group.value}</ComboboxLabel>
+                    ) : null}
+                    <ComboboxCollection>
+                      {(option: SelectControlOption) => (
+                        <ComboboxItem
+                          key={option.value}
+                          value={option}
+                          disabled={option.disabled}
+                        >
+                          <OptionContent option={option} />
+                        </ComboboxItem>
+                      )}
+                    </ComboboxCollection>
+                  </ComboboxGroup>
+                )
+              : (option: SelectControlOption) => (
+                  <ComboboxItem
+                    key={option.value}
+                    value={option}
+                    disabled={option.disabled}
+                  >
+                    <OptionContent option={option} />
+                  </ComboboxItem>
+                )}
           </ComboboxList>
         </ComboboxContent>
       </Combobox>
@@ -289,6 +394,7 @@ export const SelectControl = ({
       <SelectTrigger
         id={id}
         aria-label={ariaLabel}
+        aria-description={triggerDescription}
         className={className}
         data-changed={isChanged || undefined}
         size={size}
@@ -328,5 +434,27 @@ export const SelectControl = ({
         </SelectGroup>
       </SelectContent>
     </Select>
+  );
+};
+
+/*
+ * With options that carry `info`, the field shows the picked one's on hover
+ * and reads it with the field; the list marks each row with a faint "i".
+ */
+export const SelectControl = (props: SelectControlProps) => {
+  if (!props.options.some((option) => option.info)) {
+    return <SelectControlField {...props} />;
+  }
+
+  const picked = props.options.find((option) => option.value === props.value);
+
+  return (
+    <HoverInfo info={picked?.info}>
+      <SelectControlField
+        {...props}
+        className={cn("w-full", props.className)}
+        triggerDescription={picked?.info}
+      />
+    </HoverInfo>
   );
 };

@@ -2,18 +2,24 @@
 
 import { useRef } from "react";
 
+import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
+import { HoverInfo } from "@/shared/components/hover-info";
 import {
   Combobox,
+  ComboboxCollection,
   ComboboxContent,
   ComboboxEmpty,
+  ComboboxGroup,
   ComboboxInput,
   ComboboxItem,
+  ComboboxLabel,
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
@@ -21,6 +27,18 @@ import {
 export type MoveSlotOption = {
   /* Physical, Special or Status. */
   category?: string | null;
+  /* What the move does: a faint "i" in the list, and the field's hover. */
+  info?: string | null;
+  /*
+   * How the Pokémon learns it here: the list's group ("Level up", "TM"),
+   * the row's "Lv. 12" or "TM 08", and its place in the group.
+   */
+  learn?: {
+    detail: string;
+    label: string;
+    methodOrder: number;
+    order: number;
+  } | null;
   label: string;
   typeName?: string | null;
   typeSlug?: string | null;
@@ -28,6 +46,40 @@ export type MoveSlotOption = {
 };
 
 const emptyValue = "";
+
+/* Moves it knows that its learnset here doesn't list. */
+const otherGroup = "Others it knows";
+
+type MoveSlotGroup = { items: MoveSlotOption[]; value: string };
+
+/*
+ * The list as Codex groups a learnset: by how the move is learned, in the
+ * methods' order, each group in its own order (level, then machine number),
+ * then by name; the empty choice leads under no heading.
+ */
+export const groupMoveSlotOptions = (
+  empty: MoveSlotOption,
+  options: readonly MoveSlotOption[],
+): MoveSlotGroup[] => {
+  const groups = new Map<string, MoveSlotOption[]>();
+
+  for (const option of options.toSorted(
+    (left, right) =>
+      (left.learn?.methodOrder ?? Number.MAX_SAFE_INTEGER) -
+        (right.learn?.methodOrder ?? Number.MAX_SAFE_INTEGER) ||
+      (left.learn?.order ?? 0) - (right.learn?.order ?? 0) ||
+      left.label.localeCompare(right.label),
+  )) {
+    const key = option.learn?.label ?? otherGroup;
+
+    groups.set(key, [...(groups.get(key) ?? []), option]);
+  }
+
+  return [
+    { items: [empty], value: "" },
+    ...[...groups].map(([value, items]) => ({ items, value })),
+  ];
+};
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
@@ -47,7 +99,9 @@ const MoveType = ({ option }: { option: MoveSlotOption }) => {
 
 /*
  * v3 `.mvslot`: one of a Pokémon's four moves, tinted by the move's type,
- * with its slot number, type, name and category. It opens a searchable list;
+ * with its slot number, type icon and name, and its category's icon
+ * (Physical, Special or Status) at the end, all on one line. Its list groups the moves
+ * by how they are learned, as Codex does. It opens a searchable list;
  * the first entry leaves the slot empty. Shared by a Play's roster editor
  * and the Team Planner's slot sheet.
  */
@@ -67,13 +121,13 @@ export const MoveSlotSelect = ({
 }) => {
   const searchRef = useRef<HTMLInputElement>(null);
   const empty: MoveSlotOption = { label: emptyLabel, value: emptyValue };
-  const items = [empty, ...options];
+  const groups = groupMoveSlotOptions(empty, options);
   const selected = options.find((option) => option.value === value) ?? null;
   const type = toTypeSlug(selected?.typeSlug);
 
-  return (
+  const field = (
     <Combobox
-      items={items}
+      items={groups}
       value={selected ?? empty}
       onValueChange={(option: MoveSlotOption | null) =>
         onValueChange(option?.value ? option.value : null)
@@ -93,6 +147,7 @@ export const MoveSlotSelect = ({
     >
       <ComboboxTrigger
         aria-label={`Move ${slot}: ${selected?.label ?? emptyLabel}`}
+        aria-description={selected?.info ?? undefined}
         style={getPokemonTypeCssVariables(type)}
         className="text-14 focus-ring flex h-13 w-full min-w-0 items-center gap-2.5 rounded-md bg-[color-mix(in_oklab,var(--t)_12%,var(--surface-2))] px-3.5 text-left hover:bg-[color-mix(in_oklab,var(--t)_18%,var(--surface-2))]"
       >
@@ -103,51 +158,74 @@ export const MoveSlotSelect = ({
           <>
             <MoveType option={selected} />
             <b className="min-w-0 truncate font-extrabold">{selected.label}</b>
-            {selected.category ? (
-              <span className="text-ink-3 text-12 shrink-0 font-bold capitalize">
-                {selected.category}
-              </span>
-            ) : null}
+            <MoveCategoryIcon
+              damageClass={selected.category}
+              className="ml-auto"
+              tip={false}
+            />
           </>
         ) : (
           <span className="text-ink-3 min-w-0 truncate font-semibold">
             {emptyLabel}
           </span>
         )}
-        <span className="ml-auto" />
       </ComboboxTrigger>
       {/* The search sits in the list and takes focus as it opens. */}
-      <ComboboxContent className="min-w-64">
+      <ComboboxContent className="min-w-80">
         <ComboboxInput
           ref={searchRef}
           showTrigger={false}
           placeholder="Search moves"
         />
         <ComboboxEmpty>Nothing matches.</ComboboxEmpty>
-        <ComboboxList className="max-h-72">
-          {(option: MoveSlotOption) => (
-            <ComboboxItem key={option.value} value={option}>
-              {option.value === emptyValue ? (
-                <span className="text-ink-3 font-semibold">{option.label}</span>
-              ) : (
-                <>
-                  <MoveType option={option} />
-                  <span className="grid min-w-0">
-                    <span className="truncate">{option.label}</span>
-                    {option.category || option.typeName ? (
-                      <span className="text-ink-3 text-12 font-semibold">
-                        {[option.typeName, option.category]
-                          .filter(Boolean)
-                          .join(" · ")}
+        <ComboboxList className="max-h-96">
+          {(group: MoveSlotGroup) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              {group.value ? (
+                <ComboboxLabel>{group.value}</ComboboxLabel>
+              ) : null}
+              <ComboboxCollection>
+                {(option: MoveSlotOption) => (
+                  <ComboboxItem key={option.value} value={option}>
+                    {option.value === emptyValue ? (
+                      <span className="text-ink-3 font-semibold">
+                        {option.label}
                       </span>
-                    ) : null}
-                  </span>
-                </>
-              )}
-            </ComboboxItem>
+                    ) : (
+                      <>
+                        {/* How it's learned, as Codex's How column: "Lv. 12", "TM 08". */}
+                        {option.learn ? (
+                          <span className="text-ink-3 text-12 w-11 shrink-0 font-bold tabular-nums">
+                            {option.learn.detail}
+                          </span>
+                        ) : null}
+                        <MoveType option={option} />
+                        <span className="min-w-0 flex-1 truncate">
+                          {option.label}
+                        </span>
+                        <MoveCategoryIcon damageClass={option.category} />
+                        {option.info ? (
+                          <>
+                            <span className="sr-only">, {option.info}</span>
+                            <ExplanatoryTip
+                              inert
+                              content={option.info}
+                              triggerVariant="subtle"
+                            />
+                          </>
+                        ) : null}
+                      </>
+                    )}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+            </ComboboxGroup>
           )}
         </ComboboxList>
       </ComboboxContent>
     </Combobox>
   );
+
+  /* A picked move shows what it does on hover, as the ability field does. */
+  return <HoverInfo info={selected?.info}>{field}</HoverInfo>;
 };

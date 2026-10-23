@@ -33,9 +33,13 @@ export const menuOptionShapeClassName =
 /* One option's row. Items mark the highlighted and the picked option. */
 export const menuOptionClassName = `${menuOptionShapeClassName} relative w-full scroll-my-1.5 max-md:scroll-my-4 cursor-default pr-10 outline-hidden select-none transition-colors data-highlighted:bg-hover data-highlighted:text-ink data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0`;
 
-/* The picked option, where the item marks it with `data-selected`. */
+/*
+ * The picked option, where the item marks it with `data-selected`: the soft
+ * tint with an action-red edge inside it, so the pick has a shape and not
+ * only a colour (a select shows no check).
+ */
 export const menuOptionSelectedClassName =
-  "data-selected:bg-select-soft data-selected:text-select-ink data-selected:data-highlighted:bg-select-soft data-selected:data-highlighted:text-select-ink";
+  "data-selected:bg-select-soft data-selected:text-select-ink data-selected:shadow-[inset_0_0_0_1.5px_var(--action)] data-selected:data-highlighted:bg-select-soft data-selected:data-highlighted:text-select-ink";
 
 /* Where the check sits at the end of the picked option's row. */
 export const menuCheckClassName =

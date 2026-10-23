@@ -1,5 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
+import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
@@ -115,12 +116,34 @@ test.describe("Battle forms", () => {
 
     await page.getByRole("button", { name: "Edit Charizard" }).click();
     const editor = page.getByRole("dialog", { name: "Charizard" });
-    const factor = editor.getByRole("switch", { name: "Gigantamax Factor" });
+    const canGigantamax = editor.getByRole("checkbox", {
+      name: "Can Gigantamax",
+    });
 
-    await expect(factor).toBeVisible(forTheAnswer);
-    await factor.click();
+    await expect(canGigantamax).toBeVisible(forTheAnswer);
+    /* Only the items Sword has: no Gen II Berry, no Mega Stones. */
+    await editor.getByRole("combobox", { name: "Held item" }).click();
+    const search = page.getByRole("combobox", { name: "Search held item" });
+    await search.fill("Berry (Gen II)");
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await search.fill("mega stones");
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await search.fill("leftovers");
+    await expect(page.getByRole("option", { name: "Leftovers" })).toBeVisible();
+    await page.keyboard.press("Escape");
+    /* And only Sword's own Poké Balls: no Hisuian Feather Ball. */
+    await editor.getByRole("combobox", { name: "Poké Ball" }).click();
+    const ballSearch = page.getByRole("combobox", { name: "Search poké ball" });
+    await ballSearch.fill("feather");
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await ballSearch.fill("dream");
+    await expect(
+      page.getByRole("option", { name: "Dream Ball" }),
+    ).toBeVisible();
+    await page.keyboard.press("Escape");
+    await canGigantamax.click();
     const saved = waitForAction(page);
-    await editor.getByRole("button", { name: "Save Charizard" }).click();
+    await editor.getByRole("button", { name: "Save", exact: true }).click();
     await saved;
     await expect(editor).toBeHidden(forTheAnswer);
 
@@ -144,10 +167,43 @@ test.describe("Battle forms", () => {
     await page.getByRole("button", { name: "Edit Fuecoco" }).click();
     const editor = page.getByRole("dialog", { name: "Fuecoco" });
 
+    /* Each ability has an "i" with what it does, read aloud with it. */
+    await editor.getByRole("combobox", { name: "Ability" }).click();
+    const blaze = page.getByRole("option", {
+      name: /Blaze.*Powers up Fire-type moves/,
+    });
+    await expect(blaze).toBeVisible();
+    await expectAccessible(page);
+    await blaze.click();
+    /* The field reads what the picked one does, and shows it on hover. */
+    const abilityField = editor.getByRole("combobox", { name: "Ability" });
+    await expect(abilityField).toHaveAccessibleDescription(
+      /Powers up Fire-type moves/,
+    );
+    await abilityField.hover();
+    await expect(page.locator('[data-slot="tooltip-content"]')).toContainText(
+      "Powers up Fire-type moves",
+    );
+    /* Every nature says what it does, the neutral ones too. */
+    await editor.getByRole("combobox", { name: "Nature" }).click();
+    await expect(
+      page.getByRole("option", { name: /Hardy.*Neutral/ }),
+    ).toBeVisible();
+    await page
+      .getByRole("option", {
+        name: /Adamant.*Raises Attack, lowers Special Attack/,
+      })
+      .click();
     await editor.getByRole("combobox", { name: "Tera Type" }).click();
     await page.getByRole("option", { name: "Ghost", exact: true }).click();
+    /* A long list, so it opens with a search field. */
+    await editor.getByRole("combobox", { name: "Held item" }).click();
+    await page
+      .getByRole("combobox", { name: "Search held item" })
+      .fill("Leftovers");
+    await page.getByRole("option", { name: "Leftovers" }).click();
     const saved = waitForAction(page);
-    await editor.getByRole("button", { name: "Save Fuecoco" }).click();
+    await editor.getByRole("button", { name: "Save", exact: true }).click();
     await saved;
     await expect(editor).toBeHidden(forTheAnswer);
 
@@ -155,6 +211,8 @@ test.describe("Battle forms", () => {
 
     await expect(profile).toContainText("Tera Type");
     await expect(profile).toContainText("Ghost");
+    await expect(profile).toContainText("Leftovers");
+    await expect(profile).toContainText("Adamant");
     /* Scarlet has no battle forms to switch to. */
     await expect(
       profile.getByRole("combobox", { name: "Battle form" }),

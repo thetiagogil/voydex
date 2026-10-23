@@ -59,8 +59,8 @@ type MainlinePlayTeamRosterProps = {
  * team and the Reserve as stickers, and the selected Pokémon's profile
  * beside them (a bottom sheet on phones and tablets). Edit opens the
  * editor; Add Pokémon and Replace share one species picker. A Pokémon moves
- * by dragging it onto another slot or from the editor's Where, and the
- * roster redraws at once while the move saves.
+ * by dragging it onto another slot (at once) or from the editor's Slot (on
+ * Save), and the roster redraws at once while the move saves.
  */
 export const MainlinePlayTeamRoster = ({
   addRequest = null,
@@ -148,7 +148,7 @@ export const MainlinePlayTeamRoster = ({
     });
   };
 
-  /* A drop or the editor's Where; the toast's Undo moves it back. */
+  /* A drop, or the editor's Slot once saved; the toast's Undo moves it back. */
   const moveMember = (playPokemonId: string, toSlot: number) => {
     const member = roster.find(
       (candidate) => candidate.play_pokemon_id === playPokemonId,
@@ -261,7 +261,6 @@ export const MainlinePlayTeamRoster = ({
               (form) => form.mechanic === battleFormMechanics.dynamax,
             ) ?? false
           }
-          isMoving={isMoving}
           mechanics={mechanics}
           member={selectedMember}
           onMove={moveMember}

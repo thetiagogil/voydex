@@ -1,4 +1,8 @@
 import { getGameShortName } from "@/modules/reference/features/games/utils/game-display";
+import {
+  formatLearnMethodDetail,
+  getLearnMethodLabel,
+} from "@/modules/reference/features/pokemon/domain/learn-methods";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
 
 export const POKEMON_DETAIL_LEARNSET_ALL_METHODS = "all";
@@ -13,30 +17,9 @@ export type PokemonDetailLearnsetMethodOption = {
   value: PokemonDetailLearnsetMethodFilter;
 };
 
-/* Learned on evolving: "Evo." in the How column, as learnset tables write it. */
-const POKEMON_DETAIL_LEARNSET_EVOLUTION_LABEL = "Evo.";
-
-const pokemonDetailLearnsetFilterLabels = {
-  egg: "Egg",
-  hm: "HM",
-  level_up: "Level up",
-  tm: "TM",
-  tutor: "Tutor",
-} as const;
-
 const getPokemonDetailLearnsetFilterLabel = (
   learnset: PokemonLearnsetSummary,
-) => {
-  const methodSlug = learnset.method?.slug;
-
-  if (methodSlug && methodSlug in pokemonDetailLearnsetFilterLabels) {
-    return pokemonDetailLearnsetFilterLabels[
-      methodSlug as keyof typeof pokemonDetailLearnsetFilterLabels
-    ];
-  }
-
-  return learnset.method?.name ?? "Unknown";
-};
+) => getLearnMethodLabel(learnset.method?.slug, learnset.method?.name);
 
 const normalizeSearchValue = (value: string) => {
   return value.trim().toLowerCase();
@@ -162,49 +145,19 @@ export const formatPokemonDetailLearnsetValue = (
   return value === null || value === undefined ? null : `${value}${suffix}`;
 };
 
-export const formatPokemonDetailLearnsetDamageClass = (
-  damageClass?: string | null,
-) => {
-  if (!damageClass) {
-    return null;
-  }
-
-  return damageClass
-    .split("-")
-    .map((word) => {
-      return word.slice(0, 1).toUpperCase() + word.slice(1);
-    })
-    .join(" ");
-};
-
 /*
  * How the move is learned, as v3 writes it: "Lv. 12", "TM 08", "Egg". The
  * words stay short so they fit v3's How gutter on phones.
  */
 export const getPokemonDetailLearnsetMethodDetail = (
   learnset: PokemonLearnsetSummary,
-) => {
-  if (
-    learnset.method?.slug === "level_up" &&
-    learnset.learnset.level_learned_at !== null
-  ) {
-    return learnset.learnset.level_learned_at === 0
-      ? POKEMON_DETAIL_LEARNSET_EVOLUTION_LABEL
-      : `Lv. ${learnset.learnset.level_learned_at}`;
-  }
-
-  const machineLabel = learnset.learnset.machine_label
-    ?.replace(/\s+/g, "")
-    .replace(/^([A-Z]+)(\d)/, "$1 $2");
-
-  if (machineLabel) {
-    return machineLabel;
-  }
-
-  return learnset.method?.slug === "evolution"
-    ? POKEMON_DETAIL_LEARNSET_EVOLUTION_LABEL
-    : getPokemonDetailLearnsetFilterLabel(learnset);
-};
+) =>
+  formatLearnMethodDetail({
+    level: learnset.learnset.level_learned_at,
+    machineLabel: learnset.learnset.machine_label,
+    name: learnset.method?.name,
+    slug: learnset.method?.slug,
+  });
 
 /*
  * What narrows a move inside the group: the expansion that added it, or the

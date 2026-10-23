@@ -21,15 +21,16 @@ import {
   type ShownPlanSlot,
 } from "@/modules/mainline/features/plans/planner/utils/plan-shown-slot";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { toNatureOptions } from "@/modules/reference/features/pokemon/components/nature-options";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { SlotPicker } from "@/shared/components/slot-picker";
 import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Textarea } from "@/shared/components/ui/textarea";
-import { FallbackImage } from "@/shared/components/fallback-image";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -39,13 +40,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog";
-import { cn } from "@/shared/utils/cn";
 
 type PlannerSlotSheetProps = {
+  /* What each ability does in the version group, by its id. */
+  abilityEffects: Record<number, string>;
   buildFields: PlannerBuildFields;
   byId: Map<number, PlannerPokemon>;
   index: number | null;
-  natures: { id: number; name: string }[];
+  natures: {
+    decreased_stat: string | null;
+    id: number;
+    increased_stat: string | null;
+    name: string;
+  }[];
   onClose: () => void;
   onMove: (from: number, to: number) => void;
   onRemove: (index: number) => void;
@@ -77,6 +84,7 @@ const anyValue = "";
  * first. On a locked Plan it reads, with Unlock to edit in Save's place.
  */
 export const PlannerSlotSheet = ({
+  abilityEffects,
   buildFields,
   byId,
   index,
@@ -250,57 +258,36 @@ export const PlannerSlotSheet = ({
       <fieldset disabled={readOnly} className="m-0 min-w-0 border-0 p-0">
         <div className="grid gap-6">
           <SheetSection title="Slot" aside="Where it sits in the team">
-            <div
-              role="group"
-              aria-label="Move to slot"
-              className="grid grid-cols-6 gap-1.5"
-            >
-              {slots.map((other, otherIndex) => {
-                const isHere = otherIndex === targetSlot;
-                /* Every slot shows who sits in it, this one included. */
-                const slotPokemon = other
-                  ? byId.get(other.speciesId)
-                  : undefined;
-                const otherPokemon = isHere ? undefined : slotPokemon;
+            <SlotPicker
+              ariaLabel="Move to slot"
+              selected={targetSlot}
+              onPick={setDraftSlot}
+              groups={[
+                {
+                  slots: slots.map((other, otherIndex) => {
+                    const isHere = otherIndex === targetSlot;
+                    /* Every slot shows who sits in it, this one included. */
+                    const slotPokemon = other
+                      ? byId.get(other.speciesId)
+                      : undefined;
+                    const otherPokemon = isHere ? undefined : slotPokemon;
 
-                return (
-                  <button
-                    key={otherIndex}
-                    type="button"
-                    aria-pressed={isHere}
-                    aria-label={
-                      isHere
+                    return {
+                      image: slotPokemon
+                        ? { name: slotPokemon.name, url: slotPokemon.imageUrl }
+                        : null,
+                      label: isHere
                         ? `Slot ${otherIndex + 1}`
                         : otherPokemon
                           ? `Move to slot ${otherIndex + 1}, swapping with ${otherPokemon.name}`
-                          : `Move to slot ${otherIndex + 1}`
-                    }
-                    onClick={() => setDraftSlot(otherIndex)}
-                    className={cn(
-                      "text-13 focus-ring flex h-15 flex-col items-center justify-center gap-0.5 rounded-md font-extrabold tabular-nums",
-                      isHere
-                        ? "bg-select-soft text-select-ink"
-                        : "bg-surface-2 text-ink-2 hover:bg-hover",
-                    )}
-                  >
-                    {slotPokemon ? (
-                      <FallbackImage
-                        src={slotPokemon.imageUrl}
-                        name={slotPokemon.name}
-                        className="size-8"
-                      />
-                    ) : (
-                      /* An open slot keeps the art's place, so numbers line up. */
-                      <span
-                        aria-hidden
-                        className="empty-slot size-7 rounded-full [border-width:2px]"
-                      />
-                    )}
-                    <span>{otherIndex + 1}</span>
-                  </button>
-                );
-              })}
-            </div>
+                          : `Move to slot ${otherIndex + 1}`,
+                      mark: String(otherIndex + 1),
+                      value: otherIndex,
+                    };
+                  }),
+                },
+              ]}
+            />
           </SheetSection>
 
           <SheetSection title="Note" aside="Its role, or why this one">
@@ -339,6 +326,7 @@ export const PlannerSlotSheet = ({
                       options={[
                         { label: "Any", value: anyValue },
                         ...pokemon.abilities.map((ability) => ({
+                          info: abilityEffects[ability.id],
                           label: ability.hidden
                             ? `${ability.name} (hidden)`
                             : ability.name,
@@ -363,10 +351,14 @@ export const PlannerSlotSheet = ({
                       }
                       options={[
                         { label: "Any", value: anyValue },
-                        ...natures.map((nature) => ({
-                          label: nature.name,
-                          value: String(nature.id),
-                        })),
+                        ...toNatureOptions(
+                          natures.map((nature) => ({
+                            decreased: nature.decreased_stat,
+                            id: nature.id,
+                            increased: nature.increased_stat,
+                            name: nature.name,
+                          })),
+                        ),
                       ]}
                     />
                   </Field>

@@ -143,13 +143,17 @@ species and form). Pick a species of the Play's Pokédexes (base game and the
 expansions it tracks) by name or number, then its nickname, level and team
 or reserve; the server takes the first open slot, the moment joins History
 and the toast offers Undo, which deletes the Pokémon and that moment
-together. **Edit Pokémon** is the same kind of sheet: Who,
-Where, Build and Met, then Review changes before Save, offering only what the
-game records. Evolve and Change form record their moment; Replace (picking
+together. **Edit Pokémon** is the same kind of sheet: Who, Forms (shiny, can Gigantamax), Slot,
+Details (nature, ability, held item, Poké Ball, and where and at what level it
+was met; held items are only the holdable items the Play's exact game has,
+grouped by category), Moves and Notes, then Review changes before Save, offering only what
+the game records. Evolve and Change form record their moment; Replace (picking
 the incoming Pokémon in the Add sheet), Retire and Delete record act from its
-head. Where moves it straight away to another team or reserve slot, swapping
-with the Pokémon there; dragging a roster sticker onto another slot does the
-same, and the roster redraws at once while the move saves.
+head. Slot shows the twelve slots as squares; picking one previews the team
+after the move (the picked slot in red, the place it leaves in blue, a taken
+slot swapping), and Save applies it after the other changes. Dragging a
+roster sticker onto another slot moves it at once, and the roster redraws
+while the move saves.
 
 Team Analysis is the Team-owned review view. Its final metrics, calculation
 strategy and evidence disclosure are deliberately deferred until the product

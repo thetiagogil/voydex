@@ -198,4 +198,34 @@ describe("buildMainlinePlayTeamPreview", () => {
       natureIncreasedStat: "speed",
     });
   });
+
+  it("gives the held item and a valid Poké Ball their slugs, for sprites", () => {
+    const member = {
+      ball_item_id: 4,
+      ball_item_name: "Poké Ball",
+      form_id: null,
+      held_item_id: 234,
+      held_item_name: "Leftovers",
+      moves: [],
+    } as unknown as MainlinePlayTeamMemberRow;
+    const rows = {
+      abilityAttributes: [],
+      attributes: [],
+      itemSlugs: { 4: "poke-ball", 234: "leftovers" },
+      members: [member],
+      moveAttributes: [],
+      natures: [],
+      types: [],
+      versionGroupId: null,
+      versionGroups: [],
+    };
+
+    expect(
+      buildMainlinePlayTeamPreview({ ...rows, validBallItemIds: [4] })[0],
+    ).toMatchObject({ ballItemSlug: "poke-ball", heldItemSlug: "leftovers" });
+    // A ball the game doesn't have shows no ball at all.
+    expect(
+      buildMainlinePlayTeamPreview({ ...rows, validBallItemIds: [] })[0],
+    ).toMatchObject({ ballItemSlug: null, heldItemSlug: "leftovers" });
+  });
 });

@@ -1,3 +1,4 @@
+import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
 import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
 import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
@@ -10,14 +11,13 @@ import {
   getLearnableMoveIds,
   readFormLearnsetRows,
   readHeldItemOptions,
+  readPokeBallOptions,
   readMoveOptions,
 } from "@/modules/mainline/shared/server/build-option-readers";
-import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type {
   EditorFormOption,
-  EditorOption,
   TeamMemberEditorOptions,
 } from "../utils/team-member-editor-model";
 
@@ -53,7 +53,6 @@ export const readTeamMemberEditorOptions = async (
   const [
     attributesResult,
     naturesResult,
-    ballCategoryResult,
     learnsets,
     edgesResult,
     speciesFormsResult,
@@ -77,12 +76,6 @@ export const readTeamMemberEditorOptions = async (
           .lte("introduced_generation_id", generationId)
           .order("name", { ascending: true })
       : null,
-    supabase
-      .schema("reference")
-      .from("item_categories")
-      .select("id")
-      .eq("slug", "poke_ball")
-      .maybeSingle(),
     readFormLearnsetRows(supabase, { formId, versionGroupId }),
     supabase
       .schema("reference")
@@ -104,27 +97,29 @@ export const readTeamMemberEditorOptions = async (
           .select("id, name, introduced_version_group_id")
           .order("sort_order", { ascending: true })
       : null,
-    hasTerastal
-      ? supabase
-          .schema("gameplay")
-          .from("mainline_play_optional_content_scopes")
-          .select("version_group_id")
-          .eq("play_id", playId)
-      : null,
+    /* The add-ons the Play includes: their items, balls and Stellar. */
+    supabase
+      .schema("gameplay")
+      .from("mainline_play_optional_content_scopes")
+      .select("version_group_id")
+      .eq("play_id", playId),
   ]);
 
   if (
     attributesResult.error ||
     naturesResult?.error ||
-    ballCategoryResult.error ||
     edgesResult.error ||
     speciesFormsResult.error ||
     teraTypesResult?.error ||
-    contentScopesResult?.error
+    contentScopesResult.error
   ) {
     throw new Error("Unable to load what this Pokémon can record.");
   }
 
+  const playVersionGroupIds = [
+    versionGroupId,
+    ...(contentScopesResult.data ?? []).map((scope) => scope.version_group_id),
+  ];
   const attribute = newestFirst(attributesResult.data ?? [])[0];
   const abilityIds =
     hasAbilities && attribute
@@ -151,6 +146,8 @@ export const readTeamMemberEditorOptions = async (
 
   const [
     abilitiesResult,
+    abilityAttributesResult,
+    versionGroupsResult,
     balls,
     heldItems,
     moves,
@@ -164,22 +161,34 @@ export const readTeamMemberEditorOptions = async (
           .select("id, name")
           .in("id", abilityIds)
       : null,
-    ballCategoryResult.data
-      ? loadPagedReferenceRows<EditorOption>(
-          (from, to) =>
-            supabase
-              .schema("reference")
-              .from("items")
-              .select("id, name")
-              .eq("primary_category_id", ballCategoryResult.data?.id ?? -1)
-              .lte("introduced_generation_id", generationId)
-              .order("name", { ascending: true })
-              .range(from, to),
-          "Unable to load Poké Balls.",
-        )
+    abilityIds.length
+      ? supabase
+          .schema("reference")
+          .from("ability_attributes")
+          .select("ability_id, version_group_start_id, effect_summary")
+          .in("ability_id", abilityIds)
+      : null,
+    abilityIds.length
+      ? supabase
+          .schema("reference")
+          .from("version_groups")
+          .select("id, sort_order")
+      : null,
+    readPokeBallOptions(supabase, {
+      gameIds: [gameId],
+      versionGroupIds: playVersionGroupIds,
+    }),
+    hasHeldItems
+      ? readHeldItemOptions(supabase, {
+          gameIds: [gameId],
+          versionGroupIds: playVersionGroupIds,
+        })
       : [],
-    hasHeldItems ? readHeldItemOptions(supabase, generationId) : [],
-    readMoveOptions(supabase, { generationId, moveIds }),
+    readMoveOptions(supabase, {
+      generationId,
+      learnedBy: { formId, gameIds: [gameId], versionGroupId },
+      moveIds,
+    }),
     targetFormIds.length
       ? supabase
           .schema("reference")
@@ -199,6 +208,8 @@ export const readTeamMemberEditorOptions = async (
 
   if (
     abilitiesResult?.error ||
+    abilityAttributesResult?.error ||
+    versionGroupsResult?.error ||
     targetFormsResult?.error ||
     targetAttributesResult?.error
   ) {
@@ -225,11 +236,18 @@ export const readTeamMemberEditorOptions = async (
   const abilityById = new Map(
     (abilitiesResult?.data ?? []).map((ability) => [ability.id, ability]),
   );
+  const abilityEffects = resolveAbilityEffects(
+    abilityAttributesResult?.data ?? [],
+    versionGroupId,
+    versionGroupsResult?.data ?? [],
+  );
 
   return {
     abilities: abilityIds.flatMap((id) => {
       const ability = abilityById.get(id);
-      return ability ? [ability] : [];
+      return ability
+        ? [{ ...ability, effect: abilityEffects.get(id) ?? null }]
+        : [];
     }),
     balls,
     evolutions: edges.flatMap((edge) => {
@@ -252,7 +270,7 @@ export const readTeamMemberEditorOptions = async (
       .filter(
         (teraType) =>
           teraType.introduced_version_group_id === versionGroupId ||
-          (contentScopesResult?.data ?? []).some(
+          (contentScopesResult.data ?? []).some(
             (scope) =>
               scope.version_group_id === teraType.introduced_version_group_id,
           ),

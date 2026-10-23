@@ -1,6 +1,10 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
+import type { SlotPickerGroup } from "@/shared/components/slot-picker";
 
 /* Stored roster slots: 1 to 6 on the team, 7 to 12 (R1 to R6) in reserve. */
 export const rosterSlots = Array.from(
@@ -11,6 +15,10 @@ export const rosterSlots = Array.from(
 export const isTeamSlot = (slot: number) => slot <= playTeamSize;
 
 export const teamNeedsOneMessage = "Your team needs at least one Pokémon.";
+
+/* A slot's short mark: "3" on the team, "R3" in the reserve. */
+export const formatRosterMark = (slot: number) =>
+  isTeamSlot(slot) ? String(slot) : `R${slot - playTeamSize}`;
 
 /* A slot as people read it: "Team slot 2" or "Reserve R3". */
 export const formatRosterSlot = (slot: number) =>
@@ -120,3 +128,68 @@ export const describeRosterMove = (
   move.kind === "swap"
     ? `${getPlayTeamMemberName(member)} swapped with ${getPlayTeamMemberName(move.with)}`
     : `${getPlayTeamMemberName(member)} moved to ${formatRosterSlot(move.toSlot)}`;
+
+/*
+ * The twelve slots as a Pokémon sees them for the editor's slot picker: the
+ * team, then the reserve, each showing who sits there and what picking it
+ * does (a move, a swap, or why it can't). With a `draftSlot` picked, the
+ * slots show the team as it would look after the move: the Pokémon at the
+ * slot it goes to (`to`) and whoever it swaps with, or an open slot, where
+ * it was (`from`).
+ */
+export const getRosterSlotGroups = (
+  roster: readonly MainlinePlayTeamMember[],
+  playPokemonId: string,
+  draftSlot?: number,
+): SlotPickerGroup[] => {
+  const member = roster.find(
+    (candidate) => candidate.play_pokemon_id === playPokemonId,
+  );
+  const fromSlot = member?.slot ?? null;
+  const isPreview =
+    draftSlot !== undefined &&
+    fromSlot !== null &&
+    draftSlot !== fromSlot &&
+    getRosterMove(roster, playPokemonId, draftSlot).kind !== "blocked";
+  const shown = isPreview
+    ? applyRosterMove(roster, playPokemonId, draftSlot)
+    : roster;
+
+  return [
+    { label: "Team", slots: rosterSlots.filter(isTeamSlot) },
+    {
+      label: "Reserve",
+      slots: rosterSlots.filter((slot) => !isTeamSlot(slot)),
+    },
+  ].map(({ label, slots }) => ({
+    label,
+    slots: slots.map((slot) => {
+      const move = getRosterMove(roster, playPokemonId, slot);
+      const occupant = shown.find(
+        (candidate) => isCurrent(candidate) && candidate.slot === slot,
+      );
+      const where = formatRosterSlot(slot);
+
+      return {
+        disabledReason: move.kind === "blocked" ? move.reason : undefined,
+        image: occupant
+          ? {
+              name: getPlayTeamMemberName(occupant),
+              url: getPlayTeamMemberImageUrl(occupant),
+            }
+          : null,
+        label:
+          move.kind === "stay"
+            ? `${where}, here now`
+            : move.kind === "swap"
+              ? `Move to ${where}, swapping with ${getPlayTeamMemberName(move.with)}`
+              : move.kind === "blocked"
+                ? `Move to ${where}, ${move.reason}`
+                : `Move to ${where}`,
+        mark: formatRosterMark(slot),
+        tone: isPreview && slot === fromSlot ? ("from" as const) : undefined,
+        value: slot,
+      };
+    }),
+  }));
+};

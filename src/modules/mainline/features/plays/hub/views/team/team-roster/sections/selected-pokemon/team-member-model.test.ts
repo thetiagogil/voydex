@@ -10,9 +10,9 @@ import type { MemberBattleForm } from "@/modules/reference/features/pokemon/data
 import {
   canEditTeamMember,
   getTeamMemberFacts,
+  getTeamMemberGender,
   getTeamMemberMeta,
   getTeamMoves,
-  getTeamNatureEffectSummary,
 } from "./team-member-model";
 
 const modernGame = resolveGameMechanics({
@@ -40,9 +40,12 @@ const buddy = {
   abilityEffectSummary: "Powers up Grass-type moves when HP is low.",
   ability_name: "Overgrow",
   ball_item_name: "Poké Ball",
+  ballItemSlug: "poke-ball",
   form_name: "Rillaboom",
   gender: "male",
   held_item_name: "Miracle Seed",
+  heldItemEffectSummary: null,
+  heldItemSlug: "miracle-seed",
   is_default_form: true,
   level: 48,
   met_level: 5,
@@ -56,71 +59,40 @@ const buddy = {
   species_name: "Rillaboom",
 } as MainlinePlayTeamMember;
 
-describe("getTeamNatureEffectSummary", () => {
-  it("formats raised and lowered stats without relying on color", () => {
-    expect(
-      getTeamNatureEffectSummary({
-        natureDecreasedStat: "special_defense",
-        natureIncreasedStat: "speed",
-        nature_name: "Naive",
-      } as MainlinePlayTeamMember),
-    ).toBe("+Speed · −Sp. Def");
-  });
-
-  it("describes neutral natures and omits an unrecorded nature", () => {
-    expect(
-      getTeamNatureEffectSummary({
-        natureDecreasedStat: null,
-        natureIncreasedStat: null,
-        nature_name: "Serious",
-      } as MainlinePlayTeamMember),
-    ).toBe("No stat changes");
-    expect(
-      getTeamNatureEffectSummary({
-        nature_name: null,
-      } as MainlinePlayTeamMember),
-    ).toBeNull();
-  });
-});
-
 describe("getTeamMemberMeta", () => {
-  it("reads species, level, gender and position", () => {
-    expect(getTeamMemberMeta(buddy, modernGame)).toBe(
-      "Rillaboom · Lv. 48 · Male · Slot 1",
-    );
+  it("reads species and level, with no slot number", () => {
+    expect(getTeamMemberMeta(buddy)).toBe("Rillaboom · Lv. 48");
     expect(
-      getTeamMemberMeta(
-        {
-          ...buddy,
-          gender: "unknown",
-          nickname: null,
-          roster_state_slug: "reserve",
-          slot: 8,
-        },
-        modernGame,
-      ),
+      getTeamMemberMeta({
+        ...buddy,
+        nickname: null,
+        roster_state_slug: "reserve",
+        slot: 8,
+      }),
     ).toBe("Lv. 48 · Reserve");
   });
 
   it("says when a Pokémon has left the roster", () => {
     expect(
-      getTeamMemberMeta(
-        { ...buddy, roster_state_slug: "retired", slot: null },
-        modernGame,
-      ),
-    ).toBe("Rillaboom · Lv. 48 · Male · Retired");
+      getTeamMemberMeta({ ...buddy, roster_state_slug: "retired", slot: null }),
+    ).toBe("Rillaboom · Lv. 48 · Retired");
     expect(
-      getTeamMemberMeta(
-        { ...buddy, roster_state_slug: "replaced", slot: null },
-        modernGame,
-      ),
-    ).toBe("Rillaboom · Lv. 48 · Male · Replaced");
+      getTeamMemberMeta({
+        ...buddy,
+        roster_state_slug: "replaced",
+        slot: null,
+      }),
+    ).toBe("Rillaboom · Lv. 48 · Replaced");
   });
+});
 
-  it("leaves gender out of games without it", () => {
-    expect(getTeamMemberMeta(buddy, firstGenerationGame)).toBe(
-      "Rillaboom · Lv. 48 · Slot 1",
-    );
+describe("getTeamMemberGender", () => {
+  it("gives the recorded gender where the game has genders", () => {
+    expect(getTeamMemberGender(buddy, modernGame)).toBe("male");
+    expect(
+      getTeamMemberGender({ ...buddy, gender: "unknown" }, modernGame),
+    ).toBe(null);
+    expect(getTeamMemberGender(buddy, firstGenerationGame)).toBeNull();
   });
 });
 
@@ -140,31 +112,59 @@ describe("canEditTeamMember", () => {
 });
 
 describe("getTeamMemberFacts", () => {
-  it("lists the facts the game supports", () => {
+  it("lists the facts the game supports, in the edit sheet's order", () => {
     expect(getTeamMemberFacts(buddy, modernGame)).toEqual([
-      { detail: "+Attack · −Sp. Atk", label: "Nature", value: "Adamant" },
+      {
+        detail: null,
+        label: "Nature",
+        nature: { decreased: "special_attack", increased: "attack" },
+        value: "Adamant",
+      },
       {
         detail: "Powers up Grass-type moves when HP is low.",
         label: "Ability",
         value: "Overgrow",
       },
-      { detail: null, label: "Held item", value: "Miracle Seed" },
       {
-        detail: "Lv. 5 · Poké Ball",
-        label: "Met",
-        value: "Slumbering Weald",
+        detail: null,
+        info: null,
+        item: { kind: "held", slug: "miracle-seed" },
+        label: "Held item",
+        value: "Miracle Seed",
+      },
+      {
+        detail: null,
+        item: { kind: "ball", slug: "poke-ball" },
+        label: "Poké Ball",
+        value: "Poké Ball",
+      },
+      {
+        detail: null,
+        label: "Met location",
+        section: "met",
+        value: "Slumbering Weald at Lv. 5",
       },
     ]);
-    expect(getTeamMemberFacts(buddy, firstGenerationGame)).toEqual([
-      {
-        detail: "Lv. 5 · Poké Ball",
-        label: "Met",
-        value: "Slumbering Weald",
-      },
-    ]);
+    expect(
+      getTeamMemberFacts(buddy, firstGenerationGame).map(({ label }) => label),
+    ).toEqual(["Poké Ball", "Met location"]);
   });
 
-  it("keeps the met level and ball when the location is missing", () => {
+  it("leaves Can Gigantamax to the form menu", () => {
+    const sword = resolveGameMechanics({
+      gameId: 31,
+      generationId: 8,
+      versionGroupId: 18,
+    });
+
+    expect(
+      getTeamMemberFacts({ ...buddy, has_gigantamax_factor: true }, sword).map(
+        ({ label }) => label,
+      ),
+    ).not.toContain("Can Gigantamax");
+  });
+
+  it("keeps the met level when the location is missing", () => {
     expect(
       getTeamMemberFacts(
         {
@@ -175,12 +175,13 @@ describe("getTeamMemberFacts", () => {
           nature_name: null,
         },
         modernGame,
-      ),
+      ).map(({ label, value }) => [label, value]),
     ).toEqual([
-      { detail: null, empty: true, label: "Nature", value: "Not recorded" },
-      { detail: null, empty: true, label: "Ability", value: "Not recorded" },
-      { detail: null, empty: true, label: "Held item", value: "None" },
-      { detail: null, label: "Met", value: "Lv. 5 · Poké Ball" },
+      ["Nature", "Not recorded"],
+      ["Ability", "Not recorded"],
+      ["Held item", "None"],
+      ["Poké Ball", "Poké Ball"],
+      ["Met location", "At Lv. 5"],
     ]);
   });
 
@@ -212,8 +213,9 @@ describe("getTeamMemberFacts", () => {
         ["Nature", "Adamant"],
         ["Ability", "Tough Claws"],
         ["Held item", "Miracle Seed"],
+        ["Poké Ball", "Poké Ball"],
         ["Stat changes", "Atk +46 · Sp. Atk +21"],
-        ["Met", "Slumbering Weald"],
+        ["Met location", "Slumbering Weald at Lv. 5"],
       ]);
     });
 
@@ -271,7 +273,8 @@ describe("getTeamMemberFacts", () => {
       ["Nature", "Not recorded"],
       ["Ability", "Not recorded"],
       ["Held item", "None"],
-      ["Met", "Not recorded"],
+      ["Poké Ball", "Not recorded"],
+      ["Met location", "Not recorded"],
     ]);
   });
 });
@@ -301,13 +304,15 @@ describe("getTeamMoves", () => {
       ]),
     ).toEqual([
       {
-        isStatus: false,
+        category: "special",
+        effect: null,
         name: "Thunderbolt",
         position: 1,
         type: electricType,
       },
       {
-        isStatus: true,
+        category: "status",
+        effect: null,
         name: "Thunder Wave",
         position: 3,
         type: electricType,

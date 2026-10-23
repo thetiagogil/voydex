@@ -8,9 +8,9 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { tooltipDelay } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
-const hoverDelay = 200;
 const hoverCloseDelay = 100;
 
 type ExplanatoryTipProps = Pick<
@@ -20,6 +20,12 @@ type ExplanatoryTipProps = Pick<
   children?: ReactNode;
   content: ReactNode;
   contentClassName?: string;
+  /*
+   * Inside a list's row (a select's option): the dot opens on hover or its
+   * own press but never takes focus or picks the row. Give the row the same
+   * words for a screen reader, as the dot is hidden from it.
+   */
+  inert?: boolean;
   nativeButton?: ComponentProps<typeof PopoverTrigger>["nativeButton"];
   pinOnPress?: boolean;
   /* Without a trigger, the tip opens from v3's small "i" dot. */
@@ -33,13 +39,15 @@ type ExplanatoryTipProps = Pick<
   triggerTone?: InfoDotTone;
   /*
    * `dot` is the small inset dot for text; `icon` is the outlined info icon
-   * a Library choice wears, for the end of a chip; `raised` is a 24px cream
-   * bubble for a card's corner (inside a `CornerBubble`).
+   * a Library choice wears, for the end of a chip; `subtle` is that icon
+   * smaller and faded, for the end of a list row or beside a value (what an
+   * ability or move does); `raised` is a 24px cream bubble for a card's
+   * corner (inside a `CornerBubble`).
    */
   triggerVariant?: InfoDotVariant;
 };
 
-type InfoDotVariant = "dot" | "icon" | "raised";
+type InfoDotVariant = "dot" | "icon" | "raised" | "subtle";
 type InfoDotTone = "danger" | "info" | "warn";
 
 const infoDotToneClassNames: Record<InfoDotTone, string> = {
@@ -68,6 +76,10 @@ const infoDotVariantClassNames: Record<
     dot: "bg-surface bubble size-6 after:absolute after:-inset-2",
     glyph: "text-13",
   },
+  subtle: {
+    dot: "text-ink-3 size-3.5 opacity-60 hover:opacity-100 after:absolute after:-inset-2.5",
+    glyph: "",
+  },
 };
 
 export const ExplanatoryTip = ({
@@ -76,6 +88,7 @@ export const ExplanatoryTip = ({
   children,
   content,
   contentClassName,
+  inert = false,
   nativeButton,
   pinOnPress = true,
   side = "top",
@@ -121,11 +134,29 @@ export const ExplanatoryTip = ({
     >
       <PopoverTrigger
         openOnHover
-        delay={hoverDelay}
+        delay={tooltipDelay}
         closeDelay={hoverCloseDelay}
-        nativeButton={nativeButton}
+        nativeButton={inert ? false : nativeButton}
+        /* In a list's row it is no control of its own: never a tab stop. */
+        {...(inert ? { role: "presentation", tabIndex: -1 } : {})}
         render={
-          trigger ?? (
+          trigger ??
+          (inert ? (
+            <span
+              aria-hidden
+              className={cn(
+                infoDotClassName,
+                infoDotVariantClassNames[triggerVariant].dot,
+                infoDotToneClassNames[triggerTone],
+              )}
+              /* Its own press opens the tip; the row under it stays unpicked. */
+              onClick={(event) => event.stopPropagation()}
+              onMouseDown={(event) => event.stopPropagation()}
+              onMouseUp={(event) => event.stopPropagation()}
+              onPointerDown={(event) => event.stopPropagation()}
+              onPointerUp={(event) => event.stopPropagation()}
+            />
+          ) : (
             <button
               type="button"
               aria-label={triggerLabel}
@@ -135,7 +166,7 @@ export const ExplanatoryTip = ({
                 infoDotToneClassNames[triggerTone],
               )}
             />
-          )
+          ))
         }
         onFocus={(event) => {
           if (
@@ -184,8 +215,12 @@ export const ExplanatoryTip = ({
         }}
       >
         {children ??
-          (trigger ? null : triggerVariant === "icon" ? (
-            <AppIcon icon={appIcons.status.info} size="sm" />
+          (trigger ? null : triggerVariant === "icon" ||
+            triggerVariant === "subtle" ? (
+            <AppIcon
+              icon={appIcons.status.info}
+              size={triggerVariant === "subtle" ? 14 : "sm"}
+            />
           ) : (
             <span
               aria-hidden

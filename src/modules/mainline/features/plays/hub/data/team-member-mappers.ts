@@ -8,6 +8,7 @@ import type {
   MoveAttribute,
   PokemonAttributes,
 } from "@/modules/reference/types";
+import { resolveAbilityAttributes } from "@/modules/reference/features/pokemon/data/ability-effects";
 import type { Json } from "@/shared/types/database.types";
 import { byId, uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -98,51 +99,11 @@ const resolveLatestAttributesByMove = (
   return latestAttributesByMove;
 };
 
-const resolveLatestAttributesByAbility = (
-  attributes: MainlinePlayTeamRows["abilityAttributes"],
-  currentVersionGroupId: number | null,
-  versionGroups: MainlinePlayTeamRows["versionGroups"],
-) => {
-  const latestAttributesByAbility = new Map<
-    number,
-    MainlinePlayTeamRows["abilityAttributes"][number]
-  >();
-  const versionGroupById = byId(versionGroups);
-  const currentSortOrder = currentVersionGroupId
-    ? (versionGroupById.get(currentVersionGroupId)?.sort_order ??
-      Number.POSITIVE_INFINITY)
-    : Number.POSITIVE_INFINITY;
-
-  for (const attribute of attributes) {
-    const attributeSortOrder =
-      versionGroupById.get(attribute.version_group_start_id)?.sort_order ??
-      attribute.version_group_start_id;
-
-    if (attributeSortOrder > currentSortOrder) {
-      continue;
-    }
-
-    const currentAttribute = latestAttributesByAbility.get(
-      attribute.ability_id,
-    );
-    const storedSortOrder = currentAttribute
-      ? (versionGroupById.get(currentAttribute.version_group_start_id)
-          ?.sort_order ?? currentAttribute.version_group_start_id)
-      : null;
-
-    if (!currentAttribute || attributeSortOrder > (storedSortOrder ?? -1)) {
-      latestAttributesByAbility.set(attribute.ability_id, attribute);
-    }
-  }
-
-  return latestAttributesByAbility;
-};
-
 export const buildMainlinePlayTeamPreview = (
   rows: MainlinePlayTeamRows,
 ): MainlinePlayTeamMember[] => {
   const latestAttributesByForm = resolveLatestAttributesByForm(rows.attributes);
-  const latestAttributesByAbility = resolveLatestAttributesByAbility(
+  const latestAttributesByAbility = resolveAbilityAttributes(
     rows.abilityAttributes,
     rows.versionGroupId,
     rows.versionGroups,
@@ -182,8 +143,18 @@ export const buildMainlinePlayTeamPreview = (
     return {
       ...member,
       abilityEffectSummary: abilityAttributes?.effect_summary ?? null,
+      heldItemEffectSummary: member.held_item_id
+        ? (rows.heldItemEffects?.[member.held_item_id] ?? null)
+        : null,
+      heldItemSlug: member.held_item_id
+        ? (rows.itemSlugs?.[member.held_item_id] ?? null)
+        : null,
       ball_item_id: hasValidBall ? member.ball_item_id : null,
       ball_item_name: hasValidBall ? member.ball_item_name : null,
+      ballItemSlug:
+        hasValidBall && member.ball_item_id
+          ? (rows.itemSlugs?.[member.ball_item_id] ?? null)
+          : null,
       moves,
       natureDecreasedStat: nature?.decreased_stat ?? null,
       natureIncreasedStat: nature?.increased_stat ?? null,

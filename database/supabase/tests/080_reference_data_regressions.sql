@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (19);
+    plan (25);
 -- Move change rows start in the first generation that has the new value.
 SELECT
     IS ((
@@ -241,6 +241,55 @@ SELECT
             WHERE
                 pokemon_forms.slug IN ('alolan-raichu', 'alolan-exeggutor', 'alolan-marowak', 'galarian-weezing', 'galarian-mr-mime')
                 AND pokemon_evolution_edges.version_group_id IS NULL $$, 'no regional evolution applies to every game');
+-- Every held item says what it does; Poke Balls and other never-held items stay empty.
+SELECT
+    is_empty ($$
+        SELECT
+            items.slug FROM reference.items
+            JOIN reference.item_category_memberships ON item_category_memberships.item_id = items.id
+            JOIN reference.item_categories ON item_categories.id = item_category_memberships.category_id
+            WHERE
+                item_categories.slug = 'held_item'
+                AND items.effect_summary IS NULL $$, 'every held item has an effect summary');
+SELECT
+    is_empty ($$
+        SELECT
+            items.slug FROM reference.items
+            JOIN reference.item_category_memberships ON item_category_memberships.item_id = items.id
+            JOIN reference.item_categories ON item_categories.id = item_category_memberships.category_id
+            WHERE
+                item_categories.slug = 'poke_ball'
+                AND items.effect_summary IS NOT NULL $$, 'Poke Balls have no held-item effect summary');
+SELECT
+    throws_ok ($$ UPDATE reference.items SET effect_summary = '   ' WHERE slug = 'leftovers' $$, '23514', NULL, 'an effect summary cannot be blank');
+-- Every move attribute row says what the move does in that generation.
+SELECT
+    is_empty ($$
+        SELECT
+            move_id, generation_start_id FROM reference.move_attributes
+            WHERE
+                effect_summary IS NULL $$, 'every move attribute row has an effect summary');
+-- A ball is in a game when the game's item data has it, event and transfer balls included.
+SELECT
+    results_eq ($$
+        SELECT
+            version_groups.slug FROM views.reference_resolved_item_availability
+            JOIN reference.items ON items.id = reference_resolved_item_availability.item_id
+            JOIN reference.version_groups ON version_groups.id = reference_resolved_item_availability.target_version_group_id
+            WHERE
+                items.slug = 'cherish-ball' ORDER BY version_groups.id $$, $$
+            VALUES ('dp'::text), ('platinum'), ('hgss'), ('bw'), ('b2w2'), ('xy'), ('oras'), ('sm'), ('usum'), ('lgpe'), ('swsh'), ('swsh-ioa'), ('swsh-ct'), ('bdsp'), ('sv'), ('sv-tm'), ('sv-id'), ('za'), ('za-md') $$, 'the Cherish Ball is in every game from Diamond / Pearl on except Legends: Arceus');
+SELECT
+    results_eq ($$
+        SELECT
+            items.slug FROM views.reference_resolved_item_availability
+            JOIN reference.items ON items.id = reference_resolved_item_availability.item_id
+            JOIN reference.version_groups ON version_groups.id = reference_resolved_item_availability.target_version_group_id
+            WHERE
+                version_groups.slug = 'sv-id'
+                AND items.slug IN ('moon-ball', 'origin-ball', 'cherish-ball', 'strange-ball')
+            ORDER BY items.id $$, $$
+            VALUES ('moon-ball'::text), ('cherish-ball'), ('origin-ball') $$, 'The Indigo Disk has Apricorn, event and Legends: Arceus balls');
 -- Machines belong to the scope that adds them.
 SELECT
     IS ((

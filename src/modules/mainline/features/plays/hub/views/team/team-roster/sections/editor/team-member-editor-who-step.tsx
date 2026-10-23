@@ -1,23 +1,27 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
-import { SegmentedControl } from "@/shared/components/segmented-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
-import { Switch } from "@/shared/components/ui/switch";
+import {
+  GenderIcon,
+  genderLabels,
+} from "@/modules/reference/features/pokemon/components/gender-icon";
 
 import {
   EditorLabel,
   type TeamMemberEditorStepProps,
 } from "./team-member-editor-fields";
 
-const genderOptions = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
-  { label: "Genderless", value: "genderless" },
-  { label: "Not recorded", value: "unknown" },
-] as const;
+const genderOptions = (
+  ["male", "female", "genderless", "unknown"] as const
+).map((gender) => ({
+  icon: <GenderIcon gender={gender} />,
+  label: genderLabels[gender],
+  value: gender,
+}));
 
-/* Who: its species (fixed here), nickname, level, gender and shininess. */
+/* Who: its species (fixed here), nickname, level and gender. */
 export const TeamMemberEditorWhoStep = ({
   change,
   edited,
@@ -61,9 +65,7 @@ export const TeamMemberEditorWhoStep = ({
           onChange={(event) => change("nickname", event.target.value)}
         />
       </Field>
-    </div>
-    <div className="flex min-w-0 flex-wrap items-end gap-x-5.5 gap-y-4">
-      <Field className="w-35">
+      <Field>
         <EditorLabel htmlFor={`${id}-level`} edited={edited("level")}>
           Level
         </EditorLabel>
@@ -79,31 +81,24 @@ export const TeamMemberEditorWhoStep = ({
         />
       </Field>
       {supportsGender ? (
-        <Field className="w-auto max-w-full min-w-0">
-          <EditorLabel edited={edited("gender")}>
-            <span id={`${id}-gender`}>Gender</span>
-          </EditorLabel>
-          <SegmentedControl
+        <Field>
+          <EditorLabel edited={edited("gender")}>Gender</EditorLabel>
+          <SelectControl
             ariaLabel="Gender"
-            variant="segment"
+            placeholder="Not recorded"
+            searchable={false}
             value={values.gender}
-            onValueChange={(value) => change("gender", value)}
+            onValueChange={(value) => {
+              const gender = genderOptions.find(
+                (option) => option.value === value,
+              );
+
+              if (gender) change("gender", gender.value);
+            }}
             options={genderOptions}
           />
         </Field>
       ) : null}
-      <Field className="w-auto">
-        <EditorLabel htmlFor={`${id}-shiny`} edited={edited("isShiny")}>
-          Shiny
-        </EditorLabel>
-        <div className="flex h-12 items-center">
-          <Switch
-            id={`${id}-shiny`}
-            checked={values.isShiny}
-            onCheckedChange={(checked) => change("isShiny", checked)}
-          />
-        </div>
-      </Field>
     </div>
   </SheetSection>
 );

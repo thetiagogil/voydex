@@ -151,6 +151,12 @@ data.
 - Pass the exact game, version group and generation context. Product modules
   and UI must not infer support from null values or local checks such as
   `generationId >= 3`.
+- What a game has (items, Poké Balls, Pokémon, moves) comes from that game's
+  own availability data (`reference_resolved_item_availability`, Pokédexes,
+  learnsets), never from "introduced in this generation or earlier": a later
+  game can drop what an earlier one had (Sword has no Gen II Berry, no Mega
+  Stones), and a game of the same generation can add its own (Legends:
+  Arceus's Hisuian Balls are not in Sword).
 - Omit mechanics the resolved game does not support: exclude them from form
   options, mutations, comparison status, derived summaries and empty states
   instead of showing `Any` or `Not recorded`.

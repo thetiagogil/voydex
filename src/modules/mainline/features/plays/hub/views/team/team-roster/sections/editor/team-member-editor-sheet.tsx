@@ -18,7 +18,6 @@ import {
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { FieldError } from "@/shared/components/ui/field";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -35,24 +34,26 @@ import {
 import { getTeamMemberEditorHeadLine } from "../../utils/team-member-display";
 import { TeamMemberEditorActions } from "./team-member-editor-actions";
 import {
-  TeamMemberEditorBuildStep,
+  TeamMemberEditorDetailsStep,
   type TeamMemberEditorOptionsState,
-} from "./team-member-editor-build-step";
-import { TeamMemberEditorMetStep } from "./team-member-editor-met-step";
+} from "./team-member-editor-details-step";
+import { TeamMemberEditorFormsStep } from "./team-member-editor-forms-step";
+import { TeamMemberEditorMovesStep } from "./team-member-editor-moves-step";
+import { TeamMemberEditorNotesStep } from "./team-member-editor-notes-step";
 import { TeamMemberEditorReview } from "./team-member-editor-review";
 import { TeamMemberEditorWhereStep } from "./team-member-editor-where-step";
 import { TeamMemberEditorWhoStep } from "./team-member-editor-who-step";
 
 /*
  * Edit Pokémon (v3 `editor`): a side sheet over the Roster (a bottom sheet
- * on phones). Who, Where, Build and Met, then Review changes before Save.
- * Only what the Play's game records is offered. Evolve, Change form, Replace
- * and Retire act straight away from the head, and Where's move straight away
- * from its step; Delete record is for mistakes.
+ * on phones). Who, Forms, Slot, Details, Moves and Notes, then Review changes before
+ * Save. Only what the Play's game records is offered. Evolve, Change form,
+ * Replace and Retire act straight away from the head; a pick in Slot only
+ * previews the move, which Save applies after the fields; Delete record is
+ * for mistakes.
  */
 export const TeamMemberEditorSheet = ({
   canGigantamax,
-  isMoving,
   mechanics,
   member,
   onMove,
@@ -64,7 +65,6 @@ export const TeamMemberEditorSheet = ({
 }: {
   /* It reaches a Gigantamax form, so the Gigantamax Factor is offered. */
   canGigantamax: boolean;
-  isMoving: boolean;
   mechanics: GameMechanicsProfile;
   member: MainlinePlayTeamMember;
   onMove: (playPokemonId: string, toSlot: number) => void;
@@ -85,6 +85,22 @@ export const TeamMemberEditorSheet = ({
     });
   const [isReviewing, setIsReviewing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  /*
+   * Each opening starts from what is saved now: a drag on the roster, an
+   * Undo or a save since the last opening must not leave a stale draft
+   * (a slot it no longer sits in would read as a change).
+   */
+  const [wasOpen, setWasOpen] = useState(open);
+
+  if (open !== wasOpen) {
+    setWasOpen(open);
+
+    if (open) {
+      setValues(initial);
+      setIsReviewing(false);
+      setError(null);
+    }
+  }
   const [isSaving, startSaving] = useTransition();
   const playPokemonId = member.play_pokemon_id ?? "";
   const name = getPlayTeamMemberName(member);
@@ -186,22 +202,36 @@ export const TeamMemberEditorSheet = ({
   };
 
   const save = () => {
+    const hasFieldChanges = changes.some((item) => item.field !== "slot");
+    const toSlot = edited("slot") ? Number(values.slot) : null;
+
     startSaving(async () => {
       try {
-        const result = await updateMainlinePlayPokemonAction({
-          changes: toUpdateTeamMemberInput(values, supports),
-          playId,
-          playPokemonId,
-        });
+        if (hasFieldChanges) {
+          const result = await updateMainlinePlayPokemonAction({
+            changes: toUpdateTeamMemberInput(values, supports),
+            playId,
+            playPokemonId,
+          });
 
-        if (result.status === "error") {
-          setError(result.message);
-          return;
+          if (result.status === "error") {
+            setError(result.message);
+            return;
+          }
+
+          toast.success(
+            `${values.nickname.trim() || member.species_name} saved`,
+          );
         }
 
         onOpenChange(false);
         setIsReviewing(false);
-        toast.success(`${values.nickname.trim() || member.species_name} saved`);
+
+        /* The move is its own save, with its own toast and Undo. */
+        if (toSlot !== null) {
+          onMove(playPokemonId, toSlot);
+        }
+
         router.refresh();
       } catch (saveError) {
         setError(
@@ -237,21 +267,32 @@ export const TeamMemberEditorSheet = ({
         member={member}
         supportsGender={supports.gender}
       />
-      <TeamMemberEditorWhereStep
-        id={id}
-        isMoving={isMoving}
-        member={member}
-        onMove={onMove}
-        placeLabel={placeLabel}
-        roster={roster}
+      <TeamMemberEditorFormsStep
+        {...stepProps}
+        supportsGigantamax={supports.gigantamax}
       />
-      <TeamMemberEditorBuildStep
+      <TeamMemberEditorWhereStep
+        member={member}
+        onPick={(slot) => change("slot", String(slot))}
+        roster={roster}
+        slot={Number(values.slot)}
+      />
+      <TeamMemberEditorDetailsStep
         {...stepProps}
         member={member}
         optionsState={optionsState}
         supports={supports}
       />
-      <TeamMemberEditorMetStep {...stepProps} />
+      {options ? (
+        <TeamMemberEditorMovesStep
+          change={change}
+          edited={edited}
+          member={member}
+          options={options}
+          values={values}
+        />
+      ) : null}
+      <TeamMemberEditorNotesStep {...stepProps} />
     </form>
   );
 
@@ -322,12 +363,8 @@ export const TeamMemberEditorSheet = ({
             disabled={isSaving || !changes.length}
             aria-busy={isSaving}
           >
-            {isSaving ? (
-              <Spinner data-icon="inline-start" />
-            ) : (
-              <AppIcon icon={appIcons.status.active} inline="start" />
-            )}
-            Save {values.nickname.trim() || member.species_name}
+            {isSaving ? <Spinner data-icon="inline-start" /> : null}
+            Save
           </Button>
         </>
       }

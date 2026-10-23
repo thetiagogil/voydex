@@ -1,119 +1,33 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import {
-  getPlayTeamMemberImageUrl,
-  getPlayTeamMemberName,
-} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { FallbackImage } from "@/shared/components/fallback-image";
-import { SelectControl } from "@/shared/components/select-control";
+import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { SheetSection } from "@/shared/components/sheet-section";
-import {
-  Field,
-  FieldDescription,
-  FieldLabel,
-} from "@/shared/components/ui/field";
+import { SlotPicker } from "@/shared/components/slot-picker";
 
-import {
-  formatRosterSlot,
-  getRosterMove,
-  isTeamSlot,
-  rosterSlots,
-  teamNeedsOneMessage,
-} from "../../utils/roster-moves";
+import { getRosterSlotGroups } from "../../utils/roster-moves";
 
 /*
- * Where: the move without dragging, for a keyboard or a phone. Picking a
- * slot moves it straight away, like Evolve; a taken slot swaps the two.
+ * Slot: where it sits, for a keyboard or a phone. Picking a square only marks
+ * it and previews the team after the move; the move, or a swap with whoever
+ * is there, happens when you save.
  */
 export const TeamMemberEditorWhereStep = ({
-  id,
-  isMoving,
   member,
-  onMove,
-  placeLabel,
+  onPick,
   roster,
+  slot,
 }: {
-  id: string;
-  isMoving: boolean;
   member: MainlinePlayTeamMember;
-  onMove: (playPokemonId: string, toSlot: number) => void;
-  placeLabel: string;
+  onPick: (slot: number) => void;
   roster: readonly MainlinePlayTeamMember[];
-}) => {
-  const playPokemonId = member.play_pokemon_id ?? "";
-  const options = rosterSlots.map((slot) => {
-    const move = getRosterMove(roster, playPokemonId, slot);
-    const occupant =
-      move.kind === "swap" ? move.with : move.kind === "stay" ? member : null;
-
-    return {
-      description:
-        move.kind === "stay"
-          ? "Here now"
-          : move.kind === "swap"
-            ? `Swap with ${getPlayTeamMemberName(move.with)}`
-            : move.kind === "blocked"
-              ? move.reason
-              : "Open",
-      disabled: move.kind === "blocked",
-      icon: occupant ? (
-        <FallbackImage
-          src={getPlayTeamMemberImageUrl(occupant)}
-          name={getPlayTeamMemberName(occupant)}
-          className="size-8"
-        />
-      ) : (
-        <AppIcon
-          icon={
-            isTeamSlot(slot) ? appIcons.product.team : appIcons.product.reserve
-          }
-          size="md"
-        />
-      ),
-      label: formatRosterSlot(slot),
-      value: String(slot),
-    };
-  });
-  const isLastOnTeam =
-    member.roster_state_slug === "active" &&
-    !roster.some(
-      (other) =>
-        other.play_pokemon_id !== playPokemonId &&
-        other.roster_state_slug === "active",
-    );
-  const hasReserve = roster.some(
-    (other) => other.roster_state_slug === "reserve",
-  );
-
-  return (
-    <SheetSection title="Where" aside={placeLabel}>
-      <Field>
-        <FieldLabel htmlFor={`${id}-where`}>Move to</FieldLabel>
-        <SelectControl
-          id={`${id}-where`}
-          ariaLabel={`Move ${getPlayTeamMemberName(member)} to`}
-          className="w-full"
-          disabled={isMoving}
-          options={options}
-          placeholder="Pick a slot"
-          searchable={false}
-          value={member.slot ? String(member.slot) : ""}
-          onValueChange={(value) => {
-            const toSlot = Number(value);
-
-            if (toSlot) {
-              onMove(playPokemonId, toSlot);
-            }
-          }}
-        />
-        <FieldDescription>
-          {isLastOnTeam
-            ? hasReserve
-              ? `${teamNeedsOneMessage} It can still swap with a reserve Pokémon.`
-              : teamNeedsOneMessage
-            : "It moves straight away. A taken slot swaps the two Pokémon."}
-        </FieldDescription>
-      </Field>
-    </SheetSection>
-  );
-};
+  /* The slot picked so far, 1 to 12; the Pokémon's own until another is. */
+  slot: number;
+}) => (
+  <SheetSection title="Slot">
+    <SlotPicker
+      ariaLabel={`Move ${getPlayTeamMemberName(member)} to`}
+      groups={getRosterSlotGroups(roster, member.play_pokemon_id ?? "", slot)}
+      selected={slot}
+      onPick={onPick}
+    />
+  </SheetSection>
+);

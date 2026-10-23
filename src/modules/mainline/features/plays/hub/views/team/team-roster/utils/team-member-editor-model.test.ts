@@ -83,6 +83,25 @@ describe("Pokémon editor model", () => {
     ]);
   });
 
+  it("lists a picked slot as a change in words, and leaves it out of the save input", () => {
+    const initial = getTeamMemberEditorValues({ ...member, slot: 1 });
+    const current = { ...initial, slot: "8" };
+
+    expect(
+      getTeamMemberEditorChanges(initial, current, (_field, value) => value),
+    ).toEqual([
+      {
+        field: "slot",
+        label: "Slot",
+        next: "Reserve R2",
+        previous: "Team slot 1",
+      },
+    ]);
+    expect(toUpdateTeamMemberInput(current, allSupported)).not.toHaveProperty(
+      "slot",
+    );
+  });
+
   it("turns the fields into the save input", () => {
     expect(
       toUpdateTeamMemberInput(
@@ -130,11 +149,28 @@ describe("Pokémon editor model", () => {
 describe("findUnofferedEditorChoice", () => {
   /* What the editor offered Charizard in Sword. */
   const options = {
-    abilities: [{ id: 66, name: "Blaze" }],
-    heldItems: [{ id: 200, name: "Charcoal" }],
+    abilities: [
+      {
+        effect: "Powers up Fire-type moves in a pinch.",
+        id: 66,
+        name: "Blaze",
+      },
+    ],
+    heldItems: [
+      {
+        category: "Type-Enhancing Items",
+        categoryOrder: 9,
+        effect: null,
+        id: 200,
+        name: "Charcoal",
+        slug: "charcoal",
+      },
+    ],
     moves: [
       {
         damageClass: "special",
+        effect: null,
+        learn: null,
         id: 53,
         name: "Flamethrower",
         typeName: "Fire",

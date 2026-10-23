@@ -2,7 +2,6 @@
 
 import { fieldSurfaceClassName } from "@/shared/components/ui/field-surface";
 import {
-  menuCheckClassName,
   menuOptionClassName,
   menuOptionSelectedClassName,
   menuPanelClassName,
@@ -13,7 +12,7 @@ import {
 import { cn } from "@/shared/utils/cn";
 import { Select as SelectPrimitive } from "@base-ui/react/select";
 import { cva, type VariantProps } from "class-variance-authority";
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import * as React from "react";
 
 const Select = SelectPrimitive.Root;
@@ -150,6 +149,8 @@ const SelectItem = ({
       className={cn(
         menuOptionClassName,
         menuOptionSelectedClassName,
+        /* The pick is its tint alone: no check, so the row keeps its end. */
+        "pr-3",
         className,
       )}
       {...props}
@@ -157,11 +158,6 @@ const SelectItem = ({
       <SelectPrimitive.ItemText className="flex min-w-0 flex-1 items-center gap-3">
         {children}
       </SelectPrimitive.ItemText>
-      <SelectPrimitive.ItemIndicator
-        render={<span className={menuCheckClassName} />}
-      >
-        <CheckIcon className="size-4.5" strokeWidth={3} />
-      </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   );
 };

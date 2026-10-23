@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia individual item, evolution item, form item, and game item pages.
 -- Cross-check: Serebii item location pages and PokemonDB item pages where available.
 -- Scope note: curated Pokémon-relevant item availability, not a full item encyclopedia.
+-- Poke Ball rule: a ball is listed when it exists in this game's item data, including event-only (Cherish Ball) and transfer-only balls; checked against Serebii ItemDex per-game ball descriptions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -117,6 +118,24 @@ VALUES
   (119, 11, NULL, NULL, NULL),
   -- Master Ball
   (120, 11, NULL, NULL, NULL),
+  -- Safari Ball
+  (121, 11, NULL, NULL, 'Safari Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Fast Ball
+  (122, 11, NULL, NULL, 'Fast Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Level Ball
+  (123, 11, NULL, NULL, 'Level Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Lure Ball
+  (124, 11, NULL, NULL, 'Lure Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Heavy Ball
+  (125, 11, NULL, NULL, 'Heavy Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Love Ball
+  (126, 11, NULL, NULL, 'Love Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Friend Ball
+  (127, 11, NULL, NULL, 'Friend Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Moon Ball
+  (128, 11, NULL, NULL, 'Moon Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
+  -- Sport Ball
+  (129, 11, NULL, NULL, 'Sport Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Net Ball
   (130, 11, NULL, NULL, NULL),
   -- Dive Ball
@@ -137,6 +156,8 @@ VALUES
   (138, 11, NULL, NULL, NULL),
   -- Quick Ball
   (139, 11, NULL, NULL, NULL),
+  -- Cherish Ball
+  (140, 11, NULL, NULL, 'Cherish Ball comes only with event Pokémon in this scope; the ball itself cannot be obtained.'),
   -- Dream Ball
   (141, 11, NULL, NULL, NULL),
   -- Fossils

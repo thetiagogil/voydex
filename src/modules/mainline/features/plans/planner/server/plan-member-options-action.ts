@@ -8,8 +8,8 @@ import {
   readFormLearnsetRows,
   readHeldItemOptions,
   readMoveOptions,
+  type BuildItemOption,
   type BuildMoveOption,
-  type BuildOption,
 } from "@/modules/mainline/shared/server/build-option-readers";
 import {
   gameMechanics,
@@ -25,7 +25,7 @@ import {
 
 export type PlanMemberOptions = {
   /* Empty when the version group has no held items. */
-  heldItems: BuildOption[];
+  heldItems: BuildItemOption[];
   /* What it can learn in every game of the version group. */
   moves: BuildMoveOption[];
 };
@@ -76,21 +76,32 @@ export const loadPlanMemberOptionsAction = async (input: {
       throw new Error("Pick a game for the Plan.");
     }
 
-    const [gamesResult, learnsets] = await Promise.all([
+    const [gamesResult, addOnsResult, learnsets] = await Promise.all([
       supabase
         .schema("reference")
         .from("games")
         .select("id")
         .eq("version_group_id", group.id),
+      /* A Plan covers the game and its add-ons, as the Planner's pool does. */
+      supabase
+        .schema("reference")
+        .from("version_groups")
+        .select("id")
+        .eq("parent_version_group_id", group.id),
       readFormLearnsetRows(supabase, {
         formId,
         versionGroupId: group.id,
       }),
     ]);
 
-    if (gamesResult.error) {
+    if (gamesResult.error || addOnsResult.error) {
       throw new Error("Unable to read the Plan's game.");
     }
+
+    const familyVersionGroupIds = [
+      group.id,
+      ...(addOnsResult.data ?? []).map((addOn) => addOn.id),
+    ];
 
     const gameIds = (gamesResult.data ?? []).map((game) => game.id);
     const mechanics = resolveVersionGroupMechanics({
@@ -100,10 +111,14 @@ export const loadPlanMemberOptionsAction = async (input: {
     });
     const [heldItems, moves] = await Promise.all([
       supportsGameMechanic(mechanics, gameMechanics.heldItems)
-        ? readHeldItemOptions(supabase, group.generation_id)
+        ? readHeldItemOptions(supabase, {
+            gameIds,
+            versionGroupIds: familyVersionGroupIds,
+          })
         : [],
       readMoveOptions(supabase, {
         generationId: group.generation_id,
+        learnedBy: { formId, gameIds, versionGroupId: group.id },
         moveIds: getLearnableMoveIds(learnsets, gameIds),
       }),
     ]);

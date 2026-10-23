@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia individual item, evolution item, form item, and game item pages.
 -- Cross-check: Serebii item location pages and PokemonDB item pages where available.
 -- Scope note: curated Pokémon-relevant item availability, not a full item encyclopedia.
+-- Poke Ball rule: a ball is listed when it exists in this game's item data, including event-only (Cherish Ball) and transfer-only balls; checked against Serebii ItemDex per-game ball descriptions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -195,6 +196,8 @@ VALUES
   (119, 16, NULL, NULL, NULL),
   -- Master Ball
   (120, 16, NULL, NULL, NULL),
+  -- Safari Ball
+  (121, 16, NULL, NULL, 'Safari Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Fast Ball
   (122, 16, NULL, NULL, NULL),
   -- Level Ball
@@ -209,6 +212,8 @@ VALUES
   (127, 16, NULL, NULL, NULL),
   -- Moon Ball
   (128, 16, NULL, NULL, NULL),
+  -- Sport Ball
+  (129, 16, NULL, NULL, 'Sport Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Net Ball
   (130, 16, NULL, NULL, NULL),
   -- Dive Ball
@@ -229,6 +234,10 @@ VALUES
   (138, 16, NULL, NULL, NULL),
   -- Quick Ball
   (139, 16, NULL, NULL, NULL),
+  -- Cherish Ball
+  (140, 16, NULL, NULL, 'Cherish Ball comes only with event Pokémon in this scope; the ball itself cannot be obtained.'),
+  -- Dream Ball
+  (141, 16, NULL, NULL, 'Dream Ball exists in this scope only on Pokémon brought in by transfer or trade.'),
   -- Beast Ball
   (142, 16, NULL, NULL, NULL),
   -- Fossils

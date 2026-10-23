@@ -19,7 +19,7 @@ export const SheetSection = ({
   aside?: ReactNode;
   children: ReactNode;
   className?: string;
-  title: string;
+  title: ReactNode;
 }) => (
   <section className={cn("grid min-w-0 gap-4", className)}>
     <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">

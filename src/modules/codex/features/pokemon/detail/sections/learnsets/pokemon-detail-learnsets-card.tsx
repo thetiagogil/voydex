@@ -4,7 +4,6 @@ import { Badge } from "@/shared/components/ui/badge";
 import { useMemo, useState } from "react";
 
 import {
-  formatPokemonDetailLearnsetDamageClass,
   formatPokemonDetailLearnsetValue,
   getFilteredPokemonDetailLearnsets,
   getPokemonDetailLearnsetAddedContentName,
@@ -14,6 +13,7 @@ import {
   type PokemonDetailLearnsetMethodFilter,
 } from "@/modules/codex/features/pokemon/detail/sections/learnsets/pokemon-detail-learnset-table-model";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonLearnsetSummary } from "@/modules/reference/types";
@@ -60,9 +60,6 @@ const MissingValue = () => {
 
 const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
   const addedContentName = getPokemonDetailLearnsetAddedContentName(learnset);
-  const category = formatPokemonDetailLearnsetDamageClass(
-    learnset.attributes?.damage_class,
-  );
 
   return (
     <TableRow className="max-md:relative max-md:flex max-md:flex-wrap max-md:items-center max-md:gap-x-3 max-md:gap-y-1.5 max-md:py-2.5 max-md:pl-16.5 max-md:hover:bg-transparent">
@@ -93,7 +90,11 @@ const LearnsetRow = ({ learnset }: { learnset: PokemonLearnsetSummary }) => {
         </span>
       </TableCell>
       <TableCell className="max-md:p-0">
-        {category ? <Badge>{category}</Badge> : <MissingValue />}
+        {learnset.attributes?.damage_class ? (
+          <MoveCategoryIcon damageClass={learnset.attributes.damage_class} />
+        ) : (
+          <MissingValue />
+        )}
       </TableCell>
       <TableCell data-label="Power" className={figureCellClassName}>
         {formatPokemonDetailLearnsetValue(learnset.attributes?.power) ?? (

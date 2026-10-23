@@ -1,6 +1,12 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 
 import type {
+  BuildItemOption,
+  MoveLearnMethod,
+} from "@/modules/mainline/shared/types";
+
+import { formatRosterSlot } from "./roster-moves";
+import type {
   MainlineTeamGender,
   UpdateMainlinePlayPokemonInput,
 } from "./team-member-validation";
@@ -9,6 +15,8 @@ export type EditorOption = { id: number; name: string };
 
 export type EditorMoveOption = EditorOption & {
   damageClass: string | null;
+  effect: string | null;
+  learn: MoveLearnMethod | null;
   typeName: string | null;
   typeSlug: string | null;
 };
@@ -27,11 +35,12 @@ export type EditorFormOption = {
  * group, and where it can evolve or which forms it can take.
  */
 export type TeamMemberEditorOptions = {
-  abilities: EditorOption[];
-  balls: EditorOption[];
+  /* Each with what it does in the Play's game, when known. */
+  abilities: (EditorOption & { effect: string | null })[];
+  balls: BuildItemOption[];
   evolutions: EditorFormOption[];
   forms: EditorFormOption[];
-  heldItems: EditorOption[];
+  heldItems: BuildItemOption[];
   moves: EditorMoveOption[];
   /* The 18 types, in games with Terastal; empty elsewhere. */
   teraTypes: EditorOption[];
@@ -57,6 +66,8 @@ export type TeamMemberEditorValues = {
   natureId: string;
   nickname: string;
   notes: string;
+  /* The stored roster slot, 1 to 12; moving it waits for Save. */
+  slot: string;
   teraTypeId: string;
 };
 
@@ -74,7 +85,7 @@ const fieldLabels: Record<TeamMemberEditorField, string> = {
   abilityId: "Ability",
   ballItemId: "Poké Ball",
   gender: "Gender",
-  hasGigantamaxFactor: "Gigantamax Factor",
+  hasGigantamaxFactor: "Can Gigantamax",
   heldItemId: "Held item",
   isShiny: "Shiny",
   level: "Level",
@@ -84,6 +95,7 @@ const fieldLabels: Record<TeamMemberEditorField, string> = {
   natureId: "Nature",
   nickname: "Nickname",
   notes: "Notes",
+  slot: "Slot",
   teraTypeId: "Tera Type",
 };
 
@@ -126,6 +138,7 @@ export const getTeamMemberEditorValues = (
     natureId: toText(member.nature_id),
     nickname: member.nickname ?? "",
     notes: member.personal_notes ?? "",
+    slot: toText(member.slot),
     /* A form whose Tera Type is fixed (an Ogerpon mask) shows it. */
     teraTypeId: toText(member.tera_type_id ?? member.fixed_tera_type_id),
   };
@@ -159,6 +172,12 @@ export const getTeamMemberEditorChanges = (
 
     if (field === "isShiny" || field === "hasGigantamaxFactor") {
       return values[field] ? "Yes" : "No";
+    }
+
+    if (field === "slot") {
+      return values.slot
+        ? formatRosterSlot(Number(values.slot))
+        : "Not recorded";
     }
 
     if (field === "moveIds") {

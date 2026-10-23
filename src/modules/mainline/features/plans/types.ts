@@ -109,8 +109,15 @@ export type PlannerBuildFields = {
 };
 
 export type PlannerContext = {
+  /* What each ability does in the version group, by its id. */
+  abilityEffects: Record<number, string>;
   buildFields: PlannerBuildFields;
-  natures: { id: number; name: string }[];
+  natures: {
+    decreased_stat: string | null;
+    id: number;
+    increased_stat: string | null;
+    name: string;
+  }[];
   pokemon: PlannerPokemon[];
   sections: PlannerPokedexSection[];
   /* The types that exist in the version group's generation, in chart order. */

@@ -34,6 +34,9 @@ export const readMainlinePlayTeamRows = async (
   const ballItemIds = uniqueNumberIds(
     members.map((member) => member.ball_item_id),
   );
+  const heldItemIds = uniqueNumberIds(
+    members.map((member) => member.held_item_id),
+  );
 
   let attributesQuery = supabase
     .schema("reference")
@@ -69,6 +72,7 @@ export const readMainlinePlayTeamRows = async (
     moveAttributesResult,
     ballItemsResult,
     pokeBallCategoryResult,
+    heldItemsResult,
     naturesResult,
     evolutionEdgesResult,
     versionGroupsResult,
@@ -87,7 +91,7 @@ export const readMainlinePlayTeamRows = async (
     supabase
       .schema("reference")
       .from("items")
-      .select("id, primary_category_id")
+      .select("id, primary_category_id, slug")
       .in("id", ballItemIds.length ? ballItemIds : [-1]),
     supabase
       .schema("reference")
@@ -95,6 +99,11 @@ export const readMainlinePlayTeamRows = async (
       .select("id")
       .eq("slug", "poke_ball")
       .maybeSingle(),
+    supabase
+      .schema("reference")
+      .from("items")
+      .select("id, effect_summary, slug")
+      .in("id", heldItemIds.length ? heldItemIds : [-1]),
     supabase
       .schema("reference")
       .from("natures")
@@ -121,6 +130,7 @@ export const readMainlinePlayTeamRows = async (
     moveAttributesResult.error ||
     ballItemsResult.error ||
     pokeBallCategoryResult.error ||
+    heldItemsResult.error ||
     naturesResult.error ||
     evolutionEdgesResult.error ||
     versionGroupsResult.error
@@ -157,6 +167,16 @@ export const readMainlinePlayTeamRows = async (
     abilityAttributes: abilityAttributesResult.data ?? [],
     attributes,
     evolutionEdges: evolutionEdgesResult.data ?? [],
+    heldItemEffects: Object.fromEntries(
+      (heldItemsResult.data ?? []).flatMap((item) =>
+        item.effect_summary ? [[item.id, item.effect_summary]] : [],
+      ),
+    ),
+    itemSlugs: Object.fromEntries(
+      [...(ballItemsResult.data ?? []), ...(heldItemsResult.data ?? [])].map(
+        (item) => [item.id, item.slug],
+      ),
+    ),
     members,
     moveAttributes,
     natures: naturesResult.data ?? [],

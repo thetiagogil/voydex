@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia individual item, evolution item, form item, and game item pages.
 -- Cross-check: Serebii item location pages and PokemonDB item pages where available.
 -- Scope note: curated Pokémon-relevant item availability, not a full item encyclopedia.
+-- Poke Ball rule: a ball is listed when it exists in this game's item data, including event-only (Cherish Ball) and transfer-only balls; checked against Serebii ItemDex per-game ball descriptions.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -126,6 +127,8 @@ VALUES
   (138, 8, NULL, NULL, NULL),
   -- Quick Ball
   (139, 8, NULL, NULL, NULL),
+  -- Cherish Ball
+  (140, 8, NULL, NULL, 'Cherish Ball comes only with event Pokémon in this scope; the ball itself cannot be obtained.'),
   -- Fossils
   -- Helix Fossil
   (153, 8, NULL, NULL, NULL),

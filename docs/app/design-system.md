@@ -34,18 +34,18 @@ Use the role tokens as Tailwind colours (`bg-surface`, `text-ink-2`,
 `bg-primary`) are aliases of the same values so the primitives keep working;
 new code prefers the role names.
 
-| Group          | Tokens                                                                                                                                                              |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Ground and ink | `bg #F5F6F8`, `surface #FFFFFF`, `surface-2 #F2F5F9`, `hover`, `ink #26292F`, `ink-2 #4B5260`, `ink-3 #5B6270`, `on-ink`, `ink-tint` (secondary text on type tints) |
-| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                                            |
-| Action         | `action #CF342B` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `action-ink` (small eyebrows and marks), `link`, `focus`                         |
-| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`                                                    |
-| Meadow, band   | `sky`, `hill`, `hill-2`; `band` (the pale blue PageBand)                                                                                                            |
-| Selection      | `select-soft`, `select-ink` (every picked row, chip and pill); `game`, `game-strong` (a game's own colour, only on marks that tell games apart)                     |
-| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                                              |
-| Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                      |
-| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 36 44 48 52 60 64 112`; nothing under 12px; titles take a title step                                                            |
-| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                                       |
+| Group          | Tokens                                                                                                                                                                |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Ground and ink | `bg #F5F6F8`, `surface #FFFFFF`, `surface-2 #F2F5F9`, `hover`, `ink #26292F`, `ink-2 #4B5260`, `ink-3 #5B6270`, `on-ink`, `ink-tint` (secondary text on type tints)   |
+| Lines          | `line`, `lip`, `track`, `dash` (missing and open slots), `mute`, `scrim`                                                                                              |
+| Action         | `action #CF342B` and `action-deep` (hover), `action-lip` (pressed), `action-soft`, `action-ink` (small eyebrows and marks), `link`, `focus`                           |
+| Meaning        | `gold`, `gold-deep`, `gold-ring`; `ok`, `warn`, `danger` families (deep, soft, line); `calm` (ink, soft); `ball`; `female` (the female symbol; male wears `calm-ink`) |
+| Meadow, band   | `sky`, `hill`, `hill-2`; `band` (the pale blue PageBand)                                                                                                              |
+| Selection      | `select-soft`, `select-ink` (every picked row, chip and pill); `game`, `game-strong` (a game's own colour, only on marks that tell games apart)                       |
+| Corners        | `rounded-xs 6`, `sm 12`, `md 16`, `lg 20` (buttons), `xl 26`, `2xl 32` (cards), `full`                                                                                |
+| Shadows        | `shadow-card`, `shadow-soft`, `shadow-cover`, `shadow-float`, `shadow-overlay`, `shadow-button` and `shadow-button-pressed` (the sticker edge)                        |
+| Type scale     | `text-12 13 14 15 16 17 20 24 28 32 36 44 48 52 60 64 112`; nothing under 12px; titles take a title step                                                              |
+| Page frame     | `page-width 80rem`, `page-gutter` (16, 24, 32px), `bar-h` (60, 68px), `page-top`; the `page-column` and `page-band` utilities                                         |
 
 Every page, the top bar, the footer and the docked Play bar line up in the
 `page-column`. A page that opens on a band (the meadow on Mainline Home, the
@@ -148,15 +148,26 @@ and calm meanings (settled 2026-10-19).
   its classes), close buttons in sheets and dialogs are `secondary` icon
   buttons, and an action with a menu of other ways joins it in a
   `ButtonGroup` (Random team, Record a milestone). `soft` is only a control
-  inside a field.
+  inside a field. A sheet's Save button says just "Save", with no icon and
+  never a name typed in the form (2026-10-22); a spinner takes the icon's
+  place while it saves.
 - **Pickers are one family (2026-10-17)**: every select, dropdown menu,
   bar menu and searchable list opens the same white panel
   (`menuPanelClassName` in `ui/menu-surface.ts`, a hairline on the float
   shadow) with the same 48px option row (`menuOptionClassName`): an optional
   picture on a 36px tile, the title, a quieter line under it, the pick in
-  the selected tint with a check (`MenuOptionContent`). `SelectControl`
-  takes `icon` and `description` per option and opens with a search field
-  for lists longer than ten (`searchable`); a list of games shows each
+  the selected tint (`MenuOptionContent`); a select's pick is its tint alone,
+  with no check (2026-10-22), and a menu's current item keeps its check.
+  `SelectControl`
+  takes `icon`, `description`, `trailing` (a short mark at the row's end
+  and beside the picked value, such as a nature's stats) and `info` (what
+  the option is, behind a faint small "i" at the row's end, `ExplanatoryTip`
+  `subtle`; the field shows the picked one's on hover and reads it with the
+  field, as an ability's or a move's effect) per option and
+  opens with a search field for lists longer than ten (`searchable`); a
+  searchable list groups its options under headings by `group` (natures by
+  the stat they raise, held items by category), and its search also matches
+  the group's name; a list of games shows each
   game's cover (`GameOptionCover`), a generation its region. A toolbar's
   quiet select shows its words alone; a field shows the picture too. It
   takes the hover tint under the pointer, and given `resetValue` (what Reset
@@ -165,7 +176,7 @@ and calm meanings (settled 2026-10-19).
 - **Selected controls**: the one picked is a small sticker, its fill in a
   white band (`bubble`), and its weight never changes. Rows, chips and filter
   pills take `bg-select-soft text-select-ink` (the soft tint of the context
-  colour with deep ink); menu and select rows take the tint with a check. A mode
+  colour with deep ink); menu rows take the tint with a check, select rows the tint alone. A mode
   switch (`SegmentedControl` `segment`, v3's `.mode-seg`) takes `bg-action`
   with a white label. A scope picker (pills choosing which part you look at: a Pokédex, a
   Story journey, a collectible set, a game version; v3's `.pill.is-on`) takes
@@ -300,7 +311,7 @@ nothing, such as a Play's rule broken, `success` the soft green for good
 news, such as a Strong Story matchup, `destructive` the soft danger tint for
 an error or a Challenging Story matchup; a note that only informs takes `role="status"`), `Dialog`,
 `Sheet`, `DropdownMenu`,
-`Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
+`Select`, `Tooltip` (ink; every hover label, after a brief shared delay, `tooltipDelay`; never the browser's `title` attribute), `Input`, `InputGroup` (the search field),
 `ButtonGroup`, `Switch`, `Progress` (how far along, in the progress blue like an EXP bar, never the red accent),
 `NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
 additions:
@@ -387,7 +398,10 @@ Voydex components:
 | `TrainerPlayRow`                                       | `src/modules/mainline/shared/components/trainer-play-row.tsx`                  | One Play a Pokémon of yours is in: the Play's cover and name, a line on the Pokémon ("Arcanine · Lv. 59 · On the team"), its status badge, opening it on the Play. The species sheet's rows and the Codex entry's In your Plays                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `SettingsRow`                                          | `src/shared/components/settings-row.tsx`                                       | v3 `.trow`: a setting's name, an optional line on what it means, and its control at the end (under the words on phones); rows are separated by space. App Settings and Play settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | `UnsavedChangesFooter`                                 | `src/shared/components/unsaved-changes-footer.tsx`                             | v3 `.set-foot`: shown only while its card has unsaved changes, flush along the bottom of a `DetailSectionCard`, with Cancel and Save (submits the form unless `onSave` is given). Play settings and the profile                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| `SearchSelect`                                         | `src/shared/components/search-select.tsx`                                      | A searchable pick from a long list on the shared `Combobox` (held items, moves), with an optional `detail` line; clearing leaves it empty. The roster editor and the Planner's slot sheet                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `NatureEffect`                                         | `.../pokemon/components/nature-effect.tsx`                                     | What a nature does, in one line: the raised stat with a red up arrow and the lowered one with a blue down arrow, as short forms (ATK, DEF, SPA, SPD, SPE), or "Neutral" for Hardy, Docile, Serious, Bashful and Quirky. The `trailing` mark of every nature option (the roster editor and the Planner's slot sheet); `getNatureEffect` is its model                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `ItemIcon`                                             | `src/shared/components/item-icon.tsx`                                          | An item's picture: its sprite (`src`, from `getItemImageUrl`) or, when it has none or the sprite fails, a stand-in by `kind` (a Poké Ball, a box for a held item). The roster editor's Poké Ball select and held item field                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `MoveCategoryIcon`                                     | `src/modules/reference/features/moves/components/move-category-icon.tsx`       | A move's category (Physical, Special, Status) as its HOME icon, named for screen readers and on hover; the word when the icon can't load. Every move row: the move picker and its field, the team panel and Codex's learnset                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| `SlotPicker`                                           | `src/shared/components/slot-picker.tsx`                                        | A team's slots as small squares, six to a row, each with its sprite and number; the picked one takes the selected tint and border, a previewed move marks the place it leaves in blue (`tone: "from"`), a slot that can't be picked is disabled with its reason. `groups` (a `label` such as "Team" or "Reserve" above each row set). The roster editor's Slot (twelve squares; a pick previews the move, which Save applies) and the Planner's slot sheet                                                                                                                                                                                                                                                                                                            |
 | `PasswordInput`                                        | `src/shared/components/password-input.tsx`                                     | A password field with a Show and Hide toggle, on `InputGroup`. Log in, Sign up, New password and Change password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 | `PendingData`                                          | `src/shared/components/pending-data.tsx`                                       | Where a v3 piece goes whose data Voydex doesn't have yet (see below): `block` for a section or card body (an optional quiet `children` preview and a `note`), `inline` for one value or control; drawn with `empty-slot`, labelled "Not in Voydex yet" by default                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `StatTile`                                             | `src/shared/components/stat-tile.tsx`                                          | One figure in a card or sheet: a quiet label over a Fredoka 24 value and an optional line on what it means, on the inset fill (the Planner's Team check, a Story battle's levels)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
