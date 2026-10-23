@@ -570,11 +570,17 @@ export const StoryBattleReport = ({
                       <span className="sr-only">Pokémon</span>
                     </th>
                     {party ? (
-                      <th scope="col" className="w-[24%] pb-2 font-extrabold">
+                      <th scope="col" className="w-[28%] pb-2 font-extrabold">
                         Role
                       </th>
                     ) : null}
-                    <th scope="col" className="pb-2 font-extrabold">
+                    <th
+                      scope="col"
+                      className={cn(
+                        "pb-2 font-extrabold",
+                        party ? "w-[16%]" : null,
+                      )}
+                    >
                       Best hit
                     </th>
                     <th scope="col" className="pb-2 font-extrabold">
