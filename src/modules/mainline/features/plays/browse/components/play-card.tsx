@@ -13,6 +13,8 @@ import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/ty
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { StatusBadge } from "@/shared/components/status-badge";
+import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { Card } from "@/shared/components/ui/card";
 
 type PlayCardProps = {
@@ -37,16 +39,32 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
     ) : null,
   ].filter(Boolean);
 
-  if (!parts.length) {
+  /* The list is one list now, so the status rides on the card. */
+  const status = play.status_name ? (
+    <StatusBadge
+      size="xs"
+      tone={getPlayStatusTone(play.status_slug)}
+      className="mr-2 align-middle"
+    >
+      {play.status_name}
+    </StatusBadge>
+  ) : null;
+
+  if (!parts.length && !status) {
     return null;
   }
 
-  return parts.map((part, index) => (
-    <span key={index}>
-      {index ? " · " : null}
-      {part}
-    </span>
-  ));
+  return (
+    <>
+      {status}
+      {parts.map((part, index) => (
+        <span key={index}>
+          {index ? " · " : null}
+          {part}
+        </span>
+      ))}
+    </>
+  );
 };
 
 /*

@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-import { PlayStatusGroup } from "@/modules/mainline/features/plays/browse/components/play-status-group";
+import { PlayCard } from "@/modules/mainline/features/plays/browse/components/play-card";
 import { PlaysToolbar } from "@/modules/mainline/features/plays/browse/components/plays-toolbar";
 import {
   defaultPlayBrowseFilters,
@@ -11,7 +11,6 @@ import {
   getInitialPlayBrowseFilters,
   getPlayBrowseOptions,
   getPlayBrowseUrlSearchParams,
-  groupPlaysByStatus,
   hasActivePlayBrowseFilters,
   type PlayBrowseFilters,
   type PlayBrowseParams,
@@ -39,7 +38,7 @@ const URL_UPDATE_DELAY_MS = 250;
 
 /*
  * The library: the band with the page's head and the toolbar, then the
- * results line and the Plays by status.
+ * results line and the Plays as one list.
  */
 export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
   const pathname = usePathname();
@@ -51,13 +50,9 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
   );
   const [filters, setFilters] = useState(initialFilters);
   const [appliedFilters, setAppliedFilters] = useState(initialFilters);
-  const groups = useMemo(
-    () => groupPlaysByStatus(filterAndSortPlays(plays, appliedFilters)),
+  const shownPlays = useMemo(
+    () => filterAndSortPlays(plays, appliedFilters),
     [appliedFilters, plays],
-  );
-  const shownCount = groups.reduce(
-    (count, group) => count + group.plays.length,
-    0,
   );
   /* Counted before the URL catches up, for the phone sheet's button. */
   const matchingCount = useMemo(
@@ -119,6 +114,7 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             filters={filters}
             games={options.games}
             generations={options.generations}
+            statuses={options.statuses}
             matchingCount={matchingCount}
             onGameChange={(game) => {
               updateFilter("game", game);
@@ -128,6 +124,9 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             }}
             onQueryChange={(query) => {
               updateFilter("query", query);
+            }}
+            onStatusChange={(status) => {
+              updateFilter("status", status);
             }}
             onSortChange={(sort) => {
               updateFilter("sort", sort);
@@ -140,25 +139,29 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             noun="Plays"
             nounOne="Play"
             onReset={resetList}
-            shownCount={shownCount}
+            shownCount={shownPlays.length}
             totalCount={plays.length}
           />
         </FoldPanel>
       </PageBand>
 
       <section aria-label="Play library" className="flex flex-col">
-        {groups.length ? (
-          <div className="mt-6 grid gap-8 sm:mt-8">
-            {groups.map((group) => (
-              <PlayStatusGroup key={group.id} group={group} />
+        <h2 className="sr-only">Your Plays</h2>
+        {shownPlays.length ? (
+          <ul className="mt-6 grid gap-3 sm:mt-8">
+            {shownPlays.map((play) => (
+              <PlayCard
+                key={play.play_id ?? `${play.game_id}-${play.created_at}`}
+                play={play}
+              />
             ))}
-          </div>
+          </ul>
         ) : (
           <EmptyState
             headingLevel="h2"
             className="mt-5"
             title="No Plays found"
-            description="Try another search, game or generation."
+            description="Try another search, game, generation or status."
             action={<ResetListButton onClick={resetList} />}
           />
         )}

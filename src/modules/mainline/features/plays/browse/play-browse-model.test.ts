@@ -6,7 +6,7 @@ import {
   getInitialPlayBrowseFilters,
   getPlayBrowseOptions,
   getPlayBrowseUrlSearchParams,
-  groupPlaysByStatus,
+  hasActivePlayBrowseFilters,
 } from "@/modules/mainline/features/plays/browse/play-browse-model";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 
@@ -79,6 +79,10 @@ describe("play browse model", () => {
         { label: "Generation III", value: "generation-iii" },
         { label: "Generation IV", value: "generation-iv" },
       ],
+      statuses: [
+        { label: "Playing", value: "playing" },
+        { label: "Completed", value: "completed" },
+      ],
     });
   });
 
@@ -100,6 +104,7 @@ describe("play browse model", () => {
           value: "generation-iv",
         },
       ],
+      statuses: [{ label: "Playing", value: "playing" }],
     });
   });
 
@@ -134,6 +139,69 @@ describe("play browse model", () => {
     ).toEqual(["play-2", "play-1"]);
   });
 
+  it("orders status options the way a library reads, unknown ones last", () => {
+    const statuses = getPlayBrowseOptions([
+      buildPlay({ status_name: "Shelved", status_slug: "shelved" }),
+      buildPlay({ status_name: "Abandoned", status_slug: "abandoned" }),
+      buildPlay({ status_name: "Paused", status_slug: "paused" }),
+      buildPlay({ status_name: "Not started", status_slug: "not_started" }),
+      buildPlay({ status_name: "Completed", status_slug: "completed" }),
+      buildPlay({ status_name: "Playing", status_slug: "playing" }),
+      buildPlay({ status_name: null, status_slug: null }),
+    ]).statuses.map((option) => option.value);
+
+    expect(statuses).toEqual([
+      "playing",
+      "not_started",
+      "paused",
+      "completed",
+      "abandoned",
+      "shelved",
+    ]);
+  });
+
+  it("filters by status and keeps one flat list", () => {
+    expect(
+      filterAndSortPlays(plays, {
+        ...defaultPlayBrowseFilters,
+        status: "completed",
+      }).map((play) => play.play_id),
+    ).toEqual(["play-2"]);
+
+    expect(
+      filterAndSortPlays(plays, defaultPlayBrowseFilters).map(
+        (play) => play.play_id,
+      ),
+    ).toEqual(["play-2", "play-1"]);
+  });
+
+  it("counts a status as an active filter and puts it in the URL", () => {
+    expect(hasActivePlayBrowseFilters(defaultPlayBrowseFilters)).toBe(false);
+    expect(
+      hasActivePlayBrowseFilters({
+        ...defaultPlayBrowseFilters,
+        status: "playing",
+      }),
+    ).toBe(true);
+    expect(
+      getPlayBrowseUrlSearchParams({
+        ...defaultPlayBrowseFilters,
+        status: "playing",
+      }).toString(),
+    ).toBe("status=playing");
+  });
+
+  it("drops a status from the URL that no Play has", () => {
+    const options = getPlayBrowseOptions(plays);
+
+    expect(
+      getInitialPlayBrowseFilters({ status: "completed" }, options).status,
+    ).toBe("completed");
+    expect(
+      getInitialPlayBrowseFilters({ status: "shelved" }, options).status,
+    ).toBe("");
+  });
+
   it("normalizes unsupported URL values and omits default criteria", () => {
     const options = getPlayBrowseOptions(plays);
 
@@ -152,6 +220,7 @@ describe("play browse model", () => {
       generation: "generation-iv",
       query: "johto",
       sort: "recent",
+      status: "",
     });
 
     expect(
@@ -161,49 +230,5 @@ describe("play browse model", () => {
         query: "  johto  ",
       }).toString(),
     ).toBe("q=johto&generation=generation-iv");
-  });
-
-  it("groups Plays by status in reading order and keeps their order", () => {
-    const groups = groupPlaysByStatus([
-      buildPlay({
-        play_id: "done",
-        status_name: "Completed",
-        status_slug: "completed",
-      }),
-      buildPlay({
-        play_id: "paused",
-        status_name: "Paused",
-        status_slug: "paused",
-      }),
-      buildPlay({
-        play_id: "first",
-        status_name: "Playing",
-        status_slug: "playing",
-      }),
-      buildPlay({
-        play_id: "custom",
-        status_name: "Shelved",
-        status_slug: "shelved",
-      }),
-      buildPlay({
-        play_id: "second",
-        status_name: "Playing",
-        status_slug: "playing",
-      }),
-      buildPlay({ play_id: "unknown", status_name: null, status_slug: null }),
-    ]);
-
-    expect(
-      groups.map((group) => [
-        group.name,
-        group.plays.map((play) => play.play_id),
-      ]),
-    ).toEqual([
-      ["Playing", ["first", "second"]],
-      ["Paused", ["paused"]],
-      ["Completed", ["done"]],
-      ["Shelved", ["custom"]],
-      ["Other", ["unknown"]],
-    ]);
   });
 });

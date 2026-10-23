@@ -35,8 +35,9 @@ Plays are user-owned playthroughs.
 
 The Plays area should support:
 
-- Listing all plays, with Search, Game, Generation, and Sort kept in the URL;
-  status, tags, rules, and completion-state filters are later additions.
+- Listing all plays as one list, newest activity first, with Search, Game,
+  Generation, Status and Sort kept in the URL; tags, rules, and
+  completion-state filters are later additions.
 - Creating a play through New Play, from Plays, Home or a Codex game page.
 - Entering a play hub.
 
