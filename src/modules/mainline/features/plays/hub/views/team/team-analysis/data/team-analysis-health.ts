@@ -152,8 +152,9 @@ export const buildTeamAnalysisHealth = ({
     ? "This Play's generation has no type chart to read."
     : `Every Pokémon needs its typing for this reading; ${evidence.typedMemberCount} of ${evidence.activeCount} have one.`;
   const roughNote = getTeamFieldRoughNote(field);
+  /* One sentence a line: the tip sets the verdict apart from how it was read. */
   const withRoughNote = (sentences: (string | null)[]) =>
-    [...sentences, roughNote].filter(Boolean).join(" ");
+    [...sentences, roughNote].filter(Boolean).join("\n");
   const total = field.types.length;
   /* Hardest first: what each type costs your best answers. */
   const byCost = [...field.types].sort(

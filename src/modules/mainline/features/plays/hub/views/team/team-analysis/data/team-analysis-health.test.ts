@@ -222,6 +222,17 @@ describe("buildTeamAnalysisHealth", () => {
     ]);
   });
 
+  it("keeps one sentence to a line, even with a full stop in a name", () => {
+    const reason = build(
+      field({
+        types: typeReadings({ 5: { beats: ["Mr. Mime", "Mime Jr."] } }),
+      }),
+    )["weakness-control"]?.reason;
+
+    expect(reason?.split("\n").every((line) => line.length > 12)).toBe(true);
+    expect(reason).toContain("Type 5 (Mr. Mime and Mime Jr.)");
+  });
+
   it("speaks of a team of one as it", () => {
     const reason = build(
       field({

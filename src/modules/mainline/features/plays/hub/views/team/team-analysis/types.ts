@@ -36,6 +36,7 @@ export type TeamAnalysisHealthMetric = {
   id: "move-coverage" | "team-health" | "threat-response" | "weakness-control";
   line: TeamAnalysisHealthLinePart[];
   /* Why the card reads the way it does, shown in its tooltip. */
+  /* Sentences, one to a line. */
   reason: string;
   status: TeamAnalysisHealthStatus;
   title: string;

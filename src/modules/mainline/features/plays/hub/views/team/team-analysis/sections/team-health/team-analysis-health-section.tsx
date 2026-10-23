@@ -60,12 +60,12 @@ const TeamAnalysisHealthCard = ({
               </TipHead>
               {/* The verdict first, then how it was read, quieter. */}
               {metric.reason
-                .split(/(?<=\.)\s+/)
+                .split("\n")
                 .map((sentence, index) =>
                   index === 0 ? (
-                    <TipText key={sentence}>{sentence}</TipText>
+                    <TipText key={index}>{sentence}</TipText>
                   ) : (
-                    <TipNote key={sentence}>{sentence}</TipNote>
+                    <TipNote key={index}>{sentence}</TipNote>
                   ),
                 )}
             </TipStack>
