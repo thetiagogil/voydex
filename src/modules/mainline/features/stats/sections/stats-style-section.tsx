@@ -30,6 +30,8 @@ import { SheetTitle } from "@/shared/components/ui/sheet";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
+import { IconTip } from "@/shared/components/icon-tip";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 type StatsStyleSectionProps = {
   onOpenFriend: (friend: StatsFriend) => void;
@@ -57,50 +59,54 @@ const TypeTile = ({
   const share = Math.round(10 + (type.count / most) * 40);
 
   return (
-    <li
-      title={`${type.name}: ${type.count ? `${type.count} on your teams` : "not used yet"}`}
-      style={{
-        ...getPokemonTypeCssVariables(slug),
-        ...(type.count
-          ? {
-              backgroundColor: `color-mix(in oklab, var(--t) ${share}%, var(--surface))`,
-            }
-          : null),
-      }}
-      className={cn(
-        "flex min-w-0 flex-col items-center gap-1 rounded-lg px-1.5 py-2.5 text-center",
-        type.count ? null : "empty-slot",
-        className,
-      )}
-    >
-      {slug ? (
-        <PokemonTypeMark
-          type={slug}
+    <IconTip
+      label={`${type.name}: ${type.count ? `${type.count} on your teams` : "not used yet"}`}
+      trigger={
+        <li
+          style={{
+            ...getPokemonTypeCssVariables(slug),
+            ...(type.count
+              ? {
+                  backgroundColor: `color-mix(in oklab, var(--t) ${share}%, var(--surface))`,
+                }
+              : null),
+          }}
           className={cn(
-            "size-6 shrink-0",
-            type.count ? null : "opacity-45 grayscale",
+            "flex min-w-0 flex-col items-center gap-1 rounded-lg px-1.5 py-2.5 text-center",
+            type.count ? null : "empty-slot",
+            className,
           )}
-          iconClassName="size-3.5"
-        />
-      ) : null}
-      <b
-        className={cn(
-          "text-13 w-full truncate font-extrabold",
-          type.count ? "text-ink" : "text-ink-3",
-        )}
-      >
-        {type.name}
-      </b>
-      <span
-        className={cn(
-          "text-14 font-extrabold tabular-nums",
-          type.count ? "text-ink" : "text-ink-3",
-        )}
-      >
-        {type.count || "–"}
-        <span className="sr-only"> on your teams</span>
-      </span>
-    </li>
+        >
+          {slug ? (
+            <PokemonTypeMark
+              type={slug}
+              className={cn(
+                "size-6 shrink-0",
+                type.count ? null : "opacity-45 grayscale",
+              )}
+              iconClassName="size-3.5"
+            />
+          ) : null}
+          <b
+            className={cn(
+              "text-13 w-full truncate font-extrabold",
+              type.count ? "text-ink" : "text-ink-3",
+            )}
+          >
+            {type.name}
+          </b>
+          <span
+            className={cn(
+              "text-14 font-extrabold tabular-nums",
+              type.count ? "text-ink" : "text-ink-3",
+            )}
+          >
+            {type.count || "–"}
+            <span className="sr-only"> on your teams</span>
+          </span>
+        </li>
+      }
+    />
   );
 };
 
@@ -341,11 +347,10 @@ export const StatsStyleSection = ({
                         triggerLabel={`${friend.entry.name}'s family`}
                         contentClassName="w-60"
                         content={
-                          <p>
-                            <b>{friend.entry.name}&apos;s family.</b> You used{" "}
-                            {friend.memberNames} across {friend.playCount}{" "}
-                            Plays.
-                          </p>
+                          <TipNamed name={`${friend.entry.name}'s family`}>
+                            You used {friend.memberNames} across{" "}
+                            {friend.playCount} Plays.
+                          </TipNamed>
                         }
                       >
                         <AppIcon icon={appIcons.product.family} size="sm" />

@@ -16,6 +16,7 @@ import type { GameShelfGame } from "@/modules/reference/features/games/types";
 import { Carousel } from "@/shared/components/carousel";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type GameShelfPickerProps = {
   /* Names the shelf for assistive tech. */
@@ -369,34 +370,38 @@ export const GameShelfPicker = ({
           const isPicked = game.slug === value;
 
           return (
-            <div
+            <IconTip
               key={game.slug}
-              role="option"
-              aria-selected={isPicked}
-              aria-label={`${game.name}, ${game.releaseYear}`}
-              title={game.name}
-              data-game-slug={game.slug}
-              tabIndex={game.slug === tabStopSlug ? 0 : -1}
-              onClick={() => pick(game.slug)}
-              onFocus={() => setActiveSlug(game.slug)}
-              className={cn(
-                "group/cover ease-hop relative shrink-0 cursor-pointer rounded-sm transition-transform duration-250",
-                isPicked
-                  ? "-translate-y-5"
-                  : "motion-safe:hover:-translate-y-3 motion-safe:hover:-rotate-3",
-              )}
-            >
-              <GameCover
-                alt=""
-                coverImageUrl={game.coverImageUrl}
-                eager={Math.abs(index - opening.index) <= EAGER_COVER_REACH}
-                gameName={game.name}
-                gameSlug={game.slug}
-                shape={game.coverShape}
-                size={coverSize === "lg" ? "pickerLarge" : "picker"}
-              />
-              {isPicked ? <PickedMark /> : null}
-            </div>
+              label={game.name}
+              trigger={
+                <div
+                  role="option"
+                  aria-selected={isPicked}
+                  aria-label={`${game.name}, ${game.releaseYear}`}
+                  data-game-slug={game.slug}
+                  tabIndex={game.slug === tabStopSlug ? 0 : -1}
+                  onClick={() => pick(game.slug)}
+                  onFocus={() => setActiveSlug(game.slug)}
+                  className={cn(
+                    "group/cover ease-hop relative shrink-0 cursor-pointer rounded-sm transition-transform duration-250",
+                    isPicked
+                      ? "-translate-y-5"
+                      : "motion-safe:hover:-translate-y-3 motion-safe:hover:-rotate-3",
+                  )}
+                >
+                  <GameCover
+                    alt=""
+                    coverImageUrl={game.coverImageUrl}
+                    eager={Math.abs(index - opening.index) <= EAGER_COVER_REACH}
+                    gameName={game.name}
+                    gameSlug={game.slug}
+                    shape={game.coverShape}
+                    size={coverSize === "lg" ? "pickerLarge" : "picker"}
+                  />
+                  {isPicked ? <PickedMark /> : null}
+                </div>
+              }
+            />
           );
         })}
       </Carousel>

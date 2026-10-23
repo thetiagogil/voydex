@@ -31,6 +31,7 @@ import {
 } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
 import { SheetTitle } from "@/shared/components/ui/sheet";
+import { IconTip } from "@/shared/components/icon-tip";
 
 type PlannerTeamCheckSheetProps = {
   coverage: PlanCoverage[];
@@ -176,14 +177,20 @@ export const PlannerTeamCheckSheet = ({
                               const pokemon = byId.get(speciesId);
 
                               return pokemon ? (
-                                <FallbackImage
+                                <IconTip
                                   key={speciesId}
-                                  src={pokemon.imageUrl}
-                                  name={pokemon.name}
-                                  alt={pokemon.name}
-                                  title={pokemon.name}
-                                  fallback="badge"
-                                  className="size-9"
+                                  label={pokemon.name}
+                                  trigger={
+                                    <span className="inline-flex">
+                                      <FallbackImage
+                                        src={pokemon.imageUrl}
+                                        name={pokemon.name}
+                                        alt={pokemon.name}
+                                        fallback="badge"
+                                        className="size-9"
+                                      />
+                                    </span>
+                                  }
                                 />
                               ) : null;
                             })}

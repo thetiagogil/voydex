@@ -6,6 +6,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 import type { MainlinePlayCollectibleEntry } from "../types";
+import { IconTip } from "@/shared/components/icon-tip";
 
 /*
  * One collectible as a token: missing is a dashed square with its number;
@@ -35,47 +36,51 @@ export const CollectibleToken = ({
   const [motion, setMotion] = useState<"pop" | "settle" | null>(null);
 
   return (
-    <button
-      type="button"
-      aria-label={`${entry.name}${place ? `, ${place},` : ""} found`}
-      title={place ?? undefined}
-      aria-pressed={isFound}
-      aria-disabled={isPending || undefined}
-      onClick={() => {
-        if (isPending) {
-          return;
-        }
+    <IconTip
+      label={place}
+      trigger={
+        <button
+          type="button"
+          aria-label={`${entry.name}${place ? `, ${place},` : ""} found`}
+          aria-pressed={isFound}
+          aria-disabled={isPending || undefined}
+          onClick={() => {
+            if (isPending) {
+              return;
+            }
 
-        setMotion(isFound ? "settle" : "pop");
+            setMotion(isFound ? "settle" : "pop");
 
-        onToggle();
-      }}
-      onAnimationEnd={() => setMotion(null)}
-      className={cn(
-        "focus-ring relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 aria-disabled:cursor-wait",
-        isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
-        motion === "pop" && "animate-pop",
-        motion === "settle" && "animate-settle",
-        className,
-      )}
-    >
-      {isFound ? (
-        <AppIcon
-          icon={appIcons.product.collectible}
-          className="text-warn-ink -mt-1.5 size-[42%]"
-          aria-hidden
-        />
-      ) : null}
-      <span
-        className={cn(
-          "font-extrabold tabular-nums",
-          isFound
-            ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(var(--shade)/0.18)]"
-            : "text-13 text-ink-3",
-        )}
-      >
-        {entry.sortOrder}
-      </span>
-    </button>
+            onToggle();
+          }}
+          onAnimationEnd={() => setMotion(null)}
+          className={cn(
+            "focus-ring relative grid aspect-square shrink-0 place-items-center rounded-lg p-0 aria-disabled:cursor-wait",
+            isFound ? "sticker [--t:var(--gold)]" : "empty-slot",
+            motion === "pop" && "animate-pop",
+            motion === "settle" && "animate-settle",
+            className,
+          )}
+        >
+          {isFound ? (
+            <AppIcon
+              icon={appIcons.product.collectible}
+              className="text-warn-ink -mt-1.5 size-[42%]"
+              aria-hidden
+            />
+          ) : null}
+          <span
+            className={cn(
+              "font-extrabold tabular-nums",
+              isFound
+                ? "text-12 text-ink-2 absolute -bottom-2.25 left-1/2 -translate-x-1/2 rounded-full bg-white px-1.75 shadow-[0_1px_2px_rgb(var(--shade)/0.18)]"
+                : "text-13 text-ink-3",
+            )}
+          >
+            {entry.sortOrder}
+          </span>
+        </button>
+      }
+    />
   );
 };

@@ -32,6 +32,7 @@ import {
   getTeamMoves,
 } from "./team-member-model";
 import { TeamMemberMoves } from "./team-member-moves";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 /* The name is the panel's heading: an h3 on the page, the title in a sheet. */
 export const teamMemberNameClassName = "title-page wrap-break-word";
@@ -197,7 +198,11 @@ export const TeamMemberProfile = ({
                   <span className="min-w-0">{fact.value}</span>
                   {fact.detail || fact.info ? (
                     <ExplanatoryTip
-                      content={fact.detail ?? fact.info}
+                      content={
+                        <TipNamed name={fact.value}>
+                          {fact.detail ?? fact.info}
+                        </TipNamed>
+                      }
                       triggerLabel={`About ${fact.value}`}
                       triggerVariant="subtle"
                     />

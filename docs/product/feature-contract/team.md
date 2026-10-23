@@ -182,10 +182,16 @@ best. **Team health** is what beating the six costs your team: Strong at 30%
 of its HP or less, Weak at 90% or more, Moderate between, so level weighs
 first (yours 5 or more levels below your top pull it down), then how many
 you bring against six, then types; its line names who lags behind, else the
-type that costs the most, or "No type to watch" when none costs over 30% of
-a Pokémon's HP. **Threat response** counts the types your answers beat for
+type to watch when one clearly costs more than the rest, else how many types
+stand out (over 30% of a Pokémon's HP and clearly above a usual type), or "No
+type to watch" when none does, as with an evenly hard field. Its tooltip says it in general words (never HP or
+percentages), gives each lagging Pokémon's exact level, and lists the types
+that stand out, three at most. Each card tooltip is one line saying what it
+reads, the rows that lead to it (Knockout power says why a type is slow: no
+super-effective move, none of the user's own type, or not strong enough), and
+behind a hairline the rule with the Strong, Moderate and Weak chips. **Threat response** counts the types your answers beat for
 less than 90% of one Pokémon's HP (Strong when all, Moderate from three in
-four). **Move coverage** counts the types your hardest hit knocks out in two
+four). **Knockout power** counts the types your hardest hit knocks out in two
 hits or fewer (Strong from four in five, Moderate from half). **Weakness
 control** names the types that hit two or more of yours (your only one in a
 team of one) super effectively and beat them one on one, and is Strong with
@@ -194,7 +200,10 @@ without a recorded level reads at your top level and one without a damaging
 move (set-damage moves count) by its types; a note under the cards and each
 card's tooltip then say it is a rough read and how many. Typing missing on
 any of yours leaves the cards ungraded, without the note. The defensive
-matchups matrix and the move coverage list below stay by type. **Story matchups** (`?reading=story`) lists the
+matchups matrix and the move coverage list below stay by type; each move
+coverage chip counts the recorded damaging moves that hit its type super
+effectively, and its tooltip names who has them, while the other chips fade.
+Move coverage tooltips give each move's type and mark STAB. **Story matchups** (`?reading=story`) lists the
 Play's Story battles by chapter: every opponent a story point names is its
 own battle (a rival on the way to a Gym sits under that badge), with where it
 happens. A battle won keeps who you faced, their team

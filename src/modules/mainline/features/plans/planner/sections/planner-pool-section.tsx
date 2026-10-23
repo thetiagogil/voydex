@@ -31,6 +31,13 @@ import {
 } from "@/shared/components/fold";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
+import {
+  TipHead,
+  TipRow,
+  TipRows,
+  TipStack,
+} from "@/shared/components/tip-parts";
 
 export type PlannerPoolFilters = {
   /* One Pokédex's key (the base game or an expansion), or "" for all. */
@@ -262,45 +269,51 @@ export const PlannerPoolSection = ({
                       key={pokemon.speciesId}
                       className="relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                     >
-                      <button
-                        type="button"
-                        aria-pressed={slot !== undefined}
-                        title={notes.join(" ") || undefined}
-                        onClick={() => onPick(pokemon)}
-                        style={getPokemonTypeCssVariables(
-                          pokemon.types[0] &&
-                            isPokemonTypeSlug(pokemon.types[0].slug)
-                            ? pokemon.types[0].slug
-                            : null,
-                        )}
-                        className="focus-ring block w-full rounded-lg"
-                      >
-                        <PokemonCard
-                          state="plain"
-                          size="fluid"
-                          imageAlt=""
-                          imageUrl={pokemon.imageUrl}
-                          name={pokemon.name}
-                          number={formatNationalNumber(pokemon.nationalNumber)}
-                          /* The "!" takes the number's place; its words stay. */
-                          numberHidden={notes.length > 0}
-                          types={pokemon.types}
-                          picked={slot !== undefined}
-                          className={cn(
-                            /* The whole tile lifts, carrying its marks. */
-                            "hover:translate-y-0",
-                            replacingId === pokemon.speciesId &&
-                              "outline-action outline-3 outline-offset-2 outline-solid",
-                          )}
-                        ></PokemonCard>
-                        {slot || notes.length ? (
-                          <span className="sr-only">
-                            {[slot ? `, in slot ${slot}` : null, ...notes]
-                              .filter(Boolean)
-                              .join(". ")}
-                          </span>
-                        ) : null}
-                      </button>
+                      <IconTip
+                        label={notes.join(" ") || undefined}
+                        trigger={
+                          <button
+                            type="button"
+                            aria-pressed={slot !== undefined}
+                            onClick={() => onPick(pokemon)}
+                            style={getPokemonTypeCssVariables(
+                              pokemon.types[0] &&
+                                isPokemonTypeSlug(pokemon.types[0].slug)
+                                ? pokemon.types[0].slug
+                                : null,
+                            )}
+                            className="focus-ring block w-full rounded-lg"
+                          >
+                            <PokemonCard
+                              state="plain"
+                              size="fluid"
+                              imageAlt=""
+                              imageUrl={pokemon.imageUrl}
+                              name={pokemon.name}
+                              number={formatNationalNumber(
+                                pokemon.nationalNumber,
+                              )}
+                              /* The "!" takes the number's place; its words stay. */
+                              numberHidden={notes.length > 0}
+                              types={pokemon.types}
+                              picked={slot !== undefined}
+                              className={cn(
+                                /* The whole tile lifts, carrying its marks. */
+                                "hover:translate-y-0",
+                                replacingId === pokemon.speciesId &&
+                                  "outline-action outline-3 outline-offset-2 outline-solid",
+                              )}
+                            ></PokemonCard>
+                            {slot || notes.length ? (
+                              <span className="sr-only">
+                                {[slot ? `, in slot ${slot}` : null, ...notes]
+                                  .filter(Boolean)
+                                  .join(". ")}
+                              </span>
+                            ) : null}
+                          </button>
+                        }
+                      />
                       {/*
                        * The tile's marks inside it so they lift with it (the
                        * list's sections clip anything outside): the "!" of
@@ -314,9 +327,24 @@ export const PlannerPoolSection = ({
                             triggerTone="warn"
                             triggerLabel={`${pokemon.name}: ${notes[0]}`}
                             contentClassName="w-64"
-                            content={notes.map((note) => (
-                              <p key={note}>{note}</p>
-                            ))}
+                            content={
+                              <TipStack>
+                                <TipHead>
+                                  {notes.length === 1
+                                    ? "One thing to check"
+                                    : `${notes.length} things to check`}
+                                </TipHead>
+                                <TipRows>
+                                  {notes.map((note) => (
+                                    <TipRow
+                                      key={note}
+                                      name={note}
+                                      tone="warn"
+                                    />
+                                  ))}
+                                </TipRows>
+                              </TipStack>
+                            }
                           />
                         </CornerBubble>
                       ) : null}

@@ -2,11 +2,15 @@ import { useId } from "react";
 
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import {
+  PokemonTypeBadge,
+  PokemonTypeMark,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 import type { TeamMove } from "./team-member-model";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   const typeSlug =
@@ -42,7 +46,22 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
       )}
       {move.effect ? (
         <ExplanatoryTip
-          content={move.effect}
+          content={
+            <TipNamed
+              leading={
+                typeSlug ? (
+                  <PokemonTypeMark
+                    type={typeSlug}
+                    className="size-6 shrink-0"
+                    iconClassName="size-3.5"
+                  />
+                ) : undefined
+              }
+              name={move.name}
+            >
+              {move.effect}
+            </TipNamed>
+          }
           triggerLabel={`About ${move.name}`}
           triggerVariant="subtle"
         />

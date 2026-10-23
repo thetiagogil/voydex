@@ -21,8 +21,8 @@ export const StoryTeamSnapshot = ({
         return (
           <li
             key={`${member.position}-${member.speciesName}-${member.formName ?? ""}`}
-            title={name}
           >
+            {/* The avatar carries the name and its tip. */}
             <PokemonAvatar
               name={name}
               imageUrl={member.imageUrl}

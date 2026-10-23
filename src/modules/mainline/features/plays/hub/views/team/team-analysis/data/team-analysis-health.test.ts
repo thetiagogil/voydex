@@ -2,7 +2,13 @@ import { describe, expect, it } from "vitest";
 
 import type { Type } from "@/modules/reference/types";
 
-import type { TeamAnalysisEvidence, TeamAnalysisHealthStatus } from "../types";
+import type {
+  TeamAnalysisCoverageRow,
+  TeamAnalysisEvidence,
+  TeamAnalysisHealthMetric,
+  TeamAnalysisHealthStatus,
+  TeamAnalysisTipRow,
+} from "../types";
 import { buildTeamAnalysisHealth } from "./team-analysis-health";
 import type {
   TeamFieldReading,
@@ -39,7 +45,7 @@ const field = ({
   types = typeReadings(),
   unrecorded = { levels: 0, moves: 0 },
 }: {
-  lagging?: string[];
+  lagging?: TeamFieldReading["lagging"];
   share?: number;
   types?: TeamFieldTypeReading[];
   unrecorded?: TeamFieldReading["unrecorded"];
@@ -70,6 +76,25 @@ const build = (reading: TeamFieldReading, typed = 6, active = 6) =>
     }).map((metric) => [metric.id, metric]),
   );
 
+/* A tip row as one string: who, what is said, and the chip. */
+const say = (row: TeamAnalysisTipRow) =>
+  [
+    "pokemon" in row.subject
+      ? row.subject.pokemon
+      : "type" in row.subject
+        ? row.subject.type.name
+        : row.subject.text,
+    row.detail,
+    row.chip,
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+const rows = (metric: TeamAnalysisHealthMetric | undefined) =>
+  (metric?.tip.rows ?? []).map(say);
+const scale = (metric: TeamAnalysisHealthMetric | undefined) =>
+  (metric?.tip.scale ?? []).map((grade) => `${grade.label} | ${grade.chip}`);
+
 const statuses = (reading: TeamFieldReading, typed = 6) =>
   Object.fromEntries(
     Object.entries(build(reading, typed)).map(([id, metric]) => [
@@ -96,10 +121,19 @@ describe("buildTeamAnalysisHealth", () => {
 
   it("leads Team health with who lags behind, then the type to watch", () => {
     expect(
-      build(field({ lagging: ["Drifloon"], share: 0.6 }))["team-health"]?.line,
+      build(field({ lagging: [{ level: 28, name: "Drifloon" }], share: 0.6 }))[
+        "team-health"
+      ]?.line,
     ).toEqual([{ text: "Drifloon lags behind" }]);
     expect(
-      build(field({ lagging: ["Drifloon", "Buizel"] }))["team-health"]?.line,
+      build(
+        field({
+          lagging: [
+            { level: 28, name: "Drifloon" },
+            { level: 25, name: "Buizel" },
+          ],
+        }),
+      )["team-health"]?.line,
     ).toEqual([{ text: "2 lag behind" }]);
     expect(build(field())["team-health"]?.line).toEqual([
       { text: "No type to watch" },
@@ -113,35 +147,80 @@ describe("buildTeamAnalysisHealth", () => {
       { text: "Watch" },
       { type: referenceType(4) },
     ]);
-    expect(metric?.reason).toContain(
-      "Your team against a full team of six, Pokémon of each type as strong as yours, at your top level (Lv. 34).",
+    expect(metric?.tip.summary).toBe(
+      "Your team holds its own against most types, but not easily.",
     );
-    expect(metric?.reason).toContain(
-      "Beating them costs about 50% of your team's HP.",
+    expect(metric?.tip.rule).toContain(
+      "not a real trainer: six typical Pokémon of mixed types, as strong as yours, at your top level (Lv. 34).",
     );
-    expect(metric?.reason).toContain("Type 4 costs you the most.");
+    expect(rows(metric)).toEqual(["Type 4 | Harder to beat than the rest"]);
+    expect(scale(metric)).toEqual([
+      "Strong | easily",
+      "Moderate | with effort",
+      "Weak | struggles",
+    ]);
   });
 
-  it("says a field that costs more than the whole team as such", () => {
-    expect(build(field({ share: 2.4 }))["team-health"]?.reason).toContain(
-      "Beating them costs more than your whole team's HP.",
-    );
+  it("speaks in general words, never of HP", () => {
+    for (const metric of Object.values(build(field({ share: 2.4 })))) {
+      expect(
+        [metric.tip.summary, metric.tip.rule, ...rows(metric)].join(" "),
+      ).not.toMatch(/HP|%/);
+    }
   });
 
-  it("says who lags behind, then how many you bring against six", () => {
+  it("lists no type when the field is evenly hard", () => {
+    const evenlyHard = Object.fromEntries(
+      Array.from({ length: 10 }, (_, id) => [id, { answerCost: 0.8 }]),
+    );
+    const metric = build(field({ types: typeReadings(evenlyHard) }))[
+      "team-health"
+    ];
+
+    expect(metric?.line).toEqual([{ text: "No type to watch" }]);
+    expect(rows(metric)).toEqual([]);
+  });
+
+  it("names no single type to watch when others cost about as much", () => {
+    const metric = build(
+      field({
+        types: typeReadings({
+          4: { answerCost: 1.2 },
+          5: { answerCost: 1.15 },
+          6: { answerCost: 1.1 },
+          7: { answerCost: 1.1 },
+        }),
+      }),
+    )["team-health"];
+
+    expect(metric?.line).toEqual([{ text: "4 types to watch" }]);
+    expect(rows(metric)).toEqual([
+      "Type 4 | Harder to beat than the rest",
+      "Type 5 | Harder to beat than the rest",
+      "Type 6 | Harder to beat than the rest",
+      "and 1 more",
+    ]);
+  });
+
+  it("lists who lags behind with their level, then a short team", () => {
     expect(
-      build(field({ lagging: ["Drifloon"] }), 3, 3)["team-health"]?.reason,
-    ).toContain(
-      "Drifloon is 5 or more levels below your top, and you bring 3 to their 6.",
-    );
+      rows(
+        build(field({ lagging: [{ level: 28, name: "Drifloon" }] }), 3, 3)[
+          "team-health"
+        ],
+      ),
+    ).toEqual([
+      "Drifloon | 6 levels below your top (Lv. 34) | Lv. 28",
+      "Team size | A full team has 6 | 3 of 6",
+    ]);
     expect(
-      build(field({ unrecorded: { levels: 6, moves: 0 } }))["team-health"]
-        ?.reason,
-    ).toContain("at Lv. 34, as your levels aren't recorded.");
+      build(field({ unrecorded: { levels: 6, moves: 0 } }))["team-health"]?.tip
+        .rule,
+    ).toContain("at Lv. 34 (your levels aren't recorded)");
   });
 
-  it("names three types and counts the rest", () => {
-    const reason = build(
+  it("lists three types that aren't answered, then counts the rest", () => {
+    const metric = build(
       field({
         types: typeReadings({
           1: { answerCost: 1.5 },
@@ -151,9 +230,15 @@ describe("buildTeamAnalysisHealth", () => {
           5: { answerCost: 1.1 },
         }),
       }),
-    )["threat-response"]?.reason;
+    )["threat-response"];
 
-    expect(reason).toContain("; Type 1, Type 2, Type 3 and 2 more cost more.");
+    expect(metric?.tip.summary).toBe("5 of 10 types answered.");
+    expect(rows(metric)).toEqual([
+      "Type 1 | Your best Pokémon against it faints beating one",
+      "Type 2 | Your best Pokémon against it faints beating one",
+      "Type 3 | Your best Pokémon against it faints beating one",
+      "and 2 more",
+    ]);
   });
 
   it("answers a type while your best answers beat it for less than 90% of a Pokémon", () => {
@@ -163,7 +248,9 @@ describe("buildTeamAnalysisHealth", () => {
 
     expect(one?.status).toBe("moderate");
     expect(one?.line).toEqual([{ text: "9 of 10 answered" }]);
-    expect(one?.reason).toContain("; Type 3 cost more.");
+    expect(rows(one)).toEqual([
+      "Type 3 | Your best Pokémon against it faints beating one",
+    ]);
     expect(
       statuses(
         field({
@@ -177,21 +264,54 @@ describe("buildTeamAnalysisHealth", () => {
     ).toBe("weak");
   });
 
-  it("counts the types your hardest hits knock out in two hits", () => {
-    const metric = build(
-      field({
+  it("says why a type is slow to knock out", () => {
+    const coverage = (
+      slug: string,
+      stab: boolean | null,
+    ): TeamAnalysisCoverageRow => ({
+      defendingType: { slug } as Type,
+      hits:
+        stab === null
+          ? []
+          : [
+              {
+                imageUrl: null,
+                memberId: "a",
+                memberName: "A",
+                moves: [{ name: "Move", stab, typeSlug: "fire" }],
+              },
+            ],
+      moveCount: stab === null ? 0 : 1,
+    });
+    const metric = buildTeamAnalysisHealth({
+      coverageRows: [
+        coverage("type-1", null),
+        coverage("type-2", false),
+        coverage("type-3", true),
+      ],
+      evidence: evidence(),
+      field: field({
         types: typeReadings({
           1: { hitsToKnockOut: 3 },
           2: { hitsToKnockOut: 3 },
           3: { hitsToKnockOut: Infinity },
         }),
       }),
-    )["move-coverage"];
+    }).find((entry) => entry.id === "move-coverage");
 
     expect(metric?.status).toBe("moderate");
-    expect(metric?.line).toEqual([{ text: "7 of 10 types" }]);
-    expect(metric?.reason).toContain("Type 1, Type 2 and Type 3 take more");
-    expect(metric?.reason).toContain("Strong from 8 types, Moderate from 5.");
+    expect(metric?.title).toBe("Knockout power");
+    expect(metric?.line).toEqual([{ text: "7 of 10 types in two hits" }]);
+    expect(rows(metric)).toEqual([
+      "Type 1 | No super-effective move",
+      "Type 2 | Super effective, but no move of the user's own type (STAB)",
+      "Type 3 | Super effective, but not strong enough for two hits",
+    ]);
+    expect(scale(metric)).toEqual([
+      "Strong | 8+",
+      "Moderate | 5+",
+      "Weak | fewer",
+    ]);
   });
 
   it("flags a shared weak spot only while nothing answers it", () => {
@@ -203,7 +323,9 @@ describe("buildTeamAnalysisHealth", () => {
 
     expect(answered?.status).toBe("strong");
     expect(answered?.line).toEqual([{ text: "1 shared, all answered" }]);
-    expect(answered?.reason).toContain("Type 5 (Mismagius and Luxray)");
+    expect(rows(answered)).toEqual([
+      "Type 5 | Beats Mismagius and Luxray | Answered",
+    ]);
 
     const open = build(
       field({
@@ -220,38 +342,53 @@ describe("buildTeamAnalysisHealth", () => {
       { type: referenceType(6) },
       { text: "unanswered" },
     ]);
+    expect(open?.tip.summary).toBe("2 shared weaknesses, 2 unanswered.");
+  });
+
+  it("keeps a full stop in a name inside its row", () => {
+    expect(
+      rows(
+        build(
+          field({
+            types: typeReadings({ 5: { beats: ["Mr. Mime", "Mime Jr."] } }),
+          }),
+        )["weakness-control"],
+      ),
+    ).toEqual(["Type 5 | Beats Mr. Mime and Mime Jr. | Answered"]);
   });
 
   it("speaks of a team of one as it", () => {
-    const reason = build(
+    const metric = build(
       field({
         types: typeReadings({ 5: { answerCost: 1.1, beats: ["Squirtle"] } }),
       }),
       1,
       1,
-    )["weakness-control"]?.reason;
+    )["weakness-control"];
 
-    expect(reason).toContain(
-      "1 type hits your Pokémon super effectively and beats it one on one: Type 5 (Squirtle).",
-    );
+    expect(metric?.tip.rule).toContain("your Pokémon super effectively");
+    expect(metric?.tip.rule).toContain("beats it one on one");
   });
 
-  it("says when a missing level or move makes every card a rough read", () => {
+  it("ends every card's findings with what a missing level or move leaves rough", () => {
     const metrics = build(field({ unrecorded: { levels: 2, moves: 1 } }));
 
     for (const metric of Object.values(metrics)) {
-      expect(metric.reason).toContain(
+      expect(rows(metric).at(-1)).toBe(
         "A rough read: 2 of yours have no level and 1 has no damaging move recorded.",
       );
     }
-    expect(metrics["move-coverage"]?.reason).toContain(
-      "Yours without a damaging move recorded hit with their own types.",
+    expect(rows(metrics["move-coverage"])).toContain(
+      "Yours with no damaging move hit with their own types.",
     );
     expect(
-      build(field({ unrecorded: { levels: 0, moves: 1 } }))["team-health"]
-        ?.reason,
-    ).toContain("A rough read: 1 of yours has no damaging move recorded.");
-    expect(build(field())["team-health"]?.reason).not.toContain("rough");
+      rows(
+        build(field({ unrecorded: { levels: 0, moves: 1 } }))["team-health"],
+      ).at(-1),
+    ).toBe("A rough read: 1 of yours has no damaging move recorded.");
+    expect(
+      rows(build(field())["team-health"]).some((row) => row.includes("rough")),
+    ).toBe(false);
   });
 
   it("does not grade a team with typing missing", () => {

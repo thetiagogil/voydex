@@ -23,6 +23,8 @@ import {
 } from "@/shared/components/ui/popover";
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 import { cn } from "@/shared/utils/cn";
+import { IconTip } from "@/shared/components/icon-tip";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 type PlayDetailRow = {
   key: string;
@@ -46,24 +48,28 @@ const PlayDetailChips = ({
   <ul aria-label={label} className="flex flex-wrap gap-1.5">
     {items.map((item) => (
       <li key={item.id}>
-        <Badge
-          size="md"
-          title={item.title}
-          className={cn(
-            "whitespace-normal",
-            /* The tip's hit area reaches past the chip's edge. */
-            item.tip && "overflow-visible pr-1.5",
-          )}
-        >
-          {item.name}
-          {item.tip ? (
-            <ExplanatoryTip
-              content={item.tip}
-              triggerLabel={`About ${item.name}`}
-              triggerVariant="icon"
-            />
-          ) : null}
-        </Badge>
+        <IconTip
+          label={item.title}
+          trigger={
+            <Badge
+              size="md"
+              className={cn(
+                "whitespace-normal",
+                /* The tip's hit area reaches past the chip's edge. */
+                item.tip && "overflow-visible pr-1.5",
+              )}
+            >
+              {item.name}
+              {item.tip ? (
+                <ExplanatoryTip
+                  content={<TipNamed name={item.name}>{item.tip}</TipNamed>}
+                  triggerLabel={`About ${item.name}`}
+                  triggerVariant="icon"
+                />
+              ) : null}
+            </Badge>
+          }
+        />
       </li>
     ))}
   </ul>

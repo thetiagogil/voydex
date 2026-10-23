@@ -2,7 +2,10 @@ import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
 } from "@/modules/mainline/features/plays/hub/types";
-import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   buildTeamTypeCoverage,
   buildTeamTypeMatchups,
@@ -14,9 +17,12 @@ import {
   getMoveHitTypeSlug,
   isTypeEffectiveMove,
 } from "@/modules/reference/features/moves/domain/move-hit-types";
+import { getTypeEffectiveness } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { Type } from "@/modules/reference/types";
 
 import type {
+  TeamAnalysisCoverageHit,
   TeamAnalysisCoverageRow,
   TeamAnalysisDefensiveRow,
 } from "../types";
@@ -65,6 +71,53 @@ const toTeamTypeMember = (member: MainlinePlayTeamMember): TeamTypeMember => ({
   id: getTeamAnalysisMemberId(member),
 });
 
+/* The recorded moves of each of yours that hit a type super effectively. */
+const getCoverageHits = ({
+  generationOrder,
+  members,
+  row,
+}: {
+  generationOrder: number;
+  members: MainlinePlayTeamMember[];
+  row: { defendingType: Type };
+}): TeamAnalysisCoverageHit[] =>
+  members.flatMap((member) => {
+    const moves = member.moves.flatMap((move) => {
+      const typeSlug = getDamagingMoveTypeSlug(move, member);
+
+      return typeSlug &&
+        isPokemonTypeSlug(typeSlug) &&
+        isPokemonTypeSlug(row.defendingType.slug) &&
+        getTypeEffectiveness(
+          typeSlug,
+          row.defendingType.slug,
+          generationOrder,
+        ) > 1
+        ? [
+            {
+              name: move.name,
+              stab: [
+                member.primaryType?.slug,
+                member.secondaryType?.slug,
+              ].includes(typeSlug),
+              typeSlug,
+            },
+          ]
+        : [];
+    });
+
+    return moves.length
+      ? [
+          {
+            imageUrl: getPlayTeamMemberImageUrl(member),
+            memberId: getTeamAnalysisMemberId(member),
+            memberName: getPlayTeamMemberName(member),
+            moves,
+          },
+        ]
+      : [];
+  });
+
 export const buildTeamAnalysisRows = ({
   generationOrder,
   members,
@@ -86,6 +139,7 @@ export const buildTeamAnalysisRows = ({
       types,
     }).map((row) => ({
       defendingType: row.defendingType,
+      hits: getCoverageHits({ generationOrder, members, row }),
       moveCount: row.superEffectiveCount,
     })),
     defensiveRows: toTypeMatchupRows(

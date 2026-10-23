@@ -11,6 +11,7 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone } from "../../types";
+import { IconTip } from "@/shared/components/icon-tip";
 
 export const getStoryMilestoneRowState = (
   milestone: StoryMilestone,
@@ -175,20 +176,31 @@ export const StoryMilestoneRow = ({
         {state === "done" && (hasTeam || decision) ? (
           <span className="text-ink-3 col-start-2 flex items-center gap-2 sm:col-start-auto sm:pl-1">
             {decision && showDetails && decisionOption?.imageUrl ? (
-              <FallbackImage
-                src={decisionOption.imageUrl}
-                name={decisionOption.speciesName ?? decisionOption.label}
-                fallback="badge"
-                alt={`Decision: ${decision}`}
-                title={`Decision: ${decision}`}
-                loading="lazy"
-                className="size-7.5 max-w-none shrink-0 object-contain"
+              <IconTip
+                label={`Decision: ${decision}`}
+                trigger={
+                  <span className="inline-flex shrink-0">
+                    <FallbackImage
+                      src={decisionOption.imageUrl}
+                      name={decisionOption.speciesName ?? decisionOption.label}
+                      fallback="badge"
+                      alt={`Decision: ${decision}`}
+                      loading="lazy"
+                      className="size-7.5 max-w-none shrink-0 object-contain"
+                    />
+                  </span>
+                }
               />
             ) : decision ? (
-              <span title={`Decision: ${decision}`} className="inline-flex">
-                <AppIcon icon={appIcons.product.decision} size="sm" />
-                <span className="sr-only">Decision: {decision}.</span>
-              </span>
+              <IconTip
+                label={`Decision: ${decision}`}
+                trigger={
+                  <span className="inline-flex">
+                    <AppIcon icon={appIcons.product.decision} size="sm" />
+                    <span className="sr-only">Decision: {decision}.</span>
+                  </span>
+                }
+              />
             ) : null}
             {hasTeam && showDetails ? (
               <PlayTeamParty
@@ -197,10 +209,15 @@ export const StoryMilestoneRow = ({
                 size="sm"
               />
             ) : hasTeam ? (
-              <span title="Team saved with it" className="inline-flex">
-                <AppIcon icon={appIcons.product.teamSnapshot} size="sm" />
-                <span className="sr-only">Team saved with it.</span>
-              </span>
+              <IconTip
+                label="Team saved with it"
+                trigger={
+                  <span className="inline-flex">
+                    <AppIcon icon={appIcons.product.teamSnapshot} size="sm" />
+                    <span className="sr-only">Team saved with it.</span>
+                  </span>
+                }
+              />
             ) : null}
           </span>
         ) : null}

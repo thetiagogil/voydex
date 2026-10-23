@@ -28,6 +28,12 @@ import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
+import {
+  TipHead,
+  TipRow,
+  TipRows,
+  TipStack,
+} from "@/shared/components/tip-parts";
 import { Button } from "@/shared/components/ui/button";
 import {
   Tooltip,
@@ -82,29 +88,47 @@ const formatTypeWords = (names: string[]) =>
   `${names.join(" and ")} type${names.length > 1 ? "s" : ""}`;
 
 /*
- * Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse,
- * 2×". Where the moves aren't known it names types: "Umbreon: its Dark type,
- * 2×" for theirs, "Onix: Water type, 4×" for yours.
+ * A matchup tooltip: a head, then a row for each of theirs: its art, name and
+ * what it hits with ("Seed Bomb", or "its Dark type" where the moves aren't
+ * known), the multiplier on a chip. Red for theirs hitting yours, green for
+ * yours landing.
  */
 const HitLines = ({
+  head,
   hits,
-  joiner,
+  tone,
 }: {
+  head: string;
   hits: StoryHitDetail[];
-  joiner: ": " | " with ";
+  tone: "danger" | "ok";
 }) => (
-  <ul className="grid gap-0.5 text-left">
-    {hits.map((hit) => (
-      <li key={hit.pokemon.key}>
-        <b>{hit.pokemon.name}</b>
-        {hit.byType ? ": " : joiner}
-        {hit.byType
-          ? `${joiner === ": " ? "its " : ""}${formatTypeWords(hit.via)}`
-          : hit.via.join(", ")}
-        , {formatMultiplier(hit.multiplier)}
-      </li>
-    ))}
-  </ul>
+  <TipStack>
+    <TipHead tone={tone}>{head}</TipHead>
+    <TipRows>
+      {hits.map((hit) => (
+        <TipRow
+          key={hit.pokemon.key}
+          chip={formatMultiplier(hit.multiplier)}
+          detail={
+            hit.byType
+              ? `${tone === "danger" ? "its " : ""}${formatTypeWords(hit.via)}`
+              : hit.via.join(", ")
+          }
+          leading={
+            <PokemonAvatar
+              decorative
+              name={hit.pokemon.name}
+              className="size-8 shrink-0"
+              imageUrl={hit.pokemon.imageUrl}
+              typeSlug={hit.pokemon.types[0]?.slug ?? null}
+            />
+          }
+          name={hit.pokemon.name}
+          tone={tone}
+        />
+      ))}
+    </TipRows>
+  </TipStack>
 );
 
 /*
@@ -172,7 +196,15 @@ const BestHit = ({
         />
       </TooltipTrigger>
       <TooltipContent>
-        {lands.length > 1 ? <HitLines hits={lands} joiner=" with " /> : label}
+        {lands.length > 1 ? (
+          <HitLines
+            head={`Lands on ${lands.length} of theirs`}
+            hits={lands}
+            tone="ok"
+          />
+        ) : (
+          label
+        )}
       </TooltipContent>
     </Tooltip>
   );
@@ -220,7 +252,11 @@ const WeakTo = ({
         />
       </TooltipTrigger>
       <TooltipContent>
-        <HitLines hits={takes} joiner=": " />
+        <HitLines
+          head={`Weak to ${takes.length === 1 ? "one" : takes.length} of theirs`}
+          hits={takes}
+          tone="danger"
+        />
       </TooltipContent>
     </Tooltip>
   );

@@ -38,8 +38,8 @@ export type TeamFieldTypeReading = {
 };
 
 export type TeamFieldReading = {
-  /* Yours 5 or more levels below the field: they pull the team down. */
-  lagging: string[];
+  /* Yours 5 or more levels below the field, with their level: they pull the team down. */
+  lagging: { level: number; name: string }[];
   /* Your top recorded level, or Lv. 50 while none is recorded. */
   level: number;
   /* How many Pokémon the field brings: a full team. */
@@ -209,8 +209,10 @@ export const readTeamField = ({
   );
 
   return {
-    lagging: names.filter(
-      (_, index) => (members[index].level ?? level) <= level - LAGGING_LEVELS,
+    lagging: members.flatMap((member, index) =>
+      member.level && member.level <= level - LAGGING_LEVELS
+        ? [{ level: member.level, name: names[index] }]
+        : [],
     ),
     level,
     share: getBattleShare({

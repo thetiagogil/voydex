@@ -13,6 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
 
 const rootDir = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -243,8 +244,56 @@ for (const file of files) {
   });
 }
 
+/*
+ * Hover labels are the shared `Tooltip` (`IconTip`), never the browser's
+ * `title` attribute: it opens late, never on touch, ignores Soft Clay and can
+ * make a screen reader say a name twice. A `title` prop on our own components
+ * (a heading, a dialog name) is fine; on a DOM element or a wrapper of one it
+ * is not.
+ */
+const domTitleHosts = new Set([
+  "Badge",
+  "Button",
+  "DropdownMenuItem",
+  "Image",
+  "Link",
+]);
+
+for (const file of files) {
+  if (!file.startsWith(`src${path.sep}`) || !file.endsWith(".tsx")) {
+    continue;
+  }
+
+  const source = ts.createSourceFile(
+    file,
+    fs.readFileSync(path.join(rootDir, file), "utf8"),
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  );
+  const visit = (node) => {
+    if (ts.isJsxAttribute(node) && node.name.getText(source) === "title") {
+      const tag = node.parent.parent.tagName.getText(source);
+
+      if (/^[a-z]/.test(tag) || domTitleHosts.has(tag)) {
+        const { line } = source.getLineAndCharacterOfPosition(node.getStart());
+
+        findings.push(
+          `${file}:${line + 1}  a native title hover on <${tag}> (use Tooltip or IconTip)`,
+        );
+      }
+    }
+
+    ts.forEachChild(node, visit);
+  };
+
+  visit(source);
+}
+
 if (findings.length) {
-  console.error("A retired look is still referenced:\n");
+  console.error(
+    "A retired look or a native title hover is still referenced:\n",
+  );
   console.error(findings.map((finding) => `  ${finding}`).join("\n"));
   process.exit(1);
 }

@@ -34,6 +34,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
 import { Spinner } from "@/shared/components/ui/spinner";
+import { IconTip } from "@/shared/components/icon-tip";
 
 export type PlanActionsPlan = {
   id: string;
@@ -166,20 +167,27 @@ export const PlanActionsMenu = ({
               Rename
             </DropdownMenuItem>
           )}
-          <DropdownMenuItem
-            disabled={Boolean(archiveBlockedReason) && !plan.isArchived}
-            title={plan.isArchived ? undefined : archiveBlockedReason}
-            onClick={toggleArchived}
-          >
-            <AppIcon
-              icon={
-                plan.isArchived
-                  ? appIcons.actions.restore
-                  : appIcons.product.archived
-              }
-            />
-            {plan.isArchived ? "Restore" : "Archive"}
-          </DropdownMenuItem>
+          {/* A disabled item takes no pointer, so its reason sits on a wrapper. */}
+          <IconTip
+            label={plan.isArchived ? undefined : archiveBlockedReason}
+            trigger={
+              <div role="presentation">
+                <DropdownMenuItem
+                  disabled={Boolean(archiveBlockedReason) && !plan.isArchived}
+                  onClick={toggleArchived}
+                >
+                  <AppIcon
+                    icon={
+                      plan.isArchived
+                        ? appIcons.actions.restore
+                        : appIcons.product.archived
+                    }
+                  />
+                  {plan.isArchived ? "Restore" : "Archive"}
+                </DropdownMenuItem>
+              </div>
+            }
+          />
           <DropdownMenuSeparator />
           <DropdownMenuItem
             variant="destructive"

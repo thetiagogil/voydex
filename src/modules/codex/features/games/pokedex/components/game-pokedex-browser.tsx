@@ -259,7 +259,7 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                     imageUrl={entry.imageUrl}
                     name={entry.species.name}
                     number={`#${formatLocalPokedexNumber(entry.entry.pokedex_number)}`}
-                    title={`National ${formatPokemonNationalNumber(entry.species.national_number)}`}
+                    tip={`National ${formatPokemonNationalNumber(entry.species.national_number)}`}
                     types={[
                       entry.typePair.primaryType,
                       entry.typePair.secondaryType,

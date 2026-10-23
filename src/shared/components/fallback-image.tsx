@@ -6,7 +6,7 @@ import { cn } from "@/shared/utils/cn";
 
 type FallbackImageProps = Omit<
   ImgHTMLAttributes<HTMLImageElement>,
-  "children" | "name" | "onError" | "src"
+  "children" | "name" | "onError" | "src" | "title"
 > & {
   /*
    * How the stand-in looks. `letter` (default) is for art that already sits
@@ -50,7 +50,6 @@ export const FallbackImage = ({
         aria-label={alt || undefined}
         aria-hidden={alt ? undefined : true}
         style={imageProps.style}
-        title={imageProps.title}
         className={cn(
           "@container grid place-items-center select-none",
           fallback === "badge"

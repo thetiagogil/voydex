@@ -2,6 +2,7 @@
 
 import { formatPlayMoment } from "@/modules/mainline/features/plays/shared/utils/play-moment-date";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
+import { IconTip } from "@/shared/components/icon-tip";
 
 /*
  * When a moment happened, in the viewer's time zone without a hydration
@@ -27,8 +28,9 @@ export const PlayMomentTime = ({
   const label = format === "date" ? moment.date : moment.day;
 
   return (
-    <time dateTime={moment.dateTime} title={`${label} · ${moment.time}`}>
-      {label}
-    </time>
+    <IconTip
+      label={`${label} · ${moment.time}`}
+      trigger={<time dateTime={moment.dateTime}>{label}</time>}
+    />
   );
 };

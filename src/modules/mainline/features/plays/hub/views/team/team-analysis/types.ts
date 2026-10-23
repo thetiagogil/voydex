@@ -10,8 +10,19 @@ import type { StoryMatchupsModel } from "./data/story-matchups-model";
 /* One attacking type against the team, as Mainline's shared matchups draw it. */
 export type TeamAnalysisDefensiveRow = TypeMatchupRow<Type>;
 
+/* One of yours and the recorded moves it hits a type super effectively with. */
+export type TeamAnalysisCoverageHit = {
+  imageUrl: string | null;
+  memberId: string;
+  memberName: string;
+  /* `stab` when the move shares a type with its user. */
+  moves: { name: string; stab: boolean; typeSlug: string }[];
+};
+
 export type TeamAnalysisCoverageRow = {
   defendingType: Type;
+  /* Who hits it and with what, in team order. */
+  hits: TeamAnalysisCoverageHit[];
   /* Recorded damaging moves across the team that hit this type super effectively. */
   moveCount: number;
 };
@@ -32,12 +43,37 @@ export type TeamAnalysisHealthStatus =
 /* A card's specific line: words, and a type shown as its dot and name. */
 export type TeamAnalysisHealthLinePart = { text: string } | { type: Type };
 
+export type TeamAnalysisTipTone = "danger" | "ok" | "warn";
+
+/*
+ * One line of a card's tooltip: who it is about (a Pokémon of yours by name,
+ * a type, or plain words), what is said of it, and a figure on a chip.
+ */
+export type TeamAnalysisTipRow = {
+  chip?: string;
+  detail?: string;
+  subject: { pokemon: string } | { text: string } | { type: Type };
+  tone?: TeamAnalysisTipTone;
+};
+
+/*
+ * Why a card reads the way it does: a line saying it, what in your team
+ * leads to it, then how the card is rated (its rule and where Strong,
+ * Moderate and Weak start).
+ */
+export type TeamAnalysisHealthTip = {
+  rows: TeamAnalysisTipRow[];
+  rule: string | null;
+  scale: { chip: string; label: string; tone: TeamAnalysisTipTone }[];
+  summary: string;
+};
+
 export type TeamAnalysisHealthMetric = {
   id: "move-coverage" | "team-health" | "threat-response" | "weakness-control";
   line: TeamAnalysisHealthLinePart[];
-  /* Why the card reads the way it does, shown in its tooltip. */
-  reason: string;
   status: TeamAnalysisHealthStatus;
+  /* Shown in the card's tooltip. */
+  tip: TeamAnalysisHealthTip;
   title: string;
 };
 

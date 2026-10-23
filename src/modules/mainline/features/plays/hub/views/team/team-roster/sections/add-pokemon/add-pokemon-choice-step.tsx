@@ -21,6 +21,7 @@ import {
   getPokemonChoiceTypes,
   type PokemonChoice,
 } from "../../utils/pokemon-choices";
+import { IconTip } from "@/shared/components/icon-tip";
 
 export type AddPokemonLoadState =
   | { status: "idle" }
@@ -45,45 +46,49 @@ const ChoiceButton = ({
   onPick: (choice: PokemonChoice) => void;
 }) => (
   <li className="min-w-0">
-    <button
-      type="button"
-      onClick={() => onPick(choice)}
-      aria-label={[
-        choice.speciesName,
-        choice.formName,
-        formatPokemonChoiceNumber(choice.number),
-        brokenRules.length
-          ? `breaks this Play's rules: ${brokenRules.join(", ")}`
-          : null,
-      ]
-        .filter(Boolean)
-        .join(", ")}
-      title={
+    <IconTip
+      label={
         brokenRules.length
           ? `Breaks this Play's rules: ${brokenRules.join(", ")}`
           : undefined
       }
-      className={cn(
-        "focus-ring block w-full rounded-lg outline-offset-2",
-        brokenRules.length &&
-          "opacity-40 transition-opacity hover:opacity-70 focus-visible:opacity-100",
-      )}
-    >
-      <PokemonCard
-        state="plain"
-        size="sm"
-        imageAlt=""
-        imageUrl={choice.imageUrl}
-        name={choice.speciesName}
-        number={formatPokemonChoiceNumber(choice.number)}
-        subtitle={
-          choice.formName
-            ? formatShortFormName(choice.formName, choice.speciesName)
-            : null
-        }
-        types={getPokemonChoiceTypes(choice)}
-      />
-    </button>
+      trigger={
+        <button
+          type="button"
+          onClick={() => onPick(choice)}
+          aria-label={[
+            choice.speciesName,
+            choice.formName,
+            formatPokemonChoiceNumber(choice.number),
+            brokenRules.length
+              ? `breaks this Play's rules: ${brokenRules.join(", ")}`
+              : null,
+          ]
+            .filter(Boolean)
+            .join(", ")}
+          className={cn(
+            "focus-ring block w-full rounded-lg outline-offset-2",
+            brokenRules.length &&
+              "opacity-40 transition-opacity hover:opacity-70 focus-visible:opacity-100",
+          )}
+        >
+          <PokemonCard
+            state="plain"
+            size="sm"
+            imageAlt=""
+            imageUrl={choice.imageUrl}
+            name={choice.speciesName}
+            number={formatPokemonChoiceNumber(choice.number)}
+            subtitle={
+              choice.formName
+                ? formatShortFormName(choice.formName, choice.speciesName)
+                : null
+            }
+            types={getPokemonChoiceTypes(choice)}
+          />
+        </button>
+      }
+    />
   </li>
 );
 
