@@ -5,7 +5,7 @@ import { forTheAnswer } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Team analysis", () => {
-  test("reads the team against the next leader's levels @phone", async ({
+  test("reads the team against a full six at its own level @phone", async ({
     page,
   }) => {
     const playId = await startPlay(page, {
@@ -30,7 +30,7 @@ test.describe("Team analysis", () => {
       ).toBeVisible(forTheAnswer);
     }
 
-    /* The partner joins without a level or moves, so it reads at Brock's ace by type. */
+    /* The partner joins without a level or moves, so it reads at Lv. 50 by type. */
     await expect(
       page.getByText(
         "A rough read: 1 of yours has no level and 1 has no damaging move recorded.",
@@ -40,9 +40,9 @@ test.describe("Team analysis", () => {
     await page.getByRole("button", { name: /^Why Team health reads/ }).click();
     const why = page.getByRole("dialog");
     await expect(why).toContainText(
-      "at the levels of Brock's 2 (Lv. 12–14), your next leader battle.",
+      "Your team against a full team of six, Pokémon of each type as strong as yours, at Lv. 50, as your levels aren't recorded.",
     );
-    await expect(why).toContainText("You bring 1 to their 2.");
+    await expect(why).toContainText("You bring 1 to their 6.");
     await expectAccessible(page);
   });
 });

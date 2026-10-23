@@ -783,11 +783,7 @@ export const getStoryLevelCap = (
   }
 
   const milestoneKey = getBattleMilestoneKey(first.id);
-  let capped: {
-    battle: StoryMatchupBattle;
-    level: number;
-    teamLevels: number[];
-  } | null = null;
+  let capped: { battle: StoryMatchupBattle; level: number } | null = null;
 
   for (const battle of capBattles) {
     if (getBattleMilestoneKey(battle.id) !== milestoneKey) {
@@ -797,11 +793,7 @@ export const getStoryLevelCap = (
     const level = getPartyAce(battle);
 
     if (level !== null && (!capped || level > capped.level)) {
-      capped = {
-        battle,
-        level,
-        teamLevels: battle.party?.pokemon.map((pokemon) => pokemon.level) ?? [],
-      };
+      capped = { battle, level };
     }
   }
 
@@ -810,7 +802,6 @@ export const getStoryLevelCap = (
         battle: toCapBattle(capped.battle),
         level: capped.level,
         status: "capped",
-        teamLevels: capped.teamLevels,
       }
     : { battle: toCapBattle(first), status: "no-team" };
 };

@@ -134,13 +134,7 @@ export type MainlinePlayCapBattle = {
  * none is left (after the Champion) or the game has none.
  */
 export type MainlinePlayLevelCap =
-  | {
-      battle: MainlinePlayCapBattle;
-      level: number;
-      status: "capped";
-      /* The levels on that battle's team, in its order. */
-      teamLevels: number[];
-    }
+  | { battle: MainlinePlayCapBattle; level: number; status: "capped" }
   | { battle: MainlinePlayCapBattle; status: "no-team" }
   | { status: "no-battle" };
 

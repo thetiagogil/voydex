@@ -1,7 +1,4 @@
-import type {
-  MainlinePlayLevelCap,
-  MainlinePlayTeamMember,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import {
   gameMechanics,
@@ -26,15 +23,12 @@ const getLineupLabel = (statusSlug: string | null) => {
 
 export const buildTeamAnalysisModel = ({
   generation,
-  levelCap,
   mechanics,
   members,
   play,
   types,
 }: {
   generation: Generation;
-  /* The next leader battle the field reads at; null when it isn't read. */
-  levelCap: MainlinePlayLevelCap | null;
   mechanics: GameMechanicsProfile;
   members: MainlinePlayTeamMember[];
   play: MainlinePlaySummary;
@@ -62,7 +56,6 @@ export const buildTeamAnalysisModel = ({
 
   const field = readTeamField({
     generationOrder: generation.sort_order,
-    levelCap,
     members: activeMembers,
     types,
   });

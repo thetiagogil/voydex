@@ -321,12 +321,7 @@ describe("Level caps", () => {
   ];
   const misty = { isPromotionMatch: false, kind: "Gym Leader", name: "Misty" };
   const capped = withRules(rules, {
-    levelCap: {
-      battle: misty,
-      level: 21,
-      status: "capped",
-      teamLevels: [18, 21],
-    },
+    levelCap: { battle: misty, level: 21, status: "capped" },
   });
 
   it("is checked, last in the Library's order", () => {
@@ -377,12 +372,7 @@ describe("Level caps", () => {
 
   it("says the cap, or why there's none", () => {
     expect(
-      describeLevelCap({
-        battle: misty,
-        level: 21,
-        status: "capped",
-        teamLevels: [18, 21],
-      }),
+      describeLevelCap({ battle: misty, level: 21, status: "capped" }),
     ).toBe(
       "Lv. 21, the highest level on Gym Leader Misty's team, the next leader you face.",
     );
@@ -397,14 +387,7 @@ describe("Level caps", () => {
   it("names a Z-A promotion match by its trainer", () => {
     const zach = { isPromotionMatch: true, kind: "Z-A Royale", name: "Zach" };
 
-    expect(
-      describeLevelCap({
-        battle: zach,
-        level: 9,
-        status: "capped",
-        teamLevels: [8, 9],
-      }),
-    ).toBe(
+    expect(describeLevelCap({ battle: zach, level: 9, status: "capped" })).toBe(
       "Lv. 9, the highest level on Zach's team, your next promotion match.",
     );
     expect(describeLevelCap({ battle: zach, status: "no-team" })).toBe(
@@ -414,12 +397,7 @@ describe("Level caps", () => {
       checkPokemonRules(
         { ...pikachu, level: 10 },
         withRules(rules, {
-          levelCap: {
-            battle: zach,
-            level: 9,
-            status: "capped",
-            teamLevels: [8, 9],
-          },
+          levelCap: { battle: zach, level: 9, status: "capped" },
         }),
       ),
     ).toEqual([

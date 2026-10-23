@@ -107,26 +107,17 @@ const getMainlinePlayTeamRows = cache(async (playId: string) => {
     : null;
 });
 
-/* Level caps' cap, once per request: the rule checks and Team analysis share it. */
-const getMainlinePlayLevelCap = cache(async (playId: string) => {
-  const context = await getMainlinePlayRequestContext(playId);
-
-  return context
-    ? readMainlinePlayLevelCap(context.supabase, {
-        ...context.play,
-        play_id: playId,
-      })
-    : null;
-});
-
 /* What the Play's rules check, once per request, as for the team rows. */
 const getMainlinePlayRuleChecks = cache(async (playId: string) => {
   const context = await getMainlinePlayRequestContext(playId);
 
   return context
     ? readPlayRuleCheckContext(context.supabase, context.play, context.userId, {
-        readLevelCap: async () =>
-          (await getMainlinePlayLevelCap(playId)) ?? { status: "no-battle" },
+        readLevelCap: () =>
+          readMainlinePlayLevelCap(context.supabase, {
+            ...context.play,
+            play_id: playId,
+          }),
       })
     : emptyRuleCheckContext;
 });
@@ -324,7 +315,7 @@ export const getMainlinePlayTeamAnalysisData = cache(
       return null;
     }
 
-    const [rows, storyRows, levelCap] = await Promise.all([
+    const [rows, storyRows] = await Promise.all([
       readMainlinePlayTeamAnalysisRows(
         context.supabase,
         playId,
@@ -339,12 +330,9 @@ export const getMainlinePlayTeamAnalysisData = cache(
             { versionGroupId: context.play.version_group_id },
           )
         : null,
-      /* The Overall reading's field reads at the next leader battle's levels. */
-      reading === "overall" ? getMainlinePlayLevelCap(playId) : null,
     ]);
 
     return buildMainlinePlayTeamAnalysisData({
-      levelCap,
       play: context.play,
       rows,
       storyRows,

@@ -1,5 +1,4 @@
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
-import type { MainlinePlayLevelCap } from "@/modules/mainline/features/plays/hub/types";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 
@@ -14,13 +13,10 @@ import {
 import { buildTeamAnalysisModel } from "./team-analysis-model";
 
 export const buildMainlinePlayTeamAnalysisData = ({
-  levelCap = null,
   play,
   rows,
   storyRows = null,
 }: {
-  /* Given for the Overall reading only. */
-  levelCap?: MainlinePlayLevelCap | null;
   play: MainlinePlaySummary;
   rows: MainlinePlayTeamAnalysisRows;
   /* Given for the Story matchups reading only. */
@@ -35,7 +31,6 @@ export const buildMainlinePlayTeamAnalysisData = ({
   const analysis = rows.generation
     ? buildTeamAnalysisModel({
         generation: rows.generation,
-        levelCap,
         mechanics,
         members,
         play,

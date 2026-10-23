@@ -33,38 +33,23 @@ const typeReadings = (
     }),
   );
 
-const fantina = {
-  isPromotionMatch: false,
-  kind: "Gym Leader",
-  name: "Fantina",
-};
-
 const field = ({
-  benchmark,
-  levelGap = 0,
-  unrecorded = { levels: 0, moves: 0 },
+  lagging = [],
   share = 0.2,
-  theirCount = 6,
   types = typeReadings(),
+  unrecorded = { levels: 0, moves: 0 },
 }: {
-  benchmark?: Partial<TeamFieldReading["benchmark"]>;
-  levelGap?: number | null;
-  unrecorded?: TeamFieldReading["unrecorded"];
+  lagging?: string[];
   share?: number;
-  theirCount?: number;
   types?: TeamFieldTypeReading[];
+  unrecorded?: TeamFieldReading["unrecorded"];
 } = {}): TeamFieldReading => ({
-  benchmark: {
-    battle: fantina,
-    kind: "battle",
-    level: 34,
-    levels: Array(theirCount).fill(34),
-    ...benchmark,
-  },
-  levelGap,
-  unrecorded,
+  lagging,
+  level: 34,
   share,
+  theirCount: 6,
   types,
+  unrecorded,
 });
 
 const evidence = (
@@ -109,14 +94,15 @@ describe("buildTeamAnalysisHealth", () => {
     expect(statuses(field({ share: 0.9 }))["team-health"]).toBe("weak");
   });
 
-  it("leads Team health with a level edge, then the type to watch", () => {
+  it("leads Team health with who lags behind, then the type to watch", () => {
     expect(
-      build(field({ levelGap: -4, share: 0.6 }))["team-health"],
-    ).toMatchObject({
-      line: [{ text: "4 levels behind" }],
-    });
-    expect(build(field({ levelGap: 3 }))["team-health"]?.line).toEqual([
-      { text: "3 levels ahead" },
+      build(field({ lagging: ["Drifloon"], share: 0.6 }))["team-health"]?.line,
+    ).toEqual([{ text: "Drifloon lags behind" }]);
+    expect(
+      build(field({ lagging: ["Drifloon", "Buizel"] }))["team-health"]?.line,
+    ).toEqual([{ text: "2 lag behind" }]);
+    expect(build(field())["team-health"]?.line).toEqual([
+      { text: "No type to watch" },
     ]);
 
     const metric = build(
@@ -128,7 +114,7 @@ describe("buildTeamAnalysisHealth", () => {
       { type: referenceType(4) },
     ]);
     expect(metric?.reason).toContain(
-      "at the levels of Fantina's 6 (Lv. 34), your next leader battle.",
+      "Your team against a full team of six, Pokémon of each type as strong as yours, at your top level (Lv. 34).",
     );
     expect(metric?.reason).toContain(
       "Beating them costs about 50% of your team's HP.",
@@ -142,42 +128,16 @@ describe("buildTeamAnalysisHealth", () => {
     );
   });
 
-  it("names where the field's levels come from", () => {
-    const reason = (benchmark: Partial<TeamFieldReading["benchmark"]>) =>
-      build(field({ benchmark, levelGap: null }))["team-health"]?.reason;
-
+  it("says who lags behind, then how many you bring against six", () => {
     expect(
-      reason({
-        battle: { isPromotionMatch: true, kind: "Z-A Royale", name: "Zach" },
-        levels: [8, 9],
-      }),
+      build(field({ lagging: ["Drifloon"] }), 3, 3)["team-health"]?.reason,
     ).toContain(
-      "at the levels of Zach's 2 (Lv. 8–9), your next promotion match.",
-    );
-    expect(reason({ kind: "team", level: 20, levels: [20, 20] })).toContain(
-      "at your top level (Lv. 20), as many as you have: Voydex doesn't have Gym Leader Fantina's team yet.",
+      "Drifloon is 5 or more levels below your top, and you bring 3 to their 6.",
     );
     expect(
-      reason({ battle: null, kind: "team", level: 70, levels: [70] }),
-    ).toContain(
-      "at your top level (Lv. 70), as many as you have: no leader battle is left.",
-    );
-    expect(
-      reason({ battle: null, kind: "default", level: 50, levels: [50] }),
-    ).toContain(
-      "at Lv. 50, as many as you have: no leader battle is left and your levels aren't recorded.",
-    );
-  });
-
-  it("says how far behind your levels are, then how many each side brings", () => {
-    expect(
-      build(field({ levelGap: -5, theirCount: 3 }))["team-health"]?.reason,
-    ).toContain(
-      "Your top level is 5 below their ace, and you bring 6 to their 3.",
-    );
-    expect(build(field({ theirCount: 3 }))["team-health"]?.reason).toContain(
-      "Your top level matches their ace, and you bring 6 to their 3.",
-    );
+      build(field({ unrecorded: { levels: 6, moves: 0 } }))["team-health"]
+        ?.reason,
+    ).toContain("at Lv. 34, as your levels aren't recorded.");
   });
 
   it("names three types and counts the rest", () => {

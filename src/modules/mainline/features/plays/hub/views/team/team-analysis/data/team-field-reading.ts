@@ -1,8 +1,4 @@
-import type {
-  MainlinePlayCapBattle,
-  MainlinePlayLevelCap,
-  MainlinePlayTeamMember,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   getDuel,
@@ -27,22 +23,7 @@ import {
   toYourBattler,
 } from "./team-battlers";
 
-/*
- * Where the field's levels come from: the team of the next leader battle in
- * Story (Level caps' battle), else your own top level, or a default while
- * neither is known.
- */
-export type TeamFieldBenchmark = {
-  /* The next leader battle, whether or not Voydex has its team; null when none is left. */
-  battle: MainlinePlayCapBattle | null;
-  kind: "battle" | "default" | "team";
-  /* The highest of `levels`: that battle's ace, or your top level. */
-  level: number;
-  /* One per Pokémon the field brings, at its level. */
-  levels: number[];
-};
-
-/* Your team against a Pokémon of one type at the field's levels. */
+/* Your team against a Pokémon of one type at the field's level. */
 export type TeamFieldTypeReading = {
   /*
    * What beating one costs the average player, as a share of one Pokémon's
@@ -57,9 +38,12 @@ export type TeamFieldTypeReading = {
 };
 
 export type TeamFieldReading = {
-  benchmark: TeamFieldBenchmark;
-  /* Your top recorded level minus the battle's ace, when both are known. */
-  levelGap: number | null;
+  /* Yours 5 or more levels below the field: they pull the team down. */
+  lagging: string[];
+  /* Your top recorded level, or Lv. 50 while none is recorded. */
+  level: number;
+  /* How many Pokémon the field brings: a full team. */
+  theirCount: number;
   /* How many of yours lack a recorded level or damaging move, which makes the reading rough. */
   unrecorded: { levels: number; moves: number };
   /* What beating the field costs your team, as a share of its HP. */
@@ -68,8 +52,14 @@ export type TeamFieldReading = {
   types: TeamFieldTypeReading[];
 };
 
-/* The level the field reads at while neither a battle nor your team gives one. */
+/* The level the field reads at while none of yours has one recorded. */
 const DEFAULT_FIELD_LEVEL = 50;
+
+/* The field brings a full team. */
+const FIELD_SIZE = 6;
+
+/* How far below the field one of yours may be before it counts as lagging. */
+const LAGGING_LEVELS = 5;
 
 /*
  * The field's Pokémon of one type at a level: your team's average base
@@ -130,73 +120,42 @@ const getFieldStats = (members: MainlinePlayTeamMember[]): BaseStats => {
   };
 };
 
-const getBenchmark = ({
-  levelCap,
-  members,
-}: {
-  levelCap: MainlinePlayLevelCap | null;
-  members: MainlinePlayTeamMember[];
-}): TeamFieldBenchmark => {
-  const recorded = members.flatMap((member) =>
-    member.level ? [member.level] : [],
-  );
-
-  if (levelCap?.status === "capped") {
-    return {
-      battle: levelCap.battle,
-      kind: "battle",
-      level: levelCap.level,
-      levels: levelCap.teamLevels.length
-        ? levelCap.teamLevels
-        : [levelCap.level],
-    };
-  }
-
-  const level = recorded.length ? Math.max(...recorded) : DEFAULT_FIELD_LEVEL;
-
-  return {
-    battle: levelCap?.status === "no-team" ? levelCap.battle : null,
-    kind: recorded.length ? "team" : "default",
-    level,
-    levels: members.map(() => level),
-  };
-};
-
 const mean = (values: number[]) =>
   values.length
     ? values.reduce((sum, value) => sum + value, 0) / values.length
     : 0;
 
 /*
- * Reads your active team against the game's field rather than one
- * opponent: a Pokémon of every type the generation has, as strong as yours
- * on average, at each level the next leader battle in Story brings. Each of
- * yours meets each of them one on one with the games' damage formula, as
- * Story matchups does, so level weighs first, then how many each side has,
- * then types. Yours without a recorded level read at the battle's ace's
- * level, and without recorded damaging moves, by type.
+ * A general check of your active team, not tied to a game's battles: it
+ * meets a full team of six, a Pokémon of every type the generation has, as
+ * strong as yours on average and at your top level. Each of yours meets
+ * each of them one on one with the games' damage formula, as Story matchups
+ * does, so level weighs first (yours below your top level pull it down),
+ * then how many each side has, then types. Yours without a recorded level
+ * read at the field's level, and without recorded damaging moves, by type.
  */
 export const readTeamField = ({
   generationOrder,
-  levelCap,
   members,
   types,
 }: {
   generationOrder: number;
-  levelCap: MainlinePlayLevelCap | null;
   members: MainlinePlayTeamMember[];
   types: Type[];
 }): TeamFieldReading => {
-  const benchmark = getBenchmark({ levelCap, members });
+  const recordedLevels = members.flatMap((member) =>
+    member.level ? [member.level] : [],
+  );
+  const level = recordedLevels.length
+    ? Math.max(...recordedLevels)
+    : DEFAULT_FIELD_LEVEL;
   const teamCount = Math.max(1, members.length);
   const typeBySlug = new Map(types.map((type) => [type.slug, type]));
   const yours = members.map((member) =>
-    toYourBattler(member, generationOrder, benchmark.level),
+    toYourBattler(member, generationOrder, level),
   );
   const names = members.map(getPlayTeamMemberName);
   const fieldStats = getFieldStats(members);
-  /* Per type, what the field's Pokémon at each of its levels costs the average player. */
-  const answerCostsByLevel: number[][] = [];
 
   const typeReadings = getPokemonTypesForGeneration(generationOrder).flatMap(
     (slug): TeamFieldTypeReading[] => {
@@ -206,36 +165,26 @@ export const readTeamField = ({
         return [];
       }
 
-      /* Yours by row, the field's levels by column, its physical and special ones averaged. */
-      const duels = yours.map((your) =>
-        benchmark.levels.map((level) => {
-          const field = toFieldBattlers(
-            slug,
-            level,
-            fieldStats,
-            generationOrder,
-          ).map((their) => getDuel({ generationOrder, their, your }));
+      const field = toFieldBattlers(slug, level, fieldStats, generationOrder);
+      /* Yours by row, the field's physical and special ones averaged. */
+      const duels = yours.map((your) => {
+        const row = field.map((their) =>
+          getDuel({ generationOrder, their, your }),
+        );
 
-          return {
-            cost: mean(field.map((duel) => Math.min(duel.cost, teamCount))),
-            /* Both share stats and type, so they take the same hit. */
-            yourShare: field[0]?.yourShare ?? 0,
-          };
-        }),
-      );
-      const levelAnswerCosts = benchmark.levels.map((_, column) =>
-        getAnswerCost(duels.map((row) => row[column].cost)),
-      );
-      const costs = duels.map((row) => mean(row.map((duel) => duel.cost)));
-
-      answerCostsByLevel.push(levelAnswerCosts);
+        return {
+          cost: mean(row.map((duel) => Math.min(duel.cost, teamCount))),
+          /* Both share stats and type, so they take the same hit. */
+          yourShare: row[0]?.yourShare ?? 0,
+        };
+      });
 
       return [
         {
-          answerCost: mean(levelAnswerCosts),
+          answerCost: getAnswerCost(duels.map((duel) => duel.cost)),
           beats: names.filter(
             (_, index) =>
-              costs[index] >= 1 &&
+              duels[index].cost >= 1 &&
               yours[index].types.length > 0 &&
               getDefensiveTypeMultiplier(
                 slug,
@@ -245,38 +194,35 @@ export const readTeamField = ({
           ),
           hitsToKnockOut: Math.min(
             Infinity,
-            ...duels.map((row) => {
-              const share = mean(row.map((duel) => duel.yourShare));
-
-              return share > 0 ? Math.ceil(1 / share) : Infinity;
-            }),
+            ...duels.map((duel) =>
+              duel.yourShare > 0 ? Math.ceil(1 / duel.yourShare) : Infinity,
+            ),
           ),
           type,
         },
       ];
     },
   );
-
-  const topLevel = Math.max(0, ...members.map((member) => member.level ?? 0));
+  /* What one of the field costs: its types on average. */
+  const fieldAnswerCost = mean(
+    typeReadings.map((reading) => reading.answerCost),
+  );
 
   return {
-    benchmark,
-    levelGap:
-      benchmark.kind === "battle" && topLevel > 0
-        ? topLevel - benchmark.level
-        : null,
+    lagging: names.filter(
+      (_, index) => (members[index].level ?? level) <= level - LAGGING_LEVELS,
+    ),
+    level,
+    share: getBattleShare({
+      answerCosts: Array.from({ length: FIELD_SIZE }, () => fieldAnswerCost),
+      teamCount,
+    }),
+    theirCount: FIELD_SIZE,
+    types: typeReadings,
     unrecorded: {
       levels: members.filter((member) => !member.level).length,
       moves: members.filter((member) => !hasRecordedDamagingMove(member))
         .length,
     },
-    /* Each Pokémon the field brings reads as its level's average type, against your team. */
-    share: getBattleShare({
-      answerCosts: benchmark.levels.map((_, column) =>
-        mean(answerCostsByLevel.map((row) => row[column])),
-      ),
-      teamCount,
-    }),
-    types: typeReadings,
   };
 };

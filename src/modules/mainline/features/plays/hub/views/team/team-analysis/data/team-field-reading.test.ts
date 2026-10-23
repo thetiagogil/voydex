@@ -1,9 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type {
-  MainlinePlayLevelCap,
-  MainlinePlayTeamMember,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type { BaseStats } from "@/modules/reference/features/pokemon/domain/battle-math";
 import { pokemonTypeSlugs } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { Type } from "@/modules/reference/types";
@@ -47,13 +44,6 @@ const member = (
     tera_type_slug: null,
   }) as unknown as MainlinePlayTeamMember;
 
-const cap = (levels: number[]): MainlinePlayLevelCap => ({
-  battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Roark" },
-  level: Math.max(...levels),
-  status: "capped",
-  teamLevels: levels,
-});
-
 /* Hp, Attack, Defense, Sp. Atk, Sp. Def, Speed. */
 const base = (
   ...[hp, attack, defense, specialAttack, specialDefense, speed]: number[]
@@ -66,7 +56,7 @@ const base = (
   speed,
 });
 
-const balanced = (level: number | null) => [
+const balanced = (level: number | null, lowLevel = level) => [
   member(
     "Infernape",
     ["fire", "fighting"],
@@ -94,56 +84,49 @@ const balanced = (level: number | null) => [
   member(
     "Gyarados",
     ["water", "flying"],
-    level,
+    lowLevel,
     base(95, 125, 79, 60, 100, 81),
   ),
   member(
     "Roserade",
     ["grass", "poison"],
-    level,
+    lowLevel,
     base(60, 70, 65, 125, 105, 90),
   ),
 ];
 
-const read = (
-  members: MainlinePlayTeamMember[],
-  levelCap: MainlinePlayLevelCap | null,
-  generationOrder = 4,
-) => readTeamField({ generationOrder, levelCap, members, types });
+const read = (members: MainlinePlayTeamMember[], generationOrder = 4) =>
+  readTeamField({ generationOrder, members, types });
 
 describe("readTeamField", () => {
-  it("reads at the next leader battle's levels, as many as it brings", () => {
-    const field = read(balanced(47), cap([48, 50, 50]));
+  it("reads a full team of six at your top level", () => {
+    const field = read(balanced(47));
 
-    expect(field.benchmark).toEqual({
-      battle: { isPromotionMatch: false, kind: "Gym Leader", name: "Roark" },
-      kind: "battle",
-      level: 50,
-      levels: [48, 50, 50],
-    });
-    expect(field.levelGap).toBe(-3);
+    expect(field.level).toBe(47);
+    expect(field.theirCount).toBe(6);
+    expect(field.lagging).toEqual([]);
     expect(field.unrecorded).toEqual({ levels: 0, moves: 6 });
     /* Gen 4 has every type but Fairy. */
     expect(field.types).toHaveLength(17);
+    /* A balanced team of six beats an even field cheaply. */
+    expect(field.share).toBeLessThanOrEqual(0.3);
   });
 
-  it("weighs level first: the further behind, the more the field costs", () => {
-    const even = read(balanced(50), cap(Array(6).fill(50)));
-    const behind = read(balanced(45), cap(Array(6).fill(50)));
-    const farBehind = read(balanced(35), cap(Array(6).fill(50)));
+  it("weighs level first: yours far below your top pull the team down", () => {
+    const even = read(balanced(50));
+    const behind = read(balanced(50, 44));
+    const farBehind = read(balanced(50, 30));
 
-    expect(even.share).toBeLessThanOrEqual(0.3);
+    expect(behind.lagging).toEqual(["Gyarados", "Roserade"]);
     expect(behind.share).toBeGreaterThan(even.share);
-    expect(farBehind.share).toBeGreaterThanOrEqual(0.9);
+    expect(farBehind.share).toBeGreaterThan(behind.share);
   });
 
-  it("weighs how many each side has after level", () => {
-    const full = read(balanced(50), cap(Array(6).fill(50)));
-    const half = read(balanced(50).slice(0, 3), cap(Array(6).fill(50)));
-    const fewerOfTheirs = read(balanced(50), cap([50, 50]));
+  it("weighs how many you bring against a full six after level", () => {
+    const full = read(balanced(50));
+    const half = read(balanced(50).slice(0, 3));
 
     expect(half.share).toBeGreaterThan(full.share);
-    expect(fewerOfTheirs.share).toBeLessThan(full.share);
   });
 
   it("finds the type a one-type team can't answer, and whom it outclasses", () => {
@@ -153,7 +136,7 @@ describe("readTeamField", () => {
       member("Carracosta", ["water", "rock"], 50),
       member("Seismitoad", ["water", "ground"], 50),
     ];
-    const field = read(water, cap(Array(4).fill(50)), 5);
+    const field = read(water, 5);
     const hardest = [...field.types].sort(
       (left, right) => right.answerCost - left.answerCost,
     )[0];
@@ -168,7 +151,6 @@ describe("readTeamField", () => {
   it("knows when none of yours can hurt a type", () => {
     const field = read(
       [member("Snorlax", ["normal"], 30), member("Tauros", ["normal"], 30)],
-      null,
       1,
     );
 
@@ -180,41 +162,6 @@ describe("readTeamField", () => {
       field.types.find((reading) => reading.type.slug === "grass")
         ?.hitsToKnockOut,
     ).toBeLessThan(Infinity);
-  });
-
-  it("reads at your top level, as many as you have, once no leader battle is left", () => {
-    const field = read(
-      [
-        member("Garchomp", ["dragon", "ground"], 62),
-        member("Lucario", ["fighting", "steel"], 58),
-      ],
-      { status: "no-battle" },
-    );
-
-    expect(field.benchmark).toEqual({
-      kind: "team",
-      level: 62,
-      levels: [62, 62],
-      battle: null,
-    });
-    expect(field.levelGap).toBeNull();
-  });
-
-  it("reads at your top level while Voydex doesn't have the next leader's team", () => {
-    const roark = {
-      isPromotionMatch: false,
-      kind: "Gym Leader",
-      name: "Roark",
-    };
-    const field = read(balanced(20), { battle: roark, status: "no-team" });
-
-    expect(field.benchmark).toEqual({
-      battle: roark,
-      kind: "team",
-      level: 20,
-      levels: [20, 20, 20, 20, 20, 20],
-    });
-    expect(field.levelGap).toBeNull();
   });
 
   it("hits with recorded moves, set-damage ones included", () => {
@@ -234,7 +181,7 @@ describe("readTeamField", () => {
       ...member("Gengar", ["ghost", "poison"], 40),
       moves: [move("night-shade", "ghost", null)],
     } as MainlinePlayTeamMember;
-    const byMoves = read([thunderbolt, nightShade], cap([40]), 1);
+    const byMoves = read([thunderbolt, nightShade], 1);
     const water = (reading: ReturnType<typeof read>) =>
       reading.types.find((type) => type.type.slug === "water")!;
 
@@ -247,7 +194,6 @@ describe("readTeamField", () => {
             member("Raichu", ["electric"], 40),
             member("Gengar", ["ghost", "poison"], 40),
           ],
-          cap([40]),
           1,
         ),
       ).hitsToKnockOut,
@@ -259,29 +205,26 @@ describe("readTeamField", () => {
   });
 
   it("reads an empty team or a typeless Pokémon without breaking", () => {
-    const empty = read([], cap([12, 14]));
+    const empty = read([]);
 
-    /* Nothing answers them: each of theirs costs a whole Pokémon. */
-    expect(empty.share).toBe(2);
+    /* Nothing answers them: each of the six costs a whole Pokémon. */
+    expect(empty.share).toBe(6);
     expect(empty.types.every((type) => type.beats.length === 0)).toBe(true);
 
-    const typeless = read(
-      [
-        {
-          ...member("Missing", ["normal"], 30),
-          primaryType: null,
-        } as MainlinePlayTeamMember,
-      ],
-      cap([30]),
-    );
+    const typeless = read([
+      {
+        ...member("Missing", ["normal"], 30),
+        primaryType: null,
+      } as MainlinePlayTeamMember,
+    ]);
 
     expect(typeless.types.every((type) => type.beats.length === 0)).toBe(true);
   });
 
   it("says what it had to assume when levels aren't recorded", () => {
-    const field = read([member("Pikachu", ["electric"], null, null)], null, 1);
+    const field = read([member("Pikachu", ["electric"], null, null)], 1);
 
-    expect(field.benchmark).toMatchObject({ kind: "default", level: 50 });
+    expect(field.level).toBe(50);
     expect(field.unrecorded).toEqual({ levels: 1, moves: 1 });
     /* Gen 1 has fifteen types. */
     expect(field.types).toHaveLength(15);

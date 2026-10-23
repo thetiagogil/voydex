@@ -6,7 +6,6 @@ import type {
   TeamAnalysisHealthMetric,
   TeamAnalysisHealthStatus,
 } from "../types";
-import { formatLevelRange, getLevelRange } from "./story-battle-reading";
 import { battleCostLimits } from "./team-battlers";
 import type {
   TeamFieldReading,
@@ -80,8 +79,6 @@ const text = (value: string): TeamAnalysisHealthLinePart => ({ text: value });
 
 const typePart = (type: Type): TeamAnalysisHealthLinePart => ({ type });
 
-const levelWord = (count: number) => (count === 1 ? "level" : "levels");
-
 const percent = (share: number) => `${Math.round(share * 100)}%`;
 
 /* A type is answered while your best answers beat one for less than most of a Pokémon's HP. */
@@ -107,53 +104,23 @@ export const getTeamFieldRoughNote = ({
   return parts.length ? `A rough read: ${parts.join(" and ")} recorded.` : null;
 };
 
-/* What the field is, in words: its Pokémon, their levels and how many. */
-const getFieldSentence = ({ benchmark }: TeamFieldReading) => {
-  const { battle } = benchmark;
-  const count = benchmark.levels.length;
-  const range = getLevelRange(benchmark.levels);
-  const levels = range ? formatLevelRange(range) : `Lv. ${benchmark.level}`;
-  const field = "Your team against a Pokémon of each type, as strong as yours";
+/* What the field is, in words: a full team of six, at your top level. */
+const getFieldSentence = (field: TeamFieldReading, yourCount: number) =>
+  `Your team against a full team of six, Pokémon of each type as strong as yours, at ${
+    field.unrecorded.levels >= yourCount
+      ? `Lv. ${field.level}, as your levels aren't recorded`
+      : `your top level (Lv. ${field.level})`
+  }.`;
 
-  if (benchmark.kind === "battle" && battle) {
-    return `${field}, at the levels of ${battle.name}'s ${count === 1 ? "Pokémon" : count} (${levels}), ${
-      battle.isPromotionMatch
-        ? "your next promotion match"
-        : "your next leader battle"
-    }.`;
-  }
-
-  /* Whose team it would read, as Level caps names it: "Gym Leader Misty", or "Zach". */
-  const why = [
-    battle
-      ? `Voydex doesn't have ${battle.isPromotionMatch ? battle.name : `${battle.kind} ${battle.name}`}'s team yet`
-      : "no leader battle is left",
-    benchmark.kind === "default" ? "your levels aren't recorded" : null,
-  ].filter(Boolean);
-
-  return `${field}, at ${benchmark.kind === "team" ? `your top level (${levels})` : levels}, as many as you have: ${why.join(" and ")}.`;
-};
-
-/* Level first, then numbers: "Your top level is 5 below their ace, and you bring 3 to their 6." */
-const getEdgeSentence = ({
-  levelGap,
-  theirCount,
-  yourCount,
-}: {
-  levelGap: number | null;
-  theirCount: number;
-  yourCount: number;
-}) => {
-  const level =
-    levelGap === null
-      ? null
-      : levelGap === 0
-        ? "your top level matches their ace"
-        : `your top level is ${Math.abs(levelGap)} ${levelGap < 0 ? "below" : "above"} their ace`;
+/* Level first, then numbers: "Kirlia is 5 or more levels below your top, and you bring 3 to their 6." */
+const getEdgeSentence = (field: TeamFieldReading, yourCount: number) => {
+  const level = field.lagging.length
+    ? `${listNames(field.lagging, "and")} ${field.lagging.length === 1 ? "is" : "are"} 5 or more levels below your top`
+    : null;
   const count =
-    theirCount === yourCount
-      ? null
-      : `you bring ${yourCount} to their ${theirCount}`;
+    yourCount < field.theirCount
+      ? `you bring ${yourCount} to their ${field.theirCount}`
+      : null;
   const sentence = [level, count].filter(Boolean).join(", and ");
 
   return sentence ? `${sentence[0].toUpperCase()}${sentence.slice(1)}.` : null;
@@ -161,7 +128,7 @@ const getEdgeSentence = ({
 
 /*
  * The four Team health cards, read with the games' damage formula against
- * the game's field (`readTeamField`): Team health is what beating it costs
+ * a full team of six at your level (`readTeamField`): Team health is what beating it costs
  * your whole team, Threat response which types your best answers beat
  * cheaply, Move coverage which types your hardest hits knock out quickly,
  * and Weakness control which types outclass several of yours with nothing
@@ -200,32 +167,30 @@ export const buildTeamAnalysisHealth = ({
       : field.share >= battleCostLimits.challenging
         ? "weak"
         : "moderate";
-  const { levelGap } = field;
   const watch = byCost[0] && byCost[0].answerCost > battleCostLimits.strong;
-  const theirCount = field.benchmark.levels.length;
   const teamHealthMetric: TeamAnalysisHealthMetric = {
     id: "team-health",
     line: !canRead
       ? missingLine
-      : levelGap !== null && levelGap <= -2
-        ? [text(`${-levelGap} ${levelWord(-levelGap)} behind`)]
-        : levelGap !== null && levelGap >= 2
-          ? [text(`${levelGap} ${levelWord(levelGap)} ahead`)]
-          : watch
-            ? [text("Watch"), typePart(byCost[0].type)]
-            : [text("No type to watch")],
+      : field.lagging.length
+        ? [
+            text(
+              field.lagging.length === 1
+                ? `${field.lagging[0]} lags behind`
+                : `${field.lagging.length} lag behind`,
+            ),
+          ]
+        : watch
+          ? [text("Watch"), typePart(byCost[0].type)]
+          : [text("No type to watch")],
     reason: !canRead
       ? missingReason
       : withRoughNote([
-          getFieldSentence(field),
+          getFieldSentence(field, evidence.activeCount),
           field.share >= 1
             ? "Beating them costs more than your whole team's HP."
             : `Beating them costs about ${percent(field.share)} of your team's HP.`,
-          getEdgeSentence({
-            levelGap,
-            theirCount,
-            yourCount: evidence.activeCount,
-          }),
+          getEdgeSentence(field, evidence.activeCount),
           watch ? `${byCost[0].type.name} costs you the most.` : null,
           `Strong at ${percent(battleCostLimits.strong)} or less, Weak at ${percent(battleCostLimits.challenging)} or more.`,
         ]),
