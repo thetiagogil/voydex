@@ -32,6 +32,34 @@ test.describe("Form classes", () => {
     ).toBeVisible();
   });
 
+  test("a look-only variant is picked as a pattern", async ({ page }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Scarlet, 2022",
+      name: uniquePlayName("Paldea patterns"),
+      partner: "Fuecoco",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team`, {
+      waitUntil: "networkidle",
+    });
+    await page.getByRole("button", { name: "Add Pokémon" }).click();
+    await page
+      .getByRole("searchbox", { name: "Search Pokémon" })
+      .fill("vivillon");
+
+    /* One card for Vivillon: its patterns wait for the next step. */
+    const sheet = page.getByRole("dialog");
+    await expect(
+      sheet.getByRole("button", { name: /^Vivillon, / }),
+    ).toHaveCount(1, forTheAnswer);
+    await sheet.getByRole("button", { name: /^Vivillon, / }).click();
+    await sheet.getByRole("combobox", { name: "Pattern" }).click();
+    await page.getByRole("option", { name: /^Polar Pattern/ }).click();
+    await expect(
+      sheet.getByRole("combobox", { name: "Pattern" }),
+    ).toContainText("Polar Pattern");
+  });
+
   test("Change form lists only forms it can switch to", async ({ page }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Sword, 2019",
