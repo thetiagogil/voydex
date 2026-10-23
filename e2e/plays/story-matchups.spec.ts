@@ -43,6 +43,35 @@ test.describe("Story matchups", () => {
     await expectAccessible(page);
   });
 
+  test("reads a Gen 5 legendary's moves from its encounter", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Black, 2010",
+      name: uniquePlayName("Unova run"),
+      partner: "Snivy",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    const kyurem = page.getByRole("button", { name: /^Kyurem/ });
+    await expect(kyurem).toBeVisible(forTheAnswer);
+    await kyurem.click();
+
+    /* The Giant Chasm Kyurem knows Glaciate at Lv. 75. */
+    const report = page.getByRole("region", { name: "Kyurem" });
+    await expect(report).toContainText(
+      "This reads its moves against your team",
+    );
+    await report.getByRole("button", { name: "Show moves" }).click();
+    await expect(
+      report.getByRole("listitem").filter({ hasText: /^Glaciate$/ }),
+    ).toBeVisible();
+    await expectAccessible(page);
+  });
+
   test("lists Legends: Z-A's promotion matches in the game's order", async ({
     page,
   }) => {

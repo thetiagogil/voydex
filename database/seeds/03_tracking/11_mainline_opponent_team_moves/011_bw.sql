@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Black / White Story battle opponents' moves.
 -- ============================================================================
@@ -392,7 +395,25 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Cheren: Simipour Lv. 43: Lick, Scald, Leer, Fury Swipes
     (110010, 11017, NULL, 110001, 'oshawott', NULL, 3, ARRAY[122, 503, 43, 154]),
     -- Cheren: Serperior Lv. 45: Leaf Blade, Giga Drain, Coil, Slam
-    (110010, 11017, NULL, 110001, 'oshawott', NULL, 4, ARRAY[348, 202, 489, 21])
+    (110010, 11017, NULL, 110001, 'oshawott', NULL, 4, ARRAY[348, 202, 489, 21]),
+    -- Reshiram: Reshiram Lv. 50: Dragon Breath, Slash, Extrasensory, Fusion Flare
+    (110015, 11018, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 326, 558]),
+    -- Zekrom: Zekrom Lv. 50: Dragon Breath, Slash, Zen Headbutt, Fusion Bolt
+    (110015, 11019, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 428, 559]),
+    -- Cobalion: Cobalion Lv. 42: Helping Hand, Retaliate, Iron Head, Sacred Sword
+    (110019, 11020, NULL, NULL, NULL, NULL, 1, ARRAY[270, 514, 442, 533]),
+    -- Terrakion: Terrakion Lv. 42: Helping Hand, Retaliate, Rock Slide, Sacred Sword
+    (110019, 11021, NULL, NULL, NULL, NULL, 1, ARRAY[270, 514, 157, 533]),
+    -- Virizion: Virizion Lv. 42: Helping Hand, Retaliate, Giga Drain, Sacred Sword
+    (110019, 11022, NULL, NULL, NULL, NULL, 1, ARRAY[270, 514, 202, 533]),
+    -- Tornadus: Tornadus Lv. 40: Revenge, Air Cutter, Extrasensory, Agility
+    (110020, 11023, NULL, NULL, NULL, NULL, 1, ARRAY[279, 314, 326, 97]),
+    -- Thundurus: Thundurus Lv. 40: Revenge, Shock Wave, Heal Block, Agility
+    (110020, 11024, NULL, NULL, NULL, NULL, 1, ARRAY[279, 351, 377, 97]),
+    -- Kyurem: Kyurem Lv. 75: Glaciate, Dragon Pulse, Imprison, Endeavor
+    (110021, 11025, NULL, NULL, NULL, NULL, 1, ARRAY[549, 406, 286, 283]),
+    -- Landorus: Landorus Lv. 70: Rock Slide, Earthquake, Sandstorm, Fissure
+    (110022, 11026, NULL, NULL, NULL, NULL, 1, ARRAY[157, 89, 201, 90])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

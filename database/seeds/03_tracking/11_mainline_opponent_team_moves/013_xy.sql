@@ -5,6 +5,9 @@
 -- set moves, PokéWiki's trainer team tables, else the default level-up
 -- moves for its level from Voydex's own learnset.
 -- Cross-check: PokéWiki trainer team tables.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: X / Y Story battle opponents' moves.
 -- ============================================================================
@@ -466,7 +469,21 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
     (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Chesnaught Lv. 70: Wood Hammer, Brick Break, Body Slam
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 6, ARRAY[452, 280, 34])
+    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 6, ARRAY[452, 280, 34]),
+    -- Xerneas: Xerneas Lv. 50: Gravity, Geomancy, Moonblast, Megahorn
+    (130022, 13021, NULL, NULL, NULL, NULL, 1, ARRAY[356, 601, 585, 224]),
+    -- Yveltal: Yveltal Lv. 50: Snarl, Oblivion Wing, Disable, Dark Pulse
+    (130022, 13022, NULL, NULL, NULL, NULL, 1, ARRAY[555, 613, 50, 399]),
+    -- Zygarde: Zygarde Lv. 70: Crunch, Earthquake, Camouflage, Dragon Pulse
+    (130023, 13023, NULL, NULL, NULL, NULL, 1, ARRAY[242, 89, 293, 406]),
+    -- Mewtwo: Mewtwo Lv. 70: Recover, Psychic, Barrier, Aura Sphere
+    (130024, 13024, NULL, NULL, NULL, NULL, 1, ARRAY[105, 94, 112, 396]),
+    -- Articuno: Articuno Lv. 70: Ice Beam, Reflect, Hail, Tailwind
+    (130025, 13025, NULL, 130001, 'chespin', NULL, 1, ARRAY[58, 115, 258, 366]),
+    -- Zapdos: Zapdos Lv. 70: Agility, Discharge, Rain Dance, Light Screen
+    (130025, 13026, NULL, 130001, 'fennekin', NULL, 1, ARRAY[97, 435, 240, 113]),
+    -- Moltres: Moltres Lv. 70: Safeguard, Air Slash, Sunny Day, Heat Wave
+    (130025, 13027, NULL, 130001, 'froakie', NULL, 1, ARRAY[219, 403, 241, 257])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

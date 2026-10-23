@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponents' moves.
 -- ============================================================================
@@ -228,7 +231,15 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Trace: Marowak Lv. 50: Focus Energy, Bonemerang, Thrash, Swords Dance
     (170012, 17016, 30, NULL, NULL, NULL, 3, ARRAY[116, 155, 37, 14]),
     -- Trace: Raichu Lv. 51: Thunder, Quick Attack, Thunder Punch, Slam
-    (170012, 17016, 30, NULL, NULL, NULL, 4, ARRAY[87, 98, 9, 21])
+    (170012, 17016, 30, NULL, NULL, NULL, 4, ARRAY[87, 98, 9, 21]),
+    -- Zapdos: Zapdos Lv. 50: Drill Peck, Thunderbolt, Agility, Light Screen
+    (170023, 17018, NULL, NULL, NULL, NULL, 1, ARRAY[65, 85, 97, 113]),
+    -- Articuno: Articuno Lv. 50: Mirror Coat, Ice Beam, Agility, Reflect
+    (170024, 17019, NULL, NULL, NULL, NULL, 1, ARRAY[243, 58, 97, 115]),
+    -- Moltres: Moltres Lv. 50: Air Slash, Flamethrower, Agility, Heat Wave
+    (170025, 17020, NULL, NULL, NULL, NULL, 1, ARRAY[403, 53, 97, 257]),
+    -- Mewtwo: Mewtwo Lv. 70: Swift, Amnesia, Recover, Psychic
+    (170026, 17021, NULL, NULL, NULL, NULL, 1, ARRAY[129, 133, 105, 94])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

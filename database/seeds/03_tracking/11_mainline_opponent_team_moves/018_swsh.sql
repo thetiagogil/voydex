@@ -5,6 +5,12 @@
 -- set moves, PokéWiki's trainer team tables, else the default level-up
 -- moves for its level from Voydex's own learnset.
 -- Cross-check: PokéWiki trainer team tables.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Sword / Shield Story battle opponents' moves.
 -- ============================================================================
@@ -89,6 +95,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (180010, 18010, NULL, NULL, NULL, NULL, 3, ARRAY[182, 137, 424, 414]),
     -- Raihan: Gigantamax Duraludon Lv. 48: Breaking Swipe, Body Press, Stone Edge, Iron Head
     (180010, 18010, NULL, NULL, NULL, NULL, 4, ARRAY[784, 776, 444, 442]),
+    -- Eternatus: Eternatus Lv. 60: Cross Poison, Dragon Pulse, Flamethrower, Dynamax Cannon
+    (180011, 18011, NULL, NULL, NULL, NULL, 1, ARRAY[440, 406, 53, 744]),
     -- Leon: Aegislash Lv. 62: King's Shield, Shadow Ball, Sacred Sword, Flash Cannon
     (180012, 18012, NULL, 180001, 'grookey', NULL, 1, ARRAY[588, 247, 533, 430]),
     -- Leon: Dragapult Lv. 62: Shadow Ball, Flamethrower, Thunderbolt, Dragon Breath
@@ -510,7 +518,15 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Hop: Cinderace Lv. 70: Gunk Shot, Iron Head, Pyro Ball, Zen Headbutt
     (180014, 18013, 32, 180001, 'sobble', NULL, 5, ARRAY[441, 442, 780, 428]),
     -- Hop: Zacian (Crowned Sword) Lv. 70: Crunch, Behemoth Blade, Wild Charge, Close Combat
-    (180014, 18013, 32, 180001, 'sobble', NULL, 6, ARRAY[242, 781, 528, 370])
+    (180014, 18013, 32, 180001, 'sobble', NULL, 6, ARRAY[242, 781, 528, 370]),
+    -- Zamazenta: Zamazenta Lv. 70: Play Rough, Iron Defense, Crunch, Iron Head
+    (180014, 18017, NULL, NULL, NULL, NULL, 1, ARRAY[583, 334, 242, 442]),
+    -- Zacian: Zacian Lv. 70: Sacred Sword, Swords Dance, Iron Head, Crunch
+    (180014, 18018, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 442, 242]),
+    -- Zacian: Zacian Lv. 70: Sacred Sword, Swords Dance, Iron Head, Crunch
+    (180014, 18019, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 442, 242]),
+    -- Zamazenta: Zamazenta Lv. 70: Slash, Crunch, Iron Head, Iron Defense
+    (180014, 18020, NULL, NULL, NULL, NULL, 1, ARRAY[163, 242, 442, 334])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

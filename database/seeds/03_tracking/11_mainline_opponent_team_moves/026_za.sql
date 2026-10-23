@@ -3,6 +3,14 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
+-- Rogue Mega Absol: no source lists a moveset for Legends battles, so it gets
+-- the moves Serebii says it uses (Air Slash, and Dark Pulse as its charge move).
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Legends: Z-A Story battle opponents' moves.
 -- ============================================================================
@@ -117,6 +125,18 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Meganium Lv. 64: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
     (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 6, ARRAY[73, 414, 605, 202]),
+    -- Zygarde: Zygarde (10% Forme) Lv. 33: Bite, Haze, Bulldoze, Dragon Breath
+    (260018, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[44, 114, 523, 225]),
+    -- Zygarde: Zygarde Lv. 57: Dragon Breath, Dragon Pulse, Crunch, Land's Wrath
+    (260006, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[225, 406, 242, 616]),
+    -- Xerneas: Xerneas Lv. 75: Megahorn, Moonblast, Horn Leech, Geomancy
+    (260010, 26005, NULL, NULL, NULL, NULL, 1, ARRAY[224, 585, 532, 601]),
+    -- Yveltal: Yveltal Lv. 75: Hurricane, Dark Pulse, Psychic, Oblivion Wing
+    (260011, 26006, NULL, NULL, NULL, NULL, 1, ARRAY[542, 399, 94, 613]),
+    -- Zygarde: Mega Zygarde Lv. 84: Core Enforcer, Thousand Arrows, Thousand Waves, Land's Wrath
+    (260012, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[687, 614, 615, 616]),
+    -- Rogue Mega Absol: Mega Absol Lv. 25: Air Slash, Dark Pulse
+    (260005, 26002, NULL, NULL, NULL, NULL, 1, ARRAY[403, 399]),
     -- Lysandre: Pyroar Lv. 78: Hyper Voice, Flamethrower, Snarl, Solar Beam
     (260012, 26003, NULL, NULL, NULL, NULL, 1, ARRAY[304, 53, 555, 76]),
     -- Lysandre: Florges Lv. 78: Energy Ball, Dazzling Gleam, Psychic, Calm Mind

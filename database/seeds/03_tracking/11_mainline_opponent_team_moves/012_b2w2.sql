@@ -3,6 +3,12 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Black 2 / White 2 Story battle opponents' moves.
 -- ============================================================================
@@ -183,6 +189,10 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (120009, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[481, 43, 122, 154]),
     -- Hugh: Serperior Lv. 41: Leaf Blade, Coil, Slam, Mega Drain
     (120009, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[348, 489, 21, 72]),
+    -- Kyurem: Kyurem (Black) Lv. 55: Dragon Breath, Slash, Fusion Bolt, Freeze Shock
+    (120012, 12017, 19, NULL, NULL, NULL, 1, ARRAY[225, 163, 559, 553]),
+    -- Kyurem: Kyurem (White) Lv. 55: Dragon Breath, Slash, Fusion Flare, Ice Burn
+    (120012, 12017, 20, NULL, NULL, NULL, 1, ARRAY[225, 163, 558, 554]),
     -- Hugh: Unfezant Lv. 55: Facade, Aerial Ace, U-turn, Swagger
     (120012, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[263, 332, 369, 207]),
     -- Hugh: Simipour Lv. 55: Rock Slide, Surf, Brick Break, Crunch
@@ -207,6 +217,42 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (120012, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[543, 528, 224, 89]),
     -- Hugh: Serperior Lv. 57: Leaf Blade, Coil, Dragon Tail, Giga Drain
     (120012, 12016, NULL, 120001, 'oshawott', NULL, 4, ARRAY[348, 489, 525, 202]),
+    -- Hugh: Unfezant Lv. 62: Facade, Aerial Ace, U-turn, Swagger
+    (120018, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[263, 332, 369, 207]),
+    -- Hugh: Simipour Lv. 62: Rock Slide, Crunch, Brick Break, Surf
+    (120018, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[157, 242, 280, 57]),
+    -- Hugh: Bouffalant Lv. 62: Head Charge, Wild Charge, Megahorn, Earthquake
+    (120018, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[543, 528, 224, 89]),
+    -- Hugh: Flygon Lv. 62: Earthquake, Fire Blast, Dragon Claw, Stone Edge
+    (120018, 12016, NULL, 120001, 'snivy', NULL, 4, ARRAY[89, 126, 337, 444]),
+    -- Hugh: Eelektross Lv. 62: Wild Charge, Flamethrower, Dragon Claw, Crunch
+    (120018, 12016, NULL, 120001, 'snivy', NULL, 5, ARRAY[528, 53, 337, 242]),
+    -- Hugh: Emboar Lv. 64: Fire Blast, Head Smash, Hammer Arm, Scald
+    (120018, 12016, NULL, 120001, 'snivy', NULL, 6, ARRAY[126, 457, 359, 503]),
+    -- Hugh: Unfezant Lv. 62: Facade, Aerial Ace, U-turn, Swagger
+    (120018, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[263, 332, 369, 207]),
+    -- Hugh: Simisage Lv. 62: Rock Slide, Crunch, Brick Break, Energy Ball
+    (120018, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[157, 242, 280, 412]),
+    -- Hugh: Bouffalant Lv. 62: Head Charge, Wild Charge, Megahorn, Earthquake
+    (120018, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[543, 528, 224, 89]),
+    -- Hugh: Flygon Lv. 62: Earthquake, Fire Blast, Dragon Claw, Stone Edge
+    (120018, 12016, NULL, 120001, 'tepig', NULL, 4, ARRAY[89, 126, 337, 444]),
+    -- Hugh: Eelektross Lv. 62: Wild Charge, Flamethrower, Dragon Claw, Crunch
+    (120018, 12016, NULL, 120001, 'tepig', NULL, 5, ARRAY[528, 53, 337, 242]),
+    -- Hugh: Samurott Lv. 64: Hydro Pump, Megahorn, Ice Beam, Grass Knot
+    (120018, 12016, NULL, 120001, 'tepig', NULL, 6, ARRAY[56, 224, 58, 447]),
+    -- Hugh: Unfezant Lv. 62: Facade, Aerial Ace, U-turn, Swagger
+    (120018, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[263, 332, 369, 207]),
+    -- Hugh: Simisear Lv. 62: Rock Slide, Crunch, Brick Break, Flamethrower
+    (120018, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[157, 242, 280, 53]),
+    -- Hugh: Bouffalant Lv. 62: Head Charge, Wild Charge, Megahorn, Earthquake
+    (120018, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[543, 528, 224, 89]),
+    -- Hugh: Flygon Lv. 62: Earthquake, Fire Blast, Dragon Claw, Stone Edge
+    (120018, 12016, NULL, 120001, 'oshawott', NULL, 4, ARRAY[89, 126, 337, 444]),
+    -- Hugh: Eelektross Lv. 62: Wild Charge, Flamethrower, Dragon Claw, Crunch
+    (120018, 12016, NULL, 120001, 'oshawott', NULL, 5, ARRAY[528, 53, 337, 242]),
+    -- Hugh: Serperior Lv. 64: Leaf Storm, Leaf Blade, Dragon Tail, Coil
+    (120018, 12016, NULL, 120001, 'oshawott', NULL, 6, ARRAY[437, 348, 525, 489]),
     -- Colress: Magneton Lv. 72: Volt Switch, Flash Cannon, Tri Attack, Thunder Wave
     (120018, 12009, NULL, NULL, NULL, NULL, 1, ARRAY[521, 430, 161, 86]),
     -- Colress: Rotom (Wash) Lv. 72: Discharge, Hydro Pump, Will-O-Wisp, Substitute
@@ -218,7 +264,41 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Colress: Magnezone Lv. 72: Thunderbolt, Flash Cannon, Hyper Beam, Thunder Wave
     (120018, 12009, NULL, NULL, NULL, NULL, 5, ARRAY[85, 430, 63, 86]),
     -- Colress: Klinklang Lv. 74: Gear Grind, Wild Charge, Giga Impact, Shift Gear
-    (120018, 12009, NULL, NULL, NULL, NULL, 6, ARRAY[544, 528, 416, 508])
+    (120018, 12009, NULL, NULL, NULL, NULL, 6, ARRAY[544, 528, 416, 508]),
+    -- Cobalion: Cobalion Lv. 45: Helping Hand, Retaliate, Iron Head, Sacred Sword
+    (120019, 12018, NULL, NULL, NULL, NULL, 1, ARRAY[270, 514, 442, 533]),
+    -- Virizion: Virizion Lv. 45: Helping Hand, Retaliate, Giga Drain, Sacred Sword
+    (120019, 12019, NULL, NULL, NULL, NULL, 1, ARRAY[270, 514, 202, 533]),
+    -- Terrakion: Terrakion Lv. 45: Helping Hand, Retaliate, Rock Slide, Sacred Sword
+    (120019, 12020, NULL, NULL, NULL, NULL, 1, ARRAY[270, 514, 157, 533]),
+    -- Latios: Latios Lv. 68: Psycho Shift, Dragon Dance, Psychic, Heal Pulse
+    (120020, 12021, NULL, NULL, NULL, NULL, 1, ARRAY[375, 349, 94, 505]),
+    -- Latias: Latias Lv. 68: Psycho Shift, Charm, Psychic, Heal Pulse
+    (120020, 12022, NULL, NULL, NULL, NULL, 1, ARRAY[375, 204, 94, 505]),
+    -- Uxie: Uxie Lv. 65: Future Sight, Amnesia, Extrasensory, Flail
+    (120021, 12023, NULL, NULL, NULL, NULL, 1, ARRAY[248, 133, 326, 175]),
+    -- Mesprit: Mesprit Lv. 65: Future Sight, Charm, Extrasensory, Copycat
+    (120021, 12024, NULL, NULL, NULL, NULL, 1, ARRAY[248, 204, 326, 383]),
+    -- Azelf: Azelf Lv. 65: Future Sight, Nasty Plot, Extrasensory, Last Resort
+    (120021, 12025, NULL, NULL, NULL, NULL, 1, ARRAY[248, 417, 326, 387]),
+    -- Zekrom: Zekrom Lv. 70: Zen Headbutt, Fusion Bolt, Dragon Claw, Imprison
+    (120022, 12026, NULL, NULL, NULL, NULL, 1, ARRAY[428, 559, 337, 286]),
+    -- Reshiram: Reshiram Lv. 70: Extrasensory, Fusion Flare, Dragon Pulse, Imprison
+    (120022, 12027, NULL, NULL, NULL, NULL, 1, ARRAY[326, 558, 406, 286]),
+    -- Kyurem: Kyurem Lv. 70: Scary Face, Glaciate, Dragon Pulse, Imprison
+    (120023, 12017, NULL, NULL, NULL, NULL, 1, ARRAY[184, 549, 406, 286]),
+    -- Regirock: Regirock Lv. 65: Iron Defense, Charge Beam, Lock-On, Zap Cannon
+    (120024, 12028, NULL, NULL, NULL, NULL, 1, ARRAY[334, 451, 199, 192]),
+    -- Registeel: Registeel Lv. 65: Amnesia, Charge Beam, Lock-On, Zap Cannon
+    (120024, 12029, NULL, NULL, NULL, NULL, 1, ARRAY[133, 451, 199, 192]),
+    -- Regice: Regice Lv. 65: Amnesia, Charge Beam, Lock-On, Zap Cannon
+    (120024, 12030, NULL, NULL, NULL, NULL, 1, ARRAY[133, 451, 199, 192]),
+    -- Regigigas: Regigigas Lv. 68: Revenge, Wide Guard, Zen Headbutt, Payback
+    (120025, 12031, NULL, NULL, NULL, NULL, 1, ARRAY[279, 469, 428, 371]),
+    -- Heatran: Heatran Lv. 68: Scary Face, Lava Plume, Fire Spin, Iron Head
+    (120026, 12032, NULL, NULL, NULL, NULL, 1, ARRAY[184, 436, 83, 442]),
+    -- Cresselia: Cresselia Lv. 68: Future Sight, Slash, Moonlight, Psycho Cut
+    (120027, 12033, NULL, NULL, NULL, NULL, 1, ARRAY[248, 163, 236, 427])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT
