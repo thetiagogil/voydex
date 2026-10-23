@@ -30,6 +30,7 @@ import {
   TipRows,
   TipRating,
   TipText,
+  TipTitle,
   TipStack,
   type TipTone,
 } from "@/shared/components/tip-parts";
@@ -139,11 +140,14 @@ const TeamHealthTip = ({
       <TipText>{tip.summary}</TipText>
     </div>
     {tip.rows.length ? (
-      <TipRows>
-        {tip.rows.map((row, index) => (
-          <TeamHealthTipRow key={index} members={members} row={row} />
-        ))}
-      </TipRows>
+      <div className="grid gap-1.5">
+        <TipTitle>In your team</TipTitle>
+        <TipRows>
+          {tip.rows.map((row, index) => (
+            <TeamHealthTipRow key={index} members={members} row={row} />
+          ))}
+        </TipRows>
+      </div>
     ) : null}
     {tip.rule || tip.scale.length ? (
       <TipRating rule={tip.rule} scale={tip.scale} />

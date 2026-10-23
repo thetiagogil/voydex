@@ -298,7 +298,7 @@ export const buildTeamAnalysisHealth = ({
             { chip: "fewer", label: "Weak", tone: "danger" },
           ],
           summary: openReadings.length
-            ? `${answeredCount} of ${total} types answered. Not yet:`
+            ? `${answeredCount} of ${total} types answered.`
             : `All ${total} types answered.`,
         }
       : missingTip,
@@ -359,7 +359,7 @@ export const buildTeamAnalysisHealth = ({
             { chip: "fewer", label: "Weak", tone: "danger" },
           ],
           summary: slowTypes.length
-            ? `${coveredCount} of ${total} types fall in two hits. Slower:`
+            ? `${coveredCount} of ${total} types fall in two hits.`
             : `All ${total} types fall in two hits.`,
         }
       : missingTip,
@@ -410,7 +410,7 @@ export const buildTeamAnalysisHealth = ({
           summary: pressureReadings.length
             ? `${pressureReadings.length} shared ${
                 pressureReadings.length === 1 ? "weakness" : "weaknesses"
-              }, ${openPressure.length ? `${openPressure.length} unanswered` : "all answered"}:`
+              }, ${openPressure.length ? `${openPressure.length} unanswered` : "all answered"}.`
             : `No type hits ${sharedWords} super effectively and beats ${sharedPronoun} one on one.`,
         },
     status: !canRead

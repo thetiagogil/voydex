@@ -129,28 +129,38 @@ export const TipNamed = ({
   </TipStack>
 );
 
+/* A part's title inside a longer tip: plain bold words, not a small label. */
+export const TipTitle = ({ children }: { children: ReactNode }) => (
+  <p className="font-extrabold text-white">{children}</p>
+);
+
 /*
- * How a card is rated, closing its tip behind a hairline: the rule in a
- * quiet line, then the grades side by side, each with its chip. No heading:
- * the hairline sets it apart from what was found.
+ * How a card is rated, closing its tip behind a hairline: a title, the rule
+ * in a quiet line, then each grade on its own line with its chip.
  */
 export const TipRating = ({
   rule,
   scale,
+  title = "How it's rated",
 }: {
   rule?: ReactNode;
   scale: { chip: string; label: string; tone: TipTone }[];
+  title?: string;
 }) => (
-  <div className="border-on-ink/20 grid gap-2 border-t pt-2.5">
+  <div className="border-on-ink/20 grid gap-1.5 border-t pt-2.5">
+    <TipTitle>{title}</TipTitle>
     {rule ? <TipNote>{rule}</TipNote> : null}
     {scale.length ? (
-      <ul className="flex flex-wrap gap-x-3 gap-y-1.5">
+      <ul className="grid gap-1">
         {scale.map((grade) => (
-          <li key={grade.label} className="flex items-center gap-1.5">
-            <span className="text-12 font-bold text-white">{grade.label}</span>
+          <li
+            key={grade.label}
+            className="flex items-center justify-between gap-3"
+          >
+            <span className="text-on-ink">{grade.label}</span>
             <span
               className={cn(
-                "text-12 rounded-full px-2 leading-5 font-extrabold",
+                "text-12 shrink-0 rounded-full px-2 leading-5 font-extrabold",
                 toneChipClassNames[grade.tone],
               )}
             >

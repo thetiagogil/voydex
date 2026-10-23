@@ -232,7 +232,7 @@ describe("buildTeamAnalysisHealth", () => {
       }),
     )["threat-response"];
 
-    expect(metric?.tip.summary).toBe("5 of 10 types answered. Not yet:");
+    expect(metric?.tip.summary).toBe("5 of 10 types answered.");
     expect(rows(metric)).toEqual([
       "Type 1 | Your best Pokémon against it faints beating one",
       "Type 2 | Your best Pokémon against it faints beating one",
@@ -342,7 +342,7 @@ describe("buildTeamAnalysisHealth", () => {
       { type: referenceType(6) },
       { text: "unanswered" },
     ]);
-    expect(open?.tip.summary).toBe("2 shared weaknesses, 2 unanswered:");
+    expect(open?.tip.summary).toBe("2 shared weaknesses, 2 unanswered.");
   });
 
   it("keeps a full stop in a name inside its row", () => {
