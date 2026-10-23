@@ -168,8 +168,8 @@ SELECT
                         tracking.mainline_opponent_team_member_moves
                     WHERE
                         mainline_opponent_team_member_moves.team_member_id = mainline_opponent_team_members.id)),
-                5,
-                'only the 5 opponent Pokémon no source covers are left without moves');
+                1,
+                'only the one opponent Pokémon no source covers is left without moves');
 SELECT
     results_eq ($$
         SELECT

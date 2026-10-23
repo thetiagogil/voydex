@@ -7,6 +7,11 @@
 -- Fixed encounters (legendaries and other one-off Pokémon): the game's
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
+-- Glastrier / Spectrier at Freezington: the game's data-mined battle data,
+-- matched by GamerGuides (Bulbapedia and Serebii list no moves).
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Sword / Shield: The Crown Tundra Story battle opponents' moves.
 -- ============================================================================
@@ -19,6 +24,14 @@
 
 WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, member_slot, move_ids) AS (
   VALUES
+    -- Calyrex: Calyrex (Ice Rider) Lv. 80: Glacial Lance, Psychic, Iron Defense, Giga Drain
+    (200004, 20002, NULL, 200003, 'glastrier', NULL, 1, ARRAY[824, 94, 334, 202]),
+    -- Calyrex: Calyrex (Shadow Rider) Lv. 80: Astral Barrage, Psychic, Agility, Giga Drain
+    (200004, 20002, NULL, 200003, 'spectrier', NULL, 1, ARRAY[825, 94, 97, 202]),
+    -- Glastrier: Glastrier Lv. 75: Icicle Crash, Thrash, Avalanche, Stomp
+    (200004, 20003, NULL, 200003, 'glastrier', NULL, 1, ARRAY[556, 37, 419, 23]),
+    -- Spectrier: Spectrier Lv. 75: Shadow Ball, Thrash, Hex, Double Kick
+    (200004, 20004, NULL, 200003, 'spectrier', NULL, 1, ARRAY[247, 37, 506, 24]),
     -- Registeel: Registeel Lv. 70: Heavy Slam, Flash Cannon, Iron Defense, Charge Beam
     (200005, 20005, NULL, NULL, NULL, NULL, 1, ARRAY[484, 430, 334, 451]),
     -- Regirock: Regirock Lv. 70: Superpower, Stone Edge, Hammer Arm, Curse
