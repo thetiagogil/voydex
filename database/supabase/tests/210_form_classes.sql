@@ -1,11 +1,20 @@
 CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Form classes: every non-default form is a variant (caught and kept), a
--- form (switched on a Play) or a battle form (only in battle).
+-- form (switched on a Play) or a battle form (only in battle). A form driven
+-- by a held item follows it when a member's details are saved.
 BEGIN;
 SET LOCAL search_path = extensions, public;
+INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
+    VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f2', 'authenticated', 'authenticated', 'form-classes@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
+INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, status_id, name)
+    VALUES ('76000000-0000-0000-0000-0000000000b0', '00000000-0000-0000-0000-0000000000f2', 14, 9, 2, 'Form Class Play');
+INSERT INTO gameplay.mainline_play_pokemon (id, play_id, roster_state_id, slot, species_id, form_id, nickname)
+VALUES
+    ('77000000-0000-0000-0000-0000000000b1', '76000000-0000-0000-0000-0000000000b0', 1, 1, 493, 49300, 'Judge'),
+    ('77000000-0000-0000-0000-0000000000b2', '76000000-0000-0000-0000-0000000000b0', 1, 2, 479, 47901, 'Oven');
 SELECT
-    plan (5);
+    plan (8);
 -- Every non-default form has a rule, so a class.
 SELECT
     is_empty ($$
@@ -15,7 +24,8 @@ SELECT
                 NOT is_default
                 AND id NOT IN (
                     SELECT
-                        form_id FROM reference.pokemon_form_rules) $$, 'every non-default form has a class');
+                        form_id
+                    FROM reference.pokemon_form_rules) $$, 'every non-default form has a class');
 -- Regional forms are variants.
 SELECT
     is_empty ($$
@@ -48,7 +58,42 @@ SELECT
             WHERE
                 pokemon_forms.slug IN ('hisuian-arcanine', 'rotom-heat', 'arceus-fire', 'lycanroc-dusk', 'tornadus-therian', 'mega-charizard-x')
             ORDER BY pokemon_forms.id $$, $$
-        VALUES ('mega-charizard-x'::text, 'battle'::text), ('hisuian-arcanine', 'variant'), ('rotom-heat', 'form'), ('arceus-fire', 'form'), ('tornadus-therian', 'form'), ('lycanroc-dusk', 'variant') $$, 'Hisuian Arcanine and Dusk Lycanroc are variants, Rotom, Therian and Arceus forms switch, Mega is in battle');
+            VALUES ('mega-charizard-x'::text, 'battle'::text), ('hisuian-arcanine', 'variant'), ('rotom-heat', 'form'), ('arceus-fire', 'form'), ('tornadus-therian', 'form'), ('lycanroc-dusk', 'variant') $$, 'Hisuian Arcanine and Dusk Lycanroc are variants, Rotom, Therian and Arceus forms switch, Mega is in battle');
+SELECT
+    set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);
+SET LOCAL ROLE authenticated;
+-- Arceus takes the type of the Plate it holds, and goes back without one.
+SELECT
+    gameplay.update_mainline_play_pokemon (p_play_pokemon_id => '77000000-0000-0000-0000-0000000000b1', p_held_item_id => 2);
+SELECT
+    IS ((
+            SELECT
+                form_id
+            FROM
+                gameplay.mainline_play_pokemon
+            WHERE
+                id = '77000000-0000-0000-0000-0000000000b1'), 49309, 'Arceus holding the Flame Plate becomes Fire');
+SELECT
+    gameplay.update_mainline_play_pokemon (p_play_pokemon_id => '77000000-0000-0000-0000-0000000000b1');
+SELECT
+    IS ((
+            SELECT
+                form_id
+            FROM
+                gameplay.mainline_play_pokemon
+            WHERE
+                id = '77000000-0000-0000-0000-0000000000b1'), 49300, 'Arceus without a Plate is back to Normal');
+-- A form no item drives keeps its form whatever it holds.
+SELECT
+    gameplay.update_mainline_play_pokemon (p_play_pokemon_id => '77000000-0000-0000-0000-0000000000b2', p_held_item_id => 3);
+SELECT
+    IS ((
+            SELECT
+                form_id
+            FROM
+                gameplay.mainline_play_pokemon
+            WHERE
+                id = '77000000-0000-0000-0000-0000000000b2'), 47901, 'Heat Rotom stays Heat Rotom');
 SELECT
     *
 FROM

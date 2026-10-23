@@ -113,11 +113,11 @@ SELECT
 SELECT
     throws_ok ($$
         SELECT
-            gameplay.update_mainline_play_pokemon ('7c000000-0000-0000-0000-0000000000a2', p_nickname => 'Spring', p_tera_type_id => 5) $$, '23514', NULL, 'the editor cannot save Tera Grass on Wellspring Mask Ogerpon');
+            gameplay.update_mainline_play_pokemon ('7c000000-0000-0000-0000-0000000000a2', p_nickname => 'Spring', p_held_item_id => 60, p_tera_type_id => 5) $$, '23514', NULL, 'the editor cannot save Tera Grass on Wellspring Mask Ogerpon');
 SELECT
     lives_ok ($$
         SELECT
-            gameplay.update_mainline_play_pokemon ('7c000000-0000-0000-0000-0000000000a2', p_nickname => 'Spring', p_tera_type_id => 3) $$, 'the editor saves Tera Water on Wellspring Mask Ogerpon');
+            gameplay.update_mainline_play_pokemon ('7c000000-0000-0000-0000-0000000000a2', p_nickname => 'Spring', p_held_item_id => 60, p_tera_type_id => 3) $$, 'the editor saves Tera Water on Wellspring Mask Ogerpon');
 SELECT
     results_eq ($$
         SELECT
