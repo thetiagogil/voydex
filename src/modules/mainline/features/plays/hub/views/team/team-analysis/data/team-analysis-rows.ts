@@ -10,7 +10,10 @@ import {
   type TeamTypeMember,
 } from "@/modules/mainline/shared/data/team-type-analysis";
 import { toTypeMatchupRows } from "@/modules/mainline/shared/data/type-matchup-rows";
-import { isTypeEffectiveMove } from "@/modules/reference/features/moves/domain/move-hit-types";
+import {
+  getMoveHitTypeSlug,
+  isTypeEffectiveMove,
+} from "@/modules/reference/features/moves/domain/move-hit-types";
 import type { Type } from "@/modules/reference/types";
 
 import type {
@@ -23,22 +26,37 @@ export const getTeamAnalysisMemberId = (member: MainlinePlayTeamMember) => {
 };
 
 /*
- * A damaging move's type, varying power included (Low Kick, Gyro Ball);
- * fixed-damage, reactive and status moves claim no type coverage.
+ * The type a damaging move hits with when this Pokémon uses it, varying power
+ * included (Low Kick, Gyro Ball): Judgment and its kind take its type, Tera
+ * Blast its Tera Type. Fixed-damage, reactive and status moves claim no type
+ * coverage, and neither does Hidden Power, whose type isn't recorded.
  */
-export const getDamagingMoveTypeSlug = (move: MainlinePlayTeamMove) => {
-  const isDamaging = isTypeEffectiveMove({
+export const getDamagingMoveTypeSlug = (
+  move: MainlinePlayTeamMove,
+  user: Pick<
+    MainlinePlayTeamMember,
+    "primaryType" | "secondaryType" | "tera_type_slug"
+  >,
+) =>
+  isTypeEffectiveMove({
     damageClass: move.attributes?.damage_class,
     slug: move.slug,
-  });
-
-  return isDamaging ? move.type?.slug : null;
-};
+  })
+    ? getMoveHitTypeSlug({
+        moveTypeSlug: move.type?.slug ?? null,
+        slug: move.slug,
+        teraTypeSlug: user.tera_type_slug,
+        userTypeSlugs: [
+          user.primaryType?.slug,
+          user.secondaryType?.slug,
+        ].filter((slug): slug is string => Boolean(slug)),
+      })
+    : null;
 
 /* The team as the shared type reading takes it: its types and recorded damaging moves. */
 const toTeamTypeMember = (member: MainlinePlayTeamMember): TeamTypeMember => ({
   attackingTypeSlugs: toPokemonTypeSlugs(
-    member.moves.map(getDamagingMoveTypeSlug),
+    member.moves.map((move) => getDamagingMoveTypeSlug(move, member)),
   ),
   defendingTypeSlugs: toPokemonTypeSlugs([
     member.primaryType?.slug,

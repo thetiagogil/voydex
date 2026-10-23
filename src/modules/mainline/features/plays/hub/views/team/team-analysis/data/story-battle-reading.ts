@@ -305,7 +305,7 @@ export const readStoryBattle = ({
       ),
     );
     const damagingMoves = member.moves.flatMap((move) => {
-      const slug = getDamagingMoveTypeSlug(move);
+      const slug = getDamagingMoveTypeSlug(move, member);
 
       return slug && isPokemonTypeSlug(slug) ? [{ move, slug }] : [];
     });
@@ -384,7 +384,9 @@ export const readStoryBattle = ({
 
   const recordedSlugs = new Set(
     members.flatMap((member) =>
-      member.moves.flatMap((move) => getDamagingMoveTypeSlug(move) ?? []),
+      member.moves.flatMap(
+        (move) => getDamagingMoveTypeSlug(move, member) ?? [],
+      ),
     ),
   );
   const uncoveredTypes = recordedSlugs.size
