@@ -88,10 +88,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (230009, 23029, 23, 'battle-opponent', 1, 'Outside your seventh Gym'),
   -- Academy Ace Tournament -> Arven
   (230032, 23027, 23, 'battle-opponent', 1, 'Academy Ace Tournament, Mesagoza (first round of the first tournament). You can skip this battle.'),
-  -- Defeat AI Professor -> Koraidon
-  (230031, 23030, 23, 'battle-opponent', 2, 'Zero Lab, Area Zero (the Paradise Protection Protocol battle)'),
-  -- Defeat AI Professor -> Miraidon
-  (230031, 23031, 23, 'battle-opponent', 3, 'Zero Lab, Area Zero (the Paradise Protection Protocol battle)'),
   -- Grasswither Shrine -> Wo-Chien
   (230033, 23032, 23, 'battle-opponent', 1, 'Grasswither Shrine, South Province (Area One). You can skip this battle.'),
   -- Icerend Shrine -> Chien-Pao
@@ -104,3 +100,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (230037, 23030, 23, 'battle-opponent', 1, 'Area Zero, bottom of the crater near the Zero Lab. You can skip this battle.'),
   -- Area Zero Depths -> Miraidon
   (230037, 23031, 23, 'battle-opponent', 2, 'Area Zero, bottom of the crater near the Zero Lab. You can skip this battle.');
+
+-- Battles where only the ride legendary fights (the Poké Ball Lock keeps the rest of the team out).
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  player_side
+) VALUES
+  -- Defeat AI Professor -> Koraidon
+  (230031, 23030, 23, 'battle-opponent', 2, 'Zero Lab, Area Zero (the Paradise Protection Protocol battle)', 'one-own-pokemon'),
+  -- Defeat AI Professor -> Miraidon
+  (230031, 23031, 23, 'battle-opponent', 3, 'Zero Lab, Area Zero (the Paradise Protection Protocol battle)', 'one-own-pokemon');

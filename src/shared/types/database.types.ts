@@ -4371,6 +4371,7 @@ export type Database = {
           milestone_id: number;
           notes: string | null;
           opponent_id: number;
+          player_side: string;
           relation_kind: string;
           sort_order: number;
           version_group_id: number;
@@ -4382,6 +4383,7 @@ export type Database = {
           milestone_id: number;
           notes?: string | null;
           opponent_id: number;
+          player_side?: string;
           relation_kind: string;
           sort_order: number;
           version_group_id: number;
@@ -4392,6 +4394,7 @@ export type Database = {
           milestone_id?: number;
           notes?: string | null;
           opponent_id?: number;
+          player_side?: string;
           relation_kind?: string;
           sort_order?: number;
           version_group_id?: number;

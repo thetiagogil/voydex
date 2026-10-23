@@ -181,19 +181,38 @@ and the team saved with it, and reads nothing. A battle ahead reads your
 active team against their team in that battle
 (`tracking.mainline_opponent_team_members`, keyed by story point and
 opponent) by types, recorded damaging moves
-and levels, following v3: each of your Pokémon is Advantage (an answer and
-no 2× weakness), At risk (a 2× weakness and no answer), Even, or Not recorded
-(no types or no damaging moves); its best hit is its strongest move against
-any of them. Best hit's tooltip lists each of theirs it hits for more than 1×
-and with which move; Weak to's names which of theirs hit it for 2× or more and
-with what. The battle reads **Challenging** when fewer than 60% of their
-Pokémon have an answer, three or more of yours are at risk, or their ace is 8
-or more levels above your best; **Strong** when every one of theirs has an
-answer, at most one of yours is at risk, one answers without a 2× weakness,
-and your levels are recorded with their ace at most 3 levels above;
-**Balanced** otherwise. Each battle has its own team, so a rematch reads the
-team you face then. One sentence
-names your answers and the thing that matters most against you. A team that
+and levels with the games' damage formula (`reference` battle math: stats
+from base stats and level with middling IVs and no EVs, a hit's expected
+damage from power, the attacking and defending stats, the same-type bonus,
+type effectiveness and accuracy). Each of yours hits with its recorded
+damaging moves (Hidden Power is left out, Judgment and its kind take its
+type, Tera Blast its Tera Type), or with its own types at a power usual for
+its level while none is recorded, as theirs do without moves; a set-damage
+move (Night Shade, Dragon Rage, Super Fang) deals its set amount, a two-turn
+move (Hyper Beam, Fly) counts at half, and one that knocks out its user not
+at all; a Dynamaxing opponent has twice its HP. Each of
+yours meets each of theirs one on one, both using their hardest hit, Speed
+deciding who moves first: what knocking it out costs you is the share of
+your HP lost, and one you can't beat costs your whole team. What one of theirs costs is your best answer mixed with your
+second best (60/40), as the average player fights; the battle adds those up
+across their team and shares them across yours: **Strong** at 0.3 of your
+team's HP or less, **Challenging** at 0.9 or more, **Balanced** between. So
+level weighs first, then how many they bring, then types. Each of your
+Pokémon is Advantage, Even or At risk by the same limits on what taking on
+their whole team alone would cost it, or Not recorded (no types). While a
+Pokémon's level isn't recorded it reads at their ace's level, and while its
+damaging moves aren't, by type; the verdict then says it is a rough read and
+what to record. A battle not fought with your team (a Pokémon lent for it,
+one of yours alone such as the Zero Lab ride legendary, or a frenzy that is
+mostly balms; `player_side` on the battle) gets no reading and says why.
+Best hit is the one of theirs it lands on hardest and Weak to the one of
+theirs that hits it hardest for 2× or more (by its moves, or its types
+without them), each shown as that Pokémon with the multiplier and picked by
+type effectiveness, move power and the same-type bonus, so a same-type
+Thunderbolt on Pidgeotto comes before a 2× Bug move on Abra. Best hit's
+tooltip lists each of theirs it hits for more than 1× and with which move;
+Weak to's names each of theirs that hit it for 2× or more and with what. Each battle has its own team, so a rematch reads the
+team you face then. One sentence leads with a level edge of 2 or more, then your answers to their team (or, without a level edge, your answers and then your exposure). A team that
 depends on a recorded choice (usually the starter) follows the Play's
 choice; while it isn't recorded the report reads the first and says so. A
 battle that only one choice leads to (the roaming legendary your starter

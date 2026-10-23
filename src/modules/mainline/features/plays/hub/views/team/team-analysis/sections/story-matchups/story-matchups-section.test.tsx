@@ -32,6 +32,7 @@ const battle = (
   id: "1/1",
   isOptional: false,
   kind: "Gym Leader",
+  playerSide: "own-team",
   members: [
     {
       bestHit: null,
@@ -85,9 +86,11 @@ const withTeam = battle({
   members: [
     {
       bestHit: {
+        byType: false,
         moveName: "Water Gun",
         multiplier: 4,
         target: {
+          baseStats: null,
           formSlug: "onix",
           heldItem: null,
           imageUrl: null,
@@ -112,6 +115,7 @@ const withTeam = battle({
     note: null,
     pokemon: [
       {
+        baseStats: null,
         formSlug: "onix",
         heldItem: null,
         imageUrl: null,
@@ -137,6 +141,7 @@ const withTeam = battle({
     state: "strong",
     summary:
       "You have an answer to Brock's Pokémon, and you're 6 levels above them.",
+    missing: [],
     uncoveredTypes: [],
   },
 });
@@ -165,13 +170,87 @@ describe("StoryMatchupsSection", () => {
     expect(html).not.toContain("aren&#x27;t in Voydex yet");
   });
 
+  it("names your Pokémon's type as its best hit while its moves aren't recorded", () => {
+    const [reading] = withTeam.members;
+    const html = render([
+      {
+        ...withTeam,
+        members: [
+          {
+            ...reading,
+            bestHit: reading.bestHit && {
+              ...reading.bestHit,
+              byType: true,
+              moveName: "Water",
+            },
+          },
+        ],
+      },
+    ]);
+
+    expect(html).toContain("Water type, 4× on Onix");
+  });
+
+  it("shows the one of theirs that hits yours hardest under Weak to", () => {
+    const [reading] = withTeam.members;
+    const html = render([
+      {
+        ...withTeam,
+        members: [
+          {
+            ...reading,
+            takes: [
+              {
+                byType: false,
+                multiplier: 2,
+                pokemon: reading.bestHit!.target,
+                via: ["Rock Throw"],
+              },
+            ],
+            weakTo: [rock],
+          },
+        ],
+      },
+    ]);
+
+    expect(html).toContain("Onix: Rock Throw, 2×");
+  });
+
+  it("reads nothing where you don't battle with your team", () => {
+    const html = render([
+      { ...withTeam, playerSide: "lent-pokemon", reading: null },
+    ]);
+
+    expect(html).toContain(
+      "You battle with a Pokémon lent for this fight, not your team, so there&#x27;s no reading.",
+    );
+    expect(html).not.toContain("Your team");
+    expect(html).not.toContain("Advantage");
+  });
+
   it("turns their cards to their moves with Show moves and says what it reads them by", () => {
     const onix = withTeam.party!.pokemon[0];
     const known = {
       ...onix,
       moves: [
-        { damaging: true, name: "Rock Throw", slug: "rock-throw", type: rock },
-        { damaging: false, name: "Screech", slug: "screech", type: null },
+        {
+          accuracy: 90,
+          damageClass: "physical" as const,
+          damaging: true,
+          name: "Rock Throw",
+          power: 50,
+          slug: "rock-throw",
+          type: rock,
+        },
+        {
+          accuracy: 85,
+          damageClass: null,
+          damaging: false,
+          name: "Screech",
+          power: null,
+          slug: "screech",
+          type: null,
+        },
       ],
     };
     const typesOnly = render([withTeam]);
@@ -210,6 +289,7 @@ describe("StoryMatchupsSection", () => {
           note: null,
           pokemon: [
             {
+              baseStats: null,
               formSlug: "glimmora",
               heldItem: { name: "Focus Sash", slug: "focus-sash" },
               imageUrl: null,
@@ -241,6 +321,7 @@ describe("StoryMatchupsSection", () => {
           note: null,
           pokemon: [
             {
+              baseStats: null,
               formSlug: "gigantamax-charizard",
               heldItem: null,
               imageUrl: null,
@@ -292,6 +373,7 @@ describe("StoryMatchupsSection", () => {
         note: null,
         pokemon: [
           {
+            baseStats: null,
             formSlug: "raikou",
             heldItem: null,
             imageUrl: null,
@@ -317,6 +399,7 @@ describe("StoryMatchupsSection", () => {
         state: "challenging",
         summary:
           "Your team's moves aren't recorded, and it's 20 levels above your team.",
+        missing: [],
         uncoveredTypes: [rock],
       },
       specialtyTypes: [water],

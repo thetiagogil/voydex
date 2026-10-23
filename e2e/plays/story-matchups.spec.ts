@@ -195,4 +195,32 @@ test.describe("Story matchups", () => {
     await expect(bide).toHaveCount(0);
     await expectAccessible(page);
   });
+
+  test("reads your Pokémon by type while their moves aren't recorded", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Kanto types"),
+      partner: "Squirtle",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    const brock = page.getByRole("button", { name: /^Brock/ });
+    await expect(brock).toBeVisible(forTheAnswer);
+    await brock.click();
+
+    /* A new partner has no moves recorded, so Squirtle hits with Water. */
+    const report = page.getByRole("region", { name: "Brock" });
+    await expect(report.getByRole("status")).toContainText(
+      "By type, you have an answer to each of Brock's two Pokémon",
+    );
+    const squirtle = report.getByRole("row", { name: /Squirtle/ });
+    await expect(squirtle).toContainText("Advantage");
+    await expect(squirtle).toContainText(/Water type, 4× on (Geodude|Onix)/);
+    await expectAccessible(page);
+  });
 });

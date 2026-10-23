@@ -77,13 +77,15 @@ const SmallSticker = ({
 
 const formatMultiplier = (multiplier: number) => `${multiplier}×`;
 
-/* What one side brings: move names, or "its Fire type" where their moves aren't known. */
-const formatVia = ({ byType, via }: StoryHitDetail) =>
-  byType
-    ? `its ${via.join(" and ")} type${via.length > 1 ? "s" : ""}`
-    : via.join(", ");
+/* Type names as words: "Fire type", "Water and Ground types". */
+const formatTypeWords = (names: string[]) =>
+  `${names.join(" and ")} type${names.length > 1 ? "s" : ""}`;
 
-/* Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse, 2×". */
+/*
+ * Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse,
+ * 2×". Where the moves aren't known it names types: "Umbreon: its Dark type,
+ * 2×" for theirs, "Onix: Water type, 4×" for yours.
+ */
 const HitLines = ({
   hits,
   joiner,
@@ -95,17 +97,59 @@ const HitLines = ({
     {hits.map((hit) => (
       <li key={hit.pokemon.key}>
         <b>{hit.pokemon.name}</b>
-        {joiner}
-        {formatVia(hit)}, {formatMultiplier(hit.multiplier)}
+        {hit.byType ? ": " : joiner}
+        {hit.byType
+          ? `${joiner === ": " ? "its " : ""}${formatTypeWords(hit.via)}`
+          : hit.via.join(", ")}
+        , {formatMultiplier(hit.multiplier)}
       </li>
     ))}
   </ul>
 );
 
 /*
- * Best hit (v3): the opponent it lands on, with how hard on a green mark.
- * Its tooltip lists every one of theirs this Pokémon hits for more than 1×,
- * and with which move.
+ * One of their Pokémon in a matchup cell: its art with how hard the hit is
+ * on a small mark, green for yours landing and red for theirs.
+ */
+const HitMark = ({
+  label,
+  multiplier,
+  pokemon,
+  tone,
+}: {
+  label: string;
+  multiplier: number;
+  pokemon: StoryOpponentPokemon;
+  tone: "danger" | "ok";
+}) => (
+  <>
+    <PokemonAvatar
+      decorative
+      name={pokemon.name}
+      className="size-10 shrink-0"
+      imageUrl={pokemon.imageUrl}
+      typeSlug={pokemon.types[0]?.slug ?? null}
+    />
+    <CornerBubble corner="bottom">
+      <span
+        aria-hidden
+        className={cn(
+          "bubble text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums",
+          tone === "ok" ? "bg-ok-deep" : "bg-danger-deep",
+        )}
+      >
+        {formatMultiplier(multiplier)}
+      </span>
+    </CornerBubble>
+    <span className="sr-only">{label}</span>
+  </>
+);
+
+/*
+ * Best hit (v3): the opponent it lands on hardest (type, move power and the
+ * same-type bonus), with how hard on a green mark. Its tooltip lists every
+ * one of theirs this Pokémon hits for more than 1×, and with which move, or
+ * its type while its moves aren't recorded.
  */
 const BestHit = ({
   hit,
@@ -113,44 +157,32 @@ const BestHit = ({
 }: {
   hit: StoryBestHit;
   lands: StoryHitDetail[];
-}) => (
-  <Tooltip>
-    <TooltipTrigger render={<span className="relative inline-flex" />}>
-      <PokemonAvatar
-        decorative
-        name={hit.target.name}
-        className="size-10 shrink-0"
-        imageUrl={hit.target.imageUrl}
-        typeSlug={hit.target.types[0]?.slug ?? null}
-      />
-      <CornerBubble corner="bottom">
-        <span
-          aria-hidden
-          className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
-        >
-          {formatMultiplier(hit.multiplier)}
-        </span>
-      </CornerBubble>
-      <span className="sr-only">
-        {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
-      </span>
-    </TooltipTrigger>
-    <TooltipContent>
-      {lands.length > 1 ? (
-        <HitLines hits={lands} joiner=" with " />
-      ) : (
-        <>
-          {hit.moveName}, {formatMultiplier(hit.multiplier)} on{" "}
-          {hit.target.name}
-        </>
-      )}
-    </TooltipContent>
-  </Tooltip>
-);
+}) => {
+  const via = hit.byType ? formatTypeWords([hit.moveName]) : hit.moveName;
+  const label = `${via}, ${formatMultiplier(hit.multiplier)} on ${hit.target.name}`;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<span className="relative inline-flex" />}>
+        <HitMark
+          label={label}
+          multiplier={hit.multiplier}
+          pokemon={hit.target}
+          tone="ok"
+        />
+      </TooltipTrigger>
+      <TooltipContent>
+        {lands.length > 1 ? <HitLines hits={lands} joiner=" with " /> : label}
+      </TooltipContent>
+    </Tooltip>
+  );
+};
 
 /*
- * Weak to: the types that hit this Pokémon for 2× or more. With their team,
- * its tooltip names which of theirs bring them and with what.
+ * Weak to: the one of theirs that hits this Pokémon hardest for 2× or more,
+ * by its moves (or its types without them), on a red mark; its tooltip names
+ * each of theirs that does and with what. Where Voydex doesn't have their
+ * team, the types of their specialty that hit it.
  */
 const WeakTo = ({
   takes,
@@ -159,26 +191,38 @@ const WeakTo = ({
   takes: StoryHitDetail[];
   weakTo: Type[];
 }) => {
-  const types = (
-    <PokemonTypeList
-      types={weakTo}
-      badgeDisplay="icon"
-      badgeSize="sm"
-      className="flex flex-wrap gap-1"
-    />
-  );
+  const [hardest] = takes;
 
-  return takes.length ? (
+  if (!hardest) {
+    return (
+      <PokemonTypeList
+        types={weakTo}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="flex flex-wrap gap-1"
+      />
+    );
+  }
+
+  const via = hardest.byType
+    ? `its ${formatTypeWords(hardest.via)}`
+    : hardest.via.join(", ");
+  const label = `${hardest.pokemon.name}: ${via}, ${formatMultiplier(hardest.multiplier)}`;
+
+  return (
     <Tooltip>
-      <TooltipTrigger render={<span className="inline-flex" />}>
-        {types}
+      <TooltipTrigger render={<span className="relative inline-flex" />}>
+        <HitMark
+          label={label}
+          multiplier={hardest.multiplier}
+          pokemon={hardest.pokemon}
+          tone="danger"
+        />
       </TooltipTrigger>
       <TooltipContent>
         <HitLines hits={takes} joiner=": " />
       </TooltipContent>
     </Tooltip>
-  ) : (
-    types
   );
 };
 
@@ -190,6 +234,16 @@ const TypeNames = ({ types }: { types: { name: string; slug: string }[] }) =>
       <TypeName size="sm" type={type} className="align-[-1px]" />
     </span>
   ));
+
+/* Why a battle you don't fight with your team has no reading. */
+const playerSideNotes = {
+  "lent-pokemon":
+    "You battle with a Pokémon lent for this fight, not your team, so there's no reading.",
+  "not-a-battle":
+    "This is mostly dodging and throwing balms, not a battle with your team, so there's no reading.",
+  "one-own-pokemon":
+    "Only one of your Pokémon can fight here, not your team, so there's no reading.",
+} as const;
 
 /* The words that change when the opponent is one legendary, not a team. */
 const reportWording = {
@@ -464,7 +518,11 @@ export const StoryBattleReport = ({
       </h2>
       {battle.where ? <ObjectiveWhere>{battle.where}</ObjectiveWhere> : null}
 
-      {isWon ? null : reading?.state ? (
+      {isWon ? null : battle.playerSide !== "own-team" ? (
+        <p className="text-ink-2 text-14 mt-5 font-semibold">
+          {playerSideNotes[battle.playerSide]}
+        </p>
+      ) : reading?.state ? (
         <Alert
           role="status"
           variant={matchupStates[reading.state].alert}
@@ -476,6 +534,9 @@ export const StoryBattleReport = ({
           </AlertTitle>
           <AlertDescription className="text-ink-2 text-14 font-semibold">
             {reading.summary}
+            {reading.missing.length
+              ? ` A rough read: record your team's ${reading.missing.join(" and ")} for a closer one.`
+              : null}
           </AlertDescription>
         </Alert>
       ) : party ? null : (
@@ -551,7 +612,7 @@ export const StoryBattleReport = ({
             {wording.doneNote}
           </p>
         </>
-      ) : (
+      ) : battle.playerSide !== "own-team" ? null : (
         <>
           <SheetSection className="mt-9 gap-3" title="Your team">
             {battle.members.length ? (
@@ -562,11 +623,17 @@ export const StoryBattleReport = ({
                       <span className="sr-only">Pokémon</span>
                     </th>
                     {party ? (
-                      <th scope="col" className="w-[24%] pb-2 font-extrabold">
+                      <th scope="col" className="w-[28%] pb-2 font-extrabold">
                         Role
                       </th>
                     ) : null}
-                    <th scope="col" className="pb-2 font-extrabold">
+                    <th
+                      scope="col"
+                      className={cn(
+                        "pb-2 font-extrabold",
+                        party ? "w-[16%]" : null,
+                      )}
+                    >
                       Best hit
                     </th>
                     <th scope="col" className="pb-2 font-extrabold">
@@ -629,7 +696,7 @@ export const StoryBattleReport = ({
                             )}
                           </td>
                           <td className="py-2">
-                            {weakTo.length ? (
+                            {takes.length || weakTo.length ? (
                               <WeakTo takes={takes} weakTo={weakTo} />
                             ) : (
                               <span className="text-ink-3 text-13 font-bold">

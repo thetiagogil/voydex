@@ -21,8 +21,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   sort_order,
   notes
 ) VALUES
-  -- Unlock Mega Evolution -> Rogue Mega Absol
-  (260005, 26002, 26, 'battle-opponent', 1, 'Jaune Sector 6 rooftops (Main Mission 9). You battle with AZ''s Lucario.'),
   -- Join Team MZ -> Taunie / Urbain
   (260003, 26001, 26, 'battle-opponent', 1, 'In front of Hotel Z'),
   -- Unlock Mega Evolution -> Taunie / Urbain
@@ -67,3 +65,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (260012, 26003, 26, 'battle-opponent', 1, 'Hotel Z, where he battles you as L (Main Mission 42)'),
   -- To Keep the World in Balance -> Zygarde
   (260012, 26004, 26, 'battle-opponent', 2, 'Wild Zone 20, beneath Prism Tower. You can skip this battle.');
+
+-- Battles fought with a Pokémon lent for the fight, not the player's team.
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  player_side
+) VALUES
+  -- Unlock Mega Evolution -> Rogue Mega Absol
+  (260005, 26002, 26, 'battle-opponent', 1, 'Jaune Sector 6 rooftops (Main Mission 9). You battle with AZ''s Lucario.', 'lent-pokemon');

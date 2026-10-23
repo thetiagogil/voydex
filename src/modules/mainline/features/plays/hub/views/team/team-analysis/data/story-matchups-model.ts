@@ -19,6 +19,10 @@ import {
   type BattleFormMechanic,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { isTypeEffectiveMove } from "@/modules/reference/features/moves/domain/move-hit-types";
+import {
+  toDamageClass,
+  type BaseStats,
+} from "@/modules/reference/features/pokemon/domain/battle-math";
 import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import { getDefensiveTypeMultiplier } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import {
@@ -57,9 +61,13 @@ export type StoryMatchupMilestone = Pick<
 
 /* One of their Pokémon's moves, as the Play's version group has it. */
 export type StoryOpponentMoveRow = {
+  /* Out of 100; null for a move that never misses or without details. */
+  accuracy: number | null;
   /* "physical", "special" or "status"; null when Voydex has no details for the generation. */
   damageClass: string | null;
   name: string;
+  /* Null when it varies or Voydex has no details. */
+  power: number | null;
   slug: string;
   typeId: number | null;
 };
@@ -69,6 +77,8 @@ export type StoryOpponentMoveRow = {
  * on a Play's choice (usually the starter) has one set of rows per choice.
  */
 export type StoryOpponentPartyRow = {
+  /* Its form's base stats in the Play's generation; null without them. */
+  baseStats: BaseStats | null;
   /* The mechanic its stored form needs (a Mega, a Gigantamax form); null for any other form. */
   battleFormMechanic: BattleFormMechanic | null;
   /* The Play's choice this team follows ("10001/bulbasaur"); null when it follows none. */
@@ -169,7 +179,9 @@ export type StoryMatchupBattle = {
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
   partyLevels: string | null;
-  /* The reading of a battle ahead against their team; null once won or without their team. */
+  /* What you battle with; anything but your own team gets no reading. */
+  playerSide: StoryPlayerSide;
+  /* The reading of a battle ahead against their team; null once won, without their team, or when you don't battle with your team. */
   reading: Omit<StoryBattleReading, "members"> | null;
   /* The types the opponent specialises in. */
   specialtyTypes: Type[];
@@ -225,12 +237,34 @@ const battleKinds: Record<string, string> = {
   "za-royale": "Z-A Royale",
 };
 
+/*
+ * What you battle with: your own team, or (where nothing reads your team) a
+ * Pokémon lent for the fight, one of yours alone, or a frenzy that is mostly
+ * dodging and balms.
+ */
+export type StoryPlayerSide =
+  | "lent-pokemon"
+  | "not-a-battle"
+  | "one-own-pokemon"
+  | "own-team";
+
+const playerSides = new Set<StoryPlayerSide>([
+  "lent-pokemon",
+  "not-a-battle",
+  "one-own-pokemon",
+  "own-team",
+]);
+
+const isPlayerSide = (value: unknown): value is StoryPlayerSide =>
+  playerSides.has(value as StoryPlayerSide);
+
 type OpponentRef = {
   opponent_id: number;
   name: string;
   /* Where the battle happens, when it isn't the story point's own event. */
   notes: string | null;
   opponent_role: string;
+  player_side: StoryPlayerSide;
   primary_type_id: number | null;
   secondary_type_id: number | null;
 };
@@ -251,6 +285,9 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
                 notes: typeof ref.notes === "string" ? ref.notes : null,
                 opponent_id: ref.opponent_id,
                 opponent_role: ref.opponent_role,
+                player_side: isPlayerSide(ref.player_side)
+                  ? ref.player_side
+                  : "own-team",
                 primary_type_id:
                   typeof ref.primary_type_id === "number"
                     ? ref.primary_type_id
@@ -365,6 +402,7 @@ const groupParties = (
     const mechanic = getOpponentMechanic(row, mechanics);
 
     party.pokemon.push({
+      baseStats: row.baseStats,
       formSlug: row.formSlug,
       heldItem:
         hasHeldItems && row.heldItem
@@ -376,8 +414,11 @@ const groupParties = (
       level: row.level,
       mechanic,
       moves: row.moves.map((move) => ({
+        accuracy: move.accuracy,
+        damageClass: toDamageClass(move.damageClass),
         damaging: isTypeEffectiveMove(move),
         name: move.name,
+        power: move.power,
         slug: move.slug,
         type: typeOf(move.typeId),
       })),
@@ -548,7 +589,7 @@ export const buildStoryMatchupsModel = ({
         ? "legendary"
         : "trainer";
       const reading =
-        party && !isWon
+        party && !isWon && ref.player_side === "own-team"
           ? readStoryBattle({
               generationOrder,
               members,
@@ -617,9 +658,11 @@ export const buildStoryMatchupsModel = ({
         opponentKind,
         party,
         partyLevels: partyRange ? formatLevelRange(partyRange) : null,
+        playerSide: ref.player_side,
         reading: reading
           ? {
               levels: reading.levels,
+              missing: reading.missing,
               state: reading.state,
               summary: reading.summary,
               uncoveredTypes: reading.uncoveredTypes,
