@@ -9,6 +9,7 @@ import type { Type } from "@/modules/reference/types";
 import {
   formatLevelRange,
   getLevelsSentence,
+  getPowerUpSentence,
   readStoryBattle,
   type StoryOpponentPokemon,
 } from "./story-battle-reading";
@@ -78,13 +79,17 @@ const opponent = (
   name: string,
   opponentTypes: (typeof slugs)[number][],
   level: number,
+  teraType: (typeof slugs)[number] | null = null,
 ): StoryOpponentPokemon => ({
   formSlug: name.toLowerCase(),
+  heldItem: null,
   imageUrl: null,
   key: name,
   legendary: null,
   level,
+  mechanic: teraType ? { kind: "tera", label: `Tera ${teraType}` } : null,
   name,
+  teraType: teraType ? typeOf(teraType) : null,
   types: opponentTypes.map(typeOf),
 });
 
@@ -94,6 +99,53 @@ const brock = [
 ];
 
 describe("readStoryBattle", () => {
+  it("reads a Terastallized Pokémon by its Tera Type for what hits it", () => {
+    // Geeta's Glimmora is Rock/Poison but Terastallizes into Rock: Ground
+    // hits it for 2×, not 4×, and Psychic no longer does.
+    const reading = readStoryBattle({
+      generationOrder: 9,
+      members: [
+        member("a", ["ground"], 62, [move("Earthquake", "ground")]),
+        member("b", ["psychic"], 62, [move("Psychic", "psychic")]),
+      ],
+      opponentName: "Geeta",
+      their: [opponent("Glimmora", ["rock", "poison"], 62, "rock")],
+      types,
+    });
+
+    expect(reading.members[0].bestHit).toMatchObject({
+      moveName: "Earthquake",
+      multiplier: 2,
+    });
+    expect(reading.members[1].bestHit).toBeNull();
+  });
+
+  it("keeps a Terastallized Pokémon's own types as threats beside its Tera Type", () => {
+    const reading = readStoryBattle({
+      generationOrder: 9,
+      members: [
+        member("a", ["fighting"], 50, [move("Close Combat", "fighting")]),
+      ],
+      opponentName: "Larry",
+      their: [opponent("Staraptor", ["normal", "flying"], 50, "flying")],
+      types,
+    });
+    const terastallized = readStoryBattle({
+      generationOrder: 9,
+      members: [member("a", ["grass"], 50, [move("Leaf Blade", "grass")])],
+      opponentName: "Grusha",
+      their: [opponent("Altaria", ["dragon", "flying"], 50, "ice")],
+      types,
+    });
+
+    expect(reading.members[0].weakTo.map((type) => type.slug)).toEqual([
+      "flying",
+    ]);
+    expect(
+      terastallized.members[0].weakTo.map((type) => type.slug).sort(),
+    ).toEqual(["flying", "ice"]);
+  });
+
   it("reads Strong when every opponent has an answer and the levels hold", () => {
     const reading = readStoryBattle({
       generationOrder: 1,
@@ -319,5 +371,48 @@ describe("level wording", () => {
     expect(getLevelsSentence(levels(1), "legendary")).toBe(
       "Your levels are close to its",
     );
+  });
+});
+
+describe("getPowerUpSentence", () => {
+  it("says what it holds and how it powers up", () => {
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Assault Vest", slug: "assault-vest" },
+        mechanic: { kind: "tera", label: "Tera Fighting" },
+        name: "Hydrapple",
+      }),
+    ).toBe("Hydrapple holds Assault Vest and Terastallizes into Fighting.");
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Rockium Z", slug: "rockium-z" },
+        mechanic: { kind: "z-move", label: "Z-Move" },
+        name: "Lycanroc",
+      }),
+    ).toBe("Lycanroc holds Rockium Z for a Z-Move.");
+    expect(
+      getPowerUpSentence({
+        heldItem: null,
+        mechanic: { kind: "dynamax", label: "Dynamax" },
+        name: "Eldegoss",
+      }),
+    ).toBe("Eldegoss Dynamaxes.");
+  });
+
+  it("doesn't repeat a battle form its name already says", () => {
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Gardevoirite", slug: "gardevoirite" },
+        mechanic: { kind: "mega", label: "Mega" },
+        name: "Mega Gardevoir",
+      }),
+    ).toBe("Mega Gardevoir holds Gardevoirite.");
+    expect(
+      getPowerUpSentence({
+        heldItem: null,
+        mechanic: { kind: "gigantamax", label: "Gigantamax" },
+        name: "Gigantamax Charizard",
+      }),
+    ).toBeNull();
   });
 });

@@ -22,4 +22,8 @@ VALUES
   -- Ogerpon (Cornerstone Mask) -> Rock
   (101703, 13, 'Its Tera Type is always Rock.'),
   -- Terapagos -> Stellar
-  (102400, 19, 'Its Tera Type is always Stellar.');
+  (102400, 19, 'Its Tera Type is always Stellar.'),
+  -- Terapagos (Terastal Form) -> Stellar
+  (102401, 19, 'Its Tera Type is always Stellar.'),
+  -- Terapagos (Stellar Form) -> Stellar
+  (102402, 19, 'Its Tera Type is always Stellar.');

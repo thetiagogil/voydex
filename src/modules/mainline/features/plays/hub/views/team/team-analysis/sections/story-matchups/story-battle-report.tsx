@@ -12,8 +12,13 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
+import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
@@ -26,7 +31,9 @@ import {
 import {
   formatLevelRange,
   getLevelsSentence,
+  getPowerUpSentence,
   type StoryBestHit,
+  type StoryOpponentPokemon,
 } from "../../data/story-battle-reading";
 import type {
   StoryMatchupBattle,
@@ -118,29 +125,88 @@ const reportWording = {
   },
 } as const;
 
-/* Their team (v3 `.opp`): the app's Pokémon card with less on it. */
-const TheirTeam = ({ party }: { party: StoryMatchupParty }) => (
-  <>
-    {party.note ? (
-      <p className="text-ink-2 text-13 font-semibold">{party.note}</p>
-    ) : null}
-    <ul className="grid grid-cols-3 gap-2.5">
-      {party.pokemon.map((pokemon) => (
-        <li key={pokemon.key} className="min-w-0">
-          <PokemonCard
-            state="plain"
-            size="sm"
-            imageAlt=""
-            imageUrl={pokemon.imageUrl}
-            name={pokemon.name}
-            number={`Lv. ${pokemon.level}`}
-            types={pokemon.types}
+/*
+ * Marks on a card's level line for how one of their Pokémon powers up: its
+ * Tera Type as a Tera jewel (the type's icon on a diamond in its colour, so
+ * it never reads as one of its own round type dots), and the item it holds
+ * as its sprite. The sentence under the team says the same in words.
+ */
+const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
+  const teraSlug =
+    pokemon.teraType && isPokemonTypeSlug(pokemon.teraType.slug)
+      ? pokemon.teraType.slug
+      : null;
+
+  return (
+    <>
+      {teraSlug && pokemon.mechanic ? (
+        <span
+          role="img"
+          aria-label={pokemon.mechanic.label}
+          style={getPokemonTypeCssVariables(teraSlug)}
+          className="relative grid size-5 place-items-center"
+        >
+          <span
+            aria-hidden
+            className="absolute size-3.5 rotate-45 rounded-[3px] bg-(--t)"
           />
-        </li>
-      ))}
-    </ul>
-  </>
-);
+          <PokemonTypeIcon
+            type={teraSlug}
+            className="relative size-2.5 text-white"
+          />
+        </span>
+      ) : null}
+      {pokemon.heldItem ? (
+        <span role="img" aria-label={`Holds ${pokemon.heldItem.name}`}>
+          <ItemIcon
+            kind="held"
+            name={pokemon.heldItem.name}
+            src={getItemImageUrl(pokemon.heldItem.slug)}
+            className="my-0 size-5"
+          />
+        </span>
+      ) : null}
+    </>
+  );
+};
+
+/* Their team (v3 `.opp`): the app's Pokémon card with less on it. */
+const TheirTeam = ({ party }: { party: StoryMatchupParty }) => {
+  const powerUps = party.pokemon.flatMap(
+    (pokemon) => getPowerUpSentence(pokemon) ?? [],
+  );
+
+  return (
+    <>
+      {party.note ? (
+        <p className="text-ink-2 text-13 font-semibold">{party.note}</p>
+      ) : null}
+      <ul className="grid grid-cols-3 gap-2.5">
+        {party.pokemon.map((pokemon) => (
+          <li key={pokemon.key} className="min-w-0">
+            <PokemonCard
+              state="plain"
+              size="sm"
+              imageAlt=""
+              imageUrl={pokemon.imageUrl}
+              name={pokemon.name}
+              number={`Lv. ${pokemon.level}`}
+              types={pokemon.types}
+              marks={
+                pokemon.teraType || pokemon.heldItem ? (
+                  <OpponentMarks pokemon={pokemon} />
+                ) : null
+              }
+            />
+          </li>
+        ))}
+      </ul>
+      {powerUps.length ? (
+        <p className="text-ink-2 text-13 font-semibold">{powerUps.join(" ")}</p>
+      ) : null}
+    </>
+  );
+};
 
 /*
  * One battle's report (v3 `.enc-report`). A battle won keeps who you faced,

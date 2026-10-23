@@ -46,7 +46,7 @@ SELECT
             AND (tera_types.type_id IS DISTINCT FROM tera_types.id
                 OR types.slug IS DISTINCT FROM tera_types.slug
                 OR tera_types.introduced_version_group_id <> 23) $$, 'each type''s Tera Type shares its id and slug and starts in Scarlet / Violet');
--- Fixed Tera Types: each Ogerpon mask and Terapagos.
+-- Fixed Tera Types: each Ogerpon mask and every Terapagos form.
 SET LOCAL ROLE anon;
 SELECT
     results_eq ($$
@@ -54,7 +54,7 @@ SELECT
             pokemon_forms.slug, tera_types.slug FROM reference.pokemon_fixed_tera_types
             JOIN reference.pokemon_forms ON pokemon_forms.id = pokemon_fixed_tera_types.form_id
             JOIN reference.tera_types ON tera_types.id = pokemon_fixed_tera_types.tera_type_id ORDER BY pokemon_forms.id $$, $$
-        VALUES ('ogerpon'::text, 'grass'::text), ('ogerpon-wellspring', 'water'), ('ogerpon-hearthflame', 'fire'), ('ogerpon-cornerstone', 'rock'), ('terapagos', 'stellar') $$, 'anyone reads the fixed Tera Types of Ogerpon and Terapagos');
+        VALUES ('ogerpon'::text, 'grass'::text), ('ogerpon-wellspring', 'water'), ('ogerpon-hearthflame', 'fire'), ('ogerpon-cornerstone', 'rock'), ('terapagos', 'stellar'), ('terapagos-terastal', 'stellar'), ('terapagos-stellar', 'stellar') $$, 'anyone reads the fixed Tera Types of Ogerpon and every Terapagos form');
 SELECT
     throws_ok ($$ INSERT INTO reference.tera_types (id, slug, name, type_id, introduced_version_group_id, sort_order)
             VALUES (20, 'shadow', 'Shadow', NULL, 25, 20) $$, '42501', NULL, 'clients cannot add a Tera Type');

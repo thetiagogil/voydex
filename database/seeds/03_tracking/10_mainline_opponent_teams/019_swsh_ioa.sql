@@ -26,101 +26,104 @@ INSERT INTO tracking.mainline_opponent_team_members (
   slot,
   species_id,
   form_id,
-  level
+  level,
+  held_item_id,
+  tera_type_id,
+  dynamaxes
 ) VALUES
   -- Klara / Avery (Sword) (You haven't finished the main story yet) 1: Skorupi Lv. 23
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 451, 45100, 23),
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 451, 45100, 23, NULL, NULL, FALSE),
   -- Klara / Avery (Sword) (You haven't finished the main story yet) 2: Galarian Weezing Lv. 24
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 110, 11001, 24),
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 110, 11001, 24, NULL, NULL, FALSE),
   -- Klara / Avery (Sword) (You haven't finished the main story yet) 3: Whirlipede Lv. 24
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 544, 54400, 24),
-  -- Klara / Avery (Sword) (You haven't finished the main story yet) 4: Galarian Slowbro Lv. 25
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 4, 80, 8002, 25),
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 544, 54400, 24, NULL, NULL, FALSE),
+  -- Klara / Avery (Sword) (You haven't finished the main story yet) 4: Galarian Slowbro Lv. 25, Dynamax
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 4, 80, 8002, 25, NULL, NULL, TRUE),
   -- Klara / Avery (Sword) (You've already finished the main story) 1: Skorupi Lv. 65
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 451, 45100, 65),
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 451, 45100, 65, NULL, NULL, FALSE),
   -- Klara / Avery (Sword) (You've already finished the main story) 2: Galarian Weezing Lv. 66
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 110, 11001, 66),
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 110, 11001, 66, NULL, NULL, FALSE),
   -- Klara / Avery (Sword) (You've already finished the main story) 3: Whirlipede Lv. 66
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 544, 54400, 66),
-  -- Klara / Avery (Sword) (You've already finished the main story) 4: Galarian Slowbro Lv. 67
-  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 4, 80, 8002, 67),
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 544, 54400, 66, NULL, NULL, FALSE),
+  -- Klara / Avery (Sword) (You've already finished the main story) 4: Galarian Slowbro Lv. 67, Dynamax
+  (190002, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 4, 80, 8002, 67, NULL, NULL, TRUE),
   -- Klara / Avery (Shield) (You haven't finished the main story yet) 1: Galarian Ponyta Lv. 23
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 77, 7701, 23),
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 77, 7701, 23, NULL, NULL, FALSE),
   -- Klara / Avery (Shield) (You haven't finished the main story yet) 2: Swoobat Lv. 24
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 528, 52800, 24),
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 528, 52800, 24, NULL, NULL, FALSE),
   -- Klara / Avery (Shield) (You haven't finished the main story yet) 3: Kadabra Lv. 24
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 64, 6400, 24),
-  -- Klara / Avery (Shield) (You haven't finished the main story yet) 4: Galarian Slowbro Lv. 25
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 4, 80, 8002, 25),
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 64, 6400, 24, NULL, NULL, FALSE),
+  -- Klara / Avery (Shield) (You haven't finished the main story yet) 4: Galarian Slowbro Lv. 25, Dynamax
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 4, 80, 8002, 25, NULL, NULL, TRUE),
   -- Klara / Avery (Shield) (You've already finished the main story) 1: Galarian Ponyta Lv. 65
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 77, 7701, 65),
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 77, 7701, 65, NULL, NULL, FALSE),
   -- Klara / Avery (Shield) (You've already finished the main story) 2: Swoobat Lv. 66
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 528, 52800, 66),
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 528, 52800, 66, NULL, NULL, FALSE),
   -- Klara / Avery (Shield) (You've already finished the main story) 3: Kadabra Lv. 66
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 64, 6400, 66),
-  -- Klara / Avery (Shield) (You've already finished the main story) 4: Galarian Slowbro Lv. 67
-  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 4, 80, 8002, 67),
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 64, 6400, 66, NULL, NULL, FALSE),
+  -- Klara / Avery (Shield) (You've already finished the main story) 4: Galarian Slowbro Lv. 67, Dynamax
+  (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 4, 80, 8002, 67, NULL, NULL, TRUE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 1: Mienshao Lv. 73
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 1, 620, 62000, 73),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 1, 620, 62000, 73, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 2: Luxray Lv. 73
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 2, 405, 40500, 73),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 2, 405, 40500, 73, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 3: Corviknight Lv. 74
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 3, 823, 82300, 74),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 3, 823, 82300, 74, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 4: Lycanroc Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 4, 745, 74500, 75),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 4, 745, 74500, 75, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 5: Kommo-o Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 5, 784, 78400, 75),
-  -- Mustard (chose Tower of Darkness (Single Strike)) 6: Urshifu (Rapid Strike) Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 6, 892, 89201, 75),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 5, 784, 78400, 75, NULL, NULL, FALSE),
+  -- Mustard (chose Tower of Darkness (Single Strike)) 6: Gigantamax Urshifu (Rapid Strike) Lv. 75
+  (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 6, 892, 89203, 75, NULL, NULL, TRUE),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 1: Mienshao Lv. 73
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 1, 620, 62000, 73),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 1, 620, 62000, 73, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 2: Luxray Lv. 73
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 2, 405, 40500, 73),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 2, 405, 40500, 73, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 3: Corviknight Lv. 74
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 3, 823, 82300, 74),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 3, 823, 82300, 74, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 4: Lycanroc Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 4, 745, 74500, 75),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 4, 745, 74500, 75, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 5: Kommo-o Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 5, 784, 78400, 75),
-  -- Mustard (chose Tower of Waters (Rapid Strike)) 6: Urshifu Lv. 75
-  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 6, 892, 89200, 75),
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 5, 784, 78400, 75, NULL, NULL, FALSE),
+  -- Mustard (chose Tower of Waters (Rapid Strike)) 6: Gigantamax Urshifu Lv. 75
+  (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 6, 892, 89202, 75, NULL, NULL, TRUE),
   -- Klara / Avery (Sword, You haven't finished the main story yet), Arrive at the Isle of Armor 1: Venipede Lv. 10
-  (190001, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 543, 54300, 10),
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 543, 54300, 10, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You haven't finished the main story yet), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 12
-  (190001, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 79, 7901, 12),
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 79, 7901, 12, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You've already finished the main story), Arrive at the Isle of Armor 1: Venipede Lv. 58
-  (190001, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 543, 54300, 58),
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 543, 54300, 58, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You've already finished the main story), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 60
-  (190001, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 79, 7901, 60),
+  (190001, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 79, 7901, 60, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You haven't finished the main story yet), Arrive at the Isle of Armor 1: Abra Lv. 10
-  (190001, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 63, 6300, 10),
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 63, 6300, 10, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You haven't finished the main story yet), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 12
-  (190001, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 79, 7901, 12),
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 79, 7901, 12, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You've already finished the main story), Arrive at the Isle of Armor 1: Abra Lv. 58
-  (190001, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 63, 6300, 58),
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 63, 6300, 58, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You've already finished the main story), Arrive at the Isle of Armor 2: Galarian Slowpoke Lv. 60
-  (190001, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 79, 7901, 60),
+  (190001, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 79, 7901, 60, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You haven't finished the main story yet), Receive Kubfu 1: Galarian Slowpoke Lv. 18
-  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 79, 7901, 18),
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 79, 7901, 18, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You haven't finished the main story yet), Receive Kubfu 2: Koffing Lv. 18
-  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 109, 10900, 18),
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 109, 10900, 18, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You haven't finished the main story yet), Receive Kubfu 3: Whirlipede Lv. 19
-  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 544, 54400, 19),
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 544, 54400, 19, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You've already finished the main story), Receive Kubfu 1: Galarian Slowpoke Lv. 62
-  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 79, 7901, 62),
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 79, 7901, 62, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You've already finished the main story), Receive Kubfu 2: Koffing Lv. 62
-  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 109, 10900, 62),
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 109, 10900, 62, NULL, NULL, FALSE),
   -- Klara / Avery (Sword, You've already finished the main story), Receive Kubfu 3: Whirlipede Lv. 63
-  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 544, 54400, 63),
+  (190004, 19001, 19, 31, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 544, 54400, 63, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You haven't finished the main story yet), Receive Kubfu 1: Galarian Slowpoke Lv. 18
-  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 79, 7901, 18),
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 79, 7901, 18, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You haven't finished the main story yet), Receive Kubfu 2: Woobat Lv. 18
-  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 527, 52700, 18),
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 527, 52700, 18, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You haven't finished the main story yet), Receive Kubfu 3: Kadabra Lv. 19
-  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 64, 6400, 19),
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 3, 64, 6400, 19, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You've already finished the main story), Receive Kubfu 1: Galarian Slowpoke Lv. 62
-  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 79, 7901, 62),
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 79, 7901, 62, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You've already finished the main story), Receive Kubfu 2: Woobat Lv. 62
-  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 527, 52700, 62),
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 527, 52700, 62, NULL, NULL, FALSE),
   -- Klara / Avery (Shield, You've already finished the main story), Receive Kubfu 3: Kadabra Lv. 63
-  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 64, 6400, 63);
+  (190004, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 64, 6400, 63, NULL, NULL, FALSE);

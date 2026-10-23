@@ -46,6 +46,7 @@ export const buildMainlinePlayTeamAnalysisData = ({
         ? buildStoryMatchupsModel({
             chosenChoiceKeys: storyRows.chosenChoiceKeys,
             generationOrder: rows.generation.sort_order,
+            mechanics,
             members: analysis?.members ?? [],
             opponentGameIdById: storyRows.opponentGameIdById,
             orderedMilestones: storyRows.orderedMilestones,

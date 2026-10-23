@@ -19,6 +19,11 @@ type PokemonCardType = { name: string; slug: string };
 type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
+  /*
+   * Small marks at the end of the number line, level with it (an opponent's
+   * Tera Type, the item it holds), so the card keeps its height.
+   */
+  marks?: ReactNode;
   imageAlt: string;
   imageUrl: string | null;
   /*
@@ -173,6 +178,7 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
+  marks,
   imageAlt,
   imageUrl,
   name,
@@ -223,12 +229,15 @@ export const PokemonCard = ({
       <span
         aria-hidden={number ? undefined : true}
         className={cn(
-          "text-12 flex w-full justify-between px-1 font-extrabold tabular-nums",
+          "text-12 flex w-full items-center justify-between px-1 font-extrabold tabular-nums",
           state === "caught" ? "text-ink-tint" : "text-ink-3",
           numberHidden && "opacity-0",
         )}
       >
         {number ?? "\u00a0"}
+        {marks ? (
+          <span className="-my-0.5 flex items-center gap-0.5">{marks}</span>
+        ) : null}
       </span>
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark

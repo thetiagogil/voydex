@@ -6,6 +6,7 @@ import {
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { resolveLatestAttributesByForm } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { isBattleFormMechanic } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { readLegendarySpecies } from "@/modules/reference/features/pokemon/server/legendary-species-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
@@ -37,8 +38,9 @@ const readOpponentIds = (milestones: StoryMatchupMilestone[]) => [
 
 /*
  * Each opponent's team in each Story battle, with each Pokémon's name and types in
- * the Play's generation, and the choices (such as the starter) the Play has
- * recorded, so a team that depends on one can be picked.
+ * the Play's generation, how it powers up (its battle form, Tera Type or
+ * Dynamax) and what it holds, and the choices (such as the starter) the Play
+ * has recorded, so a team that depends on one can be picked.
  */
 const readOpponentTeams = async (
   supabase: ServerSupabaseClient,
@@ -53,7 +55,7 @@ const readOpponentTeams = async (
       .schema("tracking")
       .from("mainline_opponent_team_members")
       .select(
-        "milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level",
+        "milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level, held_item_id, tera_type_id, dynamaxes",
       )
       .in("opponent_id", opponentIds)
       .order("id", { ascending: true }),
@@ -78,37 +80,113 @@ const readOpponentTeams = async (
   const decisionMilestoneIds = uniqueNumberIds(
     members.map((member) => member.decision_milestone_id),
   );
-  const [formsResult, attributesResult, optionsResult, legendaryBySpecies] =
-    await Promise.all([
-      supabase
-        .schema("reference")
-        .from("pokemon_forms")
-        .select("id, slug, name, species_id")
-        .in("id", formIds),
-      generationId
-        ? supabase
-            .schema("reference")
-            .from("pokemon_attributes")
-            .select("*")
-            .in("form_id", formIds)
-            .lte("generation_start_id", generationId)
-        : null,
-      decisionMilestoneIds.length
-        ? supabase
-            .schema("tracking")
-            .from("mainline_milestone_decision_options")
-            .select("id, milestone_id, slug, label")
-            .in("milestone_id", decisionMilestoneIds)
-        : null,
-      readLegendarySpecies(supabase),
-    ]);
+  /* Level caps read levels only (no generation), so no mechanic is read. */
+  const readsMechanics = generationId !== null;
+  const heldItemIds = readsMechanics
+    ? uniqueNumberIds(members.map((member) => member.held_item_id))
+    : [];
+  const teraTypeIds = readsMechanics
+    ? uniqueNumberIds(members.map((member) => member.tera_type_id))
+    : [];
+  const [
+    formsResult,
+    formRulesResult,
+    attributesResult,
+    optionsResult,
+    itemsResult,
+    zCrystalCategoryResult,
+    teraTypesResult,
+    legendaryBySpecies,
+  ] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("pokemon_forms")
+      .select("id, slug, name, species_id")
+      .in("id", formIds),
+    readsMechanics
+      ? supabase
+          .schema("reference")
+          .from("pokemon_form_rules")
+          .select("form_id, battle_mechanic")
+          .in("form_id", formIds)
+      : null,
+    generationId
+      ? supabase
+          .schema("reference")
+          .from("pokemon_attributes")
+          .select("*")
+          .in("form_id", formIds)
+          .lte("generation_start_id", generationId)
+      : null,
+    decisionMilestoneIds.length
+      ? supabase
+          .schema("tracking")
+          .from("mainline_milestone_decision_options")
+          .select("id, milestone_id, slug, label")
+          .in("milestone_id", decisionMilestoneIds)
+      : null,
+    heldItemIds.length
+      ? supabase
+          .schema("reference")
+          .from("items")
+          .select("id, name, slug, primary_category_id")
+          .in("id", heldItemIds)
+      : null,
+    heldItemIds.length
+      ? supabase
+          .schema("reference")
+          .from("item_categories")
+          .select("id")
+          .eq("slug", "z_crystal")
+          .single()
+      : null,
+    teraTypeIds.length
+      ? supabase
+          .schema("reference")
+          .from("tera_types")
+          .select("id, name, type_id")
+          .in("id", teraTypeIds)
+      : null,
+    readLegendarySpecies(supabase),
+  ]);
 
-  if (formsResult.error || attributesResult?.error || optionsResult?.error) {
+  if (
+    formsResult.error ||
+    formRulesResult?.error ||
+    attributesResult?.error ||
+    optionsResult?.error ||
+    itemsResult?.error ||
+    zCrystalCategoryResult?.error ||
+    teraTypesResult?.error
+  ) {
     throw new Error("Unable to load the Play's Story opponents' Pokémon.");
   }
 
   const formById = new Map(
     (formsResult.data ?? []).map((form) => [form.id, form]),
+  );
+  const battleMechanicByForm = new Map(
+    (formRulesResult?.data ?? []).map((rule) => [
+      rule.form_id,
+      isBattleFormMechanic(rule.battle_mechanic) ? rule.battle_mechanic : null,
+    ]),
+  );
+  const zCrystalCategoryId = zCrystalCategoryResult?.data.id;
+  const itemById = new Map(
+    (itemsResult?.data ?? []).map((item) => [
+      item.id,
+      {
+        isZCrystal: item.primary_category_id === zCrystalCategoryId,
+        name: item.name,
+        slug: item.slug,
+      },
+    ]),
+  );
+  const teraTypeById = new Map(
+    (teraTypesResult?.data ?? []).map((teraType) => [
+      teraType.id,
+      { name: teraType.name, typeId: teraType.type_id },
+    ]),
   );
   const attributesByForm = resolveLatestAttributesByForm(
     attributesResult?.data ?? [],
@@ -140,6 +218,19 @@ const readOpponentTeams = async (
         throw new Error("Unable to load a Story opponent's Pokémon.");
       }
 
+      const heldItem =
+        readsMechanics && member.held_item_id !== null
+          ? itemById.get(member.held_item_id)
+          : null;
+      const teraType =
+        readsMechanics && member.tera_type_id !== null
+          ? teraTypeById.get(member.tera_type_id)
+          : null;
+
+      if (heldItem === undefined || teraType === undefined) {
+        throw new Error("Unable to load a Story opponent's battle details.");
+      }
+
       const attributes = attributesByForm.get(member.form_id);
       const choiceKey =
         member.decision_milestone_id !== null &&
@@ -152,9 +243,12 @@ const readOpponentTeams = async (
 
       return [
         {
+          battleFormMechanic: battleMechanicByForm.get(member.form_id) ?? null,
           choiceKey,
+          dynamaxes: member.dynamaxes,
           formSlug: form.slug,
           gameId: member.game_id,
+          heldItem,
           legendary: legendaryBySpecies[form.species_id] ?? null,
           level: member.level,
           milestoneId: member.milestone_id,
@@ -163,6 +257,7 @@ const readOpponentTeams = async (
           primaryTypeId: attributes?.primary_type_id ?? null,
           secondaryTypeId: attributes?.secondary_type_id ?? null,
           slot: member.slot,
+          teraType,
           variantKey: member.variant_slug,
           variantLabel: choiceKey
             ? (optionLabelByKey.get(choiceKey) ?? null)

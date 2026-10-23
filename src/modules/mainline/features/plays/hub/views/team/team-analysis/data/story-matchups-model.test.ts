@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { Type } from "@/modules/reference/types";
 
 import {
@@ -12,6 +13,13 @@ import {
 
 const type = (id: number, slug: string) =>
   ({ id, name: slug[0].toUpperCase() + slug.slice(1), slug }) as Type;
+
+/* Most battles here read no mechanic, so their game is left unknown. */
+const noMechanics = resolveGameMechanics({
+  gameId: null,
+  generationId: null,
+  versionGroupId: null,
+});
 
 const types = [
   type(5, "grass"),
@@ -65,6 +73,7 @@ describe("buildStoryMatchupsModel", () => {
   const model = buildStoryMatchupsModel({
     chosenChoiceKeys: new Set(),
     generationOrder: 8,
+    mechanics: noMechanics,
     members: [grassMember],
     opponentGameIdById: new Map([
       [1, null],
@@ -133,6 +142,7 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
   const battles = buildStoryMatchupsModel({
     chosenChoiceKeys: new Set(),
     generationOrder: 1,
+    mechanics: noMechanics,
     members: [grassMember],
     opponentGameIdById: new Map(),
     orderedMilestones: [
@@ -191,7 +201,11 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     primaryTypeId: number,
     choice: { slug: string; label: string } | null = null,
   ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
     choiceKey: choice ? `10001/${choice.slug}` : null,
+    dynamaxes: false,
+    heldItem: null,
+    teraType: null,
     formSlug: name.toLowerCase(),
     gameId: null,
     legendary: null,
@@ -210,6 +224,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(chosen),
       generationOrder: 1,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -308,7 +323,11 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     name: string,
     choice: { slug: string; label: string },
   ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
     choiceKey: `10001/${choice.slug}`,
+    dynamaxes: false,
+    heldItem: null,
+    teraType: null,
     formSlug: name.toLowerCase(),
     gameId: null,
     legendary: "Legendary",
@@ -326,6 +345,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(chosen),
       generationOrder: 1,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -358,6 +378,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     const battle = buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(["10001/charmander"]),
       generationOrder: 1,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -396,7 +417,11 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
   const row = (
     overrides: Partial<StoryOpponentPartyRow>,
   ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
     choiceKey: null,
+    dynamaxes: false,
+    heldItem: null,
+    teraType: null,
     formSlug: "sandslash",
     gameId: null,
     legendary: null,
@@ -415,6 +440,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
     buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(),
       generationOrder: 1,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -463,7 +489,11 @@ describe("buildStoryMatchupsModel with a rematch", () => {
     name: string,
     level: number,
   ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
     choiceKey: null,
+    dynamaxes: false,
+    heldItem: null,
+    teraType: null,
     formSlug: name.toLowerCase(),
     gameId: null,
     legendary: null,
@@ -481,6 +511,7 @@ describe("buildStoryMatchupsModel with a rematch", () => {
     buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(),
       generationOrder: 9,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -528,7 +559,11 @@ describe("buildStoryLevelCap", () => {
     slot: number,
     level: number,
   ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
     choiceKey: null,
+    dynamaxes: false,
+    heldItem: null,
+    teraType: null,
     formSlug: `pokemon-${opponentId}-${slot}`,
     gameId: null,
     legendary: null,
@@ -740,7 +775,11 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     name: string,
     legendary: StoryOpponentPartyRow["legendary"],
   ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
     choiceKey: null,
+    dynamaxes: false,
+    heldItem: null,
+    teraType: null,
     formSlug: name.toLowerCase(),
     gameId: null,
     legendary,
@@ -759,6 +798,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(),
       generationOrder: 1,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -846,6 +886,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     const [team, rival] = buildStoryMatchupsModel({
       chosenChoiceKeys: new Set(),
       generationOrder: 1,
+      mechanics: noMechanics,
       members: [grassMember],
       opponentGameIdById: new Map(),
       orderedMilestones: [
@@ -873,5 +914,143 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     expect(model.defaultBattleId).toBe("1/1");
     expect(build([1, 2]).defaultBattleId).toBe("5/5");
     expect(build([1, 2, 5]).defaultBattleId).toBe("3/3");
+  });
+});
+
+describe("buildStoryMatchupsModel with battle mechanics", () => {
+  const scarletViolet = resolveGameMechanics({
+    gameId: 37,
+    generationId: 9,
+    versionGroupId: 23,
+  });
+  const sunMoon = resolveGameMechanics({
+    gameId: 27,
+    generationId: 7,
+    versionGroupId: 15,
+  });
+  const letsGo = resolveGameMechanics({
+    gameId: 31,
+    generationId: 7,
+    versionGroupId: 17,
+  });
+  const row = (
+    overrides: Partial<StoryOpponentPartyRow>,
+  ): StoryOpponentPartyRow => ({
+    battleFormMechanic: null,
+    choiceKey: null,
+    dynamaxes: false,
+    formSlug: "glimmora",
+    gameId: null,
+    heldItem: null,
+    legendary: null,
+    level: 62,
+    milestoneId: 1,
+    name: "Glimmora",
+    opponentId: 1,
+    primaryTypeId: 13,
+    secondaryTypeId: null,
+    slot: 1,
+    teraType: null,
+    variantKey: null,
+    variantLabel: null,
+    ...overrides,
+  });
+  const build = (
+    partyRows: StoryOpponentPartyRow[],
+    mechanics: ReturnType<typeof resolveGameMechanics>,
+  ) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 9,
+      mechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(1, [{ id: 1, name: "Geeta", role: "champion", typeId: 13 }]),
+      ],
+      partyRows,
+      playGameId: 37,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters[0]?.battles[0]?.party?.pokemon[0];
+
+  it("marks a Tera Pokémon and reads its Tera Type", () => {
+    const glimmora = build(
+      [row({ teraType: { name: "Water", typeId: 11 } })],
+      scarletViolet,
+    );
+
+    expect(glimmora?.mechanic).toEqual({ kind: "tera", label: "Tera Water" });
+    expect(glimmora?.teraType?.slug).toBe("water");
+  });
+
+  it("marks Stellar without changing what hits it", () => {
+    const terapagos = build(
+      [row({ teraType: { name: "Stellar", typeId: null } })],
+      scarletViolet,
+    );
+
+    expect(terapagos?.mechanic?.label).toBe("Tera Stellar");
+    expect(terapagos?.teraType).toBeNull();
+  });
+
+  it("leaves out a mechanic the Play's game doesn't have", () => {
+    const glimmora = build(
+      [row({ dynamaxes: true, teraType: { name: "Water", typeId: 11 } })],
+      sunMoon,
+    );
+
+    expect(glimmora?.mechanic).toBeNull();
+    expect(glimmora?.teraType).toBeNull();
+  });
+
+  it("marks a held Z-Crystal as a Z-Move and names the item", () => {
+    const lycanroc = build(
+      [
+        row({
+          heldItem: { isZCrystal: true, name: "Rockium Z", slug: "rockium-z" },
+        }),
+      ],
+      sunMoon,
+    );
+
+    expect(lycanroc?.mechanic).toEqual({ kind: "z-move", label: "Z-Move" });
+    expect(lycanroc?.heldItem?.name).toBe("Rockium Z");
+  });
+
+  it("marks a Mega by its stored form", () => {
+    const gardevoir = build(
+      [
+        row({
+          battleFormMechanic: "mega-evolution",
+          heldItem: {
+            isZCrystal: false,
+            name: "Gardevoirite",
+            slug: "gardevoirite",
+          },
+        }),
+      ],
+      sunMoon,
+    );
+
+    expect(gardevoir?.mechanic).toEqual({ kind: "mega", label: "Mega" });
+    expect(gardevoir?.heldItem?.name).toBe("Gardevoirite");
+  });
+
+  it("names no held item in a game without them", () => {
+    const pokemon = build(
+      [
+        row({
+          heldItem: {
+            isZCrystal: false,
+            name: "Sitrus Berry",
+            slug: "sitrus-berry",
+          },
+        }),
+      ],
+      letsGo,
+    );
+
+    expect(pokemon?.heldItem).toBeNull();
   });
 });

@@ -214,7 +214,8 @@ export const getBattleFormMechanicNote = (form: {
   return form.label.includes(mechanicName) ? undefined : mechanicName;
 };
 
-const mechanicLabels: Record<BattleFormMechanic, string> = {
+/* A battle form's short name: "Mega", "Primal", "Gigantamax". */
+export const battleFormMechanicLabels: Record<BattleFormMechanic, string> = {
   [battleFormMechanics.dynamax]: "Gigantamax",
   [battleFormMechanics.megaEvolution]: "Mega",
   [battleFormMechanics.primalReversion]: "Primal",
@@ -233,8 +234,8 @@ const getBattleFormLabel = (form: BattleFormReference) => {
   const letter = /-(x|y)$/.exec(form.slug)?.[1];
 
   return letter
-    ? `${mechanicLabels[form.mechanic]} ${letter.toUpperCase()}`
-    : mechanicLabels[form.mechanic];
+    ? `${battleFormMechanicLabels[form.mechanic]} ${letter.toUpperCase()}`
+    : battleFormMechanicLabels[form.mechanic];
 };
 
 const listItemNames = (items: BattleItem[]) =>

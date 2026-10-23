@@ -87,11 +87,14 @@ const withTeam = battle({
         multiplier: 4,
         target: {
           formSlug: "onix",
+          heldItem: null,
           imageUrl: null,
           key: "onix",
           legendary: null,
           level: 14,
+          mechanic: null,
           name: "Onix",
+          teraType: null,
           types: [rock],
         },
       },
@@ -105,11 +108,14 @@ const withTeam = battle({
     pokemon: [
       {
         formSlug: "onix",
+        heldItem: null,
         imageUrl: null,
         key: "onix",
         legendary: null,
         level: 14,
+        mechanic: null,
         name: "Onix",
+        teraType: null,
         types: [rock],
       },
     ],
@@ -150,6 +156,62 @@ describe("StoryMatchupsSection", () => {
     expect(html).not.toContain("aren&#x27;t in Voydex yet");
   });
 
+  it("marks their ace's mechanic and names what it holds", () => {
+    const html = render([
+      battle({
+        party: {
+          note: null,
+          pokemon: [
+            {
+              formSlug: "glimmora",
+              heldItem: { name: "Focus Sash", slug: "focus-sash" },
+              imageUrl: null,
+              key: "glimmora",
+              legendary: null,
+              level: 62,
+              mechanic: { kind: "tera", label: "Tera Rock" },
+              name: "Glimmora",
+              teraType: rock,
+              types: [rock],
+            },
+          ],
+        },
+      }),
+    ]);
+
+    expect(html).toContain('aria-label="Tera Rock"');
+    expect(html).toContain('aria-label="Holds Focus Sash"');
+    expect(html).toContain(
+      "Glimmora holds Focus Sash and Terastallizes into Rock.",
+    );
+  });
+
+  it("leaves the mark off a battle form whose name already says it", () => {
+    const html = render([
+      battle({
+        party: {
+          note: null,
+          pokemon: [
+            {
+              formSlug: "gigantamax-charizard",
+              heldItem: null,
+              imageUrl: null,
+              key: "charizard",
+              legendary: null,
+              level: 65,
+              mechanic: { kind: "gigantamax", label: "Gigantamax" },
+              name: "Gigantamax Charizard",
+              teraType: null,
+              types: [rock],
+            },
+          ],
+        },
+      }),
+    ]);
+
+    expect(html.match(/Gigantamax/g)).toHaveLength(1);
+  });
+
   it("keeps an honest placeholder where Voydex has no team", () => {
     const html = render([battle()]);
 
@@ -182,11 +244,14 @@ describe("StoryMatchupsSection", () => {
         pokemon: [
           {
             formSlug: "raikou",
+            heldItem: null,
             imageUrl: null,
             key: "raikou",
             legendary: "Legendary",
             level: 40,
+            mechanic: null,
             name: "Raikou",
+            teraType: null,
             types: [water],
           },
         ],

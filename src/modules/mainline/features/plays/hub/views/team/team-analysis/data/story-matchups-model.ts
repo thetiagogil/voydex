@@ -6,6 +6,18 @@ import type {
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import {
+  gameMechanics,
+  resolveGameMechanics,
+  supportsGameMechanic,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  battleFormMechanicLabels,
+  battleFormMechanics,
+  hasBattleFormMechanic,
+  type BattleFormMechanic,
+} from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import { getDefensiveTypeMultiplier } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import {
@@ -22,6 +34,8 @@ import {
   type StoryBattleReading,
   type StoryMemberReading,
   type StoryOpponentKind,
+  type StoryOpponentMechanic,
+  type StoryOpponentMechanicKind,
   type StoryOpponentPokemon,
 } from "./story-battle-reading";
 
@@ -45,11 +59,16 @@ export type StoryMatchupMilestone = Pick<
  * on a Play's choice (usually the starter) has one set of rows per choice.
  */
 export type StoryOpponentPartyRow = {
+  /* The mechanic its stored form needs (a Mega, a Gigantamax form); null for any other form. */
+  battleFormMechanic: BattleFormMechanic | null;
   /* The Play's choice this team follows ("10001/bulbasaur"); null when it follows none. */
   choiceKey: string | null;
+  /* It Dynamaxes in this battle. */
+  dynamaxes: boolean;
   formSlug: string;
   /* Set when the team is one game's of its version group. */
   gameId: number | null;
+  heldItem: { isZCrystal: boolean; name: string; slug: string } | null;
   /* Set when the species is Legendary or Mythical. */
   legendary: LegendaryRarity | null;
   level: number;
@@ -60,6 +79,8 @@ export type StoryOpponentPartyRow = {
   primaryTypeId: number | null;
   secondaryTypeId: number | null;
   slot: number;
+  /* The Tera Type it Terastallizes into; `typeId` is null for Stellar. */
+  teraType: { name: string; typeId: number | null } | null;
   /* A team for something Voydex doesn't record, such as how an earlier battle went. */
   variantKey: string | null;
   /* The choice's name ("Bulbasaur") or the variant's. */
@@ -237,6 +258,49 @@ const getTypeSlugs = (types: (Type | null)[]) =>
     type && isPokemonTypeSlug(type.slug) ? [type.slug] : [],
   );
 
+const battleFormMechanicKinds: Record<
+  BattleFormMechanic,
+  StoryOpponentMechanicKind
+> = {
+  [battleFormMechanics.dynamax]: "gigantamax",
+  [battleFormMechanics.megaEvolution]: "mega",
+  [battleFormMechanics.primalReversion]: "primal",
+  [battleFormMechanics.ultraBurst]: "ultra-burst",
+};
+
+/*
+ * How one of their Pokémon powers up, where the Play's game has that
+ * mechanic: it Terastallizes, battles in its Mega or Gigantamax form,
+ * Dynamaxes, or holds a Z-Crystal.
+ */
+const getOpponentMechanic = (
+  row: StoryOpponentPartyRow,
+  mechanics: GameMechanicsProfile,
+): StoryOpponentMechanic | null => {
+  if (row.teraType && supportsGameMechanic(mechanics, gameMechanics.terastal)) {
+    return { kind: "tera", label: `Tera ${row.teraType.name}` };
+  }
+
+  if (
+    row.battleFormMechanic &&
+    hasBattleFormMechanic(mechanics, row.battleFormMechanic)
+  ) {
+    return {
+      kind: battleFormMechanicKinds[row.battleFormMechanic],
+      label: battleFormMechanicLabels[row.battleFormMechanic],
+    };
+  }
+
+  if (row.dynamaxes && supportsGameMechanic(mechanics, gameMechanics.dynamax)) {
+    return { kind: "dynamax", label: "Dynamax" };
+  }
+
+  return row.heldItem?.isZCrystal &&
+    supportsGameMechanic(mechanics, gameMechanics.zMoves)
+    ? { kind: "z-move", label: "Z-Move" }
+    : null;
+};
+
 /* The key one opponent's teams in one battle share. */
 const getBattleOpponentKey = (milestoneId: number, opponentId: number) =>
   `${milestoneId}/${opponentId}`;
@@ -249,7 +313,10 @@ const getBattleOpponentKey = (milestoneId: number, opponentId: number) =>
 const groupParties = (
   rows: StoryOpponentPartyRow[],
   typeOf: (id: number | null) => Type | null,
+  mechanics: GameMechanicsProfile,
 ) => {
+  const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
+
   const partiesByBattleOpponent = new Map<
     string,
     Map<
@@ -283,13 +350,22 @@ const groupParties = (
         })
         .get(key)!;
 
+    const mechanic = getOpponentMechanic(row, mechanics);
+
     party.pokemon.push({
       formSlug: row.formSlug,
+      heldItem:
+        hasHeldItems && row.heldItem
+          ? { name: row.heldItem.name, slug: row.heldItem.slug }
+          : null,
       imageUrl: getPokemonFormImageUrl({ name: row.name, slug: row.formSlug }),
       key: `${battleOpponentKey}-${key}-${row.slot}`,
       legendary: row.legendary,
       level: row.level,
+      mechanic,
       name: row.name,
+      teraType:
+        mechanic?.kind === "tera" ? typeOf(row.teraType?.typeId ?? null) : null,
       types: [typeOf(row.primaryTypeId), typeOf(row.secondaryTypeId)].filter(
         (type): type is Type => type !== null,
       ),
@@ -380,6 +456,7 @@ const resolveParty = (
 export const buildStoryMatchupsModel = ({
   chosenChoiceKeys,
   generationOrder,
+  mechanics,
   members,
   orderedMilestones,
   partyRows,
@@ -390,6 +467,8 @@ export const buildStoryMatchupsModel = ({
 }: {
   chosenChoiceKeys: ReadonlySet<string>;
   generationOrder: number;
+  /* The Play's game: their mechanics and held items show only where it has them. */
+  mechanics: GameMechanicsProfile;
   members: MainlinePlayTeamMember[];
   /* In Story's order. */
   orderedMilestones: StoryMatchupMilestone[];
@@ -407,6 +486,7 @@ export const buildStoryMatchupsModel = ({
   const partiesByBattleOpponent = groupParties(
     partyRows.filter((row) => row.gameId === null || row.gameId === playGameId),
     typeOf,
+    mechanics,
   );
 
   for (const milestone of orderedMilestones) {
@@ -673,6 +753,12 @@ export const buildStoryLevelCap = ({
     buildStoryMatchupsModel({
       ...rows,
       generationOrder: 0,
+      /* Levels only: no mechanic is read. */
+      mechanics: resolveGameMechanics({
+        gameId: null,
+        generationId: null,
+        versionGroupId: null,
+      }),
       members: [],
       playGameId,
       types: [],
