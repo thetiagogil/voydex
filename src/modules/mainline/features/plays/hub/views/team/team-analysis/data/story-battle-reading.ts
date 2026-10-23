@@ -4,6 +4,7 @@ import {
   getDuel,
   getTypeDamageClass,
   getTypicalPower,
+  isFixedDamageMove,
   type BaseStats,
   type BattleAttack,
   type Battler,
@@ -327,14 +328,15 @@ const toTheirBattler = (
   const ownSlugs = toTypeSlugs(pokemon.types);
   const teraSlugs = pokemon.teraType ? toTypeSlugs([pokemon.teraType]) : [];
   const moveAttacks = pokemon.moves.flatMap((move): BattleAttack[] => {
-    const typeSlug = move.damaging
-      ? getMoveHitTypeSlug({
-          moveTypeSlug: move.type?.slug ?? null,
-          slug: move.slug,
-          teraTypeSlug: pokemon.teraType?.slug ?? null,
-          userTypeSlugs: pokemon.types.map((type) => type.slug),
-        })
-      : null;
+    const typeSlug =
+      move.damaging || (move.damageClass && isFixedDamageMove(move.slug))
+        ? getMoveHitTypeSlug({
+            moveTypeSlug: move.type?.slug ?? null,
+            slug: move.slug,
+            teraTypeSlug: pokemon.teraType?.slug ?? null,
+            userTypeSlugs: pokemon.types.map((type) => type.slug),
+          })
+        : null;
 
     return typeSlug && isPokemonTypeSlug(typeSlug)
       ? [
@@ -390,8 +392,14 @@ const toYourBattler = (
     ),
   );
   const moveAttacks = member.moves.flatMap((move): BattleAttack[] => {
-    const typeSlug = getDamagingMoveTypeSlug(move, member);
     const damageClass = move.attributes?.damage_class;
+    /* Set-damage moves claim no type coverage, but they still hurt. */
+    const typeSlug =
+      getDamagingMoveTypeSlug(move, member) ??
+      ((damageClass === "physical" || damageClass === "special") &&
+      isFixedDamageMove(move.slug)
+        ? (move.type?.slug ?? null)
+        : null);
 
     return typeSlug && isPokemonTypeSlug(typeSlug)
       ? [
@@ -415,13 +423,14 @@ const toYourBattler = (
       : toTypeAttacks(typeSlugs, level, baseStats, generationOrder),
     baseStats,
     level,
-    stabTypes: typeSlugs,
+    /* Tera Blast hits as its Tera Type, with the same-type bonus. */
+    stabTypes:
+      member.tera_type_slug && isPokemonTypeSlug(member.tera_type_slug)
+        ? [...typeSlugs, member.tera_type_slug]
+        : typeSlugs,
     types: typeSlugs,
   };
 };
-
-/* A duel you can't win counts as three of your Pokémon lost, so one never outweighs a team. */
-const MAX_COST = 3;
 
 /*
  * How much the average player's answer weighs against the best one: you
@@ -436,11 +445,12 @@ export const battleCostLimits = { challenging: 0.9, strong: 0.3 };
 /*
  * What one of theirs costs you: your best answer's cost mixed with your
  * second best's (the best again with one Pokémon), as the average player
- * fights it.
+ * fights it. One you can't beat costs your whole team, never more.
  */
 export const getAnswerCost = (costs: number[]) => {
-  const [best = MAX_COST, second = best] = costs
-    .map((cost) => Math.min(cost, MAX_COST))
+  const teamCount = Math.max(1, costs.length);
+  const [best = teamCount, second = best] = costs
+    .map((cost) => Math.min(cost, teamCount))
     .sort((left, right) => left - right);
 
   return BEST_ANSWER_WEIGHT * best + (1 - BEST_ANSWER_WEIGHT) * second;
@@ -515,7 +525,7 @@ export const readStoryBattle = ({
     return theirBattlers.map((battler) =>
       Math.min(
         getDuel({ generationOrder, their: battler, your }).cost,
-        MAX_COST,
+        Math.max(1, members.length),
       ),
     );
   });
@@ -656,7 +666,12 @@ export const readStoryBattle = ({
 
   const missing: StoryReadingGap[] = [
     ...(members.some((member) => !member.level) ? ["levels" as const] : []),
-    ...(recordedSlugs.size ? [] : ["moves" as const]),
+    ...(members.some(
+      (member) =>
+        !member.moves.some((move) => getDamagingMoveTypeSlug(move, member)),
+    )
+      ? ["moves" as const]
+      : []),
   ];
 
   if (!members.length || !their.length) {

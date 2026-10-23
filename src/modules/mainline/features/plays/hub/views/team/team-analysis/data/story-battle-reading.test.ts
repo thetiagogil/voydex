@@ -311,17 +311,17 @@ describe("readStoryBattle", () => {
         member("b", ["fire"], 53, [move("Flamethrower", "fire")]),
       ],
       opponentName: "Leon",
-      their: [opponent("Rhyperior", ["ground", "rock"], 64)],
+      their: [opponent("Rhyperior", ["ground", "rock"], 75)],
       types,
     });
 
     expect(reading.state).toBe("challenging");
     expect(reading.levels).toMatchObject({
-      gap: -11,
+      gap: -22,
       state: "challenging",
     });
     expect(reading.summary).toBe(
-      "They're 11 levels above your team, but you have an answer to Leon's Pokémon.",
+      "They're 22 levels above your team, but you have an answer to Leon's Pokémon.",
     );
   });
 
@@ -613,6 +613,35 @@ describe("readStoryBattle by the battle math", () => {
     expect(read([water(38)], normalTeam(6)).state).toBe("challenging");
   });
 
+  it("reads a lone legendary far above your team as Challenging, however many you bring", () => {
+    const mewtwo = [opponent("Mewtwo", ["psychic"], 70)];
+    const team = Array.from({ length: 6 }, (_, index) =>
+      member(String(index), ["water"], 30, [move("Surf", "water")]),
+    );
+
+    expect(read(team, mewtwo).state).toBe("challenging");
+  });
+
+  it("counts set-damage moves: a Gengar with Night Shade still hurts", () => {
+    const gengar = {
+      ...opponent("Gengar", ["ghost", "poison"], 56),
+      moves: [
+        {
+          accuracy: 100,
+          damageClass: "special" as const,
+          damaging: false,
+          name: "Night Shade",
+          power: null,
+          slug: "night-shade",
+          type: typeOf("ghost"),
+        },
+      ],
+    };
+    const psychic = member("a", ["psychic"], 56, [move("Psychic", "psychic")]);
+
+    expect(read([psychic], [gengar]).members[0]?.role).not.toBe("strong");
+  });
+
   it("says it's a rough read while your levels or moves aren't recorded", () => {
     expect(read([water(30)], grassTeam(30, 1)).missing).toEqual([]);
     expect(
@@ -626,8 +655,9 @@ describe("battle verdict", () => {
     expect(getAnswerCost([0.2, 0.6, 1])).toBeCloseTo(0.36);
     /* One Pokémon is its own second best. */
     expect(getAnswerCost([0.5])).toBeCloseTo(0.5);
-    /* A duel you can't win counts as three of yours lost, never more. */
-    expect(getAnswerCost([Infinity])).toBe(3);
+    /* One you can't beat costs your whole team, never more. */
+    expect(getAnswerCost([Infinity])).toBe(1);
+    expect(getAnswerCost([Infinity, Infinity, Infinity])).toBe(3);
   });
 
   it("weighs what their whole team costs against the team you bring", () => {

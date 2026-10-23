@@ -137,9 +137,36 @@ const unreliableMoveSlugs = new Set([
   "snore",
 ]);
 
-/* Moves that take two turns: they charge first or rest after. */
+/*
+ * Moves that deal set damage, whatever the stats: the user's level, a fixed
+ * amount, or a share of the target's HP (read as a quarter, since Super Fang
+ * halves what is left). One-hit knockout moves stay out.
+ */
+const fixedDamageBySlug: Record<
+  string,
+  (level: number, targetHp: number) => number
+> = {
+  "dragon-rage": () => 40,
+  "natures-madness": (_, hp) => hp / 4,
+  "night-shade": (level) => level,
+  psywave: (level) => level,
+  ruination: (_, hp) => hp / 4,
+  "seismic-toss": (level) => level,
+  "sonic-boom": () => 20,
+  "super-fang": (_, hp) => hp / 4,
+};
+
+export const isFixedDamageMove = (slug: string) => slug in fixedDamageBySlug;
+
+/* Moves that take two turns: they charge, fly or dig first, or rest after. */
 const twoTurnMoveSlugs = new Set([
   "blast-burn",
+  "bounce",
+  "dig",
+  "dive",
+  "fly",
+  "phantom-force",
+  "shadow-force",
   "eternabeam",
   "frenzy-plant",
   "giga-impact",
@@ -163,8 +190,9 @@ const VARYING_POWER = 60;
  * A hit's expected damage by the damage formula: level, power, the
  * attacker's attacking stat against the defender's defending one, the
  * same-type bonus and type effectiveness, with its accuracy and the average
- * damage roll. A two-turn move counts at half; a move that knocks out its
- * user or needs a condition counts as nothing.
+ * damage roll. A set-damage move deals its set amount (unless the target's
+ * type is immune), a two-turn move counts at half, and a move that knocks
+ * out its user or needs a condition counts as nothing.
  */
 export const getExpectedDamage = ({
   attack,
@@ -183,6 +211,25 @@ export const getExpectedDamage = ({
 
   const attackerStats = getBattleStats(attacker.baseStats, attacker.level);
   const defenderStats = getBattleStats(defender.baseStats, defender.level);
+  const effectiveness = defender.types.length
+    ? getDefensiveTypeMultiplier(
+        attack.typeSlug,
+        defender.types,
+        generationOrder,
+      )
+    : 1;
+  const accuracy = (attack.accuracy ?? 100) / 100;
+  const fixedDamage = attack.slug ? fixedDamageBySlug[attack.slug] : undefined;
+
+  if (fixedDamage) {
+    return effectiveness === 0
+      ? 0
+      : fixedDamage(
+          attacker.level,
+          defenderStats.hp * (defender.hpMultiplier ?? 1),
+        ) * accuracy;
+  }
+
   const [attacking, defending] =
     attack.damageClass === "physical"
       ? [attackerStats.attack, defenderStats.defense]
@@ -193,17 +240,10 @@ export const getExpectedDamage = ({
   const base =
     (((2 * attacker.level) / 5 + 2) * power * attacking) / defending / 50 + 2;
   const stab = attacker.stabTypes.includes(attack.typeSlug) ? 1.5 : 1;
-  const effectiveness = defender.types.length
-    ? getDefensiveTypeMultiplier(
-        attack.typeSlug,
-        defender.types,
-        generationOrder,
-      )
-    : 1;
   /* The damage roll runs from 85% to 100%. */
   const roll = 0.925;
 
-  return base * stab * effectiveness * roll * ((attack.accuracy ?? 100) / 100);
+  return base * stab * effectiveness * roll * accuracy;
 };
 
 /* Its hardest expected hit on the defender, as a share of the defender's HP. */
@@ -243,7 +283,7 @@ export const getDuel = ({
   const theirShare = getBestShare(their, your, generationOrder);
 
   if (yourShare <= 0) {
-    return { cost: theirShare > 0 ? Infinity : 0, theirShare, yourShare };
+    return { cost: Infinity, theirShare, yourShare };
   }
 
   const yourHits = Math.ceil(1 / yourShare);

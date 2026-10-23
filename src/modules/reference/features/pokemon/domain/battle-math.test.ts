@@ -135,4 +135,54 @@ describe("battle math", () => {
       }).cost,
     ).toBe(Infinity);
   });
+
+  it("never wins a duel when neither side can hurt the other", () => {
+    expect(
+      getDuel({
+        generationOrder: 2,
+        their: battler(30, ["ghost"], "ghost"),
+        your: battler(30, ["normal"], "normal"),
+      }).cost,
+    ).toBe(Infinity);
+  });
+
+  it("deals set damage whatever the stats, unless the type is immune", () => {
+    const gengar = battler(56, ["ghost", "poison"], "ghost");
+    const nightShade = {
+      accuracy: 100,
+      damageClass: "special" as const,
+      power: null,
+      slug: "night-shade",
+      typeSlug: "ghost" as const,
+    };
+
+    expect(
+      getExpectedDamage({
+        attack: nightShade,
+        attacker: gengar,
+        defender: battler(56, ["water"], "water"),
+        generationOrder: 1,
+      }),
+    ).toBe(56);
+    expect(
+      getExpectedDamage({
+        attack: nightShade,
+        attacker: gengar,
+        defender: battler(56, ["normal"], "normal"),
+        generationOrder: 1,
+      }),
+    ).toBe(0);
+  });
+
+  it("doubles their HP while they Dynamax", () => {
+    const your = battler(50, ["water"], "water");
+    const share = (hpMultiplier: number) =>
+      getDuel({
+        generationOrder: 8,
+        their: battler(50, ["fire"], "fire", { hpMultiplier }),
+        your,
+      }).yourShare;
+
+    expect(share(1) / share(2)).toBeCloseTo(2);
+  });
 });
