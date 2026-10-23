@@ -93,7 +93,16 @@ const getCoverageHits = ({
           row.defendingType.slug,
           generationOrder,
         ) > 1
-        ? [{ name: move.name, typeSlug }]
+        ? [
+            {
+              name: move.name,
+              stab: [
+                member.primaryType?.slug,
+                member.secondaryType?.slug,
+              ].includes(typeSlug),
+              typeSlug,
+            },
+          ]
         : [];
     });
 

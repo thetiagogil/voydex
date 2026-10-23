@@ -60,7 +60,11 @@ export const buildTeamAnalysisModel = ({
     types,
   });
 
-  const healthMetrics = buildTeamAnalysisHealth({ evidence, field });
+  const healthMetrics = buildTeamAnalysisHealth({
+    coverageRows,
+    evidence,
+    field,
+  });
 
   return {
     abilitiesApply: supportsGameMechanic(mechanics, gameMechanics.abilities),

@@ -8,6 +8,8 @@ import type {
 } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { TypeCoverageChip } from "@/modules/mainline/shared/components/type-coverage-chip";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import {
@@ -15,13 +17,30 @@ import {
   TipNote,
   TipRow,
   TipRows,
-  TipSection,
   TipStack,
 } from "@/shared/components/tip-parts";
 import { cn } from "@/shared/utils/cn";
 
-const formatMoves = (hit: TeamAnalysisCoverageHit) =>
-  hit.moves.map((move) => move.name).join(", ");
+/* Each move on its own line: its type, its name, and STAB when the user shares its type. */
+const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
+  <span className="mt-0.5 grid gap-0.5">
+    {hit.moves.map((move, index) => (
+      <span key={index} className="flex items-center gap-1.5">
+        {isPokemonTypeSlug(move.typeSlug) ? (
+          <PokemonTypeMark
+            type={move.typeSlug}
+            className="size-4 shrink-0"
+            iconClassName="size-2.5"
+          />
+        ) : null}
+        <span className="text-on-ink">{move.name}</span>
+        {move.stab ? (
+          <span className="text-on-ink/75 text-12 font-extrabold">STAB</span>
+        ) : null}
+      </span>
+    ))}
+  </span>
+);
 
 /* Who hits this type and with what, or that nothing does. */
 const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => (
@@ -32,35 +51,34 @@ const CoverageTip = ({ row }: { row: TeamAnalysisCoverageRow }) => (
         : `Nothing hits ${row.defendingType.name} super effectively`}
     </TipHead>
     {row.hits.length ? (
-      <TipSection title="Your team">
-        <TipRows>
-          {row.hits.map((hit) => {
-            return (
-              <TipRow
-                key={hit.memberId}
-                chip={String(hit.moves.length)}
-                detail={formatMoves(hit)}
-                leading={
-                  <PokemonAvatar
-                    decorative
-                    name={hit.memberName}
-                    className="size-8 shrink-0"
-                    imageUrl={hit.imageUrl}
-                    typeSlug={null}
-                  />
-                }
+      <TipRows>
+        {row.hits.map((hit) => (
+          <TipRow
+            key={hit.memberId}
+            detail={<HitMoves hit={hit} />}
+            leading={
+              <PokemonAvatar
+                decorative
                 name={hit.memberName}
-                tone="ok"
+                className="size-8 shrink-0"
+                imageUrl={hit.imageUrl}
+                typeSlug={null}
               />
-            );
-          })}
-        </TipRows>
-      </TipSection>
+            }
+            name={hit.memberName}
+          />
+        ))}
+      </TipRows>
     ) : (
       <TipNote>
         None of your recorded damaging moves is strong against it.
       </TipNote>
     )}
+    {row.hits.length ? (
+      <TipNote>
+        STAB: the move shares a type with its user, so it hits harder.
+      </TipNote>
+    ) : null}
   </TipStack>
 );
 

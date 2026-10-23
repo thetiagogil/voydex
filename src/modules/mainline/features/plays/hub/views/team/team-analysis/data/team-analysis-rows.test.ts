@@ -132,7 +132,7 @@ describe("buildTeamAnalysisRows coverage", () => {
         imageUrl: null,
         memberId: "Bulba",
         memberName: "Bulba",
-        moves: [{ name: "vine-whip", typeSlug: "grass" }],
+        moves: [{ name: "vine-whip", stab: true, typeSlug: "grass" }],
       },
     ]);
     expect(water?.moveCount).toBe(1);

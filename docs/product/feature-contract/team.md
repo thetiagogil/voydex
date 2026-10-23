@@ -184,9 +184,12 @@ first (yours 5 or more levels below your top pull it down), then how many
 you bring against six, then types; its line names who lags behind, else the
 type to watch when one clearly costs more than the rest, else how many types
 stand out (over 30% of a Pokémon's HP and clearly above a usual type), or "No
-type to watch" when none does, as with an evenly hard field. Its tooltip says it
-in plain words (about half of your team's HP used up), gives each lagging
-Pokémon's exact level, and lists the types that stand out, three at most. **Threat response** counts the types your answers beat for
+type to watch" when none does, as with an evenly hard field. Its tooltip says it in general words (never HP or
+percentages), gives each lagging Pokémon's exact level, and lists the types
+that stand out, three at most. Each card tooltip is one line saying what it
+reads, the rows that lead to it (Knockout power says why a type is slow: no
+super-effective move, none of the user's own type, or not strong enough), and
+behind a hairline the rule with the Strong, Moderate and Weak chips. **Threat response** counts the types your answers beat for
 less than 90% of one Pokémon's HP (Strong when all, Moderate from three in
 four). **Knockout power** counts the types your hardest hit knocks out in two
 hits or fewer (Strong from four in five, Moderate from half). **Weakness
@@ -200,8 +203,7 @@ any of yours leaves the cards ungraded, without the note. The defensive
 matchups matrix and the move coverage list below stay by type; each move
 coverage chip counts the recorded damaging moves that hit its type super
 effectively, and its tooltip names who has them, while the other chips fade.
-Every card tooltip keeps what was found in your team apart from how the card
-is rated, and lists at most three types before counting the rest. **Story matchups** (`?reading=story`) lists the
+Move coverage tooltips give each move's type and mark STAB. **Story matchups** (`?reading=story`) lists the
 Play's Story battles by chapter: every opponent a story point names is its
 own battle (a rival on the way to a Gym sits under that badge), with where it
 happens. A battle won keeps who you faced, their team

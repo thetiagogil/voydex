@@ -28,7 +28,8 @@ import {
   TipNote,
   TipRow,
   TipRows,
-  TipSection,
+  TipRating,
+  TipText,
   TipStack,
   type TipTone,
 } from "@/shared/components/tip-parts";
@@ -133,22 +134,19 @@ const TeamHealthTip = ({
   tip: TeamAnalysisHealthTip;
 }) => (
   <TipStack className="gap-2.5">
-    <TipHead tone={statusTipTones[status]}>{statusLabel}</TipHead>
-    <TipSection title="Your team">
+    <div className="grid gap-1">
+      <TipHead tone={statusTipTones[status]}>{statusLabel}</TipHead>
+      <TipText>{tip.summary}</TipText>
+    </div>
+    {tip.rows.length ? (
       <TipRows>
-        {tip.yours.map((row, index) => (
+        {tip.rows.map((row, index) => (
           <TeamHealthTipRow key={index} members={members} row={row} />
         ))}
       </TipRows>
-    </TipSection>
-    {tip.rated.length ? (
-      <TipSection title="How it's rated">
-        <TipRows>
-          {tip.rated.map((row, index) => (
-            <TeamHealthTipRow key={index} members={members} row={row} />
-          ))}
-        </TipRows>
-      </TipSection>
+    ) : null}
+    {tip.rule || tip.scale.length ? (
+      <TipRating rule={tip.rule} scale={tip.scale} />
     ) : null}
   </TipStack>
 );
@@ -171,7 +169,7 @@ const TeamAnalysisHealthCard = ({
         <ExplanatoryTip
           align="end"
           side="bottom"
-          contentClassName="w-70"
+          contentClassName="w-80"
           triggerLabel={`Why ${metric.title} reads ${statusLabel}`}
           content={
             <TeamHealthTip

@@ -15,7 +15,8 @@ export type TeamAnalysisCoverageHit = {
   imageUrl: string | null;
   memberId: string;
   memberName: string;
-  moves: { name: string; typeSlug: string }[];
+  /* `stab` when the move shares a type with its user. */
+  moves: { name: string; stab: boolean; typeSlug: string }[];
 };
 
 export type TeamAnalysisCoverageRow = {
@@ -56,13 +57,15 @@ export type TeamAnalysisTipRow = {
 };
 
 /*
- * Why a card reads the way it does: what was found in your team, apart from
- * how the card is rated (the field it is read against and where Strong and
- * Weak start).
+ * Why a card reads the way it does: a line saying it, what in your team
+ * leads to it, then how the card is rated (its rule and where Strong,
+ * Moderate and Weak start).
  */
 export type TeamAnalysisHealthTip = {
-  rated: TeamAnalysisTipRow[];
-  yours: TeamAnalysisTipRow[];
+  rows: TeamAnalysisTipRow[];
+  rule: string | null;
+  scale: { chip: string; label: string; tone: TeamAnalysisTipTone }[];
+  summary: string;
 };
 
 export type TeamAnalysisHealthMetric = {

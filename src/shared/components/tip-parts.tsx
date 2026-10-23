@@ -130,18 +130,35 @@ export const TipNamed = ({
 );
 
 /*
- * A titled part of a longer tip ("Your team", "How it's rated"): a small
- * heading over its rows, with a hairline between the parts.
+ * How a card is rated, closing its tip behind a hairline: the rule in a
+ * quiet line, then the grades side by side, each with its chip. No heading:
+ * the hairline sets it apart from what was found.
  */
-export const TipSection = ({
-  children,
-  title,
+export const TipRating = ({
+  rule,
+  scale,
 }: {
-  children: ReactNode;
-  title: string;
+  rule?: ReactNode;
+  scale: { chip: string; label: string; tone: TipTone }[];
 }) => (
-  <section className="border-on-ink/20 grid gap-1.5 border-t pt-2 first:border-t-0 first:pt-0">
-    <h4 className="text-on-ink/75 text-12 font-extrabold">{title}</h4>
-    {children}
-  </section>
+  <div className="border-on-ink/20 grid gap-2 border-t pt-2.5">
+    {rule ? <TipNote>{rule}</TipNote> : null}
+    {scale.length ? (
+      <ul className="flex flex-wrap gap-x-3 gap-y-1.5">
+        {scale.map((grade) => (
+          <li key={grade.label} className="flex items-center gap-1.5">
+            <span className="text-12 font-bold text-white">{grade.label}</span>
+            <span
+              className={cn(
+                "text-12 rounded-full px-2 leading-5 font-extrabold",
+                toneChipClassNames[grade.tone],
+              )}
+            >
+              {grade.chip}
+            </span>
+          </li>
+        ))}
+      </ul>
+    ) : null}
+  </div>
 );
