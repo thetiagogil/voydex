@@ -256,7 +256,8 @@ export const getFormAvailabilityInVersionGroup = (
 
 /*
  * The group's learnset, every game in it: a row recorded for one game only
- * stays, marked as that game's (see the learnset table).
+ * stays, marked as that game's (see the learnset table). A form with no
+ * learnset of its own (a Vivillon pattern) learns what its default learns.
  */
 export const getScopedLearnsets = (
   generation: PokemonGenerationDetail,
@@ -266,12 +267,21 @@ export const getScopedLearnsets = (
   const versionGroupRows = generation.learnsets.filter((row) => {
     return isPokemonLearnsetInVersionGroupScope(row, versionGroup);
   });
-  const scopedRows = versionGroupRows.filter((row) => {
-    return doesPokemonLearnsetMatchForm(row, form);
-  });
+  const rowsOf = (scopeForm: PokemonGenerationFormSummary | null) =>
+    versionGroupRows.filter((row) => {
+      return doesPokemonLearnsetMatchForm(row, scopeForm);
+    });
+  const scopedRows = rowsOf(form);
+  const defaultRows = rowsOf(
+    generation.forms.find((item) => item.form.is_default) ?? null,
+  );
 
   return dedupeLearnsetRows(
-    scopedRows.length || !form ? scopedRows : versionGroupRows,
+    scopedRows.length || !form
+      ? scopedRows
+      : defaultRows.length
+        ? defaultRows
+        : versionGroupRows,
   );
 };
 
