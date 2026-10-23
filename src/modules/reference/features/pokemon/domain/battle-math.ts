@@ -184,7 +184,7 @@ const twoTurnMoveSlugs = new Set([
 ]);
 
 /* What a varying-power move (Low Kick, Gyro Ball) is read as. */
-const VARYING_POWER = 60;
+export const VARYING_POWER = 60;
 
 /*
  * A hit's expected damage by the damage formula: level, power, the

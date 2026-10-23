@@ -223,18 +223,55 @@ describe("readStoryBattle", () => {
       types,
     });
 
+    /* Rapidash's same-type Fire hits harder than Lanturn's Ice Beam, so it comes first. */
     expect(reading.members[0].takes).toEqual([
+      expect.objectContaining({ byType: true, multiplier: 2, via: ["Fire"] }),
       expect.objectContaining({
         byType: false,
         multiplier: 2,
         via: ["Ice Beam"],
       }),
-      expect.objectContaining({ byType: true, multiplier: 2, via: ["Fire"] }),
     ]);
     expect(reading.members[0].lands).toEqual([
       expect.objectContaining({ multiplier: 2, via: ["Razor Leaf"] }),
     ]);
     expect(reading.members[0].lands[0].pokemon.name).toBe("Lanturn");
+  });
+
+  it("picks the best hit and the hardest threat by move power and same-type bonus, not type alone", () => {
+    const reading = readStoryBattle({
+      generationOrder: 1,
+      members: [
+        member("pikachu", ["electric"], 20, [
+          move("Thunderbolt", "electric", 90),
+          move("Pin Missile", "bug", 25),
+        ]),
+      ],
+      opponentName: "Blue",
+      their: [
+        opponent("Abra", ["psychic"], 15),
+        opponent("Pidgeotto", ["normal", "flying"], 18),
+        {
+          ...opponent("Sandshrew", ["ground"], 15),
+          moves: [theirMove("Rock Slide", "rock")],
+        },
+        {
+          ...opponent("Diglett", ["ground"], 15),
+          moves: [theirMove("Earthquake", "ground")],
+        },
+      ],
+      types,
+    });
+
+    expect(reading.members[0]?.bestHit).toMatchObject({
+      moveName: "Thunderbolt",
+      target: { name: "Pidgeotto" },
+    });
+    expect(reading.members[0]?.lands.map((hit) => hit.pokemon.name)).toEqual([
+      "Pidgeotto",
+      "Abra",
+    ]);
+    expect(reading.members[0]?.takes[0]?.pokemon.name).toBe("Diglett");
   });
 
   it("reads each of their Pokémon by its moves or, without them, by its types", () => {

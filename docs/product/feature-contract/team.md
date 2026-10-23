@@ -205,9 +205,13 @@ damaging moves aren't, by type; the verdict then says it is a rough read and
 what to record. A battle not fought with your team (a Pokémon lent for it,
 one of yours alone such as the Zero Lab ride legendary, or a frenzy that is
 mostly balms; `player_side` on the battle) gets no reading and says why.
-Best hit and Weak to stay type readings: Best hit's tooltip
-lists each of theirs it hits for more than 1× and with which move; Weak
-to's names which of theirs hit it for 2× or more and with what. Each battle has its own team, so a rematch reads the
+Best hit is the one of theirs it lands on hardest and Weak to the one of
+theirs that hits it hardest for 2× or more (by its moves, or its types
+without them), each shown as that Pokémon with the multiplier and picked by
+type effectiveness, move power and the same-type bonus, so a same-type
+Thunderbolt on Pidgeotto comes before a 2× Bug move on Abra. Best hit's
+tooltip lists each of theirs it hits for more than 1× and with which move;
+Weak to's names each of theirs that hit it for 2× or more and with what. Each battle has its own team, so a rematch reads the
 team you face then. One sentence leads with a level edge of 2 or more, then your answers to their team (or, without a level edge, your answers and then your exposure). A team that
 depends on a recorded choice (usually the starter) follows the Play's
 choice; while it isn't recorded the report reads the first and says so. A

@@ -5,6 +5,7 @@ import {
   getTypeDamageClass,
   getTypicalPower,
   isFixedDamageMove,
+  VARYING_POWER,
   type BaseStats,
   type BattleAttack,
   type Battler,
@@ -227,11 +228,30 @@ const getDefendingSlugs = (pokemon: StoryOpponentPokemon) =>
  * and its Tera Type too once it Terastallizes, since it keeps its own types'
  * moves.
  */
-const getAttacks = (
-  pokemon: StoryOpponentPokemon,
-): { name: string; slug: PokemonTypeSlug }[] =>
-  pokemon.moves.length
-    ? pokemon.moves.flatMap((move) => {
+type NamedAttack = {
+  /* It gets the same-type bonus. */
+  isStab: boolean;
+  name: string;
+  power: number;
+  slug: PokemonTypeSlug;
+};
+
+/*
+ * How hard a hit lands, for picking which to show: its type effectiveness,
+ * its power and the same-type bonus, so a same-type Thunderbolt on Pidgeotto
+ * comes before a 2× Bug move on Abra.
+ */
+const getHitStrength = (attack: NamedAttack, multiplier: number) =>
+  multiplier * attack.power * (attack.isStab ? 1.5 : 1);
+
+const getAttacks = (pokemon: StoryOpponentPokemon): NamedAttack[] => {
+  const stabSlugs = [
+    ...pokemon.types,
+    ...(pokemon.teraType ? [pokemon.teraType] : []),
+  ].map((type) => type.slug);
+
+  return pokemon.moves.length
+    ? pokemon.moves.flatMap((move): NamedAttack[] => {
         const slug = move.damaging
           ? getMoveHitTypeSlug({
               moveTypeSlug: move.type?.slug ?? null,
@@ -242,34 +262,62 @@ const getAttacks = (
           : null;
 
         return slug && isPokemonTypeSlug(slug)
-          ? [{ name: move.name, slug }]
+          ? [
+              {
+                isStab: stabSlugs.includes(slug),
+                name: move.name,
+                power: move.power ?? VARYING_POWER,
+                slug,
+              },
+            ]
           : [];
       })
     : (pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types)
         .filter((type) => isPokemonTypeSlug(type.slug))
         .map((type) => ({
+          isStab: true,
           name: type.name,
+          power: getTypicalPower(pokemon.level),
           slug: type.slug as PokemonTypeSlug,
         }));
+};
 
 const getAttackingSlugs = (pokemon: StoryOpponentPokemon) =>
   getAttacks(pokemon).map((attack) => attack.slug);
 
+type Hit = {
+  index: number;
+  multiplier: number;
+  name: string;
+  strength: number;
+};
+
 /*
  * Groups hits by their Pokémon: each one's strongest multiplier and every
- * name behind it, which are type names when `isByType` says so for it.
+ * name behind it, which are type names when `isByType` says so for it;
+ * hardest first, by move power and the same-type bonus as well as type.
  */
 const toHitDetails = (
-  hits: { index: number; multiplier: number; name: string }[],
+  hits: Hit[],
   their: StoryOpponentPokemon[],
   isByType: (pokemon: StoryOpponentPokemon) => boolean,
 ) => {
-  const byIndex = new Map<number, { multiplier: number; via: string[] }>();
+  const byIndex = new Map<
+    number,
+    { multiplier: number; strength: number; via: string[] }
+  >();
 
-  for (const hit of hits) {
-    const detail = byIndex.get(hit.index) ?? { multiplier: 0, via: [] };
+  for (const hit of [...hits].sort(
+    (left, right) => right.strength - left.strength,
+  )) {
+    const detail = byIndex.get(hit.index) ?? {
+      multiplier: 0,
+      strength: 0,
+      via: [],
+    };
 
     detail.multiplier = Math.max(detail.multiplier, hit.multiplier);
+    detail.strength = Math.max(detail.strength, hit.strength);
 
     if (!detail.via.includes(hit.name)) {
       detail.via.push(hit.name);
@@ -279,6 +327,7 @@ const toHitDetails = (
   }
 
   return [...byIndex]
+    .sort(([, left], [, right]) => right.strength - left.strength)
     .map(
       ([index, detail]): StoryHitDetail => ({
         byType: isByType(their[index]),
@@ -286,8 +335,7 @@ const toHitDetails = (
         pokemon: their[index],
         via: detail.via,
       }),
-    )
-    .sort((left, right) => right.multiplier - left.multiplier);
+    );
 };
 
 /* Stats for a Pokémon without them in Voydex: middling all round. */
@@ -536,35 +584,53 @@ export const readStoryBattle = ({
         (type): type is Type => type !== null,
       ),
     );
-    const damagingMoves = member.moves.flatMap((move) => {
+    const stabSlugs =
+      member.tera_type_slug && isPokemonTypeSlug(member.tera_type_slug)
+        ? [...memberSlugs, member.tera_type_slug]
+        : memberSlugs;
+    const damagingMoves = member.moves.flatMap((move): NamedAttack[] => {
       const slug = getDamagingMoveTypeSlug(move, member);
 
-      return slug && isPokemonTypeSlug(slug) ? [{ name: move.name, slug }] : [];
+      return slug && isPokemonTypeSlug(slug)
+        ? [
+            {
+              isStab: stabSlugs.includes(slug),
+              name: move.name,
+              power: move.attributes?.power ?? VARYING_POWER,
+              slug,
+            },
+          ]
+        : [];
     });
     /* Without recorded damaging moves, it hits with its own types, as theirs do. */
     const isByType = !damagingMoves.length;
-    const attacks = isByType
+    const attacks: NamedAttack[] = isByType
       ? memberSlugs.map((slug) => ({
+          isStab: true,
           name: typeBySlug.get(slug)?.name ?? slug,
+          power: getTypicalPower(member.level ?? aceLevel),
           slug,
         }))
       : damagingMoves;
 
     let bestHit: StoryBestHit | null = null;
-    const landed: { index: number; multiplier: number; name: string }[] = [];
+    let bestStrength = 0;
+    const landed: Hit[] = [];
 
     for (const [index, pokemon] of their.entries()) {
-      for (const { name, slug } of attacks) {
-        const multiplier = hitOn(slug, theirSlugs[index]);
+      for (const attack of attacks) {
+        const multiplier = hitOn(attack.slug, theirSlugs[index]);
+        const strength = getHitStrength(attack, multiplier);
 
         if (multiplier > 1) {
-          landed.push({ index, multiplier, name });
+          landed.push({ index, multiplier, name: attack.name, strength });
         }
 
-        if (multiplier > 1 && (!bestHit || multiplier > bestHit.multiplier)) {
+        if (multiplier > 1 && strength > bestStrength) {
+          bestStrength = strength;
           bestHit = {
             byType: isByType,
-            moveName: name,
+            moveName: attack.name,
             multiplier,
             target: pokemon,
           };
@@ -572,7 +638,7 @@ export const readStoryBattle = ({
       }
     }
 
-    const taken: { index: number; multiplier: number; name: string }[] = [];
+    const taken: Hit[] = [];
 
     if (memberSlugs.length) {
       for (const [index, pokemon] of their.entries()) {
@@ -584,7 +650,12 @@ export const readStoryBattle = ({
           );
 
           if (multiplier >= 2) {
-            taken.push({ index, multiplier, name: attack.name });
+            taken.push({
+              index,
+              multiplier,
+              name: attack.name,
+              strength: getHitStrength(attack, multiplier),
+            });
           }
         }
       }

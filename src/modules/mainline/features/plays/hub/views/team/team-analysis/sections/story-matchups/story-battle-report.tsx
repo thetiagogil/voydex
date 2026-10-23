@@ -108,9 +108,48 @@ const HitLines = ({
 );
 
 /*
- * Best hit (v3): the opponent it lands on, with how hard on a green mark.
- * Its tooltip lists every one of theirs this Pokémon hits for more than 1×,
- * and with which move, or its type while its moves aren't recorded.
+ * One of their Pokémon in a matchup cell: its art with how hard the hit is
+ * on a small mark, green for yours landing and red for theirs.
+ */
+const HitMark = ({
+  label,
+  multiplier,
+  pokemon,
+  tone,
+}: {
+  label: string;
+  multiplier: number;
+  pokemon: StoryOpponentPokemon;
+  tone: "danger" | "ok";
+}) => (
+  <>
+    <PokemonAvatar
+      decorative
+      name={pokemon.name}
+      className="size-10 shrink-0"
+      imageUrl={pokemon.imageUrl}
+      typeSlug={pokemon.types[0]?.slug ?? null}
+    />
+    <CornerBubble corner="bottom">
+      <span
+        aria-hidden
+        className={cn(
+          "bubble text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums",
+          tone === "ok" ? "bg-ok-deep" : "bg-danger-deep",
+        )}
+      >
+        {formatMultiplier(multiplier)}
+      </span>
+    </CornerBubble>
+    <span className="sr-only">{label}</span>
+  </>
+);
+
+/*
+ * Best hit (v3): the opponent it lands on hardest (type, move power and the
+ * same-type bonus), with how hard on a green mark. Its tooltip lists every
+ * one of theirs this Pokémon hits for more than 1×, and with which move, or
+ * its type while its moves aren't recorded.
  */
 const BestHit = ({
   hit,
@@ -120,45 +159,30 @@ const BestHit = ({
   lands: StoryHitDetail[];
 }) => {
   const via = hit.byType ? formatTypeWords([hit.moveName]) : hit.moveName;
+  const label = `${via}, ${formatMultiplier(hit.multiplier)} on ${hit.target.name}`;
 
   return (
     <Tooltip>
       <TooltipTrigger render={<span className="relative inline-flex" />}>
-        <PokemonAvatar
-          decorative
-          name={hit.target.name}
-          className="size-10 shrink-0"
-          imageUrl={hit.target.imageUrl}
-          typeSlug={hit.target.types[0]?.slug ?? null}
+        <HitMark
+          label={label}
+          multiplier={hit.multiplier}
+          pokemon={hit.target}
+          tone="ok"
         />
-        <CornerBubble corner="bottom">
-          <span
-            aria-hidden
-            className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
-          >
-            {formatMultiplier(hit.multiplier)}
-          </span>
-        </CornerBubble>
-        <span className="sr-only">
-          {via}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
-        </span>
       </TooltipTrigger>
       <TooltipContent>
-        {lands.length > 1 ? (
-          <HitLines hits={lands} joiner=" with " />
-        ) : (
-          <>
-            {via}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
-          </>
-        )}
+        {lands.length > 1 ? <HitLines hits={lands} joiner=" with " /> : label}
       </TooltipContent>
     </Tooltip>
   );
 };
 
 /*
- * Weak to: the types that hit this Pokémon for 2× or more. With their team,
- * its tooltip names which of theirs bring them and with what.
+ * Weak to: the one of theirs that hits this Pokémon hardest for 2× or more,
+ * by its moves (or its types without them), on a red mark; its tooltip names
+ * each of theirs that does and with what. Where Voydex doesn't have their
+ * team, the types of their specialty that hit it.
  */
 const WeakTo = ({
   takes,
@@ -167,26 +191,38 @@ const WeakTo = ({
   takes: StoryHitDetail[];
   weakTo: Type[];
 }) => {
-  const types = (
-    <PokemonTypeList
-      types={weakTo}
-      badgeDisplay="icon"
-      badgeSize="sm"
-      className="flex flex-wrap gap-1"
-    />
-  );
+  const [hardest] = takes;
 
-  return takes.length ? (
+  if (!hardest) {
+    return (
+      <PokemonTypeList
+        types={weakTo}
+        badgeDisplay="icon"
+        badgeSize="sm"
+        className="flex flex-wrap gap-1"
+      />
+    );
+  }
+
+  const via = hardest.byType
+    ? `its ${formatTypeWords(hardest.via)}`
+    : hardest.via.join(", ");
+  const label = `${hardest.pokemon.name}: ${via}, ${formatMultiplier(hardest.multiplier)}`;
+
+  return (
     <Tooltip>
-      <TooltipTrigger render={<span className="inline-flex" />}>
-        {types}
+      <TooltipTrigger render={<span className="relative inline-flex" />}>
+        <HitMark
+          label={label}
+          multiplier={hardest.multiplier}
+          pokemon={hardest.pokemon}
+          tone="danger"
+        />
       </TooltipTrigger>
       <TooltipContent>
         <HitLines hits={takes} joiner=": " />
       </TooltipContent>
     </Tooltip>
-  ) : (
-    types
   );
 };
 
@@ -660,7 +696,7 @@ export const StoryBattleReport = ({
                             )}
                           </td>
                           <td className="py-2">
-                            {weakTo.length ? (
+                            {takes.length || weakTo.length ? (
                               <WeakTo takes={takes} weakTo={weakTo} />
                             ) : (
                               <span className="text-ink-3 text-13 font-bold">

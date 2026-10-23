@@ -191,6 +191,31 @@ describe("StoryMatchupsSection", () => {
     expect(html).toContain("Water type, 4× on Onix");
   });
 
+  it("shows the one of theirs that hits yours hardest under Weak to", () => {
+    const [reading] = withTeam.members;
+    const html = render([
+      {
+        ...withTeam,
+        members: [
+          {
+            ...reading,
+            takes: [
+              {
+                byType: false,
+                multiplier: 2,
+                pokemon: reading.bestHit!.target,
+                via: ["Rock Throw"],
+              },
+            ],
+            weakTo: [rock],
+          },
+        ],
+      },
+    ]);
+
+    expect(html).toContain("Onix: Rock Throw, 2×");
+  });
+
   it("reads nothing where you don't battle with your team", () => {
     const html = render([
       { ...withTeam, playerSide: "lent-pokemon", reading: null },
