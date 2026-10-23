@@ -12,8 +12,12 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
+import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { CornerBubble } from "@/shared/components/corner-bubble";
+import { ItemIcon } from "@/shared/components/item-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
@@ -22,11 +26,13 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/shared/components/ui/alert";
+import { Badge } from "@/shared/components/ui/badge";
 
 import {
   formatLevelRange,
   getLevelsSentence,
   type StoryBestHit,
+  type StoryOpponentPokemon,
 } from "../../data/story-battle-reading";
 import type {
   StoryMatchupBattle,
@@ -118,6 +124,53 @@ const reportWording = {
   },
 } as const;
 
+/*
+ * How one of their Pokémon powers up (Tera Rock, Dynamax, Z-Move): a Tera
+ * Type in that type's tint, any other as a plain label. A battle form whose
+ * name already says it ("Gigantamax Charizard", "Mega Gardevoir") needs none.
+ */
+const OpponentMechanic = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
+  if (!pokemon.mechanic || pokemon.name.includes(pokemon.mechanic.label)) {
+    return null;
+  }
+
+  const teraSlug =
+    pokemon.teraType && isPokemonTypeSlug(pokemon.teraType.slug)
+      ? pokemon.teraType.slug
+      : null;
+
+  return (
+    <Badge
+      size="xs"
+      variant={teraSlug ? "tint" : "neutral"}
+      style={teraSlug ? getPokemonTypeCssVariables(teraSlug) : undefined}
+      className="mt-1.5 max-w-full"
+    >
+      <span className="truncate">{pokemon.mechanic.label}</span>
+    </Badge>
+  );
+};
+
+/* What one of their Pokémon holds: the item's sprite and name. */
+const OpponentHeldItem = ({
+  item,
+}: {
+  item: NonNullable<StoryOpponentPokemon["heldItem"]>;
+}) => (
+  <span className="text-12 text-ink-2 mt-1 flex max-w-full items-center justify-center gap-1 font-semibold">
+    <ItemIcon
+      kind="held"
+      name={item.name}
+      src={getItemImageUrl(item.slug)}
+      className="my-0 size-5"
+    />
+    <span className="truncate">
+      <span className="sr-only">Holds </span>
+      {item.name}
+    </span>
+  </span>
+);
+
 /* Their team (v3 `.opp`): the app's Pokémon card with less on it. */
 const TheirTeam = ({ party }: { party: StoryMatchupParty }) => (
   <>
@@ -135,6 +188,16 @@ const TheirTeam = ({ party }: { party: StoryMatchupParty }) => (
             name={pokemon.name}
             number={`Lv. ${pokemon.level}`}
             types={pokemon.types}
+            details={
+              pokemon.mechanic || pokemon.heldItem ? (
+                <>
+                  <OpponentMechanic pokemon={pokemon} />
+                  {pokemon.heldItem ? (
+                    <OpponentHeldItem item={pokemon.heldItem} />
+                  ) : null}
+                </>
+              ) : null
+            }
           />
         </li>
       ))}

@@ -19,6 +19,12 @@ type PokemonCardType = { name: string; slug: string };
 type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
+  /*
+   * Small lines under the name, above the type dots, such as how an
+   * opponent's Pokémon powers up and what it holds; the dots stay at the
+   * card's foot, so a row of cards keeps them level.
+   */
+  details?: ReactNode;
   imageAlt: string;
   imageUrl: string | null;
   /*
@@ -173,6 +179,7 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
+  details,
   imageAlt,
   imageUrl,
   name,
@@ -281,6 +288,7 @@ export const PokemonCard = ({
           {subtitle}
         </span>
       ) : null}
+      {details}
       <PokemonTypeList
         types={types}
         badgeDisplay="icon"

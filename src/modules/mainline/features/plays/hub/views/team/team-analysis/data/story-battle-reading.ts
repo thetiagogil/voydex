@@ -21,15 +21,44 @@ export type MatchupState = "balanced" | "challenging" | "strong";
  */
 export type StoryOpponentKind = "legendary" | "trainer";
 
+/*
+ * How an opponent's Pokémon powers up in this battle: it Terastallizes,
+ * Dynamaxes or Gigantamaxes, battles as its Mega, Primal or Ultra Burst form,
+ * or holds a Z-Crystal.
+ */
+export type StoryOpponentMechanicKind =
+  | "dynamax"
+  | "gigantamax"
+  | "mega"
+  | "primal"
+  | "tera"
+  | "ultra-burst"
+  | "z-move";
+
+export type StoryOpponentMechanic = {
+  kind: StoryOpponentMechanicKind;
+  /* "Tera Rock", "Gigantamax", "Mega", "Z-Move". */
+  label: string;
+};
+
 /* One Pokémon on the opponent's team, by its types in the Play's game. */
 export type StoryOpponentPokemon = {
   formSlug: string;
+  /* What it holds, where the game has held items and Voydex has it. */
+  heldItem: { name: string; slug: string } | null;
   imageUrl: string | null;
   key: string;
   /* Set when the species is Legendary or Mythical. */
   legendary: LegendaryRarity | null;
   level: number;
+  mechanic: StoryOpponentMechanic | null;
   name: string;
+  /*
+   * The type it Terastallizes into, which replaces its own types for what
+   * hits it; null when it doesn't, or Terastallizes into Stellar, which
+   * keeps them.
+   */
+  teraType: Type | null;
   types: Type[];
 };
 
@@ -105,10 +134,27 @@ export const getLevelsSentence = (
 };
 
 /*
+ * What hits one of their Pokémon: its Tera Type once it Terastallizes, else
+ * its own types.
+ */
+const getDefendingSlugs = (pokemon: StoryOpponentPokemon) =>
+  toTypeSlugs(pokemon.teraType ? [pokemon.teraType] : pokemon.types);
+
+/*
+ * What one of their Pokémon hits with: its own types, and its Tera Type too
+ * once it Terastallizes, since it keeps its own types' moves.
+ */
+const getAttackingSlugs = (pokemon: StoryOpponentPokemon) =>
+  toTypeSlugs(
+    pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types,
+  );
+
+/*
  * Reads your active team against one opponent's team by types, recorded
  * moves and levels (v3 `storyMatchups()`): who answers whom, who is exposed,
  * and one verdict with the sentence behind it. Their moves aren't in Voydex,
- * so their threat is read from their own types.
+ * so their threat is read from their own types and any Tera Type, and what
+ * hits them from their Tera Type where they Terastallize.
  */
 export const readStoryBattle = ({
   generationOrder,
@@ -127,7 +173,8 @@ export const readStoryBattle = ({
   types: Type[];
 }): StoryBattleReading => {
   const typeBySlug = new Map(types.map((type) => [type.slug, type]));
-  const theirSlugs = their.map((pokemon) => toTypeSlugs(pokemon.types));
+  const theirSlugs = their.map(getDefendingSlugs);
+  const theirAttackingSlugs = new Set(their.flatMap(getAttackingSlugs));
   const hitOn = (attacking: PokemonTypeSlug, defending: PokemonTypeSlug[]) =>
     defending.length
       ? getDefensiveTypeMultiplier(attacking, defending, generationOrder)
@@ -160,7 +207,7 @@ export const readStoryBattle = ({
     const hitsTaken = new Map<PokemonTypeSlug, number>();
 
     if (memberSlugs.length) {
-      for (const slug of new Set(theirSlugs.flat())) {
+      for (const slug of theirAttackingSlugs) {
         const multiplier = getDefensiveTypeMultiplier(
           slug,
           memberSlugs,

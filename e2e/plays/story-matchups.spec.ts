@@ -96,4 +96,30 @@ test.describe("Story matchups", () => {
     ).toBeVisible();
     await expectAccessible(page);
   });
+
+  test("marks how their Pokémon power up and what they hold", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Scarlet, 2022",
+      name: uniquePlayName("Paldea run"),
+      partner: "Sprigatito",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    /* Geeta's Glimmora Terastallizes into Rock. */
+    const geeta = page.getByRole("button", { name: /^Geeta/ });
+    await expect(geeta).toBeVisible(forTheAnswer);
+    await geeta.click();
+
+    const report = page.getByRole("region", { name: "Geeta" });
+    const glimmora = report.getByRole("listitem").filter({
+      hasText: "Glimmora",
+    });
+    await expect(glimmora).toContainText("Tera Rock");
+    await expectAccessible(page);
+  });
 });

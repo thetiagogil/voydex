@@ -198,6 +198,14 @@ battle that only one choice leads to (the roaming legendary your starter
 picks) is left out once the Play records another option, and says which
 choice it needs while none is recorded.
 Their moves aren't in Voydex, so their threat is read from their types.
+A Pokémon that Terastallizes in the battle is read by its Tera Type for what
+hits it (Stellar keeps its own types), and its own types and its Tera Type
+both count as its threat. Each card of theirs marks how that Pokémon powers
+up, where the Play's game has the mechanic (`resolveGameMechanics`): its Tera
+Type in that type's tint, Dynamax, Ultra Burst, or Z-Move for a held
+Z-Crystal. A Pokémon that battles as its Mega, Primal or Gigantamax form is
+stored in that form, so its name already says it. In games with held items it also shows what the
+Pokémon holds, where Voydex has it.
 Every Story battle has its opponent's team (a database test holds this); a
 battle that somehow had none would keep the specialty reading and an honest
 placeholder.
