@@ -3004,113 +3004,113 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       3,
       {
-        count: 275,
+        count: 300,
         sha256:
-          "7bf80fb2b99e2ba1e7771c9e6dde1dba69ff9fb81c0db1e8814d5690659ca312",
+          "73d7fca54e55e62ba60c8e963b4f18cab5dd33e18b73d06d055da78d74b39541",
       },
     ],
     [
       4,
       {
-        count: 251,
+        count: 276,
         sha256:
-          "53c05cee2709ebc2fb21881f3f5fa3965e428ff37323c0814f5355686f360317",
+          "0fa3608415f2c470c12048a8e159eb5c93ae52f6ce72bb39ba52cb9ac530ecd8",
       },
     ],
     [
       5,
       {
-        count: 402,
+        count: 429,
         sha256:
-          "02a4ff5e1b849c5e4c64c27161b7202ac27fb83ff8f5abed3bc24e1883234908",
+          "11aff5c9441a27980503087d4c0c9c777c990fdfb265dfb6882a5e33d1a875d6",
       },
     ],
     [
       6,
       {
-        count: 432,
+        count: 459,
         sha256:
-          "dd43003fccbcf5f055b6ffa9c6a48ec86444440649584bad29a4c5621e49fc7d",
+          "6a156b37cf118c369c31df409ec3c302940a0c36ce8ec9281ee49cc7b1a0be43",
       },
     ],
     [
       7,
       {
-        count: 388,
+        count: 415,
         sha256:
-          "fb7718f3ce6b75e6367f136021c6fcc4e43cc95f460f089fa3af8d1865ee999e",
+          "a0be61e8ebbe6555ba20237b78c7b5b0c226619e3cf9cb636bd862a3308e4a93",
       },
     ],
     [
       8,
       {
-        count: 563,
+        count: 592,
         sha256:
-          "e023ee3b169a6b9458586410f44e3feb1c1c2ba00d949ad64a9d58a84fe48bb8",
+          "627620b0c6fee63dc1bb4a2aebc4b6dab96a4f3b2095e947e48a96ebe95cbf93",
       },
     ],
     [
       9,
       {
-        count: 523,
+        count: 552,
         sha256:
-          "9e64cd236b62f6e8b367465cece20736a06c50e72f297f1f56d648dbef1602b4",
+          "8a2aea6db2d799fdd9dceb59adb07dbeb22a62eca10bd86ae168e19620680218",
       },
     ],
     [
       10,
       {
-        count: 563,
+        count: 593,
         sha256:
-          "65c509606af28b598194f35f4dcd549335bf8568a290d6032e084fd8404f0ff6",
+          "672f777fd8c1882f7ab9e9a362af357c7d5b1968137a5dd1d83a312229746da8",
       },
     ],
     [
       11,
       {
-        count: 818,
+        count: 855,
         sha256:
-          "f4bf656cdd04df76ee48cfa183682875ec4d4c5cb8b59fe7c71698bd88157472",
+          "d5d0ba5db72b5d14aee5f5a597ce5c56700cab02bc667d133fe94add0877e01d",
       },
     ],
     [
       12,
       {
-        count: 743,
+        count: 781,
         sha256:
-          "5e5edfbf0d87fd065d2aab80ff00586c183b0668620373e0c242cb7382c20e46",
+          "3138ed21190f9206e889b4a1127be06942e8a1160950768d8e43ca5cb888cc23",
       },
     ],
     [
       13,
       {
-        count: 809,
+        count: 887,
         sha256:
-          "8c4f4d250ed3996421bc7281c389edf7e139690ec0789b85cb2fb77c59858cf2",
+          "2e9a32f891542b7d1153af2f8106d2f4c5c0c098b2be5527e04413343c5fbde2",
       },
     ],
     [
       14,
       {
-        count: 808,
+        count: 883,
         sha256:
-          "d609f290faf09ead70b9fe1c9c2eeff03bb03f0e015e27b35de2a8d0f8281aa2",
+          "f481df20547a93b8bc6baf2436d18716478e67fa7944d025638cc18a72ae5c5d",
       },
     ],
     [
       15,
       {
-        count: 928,
+        count: 1009,
         sha256:
-          "fe77fc03e6f1d6488ba53e67b70668ba31f75f893ed60f3a9f2b21d9b1310735",
+          "d9416d045dc720972f55692cb39a1de8170c157d9783e8f004681cfe450b3e62",
       },
     ],
     [
       16,
       {
-        count: 950,
+        count: 1032,
         sha256:
-          "c975ab8d5515987e4a47fd5f22928fd8c47603d1ec365ec351f0d01fc229a4f1",
+          "3c3896bf0e0db6b410c431db217582576c42d9013ef44dbc72be4c5b10b8a1fe",
       },
     ],
     [
@@ -3124,49 +3124,49 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       18,
       {
-        count: 617,
+        count: 654,
         sha256:
-          "3915145e6a49970e3e4a56d8c3d6677425155b5b823ff389751860e7ecb32296",
+          "1f5fd7c467c5064fc82ff4d1bd5aa8c3887cf364634de78c99c259b860153e9f",
       },
     ],
     [
       19,
       {
-        count: 230,
+        count: 231,
         sha256:
-          "53b6459c40768a49001a07027d33f68793e44233da50430a9078c2a804ab4ef6",
+          "720726df58e40e39bf0b8e247b5e893edf922a721c72d021fe63963c47ce5863",
       },
     ],
     [
       20,
       {
-        count: 340,
+        count: 342,
         sha256:
-          "d600c140e8244e66320c9ba178da266c14e3ea3205f7388159f3a5daf0397da2",
+          "5c0933438c6686ad2003cab5aa216adca7d450513269efea5dc138622c3c4ecb",
       },
     ],
     [
       21,
       {
-        count: 579,
+        count: 608,
         sha256:
-          "7c90860f9e15d3ec1d1276f0cbf27ba5801a60c1921f042184d7ae0ad3cd13e3",
+          "37245d5319d8116414bc7b531d01e8b62b4b7d86035580253f46131781599553",
       },
     ],
     [
       22,
       {
-        count: 280,
+        count: 309,
         sha256:
-          "4ef303f64187a0e4ead7cacdef6547474ce2dca7f9aa8035d322f81bb8fcb11f",
+          "8ac840740807ed86101b0229b636a091e6287c54ae9c86f6ae2163b952a9b190",
       },
     ],
     [
       23,
       {
-        count: 693,
+        count: 743,
         sha256:
-          "827d5b9ea925eaf46abfac6866af30282747c6672857a57e6b3557708db887a6",
+          "52036c3751dbb1abfd0912b8b5f9301650a8fb7a80447c1aa5c9fa1a2d3aec56",
       },
     ],
     [
@@ -3180,25 +3180,25 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       25,
       {
-        count: 299,
+        count: 313,
         sha256:
-          "53c11de4fe37be5d77ada4a0989acccb61751f388fead6b814f99fd810dd0c21",
+          "bb5f0dc2f89fbb957be7f973737cc4e5ce812a2b215ebd88a7d38003ca41a45b",
       },
     ],
     [
       26,
       {
-        count: 247,
+        count: 294,
         sha256:
-          "0eff1f9bc8e23d780586607e6939a63e35a2001625508444c9263434d43f005d",
+          "beb1dc97b7f09a357c243a854457ca1886c669b9a73ece1f55053046691d1cfc",
       },
     ],
     [
       27,
       {
-        count: 152,
+        count: 153,
         sha256:
-          "36c6b83286b073dadcc835ce40270f0cfd4de28ef2711c3f6375638e9170dc57",
+          "277c8fa717e3ffa5953e7bde88c837b5f0ddbb3b4352343ad712072db83ee5d9",
       },
     ],
   ]);
