@@ -1,4 +1,7 @@
-import { readFormClassById } from "@/modules/reference/features/pokemon/server/form-class-reader";
+import {
+  readCosmeticFormIds,
+  readFormClassById,
+} from "@/modules/reference/features/pokemon/server/form-class-reader";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -157,22 +160,24 @@ export const readMainlinePlayPokemonChoices = async (
       entries.flatMap((entry) => (entry.species_id ? [entry.species_id] : [])),
     ),
   ];
-  const [allForms, typesResult, formClassById] = await Promise.all([
-    loadChunkedReferenceRows<PokemonChoiceSourceRows["forms"][number]>(
-      speciesIds,
-      (ids, from, to) =>
-        supabase
-          .schema("reference")
-          .from("pokemon_forms")
-          .select("id, species_id, slug, name, is_default, form_order")
-          .in("species_id", ids)
-          .order("id", { ascending: true })
-          .range(from, to),
-      "Unable to load Pokémon forms.",
-    ),
-    supabase.schema("reference").from("types").select("id, name, slug"),
-    readFormClassById(supabase, speciesIds),
-  ]);
+  const [allForms, typesResult, formClassById, cosmeticFormIds] =
+    await Promise.all([
+      loadChunkedReferenceRows<PokemonChoiceSourceRows["forms"][number]>(
+        speciesIds,
+        (ids, from, to) =>
+          supabase
+            .schema("reference")
+            .from("pokemon_forms")
+            .select("id, species_id, slug, name, is_default, form_order")
+            .in("species_id", ids)
+            .order("id", { ascending: true })
+            .range(from, to),
+        "Unable to load Pokémon forms.",
+      ),
+      supabase.schema("reference").from("types").select("id, name, slug"),
+      readFormClassById(supabase, speciesIds),
+      readCosmeticFormIds(supabase, speciesIds),
+    ]);
   /* A Pokémon is added as itself or a variant, never in a battle form. */
   const forms = allForms.filter(
     (form) => formClassById.get(form.id) !== "battle",
@@ -212,6 +217,7 @@ export const readMainlinePlayPokemonChoices = async (
   );
   const rows = {
     addableVariantFormIds,
+    cosmeticFormIds,
     attributes,
     entries,
     forms,

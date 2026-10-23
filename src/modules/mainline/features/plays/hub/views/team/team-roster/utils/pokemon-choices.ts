@@ -11,6 +11,12 @@ export type PokemonChoice = {
   imageUrl: string | null;
   /* Its number in the Pokédex it was found in. */
   number: number;
+  /*
+   * The looks it can be added in, itself among them (Vivillon's patterns,
+   * Unown's letters), picked in the details step; empty when it has none,
+   * and on each pattern itself.
+   */
+  patterns: PokemonChoice[];
   primaryType: PokemonChoiceType | null;
   secondaryType: PokemonChoiceType | null;
   speciesId: number;
@@ -24,6 +30,11 @@ export type PokemonChoiceSourceRows = {
    * (Hisuian Arcanine beside Arcanine), and the defaults of those species.
    */
   addableVariantFormIds?: ReadonlySet<number>;
+  /*
+   * Of those, the ones that change only its looks: picked as a pattern of
+   * its species' choice rather than as a card of their own.
+   */
+  cosmeticFormIds?: ReadonlySet<number>;
   attributes: {
     form_id: number;
     generation_start_id: number;
@@ -62,8 +73,9 @@ const kindRank = (kind: string | null) => {
  * Each species of the Play's Pokédexes once, in the order of the first
  * Pokédex it appears in (regional first), drawn in its display form with
  * the types it has in the Play's generation, followed by the other variants
- * the game has, each its own choice with the same number. Forms without
- * attributes in that generation are left out.
+ * the game has, each its own choice with the same number. A variant that
+ * changes only its looks is a pattern of the species' choice instead. Forms
+ * without attributes in that generation are left out.
  */
 export const buildPokemonChoices = (
   rows: PokemonChoiceSourceRows,
@@ -125,25 +137,42 @@ export const buildPokemonChoices = (
 
     seen.add(entry.species_id);
 
-    for (const choiceForm of [
-      form,
-      ...forms.filter(
-        (item) =>
-          item.id !== form.id && rows.addableVariantFormIds?.has(item.id),
-      ),
-    ]) {
+    const isCosmetic = (id: number) => rows.cosmeticFormIds?.has(id) ?? false;
+    const toChoice = (choiceForm: (typeof forms)[number]) => {
       const choiceAttribute = attributeByFormId.get(choiceForm.id);
 
-      if (choiceAttribute) {
-        choices.push(
-          toPokemonChoice({
+      return choiceAttribute
+        ? toPokemonChoice({
             attribute: choiceAttribute,
             form: choiceForm,
             number: entry.pokedex_number ?? 0,
-            speciesName: entry.species_name,
-            speciesSlug: entry.species_slug,
+            speciesName: entry.species_name ?? "",
+            speciesSlug: entry.species_slug ?? "",
             typeById,
-          }),
+          })
+        : null;
+    };
+    const variants = forms.filter(
+      (item) => item.id !== form.id && rows.addableVariantFormIds?.has(item.id),
+    );
+    const patternForms = variants.filter((item) => isCosmetic(item.id));
+    const patterns = patternForms.length
+      ? [form, ...patternForms]
+          .toSorted((left, right) => left.form_order - right.form_order)
+          .flatMap((item) => toChoice(item) ?? [])
+      : [];
+
+    for (const choiceForm of [
+      form,
+      ...variants.filter((item) => !isCosmetic(item.id)),
+    ]) {
+      const choice = toChoice(choiceForm);
+
+      if (choice) {
+        choices.push(
+          choiceForm.id === form.id && patterns.length
+            ? withPatterns(choice, patterns)
+            : choice,
         );
       }
     }
@@ -151,6 +180,12 @@ export const buildPokemonChoices = (
 
   return choices;
 };
+
+/* The species' choice carries its patterns; each pattern carries none. */
+const withPatterns = (
+  choice: PokemonChoice,
+  patterns: PokemonChoice[],
+): PokemonChoice => ({ ...choice, patterns });
 
 export const toPokemonChoice = ({
   attribute,
@@ -178,6 +213,7 @@ export const toPokemonChoice = ({
     "sm",
   ),
   number,
+  patterns: [],
   primaryType: typeById.get(attribute.primary_type_id) ?? null,
   secondaryType:
     attribute.secondary_type_id === null

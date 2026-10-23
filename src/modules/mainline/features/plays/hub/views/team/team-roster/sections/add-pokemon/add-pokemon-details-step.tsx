@@ -1,4 +1,7 @@
+import { toPokemonFormOption } from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
+import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { SegmentedControl } from "@/shared/components/segmented-control";
+import { SelectControl } from "@/shared/components/select-control";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
@@ -11,8 +14,9 @@ export type AddPokemonPlacement = "reserve" | "team";
 
 /*
  * Step 2, its details: what the Play's rules say about it (a warning that
- * blocks nothing), nickname and level, and where it goes (the team or the
- * reserve), or whose place it takes when it replaces one.
+ * blocks nothing), its pattern when it has looks to pick from (Vivillon,
+ * Unown), nickname and level, and where it goes (the team or the reserve),
+ * or whose place it takes when it replaces one.
  */
 export const AddPokemonDetailsStep = ({
   error,
@@ -21,6 +25,7 @@ export const AddPokemonDetailsStep = ({
   nickname,
   onLevelChange,
   onNicknameChange,
+  onPatternChange,
   onPlacementChange,
   onSubmit,
   picked,
@@ -37,6 +42,8 @@ export const AddPokemonDetailsStep = ({
   nickname: string;
   onLevelChange: (level: string) => void;
   onNicknameChange: (nickname: string) => void;
+  /* Picks one of `picked.patterns`. */
+  onPatternChange: (pattern: PokemonChoice) => void;
   onPlacementChange: (placement: AddPokemonPlacement) => void;
   onSubmit: () => void;
   picked: PokemonChoice;
@@ -60,6 +67,34 @@ export const AddPokemonDetailsStep = ({
       }}
     >
       <RuleWarningsNote warnings={warnings} />
+      {picked.patterns.length ? (
+        <Field>
+          <FieldLabel>Pattern</FieldLabel>
+          <SelectControl
+            ariaLabel="Pattern"
+            placeholder="Pattern"
+            value={String(picked.formId)}
+            onValueChange={(value) => {
+              const pattern = picked.patterns.find(
+                (item) => String(item.formId) === value,
+              );
+
+              if (pattern) onPatternChange(pattern);
+            }}
+            options={picked.patterns.map((pattern) =>
+              toPokemonFormOption({
+                imageUrl: pattern.imageUrl,
+                label: pattern.formName
+                  ? formatShortFormName(pattern.formName, pattern.speciesName)
+                  : pattern.speciesName,
+                name: pattern.formName ?? pattern.speciesName,
+                typeSlug: pattern.primaryType?.slug ?? null,
+                value: String(pattern.formId),
+              }),
+            )}
+          />
+        </Field>
+      ) : null}
       <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field>
           <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>

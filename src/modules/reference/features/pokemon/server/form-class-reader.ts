@@ -34,6 +34,32 @@ export const readFormClassById = async (
   );
 };
 
+/*
+ * The forms of these species that change only how a Pokémon looks (a
+ * Vivillon pattern, an Unown letter), by id. A failed read throws.
+ */
+export const readCosmeticFormIds = async (
+  supabase: ServerSupabaseClient,
+  speciesIds: readonly number[],
+): Promise<Set<number>> => {
+  if (!speciesIds.length) {
+    return new Set();
+  }
+
+  const result = await supabase
+    .schema("reference")
+    .from("pokemon_form_rules")
+    .select("form_id, pokemon_forms!inner(species_id)")
+    .in("pokemon_forms.species_id", [...speciesIds])
+    .eq("is_cosmetic", true);
+
+  if (result.error) {
+    throw new Error("Unable to load Pokémon forms.");
+  }
+
+  return new Set((result.data ?? []).map((rule) => rule.form_id));
+};
+
 /* Whether an item rule for a form holds in this game. */
 export const formItemRuleAppliesHere = (
   row: Pick<
