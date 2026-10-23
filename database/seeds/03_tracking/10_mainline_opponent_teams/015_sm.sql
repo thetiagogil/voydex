@@ -84,8 +84,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 3, 53, 5301, 39),
   -- Hapu 1: Alolan Dugtrio Lv. 47
   (150013, 15010, 15, NULL, NULL, NULL, NULL, NULL, 1, 51, 5101, 47),
-  -- Hapu 2: Gastrodon Lv. 47
-  (150013, 15010, 15, NULL, NULL, NULL, NULL, NULL, 2, 423, 42300, 47),
+  -- Hapu 2: Gastrodon (East Sea) Lv. 47
+  (150013, 15010, 15, NULL, NULL, NULL, NULL, NULL, 2, 423, 42301, 47),
   -- Hapu 3: Flygon Lv. 47
   (150013, 15010, 15, NULL, NULL, NULL, NULL, NULL, 3, 330, 33000, 47),
   -- Hapu 4: Mudsdale Lv. 48

@@ -66,8 +66,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180007, 18006, 18, NULL, NULL, NULL, NULL, NULL, 2, 303, 30300, 36),
   -- Opal 3: Togekiss Lv. 37
   (180007, 18006, 18, NULL, NULL, NULL, NULL, NULL, 3, 468, 46800, 37),
-  -- Opal 4: Alcremie Lv. 38
-  (180007, 18006, 18, NULL, NULL, NULL, NULL, NULL, 4, 869, 86900, 38),
+  -- Opal 4: Alcremie (Ruby Cream) Lv. 38
+  (180007, 18006, 18, NULL, NULL, NULL, NULL, NULL, 4, 869, 86902, 38),
   -- Gordie 1: Barbaracle Lv. 40
   (183108, 18007, 18, NULL, NULL, NULL, NULL, NULL, 1, 689, 68900, 40),
   -- Gordie 2: Shuckle Lv. 40

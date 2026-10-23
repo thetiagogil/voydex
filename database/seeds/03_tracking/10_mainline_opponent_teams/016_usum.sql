@@ -93,8 +93,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 3, 242, 24200, 53),
   -- Hapu 1: Golurk Lv. 53
   (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 1, 623, 62300, 53),
-  -- Hapu 2: Gastrodon Lv. 53
-  (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 2, 423, 42300, 53),
+  -- Hapu 2: Gastrodon (East Sea) Lv. 53
+  (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 2, 423, 42301, 53),
   -- Hapu 3: Flygon Lv. 53
   (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 3, 330, 33000, 53),
   -- Hapu 4: Mudsdale Lv. 54
