@@ -31,6 +31,7 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
 import { IconTip } from "@/shared/components/icon-tip";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 type StatsStyleSectionProps = {
   onOpenFriend: (friend: StatsFriend) => void;
@@ -346,11 +347,10 @@ export const StatsStyleSection = ({
                         triggerLabel={`${friend.entry.name}'s family`}
                         contentClassName="w-60"
                         content={
-                          <p>
-                            <b>{friend.entry.name}&apos;s family.</b> You used{" "}
-                            {friend.memberNames} across {friend.playCount}{" "}
-                            Plays.
-                          </p>
+                          <TipNamed name={`${friend.entry.name}'s family`}>
+                            You used {friend.memberNames} across{" "}
+                            {friend.playCount} Plays.
+                          </TipNamed>
                         }
                       >
                         <AppIcon icon={appIcons.product.family} size="sm" />

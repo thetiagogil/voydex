@@ -13,9 +13,23 @@ import { Card } from "@/shared/components/ui/card";
 
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health";
+import {
+  TipHead,
+  TipNote,
+  TipStack,
+  TipText,
+  type TipTone,
+} from "@/shared/components/tip-parts";
 
 const statusTones: Record<TeamAnalysisHealthStatus, StatusBadgeTone> = {
   "limited-data": "neutral",
+  moderate: "warn",
+  strong: "ok",
+  weak: "danger",
+};
+
+const statusTipTones: Record<TeamAnalysisHealthStatus, TipTone | undefined> = {
+  "limited-data": undefined,
   moderate: "warn",
   strong: "ok",
   weak: "danger",
@@ -40,9 +54,21 @@ const TeamAnalysisHealthCard = ({
           contentClassName="w-70"
           triggerLabel={`Why ${metric.title} reads ${statusLabel}`}
           content={
-            <p>
-              <b>{statusLabel}.</b> {metric.reason}
-            </p>
+            <TipStack>
+              <TipHead tone={statusTipTones[metric.status]}>
+                {statusLabel}
+              </TipHead>
+              {/* The verdict first, then how it was read, quieter. */}
+              {metric.reason
+                .split(/(?<=\.)\s+/)
+                .map((sentence, index) =>
+                  index === 0 ? (
+                    <TipText key={sentence}>{sentence}</TipText>
+                  ) : (
+                    <TipNote key={sentence}>{sentence}</TipNote>
+                  ),
+                )}
+            </TipStack>
           }
         />
       </div>

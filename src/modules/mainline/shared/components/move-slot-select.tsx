@@ -23,6 +23,7 @@ import {
   ComboboxList,
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 export type MoveSlotOption = {
   /* Physical, Special or Status. */
@@ -209,7 +210,11 @@ export const MoveSlotSelect = ({
                             <span className="sr-only">, {option.info}</span>
                             <ExplanatoryTip
                               inert
-                              content={option.info}
+                              content={
+                                <TipNamed name={option.label}>
+                                  {option.info}
+                                </TipNamed>
+                              }
                               triggerVariant="subtle"
                             />
                           </>

@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from "@/shared/components/ui/select";
 import { cn } from "@/shared/utils/cn";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 const EMPTY_SELECT_VALUE = "";
 
@@ -199,7 +200,7 @@ const OptionContent = ({ option }: { option: SelectControlOption }) => (
           {option.info ? (
             <ExplanatoryTip
               inert
-              content={option.info}
+              content={<TipNamed name={option.label}>{option.info}</TipNamed>}
               triggerVariant="subtle"
             />
           ) : null}

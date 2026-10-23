@@ -7,6 +7,7 @@ import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 import type { TeamMove } from "./team-member-model";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   const typeSlug =
@@ -42,7 +43,7 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
       )}
       {move.effect ? (
         <ExplanatoryTip
-          content={move.effect}
+          content={<TipNamed name={move.name}>{move.effect}</TipNamed>}
           triggerLabel={`About ${move.name}`}
           triggerVariant="subtle"
         />

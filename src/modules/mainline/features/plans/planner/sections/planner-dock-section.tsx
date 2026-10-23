@@ -31,6 +31,7 @@ import {
   useSlotDrag,
 } from "@/shared/hooks/use-slot-drag";
 import { cn } from "@/shared/utils/cn";
+import { TipHead, TipStack } from "@/shared/components/tip-parts";
 
 /* The tip's mark on the band: its tint in a white band, as a sticker. */
 const TipMark = ({ tone }: { tone: PlanTeamTip["tone"] }) => (
@@ -325,8 +326,17 @@ export const PlannerDockSection = ({
                     triggerLabel={`${pokemon.name}: ${worst.title}`}
                     contentClassName="w-64"
                     content={
-                      <>
-                        <p>{worst.title}</p>
+                      <TipStack>
+                        <TipHead
+                          tone={
+                            worst.severity === "block" ||
+                            worst.severity === "hard"
+                              ? "danger"
+                              : "warn"
+                          }
+                        >
+                          {worst.title}
+                        </TipHead>
                         <TextLink
                           tone="onInk"
                           onClick={onOpenCheck}
@@ -334,7 +344,7 @@ export const PlannerDockSection = ({
                         >
                           Open Team check
                         </TextLink>
-                      </>
+                      </TipStack>
                     }
                   />
                 </CornerBubble>

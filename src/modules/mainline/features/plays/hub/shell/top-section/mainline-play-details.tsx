@@ -24,6 +24,7 @@ import {
 import { useIsMobile } from "@/shared/hooks/use-mobile";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
+import { TipNamed } from "@/shared/components/tip-parts";
 
 type PlayDetailRow = {
   key: string;
@@ -61,7 +62,7 @@ const PlayDetailChips = ({
               {item.name}
               {item.tip ? (
                 <ExplanatoryTip
-                  content={item.tip}
+                  content={<TipNamed name={item.name}>{item.tip}</TipNamed>}
                   triggerLabel={`About ${item.name}`}
                   triggerVariant="icon"
                 />
