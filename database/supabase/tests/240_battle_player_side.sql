@@ -30,7 +30,7 @@ SELECT
             COUNT(*)::integer FROM tracking.mainline_milestone_opponent_refs
             WHERE
                 milestone_id = 230031
-                AND player_side = 'one-own-pokemon'   $$, $$
+                AND player_side = 'one-own-pokemon'     $$, $$
             VALUES (2) $$, 'the Zero Lab Koraidon and Miraidon are fought by your ride legendary alone');
 SELECT
     results_eq ($$
@@ -38,7 +38,7 @@ SELECT
             COUNT(*)::integer FROM tracking.mainline_milestone_opponent_refs
             WHERE
                 version_group_id = 22
-                AND player_side = 'not-a-battle'   $$, $$
+                AND player_side = 'not-a-battle'     $$, $$
             VALUES (7) $$, 'the five nobles, Origin Dialga / Palkia and Arceus are frenzies, not battles with your team');
 SELECT
     *
