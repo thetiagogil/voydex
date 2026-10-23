@@ -183,15 +183,20 @@ active team against their team in that battle
 opponent) by types, recorded damaging moves
 and levels, following v3: each of your Pokémon is Advantage (an answer and
 no 2× weakness), At risk (a 2× weakness and no answer), Even, or Not recorded
-(no types or no damaging moves); its best hit is its strongest move against
+(no types). It hits with its recorded damaging moves (Hidden Power is left
+out, Judgment and its kind take its type, Tera Blast its Tera Type), or with
+its own types while none is recorded, as theirs do without moves, and the
+verdict then says it reads by type; its best hit is its strongest move against
 any of them. Best hit's tooltip lists each of theirs it hits for more than 1×
 and with which move; Weak to's names which of theirs hit it for 2× or more and
 with what. The battle reads **Challenging** when fewer than 60% of their
-Pokémon have an answer, three or more of yours are at risk, or their ace is 8
-or more levels above your best; **Strong** when every one of theirs has an
-answer, at most one of yours is at risk, one answers without a 2× weakness,
-and your levels are recorded with their ace at most 3 levels above;
-**Balanced** otherwise. Each battle has its own team, so a rematch reads the
+Pokémon have an answer (a lone Pokémon without one reads Balanced at most),
+half your team or more is at risk (two at least, or your only one), or their
+ace is 15% of its level above your best (3 levels at least); **Strong** when
+every one of theirs has an answer, at most one of yours is at risk, one
+answers without a 2× weakness, and your levels are recorded with their ace at
+most 5% of its level above; **Balanced** otherwise. At Lv. 50 those limits
+are 8 and 3 levels; they are tighter early and looser late. Each battle has its own team, so a rematch reads the
 team you face then. One sentence
 names your answers and the thing that matters most against you. A team that
 depends on a recorded choice (usually the starter) follows the Play's

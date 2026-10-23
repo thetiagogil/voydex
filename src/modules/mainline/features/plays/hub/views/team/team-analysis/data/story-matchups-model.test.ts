@@ -891,7 +891,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     const raikou = battles[2];
 
     expect(raikou?.reading?.summary).toBe(
-      "Your team's moves aren't recorded, and it's 20 levels above your team.",
+      "By type, none of yours hits Raikou for 2×, and it's 20 levels above your team.",
     );
   });
 

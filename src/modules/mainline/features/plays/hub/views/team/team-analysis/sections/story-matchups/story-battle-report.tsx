@@ -77,13 +77,15 @@ const SmallSticker = ({
 
 const formatMultiplier = (multiplier: number) => `${multiplier}×`;
 
-/* What one side brings: move names, or "its Fire type" where their moves aren't known. */
-const formatVia = ({ byType, via }: StoryHitDetail) =>
-  byType
-    ? `its ${via.join(" and ")} type${via.length > 1 ? "s" : ""}`
-    : via.join(", ");
+/* Type names as words: "Fire type", "Water and Ground types". */
+const formatTypeWords = (names: string[]) =>
+  `${names.join(" and ")} type${names.length > 1 ? "s" : ""}`;
 
-/* Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse, 2×". */
+/*
+ * Lines for a tooltip: "Cloyster with Seed Bomb, 2×", "Umbreon: Dark Pulse,
+ * 2×". Where the moves aren't known it names types: "Umbreon: its Dark type,
+ * 2×" for theirs, "Onix: Water type, 4×" for yours.
+ */
 const HitLines = ({
   hits,
   joiner,
@@ -95,8 +97,11 @@ const HitLines = ({
     {hits.map((hit) => (
       <li key={hit.pokemon.key}>
         <b>{hit.pokemon.name}</b>
-        {joiner}
-        {formatVia(hit)}, {formatMultiplier(hit.multiplier)}
+        {hit.byType ? ": " : joiner}
+        {hit.byType
+          ? `${joiner === ": " ? "its " : ""}${formatTypeWords(hit.via)}`
+          : hit.via.join(", ")}
+        , {formatMultiplier(hit.multiplier)}
       </li>
     ))}
   </ul>
@@ -105,7 +110,7 @@ const HitLines = ({
 /*
  * Best hit (v3): the opponent it lands on, with how hard on a green mark.
  * Its tooltip lists every one of theirs this Pokémon hits for more than 1×,
- * and with which move.
+ * and with which move, or its type while its moves aren't recorded.
  */
 const BestHit = ({
   hit,
@@ -113,40 +118,43 @@ const BestHit = ({
 }: {
   hit: StoryBestHit;
   lands: StoryHitDetail[];
-}) => (
-  <Tooltip>
-    <TooltipTrigger render={<span className="relative inline-flex" />}>
-      <PokemonAvatar
-        decorative
-        name={hit.target.name}
-        className="size-10 shrink-0"
-        imageUrl={hit.target.imageUrl}
-        typeSlug={hit.target.types[0]?.slug ?? null}
-      />
-      <CornerBubble corner="bottom">
-        <span
-          aria-hidden
-          className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
-        >
-          {formatMultiplier(hit.multiplier)}
+}) => {
+  const via = hit.byType ? formatTypeWords([hit.moveName]) : hit.moveName;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<span className="relative inline-flex" />}>
+        <PokemonAvatar
+          decorative
+          name={hit.target.name}
+          className="size-10 shrink-0"
+          imageUrl={hit.target.imageUrl}
+          typeSlug={hit.target.types[0]?.slug ?? null}
+        />
+        <CornerBubble corner="bottom">
+          <span
+            aria-hidden
+            className="bubble bg-ok-deep text-12 rounded-full px-1.5 leading-5 font-extrabold text-white tabular-nums"
+          >
+            {formatMultiplier(hit.multiplier)}
+          </span>
+        </CornerBubble>
+        <span className="sr-only">
+          {via}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
         </span>
-      </CornerBubble>
-      <span className="sr-only">
-        {hit.moveName}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
-      </span>
-    </TooltipTrigger>
-    <TooltipContent>
-      {lands.length > 1 ? (
-        <HitLines hits={lands} joiner=" with " />
-      ) : (
-        <>
-          {hit.moveName}, {formatMultiplier(hit.multiplier)} on{" "}
-          {hit.target.name}
-        </>
-      )}
-    </TooltipContent>
-  </Tooltip>
-);
+      </TooltipTrigger>
+      <TooltipContent>
+        {lands.length > 1 ? (
+          <HitLines hits={lands} joiner=" with " />
+        ) : (
+          <>
+            {via}, {formatMultiplier(hit.multiplier)} on {hit.target.name}
+          </>
+        )}
+      </TooltipContent>
+    </Tooltip>
+  );
+};
 
 /*
  * Weak to: the types that hit this Pokémon for 2× or more. With their team,

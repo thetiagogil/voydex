@@ -85,6 +85,7 @@ const withTeam = battle({
   members: [
     {
       bestHit: {
+        byType: false,
         moveName: "Water Gun",
         multiplier: 4,
         target: {
@@ -163,6 +164,27 @@ describe("StoryMatchupsSection", () => {
     expect(html).toContain("Water Gun, 4× on Onix");
     expect(html).toContain("You&#x27;re 6 levels above them");
     expect(html).not.toContain("aren&#x27;t in Voydex yet");
+  });
+
+  it("names your Pokémon's type as its best hit while its moves aren't recorded", () => {
+    const [reading] = withTeam.members;
+    const html = render([
+      {
+        ...withTeam,
+        members: [
+          {
+            ...reading,
+            bestHit: reading.bestHit && {
+              ...reading.bestHit,
+              byType: true,
+              moveName: "Water",
+            },
+          },
+        ],
+      },
+    ]);
+
+    expect(html).toContain("Water type, 4× on Onix");
   });
 
   it("turns their cards to their moves with Show moves and says what it reads them by", () => {

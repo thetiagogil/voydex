@@ -75,15 +75,16 @@ export type StoryOpponentPokemon = {
 };
 
 export type StoryBestHit = {
+  /* True when `moveName` names your Pokémon's type, as its moves aren't recorded. */
+  byType: boolean;
   moveName: string;
   multiplier: number;
   target: StoryOpponentPokemon;
 };
 
-/* How one of your Pokémon reads against their team. */
 /*
  * One of their Pokémon in a matchup with one of yours, and what makes it
- * count: move names, or its type names where Voydex doesn't have its moves.
+ * count: move names, or type names where the moves aren't known.
  */
 export type StoryHitDetail = {
   /* True when `via` names its types, not moves. */
@@ -93,14 +94,15 @@ export type StoryHitDetail = {
   via: string[];
 };
 
+/* How one of your Pokémon reads against their team. */
 export type StoryMemberReading = {
-  /* Your strongest recorded move against any of them, when it hits for more than 1×. */
+  /* Its strongest hit against any of them, when it hits for more than 1×. */
   bestHit: StoryBestHit | null;
-  /* Their Pokémon this one hits for more than 1×, with which of its recorded moves, hardest first. */
+  /* Their Pokémon this one hits for more than 1×, and with what, hardest first. */
   lands: StoryHitDetail[];
   /* Their Pokémon that hit this one for 2× or more, with what, hardest first. */
   takes: StoryHitDetail[];
-  /* Advantage, Even or At risk; null while its types or moves aren't recorded. */
+  /* Advantage, Even or At risk; null while its types aren't recorded. */
   role: MatchupState | null;
   /* Their types that hit this Pokémon for 2× or more, strongest first. */
   weakTo: Type[];
@@ -231,10 +233,14 @@ const getAttacks = (
 const getAttackingSlugs = (pokemon: StoryOpponentPokemon) =>
   getAttacks(pokemon).map((attack) => attack.slug);
 
-/* Groups hits by their Pokémon: each one's strongest multiplier and every name behind it. */
+/*
+ * Groups hits by their Pokémon: each one's strongest multiplier and every
+ * name behind it, which are type names when `isByType` says so for it.
+ */
 const toHitDetails = (
   hits: { index: number; multiplier: number; name: string }[],
   their: StoryOpponentPokemon[],
+  isByType: (pokemon: StoryOpponentPokemon) => boolean,
 ) => {
   const byIndex = new Map<number, { multiplier: number; via: string[] }>();
 
@@ -253,13 +259,73 @@ const toHitDetails = (
   return [...byIndex]
     .map(
       ([index, detail]): StoryHitDetail => ({
-        byType: !their[index].moves.length,
+        byType: isByType(their[index]),
         multiplier: detail.multiplier,
         pokemon: their[index],
         via: detail.via,
       }),
     )
     .sort((left, right) => right.multiplier - left.multiplier);
+};
+
+/*
+ * How far behind their ace your best Pokémon can be, which scales with their
+ * level: at Lv. 50, 8 levels behind makes the battle Challenging and Strong
+ * allows 3; at Lv. 14 that is 3 and 1, at Lv. 70 it is 11 and 4.
+ */
+export const getLevelLimits = (aceLevel: number) => ({
+  challenging: Math.max(3, Math.round(aceLevel * 0.15)),
+  strong: Math.round(aceLevel * 0.05),
+});
+
+/*
+ * The battle's verdict. Challenging when fewer than 60% of theirs have an
+ * answer (a lone Pokémon without one is Balanced at most), half your team or
+ * more is at risk (two at least, or your only one), or their ace is too far
+ * above your best;
+ * Strong when every one of theirs has an answer, at most one of yours is at
+ * risk, one answers without a 2× weakness, and your levels are recorded and
+ * close enough; Balanced otherwise.
+ */
+export const getBattleState = ({
+  aceLevel,
+  answeredCount,
+  atRiskCount,
+  clearCount,
+  gap,
+  teamCount,
+  theirCount,
+}: {
+  aceLevel: number | null;
+  answeredCount: number;
+  atRiskCount: number;
+  clearCount: number;
+  /* Your best level minus their ace's; null while yours aren't recorded. */
+  gap: number | null;
+  teamCount: number;
+  theirCount: number;
+}): MatchupState => {
+  const limits = aceLevel === null ? null : getLevelLimits(aceLevel);
+  const isFarBehind =
+    gap !== null && limits !== null && gap <= -limits.challenging;
+  const isFewAnswered = theirCount > 1 && answeredCount / theirCount < 0.6;
+
+  if (
+    isFewAnswered ||
+    atRiskCount >= Math.min(teamCount, Math.max(2, Math.ceil(teamCount / 2))) ||
+    isFarBehind
+  ) {
+    return "challenging";
+  }
+
+  return answeredCount === theirCount &&
+    atRiskCount <= 1 &&
+    clearCount >= 1 &&
+    gap !== null &&
+    limits !== null &&
+    gap >= -limits.strong
+    ? "strong"
+    : "balanced";
 };
 
 /* How many of their Pokémon Voydex has the moves of. */
@@ -307,22 +373,35 @@ export const readStoryBattle = ({
     const damagingMoves = member.moves.flatMap((move) => {
       const slug = getDamagingMoveTypeSlug(move, member);
 
-      return slug && isPokemonTypeSlug(slug) ? [{ move, slug }] : [];
+      return slug && isPokemonTypeSlug(slug) ? [{ name: move.name, slug }] : [];
     });
+    /* Without recorded damaging moves, it hits with its own types, as theirs do. */
+    const isByType = !damagingMoves.length;
+    const attacks = isByType
+      ? memberSlugs.map((slug) => ({
+          name: typeBySlug.get(slug)?.name ?? slug,
+          slug,
+        }))
+      : damagingMoves;
 
     let bestHit: StoryBestHit | null = null;
     const landed: { index: number; multiplier: number; name: string }[] = [];
 
     for (const [index, pokemon] of their.entries()) {
-      for (const { move, slug } of damagingMoves) {
+      for (const { name, slug } of attacks) {
         const multiplier = hitOn(slug, theirSlugs[index]);
 
         if (multiplier > 1) {
-          landed.push({ index, multiplier, name: move.name });
+          landed.push({ index, multiplier, name });
         }
 
         if (multiplier > 1 && (!bestHit || multiplier > bestHit.multiplier)) {
-          bestHit = { moveName: move.name, multiplier, target: pokemon };
+          bestHit = {
+            byType: isByType,
+            moveName: name,
+            multiplier,
+            target: pokemon,
+          };
         }
       }
     }
@@ -368,16 +447,15 @@ export const readStoryBattle = ({
 
     return {
       bestHit,
-      lands: toHitDetails(landed, their),
-      takes: toHitDetails(taken, their),
-      role:
-        !memberSlugs.length || !damagingMoves.length
-          ? null
-          : isExposed && !bestHit
-            ? "challenging"
-            : bestHit && !isExposed
-              ? "strong"
-              : "balanced",
+      lands: toHitDetails(landed, their, () => isByType),
+      takes: toHitDetails(taken, their, (pokemon) => !pokemon.moves.length),
+      role: !memberSlugs.length
+        ? null
+        : isExposed && !bestHit
+          ? "challenging"
+          : bestHit && !isExposed
+            ? "strong"
+            : "balanced",
       weakTo,
     };
   });
@@ -426,11 +504,12 @@ export const readStoryBattle = ({
     };
   }
 
-  const answeredCount = theirSlugs.filter((defending) =>
-    [...recordedSlugs].some(
-      (slug) => isPokemonTypeSlug(slug) && hitOn(slug, defending) > 1,
+  const answered = new Set(
+    memberReadings.flatMap((reading) =>
+      reading.lands.map((detail) => detail.pokemon),
     ),
-  ).length;
+  );
+  const answeredCount = their.filter((pokemon) => answered.has(pokemon)).length;
   const atRiskCount = memberReadings.filter(
     (reading) => reading.role === "challenging",
   ).length;
@@ -440,20 +519,15 @@ export const readStoryBattle = ({
   const exposedCount = memberReadings.filter(
     (reading) => reading.weakTo.length,
   ).length;
-  /* Strong needs the levels to hold; without your levels it can't say so. */
-  const gap = levels?.gap ?? null;
-  const state: MatchupState =
-    answeredCount / their.length < 0.6 ||
-    atRiskCount >= 3 ||
-    (gap !== null && gap <= -8)
-      ? "challenging"
-      : answeredCount === their.length &&
-          atRiskCount <= 1 &&
-          clearCount >= 1 &&
-          gap !== null &&
-          gap >= -3
-        ? "strong"
-        : "balanced";
+  const state = getBattleState({
+    aceLevel: theirRange?.max ?? null,
+    answeredCount,
+    atRiskCount,
+    clearCount,
+    gap: levels?.gap ?? null,
+    teamCount: members.length,
+    theirCount: their.length,
+  });
 
   return {
     levels,
@@ -502,19 +576,23 @@ const getSummary = ({
   /* A legendary is named, not counted: "an answer to Raikou". */
   const subject = isLegendary ? (opponentName ?? "it") : null;
   const answersAll = answeredCount === theirCount;
-  const answers = !hasRecordedMoves
-    ? "Your team's moves aren't recorded"
-    : subject
-      ? answersAll
-        ? `You have an answer to ${subject}`
-        : `None of your recorded moves hits ${subject} for 2×`
-      : answersAll
-        ? theirCount === 1
-          ? `You have an answer to ${owner} Pokémon`
-          : `You have an answer to each of ${owner} ${countWord(theirCount)} Pokémon`
-        : answeredCount === 0
-          ? `None of your recorded moves hits ${owner} Pokémon for 2×`
-          : `You have an answer to ${answeredCount} of ${owner} ${theirCount} Pokémon`;
+  /* Without recorded moves, your Pokémon are read by their types. */
+  const lead = hasRecordedMoves ? "" : "By type, ";
+  const you = hasRecordedMoves ? "You" : "you";
+  const noneHits = hasRecordedMoves
+    ? "None of your recorded moves hits"
+    : "none of yours hits";
+  const answers = subject
+    ? answersAll
+      ? `${lead}${you} have an answer to ${subject}`
+      : `${lead}${noneHits} ${subject} for 2×`
+    : answersAll
+      ? theirCount === 1
+        ? `${lead}${you} have an answer to ${owner} Pokémon`
+        : `${lead}${you} have an answer to each of ${owner} ${countWord(theirCount)} Pokémon`
+      : answeredCount === 0
+        ? `${lead}${noneHits} ${owner} Pokémon for 2×`
+        : `${lead}${you} have an answer to ${answeredCount} of ${owner} ${theirCount} Pokémon`;
 
   const [other, isGood] =
     gap !== null && gap <= -2
@@ -543,7 +621,7 @@ const getSummary = ({
               true,
             ];
 
-  const isAnswersGood = hasRecordedMoves && answersAll;
+  const isAnswersGood = answersAll;
 
   return `${answers}, ${isAnswersGood === isGood ? "and" : "but"} ${other}.`;
 };

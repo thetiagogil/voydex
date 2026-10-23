@@ -8,6 +8,8 @@ import type { Type } from "@/modules/reference/types";
 
 import {
   formatLevelRange,
+  getBattleState,
+  getLevelLimits,
   getLevelsSentence,
   getPowerUpSentence,
   readStoryBattle,
@@ -360,7 +362,7 @@ describe("readStoryBattle", () => {
     ]);
   });
 
-  it("leaves a Pokémon unread while its moves aren't recorded, and status moves don't count", () => {
+  it("reads a Pokémon by its types while its moves aren't recorded, and status moves don't count", () => {
     const reading = readStoryBattle({
       generationOrder: 1,
       members: [member("a", ["water"], 20, [move("Withdraw", "water", null)])],
@@ -369,11 +371,31 @@ describe("readStoryBattle", () => {
       types,
     });
 
-    expect(reading.members[0]).toMatchObject({ bestHit: null, role: null });
+    expect(reading.members[0]).toMatchObject({
+      bestHit: { byType: true, moveName: "Water", multiplier: 4 },
+      role: "strong",
+    });
+    expect(reading.members[0]?.lands[0]).toMatchObject({
+      byType: true,
+      via: ["Water"],
+    });
     expect(reading.uncoveredTypes).toEqual([]);
+    expect(reading.state).toBe("strong");
     expect(reading.summary).toBe(
-      "Your team's moves aren't recorded, but you're 6 levels above them.",
+      "By type, you have an answer to each of Brock's two Pokémon, and you're 6 levels above them.",
     );
+  });
+
+  it("leaves a Pokémon unread while its types aren't recorded", () => {
+    const reading = readStoryBattle({
+      generationOrder: 1,
+      members: [member("a", [], 20, [move("Surf", "water")])],
+      opponentName: "Brock",
+      their: brock,
+      types,
+    });
+
+    expect(reading.members[0]).toMatchObject({ role: null, weakTo: [] });
   });
 
   it("reads no verdict for an empty team and no levels while yours aren't recorded", () => {
@@ -550,5 +572,55 @@ describe("getPowerUpSentence", () => {
         name: "Gigantamax Charizard",
       }),
     ).toBeNull();
+  });
+});
+
+describe("battle verdict", () => {
+  const even = {
+    aceLevel: 50,
+    answeredCount: 6,
+    atRiskCount: 0,
+    clearCount: 1,
+    gap: 0,
+    teamCount: 6,
+    theirCount: 6,
+  };
+
+  it("scales how far behind you can be with their ace's level", () => {
+    expect(getLevelLimits(14)).toEqual({ challenging: 3, strong: 1 });
+    expect(getLevelLimits(50)).toEqual({ challenging: 8, strong: 3 });
+    expect(getLevelLimits(70)).toEqual({ challenging: 11, strong: 4 });
+    expect(getBattleState({ ...even, aceLevel: 14, gap: -3 })).toBe(
+      "challenging",
+    );
+    expect(getBattleState({ ...even, aceLevel: 14, gap: -2 })).toBe("balanced");
+    expect(getBattleState({ ...even, aceLevel: 70, gap: -10 })).toBe(
+      "balanced",
+    );
+    expect(getBattleState({ ...even, aceLevel: 70, gap: -4 })).toBe("strong");
+  });
+
+  it("doesn't call a lone Pokémon Challenging only for having no answer", () => {
+    const lone = { ...even, answeredCount: 0, theirCount: 1 };
+
+    expect(getBattleState(lone)).toBe("balanced");
+    expect(getBattleState({ ...lone, gap: -8 })).toBe("challenging");
+    expect(getBattleState({ ...lone, atRiskCount: 1, teamCount: 1 })).toBe(
+      "challenging",
+    );
+    expect(getBattleState({ ...even, answeredCount: 1, theirCount: 2 })).toBe(
+      "challenging",
+    );
+  });
+
+  it("reads half your team at risk as Challenging, two at least", () => {
+    expect(getBattleState({ ...even, atRiskCount: 3 })).toBe("challenging");
+    expect(getBattleState({ ...even, atRiskCount: 2 })).toBe("balanced");
+    expect(getBattleState({ ...even, atRiskCount: 2, teamCount: 4 })).toBe(
+      "challenging",
+    );
+    expect(getBattleState({ ...even, atRiskCount: 1, teamCount: 2 })).toBe(
+      "strong",
+    );
   });
 });
