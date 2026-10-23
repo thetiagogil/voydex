@@ -125,6 +125,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 6, ARRAY[73, 414, 605, 202]),
     -- Zygarde: Zygarde (10% Forme) Lv. 33: Bite, Haze, Bulldoze, Dragon Breath
     (260018, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[44, 114, 523, 225]),
+    -- Zygarde: Zygarde Lv. 57: Dragon Breath, Dragon Pulse, Crunch, Land's Wrath
+    (260006, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[225, 406, 242, 616]),
     -- Xerneas: Xerneas Lv. 75: Megahorn, Moonblast, Horn Leech, Geomancy
     (260010, 26005, NULL, NULL, NULL, NULL, 1, ARRAY[224, 585, 532, 601]),
     -- Yveltal: Yveltal Lv. 75: Hurricane, Dark Pulse, Psychic, Oblivion Wing
