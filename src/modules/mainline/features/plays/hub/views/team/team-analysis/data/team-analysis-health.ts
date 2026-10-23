@@ -70,8 +70,6 @@ const text = (value: string): TeamAnalysisHealthLinePart => ({ text: value });
 
 const typePart = (type: Type): TeamAnalysisHealthLinePart => ({ type });
 
-const percent = (share: number) => `${Math.round(share * 100)}%`;
-
 /* A type is answered while your best answers beat one for less than most of a Pokémon's HP. */
 const isAnswered = (reading: TeamFieldTypeReading) =>
   reading.answerCost < battleCostLimits.challenging;
@@ -113,7 +111,41 @@ const getFieldRow = (
 });
 
 /* How many of the types fit in a tip before the rest are counted. */
-const TIP_TYPES = 5;
+const TIP_TYPES = 3;
+
+/* A share of your team's HP in plain words: "about half". */
+const shareWords = (share: number) => {
+  if (share >= 0.95) return "all of it";
+  if (share < 0.15) return "very little";
+
+  const [, words] = [
+    [0.25, "a quarter"],
+    [1 / 3, "a third"],
+    [0.5, "half"],
+    [2 / 3, "two thirds"],
+    [0.75, "three quarters"],
+  ].reduce((closest, entry) =>
+    Math.abs(Number(entry[0]) - share) < Math.abs(Number(closest[0]) - share)
+      ? entry
+      : closest,
+  );
+
+  return `about ${words}`;
+};
+
+/* What beating one of a type does to your best answers, in words. */
+const answerCostWords = (answerCost: number) =>
+  answerCost >= 1
+    ? "Takes more than one of yours to beat"
+    : answerCost >= 0.5
+      ? "Your best answers lose most of their HP to one"
+      : "Your best answers lose some HP to one";
+
+/* Types tied with or behind the hardest are close calls, not "the one to watch". */
+const CLEAR_LEAD = 0.1;
+
+/* How much more than an average type one costs before it stands out. */
+const STANDOUT_COST = 0.15;
 
 const typeRows = (
   readings: TeamFieldTypeReading[],
@@ -134,7 +166,7 @@ const typeRows = (
  * The four Team health cards, read with the games' damage formula against
  * a full team of six at your level (`readTeamField`): Team health is what beating it costs
  * your whole team, Threat response which types your best answers beat
- * cheaply, Move coverage which types your hardest hits knock out quickly,
+ * cheaply, Knockout power which types your hardest hits knock out quickly,
  * and Weakness control which types outclass several of yours with nothing
  * to answer them.
  */
@@ -176,7 +208,25 @@ export const buildTeamAnalysisHealth = ({
       : field.share >= battleCostLimits.challenging
         ? "weak"
         : "moderate";
-  const watch = byCost[0] && byCost[0].answerCost > battleCostLimits.strong;
+  /*
+   * The types to watch: they cost your best answers more than a scratch and
+   * clearly more than a type usually does, hardest first. When the field is
+   * evenly hard, none stands out.
+   */
+  const meanCost =
+    byCost.reduce((sum, reading) => sum + reading.answerCost, 0) /
+    Math.max(1, byCost.length);
+  const toWatch = byCost.filter(
+    (reading) =>
+      reading.answerCost > battleCostLimits.strong &&
+      reading.answerCost >= meanCost + STANDOUT_COST,
+  );
+  /* One type is named only when it clearly costs more than the next. */
+  const clearLeader =
+    toWatch[0] &&
+    (!toWatch[1] || toWatch[0].answerCost - toWatch[1].answerCost >= CLEAR_LEAD)
+      ? toWatch[0]
+      : null;
   const teamHealthMetric: TeamAnalysisHealthMetric = {
     id: "team-health",
     line: !canRead
@@ -185,40 +235,45 @@ export const buildTeamAnalysisHealth = ({
         ? [
             text(
               field.lagging.length === 1
-                ? `${field.lagging[0]} lags behind`
+                ? `${field.lagging[0].name} lags behind`
                 : `${field.lagging.length} lag behind`,
             ),
           ]
-        : watch
-          ? [text("Watch"), typePart(byCost[0].type)]
-          : [text("No type to watch")],
+        : clearLeader
+          ? [text("Watch"), typePart(clearLeader.type)]
+          : toWatch.length
+            ? [text(`${toWatch.length} types to watch`)]
+            : [text("No type to watch")],
     tip: !canRead
       ? missingTip
       : {
           rated: [
             getFieldRow(field, evidence.activeCount),
             {
-              chip: `${percent(battleCostLimits.strong)} or less`,
+              chip: "a third or less",
+              detail: "Of your team's HP used up",
               subject: { text: "Strong" },
               tone: "ok",
             },
             {
-              chip: `${percent(battleCostLimits.challenging)} or more`,
+              chip: "nearly all",
+              detail: "Of your team's HP used up",
               subject: { text: "Weak" },
               tone: "danger",
             },
           ],
           yours: withRoughNote([
             {
-              chip: field.share >= 1 ? "all of it" : percent(field.share),
-              detail: "Of your team's HP to beat them",
-              subject: { text: "Cost" },
+              chip: shareWords(field.share),
+              detail: "Of your team's HP used up beating their six",
+              subject: { text: "HP used" },
               tone: statusTones[teamHealthStatus],
             },
             ...field.lagging.map(
-              (name): TeamAnalysisTipRow => ({
-                detail: "5 or more levels below your top",
-                subject: { pokemon: name },
+              (pokemon): TeamAnalysisTipRow => ({
+                chip: `Lv. ${pokemon.level}`,
+                detail: `${field.level - pokemon.level} levels below your top (Lv. ${field.level})`,
+                subject: { pokemon: pokemon.name },
                 tone: "warn",
               }),
             ),
@@ -226,21 +281,39 @@ export const buildTeamAnalysisHealth = ({
               ? [
                   {
                     chip: `${evidence.activeCount} to ${field.theirCount}`,
-                    detail: "You bring fewer than they do",
+                    detail: `You bring ${evidence.activeCount}, they bring ${field.theirCount}`,
                     subject: { text: "Numbers" },
                     tone: "warn" as const,
                   },
                 ]
               : []),
-            ...(watch
+            ...toWatch.slice(0, TIP_TYPES).map(
+              (reading): TeamAnalysisTipRow => ({
+                detail: answerCostWords(reading.answerCost),
+                subject: { type: reading.type },
+                tone: "danger",
+              }),
+            ),
+            ...(toWatch.length > TIP_TYPES
               ? [
                   {
-                    detail: "Costs you the most",
-                    subject: { type: byCost[0].type },
-                    tone: "danger" as const,
+                    subject: {
+                      text: `and ${toWatch.length - TIP_TYPES} more as hard`,
+                    },
                   },
                 ]
-              : []),
+              : toWatch.length ||
+                  !byCost.some(
+                    (reading) => reading.answerCost > battleCostLimits.strong,
+                  )
+                ? []
+                : [
+                    {
+                      subject: {
+                        text: "No type stands out: they all cost about the same",
+                      },
+                    },
+                  ]),
           ]),
         },
     status: teamHealthStatus,
@@ -264,7 +337,8 @@ export const buildTeamAnalysisHealth = ({
       ? {
           rated: [
             {
-              detail: `Answered: beaten for less than ${percent(battleCostLimits.challenging)} of one Pokémon's HP, by your best answer mixed with your second best`,
+              detail:
+                "Answered: your best Pokémon against it beats one without fainting",
               subject: { text: "Each type" },
             },
             { chip: "all", subject: { text: "Strong" }, tone: "ok" },
@@ -300,7 +374,9 @@ export const buildTeamAnalysisHealth = ({
     : "limited-data";
   const moveCoverageMetric: TeamAnalysisHealthMetric = {
     id: "move-coverage",
-    line: canRead ? [text(`${coveredCount} of ${total} types`)] : missingLine,
+    line: canRead
+      ? [text(`${coveredCount} of ${total} types in two hits`)]
+      : missingLine,
     tip: canRead
       ? {
           rated: [
@@ -341,7 +417,7 @@ export const buildTeamAnalysisHealth = ({
         }
       : missingTip,
     status: moveCoverageStatus,
-    title: "Move coverage",
+    title: "Knockout power",
   };
 
   /* A shared weak spot outclasses two of yours, or your only one. */

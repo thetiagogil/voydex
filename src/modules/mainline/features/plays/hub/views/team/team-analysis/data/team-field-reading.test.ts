@@ -117,7 +117,10 @@ describe("readTeamField", () => {
     const behind = read(balanced(50, 44));
     const farBehind = read(balanced(50, 30));
 
-    expect(behind.lagging).toEqual(["Gyarados", "Roserade"]);
+    expect(behind.lagging).toEqual([
+      { level: 44, name: "Gyarados" },
+      { level: 44, name: "Roserade" },
+    ]);
     expect(behind.share).toBeGreaterThan(even.share);
     expect(farBehind.share).toBeGreaterThan(behind.share);
   });

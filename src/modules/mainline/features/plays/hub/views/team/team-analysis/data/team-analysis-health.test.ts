@@ -44,7 +44,7 @@ const field = ({
   types = typeReadings(),
   unrecorded = { levels: 0, moves: 0 },
 }: {
-  lagging?: string[];
+  lagging?: TeamFieldReading["lagging"];
   share?: number;
   types?: TeamFieldTypeReading[];
   unrecorded?: TeamFieldReading["unrecorded"];
@@ -120,10 +120,19 @@ describe("buildTeamAnalysisHealth", () => {
 
   it("leads Team health with who lags behind, then the type to watch", () => {
     expect(
-      build(field({ lagging: ["Drifloon"], share: 0.6 }))["team-health"]?.line,
+      build(field({ lagging: [{ level: 28, name: "Drifloon" }], share: 0.6 }))[
+        "team-health"
+      ]?.line,
     ).toEqual([{ text: "Drifloon lags behind" }]);
     expect(
-      build(field({ lagging: ["Drifloon", "Buizel"] }))["team-health"]?.line,
+      build(
+        field({
+          lagging: [
+            { level: 28, name: "Drifloon" },
+            { level: 25, name: "Buizel" },
+          ],
+        }),
+      )["team-health"]?.line,
     ).toEqual([{ text: "2 lag behind" }]);
     expect(build(field())["team-health"]?.line).toEqual([
       { text: "No type to watch" },
@@ -141,9 +150,46 @@ describe("buildTeamAnalysisHealth", () => {
       "Read against | A full team of six, one type each, as strong as yours, at your top level (Lv. 34)",
     );
     expect(yours(metric)).toContain(
-      "Cost | Of your team's HP to beat them | 50%",
+      "HP used | Of your team's HP used up beating their six | about half",
     );
-    expect(yours(metric)).toContain("Type 4 | Costs you the most");
+    expect(yours(metric)).toContain(
+      "Type 4 | Takes more than one of yours to beat",
+    );
+  });
+
+  it("lists no type when the field is evenly hard", () => {
+    const evenlyHard = Object.fromEntries(
+      Array.from({ length: 10 }, (_, id) => [id, { answerCost: 0.8 }]),
+    );
+    const metric = build(field({ types: typeReadings(evenlyHard) }))[
+      "team-health"
+    ];
+
+    expect(metric?.line).toEqual([{ text: "No type to watch" }]);
+    expect(yours(metric).at(-1)).toBe(
+      "No type stands out: they all cost about the same",
+    );
+  });
+
+  it("names no single type to watch when others cost about as much", () => {
+    const metric = build(
+      field({
+        types: typeReadings({
+          4: { answerCost: 1.2 },
+          5: { answerCost: 1.15 },
+          6: { answerCost: 1.1 },
+          7: { answerCost: 1.1 },
+        }),
+      }),
+    )["team-health"];
+
+    expect(metric?.line).toEqual([{ text: "4 types to watch" }]);
+    expect(yours(metric).slice(1)).toEqual([
+      "Type 4 | Takes more than one of yours to beat",
+      "Type 5 | Takes more than one of yours to beat",
+      "Type 6 | Takes more than one of yours to beat",
+      "and 1 more as hard",
+    ]);
   });
 
   it("says a field that costs more than the whole team as such", () => {
@@ -154,11 +200,15 @@ describe("buildTeamAnalysisHealth", () => {
 
   it("lists who lags behind, then how many you bring against six", () => {
     expect(
-      yours(build(field({ lagging: ["Drifloon"] }), 3, 3)["team-health"]),
+      yours(
+        build(field({ lagging: [{ level: 28, name: "Drifloon" }] }), 3, 3)[
+          "team-health"
+        ],
+      ),
     ).toEqual([
-      "Cost | Of your team's HP to beat them | 20%",
-      "Drifloon | 5 or more levels below your top",
-      "Numbers | You bring fewer than they do | 3 to 6",
+      "HP used | Of your team's HP used up beating their six | about a quarter",
+      "Drifloon | 6 levels below your top (Lv. 34) | Lv. 28",
+      "Numbers | You bring 3, they bring 6 | 3 to 6",
     ]);
     expect(
       rated(
@@ -186,8 +236,7 @@ describe("buildTeamAnalysisHealth", () => {
       "Type 1 | Costs more to beat",
       "Type 2 | Costs more to beat",
       "Type 3 | Costs more to beat",
-      "Type 4 | Costs more to beat",
-      "Type 5 | Costs more to beat",
+      "and 2 more",
     ]);
   });
 
@@ -224,7 +273,7 @@ describe("buildTeamAnalysisHealth", () => {
     )["move-coverage"];
 
     expect(metric?.status).toBe("moderate");
-    expect(metric?.line).toEqual([{ text: "7 of 10 types" }]);
+    expect(metric?.line).toEqual([{ text: "7 of 10 types in two hits" }]);
     expect(yours(metric)).toEqual([
       "Covered | Types knocked out in 2 hits or fewer | 7 of 10",
       "Type 1 | Takes more than 2 hits",

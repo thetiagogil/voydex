@@ -21,7 +21,7 @@ test.describe("Team analysis", () => {
     for (const title of [
       "Team health",
       "Threat response",
-      "Move coverage",
+      "Knockout power",
       "Weakness control",
     ]) {
       /* Each card says why it reads the way it does. */
