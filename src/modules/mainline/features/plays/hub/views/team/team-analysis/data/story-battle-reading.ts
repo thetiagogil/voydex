@@ -134,6 +134,35 @@ export const getLevelsSentence = (
 };
 
 /*
+ * What one of their Pokémon does in battle beyond its types, in words: "Lycanroc
+ * holds Rockium Z for a Z-Move.", "Glimmora Terastallizes into Rock.". A battle
+ * form whose name already says it ("Gigantamax Charizard") only names its item.
+ * Null when there is nothing to say.
+ */
+export const getPowerUpSentence = ({
+  heldItem,
+  mechanic,
+  name,
+}: Pick<StoryOpponentPokemon, "heldItem" | "mechanic" | "name">) => {
+  const mechanicWords =
+    !mechanic || name.includes(mechanic.label)
+      ? null
+      : mechanic.kind === "tera"
+        ? `Terastallizes into ${mechanic.label.replace(/^Tera /, "")}`
+        : mechanic.kind === "dynamax"
+          ? "Dynamaxes"
+          : mechanic.kind === "z-move"
+            ? null
+            : `battles as its ${mechanic.label} form`;
+  const itemWords = heldItem
+    ? `holds ${heldItem.name}${mechanic?.kind === "z-move" ? " for a Z-Move" : ""}`
+    : null;
+  const words = [itemWords, mechanicWords].filter(Boolean);
+
+  return words.length ? `${name} ${words.join(" and ")}.` : null;
+};
+
+/*
  * What hits one of their Pokémon: its Tera Type once it Terastallizes, else
  * its own types.
  */

@@ -20,11 +20,10 @@ type PokemonCardProps = {
   children?: ReactNode;
   className?: string;
   /*
-   * Small lines under the name, above the type dots, such as how an
-   * opponent's Pokémon powers up and what it holds; the dots stay at the
-   * card's foot, so a row of cards keeps them level.
+   * Small round marks in the top-right corner, for a plain card (an
+   * opponent's Tera Type, the item it holds), so the card keeps its height.
    */
-  details?: ReactNode;
+  marks?: ReactNode;
   imageAlt: string;
   imageUrl: string | null;
   /*
@@ -179,7 +178,7 @@ const PokemonCardMark = ({
 export const PokemonCard = ({
   children,
   className,
-  details,
+  marks,
   imageAlt,
   imageUrl,
   name,
@@ -237,6 +236,11 @@ export const PokemonCard = ({
       >
         {number ?? "\u00a0"}
       </span>
+      {marks && state === "plain" && !isSticker ? (
+        <CornerBubble border="line" corner="inside-top-right">
+          {marks}
+        </CornerBubble>
+      ) : null}
       {state === "caught" || state === "seen" ? (
         <PokemonCardMark
           border={state === "caught" || isSticker ? "sticker" : "line"}
@@ -288,7 +292,6 @@ export const PokemonCard = ({
           {subtitle}
         </span>
       ) : null}
-      {details}
       <PokemonTypeList
         types={types}
         badgeDisplay="icon"

@@ -9,6 +9,7 @@ import type { Type } from "@/modules/reference/types";
 import {
   formatLevelRange,
   getLevelsSentence,
+  getPowerUpSentence,
   readStoryBattle,
   type StoryOpponentPokemon,
 } from "./story-battle-reading";
@@ -370,5 +371,48 @@ describe("level wording", () => {
     expect(getLevelsSentence(levels(1), "legendary")).toBe(
       "Your levels are close to its",
     );
+  });
+});
+
+describe("getPowerUpSentence", () => {
+  it("says what it holds and how it powers up", () => {
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Assault Vest", slug: "assault-vest" },
+        mechanic: { kind: "tera", label: "Tera Fighting" },
+        name: "Hydrapple",
+      }),
+    ).toBe("Hydrapple holds Assault Vest and Terastallizes into Fighting.");
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Rockium Z", slug: "rockium-z" },
+        mechanic: { kind: "z-move", label: "Z-Move" },
+        name: "Lycanroc",
+      }),
+    ).toBe("Lycanroc holds Rockium Z for a Z-Move.");
+    expect(
+      getPowerUpSentence({
+        heldItem: null,
+        mechanic: { kind: "dynamax", label: "Dynamax" },
+        name: "Eldegoss",
+      }),
+    ).toBe("Eldegoss Dynamaxes.");
+  });
+
+  it("doesn't repeat a battle form its name already says", () => {
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Gardevoirite", slug: "gardevoirite" },
+        mechanic: { kind: "mega", label: "Mega" },
+        name: "Mega Gardevoir",
+      }),
+    ).toBe("Mega Gardevoir holds Gardevoirite.");
+    expect(
+      getPowerUpSentence({
+        heldItem: null,
+        mechanic: { kind: "gigantamax", label: "Gigantamax" },
+        name: "Gigantamax Charizard",
+      }),
+    ).toBeNull();
   });
 });

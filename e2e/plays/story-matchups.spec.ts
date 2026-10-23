@@ -119,7 +119,10 @@ test.describe("Story matchups", () => {
     const glimmora = report.getByRole("listitem").filter({
       hasText: "Glimmora",
     });
-    await expect(glimmora).toContainText("Tera Rock");
+    await expect(
+      glimmora.getByRole("img", { name: "Tera Rock" }),
+    ).toBeVisible();
+    await expect(report).toContainText("Glimmora Terastallizes into Rock.");
     await expectAccessible(page);
   });
 });

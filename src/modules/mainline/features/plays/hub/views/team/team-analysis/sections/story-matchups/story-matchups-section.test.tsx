@@ -179,9 +179,11 @@ describe("StoryMatchupsSection", () => {
       }),
     ]);
 
-    expect(html).toContain("Tera Rock");
-    expect(html).toContain("--t:var(--type-rock)");
-    expect(html).toContain("Holds </span>Focus Sash");
+    expect(html).toContain('aria-label="Tera Rock"');
+    expect(html).toContain('aria-label="Holds Focus Sash"');
+    expect(html).toContain(
+      "Glimmora holds Focus Sash and Terastallizes into Rock.",
+    );
   });
 
   it("leaves the mark off a battle form whose name already says it", () => {

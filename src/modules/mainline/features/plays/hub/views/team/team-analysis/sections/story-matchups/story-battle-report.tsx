@@ -12,7 +12,7 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
-import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
+import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -26,11 +26,11 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/shared/components/ui/alert";
-import { Badge } from "@/shared/components/ui/badge";
 
 import {
   formatLevelRange,
   getLevelsSentence,
+  getPowerUpSentence,
   type StoryBestHit,
   type StoryOpponentPokemon,
 } from "../../data/story-battle-reading";
@@ -125,85 +125,82 @@ const reportWording = {
 } as const;
 
 /*
- * How one of their Pokémon powers up (Tera Rock, Dynamax, Z-Move): a Tera
- * Type in that type's tint, any other as a plain label. A battle form whose
- * name already says it ("Gigantamax Charizard", "Mega Gardevoir") needs none.
+ * Small marks in a card's corner for how one of their Pokémon powers up: its
+ * Tera Type as that type's dot, and the item it holds as its sprite. The
+ * sentence under the team says the same in words.
  */
-const OpponentMechanic = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
-  if (!pokemon.mechanic || pokemon.name.includes(pokemon.mechanic.label)) {
-    return null;
-  }
-
+const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
   const teraSlug =
     pokemon.teraType && isPokemonTypeSlug(pokemon.teraType.slug)
       ? pokemon.teraType.slug
       : null;
 
   return (
-    <Badge
-      size="xs"
-      variant={teraSlug ? "tint" : "neutral"}
-      style={teraSlug ? getPokemonTypeCssVariables(teraSlug) : undefined}
-      className="mt-1.5 max-w-full"
-    >
-      <span className="truncate">{pokemon.mechanic.label}</span>
-    </Badge>
+    <>
+      {teraSlug && pokemon.mechanic ? (
+        <PokemonTypeBadge
+          type={teraSlug}
+          display="icon"
+          size="md"
+          label={pokemon.mechanic.label}
+          className="bubble rounded-full"
+        />
+      ) : null}
+      {pokemon.heldItem ? (
+        <span
+          role="img"
+          aria-label={`Holds ${pokemon.heldItem.name}`}
+          className="bubble bg-surface-2 grid size-5.5 place-items-center rounded-full"
+        >
+          <ItemIcon
+            kind="held"
+            name={pokemon.heldItem.name}
+            src={getItemImageUrl(pokemon.heldItem.slug)}
+            className="my-0 size-6"
+          />
+        </span>
+      ) : null}
+    </>
   );
 };
 
-/* What one of their Pokémon holds: the item's sprite and name. */
-const OpponentHeldItem = ({
-  item,
-}: {
-  item: NonNullable<StoryOpponentPokemon["heldItem"]>;
-}) => (
-  <span className="text-12 text-ink-2 mt-1 flex max-w-full items-center justify-center gap-1 font-semibold">
-    <ItemIcon
-      kind="held"
-      name={item.name}
-      src={getItemImageUrl(item.slug)}
-      className="my-0 size-5"
-    />
-    <span className="truncate">
-      <span className="sr-only">Holds </span>
-      {item.name}
-    </span>
-  </span>
-);
-
 /* Their team (v3 `.opp`): the app's Pokémon card with less on it. */
-const TheirTeam = ({ party }: { party: StoryMatchupParty }) => (
-  <>
-    {party.note ? (
-      <p className="text-ink-2 text-13 font-semibold">{party.note}</p>
-    ) : null}
-    <ul className="grid grid-cols-3 gap-2.5">
-      {party.pokemon.map((pokemon) => (
-        <li key={pokemon.key} className="min-w-0">
-          <PokemonCard
-            state="plain"
-            size="sm"
-            imageAlt=""
-            imageUrl={pokemon.imageUrl}
-            name={pokemon.name}
-            number={`Lv. ${pokemon.level}`}
-            types={pokemon.types}
-            details={
-              pokemon.mechanic || pokemon.heldItem ? (
-                <>
-                  <OpponentMechanic pokemon={pokemon} />
-                  {pokemon.heldItem ? (
-                    <OpponentHeldItem item={pokemon.heldItem} />
-                  ) : null}
-                </>
-              ) : null
-            }
-          />
-        </li>
-      ))}
-    </ul>
-  </>
-);
+const TheirTeam = ({ party }: { party: StoryMatchupParty }) => {
+  const powerUps = party.pokemon.flatMap(
+    (pokemon) => getPowerUpSentence(pokemon) ?? [],
+  );
+
+  return (
+    <>
+      {party.note ? (
+        <p className="text-ink-2 text-13 font-semibold">{party.note}</p>
+      ) : null}
+      <ul className="grid grid-cols-3 gap-2.5">
+        {party.pokemon.map((pokemon) => (
+          <li key={pokemon.key} className="min-w-0">
+            <PokemonCard
+              state="plain"
+              size="sm"
+              imageAlt=""
+              imageUrl={pokemon.imageUrl}
+              name={pokemon.name}
+              number={`Lv. ${pokemon.level}`}
+              types={pokemon.types}
+              marks={
+                pokemon.teraType || pokemon.heldItem ? (
+                  <OpponentMarks pokemon={pokemon} />
+                ) : null
+              }
+            />
+          </li>
+        ))}
+      </ul>
+      {powerUps.length ? (
+        <p className="text-ink-2 text-13 font-semibold">{powerUps.join(" ")}</p>
+      ) : null}
+    </>
+  );
+};
 
 /*
  * One battle's report (v3 `.enc-report`). A battle won keeps who you faced,
