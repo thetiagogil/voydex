@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 
+import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
@@ -98,8 +99,8 @@ const MoveType = ({ option }: { option: MoveSlotOption }) => {
 
 /*
  * v3 `.mvslot`: one of a Pokémon's four moves, tinted by the move's type,
- * with its slot number, type icon and name, and its category (Physical,
- * Special or Status) at the end, all on one line. Its list groups the moves
+ * with its slot number, type icon and name, and its category's icon
+ * (Physical, Special or Status) at the end, all on one line. Its list groups the moves
  * by how they are learned, as Codex does. It opens a searchable list;
  * the first entry leaves the slot empty. Shared by a Play's roster editor
  * and the Team Planner's slot sheet.
@@ -157,11 +158,10 @@ export const MoveSlotSelect = ({
           <>
             <MoveType option={selected} />
             <b className="min-w-0 truncate font-extrabold">{selected.label}</b>
-            {selected.category ? (
-              <span className="text-ink-3 text-12 ml-auto shrink-0 font-bold capitalize">
-                {selected.category}
-              </span>
-            ) : null}
+            <MoveCategoryIcon
+              damageClass={selected.category}
+              className="ml-auto"
+            />
           </>
         ) : (
           <span className="text-ink-3 min-w-0 truncate font-semibold">
@@ -202,11 +202,7 @@ export const MoveSlotSelect = ({
                         <span className="min-w-0 flex-1 truncate">
                           {option.label}
                         </span>
-                        {option.category ? (
-                          <span className="text-ink-3 text-12 shrink-0 font-bold capitalize">
-                            {option.category}
-                          </span>
-                        ) : null}
+                        <MoveCategoryIcon damageClass={option.category} />
                         {option.info ? (
                           <>
                             <span className="sr-only">, {option.info}</span>

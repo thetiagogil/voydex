@@ -112,7 +112,7 @@ gameplay and planning surfaces without turning UI tests into manual database
 setup.
 
 Day-to-day development points `.env.local` at the local stack. Reference images
-(Pokémon, game covers and item sprites) don't live in the database: they come from the
+(Pokémon, game covers, item sprites and move category icons) don't live in the database: they come from the
 separate `voydex-assets` site set in `NEXT_PUBLIC_ASSETS_URL`. A new game needs
 its cover added there as `games/covers/<game-slug>.webp`, and a new held item
 or Poké Ball its sprite as `items/<item-slug>.webp`.

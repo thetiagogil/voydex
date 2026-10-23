@@ -1,6 +1,7 @@
 import { useId } from "react";
 
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
+import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
 import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -10,7 +11,6 @@ import type { TeamMove } from "./team-member-model";
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
   const typeSlug =
     move.type && isPokemonTypeSlug(move.type.slug) ? move.type.slug : null;
-  const end = move.detail ?? move.category;
 
   return (
     <li
@@ -33,11 +33,13 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
       <span className="text-15 min-w-0 flex-1 truncate font-extrabold">
         {move.name}
       </span>
-      {end ? (
-        <span className="text-ink-tint text-12 shrink-0 font-bold capitalize">
-          {end}
+      {move.detail ? (
+        <span className="text-ink-tint text-12 shrink-0 font-bold">
+          {move.detail}
         </span>
-      ) : null}
+      ) : (
+        <MoveCategoryIcon damageClass={move.category} />
+      )}
       {move.effect ? (
         <ExplanatoryTip
           content={move.effect}
@@ -51,7 +53,8 @@ const TeamMoveRow = ({ move }: { move: TeamMove }) => {
 
 /*
  * The recorded moves, each on its type's tint in one line like the editor's:
- * type icon, name, and its category (or what it came from) at the end; or
+ * type icon, name, and its category's icon (or what it came from) at the
+ * end; or
  * what a battle mechanic turns them into (Z-Moves, Max Moves), under its own
  * title.
  */

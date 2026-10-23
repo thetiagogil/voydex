@@ -145,21 +145,6 @@ export const formatPokemonDetailLearnsetValue = (
   return value === null || value === undefined ? null : `${value}${suffix}`;
 };
 
-export const formatPokemonDetailLearnsetDamageClass = (
-  damageClass?: string | null,
-) => {
-  if (!damageClass) {
-    return null;
-  }
-
-  return damageClass
-    .split("-")
-    .map((word) => {
-      return word.slice(0, 1).toUpperCase() + word.slice(1);
-    })
-    .join(" ");
-};
-
 /*
  * How the move is learned, as v3 writes it: "Lv. 12", "TM 08", "Egg". The
  * words stay short so they fit v3's How gutter on phones.
