@@ -1,9 +1,14 @@
 name: Browser Tests
 
-# Pull requests and manual runs only: a push to main repeats what the pull
-# request already ran. Run it by hand from the Actions tab when needed.
+# Manual runs only while the app is in fast development: run it from the
+# Actions tab. Before launch, restore the triggers below (a required check
+# needs `pull_request`):
+#
+#   pull_request:
+#   push:
+#     branches:
+#       - main
 on:
-  pull_request:
   workflow_dispatch:
 
 permissions:
