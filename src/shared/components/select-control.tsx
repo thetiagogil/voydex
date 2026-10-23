@@ -22,6 +22,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   selectTriggerVariants,
   SelectValue,
@@ -39,7 +40,7 @@ export type SelectControlOption = {
   /* Shown but not pickable, such as a move the rules refuse. */
   disabled?: boolean;
   /*
-   * The heading it sits under in a searchable list, such as an item's
+   * The heading it sits under in the list, such as an item's
    * category. Groups show in the order their first option appears; options
    * with none lead the list under no heading.
    */
@@ -370,6 +371,7 @@ const SelectControlField = ({
     );
   }
 
+  const plainGroups = groupSelectOptions(options);
   const selectValueProps = isControlled
     ? { value: currentValue }
     : { defaultValue: normalizedDefaultValue };
@@ -421,17 +423,23 @@ const SelectControlField = ({
         )}
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup>
-          {options.map((option) => (
-            <SelectItem
-              key={option.value}
-              value={option.value}
-              disabled={option.disabled}
-            >
-              <OptionContent option={option} />
-            </SelectItem>
-          ))}
-        </SelectGroup>
+        {(plainGroups.length
+          ? plainGroups
+          : [{ items: options, value: "" }]
+        ).map((group) => (
+          <SelectGroup key={group.value}>
+            {group.value ? <SelectLabel>{group.value}</SelectLabel> : null}
+            {group.items.map((option) => (
+              <SelectItem
+                key={option.value}
+                value={option.value}
+                disabled={option.disabled}
+              >
+                <OptionContent option={option} />
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        ))}
       </SelectContent>
     </Select>
   );

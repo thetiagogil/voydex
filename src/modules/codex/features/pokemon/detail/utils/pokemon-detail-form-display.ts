@@ -9,9 +9,13 @@ import {
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { getPokemonDetailScopeHref } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-routes";
 import {
-  battleFormMechanicNames,
+  getBattleFormMechanicNote,
   type BattleFormLink,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import {
+  formClassHeadings,
+  type FormClass,
+} from "@/modules/reference/features/pokemon/domain/form-classes";
 
 export const getPokemonDetailFormTypeSlug = (
   form: PokemonGenerationFormSummary | null,
@@ -61,8 +65,10 @@ export const getPokemonDetailFormSwitchLabel = (
 
 /* One entry in the form menu: where it opens, and what the menu shows. */
 export type PokemonDetailFormOption = {
-  /* "In battle · Mega Evolution" for a battle form. */
+  /* "Mega Evolution" for a battle form whose name doesn't say it. */
   description?: string;
+  /* The class heading it sits under: Variants, Forms or Battle forms. */
+  group?: string;
   href: string;
   imageUrl: string | null;
   label: string;
@@ -72,19 +78,24 @@ export type PokemonDetailFormOption = {
   value: string;
 };
 
+const classOrder: (FormClass | null)[] = [null, "variant", "form", "battle"];
+
 /*
  * Each form of the generation, linked in the group you're reading when it is
  * found there, else in the first group that has it (Hisuian Arcanine opens
- * in Legends: Arceus). Battle forms come last, each saying how it is
- * reached.
+ * in Legends: Arceus), grouped by class: variants, forms, then battle forms
+ * with the mechanic that reaches them. A default with only battle forms
+ * leads under no heading.
  */
 export const getPokemonDetailFormOptions = ({
   battleForms,
+  formClassById,
   forms,
   speciesName,
   speciesSlug,
 }: {
   battleForms: BattleFormLink[];
+  formClassById: Record<number, FormClass | null>;
   forms: PokemonDetailGenerationForm[];
   speciesName: string;
   speciesSlug: string;
@@ -93,19 +104,22 @@ export const getPokemonDetailFormOptions = ({
     battleForms.find((link) => link.formId === formId)?.mechanic ?? null;
   const options = forms.map(({ form, versionGroupSlug }) => {
     const mechanic = mechanicOf(form.form.id);
+    const formClass = formClassById[form.form.id] ?? null;
+    const label = getPokemonDetailFormSwitchLabel(form.form.name, speciesName);
 
     return {
-      isBattle: mechanic !== null,
+      formClass,
       option: {
         description: mechanic
-          ? `In battle · ${battleFormMechanicNames[mechanic]}`
+          ? getBattleFormMechanicNote({ label, mechanic })
           : undefined,
+        group: formClass ? formClassHeadings[formClass] : undefined,
         href: getPokemonDetailScopeHref(speciesSlug, {
           form: form.form.is_default ? undefined : form.form.slug,
           versionGroup: versionGroupSlug,
         }),
         imageUrl: getPokemonFormImageUrl(form.form, "sm"),
-        label: getPokemonDetailFormSwitchLabel(form.form.name, speciesName),
+        label,
         name: form.form.name,
         typeSlug: getPokemonDetailFormTypeSlug(form),
         value: form.form.slug,
@@ -113,8 +127,9 @@ export const getPokemonDetailFormOptions = ({
     };
   });
 
-  return [
-    ...options.filter(({ isBattle }) => !isBattle),
-    ...options.filter(({ isBattle }) => isBattle),
-  ].map(({ option }) => option);
+  return classOrder.flatMap((formClass) =>
+    options
+      .filter((item) => item.formClass === formClass)
+      .map(({ option }) => option),
+  );
 };

@@ -15,6 +15,7 @@ import type {
 } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-base-loaders";
 import type { PokemonDetailRelatedRows } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-related-loaders";
 import type { PokemonDetailLearnsetMoveRows } from "@/modules/codex/features/pokemon/detail/server/pokemon-detail-learnset-loaders";
+import { resolveFormClasses } from "@/modules/reference/features/pokemon/domain/form-classes";
 import { byId } from "@/modules/reference/reference-data";
 import type {
   EvolutionMethod,
@@ -82,6 +83,9 @@ export const buildPokemonDetailData = ({
       typeById,
     }),
     forms,
+    formClassById: Object.fromEntries(
+      resolveFormClasses(speciesRows.forms, speciesRows.formClassById),
+    ),
     generationDetails: buildPokemonGenerationDetails({
       availability,
       battleForms: speciesRows.battleFormLinks,
