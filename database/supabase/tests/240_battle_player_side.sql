@@ -17,29 +17,38 @@ SELECT
                 milestone_id = 260005
                 AND opponent_id = 26002 $$, '23514', NULL, 'player_side takes only the four known values');
 SELECT
-    results_eq ($$
-        SELECT
-            player_side FROM tracking.mainline_milestone_opponent_refs
+    IS ((
+            SELECT
+                player_side
+            FROM
+                tracking.mainline_milestone_opponent_refs
             WHERE
                 milestone_id = 260005
-                AND opponent_id = 26002 $$, $$
-            VALUES ('lent-pokemon'::text) $$, 'Rogue Mega Absol is fought with AZ''s Lucario');
+                AND opponent_id = 26002),
+            'lent-pokemon',
+            'Rogue Mega Absol is fought with AZ''s Lucario');
 SELECT
-    results_eq ($$
-        SELECT
-            COUNT(*)::integer FROM tracking.mainline_milestone_opponent_refs
+    IS ((
+            SELECT
+                COUNT(*)::integer
+            FROM
+                tracking.mainline_milestone_opponent_refs
             WHERE
                 milestone_id = 230031
-                AND player_side = 'one-own-pokemon'     $$, $$
-            VALUES (2) $$, 'the Zero Lab Koraidon and Miraidon are fought by your ride legendary alone');
+                AND player_side = 'one-own-pokemon'),
+            2,
+            'the Zero Lab Koraidon and Miraidon are fought by your ride legendary alone');
 SELECT
-    results_eq ($$
-        SELECT
-            COUNT(*)::integer FROM tracking.mainline_milestone_opponent_refs
+    IS ((
+            SELECT
+                COUNT(*)::integer
+            FROM
+                tracking.mainline_milestone_opponent_refs
             WHERE
                 version_group_id = 22
-                AND player_side = 'not-a-battle'     $$, $$
-            VALUES (7) $$, 'the five nobles, Origin Dialga / Palkia and Arceus are frenzies, not battles with your team');
+                AND player_side = 'not-a-battle'),
+            7,
+            'the five nobles, Origin Dialga / Palkia and Arceus are frenzies, not battles with your team');
 SELECT
     *
 FROM
