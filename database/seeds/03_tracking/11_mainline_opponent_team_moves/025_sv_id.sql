@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Scarlet / Violet: The Indigo Disk Story battle opponents' moves.
 -- ============================================================================
@@ -75,6 +78,10 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (250006, 25005, NULL, NULL, NULL, NULL, 5, ARRAY[663, 280, 394, 252]),
     -- Kieran: Hydrapple Lv. 82: Fickle Beam, Gyro Ball, Tera Blast, Earth Power
     (250006, 25005, NULL, NULL, NULL, NULL, 6, ARRAY[907, 360, 851, 414]),
+    -- Terapagos: Terapagos (Stellar Form) Lv. 85: Tera Starstorm, Zen Headbutt, Earth Power, Water Pulse
+    (250008, 25006, NULL, NULL, NULL, NULL, 1, ARRAY[906, 428, 414, 352]),
+    -- Pecharunt: Pecharunt Lv. 88: Nasty Plot, Toxic, Malignant Chain, Shadow Ball
+    (250009, 25007, NULL, NULL, NULL, NULL, 1, ARRAY[417, 92, 919, 247]),
     -- Carmine: Mightyena Lv. 74: Crunch, Howl, Super Fang, Sucker Punch
     (250001, 25008, NULL, NULL, NULL, NULL, 1, ARRAY[242, 336, 162, 389]),
     -- Carmine: Toucannon Lv. 74: Beak Blast, Throat Chop, Flame Charge, Dual Wingbeat
@@ -132,7 +139,67 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Nemona: Pawmot Lv. 86: Double Shock, Close Combat, Ice Punch, Quick Attack
     (250009, 25011, NULL, NULL, NULL, 'chose-quaxly', 5, ARRAY[892, 370, 8, 98]),
     -- Nemona: Skeledirge Lv. 87: Torch Song, Earth Power, Shadow Ball, Snarl
-    (250009, 25011, NULL, NULL, NULL, 'chose-quaxly', 6, ARRAY[871, 414, 247, 555])
+    (250009, 25011, NULL, NULL, NULL, 'chose-quaxly', 6, ARRAY[871, 414, 247, 555]),
+    -- Meloetta: Meloetta Lv. 70: Relic Song, Hyper Voice, Sing, Psychic
+    (250010, 25012, NULL, NULL, NULL, NULL, 1, ARRAY[547, 304, 47, 94]),
+    -- Gouging Fire: Gouging Fire Lv. 75: Burning Bulwark, Dragon Rush, Fire Blast, Lava Plume
+    (250011, 25013, NULL, NULL, NULL, NULL, 1, ARRAY[908, 407, 126, 436]),
+    -- Raging Bolt: Raging Bolt Lv. 75: Thunderclap, Dragon Hammer, Rising Voltage, Dragon Pulse
+    (250011, 25014, NULL, NULL, NULL, NULL, 1, ARRAY[909, 692, 804, 406]),
+    -- Iron Crown: Iron Crown Lv. 75: Sacred Sword, Tachyon Cutter, Future Sight, Volt Switch
+    (250011, 25015, NULL, NULL, NULL, NULL, 1, ARRAY[533, 911, 248, 521]),
+    -- Iron Boulder: Iron Boulder Lv. 75: Sacred Sword, Mighty Cleave, Swords Dance, Megahorn
+    (250011, 25016, NULL, NULL, NULL, NULL, 1, ARRAY[533, 910, 14, 224]),
+    -- Articuno: Articuno Lv. 70: Hurricane, Haze, Blizzard, Sheer Cold
+    (250012, 25017, NULL, NULL, NULL, NULL, 1, ARRAY[542, 114, 59, 329]),
+    -- Zapdos: Zapdos Lv. 70: Thunder, Detect, Magnetic Flux, Zap Cannon
+    (250012, 25018, NULL, NULL, NULL, NULL, 1, ARRAY[87, 197, 602, 192]),
+    -- Moltres: Moltres Lv. 70: Hurricane, Endure, Overheat, Sky Attack
+    (250012, 25019, NULL, NULL, NULL, NULL, 1, ARRAY[542, 203, 315, 143]),
+    -- Raikou: Raikou Lv. 70: Extrasensory, Discharge, Reflect, Rain Dance
+    (250012, 25020, NULL, NULL, NULL, NULL, 1, ARRAY[326, 435, 115, 240]),
+    -- Entei: Entei Lv. 70: Extrasensory, Lava Plume, Swagger, Sunny Day
+    (250012, 25021, NULL, NULL, NULL, NULL, 1, ARRAY[326, 436, 207, 241]),
+    -- Suicune: Suicune Lv. 70: Extrasensory, Surf, Mirror Coat, Rain Dance
+    (250012, 25022, NULL, NULL, NULL, NULL, 1, ARRAY[326, 57, 243, 240]),
+    -- Ho-Oh: Ho-Oh Lv. 70: Extrasensory, Recover, Sacred Fire, Sunny Day
+    (250012, 25023, NULL, NULL, NULL, NULL, 1, ARRAY[326, 105, 221, 241]),
+    -- Latios: Latios Lv. 70: Luster Purge, Dragon Pulse, Zen Headbutt, Dragon Breath
+    (250012, 25024, NULL, NULL, NULL, NULL, 1, ARRAY[295, 406, 428, 225]),
+    -- Groudon: Groudon Lv. 70: Earthquake, Hammer Arm, Fissure, Rest
+    (250012, 25025, NULL, NULL, NULL, NULL, 1, ARRAY[89, 359, 90, 156]),
+    -- Reshiram: Reshiram Lv. 70: Flamethrower, Fusion Flare, Hyper Voice, Fire Blast
+    (250012, 25026, NULL, NULL, NULL, NULL, 1, ARRAY[53, 558, 304, 126]),
+    -- Solgaleo: Solgaleo Lv. 70: Metal Burst, Wild Charge, Solar Beam, Flare Blitz
+    (250012, 25027, NULL, NULL, NULL, NULL, 1, ARRAY[368, 528, 76, 394]),
+    -- Glastrier: Glastrier Lv. 70: Iron Defense, Thrash, Taunt, Double-Edge
+    (250012, 25028, NULL, NULL, NULL, NULL, 1, ARRAY[334, 37, 269, 38]),
+    -- Lugia: Lugia Lv. 70: Extrasensory, Recover, Aeroblast, Rain Dance
+    (250012, 25029, NULL, NULL, NULL, NULL, 1, ARRAY[326, 105, 177, 240]),
+    -- Latias: Latias Lv. 70: Reflect Type, Psychic, Guard Split, Healing Wish
+    (250012, 25030, NULL, NULL, NULL, NULL, 1, ARRAY[513, 94, 470, 361]),
+    -- Kyogre: Kyogre Lv. 70: Muddy Water, Ice Beam, Sheer Cold, Aqua Ring
+    (250012, 25031, NULL, NULL, NULL, NULL, 1, ARRAY[330, 58, 329, 392]),
+    -- Cobalion: Cobalion Lv. 70: Sacred Sword, Swords Dance, Iron Head, Close Combat
+    (250012, 25032, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 442, 370]),
+    -- Terrakion: Terrakion Lv. 70: Sacred Sword, Swords Dance, Stone Edge, Close Combat
+    (250012, 25033, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 444, 370]),
+    -- Virizion: Virizion Lv. 70: Sacred Sword, Swords Dance, Leaf Blade, Close Combat
+    (250012, 25034, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 348, 370]),
+    -- Zekrom: Zekrom Lv. 70: Thunderbolt, Fusion Bolt, Hyper Voice, Thunder
+    (250012, 25035, NULL, NULL, NULL, NULL, 1, ARRAY[85, 559, 304, 87]),
+    -- Lunala: Lunala Lv. 70: Psychic, Moonblast, Phantom Force, Dream Eater
+    (250012, 25036, NULL, NULL, NULL, NULL, 1, ARRAY[94, 585, 566, 138]),
+    -- Spectrier: Spectrier Lv. 70: Agility, Thrash, Disable, Double-Edge
+    (250012, 25037, NULL, NULL, NULL, NULL, 1, ARRAY[97, 37, 50, 38]),
+    -- Rayquaza: Rayquaza Lv. 70: Dragon Pulse, Hyper Voice, Rest, Fly
+    (250012, 25038, NULL, NULL, NULL, NULL, 1, ARRAY[406, 304, 156, 19]),
+    -- Kyurem: Kyurem Lv. 70: Hyper Voice, Scary Face, Blizzard, Imprison
+    (250012, 25039, NULL, NULL, NULL, NULL, 1, ARRAY[304, 184, 59, 286]),
+    -- Necrozma: Necrozma Lv. 70: Stored Power, Rock Blast, Iron Defense, Power Gem
+    (250012, 25040, NULL, NULL, NULL, NULL, 1, ARRAY[500, 350, 334, 408]),
+    -- Kubfu: Kubfu Lv. 30: Scary Face, Headbutt, Brick Break, Detect
+    (250012, 25041, NULL, NULL, NULL, NULL, 1, ARRAY[184, 29, 280, 197])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

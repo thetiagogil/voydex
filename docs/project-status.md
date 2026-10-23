@@ -126,9 +126,10 @@ finds all 45). Grouped by what they wait on:
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.
-- Opponents' moves for Story matchups' remaining wild encounters (Gen 5 to 9
-  legendaries, totems, titans and nobles) and a few look-alike teams; an anon
-  read grant plus town and ace for the Codex game page's leaders.
+- Opponents' moves for the 9 Story Pokémon no source covers: the fused
+  Calyrex and the Freezington steeds (Crown Tundra), the Loyal Three quest's
+  Munkidori at Lv. 30 / 70, and Z-A's rogue Mega Absol and two Zygarde fights;
+  an anon read grant plus town and ace for the Codex game page's leaders.
 - Reference catalogue: one-per-save and either-or groups, route and encounter
   locations, a badge count for Start a Play, region and version group
   descriptions.

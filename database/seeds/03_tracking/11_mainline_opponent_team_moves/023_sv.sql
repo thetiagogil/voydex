@@ -3,6 +3,12 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Scarlet / Violet Story battle opponents' moves.
 -- ============================================================================
@@ -231,6 +237,20 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (230023, 23021, NULL, NULL, NULL, NULL, 5, ARRAY[348, 98, 608, 404]),
     -- Penny: Sylveon Lv. 63: Moonblast, Quick Attack, Baby-Doll Eyes, Shadow Ball
     (230023, 23021, NULL, NULL, NULL, NULL, 6, ARRAY[585, 98, 608, 247]),
+    -- Stony Cliff Titan: Klawf Lv. 16: Vise Grip, Rock Smash, Block, Rock Tomb
+    (230024, 23022, NULL, NULL, NULL, NULL, 1, ARRAY[11, 249, 335, 317]),
+    -- Open Sky Titan: Bombirdier Lv. 20: Rock Throw, Wing Attack, Pluck, Torment
+    (230025, 23023, NULL, NULL, NULL, NULL, 1, ARRAY[88, 17, 365, 259]),
+    -- Lurking Steel Titan: Orthworm Lv. 29: Iron Tail, Headbutt, Wrap, Sandstorm
+    (230026, 23024, NULL, NULL, NULL, NULL, 1, ARRAY[231, 29, 35, 201]),
+    -- Quaking Earth Titan: Great Tusk Lv. 45: Rapid Spin, Brick Break, Knock Off, Stomping Tantrum
+    (230027, 23025, 36, NULL, NULL, NULL, 1, ARRAY[229, 280, 282, 707]),
+    -- Quaking Earth Titan: Iron Treads Lv. 45: Rapid Spin, Iron Head, Knock Off, Stomping Tantrum
+    (230027, 23025, 37, NULL, NULL, NULL, 1, ARRAY[229, 442, 282, 707]),
+    -- False Dragon Titan: Dondozo Lv. 56: Aqua Tail, Body Slam, Water Pulse, Order Up
+    (230028, 23026, NULL, NULL, NULL, NULL, 1, ARRAY[401, 34, 352, 856]),
+    -- False Dragon Titan: Tatsugiri Lv. 57: Muddy Water, Icy Wind, Taunt, Dragon Pulse
+    (230028, 23026, NULL, NULL, NULL, NULL, 2, ARRAY[330, 196, 269, 406]),
     -- Arven: Greedent Lv. 58: Bullet Seed, Body Slam, Psychic Fangs, Earthquake
     (230029, 23027, NULL, NULL, NULL, NULL, 1, ARRAY[331, 34, 706, 89]),
     -- Arven: Cloyster Lv. 59: Rock Blast, Icicle Spear, Liquidation, Light Screen
@@ -243,6 +263,30 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (230029, 23027, NULL, NULL, NULL, NULL, 5, ARRAY[444, 89, 776, 446]),
     -- Arven: Mabosstiff Lv. 63: Crunch, Psychic Fangs, Fire Fang, Play Rough
     (230029, 23027, NULL, NULL, NULL, NULL, 6, ARRAY[242, 706, 424, 583]),
+    -- AI Professor: Slither Wing Lv. 66: Lunge, Leech Life, Low Sweep, Zen Headbutt
+    (230031, 23028, 36, NULL, NULL, NULL, 1, ARRAY[679, 141, 490, 428]),
+    -- AI Professor: Scream Tail Lv. 66: Play Rough, Drain Punch, Ice Punch, Zen Headbutt
+    (230031, 23028, 36, NULL, NULL, NULL, 2, ARRAY[583, 409, 8, 428]),
+    -- AI Professor: Brute Bonnet Lv. 66: Earth Power, Giga Drain, Payback, Sucker Punch
+    (230031, 23028, 36, NULL, NULL, NULL, 3, ARRAY[414, 202, 371, 389]),
+    -- AI Professor: Flutter Mane Lv. 66: Power Gem, Mystical Fire, Shadow Ball, Thunderbolt
+    (230031, 23028, 36, NULL, NULL, NULL, 4, ARRAY[408, 595, 247, 85]),
+    -- AI Professor: Sandy Shocks Lv. 66: Discharge, Earth Power, Flash Cannon, Power Gem
+    (230031, 23028, 36, NULL, NULL, NULL, 5, ARRAY[435, 414, 430, 408]),
+    -- AI Professor: Roaring Moon Lv. 67: Dragon Claw, Night Slash, Stone Edge, Earthquake
+    (230031, 23028, 36, NULL, NULL, NULL, 6, ARRAY[337, 400, 444, 89]),
+    -- AI Professor: Iron Moth Lv. 66: Sludge Wave, Fiery Dance, Discharge, Air Slash
+    (230031, 23028, 37, NULL, NULL, NULL, 1, ARRAY[482, 552, 435, 403]),
+    -- AI Professor: Iron Bundle Lv. 66: Drill Peck, Water Pulse, Freeze-Dry, Snowscape
+    (230031, 23028, 37, NULL, NULL, NULL, 2, ARRAY[65, 352, 573, 883]),
+    -- AI Professor: Iron Hands Lv. 66: Thunder Punch, Drain Punch, Iron Head, Fake Out
+    (230031, 23028, 37, NULL, NULL, NULL, 3, ARRAY[9, 409, 442, 252]),
+    -- AI Professor: Iron Jugulis Lv. 66: Air Slash, Dark Pulse, Flamethrower, Flash Cannon
+    (230031, 23028, 37, NULL, NULL, NULL, 4, ARRAY[403, 399, 53, 430]),
+    -- AI Professor: Iron Thorns Lv. 66: Thunder Punch, Brick Break, Stone Edge, Earthquake
+    (230031, 23028, 37, NULL, NULL, NULL, 5, ARRAY[9, 280, 444, 89]),
+    -- AI Professor: Iron Valiant Lv. 67: Psycho Cut, Brick Break, Spirit Break, Poison Jab
+    (230031, 23028, 37, NULL, NULL, NULL, 6, ARRAY[427, 280, 789, 398]),
     -- Nemona: Quaxly Lv. 5: Pound, Growl, Water Gun
     (230001, 23029, NULL, 230001, 'sprigatito', NULL, 1, ARRAY[1, 45, 55]),
     -- Nemona: Sprigatito Lv. 5: Scratch, Tail Whip, Leafage
@@ -340,7 +384,23 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Arven: Garganacl Lv. 67: Stone Edge, Earthquake, Body Press, Stealth Rock
     (230032, 23027, NULL, NULL, NULL, NULL, 5, ARRAY[444, 89, 776, 446]),
     -- Arven: Mabosstiff Lv. 68: Crunch, Psychic Fangs, Fire Fang, Play Rough
-    (230032, 23027, NULL, NULL, NULL, NULL, 6, ARRAY[242, 706, 424, 583])
+    (230032, 23027, NULL, NULL, NULL, NULL, 6, ARRAY[242, 706, 424, 583]),
+    -- Koraidon: Koraidon Lv. 72: Giga Impact, Bulk Up, Taunt, Flamethrower
+    (230031, 23030, NULL, NULL, NULL, NULL, 1, ARRAY[416, 339, 269, 53]),
+    -- Miraidon: Miraidon Lv. 72: Hyper Beam, Charge, Taunt, Power Gem
+    (230031, 23031, NULL, NULL, NULL, NULL, 1, ARRAY[63, 268, 269, 408]),
+    -- Wo-Chien: Wo-Chien Lv. 60: Giga Drain, Ruination, Foul Play, Power Whip
+    (230033, 23032, NULL, NULL, NULL, NULL, 1, ARRAY[202, 877, 492, 438]),
+    -- Chien-Pao: Chien-Pao Lv. 60: Icicle Crash, Ruination, Sucker Punch, Sacred Sword
+    (230034, 23033, NULL, NULL, NULL, NULL, 1, ARRAY[556, 877, 389, 533]),
+    -- Ting-Lu: Ting-Lu Lv. 60: Stomping Tantrum, Ruination, Throat Chop, Rock Slide
+    (230035, 23034, NULL, NULL, NULL, NULL, 1, ARRAY[707, 877, 675, 157]),
+    -- Chi-Yu: Chi-Yu Lv. 60: Lava Plume, Ruination, Bounce, Swagger
+    (230036, 23035, NULL, NULL, NULL, NULL, 1, ARRAY[436, 877, 340, 207]),
+    -- Koraidon: Koraidon Lv. 72: Giga Impact, Bulk Up, Collision Course, Flamethrower
+    (230037, 23030, NULL, NULL, NULL, NULL, 1, ARRAY[416, 339, 878, 53]),
+    -- Miraidon: Miraidon Lv. 72: Hyper Beam, Charge, Electro Drift, Power Gem
+    (230037, 23031, NULL, NULL, NULL, NULL, 1, ARRAY[63, 268, 879, 408])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

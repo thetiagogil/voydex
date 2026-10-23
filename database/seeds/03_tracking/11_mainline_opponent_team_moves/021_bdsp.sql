@@ -3,6 +3,12 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Brilliant Diamond / Shining Pearl Story battle opponents' moves.
 -- ============================================================================
@@ -294,7 +300,61 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Barry: Snorlax Lv. 60: Covet, Yawn, Crunch, High Horsepower
     (210020, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[343, 281, 242, 667]),
     -- Barry: Torterra Lv. 64: Earthquake, Wood Hammer, Roar, Stealth Rock
-    (210020, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[89, 452, 46, 446])
+    (210020, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[89, 452, 46, 446]),
+    -- Dialga: Dialga Lv. 47: Ancient Power, Slash, Flash Cannon, Roar of Time
+    (210019, 21016, NULL, NULL, NULL, NULL, 1, ARRAY[246, 163, 430, 459]),
+    -- Palkia: Palkia Lv. 47: Ancient Power, Slash, Aqua Ring, Spacial Rend
+    (210019, 21017, NULL, NULL, NULL, NULL, 1, ARRAY[246, 163, 392, 460]),
+    -- Uxie: Uxie Lv. 50: Imprison, Extrasensory, Amnesia, Psychic
+    (210021, 21018, NULL, NULL, NULL, NULL, 1, ARRAY[286, 326, 133, 94]),
+    -- Azelf: Azelf Lv. 50: Imprison, Extrasensory, Nasty Plot, Psychic
+    (210021, 21019, NULL, NULL, NULL, NULL, 1, ARRAY[286, 326, 417, 94]),
+    -- Mesprit: Mesprit Lv. 50: Imprison, Extrasensory, Charm, Psychic
+    (210021, 21020, NULL, NULL, NULL, NULL, 1, ARRAY[286, 326, 204, 94]),
+    -- Giratina: Giratina Lv. 70: Shadow Force, Pain Split, Aura Sphere, Dragon Claw
+    (210022, 21021, NULL, NULL, NULL, NULL, 1, ARRAY[467, 220, 396, 337]),
+    -- Cresselia: Cresselia Lv. 50: Slash, Psycho Cut, Moonlight, Safeguard
+    (210023, 21022, NULL, NULL, NULL, NULL, 1, ARRAY[163, 427, 236, 219]),
+    -- Heatran: Heatran Lv. 70: Metal Sound, Earth Power, Heat Wave, Stone Edge
+    (210024, 21023, NULL, NULL, NULL, NULL, 1, ARRAY[319, 414, 257, 444]),
+    -- Regigigas: Regigigas Lv. 70: Wide Guard, Zen Headbutt, Heavy Slam, Hammer Arm
+    (210025, 21024, NULL, NULL, NULL, NULL, 1, ARRAY[469, 428, 484, 359]),
+    -- Regirock: Regirock Lv. 70: Stone Edge, Superpower, Lock-On, Zap Cannon
+    (210017, 21025, NULL, NULL, NULL, NULL, 1, ARRAY[444, 276, 199, 192]),
+    -- Regice: Regice Lv. 70: Blizzard, Superpower, Lock-On, Zap Cannon
+    (210017, 21026, NULL, NULL, NULL, NULL, 1, ARRAY[59, 276, 199, 192]),
+    -- Registeel: Registeel Lv. 70: Heavy Slam, Superpower, Lock-On, Zap Cannon
+    (210017, 21027, NULL, NULL, NULL, NULL, 1, ARRAY[484, 276, 199, 192]),
+    -- Raikou: Raikou Lv. 70: Extrasensory, Discharge, Reflect, Rain Dance
+    (210017, 21028, NULL, NULL, NULL, NULL, 1, ARRAY[326, 435, 115, 240]),
+    -- Entei: Entei Lv. 70: Extrasensory, Lava Plume, Swagger, Sunny Day
+    (210017, 21029, NULL, NULL, NULL, NULL, 1, ARRAY[326, 436, 207, 241]),
+    -- Suicune: Suicune Lv. 70: Extrasensory, Surf, Mirror Coat, Rain Dance
+    (210017, 21030, NULL, NULL, NULL, NULL, 1, ARRAY[326, 57, 243, 240]),
+    -- Articuno: Articuno Lv. 70: Hurricane, Mind Reader, Blizzard, Sheer Cold
+    (210017, 21031, NULL, NULL, NULL, NULL, 1, ARRAY[542, 170, 59, 329]),
+    -- Zapdos: Zapdos Lv. 70: Thunder, Detect, Magnetic Flux, Zap Cannon
+    (210017, 21032, NULL, NULL, NULL, NULL, 1, ARRAY[87, 197, 602, 192]),
+    -- Moltres: Moltres Lv. 70: Hurricane, Endure, Burn Up, Sky Attack
+    (210017, 21033, NULL, NULL, NULL, NULL, 1, ARRAY[542, 203, 682, 143]),
+    -- Latias: Latias Lv. 70: Reflect Type, Psychic, Guard Split, Healing Wish
+    (210017, 21034, NULL, NULL, NULL, NULL, 1, ARRAY[513, 94, 470, 361]),
+    -- Latios: Latios Lv. 70: Dragon Dance, Dragon Pulse, Zen Headbutt, Luster Purge
+    (210017, 21035, NULL, NULL, NULL, NULL, 1, ARRAY[349, 406, 428, 295]),
+    -- Ho-Oh: Ho-Oh Lv. 70: Extrasensory, Recover, Sacred Fire, Sunny Day
+    (210017, 21036, NULL, NULL, NULL, NULL, 1, ARRAY[326, 105, 221, 241]),
+    -- Lugia: Lugia Lv. 70: Extrasensory, Recover, Aeroblast, Rain Dance
+    (210017, 21037, NULL, NULL, NULL, NULL, 1, ARRAY[326, 105, 177, 240]),
+    -- Kyogre: Kyogre Lv. 70: Ice Beam, Sheer Cold, Aqua Ring, Origin Pulse
+    (210017, 21038, NULL, NULL, NULL, NULL, 1, ARRAY[58, 329, 392, 618]),
+    -- Groudon: Groudon Lv. 70: Hammer Arm, Fissure, Rest, Precipice Blades
+    (210017, 21039, NULL, NULL, NULL, NULL, 1, ARRAY[359, 90, 156, 619]),
+    -- Rayquaza: Rayquaza Lv. 70: Dragon Pulse, Hyper Voice, Rest, Fly
+    (210017, 21040, NULL, NULL, NULL, NULL, 1, ARRAY[406, 304, 156, 19]),
+    -- Mewtwo: Mewtwo Lv. 70: Psychic, Power Swap, Guard Swap, Mist
+    (210017, 21041, NULL, NULL, NULL, NULL, 1, ARRAY[94, 384, 385, 54]),
+    -- Giratina: Giratina (Origin) Lv. 100: Aura Sphere, Dragon Claw, Earth Power, Destiny Bond
+    (210017, 21021, NULL, NULL, NULL, NULL, 1, ARRAY[396, 337, 414, 194])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

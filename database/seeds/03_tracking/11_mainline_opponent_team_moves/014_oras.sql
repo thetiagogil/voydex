@@ -5,6 +5,9 @@
 -- set moves, PokéWiki's trainer team tables, else the default level-up
 -- moves for its level from Voydex's own learnset.
 -- Cross-check: PokéWiki trainer team tables.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Omega Ruby / Alpha Sapphire Story battle opponents' moves.
 -- ============================================================================
@@ -262,7 +265,67 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- May / Brendan: Wailord Lv. 48: Surf, Heavy Slam, Bulldoze, Ice Beam
     (140017, 14015, NULL, 140001, 'mudkip', NULL, 4, ARRAY[57, 484, 523, 58]),
     -- May / Brendan: Sceptile Lv. 50: Leaf Blade, X-Scissor, Dual Chop, Night Slash
-    (140017, 14015, NULL, 140001, 'mudkip', NULL, 5, ARRAY[348, 404, 530, 400])
+    (140017, 14015, NULL, 140001, 'mudkip', NULL, 5, ARRAY[348, 404, 530, 400]),
+    -- Groudon: Primal Groudon Lv. 45: Lava Plume, Rest, Earthquake, Precipice Blades
+    (140011, 14019, NULL, NULL, NULL, NULL, 1, ARRAY[436, 156, 89, 619]),
+    -- Kyogre: Primal Kyogre Lv. 45: Body Slam, Aqua Ring, Ice Beam, Origin Pulse
+    (140011, 14020, NULL, NULL, NULL, NULL, 1, ARRAY[34, 392, 58, 618]),
+    -- Rayquaza: Rayquaza Lv. 70: Extreme Speed, Dragon Pulse, Dragon Dance, Fly
+    (140018, 14021, NULL, NULL, NULL, NULL, 1, ARRAY[245, 406, 349, 19]),
+    -- Deoxys: Deoxys Lv. 80: Cosmic Power, Recover, Psycho Boost, Hyper Beam
+    (140018, 14022, NULL, NULL, NULL, NULL, 1, ARRAY[322, 105, 354, 63]),
+    -- Regirock: Regirock Lv. 40: Bulldoze, Curse, Ancient Power, Iron Defense
+    (140021, 14023, NULL, NULL, NULL, NULL, 1, ARRAY[523, 174, 246, 334]),
+    -- Regice: Regice Lv. 40: Bulldoze, Curse, Ancient Power, Amnesia
+    (140021, 14024, NULL, NULL, NULL, NULL, 1, ARRAY[523, 174, 246, 133]),
+    -- Registeel: Registeel Lv. 40: Curse, Ancient Power, Iron Defense, Amnesia
+    (140021, 14025, NULL, NULL, NULL, NULL, 1, ARRAY[174, 246, 334, 133]),
+    -- Heatran: Heatran Lv. 50: Metal Sound, Crunch, Scary Face, Lava Plume
+    (140022, 14026, NULL, NULL, NULL, NULL, 1, ARRAY[319, 242, 184, 436]),
+    -- Ho-Oh: Ho-Oh Lv. 50: Sunny Day, Fire Blast, Sacred Fire, Punishment
+    (140023, 14027, NULL, NULL, NULL, NULL, 1, ARRAY[241, 126, 221, 386]),
+    -- Lugia: Lugia Lv. 50: Rain Dance, Hydro Pump, Aeroblast, Punishment
+    (140023, 14028, NULL, NULL, NULL, NULL, 1, ARRAY[240, 56, 177, 386]),
+    -- Cresselia: Cresselia Lv. 50: Mist, Aurora Beam, Future Sight, Slash
+    (140024, 14029, NULL, NULL, NULL, NULL, 1, ARRAY[54, 62, 248, 163]),
+    -- Tornadus: Tornadus Lv. 50: Extrasensory, Agility, Air Slash, Crunch
+    (140025, 14030, NULL, NULL, NULL, NULL, 1, ARRAY[326, 97, 403, 242]),
+    -- Thundurus: Thundurus Lv. 50: Heal Block, Agility, Discharge, Crunch
+    (140025, 14031, NULL, NULL, NULL, NULL, 1, ARRAY[377, 97, 435, 242]),
+    -- Landorus: Landorus Lv. 50: Extrasensory, Swords Dance, Earth Power, Rock Slide
+    (140025, 14032, NULL, NULL, NULL, NULL, 1, ARRAY[326, 14, 414, 157]),
+    -- Regigigas: Regigigas Lv. 50: Foresight, Revenge, Wide Guard, Zen Headbutt
+    (140026, 14033, NULL, NULL, NULL, NULL, 1, ARRAY[193, 279, 469, 428]),
+    -- Raikou: Raikou Lv. 50: Spark, Reflect, Crunch, Thunder Fang
+    (140027, 14034, NULL, NULL, NULL, NULL, 1, ARRAY[209, 115, 242, 422]),
+    -- Entei: Entei Lv. 50: Stomp, Flamethrower, Swagger, Fire Fang
+    (140027, 14035, NULL, NULL, NULL, NULL, 1, ARRAY[23, 53, 207, 424]),
+    -- Suicune: Suicune Lv. 50: Aurora Beam, Mist, Mirror Coat, Ice Fang
+    (140027, 14036, NULL, NULL, NULL, NULL, 1, ARRAY[62, 54, 243, 423]),
+    -- Uxie: Uxie Lv. 50: Yawn, Future Sight, Amnesia, Extrasensory
+    (140028, 14037, NULL, NULL, NULL, NULL, 1, ARRAY[281, 248, 133, 326]),
+    -- Mesprit: Mesprit Lv. 50: Lucky Chant, Future Sight, Charm, Extrasensory
+    (140028, 14038, NULL, NULL, NULL, NULL, 1, ARRAY[381, 248, 204, 326]),
+    -- Azelf: Azelf Lv. 50: Uproar, Future Sight, Nasty Plot, Extrasensory
+    (140028, 14039, NULL, NULL, NULL, NULL, 1, ARRAY[253, 248, 417, 326]),
+    -- Palkia: Palkia Lv. 50: Earth Power, Aura Sphere, Spacial Rend, Hydro Pump
+    (140029, 14040, NULL, NULL, NULL, NULL, 1, ARRAY[414, 396, 460, 56]),
+    -- Dialga: Dialga Lv. 50: Aura Sphere, Iron Tail, Roar of Time, Flash Cannon
+    (140029, 14041, NULL, NULL, NULL, NULL, 1, ARRAY[396, 231, 459, 430]),
+    -- Giratina: Giratina Lv. 50: Aura Sphere, Shadow Claw, Shadow Force, Hex
+    (140029, 14042, NULL, NULL, NULL, NULL, 1, ARRAY[396, 421, 467, 506]),
+    -- Cobalion: Cobalion Lv. 50: Retaliate, Iron Head, Sacred Sword, Swords Dance
+    (140030, 14043, NULL, NULL, NULL, NULL, 1, ARRAY[514, 442, 533, 14]),
+    -- Terrakion: Terrakion Lv. 50: Retaliate, Rock Slide, Sacred Sword, Swords Dance
+    (140030, 14044, NULL, NULL, NULL, NULL, 1, ARRAY[514, 157, 533, 14]),
+    -- Virizion: Virizion Lv. 50: Retaliate, Giga Drain, Sacred Sword, Swords Dance
+    (140030, 14045, NULL, NULL, NULL, NULL, 1, ARRAY[514, 202, 533, 14]),
+    -- Reshiram: Reshiram Lv. 50: Dragon Breath, Slash, Extrasensory, Fusion Flare
+    (140031, 14046, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 326, 558]),
+    -- Zekrom: Zekrom Lv. 50: Dragon Breath, Slash, Zen Headbutt, Fusion Bolt
+    (140031, 14047, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 428, 559]),
+    -- Kyurem: Kyurem Lv. 50: Dragon Breath, Slash, Scary Face, Glaciate
+    (140032, 14048, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 184, 549])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

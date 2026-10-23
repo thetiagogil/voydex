@@ -2,11 +2,11 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Opponents' moves: up to four regular moves per opponent Pokémon, each one
 -- its game has, read by signed-in users only, and every Gen 1 to 4 team
--- complete from the games' own trainer data.
+-- complete from the games' own trainer data; Gen 5 to 9 as far as sources go.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (14);
+    plan (18);
 -- Who can read it.
 SELECT
     ok ((
@@ -153,6 +153,64 @@ SELECT
                 AND mainline_opponents.slug = 'geeta'
                 AND pokemon_forms.slug = 'glimmora' GROUP BY mainline_opponent_team_members.id $$, $$
             VALUES ('tera-blast, sludge-wave, earth-power, dazzling-gleam'::text) $$, 'Scarlet / Violet Geeta''s Glimmora knows Tera Blast');
+-- Every opponent Pokémon has moves except the few no source covers.
+SELECT
+    IS ((
+            SELECT
+                count(*)::integer
+            FROM
+                tracking.mainline_opponent_team_members
+            WHERE
+                NOT EXISTS (
+                    SELECT
+                        1
+                    FROM
+                        tracking.mainline_opponent_team_member_moves
+                    WHERE
+                        mainline_opponent_team_member_moves.team_member_id = mainline_opponent_team_members.id)),
+                9,
+                'only the 9 opponent Pokémon no source covers are left without moves');
+SELECT
+    results_eq ($$
+        SELECT
+            string_agg(moves.slug, ', ' ORDER BY mainline_opponent_team_member_moves.slot)
+            FROM tracking.mainline_opponent_team_member_moves
+            JOIN tracking.mainline_opponent_team_members ON mainline_opponent_team_members.id = mainline_opponent_team_member_moves.team_member_id
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_opponent_team_members.milestone_id
+            JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
+            JOIN reference.moves ON moves.id = mainline_opponent_team_member_moves.move_id
+            WHERE
+                mainline_opponent_team_members.version_group_id = 12
+                AND mainline_opponents.slug = 'hugh'
+                AND mainline_milestones.slug = 'hall-of-fame'
+                AND pokemon_forms.slug = 'simipour' GROUP BY mainline_opponent_team_members.id $$, $$
+            VALUES ('rock-slide, crunch, brick-break, surf'::text) $$, 'Black 2 / White 2 Hugh''s post-game Simipour knows Rock Slide, as Bulbapedia and Serebii have it');
+SELECT
+    results_eq ($$
+        SELECT
+            string_agg(moves.slug, ', ' ORDER BY mainline_opponent_team_member_moves.slot)
+            FROM tracking.mainline_opponent_team_member_moves
+            JOIN tracking.mainline_opponent_team_members ON mainline_opponent_team_members.id = mainline_opponent_team_member_moves.team_member_id
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            JOIN reference.moves ON moves.id = mainline_opponent_team_member_moves.move_id
+            WHERE
+                mainline_opponent_team_members.version_group_id = 21
+                AND mainline_opponents.slug = 'dialga' GROUP BY mainline_opponent_team_members.id $$, $$
+            VALUES ('ancient-power, slash, flash-cannon, roar-of-time'::text) $$, 'Brilliant Diamond Dialga at Spear Pillar gets the game''s default moves for Lv. 47');
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_milestones.slug, string_agg(moves.slug, ', ' ORDER BY mainline_opponent_team_member_moves.slot)
+            FROM tracking.mainline_opponent_team_member_moves
+            JOIN tracking.mainline_opponent_team_members ON mainline_opponent_team_members.id = mainline_opponent_team_member_moves.team_member_id
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_opponent_team_members.milestone_id
+            JOIN reference.moves ON moves.id = mainline_opponent_team_member_moves.move_id
+            WHERE
+                mainline_opponent_team_members.version_group_id = 23
+                AND mainline_opponents.slug = 'koraidon' GROUP BY mainline_milestones.slug, mainline_milestones.sort_order, mainline_opponent_team_members.id ORDER BY mainline_milestones.slug $$, $$
+            VALUES ('area-zero-depths'::text, 'giga-impact, bulk-up, collision-course, flamethrower'::text), ('defeat-ai-professor', 'giga-impact, bulk-up, taunt, flamethrower') $$, 'Scarlet''s AI Koraidon knows Taunt, the Koraidon you catch knows Collision Course');
 SELECT
     *
 FROM

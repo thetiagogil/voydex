@@ -3,6 +3,12 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Sun / Moon Story battle opponents' moves.
 -- ============================================================================
@@ -15,18 +21,52 @@
 
 WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, member_slot, move_ids) AS (
   VALUES
+    -- Ilima: Gumshoos Lv. 12: Super Fang, Bite, Leer, Scary Face
+    (150003, 15001, 25, NULL, NULL, NULL, 1, ARRAY[162, 44, 43, 184]),
+    -- Ilima: Yungoos Lv. 11: Sand Attack, Tackle, Hyper Fang, Leer
+    (150003, 15001, 25, NULL, NULL, NULL, 2, ARRAY[28, 33, 158, 43]),
+    -- Ilima: Alolan Raticate Lv. 12: Bite, Tail Whip, Scary Face, Tackle
+    (150003, 15001, 26, NULL, NULL, NULL, 1, ARRAY[44, 39, 184, 33]),
+    -- Ilima: Alolan Rattata Lv. 11: Quick Attack, Tail Whip, Hyper Fang, Tackle
+    (150003, 15001, 26, NULL, NULL, NULL, 2, ARRAY[98, 39, 158, 33]),
     -- Hala: Mankey Lv. 14: Karate Chop, Pursuit, Focus Energy
     (150004, 15002, NULL, NULL, NULL, NULL, 1, ARRAY[2, 228, 116]),
     -- Hala: Makuhita Lv. 14: Arm Thrust, Sand Attack, Fake Out
     (150004, 15002, NULL, NULL, NULL, NULL, 2, ARRAY[292, 28, 252]),
     -- Hala: Crabrawler Lv. 15: Pursuit, Power-Up Punch, Leer
     (150004, 15002, NULL, NULL, NULL, NULL, 3, ARRAY[228, 612, 43]),
+    -- Lana: Wishiwashi (School Form) Lv. 20: Water Gun, Growl, Rain Dance, Soak
+    (150005, 15003, NULL, NULL, NULL, NULL, 1, ARRAY[55, 45, 240, 487]),
+    -- Lana: Wishiwashi Lv. 18: Helping Hand, Feint Attack, Brine, Aqua Ring
+    (150005, 15003, NULL, NULL, NULL, NULL, 2, ARRAY[270, 185, 362, 392]),
+    -- Lana: Alomomola Lv. 18: Helping Hand, Double Slap, Heal Pulse, Water Gun
+    (150005, 15003, NULL, NULL, NULL, NULL, 3, ARRAY[270, 3, 505, 55]),
+    -- Kiawe: Salazzle Lv. 22: Torment, Venom Drench, Toxic, Flame Burst
+    (150006, 15004, NULL, NULL, NULL, NULL, 1, ARRAY[259, 599, 92, 481]),
+    -- Kiawe: Salandit Lv. 20: Poison Gas, Venoshock, Taunt, Scratch
+    (150006, 15004, NULL, NULL, NULL, NULL, 2, ARRAY[139, 474, 269, 10]),
+    -- Mallow: Lurantis Lv. 24: Razor Leaf, X-Scissor, Solar Blade, Synthesis
+    (150007, 15005, NULL, NULL, NULL, NULL, 1, ARRAY[75, 404, 669, 235]),
+    -- Mallow: Trumbeak Lv. 22: Rock Blast, Pluck, Supersonic, Screech
+    (150007, 15005, NULL, NULL, NULL, NULL, 2, ARRAY[350, 365, 48, 103]),
+    -- Mallow: Castform Lv. 22: Sunny Day, Water Gun, Headbutt, Weather Ball
+    (150007, 15005, NULL, NULL, NULL, NULL, 3, ARRAY[241, 55, 29, 311]),
     -- Olivia: Nosepass Lv. 26: Rock Slide, Spark, Thunder Wave
     (150008, 15006, NULL, NULL, NULL, NULL, 1, ARRAY[157, 209, 86]),
     -- Olivia: Boldore Lv. 26: Rock Blast, Mud-Slap, Headbutt
     (150008, 15006, NULL, NULL, NULL, NULL, 2, ARRAY[350, 189, 29]),
     -- Olivia: Lycanroc (Midnight) Lv. 27: Bite, Rock Throw
     (150008, 15006, NULL, NULL, NULL, NULL, 3, ARRAY[44, 88]),
+    -- Sophocles: Vikavolt Lv. 29: Vise Grip, Charge, Bug Bite, Spark
+    (150009, 15007, NULL, NULL, NULL, NULL, 1, ARRAY[11, 268, 450, 209]),
+    -- Sophocles: Charjabug Lv. 27: String Shot, Vise Grip, Mud-Slap, Thunder Wave
+    (150009, 15007, NULL, NULL, NULL, NULL, 2, ARRAY[81, 11, 189, 86]),
+    -- Acerola: Mimikyu Lv. 33: Play Rough, Shadow Claw, Astonish, Mimic
+    (150010, 15008, NULL, NULL, NULL, NULL, 1, ARRAY[583, 421, 310, 102]),
+    -- Acerola: Haunter Lv. 27: Hypnosis, Sucker Punch, Night Shade, Lick
+    (150010, 15008, NULL, NULL, NULL, NULL, 2, ARRAY[95, 389, 101, 122]),
+    -- Acerola: Gengar Lv. 27: Shadow Ball, Hypnosis, Night Shade, Shadow Punch
+    (150010, 15008, NULL, NULL, NULL, NULL, 3, ARRAY[247, 95, 101, 325]),
     -- Nanu: Sableye Lv. 38: Power Gem, Shadow Ball, Fake Out
     (150011, 15009, NULL, NULL, NULL, NULL, 1, ARRAY[408, 247, 252]),
     -- Nanu: Krokorok Lv. 38: Crunch, Assurance, Swagger, Earthquake
@@ -282,7 +322,37 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Hau: Komala Lv. 53: Wood Hammer, Sucker Punch, Earthquake, Shadow Claw
     (150014, 15016, NULL, 150001, 'popplio', NULL, 3, ARRAY[452, 389, 89, 421]),
     -- Hau: Incineroar Lv. 54: Darkest Lariat, Flare Blitz, Earthquake
-    (150014, 15016, NULL, 150001, 'popplio', NULL, 4, ARRAY[663, 394, 89])
+    (150014, 15016, NULL, 150001, 'popplio', NULL, 4, ARRAY[663, 394, 89]),
+    -- Nihilego: Nihilego Lv. 27: Clear Smog, Psywave, Headbutt, Venoshock
+    (150009, 15021, NULL, NULL, NULL, NULL, 1, ARRAY[499, 149, 29, 474]),
+    -- Solgaleo: Solgaleo Lv. 55: Sunsteel Strike, Cosmic Power, Crunch, Zen Headbutt
+    (150022, 15022, NULL, NULL, NULL, NULL, 1, ARRAY[713, 322, 242, 428]),
+    -- Lunala: Lunala Lv. 55: Moongeist Beam, Cosmic Power, Night Daze, Shadow Ball
+    (150022, 15023, NULL, NULL, NULL, NULL, 1, ARRAY[714, 322, 539, 247]),
+    -- Tapu Koko: Tapu Koko Lv. 60: Nature's Madness, Discharge, Agility, Electro Ball
+    (150019, 15024, NULL, NULL, NULL, NULL, 1, ARRAY[717, 435, 97, 486]),
+    -- Nihilego: Nihilego Lv. 55: Power Gem, Mirror Coat, Acid Spray, Venom Drench
+    (150020, 15021, NULL, NULL, NULL, NULL, 1, ARRAY[408, 243, 491, 599]),
+    -- Buzzwole: Buzzwole Lv. 65: Counter, Hammer Arm, Lunge, Dynamic Punch
+    (150020, 15025, NULL, NULL, NULL, NULL, 1, ARRAY[68, 359, 679, 223]),
+    -- Pheromosa: Pheromosa Lv. 60: Triple Kick, Lunge, Bug Buzz, Me First
+    (150020, 15026, NULL, NULL, NULL, NULL, 1, ARRAY[167, 679, 405, 382]),
+    -- Xurkitree: Xurkitree Lv. 65: Hypnosis, Discharge, Electric Terrain, Power Whip
+    (150020, 15027, NULL, NULL, NULL, NULL, 1, ARRAY[95, 435, 604, 438]),
+    -- Kartana: Kartana Lv. 60: Leaf Blade, X-Scissor, Detect, Air Slash
+    (150020, 15028, NULL, NULL, NULL, NULL, 1, ARRAY[348, 404, 197, 403]),
+    -- Celesteela: Celesteela Lv. 65: Autotomize, Seed Bomb, Skull Bash, Iron Defense
+    (150020, 15029, NULL, NULL, NULL, NULL, 1, ARRAY[475, 402, 130, 334]),
+    -- Guzzlord: Guzzlord Lv. 70: Thrash, Gastro Acid, Heavy Slam, Wring Out
+    (150020, 15030, NULL, NULL, NULL, NULL, 1, ARRAY[37, 380, 484, 378]),
+    -- Tapu Lele: Tapu Lele Lv. 60: Nature's Madness, Extrasensory, Flatter, Moonblast
+    (150023, 15031, NULL, NULL, NULL, NULL, 1, ARRAY[717, 326, 260, 585]),
+    -- Tapu Bulu: Tapu Bulu Lv. 60: Nature's Madness, Zen Headbutt, Megahorn, Skull Bash
+    (150024, 15032, NULL, NULL, NULL, NULL, 1, ARRAY[717, 428, 224, 130]),
+    -- Tapu Fini: Tapu Fini Lv. 60: Nature's Madness, Muddy Water, Aqua Ring, Hydro Pump
+    (150025, 15033, NULL, NULL, NULL, NULL, 1, ARRAY[717, 330, 392, 56]),
+    -- Necrozma: Necrozma Lv. 75: Stealth Rock, Iron Defense, Wring Out, Prismatic Laser
+    (150026, 15034, NULL, NULL, NULL, NULL, 1, ARRAY[446, 334, 378, 711])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

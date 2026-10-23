@@ -3,6 +3,12 @@
 -- ============================================================================
 -- Primary: PokéWiki trainer team tables for this game, matched to each
 -- team by its Pokémon and their levels.
+-- Fixed encounters (legendaries and other one-off Pokémon): the game's
+-- data-mined encounter table; where it sets no moves, the game's default from
+-- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Scarlet / Violet: The Teal Mask Story battle opponents' moves.
 -- ============================================================================
@@ -23,6 +29,24 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (240001, 24001, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[98, 36, 133, 91]),
     -- Kieran: Yanma Lv. 60: Bug Buzz, Air Cutter, Quick Attack, Giga Drain
     (240001, 24001, NULL, NULL, NULL, 'after-the-way-home', 2, ARRAY[405, 314, 98, 202]),
+    -- Ogerpon: Ogerpon (Hearthflame Mask) Lv. 20: Ivy Cudgel, Slam, Growth, Vine Whip
+    (240005, 24003, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[904, 21, 74, 22]),
+    -- Ogerpon: Ogerpon (Wellspring Mask) Lv. 20: Ivy Cudgel, Slam, Growth, Vine Whip
+    (240005, 24003, NULL, NULL, NULL, 'before-the-way-home', 2, ARRAY[904, 21, 74, 22]),
+    -- Ogerpon: Ogerpon (Cornerstone Mask) Lv. 20: Ivy Cudgel, Slam, Growth, Vine Whip
+    (240005, 24003, NULL, NULL, NULL, 'before-the-way-home', 3, ARRAY[904, 21, 74, 22]),
+    -- Ogerpon: Ogerpon Lv. 20: Ivy Cudgel, Slam, Growth, Vine Whip
+    (240005, 24003, NULL, NULL, NULL, 'before-the-way-home', 4, ARRAY[904, 21, 74, 22]),
+    -- Ogerpon: Ogerpon (Hearthflame Mask) Lv. 70: Ivy Cudgel, Low Kick, Slam, Grassy Terrain
+    (240005, 24003, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[904, 67, 21, 580]),
+    -- Ogerpon: Ogerpon (Wellspring Mask) Lv. 70: Ivy Cudgel, Low Kick, Slam, Grassy Terrain
+    (240005, 24003, NULL, NULL, NULL, 'after-the-way-home', 2, ARRAY[904, 67, 21, 580]),
+    -- Ogerpon: Ogerpon (Cornerstone Mask) Lv. 70: Ivy Cudgel, Low Kick, Slam, Grassy Terrain
+    (240005, 24003, NULL, NULL, NULL, 'after-the-way-home', 3, ARRAY[904, 67, 21, 580]),
+    -- Ogerpon: Ogerpon Lv. 70: Ivy Cudgel, Low Kick, Slam, Grassy Terrain
+    (240005, 24003, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[904, 67, 21, 580]),
+    -- Bloodmoon Ursaluna: Ursaluna (Bloodmoon) Lv. 70: Blood Moon, Earth Power, Slash, Calm Mind
+    (240007, 24004, NULL, NULL, NULL, NULL, 1, ARRAY[901, 414, 163, 347]),
     -- Carmine: Poochyena Lv. 12: Bite, Tackle, Howl
     (240001, 24005, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[44, 33, 336]),
     -- Carmine: Vulpix Lv. 12: Ember, Disable, Quick Attack, Spite
@@ -142,7 +166,25 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Carmine: Ninetales Lv. 72: Flamethrower, Extrasensory, Will-O-Wisp, Disable
     (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[53, 326, 261, 50]),
     -- Carmine: Sinistcha Lv. 74: Matcha Gotcha, Hex, Stun Spore, Scald
-    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[902, 506, 78, 503])
+    (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[902, 506, 78, 503]),
+    -- Okidogi: Okidogi Lv. 35: Bite, Poison Fang, Low Kick, Brutal Swing
+    (240004, 24007, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[44, 305, 67, 693]),
+    -- Okidogi: Okidogi Lv. 85: Crunch, Close Combat, Brutal Swing, Poison Jab
+    (240004, 24007, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[242, 370, 693, 398]),
+    -- Munkidori: Munkidori Lv. 35: Confusion, Clear Smog, Psybeam, Spite
+    (240004, 24008, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[93, 499, 60, 180]),
+    -- Munkidori: Munkidori Lv. 85: Psychic, Sludge Wave, Shadow Ball, Nasty Plot
+    (240004, 24008, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[94, 482, 247, 417]),
+    -- Fezandipiti: Fezandipiti Lv. 35: Quick Attack, Wing Attack, Poison Jab, Dazzling Gleam
+    (240004, 24009, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[98, 17, 398, 605]),
+    -- Fezandipiti: Fezandipiti Lv. 85: Cross Poison, Play Rough, Dual Wingbeat, Dazzling Gleam
+    (240004, 24009, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[440, 583, 814, 605]),
+    -- Okidogi: Okidogi Lv. 70: Poison Jab, Brutal Swing, Crunch, Superpower
+    (240008, 24010, NULL, NULL, NULL, NULL, 1, ARRAY[398, 693, 242, 276]),
+    -- Munkidori: Munkidori Lv. 70: Psychic, Sludge Wave, Nasty Plot, Future Sight
+    (240009, 24006, NULL, NULL, NULL, NULL, 1, ARRAY[94, 482, 417, 248]),
+    -- Fezandipiti: Fezandipiti Lv. 70: Beat Up, Swagger, Flatter, Roost
+    (240010, 24011, NULL, NULL, NULL, NULL, 1, ARRAY[251, 207, 260, 355])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT
