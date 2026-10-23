@@ -3421,6 +3421,29 @@ CREATE TRIGGER enforce_mainline_opponent_team_member_fixed_tera_type
 COMMENT ON FUNCTION private.enforce_mainline_opponent_team_member_scope () IS 'Keeps an opponent team row in its opponent''s and its Story battle''s game, and in its version group.';
 
 -- ============================================================================
+-- Source: database/schema/03_tracking/01_tables/018_mainline_opponent_team_member_moves.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: tracking.mainline_opponent_team_member_moves
+-- The moves each opponent's Pokémon uses in a Story battle, slot by slot.
+-- ============================================================================
+CREATE TABLE tracking.mainline_opponent_team_member_moves (
+    team_member_id integer NOT NULL REFERENCES tracking.mainline_opponent_team_members (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    slot integer NOT NULL,
+    move_id integer NOT NULL REFERENCES reference.moves (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT mainline_opponent_team_member_moves_primary_key PRIMARY KEY (team_member_id, slot),
+    CONSTRAINT mainline_opponent_team_member_moves_slot_range_check CHECK (slot BETWEEN 1 AND 4),
+    CONSTRAINT mainline_opponent_team_member_moves_unique_move UNIQUE (team_member_id, move_id)
+);
+
+CREATE INDEX mainline_opponent_team_member_moves_move_idx ON tracking.mainline_opponent_team_member_moves (move_id);
+
+COMMENT ON TABLE tracking.mainline_opponent_team_member_moves IS 'Curated move slots of an opponent''s Pokémon in a Story battle (a mainline_opponent_team_members row), in the game''s own order. A Pokémon with no rows has moves Voydex does not have.';
+
+COMMENT ON COLUMN tracking.mainline_opponent_team_member_moves.move_id IS 'A regular move it knows in this battle, as that game''s own trainer data gives it; a Pokémon the game gives no set moves keeps its default level-up moves for its level.';
+
+-- ============================================================================
 -- Source: database/schema/03_tracking/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -3460,6 +3483,8 @@ ALTER TABLE tracking.mainline_milestone_decision_options ENABLE ROW LEVEL SECURI
 
 ALTER TABLE tracking.mainline_opponent_team_members ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE tracking.mainline_opponent_team_member_moves ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE tracking.mainline_snapshot_policies FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_categories FROM anon, authenticated;
@@ -3493,6 +3518,8 @@ REVOKE ALL ON TABLE tracking.mainline_milestone_collectible_refs FROM anon, auth
 REVOKE ALL ON TABLE tracking.mainline_milestone_decision_options FROM anon, authenticated;
 
 REVOKE ALL ON TABLE tracking.mainline_opponent_team_members FROM anon, authenticated;
+
+REVOKE ALL ON TABLE tracking.mainline_opponent_team_member_moves FROM anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_snapshot_policies TO authenticated;
 
@@ -3528,6 +3555,8 @@ GRANT SELECT ON TABLE tracking.mainline_milestone_decision_options TO authentica
 
 GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO authenticated;
 
+GRANT SELECT ON TABLE tracking.mainline_opponent_team_member_moves TO authenticated;
+
 GRANT ALL ON TABLE tracking.mainline_snapshot_policies TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_categories TO service_role;
@@ -3561,6 +3590,8 @@ GRANT ALL ON TABLE tracking.mainline_milestone_collectible_refs TO service_role;
 GRANT ALL ON TABLE tracking.mainline_milestone_decision_options TO service_role;
 
 GRANT ALL ON TABLE tracking.mainline_opponent_team_members TO service_role;
+
+GRANT ALL ON TABLE tracking.mainline_opponent_team_member_moves TO service_role;
 
 CREATE POLICY mainline_snapshot_policies_read_all ON tracking.mainline_snapshot_policies
     FOR SELECT TO authenticated
@@ -3627,6 +3658,10 @@ CREATE POLICY mainline_milestone_decision_options_read_all ON tracking.mainline_
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_opponent_team_members
+    FOR SELECT TO authenticated
+    USING (TRUE);
+
+CREATE POLICY mainline_opponent_team_member_moves_read_all ON tracking.mainline_opponent_team_member_moves
     FOR SELECT TO authenticated
     USING (TRUE);
 
