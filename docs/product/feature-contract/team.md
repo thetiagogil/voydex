@@ -76,7 +76,10 @@ remain explicitly unrecorded, and fields unsupported by the game are omitted.
 
 The member stays its stored form. Where the Play's game has the mechanic, a
 `Battle form` switch under its name shows a Mega, Primal, Ultra Burst or
-Gigantamax form its stored form reaches: art, types, ability and stat changes
+Gigantamax form its stored form reaches. It lists "Base", then each battle form
+by its own name (Mega X, Gigantamax) with its mechanic as the quieter line;
+Gigantamax shows but can't be picked until the member has the Gigantamax
+Factor. A picked battle form previews only: art, types, ability and stat changes
 become the form's, and a Gigantamax form lists its Max Moves. A quiet note says
 when the member can't reach it as recorded (a wrong or missing Mega Stone, no
 Gigantamax Factor, Mega Rayquaza without Dragon Ascent or holding a Z-Crystal);
@@ -102,8 +105,12 @@ in the selected game—are chosen during Add, import, or correction and expose n
 
 `Change form` is a dedicated recorded lifecycle flow only when the same
 individual has a game- and content-valid directed transition from its current
-form to another persistent, team-selectable form. Rotom appliance changes are
-the canonical example. Do not infer this from shared species or availability,
+form to another persistent, team-selectable form: its current form and the
+target are both of the form class. Rotom appliance changes are the canonical
+example. It opens a list of those forms with their art, name and types. A form
+a held item selects (Arceus's Plates, Silvally's Memories, Genesect's Drives,
+Ogerpon's masks) shows which item and can't be picked: saving the held item
+in the editor sets the form instead, as a details edit. Do not infer this from shared species or availability,
 and exclude battle-only transformations and cosmetic-only variants. Preserve
 the same member and personal details, resolve ability and required held-item
 consequences safely, keep moves until the user reviews them, and store
@@ -140,10 +147,12 @@ that member from future comparison; it never rewrites the authored Plan.
 As built: **Add Pokémon** is a side sheet (a bottom sheet on phones), opened
 from the Roster head or `?add=` (the Codex's Add to a Play presets the
 species and form). Pick a species of the Play's Pokédexes (base game and the
-expansions it tracks) by name or number, then its nickname, level and team
+expansions it tracks) by name or number, each variant the game has standing
+beside its species as its own card with the same number (never a battle form
+or a form it switches to later), then its nickname, level and team
 or reserve; the server takes the first open slot, the moment joins History
 and the toast offers Undo, which deletes the Pokémon and that moment
-together. **Edit Pokémon** is the same kind of sheet: Who, Forms (shiny, can Gigantamax), Slot,
+together. **Edit Pokémon** is the same kind of sheet: Who (with shiny and can Gigantamax), Slot,
 Details (nature, ability, held item, Poké Ball, and where and at what level it
 was met; held items are only the holdable items the Play's exact game has,
 grouped by category), Moves and Notes, then Review changes before Save, offering only what

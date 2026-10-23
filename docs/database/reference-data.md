@@ -33,6 +33,9 @@ sources remain authoritative for game-specific mechanics and availability.
 - Learnsets preserve game/version context, method, level, machine, and source
   item where applicable.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Every non-default form's rule carries its `form_class`: `variant` (caught
+  and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
+  list of switchable forms; every other curated form is a variant.
 - Battle forms (Megas, Primals, Gigantamax and in-battle changes) are seeded as
   non-team-selectable forms whose rule names their `battle_mechanic`. A trigger
   refuses them as a Play or Plan member's form; opponent teams store the form a

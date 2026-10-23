@@ -278,9 +278,19 @@ types, stats and ability, and its form rule names the mechanic that reaches it.
 A Play or Plan member is never stored in one; an opponent that battles in one
 is.
 
+### Form Class
+
+Every non-default form is one of three classes. A **variant** is a different
+Pokémon you catch and keep, chosen when it is added (Hisuian Arcanine, Dusk
+Lycanroc, Blue-Striped Basculin). A **form** is one the Pokémon switches to and
+back on a Play (Rotom appliances, Therian Formes, Arceus types); `Change form`
+offers only these. A **battle form** exists only in battle. A default form has
+no class of its own: it heads its species' variants or forms.
+
 ### Form Rule
 
-Metadata describing how a form should behave in team builder, planning, and display.
+Metadata describing how a form should behave in team builder, planning, and
+display, including its form class.
 
 ### Form Transition
 
