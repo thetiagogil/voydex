@@ -104,15 +104,14 @@ test.describe("Battle forms", () => {
     const profile = await addFromLink(page, playId, "Charizard");
     const menu = profile.getByRole("combobox", { name: "Battle form" });
 
-    /* No Megas in Sword: only Gigantamax. */
+    /* No Megas in Sword: only Gigantamax, which needs the Factor first. */
     await menu.click();
     await expect(page.getByRole("option")).toHaveCount(2);
-    await expect(page.getByRole("option").nth(1)).toContainText("Gigantamax");
+    const gigantamax = page.getByRole("option").nth(1);
+    await expect(gigantamax).toContainText("Gigantamax");
+    await expect(gigantamax).toContainText("Needs the Gigantamax Factor");
+    await expect(gigantamax).toHaveAttribute("aria-disabled", "true");
     await page.keyboard.press("Escape");
-    await pickForm(page, menu, "Gigantamax");
-    await expect(profile.getByRole("status")).toContainText(
-      "Doesn't have the Gigantamax Factor.",
-    );
 
     await page.getByRole("button", { name: "Edit Charizard" }).click();
     const editor = page.getByRole("dialog", { name: "Charizard" });
@@ -147,7 +146,7 @@ test.describe("Battle forms", () => {
     await saved;
     await expect(editor).toBeHidden(forTheAnswer);
 
-    await expect(menu).toContainText("Gigantamax");
+    await pickForm(page, menu, "Gigantamax");
     await expect(profile.getByRole("status")).toHaveCount(0, forTheAnswer);
     await expect(profile).toContainText("Gigantamax Charizard");
   });

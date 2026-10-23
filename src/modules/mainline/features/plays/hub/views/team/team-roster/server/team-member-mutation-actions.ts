@@ -3,6 +3,19 @@
 import { z } from "zod";
 
 import {
+  gameMechanics,
+  resolveGameMechanics,
+  supportsGameMechanic,
+} from "@/modules/reference/features/games/domain/game-mechanics";
+import {
+  getChangeableFormIds,
+  resolveFormClasses,
+} from "@/modules/reference/features/pokemon/domain/form-classes";
+import {
+  readFormClassById,
+  readHeldItemForms,
+} from "@/modules/reference/features/pokemon/server/form-class-reader";
+import {
   parseInput,
   positiveIntegerSchema,
 } from "@/shared/utils/input-schemas";
@@ -167,7 +180,11 @@ export const evolveMainlinePlayPokemonAction = async ({
   }
 };
 
-/* Change form: another form of the same species, with its moment. */
+/*
+ * Change form: another form it can switch to (Rotom, the Therian Formes),
+ * with its moment. A variant has none, and a form a held item selects
+ * follows the held item instead.
+ */
 export const changeMainlinePlayPokemonFormAction = async ({
   playId,
   playPokemonId,
@@ -186,16 +203,61 @@ export const changeMainlinePlayPokemonFormAction = async ({
       positiveIntegerSchema("Pick another form of the same Pokémon."),
       rawToFormId,
     );
-    const formResult = await supabase
-      .schema("reference")
-      .from("pokemon_forms")
-      .select("id")
-      .eq("id", toFormId)
-      .eq("species_id", pokemon.species_id)
-      .maybeSingle();
+    const [playResult, formsResult, formClassById] = await Promise.all([
+      supabase
+        .schema("views")
+        .from("mainline_play_summary")
+        .select("game_id, generation_id, version_group_id")
+        .eq("play_id", playId)
+        .maybeSingle(),
+      supabase
+        .schema("reference")
+        .from("pokemon_forms")
+        .select("id")
+        .eq("species_id", pokemon.species_id),
+      readFormClassById(supabase, [pokemon.species_id]),
+    ]);
+    const play = playResult.data;
 
-    if (formResult.error || !formResult.data || toFormId === pokemon.form_id) {
-      throw new Error("Pick another form of the same Pokémon.");
+    if (
+      playResult.error ||
+      formsResult.error ||
+      !play?.game_id ||
+      !play.generation_id ||
+      !play.version_group_id
+    ) {
+      throw new Error("Unable to change its form.");
+    }
+
+    /* Only a form it can switch to, and never one a held item selects. */
+    const forms = formsResult.data ?? [];
+    const changeableFormIds = getChangeableFormIds(
+      forms,
+      resolveFormClasses(forms, formClassById),
+      pokemon.form_id,
+    );
+    const hasHeldItems = supportsGameMechanic(
+      resolveGameMechanics({
+        gameId: play.game_id,
+        generationId: play.generation_id,
+        versionGroupId: play.version_group_id,
+      }),
+      gameMechanics.heldItems,
+    );
+    const heldItemForms = hasHeldItems
+      ? await readHeldItemForms(supabase, {
+          formIds: changeableFormIds,
+          generationId: play.generation_id,
+          versionGroupId: play.version_group_id,
+        })
+      : new Map<number, string[]>();
+
+    if (!changeableFormIds.includes(toFormId) || heldItemForms.size) {
+      throw new Error(
+        heldItemForms.size
+          ? "Its form follows its held item."
+          : "Pick another form of the same Pokémon.",
+      );
     }
 
     const result = await supabase

@@ -869,7 +869,7 @@ COMMENT ON TABLE reference.item_category_memberships IS 'Many-to-many category m
 -- ============================================================================
 CREATE TABLE reference.pokemon_form_rules (
     form_id integer PRIMARY KEY REFERENCES reference.pokemon_forms (id) ON UPDATE CASCADE ON DELETE CASCADE,
-    form_kind text NOT NULL,
+    form_class text NOT NULL,
     is_team_selectable boolean NOT NULL DEFAULT TRUE,
     is_battle_only boolean NOT NULL DEFAULT FALSE,
     is_cosmetic boolean NOT NULL DEFAULT FALSE,
@@ -879,8 +879,8 @@ CREATE TABLE reference.pokemon_form_rules (
     condition_summary text,
     notes text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
-    CONSTRAINT pokemon_form_rules_form_kind_check CHECK (form_kind IN ('default', 'regional', 'alternate', 'cosmetic', 'battle', 'special')),
-    CONSTRAINT pokemon_form_rules_battle_kind_check CHECK (form_kind <> 'battle' OR is_battle_only),
+    CONSTRAINT pokemon_form_rules_form_class_check CHECK (form_class IN ('variant', 'form', 'battle')),
+    CONSTRAINT pokemon_form_rules_battle_class_check CHECK ((form_class = 'battle') = is_battle_only),
     CONSTRAINT pokemon_form_rules_battle_not_team_selectable_check CHECK (NOT is_battle_only OR NOT is_team_selectable),
     CONSTRAINT pokemon_form_rules_battle_mechanic_check CHECK (battle_mechanic IS NULL OR battle_mechanic IN ('mega-evolution', 'primal-reversion', 'ultra-burst', 'dynamax', 'in-battle')),
     CONSTRAINT pokemon_form_rules_battle_mechanic_presence_check CHECK ((battle_mechanic IS NOT NULL) = is_battle_only),
@@ -889,6 +889,8 @@ CREATE TABLE reference.pokemon_form_rules (
 );
 
 COMMENT ON TABLE reference.pokemon_form_rules IS 'UI and planning behavior metadata for Pokémon forms.';
+
+COMMENT ON COLUMN reference.pokemon_form_rules.form_class IS 'variant: a different Pokémon you catch and keep, chosen when it is added (Hisuian Arcanine). form: one the Pokémon can switch to and back on a Play (Rotom, Therian Formes, Arceus types). battle: only in battle (Mega, Gigantamax). A default form has no rule row.';
 
 COMMENT ON COLUMN reference.pokemon_form_rules.battle_mechanic IS 'Battle forms only: the mechanic that reaches the form, so it shows only in games that have it. in-battle means an ability, move or held item changes it during any battle in a game with the Pokémon.';
 
@@ -5970,6 +5972,9 @@ CREATE FUNCTION gameplay.update_mainline_play_pokemon (p_play_pokemon_id uuid, p
 DECLARE
     v_play_pokemon gameplay.mainline_play_pokemon%ROWTYPE;
     v_move_count integer;
+    v_form_id integer;
+    v_generation_id integer;
+    v_version_group_id integer;
 BEGIN
     IF p_play_pokemon_id IS NULL THEN
         RAISE EXCEPTION 'play_pokemon_id is required'
@@ -5999,6 +6004,64 @@ BEGIN
     END IF;
     PERFORM
         pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_pokemon.play_id::text)::bigint);
+    SELECT
+        version_groups.generation_id,
+        mainline_plays.version_group_id
+    INTO
+        v_generation_id,
+        v_version_group_id
+    FROM
+        gameplay.mainline_plays
+        JOIN reference.version_groups ON version_groups.id = mainline_plays.version_group_id
+    WHERE
+        mainline_plays.id = v_play_pokemon.play_id;
+    -- A form driven by a held item follows a change of held item in the
+    -- Play's game (Arceus's Plates, Silvally's Memories, Genesect's Drives,
+    -- Ogerpon's masks): taking one selects its form, and taking away the item
+    -- that selected the current form brings back the default. A game without
+    -- held items never changes it here.
+    WITH held_item_forms AS (
+        SELECT
+            requirements.form_id,
+            requirements.item_id
+        FROM
+            reference.pokemon_form_item_requirements AS requirements
+            JOIN reference.pokemon_forms ON pokemon_forms.id = requirements.form_id
+            JOIN reference.pokemon_form_rules ON pokemon_form_rules.form_id = requirements.form_id
+        WHERE
+            pokemon_forms.species_id = v_play_pokemon.species_id
+            AND pokemon_form_rules.form_class = 'form'
+            AND requirements.requirement_kind IN ('required_held_item', 'alternative_held_item')
+            AND requirements.generation_start_id <= v_generation_id
+            AND (requirements.generation_end_id IS NULL
+                OR requirements.generation_end_id >= v_generation_id)
+            AND (requirements.version_group_start_id IS NULL
+                OR requirements.version_group_start_id <= v_version_group_id)
+            AND (requirements.version_group_end_id IS NULL
+                OR requirements.version_group_end_id >= v_version_group_id))
+    SELECT
+        COALESCE((
+            SELECT
+                held_item_forms.form_id
+            FROM held_item_forms
+            WHERE
+                held_item_forms.item_id = p_held_item_id ORDER BY held_item_forms.form_id LIMIT 1), CASE WHEN EXISTS (
+        SELECT
+            1
+        FROM held_item_forms
+    WHERE
+        held_item_forms.form_id = v_play_pokemon.form_id
+        AND held_item_forms.item_id = v_play_pokemon.held_item_id) THEN
+(
+    SELECT
+        pokemon_forms.id
+    FROM reference.pokemon_forms
+WHERE
+    pokemon_forms.species_id = v_play_pokemon.species_id
+        AND pokemon_forms.is_default)
+    END, v_play_pokemon.form_id)
+    INTO
+        v_form_id;
     UPDATE
         gameplay.mainline_play_pokemon
     SET
@@ -6008,8 +6071,21 @@ BEGIN
         is_shiny = COALESCE(p_is_shiny, FALSE),
         nature_id = p_nature_id,
         ability_id = p_ability_id,
+        form_id = v_form_id,
         held_item_id = p_held_item_id,
-        tera_type_id = p_tera_type_id,
+        -- When the held item changes its form, a recorded Tera Type follows a
+        -- form whose Tera Type is fixed.
+        tera_type_id = CASE WHEN p_tera_type_id IS NULL
+            OR v_form_id = v_play_pokemon.form_id THEN
+            p_tera_type_id
+        ELSE
+            COALESCE((
+                SELECT
+                    pokemon_fixed_tera_types.tera_type_id
+                FROM reference.pokemon_fixed_tera_types
+                WHERE
+                    pokemon_fixed_tera_types.form_id = v_form_id), p_tera_type_id)
+        END,
         has_gigantamax_factor = COALESCE(p_has_gigantamax_factor, FALSE),
         met_location_label = p_met_location_label,
         met_level = p_met_level,
@@ -6290,7 +6366,7 @@ COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, 
 
 COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows a change of held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 

@@ -9,7 +9,7 @@
 -- Generation: 3-9
 -- Table: reference.pokemon_form_rules
 -- Scope: battle-only, never team selectable; condition_summary says what triggers it.
-INSERT INTO reference.pokemon_form_rules (form_id, form_kind, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, battle_mechanic, condition_summary, notes)
+INSERT INTO reference.pokemon_form_rules (form_id, form_class, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, battle_mechanic, condition_summary, notes)
 VALUES
   -- Primal Kyogre
   (38201, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'primal-reversion', 'Primal Reversion when it enters battle holding the Blue Orb, in Omega Ruby / Alpha Sapphire to Ultra Sun / Ultra Moon and in Mega Dimension, where the Rogue Primals are boss battles.', NULL),

@@ -10,11 +10,11 @@
 -- Generation: 3
 -- Table: reference.pokemon_form_rules
 -- Scope: UI/planning behavior for curated non-default forms.
-INSERT INTO reference.pokemon_form_rules (form_id, form_kind, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, condition_summary, notes)
+INSERT INTO reference.pokemon_form_rules (form_id, form_class, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, condition_summary, notes)
 VALUES
   -- Deoxys (Attack)
-  (38601, 'alternate', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent form changed by game/version or meteorite mechanics.', NULL),
+  (38601, 'form', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent form changed by game/version or meteorite mechanics.', NULL),
   -- Deoxys (Defense)
-  (38602, 'alternate', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent form changed by game/version or meteorite mechanics.', NULL),
+  (38602, 'form', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent form changed by game/version or meteorite mechanics.', NULL),
   -- Deoxys (Speed)
-  (38603, 'alternate', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent form changed by game/version or meteorite mechanics.', NULL);
+  (38603, 'form', TRUE, FALSE, FALSE, FALSE, FALSE, 'Persistent form changed by game/version or meteorite mechanics.', NULL);

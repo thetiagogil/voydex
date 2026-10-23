@@ -9,7 +9,7 @@
 -- Generation: 8
 -- Table: reference.pokemon_form_rules
 -- Scope: Gigantamax forms are battle-only and never team selectable.
-INSERT INTO reference.pokemon_form_rules (form_id, form_kind, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, battle_mechanic, condition_summary, notes)
+INSERT INTO reference.pokemon_form_rules (form_id, form_class, is_team_selectable, is_battle_only, is_cosmetic, is_regional, is_evolution_locked, battle_mechanic, condition_summary, notes)
 VALUES
   -- Gigantamax Venusaur
   (302, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'dynamax', 'Gigantamaxes in battle in Sword / Shield when it has the Gigantamax Factor.', NULL),

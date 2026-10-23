@@ -2,6 +2,7 @@
 
 import { fieldSurfaceClassName } from "@/shared/components/ui/field-surface";
 import {
+  menuGroupLabelClassName,
   menuOptionClassName,
   menuOptionSelectedClassName,
   menuPanelClassName,
@@ -22,6 +23,19 @@ const SelectGroup = ({ className, ...props }: SelectPrimitive.Group.Props) => {
     <SelectPrimitive.Group
       data-slot="select-group"
       className={cn("grid scroll-my-1 gap-0.5", className)}
+      {...props}
+    />
+  );
+};
+
+const SelectLabel = ({
+  className,
+  ...props
+}: SelectPrimitive.GroupLabel.Props) => {
+  return (
+    <SelectPrimitive.GroupLabel
+      data-slot="select-label"
+      className={cn(menuGroupLabelClassName, className)}
       {...props}
     />
   );
@@ -203,6 +217,7 @@ export {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectScrollDownButton,
   SelectScrollUpButton,
   SelectTrigger,

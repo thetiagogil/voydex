@@ -37,7 +37,6 @@ import {
   TeamMemberEditorDetailsStep,
   type TeamMemberEditorOptionsState,
 } from "./team-member-editor-details-step";
-import { TeamMemberEditorFormsStep } from "./team-member-editor-forms-step";
 import { TeamMemberEditorMovesStep } from "./team-member-editor-moves-step";
 import { TeamMemberEditorNotesStep } from "./team-member-editor-notes-step";
 import { TeamMemberEditorReview } from "./team-member-editor-review";
@@ -266,9 +265,6 @@ export const TeamMemberEditorSheet = ({
         {...stepProps}
         member={member}
         supportsGender={supports.gender}
-      />
-      <TeamMemberEditorFormsStep
-        {...stepProps}
         supportsGigantamax={supports.gigantamax}
       />
       <TeamMemberEditorWhereStep

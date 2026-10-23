@@ -193,12 +193,25 @@ export type MemberBattle = {
   zMoves: MemberBattleMove[];
 };
 
-/* What a form menu says under a battle form: "In battle · Mega Evolution". */
+/* The mechanic that reaches a battle form: "Mega Evolution". */
 export const battleFormMechanicNames: Record<BattleFormMechanic, string> = {
   [battleFormMechanics.dynamax]: "Gigantamax",
   [battleFormMechanics.megaEvolution]: "Mega Evolution",
   [battleFormMechanics.primalReversion]: "Primal Reversion",
   [battleFormMechanics.ultraBurst]: "Ultra Burst",
+};
+
+/*
+ * The quieter line under a battle form in a form menu: its mechanic, unless
+ * its name already says it ("Gigantamax", "Ultra Burst").
+ */
+export const getBattleFormMechanicNote = (form: {
+  label: string;
+  mechanic: BattleFormMechanic;
+}) => {
+  const mechanicName = battleFormMechanicNames[form.mechanic];
+
+  return form.label.includes(mechanicName) ? undefined : mechanicName;
 };
 
 const mechanicLabels: Record<BattleFormMechanic, string> = {

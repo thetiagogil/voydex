@@ -23,9 +23,16 @@ export type EditorMoveOption = EditorOption & {
 
 export type EditorFormOption = {
   formId: number;
+  /*
+   * Why it can't be picked: a form a held item selects ("Hold Flame
+   * Plate"), which saving the held item sets instead.
+   */
+  heldItemNote: string | null;
   imageUrl: string | null;
   name: string;
   speciesId: number;
+  /* In slot order, at the Play's generation. */
+  types: { name: string; slug: string }[];
 };
 
 /*

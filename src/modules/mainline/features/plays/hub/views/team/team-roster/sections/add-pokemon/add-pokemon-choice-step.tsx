@@ -8,6 +8,7 @@ import {
 } from "@/shared/components/ui/alert";
 import { cn } from "@/shared/utils/cn";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
+import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { EmptyState } from "@/shared/components/empty-state";
 import { LoadMoreTrigger } from "@/shared/components/load-more-trigger";
 import { PendingData } from "@/shared/components/pending-data";
@@ -75,7 +76,11 @@ const ChoiceButton = ({
         imageUrl={choice.imageUrl}
         name={choice.speciesName}
         number={formatPokemonChoiceNumber(choice.number)}
-        subtitle={choice.formName}
+        subtitle={
+          choice.formName
+            ? formatShortFormName(choice.formName, choice.speciesName)
+            : null
+        }
         types={getPokemonChoiceTypes(choice)}
       />
     </button>

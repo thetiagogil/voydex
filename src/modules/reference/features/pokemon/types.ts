@@ -1,4 +1,5 @@
 import type { BattleFormLink } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import type { FormClass } from "@/modules/reference/features/pokemon/domain/form-classes";
 import type {
   Ability,
   AbilityAttribute,
@@ -178,6 +179,8 @@ export type PokemonDetailData = {
   evolutionFamily: PokemonEvolutionFamilySummary;
   species: PokemonSpecies;
   forms: PokemonFormSummary[];
+  /* Each form's class by form id (see `resolveFormClasses`); null for a default with only battle forms. */
+  formClassById: Record<number, FormClass | null>;
   generationDetails: PokemonGenerationDetail[];
   /* Every generation, in order, for the entry's pills (those it isn't in show disabled). */
   generations: Generation[];

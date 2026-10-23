@@ -16,13 +16,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog";
-import { Button } from "@/shared/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/shared/components/ui/dropdown-menu";
+import { toPokemonFormOption } from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
+import { SelectControl } from "@/shared/components/select-control";
+import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 import type {
@@ -37,6 +33,61 @@ import {
 } from "../../server/team-member-mutation-actions";
 
 type Confirm = "delete" | "retire" | null;
+
+/*
+ * Evolve… and Change form: a head action that opens the list of forms, each
+ * with its art, name and types; one a held item selects shows why it can't
+ * be picked. Picking one acts straight away.
+ */
+const FormActionSelect = ({
+  disabled,
+  icon,
+  label,
+  onPick,
+  targets,
+}: {
+  disabled: boolean;
+  icon: React.ReactNode;
+  label: string;
+  onPick: (target: EditorFormOption) => void;
+  targets: EditorFormOption[];
+}) => (
+  <SelectControl
+    ariaLabel={label}
+    className={buttonVariants({ size: "sm", variant: "tint" })}
+    disabled={disabled}
+    onValueChange={(value) => {
+      const target = targets.find((item) => String(item.formId) === value);
+
+      if (target) {
+        onPick(target);
+      }
+    }}
+    options={targets.map((target) =>
+      toPokemonFormOption({
+        description: target.heldItemNote ?? undefined,
+        disabled: target.heldItemNote !== null,
+        imageUrl: target.imageUrl,
+        label: target.name,
+        name: target.name,
+        typeSlug: target.types[0]?.slug ?? null,
+        types: target.types,
+        value: String(target.formId),
+      }),
+    )}
+    placeholder={label}
+    searchable={false}
+    size="sm"
+    triggerContent={
+      <>
+        {icon}
+        {label}
+      </>
+    }
+    value=""
+    variant="ghost"
+  />
+);
 
 /*
  * The editor's head actions (v3 `.sh-acts`, on the tinted head): Evolve,
@@ -113,25 +164,13 @@ export const TeamMemberEditorActions = ({
     <div className="grid gap-2">
       <div className="flex flex-wrap gap-2">
         {evolutions.length > 1 ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              disabled={isPending}
-              render={<Button type="button" variant="tint" size="sm" />}
-            >
-              <AppIcon icon={appIcons.product.evolved} inline="start" />
-              Evolve…
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {evolutions.map((target) => (
-                <DropdownMenuItem
-                  key={target.formId}
-                  onClick={() => evolve(target)}
-                >
-                  {target.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <FormActionSelect
+            disabled={isPending}
+            icon={<AppIcon icon={appIcons.product.evolved} inline="start" />}
+            label="Evolve…"
+            onPick={evolve}
+            targets={evolutions}
+          />
         ) : (
           <Button
             type="button"
@@ -145,25 +184,15 @@ export const TeamMemberEditorActions = ({
           </Button>
         )}
         {forms.length ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger
-              disabled={isPending}
-              render={<Button type="button" variant="tint" size="sm" />}
-            >
+          <FormActionSelect
+            disabled={isPending}
+            icon={
               <AppIcon icon={appIcons.product.formChanged} inline="start" />
-              Change form
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start">
-              {forms.map((target) => (
-                <DropdownMenuItem
-                  key={target.formId}
-                  onClick={() => changeForm(target)}
-                >
-                  {target.name}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            }
+            label="Change form"
+            onPick={changeForm}
+            targets={forms}
+          />
         ) : null}
         <Button
           type="button"

@@ -1,4 +1,5 @@
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import {
   SelectControl,
   type SelectControlOption,
@@ -7,26 +8,37 @@ import { cn } from "@/shared/utils/cn";
 
 /*
  * One form in a form menu (a Play member's battle forms, a Codex entry's
- * forms): its art on its type's tint, its name, and a quieter line such as
- * "In battle · Mega Evolution".
+ * forms, Change form): its art on its type's tint, its name, a quieter line
+ * such as "Mega Evolution", its types at the end, and the class heading it
+ * sits under.
  */
 export const toPokemonFormOption = ({
   description,
+  disabled,
+  group,
   imageUrl,
   label,
   name,
   typeSlug,
+  types,
   value,
 }: {
   description?: string;
+  /* Shown but not pickable, such as Gigantamax without its Factor. */
+  disabled?: boolean;
+  group?: string;
   imageUrl: string | null;
   label: string;
   /* The full form name, for the art's stand-in. */
   name: string;
   typeSlug: string | null;
+  /* Its types as small marks at the end of the row. */
+  types?: { name: string; slug: string }[];
   value: string;
 }): SelectControlOption => ({
   description,
+  disabled,
+  group,
   icon: (
     <PokemonAvatar
       decorative
@@ -37,6 +49,14 @@ export const toPokemonFormOption = ({
     />
   ),
   label,
+  trailing: types?.length ? (
+    <PokemonTypeList
+      types={types}
+      badgeDisplay="icon"
+      badgeSize="sm"
+      className="gap-1"
+    />
+  ) : undefined,
   value,
 });
 

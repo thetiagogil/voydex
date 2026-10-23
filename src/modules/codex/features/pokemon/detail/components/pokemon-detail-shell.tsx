@@ -188,6 +188,7 @@ export const PokemonDetailShell = ({
             })}
             formOptions={getPokemonDetailFormOptions({
               battleForms: scope.generation.battleForms,
+              formClassById: data.formClassById,
               forms: scope.generationForms,
               speciesName: data.species.name,
               speciesSlug: data.species.slug,

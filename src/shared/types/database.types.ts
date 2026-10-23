@@ -3428,8 +3428,8 @@ export type Database = {
           battle_mechanic: string | null;
           condition_summary: string | null;
           created_at: string;
+          form_class: string;
           form_id: number;
-          form_kind: string;
           is_battle_only: boolean;
           is_cosmetic: boolean;
           is_evolution_locked: boolean;
@@ -3442,8 +3442,8 @@ export type Database = {
           battle_mechanic?: string | null;
           condition_summary?: string | null;
           created_at?: string;
+          form_class: string;
           form_id: number;
-          form_kind: string;
           is_battle_only?: boolean;
           is_cosmetic?: boolean;
           is_evolution_locked?: boolean;
@@ -3455,8 +3455,8 @@ export type Database = {
           battle_mechanic?: string | null;
           condition_summary?: string | null;
           created_at?: string;
+          form_class?: string;
           form_id?: number;
-          form_kind?: string;
           is_battle_only?: boolean;
           is_cosmetic?: boolean;
           is_evolution_locked?: boolean;

@@ -1,5 +1,7 @@
 import type { BattleFormLink } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import type { FormClass } from "@/modules/reference/features/pokemon/domain/form-classes";
 import { readSpeciesBattleFormLinks } from "@/modules/reference/features/pokemon/server/battle-form-reader";
+import { readFormClassById } from "@/modules/reference/features/pokemon/server/form-class-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import type {
   AvailabilityMethod,
@@ -31,6 +33,7 @@ export type PokemonDetailSpeciesRows = {
   battleFormLinks: BattleFormLink[];
   availabilityRows: ResolvedPokemonAvailability[];
   familySpecies: PokemonSpecies[];
+  formClassById: Map<number, FormClass>;
   forms: PokemonForm[];
   learnsetRows: Awaited<ReturnType<typeof loadPokemonDetailLearnsetRows>>;
   pokedexEntries: PokedexEntry[];
@@ -132,6 +135,7 @@ export const loadPokemonDetailSpeciesRows = async (
     pokedexEntriesResult,
     familySpeciesResult,
     battleFormLinks,
+    formClassById,
   ] = await Promise.all([
     supabase
       .schema("reference")
@@ -165,6 +169,7 @@ export const loadPokemonDetailSpeciesRows = async (
       .eq("evolution_family_id", species.evolution_family_id)
       .order("national_number", { ascending: true }),
     readSpeciesBattleFormLinks(supabase, species.id),
+    readFormClassById(supabase, [species.id]),
   ]);
 
   if (
@@ -187,6 +192,7 @@ export const loadPokemonDetailSpeciesRows = async (
     familySpecies: familySpeciesResult.data?.length
       ? familySpeciesResult.data
       : [species],
+    formClassById,
     forms: formsResult.data ?? [],
     learnsetRows,
     pokedexEntries: pokedexEntriesResult.data ?? [],
