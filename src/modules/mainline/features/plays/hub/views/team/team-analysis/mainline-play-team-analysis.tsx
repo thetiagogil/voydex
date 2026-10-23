@@ -25,7 +25,8 @@ const emptyTeamArt = {
 
 /*
  * Team analysis is a tool, so it stays quiet: four health cards (Team health
- * first), then the defensive matrix and the move coverage. Only the data keeps
+ * first) read with the battle math, then the defensive matrix and the move
+ * coverage by type. Only the data keeps
  * its colour: matchup tints, type colours and the Pokémon themselves. The
  * Story matchups reading lists the battles of the Story instead.
  */
@@ -98,7 +99,10 @@ export const MainlinePlayTeamAnalysis = ({
           playId={playId}
           showReadingSwitch
         />
-        <TeamAnalysisHealthSection metrics={analysis.healthMetrics} />
+        <TeamAnalysisHealthSection
+          metrics={analysis.healthMetrics}
+          roughNote={analysis.roughNote}
+        />
       </div>
       <TeamAnalysisDefensiveSection
         footnote={`Read from each Pokémon's own typing on the ${analysis.generation.name} type chart, without ${joinTeamAnalysisList(leftOut, "or")}.`}

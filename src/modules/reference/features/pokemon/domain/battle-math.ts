@@ -120,6 +120,19 @@ export const getTypeDamageClass = (
       ? "physical"
       : "special";
 
+/*
+ * The categories a type's moves come in: before Gen 4 the one its type
+ * gives; from Gen 4 both, since each move has its own.
+ */
+export const getTypeDamageClasses = (
+  typeSlug: PokemonTypeSlug,
+  generationOrder: number,
+  base: BaseStats,
+): BattleAttack["damageClass"][] =>
+  generationOrder <= 3
+    ? [getTypeDamageClass(typeSlug, generationOrder, base)]
+    : ["physical", "special"];
+
 /* The power a move of its own type usually has at a level, for a Pokémon read by its types. */
 export const getTypicalPower = (level: number) =>
   Math.min(90, Math.max(40, 30 + level));

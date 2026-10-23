@@ -8,8 +8,12 @@ import {
 import type { Generation, Type } from "@/modules/reference/types";
 
 import type { TeamAnalysisModel } from "../types";
-import { buildTeamAnalysisHealth } from "./team-analysis-health";
+import {
+  buildTeamAnalysisHealth,
+  getTeamFieldRoughNote,
+} from "./team-analysis-health";
 import { buildTeamAnalysisRows } from "./team-analysis-rows";
+import { readTeamField } from "./team-field-reading";
 
 const getLineupLabel = (statusSlug: string | null) => {
   if (statusSlug === "completed") return "Final team";
@@ -50,19 +54,27 @@ export const buildTeamAnalysisModel = ({
       .length,
   };
 
+  const field = readTeamField({
+    generationOrder: generation.sort_order,
+    members: activeMembers,
+    types,
+  });
+
+  const healthMetrics = buildTeamAnalysisHealth({ evidence, field });
+
   return {
     abilitiesApply: supportsGameMechanic(mechanics, gameMechanics.abilities),
     coverageRows,
     defensiveRows,
     evidence,
     generation,
-    healthMetrics: buildTeamAnalysisHealth({
-      coverageRows,
-      defensiveRows,
-      evidence,
-    }),
+    healthMetrics,
     heldItemsApply: supportsGameMechanic(mechanics, gameMechanics.heldItems),
     lineupLabel: getLineupLabel(play.status_slug),
     members: activeMembers,
+    /* Only beside cards it grades. */
+    roughNote: healthMetrics.some((metric) => metric.status !== "limited-data")
+      ? getTeamFieldRoughNote(field)
+      : null,
   };
 };

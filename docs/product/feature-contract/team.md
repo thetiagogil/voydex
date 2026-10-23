@@ -168,12 +168,33 @@ slot swapping), and Save applies it after the other changes. Dragging a
 roster sticker onto another slot moves it at once, and the roster redraws
 while the move saves.
 
-Team Analysis is the Team-owned review view. Its final metrics, calculation
-strategy and evidence disclosure are deliberately deferred until the product
-can define a reliable and explainable review model; do not replace its
-unresolved strategy with invented matchup, balance, coverage, role, damage, or
-competitive claims. Its Overall reading covers defensive matchups and recorded
-damaging-move coverage. **Story matchups** (`?reading=story`) lists the
+Team Analysis is the Team-owned review view. It makes no claim it can't
+explain: every verdict says what it is built from and what to record to
+sharpen it. Its **Overall** reading is a general check of the team, not
+tied to the game's battles. It opens with four health cards read with the
+same battle math as Story matchups (below), against a full team of six: a
+Pokémon of each type the generation has, with your active team's average
+base stats, at your top recorded level (Lv. 50 while none is), hitting with
+a move of its type at a power usual for that level (from Gen 4 once
+physically and once specially, averaged). Each of yours meets each of them
+one on one, and what one costs is your best answer mixed with your second
+best. **Team health** is what beating the six costs your team: Strong at 30%
+of its HP or less, Weak at 90% or more, Moderate between, so level weighs
+first (yours 5 or more levels below your top pull it down), then how many
+you bring against six, then types; its line names who lags behind, else the
+type that costs the most, or "No type to watch" when none costs over 30% of
+a Pokémon's HP. **Threat response** counts the types your answers beat for
+less than 90% of one Pokémon's HP (Strong when all, Moderate from three in
+four). **Move coverage** counts the types your hardest hit knocks out in two
+hits or fewer (Strong from four in five, Moderate from half). **Weakness
+control** names the types that hit two or more of yours (your only one in a
+team of one) super effectively and beat them one on one, and is Strong with
+none of them unanswered, Moderate with one, Weak with more. A Pokémon
+without a recorded level reads at your top level and one without a damaging
+move (set-damage moves count) by its types; a note under the cards and each
+card's tooltip then say it is a rough read and how many. Typing missing on
+any of yours leaves the cards ungraded, without the note. The defensive
+matchups matrix and the move coverage list below stay by type. **Story matchups** (`?reading=story`) lists the
 Play's Story battles by chapter: every opponent a story point names is its
 own battle (a rival on the way to a Gym sits under that badge), with where it
 happens. A battle won keeps who you faced, their team

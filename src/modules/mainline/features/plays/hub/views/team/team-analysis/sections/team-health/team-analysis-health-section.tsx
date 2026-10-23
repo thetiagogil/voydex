@@ -73,18 +73,26 @@ const TeamAnalysisHealthCard = ({
 
 /*
  * How the team holds up, as four cards: a verdict each, backed by a line only
- * this team could have; why it reads that way is in the card's tooltip.
+ * this team could have; why it reads that way is in the card's tooltip. A
+ * note under them says when what the team leaves out makes it a rough read.
  */
 export const TeamAnalysisHealthSection = ({
   metrics,
+  roughNote,
 }: {
   metrics: TeamAnalysisHealthMetric[];
+  roughNote: string | null;
 }) => {
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-      {metrics.map((metric) => (
-        <TeamAnalysisHealthCard key={metric.id} metric={metric} />
-      ))}
+    <div className="grid gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+        {metrics.map((metric) => (
+          <TeamAnalysisHealthCard key={metric.id} metric={metric} />
+        ))}
+      </div>
+      {roughNote ? (
+        <p className="text-ink-2 text-13 font-semibold">{roughNote}</p>
+      ) : null}
     </div>
   );
 };
