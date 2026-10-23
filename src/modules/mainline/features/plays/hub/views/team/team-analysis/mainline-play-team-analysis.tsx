@@ -100,6 +100,7 @@ export const MainlinePlayTeamAnalysis = ({
           showReadingSwitch
         />
         <TeamAnalysisHealthSection
+          members={analysis.members}
           metrics={analysis.healthMetrics}
           roughNote={analysis.roughNote}
         />

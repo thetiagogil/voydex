@@ -5,6 +5,9 @@ import type {
   TeamAnalysisHealthLinePart,
   TeamAnalysisHealthMetric,
   TeamAnalysisHealthStatus,
+  TeamAnalysisHealthTip,
+  TeamAnalysisTipRow,
+  TeamAnalysisTipTone,
 } from "../types";
 import { battleCostLimits } from "./team-battlers";
 import type {
@@ -63,18 +66,6 @@ export const joinTeamAnalysisList = (
   return `${items.slice(0, -1).join(", ")} ${conjunction} ${items.at(-1)}`;
 };
 
-/* The most items a sentence names before it counts the rest. */
-const LISTED_COUNT = 3;
-
-/* "A, B and C", or "A, B, C and 4 more" past three. */
-const listNames = (names: string[], conjunction: "and" | "or") =>
-  names.length > LISTED_COUNT + 1
-    ? `${names.slice(0, LISTED_COUNT).join(", ")} ${conjunction} ${names.length - LISTED_COUNT} more`
-    : joinTeamAnalysisList(names, conjunction);
-
-const typeNames = (readings: TeamFieldTypeReading[]) =>
-  readings.map((reading) => reading.type.name);
-
 const text = (value: string): TeamAnalysisHealthLinePart => ({ text: value });
 
 const typePart = (type: Type): TeamAnalysisHealthLinePart => ({ type });
@@ -104,27 +95,40 @@ export const getTeamFieldRoughNote = ({
   return parts.length ? `A rough read: ${parts.join(" and ")} recorded.` : null;
 };
 
-/* What the field is, in words: a full team of six, at your top level. */
-const getFieldSentence = (field: TeamFieldReading, yourCount: number) =>
-  `Your team against a full team of six, Pokémon of each type as strong as yours, at ${
+const statusTones: Partial<
+  Record<TeamAnalysisHealthStatus, TeamAnalysisTipTone>
+> = { moderate: "warn", strong: "ok", weak: "danger" };
+
+/* What the field is: a full team of six at your top level. */
+const getFieldRow = (
+  field: TeamFieldReading,
+  yourCount: number,
+): TeamAnalysisTipRow => ({
+  detail: `A full team of six, one type each, as strong as yours, at ${
     field.unrecorded.levels >= yourCount
-      ? `Lv. ${field.level}, as your levels aren't recorded`
+      ? `Lv. ${field.level} (your levels aren't recorded)`
       : `your top level (Lv. ${field.level})`
-  }.`;
+  }`,
+  subject: { text: "Read against" },
+});
 
-/* Level first, then numbers: "Kirlia is 5 or more levels below your top, and you bring 3 to their 6." */
-const getEdgeSentence = (field: TeamFieldReading, yourCount: number) => {
-  const level = field.lagging.length
-    ? `${listNames(field.lagging, "and")} ${field.lagging.length === 1 ? "is" : "are"} 5 or more levels below your top`
-    : null;
-  const count =
-    yourCount < field.theirCount
-      ? `you bring ${yourCount} to their ${field.theirCount}`
-      : null;
-  const sentence = [level, count].filter(Boolean).join(", and ");
+/* How many of the types fit in a tip before the rest are counted. */
+const TIP_TYPES = 5;
 
-  return sentence ? `${sentence[0].toUpperCase()}${sentence.slice(1)}.` : null;
-};
+const typeRows = (
+  readings: TeamFieldTypeReading[],
+  detail: string,
+): TeamAnalysisTipRow[] => [
+  ...readings.slice(0, TIP_TYPES).map(
+    (reading): TeamAnalysisTipRow => ({
+      detail,
+      subject: { type: reading.type },
+    }),
+  ),
+  ...(readings.length > TIP_TYPES
+    ? [{ subject: { text: `and ${readings.length - TIP_TYPES} more` } }]
+    : []),
+];
 
 /*
  * The four Team health cards, read with the games' damage formula against
@@ -152,9 +156,13 @@ export const buildTeamAnalysisHealth = ({
     ? "This Play's generation has no type chart to read."
     : `Every Pokémon needs its typing for this reading; ${evidence.typedMemberCount} of ${evidence.activeCount} have one.`;
   const roughNote = getTeamFieldRoughNote(field);
-  /* One sentence a line: the tip sets the verdict apart from how it was read. */
-  const withRoughNote = (sentences: (string | null)[]) =>
-    [...sentences, roughNote].filter(Boolean).join("\n");
+  const missingTip: TeamAnalysisHealthTip = {
+    rated: [],
+    yours: [{ subject: { text: missingReason } }],
+  };
+  /* What the team leaves out of the math closes what was found. */
+  const withRoughNote = (rows: TeamAnalysisTipRow[]) =>
+    roughNote ? [...rows, { subject: { text: roughNote } }] : rows;
   const total = field.types.length;
   /* Hardest first: what each type costs your best answers. */
   const byCost = [...field.types].sort(
@@ -184,80 +192,155 @@ export const buildTeamAnalysisHealth = ({
         : watch
           ? [text("Watch"), typePart(byCost[0].type)]
           : [text("No type to watch")],
-    reason: !canRead
-      ? missingReason
-      : withRoughNote([
-          getFieldSentence(field, evidence.activeCount),
-          field.share >= 1
-            ? "Beating them costs more than your whole team's HP."
-            : `Beating them costs about ${percent(field.share)} of your team's HP.`,
-          getEdgeSentence(field, evidence.activeCount),
-          watch ? `${byCost[0].type.name} costs you the most.` : null,
-          `Strong at ${percent(battleCostLimits.strong)} or less, Weak at ${percent(battleCostLimits.challenging)} or more.`,
-        ]),
+    tip: !canRead
+      ? missingTip
+      : {
+          rated: [
+            getFieldRow(field, evidence.activeCount),
+            {
+              chip: `${percent(battleCostLimits.strong)} or less`,
+              subject: { text: "Strong" },
+              tone: "ok",
+            },
+            {
+              chip: `${percent(battleCostLimits.challenging)} or more`,
+              subject: { text: "Weak" },
+              tone: "danger",
+            },
+          ],
+          yours: withRoughNote([
+            {
+              chip: field.share >= 1 ? "all of it" : percent(field.share),
+              detail: "Of your team's HP to beat them",
+              subject: { text: "Cost" },
+              tone: statusTones[teamHealthStatus],
+            },
+            ...field.lagging.map(
+              (name): TeamAnalysisTipRow => ({
+                detail: "5 or more levels below your top",
+                subject: { pokemon: name },
+                tone: "warn",
+              }),
+            ),
+            ...(evidence.activeCount < field.theirCount
+              ? [
+                  {
+                    chip: `${evidence.activeCount} to ${field.theirCount}`,
+                    detail: "You bring fewer than they do",
+                    subject: { text: "Numbers" },
+                    tone: "warn" as const,
+                  },
+                ]
+              : []),
+            ...(watch
+              ? [
+                  {
+                    detail: "Costs you the most",
+                    subject: { type: byCost[0].type },
+                    tone: "danger" as const,
+                  },
+                ]
+              : []),
+          ]),
+        },
     status: teamHealthStatus,
     title: "Team health",
   };
 
   const openReadings = byCost.filter((reading) => !isAnswered(reading));
   const answeredCount = total - openReadings.length;
+  const threatResponseStatus: TeamAnalysisHealthStatus = canRead
+    ? getRatioStatus({
+        ...thresholds.threatResponse,
+        ratio: total ? answeredCount / total : 1,
+      })
+    : "limited-data";
   const threatResponseMetric: TeamAnalysisHealthMetric = {
     id: "threat-response",
     line: canRead
       ? [text(`${answeredCount} of ${total} answered`)]
       : missingLine,
-    reason: canRead
-      ? withRoughNote([
-          `Your best answers beat a Pokémon of ${answeredCount} of the ${total} types for less than ${percent(battleCostLimits.challenging)} of one Pokémon's HP${
-            openReadings.length
-              ? `; ${listNames(typeNames(openReadings), "and")} cost more`
-              : ""
-          }.`,
-          "Each answer mixes your best Pokémon against it with your second best.",
-          "Strong when all are answered, Moderate from three in four, Weak below that.",
-        ])
-      : missingReason,
-    status: canRead
-      ? getRatioStatus({
-          ...thresholds.threatResponse,
-          ratio: total ? answeredCount / total : 1,
-        })
-      : "limited-data",
+    tip: canRead
+      ? {
+          rated: [
+            {
+              detail: `Answered: beaten for less than ${percent(battleCostLimits.challenging)} of one Pokémon's HP, by your best answer mixed with your second best`,
+              subject: { text: "Each type" },
+            },
+            { chip: "all", subject: { text: "Strong" }, tone: "ok" },
+            { chip: "3 in 4", subject: { text: "Moderate" }, tone: "warn" },
+            { chip: "fewer", subject: { text: "Weak" }, tone: "danger" },
+          ],
+          yours: withRoughNote([
+            {
+              chip: `${answeredCount} of ${total}`,
+              detail: "Types answered",
+              subject: { text: "Answered" },
+              tone: statusTones[threatResponseStatus],
+            },
+            ...typeRows(openReadings, "Costs more to beat"),
+          ]),
+        }
+      : missingTip,
+    status: threatResponseStatus,
     title: "Threat response",
   };
 
   const coveredCount = field.types.filter(
     (reading) => reading.hitsToKnockOut <= COVERAGE_HITS,
   ).length;
-  const slowNames = field.types
-    .filter((reading) => reading.hitsToKnockOut > COVERAGE_HITS)
-    .map((reading) => reading.type.name);
+  const slowTypes = field.types.filter(
+    (reading) => reading.hitsToKnockOut > COVERAGE_HITS,
+  );
+  const moveCoverageStatus: TeamAnalysisHealthStatus = canRead
+    ? getRatioStatus({
+        ...thresholds.coverage,
+        ratio: total ? coveredCount / total : 0,
+      })
+    : "limited-data";
   const moveCoverageMetric: TeamAnalysisHealthMetric = {
     id: "move-coverage",
     line: canRead ? [text(`${coveredCount} of ${total} types`)] : missingLine,
-    reason: canRead
-      ? withRoughNote([
-          `Your hardest hits knock out a Pokémon of ${coveredCount} of the ${total} types in two hits or fewer${
-            slowNames.length ? `; ${listNames(slowNames, "and")} take more` : ""
-          }.`,
-          field.unrecorded.moves
-            ? "Yours without a damaging move recorded hit with their own types."
-            : null,
-          `Strong from ${getCountForRatio(
-            total,
-            thresholds.coverage.strongAt,
-          )} types, Moderate from ${getCountForRatio(
-            total,
-            thresholds.coverage.moderateAt,
-          )}.`,
-        ])
-      : missingReason,
-    status: canRead
-      ? getRatioStatus({
-          ...thresholds.coverage,
-          ratio: total ? coveredCount / total : 0,
-        })
-      : "limited-data",
+    tip: canRead
+      ? {
+          rated: [
+            {
+              detail: `Covered: a Pokémon of it falls in ${COVERAGE_HITS} hits or fewer to your hardest hit`,
+              subject: { text: "Each type" },
+            },
+            {
+              chip: `${getCountForRatio(total, thresholds.coverage.strongAt)}+ types`,
+              subject: { text: "Strong" },
+              tone: "ok",
+            },
+            {
+              chip: `${getCountForRatio(total, thresholds.coverage.moderateAt)}+ types`,
+              subject: { text: "Moderate" },
+              tone: "warn",
+            },
+            { chip: "fewer", subject: { text: "Weak" }, tone: "danger" },
+          ],
+          yours: withRoughNote([
+            {
+              chip: `${coveredCount} of ${total}`,
+              detail: `Types knocked out in ${COVERAGE_HITS} hits or fewer`,
+              subject: { text: "Covered" },
+              tone: statusTones[moveCoverageStatus],
+            },
+            ...typeRows(slowTypes, `Takes more than ${COVERAGE_HITS} hits`),
+            ...(field.unrecorded.moves
+              ? [
+                  {
+                    detail:
+                      "Yours with no damaging move hit with their own types",
+                    subject: { text: "Rough" },
+                  },
+                ]
+              : []),
+          ]),
+        }
+      : missingTip,
+    status: moveCoverageStatus,
     title: "Move coverage",
   };
 
@@ -280,29 +363,41 @@ export const buildTeamAnalysisHealth = ({
         : openPressure[0]
           ? [typePart(openPressure[0].type), text("unanswered")]
           : [text(`${pressureReadings.length} shared, all answered`)],
-    reason: !canRead
-      ? missingReason
-      : withRoughNote([
-          pressureReadings.length
-            ? `${pressureReadings.length} ${
-                pressureReadings.length === 1 ? "type hits" : "types hit"
-              } ${sharedWords} super effectively and ${pressureReadings.length === 1 ? "beats" : "beat"} ${sharedPronoun} one on one: ${listNames(
-                pressureReadings.map(
-                  (reading) =>
-                    `${reading.type.name} (${joinTeamAnalysisList(reading.beats, "and")})`,
-                ),
-                "and",
-              )}.`
-            : `No type hits ${sharedWords} super effectively and beats ${sharedPronoun} one on one.`,
-          !pressureReadings.length
-            ? null
-            : openPressure.length
-              ? `Nothing on the team answers ${listNames(typeNames(openPressure), "or")}.`
-              : pressureReadings.length === 1
-                ? "It has an answer on the team."
-                : "Each has an answer on the team.",
-          "Strong with none unanswered, Moderate with one, Weak with more.",
-        ]),
+    tip: !canRead
+      ? missingTip
+      : {
+          rated: [
+            {
+              detail: `A type that hits ${sharedWords} super effectively and beats ${sharedPronoun} one on one, with nothing on the team to answer it`,
+              subject: { text: "Unanswered" },
+            },
+            { chip: "none", subject: { text: "Strong" }, tone: "ok" },
+            { chip: "one", subject: { text: "Moderate" }, tone: "warn" },
+            { chip: "more", subject: { text: "Weak" }, tone: "danger" },
+          ],
+          yours: withRoughNote(
+            pressureReadings.length
+              ? pressureReadings
+                  .slice(0, TIP_TYPES)
+                  .map((reading): TeamAnalysisTipRow => {
+                    const open = !isAnswered(reading);
+
+                    return {
+                      chip: open ? "Unanswered" : "Answered",
+                      detail: `Beats ${joinTeamAnalysisList(reading.beats, "and")}`,
+                      subject: { type: reading.type },
+                      tone: open ? "danger" : "ok",
+                    };
+                  })
+              : [
+                  {
+                    subject: {
+                      text: `No type outclasses ${sharedWords} with nothing to answer it`,
+                    },
+                  },
+                ],
+          ),
+        },
     status: !canRead
       ? "limited-data"
       : openPressure.length === 0

@@ -1,9 +1,19 @@
 import { Fragment } from "react";
 
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import type {
   TeamAnalysisHealthMetric,
   TeamAnalysisHealthStatus,
+  TeamAnalysisHealthTip,
+  TeamAnalysisTipRow,
 } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import {
+  getPlayTeamMemberImageUrl,
+  getPlayTeamMemberName,
+} from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { PokemonTypeMark } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import {
   StatusBadge,
@@ -16,8 +26,10 @@ import { teamAnalysisHealthStatusLabels } from "../../data/team-analysis-health"
 import {
   TipHead,
   TipNote,
+  TipRow,
+  TipRows,
+  TipSection,
   TipStack,
-  TipText,
   type TipTone,
 } from "@/shared/components/tip-parts";
 
@@ -35,9 +47,117 @@ const statusTipTones: Record<TeamAnalysisHealthStatus, TipTone | undefined> = {
   weak: "danger",
 };
 
+/* A tip row's picture and name: a Pokémon of yours, a type, or plain words. */
+const TeamHealthTipRow = ({
+  members,
+  row,
+}: {
+  members: MainlinePlayTeamMember[];
+  row: TeamAnalysisTipRow;
+}) => {
+  const { subject } = row;
+
+  if ("pokemon" in subject) {
+    const member = members.find(
+      (candidate) => getPlayTeamMemberName(candidate) === subject.pokemon,
+    );
+
+    return (
+      <TipRow
+        chip={row.chip}
+        detail={row.detail}
+        leading={
+          <PokemonAvatar
+            decorative
+            name={subject.pokemon}
+            className="size-8 shrink-0"
+            imageUrl={member ? getPlayTeamMemberImageUrl(member) : null}
+            typeSlug={null}
+          />
+        }
+        name={subject.pokemon}
+        tone={row.tone}
+      />
+    );
+  }
+
+  if ("type" in subject) {
+    return (
+      <TipRow
+        chip={row.chip}
+        detail={row.detail}
+        leading={
+          isPokemonTypeSlug(subject.type.slug) ? (
+            <PokemonTypeMark
+              type={subject.type.slug}
+              className="size-7 shrink-0"
+              iconClassName="size-4"
+            />
+          ) : undefined
+        }
+        name={subject.type.name}
+        tone={row.tone}
+      />
+    );
+  }
+
+  /* Words alone are a note, not a thing in your team. */
+  if (!row.chip && !row.detail) {
+    return (
+      <li className="py-1.5 first:pt-0 last:pb-0">
+        <TipNote>{subject.text}</TipNote>
+      </li>
+    );
+  }
+
+  return (
+    <TipRow
+      chip={row.chip}
+      detail={row.detail}
+      name={subject.text}
+      tone={row.tone}
+    />
+  );
+};
+
+/* What was found in your team, then how the card is rated: two parts. */
+const TeamHealthTip = ({
+  members,
+  status,
+  statusLabel,
+  tip,
+}: {
+  members: MainlinePlayTeamMember[];
+  status: TeamAnalysisHealthStatus;
+  statusLabel: string;
+  tip: TeamAnalysisHealthTip;
+}) => (
+  <TipStack className="gap-2.5">
+    <TipHead tone={statusTipTones[status]}>{statusLabel}</TipHead>
+    <TipSection title="Your team">
+      <TipRows>
+        {tip.yours.map((row, index) => (
+          <TeamHealthTipRow key={index} members={members} row={row} />
+        ))}
+      </TipRows>
+    </TipSection>
+    {tip.rated.length ? (
+      <TipSection title="How it's rated">
+        <TipRows>
+          {tip.rated.map((row, index) => (
+            <TeamHealthTipRow key={index} members={members} row={row} />
+          ))}
+        </TipRows>
+      </TipSection>
+    ) : null}
+  </TipStack>
+);
+
 const TeamAnalysisHealthCard = ({
+  members,
   metric,
 }: {
+  members: MainlinePlayTeamMember[];
   metric: TeamAnalysisHealthMetric;
 }) => {
   const statusLabel = teamAnalysisHealthStatusLabels[metric.status];
@@ -54,21 +174,12 @@ const TeamAnalysisHealthCard = ({
           contentClassName="w-70"
           triggerLabel={`Why ${metric.title} reads ${statusLabel}`}
           content={
-            <TipStack>
-              <TipHead tone={statusTipTones[metric.status]}>
-                {statusLabel}
-              </TipHead>
-              {/* The verdict first, then how it was read, quieter. */}
-              {metric.reason
-                .split("\n")
-                .map((sentence, index) =>
-                  index === 0 ? (
-                    <TipText key={index}>{sentence}</TipText>
-                  ) : (
-                    <TipNote key={index}>{sentence}</TipNote>
-                  ),
-                )}
-            </TipStack>
+            <TeamHealthTip
+              members={members}
+              tip={metric.tip}
+              status={metric.status}
+              statusLabel={statusLabel}
+            />
           }
         />
       </div>
@@ -103,9 +214,11 @@ const TeamAnalysisHealthCard = ({
  * note under them says when what the team leaves out makes it a rough read.
  */
 export const TeamAnalysisHealthSection = ({
+  members,
   metrics,
   roughNote,
 }: {
+  members: MainlinePlayTeamMember[];
   metrics: TeamAnalysisHealthMetric[];
   roughNote: string | null;
 }) => {
@@ -113,7 +226,11 @@ export const TeamAnalysisHealthSection = ({
     <div className="grid gap-3">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
         {metrics.map((metric) => (
-          <TeamAnalysisHealthCard key={metric.id} metric={metric} />
+          <TeamAnalysisHealthCard
+            key={metric.id}
+            members={members}
+            metric={metric}
+          />
         ))}
       </div>
       {roughNote ? (

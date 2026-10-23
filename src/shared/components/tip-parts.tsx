@@ -110,15 +110,38 @@ export const TipText = ({ children }: { children: ReactNode }) => (
 /* A named thing explained: its name as the head, what it does under it. */
 export const TipNamed = ({
   children,
+  leading,
   name,
   tone,
 }: {
   children: ReactNode;
+  /* A small mark before the name: a move's type. */
+  leading?: ReactNode;
   name: ReactNode;
   tone?: TipTone;
 }) => (
   <TipStack>
-    <TipHead tone={tone}>{name}</TipHead>
+    <div className="flex items-center gap-2">
+      {leading}
+      <TipHead tone={tone}>{name}</TipHead>
+    </div>
     <TipText>{children}</TipText>
   </TipStack>
+);
+
+/*
+ * A titled part of a longer tip ("Your team", "How it's rated"): a small
+ * heading over its rows, with a hairline between the parts.
+ */
+export const TipSection = ({
+  children,
+  title,
+}: {
+  children: ReactNode;
+  title: string;
+}) => (
+  <section className="border-on-ink/20 grid gap-1.5 border-t pt-2 first:border-t-0 first:pt-0">
+    <h4 className="text-on-ink/75 text-12 font-extrabold">{title}</h4>
+    {children}
+  </section>
 );

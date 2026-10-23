@@ -32,13 +32,35 @@ export type TeamAnalysisHealthStatus =
 /* A card's specific line: words, and a type shown as its dot and name. */
 export type TeamAnalysisHealthLinePart = { text: string } | { type: Type };
 
+export type TeamAnalysisTipTone = "danger" | "ok" | "warn";
+
+/*
+ * One line of a card's tooltip: who it is about (a Pokémon of yours by name,
+ * a type, or plain words), what is said of it, and a figure on a chip.
+ */
+export type TeamAnalysisTipRow = {
+  chip?: string;
+  detail?: string;
+  subject: { pokemon: string } | { text: string } | { type: Type };
+  tone?: TeamAnalysisTipTone;
+};
+
+/*
+ * Why a card reads the way it does: what was found in your team, apart from
+ * how the card is rated (the field it is read against and where Strong and
+ * Weak start).
+ */
+export type TeamAnalysisHealthTip = {
+  rated: TeamAnalysisTipRow[];
+  yours: TeamAnalysisTipRow[];
+};
+
 export type TeamAnalysisHealthMetric = {
   id: "move-coverage" | "team-health" | "threat-response" | "weakness-control";
   line: TeamAnalysisHealthLinePart[];
-  /* Why the card reads the way it does, shown in its tooltip. */
-  /* Sentences, one to a line. */
-  reason: string;
   status: TeamAnalysisHealthStatus;
+  /* Shown in the card's tooltip. */
+  tip: TeamAnalysisHealthTip;
   title: string;
 };
 

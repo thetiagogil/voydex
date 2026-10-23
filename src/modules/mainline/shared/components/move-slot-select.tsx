@@ -3,7 +3,10 @@
 import { useRef } from "react";
 
 import { MoveCategoryIcon } from "@/modules/reference/features/moves/components/move-category-icon";
-import { PokemonTypeBadge } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import {
+  PokemonTypeBadge,
+  PokemonTypeMark,
+} from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import {
   isPokemonTypeSlug,
@@ -84,6 +87,19 @@ export const groupMoveSlotOptions = (
 
 const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
   slug && isPokemonTypeSlug(slug) ? slug : null;
+
+/* A move's type beside its name in the info tip. */
+const MoveTipMark = ({ slug }: { slug: string | null | undefined }) => {
+  const type = toTypeSlug(slug);
+
+  return type ? (
+    <PokemonTypeMark
+      type={type}
+      className="size-6 shrink-0"
+      iconClassName="size-3.5"
+    />
+  ) : null;
+};
 
 const MoveType = ({ option }: { option: MoveSlotOption }) => {
   const type = toTypeSlug(option.typeSlug);
@@ -211,7 +227,12 @@ export const MoveSlotSelect = ({
                             <ExplanatoryTip
                               inert
                               content={
-                                <TipNamed name={option.label}>
+                                <TipNamed
+                                  leading={
+                                    <MoveTipMark slug={option.typeSlug} />
+                                  }
+                                  name={option.label}
+                                >
                                   {option.info}
                                 </TipNamed>
                               }

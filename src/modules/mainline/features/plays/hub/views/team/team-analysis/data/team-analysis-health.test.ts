@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import type { Type } from "@/modules/reference/types";
 
-import type { TeamAnalysisEvidence, TeamAnalysisHealthStatus } from "../types";
+import type {
+  TeamAnalysisEvidence,
+  TeamAnalysisHealthMetric,
+  TeamAnalysisHealthStatus,
+  TeamAnalysisTipRow,
+} from "../types";
 import { buildTeamAnalysisHealth } from "./team-analysis-health";
 import type {
   TeamFieldReading,
@@ -70,6 +75,25 @@ const build = (reading: TeamFieldReading, typed = 6, active = 6) =>
     }).map((metric) => [metric.id, metric]),
   );
 
+/* A tip row as one string: who, what is said, and the chip. */
+const say = (row: TeamAnalysisTipRow) =>
+  [
+    "pokemon" in row.subject
+      ? row.subject.pokemon
+      : "type" in row.subject
+        ? row.subject.type.name
+        : row.subject.text,
+    row.detail,
+    row.chip,
+  ]
+    .filter(Boolean)
+    .join(" | ");
+
+const yours = (metric: TeamAnalysisHealthMetric | undefined) =>
+  (metric?.tip.yours ?? []).map(say);
+const rated = (metric: TeamAnalysisHealthMetric | undefined) =>
+  (metric?.tip.rated ?? []).map(say);
+
 const statuses = (reading: TeamFieldReading, typed = 6) =>
   Object.fromEntries(
     Object.entries(build(reading, typed)).map(([id, metric]) => [
@@ -113,47 +137,58 @@ describe("buildTeamAnalysisHealth", () => {
       { text: "Watch" },
       { type: referenceType(4) },
     ]);
-    expect(metric?.reason).toContain(
-      "Your team against a full team of six, Pokémon of each type as strong as yours, at your top level (Lv. 34).",
+    expect(rated(metric)[0]).toBe(
+      "Read against | A full team of six, one type each, as strong as yours, at your top level (Lv. 34)",
     );
-    expect(metric?.reason).toContain(
-      "Beating them costs about 50% of your team's HP.",
+    expect(yours(metric)).toContain(
+      "Cost | Of your team's HP to beat them | 50%",
     );
-    expect(metric?.reason).toContain("Type 4 costs you the most.");
+    expect(yours(metric)).toContain("Type 4 | Costs you the most");
   });
 
   it("says a field that costs more than the whole team as such", () => {
-    expect(build(field({ share: 2.4 }))["team-health"]?.reason).toContain(
-      "Beating them costs more than your whole team's HP.",
+    expect(yours(build(field({ share: 2.4 }))["team-health"])[0]).toContain(
+      "all of it",
     );
   });
 
-  it("says who lags behind, then how many you bring against six", () => {
+  it("lists who lags behind, then how many you bring against six", () => {
     expect(
-      build(field({ lagging: ["Drifloon"] }), 3, 3)["team-health"]?.reason,
-    ).toContain(
-      "Drifloon is 5 or more levels below your top, and you bring 3 to their 6.",
-    );
+      yours(build(field({ lagging: ["Drifloon"] }), 3, 3)["team-health"]),
+    ).toEqual([
+      "Cost | Of your team's HP to beat them | 20%",
+      "Drifloon | 5 or more levels below your top",
+      "Numbers | You bring fewer than they do | 3 to 6",
+    ]);
     expect(
-      build(field({ unrecorded: { levels: 6, moves: 0 } }))["team-health"]
-        ?.reason,
-    ).toContain("at Lv. 34, as your levels aren't recorded.");
+      rated(
+        build(field({ unrecorded: { levels: 6, moves: 0 } }))["team-health"],
+      )[0],
+    ).toContain("at Lv. 34 (your levels aren't recorded)");
   });
 
-  it("names three types and counts the rest", () => {
-    const reason = build(
-      field({
-        types: typeReadings({
-          1: { answerCost: 1.5 },
-          2: { answerCost: 1.4 },
-          3: { answerCost: 1.3 },
-          4: { answerCost: 1.2 },
-          5: { answerCost: 1.1 },
+  it("lists the types that cost more", () => {
+    const rows = yours(
+      build(
+        field({
+          types: typeReadings({
+            1: { answerCost: 1.5 },
+            2: { answerCost: 1.4 },
+            3: { answerCost: 1.3 },
+            4: { answerCost: 1.2 },
+            5: { answerCost: 1.1 },
+          }),
         }),
-      }),
-    )["threat-response"]?.reason;
+      )["threat-response"],
+    );
 
-    expect(reason).toContain("; Type 1, Type 2, Type 3 and 2 more cost more.");
+    expect(rows.slice(1)).toEqual([
+      "Type 1 | Costs more to beat",
+      "Type 2 | Costs more to beat",
+      "Type 3 | Costs more to beat",
+      "Type 4 | Costs more to beat",
+      "Type 5 | Costs more to beat",
+    ]);
   });
 
   it("answers a type while your best answers beat it for less than 90% of a Pokémon", () => {
@@ -163,7 +198,7 @@ describe("buildTeamAnalysisHealth", () => {
 
     expect(one?.status).toBe("moderate");
     expect(one?.line).toEqual([{ text: "9 of 10 answered" }]);
-    expect(one?.reason).toContain("; Type 3 cost more.");
+    expect(yours(one)).toContain("Type 3 | Costs more to beat");
     expect(
       statuses(
         field({
@@ -190,8 +225,14 @@ describe("buildTeamAnalysisHealth", () => {
 
     expect(metric?.status).toBe("moderate");
     expect(metric?.line).toEqual([{ text: "7 of 10 types" }]);
-    expect(metric?.reason).toContain("Type 1, Type 2 and Type 3 take more");
-    expect(metric?.reason).toContain("Strong from 8 types, Moderate from 5.");
+    expect(yours(metric)).toEqual([
+      "Covered | Types knocked out in 2 hits or fewer | 7 of 10",
+      "Type 1 | Takes more than 2 hits",
+      "Type 2 | Takes more than 2 hits",
+      "Type 3 | Takes more than 2 hits",
+    ]);
+    expect(rated(metric)).toContain("Strong | 8+ types");
+    expect(rated(metric)).toContain("Moderate | 5+ types");
   });
 
   it("flags a shared weak spot only while nothing answers it", () => {
@@ -203,7 +244,9 @@ describe("buildTeamAnalysisHealth", () => {
 
     expect(answered?.status).toBe("strong");
     expect(answered?.line).toEqual([{ text: "1 shared, all answered" }]);
-    expect(answered?.reason).toContain("Type 5 (Mismagius and Luxray)");
+    expect(yours(answered)).toEqual([
+      "Type 5 | Beats Mismagius and Luxray | Answered",
+    ]);
 
     const open = build(
       field({
@@ -222,47 +265,50 @@ describe("buildTeamAnalysisHealth", () => {
     ]);
   });
 
-  it("keeps one sentence to a line, even with a full stop in a name", () => {
-    const reason = build(
-      field({
-        types: typeReadings({ 5: { beats: ["Mr. Mime", "Mime Jr."] } }),
-      }),
-    )["weakness-control"]?.reason;
+  it("keeps a full stop in a name inside its row", () => {
+    const rows = yours(
+      build(
+        field({
+          types: typeReadings({ 5: { beats: ["Mr. Mime", "Mime Jr."] } }),
+        }),
+      )["weakness-control"],
+    );
 
-    expect(reason?.split("\n").every((line) => line.length > 12)).toBe(true);
-    expect(reason).toContain("Type 5 (Mr. Mime and Mime Jr.)");
+    expect(rows).toEqual(["Type 5 | Beats Mr. Mime and Mime Jr. | Answered"]);
   });
 
   it("speaks of a team of one as it", () => {
-    const reason = build(
+    const metric = build(
       field({
         types: typeReadings({ 5: { answerCost: 1.1, beats: ["Squirtle"] } }),
       }),
       1,
       1,
-    )["weakness-control"]?.reason;
+    )["weakness-control"];
 
-    expect(reason).toContain(
-      "1 type hits your Pokémon super effectively and beats it one on one: Type 5 (Squirtle).",
-    );
+    expect(rated(metric)[0]).toContain("your Pokémon super effectively");
+    expect(rated(metric)[0]).toContain("beats it one on one");
   });
 
-  it("says when a missing level or move makes every card a rough read", () => {
+  it("ends every card's findings with what a missing level or move leaves rough", () => {
     const metrics = build(field({ unrecorded: { levels: 2, moves: 1 } }));
 
     for (const metric of Object.values(metrics)) {
-      expect(metric.reason).toContain(
+      expect(yours(metric).at(-1)).toBe(
         "A rough read: 2 of yours have no level and 1 has no damaging move recorded.",
       );
     }
-    expect(metrics["move-coverage"]?.reason).toContain(
-      "Yours without a damaging move recorded hit with their own types.",
+    expect(yours(metrics["move-coverage"])).toContain(
+      "Rough | Yours with no damaging move hit with their own types",
     );
     expect(
-      build(field({ unrecorded: { levels: 0, moves: 1 } }))["team-health"]
-        ?.reason,
-    ).toContain("A rough read: 1 of yours has no damaging move recorded.");
-    expect(build(field())["team-health"]?.reason).not.toContain("rough");
+      yours(
+        build(field({ unrecorded: { levels: 0, moves: 1 } }))["team-health"],
+      ).at(-1),
+    ).toBe("A rough read: 1 of yours has no damaging move recorded.");
+    expect(
+      yours(build(field())["team-health"]).some((row) => row.includes("rough")),
+    ).toBe(false);
   });
 
   it("does not grade a team with typing missing", () => {
