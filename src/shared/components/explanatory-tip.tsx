@@ -8,9 +8,9 @@ import {
   PopoverTrigger,
 } from "@/shared/components/ui/popover";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { tooltipDelay } from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
-const hoverDelay = 200;
 const hoverCloseDelay = 100;
 
 type ExplanatoryTipProps = Pick<
@@ -134,7 +134,7 @@ export const ExplanatoryTip = ({
     >
       <PopoverTrigger
         openOnHover
-        delay={hoverDelay}
+        delay={tooltipDelay}
         closeDelay={hoverCloseDelay}
         nativeButton={inert ? false : nativeButton}
         /* In a list's row it is no control of its own: never a tab stop. */

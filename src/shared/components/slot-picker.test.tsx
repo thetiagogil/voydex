@@ -109,7 +109,9 @@ describe("SlotPicker", () => {
     ]);
 
     expect(html).toContain("disabled");
-    expect(html).toContain('title="Your team needs at least one Pokémon."');
+    // The reason is a tip on hover, never the browser's own title.
+    expect(html).toContain('data-slot="tooltip-trigger"');
+    expect(html).not.toContain("title=");
   });
 
   it("draws a group's word above its row when it has one", () => {

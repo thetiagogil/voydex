@@ -311,7 +311,7 @@ nothing, such as a Play's rule broken, `success` the soft green for good
 news, such as a Strong Story matchup, `destructive` the soft danger tint for
 an error or a Challenging Story matchup; a note that only informs takes `role="status"`), `Dialog`,
 `Sheet`, `DropdownMenu`,
-`Select`, `Tooltip` (ink), `Input`, `InputGroup` (the search field),
+`Select`, `Tooltip` (ink; every hover label, after a brief shared delay, `tooltipDelay`; never the browser's `title` attribute), `Input`, `InputGroup` (the search field),
 `ButtonGroup`, `Switch`, `Progress` (how far along, in the progress blue like an EXP bar, never the red accent),
 `NavigationMenu`. Option sets use `SegmentedControl`, not a toggle group. Two are Soft Clay
 additions:

@@ -3,8 +3,11 @@
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 import { cn } from "@/shared/utils/cn";
 
+/* How long a hover waits before a tip opens: brief, so passing over doesn't flash tips. */
+export const tooltipDelay = 300;
+
 const TooltipProvider = ({
-  delay = 0,
+  delay = tooltipDelay,
   ...props
 }: TooltipPrimitive.Provider.Props) => {
   return (

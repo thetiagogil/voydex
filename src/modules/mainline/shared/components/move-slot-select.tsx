@@ -161,6 +161,7 @@ export const MoveSlotSelect = ({
             <MoveCategoryIcon
               damageClass={selected.category}
               className="ml-auto"
+              tip={false}
             />
           </>
         ) : (

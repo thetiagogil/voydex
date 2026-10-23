@@ -1,4 +1,11 @@
+import { Fragment } from "react";
+
 import { FallbackImage } from "@/shared/components/fallback-image";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { cn } from "@/shared/utils/cn";
 
 export type SlotPickerSlot = {
@@ -53,14 +60,12 @@ export const SlotPicker = ({
           {group.slots.map((slot) => {
             const isSelected = slot.value === selected;
 
-            return (
+            const button = (
               <button
-                key={slot.value}
                 type="button"
                 aria-pressed={isSelected}
                 aria-label={slot.label}
                 disabled={Boolean(slot.disabledReason)}
-                title={slot.disabledReason}
                 onClick={() => onPick(slot.value)}
                 className={cn(
                   "text-13 focus-ring flex h-15 min-w-0 flex-col items-center justify-center gap-0.5 rounded-md border-[1.5px] font-extrabold tabular-nums disabled:opacity-50",
@@ -85,6 +90,21 @@ export const SlotPicker = ({
                 )}
                 <span aria-hidden>{slot.mark}</span>
               </button>
+            );
+
+            /*
+             * A slot that can't be picked says why on hover. The tip hangs on
+             * a wrapper, since a disabled button hears no pointer.
+             */
+            return slot.disabledReason ? (
+              <Tooltip key={slot.value}>
+                <TooltipTrigger render={<span className="grid min-w-0" />}>
+                  {button}
+                </TooltipTrigger>
+                <TooltipContent>{slot.disabledReason}</TooltipContent>
+              </Tooltip>
+            ) : (
+              <Fragment key={slot.value}>{button}</Fragment>
             );
           })}
         </div>
