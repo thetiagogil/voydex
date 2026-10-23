@@ -12,9 +12,10 @@ INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, sta
 INSERT INTO gameplay.mainline_play_pokemon (id, play_id, roster_state_id, slot, species_id, form_id, nickname)
 VALUES
     ('77000000-0000-0000-0000-0000000000b1', '76000000-0000-0000-0000-0000000000b0', 1, 1, 493, 49300, 'Judge'),
-    ('77000000-0000-0000-0000-0000000000b2', '76000000-0000-0000-0000-0000000000b0', 1, 2, 479, 47901, 'Oven');
+    ('77000000-0000-0000-0000-0000000000b2', '76000000-0000-0000-0000-0000000000b0', 1, 2, 479, 47901, 'Oven'),
+    ('77000000-0000-0000-0000-0000000000b3', '76000000-0000-0000-0000-0000000000b0', 1, 3, 493, 49310, 'Tide');
 SELECT
-    plan (8);
+    plan (9);
 -- Every non-default form has a rule, so a class.
 SELECT
     is_empty ($$
@@ -83,6 +84,17 @@ SELECT
                 gameplay.mainline_play_pokemon
             WHERE
                 id = '77000000-0000-0000-0000-0000000000b1'), 49300, 'Arceus without a Plate is back to Normal');
+-- A form recorded with no item (a game without held items) keeps its form.
+SELECT
+    gameplay.update_mainline_play_pokemon (p_play_pokemon_id => '77000000-0000-0000-0000-0000000000b3', p_nickname => 'Tide');
+SELECT
+    IS ((
+            SELECT
+                form_id
+            FROM
+                gameplay.mainline_play_pokemon
+            WHERE
+                id = '77000000-0000-0000-0000-0000000000b3'), 49310, 'Water Arceus recorded without a Plate stays Water');
 -- A form no item drives keeps its form whatever it holds.
 SELECT
     gameplay.update_mainline_play_pokemon (p_play_pokemon_id => '77000000-0000-0000-0000-0000000000b2', p_held_item_id => 3);

@@ -218,11 +218,14 @@ export const readTeamMemberEditorOptions = async (
     targetFormIds.length
       ? supabase.schema("reference").from("types").select("id, name, slug")
       : null,
-    readHeldItemForms(supabase, {
-      formIds: changeableFormIds,
-      generationId,
-      versionGroupId,
-    }),
+    /* Without held items (Legends: Arceus), any form is picked by hand. */
+    hasHeldItems
+      ? readHeldItemForms(supabase, {
+          formIds: changeableFormIds,
+          generationId,
+          versionGroupId,
+        })
+      : new Map<number, string[]>(),
   ]);
 
   if (

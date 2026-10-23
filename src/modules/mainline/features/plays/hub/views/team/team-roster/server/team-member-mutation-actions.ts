@@ -3,6 +3,11 @@
 import { z } from "zod";
 
 import {
+  gameMechanics,
+  resolveGameMechanics,
+  supportsGameMechanic,
+} from "@/modules/reference/features/games/domain/game-mechanics";
+import {
   getChangeableFormIds,
   resolveFormClasses,
 } from "@/modules/reference/features/pokemon/domain/form-classes";
@@ -202,7 +207,7 @@ export const changeMainlinePlayPokemonFormAction = async ({
       supabase
         .schema("views")
         .from("mainline_play_summary")
-        .select("generation_id, version_group_id")
+        .select("game_id, generation_id, version_group_id")
         .eq("play_id", playId)
         .maybeSingle(),
       supabase
@@ -217,7 +222,8 @@ export const changeMainlinePlayPokemonFormAction = async ({
     if (
       playResult.error ||
       formsResult.error ||
-      !play?.generation_id ||
+      !play?.game_id ||
+      !play.generation_id ||
       !play.version_group_id
     ) {
       throw new Error("Unable to change its form.");
@@ -230,11 +236,21 @@ export const changeMainlinePlayPokemonFormAction = async ({
       resolveFormClasses(forms, formClassById),
       pokemon.form_id,
     );
-    const heldItemForms = await readHeldItemForms(supabase, {
-      formIds: changeableFormIds,
-      generationId: play.generation_id,
-      versionGroupId: play.version_group_id,
-    });
+    const hasHeldItems = supportsGameMechanic(
+      resolveGameMechanics({
+        gameId: play.game_id,
+        generationId: play.generation_id,
+        versionGroupId: play.version_group_id,
+      }),
+      gameMechanics.heldItems,
+    );
+    const heldItemForms = hasHeldItems
+      ? await readHeldItemForms(supabase, {
+          formIds: changeableFormIds,
+          generationId: play.generation_id,
+          versionGroupId: play.version_group_id,
+        })
+      : new Map<number, string[]>();
 
     if (!changeableFormIds.includes(toFormId) || heldItemForms.size) {
       throw new Error(

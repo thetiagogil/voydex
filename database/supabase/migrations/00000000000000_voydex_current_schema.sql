@@ -6015,9 +6015,11 @@ BEGIN
         JOIN reference.version_groups ON version_groups.id = mainline_plays.version_group_id
     WHERE
         mainline_plays.id = v_play_pokemon.play_id;
-    -- A form driven by a held item follows it in the Play's game (Arceus's
-    -- Plates, Silvally's Memories, Genesect's Drives, Ogerpon's masks); without
-    -- one it is back to its default form.
+    -- A form driven by a held item follows a change of held item in the
+    -- Play's game (Arceus's Plates, Silvally's Memories, Genesect's Drives,
+    -- Ogerpon's masks): taking one selects its form, and taking away the item
+    -- that selected the current form brings back the default. A game without
+    -- held items never changes it here.
     WITH held_item_forms AS (
         SELECT
             requirements.form_id,
@@ -6048,7 +6050,8 @@ BEGIN
             1
         FROM held_item_forms
     WHERE
-        held_item_forms.form_id = v_play_pokemon.form_id) THEN
+        held_item_forms.form_id = v_play_pokemon.form_id
+        AND held_item_forms.item_id = v_play_pokemon.held_item_id) THEN
 (
     SELECT
         pokemon_forms.id
@@ -6363,7 +6366,7 @@ COMMENT ON FUNCTION gameplay.retire_mainline_play_pokemon (UUID, TEXT, BOOLEAN, 
 
 COMMENT ON FUNCTION gameplay.replace_mainline_play_pokemon (UUID, INTEGER, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], TEXT, BOOLEAN, TEXT, TEXT, TIMESTAMPTZ) IS 'Replaces a current play Pokémon, inserts the replacement Pokémon, and optionally writes replaced/replacement event refs. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows the held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.update_mainline_play_pokemon (UUID, TEXT, INTEGER, TEXT, BOOLEAN, INTEGER, INTEGER, INTEGER, TEXT, INTEGER, INTEGER, TEXT, INTEGER[], INTEGER, BOOLEAN) IS 'Atomically saves a play Pokémon''s editable details (every field is written; an omitted value clears it) and replaces its current moves in slot order, at most four. A form driven by a held item follows a change of held item in the Play''s game. A details edit is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.move_mainline_play_pokemon (UUID, INTEGER) IS 'Atomically moves a team or reserve Pokémon to a roster slot (1 to 6 team, 7 to 12 reserve; the state follows the slot), swapping with the Pokémon already there. Refuses to leave the team empty. A move is not a History moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 

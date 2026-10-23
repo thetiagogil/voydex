@@ -109,8 +109,10 @@ form to another persistent, team-selectable form: its current form and the
 target are both of the form class. Rotom appliance changes are the canonical
 example. It opens a list of those forms with their art, name and types. A form
 a held item selects (Arceus's Plates, Silvally's Memories, Genesect's Drives,
-Ogerpon's masks) shows which item and can't be picked: saving the held item
-in the editor sets the form instead, as a details edit. Do not infer this from shared species or availability,
+Ogerpon's masks) shows which item and can't be picked where the game has held
+items: changing the held item in the editor sets the form instead, as a
+details edit. Legends: Arceus has no held items, so its Arceus picks a type by
+hand. Do not infer this from shared species or availability,
 and exclude battle-only transformations and cosmetic-only variants. Preserve
 the same member and personal details, resolve ability and required held-item
 consequences safely, keep moves until the user reviews them, and store
