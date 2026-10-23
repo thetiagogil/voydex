@@ -197,10 +197,17 @@ choice; while it isn't recorded the report reads the first and says so. A
 battle that only one choice leads to (the roaming legendary your starter
 picks) is left out once the Play records another option, and says which
 choice it needs while none is recorded.
-Their moves aren't in Voydex, so their threat is read from their types.
+Their threat is read from each Pokémon's damaging moves
+(`tracking.mainline_opponent_team_member_moves`, up to four by slot): a
+Physical or Special move counts by its type, varying power included, while
+status and set-damage moves count for nothing; Tera Blast takes its Tera Type,
+Judgment-like moves the user's type, and Hidden Power, whose type isn't known,
+is left out. A Pokémon whose moves Voydex doesn't have is read by its types
+instead, and the footnote says how many of theirs have moves. Each card with
+moves opens them on hover, focus or a tap.
 A Pokémon that Terastallizes in the battle is read by its Tera Type for what
-hits it (Stellar keeps its own types), and its own types and its Tera Type
-both count as its threat. Where the Play's game has the mechanic
+hits it (Stellar keeps its own types); without its moves, its own types and its
+Tera Type both count as its threat. Where the Play's game has the mechanic
 (`resolveGameMechanics`), a card of theirs carries marks on its level line that
 keep every card the same height: its Tera Type as a Tera jewel (the type's icon
 on a diamond, never a round type dot) and the sprite of the item it holds (in
