@@ -167,6 +167,10 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 4, ARRAY[53, 326, 261, 50]),
     -- Carmine: Sinistcha Lv. 74: Matcha Gotcha, Hex, Stun Spore, Scald
     (240006, 24005, NULL, NULL, NULL, 'after-the-way-home', 5, ARRAY[902, 506, 78, 503]),
+    -- Munkidori: Munkidori Lv. 30: Confusion, Clear Smog, Psybeam, Spite
+    (240004, 24006, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[93, 499, 60, 180]),
+    -- Munkidori: Munkidori Lv. 70: Psychic, Sludge Wave, Nasty Plot, Future Sight
+    (240004, 24006, NULL, NULL, NULL, 'after-the-way-home', 1, ARRAY[94, 482, 417, 248]),
     -- Okidogi: Okidogi Lv. 35: Bite, Poison Fang, Low Kick, Brutal Swing
     (240004, 24007, NULL, NULL, NULL, 'before-the-way-home', 1, ARRAY[44, 305, 67, 693]),
     -- Okidogi: Okidogi Lv. 85: Crunch, Close Combat, Brutal Swing, Poison Jab

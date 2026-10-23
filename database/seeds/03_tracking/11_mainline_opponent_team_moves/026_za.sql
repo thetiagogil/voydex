@@ -6,6 +6,9 @@
 -- Fixed encounters (legendaries and other one-off Pokémon): the game's
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
+-- Fixed encounters, totems, Titans, story bosses and trainers the sources
+-- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
+-- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Legends: Z-A Story battle opponents' moves.
 -- ============================================================================
@@ -120,6 +123,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 5, ARRAY[555, 87, 315, 182]),
     -- Taunie / Urbain: Mega Meganium Lv. 64: Leech Seed, Earth Power, Dazzling Gleam, Giga Drain
     (260008, 26001, NULL, NULL, NULL, 'urbain-totodile', 6, ARRAY[73, 414, 605, 202]),
+    -- Zygarde: Zygarde (10% Forme) Lv. 33: Bite, Haze, Bulldoze, Dragon Breath
+    (260018, 26004, NULL, NULL, NULL, NULL, 1, ARRAY[44, 114, 523, 225]),
     -- Xerneas: Xerneas Lv. 75: Megahorn, Moonblast, Horn Leech, Geomancy
     (260010, 26005, NULL, NULL, NULL, NULL, 1, ARRAY[224, 585, 532, 601]),
     -- Yveltal: Yveltal Lv. 75: Hurricane, Dark Pulse, Psychic, Oblivion Wing
