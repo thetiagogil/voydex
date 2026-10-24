@@ -130,8 +130,8 @@ function createIconSvg({ action, onAction, shape = "circle" }) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
   ${background}
   <g${scale}>
-    <circle cx="256" cy="256" r="170" fill="${onAction}"/>
-    <path d="M150 150 256 300 362 150" fill="none" stroke="${action}" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="256" cy="262" r="190" fill="${onAction}"/>
+    <path d="M120 90 256 296 392 90" fill="none" stroke="${action}" stroke-width="88" stroke-linejoin="round"/>
   </g>
 </svg>
 `;
