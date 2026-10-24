@@ -12,7 +12,6 @@ import { updatePlayHeaderFieldAction } from "@/modules/mainline/features/plays/h
 import type { PlayHeaderChange } from "@/modules/mainline/features/plays/hub/views/settings/utils/play-settings-validation";
 import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ChoiceChip } from "@/shared/components/choice-chip";
 import {
   StatusBadge,
@@ -39,8 +38,8 @@ type PlayHeaderEditProps = {
 };
 
 /*
- * The head's badge that opens its dialog: a StatusBadge on the band with a
- * pencil, so it reads as something to tap.
+ * The head's badge that opens its dialog: a StatusBadge on the band, as a
+ * button.
  */
 const EditBadge = ({
   children,
@@ -62,7 +61,6 @@ const EditBadge = ({
     render={<button type="button" aria-haspopup="dialog" onClick={onClick} />}
   >
     {children}
-    <AppIcon icon={appIcons.actions.edit} size="sm" className="text-ink-3" />
   </StatusBadge>
 );
 
