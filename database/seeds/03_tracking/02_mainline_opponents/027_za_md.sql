@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Mega Dimension, Hyperspace Lumiose, Darkrai, Groudon, Kyogre, and Rayquaza pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Rogue Megas of Hyperspace Missions 1, 3, 6 and 8: Bulbapedia Rogue Mega Evolution page,
+-- cross-checked with the game's data-mined encounter table. Types are the Mega form's.
 -- Scope: Pokémon Mega Dimension major opponent data.
 -- ============================================================================
 -- File Scope
@@ -41,4 +43,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Volcanion (boss)
   (27009, 27, NULL, 'volcanion', 'Volcanion', 'boss', 2, 3, 'volcanion', 9),
   -- Hoopa (boss)
-  (27010, 27, NULL, 'hoopa', 'Hoopa', 'boss', 11, 16, 'hoopa', 10);
+  (27010, 27, NULL, 'hoopa', 'Hoopa', 'boss', 11, 16, 'hoopa', 10),
+  -- Rogue Mega Absol Z
+  (27011, 27, NULL, 'rogue-mega-absol-z', 'Rogue Mega Absol Z', 'boss', 16, 14, 'rogue-mega-absol-z', 11),
+  -- Rogue Mega Staraptor
+  (27012, 27, NULL, 'rogue-mega-staraptor', 'Rogue Mega Staraptor', 'boss', 7, 10, 'rogue-mega-staraptor', 12),
+  -- Rogue Mega Tatsugiri
+  (27013, 27, NULL, 'rogue-mega-tatsugiri', 'Rogue Mega Tatsugiri', 'boss', 15, 3, 'rogue-mega-tatsugiri', 13),
+  -- Rogue Mega Meowstic
+  (27014, 27, NULL, 'rogue-mega-meowstic', 'Rogue Mega Meowstic', 'boss', 11, NULL, 'rogue-mega-meowstic', 14);

@@ -35,16 +35,46 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (260005, 260016, 26, 1, 1, NULL),
   -- Reach Rank F <- Unlock Mega Evolution
   (260017, 260005, 26, 1, 1, NULL),
-  -- Reach Rank E <- Reach Rank F
-  (260018, 260017, 26, 1, 1, NULL),
-  -- Reach Rank D <- Reach Rank E
-  (260019, 260018, 26, 1, 1, NULL),
-  -- Reach Rank C <- Reach Rank D
-  (260020, 260019, 26, 1, 1, NULL),
-  -- Reach Rank B <- Reach Rank C
-  (260006, 260020, 26, 1, 1, NULL),
-  -- Explore Lysandre Labs <- Reach Rank B
-  (260007, 260006, 26, 1, 1, NULL),
+  -- Rogue Mega Slowbro <- Reach Rank F
+  (260022, 260017, 26, 1, 1, NULL),
+  -- Rogue Mega Camerupt <- Rogue Mega Slowbro
+  (260023, 260022, 26, 1, 1, NULL),
+  -- Rogue Mega Victreebel <- Rogue Mega Camerupt
+  (260024, 260023, 26, 1, 1, NULL),
+  -- Reach Rank E <- Rogue Mega Victreebel
+  (260018, 260024, 26, 1, 1, NULL),
+  -- Rogue Mega Beedrill <- Reach Rank E
+  (260025, 260018, 26, 1, 1, NULL),
+  -- Rogue Mega Hawlucha <- Rogue Mega Beedrill
+  (260026, 260025, 26, 1, 1, NULL),
+  -- Rogue Mega Banette <- Rogue Mega Hawlucha
+  (260027, 260026, 26, 1, 1, NULL),
+  -- Reach Rank D <- Rogue Mega Banette
+  (260019, 260027, 26, 1, 1, NULL),
+  -- Rogue Mega Mawile <- Reach Rank D
+  (260028, 260019, 26, 1, 1, NULL),
+  -- Rogue Mega Barbaracle <- Rogue Mega Mawile
+  (260029, 260028, 26, 1, 1, NULL),
+  -- Rogue Mega Ampharos <- Rogue Mega Barbaracle
+  (260030, 260029, 26, 1, 1, NULL),
+  -- Reach Rank C <- Rogue Mega Ampharos
+  (260020, 260030, 26, 1, 1, NULL),
+  -- Rogue Mega Froslass <- Reach Rank C
+  (260031, 260020, 26, 1, 1, NULL),
+  -- Rogue Mega Altaria <- Rogue Mega Froslass
+  (260032, 260031, 26, 1, 1, NULL),
+  -- Rogue Mega Venusaur <- Rogue Mega Altaria
+  (260033, 260032, 26, 1, 1, NULL),
+  -- Reach Rank B <- Rogue Mega Venusaur
+  (260006, 260033, 26, 1, 1, NULL),
+  -- Rogue Mega Dragonite <- Reach Rank B
+  (260034, 260006, 26, 1, 1, NULL),
+  -- Rogue Mega Tyranitar <- Rogue Mega Dragonite
+  (260035, 260034, 26, 1, 1, NULL),
+  -- Rogue Mega Starmie <- Rogue Mega Tyranitar
+  (260036, 260035, 26, 1, 1, NULL),
+  -- Explore Lysandre Labs <- Rogue Mega Starmie
+  (260007, 260036, 26, 1, 1, NULL),
   -- Reach Rank A <- Explore Lysandre Labs
   (260021, 260007, 26, 1, 1, NULL),
   -- Stop the Ange Crisis <- Reach Rank A

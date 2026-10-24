@@ -7,7 +7,11 @@
 -- Rogue Mega and Primal battles: cross-checked with Bulbapedia's Rogue Mega Evolution page.
 -- Battle forms: Darkrai, Heatran and Rayquaza are fought as Rogue Megas and
 -- Groudon and Kyogre as Rogue Primals, so each is stored in that form (Darkrai's
--- first phase is its base form; the Mega phase decides the matchup).
+-- first phase is its base form; the Mega phase decides the matchup). The rogue
+-- Mega Absol Z, Staraptor, Tatsugiri and Meowstic are stored as their Mega with
+-- no held stone. Hyperspace shows them at Lv. 105 to 200, above Voydex's
+-- Lv. 100 cap, so every Hyperspace catch is stored at the level the game's
+-- data-mined encounter table gives it (Tatsugiri Curly Form, Meowstic male).
 -- Scope: Pokémon Mega Dimension Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -49,4 +53,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Volcanion, Volcanion Unleashed 1: Volcanion Lv. 80
   (270010, 27009, 27, NULL, NULL, NULL, NULL, NULL, 1, 721, 72100, 80),
   -- Hoopa, The Djinn Unbound 1: Hoopa (Unbound) Lv. 80
-  (270011, 27010, 27, NULL, NULL, NULL, NULL, NULL, 1, 720, 72001, 80);
+  (270011, 27010, 27, NULL, NULL, NULL, NULL, NULL, 1, 720, 72001, 80),
+  -- Rogue Mega Absol Z, Rogue Mega Absol Z 1: Mega Absol Z Lv. 75
+  (270012, 27011, 27, NULL, NULL, NULL, NULL, NULL, 1, 359, 35902, 75),
+  -- Rogue Mega Staraptor, Rogue Mega Staraptor 1: Mega Staraptor Lv. 75
+  (270013, 27012, 27, NULL, NULL, NULL, NULL, NULL, 1, 398, 39801, 75),
+  -- Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 1: Mega Tatsugiri Lv. 75
+  (270014, 27013, 27, NULL, NULL, NULL, NULL, NULL, 1, 978, 97803, 75),
+  -- Rogue Mega Meowstic, Rogue Mega Meowstic 1: Mega Meowstic Lv. 75
+  (270015, 27014, 27, NULL, NULL, NULL, NULL, NULL, 1, 678, 67802, 75);

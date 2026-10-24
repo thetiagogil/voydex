@@ -7,6 +7,8 @@
 -- Fixed encounters, totems, Titans, story bosses and trainers the sources
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
+-- Rogue Megas of Hyperspace Missions 1, 3, 6 and 8: the moves the game's
+-- data-mined encounter table gives the Pokémon you catch.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Legends: Z-A: Mega Dimension Story battle opponents' moves.
 -- ============================================================================
@@ -38,7 +40,15 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Volcanion: Volcanion Lv. 80: Steam Eruption, Hydro Pump, Haze, Overheat
     (270010, 27009, NULL, NULL, NULL, NULL, 1, ARRAY[592, 56, 114, 315]),
     -- Hoopa: Hoopa (Unbound) Lv. 80: Hyperspace Hole, Psychic, Nasty Plot, Phantom Force
-    (270011, 27010, NULL, NULL, NULL, NULL, 1, ARRAY[593, 94, 417, 566])
+    (270011, 27010, NULL, NULL, NULL, NULL, 1, ARRAY[593, 94, 417, 566]),
+    -- Rogue Mega Absol Z: Mega Absol Z Lv. 75: Knock Off, Night Slash, Snarl, Shadow Sneak
+    (270012, 27011, NULL, NULL, NULL, NULL, 1, ARRAY[282, 400, 555, 425]),
+    -- Rogue Mega Staraptor: Mega Staraptor Lv. 75: Focus Blast, Dual Wingbeat, Double-Edge, Close Combat
+    (270013, 27012, NULL, NULL, NULL, NULL, 1, ARRAY[411, 814, 38, 370]),
+    -- Rogue Mega Tatsugiri: Mega Tatsugiri Lv. 75: Waterfall, Ice Beam, Dragon Rush, Whirlpool
+    (270014, 27013, NULL, NULL, NULL, NULL, 1, ARRAY[127, 58, 407, 250]),
+    -- Rogue Mega Meowstic: Mega Meowstic Lv. 75: Psychic, Reflect, Light Screen, Psybeam
+    (270015, 27014, NULL, NULL, NULL, NULL, 1, ARRAY[94, 115, 113, 60])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

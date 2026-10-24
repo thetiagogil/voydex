@@ -18,8 +18,13 @@
 --   (Thonky swaps Mawile and Aurorus).
 -- Battle forms: from Vinnie's promotion match on, each promotion ace holds its
 -- Mega Stone and is stored as its Mega (Grisham's Charizard is Mega Charizard X);
--- so are the rival's Manectric and final starter, Lysandre's Gyarados, Rogue
--- Mega Absol and the final Zygarde (held stones from Bulbapedia trainer pages).
+-- so are the rival's Manectric and final starter and Lysandre's Gyarados (held
+-- stones from Bulbapedia trainer pages). Rogue Mega Absol and the final Zygarde
+-- are wild, stored in their battle form with no stone.
+-- The rogue Megas of Main Missions 11 to 34 are stored as their Mega with no
+-- held stone, at the level Bulbapedia gives each batch of three (34, 41, 48,
+-- 53, 59), cross-checked with Deltia's Gaming, Gamer Guides, Insider Gaming
+-- and Sportskeeda.
 -- Grisham's Pyroar is female and Yvon's
 -- Vivillon pattern is unrecorded; both are stored as the default form.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
@@ -276,4 +281,34 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Grisham, Reach Rank A 5: Salamence Lv. 62
   (260021, 26016, 26, NULL, NULL, NULL, NULL, NULL, 5, 373, 37300, 62, NULL, NULL, FALSE),
   -- Grisham, Reach Rank A 6: Mega Charizard X Lv. 63, holds Charizardite X
-  (260021, 26016, 26, NULL, NULL, NULL, NULL, NULL, 6, 6, 601, 63, 264, NULL, FALSE);
+  (260021, 26016, 26, NULL, NULL, NULL, NULL, NULL, 6, 6, 601, 63, 264, NULL, FALSE),
+  -- Rogue Mega Slowbro, Rogue Mega Slowbro 1: Mega Slowbro Lv. 34
+  (260022, 26017, 26, NULL, NULL, NULL, NULL, NULL, 1, 80, 8001, 34, NULL, NULL, FALSE),
+  -- Rogue Mega Camerupt, Rogue Mega Camerupt 1: Mega Camerupt Lv. 34
+  (260023, 26018, 26, NULL, NULL, NULL, NULL, NULL, 1, 323, 32301, 34, NULL, NULL, FALSE),
+  -- Rogue Mega Victreebel, Rogue Mega Victreebel 1: Mega Victreebel Lv. 34
+  (260024, 26019, 26, NULL, NULL, NULL, NULL, NULL, 1, 71, 7101, 34, NULL, NULL, FALSE),
+  -- Rogue Mega Beedrill, Rogue Mega Beedrill 1: Mega Beedrill Lv. 41
+  (260025, 26020, 26, NULL, NULL, NULL, NULL, NULL, 1, 15, 1501, 41, NULL, NULL, FALSE),
+  -- Rogue Mega Hawlucha, Rogue Mega Hawlucha 1: Mega Hawlucha Lv. 41
+  (260026, 26021, 26, NULL, NULL, NULL, NULL, NULL, 1, 701, 70101, 41, NULL, NULL, FALSE),
+  -- Rogue Mega Banette, Rogue Mega Banette 1: Mega Banette Lv. 41
+  (260027, 26022, 26, NULL, NULL, NULL, NULL, NULL, 1, 354, 35401, 41, NULL, NULL, FALSE),
+  -- Rogue Mega Mawile, Rogue Mega Mawile 1: Mega Mawile Lv. 48
+  (260028, 26023, 26, NULL, NULL, NULL, NULL, NULL, 1, 303, 30301, 48, NULL, NULL, FALSE),
+  -- Rogue Mega Barbaracle, Rogue Mega Barbaracle 1: Mega Barbaracle Lv. 48
+  (260029, 26024, 26, NULL, NULL, NULL, NULL, NULL, 1, 689, 68901, 48, NULL, NULL, FALSE),
+  -- Rogue Mega Ampharos, Rogue Mega Ampharos 1: Mega Ampharos Lv. 48
+  (260030, 26025, 26, NULL, NULL, NULL, NULL, NULL, 1, 181, 18101, 48, NULL, NULL, FALSE),
+  -- Rogue Mega Froslass, Rogue Mega Froslass 1: Mega Froslass Lv. 53
+  (260031, 26026, 26, NULL, NULL, NULL, NULL, NULL, 1, 478, 47801, 53, NULL, NULL, FALSE),
+  -- Rogue Mega Altaria, Rogue Mega Altaria 1: Mega Altaria Lv. 53
+  (260032, 26027, 26, NULL, NULL, NULL, NULL, NULL, 1, 334, 33401, 53, NULL, NULL, FALSE),
+  -- Rogue Mega Venusaur, Rogue Mega Venusaur 1: Mega Venusaur Lv. 53
+  (260033, 26028, 26, NULL, NULL, NULL, NULL, NULL, 1, 3, 301, 53, NULL, NULL, FALSE),
+  -- Rogue Mega Dragonite, Rogue Mega Dragonite 1: Mega Dragonite Lv. 59
+  (260034, 26029, 26, NULL, NULL, NULL, NULL, NULL, 1, 149, 14901, 59, NULL, NULL, FALSE),
+  -- Rogue Mega Tyranitar, Rogue Mega Tyranitar 1: Mega Tyranitar Lv. 59
+  (260035, 26030, 26, NULL, NULL, NULL, NULL, NULL, 1, 248, 24801, 59, NULL, NULL, FALSE),
+  -- Rogue Mega Starmie, Rogue Mega Starmie 1: Mega Starmie Lv. 59
+  (260036, 26031, 26, NULL, NULL, NULL, NULL, NULL, 1, 121, 12101, 59, NULL, NULL, FALSE);

@@ -19,8 +19,16 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
 ) VALUES
   -- Investigate Hyperspace Lumiose <- Begin Mega Dimension
   (270002, 270001, 27, 1, 1, NULL),
-  -- Rogue Mega Darkrai <- Investigate Hyperspace Lumiose
-  (270003, 270002, 27, 1, 1, NULL),
+  -- Rogue Mega Absol Z <- Investigate Hyperspace Lumiose
+  (270012, 270002, 27, 1, 1, NULL),
+  -- Rogue Mega Staraptor <- Rogue Mega Absol Z
+  (270013, 270012, 27, 1, 1, NULL),
+  -- Rogue Mega Tatsugiri <- Rogue Mega Staraptor
+  (270014, 270013, 27, 1, 1, NULL),
+  -- Rogue Mega Meowstic <- Rogue Mega Tatsugiri
+  (270015, 270014, 27, 1, 1, NULL),
+  -- Rogue Mega Darkrai <- Rogue Mega Meowstic
+  (270003, 270015, 27, 1, 1, NULL),
   -- Capture Groudon <- Rogue Mega Darkrai
   (270004, 270003, 27, 1, 1, NULL),
   -- Capture Kyogre <- Capture Groudon

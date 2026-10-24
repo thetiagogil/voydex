@@ -6,6 +6,8 @@
 -- Zygarde's story levels: 10% Forme Lv. 33 is confirmed by one source only; Lv. 57 at Jacinthe's tournament is cross-checked with Thonky.
 -- L's only battle (Main Mission 42) and Rogue Mega Absol: Bulbapedia, cross-checked with Nintendo Life and Deltia's Gaming.
 -- Promotion matches and Jacinthe's tournament rounds: Bulbapedia Z-A Royale and trainer pages, cross-checked with Serebii, Thonky and Nintendo Life.
+-- Rogue Megas of Main Missions 11 to 34 and their partners: Bulbapedia Rogue Mega Evolution page,
+-- places cross-checked with Serebii's Mega Stone locations.
 -- Scope: Pokémon Legends: Z-A milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -64,7 +66,37 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- To Keep the World in Balance -> Lysandre
   (260012, 26003, 26, 'battle-opponent', 1, 'Hotel Z, where he battles you as L (Main Mission 42)'),
   -- To Keep the World in Balance -> Zygarde
-  (260012, 26004, 26, 'battle-opponent', 2, 'Wild Zone 20, beneath Prism Tower. You can skip this battle.');
+  (260012, 26004, 26, 'battle-opponent', 2, 'Wild Zone 20, beneath Prism Tower. You can skip this battle.'),
+  -- Rogue Mega Slowbro -> Rogue Mega Slowbro
+  (260022, 26017, 26, 'battle-opponent', 1, 'Aymlis Park (Main Mission 11). Taunie or Urbain fights beside you.'),
+  -- Rogue Mega Camerupt -> Rogue Mega Camerupt
+  (260023, 26018, 26, 'battle-opponent', 1, 'Jaune Sector 3 (Main Mission 12). Lida fights beside you.'),
+  -- Rogue Mega Victreebel -> Rogue Mega Victreebel
+  (260024, 26019, 26, 'battle-opponent', 1, 'Magenta Sector 9 (Main Mission 13). Naveen fights beside you.'),
+  -- Rogue Mega Beedrill -> Rogue Mega Beedrill
+  (260025, 26020, 26, 'battle-opponent', 1, 'Vert Sector 5 (Main Mission 16). Taunie or Urbain fights beside you.'),
+  -- Rogue Mega Hawlucha -> Rogue Mega Hawlucha
+  (260026, 26021, 26, 'battle-opponent', 1, 'Magenta Sector 3 (Main Mission 17). Lida fights beside you.'),
+  -- Rogue Mega Banette -> Rogue Mega Banette
+  (260027, 26022, 26, 'battle-opponent', 1, 'Jaune Sector 9 (Main Mission 18). Naveen fights beside you.'),
+  -- Rogue Mega Mawile -> Rogue Mega Mawile
+  (260028, 26023, 26, 'battle-opponent', 1, 'Magenta Sector 6 (Main Mission 21). Taunie or Urbain fights beside you.'),
+  -- Rogue Mega Barbaracle -> Rogue Mega Barbaracle
+  (260029, 26024, 26, 'battle-opponent', 1, 'Bleu Sector 5 (Main Mission 22). Lida fights beside you.'),
+  -- Rogue Mega Ampharos -> Rogue Mega Ampharos
+  (260030, 26025, 26, 'battle-opponent', 1, 'Rouge Sector 6 (Main Mission 23). Naveen fights beside you.'),
+  -- Rogue Mega Froslass -> Rogue Mega Froslass
+  (260031, 26026, 26, 'battle-opponent', 1, 'Aymlis Park (Main Mission 27). Naveen fights beside you.'),
+  -- Rogue Mega Altaria -> Rogue Mega Altaria
+  (260032, 26027, 26, 'battle-opponent', 1, 'Magenta Sector 4 (Main Mission 28). Lida fights beside you.'),
+  -- Rogue Mega Venusaur -> Rogue Mega Venusaur
+  (260033, 26028, 26, 'battle-opponent', 1, 'Jaune Sector 8 (Main Mission 29). Taunie or Urbain fights beside you.'),
+  -- Rogue Mega Dragonite -> Rogue Mega Dragonite
+  (260034, 26029, 26, 'battle-opponent', 1, 'Vert Sector 3 (Main Mission 32). Taunie or Urbain fights beside you.'),
+  -- Rogue Mega Tyranitar -> Rogue Mega Tyranitar
+  (260035, 26030, 26, 'battle-opponent', 1, 'Jaune Sector 4 (Main Mission 33). Naveen fights beside you.'),
+  -- Rogue Mega Starmie -> Rogue Mega Starmie
+  (260036, 26031, 26, 'battle-opponent', 1, 'Bleu Sector 9 (Main Mission 34). Lida fights beside you.');
 
 -- Battles fought with a Pokémon lent for the fight, not the player's team.
 INSERT INTO tracking.mainline_milestone_opponent_refs (
