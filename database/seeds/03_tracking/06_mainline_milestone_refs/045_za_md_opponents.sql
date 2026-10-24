@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Mega Dimension, Hyperspace Lumiose, Darkrai, Groudon, Kyogre, and Rayquaza pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
+-- Rogue Megas of Hyperspace Missions 1, 3, 6 and 8 and their partners: Bulbapedia Rogue Mega
+-- Evolution page, places cross-checked with Serebii's Mega Stone locations.
 -- Scope: Pokémon Mega Dimension milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -37,4 +39,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Volcanion Unleashed -> Volcanion
   (270010, 27009, 27, 'battle-opponent', 1, 'Pokémon Research Lab, basement room. You can skip this battle.'),
   -- The Djinn Unbound -> Hoopa
-  (270011, 27010, 27, 'battle-opponent', 1, 'Hyperspace Lumiose distortion. You can skip this battle.');
+  (270011, 27010, 27, 'battle-opponent', 1, 'Hyperspace Lumiose distortion. You can skip this battle.'),
+  -- Rogue Mega Absol Z -> Rogue Mega Absol Z
+  (270012, 27011, 27, 'battle-opponent', 1, 'Hyperspace Disaster Arena (Hyperspace Lumiose Survey No. 1). Korrina and Taunie or Urbain fight beside you.'),
+  -- Rogue Mega Staraptor -> Rogue Mega Staraptor
+  (270013, 27012, 27, 'battle-opponent', 1, 'Hyperspace Hunting Grounds (Hyperspace Lumiose Survey No. 2). Korrina and Taunie or Urbain fight beside you.'),
+  -- Rogue Mega Tatsugiri -> Rogue Mega Tatsugiri
+  (270014, 27013, 27, 'battle-opponent', 1, 'Hyperspace Sushi Paradise (Hyperspace Lumiose Survey No. 3). Korrina and Taunie or Urbain fight beside you.'),
+  -- Rogue Mega Meowstic -> Rogue Mega Meowstic
+  (270015, 27014, 27, 'battle-opponent', 1, 'Hyperspace Second-Sight Arena (Hyperspace Lumiose Survey No. 4). Korrina and Taunie or Urbain fight beside you.');

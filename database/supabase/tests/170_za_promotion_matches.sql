@@ -38,7 +38,8 @@ SELECT
                     AND mainline_milestone_types.slug = 'promotion-match' ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order, mainline_milestone_opponent_refs.sort_order DESC $$, $$
                 VALUES ('reach-rank-y'::text, 'Zach'::text, 'za-royale'::text, 9), ('reach-rank-x', 'Yvon', 'za-royale', 16), ('reach-rank-w', 'Xavi', 'za-royale', 21), ('reach-rank-v', 'Rintaro', 'za-royale', 24), ('reach-rank-f', 'Vinnie', 'za-royale', 32), ('reach-rank-e', 'Canari', 'za-royale', 39), ('reach-rank-d', 'Ivor', 'za-royale', 47), ('reach-rank-c', 'Corbeau', 'za-royale', 52), ('reach-rank-b', 'Jacinthe', 'za-royale', 59), ('reach-rank-a', 'Grisham', 'za-royale', 63) $$, 'each promotion match ends with its trainer and their team');
 -- Story reads Z-A in the game's order: the Royale's early ranks, then Mega
--- Evolution with ranks F to B, then Lysandre Labs, Rank A and the Ange crisis.
+-- Evolution with ranks F to B between the rogue Mega batches, then Lysandre
+-- Labs, Rank A and the Ange crisis.
 SELECT
     results_eq ($$
         SELECT
@@ -47,7 +48,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 26
                 AND mainline_milestones.is_required_for_completion ORDER BY mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
-            VALUES ('main-story'::text, 'choose-starter'::text), ('main-story', 'arrive-lumiose-city'), ('main-story', 'join-team-mz'), ('za-royale', 'enter-za-royale'), ('za-royale', 'reach-rank-y'), ('za-royale', 'reach-rank-x'), ('za-royale', 'reach-rank-w'), ('za-royale', 'reach-rank-v'), ('rogue-mega-evolution', 'unlock-mega-evolution'), ('rogue-mega-evolution', 'reach-rank-f'), ('rogue-mega-evolution', 'reach-rank-e'), ('rogue-mega-evolution', 'reach-rank-d'), ('rogue-mega-evolution', 'reach-rank-c'), ('rogue-mega-evolution', 'reach-rank-b'), ('finale', 'explore-lysandre-labs'), ('finale', 'reach-rank-a'), ('finale', 'stop-ange-crisis') $$, 'Z-A''s Story follows the game''s order');
+            VALUES ('main-story'::text, 'choose-starter'::text), ('main-story', 'arrive-lumiose-city'), ('main-story', 'join-team-mz'), ('za-royale', 'enter-za-royale'), ('za-royale', 'reach-rank-y'), ('za-royale', 'reach-rank-x'), ('za-royale', 'reach-rank-w'), ('za-royale', 'reach-rank-v'), ('rogue-mega-evolution', 'unlock-mega-evolution'), ('rogue-mega-evolution', 'reach-rank-f'), ('rogue-mega-evolution', 'rogue-mega-slowbro'), ('rogue-mega-evolution', 'rogue-mega-camerupt'), ('rogue-mega-evolution', 'rogue-mega-victreebel'), ('rogue-mega-evolution', 'reach-rank-e'), ('rogue-mega-evolution', 'rogue-mega-beedrill'), ('rogue-mega-evolution', 'rogue-mega-hawlucha'), ('rogue-mega-evolution', 'rogue-mega-banette'), ('rogue-mega-evolution', 'reach-rank-d'), ('rogue-mega-evolution', 'rogue-mega-mawile'), ('rogue-mega-evolution', 'rogue-mega-barbaracle'), ('rogue-mega-evolution', 'rogue-mega-ampharos'), ('rogue-mega-evolution', 'reach-rank-c'), ('rogue-mega-evolution', 'rogue-mega-froslass'), ('rogue-mega-evolution', 'rogue-mega-altaria'), ('rogue-mega-evolution', 'rogue-mega-venusaur'), ('rogue-mega-evolution', 'reach-rank-b'), ('rogue-mega-evolution', 'rogue-mega-dragonite'), ('rogue-mega-evolution', 'rogue-mega-tyranitar'), ('rogue-mega-evolution', 'rogue-mega-starmie'), ('finale', 'explore-lysandre-labs'), ('finale', 'reach-rank-a'), ('finale', 'stop-ange-crisis') $$, 'Z-A''s Story follows the game''s order');
 -- Each required Z-A milestone's previous step is the one before it in Story.
 SELECT
     is_empty ($$ WITH ordered AS (

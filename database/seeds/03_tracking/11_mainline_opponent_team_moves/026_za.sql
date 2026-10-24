@@ -9,8 +9,12 @@
 -- Fixed encounters, totems, Titans, story bosses and trainers the sources
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
--- Rogue Mega Absol: no source lists a moveset for Legends battles, so it gets
--- the moves Serebii says it uses (Air Slash, and Dark Pulse as its charge move).
+-- Rogue Megas: no source lists a moveset for Legends battles, so each gets
+-- the moves Serebii's rogue Mega page (written for the simulator rematches,
+-- which replay the Story battles) says it uses, damaging moves first, then
+-- status moves, up to four (Mega Absol: Air Slash, and Dark Pulse as its
+-- charge move). Names that aren't a move that Pokémon has in Z-A are left out
+-- (Froslass's Avalanche, Banette's Double Team decoys).
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Scope: Legends: Z-A Story battle opponents' moves.
 -- ============================================================================
@@ -252,7 +256,37 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Grisham: Salamence Lv. 62: Aerial Ace, Earthquake, Fire Fang, Draco Meteor
     (260021, 26016, NULL, NULL, NULL, NULL, 5, ARRAY[332, 89, 424, 434]),
     -- Grisham: Mega Charizard X Lv. 63: Flare Blitz, Air Slash, Dragon Rush, Protect
-    (260021, 26016, NULL, NULL, NULL, NULL, 6, ARRAY[394, 403, 407, 182])
+    (260021, 26016, NULL, NULL, NULL, NULL, 6, ARRAY[394, 403, 407, 182]),
+    -- Rogue Mega Slowbro: Mega Slowbro Lv. 34: Water Pulse, Psybeam
+    (260022, 26017, NULL, NULL, NULL, NULL, 1, ARRAY[352, 60]),
+    -- Rogue Mega Camerupt: Mega Camerupt Lv. 34: Earth Power
+    (260023, 26018, NULL, NULL, NULL, NULL, 1, ARRAY[414]),
+    -- Rogue Mega Victreebel: Mega Victreebel Lv. 34: Bullet Seed, Power Whip, Sludge Bomb
+    (260024, 26019, NULL, NULL, NULL, NULL, 1, ARRAY[331, 438, 188]),
+    -- Rogue Mega Beedrill: Mega Beedrill Lv. 41: Lunge, Pin Missile
+    (260025, 26020, NULL, NULL, NULL, NULL, 1, ARRAY[679, 42]),
+    -- Rogue Mega Hawlucha: Mega Hawlucha Lv. 41: Brick Break, Air Slash, Flying Press
+    (260026, 26021, NULL, NULL, NULL, NULL, 1, ARRAY[280, 403, 560]),
+    -- Rogue Mega Banette: Mega Banette Lv. 41: Shadow Ball, Phantom Force, Shadow Claw, Confuse Ray
+    (260027, 26022, NULL, NULL, NULL, NULL, 1, ARRAY[247, 566, 421, 109]),
+    -- Rogue Mega Mawile: Mega Mawile Lv. 48: Play Rough, Crunch
+    (260028, 26023, NULL, NULL, NULL, NULL, 1, ARRAY[583, 242]),
+    -- Rogue Mega Barbaracle: Mega Barbaracle Lv. 48: Rock Slide, Power-Up Punch, Close Combat
+    (260029, 26024, NULL, NULL, NULL, NULL, 1, ARRAY[157, 612, 370]),
+    -- Rogue Mega Ampharos: Mega Ampharos Lv. 48: Dragon Pulse, Breaking Swipe, Discharge
+    (260030, 26025, NULL, NULL, NULL, NULL, 1, ARRAY[406, 784, 435]),
+    -- Rogue Mega Froslass: Mega Froslass Lv. 53: Phantom Force, Icy Wind, Blizzard
+    (260031, 26026, NULL, NULL, NULL, NULL, 1, ARRAY[566, 196, 59]),
+    -- Rogue Mega Altaria: Mega Altaria Lv. 53: Dragon Pulse, Moonblast, Twister
+    (260032, 26027, NULL, NULL, NULL, NULL, 1, ARRAY[406, 585, 239]),
+    -- Rogue Mega Venusaur: Mega Venusaur Lv. 53: Power Whip, Bullet Seed, Solar Beam
+    (260033, 26028, NULL, NULL, NULL, NULL, 1, ARRAY[438, 331, 76]),
+    -- Rogue Mega Dragonite: Mega Dragonite Lv. 59: Air Slash, Flamethrower, Outrage, Hurricane
+    (260034, 26029, NULL, NULL, NULL, NULL, 1, ARRAY[403, 53, 200, 542]),
+    -- Rogue Mega Tyranitar: Mega Tyranitar Lv. 59: Rock Slide, Sand Tomb, Stone Edge
+    (260035, 26030, NULL, NULL, NULL, NULL, 1, ARRAY[157, 328, 444]),
+    -- Rogue Mega Starmie: Mega Starmie Lv. 59: Aqua Jet, Zen Headbutt, Hydro Pump
+    (260036, 26031, NULL, NULL, NULL, NULL, 1, ARRAY[453, 428, 56])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT
