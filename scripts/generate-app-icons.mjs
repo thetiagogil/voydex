@@ -18,6 +18,7 @@ const sourceSvgPath = path.join(
 );
 const iconPath = path.join(rootDir, "src", "app", "icon.png");
 const appleIconPath = path.join(rootDir, "src", "app", "apple-icon.png");
+const pwaIconsDir = path.join(rootDir, "public", "icons");
 const faviconPath = path.join(rootDir, "src", "app", "favicon.ico");
 
 function parseToken(css, tokenName) {
@@ -112,11 +113,17 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-/* The "V" tile: a placeholder until the logo is designed. */
-function createIconSvg({ action, onAction }) {
+/* The "V" tile: a thick V made to stay readable at 16px. The maskable
+   variant is full-bleed with the V inside the 80% safe zone. */
+function createIconSvg({ action, onAction, maskable = false }) {
+  const corner = maskable ? "" : ' rx="112"';
+  const scale = maskable
+    ? ' transform="translate(256 256) scale(.78) translate(-256 -256)"'
+    : "";
+
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <rect width="512" height="512" rx="120" fill="${action}"/>
-  <path d="M168 168 256 352 344 168" fill="none" stroke="${onAction}" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect width="512" height="512"${corner} fill="${action}"/>
+  <path d="M130 150 256 372 382 150" fill="none" stroke="${onAction}" stroke-width="110" stroke-linecap="round" stroke-linejoin="round"${scale}/>
 </svg>
 `;
 }
@@ -164,6 +171,23 @@ const svg = createIconSvg({ action, onAction: "#ffffff" });
 await fs.writeFile(sourceSvgPath, svg, "utf8");
 await fs.writeFile(iconPath, await renderPng(svg, 512));
 await fs.writeFile(appleIconPath, await renderPng(svg, 180));
+
+await fs.mkdir(pwaIconsDir, { recursive: true });
+await fs.writeFile(
+  path.join(pwaIconsDir, "icon-192.png"),
+  await renderPng(svg, 192),
+);
+await fs.writeFile(
+  path.join(pwaIconsDir, "icon-512.png"),
+  await renderPng(svg, 512),
+);
+await fs.writeFile(
+  path.join(pwaIconsDir, "icon-maskable-512.png"),
+  await renderPng(
+    createIconSvg({ action, onAction: "#ffffff", maskable: true }),
+    512,
+  ),
+);
 
 const faviconSizes = [16, 32, 48, 64, 128, 256];
 const faviconPngs = await Promise.all(
