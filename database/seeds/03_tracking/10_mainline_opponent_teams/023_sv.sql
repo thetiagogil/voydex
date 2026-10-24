@@ -6,6 +6,8 @@
 -- Nemona and Arven battles: Bulbapedia, cross-checked with Serebii.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Clavell, Titans, Arven and the AI Professors: cross-checked with Bulbapedia.
+-- Tulip's Florges: the sources show the default form and name no flower
+-- colour, so it is stored as the default form.
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope

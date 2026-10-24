@@ -9,6 +9,8 @@
 -- Lysandre's first HQ Mienshao: Bulbapedia and Pokébip say Lv. 47, Serebii and GamerGuides say Lv. 48; Lv. 47 is used.
 -- Battle forms: Diantha's Gardevoir and Lysandre's Gyarados in his last battle
 -- hold their Mega Stone, so they are stored as their Mega (Bulbapedia trainer pages).
+-- Viola's Vivillon: the sources show the default form and name no pattern,
+-- so it is stored as the default form.
 -- Scope: Pokémon X / Y Story battle opponent teams.
 -- ============================================================================
 -- File Scope
