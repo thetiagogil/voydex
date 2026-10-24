@@ -41,21 +41,18 @@ type PlayHeaderEditProps = {
  * The head's badge that opens its dialog: a StatusBadge on the band, as a
  * button.
  */
-const EditBadge = ({
+const StatusEditBadge = ({
   children,
-  dot,
   onClick,
   tone,
 }: {
   children: ReactNode;
-  dot?: boolean;
   onClick: () => void;
   tone?: StatusBadgeTone;
 }) => (
   <StatusBadge
     ground="band"
     size="md"
-    dot={dot}
     tone={tone}
     className="cursor-pointer hover:brightness-95"
     render={<button type="button" aria-haspopup="dialog" onClick={onClick} />}
@@ -155,6 +152,27 @@ const HeaderEditDialog = ({
   );
 };
 
+/*
+ * Trainer and playtime stay the head's quiet text, as a button: a soft tint
+ * on hover, and the padding is pulled back so the line doesn't shift.
+ */
+const EditText = ({
+  children,
+  onClick,
+}: {
+  children: ReactNode;
+  onClick: () => void;
+}) => (
+  <button
+    type="button"
+    aria-haspopup="dialog"
+    onClick={onClick}
+    className="focus-ring -mx-2 -my-1 cursor-pointer rounded-full px-2 py-1 transition-colors hover:bg-white/60"
+  >
+    {children}
+  </button>
+);
+
 /* A dialog's own state: closed to start, back to the saved value on opening. */
 const useHeaderEdit = <TValue,>(saved: TValue) => {
   const [open, setOpen] = useState(false);
@@ -191,12 +209,12 @@ export const PlayHeaderStatusEdit = ({
 
   return (
     <>
-      <EditBadge
+      <StatusEditBadge
         tone={getPlayStatusTone(data.play.status_slug)}
         onClick={edit.openDialog}
       >
         {name}
-      </EditBadge>
+      </StatusEditBadge>
       <HeaderEditDialog
         title="Status"
         open={edit.open}
@@ -245,9 +263,9 @@ export const PlayHeaderTrainerEdit = ({
 
   return (
     <>
-      <EditBadge dot={false} onClick={edit.openDialog}>
+      <EditText onClick={edit.openDialog}>
         {saved ? `Trainer ${saved}` : "Add trainer"}
-      </EditBadge>
+      </EditText>
       <HeaderEditDialog
         title="Trainer name"
         open={edit.open}
@@ -307,9 +325,9 @@ export const PlayHeaderPlaytimeEdit = ({
 
   return (
     <>
-      <EditBadge dot={false} onClick={edit.openDialog}>
+      <EditText onClick={edit.openDialog}>
         <span className="tabular-nums">{playtimeLabel ?? "Add playtime"}</span>
-      </EditBadge>
+      </EditText>
       <HeaderEditDialog
         title="Playtime"
         open={edit.open}
