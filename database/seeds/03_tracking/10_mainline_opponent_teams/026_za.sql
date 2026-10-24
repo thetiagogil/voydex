@@ -25,8 +25,9 @@
 -- held stone, at the level Bulbapedia gives each batch of three (34, 41, 48,
 -- 53, 59), cross-checked with Deltia's Gaming, Gamer Guides, Insider Gaming
 -- and Sportskeeda.
--- Grisham's Pyroar is female and Yvon's
--- Vivillon pattern is unrecorded; both are stored as the default form.
+-- Grisham's Pyroar is female and stored as the default form. The sources show
+-- the default form and name no pattern, trim or colour for Yvon's Vivillon,
+-- Xavi's Furfrou and Lysandre's Florges, so they are stored as the default form.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
 -- ============================================================================
 -- File Scope
