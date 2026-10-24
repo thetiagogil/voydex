@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Pokedex form pages per game (Unown, Shellos/Gastrodon, Deerling/Sawsbuck, Vivillon, Flabebe family, Furfrou, Pikachu caps, Alcremie, Keldeo, Zarude, Gimmighoul, Pichu).
 -- Cross-check: PokeAPI pokemon-form records for names, ids and images.
--- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu, Minior cores, Battle Bond Greninja and Power Construct Zygarde are left out for now.
+-- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu and Minior colours are variants; Battle Bond Greninja is a variant that becomes Ash-Greninja in battle. Power Construct Zygarde needs no extra form: Zygarde (Complete Forme) already carries it.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -247,6 +247,32 @@ VALUES
   (25, 2509, 7, 4, NULL, 9, NULL, 31, 7, 8, 35, 55, 40, 50, 50, 90),
   -- #0025 Pikachu - Pikachu (World Cap)
   (25, 2510, 8, 4, NULL, 9, NULL, 31, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0025 Pikachu - Pikachu (Cosplay)
+  (25, 2511, 6, 4, NULL, 9, NULL, NULL, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0025 Pikachu - Pikachu (Rock Star)
+  (25, 2512, 6, 4, NULL, 9, NULL, NULL, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0025 Pikachu - Pikachu (Belle)
+  (25, 2513, 6, 4, NULL, 9, NULL, NULL, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0025 Pikachu - Pikachu (Pop Star)
+  (25, 2514, 6, 4, NULL, 9, NULL, NULL, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0025 Pikachu - Pikachu (PhD)
+  (25, 2515, 6, 4, NULL, 9, NULL, NULL, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0025 Pikachu - Pikachu (Libre)
+  (25, 2516, 6, 4, NULL, 9, NULL, NULL, 7, 8, 35, 55, 40, 50, 50, 90),
+  -- #0774 Minior - Minior (Orange)
+  (774, 77402, 7, 13, 10, 197, NULL, NULL, 11, NULL, 60, 60, 100, 60, 100, 60),
+  -- #0774 Minior - Minior (Yellow)
+  (774, 77403, 7, 13, 10, 197, NULL, NULL, 11, NULL, 60, 60, 100, 60, 100, 60),
+  -- #0774 Minior - Minior (Green)
+  (774, 77404, 7, 13, 10, 197, NULL, NULL, 11, NULL, 60, 60, 100, 60, 100, 60),
+  -- #0774 Minior - Minior (Blue)
+  (774, 77405, 7, 13, 10, 197, NULL, NULL, 11, NULL, 60, 60, 100, 60, 100, 60),
+  -- #0774 Minior - Minior (Indigo)
+  (774, 77406, 7, 13, 10, 197, NULL, NULL, 11, NULL, 60, 60, 100, 60, 100, 60),
+  -- #0774 Minior - Minior (Violet)
+  (774, 77407, 7, 13, 10, 197, NULL, NULL, 11, NULL, 60, 60, 100, 60, 100, 60),
+  -- #0658 Greninja - Greninja (Battle Bond)
+  (658, 65802, 7, 3, 16, 210, NULL, NULL, 2, NULL, 72, 95, 67, 103, 71, 122),
   -- #0172 Pichu - Pichu (Spiky-eared)
   (172, 17201, 4, 4, NULL, 9, NULL, NULL, 15, NULL, 20, 40, 15, 35, 35, 60),
   -- #0172 Pichu - Pichu (Spiky-eared)

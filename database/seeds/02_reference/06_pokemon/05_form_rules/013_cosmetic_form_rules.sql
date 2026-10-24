@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Pokedex form pages per game (Unown, Shellos/Gastrodon, Deerling/Sawsbuck, Vivillon, Flabebe family, Furfrou, Pikachu caps, Alcremie, Keldeo, Zarude, Gimmighoul, Pichu).
 -- Cross-check: PokeAPI pokemon-form records for names, ids and images.
--- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu, Minior cores, Battle Bond Greninja and Power Construct Zygarde are left out for now.
+-- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu and Minior colours are variants; Battle Bond Greninja is a variant that becomes Ash-Greninja in battle. Power Construct Zygarde needs no extra form: Zygarde (Complete Forme) already carries it.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -193,6 +193,32 @@ VALUES
   (2509, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Event Pikachu in a cap; it can''t evolve.', NULL),
   -- Pikachu (World Cap)
   (2510, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Event Pikachu in a cap; it can''t evolve.', NULL),
+  -- Pikachu (Cosplay)
+  (2511, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Cosplay costume from Omega Ruby / Alpha Sapphire; it can''t evolve.', NULL),
+  -- Pikachu (Rock Star)
+  (2512, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Cosplay costume from Omega Ruby / Alpha Sapphire; it can''t evolve.', NULL),
+  -- Pikachu (Belle)
+  (2513, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Cosplay costume from Omega Ruby / Alpha Sapphire; it can''t evolve.', NULL),
+  -- Pikachu (Pop Star)
+  (2514, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Cosplay costume from Omega Ruby / Alpha Sapphire; it can''t evolve.', NULL),
+  -- Pikachu (PhD)
+  (2515, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Cosplay costume from Omega Ruby / Alpha Sapphire; it can''t evolve.', NULL),
+  -- Pikachu (Libre)
+  (2516, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Cosplay costume from Omega Ruby / Alpha Sapphire; it can''t evolve.', NULL),
+  -- Minior (Orange Core)
+  (77402, 'variant', TRUE, FALSE, TRUE, FALSE, FALSE, NULL, 'Core colour fixed when it is caught; the Meteor shell and the Core share it.', NULL),
+  -- Minior (Yellow Core)
+  (77403, 'variant', TRUE, FALSE, TRUE, FALSE, FALSE, NULL, 'Core colour fixed when it is caught; the Meteor shell and the Core share it.', NULL),
+  -- Minior (Green Core)
+  (77404, 'variant', TRUE, FALSE, TRUE, FALSE, FALSE, NULL, 'Core colour fixed when it is caught; the Meteor shell and the Core share it.', NULL),
+  -- Minior (Blue Core)
+  (77405, 'variant', TRUE, FALSE, TRUE, FALSE, FALSE, NULL, 'Core colour fixed when it is caught; the Meteor shell and the Core share it.', NULL),
+  -- Minior (Indigo Core)
+  (77406, 'variant', TRUE, FALSE, TRUE, FALSE, FALSE, NULL, 'Core colour fixed when it is caught; the Meteor shell and the Core share it.', NULL),
+  -- Minior (Violet Core)
+  (77407, 'variant', TRUE, FALSE, TRUE, FALSE, FALSE, NULL, 'Core colour fixed when it is caught; the Meteor shell and the Core share it.', NULL),
+  -- Greninja (Battle Bond)
+  (65802, 'variant', TRUE, FALSE, FALSE, FALSE, FALSE, NULL, 'Event Greninja with the Battle Bond ability instead of Torrent; it becomes Ash-Greninja in battle.', NULL),
   -- Pichu (Spiky-eared)
   (17201, 'variant', TRUE, FALSE, TRUE, FALSE, TRUE, NULL, 'Event Pichu from HeartGold and SoulSilver; it can''t evolve.', NULL),
   -- Zarude (Dada)

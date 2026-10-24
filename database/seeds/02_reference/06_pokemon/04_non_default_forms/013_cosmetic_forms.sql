@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Pokedex form pages per game (Unown, Shellos/Gastrodon, Deerling/Sawsbuck, Vivillon, Flabebe family, Furfrou, Pikachu caps, Alcremie, Keldeo, Zarude, Gimmighoul, Pichu).
 -- Cross-check: PokeAPI pokemon-form records for names, ids and images.
--- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu, Minior cores, Battle Bond Greninja and Power Construct Zygarde are left out for now.
+-- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu and Minior colours are variants; Battle Bond Greninja is a variant that becomes Ash-Greninja in battle. Power Construct Zygarde needs no extra form: Zygarde (Complete Forme) already carries it.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -193,6 +193,32 @@ VALUES
   (2509, 25, 'pikachu-partner-cap', 'Pikachu (Partner Cap)', 7, FALSE, 10, NULL, NULL),
   -- Pikachu (World Cap)
   (2510, 25, 'pikachu-world-cap', 'Pikachu (World Cap)', 8, FALSE, 11, NULL, NULL),
+  -- Pikachu (Cosplay)
+  (2511, 25, 'pikachu-cosplay', 'Pikachu (Cosplay)', 6, FALSE, 12, NULL, NULL),
+  -- Pikachu (Rock Star)
+  (2512, 25, 'pikachu-rock-star', 'Pikachu (Rock Star)', 6, FALSE, 13, NULL, NULL),
+  -- Pikachu (Belle)
+  (2513, 25, 'pikachu-belle', 'Pikachu (Belle)', 6, FALSE, 14, NULL, NULL),
+  -- Pikachu (Pop Star)
+  (2514, 25, 'pikachu-pop-star', 'Pikachu (Pop Star)', 6, FALSE, 15, NULL, NULL),
+  -- Pikachu (PhD)
+  (2515, 25, 'pikachu-phd', 'Pikachu (PhD)', 6, FALSE, 16, NULL, NULL),
+  -- Pikachu (Libre)
+  (2516, 25, 'pikachu-libre', 'Pikachu (Libre)', 6, FALSE, 17, NULL, NULL),
+  -- Minior (Orange Core)
+  (77402, 774, 'minior-orange', 'Minior (Orange)', 7, FALSE, 3, NULL, NULL),
+  -- Minior (Yellow Core)
+  (77403, 774, 'minior-yellow', 'Minior (Yellow)', 7, FALSE, 4, NULL, NULL),
+  -- Minior (Green Core)
+  (77404, 774, 'minior-green', 'Minior (Green)', 7, FALSE, 5, NULL, NULL),
+  -- Minior (Blue Core)
+  (77405, 774, 'minior-blue', 'Minior (Blue)', 7, FALSE, 6, NULL, NULL),
+  -- Minior (Indigo Core)
+  (77406, 774, 'minior-indigo', 'Minior (Indigo)', 7, FALSE, 7, NULL, NULL),
+  -- Minior (Violet Core)
+  (77407, 774, 'minior-violet', 'Minior (Violet)', 7, FALSE, 8, NULL, NULL),
+  -- Greninja (Battle Bond)
+  (65802, 658, 'greninja-battle-bond', 'Greninja (Battle Bond)', 7, FALSE, 3, NULL, NULL),
   -- Pichu (Spiky-eared)
   (17201, 172, 'pichu-spiky-eared', 'Pichu (Spiky-eared)', 4, FALSE, 2, NULL, NULL),
   -- Zarude (Dada)

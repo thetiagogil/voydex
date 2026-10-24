@@ -3092,25 +3092,25 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       14,
       {
-        count: 883,
+        count: 889,
         sha256:
-          "f481df20547a93b8bc6baf2436d18716478e67fa7944d025638cc18a72ae5c5d",
+          "8123d0897528765f9921bf049b34a138af367521308118d5bd61fcddbdf7fe26",
       },
     ],
     [
       15,
       {
-        count: 1009,
+        count: 1016,
         sha256:
-          "d9416d045dc720972f55692cb39a1de8170c157d9783e8f004681cfe450b3e62",
+          "9c8128b4d8ab9c2bd57162adc5b633d934601f342ffe4a4ffaaff89aa0e502d7",
       },
     ],
     [
       16,
       {
-        count: 1032,
+        count: 1039,
         sha256:
-          "3c3896bf0e0db6b410c431db217582576c42d9013ef44dbc72be4c5b10b8a1fe",
+          "ca2d9b9c97b29518ec21acb9f566d09fb9a1d67549c9236ea10aa6bd218908a9",
       },
     ],
     [
@@ -3180,9 +3180,9 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     [
       25,
       {
-        count: 313,
+        count: 319,
         sha256:
-          "bb5f0dc2f89fbb957be7f973737cc4e5ce812a2b215ebd88a7d38003ca41a45b",
+          "9efc181868cd987c89364a07573fdb33e927feddbdefdb76a3568212fd5d11a0",
       },
     ],
     [

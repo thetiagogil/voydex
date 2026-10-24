@@ -29,6 +29,8 @@ VALUES
   (55503, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form in battle below half HP with Zen Mode.', NULL),
   -- Meloetta (Pirouette Forme)
   (64801, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form in battle after using Relic Song.', NULL),
+  -- Ash-Greninja
+  (65803, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form in battle after Battle Bond Greninja directly knocks out a Pokémon.', NULL),
   -- Aegislash (Blade Forme)
   (68101, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form in battle when it uses a damaging move (Stance Change).', NULL),
   -- Zygarde (Complete Forme)

@@ -29,6 +29,8 @@ VALUES
   (555, 55503, 8, 6, 2, 161, NULL, NULL, 7, NULL, 105, 160, 55, 30, 55, 135),
   -- #0648 Meloetta - Meloetta (Pirouette Forme)
   (648, 64801, 5, 1, 7, 32, NULL, NULL, 15, NULL, 100, 128, 90, 77, 77, 128),
+  -- #0658 Greninja - Ash-Greninja
+  (658, 65803, 7, 3, 16, 210, NULL, NULL, 2, NULL, 72, 145, 67, 153, 71, 132),
   -- #0681 Aegislash - Aegislash (Blade Forme)
   (681, 68101, 6, 17, 14, 176, NULL, NULL, 11, NULL, 60, 150, 50, 150, 50, 60),
   -- #0681 Aegislash - Aegislash (Blade Forme)

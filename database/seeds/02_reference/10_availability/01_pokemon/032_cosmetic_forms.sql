@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Primary: Serebii Pokedex form pages per game (Unown, Shellos/Gastrodon, Deerling/Sawsbuck, Vivillon, Flabebe family, Furfrou, Pikachu caps, Alcremie, Keldeo, Zarude, Gimmighoul, Pichu).
 -- Cross-check: PokeAPI pokemon-form records for names, ids and images.
--- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu, Minior cores, Battle Bond Greninja and Power Construct Zygarde are left out for now.
+-- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu and Minior colours are variants; Battle Bond Greninja is a variant that becomes Ash-Greninja in battle. Power Construct Zygarde needs no extra form: Zygarde (Complete Forme) already carries it.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -1517,6 +1517,58 @@ VALUES
   (25, 2510, 18, NULL, 11, NULL),
   -- #0025 Pikachu (World Cap)
   (25, 2510, 23, NULL, 13, NULL),
+  -- #0025 Pikachu (Cosplay)
+  (25, 2511, 14, NULL, 4, NULL),
+  -- #0025 Pikachu (Rock Star)
+  (25, 2512, 14, NULL, 4, NULL),
+  -- #0025 Pikachu (Belle)
+  (25, 2513, 14, NULL, 4, NULL),
+  -- #0025 Pikachu (Pop Star)
+  (25, 2514, 14, NULL, 4, NULL),
+  -- #0025 Pikachu (PhD)
+  (25, 2515, 14, NULL, 4, NULL),
+  -- #0025 Pikachu (Libre)
+  (25, 2516, 14, NULL, 4, NULL),
+  -- #0774 Minior (Orange)
+  (774, 77402, 15, NULL, 1, NULL),
+  -- #0774 Minior (Orange)
+  (774, 77402, 16, NULL, 1, NULL),
+  -- #0774 Minior (Orange)
+  (774, 77402, 25, NULL, 1, NULL),
+  -- #0774 Minior (Yellow)
+  (774, 77403, 15, NULL, 1, NULL),
+  -- #0774 Minior (Yellow)
+  (774, 77403, 16, NULL, 1, NULL),
+  -- #0774 Minior (Yellow)
+  (774, 77403, 25, NULL, 1, NULL),
+  -- #0774 Minior (Green)
+  (774, 77404, 15, NULL, 1, NULL),
+  -- #0774 Minior (Green)
+  (774, 77404, 16, NULL, 1, NULL),
+  -- #0774 Minior (Green)
+  (774, 77404, 25, NULL, 1, NULL),
+  -- #0774 Minior (Blue)
+  (774, 77405, 15, NULL, 1, NULL),
+  -- #0774 Minior (Blue)
+  (774, 77405, 16, NULL, 1, NULL),
+  -- #0774 Minior (Blue)
+  (774, 77405, 25, NULL, 1, NULL),
+  -- #0774 Minior (Indigo)
+  (774, 77406, 15, NULL, 1, NULL),
+  -- #0774 Minior (Indigo)
+  (774, 77406, 16, NULL, 1, NULL),
+  -- #0774 Minior (Indigo)
+  (774, 77406, 25, NULL, 1, NULL),
+  -- #0774 Minior (Violet)
+  (774, 77407, 15, NULL, 1, NULL),
+  -- #0774 Minior (Violet)
+  (774, 77407, 16, NULL, 1, NULL),
+  -- #0774 Minior (Violet)
+  (774, 77407, 25, NULL, 1, NULL),
+  -- #0658 Greninja (Battle Bond)
+  (658, 65802, 15, NULL, 11, NULL),
+  -- #0658 Greninja (Battle Bond)
+  (658, 65802, 16, NULL, 11, NULL),
   -- #0172 Pichu (Spiky-eared)
   (172, 17201, 10, NULL, 11, NULL),
   -- #0893 Zarude (Dada)
