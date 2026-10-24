@@ -113,25 +113,27 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-/* The mark: a white disc with a V cut out of it, on the action colour.
-   "circle" is the tab and install icon, "square" is full-bleed for the iOS
-   home screen, "maskable" is full-bleed with the mark inside Android's
-   safe zone. */
-function createIconSvg({ action, onAction, shape = "circle" }) {
-  const background =
+/* The mark: a ball with a V-shaped red top, outlined in ink so the white
+   half holds on any tab colour. "circle" is the tab and install icon,
+   "square" and "maskable" sit on a full-bleed white ground for the iOS home
+   screen and Android's safe zone. */
+function createIconSvg({ action, onAction, ink, shape = "circle" }) {
+  const ground =
     shape === "circle"
-      ? `<circle cx="256" cy="256" r="256" fill="${action}"/>`
-      : `<rect width="512" height="512" fill="${action}"/>`;
-  const scale =
-    shape === "maskable"
-      ? ' transform="translate(256 256) scale(.78) translate(-256 -256)"'
-      : "";
+      ? ""
+      : `<rect width="512" height="512" fill="${onAction}"/>\n  `;
+  const scale = { circle: 1, square: 0.86, maskable: 0.7 }[shape];
+  const transform =
+    scale === 1
+      ? ""
+      : ` transform="translate(256 256) scale(${scale}) translate(-256 -256)"`;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  ${background}
-  <g${scale}>
-    <circle cx="256" cy="262" r="190" fill="${onAction}"/>
-    <path d="M120 90 256 296 392 90" fill="none" stroke="${action}" stroke-width="88" stroke-linejoin="round"/>
+  <defs><clipPath id="ball"><circle cx="256" cy="256" r="236"/></clipPath></defs>
+  ${ground}<g${transform}>
+    <circle cx="256" cy="256" r="236" fill="${onAction}"/>
+    <path clip-path="url(#ball)" d="M0 0H512V150L256 400 0 150Z" fill="${action}"/>
+    <circle cx="256" cy="256" r="236" fill="none" stroke="${ink}" stroke-width="40"/>
   </g>
 </svg>
 `;
@@ -174,14 +176,15 @@ async function renderPng(svg, size) {
 
 const css = await fs.readFile(tokensPath, "utf8");
 const action = colorTokenToHex(parseToken(css, "action"));
-const svg = createIconSvg({ action, onAction: "#ffffff" });
+const ink = colorTokenToHex(parseToken(css, "ink"));
+const svg = createIconSvg({ action, onAction: "#ffffff", ink });
 
 await fs.writeFile(sourceSvgPath, svg, "utf8");
 await fs.writeFile(iconPath, await renderPng(svg, 512));
 await fs.writeFile(
   appleIconPath,
   await renderPng(
-    createIconSvg({ action, onAction: "#ffffff", shape: "square" }),
+    createIconSvg({ action, onAction: "#ffffff", ink, shape: "square" }),
     180,
   ),
 );
@@ -198,7 +201,7 @@ await fs.writeFile(
 await fs.writeFile(
   path.join(pwaIconsDir, "icon-maskable-512.png"),
   await renderPng(
-    createIconSvg({ action, onAction: "#ffffff", shape: "maskable" }),
+    createIconSvg({ action, onAction: "#ffffff", ink, shape: "maskable" }),
     512,
   ),
 );
