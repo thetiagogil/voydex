@@ -26,6 +26,8 @@ type PlaysToolbarProps = {
   onGenerationChange: (generation: string) => void;
   onQueryChange: (query: string) => void;
   onSortChange: (sort: PlayBrowseSort) => void;
+  onStatusChange: (status: string) => void;
+  statuses: PlayBrowseOption[];
 };
 
 type FilterSelectsProps = Omit<
@@ -42,9 +44,9 @@ const sortOptions = [
 ] satisfies PlayBrowseOption[];
 
 /*
- * The same three selects serve the toolbar and the phone sheet. Only the
+ * The same four selects serve the toolbar and the phone sheet. Only the
  * toolbar's carry names: they sit in the form, so a search sent before the
- * page hydrates keeps the game, generation and order. The sheet is portalled
+ * page hydrates keeps the game, generation, status and order. The sheet is portalled
  * outside the form.
  */
 const getFilterSelects = (
@@ -55,6 +57,8 @@ const getFilterSelects = (
     onGameChange,
     onGenerationChange,
     onSortChange,
+    onStatusChange,
+    statuses,
   }: FilterSelectsProps,
   {
     idPrefix,
@@ -104,6 +108,19 @@ const getFilterSelects = (
         variant="ghost"
       />
     ),
+    status: (
+      <SelectControl
+        id={`${idPrefix}-status`}
+        name={getName("status")}
+        ariaLabel="Filter Plays by status"
+        resetValue={defaultPlayBrowseFilters.status}
+        value={filters.status}
+        onValueChange={onStatusChange}
+        options={[{ label: "All statuses", value: "" }, ...statuses]}
+        placeholder="All statuses"
+        variant="ghost"
+      />
+    ),
     sort: (
       <SelectControl
         id={`${idPrefix}-sort`}
@@ -125,7 +142,7 @@ const getFilterSelects = (
 
 /*
  * The toolbar (v3's Plays toolbar) on the one list toolbar: search, the order
- * on the line, and the game and generation behind Filters (a row under the
+ * on the line, and the game, generation and status behind Filters (a row under the
  * line from 640px, a sheet on phones).
  */
 export const PlaysToolbar = ({
@@ -135,7 +152,8 @@ export const PlaysToolbar = ({
 }: PlaysToolbarProps) => {
   const activeCount =
     (selectProps.filters.game ? 1 : 0) +
-    (selectProps.filters.generation ? 1 : 0);
+    (selectProps.filters.generation ? 1 : 0) +
+    (selectProps.filters.status ? 1 : 0);
 
   return (
     <FilterToolbar
@@ -183,6 +201,7 @@ export const PlaysToolbar = ({
           <>
             {selects.game}
             {selects.generation}
+            {selects.status}
           </>
         ) : (
           <>
@@ -191,6 +210,9 @@ export const PlaysToolbar = ({
             </FilterSheetRow>
             <FilterSheetRow htmlFor="plays-sheet-generation" label="Generation">
               {selects.generation}
+            </FilterSheetRow>
+            <FilterSheetRow htmlFor="plays-sheet-status" label="Status">
+              {selects.status}
             </FilterSheetRow>
           </>
         );

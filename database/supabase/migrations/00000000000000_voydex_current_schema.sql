@@ -94,6 +94,47 @@ GRANT EXECUTE ON FUNCTION private.set_updated_at () TO service_role;
 COMMENT ON FUNCTION private.set_updated_at () IS 'Trigger function that updates updated_at before row updates.';
 
 -- ============================================================================
+-- Source: database/schema/00_foundation/003_private_touch_play_function.sql
+-- ============================================================================
+-- ============================================================================
+-- Function: private.touch_play
+-- Trigger function that moves a Play's updated_at to now when anything that
+-- belongs to it changes, so "recent activity" is the Play's latest change.
+-- ============================================================================
+CREATE FUNCTION private.touch_play ()
+    RETURNS TRIGGER
+    LANGUAGE plpgsql
+    SECURITY DEFINER
+    SET search_path = ''
+    AS $$
+BEGIN
+    /* NOW() is the transaction's start, so a write touching many rows moves the Play once. */
+    UPDATE
+        gameplay.mainline_plays
+    SET
+        updated_at = NOW()
+    WHERE
+        id = CASE WHEN TG_OP = 'DELETE' THEN
+            OLD.play_id
+        ELSE
+            NEW.play_id
+    END
+        AND updated_at < NOW();
+    RETURN NULL;
+END;
+$$;
+
+REVOKE ALL ON FUNCTION private.touch_play () FROM PUBLIC;
+
+REVOKE ALL ON FUNCTION private.touch_play () FROM anon;
+
+REVOKE ALL ON FUNCTION private.touch_play () FROM authenticated;
+
+GRANT EXECUTE ON FUNCTION private.touch_play () TO service_role;
+
+COMMENT ON FUNCTION private.touch_play () IS 'After-change trigger for tables that hold a play_id: moves that Play''s updated_at to now, once per transaction.';
+
+-- ============================================================================
 -- Source: database/schema/01_public/01_tables/001_profiles.sql
 -- ============================================================================
 -- ============================================================================
@@ -3795,6 +3836,11 @@ COMMENT ON COLUMN gameplay.mainline_play_settings.include_optional_pokedexes_in_
 
 COMMENT ON COLUMN gameplay.mainline_play_settings.include_optional_pokedex_entries_in_completion IS 'When true, source-visible optional Pokedex entries count toward completion. Only meaningful when Pokedex completion is included.';
 
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_settings
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
+
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/004_mainline_play_optional_content_scopes.sql
 -- ============================================================================
@@ -3867,6 +3913,11 @@ CREATE INDEX play_optional_content_scopes_game_scope_idx ON gameplay.mainline_pl
 CREATE INDEX play_optional_content_scopes_version_group_idx ON gameplay.mainline_play_optional_content_scopes (version_group_id);
 
 COMMENT ON FUNCTION private.enforce_play_optional_content_scope () IS 'Prevents inserting a play base content scope as optional content.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_optional_content_scopes
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/005_mainline_play_pokemon_roster_states.sql
@@ -3995,6 +4046,11 @@ COMMENT ON COLUMN gameplay.mainline_play_pokemon.has_gigantamax_factor IS 'Wheth
 COMMENT ON COLUMN gameplay.mainline_play_pokemon.slot IS 'Current roster slot. Active uses 1 to 6; reserve uses 7 to 12; retired/replaced rows have no slot.';
 
 COMMENT ON CONSTRAINT play_pokemon_play_slot_unique ON gameplay.mainline_play_pokemon IS 'One Pokémon per current slot. Deferrable and checked at the end of each statement, so a single update can swap two Pokémon. Past Pokémon have no slot and never clash.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_pokemon
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/007_mainline_play_pokemon_moves.sql
@@ -4244,6 +4300,11 @@ COMMENT ON TABLE gameplay.mainline_play_milestone_progress IS 'Sparse positive m
 
 COMMENT ON COLUMN gameplay.mainline_play_milestone_progress.completed_at IS 'Nullable for imported historical mainline_plays where the exact completion time is unknown.';
 
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_milestone_progress
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
+
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/010_mainline_play_milestone_decisions.sql
 -- ============================================================================
@@ -4278,6 +4339,11 @@ CREATE INDEX play_milestone_decisions_option_milestone_idx ON gameplay.mainline_
 
 COMMENT ON TABLE gameplay.mainline_play_milestone_decisions IS 'Selected decision option for a play milestone.';
 
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_milestone_decisions
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
+
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/011_mainline_play_collectible_entry_progress.sql
 -- ============================================================================
@@ -4310,6 +4376,11 @@ CREATE INDEX play_collectible_entry_progress_entry_idx ON gameplay.mainline_play
 COMMENT ON TABLE gameplay.mainline_play_collectible_entry_progress IS 'Sparse positive collectible progress. Row existence means collected.';
 
 COMMENT ON COLUMN gameplay.mainline_play_collectible_entry_progress.collected_at IS 'Nullable for imported historical mainline_plays where the exact collection time is unknown.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_collectible_entry_progress
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/012_mainline_play_pokedex_species_progress.sql
@@ -4348,6 +4419,11 @@ CREATE INDEX play_pokedex_species_progress_species_idx ON gameplay.mainline_play
 COMMENT ON TABLE gameplay.mainline_play_pokedex_species_progress IS 'Sparse species-level Pokedex state. Absence means neither seen nor caught.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokedex_species_progress.is_caught IS 'Caught implies seen.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_pokedex_species_progress
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/013_mainline_play_event_origins.sql
@@ -4453,6 +4529,11 @@ COMMENT ON COLUMN gameplay.mainline_play_events.event_origin_id IS 'How the even
 COMMENT ON COLUMN gameplay.mainline_play_events.timeline_order IS 'Deterministic order for imported or approximate-history mainline_plays where exact timestamps may be unknown.';
 
 COMMENT ON COLUMN gameplay.mainline_play_events.milestone_id IS 'Optional completed milestone connected to a story/progression event. Milestone-linked events require the matching progress row; bulk progress can exist without an event.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_events
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/016_mainline_play_event_pokemon_refs.sql
@@ -4834,6 +4915,11 @@ CREATE TRIGGER enforce_play_challenge_rule_scope
     EXECUTE FUNCTION private.enforce_play_challenge_rule_scope ();
 
 COMMENT ON FUNCTION private.enforce_play_challenge_rule_scope () IS 'Allows predefined challenge rules for any play and custom challenge rules only for mainline_plays owned by the same user, and checks the options a play sets against its rule: known keys, matching value kinds, a known reuse scope, and a type, required where the rule has one, that exists in the play''s game.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_challenge_rules
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/024_user_game_library_statuses.sql

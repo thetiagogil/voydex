@@ -28,6 +28,7 @@ export default async function PlaysPage({ searchParams }: PageProps) {
         generation: getSearchParam(params, "generation"),
         q: getSearchParam(params, "q"),
         sort: getSearchParam(params, "sort"),
+        status: getSearchParam(params, "status"),
       }}
     />
   );

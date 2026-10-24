@@ -29,3 +29,8 @@ CREATE INDEX play_milestone_progress_milestone_idx ON gameplay.mainline_play_mil
 COMMENT ON TABLE gameplay.mainline_play_milestone_progress IS 'Sparse positive milestone progress. Row existence means completed.';
 
 COMMENT ON COLUMN gameplay.mainline_play_milestone_progress.completed_at IS 'Nullable for imported historical mainline_plays where the exact completion time is unknown.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_milestone_progress
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

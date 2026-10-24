@@ -32,3 +32,8 @@ CREATE INDEX play_pokedex_species_progress_species_idx ON gameplay.mainline_play
 COMMENT ON TABLE gameplay.mainline_play_pokedex_species_progress IS 'Sparse species-level Pokedex state. Absence means neither seen nor caught.';
 
 COMMENT ON COLUMN gameplay.mainline_play_pokedex_species_progress.is_caught IS 'Caught implies seen.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_pokedex_species_progress
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();

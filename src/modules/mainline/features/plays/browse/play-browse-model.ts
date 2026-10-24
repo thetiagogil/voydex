@@ -10,12 +10,12 @@ export const playBrowseSortValues = [
 
 export type PlayBrowseSort = (typeof playBrowseSortValues)[number];
 
-/* v3's filters: game and generation; status already groups the list. */
 export type PlayBrowseFilters = {
   game: string;
   generation: string;
   query: string;
   sort: PlayBrowseSort;
+  status: string;
 };
 
 export type PlayBrowseParams = Partial<{
@@ -23,6 +23,7 @@ export type PlayBrowseParams = Partial<{
   generation: string | null;
   q: string | null;
   sort: string | null;
+  status: string | null;
 }>;
 
 export type PlayBrowseOption = {
@@ -42,10 +43,29 @@ export const defaultPlayBrowseFilters: PlayBrowseFilters = {
   generation: "",
   query: "",
   sort: "recent",
+  status: "",
 };
 
 const isPlayBrowseSort = (value?: string | null): value is PlayBrowseSort => {
   return playBrowseSortValues.some((sortValue) => sortValue === value);
+};
+
+/*
+ * Statuses in the order a library reads: what you're playing first, what is
+ * finished or dropped last. Statuses the list doesn't know follow by name.
+ */
+const statusOrder = [
+  "playing",
+  "not_started",
+  "paused",
+  "completed",
+  "abandoned",
+];
+
+const getStatusRank = (play: PlayBrowseOptionSource) => {
+  const rank = statusOrder.indexOf(play.status_slug ?? "");
+
+  return rank === -1 ? statusOrder.length : rank;
 };
 
 /*
@@ -116,6 +136,12 @@ export const getPlayBrowseOptions = (plays: PlayBrowseOptionSource[]) => {
       (play) => play.generation_id ?? Number.MAX_SAFE_INTEGER,
       (play) => play.regionName ?? null,
     ),
+    statuses: getUniqueOptions(
+      plays,
+      (play) => play.status_slug,
+      (play) => play.status_name,
+      getStatusRank,
+    ),
   };
 };
 
@@ -124,6 +150,7 @@ export const getInitialPlayBrowseFilters = (
   options: {
     games: PlayBrowseOption[];
     generations: PlayBrowseOption[];
+    statuses: PlayBrowseOption[];
   },
 ): PlayBrowseFilters => {
   const game = options.games.some((option) => option.value === params?.game)
@@ -135,16 +162,28 @@ export const getInitialPlayBrowseFilters = (
     ? (params?.generation ?? "")
     : "";
 
+  const status = options.statuses.some(
+    (option) => option.value === params?.status,
+  )
+    ? (params?.status ?? "")
+    : "";
+
   return {
     game,
     generation,
     query: params?.q?.trim() ?? "",
     sort: isPlayBrowseSort(params?.sort) ? params.sort : "recent",
+    status,
   };
 };
 
 export const hasActivePlayBrowseFilters = (filters: PlayBrowseFilters) => {
-  return Boolean(filters.query.trim() || filters.game || filters.generation);
+  return Boolean(
+    filters.query.trim() ||
+    filters.game ||
+    filters.generation ||
+    filters.status,
+  );
 };
 
 const getSearchText = (play: MainlinePlaySummary) => {
@@ -242,6 +281,10 @@ export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
         return false;
       }
 
+      if (filters.status && play.status_slug !== filters.status) {
+        return false;
+      }
+
       return !normalizedQuery || getSearchText(play).includes(normalizedQuery);
     })
     .map((play, index) => ({ index, play }))
@@ -251,56 +294,6 @@ export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
         firstEntry.index - secondEntry.index,
     )
     .map(({ play }) => play);
-};
-
-/*
- * Status groups in the order a library reads: what you're playing first, what
- * is finished or dropped last. Statuses the list doesn't know follow by name.
- */
-const statusGroupOrder = [
-  "playing",
-  "not_started",
-  "paused",
-  "completed",
-  "abandoned",
-];
-
-export type PlayStatusGroup<Play extends MainlinePlaySummary> = {
-  id: string;
-  name: string;
-  plays: Play[];
-};
-
-const getStatusGroupRank = (groupId: string) => {
-  const rank = statusGroupOrder.indexOf(groupId);
-
-  return rank === -1 ? statusGroupOrder.length : rank;
-};
-
-/* Groups keep the order of the Plays they are given. */
-export const groupPlaysByStatus = <Play extends MainlinePlaySummary>(
-  plays: Play[],
-): PlayStatusGroup<Play>[] => {
-  const groups = new Map<string, PlayStatusGroup<Play>>();
-
-  for (const play of plays) {
-    const id = play.status_slug ?? "";
-    const group = groups.get(id) ?? {
-      id,
-      name: play.status_name ?? "Other",
-      plays: [],
-    };
-
-    group.plays.push(play);
-    groups.set(id, group);
-  }
-
-  return Array.from(groups.values()).sort(
-    (firstGroup, secondGroup) =>
-      getStatusGroupRank(firstGroup.id) - getStatusGroupRank(secondGroup.id) ||
-      Number(!firstGroup.id) - Number(!secondGroup.id) ||
-      compareText(firstGroup.name, secondGroup.name),
-  );
 };
 
 export const getPlayBrowseUrlSearchParams = (filters: PlayBrowseFilters) => {
@@ -316,6 +309,10 @@ export const getPlayBrowseUrlSearchParams = (filters: PlayBrowseFilters) => {
 
   if (filters.generation) {
     searchParams.set("generation", filters.generation);
+  }
+
+  if (filters.status) {
+    searchParams.set("status", filters.status);
   }
 
   if (filters.sort !== defaultPlayBrowseFilters.sort) {

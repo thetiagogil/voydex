@@ -57,3 +57,8 @@ COMMENT ON COLUMN gameplay.mainline_play_events.event_origin_id IS 'How the even
 COMMENT ON COLUMN gameplay.mainline_play_events.timeline_order IS 'Deterministic order for imported or approximate-history mainline_plays where exact timestamps may be unknown.';
 
 COMMENT ON COLUMN gameplay.mainline_play_events.milestone_id IS 'Optional completed milestone connected to a story/progression event. Milestone-linked events require the matching progress row; bulk progress can exist without an event.';
+
+CREATE TRIGGER touch_play_after_change
+    AFTER INSERT OR UPDATE OR DELETE ON gameplay.mainline_play_events
+    FOR EACH ROW
+    EXECUTE FUNCTION private.touch_play ();
