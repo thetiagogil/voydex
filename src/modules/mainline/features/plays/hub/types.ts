@@ -26,6 +26,7 @@ import type {
   RuleBreaks,
   RuleCheckContext,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type { PlaySettingsStatus } from "@/modules/mainline/features/plays/hub/views/settings/types";
 import type { GameplayRow, ViewRow } from "@/shared/types/database-helpers";
 
 export type MainlineChallengeRule = GameplayRow<"mainline_challenge_rules">;
@@ -238,6 +239,12 @@ export type MainlinePlayTeamPlanSummary = {
   planName: string;
   statusName: string;
   targetCount: number;
+};
+
+/* What the Play head's tap-to-edit dialogs offer: every status and quick-pick trainer names. */
+export type PlayHeaderEditing = {
+  statuses: PlaySettingsStatus[];
+  trainerNames: string[];
 };
 
 export type MainlinePlayShellData = {

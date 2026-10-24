@@ -22,7 +22,10 @@ const dotClassNames: Record<StatusBadgeTone, string> = {
   warn: "bg-warn",
 };
 
-type StatusBadgeProps = {
+type StatusBadgeProps = Omit<
+  React.ComponentProps<typeof Badge>,
+  "children" | "size" | "variant"
+> & {
   children: React.ReactNode;
   className?: string;
   /* The dot before the words; leave it off where an icon already leads. */
@@ -43,12 +46,14 @@ export const StatusBadge = ({
   ground = "card",
   size = "sm",
   tone = "neutral",
+  ...props
 }: StatusBadgeProps) => {
   return (
     <Badge
       variant={tone}
       size={size}
       className={cn(ground === "band" && "bg-surface shadow-card", className)}
+      {...props}
     >
       {dot ? (
         <span

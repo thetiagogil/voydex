@@ -13,6 +13,12 @@ export type PlayGeneralSettingsInput = {
   trainerName: string;
 };
 
+/* One fact the Play head changes by itself, as the rest of General stays. */
+export type PlayHeaderChange =
+  | { field: "playtime"; hours: string; minutes: string }
+  | { field: "status"; statusId: number }
+  | { field: "trainer"; trainerName: string };
+
 export type PlayGeneralSettings = {
   name: string;
   playtime_minutes: number | null;

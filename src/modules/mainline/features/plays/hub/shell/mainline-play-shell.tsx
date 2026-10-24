@@ -4,11 +4,15 @@ import { MainlinePlayNavigation } from "@/modules/mainline/features/plays/hub/sh
 import { MainlinePlayDetails } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-details";
 import { MainlinePlayTopSection } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-top-section";
 import { getPlayTitle } from "@/modules/mainline/features/plays/hub/shell/top-section/play-title";
-import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayShellData,
+  PlayHeaderEditing,
+} from "@/modules/mainline/features/plays/hub/types";
 
 type MainlinePlayShellProps = {
   children: React.ReactNode;
   data: MainlinePlayShellData;
+  editing?: PlayHeaderEditing;
   playId: string;
 };
 
@@ -19,6 +23,7 @@ type MainlinePlayShellProps = {
 export const MainlinePlayShell = ({
   children,
   data,
+  editing,
   playId,
 }: MainlinePlayShellProps) => {
   const navigation = (
@@ -45,6 +50,7 @@ export const MainlinePlayShell = ({
         <MainlinePlayTopSection
           data={data}
           details={<MainlinePlayDetails data={data} />}
+          editing={editing}
           navigation={navigation}
         />
       </MainlinePlayDockedBar>

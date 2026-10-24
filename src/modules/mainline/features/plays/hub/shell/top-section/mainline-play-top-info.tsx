@@ -1,13 +1,23 @@
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { StatusBadge } from "@/shared/components/status-badge";
-import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayShellData,
+  PlayHeaderEditing,
+} from "@/modules/mainline/features/plays/hub/types";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 
+import {
+  PlayHeaderPlaytimeEdit,
+  PlayHeaderStatusEdit,
+  PlayHeaderTrainerEdit,
+} from "./play-header-edit";
 import { MainlinePlayRuleBreaks } from "./mainline-play-rule-breaks";
 import { getPlayTitle } from "./play-title";
 
 type MainlinePlayTopInfoProps = {
   data: MainlinePlayShellData;
+  /* Makes status, trainer and playtime badges that open their edit dialogs. */
+  editing?: PlayHeaderEditing;
   titleId: string;
 };
 
@@ -35,12 +45,15 @@ const MainlinePlayStatus = ({ data }: { data: MainlinePlayShellData }) => {
 
 export const MainlinePlayTopInfo = ({
   data,
+  editing,
   titleId,
 }: MainlinePlayTopInfoProps) => {
   const playtime =
     data.play.playtime_minutes === null
       ? null
       : `${formatPlayMinutes(data.play.playtime_minutes)} played`;
+
+  const playId = editing ? data.play.play_id : null;
 
   return (
     <div className="min-w-0 flex-1">
@@ -54,7 +67,15 @@ export const MainlinePlayTopInfo = ({
         <div className="contents">
           <dt className="sr-only">Status</dt>
           <dd>
-            <MainlinePlayStatus data={data} />
+            {editing && playId ? (
+              <PlayHeaderStatusEdit
+                data={data}
+                editing={editing}
+                playId={playId}
+              />
+            ) : (
+              <MainlinePlayStatus data={data} />
+            )}
           </dd>
         </div>
         {data.play.play_id && data.ruleBreaks.ruleNames.length ? (
@@ -68,13 +89,35 @@ export const MainlinePlayTopInfo = ({
             </dd>
           </div>
         ) : null}
-        {data.play.trainer_name ? (
+        {editing && playId ? (
+          <div className="contents">
+            <dt className="sr-only">Trainer</dt>
+            <dd>
+              <PlayHeaderTrainerEdit
+                data={data}
+                editing={editing}
+                playId={playId}
+              />
+            </dd>
+          </div>
+        ) : data.play.trainer_name ? (
           <div className="contents">
             <dt className="sr-only">Trainer</dt>
             <dd>Trainer {data.play.trainer_name}</dd>
           </div>
         ) : null}
-        {playtime ? (
+        {editing && playId ? (
+          <div className="contents">
+            <dt className="sr-only">Playtime</dt>
+            <dd>
+              <PlayHeaderPlaytimeEdit
+                data={data}
+                playId={playId}
+                playtimeLabel={playtime}
+              />
+            </dd>
+          </div>
+        ) : playtime ? (
           <div className="contents">
             <dt className="sr-only">Playtime</dt>
             <dd className="tabular-nums">{playtime}</dd>
