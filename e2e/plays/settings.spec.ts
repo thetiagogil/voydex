@@ -42,8 +42,10 @@ test.describe("Play settings", () => {
       page.getByRole("heading", { level: 1, name: newName }),
     ).toBeVisible();
     await expect(
-      page.getByRole("region", { name: newName }).getByRole("definition"),
-    ).toHaveText("Paused");
+      page
+        .getByRole("region", { name: newName })
+        .getByRole("button", { name: "Paused" }),
+    ).toBeVisible();
   });
 
   test("archives the Play out of the Plays list", async ({ page }) => {

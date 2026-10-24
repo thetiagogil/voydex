@@ -8,6 +8,7 @@ import {
   diffIdSets,
   parsePlayGeneralSettings,
   type PlayGeneralSettingsInput,
+  type PlayHeaderChange,
 } from "../utils/play-settings-validation";
 
 /* The rule check's refusal of a type the Play's game doesn't have. */
@@ -79,6 +80,56 @@ export const updatePlayGeneralSettings = async (
         : "Unable to save these settings.",
     );
   }
+};
+
+/*
+ * The Play head's status, trainer or playtime on its own. It takes the
+ * Play's other General values as they are and saves through the same call as
+ * the settings page, so a status change still joins History. The Play is
+ * read just before the save; a Settings save from another tab in that
+ * instant is the one race we accept, as you are the only writer.
+ */
+export const updatePlayHeaderField = async (
+  supabase: ServerSupabaseClient,
+  { change, play }: { change: PlayHeaderChange; play: OwnedPlay },
+) => {
+  const playResult = await supabase
+    .schema("gameplay")
+    .from("mainline_plays")
+    .select("name, trainer_name, started_on, playtime_minutes, status_id")
+    .eq("id", play.id)
+    .single();
+
+  if (playResult.error) {
+    throw new Error("Unable to read this Play.");
+  }
+
+  const current = playResult.data;
+  const input: PlayGeneralSettingsInput = {
+    name: current.name,
+    playtimeHours:
+      current.playtime_minutes === null
+        ? ""
+        : String(Math.floor(current.playtime_minutes / 60)),
+    playtimeMinutes:
+      current.playtime_minutes === null
+        ? ""
+        : String(current.playtime_minutes % 60),
+    startedOn: current.started_on ?? "",
+    statusId: current.status_id,
+    trainerName: current.trainer_name ?? "",
+  };
+
+  if (change.field === "status") {
+    input.statusId = change.statusId;
+  } else if (change.field === "trainer") {
+    input.trainerName = change.trainerName;
+  } else {
+    input.playtimeHours = change.hours;
+    input.playtimeMinutes = change.minutes;
+  }
+
+  await updatePlayGeneralSettings(supabase, { input, play });
 };
 
 /*

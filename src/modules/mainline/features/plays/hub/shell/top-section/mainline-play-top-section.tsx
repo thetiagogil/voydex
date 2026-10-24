@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 
-import type { MainlinePlayShellData } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayShellData,
+  PlayHeaderEditing,
+} from "@/modules/mainline/features/plays/hub/types";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { PageBand } from "@/shared/components/page-band";
 import { cn } from "@/shared/utils/cn";
@@ -11,6 +14,8 @@ type MainlinePlayTopSectionProps = {
   data: MainlinePlayShellData;
   /* The Play details button; the public site's still leaves it out. */
   details?: ReactNode;
+  /* A Play's own head lets status, trainer and playtime be edited in place. */
+  editing?: PlayHeaderEditing;
   /*
    * `band` opens a Play's pages; `card` is the same head as a card, for the
    * public site's sample Play.
@@ -27,6 +32,7 @@ type MainlinePlayTopSectionProps = {
 export const MainlinePlayTopSection = ({
   data,
   details,
+  editing,
   form = "band",
   navigation,
 }: MainlinePlayTopSectionProps) => {
@@ -46,7 +52,11 @@ export const MainlinePlayTopSection = ({
           gameName={gameName}
           size="header"
         />
-        <MainlinePlayTopInfo data={data} titleId="mainline-play-title" />
+        <MainlinePlayTopInfo
+          data={data}
+          editing={editing}
+          titleId="mainline-play-title"
+        />
         {details ? (
           <div className="shrink-0 max-sm:absolute max-sm:-top-2 max-sm:-right-1.5">
             {details}

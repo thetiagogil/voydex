@@ -3,11 +3,22 @@ import { describe, expect, it } from "vitest";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type { PlayGeneralSettingsInput } from "../utils/play-settings-validation";
-import { updatePlayGeneralSettings } from "./play-settings-commands";
+import {
+  updatePlayGeneralSettings,
+  updatePlayHeaderField,
+} from "./play-settings-commands";
 
 type Result = { data: unknown; error: unknown };
 
 /* Reads the statuses; every write is recorded and must be the one RPC. */
+const currentPlay = {
+  name: "Alola run",
+  playtime_minutes: 125,
+  started_on: "2026-01-02",
+  status_id: 2,
+  trainer_name: "Red",
+};
+
 const createFakeClient = (rpcResult: Result) => {
   const rpcCalls: { args: unknown; name: string }[] = [];
   const tableWrites: string[] = [];
@@ -21,6 +32,8 @@ const createFakeClient = (rpcResult: Result) => {
     };
 
     builder.select = () => builder;
+    builder.eq = () => builder;
+    builder.single = () => Promise.resolve({ data: currentPlay, error: null });
 
     for (const method of ["delete", "insert", "update"]) {
       builder[method] = () => {
@@ -108,5 +121,74 @@ describe("updatePlayGeneralSettings", () => {
     await expect(
       updatePlayGeneralSettings(client, { input, play }),
     ).rejects.toThrow("Unable to save these settings.");
+  });
+});
+
+describe("updatePlayHeaderField", () => {
+  const savedWith = async (
+    change: Parameters<typeof updatePlayHeaderField>[1]["change"],
+  ) => {
+    const { client, rpcCalls } = createFakeClient({ data: [], error: null });
+
+    await updatePlayHeaderField(client, { change, play });
+
+    return rpcCalls[0]?.args;
+  };
+
+  it("changes the status and keeps everything else as it was", async () => {
+    expect(await savedWith({ field: "status", statusId: 3 })).toEqual({
+      p_name: "Alola run",
+      p_play_id: play.id,
+      p_playtime_minutes: 125,
+      p_started_on: "2026-01-02",
+      p_status_id: 3,
+      p_trainer_name: "Red",
+    });
+  });
+
+  it("changes the trainer name, and clears it when empty", async () => {
+    expect(
+      await savedWith({ field: "trainer", trainerName: " Ash " }),
+    ).toMatchObject({ p_status_id: 2, p_trainer_name: "Ash" });
+    expect(
+      await savedWith({ field: "trainer", trainerName: "" }),
+    ).toMatchObject({ p_trainer_name: undefined });
+  });
+
+  it("changes the playtime from hours and minutes", async () => {
+    expect(
+      await savedWith({ field: "playtime", hours: "10", minutes: "30" }),
+    ).toMatchObject({ p_playtime_minutes: 630, p_trainer_name: "Red" });
+    expect(
+      await savedWith({ field: "playtime", hours: "", minutes: "" }),
+    ).toMatchObject({ p_playtime_minutes: undefined });
+  });
+
+  it("refuses a status the Play can't have and minutes past 59", async () => {
+    const { client } = createFakeClient({ data: [], error: null });
+
+    await expect(
+      updatePlayHeaderField(client, {
+        change: { field: "status", statusId: 99 },
+        play,
+      }),
+    ).rejects.toThrow("Pick one of the statuses.");
+    await expect(
+      updatePlayHeaderField(client, {
+        change: { field: "playtime", hours: "1", minutes: "75" },
+        play,
+      }),
+    ).rejects.toThrow("Minutes must be a whole number from 0 to 59.");
+  });
+
+  it("refuses a trainer name over 120 characters", async () => {
+    const { client } = createFakeClient({ data: [], error: null });
+
+    await expect(
+      updatePlayHeaderField(client, {
+        change: { field: "trainer", trainerName: "a".repeat(121) },
+        play,
+      }),
+    ).rejects.toThrow("A trainer name can be 120 characters at most.");
   });
 });

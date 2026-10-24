@@ -13,6 +13,7 @@ import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
+import { PlayPlaytimeFields } from "@/modules/mainline/features/plays/hub/components/play-playtime-fields";
 import { updatePlayGeneralSettingsAction } from "../../server/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 import type { PlayGeneralSettingsInput } from "../../utils/play-settings-validation";
@@ -152,50 +153,12 @@ export const PlaySettingsGeneralSection = ({
             <SettingsFieldLabel edited={playtimeEdited}>
               <span id={`${id}-playtime`}>Playtime</span>
             </SettingsFieldLabel>
-            <div className="grid grid-cols-2 gap-2.5">
-              <label className="relative">
-                <span className="sr-only">Hours</span>
-                <Input
-                  type="number"
-                  inputMode="numeric"
-                  min={0}
-                  max={9999}
-                  value={values.playtimeHours}
-                  placeholder="0"
-                  className="pr-9"
-                  onChange={(event) =>
-                    change("playtimeHours", event.target.value)
-                  }
-                />
-                <span
-                  aria-hidden
-                  className="text-ink-3 absolute top-1/2 right-4 -translate-y-1/2 font-bold"
-                >
-                  h
-                </span>
-              </label>
-              <label className="relative">
-                <span className="sr-only">Minutes</span>
-                <Input
-                  type="number"
-                  inputMode="numeric"
-                  min={0}
-                  max={59}
-                  value={values.playtimeMinutes}
-                  placeholder="0"
-                  className="pr-9"
-                  onChange={(event) =>
-                    change("playtimeMinutes", event.target.value)
-                  }
-                />
-                <span
-                  aria-hidden
-                  className="text-ink-3 absolute top-1/2 right-4 -translate-y-1/2 font-bold"
-                >
-                  m
-                </span>
-              </label>
-            </div>
+            <PlayPlaytimeFields
+              hours={values.playtimeHours}
+              minutes={values.playtimeMinutes}
+              onHoursChange={(value) => change("playtimeHours", value)}
+              onMinutesChange={(value) => change("playtimeMinutes", value)}
+            />
           </Field>
         </div>
 

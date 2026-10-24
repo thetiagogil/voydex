@@ -21,7 +21,10 @@ import type { PlayRuleSelection } from "@/modules/mainline/shared/data/challenge
 import { playRuleSelectionSchema } from "@/modules/mainline/shared/utils/play-rule-input";
 
 import type { PlaySettingsChoice } from "../types";
-import { type PlayGeneralSettingsInput } from "../utils/play-settings-validation";
+import {
+  type PlayGeneralSettingsInput,
+  type PlayHeaderChange,
+} from "../utils/play-settings-validation";
 import {
   findOrCreateChallengeRule,
   findOrCreateTag,
@@ -32,6 +35,7 @@ import {
   updatePlayChallengeRules,
   updatePlayExpansions,
   updatePlayGeneralSettings,
+  updatePlayHeaderField,
   updatePlayTags,
 } from "./play-settings-commands";
 
@@ -54,6 +58,24 @@ const rulesSchema = z.array(playRuleSelectionSchema, {
 const tagIdsSchema = z.array(uuidSchema("Pick tags from the list."), {
   error: "Pick tags from the list.",
 });
+
+const playHeaderChangeSchema = z.discriminatedUnion("field", [
+  z.object({
+    field: z.literal("status"),
+    statusId: z.number({ error: "Pick one of the statuses." }),
+  }),
+  z.object({
+    field: z.literal("trainer"),
+    trainerName: z.string({
+      error: "A trainer name can be 120 characters at most.",
+    }),
+  }),
+  z.object({
+    field: z.literal("playtime"),
+    hours: z.string({ error: "Hours must be a whole number." }),
+    minutes: z.string({ error: "Minutes must be a whole number." }),
+  }),
+]);
 
 const success = (message: string): PlaySettingsActionResult => ({
   message,
@@ -106,6 +128,27 @@ export const updatePlayGeneralSettingsAction = async ({
     return success("General settings saved");
   } catch (error) {
     return failure(error, "Unable to save these settings.");
+  }
+};
+
+/* The Play head's status, trainer or playtime, changed on its own. */
+export const updatePlayHeaderFieldAction = async ({
+  change,
+  playId,
+}: {
+  change: PlayHeaderChange;
+  playId: string;
+}): Promise<PlaySettingsActionResult> => {
+  try {
+    const headerChange = parseInput(playHeaderChangeSchema, change);
+    const { play, supabase } = await getOwnedPlay(playId);
+
+    await updatePlayHeaderField(supabase, { change: headerChange, play });
+    revalidatePlay(playId);
+
+    return success("Saved");
+  } catch (error) {
+    return failure(error, "Unable to save this change.");
   }
 };
 

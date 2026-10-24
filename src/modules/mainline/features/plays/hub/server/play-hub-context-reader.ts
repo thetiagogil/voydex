@@ -1,7 +1,9 @@
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { getTrainerNameSuggestions } from "@/modules/mainline/features/plays/hub/data/play-header-trainer-names";
 import type {
   MainlinePlayGameContextRows,
   MainlinePlayRuleRows,
+  PlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
@@ -181,4 +183,44 @@ export const readMainlinePlayTagNames = async (
 
     return name ? [name] : [];
   });
+};
+
+/*
+ * What the Play head's dialogs offer: every status, and the trainer names
+ * your other Plays use for the quick picks.
+ */
+export const readPlayHeaderEditing = async (
+  supabase: ServerSupabaseClient,
+  {
+    currentTrainerName,
+    playId,
+    userId,
+  }: { currentTrainerName: string | null; playId: string; userId: string },
+): Promise<PlayHeaderEditing> => {
+  const [statusesResult, namesResult] = await Promise.all([
+    supabase
+      .schema("gameplay")
+      .from("mainline_play_statuses")
+      .select("id, name, slug")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .schema("gameplay")
+      .from("mainline_plays")
+      .select("trainer_name")
+      .eq("user_id", userId)
+      .neq("id", playId)
+      .not("trainer_name", "is", null),
+  ]);
+
+  if (statusesResult.error || namesResult.error) {
+    throw new Error("Unable to load the Play's status and trainer options.");
+  }
+
+  return {
+    statuses: statusesResult.data ?? [],
+    trainerNames: getTrainerNameSuggestions(
+      (namesResult.data ?? []).map((row) => row.trainer_name),
+      currentTrainerName,
+    ),
+  };
 };

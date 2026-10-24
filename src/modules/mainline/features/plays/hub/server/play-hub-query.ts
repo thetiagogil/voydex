@@ -21,6 +21,7 @@ import {
   readMainlinePlayRuleRows,
   readMainlinePlaySummary,
   readMainlinePlayTagNames,
+  readPlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
 import type {
   MainlinePlayOverviewData,
@@ -28,6 +29,7 @@ import type {
   MainlinePlayTeamRosterData,
   MainlinePlayHistoryData,
   MainlinePlayTeamPlanData,
+  PlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/types";
 import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/server/play-moment-context-reader";
 import {
@@ -152,6 +154,21 @@ export const getMainlinePlayShellData = cache(
       tags,
       teamRows,
     });
+  },
+);
+
+/* The statuses and trainer names the Play head's tap-to-edit dialogs offer. */
+export const getPlayHeaderEditing = cache(
+  async (playId: string): Promise<PlayHeaderEditing | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    return context
+      ? readPlayHeaderEditing(context.supabase, {
+          currentTrainerName: context.play.trainer_name,
+          playId,
+          userId: context.userId,
+        })
+      : null;
   },
 );
 
