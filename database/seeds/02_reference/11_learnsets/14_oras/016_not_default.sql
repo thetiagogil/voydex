@@ -3618,4 +3618,926 @@ INSERT INTO reference.pokemon_learnsets (
   -- Hoopa (Unbound) - Foul Play - Tutor
   (720, 72001, 492, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 87),
   -- Hoopa (Unbound) - Dual Chop - Tutor
-  (720, 72001, 530, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 88);
+  (720, 72001, 530, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 88),
+  -- Pikachu (Cosplay) - Tail Whip - Level 1
+  (25, 2511, 39, 14, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Pikachu (Cosplay) - Thunder Shock - Level 1
+  (25, 2511, 84, 14, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Pikachu (Cosplay) - Growl - Level 5
+  (25, 2511, 45, 14, NULL, 1, 5, NULL, NULL, NULL, 3),
+  -- Pikachu (Cosplay) - Play Nice - Level 7
+  (25, 2511, 589, 14, NULL, 1, 7, NULL, NULL, NULL, 4),
+  -- Pikachu (Cosplay) - Quick Attack - Level 10
+  (25, 2511, 98, 14, NULL, 1, 10, NULL, NULL, NULL, 5),
+  -- Pikachu (Cosplay) - Electro Ball - Level 13
+  (25, 2511, 486, 14, NULL, 1, 13, NULL, NULL, NULL, 6),
+  -- Pikachu (Cosplay) - Thunder Wave - Level 18
+  (25, 2511, 86, 14, NULL, 1, 18, NULL, NULL, NULL, 7),
+  -- Pikachu (Cosplay) - Feint - Level 21
+  (25, 2511, 364, 14, NULL, 1, 21, NULL, NULL, NULL, 8),
+  -- Pikachu (Cosplay) - Double Team - Level 23
+  (25, 2511, 104, 14, NULL, 1, 23, NULL, NULL, NULL, 9),
+  -- Pikachu (Cosplay) - Spark - Level 26
+  (25, 2511, 209, 14, NULL, 1, 26, NULL, NULL, NULL, 10),
+  -- Pikachu (Cosplay) - Nuzzle - Level 29
+  (25, 2511, 609, 14, NULL, 1, 29, NULL, NULL, NULL, 11),
+  -- Pikachu (Cosplay) - Discharge - Level 34
+  (25, 2511, 435, 14, NULL, 1, 34, NULL, NULL, NULL, 12),
+  -- Pikachu (Cosplay) - Slam - Level 37
+  (25, 2511, 21, 14, NULL, 1, 37, NULL, NULL, NULL, 13),
+  -- Pikachu (Cosplay) - Thunderbolt - Level 42
+  (25, 2511, 85, 14, NULL, 1, 42, NULL, NULL, NULL, 14),
+  -- Pikachu (Cosplay) - Agility - Level 45
+  (25, 2511, 97, 14, NULL, 1, 45, NULL, NULL, NULL, 15),
+  -- Pikachu (Cosplay) - Wild Charge - Level 50
+  (25, 2511, 528, 14, NULL, 1, 50, NULL, NULL, NULL, 16),
+  -- Pikachu (Cosplay) - Light Screen - Level 53
+  (25, 2511, 113, 14, NULL, 1, 53, NULL, NULL, NULL, 17),
+  -- Pikachu (Cosplay) - Thunder - Level 58
+  (25, 2511, 87, 14, NULL, 1, 58, NULL, NULL, NULL, 18),
+  -- Pikachu (Cosplay) - Toxic - TM06
+  (25, 2511, 92, 14, NULL, 2, NULL, NULL, 14002006, NULL, 19),
+  -- Pikachu (Cosplay) - Hidden Power - TM10
+  (25, 2511, 237, 14, NULL, 2, NULL, NULL, 14002010, NULL, 20),
+  -- Pikachu (Cosplay) - Light Screen - TM16
+  (25, 2511, 113, 14, NULL, 2, NULL, NULL, 14002016, NULL, 21),
+  -- Pikachu (Cosplay) - Protect - TM17
+  (25, 2511, 182, 14, NULL, 2, NULL, NULL, 14002017, NULL, 22),
+  -- Pikachu (Cosplay) - Rain Dance - TM18
+  (25, 2511, 240, 14, NULL, 2, NULL, NULL, 14002018, NULL, 23),
+  -- Pikachu (Cosplay) - Frustration - TM21
+  (25, 2511, 218, 14, NULL, 2, NULL, NULL, 14002021, NULL, 24),
+  -- Pikachu (Cosplay) - Thunderbolt - TM24
+  (25, 2511, 85, 14, NULL, 2, NULL, NULL, 14002024, NULL, 25),
+  -- Pikachu (Cosplay) - Thunder - TM25
+  (25, 2511, 87, 14, NULL, 2, NULL, NULL, 14002025, NULL, 26),
+  -- Pikachu (Cosplay) - Return - TM27
+  (25, 2511, 216, 14, NULL, 2, NULL, NULL, 14002027, NULL, 27),
+  -- Pikachu (Cosplay) - Dig - TM28
+  (25, 2511, 91, 14, NULL, 2, NULL, NULL, 14002028, NULL, 28),
+  -- Pikachu (Cosplay) - Brick Break - TM31
+  (25, 2511, 280, 14, NULL, 2, NULL, NULL, 14002031, NULL, 29),
+  -- Pikachu (Cosplay) - Double Team - TM32
+  (25, 2511, 104, 14, NULL, 2, NULL, NULL, 14002032, NULL, 30),
+  -- Pikachu (Cosplay) - Facade - TM42
+  (25, 2511, 263, 14, NULL, 2, NULL, NULL, 14002042, NULL, 31),
+  -- Pikachu (Cosplay) - Rest - TM44
+  (25, 2511, 156, 14, NULL, 2, NULL, NULL, 14002044, NULL, 32),
+  -- Pikachu (Cosplay) - Attract - TM45
+  (25, 2511, 213, 14, NULL, 2, NULL, NULL, 14002045, NULL, 33),
+  -- Pikachu (Cosplay) - Round - TM48
+  (25, 2511, 496, 14, NULL, 2, NULL, NULL, 14002048, NULL, 34),
+  -- Pikachu (Cosplay) - Echoed Voice - TM49
+  (25, 2511, 497, 14, NULL, 2, NULL, NULL, 14002049, NULL, 35),
+  -- Pikachu (Cosplay) - Fling - TM56
+  (25, 2511, 374, 14, NULL, 2, NULL, NULL, 14002056, NULL, 36),
+  -- Pikachu (Cosplay) - Charge Beam - TM57
+  (25, 2511, 451, 14, NULL, 2, NULL, NULL, 14002057, NULL, 37),
+  -- Pikachu (Cosplay) - Flash - TM70
+  (25, 2511, 148, 14, NULL, 2, NULL, NULL, 14002070, NULL, 38),
+  -- Pikachu (Cosplay) - Volt Switch - TM72
+  (25, 2511, 521, 14, NULL, 2, NULL, NULL, 14002072, NULL, 39),
+  -- Pikachu (Cosplay) - Thunder Wave - TM73
+  (25, 2511, 86, 14, NULL, 2, NULL, NULL, 14002073, NULL, 40),
+  -- Pikachu (Cosplay) - Grass Knot - TM86
+  (25, 2511, 447, 14, NULL, 2, NULL, NULL, 14002086, NULL, 41),
+  -- Pikachu (Cosplay) - Swagger - TM87
+  (25, 2511, 207, 14, NULL, 2, NULL, NULL, 14002087, NULL, 42),
+  -- Pikachu (Cosplay) - Sleep Talk - TM88
+  (25, 2511, 214, 14, NULL, 2, NULL, NULL, 14002088, NULL, 43),
+  -- Pikachu (Cosplay) - Substitute - TM90
+  (25, 2511, 164, 14, NULL, 2, NULL, NULL, 14002090, NULL, 44),
+  -- Pikachu (Cosplay) - Wild Charge - TM93
+  (25, 2511, 528, 14, NULL, 2, NULL, NULL, 14002093, NULL, 45),
+  -- Pikachu (Cosplay) - Secret Power - TM94
+  (25, 2511, 290, 14, NULL, 2, NULL, NULL, 14002094, NULL, 46),
+  -- Pikachu (Cosplay) - Confide - TM100
+  (25, 2511, 590, 14, NULL, 2, NULL, NULL, 14002100, NULL, 47),
+  -- Pikachu (Cosplay) - Strength - HM04
+  (25, 2511, 70, 14, NULL, 3, NULL, NULL, 14003004, NULL, 48),
+  -- Pikachu (Cosplay) - Rock Smash - HM06
+  (25, 2511, 249, 14, NULL, 3, NULL, NULL, 14003006, NULL, 49),
+  -- Pikachu (Cosplay) - Double Slap - Egg
+  (25, 2511, 3, 14, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  -- Pikachu (Cosplay) - Thunder Punch - Egg
+  (25, 2511, 9, 14, NULL, 5, NULL, NULL, NULL, NULL, 51),
+  -- Pikachu (Cosplay) - Bide - Egg
+  (25, 2511, 117, 14, NULL, 5, NULL, NULL, NULL, NULL, 52),
+  -- Pikachu (Cosplay) - Flail - Egg
+  (25, 2511, 175, 14, NULL, 5, NULL, NULL, NULL, NULL, 53),
+  -- Pikachu (Cosplay) - Reversal - Egg
+  (25, 2511, 179, 14, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  -- Pikachu (Cosplay) - Endure - Egg
+  (25, 2511, 203, 14, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  -- Pikachu (Cosplay) - Present - Egg
+  (25, 2511, 217, 14, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  -- Pikachu (Cosplay) - Encore - Egg
+  (25, 2511, 227, 14, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  -- Pikachu (Cosplay) - Fake Out - Egg
+  (25, 2511, 252, 14, NULL, 5, NULL, NULL, NULL, NULL, 58),
+  -- Pikachu (Cosplay) - Charge - Egg
+  (25, 2511, 268, 14, NULL, 5, NULL, NULL, NULL, NULL, 59),
+  -- Pikachu (Cosplay) - Wish - Egg
+  (25, 2511, 273, 14, NULL, 5, NULL, NULL, NULL, NULL, 60),
+  -- Pikachu (Cosplay) - Tickle - Egg
+  (25, 2511, 321, 14, NULL, 5, NULL, NULL, NULL, NULL, 61),
+  -- Pikachu (Cosplay) - Volt Tackle - Egg
+  (25, 2511, 344, 14, NULL, 5, NULL, NULL, NULL, NULL, 62),
+  -- Pikachu (Cosplay) - Lucky Chant - Egg
+  (25, 2511, 381, 14, NULL, 5, NULL, NULL, NULL, NULL, 63),
+  -- Pikachu (Cosplay) - Bestow - Egg
+  (25, 2511, 516, 14, NULL, 5, NULL, NULL, NULL, NULL, 64),
+  -- Pikachu (Cosplay) - Disarming Voice - Egg
+  (25, 2511, 574, 14, NULL, 5, NULL, NULL, NULL, NULL, 65),
+  -- Pikachu (Cosplay) - Thunder Punch - Tutor
+  (25, 2511, 9, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 66),
+  -- Pikachu (Cosplay) - Snore - Tutor
+  (25, 2511, 173, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 67),
+  -- Pikachu (Cosplay) - Iron Tail - Tutor
+  (25, 2511, 231, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 68),
+  -- Pikachu (Cosplay) - Focus Punch - Tutor
+  (25, 2511, 264, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 69),
+  -- Pikachu (Cosplay) - Helping Hand - Tutor
+  (25, 2511, 270, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 70),
+  -- Pikachu (Cosplay) - Knock Off - Tutor
+  (25, 2511, 282, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 71),
+  -- Pikachu (Cosplay) - Signal Beam - Tutor
+  (25, 2511, 324, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 72),
+  -- Pikachu (Cosplay) - Covet - Tutor
+  (25, 2511, 343, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 73),
+  -- Pikachu (Cosplay) - Shock Wave - Tutor
+  (25, 2511, 351, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 74),
+  -- Pikachu (Cosplay) - Magnet Rise - Tutor
+  (25, 2511, 393, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 75),
+  -- Pikachu (Cosplay) - Electroweb - Tutor
+  (25, 2511, 527, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 76),
+  -- Pikachu (Rock Star) - Tail Whip - Level 1
+  (25, 2512, 39, 14, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Pikachu (Rock Star) - Thunder Shock - Level 1
+  (25, 2512, 84, 14, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Pikachu (Rock Star) - Growl - Level 5
+  (25, 2512, 45, 14, NULL, 1, 5, NULL, NULL, NULL, 3),
+  -- Pikachu (Rock Star) - Play Nice - Level 7
+  (25, 2512, 589, 14, NULL, 1, 7, NULL, NULL, NULL, 4),
+  -- Pikachu (Rock Star) - Quick Attack - Level 10
+  (25, 2512, 98, 14, NULL, 1, 10, NULL, NULL, NULL, 5),
+  -- Pikachu (Rock Star) - Electro Ball - Level 13
+  (25, 2512, 486, 14, NULL, 1, 13, NULL, NULL, NULL, 6),
+  -- Pikachu (Rock Star) - Thunder Wave - Level 18
+  (25, 2512, 86, 14, NULL, 1, 18, NULL, NULL, NULL, 7),
+  -- Pikachu (Rock Star) - Feint - Level 21
+  (25, 2512, 364, 14, NULL, 1, 21, NULL, NULL, NULL, 8),
+  -- Pikachu (Rock Star) - Double Team - Level 23
+  (25, 2512, 104, 14, NULL, 1, 23, NULL, NULL, NULL, 9),
+  -- Pikachu (Rock Star) - Spark - Level 26
+  (25, 2512, 209, 14, NULL, 1, 26, NULL, NULL, NULL, 10),
+  -- Pikachu (Rock Star) - Nuzzle - Level 29
+  (25, 2512, 609, 14, NULL, 1, 29, NULL, NULL, NULL, 11),
+  -- Pikachu (Rock Star) - Discharge - Level 34
+  (25, 2512, 435, 14, NULL, 1, 34, NULL, NULL, NULL, 12),
+  -- Pikachu (Rock Star) - Slam - Level 37
+  (25, 2512, 21, 14, NULL, 1, 37, NULL, NULL, NULL, 13),
+  -- Pikachu (Rock Star) - Thunderbolt - Level 42
+  (25, 2512, 85, 14, NULL, 1, 42, NULL, NULL, NULL, 14),
+  -- Pikachu (Rock Star) - Agility - Level 45
+  (25, 2512, 97, 14, NULL, 1, 45, NULL, NULL, NULL, 15),
+  -- Pikachu (Rock Star) - Wild Charge - Level 50
+  (25, 2512, 528, 14, NULL, 1, 50, NULL, NULL, NULL, 16),
+  -- Pikachu (Rock Star) - Light Screen - Level 53
+  (25, 2512, 113, 14, NULL, 1, 53, NULL, NULL, NULL, 17),
+  -- Pikachu (Rock Star) - Thunder - Level 58
+  (25, 2512, 87, 14, NULL, 1, 58, NULL, NULL, NULL, 18),
+  -- Pikachu (Rock Star) - Toxic - TM06
+  (25, 2512, 92, 14, NULL, 2, NULL, NULL, 14002006, NULL, 19),
+  -- Pikachu (Rock Star) - Hidden Power - TM10
+  (25, 2512, 237, 14, NULL, 2, NULL, NULL, 14002010, NULL, 20),
+  -- Pikachu (Rock Star) - Light Screen - TM16
+  (25, 2512, 113, 14, NULL, 2, NULL, NULL, 14002016, NULL, 21),
+  -- Pikachu (Rock Star) - Protect - TM17
+  (25, 2512, 182, 14, NULL, 2, NULL, NULL, 14002017, NULL, 22),
+  -- Pikachu (Rock Star) - Rain Dance - TM18
+  (25, 2512, 240, 14, NULL, 2, NULL, NULL, 14002018, NULL, 23),
+  -- Pikachu (Rock Star) - Frustration - TM21
+  (25, 2512, 218, 14, NULL, 2, NULL, NULL, 14002021, NULL, 24),
+  -- Pikachu (Rock Star) - Thunderbolt - TM24
+  (25, 2512, 85, 14, NULL, 2, NULL, NULL, 14002024, NULL, 25),
+  -- Pikachu (Rock Star) - Thunder - TM25
+  (25, 2512, 87, 14, NULL, 2, NULL, NULL, 14002025, NULL, 26),
+  -- Pikachu (Rock Star) - Return - TM27
+  (25, 2512, 216, 14, NULL, 2, NULL, NULL, 14002027, NULL, 27),
+  -- Pikachu (Rock Star) - Dig - TM28
+  (25, 2512, 91, 14, NULL, 2, NULL, NULL, 14002028, NULL, 28),
+  -- Pikachu (Rock Star) - Brick Break - TM31
+  (25, 2512, 280, 14, NULL, 2, NULL, NULL, 14002031, NULL, 29),
+  -- Pikachu (Rock Star) - Double Team - TM32
+  (25, 2512, 104, 14, NULL, 2, NULL, NULL, 14002032, NULL, 30),
+  -- Pikachu (Rock Star) - Facade - TM42
+  (25, 2512, 263, 14, NULL, 2, NULL, NULL, 14002042, NULL, 31),
+  -- Pikachu (Rock Star) - Rest - TM44
+  (25, 2512, 156, 14, NULL, 2, NULL, NULL, 14002044, NULL, 32),
+  -- Pikachu (Rock Star) - Attract - TM45
+  (25, 2512, 213, 14, NULL, 2, NULL, NULL, 14002045, NULL, 33),
+  -- Pikachu (Rock Star) - Round - TM48
+  (25, 2512, 496, 14, NULL, 2, NULL, NULL, 14002048, NULL, 34),
+  -- Pikachu (Rock Star) - Echoed Voice - TM49
+  (25, 2512, 497, 14, NULL, 2, NULL, NULL, 14002049, NULL, 35),
+  -- Pikachu (Rock Star) - Fling - TM56
+  (25, 2512, 374, 14, NULL, 2, NULL, NULL, 14002056, NULL, 36),
+  -- Pikachu (Rock Star) - Charge Beam - TM57
+  (25, 2512, 451, 14, NULL, 2, NULL, NULL, 14002057, NULL, 37),
+  -- Pikachu (Rock Star) - Flash - TM70
+  (25, 2512, 148, 14, NULL, 2, NULL, NULL, 14002070, NULL, 38),
+  -- Pikachu (Rock Star) - Volt Switch - TM72
+  (25, 2512, 521, 14, NULL, 2, NULL, NULL, 14002072, NULL, 39),
+  -- Pikachu (Rock Star) - Thunder Wave - TM73
+  (25, 2512, 86, 14, NULL, 2, NULL, NULL, 14002073, NULL, 40),
+  -- Pikachu (Rock Star) - Grass Knot - TM86
+  (25, 2512, 447, 14, NULL, 2, NULL, NULL, 14002086, NULL, 41),
+  -- Pikachu (Rock Star) - Swagger - TM87
+  (25, 2512, 207, 14, NULL, 2, NULL, NULL, 14002087, NULL, 42),
+  -- Pikachu (Rock Star) - Sleep Talk - TM88
+  (25, 2512, 214, 14, NULL, 2, NULL, NULL, 14002088, NULL, 43),
+  -- Pikachu (Rock Star) - Substitute - TM90
+  (25, 2512, 164, 14, NULL, 2, NULL, NULL, 14002090, NULL, 44),
+  -- Pikachu (Rock Star) - Wild Charge - TM93
+  (25, 2512, 528, 14, NULL, 2, NULL, NULL, 14002093, NULL, 45),
+  -- Pikachu (Rock Star) - Secret Power - TM94
+  (25, 2512, 290, 14, NULL, 2, NULL, NULL, 14002094, NULL, 46),
+  -- Pikachu (Rock Star) - Confide - TM100
+  (25, 2512, 590, 14, NULL, 2, NULL, NULL, 14002100, NULL, 47),
+  -- Pikachu (Rock Star) - Strength - HM04
+  (25, 2512, 70, 14, NULL, 3, NULL, NULL, 14003004, NULL, 48),
+  -- Pikachu (Rock Star) - Rock Smash - HM06
+  (25, 2512, 249, 14, NULL, 3, NULL, NULL, 14003006, NULL, 49),
+  -- Pikachu (Rock Star) - Double Slap - Egg
+  (25, 2512, 3, 14, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  -- Pikachu (Rock Star) - Thunder Punch - Egg
+  (25, 2512, 9, 14, NULL, 5, NULL, NULL, NULL, NULL, 51),
+  -- Pikachu (Rock Star) - Bide - Egg
+  (25, 2512, 117, 14, NULL, 5, NULL, NULL, NULL, NULL, 52),
+  -- Pikachu (Rock Star) - Flail - Egg
+  (25, 2512, 175, 14, NULL, 5, NULL, NULL, NULL, NULL, 53),
+  -- Pikachu (Rock Star) - Reversal - Egg
+  (25, 2512, 179, 14, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  -- Pikachu (Rock Star) - Endure - Egg
+  (25, 2512, 203, 14, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  -- Pikachu (Rock Star) - Present - Egg
+  (25, 2512, 217, 14, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  -- Pikachu (Rock Star) - Encore - Egg
+  (25, 2512, 227, 14, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  -- Pikachu (Rock Star) - Fake Out - Egg
+  (25, 2512, 252, 14, NULL, 5, NULL, NULL, NULL, NULL, 58),
+  -- Pikachu (Rock Star) - Charge - Egg
+  (25, 2512, 268, 14, NULL, 5, NULL, NULL, NULL, NULL, 59),
+  -- Pikachu (Rock Star) - Wish - Egg
+  (25, 2512, 273, 14, NULL, 5, NULL, NULL, NULL, NULL, 60),
+  -- Pikachu (Rock Star) - Tickle - Egg
+  (25, 2512, 321, 14, NULL, 5, NULL, NULL, NULL, NULL, 61),
+  -- Pikachu (Rock Star) - Volt Tackle - Egg
+  (25, 2512, 344, 14, NULL, 5, NULL, NULL, NULL, NULL, 62),
+  -- Pikachu (Rock Star) - Lucky Chant - Egg
+  (25, 2512, 381, 14, NULL, 5, NULL, NULL, NULL, NULL, 63),
+  -- Pikachu (Rock Star) - Bestow - Egg
+  (25, 2512, 516, 14, NULL, 5, NULL, NULL, NULL, NULL, 64),
+  -- Pikachu (Rock Star) - Disarming Voice - Egg
+  (25, 2512, 574, 14, NULL, 5, NULL, NULL, NULL, NULL, 65),
+  -- Pikachu (Rock Star) - Thunder Punch - Tutor
+  (25, 2512, 9, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 66),
+  -- Pikachu (Rock Star) - Snore - Tutor
+  (25, 2512, 173, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 67),
+  -- Pikachu (Rock Star) - Iron Tail - Tutor
+  (25, 2512, 231, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 68),
+  -- Pikachu (Rock Star) - Focus Punch - Tutor
+  (25, 2512, 264, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 69),
+  -- Pikachu (Rock Star) - Helping Hand - Tutor
+  (25, 2512, 270, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 70),
+  -- Pikachu (Rock Star) - Knock Off - Tutor
+  (25, 2512, 282, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 71),
+  -- Pikachu (Rock Star) - Signal Beam - Tutor
+  (25, 2512, 324, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 72),
+  -- Pikachu (Rock Star) - Covet - Tutor
+  (25, 2512, 343, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 73),
+  -- Pikachu (Rock Star) - Shock Wave - Tutor
+  (25, 2512, 351, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 74),
+  -- Pikachu (Rock Star) - Magnet Rise - Tutor
+  (25, 2512, 393, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 75),
+  -- Pikachu (Rock Star) - Electroweb - Tutor
+  (25, 2512, 527, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 76),
+  -- Pikachu (Rock Star) - Meteor Mash - Special
+  (25, 2512, 309, 14, NULL, 12, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire: known while wearing this costume.', 77),
+  -- Pikachu (Belle) - Tail Whip - Level 1
+  (25, 2513, 39, 14, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Pikachu (Belle) - Thunder Shock - Level 1
+  (25, 2513, 84, 14, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Pikachu (Belle) - Growl - Level 5
+  (25, 2513, 45, 14, NULL, 1, 5, NULL, NULL, NULL, 3),
+  -- Pikachu (Belle) - Play Nice - Level 7
+  (25, 2513, 589, 14, NULL, 1, 7, NULL, NULL, NULL, 4),
+  -- Pikachu (Belle) - Quick Attack - Level 10
+  (25, 2513, 98, 14, NULL, 1, 10, NULL, NULL, NULL, 5),
+  -- Pikachu (Belle) - Electro Ball - Level 13
+  (25, 2513, 486, 14, NULL, 1, 13, NULL, NULL, NULL, 6),
+  -- Pikachu (Belle) - Thunder Wave - Level 18
+  (25, 2513, 86, 14, NULL, 1, 18, NULL, NULL, NULL, 7),
+  -- Pikachu (Belle) - Feint - Level 21
+  (25, 2513, 364, 14, NULL, 1, 21, NULL, NULL, NULL, 8),
+  -- Pikachu (Belle) - Double Team - Level 23
+  (25, 2513, 104, 14, NULL, 1, 23, NULL, NULL, NULL, 9),
+  -- Pikachu (Belle) - Spark - Level 26
+  (25, 2513, 209, 14, NULL, 1, 26, NULL, NULL, NULL, 10),
+  -- Pikachu (Belle) - Nuzzle - Level 29
+  (25, 2513, 609, 14, NULL, 1, 29, NULL, NULL, NULL, 11),
+  -- Pikachu (Belle) - Discharge - Level 34
+  (25, 2513, 435, 14, NULL, 1, 34, NULL, NULL, NULL, 12),
+  -- Pikachu (Belle) - Slam - Level 37
+  (25, 2513, 21, 14, NULL, 1, 37, NULL, NULL, NULL, 13),
+  -- Pikachu (Belle) - Thunderbolt - Level 42
+  (25, 2513, 85, 14, NULL, 1, 42, NULL, NULL, NULL, 14),
+  -- Pikachu (Belle) - Agility - Level 45
+  (25, 2513, 97, 14, NULL, 1, 45, NULL, NULL, NULL, 15),
+  -- Pikachu (Belle) - Wild Charge - Level 50
+  (25, 2513, 528, 14, NULL, 1, 50, NULL, NULL, NULL, 16),
+  -- Pikachu (Belle) - Light Screen - Level 53
+  (25, 2513, 113, 14, NULL, 1, 53, NULL, NULL, NULL, 17),
+  -- Pikachu (Belle) - Thunder - Level 58
+  (25, 2513, 87, 14, NULL, 1, 58, NULL, NULL, NULL, 18),
+  -- Pikachu (Belle) - Toxic - TM06
+  (25, 2513, 92, 14, NULL, 2, NULL, NULL, 14002006, NULL, 19),
+  -- Pikachu (Belle) - Hidden Power - TM10
+  (25, 2513, 237, 14, NULL, 2, NULL, NULL, 14002010, NULL, 20),
+  -- Pikachu (Belle) - Light Screen - TM16
+  (25, 2513, 113, 14, NULL, 2, NULL, NULL, 14002016, NULL, 21),
+  -- Pikachu (Belle) - Protect - TM17
+  (25, 2513, 182, 14, NULL, 2, NULL, NULL, 14002017, NULL, 22),
+  -- Pikachu (Belle) - Rain Dance - TM18
+  (25, 2513, 240, 14, NULL, 2, NULL, NULL, 14002018, NULL, 23),
+  -- Pikachu (Belle) - Frustration - TM21
+  (25, 2513, 218, 14, NULL, 2, NULL, NULL, 14002021, NULL, 24),
+  -- Pikachu (Belle) - Thunderbolt - TM24
+  (25, 2513, 85, 14, NULL, 2, NULL, NULL, 14002024, NULL, 25),
+  -- Pikachu (Belle) - Thunder - TM25
+  (25, 2513, 87, 14, NULL, 2, NULL, NULL, 14002025, NULL, 26),
+  -- Pikachu (Belle) - Return - TM27
+  (25, 2513, 216, 14, NULL, 2, NULL, NULL, 14002027, NULL, 27),
+  -- Pikachu (Belle) - Dig - TM28
+  (25, 2513, 91, 14, NULL, 2, NULL, NULL, 14002028, NULL, 28),
+  -- Pikachu (Belle) - Brick Break - TM31
+  (25, 2513, 280, 14, NULL, 2, NULL, NULL, 14002031, NULL, 29),
+  -- Pikachu (Belle) - Double Team - TM32
+  (25, 2513, 104, 14, NULL, 2, NULL, NULL, 14002032, NULL, 30),
+  -- Pikachu (Belle) - Facade - TM42
+  (25, 2513, 263, 14, NULL, 2, NULL, NULL, 14002042, NULL, 31),
+  -- Pikachu (Belle) - Rest - TM44
+  (25, 2513, 156, 14, NULL, 2, NULL, NULL, 14002044, NULL, 32),
+  -- Pikachu (Belle) - Attract - TM45
+  (25, 2513, 213, 14, NULL, 2, NULL, NULL, 14002045, NULL, 33),
+  -- Pikachu (Belle) - Round - TM48
+  (25, 2513, 496, 14, NULL, 2, NULL, NULL, 14002048, NULL, 34),
+  -- Pikachu (Belle) - Echoed Voice - TM49
+  (25, 2513, 497, 14, NULL, 2, NULL, NULL, 14002049, NULL, 35),
+  -- Pikachu (Belle) - Fling - TM56
+  (25, 2513, 374, 14, NULL, 2, NULL, NULL, 14002056, NULL, 36),
+  -- Pikachu (Belle) - Charge Beam - TM57
+  (25, 2513, 451, 14, NULL, 2, NULL, NULL, 14002057, NULL, 37),
+  -- Pikachu (Belle) - Flash - TM70
+  (25, 2513, 148, 14, NULL, 2, NULL, NULL, 14002070, NULL, 38),
+  -- Pikachu (Belle) - Volt Switch - TM72
+  (25, 2513, 521, 14, NULL, 2, NULL, NULL, 14002072, NULL, 39),
+  -- Pikachu (Belle) - Thunder Wave - TM73
+  (25, 2513, 86, 14, NULL, 2, NULL, NULL, 14002073, NULL, 40),
+  -- Pikachu (Belle) - Grass Knot - TM86
+  (25, 2513, 447, 14, NULL, 2, NULL, NULL, 14002086, NULL, 41),
+  -- Pikachu (Belle) - Swagger - TM87
+  (25, 2513, 207, 14, NULL, 2, NULL, NULL, 14002087, NULL, 42),
+  -- Pikachu (Belle) - Sleep Talk - TM88
+  (25, 2513, 214, 14, NULL, 2, NULL, NULL, 14002088, NULL, 43),
+  -- Pikachu (Belle) - Substitute - TM90
+  (25, 2513, 164, 14, NULL, 2, NULL, NULL, 14002090, NULL, 44),
+  -- Pikachu (Belle) - Wild Charge - TM93
+  (25, 2513, 528, 14, NULL, 2, NULL, NULL, 14002093, NULL, 45),
+  -- Pikachu (Belle) - Secret Power - TM94
+  (25, 2513, 290, 14, NULL, 2, NULL, NULL, 14002094, NULL, 46),
+  -- Pikachu (Belle) - Confide - TM100
+  (25, 2513, 590, 14, NULL, 2, NULL, NULL, 14002100, NULL, 47),
+  -- Pikachu (Belle) - Strength - HM04
+  (25, 2513, 70, 14, NULL, 3, NULL, NULL, 14003004, NULL, 48),
+  -- Pikachu (Belle) - Rock Smash - HM06
+  (25, 2513, 249, 14, NULL, 3, NULL, NULL, 14003006, NULL, 49),
+  -- Pikachu (Belle) - Double Slap - Egg
+  (25, 2513, 3, 14, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  -- Pikachu (Belle) - Thunder Punch - Egg
+  (25, 2513, 9, 14, NULL, 5, NULL, NULL, NULL, NULL, 51),
+  -- Pikachu (Belle) - Bide - Egg
+  (25, 2513, 117, 14, NULL, 5, NULL, NULL, NULL, NULL, 52),
+  -- Pikachu (Belle) - Flail - Egg
+  (25, 2513, 175, 14, NULL, 5, NULL, NULL, NULL, NULL, 53),
+  -- Pikachu (Belle) - Reversal - Egg
+  (25, 2513, 179, 14, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  -- Pikachu (Belle) - Endure - Egg
+  (25, 2513, 203, 14, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  -- Pikachu (Belle) - Present - Egg
+  (25, 2513, 217, 14, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  -- Pikachu (Belle) - Encore - Egg
+  (25, 2513, 227, 14, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  -- Pikachu (Belle) - Fake Out - Egg
+  (25, 2513, 252, 14, NULL, 5, NULL, NULL, NULL, NULL, 58),
+  -- Pikachu (Belle) - Charge - Egg
+  (25, 2513, 268, 14, NULL, 5, NULL, NULL, NULL, NULL, 59),
+  -- Pikachu (Belle) - Wish - Egg
+  (25, 2513, 273, 14, NULL, 5, NULL, NULL, NULL, NULL, 60),
+  -- Pikachu (Belle) - Tickle - Egg
+  (25, 2513, 321, 14, NULL, 5, NULL, NULL, NULL, NULL, 61),
+  -- Pikachu (Belle) - Volt Tackle - Egg
+  (25, 2513, 344, 14, NULL, 5, NULL, NULL, NULL, NULL, 62),
+  -- Pikachu (Belle) - Lucky Chant - Egg
+  (25, 2513, 381, 14, NULL, 5, NULL, NULL, NULL, NULL, 63),
+  -- Pikachu (Belle) - Bestow - Egg
+  (25, 2513, 516, 14, NULL, 5, NULL, NULL, NULL, NULL, 64),
+  -- Pikachu (Belle) - Disarming Voice - Egg
+  (25, 2513, 574, 14, NULL, 5, NULL, NULL, NULL, NULL, 65),
+  -- Pikachu (Belle) - Thunder Punch - Tutor
+  (25, 2513, 9, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 66),
+  -- Pikachu (Belle) - Snore - Tutor
+  (25, 2513, 173, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 67),
+  -- Pikachu (Belle) - Iron Tail - Tutor
+  (25, 2513, 231, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 68),
+  -- Pikachu (Belle) - Focus Punch - Tutor
+  (25, 2513, 264, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 69),
+  -- Pikachu (Belle) - Helping Hand - Tutor
+  (25, 2513, 270, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 70),
+  -- Pikachu (Belle) - Knock Off - Tutor
+  (25, 2513, 282, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 71),
+  -- Pikachu (Belle) - Signal Beam - Tutor
+  (25, 2513, 324, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 72),
+  -- Pikachu (Belle) - Covet - Tutor
+  (25, 2513, 343, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 73),
+  -- Pikachu (Belle) - Shock Wave - Tutor
+  (25, 2513, 351, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 74),
+  -- Pikachu (Belle) - Magnet Rise - Tutor
+  (25, 2513, 393, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 75),
+  -- Pikachu (Belle) - Electroweb - Tutor
+  (25, 2513, 527, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 76),
+  -- Pikachu (Belle) - Icicle Crash - Special
+  (25, 2513, 556, 14, NULL, 12, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire: known while wearing this costume.', 77),
+  -- Pikachu (Pop Star) - Tail Whip - Level 1
+  (25, 2514, 39, 14, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Pikachu (Pop Star) - Thunder Shock - Level 1
+  (25, 2514, 84, 14, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Pikachu (Pop Star) - Growl - Level 5
+  (25, 2514, 45, 14, NULL, 1, 5, NULL, NULL, NULL, 3),
+  -- Pikachu (Pop Star) - Play Nice - Level 7
+  (25, 2514, 589, 14, NULL, 1, 7, NULL, NULL, NULL, 4),
+  -- Pikachu (Pop Star) - Quick Attack - Level 10
+  (25, 2514, 98, 14, NULL, 1, 10, NULL, NULL, NULL, 5),
+  -- Pikachu (Pop Star) - Electro Ball - Level 13
+  (25, 2514, 486, 14, NULL, 1, 13, NULL, NULL, NULL, 6),
+  -- Pikachu (Pop Star) - Thunder Wave - Level 18
+  (25, 2514, 86, 14, NULL, 1, 18, NULL, NULL, NULL, 7),
+  -- Pikachu (Pop Star) - Feint - Level 21
+  (25, 2514, 364, 14, NULL, 1, 21, NULL, NULL, NULL, 8),
+  -- Pikachu (Pop Star) - Double Team - Level 23
+  (25, 2514, 104, 14, NULL, 1, 23, NULL, NULL, NULL, 9),
+  -- Pikachu (Pop Star) - Spark - Level 26
+  (25, 2514, 209, 14, NULL, 1, 26, NULL, NULL, NULL, 10),
+  -- Pikachu (Pop Star) - Nuzzle - Level 29
+  (25, 2514, 609, 14, NULL, 1, 29, NULL, NULL, NULL, 11),
+  -- Pikachu (Pop Star) - Discharge - Level 34
+  (25, 2514, 435, 14, NULL, 1, 34, NULL, NULL, NULL, 12),
+  -- Pikachu (Pop Star) - Slam - Level 37
+  (25, 2514, 21, 14, NULL, 1, 37, NULL, NULL, NULL, 13),
+  -- Pikachu (Pop Star) - Thunderbolt - Level 42
+  (25, 2514, 85, 14, NULL, 1, 42, NULL, NULL, NULL, 14),
+  -- Pikachu (Pop Star) - Agility - Level 45
+  (25, 2514, 97, 14, NULL, 1, 45, NULL, NULL, NULL, 15),
+  -- Pikachu (Pop Star) - Wild Charge - Level 50
+  (25, 2514, 528, 14, NULL, 1, 50, NULL, NULL, NULL, 16),
+  -- Pikachu (Pop Star) - Light Screen - Level 53
+  (25, 2514, 113, 14, NULL, 1, 53, NULL, NULL, NULL, 17),
+  -- Pikachu (Pop Star) - Thunder - Level 58
+  (25, 2514, 87, 14, NULL, 1, 58, NULL, NULL, NULL, 18),
+  -- Pikachu (Pop Star) - Toxic - TM06
+  (25, 2514, 92, 14, NULL, 2, NULL, NULL, 14002006, NULL, 19),
+  -- Pikachu (Pop Star) - Hidden Power - TM10
+  (25, 2514, 237, 14, NULL, 2, NULL, NULL, 14002010, NULL, 20),
+  -- Pikachu (Pop Star) - Light Screen - TM16
+  (25, 2514, 113, 14, NULL, 2, NULL, NULL, 14002016, NULL, 21),
+  -- Pikachu (Pop Star) - Protect - TM17
+  (25, 2514, 182, 14, NULL, 2, NULL, NULL, 14002017, NULL, 22),
+  -- Pikachu (Pop Star) - Rain Dance - TM18
+  (25, 2514, 240, 14, NULL, 2, NULL, NULL, 14002018, NULL, 23),
+  -- Pikachu (Pop Star) - Frustration - TM21
+  (25, 2514, 218, 14, NULL, 2, NULL, NULL, 14002021, NULL, 24),
+  -- Pikachu (Pop Star) - Thunderbolt - TM24
+  (25, 2514, 85, 14, NULL, 2, NULL, NULL, 14002024, NULL, 25),
+  -- Pikachu (Pop Star) - Thunder - TM25
+  (25, 2514, 87, 14, NULL, 2, NULL, NULL, 14002025, NULL, 26),
+  -- Pikachu (Pop Star) - Return - TM27
+  (25, 2514, 216, 14, NULL, 2, NULL, NULL, 14002027, NULL, 27),
+  -- Pikachu (Pop Star) - Dig - TM28
+  (25, 2514, 91, 14, NULL, 2, NULL, NULL, 14002028, NULL, 28),
+  -- Pikachu (Pop Star) - Brick Break - TM31
+  (25, 2514, 280, 14, NULL, 2, NULL, NULL, 14002031, NULL, 29),
+  -- Pikachu (Pop Star) - Double Team - TM32
+  (25, 2514, 104, 14, NULL, 2, NULL, NULL, 14002032, NULL, 30),
+  -- Pikachu (Pop Star) - Facade - TM42
+  (25, 2514, 263, 14, NULL, 2, NULL, NULL, 14002042, NULL, 31),
+  -- Pikachu (Pop Star) - Rest - TM44
+  (25, 2514, 156, 14, NULL, 2, NULL, NULL, 14002044, NULL, 32),
+  -- Pikachu (Pop Star) - Attract - TM45
+  (25, 2514, 213, 14, NULL, 2, NULL, NULL, 14002045, NULL, 33),
+  -- Pikachu (Pop Star) - Round - TM48
+  (25, 2514, 496, 14, NULL, 2, NULL, NULL, 14002048, NULL, 34),
+  -- Pikachu (Pop Star) - Echoed Voice - TM49
+  (25, 2514, 497, 14, NULL, 2, NULL, NULL, 14002049, NULL, 35),
+  -- Pikachu (Pop Star) - Fling - TM56
+  (25, 2514, 374, 14, NULL, 2, NULL, NULL, 14002056, NULL, 36),
+  -- Pikachu (Pop Star) - Charge Beam - TM57
+  (25, 2514, 451, 14, NULL, 2, NULL, NULL, 14002057, NULL, 37),
+  -- Pikachu (Pop Star) - Flash - TM70
+  (25, 2514, 148, 14, NULL, 2, NULL, NULL, 14002070, NULL, 38),
+  -- Pikachu (Pop Star) - Volt Switch - TM72
+  (25, 2514, 521, 14, NULL, 2, NULL, NULL, 14002072, NULL, 39),
+  -- Pikachu (Pop Star) - Thunder Wave - TM73
+  (25, 2514, 86, 14, NULL, 2, NULL, NULL, 14002073, NULL, 40),
+  -- Pikachu (Pop Star) - Grass Knot - TM86
+  (25, 2514, 447, 14, NULL, 2, NULL, NULL, 14002086, NULL, 41),
+  -- Pikachu (Pop Star) - Swagger - TM87
+  (25, 2514, 207, 14, NULL, 2, NULL, NULL, 14002087, NULL, 42),
+  -- Pikachu (Pop Star) - Sleep Talk - TM88
+  (25, 2514, 214, 14, NULL, 2, NULL, NULL, 14002088, NULL, 43),
+  -- Pikachu (Pop Star) - Substitute - TM90
+  (25, 2514, 164, 14, NULL, 2, NULL, NULL, 14002090, NULL, 44),
+  -- Pikachu (Pop Star) - Wild Charge - TM93
+  (25, 2514, 528, 14, NULL, 2, NULL, NULL, 14002093, NULL, 45),
+  -- Pikachu (Pop Star) - Secret Power - TM94
+  (25, 2514, 290, 14, NULL, 2, NULL, NULL, 14002094, NULL, 46),
+  -- Pikachu (Pop Star) - Confide - TM100
+  (25, 2514, 590, 14, NULL, 2, NULL, NULL, 14002100, NULL, 47),
+  -- Pikachu (Pop Star) - Strength - HM04
+  (25, 2514, 70, 14, NULL, 3, NULL, NULL, 14003004, NULL, 48),
+  -- Pikachu (Pop Star) - Rock Smash - HM06
+  (25, 2514, 249, 14, NULL, 3, NULL, NULL, 14003006, NULL, 49),
+  -- Pikachu (Pop Star) - Double Slap - Egg
+  (25, 2514, 3, 14, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  -- Pikachu (Pop Star) - Thunder Punch - Egg
+  (25, 2514, 9, 14, NULL, 5, NULL, NULL, NULL, NULL, 51),
+  -- Pikachu (Pop Star) - Bide - Egg
+  (25, 2514, 117, 14, NULL, 5, NULL, NULL, NULL, NULL, 52),
+  -- Pikachu (Pop Star) - Flail - Egg
+  (25, 2514, 175, 14, NULL, 5, NULL, NULL, NULL, NULL, 53),
+  -- Pikachu (Pop Star) - Reversal - Egg
+  (25, 2514, 179, 14, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  -- Pikachu (Pop Star) - Endure - Egg
+  (25, 2514, 203, 14, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  -- Pikachu (Pop Star) - Present - Egg
+  (25, 2514, 217, 14, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  -- Pikachu (Pop Star) - Encore - Egg
+  (25, 2514, 227, 14, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  -- Pikachu (Pop Star) - Fake Out - Egg
+  (25, 2514, 252, 14, NULL, 5, NULL, NULL, NULL, NULL, 58),
+  -- Pikachu (Pop Star) - Charge - Egg
+  (25, 2514, 268, 14, NULL, 5, NULL, NULL, NULL, NULL, 59),
+  -- Pikachu (Pop Star) - Wish - Egg
+  (25, 2514, 273, 14, NULL, 5, NULL, NULL, NULL, NULL, 60),
+  -- Pikachu (Pop Star) - Tickle - Egg
+  (25, 2514, 321, 14, NULL, 5, NULL, NULL, NULL, NULL, 61),
+  -- Pikachu (Pop Star) - Volt Tackle - Egg
+  (25, 2514, 344, 14, NULL, 5, NULL, NULL, NULL, NULL, 62),
+  -- Pikachu (Pop Star) - Lucky Chant - Egg
+  (25, 2514, 381, 14, NULL, 5, NULL, NULL, NULL, NULL, 63),
+  -- Pikachu (Pop Star) - Bestow - Egg
+  (25, 2514, 516, 14, NULL, 5, NULL, NULL, NULL, NULL, 64),
+  -- Pikachu (Pop Star) - Disarming Voice - Egg
+  (25, 2514, 574, 14, NULL, 5, NULL, NULL, NULL, NULL, 65),
+  -- Pikachu (Pop Star) - Thunder Punch - Tutor
+  (25, 2514, 9, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 66),
+  -- Pikachu (Pop Star) - Snore - Tutor
+  (25, 2514, 173, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 67),
+  -- Pikachu (Pop Star) - Iron Tail - Tutor
+  (25, 2514, 231, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 68),
+  -- Pikachu (Pop Star) - Focus Punch - Tutor
+  (25, 2514, 264, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 69),
+  -- Pikachu (Pop Star) - Helping Hand - Tutor
+  (25, 2514, 270, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 70),
+  -- Pikachu (Pop Star) - Knock Off - Tutor
+  (25, 2514, 282, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 71),
+  -- Pikachu (Pop Star) - Signal Beam - Tutor
+  (25, 2514, 324, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 72),
+  -- Pikachu (Pop Star) - Covet - Tutor
+  (25, 2514, 343, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 73),
+  -- Pikachu (Pop Star) - Shock Wave - Tutor
+  (25, 2514, 351, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 74),
+  -- Pikachu (Pop Star) - Magnet Rise - Tutor
+  (25, 2514, 393, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 75),
+  -- Pikachu (Pop Star) - Electroweb - Tutor
+  (25, 2514, 527, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 76),
+  -- Pikachu (Pop Star) - Draining Kiss - Special
+  (25, 2514, 577, 14, NULL, 12, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire: known while wearing this costume.', 77),
+  -- Pikachu (PhD) - Tail Whip - Level 1
+  (25, 2515, 39, 14, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Pikachu (PhD) - Thunder Shock - Level 1
+  (25, 2515, 84, 14, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Pikachu (PhD) - Growl - Level 5
+  (25, 2515, 45, 14, NULL, 1, 5, NULL, NULL, NULL, 3),
+  -- Pikachu (PhD) - Play Nice - Level 7
+  (25, 2515, 589, 14, NULL, 1, 7, NULL, NULL, NULL, 4),
+  -- Pikachu (PhD) - Quick Attack - Level 10
+  (25, 2515, 98, 14, NULL, 1, 10, NULL, NULL, NULL, 5),
+  -- Pikachu (PhD) - Electro Ball - Level 13
+  (25, 2515, 486, 14, NULL, 1, 13, NULL, NULL, NULL, 6),
+  -- Pikachu (PhD) - Thunder Wave - Level 18
+  (25, 2515, 86, 14, NULL, 1, 18, NULL, NULL, NULL, 7),
+  -- Pikachu (PhD) - Feint - Level 21
+  (25, 2515, 364, 14, NULL, 1, 21, NULL, NULL, NULL, 8),
+  -- Pikachu (PhD) - Double Team - Level 23
+  (25, 2515, 104, 14, NULL, 1, 23, NULL, NULL, NULL, 9),
+  -- Pikachu (PhD) - Spark - Level 26
+  (25, 2515, 209, 14, NULL, 1, 26, NULL, NULL, NULL, 10),
+  -- Pikachu (PhD) - Nuzzle - Level 29
+  (25, 2515, 609, 14, NULL, 1, 29, NULL, NULL, NULL, 11),
+  -- Pikachu (PhD) - Discharge - Level 34
+  (25, 2515, 435, 14, NULL, 1, 34, NULL, NULL, NULL, 12),
+  -- Pikachu (PhD) - Slam - Level 37
+  (25, 2515, 21, 14, NULL, 1, 37, NULL, NULL, NULL, 13),
+  -- Pikachu (PhD) - Thunderbolt - Level 42
+  (25, 2515, 85, 14, NULL, 1, 42, NULL, NULL, NULL, 14),
+  -- Pikachu (PhD) - Agility - Level 45
+  (25, 2515, 97, 14, NULL, 1, 45, NULL, NULL, NULL, 15),
+  -- Pikachu (PhD) - Wild Charge - Level 50
+  (25, 2515, 528, 14, NULL, 1, 50, NULL, NULL, NULL, 16),
+  -- Pikachu (PhD) - Light Screen - Level 53
+  (25, 2515, 113, 14, NULL, 1, 53, NULL, NULL, NULL, 17),
+  -- Pikachu (PhD) - Thunder - Level 58
+  (25, 2515, 87, 14, NULL, 1, 58, NULL, NULL, NULL, 18),
+  -- Pikachu (PhD) - Toxic - TM06
+  (25, 2515, 92, 14, NULL, 2, NULL, NULL, 14002006, NULL, 19),
+  -- Pikachu (PhD) - Hidden Power - TM10
+  (25, 2515, 237, 14, NULL, 2, NULL, NULL, 14002010, NULL, 20),
+  -- Pikachu (PhD) - Light Screen - TM16
+  (25, 2515, 113, 14, NULL, 2, NULL, NULL, 14002016, NULL, 21),
+  -- Pikachu (PhD) - Protect - TM17
+  (25, 2515, 182, 14, NULL, 2, NULL, NULL, 14002017, NULL, 22),
+  -- Pikachu (PhD) - Rain Dance - TM18
+  (25, 2515, 240, 14, NULL, 2, NULL, NULL, 14002018, NULL, 23),
+  -- Pikachu (PhD) - Frustration - TM21
+  (25, 2515, 218, 14, NULL, 2, NULL, NULL, 14002021, NULL, 24),
+  -- Pikachu (PhD) - Thunderbolt - TM24
+  (25, 2515, 85, 14, NULL, 2, NULL, NULL, 14002024, NULL, 25),
+  -- Pikachu (PhD) - Thunder - TM25
+  (25, 2515, 87, 14, NULL, 2, NULL, NULL, 14002025, NULL, 26),
+  -- Pikachu (PhD) - Return - TM27
+  (25, 2515, 216, 14, NULL, 2, NULL, NULL, 14002027, NULL, 27),
+  -- Pikachu (PhD) - Dig - TM28
+  (25, 2515, 91, 14, NULL, 2, NULL, NULL, 14002028, NULL, 28),
+  -- Pikachu (PhD) - Brick Break - TM31
+  (25, 2515, 280, 14, NULL, 2, NULL, NULL, 14002031, NULL, 29),
+  -- Pikachu (PhD) - Double Team - TM32
+  (25, 2515, 104, 14, NULL, 2, NULL, NULL, 14002032, NULL, 30),
+  -- Pikachu (PhD) - Facade - TM42
+  (25, 2515, 263, 14, NULL, 2, NULL, NULL, 14002042, NULL, 31),
+  -- Pikachu (PhD) - Rest - TM44
+  (25, 2515, 156, 14, NULL, 2, NULL, NULL, 14002044, NULL, 32),
+  -- Pikachu (PhD) - Attract - TM45
+  (25, 2515, 213, 14, NULL, 2, NULL, NULL, 14002045, NULL, 33),
+  -- Pikachu (PhD) - Round - TM48
+  (25, 2515, 496, 14, NULL, 2, NULL, NULL, 14002048, NULL, 34),
+  -- Pikachu (PhD) - Echoed Voice - TM49
+  (25, 2515, 497, 14, NULL, 2, NULL, NULL, 14002049, NULL, 35),
+  -- Pikachu (PhD) - Fling - TM56
+  (25, 2515, 374, 14, NULL, 2, NULL, NULL, 14002056, NULL, 36),
+  -- Pikachu (PhD) - Charge Beam - TM57
+  (25, 2515, 451, 14, NULL, 2, NULL, NULL, 14002057, NULL, 37),
+  -- Pikachu (PhD) - Flash - TM70
+  (25, 2515, 148, 14, NULL, 2, NULL, NULL, 14002070, NULL, 38),
+  -- Pikachu (PhD) - Volt Switch - TM72
+  (25, 2515, 521, 14, NULL, 2, NULL, NULL, 14002072, NULL, 39),
+  -- Pikachu (PhD) - Thunder Wave - TM73
+  (25, 2515, 86, 14, NULL, 2, NULL, NULL, 14002073, NULL, 40),
+  -- Pikachu (PhD) - Grass Knot - TM86
+  (25, 2515, 447, 14, NULL, 2, NULL, NULL, 14002086, NULL, 41),
+  -- Pikachu (PhD) - Swagger - TM87
+  (25, 2515, 207, 14, NULL, 2, NULL, NULL, 14002087, NULL, 42),
+  -- Pikachu (PhD) - Sleep Talk - TM88
+  (25, 2515, 214, 14, NULL, 2, NULL, NULL, 14002088, NULL, 43),
+  -- Pikachu (PhD) - Substitute - TM90
+  (25, 2515, 164, 14, NULL, 2, NULL, NULL, 14002090, NULL, 44),
+  -- Pikachu (PhD) - Wild Charge - TM93
+  (25, 2515, 528, 14, NULL, 2, NULL, NULL, 14002093, NULL, 45),
+  -- Pikachu (PhD) - Secret Power - TM94
+  (25, 2515, 290, 14, NULL, 2, NULL, NULL, 14002094, NULL, 46),
+  -- Pikachu (PhD) - Confide - TM100
+  (25, 2515, 590, 14, NULL, 2, NULL, NULL, 14002100, NULL, 47),
+  -- Pikachu (PhD) - Strength - HM04
+  (25, 2515, 70, 14, NULL, 3, NULL, NULL, 14003004, NULL, 48),
+  -- Pikachu (PhD) - Rock Smash - HM06
+  (25, 2515, 249, 14, NULL, 3, NULL, NULL, 14003006, NULL, 49),
+  -- Pikachu (PhD) - Double Slap - Egg
+  (25, 2515, 3, 14, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  -- Pikachu (PhD) - Thunder Punch - Egg
+  (25, 2515, 9, 14, NULL, 5, NULL, NULL, NULL, NULL, 51),
+  -- Pikachu (PhD) - Bide - Egg
+  (25, 2515, 117, 14, NULL, 5, NULL, NULL, NULL, NULL, 52),
+  -- Pikachu (PhD) - Flail - Egg
+  (25, 2515, 175, 14, NULL, 5, NULL, NULL, NULL, NULL, 53),
+  -- Pikachu (PhD) - Reversal - Egg
+  (25, 2515, 179, 14, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  -- Pikachu (PhD) - Endure - Egg
+  (25, 2515, 203, 14, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  -- Pikachu (PhD) - Present - Egg
+  (25, 2515, 217, 14, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  -- Pikachu (PhD) - Encore - Egg
+  (25, 2515, 227, 14, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  -- Pikachu (PhD) - Fake Out - Egg
+  (25, 2515, 252, 14, NULL, 5, NULL, NULL, NULL, NULL, 58),
+  -- Pikachu (PhD) - Charge - Egg
+  (25, 2515, 268, 14, NULL, 5, NULL, NULL, NULL, NULL, 59),
+  -- Pikachu (PhD) - Wish - Egg
+  (25, 2515, 273, 14, NULL, 5, NULL, NULL, NULL, NULL, 60),
+  -- Pikachu (PhD) - Tickle - Egg
+  (25, 2515, 321, 14, NULL, 5, NULL, NULL, NULL, NULL, 61),
+  -- Pikachu (PhD) - Volt Tackle - Egg
+  (25, 2515, 344, 14, NULL, 5, NULL, NULL, NULL, NULL, 62),
+  -- Pikachu (PhD) - Lucky Chant - Egg
+  (25, 2515, 381, 14, NULL, 5, NULL, NULL, NULL, NULL, 63),
+  -- Pikachu (PhD) - Bestow - Egg
+  (25, 2515, 516, 14, NULL, 5, NULL, NULL, NULL, NULL, 64),
+  -- Pikachu (PhD) - Disarming Voice - Egg
+  (25, 2515, 574, 14, NULL, 5, NULL, NULL, NULL, NULL, 65),
+  -- Pikachu (PhD) - Thunder Punch - Tutor
+  (25, 2515, 9, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 66),
+  -- Pikachu (PhD) - Snore - Tutor
+  (25, 2515, 173, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 67),
+  -- Pikachu (PhD) - Iron Tail - Tutor
+  (25, 2515, 231, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 68),
+  -- Pikachu (PhD) - Focus Punch - Tutor
+  (25, 2515, 264, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 69),
+  -- Pikachu (PhD) - Helping Hand - Tutor
+  (25, 2515, 270, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 70),
+  -- Pikachu (PhD) - Knock Off - Tutor
+  (25, 2515, 282, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 71),
+  -- Pikachu (PhD) - Signal Beam - Tutor
+  (25, 2515, 324, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 72),
+  -- Pikachu (PhD) - Covet - Tutor
+  (25, 2515, 343, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 73),
+  -- Pikachu (PhD) - Shock Wave - Tutor
+  (25, 2515, 351, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 74),
+  -- Pikachu (PhD) - Magnet Rise - Tutor
+  (25, 2515, 393, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 75),
+  -- Pikachu (PhD) - Electroweb - Tutor
+  (25, 2515, 527, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 76),
+  -- Pikachu (PhD) - Electric Terrain - Special
+  (25, 2515, 604, 14, NULL, 12, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire: known while wearing this costume.', 77),
+  -- Pikachu (Libre) - Tail Whip - Level 1
+  (25, 2516, 39, 14, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Pikachu (Libre) - Thunder Shock - Level 1
+  (25, 2516, 84, 14, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Pikachu (Libre) - Growl - Level 5
+  (25, 2516, 45, 14, NULL, 1, 5, NULL, NULL, NULL, 3),
+  -- Pikachu (Libre) - Play Nice - Level 7
+  (25, 2516, 589, 14, NULL, 1, 7, NULL, NULL, NULL, 4),
+  -- Pikachu (Libre) - Quick Attack - Level 10
+  (25, 2516, 98, 14, NULL, 1, 10, NULL, NULL, NULL, 5),
+  -- Pikachu (Libre) - Electro Ball - Level 13
+  (25, 2516, 486, 14, NULL, 1, 13, NULL, NULL, NULL, 6),
+  -- Pikachu (Libre) - Thunder Wave - Level 18
+  (25, 2516, 86, 14, NULL, 1, 18, NULL, NULL, NULL, 7),
+  -- Pikachu (Libre) - Feint - Level 21
+  (25, 2516, 364, 14, NULL, 1, 21, NULL, NULL, NULL, 8),
+  -- Pikachu (Libre) - Double Team - Level 23
+  (25, 2516, 104, 14, NULL, 1, 23, NULL, NULL, NULL, 9),
+  -- Pikachu (Libre) - Spark - Level 26
+  (25, 2516, 209, 14, NULL, 1, 26, NULL, NULL, NULL, 10),
+  -- Pikachu (Libre) - Nuzzle - Level 29
+  (25, 2516, 609, 14, NULL, 1, 29, NULL, NULL, NULL, 11),
+  -- Pikachu (Libre) - Discharge - Level 34
+  (25, 2516, 435, 14, NULL, 1, 34, NULL, NULL, NULL, 12),
+  -- Pikachu (Libre) - Slam - Level 37
+  (25, 2516, 21, 14, NULL, 1, 37, NULL, NULL, NULL, 13),
+  -- Pikachu (Libre) - Thunderbolt - Level 42
+  (25, 2516, 85, 14, NULL, 1, 42, NULL, NULL, NULL, 14),
+  -- Pikachu (Libre) - Agility - Level 45
+  (25, 2516, 97, 14, NULL, 1, 45, NULL, NULL, NULL, 15),
+  -- Pikachu (Libre) - Wild Charge - Level 50
+  (25, 2516, 528, 14, NULL, 1, 50, NULL, NULL, NULL, 16),
+  -- Pikachu (Libre) - Light Screen - Level 53
+  (25, 2516, 113, 14, NULL, 1, 53, NULL, NULL, NULL, 17),
+  -- Pikachu (Libre) - Thunder - Level 58
+  (25, 2516, 87, 14, NULL, 1, 58, NULL, NULL, NULL, 18),
+  -- Pikachu (Libre) - Toxic - TM06
+  (25, 2516, 92, 14, NULL, 2, NULL, NULL, 14002006, NULL, 19),
+  -- Pikachu (Libre) - Hidden Power - TM10
+  (25, 2516, 237, 14, NULL, 2, NULL, NULL, 14002010, NULL, 20),
+  -- Pikachu (Libre) - Light Screen - TM16
+  (25, 2516, 113, 14, NULL, 2, NULL, NULL, 14002016, NULL, 21),
+  -- Pikachu (Libre) - Protect - TM17
+  (25, 2516, 182, 14, NULL, 2, NULL, NULL, 14002017, NULL, 22),
+  -- Pikachu (Libre) - Rain Dance - TM18
+  (25, 2516, 240, 14, NULL, 2, NULL, NULL, 14002018, NULL, 23),
+  -- Pikachu (Libre) - Frustration - TM21
+  (25, 2516, 218, 14, NULL, 2, NULL, NULL, 14002021, NULL, 24),
+  -- Pikachu (Libre) - Thunderbolt - TM24
+  (25, 2516, 85, 14, NULL, 2, NULL, NULL, 14002024, NULL, 25),
+  -- Pikachu (Libre) - Thunder - TM25
+  (25, 2516, 87, 14, NULL, 2, NULL, NULL, 14002025, NULL, 26),
+  -- Pikachu (Libre) - Return - TM27
+  (25, 2516, 216, 14, NULL, 2, NULL, NULL, 14002027, NULL, 27),
+  -- Pikachu (Libre) - Dig - TM28
+  (25, 2516, 91, 14, NULL, 2, NULL, NULL, 14002028, NULL, 28),
+  -- Pikachu (Libre) - Brick Break - TM31
+  (25, 2516, 280, 14, NULL, 2, NULL, NULL, 14002031, NULL, 29),
+  -- Pikachu (Libre) - Double Team - TM32
+  (25, 2516, 104, 14, NULL, 2, NULL, NULL, 14002032, NULL, 30),
+  -- Pikachu (Libre) - Facade - TM42
+  (25, 2516, 263, 14, NULL, 2, NULL, NULL, 14002042, NULL, 31),
+  -- Pikachu (Libre) - Rest - TM44
+  (25, 2516, 156, 14, NULL, 2, NULL, NULL, 14002044, NULL, 32),
+  -- Pikachu (Libre) - Attract - TM45
+  (25, 2516, 213, 14, NULL, 2, NULL, NULL, 14002045, NULL, 33),
+  -- Pikachu (Libre) - Round - TM48
+  (25, 2516, 496, 14, NULL, 2, NULL, NULL, 14002048, NULL, 34),
+  -- Pikachu (Libre) - Echoed Voice - TM49
+  (25, 2516, 497, 14, NULL, 2, NULL, NULL, 14002049, NULL, 35),
+  -- Pikachu (Libre) - Fling - TM56
+  (25, 2516, 374, 14, NULL, 2, NULL, NULL, 14002056, NULL, 36),
+  -- Pikachu (Libre) - Charge Beam - TM57
+  (25, 2516, 451, 14, NULL, 2, NULL, NULL, 14002057, NULL, 37),
+  -- Pikachu (Libre) - Flash - TM70
+  (25, 2516, 148, 14, NULL, 2, NULL, NULL, 14002070, NULL, 38),
+  -- Pikachu (Libre) - Volt Switch - TM72
+  (25, 2516, 521, 14, NULL, 2, NULL, NULL, 14002072, NULL, 39),
+  -- Pikachu (Libre) - Thunder Wave - TM73
+  (25, 2516, 86, 14, NULL, 2, NULL, NULL, 14002073, NULL, 40),
+  -- Pikachu (Libre) - Grass Knot - TM86
+  (25, 2516, 447, 14, NULL, 2, NULL, NULL, 14002086, NULL, 41),
+  -- Pikachu (Libre) - Swagger - TM87
+  (25, 2516, 207, 14, NULL, 2, NULL, NULL, 14002087, NULL, 42),
+  -- Pikachu (Libre) - Sleep Talk - TM88
+  (25, 2516, 214, 14, NULL, 2, NULL, NULL, 14002088, NULL, 43),
+  -- Pikachu (Libre) - Substitute - TM90
+  (25, 2516, 164, 14, NULL, 2, NULL, NULL, 14002090, NULL, 44),
+  -- Pikachu (Libre) - Wild Charge - TM93
+  (25, 2516, 528, 14, NULL, 2, NULL, NULL, 14002093, NULL, 45),
+  -- Pikachu (Libre) - Secret Power - TM94
+  (25, 2516, 290, 14, NULL, 2, NULL, NULL, 14002094, NULL, 46),
+  -- Pikachu (Libre) - Confide - TM100
+  (25, 2516, 590, 14, NULL, 2, NULL, NULL, 14002100, NULL, 47),
+  -- Pikachu (Libre) - Strength - HM04
+  (25, 2516, 70, 14, NULL, 3, NULL, NULL, 14003004, NULL, 48),
+  -- Pikachu (Libre) - Rock Smash - HM06
+  (25, 2516, 249, 14, NULL, 3, NULL, NULL, 14003006, NULL, 49),
+  -- Pikachu (Libre) - Double Slap - Egg
+  (25, 2516, 3, 14, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  -- Pikachu (Libre) - Thunder Punch - Egg
+  (25, 2516, 9, 14, NULL, 5, NULL, NULL, NULL, NULL, 51),
+  -- Pikachu (Libre) - Bide - Egg
+  (25, 2516, 117, 14, NULL, 5, NULL, NULL, NULL, NULL, 52),
+  -- Pikachu (Libre) - Flail - Egg
+  (25, 2516, 175, 14, NULL, 5, NULL, NULL, NULL, NULL, 53),
+  -- Pikachu (Libre) - Reversal - Egg
+  (25, 2516, 179, 14, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  -- Pikachu (Libre) - Endure - Egg
+  (25, 2516, 203, 14, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  -- Pikachu (Libre) - Present - Egg
+  (25, 2516, 217, 14, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  -- Pikachu (Libre) - Encore - Egg
+  (25, 2516, 227, 14, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  -- Pikachu (Libre) - Fake Out - Egg
+  (25, 2516, 252, 14, NULL, 5, NULL, NULL, NULL, NULL, 58),
+  -- Pikachu (Libre) - Charge - Egg
+  (25, 2516, 268, 14, NULL, 5, NULL, NULL, NULL, NULL, 59),
+  -- Pikachu (Libre) - Wish - Egg
+  (25, 2516, 273, 14, NULL, 5, NULL, NULL, NULL, NULL, 60),
+  -- Pikachu (Libre) - Tickle - Egg
+  (25, 2516, 321, 14, NULL, 5, NULL, NULL, NULL, NULL, 61),
+  -- Pikachu (Libre) - Volt Tackle - Egg
+  (25, 2516, 344, 14, NULL, 5, NULL, NULL, NULL, NULL, 62),
+  -- Pikachu (Libre) - Lucky Chant - Egg
+  (25, 2516, 381, 14, NULL, 5, NULL, NULL, NULL, NULL, 63),
+  -- Pikachu (Libre) - Bestow - Egg
+  (25, 2516, 516, 14, NULL, 5, NULL, NULL, NULL, NULL, 64),
+  -- Pikachu (Libre) - Disarming Voice - Egg
+  (25, 2516, 574, 14, NULL, 5, NULL, NULL, NULL, NULL, 65),
+  -- Pikachu (Libre) - Thunder Punch - Tutor
+  (25, 2516, 9, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 66),
+  -- Pikachu (Libre) - Snore - Tutor
+  (25, 2516, 173, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 67),
+  -- Pikachu (Libre) - Iron Tail - Tutor
+  (25, 2516, 231, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 68),
+  -- Pikachu (Libre) - Focus Punch - Tutor
+  (25, 2516, 264, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 69),
+  -- Pikachu (Libre) - Helping Hand - Tutor
+  (25, 2516, 270, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 70),
+  -- Pikachu (Libre) - Knock Off - Tutor
+  (25, 2516, 282, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 71),
+  -- Pikachu (Libre) - Signal Beam - Tutor
+  (25, 2516, 324, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 72),
+  -- Pikachu (Libre) - Covet - Tutor
+  (25, 2516, 343, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 73),
+  -- Pikachu (Libre) - Shock Wave - Tutor
+  (25, 2516, 351, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 74),
+  -- Pikachu (Libre) - Magnet Rise - Tutor
+  (25, 2516, 393, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 75),
+  -- Pikachu (Libre) - Electroweb - Tutor
+  (25, 2516, 527, 14, NULL, 6, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire Move Tutor.', 76),
+  -- Pikachu (Libre) - Flying Press - Special
+  (25, 2516, 560, 14, NULL, 12, NULL, NULL, NULL, 'Omega Ruby / Alpha Sapphire: known while wearing this costume.', 77);

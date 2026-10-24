@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (5);
+    plan (7);
 SELECT
     results_eq ($$
         SELECT
@@ -48,6 +48,24 @@ SELECT
             WHERE
                 form_id BETWEEN 2511 AND 2516 $$, $$
             VALUES (14) $$, 'Cosplay Pikachu is only in Omega Ruby / Alpha Sapphire');
+SELECT
+    results_eq ($$
+        SELECT
+            pokemon_forms.slug, moves.slug FROM reference.pokemon_learnsets
+            JOIN reference.pokemon_forms ON pokemon_forms.id = pokemon_learnsets.form_id
+            JOIN reference.moves ON moves.id = pokemon_learnsets.move_id
+            WHERE
+                learn_method_id = 12
+                AND pokemon_forms.id BETWEEN 2511 AND 2516 ORDER BY pokemon_forms.id $$, $$
+            VALUES ('pikachu-rock-star'::text, 'meteor-mash'::text), ('pikachu-belle', 'icicle-crash'), ('pikachu-pop-star', 'draining-kiss'), ('pikachu-phd', 'electric-terrain'), ('pikachu-libre', 'flying-press') $$, 'each costume knows its own move and Cosplay has none');
+SELECT
+    results_eq ($$
+        SELECT
+            count(DISTINCT form_id)::int, count(*)::int FROM reference.pokemon_learnsets
+            WHERE
+                form_id BETWEEN 2511 AND 2516
+                AND learn_method_id <> 12 GROUP BY form_id LIMIT 1 $$, $$
+        VALUES (1, 76) $$, 'every costume keeps Pikachu''s Omega Ruby / Alpha Sapphire moves');
 SELECT
     *
 FROM

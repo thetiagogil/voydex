@@ -2566,9 +2566,9 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       14,
       {
-        count: 49620,
+        count: 50081,
         sha256:
-          "ba9538a4ad999bafda90c545f6b9e6381fa2a0c33b688f940c0fc7bf55f35555",
+          "10f8209168f96c518671a0f4cad344611299db6237311691bc82221cf8c12553",
       },
     ],
     [
