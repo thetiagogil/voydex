@@ -113,21 +113,29 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-/* The "V" tile: a thick V made to stay readable at 16px. The maskable
-   variant is full-bleed with the V inside the 80% safe zone. */
-function createIconSvg({ action, onAction, maskable = false }) {
-  const corner = maskable ? "" : ' rx="112"';
-  const scale = maskable
-    ? ' transform="translate(256 256) scale(.78) translate(-256 -256)"'
-    : "";
+/* The mark: a white disc with a V cut out of it, on the action colour.
+   "circle" is the tab and install icon, "square" is full-bleed for the iOS
+   home screen, "maskable" is full-bleed with the mark inside Android's
+   safe zone. */
+function createIconSvg({ action, onAction, shape = "circle" }) {
+  const background =
+    shape === "circle"
+      ? `<circle cx="256" cy="256" r="256" fill="${action}"/>`
+      : `<rect width="512" height="512" fill="${action}"/>`;
+  const scale =
+    shape === "maskable"
+      ? ' transform="translate(256 256) scale(.78) translate(-256 -256)"'
+      : "";
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <rect width="512" height="512"${corner} fill="${action}"/>
-  <path d="M130 150 256 372 382 150" fill="none" stroke="${onAction}" stroke-width="110" stroke-linecap="round" stroke-linejoin="round"${scale}/>
+  ${background}
+  <g${scale}>
+    <circle cx="256" cy="256" r="170" fill="${onAction}"/>
+    <path d="M150 150 256 300 362 150" fill="none" stroke="${action}" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>
 `;
 }
-
 function createIco(pngs) {
   const headerSize = 6;
   const directorySize = 16 * pngs.length;
@@ -170,7 +178,13 @@ const svg = createIconSvg({ action, onAction: "#ffffff" });
 
 await fs.writeFile(sourceSvgPath, svg, "utf8");
 await fs.writeFile(iconPath, await renderPng(svg, 512));
-await fs.writeFile(appleIconPath, await renderPng(svg, 180));
+await fs.writeFile(
+  appleIconPath,
+  await renderPng(
+    createIconSvg({ action, onAction: "#ffffff", shape: "square" }),
+    180,
+  ),
+);
 
 await fs.mkdir(pwaIconsDir, { recursive: true });
 await fs.writeFile(
@@ -184,7 +198,7 @@ await fs.writeFile(
 await fs.writeFile(
   path.join(pwaIconsDir, "icon-maskable-512.png"),
   await renderPng(
-    createIconSvg({ action, onAction: "#ffffff", maskable: true }),
+    createIconSvg({ action, onAction: "#ffffff", shape: "maskable" }),
     512,
   ),
 );

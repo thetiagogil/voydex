@@ -1,4 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <rect width="512" height="512" rx="112" fill="#cf342b"/>
-  <path d="M130 150 256 372 382 150" fill="none" stroke="#ffffff" stroke-width="110" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="256" cy="256" r="256" fill="#cf342b"/>
+  <g>
+    <circle cx="256" cy="256" r="170" fill="#ffffff"/>
+    <path d="M150 150 256 300 362 150" fill="none" stroke="#cf342b" stroke-width="84" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
 </svg>
