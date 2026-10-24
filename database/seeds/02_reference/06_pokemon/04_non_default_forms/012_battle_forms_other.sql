@@ -5,8 +5,7 @@
 -- Cross-check: Serebii Pokédex form pages.
 -- Scope note: forms a Pokémon only takes during a battle, from Primal Reversion
 -- to abilities like Zen Mode; a Pokémon is never stored in one.
--- Not here yet: Ash-Greninja waits for Battle Bond Greninja (#121), and
--- Ogerpon's Terastal forms wait for Tera mechanics (#120).
+-- Not here yet: Ogerpon's Terastal forms wait for Tera mechanics (#120).
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -33,6 +32,8 @@ VALUES
   (55503, 555, 'galarian-darmanitan-zen', 'Galarian Darmanitan (Zen Mode)', 8, FALSE, 4, NULL, NULL),
   -- Meloetta (Pirouette Forme)
   (64801, 648, 'meloetta-pirouette', 'Meloetta (Pirouette Forme)', 5, FALSE, 2, NULL, NULL),
+  -- Ash-Greninja
+  (65803, 658, 'ash-greninja', 'Ash-Greninja', 7, FALSE, 4, NULL, NULL),
   -- Aegislash (Blade Forme)
   (68101, 681, 'aegislash-blade', 'Aegislash (Blade Forme)', 6, FALSE, 2, NULL, NULL),
   -- Zygarde (Complete Forme)
