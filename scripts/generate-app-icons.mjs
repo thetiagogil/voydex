@@ -18,6 +18,7 @@ const sourceSvgPath = path.join(
 );
 const iconPath = path.join(rootDir, "src", "app", "icon.png");
 const appleIconPath = path.join(rootDir, "src", "app", "apple-icon.png");
+const pwaIconsDir = path.join(rootDir, "public", "icons");
 const faviconPath = path.join(rootDir, "src", "app", "favicon.ico");
 
 function parseToken(css, tokenName) {
@@ -112,15 +113,32 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-/* The "V" tile: a placeholder until the logo is designed. */
-function createIconSvg({ action, onAction }) {
+/* The mark: a ball whose dark band is bent into a V, outlined in ink so the white
+   half holds on any tab colour. "circle" is the tab and install icon,
+   "square" and "maskable" sit on a full-bleed white ground for the iOS home
+   screen and Android's safe zone. */
+function createIconSvg({ action, onAction, ink, shape = "circle" }) {
+  const ground =
+    shape === "circle"
+      ? ""
+      : `<rect width="512" height="512" fill="${onAction}"/>\n  `;
+  const scale = { circle: 1, square: 0.86, maskable: 0.7 }[shape];
+  const transform =
+    scale === 1
+      ? ""
+      : ` transform="translate(256 256) scale(${scale}) translate(-256 -256)"`;
+
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Voydex">
-  <rect width="512" height="512" rx="120" fill="${action}"/>
-  <path d="M168 168 256 352 344 168" fill="none" stroke="${onAction}" stroke-width="64" stroke-linecap="round" stroke-linejoin="round"/>
+  <defs><clipPath id="ball"><circle cx="256" cy="256" r="236"/></clipPath></defs>
+  ${ground}<g${transform}>
+    <circle cx="256" cy="256" r="236" fill="${onAction}"/>
+    <path clip-path="url(#ball)" d="M0 0H512V150L256 330 0 150Z" fill="${action}"/>
+    <path clip-path="url(#ball)" d="M-20 150 256 330 532 150" fill="none" stroke="${ink}" stroke-width="44"/>
+    <circle cx="256" cy="256" r="236" fill="none" stroke="${ink}" stroke-width="40"/>
+  </g>
 </svg>
 `;
 }
-
 function createIco(pngs) {
   const headerSize = 6;
   const directorySize = 16 * pngs.length;
@@ -159,11 +177,35 @@ async function renderPng(svg, size) {
 
 const css = await fs.readFile(tokensPath, "utf8");
 const action = colorTokenToHex(parseToken(css, "action"));
-const svg = createIconSvg({ action, onAction: "#ffffff" });
+const ink = colorTokenToHex(parseToken(css, "ink"));
+const svg = createIconSvg({ action, onAction: "#ffffff", ink });
 
 await fs.writeFile(sourceSvgPath, svg, "utf8");
 await fs.writeFile(iconPath, await renderPng(svg, 512));
-await fs.writeFile(appleIconPath, await renderPng(svg, 180));
+await fs.writeFile(
+  appleIconPath,
+  await renderPng(
+    createIconSvg({ action, onAction: "#ffffff", ink, shape: "square" }),
+    180,
+  ),
+);
+
+await fs.mkdir(pwaIconsDir, { recursive: true });
+await fs.writeFile(
+  path.join(pwaIconsDir, "icon-192.png"),
+  await renderPng(svg, 192),
+);
+await fs.writeFile(
+  path.join(pwaIconsDir, "icon-512.png"),
+  await renderPng(svg, 512),
+);
+await fs.writeFile(
+  path.join(pwaIconsDir, "icon-maskable-512.png"),
+  await renderPng(
+    createIconSvg({ action, onAction: "#ffffff", ink, shape: "maskable" }),
+    512,
+  ),
+);
 
 const faviconSizes = [16, 32, 48, 64, 128, 256];
 const faviconPngs = await Promise.all(
