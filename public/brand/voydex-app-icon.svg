@@ -2,7 +2,8 @@
   <defs><clipPath id="ball"><circle cx="256" cy="256" r="236"/></clipPath></defs>
   <g>
     <circle cx="256" cy="256" r="236" fill="#ffffff"/>
-    <path clip-path="url(#ball)" d="M0 0H512V150L256 400 0 150Z" fill="#cf342b"/>
+    <path clip-path="url(#ball)" d="M0 0H512V150L256 330 0 150Z" fill="#cf342b"/>
+    <path clip-path="url(#ball)" d="M-20 150 256 330 532 150" fill="none" stroke="#26292f" stroke-width="44"/>
     <circle cx="256" cy="256" r="236" fill="none" stroke="#26292f" stroke-width="40"/>
   </g>
 </svg>

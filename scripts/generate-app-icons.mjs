@@ -113,7 +113,7 @@ function colorTokenToHex(value) {
   throw new Error(`Unsupported icon color token: ${value}`);
 }
 
-/* The mark: a ball with a V-shaped red top, outlined in ink so the white
+/* The mark: a ball whose dark band is bent into a V, outlined in ink so the white
    half holds on any tab colour. "circle" is the tab and install icon,
    "square" and "maskable" sit on a full-bleed white ground for the iOS home
    screen and Android's safe zone. */
@@ -132,7 +132,8 @@ function createIconSvg({ action, onAction, ink, shape = "circle" }) {
   <defs><clipPath id="ball"><circle cx="256" cy="256" r="236"/></clipPath></defs>
   ${ground}<g${transform}>
     <circle cx="256" cy="256" r="236" fill="${onAction}"/>
-    <path clip-path="url(#ball)" d="M0 0H512V150L256 400 0 150Z" fill="${action}"/>
+    <path clip-path="url(#ball)" d="M0 0H512V150L256 330 0 150Z" fill="${action}"/>
+    <path clip-path="url(#ball)" d="M-20 150 256 330 532 150" fill="none" stroke="${ink}" stroke-width="44"/>
     <circle cx="256" cy="256" r="236" fill="none" stroke="${ink}" stroke-width="40"/>
   </g>
 </svg>
