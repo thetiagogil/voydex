@@ -36,6 +36,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (150010, 15008, 15, 'battle-opponent', 1, NULL),
   -- Grand Trial Nanu -> Nanu
   (150011, 15009, 15, 'battle-opponent', 3, NULL),
+  -- Vast Poni Canyon Trial -> Totem Kommo-o
+  (150012, 15035, 15, 'battle-opponent', 1, NULL),
   -- Grand Trial Hapu -> Hapu
   (150013, 15010, 15, 'battle-opponent', 1, NULL),
   -- Elite Four Hala -> Hala

@@ -1122,3 +1122,30 @@ describe("buildStoryMatchupsModel with battle mechanics", () => {
     expect(pokemon?.heldItem).toBeNull();
   });
 });
+
+describe("buildStoryMatchupsModel with a trial that has no captain", () => {
+  it("lists the totem as its own battle", () => {
+    const model = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 7,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map([[1, null]]),
+      orderedMilestones: [
+        milestone(1, [
+          { id: 1, name: "Totem Kommo-o", role: "totem", typeId: 13 },
+        ]),
+      ],
+      partyRows: [],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    });
+
+    expect(
+      model.chapters
+        .flatMap((chapter) => chapter.battles)
+        .map((battle) => [battle.name, battle.kind]),
+    ).toEqual([["Totem Kommo-o", "Totem"]]);
+  });
+});

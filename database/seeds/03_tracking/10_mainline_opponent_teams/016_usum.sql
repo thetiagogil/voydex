@@ -7,6 +7,7 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Totem trials, Ultra Necrozma and Giovanni: cross-checked with Bulbapedia; totem allies follow the order the totem calls them.
+-- Ilima's bonus trial and Totem Kommo-o: Bulbapedia, cross-checked with Serebii.
 -- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
 -- Battle forms: the Megalo Tower battle is against Ultra Necrozma itself.
 -- Scope: Pokémon Ultra Sun / Ultra Moon Story battle opponent teams.
@@ -94,6 +95,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 2, 279, 27900, 52, NULL, NULL, FALSE),
   -- Mina 3: Blissey Lv. 53
   (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 3, 242, 24200, 53, NULL, NULL, FALSE),
+  -- Totem Kommo-o 1: Kommo-o Lv. 49
+  (160013, 16037, 16, NULL, NULL, NULL, NULL, NULL, 1, 784, 78400, 49, NULL, NULL, FALSE),
+  -- Totem Kommo-o 2: Noivern Lv. 48
+  (160013, 16037, 16, NULL, NULL, NULL, NULL, NULL, 2, 715, 71500, 48, NULL, NULL, FALSE),
+  -- Totem Kommo-o 3: Scizor Lv. 46
+  (160013, 16037, 16, NULL, NULL, NULL, NULL, NULL, 3, 212, 21200, 46, NULL, NULL, FALSE),
   -- Hapu 1: Golurk Lv. 53
   (160014, 16011, 16, NULL, NULL, NULL, NULL, NULL, 1, 623, 62300, 53, NULL, NULL, FALSE),
   -- Hapu 2: Gastrodon (East Sea) Lv. 53
@@ -391,4 +398,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Blacephalon, Poni Grove 1: Blacephalon Lv. 60
   (160031, 16035, 16, NULL, NULL, NULL, NULL, NULL, 1, 806, 80600, 60, NULL, NULL, FALSE),
   -- Stakataka, Poni Grove 1: Stakataka Lv. 60
-  (160031, 16036, 16, NULL, NULL, NULL, NULL, NULL, 1, 805, 80500, 60, NULL, NULL, FALSE);
+  (160031, 16036, 16, NULL, NULL, NULL, NULL, NULL, 1, 805, 80500, 60, NULL, NULL, FALSE),
+  -- Ilima, Ilima Bonus Trial (Ultra Sun) 1: Gumshoos Lv. 60
+  (160032, 16001, 16, 27, NULL, NULL, NULL, NULL, 1, 735, 73500, 60, NULL, NULL, FALSE),
+  -- Ilima, Ilima Bonus Trial (Ultra Sun) 2: Yungoos Lv. 58
+  (160032, 16001, 16, 27, NULL, NULL, NULL, NULL, 2, 734, 73400, 58, NULL, NULL, FALSE),
+  -- Ilima, Ilima Bonus Trial (Ultra Moon) 1: Alolan Raticate Lv. 60
+  (160032, 16001, 16, 28, NULL, NULL, NULL, NULL, 1, 20, 2001, 60, NULL, NULL, FALSE),
+  -- Ilima, Ilima Bonus Trial (Ultra Moon) 2: Alolan Rattata Lv. 58
+  (160032, 16001, 16, 28, NULL, NULL, NULL, NULL, 2, 19, 1901, 58, NULL, NULL, FALSE);

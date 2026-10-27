@@ -39,6 +39,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (160011, 16009, 16, 'battle-opponent', 3, NULL),
   -- Mina Trial -> Mina
   (160012, 16010, 16, 'battle-opponent', 1, NULL),
+  -- Vast Poni Canyon Trial -> Totem Kommo-o
+  (160013, 16037, 16, 'battle-opponent', 1, NULL),
   -- Grand Trial Hapu -> Hapu
   (160014, 16011, 16, 'battle-opponent', 1, NULL),
   -- Ultra Necrozma -> Ultra Necrozma
@@ -106,4 +108,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Poni Grove -> Blacephalon
   (160031, 16035, 16, 'battle-opponent', 1, 'Poni Grove (Poni Island). You can skip this battle.'),
   -- Poni Grove -> Stakataka
-  (160031, 16036, 16, 'battle-opponent', 2, 'Poni Grove (Poni Island). You can skip this battle.');
+  (160031, 16036, 16, 'battle-opponent', 2, 'Poni Grove (Poni Island). You can skip this battle.'),
+  -- Ilima Bonus Trial -> Ilima
+  (160032, 16001, 16, 'battle-opponent', 1, 'Verdant Cavern, Totem''s Den (Melemele Island). You can skip this battle.');

@@ -85,6 +85,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 2, 552, 55200, 38, NULL, NULL, FALSE),
   -- Nanu 3: Alolan Persian Lv. 39, holds Darkinium Z
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 3, 53, 5301, 39, 37, NULL, FALSE),
+  -- Totem Kommo-o 1: Kommo-o Lv. 45
+  (150012, 15035, 15, NULL, NULL, NULL, NULL, NULL, 1, 784, 78400, 45, NULL, NULL, FALSE),
+  -- Totem Kommo-o 2: Hakamo-o Lv. 32
+  (150012, 15035, 15, NULL, NULL, NULL, NULL, NULL, 2, 783, 78300, 32, NULL, NULL, FALSE),
+  -- Totem Kommo-o 3: Scizor Lv. 32
+  (150012, 15035, 15, NULL, NULL, NULL, NULL, NULL, 3, 212, 21200, 32, NULL, NULL, FALSE),
   -- Hapu 1: Alolan Dugtrio Lv. 47
   (150013, 15010, 15, NULL, NULL, NULL, NULL, NULL, 1, 51, 5101, 47, NULL, NULL, FALSE),
   -- Hapu 2: Gastrodon (East Sea) Lv. 47

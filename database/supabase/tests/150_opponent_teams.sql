@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (15);
+    plan (18);
 SET LOCAL ROLE anon;
 SELECT
     throws_ok ($$
@@ -94,6 +94,35 @@ SELECT
             WHERE
                 mainline_milestone_opponent_refs.milestone_id = 130022 ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
             VALUES ('Lysandre'::text, 1), ('Xerneas', 2), ('Yveltal', 3), ('Lysandre', 4) $$, 'Lysandre battles twice at the Team Flare Secret HQ, around the legendary');
+-- Vast Poni Canyon has no captain: Totem Kommo-o calls its allies in this order.
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_opponent_team_members.milestone_id, mainline_opponent_team_members.species_id, mainline_opponent_team_members.level FROM tracking.mainline_opponent_team_members
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            WHERE
+                mainline_opponents.slug = 'totem-kommo-o' ORDER BY mainline_opponent_team_members.milestone_id, mainline_opponent_team_members.slot $$, $$
+            VALUES (150012, 784, 45), (150012, 783, 32), (150012, 212, 32), (160013, 784, 49), (160013, 715, 48), (160013, 212, 46) $$, 'Totem Kommo-o battles in Vast Poni Canyon with its allies');
+-- Ultra Sun / Ultra Moon: Ilima's bonus trial is the Lv. 60 totem of each game.
+SELECT
+    results_eq ($$
+        SELECT
+            game_id, slot, species_id, form_id, level FROM tracking.mainline_opponent_team_members
+            WHERE
+                milestone_id = 160032
+                AND opponent_id = 16001 ORDER BY game_id, slot $$, $$
+            VALUES (27, 1, 735, 73500, 60), (27, 2, 734, 73400, 58), (28, 1, 20, 2001, 60), (28, 2, 19, 1901, 58) $$, 'Ilima''s bonus trial has each game''s totem and ally');
+-- Every Pokémon in both new trials knows its four moves.
+SELECT
+    is_empty ($$
+        SELECT
+            mainline_opponent_team_members.id FROM tracking.mainline_opponent_team_members
+        LEFT JOIN tracking.mainline_opponent_team_member_moves ON mainline_opponent_team_member_moves.team_member_id = mainline_opponent_team_members.id
+        WHERE
+            mainline_opponent_team_members.milestone_id IN (150012, 160013, 160032)
+        GROUP BY mainline_opponent_team_members.id
+        HAVING
+            COUNT(mainline_opponent_team_member_moves.move_id) <> 4 $$, 'Totem Kommo-o and Ilima''s bonus trial know four moves each');
 SELECT
     *
 FROM

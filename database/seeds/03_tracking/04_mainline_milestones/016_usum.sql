@@ -86,4 +86,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Resolution Cave
   (160030, 16, NULL, 1605, 6, 2, NULL, 'resolution-cave', 'Resolution Cave', 'Catch or defeat Zygarde in Resolution Cave on Poni Island after becoming Champion.', 7, false),
   -- Poni Grove
-  (160031, 16, NULL, 1605, 6, 2, NULL, 'poni-grove', 'Poni Grove', 'Help the Ultra Recon Squad and Hau secure the Ultra Beasts loose in Poni Grove after becoming Champion.', 8, false);
+  (160031, 16, NULL, 1605, 6, 2, NULL, 'poni-grove', 'Poni Grove', 'Help the Ultra Recon Squad and Hau secure the Ultra Beasts loose in Poni Grove after becoming Champion.', 8, false),
+  -- Ilima Bonus Trial
+  (160032, 16, NULL, 1605, 3, 2, NULL, 'ilima-bonus-trial', 'Ilima Bonus Trial', 'Place Ilima''s Normalium Z in Verdant Cavern''s Totem''s Den after becoming Champion, then beat its totem again.', 9, false);
