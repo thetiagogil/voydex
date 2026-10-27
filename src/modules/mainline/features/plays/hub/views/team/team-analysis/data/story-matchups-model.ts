@@ -232,6 +232,8 @@ const battleKinds: Record<string, string> = {
   rival: "Rival",
   "team-star-boss": "Team Star boss",
   titan: "Titan",
+  /* A trial with no captain, such as Vast Poni Canyon's. */
+  totem: "Totem",
   "trial-captain": "Trial captain",
   /* Legends: Z-A's promotion matches and Jacinthe's tournament. */
   "za-royale": "Z-A Royale",

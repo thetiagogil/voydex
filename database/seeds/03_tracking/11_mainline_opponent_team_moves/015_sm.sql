@@ -73,6 +73,12 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (150011, 15009, NULL, NULL, NULL, NULL, 2, ARRAY[242, 372, 207, 89]),
     -- Nanu: Alolan Persian Lv. 39: Power Gem, Fake Out, Dark Pulse
     (150011, 15009, NULL, NULL, NULL, NULL, 3, ARRAY[408, 252, 399]),
+    -- Totem Kommo-o: Kommo-o Lv. 45: Clanging Scales, Sky Uppercut, Flash Cannon, Protect
+    (150012, 15035, NULL, NULL, NULL, NULL, 1, ARRAY[691, 327, 430, 182]),
+    -- Totem Kommo-o: Hakamo-o Lv. 32: Sky Uppercut, Autotomize, Work Up, Bide
+    (150012, 15035, NULL, NULL, NULL, NULL, 2, ARRAY[327, 475, 526, 117]),
+    -- Totem Kommo-o: Scizor Lv. 32: Metal Claw, Pursuit, Leer, Fury Cutter
+    (150012, 15035, NULL, NULL, NULL, NULL, 3, ARRAY[232, 228, 43, 210]),
     -- Hapu: Alolan Dugtrio Lv. 47: Iron Head, Earthquake, Sucker Punch, Sandstorm
     (150013, 15010, NULL, NULL, NULL, NULL, 1, ARRAY[442, 89, 389, 201]),
     -- Hapu: Gastrodon (East Sea) Lv. 47: Muddy Water, Mud Bomb, Recover

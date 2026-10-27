@@ -10,6 +10,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Ilima's bonus trial Yungoos: Bulbapedia says Yawn, Serebii says Hyper Fang; Yawn is used.
 -- Scope: Ultra Sun / Ultra Moon Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -81,6 +82,12 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (160012, 16010, NULL, NULL, NULL, NULL, 2, ARRAY[254, 503, 255, 402]),
     -- Mina: Blissey Lv. 53: Heal Pulse, Light Screen, Helping Hand, Dazzling Gleam
     (160012, 16010, NULL, NULL, NULL, NULL, 3, ARRAY[505, 113, 270, 605]),
+    -- Totem Kommo-o: Kommo-o Lv. 49: Drain Punch, Dragon Claw, Thunder Punch, Poison Jab
+    (160013, 16037, NULL, NULL, NULL, NULL, 1, ARRAY[409, 337, 9, 398]),
+    -- Totem Kommo-o: Noivern Lv. 48: Boomburst, Screech, Dragon Pulse, Air Slash
+    (160013, 16037, NULL, NULL, NULL, NULL, 2, ARRAY[586, 103, 406, 403]),
+    -- Totem Kommo-o: Scizor Lv. 46: Light Screen, Pursuit, Bullet Punch, X-Scissor
+    (160013, 16037, NULL, NULL, NULL, NULL, 3, ARRAY[113, 228, 418, 404]),
     -- Hapu: Golurk Lv. 53: Hammer Arm, Earthquake, Shadow Punch, Stealth Rock
     (160014, 16011, NULL, NULL, NULL, NULL, 1, ARRAY[359, 89, 325, 446]),
     -- Hapu: Gastrodon (East Sea) Lv. 53: Muddy Water, Mud Bomb, Recover
@@ -378,7 +385,15 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Blacephalon: Blacephalon Lv. 60: Fire Blast, Shadow Ball, Trick, Mind Blown
     (160031, 16035, NULL, NULL, NULL, NULL, 1, ARRAY[126, 247, 271, 720]),
     -- Stakataka: Stakataka Lv. 60: Iron Defense, Iron Head, Rock Blast, Wide Guard
-    (160031, 16036, NULL, NULL, NULL, NULL, 1, ARRAY[334, 442, 350, 469])
+    (160031, 16036, NULL, NULL, NULL, NULL, 1, ARRAY[334, 442, 350, 469]),
+    -- Ilima, Ilima Bonus Trial: Gumshoos Lv. 60: Hyper Fang, Ice Fang, Protect, Crunch
+    (160032, 16001, 27, NULL, NULL, NULL, 1, ARRAY[158, 423, 182, 242]),
+    -- Ilima, Ilima Bonus Trial: Yungoos Lv. 58: Yawn, Mud-Slap, Torment, Super Fang
+    (160032, 16001, 27, NULL, NULL, NULL, 2, ARRAY[281, 189, 259, 162]),
+    -- Ilima, Ilima Bonus Trial: Alolan Raticate Lv. 60: Hyper Fang, Throat Chop, Protect, Double Team
+    (160032, 16001, 28, NULL, NULL, NULL, 1, ARRAY[158, 675, 182, 104]),
+    -- Ilima, Ilima Bonus Trial: Alolan Rattata Lv. 58: Super Fang, Tail Whip, Torment, Crunch
+    (160032, 16001, 28, NULL, NULL, NULL, 2, ARRAY[162, 39, 259, 242])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

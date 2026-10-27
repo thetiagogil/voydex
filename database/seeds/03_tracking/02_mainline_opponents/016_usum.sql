@@ -94,4 +94,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Blacephalon (boss, ultra-sun)
   (16035, 16, 27, 'blacephalon', 'Blacephalon', 'boss', 2, 14, 'blacephalon', 3),
   -- Stakataka (boss, ultra-moon)
-  (16036, 16, 28, 'stakataka', 'Stakataka', 'boss', 13, 17, 'stakataka', 3);
+  (16036, 16, 28, 'stakataka', 'Stakataka', 'boss', 13, 17, 'stakataka', 3),
+  -- Totem Kommo-o (totem, Vast Poni Canyon has no captain)
+  (16037, 16, NULL, 'totem-kommo-o', 'Totem Kommo-o', 'totem', 15, 7, 'kommo-o', 31);

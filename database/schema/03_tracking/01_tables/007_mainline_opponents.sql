@@ -57,4 +57,4 @@ COMMENT ON TABLE tracking.mainline_opponents IS 'Curated opponent definitions us
 
 COMMENT ON COLUMN tracking.mainline_opponents.game_id IS 'Nullable for version-group-wide mainline_opponents. When set, the game must be mapped to the same content scope.';
 
-COMMENT ON COLUMN tracking.mainline_opponents.opponent_role IS 'Curated role slug such as gym-leader, rival, boss, elite-four, champion, kahuna, or trial-captain.';
+COMMENT ON COLUMN tracking.mainline_opponents.opponent_role IS 'Curated role slug such as gym-leader, rival, boss, elite-four, champion, kahuna, trial-captain, titan, or totem.';

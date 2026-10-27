@@ -89,4 +89,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Tapu Fini (boss)
   (15033, 15, NULL, 'tapu-fini', 'Tapu Fini', 'boss', 3, 18, 'tapu-fini', 27),
   -- Necrozma (boss)
-  (15034, 15, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', 28);
+  (15034, 15, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', 28),
+  -- Totem Kommo-o (totem, Vast Poni Canyon has no captain)
+  (15035, 15, NULL, 'totem-kommo-o', 'Totem Kommo-o', 'totem', 15, 7, 'kommo-o', 29);
