@@ -92,7 +92,7 @@ task; use more only when the user asks for parallel work on independent scopes.
 - The app accepts only `NEXT_PUBLIC_SUPABASE_URL`,
   `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` and `NEXT_PUBLIC_ASSETS_URL` (the
   `voydex-assets` site serving Pokémon images and game covers, read only by
-  `reference/shared/data/reference-assets.ts`); do not restore legacy anon-key
+  `src/shared/utils/asset-url.ts`); do not restore legacy anon-key
   aliases. Database tooling accepts only the names in `.env.database.example`.
 - Keep active indexes beside their owning table schema.
 - A write that touches more than one table or creates a History moment goes
