@@ -6,7 +6,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (14);
+    plan (17);
 SELECT
     is_empty ($$
         SELECT
@@ -22,13 +22,14 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 items.introduced_generation_id > version_groups.generation_id $$, 'no opponent holds an item from a later generation');
--- How many opponent Pokémon hold an item, per game.
+-- How many opponent Pokémon hold an item, per game (allies' teams aside).
 SELECT
     results_eq ($$
         SELECT
             version_group_id, COUNT(*)::integer FROM tracking.mainline_opponent_team_members
             WHERE
                 held_item_id IS NOT NULL
+                AND ally_opponent_id IS NULL
                 AND version_group_id <= 10 GROUP BY version_group_id ORDER BY version_group_id $$, $$
             VALUES (3, 2), (4, 1), (5, 5), (6, 7), (7, 15), (8, 14), (9, 17), (10, 26) $$, 'Gen 2-4 opponents hold the items their games give them');
 SELECT
@@ -37,6 +38,7 @@ SELECT
             version_group_id, COUNT(*)::integer FROM tracking.mainline_opponent_team_members
             WHERE
                 held_item_id IS NOT NULL
+                AND ally_opponent_id IS NULL
                 AND version_group_id BETWEEN 11 AND 14 GROUP BY version_group_id ORDER BY version_group_id $$, $$
             VALUES (11, 39), (12, 58), (13, 8), (14, 9) $$, 'Gen 5-6 opponents hold the items their games give them');
 -- Cheren's last Black / White battle: a lens, a berry, a booster and Leftovers.
@@ -72,6 +74,7 @@ SELECT
             version_group_id, COUNT(*)::integer FROM tracking.mainline_opponent_team_members
             WHERE
                 held_item_id IS NOT NULL
+                AND ally_opponent_id IS NULL
                 AND version_group_id IN (15, 16, 21)
             GROUP BY version_group_id ORDER BY version_group_id $$, $$
             VALUES (15, 37), (16, 44), (21, 100) $$, 'Gen 7 and Brilliant Diamond / Shining Pearl opponents hold the items their games give them');
@@ -99,6 +102,36 @@ SELECT
                 AND mainline_opponents.opponent_role IN ('trial-captain', 'totem')
                 AND mainline_opponent_team_members.slot > 1
                 AND mainline_opponent_team_members.held_item_id IS NOT NULL $$, 'totem allies hold nothing');
+SELECT
+    results_eq ($$
+        SELECT
+            version_group_id, COUNT(*)::integer FROM tracking.mainline_opponent_team_members
+            WHERE
+                held_item_id IS NOT NULL
+                AND ally_opponent_id IS NULL
+                AND version_group_id IN (18, 19, 20, 23, 24, 25, 26, 27)
+            GROUP BY version_group_id ORDER BY version_group_id $$, $$
+            VALUES (18, 6), (20, 1), (23, 6), (24, 17), (25, 31), (26, 19) $$, 'Gen 8-9 opponents hold the items their games give them');
+-- Koraidon and Miraidon bring their own weather and terrain items.
+SELECT
+    results_eq ($$ SELECT DISTINCT
+            mainline_opponent_team_members.species_id, items.slug FROM tracking.mainline_opponent_team_members
+            JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
+            WHERE
+                mainline_opponent_team_members.version_group_id = 23
+                AND mainline_opponent_team_members.species_id IN (1007, 1008)
+            ORDER BY mainline_opponent_team_members.species_id $$, $$
+            VALUES (1007, 'heat-rock'::text), (1008, 'terrain-extender'::text) $$, 'Koraidon holds a Heat Rock and Miraidon a Terrain Extender');
+-- Only the Titanic Okidogi after The Way Home holds an item among the Loyal Three.
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_opponent_team_members.species_id, mainline_opponent_team_members.level, items.slug FROM tracking.mainline_opponent_team_members
+            JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
+            WHERE
+                mainline_opponent_team_members.version_group_id = 24
+                AND mainline_opponent_team_members.species_id IN (1014, 1015, 1016) $$, $$
+            VALUES (1014, 85, 'liechi-berry'::text) $$, 'the Titanic Okidogi holds a Liechi Berry after The Way Home');
 -- Emerald's gym leaders gained items Ruby / Sapphire's never had.
 SELECT
     results_eq ($$
@@ -120,7 +153,7 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 7
-                AND mainline_opponents.slug = 'roxanne'       $$, $$
+                AND mainline_opponents.slug = 'roxanne'         $$, $$
             VALUES ('oran-berry'::text) $$, 'Roxanne''s Nosepass holds an Oran Berry in Emerald');
 SELECT
     results_eq ($$
@@ -130,7 +163,7 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 9
-                AND mainline_opponents.slug = 'cynthia'       $$, $$
+                AND mainline_opponents.slug = 'cynthia'         $$, $$
             VALUES ('sitrus-berry'::text) $$, 'Cynthia''s Garchomp holds a Sitrus Berry in Platinum');
 -- Wild Ho-Oh carries Sacred Ash in Gen 2 and HeartGold / SoulSilver, not in
 -- FireRed / LeafGreen.

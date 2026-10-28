@@ -6,6 +6,8 @@
 -- Battle Court post-game levels: Bulbapedia, cross-checked with Serebii.
 -- Klara and Avery battles: Bulbapedia, cross-checked with Serebii.
 -- Mustard: cross-checked with Bulbapedia, whose slot order is used.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Wild Pokémon here hold nothing in their game data.
 -- Scope: Pokémon The Isle of Armor Story battle opponent teams.
 -- ============================================================================
 -- File Scope

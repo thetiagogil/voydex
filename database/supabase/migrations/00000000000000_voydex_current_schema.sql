@@ -3389,7 +3389,7 @@ COMMENT ON COLUMN tracking.mainline_opponent_team_members.decision_milestone_id 
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.form_id IS 'The form it battles in: a Pokémon that Mega Evolves, reverts to its Primal form or Gigantamaxes in this battle is stored in that battle form.';
 
-COMMENT ON COLUMN tracking.mainline_opponent_team_members.held_item_id IS 'What it holds in this battle, in games with held items: its Mega Stone, its Z-Crystal or any other item. NULL means Voydex does not have it.';
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.held_item_id IS 'What it holds in this battle, in games with held items: its Mega Stone, its Z-Crystal or any other item. NULL means it holds nothing, or that no source names its item (the team seed file lists those).';
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.tera_type_id IS 'The Tera Type it Terastallizes into in this battle, in games with Terastal. NULL means it does not Terastallize. A form with a fixed Tera Type accepts only that one.';
 

@@ -10,6 +10,9 @@
 -- Terapagos: cross-checked with Prima Games.
 -- Battle forms: Tera Shift puts Terapagos in its Terastal Form in every battle; the
 -- final battle is against its Stellar Form.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Nemona's Mochi Mayhem team: Bulbapedia (PokéWiki doesn't list it); it holds nothing.
+-- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -35,64 +38,64 @@ INSERT INTO tracking.mainline_opponent_team_members (
   tera_type_id,
   dynamaxes
 ) VALUES
-  -- Crispin 1: Rotom (Heat) Lv. 77
-  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 1, 479, 47901, 77, NULL, NULL, FALSE),
-  -- Crispin 2: Talonflame Lv. 77
-  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 2, 663, 66300, 77, NULL, NULL, FALSE),
-  -- Crispin 3: Exeggutor Lv. 78
-  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 3, 103, 10300, 78, NULL, NULL, FALSE),
-  -- Crispin 4: Camerupt Lv. 78
-  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 78, NULL, NULL, FALSE),
-  -- Crispin 5: Magmortar Lv. 78
-  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 5, 467, 46700, 78, NULL, NULL, FALSE),
+  -- Crispin 1: Rotom (Heat) Lv. 77, holds Rocky Helmet
+  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 1, 479, 47901, 77, 420, NULL, FALSE),
+  -- Crispin 2: Talonflame Lv. 77, holds Focus Sash
+  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 2, 663, 66300, 77, 395, NULL, FALSE),
+  -- Crispin 3: Exeggutor Lv. 78, holds Sitrus Berry
+  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 3, 103, 10300, 78, 187, NULL, FALSE),
+  -- Crispin 4: Camerupt Lv. 78, holds Expert Belt
+  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 78, 391, NULL, FALSE),
+  -- Crispin 5: Magmortar Lv. 78, holds Passho Berry
+  (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 5, 467, 46700, 78, 214, NULL, FALSE),
   -- Crispin 6: Blaziken Lv. 79, Tera Fire, holds Assault Vest
   (250002, 25001, 25, NULL, NULL, NULL, NULL, NULL, 6, 257, 25700, 79, 373, 2, FALSE),
-  -- Amarys 1: Skarmory Lv. 78
-  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 78, NULL, NULL, FALSE),
-  -- Amarys 2: Alolan Dugtrio Lv. 78
-  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 2, 51, 5101, 78, NULL, NULL, FALSE),
-  -- Amarys 3: Scizor Lv. 79
-  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 3, 212, 21200, 79, NULL, NULL, FALSE),
-  -- Amarys 4: Reuniclus Lv. 79
-  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 4, 579, 57900, 79, NULL, NULL, FALSE),
-  -- Amarys 5: Empoleon Lv. 79
-  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 5, 395, 39500, 79, NULL, NULL, FALSE),
+  -- Amarys 1: Skarmory Lv. 78, holds Rocky Helmet
+  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 78, 420, NULL, FALSE),
+  -- Amarys 2: Alolan Dugtrio Lv. 78, holds Focus Sash
+  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 2, 51, 5101, 78, 395, NULL, FALSE),
+  -- Amarys 3: Scizor Lv. 79, holds Occa Berry
+  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 3, 212, 21200, 79, 213, NULL, FALSE),
+  -- Amarys 4: Reuniclus Lv. 79, holds Leftovers
+  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 4, 579, 57900, 79, 403, NULL, FALSE),
+  -- Amarys 5: Empoleon Lv. 79, holds Mystic Water
+  (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 5, 395, 39500, 79, 318, NULL, FALSE),
   -- Amarys 6: Metagross Lv. 80, Tera Steel, holds Expert Belt
   (250003, 25002, 25, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 80, 391, 17, FALSE),
-  -- Lacey 1: Whimsicott Lv. 78
-  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 1, 547, 54700, 78, NULL, NULL, FALSE),
-  -- Lacey 2: Granbull Lv. 78
-  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 2, 210, 21000, 78, NULL, NULL, FALSE),
-  -- Lacey 3: Primarina Lv. 79
-  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 3, 730, 73000, 79, NULL, NULL, FALSE),
-  -- Lacey 4: Galarian Slowbro Lv. 79
-  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 4, 80, 8002, 79, NULL, NULL, FALSE),
-  -- Lacey 5: Alcremie (Ruby Swirl) Lv. 79
-  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 5, 869, 86907, 79, NULL, NULL, FALSE),
+  -- Lacey 1: Whimsicott Lv. 78, holds Focus Sash
+  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 1, 547, 54700, 78, 395, NULL, FALSE),
+  -- Lacey 2: Granbull Lv. 78, holds Expert Belt
+  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 2, 210, 21000, 78, 391, NULL, FALSE),
+  -- Lacey 3: Primarina Lv. 79, holds Throat Spray
+  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 3, 730, 73000, 79, 430, NULL, FALSE),
+  -- Lacey 4: Galarian Slowbro Lv. 79, holds Sitrus Berry
+  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 4, 80, 8002, 79, 187, NULL, FALSE),
+  -- Lacey 5: Alcremie (Ruby Swirl) Lv. 79, holds Leftovers
+  (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 5, 869, 86907, 79, 403, NULL, FALSE),
   -- Lacey 6: Excadrill Lv. 80, Tera Fairy, holds Assault Vest
   (250004, 25003, 25, NULL, NULL, NULL, NULL, NULL, 6, 530, 53000, 80, 373, 18, FALSE),
-  -- Drayton 1: Dragonite Lv. 78
-  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 78, NULL, NULL, FALSE),
-  -- Drayton 2: Flygon Lv. 78
-  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 2, 330, 33000, 78, NULL, NULL, FALSE),
-  -- Drayton 3: Haxorus Lv. 79
-  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 3, 612, 61200, 79, NULL, NULL, FALSE),
-  -- Drayton 4: Sceptile Lv. 79
-  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 4, 254, 25400, 79, NULL, NULL, FALSE),
-  -- Drayton 5: Kingdra Lv. 79
-  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 5, 230, 23000, 79, NULL, NULL, FALSE),
+  -- Drayton 1: Dragonite Lv. 78, holds Yache Berry
+  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 78, 217, NULL, FALSE),
+  -- Drayton 2: Flygon Lv. 78, holds Life Orb
+  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 2, 330, 33000, 78, 404, NULL, FALSE),
+  -- Drayton 3: Haxorus Lv. 79, holds Focus Sash
+  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 3, 612, 61200, 79, 395, NULL, FALSE),
+  -- Drayton 4: Sceptile Lv. 79, holds Weakness Policy
+  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 4, 254, 25400, 79, 433, NULL, FALSE),
+  -- Drayton 5: Kingdra Lv. 79, holds Expert Belt
+  (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 5, 230, 23000, 79, 391, NULL, FALSE),
   -- Drayton 6: Archaludon Lv. 80, Tera Dragon, holds Assault Vest
   (250005, 25004, 25, NULL, NULL, NULL, NULL, NULL, 6, 1018, 101800, 80, 373, 15, FALSE),
-  -- Kieran 1: Dragonite Lv. 80
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 80, NULL, NULL, FALSE),
-  -- Kieran 2: Politoed Lv. 80
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 2, 186, 18600, 80, NULL, NULL, FALSE),
-  -- Kieran 3: Porygon-Z Lv. 81
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 3, 474, 47400, 81, NULL, NULL, FALSE),
-  -- Kieran 4: Grimmsnarl Lv. 81
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 4, 861, 86100, 81, NULL, NULL, FALSE),
-  -- Kieran 5: Incineroar Lv. 81
-  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 5, 727, 72700, 81, NULL, NULL, FALSE),
+  -- Kieran 1: Dragonite Lv. 80, holds Expert Belt
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 80, 391, NULL, FALSE),
+  -- Kieran 2: Politoed Lv. 80, holds Wacan Berry
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 2, 186, 18600, 80, 215, NULL, FALSE),
+  -- Kieran 3: Porygon-Z Lv. 81, holds Life Orb
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 3, 474, 47400, 81, 404, NULL, FALSE),
+  -- Kieran 4: Grimmsnarl Lv. 81, holds Focus Sash
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 4, 861, 86100, 81, 395, NULL, FALSE),
+  -- Kieran 5: Incineroar Lv. 81, holds Sitrus Berry
+  (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 5, 727, 72700, 81, 187, NULL, FALSE),
   -- Kieran 6: Hydrapple Lv. 82, Tera Fighting, holds Assault Vest
   (250006, 25005, 25, NULL, NULL, NULL, NULL, NULL, 6, 1019, 101900, 82, 373, 7, FALSE),
   -- Terapagos 1: Terapagos (Stellar Form) Lv. 85, Tera Stellar

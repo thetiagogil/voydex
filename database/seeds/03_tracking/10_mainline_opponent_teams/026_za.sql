@@ -28,6 +28,8 @@
 -- Grisham's Pyroar is female and stored as the default form. The sources show
 -- the default form and name no pattern, trim or colour for Yvon's Vivillon,
 -- Xavi's Furfrou and Lysandre's Florges, so they are stored as the default form.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Rogue Megas and other wild battles: Bulbapedia names no held item for them, so they hold nothing.
 -- Scope: Pokémon Legends: Z-A Story battle opponent teams.
 -- ============================================================================
 -- File Scope
