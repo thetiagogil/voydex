@@ -6,6 +6,7 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     milestone_id integer NOT NULL,
     opponent_id integer NOT NULL,
+    ally_opponent_id integer,
     version_group_id integer NOT NULL,
     game_id integer,
     decision_milestone_id integer,
@@ -23,9 +24,11 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     CONSTRAINT mainline_opponent_team_members_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_opponent_team_members_battle_fkey FOREIGN KEY (milestone_id, opponent_id, version_group_id) REFERENCES tracking.mainline_milestone_opponent_refs (milestone_id, opponent_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_opponent_team_members_opponent_version_group_fkey FOREIGN KEY (opponent_id, version_group_id) REFERENCES tracking.mainline_opponents (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT mainline_opponent_team_members_ally_version_group_fkey FOREIGN KEY (ally_opponent_id, version_group_id) REFERENCES tracking.mainline_opponents (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_opponent_team_members_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_opponent_team_members_decision_option_fkey FOREIGN KEY (decision_milestone_id, decision_option_slug) REFERENCES tracking.mainline_milestone_decision_options (milestone_id, slug) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_opponent_team_members_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_opponent_team_members_ally_not_opponent_check CHECK (ally_opponent_id IS NULL OR ally_opponent_id <> opponent_id),
     CONSTRAINT mainline_opponent_team_members_decision_pair_check CHECK ((decision_milestone_id IS NULL) = (decision_option_slug IS NULL)),
     CONSTRAINT mainline_opponent_team_members_variant_pair_check CHECK ((variant_slug IS NULL) = (variant_label IS NULL)),
     CONSTRAINT mainline_opponent_team_members_one_variant_kind_check CHECK (decision_milestone_id IS NULL OR variant_slug IS NULL),
@@ -34,10 +37,14 @@ CREATE TABLE tracking.mainline_opponent_team_members (
     CONSTRAINT mainline_opponent_team_members_slot_range_check CHECK (slot BETWEEN 1 AND 6),
     CONSTRAINT mainline_opponent_team_members_level_range_check CHECK (level BETWEEN 1 AND 100),
     CONSTRAINT mainline_opponent_team_members_one_mechanic_check CHECK (NOT (dynamaxes AND tera_type_id IS NOT NULL)),
-    CONSTRAINT mainline_opponent_team_members_slot_unique UNIQUE NULLS NOT DISTINCT (milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, slot)
+    CONSTRAINT mainline_opponent_team_members_slot_unique UNIQUE NULLS NOT DISTINCT (milestone_id, opponent_id, ally_opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, slot)
 );
 
 CREATE INDEX mainline_opponent_team_members_opponent_idx ON tracking.mainline_opponent_team_members (opponent_id);
+
+CREATE INDEX mainline_opponent_team_members_ally_opponent_idx ON tracking.mainline_opponent_team_members (ally_opponent_id)
+WHERE
+    ally_opponent_id IS NOT NULL;
 
 CREATE INDEX mainline_opponent_team_members_version_group_game_idx ON tracking.mainline_opponent_team_members (version_group_id, game_id);
 
@@ -55,9 +62,11 @@ CREATE INDEX mainline_opponent_team_members_tera_type_idx ON tracking.mainline_o
 WHERE
     tera_type_id IS NOT NULL;
 
-COMMENT ON TABLE tracking.mainline_opponent_team_members IS 'Curated teams of mainline_opponents in each Story battle: one row per Pokémon, in slot order.';
+COMMENT ON TABLE tracking.mainline_opponent_team_members IS 'Curated teams of mainline_opponents in each Story battle, and of any ally fighting beside the player there: one row per Pokémon, in slot order.';
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.milestone_id IS 'With opponent_id: the Story battle (a mainline_milestone_opponent_refs row) this team is for, so a rematch has its own team.';
+
+COMMENT ON COLUMN tracking.mainline_opponent_team_members.ally_opponent_id IS 'Set when the row is not the opponent''s Pokémon but an ally''s, fighting beside the player against opponent_id in this battle (a Multi Battle partner). NULL for the opponent''s own team.';
 
 COMMENT ON COLUMN tracking.mainline_opponent_team_members.game_id IS 'Set when a version-group-wide opponent uses a different team in each game of the version group in one battle; then every team of that opponent in that battle names its game, and it is the battle''s game when the story point belongs to one.';
 
@@ -80,6 +89,7 @@ CREATE FUNCTION private.enforce_mainline_opponent_team_member_scope ()
     AS $$
 DECLARE
     opponent_game_id integer;
+    ally_game_id integer;
     milestone_game_id integer;
     decision_version_group_id integer;
 BEGIN
@@ -106,6 +116,20 @@ BEGIN
     IF milestone_game_id IS NOT NULL AND NEW.game_id IS NOT NULL AND NEW.game_id <> milestone_game_id THEN
         RAISE EXCEPTION 'Story battle % belongs to game %; its team cannot name another', NEW.milestone_id, milestone_game_id
             USING ERRCODE = '23514';
+    END IF;
+    IF NEW.ally_opponent_id IS NOT NULL THEN
+        SELECT
+            mainline_opponents.game_id
+        INTO
+            ally_game_id
+        FROM
+            tracking.mainline_opponents
+        WHERE
+            mainline_opponents.id = NEW.ally_opponent_id;
+        IF ally_game_id IS NOT NULL AND ((milestone_game_id IS NOT NULL AND ally_game_id <> milestone_game_id) OR (NEW.game_id IS NOT NULL AND ally_game_id <> NEW.game_id)) THEN
+            RAISE EXCEPTION 'Ally % belongs to game %; it cannot fight beside the player in another game', NEW.ally_opponent_id, ally_game_id
+                USING ERRCODE = '23514';
+        END IF;
     END IF;
     IF NEW.decision_milestone_id IS NOT NULL THEN
         SELECT
@@ -136,6 +160,7 @@ GRANT EXECUTE ON FUNCTION private.enforce_mainline_opponent_team_member_scope ()
 CREATE TRIGGER enforce_mainline_opponent_team_member_scope
     BEFORE INSERT OR UPDATE OF milestone_id,
     opponent_id,
+    ally_opponent_id,
     version_group_id,
     game_id,
     decision_milestone_id ON tracking.mainline_opponent_team_members
@@ -148,4 +173,4 @@ CREATE TRIGGER enforce_mainline_opponent_team_member_fixed_tera_type
     FOR EACH ROW
     EXECUTE FUNCTION private.enforce_fixed_tera_type ('form_id', 'tera_type_id');
 
-COMMENT ON FUNCTION private.enforce_mainline_opponent_team_member_scope () IS 'Keeps an opponent team row in its opponent''s and its Story battle''s game, and in its version group.';
+COMMENT ON FUNCTION private.enforce_mainline_opponent_team_member_scope () IS 'Keeps an opponent team row, and an ally''s, in its opponent''s and its Story battle''s game, and in its version group.';

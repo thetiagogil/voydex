@@ -16,6 +16,7 @@ SELECT
             JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
             WHERE
                 mainline_milestones.version_group_id IN (26, 27)
+                AND mainline_opponent_team_members.ally_opponent_id IS NULL
                 AND mainline_milestones.slug LIKE 'rogue-mega-%'
                 AND mainline_milestones.slug NOT IN ('rogue-mega-darkrai', 'rogue-mega-rayquaza')
             ORDER BY mainline_milestones.version_group_id, mainline_categories.sort_order, mainline_milestones.sort_order $$, $$
@@ -53,6 +54,7 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             WHERE
                 mainline_opponents.slug LIKE 'rogue-mega-%'
+                AND mainline_opponent_team_members.ally_opponent_id IS NULL
                 AND mainline_opponent_team_members.held_item_id IS NOT NULL $$, 'rogue Megas hold no Mega Stone');
 -- Every rogue Mega has at least one move, so Story reads its moves, not only its types.
 SELECT
@@ -77,7 +79,8 @@ SELECT
             JOIN tracking.mainline_opponent_team_members ON mainline_opponent_team_members.id = mainline_opponent_team_member_moves.team_member_id
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             WHERE
-                mainline_opponents.id BETWEEN 27011 AND 27014 GROUP BY mainline_opponents.slug, mainline_opponents.id ORDER BY mainline_opponents.id $$, $$
+                mainline_opponents.id BETWEEN 27011 AND 27014
+                AND mainline_opponent_team_members.ally_opponent_id IS NULL GROUP BY mainline_opponents.slug, mainline_opponents.id ORDER BY mainline_opponents.id $$, $$
             VALUES ('rogue-mega-absol-z'::text, ARRAY[282, 400, 555, 425]), ('rogue-mega-staraptor', ARRAY[411, 814, 38, 370]), ('rogue-mega-tatsugiri', ARRAY[127, 58, 407, 250]), ('rogue-mega-meowstic', ARRAY[94, 115, 113, 60]) $$, 'Hyperspace rogue Megas use their encounter movesets');
 -- Mega Dimension's Story chains the four surveys' rogue Megas before Darkrai.
 SELECT

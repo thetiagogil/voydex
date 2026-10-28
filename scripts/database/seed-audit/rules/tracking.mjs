@@ -710,7 +710,9 @@ export function assertTrackingCoreRows(context, tableRows) {
  * form and level, and each team (one per game, choice or variant) fills slots
  * 1..n. An opponent's teams in one battle are either one plain team or teams
  * that each follow a choice or variant; teams that follow a choice cover
- * every option of it.
+ * every option of it. An ally's team in a battle (ally_opponent_id set) is
+ * its own side: a seeded opponent of the same version group, never the
+ * opponent itself, held to the same team rules.
  */
 export function assertOpponentTeamRows(context, tableRows) {
   const table = "tracking.mainline_opponent_team_members";
@@ -797,10 +799,14 @@ export function assertOpponentTeamRows(context, tableRows) {
     optionSlugsByMilestone.get(row.milestone_id).add(row.slug);
   }
   const battleKey = (row) => `${row.milestone_id}/${row.opponent_id}`;
+  /* One side of a battle: the opponent's own team, or one ally's. */
+  const sideKey = (row) =>
+    row.ally_opponent_id === null || row.ally_opponent_id === undefined
+      ? battleKey(row)
+      : `${battleKey(row)}/ally-${row.ally_opponent_id}`;
   const teamKey = (row) =>
     [
-      row.milestone_id,
-      row.opponent_id,
+      sideKey(row),
       row.game_id ?? "",
       row.decision_milestone_id ?? "",
       row.decision_option_slug ?? "",
@@ -810,7 +816,7 @@ export function assertOpponentTeamRows(context, tableRows) {
     context,
     table,
     rows,
-    "milestone/opponent/game/choice/variant/slot",
+    "milestone/opponent/ally/game/choice/variant/slot",
     (row) => `${teamKey(row)}/${row.slot}`,
   );
 
@@ -829,6 +835,28 @@ export function assertOpponentTeamRows(context, tableRows) {
       context.errors.push(
         `${label} names a game for an opponent that already belongs to one.`,
       );
+    }
+    if (row.ally_opponent_id !== null && row.ally_opponent_id !== undefined) {
+      const ally = opponentsById.get(row.ally_opponent_id);
+      const milestoneGameId = milestonesById.get(row.milestone_id)?.game_id;
+      if (!ally) {
+        context.errors.push(`${label} references unseeded ally_opponent_id.`);
+      } else if (ally.version_group_id !== row.version_group_id) {
+        context.errors.push(
+          `${label} names ally ${ally.id} from version group ${ally.version_group_id}.`,
+        );
+      } else if (
+        ally.game_id !== null &&
+        ((milestoneGameId !== null && milestoneGameId !== undefined
+          ? ally.game_id !== milestoneGameId
+          : false) ||
+          (row.game_id !== null && ally.game_id !== row.game_id))
+      ) {
+        context.errors.push(`${label} names an ally from another game.`);
+      }
+      if (row.ally_opponent_id === row.opponent_id) {
+        context.errors.push(`${label} names its opponent as its own ally.`);
+      }
     }
     if (!battleKeys.has(battleKey(row))) {
       context.errors.push(
@@ -931,7 +959,7 @@ export function assertOpponentTeamRows(context, tableRows) {
     const key = teamKey(row);
     if (!slotsByTeam.has(key)) slotsByTeam.set(key, { filePath, slots: [] });
     slotsByTeam.get(key).slots.push(row.slot);
-    const battleGameKey = `${battleKey(row)}/${row.game_id ?? ""}`;
+    const battleGameKey = `${sideKey(row)}/${row.game_id ?? ""}`;
     if (!teamsByBattleGame.has(battleGameKey)) {
       teamsByBattleGame.set(battleGameKey, { filePath, teams: new Map() });
     }
@@ -940,7 +968,7 @@ export function assertOpponentTeamRows(context, tableRows) {
 
   const gameKindsByBattle = new Map();
   for (const { row, filePath } of rows) {
-    const key = battleKey(row);
+    const key = sideKey(row);
     if (!gameKindsByBattle.has(key)) {
       gameKindsByBattle.set(key, { filePath, kinds: new Set() });
     }
@@ -970,7 +998,7 @@ export function assertOpponentTeamRows(context, tableRows) {
    * is accepted when the point's other battles cover the other options.
    */
   const pointChoiceKey = (row, milestoneId) =>
-    `${row.milestone_id}/${row.game_id ?? ""}/${milestoneId}`;
+    `${row.milestone_id}/${row.ally_opponent_id ?? ""}/${row.game_id ?? ""}/${milestoneId}`;
   const optionsByPointChoice = new Map();
   for (const { teams } of teamsByBattleGame.values()) {
     for (const row of teams.values()) {

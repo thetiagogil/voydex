@@ -87,4 +87,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Rogue Mega Tyranitar
   (26030, 26, NULL, 'rogue-mega-tyranitar', 'Rogue Mega Tyranitar', 'boss', 13, 16, 'rogue-mega-tyranitar', 30),
   -- Rogue Mega Starmie
-  (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, 'rogue-mega-starmie', 31);
+  (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, 'rogue-mega-starmie', 31),
+  -- Lida (fights beside you against rogue Megas)
+  (26032, 26, NULL, 'lida', 'Lida', 'ally', NULL, NULL, 'lida', 32),
+  -- Naveen (fights beside you against rogue Megas)
+  (26033, 26, NULL, 'naveen', 'Naveen', 'ally', NULL, NULL, 'naveen', 33);
