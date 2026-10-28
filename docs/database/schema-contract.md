@@ -37,6 +37,11 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   an ally's rows name it in `ally_opponent_id` (an opponent of the same
   version group, role `ally` when it never battles the player), are their own
   side for slots, choices and variants, and never count as the opponent's.
+- `held_item_id` on those rows is what each Pokémon holds in that battle, from
+  the game's own data where it is public (Gen 2-4 trainer data, wild Pokémon's
+  species data), else from trainer tables checked against Bulbapedia. NULL
+  means it holds nothing; the few items no source names are listed with a
+  reason in the header of the game's team seed file.
 
 ## Plays And Teams
 

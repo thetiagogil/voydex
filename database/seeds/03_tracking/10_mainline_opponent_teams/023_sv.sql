@@ -8,6 +8,9 @@
 -- Clavell, Titans, Arven and the AI Professors: cross-checked with Bulbapedia.
 -- Tulip's Florges: the sources show the default form and name no flower
 -- colour, so it is stored as the default form.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing,
+-- except Koraidon's Heat Rock and Miraidon's Terrain Extender after the AI Professor (PokéWiki and Bulbapedia agree).
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -285,8 +288,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (230031, 23028, 23, 36, NULL, NULL, NULL, NULL, 4, 987, 98700, 66, NULL, NULL, FALSE),
   -- AI Professor (Scarlet) 5: Sandy Shocks Lv. 66
   (230031, 23028, 23, 36, NULL, NULL, NULL, NULL, 5, 989, 98900, 66, NULL, NULL, FALSE),
-  -- AI Professor (Scarlet) 6: Roaring Moon Lv. 67
-  (230031, 23028, 23, 36, NULL, NULL, NULL, NULL, 6, 1005, 100500, 67, NULL, NULL, FALSE),
+  -- AI Professor (Scarlet) 6: Roaring Moon Lv. 67, holds Booster Energy
+  (230031, 23028, 23, 36, NULL, NULL, NULL, NULL, 6, 1005, 100500, 67, 369, NULL, FALSE),
   -- AI Professor (Violet) 1: Iron Moth Lv. 66
   (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 1, 994, 99400, 66, NULL, NULL, FALSE),
   -- AI Professor (Violet) 2: Iron Bundle Lv. 66
@@ -297,8 +300,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 4, 993, 99300, 66, NULL, NULL, FALSE),
   -- AI Professor (Violet) 5: Iron Thorns Lv. 66
   (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 5, 995, 99500, 66, NULL, NULL, FALSE),
-  -- AI Professor (Violet) 6: Iron Valiant Lv. 67
-  (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 6, 1006, 100600, 67, NULL, NULL, FALSE),
+  -- AI Professor (Violet) 6: Iron Valiant Lv. 67, holds Booster Energy
+  (230031, 23028, 23, 37, NULL, NULL, NULL, NULL, 6, 1006, 100600, 67, 369, NULL, FALSE),
   -- Nemona (chose Sprigatito), Choose Starter 1: Quaxly Lv. 5
   (230001, 23029, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 912, 91200, 5, NULL, NULL, FALSE),
   -- Nemona (chose Fuecoco), Choose Starter 1: Sprigatito Lv. 5
@@ -397,10 +400,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 5, 934, 93400, 67, NULL, NULL, FALSE),
   -- Arven, Academy Ace Tournament 6: Mabosstiff Lv. 68, Tera Dark
   (230032, 23027, 23, NULL, NULL, NULL, NULL, NULL, 6, 943, 94300, 68, NULL, 16, FALSE),
-  -- Koraidon, Defeat AI Professor 1: Koraidon Lv. 72
-  (230031, 23030, 23, NULL, NULL, NULL, NULL, NULL, 1, 1007, 100700, 72, NULL, NULL, FALSE),
-  -- Miraidon, Defeat AI Professor 1: Miraidon Lv. 72
-  (230031, 23031, 23, NULL, NULL, NULL, NULL, NULL, 1, 1008, 100800, 72, NULL, NULL, FALSE),
+  -- Koraidon, Defeat AI Professor 1: Koraidon Lv. 72, holds Heat Rock
+  (230031, 23030, 23, NULL, NULL, NULL, NULL, NULL, 1, 1007, 100700, 72, 398, NULL, FALSE),
+  -- Miraidon, Defeat AI Professor 1: Miraidon Lv. 72, holds Terrain Extender
+  (230031, 23031, 23, NULL, NULL, NULL, NULL, NULL, 1, 1008, 100800, 72, 429, NULL, FALSE),
   -- Wo-Chien, Grasswither Shrine 1: Wo-Chien Lv. 60
   (230033, 23032, 23, NULL, NULL, NULL, NULL, NULL, 1, 1001, 100100, 60, NULL, NULL, FALSE),
   -- Chien-Pao, Icerend Shrine 1: Chien-Pao Lv. 60
@@ -409,7 +412,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (230035, 23034, 23, NULL, NULL, NULL, NULL, NULL, 1, 1003, 100300, 60, NULL, NULL, FALSE),
   -- Chi-Yu, Firescourge Shrine 1: Chi-Yu Lv. 60
   (230036, 23035, 23, NULL, NULL, NULL, NULL, NULL, 1, 1004, 100400, 60, NULL, NULL, FALSE),
-  -- Koraidon, Area Zero Depths 1: Koraidon Lv. 72
-  (230037, 23030, 23, NULL, NULL, NULL, NULL, NULL, 1, 1007, 100700, 72, NULL, NULL, FALSE),
-  -- Miraidon, Area Zero Depths 1: Miraidon Lv. 72
-  (230037, 23031, 23, NULL, NULL, NULL, NULL, NULL, 1, 1008, 100800, 72, NULL, NULL, FALSE);
+  -- Koraidon, Area Zero Depths 1: Koraidon Lv. 72, holds Heat Rock
+  (230037, 23030, 23, NULL, NULL, NULL, NULL, NULL, 1, 1007, 100700, 72, 398, NULL, FALSE),
+  -- Miraidon, Area Zero Depths 1: Miraidon Lv. 72, holds Terrain Extender
+  (230037, 23031, 23, NULL, NULL, NULL, NULL, NULL, 1, 1008, 100800, 72, 429, NULL, FALSE);

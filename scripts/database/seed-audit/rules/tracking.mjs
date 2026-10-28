@@ -757,12 +757,12 @@ export function assertOpponentTeamRows(context, tableRows) {
    * `src/modules/reference/features/games/domain/game-mechanics.ts` lists
    * them: Terastal in Scarlet / Violet and its DLC, Dynamax in Sword /
    * Shield and its DLC, Z-Moves in Sun / Moon and Ultra Sun / Ultra Moon.
-   * Let's Go and Legends: Arceus have no held items.
+   * Red / Blue, Yellow, Let's Go and Legends: Arceus have no held items.
    */
   const terastalVersionGroupIds = new Set([23, 24, 25]);
   const dynamaxVersionGroupIds = new Set([18, 19, 20]);
   const zMoveVersionGroupIds = new Set([15, 16]);
-  const noHeldItemVersionGroupIds = new Set([17, 22]);
+  const noHeldItemVersionGroupIds = new Set([1, 2, 17, 22]);
   const battleMechanicByForm = new Map(
     (tableRows.get("reference.pokemon_form_rules") ?? []).map(({ row }) => [
       row.form_id,
@@ -788,6 +788,28 @@ export function assertOpponentTeamRows(context, tableRows) {
       unlockItemIdsByForm.set(row.form_id, new Set());
     }
     unlockItemIdsByForm.get(row.form_id).add(row.item_id);
+  }
+  const speciesByFormId = new Map(
+    (tableRows.get("reference.pokemon_forms") ?? []).map(({ row }) => [
+      row.id,
+      row.species_id,
+    ]),
+  );
+  /* The battle forms each of those items reaches. */
+  const unlockedFormIdsByItem = new Map();
+  for (const [formId, itemIds] of unlockItemIdsByForm) {
+    if (
+      battleMechanicByForm.get(formId) !== "mega-evolution" &&
+      battleMechanicByForm.get(formId) !== "primal-reversion"
+    ) {
+      continue;
+    }
+    for (const itemId of itemIds) {
+      if (!unlockedFormIdsByItem.has(itemId)) {
+        unlockedFormIdsByItem.set(itemId, new Set());
+      }
+      unlockedFormIdsByItem.get(itemId).add(formId);
+    }
   }
   const optionSlugsByMilestone = new Map();
   for (const { row } of tableRows.get(
@@ -920,6 +942,13 @@ export function assertOpponentTeamRows(context, tableRows) {
           `${label} holds an item in a game without held items.`,
         );
       } else if (
+        generationId !== undefined &&
+        item.introduced_generation_id > generationId
+      ) {
+        context.errors.push(
+          `${label} holds ${item.slug}, which arrives after generation ${generationId}.`,
+        );
+      } else if (
         zCrystalCategoryIds.has(item.primary_category_id) &&
         !zMoveVersionGroupIds.has(row.version_group_id)
       ) {
@@ -936,6 +965,24 @@ export function assertOpponentTeamRows(context, tableRows) {
       ) {
         context.errors.push(
           `${label} battles as form ${row.form_id} but holds an item that doesn't reach it.`,
+        );
+      }
+      /*
+       * An opponent holding the stone or orb of its own species Mega Evolves
+       * or reverts, so it is stored in that form. Allies are stored in the
+       * form they are sent out in.
+       */
+      const unlockedFormIds = unlockedFormIdsByItem.get(row.held_item_id);
+      if (
+        row.ally_opponent_id == null &&
+        unlockedFormIds &&
+        !unlockedFormIds.has(row.form_id) &&
+        [...unlockedFormIds].some(
+          (formId) => speciesByFormId.get(formId) === row.species_id,
+        )
+      ) {
+        context.errors.push(
+          `${label} holds the item that Mega Evolves or reverts it, so it must be stored in that battle form.`,
         );
       }
     }

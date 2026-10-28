@@ -6,6 +6,8 @@
 -- Hop, Bede, Marnie and Rose battles: Bulbapedia, cross-checked with Serebii's Galar location pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and GamerGuides.
 -- Leon and Eternatus: cross-checked with Bulbapedia and Dexerto.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Wild Pokémon here hold nothing in their game data.
 -- Scope: Pokémon Sword / Shield Story battle opponent teams.
 -- ============================================================================
 -- File Scope
