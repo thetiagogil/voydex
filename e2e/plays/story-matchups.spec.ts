@@ -196,6 +196,45 @@ test.describe("Story matchups", () => {
     await expectAccessible(page);
   });
 
+  test("shows which move a held Z-Crystal turns into a Z-Move", async ({
+    page,
+  }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Ultra Sun, 2017",
+      name: uniquePlayName("Alola Z-Moves"),
+      partner: "Rowlet",
+    });
+
+    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+      waitUntil: "networkidle",
+    });
+
+    const hau = page.getByRole("button", { name: /^Hau.*Lana Trial/ }).first();
+    await expect(hau).toBeVisible(forTheAnswer);
+    await hau.click();
+
+    /* Hau's Brionne holds Normalium Z: the sentence names the Z-Move. */
+    const report = page.getByRole("region", { name: "Hau" });
+    await expect(report).toContainText(
+      "Brionne holds Normalium Z: its Pound becomes Breakneck Blitz.",
+    );
+    await expect(
+      report.getByRole("img", { name: "Holds Normalium Z" }),
+    ).toBeVisible();
+
+    /* Show moves puts the crystal on the move it upgrades, and only that one. */
+    await report.getByRole("button", { name: "Show moves" }).click();
+    await expect(
+      report.getByRole("listitem").filter({ hasText: /^Pound$/ }),
+    ).toBeVisible();
+    await expect(
+      report.getByRole("img", {
+        name: "Becomes Breakneck Blitz with Normalium Z",
+      }),
+    ).toHaveCount(1);
+    await expectAccessible(page);
+  });
+
   test("reads your Pokémon by type while their moves aren't recorded", async ({
     page,
   }) => {

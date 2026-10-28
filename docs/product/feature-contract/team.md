@@ -263,10 +263,16 @@ Tera Type both count as its threat. Where the Play's game has the mechanic
 (`resolveGameMechanics`), a card of theirs carries marks on its level line that
 keep every card the same height: its Tera Type as a Tera jewel (the type's icon
 on a diamond, never a round type dot) and the sprite of the item it holds (in
-games with held items, where Voydex has it). A sentence under their team says
-it in words, one per Pokémon: what it holds, that it Terastallizes, Dynamaxes,
-or holds a Z-Crystal for a Z-Move. A Pokémon that battles as its Mega, Primal
-or Gigantamax form is stored in that form, so its name already says it.
+games with held items, where Voydex has it); a Z-Crystal's sprite is drawn
+bigger, as its art is thin. A held Z-Crystal turns the moves it fits into
+Z-Moves by the same rule as your own Pokémon's (`getZMoves`): on the card's
+back each such move carries the crystal's sprite, and its tooltip names the
+Z-Move. A sentence under their team says it in words, one per Pokémon: what it
+holds, that it Terastallizes, Dynamaxes, or, for a Z-Crystal, which of its
+moves become which Z-Move ("holds Normalium Z: its Pound becomes Breakneck
+Blitz"; "for a Z-Move" while Voydex has none of its moves). A Pokémon that
+battles as its Mega, Primal or Gigantamax form is stored in that form, so its
+name already says it.
 Every Story battle has its opponent's team (a database test holds this); a
 battle that somehow had none would keep the specialty reading and an honest
 placeholder.

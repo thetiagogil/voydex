@@ -262,26 +262,32 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
             {
               accuracy: 100,
               damageClass: "special",
+              id: 1001,
               power: 65,
               name: "Bubble Beam",
               slug: "bubble-beam",
               typeId: 11,
+              zMoveName: null,
             },
             {
               accuracy: 100,
               damageClass: "physical",
+              id: 1002,
               power: 65,
               name: "Seismic Toss",
               slug: "seismic-toss",
               typeId: 7,
+              zMoveName: null,
             },
             {
               accuracy: 100,
               damageClass: "status",
+              id: 1003,
               power: null,
               name: "Harden",
               slug: "harden",
               typeId: 1,
+              zMoveName: null,
             },
           ],
         },
@@ -1084,6 +1090,30 @@ describe("buildStoryMatchupsModel with battle mechanics", () => {
 
     expect(lycanroc?.mechanic).toEqual({ kind: "z-move", label: "Z-Move" });
     expect(lycanroc?.heldItem?.name).toBe("Rockium Z");
+  });
+
+  it("names the Z-Move on a move only in a game with Z-Moves", () => {
+    const rockSlide = {
+      accuracy: 90,
+      damageClass: "physical",
+      id: 1,
+      name: "Rock Slide",
+      power: 75,
+      slug: "rock-slide",
+      typeId: 6,
+      zMoveName: "Continental Crush",
+    };
+    const lycanroc = {
+      heldItem: { isZCrystal: true, name: "Rockium Z", slug: "rockium-z" },
+      moves: [rockSlide],
+    };
+
+    expect(build([row(lycanroc)], sunMoon)?.moves[0]?.zMoveName).toBe(
+      "Continental Crush",
+    );
+    expect(
+      build([row(lycanroc)], scarletViolet)?.moves[0]?.zMoveName,
+    ).toBeNull();
   });
 
   it("marks a Mega by its stored form", () => {

@@ -65,11 +65,14 @@ export type StoryOpponentMoveRow = {
   accuracy: number | null;
   /* "physical", "special" or "status"; null when Voydex has no details for the generation. */
   damageClass: string | null;
+  id: number;
   name: string;
   /* Null when it varies or Voydex has no details. */
   power: number | null;
   slug: string;
   typeId: number | null;
+  /* The Z-Move its held Z-Crystal turns it into; null when it turns into none. */
+  zMoveName: string | null;
 };
 
 /*
@@ -367,6 +370,7 @@ const groupParties = (
   mechanics: GameMechanicsProfile,
 ) => {
   const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
+  const hasZMoves = supportsGameMechanic(mechanics, gameMechanics.zMoves);
 
   const partiesByBattleOpponent = new Map<
     string,
@@ -423,6 +427,7 @@ const groupParties = (
         power: move.power,
         slug: move.slug,
         type: typeOf(move.typeId),
+        zMoveName: hasZMoves ? move.zMoveName : null,
       })),
       name: row.name,
       teraType:

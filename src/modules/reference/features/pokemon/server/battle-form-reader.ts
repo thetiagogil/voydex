@@ -13,6 +13,7 @@ import {
   type BattleReference,
   type BattleStats,
   type BattleType,
+  type ZMoveSourceReference,
 } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { formItemRuleAppliesHere } from "@/modules/reference/features/pokemon/server/form-class-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -269,6 +270,112 @@ const toStats = (row: AttributeRow): BattleStats => ({
 });
 
 /*
+ * How Z-Crystals turn moves into Z-Moves: each source with its crystal, the
+ * Z-Move and that move's type in the Play's generation. With `itemIds` only
+ * those crystals' sources; a failed read throws.
+ */
+export const readZMoveSources = async (
+  supabase: ServerSupabaseClient,
+  { generationId, itemIds }: { generationId: number; itemIds?: number[] },
+): Promise<ZMoveSourceReference[]> => {
+  const sourcesQuery = supabase
+    .schema("reference")
+    .from("z_move_sources")
+    .select(
+      "z_move_id, item_id, base_type_id, species_id, form_id, base_move_id",
+    );
+  const sourcesResult = await (itemIds
+    ? sourcesQuery.in("item_id", itemIds)
+    : sourcesQuery);
+
+  if (sourcesResult.error) {
+    throw new Error("Unable to load Z-Moves.");
+  }
+
+  const sources = sourcesResult.data ?? [];
+
+  if (!sources.length) {
+    return [];
+  }
+
+  const zMoveIds = uniqueNumberIds(sources.map((source) => source.z_move_id));
+  const sourceItemIds = uniqueNumberIds(
+    sources.map((source) => source.item_id),
+  );
+  const [movesResult, attributesResult, itemsResult] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("moves")
+      .select("id, name, slug")
+      .in("id", zMoveIds),
+    supabase
+      .schema("reference")
+      .from("move_attributes")
+      .select("move_id, type_id, generation_start_id")
+      .in("move_id", zMoveIds)
+      .lte("generation_start_id", generationId)
+      .order("generation_start_id", { ascending: false }),
+    supabase
+      .schema("reference")
+      .from("items")
+      .select("id, name")
+      .in("id", sourceItemIds),
+  ]);
+
+  if (movesResult.error || attributesResult.error || itemsResult.error) {
+    throw new Error("Unable to load Z-Moves.");
+  }
+
+  const attributesByMoveId = firstById(
+    attributesResult.data ?? [],
+    (row) => row.move_id,
+  );
+  const typeIds = uniqueNumberIds(
+    [...attributesByMoveId.values()].map((row) => row.type_id),
+  );
+  const typesResult = await supabase
+    .schema("reference")
+    .from("types")
+    .select("id, name, slug")
+    .in("id", typeIds.length ? typeIds : [-1]);
+
+  if (typesResult.error) {
+    throw new Error("Unable to load Z-Moves.");
+  }
+
+  const typesById = byId<BattleType>(typesResult.data ?? []);
+  const itemsById = byId(itemsResult.data ?? []);
+  const movesById = new Map(
+    (movesResult.data ?? []).map((move): [number, BattleMove] => {
+      const typeId = attributesByMoveId.get(move.id)?.type_id;
+
+      return [
+        move.id,
+        { ...move, type: typeId ? (typesById.get(typeId) ?? null) : null },
+      ];
+    }),
+  );
+
+  return sources.flatMap((source) => {
+    const item = itemsById.get(source.item_id);
+    const zMove = movesById.get(source.z_move_id);
+
+    return item && zMove
+      ? [
+          {
+            baseMoveId: source.base_move_id,
+            baseTypeId: source.base_type_id,
+            formId: source.form_id,
+            item,
+            speciesId: source.species_id,
+            zMove,
+          },
+        ]
+      : [];
+  });
+};
+
+/*
  * What a team's battle side needs in one game: the battle forms its species
  * reach (with types, stats, ability and the items that unlock them), the
  * stored forms' stats, and, where the game has them, the Z-Crystal and Max
@@ -349,7 +456,7 @@ export const readBattleReference = async (
     attributesResult,
     requirementsResult,
     gMaxResult,
-    zSourcesResult,
+    zSources,
     maxMovesResult,
   ] = await Promise.all([
     supabase
@@ -379,14 +486,7 @@ export const readBattleReference = async (
       .from("g_max_move_sources")
       .select("form_id, g_max_move_id")
       .in("form_id", ids(battleFormIds)),
-    hasZMoves
-      ? supabase
-          .schema("reference")
-          .from("z_move_sources")
-          .select(
-            "z_move_id, item_id, base_type_id, species_id, form_id, base_move_id",
-          )
-      : null,
+    hasZMoves ? readZMoveSources(supabase, { generationId }) : [],
     hasDynamax
       ? supabase
           .schema("reference")
@@ -401,7 +501,6 @@ export const readBattleReference = async (
     attributesResult.error ||
     requirementsResult.error ||
     gMaxResult.error ||
-    zSourcesResult?.error ||
     maxMovesResult?.error
   ) {
     throw new Error("Unable to load battle forms.");
@@ -414,19 +513,14 @@ export const readBattleReference = async (
   const requirements = (requirementsResult.data ?? []).filter((row) =>
     formItemRuleAppliesHere(row, generationId, versionGroupId),
   );
-  const zSources = zSourcesResult?.data ?? [];
   const maxMoves = maxMovesResult?.data ?? [];
   const gMaxRows = gMaxResult.data ?? [];
   const requiredMoveSlugs = Object.values(requiredMoveSlugByFormSlug);
   const moveIds = uniqueNumberIds([
     ...gMaxRows.map((row) => row.g_max_move_id),
-    ...zSources.map((row) => row.z_move_id),
     ...maxMoves.map((move) => move.id),
   ]);
-  const itemIds = uniqueNumberIds([
-    ...requirements.map((row) => row.item_id),
-    ...zSources.map((row) => row.item_id),
-  ]);
+  const itemIds = uniqueNumberIds([...requirements.map((row) => row.item_id)]);
   const abilityIds = uniqueNumberIds(
     battleFormIds.map(
       (formId) => attributesByFormId.get(formId)?.primary_ability_id ?? null,
@@ -596,22 +690,6 @@ export const readBattleReference = async (
           : [];
       }),
     ),
-    zSources: zSources.flatMap((source) => {
-      const item = itemsById.get(source.item_id);
-      const zMove = movesById.get(source.z_move_id);
-
-      return item && zMove
-        ? [
-            {
-              baseMoveId: source.base_move_id,
-              baseTypeId: source.base_type_id,
-              formId: source.form_id,
-              item,
-              speciesId: source.species_id,
-              zMove,
-            },
-          ]
-        : [];
-    }),
+    zSources,
   };
 };
