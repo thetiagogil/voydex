@@ -144,11 +144,13 @@ COMMENT ON FUNCTION private.touch_play () IS 'After-change trigger for tables th
 CREATE TABLE public.profiles (
     id uuid PRIMARY KEY REFERENCES auth.users (id) ON DELETE CASCADE,
     display_name text,
-    avatar_url text,
+    icon_form_id integer,
+    default_trainer_name text,
+    welcome_completed_at timestamptz,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     updated_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT profiles_display_name_length_check CHECK (display_name IS NULL OR CHAR_LENGTH(BTRIM(display_name)) BETWEEN 1 AND 100),
-    CONSTRAINT profiles_avatar_url_length_check CHECK (avatar_url IS NULL OR CHAR_LENGTH(avatar_url) <= 2048)
+    CONSTRAINT profiles_default_trainer_name_length_check CHECK (default_trainer_name IS NULL OR CHAR_LENGTH(BTRIM(default_trainer_name)) BETWEEN 1 AND 120)
 );
 
 CREATE TRIGGER set_profiles_updated_at
@@ -162,7 +164,11 @@ COMMENT ON COLUMN public.profiles.id IS 'Supabase auth user ID.';
 
 COMMENT ON COLUMN public.profiles.display_name IS 'User-controlled display name shown inside Voydex.';
 
-COMMENT ON COLUMN public.profiles.avatar_url IS 'Optional user avatar URL.';
+COMMENT ON COLUMN public.profiles.icon_form_id IS 'The Pokémon form the trainer picked as their icon; its foreign key to reference.pokemon_forms is added once the reference tables exist.';
+
+COMMENT ON COLUMN public.profiles.default_trainer_name IS 'Trainer name a new Play starts with; the display name stands in while this is empty.';
+
+COMMENT ON COLUMN public.profiles.welcome_completed_at IS 'When Welcome was finished or skipped; empty while Welcome is still to show.';
 
 -- ============================================================================
 -- Source: database/schema/01_public/01_tables/002_user_preferences.sql
@@ -1908,6 +1914,17 @@ REVOKE ALL ON FUNCTION private.enforce_fixed_tera_type () FROM authenticated;
 GRANT EXECUTE ON FUNCTION private.enforce_fixed_tera_type () TO service_role;
 
 COMMENT ON FUNCTION private.enforce_fixed_tera_type () IS 'Refuses a Tera Type that differs from the form''s fixed one (reference.pokemon_fixed_tera_types); no Tera Type is always allowed. TG_ARGV[0] names the form column and TG_ARGV[1] the Tera Type column.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/046_profile_icon_form_fkey.sql
+-- ============================================================================
+-- ============================================================================
+-- Constraint: public.profiles.icon_form_id
+-- The profile table loads before the reference tables, so its icon's foreign
+-- key is added here, once reference.pokemon_forms exists.
+-- ============================================================================
+ALTER TABLE public.profiles
+    ADD CONSTRAINT profiles_icon_form_fkey FOREIGN KEY (icon_form_id) REFERENCES reference.pokemon_forms (id) ON UPDATE CASCADE ON DELETE SET NULL;
 
 -- ============================================================================
 -- Source: database/schema/02_reference/02_policies/001_read_policies.sql
