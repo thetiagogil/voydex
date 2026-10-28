@@ -153,7 +153,7 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 7
-                AND mainline_opponents.slug = 'roxanne'         $$, $$
+                AND mainline_opponents.slug = 'roxanne' ORDER BY items.slug $$, $$
             VALUES ('oran-berry'::text) $$, 'Roxanne''s Nosepass holds an Oran Berry in Emerald');
 SELECT
     results_eq ($$
@@ -163,7 +163,7 @@ SELECT
             JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 9
-                AND mainline_opponents.slug = 'cynthia'         $$, $$
+                AND mainline_opponents.slug = 'cynthia' ORDER BY items.slug $$, $$
             VALUES ('sitrus-berry'::text) $$, 'Cynthia''s Garchomp holds a Sitrus Berry in Platinum');
 -- Wild Ho-Oh carries Sacred Ash in Gen 2 and HeartGold / SoulSilver, not in
 -- FireRed / LeafGreen.
