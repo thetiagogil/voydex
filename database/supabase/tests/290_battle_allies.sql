@@ -6,7 +6,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (14);
+    plan (15);
 SELECT
     col_is_null ('tracking', 'mainline_opponent_team_members', 'ally_opponent_id', 'a team row is the opponent''s own unless it names an ally');
 SELECT
@@ -154,6 +154,16 @@ SELECT
                 AND slot = 1),
             2,
             'the opponent''s slot 1 and the ally''s slot 1 are separate rows');
+SELECT
+    throws_ok ($$ INSERT INTO tracking.mainline_opponent_team_members (milestone_id, opponent_id, ally_opponent_id, version_group_id, slot, species_id, form_id, level)
+        SELECT
+            refs.milestone_id, refs.opponent_id, 18005, 18, 6, 25, 2500, 50 FROM tracking.mainline_milestone_opponent_refs AS refs
+            JOIN tracking.mainline_milestones AS milestones ON milestones.id = refs.milestone_id
+            JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
+            WHERE
+                refs.version_group_id = 18
+                AND milestones.game_id IS NULL
+                AND opponents.game_id IS NULL LIMIT 1 $$, '23514', NULL, 'a Shield-only ally cannot fight beside the player in a battle of both games');
 SELECT
     *
 FROM

@@ -847,10 +847,9 @@ export function assertOpponentTeamRows(context, tableRows) {
         );
       } else if (
         ally.game_id !== null &&
-        ((milestoneGameId !== null && milestoneGameId !== undefined
-          ? ally.game_id !== milestoneGameId
-          : false) ||
-          (row.game_id !== null && ally.game_id !== row.game_id))
+        /* The battle's game: the row's, else its Story battle's, else its opponent's. */
+        (row.game_id ?? milestoneGameId ?? opponent?.game_id ?? null) !==
+          ally.game_id
       ) {
         context.errors.push(`${label} names an ally from another game.`);
       }

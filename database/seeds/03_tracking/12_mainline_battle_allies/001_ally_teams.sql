@@ -138,73 +138,73 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250009, 25010, 25009, 25, NULL, NULL, NULL, NULL, NULL, 5, 727, 72700, 86, 187),
   -- Kieran beside you vs Arven & Penny, Mochi Mayhem 6: Hydrapple Lv. 87, holds Assault Vest
   (250009, 25010, 25009, 25, NULL, NULL, NULL, NULL, NULL, 6, 1019, 101900, 87, 373),
-  -- undefined beside you vs Rogue Mega Camerupt, Rogue Mega Camerupt 1: Clauncher Lv. 29
+  -- Lida beside you vs Rogue Mega Camerupt, Rogue Mega Camerupt 1: Clauncher Lv. 29
   (260023, 26018, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 692, 69200, 29, NULL),
-  -- undefined beside you vs Rogue Mega Camerupt, Rogue Mega Camerupt 2: Vanillite Lv. 29
+  -- Lida beside you vs Rogue Mega Camerupt, Rogue Mega Camerupt 2: Vanillite Lv. 29
   (260023, 26018, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 582, 58200, 29, NULL),
-  -- undefined beside you vs Rogue Mega Camerupt, Rogue Mega Camerupt 3: Staryu Lv. 30
+  -- Lida beside you vs Rogue Mega Camerupt, Rogue Mega Camerupt 3: Staryu Lv. 30
   (260023, 26018, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 120, 12000, 30, NULL),
-  -- undefined beside you vs Rogue Mega Hawlucha, Rogue Mega Hawlucha 1: Clauncher Lv. 36
+  -- Lida beside you vs Rogue Mega Hawlucha, Rogue Mega Hawlucha 1: Clauncher Lv. 36
   (260026, 26021, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 692, 69200, 36, NULL),
-  -- undefined beside you vs Rogue Mega Hawlucha, Rogue Mega Hawlucha 2: Vanillish Lv. 36
+  -- Lida beside you vs Rogue Mega Hawlucha, Rogue Mega Hawlucha 2: Vanillish Lv. 36
   (260026, 26021, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 583, 58300, 36, NULL),
-  -- undefined beside you vs Rogue Mega Hawlucha, Rogue Mega Hawlucha 3: Staryu Lv. 37
+  -- Lida beside you vs Rogue Mega Hawlucha, Rogue Mega Hawlucha 3: Staryu Lv. 37
   (260026, 26021, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 120, 12000, 37, NULL),
-  -- undefined beside you vs Rogue Mega Barbaracle, Rogue Mega Barbaracle 1: Clawitzer Lv. 43
+  -- Lida beside you vs Rogue Mega Barbaracle, Rogue Mega Barbaracle 1: Clawitzer Lv. 43
   (260029, 26024, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 693, 69300, 43, NULL),
-  -- undefined beside you vs Rogue Mega Barbaracle, Rogue Mega Barbaracle 2: Vanillish Lv. 43
+  -- Lida beside you vs Rogue Mega Barbaracle, Rogue Mega Barbaracle 2: Vanillish Lv. 43
   (260029, 26024, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 583, 58300, 43, NULL),
-  -- undefined beside you vs Rogue Mega Barbaracle, Rogue Mega Barbaracle 3: Staryu Lv. 44
+  -- Lida beside you vs Rogue Mega Barbaracle, Rogue Mega Barbaracle 3: Staryu Lv. 44
   (260029, 26024, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 120, 12000, 44, NULL),
-  -- undefined beside you vs Rogue Mega Altaria, Rogue Mega Altaria 1: Clawitzer Lv. 46
+  -- Lida beside you vs Rogue Mega Altaria, Rogue Mega Altaria 1: Clawitzer Lv. 46
   (260032, 26027, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 693, 69300, 46, NULL),
-  -- undefined beside you vs Rogue Mega Altaria, Rogue Mega Altaria 2: Vanillish Lv. 46
+  -- Lida beside you vs Rogue Mega Altaria, Rogue Mega Altaria 2: Vanillish Lv. 46
   (260032, 26027, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 583, 58300, 46, NULL),
-  -- undefined beside you vs Rogue Mega Altaria, Rogue Mega Altaria 3: Emolga Lv. 47
+  -- Lida beside you vs Rogue Mega Altaria, Rogue Mega Altaria 3: Emolga Lv. 47
   (260032, 26027, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 587, 58700, 47, NULL),
-  -- undefined beside you vs Rogue Mega Altaria, Rogue Mega Altaria 4: Staryu Lv. 48
+  -- Lida beside you vs Rogue Mega Altaria, Rogue Mega Altaria 4: Staryu Lv. 48
   (260032, 26027, 26032, 26, NULL, NULL, NULL, NULL, NULL, 4, 120, 12000, 48, NULL),
-  -- undefined beside you vs Rogue Mega Starmie, Rogue Mega Starmie 1: Starmie Lv. 55
+  -- Lida beside you vs Rogue Mega Starmie, Rogue Mega Starmie 1: Starmie Lv. 55
   (260036, 26031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 1, 121, 12100, 55, NULL),
-  -- undefined beside you vs Rogue Mega Starmie, Rogue Mega Starmie 2: Clawitzer Lv. 54
+  -- Lida beside you vs Rogue Mega Starmie, Rogue Mega Starmie 2: Clawitzer Lv. 54
   (260036, 26031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 2, 693, 69300, 54, NULL),
-  -- undefined beside you vs Rogue Mega Starmie, Rogue Mega Starmie 3: Emolga Lv. 54
+  -- Lida beside you vs Rogue Mega Starmie, Rogue Mega Starmie 3: Emolga Lv. 54
   (260036, 26031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 3, 587, 58700, 54, NULL),
-  -- undefined beside you vs Rogue Mega Starmie, Rogue Mega Starmie 4: Vanilluxe Lv. 54
+  -- Lida beside you vs Rogue Mega Starmie, Rogue Mega Starmie 4: Vanilluxe Lv. 54
   (260036, 26031, 26032, 26, NULL, NULL, NULL, NULL, NULL, 4, 584, 58400, 54, NULL),
-  -- undefined beside you vs Rogue Mega Victreebel, Rogue Mega Victreebel 1: Ariados Lv. 29
+  -- Naveen beside you vs Rogue Mega Victreebel, Rogue Mega Victreebel 1: Ariados Lv. 29
   (260024, 26019, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 29, NULL),
-  -- undefined beside you vs Rogue Mega Victreebel, Rogue Mega Victreebel 2: Sableye Lv. 29
+  -- Naveen beside you vs Rogue Mega Victreebel, Rogue Mega Victreebel 2: Sableye Lv. 29
   (260024, 26019, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 29, NULL),
-  -- undefined beside you vs Rogue Mega Victreebel, Rogue Mega Victreebel 3: Scraggy Lv. 30
+  -- Naveen beside you vs Rogue Mega Victreebel, Rogue Mega Victreebel 3: Scraggy Lv. 30
   (260024, 26019, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 559, 55900, 30, NULL),
-  -- undefined beside you vs Rogue Mega Banette, Rogue Mega Banette 1: Ariados Lv. 36
+  -- Naveen beside you vs Rogue Mega Banette, Rogue Mega Banette 1: Ariados Lv. 36
   (260027, 26022, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 36, NULL),
-  -- undefined beside you vs Rogue Mega Banette, Rogue Mega Banette 2: Sableye Lv. 36
+  -- Naveen beside you vs Rogue Mega Banette, Rogue Mega Banette 2: Sableye Lv. 36
   (260027, 26022, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 36, NULL),
-  -- undefined beside you vs Rogue Mega Banette, Rogue Mega Banette 3: Scraggy Lv. 37
+  -- Naveen beside you vs Rogue Mega Banette, Rogue Mega Banette 3: Scraggy Lv. 37
   (260027, 26022, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 559, 55900, 37, NULL),
-  -- undefined beside you vs Rogue Mega Ampharos, Rogue Mega Ampharos 1: Ariados Lv. 43
+  -- Naveen beside you vs Rogue Mega Ampharos, Rogue Mega Ampharos 1: Ariados Lv. 43
   (260030, 26025, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 43, NULL),
-  -- undefined beside you vs Rogue Mega Ampharos, Rogue Mega Ampharos 2: Sableye Lv. 43
+  -- Naveen beside you vs Rogue Mega Ampharos, Rogue Mega Ampharos 2: Sableye Lv. 43
   (260030, 26025, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 43, NULL),
-  -- undefined beside you vs Rogue Mega Ampharos, Rogue Mega Ampharos 3: Scrafty Lv. 44
+  -- Naveen beside you vs Rogue Mega Ampharos, Rogue Mega Ampharos 3: Scrafty Lv. 44
   (260030, 26025, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 560, 56000, 44, NULL),
-  -- undefined beside you vs Rogue Mega Froslass, Rogue Mega Froslass 1: Ariados Lv. 48
+  -- Naveen beside you vs Rogue Mega Froslass, Rogue Mega Froslass 1: Ariados Lv. 48
   (260031, 26026, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 48, NULL),
-  -- undefined beside you vs Rogue Mega Froslass, Rogue Mega Froslass 2: Sableye Lv. 48
+  -- Naveen beside you vs Rogue Mega Froslass, Rogue Mega Froslass 2: Sableye Lv. 48
   (260031, 26026, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 48, NULL),
-  -- undefined beside you vs Rogue Mega Froslass, Rogue Mega Froslass 3: Krookodile Lv. 49
+  -- Naveen beside you vs Rogue Mega Froslass, Rogue Mega Froslass 3: Krookodile Lv. 49
   (260031, 26026, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 553, 55300, 49, NULL),
-  -- undefined beside you vs Rogue Mega Froslass, Rogue Mega Froslass 4: Scrafty Lv. 50
+  -- Naveen beside you vs Rogue Mega Froslass, Rogue Mega Froslass 4: Scrafty Lv. 50
   (260031, 26026, 26033, 26, NULL, NULL, NULL, NULL, NULL, 4, 560, 56000, 50, NULL),
-  -- undefined beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 1: Ariados Lv. 54
+  -- Naveen beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 1: Ariados Lv. 54
   (260035, 26030, 26033, 26, NULL, NULL, NULL, NULL, NULL, 1, 168, 16800, 54, NULL),
-  -- undefined beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 2: Sableye Lv. 54
+  -- Naveen beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 2: Sableye Lv. 54
   (260035, 26030, 26033, 26, NULL, NULL, NULL, NULL, NULL, 2, 302, 30200, 54, NULL),
-  -- undefined beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 3: Krookodile Lv. 54
+  -- Naveen beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 3: Krookodile Lv. 54
   (260035, 26030, 26033, 26, NULL, NULL, NULL, NULL, NULL, 3, 553, 55300, 54, NULL),
-  -- undefined beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 4: Scrafty Lv. 55
+  -- Naveen beside you vs Rogue Mega Tyranitar, Rogue Mega Tyranitar 4: Scrafty Lv. 55
   (260035, 26030, 26033, 26, NULL, NULL, NULL, NULL, NULL, 4, 560, 56000, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Slowbro (chose Chikorita), Rogue Mega Slowbro 1: Croconaw Lv. 25
   (260022, 26017, 26001, 26, NULL, 260001, 'chikorita', NULL, NULL, 1, 159, 15900, 25, NULL),
@@ -326,99 +326,99 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 3, 678, 67800, 55, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Dragonite (Rival is Urbain (you play as Harmony), you chose Totodile), Rogue Mega Dragonite 4: Manectric Lv. 56
   (260034, 26029, 26001, 26, NULL, NULL, NULL, 'urbain-totodile', 'Rival is Urbain (you play as Harmony), you chose Totodile', 4, 310, 31000, 56, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 1: Machamp Lv. 85
+  -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 1: Machamp Lv. 85
   (270012, 27011, 27016, 27, NULL, NULL, NULL, NULL, NULL, 1, 68, 6800, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 2: Hawlucha Lv. 85
+  -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 2: Hawlucha Lv. 85
   (270012, 27011, 27016, 27, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 3: Lucario Lv. 85, holds Lucarionite Z
+  -- Korrina beside you vs Rogue Mega Absol Z, Rogue Mega Absol Z 3: Lucario Lv. 85, holds Lucarionite Z
   (270012, 27011, 27016, 27, NULL, NULL, NULL, NULL, NULL, 3, 448, 44800, 85, 493),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Chikorita in Legends: Z-A), Rogue Mega Absol Z 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Chikorita in Legends: Z-A), Rogue Mega Absol Z 1: Goodra Lv. 85
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Chikorita in Legends: Z-A), Rogue Mega Absol Z 2: Feraligatr Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Chikorita in Legends: Z-A), Rogue Mega Absol Z 2: Feraligatr Lv. 85
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 2, 160, 16000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Chikorita in Legends: Z-A), Rogue Mega Absol Z 3: Emboar Lv. 85, holds Emboarite
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Chikorita in Legends: Z-A), Rogue Mega Absol Z 3: Emboar Lv. 85, holds Emboarite
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 3, 500, 50000, 85, 468),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Tepig in Legends: Z-A), Rogue Mega Absol Z 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Tepig in Legends: Z-A), Rogue Mega Absol Z 1: Goodra Lv. 85
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Tepig in Legends: Z-A), Rogue Mega Absol Z 2: Meganium Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Tepig in Legends: Z-A), Rogue Mega Absol Z 2: Meganium Lv. 85
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 2, 154, 15400, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Tepig in Legends: Z-A), Rogue Mega Absol Z 3: Feraligatr Lv. 85, holds Feraligite
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Tepig in Legends: Z-A), Rogue Mega Absol Z 3: Feraligatr Lv. 85, holds Feraligite
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 3, 160, 16000, 85, 463),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Totodile in Legends: Z-A), Rogue Mega Absol Z 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Totodile in Legends: Z-A), Rogue Mega Absol Z 1: Goodra Lv. 85
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Totodile in Legends: Z-A), Rogue Mega Absol Z 2: Emboar Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Totodile in Legends: Z-A), Rogue Mega Absol Z 2: Emboar Lv. 85
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 2, 500, 50000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Absol Z (You chose Totodile in Legends: Z-A), Rogue Mega Absol Z 3: Meganium Lv. 85, holds Meganiumite
+  -- Taunie / Urbain beside you vs Rogue Mega Absol Z (You chose Totodile in Legends: Z-A), Rogue Mega Absol Z 3: Meganium Lv. 85, holds Meganiumite
   (270012, 27011, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462),
-  -- undefined beside you vs Rogue Mega Staraptor, Rogue Mega Staraptor 1: Machamp Lv. 85
+  -- Korrina beside you vs Rogue Mega Staraptor, Rogue Mega Staraptor 1: Machamp Lv. 85
   (270013, 27012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 1, 68, 6800, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor, Rogue Mega Staraptor 2: Hawlucha Lv. 85
+  -- Korrina beside you vs Rogue Mega Staraptor, Rogue Mega Staraptor 2: Hawlucha Lv. 85
   (270013, 27012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor, Rogue Mega Staraptor 3: Lucario Lv. 85, holds Lucarionite Z
+  -- Korrina beside you vs Rogue Mega Staraptor, Rogue Mega Staraptor 3: Lucario Lv. 85, holds Lucarionite Z
   (270013, 27012, 27016, 27, NULL, NULL, NULL, NULL, NULL, 3, 448, 44800, 85, 493),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Chikorita in Legends: Z-A), Rogue Mega Staraptor 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Chikorita in Legends: Z-A), Rogue Mega Staraptor 1: Goodra Lv. 85
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Chikorita in Legends: Z-A), Rogue Mega Staraptor 2: Feraligatr Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Chikorita in Legends: Z-A), Rogue Mega Staraptor 2: Feraligatr Lv. 85
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 2, 160, 16000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Chikorita in Legends: Z-A), Rogue Mega Staraptor 3: Emboar Lv. 85, holds Emboarite
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Chikorita in Legends: Z-A), Rogue Mega Staraptor 3: Emboar Lv. 85, holds Emboarite
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 3, 500, 50000, 85, 468),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Tepig in Legends: Z-A), Rogue Mega Staraptor 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Tepig in Legends: Z-A), Rogue Mega Staraptor 1: Goodra Lv. 85
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Tepig in Legends: Z-A), Rogue Mega Staraptor 2: Meganium Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Tepig in Legends: Z-A), Rogue Mega Staraptor 2: Meganium Lv. 85
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 2, 154, 15400, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Tepig in Legends: Z-A), Rogue Mega Staraptor 3: Feraligatr Lv. 85, holds Feraligite
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Tepig in Legends: Z-A), Rogue Mega Staraptor 3: Feraligatr Lv. 85, holds Feraligite
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 3, 160, 16000, 85, 463),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Totodile in Legends: Z-A), Rogue Mega Staraptor 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Totodile in Legends: Z-A), Rogue Mega Staraptor 1: Goodra Lv. 85
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Totodile in Legends: Z-A), Rogue Mega Staraptor 2: Emboar Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Totodile in Legends: Z-A), Rogue Mega Staraptor 2: Emboar Lv. 85
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 2, 500, 50000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Staraptor (You chose Totodile in Legends: Z-A), Rogue Mega Staraptor 3: Meganium Lv. 85, holds Meganiumite
+  -- Taunie / Urbain beside you vs Rogue Mega Staraptor (You chose Totodile in Legends: Z-A), Rogue Mega Staraptor 3: Meganium Lv. 85, holds Meganiumite
   (270013, 27012, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462),
-  -- undefined beside you vs Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 1: Machamp Lv. 85
+  -- Korrina beside you vs Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 1: Machamp Lv. 85
   (270014, 27013, 27016, 27, NULL, NULL, NULL, NULL, NULL, 1, 68, 6800, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 2: Hawlucha Lv. 85
+  -- Korrina beside you vs Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 2: Hawlucha Lv. 85
   (270014, 27013, 27016, 27, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 3: Lucario Lv. 85, holds Lucarionite Z
+  -- Korrina beside you vs Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 3: Lucario Lv. 85, holds Lucarionite Z
   (270014, 27013, 27016, 27, NULL, NULL, NULL, NULL, NULL, 3, 448, 44800, 85, 493),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Chikorita in Legends: Z-A), Rogue Mega Tatsugiri 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Chikorita in Legends: Z-A), Rogue Mega Tatsugiri 1: Goodra Lv. 85
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Chikorita in Legends: Z-A), Rogue Mega Tatsugiri 2: Feraligatr Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Chikorita in Legends: Z-A), Rogue Mega Tatsugiri 2: Feraligatr Lv. 85
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 2, 160, 16000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Chikorita in Legends: Z-A), Rogue Mega Tatsugiri 3: Emboar Lv. 85, holds Emboarite
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Chikorita in Legends: Z-A), Rogue Mega Tatsugiri 3: Emboar Lv. 85, holds Emboarite
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 3, 500, 50000, 85, 468),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Tepig in Legends: Z-A), Rogue Mega Tatsugiri 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Tepig in Legends: Z-A), Rogue Mega Tatsugiri 1: Goodra Lv. 85
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Tepig in Legends: Z-A), Rogue Mega Tatsugiri 2: Meganium Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Tepig in Legends: Z-A), Rogue Mega Tatsugiri 2: Meganium Lv. 85
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 2, 154, 15400, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Tepig in Legends: Z-A), Rogue Mega Tatsugiri 3: Feraligatr Lv. 85, holds Feraligite
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Tepig in Legends: Z-A), Rogue Mega Tatsugiri 3: Feraligatr Lv. 85, holds Feraligite
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 3, 160, 16000, 85, 463),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Totodile in Legends: Z-A), Rogue Mega Tatsugiri 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Totodile in Legends: Z-A), Rogue Mega Tatsugiri 1: Goodra Lv. 85
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Totodile in Legends: Z-A), Rogue Mega Tatsugiri 2: Emboar Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Totodile in Legends: Z-A), Rogue Mega Tatsugiri 2: Emboar Lv. 85
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 2, 500, 50000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Tatsugiri (You chose Totodile in Legends: Z-A), Rogue Mega Tatsugiri 3: Meganium Lv. 85, holds Meganiumite
+  -- Taunie / Urbain beside you vs Rogue Mega Tatsugiri (You chose Totodile in Legends: Z-A), Rogue Mega Tatsugiri 3: Meganium Lv. 85, holds Meganiumite
   (270014, 27013, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462),
-  -- undefined beside you vs Rogue Mega Meowstic, Rogue Mega Meowstic 1: Machamp Lv. 85
+  -- Korrina beside you vs Rogue Mega Meowstic, Rogue Mega Meowstic 1: Machamp Lv. 85
   (270015, 27014, 27016, 27, NULL, NULL, NULL, NULL, NULL, 1, 68, 6800, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic, Rogue Mega Meowstic 2: Hawlucha Lv. 85
+  -- Korrina beside you vs Rogue Mega Meowstic, Rogue Mega Meowstic 2: Hawlucha Lv. 85
   (270015, 27014, 27016, 27, NULL, NULL, NULL, NULL, NULL, 2, 701, 70100, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic, Rogue Mega Meowstic 3: Lucario Lv. 85, holds Lucarionite Z
+  -- Korrina beside you vs Rogue Mega Meowstic, Rogue Mega Meowstic 3: Lucario Lv. 85, holds Lucarionite Z
   (270015, 27014, 27016, 27, NULL, NULL, NULL, NULL, NULL, 3, 448, 44800, 85, 493),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Chikorita in Legends: Z-A), Rogue Mega Meowstic 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Chikorita in Legends: Z-A), Rogue Mega Meowstic 1: Goodra Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Chikorita in Legends: Z-A), Rogue Mega Meowstic 2: Feraligatr Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Chikorita in Legends: Z-A), Rogue Mega Meowstic 2: Feraligatr Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 2, 160, 16000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Chikorita in Legends: Z-A), Rogue Mega Meowstic 3: Emboar Lv. 85, holds Emboarite
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Chikorita in Legends: Z-A), Rogue Mega Meowstic 3: Emboar Lv. 85, holds Emboarite
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-chikorita', 'You chose Chikorita in Legends: Z-A', 3, 500, 50000, 85, 468),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Tepig in Legends: Z-A), Rogue Mega Meowstic 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Tepig in Legends: Z-A), Rogue Mega Meowstic 1: Goodra Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Tepig in Legends: Z-A), Rogue Mega Meowstic 2: Meganium Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Tepig in Legends: Z-A), Rogue Mega Meowstic 2: Meganium Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 2, 154, 15400, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Tepig in Legends: Z-A), Rogue Mega Meowstic 3: Feraligatr Lv. 85, holds Feraligite
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Tepig in Legends: Z-A), Rogue Mega Meowstic 3: Feraligatr Lv. 85, holds Feraligite
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-tepig', 'You chose Tepig in Legends: Z-A', 3, 160, 16000, 85, 463),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 1: Goodra Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 1: Goodra Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 1, 706, 70600, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 2: Emboar Lv. 85
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 2: Emboar Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 2, 500, 50000, 85, NULL),
-  -- undefined beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 3: Meganium Lv. 85, holds Meganiumite
+  -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 3: Meganium Lv. 85, holds Meganiumite
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462);

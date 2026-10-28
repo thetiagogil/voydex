@@ -27,7 +27,8 @@ SELECT
                 FROM tracking.mainline_opponent_team_members
                 WHERE
                     mainline_opponent_team_members.milestone_id = mainline_milestones.id
-                    AND mainline_opponent_team_members.opponent_id = mainline_opponents.id)
+                    AND mainline_opponent_team_members.opponent_id = mainline_opponents.id
+                    AND mainline_opponent_team_members.ally_opponent_id IS NULL)
                 FROM tracking.mainline_milestones
                 JOIN tracking.mainline_milestone_types ON mainline_milestone_types.id = mainline_milestones.milestone_type_id
                 JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id

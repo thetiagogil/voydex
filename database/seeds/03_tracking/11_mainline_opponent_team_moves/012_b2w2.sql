@@ -309,6 +309,7 @@ FROM team_moves
 LEFT JOIN tracking.mainline_opponent_team_members AS members
   ON members.milestone_id = team_moves.milestone_id
   AND members.opponent_id = team_moves.opponent_id
+  AND members.ally_opponent_id IS NULL
   AND members.game_id IS NOT DISTINCT FROM team_moves.game_id::integer
   AND members.decision_milestone_id IS NOT DISTINCT FROM team_moves.decision_milestone_id::integer
   AND members.decision_option_slug IS NOT DISTINCT FROM team_moves.decision_option_slug::text

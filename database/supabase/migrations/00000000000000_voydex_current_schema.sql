@@ -3441,7 +3441,8 @@ BEGIN
             tracking.mainline_opponents
         WHERE
             mainline_opponents.id = NEW.ally_opponent_id;
-        IF ally_game_id IS NOT NULL AND ((milestone_game_id IS NOT NULL AND ally_game_id <> milestone_game_id) OR (NEW.game_id IS NOT NULL AND ally_game_id <> NEW.game_id)) THEN
+        -- The battle's game: the row's, else its Story battle's, else its opponent's.
+        IF ally_game_id IS NOT NULL AND COALESCE(NEW.game_id, milestone_game_id, opponent_game_id) IS DISTINCT FROM ally_game_id THEN
             RAISE EXCEPTION 'Ally % belongs to game %; it cannot fight beside the player in another game', NEW.ally_opponent_id, ally_game_id
                 USING ERRCODE = '23514';
         END IF;
