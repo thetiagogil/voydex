@@ -10,6 +10,9 @@
 -- Ilima's bonus trial and Totem Kommo-o: Bulbapedia, cross-checked with Serebii.
 -- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
 -- Battle forms: the Megalo Tower battle is against Ultra Necrozma itself.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Totems and their allies: Bulbapedia trial pages; each totem holds one item, its allies hold nothing.
+-- Wild Pokémon here hold nothing in their game data.
 -- Scope: Pokémon Ultra Sun / Ultra Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -35,12 +38,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   tera_type_id,
   dynamaxes
 ) VALUES
-  -- Ilima (Ultra Sun) 1: Gumshoos Lv. 12
-  (160003, 16001, 16, 27, NULL, NULL, NULL, NULL, 1, 735, 73500, 12, NULL, NULL, FALSE),
+  -- Ilima (Ultra Sun) 1: Gumshoos Lv. 12, holds Pecha Berry
+  (160003, 16001, 16, 27, NULL, NULL, NULL, NULL, 1, 735, 73500, 12, 180, NULL, FALSE),
   -- Ilima (Ultra Sun) 2: Yungoos Lv. 11
   (160003, 16001, 16, 27, NULL, NULL, NULL, NULL, 2, 734, 73400, 11, NULL, NULL, FALSE),
-  -- Ilima (Ultra Moon) 1: Alolan Raticate Lv. 12
-  (160003, 16001, 16, 28, NULL, NULL, NULL, NULL, 1, 20, 2001, 12, NULL, NULL, FALSE),
+  -- Ilima (Ultra Moon) 1: Alolan Raticate Lv. 12, holds Pecha Berry
+  (160003, 16001, 16, 28, NULL, NULL, NULL, NULL, 1, 20, 2001, 12, 180, NULL, FALSE),
   -- Ilima (Ultra Moon) 2: Alolan Rattata Lv. 11
   (160003, 16001, 16, 28, NULL, NULL, NULL, NULL, 2, 19, 1901, 11, NULL, NULL, FALSE),
   -- Hala 1: Machop Lv. 15
@@ -49,18 +52,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160004, 16002, 16, NULL, NULL, NULL, NULL, NULL, 2, 296, 29600, 15, NULL, NULL, FALSE),
   -- Hala 3: Crabrawler Lv. 16, holds Fightinium Z
   (160004, 16002, 16, NULL, NULL, NULL, NULL, NULL, 3, 739, 73900, 16, 28, NULL, FALSE),
-  -- Lana 1: Araquanid Lv. 20
-  (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 1, 752, 75200, 20, NULL, NULL, FALSE),
+  -- Lana 1: Araquanid Lv. 20, holds Wacan Berry
+  (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 1, 752, 75200, 20, 215, NULL, FALSE),
   -- Lana 2: Dewpider Lv. 18
   (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 2, 751, 75100, 18, NULL, NULL, FALSE),
   -- Lana 3: Masquerain Lv. 18
   (160005, 16003, 16, NULL, NULL, NULL, NULL, NULL, 3, 284, 28400, 18, NULL, NULL, FALSE),
-  -- Kiawe 1: Alolan Marowak Lv. 22
-  (160006, 16004, 16, NULL, NULL, NULL, NULL, NULL, 1, 105, 10501, 22, NULL, NULL, FALSE),
+  -- Kiawe 1: Alolan Marowak Lv. 22, holds Thick Club
+  (160006, 16004, 16, NULL, NULL, NULL, NULL, NULL, 1, 105, 10501, 22, 368, NULL, FALSE),
   -- Kiawe 2: Salazzle Lv. 20
   (160006, 16004, 16, NULL, NULL, NULL, NULL, NULL, 2, 758, 75800, 20, NULL, NULL, FALSE),
-  -- Mallow 1: Lurantis Lv. 24
-  (160007, 16005, 16, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24, NULL, NULL, FALSE),
+  -- Mallow 1: Lurantis Lv. 24, holds Power Herb
+  (160007, 16005, 16, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24, 413, NULL, FALSE),
   -- Mallow 2: Kecleon Lv. 22
   (160007, 16005, 16, NULL, NULL, NULL, NULL, NULL, 2, 352, 35200, 22, NULL, NULL, FALSE),
   -- Mallow 3: Comfey Lv. 22
@@ -71,14 +74,14 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160008, 16006, 16, NULL, NULL, NULL, NULL, NULL, 2, 345, 34500, 27, NULL, NULL, FALSE),
   -- Olivia 3: Lycanroc (Midnight) Lv. 28, holds Rockium Z
   (160008, 16006, 16, NULL, NULL, NULL, NULL, NULL, 3, 745, 74501, 28, 34, NULL, FALSE),
-  -- Sophocles 1: Togedemaru Lv. 33
-  (160009, 16007, 16, NULL, NULL, NULL, NULL, NULL, 1, 777, 77700, 33, NULL, NULL, FALSE),
+  -- Sophocles 1: Togedemaru Lv. 33, holds Sitrus Berry
+  (160009, 16007, 16, NULL, NULL, NULL, NULL, NULL, 1, 777, 77700, 33, 187, NULL, FALSE),
   -- Sophocles 2: Skarmory Lv. 32
   (160009, 16007, 16, NULL, NULL, NULL, NULL, NULL, 2, 227, 22700, 32, NULL, NULL, FALSE),
   -- Sophocles 3: Dedenne Lv. 31
   (160009, 16007, 16, NULL, NULL, NULL, NULL, NULL, 3, 702, 70200, 31, NULL, NULL, FALSE),
-  -- Acerola 1: Mimikyu Lv. 35
-  (160010, 16008, 16, NULL, NULL, NULL, NULL, NULL, 1, 778, 77800, 35, NULL, NULL, FALSE),
+  -- Acerola 1: Mimikyu Lv. 35, holds Lum Berry
+  (160010, 16008, 16, NULL, NULL, NULL, NULL, NULL, 1, 778, 77800, 35, 186, NULL, FALSE),
   -- Acerola 2: Banette Lv. 32
   (160010, 16008, 16, NULL, NULL, NULL, NULL, NULL, 2, 354, 35400, 32, NULL, NULL, FALSE),
   -- Acerola 3: Jellicent Lv. 33
@@ -89,14 +92,14 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160011, 16009, 16, NULL, NULL, NULL, NULL, NULL, 2, 552, 55200, 43, NULL, NULL, FALSE),
   -- Nanu 3: Alolan Persian Lv. 44, holds Darkinium Z
   (160011, 16009, 16, NULL, NULL, NULL, NULL, NULL, 3, 53, 5301, 44, 37, NULL, FALSE),
-  -- Mina 1: Ribombee Lv. 55
-  (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 1, 743, 74300, 55, NULL, NULL, FALSE),
+  -- Mina 1: Ribombee Lv. 55, holds Occa Berry
+  (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 1, 743, 74300, 55, 213, NULL, FALSE),
   -- Mina 2: Pelipper Lv. 52
   (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 2, 279, 27900, 52, NULL, NULL, FALSE),
   -- Mina 3: Blissey Lv. 53
   (160012, 16010, 16, NULL, NULL, NULL, NULL, NULL, 3, 242, 24200, 53, NULL, NULL, FALSE),
-  -- Totem Kommo-o 1: Kommo-o Lv. 49
-  (160013, 16037, 16, NULL, NULL, NULL, NULL, NULL, 1, 784, 78400, 49, NULL, NULL, FALSE),
+  -- Totem Kommo-o 1: Kommo-o Lv. 49, holds Roseli Berry
+  (160013, 16037, 16, NULL, NULL, NULL, NULL, NULL, 1, 784, 78400, 49, 242, NULL, FALSE),
   -- Totem Kommo-o 2: Noivern Lv. 48
   (160013, 16037, 16, NULL, NULL, NULL, NULL, NULL, 2, 715, 71500, 48, NULL, NULL, FALSE),
   -- Totem Kommo-o 3: Scizor Lv. 46
@@ -187,8 +190,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160020, 16017, 16, NULL, 160001, 'popplio', NULL, NULL, 5, 740, 74000, 59, NULL, NULL, FALSE),
   -- Hau (chose Popplio) 6: Incineroar Lv. 60, holds Firium Z
   (160020, 16017, 16, NULL, 160001, 'popplio', NULL, NULL, 6, 727, 72700, 60, 23, NULL, FALSE),
-  -- Giovanni (Ultra Sun) 1: Dugtrio Lv. 68
-  (160022, 16018, 16, 27, NULL, NULL, NULL, NULL, 1, 51, 5100, 68, NULL, NULL, FALSE),
+  -- Giovanni (Ultra Sun) 1: Dugtrio Lv. 68, holds Smooth Rock
+  (160022, 16018, 16, 27, NULL, NULL, NULL, NULL, 1, 51, 5100, 68, 426, NULL, FALSE),
   -- Giovanni (Ultra Sun) 2: Nidoking Lv. 68
   (160022, 16018, 16, 27, NULL, NULL, NULL, NULL, 2, 34, 3400, 68, NULL, NULL, FALSE),
   -- Giovanni (Ultra Sun) 3: Nidoqueen Lv. 68
@@ -197,8 +200,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160022, 16018, 16, 27, NULL, NULL, NULL, NULL, 4, 464, 46400, 68, NULL, NULL, FALSE),
   -- Giovanni (Ultra Sun) 5: Mega Mewtwo X Lv. 70, holds Mewtwonite X
   (160022, 16018, 16, 27, NULL, NULL, NULL, NULL, 5, 150, 15001, 70, 276, NULL, FALSE),
-  -- Giovanni (Ultra Moon) 1: Dugtrio Lv. 68
-  (160022, 16018, 16, 28, NULL, NULL, NULL, NULL, 1, 51, 5100, 68, NULL, NULL, FALSE),
+  -- Giovanni (Ultra Moon) 1: Dugtrio Lv. 68, holds Smooth Rock
+  (160022, 16018, 16, 28, NULL, NULL, NULL, NULL, 1, 51, 5100, 68, 426, NULL, FALSE),
   -- Giovanni (Ultra Moon) 2: Nidoking Lv. 68
   (160022, 16018, 16, 28, NULL, NULL, NULL, NULL, 2, 34, 3400, 68, NULL, NULL, FALSE),
   -- Giovanni (Ultra Moon) 3: Nidoqueen Lv. 68
@@ -225,20 +228,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160002, 16019, 16, NULL, 160001, 'popplio', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Receive Pokedex 2: Litten Lv. 7
   (160002, 16019, 16, NULL, 160001, 'popplio', NULL, NULL, 2, 725, 72500, 7, NULL, NULL, FALSE),
-  -- Hau (chose Rowlet), Grand Trial Hala 1: Popplio Lv. 13
-  (160004, 16019, 16, NULL, 160001, 'rowlet', NULL, NULL, 1, 728, 72800, 13, NULL, NULL, FALSE),
+  -- Hau (chose Rowlet), Grand Trial Hala 1: Popplio Lv. 13, holds Sitrus Berry
+  (160004, 16019, 16, NULL, 160001, 'rowlet', NULL, NULL, 1, 728, 72800, 13, 187, NULL, FALSE),
   -- Hau (chose Rowlet), Grand Trial Hala 2: Noibat Lv. 11
   (160004, 16019, 16, NULL, 160001, 'rowlet', NULL, NULL, 2, 714, 71400, 11, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Grand Trial Hala 3: Pikachu Lv. 12
   (160004, 16019, 16, NULL, 160001, 'rowlet', NULL, NULL, 3, 25, 2500, 12, NULL, NULL, FALSE),
-  -- Hau (chose Litten), Grand Trial Hala 1: Rowlet Lv. 13
-  (160004, 16019, 16, NULL, 160001, 'litten', NULL, NULL, 1, 722, 72200, 13, NULL, NULL, FALSE),
+  -- Hau (chose Litten), Grand Trial Hala 1: Rowlet Lv. 13, holds Sitrus Berry
+  (160004, 16019, 16, NULL, 160001, 'litten', NULL, NULL, 1, 722, 72200, 13, 187, NULL, FALSE),
   -- Hau (chose Litten), Grand Trial Hala 2: Noibat Lv. 11
   (160004, 16019, 16, NULL, 160001, 'litten', NULL, NULL, 2, 714, 71400, 11, NULL, NULL, FALSE),
   -- Hau (chose Litten), Grand Trial Hala 3: Pikachu Lv. 12
   (160004, 16019, 16, NULL, 160001, 'litten', NULL, NULL, 3, 25, 2500, 12, NULL, NULL, FALSE),
-  -- Hau (chose Popplio), Grand Trial Hala 1: Litten Lv. 13
-  (160004, 16019, 16, NULL, 160001, 'popplio', NULL, NULL, 1, 725, 72500, 13, NULL, NULL, FALSE),
+  -- Hau (chose Popplio), Grand Trial Hala 1: Litten Lv. 13, holds Sitrus Berry
+  (160004, 16019, 16, NULL, 160001, 'popplio', NULL, NULL, 1, 725, 72500, 13, 187, NULL, FALSE),
   -- Hau (chose Popplio), Grand Trial Hala 2: Noibat Lv. 11
   (160004, 16019, 16, NULL, 160001, 'popplio', NULL, NULL, 2, 714, 71400, 11, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Grand Trial Hala 3: Pikachu Lv. 12
@@ -399,11 +402,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (160031, 16035, 16, NULL, NULL, NULL, NULL, NULL, 1, 806, 80600, 60, NULL, NULL, FALSE),
   -- Stakataka, Poni Grove 1: Stakataka Lv. 60
   (160031, 16036, 16, NULL, NULL, NULL, NULL, NULL, 1, 805, 80500, 60, NULL, NULL, FALSE),
-  -- Ilima, Ilima Bonus Trial (Ultra Sun) 1: Gumshoos Lv. 60
-  (160032, 16001, 16, 27, NULL, NULL, NULL, NULL, 1, 735, 73500, 60, NULL, NULL, FALSE),
+  -- Ilima, Ilima Bonus Trial (Ultra Sun) 1: Gumshoos Lv. 60, holds Chople Berry
+  (160032, 16001, 16, 27, NULL, NULL, NULL, NULL, 1, 735, 73500, 60, 218, NULL, FALSE),
   -- Ilima, Ilima Bonus Trial (Ultra Sun) 2: Yungoos Lv. 58
   (160032, 16001, 16, 27, NULL, NULL, NULL, NULL, 2, 734, 73400, 58, NULL, NULL, FALSE),
-  -- Ilima, Ilima Bonus Trial (Ultra Moon) 1: Alolan Raticate Lv. 60
-  (160032, 16001, 16, 28, NULL, NULL, NULL, NULL, 1, 20, 2001, 60, NULL, NULL, FALSE),
+  -- Ilima, Ilima Bonus Trial (Ultra Moon) 1: Alolan Raticate Lv. 60, holds Chople Berry
+  (160032, 16001, 16, 28, NULL, NULL, NULL, NULL, 1, 20, 2001, 60, 218, NULL, FALSE),
   -- Ilima, Ilima Bonus Trial (Ultra Moon) 2: Alolan Rattata Lv. 58
   (160032, 16001, 16, 28, NULL, NULL, NULL, NULL, 2, 19, 1901, 58, NULL, NULL, FALSE);

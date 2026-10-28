@@ -8,6 +8,9 @@
 -- Totem trials: cross-checked with Bulbapedia trial pages; allies follow the order the totem calls them.
 -- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
 -- Battle forms: Totem Wishiwashi is Lv. 20, so Schooling puts it in its School Form.
+-- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
+-- Totems and their allies: Bulbapedia trial pages; each totem holds one item, its allies hold nothing.
+-- Wild Pokémon here hold nothing in their game data.
 -- Scope: Pokémon Sun / Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -33,12 +36,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   tera_type_id,
   dynamaxes
 ) VALUES
-  -- Ilima (Sun) 1: Gumshoos Lv. 12
-  (150003, 15001, 15, 25, NULL, NULL, NULL, NULL, 1, 735, 73500, 12, NULL, NULL, FALSE),
+  -- Ilima (Sun) 1: Gumshoos Lv. 12, holds Pecha Berry
+  (150003, 15001, 15, 25, NULL, NULL, NULL, NULL, 1, 735, 73500, 12, 180, NULL, FALSE),
   -- Ilima (Sun) 2: Yungoos Lv. 11
   (150003, 15001, 15, 25, NULL, NULL, NULL, NULL, 2, 734, 73400, 11, NULL, NULL, FALSE),
-  -- Ilima (Moon) 1: Alolan Raticate Lv. 12
-  (150003, 15001, 15, 26, NULL, NULL, NULL, NULL, 1, 20, 2001, 12, NULL, NULL, FALSE),
+  -- Ilima (Moon) 1: Alolan Raticate Lv. 12, holds Pecha Berry
+  (150003, 15001, 15, 26, NULL, NULL, NULL, NULL, 1, 20, 2001, 12, 180, NULL, FALSE),
   -- Ilima (Moon) 2: Alolan Rattata Lv. 11
   (150003, 15001, 15, 26, NULL, NULL, NULL, NULL, 2, 19, 1901, 11, NULL, NULL, FALSE),
   -- Hala 1: Mankey Lv. 14
@@ -47,18 +50,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150004, 15002, 15, NULL, NULL, NULL, NULL, NULL, 2, 296, 29600, 14, NULL, NULL, FALSE),
   -- Hala 3: Crabrawler Lv. 15, holds Fightinium Z
   (150004, 15002, 15, NULL, NULL, NULL, NULL, NULL, 3, 739, 73900, 15, 28, NULL, FALSE),
-  -- Lana 1: Wishiwashi (School Form) Lv. 20
-  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 1, 746, 74601, 20, NULL, NULL, FALSE),
+  -- Lana 1: Wishiwashi (School Form) Lv. 20, holds Sitrus Berry
+  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 1, 746, 74601, 20, 187, NULL, FALSE),
   -- Lana 2: Wishiwashi Lv. 18
   (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 2, 746, 74600, 18, NULL, NULL, FALSE),
   -- Lana 3: Alomomola Lv. 18
   (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 3, 594, 59400, 18, NULL, NULL, FALSE),
-  -- Kiawe 1: Salazzle Lv. 22
-  (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 1, 758, 75800, 22, NULL, NULL, FALSE),
+  -- Kiawe 1: Salazzle Lv. 22, holds Petaya Berry
+  (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 1, 758, 75800, 22, 233, NULL, FALSE),
   -- Kiawe 2: Salandit Lv. 20
   (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 2, 757, 75700, 20, NULL, NULL, FALSE),
-  -- Mallow 1: Lurantis Lv. 24
-  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24, NULL, NULL, FALSE),
+  -- Mallow 1: Lurantis Lv. 24, holds Power Herb
+  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24, 413, NULL, FALSE),
   -- Mallow 2: Trumbeak Lv. 22
   (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 2, 732, 73200, 22, NULL, NULL, FALSE),
   -- Mallow 3: Castform Lv. 22
@@ -69,12 +72,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150008, 15006, 15, NULL, NULL, NULL, NULL, NULL, 2, 525, 52500, 26, NULL, NULL, FALSE),
   -- Olivia 3: Lycanroc (Midnight) Lv. 27, holds Rockium Z
   (150008, 15006, 15, NULL, NULL, NULL, NULL, NULL, 3, 745, 74501, 27, 34, NULL, FALSE),
-  -- Sophocles 1: Vikavolt Lv. 29
-  (150009, 15007, 15, NULL, NULL, NULL, NULL, NULL, 1, 738, 73800, 29, NULL, NULL, FALSE),
+  -- Sophocles 1: Vikavolt Lv. 29, holds Occa Berry
+  (150009, 15007, 15, NULL, NULL, NULL, NULL, NULL, 1, 738, 73800, 29, 213, NULL, FALSE),
   -- Sophocles 2: Charjabug Lv. 27
   (150009, 15007, 15, NULL, NULL, NULL, NULL, NULL, 2, 737, 73700, 27, NULL, NULL, FALSE),
-  -- Acerola 1: Mimikyu Lv. 33
-  (150010, 15008, 15, NULL, NULL, NULL, NULL, NULL, 1, 778, 77800, 33, NULL, NULL, FALSE),
+  -- Acerola 1: Mimikyu Lv. 33, holds Lum Berry
+  (150010, 15008, 15, NULL, NULL, NULL, NULL, NULL, 1, 778, 77800, 33, 186, NULL, FALSE),
   -- Acerola 2: Haunter Lv. 27
   (150010, 15008, 15, NULL, NULL, NULL, NULL, NULL, 2, 93, 9300, 27, NULL, NULL, FALSE),
   -- Acerola 3: Gengar Lv. 27
@@ -85,8 +88,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 2, 552, 55200, 38, NULL, NULL, FALSE),
   -- Nanu 3: Alolan Persian Lv. 39, holds Darkinium Z
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 3, 53, 5301, 39, 37, NULL, FALSE),
-  -- Totem Kommo-o 1: Kommo-o Lv. 45
-  (150012, 15035, 15, NULL, NULL, NULL, NULL, NULL, 1, 784, 78400, 45, NULL, NULL, FALSE),
+  -- Totem Kommo-o 1: Kommo-o Lv. 45, holds Mental Herb
+  (150012, 15035, 15, NULL, NULL, NULL, NULL, NULL, 1, 784, 78400, 45, 408, NULL, FALSE),
   -- Totem Kommo-o 2: Hakamo-o Lv. 32
   (150012, 15035, 15, NULL, NULL, NULL, NULL, NULL, 2, 783, 78300, 32, NULL, NULL, FALSE),
   -- Totem Kommo-o 3: Scizor Lv. 32
