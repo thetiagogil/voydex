@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -4540,118 +4542,110 @@ INSERT INTO reference.pokemon_learnsets (
   (646, 64600, 304, 23, NULL, 1, 40, NULL, NULL, NULL, 9),
   -- Kyurem - Scary Face - Level 48
   (646, 64600, 184, 23, NULL, 1, 48, NULL, NULL, NULL, 10),
-  -- Kyurem - Fusion Flare - Level 48
-  (646, 64600, 558, 23, NULL, 1, 48, NULL, NULL, NULL, 11),
-  -- Kyurem - Fusion Bolt - Level 48
-  (646, 64600, 559, 23, NULL, 1, 48, NULL, NULL, NULL, 12),
   -- Kyurem - Blizzard - Level 56
-  (646, 64600, 59, 23, NULL, 1, 56, NULL, NULL, NULL, 13),
+  (646, 64600, 59, 23, NULL, 1, 56, NULL, NULL, NULL, 11),
   -- Kyurem - Imprison - Level 64
-  (646, 64600, 286, 23, NULL, 1, 64, NULL, NULL, NULL, 14),
+  (646, 64600, 286, 23, NULL, 1, 64, NULL, NULL, NULL, 12),
   -- Kyurem - Outrage - Level 72
-  (646, 64600, 200, 23, NULL, 1, 72, NULL, NULL, NULL, 15),
+  (646, 64600, 200, 23, NULL, 1, 72, NULL, NULL, NULL, 13),
   -- Kyurem - Glaciate - Level 80
-  (646, 64600, 549, 23, NULL, 1, 80, NULL, NULL, NULL, 16),
-  -- Kyurem - Freeze Shock - Level 80
-  (646, 64600, 553, 23, NULL, 1, 80, NULL, NULL, NULL, 17),
-  -- Kyurem - Ice Burn - Level 80
-  (646, 64600, 554, 23, NULL, 1, 80, NULL, NULL, NULL, 18),
+  (646, 64600, 549, 23, NULL, 1, 80, NULL, NULL, NULL, 14),
   -- Kyurem - Sheer Cold - Level 88
-  (646, 64600, 329, 23, NULL, 1, 88, NULL, NULL, NULL, 19),
+  (646, 64600, 329, 23, NULL, 1, 88, NULL, NULL, NULL, 15),
   -- Kyurem - Take Down - TM001
-  (646, 64600, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 20),
+  (646, 64600, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 16),
   -- Kyurem - Scary Face - TM006
-  (646, 64600, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 21),
+  (646, 64600, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 17),
   -- Kyurem - Protect - TM007
-  (646, 64600, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 22),
+  (646, 64600, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 18),
   -- Kyurem - Ice Fang - TM010
-  (646, 64600, 423, 23, NULL, 2, NULL, NULL, 23002010, NULL, 23),
+  (646, 64600, 423, 23, NULL, 2, NULL, NULL, 23002010, NULL, 19),
   -- Kyurem - Facade - TM025
-  (646, 64600, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 24),
+  (646, 64600, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 20),
   -- Kyurem - Aerial Ace - TM027
-  (646, 64600, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 25),
+  (646, 64600, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 21),
   -- Kyurem - Swift - TM032
-  (646, 64600, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 26),
+  (646, 64600, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 22),
   -- Kyurem - Icy Wind - TM034
-  (646, 64600, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 27),
+  (646, 64600, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 23),
   -- Kyurem - Rock Tomb - TM036
-  (646, 64600, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 28),
+  (646, 64600, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 24),
   -- Kyurem - Fling - TM043
-  (646, 64600, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 29),
+  (646, 64600, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 25),
   -- Kyurem - Dragon Tail - TM044
-  (646, 64600, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 30),
+  (646, 64600, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 26),
   -- Kyurem - Avalanche - TM046
-  (646, 64600, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 31),
+  (646, 64600, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 27),
   -- Kyurem - Endure - TM047
-  (646, 64600, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 32),
+  (646, 64600, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 28),
   -- Kyurem - Sunny Day - TM049
-  (646, 64600, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 33),
+  (646, 64600, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 29),
   -- Kyurem - Rain Dance - TM050
-  (646, 64600, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 34),
+  (646, 64600, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 30),
   -- Kyurem - Snowscape - TM052
-  (646, 64600, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 35),
+  (646, 64600, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 31),
   -- Kyurem - Zen Headbutt - TM059
-  (646, 64600, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 36),
+  (646, 64600, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 32),
   -- Kyurem - Shadow Claw - TM061
-  (646, 64600, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 37),
+  (646, 64600, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 33),
   -- Kyurem - Body Slam - TM066
-  (646, 64600, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 38),
+  (646, 64600, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 34),
   -- Kyurem - Sleep Talk - TM070
-  (646, 64600, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 39),
+  (646, 64600, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 35),
   -- Kyurem - Reflect - TM074
-  (646, 64600, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 40),
+  (646, 64600, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 36),
   -- Kyurem - Light Screen - TM075
-  (646, 64600, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 41),
+  (646, 64600, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 37),
   -- Kyurem - Dragon Claw - TM078
-  (646, 64600, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 42),
+  (646, 64600, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 38),
   -- Kyurem - Rest - TM085
-  (646, 64600, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 43),
+  (646, 64600, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 39),
   -- Kyurem - Rock Slide - TM086
-  (646, 64600, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 44),
+  (646, 64600, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 40),
   -- Kyurem - Body Press - TM089
-  (646, 64600, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 45),
+  (646, 64600, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 41),
   -- Kyurem - Imprison - TM092
-  (646, 64600, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 46),
+  (646, 64600, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 42),
   -- Kyurem - Flash Cannon - TM093
-  (646, 64600, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 47),
+  (646, 64600, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 43),
   -- Kyurem - Fly - TM097
-  (646, 64600, 19, 23, NULL, 2, NULL, NULL, 23002097, NULL, 48),
+  (646, 64600, 19, 23, NULL, 2, NULL, NULL, 23002097, NULL, 44),
   -- Kyurem - Iron Head - TM099
-  (646, 64600, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 49),
+  (646, 64600, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 45),
   -- Kyurem - Dragon Dance - TM100
-  (646, 64600, 349, 23, NULL, 2, NULL, NULL, 23002100, NULL, 50),
+  (646, 64600, 349, 23, NULL, 2, NULL, NULL, 23002100, NULL, 46),
   -- Kyurem - Substitute - TM103
-  (646, 64600, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
+  (646, 64600, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 47),
   -- Kyurem - Shadow Ball - TM114
-  (646, 64600, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 52),
+  (646, 64600, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 48),
   -- Kyurem - Dragon Pulse - TM115
-  (646, 64600, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 53),
+  (646, 64600, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 49),
   -- Kyurem - Hyper Voice - TM117
-  (646, 64600, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 54),
+  (646, 64600, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 50),
   -- Kyurem - Psychic - TM120
-  (646, 64600, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 55),
+  (646, 64600, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 51),
   -- Kyurem - Helping Hand - TM130
-  (646, 64600, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 56),
+  (646, 64600, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 52),
   -- Kyurem - Earth Power - TM133
-  (646, 64600, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 57),
+  (646, 64600, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 53),
   -- Kyurem - Ice Beam - TM135
-  (646, 64600, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 58),
+  (646, 64600, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 54),
   -- Kyurem - Blizzard - TM143
-  (646, 64600, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 59),
+  (646, 64600, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 55),
   -- Kyurem - Stone Edge - TM150
-  (646, 64600, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 60),
+  (646, 64600, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 56),
   -- Kyurem - Giga Impact - TM152
-  (646, 64600, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 61),
+  (646, 64600, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 57),
   -- Kyurem - Outrage - TM156
-  (646, 64600, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 62),
+  (646, 64600, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 58),
   -- Kyurem - Focus Blast - TM158
-  (646, 64600, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 63),
+  (646, 64600, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 59),
   -- Kyurem - Hyper Beam - TM163
-  (646, 64600, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 64),
+  (646, 64600, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 60),
   -- Kyurem - Draco Meteor - TM169
-  (646, 64600, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 65),
+  (646, 64600, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 61),
   -- Kyurem - Tera Blast - TM171
-  (646, 64600, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 66),
+  (646, 64600, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 62),
   -- Kyurem (White) - Dragon Breath - Level 1
   (646, 64601, 225, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Kyurem (White) - Ancient Power - Level 1
@@ -4670,120 +4664,112 @@ INSERT INTO reference.pokemon_learnsets (
   (646, 64601, 58, 23, NULL, 1, 32, NULL, NULL, NULL, 8),
   -- Kyurem (White) - Hyper Voice - Level 40
   (646, 64601, 304, 23, NULL, 1, 40, NULL, NULL, NULL, 9),
-  -- Kyurem (White) - Scary Face - Level 48
-  (646, 64601, 184, 23, NULL, 1, 48, NULL, NULL, NULL, 10),
   -- Kyurem (White) - Fusion Flare - Level 48
-  (646, 64601, 558, 23, NULL, 1, 48, NULL, NULL, NULL, 11),
-  -- Kyurem (White) - Fusion Bolt - Level 48
-  (646, 64601, 559, 23, NULL, 1, 48, NULL, NULL, NULL, 12),
+  (646, 64601, 558, 23, NULL, 1, 48, NULL, NULL, NULL, 10),
   -- Kyurem (White) - Blizzard - Level 56
-  (646, 64601, 59, 23, NULL, 1, 56, NULL, NULL, NULL, 13),
+  (646, 64601, 59, 23, NULL, 1, 56, NULL, NULL, NULL, 11),
   -- Kyurem (White) - Imprison - Level 64
-  (646, 64601, 286, 23, NULL, 1, 64, NULL, NULL, NULL, 14),
+  (646, 64601, 286, 23, NULL, 1, 64, NULL, NULL, NULL, 12),
   -- Kyurem (White) - Outrage - Level 72
-  (646, 64601, 200, 23, NULL, 1, 72, NULL, NULL, NULL, 15),
-  -- Kyurem (White) - Glaciate - Level 80
-  (646, 64601, 549, 23, NULL, 1, 80, NULL, NULL, NULL, 16),
-  -- Kyurem (White) - Freeze Shock - Level 80
-  (646, 64601, 553, 23, NULL, 1, 80, NULL, NULL, NULL, 17),
+  (646, 64601, 200, 23, NULL, 1, 72, NULL, NULL, NULL, 13),
   -- Kyurem (White) - Ice Burn - Level 80
-  (646, 64601, 554, 23, NULL, 1, 80, NULL, NULL, NULL, 18),
+  (646, 64601, 554, 23, NULL, 1, 80, NULL, NULL, NULL, 14),
   -- Kyurem (White) - Sheer Cold - Level 88
-  (646, 64601, 329, 23, NULL, 1, 88, NULL, NULL, NULL, 19),
+  (646, 64601, 329, 23, NULL, 1, 88, NULL, NULL, NULL, 15),
   -- Kyurem (White) - Take Down - TM001
-  (646, 64601, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 20),
+  (646, 64601, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 16),
   -- Kyurem (White) - Scary Face - TM006
-  (646, 64601, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 21),
+  (646, 64601, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 17),
   -- Kyurem (White) - Protect - TM007
-  (646, 64601, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 22),
+  (646, 64601, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 18),
   -- Kyurem (White) - Ice Fang - TM010
-  (646, 64601, 423, 23, NULL, 2, NULL, NULL, 23002010, NULL, 23),
+  (646, 64601, 423, 23, NULL, 2, NULL, NULL, 23002010, NULL, 19),
   -- Kyurem (White) - Facade - TM025
-  (646, 64601, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 24),
+  (646, 64601, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 20),
   -- Kyurem (White) - Aerial Ace - TM027
-  (646, 64601, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 25),
+  (646, 64601, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 21),
   -- Kyurem (White) - Swift - TM032
-  (646, 64601, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 26),
+  (646, 64601, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 22),
   -- Kyurem (White) - Icy Wind - TM034
-  (646, 64601, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 27),
+  (646, 64601, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 23),
   -- Kyurem (White) - Rock Tomb - TM036
-  (646, 64601, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 28),
+  (646, 64601, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 24),
   -- Kyurem (White) - Fling - TM043
-  (646, 64601, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 29),
+  (646, 64601, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 25),
   -- Kyurem (White) - Dragon Tail - TM044
-  (646, 64601, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 30),
+  (646, 64601, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 26),
   -- Kyurem (White) - Avalanche - TM046
-  (646, 64601, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 31),
+  (646, 64601, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 27),
   -- Kyurem (White) - Endure - TM047
-  (646, 64601, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 32),
+  (646, 64601, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 28),
   -- Kyurem (White) - Sunny Day - TM049
-  (646, 64601, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 33),
+  (646, 64601, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 29),
   -- Kyurem (White) - Rain Dance - TM050
-  (646, 64601, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 34),
+  (646, 64601, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 30),
   -- Kyurem (White) - Snowscape - TM052
-  (646, 64601, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 35),
+  (646, 64601, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 31),
   -- Kyurem (White) - Zen Headbutt - TM059
-  (646, 64601, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 36),
+  (646, 64601, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 32),
   -- Kyurem (White) - Shadow Claw - TM061
-  (646, 64601, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 37),
+  (646, 64601, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 33),
   -- Kyurem (White) - Body Slam - TM066
-  (646, 64601, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 38),
+  (646, 64601, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 34),
   -- Kyurem (White) - Sleep Talk - TM070
-  (646, 64601, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 39),
+  (646, 64601, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 35),
   -- Kyurem (White) - Reflect - TM074
-  (646, 64601, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 40),
+  (646, 64601, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 36),
   -- Kyurem (White) - Light Screen - TM075
-  (646, 64601, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 41),
+  (646, 64601, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 37),
   -- Kyurem (White) - Dragon Claw - TM078
-  (646, 64601, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 42),
+  (646, 64601, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 38),
   -- Kyurem (White) - Rest - TM085
-  (646, 64601, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 43),
+  (646, 64601, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 39),
   -- Kyurem (White) - Rock Slide - TM086
-  (646, 64601, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 44),
+  (646, 64601, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 40),
   -- Kyurem (White) - Body Press - TM089
-  (646, 64601, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 45),
+  (646, 64601, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 41),
   -- Kyurem (White) - Imprison - TM092
-  (646, 64601, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 46),
+  (646, 64601, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 42),
   -- Kyurem (White) - Flash Cannon - TM093
-  (646, 64601, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 47),
+  (646, 64601, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 43),
   -- Kyurem (White) - Fly - TM097
-  (646, 64601, 19, 23, NULL, 2, NULL, NULL, 23002097, NULL, 48),
+  (646, 64601, 19, 23, NULL, 2, NULL, NULL, 23002097, NULL, 44),
   -- Kyurem (White) - Iron Head - TM099
-  (646, 64601, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 49),
+  (646, 64601, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 45),
   -- Kyurem (White) - Dragon Dance - TM100
-  (646, 64601, 349, 23, NULL, 2, NULL, NULL, 23002100, NULL, 50),
+  (646, 64601, 349, 23, NULL, 2, NULL, NULL, 23002100, NULL, 46),
   -- Kyurem (White) - Substitute - TM103
-  (646, 64601, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
+  (646, 64601, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 47),
   -- Kyurem (White) - Shadow Ball - TM114
-  (646, 64601, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 52),
+  (646, 64601, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 48),
   -- Kyurem (White) - Dragon Pulse - TM115
-  (646, 64601, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 53),
+  (646, 64601, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 49),
   -- Kyurem (White) - Hyper Voice - TM117
-  (646, 64601, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 54),
+  (646, 64601, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 50),
   -- Kyurem (White) - Psychic - TM120
-  (646, 64601, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 55),
+  (646, 64601, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 51),
   -- Kyurem (White) - Helping Hand - TM130
-  (646, 64601, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 56),
+  (646, 64601, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 52),
   -- Kyurem (White) - Earth Power - TM133
-  (646, 64601, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 57),
+  (646, 64601, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 53),
   -- Kyurem (White) - Ice Beam - TM135
-  (646, 64601, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 58),
+  (646, 64601, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 54),
   -- Kyurem (White) - Blizzard - TM143
-  (646, 64601, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 59),
+  (646, 64601, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 55),
   -- Kyurem (White) - Stone Edge - TM150
-  (646, 64601, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 60),
+  (646, 64601, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 56),
   -- Kyurem (White) - Giga Impact - TM152
-  (646, 64601, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 61),
+  (646, 64601, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 57),
   -- Kyurem (White) - Outrage - TM156
-  (646, 64601, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 62),
+  (646, 64601, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 58),
   -- Kyurem (White) - Focus Blast - TM158
-  (646, 64601, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 63),
+  (646, 64601, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 59),
   -- Kyurem (White) - Hyper Beam - TM163
-  (646, 64601, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 64),
+  (646, 64601, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 60),
   -- Kyurem (White) - Draco Meteor - TM169
-  (646, 64601, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 65),
+  (646, 64601, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 61),
   -- Kyurem (White) - Tera Blast - TM171
-  (646, 64601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 66),
+  (646, 64601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 62),
   -- Kyurem (Black) - Dragon Breath - Level 1
   (646, 64602, 225, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Kyurem (Black) - Ancient Power - Level 1
@@ -4802,120 +4788,112 @@ INSERT INTO reference.pokemon_learnsets (
   (646, 64602, 58, 23, NULL, 1, 32, NULL, NULL, NULL, 8),
   -- Kyurem (Black) - Hyper Voice - Level 40
   (646, 64602, 304, 23, NULL, 1, 40, NULL, NULL, NULL, 9),
-  -- Kyurem (Black) - Scary Face - Level 48
-  (646, 64602, 184, 23, NULL, 1, 48, NULL, NULL, NULL, 10),
-  -- Kyurem (Black) - Fusion Flare - Level 48
-  (646, 64602, 558, 23, NULL, 1, 48, NULL, NULL, NULL, 11),
   -- Kyurem (Black) - Fusion Bolt - Level 48
-  (646, 64602, 559, 23, NULL, 1, 48, NULL, NULL, NULL, 12),
+  (646, 64602, 559, 23, NULL, 1, 48, NULL, NULL, NULL, 10),
   -- Kyurem (Black) - Blizzard - Level 56
-  (646, 64602, 59, 23, NULL, 1, 56, NULL, NULL, NULL, 13),
+  (646, 64602, 59, 23, NULL, 1, 56, NULL, NULL, NULL, 11),
   -- Kyurem (Black) - Imprison - Level 64
-  (646, 64602, 286, 23, NULL, 1, 64, NULL, NULL, NULL, 14),
+  (646, 64602, 286, 23, NULL, 1, 64, NULL, NULL, NULL, 12),
   -- Kyurem (Black) - Outrage - Level 72
-  (646, 64602, 200, 23, NULL, 1, 72, NULL, NULL, NULL, 15),
-  -- Kyurem (Black) - Glaciate - Level 80
-  (646, 64602, 549, 23, NULL, 1, 80, NULL, NULL, NULL, 16),
+  (646, 64602, 200, 23, NULL, 1, 72, NULL, NULL, NULL, 13),
   -- Kyurem (Black) - Freeze Shock - Level 80
-  (646, 64602, 553, 23, NULL, 1, 80, NULL, NULL, NULL, 17),
-  -- Kyurem (Black) - Ice Burn - Level 80
-  (646, 64602, 554, 23, NULL, 1, 80, NULL, NULL, NULL, 18),
+  (646, 64602, 553, 23, NULL, 1, 80, NULL, NULL, NULL, 14),
   -- Kyurem (Black) - Sheer Cold - Level 88
-  (646, 64602, 329, 23, NULL, 1, 88, NULL, NULL, NULL, 19),
+  (646, 64602, 329, 23, NULL, 1, 88, NULL, NULL, NULL, 15),
   -- Kyurem (Black) - Take Down - TM001
-  (646, 64602, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 20),
+  (646, 64602, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 16),
   -- Kyurem (Black) - Scary Face - TM006
-  (646, 64602, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 21),
+  (646, 64602, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 17),
   -- Kyurem (Black) - Protect - TM007
-  (646, 64602, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 22),
+  (646, 64602, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 18),
   -- Kyurem (Black) - Ice Fang - TM010
-  (646, 64602, 423, 23, NULL, 2, NULL, NULL, 23002010, NULL, 23),
+  (646, 64602, 423, 23, NULL, 2, NULL, NULL, 23002010, NULL, 19),
   -- Kyurem (Black) - Facade - TM025
-  (646, 64602, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 24),
+  (646, 64602, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 20),
   -- Kyurem (Black) - Aerial Ace - TM027
-  (646, 64602, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 25),
+  (646, 64602, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 21),
   -- Kyurem (Black) - Swift - TM032
-  (646, 64602, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 26),
+  (646, 64602, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 22),
   -- Kyurem (Black) - Icy Wind - TM034
-  (646, 64602, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 27),
+  (646, 64602, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 23),
   -- Kyurem (Black) - Rock Tomb - TM036
-  (646, 64602, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 28),
+  (646, 64602, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 24),
   -- Kyurem (Black) - Fling - TM043
-  (646, 64602, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 29),
+  (646, 64602, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 25),
   -- Kyurem (Black) - Dragon Tail - TM044
-  (646, 64602, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 30),
+  (646, 64602, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 26),
   -- Kyurem (Black) - Avalanche - TM046
-  (646, 64602, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 31),
+  (646, 64602, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 27),
   -- Kyurem (Black) - Endure - TM047
-  (646, 64602, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 32),
+  (646, 64602, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 28),
   -- Kyurem (Black) - Sunny Day - TM049
-  (646, 64602, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 33),
+  (646, 64602, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 29),
   -- Kyurem (Black) - Rain Dance - TM050
-  (646, 64602, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 34),
+  (646, 64602, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 30),
   -- Kyurem (Black) - Snowscape - TM052
-  (646, 64602, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 35),
+  (646, 64602, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 31),
   -- Kyurem (Black) - Zen Headbutt - TM059
-  (646, 64602, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 36),
+  (646, 64602, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 32),
   -- Kyurem (Black) - Shadow Claw - TM061
-  (646, 64602, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 37),
+  (646, 64602, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 33),
   -- Kyurem (Black) - Body Slam - TM066
-  (646, 64602, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 38),
+  (646, 64602, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 34),
   -- Kyurem (Black) - Sleep Talk - TM070
-  (646, 64602, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 39),
+  (646, 64602, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 35),
   -- Kyurem (Black) - Reflect - TM074
-  (646, 64602, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 40),
+  (646, 64602, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 36),
   -- Kyurem (Black) - Light Screen - TM075
-  (646, 64602, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 41),
+  (646, 64602, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 37),
   -- Kyurem (Black) - Dragon Claw - TM078
-  (646, 64602, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 42),
+  (646, 64602, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 38),
   -- Kyurem (Black) - Rest - TM085
-  (646, 64602, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 43),
+  (646, 64602, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 39),
   -- Kyurem (Black) - Rock Slide - TM086
-  (646, 64602, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 44),
+  (646, 64602, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 40),
   -- Kyurem (Black) - Body Press - TM089
-  (646, 64602, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 45),
+  (646, 64602, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 41),
   -- Kyurem (Black) - Imprison - TM092
-  (646, 64602, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 46),
+  (646, 64602, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 42),
   -- Kyurem (Black) - Flash Cannon - TM093
-  (646, 64602, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 47),
+  (646, 64602, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 43),
   -- Kyurem (Black) - Fly - TM097
-  (646, 64602, 19, 23, NULL, 2, NULL, NULL, 23002097, NULL, 48),
+  (646, 64602, 19, 23, NULL, 2, NULL, NULL, 23002097, NULL, 44),
   -- Kyurem (Black) - Iron Head - TM099
-  (646, 64602, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 49),
+  (646, 64602, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 45),
   -- Kyurem (Black) - Dragon Dance - TM100
-  (646, 64602, 349, 23, NULL, 2, NULL, NULL, 23002100, NULL, 50),
+  (646, 64602, 349, 23, NULL, 2, NULL, NULL, 23002100, NULL, 46),
   -- Kyurem (Black) - Substitute - TM103
-  (646, 64602, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
+  (646, 64602, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 47),
   -- Kyurem (Black) - Shadow Ball - TM114
-  (646, 64602, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 52),
+  (646, 64602, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 48),
   -- Kyurem (Black) - Dragon Pulse - TM115
-  (646, 64602, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 53),
+  (646, 64602, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 49),
   -- Kyurem (Black) - Hyper Voice - TM117
-  (646, 64602, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 54),
+  (646, 64602, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 50),
   -- Kyurem (Black) - Psychic - TM120
-  (646, 64602, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 55),
+  (646, 64602, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 51),
   -- Kyurem (Black) - Helping Hand - TM130
-  (646, 64602, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 56),
+  (646, 64602, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 52),
   -- Kyurem (Black) - Earth Power - TM133
-  (646, 64602, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 57),
+  (646, 64602, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 53),
   -- Kyurem (Black) - Ice Beam - TM135
-  (646, 64602, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 58),
+  (646, 64602, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 54),
   -- Kyurem (Black) - Blizzard - TM143
-  (646, 64602, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 59),
+  (646, 64602, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 55),
   -- Kyurem (Black) - Stone Edge - TM150
-  (646, 64602, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 60),
+  (646, 64602, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 56),
   -- Kyurem (Black) - Giga Impact - TM152
-  (646, 64602, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 61),
+  (646, 64602, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 57),
   -- Kyurem (Black) - Outrage - TM156
-  (646, 64602, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 62),
+  (646, 64602, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 58),
   -- Kyurem (Black) - Focus Blast - TM158
-  (646, 64602, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 63),
+  (646, 64602, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 59),
   -- Kyurem (Black) - Hyper Beam - TM163
-  (646, 64602, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 64),
+  (646, 64602, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 60),
   -- Kyurem (Black) - Draco Meteor - TM169
-  (646, 64602, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 65),
+  (646, 64602, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 61),
   -- Kyurem (Black) - Tera Blast - TM171
-  (646, 64602, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 66),
+  (646, 64602, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 62),
   -- Keldeo - Leer - Level 1
   (647, 64700, 43, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Keldeo - Helping Hand - Level 1

@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -236,6 +238,16 @@ INSERT INTO reference.pokemon_learnsets (
   (487, 48700, 814, 24, NULL, 2, NULL, NULL, 24002197, NULL, 4),
   -- Giratina - Poltergeist - TM198
   (487, 48700, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 5),
+  -- Giratina (Origin) - Roar - TM172
+  (487, 48701, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
+  -- Giratina (Origin) - Spite - TM177
+  (487, 48701, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 2),
+  -- Giratina (Origin) - Gravity - TM178
+  (487, 48701, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 3),
+  -- Giratina (Origin) - Dual Wingbeat - TM197
+  (487, 48701, 814, 24, NULL, 2, NULL, NULL, 24002197, NULL, 4),
+  -- Giratina (Origin) - Poltergeist - TM198
+  (487, 48701, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 5),
   -- Cresselia - Gravity - TM178
   (488, 48800, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 1),
   -- Phione - Haze - TM174
@@ -268,6 +280,10 @@ INSERT INTO reference.pokemon_learnsets (
   (491, 49100, 264, 24, NULL, 2, NULL, NULL, 24002192, NULL, 4),
   -- Darkrai - Lash Out - TM199
   (491, 49100, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 5),
+  -- Shaymin - Grassy Glide - TM194
+  (492, 49200, 803, 24, NULL, 2, NULL, NULL, 24002194, NULL, 1),
+  -- Shaymin (Sky) - Grassy Glide - TM194
+  (492, 49201, 803, 24, NULL, 2, NULL, NULL, 24002194, NULL, 1),
   -- Arceus - Roar - TM172
   (493, 49300, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
   -- Arceus - Gravity - TM178

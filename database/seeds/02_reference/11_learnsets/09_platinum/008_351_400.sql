@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Platinum Pokedex learnset pages, Serebii Platinum
 -- Move Tutor pages, and PokemonDB Generation 4 Platinum learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Platinum
 -- Pokémon: #351-#400
--- Rows: 3131
+-- Rows: 3129
 -- Scope: level-up, TM, HM, egg move, and Move Tutor acquisition rows.
 -- Event, transfer, and prior-evolution sections are intentionally excluded from
 -- this Platinum seed.
@@ -3895,32 +3897,30 @@ VALUES
   (382, 38200, 57, 9, NULL, 3, NULL, NULL, 9003003, NULL, 48),
   -- Kyogre - Strength - HM04
   (382, 38200, 70, 9, NULL, 3, NULL, NULL, 9003004, NULL, 49),
-  -- Kyogre - Defog - HM05
-  (382, 38200, 432, 9, NULL, 3, NULL, NULL, 9003005, NULL, 50),
   -- Kyogre - Rock Smash - HM06
-  (382, 38200, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 51),
+  (382, 38200, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 50),
   -- Kyogre - Waterfall - HM07
-  (382, 38200, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 52),
+  (382, 38200, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 51),
   -- Kyogre - Swift - Tutor
-  (382, 38200, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 53),
+  (382, 38200, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 52),
   -- Kyogre - Snore - Tutor
-  (382, 38200, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 54),
+  (382, 38200, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 53),
   -- Kyogre - Mud-Slap - Tutor
-  (382, 38200, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 55),
+  (382, 38200, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 54),
   -- Kyogre - Icy Wind - Tutor
-  (382, 38200, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 56),
+  (382, 38200, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 55),
   -- Kyogre - Ancient Power - Tutor
-  (382, 38200, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 57),
+  (382, 38200, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 56),
   -- Kyogre - Uproar - Tutor
-  (382, 38200, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 58),
+  (382, 38200, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 57),
   -- Kyogre - Dive - Tutor
-  (382, 38200, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 59),
+  (382, 38200, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 58),
   -- Kyogre - Signal Beam - Tutor
-  (382, 38200, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 60),
+  (382, 38200, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 59),
   -- Kyogre - Aqua Tail - Tutor
-  (382, 38200, 401, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 61),
+  (382, 38200, 401, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 60),
   -- Kyogre - Iron Head - Tutor
-  (382, 38200, 442, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 62),
+  (382, 38200, 442, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 61),
   -- Groudon - Mud Shot - Level 1
   (383, 38300, 341, 9, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Groudon - Scary Face - Level 5
@@ -4195,40 +4195,38 @@ VALUES
   (384, 38400, 57, 9, NULL, 3, NULL, NULL, 9003003, NULL, 63),
   -- Rayquaza - Strength - HM04
   (384, 38400, 70, 9, NULL, 3, NULL, NULL, 9003004, NULL, 64),
-  -- Rayquaza - Defog - HM05
-  (384, 38400, 432, 9, NULL, 3, NULL, NULL, 9003005, NULL, 65),
   -- Rayquaza - Rock Smash - HM06
-  (384, 38400, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 66),
+  (384, 38400, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 65),
   -- Rayquaza - Waterfall - HM07
-  (384, 38400, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 67),
+  (384, 38400, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 66),
   -- Rayquaza - Swift - Tutor
-  (384, 38400, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 68),
+  (384, 38400, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 67),
   -- Rayquaza - Snore - Tutor
-  (384, 38400, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 69),
+  (384, 38400, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 68),
   -- Rayquaza - Mud-Slap - Tutor
-  (384, 38400, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 70),
+  (384, 38400, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 69),
   -- Rayquaza - Icy Wind - Tutor
-  (384, 38400, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 71),
+  (384, 38400, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 70),
   -- Rayquaza - Outrage - Tutor
-  (384, 38400, 200, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 72),
+  (384, 38400, 200, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 71),
   -- Rayquaza - Fury Cutter - Tutor
-  (384, 38400, 210, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 73),
+  (384, 38400, 210, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 72),
   -- Rayquaza - Twister - Tutor
-  (384, 38400, 239, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 74),
+  (384, 38400, 239, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 73),
   -- Rayquaza - Ancient Power - Tutor
-  (384, 38400, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 75),
+  (384, 38400, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 74),
   -- Rayquaza - Uproar - Tutor
-  (384, 38400, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 76),
+  (384, 38400, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 75),
   -- Rayquaza - Dive - Tutor
-  (384, 38400, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 77),
+  (384, 38400, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 76),
   -- Rayquaza - Aqua Tail - Tutor
-  (384, 38400, 401, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 78),
+  (384, 38400, 401, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 77),
   -- Rayquaza - Earth Power - Tutor
-  (384, 38400, 414, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 79),
+  (384, 38400, 414, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 78),
   -- Rayquaza - Draco Meteor - Tutor
-  (384, 38400, 434, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 80),
+  (384, 38400, 434, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 79),
   -- Rayquaza - Iron Head - Tutor
-  (384, 38400, 442, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 81),
+  (384, 38400, 442, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 80),
   -- Jirachi - Confusion - Level 1
   (385, 38500, 93, 9, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Jirachi - Wish - Level 1

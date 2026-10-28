@@ -5,6 +5,8 @@
 -- Machine normalization: Bulbapedia Generation VIII TM/TR catalog data.
 -- Migration source: legacy Voydex Gen VIII learnset seeds, normalized to clean machine ids and current form identifiers.
 -- Product scope: battle-only Zacian/Zamazenta Crowned legacy rows are excluded until battle-only forms are supported.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -6656,18 +6658,18 @@ INSERT INTO reference.pokemon_learnsets (
   (800, 80001, 502, 18, NULL, 4, NULL, NULL, 18004083, NULL, 70),
   -- Necrozma (Dusk Mane) - Psychic Fangs - TR97
   (800, 80001, 706, 18, NULL, 4, NULL, NULL, 18004097, NULL, 71),
-  -- Necrozma (Dawn Wings) - Confusion - Level 1
-  (800, 80002, 93, 18, NULL, 1, 1, NULL, NULL, NULL, 1),
-  -- Necrozma (Dawn Wings) - Metal Claw - Level 1
-  (800, 80002, 232, 18, NULL, 1, 1, NULL, NULL, NULL, 2),
-  -- Necrozma (Dawn Wings) - Morning Sun - Level 1
-  (800, 80002, 234, 18, NULL, 1, 1, NULL, NULL, NULL, 3),
   -- Necrozma (Dawn Wings) - Moonlight - Level 1
-  (800, 80002, 236, 18, NULL, 1, 1, NULL, NULL, NULL, 4),
-  -- Necrozma (Dawn Wings) - Gravity - Level 1
-  (800, 80002, 356, 18, NULL, 1, 1, NULL, NULL, NULL, 5),
+  (800, 80002, 236, 18, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Necrozma (Dawn Wings) - Morning Sun - Level 1
+  (800, 80002, 234, 18, NULL, 1, 1, NULL, NULL, NULL, 2),
   -- Necrozma (Dawn Wings) - Charge Beam - Level 1
-  (800, 80002, 451, 18, NULL, 1, 1, NULL, NULL, NULL, 6),
+  (800, 80002, 451, 18, NULL, 1, 1, NULL, NULL, NULL, 3),
+  -- Necrozma (Dawn Wings) - Gravity - Level 1
+  (800, 80002, 356, 18, NULL, 1, 1, NULL, NULL, NULL, 4),
+  -- Necrozma (Dawn Wings) - Metal Claw - Level 1
+  (800, 80002, 232, 18, NULL, 1, 1, NULL, NULL, NULL, 5),
+  -- Necrozma (Dawn Wings) - Confusion - Level 1
+  (800, 80002, 93, 18, NULL, 1, 1, NULL, NULL, NULL, 6),
   -- Necrozma (Dawn Wings) - Stealth Rock - Level 8
   (800, 80002, 446, 18, NULL, 1, 8, NULL, NULL, NULL, 7),
   -- Necrozma (Dawn Wings) - Slash - Level 16
@@ -6682,14 +6684,14 @@ INSERT INTO reference.pokemon_learnsets (
   (800, 80002, 350, 18, NULL, 1, 48, NULL, NULL, NULL, 12),
   -- Necrozma (Dawn Wings) - Iron Defense - Level 56
   (800, 80002, 334, 18, NULL, 1, 56, NULL, NULL, NULL, 13),
+  -- Necrozma (Dawn Wings) - Autotomize - Level 60
+  (800, 80002, 475, 18, NULL, 1, 60, NULL, NULL, NULL, 14),
   -- Necrozma (Dawn Wings) - Power Gem - Level 64
-  (800, 80002, 408, 18, NULL, 1, 64, NULL, NULL, NULL, 14),
+  (800, 80002, 408, 18, NULL, 1, 64, NULL, NULL, NULL, 15),
+  -- Necrozma (Dawn Wings) - Prismatic Laser - Level 66
+  (800, 80002, 711, 18, NULL, 1, 66, NULL, NULL, NULL, 16),
   -- Necrozma (Dawn Wings) - Photon Geyser - Level 72
-  (800, 80002, 722, 18, NULL, 1, 72, NULL, NULL, NULL, 15),
-  -- Necrozma (Dawn Wings) - Autotomize - Level 80
-  (800, 80002, 475, 18, NULL, 1, 80, NULL, NULL, NULL, 16),
-  -- Necrozma (Dawn Wings) - Prismatic Laser - Level 88
-  (800, 80002, 711, 18, NULL, 1, 88, NULL, NULL, NULL, 17),
+  (800, 80002, 722, 18, NULL, 1, 72, NULL, NULL, NULL, 17),
   -- Necrozma (Dawn Wings) - Hyper Beam - TM08
   (800, 80002, 63, 18, NULL, 2, NULL, NULL, 18002008, NULL, 18),
   -- Necrozma (Dawn Wings) - Giga Impact - TM09

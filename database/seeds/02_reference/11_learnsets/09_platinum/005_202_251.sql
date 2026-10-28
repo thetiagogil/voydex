@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Platinum Pokedex learnset pages, Serebii Platinum
 -- Move Tutor pages, and PokemonDB Generation 4 Platinum learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Platinum
 -- Pokémon: #202-#251
--- Rows: 3175
+-- Rows: 3174
 -- Scope: level-up, TM, HM, egg move, and Move Tutor acquisition rows.
 -- Event, transfer, and prior-evolution sections are intentionally excluded from
 -- this Platinum seed.
@@ -5469,30 +5471,28 @@ VALUES
   (245, 24500, 15, 9, NULL, 3, NULL, NULL, 9003001, NULL, 47),
   -- Suicune - Surf - HM03
   (245, 24500, 57, 9, NULL, 3, NULL, NULL, 9003003, NULL, 48),
-  -- Suicune - Defog - HM05
-  (245, 24500, 432, 9, NULL, 3, NULL, NULL, 9003005, NULL, 49),
   -- Suicune - Rock Smash - HM06
-  (245, 24500, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 50),
+  (245, 24500, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 49),
   -- Suicune - Waterfall - HM07
-  (245, 24500, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 51),
+  (245, 24500, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 50),
   -- Suicune - Rock Climb - HM08
-  (245, 24500, 431, 9, NULL, 3, NULL, NULL, 9003008, NULL, 52),
+  (245, 24500, 431, 9, NULL, 3, NULL, NULL, 9003008, NULL, 51),
   -- Suicune - Swift - Tutor
-  (245, 24500, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 53),
+  (245, 24500, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 52),
   -- Suicune - Snore - Tutor
-  (245, 24500, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 54),
+  (245, 24500, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 53),
   -- Suicune - Mud-Slap - Tutor
-  (245, 24500, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 55),
+  (245, 24500, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 54),
   -- Suicune - Icy Wind - Tutor
-  (245, 24500, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 56),
+  (245, 24500, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 55),
   -- Suicune - Dive - Tutor
-  (245, 24500, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 57),
+  (245, 24500, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 56),
   -- Suicune - Signal Beam - Tutor
-  (245, 24500, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 58),
+  (245, 24500, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 57),
   -- Suicune - Iron Head - Tutor
-  (245, 24500, 442, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 59),
+  (245, 24500, 442, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 58),
   -- Suicune - Ominous Wind - Tutor
-  (245, 24500, 466, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 60),
+  (245, 24500, 466, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 59),
   -- Larvitar - Leer - Level 1
   (246, 24600, 43, 9, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Larvitar - Bite - Level 1

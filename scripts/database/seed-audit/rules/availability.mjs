@@ -2470,9 +2470,9 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       2,
       {
-        count: 4152,
+        count: 4151,
         sha256:
-          "ff13aa74737170c4d1ac99cfc9504328c4cefc114c8cdc292b2d3269434db4c2",
+          "876737fd0fcd533c643e7b47518164ee2a16aca32b192a462e53803802a94a20",
       },
     ],
     [
@@ -2512,23 +2512,23 @@ export function assertPokemonLearnsetRows(context, tableRows) {
       {
         count: 19195,
         sha256:
-          "4b862a2fd1392caf521727eb56f0a39aefc23af70f34b0422197f6674b2a7db4",
+          "e64656934919e10965b8903c4b3a95d530e03d3113f524977acfaaaade8972f9",
       },
     ],
     [
       8,
       {
-        count: 26310,
+        count: 26304,
         sha256:
-          "9037d29c7d350829ebd319b1db53336be943e813344053ba888c8c7254553e8f",
+          "b58a94a1124241699f3bb998fcdaf3aa7ee15122793c7f7a75b099b071df8e5d",
       },
     ],
     [
       9,
       {
-        count: 30857,
+        count: 30851,
         sha256:
-          "660973cdcfb4b1083a29617b5d124caf1b8b13c19e4181fb1950bd93416b17c1",
+          "02b75299244e2c35b1248893d8ff28139d617f389688832da7dae42679a53a74",
       },
     ],
     [
@@ -2542,17 +2542,17 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       11,
       {
-        count: 33580,
+        count: 33567,
         sha256:
-          "a1ba9963e3b72a6f98f16e3cd5f9407c6d2dd352c4d0d455437dbad0dbe8a529",
+          "95dd8362d83d8db36d9c48bccbfe59b1ea7f248c8362fbccc723912600e0656e",
       },
     ],
     [
       12,
       {
-        count: 41267,
+        count: 41250,
         sha256:
-          "c2f4121779240356022cd39dec9d3bc893ffad7866ba553281d88468ffab3dc5",
+          "baf7ce172c8d86ba9a43d08cd2d43c24edfd2cded90f60abad92aaccf671835f",
       },
     ],
     [
@@ -2574,17 +2574,17 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       15,
       {
-        count: 44348,
+        count: 44347,
         sha256:
-          "2e2eaac4ef6f1854cfd676de90c310d17e28ade10218ee9e5909c7bbfb892a74",
+          "7418166a37881c7e1fe3468f22453c1812210ab4f1b8fb730546d3cd2eb1065e",
       },
     ],
     [
       16,
       {
-        count: 54989,
+        count: 54988,
         sha256:
-          "7c0d9563974321046ccd44696f51bedcaa146ffd65aee331a9d955cde117fe42",
+          "adb20b8ba7601c50dce24a580943991603290b64e3d3a9bb48dad96c0799eee7",
       },
     ],
     [
@@ -2600,7 +2600,7 @@ export function assertPokemonLearnsetRows(context, tableRows) {
       {
         count: 44520,
         sha256:
-          "2712fb71edcff83361f1a4bd98253b333ee3e82ac1a15d02f869de4a2299c09b",
+          "826605b2147e7a8bc0997b3bc309b091325ef9fcd7dfeab5a3d44eefa9ab61ca",
       },
     ],
     [
@@ -2614,9 +2614,9 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       21,
       {
-        count: 27086,
+        count: 27326,
         sha256:
-          "29a5c44f438ed87e274e6fda566d26e7493926b84044684746ac155997941d4f",
+          "66833b969a3ec98c2d0dac48fbc60ddeea82bf879f569aad01e457cb4fbe929c",
       },
     ],
     [
@@ -2630,25 +2630,25 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       23,
       {
-        count: 47045,
+        count: 47227,
         sha256:
-          "c4385b0135b8b1df07adb22c2e15d29a0da2f0d597658a7313e0f8b8968706ca",
+          "9561af28ed122fdd1ce3ca05474143e762e4a5a57cac1ba8bd291a6c5b8306b3",
       },
     ],
     [
       24,
       {
-        count: 2166,
+        count: 2229,
         sha256:
-          "43585e3078f44f4ec9ce210998fa8e5a9cde1ca90b4ac2d99b6462ca362d136a",
+          "2eae16879411297788da6c5b169a9196e7d8775a26de631cd3028361d6963f1c",
       },
     ],
     [
       25,
       {
-        count: 3233,
+        count: 3295,
         sha256:
-          "1a2ae2114a939b3bc85a82f16d48eacbf4524719af9941d3b627b57feaa438ef",
+          "548a752bec495636bd148e2b84833d3ba09ea79996a908496a149762a91433ce",
       },
     ],
     [
@@ -2662,9 +2662,9 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       27,
       {
-        count: 8402,
+        count: 8439,
         sha256:
-          "854b0ed469b99b578489bb1f261fea865c67a942c0e3562b4a0c2527bd36c1dd",
+          "c91dd6ac75ab9de8f9bacdc6dbdf6cf895878dd20083a127109ef2fe3174792e",
       },
     ],
   ]);

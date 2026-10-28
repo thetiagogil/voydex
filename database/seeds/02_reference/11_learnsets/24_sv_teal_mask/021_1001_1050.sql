@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -155,4 +157,28 @@ INSERT INTO reference.pokemon_learnsets (
   -- Ogerpon - Grassy Glide - TM194
   (1017, 101700, 803, 24, NULL, 2, NULL, NULL, 24002194, NULL, 3),
   -- Ogerpon - Lash Out - TM199
-  (1017, 101700, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4);
+  (1017, 101700, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
+  -- Ogerpon (Wellspring Mask) - Knock Off - TM181
+  (1017, 101701, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 1),
+  -- Ogerpon (Wellspring Mask) - Solar Blade - TM190
+  (1017, 101701, 669, 24, NULL, 2, NULL, NULL, 24002190, NULL, 2),
+  -- Ogerpon (Wellspring Mask) - Grassy Glide - TM194
+  (1017, 101701, 803, 24, NULL, 2, NULL, NULL, 24002194, NULL, 3),
+  -- Ogerpon (Wellspring Mask) - Lash Out - TM199
+  (1017, 101701, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
+  -- Ogerpon (Hearthflame Mask) - Knock Off - TM181
+  (1017, 101702, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 1),
+  -- Ogerpon (Hearthflame Mask) - Solar Blade - TM190
+  (1017, 101702, 669, 24, NULL, 2, NULL, NULL, 24002190, NULL, 2),
+  -- Ogerpon (Hearthflame Mask) - Grassy Glide - TM194
+  (1017, 101702, 803, 24, NULL, 2, NULL, NULL, 24002194, NULL, 3),
+  -- Ogerpon (Hearthflame Mask) - Lash Out - TM199
+  (1017, 101702, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
+  -- Ogerpon (Cornerstone Mask) - Knock Off - TM181
+  (1017, 101703, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 1),
+  -- Ogerpon (Cornerstone Mask) - Solar Blade - TM190
+  (1017, 101703, 669, 24, NULL, 2, NULL, NULL, 24002190, NULL, 2),
+  -- Ogerpon (Cornerstone Mask) - Grassy Glide - TM194
+  (1017, 101703, 803, 24, NULL, 2, NULL, NULL, 24002194, NULL, 3),
+  -- Ogerpon (Cornerstone Mask) - Lash Out - TM199
+  (1017, 101703, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4);

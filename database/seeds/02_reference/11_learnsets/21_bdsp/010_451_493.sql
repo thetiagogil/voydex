@@ -4,7 +4,9 @@
 -- Primary: Bulbapedia Generation VIII raw Pokémon learnset pages for Brilliant Diamond / Shining Pearl.
 -- Cross-check: Serebii BDSP game learnset pages and PokemonDB generation learnset pages where useful.
 -- Machine normalization: Bulbapedia BDSP TM catalog data.
--- Product scope: default-form BDSP direct acquisition rows only; alternate/regional form sections are excluded until separately seeded.
+-- Product scope: default-form BDSP direct acquisition rows only; alternate/regional form sections are excluded until separately seeded, except Sky Forme Shaymin, seeded from the game's own data.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -3950,20 +3952,20 @@ INSERT INTO reference.pokemon_learnsets (
   (483, 48300, 163, 21, NULL, 1, 24, NULL, NULL, NULL, 5),
   -- Dialga - Flash Cannon - Level 32
   (483, 48300, 430, 21, NULL, 1, 32, NULL, NULL, NULL, 6),
-  -- Dialga - Dragon Claw - Level 40
-  (483, 48300, 337, 21, NULL, 1, 40, NULL, NULL, NULL, 7),
-  -- Dialga - Aura Sphere - Level 48
-  (483, 48300, 396, 21, NULL, 1, 48, NULL, NULL, NULL, 8),
-  -- Dialga - Power Gem - Level 56
-  (483, 48300, 408, 21, NULL, 1, 56, NULL, NULL, NULL, 9),
-  -- Dialga - Metal Burst - Level 64
-  (483, 48300, 368, 21, NULL, 1, 64, NULL, NULL, NULL, 10),
-  -- Dialga - Earth Power - Level 72
-  (483, 48300, 414, 21, NULL, 1, 72, NULL, NULL, NULL, 11),
-  -- Dialga - Iron Tail - Level 80
-  (483, 48300, 231, 21, NULL, 1, 80, NULL, NULL, NULL, 12),
-  -- Dialga - Roar of Time - Level 88
-  (483, 48300, 459, 21, NULL, 1, 88, NULL, NULL, NULL, 13),
+  -- Dialga - Roar of Time - Level 40
+  (483, 48300, 459, 21, NULL, 1, 40, NULL, NULL, NULL, 7),
+  -- Dialga - Dragon Claw - Level 48
+  (483, 48300, 337, 21, NULL, 1, 48, NULL, NULL, NULL, 8),
+  -- Dialga - Aura Sphere - Level 56
+  (483, 48300, 396, 21, NULL, 1, 56, NULL, NULL, NULL, 9),
+  -- Dialga - Power Gem - Level 64
+  (483, 48300, 408, 21, NULL, 1, 64, NULL, NULL, NULL, 10),
+  -- Dialga - Metal Burst - Level 72
+  (483, 48300, 368, 21, NULL, 1, 72, NULL, NULL, NULL, 11),
+  -- Dialga - Earth Power - Level 80
+  (483, 48300, 414, 21, NULL, 1, 80, NULL, NULL, NULL, 12),
+  -- Dialga - Iron Tail - Level 88
+  (483, 48300, 231, 21, NULL, 1, 88, NULL, NULL, NULL, 13),
   -- Dialga - Dragon Claw - TM02
   (483, 48300, 337, 21, NULL, 2, NULL, NULL, 21002002, NULL, 14),
   -- Dialga - Roar - TM05
@@ -4064,18 +4066,18 @@ INSERT INTO reference.pokemon_learnsets (
   (484, 48400, 163, 21, NULL, 1, 24, NULL, NULL, NULL, 5),
   -- Palkia - Aqua Ring - Level 32
   (484, 48400, 392, 21, NULL, 1, 32, NULL, NULL, NULL, 6),
-  -- Palkia - Dragon Claw - Level 40
-  (484, 48400, 337, 21, NULL, 1, 40, NULL, NULL, NULL, 7),
-  -- Palkia - Aura Sphere - Level 48
-  (484, 48400, 396, 21, NULL, 1, 48, NULL, NULL, NULL, 8),
-  -- Palkia - Power Gem - Level 56
-  (484, 48400, 408, 21, NULL, 1, 56, NULL, NULL, NULL, 9),
-  -- Palkia - Aqua Tail - Level 64
-  (484, 48400, 401, 21, NULL, 1, 64, NULL, NULL, NULL, 10),
-  -- Palkia - Earth Power - Level 72
-  (484, 48400, 414, 21, NULL, 1, 72, NULL, NULL, NULL, 11),
-  -- Palkia - Spacial Rend - Level 80
-  (484, 48400, 460, 21, NULL, 1, 80, NULL, NULL, NULL, 12),
+  -- Palkia - Spacial Rend - Level 40
+  (484, 48400, 460, 21, NULL, 1, 40, NULL, NULL, NULL, 7),
+  -- Palkia - Dragon Claw - Level 48
+  (484, 48400, 337, 21, NULL, 1, 48, NULL, NULL, NULL, 8),
+  -- Palkia - Aura Sphere - Level 56
+  (484, 48400, 396, 21, NULL, 1, 56, NULL, NULL, NULL, 9),
+  -- Palkia - Power Gem - Level 64
+  (484, 48400, 408, 21, NULL, 1, 64, NULL, NULL, NULL, 10),
+  -- Palkia - Aqua Tail - Level 72
+  (484, 48400, 401, 21, NULL, 1, 72, NULL, NULL, NULL, 11),
+  -- Palkia - Earth Power - Level 80
+  (484, 48400, 414, 21, NULL, 1, 80, NULL, NULL, NULL, 12),
   -- Palkia - Hydro Pump - Level 88
   (484, 48400, 56, 21, NULL, 1, 88, NULL, NULL, NULL, 13),
   -- Palkia - Focus Punch - TM01
@@ -4386,16 +4388,16 @@ INSERT INTO reference.pokemon_learnsets (
   (487, 48700, 184, 21, NULL, 1, 35, NULL, NULL, NULL, 7),
   -- Giratina - Shadow Claw - Level 42
   (487, 48700, 421, 21, NULL, 1, 42, NULL, NULL, NULL, 8),
-  -- Giratina - Pain Split - Level 49
-  (487, 48700, 220, 21, NULL, 1, 49, NULL, NULL, NULL, 9),
-  -- Giratina - Aura Sphere - Level 56
-  (487, 48700, 396, 21, NULL, 1, 56, NULL, NULL, NULL, 10),
-  -- Giratina - Dragon Claw - Level 63
-  (487, 48700, 337, 21, NULL, 1, 63, NULL, NULL, NULL, 11),
-  -- Giratina - Earth Power - Level 70
-  (487, 48700, 414, 21, NULL, 1, 70, NULL, NULL, NULL, 12),
-  -- Giratina - Shadow Force - Level 77
-  (487, 48700, 467, 21, NULL, 1, 77, NULL, NULL, NULL, 13),
+  -- Giratina - Shadow Force - Level 49
+  (487, 48700, 467, 21, NULL, 1, 49, NULL, NULL, NULL, 9),
+  -- Giratina - Pain Split - Level 56
+  (487, 48700, 220, 21, NULL, 1, 56, NULL, NULL, NULL, 10),
+  -- Giratina - Aura Sphere - Level 63
+  (487, 48700, 396, 21, NULL, 1, 63, NULL, NULL, NULL, 11),
+  -- Giratina - Dragon Claw - Level 70
+  (487, 48700, 337, 21, NULL, 1, 70, NULL, NULL, NULL, 12),
+  -- Giratina - Earth Power - Level 77
+  (487, 48700, 414, 21, NULL, 1, 77, NULL, NULL, NULL, 13),
   -- Giratina - Destiny Bond - Level 84
   (487, 48700, 194, 21, NULL, 1, 84, NULL, NULL, NULL, 14),
   -- Giratina - Dragon Claw - TM02
@@ -4922,6 +4924,74 @@ INSERT INTO reference.pokemon_learnsets (
   (492, 49200, 207, 21, NULL, 2, NULL, NULL, 21002087, NULL, 33),
   -- Shaymin - Substitute - TM90
   (492, 49200, 164, 21, NULL, 2, NULL, NULL, 21002090, NULL, 34),
+  -- Shaymin (Sky) - Growth - Starting Move
+  (492, 49201, 74, 21, NULL, 8, NULL, NULL, NULL, NULL, 1),
+  -- Shaymin (Sky) - Magical Leaf - Level 10
+  (492, 49201, 345, 21, NULL, 1, 10, NULL, NULL, NULL, 2),
+  -- Shaymin (Sky) - Leech Seed - Level 19
+  (492, 49201, 73, 21, NULL, 1, 19, NULL, NULL, NULL, 3),
+  -- Shaymin (Sky) - Quick Attack - Level 28
+  (492, 49201, 98, 21, NULL, 1, 28, NULL, NULL, NULL, 4),
+  -- Shaymin (Sky) - Sweet Scent - Level 37
+  (492, 49201, 230, 21, NULL, 1, 37, NULL, NULL, NULL, 5),
+  -- Shaymin (Sky) - Healing Wish - Level 46
+  (492, 49201, 361, 21, NULL, 1, 46, NULL, NULL, NULL, 6),
+  -- Shaymin (Sky) - Worry Seed - Level 55
+  (492, 49201, 388, 21, NULL, 1, 55, NULL, NULL, NULL, 7),
+  -- Shaymin (Sky) - Air Slash - Level 64
+  (492, 49201, 403, 21, NULL, 1, 64, NULL, NULL, NULL, 8),
+  -- Shaymin (Sky) - Energy Ball - Level 73
+  (492, 49201, 412, 21, NULL, 1, 73, NULL, NULL, NULL, 9),
+  -- Shaymin (Sky) - Sweet Kiss - Level 82
+  (492, 49201, 186, 21, NULL, 1, 82, NULL, NULL, NULL, 10),
+  -- Shaymin (Sky) - Leaf Storm - Level 91
+  (492, 49201, 437, 21, NULL, 1, 91, NULL, NULL, NULL, 11),
+  -- Shaymin (Sky) - Seed Flare - Level 100
+  (492, 49201, 465, 21, NULL, 1, 100, NULL, NULL, NULL, 12),
+  -- Shaymin (Sky) - Bullet Seed - TM09
+  (492, 49201, 331, 21, NULL, 2, NULL, NULL, 21002009, NULL, 13),
+  -- Shaymin (Sky) - Sunny Day - TM11
+  (492, 49201, 241, 21, NULL, 2, NULL, NULL, 21002011, NULL, 14),
+  -- Shaymin (Sky) - Hyper Beam - TM15
+  (492, 49201, 63, 21, NULL, 2, NULL, NULL, 21002015, NULL, 15),
+  -- Shaymin (Sky) - Protect - TM17
+  (492, 49201, 182, 21, NULL, 2, NULL, NULL, 21002017, NULL, 16),
+  -- Shaymin (Sky) - Giga Drain - TM19
+  (492, 49201, 202, 21, NULL, 2, NULL, NULL, 21002019, NULL, 17),
+  -- Shaymin (Sky) - Safeguard - TM20
+  (492, 49201, 219, 21, NULL, 2, NULL, NULL, 21002020, NULL, 18),
+  -- Shaymin (Sky) - Dazzling Gleam - TM21
+  (492, 49201, 605, 21, NULL, 2, NULL, NULL, 21002021, NULL, 19),
+  -- Shaymin (Sky) - Solar Beam - TM22
+  (492, 49201, 76, 21, NULL, 2, NULL, NULL, 21002022, NULL, 20),
+  -- Shaymin (Sky) - Psychic - TM29
+  (492, 49201, 94, 21, NULL, 2, NULL, NULL, 21002029, NULL, 21),
+  -- Shaymin (Sky) - Double Team - TM32
+  (492, 49201, 104, 21, NULL, 2, NULL, NULL, 21002032, NULL, 22),
+  -- Shaymin (Sky) - Facade - TM42
+  (492, 49201, 263, 21, NULL, 2, NULL, NULL, 21002042, NULL, 23),
+  -- Shaymin (Sky) - Rest - TM44
+  (492, 49201, 156, 21, NULL, 2, NULL, NULL, 21002044, NULL, 24),
+  -- Shaymin (Sky) - Energy Ball - TM53
+  (492, 49201, 412, 21, NULL, 2, NULL, NULL, 21002053, NULL, 25),
+  -- Shaymin (Sky) - Endure - TM58
+  (492, 49201, 203, 21, NULL, 2, NULL, NULL, 21002058, NULL, 26),
+  -- Shaymin (Sky) - Giga Impact - TM68
+  (492, 49201, 416, 21, NULL, 2, NULL, NULL, 21002068, NULL, 27),
+  -- Shaymin (Sky) - Flash - TM70
+  (492, 49201, 148, 21, NULL, 2, NULL, NULL, 21002070, NULL, 28),
+  -- Shaymin (Sky) - Swords Dance - TM75
+  (492, 49201, 14, 21, NULL, 2, NULL, NULL, 21002075, NULL, 29),
+  -- Shaymin (Sky) - Psych Up - TM77
+  (492, 49201, 244, 21, NULL, 2, NULL, NULL, 21002077, NULL, 30),
+  -- Shaymin (Sky) - Sleep Talk - TM82
+  (492, 49201, 214, 21, NULL, 2, NULL, NULL, 21002082, NULL, 31),
+  -- Shaymin (Sky) - Grass Knot - TM86
+  (492, 49201, 447, 21, NULL, 2, NULL, NULL, 21002086, NULL, 32),
+  -- Shaymin (Sky) - Swagger - TM87
+  (492, 49201, 207, 21, NULL, 2, NULL, NULL, 21002087, NULL, 33),
+  -- Shaymin (Sky) - Substitute - TM90
+  (492, 49201, 164, 21, NULL, 2, NULL, NULL, 21002090, NULL, 34),
   -- Arceus - Seismic Toss - Starting Move
   (493, 49300, 69, 21, NULL, 8, NULL, NULL, NULL, NULL, 1),
   -- Arceus - Cosmic Power - Starting Move

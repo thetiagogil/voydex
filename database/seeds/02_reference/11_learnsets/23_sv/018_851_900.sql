@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -3192,26 +3194,26 @@ INSERT INTO reference.pokemon_learnsets (
   (892, 89201, 370, 23, NULL, 1, 48, NULL, NULL, NULL, 15),
   -- Urshifu (Rapid Strike) - Focus Punch - Level 52
   (892, 89201, 264, 23, NULL, 1, 52, NULL, NULL, NULL, 16),
+  -- Urshifu (Rapid Strike) - Surging Strikes - Evolution
+  (892, 89201, 818, 23, NULL, 7, NULL, NULL, NULL, NULL, 17),
   -- Urshifu (Rapid Strike) - Take Down - TM001
-  (892, 89201, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 17),
+  (892, 89201, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 18),
   -- Urshifu (Rapid Strike) - Scary Face - TM006
-  (892, 89201, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 18),
+  (892, 89201, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 19),
   -- Urshifu (Rapid Strike) - Protect - TM007
-  (892, 89201, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 19),
+  (892, 89201, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 20),
   -- Urshifu (Rapid Strike) - Low Kick - TM012
-  (892, 89201, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 20),
+  (892, 89201, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 21),
   -- Urshifu (Rapid Strike) - Acrobatics - TM014
-  (892, 89201, 512, 23, NULL, 2, NULL, NULL, 23002014, NULL, 21),
+  (892, 89201, 512, 23, NULL, 2, NULL, NULL, 23002014, NULL, 22),
   -- Urshifu (Rapid Strike) - Trailblaze - TM020
-  (892, 89201, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 22),
+  (892, 89201, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 23),
   -- Urshifu (Rapid Strike) - Chilling Water - TM022
-  (892, 89201, 886, 23, NULL, 2, NULL, NULL, 23002022, NULL, 23),
+  (892, 89201, 886, 23, NULL, 2, NULL, NULL, 23002022, NULL, 24),
   -- Urshifu (Rapid Strike) - Facade - TM025
-  (892, 89201, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 24),
+  (892, 89201, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 25),
   -- Urshifu (Rapid Strike) - Aerial Ace - TM027
-  (892, 89201, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 25),
-  -- Urshifu (Rapid Strike) - Metal Claw - TM031
-  (892, 89201, 232, 23, NULL, 2, NULL, NULL, 23002031, NULL, 26),
+  (892, 89201, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 26),
   -- Urshifu (Rapid Strike) - Swift - TM032
   (892, 89201, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 27),
   -- Urshifu (Rapid Strike) - Rock Tomb - TM036
@@ -3288,8 +3290,6 @@ INSERT INTO reference.pokemon_learnsets (
   (892, 89201, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 63),
   -- Urshifu (Rapid Strike) - Tera Blast - TM171
   (892, 89201, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 64),
-  -- Urshifu (Rapid Strike) - Surging Strikes - Evolution
-  (892, 89201, 818, 23, NULL, 7, NULL, NULL, NULL, NULL, 65),
   -- Zarude - Scratch - Level 1
   (893, 89300, 10, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Zarude - Bind - Level 1
@@ -3770,664 +3770,490 @@ INSERT INTO reference.pokemon_learnsets (
   (897, 89700, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 46),
   -- Calyrex - Pound - Level 1
   (898, 89800, 1, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
-  -- Calyrex - Swords Dance - Level 1
-  (898, 89800, 14, 23, NULL, 1, 1, NULL, NULL, NULL, 2),
-  -- Calyrex - Stomp - Level 1
-  (898, 89800, 23, 23, NULL, 1, 1, NULL, NULL, NULL, 3),
-  -- Calyrex - Double Kick - Level 1
-  (898, 89800, 24, 23, NULL, 1, 1, NULL, NULL, NULL, 4),
-  -- Calyrex - Tackle - Level 1
-  (898, 89800, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 5),
-  -- Calyrex - Take Down - Level 1
-  (898, 89800, 36, 23, NULL, 1, 1, NULL, NULL, NULL, 6),
-  -- Calyrex - Thrash - Level 1
-  (898, 89800, 37, 23, NULL, 1, 1, NULL, NULL, NULL, 7),
-  -- Calyrex - Double-Edge - Level 1
-  (898, 89800, 38, 23, NULL, 1, 1, NULL, NULL, NULL, 8),
-  -- Calyrex - Tail Whip - Level 1
-  (898, 89800, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 9),
-  -- Calyrex - Disable - Level 1
-  (898, 89800, 50, 23, NULL, 1, 1, NULL, NULL, NULL, 10),
-  -- Calyrex - Mist - Level 1
-  (898, 89800, 54, 23, NULL, 1, 1, NULL, NULL, NULL, 11),
   -- Calyrex - Mega Drain - Level 1
-  (898, 89800, 72, 23, NULL, 1, 1, NULL, NULL, NULL, 12),
+  (898, 89800, 72, 23, NULL, 1, 1, NULL, NULL, NULL, 2),
   -- Calyrex - Growth - Level 1
-  (898, 89800, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 13),
+  (898, 89800, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 3),
   -- Calyrex - Confusion - Level 1
-  (898, 89800, 93, 23, NULL, 1, 1, NULL, NULL, NULL, 14),
-  -- Calyrex - Agility - Level 1
-  (898, 89800, 97, 23, NULL, 1, 1, NULL, NULL, NULL, 15),
-  -- Calyrex - Confuse Ray - Level 1
-  (898, 89800, 109, 23, NULL, 1, 1, NULL, NULL, NULL, 16),
-  -- Calyrex - Haze - Level 1
-  (898, 89800, 114, 23, NULL, 1, 1, NULL, NULL, NULL, 17),
-  -- Calyrex - Shadow Ball - Level 1
-  (898, 89800, 247, 23, NULL, 1, 1, NULL, NULL, NULL, 18),
-  -- Calyrex - Torment - Level 1
-  (898, 89800, 259, 23, NULL, 1, 1, NULL, NULL, NULL, 19),
-  -- Calyrex - Taunt - Level 1
-  (898, 89800, 269, 23, NULL, 1, 1, NULL, NULL, NULL, 20),
-  -- Calyrex - Iron Defense - Level 1
-  (898, 89800, 334, 23, NULL, 1, 1, NULL, NULL, NULL, 21),
-  -- Calyrex - Nasty Plot - Level 1
-  (898, 89800, 417, 23, NULL, 1, 1, NULL, NULL, NULL, 22),
-  -- Calyrex - Avalanche - Level 1
-  (898, 89800, 419, 23, NULL, 1, 1, NULL, NULL, NULL, 23),
-  -- Calyrex - Hex - Level 1
-  (898, 89800, 506, 23, NULL, 1, 1, NULL, NULL, NULL, 24),
-  -- Calyrex - Icicle Crash - Level 1
-  (898, 89800, 556, 23, NULL, 1, 1, NULL, NULL, NULL, 25),
-  -- Calyrex - Glacial Lance - Level 1
-  (898, 89800, 824, 23, NULL, 1, 1, NULL, NULL, NULL, 26),
-  -- Calyrex - Astral Barrage - Level 1
-  (898, 89800, 825, 23, NULL, 1, 1, NULL, NULL, NULL, 27),
+  (898, 89800, 93, 23, NULL, 1, 1, NULL, NULL, NULL, 4),
   -- Calyrex - Life Dew - Level 8
-  (898, 89800, 791, 23, NULL, 1, 8, NULL, NULL, NULL, 28),
+  (898, 89800, 791, 23, NULL, 1, 8, NULL, NULL, NULL, 5),
   -- Calyrex - Giga Drain - Level 16
-  (898, 89800, 202, 23, NULL, 1, 16, NULL, NULL, NULL, 29),
+  (898, 89800, 202, 23, NULL, 1, 16, NULL, NULL, NULL, 6),
   -- Calyrex - Psyshock - Level 24
-  (898, 89800, 473, 23, NULL, 1, 24, NULL, NULL, NULL, 30),
+  (898, 89800, 473, 23, NULL, 1, 24, NULL, NULL, NULL, 7),
   -- Calyrex - Helping Hand - Level 32
-  (898, 89800, 270, 23, NULL, 1, 32, NULL, NULL, NULL, 31),
+  (898, 89800, 270, 23, NULL, 1, 32, NULL, NULL, NULL, 8),
   -- Calyrex - Grassy Terrain - Level 40
-  (898, 89800, 580, 23, NULL, 1, 40, NULL, NULL, NULL, 32),
+  (898, 89800, 580, 23, NULL, 1, 40, NULL, NULL, NULL, 9),
   -- Calyrex - Psychic Terrain - Level 40
-  (898, 89800, 678, 23, NULL, 1, 40, NULL, NULL, NULL, 33),
+  (898, 89800, 678, 23, NULL, 1, 40, NULL, NULL, NULL, 10),
   -- Calyrex - Energy Ball - Level 48
-  (898, 89800, 412, 23, NULL, 1, 48, NULL, NULL, NULL, 34),
+  (898, 89800, 412, 23, NULL, 1, 48, NULL, NULL, NULL, 11),
   -- Calyrex - Psychic - Level 56
-  (898, 89800, 94, 23, NULL, 1, 56, NULL, NULL, NULL, 35),
+  (898, 89800, 94, 23, NULL, 1, 56, NULL, NULL, NULL, 12),
   -- Calyrex - Leech Seed - Level 64
-  (898, 89800, 73, 23, NULL, 1, 64, NULL, NULL, NULL, 36),
+  (898, 89800, 73, 23, NULL, 1, 64, NULL, NULL, NULL, 13),
   -- Calyrex - Heal Pulse - Level 72
-  (898, 89800, 505, 23, NULL, 1, 72, NULL, NULL, NULL, 37),
+  (898, 89800, 505, 23, NULL, 1, 72, NULL, NULL, NULL, 14),
   -- Calyrex - Solar Beam - Level 80
-  (898, 89800, 76, 23, NULL, 1, 80, NULL, NULL, NULL, 38),
+  (898, 89800, 76, 23, NULL, 1, 80, NULL, NULL, NULL, 15),
   -- Calyrex - Future Sight - Level 88
-  (898, 89800, 248, 23, NULL, 1, 88, NULL, NULL, NULL, 39),
+  (898, 89800, 248, 23, NULL, 1, 88, NULL, NULL, NULL, 16),
   -- Calyrex - Take Down - TM001
-  (898, 89800, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 40),
+  (898, 89800, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 17),
   -- Calyrex - Agility - TM004
-  (898, 89800, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 41),
+  (898, 89800, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 18),
   -- Calyrex - Scary Face - TM006
-  (898, 89800, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 42),
+  (898, 89800, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 19),
   -- Calyrex - Protect - TM007
-  (898, 89800, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 43),
+  (898, 89800, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 20),
   -- Calyrex - Psybeam - TM016
-  (898, 89800, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 44),
-  -- Calyrex - Confuse Ray - TM017
-  (898, 89800, 109, 23, NULL, 2, NULL, NULL, 23002017, NULL, 45),
-  -- Calyrex - Trailblaze - TM020
-  (898, 89800, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 46),
+  (898, 89800, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 21),
   -- Calyrex - Facade - TM025
-  (898, 89800, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 47),
-  -- Calyrex - Bulldoze - TM028
-  (898, 89800, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 48),
-  -- Calyrex - Hex - TM029
-  (898, 89800, 506, 23, NULL, 2, NULL, NULL, 23002029, NULL, 49),
+  (898, 89800, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 22),
   -- Calyrex - Snarl - TM030
-  (898, 89800, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 50),
+  (898, 89800, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 23),
   -- Calyrex - Swift - TM032
-  (898, 89800, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 51),
+  (898, 89800, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 24),
   -- Calyrex - Magical Leaf - TM033
-  (898, 89800, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 52),
-  -- Calyrex - Icy Wind - TM034
-  (898, 89800, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 53),
+  (898, 89800, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 25),
   -- Calyrex - Mud Shot - TM035
-  (898, 89800, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 54),
+  (898, 89800, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 26),
   -- Calyrex - Draining Kiss - TM037
-  (898, 89800, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 55),
+  (898, 89800, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 27),
   -- Calyrex - Stored Power - TM041
-  (898, 89800, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 56),
-  -- Calyrex - Night Shade - TM042
-  (898, 89800, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 57),
-  -- Calyrex - Avalanche - TM046
-  (898, 89800, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 58),
+  (898, 89800, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 28),
   -- Calyrex - Endure - TM047
-  (898, 89800, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 59),
+  (898, 89800, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 29),
   -- Calyrex - Sunny Day - TM049
-  (898, 89800, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 60),
-  -- Calyrex - Snowscape - TM052
-  (898, 89800, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 61),
-  -- Calyrex - Smart Strike - TM053
-  (898, 89800, 684, 23, NULL, 2, NULL, NULL, 23002053, NULL, 62),
+  (898, 89800, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 30),
   -- Calyrex - Psyshock - TM054
-  (898, 89800, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 63),
+  (898, 89800, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 31),
   -- Calyrex - Bullet Seed - TM056
-  (898, 89800, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 64),
+  (898, 89800, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 32),
   -- Calyrex - Zen Headbutt - TM059
-  (898, 89800, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 65),
-  -- Calyrex - Foul Play - TM062
-  (898, 89800, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 66),
-  -- Calyrex - Body Slam - TM066
-  (898, 89800, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 67),
+  (898, 89800, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 33),
   -- Calyrex - Sleep Talk - TM070
-  (898, 89800, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 68),
+  (898, 89800, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 34),
   -- Calyrex - Seed Bomb - TM071
-  (898, 89800, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 69),
+  (898, 89800, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 35),
   -- Calyrex - Reflect - TM074
-  (898, 89800, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 70),
+  (898, 89800, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 36),
   -- Calyrex - Light Screen - TM075
-  (898, 89800, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 71),
+  (898, 89800, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 37),
   -- Calyrex - Metronome - TM080
-  (898, 89800, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 72),
+  (898, 89800, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 38),
   -- Calyrex - Grass Knot - TM081
-  (898, 89800, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 73),
-  -- Calyrex - Stomping Tantrum - TM084
-  (898, 89800, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 74),
+  (898, 89800, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 39),
   -- Calyrex - Rest - TM085
-  (898, 89800, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 75),
-  -- Calyrex - Taunt - TM087
-  (898, 89800, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 76),
-  -- Calyrex - Swords Dance - TM088
-  (898, 89800, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 77),
+  (898, 89800, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 40),
   -- Calyrex - Body Press - TM089
-  (898, 89800, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 78),
+  (898, 89800, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 41),
   -- Calyrex - Imprison - TM092
-  (898, 89800, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 79),
-  -- Calyrex - Dark Pulse - TM094
-  (898, 89800, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 80),
+  (898, 89800, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 42),
   -- Calyrex - Skill Swap - TM098
-  (898, 89800, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 81),
+  (898, 89800, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 43),
   -- Calyrex - Substitute - TM103
-  (898, 89800, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 82),
-  -- Calyrex - Iron Defense - TM104
-  (898, 89800, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 83),
-  -- Calyrex - Will-O-Wisp - TM107
-  (898, 89800, 261, 23, NULL, 2, NULL, NULL, 23002107, NULL, 84),
-  -- Calyrex - Crunch - TM108
-  (898, 89800, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 85),
+  (898, 89800, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 44),
   -- Calyrex - Trick - TM109
-  (898, 89800, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 86),
+  (898, 89800, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 45),
   -- Calyrex - Giga Drain - TM111
-  (898, 89800, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 87),
-  -- Calyrex - Shadow Ball - TM114
-  (898, 89800, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 88),
+  (898, 89800, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 46),
   -- Calyrex - Energy Ball - TM119
-  (898, 89800, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 89),
+  (898, 89800, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 47),
   -- Calyrex - Psychic - TM120
-  (898, 89800, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 90),
-  -- Calyrex - Heavy Slam - TM121
-  (898, 89800, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 91),
+  (898, 89800, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 48),
   -- Calyrex - Encore - TM122
-  (898, 89800, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 92),
+  (898, 89800, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 49),
   -- Calyrex - Calm Mind - TM129
-  (898, 89800, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 93),
+  (898, 89800, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 50),
   -- Calyrex - Helping Hand - TM130
-  (898, 89800, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 94),
+  (898, 89800, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 51),
   -- Calyrex - Pollen Puff - TM131
-  (898, 89800, 676, 23, NULL, 2, NULL, NULL, 23002131, NULL, 95),
+  (898, 89800, 676, 23, NULL, 2, NULL, NULL, 23002131, NULL, 52),
   -- Calyrex - Baton Pass - TM132
-  (898, 89800, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 96),
-  -- Calyrex - Ice Beam - TM135
-  (898, 89800, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 97),
+  (898, 89800, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 53),
   -- Calyrex - Grassy Terrain - TM137
-  (898, 89800, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 98),
+  (898, 89800, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 54),
   -- Calyrex - Psychic Terrain - TM138
-  (898, 89800, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 99),
-  -- Calyrex - Nasty Plot - TM140
-  (898, 89800, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 100),
-  -- Calyrex - Blizzard - TM143
-  (898, 89800, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 101),
-  -- Calyrex - Phantom Force - TM151
-  (898, 89800, 566, 23, NULL, 2, NULL, NULL, 23002151, NULL, 102),
+  (898, 89800, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 55),
   -- Calyrex - Giga Impact - TM152
-  (898, 89800, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 103),
-  -- Calyrex - Outrage - TM156
-  (898, 89800, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 104),
+  (898, 89800, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 56),
   -- Calyrex - Leaf Storm - TM159
-  (898, 89800, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 105),
+  (898, 89800, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 57),
   -- Calyrex - Trick Room - TM161
-  (898, 89800, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 106),
+  (898, 89800, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 58),
   -- Calyrex - Hyper Beam - TM163
-  (898, 89800, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 107),
-  -- Calyrex - Close Combat - TM167
-  (898, 89800, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 108),
+  (898, 89800, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 59),
   -- Calyrex - Solar Beam - TM168
-  (898, 89800, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 109),
+  (898, 89800, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 60),
   -- Calyrex - Tera Blast - TM171
-  (898, 89800, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 110),
-  -- Calyrex (Ice Rider) - Pound - Level 1
-  (898, 89801, 1, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
-  -- Calyrex (Ice Rider) - Swords Dance - Level 1
-  (898, 89801, 14, 23, NULL, 1, 1, NULL, NULL, NULL, 2),
-  -- Calyrex (Ice Rider) - Stomp - Level 1
-  (898, 89801, 23, 23, NULL, 1, 1, NULL, NULL, NULL, 3),
-  -- Calyrex (Ice Rider) - Double Kick - Level 1
-  (898, 89801, 24, 23, NULL, 1, 1, NULL, NULL, NULL, 4),
-  -- Calyrex (Ice Rider) - Tackle - Level 1
-  (898, 89801, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 5),
-  -- Calyrex (Ice Rider) - Take Down - Level 1
-  (898, 89801, 36, 23, NULL, 1, 1, NULL, NULL, NULL, 6),
-  -- Calyrex (Ice Rider) - Thrash - Level 1
-  (898, 89801, 37, 23, NULL, 1, 1, NULL, NULL, NULL, 7),
-  -- Calyrex (Ice Rider) - Double-Edge - Level 1
-  (898, 89801, 38, 23, NULL, 1, 1, NULL, NULL, NULL, 8),
-  -- Calyrex (Ice Rider) - Tail Whip - Level 1
-  (898, 89801, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 9),
-  -- Calyrex (Ice Rider) - Disable - Level 1
-  (898, 89801, 50, 23, NULL, 1, 1, NULL, NULL, NULL, 10),
-  -- Calyrex (Ice Rider) - Mist - Level 1
-  (898, 89801, 54, 23, NULL, 1, 1, NULL, NULL, NULL, 11),
-  -- Calyrex (Ice Rider) - Mega Drain - Level 1
-  (898, 89801, 72, 23, NULL, 1, 1, NULL, NULL, NULL, 12),
-  -- Calyrex (Ice Rider) - Growth - Level 1
-  (898, 89801, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 13),
-  -- Calyrex (Ice Rider) - Confusion - Level 1
-  (898, 89801, 93, 23, NULL, 1, 1, NULL, NULL, NULL, 14),
-  -- Calyrex (Ice Rider) - Agility - Level 1
-  (898, 89801, 97, 23, NULL, 1, 1, NULL, NULL, NULL, 15),
-  -- Calyrex (Ice Rider) - Confuse Ray - Level 1
-  (898, 89801, 109, 23, NULL, 1, 1, NULL, NULL, NULL, 16),
-  -- Calyrex (Ice Rider) - Haze - Level 1
-  (898, 89801, 114, 23, NULL, 1, 1, NULL, NULL, NULL, 17),
-  -- Calyrex (Ice Rider) - Shadow Ball - Level 1
-  (898, 89801, 247, 23, NULL, 1, 1, NULL, NULL, NULL, 18),
-  -- Calyrex (Ice Rider) - Torment - Level 1
-  (898, 89801, 259, 23, NULL, 1, 1, NULL, NULL, NULL, 19),
-  -- Calyrex (Ice Rider) - Taunt - Level 1
-  (898, 89801, 269, 23, NULL, 1, 1, NULL, NULL, NULL, 20),
-  -- Calyrex (Ice Rider) - Iron Defense - Level 1
-  (898, 89801, 334, 23, NULL, 1, 1, NULL, NULL, NULL, 21),
-  -- Calyrex (Ice Rider) - Nasty Plot - Level 1
-  (898, 89801, 417, 23, NULL, 1, 1, NULL, NULL, NULL, 22),
-  -- Calyrex (Ice Rider) - Avalanche - Level 1
-  (898, 89801, 419, 23, NULL, 1, 1, NULL, NULL, NULL, 23),
-  -- Calyrex (Ice Rider) - Hex - Level 1
-  (898, 89801, 506, 23, NULL, 1, 1, NULL, NULL, NULL, 24),
-  -- Calyrex (Ice Rider) - Icicle Crash - Level 1
-  (898, 89801, 556, 23, NULL, 1, 1, NULL, NULL, NULL, 25),
+  (898, 89800, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 61),
   -- Calyrex (Ice Rider) - Glacial Lance - Level 1
-  (898, 89801, 824, 23, NULL, 1, 1, NULL, NULL, NULL, 26),
-  -- Calyrex (Ice Rider) - Astral Barrage - Level 1
-  (898, 89801, 825, 23, NULL, 1, 1, NULL, NULL, NULL, 27),
+  (898, 89801, 824, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Calyrex (Ice Rider) - Icicle Crash - Level 1
+  (898, 89801, 556, 23, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Calyrex (Ice Rider) - Avalanche - Level 1
+  (898, 89801, 419, 23, NULL, 1, 1, NULL, NULL, NULL, 3),
+  -- Calyrex (Ice Rider) - Iron Defense - Level 1
+  (898, 89801, 334, 23, NULL, 1, 1, NULL, NULL, NULL, 4),
+  -- Calyrex (Ice Rider) - Taunt - Level 1
+  (898, 89801, 269, 23, NULL, 1, 1, NULL, NULL, NULL, 5),
+  -- Calyrex (Ice Rider) - Torment - Level 1
+  (898, 89801, 259, 23, NULL, 1, 1, NULL, NULL, NULL, 6),
+  -- Calyrex (Ice Rider) - Confusion - Level 1
+  (898, 89801, 93, 23, NULL, 1, 1, NULL, NULL, NULL, 7),
+  -- Calyrex (Ice Rider) - Growth - Level 1
+  (898, 89801, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 8),
+  -- Calyrex (Ice Rider) - Mega Drain - Level 1
+  (898, 89801, 72, 23, NULL, 1, 1, NULL, NULL, NULL, 9),
+  -- Calyrex (Ice Rider) - Pound - Level 1
+  (898, 89801, 1, 23, NULL, 1, 1, NULL, NULL, NULL, 10),
+  -- Calyrex (Ice Rider) - Tail Whip - Level 1
+  (898, 89801, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 11),
+  -- Calyrex (Ice Rider) - Swords Dance - Level 1
+  (898, 89801, 14, 23, NULL, 1, 1, NULL, NULL, NULL, 12),
+  -- Calyrex (Ice Rider) - Double-Edge - Level 1
+  (898, 89801, 38, 23, NULL, 1, 1, NULL, NULL, NULL, 13),
+  -- Calyrex (Ice Rider) - Thrash - Level 1
+  (898, 89801, 37, 23, NULL, 1, 1, NULL, NULL, NULL, 14),
+  -- Calyrex (Ice Rider) - Stomp - Level 1
+  (898, 89801, 23, 23, NULL, 1, 1, NULL, NULL, NULL, 15),
+  -- Calyrex (Ice Rider) - Take Down - Level 1
+  (898, 89801, 36, 23, NULL, 1, 1, NULL, NULL, NULL, 16),
+  -- Calyrex (Ice Rider) - Tackle - Level 1
+  (898, 89801, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 17),
+  -- Calyrex (Ice Rider) - Mist - Level 1
+  (898, 89801, 54, 23, NULL, 1, 1, NULL, NULL, NULL, 18),
+  -- Calyrex (Ice Rider) - Double Kick - Level 1
+  (898, 89801, 24, 23, NULL, 1, 1, NULL, NULL, NULL, 19),
   -- Calyrex (Ice Rider) - Life Dew - Level 8
-  (898, 89801, 791, 23, NULL, 1, 8, NULL, NULL, NULL, 28),
+  (898, 89801, 791, 23, NULL, 1, 8, NULL, NULL, NULL, 20),
   -- Calyrex (Ice Rider) - Giga Drain - Level 16
-  (898, 89801, 202, 23, NULL, 1, 16, NULL, NULL, NULL, 29),
+  (898, 89801, 202, 23, NULL, 1, 16, NULL, NULL, NULL, 21),
   -- Calyrex (Ice Rider) - Psyshock - Level 24
-  (898, 89801, 473, 23, NULL, 1, 24, NULL, NULL, NULL, 30),
+  (898, 89801, 473, 23, NULL, 1, 24, NULL, NULL, NULL, 22),
   -- Calyrex (Ice Rider) - Helping Hand - Level 32
-  (898, 89801, 270, 23, NULL, 1, 32, NULL, NULL, NULL, 31),
+  (898, 89801, 270, 23, NULL, 1, 32, NULL, NULL, NULL, 23),
   -- Calyrex (Ice Rider) - Grassy Terrain - Level 40
-  (898, 89801, 580, 23, NULL, 1, 40, NULL, NULL, NULL, 32),
+  (898, 89801, 580, 23, NULL, 1, 40, NULL, NULL, NULL, 24),
   -- Calyrex (Ice Rider) - Psychic Terrain - Level 40
-  (898, 89801, 678, 23, NULL, 1, 40, NULL, NULL, NULL, 33),
+  (898, 89801, 678, 23, NULL, 1, 40, NULL, NULL, NULL, 25),
   -- Calyrex (Ice Rider) - Energy Ball - Level 48
-  (898, 89801, 412, 23, NULL, 1, 48, NULL, NULL, NULL, 34),
+  (898, 89801, 412, 23, NULL, 1, 48, NULL, NULL, NULL, 26),
   -- Calyrex (Ice Rider) - Psychic - Level 56
-  (898, 89801, 94, 23, NULL, 1, 56, NULL, NULL, NULL, 35),
+  (898, 89801, 94, 23, NULL, 1, 56, NULL, NULL, NULL, 27),
   -- Calyrex (Ice Rider) - Leech Seed - Level 64
-  (898, 89801, 73, 23, NULL, 1, 64, NULL, NULL, NULL, 36),
+  (898, 89801, 73, 23, NULL, 1, 64, NULL, NULL, NULL, 28),
   -- Calyrex (Ice Rider) - Heal Pulse - Level 72
-  (898, 89801, 505, 23, NULL, 1, 72, NULL, NULL, NULL, 37),
+  (898, 89801, 505, 23, NULL, 1, 72, NULL, NULL, NULL, 29),
   -- Calyrex (Ice Rider) - Solar Beam - Level 80
-  (898, 89801, 76, 23, NULL, 1, 80, NULL, NULL, NULL, 38),
+  (898, 89801, 76, 23, NULL, 1, 80, NULL, NULL, NULL, 30),
   -- Calyrex (Ice Rider) - Future Sight - Level 88
-  (898, 89801, 248, 23, NULL, 1, 88, NULL, NULL, NULL, 39),
+  (898, 89801, 248, 23, NULL, 1, 88, NULL, NULL, NULL, 31),
   -- Calyrex (Ice Rider) - Take Down - TM001
-  (898, 89801, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 40),
+  (898, 89801, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 32),
   -- Calyrex (Ice Rider) - Agility - TM004
-  (898, 89801, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 41),
+  (898, 89801, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 33),
   -- Calyrex (Ice Rider) - Scary Face - TM006
-  (898, 89801, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 42),
+  (898, 89801, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 34),
   -- Calyrex (Ice Rider) - Protect - TM007
-  (898, 89801, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 43),
+  (898, 89801, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 35),
   -- Calyrex (Ice Rider) - Psybeam - TM016
-  (898, 89801, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 44),
-  -- Calyrex (Ice Rider) - Confuse Ray - TM017
-  (898, 89801, 109, 23, NULL, 2, NULL, NULL, 23002017, NULL, 45),
+  (898, 89801, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 36),
   -- Calyrex (Ice Rider) - Trailblaze - TM020
-  (898, 89801, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 46),
+  (898, 89801, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 37),
   -- Calyrex (Ice Rider) - Facade - TM025
-  (898, 89801, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 47),
+  (898, 89801, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 38),
   -- Calyrex (Ice Rider) - Bulldoze - TM028
-  (898, 89801, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 48),
-  -- Calyrex (Ice Rider) - Hex - TM029
-  (898, 89801, 506, 23, NULL, 2, NULL, NULL, 23002029, NULL, 49),
+  (898, 89801, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 39),
   -- Calyrex (Ice Rider) - Snarl - TM030
-  (898, 89801, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 50),
+  (898, 89801, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 40),
   -- Calyrex (Ice Rider) - Swift - TM032
-  (898, 89801, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 51),
+  (898, 89801, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 41),
   -- Calyrex (Ice Rider) - Magical Leaf - TM033
-  (898, 89801, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 52),
+  (898, 89801, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 42),
   -- Calyrex (Ice Rider) - Icy Wind - TM034
-  (898, 89801, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 53),
+  (898, 89801, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 43),
   -- Calyrex (Ice Rider) - Mud Shot - TM035
-  (898, 89801, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 54),
+  (898, 89801, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 44),
   -- Calyrex (Ice Rider) - Draining Kiss - TM037
-  (898, 89801, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 55),
+  (898, 89801, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 45),
   -- Calyrex (Ice Rider) - Stored Power - TM041
-  (898, 89801, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 56),
-  -- Calyrex (Ice Rider) - Night Shade - TM042
-  (898, 89801, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 57),
+  (898, 89801, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 46),
   -- Calyrex (Ice Rider) - Avalanche - TM046
-  (898, 89801, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 58),
+  (898, 89801, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 47),
   -- Calyrex (Ice Rider) - Endure - TM047
-  (898, 89801, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 59),
+  (898, 89801, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 48),
   -- Calyrex (Ice Rider) - Sunny Day - TM049
-  (898, 89801, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 60),
+  (898, 89801, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 49),
   -- Calyrex (Ice Rider) - Snowscape - TM052
-  (898, 89801, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 61),
+  (898, 89801, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 50),
   -- Calyrex (Ice Rider) - Smart Strike - TM053
-  (898, 89801, 684, 23, NULL, 2, NULL, NULL, 23002053, NULL, 62),
+  (898, 89801, 684, 23, NULL, 2, NULL, NULL, 23002053, NULL, 51),
   -- Calyrex (Ice Rider) - Psyshock - TM054
-  (898, 89801, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 63),
+  (898, 89801, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 52),
   -- Calyrex (Ice Rider) - Bullet Seed - TM056
-  (898, 89801, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 64),
+  (898, 89801, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 53),
   -- Calyrex (Ice Rider) - Zen Headbutt - TM059
-  (898, 89801, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 65),
-  -- Calyrex (Ice Rider) - Foul Play - TM062
-  (898, 89801, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 66),
+  (898, 89801, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 54),
   -- Calyrex (Ice Rider) - Body Slam - TM066
-  (898, 89801, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 67),
+  (898, 89801, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 55),
   -- Calyrex (Ice Rider) - Sleep Talk - TM070
-  (898, 89801, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 68),
+  (898, 89801, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 56),
   -- Calyrex (Ice Rider) - Seed Bomb - TM071
-  (898, 89801, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 69),
+  (898, 89801, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 57),
   -- Calyrex (Ice Rider) - Reflect - TM074
-  (898, 89801, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 70),
+  (898, 89801, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 58),
   -- Calyrex (Ice Rider) - Light Screen - TM075
-  (898, 89801, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 71),
+  (898, 89801, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 59),
   -- Calyrex (Ice Rider) - Metronome - TM080
-  (898, 89801, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 72),
+  (898, 89801, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 60),
   -- Calyrex (Ice Rider) - Grass Knot - TM081
-  (898, 89801, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 73),
+  (898, 89801, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 61),
   -- Calyrex (Ice Rider) - Stomping Tantrum - TM084
-  (898, 89801, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 74),
+  (898, 89801, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 62),
   -- Calyrex (Ice Rider) - Rest - TM085
-  (898, 89801, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 75),
+  (898, 89801, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 63),
   -- Calyrex (Ice Rider) - Taunt - TM087
-  (898, 89801, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 76),
+  (898, 89801, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 64),
   -- Calyrex (Ice Rider) - Swords Dance - TM088
-  (898, 89801, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 77),
+  (898, 89801, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 65),
   -- Calyrex (Ice Rider) - Body Press - TM089
-  (898, 89801, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 78),
+  (898, 89801, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 66),
   -- Calyrex (Ice Rider) - Imprison - TM092
-  (898, 89801, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 79),
-  -- Calyrex (Ice Rider) - Dark Pulse - TM094
-  (898, 89801, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 80),
+  (898, 89801, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 67),
   -- Calyrex (Ice Rider) - Skill Swap - TM098
-  (898, 89801, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 81),
+  (898, 89801, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 68),
   -- Calyrex (Ice Rider) - Substitute - TM103
-  (898, 89801, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 82),
+  (898, 89801, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 69),
   -- Calyrex (Ice Rider) - Iron Defense - TM104
-  (898, 89801, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 83),
-  -- Calyrex (Ice Rider) - Will-O-Wisp - TM107
-  (898, 89801, 261, 23, NULL, 2, NULL, NULL, 23002107, NULL, 84),
+  (898, 89801, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 70),
   -- Calyrex (Ice Rider) - Crunch - TM108
-  (898, 89801, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 85),
+  (898, 89801, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 71),
   -- Calyrex (Ice Rider) - Trick - TM109
-  (898, 89801, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 86),
+  (898, 89801, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 72),
   -- Calyrex (Ice Rider) - Giga Drain - TM111
-  (898, 89801, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 87),
-  -- Calyrex (Ice Rider) - Shadow Ball - TM114
-  (898, 89801, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 88),
+  (898, 89801, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 73),
   -- Calyrex (Ice Rider) - Energy Ball - TM119
-  (898, 89801, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 89),
+  (898, 89801, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 74),
   -- Calyrex (Ice Rider) - Psychic - TM120
-  (898, 89801, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 90),
+  (898, 89801, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 75),
   -- Calyrex (Ice Rider) - Heavy Slam - TM121
-  (898, 89801, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 91),
+  (898, 89801, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 76),
   -- Calyrex (Ice Rider) - Encore - TM122
-  (898, 89801, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 92),
+  (898, 89801, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 77),
   -- Calyrex (Ice Rider) - Calm Mind - TM129
-  (898, 89801, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 93),
+  (898, 89801, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 78),
   -- Calyrex (Ice Rider) - Helping Hand - TM130
-  (898, 89801, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 94),
+  (898, 89801, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 79),
   -- Calyrex (Ice Rider) - Pollen Puff - TM131
-  (898, 89801, 676, 23, NULL, 2, NULL, NULL, 23002131, NULL, 95),
+  (898, 89801, 676, 23, NULL, 2, NULL, NULL, 23002131, NULL, 80),
   -- Calyrex (Ice Rider) - Baton Pass - TM132
-  (898, 89801, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 96),
+  (898, 89801, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 81),
   -- Calyrex (Ice Rider) - Ice Beam - TM135
-  (898, 89801, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 97),
+  (898, 89801, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 82),
   -- Calyrex (Ice Rider) - Grassy Terrain - TM137
-  (898, 89801, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 98),
+  (898, 89801, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 83),
   -- Calyrex (Ice Rider) - Psychic Terrain - TM138
-  (898, 89801, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 99),
-  -- Calyrex (Ice Rider) - Nasty Plot - TM140
-  (898, 89801, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 100),
+  (898, 89801, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 84),
   -- Calyrex (Ice Rider) - Blizzard - TM143
-  (898, 89801, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 101),
-  -- Calyrex (Ice Rider) - Phantom Force - TM151
-  (898, 89801, 566, 23, NULL, 2, NULL, NULL, 23002151, NULL, 102),
+  (898, 89801, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 85),
   -- Calyrex (Ice Rider) - Giga Impact - TM152
-  (898, 89801, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 103),
+  (898, 89801, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 86),
   -- Calyrex (Ice Rider) - Outrage - TM156
-  (898, 89801, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 104),
+  (898, 89801, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 87),
   -- Calyrex (Ice Rider) - Leaf Storm - TM159
-  (898, 89801, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 105),
+  (898, 89801, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 88),
   -- Calyrex (Ice Rider) - Trick Room - TM161
-  (898, 89801, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 106),
+  (898, 89801, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 89),
   -- Calyrex (Ice Rider) - Hyper Beam - TM163
-  (898, 89801, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 107),
+  (898, 89801, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 90),
   -- Calyrex (Ice Rider) - Close Combat - TM167
-  (898, 89801, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 108),
+  (898, 89801, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 91),
   -- Calyrex (Ice Rider) - Solar Beam - TM168
-  (898, 89801, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 109),
+  (898, 89801, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 92),
   -- Calyrex (Ice Rider) - Tera Blast - TM171
-  (898, 89801, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 110),
-  -- Calyrex (Shadow Rider) - Pound - Level 1
-  (898, 89802, 1, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
-  -- Calyrex (Shadow Rider) - Swords Dance - Level 1
-  (898, 89802, 14, 23, NULL, 1, 1, NULL, NULL, NULL, 2),
-  -- Calyrex (Shadow Rider) - Stomp - Level 1
-  (898, 89802, 23, 23, NULL, 1, 1, NULL, NULL, NULL, 3),
-  -- Calyrex (Shadow Rider) - Double Kick - Level 1
-  (898, 89802, 24, 23, NULL, 1, 1, NULL, NULL, NULL, 4),
-  -- Calyrex (Shadow Rider) - Tackle - Level 1
-  (898, 89802, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 5),
-  -- Calyrex (Shadow Rider) - Take Down - Level 1
-  (898, 89802, 36, 23, NULL, 1, 1, NULL, NULL, NULL, 6),
-  -- Calyrex (Shadow Rider) - Thrash - Level 1
-  (898, 89802, 37, 23, NULL, 1, 1, NULL, NULL, NULL, 7),
-  -- Calyrex (Shadow Rider) - Double-Edge - Level 1
-  (898, 89802, 38, 23, NULL, 1, 1, NULL, NULL, NULL, 8),
-  -- Calyrex (Shadow Rider) - Tail Whip - Level 1
-  (898, 89802, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 9),
-  -- Calyrex (Shadow Rider) - Disable - Level 1
-  (898, 89802, 50, 23, NULL, 1, 1, NULL, NULL, NULL, 10),
-  -- Calyrex (Shadow Rider) - Mist - Level 1
-  (898, 89802, 54, 23, NULL, 1, 1, NULL, NULL, NULL, 11),
-  -- Calyrex (Shadow Rider) - Mega Drain - Level 1
-  (898, 89802, 72, 23, NULL, 1, 1, NULL, NULL, NULL, 12),
-  -- Calyrex (Shadow Rider) - Growth - Level 1
-  (898, 89802, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 13),
-  -- Calyrex (Shadow Rider) - Confusion - Level 1
-  (898, 89802, 93, 23, NULL, 1, 1, NULL, NULL, NULL, 14),
-  -- Calyrex (Shadow Rider) - Agility - Level 1
-  (898, 89802, 97, 23, NULL, 1, 1, NULL, NULL, NULL, 15),
-  -- Calyrex (Shadow Rider) - Confuse Ray - Level 1
-  (898, 89802, 109, 23, NULL, 1, 1, NULL, NULL, NULL, 16),
-  -- Calyrex (Shadow Rider) - Haze - Level 1
-  (898, 89802, 114, 23, NULL, 1, 1, NULL, NULL, NULL, 17),
-  -- Calyrex (Shadow Rider) - Shadow Ball - Level 1
-  (898, 89802, 247, 23, NULL, 1, 1, NULL, NULL, NULL, 18),
-  -- Calyrex (Shadow Rider) - Torment - Level 1
-  (898, 89802, 259, 23, NULL, 1, 1, NULL, NULL, NULL, 19),
-  -- Calyrex (Shadow Rider) - Taunt - Level 1
-  (898, 89802, 269, 23, NULL, 1, 1, NULL, NULL, NULL, 20),
-  -- Calyrex (Shadow Rider) - Iron Defense - Level 1
-  (898, 89802, 334, 23, NULL, 1, 1, NULL, NULL, NULL, 21),
-  -- Calyrex (Shadow Rider) - Nasty Plot - Level 1
-  (898, 89802, 417, 23, NULL, 1, 1, NULL, NULL, NULL, 22),
-  -- Calyrex (Shadow Rider) - Avalanche - Level 1
-  (898, 89802, 419, 23, NULL, 1, 1, NULL, NULL, NULL, 23),
-  -- Calyrex (Shadow Rider) - Hex - Level 1
-  (898, 89802, 506, 23, NULL, 1, 1, NULL, NULL, NULL, 24),
-  -- Calyrex (Shadow Rider) - Icicle Crash - Level 1
-  (898, 89802, 556, 23, NULL, 1, 1, NULL, NULL, NULL, 25),
-  -- Calyrex (Shadow Rider) - Glacial Lance - Level 1
-  (898, 89802, 824, 23, NULL, 1, 1, NULL, NULL, NULL, 26),
+  (898, 89801, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 93),
   -- Calyrex (Shadow Rider) - Astral Barrage - Level 1
-  (898, 89802, 825, 23, NULL, 1, 1, NULL, NULL, NULL, 27),
+  (898, 89802, 825, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
+  -- Calyrex (Shadow Rider) - Hex - Level 1
+  (898, 89802, 506, 23, NULL, 1, 1, NULL, NULL, NULL, 2),
+  -- Calyrex (Shadow Rider) - Nasty Plot - Level 1
+  (898, 89802, 417, 23, NULL, 1, 1, NULL, NULL, NULL, 3),
+  -- Calyrex (Shadow Rider) - Shadow Ball - Level 1
+  (898, 89802, 247, 23, NULL, 1, 1, NULL, NULL, NULL, 4),
+  -- Calyrex (Shadow Rider) - Haze - Level 1
+  (898, 89802, 114, 23, NULL, 1, 1, NULL, NULL, NULL, 5),
+  -- Calyrex (Shadow Rider) - Confuse Ray - Level 1
+  (898, 89802, 109, 23, NULL, 1, 1, NULL, NULL, NULL, 6),
+  -- Calyrex (Shadow Rider) - Confusion - Level 1
+  (898, 89802, 93, 23, NULL, 1, 1, NULL, NULL, NULL, 7),
+  -- Calyrex (Shadow Rider) - Growth - Level 1
+  (898, 89802, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 8),
+  -- Calyrex (Shadow Rider) - Mega Drain - Level 1
+  (898, 89802, 72, 23, NULL, 1, 1, NULL, NULL, NULL, 9),
+  -- Calyrex (Shadow Rider) - Agility - Level 1
+  (898, 89802, 97, 23, NULL, 1, 1, NULL, NULL, NULL, 10),
+  -- Calyrex (Shadow Rider) - Stomp - Level 1
+  (898, 89802, 23, 23, NULL, 1, 1, NULL, NULL, NULL, 11),
+  -- Calyrex (Shadow Rider) - Double Kick - Level 1
+  (898, 89802, 24, 23, NULL, 1, 1, NULL, NULL, NULL, 12),
+  -- Calyrex (Shadow Rider) - Disable - Level 1
+  (898, 89802, 50, 23, NULL, 1, 1, NULL, NULL, NULL, 13),
+  -- Calyrex (Shadow Rider) - Tackle - Level 1
+  (898, 89802, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 14),
+  -- Calyrex (Shadow Rider) - Take Down - Level 1
+  (898, 89802, 36, 23, NULL, 1, 1, NULL, NULL, NULL, 15),
+  -- Calyrex (Shadow Rider) - Thrash - Level 1
+  (898, 89802, 37, 23, NULL, 1, 1, NULL, NULL, NULL, 16),
+  -- Calyrex (Shadow Rider) - Pound - Level 1
+  (898, 89802, 1, 23, NULL, 1, 1, NULL, NULL, NULL, 17),
+  -- Calyrex (Shadow Rider) - Double-Edge - Level 1
+  (898, 89802, 38, 23, NULL, 1, 1, NULL, NULL, NULL, 18),
+  -- Calyrex (Shadow Rider) - Tail Whip - Level 1
+  (898, 89802, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 19),
   -- Calyrex (Shadow Rider) - Life Dew - Level 8
-  (898, 89802, 791, 23, NULL, 1, 8, NULL, NULL, NULL, 28),
+  (898, 89802, 791, 23, NULL, 1, 8, NULL, NULL, NULL, 20),
   -- Calyrex (Shadow Rider) - Giga Drain - Level 16
-  (898, 89802, 202, 23, NULL, 1, 16, NULL, NULL, NULL, 29),
+  (898, 89802, 202, 23, NULL, 1, 16, NULL, NULL, NULL, 21),
   -- Calyrex (Shadow Rider) - Psyshock - Level 24
-  (898, 89802, 473, 23, NULL, 1, 24, NULL, NULL, NULL, 30),
+  (898, 89802, 473, 23, NULL, 1, 24, NULL, NULL, NULL, 22),
   -- Calyrex (Shadow Rider) - Helping Hand - Level 32
-  (898, 89802, 270, 23, NULL, 1, 32, NULL, NULL, NULL, 31),
+  (898, 89802, 270, 23, NULL, 1, 32, NULL, NULL, NULL, 23),
   -- Calyrex (Shadow Rider) - Grassy Terrain - Level 40
-  (898, 89802, 580, 23, NULL, 1, 40, NULL, NULL, NULL, 32),
+  (898, 89802, 580, 23, NULL, 1, 40, NULL, NULL, NULL, 24),
   -- Calyrex (Shadow Rider) - Psychic Terrain - Level 40
-  (898, 89802, 678, 23, NULL, 1, 40, NULL, NULL, NULL, 33),
+  (898, 89802, 678, 23, NULL, 1, 40, NULL, NULL, NULL, 25),
   -- Calyrex (Shadow Rider) - Energy Ball - Level 48
-  (898, 89802, 412, 23, NULL, 1, 48, NULL, NULL, NULL, 34),
+  (898, 89802, 412, 23, NULL, 1, 48, NULL, NULL, NULL, 26),
   -- Calyrex (Shadow Rider) - Psychic - Level 56
-  (898, 89802, 94, 23, NULL, 1, 56, NULL, NULL, NULL, 35),
+  (898, 89802, 94, 23, NULL, 1, 56, NULL, NULL, NULL, 27),
   -- Calyrex (Shadow Rider) - Leech Seed - Level 64
-  (898, 89802, 73, 23, NULL, 1, 64, NULL, NULL, NULL, 36),
+  (898, 89802, 73, 23, NULL, 1, 64, NULL, NULL, NULL, 28),
   -- Calyrex (Shadow Rider) - Heal Pulse - Level 72
-  (898, 89802, 505, 23, NULL, 1, 72, NULL, NULL, NULL, 37),
+  (898, 89802, 505, 23, NULL, 1, 72, NULL, NULL, NULL, 29),
   -- Calyrex (Shadow Rider) - Solar Beam - Level 80
-  (898, 89802, 76, 23, NULL, 1, 80, NULL, NULL, NULL, 38),
+  (898, 89802, 76, 23, NULL, 1, 80, NULL, NULL, NULL, 30),
   -- Calyrex (Shadow Rider) - Future Sight - Level 88
-  (898, 89802, 248, 23, NULL, 1, 88, NULL, NULL, NULL, 39),
+  (898, 89802, 248, 23, NULL, 1, 88, NULL, NULL, NULL, 31),
   -- Calyrex (Shadow Rider) - Take Down - TM001
-  (898, 89802, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 40),
+  (898, 89802, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 32),
   -- Calyrex (Shadow Rider) - Agility - TM004
-  (898, 89802, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 41),
+  (898, 89802, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 33),
   -- Calyrex (Shadow Rider) - Scary Face - TM006
-  (898, 89802, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 42),
+  (898, 89802, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 34),
   -- Calyrex (Shadow Rider) - Protect - TM007
-  (898, 89802, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 43),
+  (898, 89802, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 35),
   -- Calyrex (Shadow Rider) - Psybeam - TM016
-  (898, 89802, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 44),
+  (898, 89802, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 36),
   -- Calyrex (Shadow Rider) - Confuse Ray - TM017
-  (898, 89802, 109, 23, NULL, 2, NULL, NULL, 23002017, NULL, 45),
-  -- Calyrex (Shadow Rider) - Trailblaze - TM020
-  (898, 89802, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 46),
+  (898, 89802, 109, 23, NULL, 2, NULL, NULL, 23002017, NULL, 37),
   -- Calyrex (Shadow Rider) - Facade - TM025
-  (898, 89802, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 47),
+  (898, 89802, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 38),
   -- Calyrex (Shadow Rider) - Bulldoze - TM028
-  (898, 89802, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 48),
+  (898, 89802, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 39),
   -- Calyrex (Shadow Rider) - Hex - TM029
-  (898, 89802, 506, 23, NULL, 2, NULL, NULL, 23002029, NULL, 49),
+  (898, 89802, 506, 23, NULL, 2, NULL, NULL, 23002029, NULL, 40),
   -- Calyrex (Shadow Rider) - Snarl - TM030
-  (898, 89802, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 50),
+  (898, 89802, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 41),
   -- Calyrex (Shadow Rider) - Swift - TM032
-  (898, 89802, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 51),
+  (898, 89802, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 42),
   -- Calyrex (Shadow Rider) - Magical Leaf - TM033
-  (898, 89802, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 52),
-  -- Calyrex (Shadow Rider) - Icy Wind - TM034
-  (898, 89802, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 53),
+  (898, 89802, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 43),
   -- Calyrex (Shadow Rider) - Mud Shot - TM035
-  (898, 89802, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 54),
+  (898, 89802, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 44),
   -- Calyrex (Shadow Rider) - Draining Kiss - TM037
-  (898, 89802, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 55),
+  (898, 89802, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 45),
   -- Calyrex (Shadow Rider) - Stored Power - TM041
-  (898, 89802, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 56),
+  (898, 89802, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 46),
   -- Calyrex (Shadow Rider) - Night Shade - TM042
-  (898, 89802, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 57),
-  -- Calyrex (Shadow Rider) - Avalanche - TM046
-  (898, 89802, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 58),
+  (898, 89802, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 47),
   -- Calyrex (Shadow Rider) - Endure - TM047
-  (898, 89802, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 59),
+  (898, 89802, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 48),
   -- Calyrex (Shadow Rider) - Sunny Day - TM049
-  (898, 89802, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 60),
-  -- Calyrex (Shadow Rider) - Snowscape - TM052
-  (898, 89802, 883, 23, NULL, 2, NULL, NULL, 23002052, NULL, 61),
-  -- Calyrex (Shadow Rider) - Smart Strike - TM053
-  (898, 89802, 684, 23, NULL, 2, NULL, NULL, 23002053, NULL, 62),
+  (898, 89802, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 49),
   -- Calyrex (Shadow Rider) - Psyshock - TM054
-  (898, 89802, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 63),
+  (898, 89802, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 50),
   -- Calyrex (Shadow Rider) - Bullet Seed - TM056
-  (898, 89802, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 64),
+  (898, 89802, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 51),
   -- Calyrex (Shadow Rider) - Zen Headbutt - TM059
-  (898, 89802, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 65),
+  (898, 89802, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 52),
   -- Calyrex (Shadow Rider) - Foul Play - TM062
-  (898, 89802, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 66),
+  (898, 89802, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 53),
   -- Calyrex (Shadow Rider) - Body Slam - TM066
-  (898, 89802, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 67),
+  (898, 89802, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 54),
   -- Calyrex (Shadow Rider) - Sleep Talk - TM070
-  (898, 89802, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 68),
+  (898, 89802, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 55),
   -- Calyrex (Shadow Rider) - Seed Bomb - TM071
-  (898, 89802, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 69),
+  (898, 89802, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 56),
   -- Calyrex (Shadow Rider) - Reflect - TM074
-  (898, 89802, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 70),
+  (898, 89802, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 57),
   -- Calyrex (Shadow Rider) - Light Screen - TM075
-  (898, 89802, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 71),
+  (898, 89802, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 58),
   -- Calyrex (Shadow Rider) - Metronome - TM080
-  (898, 89802, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 72),
+  (898, 89802, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 59),
   -- Calyrex (Shadow Rider) - Grass Knot - TM081
-  (898, 89802, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 73),
+  (898, 89802, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 60),
   -- Calyrex (Shadow Rider) - Stomping Tantrum - TM084
-  (898, 89802, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 74),
+  (898, 89802, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 61),
   -- Calyrex (Shadow Rider) - Rest - TM085
-  (898, 89802, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 75),
+  (898, 89802, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 62),
   -- Calyrex (Shadow Rider) - Taunt - TM087
-  (898, 89802, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 76),
-  -- Calyrex (Shadow Rider) - Swords Dance - TM088
-  (898, 89802, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 77),
-  -- Calyrex (Shadow Rider) - Body Press - TM089
-  (898, 89802, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 78),
+  (898, 89802, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 63),
   -- Calyrex (Shadow Rider) - Imprison - TM092
-  (898, 89802, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 79),
+  (898, 89802, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 64),
   -- Calyrex (Shadow Rider) - Dark Pulse - TM094
-  (898, 89802, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 80),
+  (898, 89802, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 65),
   -- Calyrex (Shadow Rider) - Skill Swap - TM098
-  (898, 89802, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 81),
+  (898, 89802, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 66),
   -- Calyrex (Shadow Rider) - Substitute - TM103
-  (898, 89802, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 82),
-  -- Calyrex (Shadow Rider) - Iron Defense - TM104
-  (898, 89802, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 83),
+  (898, 89802, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 67),
   -- Calyrex (Shadow Rider) - Will-O-Wisp - TM107
-  (898, 89802, 261, 23, NULL, 2, NULL, NULL, 23002107, NULL, 84),
+  (898, 89802, 261, 23, NULL, 2, NULL, NULL, 23002107, NULL, 68),
   -- Calyrex (Shadow Rider) - Crunch - TM108
-  (898, 89802, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 85),
+  (898, 89802, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 69),
   -- Calyrex (Shadow Rider) - Trick - TM109
-  (898, 89802, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 86),
+  (898, 89802, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 70),
   -- Calyrex (Shadow Rider) - Giga Drain - TM111
-  (898, 89802, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 87),
+  (898, 89802, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 71),
   -- Calyrex (Shadow Rider) - Shadow Ball - TM114
-  (898, 89802, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 88),
+  (898, 89802, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 72),
   -- Calyrex (Shadow Rider) - Energy Ball - TM119
-  (898, 89802, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 89),
+  (898, 89802, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 73),
   -- Calyrex (Shadow Rider) - Psychic - TM120
-  (898, 89802, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 90),
-  -- Calyrex (Shadow Rider) - Heavy Slam - TM121
-  (898, 89802, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 91),
+  (898, 89802, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 74),
   -- Calyrex (Shadow Rider) - Encore - TM122
-  (898, 89802, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 92),
+  (898, 89802, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 75),
   -- Calyrex (Shadow Rider) - Calm Mind - TM129
-  (898, 89802, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 93),
+  (898, 89802, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 76),
   -- Calyrex (Shadow Rider) - Helping Hand - TM130
-  (898, 89802, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 94),
+  (898, 89802, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 77),
   -- Calyrex (Shadow Rider) - Pollen Puff - TM131
-  (898, 89802, 676, 23, NULL, 2, NULL, NULL, 23002131, NULL, 95),
+  (898, 89802, 676, 23, NULL, 2, NULL, NULL, 23002131, NULL, 78),
   -- Calyrex (Shadow Rider) - Baton Pass - TM132
-  (898, 89802, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 96),
-  -- Calyrex (Shadow Rider) - Ice Beam - TM135
-  (898, 89802, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 97),
+  (898, 89802, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 79),
   -- Calyrex (Shadow Rider) - Grassy Terrain - TM137
-  (898, 89802, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 98),
+  (898, 89802, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 80),
   -- Calyrex (Shadow Rider) - Psychic Terrain - TM138
-  (898, 89802, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 99),
+  (898, 89802, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 81),
   -- Calyrex (Shadow Rider) - Nasty Plot - TM140
-  (898, 89802, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 100),
-  -- Calyrex (Shadow Rider) - Blizzard - TM143
-  (898, 89802, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 101),
+  (898, 89802, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 82),
   -- Calyrex (Shadow Rider) - Phantom Force - TM151
-  (898, 89802, 566, 23, NULL, 2, NULL, NULL, 23002151, NULL, 102),
+  (898, 89802, 566, 23, NULL, 2, NULL, NULL, 23002151, NULL, 83),
   -- Calyrex (Shadow Rider) - Giga Impact - TM152
-  (898, 89802, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 103),
-  -- Calyrex (Shadow Rider) - Outrage - TM156
-  (898, 89802, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 104),
+  (898, 89802, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 84),
   -- Calyrex (Shadow Rider) - Leaf Storm - TM159
-  (898, 89802, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 105),
+  (898, 89802, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 85),
   -- Calyrex (Shadow Rider) - Trick Room - TM161
-  (898, 89802, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 106),
+  (898, 89802, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 86),
   -- Calyrex (Shadow Rider) - Hyper Beam - TM163
-  (898, 89802, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 107),
-  -- Calyrex (Shadow Rider) - Close Combat - TM167
-  (898, 89802, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 108),
+  (898, 89802, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 87),
   -- Calyrex (Shadow Rider) - Solar Beam - TM168
-  (898, 89802, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 109),
+  (898, 89802, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 88),
   -- Calyrex (Shadow Rider) - Tera Blast - TM171
-  (898, 89802, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 110),
+  (898, 89802, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 89),
   -- Wyrdeer - Tackle - Level 1
   (899, 89900, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Wyrdeer - Leer - Level 3
