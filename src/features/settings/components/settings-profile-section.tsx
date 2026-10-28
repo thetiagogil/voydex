@@ -52,7 +52,10 @@ export const SettingsProfileSection = ({
   const [saved, setSaved] = useState({
     defaultTrainerName: defaultTrainerName ?? "",
     displayName: displayName ?? "",
-    iconFormId,
+    /* An icon that is no longer offered reads as none, so Save never posts it. */
+    iconFormId: choices.some((choice) => choice.formId === iconFormId)
+      ? iconFormId
+      : null,
   });
   const [draft, setDraft] = useState(saved);
   const [, formAction, isSaving] = useActionState(

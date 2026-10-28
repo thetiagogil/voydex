@@ -53,7 +53,9 @@ export const WelcomeForm = ({
   const nameId = useId();
   const hintId = useId();
   const [draft, setDraft] = useState(displayName ?? "");
-  const [pickedFormId, setPickedFormId] = useState(iconFormId);
+  const [pickedFormId, setPickedFormId] = useState(
+    choices.some((choice) => choice.formId === iconFormId) ? iconFormId : null,
+  );
   const [isSkipping, startSkipping] = useTransition();
   const [, formAction, isSaving] = useActionState(
     async (previousState: ProfileFormState, formData: FormData) => {

@@ -70,7 +70,7 @@ export const TrainerCard = ({
           {icon ? (
             <FallbackImage
               src={icon.url}
-              name={icon.name}
+              name={initial ?? icon.name}
               className="size-full object-contain p-1.5"
             />
           ) : (

@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const updates: Record<string, unknown>[] = [];
 const state = {
   iconAllowed: true,
+  iconCheckFails: false,
   saveFails: false,
   userId: "user-1" as string | null,
 };
@@ -14,7 +15,13 @@ vi.mock("@/platform/supabase/auth", () => ({
   })),
 }));
 vi.mock("@/features/settings/server/profile-icon-choices-query", () => ({
-  isProfileIconForm: vi.fn(async () => state.iconAllowed),
+  isProfileIconForm: vi.fn(async () => {
+    if (state.iconCheckFails) {
+      throw new Error("The icon couldn't be checked.");
+    }
+
+    return state.iconAllowed;
+  }),
 }));
 vi.mock("@/platform/supabase/server-client", () => ({
   createServerSupabaseClient: vi.fn(async () => ({
@@ -69,6 +76,7 @@ const form = (fields: Record<string, string>) => {
 beforeEach(() => {
   updates.length = 0;
   state.iconAllowed = true;
+  state.iconCheckFails = false;
   state.saveFails = false;
   state.userId = "user-1";
 });
@@ -129,6 +137,21 @@ describe("saveProfileAction", () => {
 
     expect(result).toEqual({
       message: "That icon isn't one you can pick.",
+      status: "error",
+    });
+    expect(updates).toEqual([]);
+  });
+
+  it("says it couldn't save, not that the icon is wrong, when the icon can't be checked", async () => {
+    state.iconCheckFails = true;
+
+    const result = await saveProfileAction(
+      idle,
+      form({ defaultTrainerName: "", displayName: "", iconFormId: "700" }),
+    );
+
+    expect(result).toEqual({
+      message: "Your profile couldn't be saved. Try again in a moment.",
       status: "error",
     });
     expect(updates).toEqual([]);

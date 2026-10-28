@@ -47,11 +47,19 @@ const updateOwnProfile = async (
     return { message: "Log in again to save your profile.", ok: false };
   }
 
-  if (
-    update.icon_form_id &&
-    !(await isProfileIconForm(supabase, update.icon_form_id).catch(() => false))
-  ) {
-    return { message: "That icon isn't one you can pick.", ok: false };
+  if (update.icon_form_id) {
+    const isOffered = await isProfileIconForm(
+      supabase,
+      update.icon_form_id,
+    ).catch(() => null);
+
+    if (isOffered === null) {
+      return { message: SAVE_FAILED, ok: false };
+    }
+
+    if (!isOffered) {
+      return { message: "That icon isn't one you can pick.", ok: false };
+    }
   }
 
   const { data, error } = await supabase

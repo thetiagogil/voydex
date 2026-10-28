@@ -21,11 +21,10 @@ type WelcomeRouteProps = {
  * otherwise to where sign-up was headed, or Mainline Home.
  */
 export default async function Page({ searchParams }: WelcomeRouteProps) {
-  const [params, account, profile, choices] = await Promise.all([
+  const [params, account, profile] = await Promise.all([
     searchParams,
     getSignedInAccount(),
     readWelcomeProfile(),
-    createServerSupabaseClient().then(readProfileIconChoices),
   ]);
   const intentPreview = profile.intent
     ? await resolveStartIntent(profile.intent)
@@ -39,6 +38,11 @@ export default async function Page({ searchParams }: WelcomeRouteProps) {
   if (profile.welcomeCompletedAt) {
     redirect(destination);
   }
+
+  /* Only a Welcome that shows needs the icons to pick from. */
+  const choices = await readProfileIconChoices(
+    await createServerSupabaseClient(),
+  );
 
   return (
     <WelcomePage
