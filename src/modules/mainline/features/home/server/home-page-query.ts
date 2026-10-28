@@ -20,7 +20,7 @@ import { readMainlinePlayTimelinePreview } from "@/modules/mainline/features/pla
 import { readMainlinePlayLibrary } from "@/modules/mainline/features/plays/shared/server/play-library-reader";
 import { readNewPlayPickerData } from "@/modules/mainline/features/plays/shared/server/new-play-picker-query";
 import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
-import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
+import { readSignedInTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
 import { findPartnerDecision } from "@/modules/mainline/features/plays/shared/utils/partner-milestone";
 import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 import { readGameStarters } from "@/modules/reference/features/games/server/game-shelf-reader";
@@ -232,8 +232,8 @@ export const getHomePageData = async (
 ): Promise<HomePageData> => {
   const supabase = await createServerSupabaseClient();
   const userId = await getSignedInTrainerId(supabase);
-  const [displayName, browseItems] = await Promise.all([
-    readSignedInTrainerDisplayName(),
+  const [names, browseItems] = await Promise.all([
+    readSignedInTrainerNames(),
     readMainlinePlayLibrary(supabase, userId),
   ]);
 
@@ -244,7 +244,7 @@ export const getHomePageData = async (
     ]);
 
     return {
-      displayName,
+      displayName: names.displayName,
       intent,
       kind: "empty",
       picker,
@@ -317,9 +317,10 @@ export const getHomePageData = async (
   return {
     bands,
     currentPlayId: current.play_id ?? bands[0].play.id,
-    displayName,
+    displayName: names.displayName,
     intentOffer,
     isFirstPlay: browseItems.length === 1 && isBrandNewPlay(current),
     kind: "plays",
+    trainerName: names.trainerName,
   };
 };

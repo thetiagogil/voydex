@@ -1,3 +1,4 @@
+import type { ProfileIconChoice } from "@/features/settings/types";
 import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
 import { PageBand } from "@/shared/components/page-band";
 import { SettingsDataSection } from "@/features/settings/components/settings-data-section";
@@ -6,9 +7,13 @@ import { SettingsProfileSection } from "@/features/settings/components/settings-
 import { PageHeader } from "@/shared/components/page-header";
 
 type SettingsPageProps = {
+  /* The Pokémon you can pick as your icon. */
+  choices: readonly ProfileIconChoice[];
+  defaultTrainerName: string | null;
   displayName: string | null;
   /* Null when the claims carry no email. */
   email: string | null;
+  iconFormId: number | null;
   /* The route's log out action, shared with the app shell's account menu. */
   signOutAction: () => Promise<void>;
   /* "November 2024"; null when it couldn't be read. */
@@ -21,8 +26,11 @@ type SettingsPageProps = {
  * Account and Your data.
  */
 export const SettingsPage = ({
+  choices,
+  defaultTrainerName,
   displayName,
   email,
+  iconFormId,
   signOutAction,
   trainerSince,
 }: SettingsPageProps) => (
@@ -34,8 +42,11 @@ export const SettingsPage = ({
       />
       <div className="mt-5">
         <SettingsProfileSection
+          choices={choices}
+          defaultTrainerName={defaultTrainerName}
           displayName={displayName}
           email={email}
+          iconFormId={iconFormId}
           trainerSince={trainerSince}
         />
       </div>

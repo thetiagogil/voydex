@@ -1,5 +1,5 @@
 import type { NewPlayPickerData } from "@/modules/mainline/features/plays/shared/types";
-import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
+import { readSignedInTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
 import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
 
 /*
@@ -8,10 +8,10 @@ import { readGameCatalogue } from "@/modules/reference/features/games/server/gam
  * and the trainer name a new Play starts with, read once per request.
  */
 export const readNewPlayPickerData = async (): Promise<NewPlayPickerData> => {
-  const [catalogue, trainerName] = await Promise.all([
+  const [catalogue, names] = await Promise.all([
     readGameCatalogue(),
-    readSignedInTrainerDisplayName(),
+    readSignedInTrainerNames(),
   ]);
 
-  return { ...catalogue, trainerName };
+  return { ...catalogue, trainerName: names.trainerName };
 };

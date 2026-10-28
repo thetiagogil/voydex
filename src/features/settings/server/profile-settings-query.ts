@@ -8,7 +8,13 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export type ProfileSettings = {
   /* Null until you choose one. */
+  defaultTrainerName: string | null;
+  /* Null until you choose one. */
   displayName: string | null;
+  /* The Pokémon form you picked as your icon; null until you pick one. */
+  iconFormId: number | null;
+  /* Null until Welcome is finished or skipped. */
+  welcomeCompletedAt: string | null;
 };
 
 /*
@@ -26,7 +32,9 @@ export const readProfileSettings = async (): Promise<ProfileSettings> => {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("display_name")
+    .select(
+      "default_trainer_name, display_name, icon_form_id, welcome_completed_at",
+    )
     .eq("id", userId)
     .maybeSingle();
 
@@ -34,7 +42,12 @@ export const readProfileSettings = async (): Promise<ProfileSettings> => {
     throw new Error("Your profile couldn't be loaded.");
   }
 
-  return { displayName: data?.display_name?.trim() || null };
+  return {
+    defaultTrainerName: data?.default_trainer_name?.trim() || null,
+    displayName: data?.display_name?.trim() || null,
+    iconFormId: data?.icon_form_id ?? null,
+    welcomeCompletedAt: data?.welcome_completed_at ?? null,
+  };
 };
 
 export type WelcomeProfile = ProfileSettings & {
@@ -43,9 +56,9 @@ export type WelcomeProfile = ProfileSettings & {
 };
 
 /*
- * Welcome's first-run read: your name so far, and the pick from Start a Play
- * stored on the account. The account is read from Supabase Auth itself, not
- * the token's claims, which only catch up with new metadata on refresh.
+ * Welcome's first-run read: your profile so far, and the pick from Start a
+ * Play stored on the account. The account is read from Supabase Auth itself,
+ * not the token's claims, which only catch up with new metadata on refresh.
  */
 export const readWelcomeProfile = async (): Promise<WelcomeProfile> => {
   const [profile, supabase] = await Promise.all([

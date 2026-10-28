@@ -1,14 +1,9 @@
+import { getAssetUrl } from "@/shared/utils/asset-url";
+
 /*
  * An address on the voydex-assets site, which serves Voydex's reference images
- * (Pokémon and game covers). Null when the site isn't configured: images then
- * show their letter fallback instead of breaking the page. The variable is
- * written out in full so Next.js inlines it into browser code.
+ * (Pokémon and game covers). `getAssetUrl` reads the site's address; null when
+ * it isn't configured.
  */
-export const getReferenceAssetUrl = (path: string): string | null => {
-  const baseUrl = process.env.NEXT_PUBLIC_ASSETS_URL?.trim().replace(
-    /\/+$/,
-    "",
-  );
-
-  return baseUrl ? `${baseUrl}/${path.replace(/^\/+/, "")}` : null;
-};
+export const getReferenceAssetUrl = (path: string): string | null =>
+  getAssetUrl(path);

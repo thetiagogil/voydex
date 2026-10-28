@@ -7,6 +7,7 @@ describe("account display", () => {
     const account = {
       displayName: "tiago",
       email: "ash@example.com",
+      icon: null,
       trainerSince: null,
     };
 
@@ -19,11 +20,17 @@ describe("account display", () => {
       getAccountName({
         displayName: null,
         email: "ash@example.com",
+        icon: null,
         trainerSince: null,
       }),
     ).toBe("ash@example.com");
     expect(
-      getAccountInitial({ displayName: null, email: null, trainerSince: null }),
+      getAccountInitial({
+        displayName: null,
+        email: null,
+        icon: null,
+        trainerSince: null,
+      }),
     ).toBe("Y");
   });
 });

@@ -51,4 +51,6 @@ export type HomePageData =
       /* The trainer's only Play has only just started (v3 `homefirst`). */
       isFirstPlay: boolean;
       kind: "plays";
+      /* What a Play started from the offer is named for: your default trainer name, else your display name. */
+      trainerName: string | null;
     };
