@@ -70,7 +70,7 @@ Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
 Your icon is one of the starters that have a Legends: Z-A icon (`profileIconSlugs`
 in `src/config/profile-icons.ts`; the pictures are `pokemon/icons/<slug>.webp` on
 the assets site): the Gen 1, Gen 3 and Gen 6 trios, Chikorita, Totodile, Tepig,
-Pikachu and Eevee. Each sits on a pale wash of its type and fills 93% of its disc. Tapping the picked icon again puts back your initial. It shows
+Pikachu and Eevee. Each sits on a pale wash of its type and fills 95% of its disc. Tapping the picked icon again puts back your initial. It shows
 on the trainer card, the account menu and the tab bar, and replaces the initial
 everywhere. The default trainer name is what New Play and the Play started from
 Home's offer fill in; left empty they use your display name. Both are only a
