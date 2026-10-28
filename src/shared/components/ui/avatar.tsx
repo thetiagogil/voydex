@@ -16,7 +16,7 @@ const Avatar = ({
       data-slot="avatar"
       data-size={size}
       className={cn(
-        "group/avatar bg-avatar relative flex size-9 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-11 data-[size=sm]:size-7",
+        "group/avatar relative flex size-9 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-11 data-[size=sm]:size-7",
         className,
       )}
       {...props}
@@ -28,7 +28,7 @@ const AvatarImage = ({ className, ...props }: AvatarPrimitive.Image.Props) => {
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
-      className={cn("size-full object-contain p-0.5", className)}
+      className={cn("size-full object-contain p-[14%]", className)}
       {...props}
     />
   );

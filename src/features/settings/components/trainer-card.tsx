@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { getProfileIconTintStyle } from "@/config/profile-icons";
+import type { PublicTypeSlug } from "@/config/public-art";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { LogoMark } from "@/shared/components/brand/logo-mark";
@@ -10,7 +12,7 @@ type TrainerCardProps = {
   children?: ReactNode;
   className?: string;
   /* The Pokémon you picked, on your disc; without one the initial stands in. */
-  icon?: { name: string; url: string } | null;
+  icon?: { name: string; typeSlug: PublicTypeSlug; url: string } | null;
   /*
    * The letter on your disc until you pick a Pokémon icon; null draws the
    * empty disc (dashed, the trainer glyph), as on Welcome before you've
@@ -61,8 +63,10 @@ export const TrainerCard = ({
       {icon || initial ? (
         <span
           aria-hidden
+          style={icon ? getProfileIconTintStyle(icon.typeSlug) : undefined}
           className={cn(
-            "bg-avatar text-avatar-ink font-display grid size-19 shrink-0 place-items-center overflow-hidden rounded-full border-4 border-white font-semibold sm:size-26",
+            "font-display grid size-19 shrink-0 place-items-center overflow-hidden rounded-full border-4 border-white font-semibold sm:size-26",
+            icon ? "type-tint" : "bg-avatar text-avatar-ink",
             "text-24 sm:text-32",
             stack && "md:text-44 md:mb-3.5 md:size-37.5",
           )}
@@ -71,7 +75,7 @@ export const TrainerCard = ({
             <FallbackImage
               src={icon.url}
               name={initial ?? icon.name}
-              className="size-full object-contain p-1.5"
+              className="size-full object-contain p-[14%]"
             />
           ) : (
             initial

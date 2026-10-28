@@ -1,5 +1,6 @@
 import {
   getProfileIconPath,
+  getProfileIconType,
   isProfileIconSlug,
   profileIconSlugs,
 } from "@/config/profile-icons";
@@ -35,6 +36,7 @@ export const readProfileIconChoices = async (
           {
             formId: form.id,
             name: form.name,
+            typeSlug: getProfileIconType(slug),
             url: getAssetUrl(getProfileIconPath(slug)),
           },
         ]

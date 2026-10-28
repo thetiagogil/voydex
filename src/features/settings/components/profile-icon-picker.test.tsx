@@ -6,9 +6,19 @@ import type { ProfileIconChoice } from "@/features/settings/types";
 import { ProfileIconPicker } from "./profile-icon-picker";
 
 const choices: ProfileIconChoice[] = [
-  { formId: 100, name: "Bulbasaur", url: "https://assets.test/b.webp" },
-  { formId: 400, name: "Charmander", url: "https://assets.test/c.webp" },
-  { formId: 700, name: "Squirtle", url: null },
+  {
+    formId: 100,
+    name: "Bulbasaur",
+    typeSlug: "grass",
+    url: "https://assets.test/b.webp",
+  },
+  {
+    formId: 400,
+    name: "Charmander",
+    typeSlug: "fire",
+    url: "https://assets.test/c.webp",
+  },
+  { formId: 700, name: "Squirtle", typeSlug: "water", url: null },
 ];
 
 const render = (value: number | null) =>
@@ -51,5 +61,13 @@ describe("ProfileIconPicker", () => {
 
   it("keeps a Pokémon with no picture pickable, by its letter", () => {
     expect(render(null)).toContain("S");
+  });
+
+  it("washes each disc with its Pokémon's type", () => {
+    const html = render(null);
+
+    expect(html).toContain("--t:var(--type-grass)");
+    expect(html).toContain("--t:var(--type-fire)");
+    expect(html).toContain("--t:var(--type-water)");
   });
 });

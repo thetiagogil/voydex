@@ -95,7 +95,11 @@ export const SettingsProfileSection = ({
       <TrainerCard
         icon={
           pickedChoice?.url
-            ? { name: pickedChoice.name, url: pickedChoice.url }
+            ? {
+                name: pickedChoice.name,
+                typeSlug: pickedChoice.typeSlug,
+                url: pickedChoice.url,
+              }
             : null
         }
         initial={initialSource ? initialSource.charAt(0).toUpperCase() : null}

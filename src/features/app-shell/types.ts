@@ -1,6 +1,10 @@
+import type { PublicTypeSlug } from "@/config/public-art";
+
 /* The Pokémon a trainer picked as their icon; `url` is null when its picture can't be shown. */
 export type AccountIcon = {
   name: string;
+  /* Its type, which tints the disc behind its icon. */
+  typeSlug: PublicTypeSlug;
   url: string | null;
 };
 

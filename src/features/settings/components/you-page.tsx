@@ -90,7 +90,11 @@ export const YouPage = ({
         <PageHeader title="You" />
         <TrainerCard
           className="mt-5"
-          icon={icon?.url ? { name: icon.name, url: icon.url } : null}
+          icon={
+            icon?.url
+              ? { name: icon.name, typeSlug: icon.typeSlug, url: icon.url }
+              : null
+          }
           initial={name ? name.charAt(0).toUpperCase() : null}
           name={name}
           subtitle={

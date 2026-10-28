@@ -1,4 +1,8 @@
-import { getProfileIconPath, isProfileIconSlug } from "@/config/profile-icons";
+import {
+  getProfileIconPath,
+  getProfileIconType,
+  isProfileIconSlug,
+} from "@/config/profile-icons";
 import type { AccountIcon } from "@/features/app-shell/types";
 import { getAssetUrl } from "@/shared/utils/asset-url";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
@@ -20,6 +24,10 @@ export const readAccountIcon = async (
     .maybeSingle();
 
   return data && isProfileIconSlug(data.slug)
-    ? { name: data.name, url: getAssetUrl(getProfileIconPath(data.slug)) }
+    ? {
+        name: data.name,
+        typeSlug: getProfileIconType(data.slug),
+        url: getAssetUrl(getProfileIconPath(data.slug)),
+      }
     : null;
 };

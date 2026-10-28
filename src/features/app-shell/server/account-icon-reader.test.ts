@@ -44,6 +44,7 @@ describe("readAccountIcon", () => {
 
     await expect(readAccountIcon(client, 700)).resolves.toEqual({
       name: "Squirtle",
+      typeSlug: "water",
       url: "https://assets.test/pokemon/icons/squirtle.webp",
     });
     expect(lookups).toEqual([700]);
@@ -55,6 +56,7 @@ describe("readAccountIcon", () => {
 
     await expect(readAccountIcon(client, 258)).resolves.toEqual({
       name: "Mudkip",
+      typeSlug: "water",
       url: null,
     });
   });

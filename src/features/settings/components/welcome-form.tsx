@@ -95,7 +95,11 @@ export const WelcomeForm = ({
         className="md:sticky md:top-6"
         icon={
           pickedChoice?.url
-            ? { name: pickedChoice.name, url: pickedChoice.url }
+            ? {
+                name: pickedChoice.name,
+                typeSlug: pickedChoice.typeSlug,
+                url: pickedChoice.url,
+              }
             : null
         }
         initial={null}

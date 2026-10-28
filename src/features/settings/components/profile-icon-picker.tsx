@@ -1,5 +1,6 @@
 "use client";
 
+import { getProfileIconTintStyle } from "@/config/profile-icons";
 import type { ProfileIconChoice } from "@/features/settings/types";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { IconTip } from "@/shared/components/icon-tip";
@@ -16,10 +17,10 @@ type ProfileIconPickerProps = {
 };
 
 /*
- * The Pokémon you can pick as your icon, as round discs: the picked one takes
- * the selected tint with its border (the same pick as a team slot), and
- * tapping it again puts it back to your initial. One picker for Settings'
- * trainer card and Welcome.
+ * The Pokémon you can pick as your icon, as round discs on a pale wash of
+ * their type: the picked one takes the action border, and tapping it again
+ * puts it back to your initial. One picker for Settings' trainer card and
+ * Welcome.
  */
 export const ProfileIconPicker = ({
   ariaLabel,
@@ -43,17 +44,16 @@ export const ProfileIconPicker = ({
               aria-label={choice.name}
               aria-pressed={isPicked}
               onClick={() => onChange(isPicked ? null : choice.formId)}
+              style={getProfileIconTintStyle(choice.typeSlug)}
               className={cn(
-                "focus-ring grid size-12 place-items-center rounded-full border-[1.5px]",
-                isPicked
-                  ? "bg-select-soft border-action"
-                  : "bg-surface-2 hover:bg-hover border-transparent",
+                "type-tint focus-ring grid size-12 place-items-center overflow-hidden rounded-full border-2 hover:brightness-95",
+                isPicked ? "border-action" : "border-transparent",
               )}
             >
               <FallbackImage
                 src={choice.url}
                 name={choice.name}
-                className="size-9 object-contain"
+                className="size-[70%] object-contain"
               />
             </button>
           }
