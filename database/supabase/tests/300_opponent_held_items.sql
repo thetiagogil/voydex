@@ -57,17 +57,19 @@ SELECT
             VALUES ('unfezant'::text, 'scope-lens'::text), ('liepard'::text, 'sitrus-berry'::text), ('simisear'::text, 'charcoal'::text), ('samurott'::text, 'leftovers'::text) $$, 'Cheren''s last Black / White team holds its items');
 -- Bulbapedia overrules PokéWiki on Elesa's Emolga and Shauntal's Drifblim.
 SELECT
-    is_empty ($$
+    results_eq ($$
         SELECT
-            mainline_opponent_team_members.id FROM tracking.mainline_opponent_team_members
+            mainline_opponents.slug, items.slug FROM tracking.mainline_opponent_team_members
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            LEFT JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 12
-                AND mainline_opponent_team_members.held_item_id IS NOT NULL
                 AND ((mainline_opponents.slug = 'elesa'
                     AND mainline_opponent_team_members.species_id = 587)
                 OR (mainline_opponents.slug = 'shauntal'
-                    AND mainline_opponent_team_members.species_id = 426)) $$, 'Elesa''s Emolga and Shauntal''s Drifblim hold nothing in Black 2 / White 2');
+                    AND mainline_opponent_team_members.species_id = 426))
+        ORDER BY mainline_opponents.slug $$, $$
+        VALUES ('elesa'::text, NULL::text), ('shauntal'::text, NULL::text) $$, 'Elesa''s Emolga and Shauntal''s Drifblim hold nothing in Black 2 / White 2');
 SELECT
     results_eq ($$
         SELECT

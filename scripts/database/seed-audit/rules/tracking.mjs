@@ -789,6 +789,28 @@ export function assertOpponentTeamRows(context, tableRows) {
     }
     unlockItemIdsByForm.get(row.form_id).add(row.item_id);
   }
+  const speciesByFormId = new Map(
+    (tableRows.get("reference.pokemon_forms") ?? []).map(({ row }) => [
+      row.id,
+      row.species_id,
+    ]),
+  );
+  /* The battle forms each of those items reaches. */
+  const unlockedFormIdsByItem = new Map();
+  for (const [formId, itemIds] of unlockItemIdsByForm) {
+    if (
+      battleMechanicByForm.get(formId) !== "mega-evolution" &&
+      battleMechanicByForm.get(formId) !== "primal-reversion"
+    ) {
+      continue;
+    }
+    for (const itemId of itemIds) {
+      if (!unlockedFormIdsByItem.has(itemId)) {
+        unlockedFormIdsByItem.set(itemId, new Set());
+      }
+      unlockedFormIdsByItem.get(itemId).add(formId);
+    }
+  }
   const optionSlugsByMilestone = new Map();
   for (const { row } of tableRows.get(
     "tracking.mainline_milestone_decision_options",
@@ -943,6 +965,24 @@ export function assertOpponentTeamRows(context, tableRows) {
       ) {
         context.errors.push(
           `${label} battles as form ${row.form_id} but holds an item that doesn't reach it.`,
+        );
+      }
+      /*
+       * An opponent holding the stone or orb of its own species Mega Evolves
+       * or reverts, so it is stored in that form. Allies are stored in the
+       * form they are sent out in.
+       */
+      const unlockedFormIds = unlockedFormIdsByItem.get(row.held_item_id);
+      if (
+        row.ally_opponent_id == null &&
+        unlockedFormIds &&
+        !unlockedFormIds.has(row.form_id) &&
+        [...unlockedFormIds].some(
+          (formId) => speciesByFormId.get(formId) === row.species_id,
+        )
+      ) {
+        context.errors.push(
+          `${label} holds the item that Mega Evolves or reverts it, so it must be stored in that battle form.`,
         );
       }
     }

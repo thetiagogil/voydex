@@ -9,6 +9,8 @@
 -- Battle forms: Steven, Zinnia, Wally at Victory Road, and Maxie and Archie at
 -- Seafloor Cavern hold their ace's Mega Stone, and Groudon and Kyogre at the Cave
 -- of Origin are Primal, so each is stored in that form (Bulbapedia trainer pages).
+-- May / Brendan's Hall of Fame battle: their starter holds its Mega Stone and
+-- Mega Evolves at the first chance, so it is stored as its Mega (Bulbapedia).
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- May / Brendan's Mind Badge team: Bulbapedia (PokéWiki lists other levels); it holds nothing.
 -- Wild Ho-Oh always holds Sacred Ash in its game data; other wild Pokémon here hold nothing.
@@ -261,8 +263,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 321, 32100, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 4: Breloom Lv. 48
   (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 286, 28600, 48, NULL, NULL, FALSE),
-  -- May / Brendan (chose Treecko), Hall of Fame 5: Blaziken Lv. 50, holds Blazikenite
-  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 5, 257, 25700, 50, 285, NULL, FALSE),
+  -- May / Brendan (chose Treecko), Hall of Fame 5: Mega Blaziken Lv. 50, holds Blazikenite
+  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 5, 257, 25701, 50, 285, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 1: Swellow Lv. 48
   (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 2: Raichu Lv. 48
@@ -271,8 +273,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 286, 28600, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 4: Magcargo Lv. 48
   (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 219, 21900, 48, NULL, NULL, FALSE),
-  -- May / Brendan (chose Torchic), Hall of Fame 5: Swampert Lv. 50, holds Swampertite
-  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 5, 260, 26000, 50, 286, NULL, FALSE),
+  -- May / Brendan (chose Torchic), Hall of Fame 5: Mega Swampert Lv. 50, holds Swampertite
+  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 5, 260, 26001, 50, 286, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 1: Swellow Lv. 48
   (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 2: Raichu Lv. 48
@@ -281,8 +283,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 219, 21900, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 4: Wailord Lv. 48
   (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 321, 32100, 48, NULL, NULL, FALSE),
-  -- May / Brendan (chose Mudkip), Hall of Fame 5: Sceptile Lv. 50, holds Sceptilite
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25400, 50, 284, NULL, FALSE),
+  -- May / Brendan (chose Mudkip), Hall of Fame 5: Mega Sceptile Lv. 50, holds Sceptilite
+  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25401, 50, 284, NULL, FALSE),
   -- Groudon, Rain Badge 1: Primal Groudon Lv. 45
   (140011, 14019, 14, NULL, NULL, NULL, NULL, NULL, 1, 383, 38301, 45, NULL, NULL, FALSE),
   -- Kyogre, Rain Badge 1: Primal Kyogre Lv. 45

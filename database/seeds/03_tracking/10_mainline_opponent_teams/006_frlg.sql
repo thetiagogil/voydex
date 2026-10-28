@@ -7,6 +7,7 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
 -- Held items: the pret pokefirered disassembly's trainer parties and wild battle scripts.
+-- Ho-Oh, Lugia and the other wild Pokémon here hold nothing: their battle scripts and species data give no item.
 -- Scope: Pokémon FireRed / LeafGreen Story battle opponent teams.
 -- ============================================================================
 -- File Scope

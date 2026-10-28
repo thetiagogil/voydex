@@ -10,7 +10,8 @@
 -- Kieran and Bloodmoon Ursaluna: cross-checked with Bulbapedia.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- The Titanic Okidogi after The Way Home holds a Liechi Berry: Bulbapedia's Titan battle table.
--- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing.
+-- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing,
+-- except Ogerpon, who holds each mask it wears.
 -- Scope: Pokémon The Teal Mask Story battle opponent teams.
 -- ============================================================================
 -- File Scope

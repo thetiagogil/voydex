@@ -11,7 +11,7 @@
 -- Battle forms: Tera Shift puts Terapagos in its Terastal Form in every battle; the
 -- final battle is against its Stellar Form.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
--- Nemona's Mochi Mayhem team: Bulbapedia (PokéWiki doesn't list it); it holds nothing.
+-- Nemona's and Arven & Penny's Mochi Mayhem teams: Bulbapedia's Mochi Mayhem page; they hold nothing.
 -- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================

@@ -13,6 +13,8 @@
 -- Forms: no source names a form for Carmine's Poltchageist and Sinistcha, so
 -- the default form is stored; allies are stored in the form they are sent out
 -- in (Lucario, Emboar, Feraligatr and Meganium hold their Mega Stones).
+-- Held items: as those parties list them (Steven's game data gives none); a
+-- Pokémon with no listed item holds nothing.
 -- Scope: Story battles where an ally fights beside the player: their Pokémon.
 -- ============================================================================
 -- File Scope

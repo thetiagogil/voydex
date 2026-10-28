@@ -9,7 +9,8 @@
 -- Tulip's Florges: the sources show the default form and name no flower
 -- colour, so it is stored as the default form.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
--- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing.
+-- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing,
+-- except Koraidon's Heat Rock and Miraidon's Terrain Extender after the AI Professor (PokéWiki and Bulbapedia agree).
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope
