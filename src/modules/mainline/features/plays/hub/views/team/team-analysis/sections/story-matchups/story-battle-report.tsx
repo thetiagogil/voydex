@@ -321,7 +321,8 @@ const reportWording = {
  * Marks on a card's level line for how one of their Pokémon powers up: its
  * Tera Type as a Tera jewel (the type's icon on a diamond in its colour, so
  * it never reads as one of its own round type dots), and the item it holds
- * as its sprite. The sentence under the team says the same in words.
+ * as its sprite, a Z-Crystal's bigger. The sentence under the team says the
+ * same in words.
  */
 const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
   const teraSlug =
@@ -354,7 +355,10 @@ const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
             kind="held"
             name={pokemon.heldItem.name}
             src={getItemImageUrl(pokemon.heldItem.slug)}
-            className="my-0 size-5"
+            /* A Z-Crystal's art is thin, so it needs the bigger box to read. */
+            className={
+              pokemon.mechanic?.kind === "z-move" ? "-my-1" : "my-0 size-5"
+            }
           />
         </span>
       ) : null}
@@ -364,7 +368,8 @@ const OpponentMarks = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => {
 
 /*
  * The back of one of their cards: what it knows, each move on its type's
- * icon, at the card's own size so flipping never moves the row.
+ * icon, at the card's own size so flipping never moves the row. A move its
+ * Z-Crystal turns into a Z-Move carries the crystal's sprite.
  */
 const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
   <div className="plain-card flex h-full min-w-0 flex-col gap-1 rounded-xl px-2 pt-2 pb-2 text-left">
@@ -397,6 +402,27 @@ const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
                 />
               ) : null}
               <span className="min-w-0 wrap-break-word">{move.name}</span>
+              {move.zMoveName && pokemon.heldItem ? (
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <span
+                        role="img"
+                        aria-label={`Becomes ${move.zMoveName} with ${pokemon.heldItem.name}`}
+                        className="-my-1 ml-auto inline-flex shrink-0"
+                      />
+                    }
+                  >
+                    <ItemIcon
+                      kind="held"
+                      name={pokemon.heldItem.name}
+                      src={getItemImageUrl(pokemon.heldItem.slug)}
+                      className="my-0 size-6"
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>{move.zMoveName}</TooltipContent>
+                </Tooltip>
+              ) : null}
             </li>
           );
         })}

@@ -75,6 +75,8 @@ export type StoryOpponentMove = {
   power: number | null;
   slug: string;
   type: Type | null;
+  /* The Z-Move its held Z-Crystal turns it into; null when it turns into none. */
+  zMoveName: string | null;
 };
 
 /* One Pokémon on the opponent's team, by its types and moves in the Play's game. */
@@ -191,17 +193,58 @@ export const getLevelsSentence = (
       : `Your levels are close to ${isLegendary ? "its" : "theirs"}`;
 };
 
+/* "Pound", "Rock Slide and Stone Edge", "Aqua Jet, Surf and Pound". */
+const joinNames = (names: string[]) =>
+  names.length > 1
+    ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`
+    : (names[0] ?? "");
+
+/*
+ * What a held Z-Crystal turns their moves into, in words: "its Pound becomes
+ * Breakneck Blitz". Null when none of the moves Voydex has turns into one.
+ */
+const getZMoveWords = (moves: StoryOpponentMove[]) => {
+  const fromByZMove = new Map<string, string[]>();
+
+  for (const move of moves) {
+    if (move.zMoveName) {
+      fromByZMove.set(move.zMoveName, [
+        ...(fromByZMove.get(move.zMoveName) ?? []),
+        move.name,
+      ]);
+    }
+  }
+
+  return fromByZMove.size
+    ? [...fromByZMove]
+        .map(
+          ([zMoveName, from]) =>
+            `its ${joinNames(from)} ${from.length > 1 ? "become" : "becomes"} ${zMoveName}`,
+        )
+        .join(", ")
+    : null;
+};
+
 /*
  * What one of their Pokémon does in battle beyond its types, in words: "Lycanroc
- * holds Rockium Z for a Z-Move.", "Glimmora Terastallizes into Rock.". A battle
- * form whose name already says it ("Gigantamax Charizard") only names its item.
- * Null when there is nothing to say.
+ * holds Rockium Z: its Rock Slide becomes Continental Crush.", "Glimmora
+ * Terastallizes into Rock.". A battle form whose name already says it
+ * ("Gigantamax Charizard") only names its item. Null when there is nothing to
+ * say.
  */
 export const getPowerUpSentence = ({
   heldItem,
   mechanic,
+  moves,
   name,
-}: Pick<StoryOpponentPokemon, "heldItem" | "mechanic" | "name">) => {
+}: Pick<StoryOpponentPokemon, "heldItem" | "mechanic" | "moves" | "name">) => {
+  const zMoveWords =
+    heldItem && mechanic?.kind === "z-move" ? getZMoveWords(moves) : null;
+
+  if (heldItem && zMoveWords) {
+    return `${name} holds ${heldItem.name}: ${zMoveWords}.`;
+  }
+
   const mechanicWords =
     !mechanic || name.includes(mechanic.label)
       ? null

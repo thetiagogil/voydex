@@ -10,6 +10,7 @@ import {
 } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { isBattleFormMechanic } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import { readZMoveSources } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import { toBaseStats } from "@/modules/reference/features/pokemon/domain/battle-math";
 import { applyMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/data/move-attribute-overrides";
 import { readMoveVersionGroupOverrides } from "@/modules/reference/features/pokemon/server/move-override-reader";
@@ -17,6 +18,7 @@ import { readLegendarySpecies } from "@/modules/reference/features/pokemon/serve
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
+import { withZMoveNames } from "../data/story-opponent-z-moves";
 import {
   buildStoryLevelCap,
   getStoryChoiceKey,
@@ -136,10 +138,12 @@ export const readOpponentMoves = async (
     moves.push({
       accuracy: attributes?.accuracy ?? null,
       damageClass: attributes?.damage_class ?? null,
+      id: move.id,
       name: move.name,
       power: attributes?.power ?? null,
       slug: move.slug,
       typeId: attributes?.type_id ?? null,
+      zMoveName: null,
     });
     movesByMember.set(slot.team_member_id, moves);
   }
@@ -310,6 +314,17 @@ const readOpponentTeams = async (
       },
     ]),
   );
+  /* What each held Z-Crystal turns into, to name the Z-Move on their moves. */
+  const zCrystalIds = [...itemById]
+    .filter(([, item]) => item.isZCrystal)
+    .map(([id]) => id);
+  const zSources =
+    generationId !== null && zCrystalIds.length
+      ? await readZMoveSources(supabase, {
+          generationId,
+          itemIds: zCrystalIds,
+        })
+      : [];
   const teraTypeById = new Map(
     (teraTypesResult?.data ?? []).map((teraType) => [
       teraType.id,
@@ -380,7 +395,15 @@ const readOpponentTeams = async (
           heldItem,
           legendary: legendaryBySpecies[form.species_id] ?? null,
           level: member.level,
-          moves: movesByMember.get(member.id) ?? [],
+          moves:
+            heldItem?.isZCrystal && member.held_item_id !== null
+              ? withZMoveNames(movesByMember.get(member.id) ?? [], {
+                  crystal: { id: member.held_item_id, name: heldItem.name },
+                  formId: member.form_id,
+                  speciesId: form.species_id,
+                  zSources,
+                })
+              : (movesByMember.get(member.id) ?? []),
           milestoneId: member.milestone_id,
           name: form.name,
           opponentId: member.opponent_id,

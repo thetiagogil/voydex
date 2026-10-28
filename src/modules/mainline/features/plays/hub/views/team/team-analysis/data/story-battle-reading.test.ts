@@ -109,6 +109,7 @@ const theirMove = (
   power: damaging ? 80 : null,
   slug: name.toLowerCase().replaceAll(" ", "-"),
   type: typeOf(slug),
+  zMoveName: null,
 });
 
 const brock = [
@@ -573,7 +574,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: { name: "Assault Vest", slug: "assault-vest" },
         mechanic: { kind: "tera", label: "Tera Fighting" },
-
+        moves: [],
         name: "Hydrapple",
       }),
     ).toBe("Hydrapple holds Assault Vest and Terastallizes into Fighting.");
@@ -581,7 +582,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: { name: "Rockium Z", slug: "rockium-z" },
         mechanic: { kind: "z-move", label: "Z-Move" },
-
+        moves: [],
         name: "Lycanroc",
       }),
     ).toBe("Lycanroc holds Rockium Z for a Z-Move.");
@@ -589,7 +590,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: null,
         mechanic: { kind: "dynamax", label: "Dynamax" },
-
+        moves: [],
         name: "Eldegoss",
       }),
     ).toBe("Eldegoss Dynamaxes.");
@@ -600,7 +601,7 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: { name: "Gardevoirite", slug: "gardevoirite" },
         mechanic: { kind: "mega", label: "Mega" },
-
+        moves: [],
         name: "Mega Gardevoir",
       }),
     ).toBe("Mega Gardevoir holds Gardevoirite.");
@@ -608,10 +609,55 @@ describe("getPowerUpSentence", () => {
       getPowerUpSentence({
         heldItem: null,
         mechanic: { kind: "gigantamax", label: "Gigantamax" },
-
+        moves: [],
         name: "Gigantamax Charizard",
       }),
     ).toBeNull();
+  });
+
+  it("names the Z-Move its crystal turns a move into", () => {
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Normalium Z", slug: "normalium-z" },
+        mechanic: { kind: "z-move", label: "Z-Move" },
+        moves: [
+          { ...theirMove("Aqua Jet", "water"), zMoveName: null },
+          { ...theirMove("Pound", "normal"), zMoveName: "Breakneck Blitz" },
+        ],
+        name: "Brionne",
+      }),
+    ).toBe("Brionne holds Normalium Z: its Pound becomes Breakneck Blitz.");
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Rockium Z", slug: "rockium-z" },
+        mechanic: { kind: "z-move", label: "Z-Move" },
+        moves: [
+          {
+            ...theirMove("Rock Slide", "rock"),
+            zMoveName: "Continental Crush",
+          },
+          {
+            ...theirMove("Stone Edge", "rock"),
+            zMoveName: "Continental Crush",
+          },
+          { ...theirMove("Crunch", "dark"), zMoveName: null },
+        ],
+        name: "Lycanroc",
+      }),
+    ).toBe(
+      "Lycanroc holds Rockium Z: its Rock Slide and Stone Edge become Continental Crush.",
+    );
+  });
+
+  it("keeps it general while none of its known moves turns into a Z-Move", () => {
+    expect(
+      getPowerUpSentence({
+        heldItem: { name: "Rockium Z", slug: "rockium-z" },
+        mechanic: { kind: "z-move", label: "Z-Move" },
+        moves: [{ ...theirMove("Crunch", "dark"), zMoveName: null }],
+        name: "Lycanroc",
+      }),
+    ).toBe("Lycanroc holds Rockium Z for a Z-Move.");
   });
 });
 
@@ -670,6 +716,7 @@ describe("readStoryBattle by the battle math", () => {
           power: null,
           slug: "night-shade",
           type: typeOf("ghost"),
+          zMoveName: null,
         },
       ],
     };

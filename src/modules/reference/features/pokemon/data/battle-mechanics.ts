@@ -330,7 +330,7 @@ const getMaxMoves = (
  * crystal only the move its species knows, a type crystal any damaging move
  * of its type. Status moves keep their own move (they gain a Z-Power boost).
  */
-const getZMoves = (
+export const getZMoves = (
   crystal: BattleItem,
   member: BattleMember,
   reference: BattleReference,

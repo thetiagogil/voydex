@@ -241,6 +241,7 @@ describe("StoryMatchupsSection", () => {
           power: 50,
           slug: "rock-throw",
           type: rock,
+          zMoveName: null,
         },
         {
           accuracy: 85,
@@ -250,6 +251,7 @@ describe("StoryMatchupsSection", () => {
           power: null,
           slug: "screech",
           type: null,
+          zMoveName: null,
         },
       ],
     };
@@ -311,6 +313,62 @@ describe("StoryMatchupsSection", () => {
     expect(html).toContain('aria-label="Holds Focus Sash"');
     expect(html).toContain(
       "Glimmora holds Focus Sash and Terastallizes into Rock.",
+    );
+  });
+
+  it("draws a held Z-Crystal on the card and on the move it turns into a Z-Move", () => {
+    const html = render([
+      battle({
+        party: {
+          note: null,
+          pokemon: [
+            {
+              baseStats: null,
+              formSlug: "brionne",
+              heldItem: { name: "Normalium Z", slug: "normalium-z" },
+              imageUrl: null,
+              key: "brionne",
+              legendary: null,
+              level: 16,
+              mechanic: { kind: "z-move", label: "Z-Move" },
+              moves: [
+                {
+                  accuracy: 100,
+                  damageClass: "physical" as const,
+                  damaging: true,
+                  name: "Aqua Jet",
+                  power: 40,
+                  slug: "aqua-jet",
+                  type: rock,
+                  zMoveName: null,
+                },
+                {
+                  accuracy: 100,
+                  damageClass: "physical" as const,
+                  damaging: true,
+                  name: "Pound",
+                  power: 40,
+                  slug: "pound",
+                  type: rock,
+                  zMoveName: "Breakneck Blitz",
+                },
+              ],
+              name: "Brionne",
+              teraType: null,
+              types: [rock],
+            },
+          ],
+        },
+      }),
+    ]);
+
+    expect(html).toContain('aria-label="Holds Normalium Z"');
+    expect(html).toContain(
+      'aria-label="Becomes Breakneck Blitz with Normalium Z"',
+    );
+    expect(html.match(/Becomes Breakneck Blitz/g)).toHaveLength(1);
+    expect(html).toContain(
+      "Brionne holds Normalium Z: its Pound becomes Breakneck Blitz.",
     );
   });
 
