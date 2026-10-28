@@ -49,9 +49,9 @@ export function assertItemRows(context, tableRows) {
     ],
     compareRowsByColumns(["sort_order", "id"]),
     {
-      count: 502,
+      count: 503,
       sha256:
-        "03ce42c29bcfcf5a24e5ffbe3403ce8e0284d793da86fa659b86a62d0daecbd5",
+        "02066a6d96d9b264f518c500afd2df90cb71834b037d6d75f959a2f41b03d680",
     },
   );
   assertSourceVerifiedRowsetFingerprint(
@@ -61,9 +61,9 @@ export function assertItemRows(context, tableRows) {
     ["item_id", "category_id"],
     compareRowsByColumns(["item_id", "category_id"]),
     {
-      count: 1012,
+      count: 1014,
       sha256:
-        "d8a4eec6d99a1186f32d638acda6e3168576710be7459add295ac8a15e8d7bc9",
+        "5bc415441ccc519c63ace4770d9359253f7196db2b4d7752c6f43e74a0cc740b",
     },
   );
   if (actualSlugs.join("|") !== expectedItemSlugs.join("|")) {

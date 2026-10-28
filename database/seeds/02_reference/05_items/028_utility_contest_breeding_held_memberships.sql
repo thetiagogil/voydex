@@ -70,4 +70,8 @@ VALUES
   -- Yellow Scarf -> Contest Items
   (457, 14),
   -- Yellow Scarf -> Utility Held Items
-  (457, 18);
+  (457, 18),
+  -- Sacred Ash -> Held Items
+  (503, 2),
+  -- Sacred Ash -> Utility Held Items
+  (503, 18);

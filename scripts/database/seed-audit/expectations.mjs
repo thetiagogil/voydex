@@ -2579,6 +2579,7 @@ export const expectedGeneralHeldItemCategoryRequirements = new Map([
   ["pink-scarf", [2, 14, 18]],
   ["red-scarf", [2, 14, 18]],
   ["yellow-scarf", [2, 14, 18]],
+  ["sacred-ash", [2, 18]],
 ]);
 
 export const expectedItemSlugs = [
@@ -2598,6 +2599,8 @@ export const expectedItemSlugs = [
   ...expectedTrainingExperienceHeldItemSlugs,
   ...expectedUtilityContestBreedingHeldItemSlugs,
   ...expectedPokemonLegendsZaMegaStoneItemSlugs,
+  // Held only by opponents: wild Ho-Oh carries it.
+  "sacred-ash",
 ];
 
 export const expectedEvolutionHeldItemSlugs = new Set([

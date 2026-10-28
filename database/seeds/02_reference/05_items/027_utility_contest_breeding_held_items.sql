@@ -34,4 +34,6 @@ VALUES
   -- Red Scarf
   (456, 'red-scarf', 'Red Scarf', 18, 3, 237, 456, 'Raises the holder''s Coolness condition in Contests.'),
   -- Yellow Scarf
-  (457, 'yellow-scarf', 'Yellow Scarf', 18, 3, 241, 457, 'Raises the holder''s Toughness condition in Contests.');
+  (457, 'yellow-scarf', 'Yellow Scarf', 18, 3, 241, 457, 'Raises the holder''s Toughness condition in Contests.'),
+  -- Sacred Ash
+  (503, 'sacred-ash', 'Sacred Ash', 18, 2, 44, 503, 'Revives every fainted Pokémon in the party to full HP when used. Wild Ho-Oh carries it.');
