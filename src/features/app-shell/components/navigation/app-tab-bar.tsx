@@ -6,7 +6,7 @@ import type { ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { SignedInAccount } from "@/features/app-shell/types";
-import { getAccountInitial } from "@/features/app-shell/utils/account-display";
+import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
 import { CodexTabMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import {
   isCurrentLink,
@@ -15,7 +15,6 @@ import {
 } from "@/features/app-shell/utils/app-navigation";
 import { getMainlineViewIcon } from "@/features/app-shell/utils/mainline-view-icons";
 import { AppIcon } from "@/shared/components/app-icon";
-import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import { cn } from "@/shared/utils/cn";
 
 type AppTabBarProps = {
@@ -81,11 +80,8 @@ export const AppTabBar = ({ account }: AppTabBarProps) => {
       <TabItem
         href={appRoutes.you}
         icon={
-          /* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */
-          /* Your initial in your trainer colour, as on the top bar and your card. */
-          <Avatar size="sm" aria-hidden>
-            <AvatarFallback>{getAccountInitial(account)}</AvatarFallback>
-          </Avatar>
+          /* Your icon, as on the top bar and your card. */
+          <AccountAvatar account={account} size="sm" />
         }
         isCurrent={youLinks.some((link) => isCurrentLink(pathname, link))}
         label="You"

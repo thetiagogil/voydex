@@ -10,7 +10,9 @@ account until Mainline starts the Play. Log in and Sign up share `/login`;
 Reset your password, Choose a new password and Check your email are their own
 routes ([Navigation And Routes](../navigation-and-routes.md)). Sign up has one
 password with Show and no confirmation field (v3), then Welcome (`/welcome`):
-your name on the trainer card, before your first Play.
+your name and a Pokémon icon on the trainer card, before your first Play.
+Welcome shows once: Continue saves them and Skip saves nothing, and either one
+marks Welcome done, after which `/welcome` just moves on (`profiles.welcome_completed_at`).
 
 Login is a focused global transition with visible Log in, Sign up, Recover
 account, Check your email, or Choose a new password identity. Direct Login uses
@@ -46,8 +48,8 @@ in again, preserves safe read intent, and never silently replays a write.
 
 Global Settings is one authenticated `/settings` page outside product modules,
 one readable column: the trainer card, which is the profile form (your
-display name; the card changes as you type and Save appears once it has
-changed), Look and feel, New Play defaults, Account and Your data. On phones
+Pokémon icon, display name and default trainer name; the card changes as you
+pick or type and Save appears once it has changed), Look and feel, New Play defaults, Account and Your data. On phones
 `/you` gathers the trainer card, Statistics, Collection and Settings.
 
 Account shows your email with Change email (confirmed by a link Supabase
@@ -63,8 +65,16 @@ entry. Until that operation exists the action is pending data.
 Look and feel (mode, colour theme, motion) and New Play defaults (Pokédex
 mode, Story and Collectibles tracking) are drawn with pending markers until
 `public.user_preferences` stores them; only the light look is designed.
-Pokémon reuse is a Play's No Pokémon reuse rule, not a setting. A Pokémon
-icon for the profile and a default trainer name are pending too.
+Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
+
+Your icon is one of the starters that have a Legends: Z-A icon (`profileIconSlugs`
+in `src/config/profile-icons.ts`; the pictures are `pokemon/icons/<slug>.webp` on
+the assets site): the Gen 1, Gen 3 and Gen 6 trios, Chikorita, Totodile, Tepig,
+Pikachu and Eevee. Each sits on a pale wash of its type and fills its disc. Tapping the picked icon again puts back your initial. It shows
+on the trainer card, the account menu and the tab bar, and replaces the initial
+everywhere. The default trainer name is what New Play and the Play started from
+Home's offer fill in; left empty they use your display name. Both are only a
+start: each Play keeps its own trainer name.
 
 Play-specific completion choices, optional content, Pokédex and Collectible
 scope, Rules, Tags, lifecycle, and metadata remain inside the owning Play or

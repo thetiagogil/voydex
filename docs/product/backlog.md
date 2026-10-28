@@ -138,8 +138,12 @@ secure account deletion. Preserve these later improvements:
 - user-requested personal-data export before account deletion;
 - richer account security history and recovery-code flows.
 
-Do not add these fields or workflows merely because `profiles.avatar_url` or an
-Auth provider can support them. Reconsider each when real account-management,
+Do not add these fields or workflows merely because an Auth provider can
+support them. (`profiles.avatar_url` is gone: the profile icon is a Pokémon.)
+
+The profile icon offers only the starters that have a Legends: Z-A icon (14 of
+29). The rest (Cyndaquil, Snivy, Oshawott, the Sinnoh, Alola, Galar and Paldea
+trios) join `src/config/profile-icons.ts` when an icon set with them exists. Reconsider each when real account-management,
 support, device, or security needs appear. Secure deletion remains V1 and must
 not be deferred with these conveniences.
 

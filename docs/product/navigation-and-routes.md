@@ -142,7 +142,7 @@ reference/filter context; they are not currently a required top-level view.
 
 /settings
   /export               your rows as one JSON file
-/welcome                first run after sign-up
+/welcome                once after sign-up, then moves on
 /you
 ```
 

@@ -14,6 +14,7 @@ export default async function Page() {
       collection={summary?.collection}
       displayName={account?.displayName ?? null}
       email={account?.email ?? null}
+      icon={account?.icon ?? null}
       signOutAction={signOut}
       statistics={summary?.statistics}
       trainerSince={account?.trainerSince ?? null}

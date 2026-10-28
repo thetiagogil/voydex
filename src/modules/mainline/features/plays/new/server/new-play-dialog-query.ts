@@ -1,4 +1,4 @@
-import { readSignedInTrainerDisplayName } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
+import { readSignedInTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
 import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
 import type { NewPlayDialogData } from "@/modules/mainline/features/plays/new/types";
 import { readChallengeRuleChoices } from "@/modules/mainline/shared/server/challenge-rule-choices-reader";
@@ -27,16 +27,18 @@ const readNewPlayRules = async () => {
 };
 
 export const getNewPlayDialogData = async (): Promise<NewPlayDialogData> => {
-  const [catalogue, trainerName, intent, rules] = await Promise.all([
+  const [catalogue, names, intent, rules] = await Promise.all([
     readGameCatalogue().catch(() => null),
-    readSignedInTrainerDisplayName().catch(() => null),
+    readSignedInTrainerNames().catch(() => null),
     readSignedInStartIntent().catch(() => null),
     readNewPlayRules().catch(() => ({ presets: [], rules: [] })),
   ]);
 
   return {
     intent,
-    picker: catalogue ? { ...catalogue, trainerName } : null,
+    picker: catalogue
+      ? { ...catalogue, trainerName: names?.trainerName ?? null }
+      : null,
     ...rules,
   };
 };

@@ -1,23 +1,28 @@
 import { WelcomeForm } from "@/features/settings/components/welcome-form";
+import type { ProfileIconChoice } from "@/features/settings/types";
 
 type WelcomePageProps = {
+  /* The Pokémon you can pick as your icon. */
+  choices: readonly ProfileIconChoice[];
   destination: string;
   displayName: string | null;
   gameShortName: string | null;
+  iconFormId: number | null;
   trainerSince: string | null;
 };
 
 /*
  * Welcome to Voydex (v3 `onboard`), right after signing up: a little about
  * you before your first Play. Coming from Start a Play, it says that Play is
- * ready and leads straight to it.
- * TODO(v3-data): a first-run flag on the profile, so Voydex knows to show
- * Welcome once; today it opens only from the sign-up link.
+ * ready and leads straight to it. It shows once: its route sends you on once
+ * Welcome has been finished or skipped.
  */
 export const WelcomePage = ({
+  choices,
   destination,
   displayName,
   gameShortName,
+  iconFormId,
   trainerSince,
 }: WelcomePageProps) => (
   <div className="flex w-full min-w-0 flex-col pt-1 pb-6 sm:pb-12">
@@ -30,9 +35,11 @@ export const WelcomePage = ({
       </p>
     </header>
     <WelcomeForm
+      choices={choices}
       destination={destination}
       displayName={displayName}
       gameShortName={gameShortName}
+      iconFormId={iconFormId}
       trainerSince={trainerSince}
     />
   </div>

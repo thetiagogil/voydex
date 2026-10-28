@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 import type { SignedInAccount } from "@/features/app-shell/types";
 import { signOut } from "@/features/app-shell/server/sign-out-action";
-import { getAccountInitial } from "@/features/app-shell/utils/account-display";
+import { AccountAvatar } from "@/features/app-shell/components/navigation/account-avatar";
 import {
   accountLink,
   isCurrentLink,
@@ -13,7 +13,6 @@ import {
 } from "@/features/app-shell/utils/app-navigation";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MenuOptionContent } from "@/shared/components/menu-option-content";
-import { Avatar, AvatarFallback } from "@/shared/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,14 +26,13 @@ type UserMenuProps = {
 };
 
 /*
- * You on the top bar: your initial opens Library, Settings and Log out,
+ * You on the top bar: your icon opens Library, Settings and Log out,
  * nothing more (your profile lives on its page). A floating layer, so it takes the
  * float shadow and no edge. Phones reach the same things from the You
  * page instead.
  */
 export const UserMenu = ({ account }: UserMenuProps) => {
   const pathname = usePathname();
-  const initial = getAccountInitial(account);
   const isSettingsCurrent = isCurrentLink(pathname, accountLink);
   const isLibraryCurrent = isCurrentLink(pathname, libraryLink);
 
@@ -49,16 +47,14 @@ export const UserMenu = ({ account }: UserMenuProps) => {
           />
         }
       >
-        {/* TODO(v3-data): your Pokémon icon replaces the letter once profiles store one. */}
-        <Avatar>
-          {/*
-           * Your initial in your trainer colour, as on your trainer card, in
-           * a white band: yours, a sticker like the other things you own.
-           */}
-          <AvatarFallback className="transition-[filter] group-hover/you:brightness-95 group-aria-expanded/you:brightness-95">
-            {initial}
-          </AvatarFallback>
-        </Avatar>
+        {/*
+         * Your Pokémon (or your initial in your trainer colour) in a white
+         * band: yours, a sticker like the other things you own.
+         */}
+        <AccountAvatar
+          account={account}
+          fallbackClassName="transition-[filter] group-hover/you:brightness-95 group-aria-expanded/you:brightness-95"
+        />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent

@@ -4,6 +4,6 @@ import type { SignedInAccount } from "@/features/app-shell/types";
 export const getAccountName = (account: SignedInAccount): string =>
   account.displayName ?? account.email ?? "You";
 
-/* The letter on your avatar until you can pick a Pokémon icon. */
+/* The letter on your avatar until you pick a Pokémon icon. */
 export const getAccountInitial = (account: SignedInAccount): string =>
   getAccountName(account).trim().charAt(0).toUpperCase() || "?";

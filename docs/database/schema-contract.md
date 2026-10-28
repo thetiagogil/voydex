@@ -7,7 +7,10 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
 ## Identity And Personalization
 
 - `public.profiles` is one-to-one with `auth.users`; the signup trigger also
-  creates `public.user_preferences`.
+  creates `public.user_preferences`. It holds the display name, the Pokémon
+  icon (`icon_form_id`, a foreign key to `reference.pokemon_forms` added in the
+  reference tables, which load after it), the default trainer name and
+  `welcome_completed_at`.
 - `public.tags` are user-owned, reusable, and attached through typed gameplay
   and planning join tables.
 - `public.user_preferences` holds global defaults that are not play-specific

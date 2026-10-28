@@ -61,7 +61,7 @@ export const MainlineHomePage = ({ data }: MainlineHomePageProps) => {
         data.intentOffer ? (
           <HomeIntentOfferCard
             offer={data.intentOffer}
-            trainerName={data.displayName}
+            trainerName={data.trainerName}
           />
         ) : null
       }

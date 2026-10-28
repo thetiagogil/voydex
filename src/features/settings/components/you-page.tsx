@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import type { TrainerIcon } from "@/features/settings/types";
 import { PageBand } from "@/shared/components/page-band";
 import { appRoutes } from "@/config/routes";
 import { SettingsLogOutButton } from "@/features/settings/components/settings-log-out-button";
@@ -29,6 +30,8 @@ export type YouPageSummary = {
 type YouPageProps = YouPageSummary & {
   displayName: string | null;
   email: string | null;
+  /* Your Pokémon icon; null until you pick one. */
+  icon: TrainerIcon | null;
   signOutAction: () => Promise<void>;
   trainerSince: string | null;
 };
@@ -74,6 +77,7 @@ export const YouPage = ({
   collection,
   displayName,
   email,
+  icon,
   signOutAction,
   statistics,
   trainerSince,
@@ -86,6 +90,11 @@ export const YouPage = ({
         <PageHeader title="You" />
         <TrainerCard
           className="mt-5"
+          icon={
+            icon?.url
+              ? { name: icon.name, typeSlug: icon.typeSlug, url: icon.url }
+              : null
+          }
           initial={name ? name.charAt(0).toUpperCase() : null}
           name={name}
           subtitle={

@@ -49,6 +49,6 @@ export type PlayBrowseItem = MainlinePlaySummary & {
 
 /* What starting a Play offers, on New Play and Home's first-Play picker. */
 export type NewPlayPickerData = GameCatalogue & {
-  /* The trainer name a new Play starts with: your display name. */
+  /* The trainer name a new Play starts with: your default trainer name, else your display name. */
   trainerName: string | null;
 };
