@@ -4,7 +4,7 @@
 -- Primary: Bulbapedia Generation VIII raw Pokémon learnset pages for Brilliant Diamond / Shining Pearl.
 -- Cross-check: Serebii BDSP game learnset pages and PokemonDB generation learnset pages where useful.
 -- Machine normalization: Bulbapedia BDSP TM catalog data.
--- Product scope: default-form BDSP direct acquisition rows only; alternate/regional form sections are excluded until separately seeded.
+-- Product scope: default-form BDSP direct acquisition rows only; alternate/regional form sections are excluded until separately seeded, except Deoxys Attack, Defense and Speed Formes, seeded from the game's own data.
 -- Correction: legendary and mythical rows are checked against each game's own
 -- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================

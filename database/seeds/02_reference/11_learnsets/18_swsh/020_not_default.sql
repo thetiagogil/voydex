@@ -6684,14 +6684,14 @@ INSERT INTO reference.pokemon_learnsets (
   (800, 80002, 350, 18, NULL, 1, 48, NULL, NULL, NULL, 12),
   -- Necrozma (Dawn Wings) - Iron Defense - Level 56
   (800, 80002, 334, 18, NULL, 1, 56, NULL, NULL, NULL, 13),
-  -- Necrozma (Dawn Wings) - Power Gem - Level 64
-  (800, 80002, 408, 18, NULL, 1, 64, NULL, NULL, NULL, 14),
-  -- Necrozma (Dawn Wings) - Photon Geyser - Level 72
-  (800, 80002, 722, 18, NULL, 1, 72, NULL, NULL, NULL, 15),
   -- Necrozma (Dawn Wings) - Autotomize - Level 60
-  (800, 80002, 475, 18, NULL, 1, 60, NULL, NULL, NULL, 16),
+  (800, 80002, 475, 18, NULL, 1, 60, NULL, NULL, NULL, 14),
+  -- Necrozma (Dawn Wings) - Power Gem - Level 64
+  (800, 80002, 408, 18, NULL, 1, 64, NULL, NULL, NULL, 15),
   -- Necrozma (Dawn Wings) - Prismatic Laser - Level 66
-  (800, 80002, 711, 18, NULL, 1, 66, NULL, NULL, NULL, 17),
+  (800, 80002, 711, 18, NULL, 1, 66, NULL, NULL, NULL, 16),
+  -- Necrozma (Dawn Wings) - Photon Geyser - Level 72
+  (800, 80002, 722, 18, NULL, 1, 72, NULL, NULL, NULL, 17),
   -- Necrozma (Dawn Wings) - Hyper Beam - TM08
   (800, 80002, 63, 18, NULL, 2, NULL, NULL, 18002008, NULL, 18),
   -- Necrozma (Dawn Wings) - Giga Impact - TM09

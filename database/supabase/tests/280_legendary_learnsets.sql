@@ -116,17 +116,17 @@ SELECT
             VALUES (38601, 14), (38602, 16), (38603, 14), (49201, 12) $$, 'Brilliant Diamond / Shining Pearl Deoxys forms and Sky Shaymin have their own level-up moves');
 -- TM, HM and TR moves.
 SELECT
-    set_eq ($$
+    results_eq ($$
         SELECT
-            MOVE FROM machine_moves
-            WHERE
-                version_group_id = 21
-                AND form_id IN (38601, 38602, 38603) $$, $$
-                SELECT
-                    MOVE FROM machine_moves
-                    WHERE
-                        version_group_id = 21
-                        AND form_id = 38600 $$, 'Brilliant Diamond / Shining Pearl Deoxys forms keep Normal Deoxys''s TMs');
+            form_moves.form_id, count(normal_moves.move)::int, count(*)::int FROM machine_moves AS form_moves
+        LEFT JOIN machine_moves AS normal_moves ON normal_moves.form_id = 38600
+            AND normal_moves.version_group_id = 21
+            AND normal_moves.move = form_moves.move
+        WHERE
+            form_moves.version_group_id = 21
+            AND form_moves.form_id IN (38600, 38601, 38602, 38603)
+        GROUP BY form_moves.form_id ORDER BY form_moves.form_id $$, $$
+        VALUES (38600, 54, 54), (38601, 54, 54), (38602, 54, 54), (38603, 54, 54) $$, 'Brilliant Diamond / Shining Pearl Deoxys forms each keep exactly Normal Deoxys''s TMs');
 SELECT
     results_eq ($$
         SELECT
@@ -182,9 +182,9 @@ SELECT
             WHERE
                 version_group_id = 23
                 AND form_id IN (89800, 89801, 89802)
-                AND MOVE IN ('avalanche', 'shadow-ball')
-            ORDER BY form_id $$, $$
-            VALUES (89801, 'avalanche'::text), (89802, 'shadow-ball') $$, 'Scarlet / Violet Calyrex learns neither Rider''s TMs and each Rider only its own');
+                AND MOVE IN ('avalanche', 'body-press', 'shadow-ball')
+            ORDER BY form_id, MOVE $$, $$
+            VALUES (89800, 'body-press'::text), (89801, 'avalanche'), (89801, 'body-press'), (89802, 'shadow-ball') $$, 'Scarlet / Violet Calyrex learns neither Rider''s TMs and each Rider only its own');
 SELECT
     results_eq ($$
         SELECT
@@ -261,15 +261,23 @@ SELECT
                     OR (default_scopes.has_machine
                         AND NOT form_scopes.has_machine)) $$, 'a legendary form with its own rows has level-up and machine rows wherever its default does');
 SELECT
-    results_eq ($$
-        SELECT
-            level, string_agg(MOVE, ',' ORDER BY MOVE)
-            FROM level_moves
-            WHERE
-                form_id = 89800
-                AND version_group_id = 23
-                AND level = 40 GROUP BY level $$, $$
-            VALUES (40, 'grassy-terrain,psychic-terrain'::text) $$, 'Calyrex learns both terrains at 40, its one shared level');
+    is_empty ($$ WITH machine_counts AS (
+            SELECT
+                form_id, version_group_id, count(*) AS machine_count FROM machine_moves GROUP BY form_id, version_group_id)
+            SELECT
+                machine_counts.form_id, machine_counts.version_group_id FROM machine_counts
+                JOIN reference.version_groups ON version_groups.id = machine_counts.version_group_id
+                    AND version_groups.parent_version_group_id IS NULL
+                JOIN reference.pokemon_forms ON pokemon_forms.id = machine_counts.form_id
+                    AND NOT pokemon_forms.is_default
+                JOIN reference.pokemon_species ON pokemon_species.id = pokemon_forms.species_id
+                JOIN reference.pokemon_forms AS default_form ON default_form.species_id = pokemon_forms.species_id
+                    AND default_form.is_default
+                JOIN machine_counts AS default_counts ON default_counts.form_id = default_form.id
+                    AND default_counts.version_group_id = machine_counts.version_group_id
+                WHERE (pokemon_species.is_legendary
+                    OR pokemon_species.is_mythical)
+                AND machine_counts.machine_count * 2 < default_counts.machine_count $$, 'a legendary form never has under half the TMs of its default in a base game');
 SELECT
     *
 FROM

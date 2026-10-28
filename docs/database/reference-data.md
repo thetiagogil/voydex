@@ -43,9 +43,10 @@ sources remain authoritative for game-specific mechanics and availability.
   Regigigas's Mega Punch flag in Scarlet / Violet sits in a slot no TM teaches;
   FireRed / LeafGreen share Emerald's TM flags in PKHeX, Dive included, but
   those games have no Dive HM.
-- A form with its own learnset rows in a version group carries every method
-  there (level-up and machines alike), and rows in each DLC scope where its
-  default has them; otherwise it would lose moves its default keeps.
+- A legendary or mythical form with its own learnset rows in a version group
+  carries level-up and machine rows there wherever its default does, and rows
+  in each DLC scope where its default has them; otherwise it would lose moves
+  its default keeps.
 - Forms used by teams require a valid species/form pair and game-era support.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
