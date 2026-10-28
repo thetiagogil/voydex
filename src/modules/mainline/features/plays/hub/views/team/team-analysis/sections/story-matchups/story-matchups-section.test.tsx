@@ -26,6 +26,7 @@ const member = {
 const battle = (
   overrides: Partial<StoryMatchupBattle> = {},
 ): StoryMatchupBattle => ({
+  allies: [],
   badgeType: null,
   chapter: "Main Story",
   completedAt: null,
@@ -214,6 +215,27 @@ describe("StoryMatchupsSection", () => {
     ]);
 
     expect(html).toContain("Onix: Rock Throw, 2×");
+  });
+
+  it("shows who fights beside you and that the verdict counts them", () => {
+    const carmine = {
+      name: "Carmine",
+      note: null,
+      pokemon: [
+        { ...withTeam.party!.pokemon[0], key: "mightyena", name: "Mightyena" },
+      ],
+    };
+    const html = render([
+      { ...withTeam, allies: [carmine, { ...carmine, name: "Kieran" }] },
+    ]);
+
+    expect(html).toContain("Beside you");
+    expect(html).toContain("Carmine and Kieran");
+    expect(html).toContain(
+      "Carmine&#x27;s and Kieran&#x27;s Pokémon fight beside yours, and the verdict counts them with your team.",
+    );
+    expect(html).toContain("Mightyena");
+    expect(render([withTeam])).not.toContain("Beside you");
   });
 
   it("reads nothing where you don't battle with your team", () => {

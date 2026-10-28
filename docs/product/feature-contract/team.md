@@ -235,6 +235,15 @@ damaging moves aren't, by type; the verdict then says it is a rough read and
 what to record. A battle not fought with your team (a Pokémon lent for it,
 one of yours alone such as the Zero Lab ride legendary, or a frenzy that is
 mostly balms; `player_side` on the battle) gets no reading and says why.
+Where an ally fights beside you (a Multi Battle partner such as Steven,
+Carmine or Lida: team rows of the battle with `ally_opponent_id` set), their
+Pokémon join your side in the verdict as extra team members at their own
+levels, answering theirs and sharing what the battle costs. An ally only ever
+helps, so the verdict is the easier of fighting alone and fighting beside
+them. Each of your Pokémon's role, the levels and the sentence stay about
+your own team, and "Beside you" shows each ally's team as theirs is shown. An
+ally's team that depends on a choice follows the Play's, and one that depends
+on something Voydex doesn't record follows the one their team is read by.
 Best hit is the one of theirs it lands on hardest and Weak to the one of
 theirs that hits it hardest for 2× or more (by its moves, or its types
 without them), each shown as that Pokémon with the multiplier and picked by
@@ -273,6 +282,7 @@ moves become which Z-Move ("holds Normalium Z: its Pound becomes Breakneck
 Blitz"; "for a Z-Move" while Voydex has none of its moves). A Pokémon that
 battles as its Mega, Primal or Gigantamax form is stored in that form, so its
 name already says it.
+Level caps read the opponent's team only, never an ally's.
 Every Story battle has its opponent's team (a database test holds this); a
 battle that somehow had none would keep the specialty reading and an honest
 placeholder.

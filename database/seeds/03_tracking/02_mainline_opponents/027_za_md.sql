@@ -51,4 +51,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Rogue Mega Tatsugiri
   (27013, 27, NULL, 'rogue-mega-tatsugiri', 'Rogue Mega Tatsugiri', 'boss', 15, 3, 'rogue-mega-tatsugiri', 13),
   -- Rogue Mega Meowstic
-  (27014, 27, NULL, 'rogue-mega-meowstic', 'Rogue Mega Meowstic', 'boss', 11, NULL, 'rogue-mega-meowstic', 14);
+  (27014, 27, NULL, 'rogue-mega-meowstic', 'Rogue Mega Meowstic', 'boss', 11, NULL, 'rogue-mega-meowstic', 14),
+  -- Taunie / Urbain (fights beside you against Hyperspace rogue Megas)
+  (27015, 27, NULL, 'taunie-urbain', 'Taunie / Urbain', 'ally', NULL, NULL, 'taunie-urbain', 15),
+  -- Korrina (fights beside you against Hyperspace rogue Megas)
+  (27016, 27, NULL, 'korrina', 'Korrina', 'ally', NULL, NULL, 'korrina', 16);

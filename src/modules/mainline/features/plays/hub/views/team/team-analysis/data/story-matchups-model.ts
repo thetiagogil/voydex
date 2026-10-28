@@ -80,6 +80,11 @@ export type StoryOpponentMoveRow = {
  * on a Play's choice (usually the starter) has one set of rows per choice.
  */
 export type StoryOpponentPartyRow = {
+  /*
+   * Set when the Pokémon isn't the opponent's but an ally's, fighting beside
+   * you against the opponent in this battle (a Multi Battle partner).
+   */
+  ally: { id: number; name: string } | null;
   /* Its form's base stats in the Play's generation; null without them. */
   baseStats: BaseStats | null;
   /* The mechanic its stored form needs (a Mega, a Gigantamax form); null for any other form. */
@@ -150,6 +155,9 @@ export type StoryMatchupParty = {
   pokemon: StoryOpponentPokemon[];
 };
 
+/* Someone fighting beside you in the battle, with their team. */
+export type StoryMatchupAlly = StoryMatchupParty & { name: string };
+
 /*
  * A legendary encounter: the Story's boss battle where the opponent is one
  * Legendary or Mythical Pokémon, not a trainer's team.
@@ -161,6 +169,8 @@ const getLegendaryRarity = (
   role === "boss" && pokemon?.length === 1 ? pokemon[0].legendary : null;
 
 export type StoryMatchupBattle = {
+  /* Who fights beside you, in Voydex's order; empty when you fight alone. */
+  allies: StoryMatchupAlly[];
   /* A gym's badge type, so a battle won wears its badge. */
   badgeType: PokemonTypeSlug | null;
   chapter: string;
@@ -359,10 +369,14 @@ const getOpponentMechanic = (
 const getBattleOpponentKey = (milestoneId: number, opponentId: number) =>
   `${milestoneId}/${opponentId}`;
 
+/* The key one side's teams in one battle share: the opponent's, or one ally's. */
+const getSideKey = (battleOpponentKey: string, allyId: number | null) =>
+  allyId === null ? battleOpponentKey : `${battleOpponentKey}/ally-${allyId}`;
+
 /*
- * Each opponent's teams in each battle by the choice each follows, in the
- * order Voydex lists them, so the first is the one read while the choice
- * isn't recorded.
+ * Each opponent's teams in each battle, and each ally's there, by the choice
+ * each follows, in the order Voydex lists them, so the first is the one read
+ * while the choice isn't recorded.
  */
 const groupParties = (
   rows: StoryOpponentPartyRow[],
@@ -380,8 +394,14 @@ const groupParties = (
         choiceKey: string | null;
         label: string | null;
         pokemon: StoryOpponentPokemon[];
+        variantKey: string | null;
       }
     >
+  >();
+  /* Who fights beside you in each battle, in the order Voydex lists them. */
+  const alliesByBattleOpponent = new Map<
+    string,
+    Map<number, { id: number; name: string }>
   >();
 
   for (const row of [...rows].sort((left, right) => left.slot - right.slot)) {
@@ -389,11 +409,21 @@ const groupParties = (
       row.milestoneId,
       row.opponentId,
     );
+    const sideKey = getSideKey(battleOpponentKey, row.ally?.id ?? null);
+
+    if (row.ally) {
+      const allies =
+        alliesByBattleOpponent.get(battleOpponentKey) ??
+        alliesByBattleOpponent
+          .set(battleOpponentKey, new Map())
+          .get(battleOpponentKey)!;
+
+      allies.set(row.ally.id, row.ally);
+    }
+
     const parties =
-      partiesByBattleOpponent.get(battleOpponentKey) ??
-      partiesByBattleOpponent
-        .set(battleOpponentKey, new Map())
-        .get(battleOpponentKey)!;
+      partiesByBattleOpponent.get(sideKey) ??
+      partiesByBattleOpponent.set(sideKey, new Map()).get(sideKey)!;
     const key = `${row.gameId ?? ""}:${row.choiceKey ?? ""}:${row.variantKey ?? ""}`;
     const party =
       parties.get(key) ??
@@ -402,6 +432,7 @@ const groupParties = (
           choiceKey: row.choiceKey,
           label: row.variantLabel,
           pokemon: [],
+          variantKey: row.variantKey,
         })
         .get(key)!;
 
@@ -415,7 +446,7 @@ const groupParties = (
           ? { name: row.heldItem.name, slug: row.heldItem.slug }
           : null,
       imageUrl: getPokemonFormImageUrl({ name: row.name, slug: row.formSlug }),
-      key: `${battleOpponentKey}-${key}-${row.slot}`,
+      key: `${sideKey}-${key}-${row.slot}`,
       legendary: row.legendary,
       level: row.level,
       mechanic,
@@ -438,28 +469,42 @@ const groupParties = (
     });
   }
 
-  return partiesByBattleOpponent;
+  return { alliesByBattleOpponent, partiesByBattleOpponent };
 };
 
 /*
- * An opponent's team in one battle, picked by the Play's recorded choice.
- * Null when Voydex doesn't have it, or "skip" when the battle only happens
+ * An opponent's team in one battle, or an ally's there, picked by the Play's
+ * recorded choice; an ally's team that depends on something Voydex doesn't
+ * record follows the one the opponent's team was read by. Null when Voydex
+ * doesn't have it, or "skip" when the battle (or the ally in it) only comes
  * after a choice the Play made differently (the roaming bird your starter
  * picks).
  */
 const resolveParty = (
-  battleOpponentKey: string,
+  sideKey: string,
   role: string,
-  partiesByBattleOpponent: ReturnType<typeof groupParties>,
+  partiesByBattleOpponent: ReturnType<
+    typeof groupParties
+  >["partiesByBattleOpponent"],
   chosenChoiceKeys: ReadonlySet<string>,
-): StoryMatchupParty | "skip" | null => {
-  const parties = [
-    ...(partiesByBattleOpponent.get(battleOpponentKey)?.values() ?? []),
-  ];
-  const matched = parties.find(
-    (party) =>
-      party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
-  );
+  {
+    allyName = null,
+    preferredVariantKey = null,
+  }: { allyName?: string | null; preferredVariantKey?: string | null } = {},
+): (StoryMatchupParty & { variantKey: string | null }) | "skip" | null => {
+  const parties = [...(partiesByBattleOpponent.get(sideKey)?.values() ?? [])];
+  const matched =
+    parties.find(
+      (party) =>
+        party.choiceKey !== null && chosenChoiceKeys.has(party.choiceKey),
+    ) ??
+    (preferredVariantKey === null
+      ? undefined
+      : parties.find(
+          (party) =>
+            party.choiceKey === null &&
+            party.variantKey === preferredVariantKey,
+        ));
   const recordedChoiceMilestones = new Set(
     [...chosenChoiceKeys].map(getChoiceMilestoneKey),
   );
@@ -495,17 +540,28 @@ const resolveParty = (
     return null;
   }
 
-  const isLegendary = Boolean(getLegendaryRarity(role, party.pokemon));
+  const isLegendary =
+    allyName === null && Boolean(getLegendaryRarity(role, party.pokemon));
+  const teamWords = allyName
+    ? `${allyName}'s team depends`
+    : isLegendary
+      ? "It depends"
+      : "Their team depends";
+  const onlyIf = allyName
+    ? `${allyName} fights beside you`
+    : isLegendary
+      ? "You meet it"
+      : "You face them";
   const note =
     chosen || !party.label
       ? null
       : !party.choiceKey
-        ? `${isLegendary ? "It depends" : "Their team depends"} on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`
+        ? `${teamWords} on something Voydex doesn't record, so this reads one way it can go: ${party.label}.`
         : parties.length === 1
-          ? `You ${isLegendary ? "meet it" : "face them"} only if you chose ${party.label}, and this Play hasn't recorded that choice.`
-          : `${isLegendary ? "It depends" : "Their team depends"} on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`;
+          ? `${onlyIf} only if you chose ${party.label}, and this Play hasn't recorded that choice.`
+          : `${teamWords} on a choice this Play hasn't recorded, so this reads the one for ${party.label}.`;
 
-  return { note, pokemon: party.pokemon };
+  return { note, pokemon: party.pokemon, variantKey: party.variantKey };
 };
 
 /*
@@ -515,7 +571,8 @@ const resolveParty = (
  * team saved with it; a battle ahead is read against the active team and
  * their team in that battle, or, where Voydex doesn't have it, the
  * opponent's specialty type only. Each battle has its own team, so a rematch
- * reads the team you face then. Opponents for the Play's other version are
+ * reads the team you face then. An ally fighting beside you there counts
+ * with your team in the verdict. Opponents for the Play's other version are
  * left out, as is a battle that only happens after a choice the Play made
  * differently.
  */
@@ -549,7 +606,7 @@ export const buildStoryMatchupsModel = ({
     id === null ? null : (typeById.get(id) ?? null);
   const battles: StoryMatchupBattle[] = [];
   /* A team for the Play's other version is left out, as its leaders are. */
-  const partiesByBattleOpponent = groupParties(
+  const { alliesByBattleOpponent, partiesByBattleOpponent } = groupParties(
     partyRows.filter((row) => row.gameId === null || row.gameId === playGameId),
     typeOf,
     mechanics,
@@ -581,16 +638,49 @@ export const buildStoryMatchupsModel = ({
         typeOf(ref.primary_type_id),
         typeOf(ref.secondary_type_id),
       ].filter((type): type is Type => type !== null);
-      const party = resolveParty(
-        getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
+      const battleOpponentKey = getBattleOpponentKey(
+        milestone.milestone_id,
+        ref.opponent_id,
+      );
+      const resolved = resolveParty(
+        battleOpponentKey,
         ref.opponent_role,
         partiesByBattleOpponent,
         chosenChoiceKeys,
       );
 
-      if (party === "skip") {
+      if (resolved === "skip") {
         continue;
       }
+
+      const party = resolved && {
+        note: resolved.note,
+        pokemon: resolved.pokemon,
+      };
+      const allies = [
+        ...(alliesByBattleOpponent.get(battleOpponentKey)?.values() ?? []),
+      ].flatMap((ally): StoryMatchupAlly[] => {
+        const allyParty = resolveParty(
+          getSideKey(battleOpponentKey, ally.id),
+          ref.opponent_role,
+          partiesByBattleOpponent,
+          chosenChoiceKeys,
+          {
+            allyName: ally.name,
+            preferredVariantKey: resolved?.variantKey ?? null,
+          },
+        );
+
+        return allyParty && allyParty !== "skip"
+          ? [
+              {
+                name: ally.name,
+                note: allyParty.note,
+                pokemon: allyParty.pokemon,
+              },
+            ]
+          : [];
+      });
       const legendary = getLegendaryRarity(ref.opponent_role, party?.pokemon);
       const opponentKind: StoryOpponentKind = legendary
         ? "legendary"
@@ -598,6 +688,7 @@ export const buildStoryMatchupsModel = ({
       const reading =
         party && !isWon && ref.player_side === "own-team"
           ? readStoryBattle({
+              allies: allies.flatMap((ally) => ally.pokemon),
               generationOrder,
               members,
               opponentKind,
@@ -611,6 +702,7 @@ export const buildStoryMatchupsModel = ({
         : null;
 
       battles.push({
+        allies,
         badgeType:
           ref.opponent_role === "gym-leader" &&
           badgeSlug &&

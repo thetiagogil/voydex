@@ -4677,6 +4677,7 @@ export type Database = {
       };
       mainline_opponent_team_members: {
         Row: {
+          ally_opponent_id: number | null;
           created_at: string;
           decision_milestone_id: number | null;
           decision_option_slug: string | null;
@@ -4697,6 +4698,7 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          ally_opponent_id?: number | null;
           created_at?: string;
           decision_milestone_id?: number | null;
           decision_option_slug?: string | null;
@@ -4716,6 +4718,7 @@ export type Database = {
           version_group_id: number;
         };
         Update: {
+          ally_opponent_id?: number | null;
           created_at?: string;
           decision_milestone_id?: number | null;
           decision_option_slug?: string | null;
@@ -4735,6 +4738,13 @@ export type Database = {
           version_group_id?: number;
         };
         Relationships: [
+          {
+            foreignKeyName: "mainline_opponent_team_members_ally_version_group_fkey";
+            columns: ["ally_opponent_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "mainline_opponents";
+            referencedColumns: ["id", "version_group_id"];
+          },
           {
             foreignKeyName: "mainline_opponent_team_members_battle_fkey";
             columns: ["milestone_id", "opponent_id", "version_group_id"];

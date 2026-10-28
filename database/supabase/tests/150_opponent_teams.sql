@@ -71,7 +71,8 @@ SELECT
                     FROM tracking.mainline_opponent_team_members
                     WHERE
                         mainline_opponent_team_members.milestone_id = mainline_milestone_opponent_refs.milestone_id
-                        AND mainline_opponent_team_members.opponent_id = mainline_milestone_opponent_refs.opponent_id) $$, 'every Gym Leader, Kahuna, Elite Four and Champion battle has a team');
+                        AND mainline_opponent_team_members.opponent_id = mainline_milestone_opponent_refs.opponent_id
+                        AND mainline_opponent_team_members.ally_opponent_id IS NULL) $$, 'every Gym Leader, Kahuna, Elite Four and Champion battle has a team');
 -- Every Story battle, bosses and rivals included, has its opponent's team.
 SELECT
     is_empty ($$
@@ -84,7 +85,8 @@ SELECT
                     FROM tracking.mainline_opponent_team_members
                     WHERE
                         mainline_opponent_team_members.milestone_id = mainline_milestone_opponent_refs.milestone_id
-                        AND mainline_opponent_team_members.opponent_id = mainline_milestone_opponent_refs.opponent_id) $$, 'every Story battle has a team');
+                        AND mainline_opponent_team_members.opponent_id = mainline_milestone_opponent_refs.opponent_id
+                        AND mainline_opponent_team_members.ally_opponent_id IS NULL) $$, 'every Story battle has a team');
 -- X / Y: Lysandre fights at the Team Flare Secret HQ before and after Xerneas / Yveltal.
 SELECT
     results_eq ($$
