@@ -152,7 +152,8 @@ export const readOpponentMoves = async (
 };
 
 /*
- * Each opponent's team in each Story battle, with each Pokémon's name and types in
+ * Each opponent's team in each Story battle, and the team of any ally
+ * fighting beside you there, with each Pokémon's name and types in
  * the Play's generation, how it powers up (its battle form, Tera Type or
  * Dynamax), what it holds and its moves as the Play's version group plays
  * them, and the choices (such as the starter) the Play has recorded, so a
@@ -177,7 +178,7 @@ const readOpponentTeams = async (
       .schema("tracking")
       .from("mainline_opponent_team_members")
       .select(
-        "id, milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level, held_item_id, tera_type_id, dynamaxes",
+        "id, milestone_id, opponent_id, ally_opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, variant_label, slot, form_id, level, held_item_id, tera_type_id, dynamaxes",
       )
       .in("opponent_id", opponentIds)
       .order("id", { ascending: true }),
@@ -199,6 +200,9 @@ const readOpponentTeams = async (
   }
 
   const formIds = uniqueNumberIds(members.map((member) => member.form_id));
+  const allyIds = uniqueNumberIds(
+    members.map((member) => member.ally_opponent_id),
+  );
   const decisionMilestoneIds = uniqueNumberIds(
     members.map((member) => member.decision_milestone_id),
   );
@@ -226,6 +230,7 @@ const readOpponentTeams = async (
     itemsResult,
     zCrystalCategoryResult,
     teraTypesResult,
+    alliesResult,
     legendaryBySpecies,
     movesByMember,
   ] = await Promise.all([
@@ -278,6 +283,13 @@ const readOpponentTeams = async (
           .select("id, name, type_id")
           .in("id", teraTypeIds)
       : null,
+    allyIds.length
+      ? supabase
+          .schema("tracking")
+          .from("mainline_opponents")
+          .select("id, name")
+          .in("id", allyIds)
+      : null,
     readLegendarySpecies(supabase),
     movesByMemberPromise,
   ]);
@@ -289,13 +301,17 @@ const readOpponentTeams = async (
     optionsResult?.error ||
     itemsResult?.error ||
     zCrystalCategoryResult?.error ||
-    teraTypesResult?.error
+    teraTypesResult?.error ||
+    alliesResult?.error
   ) {
     throw new Error("Unable to load the Play's Story opponents' Pokémon.");
   }
 
   const formById = new Map(
     (formsResult.data ?? []).map((form) => [form.id, form]),
+  );
+  const allyNameById = new Map(
+    (alliesResult?.data ?? []).map((ally) => [ally.id, ally.name]),
   );
   const battleMechanicByForm = new Map(
     (formRulesResult?.data ?? []).map((rule) => [
@@ -374,6 +390,15 @@ const readOpponentTeams = async (
         throw new Error("Unable to load a Story opponent's battle details.");
       }
 
+      const allyName =
+        member.ally_opponent_id === null
+          ? null
+          : allyNameById.get(member.ally_opponent_id);
+
+      if (allyName === undefined) {
+        throw new Error("Unable to load a Story battle's ally.");
+      }
+
       const attributes = attributesByForm.get(member.form_id);
       const choiceKey =
         member.decision_milestone_id !== null &&
@@ -386,6 +411,10 @@ const readOpponentTeams = async (
 
       return [
         {
+          ally:
+            member.ally_opponent_id === null || allyName === null
+              ? null
+              : { id: member.ally_opponent_id, name: allyName },
           baseStats: attributes ? toBaseStats(attributes) : null,
           battleFormMechanic: battleMechanicByForm.get(member.form_id) ?? null,
           choiceKey,

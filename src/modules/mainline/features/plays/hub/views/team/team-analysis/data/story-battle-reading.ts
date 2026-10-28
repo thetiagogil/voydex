@@ -450,21 +450,20 @@ const toTheirBattler = (
  * and shared across your team: Strong when it costs little of your team's
  * HP, Challenging when it costs about all of it, Balanced between.
  */
+const toBattleState = (share: number): MatchupState =>
+  share <= battleCostLimits.strong
+    ? "strong"
+    : share >= battleCostLimits.challenging
+      ? "challenging"
+      : "balanced";
+
 export const getBattleState = ({
   answerCosts,
   teamCount,
 }: {
   answerCosts: number[];
   teamCount: number;
-}): MatchupState => {
-  const share = getBattleShare({ answerCosts, teamCount });
-
-  return share <= battleCostLimits.strong
-    ? "strong"
-    : share >= battleCostLimits.challenging
-      ? "challenging"
-      : "balanced";
-};
+}): MatchupState => toBattleState(getBattleShare({ answerCosts, teamCount }));
 
 /* How many of their Pokémon Voydex has the moves of. */
 export const countOpponentsWithMoves = (their: StoryOpponentPokemon[]) =>
@@ -476,9 +475,14 @@ export const countOpponentsWithMoves = (their: StoryOpponentPokemon[]) =>
  * and one verdict with the sentence behind it. Their threat is read from
  * their damaging moves where Voydex has them, else from their own types and
  * any Tera Type, and what hits them from their Tera Type where they
- * Terastallize.
+ * Terastallize. An ally's Pokémon fighting beside you join your side in the
+ * verdict, as extra team members at their own levels: they can answer theirs
+ * and share what the battle costs. An ally only ever helps, so the verdict is
+ * the easier of fighting alone and fighting beside them. Each of yours, the
+ * levels and the sentence stay about your own team.
  */
 export const readStoryBattle = ({
+  allies = [],
   generationOrder,
   members,
   opponentKind = "trainer",
@@ -486,6 +490,8 @@ export const readStoryBattle = ({
   their,
   types,
 }: {
+  /* The Pokémon of anyone fighting beside you, read as theirs are. */
+  allies?: StoryOpponentPokemon[];
   generationOrder: number;
   members: MainlinePlayTeamMember[];
   opponentKind?: StoryOpponentKind;
@@ -506,17 +512,28 @@ export const readStoryBattle = ({
   const theirBattlers = their.map((pokemon) =>
     toTheirBattler(pokemon, generationOrder),
   );
-  /* What beating each of theirs costs each of yours, yours by row. */
-  const costs = members.map((member) => {
-    const your = toYourBattler(member, generationOrder, aceLevel);
-
-    return theirBattlers.map((battler) =>
-      Math.min(
-        getDuel({ generationOrder, their: battler, your }).cost,
-        Math.max(1, members.length),
-      ),
+  /* Your side: your team, then any ally's Pokémon. */
+  const sideCount = members.length + allies.length;
+  /* What beating each of theirs costs each on your side, yours first, by row. */
+  const sideCosts = [
+    ...members.map((member) =>
+      toYourBattler(member, generationOrder, aceLevel),
+    ),
+    ...allies.map((pokemon) => toTheirBattler(pokemon, generationOrder)),
+  ].map((your) =>
+    theirBattlers.map(
+      (battler) => getDuel({ generationOrder, their: battler, your }).cost,
+    ),
+  );
+  /* One you can't beat costs your whole team, or your whole side in the verdict. */
+  const costs = sideCosts
+    .slice(0, members.length)
+    .map((row) =>
+      row.map((cost) => Math.min(cost, Math.max(1, members.length))),
     );
-  });
+  const battleCosts = sideCosts.map((row) =>
+    row.map((cost) => Math.min(cost, Math.max(1, sideCount))),
+  );
 
   const memberReadings = members.map((member, row): StoryMemberReading => {
     const memberSlugs = toTypeSlugs(
@@ -702,12 +719,25 @@ export const readStoryBattle = ({
   const exposedCount = memberReadings.filter(
     (reading) => reading.weakTo.length,
   ).length;
-  const state = getBattleState({
+  const shareAlone = getBattleShare({
     answerCosts: their.map((_, index) =>
       getAnswerCost(costs.map((row) => row[index])),
     ),
     teamCount: members.length,
   });
+  const state = toBattleState(
+    allies.length
+      ? Math.min(
+          shareAlone,
+          getBattleShare({
+            answerCosts: their.map((_, index) =>
+              getAnswerCost(battleCosts.map((row) => row[index])),
+            ),
+            teamCount: sideCount,
+          }),
+        )
+      : shareAlone,
+  );
 
   return {
     levels,

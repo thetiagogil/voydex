@@ -32,6 +32,11 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   of duplicating the full parent scope.
 - `tracking` stores definitions for milestones, decisions, opponents, badges,
   collectibles, and snapshot policy. It does not store user progress.
+- An opponent's team in a Story battle and the team of an ally fighting
+  beside the player there share `tracking.mainline_opponent_team_members`:
+  an ally's rows name it in `ally_opponent_id` (an opponent of the same
+  version group, role `ally` when it never battles the player), are their own
+  side for slots, choices and variants, and never count as the opponent's.
 
 ## Plays And Teams
 

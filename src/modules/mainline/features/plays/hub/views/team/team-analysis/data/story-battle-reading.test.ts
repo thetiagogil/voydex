@@ -733,6 +733,56 @@ describe("readStoryBattle by the battle math", () => {
   });
 });
 
+describe("readStoryBattle with an ally beside you", () => {
+  const grassTeam = Array.from({ length: 6 }, (_, index) =>
+    opponent(`Grass${index}`, ["grass"], 20),
+  );
+  const yours = [member("a", ["water"], 20, [move("Surf", "water")])];
+  const arcanine = {
+    ...opponent("Arcanine", ["fire"], 40),
+    moves: [theirMove("Flamethrower", "fire")],
+  };
+  const read = (allies: StoryOpponentPokemon[], members = yours) =>
+    readStoryBattle({
+      allies,
+      generationOrder: 9,
+      members,
+      opponentName: "Gardenia",
+      their: grassTeam,
+      types,
+    });
+
+  it("counts the ally's Pokémon with your team in the verdict", () => {
+    expect(read([]).state).toBe("challenging");
+    expect(read([arcanine, { ...arcanine, key: "Arcanine2" }]).state).toBe(
+      "strong",
+    );
+  });
+
+  it("never reads harder for an ally beside you, however weak", () => {
+    const strong = [member("b", ["fire"], 40, [move("Flamethrower", "fire")])];
+
+    expect(read([], strong).state).toBe("strong");
+    expect(read([opponent("Caterpie", ["bug"], 3)], strong).state).toBe(
+      "strong",
+    );
+  });
+
+  it("keeps each of yours, the levels and the sentence about your own team", () => {
+    const alone = read([]);
+    const beside = read([arcanine]);
+
+    expect(beside.members).toEqual(alone.members);
+    expect(beside.levels).toEqual(alone.levels);
+    expect(beside.summary).toBe(alone.summary);
+    expect(beside.members).toHaveLength(1);
+  });
+
+  it("reads nothing while your team is empty, ally or not", () => {
+    expect(read([arcanine], []).state).toBeNull();
+  });
+});
+
 describe("battle verdict", () => {
   it("weighs what their whole team costs against the team you bring", () => {
     expect(getBattleState({ answerCosts: [0.2, 0.3], teamCount: 2 })).toBe(

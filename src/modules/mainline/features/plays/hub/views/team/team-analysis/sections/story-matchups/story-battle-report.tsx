@@ -58,6 +58,7 @@ import {
   type StoryOpponentPokemon,
 } from "../../data/story-battle-reading";
 import type {
+  StoryMatchupAlly,
   StoryMatchupBattle,
   StoryMatchupParty,
 } from "../../data/story-matchups-model";
@@ -436,12 +437,12 @@ const OpponentMoves = ({ pokemon }: { pokemon: StoryOpponentPokemon }) => (
 );
 
 /*
- * Their team (v3 `.opp`): the app's Pokémon card with less on it. With
- * `showMoves` each card flips over to what it knows; the face away from you
- * is hidden from screen readers and the keyboard, and the card keeps its
- * place, lifting with both faces.
+ * Their team (v3 `.opp`), or an ally's beside you: the app's Pokémon card
+ * with less on it. With `showMoves` each card flips over to what it knows;
+ * the face away from you is hidden from screen readers and the keyboard, and
+ * the card keeps its place, lifting with both faces.
  */
-const TheirTeam = ({
+const BattleTeam = ({
   party,
   showMoves,
 }: {
@@ -511,6 +512,48 @@ const TheirTeam = ({
         <p className="text-ink-2 text-13 font-semibold">{powerUps.join(" ")}</p>
       ) : null}
     </>
+  );
+};
+
+/* "Carmine", "Korrina and Taunie / Urbain". */
+const joinWords = (words: string[]) =>
+  words.length > 1
+    ? `${words.slice(0, -1).join(", ")} and ${words.at(-1)}`
+    : (words[0] ?? "");
+
+/*
+ * Who fights beside you in the battle and with what: each ally's team, as
+ * theirs is shown, and a line on how the verdict counts them.
+ */
+const BesideYou = ({
+  allies,
+  isWon,
+}: {
+  allies: StoryMatchupAlly[];
+  isWon: boolean;
+}) => {
+  const whose = joinWords(allies.map((ally) => `${ally.name}'s`));
+
+  return (
+    <SheetSection
+      className="mt-9 gap-3"
+      title="Beside you"
+      aside={joinWords(allies.map((ally) => ally.name))}
+    >
+      <p className="text-ink-2 text-14 font-semibold">
+        {isWon
+          ? `${whose} Pokémon fought beside yours.`
+          : `${whose} Pokémon fight beside yours, and the verdict counts them with your team.`}
+      </p>
+      {allies.map((ally) => (
+        <div key={ally.name} className="grid min-w-0 gap-2.5">
+          {allies.length > 1 ? (
+            <p className="text-ink-3 text-13 font-extrabold">{ally.name}</p>
+          ) : null}
+          <BattleTeam party={ally} showMoves={false} />
+        </div>
+      ))}
+    </SheetSection>
   );
 };
 
@@ -637,7 +680,7 @@ export const StoryBattleReport = ({
           </div>
         ) : null}
         {party ? (
-          <TheirTeam party={party} showMoves={showMoves} />
+          <BattleTeam party={party} showMoves={showMoves} />
         ) : (
           <PendingData
             label="Their Pokémon aren't in Voydex yet"
@@ -652,6 +695,10 @@ export const StoryBattleReport = ({
           </p>
         ) : null}
       </SheetSection>
+
+      {battle.allies.length && battle.playerSide === "own-team" ? (
+        <BesideYou allies={battle.allies} isWon={isWon} />
+      ) : null}
 
       {isWon ? (
         <>

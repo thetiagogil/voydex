@@ -203,6 +203,7 @@ describe("buildStoryMatchupsModel with opponent teams", () => {
     primaryTypeId: number,
     choice: { slug: string; label: string } | null = null,
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: choice ? `10001/${choice.slug}` : null,
@@ -385,6 +386,7 @@ describe("buildStoryMatchupsModel with a battle only one choice leads to", () =>
     name: string,
     choice: { slug: string; label: string },
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: `10001/${choice.slug}`,
@@ -481,6 +483,7 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
   const row = (
     overrides: Partial<StoryOpponentPartyRow>,
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
@@ -549,12 +552,156 @@ describe("buildStoryMatchupsModel with game and outcome teams", () => {
   });
 });
 
+describe("buildStoryMatchupsModel with an ally beside you", () => {
+  const carmine = { id: 9, name: "Carmine" };
+  const row = (
+    overrides: Partial<StoryOpponentPartyRow>,
+  ): StoryOpponentPartyRow => ({
+    ally: null,
+    baseStats: null,
+    battleFormMechanic: null,
+    choiceKey: null,
+    dynamaxes: false,
+    moves: [],
+    heldItem: null,
+    teraType: null,
+    formSlug: "okidogi",
+    gameId: null,
+    legendary: null,
+    level: 35,
+    milestoneId: 1,
+    name: "Okidogi",
+    opponentId: 1,
+    primaryTypeId: 13,
+    secondaryTypeId: null,
+    slot: 1,
+    variantKey: null,
+    variantLabel: null,
+    ...overrides,
+  });
+  const allyRow = (overrides: Partial<StoryOpponentPartyRow>) =>
+    row({
+      ally: carmine,
+      formSlug: "mightyena",
+      level: 28,
+      name: "Mightyena",
+      primaryTypeId: 11,
+      ...overrides,
+    });
+  const build = (
+    partyRows: StoryOpponentPartyRow[],
+    chosenChoiceKeys: ReadonlySet<string> = new Set(),
+  ) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys,
+      generationOrder: 9,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(1, [{ id: 1, name: "Okidogi", role: "titan", typeId: 13 }]),
+      ],
+      partyRows,
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    });
+
+  it("keeps the ally's Pokémon out of their team and names who fights beside you", () => {
+    const [battle] = build([
+      row({}),
+      allyRow({}),
+      allyRow({ formSlug: "swadloon", name: "Swadloon", slot: 2 }),
+    ]).chapters[0].battles;
+
+    expect(battle.party?.pokemon.map((pokemon) => pokemon.name)).toEqual([
+      "Okidogi",
+    ]);
+    expect(battle.allies).toEqual([
+      expect.objectContaining({ name: "Carmine", note: null }),
+    ]);
+    expect(battle.allies[0].pokemon.map((pokemon) => pokemon.name)).toEqual([
+      "Mightyena",
+      "Swadloon",
+    ]);
+    expect(battle.partyLevels).toBe("Lv. 35");
+  });
+
+  it("reads the ally's team that follows the same unrecorded outcome as theirs", () => {
+    const before = {
+      variantKey: "before",
+      variantLabel: "You had not finished The Way Home yet",
+    };
+    const after = {
+      variantKey: "after",
+      variantLabel: "You had already finished The Way Home",
+    };
+    const [battle] = build([
+      row({ ...before }),
+      row({ ...after, level: 85 }),
+      allyRow({ ...before }),
+      allyRow({ ...after, level: 70 }),
+    ]).chapters[0].battles;
+
+    expect(battle.party?.note).toBe(
+      "Their team depends on something Voydex doesn't record, so this reads one way it can go: You had not finished The Way Home yet.",
+    );
+    expect(battle.allies[0]).toEqual(
+      expect.objectContaining({ name: "Carmine", note: null }),
+    );
+    expect(battle.allies[0].pokemon[0]?.level).toBe(28);
+  });
+
+  it("follows the Play's recorded choice for the ally's team, and says so while it isn't recorded", () => {
+    const rows = [
+      row({}),
+      allyRow({ choiceKey: "10001/bulbasaur", variantLabel: "Bulbasaur" }),
+      allyRow({
+        choiceKey: "10001/squirtle",
+        level: 30,
+        variantLabel: "Squirtle",
+      }),
+    ];
+
+    expect(
+      build(rows, new Set(["10001/squirtle"])).chapters[0].battles[0].allies[0],
+    ).toEqual(expect.objectContaining({ note: null }));
+    expect(
+      build(rows, new Set(["10001/squirtle"])).chapters[0].battles[0].allies[0]
+        .pokemon[0]?.level,
+    ).toBe(30);
+    expect(build(rows).chapters[0].battles[0].allies[0]?.note).toBe(
+      "Carmine's team depends on a choice this Play hasn't recorded, so this reads the one for Bulbasaur.",
+    );
+  });
+
+  it("leaves the ally's levels out of the level cap", () => {
+    const cap = buildStoryLevelCap({
+      playGameId: 1,
+      rows: {
+        chosenChoiceKeys: new Set(),
+        opponentGameIdById: new Map(),
+        orderedMilestones: [
+          milestone(1, [
+            { id: 1, name: "Nemona", role: "gym-leader", typeId: 13 },
+          ]),
+        ],
+        partyRows: [row({}), allyRow({ level: 90 })],
+        snapshotsByMilestoneId: new Map(),
+      },
+    });
+
+    expect(cap).toEqual(expect.objectContaining({ level: 35 }));
+  });
+});
+
 describe("buildStoryMatchupsModel with a rematch", () => {
   const kieranRow = (
     milestoneId: number,
     name: string,
     level: number,
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
@@ -627,6 +774,7 @@ describe("buildStoryLevelCap", () => {
     slot: number,
     level: number,
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
@@ -845,6 +993,7 @@ describe("buildStoryMatchupsModel with legendary encounters", () => {
     name: string,
     legendary: StoryOpponentPartyRow["legendary"],
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
@@ -1008,6 +1157,7 @@ describe("buildStoryMatchupsModel with battle mechanics", () => {
   const row = (
     overrides: Partial<StoryOpponentPartyRow>,
   ): StoryOpponentPartyRow => ({
+    ally: null,
     baseStats: null,
     battleFormMechanic: null,
     choiceKey: null,
