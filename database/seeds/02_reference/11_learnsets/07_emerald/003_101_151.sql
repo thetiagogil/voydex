@@ -6,6 +6,8 @@
 -- Cross-check: Serebii Emerald Pokedex learnset pages, Serebii Emerald Move
 -- Tutor pages, and PokemonDB Generation 3 Emerald learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -4923,22 +4925,22 @@ VALUES
   (150, 15000, 50, 7, NULL, 1, 1, NULL, NULL, NULL, 2),
   -- Mewtwo - Barrier - Level 11
   (150, 15000, 112, 7, NULL, 1, 11, NULL, NULL, NULL, 3),
-  -- Mewtwo - Swift - Level 33
-  (150, 15000, 129, 7, NULL, 1, 33, NULL, NULL, NULL, 4),
-  -- Mewtwo - Psych Up - Level 77
-  (150, 15000, 244, 7, NULL, 1, 77, NULL, NULL, NULL, 5),
-  -- Mewtwo - Future Sight - Level 88
-  (150, 15000, 248, 7, NULL, 1, 88, NULL, NULL, NULL, 6),
-  -- Mewtwo - Mist - Level 22
-  (150, 15000, 54, 7, NULL, 1, 22, NULL, NULL, NULL, 7),
+  -- Mewtwo - Swift - Level 22
+  (150, 15000, 129, 7, NULL, 1, 22, NULL, NULL, NULL, 4),
+  -- Mewtwo - Psych Up - Level 33
+  (150, 15000, 244, 7, NULL, 1, 33, NULL, NULL, NULL, 5),
+  -- Mewtwo - Future Sight - Level 44
+  (150, 15000, 248, 7, NULL, 1, 44, NULL, NULL, NULL, 6),
+  -- Mewtwo - Mist - Level 55
+  (150, 15000, 54, 7, NULL, 1, 55, NULL, NULL, NULL, 7),
   -- Mewtwo - Psychic - Level 66
   (150, 15000, 94, 7, NULL, 1, 66, NULL, NULL, NULL, 8),
-  -- Mewtwo - Amnesia - Level 99
-  (150, 15000, 133, 7, NULL, 1, 99, NULL, NULL, NULL, 9),
-  -- Mewtwo - Recover - Level 44
-  (150, 15000, 105, 7, NULL, 1, 44, NULL, NULL, NULL, 10),
-  -- Mewtwo - Safeguard - Level 55
-  (150, 15000, 219, 7, NULL, 1, 55, NULL, NULL, NULL, 11),
+  -- Mewtwo - Amnesia - Level 77
+  (150, 15000, 133, 7, NULL, 1, 77, NULL, NULL, NULL, 9),
+  -- Mewtwo - Recover - Level 88
+  (150, 15000, 105, 7, NULL, 1, 88, NULL, NULL, NULL, 10),
+  -- Mewtwo - Safeguard - Level 99
+  (150, 15000, 219, 7, NULL, 1, 99, NULL, NULL, NULL, 11),
   -- Mewtwo - Focus Punch - TM01
   (150, 15000, 264, 7, NULL, 2, NULL, NULL, 7002001, NULL, 12),
   -- Mewtwo - Water Pulse - TM03

@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Diamond / Pearl Pokedex learnset pages, Serebii Diamond / Pearl
 -- Move Tutor pages, and PokemonDB Generation 4 Diamond / Pearl learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Diamond / Pearl
 -- Pokémon: 451-493
--- Rows: 2466
+-- Rows: 2463
 -- Scope: level-up, TM, HM, egg move, and Move Tutor acquisition rows.
 -- Event, transfer, and prior-evolution sections are intentionally excluded from
 -- this Diamond / Pearl seed.
@@ -3949,12 +3951,10 @@ VALUES
   (484, 48400, 57, 8, NULL, 3, NULL, NULL, 8003003, NULL, 61),
   -- Palkia - Strength - HM04
   (484, 48400, 70, 8, NULL, 3, NULL, NULL, 8003004, NULL, 62),
-  -- Palkia - Defog - HM05
-  (484, 48400, 432, 8, NULL, 3, NULL, NULL, 8003005, NULL, 63),
   -- Palkia - Rock Smash - HM06
-  (484, 48400, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 64),
+  (484, 48400, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 63),
   -- Palkia - Draco Meteor - Tutor
-  (484, 48400, 434, 8, NULL, 6, NULL, NULL, NULL, 'Diamond / Pearl Move Tutor.', 65),
+  (484, 48400, 434, 8, NULL, 6, NULL, NULL, NULL, 'Diamond / Pearl Move Tutor.', 64),
   -- Heatran - Ancient Power - Level 1
   (485, 48500, 246, 8, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Heatran - Leer - Level 9
@@ -4455,10 +4455,8 @@ VALUES
   (489, 48900, 164, 8, NULL, 2, NULL, NULL, 8002090, NULL, 36),
   -- Phione - Surf - HM03
   (489, 48900, 57, 8, NULL, 3, NULL, NULL, 8003003, NULL, 37),
-  -- Phione - Defog - HM05
-  (489, 48900, 432, 8, NULL, 3, NULL, NULL, 8003005, NULL, 38),
   -- Phione - Waterfall - HM07
-  (489, 48900, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 39),
+  (489, 48900, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 38),
   -- Manaphy - Bubble - Level 1
   (490, 49000, 145, 8, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Manaphy - Tail Glow - Level 1
@@ -4557,10 +4555,8 @@ VALUES
   (490, 49000, 164, 8, NULL, 2, NULL, NULL, 8002090, NULL, 48),
   -- Manaphy - Surf - HM03
   (490, 49000, 57, 8, NULL, 3, NULL, NULL, 8003003, NULL, 49),
-  -- Manaphy - Defog - HM05
-  (490, 49000, 432, 8, NULL, 3, NULL, NULL, 8003005, NULL, 50),
   -- Manaphy - Waterfall - HM07
-  (490, 49000, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 51),
+  (490, 49000, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 50),
   -- Darkrai - Disable - Level 1
   (491, 49100, 50, 8, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Darkrai - Night Shade - Level 1

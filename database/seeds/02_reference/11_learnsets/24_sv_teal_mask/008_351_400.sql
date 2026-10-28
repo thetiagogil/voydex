@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -162,6 +164,18 @@ INSERT INTO reference.pokemon_learnsets (
   (386, 38600, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 1),
   -- Deoxys - Knock Off - TM181
   (386, 38600, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 2),
+  -- Deoxys (Attack) - Gravity - TM178
+  (386, 38601, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 1),
+  -- Deoxys (Attack) - Knock Off - TM181
+  (386, 38601, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 2),
+  -- Deoxys (Defense) - Gravity - TM178
+  (386, 38602, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 1),
+  -- Deoxys (Defense) - Knock Off - TM181
+  (386, 38602, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 2),
+  -- Deoxys (Speed) - Gravity - TM178
+  (386, 38603, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 1),
+  -- Deoxys (Speed) - Knock Off - TM181
+  (386, 38603, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 2),
   -- Turtwig - Roar - TM172
   (387, 38700, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
   -- Turtwig - Sand Tomb - TM176

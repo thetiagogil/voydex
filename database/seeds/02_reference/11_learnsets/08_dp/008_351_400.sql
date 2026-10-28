@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Diamond / Pearl Pokedex learnset pages, Serebii Diamond / Pearl
 -- Move Tutor pages, and PokemonDB Generation 4 Diamond / Pearl learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Diamond / Pearl
 -- Pokémon: 351-400
--- Rows: 2692
+-- Rows: 2690
 -- Scope: level-up, TM, HM, egg move, and Move Tutor acquisition rows.
 -- Event, transfer, and prior-evolution sections are intentionally excluded from
 -- this Diamond / Pearl seed.
@@ -3373,12 +3375,10 @@ VALUES
   (382, 38200, 57, 8, NULL, 3, NULL, NULL, 8003003, NULL, 48),
   -- Kyogre - Strength - HM04
   (382, 38200, 70, 8, NULL, 3, NULL, NULL, 8003004, NULL, 49),
-  -- Kyogre - Defog - HM05
-  (382, 38200, 432, 8, NULL, 3, NULL, NULL, 8003005, NULL, 50),
   -- Kyogre - Rock Smash - HM06
-  (382, 38200, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 51),
+  (382, 38200, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 50),
   -- Kyogre - Waterfall - HM07
-  (382, 38200, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 52),
+  (382, 38200, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 51),
   -- Groudon - Mud Shot - Level 1
   (383, 38300, 341, 8, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Groudon - Scary Face - Level 5
@@ -3631,14 +3631,12 @@ VALUES
   (384, 38400, 57, 8, NULL, 3, NULL, NULL, 8003003, NULL, 63),
   -- Rayquaza - Strength - HM04
   (384, 38400, 70, 8, NULL, 3, NULL, NULL, 8003004, NULL, 64),
-  -- Rayquaza - Defog - HM05
-  (384, 38400, 432, 8, NULL, 3, NULL, NULL, 8003005, NULL, 65),
   -- Rayquaza - Rock Smash - HM06
-  (384, 38400, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 66),
+  (384, 38400, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 65),
   -- Rayquaza - Waterfall - HM07
-  (384, 38400, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 67),
+  (384, 38400, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 66),
   -- Rayquaza - Draco Meteor - Tutor
-  (384, 38400, 434, 8, NULL, 6, NULL, NULL, NULL, 'Diamond / Pearl Move Tutor.', 68),
+  (384, 38400, 434, 8, NULL, 6, NULL, NULL, NULL, 'Diamond / Pearl Move Tutor.', 67),
   -- Jirachi - Confusion - Level 1
   (385, 38500, 93, 8, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Jirachi - Wish - Level 1

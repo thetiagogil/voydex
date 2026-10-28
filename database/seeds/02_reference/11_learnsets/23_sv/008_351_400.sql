@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -2952,10 +2954,124 @@ INSERT INTO reference.pokemon_learnsets (
   (386, 38601, 354, 23, NULL, 1, 67, NULL, NULL, NULL, 13),
   -- Deoxys (Attack) - Hyper Beam - Level 73
   (386, 38601, 63, 23, NULL, 1, 73, NULL, NULL, NULL, 14),
+  -- Deoxys (Attack) - Take Down - TM001
+  (386, 38601, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 15),
+  -- Deoxys (Attack) - Agility - TM004
+  (386, 38601, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 16),
+  -- Deoxys (Attack) - Scary Face - TM006
+  (386, 38601, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 17),
+  -- Deoxys (Attack) - Protect - TM007
+  (386, 38601, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 18),
+  -- Deoxys (Attack) - Water Pulse - TM011
+  (386, 38601, 352, 23, NULL, 2, NULL, NULL, 23002011, NULL, 19),
+  -- Deoxys (Attack) - Low Kick - TM012
+  (386, 38601, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 20),
+  -- Deoxys (Attack) - Psybeam - TM016
+  (386, 38601, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 21),
+  -- Deoxys (Attack) - Charge Beam - TM023
+  (386, 38601, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 22),
+  -- Deoxys (Attack) - Facade - TM025
+  (386, 38601, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 23),
+  -- Deoxys (Attack) - Aerial Ace - TM027
+  (386, 38601, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 24),
+  -- Deoxys (Attack) - Swift - TM032
+  (386, 38601, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 25),
+  -- Deoxys (Attack) - Icy Wind - TM034
+  (386, 38601, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 26),
+  -- Deoxys (Attack) - Rock Tomb - TM036
+  (386, 38601, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 27),
+  -- Deoxys (Attack) - Low Sweep - TM039
+  (386, 38601, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 28),
+  -- Deoxys (Attack) - Stored Power - TM041
+  (386, 38601, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 29),
+  -- Deoxys (Attack) - Night Shade - TM042
+  (386, 38601, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 30),
+  -- Deoxys (Attack) - Fling - TM043
+  (386, 38601, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 31),
+  -- Deoxys (Attack) - Endure - TM047
+  (386, 38601, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 32),
+  -- Deoxys (Attack) - Sunny Day - TM049
+  (386, 38601, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 33),
+  -- Deoxys (Attack) - Rain Dance - TM050
+  (386, 38601, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 34),
+  -- Deoxys (Attack) - Psyshock - TM054
+  (386, 38601, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 35),
+  -- Deoxys (Attack) - Brick Break - TM058
+  (386, 38601, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 36),
+  -- Deoxys (Attack) - Zen Headbutt - TM059
+  (386, 38601, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 37),
+  -- Deoxys (Attack) - Fire Punch - TM067
+  (386, 38601, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 38),
+  -- Deoxys (Attack) - Thunder Punch - TM068
+  (386, 38601, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 39),
+  -- Deoxys (Attack) - Ice Punch - TM069
+  (386, 38601, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 40),
+  -- Deoxys (Attack) - Sleep Talk - TM070
+  (386, 38601, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 41),
+  -- Deoxys (Attack) - Drain Punch - TM073
+  (386, 38601, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 42),
+  -- Deoxys (Attack) - Reflect - TM074
+  (386, 38601, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 43),
+  -- Deoxys (Attack) - Light Screen - TM075
+  (386, 38601, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 44),
+  -- Deoxys (Attack) - Grass Knot - TM081
+  (386, 38601, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 45),
+  -- Deoxys (Attack) - Thunder Wave - TM082
+  (386, 38601, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 46),
+  -- Deoxys (Attack) - Poison Jab - TM083
+  (386, 38601, 398, 23, NULL, 2, NULL, NULL, 23002083, NULL, 47),
+  -- Deoxys (Attack) - Stomping Tantrum - TM084
+  (386, 38601, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 48),
+  -- Deoxys (Attack) - Rest - TM085
+  (386, 38601, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 49),
+  -- Deoxys (Attack) - Rock Slide - TM086
+  (386, 38601, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 50),
   -- Deoxys (Attack) - Taunt - TM087
-  (386, 38601, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 15),
+  (386, 38601, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 51),
+  -- Deoxys (Attack) - Imprison - TM092
+  (386, 38601, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 52),
+  -- Deoxys (Attack) - Flash Cannon - TM093
+  (386, 38601, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 53),
+  -- Deoxys (Attack) - Dark Pulse - TM094
+  (386, 38601, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 54),
+  -- Deoxys (Attack) - Skill Swap - TM098
+  (386, 38601, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 55),
+  -- Deoxys (Attack) - Substitute - TM103
+  (386, 38601, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 56),
+  -- Deoxys (Attack) - Trick - TM109
+  (386, 38601, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 57),
+  -- Deoxys (Attack) - Shadow Ball - TM114
+  (386, 38601, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 58),
+  -- Deoxys (Attack) - Stealth Rock - TM116
+  (386, 38601, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 59),
+  -- Deoxys (Attack) - Energy Ball - TM119
+  (386, 38601, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 60),
+  -- Deoxys (Attack) - Psychic - TM120
+  (386, 38601, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 61),
+  -- Deoxys (Attack) - Thunderbolt - TM126
+  (386, 38601, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 62),
+  -- Deoxys (Attack) - Calm Mind - TM129
+  (386, 38601, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 63),
+  -- Deoxys (Attack) - Ice Beam - TM135
+  (386, 38601, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 64),
+  -- Deoxys (Attack) - Psychic Terrain - TM138
+  (386, 38601, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 65),
   -- Deoxys (Attack) - Nasty Plot - TM140
-  (386, 38601, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 16),
+  (386, 38601, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 66),
+  -- Deoxys (Attack) - Giga Impact - TM152
+  (386, 38601, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 67),
+  -- Deoxys (Attack) - Focus Blast - TM158
+  (386, 38601, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 68),
+  -- Deoxys (Attack) - Trick Room - TM161
+  (386, 38601, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 69),
+  -- Deoxys (Attack) - Hyper Beam - TM163
+  (386, 38601, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 70),
+  -- Deoxys (Attack) - Thunder - TM166
+  (386, 38601, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 71),
+  -- Deoxys (Attack) - Solar Beam - TM168
+  (386, 38601, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 72),
+  -- Deoxys (Attack) - Tera Blast - TM171
+  (386, 38601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 73),
   -- Deoxys (Defense) - Wrap - Level 1
   (386, 38602, 35, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Deoxys (Defense) - Leer - Level 1
@@ -2988,14 +3104,128 @@ INSERT INTO reference.pokemon_learnsets (
   (386, 38602, 68, 23, NULL, 1, 73, NULL, NULL, NULL, 15),
   -- Deoxys (Defense) - Mirror Coat - Level 73
   (386, 38602, 243, 23, NULL, 1, 73, NULL, NULL, NULL, 16),
+  -- Deoxys (Defense) - Take Down - TM001
+  (386, 38602, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 17),
+  -- Deoxys (Defense) - Agility - TM004
+  (386, 38602, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 18),
+  -- Deoxys (Defense) - Scary Face - TM006
+  (386, 38602, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 19),
+  -- Deoxys (Defense) - Protect - TM007
+  (386, 38602, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 20),
+  -- Deoxys (Defense) - Water Pulse - TM011
+  (386, 38602, 352, 23, NULL, 2, NULL, NULL, 23002011, NULL, 21),
+  -- Deoxys (Defense) - Low Kick - TM012
+  (386, 38602, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 22),
+  -- Deoxys (Defense) - Psybeam - TM016
+  (386, 38602, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 23),
+  -- Deoxys (Defense) - Charge Beam - TM023
+  (386, 38602, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 24),
+  -- Deoxys (Defense) - Facade - TM025
+  (386, 38602, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 25),
+  -- Deoxys (Defense) - Aerial Ace - TM027
+  (386, 38602, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 26),
+  -- Deoxys (Defense) - Swift - TM032
+  (386, 38602, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 27),
+  -- Deoxys (Defense) - Icy Wind - TM034
+  (386, 38602, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 28),
+  -- Deoxys (Defense) - Rock Tomb - TM036
+  (386, 38602, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 29),
+  -- Deoxys (Defense) - Low Sweep - TM039
+  (386, 38602, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 30),
+  -- Deoxys (Defense) - Stored Power - TM041
+  (386, 38602, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 31),
+  -- Deoxys (Defense) - Night Shade - TM042
+  (386, 38602, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 32),
+  -- Deoxys (Defense) - Fling - TM043
+  (386, 38602, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 33),
+  -- Deoxys (Defense) - Endure - TM047
+  (386, 38602, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 34),
+  -- Deoxys (Defense) - Sunny Day - TM049
+  (386, 38602, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 35),
+  -- Deoxys (Defense) - Rain Dance - TM050
+  (386, 38602, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 36),
+  -- Deoxys (Defense) - Psyshock - TM054
+  (386, 38602, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 37),
+  -- Deoxys (Defense) - Brick Break - TM058
+  (386, 38602, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 38),
+  -- Deoxys (Defense) - Zen Headbutt - TM059
+  (386, 38602, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 39),
+  -- Deoxys (Defense) - Fire Punch - TM067
+  (386, 38602, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 40),
+  -- Deoxys (Defense) - Thunder Punch - TM068
+  (386, 38602, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 41),
+  -- Deoxys (Defense) - Ice Punch - TM069
+  (386, 38602, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 42),
+  -- Deoxys (Defense) - Sleep Talk - TM070
+  (386, 38602, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 43),
+  -- Deoxys (Defense) - Drain Punch - TM073
+  (386, 38602, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 44),
+  -- Deoxys (Defense) - Reflect - TM074
+  (386, 38602, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 45),
+  -- Deoxys (Defense) - Light Screen - TM075
+  (386, 38602, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 46),
+  -- Deoxys (Defense) - Grass Knot - TM081
+  (386, 38602, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 47),
+  -- Deoxys (Defense) - Thunder Wave - TM082
+  (386, 38602, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 48),
+  -- Deoxys (Defense) - Poison Jab - TM083
+  (386, 38602, 398, 23, NULL, 2, NULL, NULL, 23002083, NULL, 49),
+  -- Deoxys (Defense) - Stomping Tantrum - TM084
+  (386, 38602, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 50),
+  -- Deoxys (Defense) - Rest - TM085
+  (386, 38602, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 51),
+  -- Deoxys (Defense) - Rock Slide - TM086
+  (386, 38602, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 52),
   -- Deoxys (Defense) - Taunt - TM087
-  (386, 38602, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 17),
+  (386, 38602, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 53),
   -- Deoxys (Defense) - Spikes - TM090
-  (386, 38602, 191, 23, NULL, 2, NULL, NULL, 23002090, NULL, 18),
+  (386, 38602, 191, 23, NULL, 2, NULL, NULL, 23002090, NULL, 54),
+  -- Deoxys (Defense) - Imprison - TM092
+  (386, 38602, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 55),
+  -- Deoxys (Defense) - Flash Cannon - TM093
+  (386, 38602, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 56),
+  -- Deoxys (Defense) - Dark Pulse - TM094
+  (386, 38602, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 57),
+  -- Deoxys (Defense) - Skill Swap - TM098
+  (386, 38602, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 58),
+  -- Deoxys (Defense) - Substitute - TM103
+  (386, 38602, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 59),
   -- Deoxys (Defense) - Iron Defense - TM104
-  (386, 38602, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 19),
+  (386, 38602, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 60),
+  -- Deoxys (Defense) - Trick - TM109
+  (386, 38602, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 61),
+  -- Deoxys (Defense) - Shadow Ball - TM114
+  (386, 38602, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 62),
+  -- Deoxys (Defense) - Stealth Rock - TM116
+  (386, 38602, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 63),
+  -- Deoxys (Defense) - Energy Ball - TM119
+  (386, 38602, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 64),
+  -- Deoxys (Defense) - Psychic - TM120
+  (386, 38602, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 65),
+  -- Deoxys (Defense) - Thunderbolt - TM126
+  (386, 38602, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 66),
   -- Deoxys (Defense) - Amnesia - TM128
-  (386, 38602, 133, 23, NULL, 2, NULL, NULL, 23002128, NULL, 20),
+  (386, 38602, 133, 23, NULL, 2, NULL, NULL, 23002128, NULL, 67),
+  -- Deoxys (Defense) - Calm Mind - TM129
+  (386, 38602, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 68),
+  -- Deoxys (Defense) - Ice Beam - TM135
+  (386, 38602, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 69),
+  -- Deoxys (Defense) - Psychic Terrain - TM138
+  (386, 38602, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 70),
+  -- Deoxys (Defense) - Giga Impact - TM152
+  (386, 38602, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 71),
+  -- Deoxys (Defense) - Focus Blast - TM158
+  (386, 38602, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 72),
+  -- Deoxys (Defense) - Trick Room - TM161
+  (386, 38602, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 73),
+  -- Deoxys (Defense) - Hyper Beam - TM163
+  (386, 38602, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 74),
+  -- Deoxys (Defense) - Thunder - TM166
+  (386, 38602, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 75),
+  -- Deoxys (Defense) - Solar Beam - TM168
+  (386, 38602, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 76),
+  -- Deoxys (Defense) - Tera Blast - TM171
+  (386, 38602, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 77),
   -- Deoxys (Speed) - Wrap - Level 1
   (386, 38603, 35, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Deoxys (Speed) - Leer - Level 1
@@ -3024,12 +3254,126 @@ INSERT INTO reference.pokemon_learnsets (
   (386, 38603, 354, 23, NULL, 1, 67, NULL, NULL, NULL, 13),
   -- Deoxys (Speed) - Extreme Speed - Level 73
   (386, 38603, 245, 23, NULL, 1, 73, NULL, NULL, NULL, 14),
+  -- Deoxys (Speed) - Take Down - TM001
+  (386, 38603, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 15),
+  -- Deoxys (Speed) - Agility - TM004
+  (386, 38603, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 16),
+  -- Deoxys (Speed) - Scary Face - TM006
+  (386, 38603, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 17),
+  -- Deoxys (Speed) - Protect - TM007
+  (386, 38603, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 18),
+  -- Deoxys (Speed) - Water Pulse - TM011
+  (386, 38603, 352, 23, NULL, 2, NULL, NULL, 23002011, NULL, 19),
+  -- Deoxys (Speed) - Low Kick - TM012
+  (386, 38603, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 20),
+  -- Deoxys (Speed) - Psybeam - TM016
+  (386, 38603, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 21),
+  -- Deoxys (Speed) - Charge Beam - TM023
+  (386, 38603, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 22),
+  -- Deoxys (Speed) - Facade - TM025
+  (386, 38603, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 23),
+  -- Deoxys (Speed) - Aerial Ace - TM027
+  (386, 38603, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 24),
+  -- Deoxys (Speed) - Swift - TM032
+  (386, 38603, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 25),
+  -- Deoxys (Speed) - Icy Wind - TM034
+  (386, 38603, 196, 23, NULL, 2, NULL, NULL, 23002034, NULL, 26),
+  -- Deoxys (Speed) - Rock Tomb - TM036
+  (386, 38603, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 27),
+  -- Deoxys (Speed) - Low Sweep - TM039
+  (386, 38603, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 28),
+  -- Deoxys (Speed) - Stored Power - TM041
+  (386, 38603, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 29),
+  -- Deoxys (Speed) - Night Shade - TM042
+  (386, 38603, 101, 23, NULL, 2, NULL, NULL, 23002042, NULL, 30),
+  -- Deoxys (Speed) - Fling - TM043
+  (386, 38603, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 31),
+  -- Deoxys (Speed) - Endure - TM047
+  (386, 38603, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 32),
+  -- Deoxys (Speed) - Sunny Day - TM049
+  (386, 38603, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 33),
+  -- Deoxys (Speed) - Rain Dance - TM050
+  (386, 38603, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 34),
+  -- Deoxys (Speed) - Psyshock - TM054
+  (386, 38603, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 35),
+  -- Deoxys (Speed) - Brick Break - TM058
+  (386, 38603, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 36),
+  -- Deoxys (Speed) - Zen Headbutt - TM059
+  (386, 38603, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 37),
+  -- Deoxys (Speed) - Fire Punch - TM067
+  (386, 38603, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 38),
+  -- Deoxys (Speed) - Thunder Punch - TM068
+  (386, 38603, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 39),
+  -- Deoxys (Speed) - Ice Punch - TM069
+  (386, 38603, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 40),
+  -- Deoxys (Speed) - Sleep Talk - TM070
+  (386, 38603, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 41),
+  -- Deoxys (Speed) - Drain Punch - TM073
+  (386, 38603, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 42),
+  -- Deoxys (Speed) - Reflect - TM074
+  (386, 38603, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 43),
+  -- Deoxys (Speed) - Light Screen - TM075
+  (386, 38603, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 44),
+  -- Deoxys (Speed) - Grass Knot - TM081
+  (386, 38603, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 45),
+  -- Deoxys (Speed) - Thunder Wave - TM082
+  (386, 38603, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 46),
+  -- Deoxys (Speed) - Poison Jab - TM083
+  (386, 38603, 398, 23, NULL, 2, NULL, NULL, 23002083, NULL, 47),
+  -- Deoxys (Speed) - Stomping Tantrum - TM084
+  (386, 38603, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 48),
+  -- Deoxys (Speed) - Rest - TM085
+  (386, 38603, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 49),
+  -- Deoxys (Speed) - Rock Slide - TM086
+  (386, 38603, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 50),
   -- Deoxys (Speed) - Taunt - TM087
-  (386, 38603, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 15),
+  (386, 38603, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 51),
+  -- Deoxys (Speed) - Imprison - TM092
+  (386, 38603, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 52),
+  -- Deoxys (Speed) - Flash Cannon - TM093
+  (386, 38603, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 53),
+  -- Deoxys (Speed) - Dark Pulse - TM094
+  (386, 38603, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 54),
+  -- Deoxys (Speed) - Skill Swap - TM098
+  (386, 38603, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 55),
+  -- Deoxys (Speed) - Substitute - TM103
+  (386, 38603, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 56),
+  -- Deoxys (Speed) - Trick - TM109
+  (386, 38603, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 57),
+  -- Deoxys (Speed) - Shadow Ball - TM114
+  (386, 38603, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 58),
+  -- Deoxys (Speed) - Stealth Rock - TM116
+  (386, 38603, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 59),
+  -- Deoxys (Speed) - Energy Ball - TM119
+  (386, 38603, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 60),
+  -- Deoxys (Speed) - Psychic - TM120
+  (386, 38603, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 61),
+  -- Deoxys (Speed) - Thunderbolt - TM126
+  (386, 38603, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 62),
   -- Deoxys (Speed) - Amnesia - TM128
-  (386, 38603, 133, 23, NULL, 2, NULL, NULL, 23002128, NULL, 16),
+  (386, 38603, 133, 23, NULL, 2, NULL, NULL, 23002128, NULL, 63),
+  -- Deoxys (Speed) - Calm Mind - TM129
+  (386, 38603, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 64),
+  -- Deoxys (Speed) - Ice Beam - TM135
+  (386, 38603, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 65),
+  -- Deoxys (Speed) - Psychic Terrain - TM138
+  (386, 38603, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 66),
   -- Deoxys (Speed) - Nasty Plot - TM140
-  (386, 38603, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 17),
+  (386, 38603, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 67),
+  -- Deoxys (Speed) - Giga Impact - TM152
+  (386, 38603, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 68),
+  -- Deoxys (Speed) - Focus Blast - TM158
+  (386, 38603, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 69),
+  -- Deoxys (Speed) - Trick Room - TM161
+  (386, 38603, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 70),
+  -- Deoxys (Speed) - Hyper Beam - TM163
+  (386, 38603, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 71),
+  -- Deoxys (Speed) - Thunder - TM166
+  (386, 38603, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 72),
+  -- Deoxys (Speed) - Solar Beam - TM168
+  (386, 38603, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 73),
+  -- Deoxys (Speed) - Tera Blast - TM171
+  (386, 38603, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 74),
   -- Turtwig - Tackle - Level 1
   (387, 38700, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Turtwig - Withdraw - Level 5

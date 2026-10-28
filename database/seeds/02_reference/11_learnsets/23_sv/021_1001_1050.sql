@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -890,112 +892,110 @@ INSERT INTO reference.pokemon_learnsets (
   (1008, 100800, 97, 23, NULL, 1, 35, NULL, NULL, NULL, 8),
   -- Miraidon - Dragon Pulse - Level 42
   (1008, 100800, 406, 23, NULL, 1, 42, NULL, NULL, NULL, 9),
-  -- Miraidon - Power Gem - Level 49
-  (1008, 100800, 408, 23, NULL, 1, 49, NULL, NULL, NULL, 10),
   -- Miraidon - Electro Drift - Level 56
-  (1008, 100800, 879, 23, NULL, 1, 56, NULL, NULL, NULL, 11),
+  (1008, 100800, 879, 23, NULL, 1, 56, NULL, NULL, NULL, 10),
   -- Miraidon - Metal Sound - Level 63
-  (1008, 100800, 319, 23, NULL, 1, 63, NULL, NULL, NULL, 12),
+  (1008, 100800, 319, 23, NULL, 1, 63, NULL, NULL, NULL, 11),
   -- Miraidon - Mirror Coat - Level 70
-  (1008, 100800, 243, 23, NULL, 1, 70, NULL, NULL, NULL, 13),
+  (1008, 100800, 243, 23, NULL, 1, 70, NULL, NULL, NULL, 12),
   -- Miraidon - Outrage - Level 77
-  (1008, 100800, 200, 23, NULL, 1, 77, NULL, NULL, NULL, 14),
+  (1008, 100800, 200, 23, NULL, 1, 77, NULL, NULL, NULL, 13),
   -- Miraidon - Thunder - Level 84
-  (1008, 100800, 87, 23, NULL, 1, 84, NULL, NULL, NULL, 15),
+  (1008, 100800, 87, 23, NULL, 1, 84, NULL, NULL, NULL, 14),
   -- Miraidon - Overheat - Level 91
-  (1008, 100800, 315, 23, NULL, 1, 91, NULL, NULL, NULL, 16),
+  (1008, 100800, 315, 23, NULL, 1, 91, NULL, NULL, NULL, 15),
   -- Miraidon - Hyper Beam - Level 98
-  (1008, 100800, 63, 23, NULL, 1, 98, NULL, NULL, NULL, 17),
+  (1008, 100800, 63, 23, NULL, 1, 98, NULL, NULL, NULL, 16),
   -- Miraidon - Take Down - TM001
-  (1008, 100800, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 18),
+  (1008, 100800, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 17),
   -- Miraidon - Agility - TM004
-  (1008, 100800, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 19),
+  (1008, 100800, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 18),
   -- Miraidon - Scary Face - TM006
-  (1008, 100800, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 20),
+  (1008, 100800, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 19),
   -- Miraidon - Protect - TM007
-  (1008, 100800, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 21),
+  (1008, 100800, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 20),
   -- Miraidon - Acrobatics - TM014
-  (1008, 100800, 512, 23, NULL, 2, NULL, NULL, 23002014, NULL, 22),
+  (1008, 100800, 512, 23, NULL, 2, NULL, NULL, 23002014, NULL, 21),
   -- Miraidon - Confuse Ray - TM017
-  (1008, 100800, 109, 23, NULL, 2, NULL, NULL, 23002017, NULL, 23),
+  (1008, 100800, 109, 23, NULL, 2, NULL, NULL, 23002017, NULL, 22),
   -- Miraidon - Charge Beam - TM023
-  (1008, 100800, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 24),
+  (1008, 100800, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 23),
   -- Miraidon - Facade - TM025
-  (1008, 100800, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 25),
+  (1008, 100800, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 24),
   -- Miraidon - Snarl - TM030
-  (1008, 100800, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 26),
+  (1008, 100800, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 25),
   -- Miraidon - Dragon Tail - TM044
-  (1008, 100800, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 27),
+  (1008, 100800, 525, 23, NULL, 2, NULL, NULL, 23002044, NULL, 26),
   -- Miraidon - Endure - TM047
-  (1008, 100800, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 28),
+  (1008, 100800, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 27),
   -- Miraidon - Volt Switch - TM048
-  (1008, 100800, 521, 23, NULL, 2, NULL, NULL, 23002048, NULL, 29),
+  (1008, 100800, 521, 23, NULL, 2, NULL, NULL, 23002048, NULL, 28),
   -- Miraidon - Zen Headbutt - TM059
-  (1008, 100800, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 30),
+  (1008, 100800, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 29),
   -- Miraidon - U-turn - TM060
-  (1008, 100800, 369, 23, NULL, 2, NULL, NULL, 23002060, NULL, 31),
+  (1008, 100800, 369, 23, NULL, 2, NULL, NULL, 23002060, NULL, 30),
   -- Miraidon - Body Slam - TM066
-  (1008, 100800, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 32),
+  (1008, 100800, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 31),
   -- Miraidon - Sleep Talk - TM070
-  (1008, 100800, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 33),
+  (1008, 100800, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 32),
   -- Miraidon - Electro Ball - TM072
-  (1008, 100800, 486, 23, NULL, 2, NULL, NULL, 23002072, NULL, 34),
+  (1008, 100800, 486, 23, NULL, 2, NULL, NULL, 23002072, NULL, 33),
   -- Miraidon - Reflect - TM074
-  (1008, 100800, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 35),
+  (1008, 100800, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 34),
   -- Miraidon - Light Screen - TM075
-  (1008, 100800, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 36),
+  (1008, 100800, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 35),
   -- Miraidon - Dragon Claw - TM078
-  (1008, 100800, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 37),
+  (1008, 100800, 337, 23, NULL, 2, NULL, NULL, 23002078, NULL, 36),
   -- Miraidon - Dazzling Gleam - TM079
-  (1008, 100800, 605, 23, NULL, 2, NULL, NULL, 23002079, NULL, 38),
+  (1008, 100800, 605, 23, NULL, 2, NULL, NULL, 23002079, NULL, 37),
   -- Miraidon - Thunder Wave - TM082
-  (1008, 100800, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 39),
+  (1008, 100800, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 38),
   -- Miraidon - Rest - TM085
-  (1008, 100800, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 40),
+  (1008, 100800, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 39),
   -- Miraidon - Taunt - TM087
-  (1008, 100800, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 41),
+  (1008, 100800, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 40),
   -- Miraidon - Swords Dance - TM088
-  (1008, 100800, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 42),
+  (1008, 100800, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 41),
   -- Miraidon - Flash Cannon - TM093
-  (1008, 100800, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 43),
+  (1008, 100800, 430, 23, NULL, 2, NULL, NULL, 23002093, NULL, 42),
   -- Miraidon - Eerie Impulse - TM096
-  (1008, 100800, 598, 23, NULL, 2, NULL, NULL, 23002096, NULL, 44),
+  (1008, 100800, 598, 23, NULL, 2, NULL, NULL, 23002096, NULL, 43),
   -- Miraidon - Power Gem - TM101
-  (1008, 100800, 408, 23, NULL, 2, NULL, NULL, 23002101, NULL, 45),
+  (1008, 100800, 408, 23, NULL, 2, NULL, NULL, 23002101, NULL, 44),
   -- Miraidon - Substitute - TM103
-  (1008, 100800, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 46),
+  (1008, 100800, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 45),
   -- Miraidon - Crunch - TM108
-  (1008, 100800, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 47),
+  (1008, 100800, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 46),
   -- Miraidon - Dragon Pulse - TM115
-  (1008, 100800, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 48),
+  (1008, 100800, 406, 23, NULL, 2, NULL, NULL, 23002115, NULL, 47),
   -- Miraidon - Heavy Slam - TM121
-  (1008, 100800, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 49),
+  (1008, 100800, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 48),
   -- Miraidon - Thunderbolt - TM126
-  (1008, 100800, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 50),
+  (1008, 100800, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 49),
   -- Miraidon - Calm Mind - TM129
-  (1008, 100800, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 51),
+  (1008, 100800, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 50),
   -- Miraidon - Helping Hand - TM130
-  (1008, 100800, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 52),
+  (1008, 100800, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 51),
   -- Miraidon - Electric Terrain - TM136
-  (1008, 100800, 604, 23, NULL, 2, NULL, NULL, 23002136, NULL, 53),
+  (1008, 100800, 604, 23, NULL, 2, NULL, NULL, 23002136, NULL, 52),
   -- Miraidon - Wild Charge - TM147
-  (1008, 100800, 528, 23, NULL, 2, NULL, NULL, 23002147, NULL, 54),
+  (1008, 100800, 528, 23, NULL, 2, NULL, NULL, 23002147, NULL, 53),
   -- Miraidon - Giga Impact - TM152
-  (1008, 100800, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 55),
+  (1008, 100800, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 54),
   -- Miraidon - Outrage - TM156
-  (1008, 100800, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 56),
+  (1008, 100800, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 55),
   -- Miraidon - Overheat - TM157
-  (1008, 100800, 315, 23, NULL, 2, NULL, NULL, 23002157, NULL, 57),
+  (1008, 100800, 315, 23, NULL, 2, NULL, NULL, 23002157, NULL, 56),
   -- Miraidon - Hyper Beam - TM163
-  (1008, 100800, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 58),
+  (1008, 100800, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 57),
   -- Miraidon - Thunder - TM166
-  (1008, 100800, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 59),
+  (1008, 100800, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 58),
   -- Miraidon - Solar Beam - TM168
-  (1008, 100800, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 60),
+  (1008, 100800, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 59),
   -- Miraidon - Draco Meteor - TM169
-  (1008, 100800, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 61),
+  (1008, 100800, 434, 23, NULL, 2, NULL, NULL, 23002169, NULL, 60),
   -- Miraidon - Tera Blast - TM171
-  (1008, 100800, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 62),
+  (1008, 100800, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 61),
   -- Walking Wake - Leer - Level 1
   (1009, 100900, 43, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Walking Wake - Roar - Level 1

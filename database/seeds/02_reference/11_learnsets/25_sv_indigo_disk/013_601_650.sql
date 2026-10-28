@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -258,12 +260,20 @@ INSERT INTO reference.pokemon_learnsets (
   (640, 64000, 918, 25, NULL, 2, NULL, NULL, 25002229, NULL, 4),
   -- Tornadus - Sludge Wave - TM214
   (641, 64100, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 1),
+  -- Tornadus (Therian) - Sludge Wave - TM214
+  (641, 64101, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 1),
   -- Thundurus - Supercell Slam - TM210
   (642, 64200, 916, 25, NULL, 2, NULL, NULL, 25002210, NULL, 1),
   -- Thundurus - Electroweb - TM211
   (642, 64200, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
   -- Thundurus - Sludge Wave - TM214
   (642, 64200, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 3),
+  -- Thundurus (Therian) - Supercell Slam - TM210
+  (642, 64201, 916, 25, NULL, 2, NULL, NULL, 25002210, NULL, 1),
+  -- Thundurus (Therian) - Electroweb - TM211
+  (642, 64201, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Thundurus (Therian) - Sludge Wave - TM214
+  (642, 64201, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 3),
   -- Reshiram - Double-Edge - TM204
   (643, 64300, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
   -- Reshiram - Scorching Sands - TM215
@@ -284,12 +294,28 @@ INSERT INTO reference.pokemon_learnsets (
   (645, 64500, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 1),
   -- Landorus - Scorching Sands - TM215
   (645, 64500, 815, 25, NULL, 2, NULL, NULL, 25002215, NULL, 2),
+  -- Landorus (Therian) - Sludge Wave - TM214
+  (645, 64501, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 1),
+  -- Landorus (Therian) - Scorching Sands - TM215
+  (645, 64501, 815, 25, NULL, 2, NULL, NULL, 25002215, NULL, 2),
   -- Kyurem - Endeavor - TM205
   (646, 64600, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 1),
   -- Kyurem - Breaking Swipe - TM222
   (646, 64600, 784, 25, NULL, 2, NULL, NULL, 25002222, NULL, 2),
   -- Kyurem - Dragon Cheer - TM226
   (646, 64600, 913, 25, NULL, 2, NULL, NULL, 25002226, NULL, 3),
+  -- Kyurem (White) - Endeavor - TM205
+  (646, 64601, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 1),
+  -- Kyurem (White) - Breaking Swipe - TM222
+  (646, 64601, 784, 25, NULL, 2, NULL, NULL, 25002222, NULL, 2),
+  -- Kyurem (White) - Dragon Cheer - TM226
+  (646, 64601, 913, 25, NULL, 2, NULL, NULL, 25002226, NULL, 3),
+  -- Kyurem (Black) - Endeavor - TM205
+  (646, 64602, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 1),
+  -- Kyurem (Black) - Breaking Swipe - TM222
+  (646, 64602, 784, 25, NULL, 2, NULL, NULL, 25002222, NULL, 2),
+  -- Kyurem (Black) - Dragon Cheer - TM226
+  (646, 64602, 913, 25, NULL, 2, NULL, NULL, 25002226, NULL, 3),
   -- Keldeo - Pain Split - TM202
   (647, 64700, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
   -- Keldeo - Psych Up - TM203

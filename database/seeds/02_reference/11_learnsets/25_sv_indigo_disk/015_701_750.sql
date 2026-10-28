@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -170,6 +172,18 @@ INSERT INTO reference.pokemon_learnsets (
   (720, 72000, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 5),
   -- Hoopa - Psychic Noise - TM228
   (720, 72000, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 6),
+  -- Hoopa (Unbound) - Psych Up - TM203
+  (720, 72001, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Hoopa (Unbound) - Future Sight - TM217
+  (720, 72001, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 2),
+  -- Hoopa (Unbound) - Expanding Force - TM218
+  (720, 72001, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 3),
+  -- Hoopa (Unbound) - Skitter Smack - TM219
+  (720, 72001, 806, 25, NULL, 2, NULL, NULL, 25002219, NULL, 4),
+  -- Hoopa (Unbound) - Throat Chop - TM221
+  (720, 72001, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 5),
+  -- Hoopa (Unbound) - Psychic Noise - TM228
+  (720, 72001, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 6),
   -- Volcanion - Double-Edge - TM204
   (721, 72100, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
   -- Volcanion - Sludge Wave - TM214

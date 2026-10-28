@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -2046,6 +2048,98 @@ INSERT INTO reference.pokemon_learnsets (
   (720, 72001, 94, 23, NULL, 1, 75, NULL, NULL, NULL, 15),
   -- Hoopa (Unbound) - Hyperspace Fury - Level 85
   (720, 72001, 621, 23, NULL, 1, 85, NULL, NULL, NULL, 16),
+  -- Hoopa (Unbound) - Take Down - TM001
+  (720, 72001, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 17),
+  -- Hoopa (Unbound) - Scary Face - TM006
+  (720, 72001, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 18),
+  -- Hoopa (Unbound) - Protect - TM007
+  (720, 72001, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 19),
+  -- Hoopa (Unbound) - Psybeam - TM016
+  (720, 72001, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 20),
+  -- Hoopa (Unbound) - Thief - TM018
+  (720, 72001, 168, 23, NULL, 2, NULL, NULL, 23002018, NULL, 21),
+  -- Hoopa (Unbound) - Facade - TM025
+  (720, 72001, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 22),
+  -- Hoopa (Unbound) - Swift - TM032
+  (720, 72001, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 23),
+  -- Hoopa (Unbound) - Rock Tomb - TM036
+  (720, 72001, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 24),
+  -- Hoopa (Unbound) - Fling - TM043
+  (720, 72001, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 25),
+  -- Hoopa (Unbound) - Endure - TM047
+  (720, 72001, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 26),
+  -- Hoopa (Unbound) - Sunny Day - TM049
+  (720, 72001, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 27),
+  -- Hoopa (Unbound) - Rain Dance - TM050
+  (720, 72001, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 28),
+  -- Hoopa (Unbound) - Sandstorm - TM051
+  (720, 72001, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 29),
+  -- Hoopa (Unbound) - Psyshock - TM054
+  (720, 72001, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 30),
+  -- Hoopa (Unbound) - Brick Break - TM058
+  (720, 72001, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 31),
+  -- Hoopa (Unbound) - Zen Headbutt - TM059
+  (720, 72001, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 32),
+  -- Hoopa (Unbound) - Foul Play - TM062
+  (720, 72001, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 33),
+  -- Hoopa (Unbound) - Fire Punch - TM067
+  (720, 72001, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 34),
+  -- Hoopa (Unbound) - Thunder Punch - TM068
+  (720, 72001, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 35),
+  -- Hoopa (Unbound) - Ice Punch - TM069
+  (720, 72001, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 36),
+  -- Hoopa (Unbound) - Sleep Talk - TM070
+  (720, 72001, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 37),
+  -- Hoopa (Unbound) - Drain Punch - TM073
+  (720, 72001, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 38),
+  -- Hoopa (Unbound) - Reflect - TM074
+  (720, 72001, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 39),
+  -- Hoopa (Unbound) - Light Screen - TM075
+  (720, 72001, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 40),
+  -- Hoopa (Unbound) - Grass Knot - TM081
+  (720, 72001, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 41),
+  -- Hoopa (Unbound) - Thunder Wave - TM082
+  (720, 72001, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 42),
+  -- Hoopa (Unbound) - Rest - TM085
+  (720, 72001, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 43),
+  -- Hoopa (Unbound) - Taunt - TM087
+  (720, 72001, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 44),
+  -- Hoopa (Unbound) - Dark Pulse - TM094
+  (720, 72001, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 45),
+  -- Hoopa (Unbound) - Skill Swap - TM098
+  (720, 72001, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 46),
+  -- Hoopa (Unbound) - Gunk Shot - TM102
+  (720, 72001, 441, 23, NULL, 2, NULL, NULL, 23002102, NULL, 47),
+  -- Hoopa (Unbound) - Substitute - TM103
+  (720, 72001, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 48),
+  -- Hoopa (Unbound) - Trick - TM109
+  (720, 72001, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 49),
+  -- Hoopa (Unbound) - Shadow Ball - TM114
+  (720, 72001, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 50),
+  -- Hoopa (Unbound) - Energy Ball - TM119
+  (720, 72001, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 51),
+  -- Hoopa (Unbound) - Psychic - TM120
+  (720, 72001, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 52),
+  -- Hoopa (Unbound) - Thunderbolt - TM126
+  (720, 72001, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 53),
+  -- Hoopa (Unbound) - Calm Mind - TM129
+  (720, 72001, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 54),
+  -- Hoopa (Unbound) - Psychic Terrain - TM138
+  (720, 72001, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 55),
+  -- Hoopa (Unbound) - Nasty Plot - TM140
+  (720, 72001, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 56),
+  -- Hoopa (Unbound) - Phantom Force - TM151
+  (720, 72001, 566, 23, NULL, 2, NULL, NULL, 23002151, NULL, 57),
+  -- Hoopa (Unbound) - Giga Impact - TM152
+  (720, 72001, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 58),
+  -- Hoopa (Unbound) - Focus Blast - TM158
+  (720, 72001, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 59),
+  -- Hoopa (Unbound) - Trick Room - TM161
+  (720, 72001, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 60),
+  -- Hoopa (Unbound) - Hyper Beam - TM163
+  (720, 72001, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 61),
+  -- Hoopa (Unbound) - Tera Blast - TM171
+  (720, 72001, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 62),
   -- Volcanion - Water Gun - Level 1
   (721, 72100, 55, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Volcanion - Fire Spin - Level 1

@@ -32,6 +32,20 @@ sources remain authoritative for game-specific mechanics and availability.
   data exists.
 - Learnsets preserve game/version context, method, level, machine, and source
   item where applicable.
+- Legendary and mythical level-up and TM/HM/TR rows (every game) and tutor rows
+  (Sword / Shield, Legends: Arceus) were checked against each game's own data,
+  read from PKHeX's learnset and personal tables, with Bulbapedia and Serebii
+  as the second source. Where they disagree the game wins: Dawn Wings Necrozma
+  learns Autotomize and Prismatic Laser at 60 and 66 in Sword / Shield, and
+  Rapid Strike Urshifu has no Metal Claw TM in Scarlet / Violet. Left as is on
+  purpose: Poison Arceus in Brilliant Diamond / Shining Pearl has no Flash in
+  the game files, but removing its plate makes it Normal, which learns it;
+  Regigigas's Mega Punch flag in Scarlet / Violet sits in a slot no TM teaches;
+  FireRed / LeafGreen share Emerald's TM flags in PKHeX, Dive included, but
+  those games have no Dive HM.
+- A form with its own learnset rows in a version group carries every method
+  there (level-up and machines alike), and rows in each DLC scope where its
+  default has them; otherwise it would lose moves its default keeps.
 - Forms used by teams require a valid species/form pair and game-era support.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the

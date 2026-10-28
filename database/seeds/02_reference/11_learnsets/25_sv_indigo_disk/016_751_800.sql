@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -223,4 +225,16 @@ INSERT INTO reference.pokemon_learnsets (
   -- Necrozma - Expanding Force - TM218
   (800, 80000, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 2),
   -- Necrozma - Meteor Beam - TM220
-  (800, 80000, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 3);
+  (800, 80000, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 3),
+  -- Necrozma (Dusk Mane) - Future Sight - TM217
+  (800, 80001, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 1),
+  -- Necrozma (Dusk Mane) - Expanding Force - TM218
+  (800, 80001, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 2),
+  -- Necrozma (Dusk Mane) - Meteor Beam - TM220
+  (800, 80001, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 3),
+  -- Necrozma (Dawn Wings) - Future Sight - TM217
+  (800, 80002, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 1),
+  -- Necrozma (Dawn Wings) - Expanding Force - TM218
+  (800, 80002, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 2),
+  -- Necrozma (Dawn Wings) - Meteor Beam - TM220
+  (800, 80002, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 3);

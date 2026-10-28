@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Diamond / Pearl Pokedex learnset pages, Serebii Diamond / Pearl
 -- Move Tutor pages, and PokemonDB Generation 4 Diamond / Pearl learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Diamond / Pearl
 -- Pokémon: 202-251
--- Rows: 2749
+-- Rows: 2748
 -- Scope: level-up, TM, HM, egg move, and Move Tutor acquisition rows.
 -- Event, transfer, and prior-evolution sections are intentionally excluded from
 -- this Diamond / Pearl seed.
@@ -4777,14 +4779,12 @@ VALUES
   (245, 24500, 15, 8, NULL, 3, NULL, NULL, 8003001, NULL, 46),
   -- Suicune - Surf - HM03
   (245, 24500, 57, 8, NULL, 3, NULL, NULL, 8003003, NULL, 47),
-  -- Suicune - Defog - HM05
-  (245, 24500, 432, 8, NULL, 3, NULL, NULL, 8003005, NULL, 48),
   -- Suicune - Rock Smash - HM06
-  (245, 24500, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 49),
+  (245, 24500, 249, 8, NULL, 3, NULL, NULL, 8003006, NULL, 48),
   -- Suicune - Waterfall - HM07
-  (245, 24500, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 50),
+  (245, 24500, 127, 8, NULL, 3, NULL, NULL, 8003007, NULL, 49),
   -- Suicune - Rock Climb - HM08
-  (245, 24500, 431, 8, NULL, 3, NULL, NULL, 8003008, NULL, 51),
+  (245, 24500, 431, 8, NULL, 3, NULL, NULL, 8003008, NULL, 50),
   -- Larvitar - Leer - Level 1
   (246, 24600, 43, 8, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Larvitar - Bite - Level 1

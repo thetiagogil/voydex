@@ -5,6 +5,8 @@
 -- Cross-check: PokemonDB Generation 7 learnset pages where source rows were ambiguous.
 -- Machine normalization: Bulbapedia Generation VII TM catalog data.
 -- Source names and caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -4476,56 +4478,54 @@ INSERT INTO reference.pokemon_learnsets (
   (642, 64201, 373, 16, NULL, 2, NULL, NULL, 16002063, NULL, 49),
   -- Thundurus (Therian) - Payback - TM66
   (642, 64201, 371, 16, NULL, 2, NULL, NULL, 16002066, NULL, 50),
-  -- Thundurus (Therian) - Smart Strike - TM67
-  (642, 64201, 684, 16, NULL, 2, NULL, NULL, 16002067, NULL, 51),
   -- Thundurus (Therian) - Giga Impact - TM68
-  (642, 64201, 416, 16, NULL, 2, NULL, NULL, 16002068, NULL, 52),
+  (642, 64201, 416, 16, NULL, 2, NULL, NULL, 16002068, NULL, 51),
   -- Thundurus (Therian) - Volt Switch - TM72
-  (642, 64201, 521, 16, NULL, 2, NULL, NULL, 16002072, NULL, 53),
+  (642, 64201, 521, 16, NULL, 2, NULL, NULL, 16002072, NULL, 52),
   -- Thundurus (Therian) - Thunder Wave - TM73
-  (642, 64201, 86, 16, NULL, 2, NULL, NULL, 16002073, NULL, 54),
+  (642, 64201, 86, 16, NULL, 2, NULL, NULL, 16002073, NULL, 53),
   -- Thundurus (Therian) - Fly - TM76
-  (642, 64201, 19, 16, NULL, 2, NULL, NULL, 16002076, NULL, 55),
+  (642, 64201, 19, 16, NULL, 2, NULL, NULL, 16002076, NULL, 54),
   -- Thundurus (Therian) - Grass Knot - TM86
-  (642, 64201, 447, 16, NULL, 2, NULL, NULL, 16002086, NULL, 56),
+  (642, 64201, 447, 16, NULL, 2, NULL, NULL, 16002086, NULL, 55),
   -- Thundurus (Therian) - Swagger - TM87
-  (642, 64201, 207, 16, NULL, 2, NULL, NULL, 16002087, NULL, 57),
+  (642, 64201, 207, 16, NULL, 2, NULL, NULL, 16002087, NULL, 56),
   -- Thundurus (Therian) - Sleep Talk - TM88
-  (642, 64201, 214, 16, NULL, 2, NULL, NULL, 16002088, NULL, 58),
+  (642, 64201, 214, 16, NULL, 2, NULL, NULL, 16002088, NULL, 57),
   -- Thundurus (Therian) - U-turn - TM89
-  (642, 64201, 369, 16, NULL, 2, NULL, NULL, 16002089, NULL, 59),
+  (642, 64201, 369, 16, NULL, 2, NULL, NULL, 16002089, NULL, 58),
   -- Thundurus (Therian) - Substitute - TM90
-  (642, 64201, 164, 16, NULL, 2, NULL, NULL, 16002090, NULL, 60),
+  (642, 64201, 164, 16, NULL, 2, NULL, NULL, 16002090, NULL, 59),
   -- Thundurus (Therian) - Flash Cannon - TM91
-  (642, 64201, 430, 16, NULL, 2, NULL, NULL, 16002091, NULL, 61),
+  (642, 64201, 430, 16, NULL, 2, NULL, NULL, 16002091, NULL, 60),
   -- Thundurus (Therian) - Wild Charge - TM93
-  (642, 64201, 528, 16, NULL, 2, NULL, NULL, 16002093, NULL, 62),
+  (642, 64201, 528, 16, NULL, 2, NULL, NULL, 16002093, NULL, 61),
   -- Thundurus (Therian) - Dark Pulse - TM97
-  (642, 64201, 399, 16, NULL, 2, NULL, NULL, 16002097, NULL, 63),
+  (642, 64201, 399, 16, NULL, 2, NULL, NULL, 16002097, NULL, 62),
   -- Thundurus (Therian) - Confide - TM100
-  (642, 64201, 590, 16, NULL, 2, NULL, NULL, 16002100, NULL, 64),
+  (642, 64201, 590, 16, NULL, 2, NULL, NULL, 16002100, NULL, 63),
   -- Thundurus (Therian) - Thunder Punch - Tutor
-  (642, 64201, 9, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 65),
+  (642, 64201, 9, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 64),
   -- Thundurus (Therian) - Snore - Tutor
-  (642, 64201, 173, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 66),
+  (642, 64201, 173, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 65),
   -- Thundurus (Therian) - Iron Tail - Tutor
-  (642, 64201, 231, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 67),
+  (642, 64201, 231, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 66),
   -- Thundurus (Therian) - Uproar - Tutor
-  (642, 64201, 253, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 68),
+  (642, 64201, 253, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 67),
   -- Thundurus (Therian) - Role Play - Tutor
-  (642, 64201, 272, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 69),
+  (642, 64201, 272, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 68),
   -- Thundurus (Therian) - Superpower - Tutor
-  (642, 64201, 276, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 70),
+  (642, 64201, 276, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 69),
   -- Thundurus (Therian) - Knock Off - Tutor
-  (642, 64201, 282, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 71),
+  (642, 64201, 282, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 70),
   -- Thundurus (Therian) - Shock Wave - Tutor
-  (642, 64201, 351, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 72),
+  (642, 64201, 351, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 71),
   -- Thundurus (Therian) - Defog - Tutor
-  (642, 64201, 432, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 73),
+  (642, 64201, 432, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 72),
   -- Thundurus (Therian) - Foul Play - Tutor
-  (642, 64201, 492, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 74),
+  (642, 64201, 492, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 73),
   -- Thundurus (Therian) - Electroweb - Tutor
-  (642, 64201, 527, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 75),
+  (642, 64201, 527, 16, NULL, 6, NULL, NULL, NULL, 'Ultra Sun / Ultra Moon Move Tutor.', 74),
 
   -- Landorus (Therian) - Fissure - Level 1
   (645, 64501, 90, 16, NULL, 1, 1, NULL, NULL, NULL, 1),

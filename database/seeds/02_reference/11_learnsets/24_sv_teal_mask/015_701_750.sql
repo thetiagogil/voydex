@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -138,6 +140,14 @@ INSERT INTO reference.pokemon_learnsets (
   (720, 72000, 264, 24, NULL, 2, NULL, NULL, 24002192, NULL, 3),
   -- Hoopa - Lash Out - TM199
   (720, 72000, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
+  -- Hoopa (Unbound) - Gravity - TM178
+  (720, 72001, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 1),
+  -- Hoopa (Unbound) - Knock Off - TM181
+  (720, 72001, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 2),
+  -- Hoopa (Unbound) - Focus Punch - TM192
+  (720, 72001, 264, 24, NULL, 2, NULL, NULL, 24002192, NULL, 3),
+  -- Hoopa (Unbound) - Lash Out - TM199
+  (720, 72001, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
   -- Volcanion - Roar - TM172
   (721, 72100, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
   -- Volcanion - Haze - TM174

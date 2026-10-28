@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -208,6 +210,16 @@ INSERT INTO reference.pokemon_learnsets (
   (641, 64100, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 4),
   -- Tornadus - Lash Out - TM199
   (641, 64100, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 5),
+  -- Tornadus (Therian) - Smack Down - TM179
+  (641, 64101, 479, 24, NULL, 2, NULL, NULL, 24002179, NULL, 1),
+  -- Tornadus (Therian) - Knock Off - TM181
+  (641, 64101, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 2),
+  -- Tornadus (Therian) - Uproar - TM191
+  (641, 64101, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Tornadus (Therian) - Weather Ball - TM193
+  (641, 64101, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 4),
+  -- Tornadus (Therian) - Lash Out - TM199
+  (641, 64101, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 5),
   -- Thundurus - Charge - TM173
   (642, 64200, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
   -- Thundurus - Smack Down - TM179
@@ -220,6 +232,18 @@ INSERT INTO reference.pokemon_learnsets (
   (642, 64200, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 5),
   -- Thundurus - Lash Out - TM199
   (642, 64200, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 6),
+  -- Thundurus (Therian) - Charge - TM173
+  (642, 64201, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Thundurus (Therian) - Smack Down - TM179
+  (642, 64201, 479, 24, NULL, 2, NULL, NULL, 24002179, NULL, 2),
+  -- Thundurus (Therian) - Knock Off - TM181
+  (642, 64201, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 3),
+  -- Thundurus (Therian) - Uproar - TM191
+  (642, 64201, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 4),
+  -- Thundurus (Therian) - Weather Ball - TM193
+  (642, 64201, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 5),
+  -- Thundurus (Therian) - Lash Out - TM199
+  (642, 64201, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 6),
   -- Reshiram - Roar - TM172
   (643, 64300, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
   -- Reshiram - Heat Crash - TM189
@@ -252,6 +276,14 @@ INSERT INTO reference.pokemon_learnsets (
   (645, 64500, 479, 24, NULL, 2, NULL, NULL, 24002179, NULL, 3),
   -- Landorus - Weather Ball - TM193
   (645, 64500, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 4),
+  -- Landorus (Therian) - Sand Tomb - TM176
+  (645, 64501, 328, 24, NULL, 2, NULL, NULL, 24002176, NULL, 1),
+  -- Landorus (Therian) - Gravity - TM178
+  (645, 64501, 356, 24, NULL, 2, NULL, NULL, 24002178, NULL, 2),
+  -- Landorus (Therian) - Smack Down - TM179
+  (645, 64501, 479, 24, NULL, 2, NULL, NULL, 24002179, NULL, 3),
+  -- Landorus (Therian) - Weather Ball - TM193
+  (645, 64501, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 4),
   -- Kyurem - Roar - TM172
   (646, 64600, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
   -- Kyurem - Icicle Spear - TM187
@@ -262,6 +294,26 @@ INSERT INTO reference.pokemon_learnsets (
   (646, 64600, 814, 24, NULL, 2, NULL, NULL, 24002197, NULL, 4),
   -- Kyurem - Scale Shot - TM200
   (646, 64600, 799, 24, NULL, 2, NULL, NULL, 24002200, NULL, 5),
+  -- Kyurem (White) - Roar - TM172
+  (646, 64601, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
+  -- Kyurem (White) - Icicle Spear - TM187
+  (646, 64601, 333, 24, NULL, 2, NULL, NULL, 24002187, NULL, 2),
+  -- Kyurem (White) - Weather Ball - TM193
+  (646, 64601, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 3),
+  -- Kyurem (White) - Dual Wingbeat - TM197
+  (646, 64601, 814, 24, NULL, 2, NULL, NULL, 24002197, NULL, 4),
+  -- Kyurem (White) - Scale Shot - TM200
+  (646, 64601, 799, 24, NULL, 2, NULL, NULL, 24002200, NULL, 5),
+  -- Kyurem (Black) - Roar - TM172
+  (646, 64602, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
+  -- Kyurem (Black) - Icicle Spear - TM187
+  (646, 64602, 333, 24, NULL, 2, NULL, NULL, 24002187, NULL, 2),
+  -- Kyurem (Black) - Weather Ball - TM193
+  (646, 64602, 311, 24, NULL, 2, NULL, NULL, 24002193, NULL, 3),
+  -- Kyurem (Black) - Dual Wingbeat - TM197
+  (646, 64602, 814, 24, NULL, 2, NULL, NULL, 24002197, NULL, 4),
+  -- Kyurem (Black) - Scale Shot - TM200
+  (646, 64602, 799, 24, NULL, 2, NULL, NULL, 24002200, NULL, 5),
   -- Keldeo - Roar - TM172
   (647, 64700, 46, 24, NULL, 2, NULL, NULL, 24002172, NULL, 1),
   -- Keldeo - Vacuum Wave - TM184

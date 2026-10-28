@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Gen I Pokedex learnset pages and PokemonDB Generation
 -- 1 Yellow learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Yellow
 -- Pokémon: #101-151
--- Rows: 1465
+-- Rows: 1464
 -- Scope: direct level-up, TM, and HM acquisition rows only. Red / Blue-only,
 -- reminder, prior-evolution, event, and transfer sections are intentionally
 -- excluded from this Yellow direct learnset seed.
@@ -2791,56 +2793,54 @@ VALUES
   (150, 15000, 59, 2, NULL, 2, NULL, NULL, 2002014, NULL, 19),
   -- Mewtwo - Hyper Beam - TM15
   (150, 15000, 63, 2, NULL, 2, NULL, NULL, 2002015, NULL, 20),
-  -- Mewtwo - Pay Day - TM16
-  (150, 15000, 6, 2, NULL, 2, NULL, NULL, 2002016, NULL, 21),
   -- Mewtwo - Submission - TM17
-  (150, 15000, 66, 2, NULL, 2, NULL, NULL, 2002017, NULL, 22),
+  (150, 15000, 66, 2, NULL, 2, NULL, NULL, 2002017, NULL, 21),
   -- Mewtwo - Counter - TM18
-  (150, 15000, 68, 2, NULL, 2, NULL, NULL, 2002018, NULL, 23),
+  (150, 15000, 68, 2, NULL, 2, NULL, NULL, 2002018, NULL, 22),
   -- Mewtwo - Seismic Toss - TM19
-  (150, 15000, 69, 2, NULL, 2, NULL, NULL, 2002019, NULL, 24),
+  (150, 15000, 69, 2, NULL, 2, NULL, NULL, 2002019, NULL, 23),
   -- Mewtwo - Rage - TM20
-  (150, 15000, 99, 2, NULL, 2, NULL, NULL, 2002020, NULL, 25),
+  (150, 15000, 99, 2, NULL, 2, NULL, NULL, 2002020, NULL, 24),
   -- Mewtwo - Solar Beam - TM22
-  (150, 15000, 76, 2, NULL, 2, NULL, NULL, 2002022, NULL, 26),
+  (150, 15000, 76, 2, NULL, 2, NULL, NULL, 2002022, NULL, 25),
   -- Mewtwo - Thunderbolt - TM24
-  (150, 15000, 85, 2, NULL, 2, NULL, NULL, 2002024, NULL, 27),
+  (150, 15000, 85, 2, NULL, 2, NULL, NULL, 2002024, NULL, 26),
   -- Mewtwo - Thunder - TM25
-  (150, 15000, 87, 2, NULL, 2, NULL, NULL, 2002025, NULL, 28),
+  (150, 15000, 87, 2, NULL, 2, NULL, NULL, 2002025, NULL, 27),
   -- Mewtwo - Psychic - TM29
-  (150, 15000, 94, 2, NULL, 2, NULL, NULL, 2002029, NULL, 29),
+  (150, 15000, 94, 2, NULL, 2, NULL, NULL, 2002029, NULL, 28),
   -- Mewtwo - Teleport - TM30
-  (150, 15000, 100, 2, NULL, 2, NULL, NULL, 2002030, NULL, 30),
+  (150, 15000, 100, 2, NULL, 2, NULL, NULL, 2002030, NULL, 29),
   -- Mewtwo - Mimic - TM31
-  (150, 15000, 102, 2, NULL, 2, NULL, NULL, 2002031, NULL, 31),
+  (150, 15000, 102, 2, NULL, 2, NULL, NULL, 2002031, NULL, 30),
   -- Mewtwo - Double Team - TM32
-  (150, 15000, 104, 2, NULL, 2, NULL, NULL, 2002032, NULL, 32),
+  (150, 15000, 104, 2, NULL, 2, NULL, NULL, 2002032, NULL, 31),
   -- Mewtwo - Reflect - TM33
-  (150, 15000, 115, 2, NULL, 2, NULL, NULL, 2002033, NULL, 33),
+  (150, 15000, 115, 2, NULL, 2, NULL, NULL, 2002033, NULL, 32),
   -- Mewtwo - Bide - TM34
-  (150, 15000, 117, 2, NULL, 2, NULL, NULL, 2002034, NULL, 34),
+  (150, 15000, 117, 2, NULL, 2, NULL, NULL, 2002034, NULL, 33),
   -- Mewtwo - Metronome - TM35
-  (150, 15000, 118, 2, NULL, 2, NULL, NULL, 2002035, NULL, 35),
+  (150, 15000, 118, 2, NULL, 2, NULL, NULL, 2002035, NULL, 34),
   -- Mewtwo - Self-Destruct - TM36
-  (150, 15000, 120, 2, NULL, 2, NULL, NULL, 2002036, NULL, 36),
+  (150, 15000, 120, 2, NULL, 2, NULL, NULL, 2002036, NULL, 35),
   -- Mewtwo - Fire Blast - TM38
-  (150, 15000, 126, 2, NULL, 2, NULL, NULL, 2002038, NULL, 37),
+  (150, 15000, 126, 2, NULL, 2, NULL, NULL, 2002038, NULL, 36),
   -- Mewtwo - Skull Bash - TM40
-  (150, 15000, 130, 2, NULL, 2, NULL, NULL, 2002040, NULL, 38),
+  (150, 15000, 130, 2, NULL, 2, NULL, NULL, 2002040, NULL, 37),
   -- Mewtwo - Rest - TM44
-  (150, 15000, 156, 2, NULL, 2, NULL, NULL, 2002044, NULL, 39),
+  (150, 15000, 156, 2, NULL, 2, NULL, NULL, 2002044, NULL, 38),
   -- Mewtwo - Thunder Wave - TM45
-  (150, 15000, 86, 2, NULL, 2, NULL, NULL, 2002045, NULL, 40),
+  (150, 15000, 86, 2, NULL, 2, NULL, NULL, 2002045, NULL, 39),
   -- Mewtwo - Psywave - TM46
-  (150, 15000, 149, 2, NULL, 2, NULL, NULL, 2002046, NULL, 41),
+  (150, 15000, 149, 2, NULL, 2, NULL, NULL, 2002046, NULL, 40),
   -- Mewtwo - Tri Attack - TM49
-  (150, 15000, 161, 2, NULL, 2, NULL, NULL, 2002049, NULL, 42),
+  (150, 15000, 161, 2, NULL, 2, NULL, NULL, 2002049, NULL, 41),
   -- Mewtwo - Substitute - TM50
-  (150, 15000, 164, 2, NULL, 2, NULL, NULL, 2002050, NULL, 43),
+  (150, 15000, 164, 2, NULL, 2, NULL, NULL, 2002050, NULL, 42),
   -- Mewtwo - Strength - HM04
-  (150, 15000, 70, 2, NULL, 3, NULL, NULL, 2003004, NULL, 44),
+  (150, 15000, 70, 2, NULL, 3, NULL, NULL, 2003004, NULL, 43),
   -- Mewtwo - Flash - HM05
-  (150, 15000, 148, 2, NULL, 3, NULL, NULL, 2003005, NULL, 45),
+  (150, 15000, 148, 2, NULL, 3, NULL, NULL, 2003005, NULL, 44),
   -- Mew - Pound - Level 1
   (151, 15100, 1, 2, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mew - Transform - Level 10

@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -5002,6 +5004,72 @@ INSERT INTO reference.pokemon_learnsets (
   (492, 49200, 361, 23, NULL, 1, 91, NULL, NULL, NULL, 11),
   -- Shaymin - Seed Flare - Level 100
   (492, 49200, 465, 23, NULL, 1, 100, NULL, NULL, NULL, 12),
+  -- Shaymin - Take Down - TM001
+  (492, 49200, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 13),
+  -- Shaymin - Protect - TM007
+  (492, 49200, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 14),
+  -- Shaymin - Disarming Voice - TM019
+  (492, 49200, 574, 23, NULL, 2, NULL, NULL, 23002019, NULL, 15),
+  -- Shaymin - Trailblaze - TM020
+  (492, 49200, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 16),
+  -- Shaymin - Facade - TM025
+  (492, 49200, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 17),
+  -- Shaymin - Swift - TM032
+  (492, 49200, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 18),
+  -- Shaymin - Magical Leaf - TM033
+  (492, 49200, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 19),
+  -- Shaymin - Air Cutter - TM040
+  (492, 49200, 314, 23, NULL, 2, NULL, NULL, 23002040, NULL, 20),
+  -- Shaymin - Endure - TM047
+  (492, 49200, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 21),
+  -- Shaymin - Sunny Day - TM049
+  (492, 49200, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 22),
+  -- Shaymin - Bullet Seed - TM056
+  (492, 49200, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 23),
+  -- Shaymin - Zen Headbutt - TM059
+  (492, 49200, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 24),
+  -- Shaymin - Air Slash - TM065
+  (492, 49200, 403, 23, NULL, 2, NULL, NULL, 23002065, NULL, 25),
+  -- Shaymin - Sleep Talk - TM070
+  (492, 49200, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 26),
+  -- Shaymin - Seed Bomb - TM071
+  (492, 49200, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 27),
+  -- Shaymin - Dazzling Gleam - TM079
+  (492, 49200, 605, 23, NULL, 2, NULL, NULL, 23002079, NULL, 28),
+  -- Shaymin - Grass Knot - TM081
+  (492, 49200, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 29),
+  -- Shaymin - Rest - TM085
+  (492, 49200, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 30),
+  -- Shaymin - Swords Dance - TM088
+  (492, 49200, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 31),
+  -- Shaymin - Substitute - TM103
+  (492, 49200, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 32),
+  -- Shaymin - Giga Drain - TM111
+  (492, 49200, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 33),
+  -- Shaymin - Tailwind - TM113
+  (492, 49200, 366, 23, NULL, 2, NULL, NULL, 23002113, NULL, 34),
+  -- Shaymin - Energy Ball - TM119
+  (492, 49200, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 35),
+  -- Shaymin - Psychic - TM120
+  (492, 49200, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 36),
+  -- Shaymin - Play Rough - TM127
+  (492, 49200, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 37),
+  -- Shaymin - Baton Pass - TM132
+  (492, 49200, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 38),
+  -- Shaymin - Earth Power - TM133
+  (492, 49200, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 39),
+  -- Shaymin - Grassy Terrain - TM137
+  (492, 49200, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 40),
+  -- Shaymin - Giga Impact - TM152
+  (492, 49200, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 41),
+  -- Shaymin - Leaf Storm - TM159
+  (492, 49200, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 42),
+  -- Shaymin - Hyper Beam - TM163
+  (492, 49200, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 43),
+  -- Shaymin - Solar Beam - TM168
+  (492, 49200, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 44),
+  -- Shaymin - Tera Blast - TM171
+  (492, 49200, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 45),
   -- Shaymin (Sky) - Growth - Level 1
   (492, 49201, 74, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Shaymin (Sky) - Magical Leaf - Level 10
@@ -5026,6 +5094,72 @@ INSERT INTO reference.pokemon_learnsets (
   (492, 49201, 437, 23, NULL, 1, 91, NULL, NULL, NULL, 11),
   -- Shaymin (Sky) - Seed Flare - Level 100
   (492, 49201, 465, 23, NULL, 1, 100, NULL, NULL, NULL, 12),
+  -- Shaymin (Sky) - Take Down - TM001
+  (492, 49201, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 13),
+  -- Shaymin (Sky) - Protect - TM007
+  (492, 49201, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 14),
+  -- Shaymin (Sky) - Disarming Voice - TM019
+  (492, 49201, 574, 23, NULL, 2, NULL, NULL, 23002019, NULL, 15),
+  -- Shaymin (Sky) - Trailblaze - TM020
+  (492, 49201, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 16),
+  -- Shaymin (Sky) - Facade - TM025
+  (492, 49201, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 17),
+  -- Shaymin (Sky) - Swift - TM032
+  (492, 49201, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 18),
+  -- Shaymin (Sky) - Magical Leaf - TM033
+  (492, 49201, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 19),
+  -- Shaymin (Sky) - Air Cutter - TM040
+  (492, 49201, 314, 23, NULL, 2, NULL, NULL, 23002040, NULL, 20),
+  -- Shaymin (Sky) - Endure - TM047
+  (492, 49201, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 21),
+  -- Shaymin (Sky) - Sunny Day - TM049
+  (492, 49201, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 22),
+  -- Shaymin (Sky) - Bullet Seed - TM056
+  (492, 49201, 331, 23, NULL, 2, NULL, NULL, 23002056, NULL, 23),
+  -- Shaymin (Sky) - Zen Headbutt - TM059
+  (492, 49201, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 24),
+  -- Shaymin (Sky) - Air Slash - TM065
+  (492, 49201, 403, 23, NULL, 2, NULL, NULL, 23002065, NULL, 25),
+  -- Shaymin (Sky) - Sleep Talk - TM070
+  (492, 49201, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 26),
+  -- Shaymin (Sky) - Seed Bomb - TM071
+  (492, 49201, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 27),
+  -- Shaymin (Sky) - Dazzling Gleam - TM079
+  (492, 49201, 605, 23, NULL, 2, NULL, NULL, 23002079, NULL, 28),
+  -- Shaymin (Sky) - Grass Knot - TM081
+  (492, 49201, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 29),
+  -- Shaymin (Sky) - Rest - TM085
+  (492, 49201, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 30),
+  -- Shaymin (Sky) - Swords Dance - TM088
+  (492, 49201, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 31),
+  -- Shaymin (Sky) - Substitute - TM103
+  (492, 49201, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 32),
+  -- Shaymin (Sky) - Giga Drain - TM111
+  (492, 49201, 202, 23, NULL, 2, NULL, NULL, 23002111, NULL, 33),
+  -- Shaymin (Sky) - Tailwind - TM113
+  (492, 49201, 366, 23, NULL, 2, NULL, NULL, 23002113, NULL, 34),
+  -- Shaymin (Sky) - Energy Ball - TM119
+  (492, 49201, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 35),
+  -- Shaymin (Sky) - Psychic - TM120
+  (492, 49201, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 36),
+  -- Shaymin (Sky) - Play Rough - TM127
+  (492, 49201, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 37),
+  -- Shaymin (Sky) - Baton Pass - TM132
+  (492, 49201, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 38),
+  -- Shaymin (Sky) - Earth Power - TM133
+  (492, 49201, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 39),
+  -- Shaymin (Sky) - Grassy Terrain - TM137
+  (492, 49201, 580, 23, NULL, 2, NULL, NULL, 23002137, NULL, 40),
+  -- Shaymin (Sky) - Giga Impact - TM152
+  (492, 49201, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 41),
+  -- Shaymin (Sky) - Leaf Storm - TM159
+  (492, 49201, 437, 23, NULL, 2, NULL, NULL, 23002159, NULL, 42),
+  -- Shaymin (Sky) - Hyper Beam - TM163
+  (492, 49201, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 43),
+  -- Shaymin (Sky) - Solar Beam - TM168
+  (492, 49201, 76, 23, NULL, 2, NULL, NULL, 23002168, NULL, 44),
+  -- Shaymin (Sky) - Tera Blast - TM171
+  (492, 49201, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 45),
   -- Arceus - Seismic Toss - Level 1
   (493, 49300, 69, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Arceus - Cosmic Power - Level 1

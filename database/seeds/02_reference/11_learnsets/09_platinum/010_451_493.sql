@@ -6,13 +6,15 @@
 -- Cross-check: Serebii Platinum Pokedex learnset pages, Serebii Platinum
 -- Move Tutor pages, and PokemonDB Generation 4 Platinum learnset pages.
 -- Source names and source caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_learnsets
 -- Version Group: Platinum
 -- Pokémon: #451-#493
--- Rows: 2896
+-- Rows: 2893
 -- Scope: level-up, TM, HM, egg move, and Move Tutor acquisition rows.
 -- Event, transfer, and prior-evolution sections are intentionally excluded from
 -- this Platinum seed.
@@ -4581,32 +4583,30 @@ VALUES
   (484, 48400, 57, 9, NULL, 3, NULL, NULL, 9003003, NULL, 61),
   -- Palkia - Strength - HM04
   (484, 48400, 70, 9, NULL, 3, NULL, NULL, 9003004, NULL, 62),
-  -- Palkia - Defog - HM05
-  (484, 48400, 432, 9, NULL, 3, NULL, NULL, 9003005, NULL, 63),
   -- Palkia - Rock Smash - HM06
-  (484, 48400, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 64),
+  (484, 48400, 249, 9, NULL, 3, NULL, NULL, 9003006, NULL, 63),
   -- Palkia - Swift - Tutor
-  (484, 48400, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 65),
+  (484, 48400, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 64),
   -- Palkia - Snore - Tutor
-  (484, 48400, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 66),
+  (484, 48400, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 65),
   -- Palkia - Mud-Slap - Tutor
-  (484, 48400, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 67),
+  (484, 48400, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 66),
   -- Palkia - Outrage - Tutor
-  (484, 48400, 200, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 68),
+  (484, 48400, 200, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 67),
   -- Palkia - Fury Cutter - Tutor
-  (484, 48400, 210, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 69),
+  (484, 48400, 210, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 68),
   -- Palkia - Twister - Tutor
-  (484, 48400, 239, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 70),
+  (484, 48400, 239, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 69),
   -- Palkia - Ancient Power - Tutor
-  (484, 48400, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 71),
+  (484, 48400, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 70),
   -- Palkia - Dive - Tutor
-  (484, 48400, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 72),
+  (484, 48400, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 71),
   -- Palkia - Aqua Tail - Tutor
-  (484, 48400, 401, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 73),
+  (484, 48400, 401, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 72),
   -- Palkia - Earth Power - Tutor
-  (484, 48400, 414, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 74),
+  (484, 48400, 414, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 73),
   -- Palkia - Draco Meteor - Tutor
-  (484, 48400, 434, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 75),
+  (484, 48400, 434, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 74),
   -- Heatran - Ancient Power - Level 1
   (485, 48500, 246, 9, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Heatran - Leer - Level 9
@@ -5191,34 +5191,32 @@ VALUES
   (489, 48900, 164, 9, NULL, 2, NULL, NULL, 9002090, NULL, 36),
   -- Phione - Surf - HM03
   (489, 48900, 57, 9, NULL, 3, NULL, NULL, 9003003, NULL, 37),
-  -- Phione - Defog - HM05
-  (489, 48900, 432, 9, NULL, 3, NULL, NULL, 9003005, NULL, 38),
   -- Phione - Waterfall - HM07
-  (489, 48900, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 39),
+  (489, 48900, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 38),
   -- Phione - Swift - Tutor
-  (489, 48900, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 40),
+  (489, 48900, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 39),
   -- Phione - Snore - Tutor
-  (489, 48900, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 41),
+  (489, 48900, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 40),
   -- Phione - Mud-Slap - Tutor
-  (489, 48900, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 42),
+  (489, 48900, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 41),
   -- Phione - Icy Wind - Tutor
-  (489, 48900, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 43),
+  (489, 48900, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 42),
   -- Phione - Ancient Power - Tutor
-  (489, 48900, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 44),
+  (489, 48900, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 43),
   -- Phione - Uproar - Tutor
-  (489, 48900, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 45),
+  (489, 48900, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 44),
   -- Phione - Helping Hand - Tutor
-  (489, 48900, 270, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 46),
+  (489, 48900, 270, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 45),
   -- Phione - Knock Off - Tutor
-  (489, 48900, 282, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 47),
+  (489, 48900, 282, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 46),
   -- Phione - Dive - Tutor
-  (489, 48900, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 48),
+  (489, 48900, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 47),
   -- Phione - Signal Beam - Tutor
-  (489, 48900, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 49),
+  (489, 48900, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 48),
   -- Phione - Bounce - Tutor
-  (489, 48900, 340, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 50),
+  (489, 48900, 340, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 49),
   -- Phione - Last Resort - Tutor
-  (489, 48900, 387, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 51),
+  (489, 48900, 387, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 50),
   -- Manaphy - Bubble - Level 1
   (490, 49000, 145, 9, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Manaphy - Tail Glow - Level 1
@@ -5317,34 +5315,32 @@ VALUES
   (490, 49000, 164, 9, NULL, 2, NULL, NULL, 9002090, NULL, 48),
   -- Manaphy - Surf - HM03
   (490, 49000, 57, 9, NULL, 3, NULL, NULL, 9003003, NULL, 49),
-  -- Manaphy - Defog - HM05
-  (490, 49000, 432, 9, NULL, 3, NULL, NULL, 9003005, NULL, 50),
   -- Manaphy - Waterfall - HM07
-  (490, 49000, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 51),
+  (490, 49000, 127, 9, NULL, 3, NULL, NULL, 9003007, NULL, 50),
   -- Manaphy - Swift - Tutor
-  (490, 49000, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 52),
+  (490, 49000, 129, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 51),
   -- Manaphy - Snore - Tutor
-  (490, 49000, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 53),
+  (490, 49000, 173, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 52),
   -- Manaphy - Mud-Slap - Tutor
-  (490, 49000, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 54),
+  (490, 49000, 189, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 53),
   -- Manaphy - Icy Wind - Tutor
-  (490, 49000, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 55),
+  (490, 49000, 196, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 54),
   -- Manaphy - Ancient Power - Tutor
-  (490, 49000, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 56),
+  (490, 49000, 246, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 55),
   -- Manaphy - Uproar - Tutor
-  (490, 49000, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 57),
+  (490, 49000, 253, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 56),
   -- Manaphy - Helping Hand - Tutor
-  (490, 49000, 270, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 58),
+  (490, 49000, 270, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 57),
   -- Manaphy - Knock Off - Tutor
-  (490, 49000, 282, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 59),
+  (490, 49000, 282, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 58),
   -- Manaphy - Dive - Tutor
-  (490, 49000, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 60),
+  (490, 49000, 291, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 59),
   -- Manaphy - Signal Beam - Tutor
-  (490, 49000, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 61),
+  (490, 49000, 324, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 60),
   -- Manaphy - Bounce - Tutor
-  (490, 49000, 340, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 62),
+  (490, 49000, 340, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 61),
   -- Manaphy - Last Resort - Tutor
-  (490, 49000, 387, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 63),
+  (490, 49000, 387, 9, NULL, 6, NULL, NULL, NULL, 'Platinum Move Tutor.', 62),
   -- Darkrai - Disable - Level 1
   (491, 49100, 50, 9, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Darkrai - Ominous Wind - Level 1

@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -70,6 +72,10 @@ INSERT INTO reference.pokemon_learnsets (
   (905, 90500, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
   -- Enamorus - Alluring Voice - TM227
   (905, 90500, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 2),
+  -- Enamorus (Therian) - Psych Up - TM203
+  (905, 90501, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Enamorus (Therian) - Alluring Voice - TM227
+  (905, 90501, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 2),
   -- Sprigatito - Petal Blizzard - TM206
   (906, 90600, 572, 25, NULL, 2, NULL, NULL, 25002206, NULL, 1),
   -- Floragato - Petal Blizzard - TM206

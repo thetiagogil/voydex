@@ -5,6 +5,8 @@
 -- Cross-check: PokemonDB Generation 7 learnset pages where source rows were ambiguous.
 -- Machine normalization: Bulbapedia Generation VII TM catalog data.
 -- Source names and caveats remain in SQL comments/docs only.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -3568,34 +3570,32 @@ INSERT INTO reference.pokemon_learnsets (
   (642, 64201, 373, 15, NULL, 2, NULL, NULL, 15002063, NULL, 49),
   -- Thundurus (Therian) - Payback - TM66
   (642, 64201, 371, 15, NULL, 2, NULL, NULL, 15002066, NULL, 50),
-  -- Thundurus (Therian) - Smart Strike - TM67
-  (642, 64201, 684, 15, NULL, 2, NULL, NULL, 15002067, NULL, 51),
   -- Thundurus (Therian) - Giga Impact - TM68
-  (642, 64201, 416, 15, NULL, 2, NULL, NULL, 15002068, NULL, 52),
+  (642, 64201, 416, 15, NULL, 2, NULL, NULL, 15002068, NULL, 51),
   -- Thundurus (Therian) - Volt Switch - TM72
-  (642, 64201, 521, 15, NULL, 2, NULL, NULL, 15002072, NULL, 53),
+  (642, 64201, 521, 15, NULL, 2, NULL, NULL, 15002072, NULL, 52),
   -- Thundurus (Therian) - Thunder Wave - TM73
-  (642, 64201, 86, 15, NULL, 2, NULL, NULL, 15002073, NULL, 54),
+  (642, 64201, 86, 15, NULL, 2, NULL, NULL, 15002073, NULL, 53),
   -- Thundurus (Therian) - Fly - TM76
-  (642, 64201, 19, 15, NULL, 2, NULL, NULL, 15002076, NULL, 55),
+  (642, 64201, 19, 15, NULL, 2, NULL, NULL, 15002076, NULL, 54),
   -- Thundurus (Therian) - Grass Knot - TM86
-  (642, 64201, 447, 15, NULL, 2, NULL, NULL, 15002086, NULL, 56),
+  (642, 64201, 447, 15, NULL, 2, NULL, NULL, 15002086, NULL, 55),
   -- Thundurus (Therian) - Swagger - TM87
-  (642, 64201, 207, 15, NULL, 2, NULL, NULL, 15002087, NULL, 57),
+  (642, 64201, 207, 15, NULL, 2, NULL, NULL, 15002087, NULL, 56),
   -- Thundurus (Therian) - Sleep Talk - TM88
-  (642, 64201, 214, 15, NULL, 2, NULL, NULL, 15002088, NULL, 58),
+  (642, 64201, 214, 15, NULL, 2, NULL, NULL, 15002088, NULL, 57),
   -- Thundurus (Therian) - U-turn - TM89
-  (642, 64201, 369, 15, NULL, 2, NULL, NULL, 15002089, NULL, 59),
+  (642, 64201, 369, 15, NULL, 2, NULL, NULL, 15002089, NULL, 58),
   -- Thundurus (Therian) - Substitute - TM90
-  (642, 64201, 164, 15, NULL, 2, NULL, NULL, 15002090, NULL, 60),
+  (642, 64201, 164, 15, NULL, 2, NULL, NULL, 15002090, NULL, 59),
   -- Thundurus (Therian) - Flash Cannon - TM91
-  (642, 64201, 430, 15, NULL, 2, NULL, NULL, 15002091, NULL, 61),
+  (642, 64201, 430, 15, NULL, 2, NULL, NULL, 15002091, NULL, 60),
   -- Thundurus (Therian) - Wild Charge - TM93
-  (642, 64201, 528, 15, NULL, 2, NULL, NULL, 15002093, NULL, 62),
+  (642, 64201, 528, 15, NULL, 2, NULL, NULL, 15002093, NULL, 61),
   -- Thundurus (Therian) - Dark Pulse - TM97
-  (642, 64201, 399, 15, NULL, 2, NULL, NULL, 15002097, NULL, 63),
+  (642, 64201, 399, 15, NULL, 2, NULL, NULL, 15002097, NULL, 62),
   -- Thundurus (Therian) - Confide - TM100
-  (642, 64201, 590, 15, NULL, 2, NULL, NULL, 15002100, NULL, 64),
+  (642, 64201, 590, 15, NULL, 2, NULL, NULL, 15002100, NULL, 63),
 
   -- Landorus (Therian) - Fissure - Level 1
   (645, 64501, 90, 15, NULL, 1, 1, NULL, NULL, NULL, 1),

@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -240,6 +242,48 @@ INSERT INTO reference.pokemon_learnsets (
   (386, 38600, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 6),
   -- Deoxys - Psychic Noise - TM228
   (386, 38600, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 7),
+  -- Deoxys (Attack) - Pain Split - TM202
+  (386, 38601, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Deoxys (Attack) - Psych Up - TM203
+  (386, 38601, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 2),
+  -- Deoxys (Attack) - Future Sight - TM217
+  (386, 38601, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 3),
+  -- Deoxys (Attack) - Expanding Force - TM218
+  (386, 38601, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 4),
+  -- Deoxys (Attack) - Meteor Beam - TM220
+  (386, 38601, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 5),
+  -- Deoxys (Attack) - Throat Chop - TM221
+  (386, 38601, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 6),
+  -- Deoxys (Attack) - Psychic Noise - TM228
+  (386, 38601, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 7),
+  -- Deoxys (Defense) - Pain Split - TM202
+  (386, 38602, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Deoxys (Defense) - Psych Up - TM203
+  (386, 38602, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 2),
+  -- Deoxys (Defense) - Future Sight - TM217
+  (386, 38602, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 3),
+  -- Deoxys (Defense) - Expanding Force - TM218
+  (386, 38602, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 4),
+  -- Deoxys (Defense) - Meteor Beam - TM220
+  (386, 38602, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 5),
+  -- Deoxys (Defense) - Throat Chop - TM221
+  (386, 38602, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 6),
+  -- Deoxys (Defense) - Psychic Noise - TM228
+  (386, 38602, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 7),
+  -- Deoxys (Speed) - Pain Split - TM202
+  (386, 38603, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Deoxys (Speed) - Psych Up - TM203
+  (386, 38603, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 2),
+  -- Deoxys (Speed) - Future Sight - TM217
+  (386, 38603, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 3),
+  -- Deoxys (Speed) - Expanding Force - TM218
+  (386, 38603, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 4),
+  -- Deoxys (Speed) - Meteor Beam - TM220
+  (386, 38603, 800, 25, NULL, 2, NULL, NULL, 25002220, NULL, 5),
+  -- Deoxys (Speed) - Throat Chop - TM221
+  (386, 38603, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 6),
+  -- Deoxys (Speed) - Psychic Noise - TM228
+  (386, 38603, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 7),
   -- Turtwig - Double-Edge - TM204
   (387, 38700, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
   -- Turtwig - Curse - TM224

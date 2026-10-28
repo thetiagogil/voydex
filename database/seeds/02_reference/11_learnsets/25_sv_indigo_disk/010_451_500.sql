@@ -5,6 +5,8 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows are checked against each game's own
+-- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -312,6 +314,14 @@ INSERT INTO reference.pokemon_learnsets (
   (487, 48700, 784, 25, NULL, 2, NULL, NULL, 25002222, NULL, 3),
   -- Giratina - Curse - TM224
   (487, 48700, 174, 25, NULL, 2, NULL, NULL, 25002224, NULL, 4),
+  -- Giratina (Origin) - Pain Split - TM202
+  (487, 48701, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Giratina (Origin) - Skitter Smack - TM219
+  (487, 48701, 806, 25, NULL, 2, NULL, NULL, 25002219, NULL, 2),
+  -- Giratina (Origin) - Breaking Swipe - TM222
+  (487, 48701, 784, 25, NULL, 2, NULL, NULL, 25002222, NULL, 3),
+  -- Giratina (Origin) - Curse - TM224
+  (487, 48701, 174, 25, NULL, 2, NULL, NULL, 25002224, NULL, 4),
   -- Cresselia - Psych Up - TM203
   (488, 48800, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
   -- Cresselia - Future Sight - TM217
@@ -336,6 +346,22 @@ INSERT INTO reference.pokemon_learnsets (
   (491, 49100, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 2),
   -- Darkrai - Curse - TM224
   (491, 49100, 174, 25, NULL, 2, NULL, NULL, 25002224, NULL, 3),
+  -- Shaymin - Psych Up - TM203
+  (492, 49200, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Shaymin - Double-Edge - TM204
+  (492, 49200, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 2),
+  -- Shaymin - Endeavor - TM205
+  (492, 49200, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 3),
+  -- Shaymin - Petal Blizzard - TM206
+  (492, 49200, 572, 25, NULL, 2, NULL, NULL, 25002206, NULL, 4),
+  -- Shaymin (Sky) - Psych Up - TM203
+  (492, 49201, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Shaymin (Sky) - Double-Edge - TM204
+  (492, 49201, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 2),
+  -- Shaymin (Sky) - Endeavor - TM205
+  (492, 49201, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 3),
+  -- Shaymin (Sky) - Petal Blizzard - TM206
+  (492, 49201, 572, 25, NULL, 2, NULL, NULL, 25002206, NULL, 4),
   -- Arceus - Psych Up - TM203
   (493, 49300, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
   -- Arceus - Double-Edge - TM204
