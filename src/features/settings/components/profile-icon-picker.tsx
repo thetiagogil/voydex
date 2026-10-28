@@ -53,7 +53,7 @@ export const ProfileIconPicker = ({
               <FallbackImage
                 src={choice.url}
                 name={choice.name}
-                className="size-[95%] object-contain"
+                className="size-[97%] object-contain"
               />
             </button>
           }

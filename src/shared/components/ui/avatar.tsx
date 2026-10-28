@@ -28,7 +28,7 @@ const AvatarImage = ({ className, ...props }: AvatarPrimitive.Image.Props) => {
   return (
     <AvatarPrimitive.Image
       data-slot="avatar-image"
-      className={cn("size-[95%] object-contain", className)}
+      className={cn("size-[97%] object-contain", className)}
       {...props}
     />
   );
