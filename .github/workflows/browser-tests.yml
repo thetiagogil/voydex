@@ -13,7 +13,6 @@ on:
 
 permissions:
   contents: read
-  packages: read
 
 concurrency:
   group: browser-tests-${{ github.workflow }}-${{ github.ref }}
@@ -84,23 +83,18 @@ jobs:
       - name: Build the database seed
         run: npm run db:artifacts:build
 
-      # Signed-in pulls get their own limit; anonymous pulls share one with
-      # every other runner and are often refused ("too many requests").
-      - name: Sign in to GitHub's image registry
-        env:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GHCR_USER: ${{ github.actor }}
-        run: echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
-
       # Only the services the app uses: the dashboard, realtime, functions,
       # logs and the pooler stay off, so there are fewer images to pull.
+      #
+      # When the image registry refuses a pull ("too many requests"), wait and
+      # try again. Pulled images are kept, so a retry fetches only what is
+      # missing. Any other failure fails at once.
       - name: Start local Supabase
         run: |
-          # The image registry sometimes refuses a pull ("too many requests").
-          # Wait and try again; images already pulled are kept, so a retry
-          # only fetches what is missing.
+          set -o pipefail
           for attempt in 1 2 3; do
-            npm run db:start -- -x studio,postgres-meta,realtime,edge-runtime,logflare,vector,supavisor && exit 0
+            npm run db:start -- -x studio,postgres-meta,realtime,edge-runtime,logflare,vector,supavisor 2>&1 | tee "$RUNNER_TEMP/db-start.log" && exit 0
+            grep -q toomanyrequests "$RUNNER_TEMP/db-start.log" || exit 1
             [ "$attempt" -eq 3 ] && exit 1
             npm run db:stop -- --no-backup || true
             sleep $((attempt * 60))
