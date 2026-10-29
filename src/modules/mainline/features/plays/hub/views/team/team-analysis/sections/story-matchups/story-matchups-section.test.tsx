@@ -52,6 +52,7 @@ const battle = (
   reading: null,
   specialtyTypes: [rock],
   state: "next",
+  teamSizeLimit: null,
   teamThen: [],
   where: null,
   ...overrides,
@@ -143,6 +144,7 @@ const withTeam = battle({
     summary:
       "You have an answer to Brock's Pokémon, and you're 6 levels above them.",
     missing: [],
+    picked: null,
     uncoveredTypes: [],
   },
 });
@@ -236,6 +238,51 @@ describe("StoryMatchupsSection", () => {
     );
     expect(html).toContain("Mightyena");
     expect(render([withTeam])).not.toContain("Beside you");
+  });
+
+  it("says how many of yours battle and which the verdict reads, once your team is bigger", () => {
+    const second = {
+      ...withTeam.members[0],
+      member: {
+        ...member,
+        play_pokemon_id: "p2",
+        species_name: "Wartortle",
+      } as unknown as MainlinePlayTeamMember,
+    };
+    const limited = {
+      ...withTeam,
+      members: [withTeam.members[0], second],
+      reading: { ...withTeam.reading!, picked: [1] },
+      teamSizeLimit: 1,
+    };
+
+    const html = render([limited]);
+
+    expect(html).toContain(
+      "Only your lead Pokémon battles here, so Voydex reads your best lead.",
+    );
+    /* The pick comes first under its own heading, then the rest. */
+    expect(html.indexOf("Your best lead")).toBeGreaterThan(-1);
+    expect(html.indexOf("Your best lead")).toBeLessThan(
+      html.indexOf("Wartortle"),
+    );
+    expect(html.indexOf("Wartortle")).toBeLessThan(
+      html.indexOf("The rest of your team"),
+    );
+    expect(html.indexOf("The rest of your team")).toBeLessThan(
+      html.indexOf("Squirtle"),
+    );
+    expect(
+      render([
+        {
+          ...limited,
+          reading: { ...limited.reading, picked: null },
+          teamSizeLimit: 3,
+        },
+      ]),
+    ).not.toContain("You bring only");
+    expect(render([withTeam])).not.toContain("The rest of your team");
+    expect(render([withTeam])).not.toContain("Only your lead");
   });
 
   it("reads nothing where you don't battle with your team", () => {
@@ -480,6 +527,7 @@ describe("StoryMatchupsSection", () => {
         summary:
           "Your team's moves aren't recorded, and it's 20 levels above your team.",
         missing: [],
+        picked: null,
         uncoveredTypes: [rock],
       },
       specialtyTypes: [water],

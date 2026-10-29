@@ -128,7 +128,7 @@ WHERE
             mainline_milestone_pokemon_refs.milestone_id = mainline_milestones.id) AS pokemon_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'sort_order', mainline_milestone_opponent_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'team_size_limit', mainline_milestone_opponent_refs.team_size_limit, 'sort_order', mainline_milestone_opponent_refs.sort_order)
             ORDER BY mainline_milestone_opponent_refs.sort_order) AS opponent_refs
         FROM
             tracking.mainline_milestone_opponent_refs

@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Sun / Moon, Island challenge, Elite Four, Champion, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Team size: Bulbapedia's Battle Royal Dome page (the player fights with the lead Pokémon in their party), matching a walkthrough's "one pokémon per trainer".
 -- Scope: Pokémon Sun / Moon milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -60,8 +61,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (150005, 15016, 15, 'battle-opponent', 1, 'Paniola Town'),
   -- Lana Trial -> Gladion
   (150005, 15017, 15, 'battle-opponent', 2, 'Route 5'),
-  -- Kiawe Trial -> Hau & Gladion
-  (150006, 15018, 15, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue'),
   -- Sophocles Trial -> Hau
   (150009, 15016, 15, 'battle-opponent', 2, 'Malie City'),
   -- Sophocles Trial -> Guzma
@@ -110,3 +109,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (150025, 15033, 15, 'battle-opponent', 1, 'Ruins of Hope (Poni Island). You can skip this battle.'),
   -- Ten Carat Hill -> Necrozma
   (150026, 15034, 15, 'battle-opponent', 1, 'Ten Carat Hill, Farthest Hollow (Melemele Island). You can skip this battle.');
+
+-- Battles where the player may bring only some of their team.
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  team_size_limit
+) VALUES
+  -- Kiawe Trial -> Hau & Gladion (the Battle Royal: one Pokémon per trainer, the player's lead)
+  (150006, 15018, 15, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue', 1);

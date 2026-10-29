@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Emerald, and Steven Stone pages.
 -- Cross-check: Pokémon Emerald source page.
+-- Team size: the game's own script (pret pokeemerald, MossdeepCity_SpaceCenter_2F) has the player choose half the party, three Pokémon, for the Multi Battle beside Steven.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Scope: Pokémon Emerald milestone-to-opponent references.
 -- ============================================================================
@@ -63,8 +64,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (70021, 7015, 7, 'battle-opponent', 1, 'Lilycove City. You can skip this battle.'),
   -- Magma Hideout -> Maxie
   (70021, 7017, 7, 'battle-opponent', 2, 'Magma Hideout'),
-  -- Mind Badge -> Maxie & Tabitha
-  (70010, 7018, 7, 'battle-opponent', 2, 'Mossdeep Space Center'),
   -- Seafloor Cavern -> Archie
   (70022, 7019, 7, 'battle-opponent', 1, 'Seafloor Cavern'),
   -- Elite Four Sidney -> Wally
@@ -87,3 +86,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (70018, 7026, 7, 'battle-opponent', 1, 'Roams Hoenn routes. You can skip this battle.'),
   -- Lati Choice -> Latios
   (70018, 7027, 7, 'battle-opponent', 2, 'Roams Hoenn routes. You can skip this battle.');
+
+-- Battles where the player may bring only some of their team.
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  team_size_limit
+) VALUES
+  -- Mind Badge -> Maxie & Tabitha (the player chooses three to fight beside Steven)
+  (70010, 7018, 7, 'battle-opponent', 2, 'Mossdeep Space Center', 3);

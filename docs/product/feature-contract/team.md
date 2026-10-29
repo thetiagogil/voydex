@@ -244,6 +244,18 @@ them. Each of your Pokémon's role, the levels and the sentence stay about
 your own team, and "Beside you" shows each ally's team as theirs is shown. An
 ally's team that depends on a choice follows the Play's, and one that depends
 on something Voydex doesn't record follows the one their team is read by.
+Where you may bring only some of your team (`team_size_limit` on the
+battle: three for Emerald's Maxie & Tabitha, one for the Sun / Moon and
+Ultra Sun / Ultra Moon Battle Royal), the verdict reads every pick of that
+many from your team, ally included as above, and keeps the one the battle
+costs least; on a tie, the one whose Pokémon would each fare best alone, then
+the earlier in team order. The verdict, its sentence, the levels and the
+uncovered types are about that pick; each of your Pokémon is still read, and
+the rough-read note still names what your whole team doesn't record. Once
+your team is bigger than the limit, a note under "Your team" says how many
+you bring, and the table lists the pick first under its own heading ("Your
+best three"; "Your best lead" where only your lead battles), then "The rest
+of your team".
 Best hit is the one of theirs it lands on hardest and Weak to the one of
 theirs that hits it hardest for 2× or more (by its moves, or its types
 without them), each shown as that Pokémon with the multiplier and picked by

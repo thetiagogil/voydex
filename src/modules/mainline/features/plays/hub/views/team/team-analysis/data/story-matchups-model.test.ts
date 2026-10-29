@@ -37,6 +37,7 @@ const milestone = (
     notes?: string;
     playerSide?: string;
     role: string;
+    teamSizeLimit?: number;
     typeId: number;
   }[],
   overrides: Partial<StoryMatchupMilestone> = {},
@@ -58,6 +59,7 @@ const milestone = (
     player_side: opponent.playerSide ?? "own-team",
     primary_type_id: opponent.typeId,
     secondary_type_id: null,
+    team_size_limit: opponent.teamSizeLimit ?? null,
   })),
   sort_order: id,
   ...overrides,
@@ -692,6 +694,76 @@ describe("buildStoryMatchupsModel with an ally beside you", () => {
     });
 
     expect(cap).toEqual(expect.objectContaining({ level: 35 }));
+  });
+});
+
+describe("buildStoryMatchupsModel where you may bring only some of your team", () => {
+  const member = (id: string, typeIndex: number) =>
+    ({
+      ...grassMember,
+      play_pokemon_id: id,
+      primaryType: types[typeIndex],
+    }) as MainlinePlayTeamMember;
+  const build = (teamSizeLimit?: number) =>
+    buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 3,
+      mechanics: noMechanics,
+      members: [member("fire", 1), member("rock", 3), member("grass", 0)],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(1, [
+          {
+            id: 1,
+            name: "Hau & Gladion",
+            role: "rival",
+            teamSizeLimit,
+            typeId: 11,
+          },
+        ]),
+      ],
+      partyRows: [
+        {
+          ally: null,
+          baseStats: null,
+          battleFormMechanic: null,
+          choiceKey: null,
+          dynamaxes: false,
+          formSlug: "brionne",
+          gameId: null,
+          heldItem: null,
+          legendary: null,
+          level: 19,
+          milestoneId: 1,
+          moves: [],
+          name: "Brionne",
+          opponentId: 1,
+          primaryTypeId: 11,
+          secondaryTypeId: null,
+          slot: 1,
+          teraType: null,
+          variantKey: null,
+          variantLabel: null,
+        },
+      ],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters[0]?.battles[0];
+
+  it("reads the best pick of the size the battle allows", () => {
+    const battle = build(1);
+
+    expect(battle?.teamSizeLimit).toBe(1);
+    expect(battle?.reading?.picked).toEqual([2]);
+    expect(battle?.members).toHaveLength(3);
+  });
+
+  it("reads your whole team where the battle has no limit", () => {
+    const battle = build();
+
+    expect(battle?.teamSizeLimit).toBeNull();
+    expect(battle?.reading?.picked).toBeNull();
   });
 });
 

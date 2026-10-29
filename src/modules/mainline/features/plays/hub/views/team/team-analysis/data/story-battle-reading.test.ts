@@ -11,6 +11,7 @@ import {
   getBattleState,
   getLevelsSentence,
   getPowerUpSentence,
+  getTeamLimitWords,
   readStoryBattle,
   type StoryOpponentPokemon,
 } from "./story-battle-reading";
@@ -780,6 +781,134 @@ describe("readStoryBattle with an ally beside you", () => {
 
   it("reads nothing while your team is empty, ally or not", () => {
     expect(read([arcanine], []).state).toBeNull();
+  });
+});
+
+describe("readStoryBattle when you may bring only some of your team", () => {
+  const fireTeam = Array.from({ length: 3 }, (_, index) => ({
+    ...opponent(`Fire${index}`, ["fire"], 30),
+    key: `Fire${index}`,
+    moves: [theirMove("Flamethrower", "fire")],
+  }));
+  const grass = (id: string) =>
+    member(id, ["grass"], 30, [move("Razor Leaf", "grass")]);
+  const water = (id: string) =>
+    member(id, ["water"], 30, [move("Surf", "water")]);
+  const read = (
+    members: MainlinePlayTeamMember[],
+    teamSizeLimit: number | null,
+    allies: StoryOpponentPokemon[] = [],
+  ) =>
+    readStoryBattle({
+      allies,
+      generationOrder: 3,
+      members,
+      opponentName: null,
+      teamSizeLimit,
+      their: fireTeam,
+      types,
+    });
+  const team = [
+    grass("g1"),
+    water("w1"),
+    grass("g2"),
+    water("w2"),
+    grass("g3"),
+    water("w3"),
+  ];
+
+  it("reads your best three, wherever they sit in your team", () => {
+    const limited = read(team, 3);
+    const waters = read([team[1], team[3], team[5]], null);
+
+    expect(limited.picked).toEqual([1, 3, 5]);
+    expect(limited.state).toBe(waters.state);
+    expect(limited.summary).toBe(waters.summary);
+    expect(limited.levels).toEqual(waters.levels);
+  });
+
+  it("never reads easier than the whole team would", () => {
+    const order = { strong: 0, balanced: 1, challenging: 2 };
+    const whole = read(team, null);
+    const limited = read(team, 3);
+
+    expect(whole.state && limited.state).toBeTruthy();
+    expect(order[limited.state ?? "strong"]).toBeGreaterThanOrEqual(
+      order[whole.state ?? "strong"],
+    );
+  });
+
+  it("talks about the three you bring in its sentence, not your whole team", () => {
+    expect(read(team, null).summary).toContain("3 of your 6 take 2×");
+    expect(read(team, 3).summary).not.toContain("of your 6");
+    expect(read(team, 3).summary).toContain(
+      "nothing of theirs hits your team for 2×",
+    );
+  });
+
+  it("keeps the earlier pick on a full tie, so your lead goes first", () => {
+    const same = Array.from({ length: 6 }, (_, index) => water(`w${index}`));
+
+    expect(read(same, 3).picked).toEqual([0, 1, 2]);
+    expect(read(same, 1).picked).toEqual([0]);
+  });
+
+  it("picks the one best Pokémon where only one battles", () => {
+    expect(read(team, 1).picked).toEqual([1]);
+  });
+
+  it("reads every one of yours and what your whole team doesn't record", () => {
+    const unrecorded = [...team.slice(0, 5), member("x", ["grass"], null, [])];
+    const limited = read(unrecorded, 3);
+
+    expect(limited.members).toHaveLength(6);
+    expect(limited.members).toEqual(read(unrecorded, null).members);
+    expect(limited.picked).toEqual([0, 1, 3]);
+    expect(limited.missing).toEqual(["levels", "moves"]);
+  });
+
+  it("reads the whole team when it is no bigger than the limit", () => {
+    const three = team.slice(0, 3);
+
+    expect(read(three, 3)).toEqual(read(three, null));
+    expect(read(three, 3).picked).toBeNull();
+  });
+
+  it("still counts an ally beside the three you bring", () => {
+    const steven = Array.from({ length: 3 }, (_, index) => ({
+      ...opponent("Swampert", ["water", "ground"], 60),
+      key: `Swampert${index}`,
+      moves: [theirMove("Surf", "water")],
+    }));
+    const order = { strong: 0, balanced: 1, challenging: 2 };
+    const grasses = [grass("g1"), grass("g2"), grass("g3"), grass("g4")];
+    const alone = read(grasses, 3);
+    const beside = read(grasses, 3, steven);
+
+    expect(order[beside.state ?? "challenging"]).toBeLessThan(
+      order[alone.state ?? "strong"],
+    );
+  });
+
+  it("reads nothing while your team is empty", () => {
+    expect(read([], 3).state).toBeNull();
+    expect(read([], 3).picked).toBeNull();
+  });
+});
+
+describe("getTeamLimitWords", () => {
+  it("says how many you bring and heads the pick the verdict reads", () => {
+    expect(getTeamLimitWords(3)).toEqual({
+      note: "You bring only three of your Pokémon here, so Voydex reads your best three.",
+      pick: "Your best three",
+    });
+  });
+
+  it("speaks of your lead where only one battles", () => {
+    expect(getTeamLimitWords(1)).toEqual({
+      note: "Only your lead Pokémon battles here, so Voydex reads your best lead.",
+      pick: "Your best lead",
+    });
   });
 });
 

@@ -199,6 +199,8 @@ export type StoryMatchupBattle = {
   /* The types the opponent specialises in. */
   specialtyTypes: Type[];
   state: "ahead" | "next" | "won";
+  /* How many of your Pokémon you may bring; null for your whole team. */
+  teamSizeLimit: number | null;
   /* "Your team then": the team saved when the battle was recorded. */
   teamThen: PlayTeamSnapshotMember[];
   where: string | null;
@@ -282,6 +284,8 @@ type OpponentRef = {
   player_side: StoryPlayerSide;
   primary_type_id: number | null;
   secondary_type_id: number | null;
+  /* How many of your Pokémon you may bring; null for your whole team. */
+  team_size_limit: number | null;
 };
 
 const readOpponentRefs = (value: Json | null): OpponentRef[] =>
@@ -310,6 +314,10 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
                 secondary_type_id:
                   typeof ref.secondary_type_id === "number"
                     ? ref.secondary_type_id
+                    : null,
+                team_size_limit:
+                  typeof ref.team_size_limit === "number"
+                    ? ref.team_size_limit
                     : null,
               },
             ]
@@ -693,6 +701,7 @@ export const buildStoryMatchupsModel = ({
               members,
               opponentKind,
               opponentName: ref.name,
+              teamSizeLimit: ref.team_size_limit,
               their: party.pokemon,
               types,
             })
@@ -762,6 +771,7 @@ export const buildStoryMatchupsModel = ({
           ? {
               levels: reading.levels,
               missing: reading.missing,
+              picked: reading.picked,
               state: reading.state,
               summary: reading.summary,
               uncoveredTypes: reading.uncoveredTypes,
@@ -769,6 +779,7 @@ export const buildStoryMatchupsModel = ({
           : null,
         specialtyTypes,
         state: isWon ? "won" : "ahead",
+        teamSizeLimit: ref.team_size_limit,
         teamThen: snapshotsByMilestoneId.get(milestone.milestone_id) ?? [],
         where:
           ref.notes ?? milestone.description ?? milestone.category_name ?? null,
