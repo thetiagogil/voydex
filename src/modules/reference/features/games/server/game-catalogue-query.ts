@@ -39,7 +39,8 @@ export const readGameCatalogue = unstable_cache(
       readGameShelfGames(supabase),
       readGameStartersByGameSlug(supabase),
       readGameExpansionsByGameSlug(supabase),
-      readGameBadgeCountsByGameSlug(supabase),
+      // The badge count only adds a line: unreadable, it leaves the line out.
+      readGameBadgeCountsByGameSlug(supabase).catch(() => ({})),
       readTypeIntroductions(supabase),
     ]);
 
