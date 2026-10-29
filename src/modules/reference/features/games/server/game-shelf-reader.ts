@@ -1,3 +1,4 @@
+import { countBadgesByGameSlug } from "@/modules/reference/features/games/data/game-badge-counts";
 import {
   buildGameShelfGames,
   buildGameStarters,
@@ -257,4 +258,26 @@ export const readGameExpansionsByGameSlug = async (
   }
 
   return expansions;
+};
+
+/* How many badges each game hands out, by game slug ("8 gym badges ahead"). */
+export const readGameBadgeCountsByGameSlug = async (
+  supabase: ReferenceClient,
+): Promise<Record<string, number>> => {
+  const [gamesResult, badgesResult] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("games")
+      .select("id, slug, version_group_id"),
+    supabase
+      .schema("tracking")
+      .from("mainline_badges")
+      .select("game_id, version_group_id"),
+  ]);
+
+  if (gamesResult.error || badgesResult.error) {
+    throw new Error("Unable to load the games' badges.");
+  }
+
+  return countBadgesByGameSlug(gamesResult.data, badgesResult.data);
 };

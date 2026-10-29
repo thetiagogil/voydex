@@ -49,7 +49,7 @@ GRANT USAGE ON SCHEMA public TO authenticated, service_role;
 
 GRANT USAGE ON SCHEMA reference TO anon, authenticated, service_role;
 
-GRANT USAGE ON SCHEMA tracking TO authenticated, service_role;
+GRANT USAGE ON SCHEMA tracking TO anon, authenticated, service_role;
 
 GRANT USAGE ON SCHEMA gameplay TO authenticated, service_role;
 
@@ -3640,7 +3640,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestone_prerequisites TO authenticated
 
 GRANT SELECT ON TABLE tracking.mainline_opponents TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_badges TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_badges TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_collectible_types TO authenticated;
 
@@ -3727,7 +3727,7 @@ CREATE POLICY mainline_opponents_read_all ON tracking.mainline_opponents
     USING (TRUE);
 
 CREATE POLICY mainline_badges_read_all ON tracking.mainline_badges
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_collectible_types_read_all ON tracking.mainline_collectible_types

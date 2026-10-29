@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (6);
+    plan (8);
 SET LOCAL ROLE anon;
 SELECT
     lives_ok ($$
@@ -13,8 +13,16 @@ SELECT
     throws_ok ($$ INSERT INTO reference.games (id, slug, name, product_family_id, generation_id, region_id, version_group_id, game_type_id, sort_order)
             VALUES (999999, 'forbidden', 'Forbidden', 1, 1, 1, 1, 1, 999999) $$, '42501', 'permission denied for table games', 'anonymous users cannot insert reference data');
 SELECT
-    throws_ok ($$ INSERT INTO tracking.mainline_milestone_categories (id, version_group_id, slug, name, sort_order)
-            VALUES (999999, 1, 'forbidden', 'Forbidden', 999999) $$, '42501', 'permission denied for schema tracking', 'anonymous users cannot insert tracking data');
+    isnt_empty ($$
+        SELECT
+            id FROM tracking.mainline_badges $$, 'anonymous users can read badges, which Start a Play counts');
+SELECT
+    throws_ok ($$
+        SELECT
+            id FROM tracking.mainline_milestones LIMIT 1 $$, '42501', 'permission denied for table mainline_milestones', 'anonymous users cannot read other tracking data');
+SELECT
+    throws_ok ($$ INSERT INTO tracking.mainline_badges (id, version_group_id, slug, name, sort_order)
+            VALUES (999999, 1, 'forbidden', 'Forbidden', 999999) $$, '42501', 'permission denied for table mainline_badges', 'anonymous users cannot insert tracking data');
 RESET ROLE;
 SET LOCAL ROLE authenticated;
 SELECT
