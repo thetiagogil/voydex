@@ -7,6 +7,7 @@ describe("isWaitingForPartner", () => {
     active_team_count: 0,
     completed_milestone_count: 0,
     reserve_team_count: 0,
+    storyTracked: true,
   };
 
   it("asks for the partner while nothing is recorded", () => {
@@ -16,6 +17,10 @@ describe("isWaitingForPartner", () => {
   it("never asks once the Play has a team, even with no progress", () => {
     expect(isWaitingForPartner({ ...play, active_team_count: 6 })).toBe(false);
     expect(isWaitingForPartner({ ...play, reserve_team_count: 1 })).toBe(false);
+  });
+
+  it("never asks when the Play doesn't track Story", () => {
+    expect(isWaitingForPartner({ ...play, storyTracked: false })).toBe(false);
   });
 
   it("never asks once a milestone is recorded", () => {

@@ -187,6 +187,28 @@ describe("buildMainlinePlayBrowseItems story and collectibles", () => {
     ).toBeNull();
   });
 
+  it("has no next objective when the Play doesn't track Story", () => {
+    const [item] = buildItems({
+      overviews: [
+        {
+          play_id: "play-1",
+          story_tracking_enabled: false,
+        } as MainlinePlayOverview,
+      ],
+      storyRows: {
+        categories: [],
+        milestones: [milestone({ milestone_name: "Zephyr Badge" })],
+      },
+    });
+
+    expect(item?.storyPosition).toBeNull();
+    expect(item?.storyTracked).toBe(false);
+  });
+
+  it("tracks Story when the Play's settings can't be read", () => {
+    expect(buildItems()[0]?.storyTracked).toBe(true);
+  });
+
   it("shows Collectibles as Off when the Play doesn't track them", () => {
     const [item] = buildItems({
       overviews: [

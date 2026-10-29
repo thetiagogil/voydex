@@ -1,10 +1,12 @@
 import { countBadgesByGameSlug } from "@/modules/reference/features/games/data/game-badge-counts";
+import { mapGameCollectiblesByGameSlug } from "@/modules/reference/features/games/data/game-collectibles";
 import {
   buildGameShelfGames,
   buildGameStarters,
   type GameStarterRows,
 } from "@/modules/reference/features/games/data/game-shelf-mappers";
 import type {
+  GameCollectibles,
   GameExpansion,
   GameShelfGame,
   GameStarters,
@@ -280,4 +282,34 @@ export const readGameBadgeCountsByGameSlug = async (
   }
 
   return countBadgesByGameSlug(gamesResult.data, badgesResult.data);
+};
+
+/* Where each game keeps collectibles (New Play's tracking summary). */
+export const readGameCollectiblesByGameSlug = async (
+  supabase: ReferenceClient,
+): Promise<Record<string, GameCollectibles>> => {
+  const [gamesResult, scopesResult, collectiblesResult] = await Promise.all([
+    supabase
+      .schema("reference")
+      .from("games")
+      .select("id, slug, version_group_id"),
+    supabase
+      .schema("reference")
+      .from("game_content_scopes")
+      .select("game_id, is_base_scope, version_group_id"),
+    supabase
+      .schema("tracking")
+      .from("mainline_collectibles")
+      .select("game_id, version_group_id"),
+  ]);
+
+  if (gamesResult.error || scopesResult.error || collectiblesResult.error) {
+    throw new Error("Unable to load the games' collectibles.");
+  }
+
+  return mapGameCollectiblesByGameSlug({
+    collectibles: collectiblesResult.data,
+    games: gamesResult.data,
+    scopes: scopesResult.data,
+  });
 };

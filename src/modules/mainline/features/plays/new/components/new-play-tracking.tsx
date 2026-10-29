@@ -18,13 +18,16 @@ import { FieldLabel } from "@/shared/components/ui/field";
  * Step 3's tracking (v3 `.npx-track`): what the new Play keeps, starting from
  * your New Play defaults, and Change to adjust it for this Play. The three
  * choices are the Play's Tracking settings; turning something off hides it
- * and nothing is ever deleted. Expansions sit above it and challenge rules
- * under it, each its own field.
+ * and nothing is ever deleted. Collectibles shows only for a game that has
+ * them, with the expansions picked, as in Play settings. Expansions sit above
+ * it and challenge rules under it, each its own field.
  */
 export const NewPlayTracking = ({
+  hasCollectibles,
   onChange,
   tracking,
 }: {
+  hasCollectibles: boolean;
   onChange: (tracking: PlayTracking) => void;
   tracking: PlayTracking;
 }) => {
@@ -43,7 +46,7 @@ export const NewPlayTracking = ({
       >
         <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1">
           <b className="text-ink text-15 font-extrabold">
-            {describePlayTracking(tracking)}
+            {describePlayTracking(tracking, { hasCollectibles })}
           </b>
           <TextLink
             standalone
@@ -77,14 +80,16 @@ export const NewPlayTracking = ({
               variant="segment"
             />
           </SettingsRow>
-          <SettingsSwitchRow
-            title={trackingRowCopy.collectibles.title}
-            description={trackingRowCopy.collectibles.description}
-            checked={tracking.collectibles}
-            onCheckedChange={(collectibles) =>
-              onChange({ ...tracking, collectibles })
-            }
-          />
+          {hasCollectibles ? (
+            <SettingsSwitchRow
+              title={trackingRowCopy.collectibles.title}
+              description={trackingRowCopy.collectibles.description}
+              checked={tracking.collectibles}
+              onCheckedChange={(collectibles) =>
+                onChange({ ...tracking, collectibles })
+              }
+            />
+          ) : null}
         </div>
       </div>
     </div>

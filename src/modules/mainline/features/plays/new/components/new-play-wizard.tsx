@@ -21,6 +21,7 @@ import {
 import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { GameShelfPicker } from "@/modules/reference/features/games/components/game-shelf-picker";
+import { hasGameCollectibles } from "@/modules/reference/features/games/data/game-collectibles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { MeadowScene } from "@/shared/components/meadow-scene";
 import { Button } from "@/shared/components/ui/button";
@@ -154,6 +155,9 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const expansions = gameSlug
     ? (data.expansionsByGameSlug[gameSlug] ?? [])
     : [];
+  const hasCollectibles = gameSlug
+    ? hasGameCollectibles(data.collectiblesByGameSlug, gameSlug, owned)
+    : false;
   /* Monotype offers the types the picked game has: no Fairy in Red. */
   const types = game ? getGameTypes(data.types, game.generation.number) : [];
 
@@ -358,7 +362,11 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               onOwnedChange={setOwned}
             />
           ) : null}
-          <NewPlayTracking tracking={tracking} onChange={setEditedTracking} />
+          <NewPlayTracking
+            hasCollectibles={hasCollectibles}
+            tracking={tracking}
+            onChange={setEditedTracking}
+          />
           <NewPlayRules
             ruleChoices={data.rules}
             presets={data.presets}

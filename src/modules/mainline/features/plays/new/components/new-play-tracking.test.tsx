@@ -3,9 +3,16 @@ import { describe, expect, it } from "vitest";
 
 import { NewPlayTracking } from "./new-play-tracking";
 
-const render = (tracking: Parameters<typeof NewPlayTracking>[0]["tracking"]) =>
+const render = (
+  tracking: Parameters<typeof NewPlayTracking>[0]["tracking"],
+  hasCollectibles = true,
+) =>
   renderToStaticMarkup(
-    <NewPlayTracking tracking={tracking} onChange={() => {}} />,
+    <NewPlayTracking
+      hasCollectibles={hasCollectibles}
+      tracking={tracking}
+      onChange={() => {}}
+    />,
   );
 
 describe("NewPlayTracking", () => {
@@ -34,5 +41,16 @@ describe("NewPlayTracking", () => {
     expect(html).toContain("Caught and seen");
     expect(html).not.toContain("for now");
     expect(html).not.toContain("not in Voydex yet");
+  });
+
+  it("leaves Collectibles out for a game that has none", () => {
+    const html = render(
+      { collectibles: true, pokedexMode: "caught_and_seen", story: true },
+      false,
+    );
+
+    expect(html).toContain(">Story · Pokédex<");
+    expect(html).not.toContain("Collectibles");
+    expect(html.match(/role="switch"/g)).toHaveLength(1);
   });
 });

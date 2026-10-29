@@ -97,6 +97,12 @@ export type GameExpansion = {
   versionGroupId: number;
 };
 
+/* Where a game keeps collectibles: in the game itself and in which expansions. */
+export type GameCollectibles = {
+  expansionVersionGroupIds: number[];
+  inGame: boolean;
+};
+
 /*
  * Everything the game picker offers, read once and cached (it only changes
  * when the reference data is reseeded): every game, its first partners and
@@ -105,6 +111,8 @@ export type GameExpansion = {
 export type GameCatalogue = {
   /* Badges each game hands out; games without badges are left out. */
   badgeCountsByGameSlug: Record<string, number>;
+  /* Games with collectibles; games without are left out. Null when unknown. */
+  collectiblesByGameSlug: Record<string, GameCollectibles> | null;
   expansionsByGameSlug: Record<string, GameExpansion[]>;
   games: GameShelfGame[];
   startersByGameSlug: Record<string, GameStarters>;

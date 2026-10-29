@@ -76,12 +76,20 @@ export const arePlayTrackingsEqual = (
   left.pokedexMode === right.pokedexMode &&
   left.collectibles === right.collectibles;
 
-/* "Story · Pokédex · Collectibles": what a Play keeps, for a one-line summary. */
-export const describePlayTracking = (tracking: PlayTracking) => {
+/*
+ * "Story · Pokédex · Collectibles": what a Play keeps, for a one-line summary.
+ * Collectibles only for a game that has them.
+ */
+export const describePlayTracking = (
+  tracking: PlayTracking,
+  { hasCollectibles = true }: { hasCollectibles?: boolean } = {},
+) => {
   const kept = [
     tracking.story ? trackingRowCopy.story.title : null,
     trackingRowCopy.pokedex.title,
-    tracking.collectibles ? trackingRowCopy.collectibles.title : null,
+    hasCollectibles && tracking.collectibles
+      ? trackingRowCopy.collectibles.title
+      : null,
   ].filter(Boolean);
 
   return kept.join(" · ");

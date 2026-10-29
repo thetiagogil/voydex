@@ -2,7 +2,17 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const playId = "7d4c8f0e-6a52-4f11-9a0b-1c2d3e4f5a6b";
 const writes: string[] = [];
-const state = { pokedexMode: "caught_and_seen" as string };
+const state = {
+  pokedexMode: "caught_and_seen" as string,
+  records: [] as Record<string, unknown>[],
+};
+const caughtRecord = (seenAt: string) => ({
+  caught_at: "2026-10-20T10:00:00.000Z",
+  is_caught: true,
+  is_seen: true,
+  seen_at: seenAt,
+  species_id: 1,
+});
 
 vi.mock("next/cache", () => ({ revalidatePath: vi.fn() }));
 vi.mock("@/platform/supabase/auth", () => ({
@@ -27,7 +37,10 @@ vi.mock("@/platform/supabase/server-client", () => ({
         const builder: Record<string, unknown> & PromiseLike<unknown> = {
           then: (onFulfilled, onRejected) =>
             Promise.resolve({
-              data: [{ species_id: 1 }],
+              data:
+                table === "mainline_play_pokedex_species_progress"
+                  ? state.records
+                  : [{ species_id: 1 }],
               error: null,
             }).then(onFulfilled, onRejected),
         };
@@ -57,6 +70,7 @@ import { updatePokedexSpeciesProgress } from "./pokedex-progress-action";
 beforeEach(() => {
   writes.length = 0;
   state.pokedexMode = "caught_and_seen";
+  state.records = [];
 });
 
 describe("updatePokedexSpeciesProgress clearing a Pokémon", () => {
@@ -71,8 +85,23 @@ describe("updatePokedexSpeciesProgress clearing a Pokémon", () => {
     expect(writes).toEqual(["delete mainline_play_pokedex_species_progress"]);
   });
 
-  it("only un-catches when the Play tracks caught only, keeping what you saw", async () => {
+  it("clears a catch in caught only, Seen included, when the Seen came with it", async () => {
     state.pokedexMode = "caught_only";
+    state.records = [caughtRecord("2026-10-20T10:00:00.000Z")];
+
+    const result = await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "missing",
+    });
+
+    expect(result.status).toBe("success");
+    expect(writes).toEqual(["delete mainline_play_pokedex_species_progress"]);
+  });
+
+  it("keeps a Seen marked before the catch when un-catching in caught only", async () => {
+    state.pokedexMode = "caught_only";
+    state.records = [caughtRecord("2026-10-18T09:00:00.000Z")];
 
     const result = await updatePokedexSpeciesProgress({
       playId,
@@ -101,5 +130,38 @@ describe("updatePokedexSpeciesProgress clearing a Pokémon", () => {
     );
     expect(writes[0]).toContain('"is_caught":true');
     expect(writes[0]).toContain('"is_seen":true');
+  });
+
+  it("keeps the date you first saw a Pokémon when you catch it", async () => {
+    state.records = [
+      {
+        caught_at: null,
+        is_caught: false,
+        is_seen: true,
+        seen_at: "2026-10-18T09:00:00.000Z",
+        species_id: 1,
+      },
+    ];
+
+    await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "caught",
+    });
+
+    expect(writes[0]).toContain('"seen_at":"2026-10-18T09:00:00.000Z"');
+  });
+
+  it("keeps both dates when a caught Pokémon is caught again", async () => {
+    state.records = [caughtRecord("2026-10-20T10:00:00.000Z")];
+
+    await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "caught",
+    });
+
+    expect(writes[0]).toContain('"caught_at":"2026-10-20T10:00:00.000Z"');
+    expect(writes[0]).toContain('"seen_at":"2026-10-20T10:00:00.000Z"');
   });
 });
