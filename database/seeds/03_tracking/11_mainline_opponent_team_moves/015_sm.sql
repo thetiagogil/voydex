@@ -10,6 +10,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Totem allies and the battles added by the #115 audit (Ilima, Molayne, Plumeria, Faba, the Masked Royal's Rockruff): Bulbapedia.
 -- Scope: Sun / Moon Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -21,52 +22,80 @@
 
 WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, member_slot, move_ids) AS (
   VALUES
-    -- Ilima: Gumshoos Lv. 12: Super Fang, Bite, Leer, Scary Face
-    (150003, 15001, 25, NULL, NULL, NULL, 1, ARRAY[162, 44, 43, 184]),
-    -- Ilima: Yungoos Lv. 11: Sand Attack, Tackle, Hyper Fang, Leer
-    (150003, 15001, 25, NULL, NULL, NULL, 2, ARRAY[28, 33, 158, 43]),
-    -- Ilima: Alolan Raticate Lv. 12: Bite, Tail Whip, Scary Face, Tackle
-    (150003, 15001, 26, NULL, NULL, NULL, 1, ARRAY[44, 39, 184, 33]),
-    -- Ilima: Alolan Rattata Lv. 11: Quick Attack, Tail Whip, Hyper Fang, Tackle
-    (150003, 15001, 26, NULL, NULL, NULL, 2, ARRAY[98, 39, 158, 33]),
+    -- Ilima [rowlet]: Yungoos Lv. 9: Tackle, Pursuit, Leer
+    (150003, 15001, NULL, 150001, 'rowlet', NULL, 1, ARRAY[33, 228, 43]),
+    -- Ilima [rowlet]: Smeargle Lv. 10: Ember, Tackle
+    (150003, 15001, NULL, 150001, 'rowlet', NULL, 2, ARRAY[52, 33]),
+    -- Ilima [litten]: Yungoos Lv. 9: Tackle, Pursuit, Leer
+    (150003, 15001, NULL, 150001, 'litten', NULL, 1, ARRAY[33, 228, 43]),
+    -- Ilima [litten]: Smeargle Lv. 10: Water Gun, Tackle
+    (150003, 15001, NULL, 150001, 'litten', NULL, 2, ARRAY[55, 33]),
+    -- Ilima [popplio]: Yungoos Lv. 9: Tackle, Pursuit, Leer
+    (150003, 15001, NULL, 150001, 'popplio', NULL, 1, ARRAY[33, 228, 43]),
+    -- Ilima [popplio]: Smeargle Lv. 10: Leafage, Tackle
+    (150003, 15001, NULL, 150001, 'popplio', NULL, 2, ARRAY[670, 33]),
+    -- Totem Gumshoos: Gumshoos Lv. 12: Super Fang, Bite, Leer, Scary Face
+    (150003, 15036, NULL, NULL, NULL, NULL, 1, ARRAY[162, 44, 43, 184]),
+    -- Totem Gumshoos: Yungoos Lv. 10: Leer, Tackle, Pursuit, Bide
+    (150003, 15036, NULL, NULL, NULL, NULL, 2, ARRAY[43, 33, 228, 117]),
+    -- Totem Raticate: Alolan Raticate Lv. 12: Bite, Tail Whip, Scary Face, Tackle
+    (150003, 15037, NULL, NULL, NULL, NULL, 1, ARRAY[44, 39, 184, 33]),
+    -- Totem Raticate: Alolan Rattata Lv. 10: Tackle, Focus Energy, Quick Attack, Tail Whip
+    (150003, 15037, NULL, NULL, NULL, NULL, 2, ARRAY[33, 116, 98, 39]),
     -- Hala: Mankey Lv. 14: Karate Chop, Pursuit, Focus Energy
     (150004, 15002, NULL, NULL, NULL, NULL, 1, ARRAY[2, 228, 116]),
     -- Hala: Makuhita Lv. 14: Arm Thrust, Sand Attack, Fake Out
     (150004, 15002, NULL, NULL, NULL, NULL, 2, ARRAY[292, 28, 252]),
     -- Hala: Crabrawler Lv. 15: Pursuit, Power-Up Punch, Leer
     (150004, 15002, NULL, NULL, NULL, NULL, 3, ARRAY[228, 612, 43]),
-    -- Lana: Wishiwashi (School Form) Lv. 20: Water Gun, Growl, Rain Dance, Soak
-    (150005, 15003, NULL, NULL, NULL, NULL, 1, ARRAY[55, 45, 240, 487]),
-    -- Lana: Wishiwashi Lv. 18: Helping Hand, Feint Attack, Brine, Aqua Ring
-    (150005, 15003, NULL, NULL, NULL, NULL, 2, ARRAY[270, 185, 362, 392]),
-    -- Lana: Alomomola Lv. 18: Helping Hand, Double Slap, Heal Pulse, Water Gun
-    (150005, 15003, NULL, NULL, NULL, NULL, 3, ARRAY[270, 3, 505, 55]),
-    -- Kiawe: Salazzle Lv. 22: Torment, Venom Drench, Toxic, Flame Burst
-    (150006, 15004, NULL, NULL, NULL, NULL, 1, ARRAY[259, 599, 92, 481]),
-    -- Kiawe: Salandit Lv. 20: Poison Gas, Venoshock, Taunt, Scratch
-    (150006, 15004, NULL, NULL, NULL, NULL, 2, ARRAY[139, 474, 269, 10]),
-    -- Mallow: Lurantis Lv. 24: Razor Leaf, X-Scissor, Solar Blade, Synthesis
-    (150007, 15005, NULL, NULL, NULL, NULL, 1, ARRAY[75, 404, 669, 235]),
-    -- Mallow: Trumbeak Lv. 22: Rock Blast, Pluck, Supersonic, Screech
-    (150007, 15005, NULL, NULL, NULL, NULL, 2, ARRAY[350, 365, 48, 103]),
-    -- Mallow: Castform Lv. 22: Sunny Day, Water Gun, Headbutt, Weather Ball
-    (150007, 15005, NULL, NULL, NULL, NULL, 3, ARRAY[241, 55, 29, 311]),
+    -- Totem Wishiwashi: Wishiwashi (School Form) Lv. 20: Water Gun, Growl, Rain Dance, Soak
+    (150005, 15038, NULL, NULL, NULL, NULL, 1, ARRAY[55, 45, 240, 487]),
+    -- Totem Wishiwashi: Wishiwashi Lv. 18: Helping Hand, Feint Attack, Brine, Aqua Ring
+    (150005, 15038, NULL, NULL, NULL, NULL, 2, ARRAY[270, 185, 362, 392]),
+    -- Totem Wishiwashi: Alomomola Lv. 18: Helping Hand, Double Slap, Heal Pulse, Water Gun
+    (150005, 15038, NULL, NULL, NULL, NULL, 3, ARRAY[270, 3, 505, 55]),
+    -- Totem Salazzle: Salazzle Lv. 22: Torment, Venom Drench, Toxic, Flame Burst
+    (150006, 15039, NULL, NULL, NULL, NULL, 1, ARRAY[259, 599, 92, 481]),
+    -- Totem Salazzle: Salandit Lv. 20: Poison Gas, Venoshock, Taunt, Scratch
+    (150006, 15039, NULL, NULL, NULL, NULL, 2, ARRAY[139, 474, 269, 10]),
+    -- Totem Lurantis: Lurantis Lv. 24: Razor Leaf, X-Scissor, Solar Blade, Synthesis
+    (150007, 15040, NULL, NULL, NULL, NULL, 1, ARRAY[75, 404, 669, 235]),
+    -- Totem Lurantis: Trumbeak Lv. 22: Rock Blast, Pluck, Supersonic, Screech
+    (150007, 15040, NULL, NULL, NULL, NULL, 2, ARRAY[350, 365, 48, 103]),
+    -- Totem Lurantis: Castform Lv. 22: Sunny Day, Water Gun, Headbutt, Weather Ball
+    (150007, 15040, NULL, NULL, NULL, NULL, 3, ARRAY[241, 55, 29, 311]),
+    -- Plumeria (Akala Outskirts): Golbat Lv. 25: Air Cutter, Confuse Ray
+    (150008, 15044, NULL, NULL, NULL, NULL, 1, ARRAY[314, 109]),
+    -- Plumeria (Akala Outskirts): Salandit Lv. 26: Flame Burst, Double Slap, Poison Gas
+    (150008, 15044, NULL, NULL, NULL, NULL, 2, ARRAY[481, 3, 139]),
     -- Olivia: Nosepass Lv. 26: Rock Slide, Spark, Thunder Wave
     (150008, 15006, NULL, NULL, NULL, NULL, 1, ARRAY[157, 209, 86]),
     -- Olivia: Boldore Lv. 26: Rock Blast, Mud-Slap, Headbutt
     (150008, 15006, NULL, NULL, NULL, NULL, 2, ARRAY[350, 189, 29]),
     -- Olivia: Lycanroc (Midnight) Lv. 27: Bite, Rock Throw
     (150008, 15006, NULL, NULL, NULL, NULL, 3, ARRAY[44, 88]),
-    -- Sophocles: Vikavolt Lv. 29: Vise Grip, Charge, Bug Bite, Spark
-    (150009, 15007, NULL, NULL, NULL, NULL, 1, ARRAY[11, 268, 450, 209]),
-    -- Sophocles: Charjabug Lv. 27: String Shot, Vise Grip, Mud-Slap, Thunder Wave
-    (150009, 15007, NULL, NULL, NULL, NULL, 2, ARRAY[81, 11, 189, 86]),
-    -- Acerola: Mimikyu Lv. 33: Play Rough, Shadow Claw, Astonish, Mimic
-    (150010, 15008, NULL, NULL, NULL, NULL, 1, ARRAY[583, 421, 310, 102]),
-    -- Acerola: Haunter Lv. 27: Hypnosis, Sucker Punch, Night Shade, Lick
-    (150010, 15008, NULL, NULL, NULL, NULL, 2, ARRAY[95, 389, 101, 122]),
-    -- Acerola: Gengar Lv. 27: Shadow Ball, Hypnosis, Night Shade, Shadow Punch
-    (150010, 15008, NULL, NULL, NULL, NULL, 3, ARRAY[247, 95, 101, 325]),
+    -- Molayne: Skarmory Lv. 29: Air Cutter, Metal Claw
+    (150009, 15045, NULL, NULL, NULL, NULL, 1, ARRAY[314, 232]),
+    -- Molayne: Metang Lv. 29: Zen Headbutt, Bullet Punch, Pursuit
+    (150009, 15045, NULL, NULL, NULL, NULL, 2, ARRAY[428, 418, 228]),
+    -- Molayne: Alolan Dugtrio Lv. 30: Metal Claw, Mud Bomb, Sucker Punch
+    (150009, 15045, NULL, NULL, NULL, NULL, 3, ARRAY[232, 426, 389]),
+    -- Totem Vikavolt: Vikavolt Lv. 29: Vise Grip, Charge, Bug Bite, Spark
+    (150009, 15041, NULL, NULL, NULL, NULL, 1, ARRAY[11, 268, 450, 209]),
+    -- Totem Vikavolt: Charjabug Lv. 28: String Shot, Vise Grip, Mud-Slap, Thunder Wave
+    (150009, 15041, NULL, NULL, NULL, NULL, 2, ARRAY[81, 11, 189, 86]),
+    -- Totem Vikavolt: Charjabug Lv. 28: Bite, Thunder Wave, Mud-Slap, Spark
+    (150009, 15041, NULL, NULL, NULL, NULL, 3, ARRAY[44, 86, 189, 209]),
+    -- Totem Mimikyu: Mimikyu Lv. 33: Play Rough, Shadow Claw, Astonish, Mimic
+    (150010, 15042, NULL, NULL, NULL, NULL, 1, ARRAY[583, 421, 310, 102]),
+    -- Totem Mimikyu: Haunter Lv. 27: Hypnosis, Sucker Punch, Night Shade, Lick
+    (150010, 15042, NULL, NULL, NULL, NULL, 2, ARRAY[95, 389, 101, 122]),
+    -- Totem Mimikyu: Gengar Lv. 27: Shadow Ball, Hypnosis, Night Shade, Shadow Punch
+    (150010, 15042, NULL, NULL, NULL, NULL, 3, ARRAY[247, 95, 101, 325]),
+    -- Plumeria (Route 15): Golbat Lv. 34: Air Cutter, Confuse Ray, Poison Fang
+    (150011, 15044, NULL, NULL, NULL, NULL, 1, ARRAY[314, 109, 305]),
+    -- Plumeria (Route 15): Salazzle Lv. 35: Flame Burst, Double Slap, Toxic, Dragon Rage
+    (150011, 15044, NULL, NULL, NULL, NULL, 2, ARRAY[481, 3, 92, 82]),
     -- Nanu: Sableye Lv. 38: Power Gem, Shadow Ball, Fake Out
     (150011, 15009, NULL, NULL, NULL, NULL, 1, ARRAY[408, 247, 252]),
     -- Nanu: Krokorok Lv. 38: Crunch, Assurance, Swagger, Earthquake
@@ -209,18 +238,24 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (150005, 15017, NULL, NULL, NULL, NULL, 1, ARRAY[44, 17]),
     -- Gladion: Type: Null Lv. 18: Tackle, Pursuit
     (150005, 15017, NULL, NULL, NULL, NULL, 2, ARRAY[33, 228]),
-    -- Hau & Gladion: Brionne Lv. 19: Aqua Jet, Disarming Voice, Pound
+    -- Hau, Gladion & the Masked Royal: Brionne Lv. 19: Aqua Jet, Disarming Voice, Pound
     (150006, 15018, NULL, 150001, 'rowlet', NULL, 1, ARRAY[453, 574, 1]),
-    -- Hau & Gladion: Type: Null Lv. 19: Tackle, Pursuit
+    -- Hau, Gladion & the Masked Royal: Type: Null Lv. 19: Tackle, Pursuit
     (150006, 15018, NULL, 150001, 'rowlet', NULL, 2, ARRAY[33, 228]),
-    -- Hau & Gladion: Dartrix Lv. 19: Razor Leaf, Peck, Tackle
+    -- Hau, Gladion & the Masked Royal [rowlet]: Rockruff Lv. 19: Rock Throw, Bite, Protect
+    (150006, 15018, NULL, 150001, 'rowlet', NULL, 3, ARRAY[88, 44, 182]),
+    -- Hau, Gladion & the Masked Royal: Dartrix Lv. 19: Razor Leaf, Peck, Tackle
     (150006, 15018, NULL, 150001, 'litten', NULL, 1, ARRAY[75, 64, 33]),
-    -- Hau & Gladion: Type: Null Lv. 19: Tackle, Pursuit
+    -- Hau, Gladion & the Masked Royal: Type: Null Lv. 19: Tackle, Pursuit
     (150006, 15018, NULL, 150001, 'litten', NULL, 2, ARRAY[33, 228]),
-    -- Hau & Gladion: Torracat Lv. 19: Fire Fang, Lick, Scratch
+    -- Hau, Gladion & the Masked Royal [litten]: Rockruff Lv. 19: Rock Throw, Bite, Protect
+    (150006, 15018, NULL, 150001, 'litten', NULL, 3, ARRAY[88, 44, 182]),
+    -- Hau, Gladion & the Masked Royal: Torracat Lv. 19: Fire Fang, Lick, Scratch
     (150006, 15018, NULL, 150001, 'popplio', NULL, 1, ARRAY[424, 122, 10]),
-    -- Hau & Gladion: Type: Null Lv. 19: Tackle, Pursuit
+    -- Hau, Gladion & the Masked Royal: Type: Null Lv. 19: Tackle, Pursuit
     (150006, 15018, NULL, 150001, 'popplio', NULL, 2, ARRAY[33, 228]),
+    -- Hau, Gladion & the Masked Royal [popplio]: Rockruff Lv. 19: Rock Throw, Bite, Protect
+    (150006, 15018, NULL, 150001, 'popplio', NULL, 3, ARRAY[88, 44, 182]),
     -- Hau: Alolan Raichu Lv. 28: Electro Ball, Quick Attack, Psychic
     (150009, 15016, NULL, 150001, 'rowlet', NULL, 1, ARRAY[486, 98, 94]),
     -- Hau: Flareon Lv. 28: Fire Fang, Quick Attack
@@ -253,6 +288,16 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (150011, 15017, NULL, NULL, NULL, NULL, 2, ARRAY[196, 232, 185, 98]),
     -- Gladion: Type: Null Lv. 38: Pursuit, Crush Claw, X-Scissor
     (150011, 15017, NULL, NULL, NULL, NULL, 3, ARRAY[228, 306, 404]),
+    -- Faba (entrance): Hypno Lv. 39: Psychic, Hypnosis, Disable, Nightmare
+    (150021, 15043, NULL, NULL, NULL, NULL, 1, ARRAY[94, 95, 50, 171]),
+    -- Faba (labs): Slowbro Lv. 39: Yawn, Psychic, Amnesia, Headbutt
+    (150021, 15046, NULL, NULL, NULL, NULL, 1, ARRAY[281, 94, 133, 29]),
+    -- Faba (labs): Bruxish Lv. 39: Aqua Jet, Crunch, Psychic Fangs
+    (150021, 15046, NULL, NULL, NULL, NULL, 2, ARRAY[453, 242, 706]),
+    -- Faba (labs): Hypno Lv. 40: Psychic, Hypnosis, Disable, Nightmare
+    (150021, 15046, NULL, NULL, NULL, NULL, 3, ARRAY[94, 95, 50, 171]),
+    -- Faba (labs): Ledian Lv. 38: Light Screen, Reflect, Air Slash, Bug Buzz
+    (150021, 15046, NULL, NULL, NULL, NULL, 4, ARRAY[113, 115, 403, 405]),
     -- Guzma: Golisopod Lv. 41: Swords Dance, Razor Shell, First Impression
     (150021, 15019, NULL, NULL, NULL, NULL, 1, ARRAY[14, 534, 660]),
     -- Guzma: Ariados Lv. 40: Fell Stinger, Sucker Punch, Shadow Sneak

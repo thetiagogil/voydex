@@ -8,6 +8,7 @@
 -- File Scope
 -- ============================================================================
 -- Version-group-wide opponent definitions for Sun / Moon major fights. Game-specific rows are scoped where the source game changes the opponent.
+-- Totems are their own opponents; a trial captain appears only where they battle you. An opponent fought twice on one Story point has one row per battle (Faba).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_opponents (
@@ -26,18 +27,8 @@ INSERT INTO tracking.mainline_opponents (
   (15001, 15, NULL, 'ilima', 'Ilima', 'trial-captain', 1, NULL, 'ilima', 1),
   -- Hala
   (15002, 15, NULL, 'hala', 'Hala', 'kahuna', 7, NULL, 'hala', 2),
-  -- Lana
-  (15003, 15, NULL, 'lana', 'Lana', 'trial-captain', 3, NULL, 'lana', 3),
-  -- Kiawe
-  (15004, 15, NULL, 'kiawe', 'Kiawe', 'trial-captain', 2, NULL, 'kiawe', 4),
-  -- Mallow
-  (15005, 15, NULL, 'mallow', 'Mallow', 'trial-captain', 5, NULL, 'mallow', 5),
   -- Olivia
   (15006, 15, NULL, 'olivia', 'Olivia', 'kahuna', 13, NULL, 'olivia', 6),
-  -- Sophocles
-  (15007, 15, NULL, 'sophocles', 'Sophocles', 'trial-captain', 4, NULL, 'sophocles', 7),
-  -- Acerola
-  (15008, 15, NULL, 'acerola', 'Acerola', 'trial-captain', 14, NULL, 'acerola', 8),
   -- Nanu
   (15009, 15, NULL, 'nanu', 'Nanu', 'kahuna', 16, NULL, 'nanu', 9),
   -- Hapu
@@ -56,8 +47,8 @@ INSERT INTO tracking.mainline_opponents (
   (15016, 15, NULL, 'hau', 'Hau', 'rival', NULL, NULL, 'hau', 16),
   -- Gladion (rival)
   (15017, 15, NULL, 'gladion', 'Gladion', 'rival', NULL, NULL, 'gladion', 17),
-  -- Hau & Gladion (rival)
-  (15018, 15, NULL, 'hau-gladion', 'Hau & Gladion', 'rival', NULL, NULL, 'hau', 18),
+  -- Hau, Gladion and the Masked Royal (rival; the Battle Royal)
+  (15018, 15, NULL, 'battle-royal', 'Hau, Gladion & the Masked Royal', 'rival', NULL, NULL, 'hau', 18),
   -- Guzma (boss)
   (15019, 15, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', 19),
   -- Lusamine (boss)
@@ -91,4 +82,26 @@ INSERT INTO tracking.mainline_opponents (
   -- Necrozma (boss)
   (15034, 15, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', 28),
   -- Totem Kommo-o (totem, Vast Poni Canyon has no captain)
-  (15035, 15, NULL, 'totem-kommo-o', 'Totem Kommo-o', 'totem', 15, 7, 'kommo-o', 29);
+  (15035, 15, NULL, 'totem-kommo-o', 'Totem Kommo-o', 'totem', 15, 7, 'kommo-o', 29),
+  -- Totem Gumshoos (totem, sun)
+  (15036, 15, 25, 'totem-gumshoos', 'Totem Gumshoos', 'totem', 1, NULL, 'gumshoos', 4),
+  -- Totem Raticate (totem, moon)
+  (15037, 15, 26, 'totem-raticate', 'Totem Raticate', 'totem', 16, 1, 'alolan-raticate', 4),
+  -- Totem Wishiwashi (totem)
+  (15038, 15, NULL, 'totem-wishiwashi', 'Totem Wishiwashi', 'totem', 3, NULL, 'wishiwashi', 30),
+  -- Totem Salazzle (totem)
+  (15039, 15, NULL, 'totem-salazzle', 'Totem Salazzle', 'totem', 8, 2, 'salazzle', 31),
+  -- Totem Lurantis (totem)
+  (15040, 15, NULL, 'totem-lurantis', 'Totem Lurantis', 'totem', 5, NULL, 'lurantis', 32),
+  -- Totem Vikavolt (totem)
+  (15041, 15, NULL, 'totem-vikavolt', 'Totem Vikavolt', 'totem', 12, 4, 'vikavolt', 33),
+  -- Totem Mimikyu (totem)
+  (15042, 15, NULL, 'totem-mimikyu', 'Totem Mimikyu', 'totem', 14, 18, 'mimikyu', 34),
+  -- Faba (boss; Aether Paradise entrance)
+  (15043, 15, NULL, 'faba', 'Faba', 'boss', NULL, NULL, 'faba', 35),
+  -- Plumeria (boss)
+  (15044, 15, NULL, 'plumeria', 'Plumeria', 'boss', NULL, NULL, 'plumeria', 36),
+  -- Molayne (boss; Mount Hokulani)
+  (15045, 15, NULL, 'molayne', 'Molayne', 'boss', NULL, NULL, 'molayne', 37),
+  -- Faba (boss; Aether Paradise labs, second battle)
+  (15046, 15, NULL, 'faba-labs', 'Faba', 'boss', NULL, NULL, 'faba', 38);

@@ -6,7 +6,8 @@
 -- Hau, Gladion, Guzma and Lusamine battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Totem trials: cross-checked with Bulbapedia trial pages; allies follow the order the totem calls them.
--- Ilima's ally is Lv. 11 per Serebii and Pokémon GO Hub; Bulbapedia says Lv. 10. Lv. 11 is used.
+-- Totem allies follow Bulbapedia where Serebii differs: Ilima's ally is Lv. 10 and Totem Vikavolt calls two Charjabug Lv. 28 (#115 audit).
+-- Ilima's own battle, Molayne, Plumeria, Faba and the Masked Royal's Rockruff: Bulbapedia, cross-checked with Serebii.
 -- Battle forms: Totem Wishiwashi is Lv. 20, so Schooling puts it in its School Form.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Totems and their allies: Bulbapedia trial pages; each totem holds one item, its allies hold nothing.
@@ -36,52 +37,80 @@ INSERT INTO tracking.mainline_opponent_team_members (
   tera_type_id,
   dynamaxes
 ) VALUES
-  -- Ilima (Sun) 1: Gumshoos Lv. 12, holds Pecha Berry
-  (150003, 15001, 15, 25, NULL, NULL, NULL, NULL, 1, 735, 73500, 12, 180, NULL, FALSE),
-  -- Ilima (Sun) 2: Yungoos Lv. 11
-  (150003, 15001, 15, 25, NULL, NULL, NULL, NULL, 2, 734, 73400, 11, NULL, NULL, FALSE),
-  -- Ilima (Moon) 1: Alolan Raticate Lv. 12, holds Pecha Berry
-  (150003, 15001, 15, 26, NULL, NULL, NULL, NULL, 1, 20, 2001, 12, 180, NULL, FALSE),
-  -- Ilima (Moon) 2: Alolan Rattata Lv. 11
-  (150003, 15001, 15, 26, NULL, NULL, NULL, NULL, 2, 19, 1901, 11, NULL, NULL, FALSE),
+  -- Ilima [rowlet] 1: Yungoos Lv. 9
+  (150003, 15001, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 734, 73400, 9, NULL, NULL, FALSE),
+  -- Ilima [rowlet] 2: Smeargle Lv. 10
+  (150003, 15001, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 235, 23500, 10, NULL, NULL, FALSE),
+  -- Ilima [litten] 1: Yungoos Lv. 9
+  (150003, 15001, 15, NULL, 150001, 'litten', NULL, NULL, 1, 734, 73400, 9, NULL, NULL, FALSE),
+  -- Ilima [litten] 2: Smeargle Lv. 10
+  (150003, 15001, 15, NULL, 150001, 'litten', NULL, NULL, 2, 235, 23500, 10, NULL, NULL, FALSE),
+  -- Ilima [popplio] 1: Yungoos Lv. 9
+  (150003, 15001, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 734, 73400, 9, NULL, NULL, FALSE),
+  -- Ilima [popplio] 2: Smeargle Lv. 10
+  (150003, 15001, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 235, 23500, 10, NULL, NULL, FALSE),
+  -- Totem Gumshoos (Sun) 1: Gumshoos Lv. 12, holds Pecha Berry
+  (150003, 15036, 15, NULL, NULL, NULL, NULL, NULL, 1, 735, 73500, 12, 180, NULL, FALSE),
+  -- Totem Gumshoos (Sun) 2: Yungoos Lv. 10
+  (150003, 15036, 15, NULL, NULL, NULL, NULL, NULL, 2, 734, 73400, 10, NULL, NULL, FALSE),
+  -- Totem Raticate (Moon) 1: Alolan Raticate Lv. 12, holds Pecha Berry
+  (150003, 15037, 15, NULL, NULL, NULL, NULL, NULL, 1, 20, 2001, 12, 180, NULL, FALSE),
+  -- Totem Raticate (Moon) 2: Alolan Rattata Lv. 10
+  (150003, 15037, 15, NULL, NULL, NULL, NULL, NULL, 2, 19, 1901, 10, NULL, NULL, FALSE),
   -- Hala 1: Mankey Lv. 14
   (150004, 15002, 15, NULL, NULL, NULL, NULL, NULL, 1, 56, 5600, 14, NULL, NULL, FALSE),
   -- Hala 2: Makuhita Lv. 14
   (150004, 15002, 15, NULL, NULL, NULL, NULL, NULL, 2, 296, 29600, 14, NULL, NULL, FALSE),
   -- Hala 3: Crabrawler Lv. 15, holds Fightinium Z
   (150004, 15002, 15, NULL, NULL, NULL, NULL, NULL, 3, 739, 73900, 15, 28, NULL, FALSE),
-  -- Lana 1: Wishiwashi (School Form) Lv. 20, holds Sitrus Berry
-  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 1, 746, 74601, 20, 187, NULL, FALSE),
-  -- Lana 2: Wishiwashi Lv. 18
-  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 2, 746, 74600, 18, NULL, NULL, FALSE),
-  -- Lana 3: Alomomola Lv. 18
-  (150005, 15003, 15, NULL, NULL, NULL, NULL, NULL, 3, 594, 59400, 18, NULL, NULL, FALSE),
-  -- Kiawe 1: Salazzle Lv. 22, holds Petaya Berry
-  (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 1, 758, 75800, 22, 233, NULL, FALSE),
-  -- Kiawe 2: Salandit Lv. 20
-  (150006, 15004, 15, NULL, NULL, NULL, NULL, NULL, 2, 757, 75700, 20, NULL, NULL, FALSE),
-  -- Mallow 1: Lurantis Lv. 24, holds Power Herb
-  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24, 413, NULL, FALSE),
-  -- Mallow 2: Trumbeak Lv. 22
-  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 2, 732, 73200, 22, NULL, NULL, FALSE),
-  -- Mallow 3: Castform Lv. 22
-  (150007, 15005, 15, NULL, NULL, NULL, NULL, NULL, 3, 351, 35100, 22, NULL, NULL, FALSE),
+  -- Totem Wishiwashi 1: Wishiwashi (School Form) Lv. 20, holds Sitrus Berry
+  (150005, 15038, 15, NULL, NULL, NULL, NULL, NULL, 1, 746, 74601, 20, 187, NULL, FALSE),
+  -- Totem Wishiwashi 2: Wishiwashi Lv. 18
+  (150005, 15038, 15, NULL, NULL, NULL, NULL, NULL, 2, 746, 74600, 18, NULL, NULL, FALSE),
+  -- Totem Wishiwashi 3: Alomomola Lv. 18
+  (150005, 15038, 15, NULL, NULL, NULL, NULL, NULL, 3, 594, 59400, 18, NULL, NULL, FALSE),
+  -- Totem Salazzle 1: Salazzle Lv. 22, holds Petaya Berry
+  (150006, 15039, 15, NULL, NULL, NULL, NULL, NULL, 1, 758, 75800, 22, 233, NULL, FALSE),
+  -- Totem Salazzle 2: Salandit Lv. 20
+  (150006, 15039, 15, NULL, NULL, NULL, NULL, NULL, 2, 757, 75700, 20, NULL, NULL, FALSE),
+  -- Totem Lurantis 1: Lurantis Lv. 24, holds Power Herb
+  (150007, 15040, 15, NULL, NULL, NULL, NULL, NULL, 1, 754, 75400, 24, 413, NULL, FALSE),
+  -- Totem Lurantis 2: Trumbeak Lv. 22
+  (150007, 15040, 15, NULL, NULL, NULL, NULL, NULL, 2, 732, 73200, 22, NULL, NULL, FALSE),
+  -- Totem Lurantis 3: Castform Lv. 22
+  (150007, 15040, 15, NULL, NULL, NULL, NULL, NULL, 3, 351, 35100, 22, NULL, NULL, FALSE),
+  -- Plumeria (Akala Outskirts) 1: Golbat Lv. 25
+  (150008, 15044, 15, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 25, NULL, NULL, FALSE),
+  -- Plumeria (Akala Outskirts) 2: Salandit Lv. 26
+  (150008, 15044, 15, NULL, NULL, NULL, NULL, NULL, 2, 757, 75700, 26, NULL, NULL, FALSE),
   -- Olivia 1: Nosepass Lv. 26
   (150008, 15006, 15, NULL, NULL, NULL, NULL, NULL, 1, 299, 29900, 26, NULL, NULL, FALSE),
   -- Olivia 2: Boldore Lv. 26
   (150008, 15006, 15, NULL, NULL, NULL, NULL, NULL, 2, 525, 52500, 26, NULL, NULL, FALSE),
   -- Olivia 3: Lycanroc (Midnight) Lv. 27, holds Rockium Z
   (150008, 15006, 15, NULL, NULL, NULL, NULL, NULL, 3, 745, 74501, 27, 34, NULL, FALSE),
-  -- Sophocles 1: Vikavolt Lv. 29, holds Occa Berry
-  (150009, 15007, 15, NULL, NULL, NULL, NULL, NULL, 1, 738, 73800, 29, 213, NULL, FALSE),
-  -- Sophocles 2: Charjabug Lv. 27
-  (150009, 15007, 15, NULL, NULL, NULL, NULL, NULL, 2, 737, 73700, 27, NULL, NULL, FALSE),
-  -- Acerola 1: Mimikyu Lv. 33, holds Lum Berry
-  (150010, 15008, 15, NULL, NULL, NULL, NULL, NULL, 1, 778, 77800, 33, 186, NULL, FALSE),
-  -- Acerola 2: Haunter Lv. 27
-  (150010, 15008, 15, NULL, NULL, NULL, NULL, NULL, 2, 93, 9300, 27, NULL, NULL, FALSE),
-  -- Acerola 3: Gengar Lv. 27
-  (150010, 15008, 15, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 27, NULL, NULL, FALSE),
+  -- Molayne 1: Skarmory Lv. 29
+  (150009, 15045, 15, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 29, NULL, NULL, FALSE),
+  -- Molayne 2: Metang Lv. 29
+  (150009, 15045, 15, NULL, NULL, NULL, NULL, NULL, 2, 375, 37500, 29, NULL, NULL, FALSE),
+  -- Molayne 3: Alolan Dugtrio Lv. 30
+  (150009, 15045, 15, NULL, NULL, NULL, NULL, NULL, 3, 51, 5101, 30, NULL, NULL, FALSE),
+  -- Totem Vikavolt 1: Vikavolt Lv. 29, holds Occa Berry
+  (150009, 15041, 15, NULL, NULL, NULL, NULL, NULL, 1, 738, 73800, 29, 213, NULL, FALSE),
+  -- Totem Vikavolt 2: Charjabug Lv. 28
+  (150009, 15041, 15, NULL, NULL, NULL, NULL, NULL, 2, 737, 73700, 28, NULL, NULL, FALSE),
+  -- Totem Vikavolt 3: Charjabug Lv. 28
+  (150009, 15041, 15, NULL, NULL, NULL, NULL, NULL, 3, 737, 73700, 28, NULL, NULL, FALSE),
+  -- Totem Mimikyu 1: Mimikyu Lv. 33, holds Lum Berry
+  (150010, 15042, 15, NULL, NULL, NULL, NULL, NULL, 1, 778, 77800, 33, 186, NULL, FALSE),
+  -- Totem Mimikyu 2: Haunter Lv. 27
+  (150010, 15042, 15, NULL, NULL, NULL, NULL, NULL, 2, 93, 9300, 27, NULL, NULL, FALSE),
+  -- Totem Mimikyu 3: Gengar Lv. 27
+  (150010, 15042, 15, NULL, NULL, NULL, NULL, NULL, 3, 94, 9400, 27, NULL, NULL, FALSE),
+  -- Plumeria (Route 15) 1: Golbat Lv. 34
+  (150011, 15044, 15, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 34, NULL, NULL, FALSE),
+  -- Plumeria (Route 15) 2: Salazzle Lv. 35
+  (150011, 15044, 15, NULL, NULL, NULL, NULL, NULL, 2, 758, 75800, 35, NULL, NULL, FALSE),
   -- Nanu 1: Sableye Lv. 38
   (150011, 15009, 15, NULL, NULL, NULL, NULL, NULL, 1, 302, 30200, 38, NULL, NULL, FALSE),
   -- Nanu 2: Krokorok Lv. 38
@@ -224,18 +253,24 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150005, 15017, 15, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 17, NULL, NULL, FALSE),
   -- Gladion, Lana Trial 2: Type: Null Lv. 18
   (150005, 15017, 15, NULL, NULL, NULL, NULL, NULL, 2, 772, 77200, 18, NULL, NULL, FALSE),
-  -- Hau & Gladion (chose Rowlet), Kiawe Trial 1: Brionne Lv. 19, holds Normalium Z
+  -- Hau, Gladion & the Masked Royal (chose Rowlet), Kiawe Trial 1: Brionne Lv. 19, holds Normalium Z
   (150006, 15018, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 729, 72900, 19, 245, NULL, FALSE),
-  -- Hau & Gladion (chose Rowlet), Kiawe Trial 2: Type: Null Lv. 19
+  -- Hau, Gladion & the Masked Royal (chose Rowlet), Kiawe Trial 2: Type: Null Lv. 19
   (150006, 15018, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 772, 77200, 19, NULL, NULL, FALSE),
-  -- Hau & Gladion (chose Litten), Kiawe Trial 1: Dartrix Lv. 19, holds Normalium Z
+  -- Hau, Gladion & the Masked Royal [rowlet] 3: Rockruff Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'rowlet', NULL, NULL, 3, 744, 74400, 19, NULL, NULL, FALSE),
+  -- Hau, Gladion & the Masked Royal (chose Litten), Kiawe Trial 1: Dartrix Lv. 19, holds Normalium Z
   (150006, 15018, 15, NULL, 150001, 'litten', NULL, NULL, 1, 723, 72300, 19, 245, NULL, FALSE),
-  -- Hau & Gladion (chose Litten), Kiawe Trial 2: Type: Null Lv. 19
+  -- Hau, Gladion & the Masked Royal (chose Litten), Kiawe Trial 2: Type: Null Lv. 19
   (150006, 15018, 15, NULL, 150001, 'litten', NULL, NULL, 2, 772, 77200, 19, NULL, NULL, FALSE),
-  -- Hau & Gladion (chose Popplio), Kiawe Trial 1: Torracat Lv. 19, holds Normalium Z
+  -- Hau, Gladion & the Masked Royal [litten] 3: Rockruff Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'litten', NULL, NULL, 3, 744, 74400, 19, NULL, NULL, FALSE),
+  -- Hau, Gladion & the Masked Royal (chose Popplio), Kiawe Trial 1: Torracat Lv. 19, holds Normalium Z
   (150006, 15018, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 726, 72600, 19, 245, NULL, FALSE),
-  -- Hau & Gladion (chose Popplio), Kiawe Trial 2: Type: Null Lv. 19
+  -- Hau, Gladion & the Masked Royal (chose Popplio), Kiawe Trial 2: Type: Null Lv. 19
   (150006, 15018, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 772, 77200, 19, NULL, NULL, FALSE),
+  -- Hau, Gladion & the Masked Royal [popplio] 3: Rockruff Lv. 19
+  (150006, 15018, 15, NULL, 150001, 'popplio', NULL, NULL, 3, 744, 74400, 19, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Sophocles Trial 1: Alolan Raichu Lv. 28
   (150009, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 26, 2601, 28, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Sophocles Trial 2: Flareon Lv. 28
@@ -268,6 +303,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (150011, 15017, 15, NULL, NULL, NULL, NULL, NULL, 2, 215, 21500, 37, NULL, NULL, FALSE),
   -- Gladion, Grand Trial Nanu 3: Type: Null Lv. 38
   (150011, 15017, 15, NULL, NULL, NULL, NULL, NULL, 3, 772, 77200, 38, NULL, NULL, FALSE),
+  -- Faba (entrance) 1: Hypno Lv. 39
+  (150021, 15043, 15, NULL, NULL, NULL, NULL, NULL, 1, 97, 9700, 39, NULL, NULL, FALSE),
+  -- Faba (labs) 1: Slowbro Lv. 39
+  (150021, 15046, 15, NULL, NULL, NULL, NULL, NULL, 1, 80, 8000, 39, NULL, NULL, FALSE),
+  -- Faba (labs) 2: Bruxish Lv. 39
+  (150021, 15046, 15, NULL, NULL, NULL, NULL, NULL, 2, 779, 77900, 39, NULL, NULL, FALSE),
+  -- Faba (labs) 3: Hypno Lv. 40
+  (150021, 15046, 15, NULL, NULL, NULL, NULL, NULL, 3, 97, 9700, 40, NULL, NULL, FALSE),
+  -- Faba (labs) 4: Ledian Lv. 38
+  (150021, 15046, 15, NULL, NULL, NULL, NULL, NULL, 4, 166, 16600, 38, NULL, NULL, FALSE),
   -- Guzma, Aether Paradise 1: Golisopod Lv. 41
   (150021, 15019, 15, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 41, NULL, NULL, FALSE),
   -- Guzma, Aether Paradise 2: Ariados Lv. 40
