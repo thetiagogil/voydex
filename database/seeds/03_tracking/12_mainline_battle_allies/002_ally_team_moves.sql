@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Trace, Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -422,7 +422,25 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Trace beside you vs Blue (Let's Go, Eevee!): Gloom Lv. 36: Razor Leaf, Toxic, Acid
     (170022, 17014, 17016, 30, NULL, NULL, NULL, 3, ARRAY[75, 92, 51]),
     -- Trace beside you vs Blue (Let's Go, Eevee!): Raichu Lv. 37: Thunder Shock, Quick Attack, Thunder Punch, Slam
-    (170022, 17014, 17016, 30, NULL, NULL, NULL, 4, ARRAY[84, 98, 9, 21])
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 4, ARRAY[84, 98, 9, 21]),
+    -- Hop beside you vs Sordward & Shielbert [grookey]: Dubwool Lv. 61: Take Down, Double Kick, Double-Edge, Headbutt
+    (180014, 18024, 18013, NULL, 180001, 'grookey', NULL, 1, ARRAY[36, 24, 38, 29]),
+    -- Hop beside you vs Sordward & Shielbert [grookey]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
+    (180014, 18024, 18013, NULL, 180001, 'grookey', NULL, 2, ARRAY[65, 211, 184, 413]),
+    -- Hop beside you vs Sordward & Shielbert [grookey]: Inteleon Lv. 62: Snipe Shot, Sucker Punch, Liquidation, U-turn
+    (180014, 18024, 18013, NULL, 180001, 'grookey', NULL, 3, ARRAY[745, 389, 710, 369]),
+    -- Hop beside you vs Sordward & Shielbert [scorbunny]: Dubwool Lv. 61: Take Down, Double Kick, Double-Edge, Headbutt
+    (180014, 18024, 18013, NULL, 180001, 'scorbunny', NULL, 1, ARRAY[36, 24, 38, 29]),
+    -- Hop beside you vs Sordward & Shielbert [scorbunny]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
+    (180014, 18024, 18013, NULL, 180001, 'scorbunny', NULL, 2, ARRAY[65, 211, 184, 413]),
+    -- Hop beside you vs Sordward & Shielbert [scorbunny]: Rillaboom Lv. 62: Drum Beating, Slam, Knock Off, Uproar
+    (180014, 18024, 18013, NULL, 180001, 'scorbunny', NULL, 3, ARRAY[778, 21, 282, 253]),
+    -- Hop beside you vs Sordward & Shielbert [sobble]: Dubwool Lv. 61: Take Down, Double Kick, Double-Edge, Headbutt
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 1, ARRAY[36, 24, 38, 29]),
+    -- Hop beside you vs Sordward & Shielbert [sobble]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 2, ARRAY[65, 211, 184, 413]),
+    -- Hop beside you vs Sordward & Shielbert [sobble]: Cinderace Lv. 62: Double-Edge, Headbutt, Pyro Ball, Agility
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 3, ARRAY[38, 29, 780, 97])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

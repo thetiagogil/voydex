@@ -5,6 +5,7 @@
 -- team by its Pokémon and their levels.
 -- Cross-check: data-mined Sword / Shield trainer data.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Mustard's first battle and his Kubfu (#115 audit): Bulbapedia; his Urshifu's signature move follows its style (Wicked Blow for Single Strike, Surging Strikes for Rapid Strike).
 -- Scope: Sword / Shield: The Isle of Armor Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -48,6 +49,18 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (190002, 19001, 32, NULL, NULL, 'main-story-finished', 3, ARRAY[60, 129]),
     -- Klara / Avery: Galarian Slowbro Lv. 67: Water Pulse, Shell Side Arm, Confusion
     (190002, 19001, 32, NULL, NULL, 'main-story-finished', 4, ARRAY[352, 801, 93]),
+    -- Mustard, Master Dojo: Mienfoo Lv. 13: Fake Out, Force Palm, U-turn
+    (190001, 19002, NULL, NULL, NULL, 'main-story-not-finished', 1, ARRAY[252, 395, 369]),
+    -- Mustard, Master Dojo: Shinx Lv. 13: Spark, Bite
+    (190001, 19002, NULL, NULL, NULL, 'main-story-not-finished', 2, ARRAY[209, 44]),
+    -- Mustard, Master Dojo: Mienfoo Lv. 61: Fake Out, Force Palm, U-turn
+    (190001, 19002, NULL, NULL, NULL, 'main-story-finished', 1, ARRAY[252, 395, 369]),
+    -- Mustard, Master Dojo: Shinx Lv. 61: Spark, Bite
+    (190001, 19002, NULL, NULL, NULL, 'main-story-finished', 2, ARRAY[209, 44]),
+    -- Mustard's Kubfu, top of the tower: Kubfu Lv. 30: Aerial Ace, Focus Energy, Brick Break
+    (190006, 19002, NULL, NULL, NULL, 'main-story-not-finished', 1, ARRAY[332, 116, 280]),
+    -- Mustard's Kubfu, top of the tower: Kubfu Lv. 70: Aerial Ace, Focus Energy, Brick Break
+    (190006, 19002, NULL, NULL, NULL, 'main-story-finished', 1, ARRAY[332, 116, 280]),
     -- Mustard: Mienshao Lv. 73: Fake Out, U-turn, Blaze Kick, Close Combat
     (190007, 19002, NULL, 190005, 'tower-of-darkness', NULL, 1, ARRAY[252, 369, 299, 370]),
     -- Mustard: Luxray Lv. 73: Psychic Fangs, Wild Charge, Crunch, Play Rough
@@ -58,8 +71,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (190007, 19002, NULL, 190005, 'tower-of-darkness', NULL, 4, ARRAY[709, 446, 444, 583]),
     -- Mustard: Kommo-o Lv. 75: Clanging Scales, Aura Sphere, Flash Cannon, Clangorous Soul
     (190007, 19002, NULL, 190005, 'tower-of-darkness', NULL, 5, ARRAY[691, 396, 430, 775]),
-    -- Mustard: Gigantamax Urshifu (Rapid Strike) Lv. 75: Wicked Blow, Close Combat, Poison Jab, Iron Head
-    (190007, 19002, NULL, 190005, 'tower-of-darkness', NULL, 6, ARRAY[817, 370, 398, 442]),
+    -- Mustard: Gigantamax Urshifu (Rapid Strike) Lv. 75: Surging Strikes, Close Combat, Poison Jab, Iron Head
+    (190007, 19002, NULL, 190005, 'tower-of-darkness', NULL, 6, ARRAY[818, 370, 398, 442]),
     -- Mustard: Mienshao Lv. 73: Fake Out, U-turn, Blaze Kick, Close Combat
     (190007, 19002, NULL, 190005, 'tower-of-waters', NULL, 1, ARRAY[252, 369, 299, 370]),
     -- Mustard: Luxray Lv. 73: Psychic Fangs, Wild Charge, Crunch, Play Rough
@@ -70,8 +83,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (190007, 19002, NULL, 190005, 'tower-of-waters', NULL, 4, ARRAY[709, 446, 444, 583]),
     -- Mustard: Kommo-o Lv. 75: Clanging Scales, Aura Sphere, Flash Cannon, Clangorous Soul
     (190007, 19002, NULL, 190005, 'tower-of-waters', NULL, 5, ARRAY[691, 396, 430, 775]),
-    -- Mustard: Gigantamax Urshifu Lv. 75: Surging Strikes, Close Combat, Poison Jab, Iron Head
-    (190007, 19002, NULL, 190005, 'tower-of-waters', NULL, 6, ARRAY[818, 370, 398, 442]),
+    -- Mustard: Gigantamax Urshifu Lv. 75: Wicked Blow, Close Combat, Poison Jab, Iron Head
+    (190007, 19002, NULL, 190005, 'tower-of-waters', NULL, 6, ARRAY[817, 370, 398, 442]),
     -- Klara / Avery: Venipede Lv. 10: Poison Tail
     (190001, 19001, 31, NULL, NULL, 'main-story-not-finished', 1, ARRAY[342]),
     -- Klara / Avery: Galarian Slowpoke Lv. 12: Confusion, Acid

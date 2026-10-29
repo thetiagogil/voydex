@@ -8,6 +8,7 @@
 -- Mustard: cross-checked with Bulbapedia, whose slot order is used.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Wild Pokémon here hold nothing in their game data.
+-- Mustard's first battle and his Kubfu (#115 audit): Bulbapedia, cross-checked with Serebii; levels rise after the main story like Klara / Avery's.
 -- Scope: Pokémon The Isle of Armor Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -65,6 +66,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 3, 64, 6400, 66, NULL, NULL, FALSE),
   -- Klara / Avery (Shield) (You've already finished the main story) 4: Galarian Slowbro Lv. 67, Dynamax
   (190002, 19001, 19, 32, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 4, 80, 8002, 67, NULL, NULL, TRUE),
+  -- Mustard, Master Dojo <main-story-not-finished> 1: Mienfoo Lv. 13
+  (190001, 19002, 19, NULL, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 619, 61900, 13, NULL, NULL, FALSE),
+  -- Mustard, Master Dojo <main-story-not-finished> 2: Shinx Lv. 13
+  (190001, 19002, 19, NULL, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 2, 403, 40300, 13, NULL, NULL, FALSE),
+  -- Mustard, Master Dojo <main-story-finished> 1: Mienfoo Lv. 61
+  (190001, 19002, 19, NULL, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 619, 61900, 61, NULL, NULL, FALSE),
+  -- Mustard, Master Dojo <main-story-finished> 2: Shinx Lv. 61
+  (190001, 19002, 19, NULL, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 2, 403, 40300, 61, NULL, NULL, FALSE),
+  -- Mustard's Kubfu, top of the tower <main-story-not-finished> 1: Kubfu Lv. 30, holds Focus Sash
+  (190006, 19002, 19, NULL, NULL, NULL, 'main-story-not-finished', 'You haven''t finished the main story yet', 1, 891, 89100, 30, 395, NULL, FALSE),
+  -- Mustard's Kubfu, top of the tower <main-story-finished> 1: Kubfu Lv. 70, holds Focus Sash
+  (190006, 19002, 19, NULL, NULL, NULL, 'main-story-finished', 'You''ve already finished the main story', 1, 891, 89100, 70, 395, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 1: Mienshao Lv. 73
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 1, 620, 62000, 73, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 2: Luxray Lv. 73
@@ -75,7 +88,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 4, 745, 74500, 75, NULL, NULL, FALSE),
   -- Mustard (chose Tower of Darkness (Single Strike)) 5: Kommo-o Lv. 75
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 5, 784, 78400, 75, NULL, NULL, FALSE),
-  -- Mustard (chose Tower of Darkness (Single Strike)) 6: Gigantamax Urshifu (Rapid Strike) Lv. 75
+  -- Mustard (chose Tower of Darkness (Single Strike)) 6: Gigantamax Urshifu (Rapid Strike) Lv. 75, the style you did not pick
   (190007, 19002, 19, NULL, 190005, 'tower-of-darkness', NULL, NULL, 6, 892, 89203, 75, NULL, NULL, TRUE),
   -- Mustard (chose Tower of Waters (Rapid Strike)) 1: Mienshao Lv. 73
   (190007, 19002, 19, NULL, 190005, 'tower-of-waters', NULL, NULL, 1, 620, 62000, 73, NULL, NULL, FALSE),

@@ -12,6 +12,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Oleana, the Champion Cup finals, Hop's first post-game battle, Sordward and Shielbert (#115 audit): Bulbapedia; Hop's Wooloo knows Defense Curl in every start.
 -- Scope: Sword / Shield Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -175,8 +176,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (180003, 18013, NULL, 180001, 'scorbunny', NULL, 2, ARRAY[64, 43]),
     -- Hop: Grookey Lv. 14: Scratch, Growl, Branch Poke, Taunt
     (180003, 18013, NULL, 180001, 'scorbunny', NULL, 3, ARRAY[10, 45, 785, 269]),
-    -- Hop: Wooloo Lv. 11: Tackle, Growl
-    (180003, 18013, NULL, 180001, 'sobble', NULL, 1, ARRAY[33, 45]),
+    -- Hop: Wooloo Lv. 11: Tackle, Growl, Defense Curl
+    (180003, 18013, NULL, 180001, 'sobble', NULL, 1, ARRAY[33, 45, 111]),
     -- Hop: Rookidee Lv. 12: Peck, Leer
     (180003, 18013, NULL, 180001, 'sobble', NULL, 2, ARRAY[64, 43]),
     -- Hop: Scorbunny Lv. 14: Tackle, Growl, Ember, Quick Attack
@@ -429,6 +430,56 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (180015, 18014, NULL, NULL, NULL, NULL, 3, ARRAY[427, 36, 605, 98]),
     -- Bede: Gigantamax Hatterene Lv. 53: Psychic, Dazzling Gleam, Calm Mind, Mystical Fire
     (180015, 18014, NULL, NULL, NULL, NULL, 4, ARRAY[94, 605, 347, 595]),
+    -- Oleana, Rose Tower: Froslass Lv. 50: Hex, Icy Wind, Will-O-Wisp, Double Team
+    (180015, 18021, NULL, NULL, NULL, NULL, 1, ARRAY[506, 196, 261, 104]),
+    -- Oleana, Rose Tower: Tsareena Lv. 50: Trop Kick, Stomp, Attract, Acrobatics
+    (180015, 18021, NULL, NULL, NULL, NULL, 2, ARRAY[688, 23, 213, 512]),
+    -- Oleana, Rose Tower: Salazzle Lv. 50: Venoshock, Incinerate, Poison Gas, Dragon Pulse
+    (180015, 18021, NULL, NULL, NULL, NULL, 3, ARRAY[474, 510, 139, 406]),
+    -- Oleana, Rose Tower: Milotic Lv. 51: Surf, Safeguard, Aqua Ring, Recover
+    (180015, 18021, NULL, NULL, NULL, NULL, 4, ARRAY[57, 219, 392, 105]),
+    -- Oleana, Rose Tower: Garbodor Lv. 52: Gunk Shot, Stomping Tantrum, Rock Blast, Toxic Spikes
+    (180015, 18021, NULL, NULL, NULL, NULL, 5, ARRAY[441, 707, 350, 390]),
+    -- Nessa, Champion Cup finals: Golisopod Lv. 51: First Impression, Liquidation, Swords Dance, Shadow Claw
+    (180015, 18002, NULL, NULL, NULL, NULL, 1, ARRAY[660, 710, 14, 421]),
+    -- Nessa, Champion Cup finals: Pelipper Lv. 51: Roost, Air Slash, Water Pulse, Tailwind
+    (180015, 18002, NULL, NULL, NULL, NULL, 2, ARRAY[355, 403, 352, 366]),
+    -- Nessa, Champion Cup finals: Barraskewda Lv. 52: Liquidation, Throat Chop, Ice Fang, Drill Run
+    (180015, 18002, NULL, NULL, NULL, NULL, 3, ARRAY[710, 675, 423, 529]),
+    -- Nessa, Champion Cup finals: Seaking Lv. 52: Smart Strike, Megahorn, Aqua Ring, Waterfall
+    (180015, 18002, NULL, NULL, NULL, NULL, 4, ARRAY[684, 224, 392, 127]),
+    -- Nessa, Champion Cup finals: Drednaw Lv. 53: Liquidation, Jaw Lock, Rock Tomb, Crunch
+    (180015, 18002, NULL, NULL, NULL, NULL, 5, ARRAY[710, 746, 317, 242]),
+    -- Bea, Champion Cup finals: Hawlucha Lv. 52: Flying Press, High Jump Kick, Bounce
+    (180015, 18004, NULL, NULL, NULL, NULL, 1, ARRAY[560, 136, 340]),
+    -- Bea, Champion Cup finals: Grapploct Lv. 52: Octolock, Submission, Bind, Mega Punch
+    (180015, 18004, NULL, NULL, NULL, NULL, 2, ARRAY[753, 66, 20, 5]),
+    -- Bea, Champion Cup finals: Sirfetch'd Lv. 53: Leaf Blade, Slam, Brick Break, Brutal Swing
+    (180015, 18004, NULL, NULL, NULL, NULL, 3, ARRAY[348, 21, 280, 693]),
+    -- Bea, Champion Cup finals: Falinks Lv. 53: No Retreat, Bulk Up, Close Combat, Rock Tomb
+    (180015, 18004, NULL, NULL, NULL, NULL, 4, ARRAY[748, 339, 370, 317]),
+    -- Bea, Champion Cup finals: Machamp Lv. 54: Cross Chop, Revenge, Fire Punch, Strength
+    (180015, 18004, NULL, NULL, NULL, NULL, 5, ARRAY[238, 279, 7, 70]),
+    -- Allister, Champion Cup finals: Dusknoir Lv. 52: Shadow Punch, Thunder Punch, Rock Tomb, Disable
+    (180015, 18005, NULL, NULL, NULL, NULL, 1, ARRAY[325, 9, 317, 50]),
+    -- Allister, Champion Cup finals: Chandelure Lv. 52: Shadow Ball, Mystical Fire, Will-O-Wisp
+    (180015, 18005, NULL, NULL, NULL, NULL, 2, ARRAY[247, 595, 261]),
+    -- Allister, Champion Cup finals: Cursola Lv. 53: Hex, Strength Sap, Ancient Power, Amnesia
+    (180015, 18005, NULL, NULL, NULL, NULL, 3, ARRAY[506, 668, 246, 133]),
+    -- Allister, Champion Cup finals: Polteageist Lv. 53: Shadow Ball, Protect, Nasty Plot, Giga Drain
+    (180015, 18005, NULL, NULL, NULL, NULL, 4, ARRAY[247, 182, 417, 202]),
+    -- Allister, Champion Cup finals: Gengar Lv. 54: Shadow Ball, Sludge Bomb, Dark Pulse, Hypnosis
+    (180015, 18005, NULL, NULL, NULL, NULL, 5, ARRAY[247, 188, 399, 95]),
+    -- Raihan, Champion Cup finals: Torkoal Lv. 53: Lava Plume, Body Press, Solar Beam, Yawn
+    (180015, 18010, NULL, NULL, NULL, NULL, 1, ARRAY[436, 776, 76, 281]),
+    -- Raihan, Champion Cup finals: Goodra Lv. 54: Rain Dance, Surf, Thunder, Muddy Water
+    (180015, 18010, NULL, NULL, NULL, NULL, 2, ARRAY[240, 57, 87, 330]),
+    -- Raihan, Champion Cup finals: Turtonator Lv. 54: Sunny Day, Dragon Pulse, Shell Trap, Fire Blast
+    (180015, 18010, NULL, NULL, NULL, NULL, 3, ARRAY[241, 406, 704, 126]),
+    -- Raihan, Champion Cup finals: Flygon Lv. 54: Sandstorm, Dragon Claw, Earthquake, Crunch
+    (180015, 18010, NULL, NULL, NULL, NULL, 4, ARRAY[201, 337, 89, 242]),
+    -- Raihan, Champion Cup finals: Duraludon Lv. 55: Dragon Claw, Body Press, Stone Edge, Iron Head
+    (180015, 18010, NULL, NULL, NULL, NULL, 5, ARRAY[337, 776, 444, 442]),
     -- Rose: Escavalier Lv. 55: Drill Run, Iron Head, Megahorn, Swords Dance
     (180011, 18016, NULL, NULL, NULL, NULL, 1, ARRAY[529, 442, 224, 14]),
     -- Rose: Ferrothorn Lv. 55: Gyro Ball, Power Whip, Body Press, Curse
@@ -447,6 +498,86 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (180014, 18014, NULL, NULL, NULL, NULL, 3, ARRAY[684, 427, 605, 23]),
     -- Bede: Hatterene Lv. 63: Psychic, Calm Mind, Dazzling Gleam, Mystical Fire
     (180014, 18014, NULL, NULL, NULL, NULL, 4, ARRAY[94, 347, 605, 595]),
+    -- Hop, Slumbering Weald (first post-game visit) [grookey]: Dubwool Lv. 59: Cotton Guard, Double Kick, Double-Edge, Headbutt
+    (180014, 18025, NULL, 180001, 'grookey', NULL, 1, ARRAY[538, 24, 38, 29]),
+    -- Hop, Slumbering Weald (first post-game visit) [grookey]: Corviknight Lv. 59: Steel Wing, Drill Peck, Scary Face, Brave Bird
+    (180014, 18025, NULL, 180001, 'grookey', NULL, 2, ARRAY[211, 65, 184, 413]),
+    -- Hop, Slumbering Weald (first post-game visit) [grookey]: Pincurchin Lv. 58: Zing Zap, Poison Jab, Bubble Beam, Fury Attack
+    (180014, 18025, NULL, 180001, 'grookey', NULL, 3, ARRAY[716, 398, 61, 31]),
+    -- Hop, Slumbering Weald (first post-game visit) [grookey]: Snorlax Lv. 58: Hammer Arm, High Horsepower, Heavy Slam, Crunch
+    (180014, 18025, NULL, 180001, 'grookey', NULL, 4, ARRAY[359, 667, 484, 242]),
+    -- Hop, Slumbering Weald (first post-game visit) [grookey]: Cramorant Lv. 58: Dive, Drill Peck, Throat Chop, Steel Wing
+    (180014, 18025, NULL, 180001, 'grookey', NULL, 5, ARRAY[291, 65, 675, 211]),
+    -- Hop, Slumbering Weald (first post-game visit) [grookey]: Inteleon Lv. 60: Snipe Shot, Sucker Punch, Liquidation, U-turn
+    (180014, 18025, NULL, 180001, 'grookey', NULL, 6, ARRAY[745, 389, 710, 369]),
+    -- Hop, Slumbering Weald (first post-game visit) [scorbunny]: Dubwool Lv. 59: Cotton Guard, Double Kick, Double-Edge, Headbutt
+    (180014, 18025, NULL, 180001, 'scorbunny', NULL, 1, ARRAY[538, 24, 38, 29]),
+    -- Hop, Slumbering Weald (first post-game visit) [scorbunny]: Corviknight Lv. 59: Steel Wing, Drill Peck, Scary Face, Brave Bird
+    (180014, 18025, NULL, 180001, 'scorbunny', NULL, 2, ARRAY[211, 65, 184, 413]),
+    -- Hop, Slumbering Weald (first post-game visit) [scorbunny]: Pincurchin Lv. 58: Zing Zap, Poison Jab, Bubble Beam, Fury Attack
+    (180014, 18025, NULL, 180001, 'scorbunny', NULL, 3, ARRAY[716, 398, 61, 31]),
+    -- Hop, Slumbering Weald (first post-game visit) [scorbunny]: Snorlax Lv. 58: Hammer Arm, High Horsepower, Heavy Slam, Crunch
+    (180014, 18025, NULL, 180001, 'scorbunny', NULL, 4, ARRAY[359, 667, 484, 242]),
+    -- Hop, Slumbering Weald (first post-game visit) [scorbunny]: Cramorant Lv. 58: Dive, Drill Peck, Throat Chop, Steel Wing
+    (180014, 18025, NULL, 180001, 'scorbunny', NULL, 5, ARRAY[291, 65, 675, 211]),
+    -- Hop, Slumbering Weald (first post-game visit) [scorbunny]: Rillaboom Lv. 60: Drum Beating, Slam, Knock Off, Uproar
+    (180014, 18025, NULL, 180001, 'scorbunny', NULL, 6, ARRAY[778, 21, 282, 253]),
+    -- Hop, Slumbering Weald (first post-game visit) [sobble]: Dubwool Lv. 59: Cotton Guard, Double Kick, Double-Edge, Headbutt
+    (180014, 18025, NULL, 180001, 'sobble', NULL, 1, ARRAY[538, 24, 38, 29]),
+    -- Hop, Slumbering Weald (first post-game visit) [sobble]: Corviknight Lv. 59: Steel Wing, Drill Peck, Scary Face, Brave Bird
+    (180014, 18025, NULL, 180001, 'sobble', NULL, 2, ARRAY[211, 65, 184, 413]),
+    -- Hop, Slumbering Weald (first post-game visit) [sobble]: Pincurchin Lv. 58: Zing Zap, Poison Jab, Bubble Beam, Fury Attack
+    (180014, 18025, NULL, 180001, 'sobble', NULL, 3, ARRAY[716, 398, 61, 31]),
+    -- Hop, Slumbering Weald (first post-game visit) [sobble]: Snorlax Lv. 58: Hammer Arm, High Horsepower, Heavy Slam, Crunch
+    (180014, 18025, NULL, 180001, 'sobble', NULL, 4, ARRAY[359, 667, 484, 242]),
+    -- Hop, Slumbering Weald (first post-game visit) [sobble]: Cramorant Lv. 58: Dive, Drill Peck, Throat Chop, Steel Wing
+    (180014, 18025, NULL, 180001, 'sobble', NULL, 5, ARRAY[291, 65, 675, 211]),
+    -- Hop, Slumbering Weald (first post-game visit) [sobble]: Cinderace Lv. 60: Double-Edge, Headbutt, Pyro Ball, Agility
+    (180014, 18025, NULL, 180001, 'sobble', NULL, 6, ARRAY[38, 29, 780, 97]),
+    -- Sordward, Slumbering Weald: Sirfetch'd Lv. 60: Leaf Blade, Slam, Meteor Assault, Swords Dance
+    (180014, 18022, NULL, NULL, NULL, NULL, 1, ARRAY[348, 21, 794, 14]),
+    -- Sordward, Slumbering Weald: Golisopod Lv. 60: First Impression, Liquidation, X-Scissor, Sucker Punch
+    (180014, 18022, NULL, NULL, NULL, NULL, 2, ARRAY[660, 710, 404, 389]),
+    -- Sordward, Slumbering Weald: Doublade Lv. 60: Sacred Sword, Iron Head, Night Slash, Swords Dance
+    (180014, 18022, NULL, NULL, NULL, NULL, 3, ARRAY[533, 442, 400, 14]),
+    -- Sordward, Slumbering Weald: Bisharp Lv. 60: Iron Head, Night Slash, Swords Dance, Stone Edge
+    (180014, 18022, NULL, NULL, NULL, NULL, 4, ARRAY[442, 400, 14, 444]),
+    -- Shielbert, Slumbering Weald: Sirfetch'd Lv. 60: Leaf Blade, Slam, Meteor Assault, Iron Defense
+    (180014, 18023, NULL, NULL, NULL, NULL, 1, ARRAY[348, 21, 794, 334]),
+    -- Shielbert, Slumbering Weald: Bronzong Lv. 60: Light Screen, Extrasensory, Gyro Ball, Hypnosis
+    (180014, 18023, NULL, NULL, NULL, NULL, 2, ARRAY[113, 326, 360, 95]),
+    -- Shielbert, Slumbering Weald: Falinks Lv. 60: No Retreat, First Impression, Close Combat, Megahorn
+    (180014, 18023, NULL, NULL, NULL, NULL, 3, ARRAY[748, 660, 370, 224]),
+    -- Shielbert, Slumbering Weald: Klinklang Lv. 60: Gear Grind, Shift Gear, Protect, Wild Charge
+    (180014, 18023, NULL, NULL, NULL, NULL, 4, ARRAY[544, 508, 182, 528]),
+    -- Sordward & Shielbert, Hammerlocke Stadium: Golisopod Lv. 62: First Impression, Liquidation, X-Scissor, Sucker Punch
+    (180014, 18024, NULL, NULL, NULL, NULL, 1, ARRAY[660, 710, 404, 389]),
+    -- Sordward & Shielbert, Hammerlocke Stadium: Doublade Lv. 62: Sacred Sword, Iron Head, Night Slash, Shadow Claw
+    (180014, 18024, NULL, NULL, NULL, NULL, 2, ARRAY[533, 442, 400, 421]),
+    -- Sordward & Shielbert, Hammerlocke Stadium: Bisharp Lv. 62: Iron Head, Night Slash, Stone Edge, Swords Dance
+    (180014, 18024, NULL, NULL, NULL, NULL, 3, ARRAY[442, 400, 444, 14]),
+    -- Sordward & Shielbert, Hammerlocke Stadium: Bronzong Lv. 62: Light Screen, Extrasensory, Gyro Ball, Hypnosis
+    (180014, 18024, NULL, NULL, NULL, NULL, 4, ARRAY[113, 326, 360, 95]),
+    -- Sordward & Shielbert, Hammerlocke Stadium: Falinks Lv. 60: No Retreat, First Impression, Close Combat, Megahorn
+    (180014, 18024, NULL, NULL, NULL, NULL, 5, ARRAY[748, 660, 370, 224]),
+    -- Sordward & Shielbert, Hammerlocke Stadium: Klinklang Lv. 60: Gear Grind, Shift Gear, Protect, Wild Charge
+    (180014, 18024, NULL, NULL, NULL, NULL, 6, ARRAY[544, 508, 182, 528]),
+    -- Sordward, Energy Plant: Sirfetch'd Lv. 64: Leaf Blade, Slam, Meteor Assault, Swords Dance
+    (180014, 18026, NULL, NULL, NULL, NULL, 1, ARRAY[348, 21, 794, 14]),
+    -- Sordward, Energy Plant: Golisopod Lv. 64: First Impression, Liquidation, X-Scissor, Sucker Punch
+    (180014, 18026, NULL, NULL, NULL, NULL, 2, ARRAY[660, 710, 404, 389]),
+    -- Sordward, Energy Plant: Doublade Lv. 64: Sacred Sword, Iron Head, Night Slash, Swords Dance
+    (180014, 18026, NULL, NULL, NULL, NULL, 3, ARRAY[533, 442, 400, 14]),
+    -- Sordward, Energy Plant: Bisharp Lv. 64: Iron Head, Night Slash, Swords Dance, Stone Edge
+    (180014, 18026, NULL, NULL, NULL, NULL, 4, ARRAY[442, 400, 14, 444]),
+    -- Shielbert, Energy Plant: Sirfetch'd Lv. 64: Leaf Blade, Slam, Meteor Assault, Iron Defense
+    (180014, 18027, NULL, NULL, NULL, NULL, 1, ARRAY[348, 21, 794, 334]),
+    -- Shielbert, Energy Plant: Bronzong Lv. 64: Light Screen, Extrasensory, Gyro Ball, Hypnosis
+    (180014, 18027, NULL, NULL, NULL, NULL, 2, ARRAY[113, 326, 360, 95]),
+    -- Shielbert, Energy Plant: Falinks Lv. 64: No Retreat, First Impression, Close Combat, Megahorn
+    (180014, 18027, NULL, NULL, NULL, NULL, 3, ARRAY[748, 660, 370, 224]),
+    -- Shielbert, Energy Plant: Klinklang Lv. 64: Gear Grind, Shift Gear, Protect, Wild Charge
+    (180014, 18027, NULL, NULL, NULL, NULL, 4, ARRAY[544, 508, 182, 528]),
     -- Hop: Dubwool Lv. 69: Cotton Guard, Double Kick, Double-Edge, Headbutt
     (180014, 18013, 31, 180001, 'grookey', NULL, 1, ARRAY[538, 24, 38, 29]),
     -- Hop: Snorlax Lv. 68: Hammer Arm, Earthquake, Heavy Slam, Crunch
@@ -519,14 +650,14 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (180014, 18013, 32, 180001, 'sobble', NULL, 5, ARRAY[441, 442, 780, 428]),
     -- Hop: Zacian (Crowned Sword) Lv. 70: Crunch, Behemoth Blade, Wild Charge, Close Combat
     (180014, 18013, 32, 180001, 'sobble', NULL, 6, ARRAY[242, 781, 528, 370]),
-    -- Zamazenta: Zamazenta Lv. 70: Play Rough, Iron Defense, Crunch, Iron Head
-    (180014, 18017, NULL, NULL, NULL, NULL, 1, ARRAY[583, 334, 242, 442]),
-    -- Zacian: Zacian Lv. 70: Sacred Sword, Swords Dance, Iron Head, Crunch
-    (180014, 18018, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 442, 242]),
-    -- Zacian: Zacian Lv. 70: Sacred Sword, Swords Dance, Iron Head, Crunch
-    (180014, 18019, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 442, 242]),
-    -- Zamazenta: Zamazenta Lv. 70: Slash, Crunch, Iron Head, Iron Defense
-    (180014, 18020, NULL, NULL, NULL, NULL, 1, ARRAY[163, 242, 442, 334])
+    -- Zamazenta: Zamazenta (Crowned Shield) Lv. 70: Play Rough, Iron Defense, Crunch, Behemoth Bash
+    (180014, 18017, NULL, NULL, NULL, NULL, 1, ARRAY[583, 334, 242, 782]),
+    -- Zacian: Zacian (Crowned Sword) Lv. 70: Sacred Sword, Swords Dance, Behemoth Blade, Crunch
+    (180014, 18018, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 781, 242]),
+    -- Zacian: Zacian (Crowned Sword) Lv. 70: Sacred Sword, Swords Dance, Behemoth Blade, Crunch
+    (180014, 18019, NULL, NULL, NULL, NULL, 1, ARRAY[533, 14, 781, 242]),
+    -- Zamazenta: Zamazenta (Crowned Shield) Lv. 70: Slash, Crunch, Behemoth Bash, Iron Defense
+    (180014, 18020, NULL, NULL, NULL, NULL, 1, ARRAY[163, 242, 782, 334])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

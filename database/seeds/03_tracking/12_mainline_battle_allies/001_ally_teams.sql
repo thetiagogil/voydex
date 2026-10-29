@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Trace, Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -439,4 +439,22 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Trace beside you vs Blue (Let's Go, Eevee!) 3: Gloom Lv. 36
   (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 44, 4400, 36, NULL),
   -- Trace beside you vs Blue (Let's Go, Eevee!) 4: Raichu Lv. 37
-  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 37, NULL);
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 37, NULL),
+  -- Hop beside you vs Sordward & Shielbert [grookey] 1: Dubwool Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 832, 83200, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [grookey] 2: Corviknight Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 823, 82300, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [grookey] 3: Inteleon Lv. 62
+  (180014, 18024, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 818, 81800, 62, NULL),
+  -- Hop beside you vs Sordward & Shielbert [scorbunny] 1: Dubwool Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 832, 83200, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [scorbunny] 2: Corviknight Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 823, 82300, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [scorbunny] 3: Rillaboom Lv. 62
+  (180014, 18024, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 812, 81200, 62, NULL),
+  -- Hop beside you vs Sordward & Shielbert [sobble] 1: Dubwool Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 832, 83200, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [sobble] 2: Corviknight Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 823, 82300, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [sobble] 3: Cinderace Lv. 62
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 815, 81500, 62, NULL);
