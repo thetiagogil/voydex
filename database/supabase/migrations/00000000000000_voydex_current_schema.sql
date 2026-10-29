@@ -3044,6 +3044,7 @@ CREATE TABLE tracking.mainline_milestone_opponent_refs (
     sort_order integer NOT NULL,
     notes text,
     player_side text NOT NULL DEFAULT 'own-team',
+    team_size_limit integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_milestone_opponent_refs_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_milestone_opponent_refs_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -3052,6 +3053,8 @@ CREATE TABLE tracking.mainline_milestone_opponent_refs (
     CONSTRAINT mainline_milestone_opponent_refs_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_milestone_opponent_refs_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 1000),
     CONSTRAINT mainline_milestone_opponent_refs_player_side_check CHECK (player_side IN ('own-team', 'lent-pokemon', 'one-own-pokemon', 'not-a-battle')),
+    CONSTRAINT mainline_milestone_opponent_refs_team_size_limit_range_check CHECK (team_size_limit IS NULL OR team_size_limit BETWEEN 1 AND 5),
+    CONSTRAINT mainline_milestone_opponent_refs_team_size_limit_own_team_check CHECK (team_size_limit IS NULL OR player_side = 'own-team'),
     CONSTRAINT mainline_milestone_opponent_refs_unique UNIQUE (milestone_id, opponent_id, version_group_id)
 );
 
@@ -3062,6 +3065,8 @@ CREATE INDEX mainline_milestone_opponent_refs_opponent_idx ON tracking.mainline_
 COMMENT ON TABLE tracking.mainline_milestone_opponent_refs IS 'Static opponent references related to milestone definitions.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.player_side IS 'What the player battles with: own-team, a lent-pokemon given for the fight, one-own-pokemon alone (such as the ride legendary), or not-a-battle where the fight is mostly dodging and balms.';
+
+COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.team_size_limit IS 'How many of their own Pokémon the player may bring to this battle, where the game limits it (Emerald''s Space Center Multi Battle: three). NULL means the whole team; only for own-team battles.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.version_group_id IS 'Enforces that the milestone and opponent belong to the same version group.';
 
@@ -9769,7 +9774,7 @@ WHERE
             mainline_milestone_pokemon_refs.milestone_id = mainline_milestones.id) AS pokemon_refs ON TRUE
     LEFT JOIN LATERAL (
         SELECT
-            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'sort_order', mainline_milestone_opponent_refs.sort_order)
+            jsonb_agg(jsonb_build_object('relation_kind', mainline_milestone_opponent_refs.relation_kind, 'opponent_id', mainline_opponents.id, 'slug', mainline_opponents.slug, 'name', mainline_opponents.name, 'opponent_role', mainline_opponents.opponent_role, 'primary_type_id', mainline_opponents.primary_type_id, 'secondary_type_id', mainline_opponents.secondary_type_id, 'sprite_slug', mainline_opponents.sprite_slug, 'notes', mainline_milestone_opponent_refs.notes, 'player_side', mainline_milestone_opponent_refs.player_side, 'team_size_limit', mainline_milestone_opponent_refs.team_size_limit, 'sort_order', mainline_milestone_opponent_refs.sort_order)
             ORDER BY mainline_milestone_opponent_refs.sort_order) AS opponent_refs
         FROM
             tracking.mainline_milestone_opponent_refs

@@ -162,6 +162,8 @@ export type StoryBattleReading = {
   members: StoryMemberReading[];
   /* Types that hit one of them for 2× that none of your recorded moves has. */
   uncoveredTypes: Type[];
+  /* Where you may bring only some of your team: the best pick, as indexes into your team. Null for your whole team. */
+  picked: number[] | null;
 };
 
 const countWords = ["no", "one", "two", "three", "four", "five", "six"];
@@ -169,6 +171,27 @@ const countWords = ["no", "one", "two", "three", "four", "five", "six"];
 const countWord = (count: number) => countWords[count] ?? String(count);
 
 const levelWord = (count: number) => (count === 1 ? "level" : "levels");
+
+/*
+ * Where you may bring only some of your team: the note above your team and
+ * the heading of the pick the verdict reads. Where only one battles it is
+ * your lead (the Battle Royal).
+ */
+export const getTeamLimitWords = (teamSizeLimit: number) => {
+  if (teamSizeLimit === 1) {
+    return {
+      note: "Only your lead Pokémon battles here, so Voydex reads your best lead.",
+      pick: "Your best lead",
+    };
+  }
+
+  const count = countWord(teamSizeLimit);
+
+  return {
+    note: `You bring only ${count} of your Pokémon here, so Voydex reads your best ${count}.`,
+    pick: `Your best ${count}`,
+  };
+};
 
 export const getLevelRange = (levels: number[]): StoryLevelRange | null =>
   levels.length ? { max: Math.max(...levels), min: Math.min(...levels) } : null;
@@ -469,27 +492,7 @@ export const getBattleState = ({
 export const countOpponentsWithMoves = (their: StoryOpponentPokemon[]) =>
   their.filter((pokemon) => pokemon.moves.length > 0).length;
 
-/*
- * Reads your active team against one opponent's team by types, recorded
- * moves and levels (v3 `storyMatchups()`): who answers whom, who is exposed,
- * and one verdict with the sentence behind it. Their threat is read from
- * their damaging moves where Voydex has them, else from their own types and
- * any Tera Type, and what hits them from their Tera Type where they
- * Terastallize. An ally's Pokémon fighting beside you join your side in the
- * verdict, as extra team members at their own levels: they can answer theirs
- * and share what the battle costs. An ally only ever helps, so the verdict is
- * the easier of fighting alone and fighting beside them. Each of yours, the
- * levels and the sentence stay about your own team.
- */
-export const readStoryBattle = ({
-  allies = [],
-  generationOrder,
-  members,
-  opponentKind = "trainer",
-  opponentName,
-  their,
-  types,
-}: {
+type StoryBattleInput = {
   /* The Pokémon of anyone fighting beside you, read as theirs are. */
   allies?: StoryOpponentPokemon[];
   generationOrder: number;
@@ -499,7 +502,26 @@ export const readStoryBattle = ({
   opponentName: string | null;
   their: StoryOpponentPokemon[];
   types: Type[];
-}): StoryBattleReading => {
+};
+
+/* A reading of one side, with the share of its HP the battle costs it. */
+type SideReading = Omit<StoryBattleReading, "picked"> & {
+  share: number | null;
+};
+
+/*
+ * Reads one side of yours (your team, or the Pokémon you bring) against
+ * their team.
+ */
+const readSide = ({
+  allies = [],
+  generationOrder,
+  members,
+  opponentKind = "trainer",
+  opponentName,
+  their,
+  types,
+}: StoryBattleInput): SideReading => {
   const typeBySlug = new Map(types.map((type) => [type.slug, type]));
   const theirSlugs = their.map(getDefendingSlugs);
   const theirAttackingSlugs = new Set(their.flatMap(getAttackingSlugs));
@@ -704,6 +726,7 @@ export const readStoryBattle = ({
       levels,
       members: memberReadings,
       missing: [],
+      share: null,
       state: null,
       summary: null,
       uncoveredTypes,
@@ -725,25 +748,24 @@ export const readStoryBattle = ({
     ),
     teamCount: members.length,
   });
-  const state = toBattleState(
-    allies.length
-      ? Math.min(
-          shareAlone,
-          getBattleShare({
-            answerCosts: their.map((_, index) =>
-              getAnswerCost(battleCosts.map((row) => row[index])),
-            ),
-            teamCount: sideCount,
-          }),
-        )
-      : shareAlone,
-  );
+  const share = allies.length
+    ? Math.min(
+        shareAlone,
+        getBattleShare({
+          answerCosts: their.map((_, index) =>
+            getAnswerCost(battleCosts.map((row) => row[index])),
+          ),
+          teamCount: sideCount,
+        }),
+      )
+    : shareAlone;
 
   return {
     levels,
     members: memberReadings,
     missing,
-    state,
+    share,
+    state: toBattleState(share),
     summary: getSummary({
       answeredCount,
       exposedCount,
@@ -756,6 +778,101 @@ export const readStoryBattle = ({
     }),
     uncoveredTypes,
   };
+};
+
+/*
+ * Reads your active team against one opponent's team by types, recorded
+ * moves and levels (v3 `storyMatchups()`): who answers whom, who is exposed,
+ * and one verdict with the sentence behind it. Their threat is read from
+ * their damaging moves where Voydex has them, else from their own types and
+ * any Tera Type, and what hits them from their Tera Type where they
+ * Terastallize. An ally's Pokémon fighting beside you join your side in the
+ * verdict, as extra team members at their own levels: they can answer theirs
+ * and share what the battle costs. An ally only ever helps, so the verdict is
+ * the easier of fighting alone and fighting beside them. Each of yours, the
+ * levels and the sentence stay about your own team.
+ * Where you may bring only some of your team (`teamSizeLimit`), it reads every
+ * pick of that many and keeps the one the battle costs least (on a tie,
+ * the one whose Pokémon would each fare best alone, then the earlier): the verdict,
+ * levels, sentence and uncovered types are about that pick; each of yours is
+ * still read, and what your team doesn't record is still the whole team's.
+ */
+export const readStoryBattle = ({
+  teamSizeLimit = null,
+  ...input
+}: StoryBattleInput & {
+  /* How many of your Pokémon you may bring; null for your whole team. */
+  teamSizeLimit?: number | null;
+}): StoryBattleReading => {
+  const whole = readSide(input);
+  const { members } = input;
+  let best: {
+    alone: number;
+    indexes: number[];
+    reading: SideReading;
+    share: number;
+  } | null = null;
+
+  if (teamSizeLimit !== null && members.length > teamSizeLimit) {
+    /* What their team would cost each of yours alone, to break a tie. */
+    const aloneShares = members.map(
+      (member) =>
+        readSide({ ...input, allies: [], members: [member] }).share ??
+        Number.POSITIVE_INFINITY,
+    );
+
+    for (const indexes of getPicks(members.length, teamSizeLimit)) {
+      const reading = readSide({
+        ...input,
+        members: indexes.map((index) => members[index]),
+      });
+      const alone = indexes.reduce((sum, index) => sum + aloneShares[index], 0);
+
+      /*
+       * The pick the battle costs least; on a tie, the one whose Pokémon
+       * would each fare best alone, then the earlier one, so your lead goes
+       * first.
+       */
+      if (
+        reading.share !== null &&
+        (!best ||
+          reading.share < best.share - shareTolerance ||
+          (reading.share <= best.share + shareTolerance &&
+            alone < best.alone - shareTolerance))
+      ) {
+        best = { alone, indexes, reading, share: reading.share };
+      }
+    }
+  }
+
+  const { levels, state, summary, uncoveredTypes } = best?.reading ?? whole;
+
+  return {
+    levels,
+    members: whole.members,
+    missing: whole.missing,
+    picked: best?.indexes ?? null,
+    state,
+    summary,
+    uncoveredTypes,
+  };
+};
+
+/* Shares this close are a tie. */
+const shareTolerance = 1e-9;
+
+/* Every way to pick `size` of `count`, as indexes in order: 0,1,2 then 0,1,3… */
+const getPicks = (count: number, size: number): number[][] => {
+  if (size === 0) {
+    return [[]];
+  }
+
+  return Array.from({ length: count - size + 1 }, (_, first) =>
+    getPicks(count - first - 1, size - 1).map((rest) => [
+      first,
+      ...rest.map((index) => index + first + 1),
+    ]),
+  ).flat();
 };
 
 /*

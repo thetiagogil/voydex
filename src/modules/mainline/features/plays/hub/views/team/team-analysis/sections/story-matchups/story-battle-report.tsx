@@ -52,6 +52,7 @@ import {
   formatLevelRange,
   getLevelsSentence,
   getPowerUpSentence,
+  getTeamLimitWords,
   type StoryBestHit,
   type StoryHitDetail,
   type StoryOpponentKind,
@@ -558,6 +559,68 @@ const BesideYou = ({
 };
 
 /* The footnote on what the reading reads them by: their moves, their types, or both. */
+/* One of yours in "Your team": its role, best hit and what it is weak to. */
+const TeamRow = ({
+  hasParty,
+  reading: { bestHit, lands, member, role, takes, weakTo },
+}: {
+  /* Their team is in Voydex, so it has a role and a best hit to read. */
+  hasParty: boolean;
+  reading: StoryMatchupBattle["members"][number];
+}) => {
+  const name = getPlayTeamMemberName(member);
+
+  return (
+    <tr className="align-middle">
+      <th scope="row" className="py-2 pr-2 font-normal">
+        <span className="flex min-w-0 items-center gap-2.5">
+          <SmallSticker
+            imageUrl={getPlayTeamMemberImageUrl(member)}
+            name=""
+            typeSlug={member.primaryType?.slug ?? null}
+          />
+          <span className="grid min-w-0">
+            <b className="text-14 truncate font-extrabold">{name}</b>
+            {member.level ? (
+              <span className="text-ink-3 text-12 font-semibold tabular-nums">
+                Lv. {member.level}
+              </span>
+            ) : null}
+          </span>
+        </span>
+      </th>
+      {hasParty ? (
+        <td className="text-13 py-2">
+          {role ? (
+            <MatchupStateLabel state={role}>
+              {matchupStates[role].role}
+            </MatchupStateLabel>
+          ) : (
+            <span className="text-ink-3 font-bold">Not recorded</span>
+          )}
+        </td>
+      ) : null}
+      <td className="py-2">
+        {bestHit ? (
+          <BestHit hit={bestHit} lands={lands} />
+        ) : hasParty ? (
+          <span className="text-ink-3 text-13 font-bold">None</span>
+        ) : (
+          /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
+          <PendingData variant="inline" label="Not yet" />
+        )}
+      </td>
+      <td className="py-2">
+        {takes.length || weakTo.length ? (
+          <WeakTo takes={takes} weakTo={weakTo} />
+        ) : (
+          <span className="text-ink-3 text-13 font-bold">None</span>
+        )}
+      </td>
+    </tr>
+  );
+};
+
 const getMovesNote = (
   notes: (typeof reportWording)[StoryOpponentKind]["moves"],
   their: StoryOpponentPokemon[],
@@ -592,6 +655,25 @@ export const StoryBattleReport = ({
   const [movesShownFor, setMovesShownFor] = useState<string | null>(null);
   const showMoves = movesShownFor === battle.id;
   const hasMoves = party ? countOpponentsWithMoves(party.pokemon) > 0 : false;
+  /* Where you bring only some of your team: the pick the verdict reads first, then the rest. */
+  const picked = reading?.picked ?? null;
+  const limitWords =
+    battle.teamSizeLimit && picked
+      ? getTeamLimitWords(battle.teamSizeLimit)
+      : null;
+  const teamGroups =
+    limitWords && picked
+      ? [
+          {
+            label: limitWords.pick,
+            rows: picked.flatMap((index) => battle.members[index] ?? []),
+          },
+          {
+            label: "The rest of your team",
+            rows: battle.members.filter((_, index) => !picked.includes(index)),
+          },
+        ]
+      : [{ label: "Your team", rows: battle.members }];
 
   return (
     <div className="min-w-0">
@@ -724,6 +806,11 @@ export const StoryBattleReport = ({
       ) : battle.playerSide !== "own-team" ? null : (
         <>
           <SheetSection className="mt-9 gap-3" title="Your team">
+            {limitWords ? (
+              <p className="text-ink-2 text-14 font-semibold">
+                {limitWords.note}
+              </p>
+            ) : null}
             {battle.members.length ? (
               <table className="w-full table-fixed border-collapse text-left">
                 <thead>
@@ -750,74 +837,28 @@ export const StoryBattleReport = ({
                     </th>
                   </tr>
                 </thead>
-                <tbody className="divide-line divide-y">
-                  {battle.members.map(
-                    ({ bestHit, lands, member, role, takes, weakTo }) => {
-                      const name = getPlayTeamMemberName(member);
-
-                      return (
-                        <tr
-                          key={member.play_pokemon_id}
-                          className="align-middle"
+                {teamGroups.map((group) => (
+                  <tbody key={group.label} className="divide-line divide-y">
+                    {limitWords ? (
+                      <tr>
+                        <th
+                          scope="colgroup"
+                          colSpan={party ? 4 : 3}
+                          className="text-ink-2 text-13 pt-4 pb-1 font-extrabold"
                         >
-                          <th scope="row" className="py-2 pr-2 font-normal">
-                            <span className="flex min-w-0 items-center gap-2.5">
-                              <SmallSticker
-                                imageUrl={getPlayTeamMemberImageUrl(member)}
-                                name=""
-                                typeSlug={member.primaryType?.slug ?? null}
-                              />
-                              <span className="grid min-w-0">
-                                <b className="text-14 truncate font-extrabold">
-                                  {name}
-                                </b>
-                                {member.level ? (
-                                  <span className="text-ink-3 text-12 font-semibold tabular-nums">
-                                    Lv. {member.level}
-                                  </span>
-                                ) : null}
-                              </span>
-                            </span>
-                          </th>
-                          {party ? (
-                            <td className="text-13 py-2">
-                              {role ? (
-                                <MatchupStateLabel state={role}>
-                                  {matchupStates[role].role}
-                                </MatchupStateLabel>
-                              ) : (
-                                <span className="text-ink-3 font-bold">
-                                  Not recorded
-                                </span>
-                              )}
-                            </td>
-                          ) : null}
-                          <td className="py-2">
-                            {bestHit ? (
-                              <BestHit hit={bestHit} lands={lands} />
-                            ) : party ? (
-                              <span className="text-ink-3 text-13 font-bold">
-                                None
-                              </span>
-                            ) : (
-                              /* TODO(v3-data): best hit needs the opponent's team, which Voydex doesn't have for this game. */
-                              <PendingData variant="inline" label="Not yet" />
-                            )}
-                          </td>
-                          <td className="py-2">
-                            {takes.length || weakTo.length ? (
-                              <WeakTo takes={takes} weakTo={weakTo} />
-                            ) : (
-                              <span className="text-ink-3 text-13 font-bold">
-                                None
-                              </span>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    },
-                  )}
-                </tbody>
+                          {group.label}
+                        </th>
+                      </tr>
+                    ) : null}
+                    {group.rows.map((row) => (
+                      <TeamRow
+                        key={row.member.play_pokemon_id}
+                        hasParty={Boolean(party)}
+                        reading={row}
+                      />
+                    ))}
+                  </tbody>
+                ))}
               </table>
             ) : (
               <p className="text-ink-2 text-14 font-semibold">

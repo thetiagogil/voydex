@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia Ultra Sun / Ultra Moon, Island challenge, Elite Four, Champion, Team Rainbow Rocket, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
+-- Team size: Bulbapedia's Battle Royal Dome page (the player fights with the lead Pokémon in their party), matching a walkthrough's "one pokémon per trainer".
 -- Scope: Pokémon Ultra Sun / Ultra Moon milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -67,8 +68,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (160005, 16019, 16, 'battle-opponent', 1, 'Paniola Town'),
   -- Lana Trial -> Gladion
   (160005, 16020, 16, 'battle-opponent', 2, 'Route 5'),
-  -- Kiawe Trial -> Hau & Gladion
-  (160006, 16021, 16, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue'),
   -- Sophocles Trial -> Hau
   (160009, 16019, 16, 'battle-opponent', 2, 'Malie City'),
   -- Sophocles Trial -> Guzma
@@ -111,3 +110,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (160031, 16036, 16, 'battle-opponent', 2, 'Poni Grove (Poni Island). You can skip this battle.'),
   -- Ilima Bonus Trial -> Ilima
   (160032, 16001, 16, 'battle-opponent', 1, 'Verdant Cavern, Totem''s Den (Melemele Island). You can skip this battle.');
+
+-- Battles where the player may bring only some of their team.
+INSERT INTO tracking.mainline_milestone_opponent_refs (
+  milestone_id,
+  opponent_id,
+  version_group_id,
+  relation_kind,
+  sort_order,
+  notes,
+  team_size_limit
+) VALUES
+  -- Kiawe Trial -> Hau & Gladion (the Battle Royal: one Pokémon per trainer, the player's lead)
+  (160006, 16021, 16, 'battle-opponent', 1, 'Battle Royal Dome, Royal Avenue', 1);

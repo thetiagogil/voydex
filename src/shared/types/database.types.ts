@@ -4407,6 +4407,7 @@ export type Database = {
           player_side: string;
           relation_kind: string;
           sort_order: number;
+          team_size_limit: number | null;
           version_group_id: number;
         };
         ComputedFields: never;
@@ -4419,6 +4420,7 @@ export type Database = {
           player_side?: string;
           relation_kind: string;
           sort_order: number;
+          team_size_limit?: number | null;
           version_group_id: number;
         };
         Update: {
@@ -4430,6 +4432,7 @@ export type Database = {
           player_side?: string;
           relation_kind?: string;
           sort_order?: number;
+          team_size_limit?: number | null;
           version_group_id?: number;
         };
         Relationships: [
