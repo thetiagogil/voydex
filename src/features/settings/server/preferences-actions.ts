@@ -6,6 +6,7 @@ import { z } from "zod";
 import { motionPreferences } from "@/config/motion-preference";
 import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
 import { appRoutes } from "@/config/routes";
+import { searchFiltersPreferences } from "@/config/search-filters-preference";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import type { TablesInsert } from "@/shared/types/database.types";
@@ -16,16 +17,23 @@ export type PreferencesActionResult = {
   status: "error" | "success";
 };
 
-const motionSchema = z.enum(motionPreferences, {
-  error: "Pick Follow device, Full or Reduced.",
+const lookAndFeelSchema = z.object({
+  motion: z.enum(motionPreferences, {
+    error: "Pick Full or None.",
+  }),
+  searchFilters: z.enum(searchFiltersPreferences, {
+    error: "Pick Folded or Always open.",
+  }),
 });
+
+export type LookAndFeel = z.infer<typeof lookAndFeelSchema>;
 
 const SAVE_FAILED = "Your settings couldn't be saved. Try again in a moment.";
 
 /*
- * Saves part of your preferences row, creating it on first save. Motion shows
- * on every page and the defaults feed New Play, so the whole app is
- * revalidated.
+ * Saves part of your preferences row, creating it on first save. Look and
+ * feel shows on every page and the defaults feed New Play, so the whole app
+ * is revalidated.
  */
 const saveOwnPreferences = async (
   update: Omit<TablesInsert<"user_preferences">, "user_id">,
@@ -52,17 +60,23 @@ const saveOwnPreferences = async (
   return { message, status: "success" };
 };
 
-/* Look and feel's Motion: Follow device, Full or Reduced. */
-export const saveMotionAction = async (
-  motion: string,
+/* Look and feel: Motion, and whether lists keep search and filters open. */
+export const saveLookAndFeelAction = async (
+  lookAndFeel: LookAndFeel,
 ): Promise<PreferencesActionResult> => {
-  const parsed = safeParseInput(motionSchema, motion);
+  const parsed = safeParseInput(lookAndFeelSchema, lookAndFeel);
 
   if (!parsed.ok) {
     return { message: parsed.message, status: "error" };
   }
 
-  return saveOwnPreferences({ motion: parsed.data }, "Motion saved");
+  return saveOwnPreferences(
+    {
+      motion: parsed.data.motion,
+      search_filters_open: parsed.data.searchFilters === "open",
+    },
+    "Look and feel saved",
+  );
 };
 
 /* New Play defaults: what a new Play starts tracking. Each Play can change it. */

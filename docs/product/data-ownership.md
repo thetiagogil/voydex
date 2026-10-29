@@ -53,9 +53,10 @@ Display name, the Pokémon icon (`icon_form_id`, a reference form), the default
 trainer name a new Play starts with and when Welcome was finished or skipped
 (`welcome_completed_at`). `public.user_preferences` is the home for global defaults that
 are not play-specific: the New Play defaults (`default_track_story`,
-`default_pokedex_mode`, `default_track_collectibles`) and the motion
-preference (`motion`: full, reduced or system). Pokémon reuse is a Play's No
-Pokémon reuse rule.
+`default_pokedex_mode`, `default_track_collectibles`), the motion
+preference (`motion`: full or none) and the Search and filters
+choice (`search_filters_open`). Pokémon reuse is a Play's No Pokémon reuse
+rule.
 
 The game and partner picked on Start a Play are a wish, not a record: they
 travel as `?game=` and `?partner=`, then wait on the Auth user's metadata

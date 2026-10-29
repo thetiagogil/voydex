@@ -1,5 +1,5 @@
 import type { PlayTracking } from "@/config/play-tracking";
-import type { MotionPreference } from "@/config/motion-preference";
+import type { LookAndFeel } from "@/features/settings/server/preferences-actions";
 import type { ProfileIconChoice } from "@/features/settings/types";
 import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
 import { PageBand } from "@/shared/components/page-band";
@@ -17,7 +17,8 @@ type SettingsPageProps = {
   /* Null when the claims carry no email. */
   email: string | null;
   iconFormId: number | null;
-  motion: MotionPreference;
+  /* Motion, and whether lists keep search and filters open. */
+  lookAndFeel: LookAndFeel;
   /* What a new Play starts tracking. */
   newPlayDefaults: PlayTracking;
   /* The route's log out action, shared with the app shell's account menu. */
@@ -37,7 +38,7 @@ export const SettingsPage = ({
   displayName,
   email,
   iconFormId,
-  motion,
+  lookAndFeel,
   newPlayDefaults,
   signOutAction,
   trainerSince,
@@ -60,7 +61,7 @@ export const SettingsPage = ({
       </div>
     </PageBand>
     <div className="mt-6 flex flex-col gap-6">
-      <SettingsLookSection motion={motion} />
+      <SettingsLookSection lookAndFeel={lookAndFeel} />
       <SettingsNewPlayDefaultsSection defaults={newPlayDefaults} />
       <SettingsAccountSection email={email} signOutAction={signOutAction} />
       <SettingsDataSection />

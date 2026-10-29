@@ -3,7 +3,7 @@ import { describe, expect, it, vi } from "vitest";
 
 vi.mock("next/navigation", () => ({ useRouter: () => ({ refresh: vi.fn() }) }));
 vi.mock("../server/preferences-actions", () => ({
-  saveMotionAction: vi.fn(),
+  saveLookAndFeelAction: vi.fn(),
   saveNewPlayDefaultsAction: vi.fn(),
 }));
 
@@ -63,12 +63,17 @@ describe("SettingsNewPlayDefaultsSection", () => {
 });
 
 describe("SettingsLookSection", () => {
-  it("offers the three Motion choices and leaves Mode and Colour theme pending", () => {
-    const html = renderToStaticMarkup(<SettingsLookSection motion="full" />);
+  it("offers Motion and Search and filters and leaves Mode and Colour theme pending", () => {
+    const html = renderToStaticMarkup(
+      <SettingsLookSection
+        lookAndFeel={{ motion: "full", searchFilters: "folded" }}
+      />,
+    );
 
-    expect(html).toContain("Follow device");
     expect(html).toContain("Full");
-    expect(html).toContain("Reduced");
+    expect(html).toContain("None");
+    expect(html).toContain("Folded");
+    expect(html).toContain("Always open");
     expect(html.match(/Not in Voydex yet/g)).toHaveLength(2);
   });
 });

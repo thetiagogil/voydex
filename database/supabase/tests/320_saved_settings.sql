@@ -8,15 +8,17 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f1', 'authenticated', 'authenticated', 'settings-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f2', 'authenticated', 'authenticated', 'settings-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (36);
+    plan (39);
 -- Defaults of a new account
 SELECT
     results_eq ($$
         SELECT
-            default_track_story, default_pokedex_mode, default_track_collectibles, motion FROM public.user_preferences
+            default_track_story, default_pokedex_mode, default_track_collectibles, motion, search_filters_open FROM public.user_preferences
             WHERE
                 user_id = '00000000-0000-0000-0000-0000000000f1' ORDER BY user_id $$, $$
-            VALUES (TRUE, 'caught_and_seen', TRUE, 'system') $$, 'a new account tracks everything, caught and seen, and follows the device motion setting');
+            VALUES (TRUE, 'caught_and_seen', TRUE, 'full', FALSE) $$, 'a new account tracks everything, caught and seen, plays full motion and folds search and filters');
+SELECT
+    col_not_null ('public', 'user_preferences', 'search_filters_open', 'the search and filters choice is never empty');
 SELECT
     col_not_null ('public', 'user_preferences', 'motion', 'motion is never empty');
 SELECT
@@ -29,14 +31,14 @@ SELECT
 SET LOCAL ROLE authenticated;
 SELECT
     lives_ok ($$ INSERT INTO public.user_preferences (user_id, default_track_story, default_pokedex_mode, default_track_collectibles, motion)
-            VALUES ('00000000-0000-0000-0000-0000000000f1', FALSE, 'caught_only', FALSE, 'reduced') ON CONFLICT (user_id)
+            VALUES ('00000000-0000-0000-0000-0000000000f1', FALSE, 'caught_only', FALSE, 'none') ON CONFLICT (user_id)
             DO UPDATE SET
                 default_track_story = EXCLUDED.default_track_story, default_pokedex_mode = EXCLUDED.default_pokedex_mode, default_track_collectibles = EXCLUDED.default_track_collectibles, motion = EXCLUDED.motion $$, 'an owner can save their settings with an upsert');
 SELECT
     results_eq ($$
         SELECT
             default_track_story, default_pokedex_mode, default_track_collectibles, motion FROM public.user_preferences $$, $$
-        VALUES (FALSE, 'caught_only', FALSE, 'reduced') $$, 'the owner reads the saved settings back');
+        VALUES (FALSE, 'caught_only', FALSE, 'none') $$, 'the owner reads the saved settings back');
 SELECT
     throws_ok ($$ UPDATE
             public.user_preferences
@@ -46,12 +48,22 @@ SELECT
     throws_ok ($$ UPDATE
             public.user_preferences
         SET
-            motion = 'fast' $$, '23514', NULL, 'motion must be full, reduced or system');
+            motion = 'fast' $$, '23514', NULL, 'motion must be full or none');
 SELECT
     lives_ok ($$ UPDATE
             public.user_preferences
         SET
             motion = 'full' $$, 'the owner can change motion');
+SELECT
+    lives_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            search_filters_open = TRUE $$, 'the owner can keep search and filters open');
+SELECT
+    throws_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            search_filters_open = NULL $$, '23502', NULL, 'search and filters is never empty');
 SELECT
     throws_ok ($$ UPDATE
             public.user_preferences
@@ -69,7 +81,7 @@ SELECT
 UPDATE
     public.user_preferences
 SET
-    motion = 'reduced',
+    motion = 'none',
     default_track_story = TRUE
 WHERE
     user_id = '00000000-0000-0000-0000-0000000000f1';
@@ -77,7 +89,7 @@ SELECT
     throws_ok ($$ INSERT INTO public.user_preferences (user_id)
             VALUES ('00000000-0000-0000-0000-0000000000f1') ON CONFLICT (user_id)
             DO UPDATE SET
-                motion = 'reduced' $$, '42501', NULL, 'another trainer cannot upsert over my settings');
+                motion = 'none' $$, '42501', NULL, 'another trainer cannot upsert over my settings');
 RESET ROLE;
 SELECT
     results_eq ($$

@@ -1,5 +1,6 @@
 import type { MotionPreference } from "@/config/motion-preference";
 import type { PublicTypeSlug } from "@/config/public-art";
+import type { SearchFiltersPreference } from "@/config/search-filters-preference";
 
 /* The Pokémon a trainer picked as their icon; `url` is null when its picture can't be shown. */
 export type AccountIcon = {
@@ -17,8 +18,10 @@ export type SignedInAccount = {
   email: string | null;
   /* Your Pokémon icon; null until you pick one (your initial stands in). */
   icon: AccountIcon | null;
-  /* Your Motion setting; Follow device until you choose or when it can't be read. */
+  /* Your Motion setting; Full until you choose or when it can't be read. */
   motion: MotionPreference;
+  /* Your Search and filters setting; Folded until you choose or when it can't be read. */
+  searchFilters: SearchFiltersPreference;
   /* "November 2024"; null when the profile couldn't be read. */
   trainerSince: string | null;
 };

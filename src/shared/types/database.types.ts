@@ -1748,6 +1748,7 @@ export type Database = {
           default_track_collectibles: boolean;
           default_track_story: boolean;
           motion: string;
+          search_filters_open: boolean;
           updated_at: string;
           user_id: string;
         };
@@ -1758,6 +1759,7 @@ export type Database = {
           default_track_collectibles?: boolean;
           default_track_story?: boolean;
           motion?: string;
+          search_filters_open?: boolean;
           updated_at?: string;
           user_id: string;
         };
@@ -1767,6 +1769,7 @@ export type Database = {
           default_track_collectibles?: boolean;
           default_track_story?: boolean;
           motion?: string;
+          search_filters_open?: boolean;
           updated_at?: string;
           user_id?: string;
         };

@@ -13,6 +13,7 @@ import {
   mainlineLinks,
   publicLinks,
 } from "@/features/app-shell/utils/app-navigation";
+import { FoldsOpenProvider } from "@/shared/components/fold";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Toaster } from "@/shared/components/ui/sonner";
 import { cn } from "@/shared/utils/cn";
@@ -117,7 +118,9 @@ export const AppShell = ({
       )}
       <main className="page-column relative z-10 flex min-w-0 flex-1 flex-col pt-(--page-top) pb-12 lg:pb-18">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col gap-2">
-          {children}
+          <FoldsOpenProvider open={account?.searchFilters === "open"}>
+            {children}
+          </FoldsOpenProvider>
         </div>
       </main>
       {account ? <AppTabBar account={account} /> : <SiteFooter />}

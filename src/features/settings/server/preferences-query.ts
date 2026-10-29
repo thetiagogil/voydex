@@ -7,11 +7,16 @@ import {
   toMotionPreference,
   type MotionPreference,
 } from "@/config/motion-preference";
+import {
+  toSearchFiltersPreference,
+  type SearchFiltersPreference,
+} from "@/config/search-filters-preference";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export type UserPreferences = {
   motion: MotionPreference;
+  searchFilters: SearchFiltersPreference;
   /* What a new Play starts with. */
   newPlayDefaults: PlayTracking;
 };
@@ -33,7 +38,7 @@ export const readUserPreferences = async (): Promise<UserPreferences> => {
   const { data, error } = await supabase
     .from("user_preferences")
     .select(
-      "default_pokedex_mode, default_track_collectibles, default_track_story, motion",
+      "default_pokedex_mode, default_track_collectibles, default_track_story, motion, search_filters_open",
     )
     .eq("user_id", userId)
     .maybeSingle();
@@ -51,5 +56,6 @@ export const readUserPreferences = async (): Promise<UserPreferences> => {
           story: data.default_track_story,
         }
       : defaultPlayTracking,
+    searchFilters: toSearchFiltersPreference(data?.search_filters_open),
   };
 };

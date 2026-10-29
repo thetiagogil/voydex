@@ -30,7 +30,7 @@ vi.mock("@/platform/supabase/server-client", () => ({
 }));
 
 import {
-  saveMotionAction,
+  saveLookAndFeelAction,
   saveNewPlayDefaultsAction,
 } from "./preferences-actions";
 
@@ -41,22 +41,51 @@ beforeEach(() => {
   state.userId = "user-1";
 });
 
-describe("saveMotionAction", () => {
-  it("saves the choice on your own row and refreshes every page", async () => {
-    const result = await saveMotionAction("reduced");
+describe("saveLookAndFeelAction", () => {
+  it("saves the choices on your own row and refreshes every page", async () => {
+    const result = await saveLookAndFeelAction({
+      motion: "none",
+      searchFilters: "open",
+    });
 
-    expect(result).toEqual({ message: "Motion saved", status: "success" });
+    expect(result).toEqual({
+      message: "Look and feel saved",
+      status: "success",
+    });
     expect(upserts).toEqual([
       {
         onConflict: "user_id",
-        row: { motion: "reduced", user_id: "user-1" },
+        row: {
+          motion: "none",
+          search_filters_open: true,
+          user_id: "user-1",
+        },
       },
     ]);
     expect(revalidated).toEqual(["/"]);
   });
 
+  it("saves Folded as the switch off", async () => {
+    await saveLookAndFeelAction({ motion: "full", searchFilters: "folded" });
+
+    expect(upserts[0]?.row).toMatchObject({ search_filters_open: false });
+  });
+
   it("refuses a value that is not a motion choice", async () => {
-    const result = await saveMotionAction("slow");
+    const result = await saveLookAndFeelAction({
+      motion: "slow",
+      searchFilters: "folded",
+    } as never);
+
+    expect(result.status).toBe("error");
+    expect(upserts).toEqual([]);
+  });
+
+  it("refuses a value that is not a search and filters choice", async () => {
+    const result = await saveLookAndFeelAction({
+      motion: "full",
+      searchFilters: "hidden",
+    } as never);
 
     expect(result.status).toBe("error");
     expect(upserts).toEqual([]);
@@ -65,7 +94,10 @@ describe("saveMotionAction", () => {
   it("asks you to log in again without a session", async () => {
     state.userId = null;
 
-    const result = await saveMotionAction("full");
+    const result = await saveLookAndFeelAction({
+      motion: "full",
+      searchFilters: "folded",
+    });
 
     expect(result.status).toBe("error");
     expect(result.message).toContain("Log in again");
@@ -75,7 +107,10 @@ describe("saveMotionAction", () => {
   it("says so when the save fails, and refreshes nothing", async () => {
     state.saveFails = true;
 
-    const result = await saveMotionAction("full");
+    const result = await saveLookAndFeelAction({
+      motion: "full",
+      searchFilters: "folded",
+    });
 
     expect(result.status).toBe("error");
     expect(result.message).toContain("couldn't be saved");
@@ -84,7 +119,7 @@ describe("saveMotionAction", () => {
 });
 
 describe("saveNewPlayDefaultsAction", () => {
-  it("saves the three defaults, leaving Motion as it is", async () => {
+  it("saves the three defaults, leaving Look and feel as it is", async () => {
     const result = await saveNewPlayDefaultsAction({
       collectibles: false,
       pokedexMode: "caught_only",

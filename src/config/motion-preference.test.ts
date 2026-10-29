@@ -9,22 +9,22 @@ import {
 } from "./motion-preference";
 
 describe("motion preference", () => {
-  it("follows the device until you choose", () => {
-    expect(defaultMotionPreference).toBe("system");
+  it("is Full until you choose", () => {
+    expect(defaultMotionPreference).toBe("full");
   });
 
-  it("offers every stored value once, Follow device first", () => {
+  it("offers every stored value once, Full first", () => {
     expect(motionPreferenceOptions.map((option) => option.value)).toEqual([
       ...motionPreferences,
     ]);
-    expect(motionPreferenceOptions[0]?.label).toBe("Follow device");
+    expect(motionPreferenceOptions[0]?.label).toBe("Full");
   });
 
-  it("reads an unexpected stored value as Follow device", () => {
-    expect(isMotionPreference("reduced")).toBe(true);
-    expect(isMotionPreference("slow")).toBe(false);
-    expect(toMotionPreference("full")).toBe("full");
-    expect(toMotionPreference("slow")).toBe("system");
-    expect(toMotionPreference(undefined)).toBe("system");
+  it("reads an unexpected stored value as Full", () => {
+    expect(isMotionPreference("none")).toBe(true);
+    expect(isMotionPreference("reduced")).toBe(false);
+    expect(toMotionPreference("none")).toBe("none");
+    expect(toMotionPreference("system")).toBe("full");
+    expect(toMotionPreference(undefined)).toBe("full");
   });
 });

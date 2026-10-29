@@ -33,14 +33,15 @@ beforeEach(() => {
 });
 
 describe("readUserPreferences", () => {
-  it("reads no row as Follow device and the default tracking", async () => {
+  it("reads no row as Full, Folded and the default tracking", async () => {
     await expect(readUserPreferences()).resolves.toEqual({
-      motion: "system",
+      motion: "full",
       newPlayDefaults: {
         collectibles: true,
         pokedexMode: "caught_and_seen",
         story: true,
       },
+      searchFilters: "folded",
     });
   });
 
@@ -49,16 +50,18 @@ describe("readUserPreferences", () => {
       default_pokedex_mode: "caught_only",
       default_track_collectibles: false,
       default_track_story: false,
-      motion: "reduced",
+      motion: "none",
+      search_filters_open: true,
     };
 
     await expect(readUserPreferences()).resolves.toEqual({
-      motion: "reduced",
+      motion: "none",
       newPlayDefaults: {
         collectibles: false,
         pokedexMode: "caught_only",
         story: false,
       },
+      searchFilters: "open",
     });
   });
 
