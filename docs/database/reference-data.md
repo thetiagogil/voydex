@@ -63,8 +63,25 @@ sources remain authoritative for game-specific mechanics and availability.
   the default moveset the game builds from a Pokémon's level-up learnset
   when it gives none. Species, levels, held items and moves all matched.
   Every Story point of a battle type names the opponent you fight there; the
-  seed audit refuses one that does not. Diamond / Pearl onwards wait for the
-  rest of the per-game audit (#115).
+  seed audit refuses one that does not.
+- Diamond / Pearl, Platinum and HeartGold / SoulSilver (147 battles) were
+  checked the same way on 2026-10-29 against the pret decompilations' trainer
+  data and matched row by row. Black / White to Omega Ruby / Alpha Sapphire
+  (287 battles) have no game dump to read, so every row was checked against
+  Bulbapedia's trainer and location pages and, wherever the two disagreed,
+  against Serebii; seven move rows that both sites agreed on were corrected
+  (Bianca's Route 8 monkeys, Burgh's Swadloon, Hugh's Samurott in Undella
+  Town, Maxie's and Archie's Weezing and Crobat), and Korrina's Geosenge Town
+  battle and the Delta Episode battles with Zinnia at Granite Cave and
+  Wallace were added. Where only one site differs from the seed (a fourth
+  move present or not for N's Purrloin, the Striaton Gym, Roxie's Koffing,
+  Elesa's Emolga and Flaaffy and Colress's Elgyem; Mud Shot or Mud Bomb on
+  the rival's Marshtomp; the party order of Cheren, Grimsley, Caitlin,
+  Siebold and Drasna) the seed keeps Serebii's reading, and a move's slot
+  order within a Pokémon follows Serebii too. Sun / Moon onwards are the last
+  slice of the per-game audit (#115).
+  The pgTAP file `350_gen4_6_story_audit.sql` pins the corrected rows and the
+  added battles.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
   list of switchable forms; every other curated form is a variant.

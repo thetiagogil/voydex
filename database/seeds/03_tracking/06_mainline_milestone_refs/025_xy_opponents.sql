@@ -25,6 +25,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (130006, 13002, 13, 'battle-opponent', 1, NULL),
   -- Rumble Badge -> Korrina
   (130007, 13003, 13, 'battle-opponent', 2, NULL),
+  -- Rumble Badge -> Korrina (Geosenge Town)
+  (130007, 13029, 13, 'battle-opponent', 1, 'Geosenge Town'),
   -- Plant Badge -> Ramos
   (130008, 13004, 13, 'battle-opponent', 2, NULL),
   -- Voltage Badge -> Clemont
@@ -54,7 +56,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Fossil Choice -> Tierno & Trevor
   (130005, 13017, 13, 'battle-opponent', 1, 'Route 7'),
   -- Rumble Badge -> Serena / Calem
-  (130007, 13018, 13, 'battle-opponent', 1, 'Tower of Mastery, Shalour City'),
+  (130007, 13018, 13, 'battle-opponent', 3, 'Tower of Mastery, Shalour City'),
   -- Plant Badge -> Serena / Calem
   (130008, 13018, 13, 'battle-opponent', 1, 'Coumarine City, in front of the Gym'),
   -- Fairy Badge -> Serena / Calem

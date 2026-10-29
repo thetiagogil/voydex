@@ -212,18 +212,18 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (140010, 14015, NULL, 140001, 'mudkip', NULL, 4, ARRAY[97, 21, 530, 197]),
     -- Maxie: Mightyena Lv. 41: Scary Face, Take Down, Taunt, Embargo
     (140020, 14017, NULL, NULL, NULL, NULL, 1, ARRAY[184, 36, 269, 373]),
-    -- Maxie: Weezing Lv. 41: Mist, Double Hit, Sludge Bomb, Explosion
-    (140020, 14017, NULL, NULL, NULL, NULL, 2, ARRAY[54, 458, 188, 153]),
-    -- Maxie: Crobat Lv. 41: Mist, Poison Fang, Acrobatics, Mean Look
-    (140020, 14017, NULL, NULL, NULL, NULL, 3, ARRAY[54, 305, 512, 212]),
+    -- Maxie: Weezing Lv. 41: Haze, Double Hit, Sludge Bomb, Explosion
+    (140020, 14017, NULL, NULL, NULL, NULL, 2, ARRAY[114, 458, 188, 153]),
+    -- Maxie: Crobat Lv. 41: Haze, Poison Fang, Acrobatics, Mean Look
+    (140020, 14017, NULL, NULL, NULL, NULL, 3, ARRAY[114, 305, 512, 212]),
     -- Maxie: Mega Camerupt Lv. 43: Curse, Take Down, Rock Slide, Yawn
     (140020, 14017, NULL, NULL, NULL, NULL, 4, ARRAY[174, 36, 157, 281]),
     -- Archie: Mightyena Lv. 41: Scary Face, Take Down, Taunt, Embargo
     (140020, 14018, NULL, NULL, NULL, NULL, 1, ARRAY[184, 36, 269, 373]),
     -- Archie: Muk Lv. 41: Sludge Wave, Screech, Venom Drench, Gunk Shot
     (140020, 14018, NULL, NULL, NULL, NULL, 2, ARRAY[482, 103, 599, 441]),
-    -- Archie: Crobat Lv. 41: Mist, Poison Fang, Acrobatics, Mean Look
-    (140020, 14018, NULL, NULL, NULL, NULL, 3, ARRAY[54, 305, 512, 212]),
+    -- Archie: Crobat Lv. 41: Haze, Poison Fang, Acrobatics, Mean Look
+    (140020, 14018, NULL, NULL, NULL, NULL, 3, ARRAY[114, 305, 512, 212]),
     -- Archie: Mega Sharpedo Lv. 43: Scary Face, Slash, Poison Fang, Crunch
     (140020, 14018, NULL, NULL, NULL, NULL, 4, ARRAY[184, 163, 305, 242]),
     -- Wally: Altaria Lv. 46: Aerial Ace, Safeguard, Dragon Pulse, Cotton Guard
@@ -325,7 +325,25 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Zekrom: Zekrom Lv. 50: Dragon Breath, Slash, Zen Headbutt, Fusion Bolt
     (140031, 14047, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 428, 559]),
     -- Kyurem: Kyurem Lv. 50: Dragon Breath, Slash, Scary Face, Glaciate
-    (140032, 14048, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 184, 549])
+    (140032, 14048, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 184, 549]),
+    -- Zinnia (Granite Cave): Tyrantrum Lv. 55: Dragon Claw, Crunch, Earthquake, Stone Edge
+    (140018, 14049, NULL, NULL, NULL, NULL, 1, ARRAY[337, 242, 89, 444]),
+    -- Zinnia (Granite Cave): Altaria Lv. 55: Dragon Pulse, Moonblast, Flamethrower, Hyper Voice
+    (140018, 14049, NULL, NULL, NULL, NULL, 2, ARRAY[406, 585, 53, 304]),
+    -- Zinnia (Granite Cave): Salamence Lv. 57: Dragon Claw, Crunch, Fire Fang, Thunder Fang
+    (140018, 14049, NULL, NULL, NULL, NULL, 3, ARRAY[337, 242, 424, 422]),
+    -- Wallace (Delta Episode): Wailord Lv. 55: Water Spout, Heavy Slam, Earthquake, Blizzard
+    (140018, 14050, NULL, NULL, NULL, NULL, 1, ARRAY[323, 484, 89, 59]),
+    -- Wallace (Delta Episode): Tentacruel Lv. 55: Sludge Wave, Brine, Rain Dance, Dazzling Gleam
+    (140018, 14050, NULL, NULL, NULL, NULL, 2, ARRAY[482, 362, 240, 605]),
+    -- Wallace (Delta Episode): Ludicolo Lv. 55: Fake Out, Scald, Energy Ball, Ice Beam
+    (140018, 14050, NULL, NULL, NULL, NULL, 3, ARRAY[252, 503, 412, 58]),
+    -- Wallace (Delta Episode): Whiscash Lv. 55: Earthquake, Muddy Water, Rock Tomb, Rain Dance
+    (140018, 14050, NULL, NULL, NULL, NULL, 4, ARRAY[89, 330, 317, 240]),
+    -- Wallace (Delta Episode): Gyarados Lv. 55: Waterfall, Crunch, Ice Fang, Stone Edge
+    (140018, 14050, NULL, NULL, NULL, NULL, 5, ARRAY[127, 242, 423, 444]),
+    -- Wallace (Delta Episode): Milotic Lv. 57: Dragon Pulse, Blizzard, Recover, Hydro Pump
+    (140018, 14050, NULL, NULL, NULL, NULL, 6, ARRAY[406, 59, 105, 56])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

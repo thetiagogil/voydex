@@ -15,6 +15,7 @@
 -- so it is stored as the default form.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Wild Pokémon here hold nothing in their game data.
+-- Korrina's Geosenge Town battle: Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon X / Y Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -503,4 +504,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Zapdos (chose Fennekin), Roaming Legendary Bird 1: Zapdos Lv. 70
   (130025, 13026, 13, NULL, 130001, 'fennekin', NULL, NULL, 1, 145, 14500, 70, NULL, NULL, FALSE),
   -- Moltres (chose Froakie), Roaming Legendary Bird 1: Moltres Lv. 70
-  (130025, 13027, 13, NULL, 130001, 'froakie', NULL, NULL, 1, 146, 14600, 70, NULL, NULL, FALSE);
+  (130025, 13027, 13, NULL, 130001, 'froakie', NULL, NULL, 1, 146, 14600, 70, NULL, NULL, FALSE),
+  -- Korrina, Geosenge Town 1: Lucario Lv. 25
+  (130007, 13029, 13, NULL, NULL, NULL, NULL, NULL, 1, 448, 44800, 25, NULL, NULL, FALSE),
+  -- Korrina, Geosenge Town 2: Lucario Lv. 25
+  (130007, 13029, 13, NULL, NULL, NULL, NULL, NULL, 2, 448, 44800, 25, NULL, NULL, FALSE);
