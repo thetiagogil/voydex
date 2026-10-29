@@ -10,7 +10,7 @@ SET LOCAL ROLE anon;
 SELECT
     throws_ok ($$
         SELECT
-            id FROM tracking.mainline_opponent_team_members LIMIT 1 $$, '42501', 'permission denied for schema tracking', 'anonymous users cannot read opponent teams');
+            id FROM tracking.mainline_opponent_team_members LIMIT 1 $$, '42501', 'permission denied for table mainline_opponent_team_members', 'anonymous users cannot read opponent teams');
 RESET ROLE;
 SET LOCAL ROLE authenticated;
 SELECT
