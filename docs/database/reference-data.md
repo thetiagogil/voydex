@@ -56,6 +56,15 @@ sources remain authoritative for game-specific mechanics and availability.
   Two exceptions match the game: Alolan Vulpix has no Isle of Armor tutor and
   female Indeedee no Teal Mask TM.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Opponent teams from Red / Blue to Emerald (every Story battle and legendary
+  encounter in those seven version groups) were checked row by row on
+  2026-10-29 against each game's own trainer data in the pret disassemblies:
+  the trainer parties, the set moves the game gives a trainer's Pokémon, and
+  the default moveset the game builds from a Pokémon's level-up learnset
+  when it gives none. Species, levels, held items and moves all matched.
+  Every Story point of a battle type names the opponent you fight there; the
+  seed audit refuses one that does not. Diamond / Pearl onwards wait for the
+  rest of the per-game audit (#115).
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
   list of switchable forms; every other curated form is a variant.

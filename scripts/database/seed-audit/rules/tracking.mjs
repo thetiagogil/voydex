@@ -336,6 +336,40 @@ export function assertTrackingCoreRows(context, tableRows) {
       }
     }
   }
+  /*
+   * A Story point of a battle type is a fight, so it names the opponent you
+   * fight there; a Story point with a battle inside (a rival on a badge) names
+   * it the same way.
+   */
+  const battleMilestoneTypeSlugs = new Set([
+    "gym",
+    "trial",
+    "grand-trial",
+    "rival",
+    "boss",
+    "elite-four",
+    "champion",
+    "titan",
+    "team-star",
+    "noble",
+    "promotion-match",
+  ]);
+  const milestoneIdsWithOpponents = new Set(
+    opponentRefs
+      .filter(({ row }) => row.relation_kind === "battle-opponent")
+      .map(({ row }) => row.milestone_id),
+  );
+  for (const { row, filePath } of milestones) {
+    const typeSlug = milestoneTypesById.get(row.milestone_type_id)?.slug;
+    if (
+      battleMilestoneTypeSlugs.has(typeSlug) &&
+      !milestoneIdsWithOpponents.has(row.id)
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: tracking.mainline_milestones row ${row.id} is a ${typeSlug} battle with no opponent in tracking.mainline_milestone_opponent_refs.`,
+      );
+    }
+  }
   const gameIdsByVersionGroup = new Map();
   for (const { row } of gameScopeRows) {
     if (!gameIdsByVersionGroup.has(row.version_group_id))
