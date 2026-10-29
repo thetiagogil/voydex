@@ -5235,7 +5235,6 @@ export type Database = {
           play_id: string | null;
           pokedex_id: number | null;
           pokedex_kind: string | null;
-          pokedex_mode: string | null;
           pokedex_name: string | null;
           pokedex_number: number | null;
           pokedex_slug: string | null;
