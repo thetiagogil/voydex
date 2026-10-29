@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 concurrency:
   group: browser-tests-${{ github.workflow }}-${{ github.ref }}
@@ -82,6 +83,14 @@ jobs:
       # fresh database, test accounts included.
       - name: Build the database seed
         run: npm run db:artifacts:build
+
+      # Signed-in pulls get their own limit; anonymous pulls share one with
+      # every other runner and are often refused ("too many requests").
+      - name: Sign in to GitHub's image registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+        run: echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 
       # Only the services the app uses: the dashboard, realtime, functions,
       # logs and the pooler stay off, so there are fewer images to pull.

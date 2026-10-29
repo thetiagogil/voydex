@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: read
+  packages: read
 
 concurrency:
   group: database-quality-${{ github.workflow }}-${{ github.ref }}
@@ -55,6 +56,14 @@ jobs:
         run: |
           curl -fsSL "https://github.com/darold/pgFormatter/archive/refs/tags/v${PG_FORMATTER_VERSION}.tar.gz" | tar -xz -C "$RUNNER_TEMP"
           echo "PG_FORMAT_BIN=$RUNNER_TEMP/pgFormatter-${PG_FORMATTER_VERSION}/pg_format" >> "$GITHUB_ENV"
+
+      # Signed-in pulls get their own limit; anonymous pulls share one with
+      # every other runner and are often refused ("too many requests").
+      - name: Sign in to GitHub's image registry
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHCR_USER: ${{ github.actor }}
+        run: echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GHCR_USER" --password-stdin
 
       # Only what `db:verify` uses: the database, auth, storage, the API and the
       # mail catcher. The dashboard, realtime, functions, logs and the pooler
