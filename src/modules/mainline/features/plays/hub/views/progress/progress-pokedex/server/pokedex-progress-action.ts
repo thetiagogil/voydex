@@ -15,6 +15,7 @@ import {
 
 import { POKEDEX_PROGRESS_SECTION_SIZE } from "../data/pokedex-progress-model";
 import {
+  getKeptCaughtAt,
   getKeptSeenAt,
   splitCaughtOnlyUncatch,
 } from "../data/pokedex-progress-records";
@@ -150,14 +151,19 @@ const updatePokedexSpeciesProgressBatch = async (input: {
         (await readRecords()).map((record) => [record.species_id, record]),
       );
       const upsertResult = await progressTable().upsert(
-        uniqueSpeciesIds.map((speciesId) => ({
-          caught_at: state === "caught" ? recordedAt : null,
-          is_caught: state === "caught",
-          is_seen: true,
-          play_id: playId,
-          seen_at: getKeptSeenAt(recordBySpeciesId.get(speciesId), recordedAt),
-          species_id: speciesId,
-        })),
+        uniqueSpeciesIds.map((speciesId) => {
+          const record = recordBySpeciesId.get(speciesId);
+
+          return {
+            caught_at:
+              state === "caught" ? getKeptCaughtAt(record, recordedAt) : null,
+            is_caught: state === "caught",
+            is_seen: true,
+            play_id: playId,
+            seen_at: getKeptSeenAt(record, recordedAt),
+            species_id: speciesId,
+          };
+        }),
         {
           onConflict: "play_id,species_id",
         },

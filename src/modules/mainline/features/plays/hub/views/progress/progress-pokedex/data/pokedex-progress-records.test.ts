@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  getKeptCaughtAt,
   getKeptSeenAt,
   splitCaughtOnlyUncatch,
   type PokedexProgressRecord,
@@ -26,6 +27,18 @@ describe("getKeptSeenAt", () => {
     ).toBe("2026-10-18T09:00:00.000Z");
     expect(getKeptSeenAt(undefined, now)).toBe(now);
     expect(getKeptSeenAt(record({ seen_at: null }), now)).toBe(now);
+  });
+});
+
+describe("getKeptCaughtAt", () => {
+  it("keeps the first catch, so catching again never reads as seen before", () => {
+    const now = "2026-10-29T12:00:00.000Z";
+
+    expect(getKeptCaughtAt(record({}), now)).toBe("2026-10-20T10:00:00.000Z");
+    expect(
+      getKeptCaughtAt(record({ caught_at: null, is_caught: false }), now),
+    ).toBe(now);
+    expect(getKeptCaughtAt(undefined, now)).toBe(now);
   });
 });
 

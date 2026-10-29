@@ -151,4 +151,17 @@ describe("updatePokedexSpeciesProgress clearing a Pokémon", () => {
 
     expect(writes[0]).toContain('"seen_at":"2026-10-18T09:00:00.000Z"');
   });
+
+  it("keeps both dates when a caught Pokémon is caught again", async () => {
+    state.records = [caughtRecord("2026-10-20T10:00:00.000Z")];
+
+    await updatePokedexSpeciesProgress({
+      playId,
+      speciesId: 1,
+      state: "caught",
+    });
+
+    expect(writes[0]).toContain('"caught_at":"2026-10-20T10:00:00.000Z"');
+    expect(writes[0]).toContain('"seen_at":"2026-10-20T10:00:00.000Z"');
+  });
 });

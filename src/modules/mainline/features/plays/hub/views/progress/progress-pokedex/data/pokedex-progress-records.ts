@@ -1,7 +1,8 @@
 /*
- * How a Pokédex write treats what is already recorded. A catch keeps the date
- * you first saw the Pokémon, so un-catching in caught only can tell a Seen you
- * marked yourself (kept) from the one the catch brought (cleared with it).
+ * How a Pokédex write treats what is already recorded. A catch keeps the dates
+ * you first saw and first caught the Pokémon, so un-catching in caught only
+ * can tell a Seen you marked yourself (kept) from the one the catch brought
+ * (cleared with it).
  */
 
 export type PokedexProgressRecord = {
@@ -17,6 +18,12 @@ export const getKeptSeenAt = (
   record: PokedexProgressRecord | undefined,
   recordedAt: string,
 ) => (record?.is_seen && record.seen_at ? record.seen_at : recordedAt);
+
+/* When the Pokémon was caught: the first catch, else now. */
+export const getKeptCaughtAt = (
+  record: PokedexProgressRecord | undefined,
+  recordedAt: string,
+) => (record?.is_caught && record.caught_at ? record.caught_at : recordedAt);
 
 const wasSeenBeforeCaught = ({ caught_at, seen_at }: PokedexProgressRecord) =>
   seen_at !== null &&
