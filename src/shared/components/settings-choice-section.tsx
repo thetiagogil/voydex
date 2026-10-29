@@ -5,15 +5,20 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
-import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer";
 import { FieldError } from "@/shared/components/ui/field";
+import { UnsavedChangesFooter } from "@/shared/components/unsaved-changes-footer";
 
-import type { PlaySettingsActionResult } from "../server/play-settings-actions";
+/* What a card's save answers: a message for the toast, or for the card's error. */
+export type SettingsSaveResult = {
+  message: string;
+  status: "error" | "success";
+};
 
 /*
- * A Settings card of what this Play keeps from your Library (its rules or
- * tags): the field that picks them, and Save and Cancel once they change.
- * Adding, removing and a rule's options reach the Play with the card's Save.
+ * A Settings card of one or more choices (a Play's rules, tags, expansions
+ * and tracking, or your Motion and New Play defaults): the field that picks
+ * them, and Save and Cancel once they change. The choices reach the server
+ * together with the card's Save.
  */
 export const SettingsChoiceSection = <Value,>({
   aside,
@@ -25,11 +30,11 @@ export const SettingsChoiceSection = <Value,>({
   title,
   validate,
 }: {
-  aside: string;
+  aside?: string;
   id: string;
   initialValue: Value;
   isEqual: (left: Value, right: Value) => boolean;
-  onSave: (value: Value) => Promise<PlaySettingsActionResult>;
+  onSave: (value: Value) => Promise<SettingsSaveResult>;
   renderField: (field: {
     disabled: boolean;
     onChange: (value: Value) => void;

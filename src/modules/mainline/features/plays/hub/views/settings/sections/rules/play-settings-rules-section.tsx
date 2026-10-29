@@ -6,7 +6,7 @@ import {
   isSameRuleSelection,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
 
-import { SettingsChoiceSection } from "../../components/settings-choice-section";
+import { SettingsChoiceSection } from "@/shared/components/settings-choice-section";
 import {
   createPlayChallengeRuleAction,
   updatePlayChallengeRulesAction,

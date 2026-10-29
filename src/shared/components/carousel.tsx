@@ -8,6 +8,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 import { readScrollEdges, type ScrollEdges } from "@/shared/utils/scroll-edges";
+import { getScrollBehavior } from "@/shared/utils/motion";
 
 type CarouselProps = useRender.ComponentProps<"div"> & {
   /*
@@ -38,11 +39,6 @@ const densityClassNames = {
   compact: "gap-3 px-4.5 sm:gap-4 sm:px-16",
   roomy: "gap-5 px-6 sm:gap-6.5 sm:px-16",
 } as const;
-
-const scrollBehavior = (): ScrollBehavior =>
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ? "auto"
-    : "smooth";
 
 // v3 .hh-arr: a round quiet button floating over the row's ends.
 const arrowClassName =
@@ -130,7 +126,7 @@ export const Carousel = ({
     const scroller = scrollerRef.current;
 
     scroller?.scrollBy({
-      behavior: scrollBehavior(),
+      behavior: getScrollBehavior(),
       left: direction * scroller.clientWidth * 0.7,
     });
     onPage?.(direction);

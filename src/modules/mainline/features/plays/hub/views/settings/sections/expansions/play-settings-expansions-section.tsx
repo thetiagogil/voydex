@@ -2,7 +2,7 @@
 
 import { ChoiceChip } from "@/shared/components/choice-chip";
 
-import { SettingsChoiceSection } from "../../components/settings-choice-section";
+import { SettingsChoiceSection } from "@/shared/components/settings-choice-section";
 import { updatePlayExpansionsAction } from "../../server/play-settings-actions";
 import type { MainlinePlaySettingsData } from "../../types";
 import { diffIdSets } from "../../utils/play-settings-validation";

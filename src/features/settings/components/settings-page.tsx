@@ -1,8 +1,11 @@
+import type { PlayTracking } from "@/config/play-tracking";
+import type { MotionPreference } from "@/config/motion-preference";
 import type { ProfileIconChoice } from "@/features/settings/types";
 import { SettingsAccountSection } from "@/features/settings/components/settings-account-section";
 import { PageBand } from "@/shared/components/page-band";
 import { SettingsDataSection } from "@/features/settings/components/settings-data-section";
-import { SettingsPreferencesSections } from "@/features/settings/components/settings-preferences-sections";
+import { SettingsLookSection } from "@/features/settings/components/settings-look-section";
+import { SettingsNewPlayDefaultsSection } from "@/features/settings/components/settings-new-play-defaults-section";
 import { SettingsProfileSection } from "@/features/settings/components/settings-profile-section";
 import { PageHeader } from "@/shared/components/page-header";
 
@@ -14,6 +17,9 @@ type SettingsPageProps = {
   /* Null when the claims carry no email. */
   email: string | null;
   iconFormId: number | null;
+  motion: MotionPreference;
+  /* What a new Play starts tracking. */
+  newPlayDefaults: PlayTracking;
   /* The route's log out action, shared with the app shell's account menu. */
   signOutAction: () => Promise<void>;
   /* "November 2024"; null when it couldn't be read. */
@@ -31,6 +37,8 @@ export const SettingsPage = ({
   displayName,
   email,
   iconFormId,
+  motion,
+  newPlayDefaults,
   signOutAction,
   trainerSince,
 }: SettingsPageProps) => (
@@ -52,7 +60,8 @@ export const SettingsPage = ({
       </div>
     </PageBand>
     <div className="mt-6 flex flex-col gap-6">
-      <SettingsPreferencesSections />
+      <SettingsLookSection motion={motion} />
+      <SettingsNewPlayDefaultsSection defaults={newPlayDefaults} />
       <SettingsAccountSection email={email} signOutAction={signOutAction} />
       <SettingsDataSection />
     </div>

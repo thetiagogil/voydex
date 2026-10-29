@@ -58,13 +58,29 @@
     border-radius: 999px;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+  /*
+   * Motion (Settings): `data-motion` on the root is "reduced" or "full";
+   * without it the device's reduced-motion setting decides.
+   */
+  :root[data-motion="reduced"] {
+    & *,
+    & *::before,
+    & *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root:not([data-motion="full"]) {
+      & *,
+      & *::before,
+      & *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   }
 }
