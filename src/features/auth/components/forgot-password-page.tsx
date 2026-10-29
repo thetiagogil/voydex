@@ -1,4 +1,3 @@
-import type { PublicArt } from "@/config/public-art";
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getAuthPageHref,
@@ -12,7 +11,6 @@ import {
   AuthHeading,
   AuthMailMark,
 } from "@/features/auth/components/auth-frame";
-import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { EmailSentActions } from "@/features/auth/components/email-sent-actions";
 import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
@@ -31,7 +29,6 @@ export type ForgotPasswordSearchParams = {
 };
 
 type ForgotPasswordPageProps = {
-  art: Pick<PublicArt, "pokemon">;
   searchParams?: Promise<ForgotPasswordSearchParams>;
 };
 
@@ -40,7 +37,6 @@ type ForgotPasswordPageProps = {
  * then its sent state, which never says whether the email has an account.
  */
 export const ForgotPasswordPage = async ({
-  art,
   searchParams,
 }: ForgotPasswordPageProps) => {
   const params = await searchParams;
@@ -52,7 +48,7 @@ export const ForgotPasswordPage = async ({
 
   if (sent) {
     return (
-      <AuthFrame cast={getAuthPeekCast(art, "log-in")}>
+      <AuthFrame>
         <AuthMailMark />
         <AuthHeading className="mt-2.5" title="Check your email">
           {email ? (
@@ -77,7 +73,7 @@ export const ForgotPasswordPage = async ({
   }
 
   return (
-    <AuthFrame cast={getAuthPeekCast(art, "log-in")}>
+    <AuthFrame>
       <AuthHeading className="mt-2.5" title="Reset your password">
         Enter the email you signed up with and we&apos;ll send you a link to
         choose a new one.

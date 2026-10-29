@@ -115,7 +115,6 @@ export const setStartIntentParams = (
 
 /* A first partner as the auth pages show it. */
 export type StartIntentPokemon = {
-  imageUrl: string | null;
   name: string;
   speciesSlug: string;
 };
@@ -123,14 +122,12 @@ export type StartIntentPokemon = {
 /*
  * The intent as the auth pages show it, resolved from the reference catalogue
  * by the route: the game (its full name, such as "Pokémon Sword"), the name
- * without "Pokémon " for sentences, the partner when one was picked, and the
- * game's first partners for the Pokémon peeking over the card.
+ * without "Pokémon " for sentences, and the partner when one was picked.
  */
 export type StartIntentPreview = {
   game: PublicGame;
   gameShortName: string;
   partner: StartIntentPokemon | null;
-  starters: readonly StartIntentPokemon[];
 };
 
 /*

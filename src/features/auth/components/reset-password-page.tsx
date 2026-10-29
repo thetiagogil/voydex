@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-import type { PublicArt } from "@/config/public-art";
 import { parseAuthErrorCode } from "@/features/auth/auth-errors";
 import {
   getForgotPasswordHref,
@@ -9,7 +8,6 @@ import {
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthErrorAlert } from "@/features/auth/components/auth-error-alert";
 import { AuthFrame, AuthHeading } from "@/features/auth/components/auth-frame";
-import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
 import { AuthSubmitButton } from "@/features/auth/components/auth-submit-button";
 import { PasswordInput } from "@/shared/components/password-input";
 import { saveNewPassword } from "@/features/auth/server/password-reset-actions";
@@ -26,7 +24,6 @@ export type ResetPasswordSearchParams = {
 };
 
 type ResetPasswordPageProps = {
-  art: Pick<PublicArt, "pokemon">;
   /*
    * Who the reset link signed in, from the route; null when nobody is
    * signed in, because the link expired, was used, or opened elsewhere.
@@ -38,7 +35,6 @@ type ResetPasswordPageProps = {
 
 /* Choose a new password (v3 `resetpw`): where the reset link lands, signed in on this device. */
 export const ResetPasswordPage = async ({
-  art,
   email,
   isSignedIn,
   searchParams,
@@ -49,7 +45,7 @@ export const ResetPasswordPage = async ({
 
   if (!isSignedIn) {
     return (
-      <AuthFrame cast={getAuthPeekCast(art, "log-in")}>
+      <AuthFrame>
         <AuthHeading className="mt-2.5" title="That link didn't work">
           It may have expired or been used already, or it was opened on another
           device. Ask for a new one and open it here.
@@ -65,7 +61,7 @@ export const ResetPasswordPage = async ({
   }
 
   return (
-    <AuthFrame cast={getAuthPeekCast(art, "log-in")}>
+    <AuthFrame>
       <AuthHeading className="mt-2.5" title="Choose a new password">
         {email ? (
           <>

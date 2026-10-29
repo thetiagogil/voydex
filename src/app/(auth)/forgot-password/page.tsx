@@ -3,7 +3,6 @@ import {
   ForgotPasswordPage,
   type ForgotPasswordSearchParams,
 } from "@/features/auth/components/forgot-password-page";
-import { publicArt } from "@/modules/reference/public-art";
 
 export default function Page({
   searchParams,
@@ -12,7 +11,7 @@ export default function Page({
 }) {
   return (
     <PublicAppShell bar="none">
-      <ForgotPasswordPage art={publicArt} searchParams={searchParams} />
+      <ForgotPasswordPage searchParams={searchParams} />
     </PublicAppShell>
   );
 }

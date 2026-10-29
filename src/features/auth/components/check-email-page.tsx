@@ -13,7 +13,6 @@ import {
   AuthHeading,
   AuthMailMark,
 } from "@/features/auth/components/auth-frame";
-import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
 import { EmailSentActions } from "@/features/auth/components/email-sent-actions";
 import { StartIntentCard } from "@/features/auth/components/start-intent-card";
 import { StartIntentFields } from "@/features/auth/components/start-intent-fields";
@@ -31,7 +30,7 @@ export type CheckEmailSearchParams = {
 };
 
 type CheckEmailPageProps = {
-  art: Pick<PublicArt, "gameCover" | "pokemon">;
+  art: Pick<PublicArt, "gameCover">;
   resolveIntent?: ResolveStartIntent;
   searchParams?: Promise<CheckEmailSearchParams>;
 };
@@ -56,7 +55,7 @@ export const CheckEmailPage = async ({
   const preview = intent?.preview ?? null;
 
   return (
-    <AuthFrame cast={getAuthPeekCast(art, "sign-up", preview)}>
+    <AuthFrame>
       <AuthMailMark />
       <AuthHeading className="mt-2.5" title="Check your email">
         {email ? (
