@@ -483,7 +483,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Zapdos: Zapdos Lv. 70: Agility, Discharge, Rain Dance, Light Screen
     (130025, 13026, NULL, 130001, 'fennekin', NULL, 1, ARRAY[97, 435, 240, 113]),
     -- Moltres: Moltres Lv. 70: Safeguard, Air Slash, Sunny Day, Heat Wave
-    (130025, 13027, NULL, 130001, 'froakie', NULL, 1, ARRAY[219, 403, 241, 257])
+    (130025, 13027, NULL, 130001, 'froakie', NULL, 1, ARRAY[219, 403, 241, 257]),
+    -- Korrina (Geosenge Town): Lucario Lv. 25: Swords Dance, Power-Up Punch, Metal Sound, Feint
+    (130007, 13029, NULL, NULL, NULL, NULL, 1, ARRAY[14, 612, 319, 364]),
+    -- Korrina (Geosenge Town): Lucario Lv. 25: Swords Dance, Power-Up Punch, Metal Sound, Feint
+    (130007, 13029, NULL, NULL, NULL, NULL, 2, ARRAY[14, 612, 319, 364])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

@@ -117,4 +117,8 @@ INSERT INTO tracking.mainline_opponents (
   -- Zekrom (boss, alpha-sapphire)
   (14047, 14, 24, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', 6),
   -- Kyurem (boss)
-  (14048, 14, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', 36);
+  (14048, 14, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', 36),
+  -- Zinnia (boss, Granite Cave battle in the Delta Episode, so she can fight twice)
+  (14049, 14, NULL, 'zinnia-granite-cave', 'Zinnia', 'boss', 15, NULL, 'zinnia', 37),
+  -- Wallace (gym-leader, Delta Episode battle at the foot of the Sky Pillar, so he can fight twice)
+  (14050, 14, NULL, 'wallace-delta-episode', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 38);

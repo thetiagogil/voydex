@@ -78,4 +78,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Moltres (boss)
   (13027, 13, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 25),
   -- Lysandre (boss, first Team Flare Secret HQ battle, so he can fight twice there)
-  (13028, 13, NULL, 'lysandre-secret-hq', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 26);
+  (13028, 13, NULL, 'lysandre-secret-hq', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 26),
+  -- Korrina (gym-leader, Geosenge Town battle before her Gym, so she can fight twice)
+  (13029, 13, NULL, 'korrina-geosenge', 'Korrina', 'gym-leader', 7, NULL, 'korrina', 27);

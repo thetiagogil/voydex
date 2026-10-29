@@ -358,16 +358,16 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (110010, 11016, NULL, 110001, 'snivy', NULL, 4, ARRAY[279, 453, 163, 227]),
     -- Bianca: Stoutland Lv. 38: Work Up, Crunch, Roar, Retaliate
     (110010, 11016, NULL, 110001, 'tepig', NULL, 1, ARRAY[526, 242, 46, 514]),
-    -- Bianca: Simipour Lv. 38: Leer, Lick, Fury Swipes, Seed Bomb
-    (110010, 11016, NULL, 110001, 'tepig', NULL, 2, ARRAY[43, 122, 154, 402]),
+    -- Bianca: Simipour Lv. 38: Leer, Lick, Fury Swipes, Scald
+    (110010, 11016, NULL, 110001, 'tepig', NULL, 2, ARRAY[43, 122, 154, 503]),
     -- Bianca: Musharna Lv. 38: Defense Curl, Lucky Chant, Psybeam, Hypnosis
     (110010, 11016, NULL, 110001, 'tepig', NULL, 3, ARRAY[111, 381, 60, 95]),
     -- Bianca: Serperior Lv. 40: Mega Drain, Slam, Leaf Blade, Coil
     (110010, 11016, NULL, 110001, 'tepig', NULL, 4, ARRAY[72, 21, 348, 489]),
     -- Bianca: Stoutland Lv. 38: Work Up, Crunch, Roar, Retaliate
     (110010, 11016, NULL, 110001, 'oshawott', NULL, 1, ARRAY[526, 242, 46, 514]),
-    -- Bianca: Simisage Lv. 38: Leer, Lick, Fury Swipes, Scald
-    (110010, 11016, NULL, 110001, 'oshawott', NULL, 2, ARRAY[43, 122, 154, 503]),
+    -- Bianca: Simisage Lv. 38: Leer, Lick, Fury Swipes, Seed Bomb
+    (110010, 11016, NULL, 110001, 'oshawott', NULL, 2, ARRAY[43, 122, 154, 402]),
     -- Bianca: Musharna Lv. 38: Defense Curl, Lucky Chant, Psybeam, Hypnosis
     (110010, 11016, NULL, 110001, 'oshawott', NULL, 3, ARRAY[111, 381, 60, 95]),
     -- Bianca: Emboar Lv. 40: Rollout, Take Down, Heat Crash, Assurance

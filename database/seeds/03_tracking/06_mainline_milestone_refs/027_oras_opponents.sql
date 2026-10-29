@@ -45,7 +45,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Champion Steven -> Steven
   (140016, 14013, 14, 'battle-opponent', 1, NULL),
   -- Delta Episode -> Zinnia
-  (140018, 14014, 14, 'battle-opponent', 2, NULL),
+  (140018, 14014, 14, 'battle-opponent', 4, 'Sky Pillar summit'),
+  -- Delta Episode -> Zinnia (Granite Cave)
+  (140018, 14049, 14, 'battle-opponent', 1, 'Granite Cave'),
+  -- Delta Episode -> Wallace
+  (140018, 14050, 14, 'battle-opponent', 2, 'Route 131, at the foot of the Sky Pillar'),
   -- Receive Pokedex -> May / Brendan
   (140002, 14015, 14, 'battle-opponent', 1, 'Route 103'),
   -- Dynamo Badge -> May / Brendan
@@ -73,9 +77,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Rain Badge -> Kyogre
   (140011, 14020, 14, 'battle-opponent', 2, 'Cave of Origin, deepest chamber'),
   -- Delta Episode -> Rayquaza
-  (140018, 14021, 14, 'battle-opponent', 1, 'Sky Pillar summit'),
+  (140018, 14021, 14, 'battle-opponent', 3, 'Sky Pillar summit'),
   -- Delta Episode -> Deoxys
-  (140018, 14022, 14, 'battle-opponent', 3, 'Edge of space (met location Sky Pillar)'),
+  (140018, 14022, 14, 'battle-opponent', 5, 'Edge of space (met location Sky Pillar)'),
   -- Sealed Chamber -> Regirock
   (140021, 14023, 14, 'battle-opponent', 1, 'Desert Ruins (Route 111). You can skip this battle.'),
   -- Sealed Chamber -> Regice

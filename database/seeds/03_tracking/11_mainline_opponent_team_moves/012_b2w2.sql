@@ -29,8 +29,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (120004, 12002, NULL, NULL, NULL, NULL, 1, ARRAY[33, 123, 372, 499]),
     -- Roxie: Whirlipede Lv. 18: Protect, Venoshock, Poison Sting, Pursuit
     (120004, 12002, NULL, NULL, NULL, NULL, 2, ARRAY[182, 474, 40, 228]),
-    -- Burgh: Swadloon Lv. 22: Struggle Bug, Razor Leaf, String Shot
-    (120005, 12003, NULL, NULL, NULL, NULL, 1, ARRAY[522, 75, 81]),
+    -- Burgh: Swadloon Lv. 22: Struggle Bug, Razor Leaf, String Shot, Protect
+    (120005, 12003, NULL, NULL, NULL, NULL, 1, ARRAY[522, 75, 81, 182]),
     -- Burgh: Dwebble Lv. 22: Struggle Bug, Smack Down, Feint Attack, Rock Polish
     (120005, 12003, NULL, NULL, NULL, NULL, 2, ARRAY[522, 479, 185, 397]),
     -- Burgh: Leavanny Lv. 24: Struggle Bug, Razor Leaf, Cut, String Shot
@@ -181,8 +181,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (120009, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[269, 403, 13, 197]),
     -- Hugh: Simisage Lv. 39: Seed Bomb, Leer, Lick, Fury Swipes
     (120009, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[402, 43, 122, 154]),
-    -- Hugh: Samurott Lv. 41: Scald, Aqua Jet, Revenge, Slash
-    (120009, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[503, 453, 279, 163]),
+    -- Hugh: Samurott Lv. 41: Encore, Aqua Jet, Revenge, Slash
+    (120009, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[227, 453, 279, 163]),
     -- Hugh: Unfezant Lv. 39: Taunt, Air Slash, Razor Wind, Detect
     (120009, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[269, 403, 13, 197]),
     -- Hugh: Simisear Lv. 39: Flame Burst, Leer, Lick, Fury Swipes

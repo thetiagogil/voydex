@@ -6,6 +6,7 @@
 -- Rival, Wally, Maxie and Archie battles: Bulbapedia, cross-checked with Serebii's rival, Wally and Team Aqua / Magma pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii.
 -- Zinnia: cross-checked with Bulbapedia, whose slot order is used.
+-- Delta Episode battles with Zinnia at Granite Cave and Wallace: Bulbapedia, cross-checked with Serebii.
 -- Battle forms: Steven, Zinnia, Wally at Victory Road, and Maxie and Archie at
 -- Seafloor Cavern hold their ace's Mega Stone, and Groudon and Kyogre at the Cave
 -- of Origin are Primal, so each is stored in that form (Bulbapedia trainer pages).
@@ -344,4 +345,22 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Zekrom, Fabled Cave 1: Zekrom Lv. 50
   (140031, 14047, 14, NULL, NULL, NULL, NULL, NULL, 1, 644, 64400, 50, NULL, NULL, FALSE),
   -- Kyurem, Gnarled Den 1: Kyurem Lv. 50
-  (140032, 14048, 14, NULL, NULL, NULL, NULL, NULL, 1, 646, 64600, 50, NULL, NULL, FALSE);
+  (140032, 14048, 14, NULL, NULL, NULL, NULL, NULL, 1, 646, 64600, 50, NULL, NULL, FALSE),
+  -- Zinnia, Granite Cave 1: Tyrantrum Lv. 55
+  (140018, 14049, 14, NULL, NULL, NULL, NULL, NULL, 1, 697, 69700, 55, NULL, NULL, FALSE),
+  -- Zinnia, Granite Cave 2: Altaria Lv. 55
+  (140018, 14049, 14, NULL, NULL, NULL, NULL, NULL, 2, 334, 33400, 55, NULL, NULL, FALSE),
+  -- Zinnia, Granite Cave 3: Salamence Lv. 57
+  (140018, 14049, 14, NULL, NULL, NULL, NULL, NULL, 3, 373, 37300, 57, NULL, NULL, FALSE),
+  -- Wallace, Delta Episode 1: Wailord Lv. 55
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 1, 321, 32100, 55, NULL, NULL, FALSE),
+  -- Wallace, Delta Episode 2: Tentacruel Lv. 55
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 2, 73, 7300, 55, NULL, NULL, FALSE),
+  -- Wallace, Delta Episode 3: Ludicolo Lv. 55
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 3, 272, 27200, 55, NULL, NULL, FALSE),
+  -- Wallace, Delta Episode 4: Whiscash Lv. 55
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 4, 340, 34000, 55, NULL, NULL, FALSE),
+  -- Wallace, Delta Episode 5: Gyarados Lv. 55
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 5, 130, 13000, 55, NULL, NULL, FALSE),
+  -- Wallace, Delta Episode 6: Milotic Lv. 57
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 6, 350, 35000, 57, NULL, NULL, FALSE);
