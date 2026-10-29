@@ -7,8 +7,17 @@ CREATE VIEW views.mainline_play_overview WITH ( security_invoker = TRUE
 SELECT
     mainline_play_summary.*,
     COALESCE(
+        mainline_play_settings.story_tracking_enabled, TRUE
+) AS story_tracking_enabled,
+    COALESCE(
         mainline_play_settings.pokedex_tracking_enabled, TRUE
 ) AS pokedex_tracking_enabled,
+    COALESCE(
+        mainline_play_settings.pokedex_mode, 'caught_and_seen'
+) AS pokedex_mode,
+    COALESCE(
+        mainline_play_settings.collectibles_tracking_enabled, TRUE
+) AS collectibles_tracking_enabled,
     COALESCE(
         mainline_play_settings.include_pokedex_in_completion, TRUE
 ) AS include_pokedex_in_completion,

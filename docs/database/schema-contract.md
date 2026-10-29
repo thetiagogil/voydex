@@ -13,8 +13,11 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   `welcome_completed_at`.
 - `public.tags` are user-owned, reusable, and attached through typed gameplay
   and planning join tables.
-- `public.user_preferences` holds global defaults that are not play-specific
-  (none yet). Pokémon reuse is a Play's No Pokémon reuse rule.
+- `public.user_preferences` holds global defaults that are not play-specific:
+  the New Play defaults (`default_track_story`, `default_pokedex_mode` as
+  `caught_only` or `caught_and_seen`, `default_track_collectibles`) and `motion`
+  (`full`, `reduced` or `system`). The owner reads and upserts it directly.
+  Pokémon reuse is a Play's No Pokémon reuse rule.
 
 ## Reference And Tracking
 
@@ -51,6 +54,16 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
 `gameplay.mainline_plays` is the user-owned root for a concrete playthrough.
 Lifecycle status and archival are separate. Completion is derived from settings,
 selected scopes, and sparse progress.
+
+`gameplay.mainline_play_settings` carries the Play's tracking switches:
+`story_tracking_enabled`, `pokedex_mode` (`caught_only` or `caught_and_seen`)
+and `collectibles_tracking_enabled`, beside the completion choices. Story off
+leaves milestones out of the completion counts and totals; collectibles off
+leaves entries out (and `include_collectibles_in_completion` must then be
+false). Recorded progress is never deleted. `views.mainline_play_overview`
+exposes the three settings, `mainline_play_milestone_detail` and
+`mainline_play_collectible_detail` mark `is_included_in_completion` from them,
+and `mainline_play_pokedex_detail` carries `pokedex_mode`.
 
 Current roster rules are authoritative and distinct from planning groups:
 
@@ -96,7 +109,10 @@ Use reviewed security-invoker functions for atomic workflows:
   settings, owned expansions (non-base content scopes of that game), challenge
   rules (each once, with its options; the rule-scope trigger refuses another
   trainer's rule, an option the rule lacks, or a type the game doesn't have)
-  and optional partner in one transaction. When the game's first Story milestone
+  and optional partner in one transaction. `p_track_story`, `p_pokedex_mode`
+  and `p_track_collectibles` set the tracking switches; left out (NULL), they
+  come from the caller's `user_preferences` defaults, else on / `caught_and_seen`
+  / on. An unknown Pokédex mode is refused (22023). When the game's first Story milestone
   with a Pokémon decision offers the partner (exact form, else species), the
   partner joins slot 1 and that milestone is completed with its decision and a
   "<Species> chose you" moment; otherwise the partner joins slot 1 with its own

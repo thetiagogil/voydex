@@ -10,6 +10,8 @@ WITH play_settings AS (
         mainline_plays.user_id,
         mainline_plays.game_id,
         mainline_plays.version_group_id,
+        COALESCE(mainline_play_settings.story_tracking_enabled, TRUE) AS story_tracking_enabled,
+        COALESCE(mainline_play_settings.collectibles_tracking_enabled, TRUE) AS collectibles_tracking_enabled,
         COALESCE(mainline_play_settings.include_pokedex_in_completion, TRUE) AS include_pokedex_in_completion,
         COALESCE(mainline_play_settings.include_collectibles_in_completion, TRUE) AS include_collectibles_in_completion,
         COALESCE(mainline_play_settings.include_optional_pokedexes_in_completion, FALSE) AS include_optional_pokedexes_in_completion,
@@ -39,11 +41,13 @@ eligible_milestones AS (
         mainline_milestones.id AS milestone_id
     FROM
         play_scopes
+        JOIN play_settings ON play_settings.play_id = play_scopes.play_id
         JOIN tracking.mainline_milestones ON mainline_milestones.version_group_id = play_scopes.version_group_id
             AND (mainline_milestones.game_id IS NULL
                 OR mainline_milestones.game_id = play_scopes.game_id)
     WHERE
-        mainline_milestones.is_required_for_completion
+        play_settings.story_tracking_enabled
+        AND mainline_milestones.is_required_for_completion
 ),
 milestone_counts AS (
     SELECT
@@ -69,7 +73,8 @@ eligible_collectible_entries AS (
                 OR mainline_collectibles.game_id = play_scopes.game_id)
         JOIN tracking.mainline_collectible_entries ON mainline_collectible_entries.collectible_id = mainline_collectibles.id
     WHERE
-        play_settings.include_collectibles_in_completion
+        play_settings.collectibles_tracking_enabled
+        AND play_settings.include_collectibles_in_completion
         AND mainline_collectibles.is_required_for_completion
 ),
 collectible_counts AS (

@@ -841,34 +841,43 @@ export type Database = {
       };
       mainline_play_settings: {
         Row: {
+          collectibles_tracking_enabled: boolean;
           created_at: string;
           include_collectibles_in_completion: boolean;
           include_optional_pokedex_entries_in_completion: boolean;
           include_optional_pokedexes_in_completion: boolean;
           include_pokedex_in_completion: boolean;
           play_id: string;
+          pokedex_mode: string;
           pokedex_tracking_enabled: boolean;
+          story_tracking_enabled: boolean;
           updated_at: string;
         };
         ComputedFields: never;
         Insert: {
+          collectibles_tracking_enabled?: boolean;
           created_at?: string;
           include_collectibles_in_completion?: boolean;
           include_optional_pokedex_entries_in_completion?: boolean;
           include_optional_pokedexes_in_completion?: boolean;
           include_pokedex_in_completion?: boolean;
           play_id: string;
+          pokedex_mode?: string;
           pokedex_tracking_enabled?: boolean;
+          story_tracking_enabled?: boolean;
           updated_at?: string;
         };
         Update: {
+          collectibles_tracking_enabled?: boolean;
           created_at?: string;
           include_collectibles_in_completion?: boolean;
           include_optional_pokedex_entries_in_completion?: boolean;
           include_optional_pokedexes_in_completion?: boolean;
           include_pokedex_in_completion?: boolean;
           play_id?: string;
+          pokedex_mode?: string;
           pokedex_tracking_enabled?: boolean;
+          story_tracking_enabled?: boolean;
           updated_at?: string;
         };
         Relationships: [
@@ -1177,7 +1186,10 @@ export type Database = {
           p_name: string;
           p_partner_form_id?: number;
           p_partner_species_id?: number;
+          p_pokedex_mode?: string;
           p_started_on?: string;
+          p_track_collectibles?: boolean;
+          p_track_story?: boolean;
           p_trainer_name?: string;
         };
         Returns: {
@@ -1732,17 +1744,29 @@ export type Database = {
       user_preferences: {
         Row: {
           created_at: string;
+          default_pokedex_mode: string;
+          default_track_collectibles: boolean;
+          default_track_story: boolean;
+          motion: string;
           updated_at: string;
           user_id: string;
         };
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          default_pokedex_mode?: string;
+          default_track_collectibles?: boolean;
+          default_track_story?: boolean;
+          motion?: string;
           updated_at?: string;
           user_id: string;
         };
         Update: {
           created_at?: string;
+          default_pokedex_mode?: string;
+          default_track_collectibles?: boolean;
+          default_track_story?: boolean;
+          motion?: string;
           updated_at?: string;
           user_id?: string;
         };
@@ -4954,6 +4978,7 @@ export type Database = {
           collectible_type_id: number | null;
           collectible_type_name: string | null;
           collectible_type_slug: string | null;
+          collectibles_tracking_enabled: boolean | null;
           description: string | null;
           game_id: number | null;
           is_collected: boolean | null;
@@ -5128,6 +5153,7 @@ export type Database = {
           collected_entry_count: number | null;
           collected_required_collectible_entry_count: number | null;
           collectible_completion_percent: number | null;
+          collectibles_tracking_enabled: boolean | null;
           completed_completion_unit_count: number | null;
           completed_milestone_count: number | null;
           completed_on: string | null;
@@ -5152,6 +5178,7 @@ export type Database = {
           playtime_minutes: number | null;
           pokedex_caught_count: number | null;
           pokedex_completion_percent: number | null;
+          pokedex_mode: string | null;
           pokedex_seen_count: number | null;
           pokedex_tracking_enabled: boolean | null;
           required_collectible_entry_count: number | null;
@@ -5163,6 +5190,7 @@ export type Database = {
           status_id: number | null;
           status_name: string | null;
           status_slug: string | null;
+          story_tracking_enabled: boolean | null;
           timeline_event_count: number | null;
           total_completion_unit_count: number | null;
           trainer_name: string | null;
@@ -5207,6 +5235,7 @@ export type Database = {
           play_id: string | null;
           pokedex_id: number | null;
           pokedex_kind: string | null;
+          pokedex_mode: string | null;
           pokedex_name: string | null;
           pokedex_number: number | null;
           pokedex_slug: string | null;
