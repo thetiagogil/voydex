@@ -81,6 +81,39 @@ describe("createMainlinePlay", () => {
     });
   });
 
+  it("sends what the Play tracks, or nothing so your saved defaults apply", async () => {
+    const { client, rpcCalls } = createFakeClient(() => ({
+      data: [{ result_play_id: "play-1" }],
+      error: null,
+    }));
+
+    await createMainlinePlay({ input, supabase: client });
+    await createMainlinePlay({
+      input: {
+        ...input,
+        tracking: {
+          collectibles: false,
+          pokedexMode: "caught_only",
+          story: false,
+        },
+      },
+      supabase: client,
+    });
+
+    const [saved, explicit] = rpcCalls.map(
+      (call) => call.args as Record<string, unknown>,
+    );
+
+    expect(saved?.p_track_story).toBeUndefined();
+    expect(saved?.p_pokedex_mode).toBeUndefined();
+    expect(saved?.p_track_collectibles).toBeUndefined();
+    expect(explicit).toMatchObject({
+      p_pokedex_mode: "caught_only",
+      p_track_collectibles: false,
+      p_track_story: false,
+    });
+  });
+
   it("names a refused expansion, and keeps other failures generic", async () => {
     const refuse = (message: string) =>
       createFakeClient(() => ({

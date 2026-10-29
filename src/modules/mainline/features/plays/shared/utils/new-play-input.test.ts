@@ -24,6 +24,7 @@ describe("parseNewPlayInput", () => {
       partner: { formId: 81000, speciesId: 810 },
       playName: "Late Journey",
       startedOn: "2026-10-13",
+      tracking: null,
       trainerName: "Tiago",
     });
   });
@@ -39,6 +40,29 @@ describe("parseNewPlayInput", () => {
     expect(input.playName).toBe(defaultPlayName);
     expect(input.partner).toBeNull();
     expect(input.trainerName).toBeNull();
+  });
+
+  it("reads no tracking as your saved defaults, and keeps what it was sent", () => {
+    expect(parseNewPlayInput(valid).tracking).toBeNull();
+
+    const tracking = {
+      collectibles: false,
+      pokedexMode: "caught_only",
+      story: true,
+    };
+
+    expect(parseNewPlayInput({ ...valid, tracking }).tracking).toEqual(
+      tracking,
+    );
+  });
+
+  it("refuses tracking that is not the three choices", () => {
+    expect(() =>
+      parseNewPlayInput({
+        ...valid,
+        tracking: { collectibles: true, pokedexMode: "all", story: true },
+      }),
+    ).toThrow();
   });
 
   it("keeps the rules it starts with and their options", () => {

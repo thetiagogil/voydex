@@ -15,6 +15,9 @@ import {
 } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-reader";
 import { readMainlinePlayOverviewPartnerRows } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-partner-reader";
 import { readMainlinePlayOverviewTeamRows } from "@/modules/mainline/features/plays/hub/views/overview/server/play-overview-team-reader";
+import { defaultPlayTracking } from "@/config/play-tracking";
+import { readPlayTracking } from "@/modules/mainline/features/plays/hub/server/play-tracking-reader";
+import { readMainlinePlayCollectiblesAvailability } from "@/modules/mainline/features/plays/hub/server/play-collectibles-availability-reader";
 import { readMainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/server/play-team-reader";
 import {
   readMainlinePlayGameContext,
@@ -64,10 +67,7 @@ import {
 import type { MainlinePlayProgressStoryData } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/types";
 import { readMainlinePlayPokedexProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/server/pokedex-progress-reader";
 import type { MainlinePlayProgressPokedexData } from "@/modules/mainline/features/plays/hub/views/progress/progress-pokedex/types";
-import {
-  readMainlinePlayCollectiblesAvailability,
-  readMainlinePlayCollectiblesProgress,
-} from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/server/collectibles-progress-reader";
+import { readMainlinePlayCollectiblesProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/server/collectibles-progress-reader";
 import type { MainlinePlayProgressCollectiblesData } from "@/modules/mainline/features/plays/hub/views/progress/progress-collectibles/types";
 import { readMainlinePlaySettings } from "@/modules/mainline/features/plays/hub/views/settings/server/play-settings-reader";
 import type { MainlinePlaySettingsData } from "@/modules/mainline/features/plays/hub/views/settings/types";
@@ -93,6 +93,15 @@ const getMainlinePlayRequestContext = cache(async (playId: string) => {
   }
 
   return { play, supabase, userId };
+});
+
+/* What the Play tracks, once per request: the tabs and the Progress pages share it. */
+export const getMainlinePlayTracking = cache(async (playId: string) => {
+  const context = await getMainlinePlayRequestContext(playId);
+
+  return context
+    ? readPlayTracking(context.supabase, playId)
+    : defaultPlayTracking;
 });
 
 /* The team and reserve, once per request: the head's rule count and the Roster share them. */
@@ -132,14 +141,21 @@ export const getMainlinePlayShellData = cache(
       return null;
     }
 
-    const [collectiblesAvailable, gameContext, ruleRows, tags, ruleChecks] =
-      await Promise.all([
-        readMainlinePlayCollectiblesAvailability(context.supabase, playId),
-        readMainlinePlayGameContext(context.supabase, context.play.game_id),
-        readMainlinePlayRuleRows(context.supabase, playId),
-        readMainlinePlayTagNames(context.supabase, playId),
-        getMainlinePlayRuleChecks(playId),
-      ]);
+    const [
+      collectiblesAvailable,
+      gameContext,
+      ruleRows,
+      tags,
+      ruleChecks,
+      tracking,
+    ] = await Promise.all([
+      readMainlinePlayCollectiblesAvailability(context.supabase, playId),
+      readMainlinePlayGameContext(context.supabase, context.play.game_id),
+      readMainlinePlayRuleRows(context.supabase, playId),
+      readMainlinePlayTagNames(context.supabase, playId),
+      getMainlinePlayRuleChecks(playId),
+      getMainlinePlayTracking(playId),
+    ]);
     /* The team is only read when a rule could be broken. */
     const teamRows = ruleChecks.rules.length
       ? await getMainlinePlayTeamRows(playId)
@@ -153,6 +169,7 @@ export const getMainlinePlayShellData = cache(
       ruleRows,
       tags,
       teamRows,
+      tracking,
     });
   },
 );
@@ -407,10 +424,13 @@ export const getMainlinePlayProgressPokedexData = cache(
       throw new Error("This Play does not have a complete game context.");
     }
 
+    const tracking = await getMainlinePlayTracking(playId);
+
     return readMainlinePlayPokedexProgress(context.supabase, {
       gameName: context.play.game_name,
       generationId: context.play.generation_id,
       playId,
+      pokedexMode: tracking.pokedexMode,
     });
   },
 );

@@ -31,7 +31,12 @@ SELECT
     mainline_milestones.description,
     mainline_milestones.sort_order,
     mainline_milestones.is_required_for_completion,
-    mainline_milestones.is_required_for_completion AS is_included_in_completion,
+    (
+        COALESCE(
+            mainline_play_settings.story_tracking_enabled, TRUE
+)
+        AND mainline_milestones.is_required_for_completion
+) AS is_included_in_completion,
     (
         mainline_play_milestone_progress.play_id IS NOT NULL
 ) AS is_completed,
@@ -52,6 +57,7 @@ COALESCE(badge_refs.badge_refs, '[]'::jsonb) AS badge_refs,
 COALESCE(collectible_refs.collectible_refs, '[]'::jsonb) AS collectible_refs
 FROM
     gameplay.mainline_plays
+    LEFT JOIN gameplay.mainline_play_settings ON mainline_play_settings.play_id = mainline_plays.id
     JOIN tracking.mainline_milestones ON (mainline_milestones.version_group_id = mainline_plays.version_group_id
             OR EXISTS (
                 SELECT

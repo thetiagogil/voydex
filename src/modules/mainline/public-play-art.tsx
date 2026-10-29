@@ -1,3 +1,4 @@
+import { defaultPlayTracking } from "@/config/play-tracking";
 import type {
   PublicMoment,
   PublicPlayArt,
@@ -98,6 +99,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
   ruleNotes: {},
   rules: [],
   tags: [],
+  tracking: defaultPlayTracking,
 });
 
 /* The Play's tabs, drawn still: the first one is where the Play opens. */

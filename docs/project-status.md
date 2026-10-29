@@ -115,12 +115,10 @@ confirm the linked Supabase migration list before any remote database write.
 
 Where v3 needs data Voydex doesn't have, the screen shows `PendingData` and a
 `TODO(v3-data)` comment names what it waits on (`grep -rn "TODO(v3-data)" src`
-finds all 34). Grouped by what they wait on:
+finds all 27). Grouped by what they wait on:
 
-- `public.user_preferences`: mode, colour theme, motion and the New Play
-  defaults (Pokédex mode, Story and Collectibles tracking).
-- `gameplay.mainline_play_settings`: per-Play Story and Collectibles on/off
-  flags and a Pokédex mode (caught only, or caught and seen).
+- `public.user_preferences`: mode and colour theme (#38). Motion and the New
+  Play defaults are saved (#33).
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.

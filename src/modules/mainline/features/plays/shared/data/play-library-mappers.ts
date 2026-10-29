@@ -99,33 +99,38 @@ const buildProgress = (
     return { items: [], state: "available" };
   }
 
-  /* Collectibles turned off for this Play: a quiet "Off" row instead of a bar. */
-  const collectiblesOff: PlayBrowseProgressItem | null =
-    overview.include_collectibles_in_completion === false
-      ? { label: "Collectibles", percent: null }
-      : null;
+  /* Story or Collectibles turned off for this Play: a quiet "Off" row instead of a bar. */
+  const offItem = (
+    label: PlayBrowseProgressItem["label"],
+  ): PlayBrowseProgressItem => ({
+    label,
+    percent: null,
+  });
 
   return {
     items: [
-      buildProgressItem(
-        "Story",
-        overview.milestone_completion_percent,
-        overview.completed_required_milestone_count,
-        overview.required_milestone_count,
-      ),
+      overview.story_tracking_enabled === false
+        ? offItem("Story")
+        : buildProgressItem(
+            "Story",
+            overview.milestone_completion_percent,
+            overview.completed_required_milestone_count,
+            overview.required_milestone_count,
+          ),
       buildProgressItem(
         "Pokédex",
         overview.pokedex_completion_percent,
         overview.caught_required_pokedex_species_count,
         overview.required_pokedex_species_count,
       ),
-      collectiblesOff ??
-        buildProgressItem(
-          "Collectibles",
-          overview.collectible_completion_percent,
-          overview.collected_required_collectible_entry_count,
-          overview.required_collectible_entry_count,
-        ),
+      overview.collectibles_tracking_enabled === false
+        ? offItem("Collectibles")
+        : buildProgressItem(
+            "Collectibles",
+            overview.collectible_completion_percent,
+            overview.collected_required_collectible_entry_count,
+            overview.required_collectible_entry_count,
+          ),
     ].filter((item): item is PlayBrowseProgressItem => Boolean(item)),
     state: "available",
   };

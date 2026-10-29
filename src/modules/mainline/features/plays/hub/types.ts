@@ -1,3 +1,4 @@
+import type { PlayTracking } from "@/config/play-tracking";
 import type {
   MainlinePlaySummary,
   MainlinePlayTimelineEvent,
@@ -248,6 +249,7 @@ export type PlayHeaderEditing = {
 };
 
 export type MainlinePlayShellData = {
+  /* The game has collectibles; whether this Play tracks them is `tracking`. */
   collectiblesAvailable: boolean;
   coverImageUrl: string | null;
   game: Game | null;
@@ -260,6 +262,8 @@ export type MainlinePlayShellData = {
   rules: MainlinePlayRule[];
   /* The Play's tags by name, shown in Play details. */
   tags: string[];
+  /* What this Play tracks: an area it doesn't track is hidden from its tabs. */
+  tracking: PlayTracking;
 };
 
 export type MainlinePlayOverviewData = {

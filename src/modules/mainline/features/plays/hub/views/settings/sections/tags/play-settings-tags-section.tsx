@@ -2,7 +2,7 @@
 
 import { LibraryChoiceField } from "@/modules/mainline/shared/components/library-choice-field";
 
-import { SettingsChoiceSection } from "../../components/settings-choice-section";
+import { SettingsChoiceSection } from "@/shared/components/settings-choice-section";
 import {
   createPlayTagAction,
   updatePlayTagsAction,

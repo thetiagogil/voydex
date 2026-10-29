@@ -1,3 +1,4 @@
+import type { PokedexMode } from "@/config/play-tracking";
 import { byId, resolveTypePair } from "@/modules/reference/reference-data";
 import {
   getPokemonFormImageAlt,
@@ -18,18 +19,21 @@ import type {
   PokedexProgressState,
 } from "../types";
 
+/* A Play that tracks caught only shows a Pokémon you only saw as missing. */
 const getProgressState = ({
   isCaught,
   isSeen,
+  pokedexMode,
 }: {
   isCaught: boolean | null;
   isSeen: boolean | null;
+  pokedexMode: PokedexMode;
 }): PokedexProgressState => {
   if (isCaught) {
     return "caught";
   }
 
-  return isSeen ? "seen" : "missing";
+  return isSeen && pokedexMode === "caught_and_seen" ? "seen" : "missing";
 };
 
 const getGenerationSortOrder = (
@@ -98,10 +102,12 @@ const selectDefaultForms = (forms: PokemonForm[]) => {
 export const buildMainlinePlayPokedexData = ({
   gameName,
   generationId,
+  pokedexMode,
   rows,
 }: {
   gameName: string;
   generationId: number;
+  pokedexMode: PokedexMode;
   rows: MainlinePlayPokedexSourceRows;
 }): MainlinePlayProgressPokedexData => {
   const generationById = byId(rows.generations);
@@ -154,6 +160,7 @@ export const buildMainlinePlayPokedexData = ({
       state: getProgressState({
         isCaught: row.is_caught,
         isSeen: row.is_seen,
+        pokedexMode,
       }),
     };
     const currentEntries = entriesByPokedexId.get(row.pokedex_id) ?? [];
@@ -187,6 +194,7 @@ export const buildMainlinePlayPokedexData = ({
 
   return {
     gameName,
+    pokedexMode,
     scopes,
   };
 };

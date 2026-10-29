@@ -130,7 +130,7 @@ END IF;
 END;
 $$;
 
-CREATE FUNCTION gameplay.create_mainline_play (p_game_id integer, p_name text, p_started_on date DEFAULT NULL, p_trainer_name text DEFAULT NULL, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_partner_species_id integer DEFAULT NULL, p_partner_form_id integer DEFAULT NULL, p_challenge_rules jsonb DEFAULT '[]'::jsonb)
+CREATE FUNCTION gameplay.create_mainline_play (p_game_id integer, p_name text, p_started_on date DEFAULT NULL, p_trainer_name text DEFAULT NULL, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_partner_species_id integer DEFAULT NULL, p_partner_form_id integer DEFAULT NULL, p_challenge_rules jsonb DEFAULT '[]'::jsonb, p_track_story boolean DEFAULT NULL, p_pokedex_mode text DEFAULT NULL, p_track_collectibles boolean DEFAULT NULL)
     RETURNS TABLE (
         result_play_id uuid,
         result_partner_play_pokemon_id uuid,
@@ -156,6 +156,10 @@ DECLARE
     v_partner_species_name text;
     v_partner_play_pokemon_id uuid;
     v_partner_event_id uuid;
+    v_preferences public.user_preferences%ROWTYPE;
+    v_track_story boolean;
+    v_pokedex_mode text;
+    v_track_collectibles boolean;
 BEGIN
     IF v_user_id IS NULL THEN
         RAISE EXCEPTION 'An authenticated user is required to start a Play'
@@ -179,6 +183,23 @@ BEGIN
         RAISE EXCEPTION 'challenge_rules must be a list'
             USING ERRCODE = '22023';
     END IF;
+    IF p_pokedex_mode IS NOT NULL AND p_pokedex_mode NOT IN ('caught_only', 'caught_and_seen') THEN
+        RAISE EXCEPTION 'pokedex_mode must be caught_only or caught_and_seen'
+            USING ERRCODE = '22023';
+    END IF;
+    -- Tracking choices left out fall back to the caller's saved New Play
+    -- defaults, and to the table defaults when nothing is saved.
+    SELECT
+        user_preferences.*
+    INTO
+        v_preferences
+    FROM
+        public.user_preferences
+    WHERE
+        user_preferences.user_id = v_user_id;
+    v_track_story := COALESCE(p_track_story, v_preferences.default_track_story, TRUE);
+    v_pokedex_mode := COALESCE(p_pokedex_mode, v_preferences.default_pokedex_mode, 'caught_and_seen');
+    v_track_collectibles := COALESCE(p_track_collectibles, v_preferences.default_track_collectibles, TRUE);
     SELECT
         games.*
     INTO
@@ -239,8 +260,8 @@ BEGIN
         v_play_id;
     PERFORM
         pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_id::text)::bigint);
-    INSERT INTO gameplay.mainline_play_settings (play_id)
-        VALUES (v_play_id);
+    INSERT INTO gameplay.mainline_play_settings (play_id, story_tracking_enabled, pokedex_mode, collectibles_tracking_enabled, include_collectibles_in_completion)
+        VALUES (v_play_id, v_track_story, v_pokedex_mode, v_track_collectibles, v_track_collectibles);
     INSERT INTO gameplay.mainline_play_optional_content_scopes (play_id, game_id, version_group_id)
     SELECT
         v_play_id,
@@ -603,11 +624,11 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT,
 
 GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) FROM PUBLIC;
+REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) FROM anon;
+REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM PUBLIC;
 
@@ -635,7 +656,7 @@ GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO au
 
 COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) IS 'Atomically starts a playing Play for the caller with its settings, owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) IS 'Atomically starts a playing Play for the caller with its settings (Story, Pokédex mode and collectible tracking, from the arguments, else the caller''s saved New Play defaults, else on / caught_and_seen / on), owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) IS 'The game''s partner milestone: its first milestone, in Story order, whose decision is a choice of Pokémon. Null when the game hands you your partner. Shared by the partner write functions. Runs as SECURITY INVOKER over client-readable tracking data.';
 

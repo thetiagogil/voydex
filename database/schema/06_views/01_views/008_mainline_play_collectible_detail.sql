@@ -16,8 +16,14 @@ SELECT
     mainline_collectible_types.slug AS collectible_type_slug,
     mainline_collectible_types.name AS collectible_type_name,
     mainline_collectibles.is_required_for_completion,
+    COALESCE(
+        mainline_play_settings.collectibles_tracking_enabled, TRUE
+) AS collectibles_tracking_enabled,
     (
         COALESCE(
+            mainline_play_settings.collectibles_tracking_enabled, TRUE
+)
+        AND COALESCE(
             mainline_play_settings.include_collectibles_in_completion, TRUE
 )
         AND mainline_collectibles.is_required_for_completion

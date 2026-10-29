@@ -1,3 +1,4 @@
+import type { MotionPreference } from "@/config/motion-preference";
 import type { PublicTypeSlug } from "@/config/public-art";
 
 /* The Pokémon a trainer picked as their icon; `url` is null when its picture can't be shown. */
@@ -16,6 +17,8 @@ export type SignedInAccount = {
   email: string | null;
   /* Your Pokémon icon; null until you pick one (your initial stands in). */
   icon: AccountIcon | null;
+  /* Your Motion setting; Follow device until you choose or when it can't be read. */
+  motion: MotionPreference;
   /* "November 2024"; null when the profile couldn't be read. */
   trainerSince: string | null;
 };

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
+import { getScrollBehavior } from "@/shared/utils/motion";
 
 const replaceToastId = "planner-replace";
 
@@ -39,9 +40,7 @@ export const usePlannerReplace = ({
       id: replaceToastId,
     });
     document.getElementById("planner-team")?.scrollIntoView({
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? "auto"
-        : "smooth",
+      behavior: getScrollBehavior(),
       block: "center",
     });
   };

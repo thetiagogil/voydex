@@ -1,5 +1,6 @@
 "use client";
 
+import { getScrollBehavior } from "@/shared/utils/motion";
 import { useEffect, useMemo, useState } from "react";
 import { flushSync } from "react-dom";
 import { toast } from "sonner";
@@ -201,7 +202,7 @@ export const MainlinePlayProgressStory = ({
     selectMilestone(milestone);
     document
       .getElementById(getStoryMilestoneRowId(milestoneId))
-      ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      ?.scrollIntoView({ behavior: getScrollBehavior(), block: "center" });
   };
 
   /* Back to the next objective, with focus on the row that was open. */

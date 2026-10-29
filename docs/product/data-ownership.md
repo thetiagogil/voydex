@@ -52,7 +52,9 @@ and authenticated session truth. `public.profiles` owns the optional Voydex
 Display name, the Pokémon icon (`icon_form_id`, a reference form), the default
 trainer name a new Play starts with and when Welcome was finished or skipped
 (`welcome_completed_at`). `public.user_preferences` is the home for global defaults that
-are not play-specific; it holds none yet. Pokémon reuse is a Play's No
+are not play-specific: the New Play defaults (`default_track_story`,
+`default_pokedex_mode`, `default_track_collectibles`) and the motion
+preference (`motion`: full, reduced or system). Pokémon reuse is a Play's No
 Pokémon reuse rule.
 
 The game and partner picked on Start a Play are a wish, not a record: they
@@ -291,6 +293,14 @@ entry group, or Collectible group must preserve existing progress so it can be
 restored if the scope is enabled again. Derived completion recalculates from
 the new active definition; the settings write never rewrites progress to match
 a percentage.
+
+A Play keeps three tracking switches in `gameplay.mainline_play_settings`:
+`story_tracking_enabled`, `pokedex_mode` (`caught_only` or `caught_and_seen`)
+and `collectibles_tracking_enabled`. A new Play copies them from the owner's
+New Play defaults unless Start a Play sets them. With Story or collectibles
+off, completion leaves their entries out; what was recorded stays. Counting
+collectibles toward completion (`include_collectibles_in_completion`) stays its
+own choice and requires collectible tracking.
 
 Main Story is the contributing baseline. Per-Play configuration owns the
 `Counts toward completion`, `Track only`, or `Not tracked` choice for applicable

@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
 import type { PlayRuleSelection } from "@/modules/mainline/shared/data/challenge-rule-options";
 import { playRuleSelectionSchema } from "@/modules/mainline/shared/utils/play-rule-input";
 import {
@@ -20,6 +21,11 @@ export type NewPlayInput = {
   playName: string;
   /* The viewer's calendar day ("YYYY-MM-DD"), so "Started today" is their today. */
   startedOn: string;
+  /*
+   * What the Play tracks. Left out, the Play starts from your saved New Play
+   * defaults (Home's offer and Start a Play send none).
+   */
+  tracking?: PlayTracking | null;
   trainerName: string | null;
 };
 
@@ -50,7 +56,8 @@ const optionalTextSchema = (label: string, maxLength: number) =>
  * Checks what the New Play form sent before anything is written: a known
  * game's slug, a partner as a species and form, the expansions as ids, a
  * real calendar day, a name within the Play's limits (the default when
- * empty), an optional trainer name and the rules it starts with.
+ * empty), an optional trainer name, what it tracks and the rules it starts
+ * with.
  */
 const newPlayInputSchema = z.object(
   {
@@ -88,6 +95,9 @@ const newPlayInputSchema = z.object(
       (name) => name ?? defaultPlayName,
     ),
     trainerName: optionalTextSchema("The trainer name", 120),
+    tracking: playTrackingSchema
+      .nullish()
+      .transform((tracking) => tracking ?? null),
   },
   { error: "Pick a game to start a Play." },
 );

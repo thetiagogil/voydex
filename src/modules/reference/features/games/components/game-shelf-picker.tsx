@@ -17,6 +17,7 @@ import { Carousel } from "@/shared/components/carousel";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
+import { getScrollBehavior } from "@/shared/utils/motion";
 
 type GameShelfPickerProps = {
   /* Names the shelf for assistive tech. */
@@ -53,13 +54,6 @@ const MARKS_GUTTER = 18;
  * until the shelf scrolls near them.
  */
 const EAGER_COVER_REACH = 14;
-
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-const scrollBehavior = (): ScrollBehavior =>
-  prefersReducedMotion() ? "auto" : "smooth";
 
 /*
  * v3's cover shelf, the one game picker (Start a Play, New Play, the Team
@@ -241,7 +235,7 @@ export const GameShelfPicker = ({
     setActiveSlug(slug);
     cover?.focus({ preventScroll: true });
     cover?.scrollIntoView({
-      behavior: scrollBehavior(),
+      behavior: getScrollBehavior(),
       block: "nearest",
       inline: "nearest",
     });
@@ -285,7 +279,7 @@ export const GameShelfPicker = ({
     // Tabbing into the shelf next lands on this generation's first game.
     setActiveSlug(game.slug);
     setJumpedGeneration(game.generation.number);
-    scrollToCover(game.slug, scrollBehavior());
+    scrollToCover(game.slug, getScrollBehavior());
   };
 
   /* A new jump request moves the tab stop at once; the effect scrolls there. */
@@ -307,7 +301,7 @@ export const GameShelfPicker = ({
 
   useEffect(() => {
     if (jumpKey !== undefined && jumpGame) {
-      scrollToCover(jumpGame.slug, scrollBehavior());
+      scrollToCover(jumpGame.slug, getScrollBehavior());
     }
     // Only a new request jumps; the reader's own scrolling is left alone.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -333,7 +327,7 @@ export const GameShelfPicker = ({
           : 0;
 
     if (left) {
-      row.scrollBy({ behavior: scrollBehavior(), left });
+      row.scrollBy({ behavior: getScrollBehavior(), left });
     }
   }, [markedGeneration]);
 

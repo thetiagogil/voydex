@@ -14,6 +14,7 @@ export const PokedexProgressEntrySection = ({
   onSpeciesStateChange,
   section,
   stateBySpeciesId,
+  tracksSeen,
   updateMode,
 }: {
   isSpeciesPending: (speciesId: number) => boolean;
@@ -27,6 +28,8 @@ export const PokedexProgressEntrySection = ({
   ) => void;
   section: PokedexProgressEntrySectionModel;
   stateBySpeciesId: ReadonlyMap<number, PokedexProgressState>;
+  /* Caught only counts what you caught and says nothing of seen. */
+  tracksSeen: boolean;
   updateMode: PokedexUpdateMode;
 }) => {
   const speciesIds = section.entries.map((entry) => entry.speciesId);
@@ -62,7 +65,11 @@ export const PokedexProgressEntrySection = ({
         headingLevel={3}
         title={<span className="tabular-nums">{section.label}</span>}
         titleId={headingId}
-        count={`${caughtCount} caught · ${seenCount} seen`}
+        count={
+          tracksSeen
+            ? `${caughtCount} caught · ${seenCount} seen`
+            : `${caughtCount} caught`
+        }
         actions={
           <>
             <Button

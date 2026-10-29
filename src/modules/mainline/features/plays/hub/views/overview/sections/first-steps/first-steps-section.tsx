@@ -1,3 +1,4 @@
+import type { PokedexMode } from "@/config/play-tracking";
 import { TextLink } from "@/shared/components/text-link";
 import { appRoutes } from "@/config/routes";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -21,11 +22,13 @@ export const FirstStepsSection = ({
   addedCount,
   partnerName,
   playId,
+  pokedexMode,
 }: {
   /* Pokémon on the team besides the partner. */
   addedCount: number;
   partnerName: string | null;
   playId: string;
+  pokedexMode: PokedexMode;
 }) => {
   const steps: FirstStep[] = [
     {
@@ -44,7 +47,10 @@ export const FirstStepsSection = ({
       title: "Add the Pokémon you catch",
     },
     {
-      description: "Tap what you catch and what you see",
+      description:
+        pokedexMode === "caught_only"
+          ? "Tap what you catch"
+          : "Tap what you catch and what you see",
       done: false,
       href: appRoutes.mainlinePlayProgressPokedex(playId),
       title: "Mark your Pokédex",

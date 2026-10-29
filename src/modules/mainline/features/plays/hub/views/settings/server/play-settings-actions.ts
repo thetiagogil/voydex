@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
+import { playTrackingSchema, type PlayTracking } from "@/config/play-tracking";
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
@@ -37,6 +38,7 @@ import {
   updatePlayGeneralSettings,
   updatePlayHeaderField,
   updatePlayTags,
+  updatePlayTracking,
 } from "./play-settings-commands";
 
 export type PlaySettingsActionResult = {
@@ -168,6 +170,27 @@ export const updatePlayExpansionsAction = async ({
       play,
       versionGroupIds: expansionIds,
     });
+    revalidatePlay(playId);
+
+    return success("Tracking saved");
+  } catch (error) {
+    return failure(error, "Unable to save tracking.");
+  }
+};
+
+/* Tracking: Story and Collectibles on or off, and the Pokédex mode. */
+export const updatePlayTrackingAction = async ({
+  playId,
+  tracking,
+}: {
+  playId: string;
+  tracking: PlayTracking;
+}): Promise<PlaySettingsActionResult> => {
+  try {
+    const parsed = parseInput(playTrackingSchema, tracking);
+    const { play, supabase } = await getOwnedPlay(playId);
+
+    await updatePlayTracking(supabase, { play, tracking: parsed });
     revalidatePlay(playId);
 
     return success("Tracking saved");

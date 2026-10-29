@@ -3,13 +3,9 @@
 import { useEffect, useState, type MouseEvent } from "react";
 
 import { cn } from "@/shared/utils/cn";
+import { getScrollBehavior } from "@/shared/utils/motion";
 
 type SettingsSection = { href: `#${string}`; label: string };
-
-const scrollBehavior = (): ScrollBehavior =>
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ? "auto"
-    : "smooth";
 
 /* Room under the docked bar where a card counts as the one you're at. */
 const readingLine = () =>
@@ -88,7 +84,7 @@ export const SettingsSectionNav = ({
     }
 
     event.preventDefault();
-    target.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
+    target.scrollIntoView({ behavior: getScrollBehavior(), block: "start" });
     window.history.pushState(null, "", href);
   };
 

@@ -179,8 +179,14 @@ COMMENT ON COLUMN public.profiles.welcome_completed_at IS 'When Welcome was fini
 -- ============================================================================
 CREATE TABLE public.user_preferences (
     user_id uuid PRIMARY KEY REFERENCES public.profiles (id) ON DELETE CASCADE,
+    default_track_story boolean NOT NULL DEFAULT TRUE,
+    default_pokedex_mode text NOT NULL DEFAULT 'caught_and_seen',
+    default_track_collectibles boolean NOT NULL DEFAULT TRUE,
+    motion text NOT NULL DEFAULT 'system',
     created_at timestamptz NOT NULL DEFAULT NOW(),
-    updated_at timestamptz NOT NULL DEFAULT NOW()
+    updated_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT user_preferences_default_pokedex_mode_check CHECK (default_pokedex_mode IN ('caught_only', 'caught_and_seen')),
+    CONSTRAINT user_preferences_motion_check CHECK (motion IN ('full', 'reduced', 'system'))
 );
 
 CREATE TRIGGER set_user_preferences_updated_at
@@ -189,6 +195,14 @@ CREATE TRIGGER set_user_preferences_updated_at
     EXECUTE FUNCTION private.set_updated_at ();
 
 COMMENT ON TABLE public.user_preferences IS 'Global user defaults that are not play-specific. Pokémon reuse is a Play''s No Pokémon reuse rule, not a preference.';
+
+COMMENT ON COLUMN public.user_preferences.default_track_story IS 'New Play default: whether the Play tracks Story milestones.';
+
+COMMENT ON COLUMN public.user_preferences.default_pokedex_mode IS 'New Play default Pokédex mode: caught_only tracks caught Pokémon, caught_and_seen tracks both.';
+
+COMMENT ON COLUMN public.user_preferences.default_track_collectibles IS 'New Play default: whether the Play tracks collectibles.';
+
+COMMENT ON COLUMN public.user_preferences.motion IS 'Motion preference: full, reduced, or system (follow the device setting).';
 
 -- ============================================================================
 -- Source: database/schema/01_public/01_tables/003_tags.sql
@@ -3856,13 +3870,18 @@ COMMENT ON COLUMN gameplay.mainline_plays.archived_at IS 'Archive marker separat
 -- ============================================================================
 CREATE TABLE gameplay.mainline_play_settings (
     play_id uuid PRIMARY KEY REFERENCES gameplay.mainline_plays (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    story_tracking_enabled boolean NOT NULL DEFAULT TRUE,
     pokedex_tracking_enabled boolean NOT NULL DEFAULT TRUE,
+    pokedex_mode text NOT NULL DEFAULT 'caught_and_seen',
+    collectibles_tracking_enabled boolean NOT NULL DEFAULT TRUE,
     include_pokedex_in_completion boolean NOT NULL DEFAULT TRUE,
     include_collectibles_in_completion boolean NOT NULL DEFAULT TRUE,
     include_optional_pokedexes_in_completion boolean NOT NULL DEFAULT FALSE,
     include_optional_pokedex_entries_in_completion boolean NOT NULL DEFAULT TRUE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     updated_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT play_settings_pokedex_mode_check CHECK (pokedex_mode IN ('caught_only', 'caught_and_seen')),
+    CONSTRAINT play_settings_collectibles_tracking_completion_check CHECK (collectibles_tracking_enabled OR NOT include_collectibles_in_completion),
     CONSTRAINT play_settings_tracking_completion_check CHECK (pokedex_tracking_enabled OR NOT include_pokedex_in_completion),
     CONSTRAINT play_settings_opt_dex_entries_requires_dex_completion_check CHECK (include_pokedex_in_completion OR NOT include_optional_pokedex_entries_in_completion),
     CONSTRAINT play_settings_opt_dexes_requires_dex_completion_check CHECK (include_pokedex_in_completion OR NOT include_optional_pokedexes_in_completion)
@@ -3874,6 +3893,12 @@ CREATE TRIGGER set_play_settings_updated_at
     EXECUTE FUNCTION private.set_updated_at ();
 
 COMMENT ON TABLE gameplay.mainline_play_settings IS 'Per-play settings that influence tracking and derived completion calculations.';
+
+COMMENT ON COLUMN gameplay.mainline_play_settings.story_tracking_enabled IS 'When false, Story milestones are left out of the Play''s completion counts. Recorded progress is kept and returns when switched back on.';
+
+COMMENT ON COLUMN gameplay.mainline_play_settings.pokedex_mode IS 'caught_only tracks caught Pokémon; caught_and_seen tracks both. Recorded seen state is kept either way.';
+
+COMMENT ON COLUMN gameplay.mainline_play_settings.collectibles_tracking_enabled IS 'When false, collectible entries are left out of the Play''s completion counts and collectible tracking is off. Recorded progress is kept.';
 
 COMMENT ON COLUMN gameplay.mainline_play_settings.include_optional_pokedexes_in_completion IS 'When true, optional Pokedex scopes such as National or special post-game Pokedexes count toward completion. DLC Pokedexes are controlled by selected optional content scopes.';
 
@@ -6901,7 +6926,7 @@ END IF;
 END;
 $$;
 
-CREATE FUNCTION gameplay.create_mainline_play (p_game_id integer, p_name text, p_started_on date DEFAULT NULL, p_trainer_name text DEFAULT NULL, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_partner_species_id integer DEFAULT NULL, p_partner_form_id integer DEFAULT NULL, p_challenge_rules jsonb DEFAULT '[]'::jsonb)
+CREATE FUNCTION gameplay.create_mainline_play (p_game_id integer, p_name text, p_started_on date DEFAULT NULL, p_trainer_name text DEFAULT NULL, p_expansion_version_group_ids integer[] DEFAULT '{}'::integer[], p_partner_species_id integer DEFAULT NULL, p_partner_form_id integer DEFAULT NULL, p_challenge_rules jsonb DEFAULT '[]'::jsonb, p_track_story boolean DEFAULT NULL, p_pokedex_mode text DEFAULT NULL, p_track_collectibles boolean DEFAULT NULL)
     RETURNS TABLE (
         result_play_id uuid,
         result_partner_play_pokemon_id uuid,
@@ -6927,6 +6952,10 @@ DECLARE
     v_partner_species_name text;
     v_partner_play_pokemon_id uuid;
     v_partner_event_id uuid;
+    v_preferences public.user_preferences%ROWTYPE;
+    v_track_story boolean;
+    v_pokedex_mode text;
+    v_track_collectibles boolean;
 BEGIN
     IF v_user_id IS NULL THEN
         RAISE EXCEPTION 'An authenticated user is required to start a Play'
@@ -6950,6 +6979,23 @@ BEGIN
         RAISE EXCEPTION 'challenge_rules must be a list'
             USING ERRCODE = '22023';
     END IF;
+    IF p_pokedex_mode IS NOT NULL AND p_pokedex_mode NOT IN ('caught_only', 'caught_and_seen') THEN
+        RAISE EXCEPTION 'pokedex_mode must be caught_only or caught_and_seen'
+            USING ERRCODE = '22023';
+    END IF;
+    -- Tracking choices left out fall back to the caller's saved New Play
+    -- defaults, and to the table defaults when nothing is saved.
+    SELECT
+        user_preferences.*
+    INTO
+        v_preferences
+    FROM
+        public.user_preferences
+    WHERE
+        user_preferences.user_id = v_user_id;
+    v_track_story := COALESCE(p_track_story, v_preferences.default_track_story, TRUE);
+    v_pokedex_mode := COALESCE(p_pokedex_mode, v_preferences.default_pokedex_mode, 'caught_and_seen');
+    v_track_collectibles := COALESCE(p_track_collectibles, v_preferences.default_track_collectibles, TRUE);
     SELECT
         games.*
     INTO
@@ -7010,8 +7056,8 @@ BEGIN
         v_play_id;
     PERFORM
         pg_catalog.pg_advisory_xact_lock(pg_catalog.hashtext(v_play_id::text)::bigint);
-    INSERT INTO gameplay.mainline_play_settings (play_id)
-        VALUES (v_play_id);
+    INSERT INTO gameplay.mainline_play_settings (play_id, story_tracking_enabled, pokedex_mode, collectibles_tracking_enabled, include_collectibles_in_completion)
+        VALUES (v_play_id, v_track_story, v_pokedex_mode, v_track_collectibles, v_track_collectibles);
     INSERT INTO gameplay.mainline_play_optional_content_scopes (play_id, game_id, version_group_id)
     SELECT
         v_play_id,
@@ -7374,11 +7420,11 @@ REVOKE ALL ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT,
 
 GRANT EXECUTE ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) TO authenticated, service_role;
 
-REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) FROM PUBLIC;
+REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM PUBLIC;
 
-REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) FROM anon;
+REVOKE ALL ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) FROM anon;
 
-GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) TO authenticated, service_role;
+GRANT EXECUTE ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) TO authenticated, service_role;
 
 REVOKE ALL ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) FROM PUBLIC;
 
@@ -7406,7 +7452,7 @@ GRANT EXECUTE ON FUNCTION gameplay.undo_mainline_play_partner (UUID, UUID) TO au
 
 COMMENT ON FUNCTION gameplay.add_mainline_play_event (UUID, TEXT, TEXT, TEXT, TEXT, TIMESTAMPTZ) IS 'Adds one free-form moment (journal note or status change, manual or recorded-action origin) at the end of a Play timeline under the Play advisory lock. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
-COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB) IS 'Atomically starts a playing Play for the caller with its settings, owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
+COMMENT ON FUNCTION gameplay.create_mainline_play (INTEGER, TEXT, DATE, TEXT, INTEGER[], INTEGER, INTEGER, JSONB, BOOLEAN, TEXT, BOOLEAN) IS 'Atomically starts a playing Play for the caller with its settings (Story, Pokédex mode and collectible tracking, from the arguments, else the caller''s saved New Play defaults, else on / caught_and_seen / on), owned expansions, challenge rules (each with its options), and optional first partner: recorded through the game partner milestone and decision when the game offers that partner as a choice, otherwise added to slot 1 with its own Added moment. Runs as SECURITY INVOKER so gameplay RLS applies.';
 
 COMMENT ON FUNCTION gameplay.find_mainline_partner_milestone (INTEGER) IS 'The game''s partner milestone: its first milestone, in Story order, whose decision is a choice of Pokémon. Null when the game hands you your partner. Shared by the partner write functions. Runs as SECURITY INVOKER over client-readable tracking data.';
 
@@ -9317,6 +9363,8 @@ WITH play_settings AS (
         mainline_plays.user_id,
         mainline_plays.game_id,
         mainline_plays.version_group_id,
+        COALESCE(mainline_play_settings.story_tracking_enabled, TRUE) AS story_tracking_enabled,
+        COALESCE(mainline_play_settings.collectibles_tracking_enabled, TRUE) AS collectibles_tracking_enabled,
         COALESCE(mainline_play_settings.include_pokedex_in_completion, TRUE) AS include_pokedex_in_completion,
         COALESCE(mainline_play_settings.include_collectibles_in_completion, TRUE) AS include_collectibles_in_completion,
         COALESCE(mainline_play_settings.include_optional_pokedexes_in_completion, FALSE) AS include_optional_pokedexes_in_completion,
@@ -9346,11 +9394,13 @@ eligible_milestones AS (
         mainline_milestones.id AS milestone_id
     FROM
         play_scopes
+        JOIN play_settings ON play_settings.play_id = play_scopes.play_id
         JOIN tracking.mainline_milestones ON mainline_milestones.version_group_id = play_scopes.version_group_id
             AND (mainline_milestones.game_id IS NULL
                 OR mainline_milestones.game_id = play_scopes.game_id)
     WHERE
-        mainline_milestones.is_required_for_completion
+        play_settings.story_tracking_enabled
+        AND mainline_milestones.is_required_for_completion
 ),
 milestone_counts AS (
     SELECT
@@ -9376,7 +9426,8 @@ eligible_collectible_entries AS (
                 OR mainline_collectibles.game_id = play_scopes.game_id)
         JOIN tracking.mainline_collectible_entries ON mainline_collectible_entries.collectible_id = mainline_collectibles.id
     WHERE
-        play_settings.include_collectibles_in_completion
+        play_settings.collectibles_tracking_enabled
+        AND play_settings.include_collectibles_in_completion
         AND mainline_collectibles.is_required_for_completion
 ),
 collectible_counts AS (
@@ -9495,8 +9546,17 @@ CREATE VIEW views.mainline_play_overview WITH ( security_invoker = TRUE
 SELECT
     mainline_play_summary.*,
     COALESCE(
+        mainline_play_settings.story_tracking_enabled, TRUE
+) AS story_tracking_enabled,
+    COALESCE(
         mainline_play_settings.pokedex_tracking_enabled, TRUE
 ) AS pokedex_tracking_enabled,
+    COALESCE(
+        mainline_play_settings.pokedex_mode, 'caught_and_seen'
+) AS pokedex_mode,
+    COALESCE(
+        mainline_play_settings.collectibles_tracking_enabled, TRUE
+) AS collectibles_tracking_enabled,
     COALESCE(
         mainline_play_settings.include_pokedex_in_completion, TRUE
 ) AS include_pokedex_in_completion,
@@ -9609,7 +9669,12 @@ SELECT
     mainline_milestones.description,
     mainline_milestones.sort_order,
     mainline_milestones.is_required_for_completion,
-    mainline_milestones.is_required_for_completion AS is_included_in_completion,
+    (
+        COALESCE(
+            mainline_play_settings.story_tracking_enabled, TRUE
+)
+        AND mainline_milestones.is_required_for_completion
+) AS is_included_in_completion,
     (
         mainline_play_milestone_progress.play_id IS NOT NULL
 ) AS is_completed,
@@ -9630,6 +9695,7 @@ COALESCE(badge_refs.badge_refs, '[]'::jsonb) AS badge_refs,
 COALESCE(collectible_refs.collectible_refs, '[]'::jsonb) AS collectible_refs
 FROM
     gameplay.mainline_plays
+    LEFT JOIN gameplay.mainline_play_settings ON mainline_play_settings.play_id = mainline_plays.id
     JOIN tracking.mainline_milestones ON (mainline_milestones.version_group_id = mainline_plays.version_group_id
             OR EXISTS (
                 SELECT
@@ -10009,8 +10075,14 @@ SELECT
     mainline_collectible_types.slug AS collectible_type_slug,
     mainline_collectible_types.name AS collectible_type_name,
     mainline_collectibles.is_required_for_completion,
+    COALESCE(
+        mainline_play_settings.collectibles_tracking_enabled, TRUE
+) AS collectibles_tracking_enabled,
     (
         COALESCE(
+            mainline_play_settings.collectibles_tracking_enabled, TRUE
+)
+        AND COALESCE(
             mainline_play_settings.include_collectibles_in_completion, TRUE
 )
         AND mainline_collectibles.is_required_for_completion

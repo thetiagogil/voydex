@@ -57,7 +57,11 @@ export const MainlinePlaySettings = ({
             playId={playId}
           />
         ) : null}
-        <PlaySettingsTrackingSection />
+        <PlaySettingsTrackingSection
+          key={`tracking:${JSON.stringify(data.tracking)}`}
+          data={data}
+          playId={playId}
+        />
         <PlaySettingsRulesSection
           key={`rules:${JSON.stringify(data.selectedRules)}`}
           data={data}

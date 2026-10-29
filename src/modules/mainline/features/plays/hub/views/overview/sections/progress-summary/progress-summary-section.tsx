@@ -8,6 +8,7 @@ import { cn } from "@/shared/utils/cn";
 import { getProgressSummaryItems } from "./progress-summary-model";
 
 type ProgressSummarySectionProps = {
+  className?: string;
   overview: MainlinePlayOverview | null;
   playId: string;
 };
@@ -20,18 +21,27 @@ type ProgressSummarySectionProps = {
  * track.
  */
 export const ProgressSummarySection = ({
+  className,
   overview,
   playId,
 }: ProgressSummarySectionProps) => {
   const items = getProgressSummaryItems(overview, playId);
 
   return (
-    <Card role="region" aria-label="Progress" className="px-4 sm:px-5">
+    <Card
+      role="region"
+      aria-label="Progress"
+      className={cn("px-4 sm:px-5", className)}
+    >
       {items.length ? (
         <div
           className={cn(
             "grid h-full gap-2.5 sm:gap-3",
-            items.length === 3 ? "grid-cols-3" : "grid-cols-2",
+            items.length === 3
+              ? "grid-cols-3"
+              : items.length === 1
+                ? "grid-cols-1"
+                : "grid-cols-2",
           )}
         >
           {items.map((item) => (

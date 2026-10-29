@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { toast } from "sonner";
 
+import { defaultPlayTracking, type PlayTracking } from "@/config/play-tracking";
 import { useStartPlay } from "@/modules/mainline/features/plays/shared/client/use-start-play";
 import { NewPlayExpansions } from "@/modules/mainline/features/plays/new/components/new-play-expansions";
 import { NewPlayRules } from "@/modules/mainline/features/plays/new/components/new-play-rules";
@@ -130,6 +131,12 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const [trainerName, setTrainerName] = useState(data.trainerName ?? "");
   const [owned, setOwned] = useState<number[]>([]);
   const [rules, setRules] = useState<PlayRuleSelection[]>([]);
+  /* Null until you change it: the Play then starts from your saved defaults. */
+  const [editedTracking, setEditedTracking] = useState<PlayTracking | null>(
+    null,
+  );
+  const tracking =
+    editedTracking ?? data.trackingDefaults ?? defaultPlayTracking;
   const { isPending, startPlay } = useStartPlay();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
@@ -192,6 +199,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           ? { formId: partner.formId, speciesId: partner.speciesId }
           : null,
         playName,
+        tracking: editedTracking,
         trainerName,
       },
       game.shortName,
@@ -350,7 +358,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               onOwnedChange={setOwned}
             />
           ) : null}
-          <NewPlayTracking />
+          <NewPlayTracking tracking={tracking} onChange={setEditedTracking} />
           <NewPlayRules
             ruleChoices={data.rules}
             presets={data.presets}

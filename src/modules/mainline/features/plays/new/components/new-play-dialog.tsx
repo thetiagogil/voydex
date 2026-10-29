@@ -141,6 +141,7 @@ export const NewPlayDialogProvider = ({
                 ...data.picker,
                 presets: data.presets,
                 rules: data.rules,
+                trackingDefaults: data.trackingDefaults,
                 initial: resolveNewPlayInitialChoice(
                   data.picker.games,
                   opening,

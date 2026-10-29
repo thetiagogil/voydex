@@ -28,6 +28,8 @@ import { NavigationMenuItem } from "@/shared/components/ui/navigation-menu";
 
 type MainlinePlayNavigationProps = {
   collectiblesAvailable: boolean;
+  /* Story is one of the Progress views until the Play turns it off. */
+  storyTracked: boolean;
   label?: string;
   playId: string;
 };
@@ -77,6 +79,7 @@ export const MainlinePlayNavigation = ({
   collectiblesAvailable,
   label = "Play sections",
   playId,
+  storyTracked,
 }: MainlinePlayNavigationProps) => {
   const pathname = usePathname();
   const [picked, setPicked] = useState<MainlinePlayPickedTab | null>(null);
@@ -140,13 +143,17 @@ export const MainlinePlayNavigation = ({
     },
   ];
   const progressViews = [
-    {
-      description: "Track story milestones and objectives.",
-      href: appRoutes.mainlinePlayProgressStory(playId),
-      icon: appIcons.views.mainline.story,
-      label: "Story",
-      value: "story",
-    },
+    ...(storyTracked
+      ? [
+          {
+            description: "Track story milestones and objectives.",
+            href: appRoutes.mainlinePlayProgressStory(playId),
+            icon: appIcons.views.mainline.story,
+            label: "Story",
+            value: "story",
+          } as const,
+        ]
+      : []),
     {
       description: "Track regional Pokédex completion.",
       href: appRoutes.mainlinePlayProgressPokedex(playId),

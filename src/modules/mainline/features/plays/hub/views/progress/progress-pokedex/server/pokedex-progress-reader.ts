@@ -8,6 +8,7 @@ import type {
 } from "@/modules/reference/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
+import type { PokedexMode } from "@/config/play-tracking";
 import { buildMainlinePlayPokedexData } from "../data/pokedex-progress-mapper";
 import type {
   MainlinePlayPokedexDetailRow,
@@ -87,10 +88,12 @@ export const readMainlinePlayPokedexProgress = async (
     gameName,
     generationId,
     playId,
+    pokedexMode,
   }: {
     gameName: string;
     generationId: number;
     playId: string;
+    pokedexMode: PokedexMode;
   },
 ): Promise<MainlinePlayProgressPokedexData> => {
   const detailRows = await readPokedexDetailRows(supabase, playId);
@@ -140,6 +143,7 @@ export const readMainlinePlayPokedexProgress = async (
   return buildMainlinePlayPokedexData({
     gameName,
     generationId,
+    pokedexMode,
     rows: {
       attributes,
       detailRows,

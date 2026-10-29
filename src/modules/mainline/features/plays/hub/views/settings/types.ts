@@ -1,3 +1,4 @@
+import type { PlayTracking } from "@/config/play-tracking";
 import type {
   ChallengeRuleChoice,
   PlayRuleSelection,
@@ -25,6 +26,8 @@ export type MainlinePlaySettingsData = {
     statusId: number;
     trainerName: string | null;
   };
+  /* The game has collectibles, so Tracking offers the switch. */
+  hasCollectibles: boolean;
   /* Archived Plays offer Restore where others offer Archive. */
   isArchived: boolean;
   /* Voydex's presets and yours, each adding its rules in one go. */
@@ -38,6 +41,8 @@ export type MainlinePlaySettingsData = {
   statuses: PlaySettingsStatus[];
   /* Your own tags, shared by all your Plays. */
   tags: PlaySettingsChoice[];
+  /* What this Play tracks: Story, the Pokédex mode and Collectibles. */
+  tracking: PlayTracking;
   /* The types the Play's game has, for Monotype. */
   types: GameTypeChoice[];
 };

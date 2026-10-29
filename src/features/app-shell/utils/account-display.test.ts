@@ -1,13 +1,15 @@
 import { describe, expect, it } from "vitest";
 
+import type { SignedInAccount } from "../types";
 import { getAccountInitial, getAccountName } from "./account-display";
 
 describe("account display", () => {
   it("prefers the display name over the email", () => {
-    const account = {
+    const account: SignedInAccount = {
       displayName: "tiago",
       email: "ash@example.com",
       icon: null,
+      motion: "system",
       trainerSince: null,
     };
 
@@ -21,6 +23,7 @@ describe("account display", () => {
         displayName: null,
         email: "ash@example.com",
         icon: null,
+        motion: "system",
         trainerSince: null,
       }),
     ).toBe("ash@example.com");
@@ -29,6 +32,7 @@ describe("account display", () => {
         displayName: null,
         email: null,
         icon: null,
+        motion: "system",
         trainerSince: null,
       }),
     ).toBe("Y");

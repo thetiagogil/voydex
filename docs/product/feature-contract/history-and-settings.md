@@ -83,13 +83,19 @@ As built (v3), Play Settings is one quiet form in cards, with a side
 list of them on wide screens: General (name, trainer, start day, playtime and
 status; a status change also joins History), Expansions (only for a game with
 DLC: the ones you own, its own card because it changes what the Play holds),
-Tracking (Story, the Pokédex mode and Collectibles show where their settings
-will go),
+Tracking (Story and Collectibles on or off, and the Pokédex as caught only or
+caught and seen; Collectibles shows only for a game that has them),
 Challenge rules (the rules you can attach, Voydex's and yours, with each
 rule's options for this Play), Tags and Archive or delete (archive is reversible; delete asks first and
 removes the Play and everything recorded in it). Each card saves on its own
 from a footer that appears once it has unsaved changes. Turning an expansion
-off hides it; nothing recorded is deleted. The accepted contract below
+off hides it; nothing recorded is deleted. Turning Story off hides its tab and
+page and takes its milestones out of completion (Overview shows no next
+objective, and the Plays list shows Story as Off). Turning Collectibles off does
+the same for them. Caught only keeps the Pokédex without Seen: no Seen mode,
+filter or count, and un-catching leaves what you saw recorded. Turning any of
+them back on restores everything recorded; nothing is ever deleted. A new Play
+starts from the New Play defaults in Settings. The accepted contract below
 remains the target where it goes further.
 
 Play Settings is a low-frequency configuration workspace rather than another

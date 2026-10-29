@@ -26,10 +26,14 @@ export const MainlinePlayShell = ({
   editing,
   playId,
 }: MainlinePlayShellProps) => {
+  /* Collectibles show for a game that has them, unless this Play turned them off. */
+  const collectiblesTracked =
+    data.collectiblesAvailable && data.tracking.collectibles;
   const navigation = (
     <MainlinePlayNavigation
-      collectiblesAvailable={data.collectiblesAvailable}
+      collectiblesAvailable={collectiblesTracked}
       playId={playId}
+      storyTracked={data.tracking.story}
     />
   );
 
@@ -40,9 +44,10 @@ export const MainlinePlayShell = ({
         gameName={data.play.game_name ?? "Unknown game"}
         navigation={
           <MainlinePlayNavigation
-            collectiblesAvailable={data.collectiblesAvailable}
+            collectiblesAvailable={collectiblesTracked}
             label="Play sections, docked"
             playId={playId}
+            storyTracked={data.tracking.story}
           />
         }
         title={getPlayTitle(data)}

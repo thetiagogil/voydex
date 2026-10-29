@@ -1,6 +1,7 @@
 import { appRoutes } from "@/config/routes";
 import { AppNavbar } from "@/features/app-shell/components/navigation/app-navbar";
 import { AppTabBar } from "@/features/app-shell/components/navigation/app-tab-bar";
+import { MotionPreferenceMark } from "@/features/app-shell/components/motion-preference-mark";
 import { CodexMenu } from "@/features/app-shell/components/navigation/codex-menu";
 import { NavigationLinks } from "@/features/app-shell/components/navigation/navigation-links";
 import { PublicMenu } from "@/features/app-shell/components/navigation/public-menu";
@@ -68,6 +69,7 @@ export const AppShell = ({
           : "[--toast-bottom:1.5rem]",
       )}
     >
+      {account ? <MotionPreferenceMark motion={account.motion} /> : null}
       {account ? (
         <AppNavbar
           brandHref={getBrandHref(true)}
