@@ -112,9 +112,12 @@ export const GameShelfPicker = ({
    * A generation jumped to stays lit while the shelf scrolls there and after,
    * until the reader scrolls on their own: the marks never run through the
    * generations in between, and the newest stays lit though the shelf can't
-   * bring its first game to the left.
+   * bring its first game to the left. A picked game lights its generation the
+   * same way, though the shelf centres it with earlier games to its left.
    */
-  const [jumpedGeneration, setJumpedGeneration] = useState<number | null>(null);
+  const [jumpedGeneration, setJumpedGeneration] = useState<number | null>(
+    () => pickedGame?.generation.number ?? null,
+  );
   const markedGeneration = jumpedGeneration ?? generationInView;
   const letReaderLead = () => setJumpedGeneration(null);
   const tabStopSlug =
@@ -281,6 +284,17 @@ export const GameShelfPicker = ({
     setJumpedGeneration(game.generation.number);
     scrollToCover(game.slug, getScrollBehavior());
   };
+
+  /* A newly picked game lights its generation; clearing the pick leaves it. */
+  const [markedPick, setMarkedPick] = useState(value);
+
+  if (value !== markedPick) {
+    setMarkedPick(value);
+
+    if (pickedGame) {
+      setJumpedGeneration(pickedGame.generation.number);
+    }
+  }
 
   /* A new jump request moves the tab stop at once; the effect scrolls there. */
   const jumpKey = jumpTo?.key;
