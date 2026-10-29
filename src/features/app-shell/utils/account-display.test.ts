@@ -10,6 +10,7 @@ describe("account display", () => {
       email: "ash@example.com",
       icon: null,
       motion: "system",
+      searchFilters: "folded",
       trainerSince: null,
     };
 
@@ -24,6 +25,7 @@ describe("account display", () => {
         email: "ash@example.com",
         icon: null,
         motion: "system",
+        searchFilters: "folded",
         trainerSince: null,
       }),
     ).toBe("ash@example.com");
@@ -33,6 +35,7 @@ describe("account display", () => {
         email: null,
         icon: null,
         motion: "system",
+        searchFilters: "folded",
         trainerSince: null,
       }),
     ).toBe("Y");

@@ -21,7 +21,10 @@ export default async function SettingsPage() {
       displayName={profile.displayName}
       iconFormId={profile.iconFormId}
       email={account?.email ?? null}
-      motion={preferences.motion}
+      lookAndFeel={{
+        motion: preferences.motion,
+        searchFilters: preferences.searchFilters,
+      }}
       newPlayDefaults={preferences.newPlayDefaults}
       signOutAction={signOut}
       trainerSince={account?.trainerSince ?? null}

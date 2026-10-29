@@ -66,7 +66,11 @@ Look and feel and New Play defaults are cards that save on their own from a
 footer that appears once they have unsaved changes. Motion (Follow device,
 Full or Reduced) is saved on `public.user_preferences` and applies across the
 app: Follow device lets the device's own reduced-motion setting decide, Full
-and Reduced override it (the root element carries `data-motion`). Mode and
+and Reduced override it (the root element carries `data-motion`). Search and
+filters (Folded or Always open) is saved there too: Folded keeps every list's
+search and filter bar under its search button until you open it or a search
+or filter is on; Always open shows it on arrival, and the button still folds
+it for that visit. Mode and
 Colour theme wait on #38 with pending markers; only the light look is
 designed. New Play defaults are what a new Play starts tracking: Story on or
 off, the Pokédex as caught only or caught and seen, and Collectibles on or

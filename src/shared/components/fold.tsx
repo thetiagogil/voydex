@@ -1,6 +1,14 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PageHeadToolProvider } from "@/shared/components/page-head-tool";
@@ -129,12 +137,32 @@ export const FoldToggle = ({
   </span>
 );
 
+const FoldsOpenContext = createContext(false);
+
+/*
+ * Your Search and filters setting for every list inside: Always open
+ * (`open`) starts each fold open; Folded, or no one signed in, leaves them
+ * to `useFold`'s own start.
+ */
+export const FoldsOpenProvider = ({
+  children,
+  open,
+}: {
+  children: ReactNode;
+  open: boolean;
+}) => (
+  <FoldsOpenContext.Provider value={open}>{children}</FoldsOpenContext.Provider>
+);
+
 /*
  * A list's folding search and filter bar: whether it is open and the panel's
- * id for its button. Starts open while a search or filter is on.
+ * id for its button. Starts open while a search or filter is on, or on every
+ * list when your Search and filters setting is Always open; its button still
+ * folds it for that visit.
  */
 export const useFold = ({ defaultOpen = false }: { defaultOpen?: boolean }) => {
-  const [open, setOpen] = useState(defaultOpen);
+  const foldsOpen = useContext(FoldsOpenContext);
+  const [open, setOpen] = useState(defaultOpen || foldsOpen);
   const panelId = useId();
 
   return { open, panelId, setOpen };

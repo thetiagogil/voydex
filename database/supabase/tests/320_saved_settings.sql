@@ -8,15 +8,17 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f1', 'authenticated', 'authenticated', 'settings-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f2', 'authenticated', 'authenticated', 'settings-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (36);
+    plan (39);
 -- Defaults of a new account
 SELECT
     results_eq ($$
         SELECT
-            default_track_story, default_pokedex_mode, default_track_collectibles, motion FROM public.user_preferences
+            default_track_story, default_pokedex_mode, default_track_collectibles, motion, search_filters_open FROM public.user_preferences
             WHERE
                 user_id = '00000000-0000-0000-0000-0000000000f1' ORDER BY user_id $$, $$
-            VALUES (TRUE, 'caught_and_seen', TRUE, 'system') $$, 'a new account tracks everything, caught and seen, and follows the device motion setting');
+            VALUES (TRUE, 'caught_and_seen', TRUE, 'system', FALSE) $$, 'a new account tracks everything, caught and seen, follows the device motion setting and folds search and filters');
+SELECT
+    col_not_null ('public', 'user_preferences', 'search_filters_open', 'the search and filters choice is never empty');
 SELECT
     col_not_null ('public', 'user_preferences', 'motion', 'motion is never empty');
 SELECT
@@ -52,6 +54,16 @@ SELECT
             public.user_preferences
         SET
             motion = 'full' $$, 'the owner can change motion');
+SELECT
+    lives_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            search_filters_open = TRUE $$, 'the owner can keep search and filters open');
+SELECT
+    throws_ok ($$ UPDATE
+            public.user_preferences
+        SET
+            search_filters_open = NULL $$, '23502', NULL, 'search and filters is never empty');
 SELECT
     throws_ok ($$ UPDATE
             public.user_preferences

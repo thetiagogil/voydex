@@ -14,7 +14,7 @@ const skipWelcome = async (page: import("@playwright/test").Page) => {
   await page.waitForURL("**/mainline");
 };
 
-test.describe("Saved settings: motion, New Play defaults and tracking", () => {
+test.describe("Saved settings: look and feel, New Play defaults and tracking", () => {
   test("Motion is saved and applied across the app @phone", async ({
     page,
   }) => {
@@ -30,7 +30,9 @@ test.describe("Saved settings: motion, New Play defaults and tracking", () => {
     const saved = waitForAction(page);
     await look.getByRole("button", { name: "Save" }).click();
     await saved;
-    await expect(page.getByText("Motion saved")).toBeVisible(forTheAnswer);
+    await expect(page.getByText("Look and feel saved")).toBeVisible(
+      forTheAnswer,
+    );
     await expect(page.locator("html")).toHaveAttribute(
       "data-motion",
       "reduced",
@@ -49,6 +51,44 @@ test.describe("Saved settings: motion, New Play defaults and tracking", () => {
     await look.getByRole("button", { name: "Save" }).click();
     await reset;
     await expect(page.locator("html")).not.toHaveAttribute("data-motion");
+  });
+
+  test("Always open shows every list's search and filters on arrival", async ({
+    page,
+  }) => {
+    await signUp(page, newTestEmail("search-filters"));
+    await skipWelcome(page);
+
+    /* Folded by default. */
+    await page.goto("/codex/pokemon");
+    await expect(
+      page.getByRole("button", { name: "Show search and filters" }),
+    ).toBeVisible();
+
+    await page.goto("/settings", { waitUntil: "networkidle" });
+    const look = page.getByRole("region", { name: "Look and feel" });
+
+    await look.getByRole("button", { name: "Always open" }).click();
+    const saved = waitForAction(page);
+    await look.getByRole("button", { name: "Save" }).click();
+    await saved;
+    await expect(page.getByText("Look and feel saved")).toBeVisible(
+      forTheAnswer,
+    );
+
+    for (const path of ["/codex/games", "/codex/pokemon"]) {
+      await page.goto(path);
+      await expect(
+        page.getByRole("button", { name: "Hide search and filters" }),
+      ).toBeVisible();
+      await expect(page.getByRole("searchbox").first()).toBeVisible();
+    }
+
+    /* The button still folds it for this visit. */
+    await page.getByRole("button", { name: "Hide search and filters" }).click();
+    await expect(
+      page.getByRole("button", { name: "Show search and filters" }),
+    ).toBeVisible();
   });
 
   test("defaults start New Play, and each Play's tracking hides what is off", async ({

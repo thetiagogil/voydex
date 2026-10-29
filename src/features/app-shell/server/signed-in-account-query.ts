@@ -1,6 +1,7 @@
 import { cache } from "react";
 
 import { toMotionPreference } from "@/config/motion-preference";
+import { toSearchFiltersPreference } from "@/config/search-filters-preference";
 import { readAccountIcon } from "@/features/app-shell/server/account-icon-reader";
 import type { SignedInAccount } from "@/features/app-shell/types";
 import { formatTrainerSince } from "@/features/app-shell/utils/trainer-since";
@@ -10,8 +11,8 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 /*
  * Who is signed in, for the bars, the account menu and the trainer card: the
  * email from the claims, the display name, Pokémon icon and when the account
- * was made from the profile, and the Motion setting. Null when nobody is signed in. Read once
- * per request.
+ * was made from the profile, and the Motion and Search and filters settings.
+ * Null when nobody is signed in. Read once per request.
  */
 export const getSignedInAccount = cache(
   async (): Promise<SignedInAccount | null> => {
@@ -31,7 +32,7 @@ export const getSignedInAccount = cache(
         .maybeSingle(),
       supabase
         .from("user_preferences")
-        .select("motion")
+        .select("motion, search_filters_open")
         .eq("user_id", claims.sub)
         .maybeSingle(),
     ]);
@@ -42,6 +43,9 @@ export const getSignedInAccount = cache(
       email: typeof claims.email === "string" ? claims.email : null,
       icon: await readAccountIcon(supabase, profile?.icon_form_id ?? null),
       motion: toMotionPreference(preferences?.motion),
+      searchFilters: toSearchFiltersPreference(
+        preferences?.search_filters_open,
+      ),
       trainerSince: formatTrainerSince(profile?.created_at),
     };
   },

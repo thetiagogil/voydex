@@ -118,7 +118,7 @@ Where v3 needs data Voydex doesn't have, the screen shows `PendingData` and a
 finds all 27). Grouped by what they wait on:
 
 - `public.user_preferences`: mode and colour theme (#38). Motion and the New
-  Play defaults are saved (#33).
+  Play defaults are saved (#33), and Search and filters (#65).
 - `gameplay.mainline_plays`: a last-opened column for Home's shelf.
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.
