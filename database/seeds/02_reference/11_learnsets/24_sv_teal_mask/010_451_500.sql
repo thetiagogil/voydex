@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -188,6 +189,46 @@ INSERT INTO reference.pokemon_learnsets (
   (479, 47900, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
   -- Rotom - Poltergeist - TM198
   (479, 47900, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 4),
+  -- Rotom (Heat) - Charge - TM173
+  (479, 47901, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Rotom (Heat) - Spite - TM177
+  (479, 47901, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 2),
+  -- Rotom (Heat) - Uproar - TM191
+  (479, 47901, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Rotom (Heat) - Poltergeist - TM198
+  (479, 47901, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 4),
+  -- Rotom (Wash) - Charge - TM173
+  (479, 47902, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Rotom (Wash) - Spite - TM177
+  (479, 47902, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 2),
+  -- Rotom (Wash) - Uproar - TM191
+  (479, 47902, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Rotom (Wash) - Poltergeist - TM198
+  (479, 47902, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 4),
+  -- Rotom (Frost) - Charge - TM173
+  (479, 47903, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Rotom (Frost) - Spite - TM177
+  (479, 47903, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 2),
+  -- Rotom (Frost) - Uproar - TM191
+  (479, 47903, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Rotom (Frost) - Poltergeist - TM198
+  (479, 47903, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 4),
+  -- Rotom (Fan) - Charge - TM173
+  (479, 47904, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Rotom (Fan) - Spite - TM177
+  (479, 47904, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 2),
+  -- Rotom (Fan) - Uproar - TM191
+  (479, 47904, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Rotom (Fan) - Poltergeist - TM198
+  (479, 47904, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 4),
+  -- Rotom (Mow) - Charge - TM173
+  (479, 47905, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Rotom (Mow) - Spite - TM177
+  (479, 47905, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 2),
+  -- Rotom (Mow) - Uproar - TM191
+  (479, 47905, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Rotom (Mow) - Poltergeist - TM198
+  (479, 47905, 809, 24, NULL, 2, NULL, NULL, 24002198, NULL, 4),
   -- Uxie - Knock Off - TM181
   (480, 48000, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 1),
   -- Mesprit - Knock Off - TM181

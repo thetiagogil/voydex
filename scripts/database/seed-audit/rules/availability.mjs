@@ -2630,25 +2630,25 @@ export function assertPokemonLearnsetRows(context, tableRows) {
     [
       23,
       {
-        count: 47227,
+        count: 47231,
         sha256:
-          "9561af28ed122fdd1ce3ca05474143e762e4a5a57cac1ba8bd291a6c5b8306b3",
+          "bfb2a9b16444954320df1adc5286231d769a3575f046ac6679c3abdcea550a08",
       },
     ],
     [
       24,
       {
-        count: 2229,
+        count: 2267,
         sha256:
-          "2eae16879411297788da6c5b169a9196e7d8775a26de631cd3028361d6963f1c",
+          "6e94e2ea7c02f3369bd7be11c771dddf99dabf5e2580a93ec27848bc994fc48f",
       },
     ],
     [
       25,
       {
-        count: 3295,
+        count: 3326,
         sha256:
-          "548a752bec495636bd148e2b84833d3ba09ea79996a908496a149762a91433ce",
+          "f6f2e29481922a1e67a7d9b1f3622e021769f99d8e7a4c5ef60fe59cd53ab9df",
       },
     ],
     [

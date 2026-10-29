@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -2460,76 +2463,74 @@ INSERT INTO reference.pokemon_learnsets (
   (678, 67800, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 33),
   -- Meowstic - Swift - TM032
   (678, 67800, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 34),
-  -- Meowstic - Magical Leaf - TM033
-  (678, 67800, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 35),
   -- Meowstic - Stored Power - TM041
-  (678, 67800, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 36),
+  (678, 67800, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 35),
   -- Meowstic - Endure - TM047
-  (678, 67800, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 37),
+  (678, 67800, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 36),
   -- Meowstic - Sunny Day - TM049
-  (678, 67800, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 38),
+  (678, 67800, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 37),
   -- Meowstic - Rain Dance - TM050
-  (678, 67800, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 39),
+  (678, 67800, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 38),
   -- Meowstic - Psyshock - TM054
-  (678, 67800, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 40),
+  (678, 67800, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 39),
   -- Meowstic - Dig - TM055
-  (678, 67800, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 41),
+  (678, 67800, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 40),
   -- Meowstic - Zen Headbutt - TM059
-  (678, 67800, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 42),
+  (678, 67800, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 41),
   -- Meowstic - Sleep Talk - TM070
-  (678, 67800, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 43),
+  (678, 67800, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 42),
   -- Meowstic - Reflect - TM074
-  (678, 67800, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 44),
+  (678, 67800, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 43),
   -- Meowstic - Light Screen - TM075
-  (678, 67800, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 45),
+  (678, 67800, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 44),
   -- Meowstic - Thunder Wave - TM082
-  (678, 67800, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 46),
+  (678, 67800, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 45),
   -- Meowstic - Rest - TM085
-  (678, 67800, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 47),
+  (678, 67800, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 46),
   -- Meowstic - Imprison - TM092
-  (678, 67800, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 48),
+  (678, 67800, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 47),
   -- Meowstic - Dark Pulse - TM094
-  (678, 67800, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 49),
+  (678, 67800, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 48),
   -- Meowstic - Skill Swap - TM098
-  (678, 67800, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 50),
+  (678, 67800, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 49),
   -- Meowstic - Substitute - TM103
-  (678, 67800, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
+  (678, 67800, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 50),
   -- Meowstic - Trick - TM109
-  (678, 67800, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 52),
+  (678, 67800, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 51),
   -- Meowstic - Shadow Ball - TM114
-  (678, 67800, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 53),
+  (678, 67800, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 52),
   -- Meowstic - Energy Ball - TM119
-  (678, 67800, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 54),
+  (678, 67800, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 53),
   -- Meowstic - Psychic - TM120
-  (678, 67800, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 55),
+  (678, 67800, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 54),
   -- Meowstic - Thunderbolt - TM126
-  (678, 67800, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 56),
+  (678, 67800, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 55),
   -- Meowstic - Play Rough - TM127
-  (678, 67800, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 57),
+  (678, 67800, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 56),
   -- Meowstic - Calm Mind - TM129
-  (678, 67800, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 58),
+  (678, 67800, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 57),
   -- Meowstic - Helping Hand - TM130
-  (678, 67800, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 59),
+  (678, 67800, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 58),
   -- Meowstic - Baton Pass - TM132
-  (678, 67800, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 60),
+  (678, 67800, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 59),
   -- Meowstic - Psychic Terrain - TM138
-  (678, 67800, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 61),
+  (678, 67800, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 60),
   -- Meowstic - Misty Terrain - TM139
-  (678, 67800, 581, 23, NULL, 2, NULL, NULL, 23002139, NULL, 62),
+  (678, 67800, 581, 23, NULL, 2, NULL, NULL, 23002139, NULL, 61),
   -- Meowstic - Nasty Plot - TM140
-  (678, 67800, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 63),
+  (678, 67800, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 62),
   -- Meowstic - Giga Impact - TM152
-  (678, 67800, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 64),
+  (678, 67800, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 63),
   -- Meowstic - Trick Room - TM161
-  (678, 67800, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 65),
+  (678, 67800, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 64),
   -- Meowstic - Hyper Beam - TM163
-  (678, 67800, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 66),
+  (678, 67800, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 65),
   -- Meowstic - Tera Blast - TM171
-  (678, 67800, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 67),
+  (678, 67800, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 66),
   -- Meowstic - Yawn - Egg
-  (678, 67800, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 68),
+  (678, 67800, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 67),
   -- Meowstic - Tickle - Egg
-  (678, 67800, 321, 23, NULL, 5, NULL, NULL, NULL, NULL, 69),
+  (678, 67800, 321, 23, NULL, 5, NULL, NULL, NULL, NULL, 68),
   -- Meowstic (Female) - Scratch - Level 1
   (678, 67801, 10, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Meowstic (Female) - Leer - Level 1
@@ -2624,50 +2625,46 @@ INSERT INTO reference.pokemon_learnsets (
   (678, 67801, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 46),
   -- Meowstic (Female) - Rest - TM085
   (678, 67801, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 47),
-  -- Meowstic (Female) - Imprison - TM092
-  (678, 67801, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 48),
   -- Meowstic (Female) - Dark Pulse - TM094
-  (678, 67801, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 49),
+  (678, 67801, 399, 23, NULL, 2, NULL, NULL, 23002094, NULL, 48),
   -- Meowstic (Female) - Skill Swap - TM098
-  (678, 67801, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 50),
+  (678, 67801, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 49),
   -- Meowstic (Female) - Substitute - TM103
-  (678, 67801, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
+  (678, 67801, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 50),
   -- Meowstic (Female) - Trick - TM109
-  (678, 67801, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 52),
+  (678, 67801, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 51),
   -- Meowstic (Female) - Shadow Ball - TM114
-  (678, 67801, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 53),
+  (678, 67801, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 52),
   -- Meowstic (Female) - Energy Ball - TM119
-  (678, 67801, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 54),
+  (678, 67801, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 53),
   -- Meowstic (Female) - Psychic - TM120
-  (678, 67801, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 55),
+  (678, 67801, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 54),
   -- Meowstic (Female) - Thunderbolt - TM126
-  (678, 67801, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 56),
+  (678, 67801, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 55),
   -- Meowstic (Female) - Play Rough - TM127
-  (678, 67801, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 57),
+  (678, 67801, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 56),
   -- Meowstic (Female) - Calm Mind - TM129
-  (678, 67801, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 58),
+  (678, 67801, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 57),
   -- Meowstic (Female) - Helping Hand - TM130
-  (678, 67801, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 59),
+  (678, 67801, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 58),
   -- Meowstic (Female) - Baton Pass - TM132
-  (678, 67801, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 60),
+  (678, 67801, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 59),
   -- Meowstic (Female) - Psychic Terrain - TM138
-  (678, 67801, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 61),
-  -- Meowstic (Female) - Misty Terrain - TM139
-  (678, 67801, 581, 23, NULL, 2, NULL, NULL, 23002139, NULL, 62),
+  (678, 67801, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 60),
   -- Meowstic (Female) - Nasty Plot - TM140
-  (678, 67801, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 63),
+  (678, 67801, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 61),
   -- Meowstic (Female) - Giga Impact - TM152
-  (678, 67801, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 64),
+  (678, 67801, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 62),
   -- Meowstic (Female) - Trick Room - TM161
-  (678, 67801, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 65),
+  (678, 67801, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 63),
   -- Meowstic (Female) - Hyper Beam - TM163
-  (678, 67801, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 66),
+  (678, 67801, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 64),
   -- Meowstic (Female) - Tera Blast - TM171
-  (678, 67801, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 67),
+  (678, 67801, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 65),
   -- Meowstic (Female) - Yawn - Egg
-  (678, 67801, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 68),
+  (678, 67801, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 66),
   -- Meowstic (Female) - Tickle - Egg
-  (678, 67801, 321, 23, NULL, 5, NULL, NULL, NULL, NULL, 69),
+  (678, 67801, 321, 23, NULL, 5, NULL, NULL, NULL, NULL, 67),
   -- Inkay - Tackle - Level 1
   (686, 68600, 33, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Inkay - Peck - Level 1

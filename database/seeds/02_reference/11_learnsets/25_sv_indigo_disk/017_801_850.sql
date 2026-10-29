@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -179,4 +182,16 @@ INSERT INTO reference.pokemon_learnsets (
   -- Toxtricity - Metal Sound - TM223
   (849, 84900, 319, 25, NULL, 2, NULL, NULL, 25002223, NULL, 5),
   -- Toxtricity - Psychic Noise - TM228
-  (849, 84900, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 6);
+  (849, 84900, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 6),
+  -- Toxtricity (Low Key) - Endeavor - TM205
+  (849, 84901, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 1),
+  -- Toxtricity (Low Key) - Electroweb - TM211
+  (849, 84901, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Toxtricity (Low Key) - Sludge Wave - TM214
+  (849, 84901, 482, 25, NULL, 2, NULL, NULL, 25002214, NULL, 3),
+  -- Toxtricity (Low Key) - Throat Chop - TM221
+  (849, 84901, 675, 25, NULL, 2, NULL, NULL, 25002221, NULL, 4),
+  -- Toxtricity (Low Key) - Metal Sound - TM223
+  (849, 84901, 319, 25, NULL, 2, NULL, NULL, 25002223, NULL, 5),
+  -- Toxtricity (Low Key) - Psychic Noise - TM228
+  (849, 84901, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 6);

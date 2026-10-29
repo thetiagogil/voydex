@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -1642,94 +1645,92 @@ INSERT INTO reference.pokemon_learnsets (
   (26, 2601, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 25),
   -- Raichu (Alolan Raichu) - Thief - TM018
   (26, 2601, 168, 23, NULL, 2, NULL, NULL, 23002018, NULL, 26),
-  -- Raichu (Alolan Raichu) - Disarming Voice - TM019
-  (26, 2601, 574, 23, NULL, 2, NULL, NULL, 23002019, NULL, 27),
   -- Raichu (Alolan Raichu) - Trailblaze - TM020
-  (26, 2601, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 28),
+  (26, 2601, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 27),
   -- Raichu (Alolan Raichu) - Charge Beam - TM023
-  (26, 2601, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 29),
+  (26, 2601, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 28),
   -- Raichu (Alolan Raichu) - Facade - TM025
-  (26, 2601, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 30),
+  (26, 2601, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 29),
   -- Raichu (Alolan Raichu) - Swift - TM032
-  (26, 2601, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 31),
+  (26, 2601, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 30),
   -- Raichu (Alolan Raichu) - Draining Kiss - TM037
-  (26, 2601, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 32),
+  (26, 2601, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 31),
   -- Raichu (Alolan Raichu) - Stored Power - TM041
-  (26, 2601, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 33),
+  (26, 2601, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 32),
   -- Raichu (Alolan Raichu) - Fling - TM043
-  (26, 2601, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 34),
+  (26, 2601, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 33),
   -- Raichu (Alolan Raichu) - Endure - TM047
-  (26, 2601, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 35),
+  (26, 2601, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 34),
   -- Raichu (Alolan Raichu) - Volt Switch - TM048
-  (26, 2601, 521, 23, NULL, 2, NULL, NULL, 23002048, NULL, 36),
+  (26, 2601, 521, 23, NULL, 2, NULL, NULL, 23002048, NULL, 35),
   -- Raichu (Alolan Raichu) - Rain Dance - TM050
-  (26, 2601, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 37),
+  (26, 2601, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 36),
   -- Raichu (Alolan Raichu) - Psyshock - TM054
-  (26, 2601, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 38),
+  (26, 2601, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 37),
   -- Raichu (Alolan Raichu) - Dig - TM055
-  (26, 2601, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 39),
+  (26, 2601, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 38),
   -- Raichu (Alolan Raichu) - Brick Break - TM058
-  (26, 2601, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 40),
+  (26, 2601, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 39),
   -- Raichu (Alolan Raichu) - Body Slam - TM066
-  (26, 2601, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 41),
+  (26, 2601, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 40),
   -- Raichu (Alolan Raichu) - Thunder Punch - TM068
-  (26, 2601, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 42),
+  (26, 2601, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 41),
   -- Raichu (Alolan Raichu) - Sleep Talk - TM070
-  (26, 2601, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 43),
+  (26, 2601, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 42),
   -- Raichu (Alolan Raichu) - Electro Ball - TM072
-  (26, 2601, 486, 23, NULL, 2, NULL, NULL, 23002072, NULL, 44),
+  (26, 2601, 486, 23, NULL, 2, NULL, NULL, 23002072, NULL, 43),
   -- Raichu (Alolan Raichu) - Reflect - TM074
-  (26, 2601, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 45),
+  (26, 2601, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 44),
   -- Raichu (Alolan Raichu) - Light Screen - TM075
-  (26, 2601, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 46),
+  (26, 2601, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 45),
   -- Raichu (Alolan Raichu) - Grass Knot - TM081
-  (26, 2601, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 47),
+  (26, 2601, 447, 23, NULL, 2, NULL, NULL, 23002081, NULL, 46),
   -- Raichu (Alolan Raichu) - Thunder Wave - TM082
-  (26, 2601, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 48),
+  (26, 2601, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 47),
   -- Raichu (Alolan Raichu) - Rest - TM085
-  (26, 2601, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 49),
+  (26, 2601, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 48),
   -- Raichu (Alolan Raichu) - Eerie Impulse - TM096
-  (26, 2601, 598, 23, NULL, 2, NULL, NULL, 23002096, NULL, 50),
+  (26, 2601, 598, 23, NULL, 2, NULL, NULL, 23002096, NULL, 49),
   -- Raichu (Alolan Raichu) - Skill Swap - TM098
-  (26, 2601, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 51),
+  (26, 2601, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 50),
   -- Raichu (Alolan Raichu) - Substitute - TM103
-  (26, 2601, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 52),
+  (26, 2601, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
   -- Raichu (Alolan Raichu) - Psychic - TM120
-  (26, 2601, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 53),
+  (26, 2601, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 52),
   -- Raichu (Alolan Raichu) - Encore - TM122
-  (26, 2601, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 54),
+  (26, 2601, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 53),
   -- Raichu (Alolan Raichu) - Surf - TM123
-  (26, 2601, 57, 23, NULL, 2, NULL, NULL, 23002123, NULL, 55),
+  (26, 2601, 57, 23, NULL, 2, NULL, NULL, 23002123, NULL, 54),
   -- Raichu (Alolan Raichu) - Thunderbolt - TM126
-  (26, 2601, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 56),
+  (26, 2601, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 55),
   -- Raichu (Alolan Raichu) - Play Rough - TM127
-  (26, 2601, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 57),
+  (26, 2601, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 56),
   -- Raichu (Alolan Raichu) - Calm Mind - TM129
-  (26, 2601, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 58),
+  (26, 2601, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 57),
   -- Raichu (Alolan Raichu) - Helping Hand - TM130
-  (26, 2601, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 59),
+  (26, 2601, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 58),
   -- Raichu (Alolan Raichu) - Reversal - TM134
-  (26, 2601, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 60),
+  (26, 2601, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 59),
   -- Raichu (Alolan Raichu) - Electric Terrain - TM136
-  (26, 2601, 604, 23, NULL, 2, NULL, NULL, 23002136, NULL, 61),
+  (26, 2601, 604, 23, NULL, 2, NULL, NULL, 23002136, NULL, 60),
   -- Raichu (Alolan Raichu) - Psychic Terrain - TM138
-  (26, 2601, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 62),
+  (26, 2601, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 61),
   -- Raichu (Alolan Raichu) - Nasty Plot - TM140
-  (26, 2601, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 63),
+  (26, 2601, 417, 23, NULL, 2, NULL, NULL, 23002140, NULL, 62),
   -- Raichu (Alolan Raichu) - Wild Charge - TM147
-  (26, 2601, 528, 23, NULL, 2, NULL, NULL, 23002147, NULL, 64),
+  (26, 2601, 528, 23, NULL, 2, NULL, NULL, 23002147, NULL, 63),
   -- Raichu (Alolan Raichu) - Giga Impact - TM152
-  (26, 2601, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 65),
+  (26, 2601, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 64),
   -- Raichu (Alolan Raichu) - Focus Blast - TM158
-  (26, 2601, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 66),
+  (26, 2601, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 65),
   -- Raichu (Alolan Raichu) - Hyper Beam - TM163
-  (26, 2601, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 67),
+  (26, 2601, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 66),
   -- Raichu (Alolan Raichu) - Thunder - TM166
-  (26, 2601, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 68),
+  (26, 2601, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 67),
   -- Raichu (Alolan Raichu) - Tera Blast - TM171
-  (26, 2601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 69),
+  (26, 2601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 68),
   -- Raichu (Alolan Raichu) - Psychic - Evolution
-  (26, 2601, 94, 23, NULL, 7, NULL, NULL, NULL, NULL, 70),
+  (26, 2601, 94, 23, NULL, 7, NULL, NULL, NULL, NULL, 69),
   -- Sandshrew - Scratch - Level 1
   (27, 2700, 10, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Sandshrew - Defense Curl - Level 1

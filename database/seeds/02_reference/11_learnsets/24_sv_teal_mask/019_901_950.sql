@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -56,6 +57,14 @@ INSERT INTO reference.pokemon_learnsets (
   (902, 90200, 812, 24, NULL, 2, NULL, NULL, 24002196, NULL, 3),
   -- Basculegion - Scale Shot - TM200
   (902, 90200, 799, 24, NULL, 2, NULL, NULL, 24002200, NULL, 4),
+  -- Basculegion (Female) - Spite - TM177
+  (902, 90201, 180, 24, NULL, 2, NULL, NULL, 24002177, NULL, 1),
+  -- Basculegion (Female) - Uproar - TM191
+  (902, 90201, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 2),
+  -- Basculegion (Female) - Flip Turn - TM196
+  (902, 90201, 812, 24, NULL, 2, NULL, NULL, 24002196, NULL, 3),
+  -- Basculegion (Female) - Scale Shot - TM200
+  (902, 90201, 799, 24, NULL, 2, NULL, NULL, 24002200, NULL, 4),
   -- Sneasler - Toxic - TM175
   (903, 90300, 92, 24, NULL, 2, NULL, NULL, 24002175, NULL, 1),
   -- Sneasler - Spite - TM177
@@ -128,6 +137,14 @@ INSERT INTO reference.pokemon_learnsets (
   (916, 91600, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
   -- Oinkologne - Lash Out - TM199
   (916, 91600, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
+  -- Oinkologne (Female) - Super Fang - TM183
+  (916, 91601, 162, 24, NULL, 2, NULL, NULL, 24002183, NULL, 1),
+  -- Oinkologne (Female) - High Horsepower - TM186
+  (916, 91601, 667, 24, NULL, 2, NULL, NULL, 24002186, NULL, 2),
+  -- Oinkologne (Female) - Uproar - TM191
+  (916, 91601, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Oinkologne (Female) - Lash Out - TM199
+  (916, 91601, 808, 24, NULL, 2, NULL, NULL, 24002199, NULL, 4),
   -- Tarountula - Knock Off - TM181
   (917, 91700, 282, 24, NULL, 2, NULL, NULL, 24002181, NULL, 1),
   -- Tarountula - Bug Bite - TM182

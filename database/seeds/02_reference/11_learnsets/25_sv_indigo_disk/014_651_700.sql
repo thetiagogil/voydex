@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -122,28 +125,24 @@ INSERT INTO reference.pokemon_learnsets (
   (677, 67700, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 3),
   -- Espurr - Psychic Noise - TM228
   (677, 67700, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 4),
-  -- Meowstic - Gravity - TM178
-  (678, 67800, 356, 25, NULL, 2, NULL, NULL, 24002178, NULL, 1),
   -- Meowstic - Psych Up - TM203
-  (678, 67800, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 2),
+  (678, 67800, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
   -- Meowstic - Expanding Force - TM218
-  (678, 67800, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 3),
+  (678, 67800, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 2),
   -- Meowstic - Alluring Voice - TM227
-  (678, 67800, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 4),
+  (678, 67800, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 3),
   -- Meowstic - Psychic Noise - TM228
-  (678, 67800, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 5),
-  -- Meowstic (Female) - Gravity - TM178
-  (678, 67801, 356, 25, NULL, 2, NULL, NULL, 24002178, NULL, 1),
+  (678, 67800, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 4),
   -- Meowstic (Female) - Psych Up - TM203
-  (678, 67801, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 2),
+  (678, 67801, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
   -- Meowstic (Female) - Future Sight - TM217
-  (678, 67801, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 3),
+  (678, 67801, 248, 25, NULL, 2, NULL, NULL, 25002217, NULL, 2),
   -- Meowstic (Female) - Expanding Force - TM218
-  (678, 67801, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 4),
+  (678, 67801, 797, 25, NULL, 2, NULL, NULL, 25002218, NULL, 3),
   -- Meowstic (Female) - Alluring Voice - TM227
-  (678, 67801, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 5),
+  (678, 67801, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 4),
   -- Meowstic (Female) - Psychic Noise - TM228
-  (678, 67801, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 6),
+  (678, 67801, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 5),
   -- Inkay - Spite - TM177
   (686, 68600, 180, 25, NULL, 2, NULL, NULL, 24002177, NULL, 1),
   -- Inkay - Gravity - TM178

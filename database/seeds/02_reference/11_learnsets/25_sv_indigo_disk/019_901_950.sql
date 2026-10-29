@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -50,6 +51,16 @@ INSERT INTO reference.pokemon_learnsets (
   (902, 90200, 250, 25, NULL, 2, NULL, NULL, 25002208, NULL, 4),
   -- Basculegion - Muddy Water - TM209
   (902, 90200, 330, 25, NULL, 2, NULL, NULL, 25002209, NULL, 5),
+  -- Basculegion (Female) - Pain Split - TM202
+  (902, 90201, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Basculegion (Female) - Double-Edge - TM204
+  (902, 90201, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 2),
+  -- Basculegion (Female) - Endeavor - TM205
+  (902, 90201, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 3),
+  -- Basculegion (Female) - Whirlpool - TM208
+  (902, 90201, 250, 25, NULL, 2, NULL, NULL, 25002208, NULL, 4),
+  -- Basculegion (Female) - Muddy Water - TM209
+  (902, 90201, 330, 25, NULL, 2, NULL, NULL, 25002209, NULL, 5),
   -- Sneasler - Coaching - TM213
   (903, 90300, 811, 25, NULL, 2, NULL, NULL, 25002213, NULL, 1),
   -- Sneasler - Sludge Wave - TM214
@@ -142,6 +153,12 @@ INSERT INTO reference.pokemon_learnsets (
   (916, 91600, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 2),
   -- Oinkologne - Curse - TM224
   (916, 91600, 174, 25, NULL, 2, NULL, NULL, 25002224, NULL, 3),
+  -- Oinkologne (Female) - Double-Edge - TM204
+  (916, 91601, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
+  -- Oinkologne (Female) - Endeavor - TM205
+  (916, 91601, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 2),
+  -- Oinkologne (Female) - Curse - TM224
+  (916, 91601, 174, 25, NULL, 2, NULL, NULL, 25002224, NULL, 3),
   -- Tarountula - Skitter Smack - TM219
   (917, 91700, 806, 25, NULL, 2, NULL, NULL, 25002219, NULL, 1),
   -- Tarountula - Throat Chop - TM221

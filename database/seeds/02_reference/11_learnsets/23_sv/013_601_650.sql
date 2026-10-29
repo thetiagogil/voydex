@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================

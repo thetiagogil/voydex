@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -2316,33 +2319,25 @@ INSERT INTO reference.pokemon_learnsets (
   (550, 55002, 127, 23, NULL, 2, NULL, NULL, 23002077, NULL, 35),
   -- Basculin (White-Striped) - Rest - TM085
   (550, 55002, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 36),
-  -- Basculin (White-Striped) - Taunt - TM087
-  (550, 55002, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 37),
   -- Basculin (White-Striped) - Substitute - TM103
-  (550, 55002, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 38),
+  (550, 55002, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 37),
   -- Basculin (White-Striped) - Crunch - TM108
-  (550, 55002, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 39),
+  (550, 55002, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 38),
   -- Basculin (White-Striped) - Liquidation - TM110
-  (550, 55002, 710, 23, NULL, 2, NULL, NULL, 23002110, NULL, 40),
+  (550, 55002, 710, 23, NULL, 2, NULL, NULL, 23002110, NULL, 39),
   -- Basculin (White-Striped) - Surf - TM123
-  (550, 55002, 57, 23, NULL, 2, NULL, NULL, 23002123, NULL, 41),
-  -- Basculin (White-Striped) - Reversal - TM134
-  (550, 55002, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 42),
+  (550, 55002, 57, 23, NULL, 2, NULL, NULL, 23002123, NULL, 40),
   -- Basculin (White-Striped) - Ice Beam - TM135
-  (550, 55002, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 43),
+  (550, 55002, 58, 23, NULL, 2, NULL, NULL, 23002135, NULL, 41),
   -- Basculin (White-Striped) - Hydro Pump - TM142
-  (550, 55002, 56, 23, NULL, 2, NULL, NULL, 23002142, NULL, 44),
+  (550, 55002, 56, 23, NULL, 2, NULL, NULL, 23002142, NULL, 42),
   -- Basculin (White-Striped) - Blizzard - TM143
-  (550, 55002, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 45),
-  -- Basculin (White-Striped) - Giga Impact - TM152
-  (550, 55002, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 46),
-  -- Basculin (White-Striped) - Hyper Beam - TM163
-  (550, 55002, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 47),
+  (550, 55002, 59, 23, NULL, 2, NULL, NULL, 23002143, NULL, 43),
   -- Basculin (White-Striped) - Tera Blast - TM171
-  (550, 55002, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 48),
+  (550, 55002, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 44),
   -- Basculin (White-Striped) - Bubble Beam - Egg
-  (550, 55002, 61, 23, NULL, 5, NULL, NULL, NULL, NULL, 49),
+  (550, 55002, 61, 23, NULL, 5, NULL, NULL, NULL, NULL, 45),
   -- Basculin (White-Striped) - Endeavor - Egg
-  (550, 55002, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 50),
+  (550, 55002, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 46),
   -- Basculin (White-Striped) - Last Respects - Egg
-  (550, 55002, 854, 23, NULL, 5, NULL, NULL, NULL, NULL, 51);
+  (550, 55002, 854, 23, NULL, 5, NULL, NULL, NULL, NULL, 47);
