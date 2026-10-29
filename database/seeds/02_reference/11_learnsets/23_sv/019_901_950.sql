@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -90,122 +93,114 @@ INSERT INTO reference.pokemon_learnsets (
   (901, 90100, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 32),
   -- Ursaluna - Bulldoze - TM028
   (901, 90100, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 33),
-  -- Ursaluna - Snarl - TM030
-  (901, 90100, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 34),
   -- Ursaluna - Metal Claw - TM031
-  (901, 90100, 232, 23, NULL, 2, NULL, NULL, 23002031, NULL, 35),
+  (901, 90100, 232, 23, NULL, 2, NULL, NULL, 23002031, NULL, 34),
   -- Ursaluna - Swift - TM032
-  (901, 90100, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 36),
-  -- Ursaluna - Mud Shot - TM035
-  (901, 90100, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 37),
+  (901, 90100, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 35),
   -- Ursaluna - Rock Tomb - TM036
-  (901, 90100, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 38),
+  (901, 90100, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 36),
   -- Ursaluna - Fling - TM043
-  (901, 90100, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 39),
+  (901, 90100, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 37),
   -- Ursaluna - Avalanche - TM046
-  (901, 90100, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 40),
+  (901, 90100, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 38),
   -- Ursaluna - Endure - TM047
-  (901, 90100, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 41),
+  (901, 90100, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 39),
   -- Ursaluna - Sunny Day - TM049
-  (901, 90100, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 42),
+  (901, 90100, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 40),
   -- Ursaluna - Rain Dance - TM050
-  (901, 90100, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 43),
+  (901, 90100, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 41),
   -- Ursaluna - Dig - TM055
-  (901, 90100, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 44),
+  (901, 90100, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 42),
   -- Ursaluna - Brick Break - TM058
-  (901, 90100, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 45),
+  (901, 90100, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 43),
   -- Ursaluna - Shadow Claw - TM061
-  (901, 90100, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 46),
+  (901, 90100, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 44),
   -- Ursaluna - Bulk Up - TM064
-  (901, 90100, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 47),
+  (901, 90100, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 45),
   -- Ursaluna - Body Slam - TM066
-  (901, 90100, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 48),
+  (901, 90100, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 46),
   -- Ursaluna - Fire Punch - TM067
-  (901, 90100, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 49),
+  (901, 90100, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 47),
   -- Ursaluna - Thunder Punch - TM068
-  (901, 90100, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 50),
+  (901, 90100, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 48),
   -- Ursaluna - Ice Punch - TM069
-  (901, 90100, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 51),
+  (901, 90100, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 49),
   -- Ursaluna - Sleep Talk - TM070
-  (901, 90100, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 52),
+  (901, 90100, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 50),
   -- Ursaluna - Seed Bomb - TM071
-  (901, 90100, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 53),
+  (901, 90100, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 51),
   -- Ursaluna - Drain Punch - TM073
-  (901, 90100, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 54),
+  (901, 90100, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 52),
   -- Ursaluna - Metronome - TM080
-  (901, 90100, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 55),
+  (901, 90100, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 53),
   -- Ursaluna - Stomping Tantrum - TM084
-  (901, 90100, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 56),
+  (901, 90100, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 54),
   -- Ursaluna - Rest - TM085
-  (901, 90100, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 57),
+  (901, 90100, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 55),
   -- Ursaluna - Rock Slide - TM086
-  (901, 90100, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 58),
+  (901, 90100, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 56),
   -- Ursaluna - Taunt - TM087
-  (901, 90100, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 59),
+  (901, 90100, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 57),
   -- Ursaluna - Swords Dance - TM088
-  (901, 90100, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 60),
+  (901, 90100, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 58),
   -- Ursaluna - Body Press - TM089
-  (901, 90100, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 61),
+  (901, 90100, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 59),
   -- Ursaluna - Gunk Shot - TM102
-  (901, 90100, 441, 23, NULL, 2, NULL, NULL, 23002102, NULL, 62),
+  (901, 90100, 441, 23, NULL, 2, NULL, NULL, 23002102, NULL, 60),
   -- Ursaluna - Substitute - TM103
-  (901, 90100, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 63),
+  (901, 90100, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 61),
   -- Ursaluna - Crunch - TM108
-  (901, 90100, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 64),
+  (901, 90100, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 62),
   -- Ursaluna - Hyper Voice - TM117
-  (901, 90100, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 65),
+  (901, 90100, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 63),
   -- Ursaluna - Heavy Slam - TM121
-  (901, 90100, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 66),
+  (901, 90100, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 64),
   -- Ursaluna - Play Rough - TM127
-  (901, 90100, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 67),
-  -- Ursaluna - Calm Mind - TM129
-  (901, 90100, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 68),
+  (901, 90100, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 65),
   -- Ursaluna - Helping Hand - TM130
-  (901, 90100, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 69),
+  (901, 90100, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 66),
   -- Ursaluna - Earth Power - TM133
-  (901, 90100, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 70),
+  (901, 90100, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 67),
   -- Ursaluna - Earthquake - TM149
-  (901, 90100, 89, 23, NULL, 2, NULL, NULL, 23002149, NULL, 71),
+  (901, 90100, 89, 23, NULL, 2, NULL, NULL, 23002149, NULL, 68),
   -- Ursaluna - Stone Edge - TM150
-  (901, 90100, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 72),
+  (901, 90100, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 69),
   -- Ursaluna - Giga Impact - TM152
-  (901, 90100, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 73),
-  -- Ursaluna - Focus Blast - TM158
-  (901, 90100, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 74),
+  (901, 90100, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 70),
   -- Ursaluna - Hyper Beam - TM163
-  (901, 90100, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 75),
+  (901, 90100, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 71),
   -- Ursaluna - Close Combat - TM167
-  (901, 90100, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 76),
+  (901, 90100, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 72),
   -- Ursaluna - Tera Blast - TM171
-  (901, 90100, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 77),
+  (901, 90100, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 73),
   -- Ursaluna - Double-Edge - Egg
-  (901, 90100, 38, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
+  (901, 90100, 38, 23, NULL, 5, NULL, NULL, NULL, NULL, 74),
   -- Ursaluna - Counter - Egg
-  (901, 90100, 68, 23, NULL, 5, NULL, NULL, NULL, NULL, 79),
+  (901, 90100, 68, 23, NULL, 5, NULL, NULL, NULL, NULL, 75),
   -- Ursaluna - Seismic Toss - Egg
-  (901, 90100, 69, 23, NULL, 5, NULL, NULL, NULL, NULL, 80),
+  (901, 90100, 69, 23, NULL, 5, NULL, NULL, NULL, NULL, 76),
   -- Ursaluna - Belly Drum - Egg
-  (901, 90100, 187, 23, NULL, 5, NULL, NULL, NULL, NULL, 81),
+  (901, 90100, 187, 23, NULL, 5, NULL, NULL, NULL, NULL, 77),
   -- Ursaluna - Fury Cutter - Egg
-  (901, 90100, 210, 23, NULL, 5, NULL, NULL, NULL, NULL, 82),
+  (901, 90100, 210, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
   -- Ursaluna - Metal Claw - Egg
-  (901, 90100, 232, 23, NULL, 5, NULL, NULL, NULL, NULL, 83),
+  (901, 90100, 232, 23, NULL, 5, NULL, NULL, NULL, NULL, 79),
   -- Ursaluna - Cross Chop - Egg
-  (901, 90100, 238, 23, NULL, 5, NULL, NULL, NULL, NULL, 84),
+  (901, 90100, 238, 23, NULL, 5, NULL, NULL, NULL, NULL, 80),
   -- Ursaluna - Crunch - Egg
-  (901, 90100, 242, 23, NULL, 5, NULL, NULL, NULL, NULL, 85),
+  (901, 90100, 242, 23, NULL, 5, NULL, NULL, NULL, NULL, 81),
   -- Ursaluna - Yawn - Egg
-  (901, 90100, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 86),
+  (901, 90100, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 82),
   -- Ursaluna - Fake Tears - Egg
-  (901, 90100, 313, 23, NULL, 5, NULL, NULL, NULL, NULL, 87),
+  (901, 90100, 313, 23, NULL, 5, NULL, NULL, NULL, NULL, 83),
   -- Ursaluna - Close Combat - Egg
-  (901, 90100, 370, 23, NULL, 5, NULL, NULL, NULL, NULL, 88),
+  (901, 90100, 370, 23, NULL, 5, NULL, NULL, NULL, NULL, 84),
   -- Ursaluna - Night Slash - Egg
-  (901, 90100, 400, 23, NULL, 5, NULL, NULL, NULL, NULL, 89),
+  (901, 90100, 400, 23, NULL, 5, NULL, NULL, NULL, NULL, 85),
   -- Ursaluna - Headlong Rush - Evolution
-  (901, 90100, 838, 23, NULL, 7, NULL, NULL, NULL, NULL, 90),
+  (901, 90100, 838, 23, NULL, 7, NULL, NULL, NULL, NULL, 86),
   -- Ursaluna - Moonlight - Reminder
-  (901, 90100, 236, 23, NULL, 9, NULL, NULL, NULL, NULL, 91),
+  (901, 90100, 236, 23, NULL, 9, NULL, NULL, NULL, NULL, 87),
   -- Ursaluna (Bloodmoon) - Scratch - Level 1
   (901, 90101, 10, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Ursaluna (Bloodmoon) - Leer - Level 1
@@ -252,142 +247,126 @@ INSERT INTO reference.pokemon_learnsets (
   (901, 90101, 901, 23, NULL, 1, 70, NULL, NULL, NULL, 22),
   -- Ursaluna (Bloodmoon) - Take Down - TM001
   (901, 90101, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 23),
-  -- Ursaluna (Bloodmoon) - Charm - TM002
-  (901, 90101, 204, 23, NULL, 2, NULL, NULL, 23002002, NULL, 24),
-  -- Ursaluna (Bloodmoon) - Fake Tears - TM003
-  (901, 90101, 313, 23, NULL, 2, NULL, NULL, 23002003, NULL, 25),
   -- Ursaluna (Bloodmoon) - Scary Face - TM006
-  (901, 90101, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 26),
+  (901, 90101, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 24),
   -- Ursaluna (Bloodmoon) - Protect - TM007
-  (901, 90101, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 27),
+  (901, 90101, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 25),
   -- Ursaluna (Bloodmoon) - Low Kick - TM012
-  (901, 90101, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 28),
+  (901, 90101, 67, 23, NULL, 2, NULL, NULL, 23002012, NULL, 26),
   -- Ursaluna (Bloodmoon) - Thief - TM018
-  (901, 90101, 168, 23, NULL, 2, NULL, NULL, 23002018, NULL, 29),
+  (901, 90101, 168, 23, NULL, 2, NULL, NULL, 23002018, NULL, 27),
   -- Ursaluna (Bloodmoon) - Trailblaze - TM020
-  (901, 90101, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 30),
+  (901, 90101, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 28),
   -- Ursaluna (Bloodmoon) - Facade - TM025
-  (901, 90101, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 31),
-  -- Ursaluna (Bloodmoon) - Aerial Ace - TM027
-  (901, 90101, 332, 23, NULL, 2, NULL, NULL, 23002027, NULL, 32),
+  (901, 90101, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 29),
   -- Ursaluna (Bloodmoon) - Bulldoze - TM028
-  (901, 90101, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 33),
+  (901, 90101, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 30),
   -- Ursaluna (Bloodmoon) - Snarl - TM030
-  (901, 90101, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 34),
+  (901, 90101, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 31),
   -- Ursaluna (Bloodmoon) - Metal Claw - TM031
-  (901, 90101, 232, 23, NULL, 2, NULL, NULL, 23002031, NULL, 35),
+  (901, 90101, 232, 23, NULL, 2, NULL, NULL, 23002031, NULL, 32),
   -- Ursaluna (Bloodmoon) - Swift - TM032
-  (901, 90101, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 36),
+  (901, 90101, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 33),
   -- Ursaluna (Bloodmoon) - Mud Shot - TM035
-  (901, 90101, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 37),
+  (901, 90101, 341, 23, NULL, 2, NULL, NULL, 23002035, NULL, 34),
   -- Ursaluna (Bloodmoon) - Rock Tomb - TM036
-  (901, 90101, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 38),
+  (901, 90101, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 35),
   -- Ursaluna (Bloodmoon) - Fling - TM043
-  (901, 90101, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 39),
+  (901, 90101, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 36),
   -- Ursaluna (Bloodmoon) - Avalanche - TM046
-  (901, 90101, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 40),
+  (901, 90101, 419, 23, NULL, 2, NULL, NULL, 23002046, NULL, 37),
   -- Ursaluna (Bloodmoon) - Endure - TM047
-  (901, 90101, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 41),
+  (901, 90101, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 38),
   -- Ursaluna (Bloodmoon) - Sunny Day - TM049
-  (901, 90101, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 42),
+  (901, 90101, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 39),
   -- Ursaluna (Bloodmoon) - Rain Dance - TM050
-  (901, 90101, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 43),
+  (901, 90101, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 40),
   -- Ursaluna (Bloodmoon) - Dig - TM055
-  (901, 90101, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 44),
+  (901, 90101, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 41),
   -- Ursaluna (Bloodmoon) - Brick Break - TM058
-  (901, 90101, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 45),
+  (901, 90101, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 42),
   -- Ursaluna (Bloodmoon) - Shadow Claw - TM061
-  (901, 90101, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 46),
-  -- Ursaluna (Bloodmoon) - Bulk Up - TM064
-  (901, 90101, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 47),
+  (901, 90101, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 43),
   -- Ursaluna (Bloodmoon) - Body Slam - TM066
-  (901, 90101, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 48),
+  (901, 90101, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 44),
   -- Ursaluna (Bloodmoon) - Fire Punch - TM067
-  (901, 90101, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 49),
+  (901, 90101, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 45),
   -- Ursaluna (Bloodmoon) - Thunder Punch - TM068
-  (901, 90101, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 50),
+  (901, 90101, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 46),
   -- Ursaluna (Bloodmoon) - Ice Punch - TM069
-  (901, 90101, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 51),
+  (901, 90101, 8, 23, NULL, 2, NULL, NULL, 23002069, NULL, 47),
   -- Ursaluna (Bloodmoon) - Sleep Talk - TM070
-  (901, 90101, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 52),
+  (901, 90101, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 48),
   -- Ursaluna (Bloodmoon) - Seed Bomb - TM071
-  (901, 90101, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 53),
-  -- Ursaluna (Bloodmoon) - Drain Punch - TM073
-  (901, 90101, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 54),
-  -- Ursaluna (Bloodmoon) - Metronome - TM080
-  (901, 90101, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 55),
+  (901, 90101, 402, 23, NULL, 2, NULL, NULL, 23002071, NULL, 49),
   -- Ursaluna (Bloodmoon) - Stomping Tantrum - TM084
-  (901, 90101, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 56),
+  (901, 90101, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 50),
   -- Ursaluna (Bloodmoon) - Rest - TM085
-  (901, 90101, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 57),
+  (901, 90101, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 51),
   -- Ursaluna (Bloodmoon) - Rock Slide - TM086
-  (901, 90101, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 58),
+  (901, 90101, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 52),
   -- Ursaluna (Bloodmoon) - Taunt - TM087
-  (901, 90101, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 59),
+  (901, 90101, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 53),
   -- Ursaluna (Bloodmoon) - Swords Dance - TM088
-  (901, 90101, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 60),
+  (901, 90101, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 54),
   -- Ursaluna (Bloodmoon) - Body Press - TM089
-  (901, 90101, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 61),
+  (901, 90101, 776, 23, NULL, 2, NULL, NULL, 23002089, NULL, 55),
   -- Ursaluna (Bloodmoon) - Gunk Shot - TM102
-  (901, 90101, 441, 23, NULL, 2, NULL, NULL, 23002102, NULL, 62),
+  (901, 90101, 441, 23, NULL, 2, NULL, NULL, 23002102, NULL, 56),
   -- Ursaluna (Bloodmoon) - Substitute - TM103
-  (901, 90101, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 63),
+  (901, 90101, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 57),
   -- Ursaluna (Bloodmoon) - Crunch - TM108
-  (901, 90101, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 64),
+  (901, 90101, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 58),
   -- Ursaluna (Bloodmoon) - Hyper Voice - TM117
-  (901, 90101, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 65),
+  (901, 90101, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 59),
   -- Ursaluna (Bloodmoon) - Heavy Slam - TM121
-  (901, 90101, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 66),
-  -- Ursaluna (Bloodmoon) - Play Rough - TM127
-  (901, 90101, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 67),
+  (901, 90101, 484, 23, NULL, 2, NULL, NULL, 23002121, NULL, 60),
   -- Ursaluna (Bloodmoon) - Calm Mind - TM129
-  (901, 90101, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 68),
+  (901, 90101, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 61),
   -- Ursaluna (Bloodmoon) - Helping Hand - TM130
-  (901, 90101, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 69),
+  (901, 90101, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 62),
   -- Ursaluna (Bloodmoon) - Earth Power - TM133
-  (901, 90101, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 70),
+  (901, 90101, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 63),
   -- Ursaluna (Bloodmoon) - Earthquake - TM149
-  (901, 90101, 89, 23, NULL, 2, NULL, NULL, 23002149, NULL, 71),
+  (901, 90101, 89, 23, NULL, 2, NULL, NULL, 23002149, NULL, 64),
   -- Ursaluna (Bloodmoon) - Stone Edge - TM150
-  (901, 90101, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 72),
+  (901, 90101, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 65),
   -- Ursaluna (Bloodmoon) - Giga Impact - TM152
-  (901, 90101, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 73),
+  (901, 90101, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 66),
   -- Ursaluna (Bloodmoon) - Focus Blast - TM158
-  (901, 90101, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 74),
+  (901, 90101, 411, 23, NULL, 2, NULL, NULL, 23002158, NULL, 67),
   -- Ursaluna (Bloodmoon) - Hyper Beam - TM163
-  (901, 90101, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 75),
-  -- Ursaluna (Bloodmoon) - Close Combat - TM167
-  (901, 90101, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 76),
+  (901, 90101, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 68),
   -- Ursaluna (Bloodmoon) - Tera Blast - TM171
-  (901, 90101, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 77),
+  (901, 90101, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 69),
   -- Ursaluna (Bloodmoon) - Double-Edge - Egg
-  (901, 90101, 38, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
+  (901, 90101, 38, 23, NULL, 5, NULL, NULL, NULL, NULL, 70),
   -- Ursaluna (Bloodmoon) - Counter - Egg
-  (901, 90101, 68, 23, NULL, 5, NULL, NULL, NULL, NULL, 79),
+  (901, 90101, 68, 23, NULL, 5, NULL, NULL, NULL, NULL, 71),
   -- Ursaluna (Bloodmoon) - Seismic Toss - Egg
-  (901, 90101, 69, 23, NULL, 5, NULL, NULL, NULL, NULL, 80),
+  (901, 90101, 69, 23, NULL, 5, NULL, NULL, NULL, NULL, 72),
   -- Ursaluna (Bloodmoon) - Belly Drum - Egg
-  (901, 90101, 187, 23, NULL, 5, NULL, NULL, NULL, NULL, 81),
+  (901, 90101, 187, 23, NULL, 5, NULL, NULL, NULL, NULL, 73),
   -- Ursaluna (Bloodmoon) - Fury Cutter - Egg
-  (901, 90101, 210, 23, NULL, 5, NULL, NULL, NULL, NULL, 82),
+  (901, 90101, 210, 23, NULL, 5, NULL, NULL, NULL, NULL, 74),
   -- Ursaluna (Bloodmoon) - Metal Claw - Egg
-  (901, 90101, 232, 23, NULL, 5, NULL, NULL, NULL, NULL, 83),
+  (901, 90101, 232, 23, NULL, 5, NULL, NULL, NULL, NULL, 75),
   -- Ursaluna (Bloodmoon) - Cross Chop - Egg
-  (901, 90101, 238, 23, NULL, 5, NULL, NULL, NULL, NULL, 84),
+  (901, 90101, 238, 23, NULL, 5, NULL, NULL, NULL, NULL, 76),
   -- Ursaluna (Bloodmoon) - Crunch - Egg
-  (901, 90101, 242, 23, NULL, 5, NULL, NULL, NULL, NULL, 85),
+  (901, 90101, 242, 23, NULL, 5, NULL, NULL, NULL, NULL, 77),
   -- Ursaluna (Bloodmoon) - Yawn - Egg
-  (901, 90101, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 86),
+  (901, 90101, 281, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
   -- Ursaluna (Bloodmoon) - Fake Tears - Egg
-  (901, 90101, 313, 23, NULL, 5, NULL, NULL, NULL, NULL, 87),
+  (901, 90101, 313, 23, NULL, 5, NULL, NULL, NULL, NULL, 79),
   -- Ursaluna (Bloodmoon) - Close Combat - Egg
-  (901, 90101, 370, 23, NULL, 5, NULL, NULL, NULL, NULL, 88),
+  (901, 90101, 370, 23, NULL, 5, NULL, NULL, NULL, NULL, 80),
   -- Ursaluna (Bloodmoon) - Night Slash - Egg
-  (901, 90101, 400, 23, NULL, 5, NULL, NULL, NULL, NULL, 89),
+  (901, 90101, 400, 23, NULL, 5, NULL, NULL, NULL, NULL, 81),
   -- Ursaluna (Bloodmoon) - Headlong Rush - Evolution
-  (901, 90101, 838, 23, NULL, 7, NULL, NULL, NULL, NULL, 90),
+  (901, 90101, 838, 23, NULL, 7, NULL, NULL, NULL, NULL, 82),
   -- Ursaluna (Bloodmoon) - Moonlight - Reminder
-  (901, 90101, 236, 23, NULL, 9, NULL, NULL, NULL, NULL, 91),
+  (901, 90101, 236, 23, NULL, 9, NULL, NULL, NULL, NULL, 83),
   -- Basculegion - Tail Whip - Level 1
   (902, 90200, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Basculegion - Water Gun - Level 1

@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -5254,96 +5255,80 @@ INSERT INTO reference.pokemon_learnsets (
   (745, 74500, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 35),
   -- Lycanroc - Rock Tomb - TM036
   (745, 74500, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 36),
-  -- Lycanroc - Low Sweep - TM039
-  (745, 74500, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 37),
-  -- Lycanroc - Fling - TM043
-  (745, 74500, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 38),
   -- Lycanroc - Endure - TM047
-  (745, 74500, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 39),
+  (745, 74500, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 37),
   -- Lycanroc - Sunny Day - TM049
-  (745, 74500, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 40),
+  (745, 74500, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 38),
   -- Lycanroc - Sandstorm - TM051
-  (745, 74500, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 41),
+  (745, 74500, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 39),
   -- Lycanroc - Dig - TM055
-  (745, 74500, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 42),
+  (745, 74500, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 40),
   -- Lycanroc - Brick Break - TM058
-  (745, 74500, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 43),
+  (745, 74500, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 41),
   -- Lycanroc - Zen Headbutt - TM059
-  (745, 74500, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 44),
-  -- Lycanroc - Shadow Claw - TM061
-  (745, 74500, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 45),
-  -- Lycanroc - Foul Play - TM062
-  (745, 74500, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 46),
+  (745, 74500, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 42),
   -- Lycanroc - Psychic Fangs - TM063
-  (745, 74500, 706, 23, NULL, 2, NULL, NULL, 23002063, NULL, 47),
+  (745, 74500, 706, 23, NULL, 2, NULL, NULL, 23002063, NULL, 43),
   -- Lycanroc - Bulk Up - TM064
-  (745, 74500, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 48),
+  (745, 74500, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 44),
   -- Lycanroc - Body Slam - TM066
-  (745, 74500, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 49),
-  -- Lycanroc - Fire Punch - TM067
-  (745, 74500, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 50),
-  -- Lycanroc - Thunder Punch - TM068
-  (745, 74500, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 51),
+  (745, 74500, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 45),
   -- Lycanroc - Sleep Talk - TM070
-  (745, 74500, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 52),
+  (745, 74500, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 46),
   -- Lycanroc - Rock Blast - TM076
-  (745, 74500, 350, 23, NULL, 2, NULL, NULL, 23002076, NULL, 53),
+  (745, 74500, 350, 23, NULL, 2, NULL, NULL, 23002076, NULL, 47),
   -- Lycanroc - Stomping Tantrum - TM084
-  (745, 74500, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 54),
+  (745, 74500, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 48),
   -- Lycanroc - Rest - TM085
-  (745, 74500, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 55),
+  (745, 74500, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 49),
   -- Lycanroc - Rock Slide - TM086
-  (745, 74500, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 56),
+  (745, 74500, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 50),
   -- Lycanroc - Taunt - TM087
-  (745, 74500, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 57),
+  (745, 74500, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 51),
   -- Lycanroc - Swords Dance - TM088
-  (745, 74500, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 58),
+  (745, 74500, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 52),
   -- Lycanroc - Iron Head - TM099
-  (745, 74500, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 59),
+  (745, 74500, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 53),
   -- Lycanroc - Substitute - TM103
-  (745, 74500, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 60),
+  (745, 74500, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 54),
   -- Lycanroc - Iron Defense - TM104
-  (745, 74500, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 61),
+  (745, 74500, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 55),
   -- Lycanroc - Drill Run - TM106
-  (745, 74500, 529, 23, NULL, 2, NULL, NULL, 23002106, NULL, 62),
+  (745, 74500, 529, 23, NULL, 2, NULL, NULL, 23002106, NULL, 56),
   -- Lycanroc - Crunch - TM108
-  (745, 74500, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 63),
+  (745, 74500, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 57),
   -- Lycanroc - Stealth Rock - TM116
-  (745, 74500, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 64),
+  (745, 74500, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 58),
   -- Lycanroc - Hyper Voice - TM117
-  (745, 74500, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 65),
+  (745, 74500, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 59),
   -- Lycanroc - Play Rough - TM127
-  (745, 74500, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 66),
+  (745, 74500, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 60),
   -- Lycanroc - Helping Hand - TM130
-  (745, 74500, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 67),
+  (745, 74500, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 61),
   -- Lycanroc - Earth Power - TM133
-  (745, 74500, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 68),
-  -- Lycanroc - Reversal - TM134
-  (745, 74500, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 69),
+  (745, 74500, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 62),
   -- Lycanroc - Stone Edge - TM150
-  (745, 74500, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 70),
+  (745, 74500, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 63),
   -- Lycanroc - Giga Impact - TM152
-  (745, 74500, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 71),
-  -- Lycanroc - Outrage - TM156
-  (745, 74500, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 72),
+  (745, 74500, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 64),
   -- Lycanroc - Close Combat - TM167
-  (745, 74500, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 73),
+  (745, 74500, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 65),
   -- Lycanroc - Tera Blast - TM171
-  (745, 74500, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 74),
+  (745, 74500, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 66),
   -- Lycanroc - Thrash - Egg
-  (745, 74500, 37, 23, NULL, 5, NULL, NULL, NULL, NULL, 75),
+  (745, 74500, 37, 23, NULL, 5, NULL, NULL, NULL, NULL, 67),
   -- Lycanroc - Endeavor - Egg
-  (745, 74500, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 76),
+  (745, 74500, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 68),
   -- Lycanroc - Last Resort - Egg
-  (745, 74500, 387, 23, NULL, 5, NULL, NULL, NULL, NULL, 77),
+  (745, 74500, 387, 23, NULL, 5, NULL, NULL, NULL, NULL, 69),
   -- Lycanroc - Sucker Punch - Egg
-  (745, 74500, 389, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
+  (745, 74500, 389, 23, NULL, 5, NULL, NULL, NULL, NULL, 70),
   -- Lycanroc - Counter - Evolution
-  (745, 74500, 68, 23, NULL, 7, NULL, NULL, NULL, NULL, 79),
+  (745, 74500, 68, 23, NULL, 7, NULL, NULL, NULL, NULL, 71),
   -- Lycanroc - Crush Claw - Evolution
-  (745, 74500, 306, 23, NULL, 7, NULL, NULL, NULL, NULL, 80),
+  (745, 74500, 306, 23, NULL, 7, NULL, NULL, NULL, NULL, 72),
   -- Lycanroc - Sucker Punch - Evolution
-  (745, 74500, 389, 23, NULL, 7, NULL, NULL, NULL, NULL, 81),
+  (745, 74500, 389, 23, NULL, 7, NULL, NULL, NULL, NULL, 73),
   -- Lycanroc (Midnight) - Sand Attack - Level 1
   (745, 74501, 28, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Lycanroc (Midnight) - Tackle - Level 1
@@ -5392,120 +5377,114 @@ INSERT INTO reference.pokemon_learnsets (
   (745, 74501, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 23),
   -- Lycanroc (Midnight) - Charm - TM002
   (745, 74501, 204, 23, NULL, 2, NULL, NULL, 23002002, NULL, 24),
-  -- Lycanroc (Midnight) - Agility - TM004
-  (745, 74501, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 25),
   -- Lycanroc (Midnight) - Mud-Slap - TM005
-  (745, 74501, 189, 23, NULL, 2, NULL, NULL, 23002005, NULL, 26),
+  (745, 74501, 189, 23, NULL, 2, NULL, NULL, 23002005, NULL, 25),
   -- Lycanroc (Midnight) - Scary Face - TM006
-  (745, 74501, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 27),
+  (745, 74501, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 26),
   -- Lycanroc (Midnight) - Protect - TM007
-  (745, 74501, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 28),
+  (745, 74501, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 27),
   -- Lycanroc (Midnight) - Fire Fang - TM008
-  (745, 74501, 424, 23, NULL, 2, NULL, NULL, 23002008, NULL, 29),
+  (745, 74501, 424, 23, NULL, 2, NULL, NULL, 23002008, NULL, 28),
   -- Lycanroc (Midnight) - Thunder Fang - TM009
-  (745, 74501, 422, 23, NULL, 2, NULL, NULL, 23002009, NULL, 30),
+  (745, 74501, 422, 23, NULL, 2, NULL, NULL, 23002009, NULL, 29),
   -- Lycanroc (Midnight) - Trailblaze - TM020
-  (745, 74501, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 31),
+  (745, 74501, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 30),
   -- Lycanroc (Midnight) - Facade - TM025
-  (745, 74501, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 32),
+  (745, 74501, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 31),
   -- Lycanroc (Midnight) - Bulldoze - TM028
-  (745, 74501, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 33),
+  (745, 74501, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 32),
   -- Lycanroc (Midnight) - Snarl - TM030
-  (745, 74501, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 34),
-  -- Lycanroc (Midnight) - Swift - TM032
-  (745, 74501, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 35),
+  (745, 74501, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 33),
   -- Lycanroc (Midnight) - Rock Tomb - TM036
-  (745, 74501, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 36),
+  (745, 74501, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 34),
   -- Lycanroc (Midnight) - Low Sweep - TM039
-  (745, 74501, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 37),
+  (745, 74501, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 35),
   -- Lycanroc (Midnight) - Fling - TM043
-  (745, 74501, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 38),
+  (745, 74501, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 36),
   -- Lycanroc (Midnight) - Endure - TM047
-  (745, 74501, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 39),
+  (745, 74501, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 37),
   -- Lycanroc (Midnight) - Sunny Day - TM049
-  (745, 74501, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 40),
+  (745, 74501, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 38),
   -- Lycanroc (Midnight) - Sandstorm - TM051
-  (745, 74501, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 41),
+  (745, 74501, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 39),
   -- Lycanroc (Midnight) - Dig - TM055
-  (745, 74501, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 42),
+  (745, 74501, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 40),
   -- Lycanroc (Midnight) - Brick Break - TM058
-  (745, 74501, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 43),
+  (745, 74501, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 41),
   -- Lycanroc (Midnight) - Zen Headbutt - TM059
-  (745, 74501, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 44),
+  (745, 74501, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 42),
   -- Lycanroc (Midnight) - Shadow Claw - TM061
-  (745, 74501, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 45),
+  (745, 74501, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 43),
   -- Lycanroc (Midnight) - Foul Play - TM062
-  (745, 74501, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 46),
+  (745, 74501, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 44),
   -- Lycanroc (Midnight) - Psychic Fangs - TM063
-  (745, 74501, 706, 23, NULL, 2, NULL, NULL, 23002063, NULL, 47),
+  (745, 74501, 706, 23, NULL, 2, NULL, NULL, 23002063, NULL, 45),
   -- Lycanroc (Midnight) - Bulk Up - TM064
-  (745, 74501, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 48),
+  (745, 74501, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 46),
   -- Lycanroc (Midnight) - Body Slam - TM066
-  (745, 74501, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 49),
+  (745, 74501, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 47),
   -- Lycanroc (Midnight) - Fire Punch - TM067
-  (745, 74501, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 50),
+  (745, 74501, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 48),
   -- Lycanroc (Midnight) - Thunder Punch - TM068
-  (745, 74501, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 51),
+  (745, 74501, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 49),
   -- Lycanroc (Midnight) - Sleep Talk - TM070
-  (745, 74501, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 52),
+  (745, 74501, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 50),
   -- Lycanroc (Midnight) - Rock Blast - TM076
-  (745, 74501, 350, 23, NULL, 2, NULL, NULL, 23002076, NULL, 53),
+  (745, 74501, 350, 23, NULL, 2, NULL, NULL, 23002076, NULL, 51),
   -- Lycanroc (Midnight) - Stomping Tantrum - TM084
-  (745, 74501, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 54),
+  (745, 74501, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 52),
   -- Lycanroc (Midnight) - Rest - TM085
-  (745, 74501, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 55),
+  (745, 74501, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 53),
   -- Lycanroc (Midnight) - Rock Slide - TM086
-  (745, 74501, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 56),
+  (745, 74501, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 54),
   -- Lycanroc (Midnight) - Taunt - TM087
-  (745, 74501, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 57),
+  (745, 74501, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 55),
   -- Lycanroc (Midnight) - Swords Dance - TM088
-  (745, 74501, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 58),
+  (745, 74501, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 56),
   -- Lycanroc (Midnight) - Iron Head - TM099
-  (745, 74501, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 59),
+  (745, 74501, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 57),
   -- Lycanroc (Midnight) - Substitute - TM103
-  (745, 74501, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 60),
+  (745, 74501, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 58),
   -- Lycanroc (Midnight) - Iron Defense - TM104
-  (745, 74501, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 61),
-  -- Lycanroc (Midnight) - Drill Run - TM106
-  (745, 74501, 529, 23, NULL, 2, NULL, NULL, 23002106, NULL, 62),
+  (745, 74501, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 59),
   -- Lycanroc (Midnight) - Crunch - TM108
-  (745, 74501, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 63),
+  (745, 74501, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 60),
   -- Lycanroc (Midnight) - Stealth Rock - TM116
-  (745, 74501, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 64),
+  (745, 74501, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 61),
   -- Lycanroc (Midnight) - Hyper Voice - TM117
-  (745, 74501, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 65),
+  (745, 74501, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 62),
   -- Lycanroc (Midnight) - Play Rough - TM127
-  (745, 74501, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 66),
+  (745, 74501, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 63),
   -- Lycanroc (Midnight) - Helping Hand - TM130
-  (745, 74501, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 67),
+  (745, 74501, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 64),
   -- Lycanroc (Midnight) - Earth Power - TM133
-  (745, 74501, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 68),
+  (745, 74501, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 65),
   -- Lycanroc (Midnight) - Reversal - TM134
-  (745, 74501, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 69),
+  (745, 74501, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 66),
   -- Lycanroc (Midnight) - Stone Edge - TM150
-  (745, 74501, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 70),
+  (745, 74501, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 67),
   -- Lycanroc (Midnight) - Giga Impact - TM152
-  (745, 74501, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 71),
+  (745, 74501, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 68),
   -- Lycanroc (Midnight) - Outrage - TM156
-  (745, 74501, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 72),
+  (745, 74501, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 69),
   -- Lycanroc (Midnight) - Close Combat - TM167
-  (745, 74501, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 73),
+  (745, 74501, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 70),
   -- Lycanroc (Midnight) - Tera Blast - TM171
-  (745, 74501, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 74),
+  (745, 74501, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 71),
   -- Lycanroc (Midnight) - Thrash - Egg
-  (745, 74501, 37, 23, NULL, 5, NULL, NULL, NULL, NULL, 75),
+  (745, 74501, 37, 23, NULL, 5, NULL, NULL, NULL, NULL, 72),
   -- Lycanroc (Midnight) - Endeavor - Egg
-  (745, 74501, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 76),
+  (745, 74501, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 73),
   -- Lycanroc (Midnight) - Last Resort - Egg
-  (745, 74501, 387, 23, NULL, 5, NULL, NULL, NULL, NULL, 77),
+  (745, 74501, 387, 23, NULL, 5, NULL, NULL, NULL, NULL, 74),
   -- Lycanroc (Midnight) - Sucker Punch - Egg
-  (745, 74501, 389, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
+  (745, 74501, 389, 23, NULL, 5, NULL, NULL, NULL, NULL, 75),
   -- Lycanroc (Midnight) - Counter - Evolution
-  (745, 74501, 68, 23, NULL, 7, NULL, NULL, NULL, NULL, 79),
+  (745, 74501, 68, 23, NULL, 7, NULL, NULL, NULL, NULL, 76),
   -- Lycanroc (Midnight) - Crush Claw - Evolution
-  (745, 74501, 306, 23, NULL, 7, NULL, NULL, NULL, NULL, 80),
+  (745, 74501, 306, 23, NULL, 7, NULL, NULL, NULL, NULL, 77),
   -- Lycanroc (Midnight) - Sucker Punch - Evolution
-  (745, 74501, 389, 23, NULL, 7, NULL, NULL, NULL, NULL, 81),
+  (745, 74501, 389, 23, NULL, 7, NULL, NULL, NULL, NULL, 78),
   -- Lycanroc (Dusk) - Sand Attack - Level 1
   (745, 74502, 28, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Lycanroc (Dusk) - Tackle - Level 1
@@ -5554,120 +5533,102 @@ INSERT INTO reference.pokemon_learnsets (
   (745, 74502, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 23),
   -- Lycanroc (Dusk) - Charm - TM002
   (745, 74502, 204, 23, NULL, 2, NULL, NULL, 23002002, NULL, 24),
-  -- Lycanroc (Dusk) - Agility - TM004
-  (745, 74502, 97, 23, NULL, 2, NULL, NULL, 23002004, NULL, 25),
   -- Lycanroc (Dusk) - Mud-Slap - TM005
-  (745, 74502, 189, 23, NULL, 2, NULL, NULL, 23002005, NULL, 26),
+  (745, 74502, 189, 23, NULL, 2, NULL, NULL, 23002005, NULL, 25),
   -- Lycanroc (Dusk) - Scary Face - TM006
-  (745, 74502, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 27),
+  (745, 74502, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 26),
   -- Lycanroc (Dusk) - Protect - TM007
-  (745, 74502, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 28),
+  (745, 74502, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 27),
   -- Lycanroc (Dusk) - Fire Fang - TM008
-  (745, 74502, 424, 23, NULL, 2, NULL, NULL, 23002008, NULL, 29),
+  (745, 74502, 424, 23, NULL, 2, NULL, NULL, 23002008, NULL, 28),
   -- Lycanroc (Dusk) - Thunder Fang - TM009
-  (745, 74502, 422, 23, NULL, 2, NULL, NULL, 23002009, NULL, 30),
+  (745, 74502, 422, 23, NULL, 2, NULL, NULL, 23002009, NULL, 29),
   -- Lycanroc (Dusk) - Trailblaze - TM020
-  (745, 74502, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 31),
+  (745, 74502, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 30),
   -- Lycanroc (Dusk) - Facade - TM025
-  (745, 74502, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 32),
+  (745, 74502, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 31),
   -- Lycanroc (Dusk) - Bulldoze - TM028
-  (745, 74502, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 33),
+  (745, 74502, 523, 23, NULL, 2, NULL, NULL, 23002028, NULL, 32),
   -- Lycanroc (Dusk) - Snarl - TM030
-  (745, 74502, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 34),
-  -- Lycanroc (Dusk) - Swift - TM032
-  (745, 74502, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 35),
+  (745, 74502, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 33),
   -- Lycanroc (Dusk) - Rock Tomb - TM036
-  (745, 74502, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 36),
-  -- Lycanroc (Dusk) - Low Sweep - TM039
-  (745, 74502, 490, 23, NULL, 2, NULL, NULL, 23002039, NULL, 37),
-  -- Lycanroc (Dusk) - Fling - TM043
-  (745, 74502, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 38),
+  (745, 74502, 317, 23, NULL, 2, NULL, NULL, 23002036, NULL, 34),
   -- Lycanroc (Dusk) - Endure - TM047
-  (745, 74502, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 39),
-  -- Lycanroc (Dusk) - Sunny Day - TM049
-  (745, 74502, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 40),
+  (745, 74502, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 35),
   -- Lycanroc (Dusk) - Sandstorm - TM051
-  (745, 74502, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 41),
+  (745, 74502, 201, 23, NULL, 2, NULL, NULL, 23002051, NULL, 36),
   -- Lycanroc (Dusk) - Dig - TM055
-  (745, 74502, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 42),
+  (745, 74502, 91, 23, NULL, 2, NULL, NULL, 23002055, NULL, 37),
   -- Lycanroc (Dusk) - Brick Break - TM058
-  (745, 74502, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 43),
+  (745, 74502, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 38),
   -- Lycanroc (Dusk) - Zen Headbutt - TM059
-  (745, 74502, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 44),
-  -- Lycanroc (Dusk) - Shadow Claw - TM061
-  (745, 74502, 421, 23, NULL, 2, NULL, NULL, 23002061, NULL, 45),
-  -- Lycanroc (Dusk) - Foul Play - TM062
-  (745, 74502, 492, 23, NULL, 2, NULL, NULL, 23002062, NULL, 46),
+  (745, 74502, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 39),
   -- Lycanroc (Dusk) - Psychic Fangs - TM063
-  (745, 74502, 706, 23, NULL, 2, NULL, NULL, 23002063, NULL, 47),
+  (745, 74502, 706, 23, NULL, 2, NULL, NULL, 23002063, NULL, 40),
   -- Lycanroc (Dusk) - Bulk Up - TM064
-  (745, 74502, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 48),
+  (745, 74502, 339, 23, NULL, 2, NULL, NULL, 23002064, NULL, 41),
   -- Lycanroc (Dusk) - Body Slam - TM066
-  (745, 74502, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 49),
-  -- Lycanroc (Dusk) - Fire Punch - TM067
-  (745, 74502, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 50),
-  -- Lycanroc (Dusk) - Thunder Punch - TM068
-  (745, 74502, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 51),
+  (745, 74502, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 42),
   -- Lycanroc (Dusk) - Sleep Talk - TM070
-  (745, 74502, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 52),
+  (745, 74502, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 43),
   -- Lycanroc (Dusk) - Rock Blast - TM076
-  (745, 74502, 350, 23, NULL, 2, NULL, NULL, 23002076, NULL, 53),
+  (745, 74502, 350, 23, NULL, 2, NULL, NULL, 23002076, NULL, 44),
   -- Lycanroc (Dusk) - Stomping Tantrum - TM084
-  (745, 74502, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 54),
+  (745, 74502, 707, 23, NULL, 2, NULL, NULL, 23002084, NULL, 45),
   -- Lycanroc (Dusk) - Rest - TM085
-  (745, 74502, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 55),
+  (745, 74502, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 46),
   -- Lycanroc (Dusk) - Rock Slide - TM086
-  (745, 74502, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 56),
+  (745, 74502, 157, 23, NULL, 2, NULL, NULL, 23002086, NULL, 47),
   -- Lycanroc (Dusk) - Taunt - TM087
-  (745, 74502, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 57),
+  (745, 74502, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 48),
   -- Lycanroc (Dusk) - Swords Dance - TM088
-  (745, 74502, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 58),
+  (745, 74502, 14, 23, NULL, 2, NULL, NULL, 23002088, NULL, 49),
   -- Lycanroc (Dusk) - Iron Head - TM099
-  (745, 74502, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 59),
+  (745, 74502, 442, 23, NULL, 2, NULL, NULL, 23002099, NULL, 50),
   -- Lycanroc (Dusk) - Substitute - TM103
-  (745, 74502, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 60),
+  (745, 74502, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 51),
   -- Lycanroc (Dusk) - Iron Defense - TM104
-  (745, 74502, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 61),
+  (745, 74502, 334, 23, NULL, 2, NULL, NULL, 23002104, NULL, 52),
   -- Lycanroc (Dusk) - Drill Run - TM106
-  (745, 74502, 529, 23, NULL, 2, NULL, NULL, 23002106, NULL, 62),
+  (745, 74502, 529, 23, NULL, 2, NULL, NULL, 23002106, NULL, 53),
   -- Lycanroc (Dusk) - Crunch - TM108
-  (745, 74502, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 63),
+  (745, 74502, 242, 23, NULL, 2, NULL, NULL, 23002108, NULL, 54),
   -- Lycanroc (Dusk) - Stealth Rock - TM116
-  (745, 74502, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 64),
+  (745, 74502, 446, 23, NULL, 2, NULL, NULL, 23002116, NULL, 55),
   -- Lycanroc (Dusk) - Hyper Voice - TM117
-  (745, 74502, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 65),
+  (745, 74502, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 56),
   -- Lycanroc (Dusk) - Play Rough - TM127
-  (745, 74502, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 66),
+  (745, 74502, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 57),
   -- Lycanroc (Dusk) - Helping Hand - TM130
-  (745, 74502, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 67),
+  (745, 74502, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 58),
   -- Lycanroc (Dusk) - Earth Power - TM133
-  (745, 74502, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 68),
+  (745, 74502, 414, 23, NULL, 2, NULL, NULL, 23002133, NULL, 59),
   -- Lycanroc (Dusk) - Reversal - TM134
-  (745, 74502, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 69),
+  (745, 74502, 179, 23, NULL, 2, NULL, NULL, 23002134, NULL, 60),
   -- Lycanroc (Dusk) - Stone Edge - TM150
-  (745, 74502, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 70),
+  (745, 74502, 444, 23, NULL, 2, NULL, NULL, 23002150, NULL, 61),
   -- Lycanroc (Dusk) - Giga Impact - TM152
-  (745, 74502, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 71),
+  (745, 74502, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 62),
   -- Lycanroc (Dusk) - Outrage - TM156
-  (745, 74502, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 72),
+  (745, 74502, 200, 23, NULL, 2, NULL, NULL, 23002156, NULL, 63),
   -- Lycanroc (Dusk) - Close Combat - TM167
-  (745, 74502, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 73),
+  (745, 74502, 370, 23, NULL, 2, NULL, NULL, 23002167, NULL, 64),
   -- Lycanroc (Dusk) - Tera Blast - TM171
-  (745, 74502, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 74),
+  (745, 74502, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 65),
   -- Lycanroc (Dusk) - Thrash - Egg
-  (745, 74502, 37, 23, NULL, 5, NULL, NULL, NULL, NULL, 75),
+  (745, 74502, 37, 23, NULL, 5, NULL, NULL, NULL, NULL, 66),
   -- Lycanroc (Dusk) - Endeavor - Egg
-  (745, 74502, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 76),
+  (745, 74502, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 67),
   -- Lycanroc (Dusk) - Last Resort - Egg
-  (745, 74502, 387, 23, NULL, 5, NULL, NULL, NULL, NULL, 77),
+  (745, 74502, 387, 23, NULL, 5, NULL, NULL, NULL, NULL, 68),
   -- Lycanroc (Dusk) - Sucker Punch - Egg
-  (745, 74502, 389, 23, NULL, 5, NULL, NULL, NULL, NULL, 78),
+  (745, 74502, 389, 23, NULL, 5, NULL, NULL, NULL, NULL, 69),
   -- Lycanroc (Dusk) - Counter - Evolution
-  (745, 74502, 68, 23, NULL, 7, NULL, NULL, NULL, NULL, 79),
+  (745, 74502, 68, 23, NULL, 7, NULL, NULL, NULL, NULL, 70),
   -- Lycanroc (Dusk) - Crush Claw - Evolution
-  (745, 74502, 306, 23, NULL, 7, NULL, NULL, NULL, NULL, 80),
+  (745, 74502, 306, 23, NULL, 7, NULL, NULL, NULL, NULL, 71),
   -- Lycanroc (Dusk) - Sucker Punch - Evolution
-  (745, 74502, 389, 23, NULL, 7, NULL, NULL, NULL, NULL, 81),
+  (745, 74502, 389, 23, NULL, 7, NULL, NULL, NULL, NULL, 72),
   -- Mareanie - Poison Sting - Level 1
   (747, 74700, 40, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Mareanie - Peck - Level 1

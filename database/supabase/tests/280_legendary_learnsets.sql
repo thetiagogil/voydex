@@ -2,11 +2,12 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Legendary and mythical learnsets follow each game's own data: a form keeps
 -- only its own moves, signature moves sit at the game's level, and a form
--- with its own rows has every TM its game gives it.
+-- with its own rows has every TM its game gives it. The rules that keep every
+-- form whole live in 340_form_learnsets.sql.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (22);
+    plan (19);
 CREATE TEMP VIEW level_moves AS
 SELECT
     pokemon_learnsets.form_id,
@@ -211,73 +212,6 @@ SELECT
                 AND MOVE IN ('roar', 'endeavor')
             ORDER BY form_id, version_group_id $$, $$
             VALUES (64601, 24), (64601, 25), (64602, 24), (64602, 25) $$, 'Kyurem forms learn the Teal Mask and Indigo Disk TMs');
--- Rules that keep a form whole.
-SELECT
-    is_empty ($$ WITH own_rows AS ( SELECT DISTINCT
-                species_id, form_id, version_group_id FROM reference.pokemon_learnsets)
-            SELECT
-                own_rows.form_id, child_scope.id FROM own_rows
-                JOIN reference.pokemon_species ON pokemon_species.id = own_rows.species_id
-                JOIN reference.pokemon_forms ON pokemon_forms.id = own_rows.form_id
-                JOIN reference.pokemon_forms AS default_form ON default_form.species_id = own_rows.species_id
-                    AND default_form.is_default
-                JOIN reference.version_groups AS child_scope ON child_scope.parent_version_group_id = own_rows.version_group_id
-                WHERE
-                    NOT pokemon_forms.is_default
-                    AND (pokemon_species.is_legendary
-                        OR pokemon_species.is_mythical)
-                    AND EXISTS (
-                        SELECT
-                            1
-                        FROM own_rows AS default_rows
-                        WHERE
-                            default_rows.form_id = default_form.id
-                            AND default_rows.version_group_id = child_scope.id)
-                    AND NOT EXISTS (
-                        SELECT
-                            1
-                        FROM own_rows AS form_rows
-                    WHERE
-                        form_rows.form_id = own_rows.form_id
-                        AND form_rows.version_group_id = child_scope.id) $$, 'a legendary form with its own moves has rows in every DLC its default has rows in');
-SELECT
-    is_empty ($$ WITH form_scopes AS (
-            SELECT
-                form_id, version_group_id, bool_or(learn_method_id IN (1, 7, 8)) AS has_level, bool_or(learn_method_id IN (2, 3, 4)) AS has_machine FROM reference.pokemon_learnsets GROUP BY form_id, version_group_id)
-            SELECT
-                form_scopes.form_id, form_scopes.version_group_id FROM form_scopes
-                JOIN reference.pokemon_forms ON pokemon_forms.id = form_scopes.form_id
-                JOIN reference.pokemon_species ON pokemon_species.id = pokemon_forms.species_id
-                JOIN reference.pokemon_forms AS default_form ON default_form.species_id = pokemon_forms.species_id
-                    AND default_form.is_default
-                JOIN form_scopes AS default_scopes ON default_scopes.form_id = default_form.id
-                    AND default_scopes.version_group_id = form_scopes.version_group_id
-                WHERE
-                    NOT pokemon_forms.is_default
-                    AND (pokemon_species.is_legendary
-                        OR pokemon_species.is_mythical)
-                    AND ((default_scopes.has_level
-                        AND NOT form_scopes.has_level)
-                    OR (default_scopes.has_machine
-                        AND NOT form_scopes.has_machine)) $$, 'a legendary form with its own rows has level-up and machine rows wherever its default does');
-SELECT
-    is_empty ($$ WITH machine_counts AS (
-            SELECT
-                form_id, version_group_id, count(*) AS machine_count FROM machine_moves GROUP BY form_id, version_group_id)
-            SELECT
-                machine_counts.form_id, machine_counts.version_group_id FROM machine_counts
-                JOIN reference.version_groups ON version_groups.id = machine_counts.version_group_id
-                    AND version_groups.parent_version_group_id IS NULL
-                JOIN reference.pokemon_forms ON pokemon_forms.id = machine_counts.form_id
-                    AND NOT pokemon_forms.is_default
-                JOIN reference.pokemon_species ON pokemon_species.id = pokemon_forms.species_id
-                JOIN reference.pokemon_forms AS default_form ON default_form.species_id = pokemon_forms.species_id
-                    AND default_form.is_default
-                JOIN machine_counts AS default_counts ON default_counts.form_id = default_form.id
-                    AND default_counts.version_group_id = machine_counts.version_group_id
-                WHERE (pokemon_species.is_legendary
-                    OR pokemon_species.is_mythical)
-                AND machine_counts.machine_count * 2 < default_counts.machine_count $$, 'a legendary form never has under half the TMs of its default in a base game');
 SELECT
     *
 FROM

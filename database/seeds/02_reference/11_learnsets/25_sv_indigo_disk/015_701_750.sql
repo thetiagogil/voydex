@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -136,14 +137,6 @@ INSERT INTO reference.pokemon_learnsets (
   (713, 71301, 174, 25, NULL, 2, NULL, NULL, 25002224, NULL, 3),
   -- Avalugg (Hisuian Avalugg) - Hard Press - TM225
   (713, 71301, 912, 25, NULL, 2, NULL, NULL, 25002225, NULL, 4),
-  -- Noibat - Double-Edge - TM204
-  (714, 71400, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
-  -- Noibat - Breaking Swipe - TM222
-  (714, 71400, 784, 25, NULL, 2, NULL, NULL, 25002222, NULL, 2),
-  -- Noibat - Dragon Cheer - TM226
-  (714, 71400, 913, 25, NULL, 2, NULL, NULL, 25002226, NULL, 3),
-  -- Noibat - Psychic Noise - TM228
-  (714, 71400, 917, 25, NULL, 2, NULL, NULL, 25002228, NULL, 4),
   -- Noivern - Double-Edge - TM204
   (715, 71500, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
   -- Noivern - Breaking Swipe - TM222
@@ -366,6 +359,24 @@ INSERT INTO reference.pokemon_learnsets (
   (741, 74100, 297, 25, NULL, 2, NULL, NULL, 25002216, NULL, 2),
   -- Oricorio - Alluring Voice - TM227
   (741, 74100, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 3),
+  -- Oricorio (Pom-Pom) - Psych Up - TM203
+  (741, 74101, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Oricorio (Pom-Pom) - Feather Dance - TM216
+  (741, 74101, 297, 25, NULL, 2, NULL, NULL, 25002216, NULL, 2),
+  -- Oricorio (Pom-Pom) - Alluring Voice - TM227
+  (741, 74101, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 3),
+  -- Oricorio (Pa'u) - Psych Up - TM203
+  (741, 74102, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Oricorio (Pa'u) - Feather Dance - TM216
+  (741, 74102, 297, 25, NULL, 2, NULL, NULL, 25002216, NULL, 2),
+  -- Oricorio (Pa'u) - Alluring Voice - TM227
+  (741, 74102, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 3),
+  -- Oricorio (Sensu) - Psych Up - TM203
+  (741, 74103, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
+  -- Oricorio (Sensu) - Feather Dance - TM216
+  (741, 74103, 297, 25, NULL, 2, NULL, NULL, 25002216, NULL, 2),
+  -- Oricorio (Sensu) - Alluring Voice - TM227
+  (741, 74103, 914, 25, NULL, 2, NULL, NULL, 25002227, NULL, 3),
   -- Cutiefly - Psych Up - TM203
   (742, 74200, 244, 25, NULL, 2, NULL, NULL, 25002203, NULL, 1),
   -- Cutiefly - Skitter Smack - TM219

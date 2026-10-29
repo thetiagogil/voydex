@@ -43,10 +43,18 @@ sources remain authoritative for game-specific mechanics and availability.
   Regigigas's Mega Punch flag in Scarlet / Violet sits in a slot no TM teaches;
   FireRed / LeafGreen share Emerald's TM flags in PKHeX, Dive included, but
   those games have no Dive HM.
-- A legendary or mythical form with its own learnset rows in a version group
-  carries level-up and machine rows there wherever its default does, and rows
-  in each DLC scope where its default has them; otherwise it would lose moves
-  its default keeps.
+- Every Scarlet / Violet form with its own rows has its TMs checked against
+  PKHeX's personal table, so a form neither misses its DLC TMs nor keeps a
+  sibling form's moves (Midday Lycanroc has no Fire Punch). TM001-TM171 sit in
+  the base game, TM172-TM201 in The Teal Mask and TM202-TM229 in The Indigo
+  Disk, except for Pokémon that only arrive in The Indigo Disk, whose Teal Mask
+  TMs sit there too. Evolved Pokémon list their baby's egg moves, as Low Key
+  Toxtricity lists Toxel's.
+- A form with its own learnset rows in a version group carries level-up and
+  machine rows there wherever its default does, and rows in each DLC scope
+  where its default has them; otherwise it would lose moves its default keeps.
+  Two exceptions match the game: Alolan Vulpix has no Isle of Armor tutor and
+  female Indeedee no Teal Mask TM.
 - Forms used by teams require a valid species/form pair and game-era support.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the

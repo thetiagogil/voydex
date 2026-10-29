@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -2970,5 +2973,103 @@ INSERT INTO reference.pokemon_learnsets (
   (849, 84901, 586, 23, NULL, 1, 48, NULL, NULL, NULL, 21),
   -- Toxtricity (Low Key) - Magnetic Flux - Level 52
   (849, 84901, 602, 23, NULL, 1, 52, NULL, NULL, NULL, 22),
+  -- Toxtricity (Low Key) - Take Down - TM001
+  (849, 84901, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 23),
+  -- Toxtricity (Low Key) - Charm - TM002
+  (849, 84901, 204, 23, NULL, 2, NULL, NULL, 23002002, NULL, 24),
+  -- Toxtricity (Low Key) - Scary Face - TM006
+  (849, 84901, 184, 23, NULL, 2, NULL, NULL, 23002006, NULL, 25),
+  -- Toxtricity (Low Key) - Protect - TM007
+  (849, 84901, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 26),
+  -- Toxtricity (Low Key) - Thunder Fang - TM009
+  (849, 84901, 422, 23, NULL, 2, NULL, NULL, 23002009, NULL, 27),
+  -- Toxtricity (Low Key) - Acid Spray - TM013
+  (849, 84901, 491, 23, NULL, 2, NULL, NULL, 23002013, NULL, 28),
+  -- Toxtricity (Low Key) - Thief - TM018
+  (849, 84901, 168, 23, NULL, 2, NULL, NULL, 23002018, NULL, 29),
+  -- Toxtricity (Low Key) - Trailblaze - TM020
+  (849, 84901, 885, 23, NULL, 2, NULL, NULL, 23002020, NULL, 30),
+  -- Toxtricity (Low Key) - Charge Beam - TM023
+  (849, 84901, 451, 23, NULL, 2, NULL, NULL, 23002023, NULL, 31),
+  -- Toxtricity (Low Key) - Facade - TM025
+  (849, 84901, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 32),
+  -- Toxtricity (Low Key) - Poison Tail - TM026
+  (849, 84901, 342, 23, NULL, 2, NULL, NULL, 23002026, NULL, 33),
+  -- Toxtricity (Low Key) - Hex - TM029
+  (849, 84901, 506, 23, NULL, 2, NULL, NULL, 23002029, NULL, 34),
+  -- Toxtricity (Low Key) - Snarl - TM030
+  (849, 84901, 555, 23, NULL, 2, NULL, NULL, 23002030, NULL, 35),
+  -- Toxtricity (Low Key) - Swift - TM032
+  (849, 84901, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 36),
+  -- Toxtricity (Low Key) - Stored Power - TM041
+  (849, 84901, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 37),
+  -- Toxtricity (Low Key) - Fling - TM043
+  (849, 84901, 374, 23, NULL, 2, NULL, NULL, 23002043, NULL, 38),
+  -- Toxtricity (Low Key) - Venoshock - TM045
+  (849, 84901, 474, 23, NULL, 2, NULL, NULL, 23002045, NULL, 39),
+  -- Toxtricity (Low Key) - Endure - TM047
+  (849, 84901, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 40),
+  -- Toxtricity (Low Key) - Volt Switch - TM048
+  (849, 84901, 521, 23, NULL, 2, NULL, NULL, 23002048, NULL, 41),
+  -- Toxtricity (Low Key) - Sunny Day - TM049
+  (849, 84901, 241, 23, NULL, 2, NULL, NULL, 23002049, NULL, 42),
+  -- Toxtricity (Low Key) - Rain Dance - TM050
+  (849, 84901, 240, 23, NULL, 2, NULL, NULL, 23002050, NULL, 43),
+  -- Toxtricity (Low Key) - Brick Break - TM058
+  (849, 84901, 280, 23, NULL, 2, NULL, NULL, 23002058, NULL, 44),
+  -- Toxtricity (Low Key) - Fire Punch - TM067
+  (849, 84901, 7, 23, NULL, 2, NULL, NULL, 23002067, NULL, 45),
+  -- Toxtricity (Low Key) - Thunder Punch - TM068
+  (849, 84901, 9, 23, NULL, 2, NULL, NULL, 23002068, NULL, 46),
+  -- Toxtricity (Low Key) - Sleep Talk - TM070
+  (849, 84901, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 47),
+  -- Toxtricity (Low Key) - Electro Ball - TM072
+  (849, 84901, 486, 23, NULL, 2, NULL, NULL, 23002072, NULL, 48),
+  -- Toxtricity (Low Key) - Drain Punch - TM073
+  (849, 84901, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 49),
+  -- Toxtricity (Low Key) - Metronome - TM080
+  (849, 84901, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 50),
+  -- Toxtricity (Low Key) - Thunder Wave - TM082
+  (849, 84901, 86, 23, NULL, 2, NULL, NULL, 23002082, NULL, 51),
+  -- Toxtricity (Low Key) - Poison Jab - TM083
+  (849, 84901, 398, 23, NULL, 2, NULL, NULL, 23002083, NULL, 52),
+  -- Toxtricity (Low Key) - Rest - TM085
+  (849, 84901, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 53),
+  -- Toxtricity (Low Key) - Taunt - TM087
+  (849, 84901, 269, 23, NULL, 2, NULL, NULL, 23002087, NULL, 54),
+  -- Toxtricity (Low Key) - Toxic Spikes - TM091
+  (849, 84901, 390, 23, NULL, 2, NULL, NULL, 23002091, NULL, 55),
+  -- Toxtricity (Low Key) - Eerie Impulse - TM096
+  (849, 84901, 598, 23, NULL, 2, NULL, NULL, 23002096, NULL, 56),
+  -- Toxtricity (Low Key) - Gunk Shot - TM102
+  (849, 84901, 441, 23, NULL, 2, NULL, NULL, 23002102, NULL, 57),
+  -- Toxtricity (Low Key) - Substitute - TM103
+  (849, 84901, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 58),
+  -- Toxtricity (Low Key) - Hyper Voice - TM117
+  (849, 84901, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 59),
+  -- Toxtricity (Low Key) - Encore - TM122
+  (849, 84901, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 60),
+  -- Toxtricity (Low Key) - Thunderbolt - TM126
+  (849, 84901, 85, 23, NULL, 2, NULL, NULL, 23002126, NULL, 61),
+  -- Toxtricity (Low Key) - Helping Hand - TM130
+  (849, 84901, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 62),
+  -- Toxtricity (Low Key) - Electric Terrain - TM136
+  (849, 84901, 604, 23, NULL, 2, NULL, NULL, 23002136, NULL, 63),
+  -- Toxtricity (Low Key) - Wild Charge - TM147
+  (849, 84901, 528, 23, NULL, 2, NULL, NULL, 23002147, NULL, 64),
+  -- Toxtricity (Low Key) - Sludge Bomb - TM148
+  (849, 84901, 188, 23, NULL, 2, NULL, NULL, 23002148, NULL, 65),
+  -- Toxtricity (Low Key) - Giga Impact - TM152
+  (849, 84901, 416, 23, NULL, 2, NULL, NULL, 23002152, NULL, 66),
+  -- Toxtricity (Low Key) - Hyper Beam - TM163
+  (849, 84901, 63, 23, NULL, 2, NULL, NULL, 23002163, NULL, 67),
+  -- Toxtricity (Low Key) - Thunder - TM166
+  (849, 84901, 87, 23, NULL, 2, NULL, NULL, 23002166, NULL, 68),
+  -- Toxtricity (Low Key) - Tera Blast - TM171
+  (849, 84901, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 69),
+  -- Toxtricity (Low Key) - Endeavor - Egg
+  (849, 84901, 283, 23, NULL, 5, NULL, NULL, NULL, NULL, 70),
+  -- Toxtricity (Low Key) - Metal Sound - Egg
+  (849, 84901, 319, 23, NULL, 5, NULL, NULL, NULL, NULL, 71),
   -- Toxtricity (Low Key) - Spark - Evolution
-  (849, 84901, 209, 23, NULL, 7, NULL, NULL, NULL, NULL, 23);
+  (849, 84901, 209, 23, NULL, 7, NULL, NULL, NULL, NULL, 72);

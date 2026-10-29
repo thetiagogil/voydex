@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -252,6 +253,26 @@ INSERT INTO reference.pokemon_learnsets (
   (479, 47900, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
   -- Rotom - Electroweb - TM211
   (479, 47900, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Rotom (Heat) - Pain Split - TM202
+  (479, 47901, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Rotom (Heat) - Electroweb - TM211
+  (479, 47901, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Rotom (Wash) - Pain Split - TM202
+  (479, 47902, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Rotom (Wash) - Electroweb - TM211
+  (479, 47902, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Rotom (Frost) - Pain Split - TM202
+  (479, 47903, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Rotom (Frost) - Electroweb - TM211
+  (479, 47903, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Rotom (Fan) - Pain Split - TM202
+  (479, 47904, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Rotom (Fan) - Electroweb - TM211
+  (479, 47904, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
+  -- Rotom (Mow) - Pain Split - TM202
+  (479, 47905, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
+  -- Rotom (Mow) - Electroweb - TM211
+  (479, 47905, 527, 25, NULL, 2, NULL, NULL, 25002211, NULL, 2),
   -- Uxie - Pain Split - TM202
   (480, 48000, 220, 25, NULL, 2, NULL, NULL, 25002202, NULL, 1),
   -- Uxie - Psych Up - TM203

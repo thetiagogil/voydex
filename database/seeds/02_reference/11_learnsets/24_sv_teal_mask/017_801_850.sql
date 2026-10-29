@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -197,4 +200,10 @@ INSERT INTO reference.pokemon_learnsets (
   -- Toxtricity - Toxic - TM175
   (849, 84900, 92, 24, NULL, 2, NULL, NULL, 24002175, NULL, 2),
   -- Toxtricity - Uproar - TM191
-  (849, 84900, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3);
+  (849, 84900, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3),
+  -- Toxtricity (Low Key) - Charge - TM173
+  (849, 84901, 268, 24, NULL, 2, NULL, NULL, 24002173, NULL, 1),
+  -- Toxtricity (Low Key) - Toxic - TM175
+  (849, 84901, 92, 24, NULL, 2, NULL, NULL, 24002175, NULL, 2),
+  -- Toxtricity (Low Key) - Uproar - TM191
+  (849, 84901, 253, 24, NULL, 2, NULL, NULL, 24002191, NULL, 3);

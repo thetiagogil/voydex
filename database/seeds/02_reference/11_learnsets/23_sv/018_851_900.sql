@@ -5,8 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: base Scarlet / Violet rows include level-up, base TM001-TM171, and egg moves for Pokémon compatible with this version-group scope.
 -- DLC note: Teal Mask and Indigo Disk TM additions remain seeded as separate additive content-scope deltas.
--- Correction: legendary and mythical rows are checked against each game's own
--- data (PKHeX learnset and personal tables); see docs/database/reference-data.md.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -1658,86 +1659,78 @@ INSERT INTO reference.pokemon_learnsets (
   (876, 87600, 387, 23, NULL, 1, 55, NULL, NULL, NULL, 16),
   -- Indeedee - Take Down - TM001
   (876, 87600, 36, 23, NULL, 2, NULL, NULL, 23002001, NULL, 17),
-  -- Indeedee - Charm - TM002
-  (876, 87600, 204, 23, NULL, 2, NULL, NULL, 23002002, NULL, 18),
   -- Indeedee - Protect - TM007
-  (876, 87600, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 19),
+  (876, 87600, 182, 23, NULL, 2, NULL, NULL, 23002007, NULL, 18),
   -- Indeedee - Psybeam - TM016
-  (876, 87600, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 20),
+  (876, 87600, 60, 23, NULL, 2, NULL, NULL, 23002016, NULL, 19),
   -- Indeedee - Disarming Voice - TM019
-  (876, 87600, 574, 23, NULL, 2, NULL, NULL, 23002019, NULL, 21),
+  (876, 87600, 574, 23, NULL, 2, NULL, NULL, 23002019, NULL, 20),
   -- Indeedee - Facade - TM025
-  (876, 87600, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 22),
+  (876, 87600, 263, 23, NULL, 2, NULL, NULL, 23002025, NULL, 21),
   -- Indeedee - Swift - TM032
-  (876, 87600, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 23),
+  (876, 87600, 129, 23, NULL, 2, NULL, NULL, 23002032, NULL, 22),
   -- Indeedee - Magical Leaf - TM033
-  (876, 87600, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 24),
+  (876, 87600, 345, 23, NULL, 2, NULL, NULL, 23002033, NULL, 23),
   -- Indeedee - Draining Kiss - TM037
-  (876, 87600, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 25),
+  (876, 87600, 577, 23, NULL, 2, NULL, NULL, 23002037, NULL, 24),
   -- Indeedee - Stored Power - TM041
-  (876, 87600, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 26),
+  (876, 87600, 500, 23, NULL, 2, NULL, NULL, 23002041, NULL, 25),
   -- Indeedee - Endure - TM047
-  (876, 87600, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 27),
+  (876, 87600, 203, 23, NULL, 2, NULL, NULL, 23002047, NULL, 26),
   -- Indeedee - Psyshock - TM054
-  (876, 87600, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 28),
+  (876, 87600, 473, 23, NULL, 2, NULL, NULL, 23002054, NULL, 27),
   -- Indeedee - Zen Headbutt - TM059
-  (876, 87600, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 29),
+  (876, 87600, 428, 23, NULL, 2, NULL, NULL, 23002059, NULL, 28),
   -- Indeedee - Body Slam - TM066
-  (876, 87600, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 30),
+  (876, 87600, 34, 23, NULL, 2, NULL, NULL, 23002066, NULL, 29),
   -- Indeedee - Sleep Talk - TM070
-  (876, 87600, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 31),
+  (876, 87600, 214, 23, NULL, 2, NULL, NULL, 23002070, NULL, 30),
   -- Indeedee - Drain Punch - TM073
-  (876, 87600, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 32),
-  -- Indeedee - Reflect - TM074
-  (876, 87600, 115, 23, NULL, 2, NULL, NULL, 23002074, NULL, 33),
-  -- Indeedee - Light Screen - TM075
-  (876, 87600, 113, 23, NULL, 2, NULL, NULL, 23002075, NULL, 34),
+  (876, 87600, 409, 23, NULL, 2, NULL, NULL, 23002073, NULL, 31),
   -- Indeedee - Dazzling Gleam - TM079
-  (876, 87600, 605, 23, NULL, 2, NULL, NULL, 23002079, NULL, 35),
+  (876, 87600, 605, 23, NULL, 2, NULL, NULL, 23002079, NULL, 32),
   -- Indeedee - Metronome - TM080
-  (876, 87600, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 36),
+  (876, 87600, 118, 23, NULL, 2, NULL, NULL, 23002080, NULL, 33),
   -- Indeedee - Rest - TM085
-  (876, 87600, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 37),
+  (876, 87600, 156, 23, NULL, 2, NULL, NULL, 23002085, NULL, 34),
   -- Indeedee - Imprison - TM092
-  (876, 87600, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 38),
+  (876, 87600, 286, 23, NULL, 2, NULL, NULL, 23002092, NULL, 35),
   -- Indeedee - Skill Swap - TM098
-  (876, 87600, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 39),
+  (876, 87600, 285, 23, NULL, 2, NULL, NULL, 23002098, NULL, 36),
   -- Indeedee - Substitute - TM103
-  (876, 87600, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 40),
+  (876, 87600, 164, 23, NULL, 2, NULL, NULL, 23002103, NULL, 37),
   -- Indeedee - Trick - TM109
-  (876, 87600, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 41),
+  (876, 87600, 271, 23, NULL, 2, NULL, NULL, 23002109, NULL, 38),
   -- Indeedee - Shadow Ball - TM114
-  (876, 87600, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 42),
+  (876, 87600, 247, 23, NULL, 2, NULL, NULL, 23002114, NULL, 39),
   -- Indeedee - Hyper Voice - TM117
-  (876, 87600, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 43),
+  (876, 87600, 304, 23, NULL, 2, NULL, NULL, 23002117, NULL, 40),
   -- Indeedee - Energy Ball - TM119
-  (876, 87600, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 44),
+  (876, 87600, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 41),
   -- Indeedee - Psychic - TM120
-  (876, 87600, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 45),
+  (876, 87600, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 42),
   -- Indeedee - Encore - TM122
-  (876, 87600, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 46),
+  (876, 87600, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 43),
   -- Indeedee - Play Rough - TM127
-  (876, 87600, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 47),
+  (876, 87600, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 44),
   -- Indeedee - Calm Mind - TM129
-  (876, 87600, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 48),
+  (876, 87600, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 45),
   -- Indeedee - Helping Hand - TM130
-  (876, 87600, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 49),
-  -- Indeedee - Baton Pass - TM132
-  (876, 87600, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 50),
+  (876, 87600, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 46),
   -- Indeedee - Psychic Terrain - TM138
-  (876, 87600, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 51),
+  (876, 87600, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 47),
   -- Indeedee - Trick Room - TM161
-  (876, 87600, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 52),
+  (876, 87600, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 48),
   -- Indeedee - Tera Blast - TM171
-  (876, 87600, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 53),
+  (876, 87600, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 49),
   -- Indeedee - Psych Up - Egg
-  (876, 87600, 244, 23, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  (876, 87600, 244, 23, NULL, 5, NULL, NULL, NULL, NULL, 50),
   -- Indeedee - Fake Out - Egg
-  (876, 87600, 252, 23, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  (876, 87600, 252, 23, NULL, 5, NULL, NULL, NULL, NULL, 51),
   -- Indeedee - Extrasensory - Egg
-  (876, 87600, 326, 23, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  (876, 87600, 326, 23, NULL, 5, NULL, NULL, NULL, NULL, 52),
   -- Indeedee - Heal Pulse - Egg
-  (876, 87600, 505, 23, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  (876, 87600, 505, 23, NULL, 5, NULL, NULL, NULL, NULL, 53),
   -- Indeedee (Female) - Stored Power - Level 1
   (876, 87601, 500, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Indeedee (Female) - Play Nice - Level 1
@@ -1828,30 +1821,28 @@ INSERT INTO reference.pokemon_learnsets (
   (876, 87601, 412, 23, NULL, 2, NULL, NULL, 23002119, NULL, 44),
   -- Indeedee (Female) - Psychic - TM120
   (876, 87601, 94, 23, NULL, 2, NULL, NULL, 23002120, NULL, 45),
-  -- Indeedee (Female) - Encore - TM122
-  (876, 87601, 227, 23, NULL, 2, NULL, NULL, 23002122, NULL, 46),
   -- Indeedee (Female) - Play Rough - TM127
-  (876, 87601, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 47),
+  (876, 87601, 583, 23, NULL, 2, NULL, NULL, 23002127, NULL, 46),
   -- Indeedee (Female) - Calm Mind - TM129
-  (876, 87601, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 48),
+  (876, 87601, 347, 23, NULL, 2, NULL, NULL, 23002129, NULL, 47),
   -- Indeedee (Female) - Helping Hand - TM130
-  (876, 87601, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 49),
+  (876, 87601, 270, 23, NULL, 2, NULL, NULL, 23002130, NULL, 48),
   -- Indeedee (Female) - Baton Pass - TM132
-  (876, 87601, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 50),
+  (876, 87601, 226, 23, NULL, 2, NULL, NULL, 23002132, NULL, 49),
   -- Indeedee (Female) - Psychic Terrain - TM138
-  (876, 87601, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 51),
+  (876, 87601, 678, 23, NULL, 2, NULL, NULL, 23002138, NULL, 50),
   -- Indeedee (Female) - Trick Room - TM161
-  (876, 87601, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 52),
+  (876, 87601, 433, 23, NULL, 2, NULL, NULL, 23002161, NULL, 51),
   -- Indeedee (Female) - Tera Blast - TM171
-  (876, 87601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 53),
+  (876, 87601, 851, 23, NULL, 2, NULL, NULL, 23002171, NULL, 52),
   -- Indeedee (Female) - Psych Up - Egg
-  (876, 87601, 244, 23, NULL, 5, NULL, NULL, NULL, NULL, 54),
+  (876, 87601, 244, 23, NULL, 5, NULL, NULL, NULL, NULL, 53),
   -- Indeedee (Female) - Fake Out - Egg
-  (876, 87601, 252, 23, NULL, 5, NULL, NULL, NULL, NULL, 55),
+  (876, 87601, 252, 23, NULL, 5, NULL, NULL, NULL, NULL, 54),
   -- Indeedee (Female) - Extrasensory - Egg
-  (876, 87601, 326, 23, NULL, 5, NULL, NULL, NULL, NULL, 56),
+  (876, 87601, 326, 23, NULL, 5, NULL, NULL, NULL, NULL, 55),
   -- Indeedee (Female) - Heal Pulse - Egg
-  (876, 87601, 505, 23, NULL, 5, NULL, NULL, NULL, NULL, 57),
+  (876, 87601, 505, 23, NULL, 5, NULL, NULL, NULL, NULL, 56),
   -- Morpeko - Tail Whip - Level 1
   (877, 87700, 39, 23, NULL, 1, 1, NULL, NULL, NULL, 1),
   -- Morpeko - Thunder Shock - Level 1

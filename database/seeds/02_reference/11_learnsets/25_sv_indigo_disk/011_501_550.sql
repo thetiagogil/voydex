@@ -5,6 +5,9 @@
 -- Cross-check: Serebii and PokemonDB Scarlet / Violet learnset pages.
 -- Scope note: DLC rows are machine compatibility deltas only; base level-up, base TM001-TM171, egg, evolution, and reminder rows stay in the Scarlet / Violet base scope.
 -- Delta note: Content scopes are cumulative. Indigo rows exclude Teal rows already present for the same species/form/machine.
+-- Correction: legendary and mythical rows and every form's Scarlet / Violet
+-- TMs are checked against each game's own data (PKHeX learnset and personal
+-- tables); see docs/database/reference-data.md.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -162,6 +165,14 @@ INSERT INTO reference.pokemon_learnsets (
   (550, 55000, 250, 25, NULL, 2, NULL, NULL, 25002208, NULL, 3),
   -- Basculin - Muddy Water - TM209
   (550, 55000, 330, 25, NULL, 2, NULL, NULL, 25002209, NULL, 4),
+  -- Basculin (Blue-Striped) - Double-Edge - TM204
+  (550, 55001, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
+  -- Basculin (Blue-Striped) - Endeavor - TM205
+  (550, 55001, 283, 25, NULL, 2, NULL, NULL, 25002205, NULL, 2),
+  -- Basculin (Blue-Striped) - Whirlpool - TM208
+  (550, 55001, 250, 25, NULL, 2, NULL, NULL, 25002208, NULL, 3),
+  -- Basculin (Blue-Striped) - Muddy Water - TM209
+  (550, 55001, 330, 25, NULL, 2, NULL, NULL, 25002209, NULL, 4),
   -- Basculin (White-Striped) - Double-Edge - TM204
   (550, 55002, 38, 25, NULL, 2, NULL, NULL, 25002204, NULL, 1),
   -- Basculin (White-Striped) - Endeavor - TM205
