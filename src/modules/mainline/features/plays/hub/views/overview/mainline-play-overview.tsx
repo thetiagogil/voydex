@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { toPokedexMode } from "@/config/play-tracking";
 import { appRoutes } from "@/config/routes";
 import { getPlayMomentTypeByFormId } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 import type { MainlinePlayOverviewData } from "@/modules/mainline/features/plays/hub/types";
@@ -31,7 +32,9 @@ export const MainlinePlayOverview = ({
   decisionRecord,
   playId,
 }: MainlinePlayOverviewProps) => {
-  const partner = data.freshPlay?.partner ?? null;
+  /* Story turned off: no next objective, no partner milestone, and Progress takes the row. */
+  const storyTracked = data.overview?.story_tracking_enabled ?? true;
+  const partner = storyTracked ? (data.freshPlay?.partner ?? null) : null;
   const chosenPartner = partner?.isRecorded
     ? (partner.options.find(
         (option) => option.decisionOptionId === partner.chosenOptionId,
@@ -73,19 +76,23 @@ export const MainlinePlayOverview = ({
               <FirstStepsSection
                 addedCount={Math.max(0, teamCount - (chosenPartner ? 1 : 0))}
                 partnerName={chosenPartner?.name ?? null}
+                pokedexMode={toPokedexMode(data.overview?.pokedex_mode)}
                 playId={playId}
               />
             </>
           ) : (
             <>
-              <NextObjectiveSection
-                decisionRecord={decisionRecord}
-                nextMilestone={data.nextMilestone}
-                nextMilestonePosition={data.nextMilestonePosition}
-                playId={playId}
-                stamps={data.badgeCase?.stamps ?? []}
-              />
+              {storyTracked ? (
+                <NextObjectiveSection
+                  decisionRecord={decisionRecord}
+                  nextMilestone={data.nextMilestone}
+                  nextMilestonePosition={data.nextMilestonePosition}
+                  playId={playId}
+                  stamps={data.badgeCase?.stamps ?? []}
+                />
+              ) : null}
               <ProgressSummarySection
+                className={storyTracked ? undefined : "lg:col-span-2"}
                 overview={data.overview}
                 playId={playId}
               />

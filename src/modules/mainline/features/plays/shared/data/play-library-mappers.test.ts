@@ -191,7 +191,7 @@ describe("buildMainlinePlayBrowseItems story and collectibles", () => {
     const [item] = buildItems({
       overviews: [
         {
-          include_collectibles_in_completion: false,
+          collectibles_tracking_enabled: false,
           play_id: "play-1",
           required_collectible_entry_count: 0,
         } as MainlinePlayOverview,
@@ -200,6 +200,43 @@ describe("buildMainlinePlayBrowseItems story and collectibles", () => {
 
     expect(item?.progress).toEqual({
       items: [{ label: "Collectibles", percent: null }],
+      state: "available",
+    });
+  });
+
+  it("shows Story as Off when the Play doesn't track it", () => {
+    const [item] = buildItems({
+      overviews: [
+        {
+          play_id: "play-1",
+          required_milestone_count: 0,
+          story_tracking_enabled: false,
+        } as MainlinePlayOverview,
+      ],
+    });
+
+    expect(item?.progress).toEqual({
+      items: [{ label: "Story", percent: null }],
+      state: "available",
+    });
+  });
+
+  it("keeps a Play with Story and Collectibles on as bars", () => {
+    const [item] = buildItems({
+      overviews: [
+        {
+          collectibles_tracking_enabled: true,
+          completed_required_milestone_count: 1,
+          milestone_completion_percent: 50,
+          play_id: "play-1",
+          required_milestone_count: 2,
+          story_tracking_enabled: true,
+        } as MainlinePlayOverview,
+      ],
+    });
+
+    expect(item?.progress).toEqual({
+      items: [{ label: "Story", percent: 50 }],
       state: "available",
     });
   });

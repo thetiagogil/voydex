@@ -24,6 +24,7 @@ describe("parseNewPlayInput", () => {
       partner: { formId: 81000, speciesId: 810 },
       playName: "Late Journey",
       startedOn: "2026-10-13",
+      tracking: null,
       trainerName: "Tiago",
     });
   });
