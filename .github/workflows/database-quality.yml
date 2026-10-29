@@ -61,7 +61,16 @@ jobs:
       # stay off, so there are fewer images to pull. The type check runs its
       # own metadata container, so `postgres-meta` stays off too.
       - name: Start local Supabase
-        run: npm run db:start -- -x studio,postgres-meta,realtime,edge-runtime,logflare,vector,supavisor
+        run: |
+          # The image registry sometimes refuses a pull ("too many requests").
+          # Wait and try again; images already pulled are kept, so a retry
+          # only fetches what is missing.
+          for attempt in 1 2 3; do
+            npm run db:start -- -x studio,postgres-meta,realtime,edge-runtime,logflare,vector,supavisor && exit 0
+            [ "$attempt" -eq 3 ] && exit 1
+            npm run db:stop -- --no-backup || true
+            sleep $((attempt * 60))
+          done
 
       - name: Verify database
         run: npm run db:verify
