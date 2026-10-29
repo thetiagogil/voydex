@@ -13,8 +13,10 @@ import { StartGameShelf } from "@/modules/reference/features/games/components/st
  * `?partner=`, `?gen=`), which the page's client parts read.
  */
 export default async function Page() {
-  const [{ games, startersByGameSlug: startersByGame }, { isAuthenticated }] =
-    await Promise.all([readGameCatalogue(), getSiteVisitor()]);
+  const [
+    { badgeCountsByGameSlug, games, startersByGameSlug: startersByGame },
+    { isAuthenticated },
+  ] = await Promise.all([readGameCatalogue(), getSiteVisitor()]);
   const picks: Record<string, StartPick> = {};
 
   for (const game of games) {
@@ -22,6 +24,7 @@ export default async function Page() {
 
     if (starters) {
       picks[game.slug] = {
+        badgeCount: badgeCountsByGameSlug[game.slug] ?? 0,
         game: {
           name: game.name,
           regionName: game.regionName,

@@ -1,9 +1,5 @@
 import type { ReactNode } from "react";
 
-import {
-  AuthPeek,
-  type PeekingPokemon,
-} from "@/features/auth/components/auth-peek";
 import { appRoutes } from "@/config/routes";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { TextLink } from "@/shared/components/text-link";
@@ -16,20 +12,18 @@ type AuthFrameProps = {
    * when left out, since these pages have no top bar.
    */
   after?: ReactNode;
-  cast: readonly PeekingPokemon[];
   children: ReactNode;
 };
 
 /*
- * The sign-in family's page (v3 `.au-page`): one quiet card, centred, with
- * first partners peeking over it, and no top bar. Log in, Sign up, Reset
- * your password, Choose a new password and Check your email all stand in it.
+ * The sign-in family's page (v3 `.au-page`): one quiet card, centred, and no
+ * top bar. Log in, Sign up, Reset your password, Choose a new password and
+ * Check your email all stand in it.
  */
-export const AuthFrame = ({ after, cast, children }: AuthFrameProps) => (
-  <div className="flex w-full min-w-0 flex-1 justify-center pt-25 pb-10 sm:pt-31 sm:pb-14">
-    <div className="relative w-full max-w-110 min-w-0">
-      <AuthPeek cast={cast} />
-      <Card className="relative z-1 gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
+export const AuthFrame = ({ after, children }: AuthFrameProps) => (
+  <div className="flex w-full min-w-0 flex-1 justify-center py-10 sm:py-14">
+    <div className="w-full max-w-110 min-w-0">
+      <Card className="gap-0 px-5 pt-5.5 pb-6 sm:px-7.5 sm:pt-7 sm:pb-7.5">
         {children}
       </Card>
       {after ?? (

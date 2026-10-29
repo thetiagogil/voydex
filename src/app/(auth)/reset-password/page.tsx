@@ -4,7 +4,6 @@ import {
   ResetPasswordPage,
   type ResetPasswordSearchParams,
 } from "@/features/auth/components/reset-password-page";
-import { publicArt } from "@/modules/reference/public-art";
 
 export default async function Page({
   searchParams,
@@ -16,7 +15,6 @@ export default async function Page({
   return (
     <PublicAppShell bar="none">
       <ResetPasswordPage
-        art={publicArt}
         email={account?.email ?? null}
         isSignedIn={Boolean(account)}
         searchParams={searchParams}

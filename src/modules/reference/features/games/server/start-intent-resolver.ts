@@ -6,7 +6,6 @@ import { readGameCatalogue } from "@/modules/reference/features/games/server/gam
 import type { GameStarter } from "@/modules/reference/types";
 
 const toIntentPokemon = (starter: GameStarter): StartIntentPokemon => ({
-  imageUrl: starter.imageUrl,
   name: starter.name,
   speciesSlug: starter.speciesSlug,
 });
@@ -36,6 +35,5 @@ export const resolveStartIntent: ResolveStartIntent = async (intent) => {
     game: { name: game.name, slug: game.slug },
     gameShortName: game.shortName,
     partner: partner ? toIntentPokemon(partner) : null,
-    starters: starters.starters.map(toIntentPokemon),
   };
 };

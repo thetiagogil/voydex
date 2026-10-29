@@ -29,6 +29,8 @@ type StartPartner = {
 
 /* A game and its first partner choice, from the reference catalogue. */
 export type StartPick = {
+  /* The gym badges ahead; 0 for a game without badges. */
+  badgeCount: number;
   game: {
     name: string;
     regionName: string | null;
@@ -210,10 +212,12 @@ export const StartMeadow = ({
         {pick ? (
           <>
             <p className="title-card">A new {pick.game.shortName} journey</p>
-            {/* TODO(v3-data): v3 adds what lies ahead ("8 gym badges ahead"); the picker's reference read has no badge count yet. */}
             <p className="text-14 text-ink-2 font-semibold">
               {[
                 pick.game.regionName,
+                pick.badgeCount > 0
+                  ? `${pick.badgeCount} gym badges ahead`
+                  : null,
                 partner
                   ? `${partner.name} is your partner`
                   : pick.starters.length > 0

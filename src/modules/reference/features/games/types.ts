@@ -103,6 +103,8 @@ export type GameExpansion = {
  * its expansions, by game slug.
  */
 export type GameCatalogue = {
+  /* Badges each game hands out; games without badges are left out. */
+  badgeCountsByGameSlug: Record<string, number>;
   expansionsByGameSlug: Record<string, GameExpansion[]>;
   games: GameShelfGame[];
   startersByGameSlug: Record<string, GameStarters>;

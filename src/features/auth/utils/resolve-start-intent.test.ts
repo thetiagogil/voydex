@@ -7,8 +7,7 @@ import { readAuthStartIntent } from "./resolve-start-intent";
 const swordPreview: StartIntentPreview = {
   game: { name: "Pokémon Sword", slug: "sword" },
   gameShortName: "Sword",
-  partner: { imageUrl: null, name: "Grookey", speciesSlug: "grookey" },
-  starters: [],
+  partner: { name: "Grookey", speciesSlug: "grookey" },
 };
 
 describe("the pick a sign-in page carries", () => {

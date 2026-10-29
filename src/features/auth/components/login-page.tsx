@@ -6,7 +6,6 @@ import { type AuthMode, LOGIN_DEFAULT_NEXT } from "@/features/auth/auth-mode";
 import { getSafeAuthRedirectPath } from "@/features/auth/auth-redirects";
 import { AuthFrame } from "@/features/auth/components/auth-frame";
 import { AuthPanel } from "@/features/auth/components/auth-panel";
-import { getAuthPeekCast } from "@/features/auth/components/auth-peek";
 import { readAuthEmail } from "@/features/auth/server/auth-email-cookie";
 import { readDevTestAccounts } from "@/features/auth/server/dev-test-accounts";
 import { TextLink } from "@/shared/components/text-link";
@@ -21,13 +20,13 @@ export type LoginSearchParams = {
 };
 
 type LoginPageProps = {
-  art: Pick<PublicArt, "gameCover" | "pokemon">;
+  art: Pick<PublicArt, "gameCover">;
   /* Resolves the pick from Start a Play; without it the pick is kept but not shown. */
   resolveIntent?: ResolveStartIntent;
   searchParams?: Promise<LoginSearchParams>;
 };
 
-/* Log in and Sign up: a quiet form, with first partners peeking over the card. */
+/* Log in and Sign up: a quiet form on one card. */
 export const LoginPage = async ({
   art,
   resolveIntent,
@@ -44,7 +43,6 @@ export const LoginPage = async ({
 
   return (
     <AuthFrame
-      cast={getAuthPeekCast(art, mode, intent?.preview ?? null)}
       after={
         <p className="text-13 text-ink-2 mt-5.5 text-center font-semibold">
           Just looking?{" "}
