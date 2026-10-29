@@ -59,10 +59,11 @@
   }
 
   /*
-   * Motion (Settings): `data-motion` on the root is "reduced" or "full";
-   * without it the device's reduced-motion setting decides.
+   * Motion (Settings): None puts `data-motion="none"` on the root and stills
+   * everything; Full leaves it off, and a device that asks for reduced motion
+   * is stilled anyway.
    */
-  :root[data-motion="reduced"] {
+  :root[data-motion="none"] {
     & *,
     & *::before,
     & *::after {
@@ -73,7 +74,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    :root:not([data-motion="full"]) {
+    :root {
       & *,
       & *::before,
       & *::after {

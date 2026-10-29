@@ -15,8 +15,7 @@ import {
 /*
  * Look and feel (v3 `.set-sec`): Motion and Search and filters are saved;
  * Mode and Colour theme wait on #38, each row saying what it will control. A
- * choice shows on every page once saved, and Follow device lets the device's
- * own setting decide.
+ * choice shows on every page once saved.
  */
 export const SettingsLookSection = ({
   lookAndFeel,
@@ -45,7 +44,7 @@ export const SettingsLookSection = ({
         </SettingsRow>
         <SettingsRow
           title="Motion"
-          description="Stamps, pops and little lifts. Follow device uses your device's reduced-motion setting."
+          description="Stamps, pops and little lifts. Full still holds back when your device asks for reduced motion; None stops them all."
         >
           <SegmentedControl
             ariaLabel="Motion"

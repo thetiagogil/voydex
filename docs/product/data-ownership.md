@@ -54,7 +54,7 @@ trainer name a new Play starts with and when Welcome was finished or skipped
 (`welcome_completed_at`). `public.user_preferences` is the home for global defaults that
 are not play-specific: the New Play defaults (`default_track_story`,
 `default_pokedex_mode`, `default_track_collectibles`), the motion
-preference (`motion`: full, reduced or system) and the Search and filters
+preference (`motion`: full or none) and the Search and filters
 choice (`search_filters_open`). Pokémon reuse is a Play's No Pokémon reuse
 rule.
 

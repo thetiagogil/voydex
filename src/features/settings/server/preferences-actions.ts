@@ -19,7 +19,7 @@ export type PreferencesActionResult = {
 
 const lookAndFeelSchema = z.object({
   motion: z.enum(motionPreferences, {
-    error: "Pick Follow device, Full or Reduced.",
+    error: "Pick Full or None.",
   }),
   searchFilters: z.enum(searchFiltersPreferences, {
     error: "Pick Folded or Always open.",

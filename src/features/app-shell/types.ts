@@ -18,7 +18,7 @@ export type SignedInAccount = {
   email: string | null;
   /* Your Pokémon icon; null until you pick one (your initial stands in). */
   icon: AccountIcon | null;
-  /* Your Motion setting; Follow device until you choose or when it can't be read. */
+  /* Your Motion setting; Full until you choose or when it can't be read. */
   motion: MotionPreference;
   /* Your Search and filters setting; Folded until you choose or when it can't be read. */
   searchFilters: SearchFiltersPreference;

@@ -70,9 +70,8 @@ describe("SettingsLookSection", () => {
       />,
     );
 
-    expect(html).toContain("Follow device");
     expect(html).toContain("Full");
-    expect(html).toContain("Reduced");
+    expect(html).toContain("None");
     expect(html).toContain("Folded");
     expect(html).toContain("Always open");
     expect(html.match(/Not in Voydex yet/g)).toHaveLength(2);

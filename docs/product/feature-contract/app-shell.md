@@ -63,10 +63,10 @@ and dependent user-owned data, clears the session, and returns to the public
 entry. Until that operation exists the action is pending data.
 
 Look and feel and New Play defaults are cards that save on their own from a
-footer that appears once they have unsaved changes. Motion (Follow device,
-Full or Reduced) is saved on `public.user_preferences` and applies across the
-app: Follow device lets the device's own reduced-motion setting decide, Full
-and Reduced override it (the root element carries `data-motion`). Search and
+footer that appears once they have unsaved changes. Motion (Full or None) is
+saved on `public.user_preferences` and applies across the app: Full plays
+every animation unless the device asks for reduced motion, and None stills
+them all (the root element carries `data-motion="none"`). Search and
 filters (Folded or Always open) is saved there too: Folded keeps every list's
 search and filter bar under its search button until you open it or a search
 or filter is on; Always open shows it on arrival, and the button still folds

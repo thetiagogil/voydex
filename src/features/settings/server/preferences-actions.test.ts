@@ -44,7 +44,7 @@ beforeEach(() => {
 describe("saveLookAndFeelAction", () => {
   it("saves the choices on your own row and refreshes every page", async () => {
     const result = await saveLookAndFeelAction({
-      motion: "reduced",
+      motion: "none",
       searchFilters: "open",
     });
 
@@ -56,7 +56,7 @@ describe("saveLookAndFeelAction", () => {
       {
         onConflict: "user_id",
         row: {
-          motion: "reduced",
+          motion: "none",
           search_filters_open: true,
           user_id: "user-1",
         },
@@ -66,7 +66,7 @@ describe("saveLookAndFeelAction", () => {
   });
 
   it("saves Folded as the switch off", async () => {
-    await saveLookAndFeelAction({ motion: "system", searchFilters: "folded" });
+    await saveLookAndFeelAction({ motion: "full", searchFilters: "folded" });
 
     expect(upserts[0]?.row).toMatchObject({ search_filters_open: false });
   });

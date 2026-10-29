@@ -7,7 +7,7 @@ const stubPage = ({
   motion,
 }: {
   deviceReduces: boolean;
-  motion?: "full" | "reduced";
+  motion?: "none";
 }) => {
   vi.stubGlobal("document", { documentElement: { dataset: { motion } } });
   vi.stubGlobal("window", {
@@ -24,7 +24,7 @@ describe("isMotionReduced", () => {
     expect(isMotionReduced()).toBe(false);
   });
 
-  it("follows the device when the setting is left on Follow device", () => {
+  it("follows the device on Full, which leaves the root unmarked", () => {
     stubPage({ deviceReduces: true });
     expect(isMotionReduced()).toBe(true);
     expect(getScrollBehavior()).toBe("auto");
@@ -34,17 +34,10 @@ describe("isMotionReduced", () => {
     expect(getScrollBehavior()).toBe("smooth");
   });
 
-  it("lets Reduced win over a device that allows motion", () => {
-    stubPage({ deviceReduces: false, motion: "reduced" });
+  it("keeps still on None, even when the device allows motion", () => {
+    stubPage({ deviceReduces: false, motion: "none" });
 
     expect(isMotionReduced()).toBe(true);
     expect(getScrollBehavior()).toBe("auto");
-  });
-
-  it("lets Full win over a device that asks for reduced motion", () => {
-    stubPage({ deviceReduces: true, motion: "full" });
-
-    expect(isMotionReduced()).toBe(false);
-    expect(getScrollBehavior()).toBe("smooth");
   });
 });

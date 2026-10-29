@@ -16,7 +16,7 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
 - `public.user_preferences` holds global defaults that are not play-specific:
   the New Play defaults (`default_track_story`, `default_pokedex_mode` as
   `caught_only` or `caught_and_seen`, `default_track_collectibles`), `motion`
-  (`full`, `reduced` or `system`) and `search_filters_open` (lists show their
+  (`full` or `none`) and `search_filters_open` (lists show their
   search and filter bar on arrival). The owner reads and upserts it directly.
   Pokémon reuse is a Play's No Pokémon reuse rule.
 

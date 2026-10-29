@@ -274,13 +274,13 @@ Statistics' title rises in, once per browser tab. A reveal takes its name from
 `useFirstVisit` as `data-first-visit`, and `FirstVisitGuard` in the root
 layout keeps one the tab has seen still from first paint, so a reload never
 starts it. Nothing loops and controls don't bounce. `app-base.css` honours
-reduced motion. Settings' Motion (Follow device, Full or Reduced) sets
-`data-motion` on the root element: Reduced stills every animation and
-transition, Full overrides a device that asks for less, and Follow device
-lets the device decide. Scripted scrolls ask `isMotionReduced` /
+reduced motion. Settings' Motion is Full or None: None sets
+`data-motion="none"` on the root element and stills every animation and
+transition; Full leaves it off and still keeps still for a device that asks
+for reduced motion. Scripted scrolls ask `isMotionReduced` /
 `getScrollBehavior` (`src/shared/utils/motion.ts`). Tailwind's `motion-reduce:`
-and `motion-safe:` classes still follow the device alone until the redesign
-pass.
+and `motion-safe:` classes follow the device alone until the redesign pass, so
+None does not reach them yet.
 
 Whatever lifts carries everything on it: a card's badges, its lock, its ⋯
 menu and its corner bubbles sit inside the element that moves, never as an

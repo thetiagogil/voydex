@@ -25,7 +25,7 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     const look = page.getByRole("region", { name: "Look and feel" });
 
     await expect(look.getByText("Not in Voydex yet")).toHaveCount(2);
-    await look.getByRole("button", { name: "Reduced" }).click();
+    await look.getByRole("button", { name: "None" }).click();
     await expectAccessible(page);
     const saved = waitForAction(page);
     await look.getByRole("button", { name: "Save" }).click();
@@ -33,20 +33,14 @@ test.describe("Saved settings: look and feel, New Play defaults and tracking", (
     await expect(page.getByText("Look and feel saved")).toBeVisible(
       forTheAnswer,
     );
-    await expect(page.locator("html")).toHaveAttribute(
-      "data-motion",
-      "reduced",
-    );
+    await expect(page.locator("html")).toHaveAttribute("data-motion", "none");
 
     /* Another page, and a reload, keep it. */
     await page.goto("/mainline");
-    await expect(page.locator("html")).toHaveAttribute(
-      "data-motion",
-      "reduced",
-    );
+    await expect(page.locator("html")).toHaveAttribute("data-motion", "none");
 
     await page.goto("/settings", { waitUntil: "networkidle" });
-    await look.getByRole("button", { name: "Follow device" }).click();
+    await look.getByRole("button", { name: "Full" }).click();
     const reset = waitForAction(page);
     await look.getByRole("button", { name: "Save" }).click();
     await reset;
