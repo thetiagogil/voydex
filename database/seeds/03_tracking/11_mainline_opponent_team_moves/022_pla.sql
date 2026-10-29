@@ -10,6 +10,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Lian, Irida, Adaman, Ingo, Melli, Sabi, Beni and the Miss Fortunes (#115 audit): Bulbapedia.
 -- Scope: Legends: Arceus Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -23,12 +24,44 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
   VALUES
     -- Kleavor: Kleavor Lv. 18: Aerial Ace, Double Hit, Stealth Rock, Air Slash
     (220003, 22001, NULL, NULL, NULL, NULL, 1, ARRAY[332, 458, 446, 403]),
+    -- Lian, Grandtree Arena: Goomy Lv. 15: Bubble, Acid Armor, Acid Spray
+    (220003, 22023, NULL, NULL, NULL, NULL, 1, ARRAY[145, 151, 491]),
+    -- Irida, Grandtree Arena: Glaceon Lv. 17: Quick Attack, Powder Snow, Swift
+    (220003, 22024, NULL, NULL, NULL, NULL, 1, ARRAY[98, 181, 129]),
     -- Hisuian Lilligant: Hisuian Lilligant Lv. 30: Stun Spore, Poison Powder, Energy Ball, Rock Smash
     (220004, 22002, NULL, NULL, NULL, NULL, 1, ARRAY[78, 77, 412, 249]),
+    -- Irida, Mirelands base camp: Glaceon Lv. 30: Quick Attack, Baby-Doll Eyes, Ice Beam
+    (220004, 22024, NULL, NULL, NULL, NULL, 1, ARRAY[98, 608, 58]),
+    -- Irida, Mirelands base camp: Eevee Lv. 15: Quick Attack, Baby-Doll Eyes
+    (220004, 22024, NULL, NULL, NULL, NULL, 2, ARRAY[98, 608]),
     -- Hisuian Arcanine: Hisuian Arcanine Lv. 36: Fire Fang, Rock Slide, Raging Fury, Crunch
     (220005, 22003, NULL, NULL, NULL, NULL, 1, ARRAY[424, 157, 833, 242]),
+    -- Clover, Molten Arena: Abomasnow Lv. 35: Icicle Crash, Energy Ball, Ice Shard
+    (220005, 22025, NULL, NULL, NULL, NULL, 1, ARRAY[556, 412, 420]),
+    -- Coin, Molten Arena: Toxicroak Lv. 34: Poison Jab, Mud Bomb, Rock Smash
+    (220005, 22026, NULL, NULL, NULL, NULL, 1, ARRAY[398, 426, 249]),
+    -- Charm, Molten Arena: Rhydon Lv. 34: Stealth Rock, Bulldoze, Rock Slide
+    (220005, 22027, NULL, NULL, NULL, NULL, 1, ARRAY[446, 523, 157]),
+    -- Charm, Molten Arena: Gengar Lv. 35: Dark Pulse, Hypnosis, Hex, Venoshock
+    (220005, 22027, NULL, NULL, NULL, NULL, 2, ARRAY[399, 95, 506, 474]),
     -- Hisuian Electrode: Hisuian Electrode Lv. 46: Thunder Wave, Energy Ball, Thunderbolt, Thunder
     (220006, 22004, NULL, NULL, NULL, NULL, 1, ARRAY[86, 412, 85, 87]),
+    -- Adaman, Jubilife Village: Leafeon Lv. 36: Leaf Blade, Quick Attack, Calm Mind
+    (220006, 22028, NULL, NULL, NULL, NULL, 1, ARRAY[348, 98, 347]),
+    -- Adaman, Jubilife Village: Eevee Lv. 18: Quick Attack, Baby-Doll Eyes
+    (220006, 22028, NULL, NULL, NULL, NULL, 2, ARRAY[98, 608]),
+    -- Ingo, Clamberclaw Cliffs: Machoke Lv. 41: Bullet Punch, Bulk Up, Double-Edge, Rock Smash
+    (220006, 22029, NULL, NULL, NULL, NULL, 1, ARRAY[418, 339, 38, 249]),
+    -- Ingo, Clamberclaw Cliffs: Tangela Lv. 41: Stun Spore, Energy Ball, Ancient Power
+    (220006, 22029, NULL, NULL, NULL, NULL, 2, ARRAY[78, 412, 246]),
+    -- Ingo, Clamberclaw Cliffs: Gliscor Lv. 42: Quick Attack, Aerial Ace, Mud Bomb, Poison Jab
+    (220006, 22029, NULL, NULL, NULL, NULL, 3, ARRAY[98, 332, 426, 398]),
+    -- Melli, Moonview Arena: Skuntank Lv. 44: Poison Jab, Night Slash, Flamethrower
+    (220006, 22030, NULL, NULL, NULL, NULL, 1, ARRAY[398, 400, 53]),
+    -- Melli, Moonview Arena: Skorupi Lv. 22: Venoshock, Bite
+    (220006, 22030, NULL, NULL, NULL, NULL, 2, ARRAY[474, 44]),
+    -- Melli, Moonview Arena: Zubat Lv. 22: Hypnosis, Gust
+    (220006, 22030, NULL, NULL, NULL, NULL, 3, ARRAY[95, 16]),
     -- Hisuian Avalugg: Hisuian Avalugg Lv. 56: Earth Power, Mountain Gale, Blizzard, Double-Edge
     (220007, 22005, NULL, NULL, NULL, NULL, 1, ARRAY[414, 836, 59, 38]),
     -- Origin Dialga / Origin Palkia: Palkia (Origin Forme) Lv. 65: Earth Power, Aqua Tail, Hydro Pump, Spacial Rend
@@ -63,6 +96,24 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (220011, 22011, NULL, NULL, NULL, NULL, 1, ARRAY[396, 337, 414, 467]),
     -- Giratina: Giratina (Origin) Lv. 70: Aura Sphere, Dragon Claw, Earth Power, Shadow Force
     (220011, 22011, NULL, NULL, NULL, NULL, 2, ARRAY[396, 337, 414, 467]),
+    -- Sabi, Snowpoint Temple: Rhyperior Lv. 50: Rock Slide, High Horsepower, Rock Smash
+    (220007, 22031, NULL, NULL, NULL, NULL, 1, ARRAY[157, 667, 249]),
+    -- Sabi, Snowpoint Temple: Magmortar Lv. 30: Poison Gas, Flamethrower
+    (220007, 22031, NULL, NULL, NULL, NULL, 2, ARRAY[139, 53]),
+    -- Sabi, Snowpoint Temple: Electivire Lv. 30: Thunder Wave, Thunder Punch
+    (220007, 22031, NULL, NULL, NULL, NULL, 3, ARRAY[86, 9]),
+    -- Adaman, Lake Valor: Leafeon Lv. 64: Quick Attack, Baby-Doll Eyes, Leaf Blade
+    (220013, 22028, NULL, NULL, NULL, NULL, 1, ARRAY[98, 608, 348]),
+    -- Adaman, Lake Valor: Umbreon Lv. 32: Quick Attack, Baby-Doll Eyes, Dark Pulse
+    (220013, 22028, NULL, NULL, NULL, NULL, 2, ARRAY[98, 608, 399]),
+    -- Adaman, Lake Valor: Vaporeon Lv. 32: Quick Attack, Baby-Doll Eyes, Aqua Tail
+    (220013, 22028, NULL, NULL, NULL, NULL, 3, ARRAY[98, 608, 401]),
+    -- Irida, Pearl Settlement: Glaceon Lv. 64: Quick Attack, Baby-Doll Eyes, Ice Beam
+    (220013, 22024, NULL, NULL, NULL, NULL, 1, ARRAY[98, 608, 58]),
+    -- Irida, Pearl Settlement: Espeon Lv. 32: Quick Attack, Baby-Doll Eyes, Psychic
+    (220013, 22024, NULL, NULL, NULL, NULL, 2, ARRAY[98, 608, 94]),
+    -- Irida, Pearl Settlement: Flareon Lv. 32: Quick Attack, Baby-Doll Eyes, Flamethrower
+    (220013, 22024, NULL, NULL, NULL, NULL, 3, ARRAY[98, 608, 53]),
     -- Uxie: Uxie Lv. 70: Swift, Extrasensory, Mystical Power, Hypnosis
     (220013, 22012, NULL, NULL, NULL, NULL, 1, ARRAY[129, 326, 832, 95]),
     -- Mesprit: Mesprit Lv. 70: Swift, Extrasensory, Mystical Power, Recover
@@ -87,6 +138,14 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (220019, 22021, NULL, NULL, NULL, NULL, 1, ARRAY[326, 242, 414, 848]),
     -- Enamorus: Enamorus Lv. 70: Extrasensory, Crunch, Moonblast, Springtide Storm
     (220019, 22022, NULL, NULL, NULL, NULL, 1, ARRAY[326, 242, 585, 831]),
+    -- Beni, Stone Portal: Mismagius Lv. 59: Shadow Ball, Power Gem, Extrasensory, Hypnosis
+    (220009, 22032, NULL, NULL, NULL, NULL, 1, ARRAY[247, 408, 326, 95]),
+    -- Beni, Stone Portal: Sneasler Lv. 59: Dire Claw, Close Combat, Quick Attack
+    (220009, 22032, NULL, NULL, NULL, NULL, 2, ARRAY[827, 370, 98]),
+    -- Beni, Stone Portal: Gardevoir Lv. 60: Calm Mind, Dazzling Gleam, Psychic
+    (220009, 22032, NULL, NULL, NULL, NULL, 3, ARRAY[347, 605, 94]),
+    -- Beni, Stone Portal: Gallade Lv. 60: Swords Dance, Drain Punch, Psycho Cut
+    (220009, 22032, NULL, NULL, NULL, NULL, 4, ARRAY[14, 409, 427]),
     -- Commander Kamado: Hisuian Braviary Lv. 61: Esper Wing, Air Slash, Quick Attack
     (220009, 22006, NULL, NULL, NULL, NULL, 1, ARRAY[840, 403, 98]),
     -- Commander Kamado: Golem Lv. 61: Stealth Rock, Rock Slide, Double-Edge

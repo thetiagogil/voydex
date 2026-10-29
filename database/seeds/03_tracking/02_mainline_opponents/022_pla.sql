@@ -65,4 +65,24 @@ INSERT INTO tracking.mainline_opponents (
   -- Landorus (boss)
   (22021, 22, NULL, 'landorus', 'Landorus', 'boss', 9, 10, 'landorus', 21),
   -- Enamorus (boss)
-  (22022, 22, NULL, 'enamorus', 'Enamorus', 'boss', 18, 10, 'enamorus', 22);
+  (22022, 22, NULL, 'enamorus', 'Enamorus', 'boss', 18, 10, 'enamorus', 22),
+  -- Lian (boss; Warden)
+  (22023, 22, NULL, 'lian', 'Lian', 'boss', NULL, NULL, 'lian', 23),
+  -- Irida (boss; Pearl Clan leader)
+  (22024, 22, NULL, 'irida', 'Irida', 'boss', NULL, NULL, 'irida', 24),
+  -- Clover (boss; the Miss Fortunes)
+  (22025, 22, NULL, 'clover', 'Clover', 'boss', NULL, NULL, 'clover', 25),
+  -- Coin (boss; the Miss Fortunes)
+  (22026, 22, NULL, 'coin', 'Coin', 'boss', NULL, NULL, 'coin', 26),
+  -- Charm (boss; the Miss Fortunes)
+  (22027, 22, NULL, 'charm', 'Charm', 'boss', NULL, NULL, 'charm', 27),
+  -- Adaman (boss; Diamond Clan leader)
+  (22028, 22, NULL, 'adaman', 'Adaman', 'boss', NULL, NULL, 'adaman', 28),
+  -- Ingo (boss; Warden)
+  (22029, 22, NULL, 'ingo', 'Ingo', 'boss', NULL, NULL, 'ingo', 29),
+  -- Melli (boss; Warden)
+  (22030, 22, NULL, 'melli', 'Melli', 'boss', NULL, NULL, 'melli', 30),
+  -- Sabi (boss; Warden)
+  (22031, 22, NULL, 'sabi', 'Sabi', 'boss', NULL, NULL, 'sabi', 31),
+  -- Beni (boss)
+  (22032, 22, NULL, 'beni', 'Beni', 'boss', NULL, NULL, 'beni', 32);

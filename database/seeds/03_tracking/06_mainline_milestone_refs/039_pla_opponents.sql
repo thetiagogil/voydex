@@ -8,6 +8,7 @@
 -- File Scope
 -- ============================================================================
 -- Links Pokémon Legends: Arceus battle milestones to their primary opponents.
+-- The wardens, clan leaders, Miss Fortunes and Beni fought on the way to each noble (#115 audit).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_opponent_refs (
@@ -18,8 +19,34 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   sort_order,
   notes
 ) VALUES
+  -- Commander Kamado -> Beni
+  (220009, 22032, 22, 'battle-opponent', 1, 'Stone Portal, Coronet Highlands'),
   -- Commander Kamado -> Commander Kamado
-  (220009, 22006, 22, 'battle-opponent', 1, NULL),
+  (220009, 22006, 22, 'battle-opponent', 2, NULL),
+  -- Noble Kleavor -> Lian
+  (220003, 22023, 22, 'battle-opponent', 2, 'Grandtree Arena, Obsidian Fieldlands'),
+  -- Noble Kleavor -> Irida
+  (220003, 22024, 22, 'battle-opponent', 3, 'Grandtree Arena, Obsidian Fieldlands'),
+  -- Noble Lilligant -> Irida
+  (220004, 22024, 22, 'battle-opponent', 3, 'Mirelands Camp, Crimson Mirelands'),
+  -- Noble Arcanine -> Clover
+  (220005, 22025, 22, 'battle-opponent', 2, 'Molten Arena, Firespit Island'),
+  -- Noble Arcanine -> Coin
+  (220005, 22026, 22, 'battle-opponent', 3, 'Molten Arena, Firespit Island'),
+  -- Noble Arcanine -> Charm
+  (220005, 22027, 22, 'battle-opponent', 4, 'Molten Arena, Firespit Island'),
+  -- Noble Electrode -> Adaman
+  (220006, 22028, 22, 'battle-opponent', 2, 'Jubilife Village'),
+  -- Noble Electrode -> Ingo
+  (220006, 22029, 22, 'battle-opponent', 3, 'Clamberclaw Cliffs, Coronet Highlands'),
+  -- Noble Electrode -> Melli
+  (220006, 22030, 22, 'battle-opponent', 4, 'Moonview Arena, Coronet Highlands'),
+  -- Noble Avalugg -> Sabi
+  (220007, 22031, 22, 'battle-opponent', 2, 'Snowpoint Temple, Alabaster Icelands'),
+  -- The Plate of the Lakes -> Adaman
+  (220013, 22028, 22, 'battle-opponent', 4, 'Lake Valor, Crimson Mirelands'),
+  -- The Plate of the Lakes -> Irida
+  (220013, 22024, 22, 'battle-opponent', 5, 'Pearl Settlement, Alabaster Icelands'),
   -- Defeat Volo -> Volo
   (220011, 22008, 22, 'battle-opponent', 1, NULL),
   -- Choose Starter -> Volo
