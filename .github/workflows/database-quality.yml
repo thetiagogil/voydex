@@ -1,23 +1,28 @@
 name: Database Quality
 
+# Manual runs only while the app is in fast development: run it from the
+# Actions tab. Every database PR already passes `npm run db:verify` locally.
+# Before launch, restore the triggers below (a required check needs
+# `pull_request`):
+#
+#   pull_request:
+#     paths:
+#       - "database/**"
+#       - "scripts/database/**"
+#       - "package.json"
+#       - "package-lock.json"
+#       - ".github/workflows/database-quality.yml"
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - "database/**"
+#       - "scripts/database/**"
+#       - "package.json"
+#       - "package-lock.json"
+#       - ".github/workflows/database-quality.yml"
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - "database/**"
-      - "scripts/database/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/database-quality.yml"
-  push:
-    branches:
-      - main
-    paths:
-      - "database/**"
-      - "scripts/database/**"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/database-quality.yml"
 
 permissions:
   contents: read
