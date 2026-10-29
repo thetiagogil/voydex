@@ -5,6 +5,7 @@
 -- Cross-check: Pokémon Database Let's Go, Pikachu! / Let's Go, Eevee! Gym Leaders and Elite Four page.
 -- Trace and Giovanni battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Jessie & James, Archer and Blue at Silph Co. (#115 audit): Bulbapedia.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -31,6 +32,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (170003, 17001, 17, NULL, NULL, NULL, NULL, NULL, 1, 74, 7400, 11),
   -- Brock 2: Onix Lv. 12
   (170003, 17001, 17, NULL, NULL, NULL, NULL, NULL, 2, 95, 9500, 12),
+  -- Jessie & James, Mt. Moon 1: Ekans Lv. 12
+  (170004, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 23, 2300, 12),
+  -- Jessie & James, Mt. Moon 2: Koffing Lv. 12
+  (170004, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 12),
   -- Misty 1: Psyduck Lv. 18
   (170004, 17002, 17, NULL, NULL, NULL, NULL, NULL, 1, 54, 5400, 18),
   -- Misty 2: Starmie Lv. 19
@@ -47,6 +52,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (170006, 17004, 17, NULL, NULL, NULL, NULL, NULL, 2, 70, 7000, 33),
   -- Erika 3: Vileplume Lv. 34
   (170006, 17004, 17, NULL, NULL, NULL, NULL, NULL, 3, 45, 4500, 34),
+  -- Jessie & James, Pokémon Tower 1: Arbok Lv. 34
+  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 34),
+  -- Jessie & James, Pokémon Tower 2: Weezing Lv. 34
+  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 34),
   -- Koga 1: Weezing Lv. 43
   (170008, 17005, 17, NULL, NULL, NULL, NULL, NULL, 1, 110, 11000, 43),
   -- Koga 2: Muk Lv. 43
@@ -215,10 +224,36 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
   -- Trace (Lets Go Eevee), Rainbow Badge 3: Raichu Lv. 28
   (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 26, 2600, 28),
+  -- Jessie & James, Rocket Hideout 1: Arbok Lv. 32
+  (170021, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 32),
+  -- Jessie & James, Rocket Hideout 2: Weezing Lv. 32
+  (170021, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 32),
+  -- Archer, Rocket Hideout 1: Weezing Lv. 33
+  (170021, 17023, 17, NULL, NULL, NULL, NULL, NULL, 1, 110, 11000, 33),
+  -- Archer, Rocket Hideout 2: Golbat Lv. 33
+  (170021, 17023, 17, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 33),
   -- Giovanni, Rocket Hideout 1: Persian Lv. 35
   (170021, 17017, 17, NULL, NULL, NULL, NULL, NULL, 1, 53, 5300, 35),
   -- Giovanni, Rocket Hideout 2: Rhyhorn Lv. 35
   (170021, 17017, 17, NULL, NULL, NULL, NULL, NULL, 2, 111, 11100, 35),
+  -- Blue, Silph Co. 1: Exeggutor Lv. 38
+  (170022, 17014, 17, NULL, NULL, NULL, NULL, NULL, 1, 103, 10300, 38),
+  -- Blue, Silph Co. 2: Charizard Lv. 40
+  (170022, 17014, 17, NULL, NULL, NULL, NULL, NULL, 2, 6, 600, 40),
+  -- Jessie & James, Silph Co. 1: Arbok Lv. 36
+  (170022, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 36),
+  -- Jessie & James, Silph Co. 2: Weezing Lv. 36
+  (170022, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 36),
+  -- Archer, Silph Co. 1: Electrode Lv. 37
+  (170022, 17023, 17, NULL, NULL, NULL, NULL, NULL, 1, 101, 10100, 37),
+  -- Archer, Silph Co. 2: Golbat Lv. 37
+  (170022, 17023, 17, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 37),
+  -- Archer, Silph Co. 3: Weezing Lv. 37
+  (170022, 17023, 17, NULL, NULL, NULL, NULL, NULL, 3, 110, 11000, 37),
+  -- Archer, Silph Co. 4: Muk Lv. 34
+  (170022, 17023, 17, NULL, NULL, NULL, NULL, NULL, 4, 89, 8900, 34),
+  -- Archer, Silph Co. 5: Raticate Lv. 34
+  (170022, 17023, 17, NULL, NULL, NULL, NULL, NULL, 5, 20, 2000, 34),
   -- Giovanni, Silph Co. 1: Persian Lv. 39
   (170022, 17017, 17, NULL, NULL, NULL, NULL, NULL, 1, 53, 5300, 39),
   -- Giovanni, Silph Co. 2: Rhyhorn Lv. 39

@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -406,7 +406,23 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 2: Emboar Lv. 85: Fire Punch, Bulk Up, Drain Punch
     (270015, 27014, 27015, NULL, NULL, NULL, 'chose-totodile', 2, ARRAY[7, 339, 409]),
     -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 3: Meganium Lv. 85: Giga Drain, Bulldoze, Disarming Voice
-    (270015, 27014, 27015, NULL, NULL, NULL, 'chose-totodile', 3, ARRAY[202, 523, 574])
+    (270015, 27014, 27015, NULL, NULL, NULL, 'chose-totodile', 3, ARRAY[202, 523, 574]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Cubone Lv. 36: Focus Energy, Bonemerang, Headbutt
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 1, ARRAY[116, 155, 29]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Pidgeot Lv. 36: Quick Attack, Air Slash, Sand Attack, Roost
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 2, ARRAY[98, 403, 28, 355]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Gloom Lv. 36: Razor Leaf, Toxic, Acid
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 3, ARRAY[75, 92, 51]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Jolteon Lv. 37: Thunder Shock, Quick Attack, Pin Missile, Double Kick
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 4, ARRAY[84, 98, 42, 24]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Cubone Lv. 36: Focus Energy, Bonemerang, Headbutt
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 1, ARRAY[116, 155, 29]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Pidgeot Lv. 36: Quick Attack, Air Slash, Sand Attack, Roost
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 2, ARRAY[98, 403, 28, 355]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Gloom Lv. 36: Razor Leaf, Toxic, Acid
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 3, ARRAY[75, 92, 51]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Raichu Lv. 37: Thunder Shock, Quick Attack, Thunder Punch, Slam
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 4, ARRAY[84, 98, 9, 21])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

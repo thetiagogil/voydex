@@ -7,6 +7,7 @@
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Jessie & James, Archer and Blue at Silph Co. (#115 audit): Bulbapedia.
 -- Scope: Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -22,6 +23,10 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (170003, 17001, NULL, NULL, NULL, NULL, 1, ARRAY[33]),
     -- Brock: Onix Lv. 12: Headbutt, Bind, Rock Throw
     (170003, 17001, NULL, NULL, NULL, NULL, 2, ARRAY[29, 20, 88]),
+    -- Jessie & James, Mt. Moon: Ekans Lv. 12: Wrap, Acid
+    (170004, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[35, 51]),
+    -- Jessie & James, Mt. Moon: Koffing Lv. 12: Poison Gas, Tackle
+    (170004, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[139, 33]),
     -- Misty: Psyduck Lv. 18: Water Gun, Confusion
     (170004, 17002, NULL, NULL, NULL, NULL, 1, ARRAY[55, 93]),
     -- Misty: Starmie Lv. 19: Scald, Psywave, Swift
@@ -38,6 +43,10 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (170006, 17004, NULL, NULL, NULL, NULL, 2, ARRAY[72, 398]),
     -- Erika: Vileplume Lv. 34: Mega Drain, Moonblast
     (170006, 17004, NULL, NULL, NULL, NULL, 3, ARRAY[72, 585]),
+    -- Jessie & James, Pokémon Tower: Arbok Lv. 34: Poison Jab, Glare, Crunch
+    (170007, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242]),
+    -- Jessie & James, Pokémon Tower: Weezing Lv. 34: Dark Pulse, Sludge Bomb
+    (170007, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[399, 188]),
     -- Koga: Weezing Lv. 43: Toxic, Protect, Sludge Bomb, Explosion
     (170008, 17005, NULL, NULL, NULL, NULL, 1, ARRAY[92, 182, 188, 153]),
     -- Koga: Muk Lv. 43: Toxic, Protect, Sludge Bomb, Moonblast
@@ -206,10 +215,36 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (170006, 17016, 30, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
     -- Trace: Raichu Lv. 28: Thunder Shock, Quick Attack, Thunder Punch
     (170006, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 9]),
+    -- Jessie & James, Rocket Hideout: Arbok Lv. 32: Poison Jab, Glare, Crunch
+    (170021, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242]),
+    -- Jessie & James, Rocket Hideout: Weezing Lv. 32: Toxic, Sludge
+    (170021, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[92, 124]),
+    -- Archer, Rocket Hideout: Weezing Lv. 33: Sludge Bomb, Flamethrower, Dark Pulse
+    (170021, 17023, NULL, NULL, NULL, NULL, 1, ARRAY[188, 53, 399]),
+    -- Archer, Rocket Hideout: Golbat Lv. 33: Air Slash, Crunch
+    (170021, 17023, NULL, NULL, NULL, NULL, 2, ARRAY[403, 242]),
     -- Giovanni: Persian Lv. 35: Slash, Feint, Fake Out
     (170021, 17017, NULL, NULL, NULL, NULL, 1, ARRAY[163, 364, 252]),
     -- Giovanni: Rhyhorn Lv. 35: Drill Run, Take Down, Megahorn, Rock Throw
     (170021, 17017, NULL, NULL, NULL, NULL, 2, ARRAY[529, 36, 224, 88]),
+    -- Blue, Silph Co.: Exeggutor Lv. 38: Power Whip, Psychic, Light Screen
+    (170022, 17014, NULL, NULL, NULL, NULL, 1, ARRAY[438, 94, 113]),
+    -- Blue, Silph Co.: Charizard Lv. 40: Heat Wave, Air Slash, Slash
+    (170022, 17014, NULL, NULL, NULL, NULL, 2, ARRAY[257, 403, 163]),
+    -- Jessie & James, Silph Co.: Arbok Lv. 36: Poison Jab, Glare, Crunch, Rock Slide
+    (170022, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242, 157]),
+    -- Jessie & James, Silph Co.: Weezing Lv. 36: Sludge Bomb, Dark Pulse, Flamethrower, Thunderbolt
+    (170022, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[188, 399, 53, 85]),
+    -- Archer, Silph Co.: Electrode Lv. 37: Self-Destruct, Thunderbolt, Swift
+    (170022, 17023, NULL, NULL, NULL, NULL, 1, ARRAY[120, 85, 129]),
+    -- Archer, Silph Co.: Golbat Lv. 37: Air Slash, Crunch
+    (170022, 17023, NULL, NULL, NULL, NULL, 2, ARRAY[403, 242]),
+    -- Archer, Silph Co.: Weezing Lv. 37: Sludge Bomb, Flamethrower, Dark Pulse, Protect
+    (170022, 17023, NULL, NULL, NULL, NULL, 3, ARRAY[188, 53, 399, 182]),
+    -- Archer, Silph Co.: Muk Lv. 34: Toxic, Screech, Minimize, Protect
+    (170022, 17023, NULL, NULL, NULL, NULL, 4, ARRAY[92, 103, 107, 182]),
+    -- Archer, Silph Co.: Raticate Lv. 34: Sucker Punch, Quick Attack
+    (170022, 17023, NULL, NULL, NULL, NULL, 5, ARRAY[389, 98]),
     -- Giovanni: Persian Lv. 39: Slash, Feint, Fake Out, Play Rough
     (170022, 17017, NULL, NULL, NULL, NULL, 1, ARRAY[163, 364, 252, 583]),
     -- Giovanni: Rhyhorn Lv. 39: Drill Run, Take Down, Megahorn, Rock Throw

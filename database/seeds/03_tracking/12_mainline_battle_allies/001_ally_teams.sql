@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -423,4 +423,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 2: Emboar Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 2, 500, 50000, 85, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 3: Meganium Lv. 85, holds Meganiumite
-  (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462);
+  (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 1: Cubone Lv. 36
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 104, 10400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 2: Pidgeot Lv. 36
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 18, 1800, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 3: Gloom Lv. 36
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 44, 4400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 4: Jolteon Lv. 37
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 4, 135, 13500, 37, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 1: Cubone Lv. 36
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 104, 10400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 2: Pidgeot Lv. 36
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 18, 1800, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 3: Gloom Lv. 36
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 44, 4400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 4: Raichu Lv. 37
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 37, NULL);
