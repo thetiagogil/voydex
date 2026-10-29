@@ -61,15 +61,19 @@ jobs:
       # stay off, so there are fewer images to pull. The type check runs its
       # own metadata container, so `postgres-meta` stays off too.
       #
-      # When the image registry refuses a pull ("too many requests"), wait and
-      # try again. Pulled images are kept, so a retry fetches only what is
-      # missing. Any other failure fails at once.
+      # When the image registry refuses a pull ("too many requests" or "data
+      # limit exceeded"), wait and try again. Pulled images are kept, so a retry
+      # fetches only what is missing. The second try pulls from the CLI's
+      # default registry instead, in case GitHub's is the one refusing. Any
+      # other failure fails at once.
       - name: Start local Supabase
         run: |
           set -o pipefail
           for attempt in 1 2 3; do
+            [ "$attempt" -eq 2 ] && export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws
+            [ "$attempt" -eq 3 ] && export SUPABASE_INTERNAL_IMAGE_REGISTRY=ghcr.io
             npm run db:start -- -x studio,postgres-meta,realtime,edge-runtime,logflare,vector,supavisor 2>&1 | tee "$RUNNER_TEMP/db-start.log" && exit 0
-            grep -q toomanyrequests "$RUNNER_TEMP/db-start.log" || exit 1
+            grep -qiE "toomanyrequests|data limit exceeded" "$RUNNER_TEMP/db-start.log" || exit 1
             [ "$attempt" -eq 3 ] && exit 1
             npm run db:stop -- --no-backup || true
             sleep $((attempt * 60))
@@ -81,7 +85,7 @@ jobs:
           set -o pipefail
           for attempt in 1 2 3; do
             npm run db:verify 2>&1 | tee "$RUNNER_TEMP/db-verify.log" && exit 0
-            grep -q toomanyrequests "$RUNNER_TEMP/db-verify.log" || exit 1
+            grep -qiE "toomanyrequests|data limit exceeded" "$RUNNER_TEMP/db-verify.log" || exit 1
             [ "$attempt" -eq 3 ] && exit 1
             sleep $((attempt * 60))
           done
