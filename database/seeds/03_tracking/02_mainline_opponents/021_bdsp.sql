@@ -103,4 +103,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Rayquaza (boss)
   (21040, 21, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 30),
   -- Mewtwo (boss)
-  (21041, 21, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 31);
+  (21041, 21, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 31),
+  -- Mars (boss; Team Galactic Commander)
+  (21042, 21, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', 32),
+  -- Jupiter (boss; Team Galactic Commander)
+  (21043, 21, NULL, 'jupiter', 'Jupiter', 'boss', NULL, NULL, 'jupiter', 33),
+  -- Saturn (boss; Team Galactic Commander)
+  (21044, 21, NULL, 'saturn', 'Saturn', 'boss', NULL, NULL, 'saturn', 34),
+  -- Mars & Jupiter (boss; the Multi Battle with Barry at Spear Pillar)
+  (21045, 21, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars', 35);

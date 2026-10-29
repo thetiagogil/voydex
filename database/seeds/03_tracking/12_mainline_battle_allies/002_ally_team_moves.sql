@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Trace, Hop, Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -440,7 +440,43 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Hop beside you vs Sordward & Shielbert [sobble]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
     (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 2, ARRAY[65, 211, 184, 413]),
     -- Hop beside you vs Sordward & Shielbert [sobble]: Cinderace Lv. 62: Double-Edge, Headbutt, Pyro Ball, Agility
-    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 3, ARRAY[38, 29, 780, 97])
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 3, ARRAY[38, 29, 780, 97]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Munchlax Lv. 42: Lick, Covet, Bite, Body Slam
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[122, 343, 44, 34]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Staraptor Lv. 41: Close Combat, Quick Attack, Double Team, Pluck
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 2, ARRAY[370, 98, 104, 365]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Buizel Lv. 42: Tail Whip, Bite, Swift, Brine
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 3, ARRAY[39, 44, 129, 362]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Heracross Lv. 43: Leer, Brick Break, Pin Missile, Thief
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 4, ARRAY[43, 280, 42, 168]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Roselia Lv. 42: Sweet Scent, Giga Drain, Toxic, Grass Knot
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 5, ARRAY[230, 202, 92, 447]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Infernape Lv. 45: Close Combat, Flame Wheel, U-turn, Shadow Claw
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 6, ARRAY[370, 172, 369, 421]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Munchlax Lv. 42: Lick, Covet, Bite, Body Slam
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 1, ARRAY[122, 343, 44, 34]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Staraptor Lv. 41: Close Combat, Quick Attack, Double Team, Pluck
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 2, ARRAY[370, 98, 104, 365]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Roselia Lv. 42: Growth, Stun Spore, Leech Seed, Giga Drain
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 3, ARRAY[74, 78, 73, 202]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Heracross Lv. 43: Leer, Brick Break, Pin Missile, Thief
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 4, ARRAY[43, 280, 42, 168]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Ponyta Lv. 42: Growl, Agility, Flame Wheel, Stomp
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 5, ARRAY[45, 97, 172, 23]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Empoleon Lv. 45: Metal Claw, Charm, Grass Knot, Brine
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 6, ARRAY[232, 204, 447, 362]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Munchlax Lv. 42: Lick, Covet, Bite, Body Slam
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 1, ARRAY[122, 343, 44, 34]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Staraptor Lv. 41: Close Combat, Quick Attack, Double Team, Pluck
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 2, ARRAY[370, 98, 104, 365]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Buizel Lv. 42: Tail Whip, Bite, Swift, Brine
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 3, ARRAY[39, 44, 129, 362]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Heracross Lv. 43: Leer, Brick Break, Pin Missile, Thief
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[43, 280, 42, 168]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Ponyta Lv. 42: Tail Whip, Agility, Flame Wheel, Stomp
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[39, 97, 172, 23]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Torterra Lv. 45: Razor Leaf, Bite, Leech Seed, Stealth Rock
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[75, 44, 73, 446])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Trace, Hop, Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -457,4 +457,40 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hop beside you vs Sordward & Shielbert [sobble] 2: Corviknight Lv. 61
   (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 823, 82300, 61, NULL),
   -- Hop beside you vs Sordward & Shielbert [sobble] 3: Cinderace Lv. 62
-  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 815, 81500, 62, NULL);
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 815, 81500, 62, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 1: Munchlax Lv. 42
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 446, 44600, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 2: Staraptor Lv. 41, holds Quick Claw
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 2, 398, 39800, 41, 417),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 3: Buizel Lv. 42, holds Sea Incense
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 3, 418, 41800, 42, 347),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 4: Heracross Lv. 43
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 4, 214, 21400, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 5: Roselia Lv. 42, holds Big Root
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 5, 315, 31500, 42, 375),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 6: Infernape Lv. 45, holds Shell Bell
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 6, 392, 39200, 45, 425),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 1: Munchlax Lv. 42
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 1, 446, 44600, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 2: Staraptor Lv. 41, holds Quick Claw
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 2, 398, 39800, 41, 417),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 3: Roselia Lv. 42, holds Big Root
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 3, 315, 31500, 42, 375),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 4: Heracross Lv. 43
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 4, 214, 21400, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 5: Ponyta Lv. 42, holds Shell Bell
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 5, 77, 7700, 42, 425),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 6: Empoleon Lv. 45, holds Sea Incense
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 6, 395, 39500, 45, 347),
+  -- Barry beside you vs Mars & Jupiter [piplup] 1: Munchlax Lv. 42
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 1, 446, 44600, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 2: Staraptor Lv. 41, holds Quick Claw
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 2, 398, 39800, 41, 417),
+  -- Barry beside you vs Mars & Jupiter [piplup] 3: Buizel Lv. 42, holds Sea Incense
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 3, 418, 41800, 42, 347),
+  -- Barry beside you vs Mars & Jupiter [piplup] 4: Heracross Lv. 43
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 214, 21400, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 5: Ponyta Lv. 42, holds Shell Bell
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 77, 7700, 42, 425),
+  -- Barry beside you vs Mars & Jupiter [piplup] 6: Torterra Lv. 45, holds Leftovers
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 45, 403);
