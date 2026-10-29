@@ -449,8 +449,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 3, 758, 75800, 50, NULL, NULL, FALSE),
   -- Oleana, Rose Tower 4: Milotic Lv. 51
   (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 4, 350, 35000, 51, NULL, NULL, FALSE),
-  -- Oleana, Rose Tower 5: Garbodor Lv. 52
-  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 5, 569, 56900, 52, NULL, NULL, FALSE),
+  -- Oleana, Rose Tower 5: Gigantamax Garbodor Lv. 52
+  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 5, 569, 56901, 52, NULL, NULL, TRUE),
   -- Nessa, Champion Cup finals 1: Golisopod Lv. 51
   (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 51, NULL, NULL, FALSE),
   -- Nessa, Champion Cup finals 2: Pelipper Lv. 51
@@ -459,8 +459,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 3, 847, 84700, 52, NULL, NULL, FALSE),
   -- Nessa, Champion Cup finals 4: Seaking Lv. 52
   (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 4, 119, 11900, 52, NULL, NULL, FALSE),
-  -- Nessa, Champion Cup finals 5: Drednaw Lv. 53
-  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 5, 834, 83400, 53, NULL, NULL, FALSE),
+  -- Nessa, Champion Cup finals 5: Gigantamax Drednaw Lv. 53
+  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 5, 834, 83401, 53, NULL, NULL, TRUE),
   -- Bea, Champion Cup finals 1: Hawlucha Lv. 52
   (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 1, 701, 70100, 52, NULL, NULL, FALSE),
   -- Bea, Champion Cup finals 2: Grapploct Lv. 52
@@ -469,8 +469,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 3, 865, 86500, 53, NULL, NULL, FALSE),
   -- Bea, Champion Cup finals 4: Falinks Lv. 53
   (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 4, 870, 87000, 53, NULL, NULL, FALSE),
-  -- Bea, Champion Cup finals 5: Machamp Lv. 54
-  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 54, NULL, NULL, FALSE),
+  -- Bea, Champion Cup finals 5: Gigantamax Machamp Lv. 54
+  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 5, 68, 6801, 54, NULL, NULL, TRUE),
   -- Allister, Champion Cup finals 1: Dusknoir Lv. 52
   (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 1, 477, 47700, 52, NULL, NULL, FALSE),
   -- Allister, Champion Cup finals 2: Chandelure Lv. 52
@@ -479,8 +479,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 3, 864, 86400, 53, NULL, NULL, FALSE),
   -- Allister, Champion Cup finals 4: Polteageist Lv. 53
   (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 4, 855, 85500, 53, NULL, NULL, FALSE),
-  -- Allister, Champion Cup finals 5: Gengar Lv. 54
-  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 54, NULL, NULL, FALSE),
+  -- Allister, Champion Cup finals 5: Gigantamax Gengar Lv. 54
+  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 5, 94, 9402, 54, NULL, NULL, TRUE),
   -- Raihan, Champion Cup finals 1: Torkoal Lv. 53
   (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 1, 324, 32400, 53, NULL, NULL, FALSE),
   -- Raihan, Champion Cup finals 2: Goodra Lv. 54
@@ -489,8 +489,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 3, 776, 77600, 54, NULL, NULL, FALSE),
   -- Raihan, Champion Cup finals 4: Flygon Lv. 54
   (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 54, NULL, NULL, FALSE),
-  -- Raihan, Champion Cup finals 5: Duraludon Lv. 55
-  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 5, 884, 88400, 55, NULL, NULL, FALSE),
+  -- Raihan, Champion Cup finals 5: Gigantamax Duraludon Lv. 55
+  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 5, 884, 88401, 55, NULL, NULL, TRUE),
   -- Rose, Defeat Eternatus 1: Escavalier Lv. 55
   (180011, 18016, 18, NULL, NULL, NULL, NULL, NULL, 1, 589, 58900, 55, NULL, NULL, FALSE),
   -- Rose, Defeat Eternatus 2: Ferrothorn Lv. 55

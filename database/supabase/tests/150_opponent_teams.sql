@@ -105,14 +105,15 @@ SELECT
             WHERE
                 mainline_opponents.slug = 'totem-kommo-o' ORDER BY mainline_opponent_team_members.milestone_id, mainline_opponent_team_members.slot $$, $$
             VALUES (150012, 784, 45), (150012, 783, 32), (150012, 212, 32), (160013, 784, 49), (160013, 715, 48), (160013, 212, 46) $$, 'Totem Kommo-o battles in Vast Poni Canyon with its allies');
--- Ultra Sun / Ultra Moon: Ilima's bonus trial is the Lv. 60 totem of each game.
+-- Ultra Sun / Ultra Moon: Ilima's bonus trial is the Lv. 60 totem of each game, fought as that totem.
 SELECT
     results_eq ($$
         SELECT
-            game_id, slot, species_id, form_id, level FROM tracking.mainline_opponent_team_members
+            mainline_opponents.game_id, mainline_opponent_team_members.slot, mainline_opponent_team_members.species_id, mainline_opponent_team_members.form_id, mainline_opponent_team_members.level FROM tracking.mainline_opponent_team_members
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             WHERE
-                milestone_id = 160032
-                AND opponent_id = 16001 ORDER BY game_id, slot $$, $$
+                mainline_opponent_team_members.milestone_id = 160032
+                AND mainline_opponents.opponent_role = 'totem' ORDER BY mainline_opponents.game_id, mainline_opponent_team_members.slot $$, $$
             VALUES (27, 1, 735, 73500, 60), (27, 2, 734, 73400, 58), (28, 1, 20, 2001, 60), (28, 2, 19, 1901, 58) $$, 'Ilima''s bonus trial has each game''s totem and ally');
 -- Every Pokémon in both new trials knows its four moves.
 SELECT

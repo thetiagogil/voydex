@@ -100,7 +100,7 @@ SELECT
                 mainline_opponent_team_members.version_group_id = 15
                 AND mainline_opponents.name = 'Professor Kukui' ORDER BY mainline_opponent_team_members.decision_option_slug $$, $$
             VALUES ('litten'::text, 'primarina'::text, 'waterium-z'::text), ('popplio'::text, 'decidueye'::text, 'grassium-z'::text), ('rowlet'::text, 'incineroar'::text, 'firium-z'::text) $$, 'Kukui''s ace holds the Z-Crystal of its type');
--- Leon's Charizard Gigantamaxes; Nessa's Drednaw only Dynamaxes.
+-- Leon's Charizard Gigantamaxes; Nessa's Drednaw only Dynamaxes at her Gym.
 SELECT
     results_eq ($$ SELECT DISTINCT
             mainline_opponents.slug, pokemon_forms.slug, mainline_opponent_team_members.dynamaxes FROM tracking.mainline_opponent_team_members
@@ -110,8 +110,8 @@ SELECT
                 mainline_opponent_team_members.version_group_id = 18
                 AND mainline_opponents.slug IN ('leon', 'nessa')
                 AND mainline_opponent_team_members.species_id IN (6, 834)
-            ORDER BY mainline_opponents.slug $$, $$
-            VALUES ('leon'::text, 'gigantamax-charizard'::text, TRUE), ('nessa'::text, 'drednaw'::text, TRUE) $$, 'Leon''s Charizard Gigantamaxes and Nessa''s Drednaw Dynamaxes');
+            ORDER BY mainline_opponents.slug, pokemon_forms.slug $$, $$
+            VALUES ('leon'::text, 'gigantamax-charizard'::text, TRUE), ('nessa'::text, 'drednaw'::text, TRUE), ('nessa'::text, 'gigantamax-drednaw'::text, TRUE) $$, 'Leon''s Charizard Gigantamaxes; Nessa''s Drednaw Dynamaxes at her Gym and Gigantamaxes in the finals');
 -- Geeta's Glimmora Terastallizes into Rock, and Ogerpon into each mask's type.
 SELECT
     results_eq ($$

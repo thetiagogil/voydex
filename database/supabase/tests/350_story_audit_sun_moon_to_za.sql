@@ -136,7 +136,7 @@ SELECT
             WHERE
                 mainline_opponent_team_members.species_id = 977
                 AND moves.slug = 'order-up' $$, 'no Dondozo knows Order Up');
--- Hop's Wooloo at the Grass Badge knows Defense Curl whichever starter you picked.
+-- Hop's Wooloo at the Grass Badge knows Defense Curl when you started with Sobble, as the sources list it.
 SELECT
     results_eq ($$
         SELECT
@@ -147,7 +147,7 @@ SELECT
                 mainline_opponent_team_members.milestone_id = 180003
                 AND moves.slug = 'defense-curl'
                 AND mainline_opponent_team_members.species_id = 831 $$, $$
-            VALUES (3) $$, 'Hop''s Wooloo knows Defense Curl in all three starts');
+            VALUES (1) $$, 'Hop''s Wooloo knows Defense Curl in the Sobble start');
 SELECT
     *
 FROM

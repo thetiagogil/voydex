@@ -12,7 +12,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
--- Oleana, the Champion Cup finals, Hop's first post-game battle, Sordward and Shielbert (#115 audit): Bulbapedia; Hop's Wooloo knows Defense Curl in every start.
+-- Oleana, the Champion Cup finals, Hop's first post-game battle, Sordward and Shielbert (#115 audit): Bulbapedia; Hop's Wooloo knows Defense Curl in the Sobble start, as Bulbapedia lists it.
 -- Scope: Sword / Shield Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
