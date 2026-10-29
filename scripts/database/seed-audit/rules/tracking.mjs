@@ -823,6 +823,37 @@ export function assertOpponentTeamRows(context, tableRows) {
     }
     unlockItemIdsByForm.get(row.form_id).add(row.item_id);
   }
+  /*
+   * Forms a Pokémon shows only while holding one item: the Crowned Zacian and
+   * Zamazenta, Ogerpon's masks, Silvally's memories. Mega Stones and orbs are
+   * checked by mechanic below. Giratina's Origin Forme is left out because the
+   * Distortion World, Ramanas Park and Hisui show it without the Griseous Orb.
+   */
+  const formSlugsById = new Map(
+    (tableRows.get("reference.pokemon_forms") ?? []).map(({ row }) => [
+      row.id,
+      row.slug,
+    ]),
+  );
+  const requiredItemIdsByForm = new Map();
+  for (const { row } of tableRows.get(
+    "reference.pokemon_form_item_requirements",
+  ) ?? []) {
+    const mechanic = battleMechanicByForm.get(row.form_id) ?? null;
+    if (
+      row.requirement_kind !== "required_held_item" ||
+      mechanic === "mega-evolution" ||
+      mechanic === "primal-reversion" ||
+      mechanic === "ultra-burst" ||
+      formSlugsById.get(row.form_id) === "giratina-origin"
+    ) {
+      continue;
+    }
+    if (!requiredItemIdsByForm.has(row.form_id)) {
+      requiredItemIdsByForm.set(row.form_id, new Set());
+    }
+    requiredItemIdsByForm.get(row.form_id).add(row.item_id);
+  }
   const speciesByFormId = new Map(
     (tableRows.get("reference.pokemon_forms") ?? []).map(({ row }) => [
       row.id,
@@ -1019,6 +1050,12 @@ export function assertOpponentTeamRows(context, tableRows) {
           `${label} holds the item that Mega Evolves or reverts it, so it must be stored in that battle form.`,
         );
       }
+    }
+    const requiredItemIds = requiredItemIdsByForm.get(row.form_id);
+    if (requiredItemIds?.size && !requiredItemIds.has(row.held_item_id)) {
+      context.errors.push(
+        `${label} battles as form ${row.form_id} without the item that form requires.`,
+      );
     }
     if (row.decision_milestone_id !== null) {
       const milestone = milestonesById.get(row.decision_milestone_id);

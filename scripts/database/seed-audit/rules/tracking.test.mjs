@@ -3,7 +3,7 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 
 import { createAuditContext, seedsRoot } from "../context.mjs";
-import { assertTrackingCoreRows } from "./tracking.mjs";
+import { assertOpponentTeamRows, assertTrackingCoreRows } from "./tracking.mjs";
 
 const seedPath = path.join(seedsRoot, "03_tracking", "fixture.sql");
 
@@ -123,6 +123,105 @@ describe("tracking seed rules", () => {
 
     expect(context.errors).toEqual([
       "seeds/03_tracking/fixture.sql: tracking.mainline_milestones row 10003 is a gym battle with no opponent in tracking.mainline_milestone_opponent_refs.",
+    ]);
+  });
+});
+
+/* One Story battle against Zacian, whose Crowned form needs the Rusted Sword. */
+function buildTeamTableRows({ heldItemId }) {
+  const rows = (table, list) => [
+    table,
+    list.map((row) => ({ table, row, filePath: seedPath })),
+  ];
+  return new Map([
+    rows("reference.version_groups", [
+      { id: 18, slug: "sword-shield", generation_id: 8 },
+    ]),
+    rows("reference.pokemon_forms", [
+      { id: 88800, species_id: 888, slug: "zacian" },
+      { id: 88801, species_id: 888, slug: "zacian-crowned" },
+    ]),
+    rows("reference.game_content_scopes", []),
+    rows("reference.pokemon_attributes", [
+      { form_id: 88800, generation_start_id: 8 },
+      { form_id: 88801, generation_start_id: 8 },
+    ]),
+    rows("reference.pokemon_form_rules", [
+      { form_id: 88801, battle_mechanic: null },
+    ]),
+    rows("reference.items", [
+      {
+        id: 361,
+        slug: "rusted-sword",
+        introduced_generation_id: 8,
+        primary_category_id: 1,
+      },
+      {
+        id: 187,
+        slug: "sitrus-berry",
+        introduced_generation_id: 3,
+        primary_category_id: 2,
+      },
+    ]),
+    rows("reference.item_categories", []),
+    rows("reference.pokemon_form_item_requirements", [
+      { form_id: 88801, item_id: 361, requirement_kind: "required_held_item" },
+    ]),
+    rows("tracking.mainline_opponents", [
+      {
+        id: 18018,
+        version_group_id: 18,
+        game_id: 32,
+        slug: "zacian",
+        name: "Zacian",
+      },
+    ]),
+    rows("tracking.mainline_milestones", [
+      { id: 180014, version_group_id: 18, game_id: null },
+    ]),
+    rows("tracking.mainline_milestone_opponent_refs", [
+      { milestone_id: 180014, opponent_id: 18018 },
+    ]),
+    rows("tracking.mainline_milestone_decision_options", []),
+    rows("tracking.mainline_opponent_team_members", [
+      {
+        milestone_id: 180014,
+        opponent_id: 18018,
+        ally_opponent_id: null,
+        version_group_id: 18,
+        game_id: null,
+        decision_milestone_id: null,
+        decision_option_slug: null,
+        variant_slug: null,
+        variant_label: null,
+        slot: 1,
+        species_id: 888,
+        form_id: 88801,
+        level: 70,
+        held_item_id: heldItemId,
+        tera_type_id: null,
+        dynamaxes: false,
+      },
+    ]),
+  ]);
+}
+
+describe("opponent team held-item rules", () => {
+  it("accepts a Crowned Zacian holding the Rusted Sword", () => {
+    const context = createAuditContext();
+
+    assertOpponentTeamRows(context, buildTeamTableRows({ heldItemId: 361 }));
+
+    expect(context.errors).toEqual([]);
+  });
+
+  it("rejects a Crowned Zacian without the item its form requires", () => {
+    const context = createAuditContext();
+
+    assertOpponentTeamRows(context, buildTeamTableRows({ heldItemId: null }));
+
+    expect(context.errors).toEqual([
+      "seeds/03_tracking/fixture.sql: tracking.mainline_opponent_team_members row 180014/18018/////1 battles as form 88801 without the item that form requires.",
     ]);
   });
 });

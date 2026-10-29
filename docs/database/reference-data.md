@@ -82,6 +82,30 @@ sources remain authoritative for game-specific mechanics and availability.
   slice of the per-game audit (#115).
   The pgTAP file `350_gen4_6_story_audit.sql` pins the corrected rows and the
   added battles.
+- Opponent teams from Sun / Moon to Z-A Mega Dimension (thirteen version
+  groups) were compared row by row on 2026-10-29 with Bulbapedia's trainer and
+  encounter pages, read through its API, with Serebii as the second reading and
+  PokéWiki where those two disagree. The rows matched except a dozen (Necrozma's
+  Ultranecrozium Z at Mount Lanakila, Hop's Wooloo's Defense Curl, Mustard's
+  Urshifu signature moves, the Crowned Zacian and Zamazenta of the post-game
+  episode, Dondozo's Order Up), and 61 battles the story forces were missing
+  and are now seeded: the evil-team admins and bosses (Faba, Plumeria, the
+  Ultra Recon Squad, the Rainbow Rocket bosses, Archer, Jessie & James, Oleana,
+  Sordward and Shielbert, Mars, Jupiter and Saturn), the Alola trial captains'
+  own battles, the Galar Champion Cup finals, and the Legends: Arceus wardens,
+  clan leaders and Miss Fortunes. Every Alola totem is its own `totem`
+  opponent, as Totem Kommo-o was. An opponent fought twice on one Story point
+  has one row per battle (Faba, Sordward, Shielbert, Hop in the Slumbering
+  Weald). Team Star's five Starmobiles are battle forms of Revavroom with
+  Bulbapedia's type and ability and Revavroom's base stats, since the game
+  scripts their stats per boss. The audit refuses a team row whose form is
+  shown only while holding an item (the Crowned forms, Ogerpon's masks,
+  Silvally's memories) when it holds none; Giratina's Origin Forme is exempt
+  because Ramanas Park and Hisui show it without the Griseous Orb. Kept against
+  a single site: the totem allies' levels (Bulbapedia), the Freezington steeds,
+  Arceus and the lake guardians (game data), Barry's Roselia (Serebii and
+  PokéWiki), Legends: Z-A (Serebii). This is the last slice of the per-game
+  audit (#115).
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
   list of switchable forms; every other curated form is a variant.
