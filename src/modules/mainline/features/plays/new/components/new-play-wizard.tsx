@@ -130,6 +130,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
   const [trainerName, setTrainerName] = useState(data.trainerName ?? "");
   const [owned, setOwned] = useState<number[]>([]);
   const [rules, setRules] = useState<PlayRuleSelection[]>([]);
+  const [tracking, setTracking] = useState(data.trackingDefaults);
   const { isPending, startPlay } = useStartPlay();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const titleId = useId();
@@ -192,6 +193,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
           ? { formId: partner.formId, speciesId: partner.speciesId }
           : null,
         playName,
+        tracking,
         trainerName,
       },
       game.shortName,
@@ -350,7 +352,7 @@ export const NewPlayWizard = ({ data, onClose }: NewPlayWizardProps) => {
               onOwnedChange={setOwned}
             />
           ) : null}
-          <NewPlayTracking />
+          <NewPlayTracking tracking={tracking} onChange={setTracking} />
           <NewPlayRules
             ruleChoices={data.rules}
             presets={data.presets}

@@ -184,6 +184,7 @@ export const MainlinePlayProgressPokedex = ({
         onSpeciesStateChange={(speciesId, state) => {
           void updateSpeciesStates([speciesId], state);
         }}
+        pokedexMode={data.pokedexMode}
         scope={activeScope}
         searchOpen={isSearchOpen}
         searchPanelId={searchPanelId}

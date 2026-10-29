@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 
+import type { PokedexMode } from "@/config/play-tracking";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { EmptyState } from "@/shared/components/empty-state";
@@ -50,6 +51,7 @@ export const PokedexProgressBrowserSection = ({
   isSpeciesPending,
   onSpeciesBulkStateChange,
   onSpeciesStateChange,
+  pokedexMode,
   scope,
   searchOpen,
   searchPanelId,
@@ -65,6 +67,8 @@ export const PokedexProgressBrowserSection = ({
     speciesId: number,
     state: PokedexProgressState,
   ) => void;
+  /* Caught only has no Seen: no marking mode, no Seen filter. */
+  pokedexMode: PokedexMode;
   scope: MainlinePlayPokedexScope;
   /* Whether the search and filter bar is open, from the head's button. */
   searchOpen: boolean;
@@ -75,7 +79,9 @@ export const PokedexProgressBrowserSection = ({
   const [progressFilter, setProgressFilter] =
     useState<PokedexProgressFilter>("all");
   const [browseScopeId, setBrowseScopeId] = useState("all");
-  const [updateMode, setUpdateMode] = useState<PokedexUpdateMode>("caught");
+  const [markedMode, setUpdateMode] = useState<PokedexUpdateMode>("caught");
+  const tracksSeen = pokedexMode === "caught_and_seen";
+  const updateMode: PokedexUpdateMode = tracksSeen ? markedMode : "caught";
   const [visibleSectionCount, setVisibleSectionCount] = useState(
     INITIAL_VISIBLE_SECTION_COUNT,
   );
@@ -200,6 +206,8 @@ export const PokedexProgressBrowserSection = ({
             );
 
             /* v3: the marking mode at the line's end, said as "Tap marks as". */
+            if (!tracksSeen) return null;
+
             return placement === "line" ? (
               <div className="flex items-center gap-2.5">
                 <span className="text-ink-2 text-13 font-bold whitespace-nowrap">
@@ -228,7 +236,15 @@ export const PokedexProgressBrowserSection = ({
                     label: "Caught",
                     value: "caught",
                   },
-                  { count: progressCounts.seen, label: "Seen", value: "seen" },
+                  ...(tracksSeen
+                    ? [
+                        {
+                          count: progressCounts.seen,
+                          label: "Seen",
+                          value: "seen",
+                        } as const,
+                      ]
+                    : []),
                   {
                     count: progressCounts.missing,
                     label: "Missing",
@@ -287,6 +303,7 @@ export const PokedexProgressBrowserSection = ({
                 onSpeciesStateChange={onSpeciesStateChange}
                 section={section}
                 stateBySpeciesId={stateBySpeciesId}
+                tracksSeen={tracksSeen}
                 updateMode={updateMode}
               />
             ))}

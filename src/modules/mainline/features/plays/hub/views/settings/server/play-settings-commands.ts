@@ -1,3 +1,4 @@
+import type { PlayTracking } from "@/config/play-tracking";
 import {
   buildPlayRuleOverrides,
   type PlayRuleSelection,
@@ -130,6 +131,35 @@ export const updatePlayHeaderField = async (
   }
 
   await updatePlayGeneralSettings(supabase, { input, play });
+};
+
+/*
+ * Tracking: what this Play keeps. Turning Story or Collectibles off leaves
+ * them out of completion and hides them; nothing recorded is deleted, and
+ * turning them back on restores everything. Collectibles' completion choice
+ * follows its switch, which the table requires.
+ */
+export const updatePlayTracking = async (
+  supabase: ServerSupabaseClient,
+  { play, tracking }: { play: OwnedPlay; tracking: PlayTracking },
+) => {
+  const { error } = await supabase
+    .schema("gameplay")
+    .from("mainline_play_settings")
+    .upsert(
+      {
+        collectibles_tracking_enabled: tracking.collectibles,
+        include_collectibles_in_completion: tracking.collectibles,
+        play_id: play.id,
+        pokedex_mode: tracking.pokedexMode,
+        story_tracking_enabled: tracking.story,
+      },
+      { onConflict: "play_id" },
+    );
+
+  if (error) {
+    throw new Error("Unable to save what this Play tracks.");
+  }
 };
 
 /*

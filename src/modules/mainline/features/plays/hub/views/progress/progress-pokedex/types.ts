@@ -1,3 +1,4 @@
+import type { PokedexMode } from "@/config/play-tracking";
 import type {
   Generation,
   Pokedex,
@@ -39,6 +40,8 @@ export type MainlinePlayPokedexScope = {
 
 export type MainlinePlayProgressPokedexData = {
   gameName: string;
+  /* Caught only hides what you've seen; recorded seen entries are kept. */
+  pokedexMode: PokedexMode;
   scopes: MainlinePlayPokedexScope[];
 };
 

@@ -1,6 +1,11 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
-import { getMainlinePlayProgressStoryData } from "@/modules/mainline/features/plays/hub/server/play-hub-query";
+import { appRoutes } from "@/config/routes";
+
+import {
+  getMainlinePlayProgressStoryData,
+  getMainlinePlayTracking,
+} from "@/modules/mainline/features/plays/hub/server/play-hub-query";
 import { MainlinePlayProgressStory } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/mainline-play-progress-story";
 
 type MainlinePlayProgressStoryRouteProps = {
@@ -18,10 +23,18 @@ export default async function MainlinePlayProgressStoryRoute({
 }: MainlinePlayProgressStoryRouteProps) {
   const [{ playId }, { record }] = await Promise.all([params, searchParams]);
   const recordMilestoneId = record ? Number.parseInt(record, 10) : null;
-  const data = await getMainlinePlayProgressStoryData(playId);
+  const [data, tracking] = await Promise.all([
+    getMainlinePlayProgressStoryData(playId),
+    getMainlinePlayTracking(playId),
+  ]);
 
   if (!data) {
     notFound();
+  }
+
+  /* A Play that doesn't track Story has no Story page; its link goes to the Pokédex. */
+  if (!tracking.story) {
+    redirect(appRoutes.mainlinePlayProgressPokedex(playId));
   }
 
   return (

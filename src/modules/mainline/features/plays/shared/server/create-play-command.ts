@@ -88,7 +88,8 @@ const assertGamePartner = async (
 
 /*
  * Starts a Play through `gameplay.create_mainline_play`, in one transaction:
- * the Play itself (playing, started on the viewer's day), its settings, the
+ * the Play itself (playing, started on the viewer's day), its settings (what
+ * it tracks: the choices sent, else your saved New Play defaults), the
  * expansions it owns, its challenge rules with their options, and its
  * partner, through its partner milestone when the game asks you to choose,
  * else straight onto the team in slot 1.
@@ -120,7 +121,10 @@ export const createMainlinePlay = async ({
       p_name: input.playName,
       p_partner_form_id: input.partner?.formId,
       p_partner_species_id: input.partner?.speciesId,
+      p_pokedex_mode: input.tracking?.pokedexMode,
       p_started_on: input.startedOn,
+      p_track_collectibles: input.tracking?.collectibles,
+      p_track_story: input.tracking?.story,
       p_trainer_name: input.trainerName ?? undefined,
     });
   const playId = data?.[0]?.result_play_id;

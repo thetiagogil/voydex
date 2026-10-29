@@ -1,4 +1,5 @@
 import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import { defaultPlayTracking } from "@/config/play-tracking";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -97,6 +98,7 @@ describe("buildMainlinePlayShellData rule notes", () => {
       ruleRows: { links: [], rules: [], types: [] },
       tags: [],
       teamRows: null,
+      tracking: defaultPlayTracking,
     }).ruleNotes;
 
   it("puts Level caps' cap beside its rule", () => {

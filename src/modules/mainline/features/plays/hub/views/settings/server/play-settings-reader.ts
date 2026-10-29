@@ -3,6 +3,8 @@ import {
   resolveRuleConfig,
   toChallengeRuleChoice,
 } from "@/modules/mainline/shared/data/challenge-rule-options";
+import { readMainlinePlayCollectiblesAvailability } from "@/modules/mainline/features/plays/hub/server/play-collectibles-availability-reader";
+import { readPlayTracking } from "@/modules/mainline/features/plays/hub/server/play-tracking-reader";
 import { readRulePresets } from "@/modules/mainline/shared/server/rule-presets-reader";
 import { getGameTypes } from "@/modules/reference/features/games/domain/game-types";
 import { readTypeIntroductions } from "@/modules/reference/features/games/server/type-introduction-reader";
@@ -13,7 +15,7 @@ import type { MainlinePlaySettingsData } from "../types";
 /*
  * Everything Play settings shows, read as the owner (archived Plays too): the
  * Play's own row, the statuses, the game's optional content (expansions)
- * and which are on, the challenge rules and tags you can attach with the
+ * and which are on, what it tracks, the challenge rules and tags you can attach with the
  * ones attached (and each rule's options), and the types its game has.
  */
 export const readMainlinePlaySettings = async (
@@ -50,6 +52,8 @@ export const readMainlinePlaySettings = async (
     selectedTagsResult,
     generationResult,
     typeIntroductions,
+    tracking,
+    hasCollectibles,
   ] = await Promise.all([
     supabase
       .schema("gameplay")
@@ -96,6 +100,8 @@ export const readMainlinePlaySettings = async (
       .eq("id", play.version_group_id)
       .single(),
     readTypeIntroductions(supabase),
+    readPlayTracking(supabase, playId),
+    readMainlinePlayCollectiblesAvailability(supabase, playId),
   ]);
 
   if (
@@ -155,6 +161,7 @@ export const readMainlinePlaySettings = async (
       statusId: play.status_id,
       trainerName: play.trainer_name,
     },
+    hasCollectibles,
     isArchived: play.archived_at !== null,
     presets,
     rules: pickableRules,
@@ -171,6 +178,7 @@ export const readMainlinePlaySettings = async (
     selectedTagIds: (selectedTagsResult.data ?? []).map((link) => link.tag_id),
     statuses: statusesResult.data ?? [],
     tags: tagsResult.data ?? [],
+    tracking,
     types: getGameTypes(
       typeIntroductions,
       generationResult.data.generation.sort_order,

@@ -1,3 +1,5 @@
+import { defaultPlayTracking } from "@/config/play-tracking";
+import { readSignedInTrackingDefaults } from "@/modules/mainline/features/plays/shared/server/tracking-defaults-query";
 import { readSignedInTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
 import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
 import type { NewPlayDialogData } from "@/modules/mainline/features/plays/new/types";
@@ -10,8 +12,9 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
  * Everything the New Play dialog offers, read with the Mainline layout so it
  * opens complete: the cached game catalogue, the trainer name and the game
  * picked before signing up (both read once per request, shared with Home),
- * and the challenge rules a new Play can start with. The trainer's bits are
- * quiet extras (a failed read leaves them out); a failed catalogue read is
+ * the New Play defaults, and the challenge rules a new Play can start with.
+ * The trainer's bits are quiet extras (a failed read leaves them out, and the
+ * defaults fall back to everything on); a failed catalogue read is
  * `games: null`, which the dialog says, so it never takes Mainline down.
  */
 /* The rules a new Play can start with, and the presets that group them. */
@@ -27,12 +30,15 @@ const readNewPlayRules = async () => {
 };
 
 export const getNewPlayDialogData = async (): Promise<NewPlayDialogData> => {
-  const [catalogue, names, intent, rules] = await Promise.all([
-    readGameCatalogue().catch(() => null),
-    readSignedInTrainerNames().catch(() => null),
-    readSignedInStartIntent().catch(() => null),
-    readNewPlayRules().catch(() => ({ presets: [], rules: [] })),
-  ]);
+  const [catalogue, names, intent, rules, trackingDefaults] = await Promise.all(
+    [
+      readGameCatalogue().catch(() => null),
+      readSignedInTrainerNames().catch(() => null),
+      readSignedInStartIntent().catch(() => null),
+      readNewPlayRules().catch(() => ({ presets: [], rules: [] })),
+      readSignedInTrackingDefaults().catch(() => defaultPlayTracking),
+    ],
+  );
 
   return {
     intent,
@@ -40,5 +46,6 @@ export const getNewPlayDialogData = async (): Promise<NewPlayDialogData> => {
       ? { ...catalogue, trainerName: names?.trainerName ?? null }
       : null,
     ...rules,
+    trackingDefaults,
   };
 };

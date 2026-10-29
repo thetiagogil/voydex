@@ -1,3 +1,4 @@
+import type { PlayTracking } from "@/config/play-tracking";
 import type { StartIntent } from "@/config/start-intent";
 import type { ChallengeRuleChoice } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
@@ -16,6 +17,8 @@ export type NewPlayWizardData = NewPlayPickerData & {
   presets: RulePreset[];
   /* The challenge rules a new Play can start with: Voydex's and yours. */
   rules: ChallengeRuleChoice[];
+  /* What a new Play starts tracking: your New Play defaults. */
+  trackingDefaults: PlayTracking;
 };
 
 /*
@@ -28,4 +31,5 @@ export type NewPlayDialogData = {
   picker: NewPlayPickerData | null;
   presets: RulePreset[];
   rules: ChallengeRuleChoice[];
+  trackingDefaults: PlayTracking;
 };

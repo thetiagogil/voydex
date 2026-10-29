@@ -5,6 +5,7 @@ import { z } from "zod";
 
 import { appRoutes } from "@/config/routes";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
+import { readPlayTracking } from "@/modules/mainline/features/plays/hub/server/play-tracking-reader";
 import { playIdSchema } from "@/modules/mainline/features/plays/shared/utils/play-input-schemas";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
@@ -86,7 +87,21 @@ const updatePokedexSpeciesProgressBatch = async (input: {
       );
     }
 
-    if (state === "missing") {
+    const { pokedexMode } = await readPlayTracking(supabase, playId);
+
+    if (state === "missing" && pokedexMode === "caught_only") {
+      /* Caught only has no Seen: un-catching leaves what you saw recorded. */
+      const uncatchResult = await supabase
+        .schema("gameplay")
+        .from("mainline_play_pokedex_species_progress")
+        .update({ caught_at: null, is_caught: false })
+        .eq("play_id", playId)
+        .in("species_id", uniqueSpeciesIds);
+
+      if (uncatchResult.error) {
+        throw new Error(uncatchResult.error.message);
+      }
+    } else if (state === "missing") {
       const deleteResult = await supabase
         .schema("gameplay")
         .from("mainline_play_pokedex_species_progress")

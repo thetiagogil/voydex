@@ -1,3 +1,4 @@
+import type { PlayTracking } from "@/config/play-tracking";
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper";
 import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
@@ -100,6 +101,7 @@ export const buildMainlinePlayShellData = (params: {
   tags: string[];
   /* Null when no rule is checked, so the team wasn't read. */
   teamRows: MainlinePlayTeamRows | null;
+  tracking: PlayTracking;
 }): MainlinePlayShellData => {
   return {
     collectiblesAvailable: params.collectiblesAvailable,
@@ -120,6 +122,7 @@ export const buildMainlinePlayShellData = (params: {
     ruleNotes: getRuleNotes(params.ruleChecks),
     rules: buildMainlinePlayRules(params.ruleRows),
     tags: params.tags,
+    tracking: params.tracking,
   };
 };
 
