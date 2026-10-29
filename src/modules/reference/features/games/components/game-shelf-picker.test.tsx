@@ -81,6 +81,17 @@ describe("GameShelfPicker", () => {
     expect(tabStops(render({}))).toEqual(["sword"]);
   });
 
+  it("lights the picked game's generation, not the one at the shelf's edge", () => {
+    const litMarks = (markup: string) =>
+      [...markup.matchAll(/aria-current="true"[^>]*>([^<]+)<\/button>/g)].map(
+        (match) => match[1],
+      );
+
+    expect(litMarks(render({ value: "sword" }))).toEqual(["VIII"]);
+    expect(litMarks(render({ value: "blue" }))).toEqual(["I"]);
+    expect(litMarks(render({}))).toEqual([]);
+  });
+
   it("offers one jump per generation on the shelf", () => {
     const markup = render({});
 
