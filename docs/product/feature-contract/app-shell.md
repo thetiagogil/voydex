@@ -62,10 +62,18 @@ server-owned operation, and no partial success; it removes the Auth identity
 and dependent user-owned data, clears the session, and returns to the public
 entry. Until that operation exists the action is pending data.
 
-Look and feel (mode, colour theme, motion) and New Play defaults (Pokédex
-mode, Story and Collectibles tracking) are drawn with pending markers until
-`public.user_preferences` stores them; only the light look is designed.
-Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
+Look and feel and New Play defaults are cards that save on their own from a
+footer that appears once they have unsaved changes. Motion (Follow device,
+Full or Reduced) is saved on `public.user_preferences` and applies across the
+app: Follow device lets the device's own reduced-motion setting decide, Full
+and Reduced override it (the root element carries `data-motion`). Mode and
+Colour theme wait on #38 with pending markers; only the light look is
+designed. New Play defaults are what a new Play starts tracking: Story on or
+off, the Pokédex as caught only or caught and seen, and Collectibles on or
+off. New Play opens its Tracking step from them and every other way a Play
+starts (Home's offer, Start a Play) uses them too; each Play then keeps its
+own switches (Play Settings), so changing a default never touches an existing
+Play. Pokémon reuse is a Play's No Pokémon reuse rule, not a setting.
 
 Your icon is one of the starters that have a Legends: Z-A icon (`profileIconSlugs`
 in `src/config/profile-icons.ts`; the pictures are `pokemon/icons/<slug>.webp` on
