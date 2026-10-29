@@ -1,4 +1,3 @@
-import { defaultPlayTracking } from "@/config/play-tracking";
 import { readSignedInTrackingDefaults } from "@/modules/mainline/features/plays/shared/server/tracking-defaults-query";
 import { readSignedInTrainerNames } from "@/modules/mainline/features/plays/shared/server/trainer-profile-query";
 import { readSignedInStartIntent } from "@/modules/mainline/features/plays/shared/server/start-intent";
@@ -13,8 +12,9 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
  * opens complete: the cached game catalogue, the trainer name and the game
  * picked before signing up (both read once per request, shared with Home),
  * the New Play defaults, and the challenge rules a new Play can start with.
- * The trainer's bits are quiet extras (a failed read leaves them out, and the
- * defaults fall back to everything on); a failed catalogue read is
+ * The trainer's bits are quiet extras (a failed read leaves them out, and a
+ * Play started without its defaults read starts from the saved ones on the
+ * server); a failed catalogue read is
  * `games: null`, which the dialog says, so it never takes Mainline down.
  */
 /* The rules a new Play can start with, and the presets that group them. */
@@ -36,7 +36,7 @@ export const getNewPlayDialogData = async (): Promise<NewPlayDialogData> => {
       readSignedInTrainerNames().catch(() => null),
       readSignedInStartIntent().catch(() => null),
       readNewPlayRules().catch(() => ({ presets: [], rules: [] })),
-      readSignedInTrackingDefaults().catch(() => defaultPlayTracking),
+      readSignedInTrackingDefaults().catch(() => null),
     ],
   );
 

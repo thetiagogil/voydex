@@ -77,16 +77,11 @@ export const arePlayTrackingsEqual = (
   left.collectibles === right.collectibles;
 
 /* "Story · Pokédex · Collectibles": what a Play keeps, for a one-line summary. */
-export const describePlayTracking = (
-  tracking: PlayTracking,
-  { hasCollectibles = true }: { hasCollectibles?: boolean } = {},
-) => {
+export const describePlayTracking = (tracking: PlayTracking) => {
   const kept = [
     tracking.story ? trackingRowCopy.story.title : null,
     trackingRowCopy.pokedex.title,
-    tracking.collectibles && hasCollectibles
-      ? trackingRowCopy.collectibles.title
-      : null,
+    tracking.collectibles ? trackingRowCopy.collectibles.title : null,
   ].filter(Boolean);
 
   return kept.join(" · ");

@@ -62,8 +62,7 @@ leaves milestones out of the completion counts and totals; collectibles off
 leaves entries out (and `include_collectibles_in_completion` must then be
 false). Recorded progress is never deleted. `views.mainline_play_overview`
 exposes the three settings, `mainline_play_milestone_detail` and
-`mainline_play_collectible_detail` mark `is_included_in_completion` from them,
-and `mainline_play_pokedex_detail` carries `pokedex_mode`.
+`mainline_play_collectible_detail` mark `is_included_in_completion` from them.
 
 Current roster rules are authoritative and distinct from planning groups:
 

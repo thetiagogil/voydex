@@ -8,7 +8,7 @@ SET LOCAL search_path = extensions, public;
 INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at)
     VALUES ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f1', 'authenticated', 'authenticated', 'settings-a@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW()), ('00000000-0000-0000-0000-000000000000', '00000000-0000-0000-0000-0000000000f2', 'authenticated', 'authenticated', 'settings-b@example.test', '', NOW(), '{"provider":"email","providers":["email"]}', '{}', NOW(), NOW());
 SELECT
-    plan (37);
+    plan (36);
 -- Defaults of a new account
 SELECT
     results_eq ($$
@@ -421,17 +421,6 @@ SELECT
                             FROM
                                 started_bare)),
                         'the unit totals return to what they were');
-SELECT
-    results_eq ($$
-        SELECT
-            pokedex_mode FROM views.mainline_play_pokedex_detail
-            WHERE
-                play_id = (
-                    SELECT
-                        result_play_id
-                    FROM started_bare)
-        LIMIT 1 $$, $$
-    VALUES ('caught_and_seen') $$, 'the Pokédex list carries the Play''s mode');
 -- Another trainer cannot read or change the Play's settings
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000f2', TRUE);

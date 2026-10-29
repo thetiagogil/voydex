@@ -17,7 +17,7 @@ import { Carousel } from "@/shared/components/carousel";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
-import { getScrollBehavior, isMotionReduced } from "@/shared/utils/motion";
+import { getScrollBehavior } from "@/shared/utils/motion";
 
 type GameShelfPickerProps = {
   /* Names the shelf for assistive tech. */

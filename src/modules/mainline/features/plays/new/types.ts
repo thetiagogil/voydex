@@ -17,8 +17,8 @@ export type NewPlayWizardData = NewPlayPickerData & {
   presets: RulePreset[];
   /* The challenge rules a new Play can start with: Voydex's and yours. */
   rules: ChallengeRuleChoice[];
-  /* What a new Play starts tracking: your New Play defaults. */
-  trackingDefaults: PlayTracking;
+  /* What a new Play starts tracking: your New Play defaults; null when they couldn't be read. */
+  trackingDefaults: PlayTracking | null;
 };
 
 /*
@@ -31,5 +31,5 @@ export type NewPlayDialogData = {
   picker: NewPlayPickerData | null;
   presets: RulePreset[];
   rules: ChallengeRuleChoice[];
-  trackingDefaults: PlayTracking;
+  trackingDefaults: PlayTracking | null;
 };

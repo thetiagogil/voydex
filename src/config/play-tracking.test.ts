@@ -42,12 +42,6 @@ describe("play tracking", () => {
     );
   });
 
-  it("leaves Collectibles out for a game that has none", () => {
-    expect(
-      describePlayTracking(defaultPlayTracking, { hasCollectibles: false }),
-    ).toBe("Story · Pokédex");
-  });
-
   it("only accepts the three choices in their own shapes", () => {
     expect(playTrackingSchema.safeParse(defaultPlayTracking).success).toBe(
       true,

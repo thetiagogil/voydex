@@ -9995,9 +9995,6 @@ SELECT
             'national', 'special'
 )
 ) AS is_optional_pokedex_scope,
-    COALESCE(
-        mainline_play_settings.pokedex_mode, 'caught_and_seen'
-) AS pokedex_mode,
     pokedex_entries.pokedex_number,
     pokedex_entries.is_source_required_for_completion,
     (

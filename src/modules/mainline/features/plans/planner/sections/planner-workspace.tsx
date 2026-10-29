@@ -1,5 +1,6 @@
 "use client";
 
+import { getScrollBehavior } from "@/shared/utils/motion";
 import { TextLink } from "@/shared/components/text-link";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, useTransition } from "react";
@@ -480,7 +481,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           setOpenSlot(null);
           setSwapIndex(index);
           document.getElementById("planner-pool")?.scrollIntoView({
-            behavior: "smooth",
+            behavior: getScrollBehavior(),
           });
         }}
         onUnlock={() => askToUnlock(() => {})}
