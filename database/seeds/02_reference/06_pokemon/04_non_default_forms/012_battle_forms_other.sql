@@ -6,6 +6,7 @@
 -- Scope note: forms a Pokémon only takes during a battle, from Primal Reversion
 -- to abilities like Zen Mode; a Pokémon is never stored in one.
 -- Not here yet: Ogerpon's Terastal forms wait for Tera mechanics (#120).
+-- Starmobiles: Bulbapedia's Revavroom and Starmobile pages; only Team Star's bosses field them (#115 audit).
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -65,4 +66,14 @@ VALUES
   -- Terapagos (Terastal Form)
   (102401, 1024, 'terapagos-terastal', 'Terapagos (Terastal Form)', 9, FALSE, 2, NULL, NULL),
   -- Terapagos (Stellar Form)
-  (102402, 1024, 'terapagos-stellar', 'Terapagos (Stellar Form)', 9, FALSE, 3, NULL, NULL);
+  (102402, 1024, 'terapagos-stellar', 'Terapagos (Stellar Form)', 9, FALSE, 3, NULL, NULL),
+  -- Segin Starmobile (Giacomo's Revavroom)
+  (96601, 966, 'segin-starmobile', 'Segin Starmobile', 9, FALSE, 2, NULL, NULL),
+  -- Schedar Starmobile (Mela's Revavroom)
+  (96602, 966, 'schedar-starmobile', 'Schedar Starmobile', 9, FALSE, 3, NULL, NULL),
+  -- Navi Starmobile (Atticus's Revavroom)
+  (96603, 966, 'navi-starmobile', 'Navi Starmobile', 9, FALSE, 4, NULL, NULL),
+  -- Ruchbah Starmobile (Ortega's Revavroom)
+  (96604, 966, 'ruchbah-starmobile', 'Ruchbah Starmobile', 9, FALSE, 5, NULL, NULL),
+  -- Caph Starmobile (Eri's Revavroom)
+  (96605, 966, 'caph-starmobile', 'Caph Starmobile', 9, FALSE, 6, NULL, NULL);

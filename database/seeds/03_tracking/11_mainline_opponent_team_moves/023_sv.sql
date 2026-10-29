@@ -10,6 +10,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Team Star's Starmobiles (#115 audit): Bulbapedia; the False Dragon Titan's Dondozo knows three moves (Order Up is Tatsugiri's).
 -- Scope: Scarlet / Violet Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -167,20 +168,28 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (230016, 23014, NULL, 230001, 'quaxly', NULL, 6, ARRAY[871, 414, 247, 555]),
     -- Giacomo: Pawniard Lv. 21: Metal Claw, Fury Cutter, Aerial Ace
     (230017, 23015, NULL, NULL, NULL, NULL, 1, ARRAY[232, 210, 332]),
+    -- Giacomo: Segin Starmobile Lv. 20: Wicked Torque, Snarl, Metal Sound, Swift
+    (230017, 23015, NULL, NULL, NULL, NULL, 2, ARRAY[897, 555, 319, 129]),
     -- Mela: Torkoal Lv. 27: Flame Wheel, Clear Smog
     (230018, 23016, NULL, NULL, NULL, NULL, 1, ARRAY[172, 499]),
+    -- Mela: Schedar Starmobile Lv. 26: Overheat, Blazing Torque, Screech, Swift
+    (230018, 23016, NULL, NULL, NULL, NULL, 2, ARRAY[315, 896, 103, 129]),
     -- Atticus: Skuntank Lv. 32: Sucker Punch, Toxic, Venoshock
     (230019, 23017, NULL, NULL, NULL, NULL, 1, ARRAY[389, 92, 474]),
     -- Atticus: Muk Lv. 32: Sludge Wave, Mud-Slap
     (230019, 23017, NULL, NULL, NULL, NULL, 2, ARRAY[482, 189]),
     -- Atticus: Revavroom Lv. 33: Iron Head, Sludge, Assurance, Bulldoze
     (230019, 23017, NULL, NULL, NULL, NULL, 3, ARRAY[442, 124, 372, 523]),
+    -- Atticus: Navi Starmobile Lv. 32: Spin Out, Noxious Torque, Flame Charge, Smog
+    (230019, 23017, NULL, NULL, NULL, NULL, 4, ARRAY[859, 898, 488, 123]),
     -- Ortega: Azumarill Lv. 50: Aqua Tail, Play Rough, Bounce, Charm
     (230020, 23018, NULL, NULL, NULL, NULL, 1, ARRAY[401, 583, 340, 204]),
     -- Ortega: Wigglytuff Lv. 50: Body Slam, Play Rough, Gyro Ball, Charm
     (230020, 23018, NULL, NULL, NULL, NULL, 2, ARRAY[34, 583, 360, 204]),
     -- Ortega: Dachsbun Lv. 51: Crunch, Play Rough, Baby-Doll Eyes, Mud-Slap
     (230020, 23018, NULL, NULL, NULL, NULL, 3, ARRAY[242, 583, 608, 189]),
+    -- Ortega: Ruchbah Starmobile Lv. 50: Steel Roller, Magical Torque, Confuse Ray, Spin Out
+    (230020, 23018, NULL, NULL, NULL, NULL, 4, ARRAY[798, 900, 109, 859]),
     -- Eri: Toxicroak Lv. 55: Poison Jab, Brick Break, Sucker Punch
     (230021, 23019, NULL, NULL, NULL, NULL, 1, ARRAY[398, 280, 389]),
     -- Eri: Passimian Lv. 55: Close Combat, Rock Tomb, Seed Bomb
@@ -189,6 +198,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (230021, 23019, NULL, NULL, NULL, NULL, 3, ARRAY[406, 396, 399]),
     -- Eri: Annihilape Lv. 56: Rage Fist, Close Combat, Ice Punch, Fire Punch
     (230021, 23019, NULL, NULL, NULL, NULL, 4, ARRAY[889, 370, 8, 7]),
+    -- Eri: Caph Starmobile Lv. 56: Combat Torque, Spin Out, Shift Gear, High Horsepower
+    (230021, 23019, NULL, NULL, NULL, NULL, 5, ARRAY[899, 859, 508, 667]),
     -- Clavell: Oranguru Lv. 60: Yawn, Dream Eater, Reflect, Foul Play
     (230022, 23020, NULL, 230001, 'sprigatito', NULL, 1, ARRAY[281, 138, 115, 492]),
     -- Clavell: Abomasnow Lv. 60: Aurora Veil, Blizzard, Wood Hammer, Ice Shard
@@ -247,8 +258,8 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (230027, 23025, 36, NULL, NULL, NULL, 1, ARRAY[229, 280, 282, 707]),
     -- Quaking Earth Titan: Iron Treads Lv. 45: Rapid Spin, Iron Head, Knock Off, Stomping Tantrum
     (230027, 23025, 37, NULL, NULL, NULL, 1, ARRAY[229, 442, 282, 707]),
-    -- False Dragon Titan: Dondozo Lv. 56: Aqua Tail, Body Slam, Water Pulse, Order Up
-    (230028, 23026, NULL, NULL, NULL, NULL, 1, ARRAY[401, 34, 352, 856]),
+    -- False Dragon Titan: Dondozo Lv. 56: Aqua Tail, Body Slam, Water Pulse
+    (230028, 23026, NULL, NULL, NULL, NULL, 1, ARRAY[401, 34, 352]),
     -- False Dragon Titan: Tatsugiri Lv. 57: Muddy Water, Icy Wind, Taunt, Dragon Pulse
     (230028, 23026, NULL, NULL, NULL, NULL, 2, ARRAY[330, 196, 269, 406]),
     -- Arven: Greedent Lv. 58: Bullet Seed, Body Slam, Psychic Fangs, Earthquake

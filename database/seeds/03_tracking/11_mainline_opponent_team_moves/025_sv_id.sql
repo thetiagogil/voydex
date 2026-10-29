@@ -7,6 +7,7 @@
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Lacey's battle on arrival (#115 audit): Bulbapedia.
 -- Scope: Scarlet / Violet: The Indigo Disk Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -82,6 +83,12 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (250008, 25006, NULL, NULL, NULL, NULL, 1, ARRAY[906, 428, 414, 352]),
     -- Pecharunt: Pecharunt Lv. 88: Nasty Plot, Toxic, Malignant Chain, Shadow Ball
     (250009, 25007, NULL, NULL, NULL, NULL, 1, ARRAY[417, 92, 919, 247]),
+    -- Lacey, Blueberry Academy entrance: Plusle Lv. 70: Discharge, Alluring Voice, Grass Knot
+    (250001, 25003, NULL, NULL, NULL, NULL, 1, ARRAY[435, 914, 447]),
+    -- Lacey, Blueberry Academy entrance: Minun Lv. 70: Helping Hand, Discharge, Swift
+    (250001, 25003, NULL, NULL, NULL, NULL, 2, ARRAY[270, 435, 129]),
+    -- Lacey, Blueberry Academy entrance: Excadrill Lv. 70: High Horsepower, X-Scissor, Rock Slide, Iron Head
+    (250001, 25003, NULL, NULL, NULL, NULL, 3, ARRAY[667, 404, 157, 442]),
     -- Carmine: Mightyena Lv. 74: Crunch, Howl, Super Fang, Sucker Punch
     (250001, 25008, NULL, NULL, NULL, NULL, 1, ARRAY[242, 336, 162, 389]),
     -- Carmine: Toucannon Lv. 74: Beak Blast, Throat Chop, Flame Charge, Dual Wingbeat
