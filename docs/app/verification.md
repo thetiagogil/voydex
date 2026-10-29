@@ -46,8 +46,9 @@ database lint, pgTAP, and generated-type parity. `npm run verify:all` runs
 `db:verify` followed by the application gate.
 
 The offline `db:audit` does not require Docker and runs in the normal Quality
-workflow. The Docker-backed Database Quality workflow runs when database-related
-paths change.
+workflow. The Docker-backed Database Quality workflow runs on `main` after a merge that
+changes database-related paths, and by hand from the Actions tab. Until launch,
+pull requests rely on the local `db:verify`.
 
 ## Browser Gate
 

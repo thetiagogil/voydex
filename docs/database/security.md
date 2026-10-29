@@ -53,7 +53,8 @@ The pgTAP suite covers structural invariants, anonymous/authenticated reference
 access, two-user owner isolation, reparenting protection, security-invoker view
 isolation, and representative gameplay/planning mutations including rollback.
 
-The `Database Quality` GitHub workflow runs this Docker-backed gate when
-database sources, database scripts, database dependencies, or that workflow
-change. The normal Quality workflow keeps the faster offline audit on every
+The `Database Quality` GitHub workflow runs this Docker-backed gate on `main`
+after a merge that changes database sources, database scripts, database
+dependencies, or that workflow, and by hand from the Actions tab. Pull requests
+rely on the local `npm run db:verify` until launch. The normal Quality workflow keeps the faster offline audit on every
 change.
