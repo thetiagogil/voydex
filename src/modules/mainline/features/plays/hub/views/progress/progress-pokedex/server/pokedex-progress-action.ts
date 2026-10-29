@@ -14,6 +14,10 @@ import {
 } from "@/shared/utils/input-schemas";
 
 import { POKEDEX_PROGRESS_SECTION_SIZE } from "../data/pokedex-progress-model";
+import {
+  getKeptSeenAt,
+  splitCaughtOnlyUncatch,
+} from "../data/pokedex-progress-records";
 import type { PokedexProgressState } from "../types";
 
 export type PokedexProgressActionResult = {
@@ -88,48 +92,76 @@ const updatePokedexSpeciesProgressBatch = async (input: {
     }
 
     const { pokedexMode } = await readPlayTracking(supabase, playId);
-
-    if (state === "missing" && pokedexMode === "caught_only") {
-      /* Caught only has no Seen: un-catching leaves what you saw recorded. */
-      const uncatchResult = await supabase
+    const progressTable = () =>
+      supabase
         .schema("gameplay")
-        .from("mainline_play_pokedex_species_progress")
-        .update({ caught_at: null, is_caught: false })
+        .from("mainline_play_pokedex_species_progress");
+    const readRecords = async () => {
+      const recordsResult = await progressTable()
+        .select("caught_at, is_caught, is_seen, seen_at, species_id")
         .eq("play_id", playId)
         .in("species_id", uniqueSpeciesIds);
 
-      if (uncatchResult.error) {
-        throw new Error(uncatchResult.error.message);
+      if (recordsResult.error) {
+        throw new Error(recordsResult.error.message);
       }
-    } else if (state === "missing") {
-      const deleteResult = await supabase
-        .schema("gameplay")
-        .from("mainline_play_pokedex_species_progress")
+
+      return recordsResult.data;
+    };
+    const clearRecords = async (speciesIds: number[]) => {
+      if (!speciesIds.length) return;
+
+      const deleteResult = await progressTable()
         .delete()
         .eq("play_id", playId)
-        .in("species_id", uniqueSpeciesIds);
+        .in("species_id", speciesIds);
 
       if (deleteResult.error) {
         throw new Error(deleteResult.error.message);
       }
+    };
+
+    if (state === "missing" && pokedexMode === "caught_only") {
+      /*
+       * Caught only has no Seen: un-catching clears the Pokémon, unless you
+       * had marked it Seen before catching it.
+       */
+      const { clearedSpeciesIds, keptSeenSpeciesIds } = splitCaughtOnlyUncatch(
+        await readRecords(),
+      );
+
+      await clearRecords(clearedSpeciesIds);
+
+      if (keptSeenSpeciesIds.length) {
+        const uncatchResult = await progressTable()
+          .update({ caught_at: null, is_caught: false })
+          .eq("play_id", playId)
+          .in("species_id", keptSeenSpeciesIds);
+
+        if (uncatchResult.error) {
+          throw new Error(uncatchResult.error.message);
+        }
+      }
+    } else if (state === "missing") {
+      await clearRecords(uniqueSpeciesIds);
     } else {
       const recordedAt = new Date().toISOString();
-      const upsertResult = await supabase
-        .schema("gameplay")
-        .from("mainline_play_pokedex_species_progress")
-        .upsert(
-          uniqueSpeciesIds.map((speciesId) => ({
-            caught_at: state === "caught" ? recordedAt : null,
-            is_caught: state === "caught",
-            is_seen: true,
-            play_id: playId,
-            seen_at: recordedAt,
-            species_id: speciesId,
-          })),
-          {
-            onConflict: "play_id,species_id",
-          },
-        );
+      const recordBySpeciesId = new Map(
+        (await readRecords()).map((record) => [record.species_id, record]),
+      );
+      const upsertResult = await progressTable().upsert(
+        uniqueSpeciesIds.map((speciesId) => ({
+          caught_at: state === "caught" ? recordedAt : null,
+          is_caught: state === "caught",
+          is_seen: true,
+          play_id: playId,
+          seen_at: getKeptSeenAt(recordBySpeciesId.get(speciesId), recordedAt),
+          species_id: speciesId,
+        })),
+        {
+          onConflict: "play_id,species_id",
+        },
+      );
 
       if (upsertResult.error) {
         throw new Error(upsertResult.error.message);

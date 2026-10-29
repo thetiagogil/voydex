@@ -90,11 +90,14 @@ rule's options for this Play), Tags and Archive or delete (archive is reversible
 removes the Play and everything recorded in it). Each card saves on its own
 from a footer that appears once it has unsaved changes. Turning an expansion
 off hides it; nothing recorded is deleted. Turning Story off hides its tab and
-page and takes its milestones out of completion (Overview shows no next
-objective, and the Plays list shows Story as Off). Turning Collectibles off does
-the same for them. Caught only keeps the Pokédex without Seen: no Seen mode,
-filter or count, and un-catching leaves what you saw recorded. Turning any of
-them back on restores everything recorded; nothing is ever deleted. A new Play
+page and takes its milestones out of completion (Overview and Home show no
+next objective, Home never asks which partner you chose, and the Plays list
+shows Story as Off). Turning Collectibles off does the same for them. Caught
+only keeps the Pokédex without Seen: no Seen mode, filter or count.
+Un-catching there clears the Pokémon, keeping only a Seen you marked before
+catching it, so caught and seen never shows a Seen the catch alone left
+behind. Turning any of them back on restores everything recorded; a switch
+never deletes anything. A new Play
 starts from the New Play defaults in Settings. The accepted contract below
 remains the target where it goes further.
 

@@ -12,6 +12,9 @@ vi.mock("@/modules/reference/features/games/server/game-shelf-reader", () => ({
   readGameBadgeCountsByGameSlug: vi.fn(async () => {
     throw new Error("Unable to load the games' badges.");
   }),
+  readGameCollectiblesByGameSlug: vi.fn(async () => {
+    throw new Error("Unable to load the games' collectibles.");
+  }),
   readGameExpansionsByGameSlug: vi.fn(async () => ({})),
   readGameShelfGames: vi.fn(async () => []),
   readGameStartersByGameSlug: vi.fn(async () => ({})),
@@ -26,9 +29,10 @@ const { readGameCatalogue } =
   await import("@/modules/reference/features/games/server/game-catalogue-query");
 
 describe("readGameCatalogue", () => {
-  it("still reads the games when the badges can't be read", async () => {
+  it("still reads the games when the badges or collectibles can't be read", async () => {
     await expect(readGameCatalogue()).resolves.toMatchObject({
       badgeCountsByGameSlug: {},
+      collectiblesByGameSlug: null,
       games: [],
     });
   });

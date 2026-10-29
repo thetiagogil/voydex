@@ -201,6 +201,9 @@ export const buildMainlinePlayBrowseItems = ({
     const playId = play.play_id;
     const game = play.game_id ? gameById.get(play.game_id) : undefined;
     const playTeam = playId ? (teamByPlayId.get(playId) ?? []) : [];
+    const overview = playId ? overviewByPlayId.get(playId) : undefined;
+    /* Story turned off: no next objective, as Play Overview shows it. */
+    const storyTracked = overview?.story_tracking_enabled ?? true;
 
     return {
       ...play,
@@ -216,18 +219,16 @@ export const buildMainlinePlayBrowseItems = ({
         typeSlugByFormId: teamTypeSlugByFormId,
       },
       coverImageUrl: game ? getGameCoverImageUrl(game) : null,
-      progress: buildProgress(
-        playId ? overviewByPlayId.get(playId) : undefined,
-        availability.progress,
-      ),
+      progress: buildProgress(overview, availability.progress),
       regionName: game ? (regionNameById.get(game.region_id) ?? null) : null,
       storyPosition:
-        availability.story && playId
+        availability.story && storyTracked && playId
           ? buildStoryPosition(
               milestonesByPlayId.get(playId),
               categoriesByPlayId.get(playId),
             )
           : null,
+      storyTracked,
     };
   });
 };

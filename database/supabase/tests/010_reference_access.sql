@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (8);
+    plan (9);
 SET LOCAL ROLE anon;
 SELECT
     lives_ok ($$
@@ -16,6 +16,10 @@ SELECT
     isnt_empty ($$
         SELECT
             id FROM tracking.mainline_badges $$, 'anonymous users can read badges, which Start a Play counts');
+SELECT
+    isnt_empty ($$
+        SELECT
+            id FROM tracking.mainline_collectibles $$, 'anonymous users can read collectibles, which New Play names');
 SELECT
     throws_ok ($$
         SELECT

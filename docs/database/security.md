@@ -8,7 +8,9 @@
   exposed schema. RLS then controls rows within that privilege boundary.
 - `reference` and `tracking` are client read-only. Signed-out visitors read
   `reference` and, in `tracking`, only `mainline_badges` (Start a Play counts
-  the badges ahead); every other `tracking` table is signed-in only.
+  the badges ahead) and `mainline_collectibles` (the cached game list tells
+  New Play which games have collectibles); every other `tracking` table is
+  signed-in only.
 - `public`, `gameplay`, and `planning` owner policies combine role targeting
   with `auth.uid()` ownership.
 - Update policies require both `USING` and `WITH CHECK` so rows cannot be

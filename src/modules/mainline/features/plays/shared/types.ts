@@ -44,7 +44,10 @@ export type PlayBrowseItem = MainlinePlaySummary & {
   coverImageUrl: string | null;
   progress: PlayBrowseProgress;
   regionName: string | null;
+  /* Null with Story turned off, or when it couldn't be read. */
   storyPosition: PlayBrowseStoryPosition | null;
+  /* Whether the Play tracks Story; on when its settings can't be read. */
+  storyTracked: boolean;
 };
 
 /* What starting a Play offers, on New Play and Home's first-Play picker. */
