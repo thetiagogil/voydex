@@ -90,11 +90,11 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            milestones.category_id, milestones.is_required_for_completion, prerequisites.prerequisite_milestone_id, prerequisites.prerequisite_kind_id
-            FROM tracking.mainline_milestones AS milestones
+            milestones.category_id, milestones.is_required_for_completion, prerequisites.prerequisite_milestone_id, prerequisites.prerequisite_kind_id FROM tracking.mainline_milestones AS milestones
             JOIN tracking.mainline_milestone_prerequisites AS prerequisites ON prerequisites.milestone_id = milestones.id
             WHERE
-                milestones.slug = 'dragons-den' AND milestones.version_group_id = 10 $$, $$
+                milestones.slug = 'dragons-den'
+                AND milestones.version_group_id = 10 $$, $$
             VALUES (1004, FALSE, 100017, 4) $$, 'HeartGold / SoulSilver: the Dragon''s Den hangs off the Boulder Badge and never counts');
 SELECT
     results_eq ($$
@@ -113,8 +113,8 @@ SELECT
             WHERE
                 members.ally_opponent_id IS NULL
                 AND (members.version_group_id, opponents.slug) IN ((2, 'jessie-james'), (3, 'petrel'), (3, 'ariana'), (3, 'archer'), (3, 'proton'), (4, 'petrel'), (4, 'ariana'), (4, 'archer'), (4, 'proton'), (5, 'tabitha'), (5, 'courtney'), (5, 'matt'), (5, 'shelly'), (6, 'rocket-admin-muk'), (6, 'rocket-admin-golbat'), (7, 'tabitha'), (7, 'shelly'), (7, 'matt'), (10, 'clair-lance'), (12, 'n'))
-            GROUP BY members.version_group_id, opponents.slug ORDER BY members.version_group_id, opponents.slug $$, $$
-            VALUES (2, 'jessie-james', 12), (3, 'archer', 3), (3, 'ariana', 6), (3, 'petrel', 9), (3, 'proton', 1), (4, 'archer', 3), (4, 'ariana', 6), (4, 'petrel', 9), (4, 'proton', 1), (5, 'courtney', 4), (5, 'matt', 6), (5, 'shelly', 4), (5, 'tabitha', 6), (6, 'rocket-admin-golbat', 3), (6, 'rocket-admin-muk', 3), (7, 'matt', 2), (7, 'shelly', 4), (7, 'tabitha', 8), (10, 'clair-lance', 6), (12, 'n', 2) $$, 'each new battle carries its whole party');
+        GROUP BY members.version_group_id, opponents.slug ORDER BY members.version_group_id, opponents.slug $$, $$
+        VALUES (2, 'jessie-james', 12), (3, 'archer', 3), (3, 'ariana', 6), (3, 'petrel', 9), (3, 'proton', 1), (4, 'archer', 3), (4, 'ariana', 6), (4, 'petrel', 9), (4, 'proton', 1), (5, 'courtney', 4), (5, 'matt', 6), (5, 'shelly', 4), (5, 'tabitha', 6), (6, 'rocket-admin-golbat', 3), (6, 'rocket-admin-muk', 3), (7, 'matt', 2), (7, 'shelly', 4), (7, 'tabitha', 8), (10, 'clair-lance', 6), (12, 'n', 2) $$, 'each new battle carries its whole party');
 SELECT
     results_eq ($$
         SELECT
@@ -151,10 +151,9 @@ SELECT
             members.milestone_id, array_agg(move_id ORDER BY member_moves.slot)
             FROM tracking.mainline_opponent_team_members AS members
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
-            WHERE
-                (members.milestone_id, members.opponent_id, members.slot) IN ((20022, 2020, 2), (30009, 3031, 2), (50018, 5026, 2))
-            GROUP BY members.milestone_id ORDER BY members.milestone_id $$, $$
-            VALUES (20022, ARRAY[43, 40, 44, 137]), (30009, ARRAY[39, 98, 158, 184]), (50018, ARRAY[336, 28, 44, 316]) $$, 'Jessie & James''s Arbok, Petrel''s Raticate and Tabitha''s Poochyena know the game''s default moves');
+            WHERE (members.milestone_id, members.opponent_id, members.slot) IN ((20022, 2020, 2), (30009, 3031, 2), (50018, 5026, 2))
+    GROUP BY members.milestone_id ORDER BY members.milestone_id $$, $$
+    VALUES (20022, ARRAY[43, 40, 44, 137]), (30009, ARRAY[39, 98, 158, 184]), (50018, ARRAY[336, 28, 44, 316]) $$, 'Jessie & James''s Arbok, Petrel''s Raticate and Tabitha''s Poochyena know the game''s default moves');
 -- Set moves keep the game's order.
 SELECT
     results_eq ($$
