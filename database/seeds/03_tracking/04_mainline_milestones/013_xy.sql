@@ -65,9 +65,11 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (130018, 13, NULL, 1302, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Battle AZ
-  (130019, 13, NULL, 1301, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 15, true),
+  (130019, 13, NULL, 1302, 6, 2, NULL, 'battle-az', 'Battle AZ', 'Battle AZ during the Lumiose City parade after becoming Champion.', 7, true),
   -- Looker Bureau
-  (130020, 13, NULL, 1303, 1, 1, NULL, 'looker-bureau', 'Looker Bureau', 'Complete the Looker Bureau quest in Lumiose City.', 1, false),
+  (130020, 13, NULL, 1303, 1, 1, NULL, 'looker-bureau', 'Looker Bureau', 'Complete the Looker Bureau quest in Lumiose City.', 2, false),
+  -- Kiloude City
+  (130026, 13, NULL, 1303, 5, 2, NULL, 'kiloude-city', 'Kiloude City', 'Battle Serena / Calem in Kiloude City after the credits; Professor Sycamore then upgrades the Mega Ring in Anistar City.', 1, false),
   -- Terminus Cave
   (130023, 13, NULL, 1304, 6, 2, NULL, 'terminus-cave', 'Terminus Cave', 'Catch or defeat Zygarde in the deepest chamber of Terminus Cave after entering the Hall of Fame.', 1, false),
   -- Unknown Dungeon

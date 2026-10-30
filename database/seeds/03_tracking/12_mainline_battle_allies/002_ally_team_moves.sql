@@ -28,11 +28,11 @@
 WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_milestone_id, decision_option_slug, variant_slug, member_slot, move_ids) AS (
   VALUES
     -- Steven beside you vs Maxie & Tabitha, Mind Badge 1: Metang Lv. 42: Light Screen, Psychic, Reflect, Metal Claw
-    (70010, 7018, 7014, NULL, NULL, NULL, NULL, 1, ARRAY[113, 94, 115, 232]),
+    (70027, 7018, 7014, NULL, NULL, NULL, NULL, 1, ARRAY[113, 94, 115, 232]),
     -- Steven beside you vs Maxie & Tabitha, Mind Badge 2: Skarmory Lv. 43: Toxic, Aerial Ace, Protect, Steel Wing
-    (70010, 7018, 7014, NULL, NULL, NULL, NULL, 2, ARRAY[92, 332, 182, 211]),
+    (70027, 7018, 7014, NULL, NULL, NULL, NULL, 2, ARRAY[92, 332, 182, 211]),
     -- Steven beside you vs Maxie & Tabitha, Mind Badge 3: Aggron Lv. 44: Thunder, Protect, Solar Beam, Dragon Claw
-    (70010, 7018, 7014, NULL, NULL, NULL, NULL, 3, ARRAY[87, 182, 76, 337]),
+    (70027, 7018, 7014, NULL, NULL, NULL, NULL, 3, ARRAY[87, 182, 76, 337]),
     -- Barry beside you vs Mars & Jupiter [turtwig]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
     (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 1, ARRAY[34, 254, 256, 103]),
     -- Barry beside you vs Mars & Jupiter [turtwig]: Staraptor Lv. 40: Close Combat, Aerial Ace, Take Down, Quick Attack

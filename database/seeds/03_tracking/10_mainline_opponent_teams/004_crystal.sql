@@ -212,11 +212,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Red 6: Blastoise Lv. 77
   (40025, 4022, 4, NULL, NULL, NULL, NULL, NULL, 6, 9, 900, 77, NULL),
   -- Silver (chose Chikorita), Receive Pokedex 1: Cyndaquil Lv. 5
-  (40002, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 155, 15500, 5, NULL),
+  (40003, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 155, 15500, 5, NULL),
   -- Silver (chose Cyndaquil), Receive Pokedex 1: Totodile Lv. 5
-  (40002, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 158, 15800, 5, NULL),
+  (40003, 4023, 4, NULL, 40001, 'cyndaquil', NULL, NULL, 1, 158, 15800, 5, NULL),
   -- Silver (chose Totodile), Receive Pokedex 1: Chikorita Lv. 5
-  (40002, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 152, 15200, 5, NULL),
+  (40003, 4023, 4, NULL, 40001, 'totodile', NULL, NULL, 1, 152, 15200, 5, NULL),
   -- Silver (chose Chikorita), Hive Badge 1: Gastly Lv. 12
   (40004, 4023, 4, NULL, 40001, 'chikorita', NULL, NULL, 1, 92, 9200, 12, NULL),
   -- Silver (chose Chikorita), Hive Badge 2: Zubat Lv. 14

@@ -60,10 +60,14 @@ INSERT INTO tracking.mainline_milestones (
   (70021, 7, NULL, 701, 1, 2, NULL, 'magma-hideout', 'Magma Hideout', 'Use the Magma Emblem to open Team Magma''s hideout at Jagged Pass and face Maxie as Groudon awakens.', 10, true),
   -- Mind Badge
   (70010, 7, NULL, 701, 2, 2, NULL, 'mind-badge', 'Mind Badge', 'Defeat Tate & Liza at Mossdeep Gym and receive the Mind Badge.', 11, true),
+  -- Mossdeep Space Center
+  (70027, 7, NULL, 701, 6, 2, NULL, 'space-center', 'Mossdeep Space Center', 'Fight beside Steven against Maxie and Tabitha at the Mossdeep Space Center.', 12, true),
   -- Seafloor Cavern
-  (70022, 7, NULL, 701, 1, 2, NULL, 'seafloor-cavern', 'Seafloor Cavern', 'Dive down to the Seafloor Cavern and face Archie, who then awakens Kyogre.', 12, true),
+  (70022, 7, NULL, 701, 1, 2, NULL, 'seafloor-cavern', 'Seafloor Cavern', 'Dive down to the Seafloor Cavern and face Archie, who then awakens Kyogre.', 13, true),
+  -- Awaken Rayquaza
+  (70028, 7, NULL, 701, 1, 2, NULL, 'awaken-rayquaza', 'Awaken Rayquaza', 'Climb the Sky Pillar and awaken Rayquaza to end the clash between Groudon and Kyogre in Sootopolis City.', 14, true),
   -- Rain Badge
-  (70011, 7, NULL, 701, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Juan at Sootopolis Gym and receive the Rain Badge.', 13, true),
+  (70011, 7, NULL, 701, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Juan at Sootopolis Gym and receive the Rain Badge.', 15, true),
   -- Elite Four Sidney
   (70012, 7, NULL, 702, 7, 2, NULL, 'elite-four-sidney', 'Elite Four Sidney', 'Defeat Sidney at Ever Grande City.', 1, true),
   -- Elite Four Phoebe

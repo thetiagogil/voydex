@@ -237,20 +237,10 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (50012, 5015, NULL, NULL, NULL, NULL, 4, ARRAY[48, 85, 161, 103]),
     -- Wally: Gardevoir Lv. 45: Double Team, Calm Mind, Psychic, Future Sight
     (50012, 5015, NULL, NULL, NULL, NULL, 5, ARRAY[104, 347, 94, 248]),
-    -- Wally: Altaria Lv. 47: Aerial Ace, Safeguard, Dragon Breath, Dragon Dance
-    (50017, 5015, NULL, NULL, NULL, NULL, 1, ARRAY[332, 219, 225, 349]),
-    -- Wally: Delcatty Lv. 46: Sing, Assist, Charm, Feint Attack
-    (50017, 5015, NULL, NULL, NULL, NULL, 2, ARRAY[47, 274, 204, 185]),
-    -- Wally: Roselia Lv. 47: Magical Leaf, Leech Seed, Giga Drain, Toxic
-    (50017, 5015, NULL, NULL, NULL, NULL, 3, ARRAY[345, 73, 202, 92]),
-    -- Wally: Magneton Lv. 44: Supersonic, Thunderbolt, Tri Attack, Screech
-    (50017, 5015, NULL, NULL, NULL, NULL, 4, ARRAY[48, 85, 161, 103]),
-    -- Wally: Gardevoir Lv. 48: Double Team, Calm Mind, Psychic, Future Sight
-    (50017, 5015, NULL, NULL, NULL, NULL, 5, ARRAY[104, 347, 94, 248]),
     -- Groudon: Groudon Lv. 45: Slash, Bulk Up, Earthquake, Fire Blast
-    (50011, 5018, NULL, NULL, NULL, NULL, 1, ARRAY[163, 339, 89, 126]),
+    (50023, 5018, NULL, NULL, NULL, NULL, 1, ARRAY[163, 339, 89, 126]),
     -- Kyogre: Kyogre Lv. 45: Body Slam, Calm Mind, Ice Beam, Hydro Pump
-    (50011, 5019, NULL, NULL, NULL, NULL, 1, ARRAY[34, 347, 58, 56]),
+    (50023, 5019, NULL, NULL, NULL, NULL, 1, ARRAY[34, 347, 58, 56]),
     -- Regirock: Regirock Lv. 40: Rock Throw, Curse, Superpower, Ancient Power
     (50020, 5020, NULL, NULL, NULL, NULL, 1, ARRAY[88, 174, 276, 246]),
     -- Regice: Regice Lv. 40: Icy Wind, Curse, Superpower, Ancient Power

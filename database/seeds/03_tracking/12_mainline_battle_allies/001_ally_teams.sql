@@ -45,11 +45,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   held_item_id
 ) VALUES
   -- Steven beside you vs Maxie & Tabitha, Mind Badge 1: Metang Lv. 42
-  (70010, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 42, NULL),
+  (70027, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 42, NULL),
   -- Steven beside you vs Maxie & Tabitha, Mind Badge 2: Skarmory Lv. 43
-  (70010, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 2, 227, 22700, 43, NULL),
+  (70027, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 2, 227, 22700, 43, NULL),
   -- Steven beside you vs Maxie & Tabitha, Mind Badge 3: Aggron Lv. 44
-  (70010, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 44, NULL),
+  (70027, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 44, NULL),
   -- Barry beside you vs Mars & Jupiter [turtwig] 1: Munchlax Lv. 40
   (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 1, 446, 44600, 40, NULL),
   -- Barry beside you vs Mars & Jupiter [turtwig] 2: Staraptor Lv. 40

@@ -160,29 +160,29 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Colress, Bolt Badge 2: Klink Lv. 23
   (120006, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 599, 59900, 23, NULL),
   -- Hugh (chose Snivy), Jet Badge 1: Pignite Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 499, 49900, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 499, 49900, 25, NULL),
   -- Hugh (chose Snivy), Jet Badge 2: Simipour Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 25, NULL),
   -- Hugh (chose Snivy), Jet Badge 3: Tranquill Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 520, 52000, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 520, 52000, 25, NULL),
   -- Hugh (chose Tepig), Jet Badge 1: Dewott Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 502, 50200, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 502, 50200, 25, NULL),
   -- Hugh (chose Tepig), Jet Badge 2: Simisage Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 25, NULL),
   -- Hugh (chose Tepig), Jet Badge 3: Tranquill Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 520, 52000, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 520, 52000, 25, NULL),
   -- Hugh (chose Oshawott), Jet Badge 1: Servine Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 496, 49600, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 496, 49600, 25, NULL),
   -- Hugh (chose Oshawott), Jet Badge 2: Simisear Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 25, NULL),
   -- Hugh (chose Oshawott), Jet Badge 3: Tranquill Lv. 25
-  (120008, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 520, 52000, 25, NULL),
+  (120007, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 520, 52000, 25, NULL),
   -- Colress, Jet Badge 1: Magneton Lv. 25
-  (120008, 12009, 12, NULL, NULL, NULL, NULL, NULL, 1, 82, 8200, 25, NULL),
+  (120007, 12009, 12, NULL, NULL, NULL, NULL, NULL, 1, 82, 8200, 25, NULL),
   -- Colress, Jet Badge 2: Elgyem Lv. 25
-  (120008, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 605, 60500, 25, NULL),
+  (120007, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 605, 60500, 25, NULL),
   -- Colress, Jet Badge 3: Klink Lv. 25
-  (120008, 12009, 12, NULL, NULL, NULL, NULL, NULL, 3, 599, 59900, 25, NULL),
+  (120007, 12009, 12, NULL, NULL, NULL, NULL, NULL, 3, 599, 59900, 25, NULL),
   -- Hugh (chose Snivy), Legend Badge 1: Unfezant Lv. 39, holds Scope Lens
   (120009, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 39, 423),
   -- Hugh (chose Snivy), Legend Badge 2: Simipour Lv. 39, holds Mystic Water
@@ -206,77 +206,65 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Kyurem (White 2), Defeat Ghetsis 1: Kyurem (White) Lv. 55
   (120012, 12017, 12, 20, NULL, NULL, NULL, NULL, 1, 646, 64601, 55, NULL),
   -- Hugh (chose Snivy), Defeat Ghetsis 1: Unfezant Lv. 55, holds Scope Lens
-  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 55, 423),
+  (120013, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 55, 423),
   -- Hugh (chose Snivy), Defeat Ghetsis 2: Simipour Lv. 55, holds Mystic Water
-  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 55, 318),
+  (120013, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 55, 318),
   -- Hugh (chose Snivy), Defeat Ghetsis 3: Bouffalant Lv. 55
-  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 626, 62600, 55, NULL),
+  (120013, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 626, 62600, 55, NULL),
   -- Hugh (chose Snivy), Defeat Ghetsis 4: Emboar Lv. 57, holds Charcoal
-  (120012, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 4, 500, 50000, 57, 312),
+  (120013, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 4, 500, 50000, 57, 312),
   -- Hugh (chose Tepig), Defeat Ghetsis 1: Unfezant Lv. 55, holds Scope Lens
-  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 55, 423),
+  (120013, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 55, 423),
   -- Hugh (chose Tepig), Defeat Ghetsis 2: Simisage Lv. 55, holds Miracle Seed
-  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 55, 317),
+  (120013, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 55, 317),
   -- Hugh (chose Tepig), Defeat Ghetsis 3: Bouffalant Lv. 55
-  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 626, 62600, 55, NULL),
+  (120013, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 626, 62600, 55, NULL),
   -- Hugh (chose Tepig), Defeat Ghetsis 4: Samurott Lv. 57, holds Mystic Water
-  (120012, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 4, 503, 50300, 57, 318),
+  (120013, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 4, 503, 50300, 57, 318),
   -- Hugh (chose Oshawott), Defeat Ghetsis 1: Unfezant Lv. 55, holds Scope Lens
-  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 55, 423),
+  (120013, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 55, 423),
   -- Hugh (chose Oshawott), Defeat Ghetsis 2: Simisear Lv. 55, holds Charcoal
-  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 55, 312),
+  (120013, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 55, 312),
   -- Hugh (chose Oshawott), Defeat Ghetsis 3: Bouffalant Lv. 55
-  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 626, 62600, 55, NULL),
+  (120013, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 626, 62600, 55, NULL),
   -- Hugh (chose Oshawott), Defeat Ghetsis 4: Serperior Lv. 57, holds Miracle Seed
-  (120012, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 4, 497, 49700, 57, 317),
+  (120013, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 4, 497, 49700, 57, 317),
   -- Hugh (chose Snivy), Hall of Fame 1: Unfezant Lv. 62, holds Scope Lens
-  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 62, 423),
+  (120028, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 521, 52100, 62, 423),
   -- Hugh (chose Snivy), Hall of Fame 2: Simipour Lv. 62, holds Mystic Water
-  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 62, 318),
+  (120028, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 62, 318),
   -- Hugh (chose Snivy), Hall of Fame 3: Bouffalant Lv. 62, holds Muscle Band
-  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 626, 62600, 62, 412),
+  (120028, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 626, 62600, 62, 412),
   -- Hugh (chose Snivy), Hall of Fame 4: Flygon Lv. 62, holds Dragon Fang
-  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 4, 330, 33000, 62, 313),
+  (120028, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 4, 330, 33000, 62, 313),
   -- Hugh (chose Snivy), Hall of Fame 5: Eelektross Lv. 62, holds Leftovers
-  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 5, 604, 60400, 62, 403),
+  (120028, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 5, 604, 60400, 62, 403),
   -- Hugh (chose Snivy), Hall of Fame 6: Emboar Lv. 64, holds Charcoal
-  (120018, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 6, 500, 50000, 64, 312),
+  (120028, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 6, 500, 50000, 64, 312),
   -- Hugh (chose Tepig), Hall of Fame 1: Unfezant Lv. 62, holds Scope Lens
-  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 62, 423),
+  (120028, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 521, 52100, 62, 423),
   -- Hugh (chose Tepig), Hall of Fame 2: Simisage Lv. 62, holds Miracle Seed
-  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 62, 317),
+  (120028, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 62, 317),
   -- Hugh (chose Tepig), Hall of Fame 3: Bouffalant Lv. 62, holds Muscle Band
-  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 626, 62600, 62, 412),
+  (120028, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 626, 62600, 62, 412),
   -- Hugh (chose Tepig), Hall of Fame 4: Flygon Lv. 62, holds Dragon Fang
-  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 4, 330, 33000, 62, 313),
+  (120028, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 4, 330, 33000, 62, 313),
   -- Hugh (chose Tepig), Hall of Fame 5: Eelektross Lv. 62, holds Leftovers
-  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 5, 604, 60400, 62, 403),
+  (120028, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 5, 604, 60400, 62, 403),
   -- Hugh (chose Tepig), Hall of Fame 6: Samurott Lv. 64, holds Mystic Water
-  (120018, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 6, 503, 50300, 64, 318),
+  (120028, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 6, 503, 50300, 64, 318),
   -- Hugh (chose Oshawott), Hall of Fame 1: Unfezant Lv. 62, holds Scope Lens
-  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 62, 423),
+  (120028, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 521, 52100, 62, 423),
   -- Hugh (chose Oshawott), Hall of Fame 2: Simisear Lv. 62, holds Charcoal
-  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 62, 312),
+  (120028, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 62, 312),
   -- Hugh (chose Oshawott), Hall of Fame 3: Bouffalant Lv. 62, holds Muscle Band
-  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 626, 62600, 62, 412),
+  (120028, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 626, 62600, 62, 412),
   -- Hugh (chose Oshawott), Hall of Fame 4: Flygon Lv. 62, holds Dragon Fang
-  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 4, 330, 33000, 62, 313),
+  (120028, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 4, 330, 33000, 62, 313),
   -- Hugh (chose Oshawott), Hall of Fame 5: Eelektross Lv. 62, holds Leftovers
-  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 5, 604, 60400, 62, 403),
+  (120028, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 5, 604, 60400, 62, 403),
   -- Hugh (chose Oshawott), Hall of Fame 6: Serperior Lv. 64, holds Miracle Seed
-  (120018, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 6, 497, 49700, 64, 317),
-  -- Colress, Hall of Fame 1: Magneton Lv. 72, holds Eviolite
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 1, 82, 8200, 72, 390),
-  -- Colress, Hall of Fame 2: Rotom (Wash) Lv. 72, holds Life Orb
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 2, 479, 47902, 72, 404),
-  -- Colress, Hall of Fame 3: Metagross Lv. 72, holds Muscle Band
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 3, 376, 37600, 72, 412),
-  -- Colress, Hall of Fame 4: Beheeyem Lv. 72, holds Leftovers
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 4, 606, 60600, 72, 403),
-  -- Colress, Hall of Fame 5: Magnezone Lv. 72, holds Wise Glasses
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 5, 462, 46200, 72, 436),
-  -- Colress, Hall of Fame 6: Klinklang Lv. 74, holds Air Balloon
-  (120018, 12009, 12, NULL, NULL, NULL, NULL, NULL, 6, 601, 60100, 74, 372),
+  (120028, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 6, 497, 49700, 64, 317),
   -- Cobalion, Swords of Justice 1: Cobalion Lv. 45
   (120019, 12018, 12, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 45, NULL),
   -- Virizion, Swords of Justice 1: Virizion Lv. 45
@@ -320,17 +308,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Zinzolin & Grunt, Lacunosa Town 4: Garbodor Lv. 39
   (120009, 12035, 12, NULL, NULL, NULL, NULL, NULL, 4, 569, 56900, 39, NULL),
   -- Zinzolin, Opelucid City 1: Cryogonal Lv. 46
-  (120010, 12034, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 46, NULL),
+  (120009, 12034, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 46, NULL),
   -- Zinzolin, Opelucid City 2: Cryogonal Lv. 46
-  (120010, 12034, 12, NULL, NULL, NULL, NULL, NULL, 2, 615, 61500, 46, NULL),
+  (120009, 12034, 12, NULL, NULL, NULL, NULL, NULL, 2, 615, 61500, 46, NULL),
   -- Zinzolin, Opelucid City 3: Weavile Lv. 48
-  (120010, 12034, 12, NULL, NULL, NULL, NULL, NULL, 3, 461, 46100, 48, NULL),
+  (120009, 12034, 12, NULL, NULL, NULL, NULL, NULL, 3, 461, 46100, 48, NULL),
   -- Shadow (Absol), Opelucid City 1: Pawniard Lv. 46
-  (120010, 12036, 12, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 46, NULL),
+  (120009, 12036, 12, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 46, NULL),
   -- Shadow (Absol), Opelucid City 2: Pawniard Lv. 46
-  (120010, 12036, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 46, NULL),
+  (120009, 12036, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 46, NULL),
   -- Shadow (Absol), Opelucid City 3: Absol Lv. 48
-  (120010, 12036, 12, NULL, NULL, NULL, NULL, NULL, 3, 359, 35900, 48, NULL),
+  (120009, 12036, 12, NULL, NULL, NULL, NULL, NULL, 3, 359, 35900, 48, NULL),
   -- Zinzolin & Grunt, Plasma Frigate 1: Cryogonal Lv. 48
   (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 48, NULL),
   -- Zinzolin & Grunt, Plasma Frigate 2: Cryogonal Lv. 48

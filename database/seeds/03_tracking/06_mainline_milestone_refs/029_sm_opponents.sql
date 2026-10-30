@@ -62,8 +62,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (150018, 15015, 15, 'battle-opponent', 1, NULL),
   -- Choose Starter -> Hau
   (150001, 15016, 15, 'battle-opponent', 1, 'Iki Town'),
-  -- Receive Pokedex -> Hau
-  (150002, 15016, 15, 'battle-opponent', 1, 'Iki Town (festival)'),
+  -- Iki Town Festival -> Hau
+  (150027, 15016, 15, 'battle-opponent', 1, 'Iki Town (festival)'),
   -- Grand Trial Hala -> Hau
   (150004, 15016, 15, 'battle-opponent', 1, 'Route 3'),
   -- Lana Trial -> Hau

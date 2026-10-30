@@ -178,7 +178,7 @@ SELECT
             WHERE
                 mainline_opponent_team_members.version_group_id = 12
                 AND mainline_opponents.slug = 'hugh'
-                AND mainline_milestones.slug = 'hall-of-fame'
+                AND mainline_milestones.slug = 'undella-town'
                 AND pokemon_forms.slug = 'simipour' GROUP BY mainline_opponent_team_members.id $$, $$
             VALUES ('rock-slide, crunch, brick-break, surf'::text) $$, 'Black 2 / White 2 Hugh''s post-game Simipour knows Rock Slide, as Bulbapedia and Serebii have it');
 SELECT

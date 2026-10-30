@@ -306,29 +306,29 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Cheren (chose Oshawott), Quake Badge 4: Servine Lv. 26, holds Sitrus Berry
   (110007, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 496, 49600, 26, 187),
   -- Bianca (chose Snivy), Jet Badge 1: Herdier Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 507, 50700, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 507, 50700, 26, NULL),
   -- Bianca (chose Snivy), Jet Badge 2: Pansear Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 513, 51300, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 513, 51300, 26, NULL),
   -- Bianca (chose Snivy), Jet Badge 3: Musharna Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 518, 51800, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 518, 51800, 26, NULL),
   -- Bianca (chose Snivy), Jet Badge 4: Dewott Lv. 28
-  (110008, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 502, 50200, 28, NULL),
+  (110007, 11016, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 502, 50200, 28, NULL),
   -- Bianca (chose Tepig), Jet Badge 1: Herdier Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 507, 50700, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 507, 50700, 26, NULL),
   -- Bianca (chose Tepig), Jet Badge 2: Panpour Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 515, 51500, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 515, 51500, 26, NULL),
   -- Bianca (chose Tepig), Jet Badge 3: Musharna Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 518, 51800, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 518, 51800, 26, NULL),
   -- Bianca (chose Tepig), Jet Badge 4: Servine Lv. 28
-  (110008, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 496, 49600, 28, NULL),
+  (110007, 11016, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 496, 49600, 28, NULL),
   -- Bianca (chose Oshawott), Jet Badge 1: Herdier Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 507, 50700, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 507, 50700, 26, NULL),
   -- Bianca (chose Oshawott), Jet Badge 2: Pansage Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 511, 51100, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 511, 51100, 26, NULL),
   -- Bianca (chose Oshawott), Jet Badge 3: Musharna Lv. 26
-  (110008, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 518, 51800, 26, NULL),
+  (110007, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 518, 51800, 26, NULL),
   -- Bianca (chose Oshawott), Jet Badge 4: Pignite Lv. 28
-  (110008, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 499, 49900, 28, NULL),
+  (110007, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 499, 49900, 28, NULL),
   -- N, Jet Badge 1: Boldore Lv. 28
   (110008, 11013, 11, NULL, NULL, NULL, NULL, NULL, 1, 525, 52500, 28, NULL),
   -- N, Jet Badge 2: Ferroseed Lv. 28
@@ -386,29 +386,29 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Bianca (chose Oshawott), Legend Badge 4: Emboar Lv. 40
   (110010, 11016, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 500, 50000, 40, NULL),
   -- Cheren (chose Snivy), Legend Badge 1: Unfezant Lv. 43, holds Scope Lens
-  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 521, 52100, 43, 423),
+  (110011, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 1, 521, 52100, 43, 423),
   -- Cheren (chose Snivy), Legend Badge 2: Liepard Lv. 43, holds Sitrus Berry
-  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 510, 51000, 43, 187),
+  (110011, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 2, 510, 51000, 43, 187),
   -- Cheren (chose Snivy), Legend Badge 3: Simisage Lv. 43, holds Miracle Seed
-  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 512, 51200, 43, 317),
+  (110011, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 3, 512, 51200, 43, 317),
   -- Cheren (chose Snivy), Legend Badge 4: Emboar Lv. 45, holds Leftovers
-  (110010, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 500, 50000, 45, 403),
+  (110011, 11017, 11, NULL, 110001, 'snivy', NULL, NULL, 4, 500, 50000, 45, 403),
   -- Cheren (chose Tepig), Legend Badge 1: Unfezant Lv. 43, holds Scope Lens
-  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 521, 52100, 43, 423),
+  (110011, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 1, 521, 52100, 43, 423),
   -- Cheren (chose Tepig), Legend Badge 2: Liepard Lv. 43, holds Sitrus Berry
-  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 510, 51000, 43, 187),
+  (110011, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 2, 510, 51000, 43, 187),
   -- Cheren (chose Tepig), Legend Badge 3: Simisear Lv. 43, holds Charcoal
-  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 514, 51400, 43, 312),
+  (110011, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 3, 514, 51400, 43, 312),
   -- Cheren (chose Tepig), Legend Badge 4: Samurott Lv. 45, holds Leftovers
-  (110010, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 503, 50300, 45, 403),
+  (110011, 11017, 11, NULL, 110001, 'tepig', NULL, NULL, 4, 503, 50300, 45, 403),
   -- Cheren (chose Oshawott), Legend Badge 1: Unfezant Lv. 43, holds Scope Lens
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 521, 52100, 43, 423),
+  (110011, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 1, 521, 52100, 43, 423),
   -- Cheren (chose Oshawott), Legend Badge 2: Liepard Lv. 43, holds Sitrus Berry
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 510, 51000, 43, 187),
+  (110011, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 2, 510, 51000, 43, 187),
   -- Cheren (chose Oshawott), Legend Badge 3: Simipour Lv. 43, holds Mystic Water
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 516, 51600, 43, 318),
+  (110011, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 3, 516, 51600, 43, 318),
   -- Cheren (chose Oshawott), Legend Badge 4: Serperior Lv. 45, holds Leftovers
-  (110010, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 497, 49700, 45, 403),
+  (110011, 11017, 11, NULL, 110001, 'oshawott', NULL, NULL, 4, 497, 49700, 45, 403),
   -- Reshiram, Battle N 1: Reshiram Lv. 50
   (110015, 11018, 11, NULL, NULL, NULL, NULL, NULL, 1, 643, 64300, 50, NULL),
   -- Zekrom, Battle N 1: Zekrom Lv. 50

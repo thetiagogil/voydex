@@ -249,20 +249,10 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41, NULL),
   -- Wally, Elite Four Sidney 5: Gardevoir Lv. 45
   (50012, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45, NULL),
-  -- Wally, Hall of Fame 1: Altaria Lv. 47
-  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 47, NULL),
-  -- Wally, Hall of Fame 2: Delcatty Lv. 46
-  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 46, NULL),
-  -- Wally, Hall of Fame 3: Roselia Lv. 47
-  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 47, NULL),
-  -- Wally, Hall of Fame 4: Magneton Lv. 44
-  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 44, NULL),
-  -- Wally, Hall of Fame 5: Gardevoir Lv. 48
-  (50017, 5015, 5, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48, NULL),
   -- Groudon, Rain Badge 1: Groudon Lv. 45
-  (50011, 5018, 5, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 45, NULL),
+  (50023, 5018, 5, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 45, NULL),
   -- Kyogre, Rain Badge 1: Kyogre Lv. 45
-  (50011, 5019, 5, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 45, NULL),
+  (50023, 5019, 5, NULL, NULL, NULL, NULL, NULL, 1, 382, 38200, 45, NULL),
   -- Regirock, Sealed Chamber 1: Regirock Lv. 40
   (50020, 5020, 5, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 40, NULL),
   -- Regice, Sealed Chamber 1: Regice Lv. 40

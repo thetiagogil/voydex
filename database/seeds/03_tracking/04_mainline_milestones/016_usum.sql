@@ -29,6 +29,8 @@ INSERT INTO tracking.mainline_milestones (
   (160001, 16, NULL, 1601, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Choose Rowlet, Litten, or Popplio as the first partner Pokémon.', 1, true),
   -- Receive Pokedex
   (160002, 16, NULL, 1601, 1, 1, NULL, 'receive-pokedex', 'Receive Pokedex', 'Receive the Rotom Pokedex and begin the Alola adventure record.', 2, true),
+  -- Iki Town Festival
+  (160033, 16, NULL, 1601, 1, 2, NULL, 'iki-town-festival', 'Iki Town Festival', 'Battle Hau at the Iki Town festival and receive the Sparkling Stone from Tapu Koko.', 3, true),
   -- Ilima Trial
   (160003, 16, NULL, 1602, 3, 2, NULL, 'ilima-trial', 'Ilima Trial', 'Complete Ilima''s Verdant Cavern trial.', 1, true),
   -- Grand Trial Hala

@@ -30,4 +30,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Area Zero Underdepths <- BB Champion Kieran
   (250007, 250006, 25, 1, 1, NULL),
   -- Terapagos Battle <- Area Zero Underdepths
-  (250008, 250007, 25, 1, 1, NULL);
+  (250008, 250007, 25, 1, 1, NULL),
+  -- Coastal Biome opens after Arrive at Blueberry Academy
+  (250010, 250001, 25, 4, 1, NULL),
+  -- Mochi Mayhem opens after Terapagos Battle
+  (250009, 250008, 25, 4, 1, NULL),
+  -- Perrin's Paradox Photos opens after Terapagos Battle
+  (250011, 250008, 25, 4, 1, NULL),
+  -- Snacksworth's Legendary Treats opens after Terapagos Battle
+  (250012, 250008, 25, 4, 1, NULL);

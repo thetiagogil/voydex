@@ -44,9 +44,13 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Erika: Vileplume Lv. 34: Mega Drain, Moonblast
     (170006, 17004, NULL, NULL, NULL, NULL, 3, ARRAY[72, 585]),
     -- Jessie & James, Pokémon Tower: Arbok Lv. 34: Poison Jab, Glare, Crunch
-    (170007, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242]),
+    (170028, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242]),
     -- Jessie & James, Pokémon Tower: Weezing Lv. 34: Dark Pulse, Sludge Bomb
-    (170007, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[399, 188]),
+    (170028, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[399, 188]),
+    -- Jessie & James (Route 17): Arbok Lv. 52: Poison Jab, Glare, Crunch, Rock Slide
+    (170007, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242, 157]),
+    -- Jessie & James (Route 17): Weezing Lv. 52: Sludge Bomb, Dark Pulse, Flamethrower, Thunderbolt
+    (170007, 17022, NULL, NULL, NULL, NULL, 2, ARRAY[188, 399, 53, 85]),
     -- Koga: Weezing Lv. 43: Toxic, Protect, Sludge Bomb, Explosion
     (170008, 17005, NULL, NULL, NULL, NULL, 1, ARRAY[92, 182, 188, 153]),
     -- Koga: Muk Lv. 43: Toxic, Protect, Sludge Bomb, Moonblast
@@ -204,17 +208,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Trace: Pikachu Lv. 21: Thunder Shock, Quick Attack, Double Kick
     (170020, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 24]),
     -- Trace: Pidgeotto Lv. 27: Quick Attack, Wing Attack, Sand Attack
-    (170006, 17016, 29, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
+    (170028, 17016, 29, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
     -- Trace: Gloom Lv. 27: Razor Leaf, Sleep Powder, Acid
-    (170006, 17016, 29, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
+    (170028, 17016, 29, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
     -- Trace: Jolteon Lv. 28: Thunder Shock, Quick Attack, Pin Missile
-    (170006, 17016, 29, NULL, NULL, NULL, 3, ARRAY[84, 98, 42]),
+    (170028, 17016, 29, NULL, NULL, NULL, 3, ARRAY[84, 98, 42]),
     -- Trace: Pidgeotto Lv. 27: Quick Attack, Wing Attack, Sand Attack
-    (170006, 17016, 30, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
+    (170028, 17016, 30, NULL, NULL, NULL, 1, ARRAY[98, 17, 28]),
     -- Trace: Gloom Lv. 27: Razor Leaf, Sleep Powder, Acid
-    (170006, 17016, 30, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
+    (170028, 17016, 30, NULL, NULL, NULL, 2, ARRAY[75, 79, 51]),
     -- Trace: Raichu Lv. 28: Thunder Shock, Quick Attack, Thunder Punch
-    (170006, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 9]),
+    (170028, 17016, 30, NULL, NULL, NULL, 3, ARRAY[84, 98, 9]),
     -- Jessie & James, Rocket Hideout: Arbok Lv. 32: Poison Jab, Glare, Crunch
     (170021, 17022, NULL, NULL, NULL, NULL, 1, ARRAY[398, 137, 242]),
     -- Jessie & James, Rocket Hideout: Weezing Lv. 32: Toxic, Sludge

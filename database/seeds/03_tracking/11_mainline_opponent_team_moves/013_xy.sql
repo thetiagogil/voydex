@@ -123,7 +123,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Shauna: Fennekin Lv. 5: Scratch, Tail Whip, Ember
     (130001, 13015, NULL, 130001, 'froakie', NULL, 1, ARRAY[10, 39, 52]),
     -- Tierno: Corphish Lv. 12: Swords Dance, Vise Grip
-    (130004, 13016, NULL, NULL, NULL, NULL, 1, ARRAY[14, 11]),
+    (130005, 13016, NULL, NULL, NULL, NULL, 1, ARRAY[14, 11]),
     -- Tierno & Trevor: Pikachu Lv. 14: Thunder Shock, Quick Attack
     (130005, 13017, NULL, NULL, NULL, NULL, 1, ARRAY[84, 98]),
     -- Tierno & Trevor: Flabebe (Orange Flower) Lv. 14: Vine Whip, Fairy Wind
@@ -401,77 +401,77 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Serena / Calem: Chesnaught Lv. 61: Seed Bomb, Brick Break, Body Slam
     (130013, 13018, NULL, NULL, NULL, 'calem-froakie', 5, ARRAY[402, 280, 34]),
     -- Serena / Calem: Meowstic (Female) Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
-    (130019, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[585, 309, 411, 47]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[585, 309, 411, 47]),
     -- Serena / Calem: Jolteon Lv. 66: Thunder, Double Kick, Quick Attack
-    (130019, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[87, 24, 98]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[87, 24, 98]),
     -- Serena / Calem: Absol Lv. 68: Slash, Swords Dance, Quick Attack, Night Slash
-    (130019, 13018, NULL, NULL, NULL, 'serena-chespin', 4, ARRAY[163, 14, 98, 400]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
-    (130019, 13018, NULL, NULL, NULL, 'serena-chespin', 5, ARRAY[406, 605, 590]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Delphox Lv. 70: Psychic, Fire Blast, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'serena-chespin', 6, ARRAY[94, 126, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-chespin', 6, ARRAY[94, 126, 247]),
     -- Serena / Calem: Meowstic (Female) Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
-    (130019, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[585, 309, 411, 47]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[585, 309, 411, 47]),
     -- Serena / Calem: Flareon Lv. 66: Fire Blast, Bite, Quick Attack
-    (130019, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[126, 44, 98]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[126, 44, 98]),
     -- Serena / Calem: Absol Lv. 68: Slash, Swords Dance, Quick Attack, Night Slash
-    (130019, 13018, NULL, NULL, NULL, 'serena-fennekin', 4, ARRAY[163, 14, 98, 400]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-fennekin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
-    (130019, 13018, NULL, NULL, NULL, 'serena-fennekin', 5, ARRAY[406, 605, 590]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-fennekin', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Greninja Lv. 70: Hydro Pump, Dark Pulse, Ice Beam
-    (130019, 13018, NULL, NULL, NULL, 'serena-fennekin', 6, ARRAY[56, 399, 58]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-fennekin', 6, ARRAY[56, 399, 58]),
     -- Serena / Calem: Meowstic (Female) Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
-    (130019, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[585, 309, 411, 47]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[585, 309, 411, 47]),
     -- Serena / Calem: Vaporeon Lv. 66: Hydro Pump, Aurora Beam, Quick Attack
-    (130019, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[56, 62, 98]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[56, 62, 98]),
     -- Serena / Calem: Absol Lv. 68: Slash, Swords Dance, Quick Attack, Night Slash
-    (130019, 13018, NULL, NULL, NULL, 'serena-froakie', 4, ARRAY[163, 14, 98, 400]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-froakie', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
-    (130019, 13018, NULL, NULL, NULL, 'serena-froakie', 5, ARRAY[406, 605, 590]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-froakie', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Chesnaught Lv. 70: Wood Hammer, Brick Break, Body Slam
-    (130019, 13018, NULL, NULL, NULL, 'serena-froakie', 6, ARRAY[452, 280, 34]),
+    (130026, 13018, NULL, NULL, NULL, 'serena-froakie', 6, ARRAY[452, 280, 34]),
     -- Serena / Calem: Meowstic Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
-    (130019, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[585, 309, 411, 47]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[585, 309, 411, 47]),
     -- Serena / Calem: Jolteon Lv. 66: Thunder, Double Kick, Quick Attack
-    (130019, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[87, 24, 98]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[87, 24, 98]),
     -- Serena / Calem: Absol Lv. 68: Slash, Swords Dance, Quick Attack, Night Slash
-    (130019, 13018, NULL, NULL, NULL, 'calem-chespin', 4, ARRAY[163, 14, 98, 400]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-chespin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
-    (130019, 13018, NULL, NULL, NULL, 'calem-chespin', 5, ARRAY[406, 605, 590]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-chespin', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Delphox Lv. 70: Psychic, Fire Blast, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'calem-chespin', 6, ARRAY[94, 126, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-chespin', 6, ARRAY[94, 126, 247]),
     -- Serena / Calem: Meowstic Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
-    (130019, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[585, 309, 411, 47]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[585, 309, 411, 47]),
     -- Serena / Calem: Flareon Lv. 66: Fire Blast, Bite, Quick Attack
-    (130019, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[126, 44, 98]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[126, 44, 98]),
     -- Serena / Calem: Absol Lv. 68: Slash, Swords Dance, Quick Attack, Night Slash
-    (130019, 13018, NULL, NULL, NULL, 'calem-fennekin', 4, ARRAY[163, 14, 98, 400]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-fennekin', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
-    (130019, 13018, NULL, NULL, NULL, 'calem-fennekin', 5, ARRAY[406, 605, 590]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-fennekin', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Greninja Lv. 70: Hydro Pump, Dark Pulse, Ice Beam
-    (130019, 13018, NULL, NULL, NULL, 'calem-fennekin', 6, ARRAY[56, 399, 58]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-fennekin', 6, ARRAY[56, 399, 58]),
     -- Serena / Calem: Meowstic Lv. 66: Psychic, Fake Out, Disarming Voice, Shadow Ball
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 247]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 247]),
     -- Serena / Calem: Clefable Lv. 68: Moonblast, Meteor Mash, Focus Blast, Sing
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[585, 309, 411, 47]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[585, 309, 411, 47]),
     -- Serena / Calem: Vaporeon Lv. 66: Hydro Pump, Aurora Beam, Quick Attack
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[56, 62, 98]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[56, 62, 98]),
     -- Serena / Calem: Absol Lv. 68: Slash, Swords Dance, Quick Attack, Night Slash
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 4, ARRAY[163, 14, 98, 400]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-froakie', 4, ARRAY[163, 14, 98, 400]),
     -- Serena / Calem: Altaria Lv. 67: Dragon Pulse, Dazzling Gleam, Confide
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 5, ARRAY[406, 605, 590]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-froakie', 5, ARRAY[406, 605, 590]),
     -- Serena / Calem: Chesnaught Lv. 70: Wood Hammer, Brick Break, Body Slam
-    (130019, 13018, NULL, NULL, NULL, 'calem-froakie', 6, ARRAY[452, 280, 34]),
+    (130026, 13018, NULL, NULL, NULL, 'calem-froakie', 6, ARRAY[452, 280, 34]),
     -- Xerneas: Xerneas Lv. 50: Gravity, Geomancy, Moonblast, Megahorn
     (130022, 13021, NULL, NULL, NULL, NULL, 1, ARRAY[356, 601, 585, 224]),
     -- Yveltal: Yveltal Lv. 50: Snarl, Oblivion Wing, Disable, Dark Pulse

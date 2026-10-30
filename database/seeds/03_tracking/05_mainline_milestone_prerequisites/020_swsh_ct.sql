@@ -30,4 +30,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Galarian Birds <- Regi Temples
   (200007, 200006, 20, 1, 1, NULL),
   -- Finish Crown Tundra Expeditions <- Galarian Birds
-  (200008, 200007, 20, 1, 1, NULL);
+  (200008, 200007, 20, 1, 1, NULL),
+  -- Swords of Justice opens after Battle Peony
+  (200009, 200002, 20, 4, 1, NULL),
+  -- Ballimere Lake opens after Swords of Justice
+  (200010, 200009, 20, 4, 1, NULL);

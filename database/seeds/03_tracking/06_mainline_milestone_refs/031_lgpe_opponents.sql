@@ -27,7 +27,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Thunder Badge -> Lt. Surge
   (170005, 17003, 17, 'battle-opponent', 1, NULL),
   -- Rainbow Badge -> Erika
-  (170006, 17004, 17, 'battle-opponent', 2, NULL),
+  (170006, 17004, 17, 'battle-opponent', 1, NULL),
   -- Soul Badge -> Koga
   (170008, 17005, 17, 'battle-opponent', 1, NULL),
   -- Marsh Badge -> Sabrina
@@ -60,16 +60,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (170004, 17016, 17, 'battle-opponent', 2, 'Cerulean City (north exit to Route 24)'),
   -- S.S. Anne -> Trace
   (170020, 17016, 17, 'battle-opponent', 1, 'S.S. Anne, Vermilion City'),
-  -- Rainbow Badge -> Trace
-  (170006, 17016, 17, 'battle-opponent', 1, 'Pokémon Tower, Lavender Town'),
+  -- Pokémon Tower -> Trace
+  (170028, 17016, 17, 'battle-opponent', 1, 'Pokémon Tower, Lavender Town'),
   -- Rocket Hideout -> Jessie & James
   (170021, 17022, 17, 'battle-opponent', 1, 'Rocket Hideout, Celadon City'),
   -- Rocket Hideout -> Archer
   (170021, 17023, 17, 'battle-opponent', 2, 'Rocket Hideout B4F, Celadon City'),
   -- Rocket Hideout -> Giovanni
   (170021, 17017, 17, 'battle-opponent', 3, 'Rocket Hideout, Celadon City'),
+  -- Pokémon Tower -> Jessie & James
+  (170028, 17022, 17, 'battle-opponent', 2, 'Pokémon Tower, Lavender Town'),
   -- Snorlax Encounter -> Jessie & James
-  (170007, 17022, 17, 'battle-opponent', 1, 'Pokémon Tower, Lavender Town'),
+  (170007, 17022, 17, 'battle-opponent', 1, 'Route 17 (Cycling Road)'),
   -- Silph Co. -> Blue (a Multi Battle, Trace at your side)
   (170022, 17014, 17, 'battle-opponent', 1, 'Silph Co. 1F, Saffron City (with Trace)'),
   -- Silph Co. -> Jessie & James

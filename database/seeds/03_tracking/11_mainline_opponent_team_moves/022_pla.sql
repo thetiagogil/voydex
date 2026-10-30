@@ -83,7 +83,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Arceus: Arceus Lv. 75: Calm Mind, Recover, Judgment, Hyper Beam
     (220012, 22009, NULL, NULL, NULL, NULL, 1, ARRAY[347, 105, 449, 63]),
     -- Volo: Togepi Lv. 5: Tackle
-    (220001, 22008, NULL, NULL, NULL, NULL, 1, ARRAY[33]),
+    (220002, 22008, NULL, NULL, NULL, NULL, 1, ARRAY[33]),
     -- Volo: Togepi Lv. 22: Calm Mind, Draining Kiss, Tackle
     (220004, 22008, NULL, NULL, NULL, NULL, 1, ARRAY[347, 577, 33]),
     -- Volo: Gible Lv. 22: Twister, Bulldoze

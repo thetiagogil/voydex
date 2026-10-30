@@ -19,8 +19,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
 ) VALUES
   -- Receive Pokedex <- Choose Starter
   (160002, 160001, 16, 1, 1, NULL),
-  -- Ilima Trial <- Receive Pokedex
-  (160003, 160002, 16, 1, 1, NULL),
+  -- Ilima Trial <- Iki Town Festival
+  (160003, 160033, 16, 1, 1, NULL),
   -- Grand Trial Hala <- Ilima Trial
   (160004, 160003, 16, 1, 1, NULL),
   -- Lana Trial <- Grand Trial Hala
@@ -60,4 +60,24 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Team Rainbow Rocket <- Hall of Fame
   (160022, 160021, 16, 1, 1, NULL),
   -- Aether Paradise <- Grand Trial Nanu
-  (160023, 160011, 16, 1, 1, NULL);
+  (160023, 160011, 16, 1, 1, NULL),
+  -- Iki Town Festival <- Receive Pokedex
+  (160033, 160002, 16, 1, 1, NULL),
+  -- Mahalo Trail opens after Hall of Fame
+  (160024, 160021, 16, 4, 1, NULL),
+  -- Mount Lanakila Crater opens after Hall of Fame
+  (160025, 160021, 16, 4, 1, NULL),
+  -- Ruins of Conflict opens after Hall of Fame
+  (160026, 160021, 16, 4, 1, NULL),
+  -- Ruins of Life opens after Hall of Fame
+  (160027, 160021, 16, 4, 1, NULL),
+  -- Ruins of Abundance opens after Hall of Fame
+  (160028, 160021, 16, 4, 1, NULL),
+  -- Ruins of Hope opens after Hall of Fame
+  (160029, 160021, 16, 4, 1, NULL),
+  -- Resolution Cave opens after Hall of Fame
+  (160030, 160021, 16, 4, 1, NULL),
+  -- Poni Grove opens after Hall of Fame
+  (160031, 160021, 16, 4, 1, NULL),
+  -- Ilima Bonus Trial opens after Hall of Fame
+  (160032, 160021, 16, 4, 1, NULL);

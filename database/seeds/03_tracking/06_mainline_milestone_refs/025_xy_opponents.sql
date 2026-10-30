@@ -53,10 +53,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (130019, 13014, 13, 'battle-opponent', 1, NULL),
   -- Choose Kalos Starter -> Shauna
   (130001, 13015, 13, 'battle-opponent', 1, 'Aquacorde Town'),
-  -- Choose Kanto Starter -> Tierno
-  (130004, 13016, 13, 'battle-opponent', 1, 'Route 5'),
+  -- Fossil Choice -> Tierno
+  (130005, 13016, 13, 'battle-opponent', 1, 'Route 5'),
   -- Fossil Choice -> Tierno & Trevor
-  (130005, 13017, 13, 'battle-opponent', 1, 'Route 7'),
+  (130005, 13017, 13, 'battle-opponent', 2, 'Route 7'),
   -- Rumble Badge -> Serena / Calem
   (130007, 13018, 13, 'battle-opponent', 3, 'Tower of Mastery, Shalour City'),
   -- Plant Badge -> Serena / Calem
@@ -79,8 +79,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (130012, 13020, 13, 'battle-opponent', 3, 'Route 19'),
   -- Elite Four Malva -> Serena / Calem
   (130013, 13018, 13, 'battle-opponent', 1, 'Victory Road'),
-  -- Battle AZ -> Serena / Calem
-  (130019, 13018, 13, 'battle-opponent', 2, 'Kiloude City. You can skip this battle.'),
+  -- Kiloude City -> Serena / Calem
+  (130026, 13018, 13, 'battle-opponent', 1, 'Kiloude City, after the Hall of Fame'),
   -- Team Flare Secret HQ -> Xerneas
   (130022, 13021, 13, 'battle-opponent', 2, 'Team Flare Secret HQ, Legendary Pokémon Room (Geosenge Town)'),
   -- Team Flare Secret HQ -> Yveltal

@@ -256,29 +256,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- May / Brendan: Grovyle Lv. 31: Fury Cutter, Pursuit, Screech, Leaf Blade
     (70009, 7015, NULL, NULL, NULL, 'brendan-mudkip', 3, ARRAY[210, 228, 103, 348]),
     -- May / Brendan: Tropius Lv. 31: Stomp, Sweet Scent, Whirlwind, Magical Leaf
-    (70021, 7015, NULL, 70001, 'treecko', NULL, 1, ARRAY[23, 230, 18, 345]),
+    (70010, 7015, NULL, 70001, 'treecko', NULL, 1, ARRAY[23, 230, 18, 345]),
     -- May / Brendan: Pelipper Lv. 32: Wing Attack, Supersonic, Mist, Protect
-    (70021, 7015, NULL, 70001, 'treecko', NULL, 2, ARRAY[17, 48, 54, 182]),
+    (70010, 7015, NULL, 70001, 'treecko', NULL, 2, ARRAY[17, 48, 54, 182]),
     -- May / Brendan: Ludicolo Lv. 32: Astonish, Growl, Absorb, Nature Power
-    (70021, 7015, NULL, 70001, 'treecko', NULL, 3, ARRAY[310, 45, 71, 267]),
+    (70010, 7015, NULL, 70001, 'treecko', NULL, 3, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Combusken Lv. 34: Peck, Sand Attack, Bulk Up, Quick Attack
-    (70021, 7015, NULL, 70001, 'treecko', NULL, 4, ARRAY[64, 28, 339, 98]),
+    (70010, 7015, NULL, 70001, 'treecko', NULL, 4, ARRAY[64, 28, 339, 98]),
     -- May / Brendan: Tropius Lv. 31: Stomp, Sweet Scent, Whirlwind, Magical Leaf
-    (70021, 7015, NULL, 70001, 'torchic', NULL, 1, ARRAY[23, 230, 18, 345]),
+    (70010, 7015, NULL, 70001, 'torchic', NULL, 1, ARRAY[23, 230, 18, 345]),
     -- May / Brendan: Ludicolo Lv. 32: Astonish, Growl, Absorb, Nature Power
-    (70021, 7015, NULL, 70001, 'torchic', NULL, 2, ARRAY[310, 45, 71, 267]),
+    (70010, 7015, NULL, 70001, 'torchic', NULL, 2, ARRAY[310, 45, 71, 267]),
     -- May / Brendan: Slugma Lv. 32: Ember, Rock Throw, Harden, Amnesia
-    (70021, 7015, NULL, 70001, 'torchic', NULL, 3, ARRAY[52, 88, 106, 133]),
+    (70010, 7015, NULL, 70001, 'torchic', NULL, 3, ARRAY[52, 88, 106, 133]),
     -- May / Brendan: Marshtomp Lv. 34: Mud Shot, Foresight, Mud Sport, Take Down
-    (70021, 7015, NULL, 70001, 'torchic', NULL, 4, ARRAY[341, 193, 300, 36]),
+    (70010, 7015, NULL, 70001, 'torchic', NULL, 4, ARRAY[341, 193, 300, 36]),
     -- May / Brendan: Tropius Lv. 31: Stomp, Sweet Scent, Whirlwind, Magical Leaf
-    (70021, 7015, NULL, 70001, 'mudkip', NULL, 1, ARRAY[23, 230, 18, 345]),
+    (70010, 7015, NULL, 70001, 'mudkip', NULL, 1, ARRAY[23, 230, 18, 345]),
     -- May / Brendan: Slugma Lv. 32: Ember, Rock Throw, Harden, Amnesia
-    (70021, 7015, NULL, 70001, 'mudkip', NULL, 2, ARRAY[52, 88, 106, 133]),
+    (70010, 7015, NULL, 70001, 'mudkip', NULL, 2, ARRAY[52, 88, 106, 133]),
     -- May / Brendan: Pelipper Lv. 32: Wing Attack, Supersonic, Mist, Protect
-    (70021, 7015, NULL, 70001, 'mudkip', NULL, 3, ARRAY[17, 48, 54, 182]),
+    (70010, 7015, NULL, 70001, 'mudkip', NULL, 3, ARRAY[17, 48, 54, 182]),
     -- May / Brendan: Grovyle Lv. 34: Fury Cutter, Pursuit, Screech, Leaf Blade
-    (70021, 7015, NULL, 70001, 'mudkip', NULL, 4, ARRAY[210, 228, 103, 348]),
+    (70010, 7015, NULL, 70001, 'mudkip', NULL, 4, ARRAY[210, 228, 103, 348]),
     -- Maxie: Mightyena Lv. 37: Roar, Swagger, Scary Face, Take Down
     (70021, 7017, NULL, NULL, NULL, NULL, 1, ARRAY[46, 207, 184, 36]),
     -- Maxie: Crobat Lv. 38: Bite, Wing Attack, Confuse Ray, Air Cutter
@@ -286,17 +286,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Maxie: Camerupt Lv. 39: Take Down, Amnesia, Rock Slide, Earthquake
     (70021, 7017, NULL, NULL, NULL, NULL, 3, ARRAY[36, 133, 157, 89]),
     -- Maxie & Tabitha: Mightyena Lv. 42: Swagger, Scary Face, Take Down, Taunt
-    (70010, 7018, NULL, NULL, NULL, NULL, 1, ARRAY[207, 184, 36, 269]),
+    (70027, 7018, NULL, NULL, NULL, NULL, 1, ARRAY[207, 184, 36, 269]),
     -- Maxie & Tabitha: Crobat Lv. 43: Wing Attack, Confuse Ray, Air Cutter, Mean Look
-    (70010, 7018, NULL, NULL, NULL, NULL, 2, ARRAY[17, 109, 314, 212]),
+    (70027, 7018, NULL, NULL, NULL, NULL, 2, ARRAY[17, 109, 314, 212]),
     -- Maxie & Tabitha: Camerupt Lv. 44: Take Down, Amnesia, Rock Slide, Earthquake
-    (70010, 7018, NULL, NULL, NULL, NULL, 3, ARRAY[36, 133, 157, 89]),
+    (70027, 7018, NULL, NULL, NULL, NULL, 3, ARRAY[36, 133, 157, 89]),
     -- Maxie & Tabitha: Camerupt Lv. 36: Focus Energy, Take Down, Amnesia, Rock Slide
-    (70010, 7018, NULL, NULL, NULL, NULL, 4, ARRAY[116, 36, 133, 157]),
+    (70027, 7018, NULL, NULL, NULL, NULL, 4, ARRAY[116, 36, 133, 157]),
     -- Maxie & Tabitha: Mightyena Lv. 38: Roar, Swagger, Scary Face, Take Down
-    (70010, 7018, NULL, NULL, NULL, NULL, 5, ARRAY[46, 207, 184, 36]),
+    (70027, 7018, NULL, NULL, NULL, NULL, 5, ARRAY[46, 207, 184, 36]),
     -- Maxie & Tabitha: Golbat Lv. 40: Bite, Wing Attack, Confuse Ray, Air Cutter
-    (70010, 7018, NULL, NULL, NULL, NULL, 6, ARRAY[44, 17, 109, 314]),
+    (70027, 7018, NULL, NULL, NULL, NULL, 6, ARRAY[44, 17, 109, 314]),
     -- Archie: Mightyena Lv. 41: Roar, Swagger, Scary Face, Take Down
     (70022, 7019, NULL, NULL, NULL, NULL, 1, ARRAY[46, 207, 184, 36]),
     -- Archie: Crobat Lv. 41: Bite, Wing Attack, Confuse Ray, Air Cutter
@@ -313,16 +313,6 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (70012, 7016, NULL, NULL, NULL, NULL, 4, ARRAY[48, 85, 161, 103]),
     -- Wally: Gardevoir Lv. 45: Double Team, Calm Mind, Psychic, Future Sight
     (70012, 7016, NULL, NULL, NULL, NULL, 5, ARRAY[104, 347, 94, 248]),
-    -- Wally: Altaria Lv. 47: Aerial Ace, Safeguard, Dragon Breath, Dragon Dance
-    (70017, 7016, NULL, NULL, NULL, NULL, 1, ARRAY[332, 219, 225, 349]),
-    -- Wally: Delcatty Lv. 46: Sing, Assist, Charm, Feint Attack
-    (70017, 7016, NULL, NULL, NULL, NULL, 2, ARRAY[47, 274, 204, 185]),
-    -- Wally: Roselia Lv. 47: Magical Leaf, Leech Seed, Giga Drain, Toxic
-    (70017, 7016, NULL, NULL, NULL, NULL, 3, ARRAY[345, 73, 202, 92]),
-    -- Wally: Magneton Lv. 44: Supersonic, Thunderbolt, Tri Attack, Screech
-    (70017, 7016, NULL, NULL, NULL, NULL, 4, ARRAY[48, 85, 161, 103]),
-    -- Wally: Gardevoir Lv. 48: Double Team, Calm Mind, Psychic, Future Sight
-    (70017, 7016, NULL, NULL, NULL, NULL, 5, ARRAY[104, 347, 94, 248]),
     -- Regirock: Regirock Lv. 40: Rock Throw, Curse, Superpower, Ancient Power
     (70023, 7020, NULL, NULL, NULL, NULL, 1, ARRAY[88, 174, 276, 246]),
     -- Regice: Regice Lv. 40: Icy Wind, Curse, Superpower, Ancient Power

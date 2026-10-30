@@ -39,19 +39,39 @@ completion. Games with distinct Main Story, Postgame, DLC, or parallel paths
 may expose a compact game-aware content-scope switcher in the milestone Card
 header; games without separately authored scopes should retain one simple list.
 
-Story holds story points, not one milestone per battle. A story point names
-the battles fought there or on the way to it (a rival before a Gym sits with
-that badge; battles fought together share one point), and a new story point
-is added only for a real story beat (S.S. Anne, Silph Co., Team Flare's HQ).
-A legendary the story makes you face is a Boss battle on its story point.
-Optional and roaming legendaries are optional Side Content story points
-(never counted, no prerequisites): one per place or quest (the Regis behind
-the Sealed Chamber share one), else one per legendary, each battle with its
-level and where it happens or roams. Where Story already has the place
-(Ramanas Park, Stark Mountain) or the choice (Emerald's roaming Lati), the
-battle sits there. Event-only legendaries stay out, unless a re-release hands
-them out in normal play (FireRed / LeafGreen's island tickets on Switch,
-Crystal's GS Ball on 3DS); the seed header says so.
+Story holds story beats, not one milestone per battle. A beat is a required
+visit where the story stops you: a Gym, trial or League match; a confrontation
+with a named boss (Giovanni's hideouts, Mt. Chimney, the Galactic HQ, Lysandre
+Labs, the Mossdeep Space Center); the legendary the story forces you to face
+(Spear Pillar, the Cave of Origin, Ultra Space); or a landmark event (S.S. Anne,
+the Burned Tower, the Iki Town festival, waking Rayquaza). Rival fights, admin
+fights and grunt raids never make a beat of their own. Each battle sits on one
+beat: the beat at whose place it is fought (Blue in Oak's lab on Choose
+Starter, Jupiter in Eterna City on Forest Badge, Hugh at the Driftveil
+tournament on Quake Badge) or, for a battle on the road between two beats, the
+beat it leads to (Silver at Cherrygrove on Zephyr Badge). A beat with no fight
+of its own never carries later battles, a rematch is never a Story battle, and
+a character fought twice on one beat has one opponent row per battle.
+
+Every story chapter says what it is to the journey (`chapter_kind`): main
+story runs to the credits, the League included; post game continues after
+them; side content hangs off the route and never counts. Chapters played beside
+each other in any order (Scarlet / Violet's three paths) are flagged
+(`plays_in_any_order`) so Story draws them as forks that join back. A
+side-content beat says what opens it (one `opens-after` prerequisite): that
+places it on the route after the moment that opens it and never locks
+recording. The only beats without one are open from the start (Scarlet /
+Violet's shrines).
+
+A legendary the story makes you face is a Boss battle on its story beat.
+Optional and roaming legendaries are optional Side Content beats (never
+counted): one per place or quest (the Regis behind the Sealed Chamber share
+one), else one per legendary, each battle with its level and where it happens
+or roams. Where Story already has the place (Ramanas Park, Stark Mountain) or
+the choice (Emerald's roaming Lati), the battle sits there. Event-only
+legendaries stay out, unless a re-release hands them out in normal play
+(FireRed / LeafGreen's island tickets on Switch, Crystal's GS Ball on 3DS); the
+seed header says so.
 
 Story's stamp card, like Overview's badge case, stamps every Gym badge in its
 type and then the League in gold. Alola has no Gyms, so Sun / Moon (7 trials,

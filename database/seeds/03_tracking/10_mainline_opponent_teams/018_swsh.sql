@@ -158,23 +158,23 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hop (chose Sobble), Choose Starter 2: Scorbunny Lv. 5
   (180001, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 813, 81300, 5, NULL, NULL, FALSE),
   -- Hop (chose Grookey), Receive Pokedex 1: Wooloo Lv. 6
-  (180002, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 831, 83100, 6, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 831, 83100, 6, NULL, NULL, FALSE),
   -- Hop (chose Grookey), Receive Pokedex 2: Rookidee Lv. 5
-  (180002, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 821, 82100, 5, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 821, 82100, 5, NULL, NULL, FALSE),
   -- Hop (chose Grookey), Receive Pokedex 3: Sobble Lv. 8
-  (180002, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 816, 81600, 8, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 816, 81600, 8, NULL, NULL, FALSE),
   -- Hop (chose Scorbunny), Receive Pokedex 1: Wooloo Lv. 6
-  (180002, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 831, 83100, 6, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 831, 83100, 6, NULL, NULL, FALSE),
   -- Hop (chose Scorbunny), Receive Pokedex 2: Rookidee Lv. 5
-  (180002, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 821, 82100, 5, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 821, 82100, 5, NULL, NULL, FALSE),
   -- Hop (chose Scorbunny), Receive Pokedex 3: Grookey Lv. 8
-  (180002, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 810, 81000, 8, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 810, 81000, 8, NULL, NULL, FALSE),
   -- Hop (chose Sobble), Receive Pokedex 1: Wooloo Lv. 6
-  (180002, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 831, 83100, 6, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 831, 83100, 6, NULL, NULL, FALSE),
   -- Hop (chose Sobble), Receive Pokedex 2: Rookidee Lv. 5
-  (180002, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 821, 82100, 5, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 821, 82100, 5, NULL, NULL, FALSE),
   -- Hop (chose Sobble), Receive Pokedex 3: Scorbunny Lv. 8
-  (180002, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 813, 81300, 8, NULL, NULL, FALSE),
+  (180003, 18028, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 813, 81300, 8, NULL, NULL, FALSE),
   -- Hop (chose Grookey), Grass Badge 1: Wooloo Lv. 11
   (180003, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 831, 83100, 11, NULL, NULL, FALSE),
   -- Hop (chose Grookey), Grass Badge 2: Rookidee Lv. 12
@@ -226,11 +226,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Bede, Fire Badge 4: Hatenna Lv. 23
   (180005, 18014, 18, NULL, NULL, NULL, NULL, NULL, 4, 856, 85600, 23, NULL, NULL, FALSE),
   -- Marnie, Fire Badge 1: Croagunk Lv. 24
-  (180005, 18015, 18, NULL, NULL, NULL, NULL, NULL, 1, 453, 45300, 24, NULL, NULL, FALSE),
+  (180003, 18015, 18, NULL, NULL, NULL, NULL, NULL, 1, 453, 45300, 24, NULL, NULL, FALSE),
   -- Marnie, Fire Badge 2: Scraggy Lv. 24
-  (180005, 18015, 18, NULL, NULL, NULL, NULL, NULL, 2, 559, 55900, 24, NULL, NULL, FALSE),
+  (180003, 18015, 18, NULL, NULL, NULL, NULL, NULL, 2, 559, 55900, 24, NULL, NULL, FALSE),
   -- Marnie, Fire Badge 3: Morpeko Lv. 26
-  (180005, 18015, 18, NULL, NULL, NULL, NULL, NULL, 3, 877, 87700, 26, NULL, NULL, FALSE),
+  (180003, 18015, 18, NULL, NULL, NULL, NULL, NULL, 3, 877, 87700, 26, NULL, NULL, FALSE),
   -- Hop (Sword, chose Grookey), Fighting Badge 1: Cramorant Lv. 28
   (183106, 18013, 18, 31, 180001, 'grookey', NULL, NULL, 1, 845, 84500, 28, NULL, NULL, FALSE),
   -- Hop (Sword, chose Grookey), Fighting Badge 2: Toxel Lv. 29

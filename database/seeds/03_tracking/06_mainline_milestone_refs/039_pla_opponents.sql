@@ -49,8 +49,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (220013, 22024, 22, 'battle-opponent', 5, 'Pearl Settlement, Alabaster Icelands'),
   -- Defeat Volo -> Volo
   (220011, 22008, 22, 'battle-opponent', 1, NULL),
-  -- Choose Starter -> Volo
-  (220001, 22008, 22, 'battle-opponent', 1, 'Jubilife Village, front gate'),
+  -- Receive Pokedex -> Volo
+  (220002, 22008, 22, 'battle-opponent', 1, 'Jubilife Village, front gate'),
   -- Noble Lilligant -> Volo
   (220004, 22008, 22, 'battle-opponent', 1, 'Solaceon Ruins, Crimson Mirelands'),
   -- Origin Pokémon -> Dialga / Palkia

@@ -110,6 +110,23 @@ sources remain authoritative for game-specific mechanics and availability.
   Arceus and the lake guardians (game data), Barry's Roselia (Serebii and
   PokéWiki), Legends: Z-A (Serebii). This is the last slice of the per-game
   audit (#115).
+- The Story redo (#155) placed every battle by the beat rule in the
+  [Progress contract](../product/feature-contract/progress.md#story-progression):
+  on the beat at whose place it is fought, or on the beat a road battle leads
+  to. It seeded the beats the rule needs (the Cave of Origin in Ruby /
+  Sapphire and Omega Ruby / Alpha Sapphire, the Mossdeep Space Center and
+  waking Rayquaza in Emerald, the Iki Town festival, Let's Go's Pokémon Tower,
+  X / Y's Kiloude City and Black 2 / White 2's Hugh in Undella Town), moved
+  Battle AZ after the Hall of Fame, added Jessie & James on Route 17 in Let's
+  Go, and dropped two rematches (Wally at Victory Road, Colress at the P2
+  Laboratory). Every chapter carries its kind and side content its
+  `opens-after` link. Battles the story has that Voydex still leaves out, for
+  a later pass: Yellow's four Jessie & James fights, Gold / Silver / Crystal's
+  Rocket Executives, Ruby / Sapphire / Emerald's admins (Tabitha, Matt,
+  Shelly, Courtney), FireRed / LeafGreen's Rocket Warehouse executives, Ultra
+  Sun / Ultra Moon's first two Dulse / Soliera fights, Black 2 / White 2's
+  post-game N, and HeartGold / SoulSilver's Dragon's Den tag battle.
+  `430_story_chapters.sql` pins the chapters and the moved beats.
 - The evil-team admin battles the story forces in Diamond / Pearl, Platinum
   and HeartGold / SoulSilver (#187) come from each game's own trainer data in
   the pret decompilations, cross-checked with Bulbapedia's trainer pages: the

@@ -260,39 +260,39 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wally, Elite Four Sidney 5: Mega Gallade Lv. 48, holds Galladite
   (140012, 14016, 14, NULL, NULL, NULL, NULL, NULL, 5, 475, 47501, 48, 307, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 1: Swellow Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 2: Raichu Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 26, 2600, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 26, 2600, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 3: Wailord Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 321, 32100, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 321, 32100, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 4: Breloom Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 286, 28600, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 4, 286, 28600, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Treecko), Hall of Fame 5: Mega Blaziken Lv. 50, holds Blazikenite
-  (140017, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 5, 257, 25701, 50, 285, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 5, 257, 25701, 50, 285, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 1: Swellow Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 2: Raichu Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 26, 2600, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 26, 2600, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 3: Breloom Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 286, 28600, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 286, 28600, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 4: Magcargo Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 219, 21900, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 4, 219, 21900, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Torchic), Hall of Fame 5: Mega Swampert Lv. 50, holds Swampertite
-  (140017, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 5, 260, 26001, 50, 286, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 5, 260, 26001, 50, 286, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 1: Swellow Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 277, 27700, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 2: Raichu Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 26, 2600, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 26, 2600, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 3: Magcargo Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 219, 21900, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 219, 21900, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 4: Wailord Lv. 48
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 321, 32100, 48, NULL, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 4, 321, 32100, 48, NULL, NULL, FALSE),
   -- May / Brendan (chose Mudkip), Hall of Fame 5: Mega Sceptile Lv. 50, holds Sceptilite
-  (140017, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25401, 50, 284, NULL, FALSE),
+  (140018, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 5, 254, 25401, 50, 284, NULL, FALSE),
   -- Groudon, Rain Badge 1: Primal Groudon Lv. 45
-  (140011, 14019, 14, NULL, NULL, NULL, NULL, NULL, 1, 383, 38301, 45, NULL, NULL, FALSE),
+  (140033, 14019, 14, NULL, NULL, NULL, NULL, NULL, 1, 383, 38301, 45, NULL, NULL, FALSE),
   -- Kyogre, Rain Badge 1: Primal Kyogre Lv. 45
-  (140011, 14020, 14, NULL, NULL, NULL, NULL, NULL, 1, 382, 38201, 45, NULL, NULL, FALSE),
+  (140033, 14020, 14, NULL, NULL, NULL, NULL, NULL, 1, 382, 38201, 45, NULL, NULL, FALSE),
   -- Rayquaza, Delta Episode 1: Rayquaza Lv. 70
   (140018, 14021, 14, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 70, NULL, NULL, FALSE),
   -- Deoxys, Delta Episode 1: Deoxys Lv. 80

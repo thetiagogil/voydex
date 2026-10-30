@@ -68,4 +68,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Burned Tower <- Plain Badge
   (30026, 30005, 3, 1, 1, NULL),
   -- Radio Tower <- Glacier Badge
-  (30027, 30009, 3, 1, 1, NULL);
+  (30027, 30009, 3, 1, 1, NULL),
+  -- Roaming Raikou opens after Burned Tower
+  (30028, 30026, 3, 4, 1, NULL),
+  -- Roaming Entei opens after Burned Tower
+  (30029, 30026, 3, 4, 1, NULL),
+  -- Roaming Suicune opens after Burned Tower
+  (30030, 30026, 3, 4, 1, NULL),
+  -- Tin Tower opens after Radio Tower
+  (30031, 30027, 3, 4, 1, 'Gold: the Rainbow Wing comes from the Radio Tower director. Silver: after the Hall of Fame, from the elder in Pewter City.'),
+  -- Whirl Islands opens after Radio Tower
+  (30032, 30027, 3, 4, 1, 'Silver: the Silver Wing comes from the Radio Tower director. Gold: after the Hall of Fame, from the elder in Pewter City.');

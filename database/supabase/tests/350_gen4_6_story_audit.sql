@@ -87,14 +87,14 @@ SELECT
                 AND opponent_id = 13029 ORDER BY slot $$, $$
             VALUES (448, 25), (448, 25) $$, 'Korrina fights with two Lucario in Geosenge Town');
 -- Omega Ruby / Alpha Sapphire: the Delta Episode runs Zinnia (Granite Cave),
--- Wallace, Rayquaza, Zinnia (Sky Pillar), then Deoxys.
+-- Wallace, Rayquaza, Zinnia (Sky Pillar), Deoxys, then Brendan / May on Route 103.
 SELECT
     results_eq ($$
         SELECT
             opponent_id FROM tracking.mainline_milestone_opponent_refs
             WHERE
                 milestone_id = 140018 ORDER BY sort_order $$, $$
-            VALUES (14054), (14059), (14049), (14053), (14058), (14050), (14021), (14014), (14022) $$, 'the Delta Episode battles come in story order');
+            VALUES (14054), (14059), (14049), (14053), (14058), (14050), (14021), (14014), (14022), (14015) $$, 'the Delta Episode battles come in story order, the rival''s last battle after it');
 SELECT
     results_eq ($$
         SELECT

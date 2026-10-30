@@ -183,7 +183,15 @@ SELECT
             WHERE
                 play_id = '40000000-0000-0000-0000-0000000000a1'), 'Updated Leaf', 'the replacement snapshot reflects the current active team');
 -- The seeded Sun / Moon chain is only suggested; make it a hard chain so the cascade has dependents.
+-- The Iki Town festival beat sits between Receive Pokedex and Ilima's trial; this chain skips it.
 RESET ROLE;
+UPDATE
+    tracking.mainline_milestone_prerequisites
+SET
+    prerequisite_milestone_id = 150002
+WHERE
+    milestone_id = 150003
+    AND prerequisite_milestone_id = 150027;
 UPDATE
     tracking.mainline_milestone_prerequisites
 SET

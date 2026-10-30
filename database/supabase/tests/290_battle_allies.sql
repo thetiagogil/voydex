@@ -33,7 +33,7 @@ SELECT
                 tracking.mainline_opponent_team_members AS members
                 JOIN reference.pokemon_species AS species ON species.id = members.species_id
             WHERE
-                members.milestone_id = 70010
+                members.milestone_id = 70027
                 AND members.opponent_id = 7018
                 AND members.ally_opponent_id = 7014),
             'Metang 42, Skarmory 43, Aggron 44',
@@ -47,7 +47,7 @@ SELECT
                 JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
                 JOIN reference.moves AS moves ON moves.id = member_moves.move_id
             WHERE
-                members.milestone_id = 70010
+                members.milestone_id = 70027
                 AND members.opponent_id = 7018
                 AND members.ally_opponent_id = 7014
                 AND members.slot = 1),
@@ -126,7 +126,7 @@ SELECT
         SET
             ally_opponent_id = opponent_id
             WHERE
-                milestone_id = 70010
+                milestone_id = 70027
                 AND ally_opponent_id = 7014
                 AND slot = 1 $$, '23514', NULL, 'an opponent cannot fight beside the player against itself');
 SELECT
@@ -135,7 +135,7 @@ SELECT
         SET
             ally_opponent_id = 26032
             WHERE
-                milestone_id = 70010
+                milestone_id = 70027
                 AND ally_opponent_id = 7014
                 AND slot = 1 $$, '23503', NULL, 'an ally belongs to the battle''s version group');
 SELECT

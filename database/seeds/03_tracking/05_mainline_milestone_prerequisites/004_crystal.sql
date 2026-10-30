@@ -68,4 +68,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Burned Tower <- Plain Badge
   (40026, 40005, 4, 1, 1, NULL),
   -- Radio Tower <- Glacier Badge
-  (40027, 40009, 4, 1, 1, NULL);
+  (40027, 40009, 4, 1, 1, NULL),
+  -- Roaming Raikou opens after Burned Tower
+  (40028, 40026, 4, 4, 1, NULL),
+  -- Roaming Entei opens after Burned Tower
+  (40029, 40026, 4, 4, 1, NULL),
+  -- Tin Tower opens after Radio Tower
+  (40030, 40027, 4, 4, 1, 'The Clear Bell comes from the Radio Tower director; Suicune waits once the three beasts have been seen.'),
+  -- Whirl Islands opens after Hall of Fame
+  (40031, 40016, 4, 4, 1, NULL),
+  -- Ilex Forest Shrine opens after Hall of Fame
+  (40032, 40016, 4, 4, 1, NULL);

@@ -82,4 +82,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Defeat AI Professor <- Area Zero
   (230031, 230030, 23, 1, 1, NULL),
   -- Academy Ace Tournament <- Defeat AI Professor
-  (230032, 230031, 23, 3, 1, NULL);
+  (230032, 230031, 23, 3, 1, NULL),
+  -- Area Zero Depths opens after Defeat AI Professor
+  (230037, 230031, 23, 4, 1, NULL);

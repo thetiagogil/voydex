@@ -293,29 +293,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Cheren: Servine Lv. 26: Growth, Leaf Tornado, Leech Seed, Mega Drain
     (110007, 11017, NULL, 110001, 'oshawott', NULL, 4, ARRAY[74, 536, 73, 72]),
     -- Bianca: Herdier Lv. 26: Helping Hand, Take Down, Work Up, Crunch
-    (110008, 11016, NULL, 110001, 'snivy', NULL, 1, ARRAY[270, 36, 526, 242]),
+    (110007, 11016, NULL, 110001, 'snivy', NULL, 1, ARRAY[270, 36, 526, 242]),
     -- Bianca: Pansear Lv. 26: Yawn, Bite, Flame Burst, Amnesia
-    (110008, 11016, NULL, 110001, 'snivy', NULL, 2, ARRAY[281, 44, 481, 133]),
+    (110007, 11016, NULL, 110001, 'snivy', NULL, 2, ARRAY[281, 44, 481, 133]),
     -- Bianca: Musharna Lv. 26: Defense Curl, Lucky Chant, Psybeam, Hypnosis
-    (110008, 11016, NULL, 110001, 'snivy', NULL, 3, ARRAY[111, 381, 60, 95]),
+    (110007, 11016, NULL, 110001, 'snivy', NULL, 3, ARRAY[111, 381, 60, 95]),
     -- Bianca: Dewott Lv. 28: Razor Shell, Fury Cutter, Water Pulse, Revenge
-    (110008, 11016, NULL, 110001, 'snivy', NULL, 4, ARRAY[534, 210, 352, 279]),
+    (110007, 11016, NULL, 110001, 'snivy', NULL, 4, ARRAY[534, 210, 352, 279]),
     -- Bianca: Herdier Lv. 26: Helping Hand, Take Down, Work Up, Crunch
-    (110008, 11016, NULL, 110001, 'tepig', NULL, 1, ARRAY[270, 36, 526, 242]),
+    (110007, 11016, NULL, 110001, 'tepig', NULL, 1, ARRAY[270, 36, 526, 242]),
     -- Bianca: Panpour Lv. 26: Water Sport, Bite, Scald, Taunt
-    (110008, 11016, NULL, 110001, 'tepig', NULL, 2, ARRAY[346, 44, 503, 269]),
+    (110007, 11016, NULL, 110001, 'tepig', NULL, 2, ARRAY[346, 44, 503, 269]),
     -- Bianca: Musharna Lv. 26: Defense Curl, Lucky Chant, Psybeam, Hypnosis
-    (110008, 11016, NULL, 110001, 'tepig', NULL, 3, ARRAY[111, 381, 60, 95]),
+    (110007, 11016, NULL, 110001, 'tepig', NULL, 3, ARRAY[111, 381, 60, 95]),
     -- Bianca: Servine Lv. 28: Leaf Tornado, Leech Seed, Mega Drain, Slam
-    (110008, 11016, NULL, 110001, 'tepig', NULL, 4, ARRAY[536, 73, 72, 21]),
+    (110007, 11016, NULL, 110001, 'tepig', NULL, 4, ARRAY[536, 73, 72, 21]),
     -- Bianca: Herdier Lv. 26: Helping Hand, Take Down, Work Up, Crunch
-    (110008, 11016, NULL, 110001, 'oshawott', NULL, 1, ARRAY[270, 36, 526, 242]),
+    (110007, 11016, NULL, 110001, 'oshawott', NULL, 1, ARRAY[270, 36, 526, 242]),
     -- Bianca: Pansage Lv. 26: Leech Seed, Bite, Seed Bomb, Torment
-    (110008, 11016, NULL, 110001, 'oshawott', NULL, 2, ARRAY[73, 44, 402, 259]),
+    (110007, 11016, NULL, 110001, 'oshawott', NULL, 2, ARRAY[73, 44, 402, 259]),
     -- Bianca: Musharna Lv. 26: Defense Curl, Lucky Chant, Psybeam, Hypnosis
-    (110008, 11016, NULL, 110001, 'oshawott', NULL, 3, ARRAY[111, 381, 60, 95]),
+    (110007, 11016, NULL, 110001, 'oshawott', NULL, 3, ARRAY[111, 381, 60, 95]),
     -- Bianca: Pignite Lv. 28: Arm Thrust, Smog, Rollout, Take Down
-    (110008, 11016, NULL, 110001, 'oshawott', NULL, 4, ARRAY[292, 123, 205, 36]),
+    (110007, 11016, NULL, 110001, 'oshawott', NULL, 4, ARRAY[292, 123, 205, 36]),
     -- N: Boldore Lv. 28: Mud-Slap, Iron Defense, Smack Down, Power Gem
     (110008, 11013, NULL, NULL, NULL, NULL, 1, ARRAY[189, 334, 479, 408]),
     -- N: Ferroseed Lv. 28: Metal Claw, Pin Missile, Gyro Ball, Iron Defense
@@ -373,29 +373,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Bianca: Emboar Lv. 40: Rollout, Take Down, Heat Crash, Assurance
     (110010, 11016, NULL, 110001, 'oshawott', NULL, 4, ARRAY[205, 36, 535, 372]),
     -- Cheren: Unfezant Lv. 43: Air Slash, Detect, Taunt, Razor Wind
-    (110010, 11017, NULL, 110001, 'snivy', NULL, 1, ARRAY[403, 197, 269, 13]),
+    (110011, 11017, NULL, 110001, 'snivy', NULL, 1, ARRAY[403, 197, 269, 13]),
     -- Cheren: Liepard Lv. 43: Assurance, Night Slash, Slash, Taunt
-    (110010, 11017, NULL, 110001, 'snivy', NULL, 2, ARRAY[372, 400, 163, 269]),
+    (110011, 11017, NULL, 110001, 'snivy', NULL, 2, ARRAY[372, 400, 163, 269]),
     -- Cheren: Simisage Lv. 43: Lick, Seed Bomb, Leer, Fury Swipes
-    (110010, 11017, NULL, 110001, 'snivy', NULL, 3, ARRAY[122, 402, 43, 154]),
+    (110011, 11017, NULL, 110001, 'snivy', NULL, 3, ARRAY[122, 402, 43, 154]),
     -- Cheren: Emboar Lv. 45: Heat Crash, Take Down, Flamethrower, Assurance
-    (110010, 11017, NULL, 110001, 'snivy', NULL, 4, ARRAY[535, 36, 53, 372]),
+    (110011, 11017, NULL, 110001, 'snivy', NULL, 4, ARRAY[535, 36, 53, 372]),
     -- Cheren: Unfezant Lv. 43: Air Slash, Detect, Taunt, Razor Wind
-    (110010, 11017, NULL, 110001, 'tepig', NULL, 1, ARRAY[403, 197, 269, 13]),
+    (110011, 11017, NULL, 110001, 'tepig', NULL, 1, ARRAY[403, 197, 269, 13]),
     -- Cheren: Liepard Lv. 43: Assurance, Night Slash, Slash, Taunt
-    (110010, 11017, NULL, 110001, 'tepig', NULL, 2, ARRAY[372, 400, 163, 269]),
+    (110011, 11017, NULL, 110001, 'tepig', NULL, 2, ARRAY[372, 400, 163, 269]),
     -- Cheren: Simisear Lv. 43: Lick, Flame Burst, Leer, Fury Swipes
-    (110010, 11017, NULL, 110001, 'tepig', NULL, 3, ARRAY[122, 481, 43, 154]),
+    (110011, 11017, NULL, 110001, 'tepig', NULL, 3, ARRAY[122, 481, 43, 154]),
     -- Cheren: Samurott Lv. 45: Aqua Jet, Aqua Tail, Slash, Encore
-    (110010, 11017, NULL, 110001, 'tepig', NULL, 4, ARRAY[453, 401, 163, 227]),
+    (110011, 11017, NULL, 110001, 'tepig', NULL, 4, ARRAY[453, 401, 163, 227]),
     -- Cheren: Unfezant Lv. 43: Air Slash, Detect, Taunt, Razor Wind
-    (110010, 11017, NULL, 110001, 'oshawott', NULL, 1, ARRAY[403, 197, 269, 13]),
+    (110011, 11017, NULL, 110001, 'oshawott', NULL, 1, ARRAY[403, 197, 269, 13]),
     -- Cheren: Liepard Lv. 43: Assurance, Night Slash, Slash, Taunt
-    (110010, 11017, NULL, 110001, 'oshawott', NULL, 2, ARRAY[372, 400, 163, 269]),
+    (110011, 11017, NULL, 110001, 'oshawott', NULL, 2, ARRAY[372, 400, 163, 269]),
     -- Cheren: Simipour Lv. 43: Lick, Scald, Leer, Fury Swipes
-    (110010, 11017, NULL, 110001, 'oshawott', NULL, 3, ARRAY[122, 503, 43, 154]),
+    (110011, 11017, NULL, 110001, 'oshawott', NULL, 3, ARRAY[122, 503, 43, 154]),
     -- Cheren: Serperior Lv. 45: Leaf Blade, Giga Drain, Coil, Slam
-    (110010, 11017, NULL, 110001, 'oshawott', NULL, 4, ARRAY[348, 202, 489, 21]),
+    (110011, 11017, NULL, 110001, 'oshawott', NULL, 4, ARRAY[348, 202, 489, 21]),
     -- Reshiram: Reshiram Lv. 50: Dragon Breath, Slash, Extrasensory, Fusion Flare
     (110015, 11018, NULL, NULL, NULL, NULL, 1, ARRAY[225, 163, 326, 558]),
     -- Zekrom: Zekrom Lv. 50: Dragon Breath, Slash, Zen Headbutt, Fusion Bolt
