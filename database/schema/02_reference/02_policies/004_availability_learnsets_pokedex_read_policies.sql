@@ -9,6 +9,10 @@ ALTER TABLE reference.availability_methods ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokemon_availability ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.pokemon_availability_groups ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.pokemon_availability_group_members ENABLE ROW LEVEL SECURITY;
+
 ALTER TABLE reference.move_availability ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.item_availability ENABLE ROW LEVEL SECURITY;
@@ -28,6 +32,10 @@ REVOKE ALL ON TABLE reference.content_scope_dependencies FROM anon, authenticate
 REVOKE ALL ON TABLE reference.availability_methods FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_availability FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_availability_groups FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_availability_group_members FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.move_availability FROM anon, authenticated;
 
@@ -49,6 +57,10 @@ GRANT SELECT ON TABLE reference.availability_methods TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokemon_availability TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.pokemon_availability_groups TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.pokemon_availability_group_members TO anon, authenticated;
+
 GRANT SELECT ON TABLE reference.move_availability TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.item_availability TO anon, authenticated;
@@ -68,6 +80,10 @@ GRANT ALL ON TABLE reference.content_scope_dependencies TO service_role;
 GRANT ALL ON TABLE reference.availability_methods TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_availability TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_availability_groups TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_availability_group_members TO service_role;
 
 GRANT ALL ON TABLE reference.move_availability TO service_role;
 
@@ -94,6 +110,14 @@ CREATE POLICY availability_methods_read_all ON reference.availability_methods
     USING (TRUE);
 
 CREATE POLICY pokemon_availability_read_all ON reference.pokemon_availability
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_availability_groups_read_all ON reference.pokemon_availability_groups
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_availability_group_members_read_all ON reference.pokemon_availability_group_members
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

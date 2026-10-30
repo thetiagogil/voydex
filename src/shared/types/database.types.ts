@@ -3155,6 +3155,85 @@ export type Database = {
           },
         ];
       };
+      pokemon_availability_group_members: {
+        Row: {
+          created_at: string;
+          form_id: number;
+          group_id: number;
+          species_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          form_id: number;
+          group_id: number;
+          species_id: number;
+        };
+        Update: {
+          created_at?: string;
+          form_id?: number;
+          group_id?: number;
+          species_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_availability_group_members_form_fkey";
+            columns: ["species_id", "form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "pokemon_availability_group_members_group_id_fkey";
+            columns: ["group_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_availability_groups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      pokemon_availability_groups: {
+        Row: {
+          created_at: string;
+          id: number;
+          kind: string;
+          name: string;
+          note: string;
+          slug: string;
+          sort_order: number;
+          version_group_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id: number;
+          kind: string;
+          name: string;
+          note: string;
+          slug: string;
+          sort_order: number;
+          version_group_id: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          kind?: string;
+          name?: string;
+          note?: string;
+          slug?: string;
+          sort_order?: number;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_availability_groups_version_group_id_fkey";
+            columns: ["version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       pokemon_battle_form_bases: {
         Row: {
           base_form_id: number;
