@@ -6,8 +6,9 @@ import { getCollectibleGroupCounts } from "../../utils/collectibles-progress-mod
 
 /*
  * The page head, as Pokédex's: the collectible's name, one line of progress
- * (how much is found and how many areas are complete), and a pill for each
- * collectible the game tracks when there is more than one.
+ * (how much is found and how many areas are complete), what completing the
+ * set rewards, and a pill for each collectible the game tracks when there is
+ * more than one.
  */
 export const CollectiblesPageHead = ({
   areaCount,
@@ -50,6 +51,13 @@ export const CollectiblesPageHead = ({
             </>
           ) : null}
         </>
+      }
+      note={
+        group.reward ? (
+          <>
+            <b className="text-ink font-extrabold">Reward</b> · {group.reward}
+          </>
+        ) : null
       }
       className="pt-0 sm:pt-0"
       action={
