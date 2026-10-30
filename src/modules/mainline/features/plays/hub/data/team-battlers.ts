@@ -16,13 +16,44 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { Type } from "@/modules/reference/types";
 
-import { getDamagingMoveTypeSlug } from "./team-analysis-rows";
+import {
+  getMoveHitTypeSlug,
+  isTypeEffectiveMove,
+} from "@/modules/reference/features/moves/domain/move-hit-types";
 
 /*
- * Your team as the battle math takes it, shared by both readings of Team
- * analysis: Story matchups (against one opponent's team) and Overall
- * (against a Pokémon of each type).
+ * Your team as the battle math takes it, shared by Story's battle readings
+ * (against one opponent's team) and Team analysis (against a Pokémon of each
+ * type).
  */
+
+/*
+ * The type a damaging move hits with when this Pokémon uses it, varying power
+ * included (Low Kick, Gyro Ball): Judgment and its kind take its type, Tera
+ * Blast its Tera Type. Fixed-damage, reactive and status moves claim no type
+ * coverage, and neither does Hidden Power, whose type isn't recorded.
+ */
+export const getDamagingMoveTypeSlug = (
+  move: MainlinePlayTeamMove,
+  user: Pick<
+    MainlinePlayTeamMember,
+    "primaryType" | "secondaryType" | "tera_type_slug"
+  >,
+) =>
+  isTypeEffectiveMove({
+    damageClass: move.attributes?.damage_class,
+    slug: move.slug,
+  })
+    ? getMoveHitTypeSlug({
+        moveTypeSlug: move.type?.slug ?? null,
+        slug: move.slug,
+        teraTypeSlug: user.tera_type_slug,
+        userTypeSlugs: [
+          user.primaryType?.slug,
+          user.secondaryType?.slug,
+        ].filter((slug): slug is string => Boolean(slug)),
+      })
+    : null;
 
 export const toTypeSlugs = (types: Type[]) =>
   types.flatMap((type): PokemonTypeSlug[] =>

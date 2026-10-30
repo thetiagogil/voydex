@@ -1,6 +1,10 @@
 import { PageHeader } from "@/shared/components/page-header";
 
-export const TeamAnalysisPageHead = ({ description }: { description: string }) => {
+export const TeamAnalysisPageHead = ({
+  description,
+}: {
+  description: string;
+}) => {
   return (
     <PageHeader
       headingLevel="h2"

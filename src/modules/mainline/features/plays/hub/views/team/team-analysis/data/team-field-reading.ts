@@ -21,7 +21,7 @@ import {
   hasRecordedDamagingMove,
   middlingStats,
   toYourBattler,
-} from "./team-battlers";
+} from "@/modules/mainline/features/plays/hub/data/team-battlers";
 
 /* Your team against a Pokémon of one type at the field's level. */
 export type TeamFieldTypeReading = {

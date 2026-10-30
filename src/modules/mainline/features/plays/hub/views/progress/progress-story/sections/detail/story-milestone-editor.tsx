@@ -27,6 +27,7 @@ import {
 
 import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
 import type { StoryMilestone } from "../../types";
+import { getStoryRouteStopId } from "../route/story-route-stop";
 import { getStoryMilestoneEditorCopy } from "../../utils/story-milestone-editor";
 import {
   StoryMilestoneEditorForm,
@@ -78,6 +79,11 @@ export const StoryMilestoneEditor = ({
   const usesBottomSheet = useBottomSheetLayout();
   const copy = getStoryMilestoneEditorCopy(intent, milestone);
   const isOpen = open && Boolean(milestone);
+  /* Back to the milestone's stop on the route, as its sheet does. */
+  const returnFocus = () =>
+    milestone
+      ? document.getElementById(getStoryRouteStopId(milestone.id))
+      : null;
   const form = (surface: StoryMilestoneEditorSurface) =>
     milestone ? (
       <StoryMilestoneEditorForm
@@ -100,6 +106,7 @@ export const StoryMilestoneEditor = ({
           side="bottom"
           className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0 data-[side=bottom]:rounded-t-xl"
           initialFocus={titleRef}
+          finalFocus={returnFocus}
         >
           <span
             aria-hidden
@@ -124,6 +131,7 @@ export const StoryMilestoneEditor = ({
         <AlertDialogContent
           className={desktopContentClassName}
           initialFocus={titleRef}
+          finalFocus={returnFocus}
         >
           <AlertDialogHeader className="gap-1 p-6 pr-16 pb-4">
             <EditorKicker milestone={milestone} />
@@ -147,6 +155,7 @@ export const StoryMilestoneEditor = ({
       <DialogContent
         className={desktopContentClassName}
         initialFocus={titleRef}
+        finalFocus={returnFocus}
       >
         <DialogHeader className="gap-1 p-6 pr-16 pb-4">
           <EditorKicker milestone={milestone} />

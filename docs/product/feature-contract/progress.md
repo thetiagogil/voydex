@@ -32,12 +32,18 @@ recorded`, not zero.
 
 Story progression is game/version-group-specific milestone tracking.
 
-Story opens inside the Progress context as an ordered milestone list with a
-larger selected-milestone detail region. Its summary shows the current or
-furthest recorded position, the next applicable objective, and normalized Story
-completion. Games with distinct Main Story, Postgame, DLC, or parallel paths
-may expose a compact game-aware content-scope switcher in the milestone Card
-header; games without separately authored scopes should retain one simple list.
+Story opens inside the Progress context as one route: the stamp card above,
+then every milestone of the open journey as a stop on one line that runs
+through the chapters in order (each chapter a sign on the line), with side
+content hanging off the beat that opens it and chapters played in any order
+(Scarlet / Violet's three paths) as lanes that fork off the line and join
+back. The line is solid behind you and dashed ahead; stops still ahead are
+quieter, so how far you've come reads at a glance. The page head shows
+normalized Story completion, and a game with DLC switches journeys there.
+A stop opens its milestone in a sheet (from the right edge from 1024px, from
+the bottom below) with its battles inside: one line per battle with its
+verdict, and the battle's full report in the same sheet with a way back to
+the milestone. There is no separate list of battles anywhere.
 
 Story holds story beats, not one milestone per battle. A beat is a required
 visit where the story stops you: a Gym, trial or League match; a confrontation
@@ -82,11 +88,11 @@ and Grand Trial in its Z-Crystal's type, a Grand Trial with a gold ring, and
 label it by its captain or kahuna. A trial that hands out no Z-Crystal (Ilima's
 bonus trial) gets no stamp. Recording one stamps it as it does a badge.
 
-Milestone rows provide completion state, identity, concise location or context,
-type, and restrained decision or snapshot cues. The selected detail owns the
-description, prerequisites, recorded decision, snapshot availability, notes,
-and actions. Narrow screens open that detail in a focused view or sheet and
-preserve a clear return to the list.
+A stop shows completion state, identity and one quiet line (the date it was
+recorded, Next objective, Locked or Optional). The sheet owns the
+description, prerequisites (or what opens side content), the recorded
+decision, the team saved with it, notes, the battles and the actions, and
+closes back to the stop that opened it.
 
 **One count.** A journey (one version group: the main game, or one DLC)
 counts its required milestones only, and the same count reads everywhere: the

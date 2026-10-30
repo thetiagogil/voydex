@@ -24,13 +24,21 @@ test.describe("Progress", () => {
     await expect(page.getByText("1 of 21 milestones")).toBeVisible();
     await expectAccessible(page);
 
+    /* The next objective's stop opens its sheet, with the main button in its foot. */
+    await page.getByRole("button", { name: /^Receive Pokedex/ }).click();
+    const sheet = page.getByRole("dialog", { name: "Receive Pokedex" });
+    await expect(sheet).toContainText("Next objective");
+    await expectAccessible(page);
+
     /* The record shows at once; wait for its save before reloading. */
     const saved = waitForAction(page);
-    await page.getByRole("button", { name: "Record Receive Pokedex" }).click();
+    await sheet.getByRole("button", { name: "Record Receive Pokedex" }).click();
 
     await expect(page.getByText("2 of 21 milestones")).toBeVisible();
+    /* The sheet closes and the route moves on: Boulder Badge is next. */
+    await expect(sheet).toBeHidden();
     await expect(
-      page.getByRole("region", { name: "Boulder Badge" }),
+      page.getByRole("button", { name: /^Boulder Badge.*Next objective/ }),
     ).toBeVisible();
     await saved;
 
@@ -50,10 +58,8 @@ test.describe("Progress", () => {
     });
     await expect(page.getByText("1 of 21 milestones")).toBeVisible();
 
-    /* Boulder Badge with Receive Pokedex, the one before it, still open. */
-    await page
-      .getByRole("button", { name: /^Milestone 3.*Boulder Badge/ })
-      .click();
+    /* Boulder Badge's stop (its stamp's name goes on with a comma), with Receive Pokedex still open. */
+    await page.getByRole("button", { name: /^Boulder Badge(?!,)/ }).click();
     await expect(
       page.getByText("Recording it also records the one before it."),
     ).toBeVisible();
@@ -86,9 +92,7 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await page
-      .getByRole("button", { name: /^Milestone 3.*Boulder Badge/ })
-      .click();
+    await page.getByRole("button", { name: /^Boulder Badge(?!,)/ }).click();
     const saved = waitForAction(page);
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await saved;
@@ -96,9 +100,7 @@ test.describe("Progress", () => {
     await expect(page.getByText("3 of 21 milestones")).toBeVisible();
 
     const openConfirm = async () => {
-      await page
-        .getByRole("button", { name: /^Milestone 2.*Receive Pokedex/ })
-        .click();
+      await page.getByRole("button", { name: /^Receive Pokedex/ }).click();
       await page.getByRole("button", { name: "Edit" }).click();
       await page.getByRole("menuitem", { name: "Mark incomplete" }).click();
       return page.getByRole("alertdialog", {
@@ -136,7 +138,7 @@ test.describe("Progress", () => {
     });
     await page.getByRole("button", { name: /^Thunder Badge.*Open it/ }).click();
     await expect(
-      page.getByRole("region", { name: "Thunder Badge" }),
+      page.getByRole("dialog", { name: "Thunder Badge" }),
     ).toBeVisible();
   });
 

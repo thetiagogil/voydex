@@ -78,7 +78,7 @@ still pick them) and the details step lists what the pick breaks.
 - **Level caps:** a Pokémon above the cap, the highest level on the team of
   the first Gym Leader, Kahuna, Elite Four member, Champion or Legends: Z-A
   promotion match Story still has ahead (rivals and bosses don't set it),
-  read as Story matchups reads that battle. Where that story point holds
+  read as Story reads that battle. Where that story point holds
   several such battles in a row, as Jacinthe's tournament does, the cap is
   the strongest of them. Add Pokémon checks the level once it's typed. In Play
   details an "i" tip beside the rule gives the cap and its battle, or why

@@ -1,10 +1,36 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
 import { forTheAnswer } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
-test.describe("Story matchups", () => {
+/* Opens a milestone's stop on the route, then one of its battles' reports. */
+const openBattle = async (
+  page: Page,
+  playId: string,
+  stop: RegExp,
+  battle: RegExp,
+  reportName: string,
+) => {
+  await page.goto(`/mainline/plays/${playId}/progress/story`, {
+    waitUntil: "networkidle",
+  });
+  const stopButton = page.getByRole("button", { name: stop }).first();
+  await expect(stopButton).toBeVisible(forTheAnswer);
+  await stopButton.click();
+  const sheet = page.getByRole("dialog");
+  const row = sheet.getByRole("button", { name: battle }).first();
+  await expect(row).toBeVisible(forTheAnswer);
+  await row.click();
+
+  return {
+    report: sheet.getByRole("region", { name: reportName }),
+    row,
+    sheet,
+  };
+};
+
+test.describe("Story battles", () => {
   test("reads a legendary as one Pokémon, apart from the battles won", async ({
     page,
   }) => {
@@ -14,21 +40,16 @@ test.describe("Story matchups", () => {
       partner: "Totodile",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
-      waitUntil: "networkidle",
-    });
-
     /* Roaming Raikou is optional Side Content: a legendary, not a Boss. */
-    const sideContent = page.getByRole("region", { name: /^Side Content/ });
-    await expect(sideContent).toContainText("0 of 5 done", forTheAnswer);
-
-    const raikou = sideContent.getByRole("button", { name: /^Raikou/ });
-    await expect(raikou).toContainText("Legendary");
-    await expect(raikou).not.toContainText("Boss");
-    await raikou.click();
-
-    const report = page.getByRole("region", { name: "Raikou" });
+    const { report, sheet } = await openBattle(
+      page,
+      playId,
+      /^Roaming Raikou/,
+      /^Raikou/,
+      "Raikou",
+    );
     await expect(report).toContainText("Legendary · Optional");
+    await expect(report).not.toContainText("Boss");
     await expect(
       report.getByRole("heading", { name: "The Pokémon" }),
     ).toBeVisible();
@@ -37,10 +58,13 @@ test.describe("Story matchups", () => {
       "This reads its moves against your team",
     );
     await expect(report).not.toContainText("Their");
-
-    /* The header counts battles won, not optional catches. */
-    await expect(page.getByText(/ battles won$/)).not.toContainText("legendar");
     await expectAccessible(page);
+
+    /* Back to the milestone, where it sits as side content after the Burned Tower. */
+    await sheet
+      .getByRole("button", { name: /^Back to Roaming Raikou/ })
+      .click();
+    await expect(sheet).toContainText("Opens after Burned Tower");
   });
 
   test("reads a Gen 5 legendary's moves from its encounter", async ({
@@ -52,16 +76,15 @@ test.describe("Story matchups", () => {
       partner: "Snivy",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
-      waitUntil: "networkidle",
-    });
-
-    const kyurem = page.getByRole("button", { name: /^Kyurem/ });
-    await expect(kyurem).toBeVisible(forTheAnswer);
-    await kyurem.click();
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Giant Chasm/,
+      /^Kyurem/,
+      "Kyurem",
+    );
 
     /* The Giant Chasm Kyurem knows Glaciate at Lv. 75. */
-    const report = page.getByRole("region", { name: "Kyurem" });
     await expect(report).toContainText(
       "This reads its moves against your team",
     );
@@ -81,51 +104,53 @@ test.describe("Story matchups", () => {
       partner: "Chikorita",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+    await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
 
-    /* Ranks Y to V come before Mega Evolution, F to B after it. */
-    const royale = page.getByRole("region", { name: /^Z-A Royale/ });
-    await expect(
-      royale.getByRole("button", { name: /^(Zach|Yvon|Xavi|Rintaro)\b/ }),
-    ).toHaveCount(4, forTheAnswer);
+    /* Ranks Y to V come before Mega Evolution, F to B after it, A in the Finale. */
+    const route = page.getByRole("region", { name: "Main game route" });
+    const stopNames = await route
+      .getByRole("button", { name: /^Reach Rank/ })
+      .allTextContents();
+    expect(
+      /* A stop's text opens with its marker's number, then its name. */
+      stopNames.map((text) => text.match(/Reach Rank [A-Z]/)?.[0]),
+    ).toEqual([
+      "Reach Rank Y",
+      "Reach Rank X",
+      "Reach Rank W",
+      "Reach Rank V",
+      "Reach Rank F",
+      "Reach Rank E",
+      "Reach Rank D",
+      "Reach Rank C",
+      "Reach Rank B",
+      "Reach Rank A",
+    ]);
 
-    const megaChapter = page.getByRole("region", {
-      name: /^Rogue Mega Evolution/,
-    });
-    const megaBattles = megaChapter.getByRole("button");
-    await expect(megaBattles.first()).toBeVisible();
-    const names = (await megaBattles.allTextContents()).map(
-      (text) => text.match(/^[A-Z][a-z]+/)?.[0],
-    );
-    expect(names).toEqual(
-      expect.arrayContaining([
-        "Vinnie",
-        "Canari",
-        "Ivor",
-        "Corbeau",
-        "Jacinthe",
-      ]),
-    );
     /* Jacinthe's tournament: Canari, Ivor and Corbeau again, then the final. */
-    expect(names.lastIndexOf("Canari")).toBeLessThan(names.indexOf("Jacinthe"));
-
-    const jacinthe = megaChapter.getByRole("button", { name: /^Jacinthe/ });
-    await expect(jacinthe).toContainText("Z-A Royale");
-    await jacinthe.click();
-
-    const report = page.getByRole("region", { name: "Jacinthe" });
+    const { report, sheet } = await openBattle(
+      page,
+      playId,
+      /^Reach Rank B/,
+      /^Jacinthe/,
+      "Jacinthe",
+    );
     await expect(report).toContainText("Z-A Royale");
     await expect(report).toContainText("Clefable");
     await expect(report).toContainText("Hotel Richissime");
-
-    /* Rank A is the Finale's, after Lysandre Labs. */
-    await expect(
-      page
-        .getByRole("region", { name: /^Finale/ })
-        .getByRole("button", { name: /^Grisham/ }),
-    ).toBeVisible();
+    await sheet.getByRole("button", { name: /^Back to Reach Rank B/ }).click();
+    const battleNames = (
+      await sheet.getByRole("list").last().getByRole("button").allTextContents()
+    ).map((text) => text.match(/^[A-Z][a-z]+/)?.[0]);
+    expect(battleNames).toEqual([
+      "Canari",
+      "Ivor",
+      "Corbeau",
+      "Zygarde",
+      "Jacinthe",
+    ]);
     await expectAccessible(page);
   });
 
@@ -138,16 +163,14 @@ test.describe("Story matchups", () => {
       partner: "Sprigatito",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
-      waitUntil: "networkidle",
-    });
-
     /* Geeta's Glimmora Terastallizes into Rock. */
-    const geeta = page.getByRole("button", { name: /^Geeta/ });
-    await expect(geeta).toBeVisible(forTheAnswer);
-    await geeta.click();
-
-    const report = page.getByRole("region", { name: "Geeta" });
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Champion Geeta/,
+      /^Geeta/,
+      "Geeta",
+    );
     const glimmora = report.getByRole("listitem").filter({
       hasText: "Glimmora",
     });
@@ -167,15 +190,13 @@ test.describe("Story matchups", () => {
       partner: "Squirtle",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
-      waitUntil: "networkidle",
-    });
-
-    const brock = page.getByRole("button", { name: /^Brock/ });
-    await expect(brock).toBeVisible(forTheAnswer);
-    await brock.click();
-
-    const report = page.getByRole("region", { name: "Brock" });
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Boulder Badge/,
+      /^Brock/,
+      "Brock",
+    );
     await expect(report).toContainText(
       "This reads their moves against your team.",
     );
@@ -205,16 +226,15 @@ test.describe("Story matchups", () => {
       partner: "Rowlet",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
-      waitUntil: "networkidle",
-    });
-
-    const hau = page.getByRole("button", { name: /^Hau.*Lana Trial/ }).first();
-    await expect(hau).toBeVisible(forTheAnswer);
-    await hau.click();
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Lana Trial/,
+      /^Hau/,
+      "Hau",
+    );
 
     /* Hau's Brionne holds Normalium Z: the sentence names the Z-Move. */
-    const report = page.getByRole("region", { name: "Hau" });
     await expect(report).toContainText(
       "Brionne holds Normalium Z: its Pound becomes Breakneck Blitz.",
     );
@@ -244,16 +264,15 @@ test.describe("Story matchups", () => {
       partner: "Squirtle",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
-      waitUntil: "networkidle",
-    });
-
-    const brock = page.getByRole("button", { name: /^Brock/ });
-    await expect(brock).toBeVisible(forTheAnswer);
-    await brock.click();
+    const { report } = await openBattle(
+      page,
+      playId,
+      /^Boulder Badge/,
+      /^Brock/,
+      "Brock",
+    );
 
     /* A new partner has no moves recorded, so Squirtle hits with Water. */
-    const report = page.getByRole("region", { name: "Brock" });
     await expect(report.getByRole("status")).toContainText(
       "By type, you have an answer to each of Brock's two Pokémon",
     );

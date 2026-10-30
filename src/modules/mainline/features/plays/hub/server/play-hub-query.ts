@@ -54,13 +54,14 @@ import { buildMainlinePlayTeamAnalysisData } from "@/modules/mainline/features/p
 import {
   readMainlinePlayLevelCap,
   readMainlinePlayStoryMatchupRows,
-} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/story-matchups-reader";
+} from "@/modules/mainline/features/plays/hub/views/progress/progress-story/server/story-matchups-reader";
 import { readMainlinePlayTeamAnalysisRows } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/server/team-analysis-reader";
-import type {
-  MainlinePlayTeamAnalysisData,
-  TeamAnalysisReading,
-} from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
+import type { MainlinePlayTeamAnalysisData } from "@/modules/mainline/features/plays/hub/views/team/team-analysis/types";
 import { readMainlinePlayStoryProgress } from "@/modules/mainline/features/plays/hub/views/progress/progress-story/server/story-progress-reader";
+import {
+  buildPlayStoryMatchups,
+  type StoryMatchupsModel,
+} from "@/modules/mainline/features/plays/hub/views/progress/progress-story/data/story-matchups-model";
 import {
   buildStoryProgressModel,
   findStoryMilestone,
@@ -353,38 +354,21 @@ export const getMainlinePlayTeamPlanData = cache(
 );
 
 export const getMainlinePlayTeamAnalysisData = cache(
-  async (
-    playId: string,
-    reading: TeamAnalysisReading = "overall",
-  ): Promise<MainlinePlayTeamAnalysisData | null> => {
+  async (playId: string): Promise<MainlinePlayTeamAnalysisData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
 
     if (!context) {
       return null;
     }
 
-    const [rows, storyRows] = await Promise.all([
-      readMainlinePlayTeamAnalysisRows(
-        context.supabase,
-        playId,
-        context.play.generation_id,
-        context.play.version_group_id,
-      ),
-      reading === "story"
-        ? readMainlinePlayStoryMatchupRows(
-            context.supabase,
-            playId,
-            context.play.generation_id,
-            { versionGroupId: context.play.version_group_id },
-          )
-        : null,
-    ]);
+    const rows = await readMainlinePlayTeamAnalysisRows(
+      context.supabase,
+      playId,
+      context.play.generation_id,
+      context.play.version_group_id,
+    );
 
-    return buildMainlinePlayTeamAnalysisData({
-      play: context.play,
-      rows,
-      storyRows,
-    });
+    return buildMainlinePlayTeamAnalysisData({ play: context.play, rows });
   },
 );
 
@@ -419,6 +403,42 @@ export const getMainlinePlayProgressStoryData = cache(
     }
 
     return readMainlinePlayStoryProgress(context.supabase, playId);
+  },
+);
+
+/*
+ * Story's battles, each read against the active team as Team analysis reads
+ * it, for the milestone sheets. Null without the game's type chart.
+ */
+export const getMainlinePlayStoryMatchups = cache(
+  async (playId: string): Promise<StoryMatchupsModel | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    const [teamRows, storyRows] = await Promise.all([
+      readMainlinePlayTeamAnalysisRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+        context.play.version_group_id,
+      ),
+      readMainlinePlayStoryMatchupRows(
+        context.supabase,
+        playId,
+        context.play.generation_id,
+        { versionGroupId: context.play.version_group_id },
+      ),
+    ]);
+
+    return buildPlayStoryMatchups({
+      generation: teamRows.generation,
+      play: context.play,
+      storyRows,
+      teamRows: teamRows.teamRows,
+    });
   },
 );
 

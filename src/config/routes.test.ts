@@ -15,9 +15,6 @@ describe("appRoutes query helpers", () => {
     expect(appRoutes.mainlineNewPlay("sword", "sobble")).toBe(
       "/mainline?new=sword&partner=sobble",
     );
-    expect(appRoutes.mainlinePlayTeamAnalysis("play-1", "story")).toBe(
-      "/mainline/plays/play-1/team/analysis?reading=story",
-    );
   });
 
   it("keeps the plain addresses without the optional values", () => {

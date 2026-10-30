@@ -172,7 +172,7 @@ Team Analysis is the Team-owned review view. It makes no claim it can't
 explain: every verdict says what it is built from and what to record to
 sharpen it. Its **Overall** reading is a general check of the team, not
 tied to the game's battles. It opens with four health cards read with the
-same battle math as Story matchups (below), against a full team of six: a
+same battle math as Story's battle readings (below), against a full team of six: a
 Pokémon of each type the generation has, with your active team's average
 base stats, at your top recorded level (Lv. 50 while none is), hitting with
 a move of its type at a power usual for that level (from Gen 4 once
@@ -203,10 +203,11 @@ any of yours leaves the cards ungraded, without the note. The defensive
 matchups matrix and the move coverage list below stay by type; each move
 coverage chip counts the recorded damaging moves that hit its type super
 effectively, and its tooltip names who has them, while the other chips fade.
-Move coverage tooltips give each move's type and mark STAB. **Story matchups** (`?reading=story`) lists the
-Play's Story battles by chapter: every opponent a story point names is its
-own battle (a rival on the way to a Gym sits under that badge), with where it
-happens. A battle won keeps who you faced, their team
+Move coverage tooltips give each move's type and mark STAB. **Story
+battles** live in Story, not in Team analysis: every opponent a story beat
+names is its own battle on that beat (a rival on the way to a Gym sits under
+that badge), with where it happens, one line each in the milestone's sheet,
+and its report opens in the same sheet. A battle won keeps who you faced, their team
 and the team saved with it, and reads nothing. A battle ahead reads your
 active team against their team in that battle
 (`tracking.mainline_opponent_team_members`, keyed by story point and
@@ -309,7 +310,7 @@ chapter's) leaves out optional legendary encounters, which are catches you
 may skip and may not be battles at all; a chapter counts them apart ("2 of 5
 done"). A required legendary, like Groudon in Ruby, still counts. Roaming
 shows in the story point's name and where it roams, not as a kind of its own.
-Boss is only the seeded role of these opponents; Story matchups reads one
+Boss is only the seeded role of these opponents; Story reads one
 as a legendary once its team is in Voydex, so a game without that team still
 reads it as a Boss.
 

@@ -5,8 +5,6 @@ import type {
 import type { TypeMatchupRow } from "@/modules/mainline/shared/data/type-matchup-rows";
 import type { Generation, Type } from "@/modules/reference/types";
 
-import type { StoryMatchupsModel } from "./data/story-matchups-model";
-
 /* One attacking type against the team, as Mainline's shared matchups draw it. */
 export type TeamAnalysisDefensiveRow = TypeMatchupRow<Type>;
 
@@ -93,13 +91,8 @@ export type TeamAnalysisModel = {
   roughNote: string | null;
 };
 
-export type TeamAnalysisReading = "overall" | "story";
-
 export type MainlinePlayTeamAnalysisData = {
   analysis: TeamAnalysisModel | null;
-  reading: TeamAnalysisReading;
-  /* Read only for the Story matchups reading. */
-  storyMatchups: StoryMatchupsModel | null;
 };
 
 export type MainlinePlayTeamAnalysisRows = {
