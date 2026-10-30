@@ -44,6 +44,8 @@ category_counts AS (
         mainline_categories.slug AS category_slug,
         mainline_categories.name AS category_name,
         mainline_categories.category_kind,
+        mainline_categories.chapter_kind,
+        mainline_categories.plays_in_any_order,
         mainline_categories.sort_order AS category_sort_order,
         COUNT(mainline_milestones.id) AS milestone_count,
         COUNT(mainline_milestones.id) FILTER (WHERE mainline_milestones.is_required_for_completion) AS required_milestone_count,
@@ -77,6 +79,8 @@ category_counts AS (
         mainline_categories.slug,
         mainline_categories.name,
         mainline_categories.category_kind,
+        mainline_categories.chapter_kind,
+        mainline_categories.plays_in_any_order,
         mainline_categories.sort_order
 )
 SELECT
@@ -94,6 +98,8 @@ SELECT
     category_counts.category_slug,
     category_counts.category_name,
     category_counts.category_kind,
+    category_counts.chapter_kind,
+    category_counts.plays_in_any_order,
     category_counts.category_sort_order,
     category_counts.milestone_count,
     category_counts.required_milestone_count,

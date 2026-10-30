@@ -131,6 +131,19 @@ export function assertTrackingCoreRows(context, tableRows) {
         `${relative(filePath)}: tracking.mainline_categories row ${row.id} has unsupported category_kind ${row.category_kind}.`,
       );
     }
+    if (
+      row.category_kind === "story" &&
+      !["main-story", "post-game", "side-content"].includes(row.chapter_kind)
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: tracking.mainline_categories row ${row.id} has unsupported chapter_kind ${row.chapter_kind}.`,
+      );
+    }
+    if (row.category_kind !== "story" && row.chapter_kind !== null) {
+      context.errors.push(
+        `${relative(filePath)}: tracking.mainline_categories row ${row.id} is not a story chapter, so it takes no chapter_kind.`,
+      );
+    }
   }
   for (const [tableName, rows] of [
     ["tracking.mainline_opponents", opponents],

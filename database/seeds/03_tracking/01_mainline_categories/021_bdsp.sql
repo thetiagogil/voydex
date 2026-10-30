@@ -15,13 +15,15 @@ INSERT INTO tracking.mainline_categories (
   slug,
   name,
   category_kind,
+  chapter_kind,
+  plays_in_any_order,
   sort_order
 ) VALUES
   -- Main Story
-  (2101, 21, 'main-story', 'Main Story', 'story', 1),
+  (2101, 21, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
   -- Pokémon League
-  (2102, 21, 'pokemon-league', 'Pokémon League', 'story', 2),
+  (2102, 21, 'pokemon-league', 'Pokémon League', 'story', 'main-story', false, 2),
   -- Post Game
-  (2103, 21, 'post-game', 'Post Game', 'story', 3),
+  (2103, 21, 'post-game', 'Post Game', 'story', 'post-game', false, 3),
   -- Side Content
-  (2104, 21, 'side-content', 'Side Content', 'story', 4);
+  (2104, 21, 'side-content', 'Side Content', 'story', 'side-content', false, 4);

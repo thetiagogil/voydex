@@ -15,11 +15,13 @@ INSERT INTO tracking.mainline_categories (
   slug,
   name,
   category_kind,
+  chapter_kind,
+  plays_in_any_order,
   sort_order
 ) VALUES
   -- Main Story
-  (2201, 22, 'main-story', 'Main Story', 'story', 1),
+  (2201, 22, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
   -- Post Game
-  (2202, 22, 'post-game', 'Post Game', 'story', 2),
+  (2202, 22, 'post-game', 'Post Game', 'story', 'post-game', false, 2),
   -- Side Content
-  (2203, 22, 'side-content', 'Side Content', 'story', 3);
+  (2203, 22, 'side-content', 'Side Content', 'story', 'side-content', false, 3);
