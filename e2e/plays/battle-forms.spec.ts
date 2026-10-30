@@ -5,20 +5,24 @@ import { forTheAnswer, waitForAction } from "../support/actions";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Battle forms", () => {
-  test("an opponent's Mega shows in Story matchups", async ({ page }) => {
+  test("an opponent's Mega shows in its Story battle", async ({ page }) => {
     const playId = await startPlay(page, {
       game: "Pokémon Omega Ruby, 2014",
       name: uniquePlayName("Hoenn run"),
       partner: "Treecko",
     });
 
-    await page.goto(`/mainline/plays/${playId}/team/analysis?reading=story`, {
+    await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await page.getByRole("button", { name: /^Steven/ }).click();
+    /* The stop, not the stamp (whose name goes on with a comma). */
+    await page.getByRole("button", { name: /^Champion Steven(?!,)/ }).click();
+    /* The sheet takes the battle's name once its report is open. */
+    const sheet = page.getByRole("dialog");
+    await sheet.getByRole("button", { name: /^Steven/ }).click();
 
     /* Steven holds Metagrossite, so his ace is read as Mega Metagross. */
-    const report = page.getByRole("region", { name: "Steven" });
+    const report = sheet.getByRole("region", { name: "Steven" });
     await expect(report).toContainText("Mega Metagross", forTheAnswer);
   });
 

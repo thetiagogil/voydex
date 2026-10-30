@@ -335,10 +335,17 @@ src/modules/mainline/features/plays/
           components/
           data/
           sections/
-            story-matchups/
-            ...
           server/
       progress/
+        progress-story/
+          data/
+          sections/
+            battles/
+            detail/
+            route/
+            ...
+          server/
+        ...
       history/
       settings/
     types.ts

@@ -5,7 +5,7 @@ import { createStampOrder } from "@/modules/mainline/features/plays/shared/data/
 
 import { buildStoryProgressModel } from "../../data/story-progress-model";
 import type { StoryMilestoneSource } from "../../types";
-import { StoryMilestoneList } from "./story-milestone-list";
+import { StoryRouteCard } from "./story-route-card";
 
 const milestone = (
   overrides: Partial<StoryMilestoneSource>,
@@ -45,7 +45,9 @@ const scope = buildStoryProgressModel({
       category_sort_order: 1,
       completed_required_milestone_count: 2,
       content_scope_sort_order: 1,
+      chapter_kind: "main-story",
       is_open_world: false,
+      plays_in_any_order: false,
       milestone_count: 3,
       required_milestone_count: 3,
       version_group_id: 6,
@@ -71,40 +73,68 @@ const scope = buildStoryProgressModel({
   snapshotEvents: [],
 }).scopes[0]!;
 
-const render = (waiting: number[]) =>
+const render = (waiting: number[], selected: number | null = null) =>
   renderToStaticMarkup(
-    <StoryMilestoneList
+    <StoryRouteCard
       fadingMilestoneIds={new Set()}
       onMilestoneSelect={() => {}}
       onMotionEnd={() => {}}
       scope={scope}
-      selectedMilestoneId={null}
+      selectedMilestoneId={selected}
       stampOrder={createStampOrder([1, 2])}
       waitingMilestoneIds={new Set(waiting)}
     />,
   );
 
-/* The markup of one row, by the milestone's name. */
-const row = (markup: string, name: string) =>
+/* The markup of one stop, by the milestone's name. */
+const stop = (markup: string, name: string) =>
   markup.split("<li").find((part) => part.includes(name)) ?? "";
 
-describe("StoryMilestoneList cascade", () => {
-  it("shows a row still waiting its turn as it was", () => {
-    const cascade = row(render([2]), "Cascade Badge");
+describe("StoryRouteCard cascade", () => {
+  it("shows a stop still waiting its turn as it was", () => {
+    const cascade = stop(render([2]), "Cascade Badge");
 
     expect(cascade).toContain("Not recorded");
-    expect(cascade).toContain("empty-slot");
+    /* A stop still ahead sinks back. */
+    expect(cascade).toContain("bg-surface-2");
     expect(cascade).not.toContain("animate-stamp-slap");
   });
 
-  it("stamps a row's medallion down once its turn comes", () => {
+  it("stamps a stop's medallion down once its turn comes", () => {
     const markup = render([]);
 
-    expect(row(markup, "Boulder Badge")).toContain("animate-stamp-slap");
-    expect(row(markup, "Cascade Badge")).toContain("animate-stamp-slap");
+    expect(stop(markup, "Boulder Badge")).toContain("animate-stamp-slap");
+    expect(stop(markup, "Cascade Badge")).toContain("animate-stamp-slap");
   });
 
-  it("leaves rows outside the cascade still", () => {
-    expect(row(render([]), "Thunder Badge")).not.toContain("animate-");
+  it("leaves stops outside the cascade still", () => {
+    expect(stop(render([]), "Thunder Badge")).not.toContain("animate-");
+  });
+});
+
+describe("StoryRouteCard", () => {
+  it("opens the route with its first chapter's sign and count", () => {
+    const markup = render([]);
+
+    expect(markup).toContain("Main Story");
+    expect(markup).toContain("2 of 3");
+  });
+
+  it("says where each stop stands in one quiet line", () => {
+    const markup = render([]);
+
+    expect(stop(markup, "Boulder Badge")).toContain("Recorded");
+    expect(stop(markup, "Thunder Badge")).toContain("Next objective");
+    /* The next one and those recorded stay at full strength. */
+    expect(stop(markup, "Thunder Badge")).not.toContain("bg-surface-2");
+    expect(stop(markup, "Boulder Badge")).not.toContain("bg-surface-2");
+  });
+
+  it("opens a stop's milestone as a dialog and rings the one open", () => {
+    const markup = render([], 3);
+
+    expect(stop(markup, "Thunder Badge")).toContain('aria-haspopup="dialog"');
+    expect(stop(markup, "Thunder Badge")).toContain("ring-select-ink");
+    expect(stop(markup, "Boulder Badge")).not.toContain("ring-select-ink");
   });
 });

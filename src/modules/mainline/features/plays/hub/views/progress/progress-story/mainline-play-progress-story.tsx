@@ -1,8 +1,6 @@
 "use client";
 
-import { getScrollBehavior } from "@/shared/utils/motion";
 import { useEffect, useMemo, useState } from "react";
-import { flushSync } from "react-dom";
 import { toast } from "sonner";
 
 import { useRecordMilestone } from "@/modules/mainline/features/plays/hub/client/use-record-milestone";
@@ -12,10 +10,12 @@ import {
   stampStepMs,
   type StampOrder,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
-import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { EmptyState } from "@/shared/components/empty-state";
-import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
 
+import {
+  groupStoryBattlesByMilestone,
+  type StoryMatchupsModel,
+} from "./data/story-matchups-model";
 import { buildStoryProgressModel } from "./data/story-progress-model";
 import {
   applyStoryRecordingOverrides,
@@ -25,14 +25,9 @@ import {
 import type { StoryMilestoneActionIntent } from "./server/story-milestone-action";
 import type { StoryMilestoneChoice } from "./sections/detail/story-milestone-actions";
 import { StoryMilestoneEditor } from "./sections/detail/story-milestone-editor";
-import {
-  StoryMilestonePanel,
-  storyPanelTitleId,
-} from "./sections/detail/story-milestone-panel";
 import { StoryMilestoneSheet } from "./sections/detail/story-milestone-sheet";
 import { StoryPageHead } from "./sections/head/story-page-head";
-import { StoryMilestoneList } from "./sections/milestones/story-milestone-list";
-import { getStoryMilestoneRowId } from "./sections/milestones/story-milestone-row";
+import { StoryRouteCard } from "./sections/route/story-route-card";
 import { StoryStampCardSection } from "./sections/stamps/story-stamp-card-section";
 import type {
   MainlinePlayProgressStoryData,
@@ -58,16 +53,21 @@ const getChapterName = (scope: StoryScope, milestone: StoryMilestone | null) =>
     ?.name ?? null;
 
 /*
- * Story: the milestones of one scope under their chapters, with the next
- * objective and the stamp card beside them. Phones put the next objective
- * first and the stamp card last, and open a picked milestone in a sheet.
+ * Story: the stamp card, then one scope's milestones as one route through
+ * the parts of the game, with chapters as signs on it and side content
+ * hanging off the beat that opens it. A stop opens its milestone in a sheet
+ * (from the right edge on wide screens, from the bottom below 1024px) with
+ * its battles inside. A game with DLC switches scopes in the page head.
  */
 export const MainlinePlayProgressStory = ({
   data,
+  matchups,
   playId,
   recordMilestoneId = null,
 }: {
   data: MainlinePlayProgressStoryData;
+  /* The Story's battles read against your team, for each milestone's sheet. */
+  matchups: StoryMatchupsModel | null;
   playId: string;
   /* Opens straight into recording this milestone, as Overview's Record button asks. */
   recordMilestoneId?: number | null;
@@ -93,7 +93,10 @@ export const MainlinePlayProgressStory = ({
       ),
     [data, overriddenAt, overrides],
   );
-  const usesDetailSheet = useBottomSheetLayout();
+  const battlesByMilestone = useMemo(
+    () => groupStoryBattlesByMilestone(matchups),
+    [matchups],
+  );
   const findMilestone = (milestoneId: number | null) =>
     model.scopes
       .flatMap(getScopeMilestones)
@@ -105,7 +108,7 @@ export const MainlinePlayProgressStory = ({
       ),
     ) ?? null;
   const recordTarget = findMilestone(recordMilestoneId);
-  /* A locked or already recorded target is shown, but not opened for recording. */
+  /* A locked or already recorded target opens in its sheet, not for recording. */
   const recordMilestone =
     recordTarget?.isAvailable && !recordTarget.isCompleted
       ? recordTarget
@@ -114,12 +117,13 @@ export const MainlinePlayProgressStory = ({
     findScope(recordTarget?.id ?? model.nextMilestone?.id ?? null) ??
     model.scopes[0];
   const [activeScopeId, setActiveScopeId] = useState(defaultScope?.id ?? null);
-  const [sidePanelStyle, bindSidePanel] = useStickyPanel<HTMLDivElement>();
-  /* The milestone picked from the list; none shows the next objective. */
+  /* The milestone open in the sheet. */
   const [selectedMilestoneId, setSelectedMilestoneId] = useState(
     recordTarget?.id ?? null,
   );
-  const [isDetailSheetOpen, setIsDetailSheetOpen] = useState(false);
+  const [isDetailSheetOpen, setIsDetailSheetOpen] = useState(
+    Boolean(recordTarget && !recordMilestone),
+  );
   const [editorIntent, setEditorIntent] =
     useState<StoryMilestoneActionIntent>("complete");
   /* "Record with your team" on a choice: the form opens with the team ticked. */
@@ -131,18 +135,19 @@ export const MainlinePlayProgressStory = ({
   );
   const [isEditorOpen, setIsEditorOpen] = useState(Boolean(recordMilestone));
   /*
-   * The milestones recorded a moment ago: their rows turn and their markers
+   * The milestones recorded a moment ago: their stops turn and their markers
    * stamp down, once each, one after another in Story order. Those
-   * un-recorded a moment ago pop back to their numbers. Each clears when its animation ends, and all clear
-   * when the scope changes, so a remount never replays them.
+   * un-recorded a moment ago pop back to their numbers. Each clears when its
+   * animation ends, and all clear when the scope changes, so a remount never
+   * replays them.
    */
   const [rowStampOrder, setRowStampOrder] = useState<StampOrder>(noStamps);
   const [fadingMilestoneIds, setFadingMilestoneIds] =
     useState<ReadonlySet<number>>(noFades);
-  /* Recorded together: the rows still waiting their turn, in order. */
+  /* Recorded together: the stops still waiting their turn, in order. */
   const [waitingMilestoneIds, setWaitingMilestoneIds] = useState<number[]>([]);
 
-  /* The cascade: each waiting row turns, one step after the one before. */
+  /* The cascade: each waiting stop turns, one step after the one before. */
   useEffect(() => {
     if (!waitingMilestoneIds.length) {
       return;
@@ -178,40 +183,21 @@ export const MainlinePlayProgressStory = ({
   const selectedMilestone = getScopeMilestones(activeScope).find(
     (milestone) => milestone.id === selectedMilestoneId,
   );
-  const panelMilestone =
-    (!usesDetailSheet ? selectedMilestone : null) ?? activeScope.nextMilestone;
   const editorMilestone = findMilestone(editorMilestoneId);
 
   const selectMilestone = (milestone: StoryMilestone) => {
     setActiveScopeId(findScope(milestone.id)?.id ?? activeScope.id);
     setSelectedMilestoneId(milestone.id);
-
-    if (usesDetailSheet) {
-      setIsDetailSheetOpen(true);
-    }
+    setIsDetailSheetOpen(true);
   };
 
-  /* A stamp opens its milestone: picked, and its row brought into view. */
+  /* A stamp opens its milestone, as its stop does. */
   const openStampMilestone = (milestoneId: number) => {
     const milestone = findMilestone(milestoneId);
 
-    if (!milestone) {
-      return;
+    if (milestone) {
+      selectMilestone(milestone);
     }
-
-    selectMilestone(milestone);
-    document
-      .getElementById(getStoryMilestoneRowId(milestoneId))
-      ?.scrollIntoView({ behavior: getScrollBehavior(), block: "center" });
-  };
-
-  /* Back to the next objective, with focus on the row that was open. */
-  const closePanel = (milestoneId: number) => {
-    flushSync(() => setSelectedMilestoneId(null));
-    (
-      document.getElementById(getStoryMilestoneRowId(milestoneId)) ??
-      document.getElementById(storyPanelTitleId)
-    )?.focus();
   };
 
   const endRecordingReward = () => {
@@ -239,7 +225,6 @@ export const MainlinePlayProgressStory = ({
     setRowStampOrder(order);
     setWaitingMilestoneIds([...order.keys()].slice(1));
     setFadingMilestoneIds(noFades);
-    setSelectedMilestoneId(null);
   };
 
   /* Shows milestones recorded or not at once, with the reward or the fade. */
@@ -271,8 +256,8 @@ export const MainlinePlayProgressStory = ({
   /*
    * Record is one tap (v3): the milestone is recorded where you are, with
    * the required ones and choices before it still open unless "Record only
-   * this one", its row's marker stamps down, and the toast offers Undo. A choice
-   * milestone still opens the form, since its choice has to be made.
+   * this one", its stop's marker stamps down, and the toast offers Undo. A
+   * choice milestone still opens the form, since its choice has to be made.
    */
   const openEditor = (
     milestone: StoryMilestone,
@@ -349,59 +334,37 @@ export const MainlinePlayProgressStory = ({
         />
       ) : null}
 
-      {/*
-       * The side column comes first in the DOM, so on phones the next
-       * objective is read and reached before the list it sits above.
-       */}
-      <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-start lg:gap-7">
-        <div
-          ref={bindSidePanel}
-          style={sidePanelStyle}
-          className="lg:sticky-panel contents lg:col-start-2 lg:row-start-1 lg:flex lg:min-w-0 lg:flex-col lg:gap-5"
-        >
-          <StoryMilestonePanel
-            chapterName={getChapterName(activeScope, panelMilestone)}
-            className="order-1 lg:order-0"
-            milestone={panelMilestone}
-            onAction={openEditor}
-            onClose={
-              !usesDetailSheet && selectedMilestone
-                ? () => closePanel(selectedMilestone.id)
-                : undefined
-            }
-            scope={activeScope}
-          />
-        </div>
-
-        <StoryMilestoneList
-          className="order-2 lg:order-0 lg:col-start-1 lg:row-start-1"
-          fadingMilestoneIds={fadingMilestoneIds}
-          onMilestoneSelect={selectMilestone}
-          onMotionEnd={(milestoneId) => {
-            setRowStampOrder((order) => withoutMilestone(order, milestoneId));
-            setFadingMilestoneIds((ids) => {
-              const next = new Set(ids);
-              next.delete(milestoneId);
-              return next;
-            });
-          }}
-          scope={activeScope}
-          stampOrder={rowStampOrder}
-          waitingMilestoneIds={waitingSet}
-          selectedMilestoneId={
-            !usesDetailSheet || isDetailSheetOpen
-              ? (selectedMilestone?.id ?? null)
-              : null
-          }
-        />
-      </div>
+      <StoryRouteCard
+        fadingMilestoneIds={fadingMilestoneIds}
+        onMilestoneSelect={selectMilestone}
+        onMotionEnd={(milestoneId) => {
+          setRowStampOrder((order) => withoutMilestone(order, milestoneId));
+          setFadingMilestoneIds((ids) => {
+            const next = new Set(ids);
+            next.delete(milestoneId);
+            return next;
+          });
+        }}
+        scope={activeScope}
+        selectedMilestoneId={
+          isDetailSheetOpen ? (selectedMilestone?.id ?? null) : null
+        }
+        stampOrder={rowStampOrder}
+        waitingMilestoneIds={waitingSet}
+      />
 
       <StoryMilestoneSheet
+        battles={
+          selectedMilestone
+            ? (battlesByMilestone.get(selectedMilestone.id) ?? [])
+            : []
+        }
         chapterName={getChapterName(activeScope, selectedMilestone ?? null)}
         milestone={selectedMilestone ?? null}
         onAction={openEditor}
         onOpenChange={setIsDetailSheetOpen}
-        open={usesDetailSheet && isDetailSheetOpen}
+        open={isDetailSheetOpen}
+        returnsFocus={!isEditorOpen}
         scope={activeScope}
       />
 

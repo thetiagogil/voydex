@@ -118,7 +118,7 @@ reference/filter context; they are not currently a required top-level view.
     /[playId]
       /team             ?pokemon=, ?add= (with ?form=)
         /plan
-        /analysis       ?reading=story
+        /analysis
       /progress         redirects to Story
         /story          ?record=
         /pokedex
@@ -290,8 +290,8 @@ recommendation and target concepts remain in the [Backlog](./backlog.md).
   that Pokémon selected, as an Overview sticker links; on phones and tablets
   its detail sheet opens straight away. `?add=` opens Add Pokémon, on one
   species (and `?form=`) when given (`appRoutes.mainlinePlayTeamAdd`).
-- Team Analysis reads Overall by default; `?reading=story` opens Story
-  matchups.
+- Team Analysis reads the team as a whole; how it fares in each Story battle
+  lives in Story, in the battle's milestone sheet.
 - Progress owns only Story, Pokédex, and Collectibles. Its parent route opens
   Story, the always-supported default destination. The attached Progress menu
   switches directly between the three route-backed child views while Progress
