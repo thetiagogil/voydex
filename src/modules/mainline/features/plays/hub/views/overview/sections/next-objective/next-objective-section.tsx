@@ -42,7 +42,7 @@ type NextObjectiveSectionProps = {
   nextMilestone: OverviewMilestone | null;
   nextMilestonePosition: JourneyPosition | null;
   playId: string;
-  /* The Play's stamps: a gym or League objective shows its own, waiting. */
+  /* The Play's stamps: a gym, trial or League objective shows its own, waiting. */
   stamps: PlayStamp[];
 };
 
@@ -61,7 +61,7 @@ const hasDecision = (milestone: OverviewMilestone) =>
 /*
  * The next objective is quiet: a Fredoka title and the page's one main
  * button, which records it in place (a choice opens Story's record form
- * right here), then "Add a note". A gym or League objective shows its stamp
+ * right here), then "Add a note". A gym, trial or League objective shows its stamp
  * waiting at the end of its words.
  */
 export const NextObjectiveSection = ({

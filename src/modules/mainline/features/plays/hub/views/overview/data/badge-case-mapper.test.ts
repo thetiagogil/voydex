@@ -75,6 +75,53 @@ describe("buildMainlinePlayBadgeCase", () => {
     ]);
   });
 
+  it("stamps Alola's trials and Grand Trials in their Z-Crystal's type", () => {
+    const badgeCase = buildMainlinePlayBadgeCase({
+      milestones: [
+        milestone({
+          badge_refs: [{ type_id: 1 }],
+          is_completed: true,
+          milestone_id: 1,
+          milestone_name: "Ilima Trial",
+          milestone_type_slug: "trial",
+        }),
+        milestone({
+          badge_refs: [{ type_id: 7 }],
+          milestone_id: 2,
+          milestone_name: "Grand Trial Hala",
+          milestone_type_slug: "grand-trial",
+        }),
+        milestone({
+          milestone_id: 3,
+          milestone_name: "Ilima Bonus Trial",
+          milestone_type_slug: "trial",
+        }),
+        milestone({
+          milestone_id: 4,
+          milestone_name: "Professor Kukui",
+          milestone_type_slug: "champion",
+        }),
+      ],
+      types: [
+        { id: 1, slug: "normal" },
+        { id: 7, slug: "fighting" },
+      ],
+    });
+
+    expect(
+      badgeCase?.stamps.map((stamp) => [
+        stamp.label,
+        stamp.kind,
+        stamp.state,
+        stamp.badgeType,
+      ]),
+    ).toEqual([
+      ["Ilima", "trial", "earned", "normal"],
+      ["Hala", "grand-trial", "next", "fighting"],
+      ["Professor Kukui", "league", "todo", null],
+    ]);
+  });
+
   it("keeps a DLC champion out of the League stamp", () => {
     const badgeCase = buildMainlinePlayBadgeCase({
       milestones: [

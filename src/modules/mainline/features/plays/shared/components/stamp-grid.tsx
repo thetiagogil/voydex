@@ -52,11 +52,18 @@ const PickableStamp = ({
 /* Stamps tilt at rest, each by its own small angle. */
 const stampTilts = [-6, 4, -3, 7, -5, 3, -7, 5, -2, 4, -4, 6];
 
-/* A Play's stamp as a badge stamp: its badge or League icon, earned or ahead. */
+/*
+ * A Play's stamp as a badge stamp: its badge (or trial) or League icon,
+ * earned or ahead.
+ */
 export const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
-  if (stamp.kind === "gym") {
+  if (stamp.kind !== "league") {
     return stamp.state === "earned"
-      ? { kind: "badge", type: stamp.badgeType }
+      ? {
+          grand: stamp.kind === "grand-trial",
+          kind: "badge",
+          type: stamp.badgeType,
+        }
       : { kind: stamp.state };
   }
 

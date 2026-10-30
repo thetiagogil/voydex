@@ -8,12 +8,13 @@ import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
 
 /*
- * A badge stamp: the one thing that tilts at rest. A gym badge is its type
- * colour; a League milestone you've earned is gold. Stamps still ahead are
- * dashed, the next one a little stronger.
+ * A badge stamp: the one thing that tilts at rest. A gym badge or an Alola
+ * trial is its type colour, a Grand Trial its type in a gold ring; a League
+ * milestone you've earned is gold. Stamps still ahead are dashed, the next
+ * one a little stronger.
  */
 export type BadgeStampState =
-  | { kind: "badge"; type: PokemonTypeSlug | null }
+  | { grand?: boolean; kind: "badge"; type: PokemonTypeSlug | null }
   | { icon: AppIconComponent; kind: "earned" }
   | { icon?: AppIconComponent; kind: "next" | "todo" };
 
@@ -68,6 +69,7 @@ export const BadgeStamp = ({
             tilted && "transform-[rotate(var(--tilt))]",
             slap && "animate-stamp-slap",
             state.kind === "badge" && "moment-ring bg-(--t) text-white",
+            state.kind === "badge" && state.grand && "[--mr:var(--gold-ring)]",
             state.kind === "earned" &&
               "moment-ring bg-gold text-white [--mr:var(--gold-ring)]",
             (state.kind === "next" || state.kind === "todo") &&

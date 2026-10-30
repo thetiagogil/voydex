@@ -2,22 +2,45 @@ import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domai
 import type { Json } from "@/shared/types/database.types";
 
 /*
- * One stamp of a Play's badge case or stamp card: a gym badge in its type, or
- * a League milestone in gold. Overview's badge case and Story's stamp card
- * both build these, so a stamp reads the same wherever it shows.
+ * One stamp of a Play's badge case or stamp card: a gym badge or an Alola
+ * trial's Z-Crystal in its type, or a League milestone in gold. Overview's
+ * badge case and Story's stamp card both build these, so a stamp reads the
+ * same wherever it shows.
  */
 export type PlayStamp = {
-  /* A gym badge's type; null for the League or an unknown badge. */
+  /* A gym badge's or a trial's type; null for the League or an unknown badge. */
   badgeType: PokemonTypeSlug | null;
   completedAt: string | null;
-  kind: "gym" | "league";
-  /* What the stamp card prints under it: "Grass" for the Grass Badge. */
+  kind: PlayStampKind;
+  /*
+   * What the stamp card prints under it: "Grass" for the Grass Badge, "Lana"
+   * for Lana's trial, "Hala" for his Grand Trial.
+   */
   label: string;
   milestoneId: number;
   /* The milestone type, which picks a League stamp's icon. */
   milestoneTypeSlug: string | null;
   name: string;
   state: "earned" | "next" | "todo";
+};
+
+export type PlayStampKind = "gym" | "trial" | "grand-trial" | "league";
+
+/*
+ * The milestones that earn a typed stamp: every gym, and every Alola trial and
+ * Grand Trial that hands out a Z-Crystal (a bonus trial hands out none).
+ */
+export const getTypedStampKind = (
+  typeSlug: string | null | undefined,
+  hasBadge: boolean,
+): Exclude<PlayStampKind, "league"> | null => {
+  if (typeSlug === "gym") {
+    return "gym";
+  }
+
+  return (typeSlug === "trial" || typeSlug === "grand-trial") && hasBadge
+    ? typeSlug
+    : null;
 };
 
 /* A gym milestone's badge: the type of the first badge it refers to. */
@@ -42,9 +65,21 @@ export const getMilestoneBadgeTypeId = (
   return null;
 };
 
-/* What the stamp card prints under a stamp: a badge without its "Badge". */
-export const getPlayStampLabel = (kind: PlayStamp["kind"], name: string) =>
-  kind === "gym" ? name.replace(/ Badge$/, "") : name;
+/*
+ * What the stamp card prints under a stamp: a badge without its "Badge", a
+ * trial by its captain (or place) and a Grand Trial by its kahuna.
+ */
+export const getPlayStampLabel = (kind: PlayStamp["kind"], name: string) => {
+  if (kind === "gym") {
+    return name.replace(/ Badge$/, "");
+  }
+
+  if (kind === "trial") {
+    return name.replace(/ Trial$/, "");
+  }
+
+  return kind === "grand-trial" ? name.replace(/^Grand Trial /, "") : name;
+};
 
 /* The first stamp not yet earned is the next one. */
 export const getPlayStampStates = <TMilestone>(

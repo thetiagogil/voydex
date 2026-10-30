@@ -2,7 +2,10 @@ import type { PlayMomentContextEntries } from "@/modules/mainline/features/plays
 import { getMainlineTimelinePokemonFormIds } from "@/modules/mainline/features/plays/shared/data/play-timeline-mappers";
 import type { MainlinePlayTimelineEvent } from "@/modules/mainline/features/plays/shared/types";
 import { isTrophyMilestone } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
-import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import {
+  getMilestoneBadgeTypeId,
+  getTypedStampKind,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
@@ -68,7 +71,7 @@ export const readMainlinePlayMomentContext = async (
         getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
       );
 
-      return milestone.milestone_type_slug === "gym" &&
+      return getTypedStampKind(milestone.milestone_type_slug, true) &&
         milestone.milestone_id !== null &&
         typeSlug
         ? [[milestone.milestone_id, typeSlug]]
