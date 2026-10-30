@@ -41,6 +41,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
 import {
   readMainlinePlayFollowablePlans,
+  readMainlinePlayOtherVersionExclusives,
   readMainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
 import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
@@ -323,14 +324,25 @@ export const getMainlinePlayTeamPlanData = cache(
         context.play.generation_id,
       ),
       readMainlinePlayFollowablePlans(context.supabase, {
-        gameId: context.play.game_id,
         userId: context.userId,
         versionGroupId: context.play.version_group_id,
       }),
     ]);
 
+    const otherVersionExclusives = await readMainlinePlayOtherVersionExclusives(
+      context.supabase,
+      {
+        formIds: teamPlanRows.rows.flatMap((row) =>
+          row.target_form_id === null ? [] : [row.target_form_id],
+        ),
+        gameId: context.play.game_id,
+        versionGroupId: context.play.version_group_id,
+      },
+    );
+
     return buildMainlinePlayTeamPlanData({
       followablePlans,
+      otherVersionExclusives,
       play: context.play,
       teamPlanRows,
       teamRows,

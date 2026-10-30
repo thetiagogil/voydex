@@ -16,6 +16,7 @@ CREATE TABLE planning.mainline_team_plans (
     CONSTRAINT team_plans_id_user_unique UNIQUE (id, user_id),
     CONSTRAINT team_plans_id_game_unique UNIQUE (id, game_id),
     CONSTRAINT team_plans_id_user_game_version_group_unique UNIQUE (id, user_id, game_id, version_group_id),
+    CONSTRAINT team_plans_id_user_version_group_unique UNIQUE (id, user_id, version_group_id),
     CONSTRAINT team_plans_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 200),
     CONSTRAINT team_plans_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 10000)
 );
@@ -39,6 +40,8 @@ CREATE INDEX team_plans_user_version_group_idx ON planning.mainline_team_plans (
 
 CREATE INDEX team_plans_version_group_idx ON planning.mainline_team_plans (version_group_id);
 
-COMMENT ON TABLE planning.mainline_team_plans IS 'Reusable user-owned Pokémon team plan for a game and base version group.';
+COMMENT ON TABLE planning.mainline_team_plans IS 'Reusable user-owned Pokémon team plan for a base version group, for either of its games.';
+
+COMMENT ON COLUMN planning.mainline_team_plans.game_id IS 'The version group''s first game, kept for its cover. A Plan is for either game: a Play of any game in the version group can follow it and checks against its own game.';
 
 COMMENT ON COLUMN planning.mainline_team_plans.version_group_id IS 'Stored with game_id so optional content and availability joins can use composite integrity.';

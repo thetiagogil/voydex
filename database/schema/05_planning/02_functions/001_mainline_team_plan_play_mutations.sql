@@ -49,8 +49,9 @@ BEGIN
         RAISE EXCEPTION 'Unknown or unavailable team_plan_id %', p_team_plan_id
             USING ERRCODE = '23503';
     END IF;
-    IF v_play.user_id <> v_team_plan.user_id OR v_play.game_id <> v_team_plan.game_id OR v_play.version_group_id <> v_team_plan.version_group_id THEN
-        RAISE EXCEPTION 'Play and team plan must have the same owner, game, and version group'
+    -- A Plan is for either game of its version group.
+    IF v_play.user_id <> v_team_plan.user_id OR v_play.version_group_id <> v_team_plan.version_group_id THEN
+        RAISE EXCEPTION 'Play and team plan must have the same owner and version group'
             USING ERRCODE = '23514';
     END IF;
     SELECT
