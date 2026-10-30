@@ -8,6 +8,8 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Elesa's Emolga and Shauntal's Drifblim hold nothing per Bulbapedia (PokéWiki gives them items).
 -- Wild Pokémon here hold nothing in their game data.
+-- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
+-- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
 -- Scope: Pokémon Black 2 / White 2 Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -308,4 +310,60 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Heatran, Reversal Mountain 1: Heatran Lv. 68
   (120026, 12032, 12, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 68, NULL),
   -- Cresselia, Marvelous Bridge 1: Cresselia Lv. 68
-  (120027, 12033, 12, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 68, NULL);
+  (120027, 12033, 12, NULL, NULL, NULL, NULL, NULL, 1, 488, 48800, 68, NULL),
+  -- Zinzolin & Grunt, Lacunosa Town 1: Cryogonal Lv. 42
+  (120009, 12035, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 42, NULL),
+  -- Zinzolin & Grunt, Lacunosa Town 2: Sneasel Lv. 44
+  (120009, 12035, 12, NULL, NULL, NULL, NULL, NULL, 2, 215, 21500, 44, NULL),
+  -- Zinzolin & Grunt, Lacunosa Town 3: Golbat Lv. 39
+  (120009, 12035, 12, NULL, NULL, NULL, NULL, NULL, 3, 42, 4200, 39, NULL),
+  -- Zinzolin & Grunt, Lacunosa Town 4: Garbodor Lv. 39
+  (120009, 12035, 12, NULL, NULL, NULL, NULL, NULL, 4, 569, 56900, 39, NULL),
+  -- Zinzolin, Opelucid City 1: Cryogonal Lv. 46
+  (120010, 12034, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 46, NULL),
+  -- Zinzolin, Opelucid City 2: Cryogonal Lv. 46
+  (120010, 12034, 12, NULL, NULL, NULL, NULL, NULL, 2, 615, 61500, 46, NULL),
+  -- Zinzolin, Opelucid City 3: Weavile Lv. 48
+  (120010, 12034, 12, NULL, NULL, NULL, NULL, NULL, 3, 461, 46100, 48, NULL),
+  -- Shadow (Absol), Opelucid City 1: Pawniard Lv. 46
+  (120010, 12036, 12, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 46, NULL),
+  -- Shadow (Absol), Opelucid City 2: Pawniard Lv. 46
+  (120010, 12036, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 46, NULL),
+  -- Shadow (Absol), Opelucid City 3: Absol Lv. 48
+  (120010, 12036, 12, NULL, NULL, NULL, NULL, NULL, 3, 359, 35900, 48, NULL),
+  -- Zinzolin & Grunt, Plasma Frigate 1: Cryogonal Lv. 48
+  (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 48, NULL),
+  -- Zinzolin & Grunt, Plasma Frigate 2: Cryogonal Lv. 48
+  (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 2, 615, 61500, 48, NULL),
+  -- Zinzolin & Grunt, Plasma Frigate 3: Weavile Lv. 50
+  (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 3, 461, 46100, 50, NULL),
+  -- Zinzolin & Grunt, Plasma Frigate 4: Liepard Lv. 45
+  (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 4, 510, 51000, 45, NULL),
+  -- Zinzolin & Grunt, Plasma Frigate 5: Watchog Lv. 45
+  (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 5, 505, 50500, 45, NULL),
+  -- Zinzolin & Grunt, Plasma Frigate 6: Scolipede Lv. 45
+  (120011, 12035, 12, NULL, NULL, NULL, NULL, NULL, 6, 545, 54500, 45, NULL),
+  -- Zinzolin, Plasma Frigate, Giant Chasm 1: Cryogonal Lv. 49
+  (120011, 12034, 12, NULL, NULL, NULL, NULL, NULL, 1, 615, 61500, 49, NULL),
+  -- Zinzolin, Plasma Frigate, Giant Chasm 2: Cryogonal Lv. 49
+  (120011, 12034, 12, NULL, NULL, NULL, NULL, NULL, 2, 615, 61500, 49, NULL),
+  -- Zinzolin, Plasma Frigate, Giant Chasm 3: Weavile Lv. 51
+  (120011, 12034, 12, NULL, NULL, NULL, NULL, NULL, 3, 461, 46100, 51, NULL),
+  -- Shadow (Absol), Plasma Frigate, Giant Chasm 1: Pawniard Lv. 49
+  (120012, 12036, 12, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 49, NULL),
+  -- Shadow (Absol), Plasma Frigate, Giant Chasm 2: Pawniard Lv. 49
+  (120012, 12036, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 49, NULL),
+  -- Shadow (Absol), Plasma Frigate, Giant Chasm 3: Absol Lv. 51
+  (120012, 12036, 12, NULL, NULL, NULL, NULL, NULL, 3, 359, 35900, 51, NULL),
+  -- Shadow (Banette), Plasma Frigate, Giant Chasm 1: Pawniard Lv. 49
+  (120012, 12037, 12, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 49, NULL),
+  -- Shadow (Banette), Plasma Frigate, Giant Chasm 2: Pawniard Lv. 49
+  (120012, 12037, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 49, NULL),
+  -- Shadow (Banette), Plasma Frigate, Giant Chasm 3: Banette Lv. 51
+  (120012, 12037, 12, NULL, NULL, NULL, NULL, NULL, 3, 354, 35400, 51, NULL),
+  -- Shadow (Accelgor), Plasma Frigate, Giant Chasm 1: Pawniard Lv. 49
+  (120012, 12038, 12, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 49, NULL),
+  -- Shadow (Accelgor), Plasma Frigate, Giant Chasm 2: Pawniard Lv. 49
+  (120012, 12038, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 49, NULL),
+  -- Shadow (Accelgor), Plasma Frigate, Giant Chasm 3: Accelgor Lv. 51
+  (120012, 12038, 12, NULL, NULL, NULL, NULL, NULL, 3, 617, 61700, 51, NULL);

@@ -10,6 +10,8 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
+-- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
 -- Scope: Black 2 / White 2 Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -298,7 +300,63 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Heatran: Heatran Lv. 68: Scary Face, Lava Plume, Fire Spin, Iron Head
     (120026, 12032, NULL, NULL, NULL, NULL, 1, ARRAY[184, 436, 83, 442]),
     -- Cresselia: Cresselia Lv. 68: Future Sight, Slash, Moonlight, Psycho Cut
-    (120027, 12033, NULL, NULL, NULL, NULL, 1, ARRAY[248, 163, 236, 427])
+    (120027, 12033, NULL, NULL, NULL, NULL, 1, ARRAY[248, 163, 236, 427]),
+    -- Zinzolin & Grunt: Cryogonal Lv. 42: Ice Beam, Light Screen, Slash, Reflect
+    (120009, 12035, NULL, NULL, NULL, NULL, 1, ARRAY[58, 113, 163, 115]),
+    -- Zinzolin & Grunt: Sneasel Lv. 44: Snatch, Slash, Punishment, Screech
+    (120009, 12035, NULL, NULL, NULL, NULL, 2, ARRAY[289, 163, 386, 103]),
+    -- Zinzolin & Grunt: Golbat Lv. 39: Air Cutter, Acrobatics, Mean Look, Poison Fang
+    (120009, 12035, NULL, NULL, NULL, NULL, 3, ARRAY[314, 512, 212, 305]),
+    -- Zinzolin & Grunt: Garbodor Lv. 39: Sludge Bomb, Clear Smog, Body Slam, Toxic
+    (120009, 12035, NULL, NULL, NULL, NULL, 4, ARRAY[188, 499, 34, 92]),
+    -- Zinzolin: Cryogonal Lv. 46: Slash, Ice Beam, Confuse Ray, Reflect
+    (120010, 12034, NULL, NULL, NULL, NULL, 1, ARRAY[163, 58, 109, 115]),
+    -- Zinzolin: Cryogonal Lv. 46: Slash, Ice Beam, Confuse Ray, Light Screen
+    (120010, 12034, NULL, NULL, NULL, NULL, 2, ARRAY[163, 58, 109, 113]),
+    -- Zinzolin: Weavile Lv. 48: Slash, Metal Claw, Night Slash, Ice Shard
+    (120010, 12034, NULL, NULL, NULL, NULL, 3, ARRAY[163, 232, 400, 420]),
+    -- Shadow (Absol): Pawniard Lv. 46: Feint Attack, Slash, Scary Face, Metal Claw
+    (120010, 12036, NULL, NULL, NULL, NULL, 1, ARRAY[185, 163, 184, 232]),
+    -- Shadow (Absol): Pawniard Lv. 46: Feint Attack, Slash, Hone Claws, Metal Claw
+    (120010, 12036, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
+    -- Shadow (Absol): Absol Lv. 48: Swords Dance, Night Slash, Slash, Future Sight
+    (120010, 12036, NULL, NULL, NULL, NULL, 3, ARRAY[14, 400, 163, 248]),
+    -- Zinzolin & Grunt: Cryogonal Lv. 48: Reflect, Confuse Ray, Ice Beam, Slash
+    (120011, 12035, NULL, NULL, NULL, NULL, 1, ARRAY[115, 109, 58, 163]),
+    -- Zinzolin & Grunt: Cryogonal Lv. 48: Light Screen, Confuse Ray, Ice Beam, Slash
+    (120011, 12035, NULL, NULL, NULL, NULL, 2, ARRAY[113, 109, 58, 163]),
+    -- Zinzolin & Grunt: Weavile Lv. 50: Ice Shard, Night Slash, Slash, Metal Claw
+    (120011, 12035, NULL, NULL, NULL, NULL, 3, ARRAY[420, 400, 163, 232]),
+    -- Zinzolin & Grunt: Liepard Lv. 45: Taunt, Assurance, Night Slash, Slash
+    (120011, 12035, NULL, NULL, NULL, NULL, 4, ARRAY[269, 372, 400, 163]),
+    -- Zinzolin & Grunt: Watchog Lv. 45: Slam, Hyper Fang, Baton Pass, Mean Look
+    (120011, 12035, NULL, NULL, NULL, NULL, 5, ARRAY[21, 158, 226, 212]),
+    -- Zinzolin & Grunt: Scolipede Lv. 45: Steamroller, Agility, Baton Pass, Toxic
+    (120011, 12035, NULL, NULL, NULL, NULL, 6, ARRAY[537, 97, 226, 92]),
+    -- Zinzolin: Cryogonal Lv. 49: Reflect, Confuse Ray, Ice Beam, Slash
+    (120011, 12034, NULL, NULL, NULL, NULL, 1, ARRAY[115, 109, 58, 163]),
+    -- Zinzolin: Cryogonal Lv. 49: Light Screen, Confuse Ray, Ice Beam, Slash
+    (120011, 12034, NULL, NULL, NULL, NULL, 2, ARRAY[113, 109, 58, 163]),
+    -- Zinzolin: Weavile Lv. 51: Night Slash, Slash, Ice Shard, Metal Claw
+    (120011, 12034, NULL, NULL, NULL, NULL, 3, ARRAY[400, 163, 420, 232]),
+    -- Shadow (Absol): Pawniard Lv. 49: Feint Attack, Slash, Scary Face, Metal Claw
+    (120012, 12036, NULL, NULL, NULL, NULL, 1, ARRAY[185, 163, 184, 232]),
+    -- Shadow (Absol): Pawniard Lv. 49: Feint Attack, Slash, Hone Claws, Metal Claw
+    (120012, 12036, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
+    -- Shadow (Absol): Absol Lv. 51: Swords Dance, Night Slash, Slash, Future Sight
+    (120012, 12036, NULL, NULL, NULL, NULL, 3, ARRAY[14, 400, 163, 248]),
+    -- Shadow (Banette): Pawniard Lv. 49: Feint Attack, Slash, Scary Face, Metal Claw
+    (120012, 12037, NULL, NULL, NULL, NULL, 1, ARRAY[185, 163, 184, 232]),
+    -- Shadow (Banette): Pawniard Lv. 49: Feint Attack, Slash, Hone Claws, Metal Claw
+    (120012, 12037, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
+    -- Shadow (Banette): Banette Lv. 51: Shadow Claw, Will-O-Wisp, Psychic, Sucker Punch
+    (120012, 12037, NULL, NULL, NULL, NULL, 3, ARRAY[421, 261, 94, 389]),
+    -- Shadow (Accelgor): Pawniard Lv. 49: Feint Attack, Slash, Scary Face, Metal Claw
+    (120012, 12038, NULL, NULL, NULL, NULL, 1, ARRAY[185, 163, 184, 232]),
+    -- Shadow (Accelgor): Pawniard Lv. 49: Feint Attack, Slash, Hone Claws, Metal Claw
+    (120012, 12038, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
+    -- Shadow (Accelgor): Accelgor Lv. 51: Bug Buzz, Me First, Swift, Giga Drain
+    (120012, 12038, NULL, NULL, NULL, NULL, 3, ARRAY[405, 382, 129, 202])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

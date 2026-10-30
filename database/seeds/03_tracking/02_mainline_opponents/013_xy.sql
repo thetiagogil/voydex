@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, X / Y, Gift Pokémon, Fossil, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Lysandre's first Team Flare Secret HQ battle: Bulbapedia, cross-checked with Serebii.
+-- Team Flare scientists (Aliana, Celosia, Bryony, Mable, Xerosic) and Serena / Calem's
+-- partner team: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth.
 -- Scope: Pokémon X / Y major opponent data.
 -- ============================================================================
 -- File Scope
@@ -80,4 +82,16 @@ INSERT INTO tracking.mainline_opponents (
   -- Lysandre (boss, first Team Flare Secret HQ battle, so he can fight twice there)
   (13028, 13, NULL, 'lysandre-secret-hq', 'Lysandre', 'boss', NULL, NULL, 'lysandre', 26),
   -- Korrina (gym-leader, Geosenge Town battle before her Gym, so she can fight twice)
-  (13029, 13, NULL, 'korrina-geosenge', 'Korrina', 'gym-leader', 7, NULL, 'korrina', 27);
+  (13029, 13, NULL, 'korrina-geosenge', 'Korrina', 'gym-leader', 7, NULL, 'korrina', 27),
+  -- Aliana (boss; Team Flare scientist)
+  (13030, 13, NULL, 'aliana', 'Aliana', 'boss', NULL, NULL, 'aliana', 28),
+  -- Celosia & Bryony (boss; the Multi Battle with Serena / Calem at your side)
+  (13031, 13, NULL, 'celosia-bryony', 'Celosia & Bryony', 'boss', NULL, NULL, 'celosia', 29),
+  -- Celosia (boss; Team Flare scientist)
+  (13032, 13, NULL, 'celosia', 'Celosia', 'boss', NULL, NULL, 'celosia', 30),
+  -- Bryony (boss; Team Flare scientist)
+  (13033, 13, NULL, 'bryony', 'Bryony', 'boss', NULL, NULL, 'bryony', 31),
+  -- Mable (boss; Team Flare scientist)
+  (13034, 13, NULL, 'mable', 'Mable', 'boss', NULL, NULL, 'mable', 32),
+  -- Xerosic (boss; Team Flare scientist)
+  (13035, 13, NULL, 'xerosic', 'Xerosic', 'boss', NULL, NULL, 'xerosic', 33);

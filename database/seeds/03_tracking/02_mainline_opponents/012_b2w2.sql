@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black 2 / White 2, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
+-- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
 -- Scope: Pokémon Black 2 / White 2 major opponent data.
 -- ============================================================================
 -- File Scope
@@ -87,4 +89,14 @@ INSERT INTO tracking.mainline_opponents (
   -- Heatran (boss)
   (12032, 12, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 28),
   -- Cresselia (boss)
-  (12033, 12, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 29);
+  (12033, 12, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 29),
+  -- Zinzolin (boss; Team Plasma Sage)
+  (12034, 12, NULL, 'zinzolin', 'Zinzolin', 'boss', NULL, NULL, 'zinzolin', 30),
+  -- Zinzolin & Grunt (boss; the Multi Battles with Hugh at your side)
+  (12035, 12, NULL, 'zinzolin-grunt', 'Zinzolin & Grunt', 'boss', NULL, NULL, 'zinzolin', 31),
+  -- Shadow (Absol) (boss; Shadow Triad)
+  (12036, 12, NULL, 'shadow-absol', 'Shadow (Absol)', 'boss', NULL, NULL, 'shadow-triad', 32),
+  -- Shadow (Banette) (boss; Shadow Triad)
+  (12037, 12, NULL, 'shadow-banette', 'Shadow (Banette)', 'boss', NULL, NULL, 'shadow-triad', 33),
+  -- Shadow (Accelgor) (boss; Shadow Triad)
+  (12038, 12, NULL, 'shadow-accelgor', 'Shadow (Accelgor)', 'boss', NULL, NULL, 'shadow-triad', 34);

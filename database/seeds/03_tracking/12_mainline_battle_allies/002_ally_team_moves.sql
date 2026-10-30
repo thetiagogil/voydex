@@ -6,7 +6,8 @@
 -- Barry's Spear Pillar parties (Diamond / Pearl, Platinum) and Lance's Team Rocket HQ
 -- party (HeartGold / SoulSilver): the pret trainer data only; Bulbapedia's trainer
 -- pages list no partner team for those games.
--- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Hugh, Barry, Brendan and May, Steven,
+-- Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -15,7 +16,7 @@
 -- Bulbapedia's Rogue Mega Evolution table also lists Sirfetch'd.
 -- Forms: no source names a form for Carmine's Poltchageist and Sinistcha, so
 -- the default form is stored; allies are stored in the form they are sent out
--- in (Lucario, Emboar, Feraligatr and Meganium hold their Mega Stones).
+-- in (Lucario, Emboar, Feraligatr, Meganium and Steven's Metagross hold their Mega Stones).
 -- Scope: Story battles where an ally fights beside the player: their Pokémon's moves.
 -- ============================================================================
 -- File Scope
@@ -106,6 +107,42 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 6, ARRAY[202, 44, 73, 235]),
     -- Lance beside you vs Ariana & Grunt: Dragonite Lv. 40: Fly, Twister, Thunder, Hyper Beam
     (100009, 10043, 10013, NULL, NULL, NULL, NULL, 1, ARRAY[19, 239, 87, 63]),
+    -- Hugh beside you vs Zinzolin & Grunt [snivy]: Emboar Lv. 43: Take Down, Assurance, Heat Crash, Flamethrower
+    (120009, 12035, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[36, 372, 535, 53]),
+    -- Hugh beside you vs Zinzolin & Grunt [snivy]: Simipour Lv. 41: Scald, Leer, Lick, Fury Swipes
+    (120009, 12035, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[503, 43, 122, 154]),
+    -- Hugh beside you vs Zinzolin & Grunt [snivy]: Unfezant Lv. 41: Taunt, Air Slash, Razor Wind, Detect
+    (120009, 12035, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[269, 403, 13, 197]),
+    -- Hugh beside you vs Zinzolin & Grunt [tepig]: Samurott Lv. 43: Aqua Jet, Encore, Revenge, Slash
+    (120009, 12035, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[453, 227, 279, 163]),
+    -- Hugh beside you vs Zinzolin & Grunt [tepig]: Simisage Lv. 41: Seed Bomb, Leer, Lick, Fury Swipes
+    (120009, 12035, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[402, 43, 122, 154]),
+    -- Hugh beside you vs Zinzolin & Grunt [tepig]: Unfezant Lv. 41: Taunt, Air Slash, Razor Wind, Detect
+    (120009, 12035, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[269, 403, 13, 197]),
+    -- Hugh beside you vs Zinzolin & Grunt [oshawott]: Serperior Lv. 43: Coil, Leaf Blade, Slam, Mega Drain
+    (120009, 12035, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[489, 348, 21, 72]),
+    -- Hugh beside you vs Zinzolin & Grunt [oshawott]: Simisear Lv. 41: Flame Burst, Leer, Lick, Fury Swipes
+    (120009, 12035, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[481, 43, 122, 154]),
+    -- Hugh beside you vs Zinzolin & Grunt [oshawott]: Unfezant Lv. 41: Taunt, Air Slash, Razor Wind, Detect
+    (120009, 12035, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[269, 403, 13, 197]),
+    -- Hugh beside you vs Zinzolin & Grunt [snivy]: Emboar Lv. 50: Heat Crash, Assurance, Flamethrower, Head Smash
+    (120011, 12035, 12016, NULL, 120001, 'snivy', NULL, 1, ARRAY[535, 372, 53, 457]),
+    -- Hugh beside you vs Zinzolin & Grunt [snivy]: Unfezant Lv. 48: Razor Wind, Feather Dance, Air Slash, Taunt
+    (120011, 12035, 12016, NULL, 120001, 'snivy', NULL, 2, ARRAY[13, 297, 403, 269]),
+    -- Hugh beside you vs Zinzolin & Grunt [snivy]: Simipour Lv. 48: Leer, Lick, Fury Swipes, Scald
+    (120011, 12035, 12016, NULL, 120001, 'snivy', NULL, 3, ARRAY[43, 122, 154, 503]),
+    -- Hugh beside you vs Zinzolin & Grunt [tepig]: Samurott Lv. 50: Encore, Slash, Aqua Tail, Retaliate
+    (120011, 12035, 12016, NULL, 120001, 'tepig', NULL, 1, ARRAY[227, 163, 401, 514]),
+    -- Hugh beside you vs Zinzolin & Grunt [tepig]: Unfezant Lv. 48: Razor Wind, Feather Dance, Air Slash, Taunt
+    (120011, 12035, 12016, NULL, 120001, 'tepig', NULL, 2, ARRAY[13, 297, 403, 269]),
+    -- Hugh beside you vs Zinzolin & Grunt [tepig]: Simisage Lv. 48: Leer, Lick, Fury Swipes, Seed Bomb
+    (120011, 12035, 12016, NULL, 120001, 'tepig', NULL, 3, ARRAY[43, 122, 154, 402]),
+    -- Hugh beside you vs Zinzolin & Grunt [oshawott]: Serperior Lv. 50: Coil, Leaf Blade, Giga Drain, Wring Out
+    (120011, 12035, 12016, NULL, 120001, 'oshawott', NULL, 1, ARRAY[489, 348, 202, 378]),
+    -- Hugh beside you vs Zinzolin & Grunt [oshawott]: Unfezant Lv. 48: Razor Wind, Feather Dance, Air Slash, Taunt
+    (120011, 12035, 12016, NULL, 120001, 'oshawott', NULL, 2, ARRAY[13, 297, 403, 269]),
+    -- Hugh beside you vs Zinzolin & Grunt [oshawott]: Simisear Lv. 48: Leer, Lick, Fury Swipes, Flame Burst
+    (120011, 12035, 12016, NULL, 120001, 'oshawott', NULL, 3, ARRAY[43, 122, 154, 481]),
     -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 1: Fletchling Lv. 15: Quick Attack, Growl, Peck
     (130005, 13017, 13018, NULL, 130001, 'chespin', NULL, 1, ARRAY[98, 45, 64]),
     -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 2: Braixen Lv. 16: Ember, Scratch
@@ -118,6 +155,106 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     (130005, 13017, 13018, NULL, 130001, 'froakie', NULL, 1, ARRAY[98, 45, 64]),
     -- Serena / Calem beside you vs Tierno & Trevor (chose Froakie), Fossil Choice 2: Quilladin Lv. 16: Vine Whip, Bite
     (130005, 13017, 13018, NULL, 130001, 'froakie', NULL, 2, ARRAY[22, 44]),
+    -- Calem beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 113]),
+    -- Calem beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[163, 14, 98, 44]),
+    -- Calem beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[595, 60]),
+    -- Calem beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 113]),
+    -- Calem beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[163, 14, 98, 44]),
+    -- Calem beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[594, 98]),
+    -- Calem beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 113]),
+    -- Calem beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[163, 14, 98, 44]),
+    -- Calem beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[402, 44]),
+    -- Serena beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 113]),
+    -- Serena beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[163, 14, 98, 44]),
+    -- Serena beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[595, 60]),
+    -- Serena beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 113]),
+    -- Serena beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[163, 14, 98, 44]),
+    -- Serena beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[594, 98]),
+    -- Serena beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 113]),
+    -- Serena beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[163, 14, 98, 44]),
+    -- Serena beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[402, 44]),
+    -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
+    (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
+    -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
+    (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[72, 29, 77, 388]),
+    -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Combusken Lv. 26: Peck, Double Kick, Flame Charge, Quick Attack
+    (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[64, 24, 488, 98]),
+    -- Brendan / May beside you vs Tabitha & Grunt [torchic]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
+    (140019, 14051, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[72, 29, 77, 388]),
+    -- Brendan / May beside you vs Tabitha & Grunt [torchic]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
+    (140019, 14051, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[106, 510, 499, 246]),
+    -- Brendan / May beside you vs Tabitha & Grunt [torchic]: Marshtomp Lv. 26: Foresight, Mud Shot, Bide, Mud Bomb
+    (140019, 14051, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[193, 341, 117, 426]),
+    -- Brendan / May beside you vs Tabitha & Grunt [mudkip]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
+    (140019, 14051, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[106, 510, 499, 246]),
+    -- Brendan / May beside you vs Tabitha & Grunt [mudkip]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
+    (140019, 14051, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[250, 310, 352, 54]),
+    -- Brendan / May beside you vs Tabitha & Grunt [mudkip]: Grovyle Lv. 26: Mega Drain, Fury Cutter, Pursuit, Leaf Blade
+    (140019, 14051, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[72, 210, 228, 348]),
+    -- Brendan / May beside you vs Shelly & Grunt [treecko]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
+    (140019, 14056, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
+    -- Brendan / May beside you vs Shelly & Grunt [treecko]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
+    (140019, 14056, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[72, 29, 77, 388]),
+    -- Brendan / May beside you vs Shelly & Grunt [treecko]: Combusken Lv. 26: Peck, Double Kick, Flame Charge, Quick Attack
+    (140019, 14056, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[64, 24, 488, 98]),
+    -- Brendan / May beside you vs Shelly & Grunt [torchic]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed
+    (140019, 14056, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[72, 29, 77, 388]),
+    -- Brendan / May beside you vs Shelly & Grunt [torchic]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
+    (140019, 14056, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[106, 510, 499, 246]),
+    -- Brendan / May beside you vs Shelly & Grunt [torchic]: Marshtomp Lv. 26: Foresight, Mud Shot, Bide, Mud Bomb
+    (140019, 14056, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[193, 341, 117, 426]),
+    -- Brendan / May beside you vs Shelly & Grunt [mudkip]: Slugma Lv. 24: Harden, Incinerate, Clear Smog, Ancient Power
+    (140019, 14056, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[106, 510, 499, 246]),
+    -- Brendan / May beside you vs Shelly & Grunt [mudkip]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
+    (140019, 14056, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[250, 310, 352, 54]),
+    -- Brendan / May beside you vs Shelly & Grunt [mudkip]: Grovyle Lv. 26: Mega Drain, Fury Cutter, Pursuit, Leaf Blade
+    (140019, 14056, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[72, 210, 228, 348]),
+    -- Steven beside you vs Courtney & Grunt: Metang Lv. 35: Zen Headbutt, Bullet Punch, Pursuit, Metal Claw
+    (140009, 14053, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[428, 418, 228, 232]),
+    -- Steven beside you vs Courtney & Grunt: Skarmory Lv. 57: Toxic, Aerial Ace, Spikes, Steel Wing
+    (140018, 14053, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[92, 332, 191, 211]),
+    -- Steven beside you vs Courtney & Grunt: Claydol Lv. 57: Reflect, Light Screen, Extrasensory, Earth Power
+    (140018, 14053, 14013, NULL, NULL, NULL, NULL, 2, ARRAY[115, 113, 326, 414]),
+    -- Steven beside you vs Courtney & Grunt: Aggron Lv. 57: Stone Edge, Earthquake, Iron Tail, Dragon Claw
+    (140018, 14053, 14013, NULL, NULL, NULL, NULL, 3, ARRAY[444, 89, 231, 337]),
+    -- Steven beside you vs Courtney & Grunt: Cradily Lv. 57: Giga Drain, Ancient Power, Sludge Bomb, Confuse Ray
+    (140018, 14053, 14013, NULL, NULL, NULL, NULL, 4, ARRAY[202, 246, 188, 109]),
+    -- Steven beside you vs Courtney & Grunt: Armaldo Lv. 57: X-Scissor, Rock Blast, Metal Claw, Crush Claw
+    (140018, 14053, 14013, NULL, NULL, NULL, NULL, 5, ARRAY[404, 350, 232, 306]),
+    -- Steven beside you vs Courtney & Grunt: Metagross Lv. 59: Bullet Punch, Zen Headbutt, Meteor Mash, Giga Impact
+    (140018, 14053, 14013, NULL, NULL, NULL, NULL, 6, ARRAY[418, 428, 309, 416]),
+    -- Steven beside you vs Matt & Grunt: Metang Lv. 35: Zen Headbutt, Bullet Punch, Pursuit, Metal Claw
+    (140009, 14058, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[428, 418, 228, 232]),
+    -- Steven beside you vs Matt & Grunt: Skarmory Lv. 57: Toxic, Aerial Ace, Spikes, Steel Wing
+    (140018, 14058, 14013, NULL, NULL, NULL, NULL, 1, ARRAY[92, 332, 191, 211]),
+    -- Steven beside you vs Matt & Grunt: Claydol Lv. 57: Reflect, Light Screen, Extrasensory, Earth Power
+    (140018, 14058, 14013, NULL, NULL, NULL, NULL, 2, ARRAY[115, 113, 326, 414]),
+    -- Steven beside you vs Matt & Grunt: Aggron Lv. 57: Stone Edge, Earthquake, Iron Tail, Dragon Claw
+    (140018, 14058, 14013, NULL, NULL, NULL, NULL, 3, ARRAY[444, 89, 231, 337]),
+    -- Steven beside you vs Matt & Grunt: Cradily Lv. 57: Giga Drain, Ancient Power, Sludge Bomb, Confuse Ray
+    (140018, 14058, 14013, NULL, NULL, NULL, NULL, 4, ARRAY[202, 246, 188, 109]),
+    -- Steven beside you vs Matt & Grunt: Armaldo Lv. 57: X-Scissor, Rock Blast, Metal Claw, Crush Claw
+    (140018, 14058, 14013, NULL, NULL, NULL, NULL, 5, ARRAY[404, 350, 232, 306]),
+    -- Steven beside you vs Matt & Grunt: Metagross Lv. 59: Bullet Punch, Zen Headbutt, Meteor Mash, Giga Impact
+    (140018, 14058, 14013, NULL, NULL, NULL, NULL, 6, ARRAY[418, 428, 309, 416]),
     -- Arven beside you vs Stony Cliff Titan, Stony Cliff Titan 1: Shellder Lv. 16: Water Gun, Ice Shard, Life Dew, Leer
     (230024, 23022, 23027, NULL, NULL, NULL, NULL, 1, ARRAY[55, 420, 791, 43]),
     -- Arven beside you vs Open Sky Titan, Open Sky Titan 1: Nacli Lv. 19: Headbutt, Rock Polish, Smack Down, Rock Throw

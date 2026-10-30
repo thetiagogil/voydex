@@ -9,6 +9,8 @@
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Team Flare scientists (Aliana, Celosia, Bryony, Mable, Xerosic) and Serena / Calem's
+-- partner team: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth.
 -- Scope: X / Y Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -487,7 +489,35 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Korrina (Geosenge Town): Lucario Lv. 25: Swords Dance, Power-Up Punch, Metal Sound, Feint
     (130007, 13029, NULL, NULL, NULL, NULL, 1, ARRAY[14, 612, 319, 364]),
     -- Korrina (Geosenge Town): Lucario Lv. 25: Swords Dance, Power-Up Punch, Metal Sound, Feint
-    (130007, 13029, NULL, NULL, NULL, NULL, 2, ARRAY[14, 612, 319, 364])
+    (130007, 13029, NULL, NULL, NULL, NULL, 2, ARRAY[14, 612, 319, 364]),
+    -- Aliana: Mightyena Lv. 38: Roar, Swagger, Assurance, Scary Face
+    (130009, 13030, NULL, NULL, NULL, NULL, 1, ARRAY[46, 207, 372, 184]),
+    -- Celosia & Bryony: Liepard Lv. 41: Hone Claws, Assurance, Slash, Taunt
+    (130011, 13031, NULL, NULL, NULL, NULL, 1, ARRAY[468, 372, 163, 269]),
+    -- Celosia & Bryony: Manectric Lv. 41: Spark, Thunder Fang, Bite, Odor Sleuth
+    (130011, 13031, NULL, NULL, NULL, NULL, 2, ARRAY[209, 422, 44, 316]),
+    -- Mable: Houndoom Lv. 48: Fire Fang, Feint Attack, Embargo, Foul Play
+    (130011, 13034, NULL, NULL, NULL, NULL, 1, ARRAY[424, 185, 373, 492]),
+    -- Aliana: Mightyena Lv. 46: Taunt, Sucker Punch, Crunch, Embargo
+    (130021, 13030, NULL, NULL, NULL, NULL, 1, ARRAY[269, 389, 242, 373]),
+    -- Aliana: Druddigon Lv. 48: Dragon Claw, Crunch, Shadow Claw, Surf
+    (130021, 13030, NULL, NULL, NULL, NULL, 2, ARRAY[337, 242, 421, 57]),
+    -- Celosia: Manectric Lv. 46: Thunderbolt, Quick Attack, Flamethrower, Thunder Wave
+    (130021, 13032, NULL, NULL, NULL, NULL, 1, ARRAY[85, 98, 53, 86]),
+    -- Celosia: Drapion Lv. 48: Night Slash, X-Scissor, Poison Jab, Acupressure
+    (130021, 13032, NULL, NULL, NULL, NULL, 2, ARRAY[400, 404, 398, 367]),
+    -- Bryony: Liepard Lv. 46: Fake Out, Sucker Punch, Taunt, Slash
+    (130021, 13033, NULL, NULL, NULL, NULL, 1, ARRAY[252, 389, 269, 163]),
+    -- Bryony: Bisharp Lv. 48: Night Slash, Iron Head, X-Scissor, Shadow Claw
+    (130021, 13033, NULL, NULL, NULL, NULL, 2, ARRAY[400, 442, 404, 421]),
+    -- Mable: Houndoom Lv. 46: Snarl, Flamethrower, Sludge Bomb, Foul Play
+    (130021, 13034, NULL, NULL, NULL, NULL, 1, ARRAY[555, 53, 188, 492]),
+    -- Mable: Weavile Lv. 48: Night Slash, Quick Attack, Ice Shard, Low Sweep
+    (130021, 13034, NULL, NULL, NULL, NULL, 2, ARRAY[400, 98, 420, 490]),
+    -- Xerosic: Crobat Lv. 46: X-Scissor, Cross Poison, Steel Wing, Air Slash
+    (130021, 13035, NULL, NULL, NULL, NULL, 1, ARRAY[404, 440, 211, 403]),
+    -- Xerosic: Malamar Lv. 48: Superpower, Payback, Psycho Cut, Retaliate
+    (130021, 13035, NULL, NULL, NULL, NULL, 2, ARRAY[276, 371, 427, 514])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

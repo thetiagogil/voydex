@@ -9,6 +9,9 @@
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Magma and Aqua Admins (Tabitha, Courtney, Shelly, Matt) and the Brendan / May and
+-- Steven partner teams: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth
+-- where it lists them (Southern Island and the Space Center Grunts are Bulbapedia only).
 -- Scope: Omega Ruby / Alpha Sapphire Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -343,7 +346,63 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Wallace (Delta Episode): Gyarados Lv. 55: Waterfall, Crunch, Ice Fang, Stone Edge
     (140018, 14050, NULL, NULL, NULL, NULL, 5, ARRAY[127, 242, 423, 444]),
     -- Wallace (Delta Episode): Milotic Lv. 57: Dragon Pulse, Blizzard, Recover, Hydro Pump
-    (140018, 14050, NULL, NULL, NULL, NULL, 6, ARRAY[406, 59, 105, 56])
+    (140018, 14050, NULL, NULL, NULL, NULL, 6, ARRAY[406, 59, 105, 56]),
+    -- Tabitha & Grunt: Mightyena Lv. 23: Odor Sleuth, Roar, Snarl, Swagger
+    (140019, 14051, NULL, NULL, NULL, NULL, 1, ARRAY[316, 46, 555, 207]),
+    -- Tabitha & Grunt: Numel Lv. 23: Magnitude, Flame Burst, Amnesia, Lava Plume
+    (140019, 14051, NULL, NULL, NULL, NULL, 2, ARRAY[222, 481, 133, 436]),
+    -- Tabitha & Grunt: Koffing Lv. 23: Assurance, Clear Smog, Sludge, Self-Destruct
+    (140019, 14051, NULL, NULL, NULL, NULL, 3, ARRAY[372, 499, 124, 120]),
+    -- Tabitha: Koffing Lv. 24: Assurance, Clear Smog, Sludge, Self-Destruct
+    (140019, 14052, NULL, NULL, NULL, NULL, 1, ARRAY[372, 499, 124, 120]),
+    -- Tabitha: Numel Lv. 24: Magnitude, Flame Burst, Amnesia, Lava Plume
+    (140019, 14052, NULL, NULL, NULL, NULL, 2, ARRAY[222, 481, 133, 436]),
+    -- Tabitha: Camerupt Lv. 32: Lava Plume, Earth Power, Curse, Take Down
+    (140009, 14052, NULL, NULL, NULL, NULL, 1, ARRAY[436, 414, 174, 36]),
+    -- Shelly & Grunt: Mightyena Lv. 23: Odor Sleuth, Roar, Snarl, Swagger
+    (140019, 14056, NULL, NULL, NULL, NULL, 1, ARRAY[316, 46, 555, 207]),
+    -- Shelly & Grunt: Carvanha Lv. 23: Aqua Jet, Assurance, Screech, Swagger
+    (140019, 14056, NULL, NULL, NULL, NULL, 2, ARRAY[453, 372, 103, 207]),
+    -- Shelly & Grunt: Grimer Lv. 23: Disable, Sludge, Mud Bomb, Minimize
+    (140019, 14056, NULL, NULL, NULL, NULL, 3, ARRAY[50, 124, 426, 107]),
+    -- Shelly: Grimer Lv. 24: Disable, Sludge, Mud Bomb, Minimize
+    (140019, 14057, NULL, NULL, NULL, NULL, 1, ARRAY[50, 124, 426, 107]),
+    -- Shelly: Carvanha Lv. 24: Aqua Jet, Assurance, Screech, Swagger
+    (140019, 14057, NULL, NULL, NULL, NULL, 2, ARRAY[453, 372, 103, 207]),
+    -- Shelly: Sharpedo Lv. 32: Swagger, Ice Fang, Scary Face, Slash
+    (140009, 14057, NULL, NULL, NULL, NULL, 1, ARRAY[207, 423, 184, 163]),
+    -- Courtney & Grunt: Camerupt Lv. 31: Lava Plume, Earth Power, Curse, Take Down
+    (140009, 14053, NULL, NULL, NULL, NULL, 1, ARRAY[436, 414, 174, 36]),
+    -- Courtney & Grunt: Koffing Lv. 29: Sludge, Self-Destruct, Haze, Gyro Ball
+    (140009, 14053, NULL, NULL, NULL, NULL, 2, ARRAY[124, 120, 114, 360]),
+    -- Courtney: Camerupt Lv. 38: Earth Power, Curse, Take Down, Rock Slide
+    (140010, 14054, NULL, NULL, NULL, NULL, 1, ARRAY[414, 174, 36, 157]),
+    -- Courtney: Camerupt Lv. 39: Curse, Take Down, Rock Slide, Yawn
+    (140010, 14055, NULL, NULL, NULL, NULL, 1, ARRAY[174, 36, 157, 281]),
+    -- Courtney: Camerupt Lv. 53: Rock Slide, Yawn, Earthquake, Eruption
+    (140018, 14054, NULL, NULL, NULL, NULL, 1, ARRAY[157, 281, 89, 284]),
+    -- Courtney & Grunt: Mega Camerupt Lv. 55: Rock Slide, Yawn, Earthquake, Eruption
+    (140018, 14053, NULL, NULL, NULL, NULL, 1, ARRAY[157, 281, 89, 284]),
+    -- Courtney & Grunt: Mightyena Lv. 51: Taunt, Take Down, Crunch, Sucker Punch
+    (140018, 14053, NULL, NULL, NULL, NULL, 2, ARRAY[269, 36, 242, 389]),
+    -- Courtney & Grunt: Weezing Lv. 51: Sludge Bomb, Explosion, Destiny Bond, Belch
+    (140018, 14053, NULL, NULL, NULL, NULL, 3, ARRAY[188, 153, 194, 562]),
+    -- Matt & Grunt: Sharpedo Lv. 31: Swagger, Scary Face, Ice Fang, Slash
+    (140009, 14058, NULL, NULL, NULL, NULL, 1, ARRAY[207, 184, 423, 163]),
+    -- Matt & Grunt: Grimer Lv. 29: Mud Bomb, Minimize, Fling, Sludge Bomb
+    (140009, 14058, NULL, NULL, NULL, NULL, 2, ARRAY[426, 107, 374, 188]),
+    -- Matt: Sharpedo Lv. 38: Ice Fang, Scary Face, Slash, Poison Fang
+    (140010, 14059, NULL, NULL, NULL, NULL, 1, ARRAY[423, 184, 163, 305]),
+    -- Matt: Sharpedo Lv. 39: Ice Fang, Scary Face, Slash, Poison Fang
+    (140010, 14060, NULL, NULL, NULL, NULL, 1, ARRAY[423, 184, 163, 305]),
+    -- Matt: Sharpedo Lv. 53: Poison Fang, Crunch, Agility, Skull Bash
+    (140018, 14059, NULL, NULL, NULL, NULL, 1, ARRAY[305, 242, 97, 130]),
+    -- Matt & Grunt: Mega Sharpedo Lv. 55: Poison Fang, Crunch, Agility, Skull Bash
+    (140018, 14058, NULL, NULL, NULL, NULL, 1, ARRAY[305, 242, 97, 130]),
+    -- Matt & Grunt: Mightyena Lv. 51: Taunt, Take Down, Crunch, Sucker Punch
+    (140018, 14058, NULL, NULL, NULL, NULL, 2, ARRAY[269, 36, 242, 389]),
+    -- Matt & Grunt: Muk Lv. 51: Screech, Venom Drench, Gunk Shot, Acid Armor
+    (140018, 14058, NULL, NULL, NULL, NULL, 3, ARRAY[103, 599, 441, 151])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

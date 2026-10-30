@@ -94,7 +94,7 @@ SELECT
             opponent_id FROM tracking.mainline_milestone_opponent_refs
             WHERE
                 milestone_id = 140018 ORDER BY sort_order $$, $$
-            VALUES (14049), (14050), (14021), (14014), (14022) $$, 'the Delta Episode battles come in story order');
+            VALUES (14054), (14059), (14049), (14053), (14058), (14050), (14021), (14014), (14022) $$, 'the Delta Episode battles come in story order');
 SELECT
     results_eq ($$
         SELECT

@@ -3,6 +3,8 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Black 2 / White 2, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
+-- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
 -- Scope: Pokémon Black 2 / White 2 milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -31,13 +33,13 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Jet Badge -> Skyla
   (120008, 12006, 12, 'battle-opponent', 3, NULL),
   -- Legend Badge -> Drayden
-  (120009, 12007, 12, 'battle-opponent', 2, NULL),
+  (120009, 12007, 12, 'battle-opponent', 3, NULL),
   -- Wave Badge -> Marlon
-  (120010, 12008, 12, 'battle-opponent', 1, NULL),
+  (120010, 12008, 12, 'battle-opponent', 3, NULL),
   -- Defeat Colress -> Colress
-  (120011, 12009, 12, 'battle-opponent', 1, NULL),
+  (120011, 12009, 12, 'battle-opponent', 3, NULL),
   -- Defeat Ghetsis -> Ghetsis
-  (120012, 12010, 12, 'battle-opponent', 2, NULL),
+  (120012, 12010, 12, 'battle-opponent', 5, NULL),
   -- Elite Four Shauntal -> Shauntal
   (120013, 12011, 12, 'battle-opponent', 1, NULL),
   -- Elite Four Grimsley -> Grimsley
@@ -61,9 +63,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Legend Badge -> Hugh
   (120009, 12016, 12, 'battle-opponent', 1, 'Undella Town'),
   -- Defeat Ghetsis -> Kyurem
-  (120012, 12017, 12, 'battle-opponent', 1, 'Giant Chasm (deepest cave)'),
+  (120012, 12017, 12, 'battle-opponent', 4, 'Giant Chasm (deepest cave)'),
   -- Defeat Ghetsis -> Hugh
-  (120012, 12016, 12, 'battle-opponent', 3, 'Victory Road'),
+  (120012, 12016, 12, 'battle-opponent', 6, 'Victory Road'),
   -- Hall of Fame -> Hugh
   (120018, 12016, 12, 'battle-opponent', 1, 'Undella Town. You can skip this battle.'),
   -- Hall of Fame -> Colress
@@ -101,4 +103,20 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Reversal Mountain -> Heatran
   (120026, 12032, 12, 'battle-opponent', 1, 'Reversal Mountain (B1F special chamber). You can skip this battle.'),
   -- Marvelous Bridge -> Cresselia
-  (120027, 12033, 12, 'battle-opponent', 1, 'Marvelous Bridge (centre). You can skip this battle.');
+  (120027, 12033, 12, 'battle-opponent', 1, 'Marvelous Bridge (centre). You can skip this battle.'),
+  -- Legend Badge -> Zinzolin & Grunt (a Multi Battle, Hugh at your side)
+  (120009, 12035, 12, 'battle-opponent', 2, 'Lacunosa Town (with Hugh)'),
+  -- Wave Badge -> Zinzolin
+  (120010, 12034, 12, 'battle-opponent', 1, 'Opelucid City'),
+  -- Wave Badge -> Shadow (Absol)
+  (120010, 12036, 12, 'battle-opponent', 2, 'Opelucid City'),
+  -- Defeat Colress -> Zinzolin & Grunt (a Multi Battle, Hugh at your side)
+  (120011, 12035, 12, 'battle-opponent', 1, 'Plasma Frigate (with Hugh)'),
+  -- Defeat Colress -> Zinzolin
+  (120011, 12034, 12, 'battle-opponent', 2, 'Plasma Frigate, Giant Chasm'),
+  -- Defeat Ghetsis -> Shadow (Absol)
+  (120012, 12036, 12, 'battle-opponent', 1, 'Plasma Frigate, Giant Chasm'),
+  -- Defeat Ghetsis -> Shadow (Banette)
+  (120012, 12037, 12, 'battle-opponent', 2, 'Plasma Frigate, Giant Chasm'),
+  -- Defeat Ghetsis -> Shadow (Accelgor)
+  (120012, 12038, 12, 'battle-opponent', 3, 'Plasma Frigate, Giant Chasm');
