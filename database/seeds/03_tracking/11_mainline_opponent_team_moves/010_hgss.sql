@@ -6,6 +6,11 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Rocket Executives (Proton, Petrel, Ariana, Archer): the pret pokeheartgold trainer
+-- data, cross-checked with Bulbapedia's trainer and Goldenrod Radio Tower pages.
+-- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
+-- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
+-- Proton's and Petrel's first teams have no set moves; they get the game's default.
 -- Scope: HeartGold / SoulSilver Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -378,7 +383,55 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Groudon: Groudon Lv. 50: Rest, Earthquake, Ancient Power, Eruption
     (100040, 10038, NULL, NULL, NULL, NULL, 1, ARRAY[156, 89, 246, 284]),
     -- Rayquaza: Rayquaza Lv. 50: Rest, Air Slash, Ancient Power, Outrage
-    (100040, 10039, NULL, NULL, NULL, NULL, 1, ARRAY[156, 403, 246, 200])
+    (100040, 10039, NULL, NULL, NULL, NULL, 1, ARRAY[156, 403, 246, 200]),
+    -- Proton: Zubat Lv. 8: Leech Life, Supersonic
+    (100004, 10040, NULL, NULL, NULL, NULL, 1, ARRAY[141, 48]),
+    -- Proton: Koffing Lv. 12: Tackle, Poison Gas, Smog, Smokescreen
+    (100004, 10040, NULL, NULL, NULL, NULL, 2, ARRAY[33, 139, 123, 108]),
+    -- Petrel: Zubat Lv. 22: Astonish, Bite, Wing Attack, Confuse Ray
+    (100009, 10041, NULL, NULL, NULL, NULL, 1, ARRAY[310, 44, 17, 109]),
+    -- Petrel: Raticate Lv. 24: Hyper Fang, Sucker Punch, Scary Face, Crunch
+    (100009, 10041, NULL, NULL, NULL, NULL, 2, ARRAY[158, 389, 184, 242]),
+    -- Petrel: Koffing Lv. 22: Smog, Smokescreen, Assurance, Self-Destruct
+    (100009, 10041, NULL, NULL, NULL, NULL, 3, ARRAY[123, 108, 372, 120]),
+    -- Ariana & Grunt: Arbok Lv. 25: Wrap, Poison Sting, Crunch, Glare
+    (100009, 10043, NULL, NULL, NULL, NULL, 1, ARRAY[35, 40, 242, 137]),
+    -- Ariana & Grunt: Gloom Lv. 25: Mega Drain, Sweet Scent, Sleep Powder, Acid
+    (100009, 10043, NULL, NULL, NULL, NULL, 2, ARRAY[72, 230, 79, 51]),
+    -- Ariana & Grunt: Murkrow Lv. 27: Wing Attack, Pursuit, Astonish, Night Shade
+    (100009, 10043, NULL, NULL, NULL, NULL, 3, ARRAY[17, 228, 310, 101]),
+    -- Ariana & Grunt: Drowzee Lv. 18: Hypnosis, Disable, Confusion, Headbutt
+    (100009, 10043, NULL, NULL, NULL, NULL, 4, ARRAY[95, 50, 93, 29]),
+    -- Ariana & Grunt: Grimer Lv. 20: Sludge, Disable, Mud-Slap, Minimize
+    (100009, 10043, NULL, NULL, NULL, NULL, 5, ARRAY[124, 50, 189, 107]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (100029, 10041, NULL, NULL, NULL, NULL, 1, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (100029, 10041, NULL, NULL, NULL, NULL, 2, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (100029, 10041, NULL, NULL, NULL, NULL, 3, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Weezing Lv. 32: Tackle, Explosion, Sludge, Smokescreen
+    (100029, 10041, NULL, NULL, NULL, NULL, 4, ARRAY[33, 153, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (100029, 10041, NULL, NULL, NULL, NULL, 5, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Smog, Sludge, Smokescreen
+    (100029, 10041, NULL, NULL, NULL, NULL, 6, ARRAY[33, 123, 124, 108]),
+    -- Proton: Golbat Lv. 28: Leech Life, Bite, Confuse Ray, Wing Attack
+    (100029, 10040, NULL, NULL, NULL, NULL, 1, ARRAY[141, 44, 109, 17]),
+    -- Proton: Weezing Lv. 33: Double Hit, Sludge, Smokescreen, Smog
+    (100029, 10040, NULL, NULL, NULL, NULL, 2, ARRAY[458, 124, 108, 123]),
+    -- Ariana: Arbok Lv. 32: Wrap, Poison Sting, Crunch, Glare
+    (100029, 10042, NULL, NULL, NULL, NULL, 1, ARRAY[35, 40, 242, 137]),
+    -- Ariana: Vileplume Lv. 32: Mega Drain, Sweet Scent, Sleep Powder, Acid
+    (100029, 10042, NULL, NULL, NULL, NULL, 2, ARRAY[72, 230, 79, 51]),
+    -- Ariana: Murkrow Lv. 32: Wing Attack, Pursuit, Astonish, Night Shade
+    (100029, 10042, NULL, NULL, NULL, NULL, 3, ARRAY[17, 228, 310, 101]),
+    -- Archer: Houndour Lv. 35: Fire Fang, Roar, Bite, Feint Attack
+    (100029, 10044, NULL, NULL, NULL, NULL, 1, ARRAY[424, 46, 44, 185]),
+    -- Archer: Koffing Lv. 35: Tackle, Sludge, Smokescreen, Haze
+    (100029, 10044, NULL, NULL, NULL, NULL, 2, ARRAY[33, 124, 108, 114]),
+    -- Archer: Houndoom Lv. 38: Fire Fang, Smog, Bite, Feint Attack
+    (100029, 10044, NULL, NULL, NULL, NULL, 3, ARRAY[424, 123, 44, 185])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

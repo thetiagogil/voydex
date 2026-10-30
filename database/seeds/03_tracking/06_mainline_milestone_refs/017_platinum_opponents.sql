@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, and Platinum pages.
 -- Cross-check: Pokémon Platinum source page.
 -- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokeplatinum trainer data,
+-- which names each battle's place, cross-checked with Bulbapedia's trainer pages.
 -- Scope: Pokémon Platinum milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -22,7 +24,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Coal Badge -> Roark
   (90003, 9001, 9, 'battle-opponent', 2, NULL),
   -- Forest Badge -> Gardenia
-  (90004, 9002, 9, 'battle-opponent', 1, NULL),
+  (90004, 9002, 9, 'battle-opponent', 2, NULL),
   -- Relic Badge -> Fantina
   (90005, 9003, 9, 'battle-opponent', 1, NULL),
   -- Cobble Badge -> Maylene
@@ -32,7 +34,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mine Badge -> Byron
   (90008, 9006, 9, 'battle-opponent', 2, NULL),
   -- Icicle Badge -> Candice
-  (90009, 9007, 9, 'battle-opponent', 1, NULL),
+  (90009, 9007, 9, 'battle-opponent', 3, NULL),
   -- Beacon Badge -> Volkner
   (90010, 9008, 9, 'battle-opponent', 1, NULL),
   -- Elite Four Aaron -> Aaron
@@ -60,13 +62,13 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Team Galactic HQ -> Cyrus
   (90018, 9015, 9, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
   -- Distortion World -> Cyrus
-  (90019, 9015, 9, 'battle-opponent', 1, 'Distortion World'),
+  (90019, 9015, 9, 'battle-opponent', 2, 'Distortion World'),
   -- Elite Four Aaron -> Barry
   (90011, 9014, 9, 'battle-opponent', 1, 'Pokémon League'),
   -- Stark Mountain -> Barry
   (90020, 9014, 9, 'battle-opponent', 1, 'Survival Area. You can skip this battle.'),
   -- Distortion World -> Giratina
-  (90019, 9016, 9, 'battle-opponent', 2, 'Distortion World, Giratina''s room (after defeating Cyrus)'),
+  (90019, 9016, 9, 'battle-opponent', 3, 'Distortion World, Giratina''s room (after defeating Cyrus)'),
   -- Lake Guardians -> Uxie
   (90021, 9017, 9, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity. You can skip this battle.'),
   -- Lake Guardians -> Azelf
@@ -74,7 +76,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Lake Guardians -> Mesprit
   (90021, 9019, 9, 'battle-opponent', 3, 'Roams Sinnoh after fleeing from Verity Cavern, Lake Verity. You can skip this battle.'),
   -- Stark Mountain -> Heatran
-  (90020, 9020, 9, 'battle-opponent', 2, 'Stark Mountain, room where Charon was arrested. You can skip this battle.'),
+  (90020, 9020, 9, 'battle-opponent', 4, 'Stark Mountain, room where Charon was arrested. You can skip this battle.'),
   -- Roaming Cresselia -> Cresselia
   (90022, 9021, 9, 'battle-opponent', 1, 'Roams Sinnoh after meeting it on Fullmoon Island. You can skip this battle.'),
   -- Snowpoint Temple -> Regigigas
@@ -88,4 +90,20 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Roaming Zapdos -> Zapdos
   (90026, 9026, 9, 'battle-opponent', 1, 'Roams Sinnoh after talking to Professor Oak in Eterna City. You can skip this battle.'),
   -- Roaming Moltres -> Moltres
-  (90027, 9027, 9, 'battle-opponent', 1, 'Roams Sinnoh after talking to Professor Oak in Eterna City. You can skip this battle.');
+  (90027, 9027, 9, 'battle-opponent', 1, 'Roams Sinnoh after talking to Professor Oak in Eterna City. You can skip this battle.'),
+  -- Forest Badge -> Mars
+  (90004, 9028, 9, 'battle-opponent', 1, 'Valley Windworks'),
+  -- Forest Badge -> Jupiter
+  (90004, 9029, 9, 'battle-opponent', 3, 'Team Galactic Eterna Building'),
+  -- Icicle Badge -> Saturn
+  (90009, 9030, 9, 'battle-opponent', 1, 'Valor Cavern, Lake Valor'),
+  -- Icicle Badge -> Mars
+  (90009, 9028, 9, 'battle-opponent', 2, 'Lake Verity'),
+  -- Team Galactic HQ -> Saturn
+  (90018, 9030, 9, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
+  -- Distortion World -> Mars & Jupiter (a Multi Battle at Spear Pillar, Barry at your side)
+  (90019, 9031, 9, 'battle-opponent', 1, 'Spear Pillar (with Barry)'),
+  -- Stark Mountain -> Mars
+  (90020, 9028, 9, 'battle-opponent', 2, 'Stark Mountain, entrance chamber'),
+  -- Stark Mountain -> Jupiter
+  (90020, 9029, 9, 'battle-opponent', 3, 'Stark Mountain, entrance chamber');

@@ -4,6 +4,11 @@
 -- Primary: Bulbapedia Badge, Elite Four, and HeartGold / SoulSilver pages.
 -- Cross-check: Pokémon HeartGold / SoulSilver source page.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Rocket Executives (Proton, Petrel, Ariana, Archer): the pret pokeheartgold trainer
+-- data, cross-checked with Bulbapedia's trainer and Goldenrod Radio Tower pages.
+-- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
+-- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
+-- Proton's and Petrel's first teams have no set moves; they get the game's default.
 -- Scope: Pokémon HeartGold / SoulSilver milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -22,7 +27,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Zephyr Badge -> Falkner
   (100003, 10001, 10, 'battle-opponent', 1, NULL),
   -- Hive Badge -> Bugsy
-  (100004, 10002, 10, 'battle-opponent', 1, NULL),
+  (100004, 10002, 10, 'battle-opponent', 2, NULL),
   -- Plain Badge -> Whitney
   (100005, 10003, 10, 'battle-opponent', 1, NULL),
   -- Fog Badge -> Morty
@@ -32,7 +37,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mineral Badge -> Jasmine
   (100008, 10006, 10, 'battle-opponent', 1, NULL),
   -- Glacier Badge -> Pryce
-  (100009, 10007, 10, 'battle-opponent', 1, NULL),
+  (100009, 10007, 10, 'battle-opponent', 3, NULL),
   -- Rising Badge -> Clair
   (100010, 10008, 10, 'battle-opponent', 1, NULL),
   -- Elite Four Will -> Will
@@ -66,11 +71,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Receive Pokedex -> Silver
   (100002, 10023, 10, 'battle-opponent', 1, 'Cherrygrove City'),
   -- Hive Badge -> Silver
-  (100004, 10023, 10, 'battle-opponent', 2, 'Azalea Town (west side, toward Ilex Forest)'),
+  (100004, 10023, 10, 'battle-opponent', 3, 'Azalea Town (west side, toward Ilex Forest)'),
   -- Burned Tower -> Silver
   (100028, 10023, 10, 'battle-opponent', 1, 'Burned Tower 1F, Ecruteak City'),
   -- Radio Tower -> Silver
-  (100029, 10023, 10, 'battle-opponent', 1, 'Goldenrod Tunnel B2F (Goldenrod Underground)'),
+  (100029, 10023, 10, 'battle-opponent', 2, 'Goldenrod Tunnel B2F (Goldenrod Underground)'),
   -- Elite Four Will -> Silver
   (100011, 10023, 10, 'battle-opponent', 1, 'Victory Road 3F'),
   -- Boulder Badge -> Silver
@@ -106,4 +111,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Embedded Tower -> Groudon
   (100040, 10038, 10, 'battle-opponent', 2, 'Embedded Tower (Route 47). You can skip this battle.'),
   -- Embedded Tower -> Rayquaza
-  (100040, 10039, 10, 'battle-opponent', 3, 'Embedded Tower (Route 47). You can skip this battle.');
+  (100040, 10039, 10, 'battle-opponent', 3, 'Embedded Tower (Route 47). You can skip this battle.'),
+  -- Hive Badge -> Proton
+  (100004, 10040, 10, 'battle-opponent', 1, 'Slowpoke Well'),
+  -- Glacier Badge -> Petrel
+  (100009, 10041, 10, 'battle-opponent', 1, 'Team Rocket HQ, Mahogany Town'),
+  -- Glacier Badge -> Ariana & Grunt (a Double Battle, Lance at your side)
+  (100009, 10043, 10, 'battle-opponent', 2, 'Team Rocket HQ, Mahogany Town (with Lance)'),
+  -- Radio Tower -> Petrel
+  (100029, 10041, 10, 'battle-opponent', 1, 'Goldenrod Radio Tower 5F'),
+  -- Radio Tower -> Proton
+  (100029, 10040, 10, 'battle-opponent', 3, 'Goldenrod Radio Tower 4F'),
+  -- Radio Tower -> Ariana
+  (100029, 10042, 10, 'battle-opponent', 4, 'Goldenrod Radio Tower 5F'),
+  -- Radio Tower -> Archer
+  (100029, 10044, 10, 'battle-opponent', 5, 'Goldenrod Radio Tower, Observation Deck');

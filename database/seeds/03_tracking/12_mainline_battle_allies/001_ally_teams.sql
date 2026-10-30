@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
+-- Barry's Spear Pillar parties (Diamond / Pearl, Platinum) and Lance's Team Rocket HQ
+-- party (HeartGold / SoulSilver): the pret trainer data only; Bulbapedia's trainer
+-- pages list no partner team for those games.
 -- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
@@ -46,6 +49,80 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (70010, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 2, 227, 22700, 43, NULL),
   -- Steven beside you vs Maxie & Tabitha, Mind Badge 3: Aggron Lv. 44
   (70010, 7018, 7014, 7, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 44, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 1: Munchlax Lv. 40
+  (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 1, 446, 44600, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 2: Staraptor Lv. 40
+  (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 2, 398, 39800, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 3: Buizel Lv. 41
+  (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 3, 418, 41800, 41, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 4: Heracross Lv. 42
+  (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 4, 214, 21400, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 5: Roselia Lv. 41
+  (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 5, 315, 31500, 41, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 6: Infernape Lv. 43
+  (80018, 8028, 8014, 8, NULL, 80001, 'turtwig', NULL, NULL, 6, 392, 39200, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 1: Munchlax Lv. 40
+  (80018, 8028, 8014, 8, NULL, 80001, 'chimchar', NULL, NULL, 1, 446, 44600, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 2: Staraptor Lv. 40
+  (80018, 8028, 8014, 8, NULL, 80001, 'chimchar', NULL, NULL, 2, 398, 39800, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 3: Roselia Lv. 41
+  (80018, 8028, 8014, 8, NULL, 80001, 'chimchar', NULL, NULL, 3, 315, 31500, 41, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 4: Heracross Lv. 42
+  (80018, 8028, 8014, 8, NULL, 80001, 'chimchar', NULL, NULL, 4, 214, 21400, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 5: Ponyta Lv. 41
+  (80018, 8028, 8014, 8, NULL, 80001, 'chimchar', NULL, NULL, 5, 77, 7700, 41, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 6: Empoleon Lv. 43
+  (80018, 8028, 8014, 8, NULL, 80001, 'chimchar', NULL, NULL, 6, 395, 39500, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 1: Munchlax Lv. 40
+  (80018, 8028, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 1, 446, 44600, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 2: Staraptor Lv. 40
+  (80018, 8028, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 2, 398, 39800, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 3: Buizel Lv. 41
+  (80018, 8028, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 3, 418, 41800, 41, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 4: Heracross Lv. 42
+  (80018, 8028, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 4, 214, 21400, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 5: Ponyta Lv. 41
+  (80018, 8028, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 5, 77, 7700, 41, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 6: Torterra Lv. 43
+  (80018, 8028, 8014, 8, NULL, 80001, 'piplup', NULL, NULL, 6, 389, 38900, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 1: Munchlax Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 1, 446, 44600, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 2: Staraptor Lv. 42
+  (90019, 9031, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 2, 398, 39800, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 3: Floatzel Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 3, 419, 41900, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 4: Heracross Lv. 42
+  (90019, 9031, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 4, 214, 21400, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 5: Roserade Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 5, 407, 40700, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 6: Infernape Lv. 44
+  (90019, 9031, 9014, 9, NULL, 90001, 'turtwig', NULL, NULL, 6, 392, 39200, 44, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 1: Munchlax Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 1, 446, 44600, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 2: Staraptor Lv. 42
+  (90019, 9031, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 2, 398, 39800, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 3: Roserade Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 3, 407, 40700, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 4: Heracross Lv. 42
+  (90019, 9031, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 4, 214, 21400, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 5: Rapidash Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 5, 78, 7800, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 6: Empoleon Lv. 44
+  (90019, 9031, 9014, 9, NULL, 90001, 'chimchar', NULL, NULL, 6, 395, 39500, 44, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 1: Munchlax Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 1, 446, 44600, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 2: Staraptor Lv. 42
+  (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 2, 398, 39800, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 3: Floatzel Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 3, 419, 41900, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 4: Heracross Lv. 42
+  (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 4, 214, 21400, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 5: Rapidash Lv. 40
+  (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 5, 78, 7800, 40, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 6: Torterra Lv. 44
+  (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 44, NULL),
+  -- Lance beside you vs Ariana & Grunt 1: Dragonite Lv. 40
+  (100009, 10043, 10013, 10, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 40, NULL),
   -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 1: Fletchling Lv. 15
   (130005, 13017, 13018, 13, NULL, 130001, 'chespin', NULL, NULL, 1, 661, 66100, 15, NULL),
   -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 2: Braixen Lv. 16

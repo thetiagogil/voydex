@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, and Diamond / Pearl pages.
 -- Cross-check: Pokémon Diamond / Pearl source page.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokediamond trainer data
+-- (parties, set moves, held items), cross-checked with Bulbapedia's trainer pages.
 -- Scope: Pokémon Diamond / Pearl major opponent data.
 -- ============================================================================
 -- File Scope
@@ -70,4 +72,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Regigigas (boss)
   (8023, 8, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 21),
   -- Heatran (boss)
-  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 22);
+  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 22),
+  -- Mars (boss; Team Galactic Commander)
+  (8025, 8, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', 23),
+  -- Jupiter (boss; Team Galactic Commander)
+  (8026, 8, NULL, 'jupiter', 'Jupiter', 'boss', NULL, NULL, 'jupiter', 24),
+  -- Saturn (boss; Team Galactic Commander)
+  (8027, 8, NULL, 'saturn', 'Saturn', 'boss', NULL, NULL, 'saturn', 25),
+  -- Mars & Jupiter (boss; the Multi Battle with Barry at Spear Pillar)
+  (8028, 8, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars', 26);
