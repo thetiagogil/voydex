@@ -101,7 +101,11 @@ sources remain authoritative for game-specific mechanics and availability.
   scripts their stats per boss. The audit refuses a team row whose form is
   shown only while holding an item (the Crowned forms, Ogerpon's masks,
   Silvally's memories) when it holds none; Giratina's Origin Forme is exempt
-  because Ramanas Park and Hisui show it without the Griseous Orb. Kept against
+  because Ramanas Park and Hisui show it without the Griseous Orb. Optional
+  battles both sites confirm were added too: Red at Indigo Plateau in Let's
+  Go, Perrin in Mossui Town, and Mega Dimension's Special Scan legendaries,
+  the rogue Mega Zeraora and Magearna's gift; the Mystery-Gift-gated Diancie
+  and Mewtwo missions stay out. Kept against
   a single site: the totem allies' levels (Bulbapedia), the Freezington steeds,
   Arceus and the lake guardians (game data), Barry's Roselia (Serebii and
   PokéWiki), Legends: Z-A (Serebii). This is the last slice of the per-game

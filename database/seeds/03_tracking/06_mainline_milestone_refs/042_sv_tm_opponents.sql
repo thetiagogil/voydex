@@ -25,8 +25,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (240005, 24003, 24, 'battle-opponent', 1, NULL),
   -- Kieran Rematch -> Kieran
   (240006, 24001, 24, 'battle-opponent', 1, NULL),
+  -- Bloodmoon Ursaluna -> Perrin
+  (240007, 24012, 24, 'battle-opponent', 1, 'Mossui Town, once your Kitakami Pokédex has 150 entries'),
   -- Bloodmoon Ursaluna -> Bloodmoon Ursaluna
-  (240007, 24004, 24, 'battle-opponent', 1, NULL),
+  (240007, 24004, 24, 'battle-opponent', 2, 'Timeless Woods, on a foggy night'),
   -- Arrive in Kitakami -> Carmine
   (240001, 24005, 24, 'battle-opponent', 1, 'Mossui Town'),
   -- Festival of Masks -> Kieran

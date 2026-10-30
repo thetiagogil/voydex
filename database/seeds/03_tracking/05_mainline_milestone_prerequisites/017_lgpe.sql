@@ -58,4 +58,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Rocket Hideout <- Rainbow Badge
   (170021, 170006, 17, 1, 1, NULL),
   -- Silph Co. <- Rocket Hideout
-  (170022, 170021, 17, 1, 1, NULL);
+  (170022, 170021, 17, 1, 1, NULL),
+  -- Battle Red <- Battle Green
+  (170027, 170019, 17, 1, 1, NULL);

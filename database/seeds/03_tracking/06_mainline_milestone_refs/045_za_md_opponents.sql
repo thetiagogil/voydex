@@ -5,6 +5,7 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Rogue Megas of Hyperspace Missions 1, 3, 6 and 8 and their partners: Bulbapedia Rogue Mega
 -- Evolution page, places cross-checked with Serebii's Mega Stone locations.
+-- Special Scan legendaries, Zeraora and Magearna (#115 audit): Bulbapedia's event list, cross-checked with Serebii.
 -- Scope: Pokémon Mega Dimension milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -47,4 +48,20 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Rogue Mega Tatsugiri -> Rogue Mega Tatsugiri
   (270014, 27013, 27, 'battle-opponent', 1, 'Hyperspace Sushi Paradise (Hyperspace Lumiose Survey No. 3). Korrina and Taunie or Urbain fight beside you.'),
   -- Rogue Mega Meowstic -> Rogue Mega Meowstic
-  (270015, 27014, 27, 'battle-opponent', 1, 'Hyperspace Second-Sight Arena (Hyperspace Lumiose Survey No. 4). Korrina and Taunie or Urbain fight beside you.');
+  (270015, 27014, 27, 'battle-opponent', 1, 'Hyperspace Second-Sight Arena (Hyperspace Lumiose Survey No. 4). Korrina and Taunie or Urbain fight beside you.'),
+  -- Special Scan: Latias -> Latias
+  (270016, 27017, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Special Scan: Latios -> Latios
+  (270017, 27018, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Special Scan: Cobalion -> Cobalion
+  (270018, 27019, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Special Scan: Terrakion -> Terrakion
+  (270019, 27020, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Special Scan: Virizion -> Virizion
+  (270020, 27021, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Special Scan: Keldeo -> Keldeo
+  (270021, 27022, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Special Scan: Meloetta -> Meloetta
+  (270022, 27023, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, in an unknown zone opened by a Special Scan. You can skip this battle.'),
+  -- Raging Lightning -> Rogue Mega Zeraora
+  (270024, 27024, 27, 'battle-opponent', 1, 'Hyperspace Lumiose, through the distortion in front of the Gare de Lumiose. You can skip this battle.');

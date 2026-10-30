@@ -5,7 +5,7 @@
 -- Cross-check: Pokémon Database Let's Go, Pikachu! / Let's Go, Eevee! Gym Leaders and Elite Four page.
 -- Trace and Giovanni battles: Bulbapedia, cross-checked with Serebii and Pokébip.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
--- Jessie & James, Archer and Blue at Silph Co. (#115 audit): Bulbapedia.
+-- Jessie & James, Archer, Blue at Silph Co. and Red at Indigo Plateau (#115 audit): Bulbapedia.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -283,4 +283,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Moltres, Victory Road 1: Moltres Lv. 50
   (170025, 17020, 17, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
   -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
-  (170026, 17021, 17, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);
+  (170026, 17021, 17, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70),
+  -- Red, Indigo Plateau 1: Pikachu Lv. 85
+  (170027, 17024, 17, NULL, NULL, NULL, NULL, NULL, 1, 25, 2500, 85),
+  -- Red, Indigo Plateau 2: Machamp Lv. 85
+  (170027, 17024, 17, NULL, NULL, NULL, NULL, NULL, 2, 68, 6800, 85),
+  -- Red, Indigo Plateau 3: Arcanine Lv. 85
+  (170027, 17024, 17, NULL, NULL, NULL, NULL, NULL, 3, 59, 5900, 85),
+  -- Red, Indigo Plateau 4: Lapras Lv. 85
+  (170027, 17024, 17, NULL, NULL, NULL, NULL, NULL, 4, 131, 13100, 85),
+  -- Red, Indigo Plateau 5: Snorlax Lv. 85
+  (170027, 17024, 17, NULL, NULL, NULL, NULL, NULL, 5, 143, 14300, 85),
+  -- Red, Indigo Plateau 6: Venusaur Lv. 85
+  (170027, 17024, 17, NULL, NULL, NULL, NULL, NULL, 6, 3, 300, 85);

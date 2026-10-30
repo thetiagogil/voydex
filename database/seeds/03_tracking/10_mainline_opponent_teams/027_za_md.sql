@@ -13,6 +13,7 @@
 -- Lv. 100 cap, so every Hyperspace catch is stored at the level the game's
 -- data-mined encounter table gives it (Tatsugiri Curly Form, Meowstic male).
 -- Held items: Bulbapedia names no held item for these wild battles, so they hold nothing.
+-- Special Scan legendaries, Zeraora and Magearna (#115 audit): Bulbapedia's event list, cross-checked with Serebii.
 -- Scope: Pokémon Mega Dimension Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -63,4 +64,20 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Rogue Mega Tatsugiri, Rogue Mega Tatsugiri 1: Mega Tatsugiri Lv. 75
   (270014, 27013, 27, NULL, NULL, NULL, NULL, NULL, 1, 978, 97803, 75, NULL),
   -- Rogue Mega Meowstic, Rogue Mega Meowstic 1: Mega Meowstic Lv. 75
-  (270015, 27014, 27, NULL, NULL, NULL, NULL, NULL, 1, 678, 67802, 75, NULL);
+  (270015, 27014, 27, NULL, NULL, NULL, NULL, NULL, 1, 678, 67802, 75, NULL),
+  -- Latias, Special Scan 1: Latias Lv. 60
+  (270016, 27017, 27, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 60, NULL),
+  -- Latios, Special Scan 1: Latios Lv. 60
+  (270017, 27018, 27, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 60, NULL),
+  -- Cobalion, Special Scan 1: Cobalion Lv. 60
+  (270018, 27019, 27, NULL, NULL, NULL, NULL, NULL, 1, 638, 63800, 60, NULL),
+  -- Terrakion, Special Scan 1: Terrakion Lv. 60
+  (270019, 27020, 27, NULL, NULL, NULL, NULL, NULL, 1, 639, 63900, 60, NULL),
+  -- Virizion, Special Scan 1: Virizion Lv. 60
+  (270020, 27021, 27, NULL, NULL, NULL, NULL, NULL, 1, 640, 64000, 60, NULL),
+  -- Keldeo, Special Scan 1: Keldeo Lv. 60
+  (270021, 27022, 27, NULL, NULL, NULL, NULL, NULL, 1, 647, 64700, 60, NULL),
+  -- Meloetta, Special Scan 1: Meloetta Lv. 60
+  (270022, 27023, 27, NULL, NULL, NULL, NULL, NULL, 1, 648, 64800, 60, NULL),
+  -- Rogue Mega Zeraora, Raging Lightning 1: Mega Zeraora Lv. 85
+  (270024, 27024, 27, NULL, NULL, NULL, NULL, NULL, 1, 807, 80701, 85, NULL);

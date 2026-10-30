@@ -7,7 +7,7 @@
 -- data-mined encounter table; where it sets no moves, the game's default from
 -- its own level-up learnset. Cross-checked with Serebii and Bulbapedia.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
--- Jessie & James, Archer and Blue at Silph Co. (#115 audit): Bulbapedia.
+-- Jessie & James, Archer, Blue at Silph Co. and Red at Indigo Plateau (#115 audit): Bulbapedia.
 -- Scope: Let's Go, Pikachu! / Let's Go, Eevee! Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -274,7 +274,19 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Moltres: Moltres Lv. 50: Air Slash, Flamethrower, Agility, Heat Wave
     (170025, 17020, NULL, NULL, NULL, NULL, 1, ARRAY[403, 53, 97, 257]),
     -- Mewtwo: Mewtwo Lv. 70: Swift, Amnesia, Recover, Psychic
-    (170026, 17021, NULL, NULL, NULL, NULL, 1, ARRAY[129, 133, 105, 94])
+    (170026, 17021, NULL, NULL, NULL, NULL, 1, ARRAY[129, 133, 105, 94]),
+    -- Red, Indigo Plateau: Pikachu Lv. 85: Thunderbolt, Brick Break, Iron Tail, Reflect
+    (170027, 17024, NULL, NULL, NULL, NULL, 1, ARRAY[85, 280, 231, 115]),
+    -- Red, Indigo Plateau: Machamp Lv. 85: Superpower, Fire Blast, Earthquake, Hyper Beam
+    (170027, 17024, NULL, NULL, NULL, NULL, 2, ARRAY[276, 126, 89, 63]),
+    -- Red, Indigo Plateau: Arcanine Lv. 85: Heat Wave, Crunch, Will-O-Wisp, Roar
+    (170027, 17024, NULL, NULL, NULL, NULL, 3, ARRAY[257, 242, 261, 46]),
+    -- Red, Indigo Plateau: Lapras Lv. 85: Ice Shard, Waterfall, Body Slam, Megahorn
+    (170027, 17024, NULL, NULL, NULL, NULL, 4, ARRAY[420, 127, 34, 224]),
+    -- Red, Indigo Plateau: Snorlax Lv. 85: Toxic, Protect, Rest, Body Slam
+    (170027, 17024, NULL, NULL, NULL, NULL, 5, ARRAY[92, 182, 156, 34]),
+    -- Red, Indigo Plateau: Venusaur Lv. 85: Sludge Bomb, Mega Drain, Leech Seed, Amnesia
+    (170027, 17024, NULL, NULL, NULL, NULL, 6, ARRAY[188, 72, 73, 133])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

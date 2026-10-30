@@ -3,6 +3,7 @@
 -- ============================================================================
 -- Primary: Bulbapedia Let's Go, Pikachu! / Let's Go, Eevee!, Badge, Elite Four, and Gift Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
+-- Red at Indigo Plateau (#115 audit): Bulbapedia.
 -- Scope: Pokémon Let's Go, Pikachu! / Let's Go, Eevee! major opponent data.
 -- ============================================================================
 -- File Scope
@@ -67,4 +68,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Jessie & James (boss; Team Rocket)
   (17022, 17, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', 22),
   -- Archer (boss; Team Rocket)
-  (17023, 17, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 23);
+  (17023, 17, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 23),
+  -- Red (boss)
+  (17024, 17, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 24);

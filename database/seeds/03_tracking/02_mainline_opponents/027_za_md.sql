@@ -5,6 +5,7 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- Rogue Megas of Hyperspace Missions 1, 3, 6 and 8: Bulbapedia Rogue Mega Evolution page,
 -- cross-checked with the game's data-mined encounter table. Types are the Mega form's.
+-- Special Scan legendaries, Zeraora and Magearna (#115 audit): Bulbapedia's event list, cross-checked with Serebii.
 -- Scope: Pokémon Mega Dimension major opponent data.
 -- ============================================================================
 -- File Scope
@@ -55,4 +56,20 @@ INSERT INTO tracking.mainline_opponents (
   -- Taunie / Urbain (fights beside you against Hyperspace rogue Megas)
   (27015, 27, NULL, 'taunie-urbain', 'Taunie / Urbain', 'ally', NULL, NULL, 'taunie-urbain', 15),
   -- Korrina (fights beside you against Hyperspace rogue Megas)
-  (27016, 27, NULL, 'korrina', 'Korrina', 'ally', NULL, NULL, 'korrina', 16);
+  (27016, 27, NULL, 'korrina', 'Korrina', 'ally', NULL, NULL, 'korrina', 16),
+  -- Latias (boss)
+  (27017, 27, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', 17),
+  -- Latios (boss)
+  (27018, 27, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', 18),
+  -- Cobalion (boss)
+  (27019, 27, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', 19),
+  -- Terrakion (boss)
+  (27020, 27, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', 20),
+  -- Virizion (boss)
+  (27021, 27, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', 21),
+  -- Keldeo (boss)
+  (27022, 27, NULL, 'keldeo', 'Keldeo', 'boss', 3, 7, 'keldeo', 22),
+  -- Meloetta (boss)
+  (27023, 27, NULL, 'meloetta', 'Meloetta', 'boss', 1, 11, 'meloetta', 23),
+  -- Rogue Mega Zeraora
+  (27024, 27, NULL, 'rogue-mega-zeraora', 'Rogue Mega Zeraora', 'boss', 4, NULL, 'rogue-mega-zeraora', 24);

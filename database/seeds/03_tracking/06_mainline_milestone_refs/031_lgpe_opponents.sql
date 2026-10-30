@@ -8,7 +8,8 @@
 -- File Scope
 -- ============================================================================
 -- Links Let's Go, Pikachu! / Let's Go, Eevee! battle milestones to their primary opponents
--- and the Team Rocket battles (Jessie & James, Archer) and Blue's Silph Co. battle on the way.
+-- and the Team Rocket battles (Jessie & James, Archer), Blue's Silph Co. battle on the way
+-- and Red's post-game battle at Indigo Plateau.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_opponent_refs (
@@ -86,4 +87,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Victory Road -> Moltres
   (170025, 17020, 17, 'battle-opponent', 1, 'Victory Road. You can skip this battle.'),
   -- Cerulean Cave -> Mewtwo
-  (170026, 17021, 17, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');
+  (170026, 17021, 17, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.'),
+  -- Battle Red -> Red
+  (170027, 17024, 17, 'battle-opponent', 1, 'In front of the Pokémon League, Indigo Plateau. You can skip this battle.');

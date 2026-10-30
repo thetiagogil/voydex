@@ -10,6 +10,7 @@
 -- Rogue Megas of Hyperspace Missions 1, 3, 6 and 8: the moves the game's
 -- data-mined encounter table gives the Pokémon you catch.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Special Scan legendaries, Zeraora and Magearna (#115 audit): Bulbapedia's event list, cross-checked with Serebii.
 -- Scope: Legends: Z-A: Mega Dimension Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -48,7 +49,23 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Rogue Mega Tatsugiri: Mega Tatsugiri Lv. 75: Waterfall, Ice Beam, Dragon Rush, Whirlpool
     (270014, 27013, NULL, NULL, NULL, NULL, 1, ARRAY[127, 58, 407, 250]),
     -- Rogue Mega Meowstic: Mega Meowstic Lv. 75: Psychic, Reflect, Light Screen, Psybeam
-    (270015, 27014, NULL, NULL, NULL, NULL, 1, ARRAY[94, 115, 113, 60])
+    (270015, 27014, NULL, NULL, NULL, NULL, 1, ARRAY[94, 115, 113, 60]),
+    -- Latias: Latias Lv. 60: Dragon Pulse, Aura Sphere, Mystical Fire, Air Slash
+    (270016, 27017, NULL, NULL, NULL, NULL, 1, ARRAY[406, 396, 595, 403]),
+    -- Latios: Latios Lv. 60: Dragon Pulse, Aura Sphere, Mystical Fire, Air Slash
+    (270017, 27018, NULL, NULL, NULL, NULL, 1, ARRAY[406, 396, 595, 403]),
+    -- Cobalion: Cobalion Lv. 60: Air Slash, Megahorn, Sacred Sword, Swords Dance
+    (270018, 27019, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
+    -- Terrakion: Terrakion Lv. 60: Rock Slide, Megahorn, Sacred Sword, Swords Dance
+    (270019, 27020, NULL, NULL, NULL, NULL, 1, ARRAY[157, 224, 533, 14]),
+    -- Virizion: Virizion Lv. 60: Air Slash, Megahorn, Sacred Sword, Swords Dance
+    (270020, 27021, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
+    -- Keldeo: Keldeo Lv. 60: Air Slash, Megahorn, Sacred Sword, Swords Dance
+    (270021, 27022, NULL, NULL, NULL, NULL, 1, ARRAY[403, 224, 533, 14]),
+    -- Meloetta: Meloetta Lv. 60: Psychic, U-turn, Relic Song, Psybeam
+    (270022, 27023, NULL, NULL, NULL, NULL, 1, ARRAY[94, 369, 547, 60]),
+    -- Rogue Mega Zeraora: Mega Zeraora Lv. 85: Plasma Fists, Electroweb, Dynamic Punch, Wild Charge
+    (270024, 27024, NULL, NULL, NULL, NULL, 1, ARRAY[721, 527, 223, 528])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

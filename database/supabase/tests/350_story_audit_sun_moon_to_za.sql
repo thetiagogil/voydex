@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (12);
+    plan (14);
 -- Every Alola trial is fought against its totem, an opponent of its own.
 SELECT
     results_eq ($$
@@ -148,6 +148,27 @@ SELECT
                 AND moves.slug = 'defense-curl'
                 AND mainline_opponent_team_members.species_id = 831 $$, $$
             VALUES (1) $$, 'Hop''s Wooloo knows Defense Curl in the Sobble start');
+-- Red waits in front of the Pokémon League in Let's Go with six Pokémon at Lv. 85.
+SELECT
+    results_eq ($$
+        SELECT
+            count(*)::integer FROM tracking.mainline_opponent_team_members
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            WHERE
+                mainline_opponents.slug = 'red'
+                AND mainline_opponents.version_group_id = 17
+                AND mainline_opponent_team_members.level = 85 $$, $$
+            VALUES (6) $$, 'Red''s Let''s Go team is six Pokémon at Lv. 85');
+-- Mega Dimension's Special Scans hold seven legendaries at Lv. 60, and Raging Lightning a Mega Zeraora.
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_opponents.slug, pokemon_forms.slug, mainline_opponent_team_members.level FROM tracking.mainline_opponent_team_members
+            JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
+            JOIN reference.pokemon_forms ON pokemon_forms.id = mainline_opponent_team_members.form_id
+            WHERE
+                mainline_opponents.id BETWEEN 27017 AND 27024 ORDER BY mainline_opponents.id $$, $$
+            VALUES ('latias'::text, 'latias'::text, 60), ('latios', 'latios', 60), ('cobalion', 'cobalion', 60), ('terrakion', 'terrakion', 60), ('virizion', 'virizion', 60), ('keldeo', 'keldeo', 60), ('meloetta', 'meloetta', 60), ('rogue-mega-zeraora', 'mega-zeraora', 85) $$, 'the Special Scan legendaries and the rogue Mega Zeraora are seeded at their levels');
 SELECT
     *
 FROM

@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia The Teal Mask, Kitakami, Kieran, Ogerpon, Loyal Three, and Bloodmoon Ursaluna pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- The Dreaded Den Munkidori (Lv. 30, or 70 after The Way Home) is confirmed by data-mined game data only.
+-- Perrin (#115 audit): Bulbapedia.
 -- Scope: Pokémon The Teal Mask major opponent data.
 -- ============================================================================
 -- File Scope
@@ -42,4 +43,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Okidogi (boss)
   (24010, 24, NULL, 'okidogi-boss', 'Okidogi', 'boss', 8, 7, 'okidogi', 9),
   -- Fezandipiti (boss)
-  (24011, 24, NULL, 'fezandipiti-boss', 'Fezandipiti', 'boss', 8, 18, 'fezandipiti', 10);
+  (24011, 24, NULL, 'fezandipiti-boss', 'Fezandipiti', 'boss', 8, 18, 'fezandipiti', 10),
+  -- Perrin (boss)
+  (24012, 24, NULL, 'perrin', 'Perrin', 'boss', NULL, NULL, 'perrin', 11);
