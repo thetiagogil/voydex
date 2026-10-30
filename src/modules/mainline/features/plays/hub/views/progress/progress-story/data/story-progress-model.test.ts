@@ -582,7 +582,16 @@ describe("buildStoryProgressModel", () => {
         { id: 1, slug: "normal" },
         { id: 7, slug: "fighting" },
       ],
-      categories: [category({ milestone_count: 3 })],
+      categories: [
+        category({ milestone_count: 3 }),
+        category({
+          category_id: 2,
+          category_name: "Pokémon League",
+          category_slug: "pokemon-league",
+          category_sort_order: 2,
+          milestone_count: 1,
+        }),
+      ],
       decisionForms: [],
       milestones: [
         milestone({
@@ -606,6 +615,12 @@ describe("buildStoryProgressModel", () => {
           milestone_type_slug: "trial",
           sort_order: 3,
         }),
+        milestone({
+          category_id: 2,
+          milestone_id: 4,
+          milestone_name: "Elite Four Hala",
+          milestone_type_slug: "elite-four",
+        }),
       ],
       snapshotEvents: [],
     });
@@ -620,6 +635,7 @@ describe("buildStoryProgressModel", () => {
     ).toEqual([
       ["Ilima", "trial", "earned", "normal"],
       ["Hala", "grand-trial", "next", "fighting"],
+      ["Elite Four Hala", "league", "todo", null],
     ]);
   });
 

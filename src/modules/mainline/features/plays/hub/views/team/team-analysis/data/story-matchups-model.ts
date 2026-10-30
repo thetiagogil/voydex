@@ -168,10 +168,24 @@ const getLegendaryRarity = (
 ): LegendaryRarity | null =>
   role === "boss" && pokemon?.length === 1 ? pokemon[0].legendary : null;
 
+/*
+ * Who hands out a story point's badge: the Gym Leader, or in Alola the trial
+ * captain, kahuna or totem. A rival on the same story point doesn't.
+ */
+const badgeHolderRoles = new Set([
+  "gym-leader",
+  "kahuna",
+  "totem",
+  "trial-captain",
+]);
+
 export type StoryMatchupBattle = {
   /* Who fights beside you, in Voydex's order; empty when you fight alone. */
   allies: StoryMatchupAlly[];
-  /* A gym's badge type, so a battle won wears its badge. */
+  /*
+   * A gym's badge type (or an Alola trial's Z-Crystal type), so a battle won
+   * wears its badge.
+   */
   badgeType: PokemonTypeSlug | null;
   chapter: string;
   completedAt: string | null;
@@ -713,7 +727,7 @@ export const buildStoryMatchupsModel = ({
       battles.push({
         allies,
         badgeType:
-          ref.opponent_role === "gym-leader" &&
+          badgeHolderRoles.has(ref.opponent_role ?? "") &&
           badgeSlug &&
           isPokemonTypeSlug(badgeSlug)
             ? badgeSlug

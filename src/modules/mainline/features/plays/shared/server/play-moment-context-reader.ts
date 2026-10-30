@@ -14,8 +14,8 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
 /*
- * What moment medallions need beyond the events themselves: each gym
- * milestone's badge type, and the type of every form the moments name (read
+ * What moment medallions need beyond the events themselves: each gym's (or
+ * Alola trial's) badge type, and the type of every form the moments name (read
  * at the Play's generation), so a Pokémon medallion sits on its type's tint.
  */
 export const readMainlinePlayMomentContext = async (
