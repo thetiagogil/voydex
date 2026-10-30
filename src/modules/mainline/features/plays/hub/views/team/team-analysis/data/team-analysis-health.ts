@@ -9,7 +9,7 @@ import type {
   TeamAnalysisHealthTip,
   TeamAnalysisTipRow,
 } from "../types";
-import { battleCostLimits } from "./team-battlers";
+import { battleCostLimits } from "@/modules/mainline/features/plays/hub/data/team-battlers";
 import type {
   TeamFieldReading,
   TeamFieldTypeReading,

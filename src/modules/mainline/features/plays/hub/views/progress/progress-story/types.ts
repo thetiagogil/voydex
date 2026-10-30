@@ -40,14 +40,23 @@ export type StoryCategorySource = Pick<
   | "category_name"
   | "category_slug"
   | "category_sort_order"
+  | "chapter_kind"
   | "completed_required_milestone_count"
   | "content_scope_sort_order"
   | "is_open_world"
   | "milestone_count"
+  | "plays_in_any_order"
   | "required_milestone_count"
   | "version_group_id"
   | "version_group_name"
 >;
+
+/*
+ * What a chapter is to the journey: the main story runs to the credits (the
+ * League included), the post game continues after them, side content hangs
+ * off the route and never counts.
+ */
+export type StoryChapterKind = "main-story" | "post-game" | "side-content";
 
 export type StorySnapshotEventSource = Pick<
   MainlinePlayTimelineEvent,
@@ -103,6 +112,8 @@ export type StoryMilestone = {
   laterRecorded: StoryMilestoneRef[];
   name: string;
   notes: string | null;
+  /* Side content: the beat that opens it, which places it on the route; never a lock. */
+  opensAfter: StoryMilestoneRef | null;
   prerequisites: StoryMilestonePrerequisite[];
   selectedDecisionId: number | null;
   selectedDecisionLabel: string | null;
@@ -124,11 +135,14 @@ export type StoryMilestoneIncompletionImpact = {
 };
 
 export type StorySection = {
+  chapterKind: StoryChapterKind;
   /* Required milestones recorded, the count Overview's Story metric uses. */
   completedCount: number;
   id: number;
   milestones: StoryMilestone[];
   name: string;
+  /* Played beside the chapters next to it flagged the same, in any order. */
+  playsInAnyOrder: boolean;
   slug: string;
   /* Required milestones, the count Overview's Story metric uses. */
   totalCount: number;

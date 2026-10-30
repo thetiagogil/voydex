@@ -2,9 +2,12 @@ import type {
   MainlinePlayLevelCap,
   MainlinePlayMilestone,
   MainlinePlayTeamMember,
+  MainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/types";
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import {
   gameMechanics,
@@ -29,7 +32,7 @@ import {
   isPokemonTypeSlug,
   type PokemonTypeSlug,
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
-import type { Type } from "@/modules/reference/types";
+import type { Generation, Type } from "@/modules/reference/types";
 import type { Json } from "@/shared/types/database.types";
 
 import {
@@ -195,6 +198,7 @@ export type StoryMatchupBattle = {
   kind: string;
   members: StoryMatchupMember[];
   /* The story point the battle belongs to. */
+  milestoneId: number;
   milestoneName: string;
   /* The opponent's name. */
   name: string;
@@ -775,6 +779,7 @@ export const buildStoryMatchupsModel = ({
               : [],
           };
         }),
+        milestoneId: milestone.milestone_id,
         milestoneName: milestone.milestone_name ?? "Battle",
         name: ref.name,
         opponentKind,
@@ -953,3 +958,54 @@ export const buildStoryLevelCap = ({
       types: [],
     }),
   );
+
+/*
+ * A Play's Story battles read against its active team, as Story shows them
+ * on each milestone: the team in slot order, the game's mechanics and its
+ * type chart. Null without the game's type chart.
+ */
+export const buildPlayStoryMatchups = ({
+  generation,
+  play,
+  storyRows,
+  teamRows,
+}: {
+  generation: Pick<Generation, "sort_order"> | null;
+  play: Pick<
+    MainlinePlaySummary,
+    "game_id" | "generation_id" | "version_group_id"
+  >;
+  storyRows: StoryMatchupsRows;
+  teamRows: MainlinePlayTeamRows;
+}): StoryMatchupsModel | null =>
+  generation
+    ? buildStoryMatchupsModel({
+        ...storyRows,
+        generationOrder: generation.sort_order,
+        mechanics: resolveGameMechanics({
+          gameId: play.game_id,
+          generationId: play.generation_id,
+          versionGroupId: play.version_group_id,
+        }),
+        members: buildMainlinePlayTeamPreview(teamRows),
+        playGameId: play.game_id,
+        types: teamRows.types,
+      })
+    : null;
+
+/* The battles at each story point, in Story order, for its milestone's sheet. */
+export const groupStoryBattlesByMilestone = (
+  model: StoryMatchupsModel | null,
+): ReadonlyMap<number, StoryMatchupBattle[]> => {
+  const battles = new Map<number, StoryMatchupBattle[]>();
+
+  for (const battle of model?.chapters.flatMap((chapter) => chapter.battles) ??
+    []) {
+    battles.set(battle.milestoneId, [
+      ...(battles.get(battle.milestoneId) ?? []),
+      battle,
+    ]);
+  }
+
+  return battles;
+};

@@ -21,7 +21,7 @@ import {
 import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
 import type { Type } from "@/modules/reference/types";
 
-import { getDamagingMoveTypeSlug } from "./team-analysis-rows";
+import { getDamagingMoveTypeSlug } from "@/modules/mainline/features/plays/hub/data/team-battlers";
 import {
   battleCostLimits,
   getAnswerCost,
@@ -31,7 +31,7 @@ import {
   toTypeAttacks,
   toTypeSlugs,
   toYourBattler,
-} from "./team-battlers";
+} from "@/modules/mainline/features/plays/hub/data/team-battlers";
 
 /* The three readings a battle, one of your Pokémon or the levels can take. */
 export type MatchupState = "balanced" | "challenging" | "strong";

@@ -19,6 +19,7 @@ import {
 
 import type {
   MainlinePlayProgressStoryData,
+  StoryChapterKind,
   StoryDecisionOption,
   StoryMilestone,
   StoryMilestoneIncompletionImpact,
@@ -120,6 +121,17 @@ const parsePrerequisites = (
 
 const isBlockingPrerequisite = (prerequisite: StoryMilestonePrerequisite) =>
   isBlockingPrerequisiteKind(prerequisite.kindSlug);
+
+const chapterKinds: StoryChapterKind[] = [
+  "main-story",
+  "post-game",
+  "side-content",
+];
+
+/* A chapter with no kind recorded reads as side content when its slug says so, else main story. */
+const toChapterKind = (value: unknown, slug: string): StoryChapterKind =>
+  chapterKinds.find((kind) => kind === value) ??
+  (slug === "side-content" ? "side-content" : "main-story");
 
 const emptyIncompletionImpact = (): StoryMilestoneIncompletionImpact => ({
   affectedMilestones: [],
@@ -346,6 +358,12 @@ export const buildStoryProgressModel = ({
             laterRecorded: [],
             name: milestone.milestone_name ?? "Unnamed milestone",
             notes: milestone.progress_notes,
+            opensAfter:
+              prerequisites
+                .filter(
+                  (prerequisite) => prerequisite.kindSlug === "opens-after",
+                )
+                .map(({ id, name }) => ({ id, name }))[0] ?? null,
             prerequisites,
             selectedDecisionId: milestone.selected_decision_option_id ?? null,
             selectedDecisionLabel:
@@ -364,14 +382,18 @@ export const buildStoryProgressModel = ({
           };
         });
 
+      const slug = category.category_slug ?? `category-${categoryId}`;
+
       return {
+        chapterKind: toChapterKind(category.chapter_kind, slug),
         completedCount: toFiniteNumber(
           category.completed_required_milestone_count,
         ),
         id: categoryId,
         milestones: trackMilestones,
         name: category.category_name ?? "Story",
-        slug: category.category_slug ?? `category-${categoryId}`,
+        playsInAnyOrder: Boolean(category.plays_in_any_order),
+        slug,
         totalCount: toFiniteNumber(category.required_milestone_count),
       };
     });

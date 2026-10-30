@@ -64,24 +64,19 @@ const DetailBlock = ({
 );
 
 /*
- * One milestone read in full: where it stands, what it asks, what has to come
- * first and, once recorded, the team then, the decision and the note.
+ * One milestone read in full, under its sheet's title: where it stands, what
+ * it asks, what has to come first (or, for side content, what opens it) and,
+ * once recorded, the team then, the decision and the note.
  */
 export const StoryMilestoneDetail = ({
   chapterName,
-  eyebrowClassName,
   isNext,
   milestone,
-  title,
   totalCount,
 }: {
   chapterName: string | null;
-  /* Room the surface keeps clear beside the line, such as for a close button. */
-  eyebrowClassName?: string;
   isNext: boolean;
   milestone: StoryMilestone;
-  /* The milestone's name, as the heading its surface needs. */
-  title: ReactNode;
   /* The journey's required milestones, the count its sequence runs to. */
   totalCount: number;
 }) => {
@@ -93,21 +88,20 @@ export const StoryMilestoneDetail = ({
   const blockingNames = milestone.blockingPrerequisites
     .filter((prerequisite) => !prerequisite.completed)
     .map((prerequisite) => prerequisite.name);
-  const prerequisiteNames = milestone.prerequisites.map(
-    (prerequisite) => prerequisite.name,
-  );
+  const prerequisiteNames = milestone.prerequisites
+    .filter((prerequisite) => prerequisite.kindSlug !== "opens-after")
+    .map((prerequisite) => prerequisite.name);
   const meta = [chapterName, milestone.typeName].filter(Boolean);
 
   return (
     <div className="min-w-0">
-      <ObjectiveEyebrow icon={status.icon} className={eyebrowClassName}>
+      <ObjectiveEyebrow icon={status.icon}>
         {status.label} ·{" "}
         {formatJourneyPosition({
           sequence: milestone.sequence,
           total: totalCount,
         })}
       </ObjectiveEyebrow>
-      {title}
       <p className="text-ink-2 font-semibold">{meta.join(" · ")}</p>
       {milestone.description ? (
         <p className="text-ink-2 mt-3 leading-relaxed">
@@ -129,6 +123,11 @@ export const StoryMilestoneDetail = ({
             </b>{" "}
             first.
           </span>
+        </p>
+      ) : milestone.opensAfter ? (
+        <p className="text-ink-2 text-13 mt-2.5 font-semibold">
+          Opens after{" "}
+          <b className="text-ink font-extrabold">{milestone.opensAfter.name}</b>
         </p>
       ) : !milestone.isCompleted && prerequisiteNames.length ? (
         <p className="text-ink-2 text-13 mt-2.5 font-semibold">

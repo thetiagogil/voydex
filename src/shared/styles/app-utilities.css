@@ -104,8 +104,8 @@
 }
 
 /*
- * A detail panel that follows the scroll beside a longer list (Story's
- * panel, the Story matchups report, the roster panel). `useStickyPanel`
+ * A detail panel that follows the scroll beside a longer list (the roster
+ * panel). `useStickyPanel`
  * moves `top` up for a panel taller than the screen, so it scrolls with the
  * page and sticks at its bottom instead of scrolling on its own.
  */

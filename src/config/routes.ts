@@ -106,11 +106,8 @@ export const appRoutes = {
   /* The Roster with one Pokémon selected, as an Overview sticker opens it. */
   mainlinePlayTeamPokemon: (playId: string, playPokemonId: string) =>
     `/mainline/plays/${playId}/team?pokemon=${encodeURIComponent(playPokemonId)}`,
-  /* Team analysis, on its Overall reading unless Story matchups is asked for. */
-  mainlinePlayTeamAnalysis: (playId: string, reading?: "story") =>
-    reading
-      ? `/mainline/plays/${playId}/team/analysis?reading=${reading}`
-      : `/mainline/plays/${playId}/team/analysis`,
+  mainlinePlayTeamAnalysis: (playId: string) =>
+    `/mainline/plays/${playId}/team/analysis`,
   mainlinePlayTeamPlan: (playId: string) =>
     `/mainline/plays/${playId}/team/plan`,
   mainlinePlays: "/mainline/plays",
