@@ -79,7 +79,25 @@ export type PlannerExpansion = {
   versionGroupId: number;
 };
 
+/*
+ * Pokémon one save hands out only one of: a one-per-save gift and what it
+ * becomes (one Kubfu, so one Urshifu), or an either-or pick (Glastrier or
+ * Spectrier). A team holding two members can't be built in one save.
+ */
+export type PlannerAvailabilityGroup = {
+  id: number;
+  kind: "one-per-save" | "pick-one";
+  /* By form: the forms that share the one the save hands out. */
+  memberFormIds: number[];
+  name: string;
+  /* What the Team check says when a team holds two. */
+  note: string;
+  versionGroupId: number;
+};
+
 export type PlannerVersionGroup = {
+  /* The one-of groups of the version group and its expansions. */
+  availabilityGroups: PlannerAvailabilityGroup[];
   expansions: PlannerExpansion[];
   games: PlannerGame[];
   generationNumeral: string;

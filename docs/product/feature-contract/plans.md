@@ -15,7 +15,13 @@ As built (v3):
   and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
-  reads its defensive matchups from its types. A new Plan has no title yet:
+  reads its defensive matchups from its types. Among what it checks: two
+  Pokémon a save hands out only one of block the team, whether a one-per-save
+  gift and what it becomes (Kubfu and either Urshifu, one Calyrex, each
+  legendary bird of The Crown Tundra) or an either-or pick (Glastrier or
+  Spectrier, Regieleki or Regidrago), from `reference.pokemon_availability_groups`.
+  It reads the form the Planner offers (each species' Pokédex form), so a form
+  the Planner can't pick yet, such as a Galarian bird, isn't checked there. A new Plan has no title yet:
   Save Plan asks for its name and writes it; a new Plan is kept in this
   browser until saved. A saved Plan shows its name; tapping it, or Rename in
   its "⋯", renames it without Unlock, since the lock guards only the team

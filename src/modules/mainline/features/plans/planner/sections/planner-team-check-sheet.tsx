@@ -12,6 +12,7 @@ import {
 } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import {
   describeUncovered,
+  getPlanMatchupMemberId,
   type PlanCoverage,
   type PlanMatchupRow,
 } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
@@ -21,7 +22,6 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { PendingData } from "@/shared/components/pending-data";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
@@ -85,8 +85,8 @@ export const PlannerTeamCheckSheet = ({
   const byId = new Map(team.map((pokemon) => [pokemon.speciesId, pokemon]));
   const pressure = matchups.filter((row) => row.isPressure);
   const covered = coverage.filter((entry) => entry.coveredBySpeciesIds.length);
-  const matchupMembers = team.map((pokemon) => ({
-    id: String(pokemon.speciesId),
+  const matchupMembers = team.map((pokemon, index) => ({
+    id: getPlanMatchupMemberId(pokemon, index),
     imageUrl: pokemon.imageUrl,
     name: pokemon.name,
   }));
@@ -173,12 +173,13 @@ export const PlannerTeamCheckSheet = ({
                             ) : null}
                           </div>
                           <span className="flex -space-x-2">
-                            {issue.speciesIds.map((speciesId) => {
+                            {issue.speciesIds.map((speciesId, index) => {
                               const pokemon = byId.get(speciesId);
 
                               return pokemon ? (
                                 <IconTip
-                                  key={speciesId}
+                                  /* A pair of one species shows it twice. */
+                                  key={`${speciesId}-${index}`}
                                   label={pokemon.name}
                                   trigger={
                                     <span className="inline-flex">
@@ -206,12 +207,6 @@ export const PlannerTeamCheckSheet = ({
                 Every Pokémon here can be caught in one save.
               </p>
             )}
-            {/* TODO(v3-data): one-per-save gift groups (Kubfu and Urshifu, the Galarian birds) and either-or picks (the steeds, the Regis) need grouping data in the reference catalogue. */}
-            <PendingData
-              label="One-per-save gifts and either-or picks aren't checked yet"
-              note="Voydex doesn't know which Pokémon share one gift or one choice in a save."
-              className="py-3"
-            />
           </SheetSection>
 
           <SheetSection title="How it holds up">

@@ -33,14 +33,26 @@ export type PlanCoverage = {
   type: PlanType;
 };
 
+/*
+ * A team member's id in the matchup tables: its place in the team, since a
+ * team can hold two of one species.
+ */
+export const getPlanMatchupMemberId = (
+  pokemon: PlannerPokemon,
+  index: number,
+) => `${pokemon.speciesId}-${index}`;
+
 /* A planned Pokémon attacks with its own types: no moves are planned yet. */
-const toTeamTypeMember = (pokemon: PlannerPokemon): TeamTypeMember => {
+const toTeamTypeMember = (
+  pokemon: PlannerPokemon,
+  index: number,
+): TeamTypeMember => {
   const typeSlugs = toPokemonTypeSlugs(pokemon.types.map((type) => type.slug));
 
   return {
     attackingTypeSlugs: typeSlugs,
     defendingTypeSlugs: typeSlugs,
-    id: String(pokemon.speciesId),
+    id: getPlanMatchupMemberId(pokemon, index),
   };
 };
 
@@ -60,8 +72,8 @@ export const buildPlanMatchups = ({
       members: team.map(toTeamTypeMember),
       types,
     }),
-    team.map((pokemon) => ({
-      id: String(pokemon.speciesId),
+    team.map((pokemon, index) => ({
+      id: getPlanMatchupMemberId(pokemon, index),
       name: pokemon.name,
     })),
   );
@@ -75,15 +87,27 @@ export const buildPlanCoverage = ({
   generationOrder: number;
   team: PlannerPokemon[];
   types: PlanType[];
-}): PlanCoverage[] =>
-  buildTeamTypeCoverage({
+}): PlanCoverage[] => {
+  const speciesIdByMemberId = new Map(
+    team.map((pokemon, index) => [
+      getPlanMatchupMemberId(pokemon, index),
+      pokemon.speciesId,
+    ]),
+  );
+
+  return buildTeamTypeCoverage({
     generationOrder,
     members: team.map(toTeamTypeMember),
     types,
   }).map((row) => ({
-    coveredBySpeciesIds: row.coveringMemberIds.map(Number),
+    coveredBySpeciesIds: row.coveringMemberIds.flatMap((id) => {
+      const speciesId = speciesIdByMemberId.get(id);
+
+      return speciesId === undefined ? [] : [speciesId];
+    }),
     type: row.defendingType,
   }));
+};
 
 const countWords = ["no", "one", "two", "three", "four", "five", "six"];
 

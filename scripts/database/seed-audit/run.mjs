@@ -5,6 +5,7 @@ import {
   assertMoveAvailabilityRows,
   assertMoveMachineRows,
   assertNoSourceNotesColumns,
+  assertPokemonAvailabilityGroupRows,
   assertPokemonAvailabilityRows,
   assertPokemonLearnsetRows,
 } from "./rules/availability.mjs";
@@ -215,6 +216,7 @@ export function runSeedAudit() {
     assertBattleMoveSourceRows(context, tableRows);
     assertPokemonEvolutionEdgeRows(context, tableRows);
     assertPokemonAvailabilityRows(context, tableRows);
+    assertPokemonAvailabilityGroupRows(context, tableRows);
     assertPokemonLearnsetRows(context, tableRows);
     assertPokemonFormRuleRows(context, tableRows);
     assertPokemonFormItemRequirementRows(context, tableRows);

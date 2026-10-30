@@ -15,6 +15,7 @@ export type PlanIssueKind =
   | "exclusives"
   | "expansion"
   | "line"
+  | "one-per-save"
   | "outside"
   | "trade";
 
@@ -54,9 +55,9 @@ const verb = (team: unknown[], one: string, many: string) =>
 
 /*
  * The Team check's "Can you build it?": what the team needs beyond walking
- * into the game, read from the catalogue's facts. Gift groups (one Kubfu per
- * save) and either-or picks (the steeds, the Regis) aren't in the catalogue,
- * so they aren't checked.
+ * into the game, read from the catalogue's facts, and whether it holds two of
+ * something a save hands out only one of (one Kubfu per save, Glastrier or
+ * Spectrier).
  */
 export const buildPlanIssues = ({
   includedExpansionIds,
@@ -179,6 +180,26 @@ export const buildPlanIssues = ({
     });
   }
 
+  for (const group of versionGroup.availabilityGroups) {
+    const holding = team.filter((pokemon) =>
+      group.memberFormIds.includes(pokemon.formId),
+    );
+
+    if (holding.length < 2) continue;
+
+    issues.push({
+      body: group.note,
+      includeExpansionId: null,
+      kind: "one-per-save",
+      severity: "block",
+      speciesIds: holding.map((pokemon) => pokemon.speciesId),
+      title:
+        group.kind === "pick-one"
+          ? `${group.name}, not both`
+          : `Only one ${group.name} per save`,
+    });
+  }
+
   const byFamily = new Map<number, PlannerPokemon[]>();
 
   for (const pokemon of team) {
@@ -187,8 +208,19 @@ export const buildPlanIssues = ({
     byFamily.set(pokemon.evolutionFamilyId, family);
   }
 
+  /* Two of a one-per-save group are a block, not a second catch. */
+  const oneOfIssues = issues.filter((issue) => issue.kind === "one-per-save");
+
   for (const family of byFamily.values()) {
     if (family.length < 2) continue;
+
+    if (
+      oneOfIssues.some((issue) =>
+        family.every((pokemon) => issue.speciesIds.includes(pokemon.speciesId)),
+      )
+    ) {
+      continue;
+    }
 
     issues.push({
       body: "Fine to plan both. You'll need to catch it twice.",

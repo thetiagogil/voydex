@@ -97,6 +97,7 @@ export const toPlannerVersionGroup = (
   );
 
   return {
+    availabilityGroups: [],
     expansions: getChildVersionGroups(
       versionGroup,
       catalogue.versionGroups,

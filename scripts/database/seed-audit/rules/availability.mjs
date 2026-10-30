@@ -3308,3 +3308,71 @@ export function assertPokemonAvailabilityRows(context, tableRows) {
     }
   }
 }
+
+/*
+ * Availability groups: Pokémon one save can hold only one of. Each group has
+ * members, a pick-one group at least two, and every member is a seeded form
+ * the group's version group hands out (it has an availability row there).
+ */
+export function assertPokemonAvailabilityGroupRows(context, tableRows) {
+  const groups = tableRows.get("reference.pokemon_availability_groups") ?? [];
+  const members =
+    tableRows.get("reference.pokemon_availability_group_members") ?? [];
+  const versionGroupIds = new Set(
+    (tableRows.get("reference.version_groups") ?? []).map(({ row }) => row.id),
+  );
+  const availableKeys = new Set(
+    (tableRows.get("reference.pokemon_availability") ?? [])
+      .filter(({ row }) => row.scope_operation !== "remove")
+      .map(
+        ({ row }) => `${row.version_group_id}/${row.species_id}/${row.form_id}`,
+      ),
+  );
+  const groupsById = mapRowsByColumn(groups, "id");
+  const memberCountByGroupId = new Map();
+
+  for (const { row, filePath } of groups) {
+    if (!versionGroupIds.has(row.version_group_id)) {
+      context.errors.push(
+        `${relative(filePath)}: reference.pokemon_availability_groups row ${row.slug} references unseeded version_group_id ${row.version_group_id}.`,
+      );
+    }
+  }
+
+  for (const { row, filePath } of members) {
+    const group = groupsById.get(row.group_id);
+
+    if (!group) {
+      context.errors.push(
+        `${relative(filePath)}: reference.pokemon_availability_group_members row ${row.group_id}/${row.form_id} references unseeded group_id ${row.group_id}.`,
+      );
+      continue;
+    }
+
+    memberCountByGroupId.set(
+      row.group_id,
+      (memberCountByGroupId.get(row.group_id) ?? 0) + 1,
+    );
+
+    if (
+      !availableKeys.has(
+        `${group.version_group_id}/${row.species_id}/${row.form_id}`,
+      )
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: reference.pokemon_availability_group_members row ${row.group_id}/${row.form_id} is a form version group ${group.version_group_id} doesn't hand out (no pokemon_availability row).`,
+      );
+    }
+  }
+
+  for (const { row, filePath } of groups) {
+    const count = memberCountByGroupId.get(row.id) ?? 0;
+    const minimum = row.kind === "pick-one" ? 2 : 1;
+
+    if (count < minimum) {
+      context.errors.push(
+        `${relative(filePath)}: reference.pokemon_availability_groups row ${row.slug} (${row.kind}) has ${count} members; it needs at least ${minimum}.`,
+      );
+    }
+  }
+}

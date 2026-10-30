@@ -222,6 +222,17 @@ sources remain authoritative for game-specific mechanics and availability.
   Hapu. Each was checked on two references (the seed header names them).
   Ilima's bonus trial hands out none. `380_alola_trial_stamps.sql` pins them.
 
+- `reference.pokemon_availability_groups` and its members list the Pokémon a
+  save hands out only one of (#25), by form: `one-per-save` (Kubfu and both
+  Urshifu, Calyrex in any form, each Galarian bird and each Kantonian bird
+  from Dynamax Adventures) or `pick-one` (Glastrier
+  or Spectrier, with the Calyrex rider forms that need them; Regieleki or
+  Regidrago), each with a short note the Team check shows. Bulbapedia's
+  availability lists mark each "Only one" and the picks as choices; Serebii
+  confirms where each is found. The seed audit refuses a group with no
+  members, a pick-one group with fewer than two, and a member its version
+  group doesn't hand out. `400_availability_groups.sql` pins them.
+
 ## Audit Contract
 
 The seed audit parses every authored insert and verifies:
