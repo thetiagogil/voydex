@@ -57,9 +57,9 @@ INSERT INTO tracking.mainline_milestones (
   -- Defeat Ghetsis
   (110016, 11, NULL, 1102, 6, 3, NULL, 'defeat-ghetsis', 'Defeat Ghetsis', 'Defeat Ghetsis in N''s Castle.', 6, true),
   -- Champion Alder
-  (110017, 11, NULL, 1103, 8, 2, NULL, 'champion-alder', 'Champion Alder', 'Defeat Champion Alder at the Pokémon League.', 1, true),
+  (110017, 11, NULL, 1103, 8, 2, NULL, 'champion-alder', 'Champion Alder', 'Defeat Champion Alder at the Pokémon League.', 1, false),
   -- Hall of Fame
-  (110018, 11, NULL, 1103, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after defeating Champion Alder.', 2, true),
+  (110018, 11, NULL, 1103, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after defeating Champion Alder.', 2, false),
   -- Swords of Justice
   (110019, 11, NULL, 1104, 6, 2, NULL, 'swords-of-justice', 'Swords of Justice', 'Find Cobalion deep in Mistralton Cave, which opens the way to Terrakion in Victory Road and Virizion in Pinwheel Forest.', 1, false),
   -- Roaming Tornadus or Thundurus

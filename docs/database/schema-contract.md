@@ -39,6 +39,12 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   of duplicating the full parent scope.
 - `tracking` stores definitions for milestones, decisions, opponents, badges,
   collectibles, and snapshot policy. It does not store user progress.
+- A story chapter (`tracking.mainline_categories`) carries `chapter_kind`
+  (`main-story`, `post-game` or `side-content`) and `plays_in_any_order` for
+  chapters played beside each other (Scarlet / Violet's three paths). A
+  side-content milestone names the beat that opens it with an `opens-after`
+  prerequisite, which places it on the route and never blocks recording; only
+  `required` and `story-unlock` prerequisites block.
 - An opponent's team in a Story battle and the team of an ally fighting
   beside the player there share `tracking.mainline_opponent_team_members`:
   an ally's rows name it in `ally_opponent_id` (an opponent of the same

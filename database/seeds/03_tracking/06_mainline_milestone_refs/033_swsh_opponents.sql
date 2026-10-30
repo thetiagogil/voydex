@@ -19,11 +19,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   notes
 ) VALUES
   -- Grass Badge -> Milo
-  (180003, 18001, 18, 'battle-opponent', 3, NULL),
+  (180003, 18001, 18, 'battle-opponent', 5, NULL),
   -- Water Badge -> Nessa
   (180004, 18002, 18, 'battle-opponent', 2, NULL),
   -- Fire Badge -> Kabu
-  (180005, 18003, 18, 'battle-opponent', 3, NULL),
+  (180005, 18003, 18, 'battle-opponent', 2, NULL),
   -- Fighting Badge -> Bea
   (183106, 18004, 18, 'battle-opponent', 2, NULL),
   -- Ghost Badge -> Allister
@@ -44,18 +44,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (180012, 18012, 18, 'battle-opponent', 1, NULL),
   -- Choose Starter -> Hop
   (180001, 18013, 18, 'battle-opponent', 1, 'Postwick (Leon and Hop''s yard)'),
-  -- Receive Pokedex -> Hop
-  (180002, 18013, 18, 'battle-opponent', 1, 'Route 2, outside Professor Magnolia''s house'),
+  -- Grass Badge -> Hop (Route 2)
+  (180003, 18028, 18, 'battle-opponent', 1, 'Route 2, outside Professor Magnolia''s house'),
   -- Grass Badge -> Hop
-  (180003, 18013, 18, 'battle-opponent', 1, 'Motostoke, west exit toward Route 3'),
+  (180003, 18013, 18, 'battle-opponent', 3, 'Motostoke, west exit toward Route 3'),
   -- Grass Badge -> Bede
-  (180003, 18014, 18, 'battle-opponent', 2, 'Galar Mine'),
+  (180003, 18014, 18, 'battle-opponent', 4, 'Galar Mine'),
   -- Water Badge -> Hop
   (180004, 18013, 18, 'battle-opponent', 1, 'Route 5'),
   -- Fire Badge -> Bede
   (180005, 18014, 18, 'battle-opponent', 1, 'Galar Mine No. 2'),
-  -- Fire Badge -> Marnie
-  (180005, 18015, 18, 'battle-opponent', 2, 'Budew Drop Inn, Motostoke'),
+  -- Grass Badge -> Marnie
+  (180003, 18015, 18, 'battle-opponent', 2, 'Budew Drop Inn, Motostoke'),
   -- Fighting Badge -> Hop
   (183106, 18013, 18, 'battle-opponent', 1, 'Stow-on-Side, at the stairs to the Stadium'),
   -- Ghost Badge -> Hop

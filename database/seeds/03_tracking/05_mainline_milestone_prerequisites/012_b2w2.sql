@@ -50,4 +50,24 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Iris <- Elite Four Marshal
   (120017, 120016, 12, 1, 1, NULL),
   -- Hall of Fame <- Champion Iris
-  (120018, 120017, 12, 1, 1, NULL);
+  (120018, 120017, 12, 1, 1, NULL),
+  -- Hugh in Undella Town <- Hall of Fame
+  (120028, 120018, 12, 1, 1, NULL),
+  -- Swords of Justice opens after Hall of Fame
+  (120019, 120018, 12, 4, 1, NULL),
+  -- Dreamyard opens after Hall of Fame
+  (120020, 120018, 12, 4, 1, NULL),
+  -- Cave of Being opens after Hall of Fame
+  (120021, 120018, 12, 4, 1, NULL),
+  -- Dragonspiral Tower opens after Hall of Fame
+  (120022, 120018, 12, 4, 1, NULL),
+  -- Giant Chasm opens after Hall of Fame
+  (120023, 120018, 12, 4, 1, NULL),
+  -- Underground Ruins opens after Hall of Fame
+  (120024, 120018, 12, 4, 1, NULL),
+  -- Twist Mountain opens after Hall of Fame
+  (120025, 120018, 12, 4, 1, NULL),
+  -- Reversal Mountain opens after Hall of Fame
+  (120026, 120018, 12, 4, 1, NULL),
+  -- Marvelous Bridge opens after Hall of Fame
+  (120027, 120018, 12, 4, 1, NULL);

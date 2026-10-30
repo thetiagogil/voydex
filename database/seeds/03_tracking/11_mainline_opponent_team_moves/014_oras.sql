@@ -240,39 +240,39 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Wally: Mega Gallade Lv. 48: Psycho Cut, Close Combat, Slash, Swords Dance
     (140012, 14016, NULL, NULL, NULL, NULL, 5, ARRAY[427, 370, 163, 14]),
     -- May / Brendan: Swellow Lv. 48: Aerial Ace, Quick Attack, U-turn, Steel Wing
-    (140017, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[332, 98, 369, 211]),
+    (140018, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[332, 98, 369, 211]),
     -- May / Brendan: Raichu Lv. 48: Thunder Wave, Thunderbolt, Quick Attack, Light Screen
-    (140017, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[86, 85, 98, 113]),
+    (140018, 14015, NULL, 140001, 'treecko', NULL, 2, ARRAY[86, 85, 98, 113]),
     -- May / Brendan: Wailord Lv. 48: Surf, Heavy Slam, Bulldoze, Ice Beam
-    (140017, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[57, 484, 523, 58]),
+    (140018, 14015, NULL, 140001, 'treecko', NULL, 3, ARRAY[57, 484, 523, 58]),
     -- May / Brendan: Breloom Lv. 48: Seed Bomb, Force Palm, Venoshock, Rock Tomb
-    (140017, 14015, NULL, 140001, 'treecko', NULL, 4, ARRAY[402, 395, 474, 317]),
+    (140018, 14015, NULL, 140001, 'treecko', NULL, 4, ARRAY[402, 395, 474, 317]),
     -- May / Brendan: Blaziken Lv. 50: Blaze Kick, Brick Break, Quick Attack, Shadow Claw
-    (140017, 14015, NULL, 140001, 'treecko', NULL, 5, ARRAY[299, 280, 98, 421]),
+    (140018, 14015, NULL, 140001, 'treecko', NULL, 5, ARRAY[299, 280, 98, 421]),
     -- May / Brendan: Swellow Lv. 48: Aerial Ace, Quick Attack, U-turn, Steel Wing
-    (140017, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[332, 98, 369, 211]),
+    (140018, 14015, NULL, 140001, 'torchic', NULL, 1, ARRAY[332, 98, 369, 211]),
     -- May / Brendan: Raichu Lv. 48: Thunder Wave, Thunderbolt, Quick Attack, Light Screen
-    (140017, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[86, 85, 98, 113]),
+    (140018, 14015, NULL, 140001, 'torchic', NULL, 2, ARRAY[86, 85, 98, 113]),
     -- May / Brendan: Breloom Lv. 48: Seed Bomb, Force Palm, Venoshock, Rock Tomb
-    (140017, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[402, 395, 474, 317]),
+    (140018, 14015, NULL, 140001, 'torchic', NULL, 3, ARRAY[402, 395, 474, 317]),
     -- May / Brendan: Magcargo Lv. 48: Earth Power, Lava Plume, Body Slam, Rock Slide
-    (140017, 14015, NULL, 140001, 'torchic', NULL, 4, ARRAY[414, 436, 34, 157]),
+    (140018, 14015, NULL, 140001, 'torchic', NULL, 4, ARRAY[414, 436, 34, 157]),
     -- May / Brendan: Swampert Lv. 50: Earthquake, Muddy Water, Rock Slide, Brick Break
-    (140017, 14015, NULL, 140001, 'torchic', NULL, 5, ARRAY[89, 330, 157, 280]),
+    (140018, 14015, NULL, 140001, 'torchic', NULL, 5, ARRAY[89, 330, 157, 280]),
     -- May / Brendan: Swellow Lv. 48: Aerial Ace, Quick Attack, U-turn, Steel Wing
-    (140017, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[332, 98, 369, 211]),
+    (140018, 14015, NULL, 140001, 'mudkip', NULL, 1, ARRAY[332, 98, 369, 211]),
     -- May / Brendan: Raichu Lv. 48: Thunder Wave, Thunderbolt, Quick Attack, Light Screen
-    (140017, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[86, 85, 98, 113]),
+    (140018, 14015, NULL, 140001, 'mudkip', NULL, 2, ARRAY[86, 85, 98, 113]),
     -- May / Brendan: Magcargo Lv. 48: Earth Power, Lava Plume, Body Slam, Rock Slide
-    (140017, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[414, 436, 34, 157]),
+    (140018, 14015, NULL, 140001, 'mudkip', NULL, 3, ARRAY[414, 436, 34, 157]),
     -- May / Brendan: Wailord Lv. 48: Surf, Heavy Slam, Bulldoze, Ice Beam
-    (140017, 14015, NULL, 140001, 'mudkip', NULL, 4, ARRAY[57, 484, 523, 58]),
+    (140018, 14015, NULL, 140001, 'mudkip', NULL, 4, ARRAY[57, 484, 523, 58]),
     -- May / Brendan: Sceptile Lv. 50: Leaf Blade, X-Scissor, Dual Chop, Night Slash
-    (140017, 14015, NULL, 140001, 'mudkip', NULL, 5, ARRAY[348, 404, 530, 400]),
+    (140018, 14015, NULL, 140001, 'mudkip', NULL, 5, ARRAY[348, 404, 530, 400]),
     -- Groudon: Primal Groudon Lv. 45: Lava Plume, Rest, Earthquake, Precipice Blades
-    (140011, 14019, NULL, NULL, NULL, NULL, 1, ARRAY[436, 156, 89, 619]),
+    (140033, 14019, NULL, NULL, NULL, NULL, 1, ARRAY[436, 156, 89, 619]),
     -- Kyogre: Primal Kyogre Lv. 45: Body Slam, Aqua Ring, Ice Beam, Origin Pulse
-    (140011, 14020, NULL, NULL, NULL, NULL, 1, ARRAY[34, 392, 58, 618]),
+    (140033, 14020, NULL, NULL, NULL, NULL, 1, ARRAY[34, 392, 58, 618]),
     -- Rayquaza: Rayquaza Lv. 70: Extreme Speed, Dragon Pulse, Dragon Dance, Fly
     (140018, 14021, NULL, NULL, NULL, NULL, 1, ARRAY[245, 406, 349, 19]),
     -- Deoxys: Deoxys Lv. 80: Cosmic Power, Recover, Psycho Boost, Hyper Beam

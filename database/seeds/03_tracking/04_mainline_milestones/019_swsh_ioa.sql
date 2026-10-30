@@ -26,7 +26,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Arrive at the Isle of Armor
   (190001, 19, NULL, 1901, 1, 1, NULL, 'arrive-isle-of-armor', 'Arrive at the Isle of Armor', 'Arrive at the Isle of Armor and reach the Master Dojo.', 1, true),
   -- Dojo Rival Battle
-  (190002, 19, NULL, 1901, 5, 2, NULL, 'dojo-rival-battle', 'Dojo Rival Battle', 'Battle Klara or Avery during the Master Dojo trials.', 2, true),
+  (190002, 19, NULL, 1901, 5, 2, NULL, 'dojo-trials', 'Dojo Trials', 'Clear the three trials of the Master Dojo, battling Klara or Avery in the Warm-Up Tunnel and then at the dojo.', 2, true),
   -- Choose Dojo Starter
   (190003, 19, NULL, 1901, 12, 1, NULL, 'choose-dojo-starter', 'Choose Dojo Starter', 'Choose Bulbasaur or Squirtle at the Master Dojo.', 3, false),
   -- Receive Kubfu

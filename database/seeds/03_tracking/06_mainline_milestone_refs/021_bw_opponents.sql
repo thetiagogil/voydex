@@ -29,13 +29,13 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Quake Badge -> Clay
   (110007, 11005, 11, 'battle-opponent', 2, NULL),
   -- Jet Badge -> Skyla
-  (110008, 11006, 11, 'battle-opponent', 3, NULL),
+  (110008, 11006, 11, 'battle-opponent', 2, NULL),
   -- Freeze Badge -> Brycen
   (110009, 11007, 11, 'battle-opponent', 2, NULL),
   -- Legend Badge -> Drayden / Iris
   (110010, 11008, 11, 'battle-opponent', 2, NULL),
   -- Elite Four Shauntal -> Shauntal
-  (110011, 11009, 11, 'battle-opponent', 1, NULL),
+  (110011, 11009, 11, 'battle-opponent', 2, NULL),
   -- Elite Four Grimsley -> Grimsley
   (110012, 11010, 11, 'battle-opponent', 1, NULL),
   -- Elite Four Caitlin -> Caitlin
@@ -70,16 +70,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (110006, 11013, 11, 'battle-opponent', 3, 'Nimbasa City (Ferris wheel, amusement park)'),
   -- Quake Badge -> Cheren
   (110007, 11017, 11, 'battle-opponent', 1, 'Route 5'),
-  -- Jet Badge -> Bianca
-  (110008, 11016, 11, 'battle-opponent', 1, 'Driftveil City (exit to Route 6)'),
+  -- Quake Badge -> Bianca
+  (110007, 11016, 11, 'battle-opponent', 3, 'Driftveil City (exit to Route 6)'),
   -- Jet Badge -> N
-  (110008, 11013, 11, 'battle-opponent', 2, 'Chargestone Cave'),
+  (110008, 11013, 11, 'battle-opponent', 1, 'Chargestone Cave'),
   -- Freeze Badge -> Cheren
   (110009, 11017, 11, 'battle-opponent', 1, 'Route 7, at the Twist Mountain entrance'),
   -- Legend Badge -> Bianca
   (110010, 11016, 11, 'battle-opponent', 1, 'Route 8'),
-  -- Legend Badge -> Cheren
-  (110010, 11017, 11, 'battle-opponent', 3, 'Route 10'),
+  -- Elite Four Shauntal -> Cheren
+  (110011, 11017, 11, 'battle-opponent', 1, 'Route 10'),
   -- Battle N -> Reshiram
   (110015, 11018, 11, 'battle-opponent', 1, 'N''s Castle (throne room, before the battle with N)'),
   -- Battle N -> Zekrom

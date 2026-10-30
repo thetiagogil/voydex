@@ -147,23 +147,23 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Hop: Scorbunny Lv. 5: Tackle, Growl
     (180001, 18013, NULL, 180001, 'sobble', NULL, 2, ARRAY[33, 45]),
     -- Hop: Wooloo Lv. 6: Tackle, Growl
-    (180002, 18013, NULL, 180001, 'grookey', NULL, 1, ARRAY[33, 45]),
+    (180003, 18028, NULL, 180001, 'grookey', NULL, 1, ARRAY[33, 45]),
     -- Hop: Rookidee Lv. 5: Leer, Peck
-    (180002, 18013, NULL, 180001, 'grookey', NULL, 2, ARRAY[43, 64]),
+    (180003, 18028, NULL, 180001, 'grookey', NULL, 2, ARRAY[43, 64]),
     -- Hop: Sobble Lv. 8: Pound, Growl, Water Gun
-    (180002, 18013, NULL, 180001, 'grookey', NULL, 3, ARRAY[1, 45, 55]),
+    (180003, 18028, NULL, 180001, 'grookey', NULL, 3, ARRAY[1, 45, 55]),
     -- Hop: Wooloo Lv. 6: Tackle, Growl
-    (180002, 18013, NULL, 180001, 'scorbunny', NULL, 1, ARRAY[33, 45]),
+    (180003, 18028, NULL, 180001, 'scorbunny', NULL, 1, ARRAY[33, 45]),
     -- Hop: Rookidee Lv. 5: Leer, Peck
-    (180002, 18013, NULL, 180001, 'scorbunny', NULL, 2, ARRAY[43, 64]),
+    (180003, 18028, NULL, 180001, 'scorbunny', NULL, 2, ARRAY[43, 64]),
     -- Hop: Grookey Lv. 8: Scratch, Growl, Branch Poke
-    (180002, 18013, NULL, 180001, 'scorbunny', NULL, 3, ARRAY[10, 45, 785]),
+    (180003, 18028, NULL, 180001, 'scorbunny', NULL, 3, ARRAY[10, 45, 785]),
     -- Hop: Wooloo Lv. 6: Tackle, Growl
-    (180002, 18013, NULL, 180001, 'sobble', NULL, 1, ARRAY[33, 45]),
+    (180003, 18028, NULL, 180001, 'sobble', NULL, 1, ARRAY[33, 45]),
     -- Hop: Rookidee Lv. 5: Leer, Peck
-    (180002, 18013, NULL, 180001, 'sobble', NULL, 2, ARRAY[43, 64]),
+    (180003, 18028, NULL, 180001, 'sobble', NULL, 2, ARRAY[43, 64]),
     -- Hop: Scorbunny Lv. 8: Tackle, Growl, Ember
-    (180002, 18013, NULL, 180001, 'sobble', NULL, 3, ARRAY[33, 45, 52]),
+    (180003, 18028, NULL, 180001, 'sobble', NULL, 3, ARRAY[33, 45, 52]),
     -- Hop: Wooloo Lv. 11: Tackle, Growl
     (180003, 18013, NULL, 180001, 'grookey', NULL, 1, ARRAY[33, 45]),
     -- Hop: Rookidee Lv. 12: Peck, Leer
@@ -215,11 +215,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Bede: Hatenna Lv. 23: Psybeam, Disarming Voice
     (180005, 18014, NULL, NULL, NULL, NULL, 4, ARRAY[60, 574]),
     -- Marnie: Croagunk Lv. 24: Poison Sting, Venoshock, Revenge, Sucker Punch
-    (180005, 18015, NULL, NULL, NULL, NULL, 1, ARRAY[40, 474, 279, 389]),
+    (180003, 18015, NULL, NULL, NULL, NULL, 1, ARRAY[40, 474, 279, 389]),
     -- Marnie: Scraggy Lv. 24: Beat Up, Headbutt, Low Kick
-    (180005, 18015, NULL, NULL, NULL, NULL, 2, ARRAY[251, 29, 67]),
+    (180003, 18015, NULL, NULL, NULL, NULL, 2, ARRAY[251, 29, 67]),
     -- Marnie: Morpeko Lv. 26: Bite, Quick Attack, Thunder Shock
-    (180005, 18015, NULL, NULL, NULL, NULL, 3, ARRAY[44, 98, 84]),
+    (180003, 18015, NULL, NULL, NULL, NULL, 3, ARRAY[44, 98, 84]),
     -- Hop: Cramorant Lv. 28: Dive, Fury Attack, Pluck
     (183106, 18013, 31, 180001, 'grookey', NULL, 1, ARRAY[291, 31, 365]),
     -- Hop: Toxel Lv. 29: Tearful Look, Nuzzle, Flail, Acid

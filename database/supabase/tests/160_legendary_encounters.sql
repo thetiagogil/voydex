@@ -15,7 +15,7 @@ SELECT
             JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_milestone_opponent_refs.milestone_id
             JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
             WHERE
-                mainline_categories.slug = 'side-content'
+                mainline_categories.chapter_kind = 'side-content'
                 AND NOT EXISTS (
                     SELECT
                         1
@@ -31,7 +31,7 @@ SELECT
             mainline_milestones.id FROM tracking.mainline_milestones
             JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
             WHERE
-                mainline_categories.slug = 'side-content'
+                mainline_categories.chapter_kind = 'side-content'
                 AND mainline_milestones.is_required_for_completion $$, 'Side Content story points are optional');
 -- Red / Blue: Cerulean Cave holds the Lv. 70 Mewtwo battle.
 SELECT

@@ -199,17 +199,17 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Hau: Litten Lv. 5: Scratch, Ember, Growl
     (150001, 15016, NULL, 150001, 'popplio', NULL, 1, ARRAY[10, 52, 45]),
     -- Hau: Pichu Lv. 6: Thunder Shock, Charm, Tail Whip
-    (150002, 15016, NULL, 150001, 'rowlet', NULL, 1, ARRAY[84, 204, 39]),
+    (150027, 15016, NULL, 150001, 'rowlet', NULL, 1, ARRAY[84, 204, 39]),
     -- Hau: Popplio Lv. 7: Pound, Water Gun, Growl
-    (150002, 15016, NULL, 150001, 'rowlet', NULL, 2, ARRAY[1, 55, 45]),
+    (150027, 15016, NULL, 150001, 'rowlet', NULL, 2, ARRAY[1, 55, 45]),
     -- Hau: Pichu Lv. 6: Thunder Shock, Charm, Tail Whip
-    (150002, 15016, NULL, 150001, 'litten', NULL, 1, ARRAY[84, 204, 39]),
+    (150027, 15016, NULL, 150001, 'litten', NULL, 1, ARRAY[84, 204, 39]),
     -- Hau: Rowlet Lv. 7: Tackle, Leafage, Growl
-    (150002, 15016, NULL, 150001, 'litten', NULL, 2, ARRAY[33, 670, 45]),
+    (150027, 15016, NULL, 150001, 'litten', NULL, 2, ARRAY[33, 670, 45]),
     -- Hau: Pichu Lv. 6: Thunder Shock, Charm, Tail Whip
-    (150002, 15016, NULL, 150001, 'popplio', NULL, 1, ARRAY[84, 204, 39]),
+    (150027, 15016, NULL, 150001, 'popplio', NULL, 1, ARRAY[84, 204, 39]),
     -- Hau: Litten Lv. 7: Scratch, Ember, Growl
-    (150002, 15016, NULL, 150001, 'popplio', NULL, 2, ARRAY[10, 52, 45]),
+    (150027, 15016, NULL, 150001, 'popplio', NULL, 2, ARRAY[10, 52, 45]),
     -- Hau: Pikachu Lv. 13: Growl, Play Nice, Quick Attack, Electro Ball
     (150004, 15016, NULL, 150001, 'rowlet', NULL, 1, ARRAY[45, 589, 98, 486]),
     -- Hau: Popplio Lv. 14: Water Gun, Growl, Disarming Voice, Baby-Doll Eyes

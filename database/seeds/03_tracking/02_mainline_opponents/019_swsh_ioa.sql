@@ -24,4 +24,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Klara / Avery
   (19001, 19, NULL, 'klara-avery', 'Klara / Avery', 'rival', NULL, NULL, 'klara-avery', 1),
   -- Mustard
-  (19002, 19, NULL, 'mustard', 'Mustard', 'boss', NULL, NULL, 'mustard', 2);
+  (19002, 19, NULL, 'mustard', 'Mustard', 'boss', NULL, NULL, 'mustard', 2),
+  -- Klara / Avery (rival; the Warm-Up Tunnel battle of the second dojo trial)
+  (19003, 19, NULL, 'klara-avery-warm-up-tunnel', 'Klara / Avery', 'rival', NULL, NULL, 'klara-avery', 3);

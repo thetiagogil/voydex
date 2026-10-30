@@ -15,9 +15,11 @@ INSERT INTO tracking.mainline_categories (
   slug,
   name,
   category_kind,
+  chapter_kind,
+  plays_in_any_order,
   sort_order
 ) VALUES
   -- DLC Story
-  (1901, 19, 'dlc-story', 'DLC Story', 'story', 1),
+  (1901, 19, 'dlc-story', 'DLC Story', 'story', 'main-story', false, 1),
   -- Side Content
-  (1902, 19, 'side-content', 'Side Content', 'story', 2);
+  (1902, 19, 'side-content', 'Side Content', 'story', 'side-content', false, 2);

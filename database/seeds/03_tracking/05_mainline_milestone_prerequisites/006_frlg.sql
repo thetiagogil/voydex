@@ -56,4 +56,20 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Pokémon Tower <- Rocket Hideout
   (60021, 60020, 6, 1, 1, NULL),
   -- Silph Co. <- Soul Badge
-  (60022, 60008, 6, 1, 1, NULL);
+  (60022, 60008, 6, 1, 1, NULL),
+  -- Fighting Dojo Choice opens after Rainbow Badge
+  (60010, 60007, 6, 4, 1, NULL),
+  -- Power Plant opens after Soul Badge
+  (60023, 60008, 6, 4, 1, NULL),
+  -- Seafoam Islands opens after Soul Badge
+  (60024, 60008, 6, 4, 1, NULL),
+  -- Mt. Ember opens after Volcano Badge
+  (60025, 60011, 6, 4, 1, NULL),
+  -- Navel Rock opens after Hall of Fame
+  (60026, 60018, 6, 4, 1, NULL),
+  -- Birth Island opens after Hall of Fame
+  (60027, 60018, 6, 4, 1, NULL),
+  -- Roaming Legendary Beast opens after Hall of Fame
+  (60028, 60018, 6, 4, 1, NULL),
+  -- Cerulean Cave opens after Hall of Fame
+  (60029, 60018, 6, 4, 1, NULL);

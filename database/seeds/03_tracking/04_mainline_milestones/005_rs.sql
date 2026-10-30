@@ -58,8 +58,10 @@ INSERT INTO tracking.mainline_milestones (
   (50010, 5, NULL, 501, 2, 2, NULL, 'mind-badge', 'Mind Badge', 'Defeat Tate & Liza at Mossdeep Gym and receive the Mind Badge.', 10, true),
   -- Seafloor Cavern
   (50019, 5, NULL, 501, 1, 2, NULL, 'seafloor-cavern', 'Seafloor Cavern', 'Dive down to the Seafloor Cavern and face Maxie (Ruby) or Archie (Sapphire), who then awakens Groudon or Kyogre.', 11, true),
+  -- Cave of Origin
+  (50023, 5, NULL, 501, 6, 3, NULL, 'cave-of-origin', 'Cave of Origin', 'Face Groudon (Ruby) or Kyogre (Sapphire) at the bottom of the Cave of Origin in Sootopolis City; catching it is optional.', 12, true),
   -- Rain Badge
-  (50011, 5, NULL, 501, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Wallace at Sootopolis Gym and receive the Rain Badge.', 12, true),
+  (50011, 5, NULL, 501, 2, 2, NULL, 'rain-badge', 'Rain Badge', 'Defeat Wallace at Sootopolis Gym and receive the Rain Badge.', 13, true),
   -- Elite Four Sidney
   (50012, 5, NULL, 502, 7, 2, NULL, 'elite-four-sidney', 'Elite Four Sidney', 'Defeat Sidney at Ever Grande City.', 1, true),
   -- Elite Four Phoebe

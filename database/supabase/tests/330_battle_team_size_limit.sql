@@ -14,7 +14,7 @@ SELECT
             milestone_id, opponent_id, team_size_limit FROM tracking.mainline_milestone_opponent_refs
             WHERE
                 team_size_limit IS NOT NULL $$, $$
-            VALUES (70010, 7018, 3), (150006, 15018, 1), (160006, 16021, 1) $$, 'only Maxie & Tabitha in Emerald and the Battle Royal in Sun / Moon and Ultra Sun / Ultra Moon limit your team');
+            VALUES (70027, 7018, 3), (150006, 15018, 1), (160006, 16021, 1) $$, 'only Maxie & Tabitha in Emerald and the Battle Royal in Sun / Moon and Ultra Sun / Ultra Moon limit your team');
 SELECT
     IS ((
             SELECT
@@ -22,7 +22,7 @@ SELECT
             FROM
                 tracking.mainline_opponent_team_members
             WHERE
-                milestone_id = 70010
+                milestone_id = 70027
                 AND opponent_id = 7018
                 AND ally_opponent_id = 7014),
             3,
@@ -33,7 +33,7 @@ SELECT
         SET
             team_size_limit = 0
             WHERE
-                milestone_id = 70010
+                milestone_id = 70027
                 AND opponent_id = 7018 $$, '23514', NULL, 'you bring at least one Pokémon');
 SELECT
     throws_ok ($$ UPDATE
@@ -41,7 +41,7 @@ SELECT
         SET
             team_size_limit = 6
             WHERE
-                milestone_id = 70010
+                milestone_id = 70027
                 AND opponent_id = 7018 $$, '23514', NULL, 'a limit of six is no limit, so it is left empty');
 SELECT
     throws_ok ($$ UPDATE

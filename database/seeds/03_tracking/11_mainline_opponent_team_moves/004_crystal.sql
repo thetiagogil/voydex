@@ -198,11 +198,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Red: Blastoise Lv. 77: Rain Dance, Surf, Blizzard, Whirlpool
     (40025, 4022, NULL, NULL, NULL, NULL, 6, ARRAY[240, 57, 59, 250]),
     -- Silver: Cyndaquil Lv. 5: Tackle, Leer
-    (40002, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[33, 43]),
+    (40003, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[33, 43]),
     -- Silver: Totodile Lv. 5: Scratch, Leer
-    (40002, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[10, 43]),
+    (40003, 4023, NULL, 40001, 'cyndaquil', NULL, 1, ARRAY[10, 43]),
     -- Silver: Chikorita Lv. 5: Tackle, Growl
-    (40002, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[33, 45]),
+    (40003, 4023, NULL, 40001, 'totodile', NULL, 1, ARRAY[33, 45]),
     -- Silver: Gastly Lv. 12: Hypnosis, Lick, Spite
     (40004, 4023, NULL, 40001, 'chikorita', NULL, 1, ARRAY[95, 122, 180]),
     -- Silver: Zubat Lv. 14: Leech Life, Supersonic, Bite

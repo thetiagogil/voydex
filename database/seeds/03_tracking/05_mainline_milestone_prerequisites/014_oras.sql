@@ -33,8 +33,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (140009, 140008, 14, 1, 1, NULL),
   -- Mind Badge <- Feather Badge
   (140010, 140009, 14, 1, 1, NULL),
-  -- Rain Badge <- Seafloor Cavern
-  (140011, 140020, 14, 1, 1, NULL),
+  -- Rain Badge <- Cave of Origin
+  (140011, 140033, 14, 1, 1, NULL),
   -- Elite Four Sidney <- Rain Badge
   (140012, 140011, 14, 1, 1, NULL),
   -- Elite Four Phoebe <- Elite Four Sidney
@@ -52,4 +52,32 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Mt. Chimney <- Dynamo Badge
   (140019, 140005, 14, 1, 1, NULL),
   -- Seafloor Cavern <- Mind Badge
-  (140020, 140010, 14, 1, 1, NULL);
+  (140020, 140010, 14, 1, 1, NULL),
+  -- Cave of Origin <- Seafloor Cavern
+  (140033, 140020, 14, 1, 1, NULL),
+  -- Fossil Choice opens after Heat Badge
+  (140006, 140007, 14, 4, 1, NULL),
+  -- Sealed Chamber opens after Mind Badge
+  (140021, 140010, 14, 4, 1, NULL),
+  -- Scorched Slab opens after Hall of Fame
+  (140022, 140017, 14, 4, 1, NULL),
+  -- Sea Mauville opens after Hall of Fame
+  (140023, 140017, 14, 4, 1, NULL),
+  -- Crescent Isle opens after Hall of Fame
+  (140024, 140017, 14, 4, 1, NULL),
+  -- Storm Clouds opens after Hall of Fame
+  (140025, 140017, 14, 4, 1, NULL),
+  -- Regigigas in Island Cave opens after Hall of Fame
+  (140026, 140017, 14, 4, 1, NULL),
+  -- Trackless Forest opens after Hall of Fame
+  (140027, 140017, 14, 4, 1, NULL),
+  -- Nameless Cavern opens after Hall of Fame
+  (140028, 140017, 14, 4, 1, NULL),
+  -- Dimensional Rift opens after Hall of Fame
+  (140029, 140017, 14, 4, 1, NULL),
+  -- Pathless Plain opens after Hall of Fame
+  (140030, 140017, 14, 4, 1, NULL),
+  -- Fabled Cave opens after Hall of Fame
+  (140031, 140017, 14, 4, 1, NULL),
+  -- Gnarled Den opens after Hall of Fame
+  (140032, 140017, 14, 4, 1, NULL);

@@ -4174,9 +4174,11 @@ export type Database = {
       mainline_categories: {
         Row: {
           category_kind: string;
+          chapter_kind: string | null;
           created_at: string;
           id: number;
           name: string;
+          plays_in_any_order: boolean;
           slug: string;
           sort_order: number;
           version_group_id: number;
@@ -4184,18 +4186,22 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           category_kind: string;
+          chapter_kind?: string | null;
           created_at?: string;
           id: number;
           name: string;
+          plays_in_any_order?: boolean;
           slug: string;
           sort_order: number;
           version_group_id: number;
         };
         Update: {
           category_kind?: string;
+          chapter_kind?: string | null;
           created_at?: string;
           id?: number;
           name?: string;
+          plays_in_any_order?: boolean;
           slug?: string;
           sort_order?: number;
           version_group_id?: number;
@@ -5143,6 +5149,7 @@ export type Database = {
           category_name: string | null;
           category_slug: string | null;
           category_sort_order: number | null;
+          chapter_kind: string | null;
           completed_milestone_count: number | null;
           completed_optional_milestone_count: number | null;
           completed_required_milestone_count: number | null;
@@ -5155,6 +5162,7 @@ export type Database = {
           milestone_count: number | null;
           optional_milestone_count: number | null;
           play_id: string | null;
+          plays_in_any_order: boolean | null;
           required_milestone_completion_percent: number | null;
           required_milestone_count: number | null;
           user_id: string | null;

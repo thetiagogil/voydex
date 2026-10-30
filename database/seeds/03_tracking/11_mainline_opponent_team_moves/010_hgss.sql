@@ -203,11 +203,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Red: Blastoise Lv. 84: Focus Blast, Hydro Cannon, Blizzard, Flash Cannon
     (100025, 10022, NULL, NULL, NULL, NULL, 6, ARRAY[411, 308, 59, 430]),
     -- Silver: Cyndaquil Lv. 5: Tackle, Leer
-    (100002, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[33, 43]),
+    (100003, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[33, 43]),
     -- Silver: Totodile Lv. 5: Scratch, Leer
-    (100002, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[10, 43]),
+    (100003, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[10, 43]),
     -- Silver: Chikorita Lv. 5: Tackle, Growl
-    (100002, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[33, 45]),
+    (100003, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[33, 45]),
     -- Silver: Gastly Lv. 14: Lick, Spite, Mean Look, Curse
     (100004, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[122, 180, 212, 174]),
     -- Silver: Zubat Lv. 16: Leech Life, Supersonic, Astonish, Bite

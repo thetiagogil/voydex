@@ -19,8 +19,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
 ) VALUES
   -- Receive Pokedex <- Choose Starter
   (150002, 150001, 15, 1, 1, NULL),
-  -- Ilima Trial <- Receive Pokedex
-  (150003, 150002, 15, 1, 1, NULL),
+  -- Ilima Trial <- Iki Town Festival
+  (150003, 150027, 15, 1, 1, NULL),
   -- Grand Trial Hala <- Ilima Trial
   (150004, 150003, 15, 1, 1, NULL),
   -- Lana Trial <- Grand Trial Hala
@@ -58,4 +58,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Aether Paradise <- Grand Trial Nanu
   (150021, 150011, 15, 1, 1, NULL),
   -- Ultra Space <- Vast Poni Canyon Trial
-  (150022, 150012, 15, 1, 1, NULL);
+  (150022, 150012, 15, 1, 1, NULL),
+  -- Iki Town Festival <- Receive Pokedex
+  (150027, 150002, 15, 1, 1, NULL),
+  -- Ruins of Life opens after Hall of Fame
+  (150023, 150019, 15, 4, 1, NULL),
+  -- Ruins of Abundance opens after Hall of Fame
+  (150024, 150019, 15, 4, 1, NULL),
+  -- Ruins of Hope opens after Hall of Fame
+  (150025, 150019, 15, 4, 1, NULL),
+  -- Ten Carat Hill opens after Hall of Fame
+  (150026, 150019, 15, 4, 1, NULL);

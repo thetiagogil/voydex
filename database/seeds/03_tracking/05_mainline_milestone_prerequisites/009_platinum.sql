@@ -54,4 +54,18 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Distortion World <- Team Galactic HQ
   (90019, 90018, 9, 1, 1, NULL),
   -- Stark Mountain <- Hall of Fame
-  (90020, 90016, 9, 1, 1, NULL);
+  (90020, 90016, 9, 1, 1, NULL),
+  -- Lake Guardians opens after Distortion World
+  (90021, 90019, 9, 4, 1, NULL),
+  -- Roaming Cresselia opens after Hall of Fame
+  (90022, 90016, 9, 4, 1, NULL),
+  -- Snowpoint Temple opens after Hall of Fame
+  (90023, 90016, 9, 4, 1, NULL),
+  -- Spear Pillar opens after Hall of Fame
+  (90024, 90016, 9, 4, 1, NULL),
+  -- Roaming Articuno opens after Hall of Fame
+  (90025, 90016, 9, 4, 1, NULL),
+  -- Roaming Zapdos opens after Hall of Fame
+  (90026, 90016, 9, 4, 1, NULL),
+  -- Roaming Moltres opens after Hall of Fame
+  (90027, 90016, 9, 4, 1, NULL);

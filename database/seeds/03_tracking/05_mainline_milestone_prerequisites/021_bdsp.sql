@@ -54,4 +54,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Spear Pillar <- Team Galactic HQ
   (210019, 210018, 21, 1, 1, NULL),
   -- Fight Area <- Hall of Fame
-  (210020, 210016, 21, 1, 1, NULL);
+  (210020, 210016, 21, 1, 1, NULL),
+  -- Lake Guardians opens after Spear Pillar
+  (210021, 210019, 21, 4, 1, NULL),
+  -- Turnback Cave opens after Hall of Fame
+  (210022, 210016, 21, 4, 1, NULL),
+  -- Roaming Cresselia opens after Hall of Fame
+  (210023, 210016, 21, 4, 1, NULL),
+  -- Stark Mountain opens after Hall of Fame
+  (210024, 210016, 21, 4, 1, NULL),
+  -- Snowpoint Temple opens after Hall of Fame
+  (210025, 210016, 21, 4, 1, NULL);

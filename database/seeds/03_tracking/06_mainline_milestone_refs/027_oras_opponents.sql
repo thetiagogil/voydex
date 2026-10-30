@@ -36,7 +36,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mind Badge -> Tate & Liza
   (140010, 14007, 14, 'battle-opponent', 6, NULL),
   -- Rain Badge -> Wallace
-  (140011, 14008, 14, 'battle-opponent', 3, NULL),
+  (140011, 14008, 14, 'battle-opponent', 1, NULL),
   -- Elite Four Sidney -> Sidney
   (140012, 14009, 14, 'battle-opponent', 2, NULL),
   -- Elite Four Phoebe -> Phoebe
@@ -73,12 +73,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (140020, 14018, 14, 'battle-opponent', 2, 'Seafloor Cavern'),
   -- Elite Four Sidney -> Wally
   (140012, 14016, 14, 'battle-opponent', 1, 'Victory Road'),
-  -- Hall of Fame -> May / Brendan
-  (140017, 14015, 14, 'battle-opponent', 1, 'Route 103'),
-  -- Rain Badge -> Groudon
-  (140011, 14019, 14, 'battle-opponent', 1, 'Cave of Origin, deepest chamber'),
-  -- Rain Badge -> Kyogre
-  (140011, 14020, 14, 'battle-opponent', 2, 'Cave of Origin, deepest chamber'),
+  -- Delta Episode -> May / Brendan
+  (140018, 14015, 14, 'battle-opponent', 10, 'Route 103, after the Delta Episode'),
+  -- Cave of Origin -> Groudon
+  (140033, 14019, 14, 'battle-opponent', 1, 'Cave of Origin, deepest chamber'),
+  -- Cave of Origin -> Kyogre
+  (140033, 14020, 14, 'battle-opponent', 2, 'Cave of Origin, deepest chamber'),
   -- Delta Episode -> Rayquaza
   (140018, 14021, 14, 'battle-opponent', 7, 'Sky Pillar summit'),
   -- Delta Episode -> Deoxys

@@ -31,17 +31,17 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Quake Badge -> Clay
   (120007, 12005, 12, 'battle-opponent', 1, NULL),
   -- Jet Badge -> Skyla
-  (120008, 12006, 12, 'battle-opponent', 3, NULL),
+  (120008, 12006, 12, 'battle-opponent', 1, NULL),
   -- Legend Badge -> Drayden
   (120009, 12007, 12, 'battle-opponent', 3, NULL),
   -- Wave Badge -> Marlon
-  (120010, 12008, 12, 'battle-opponent', 3, NULL),
+  (120010, 12008, 12, 'battle-opponent', 1, NULL),
   -- Defeat Colress -> Colress
   (120011, 12009, 12, 'battle-opponent', 3, NULL),
   -- Defeat Ghetsis -> Ghetsis
   (120012, 12010, 12, 'battle-opponent', 5, NULL),
   -- Elite Four Shauntal -> Shauntal
-  (120013, 12011, 12, 'battle-opponent', 1, NULL),
+  (120013, 12011, 12, 'battle-opponent', 2, NULL),
   -- Elite Four Grimsley -> Grimsley
   (120014, 12012, 12, 'battle-opponent', 1, NULL),
   -- Elite Four Caitlin -> Caitlin
@@ -56,20 +56,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (120003, 12016, 12, 'battle-opponent', 1, 'Floccesy Ranch'),
   -- Bolt Badge -> Colress
   (120006, 12009, 12, 'battle-opponent', 1, 'Route 4'),
-  -- Jet Badge -> Hugh
-  (120008, 12016, 12, 'battle-opponent', 1, 'Pokémon World Tournament (Driftveil Tournament, round 1)'),
-  -- Jet Badge -> Colress
-  (120008, 12009, 12, 'battle-opponent', 2, 'Pokémon World Tournament (Driftveil Tournament, final)'),
+  -- Quake Badge -> Hugh
+  (120007, 12016, 12, 'battle-opponent', 2, 'Pokémon World Tournament (Driftveil Tournament, round 1)'),
+  -- Quake Badge -> Colress
+  (120007, 12009, 12, 'battle-opponent', 3, 'Pokémon World Tournament (Driftveil Tournament, final)'),
   -- Legend Badge -> Hugh
   (120009, 12016, 12, 'battle-opponent', 1, 'Undella Town'),
   -- Defeat Ghetsis -> Kyurem
   (120012, 12017, 12, 'battle-opponent', 4, 'Giant Chasm (deepest cave)'),
-  -- Defeat Ghetsis -> Hugh
-  (120012, 12016, 12, 'battle-opponent', 6, 'Victory Road'),
-  -- Hall of Fame -> Hugh
-  (120018, 12016, 12, 'battle-opponent', 1, 'Undella Town. You can skip this battle.'),
-  -- Hall of Fame -> Colress
-  (120018, 12009, 12, 'battle-opponent', 2, 'Plasma Frigate (docked at the P2 Laboratory). You can skip this battle.'),
+  -- Elite Four Shauntal -> Hugh
+  (120013, 12016, 12, 'battle-opponent', 1, 'Victory Road'),
+  -- Hugh in Undella Town -> Hugh
+  (120028, 12016, 12, 'battle-opponent', 1, 'Undella Town, after the Hall of Fame'),
   -- Swords of Justice -> Cobalion
   (120019, 12018, 12, 'battle-opponent', 1, 'Route 13 (northern part, above the cuttable trees). You can skip this battle.'),
   -- Swords of Justice -> Virizion
@@ -106,10 +104,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (120027, 12033, 12, 'battle-opponent', 1, 'Marvelous Bridge (centre). You can skip this battle.'),
   -- Legend Badge -> Zinzolin & Grunt (a Multi Battle, Hugh at your side)
   (120009, 12035, 12, 'battle-opponent', 2, 'Lacunosa Town (with Hugh)'),
-  -- Wave Badge -> Zinzolin
-  (120010, 12034, 12, 'battle-opponent', 1, 'Opelucid City'),
-  -- Wave Badge -> Shadow (Absol)
-  (120010, 12036, 12, 'battle-opponent', 2, 'Opelucid City'),
+  -- Legend Badge -> Zinzolin
+  (120009, 12034, 12, 'battle-opponent', 4, 'Opelucid City'),
+  -- Legend Badge -> Shadow (Absol)
+  (120009, 12036, 12, 'battle-opponent', 5, 'Opelucid City'),
   -- Defeat Colress -> Zinzolin & Grunt (a Multi Battle, Hugh at your side)
   (120011, 12035, 12, 'battle-opponent', 1, 'Plasma Frigate (with Hugh)'),
   -- Defeat Colress -> Zinzolin

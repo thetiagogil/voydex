@@ -33,7 +33,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Feather Badge -> Winona
   (70009, 7006, 7, 'battle-opponent', 2, NULL),
   -- Mind Badge -> Tate & Liza
-  (70010, 7007, 7, 'battle-opponent', 1, NULL),
+  (70010, 7007, 7, 'battle-opponent', 2, NULL),
   -- Rain Badge -> Juan
   (70011, 7008, 7, 'battle-opponent', 1, NULL),
   -- Elite Four Sidney -> Sidney
@@ -60,16 +60,14 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (70020, 7017, 7, 'battle-opponent', 1, 'Mt. Chimney'),
   -- Feather Badge -> May / Brendan
   (70009, 7015, 7, 'battle-opponent', 1, 'Route 119'),
-  -- Magma Hideout -> May / Brendan
-  (70021, 7015, 7, 'battle-opponent', 1, 'Lilycove City. You can skip this battle.'),
+  -- Mind Badge -> May / Brendan
+  (70010, 7015, 7, 'battle-opponent', 1, 'Lilycove City. You can skip this battle.'),
   -- Magma Hideout -> Maxie
-  (70021, 7017, 7, 'battle-opponent', 2, 'Magma Hideout'),
+  (70021, 7017, 7, 'battle-opponent', 1, 'Magma Hideout'),
   -- Seafloor Cavern -> Archie
   (70022, 7019, 7, 'battle-opponent', 1, 'Seafloor Cavern'),
   -- Elite Four Sidney -> Wally
   (70012, 7016, 7, 'battle-opponent', 1, 'Victory Road'),
-  -- Hall of Fame -> Wally
-  (70017, 7016, 7, 'battle-opponent', 1, 'Victory Road. You can skip this battle.'),
   -- Sealed Chamber -> Regirock
   (70023, 7020, 7, 'battle-opponent', 1, 'Desert Ruins (Route 111). You can skip this battle.'),
   -- Sealed Chamber -> Regice
@@ -97,5 +95,5 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   notes,
   team_size_limit
 ) VALUES
-  -- Mind Badge -> Maxie & Tabitha (the player chooses three to fight beside Steven)
-  (70010, 7018, 7, 'battle-opponent', 2, 'Mossdeep Space Center', 3);
+  -- Mossdeep Space Center -> Maxie & Tabitha
+  (70027, 7018, 7, 'battle-opponent', 1, 'Mossdeep Space Center', 3);

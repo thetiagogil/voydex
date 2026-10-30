@@ -53,9 +53,13 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Erika 3: Vileplume Lv. 34
   (170006, 17004, 17, NULL, NULL, NULL, NULL, NULL, 3, 45, 4500, 34),
   -- Jessie & James, Pokémon Tower 1: Arbok Lv. 34
-  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 34),
+  (170028, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 34),
   -- Jessie & James, Pokémon Tower 2: Weezing Lv. 34
-  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 34),
+  (170028, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 34),
+  -- Jessie & James, Route 17 1: Arbok Lv. 52
+  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 52),
+  -- Jessie & James, Route 17 2: Weezing Lv. 52
+  (170007, 17022, 17, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 52),
   -- Koga 1: Weezing Lv. 43
   (170008, 17005, 17, NULL, NULL, NULL, NULL, NULL, 1, 110, 11000, 43),
   -- Koga 2: Muk Lv. 43
@@ -213,17 +217,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Trace (Lets Go Eevee), S.S. Anne 3: Pikachu Lv. 21
   (170020, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 25, 2500, 21),
   -- Trace (Lets Go Pikachu), Rainbow Badge 1: Pidgeotto Lv. 27
-  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
+  (170028, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
   -- Trace (Lets Go Pikachu), Rainbow Badge 2: Gloom Lv. 27
-  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
+  (170028, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
   -- Trace (Lets Go Pikachu), Rainbow Badge 3: Jolteon Lv. 28
-  (170006, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 135, 13500, 28),
+  (170028, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 135, 13500, 28),
   -- Trace (Lets Go Eevee), Rainbow Badge 1: Pidgeotto Lv. 27
-  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
+  (170028, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 17, 1700, 27),
   -- Trace (Lets Go Eevee), Rainbow Badge 2: Gloom Lv. 27
-  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
+  (170028, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 44, 4400, 27),
   -- Trace (Lets Go Eevee), Rainbow Badge 3: Raichu Lv. 28
-  (170006, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 26, 2600, 28),
+  (170028, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 26, 2600, 28),
   -- Jessie & James, Rocket Hideout 1: Arbok Lv. 32
   (170021, 17022, 17, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 32),
   -- Jessie & James, Rocket Hideout 2: Weezing Lv. 32

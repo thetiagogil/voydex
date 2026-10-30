@@ -50,4 +50,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Champion Alder <- Defeat Ghetsis
   (110017, 110016, 11, 1, 1, NULL),
   -- Hall of Fame <- Champion Alder
-  (110018, 110017, 11, 1, 1, NULL);
+  (110018, 110017, 11, 1, 1, NULL),
+  -- Swords of Justice opens after Jet Badge
+  (110019, 110008, 11, 4, 1, NULL),
+  -- Roaming Tornadus or Thundurus opens after Hall of Fame
+  (110020, 110018, 11, 4, 1, NULL),
+  -- Giant Chasm opens after Hall of Fame
+  (110021, 110018, 11, 4, 1, NULL),
+  -- Abundant Shrine opens after Hall of Fame
+  (110022, 110018, 11, 4, 1, NULL);

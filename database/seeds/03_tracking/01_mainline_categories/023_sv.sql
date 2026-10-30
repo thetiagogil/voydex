@@ -15,19 +15,21 @@ INSERT INTO tracking.mainline_categories (
   slug,
   name,
   category_kind,
+  chapter_kind,
+  plays_in_any_order,
   sort_order
 ) VALUES
   -- Main Story
-  (2301, 23, 'main-story', 'Main Story', 'story', 1),
+  (2301, 23, 'main-story', 'Main Story', 'story', 'main-story', false, 1),
   -- Victory Road
-  (2302, 23, 'victory-road', 'Victory Road', 'story', 2),
+  (2302, 23, 'victory-road', 'Victory Road', 'story', 'main-story', true, 2),
   -- Starfall Street
-  (2303, 23, 'starfall-street', 'Starfall Street', 'story', 3),
+  (2303, 23, 'starfall-street', 'Starfall Street', 'story', 'main-story', true, 3),
   -- Path of Legends
-  (2304, 23, 'path-of-legends', 'Path of Legends', 'story', 4),
+  (2304, 23, 'path-of-legends', 'Path of Legends', 'story', 'main-story', true, 4),
   -- The Way Home
-  (2305, 23, 'the-way-home', 'The Way Home', 'story', 5),
+  (2305, 23, 'the-way-home', 'The Way Home', 'story', 'main-story', false, 5),
   -- Post Game
-  (2306, 23, 'post-game', 'Post Game', 'story', 6),
+  (2306, 23, 'post-game', 'Post Game', 'story', 'post-game', false, 6),
   -- Side Content
-  (2307, 23, 'side-content', 'Side Content', 'story', 7);
+  (2307, 23, 'side-content', 'Side Content', 'story', 'side-content', false, 7);

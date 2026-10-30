@@ -39,10 +39,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (130011, 130010, 13, 1, 1, NULL),
   -- Iceberg Badge <- Team Flare Secret HQ
   (130012, 130022, 13, 1, 1, NULL),
-  -- Battle AZ <- Iceberg Badge
-  (130019, 130012, 13, 1, 1, NULL),
-  -- Elite Four Malva <- Battle AZ
-  (130013, 130019, 13, 1, 1, NULL),
+  -- Battle AZ <- Hall of Fame
+  (130019, 130018, 13, 1, 1, NULL),
+  -- Elite Four Malva <- Iceberg Badge
+  (130013, 130012, 13, 1, 1, NULL),
   -- Elite Four Siebold <- Elite Four Malva
   (130014, 130013, 13, 1, 1, NULL),
   -- Elite Four Wikstrom <- Elite Four Siebold
@@ -53,9 +53,17 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (130017, 130016, 13, 1, 1, NULL),
   -- Hall of Fame <- Champion Diantha
   (130018, 130017, 13, 1, 1, NULL),
-  -- Looker Bureau <- Hall of Fame
-  (130020, 130018, 13, 1, 1, NULL),
+  -- Looker Bureau <- Battle AZ
+  (130020, 130019, 13, 1, 1, NULL),
   -- Lysandre Labs <- Psychic Badge
   (130021, 130011, 13, 1, 1, NULL),
   -- Team Flare Secret HQ <- Lysandre Labs
-  (130022, 130021, 13, 1, 1, NULL);
+  (130022, 130021, 13, 1, 1, NULL),
+  -- Kiloude City <- Battle AZ
+  (130026, 130019, 13, 1, 1, NULL),
+  -- Terminus Cave opens after Hall of Fame
+  (130023, 130018, 13, 4, 1, NULL),
+  -- Unknown Dungeon opens after Hall of Fame
+  (130024, 130018, 13, 4, 1, NULL),
+  -- Roaming Legendary Bird opens after Hall of Fame
+  (130025, 130018, 13, 4, 1, NULL);

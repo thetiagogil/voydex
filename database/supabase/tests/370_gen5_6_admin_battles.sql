@@ -17,7 +17,7 @@ SELECT
             WHERE
                 refs.milestone_id IN (120009, 120010, 120011, 120012)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (120009, 'hugh', 1), (120009, 'zinzolin-grunt', 2), (120009, 'drayden', 3), (120010, 'zinzolin', 1), (120010, 'shadow-absol', 2), (120010, 'marlon', 3), (120011, 'zinzolin-grunt', 1), (120011, 'zinzolin', 2), (120011, 'colress', 3), (120012, 'shadow-absol', 1), (120012, 'shadow-banette', 2), (120012, 'shadow-accelgor', 3), (120012, 'kyurem', 4), (120012, 'ghetsis', 5), (120012, 'hugh', 6) $$, 'Black 2 / White 2: Zinzolin at Lacunosa, Opelucid and the Plasma Frigate, the Shadows before Ghetsis');
+            VALUES (120009, 'hugh', 1), (120009, 'zinzolin-grunt', 2), (120009, 'drayden', 3), (120009, 'zinzolin', 4), (120009, 'shadow-absol', 5), (120010, 'marlon', 1), (120011, 'zinzolin-grunt', 1), (120011, 'zinzolin', 2), (120011, 'colress', 3), (120012, 'shadow-absol', 1), (120012, 'shadow-banette', 2), (120012, 'shadow-accelgor', 3), (120012, 'kyurem', 4), (120012, 'ghetsis', 5) $$, 'Black 2 / White 2: Zinzolin at Lacunosa, Opelucid and the Plasma Frigate, the Shadows before Ghetsis');
 SELECT
     results_eq ($$
         SELECT

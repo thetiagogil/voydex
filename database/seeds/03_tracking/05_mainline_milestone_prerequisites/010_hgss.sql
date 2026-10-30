@@ -74,4 +74,24 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Radio Tower <- Glacier Badge
   (100029, 100009, 10, 1, 1, NULL),
   -- Kimono Girls' Ritual <- Rising Badge
-  (100030, 100010, 10, 1, 1, NULL);
+  (100030, 100010, 10, 1, 1, NULL),
+  -- Roaming Raikou opens after Burned Tower
+  (100031, 100028, 10, 4, 1, NULL),
+  -- Roaming Entei opens after Burned Tower
+  (100032, 100028, 10, 4, 1, NULL),
+  -- Roaming Latias or Latios opens after Hall of Fame
+  (100033, 100016, 10, 4, 1, NULL),
+  -- Route 25 opens after Hall of Fame
+  (100034, 100016, 10, 4, 1, NULL),
+  -- Power Plant opens after Hall of Fame
+  (100035, 100016, 10, 4, 1, NULL),
+  -- Seafoam Islands opens after Hall of Fame
+  (100036, 100016, 10, 4, 1, NULL),
+  -- Mt. Silver Cave opens after Earth Badge
+  (100037, 100024, 10, 4, 1, NULL),
+  -- Cerulean Cave opens after Earth Badge
+  (100038, 100024, 10, 4, 1, NULL),
+  -- Pewter City Wing opens after Hall of Fame
+  (100039, 100016, 10, 4, 1, NULL),
+  -- Embedded Tower opens after Defeat Red
+  (100040, 100025, 10, 4, 1, NULL);

@@ -75,4 +75,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Sordward (boss, sword; Energy Plant)
   (18026, 18, 31, 'sordward-tower', 'Sordward', 'boss', NULL, NULL, 'sordward', 10),
   -- Shielbert (boss, shield; Energy Plant)
-  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, 'shielbert', 10);
+  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, 'shielbert', 10),
+  -- Hop (rival; the Route 2 battle, outside Professor Magnolia's house)
+  (18028, 18, NULL, 'hop-route-2', 'Hop', 'rival', NULL, NULL, 'hop', 28);

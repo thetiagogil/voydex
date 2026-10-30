@@ -80,4 +80,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Stop the Ange Crisis <- Reach Rank A
   (260008, 260021, 26, 1, 1, NULL),
   -- Infinite Z-A Royale <- Stop the Ange Crisis
-  (260009, 260008, 26, 1, 1, NULL);
+  (260009, 260008, 26, 1, 1, NULL),
+  -- The One That Gives opens after Stop the Ange Crisis
+  (260010, 260008, 26, 4, 1, NULL),
+  -- The One That Takes opens after Stop the Ange Crisis
+  (260011, 260008, 26, 4, 1, NULL),
+  -- To Keep the World in Balance opens after Stop the Ange Crisis
+  (260012, 260008, 26, 4, 1, NULL);

@@ -268,29 +268,29 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- May / Brendan (Rival is Brendan (you play as May), you chose Mudkip), Feather Badge 3: Grovyle Lv. 31
   (70009, 7015, 7, NULL, NULL, NULL, 'brendan-mudkip', 'Rival is Brendan (you play as May), you chose Mudkip', 3, 253, 25300, 31, NULL),
   -- May / Brendan (chose Treecko), Magma Hideout 1: Tropius Lv. 31
-  (70021, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 1, 357, 35700, 31, NULL),
+  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 1, 357, 35700, 31, NULL),
   -- May / Brendan (chose Treecko), Magma Hideout 2: Pelipper Lv. 32
-  (70021, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 2, 279, 27900, 32, NULL),
+  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 2, 279, 27900, 32, NULL),
   -- May / Brendan (chose Treecko), Magma Hideout 3: Ludicolo Lv. 32
-  (70021, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 3, 272, 27200, 32, NULL),
+  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 3, 272, 27200, 32, NULL),
   -- May / Brendan (chose Treecko), Magma Hideout 4: Combusken Lv. 34
-  (70021, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 4, 256, 25600, 34, NULL),
+  (70010, 7015, 7, NULL, 70001, 'treecko', NULL, NULL, 4, 256, 25600, 34, NULL),
   -- May / Brendan (chose Torchic), Magma Hideout 1: Tropius Lv. 31
-  (70021, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 1, 357, 35700, 31, NULL),
+  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 1, 357, 35700, 31, NULL),
   -- May / Brendan (chose Torchic), Magma Hideout 2: Ludicolo Lv. 32
-  (70021, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 2, 272, 27200, 32, NULL),
+  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 2, 272, 27200, 32, NULL),
   -- May / Brendan (chose Torchic), Magma Hideout 3: Slugma Lv. 32
-  (70021, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 3, 218, 21800, 32, NULL),
+  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 3, 218, 21800, 32, NULL),
   -- May / Brendan (chose Torchic), Magma Hideout 4: Marshtomp Lv. 34
-  (70021, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 4, 259, 25900, 34, NULL),
+  (70010, 7015, 7, NULL, 70001, 'torchic', NULL, NULL, 4, 259, 25900, 34, NULL),
   -- May / Brendan (chose Mudkip), Magma Hideout 1: Tropius Lv. 31
-  (70021, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 1, 357, 35700, 31, NULL),
+  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 1, 357, 35700, 31, NULL),
   -- May / Brendan (chose Mudkip), Magma Hideout 2: Slugma Lv. 32
-  (70021, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 2, 218, 21800, 32, NULL),
+  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 2, 218, 21800, 32, NULL),
   -- May / Brendan (chose Mudkip), Magma Hideout 3: Pelipper Lv. 32
-  (70021, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 3, 279, 27900, 32, NULL),
+  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 3, 279, 27900, 32, NULL),
   -- May / Brendan (chose Mudkip), Magma Hideout 4: Grovyle Lv. 34
-  (70021, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 4, 253, 25300, 34, NULL),
+  (70010, 7015, 7, NULL, 70001, 'mudkip', NULL, NULL, 4, 253, 25300, 34, NULL),
   -- Maxie, Magma Hideout 1: Mightyena Lv. 37
   (70021, 7017, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 37, NULL),
   -- Maxie, Magma Hideout 2: Crobat Lv. 38
@@ -298,17 +298,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Maxie, Magma Hideout 3: Camerupt Lv. 39
   (70021, 7017, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 39, NULL),
   -- Maxie & Tabitha, Mind Badge 1: Mightyena Lv. 42
-  (70010, 7018, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 42, NULL),
+  (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 42, NULL),
   -- Maxie & Tabitha, Mind Badge 2: Crobat Lv. 43
-  (70010, 7018, 7, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 43, NULL),
+  (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 2, 169, 16900, 43, NULL),
   -- Maxie & Tabitha, Mind Badge 3: Camerupt Lv. 44
-  (70010, 7018, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 44, NULL),
+  (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 44, NULL),
   -- Maxie & Tabitha, Mind Badge 4: Camerupt Lv. 36
-  (70010, 7018, 7, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 36, NULL),
+  (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 36, NULL),
   -- Maxie & Tabitha, Mind Badge 5: Mightyena Lv. 38
-  (70010, 7018, 7, NULL, NULL, NULL, NULL, NULL, 5, 262, 26200, 38, NULL),
+  (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 5, 262, 26200, 38, NULL),
   -- Maxie & Tabitha, Mind Badge 6: Golbat Lv. 40
-  (70010, 7018, 7, NULL, NULL, NULL, NULL, NULL, 6, 42, 4200, 40, NULL),
+  (70027, 7018, 7, NULL, NULL, NULL, NULL, NULL, 6, 42, 4200, 40, NULL),
   -- Archie, Seafloor Cavern 1: Mightyena Lv. 41
   (70022, 7019, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 41, NULL),
   -- Archie, Seafloor Cavern 2: Crobat Lv. 41
@@ -325,16 +325,6 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 41, NULL),
   -- Wally, Elite Four Sidney 5: Gardevoir Lv. 45
   (70012, 7016, 7, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 45, NULL),
-  -- Wally, Hall of Fame 1: Altaria Lv. 47
-  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 1, 334, 33400, 47, NULL),
-  -- Wally, Hall of Fame 2: Delcatty Lv. 46
-  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 2, 301, 30100, 46, NULL),
-  -- Wally, Hall of Fame 3: Roselia Lv. 47
-  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 3, 315, 31500, 47, NULL),
-  -- Wally, Hall of Fame 4: Magneton Lv. 44
-  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 4, 82, 8200, 44, NULL),
-  -- Wally, Hall of Fame 5: Gardevoir Lv. 48
-  (70017, 7016, 7, NULL, NULL, NULL, NULL, NULL, 5, 282, 28200, 48, NULL),
   -- Regirock, Sealed Chamber 1: Regirock Lv. 40
   (70023, 7020, 7, NULL, NULL, NULL, NULL, NULL, 1, 377, 37700, 40, NULL),
   -- Regice, Sealed Chamber 1: Regice Lv. 40

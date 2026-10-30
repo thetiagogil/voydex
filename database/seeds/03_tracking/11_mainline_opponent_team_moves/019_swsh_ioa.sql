@@ -102,29 +102,29 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Klara / Avery: Galarian Slowpoke Lv. 60: Confusion, Acid
     (190001, 19001, 32, NULL, NULL, 'main-story-finished', 2, ARRAY[93, 51]),
     -- Klara / Avery: Galarian Slowpoke Lv. 18: Acid, Confusion
-    (190004, 19001, 31, NULL, NULL, 'main-story-not-finished', 1, ARRAY[51, 93]),
+    (190002, 19003, 31, NULL, NULL, 'main-story-not-finished', 1, ARRAY[51, 93]),
     -- Klara / Avery: Koffing Lv. 18: Clear Smog, Assurance
-    (190004, 19001, 31, NULL, NULL, 'main-story-not-finished', 2, ARRAY[499, 372]),
+    (190002, 19003, 31, NULL, NULL, 'main-story-not-finished', 2, ARRAY[499, 372]),
     -- Klara / Avery: Whirlipede Lv. 19: Poison Tail, Bug Bite
-    (190004, 19001, 31, NULL, NULL, 'main-story-not-finished', 3, ARRAY[342, 450]),
+    (190002, 19003, 31, NULL, NULL, 'main-story-not-finished', 3, ARRAY[342, 450]),
     -- Klara / Avery: Galarian Slowpoke Lv. 62: Acid, Confusion
-    (190004, 19001, 31, NULL, NULL, 'main-story-finished', 1, ARRAY[51, 93]),
+    (190002, 19003, 31, NULL, NULL, 'main-story-finished', 1, ARRAY[51, 93]),
     -- Klara / Avery: Koffing Lv. 62: Clear Smog, Assurance
-    (190004, 19001, 31, NULL, NULL, 'main-story-finished', 2, ARRAY[499, 372]),
+    (190002, 19003, 31, NULL, NULL, 'main-story-finished', 2, ARRAY[499, 372]),
     -- Klara / Avery: Whirlipede Lv. 63: Poison Tail, Bug Bite
-    (190004, 19001, 31, NULL, NULL, 'main-story-finished', 3, ARRAY[342, 450]),
+    (190002, 19003, 31, NULL, NULL, 'main-story-finished', 3, ARRAY[342, 450]),
     -- Klara / Avery: Galarian Slowpoke Lv. 18: Acid, Confusion
-    (190004, 19001, 32, NULL, NULL, 'main-story-not-finished', 1, ARRAY[51, 93]),
+    (190002, 19003, 32, NULL, NULL, 'main-story-not-finished', 1, ARRAY[51, 93]),
     -- Klara / Avery: Woobat Lv. 18: Confusion, Air Cutter
-    (190004, 19001, 32, NULL, NULL, 'main-story-not-finished', 2, ARRAY[93, 314]),
+    (190002, 19003, 32, NULL, NULL, 'main-story-not-finished', 2, ARRAY[93, 314]),
     -- Klara / Avery: Kadabra Lv. 19: Psybeam, Swift
-    (190004, 19001, 32, NULL, NULL, 'main-story-not-finished', 3, ARRAY[60, 129]),
+    (190002, 19003, 32, NULL, NULL, 'main-story-not-finished', 3, ARRAY[60, 129]),
     -- Klara / Avery: Galarian Slowpoke Lv. 62: Acid, Confusion
-    (190004, 19001, 32, NULL, NULL, 'main-story-finished', 1, ARRAY[51, 93]),
+    (190002, 19003, 32, NULL, NULL, 'main-story-finished', 1, ARRAY[51, 93]),
     -- Klara / Avery: Woobat Lv. 62: Confusion, Air Cutter
-    (190004, 19001, 32, NULL, NULL, 'main-story-finished', 2, ARRAY[93, 314]),
+    (190002, 19003, 32, NULL, NULL, 'main-story-finished', 2, ARRAY[93, 314]),
     -- Klara / Avery: Kadabra Lv. 63: Psybeam, Swift
-    (190004, 19001, 32, NULL, NULL, 'main-story-finished', 3, ARRAY[60, 129])
+    (190002, 19003, 32, NULL, NULL, 'main-story-finished', 3, ARRAY[60, 129])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

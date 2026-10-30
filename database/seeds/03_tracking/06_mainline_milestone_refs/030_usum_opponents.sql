@@ -96,8 +96,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (160022, 16018, 16, 'battle-opponent', 7, 'Team Rocket''s Castle'),
   -- Choose Starter -> Hau
   (160001, 16019, 16, 'battle-opponent', 1, 'Route 1'),
-  -- Receive Pokedex -> Hau
-  (160002, 16019, 16, 'battle-opponent', 1, 'Iki Town (festival)'),
+  -- Iki Town Festival -> Hau
+  (160033, 16019, 16, 'battle-opponent', 1, 'Iki Town (festival)'),
   -- Grand Trial Hala -> Hau
   (160004, 16019, 16, 'battle-opponent', 1, 'Route 3'),
   -- Lana Trial -> Hau

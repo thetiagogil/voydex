@@ -144,7 +144,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Shauna (chose Froakie), Choose Kalos Starter 1: Fennekin Lv. 5
   (130001, 13015, 13, NULL, 130001, 'froakie', NULL, NULL, 1, 653, 65300, 5, NULL, NULL, FALSE),
   -- Tierno, Choose Kanto Starter 1: Corphish Lv. 12
-  (130004, 13016, 13, NULL, NULL, NULL, NULL, NULL, 1, 341, 34100, 12, NULL, NULL, FALSE),
+  (130005, 13016, 13, NULL, NULL, NULL, NULL, NULL, 1, 341, 34100, 12, NULL, NULL, FALSE),
   -- Tierno & Trevor, Fossil Choice 1: Pikachu Lv. 14
   (130005, 13017, 13, NULL, NULL, NULL, NULL, NULL, 1, 25, 2500, 14, NULL, NULL, FALSE),
   -- Tierno & Trevor, Fossil Choice 2: Flabebe (Orange Flower) Lv. 14
@@ -422,77 +422,77 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Elite Four Malva 5: Chesnaught Lv. 61
   (130013, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 5, 652, 65200, 61, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Battle AZ 1: Meowstic (Female) Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 1, 678, 67801, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 1, 678, 67801, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Battle AZ 2: Clefable Lv. 68
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 2, 36, 3600, 68, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 2, 36, 3600, 68, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Battle AZ 3: Jolteon Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 3, 135, 13500, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 3, 135, 13500, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Battle AZ 4: Mega Absol Lv. 68, holds Absolite
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 4, 359, 35901, 68, 297, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 4, 359, 35901, 68, 297, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Battle AZ 5: Altaria Lv. 67
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 5, 334, 33400, 67, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 5, 334, 33400, 67, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Chespin), Battle AZ 6: Delphox Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 6, 655, 65500, 70, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-chespin', 'Rival is Serena (you play as Calem), you chose Chespin', 6, 655, 65500, 70, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Fennekin), Battle AZ 1: Meowstic (Female) Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 1, 678, 67801, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 1, 678, 67801, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Fennekin), Battle AZ 2: Clefable Lv. 68
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 2, 36, 3600, 68, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 2, 36, 3600, 68, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Fennekin), Battle AZ 3: Flareon Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 3, 136, 13600, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 3, 136, 13600, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Fennekin), Battle AZ 4: Mega Absol Lv. 68, holds Absolite
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 4, 359, 35901, 68, 297, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 4, 359, 35901, 68, 297, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Fennekin), Battle AZ 5: Altaria Lv. 67
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 5, 334, 33400, 67, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 5, 334, 33400, 67, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Fennekin), Battle AZ 6: Greninja Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 6, 658, 65800, 70, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-fennekin', 'Rival is Serena (you play as Calem), you chose Fennekin', 6, 658, 65800, 70, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Froakie), Battle AZ 1: Meowstic (Female) Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 1, 678, 67801, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 1, 678, 67801, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Froakie), Battle AZ 2: Clefable Lv. 68
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 2, 36, 3600, 68, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 2, 36, 3600, 68, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Froakie), Battle AZ 3: Vaporeon Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 3, 134, 13400, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 3, 134, 13400, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Froakie), Battle AZ 4: Mega Absol Lv. 68, holds Absolite
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 4, 359, 35901, 68, 297, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 4, 359, 35901, 68, 297, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Froakie), Battle AZ 5: Altaria Lv. 67
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 5, 334, 33400, 67, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 5, 334, 33400, 67, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Serena (you play as Calem), you chose Froakie), Battle AZ 6: Chesnaught Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 6, 652, 65200, 70, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'serena-froakie', 'Rival is Serena (you play as Calem), you chose Froakie', 6, 652, 65200, 70, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Chespin), Battle AZ 1: Meowstic Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 1, 678, 67800, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 1, 678, 67800, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Chespin), Battle AZ 2: Clefable Lv. 68
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 2, 36, 3600, 68, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 2, 36, 3600, 68, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Chespin), Battle AZ 3: Jolteon Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 3, 135, 13500, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 3, 135, 13500, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Chespin), Battle AZ 4: Mega Absol Lv. 68, holds Absolite
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 4, 359, 35901, 68, 297, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 4, 359, 35901, 68, 297, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Chespin), Battle AZ 5: Altaria Lv. 67
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 5, 334, 33400, 67, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 5, 334, 33400, 67, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Chespin), Battle AZ 6: Delphox Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 6, 655, 65500, 70, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-chespin', 'Rival is Calem (you play as Serena), you chose Chespin', 6, 655, 65500, 70, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Fennekin), Battle AZ 1: Meowstic Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 1, 678, 67800, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 1, 678, 67800, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Fennekin), Battle AZ 2: Clefable Lv. 68
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 2, 36, 3600, 68, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 2, 36, 3600, 68, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Fennekin), Battle AZ 3: Flareon Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 3, 136, 13600, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 3, 136, 13600, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Fennekin), Battle AZ 4: Mega Absol Lv. 68, holds Absolite
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 4, 359, 35901, 68, 297, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 4, 359, 35901, 68, 297, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Fennekin), Battle AZ 5: Altaria Lv. 67
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 5, 334, 33400, 67, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 5, 334, 33400, 67, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Fennekin), Battle AZ 6: Greninja Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 6, 658, 65800, 70, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-fennekin', 'Rival is Calem (you play as Serena), you chose Fennekin', 6, 658, 65800, 70, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 1: Meowstic Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 1, 678, 67800, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 1, 678, 67800, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 2: Clefable Lv. 68
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 2, 36, 3600, 68, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 2, 36, 3600, 68, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 3: Vaporeon Lv. 66
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 3, 134, 13400, 66, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 3, 134, 13400, 66, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 4: Mega Absol Lv. 68, holds Absolite
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 4, 359, 35901, 68, 297, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 4, 359, 35901, 68, 297, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 5: Altaria Lv. 67
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 5, 334, 33400, 67, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 5, 334, 33400, 67, NULL, NULL, FALSE),
   -- Serena / Calem (Rival is Calem (you play as Serena), you chose Froakie), Battle AZ 6: Chesnaught Lv. 70
-  (130019, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 6, 652, 65200, 70, NULL, NULL, FALSE),
+  (130026, 13018, 13, NULL, NULL, NULL, 'calem-froakie', 'Rival is Calem (you play as Serena), you chose Froakie', 6, 652, 65200, 70, NULL, NULL, FALSE),
   -- Xerneas, Team Flare Secret HQ 1: Xerneas Lv. 50
   (130022, 13021, 13, NULL, NULL, NULL, NULL, NULL, 1, 716, 71600, 50, NULL, NULL, FALSE),
   -- Yveltal, Team Flare Secret HQ 1: Yveltal Lv. 50

@@ -40,7 +40,7 @@ SELECT
                 held_item_id IS NOT NULL
                 AND ally_opponent_id IS NULL
                 AND version_group_id BETWEEN 11 AND 14 GROUP BY version_group_id ORDER BY version_group_id $$, $$
-            VALUES (11, 39), (12, 58), (13, 8), (14, 11) $$, 'Gen 5-6 opponents hold the items their games give them');
+            VALUES (11, 39), (12, 52), (13, 8), (14, 11) $$, 'Gen 5-6 opponents hold the items their games give them');
 -- Cheren's last Black / White battle: a lens, a berry, a booster and Leftovers.
 SELECT
     results_eq ($$

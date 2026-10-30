@@ -46,4 +46,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- The Plate of Moonview Arena <- The Plate of Firespit Island
   (220015, 220014, 22, 1, 1, NULL),
   -- The Plate of Snowpoint Temple <- The Plate of Moonview Arena
-  (220016, 220015, 22, 1, 1, NULL);
+  (220016, 220015, 22, 1, 1, NULL),
+  -- The Sea's Legend opens after Origin Pokémon
+  (220017, 220010, 22, 4, 1, NULL),
+  -- On the Trail of Giratina opens after Defeat Volo
+  (220018, 220011, 22, 4, 1, NULL),
+  -- Incarnate Forces of Hisui opens after Origin Pokémon
+  (220019, 220010, 22, 4, 1, NULL);

@@ -25,7 +25,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   notes
 ) VALUES
   -- Zephyr Badge -> Falkner
-  (100003, 10001, 10, 'battle-opponent', 1, NULL),
+  (100003, 10001, 10, 'battle-opponent', 2, NULL),
   -- Hive Badge -> Bugsy
   (100004, 10002, 10, 'battle-opponent', 2, NULL),
   -- Plain Badge -> Whitney
@@ -68,8 +68,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (100024, 10021, 10, 'battle-opponent', 1, NULL),
   -- Defeat Red -> Red
   (100025, 10022, 10, 'battle-opponent', 1, NULL),
-  -- Receive Pokedex -> Silver
-  (100002, 10023, 10, 'battle-opponent', 1, 'Cherrygrove City'),
+  -- Zephyr Badge -> Silver
+  (100003, 10023, 10, 'battle-opponent', 1, 'Cherrygrove City'),
   -- Hive Badge -> Silver
   (100004, 10023, 10, 'battle-opponent', 3, 'Azalea Town (west side, toward Ilex Forest)'),
   -- Burned Tower -> Silver

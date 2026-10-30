@@ -26,4 +26,12 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Ogerpon Battle <- Loyal Three Quest
   (240005, 240004, 24, 1, 1, NULL),
   -- Kieran Rematch <- Ogerpon Battle
-  (240006, 240005, 24, 1, 1, NULL);
+  (240006, 240005, 24, 1, 1, NULL),
+  -- Bloodmoon Ursaluna opens after Kieran Rematch
+  (240007, 240006, 24, 4, 1, NULL),
+  -- Paradise Barrens opens after Kieran Rematch
+  (240008, 240006, 24, 4, 1, NULL),
+  -- Wistful Fields opens after Kieran Rematch
+  (240009, 240006, 24, 4, 1, NULL),
+  -- Oni Mountain opens after Kieran Rematch
+  (240010, 240006, 24, 4, 1, NULL);

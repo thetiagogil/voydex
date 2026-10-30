@@ -37,7 +37,8 @@ INSERT INTO tracking.mainline_milestone_prerequisite_kinds (id, slug, name, desc
 VALUES
   (1, 'suggested', 'Suggested', 'Used for previous-step completion prompts without implying a hard in-game unlock.', 1),
   (2, 'required', 'Required', 'Used when the prerequisite should normally be completed before this milestone in the progression model.', 2),
-  (3, 'story-unlock', 'Story Unlock', 'Used when the prerequisite unlocks this milestone or route in the game story.', 3);
+  (3, 'story-unlock', 'Story Unlock', 'Used when the prerequisite unlocks this milestone or route in the game story.', 3),
+  (4, 'opens-after', 'Opens After', 'Used on optional side content to say which story beat opens it. Places it on the route after that beat and never blocks recording.', 4);
 
 INSERT INTO tracking.mainline_collectible_types (id, slug, name, sort_order)
 VALUES

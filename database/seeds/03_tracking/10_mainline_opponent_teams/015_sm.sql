@@ -214,17 +214,17 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Hau (chose Popplio), Choose Starter 1: Litten Lv. 5
   (150001, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 725, 72500, 5, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Receive Pokedex 1: Pichu Lv. 6
-  (150002, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
+  (150027, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Receive Pokedex 2: Popplio Lv. 7
-  (150002, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 728, 72800, 7, NULL, NULL, FALSE),
+  (150027, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 2, 728, 72800, 7, NULL, NULL, FALSE),
   -- Hau (chose Litten), Receive Pokedex 1: Pichu Lv. 6
-  (150002, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
+  (150027, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
   -- Hau (chose Litten), Receive Pokedex 2: Rowlet Lv. 7
-  (150002, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 722, 72200, 7, NULL, NULL, FALSE),
+  (150027, 15016, 15, NULL, 150001, 'litten', NULL, NULL, 2, 722, 72200, 7, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Receive Pokedex 1: Pichu Lv. 6
-  (150002, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
+  (150027, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 1, 172, 17200, 6, NULL, NULL, FALSE),
   -- Hau (chose Popplio), Receive Pokedex 2: Litten Lv. 7
-  (150002, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 725, 72500, 7, NULL, NULL, FALSE),
+  (150027, 15016, 15, NULL, 150001, 'popplio', NULL, NULL, 2, 725, 72500, 7, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Grand Trial Hala 1: Pikachu Lv. 13
   (150004, 15016, 15, NULL, 150001, 'rowlet', NULL, NULL, 1, 25, 2500, 13, NULL, NULL, FALSE),
   -- Hau (chose Rowlet), Grand Trial Hala 2: Popplio Lv. 14

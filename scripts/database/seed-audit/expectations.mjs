@@ -277,6 +277,7 @@ export const expectedSlugs = {
     "suggested",
     "required",
     "story-unlock",
+    "opens-after",
   ],
   "tracking.mainline_collectible_types": [
     "zygarde-component",

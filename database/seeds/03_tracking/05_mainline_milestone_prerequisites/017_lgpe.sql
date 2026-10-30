@@ -57,7 +57,17 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (170020, 170004, 17, 1, 1, NULL),
   -- Rocket Hideout <- Rainbow Badge
   (170021, 170006, 17, 1, 1, NULL),
-  -- Silph Co. <- Rocket Hideout
-  (170022, 170021, 17, 1, 1, NULL),
+  -- Silph Co. <- Pokémon Tower
+  (170022, 170028, 17, 1, 1, NULL),
   -- Battle Red <- Battle Green
-  (170027, 170019, 17, 1, 1, NULL);
+  (170027, 170019, 17, 1, 1, NULL),
+  -- Pokémon Tower <- Rocket Hideout
+  (170028, 170021, 17, 1, 1, NULL),
+  -- Power Plant opens after Soul Badge
+  (170023, 170008, 17, 4, 1, NULL),
+  -- Seafoam Islands opens after Soul Badge
+  (170024, 170008, 17, 4, 1, NULL),
+  -- Victory Road opens after Earth Badge
+  (170025, 170011, 17, 4, 1, NULL),
+  -- Cerulean Cave opens after Hall of Fame
+  (170026, 170017, 17, 4, 1, NULL);

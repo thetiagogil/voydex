@@ -34,6 +34,8 @@ function buildTableRows({ withOpponentRef }) {
         version_group_id: 1,
         slug: "main-story",
         category_kind: "story",
+        chapter_kind: "main-story",
+        plays_in_any_order: false,
         sort_order: 1,
       },
     ]),
@@ -114,6 +116,19 @@ describe("tracking seed rules", () => {
     assertTrackingCoreRows(context, buildTableRows({ withOpponentRef: true }));
 
     expect(context.errors).toEqual([]);
+  });
+
+  it("rejects a story chapter that doesn't say what it is to the journey", () => {
+    const context = createAuditContext();
+    const tableRows = buildTableRows({ withOpponentRef: true });
+    const [category] = tableRows.get("tracking.mainline_categories");
+
+    category.row.chapter_kind = null;
+    assertTrackingCoreRows(context, tableRows);
+
+    expect(context.errors).toEqual([
+      "seeds/03_tracking/fixture.sql: tracking.mainline_categories row 101 has unsupported chapter_kind null.",
+    ]);
   });
 
   it("rejects a battle Story point with no opponent to fight", () => {

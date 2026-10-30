@@ -33,8 +33,8 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (50009, 50008, 5, 1, 1, NULL),
   -- Mind Badge <- Feather Badge
   (50010, 50009, 5, 1, 1, NULL),
-  -- Rain Badge <- Seafloor Cavern
-  (50011, 50019, 5, 1, 1, NULL),
+  -- Rain Badge <- Cave of Origin
+  (50011, 50023, 5, 1, 1, NULL),
   -- Elite Four Sidney <- Rain Badge
   (50012, 50011, 5, 1, 1, NULL),
   -- Elite Four Phoebe <- Elite Four Sidney
@@ -50,4 +50,14 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Mt. Chimney <- Dynamo Badge
   (50018, 50005, 5, 1, 1, NULL),
   -- Seafloor Cavern <- Mind Badge
-  (50019, 50010, 5, 1, 1, NULL);
+  (50019, 50010, 5, 1, 1, NULL),
+  -- Cave of Origin <- Seafloor Cavern
+  (50023, 50019, 5, 1, 1, NULL),
+  -- Fossil Choice opens after Heat Badge
+  (50006, 50007, 5, 4, 1, NULL),
+  -- Sealed Chamber opens after Mind Badge
+  (50020, 50010, 5, 4, 1, NULL),
+  -- Sky Pillar opens after Hall of Fame
+  (50021, 50017, 5, 4, 1, NULL),
+  -- Roaming Latios or Latias opens after Hall of Fame
+  (50022, 50017, 5, 4, 1, NULL);

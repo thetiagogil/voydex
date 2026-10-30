@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mind Badge -> Tate & Liza
   (50010, 5007, 5, 'battle-opponent', 2, NULL),
   -- Rain Badge -> Wallace
-  (50011, 5008, 5, 'battle-opponent', 3, NULL),
+  (50011, 5008, 5, 'battle-opponent', 1, NULL),
   -- Elite Four Sidney -> Sidney
   (50012, 5009, 5, 'battle-opponent', 2, NULL),
   -- Elite Four Phoebe -> Phoebe
@@ -65,12 +65,10 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (50019, 5017, 5, 'battle-opponent', 2, 'Seafloor Cavern'),
   -- Elite Four Sidney -> Wally
   (50012, 5015, 5, 'battle-opponent', 1, 'Victory Road'),
-  -- Hall of Fame -> Wally
-  (50017, 5015, 5, 'battle-opponent', 1, 'Victory Road. You can skip this battle.'),
-  -- Rain Badge -> Groudon
-  (50011, 5018, 5, 'battle-opponent', 1, 'Cave of Origin B4F'),
-  -- Rain Badge -> Kyogre
-  (50011, 5019, 5, 'battle-opponent', 2, 'Cave of Origin B4F'),
+  -- Cave of Origin -> Groudon
+  (50023, 5018, 5, 'battle-opponent', 1, 'Cave of Origin B4F'),
+  -- Cave of Origin -> Kyogre
+  (50023, 5019, 5, 'battle-opponent', 2, 'Cave of Origin B4F'),
   -- Sealed Chamber -> Regirock
   (50020, 5020, 5, 'battle-opponent', 1, 'Desert Ruins (Route 111). You can skip this battle.'),
   -- Sealed Chamber -> Regice

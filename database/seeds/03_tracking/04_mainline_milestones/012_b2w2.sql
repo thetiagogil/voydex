@@ -60,6 +60,8 @@ INSERT INTO tracking.mainline_milestones (
   (120017, 12, NULL, 1202, 8, 2, NULL, 'champion-iris', 'Champion Iris', 'Defeat Champion Iris at the Pokémon League.', 5, true),
   -- Hall of Fame
   (120018, 12, NULL, 1202, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
+  -- Hugh in Undella Town
+  (120028, 12, NULL, 1203, 5, 2, NULL, 'undella-town', 'Hugh in Undella Town', 'Battle Hugh in Undella Town after the credits, once his sister''s Purrloin is back home.', 1, false),
   -- Swords of Justice
   (120019, 12, NULL, 1204, 6, 2, NULL, 'swords-of-justice', 'Swords of Justice', 'Find Cobalion on Route 13, Virizion on Route 11 and, after the Wave Badge, Terrakion on Route 22.', 1, false),
   -- Dreamyard
