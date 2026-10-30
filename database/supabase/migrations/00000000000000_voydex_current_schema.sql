@@ -1975,6 +1975,9 @@ COMMENT ON TABLE reference.pokemon_availability_groups IS 'A set of Pokémon a s
 COMMENT ON COLUMN reference.pokemon_availability_groups.note IS 'One short line, in our own words, that the Team check shows when a team holds two members.';
 
 -- ============================================================================
+-- Source: database/schema/02_reference/01_tables/048_pokemon_availability_group_members.sql
+-- ============================================================================
+-- ============================================================================
 -- Table: reference.pokemon_availability_group_members
 -- The species and forms of each availability group.
 -- ============================================================================

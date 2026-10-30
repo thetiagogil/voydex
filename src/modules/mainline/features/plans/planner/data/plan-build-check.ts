@@ -208,8 +208,19 @@ export const buildPlanIssues = ({
     byFamily.set(pokemon.evolutionFamilyId, family);
   }
 
+  /* Two of a one-per-save group are a block, not a second catch. */
+  const oneOfIssues = issues.filter((issue) => issue.kind === "one-per-save");
+
   for (const family of byFamily.values()) {
     if (family.length < 2) continue;
+
+    if (
+      oneOfIssues.some((issue) =>
+        family.every((pokemon) => issue.speciesIds.includes(pokemon.speciesId)),
+      )
+    ) {
+      continue;
+    }
 
     issues.push({
       body: "Fine to plan both. You'll need to catch it twice.",

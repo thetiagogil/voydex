@@ -12,6 +12,7 @@ import {
 } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import {
   describeUncovered,
+  getPlanMatchupMemberId,
   type PlanCoverage,
   type PlanMatchupRow,
 } from "@/modules/mainline/features/plans/planner/data/plan-team-analysis";
@@ -84,8 +85,8 @@ export const PlannerTeamCheckSheet = ({
   const byId = new Map(team.map((pokemon) => [pokemon.speciesId, pokemon]));
   const pressure = matchups.filter((row) => row.isPressure);
   const covered = coverage.filter((entry) => entry.coveredBySpeciesIds.length);
-  const matchupMembers = team.map((pokemon) => ({
-    id: String(pokemon.speciesId),
+  const matchupMembers = team.map((pokemon, index) => ({
+    id: getPlanMatchupMemberId(pokemon, index),
     imageUrl: pokemon.imageUrl,
     name: pokemon.name,
   }));
@@ -172,12 +173,13 @@ export const PlannerTeamCheckSheet = ({
                             ) : null}
                           </div>
                           <span className="flex -space-x-2">
-                            {issue.speciesIds.map((speciesId) => {
+                            {issue.speciesIds.map((speciesId, index) => {
                               const pokemon = byId.get(speciesId);
 
                               return pokemon ? (
                                 <IconTip
-                                  key={speciesId}
+                                  /* A pair of one species shows it twice. */
+                                  key={`${speciesId}-${index}`}
                                   label={pokemon.name}
                                   trigger={
                                     <span className="inline-flex">

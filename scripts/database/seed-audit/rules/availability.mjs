@@ -3322,9 +3322,11 @@ export function assertPokemonAvailabilityGroupRows(context, tableRows) {
     (tableRows.get("reference.version_groups") ?? []).map(({ row }) => row.id),
   );
   const availableKeys = new Set(
-    (tableRows.get("reference.pokemon_availability") ?? []).map(
-      ({ row }) => `${row.version_group_id}/${row.species_id}/${row.form_id}`,
-    ),
+    (tableRows.get("reference.pokemon_availability") ?? [])
+      .filter(({ row }) => row.scope_operation !== "remove")
+      .map(
+        ({ row }) => `${row.version_group_id}/${row.species_id}/${row.form_id}`,
+      ),
   );
   const groupsById = mapRowsByColumn(groups, "id");
   const memberCountByGroupId = new Map();

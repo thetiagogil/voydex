@@ -222,6 +222,10 @@ describe("buildPlanIssues with one-of groups", () => {
     ]);
   });
 
+  /*
+   * The Planner offers each species in its Pokédex form, so it can't hold a
+   * Galarian bird yet; the rule still reads any form it's given.
+   */
   it("blocks both steeds and two of one Galarian bird", () => {
     expect(check([glastrier, spectrier])).toEqual([
       ["Glastrier or Spectrier, not both", "block", [896, 897]],
@@ -229,6 +233,19 @@ describe("buildPlanIssues with one-of groups", () => {
     expect(check([galarianArticuno, galarianArticuno])).toEqual([
       ["Only one Galarian Articuno per save", "block", [144, 144]],
     ]);
+  });
+
+  it("doesn't also call a one-per-save pair a line to catch twice", () => {
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [19, 20],
+        team: [
+          { ...kubfu, evolutionFamilyId: 891 },
+          { ...urshifu, evolutionFamilyId: 891 },
+        ],
+        versionGroup,
+      }).map((issue) => issue.kind),
+    ).not.toContain("line");
   });
 
   it("says nothing about one member alone", () => {

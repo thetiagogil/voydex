@@ -46,4 +46,10 @@ VALUES
   -- Galarian Zapdos
   (20005, 145, 14501),
   -- Galarian Moltres
-  (20006, 146, 14601);
+  (20006, 146, 14601),
+  -- Articuno (Dynamax Adventures)
+  (20007, 144, 14400),
+  -- Zapdos (Dynamax Adventures)
+  (20008, 145, 14500),
+  -- Moltres (Dynamax Adventures)
+  (20009, 146, 14600);

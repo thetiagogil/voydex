@@ -2,7 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Bulbapedia species availability lists for Kubfu, Calyrex, Glastrier,
--- Spectrier, Regieleki, Regidrago and the Galarian birds, which mark each
+-- Spectrier, Regieleki, Regidrago and the legendary birds (Galarian roaming and
+-- Kantonian in Dynamax Adventures), which mark each
 -- "Only one" (and the steeds and the Regis as a choice), with the Split-Decision
 -- Ruins page for the Regi pick.
 -- Cross-check: Serebii Pokédex and Pokéarth pages for where each is found (one
@@ -37,4 +38,10 @@ VALUES
   -- Galarian Zapdos (The Crown Tundra)
   (20005, 20, 'galarian-zapdos', 'Galarian Zapdos', 'one-per-save', 'A save has one Galarian Zapdos to catch.', 6),
   -- Galarian Moltres (The Crown Tundra)
-  (20006, 20, 'galarian-moltres', 'Galarian Moltres', 'one-per-save', 'A save has one Galarian Moltres to catch.', 7);
+  (20006, 20, 'galarian-moltres', 'Galarian Moltres', 'one-per-save', 'A save has one Galarian Moltres to catch.', 7),
+  -- Articuno (The Crown Tundra, Dynamax Adventures)
+  (20007, 20, 'articuno', 'Articuno', 'one-per-save', 'Dynamax Adventures let a save catch Articuno once.', 8),
+  -- Zapdos (The Crown Tundra, Dynamax Adventures)
+  (20008, 20, 'zapdos', 'Zapdos', 'one-per-save', 'Dynamax Adventures let a save catch Zapdos once.', 9),
+  -- Moltres (The Crown Tundra, Dynamax Adventures)
+  (20009, 20, 'moltres', 'Moltres', 'one-per-save', 'Dynamax Adventures let a save catch Moltres once.', 10);
