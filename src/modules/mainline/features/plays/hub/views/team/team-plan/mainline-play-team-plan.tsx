@@ -143,6 +143,7 @@ export const MainlinePlayTeamPlan = ({ data }: MainlinePlayTeamPlanProps) => {
       <TeamPlanTargetsSection
         comparisons={plan.comparisons}
         mechanics={plan.mechanics}
+        otherVersionExclusives={plan.otherVersionExclusives}
         onSelect={(comparison) => {
           setSelectedComparison(comparison);
           setIsCompareOpen(true);

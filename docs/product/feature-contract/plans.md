@@ -35,9 +35,15 @@ As built (v3):
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
   Pokémon and who follows it, filtered by game and sorted by
   update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner, grouped by what each action does: New Plan (in the Planner), See Plays and Share; then Rename and Archive (or Restore); then Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan doesn't open: its card stays shut, its link leads back to the archived list, it keeps its Play links, and the save refuses it until it's restored.
-- A Plan is stored for one game, the version group's first, until Plans
-  store a version preference. Plan Detail, Create Play from a Plan, cloning,
-  drafts and the Game List below are accepted but not built.
+- A Plan is for either game of its version group ("Either"); the Planner has
+  no version control (#23, decided 2026-10-30 to keep the quieter Planner of
+  #87). It still stores the group's first game, for its cover. Any Play of
+  the version group can follow it, and a following Play checks the Plan
+  against its own game: a target only the other game has is marked
+  "Shield only: trade for it" instead of the Planner's "needs both"
+  warning. The Planner on its own keeps reading both games. Plan Detail,
+  Create Play from a Plan, cloning, drafts and the Game List below are
+  accepted but not built.
 
 The V1 standalone Plans family has three responsibilities:
 
@@ -155,5 +161,5 @@ cannot be preserved safely.
 
 Standalone Plan Detail lists every linked Play with a concise comparison
 summary and can enter that Play's comparison context directly. `Link to existing Play` offers only
-owner-scoped Plays with the exact game/version and no other focused Plan.
+owner-scoped Plays of the same version group (either game) and no other focused Plan.
 Linking changes no Team member and stores no member association.
