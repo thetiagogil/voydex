@@ -11,6 +11,7 @@ CREATE TABLE tracking.mainline_collectibles (
     name text NOT NULL,
     total_count integer,
     sprite_slug text,
+    reward_summary text NOT NULL,
     sort_order integer NOT NULL,
     is_required_for_completion boolean NOT NULL DEFAULT TRUE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
@@ -20,6 +21,7 @@ CREATE TABLE tracking.mainline_collectibles (
     CONSTRAINT mainline_collectibles_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 200),
     CONSTRAINT mainline_collectibles_total_count_positive_check CHECK (total_count IS NULL OR total_count > 0),
     CONSTRAINT mainline_collectibles_sprite_slug_format_check CHECK (sprite_slug IS NULL OR (sprite_slug = LOWER(sprite_slug) AND sprite_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(sprite_slug) <= 160)),
+    CONSTRAINT mainline_collectibles_reward_summary_length_check CHECK (CHAR_LENGTH(BTRIM(reward_summary)) BETWEEN 1 AND 200),
     CONSTRAINT mainline_collectibles_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_collectibles_id_version_group_unique UNIQUE (id, version_group_id)
 );
@@ -51,3 +53,5 @@ COMMENT ON TABLE tracking.mainline_collectibles IS 'Curated collectible groups. 
 COMMENT ON COLUMN tracking.mainline_collectibles.game_id IS 'Nullable for version-group-wide mainline_collectibles. When set, the game must be mapped to the same content scope.';
 
 COMMENT ON COLUMN tracking.mainline_collectibles.total_count IS 'Optional expected count when individual entries are not fully enumerated or when a count is useful for display.';
+
+COMMENT ON COLUMN tracking.mainline_collectibles.reward_summary IS 'One short line, in our own words, saying what the set rewards or leads to, such as the Zygarde its Cells build with the Cores. Shown in the Collectibles head.';

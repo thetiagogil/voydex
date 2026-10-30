@@ -14,6 +14,8 @@ export type MainlinePlayCollectibleGroup = {
   entries: MainlinePlayCollectibleEntry[];
   id: number;
   name: string;
+  /* What completing the whole set rewards, in one line. */
+  reward: string | null;
   slug: string;
   sortOrder: number;
 };

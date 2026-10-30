@@ -221,6 +221,11 @@ Show normalized page-level completion across active groups. Each selected group
 owns its native collected/total and remaining counts, percentage, completion
 context, and tracker. Play settings own which supported groups contribute.
 
+The head of each group also says, in one line led by `Reward`, what completing
+the whole group earns in that game (the Pokémon, move or encounter it unlocks).
+The line comes from `tracking.mainline_collectibles.reward_summary` and is
+written in Voydex's own words.
+
 Identifiable-entry groups use searchable and location-filterable rows with a
 direct collected control. They support canonical-order and location sorting.
 Group-level inclusion is not repeated on every entry. Routine changes never

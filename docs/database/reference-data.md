@@ -172,6 +172,16 @@ sources remain authoritative for game-specific mechanics and availability.
   Ball stay out of the catalog, and Legends: Arceus lists only its own balls.
   Let's Go lists only the balls a Pokémon there can be in, plus the Cherish
   Ball.
+- Every collectible set (`tracking.mainline_collectibles`) has a
+  `reward_summary`: one short line in our own words saying what completing the
+  whole set rewards. Each was checked on two references where both cover it
+  (the seed header names them): Zygarde's Power Construct at 100 Cells and Cores and the five Core
+  moves, the Totem-size Pokémon at each Totem Sticker count (Ribombee in Ultra
+  Sun, Kommo-o in Ultra Moon at 100), the Isle of Armor Diglett gifts with an
+  Alolan Diglett at 150, the shrine and Treasure of Ruin each stake colour
+  unseals, and Vessa's items with Spiritomb at level 60 for all 107 wisps.
+  Only one reference names the stake colour of each shrine; the other confirms
+  which Treasure of Ruin each shrine holds.
 
 ## Audit Contract
 

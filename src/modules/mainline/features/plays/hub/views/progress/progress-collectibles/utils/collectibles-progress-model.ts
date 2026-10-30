@@ -95,6 +95,7 @@ export const buildMainlinePlayCollectiblesData = ({
         entries: [],
         id: row.collectible_id,
         name: row.collectible_name,
+        reward: sourceGroup?.reward_summary ?? null,
         slug: row.collectible_slug,
         sortOrder: sourceGroup?.sort_order ?? row.collectible_id,
       } satisfies MainlinePlayCollectibleGroup);

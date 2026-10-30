@@ -11,12 +11,15 @@ type PageHeaderProps = {
   headingId?: string;
   /* `h2` where the page already has its `h1`, such as a Play's tab. */
   headingLevel?: "h1" | "h2";
+  /* A second, optional line under the description, such as a reward. */
+  note?: ReactNode;
   title: ReactNode;
 };
 
 /*
- * A page head: the Fredoka title, one line under it, and an optional action
- * that sits at the end of the row from `sm` up. A tool handed down by the
+ * A page head: the Fredoka title, one line under it (and an optional note
+ * below that), and an optional action that sits at the end of the row from
+ * `sm` up. A tool handed down by the
  * page (`PageHeadToolProvider`) sits just before the action, so the main
  * action keeps the row's edge.
  */
@@ -26,6 +29,7 @@ export const PageHeader = ({
   description,
   headingId,
   headingLevel: Heading = "h1",
+  note,
   title,
 }: PageHeaderProps) => {
   return (
@@ -42,6 +46,11 @@ export const PageHeader = ({
         {description ? (
           <p className="text-ink-2 text-15 mt-1.5 max-w-3xl font-semibold">
             {description}
+          </p>
+        ) : null}
+        {note ? (
+          <p className="text-ink-2 text-15 mt-1 max-w-3xl font-semibold">
+            {note}
           </p>
         ) : null}
       </div>

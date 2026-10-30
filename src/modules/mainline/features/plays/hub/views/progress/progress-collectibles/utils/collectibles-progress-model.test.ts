@@ -16,6 +16,7 @@ import {
 const groupRow = {
   id: 10,
   name: "Ominous Stakes",
+  reward_summary: "Pulling all eight unseals a shrine.",
   slug: "ominous-stakes",
   sort_order: 2,
   total_count: 3,
@@ -67,6 +68,7 @@ describe("collectibles progress model", () => {
     expect(data.groups).toHaveLength(1);
     expect(data.groups[0]).toMatchObject({
       name: "Ominous Stakes",
+      reward: "Pulling all eight unseals a shrine.",
       slug: "ominous-stakes",
       sortOrder: 2,
     });
