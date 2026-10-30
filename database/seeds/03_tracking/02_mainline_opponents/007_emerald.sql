@@ -4,6 +4,11 @@
 -- Primary: Bulbapedia Badge, Elite Four, Emerald, and Steven Stone pages.
 -- Cross-check: Pokémon Emerald source page.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
+-- Magma and Aqua Admins (Tabitha, Shelly, Matt): the pret pokeemerald decompilation's
+-- trainer parties, cross-checked with Bulbapedia's trainer pages. Their Pokémon have
+-- no set moves and get the game's default: the last four level-up moves to their
+-- level, in the game's order. Shelly in the Seafloor Cavern is an ordinary trainer
+-- the player can walk past, so her battle there is marked skippable.
 -- Scope: Pokémon Emerald major opponent data.
 -- ============================================================================
 -- File Scope
@@ -76,4 +81,10 @@ INSERT INTO tracking.mainline_opponents (
   -- Latias (boss)
   (7026, 7, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', 26),
   -- Latios (boss)
-  (7027, 7, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', 27);
+  (7027, 7, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', 27),
+  -- Tabitha (boss; Team Magma Admin)
+  (7028, 7, NULL, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', 28),
+  -- Shelly (boss; Team Aqua Admin)
+  (7029, 7, NULL, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', 29),
+  -- Matt (boss; Team Aqua Admin)
+  (7030, 7, NULL, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', 30);

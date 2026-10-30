@@ -6,6 +6,8 @@
 -- Barry's Spear Pillar parties (Diamond / Pearl, Platinum) and Lance's Team Rocket HQ
 -- party (HeartGold / SoulSilver): the pret trainer data only; Bulbapedia's trainer
 -- pages list no partner team for those games.
+-- Silver's Dragon's Den party (HeartGold / SoulSilver): Bulbapedia's Dragon's Den page;
+-- his starter is the one that beats yours.
 -- Every other ally: Bulbapedia trainer pages (Trace, Hop, Hugh, Barry, Brendan and May, Steven,
 -- Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
@@ -690,7 +692,25 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Barry beside you vs Mars & Jupiter [piplup]: Ponyta Lv. 42: Tail Whip, Agility, Flame Wheel, Stomp
     (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[39, 97, 172, 23]),
     -- Barry beside you vs Mars & Jupiter [piplup]: Torterra Lv. 45: Razor Leaf, Bite, Leech Seed, Stealth Rock
-    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[75, 44, 73, 446])
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[75, 44, 73, 446]),
+    -- Silver beside you vs Clair & Lance [chikorita]: Typhlosion Lv. 60: Flamethrower, Rollout, Will-O-Wisp, Swift
+    (100041, 10045, 10023, NULL, 100001, 'chikorita', NULL, 1, ARRAY[53, 205, 261, 129]),
+    -- Silver beside you vs Clair & Lance [chikorita]: Crobat Lv. 58: Air Cutter, Bite, Confuse Ray, Toxic
+    (100041, 10045, 10023, NULL, 100001, 'chikorita', NULL, 2, ARRAY[314, 44, 109, 92]),
+    -- Silver beside you vs Clair & Lance [chikorita]: Gengar Lv. 56: Dark Pulse, Confuse Ray, Sludge Bomb, Shadow Ball
+    (100041, 10045, 10023, NULL, 100001, 'chikorita', NULL, 3, ARRAY[399, 109, 188, 247]),
+    -- Silver beside you vs Clair & Lance [cyndaquil]: Feraligatr Lv. 60: Ice Fang, Slash, Aqua Tail, Crunch
+    (100041, 10045, 10023, NULL, 100001, 'cyndaquil', NULL, 1, ARRAY[423, 163, 401, 242]),
+    -- Silver beside you vs Clair & Lance [cyndaquil]: Crobat Lv. 58: Air Cutter, Bite, Confuse Ray, Toxic
+    (100041, 10045, 10023, NULL, 100001, 'cyndaquil', NULL, 2, ARRAY[314, 44, 109, 92]),
+    -- Silver beside you vs Clair & Lance [cyndaquil]: Gengar Lv. 56: Dark Pulse, Confuse Ray, Sludge Bomb, Shadow Ball
+    (100041, 10045, 10023, NULL, 100001, 'cyndaquil', NULL, 3, ARRAY[399, 109, 188, 247]),
+    -- Silver beside you vs Clair & Lance [totodile]: Meganium Lv. 60: Synthesis, Body Slam, Petal Dance, Light Screen
+    (100041, 10045, 10023, NULL, 100001, 'totodile', NULL, 1, ARRAY[235, 34, 80, 113]),
+    -- Silver beside you vs Clair & Lance [totodile]: Crobat Lv. 58: Air Cutter, Bite, Confuse Ray, Toxic
+    (100041, 10045, 10023, NULL, 100001, 'totodile', NULL, 2, ARRAY[314, 44, 109, 92]),
+    -- Silver beside you vs Clair & Lance [totodile]: Gengar Lv. 56: Dark Pulse, Confuse Ray, Sludge Bomb, Shadow Ball
+    (100041, 10045, 10023, NULL, 100001, 'totodile', NULL, 3, ARRAY[399, 109, 188, 247])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

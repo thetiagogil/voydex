@@ -8,6 +8,12 @@
 -- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
 -- Held items: the pret pokecrystal disassembly's trainer parties; Ho-Oh's Sacred Ash from its species data, which the Tin Tower battle forces.
 -- Unknown held item: Celebi may hold a MiracleBerry by chance, so it is left empty.
+-- Rocket Executives: the pret pokegold and pokecrystal disassemblies' trainer parties
+-- and set moves, cross-checked with Bulbapedia's Petrel, Ariana, Archer and Proton
+-- pages. The games call them Executive; the names are the ones HeartGold / SoulSilver
+-- gave them, which Bulbapedia applies back to these battles. The Rocket HQ Executive
+-- (Petrel) has no set moves and gets the game's default. Move order follows the game.
+-- The Slowpoke Well is led by a Grunt in these games, so it has no Executive battle.
 -- Scope: Pokémon Crystal Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -372,4 +378,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Lugia, Whirl Islands 1: Lugia Lv. 60
   (40031, 4028, 4, NULL, NULL, NULL, NULL, NULL, 1, 249, 24900, 60, NULL),
   -- Celebi, Ilex Forest Shrine 1: Celebi Lv. 30
-  (40032, 4029, 4, NULL, NULL, NULL, NULL, NULL, 1, 251, 25100, 30, NULL);
+  (40032, 4029, 4, NULL, NULL, NULL, NULL, NULL, 1, 251, 25100, 30, NULL),
+  -- Petrel, Team Rocket HQ 1: Zubat Lv. 22
+  (40009, 4030, 4, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 22, NULL),
+  -- Petrel, Team Rocket HQ 2: Raticate Lv. 24
+  (40009, 4030, 4, NULL, NULL, NULL, NULL, NULL, 2, 20, 2000, 24, NULL),
+  -- Petrel, Team Rocket HQ 3: Koffing Lv. 22
+  (40009, 4030, 4, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 22, NULL),
+  -- Ariana, Team Rocket HQ 1: Arbok Lv. 23
+  (40009, 4031, 4, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 23, NULL),
+  -- Ariana, Team Rocket HQ 2: Gloom Lv. 23
+  (40009, 4031, 4, NULL, NULL, NULL, NULL, NULL, 2, 44, 4400, 23, NULL),
+  -- Ariana, Team Rocket HQ 3: Murkrow Lv. 25
+  (40009, 4031, 4, NULL, NULL, NULL, NULL, NULL, 3, 198, 19800, 25, NULL),
+  -- Petrel, Goldenrod Radio Tower 1: Koffing Lv. 30
+  (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 1, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 2: Koffing Lv. 30
+  (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 3: Koffing Lv. 30
+  (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 4: Weezing Lv. 32
+  (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 4, 110, 11000, 32, NULL),
+  -- Petrel, Goldenrod Radio Tower 5: Koffing Lv. 30
+  (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 5, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 6: Koffing Lv. 30
+  (40027, 4030, 4, NULL, NULL, NULL, NULL, NULL, 6, 109, 10900, 30, NULL),
+  -- Proton, Goldenrod Radio Tower 1: Golbat Lv. 36
+  (40027, 4033, 4, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 36, NULL),
+  -- Ariana, Goldenrod Radio Tower 1: Arbok Lv. 32
+  (40027, 4031, 4, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 32, NULL),
+  -- Ariana, Goldenrod Radio Tower 2: Vileplume Lv. 32
+  (40027, 4031, 4, NULL, NULL, NULL, NULL, NULL, 2, 45, 4500, 32, NULL),
+  -- Ariana, Goldenrod Radio Tower 3: Murkrow Lv. 32
+  (40027, 4031, 4, NULL, NULL, NULL, NULL, NULL, 3, 198, 19800, 32, NULL),
+  -- Archer, Goldenrod Radio Tower 1: Houndour Lv. 33
+  (40027, 4032, 4, NULL, NULL, NULL, NULL, NULL, 1, 228, 22800, 33, NULL),
+  -- Archer, Goldenrod Radio Tower 2: Koffing Lv. 33
+  (40027, 4032, 4, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 33, NULL),
+  -- Archer, Goldenrod Radio Tower 3: Houndoom Lv. 35
+  (40027, 4032, 4, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 35, NULL);

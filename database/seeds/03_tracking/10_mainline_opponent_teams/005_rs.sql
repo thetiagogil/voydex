@@ -6,6 +6,11 @@
 -- Rival, Wally, Maxie and Archie battles: the pret pokeruby disassembly's trainer parties, cross-checked with Bulbapedia and Serebii.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Held items: the pret pokeruby disassembly's trainer parties and wild battle scripts.
+-- Magma and Aqua Admins (Tabitha, Courtney, Matt, Shelly): the pret pokeruby
+-- decompilation's trainer parties, cross-checked with Bulbapedia's trainer pages.
+-- Their Pokémon have no set moves and get the game's default: the last four
+-- level-up moves to their level, in the game's order; where Bulbapedia's reading
+-- differs (Tabitha's Poochyena at Mt. Chimney) the game's own learnset wins.
 -- Scope: Pokémon Ruby / Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -264,4 +269,44 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Latios, Roaming Latios or Latias 1: Latios Lv. 40
   (50022, 5024, 5, NULL, NULL, NULL, NULL, NULL, 1, 381, 38100, 40, NULL),
   -- Latias, Roaming Latios or Latias 1: Latias Lv. 40
-  (50022, 5025, 5, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 40, NULL);
+  (50022, 5025, 5, NULL, NULL, NULL, NULL, NULL, 1, 380, 38000, 40, NULL),
+  -- Tabitha, Mt. Chimney 1: Numel Lv. 20
+  (50018, 5026, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 20, NULL),
+  -- Tabitha, Mt. Chimney 2: Poochyena Lv. 20
+  (50018, 5026, 5, NULL, NULL, NULL, NULL, NULL, 2, 261, 26100, 20, NULL),
+  -- Tabitha, Mt. Chimney 3: Numel Lv. 20
+  (50018, 5026, 5, NULL, NULL, NULL, NULL, NULL, 3, 322, 32200, 20, NULL),
+  -- Matt, Mt. Chimney 1: Carvanha Lv. 20
+  (50018, 5028, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 20, NULL),
+  -- Matt, Mt. Chimney 2: Poochyena Lv. 20
+  (50018, 5028, 5, NULL, NULL, NULL, NULL, NULL, 2, 261, 26100, 20, NULL),
+  -- Matt, Mt. Chimney 3: Carvanha Lv. 20
+  (50018, 5028, 5, NULL, NULL, NULL, NULL, NULL, 3, 318, 31800, 20, NULL),
+  -- Courtney, Weather Institute 1: Numel Lv. 28
+  (50009, 5027, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 28, NULL),
+  -- Courtney, Weather Institute 2: Mightyena Lv. 28
+  (50009, 5027, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  -- Shelly, Weather Institute 1: Carvanha Lv. 28
+  (50009, 5029, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 28, NULL),
+  -- Shelly, Weather Institute 2: Mightyena Lv. 28
+  (50009, 5029, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  -- Tabitha, Magma Hideout 1: Numel Lv. 32
+  (50010, 5026, 5, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 32, NULL),
+  -- Tabitha, Magma Hideout 2: Mightyena Lv. 32
+  (50010, 5026, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 32, NULL),
+  -- Tabitha, Magma Hideout 3: Camerupt Lv. 32
+  (50010, 5026, 5, NULL, NULL, NULL, NULL, NULL, 3, 323, 32300, 32, NULL),
+  -- Matt, Aqua Hideout 1: Carvanha Lv. 32
+  (50010, 5028, 5, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 32, NULL),
+  -- Matt, Aqua Hideout 2: Mightyena Lv. 32
+  (50010, 5028, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 32, NULL),
+  -- Matt, Aqua Hideout 3: Sharpedo Lv. 32
+  (50010, 5028, 5, NULL, NULL, NULL, NULL, NULL, 3, 319, 31900, 32, NULL),
+  -- Courtney, Seafloor Cavern 1: Camerupt Lv. 38
+  (50019, 5027, 5, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 38, NULL),
+  -- Courtney, Seafloor Cavern 2: Mightyena Lv. 38
+  (50019, 5027, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 38, NULL),
+  -- Shelly, Seafloor Cavern 1: Sharpedo Lv. 38
+  (50019, 5029, 5, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 38, NULL),
+  -- Shelly, Seafloor Cavern 2: Mightyena Lv. 38
+  (50019, 5029, 5, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 38, NULL);

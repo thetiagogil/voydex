@@ -4,6 +4,12 @@
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Gold / Silver source pages.
 -- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
+-- Rocket Executives: the pret pokegold and pokecrystal disassemblies' trainer parties
+-- and set moves, cross-checked with Bulbapedia's Petrel, Ariana, Archer and Proton
+-- pages. The games call them Executive; the names are the ones HeartGold / SoulSilver
+-- gave them, which Bulbapedia applies back to these battles. The Rocket HQ Executive
+-- (Petrel) has no set moves and gets the game's default. Move order follows the game.
+-- The Slowpoke Well is led by a Grunt in these games, so it has no Executive battle.
 -- Scope: Pokémon Gold / Silver major opponent data.
 -- ============================================================================
 -- File Scope
@@ -83,4 +89,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Lugia (boss, silver)
   (3029, 3, 5, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', 2),
   -- Lugia (boss, gold)
-  (3030, 3, 4, 'lugia-gold', 'Lugia', 'boss', 11, 10, 'lugia', 2);
+  (3030, 3, 4, 'lugia-gold', 'Lugia', 'boss', 11, 10, 'lugia', 2),
+  -- Petrel (boss; Team Rocket Executive)
+  (3031, 3, NULL, 'petrel', 'Petrel', 'boss', NULL, NULL, 'petrel', 27),
+  -- Ariana (boss; Team Rocket Executive)
+  (3032, 3, NULL, 'ariana', 'Ariana', 'boss', NULL, NULL, 'ariana', 28),
+  -- Archer (boss; Team Rocket Executive)
+  (3033, 3, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 29),
+  -- Proton (boss; Team Rocket Executive)
+  (3034, 3, NULL, 'proton', 'Proton', 'boss', NULL, NULL, 'proton', 30);

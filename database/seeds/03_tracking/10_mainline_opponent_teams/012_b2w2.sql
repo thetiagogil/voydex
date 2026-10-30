@@ -10,6 +10,9 @@
 -- Wild Pokémon here hold nothing in their game data.
 -- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
 -- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
+-- N at N's Castle after the credits: Bulbapedia's N page, cross-checked with Serebii.
+-- He brings Zekrom (Black 2) or Reshiram (White 2); his later seasonal teams are
+-- rematches and stay out.
 -- Scope: Pokémon Black 2 / White 2 Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -354,4 +357,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Shadow (Accelgor), Plasma Frigate, Giant Chasm 2: Pawniard Lv. 49
   (120012, 12038, 12, NULL, NULL, NULL, NULL, NULL, 2, 624, 62400, 49, NULL),
   -- Shadow (Accelgor), Plasma Frigate, Giant Chasm 3: Accelgor Lv. 51
-  (120012, 12038, 12, NULL, NULL, NULL, NULL, NULL, 3, 617, 61700, 51, NULL);
+  (120012, 12038, 12, NULL, NULL, NULL, NULL, NULL, 3, 617, 61700, 51, NULL),
+  -- N, N's Castle (Black 2) 1: Zekrom Lv. 70
+  (120022, 12039, 12, 19, NULL, NULL, NULL, NULL, 1, 644, 64400, 70, NULL),
+  -- N, N's Castle (White 2) 1: Reshiram Lv. 70
+  (120022, 12039, 12, 20, NULL, NULL, NULL, NULL, 1, 643, 64300, 70, NULL);

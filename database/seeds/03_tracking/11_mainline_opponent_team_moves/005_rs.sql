@@ -6,6 +6,11 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Magma and Aqua Admins (Tabitha, Courtney, Matt, Shelly): the pret pokeruby
+-- decompilation's trainer parties, cross-checked with Bulbapedia's trainer pages.
+-- Their Pokémon have no set moves and get the game's default: the last four
+-- level-up moves to their level, in the game's order; where Bulbapedia's reading
+-- differs (Tabitha's Poochyena at Mt. Chimney) the game's own learnset wins.
 -- Scope: Ruby / Sapphire Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -252,7 +257,47 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Latios: Latios Lv. 40: Protect, Refresh, Luster Purge, Psychic
     (50022, 5024, NULL, NULL, NULL, NULL, 1, ARRAY[182, 287, 295, 94]),
     -- Latias: Latias Lv. 40: Water Sport, Refresh, Mist Ball, Psychic
-    (50022, 5025, NULL, NULL, NULL, NULL, 1, ARRAY[346, 287, 296, 94])
+    (50022, 5025, NULL, NULL, NULL, NULL, 1, ARRAY[346, 287, 296, 94]),
+    -- Tabitha: Numel Lv. 20: Growl, Tackle, Ember, Magnitude
+    (50018, 5026, NULL, NULL, NULL, NULL, 1, ARRAY[45, 33, 52, 222]),
+    -- Tabitha: Poochyena Lv. 20: Howl, Sand Attack, Bite, Odor Sleuth
+    (50018, 5026, NULL, NULL, NULL, NULL, 2, ARRAY[336, 28, 44, 316]),
+    -- Tabitha: Numel Lv. 20: Growl, Tackle, Ember, Magnitude
+    (50018, 5026, NULL, NULL, NULL, NULL, 3, ARRAY[45, 33, 52, 222]),
+    -- Matt: Carvanha Lv. 20: Bite, Rage, Focus Energy, Scary Face
+    (50018, 5028, NULL, NULL, NULL, NULL, 1, ARRAY[44, 99, 116, 184]),
+    -- Matt: Poochyena Lv. 20: Howl, Sand Attack, Bite, Odor Sleuth
+    (50018, 5028, NULL, NULL, NULL, NULL, 2, ARRAY[336, 28, 44, 316]),
+    -- Matt: Carvanha Lv. 20: Bite, Rage, Focus Energy, Scary Face
+    (50018, 5028, NULL, NULL, NULL, NULL, 3, ARRAY[44, 99, 116, 184]),
+    -- Courtney: Numel Lv. 28: Tackle, Ember, Magnitude, Focus Energy
+    (50009, 5027, NULL, NULL, NULL, NULL, 1, ARRAY[33, 52, 222, 116]),
+    -- Courtney: Mightyena Lv. 28: Bite, Odor Sleuth, Roar, Swagger
+    (50009, 5027, NULL, NULL, NULL, NULL, 2, ARRAY[44, 316, 46, 207]),
+    -- Shelly: Carvanha Lv. 28: Focus Energy, Scary Face, Crunch, Screech
+    (50009, 5029, NULL, NULL, NULL, NULL, 1, ARRAY[116, 184, 242, 103]),
+    -- Shelly: Mightyena Lv. 28: Bite, Odor Sleuth, Roar, Swagger
+    (50009, 5029, NULL, NULL, NULL, NULL, 2, ARRAY[44, 316, 46, 207]),
+    -- Tabitha: Numel Lv. 32: Magnitude, Focus Energy, Take Down, Amnesia
+    (50010, 5026, NULL, NULL, NULL, NULL, 1, ARRAY[222, 116, 36, 133]),
+    -- Tabitha: Mightyena Lv. 32: Odor Sleuth, Roar, Swagger, Scary Face
+    (50010, 5026, NULL, NULL, NULL, NULL, 2, ARRAY[316, 46, 207, 184]),
+    -- Tabitha: Camerupt Lv. 32: Magnitude, Focus Energy, Take Down, Amnesia
+    (50010, 5026, NULL, NULL, NULL, NULL, 3, ARRAY[222, 116, 36, 133]),
+    -- Matt: Carvanha Lv. 32: Scary Face, Crunch, Screech, Take Down
+    (50010, 5028, NULL, NULL, NULL, NULL, 1, ARRAY[184, 242, 103, 36]),
+    -- Matt: Mightyena Lv. 32: Odor Sleuth, Roar, Swagger, Scary Face
+    (50010, 5028, NULL, NULL, NULL, NULL, 2, ARRAY[316, 46, 207, 184]),
+    -- Matt: Sharpedo Lv. 32: Focus Energy, Scary Face, Crunch, Screech
+    (50010, 5028, NULL, NULL, NULL, NULL, 3, ARRAY[116, 184, 242, 103]),
+    -- Courtney: Camerupt Lv. 38: Take Down, Amnesia, Rock Slide, Earthquake
+    (50019, 5027, NULL, NULL, NULL, NULL, 1, ARRAY[36, 133, 157, 89]),
+    -- Courtney: Mightyena Lv. 38: Roar, Swagger, Scary Face, Take Down
+    (50019, 5027, NULL, NULL, NULL, NULL, 2, ARRAY[46, 207, 184, 36]),
+    -- Shelly: Sharpedo Lv. 38: Crunch, Screech, Slash, Taunt
+    (50019, 5029, NULL, NULL, NULL, NULL, 1, ARRAY[242, 103, 163, 269]),
+    -- Shelly: Mightyena Lv. 38: Roar, Swagger, Scary Face, Take Down
+    (50019, 5029, NULL, NULL, NULL, NULL, 2, ARRAY[46, 207, 184, 36])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

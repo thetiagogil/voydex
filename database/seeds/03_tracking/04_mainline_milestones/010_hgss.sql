@@ -6,6 +6,8 @@
 -- Cross-check: Pokémon HeartGold / SoulSilver source page.
 -- Story points with rival battles: Bulbapedia walkthrough pages and the pret pokeheartgold scripts.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Dragon's Den Multi Battle (Clair & Lance, Silver beside you): Bulbapedia's Dragon's
+-- Den page; it opens after Silver's rematch at Mt. Moon and can be skipped.
 -- Scope: Pokémon HeartGold / SoulSilver major story and decision milestones.
 -- ============================================================================
 -- File Scope
@@ -109,4 +111,6 @@ INSERT INTO tracking.mainline_milestones (
   -- Pewter City Wing
   (100039, 10, NULL, 1004, 6, 2, NULL, 'version-wing-legendary', 'Pewter City Wing', 'Get the Silver Wing (HeartGold) or Rainbow Wing (SoulSilver) from an old man in Pewter City and catch or defeat Lugia in the Whirl Islands or Ho-Oh atop the Bell Tower.', 9, false),
   -- Embedded Tower
-  (100040, 10, NULL, 1004, 6, 2, NULL, 'embedded-tower', 'Embedded Tower', 'After defeating Red, take Mr. Pokémon''s orb to the Embedded Tower on Route 47 for Kyogre or Groudon, then return with the Jade Orb for Rayquaza.', 10, false);
+  (100040, 10, NULL, 1004, 6, 2, NULL, 'embedded-tower', 'Embedded Tower', 'After defeating Red, take Mr. Pokémon''s orb to the Embedded Tower on Route 47 for Kyogre or Groudon, then return with the Jade Orb for Rayquaza.', 10, false),
+  -- Dragon's Den
+  (100041, 10, NULL, 1004, 6, 2, NULL, 'dragons-den', 'Dragon''s Den', 'After Silver''s rematch at Mt. Moon, team up with him in the Dragon''s Den for a Multi Battle against Clair and Lance.', 11, false);

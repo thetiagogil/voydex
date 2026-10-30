@@ -6,6 +6,11 @@
 -- Rival, Wally, Maxie and Archie battles: the pret pokeemerald disassembly's trainer parties, cross-checked with Bulbapedia.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
 -- Held items: the pret pokeemerald disassembly's trainer parties and wild battle scripts.
+-- Magma and Aqua Admins (Tabitha, Shelly, Matt): the pret pokeemerald decompilation's
+-- trainer parties, cross-checked with Bulbapedia's trainer pages. Their Pokémon have
+-- no set moves and get the game's default: the last four level-up moves to their
+-- level, in the game's order. Shelly in the Seafloor Cavern is an ordinary trainer
+-- the player can walk past, so her battle there is marked skippable.
 -- Scope: Pokémon Emerald Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -340,4 +345,32 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Latias (chose Latias), Lati Choice 1: Latias Lv. 40
   (70018, 7026, 7, NULL, 70018, 'latias', NULL, NULL, 1, 380, 38000, 40, NULL),
   -- Latios (chose Latios), Lati Choice 1: Latios Lv. 40
-  (70018, 7027, 7, NULL, 70018, 'latios', NULL, NULL, 1, 381, 38100, 40, NULL);
+  (70018, 7027, 7, NULL, 70018, 'latios', NULL, NULL, 1, 381, 38100, 40, NULL),
+  -- Tabitha, Mt. Chimney 1: Numel Lv. 18
+  (70020, 7028, 7, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 18, NULL),
+  -- Tabitha, Mt. Chimney 2: Poochyena Lv. 20
+  (70020, 7028, 7, NULL, NULL, NULL, NULL, NULL, 2, 261, 26100, 20, NULL),
+  -- Tabitha, Mt. Chimney 3: Numel Lv. 22
+  (70020, 7028, 7, NULL, NULL, NULL, NULL, NULL, 3, 322, 32200, 22, NULL),
+  -- Tabitha, Mt. Chimney 4: Zubat Lv. 22
+  (70020, 7028, 7, NULL, NULL, NULL, NULL, NULL, 4, 41, 4100, 22, NULL),
+  -- Shelly, Weather Institute 1: Carvanha Lv. 28
+  (70009, 7029, 7, NULL, NULL, NULL, NULL, NULL, 1, 318, 31800, 28, NULL),
+  -- Shelly, Weather Institute 2: Mightyena Lv. 28
+  (70009, 7029, 7, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  -- Tabitha, Magma Hideout 1: Numel Lv. 26
+  (70021, 7028, 7, NULL, NULL, NULL, NULL, NULL, 1, 322, 32200, 26, NULL),
+  -- Tabitha, Magma Hideout 2: Mightyena Lv. 28
+  (70021, 7028, 7, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 28, NULL),
+  -- Tabitha, Magma Hideout 3: Zubat Lv. 30
+  (70021, 7028, 7, NULL, NULL, NULL, NULL, NULL, 3, 41, 4100, 30, NULL),
+  -- Tabitha, Magma Hideout 4: Camerupt Lv. 33
+  (70021, 7028, 7, NULL, NULL, NULL, NULL, NULL, 4, 323, 32300, 33, NULL),
+  -- Matt, Aqua Hideout 1: Mightyena Lv. 34
+  (70010, 7030, 7, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 34, NULL),
+  -- Matt, Aqua Hideout 2: Golbat Lv. 34
+  (70010, 7030, 7, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 34, NULL),
+  -- Shelly, Seafloor Cavern 1: Sharpedo Lv. 37
+  (70022, 7029, 7, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 37, NULL),
+  -- Shelly, Seafloor Cavern 2: Mightyena Lv. 37
+  (70022, 7029, 7, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 37, NULL);

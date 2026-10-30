@@ -5,6 +5,10 @@
 -- Cross-check: Pokémon FireRed / LeafGreen source pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
+-- Rocket Warehouse Admins: the pret pokefirered decompilation's trainer parties and
+-- set moves, cross-checked with Bulbapedia's Rocket Warehouse page. The game calls
+-- both Admin and names neither, so each is told apart by its lead Pokémon.
+-- Move order follows the game.
 -- Scope: Pokémon FireRed / LeafGreen milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -85,4 +89,8 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Roaming Legendary Beast -> Suicune
   (60028, 6025, 6, 'battle-opponent', 3, 'Roams Kanto routes. You can skip this battle.'),
   -- Cerulean Cave -> Mewtwo
-  (60029, 6026, 6, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');
+  (60029, 6026, 6, 'battle-opponent', 3, 'Cerulean Cave B1F. You can skip this battle.'),
+  -- Cerulean Cave -> Rocket Admin (Muk)
+  (60029, 6027, 6, 'battle-opponent', 1, 'Rocket Warehouse, Five Island'),
+  -- Cerulean Cave -> Rocket Admin (Golbat)
+  (60029, 6028, 6, 'battle-opponent', 2, 'Rocket Warehouse, Five Island');

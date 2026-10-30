@@ -6,6 +6,11 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Magma and Aqua Admins (Tabitha, Shelly, Matt): the pret pokeemerald decompilation's
+-- trainer parties, cross-checked with Bulbapedia's trainer pages. Their Pokémon have
+-- no set moves and get the game's default: the last four level-up moves to their
+-- level, in the game's order. Shelly in the Seafloor Cavern is an ordinary trainer
+-- the player can walk past, so her battle there is marked skippable.
 -- Scope: Emerald Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -328,7 +333,35 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Latias: Latias Lv. 40: Water Sport, Refresh, Mist Ball, Psychic
     (70018, 7026, NULL, 70018, 'latias', NULL, 1, ARRAY[346, 287, 296, 94]),
     -- Latios: Latios Lv. 40: Protect, Refresh, Luster Purge, Psychic
-    (70018, 7027, NULL, 70018, 'latios', NULL, 1, ARRAY[182, 287, 295, 94])
+    (70018, 7027, NULL, 70018, 'latios', NULL, 1, ARRAY[182, 287, 295, 94]),
+    -- Tabitha: Numel Lv. 18: Growl, Tackle, Ember
+    (70020, 7028, NULL, NULL, NULL, NULL, 1, ARRAY[45, 33, 52]),
+    -- Tabitha: Poochyena Lv. 20: Howl, Sand Attack, Bite, Odor Sleuth
+    (70020, 7028, NULL, NULL, NULL, NULL, 2, ARRAY[336, 28, 44, 316]),
+    -- Tabitha: Numel Lv. 22: Growl, Tackle, Ember, Magnitude
+    (70020, 7028, NULL, NULL, NULL, NULL, 3, ARRAY[45, 33, 52, 222]),
+    -- Tabitha: Zubat Lv. 22: Supersonic, Astonish, Bite, Wing Attack
+    (70020, 7028, NULL, NULL, NULL, NULL, 4, ARRAY[48, 310, 44, 17]),
+    -- Shelly: Carvanha Lv. 28: Focus Energy, Scary Face, Crunch, Screech
+    (70009, 7029, NULL, NULL, NULL, NULL, 1, ARRAY[116, 184, 242, 103]),
+    -- Shelly: Mightyena Lv. 28: Bite, Odor Sleuth, Roar, Swagger
+    (70009, 7029, NULL, NULL, NULL, NULL, 2, ARRAY[44, 316, 46, 207]),
+    -- Tabitha: Numel Lv. 26: Tackle, Ember, Magnitude, Focus Energy
+    (70021, 7028, NULL, NULL, NULL, NULL, 1, ARRAY[33, 52, 222, 116]),
+    -- Tabitha: Mightyena Lv. 28: Bite, Odor Sleuth, Roar, Swagger
+    (70021, 7028, NULL, NULL, NULL, NULL, 2, ARRAY[44, 316, 46, 207]),
+    -- Tabitha: Zubat Lv. 30: Astonish, Bite, Wing Attack, Confuse Ray
+    (70021, 7028, NULL, NULL, NULL, NULL, 3, ARRAY[310, 44, 17, 109]),
+    -- Tabitha: Camerupt Lv. 33: Focus Energy, Take Down, Amnesia, Rock Slide
+    (70021, 7028, NULL, NULL, NULL, NULL, 4, ARRAY[116, 36, 133, 157]),
+    -- Matt: Mightyena Lv. 34: Odor Sleuth, Roar, Swagger, Scary Face
+    (70010, 7030, NULL, NULL, NULL, NULL, 1, ARRAY[316, 46, 207, 184]),
+    -- Matt: Golbat Lv. 34: Astonish, Bite, Wing Attack, Confuse Ray
+    (70010, 7030, NULL, NULL, NULL, NULL, 2, ARRAY[310, 44, 17, 109]),
+    -- Shelly: Sharpedo Lv. 37: Scary Face, Crunch, Screech, Slash
+    (70022, 7029, NULL, NULL, NULL, NULL, 1, ARRAY[184, 242, 103, 163]),
+    -- Shelly: Mightyena Lv. 37: Roar, Swagger, Scary Face, Take Down
+    (70022, 7029, NULL, NULL, NULL, NULL, 2, ARRAY[46, 207, 184, 36])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

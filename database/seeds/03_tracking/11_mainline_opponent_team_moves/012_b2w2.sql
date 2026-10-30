@@ -12,6 +12,9 @@
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
 -- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
+-- N at N's Castle after the credits: Bulbapedia's N page, cross-checked with Serebii.
+-- He brings Zekrom (Black 2) or Reshiram (White 2); his later seasonal teams are
+-- rematches and stay out.
 -- Scope: Black 2 / White 2 Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -344,7 +347,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Shadow (Accelgor): Pawniard Lv. 49: Feint Attack, Slash, Hone Claws, Metal Claw
     (120012, 12038, NULL, NULL, NULL, NULL, 2, ARRAY[185, 163, 468, 232]),
     -- Shadow (Accelgor): Accelgor Lv. 51: Bug Buzz, Me First, Swift, Giga Drain
-    (120012, 12038, NULL, NULL, NULL, NULL, 3, ARRAY[405, 382, 129, 202])
+    (120012, 12038, NULL, NULL, NULL, NULL, 3, ARRAY[405, 382, 129, 202]),
+    -- N: Zekrom Lv. 70: Fusion Bolt, Imprison, Dragon Claw, Zen Headbutt
+    (120022, 12039, 19, NULL, NULL, NULL, 1, ARRAY[559, 286, 337, 428]),
+    -- N: Reshiram Lv. 70: Fusion Flare, Imprison, Dragon Pulse, Extrasensory
+    (120022, 12039, 20, NULL, NULL, NULL, 1, ARRAY[558, 286, 406, 326])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

@@ -9,6 +9,8 @@
 -- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
 -- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
 -- Proton's and Petrel's first teams have no set moves; they get the game's default.
+-- Dragon's Den Multi Battle (Clair & Lance, Silver beside you): Bulbapedia's Dragon's
+-- Den page; it opens after Silver's rematch at Mt. Moon and can be skipped.
 -- Scope: Pokémon HeartGold / SoulSilver milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -125,4 +127,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Radio Tower -> Ariana
   (100029, 10042, 10, 'battle-opponent', 4, 'Goldenrod Radio Tower 5F'),
   -- Radio Tower -> Archer
-  (100029, 10044, 10, 'battle-opponent', 5, 'Goldenrod Radio Tower, Observation Deck');
+  (100029, 10044, 10, 'battle-opponent', 5, 'Goldenrod Radio Tower, Observation Deck'),
+  -- Dragon's Den -> Clair & Lance (a Multi Battle, Silver at your side)
+  (100041, 10045, 10, 'battle-opponent', 1, 'Dragon''s Den, Blackthorn City (with Silver). You can skip this battle.');

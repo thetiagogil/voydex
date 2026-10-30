@@ -120,13 +120,29 @@ sources remain authoritative for game-specific mechanics and availability.
   Battle AZ after the Hall of Fame, added Jessie & James on Route 17 in Let's
   Go, and dropped two rematches (Wally at Victory Road, Colress at the P2
   Laboratory). Every chapter carries its kind and side content its
-  `opens-after` link. Battles the story has that Voydex still leaves out, for
-  a later pass: Yellow's four Jessie & James fights, Gold / Silver / Crystal's
-  Rocket Executives, Ruby / Sapphire / Emerald's admins (Tabitha, Matt,
-  Shelly, Courtney), FireRed / LeafGreen's Rocket Warehouse executives, Ultra
-  Sun / Ultra Moon's first two Dulse / Soliera fights, Black 2 / White 2's
-  post-game N, and HeartGold / SoulSilver's Dragon's Den tag battle.
-  `430_story_chapters.sql` pins the chapters and the moved beats.
+  `opens-after` link. `430_story_chapters.sql` pins the chapters and the
+  moved beats.
+- The forced battles that review left out are seeded too (#196), each on its
+  beat by the same rule: Yellow's four Jessie & James fights (Mt. Moon on the
+  Fossil Choice, the Rocket Hideout, the Pokémon Tower and Silph Co.), the
+  Gold / Silver / Crystal Rocket Executives at the Team Rocket HQ and the
+  Radio Tower (the games call them Executive; the HeartGold / SoulSilver
+  names Bulbapedia applies back are used, and the Slowpoke Well is led by a
+  Grunt there, so it has no Executive battle), the Ruby / Sapphire admins
+  (Tabitha and Courtney, Matt and Shelly) at Mt. Chimney, the Weather
+  Institute, the Lilycove hideout and the Seafloor Cavern, Emerald's Tabitha,
+  Shelly and Matt, the two FireRed / LeafGreen Rocket Warehouse admins on the
+  way to Cerulean Cave (the game names neither, so each is told apart by its
+  lead Pokémon), Dulse and Soliera at Seaward Cave and Paniola Ranch, N at
+  N's Castle before Dragonspiral Tower (his seasonal teams are rematches and
+  stay out), and the Dragon's Den Multi Battle beside Silver against Clair
+  and Lance, which gets its own side-content beat after the Boulder Badge.
+  Gen 1-3 teams come from the pret disassemblies, with Bulbapedia as the
+  second reading; a party with no set moves gets the game's default in the
+  game's order (the pret learnsets, deduplicated and shifted as the games do),
+  and where Bulbapedia reads a default differently (Tabitha's Poochyena at
+  Mt. Chimney in Ruby) the game wins. The later games rest on Bulbapedia's
+  trainer pages. `440_remaining_story_battles.sql` pins them.
 - The evil-team admin battles the story forces in Diamond / Pearl, Platinum
   and HeartGold / SoulSilver (#187) come from each game's own trainer data in
   the pret decompilations, cross-checked with Bulbapedia's trainer pages: the

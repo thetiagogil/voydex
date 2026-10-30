@@ -15,6 +15,8 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Totems and their allies: Bulbapedia trial pages; each totem holds one item, its allies hold nothing.
 -- Wild Pokémon here hold nothing in their game data.
+-- Dulse and Soliera's first two battles (Seaward Cave, Paniola Ranch): Bulbapedia's
+-- trainer pages, with Serebii as the second reading.
 -- Scope: Pokémon Ultra Sun / Ultra Moon Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -591,4 +593,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Totem Raticate, Ilima Bonus Trial (Ultra Moon) 1: Alolan Raticate Lv. 60, holds Chople Berry
   (160032, 16039, 16, NULL, NULL, NULL, NULL, NULL, 1, 20, 2001, 60, 218, NULL, FALSE),
   -- Totem Raticate, Ilima Bonus Trial (Ultra Moon) 2: Alolan Rattata Lv. 58
-  (160032, 16039, 16, NULL, NULL, NULL, NULL, NULL, 2, 19, 1901, 58, NULL, NULL, FALSE);
+  (160032, 16039, 16, NULL, NULL, NULL, NULL, NULL, 2, 19, 1901, 58, NULL, NULL, FALSE),
+  -- Dulse, Seaward Cave 1: Furfrou Lv. 13
+  (160004, 16050, 16, NULL, NULL, NULL, NULL, NULL, 1, 676, 67600, 13, NULL, NULL, FALSE),
+  -- Soliera, Seaward Cave 1: Furfrou Lv. 13
+  (160004, 16051, 16, NULL, NULL, NULL, NULL, NULL, 1, 676, 67600, 13, NULL, NULL, FALSE),
+  -- Dulse, Paniola Ranch 1: Poipole Lv. 20
+  (160005, 16050, 16, NULL, NULL, NULL, NULL, NULL, 1, 803, 80300, 20, NULL, NULL, FALSE),
+  -- Soliera, Paniola Ranch 1: Poipole Lv. 20
+  (160005, 16051, 16, NULL, NULL, NULL, NULL, NULL, 1, 803, 80300, 20, NULL, NULL, FALSE);

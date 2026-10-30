@@ -4,6 +4,12 @@
 -- Primary: Bulbapedia Badge, Elite Four, Lance, and Red pages.
 -- Cross-check: Pokémon Gold / Silver source pages.
 -- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
+-- Rocket Executives: the pret pokegold and pokecrystal disassemblies' trainer parties
+-- and set moves, cross-checked with Bulbapedia's Petrel, Ariana, Archer and Proton
+-- pages. The games call them Executive; the names are the ones HeartGold / SoulSilver
+-- gave them, which Bulbapedia applies back to these battles. The Rocket HQ Executive
+-- (Petrel) has no set moves and gets the game's default. Move order follows the game.
+-- The Slowpoke Well is led by a Grunt in these games, so it has no Executive battle.
 -- Scope: Pokémon Gold / Silver milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -32,7 +38,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mineral Badge -> Jasmine
   (30008, 3006, 3, 'battle-opponent', 1, NULL),
   -- Glacier Badge -> Pryce
-  (30009, 3007, 3, 'battle-opponent', 1, NULL),
+  (30009, 3007, 3, 'battle-opponent', 3, NULL),
   -- Rising Badge -> Clair
   (30010, 3008, 3, 'battle-opponent', 1, NULL),
   -- Elite Four Will -> Will
@@ -70,7 +76,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Burned Tower -> Silver
   (30026, 3023, 3, 'battle-opponent', 1, 'Burned Tower 1F, Ecruteak City. You can skip this battle.'),
   -- Radio Tower -> Silver
-  (30027, 3023, 3, 'battle-opponent', 1, 'Goldenrod Underground (switch room entrances)'),
+  (30027, 3023, 3, 'battle-opponent', 2, 'Goldenrod Underground (switch room entrances)'),
   -- Elite Four Will -> Silver
   (30011, 3023, 3, 'battle-opponent', 1, 'Victory Road (near the exit to Indigo Plateau)'),
   -- Boulder Badge -> Silver
@@ -88,4 +94,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Whirl Islands -> Lugia
   (30032, 3029, 3, 'battle-opponent', 1, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.'),
   -- Whirl Islands -> Lugia
-  (30032, 3030, 3, 'battle-opponent', 2, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.');
+  (30032, 3030, 3, 'battle-opponent', 2, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.'),
+  -- Glacier Badge -> Petrel
+  (30009, 3031, 3, 'battle-opponent', 1, 'Team Rocket HQ B3F, Mahogany Town'),
+  -- Glacier Badge -> Ariana
+  (30009, 3032, 3, 'battle-opponent', 2, 'Team Rocket HQ B2F, Mahogany Town'),
+  -- Radio Tower -> Petrel
+  (30027, 3031, 3, 'battle-opponent', 1, 'Goldenrod Radio Tower 5F, disguised as the Director'),
+  -- Radio Tower -> Proton
+  (30027, 3034, 3, 'battle-opponent', 3, 'Goldenrod Radio Tower 4F'),
+  -- Radio Tower -> Ariana
+  (30027, 3032, 3, 'battle-opponent', 4, 'Goldenrod Radio Tower 5F'),
+  -- Radio Tower -> Archer
+  (30027, 3033, 3, 'battle-opponent', 5, 'Goldenrod Radio Tower 5F, before the Director');

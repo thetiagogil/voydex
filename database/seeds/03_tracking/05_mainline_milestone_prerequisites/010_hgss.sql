@@ -2,6 +2,8 @@
 -- Source
 -- ============================================================================
 -- Primary: Voydex curated mainline milestone order.
+-- Dragon's Den Multi Battle (Clair & Lance, Silver beside you): Bulbapedia's Dragon's
+-- Den page; it opens after Silver's rematch at Mt. Moon and can be skipped.
 -- Scope: Previous-step and unlock prerequisite links derived from seeded milestone definitions.
 -- ============================================================================
 -- File Scope
@@ -94,4 +96,6 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   -- Pewter City Wing opens after Hall of Fame
   (100039, 100016, 10, 4, 1, NULL),
   -- Embedded Tower opens after Defeat Red
-  (100040, 100025, 10, 4, 1, NULL);
+  (100040, 100025, 10, 4, 1, NULL),
+  -- Dragon's Den opens after Boulder Badge
+  (100041, 100017, 10, 4, 1, NULL);

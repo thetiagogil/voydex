@@ -11,6 +11,8 @@
 -- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
 -- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
 -- Proton's and Petrel's first teams have no set moves; they get the game's default.
+-- Dragon's Den Multi Battle (Clair & Lance, Silver beside you): Bulbapedia's Dragon's
+-- Den page; it opens after Silver's rematch at Mt. Moon and can be skipped.
 -- Scope: Pokémon HeartGold / SoulSilver Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -443,4 +445,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Archer, Goldenrod Radio Tower 2: Koffing Lv. 35
   (100029, 10044, 10, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 35, NULL),
   -- Archer, Goldenrod Radio Tower 3: Houndoom Lv. 38
-  (100029, 10044, 10, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 38, NULL);
+  (100029, 10044, 10, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 38, NULL),
+  -- Clair & Lance, Dragon's Den 1: Dragonair Lv. 52
+  (100041, 10045, 10, NULL, NULL, NULL, NULL, NULL, 1, 148, 14800, 52, NULL),
+  -- Clair & Lance, Dragon's Den 2: Kingdra Lv. 56
+  (100041, 10045, 10, NULL, NULL, NULL, NULL, NULL, 2, 230, 23000, 56, NULL),
+  -- Clair & Lance, Dragon's Den 3: Dragonite Lv. 60
+  (100041, 10045, 10, NULL, NULL, NULL, NULL, NULL, 3, 149, 14900, 60, NULL),
+  -- Clair & Lance, Dragon's Den 4: Gyarados Lv. 68
+  (100041, 10045, 10, NULL, NULL, NULL, NULL, NULL, 4, 130, 13000, 68, NULL),
+  -- Clair & Lance, Dragon's Den 5: Charizard Lv. 68
+  (100041, 10045, 10, NULL, NULL, NULL, NULL, NULL, 5, 6, 600, 68, NULL),
+  -- Clair & Lance, Dragon's Den 6: Dragonite Lv. 75
+  (100041, 10045, 10, NULL, NULL, NULL, NULL, NULL, 6, 149, 14900, 75, NULL);

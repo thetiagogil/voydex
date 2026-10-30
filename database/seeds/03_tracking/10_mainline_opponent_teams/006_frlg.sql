@@ -8,6 +8,10 @@
 -- Navel Rock and Birth Island: event-only on the original cartridges; the 2026 Switch release hands out their tickets after the Hall of Fame.
 -- Held items: the pret pokefirered disassembly's trainer parties and wild battle scripts.
 -- Ho-Oh, Lugia and the other wild Pokémon here hold nothing: their battle scripts and species data give no item.
+-- Rocket Warehouse Admins: the pret pokefirered decompilation's trainer parties and
+-- set moves, cross-checked with Bulbapedia's Rocket Warehouse page. The game calls
+-- both Admin and names neither, so each is told apart by its lead Pokémon.
+-- Move order follows the game.
 -- Scope: Pokémon FireRed / LeafGreen Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -358,4 +362,16 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Suicune (chose Charmander), Roaming Legendary Beast 1: Suicune Lv. 50
   (60028, 6025, 6, NULL, 60001, 'charmander', NULL, NULL, 1, 245, 24500, 50, NULL),
   -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
-  (60029, 6026, 6, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70, NULL);
+  (60029, 6026, 6, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70, NULL),
+  -- Rocket Admin (Muk), Rocket Warehouse 1: Muk Lv. 52
+  (60029, 6027, 6, NULL, NULL, NULL, NULL, NULL, 1, 89, 8900, 52, NULL),
+  -- Rocket Admin (Muk), Rocket Warehouse 2: Arbok Lv. 53
+  (60029, 6027, 6, NULL, NULL, NULL, NULL, NULL, 2, 24, 2400, 53, NULL),
+  -- Rocket Admin (Muk), Rocket Warehouse 3: Vileplume Lv. 54
+  (60029, 6027, 6, NULL, NULL, NULL, NULL, NULL, 3, 45, 4500, 54, NULL),
+  -- Rocket Admin (Golbat), Rocket Warehouse 1: Golbat Lv. 53
+  (60029, 6028, 6, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 53, NULL),
+  -- Rocket Admin (Golbat), Rocket Warehouse 2: Weezing Lv. 54
+  (60029, 6028, 6, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 54, NULL),
+  -- Rocket Admin (Golbat), Rocket Warehouse 3: Houndoom Lv. 55
+  (60029, 6028, 6, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 55, NULL);

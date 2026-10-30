@@ -4,6 +4,10 @@
 -- Primary: Bulbapedia Badge, Elite Four, and Pokémon Yellow pages.
 -- Cross-check: Red / Blue tracking seed structure.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Jessie & James: the pret pokeyellow disassembly's trainer parties, cross-checked
+-- with Bulbapedia's Team Rocket trio page. Their Pokémon have no set moves and get
+-- the game's default: the base moves plus the level-up moves to their level, the
+-- last four kept, worked out from the Yellow learnsets as the game does.
 -- Scope: Pokémon Yellow milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -56,11 +60,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Pokémon Tower -> Blue
   (20021, 2014, 2, 'battle-opponent', 1, 'Pokémon Tower 2F, Lavender Town'),
   -- Rocket Hideout -> Giovanni
-  (20020, 2015, 2, 'battle-opponent', 1, 'Rocket Hideout B4F, Celadon City'),
+  (20020, 2015, 2, 'battle-opponent', 2, 'Rocket Hideout B4F, Celadon City'),
   -- Silph Co. -> Blue
   (20022, 2014, 2, 'battle-opponent', 1, 'Silph Co. 7F, Saffron City'),
   -- Silph Co. -> Giovanni
-  (20022, 2015, 2, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City'),
+  (20022, 2015, 2, 'battle-opponent', 3, 'Silph Co. 11F, Saffron City'),
   -- Elite Four Lorelei -> Blue
   (20013, 2014, 2, 'battle-opponent', 1, 'Route 22'),
   -- Power Plant -> Zapdos
@@ -70,4 +74,12 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Victory Road -> Moltres
   (20025, 2018, 2, 'battle-opponent', 1, 'Victory Road 2F. You can skip this battle.'),
   -- Cerulean Cave -> Mewtwo
-  (20026, 2019, 2, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');
+  (20026, 2019, 2, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.'),
+  -- Fossil Choice -> Jessie & James
+  (20004, 2020, 2, 'battle-opponent', 1, 'Mt. Moon B2F, by the Fossils'),
+  -- Rocket Hideout -> Jessie & James
+  (20020, 2020, 2, 'battle-opponent', 1, 'Rocket Hideout B4F, Celadon City, before Giovanni'),
+  -- Pokémon Tower -> Jessie & James
+  (20021, 2020, 2, 'battle-opponent', 2, 'Pokémon Tower 7F, Lavender Town'),
+  -- Silph Co. -> Jessie & James
+  (20022, 2020, 2, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City, before Giovanni');

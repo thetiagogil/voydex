@@ -6,6 +6,10 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Jessie & James: the pret pokeyellow disassembly's trainer parties, cross-checked
+-- with Bulbapedia's Team Rocket trio page. Their Pokémon have no set moves and get
+-- the game's default: the base moves plus the level-up moves to their level, the
+-- last four kept, worked out from the Yellow learnsets as the game does.
 -- Scope: Yellow Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -278,7 +282,31 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Moltres: Moltres Lv. 50: Peck, Fire Spin
     (20025, 2018, NULL, NULL, NULL, NULL, 1, ARRAY[64, 83]),
     -- Mewtwo: Mewtwo Lv. 70: Swift, Psychic, Barrier, Recover
-    (20026, 2019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 94, 112, 105])
+    (20026, 2019, NULL, NULL, NULL, NULL, 1, ARRAY[129, 94, 112, 105]),
+    -- Jessie & James: Ekans Lv. 14: Wrap, Leer, Poison Sting
+    (20004, 2020, NULL, NULL, NULL, NULL, 1, ARRAY[35, 43, 40]),
+    -- Jessie & James: Meowth Lv. 14: Scratch, Growl, Bite
+    (20004, 2020, NULL, NULL, NULL, NULL, 2, ARRAY[10, 45, 44]),
+    -- Jessie & James: Koffing Lv. 14: Tackle, Smog
+    (20004, 2020, NULL, NULL, NULL, NULL, 3, ARRAY[33, 123]),
+    -- Jessie & James: Koffing Lv. 25: Tackle, Smog
+    (20020, 2020, NULL, NULL, NULL, NULL, 1, ARRAY[33, 123]),
+    -- Jessie & James: Meowth Lv. 25: Growl, Bite, Pay Day, Screech
+    (20020, 2020, NULL, NULL, NULL, NULL, 2, ARRAY[45, 44, 6, 103]),
+    -- Jessie & James: Ekans Lv. 25: Leer, Poison Sting, Bite, Glare
+    (20020, 2020, NULL, NULL, NULL, NULL, 3, ARRAY[43, 40, 44, 137]),
+    -- Jessie & James: Meowth Lv. 27: Growl, Bite, Pay Day, Screech
+    (20021, 2020, NULL, NULL, NULL, NULL, 1, ARRAY[45, 44, 6, 103]),
+    -- Jessie & James: Arbok Lv. 27: Leer, Poison Sting, Bite, Glare
+    (20021, 2020, NULL, NULL, NULL, NULL, 2, ARRAY[43, 40, 44, 137]),
+    -- Jessie & James: Weezing Lv. 27: Tackle, Smog, Sludge
+    (20021, 2020, NULL, NULL, NULL, NULL, 3, ARRAY[33, 123, 124]),
+    -- Jessie & James: Weezing Lv. 31: Tackle, Smog, Sludge
+    (20022, 2020, NULL, NULL, NULL, NULL, 1, ARRAY[33, 123, 124]),
+    -- Jessie & James: Arbok Lv. 31: Leer, Poison Sting, Bite, Glare
+    (20022, 2020, NULL, NULL, NULL, NULL, 2, ARRAY[43, 40, 44, 137]),
+    -- Jessie & James: Meowth Lv. 31: Growl, Bite, Pay Day, Screech
+    (20022, 2020, NULL, NULL, NULL, NULL, 3, ARRAY[45, 44, 6, 103])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

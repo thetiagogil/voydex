@@ -9,6 +9,8 @@
 -- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
 -- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
 -- Proton's and Petrel's first teams have no set moves; they get the game's default.
+-- Dragon's Den Multi Battle (Clair & Lance, Silver beside you): Bulbapedia's Dragon's
+-- Den page; it opens after Silver's rematch at Mt. Moon and can be skipped.
 -- Scope: Pokémon HeartGold / SoulSilver major opponent data.
 -- ============================================================================
 -- File Scope
@@ -116,4 +118,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Ariana & Grunt (boss; the Double Battle with Lance at the Team Rocket HQ)
   (10043, 10, NULL, 'ariana-grunt', 'Ariana & Grunt', 'boss', NULL, NULL, 'ariana', 35),
   -- Archer (boss; Team Rocket Executive)
-  (10044, 10, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 36);
+  (10044, 10, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 36),
+  -- Clair & Lance (boss; the Dragon's Den Multi Battle with Silver at your side)
+  (10045, 10, NULL, 'clair-lance', 'Clair & Lance', 'boss', 15, NULL, 'clair', 37);

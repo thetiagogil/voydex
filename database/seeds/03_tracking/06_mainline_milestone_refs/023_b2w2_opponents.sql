@@ -5,6 +5,9 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
 -- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
+-- N at N's Castle after the credits: Bulbapedia's N page, cross-checked with Serebii.
+-- He brings Zekrom (Black 2) or Reshiram (White 2); his later seasonal teams are
+-- rematches and stay out.
 -- Scope: Pokémon Black 2 / White 2 milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -85,9 +88,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Cave of Being -> Azelf
   (120021, 12025, 12, 'battle-opponent', 3, 'Route 23 (pedestal, needs Cut). You can skip this battle.'),
   -- Dragonspiral Tower -> Zekrom
-  (120022, 12026, 12, 'battle-opponent', 1, 'Dragonspiral Tower (top, with the Dark Stone). You can skip this battle.'),
+  (120022, 12026, 12, 'battle-opponent', 2, 'Dragonspiral Tower (top, with the Dark Stone). You can skip this battle.'),
   -- Dragonspiral Tower -> Reshiram
-  (120022, 12027, 12, 'battle-opponent', 2, 'Dragonspiral Tower (top, with the Light Stone). You can skip this battle.'),
+  (120022, 12027, 12, 'battle-opponent', 3, 'Dragonspiral Tower (top, with the Light Stone). You can skip this battle.'),
   -- Giant Chasm -> Kyurem
   (120023, 12017, 12, 'battle-opponent', 1, 'Giant Chasm (cave depths). You can skip this battle.'),
   -- Underground Ruins -> Regirock
@@ -117,4 +120,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Defeat Ghetsis -> Shadow (Banette)
   (120012, 12037, 12, 'battle-opponent', 2, 'Plasma Frigate, Giant Chasm'),
   -- Defeat Ghetsis -> Shadow (Accelgor)
-  (120012, 12038, 12, 'battle-opponent', 3, 'Plasma Frigate, Giant Chasm');
+  (120012, 12038, 12, 'battle-opponent', 3, 'Plasma Frigate, Giant Chasm'),
+  -- Dragonspiral Tower -> N
+  (120022, 12039, 12, 'battle-opponent', 1, 'N''s Castle, past Victory Road, after the Hall of Fame');

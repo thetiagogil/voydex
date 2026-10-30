@@ -6,6 +6,8 @@
 -- Barry's Spear Pillar parties (Diamond / Pearl, Platinum) and Lance's Team Rocket HQ
 -- party (HeartGold / SoulSilver): the pret trainer data only; Bulbapedia's trainer
 -- pages list no partner team for those games.
+-- Silver's Dragon's Den party (HeartGold / SoulSilver): Bulbapedia's Dragon's Den page;
+-- his starter is the one that beats yours.
 -- Every other ally: Bulbapedia trainer pages (Trace, Hop, Hugh, Barry, Brendan and May, Steven,
 -- Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
@@ -707,4 +709,22 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Barry beside you vs Mars & Jupiter [piplup] 5: Ponyta Lv. 42, holds Shell Bell
   (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 77, 7700, 42, 425),
   -- Barry beside you vs Mars & Jupiter [piplup] 6: Torterra Lv. 45, holds Leftovers
-  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 45, 403);
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 45, 403),
+  -- Silver beside you vs Clair & Lance [chikorita] 1: Typhlosion Lv. 60
+  (100041, 10045, 10023, 10, NULL, 100001, 'chikorita', NULL, NULL, 1, 157, 15700, 60, NULL),
+  -- Silver beside you vs Clair & Lance [chikorita] 2: Crobat Lv. 58
+  (100041, 10045, 10023, 10, NULL, 100001, 'chikorita', NULL, NULL, 2, 169, 16900, 58, NULL),
+  -- Silver beside you vs Clair & Lance [chikorita] 3: Gengar Lv. 56
+  (100041, 10045, 10023, 10, NULL, 100001, 'chikorita', NULL, NULL, 3, 94, 9400, 56, NULL),
+  -- Silver beside you vs Clair & Lance [cyndaquil] 1: Feraligatr Lv. 60
+  (100041, 10045, 10023, 10, NULL, 100001, 'cyndaquil', NULL, NULL, 1, 160, 16000, 60, NULL),
+  -- Silver beside you vs Clair & Lance [cyndaquil] 2: Crobat Lv. 58
+  (100041, 10045, 10023, 10, NULL, 100001, 'cyndaquil', NULL, NULL, 2, 169, 16900, 58, NULL),
+  -- Silver beside you vs Clair & Lance [cyndaquil] 3: Gengar Lv. 56
+  (100041, 10045, 10023, 10, NULL, 100001, 'cyndaquil', NULL, NULL, 3, 94, 9400, 56, NULL),
+  -- Silver beside you vs Clair & Lance [totodile] 1: Meganium Lv. 60
+  (100041, 10045, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 1, 154, 15400, 60, NULL),
+  -- Silver beside you vs Clair & Lance [totodile] 2: Crobat Lv. 58
+  (100041, 10045, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 2, 169, 16900, 58, NULL),
+  -- Silver beside you vs Clair & Lance [totodile] 3: Gengar Lv. 56
+  (100041, 10045, 10023, 10, NULL, 100001, 'totodile', NULL, NULL, 3, 94, 9400, 56, NULL);

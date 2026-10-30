@@ -5,6 +5,8 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- When Solgaleo / Lunala can be caught on Mahalo Trail is confirmed by one source only.
 -- Team size: Bulbapedia's Battle Royal Dome page (the player fights with the lead Pokémon in their party), matching a walkthrough's "one pokémon per trainer".
+-- Dulse and Soliera's first two battles (Seaward Cave, Paniola Ranch): Bulbapedia's
+-- trainer pages, with Serebii as the second reading.
 -- Scope: Pokémon Ultra Sun / Ultra Moon milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -27,9 +29,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Ilima Trial -> Totem Raticate
   (160003, 16039, 16, 'battle-opponent', 3, 'Verdant Cavern, Totem''s Den (Ultra Moon)'),
   -- Grand Trial Hala -> Hala
-  (160004, 16002, 16, 'battle-opponent', 2, NULL),
+  (160004, 16002, 16, 'battle-opponent', 4, NULL),
   -- Lana Trial -> Totem Araquanid
-  (160005, 16040, 16, 'battle-opponent', 3, 'Brooklet Hill'),
+  (160005, 16040, 16, 'battle-opponent', 5, 'Brooklet Hill'),
   -- Kiawe Trial -> Totem Marowak
   (160006, 16041, 16, 'battle-opponent', 2, 'Wela Volcano Park'),
   -- Mallow Trial -> Totem Lurantis
@@ -103,7 +105,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Lana Trial -> Hau
   (160005, 16019, 16, 'battle-opponent', 1, 'Paniola Town'),
   -- Lana Trial -> Gladion
-  (160005, 16020, 16, 'battle-opponent', 2, 'Route 5'),
+  (160005, 16020, 16, 'battle-opponent', 4, 'Route 5'),
   -- Sophocles Trial -> Hau
   (160009, 16019, 16, 'battle-opponent', 2, 'Malie City'),
   -- Sophocles Trial -> Guzma
@@ -157,7 +159,15 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Ilima Bonus Trial -> Totem Gumshoos
   (160032, 16038, 16, 'battle-opponent', 1, 'Verdant Cavern, Totem''s Den (Melemele Island, Ultra Sun). You can skip this battle.'),
   -- Ilima Bonus Trial -> Totem Raticate
-  (160032, 16039, 16, 'battle-opponent', 2, 'Verdant Cavern, Totem''s Den (Melemele Island, Ultra Moon). You can skip this battle.');
+  (160032, 16039, 16, 'battle-opponent', 2, 'Verdant Cavern, Totem''s Den (Melemele Island, Ultra Moon). You can skip this battle.'),
+  -- Grand Trial Hala -> Dulse
+  (160004, 16050, 16, 'battle-opponent', 2, 'Seaward Cave (Ultra Sun)'),
+  -- Grand Trial Hala -> Soliera
+  (160004, 16051, 16, 'battle-opponent', 3, 'Seaward Cave (Ultra Moon)'),
+  -- Lana Trial -> Dulse
+  (160005, 16050, 16, 'battle-opponent', 2, 'Paniola Ranch (Ultra Sun)'),
+  -- Lana Trial -> Soliera
+  (160005, 16051, 16, 'battle-opponent', 3, 'Paniola Ranch (Ultra Moon)');
 
 -- Battles where the player may bring only some of their team.
 INSERT INTO tracking.mainline_milestone_opponent_refs (
