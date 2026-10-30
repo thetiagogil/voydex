@@ -225,13 +225,23 @@ sources remain authoritative for game-specific mechanics and availability.
 - `reference.pokemon_availability_groups` and its members list the Pokémon a
   save hands out only one of (#25), by form: `one-per-save` (Kubfu and both
   Urshifu, Calyrex in any form, each Galarian bird and each Kantonian bird
-  from Dynamax Adventures) or `pick-one` (Glastrier
-  or Spectrier, with the Calyrex rider forms that need them; Regieleki or
-  Regidrago), each with a short note the Team check shows. Bulbapedia's
+  from Dynamax Adventures) or `pick-one` (Glastrier or Spectrier, with the
+  Calyrex rider forms that need them; Regieleki or Regidrago), each with a short note the Team check shows. Bulbapedia's
   availability lists mark each "Only one" and the picks as choices; Serebii
   confirms where each is found. The seed audit refuses a group with no
   members, a pick-one group with fewer than two, and a member its version
   group doesn't hand out. `400_availability_groups.sql` pins them.
+
+- Scarlet / Violet's Ominous Stakes follow each shrine's own list of eight
+  stakes: purple (Wo-Chien's Grasswither Shrine) around South Province, yellow
+  (Chien-Pao's Icerend Shrine) in West Province (Area One), Cascarrafa and the
+  south-west, green (Ting-Lu's Groundblight Shrine) around Casseroya Lake and
+  West Province, light blue (Chi-Yu's Firescourge Shrine) mostly in North Province, plus
+  Glaseado Mountain and East Province (Area Two).
+  Each stake's area comes from Bulbapedia's shrine pages, which mark the lists
+  incomplete; Serebii's per-shrine summaries agree on the areas. The old rows
+  had the yellow and light-blue stakes swapped and some purple and green ones
+  in the wrong area. `420_ominous_stake_locations.sql` pins them.
 
 ## Audit Contract
 
