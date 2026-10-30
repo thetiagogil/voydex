@@ -4198,6 +4198,7 @@ export type Database = {
           id: number;
           is_required_for_completion: boolean;
           name: string;
+          reward_summary: string;
           slug: string;
           sort_order: number;
           sprite_slug: string | null;
@@ -4212,6 +4213,7 @@ export type Database = {
           id: number;
           is_required_for_completion?: boolean;
           name: string;
+          reward_summary: string;
           slug: string;
           sort_order: number;
           sprite_slug?: string | null;
@@ -4225,6 +4227,7 @@ export type Database = {
           id?: number;
           is_required_for_completion?: boolean;
           name?: string;
+          reward_summary?: string;
           slug?: string;
           sort_order?: number;
           sprite_slug?: string | null;
