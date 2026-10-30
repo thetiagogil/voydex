@@ -11,6 +11,8 @@
 -- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
 -- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
 -- Proton's and Petrel's first teams have no set moves; they get the game's default.
+-- Dragon's Den Multi Battle (Clair & Lance, Silver beside you): Bulbapedia's Dragon's
+-- Den page; it opens after Silver's rematch at Mt. Moon and can be skipped.
 -- Scope: HeartGold / SoulSilver Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -431,7 +433,19 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Archer: Koffing Lv. 35: Tackle, Sludge, Smokescreen, Haze
     (100029, 10044, NULL, NULL, NULL, NULL, 2, ARRAY[33, 124, 108, 114]),
     -- Archer: Houndoom Lv. 38: Fire Fang, Smog, Bite, Feint Attack
-    (100029, 10044, NULL, NULL, NULL, NULL, 3, ARRAY[424, 123, 44, 185])
+    (100029, 10044, NULL, NULL, NULL, NULL, 3, ARRAY[424, 123, 44, 185]),
+    -- Clair & Lance: Dragonair Lv. 52: Thunder Wave, Flamethrower, Dragon Rush, Thunderbolt
+    (100041, 10045, NULL, NULL, NULL, NULL, 1, ARRAY[86, 53, 407, 85]),
+    -- Clair & Lance: Kingdra Lv. 56: Ice Beam, Yawn, Dragon Breath, Hydro Pump
+    (100041, 10045, NULL, NULL, NULL, NULL, 2, ARRAY[58, 281, 225, 56]),
+    -- Clair & Lance: Dragonite Lv. 60: Protect, Thunder, Dragon Breath, Hyper Beam
+    (100041, 10045, NULL, NULL, NULL, NULL, 3, ARRAY[182, 87, 225, 63]),
+    -- Clair & Lance: Gyarados Lv. 68: Thunder Wave, Dragon Dance, Ice Fang, Waterfall
+    (100041, 10045, NULL, NULL, NULL, NULL, 4, ARRAY[86, 349, 423, 127]),
+    -- Clair & Lance: Charizard Lv. 68: Dragon Claw, Air Slash, Flamethrower, Hyper Beam
+    (100041, 10045, NULL, NULL, NULL, NULL, 5, ARRAY[337, 403, 53, 63]),
+    -- Clair & Lance: Dragonite Lv. 75: Draco Meteor, Fire Punch, Safeguard, Hyper Beam
+    (100041, 10045, NULL, NULL, NULL, NULL, 6, ARRAY[434, 7, 219, 63])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

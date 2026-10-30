@@ -5,6 +5,10 @@
 -- Cross-check: Pokémon Database Yellow Gym Leaders and Elite Four page, and the pret disassembly's trainer parties.
 -- Rival and Giovanni battles: the pret pokeyellow disassembly's trainer parties, cross-checked with Bulbapedia's rival and Giovanni pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Jessie & James: the pret pokeyellow disassembly's trainer parties, cross-checked
+-- with Bulbapedia's Team Rocket trio page. Their Pokémon have no set moves and get
+-- the game's default: the base moves plus the level-up moves to their level, the
+-- last four kept, worked out from the Yellow learnsets as the game does.
 -- Scope: Pokémon Yellow Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -288,4 +292,28 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Moltres, Victory Road 1: Moltres Lv. 50
   (20025, 2018, 2, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 50),
   -- Mewtwo, Cerulean Cave 1: Mewtwo Lv. 70
-  (20026, 2019, 2, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70);
+  (20026, 2019, 2, NULL, NULL, NULL, NULL, NULL, 1, 150, 15000, 70),
+  -- Jessie & James, Mt. Moon 1: Ekans Lv. 14
+  (20004, 2020, 2, NULL, NULL, NULL, NULL, NULL, 1, 23, 2300, 14),
+  -- Jessie & James, Mt. Moon 2: Meowth Lv. 14
+  (20004, 2020, 2, NULL, NULL, NULL, NULL, NULL, 2, 52, 5200, 14),
+  -- Jessie & James, Mt. Moon 3: Koffing Lv. 14
+  (20004, 2020, 2, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 14),
+  -- Jessie & James, Rocket Hideout 1: Koffing Lv. 25
+  (20020, 2020, 2, NULL, NULL, NULL, NULL, NULL, 1, 109, 10900, 25),
+  -- Jessie & James, Rocket Hideout 2: Meowth Lv. 25
+  (20020, 2020, 2, NULL, NULL, NULL, NULL, NULL, 2, 52, 5200, 25),
+  -- Jessie & James, Rocket Hideout 3: Ekans Lv. 25
+  (20020, 2020, 2, NULL, NULL, NULL, NULL, NULL, 3, 23, 2300, 25),
+  -- Jessie & James, Pokémon Tower 1: Meowth Lv. 27
+  (20021, 2020, 2, NULL, NULL, NULL, NULL, NULL, 1, 52, 5200, 27),
+  -- Jessie & James, Pokémon Tower 2: Arbok Lv. 27
+  (20021, 2020, 2, NULL, NULL, NULL, NULL, NULL, 2, 24, 2400, 27),
+  -- Jessie & James, Pokémon Tower 3: Weezing Lv. 27
+  (20021, 2020, 2, NULL, NULL, NULL, NULL, NULL, 3, 110, 11000, 27),
+  -- Jessie & James, Silph Co. 1: Weezing Lv. 31
+  (20022, 2020, 2, NULL, NULL, NULL, NULL, NULL, 1, 110, 11000, 31),
+  -- Jessie & James, Silph Co. 2: Arbok Lv. 31
+  (20022, 2020, 2, NULL, NULL, NULL, NULL, NULL, 2, 24, 2400, 31),
+  -- Jessie & James, Silph Co. 3: Meowth Lv. 31
+  (20022, 2020, 2, NULL, NULL, NULL, NULL, NULL, 3, 52, 5200, 31);

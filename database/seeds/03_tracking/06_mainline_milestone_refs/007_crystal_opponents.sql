@@ -5,6 +5,12 @@
 -- Cross-check: Pokémon Crystal source page.
 -- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
+-- Rocket Executives: the pret pokegold and pokecrystal disassemblies' trainer parties
+-- and set moves, cross-checked with Bulbapedia's Petrel, Ariana, Archer and Proton
+-- pages. The games call them Executive; the names are the ones HeartGold / SoulSilver
+-- gave them, which Bulbapedia applies back to these battles. The Rocket HQ Executive
+-- (Petrel) has no set moves and gets the game's default. Move order follows the game.
+-- The Slowpoke Well is led by a Grunt in these games, so it has no Executive battle.
 -- Scope: Pokémon Crystal milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -33,7 +39,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mineral Badge -> Jasmine
   (40008, 4006, 4, 'battle-opponent', 1, NULL),
   -- Glacier Badge -> Pryce
-  (40009, 4007, 4, 'battle-opponent', 1, NULL),
+  (40009, 4007, 4, 'battle-opponent', 3, NULL),
   -- Rising Badge -> Clair
   (40010, 4008, 4, 'battle-opponent', 1, NULL),
   -- Elite Four Will -> Will
@@ -71,7 +77,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Burned Tower -> Silver
   (40026, 4023, 4, 'battle-opponent', 1, 'Burned Tower 1F, Ecruteak City'),
   -- Radio Tower -> Silver
-  (40027, 4023, 4, 'battle-opponent', 1, 'Goldenrod Underground (switch room entrances)'),
+  (40027, 4023, 4, 'battle-opponent', 2, 'Goldenrod Underground (switch room entrances)'),
   -- Elite Four Will -> Silver
   (40011, 4023, 4, 'battle-opponent', 1, 'Victory Road (near the exit to Indigo Plateau)'),
   -- Boulder Badge -> Silver
@@ -87,4 +93,16 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Whirl Islands -> Lugia
   (40031, 4028, 4, 'battle-opponent', 1, 'Whirl Islands, Lugia''s chamber (B2F). You can skip this battle.'),
   -- Ilex Forest Shrine -> Celebi
-  (40032, 4029, 4, 'battle-opponent', 1, 'Ilex Forest shrine. You can skip this battle.');
+  (40032, 4029, 4, 'battle-opponent', 1, 'Ilex Forest shrine. You can skip this battle.'),
+  -- Glacier Badge -> Petrel
+  (40009, 4030, 4, 'battle-opponent', 1, 'Team Rocket HQ B3F, Mahogany Town'),
+  -- Glacier Badge -> Ariana
+  (40009, 4031, 4, 'battle-opponent', 2, 'Team Rocket HQ B2F, Mahogany Town'),
+  -- Radio Tower -> Petrel
+  (40027, 4030, 4, 'battle-opponent', 1, 'Goldenrod Radio Tower 5F, disguised as the Director'),
+  -- Radio Tower -> Proton
+  (40027, 4033, 4, 'battle-opponent', 3, 'Goldenrod Radio Tower 4F'),
+  -- Radio Tower -> Ariana
+  (40027, 4031, 4, 'battle-opponent', 4, 'Goldenrod Radio Tower 5F'),
+  -- Radio Tower -> Archer
+  (40027, 4032, 4, 'battle-opponent', 5, 'Goldenrod Radio Tower 5F, before the Director');

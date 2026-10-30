@@ -5,6 +5,9 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Team Plasma (Zinzolin, the Shadow Triad) and Hugh's partner teams: Bulbapedia's trainer
 -- and Plasma Frigate pages (Normal Mode levels), cross-checked with Serebii's Pokéarth.
+-- N at N's Castle after the credits: Bulbapedia's N page, cross-checked with Serebii.
+-- He brings Zekrom (Black 2) or Reshiram (White 2); his later seasonal teams are
+-- rematches and stay out.
 -- Scope: Pokémon Black 2 / White 2 major opponent data.
 -- ============================================================================
 -- File Scope
@@ -99,4 +102,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Shadow (Banette) (boss; Shadow Triad)
   (12037, 12, NULL, 'shadow-banette', 'Shadow (Banette)', 'boss', NULL, NULL, 'shadow-triad', 33),
   -- Shadow (Accelgor) (boss; Shadow Triad)
-  (12038, 12, NULL, 'shadow-accelgor', 'Shadow (Accelgor)', 'boss', NULL, NULL, 'shadow-triad', 34);
+  (12038, 12, NULL, 'shadow-accelgor', 'Shadow (Accelgor)', 'boss', NULL, NULL, 'shadow-triad', 34),
+  -- N (boss; N's Castle, after the credits)
+  (12039, 12, NULL, 'n', 'N', 'boss', NULL, NULL, 'n', 35);

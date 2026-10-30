@@ -4,6 +4,10 @@
 -- Primary: Bulbapedia Badge, Elite Four, and Pokémon Yellow pages.
 -- Cross-check: Red / Blue tracking seed structure.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Jessie & James: the pret pokeyellow disassembly's trainer parties, cross-checked
+-- with Bulbapedia's Team Rocket trio page. Their Pokémon have no set moves and get
+-- the game's default: the base moves plus the level-up moves to their level, the
+-- last four kept, worked out from the Yellow learnsets as the game does.
 -- Scope: Pokémon Yellow Gym Leader, Elite Four, and Champion data.
 -- ============================================================================
 -- File Scope
@@ -60,4 +64,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Moltres (boss)
   (2018, 2, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 18),
   -- Mewtwo (boss)
-  (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 19);
+  (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 19),
+  -- Jessie & James (boss; Team Rocket, four forced fights)
+  (2020, 2, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', 20);

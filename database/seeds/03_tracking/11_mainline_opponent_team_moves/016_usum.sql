@@ -12,6 +12,8 @@
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
 -- Ilima's bonus trial Yungoos: Bulbapedia says Yawn, Serebii says Hyper Fang; Yawn is used.
 -- Totem allies and the battles added by the #115 audit (Ilima, Plumeria, Faba, the Ultra Recon Squad, Mina's trial, the Masked Royal's Rockruff, the Rainbow Rocket bosses): Bulbapedia; Guzma's Vikavolt follows Bulbapedia (Flash Cannon).
+-- Dulse and Soliera's first two battles (Seaward Cave, Paniola Ranch): Bulbapedia's
+-- trainer pages, with Serebii as the second reading.
 -- Scope: Ultra Sun / Ultra Moon Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -574,7 +576,15 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Totem Raticate, Ilima Bonus Trial: Alolan Raticate Lv. 60: Hyper Fang, Throat Chop, Protect, Double Team
     (160032, 16039, NULL, NULL, NULL, NULL, 1, ARRAY[158, 675, 182, 104]),
     -- Totem Raticate, Ilima Bonus Trial: Alolan Rattata Lv. 58: Super Fang, Tail Whip, Torment, Crunch
-    (160032, 16039, NULL, NULL, NULL, NULL, 2, ARRAY[162, 39, 259, 242])
+    (160032, 16039, NULL, NULL, NULL, NULL, 2, ARRAY[162, 39, 259, 242]),
+    -- Dulse: Furfrou Lv. 13: Baby-Doll Eyes, Headbutt, Sand Attack, Growl
+    (160004, 16050, NULL, NULL, NULL, NULL, 1, ARRAY[608, 29, 28, 45]),
+    -- Soliera: Furfrou Lv. 13: Baby-Doll Eyes, Headbutt, Sand Attack, Growl
+    (160004, 16051, NULL, NULL, NULL, NULL, 1, ARRAY[608, 29, 28, 45]),
+    -- Dulse: Poipole Lv. 20: Venoshock, Charm, Fury Attack, Acid
+    (160005, 16050, NULL, NULL, NULL, NULL, 1, ARRAY[474, 204, 31, 51]),
+    -- Soliera: Poipole Lv. 20: Charm, Venoshock, Fury Attack, Acid
+    (160005, 16051, NULL, NULL, NULL, NULL, 1, ARRAY[204, 474, 31, 51])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

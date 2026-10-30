@@ -4,6 +4,11 @@
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: Pokémon Ruby / Sapphire source pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
+-- Magma and Aqua Admins (Tabitha, Courtney, Matt, Shelly): the pret pokeruby
+-- decompilation's trainer parties, cross-checked with Bulbapedia's trainer pages.
+-- Their Pokémon have no set moves and get the game's default: the last four
+-- level-up moves to their level, in the game's order; where Bulbapedia's reading
+-- differs (Tabitha's Poochyena at Mt. Chimney) the game's own learnset wins.
 -- Scope: Pokémon Ruby / Sapphire major opponent data.
 -- ============================================================================
 -- File Scope
@@ -72,4 +77,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Latios (boss, ruby)
   (5024, 5, 7, 'latios', 'Latios', 'boss', 15, 11, 'latios', 3),
   -- Latias (boss, sapphire)
-  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, 'latias', 3);
+  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, 'latias', 3),
+  -- Tabitha (boss, ruby; Team Magma Admin)
+  (5026, 5, 7, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', 4),
+  -- Courtney (boss, ruby; Team Magma Admin)
+  (5027, 5, 7, 'courtney', 'Courtney', 'boss', NULL, NULL, 'courtney', 5),
+  -- Matt (boss, sapphire; Team Aqua Admin)
+  (5028, 5, 8, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', 4),
+  -- Shelly (boss, sapphire; Team Aqua Admin)
+  (5029, 5, 8, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', 5);

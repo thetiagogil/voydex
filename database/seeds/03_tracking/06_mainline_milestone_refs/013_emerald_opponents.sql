@@ -5,6 +5,11 @@
 -- Cross-check: Pokémon Emerald source page.
 -- Team size: the game's own script (pret pokeemerald, MossdeepCity_SpaceCenter_2F) has the player choose half the party, three Pokémon, for the Multi Battle beside Steven.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and the pret disassemblies.
+-- Magma and Aqua Admins (Tabitha, Shelly, Matt): the pret pokeemerald decompilation's
+-- trainer parties, cross-checked with Bulbapedia's trainer pages. Their Pokémon have
+-- no set moves and get the game's default: the last four level-up moves to their
+-- level, in the game's order. Shelly in the Seafloor Cavern is an ordinary trainer
+-- the player can walk past, so her battle there is marked skippable.
 -- Scope: Pokémon Emerald milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -31,9 +36,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Balance Badge -> Norman
   (70008, 7005, 7, 'battle-opponent', 1, NULL),
   -- Feather Badge -> Winona
-  (70009, 7006, 7, 'battle-opponent', 2, NULL),
+  (70009, 7006, 7, 'battle-opponent', 3, NULL),
   -- Mind Badge -> Tate & Liza
-  (70010, 7007, 7, 'battle-opponent', 2, NULL),
+  (70010, 7007, 7, 'battle-opponent', 3, NULL),
   -- Rain Badge -> Juan
   (70011, 7008, 7, 'battle-opponent', 1, NULL),
   -- Elite Four Sidney -> Sidney
@@ -57,15 +62,15 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Dynamo Badge -> Wally
   (70005, 7016, 7, 'battle-opponent', 2, 'Mauville City'),
   -- Mt. Chimney -> Maxie
-  (70020, 7017, 7, 'battle-opponent', 1, 'Mt. Chimney'),
+  (70020, 7017, 7, 'battle-opponent', 2, 'Mt. Chimney'),
   -- Feather Badge -> May / Brendan
-  (70009, 7015, 7, 'battle-opponent', 1, 'Route 119'),
+  (70009, 7015, 7, 'battle-opponent', 2, 'Route 119'),
   -- Mind Badge -> May / Brendan
   (70010, 7015, 7, 'battle-opponent', 1, 'Lilycove City. You can skip this battle.'),
   -- Magma Hideout -> Maxie
-  (70021, 7017, 7, 'battle-opponent', 1, 'Magma Hideout'),
+  (70021, 7017, 7, 'battle-opponent', 2, 'Magma Hideout'),
   -- Seafloor Cavern -> Archie
-  (70022, 7019, 7, 'battle-opponent', 1, 'Seafloor Cavern'),
+  (70022, 7019, 7, 'battle-opponent', 2, 'Seafloor Cavern'),
   -- Elite Four Sidney -> Wally
   (70012, 7016, 7, 'battle-opponent', 1, 'Victory Road'),
   -- Sealed Chamber -> Regirock
@@ -83,7 +88,17 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Lati Choice -> Latias
   (70018, 7026, 7, 'battle-opponent', 1, 'Roams Hoenn routes. You can skip this battle.'),
   -- Lati Choice -> Latios
-  (70018, 7027, 7, 'battle-opponent', 2, 'Roams Hoenn routes. You can skip this battle.');
+  (70018, 7027, 7, 'battle-opponent', 2, 'Roams Hoenn routes. You can skip this battle.'),
+  -- Mt. Chimney -> Tabitha
+  (70020, 7028, 7, 'battle-opponent', 1, 'Mt. Chimney summit, before Maxie'),
+  -- Feather Badge -> Shelly
+  (70009, 7029, 7, 'battle-opponent', 1, 'Weather Institute 2F, Route 119'),
+  -- Magma Hideout -> Tabitha
+  (70021, 7028, 7, 'battle-opponent', 1, 'Magma Hideout, Jagged Pass, before Maxie'),
+  -- Mind Badge -> Matt
+  (70010, 7030, 7, 'battle-opponent', 2, 'Aqua Hideout, Lilycove City'),
+  -- Seafloor Cavern -> Shelly
+  (70022, 7029, 7, 'battle-opponent', 1, 'Seafloor Cavern. You can skip this battle.');
 
 -- Battles where the player may bring only some of their team.
 INSERT INTO tracking.mainline_milestone_opponent_refs (

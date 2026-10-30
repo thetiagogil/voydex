@@ -6,6 +6,12 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Rocket Executives: the pret pokegold and pokecrystal disassemblies' trainer parties
+-- and set moves, cross-checked with Bulbapedia's Petrel, Ariana, Archer and Proton
+-- pages. The games call them Executive; the names are the ones HeartGold / SoulSilver
+-- gave them, which Bulbapedia applies back to these battles. The Rocket HQ Executive
+-- (Petrel) has no set moves and gets the game's default. Move order follows the game.
+-- The Slowpoke Well is led by a Grunt in these games, so it has no Executive battle.
 -- Scope: Crystal Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -358,7 +364,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Lugia: Lugia Lv. 60: Gust, Recover, Hydro Pump, Rain Dance
     (40031, 4028, NULL, NULL, NULL, NULL, 1, ARRAY[16, 105, 56, 240]),
     -- Celebi: Celebi Lv. 30: Heal Bell, Safeguard, Ancient Power, Future Sight
-    (40032, 4029, NULL, NULL, NULL, NULL, 1, ARRAY[215, 219, 246, 248])
+    (40032, 4029, NULL, NULL, NULL, NULL, 1, ARRAY[215, 219, 246, 248]),
+    -- Petrel: Zubat Lv. 22: Leech Life, Supersonic, Bite, Confuse Ray
+    (40009, 4030, NULL, NULL, NULL, NULL, 1, ARRAY[141, 48, 44, 109]),
+    -- Petrel: Raticate Lv. 24: Tail Whip, Quick Attack, Hyper Fang, Scary Face
+    (40009, 4030, NULL, NULL, NULL, NULL, 2, ARRAY[39, 98, 158, 184]),
+    -- Petrel: Koffing Lv. 22: Tackle, Smog, Self-Destruct, Sludge
+    (40009, 4030, NULL, NULL, NULL, NULL, 3, ARRAY[33, 123, 120, 124]),
+    -- Ariana: Arbok Lv. 23: Wrap, Leer, Poison Sting, Bite
+    (40009, 4031, NULL, NULL, NULL, NULL, 1, ARRAY[35, 43, 40, 44]),
+    -- Ariana: Gloom Lv. 23: Absorb, Sweet Scent, Sleep Powder, Acid
+    (40009, 4031, NULL, NULL, NULL, NULL, 2, ARRAY[71, 230, 79, 51]),
+    -- Ariana: Murkrow Lv. 25: Peck, Pursuit, Haze
+    (40009, 4031, NULL, NULL, NULL, NULL, 3, ARRAY[64, 228, 114]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (40027, 4030, NULL, NULL, NULL, NULL, 1, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (40027, 4030, NULL, NULL, NULL, NULL, 2, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (40027, 4030, NULL, NULL, NULL, NULL, 3, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Weezing Lv. 32: Tackle, Explosion, Sludge, Smokescreen
+    (40027, 4030, NULL, NULL, NULL, NULL, 4, ARRAY[33, 153, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Self-Destruct, Sludge, Smokescreen
+    (40027, 4030, NULL, NULL, NULL, NULL, 5, ARRAY[33, 120, 124, 108]),
+    -- Petrel: Koffing Lv. 30: Tackle, Smog, Sludge, Smokescreen
+    (40027, 4030, NULL, NULL, NULL, NULL, 6, ARRAY[33, 123, 124, 108]),
+    -- Proton: Golbat Lv. 36: Leech Life, Bite, Confuse Ray, Wing Attack
+    (40027, 4033, NULL, NULL, NULL, NULL, 1, ARRAY[141, 44, 109, 17]),
+    -- Ariana: Arbok Lv. 32: Wrap, Poison Sting, Bite, Glare
+    (40027, 4031, NULL, NULL, NULL, NULL, 1, ARRAY[35, 40, 44, 137]),
+    -- Ariana: Vileplume Lv. 32: Absorb, Sweet Scent, Sleep Powder, Acid
+    (40027, 4031, NULL, NULL, NULL, NULL, 2, ARRAY[71, 230, 79, 51]),
+    -- Ariana: Murkrow Lv. 32: Peck, Pursuit, Haze, Night Shade
+    (40027, 4031, NULL, NULL, NULL, NULL, 3, ARRAY[64, 228, 114, 101]),
+    -- Archer: Houndour Lv. 33: Ember, Roar, Bite, Feint Attack
+    (40027, 4032, NULL, NULL, NULL, NULL, 1, ARRAY[52, 46, 44, 185]),
+    -- Archer: Koffing Lv. 33: Tackle, Sludge, Smokescreen, Haze
+    (40027, 4032, NULL, NULL, NULL, NULL, 2, ARRAY[33, 124, 108, 114]),
+    -- Archer: Houndoom Lv. 35: Ember, Smog, Bite, Feint Attack
+    (40027, 4032, NULL, NULL, NULL, NULL, 3, ARRAY[52, 123, 44, 185])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

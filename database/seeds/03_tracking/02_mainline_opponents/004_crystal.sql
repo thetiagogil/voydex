@@ -5,6 +5,12 @@
 -- Cross-check: Pokémon Crystal source page.
 -- Legendary encounters: Bulbapedia, cross-checked with the pret disassemblies.
 -- Celebi: event-only on the original cartridge; the 3DS Virtual Console release gives the GS Ball after the Hall of Fame.
+-- Rocket Executives: the pret pokegold and pokecrystal disassemblies' trainer parties
+-- and set moves, cross-checked with Bulbapedia's Petrel, Ariana, Archer and Proton
+-- pages. The games call them Executive; the names are the ones HeartGold / SoulSilver
+-- gave them, which Bulbapedia applies back to these battles. The Rocket HQ Executive
+-- (Petrel) has no set moves and gets the game's default. Move order follows the game.
+-- The Slowpoke Well is led by a Grunt in these games, so it has no Executive battle.
 -- Scope: Pokémon Crystal major opponent data.
 -- ============================================================================
 -- File Scope
@@ -82,4 +88,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Lugia (boss)
   (4028, 4, NULL, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', 28),
   -- Celebi (boss)
-  (4029, 4, NULL, 'celebi', 'Celebi', 'boss', 11, 5, 'celebi', 29);
+  (4029, 4, NULL, 'celebi', 'Celebi', 'boss', 11, 5, 'celebi', 29),
+  -- Petrel (boss; Team Rocket Executive)
+  (4030, 4, NULL, 'petrel', 'Petrel', 'boss', NULL, NULL, 'petrel', 30),
+  -- Ariana (boss; Team Rocket Executive)
+  (4031, 4, NULL, 'ariana', 'Ariana', 'boss', NULL, NULL, 'ariana', 31),
+  -- Archer (boss; Team Rocket Executive)
+  (4032, 4, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 32),
+  -- Proton (boss; Team Rocket Executive)
+  (4033, 4, NULL, 'proton', 'Proton', 'boss', NULL, NULL, 'proton', 33);
