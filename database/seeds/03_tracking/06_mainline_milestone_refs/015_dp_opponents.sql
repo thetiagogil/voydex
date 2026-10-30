@@ -56,7 +56,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mine Badge -> Barry
   (80008, 8014, 8, 'battle-opponent', 1, 'Canalave City'),
   -- Team Galactic HQ -> Cyrus
-  (80017, 8015, 8, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
+  (80017, 8015, 8, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
   -- Spear Pillar -> Cyrus
   (80018, 8015, 8, 'battle-opponent', 2, 'Spear Pillar'),
   -- Elite Four Aaron -> Barry
@@ -90,6 +90,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Icicle Badge -> Mars
   (80009, 8025, 8, 'battle-opponent', 2, 'Lake Verity'),
   -- Team Galactic HQ -> Saturn
-  (80017, 8027, 8, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
+  (80017, 8027, 8, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
   -- Spear Pillar -> Mars & Jupiter (a Multi Battle, Barry at your side)
   (80018, 8028, 8, 'battle-opponent', 1, 'Spear Pillar (with Barry)');

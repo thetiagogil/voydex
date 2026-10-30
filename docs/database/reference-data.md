@@ -121,6 +121,8 @@ sources remain authoritative for game-specific mechanics and availability.
   Where the two differ the game wins: the Grunt's Drowzee knows Hypnosis,
   Petrel's last Radio Tower Koffing knows Smog, and move order follows the
   game. Barry's and Lance's partner teams rest on the game data alone.
+  At the Team Galactic HQ you beat Cyrus before Saturn, in Brilliant
+  Diamond / Shining Pearl too, whose order is corrected here.
   `360_gen4_admin_battles.sql` pins the battles.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the

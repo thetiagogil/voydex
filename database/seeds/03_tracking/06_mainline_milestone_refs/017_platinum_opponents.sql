@@ -60,7 +60,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mine Badge -> Barry
   (90008, 9014, 9, 'battle-opponent', 1, 'Canalave City'),
   -- Team Galactic HQ -> Cyrus
-  (90018, 9015, 9, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
+  (90018, 9015, 9, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
   -- Distortion World -> Cyrus
   (90019, 9015, 9, 'battle-opponent', 2, 'Distortion World'),
   -- Elite Four Aaron -> Barry
@@ -100,7 +100,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Icicle Badge -> Mars
   (90009, 9028, 9, 'battle-opponent', 2, 'Lake Verity'),
   -- Team Galactic HQ -> Saturn
-  (90018, 9030, 9, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
+  (90018, 9030, 9, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
   -- Distortion World -> Mars & Jupiter (a Multi Battle at Spear Pillar, Barry at your side)
   (90019, 9031, 9, 'battle-opponent', 1, 'Spear Pillar (with Barry)'),
   -- Stark Mountain -> Mars

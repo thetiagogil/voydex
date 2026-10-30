@@ -61,9 +61,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mine Badge -> Barry
   (210008, 21014, 21, 'battle-opponent', 1, 'Canalave City'),
   -- Team Galactic HQ -> Cyrus
-  (210018, 21015, 21, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
+  (210018, 21015, 21, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
   -- Team Galactic HQ -> Saturn
-  (210018, 21044, 21, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
+  (210018, 21044, 21, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
   -- Spear Pillar -> Cyrus
   (210019, 21015, 21, 'battle-opponent', 2, 'Spear Pillar'),
   -- Spear Pillar -> Mars & Jupiter (a Multi Battle, Barry at your side)

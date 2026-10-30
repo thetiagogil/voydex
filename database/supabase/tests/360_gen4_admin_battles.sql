@@ -6,7 +6,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (10);
+    plan (11);
 -- Who you fight at each Story point, in order.
 SELECT
     results_eq ($$
@@ -17,7 +17,7 @@ SELECT
                 refs.version_group_id = 8
                 AND refs.milestone_id IN (80004, 80009, 80017, 80018)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (80004, 'mars', 1), (80004, 'gardenia', 2), (80004, 'jupiter', 3), (80009, 'saturn', 1), (80009, 'mars', 2), (80009, 'candice', 3), (80017, 'saturn', 1), (80017, 'cyrus', 2), (80018, 'mars-jupiter', 1), (80018, 'cyrus', 2), (80018, 'dialga', 3), (80018, 'palkia', 4) $$, 'Diamond / Pearl: the Commanders come before Gardenia''s badge, Candice, the HQ and Spear Pillar''s Cyrus');
+            VALUES (80004, 'mars', 1), (80004, 'gardenia', 2), (80004, 'jupiter', 3), (80009, 'saturn', 1), (80009, 'mars', 2), (80009, 'candice', 3), (80017, 'cyrus', 1), (80017, 'saturn', 2), (80018, 'mars-jupiter', 1), (80018, 'cyrus', 2), (80018, 'dialga', 3), (80018, 'palkia', 4) $$, 'Diamond / Pearl: the Commanders in Story order, Saturn after Cyrus at the HQ');
 SELECT
     results_eq ($$
         SELECT
@@ -27,7 +27,7 @@ SELECT
                 refs.version_group_id = 9
                 AND refs.milestone_id IN (90004, 90009, 90018, 90019, 90020)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
-            VALUES (90004, 'mars', 1), (90004, 'gardenia', 2), (90004, 'jupiter', 3), (90009, 'saturn', 1), (90009, 'mars', 2), (90009, 'candice', 3), (90018, 'saturn', 1), (90018, 'cyrus', 2), (90019, 'mars-jupiter', 1), (90019, 'cyrus', 2), (90019, 'giratina', 3), (90020, 'barry', 1), (90020, 'mars', 2), (90020, 'jupiter', 3), (90020, 'heatran', 4) $$, 'Platinum: the Commanders, Spear Pillar before the Distortion World, and both again at Stark Mountain');
+            VALUES (90004, 'mars', 1), (90004, 'gardenia', 2), (90004, 'jupiter', 3), (90009, 'saturn', 1), (90009, 'mars', 2), (90009, 'candice', 3), (90018, 'cyrus', 1), (90018, 'saturn', 2), (90019, 'mars-jupiter', 1), (90019, 'cyrus', 2), (90019, 'giratina', 3), (90020, 'barry', 1), (90020, 'mars', 2), (90020, 'jupiter', 3), (90020, 'heatran', 4) $$, 'Platinum: the Commanders, Spear Pillar before the Distortion World, and both again at Stark Mountain');
 SELECT
     results_eq ($$
         SELECT
@@ -38,6 +38,15 @@ SELECT
                 AND refs.milestone_id IN (100004, 100009, 100029)
             ORDER BY refs.milestone_id, refs.sort_order $$, $$
             VALUES (100004, 'proton', 1), (100004, 'bugsy', 2), (100004, 'silver', 3), (100009, 'petrel', 1), (100009, 'ariana-grunt', 2), (100009, 'pryce', 3), (100029, 'petrel', 1), (100029, 'silver', 2), (100029, 'proton', 3), (100029, 'ariana', 4), (100029, 'archer', 5) $$, 'HeartGold / SoulSilver: the Executives at the Slowpoke Well, the Rocket HQ and the Radio Tower');
+-- Brilliant Diamond / Shining Pearl keep the same HQ order: Cyrus, then Saturn.
+SELECT
+    results_eq ($$
+        SELECT
+            opponents.slug, refs.sort_order FROM tracking.mainline_milestone_opponent_refs AS refs
+            JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
+            WHERE
+                refs.milestone_id = 210018 ORDER BY refs.sort_order $$, $$
+            VALUES ('cyrus', 1), ('saturn', 2) $$, 'Brilliant Diamond / Shining Pearl: Saturn after Cyrus at the HQ');
 -- Every new battle has its full team.
 SELECT
     results_eq ($$
