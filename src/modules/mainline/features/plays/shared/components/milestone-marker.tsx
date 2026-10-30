@@ -11,7 +11,7 @@ import { cn } from "@/shared/utils/cn";
 import { Medallion } from "./medallion";
 
 type MilestoneMarkerProps = {
-  /* A gym milestone's badge type, worn once it's recorded. */
+  /* A gym's (or Alola trial's) badge type, worn once it's recorded. */
   badgeType: PokemonTypeSlug | null;
   className?: string;
   /*

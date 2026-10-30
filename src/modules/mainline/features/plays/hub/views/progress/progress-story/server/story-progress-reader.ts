@@ -33,7 +33,7 @@ const getDecisionPokemonFormIds = (
 /*
  * Story's read: the Play's categories and milestones, the team snapshots
  * recorded with them, the decision Pokémon's art and the badge types, so a
- * gym badge wears its type on the stamp card and in its row.
+ * gym badge (or Alola trial) wears its type on the stamp card and in its row.
  */
 export const readMainlinePlayStoryProgress = async (
   supabase: ServerSupabaseClient,

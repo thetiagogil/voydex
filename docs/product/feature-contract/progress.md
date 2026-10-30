@@ -53,6 +53,13 @@ battle sits there. Event-only legendaries stay out, unless a re-release hands
 them out in normal play (FireRed / LeafGreen's island tickets on Switch,
 Crystal's GS Ball on 3DS); the seed header says so.
 
+Story's stamp card, like Overview's badge case, stamps every Gym badge in its
+type and then the League in gold. Alola has no Gyms, so Sun / Moon (7 trials,
+4 Grand Trials) and Ultra Sun / Ultra Moon (8 and 4) stamp each island trial
+and Grand Trial in its Z-Crystal's type, a Grand Trial with a gold ring, and
+label it by its captain or kahuna. A trial that hands out no Z-Crystal (Ilima's
+bonus trial) gets no stamp. Recording one stamps it as it does a badge.
+
 Milestone rows provide completion state, identity, concise location or context,
 type, and restrained decision or snapshot cues. The selected detail owns the
 description, prerequisites, recorded decision, snapshot availability, notes,

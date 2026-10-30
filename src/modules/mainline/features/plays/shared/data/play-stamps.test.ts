@@ -6,6 +6,7 @@ import {
   getMilestoneBadgeTypeId,
   getPlayStampLabel,
   getPlayStampStates,
+  getTypedStampKind,
 } from "./play-stamps";
 
 describe("play stamps", () => {
@@ -23,6 +24,22 @@ describe("play stamps", () => {
   it("prints a badge without its Badge and the League by name", () => {
     expect(getPlayStampLabel("gym", "Grass Badge")).toBe("Grass");
     expect(getPlayStampLabel("league", "Champion Leon")).toBe("Champion Leon");
+  });
+
+  it("prints a trial by its captain and a Grand Trial by its kahuna", () => {
+    expect(getPlayStampLabel("trial", "Lana Trial")).toBe("Lana");
+    expect(getPlayStampLabel("trial", "Vast Poni Canyon Trial")).toBe(
+      "Vast Poni Canyon",
+    );
+    expect(getPlayStampLabel("grand-trial", "Grand Trial Hala")).toBe("Hala");
+  });
+
+  it("stamps gyms, and the trials that hand out a Z-Crystal", () => {
+    expect(getTypedStampKind("gym", false)).toBe("gym");
+    expect(getTypedStampKind("trial", true)).toBe("trial");
+    expect(getTypedStampKind("grand-trial", true)).toBe("grand-trial");
+    expect(getTypedStampKind("trial", false)).toBeNull();
+    expect(getTypedStampKind("champion", true)).toBeNull();
   });
 
   it("names a stamp and where it stands", () => {

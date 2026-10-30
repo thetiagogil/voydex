@@ -576,6 +576,69 @@ describe("buildStoryProgressModel", () => {
     ]);
   });
 
+  it("builds an Alola stamp card from the trials with a Z-Crystal", () => {
+    const model = buildStoryProgressModel({
+      badgeTypes: [
+        { id: 1, slug: "normal" },
+        { id: 7, slug: "fighting" },
+      ],
+      categories: [
+        category({ milestone_count: 3 }),
+        category({
+          category_id: 2,
+          category_name: "Pokémon League",
+          category_slug: "pokemon-league",
+          category_sort_order: 2,
+          milestone_count: 1,
+        }),
+      ],
+      decisionForms: [],
+      milestones: [
+        milestone({
+          badge_refs: [{ type_id: 1 }],
+          completed_at: "2026-02-01T12:00:00Z",
+          is_completed: true,
+          milestone_id: 1,
+          milestone_name: "Ilima Trial",
+          milestone_type_slug: "trial",
+        }),
+        milestone({
+          badge_refs: [{ type_id: 7 }],
+          milestone_id: 2,
+          milestone_name: "Grand Trial Hala",
+          milestone_type_slug: "grand-trial",
+          sort_order: 2,
+        }),
+        milestone({
+          milestone_id: 3,
+          milestone_name: "Ilima Bonus Trial",
+          milestone_type_slug: "trial",
+          sort_order: 3,
+        }),
+        milestone({
+          category_id: 2,
+          milestone_id: 4,
+          milestone_name: "Elite Four Hala",
+          milestone_type_slug: "elite-four",
+        }),
+      ],
+      snapshotEvents: [],
+    });
+
+    expect(
+      model.scopes[0]?.stamps?.map((stamp) => [
+        stamp.label,
+        stamp.kind,
+        stamp.state,
+        stamp.badgeType,
+      ]),
+    ).toEqual([
+      ["Ilima", "trial", "earned", "normal"],
+      ["Hala", "grand-trial", "next", "fighting"],
+      ["Elite Four Hala", "league", "todo", null],
+    ]);
+  });
+
   it("has no stamp card for a scope without gyms", () => {
     const model = buildStoryProgressModel({
       badgeTypes: [],

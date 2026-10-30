@@ -212,6 +212,16 @@ sources remain authoritative for game-specific mechanics and availability.
   Only one reference names the stake colour of each shrine; the other confirms
   which Treasure of Ruin each shrine holds.
 
+- Sun / Moon and Ultra Sun / Ultra Moon have no badges, so each island trial
+  and Grand Trial hands out its Z-Crystal as a badge-like row of kind
+  `z-crystal` (#21), in the Z-Crystal's type: Normalium Z for Ilima, Waterium
+  Z for Lana, Firium Z for Kiawe, Grassium Z for Mallow, Electrium Z for
+  Sophocles, Ghostium Z for Acerola, Dragonium Z for the Vast Poni Canyon
+  trial and Fairium Z for Mina (Ultra Sun / Ultra Moon), and Fightinium,
+  Rockium, Darkinium and Groundium Z for the kahunas Hala, Olivia, Nanu and
+  Hapu. Each was checked on two references (the seed header names them).
+  Ilima's bonus trial hands out none. `380_alola_trial_stamps.sql` pins them.
+
 ## Audit Contract
 
 The seed audit parses every authored insert and verifies:

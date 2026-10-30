@@ -4057,6 +4057,7 @@ export type Database = {
           created_at: string;
           game_id: number | null;
           id: number;
+          kind: string;
           name: string;
           slug: string;
           sort_order: number;
@@ -4069,6 +4070,7 @@ export type Database = {
           created_at?: string;
           game_id?: number | null;
           id: number;
+          kind?: string;
           name: string;
           slug: string;
           sort_order: number;
@@ -4080,6 +4082,7 @@ export type Database = {
           created_at?: string;
           game_id?: number | null;
           id?: number;
+          kind?: string;
           name?: string;
           slug?: string;
           sort_order?: number;

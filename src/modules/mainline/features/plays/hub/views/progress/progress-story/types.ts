@@ -75,7 +75,7 @@ export type StoryMilestoneRef = {
 };
 
 export type StoryMilestone = {
-  /* A gym milestone's badge type, so its medallion and stamp wear it. */
+  /* A gym's (or Alola trial's) badge type, so its medallion and stamp wear it. */
   badgeType: PokemonTypeSlug | null;
   blockingPrerequisites: StoryMilestonePrerequisite[];
   categoryId: number;
@@ -144,7 +144,7 @@ export type StoryScope = {
   /* The milestone this scope's side card offers to record next. */
   nextMilestone: StoryMilestone | null;
   sections: StorySection[];
-  /* The gym badges and the League, or null when the scope has no gyms. */
+  /* The badges (or Alola's trials) and the League; null when there are none. */
   stamps: PlayStamp[] | null;
   /* Required milestones: the one count Story, Overview and the toasts use. */
   totalCount: number;

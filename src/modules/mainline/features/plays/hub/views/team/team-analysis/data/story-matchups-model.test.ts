@@ -196,6 +196,34 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
   });
 });
 
+describe("buildStoryMatchupsModel in Alola", () => {
+  it("gives a trial's Z-Crystal to the kahuna's battle, not the rival's", () => {
+    const battles = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 7,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(
+          4,
+          [
+            { id: 9, name: "Hau", role: "rival", typeId: 11 },
+            { id: 3, name: "Hala", role: "kahuna", typeId: 13 },
+          ],
+          { is_completed: true, milestone_name: "Grand Trial Hala" },
+        ),
+      ],
+      partyRows: [],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+
+    expect(battles.map((battle) => battle.badgeType)).toEqual([null, "water"]);
+  });
+});
+
 describe("buildStoryMatchupsModel with opponent teams", () => {
   const partyRow = (
     opponentId: number,

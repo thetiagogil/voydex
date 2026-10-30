@@ -26,8 +26,8 @@ export type PlayMomentRecord = {
 };
 
 /*
- * What a moment's medallion can know beyond the event: a gym milestone's
- * badge type, and the types of the forms on the team (event Pokémon carry
+ * What a moment's medallion can know beyond the event: a gym's (or Alola
+ * trial's) badge type, and the types of the forms on the team (event Pokémon carry
  * no type).
  */
 export type PlayMomentContext = {

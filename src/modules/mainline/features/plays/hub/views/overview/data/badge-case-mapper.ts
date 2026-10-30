@@ -3,6 +3,7 @@ import {
   getMilestoneBadgeTypeId,
   getPlayStampLabel,
   getPlayStampStates,
+  getTypedStampKind,
   type PlayStamp,
 } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
@@ -35,7 +36,10 @@ export type BadgeCase = {
   stamps: PlayStamp[];
 };
 
-/* Each gym milestone's badge type, so its marker and moment wear the badge. */
+/*
+ * Each gym's (or Alola trial's) badge type, so its marker and moment wear the
+ * badge.
+ */
 export const getBadgeTypeByMilestoneId = (
   rows: MainlinePlayBadgeCaseRows,
 ): Map<number, PokemonTypeSlug> => {
@@ -47,7 +51,7 @@ export const getBadgeTypeByMilestoneId = (
         getMilestoneBadgeTypeId(milestone.badge_refs) ?? -1,
       );
 
-      return milestone.milestone_type_slug === "gym" &&
+      return getTypedStampKind(milestone.milestone_type_slug, true) &&
         milestone.milestone_id !== null &&
         typeSlug &&
         isPokemonTypeSlug(typeSlug)
@@ -58,38 +62,42 @@ export const getBadgeTypeByMilestoneId = (
 };
 
 /*
- * The badge case: every gym badge and the main game's Champion milestone (the
- * League's gold stamp), in Story's order. A DLC's own champion never
- * takes that place. A Play whose game has no gyms has no badge case.
+ * The badge case: every gym badge (in Alola, every trial and Grand Trial with
+ * its Z-Crystal) and the main game's Champion milestone (the League's gold
+ * stamp), in Story's order. A DLC's own champion never takes that place. A
+ * Play whose game has none has no badge case.
  */
 export const buildMainlinePlayBadgeCase = (
   rows: MainlinePlayBadgeCaseRows,
 ): BadgeCase | null => {
-  const gyms = rows.milestones.filter(
-    (milestone) => milestone.milestone_type_slug === "gym",
-  );
+  const badgeTypeByMilestoneId = getBadgeTypeByMilestoneId(rows);
+  const getKind = (milestone: MainlinePlayBadgeCaseMilestone) =>
+    getTypedStampKind(
+      milestone.milestone_type_slug,
+      badgeTypeByMilestoneId.has(milestone.milestone_id ?? -1),
+    );
+  const typed = rows.milestones.filter((milestone) => getKind(milestone));
 
-  if (!gyms.length) {
+  if (!typed.length) {
     return null;
   }
 
-  const badgeTypeByMilestoneId = getBadgeTypeByMilestoneId(rows);
   const league = rows.milestones.find(
     (milestone) =>
       milestone.milestone_type_slug === "champion" &&
-      milestone.version_group_id === gyms[0].version_group_id,
+      milestone.version_group_id === typed[0].version_group_id,
   );
   /* In journey order: Gold's Champion comes after Johto's gyms, before Kanto's. */
   const ordered = rows.milestones.filter(
     (milestone) =>
       milestone.milestone_id !== null &&
-      (milestone.milestone_type_slug === "gym" || milestone === league),
+      (getKind(milestone) !== null || milestone === league),
   );
   const states = getPlayStampStates(ordered, (milestone) =>
     Boolean(milestone.is_completed),
   );
   const stamps = ordered.map((milestone, index): PlayStamp => {
-    const kind = milestone.milestone_type_slug === "gym" ? "gym" : "league";
+    const kind = getKind(milestone) ?? "league";
     const name = milestone.milestone_name ?? "Unnamed milestone";
     const milestoneId = milestone.milestone_id ?? 0;
 
@@ -105,7 +113,7 @@ export const buildMainlinePlayBadgeCase = (
     };
   });
   const earnedGyms = stamps.filter(
-    (stamp) => stamp.kind === "gym" && stamp.state === "earned",
+    (stamp) => stamp.kind !== "league" && stamp.state === "earned",
   );
   const lastEarnedAt =
     earnedGyms
@@ -116,7 +124,7 @@ export const buildMainlinePlayBadgeCase = (
 
   return {
     earnedGymCount: earnedGyms.length,
-    gymCount: gyms.length,
+    gymCount: typed.length,
     lastEarnedAt,
     nextName: stamps.find((stamp) => stamp.state === "next")?.name ?? null,
     stamps,
