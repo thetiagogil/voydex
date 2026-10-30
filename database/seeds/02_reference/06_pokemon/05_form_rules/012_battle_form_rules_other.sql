@@ -62,4 +62,14 @@ VALUES
   -- Terapagos (Terastal Form)
   (102401, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form when it enters battle (Tera Shift).', NULL),
   -- Terapagos (Stellar Form)
-  (102402, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form when it Terastallizes from its Terastal Form.', NULL);
+  (102402, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Takes this form when it Terastallizes from its Terastal Form.', NULL),
+  -- Segin Starmobile
+  (96601, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Team Star''s Dark-type Starmobile; only Giacomo''s Revavroom fights in it.', NULL),
+  -- Schedar Starmobile
+  (96602, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Team Star''s Fire-type Starmobile; only Mela''s Revavroom fights in it.', NULL),
+  -- Navi Starmobile
+  (96603, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Team Star''s Poison-type Starmobile; only Atticus''s Revavroom fights in it.', NULL),
+  -- Ruchbah Starmobile
+  (96604, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Team Star''s Fairy-type Starmobile; only Ortega''s Revavroom fights in it.', NULL),
+  -- Caph Starmobile
+  (96605, 'battle', FALSE, TRUE, FALSE, FALSE, FALSE, 'in-battle', 'Team Star''s Fighting-type Starmobile; only Eri''s Revavroom fights in it.', NULL);

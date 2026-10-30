@@ -7,7 +7,9 @@
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Links Let's Go, Pikachu! / Let's Go, Eevee! battle milestones to their primary opponents.
+-- Links Let's Go, Pikachu! / Let's Go, Eevee! battle milestones to their primary opponents
+-- and the Team Rocket battles (Jessie & James, Archer), Blue's Silph Co. battle on the way
+-- and Red's post-game battle at Indigo Plateau.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_opponent_refs (
@@ -21,7 +23,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Boulder Badge -> Brock
   (170003, 17001, 17, 'battle-opponent', 2, NULL),
   -- Cascade Badge -> Misty
-  (170004, 17002, 17, 'battle-opponent', 2, NULL),
+  (170004, 17002, 17, 'battle-opponent', 3, NULL),
   -- Thunder Badge -> Lt. Surge
   (170005, 17003, 17, 'battle-opponent', 1, NULL),
   -- Rainbow Badge -> Erika
@@ -52,16 +54,30 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (170002, 17016, 17, 'battle-opponent', 1, 'Professor Oak''s Laboratory, Pallet Town'),
   -- Boulder Badge -> Trace
   (170003, 17016, 17, 'battle-opponent', 1, 'Route 22. You can skip this battle.'),
+  -- Cascade Badge -> Jessie & James
+  (170004, 17022, 17, 'battle-opponent', 1, 'Mt. Moon'),
   -- Cascade Badge -> Trace
-  (170004, 17016, 17, 'battle-opponent', 1, 'Cerulean City (north exit to Route 24)'),
+  (170004, 17016, 17, 'battle-opponent', 2, 'Cerulean City (north exit to Route 24)'),
   -- S.S. Anne -> Trace
   (170020, 17016, 17, 'battle-opponent', 1, 'S.S. Anne, Vermilion City'),
   -- Rainbow Badge -> Trace
   (170006, 17016, 17, 'battle-opponent', 1, 'Pokémon Tower, Lavender Town'),
+  -- Rocket Hideout -> Jessie & James
+  (170021, 17022, 17, 'battle-opponent', 1, 'Rocket Hideout, Celadon City'),
+  -- Rocket Hideout -> Archer
+  (170021, 17023, 17, 'battle-opponent', 2, 'Rocket Hideout B4F, Celadon City'),
   -- Rocket Hideout -> Giovanni
-  (170021, 17017, 17, 'battle-opponent', 1, 'Rocket Hideout, Celadon City'),
+  (170021, 17017, 17, 'battle-opponent', 3, 'Rocket Hideout, Celadon City'),
+  -- Snorlax Encounter -> Jessie & James
+  (170007, 17022, 17, 'battle-opponent', 1, 'Pokémon Tower, Lavender Town'),
+  -- Silph Co. -> Blue (a Multi Battle, Trace at your side)
+  (170022, 17014, 17, 'battle-opponent', 1, 'Silph Co. 1F, Saffron City (with Trace)'),
+  -- Silph Co. -> Jessie & James
+  (170022, 17022, 17, 'battle-opponent', 2, 'Silph Co., Saffron City'),
+  -- Silph Co. -> Archer
+  (170022, 17023, 17, 'battle-opponent', 3, 'Silph Co., Saffron City'),
   -- Silph Co. -> Giovanni
-  (170022, 17017, 17, 'battle-opponent', 1, 'Silph Co. 11F, Saffron City'),
+  (170022, 17017, 17, 'battle-opponent', 4, 'Silph Co. 11F, Saffron City'),
   -- Elite Four Lorelei -> Trace
   (170012, 17016, 17, 'battle-opponent', 1, 'Route 22'),
   -- Power Plant -> Zapdos
@@ -71,4 +87,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Victory Road -> Moltres
   (170025, 17020, 17, 'battle-opponent', 1, 'Victory Road. You can skip this battle.'),
   -- Cerulean Cave -> Mewtwo
-  (170026, 17021, 17, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');
+  (170026, 17021, 17, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.'),
+  -- Battle Red -> Red
+  (170027, 17024, 17, 'battle-opponent', 1, 'In front of the Pokémon League, Indigo Plateau. You can skip this battle.');

@@ -10,6 +10,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Mars, Jupiter and Saturn (#115 audit): Bulbapedia.
 -- Scope: Brilliant Diamond / Shining Pearl Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -27,6 +28,14 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (210003, 21001, NULL, NULL, NULL, NULL, 2, ARRAY[446, 88, 20]),
     -- Roark: Cranidos Lv. 14: Headbutt, Bulldoze, Leer
     (210003, 21001, NULL, NULL, NULL, NULL, 3, ARRAY[29, 523, 43]),
+    -- Mars, Valley Windworks: Zubat Lv. 14: Absorb, Supersonic, Astonish, U-turn
+    (210004, 21042, NULL, NULL, NULL, NULL, 1, ARRAY[71, 48, 310, 369]),
+    -- Mars, Valley Windworks: Purugly Lv. 16: Fake Out, Scratch, Growl, Thief
+    (210004, 21042, NULL, NULL, NULL, NULL, 2, ARRAY[252, 10, 45, 168]),
+    -- Jupiter, Team Galactic Eterna Building: Zubat Lv. 18: Absorb, Supersonic, Mean Look, Poison Fang
+    (210004, 21043, NULL, NULL, NULL, NULL, 1, ARRAY[71, 48, 212, 305]),
+    -- Jupiter, Team Galactic Eterna Building: Skuntank Lv. 20: Flamethrower, Poison Gas, Acid Spray, Snarl
+    (210004, 21043, NULL, NULL, NULL, NULL, 2, ARRAY[53, 139, 491, 555]),
     -- Gardenia: Cherubi Lv. 19: Grass Knot, Growth, Dazzling Gleam, Safeguard
     (210004, 21002, NULL, NULL, NULL, NULL, 1, ARRAY[447, 74, 605, 219]),
     -- Gardenia: Turtwig Lv. 19: Grass Knot, Razor Leaf, Reflect, Work Up
@@ -57,6 +66,18 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (210008, 21006, NULL, NULL, NULL, NULL, 2, ARRAY[422, 89, 201, 360]),
     -- Byron: Bastiodon Lv. 39: Iron Defense, Thunderbolt, Stone Edge, Flash Cannon
     (210008, 21006, NULL, NULL, NULL, NULL, 3, ARRAY[334, 85, 444, 430]),
+    -- Saturn, Lake Valor: Kadabra Lv. 35: Kinesis, Reflect, Psychic, Rain Dance
+    (210009, 21044, NULL, NULL, NULL, NULL, 1, ARRAY[134, 115, 94, 240]),
+    -- Saturn, Lake Valor: Bronzor Lv. 35: Confuse Ray, Payback, Gyro Ball, Extrasensory
+    (210009, 21044, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 326]),
+    -- Saturn, Lake Valor: Toxicroak Lv. 37: Mud-Slap, Revenge, Toxic, Thief
+    (210009, 21044, NULL, NULL, NULL, NULL, 3, ARRAY[189, 279, 92, 168]),
+    -- Mars, Lake Verity: Golbat Lv. 37: Astonish, Poison Fang, Bite, U-turn
+    (210009, 21042, NULL, NULL, NULL, NULL, 1, ARRAY[310, 305, 44, 369]),
+    -- Mars, Lake Verity: Bronzor Lv. 37: Confuse Ray, Payback, Gyro Ball, Iron Defense
+    (210009, 21042, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 334]),
+    -- Mars, Lake Verity: Purugly Lv. 39: Growl, Aerial Ace, Slash, U-turn
+    (210009, 21042, NULL, NULL, NULL, NULL, 3, ARRAY[45, 332, 163, 369]),
     -- Candice: Snover Lv. 38: Mist, Razor Leaf, Water Pulse, Avalanche
     (210009, 21007, NULL, NULL, NULL, NULL, 1, ARRAY[54, 75, 352, 419]),
     -- Candice: Sneasel Lv. 38: Metal Claw, Hone Claws, Dig, Avalanche
@@ -215,12 +236,30 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (210008, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[39, 97, 172, 23]),
     -- Barry: Grotle Lv. 37: Razor Leaf, Bite, Leech Seed, Stealth Rock
     (210008, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[75, 44, 73, 446]),
+    -- Saturn, Team Galactic HQ: Kadabra Lv. 38: Kinesis, Reflect, Psychic, Rain Dance
+    (210018, 21044, NULL, NULL, NULL, NULL, 1, ARRAY[134, 115, 94, 240]),
+    -- Saturn, Team Galactic HQ: Bronzor Lv. 38: Confuse Ray, Payback, Gyro Ball, Extrasensory
+    (210018, 21044, NULL, NULL, NULL, NULL, 2, ARRAY[109, 371, 360, 326]),
+    -- Saturn, Team Galactic HQ: Toxicroak Lv. 40: Mud-Slap, Toxic, Thief, Brick Break
+    (210018, 21044, NULL, NULL, NULL, NULL, 3, ARRAY[189, 92, 168, 280]),
     -- Cyrus: Murkrow Lv. 40: Wing Attack, Night Shade, Assurance, Taunt
     (210018, 21015, NULL, NULL, NULL, NULL, 1, ARRAY[17, 101, 372, 269]),
     -- Cyrus: Golbat Lv. 40: Screech, Poison Fang, Air Cutter, Bite
     (210018, 21015, NULL, NULL, NULL, NULL, 2, ARRAY[103, 305, 314, 44]),
     -- Cyrus: Sneasel Lv. 43: Metal Claw, Icy Wind, Hone Claws, Beat Up
     (210018, 21015, NULL, NULL, NULL, NULL, 3, ARRAY[232, 196, 468, 251]),
+    -- Mars & Jupiter, Spear Pillar: Bronzor Lv. 41: Gyro Ball, Payback, Confuse Ray, Reflect
+    (210019, 21045, NULL, NULL, NULL, NULL, 1, ARRAY[360, 371, 109, 115]),
+    -- Mars & Jupiter, Spear Pillar: Golbat Lv. 41: Poison Fang, Bite, Haze, U-turn
+    (210019, 21045, NULL, NULL, NULL, NULL, 2, ARRAY[305, 44, 114, 369]),
+    -- Mars & Jupiter, Spear Pillar: Purugly Lv. 45: Dig, Body Slam, Aerial Ace, U-turn
+    (210019, 21045, NULL, NULL, NULL, NULL, 3, ARRAY[91, 34, 332, 369]),
+    -- Mars & Jupiter, Spear Pillar: Bronzor Lv. 41: Payback, Extrasensory, Light Screen, Confuse Ray
+    (210019, 21045, NULL, NULL, NULL, NULL, 4, ARRAY[371, 326, 113, 109]),
+    -- Mars & Jupiter, Spear Pillar: Golbat Lv. 41: Air Cutter, Haze, Giga Drain, Sludge Bomb
+    (210019, 21045, NULL, NULL, NULL, NULL, 5, ARRAY[314, 114, 202, 188]),
+    -- Mars & Jupiter, Spear Pillar: Skuntank Lv. 46: Belch, Flamethrower, Snarl, Poison Gas
+    (210019, 21045, NULL, NULL, NULL, NULL, 6, ARRAY[562, 53, 555, 139]),
     -- Cyrus: Honchkrow Lv. 45: Air Cutter, Night Slash, Steel Wing, Defog
     (210019, 21015, NULL, NULL, NULL, NULL, 1, ARRAY[314, 400, 211, 432]),
     -- Cyrus: Crobat Lv. 46: Cross Poison, Tailwind, Air Cutter, U-turn

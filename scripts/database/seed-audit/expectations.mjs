@@ -3342,6 +3342,11 @@ export const expectedBattleFormSlugs = [
   "palafin-hero",
   "terapagos-terastal",
   "terapagos-stellar",
+  "segin-starmobile",
+  "schedar-starmobile",
+  "navi-starmobile",
+  "ruchbah-starmobile",
+  "caph-starmobile",
 ];
 
 /* Megas new to Legends: Z-A, which has no abilities, so their Generation 9 rows set none. */

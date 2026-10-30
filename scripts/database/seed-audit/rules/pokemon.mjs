@@ -92,9 +92,9 @@ export function assertPokemonIdentityRows(context, tableRows) {
     (a, b) =>
       a.species_id - b.species_id || a.form_order - b.form_order || a.id - b.id,
     {
-      count: 1451,
+      count: 1456,
       sha256:
-        "7a01cd26cc7305c3e03348da90b26fd1c2d0c89484da47c3443b7dd6288f3e9d",
+        "03255993100212e2711556d6cdca5c4e70cdaec3e2cbff438d20bcb821c8c5c5",
     },
   );
   if (familyRows.length !== 541) {
@@ -461,7 +461,7 @@ export function assertPokemonFormRuleRows(context, tableRows) {
     {
       count: expectedAllNonDefaultFormSlugs.length,
       sha256:
-        "5f5b48c68a05bbf81663e834fc7afcb88f5c0365b4a8695e2582b0b58a7621d3",
+        "15a71beaa2adbf4095e87c43a1b98fcdc62a94ebf8a20938185b292cb097ebd3",
     },
   );
   if (ruleRows.length !== expectedAllNonDefaultFormSlugs.length) {
@@ -1159,14 +1159,14 @@ export function assertPokemonAttributeRows(context, tableRows) {
       a.form_id - b.form_id ||
       a.generation_start_id - b.generation_start_id,
     {
-      count: 2557,
+      count: 2562,
       sha256:
-        "85d7013ae6a939c59416329d05789d2f4557d0cdb8ce6cd61815958a6e919cc9",
+        "f7244d1b87c23674d10f2a8fa8cc34702c2da180c91d067636e1ea3166dd9b36",
     },
   );
-  if (rows.length !== 2557) {
+  if (rows.length !== 2562) {
     context.errors.push(
-      `reference.pokemon_attributes: expected 2557 curated attribute rows, got ${rows.length}.`,
+      `reference.pokemon_attributes: expected 2562 curated attribute rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(

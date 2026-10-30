@@ -33,7 +33,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mochi Mayhem -> Pecharunt
   (250009, 25007, 25, 'battle-opponent', 3, NULL),
   -- Arrive at Blueberry Academy -> Carmine
-  (250001, 25008, 25, 'battle-opponent', 1, 'Central Plaza, Terarium'),
+  (250001, 25008, 25, 'battle-opponent', 2, 'Central Plaza, Terarium'),
+  -- Arrive at Blueberry Academy -> Lacey
+  (250001, 25003, 25, 'battle-opponent', 1, 'Blueberry Academy entrance (losing does not stop the story)'),
   -- Terapagos Battle -> Kieran
   (250008, 25009, 25, 'battle-opponent', 1, 'Area Zero Underdepths'),
   -- Mochi Mayhem -> Arven & Penny

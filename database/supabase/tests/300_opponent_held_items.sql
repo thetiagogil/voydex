@@ -79,7 +79,7 @@ SELECT
                 AND ally_opponent_id IS NULL
                 AND version_group_id IN (15, 16, 21)
             GROUP BY version_group_id ORDER BY version_group_id $$, $$
-            VALUES (15, 37), (16, 44), (21, 100) $$, 'Gen 7 and Brilliant Diamond / Shining Pearl opponents hold the items their games give them');
+            VALUES (15, 37), (16, 54), (21, 107) $$, 'Gen 7 and Brilliant Diamond / Shining Pearl opponents hold the items their games give them');
 -- Each Ultra Sun / Ultra Moon totem holds one item; its allies hold nothing.
 SELECT
     results_eq ($$
@@ -90,10 +90,10 @@ SELECT
             LEFT JOIN reference.items ON items.id = mainline_opponent_team_members.held_item_id
             WHERE
                 mainline_opponent_team_members.version_group_id = 16
-                AND mainline_opponents.opponent_role IN ('trial-captain', 'totem')
+                AND mainline_opponents.opponent_role = 'totem'
                 AND mainline_opponent_team_members.slot = 1
-                AND mainline_opponent_team_members.level < 60 ORDER BY mainline_opponent_team_members.milestone_id, mainline_opponent_team_members.game_id $$, $$
-            VALUES ('ilima'::text, 'gumshoos'::text, 'pecha-berry'::text), ('ilima'::text, 'alolan-raticate'::text, 'pecha-berry'::text), ('lana'::text, 'araquanid'::text, 'wacan-berry'::text), ('kiawe'::text, 'alolan-marowak'::text, 'thick-club'::text), ('mallow'::text, 'lurantis'::text, 'power-herb'::text), ('sophocles'::text, 'togedemaru'::text, 'sitrus-berry'::text), ('acerola'::text, 'mimikyu'::text, 'lum-berry'::text), ('mina'::text, 'ribombee'::text, 'occa-berry'::text), ('totem-kommo-o'::text, 'kommo-o'::text, 'roseli-berry'::text) $$, 'each Ultra Sun / Ultra Moon totem holds its item');
+                AND mainline_opponent_team_members.level < 60 ORDER BY mainline_opponent_team_members.milestone_id, mainline_opponents.id $$, $$
+            VALUES ('totem-gumshoos'::text, 'gumshoos'::text, 'pecha-berry'::text), ('totem-raticate'::text, 'alolan-raticate'::text, 'pecha-berry'::text), ('totem-araquanid'::text, 'araquanid'::text, 'wacan-berry'::text), ('totem-marowak'::text, 'alolan-marowak'::text, 'thick-club'::text), ('totem-lurantis'::text, 'lurantis'::text, 'power-herb'::text), ('totem-togedemaru'::text, 'togedemaru'::text, 'sitrus-berry'::text), ('totem-mimikyu'::text, 'mimikyu'::text, 'lum-berry'::text), ('totem-ribombee'::text, 'ribombee'::text, 'occa-berry'::text), ('totem-kommo-o'::text, 'kommo-o'::text, 'roseli-berry'::text) $$, 'each Ultra Sun / Ultra Moon totem holds its item');
 SELECT
     is_empty ($$
         SELECT
@@ -101,7 +101,7 @@ SELECT
             JOIN tracking.mainline_opponents ON mainline_opponents.id = mainline_opponent_team_members.opponent_id
             WHERE
                 mainline_opponent_team_members.version_group_id IN (15, 16)
-                AND mainline_opponents.opponent_role IN ('trial-captain', 'totem')
+                AND mainline_opponents.opponent_role = 'totem'
                 AND mainline_opponent_team_members.slot > 1
                 AND mainline_opponent_team_members.held_item_id IS NOT NULL $$, 'totem allies hold nothing');
 SELECT
@@ -113,7 +113,7 @@ SELECT
                 AND ally_opponent_id IS NULL
                 AND version_group_id IN (18, 19, 20, 23, 24, 25, 26, 27)
             GROUP BY version_group_id ORDER BY version_group_id $$, $$
-            VALUES (18, 6), (20, 1), (23, 6), (24, 17), (25, 31), (26, 19) $$, 'Gen 8-9 opponents hold the items their games give them');
+            VALUES (18, 10), (19, 2), (20, 1), (23, 6), (24, 17), (25, 31), (26, 19) $$, 'Gen 8-9 opponents hold the items their games give them');
 -- Koraidon and Miraidon bring their own weather and terrain items.
 SELECT
     results_eq ($$ SELECT DISTINCT

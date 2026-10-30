@@ -13,6 +13,7 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Nemona's and Arven & Penny's Mochi Mayhem teams: Bulbapedia's Mochi Mayhem page; they hold nothing.
 -- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing.
+-- Lacey's battle on arrival (#115 audit): Bulbapedia, cross-checked with Serebii.
 -- Scope: Pokémon The Indigo Disk Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -102,6 +103,12 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (250008, 25006, 25, NULL, NULL, NULL, NULL, NULL, 1, 1024, 102402, 85, NULL, 19, FALSE),
   -- Pecharunt 1: Pecharunt Lv. 88
   (250009, 25007, 25, NULL, NULL, NULL, NULL, NULL, 1, 1025, 102500, 88, NULL, NULL, FALSE),
+  -- Lacey, Blueberry Academy entrance 1: Plusle Lv. 70
+  (250001, 25003, 25, NULL, NULL, NULL, NULL, NULL, 1, 311, 31100, 70, NULL, NULL, FALSE),
+  -- Lacey, Blueberry Academy entrance 2: Minun Lv. 70
+  (250001, 25003, 25, NULL, NULL, NULL, NULL, NULL, 2, 312, 31200, 70, NULL, NULL, FALSE),
+  -- Lacey, Blueberry Academy entrance 3: Excadrill Lv. 70
+  (250001, 25003, 25, NULL, NULL, NULL, NULL, NULL, 3, 530, 53000, 70, NULL, NULL, FALSE),
   -- Carmine, Arrive at Blueberry Academy 1: Mightyena Lv. 74
   (250001, 25008, 25, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 74, NULL, NULL, FALSE),
   -- Carmine, Arrive at Blueberry Academy 2: Toucannon Lv. 74

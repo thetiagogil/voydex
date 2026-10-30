@@ -11,6 +11,7 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing,
 -- except Koraidon's Heat Rock and Miraidon's Terrain Extender after the AI Professor (PokéWiki and Bulbapedia agree).
+-- Team Star's Starmobiles (#115 audit): Bulbapedia, cross-checked with Serebii; every boss sends its Starmobile out last.
 -- Scope: Pokémon Scarlet / Violet Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -182,20 +183,28 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (230016, 23014, 23, NULL, 230001, 'quaxly', NULL, NULL, 6, 911, 91100, 66, NULL, 2, FALSE),
   -- Giacomo 1: Pawniard Lv. 21
   (230017, 23015, 23, NULL, NULL, NULL, NULL, NULL, 1, 624, 62400, 21, NULL, NULL, FALSE),
+  -- Giacomo 2: Segin Starmobile Lv. 20
+  (230017, 23015, 23, NULL, NULL, NULL, NULL, NULL, 2, 966, 96601, 20, NULL, NULL, FALSE),
   -- Mela 1: Torkoal Lv. 27
   (230018, 23016, 23, NULL, NULL, NULL, NULL, NULL, 1, 324, 32400, 27, NULL, NULL, FALSE),
+  -- Mela 2: Schedar Starmobile Lv. 26
+  (230018, 23016, 23, NULL, NULL, NULL, NULL, NULL, 2, 966, 96602, 26, NULL, NULL, FALSE),
   -- Atticus 1: Skuntank Lv. 32
   (230019, 23017, 23, NULL, NULL, NULL, NULL, NULL, 1, 435, 43500, 32, NULL, NULL, FALSE),
   -- Atticus 2: Muk Lv. 32
   (230019, 23017, 23, NULL, NULL, NULL, NULL, NULL, 2, 89, 8900, 32, NULL, NULL, FALSE),
   -- Atticus 3: Revavroom Lv. 33
   (230019, 23017, 23, NULL, NULL, NULL, NULL, NULL, 3, 966, 96600, 33, NULL, NULL, FALSE),
+  -- Atticus 4: Navi Starmobile Lv. 32
+  (230019, 23017, 23, NULL, NULL, NULL, NULL, NULL, 4, 966, 96603, 32, NULL, NULL, FALSE),
   -- Ortega 1: Azumarill Lv. 50
   (230020, 23018, 23, NULL, NULL, NULL, NULL, NULL, 1, 184, 18400, 50, NULL, NULL, FALSE),
   -- Ortega 2: Wigglytuff Lv. 50
   (230020, 23018, 23, NULL, NULL, NULL, NULL, NULL, 2, 40, 4000, 50, NULL, NULL, FALSE),
   -- Ortega 3: Dachsbun Lv. 51
   (230020, 23018, 23, NULL, NULL, NULL, NULL, NULL, 3, 927, 92700, 51, NULL, NULL, FALSE),
+  -- Ortega 4: Ruchbah Starmobile Lv. 50
+  (230020, 23018, 23, NULL, NULL, NULL, NULL, NULL, 4, 966, 96604, 50, NULL, NULL, FALSE),
   -- Eri 1: Toxicroak Lv. 55
   (230021, 23019, 23, NULL, NULL, NULL, NULL, NULL, 1, 454, 45400, 55, NULL, NULL, FALSE),
   -- Eri 2: Passimian Lv. 55
@@ -204,6 +213,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (230021, 23019, 23, NULL, NULL, NULL, NULL, NULL, 3, 448, 44800, 55, NULL, NULL, FALSE),
   -- Eri 4: Annihilape Lv. 56
   (230021, 23019, 23, NULL, NULL, NULL, NULL, NULL, 4, 979, 97900, 56, NULL, NULL, FALSE),
+  -- Eri 5: Caph Starmobile Lv. 56
+  (230021, 23019, 23, NULL, NULL, NULL, NULL, NULL, 5, 966, 96605, 56, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 1: Oranguru Lv. 60
   (230022, 23020, 23, NULL, 230001, 'sprigatito', NULL, NULL, 1, 765, 76500, 60, NULL, NULL, FALSE),
   -- Clavell (chose Sprigatito) 2: Abomasnow Lv. 60

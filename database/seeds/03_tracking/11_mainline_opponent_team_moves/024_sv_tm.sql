@@ -10,6 +10,7 @@
 -- above leave out: Serebii, Bulbapedia and PokéWiki, kept where two agree;
 -- where they disagree or only one covers it, Bulbapedia, then Serebii.
 -- Pokémon no source confirms are left without moves (Voydex reads their types).
+-- Perrin (#115 audit): Bulbapedia.
 -- Scope: Scarlet / Violet: The Teal Mask Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -188,7 +189,11 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Munkidori: Munkidori Lv. 70: Psychic, Sludge Wave, Nasty Plot, Future Sight
     (240009, 24006, NULL, NULL, NULL, NULL, 1, ARRAY[94, 482, 417, 248]),
     -- Fezandipiti: Fezandipiti Lv. 70: Beat Up, Swagger, Flatter, Roost
-    (240010, 24011, NULL, NULL, NULL, NULL, 1, ARRAY[251, 207, 260, 355])
+    (240010, 24011, NULL, NULL, NULL, NULL, 1, ARRAY[251, 207, 260, 355]),
+    -- Perrin, Mossui Town: Noctowl Lv. 68: Roost, Moonblast, Hypnosis, Dream Eater
+    (240007, 24012, NULL, NULL, NULL, NULL, 1, ARRAY[355, 585, 95, 138]),
+    -- Perrin, Mossui Town: Leafeon Lv. 70: Leaf Blade, Swords Dance, Quick Attack, X-Scissor
+    (240007, 24012, NULL, NULL, NULL, NULL, 2, ARRAY[348, 14, 98, 404])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

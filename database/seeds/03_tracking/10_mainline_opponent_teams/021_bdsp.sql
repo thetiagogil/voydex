@@ -8,6 +8,7 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Barry's Roserade before the Elite Four (chose Chimchar) holds a Big Root per Bulbapedia (PokéWiki gives a Black Sludge).
 -- Wild Pokémon here hold nothing in their game data.
+-- Mars, Jupiter and Saturn (#115 audit): Bulbapedia, cross-checked with Serebii; the Spear Pillar Multi Battle follows the Spear Pillar page.
 -- Scope: Pokémon Brilliant Diamond / Shining Pearl Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -37,6 +38,14 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (210003, 21001, 21, NULL, NULL, NULL, NULL, NULL, 2, 95, 9500, 12, NULL),
   -- Roark 3: Cranidos Lv. 14
   (210003, 21001, 21, NULL, NULL, NULL, NULL, NULL, 3, 408, 40800, 14, NULL),
+  -- Mars, Valley Windworks 1: Zubat Lv. 14
+  (210004, 21042, 21, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 14, NULL),
+  -- Mars, Valley Windworks 2: Purugly Lv. 16, holds Oran Berry
+  (210004, 21042, 21, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 16, 184),
+  -- Jupiter, Team Galactic Eterna Building 1: Zubat Lv. 18
+  (210004, 21043, 21, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 18, NULL),
+  -- Jupiter, Team Galactic Eterna Building 2: Skuntank Lv. 20, holds Sitrus Berry
+  (210004, 21043, 21, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 20, 187),
   -- Gardenia 1: Cherubi Lv. 19
   (210004, 21002, 21, NULL, NULL, NULL, NULL, NULL, 1, 420, 42000, 19, NULL),
   -- Gardenia 2: Turtwig Lv. 19, holds Miracle Seed
@@ -67,6 +76,18 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (210008, 21006, 21, NULL, NULL, NULL, NULL, NULL, 2, 208, 20800, 36, 326),
   -- Byron 3: Bastiodon Lv. 39, holds Sitrus Berry
   (210008, 21006, 21, NULL, NULL, NULL, NULL, NULL, 3, 411, 41100, 39, 187),
+  -- Saturn, Lake Valor 1: Kadabra Lv. 35, holds Damp Rock
+  (210009, 21044, 21, NULL, NULL, NULL, NULL, NULL, 1, 64, 6400, 35, 386),
+  -- Saturn, Lake Valor 2: Bronzor Lv. 35
+  (210009, 21044, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 35, NULL),
+  -- Saturn, Lake Valor 3: Toxicroak Lv. 37
+  (210009, 21044, 21, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 37, NULL),
+  -- Mars, Lake Verity 1: Golbat Lv. 37
+  (210009, 21042, 21, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL),
+  -- Mars, Lake Verity 2: Bronzor Lv. 37
+  (210009, 21042, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 37, NULL),
+  -- Mars, Lake Verity 3: Purugly Lv. 39, holds Sitrus Berry
+  (210009, 21042, 21, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 39, 187),
   -- Candice 1: Snover Lv. 38, holds Icy Rock
   (210009, 21007, 21, NULL, NULL, NULL, NULL, NULL, 1, 459, 45900, 38, 400),
   -- Candice 2: Sneasel Lv. 38, holds Chople Berry
@@ -225,12 +246,30 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (210008, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 77, 7700, 34, 425),
   -- Barry (chose Piplup), Mine Badge 5: Grotle Lv. 37, holds Big Root
   (210008, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 388, 38800, 37, 375),
+  -- Saturn, Team Galactic HQ 1: Kadabra Lv. 38, holds Damp Rock
+  (210018, 21044, 21, NULL, NULL, NULL, NULL, NULL, 1, 64, 6400, 38, 386),
+  -- Saturn, Team Galactic HQ 2: Bronzor Lv. 38
+  (210018, 21044, 21, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
+  -- Saturn, Team Galactic HQ 3: Toxicroak Lv. 40
+  (210018, 21044, 21, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 40, NULL),
   -- Cyrus, Team Galactic HQ 1: Murkrow Lv. 40
   (210018, 21015, 21, NULL, NULL, NULL, NULL, NULL, 1, 198, 19800, 40, NULL),
   -- Cyrus, Team Galactic HQ 2: Golbat Lv. 40
   (210018, 21015, 21, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 40, NULL),
   -- Cyrus, Team Galactic HQ 3: Sneasel Lv. 43, holds Sitrus Berry
   (210018, 21015, 21, NULL, NULL, NULL, NULL, NULL, 3, 215, 21500, 43, 187),
+  -- Mars & Jupiter, Spear Pillar 1: Bronzor Lv. 41
+  (210019, 21045, 21, NULL, NULL, NULL, NULL, NULL, 1, 436, 43600, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 2: Golbat Lv. 41
+  (210019, 21045, 21, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 3: Purugly Lv. 45, holds Sitrus Berry
+  (210019, 21045, 21, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 45, 187),
+  -- Mars & Jupiter, Spear Pillar 4: Bronzor Lv. 41
+  (210019, 21045, 21, NULL, NULL, NULL, NULL, NULL, 4, 436, 43600, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 5: Golbat Lv. 41
+  (210019, 21045, 21, NULL, NULL, NULL, NULL, NULL, 5, 42, 4200, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 6: Skuntank Lv. 46, holds Sitrus Berry
+  (210019, 21045, 21, NULL, NULL, NULL, NULL, NULL, 6, 435, 43500, 46, 187),
   -- Cyrus, Spear Pillar 1: Honchkrow Lv. 45, holds Scope Lens
   (210019, 21015, 21, NULL, NULL, NULL, NULL, NULL, 1, 430, 43000, 45, 423),
   -- Cyrus, Spear Pillar 2: Crobat Lv. 46, holds Quick Claw

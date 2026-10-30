@@ -4,6 +4,7 @@
 -- Primary: Bulbapedia form change, Primal Reversion and battle-only form pages.
 -- Cross-check: Serebii Pokédex form pages.
 -- Scope note: one row per generation change point; egg groups follow the form it changes from.
+-- Starmobiles: type and ability per Bulbapedia; the game scripts their stats per boss, so they keep Revavroom's base stats here.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -68,4 +69,14 @@ VALUES
   -- #1024 Terapagos - Terapagos (Terastal Form)
   (1024, 102401, 9, 1, NULL, 308, NULL, NULL, 15, NULL, 95, 95, 110, 105, 110, 85),
   -- #1024 Terapagos - Terapagos (Stellar Form)
-  (1024, 102402, 9, 1, NULL, 309, NULL, NULL, 15, NULL, 160, 105, 110, 130, 110, 85);
+  (1024, 102402, 9, 1, NULL, 309, NULL, NULL, 15, NULL, 160, 105, 110, 130, 110, 85),
+  -- #0966 Revavroom - Segin Starmobile
+  (966, 96601, 9, 16, NULL, 22, NULL, NULL, 11, NULL, 80, 119, 90, 54, 67, 90),
+  -- #0966 Revavroom - Schedar Starmobile
+  (966, 96602, 9, 2, NULL, 3, NULL, NULL, 11, NULL, 80, 119, 90, 54, 67, 90),
+  -- #0966 Revavroom - Navi Starmobile
+  (966, 96603, 9, 8, NULL, 295, NULL, NULL, 11, NULL, 80, 119, 90, 54, 67, 90),
+  -- #0966 Revavroom - Ruchbah Starmobile
+  (966, 96604, 9, 18, NULL, 228, NULL, NULL, 11, NULL, 80, 119, 90, 54, 67, 90),
+  -- #0966 Revavroom - Caph Starmobile
+  (966, 96605, 9, 7, NULL, 192, NULL, NULL, 11, NULL, 80, 119, 90, 54, 67, 90);

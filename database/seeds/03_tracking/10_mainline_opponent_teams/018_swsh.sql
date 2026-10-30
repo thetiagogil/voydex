@@ -8,6 +8,8 @@
 -- Leon and Eternatus: cross-checked with Bulbapedia and Dexerto.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Wild Pokémon here hold nothing in their game data.
+-- Oleana, the Champion Cup finals, Hop's first post-game battle, Sordward and Shielbert (#115 audit): Bulbapedia, cross-checked with Serebii.
+-- Zacian and Zamazenta in the post-game fight Crowned, holding their rusted item (Bulbapedia and Serebii).
 -- Scope: Pokémon Sword / Shield Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -439,6 +441,56 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180015, 18014, 18, NULL, NULL, NULL, NULL, NULL, 3, 78, 7801, 52, NULL, NULL, FALSE),
   -- Bede, Champion Cup 4: Gigantamax Hatterene Lv. 53
   (180015, 18014, 18, NULL, NULL, NULL, NULL, NULL, 4, 858, 85801, 53, NULL, NULL, TRUE),
+  -- Oleana, Rose Tower 1: Froslass Lv. 50
+  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 1, 478, 47800, 50, NULL, NULL, FALSE),
+  -- Oleana, Rose Tower 2: Tsareena Lv. 50
+  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 2, 763, 76300, 50, NULL, NULL, FALSE),
+  -- Oleana, Rose Tower 3: Salazzle Lv. 50
+  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 3, 758, 75800, 50, NULL, NULL, FALSE),
+  -- Oleana, Rose Tower 4: Milotic Lv. 51
+  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 4, 350, 35000, 51, NULL, NULL, FALSE),
+  -- Oleana, Rose Tower 5: Gigantamax Garbodor Lv. 52
+  (180015, 18021, 18, NULL, NULL, NULL, NULL, NULL, 5, 569, 56901, 52, NULL, NULL, TRUE),
+  -- Nessa, Champion Cup finals 1: Golisopod Lv. 51
+  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 51, NULL, NULL, FALSE),
+  -- Nessa, Champion Cup finals 2: Pelipper Lv. 51
+  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 2, 279, 27900, 51, NULL, NULL, FALSE),
+  -- Nessa, Champion Cup finals 3: Barraskewda Lv. 52
+  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 3, 847, 84700, 52, NULL, NULL, FALSE),
+  -- Nessa, Champion Cup finals 4: Seaking Lv. 52
+  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 4, 119, 11900, 52, NULL, NULL, FALSE),
+  -- Nessa, Champion Cup finals 5: Gigantamax Drednaw Lv. 53
+  (180015, 18002, 18, NULL, NULL, NULL, NULL, NULL, 5, 834, 83401, 53, NULL, NULL, TRUE),
+  -- Bea, Champion Cup finals 1: Hawlucha Lv. 52
+  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 1, 701, 70100, 52, NULL, NULL, FALSE),
+  -- Bea, Champion Cup finals 2: Grapploct Lv. 52
+  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 2, 853, 85300, 52, NULL, NULL, FALSE),
+  -- Bea, Champion Cup finals 3: Sirfetch'd Lv. 53
+  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 3, 865, 86500, 53, NULL, NULL, FALSE),
+  -- Bea, Champion Cup finals 4: Falinks Lv. 53
+  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 4, 870, 87000, 53, NULL, NULL, FALSE),
+  -- Bea, Champion Cup finals 5: Gigantamax Machamp Lv. 54
+  (180015, 18004, 18, NULL, NULL, NULL, NULL, NULL, 5, 68, 6801, 54, NULL, NULL, TRUE),
+  -- Allister, Champion Cup finals 1: Dusknoir Lv. 52
+  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 1, 477, 47700, 52, NULL, NULL, FALSE),
+  -- Allister, Champion Cup finals 2: Chandelure Lv. 52
+  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 2, 609, 60900, 52, NULL, NULL, FALSE),
+  -- Allister, Champion Cup finals 3: Cursola Lv. 53
+  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 3, 864, 86400, 53, NULL, NULL, FALSE),
+  -- Allister, Champion Cup finals 4: Polteageist Lv. 53
+  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 4, 855, 85500, 53, NULL, NULL, FALSE),
+  -- Allister, Champion Cup finals 5: Gigantamax Gengar Lv. 54
+  (180015, 18005, 18, NULL, NULL, NULL, NULL, NULL, 5, 94, 9402, 54, NULL, NULL, TRUE),
+  -- Raihan, Champion Cup finals 1: Torkoal Lv. 53
+  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 1, 324, 32400, 53, NULL, NULL, FALSE),
+  -- Raihan, Champion Cup finals 2: Goodra Lv. 54
+  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 2, 706, 70600, 54, NULL, NULL, FALSE),
+  -- Raihan, Champion Cup finals 3: Turtonator Lv. 54
+  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 3, 776, 77600, 54, NULL, NULL, FALSE),
+  -- Raihan, Champion Cup finals 4: Flygon Lv. 54
+  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 4, 330, 33000, 54, NULL, NULL, FALSE),
+  -- Raihan, Champion Cup finals 5: Gigantamax Duraludon Lv. 55
+  (180015, 18010, 18, NULL, NULL, NULL, NULL, NULL, 5, 884, 88401, 55, NULL, NULL, TRUE),
   -- Rose, Defeat Eternatus 1: Escavalier Lv. 55
   (180011, 18016, 18, NULL, NULL, NULL, NULL, NULL, 1, 589, 58900, 55, NULL, NULL, FALSE),
   -- Rose, Defeat Eternatus 2: Ferrothorn Lv. 55
@@ -457,6 +509,86 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180014, 18014, 18, NULL, NULL, NULL, NULL, NULL, 3, 78, 7801, 62, NULL, NULL, FALSE),
   -- Bede, Post-Game Episode 4: Hatterene Lv. 63
   (180014, 18014, 18, NULL, NULL, NULL, NULL, NULL, 4, 858, 85800, 63, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [grookey] 1: Dubwool Lv. 59
+  (180014, 18025, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 832, 83200, 59, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [grookey] 2: Corviknight Lv. 59
+  (180014, 18025, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 823, 82300, 59, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [grookey] 3: Pincurchin Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 871, 87100, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [grookey] 4: Snorlax Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'grookey', NULL, NULL, 4, 143, 14300, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [grookey] 5: Cramorant Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'grookey', NULL, NULL, 5, 845, 84500, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [grookey] 6: Inteleon Lv. 60
+  (180014, 18025, 18, NULL, 180001, 'grookey', NULL, NULL, 6, 818, 81800, 60, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [scorbunny] 1: Dubwool Lv. 59
+  (180014, 18025, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 832, 83200, 59, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [scorbunny] 2: Corviknight Lv. 59
+  (180014, 18025, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 823, 82300, 59, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [scorbunny] 3: Pincurchin Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 871, 87100, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [scorbunny] 4: Snorlax Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'scorbunny', NULL, NULL, 4, 143, 14300, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [scorbunny] 5: Cramorant Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'scorbunny', NULL, NULL, 5, 845, 84500, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [scorbunny] 6: Rillaboom Lv. 60
+  (180014, 18025, 18, NULL, 180001, 'scorbunny', NULL, NULL, 6, 812, 81200, 60, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [sobble] 1: Dubwool Lv. 59
+  (180014, 18025, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 832, 83200, 59, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [sobble] 2: Corviknight Lv. 59
+  (180014, 18025, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 823, 82300, 59, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [sobble] 3: Pincurchin Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 871, 87100, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [sobble] 4: Snorlax Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'sobble', NULL, NULL, 4, 143, 14300, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [sobble] 5: Cramorant Lv. 58
+  (180014, 18025, 18, NULL, 180001, 'sobble', NULL, NULL, 5, 845, 84500, 58, NULL, NULL, FALSE),
+  -- Hop, Slumbering Weald (first post-game visit) [sobble] 6: Cinderace Lv. 60
+  (180014, 18025, 18, NULL, 180001, 'sobble', NULL, NULL, 6, 815, 81500, 60, NULL, NULL, FALSE),
+  -- Sordward, Slumbering Weald 1: Sirfetch'd Lv. 60
+  (180014, 18022, 18, NULL, NULL, NULL, NULL, NULL, 1, 865, 86500, 60, NULL, NULL, FALSE),
+  -- Sordward, Slumbering Weald 2: Golisopod Lv. 60
+  (180014, 18022, 18, NULL, NULL, NULL, NULL, NULL, 2, 768, 76800, 60, NULL, NULL, FALSE),
+  -- Sordward, Slumbering Weald 3: Doublade Lv. 60
+  (180014, 18022, 18, NULL, NULL, NULL, NULL, NULL, 3, 680, 68000, 60, NULL, NULL, FALSE),
+  -- Sordward, Slumbering Weald 4: Bisharp Lv. 60
+  (180014, 18022, 18, NULL, NULL, NULL, NULL, NULL, 4, 625, 62500, 60, NULL, NULL, FALSE),
+  -- Shielbert, Slumbering Weald 1: Sirfetch'd Lv. 60
+  (180014, 18023, 18, NULL, NULL, NULL, NULL, NULL, 1, 865, 86500, 60, NULL, NULL, FALSE),
+  -- Shielbert, Slumbering Weald 2: Bronzong Lv. 60
+  (180014, 18023, 18, NULL, NULL, NULL, NULL, NULL, 2, 437, 43700, 60, NULL, NULL, FALSE),
+  -- Shielbert, Slumbering Weald 3: Falinks Lv. 60
+  (180014, 18023, 18, NULL, NULL, NULL, NULL, NULL, 3, 870, 87000, 60, NULL, NULL, FALSE),
+  -- Shielbert, Slumbering Weald 4: Klinklang Lv. 60
+  (180014, 18023, 18, NULL, NULL, NULL, NULL, NULL, 4, 601, 60100, 60, NULL, NULL, FALSE),
+  -- Sordward & Shielbert, Hammerlocke Stadium 1: Golisopod Lv. 62
+  (180014, 18024, 18, NULL, NULL, NULL, NULL, NULL, 1, 768, 76800, 62, NULL, NULL, FALSE),
+  -- Sordward & Shielbert, Hammerlocke Stadium 2: Doublade Lv. 62
+  (180014, 18024, 18, NULL, NULL, NULL, NULL, NULL, 2, 680, 68000, 62, NULL, NULL, FALSE),
+  -- Sordward & Shielbert, Hammerlocke Stadium 3: Bisharp Lv. 62
+  (180014, 18024, 18, NULL, NULL, NULL, NULL, NULL, 3, 625, 62500, 62, NULL, NULL, FALSE),
+  -- Sordward & Shielbert, Hammerlocke Stadium 4: Bronzong Lv. 62
+  (180014, 18024, 18, NULL, NULL, NULL, NULL, NULL, 4, 437, 43700, 62, NULL, NULL, FALSE),
+  -- Sordward & Shielbert, Hammerlocke Stadium 5: Falinks Lv. 60
+  (180014, 18024, 18, NULL, NULL, NULL, NULL, NULL, 5, 870, 87000, 60, NULL, NULL, FALSE),
+  -- Sordward & Shielbert, Hammerlocke Stadium 6: Klinklang Lv. 60
+  (180014, 18024, 18, NULL, NULL, NULL, NULL, NULL, 6, 601, 60100, 60, NULL, NULL, FALSE),
+  -- Sordward, Energy Plant 1: Sirfetch'd Lv. 64
+  (180014, 18026, 18, NULL, NULL, NULL, NULL, NULL, 1, 865, 86500, 64, NULL, NULL, FALSE),
+  -- Sordward, Energy Plant 2: Golisopod Lv. 64
+  (180014, 18026, 18, NULL, NULL, NULL, NULL, NULL, 2, 768, 76800, 64, NULL, NULL, FALSE),
+  -- Sordward, Energy Plant 3: Doublade Lv. 64
+  (180014, 18026, 18, NULL, NULL, NULL, NULL, NULL, 3, 680, 68000, 64, NULL, NULL, FALSE),
+  -- Sordward, Energy Plant 4: Bisharp Lv. 64
+  (180014, 18026, 18, NULL, NULL, NULL, NULL, NULL, 4, 625, 62500, 64, NULL, NULL, FALSE),
+  -- Shielbert, Energy Plant 1: Sirfetch'd Lv. 64
+  (180014, 18027, 18, NULL, NULL, NULL, NULL, NULL, 1, 865, 86500, 64, NULL, NULL, FALSE),
+  -- Shielbert, Energy Plant 2: Bronzong Lv. 64
+  (180014, 18027, 18, NULL, NULL, NULL, NULL, NULL, 2, 437, 43700, 64, NULL, NULL, FALSE),
+  -- Shielbert, Energy Plant 3: Falinks Lv. 64
+  (180014, 18027, 18, NULL, NULL, NULL, NULL, NULL, 3, 870, 87000, 64, NULL, NULL, FALSE),
+  -- Shielbert, Energy Plant 4: Klinklang Lv. 64
+  (180014, 18027, 18, NULL, NULL, NULL, NULL, NULL, 4, 601, 60100, 64, NULL, NULL, FALSE),
   -- Hop (Sword, chose Grookey), Post-Game Episode 1: Dubwool Lv. 69
   (180014, 18013, 18, 31, 180001, 'grookey', NULL, NULL, 1, 832, 83200, 69, NULL, NULL, FALSE),
   -- Hop (Sword, chose Grookey), Post-Game Episode 2: Snorlax Lv. 68
@@ -529,11 +661,11 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (180014, 18013, 18, 32, 180001, 'sobble', NULL, NULL, 5, 815, 81500, 70, NULL, NULL, FALSE),
   -- Hop (Shield, chose Sobble), Post-Game Episode 6: Zacian (Crowned Sword) Lv. 70, holds Rusted Sword
   (180014, 18013, 18, 32, 180001, 'sobble', NULL, NULL, 6, 888, 88801, 70, 361, NULL, FALSE),
-  -- Zamazenta, Post-Game Episode 1: Zamazenta Lv. 70
-  (180014, 18017, 18, NULL, NULL, NULL, NULL, NULL, 1, 889, 88900, 70, NULL, NULL, FALSE),
-  -- Zacian, Post-Game Episode 1: Zacian Lv. 70
-  (180014, 18018, 18, NULL, NULL, NULL, NULL, NULL, 1, 888, 88800, 70, NULL, NULL, FALSE),
-  -- Zacian, Post-Game Episode 1: Zacian Lv. 70
-  (180014, 18019, 18, NULL, NULL, NULL, NULL, NULL, 1, 888, 88800, 70, NULL, NULL, FALSE),
-  -- Zamazenta, Post-Game Episode 1: Zamazenta Lv. 70
-  (180014, 18020, 18, NULL, NULL, NULL, NULL, NULL, 1, 889, 88900, 70, NULL, NULL, FALSE);
+  -- Zamazenta, Post-Game Episode 1: Zamazenta (Crowned Shield) Lv. 70, holds Rusted Shield
+  (180014, 18017, 18, NULL, NULL, NULL, NULL, NULL, 1, 889, 88901, 70, 362, NULL, FALSE),
+  -- Zacian, Post-Game Episode 1: Zacian (Crowned Sword) Lv. 70, holds Rusted Sword
+  (180014, 18018, 18, NULL, NULL, NULL, NULL, NULL, 1, 888, 88801, 70, 361, NULL, FALSE),
+  -- Zacian, Post-Game Episode 1: Zacian (Crowned Sword) Lv. 70, holds Rusted Sword
+  (180014, 18019, 18, NULL, NULL, NULL, NULL, NULL, 1, 888, 88801, 70, 361, NULL, FALSE),
+  -- Zamazenta, Post-Game Episode 1: Zamazenta (Crowned Shield) Lv. 70, holds Rusted Shield
+  (180014, 18020, 18, NULL, NULL, NULL, NULL, NULL, 1, 889, 88901, 70, 362, NULL, FALSE);

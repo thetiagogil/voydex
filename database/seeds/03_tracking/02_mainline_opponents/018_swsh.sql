@@ -61,4 +61,18 @@ INSERT INTO tracking.mainline_opponents (
   -- Zacian (boss, sword)
   (18019, 18, 31, 'zacian-sword', 'Zacian', 'boss', 18, NULL, 'zacian', 8),
   -- Zamazenta (boss, shield)
-  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', 8);
+  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', 8),
+  -- Oleana (boss; Rose Tower)
+  (18021, 18, NULL, 'oleana', 'Oleana', 'boss', NULL, NULL, 'oleana', 15),
+  -- Sordward (boss, sword; Slumbering Weald)
+  (18022, 18, 31, 'sordward', 'Sordward', 'boss', NULL, NULL, 'sordward', 9),
+  -- Shielbert (boss, shield; Slumbering Weald)
+  (18023, 18, 32, 'shielbert', 'Shielbert', 'boss', NULL, NULL, 'shielbert', 9),
+  -- Sordward & Shielbert (boss; the Multi Battle with Hop)
+  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, 'sordward', 16),
+  -- Hop (rival; first post-game visit to the Slumbering Weald)
+  (18025, 18, NULL, 'hop-weald', 'Hop', 'rival', NULL, NULL, 'hop', 17),
+  -- Sordward (boss, sword; Energy Plant)
+  (18026, 18, 31, 'sordward-tower', 'Sordward', 'boss', NULL, NULL, 'sordward', 10),
+  -- Shielbert (boss, shield; Energy Plant)
+  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, 'shielbert', 10);

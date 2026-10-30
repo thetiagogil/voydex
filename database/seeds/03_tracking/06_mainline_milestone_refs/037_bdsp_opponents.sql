@@ -21,7 +21,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Coal Badge -> Roark
   (210003, 21001, 21, 'battle-opponent', 2, NULL),
   -- Forest Badge -> Gardenia
-  (210004, 21002, 21, 'battle-opponent', 1, NULL),
+  (210004, 21002, 21, 'battle-opponent', 2, NULL),
+  -- Forest Badge -> Mars
+  (210004, 21042, 21, 'battle-opponent', 1, 'Valley Windworks'),
+  -- Forest Badge -> Jupiter
+  (210004, 21043, 21, 'battle-opponent', 3, 'Team Galactic Eterna Building'),
   -- Cobble Badge -> Maylene
   (210005, 21003, 21, 'battle-opponent', 2, NULL),
   -- Fen Badge -> Crasher Wake
@@ -31,7 +35,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mine Badge -> Byron
   (210008, 21006, 21, 'battle-opponent', 2, NULL),
   -- Icicle Badge -> Candice
-  (210009, 21007, 21, 'battle-opponent', 1, NULL),
+  (210009, 21007, 21, 'battle-opponent', 3, NULL),
+  -- Icicle Badge -> Saturn
+  (210009, 21044, 21, 'battle-opponent', 1, 'Lake Valor'),
+  -- Icicle Badge -> Mars
+  (210009, 21042, 21, 'battle-opponent', 2, 'Lake Verity'),
   -- Beacon Badge -> Volkner
   (210010, 21008, 21, 'battle-opponent', 1, NULL),
   -- Elite Four Aaron -> Aaron
@@ -53,17 +61,21 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Mine Badge -> Barry
   (210008, 21014, 21, 'battle-opponent', 1, 'Canalave City'),
   -- Team Galactic HQ -> Cyrus
-  (210018, 21015, 21, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
+  (210018, 21015, 21, 'battle-opponent', 2, 'Team Galactic HQ, Veilstone City'),
+  -- Team Galactic HQ -> Saturn
+  (210018, 21044, 21, 'battle-opponent', 1, 'Team Galactic HQ, Veilstone City'),
   -- Spear Pillar -> Cyrus
-  (210019, 21015, 21, 'battle-opponent', 1, 'Spear Pillar'),
+  (210019, 21015, 21, 'battle-opponent', 2, 'Spear Pillar'),
+  -- Spear Pillar -> Mars & Jupiter (a Multi Battle, Barry at your side)
+  (210019, 21045, 21, 'battle-opponent', 1, 'Spear Pillar (with Barry)'),
   -- Elite Four Aaron -> Barry
   (210011, 21014, 21, 'battle-opponent', 1, 'Pokémon League'),
   -- Fight Area -> Barry
   (210020, 21014, 21, 'battle-opponent', 1, 'Fight Area. You can skip this battle.'),
   -- Spear Pillar -> Dialga
-  (210019, 21016, 21, 'battle-opponent', 2, 'Spear Pillar, Mt. Coronet (after defeating Cyrus)'),
+  (210019, 21016, 21, 'battle-opponent', 3, 'Spear Pillar, Mt. Coronet (after defeating Cyrus)'),
   -- Spear Pillar -> Palkia
-  (210019, 21017, 21, 'battle-opponent', 3, 'Spear Pillar, Mt. Coronet (after defeating Cyrus)'),
+  (210019, 21017, 21, 'battle-opponent', 4, 'Spear Pillar, Mt. Coronet (after defeating Cyrus)'),
   -- Lake Guardians -> Uxie
   (210021, 21018, 21, 'battle-opponent', 1, 'Acuity Cavern, Lake Acuity. You can skip this battle.'),
   -- Lake Guardians -> Azelf

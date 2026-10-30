@@ -68,6 +68,8 @@ INSERT INTO tracking.mainline_milestones (
   (170018, 17, NULL, 1703, 6, 2, NULL, 'blue-battle', 'Battle Blue', 'Battle Blue at Viridian Gym after becoming Champion.', 1, false),
   -- Battle Green
   (170019, 17, NULL, 1703, 6, 2, NULL, 'green-battle', 'Battle Green', 'Battle Green after catching Mewtwo.', 2, false),
+  -- Battle Red
+  (170027, 17, NULL, 1703, 6, 2, NULL, 'red-battle', 'Battle Red', 'Battle Red in front of the Pokémon League at Indigo Plateau after beating six Master Trainers, with a full party of six and no Bag items.', 3, false),
   -- Power Plant
   (170023, 17, NULL, 1704, 6, 2, NULL, 'power-plant', 'Power Plant', 'Battle and catch Zapdos at the back of the Power Plant on Route 10.', 1, false),
   -- Seafoam Islands

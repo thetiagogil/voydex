@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -423,4 +423,74 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 2: Emboar Lv. 85
   (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 2, 500, 50000, 85, NULL),
   -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 3: Meganium Lv. 85, holds Meganiumite
-  (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462);
+  (270015, 27014, 27015, 27, NULL, NULL, NULL, 'chose-totodile', 'You chose Totodile in Legends: Z-A', 3, 154, 15400, 85, 462),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 1: Cubone Lv. 36
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 1, 104, 10400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 2: Pidgeot Lv. 36
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 2, 18, 1800, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 3: Gloom Lv. 36
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 3, 44, 4400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Pikachu!) 4: Jolteon Lv. 37
+  (170022, 17014, 17016, 17, 29, NULL, NULL, NULL, NULL, 4, 135, 13500, 37, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 1: Cubone Lv. 36
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 1, 104, 10400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 2: Pidgeot Lv. 36
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 2, 18, 1800, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 3: Gloom Lv. 36
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 3, 44, 4400, 36, NULL),
+  -- Trace beside you vs Blue (Let's Go, Eevee!) 4: Raichu Lv. 37
+  (170022, 17014, 17016, 17, 30, NULL, NULL, NULL, NULL, 4, 26, 2600, 37, NULL),
+  -- Hop beside you vs Sordward & Shielbert [grookey] 1: Dubwool Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 1, 832, 83200, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [grookey] 2: Corviknight Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 2, 823, 82300, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [grookey] 3: Inteleon Lv. 62
+  (180014, 18024, 18013, 18, NULL, 180001, 'grookey', NULL, NULL, 3, 818, 81800, 62, NULL),
+  -- Hop beside you vs Sordward & Shielbert [scorbunny] 1: Dubwool Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 1, 832, 83200, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [scorbunny] 2: Corviknight Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 2, 823, 82300, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [scorbunny] 3: Rillaboom Lv. 62
+  (180014, 18024, 18013, 18, NULL, 180001, 'scorbunny', NULL, NULL, 3, 812, 81200, 62, NULL),
+  -- Hop beside you vs Sordward & Shielbert [sobble] 1: Dubwool Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 1, 832, 83200, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [sobble] 2: Corviknight Lv. 61
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 2, 823, 82300, 61, NULL),
+  -- Hop beside you vs Sordward & Shielbert [sobble] 3: Cinderace Lv. 62
+  (180014, 18024, 18013, 18, NULL, 180001, 'sobble', NULL, NULL, 3, 815, 81500, 62, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 1: Munchlax Lv. 42
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 1, 446, 44600, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 2: Staraptor Lv. 41, holds Quick Claw
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 2, 398, 39800, 41, 417),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 3: Buizel Lv. 42, holds Sea Incense
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 3, 418, 41800, 42, 347),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 4: Heracross Lv. 43
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 4, 214, 21400, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 5: Roselia Lv. 42, holds Big Root
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 5, 315, 31500, 42, 375),
+  -- Barry beside you vs Mars & Jupiter [turtwig] 6: Infernape Lv. 45, holds Shell Bell
+  (210019, 21045, 21014, 21, NULL, 210001, 'turtwig', NULL, NULL, 6, 392, 39200, 45, 425),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 1: Munchlax Lv. 42
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 1, 446, 44600, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 2: Staraptor Lv. 41, holds Quick Claw
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 2, 398, 39800, 41, 417),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 3: Roselia Lv. 42, holds Big Root
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 3, 315, 31500, 42, 375),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 4: Heracross Lv. 43
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 4, 214, 21400, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 5: Ponyta Lv. 42, holds Shell Bell
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 5, 77, 7700, 42, 425),
+  -- Barry beside you vs Mars & Jupiter [chimchar] 6: Empoleon Lv. 45, holds Sea Incense
+  (210019, 21045, 21014, 21, NULL, 210001, 'chimchar', NULL, NULL, 6, 395, 39500, 45, 347),
+  -- Barry beside you vs Mars & Jupiter [piplup] 1: Munchlax Lv. 42
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 1, 446, 44600, 42, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 2: Staraptor Lv. 41, holds Quick Claw
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 2, 398, 39800, 41, 417),
+  -- Barry beside you vs Mars & Jupiter [piplup] 3: Buizel Lv. 42, holds Sea Incense
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 3, 418, 41800, 42, 347),
+  -- Barry beside you vs Mars & Jupiter [piplup] 4: Heracross Lv. 43
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 4, 214, 21400, 43, NULL),
+  -- Barry beside you vs Mars & Jupiter [piplup] 5: Ponyta Lv. 42, holds Shell Bell
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 5, 77, 7700, 42, 425),
+  -- Barry beside you vs Mars & Jupiter [piplup] 6: Torterra Lv. 45, holds Leftovers
+  (210019, 21045, 21014, 21, NULL, 210001, 'piplup', NULL, NULL, 6, 389, 38900, 45, 403);

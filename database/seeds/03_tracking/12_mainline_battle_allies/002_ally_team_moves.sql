@@ -3,7 +3,7 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
--- Every other ally: Bulbapedia trainer pages (Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -406,7 +406,77 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 2: Emboar Lv. 85: Fire Punch, Bulk Up, Drain Punch
     (270015, 27014, 27015, NULL, NULL, NULL, 'chose-totodile', 2, ARRAY[7, 339, 409]),
     -- Taunie / Urbain beside you vs Rogue Mega Meowstic (You chose Totodile in Legends: Z-A), Rogue Mega Meowstic 3: Meganium Lv. 85: Giga Drain, Bulldoze, Disarming Voice
-    (270015, 27014, 27015, NULL, NULL, NULL, 'chose-totodile', 3, ARRAY[202, 523, 574])
+    (270015, 27014, 27015, NULL, NULL, NULL, 'chose-totodile', 3, ARRAY[202, 523, 574]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Cubone Lv. 36: Focus Energy, Bonemerang, Headbutt
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 1, ARRAY[116, 155, 29]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Pidgeot Lv. 36: Quick Attack, Air Slash, Sand Attack, Roost
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 2, ARRAY[98, 403, 28, 355]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Gloom Lv. 36: Razor Leaf, Toxic, Acid
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 3, ARRAY[75, 92, 51]),
+    -- Trace beside you vs Blue (Let's Go, Pikachu!): Jolteon Lv. 37: Thunder Shock, Quick Attack, Pin Missile, Double Kick
+    (170022, 17014, 17016, 29, NULL, NULL, NULL, 4, ARRAY[84, 98, 42, 24]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Cubone Lv. 36: Focus Energy, Bonemerang, Headbutt
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 1, ARRAY[116, 155, 29]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Pidgeot Lv. 36: Quick Attack, Air Slash, Sand Attack, Roost
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 2, ARRAY[98, 403, 28, 355]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Gloom Lv. 36: Razor Leaf, Toxic, Acid
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 3, ARRAY[75, 92, 51]),
+    -- Trace beside you vs Blue (Let's Go, Eevee!): Raichu Lv. 37: Thunder Shock, Quick Attack, Thunder Punch, Slam
+    (170022, 17014, 17016, 30, NULL, NULL, NULL, 4, ARRAY[84, 98, 9, 21]),
+    -- Hop beside you vs Sordward & Shielbert [grookey]: Dubwool Lv. 61: Take Down, Double Kick, Double-Edge, Headbutt
+    (180014, 18024, 18013, NULL, 180001, 'grookey', NULL, 1, ARRAY[36, 24, 38, 29]),
+    -- Hop beside you vs Sordward & Shielbert [grookey]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
+    (180014, 18024, 18013, NULL, 180001, 'grookey', NULL, 2, ARRAY[65, 211, 184, 413]),
+    -- Hop beside you vs Sordward & Shielbert [grookey]: Inteleon Lv. 62: Snipe Shot, Sucker Punch, Liquidation, U-turn
+    (180014, 18024, 18013, NULL, 180001, 'grookey', NULL, 3, ARRAY[745, 389, 710, 369]),
+    -- Hop beside you vs Sordward & Shielbert [scorbunny]: Dubwool Lv. 61: Take Down, Double Kick, Double-Edge, Headbutt
+    (180014, 18024, 18013, NULL, 180001, 'scorbunny', NULL, 1, ARRAY[36, 24, 38, 29]),
+    -- Hop beside you vs Sordward & Shielbert [scorbunny]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
+    (180014, 18024, 18013, NULL, 180001, 'scorbunny', NULL, 2, ARRAY[65, 211, 184, 413]),
+    -- Hop beside you vs Sordward & Shielbert [scorbunny]: Rillaboom Lv. 62: Drum Beating, Slam, Knock Off, Uproar
+    (180014, 18024, 18013, NULL, 180001, 'scorbunny', NULL, 3, ARRAY[778, 21, 282, 253]),
+    -- Hop beside you vs Sordward & Shielbert [sobble]: Dubwool Lv. 61: Take Down, Double Kick, Double-Edge, Headbutt
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 1, ARRAY[36, 24, 38, 29]),
+    -- Hop beside you vs Sordward & Shielbert [sobble]: Corviknight Lv. 61: Drill Peck, Steel Wing, Scary Face, Brave Bird
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 2, ARRAY[65, 211, 184, 413]),
+    -- Hop beside you vs Sordward & Shielbert [sobble]: Cinderace Lv. 62: Double-Edge, Headbutt, Pyro Ball, Agility
+    (180014, 18024, 18013, NULL, 180001, 'sobble', NULL, 3, ARRAY[38, 29, 780, 97]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Munchlax Lv. 42: Lick, Covet, Bite, Body Slam
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 1, ARRAY[122, 343, 44, 34]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Staraptor Lv. 41: Close Combat, Quick Attack, Double Team, Pluck
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 2, ARRAY[370, 98, 104, 365]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Buizel Lv. 42: Tail Whip, Bite, Swift, Brine
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 3, ARRAY[39, 44, 129, 362]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Heracross Lv. 43: Leer, Brick Break, Pin Missile, Thief
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 4, ARRAY[43, 280, 42, 168]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Roselia Lv. 42: Sweet Scent, Giga Drain, Toxic, Grass Knot
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 5, ARRAY[230, 202, 92, 447]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Infernape Lv. 45: Close Combat, Flame Wheel, U-turn, Shadow Claw
+    (210019, 21045, 21014, NULL, 210001, 'turtwig', NULL, 6, ARRAY[370, 172, 369, 421]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Munchlax Lv. 42: Lick, Covet, Bite, Body Slam
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 1, ARRAY[122, 343, 44, 34]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Staraptor Lv. 41: Close Combat, Quick Attack, Double Team, Pluck
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 2, ARRAY[370, 98, 104, 365]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Roselia Lv. 42: Growth, Stun Spore, Leech Seed, Giga Drain
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 3, ARRAY[74, 78, 73, 202]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Heracross Lv. 43: Leer, Brick Break, Pin Missile, Thief
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 4, ARRAY[43, 280, 42, 168]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Ponyta Lv. 42: Growl, Agility, Flame Wheel, Stomp
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 5, ARRAY[45, 97, 172, 23]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Empoleon Lv. 45: Metal Claw, Charm, Grass Knot, Brine
+    (210019, 21045, 21014, NULL, 210001, 'chimchar', NULL, 6, ARRAY[232, 204, 447, 362]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Munchlax Lv. 42: Lick, Covet, Bite, Body Slam
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 1, ARRAY[122, 343, 44, 34]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Staraptor Lv. 41: Close Combat, Quick Attack, Double Team, Pluck
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 2, ARRAY[370, 98, 104, 365]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Buizel Lv. 42: Tail Whip, Bite, Swift, Brine
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 3, ARRAY[39, 44, 129, 362]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Heracross Lv. 43: Leer, Brick Break, Pin Missile, Thief
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 4, ARRAY[43, 280, 42, 168]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Ponyta Lv. 42: Tail Whip, Agility, Flame Wheel, Stomp
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 5, ARRAY[39, 97, 172, 23]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Torterra Lv. 45: Razor Leaf, Bite, Leech Seed, Stealth Rock
+    (210019, 21045, 21014, NULL, 210001, 'piplup', NULL, 6, ARRAY[75, 44, 73, 446])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

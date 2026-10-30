@@ -76,19 +76,41 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (180015, 18015, 18, 'battle-opponent', 1, 'Wyndon Stadium (semifinal)'),
   -- Champion Cup -> Hop
   (180015, 18013, 18, 'battle-opponent', 2, 'Wyndon Stadium (semifinal)'),
+  -- Champion Cup -> Oleana
+  (180015, 18021, 18, 'battle-opponent', 3, 'Rose Tower, Wyndon'),
   -- Champion Cup -> Bede
-  (180015, 18014, 18, 'battle-opponent', 3, 'Wyndon Stadium (final)'),
+  (180015, 18014, 18, 'battle-opponent', 4, 'Wyndon Stadium (final)'),
+  -- Champion Cup -> Nessa
+  (180015, 18002, 18, 'battle-opponent', 5, 'Wyndon Stadium (final)'),
+  -- Champion Cup -> Bea
+  (180015, 18004, 18, 'battle-opponent', 6, 'Wyndon Stadium (final, Sword)'),
+  -- Champion Cup -> Allister
+  (180015, 18005, 18, 'battle-opponent', 7, 'Wyndon Stadium (final, Shield)'),
+  -- Champion Cup -> Raihan
+  (180015, 18010, 18, 'battle-opponent', 8, 'Wyndon Stadium (final)'),
   -- Defeat Eternatus -> Rose
   (180011, 18016, 18, 'battle-opponent', 1, 'Energy Plant, Hammerlocke'),
+  -- Post-Game Episode -> Hop (first visit)
+  (180014, 18025, 18, 'battle-opponent', 1, 'Slumbering Weald, first visit'),
+  -- Post-Game Episode -> Sordward
+  (180014, 18022, 18, 'battle-opponent', 2, 'Slumbering Weald (Sword)'),
+  -- Post-Game Episode -> Shielbert
+  (180014, 18023, 18, 'battle-opponent', 3, 'Slumbering Weald (Shield)'),
   -- Post-Game Episode -> Bede
-  (180014, 18014, 18, 'battle-opponent', 1, 'Ballonlea Stadium'),
-  -- Post-Game Episode -> Hop
-  (180014, 18013, 18, 'battle-opponent', 2, 'Slumbering Weald'),
+  (180014, 18014, 18, 'battle-opponent', 4, 'Ballonlea Stadium'),
+  -- Post-Game Episode -> Sordward & Shielbert (a Multi Battle, Hop at your side)
+  (180014, 18024, 18, 'battle-opponent', 5, 'Hammerlocke Stadium (with Hop)'),
+  -- Post-Game Episode -> Sordward
+  (180014, 18026, 18, 'battle-opponent', 6, 'Energy Plant, Hammerlocke (Sword)'),
+  -- Post-Game Episode -> Shielbert
+  (180014, 18027, 18, 'battle-opponent', 7, 'Energy Plant, Hammerlocke (Shield)'),
   -- Post-Game Episode -> Zamazenta
-  (180014, 18017, 18, 'battle-opponent', 3, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Sordward'),
+  (180014, 18017, 18, 'battle-opponent', 8, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Sordward'),
   -- Post-Game Episode -> Zacian
-  (180014, 18018, 18, 'battle-opponent', 4, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Shielbert'),
+  (180014, 18018, 18, 'battle-opponent', 9, 'Tower Summit, Hammerlocke (above the Energy Plant), after beating Shielbert'),
   -- Post-Game Episode -> Zacian
-  (180014, 18019, 18, 'battle-opponent', 5, 'Tower Summit, Hammerlocke (above the Energy Plant)'),
+  (180014, 18019, 18, 'battle-opponent', 10, 'Slumbering Weald, after the Tower Summit (Sword)'),
   -- Post-Game Episode -> Zamazenta
-  (180014, 18020, 18, 'battle-opponent', 6, 'Tower Summit, Hammerlocke (above the Energy Plant)');
+  (180014, 18020, 18, 'battle-opponent', 11, 'Slumbering Weald, after the Tower Summit (Shield)'),
+  -- Post-Game Episode -> Hop (second visit)
+  (180014, 18013, 18, 'battle-opponent', 12, 'Slumbering Weald, second visit');

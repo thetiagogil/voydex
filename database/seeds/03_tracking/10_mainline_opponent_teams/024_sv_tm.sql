@@ -8,6 +8,7 @@
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and data-mined game data.
 -- The Dreaded Den Munkidori (Lv. 30, or 70 after The Way Home) is confirmed by data-mined game data only.
 -- Kieran and Bloodmoon Ursaluna: cross-checked with Bulbapedia.
+-- Perrin (#115 audit): Bulbapedia.
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- The Titanic Okidogi after The Way Home holds a Liechi Berry: Bulbapedia's Titan battle table.
 -- Wild Pokémon, Titans and other one-off battles: Bulbapedia names no held item for them, so they hold nothing,
@@ -204,4 +205,8 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Munkidori, Wistful Fields 1: Munkidori Lv. 70
   (240009, 24006, 24, NULL, NULL, NULL, NULL, NULL, 1, 1015, 101500, 70, NULL, NULL, FALSE),
   -- Fezandipiti, Oni Mountain 1: Fezandipiti Lv. 70
-  (240010, 24011, 24, NULL, NULL, NULL, NULL, NULL, 1, 1016, 101600, 70, NULL, NULL, FALSE);
+  (240010, 24011, 24, NULL, NULL, NULL, NULL, NULL, 1, 1016, 101600, 70, NULL, NULL, FALSE),
+  -- Perrin, Mossui Town 1: Noctowl Lv. 68
+  (240007, 24012, 24, NULL, NULL, NULL, NULL, NULL, 1, 164, 16400, 68, NULL, NULL, FALSE),
+  -- Perrin, Mossui Town 2: Leafeon Lv. 70
+  (240007, 24012, 24, NULL, NULL, NULL, NULL, NULL, 2, 470, 47000, 70, NULL, NULL, FALSE);
