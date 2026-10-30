@@ -26,7 +26,8 @@ const followPlanInputSchema = z.object({
 /*
  * Makes this Play follow one of your Plans. A Play follows one Plan at most,
  * so an existing link moves to the new Plan; `link_mainline_team_plan_to_play`
- * does it in one step and checks the Plan is yours and for the same game.
+ * does it in one step and checks the Plan is yours and for the same version
+ * group (a Plan is for either game).
  */
 export const followMainlinePlayPlanAction = async (input: {
   planId: string;

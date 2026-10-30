@@ -310,35 +310,37 @@ export const getMainlinePlayTeamPlanData = cache(
       return null;
     }
 
-    const [teamRows, teamPlanRows, followablePlans] = await Promise.all([
-      readMainlinePlayTeamRows(
-        context.supabase,
-        playId,
-        context.play.generation_id,
-        context.play.version_group_id,
-      ),
-      readMainlinePlayTeamPlanRows(
-        context.supabase,
-        context.userId,
-        playId,
-        context.play.generation_id,
-      ),
-      readMainlinePlayFollowablePlans(context.supabase, {
-        userId: context.userId,
-        versionGroupId: context.play.version_group_id,
-      }),
-    ]);
-
-    const otherVersionExclusives = await readMainlinePlayOtherVersionExclusives(
+    const teamPlanRowsPromise = readMainlinePlayTeamPlanRows(
       context.supabase,
-      {
-        formIds: teamPlanRows.rows.flatMap((row) =>
-          row.target_form_id === null ? [] : [row.target_form_id],
-        ),
-        gameId: context.play.game_id,
-        versionGroupId: context.play.version_group_id,
-      },
+      context.userId,
+      playId,
+      context.play.generation_id,
     );
+    const [teamRows, teamPlanRows, followablePlans, otherVersionExclusives] =
+      await Promise.all([
+        readMainlinePlayTeamRows(
+          context.supabase,
+          playId,
+          context.play.generation_id,
+          context.play.version_group_id,
+        ),
+        teamPlanRowsPromise,
+        readMainlinePlayFollowablePlans(context.supabase, {
+          userId: context.userId,
+          versionGroupId: context.play.version_group_id,
+        }),
+        /* Chained on the Plan's rows: it needs their planned forms. */
+        teamPlanRowsPromise.then((rows) =>
+          readMainlinePlayOtherVersionExclusives(context.supabase, {
+            formIds: rows.rows.flatMap((row) =>
+              row.target_form_id === null ? [] : [row.target_form_id],
+            ),
+            gameId: context.play.game_id,
+            playId,
+            versionGroupId: context.play.version_group_id,
+          }),
+        ),
+      ]);
 
     return buildMainlinePlayTeamPlanData({
       followablePlans,

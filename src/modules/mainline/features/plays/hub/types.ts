@@ -301,7 +301,7 @@ export type MainlinePlayTeamRosterData = {
   ruleChecks: RuleCheckContext;
 };
 
-/* One of your Plans this Play could follow: same game and version group. */
+/* One of your Plans this Play could follow: same version group, either game. */
 export type MainlinePlayFollowablePlan = {
   memberCount: number;
   name: string;

@@ -126,22 +126,36 @@ export const readMainlinePlayFollowablePlans = async (
 
 /*
  * The planned forms another game of the Play's version group has to itself,
- * by form id: a Plan is for either game, so this Play checks against its own.
+ * by form id: a Plan is for either game, so this Play checks against its own,
+ * with the expansions it tracks (Goodra is Shield-only in the base game, but
+ * The Isle of Armor has it in both).
  */
 export const readMainlinePlayOtherVersionExclusives = async (
   supabase: ServerSupabaseClient,
   {
     formIds,
     gameId,
+    playId,
     versionGroupId,
   }: {
     formIds: number[];
     gameId: number | null;
+    playId: string;
     versionGroupId: number | null;
   },
 ): Promise<Record<number, string>> => {
   if (!gameId || !versionGroupId || !formIds.length) {
     return {};
+  }
+
+  const scopesResult = await supabase
+    .schema("gameplay")
+    .from("mainline_play_optional_content_scopes")
+    .select("version_group_id")
+    .eq("play_id", playId);
+
+  if (scopesResult.error) {
+    throw new Error("Unable to load which game has each planned Pokémon.");
   }
 
   const reference = supabase.schema("reference");
@@ -155,7 +169,10 @@ export const readMainlinePlayOtherVersionExclusives = async (
       .schema("views")
       .from("reference_resolved_pokemon_availability")
       .select("availability_method_id, form_id, game_id, species_id")
-      .eq("target_version_group_id", versionGroupId)
+      .in("target_version_group_id", [
+        versionGroupId,
+        ...scopesResult.data.map((scope) => scope.version_group_id),
+      ])
       .in("form_id", uniqueNumberIds(formIds)),
   ]);
 

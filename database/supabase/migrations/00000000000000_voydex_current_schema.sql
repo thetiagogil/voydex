@@ -8306,7 +8306,6 @@ CREATE TABLE planning.mainline_team_plans (
     CONSTRAINT team_plans_game_version_group_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.games (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT team_plans_id_user_unique UNIQUE (id, user_id),
     CONSTRAINT team_plans_id_game_unique UNIQUE (id, game_id),
-    CONSTRAINT team_plans_id_user_game_version_group_unique UNIQUE (id, user_id, game_id, version_group_id),
     CONSTRAINT team_plans_id_user_version_group_unique UNIQUE (id, user_id, version_group_id),
     CONSTRAINT team_plans_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 200),
     CONSTRAINT team_plans_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 10000)

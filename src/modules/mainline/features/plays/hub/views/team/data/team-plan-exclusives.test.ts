@@ -36,6 +36,18 @@ describe("getOtherVersionExclusives", () => {
     ).toEqual({ 86500: "Sword" });
   });
 
+  it("drops the mark when an expansion the Play tracks has it in both", () => {
+    expect(
+      getOtherVersionExclusives({
+        games,
+        inGameMethodIds: new Set([wild]),
+        playGameId: 31,
+        /* Goodra: Shield-only in the base game, in both with the expansion. */
+        rows: [row(70600, 32), row(70600, null)],
+      }),
+    ).toEqual({});
+  });
+
   it("has nothing to say in a game with no other version", () => {
     expect(
       getOtherVersionExclusives({
