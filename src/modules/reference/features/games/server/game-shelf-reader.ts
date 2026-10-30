@@ -274,7 +274,9 @@ export const readGameBadgeCountsByGameSlug = async (
     supabase
       .schema("tracking")
       .from("mainline_badges")
-      .select("game_id, version_group_id"),
+      .select("game_id, version_group_id")
+      /* Alola's Z-Crystals are trial rewards, not badges. */
+      .eq("kind", "badge"),
   ]);
 
   if (gamesResult.error || badgesResult.error) {
