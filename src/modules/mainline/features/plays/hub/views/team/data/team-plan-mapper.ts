@@ -110,6 +110,7 @@ export const buildMainlinePlayTeamPlanSummary = (
     notes: plan.team_plan_notes,
     offPlanCount: offPlanMembers.length,
     offPlanMembers,
+    otherVersionExclusives: {},
     planId: plan.team_plan_id,
     planName: plan.team_plan_name,
     statusName: plan.team_plan_status_name ?? "Draft",

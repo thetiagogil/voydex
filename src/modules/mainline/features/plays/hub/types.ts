@@ -237,6 +237,12 @@ export type MainlinePlayTeamPlanSummary = {
   /* Recorded in the Play, but not matched to any of the Plan's targets. */
   offPlanMembers: MainlinePlayTeamMember[];
   planId: string;
+  /*
+   * Planned forms another game of the version group has to itself, by form
+   * id, with that game's name: a Plan is for either game, and this Play
+   * can't catch them in its own.
+   */
+  otherVersionExclusives: Record<number, string>;
   planName: string;
   statusName: string;
   targetCount: number;
@@ -295,7 +301,7 @@ export type MainlinePlayTeamRosterData = {
   ruleChecks: RuleCheckContext;
 };
 
-/* One of your Plans this Play could follow: same game and version group. */
+/* One of your Plans this Play could follow: same version group, either game. */
 export type MainlinePlayFollowablePlan = {
   memberCount: number;
   name: string;

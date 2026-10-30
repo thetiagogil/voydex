@@ -363,13 +363,13 @@ A Team Plan is separate from a play's current team.
 As built, the Team Planner saves a Plan's name, game and Pokémon with their
 planned moves. There is no single save-Plan database function yet, so the
 Pokémon are rewritten in order and a failure puts the previous ones back. A
-Plan stores one game, its version group's first, until
-`planning.mainline_team_plans` holds a version preference. An unsaved new
+Plan is for either game of its version group: it stores the group's first
+game, for its cover, and a Play of either game can follow it. An unsaved new
 Plan lives only in the browser's local storage, and a shared Plan lives only
 in a link's hash; neither is user-owned truth until saved. Following a Plan
 from a Play links it through `link_mainline_team_plan_to_play`, or re-points
 the existing link in one update; the database checks the Plan is yours and
-for the same game.
+for the same version group, and the link keeps the Play's own game.
 
 The product contract is one focused linked Team Plan per play.
 

@@ -1429,10 +1429,10 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "play_plan_links_plan_scope_fkey";
-            columns: ["team_plan_id", "user_id", "game_id", "version_group_id"];
+            columns: ["team_plan_id", "user_id", "version_group_id"];
             isOneToOne: false;
             referencedRelation: "mainline_team_plans";
-            referencedColumns: ["id", "user_id", "game_id", "version_group_id"];
+            referencedColumns: ["id", "user_id", "version_group_id"];
           },
         ];
       };
@@ -5543,15 +5543,10 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "play_plan_links_plan_scope_fkey";
-            columns: ["team_plan_id", "user_id", "game_id", "version_group_id"];
+            columns: ["team_plan_id", "user_id", "version_group_id"];
             isOneToOne: false;
             referencedRelation: "mainline_team_plan_summary";
-            referencedColumns: [
-              "team_plan_id",
-              "user_id",
-              "game_id",
-              "version_group_id",
-            ];
+            referencedColumns: ["team_plan_id", "user_id", "version_group_id"];
           },
           {
             foreignKeyName: "play_plan_links_play_scope_fkey";

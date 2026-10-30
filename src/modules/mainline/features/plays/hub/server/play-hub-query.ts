@@ -41,6 +41,7 @@ import {
 } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
 import {
   readMainlinePlayFollowablePlans,
+  readMainlinePlayOtherVersionExclusives,
   readMainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
 import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
@@ -309,28 +310,41 @@ export const getMainlinePlayTeamPlanData = cache(
       return null;
     }
 
-    const [teamRows, teamPlanRows, followablePlans] = await Promise.all([
-      readMainlinePlayTeamRows(
-        context.supabase,
-        playId,
-        context.play.generation_id,
-        context.play.version_group_id,
-      ),
-      readMainlinePlayTeamPlanRows(
-        context.supabase,
-        context.userId,
-        playId,
-        context.play.generation_id,
-      ),
-      readMainlinePlayFollowablePlans(context.supabase, {
-        gameId: context.play.game_id,
-        userId: context.userId,
-        versionGroupId: context.play.version_group_id,
-      }),
-    ]);
+    const teamPlanRowsPromise = readMainlinePlayTeamPlanRows(
+      context.supabase,
+      context.userId,
+      playId,
+      context.play.generation_id,
+    );
+    const [teamRows, teamPlanRows, followablePlans, otherVersionExclusives] =
+      await Promise.all([
+        readMainlinePlayTeamRows(
+          context.supabase,
+          playId,
+          context.play.generation_id,
+          context.play.version_group_id,
+        ),
+        teamPlanRowsPromise,
+        readMainlinePlayFollowablePlans(context.supabase, {
+          userId: context.userId,
+          versionGroupId: context.play.version_group_id,
+        }),
+        /* Chained on the Plan's rows: it needs their planned forms. */
+        teamPlanRowsPromise.then((rows) =>
+          readMainlinePlayOtherVersionExclusives(context.supabase, {
+            formIds: rows.rows.flatMap((row) =>
+              row.target_form_id === null ? [] : [row.target_form_id],
+            ),
+            gameId: context.play.game_id,
+            playId,
+            versionGroupId: context.play.version_group_id,
+          }),
+        ),
+      ]);
 
     return buildMainlinePlayTeamPlanData({
       followablePlans,
+      otherVersionExclusives,
       play: context.play,
       teamPlanRows,
       teamRows,

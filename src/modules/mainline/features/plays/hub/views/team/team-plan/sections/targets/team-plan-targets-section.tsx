@@ -8,6 +8,8 @@ type TeamPlanTargetsSectionProps = {
   comparisons: MainlinePlayTeamPlanMemberComparison[];
   mechanics: GameMechanicsProfile;
   onSelect: (comparison: MainlinePlayTeamPlanMemberComparison) => void;
+  /* Planned forms only another game has, by form id, with its name. */
+  otherVersionExclusives: Record<number, string>;
 };
 
 /* A grid of cards keeps its heading on the page: the Plan's targets. */
@@ -15,6 +17,7 @@ export const TeamPlanTargetsSection = ({
   comparisons,
   mechanics,
   onSelect,
+  otherVersionExclusives,
 }: TeamPlanTargetsSectionProps) => {
   return (
     <section aria-labelledby="team-plan-targets-title" className="grid gap-4">
@@ -36,6 +39,9 @@ export const TeamPlanTargetsSection = ({
                 comparison={comparison}
                 mechanics={mechanics}
                 onSelect={onSelect}
+                otherVersionName={
+                  otherVersionExclusives[comparison.plannedFormId] ?? null
+                }
               />
             </li>
           ))}

@@ -240,23 +240,29 @@ export const buildMainlinePlayTeamRosterData = (
 export const buildMainlinePlayTeamPlanData = (
   params: MainlinePlayTeamContextParams & {
     followablePlans?: MainlinePlayFollowablePlan[];
+    /* Planned forms another game has to itself (see the summary's field). */
+    otherVersionExclusives?: Record<number, string>;
     teamPlanRows: MainlinePlayTeamPlanRows;
   },
 ): MainlinePlayTeamPlanData => {
   const roster = buildMainlinePlayTeamPreview(params.teamRows);
+  const teamPlan = buildMainlinePlayTeamPlanSummary(
+    params.teamPlanRows.rows,
+    roster,
+    params.teamRows.evolutionEdges ?? [],
+    {
+      attributes: params.teamPlanRows.attributes,
+      mechanics: resolvePlayMechanics(params.play),
+      types: params.teamPlanRows.types,
+    },
+  );
 
   return {
     followablePlans: params.followablePlans ?? [],
     versionGroupSlug: params.play.version_group_slug ?? null,
-    teamPlan: buildMainlinePlayTeamPlanSummary(
-      params.teamPlanRows.rows,
-      roster,
-      params.teamRows.evolutionEdges ?? [],
-      {
-        attributes: params.teamPlanRows.attributes,
-        mechanics: resolvePlayMechanics(params.play),
-        types: params.teamPlanRows.types,
-      },
-    ),
+    teamPlan: teamPlan && {
+      ...teamPlan,
+      otherVersionExclusives: params.otherVersionExclusives ?? {},
+    },
   };
 };

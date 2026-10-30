@@ -8306,7 +8306,7 @@ CREATE TABLE planning.mainline_team_plans (
     CONSTRAINT team_plans_game_version_group_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.games (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT team_plans_id_user_unique UNIQUE (id, user_id),
     CONSTRAINT team_plans_id_game_unique UNIQUE (id, game_id),
-    CONSTRAINT team_plans_id_user_game_version_group_unique UNIQUE (id, user_id, game_id, version_group_id),
+    CONSTRAINT team_plans_id_user_version_group_unique UNIQUE (id, user_id, version_group_id),
     CONSTRAINT team_plans_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 200),
     CONSTRAINT team_plans_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 10000)
 );
@@ -8330,7 +8330,9 @@ CREATE INDEX team_plans_user_version_group_idx ON planning.mainline_team_plans (
 
 CREATE INDEX team_plans_version_group_idx ON planning.mainline_team_plans (version_group_id);
 
-COMMENT ON TABLE planning.mainline_team_plans IS 'Reusable user-owned Pokémon team plan for a game and base version group.';
+COMMENT ON TABLE planning.mainline_team_plans IS 'Reusable user-owned Pokémon team plan for a base version group, for either of its games.';
+
+COMMENT ON COLUMN planning.mainline_team_plans.game_id IS 'The version group''s first game, kept for its cover. A Plan is for either game: a Play of any game in the version group can follow it and checks against its own game.';
 
 COMMENT ON COLUMN planning.mainline_team_plans.version_group_id IS 'Stored with game_id so optional content and availability joins can use composite integrity.';
 
@@ -8509,7 +8511,7 @@ CREATE TABLE planning.mainline_play_plan_links (
     created_from_plan boolean NOT NULL DEFAULT FALSE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT play_plan_links_play_scope_fkey FOREIGN KEY (play_id, user_id, game_id, version_group_id) REFERENCES gameplay.mainline_plays (id, user_id, game_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
-    CONSTRAINT play_plan_links_plan_scope_fkey FOREIGN KEY (team_plan_id, user_id, game_id, version_group_id) REFERENCES planning.mainline_team_plans (id, user_id, game_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT play_plan_links_plan_scope_fkey FOREIGN KEY (team_plan_id, user_id, version_group_id) REFERENCES planning.mainline_team_plans (id, user_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT play_plan_links_play_unique UNIQUE (play_id),
     CONSTRAINT play_plan_links_id_play_plan_unique UNIQUE (id, play_id, team_plan_id)
 );
@@ -8522,11 +8524,11 @@ CREATE INDEX play_plan_links_user_idx ON planning.mainline_play_plan_links (user
 
 CREATE INDEX play_plan_links_play_scope_idx ON planning.mainline_play_plan_links (play_id, user_id, game_id, version_group_id);
 
-CREATE INDEX play_plan_links_plan_scope_idx ON planning.mainline_play_plan_links (team_plan_id, user_id, game_id, version_group_id);
+CREATE INDEX play_plan_links_plan_scope_idx ON planning.mainline_play_plan_links (team_plan_id, user_id, version_group_id);
 
-COMMENT ON TABLE planning.mainline_play_plan_links IS 'Links each play to zero or one reusable team plan while enforcing that the play and plan share owner, game, and version group.';
+COMMENT ON TABLE planning.mainline_play_plan_links IS 'Links each play to zero or one reusable team plan while enforcing that the play and plan share owner and version group. A Plan is for either game of its version group.';
 
-COMMENT ON COLUMN planning.mainline_play_plan_links.game_id IS 'Duplicated from both play and plan to enforce same-game play-plan integrity.';
+COMMENT ON COLUMN planning.mainline_play_plan_links.game_id IS 'The Play''s game, duplicated from the play. The Plan may name the version group''s other game.';
 
 COMMENT ON COLUMN planning.mainline_play_plan_links.version_group_id IS 'Duplicated from both play and plan to enforce same-version-group play-plan integrity.';
 
@@ -8586,8 +8588,9 @@ BEGIN
         RAISE EXCEPTION 'Unknown or unavailable team_plan_id %', p_team_plan_id
             USING ERRCODE = '23503';
     END IF;
-    IF v_play.user_id <> v_team_plan.user_id OR v_play.game_id <> v_team_plan.game_id OR v_play.version_group_id <> v_team_plan.version_group_id THEN
-        RAISE EXCEPTION 'Play and team plan must have the same owner, game, and version group'
+    -- A Plan is for either game of its version group.
+    IF v_play.user_id <> v_team_plan.user_id OR v_play.version_group_id <> v_team_plan.version_group_id THEN
+        RAISE EXCEPTION 'Play and team plan must have the same owner and version group'
             USING ERRCODE = '23514';
     END IF;
     SELECT

@@ -2,6 +2,8 @@ import type {
   MainlinePlayFollowablePlan,
   MainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/types";
+import { getOtherVersionExclusives } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-exclusives";
+import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 
@@ -77,22 +79,20 @@ export const readMainlinePlayTeamPlanRows = async (
 };
 
 /*
- * Your Plans this Play could follow instead: the same game and version group
- * (the link requires both), not archived, the latest changed first.
+ * Your Plans this Play could follow instead: the same version group (a Plan
+ * is for either of its games), not archived, the latest changed first.
  */
 export const readMainlinePlayFollowablePlans = async (
   supabase: ServerSupabaseClient,
   {
-    gameId,
     userId,
     versionGroupId,
   }: {
-    gameId: number | null;
     userId: string;
     versionGroupId: number | null;
   },
 ): Promise<MainlinePlayFollowablePlan[]> => {
-  if (!gameId || !versionGroupId) {
+  if (!versionGroupId) {
     return [];
   }
 
@@ -103,7 +103,6 @@ export const readMainlinePlayFollowablePlans = async (
       "team_plan_id, team_plan_name, member_count, status_slug, updated_at",
     )
     .eq("user_id", userId)
-    .eq("game_id", gameId)
     .eq("version_group_id", versionGroupId)
     .order("updated_at", { ascending: false });
 
@@ -123,4 +122,85 @@ export const readMainlinePlayFollowablePlans = async (
         ]
       : [],
   );
+};
+
+/*
+ * The planned forms another game of the Play's version group has to itself,
+ * by form id: a Plan is for either game, so this Play checks against its own,
+ * with the expansions it tracks (Goodra is Shield-only in the base game, but
+ * The Isle of Armor has it in both).
+ */
+export const readMainlinePlayOtherVersionExclusives = async (
+  supabase: ServerSupabaseClient,
+  {
+    formIds,
+    gameId,
+    playId,
+    versionGroupId,
+  }: {
+    formIds: number[];
+    gameId: number | null;
+    playId: string;
+    versionGroupId: number | null;
+  },
+): Promise<Record<number, string>> => {
+  if (!gameId || !versionGroupId || !formIds.length) {
+    return {};
+  }
+
+  const scopesResult = await supabase
+    .schema("gameplay")
+    .from("mainline_play_optional_content_scopes")
+    .select("version_group_id")
+    .eq("play_id", playId);
+
+  if (scopesResult.error) {
+    throw new Error("Unable to load which game has each planned Pokémon.");
+  }
+
+  const reference = supabase.schema("reference");
+  const [gamesResult, methodsResult, availabilityResult] = await Promise.all([
+    reference
+      .from("games")
+      .select("id, name")
+      .eq("version_group_id", versionGroupId),
+    reference.from("availability_methods").select("id, slug"),
+    supabase
+      .schema("views")
+      .from("reference_resolved_pokemon_availability")
+      .select("availability_method_id, form_id, game_id, species_id")
+      .in("target_version_group_id", [
+        versionGroupId,
+        ...scopesResult.data.map((scope) => scope.version_group_id),
+      ])
+      .in("form_id", uniqueNumberIds(formIds)),
+  ]);
+
+  if (gamesResult.error || methodsResult.error || availabilityResult.error) {
+    throw new Error("Unable to load which game has each planned Pokémon.");
+  }
+
+  return getOtherVersionExclusives({
+    games: gamesResult.data,
+    inGameMethodIds: new Set(
+      methodsResult.data
+        .filter((method) => isInGameAvailabilityMethod(method))
+        .map((method) => method.id),
+    ),
+    playGameId: gameId,
+    rows: availabilityResult.data.flatMap((row) =>
+      row.availability_method_id !== null &&
+      row.form_id !== null &&
+      row.species_id !== null
+        ? [
+            {
+              availability_method_id: row.availability_method_id,
+              form_id: row.form_id,
+              game_id: row.game_id,
+              species_id: row.species_id,
+            },
+          ]
+        : [],
+    ),
+  });
 };

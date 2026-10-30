@@ -1,6 +1,7 @@
 import type { MainlinePlayTeamPlanMemberComparison } from "@/modules/mainline/features/plays/hub/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
+import { StatusBadge } from "@/shared/components/status-badge";
 import { cn } from "@/shared/utils/cn";
 
 import { TeamPlanStatusPill } from "../../components/team-plan-pill";
@@ -20,18 +21,24 @@ type TeamPlanTargetCardProps = {
   comparison: MainlinePlayTeamPlanMemberComparison;
   mechanics: GameMechanicsProfile;
   onSelect: (comparison: MainlinePlayTeamPlanMemberComparison) => void;
+  /*
+   * The other game that has this Pokémon to itself ("Shield"), when this
+   * Play's game can't catch it; null otherwise.
+   */
+  otherVersionName: string | null;
 };
 
 /*
  * v3 `.ptarget`: one planned target with a fixed layout. A target you own is
  * a sticker; one found but since retired or replaced is a plain flat card;
- * one not found yet is a dashed silhouette. Its detail opens in the compare
- * dialog.
+ * one not found yet is a dashed silhouette, marked when only the version
+ * group's other game has it. Its detail opens in the compare dialog.
  */
 export const TeamPlanTargetCard = ({
   comparison,
   mechanics,
   onSelect,
+  otherVersionName,
 }: TeamPlanTargetCardProps) => {
   const owned = isTeamPlanTargetOwned(comparison);
   const found = comparison.playMember !== null;
@@ -91,6 +98,12 @@ export const TeamPlanTargetCard = ({
         badgeSize="sm"
         className="mt-1.5 mb-3 min-h-5 justify-center gap-1"
       />
+
+      {otherVersionName && !found ? (
+        <StatusBadge size="md" tone="warn" className="mb-2">
+          {`${otherVersionName} only: trade for it`}
+        </StatusBadge>
+      ) : null}
 
       <TeamPlanMatchLine
         member={comparison.playMember}
