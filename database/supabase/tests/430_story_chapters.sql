@@ -10,7 +10,7 @@ INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, e
 INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('60000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000d1', 9, 6, 2, 'Chapters FireRed');
 SELECT
-    plan (17);
+    plan (18);
 -- Every version group with Story has a main-story chapter.
 SELECT
     is_empty ($$
@@ -192,6 +192,15 @@ SELECT
                 mainline_milestones.version_group_id = 18
                 AND mainline_milestones.slug = 'grass-badge' ORDER BY mainline_milestone_opponent_refs.sort_order $$, $$
             VALUES ('hop-route-2'), ('marnie'), ('hop'), ('bede'), ('milo') $$, 'Grass Badge lists its battles in play order');
+-- After the credits only Johto's Kanto, through Red, still counts.
+SELECT
+    results_eq ($$ SELECT DISTINCT
+            mainline_milestones.version_group_id FROM tracking.mainline_milestones
+            JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
+            WHERE
+                mainline_categories.chapter_kind = 'post-game'
+                AND mainline_milestones.is_required_for_completion ORDER BY mainline_milestones.version_group_id $$, $$
+            VALUES (3), (4), (10) $$, 'post-game beats count only in Gold / Silver, Crystal and HeartGold / SoulSilver');
 -- Receive Pokédex carries no later battle anywhere.
 SELECT
     is_empty ($$

@@ -57,4 +57,4 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (180013, 18, NULL, 1802, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 2, true),
   -- Post-Game Episode
-  (180014, 18, NULL, 1803, 1, 1, NULL, 'post-game-episode', 'Post-Game Episode', 'Complete the post-game episode involving Sordward and Shielbert.', 1, true);
+  (180014, 18, NULL, 1803, 1, 1, NULL, 'post-game-episode', 'Post-Game Episode', 'Complete the post-game episode involving Sordward and Shielbert.', 1, false);

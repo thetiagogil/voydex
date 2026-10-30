@@ -89,4 +89,4 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (140017, 14, NULL, 1402, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true),
   -- Delta Episode
-  (140018, 14, NULL, 1403, 6, 3, NULL, 'delta-episode', 'Delta Episode', 'Complete the Delta Episode and defeat Zinnia at Sky Pillar.', 1, true);
+  (140018, 14, NULL, 1403, 6, 3, NULL, 'delta-episode', 'Delta Episode', 'Complete the Delta Episode and defeat Zinnia at Sky Pillar.', 1, false);

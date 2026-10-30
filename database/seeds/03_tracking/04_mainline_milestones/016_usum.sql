@@ -72,7 +72,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Hall of Fame
   (160021, 16, NULL, 1603, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame as Alola''s first Champion.', 6, true),
   -- Team Rainbow Rocket
-  (160022, 16, NULL, 1604, 6, 3, NULL, 'team-rainbow-rocket', 'Team Rainbow Rocket', 'Complete the Team Rainbow Rocket Episode and defeat Giovanni.', 1, true),
+  (160022, 16, NULL, 1604, 6, 3, NULL, 'team-rainbow-rocket', 'Team Rainbow Rocket', 'Complete the Team Rainbow Rocket Episode and defeat Giovanni.', 1, false),
   -- Mahalo Trail
   (160024, 16, NULL, 1605, 6, 2, NULL, 'mahalo-trail', 'Mahalo Trail', 'Battle and catch Nebby, now Solgaleo or Lunala, when Lillie hands it over on Mahalo Trail''s plank bridge.', 1, false),
   -- Mount Lanakila Crater

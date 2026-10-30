@@ -45,17 +45,17 @@ INSERT INTO tracking.mainline_milestones (
   -- Origin Pokémon
   (220010, 22, NULL, 2201, 6, 3, NULL, 'origin-pokemon', 'Origin Pokémon', 'Defeat and catch the Origin Forme Legendary Pokémon at the Temple of Sinnoh.', 10, true),
   -- Defeat Volo
-  (220011, 22, NULL, 2202, 6, 3, NULL, 'defeat-volo', 'Defeat Volo', 'Defeat Volo and Giratina at the Temple of Sinnoh.', 5, true),
+  (220011, 22, NULL, 2202, 6, 3, NULL, 'defeat-volo', 'Defeat Volo', 'Defeat Volo and Giratina at the Temple of Sinnoh.', 5, false),
   -- Meet Arceus
   (220012, 22, NULL, 2202, 6, 3, NULL, 'meet-arceus', 'Meet Arceus', 'Seek out and encounter Arceus.', 6, false),
   -- The Plate of the Lakes
-  (220013, 22, NULL, 2202, 6, 3, NULL, 'plate-of-the-lakes', 'The Plate of the Lakes', 'Face and catch Uxie, Mesprit and Azelf in the lake caverns to earn a plate (Mission 21).', 1, true),
+  (220013, 22, NULL, 2202, 6, 3, NULL, 'plate-of-the-lakes', 'The Plate of the Lakes', 'Face and catch Uxie, Mesprit and Azelf in the lake caverns to earn a plate (Mission 21).', 1, false),
   -- The Plate of Firespit Island
-  (220014, 22, NULL, 2202, 6, 3, NULL, 'plate-of-firespit-island', 'The Plate of Firespit Island', 'Break Heatran''s fire shield on Firespit Island and catch it to earn a plate (Mission 22).', 2, true),
+  (220014, 22, NULL, 2202, 6, 3, NULL, 'plate-of-firespit-island', 'The Plate of Firespit Island', 'Break Heatran''s fire shield on Firespit Island and catch it to earn a plate (Mission 22).', 2, false),
   -- The Plate of Moonview Arena
-  (220015, 22, NULL, 2202, 6, 3, NULL, 'plate-of-moonview-arena', 'The Plate of Moonview Arena', 'Catch Cresselia, who has taken over Moonview Arena, to earn a plate (Mission 23).', 3, true),
+  (220015, 22, NULL, 2202, 6, 3, NULL, 'plate-of-moonview-arena', 'The Plate of Moonview Arena', 'Catch Cresselia, who has taken over Moonview Arena, to earn a plate (Mission 23).', 3, false),
   -- The Plate of Snowpoint Temple
-  (220016, 22, NULL, 2202, 6, 3, NULL, 'plate-of-snowpoint-temple', 'The Plate of Snowpoint Temple', 'Open Snowpoint Temple with the Iron, Icicle and Stone Plates and catch Regigigas to earn a plate (Mission 24).', 4, true),
+  (220016, 22, NULL, 2202, 6, 3, NULL, 'plate-of-snowpoint-temple', 'The Plate of Snowpoint Temple', 'Open Snowpoint Temple with the Iron, Icicle and Stone Plates and catch Regigigas to earn a plate (Mission 24).', 4, false),
   -- The Sea's Legend
   (220017, 22, NULL, 2203, 6, 2, NULL, 'the-seas-legend', 'The Sea''s Legend', 'With Buizel, Mantyke and Overqwil in the party, ride between the stone pillars at Sand''s Reach in the evening and catch Manaphy in the Seaside Hollow (Request 66).', 1, false),
   -- On the Trail of Giratina

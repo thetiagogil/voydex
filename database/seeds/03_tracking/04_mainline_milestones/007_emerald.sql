@@ -83,4 +83,4 @@ INSERT INTO tracking.mainline_milestones (
   -- Lati Choice
   (70018, 7, NULL, 703, 12, 1, NULL, 'lati-choice', 'Lati Choice', 'Choose whether Latias or Latios roams Hoenn after entering the Hall of Fame.', 1, false),
   -- Defeat Steven
-  (70019, 7, NULL, 703, 6, 3, NULL, 'defeat-steven', 'Defeat Steven', 'Defeat Steven at Meteor Falls.', 2, true);
+  (70019, 7, NULL, 703, 6, 3, NULL, 'defeat-steven', 'Defeat Steven', 'Defeat Steven at Meteor Falls.', 2, false);

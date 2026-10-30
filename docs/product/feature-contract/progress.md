@@ -55,7 +55,9 @@ a character fought twice on one beat has one opponent row per battle.
 
 Every story chapter says what it is to the journey (`chapter_kind`): main
 story runs to the credits, the League included; post game continues after
-them; side content hangs off the route and never counts. Chapters played beside
+them; side content hangs off the route and never counts. A beat is required
+when the credits need it; what comes after them is optional, except Johto's
+Kanto badges through Red, the game's second half. Chapters played beside
 each other in any order (Scarlet / Violet's three paths) are flagged
 (`plays_in_any_order`) so Story draws them as forks that join back. A
 side-content beat says what opens it (one `opens-after` prerequisite): that
