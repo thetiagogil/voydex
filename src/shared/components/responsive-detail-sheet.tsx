@@ -4,18 +4,12 @@ import type { ReactNode } from "react";
 
 import { BottomSheet } from "@/shared/components/bottom-sheet";
 import { Sheet, SheetContent } from "@/shared/components/ui/sheet";
-import type { ComponentProps } from "react";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { cn } from "@/shared/utils/cn";
 
 type ResponsiveDetailSheetProps = {
   /* The body, under the head. */
   children: ReactNode;
-  /*
-   * Where focus returns on close, when the sheet wasn't opened from a
-   * trigger, such as a picked stop that opens it through state.
-   */
-  finalFocus?: ComponentProps<typeof SheetContent>["finalFocus"];
   /* Pinned under the body, such as Remove and Done. */
   footer?: ReactNode;
   /*
@@ -44,7 +38,6 @@ type ResponsiveDetailSheetProps = {
  */
 export const ResponsiveDetailSheet = ({
   children,
-  finalFocus,
   footer,
   head,
   headBleed = false,
@@ -61,7 +54,6 @@ export const ResponsiveDetailSheet = ({
         open={open}
         onOpenChange={onOpenChange}
         label={label}
-        finalFocus={finalFocus}
         footer={footer}
         size={size}
       >
@@ -77,7 +69,6 @@ export const ResponsiveDetailSheet = ({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        finalFocus={finalFocus}
         className={cn(
           "w-full gap-0 p-0",
           size === "wide"

@@ -1,0 +1,957 @@
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import { getMoveHitTypeSlug } from "@/modules/reference/features/moves/domain/move-hit-types";
+import {
+  getDuel,
+  getTypeDamageClass,
+  getTypicalPower,
+  isFixedDamageMove,
+  VARYING_POWER,
+  type BaseStats,
+  type BattleAttack,
+  type Battler,
+} from "@/modules/reference/features/pokemon/domain/battle-math";
+import {
+  getDefensiveTypeMultiplier,
+  getPokemonTypesForGeneration,
+} from "@/modules/reference/features/pokemon/domain/type-effectiveness";
+import {
+  isPokemonTypeSlug,
+  type PokemonTypeSlug,
+} from "@/modules/reference/features/pokemon/domain/type-slugs";
+import type { LegendaryRarity } from "@/modules/reference/features/pokemon/types";
+import type { Type } from "@/modules/reference/types";
+
+import { getDamagingMoveTypeSlug } from "./team-analysis-rows";
+import {
+  battleCostLimits,
+  getAnswerCost,
+  getBattleShare,
+  hasRecordedDamagingMove,
+  middlingStats,
+  toTypeAttacks,
+  toTypeSlugs,
+  toYourBattler,
+} from "./team-battlers";
+
+/* The three readings a battle, one of your Pokémon or the levels can take. */
+export type MatchupState = "balanced" | "challenging" | "strong";
+
+/*
+ * Who the opponent is: a trainer with a team, or a legendary Pokémon met on
+ * its own, which reads as "it" and not as "them".
+ */
+export type StoryOpponentKind = "legendary" | "trainer";
+
+/*
+ * How an opponent's Pokémon powers up in this battle: it Terastallizes,
+ * Dynamaxes or Gigantamaxes, battles as its Mega, Primal or Ultra Burst form,
+ * or holds a Z-Crystal.
+ */
+export type StoryOpponentMechanicKind =
+  | "dynamax"
+  | "gigantamax"
+  | "mega"
+  | "primal"
+  | "tera"
+  | "ultra-burst"
+  | "z-move";
+
+export type StoryOpponentMechanic = {
+  kind: StoryOpponentMechanicKind;
+  /* "Tera Rock", "Gigantamax", "Mega", "Z-Move". */
+  label: string;
+};
+
+/* One of their moves, as the Play's game has it. */
+export type StoryOpponentMove = {
+  /* Out of 100; null for a move that never misses. */
+  accuracy: number | null;
+  /* Null for a status move or without details. */
+  damageClass: "physical" | "special" | null;
+  /* It hits by type effectiveness: not a status move or one that deals set damage. */
+  damaging: boolean;
+  name: string;
+  /* Null when it varies (Low Kick) or Voydex has no details. */
+  power: number | null;
+  slug: string;
+  type: Type | null;
+  /* The Z-Move its held Z-Crystal turns it into; null when it turns into none. */
+  zMoveName: string | null;
+};
+
+/* One Pokémon on the opponent's team, by its types and moves in the Play's game. */
+export type StoryOpponentPokemon = {
+  /* Its form's base stats in the Play's generation; null without them. */
+  baseStats: BaseStats | null;
+  formSlug: string;
+  /* What it holds, where the game has held items and Voydex has it. */
+  heldItem: { name: string; slug: string } | null;
+  imageUrl: string | null;
+  key: string;
+  /* Set when the species is Legendary or Mythical. */
+  legendary: LegendaryRarity | null;
+  level: number;
+  mechanic: StoryOpponentMechanic | null;
+  /* Its moves in slot order; empty when Voydex doesn't have them. */
+  moves: StoryOpponentMove[];
+  name: string;
+  /*
+   * The type it Terastallizes into, which replaces its own types for what
+   * hits it; null when it doesn't, or Terastallizes into Stellar, which
+   * keeps them.
+   */
+  teraType: Type | null;
+  types: Type[];
+};
+
+export type StoryBestHit = {
+  /* True when `moveName` names your Pokémon's type, as its moves aren't recorded. */
+  byType: boolean;
+  moveName: string;
+  multiplier: number;
+  target: StoryOpponentPokemon;
+};
+
+/*
+ * One of their Pokémon in a matchup with one of yours, and what makes it
+ * count: move names, or type names where the moves aren't known.
+ */
+export type StoryHitDetail = {
+  /* True when `via` names its types, not moves. */
+  byType: boolean;
+  multiplier: number;
+  pokemon: StoryOpponentPokemon;
+  via: string[];
+};
+
+/* How one of your Pokémon reads against their team. */
+export type StoryMemberReading = {
+  /* Its strongest hit against any of them, when it hits for more than 1×. */
+  bestHit: StoryBestHit | null;
+  /* Their Pokémon this one hits for more than 1×, and with what, hardest first. */
+  lands: StoryHitDetail[];
+  /* Their Pokémon that hit this one for 2× or more, with what, hardest first. */
+  takes: StoryHitDetail[];
+  /* Advantage, Even or At risk; null while its types aren't recorded. */
+  role: MatchupState | null;
+  /* Their types that hit this Pokémon for 2× or more, strongest first. */
+  weakTo: Type[];
+};
+
+export type StoryLevelRange = { max: number; min: number };
+
+export type StoryLevelsReading = {
+  /* Your best level minus their ace's: below zero, they're ahead. */
+  gap: number;
+  state: MatchupState;
+  team: StoryLevelRange;
+  their: StoryLevelRange;
+};
+
+/* What your team doesn't record, which makes the verdict a rough read. */
+export type StoryReadingGap = "levels" | "moves";
+
+export type StoryBattleReading = {
+  /* Null while the team is empty, so nothing is read. */
+  state: MatchupState | null;
+  /* What the verdict had to assume; empty when your team records it all. */
+  missing: StoryReadingGap[];
+  summary: string | null;
+  /* Null while your team's levels aren't recorded. */
+  levels: StoryLevelsReading | null;
+  members: StoryMemberReading[];
+  /* Types that hit one of them for 2× that none of your recorded moves has. */
+  uncoveredTypes: Type[];
+  /* Where you may bring only some of your team: the best pick, as indexes into your team. Null for your whole team. */
+  picked: number[] | null;
+};
+
+const countWords = ["no", "one", "two", "three", "four", "five", "six"];
+
+const countWord = (count: number) => countWords[count] ?? String(count);
+
+const levelWord = (count: number) => (count === 1 ? "level" : "levels");
+
+/*
+ * Where you may bring only some of your team: the note above your team and
+ * the heading of the pick the verdict reads. Where only one battles it is
+ * your lead (the Battle Royal).
+ */
+export const getTeamLimitWords = (teamSizeLimit: number) => {
+  if (teamSizeLimit === 1) {
+    return {
+      note: "Only your lead Pokémon battles here, so Voydex reads your best lead.",
+      pick: "Your best lead",
+    };
+  }
+
+  const count = countWord(teamSizeLimit);
+
+  return {
+    note: `You bring only ${count} of your Pokémon here, so Voydex reads your best ${count}.`,
+    pick: `Your best ${count}`,
+  };
+};
+
+export const getLevelRange = (levels: number[]): StoryLevelRange | null =>
+  levels.length ? { max: Math.max(...levels), min: Math.min(...levels) } : null;
+
+export const formatLevelRange = ({ max, min }: StoryLevelRange) =>
+  max === min ? `Lv. ${min}` : `Lv. ${min}–${max}`;
+
+/* An edge of 2 levels or more either way counts; anything closer is even. */
+const getLevelState = (gap: number): MatchupState =>
+  gap >= 2 ? "strong" : gap <= -2 ? "challenging" : "balanced";
+
+export const getLevelsSentence = (
+  levels: StoryLevelsReading,
+  opponentKind: StoryOpponentKind = "trainer",
+) => {
+  const isLegendary = opponentKind === "legendary";
+
+  return levels.gap <= -2
+    ? `${isLegendary ? "It's" : "They're"} ${-levels.gap} ${levelWord(-levels.gap)} above your team`
+    : levels.gap >= 2
+      ? `You're ${levels.gap} ${levelWord(levels.gap)} above ${isLegendary ? "it" : "them"}`
+      : `Your levels are close to ${isLegendary ? "its" : "theirs"}`;
+};
+
+/* "Pound", "Rock Slide and Stone Edge", "Aqua Jet, Surf and Pound". */
+const joinNames = (names: string[]) =>
+  names.length > 1
+    ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`
+    : (names[0] ?? "");
+
+/*
+ * What a held Z-Crystal turns their moves into, in words: "its Pound becomes
+ * Breakneck Blitz". Null when none of the moves Voydex has turns into one.
+ */
+const getZMoveWords = (moves: StoryOpponentMove[]) => {
+  const fromByZMove = new Map<string, string[]>();
+
+  for (const move of moves) {
+    if (move.zMoveName) {
+      fromByZMove.set(move.zMoveName, [
+        ...(fromByZMove.get(move.zMoveName) ?? []),
+        move.name,
+      ]);
+    }
+  }
+
+  return fromByZMove.size
+    ? [...fromByZMove]
+        .map(
+          ([zMoveName, from]) =>
+            `its ${joinNames(from)} ${from.length > 1 ? "become" : "becomes"} ${zMoveName}`,
+        )
+        .join(", ")
+    : null;
+};
+
+/*
+ * What one of their Pokémon does in battle beyond its types, in words: "Lycanroc
+ * holds Rockium Z: its Rock Slide becomes Continental Crush.", "Glimmora
+ * Terastallizes into Rock.". A battle form whose name already says it
+ * ("Gigantamax Charizard") only names its item. Null when there is nothing to
+ * say.
+ */
+export const getPowerUpSentence = ({
+  heldItem,
+  mechanic,
+  moves,
+  name,
+}: Pick<StoryOpponentPokemon, "heldItem" | "mechanic" | "moves" | "name">) => {
+  const zMoveWords =
+    heldItem && mechanic?.kind === "z-move" ? getZMoveWords(moves) : null;
+
+  if (heldItem && zMoveWords) {
+    return `${name} holds ${heldItem.name}: ${zMoveWords}.`;
+  }
+
+  const mechanicWords =
+    !mechanic || name.includes(mechanic.label)
+      ? null
+      : mechanic.kind === "tera"
+        ? `Terastallizes into ${mechanic.label.replace(/^Tera /, "")}`
+        : mechanic.kind === "dynamax"
+          ? "Dynamaxes"
+          : mechanic.kind === "z-move"
+            ? null
+            : `battles as its ${mechanic.label} form`;
+  const itemWords = heldItem
+    ? `holds ${heldItem.name}${mechanic?.kind === "z-move" ? " for a Z-Move" : ""}`
+    : null;
+  const words = [itemWords, mechanicWords].filter(Boolean);
+
+  return words.length ? `${name} ${words.join(" and ")}.` : null;
+};
+
+/*
+ * What hits one of their Pokémon: its Tera Type once it Terastallizes, else
+ * its own types.
+ */
+const getDefendingSlugs = (pokemon: StoryOpponentPokemon) =>
+  toTypeSlugs(pokemon.teraType ? [pokemon.teraType] : pokemon.types);
+
+/*
+ * What one of their Pokémon hits with: the types of its damaging moves when
+ * Voydex has its moves (Tera Blast takes its Tera Type), else its own types,
+ * and its Tera Type too once it Terastallizes, since it keeps its own types'
+ * moves.
+ */
+type NamedAttack = {
+  /* It gets the same-type bonus. */
+  isStab: boolean;
+  name: string;
+  power: number;
+  slug: PokemonTypeSlug;
+};
+
+/*
+ * How hard a hit lands, for picking which to show: its type effectiveness,
+ * its power and the same-type bonus, so a same-type Thunderbolt on Pidgeotto
+ * comes before a 2× Bug move on Abra.
+ */
+const getHitStrength = (attack: NamedAttack, multiplier: number) =>
+  multiplier * attack.power * (attack.isStab ? 1.5 : 1);
+
+const getAttacks = (pokemon: StoryOpponentPokemon): NamedAttack[] => {
+  const stabSlugs = [
+    ...pokemon.types,
+    ...(pokemon.teraType ? [pokemon.teraType] : []),
+  ].map((type) => type.slug);
+
+  return pokemon.moves.length
+    ? pokemon.moves.flatMap((move): NamedAttack[] => {
+        const slug = move.damaging
+          ? getMoveHitTypeSlug({
+              moveTypeSlug: move.type?.slug ?? null,
+              slug: move.slug,
+              teraTypeSlug: pokemon.teraType?.slug ?? null,
+              userTypeSlugs: pokemon.types.map((type) => type.slug),
+            })
+          : null;
+
+        return slug && isPokemonTypeSlug(slug)
+          ? [
+              {
+                isStab: stabSlugs.includes(slug),
+                name: move.name,
+                power: move.power ?? VARYING_POWER,
+                slug,
+              },
+            ]
+          : [];
+      })
+    : (pokemon.teraType ? [...pokemon.types, pokemon.teraType] : pokemon.types)
+        .filter((type) => isPokemonTypeSlug(type.slug))
+        .map((type) => ({
+          isStab: true,
+          name: type.name,
+          power: getTypicalPower(pokemon.level),
+          slug: type.slug as PokemonTypeSlug,
+        }));
+};
+
+const getAttackingSlugs = (pokemon: StoryOpponentPokemon) =>
+  getAttacks(pokemon).map((attack) => attack.slug);
+
+type Hit = {
+  index: number;
+  multiplier: number;
+  name: string;
+  strength: number;
+};
+
+/*
+ * Groups hits by their Pokémon: each one's strongest multiplier and every
+ * name behind it, which are type names when `isByType` says so for it;
+ * hardest first, by move power and the same-type bonus as well as type.
+ */
+const toHitDetails = (
+  hits: Hit[],
+  their: StoryOpponentPokemon[],
+  isByType: (pokemon: StoryOpponentPokemon) => boolean,
+) => {
+  const byIndex = new Map<
+    number,
+    { multiplier: number; strength: number; via: string[] }
+  >();
+
+  for (const hit of [...hits].sort(
+    (left, right) => right.strength - left.strength,
+  )) {
+    const detail = byIndex.get(hit.index) ?? {
+      multiplier: 0,
+      strength: 0,
+      via: [],
+    };
+
+    detail.multiplier = Math.max(detail.multiplier, hit.multiplier);
+    detail.strength = Math.max(detail.strength, hit.strength);
+
+    if (!detail.via.includes(hit.name)) {
+      detail.via.push(hit.name);
+    }
+
+    byIndex.set(hit.index, detail);
+  }
+
+  return [...byIndex]
+    .sort(([, left], [, right]) => right.strength - left.strength)
+    .map(
+      ([index, detail]): StoryHitDetail => ({
+        byType: isByType(their[index]),
+        multiplier: detail.multiplier,
+        pokemon: their[index],
+        via: detail.via,
+      }),
+    );
+};
+
+/*
+ * One of their Pokémon as the battle math takes it: its damaging moves, or
+ * its types without them; what hits it by its Tera Type; twice the HP while
+ * it Dynamaxes.
+ */
+const toTheirBattler = (
+  pokemon: StoryOpponentPokemon,
+  generationOrder: number,
+): Battler => {
+  const baseStats = pokemon.baseStats ?? middlingStats;
+  const ownSlugs = toTypeSlugs(pokemon.types);
+  const teraSlugs = pokemon.teraType ? toTypeSlugs([pokemon.teraType]) : [];
+  const moveAttacks = pokemon.moves.flatMap((move): BattleAttack[] => {
+    const typeSlug =
+      move.damaging || (move.damageClass && isFixedDamageMove(move.slug))
+        ? getMoveHitTypeSlug({
+            moveTypeSlug: move.type?.slug ?? null,
+            slug: move.slug,
+            teraTypeSlug: pokemon.teraType?.slug ?? null,
+            userTypeSlugs: pokemon.types.map((type) => type.slug),
+          })
+        : null;
+
+    return typeSlug && isPokemonTypeSlug(typeSlug)
+      ? [
+          {
+            accuracy: move.accuracy,
+            damageClass:
+              move.damageClass ??
+              getTypeDamageClass(typeSlug, generationOrder, baseStats),
+            power: move.power,
+            slug: move.slug,
+            typeSlug,
+          },
+        ]
+      : [];
+  });
+
+  return {
+    attacks: pokemon.moves.length
+      ? moveAttacks
+      : toTypeAttacks(
+          [...new Set([...ownSlugs, ...teraSlugs])],
+          pokemon.level,
+          baseStats,
+          generationOrder,
+        ),
+    baseStats,
+    hpMultiplier:
+      pokemon.mechanic?.kind === "dynamax" ||
+      pokemon.mechanic?.kind === "gigantamax"
+        ? 2
+        : 1,
+    level: pokemon.level,
+    stabTypes: [...ownSlugs, ...teraSlugs],
+    types: getDefendingSlugs(pokemon),
+  };
+};
+
+/*
+ * The battle's verdict from what beating each of theirs costs you, added up
+ * and shared across your team: Strong when it costs little of your team's
+ * HP, Challenging when it costs about all of it, Balanced between.
+ */
+const toBattleState = (share: number): MatchupState =>
+  share <= battleCostLimits.strong
+    ? "strong"
+    : share >= battleCostLimits.challenging
+      ? "challenging"
+      : "balanced";
+
+export const getBattleState = ({
+  answerCosts,
+  teamCount,
+}: {
+  answerCosts: number[];
+  teamCount: number;
+}): MatchupState => toBattleState(getBattleShare({ answerCosts, teamCount }));
+
+/* How many of their Pokémon Voydex has the moves of. */
+export const countOpponentsWithMoves = (their: StoryOpponentPokemon[]) =>
+  their.filter((pokemon) => pokemon.moves.length > 0).length;
+
+type StoryBattleInput = {
+  /* The Pokémon of anyone fighting beside you, read as theirs are. */
+  allies?: StoryOpponentPokemon[];
+  generationOrder: number;
+  members: MainlinePlayTeamMember[];
+  opponentKind?: StoryOpponentKind;
+  /* "Leon", or null when the battle has more than one opponent. */
+  opponentName: string | null;
+  their: StoryOpponentPokemon[];
+  types: Type[];
+};
+
+/* A reading of one side, with the share of its HP the battle costs it. */
+type SideReading = Omit<StoryBattleReading, "picked"> & {
+  share: number | null;
+};
+
+/*
+ * Reads one side of yours (your team, or the Pokémon you bring) against
+ * their team.
+ */
+const readSide = ({
+  allies = [],
+  generationOrder,
+  members,
+  opponentKind = "trainer",
+  opponentName,
+  their,
+  types,
+}: StoryBattleInput): SideReading => {
+  const typeBySlug = new Map(types.map((type) => [type.slug, type]));
+  const theirSlugs = their.map(getDefendingSlugs);
+  const theirAttackingSlugs = new Set(their.flatMap(getAttackingSlugs));
+  const hitOn = (attacking: PokemonTypeSlug, defending: PokemonTypeSlug[]) =>
+    defending.length
+      ? getDefensiveTypeMultiplier(attacking, defending, generationOrder)
+      : 1;
+
+  const aceLevel = Math.max(0, ...their.map((pokemon) => pokemon.level));
+  const theirBattlers = their.map((pokemon) =>
+    toTheirBattler(pokemon, generationOrder),
+  );
+  /* Your side: your team, then any ally's Pokémon. */
+  const sideCount = members.length + allies.length;
+  /* What beating each of theirs costs each on your side, yours first, by row. */
+  const sideCosts = [
+    ...members.map((member) =>
+      toYourBattler(member, generationOrder, aceLevel),
+    ),
+    ...allies.map((pokemon) => toTheirBattler(pokemon, generationOrder)),
+  ].map((your) =>
+    theirBattlers.map(
+      (battler) => getDuel({ generationOrder, their: battler, your }).cost,
+    ),
+  );
+  /* One you can't beat costs your whole team, or your whole side in the verdict. */
+  const costs = sideCosts
+    .slice(0, members.length)
+    .map((row) =>
+      row.map((cost) => Math.min(cost, Math.max(1, members.length))),
+    );
+  const battleCosts = sideCosts.map((row) =>
+    row.map((cost) => Math.min(cost, Math.max(1, sideCount))),
+  );
+
+  const memberReadings = members.map((member, row): StoryMemberReading => {
+    const memberSlugs = toTypeSlugs(
+      [member.primaryType, member.secondaryType].filter(
+        (type): type is Type => type !== null,
+      ),
+    );
+    const stabSlugs =
+      member.tera_type_slug && isPokemonTypeSlug(member.tera_type_slug)
+        ? [...memberSlugs, member.tera_type_slug]
+        : memberSlugs;
+    const damagingMoves = member.moves.flatMap((move): NamedAttack[] => {
+      const slug = getDamagingMoveTypeSlug(move, member);
+
+      return slug && isPokemonTypeSlug(slug)
+        ? [
+            {
+              isStab: stabSlugs.includes(slug),
+              name: move.name,
+              power: move.attributes?.power ?? VARYING_POWER,
+              slug,
+            },
+          ]
+        : [];
+    });
+    /* Without recorded damaging moves, it hits with its own types, as theirs do. */
+    const isByType = !damagingMoves.length;
+    const attacks: NamedAttack[] = isByType
+      ? memberSlugs.map((slug) => ({
+          isStab: true,
+          name: typeBySlug.get(slug)?.name ?? slug,
+          power: getTypicalPower(member.level ?? aceLevel),
+          slug,
+        }))
+      : damagingMoves;
+
+    let bestHit: StoryBestHit | null = null;
+    let bestStrength = 0;
+    const landed: Hit[] = [];
+
+    for (const [index, pokemon] of their.entries()) {
+      for (const attack of attacks) {
+        const multiplier = hitOn(attack.slug, theirSlugs[index]);
+        const strength = getHitStrength(attack, multiplier);
+
+        if (multiplier > 1) {
+          landed.push({ index, multiplier, name: attack.name, strength });
+        }
+
+        if (multiplier > 1 && strength > bestStrength) {
+          bestStrength = strength;
+          bestHit = {
+            byType: isByType,
+            moveName: attack.name,
+            multiplier,
+            target: pokemon,
+          };
+        }
+      }
+    }
+
+    const taken: Hit[] = [];
+
+    if (memberSlugs.length) {
+      for (const [index, pokemon] of their.entries()) {
+        for (const attack of getAttacks(pokemon)) {
+          const multiplier = getDefensiveTypeMultiplier(
+            attack.slug,
+            memberSlugs,
+            generationOrder,
+          );
+
+          if (multiplier >= 2) {
+            taken.push({
+              index,
+              multiplier,
+              name: attack.name,
+              strength: getHitStrength(attack, multiplier),
+            });
+          }
+        }
+      }
+    }
+
+    const hitsTaken = new Map<PokemonTypeSlug, number>();
+
+    if (memberSlugs.length) {
+      for (const slug of theirAttackingSlugs) {
+        const multiplier = getDefensiveTypeMultiplier(
+          slug,
+          memberSlugs,
+          generationOrder,
+        );
+
+        if (multiplier >= 2) {
+          hitsTaken.set(slug, multiplier);
+        }
+      }
+    }
+
+    const weakTo = [...hitsTaken]
+      .sort((left, right) => right[1] - left[1])
+      .flatMap(([slug]) => typeBySlug.get(slug) ?? []);
+    /* Its role is what taking on their whole team alone would cost it, on average. */
+    const meanCost = costs[row].length
+      ? costs[row].reduce((sum, cost) => sum + cost, 0) / costs[row].length
+      : null;
+
+    return {
+      bestHit,
+      lands: toHitDetails(landed, their, () => isByType),
+      takes: toHitDetails(taken, their, (pokemon) => !pokemon.moves.length),
+      role:
+        !memberSlugs.length || meanCost === null
+          ? null
+          : meanCost <= battleCostLimits.strong
+            ? "strong"
+            : meanCost >= battleCostLimits.challenging
+              ? "challenging"
+              : "balanced",
+      weakTo,
+    };
+  });
+
+  const recordedSlugs = new Set(
+    members.flatMap((member) =>
+      member.moves.flatMap(
+        (move) => getDamagingMoveTypeSlug(move, member) ?? [],
+      ),
+    ),
+  );
+  const uncoveredTypes = recordedSlugs.size
+    ? getPokemonTypesForGeneration(generationOrder)
+        .filter((slug) => !recordedSlugs.has(slug))
+        .map((slug) => ({
+          count: theirSlugs.filter((defending) => hitOn(slug, defending) >= 2)
+            .length,
+          slug,
+        }))
+        .filter(({ count }) => count > 0)
+        .sort((left, right) => right.count - left.count)
+        .flatMap(({ slug }) => typeBySlug.get(slug) ?? [])
+    : [];
+
+  const teamRange = getLevelRange(
+    members.flatMap((member) => (member.level ? [member.level] : [])),
+  );
+  const theirRange = getLevelRange(their.map((pokemon) => pokemon.level));
+  const levels =
+    teamRange && theirRange
+      ? {
+          gap: teamRange.max - theirRange.max,
+          state: getLevelState(teamRange.max - theirRange.max),
+          team: teamRange,
+          their: theirRange,
+        }
+      : null;
+
+  const missing: StoryReadingGap[] = [
+    ...(members.some((member) => !member.level) ? ["levels" as const] : []),
+    ...(members.some((member) => !hasRecordedDamagingMove(member))
+      ? ["moves" as const]
+      : []),
+  ];
+
+  if (!members.length || !their.length) {
+    return {
+      levels,
+      members: memberReadings,
+      missing: [],
+      share: null,
+      state: null,
+      summary: null,
+      uncoveredTypes,
+    };
+  }
+
+  const answered = new Set(
+    memberReadings.flatMap((reading) =>
+      reading.lands.map((detail) => detail.pokemon),
+    ),
+  );
+  const answeredCount = their.filter((pokemon) => answered.has(pokemon)).length;
+  const exposedCount = memberReadings.filter(
+    (reading) => reading.weakTo.length,
+  ).length;
+  const shareAlone = getBattleShare({
+    answerCosts: their.map((_, index) =>
+      getAnswerCost(costs.map((row) => row[index])),
+    ),
+    teamCount: members.length,
+  });
+  const share = allies.length
+    ? Math.min(
+        shareAlone,
+        getBattleShare({
+          answerCosts: their.map((_, index) =>
+            getAnswerCost(battleCosts.map((row) => row[index])),
+          ),
+          teamCount: sideCount,
+        }),
+      )
+    : shareAlone;
+
+  return {
+    levels,
+    members: memberReadings,
+    missing,
+    share,
+    state: toBattleState(share),
+    summary: getSummary({
+      answeredCount,
+      exposedCount,
+      gap: levels?.gap ?? null,
+      hasRecordedMoves: recordedSlugs.size > 0,
+      opponentKind,
+      opponentName,
+      teamCount: members.length,
+      theirCount: their.length,
+    }),
+    uncoveredTypes,
+  };
+};
+
+/*
+ * Reads your active team against one opponent's team by types, recorded
+ * moves and levels (v3 `storyMatchups()`): who answers whom, who is exposed,
+ * and one verdict with the sentence behind it. Their threat is read from
+ * their damaging moves where Voydex has them, else from their own types and
+ * any Tera Type, and what hits them from their Tera Type where they
+ * Terastallize. An ally's Pokémon fighting beside you join your side in the
+ * verdict, as extra team members at their own levels: they can answer theirs
+ * and share what the battle costs. An ally only ever helps, so the verdict is
+ * the easier of fighting alone and fighting beside them. Each of yours, the
+ * levels and the sentence stay about your own team.
+ * Where you may bring only some of your team (`teamSizeLimit`), it reads every
+ * pick of that many and keeps the one the battle costs least (on a tie,
+ * the one whose Pokémon would each fare best alone, then the earlier): the verdict,
+ * levels, sentence and uncovered types are about that pick; each of yours is
+ * still read, and what your team doesn't record is still the whole team's.
+ */
+export const readStoryBattle = ({
+  teamSizeLimit = null,
+  ...input
+}: StoryBattleInput & {
+  /* How many of your Pokémon you may bring; null for your whole team. */
+  teamSizeLimit?: number | null;
+}): StoryBattleReading => {
+  const whole = readSide(input);
+  const { members } = input;
+  let best: {
+    alone: number;
+    indexes: number[];
+    reading: SideReading;
+    share: number;
+  } | null = null;
+
+  if (teamSizeLimit !== null && members.length > teamSizeLimit) {
+    /* What their team would cost each of yours alone, to break a tie. */
+    const aloneShares = members.map(
+      (member) =>
+        readSide({ ...input, allies: [], members: [member] }).share ??
+        Number.POSITIVE_INFINITY,
+    );
+
+    for (const indexes of getPicks(members.length, teamSizeLimit)) {
+      const reading = readSide({
+        ...input,
+        members: indexes.map((index) => members[index]),
+      });
+      const alone = indexes.reduce((sum, index) => sum + aloneShares[index], 0);
+
+      /*
+       * The pick the battle costs least; on a tie, the one whose Pokémon
+       * would each fare best alone, then the earlier one, so your lead goes
+       * first.
+       */
+      if (
+        reading.share !== null &&
+        (!best ||
+          reading.share < best.share - shareTolerance ||
+          (reading.share <= best.share + shareTolerance &&
+            alone < best.alone - shareTolerance))
+      ) {
+        best = { alone, indexes, reading, share: reading.share };
+      }
+    }
+  }
+
+  const { levels, state, summary, uncoveredTypes } = best?.reading ?? whole;
+
+  return {
+    levels,
+    members: whole.members,
+    missing: whole.missing,
+    picked: best?.indexes ?? null,
+    state,
+    summary,
+    uncoveredTypes,
+  };
+};
+
+/* Shares this close are a tie. */
+const shareTolerance = 1e-9;
+
+/* Every way to pick `size` of `count`, as indexes in order: 0,1,2 then 0,1,3… */
+const getPicks = (count: number, size: number): number[][] => {
+  if (size === 0) {
+    return [[]];
+  }
+
+  return Array.from({ length: count - size + 1 }, (_, first) =>
+    getPicks(count - first - 1, size - 1).map((rest) => [
+      first,
+      ...rest.map((index) => index + first + 1),
+    ]),
+  ).flat();
+};
+
+/*
+ * The verdict's one sentence, in the order it weighs things: a level edge of
+ * 2 or more first, then your answers to their team, by recorded moves or by
+ * type; without a level edge, your answers and then your exposure.
+ */
+const getSummary = ({
+  answeredCount,
+  exposedCount,
+  gap,
+  hasRecordedMoves,
+  opponentKind,
+  opponentName,
+  teamCount,
+  theirCount,
+}: {
+  answeredCount: number;
+  exposedCount: number;
+  gap: number | null;
+  hasRecordedMoves: boolean;
+  opponentKind: StoryOpponentKind;
+  opponentName: string | null;
+  teamCount: number;
+  theirCount: number;
+}) => {
+  const owner = opponentName ? `${opponentName}'s` : "their";
+  const isLegendary = opponentKind === "legendary";
+  /* A legendary is named, not counted: "an answer to Raikou". */
+  const subject = isLegendary ? (opponentName ?? "it") : null;
+  const answersAll = answeredCount === theirCount;
+  const isLevelFirst = gap !== null && Math.abs(gap) >= 2;
+  /* Without recorded moves, your Pokémon are read by their types. */
+  const lead = hasRecordedMoves ? "" : isLevelFirst ? "by type " : "by type, ";
+  const noneHits = hasRecordedMoves
+    ? "none of your recorded moves hits"
+    : "none of yours hits";
+  const answers = subject
+    ? answersAll
+      ? `${lead}you have an answer to ${subject}`
+      : `${lead}${noneHits} ${subject} for 2×`
+    : answersAll
+      ? theirCount === 1
+        ? `${lead}you have an answer to ${owner} Pokémon`
+        : `${lead}you have an answer to each of ${owner} ${countWord(theirCount)} Pokémon`
+      : answeredCount === 0
+        ? `${lead}${noneHits} ${owner} Pokémon for 2×`
+        : `${lead}you have an answer to ${answeredCount} of ${owner} ${theirCount} Pokémon`;
+  const levelEdge: [string, boolean] | null = !isLevelFirst
+    ? null
+    : gap <= -2
+      ? [
+          `${isLegendary ? "it's" : "they're"} ${-gap} ${levelWord(-gap)} above your team`,
+          false,
+        ]
+      : [
+          `you're ${gap} ${levelWord(gap)} above ${isLegendary ? "it" : "them"}`,
+          true,
+        ];
+  const exposure: [string, boolean] =
+    exposedCount > 0
+      ? [
+          teamCount === 1
+            ? "your Pokémon takes 2× or more"
+            : exposedCount === teamCount
+              ? `all ${countWord(teamCount)} of yours take 2× or more`
+              : `${exposedCount} of your ${teamCount} take 2× or more`,
+          false,
+        ]
+      : [
+          isLegendary
+            ? "it doesn't hit your team for 2×"
+            : "nothing of theirs hits your team for 2×",
+          true,
+        ];
+  const [first, second]: [string, boolean][] = levelEdge
+    ? [levelEdge, [answers, answersAll]]
+    : [[answers, answersAll], exposure];
+  const sentence = `${first[0]}, ${first[1] === second[1] ? "and" : "but"} ${second[0]}.`;
+
+  return sentence[0].toUpperCase() + sentence.slice(1);
+};
