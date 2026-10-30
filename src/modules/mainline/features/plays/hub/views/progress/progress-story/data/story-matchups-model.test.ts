@@ -5,9 +5,12 @@ import { resolveGameMechanics } from "@/modules/reference/features/games/domain/
 import type { Type } from "@/modules/reference/types";
 
 import {
+  buildPlayStoryMatchups,
   buildStoryLevelCap,
   buildStoryMatchupsModel,
+  groupStoryBattlesByMilestone,
   type StoryMatchupMilestone,
+  type StoryMatchupsRows,
   type StoryOpponentPartyRow,
 } from "./story-matchups-model";
 
@@ -1427,5 +1430,64 @@ describe("buildStoryMatchupsModel with a trial that has no captain", () => {
         .flatMap((chapter) => chapter.battles)
         .map((battle) => [battle.name, battle.kind]),
     ).toEqual([["Totem Kommo-o", "Totem"]]);
+  });
+});
+
+describe("groupStoryBattlesByMilestone", () => {
+  it("keeps each story point's battles together, in Story order", () => {
+    const model = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      mechanics: noMechanics,
+      members: [],
+      opponentGameIdById: new Map([
+        [1, null],
+        [2, null],
+        [3, null],
+      ]),
+      orderedMilestones: [
+        milestone(1, [
+          { id: 1, name: "Canari", role: "za-royale", typeId: 10 },
+          { id: 2, name: "Jacinthe", role: "za-royale", typeId: 10 },
+        ]),
+        milestone(
+          2,
+          [{ id: 3, name: "Grisham", role: "za-royale", typeId: 10 }],
+          {
+            category_id: 2,
+            category_name: "Finale",
+          },
+        ),
+      ],
+      partyRows: [],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    });
+    const grouped = groupStoryBattlesByMilestone(model);
+
+    expect(
+      [...grouped].map(([milestoneId, battles]) => [
+        milestoneId,
+        battles.map((battle) => battle.name),
+      ]),
+    ).toEqual([
+      [1, ["Canari", "Jacinthe"]],
+      [2, ["Grisham"]],
+    ]);
+    expect(groupStoryBattlesByMilestone(null).size).toBe(0);
+  });
+});
+
+describe("buildPlayStoryMatchups", () => {
+  it("reads nothing without the game's type chart", () => {
+    expect(
+      buildPlayStoryMatchups({
+        generation: null,
+        play: { game_id: 1, generation_id: null, version_group_id: 1 },
+        storyRows: {} as StoryMatchupsRows,
+        teamRows: { members: [], types } as never,
+      }),
+    ).toBeNull();
   });
 });

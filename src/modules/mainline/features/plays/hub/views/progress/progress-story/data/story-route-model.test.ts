@@ -177,6 +177,33 @@ describe("buildStoryRoute", () => {
   });
 });
 
+describe("buildStoryRoute signs", () => {
+  it("calls a chapter finished once its required milestones are, optional ones aside", () => {
+    const [block] = buildStoryRoute(
+      scope([
+        section(1, "main-story", [
+          milestone(11, { isCompleted: true }),
+          optional(12),
+        ]),
+        section(2, "pokemon-league", [milestone(21)]),
+      ]),
+    );
+    const signs =
+      block?.kind === "route"
+        ? block.entries.filter((entry) => entry.kind === "sign")
+        : [];
+
+    expect(
+      signs.map(
+        (sign) => sign.kind === "sign" && [sign.finished, sign.reached],
+      ),
+    ).toEqual([
+      [true, true],
+      [false, true],
+    ]);
+  });
+});
+
 describe("formatStoryCount", () => {
   it("counts required milestones, or every milestone where none is required", () => {
     expect(

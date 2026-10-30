@@ -48,9 +48,19 @@ export const formatStoryCount = (sections: StorySection[]) => {
     : `${milestones.filter((milestone) => milestone.isCompleted).length} of ${milestones.length}`;
 };
 
-const isFinished = (milestones: StoryMilestone[]) =>
-  milestones.length > 0 &&
-  milestones.every((milestone) => milestone.isCompleted);
+/* Every required milestone recorded, or every milestone where none is required. */
+export const isStoryFinished = (milestones: StoryMilestone[]) => {
+  const required = milestones.filter(
+    (milestone) => milestone.sequence !== null,
+  );
+  const counted = required.length ? required : milestones;
+
+  return (
+    counted.length > 0 && counted.every((milestone) => milestone.isCompleted)
+  );
+};
+
+const isFinished = isStoryFinished;
 
 export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
   const story = scope.sections.filter((section) => !isSideContent(section));

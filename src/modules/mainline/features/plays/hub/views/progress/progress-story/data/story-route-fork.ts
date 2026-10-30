@@ -4,6 +4,13 @@ import type { StoryRouteBlock, StoryRouteEntry } from "./story-route-model";
 export const isStoryRouteEntryDone = (entry: StoryRouteEntry) =>
   entry.kind === "sign" ? entry.reached : entry.milestone.isCompleted;
 
+/* A route is walked once every stop that counts is behind you: optional stops never hold it back. */
+const isRouteDone = (entries: StoryRouteEntry[]) =>
+  entries.every(
+    (entry) =>
+      entry.kind === "sign" || entry.optional || isStoryRouteEntryDone(entry),
+  );
+
 /* How far in from the card's left edge the trunk runs when the paths stack. */
 const TRUNK_X = 6;
 const CORNER = 14;
@@ -97,11 +104,7 @@ export const getForkStretches = (
       return ends ? [{ ends, entries, key: `${block.key}-${routeIndex}` }] : [];
     });
     const next = after?.kind === "route" ? points.get(after.key) : undefined;
-    const allDone = block.routes.every((entries) =>
-      entries.every(
-        (entry) => entry.kind === "sign" || isStoryRouteEntryDone(entry),
-      ),
-    );
+    const allDone = block.routes.every(isRouteDone);
     const nextDone =
       after?.kind === "route" && isStoryRouteEntryDone(after.entries[0]);
 
@@ -161,10 +164,7 @@ export const getForkStretches = (
           acrossAndDown(ends.last.x, joinY, next.first.x, next.first.top),
         ].join(" "),
         key: `${key}-join`,
-        travelled:
-          entries.every(
-            (entry) => entry.kind === "sign" || isStoryRouteEntryDone(entry),
-          ) && nextDone,
+        travelled: isRouteDone(entries) && nextDone,
       };
     });
 

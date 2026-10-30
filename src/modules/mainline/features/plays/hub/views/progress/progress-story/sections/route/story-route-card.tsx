@@ -335,8 +335,15 @@ export const StoryRouteCard = ({
               <div
                 className={cn(
                   "grid gap-3",
-                  forkLayout === "lanes" && "grid-cols-3 items-start gap-4",
+                  forkLayout === "lanes" && "items-start gap-4",
                 )}
+                style={
+                  forkLayout === "lanes"
+                    ? {
+                        gridTemplateColumns: `repeat(${block.routes.length}, minmax(0, 1fr))`,
+                      }
+                    : undefined
+                }
               >
                 {block.routes.map((entries, routeIndex) => (
                   <div

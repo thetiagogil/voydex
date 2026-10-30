@@ -7,6 +7,10 @@ import { StatusBadge } from "@/shared/components/status-badge";
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
 import { matchupStates } from "../battles/story-matchup-state";
 
+/* The row's button id, so focus can come back to it from the battle's report. */
+export const getStoryBattleRowId = (battleId: string) =>
+  `story-battle-row-${battleId.replace("/", "-")}`;
+
 /* Where a battle stands, as one chip: won, done or the verdict on it. */
 const BattleState = ({ battle }: { battle: StoryMatchupBattle }) => {
   if (battle.state === "won") {
@@ -64,6 +68,7 @@ export const StoryMilestoneBattles = ({
           return (
             <li key={battle.id}>
               <button
+                id={getStoryBattleRowId(battle.id)}
                 type="button"
                 onClick={() => onSelect(battle)}
                 className="focus-ring bg-surface-2 hover:bg-hover flex min-h-14 w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors"

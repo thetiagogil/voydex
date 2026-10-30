@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -16,7 +16,10 @@ import {
   StoryMilestoneActions,
   type StoryMilestoneChoice,
 } from "./story-milestone-actions";
-import { StoryMilestoneBattles } from "./story-milestone-battles";
+import {
+  getStoryBattleRowId,
+  StoryMilestoneBattles,
+} from "./story-milestone-battles";
 import { StoryMilestoneDetail } from "./story-milestone-detail";
 
 const reportTitleId = "story-battle-report-title";
@@ -27,7 +30,8 @@ const reportTitleId = "story-battle-report-title";
  * what it asks, what has to come first and what was recorded with it, and
  * its battles one line each, with Record (or Edit, once recorded) pinned to
  * its foot. A battle opens its report in the same sheet, with a way back to
- * the milestone, so the route behind never changes.
+ * the milestone, so the route behind never changes. Focus follows: onto the
+ * report's title when it opens, back onto the battle's row on the way back.
  */
 export const StoryMilestoneSheet = ({
   battles,
@@ -53,23 +57,49 @@ export const StoryMilestoneSheet = ({
   returnsFocus: boolean;
   scope: StoryScope;
 }) => {
+  const isOpen = open && Boolean(milestone);
   /* The battle whose report is open in the sheet; none shows the milestone. */
   const [openBattleId, setOpenBattleId] = useState<string | null>(null);
+  /* Each opening, of whichever milestone, starts on the milestone itself. */
+  const [seenMilestoneId, setSeenMilestoneId] = useState(milestone?.id);
+  const [seenOpen, setSeenOpen] = useState(isOpen);
+
+  if (milestone?.id !== seenMilestoneId || isOpen !== seenOpen) {
+    setSeenMilestoneId(milestone?.id);
+    setSeenOpen(isOpen);
+    setOpenBattleId(null);
+  }
+
   const openBattle =
     battles.find((battle) => battle.id === openBattleId) ?? null;
-  const isOpen = open && Boolean(milestone);
-  const close = (next: boolean) => {
-    if (!next) {
-      setOpenBattleId(null);
-    }
+  /* Where focus goes once the sheet has swapped its body. */
+  const focusTarget = useRef<string | null>(null);
 
-    onOpenChange(next);
+  useEffect(() => {
+    const id = focusTarget.current;
+
+    if (id) {
+      focusTarget.current = null;
+      document.getElementById(id)?.focus();
+    }
+  });
+
+  const showBattle = (battle: StoryMatchupBattle) => {
+    focusTarget.current = reportTitleId;
+    setOpenBattleId(battle.id);
+  };
+
+  const showMilestone = () => {
+    focusTarget.current = openBattle
+      ? getStoryBattleRowId(openBattle.id)
+      : null;
+    setOpenBattleId(null);
   };
 
   return (
     <ResponsiveDetailSheet
       open={isOpen}
-      onOpenChange={close}
+      onOpenChange={onOpenChange}
       label={openBattle?.name ?? milestone?.name ?? "Story milestone"}
       /* Back to the stop that opened it, when it is still on the page. */
       finalFocus={
@@ -88,7 +118,7 @@ export const StoryMilestoneSheet = ({
               variant="ghost"
               size="sm"
               className="justify-self-start"
-              onClick={() => setOpenBattleId(null)}
+              onClick={showMilestone}
             >
               <AppIcon icon={appIcons.actions.back} inline="start" />
               Back to {milestone.name}
@@ -141,10 +171,7 @@ export const StoryMilestoneSheet = ({
             milestone={milestone}
             totalCount={scope.totalCount}
           />
-          <StoryMilestoneBattles
-            battles={battles}
-            onSelect={(battle) => setOpenBattleId(battle.id)}
-          />
+          <StoryMilestoneBattles battles={battles} onSelect={showBattle} />
         </>
       ) : null}
     </ResponsiveDetailSheet>
