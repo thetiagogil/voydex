@@ -15,6 +15,9 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- May / Brendan's Mind Badge team: Bulbapedia (PokéWiki lists other levels); it holds nothing.
 -- Wild Ho-Oh always holds Sacred Ash in its game data; other wild Pokémon here hold nothing.
+-- Magma and Aqua Admins (Tabitha, Courtney, Shelly, Matt) and the Brendan / May and
+-- Steven partner teams: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth
+-- where it lists them (Southern Island and the Space Center Grunts are Bulbapedia only).
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -363,4 +366,60 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Wallace, Delta Episode 5: Gyarados Lv. 55
   (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 5, 130, 13000, 55, NULL, NULL, FALSE),
   -- Wallace, Delta Episode 6: Milotic Lv. 57
-  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 6, 350, 35000, 57, NULL, NULL, FALSE);
+  (140018, 14050, 14, NULL, NULL, NULL, NULL, NULL, 6, 350, 35000, 57, NULL, NULL, FALSE),
+  -- Tabitha & Grunt, Meteor Falls 1: Mightyena Lv. 23
+  (140019, 14051, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 23, NULL, NULL, FALSE),
+  -- Tabitha & Grunt, Meteor Falls 2: Numel Lv. 23
+  (140019, 14051, 14, NULL, NULL, NULL, NULL, NULL, 2, 322, 32200, 23, NULL, NULL, FALSE),
+  -- Tabitha & Grunt, Meteor Falls 3: Koffing Lv. 23
+  (140019, 14051, 14, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 23, NULL, NULL, FALSE),
+  -- Tabitha, Mt. Chimney 1: Koffing Lv. 24
+  (140019, 14052, 14, NULL, NULL, NULL, NULL, NULL, 1, 109, 10900, 24, NULL, NULL, FALSE),
+  -- Tabitha, Mt. Chimney 2: Numel Lv. 24
+  (140019, 14052, 14, NULL, NULL, NULL, NULL, NULL, 2, 322, 32200, 24, NULL, NULL, FALSE),
+  -- Tabitha, Weather Institute 1: Camerupt Lv. 32
+  (140009, 14052, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 32, NULL, NULL, FALSE),
+  -- Shelly & Grunt, Meteor Falls 1: Mightyena Lv. 23
+  (140019, 14056, 14, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 23, NULL, NULL, FALSE),
+  -- Shelly & Grunt, Meteor Falls 2: Carvanha Lv. 23
+  (140019, 14056, 14, NULL, NULL, NULL, NULL, NULL, 2, 318, 31800, 23, NULL, NULL, FALSE),
+  -- Shelly & Grunt, Meteor Falls 3: Grimer Lv. 23
+  (140019, 14056, 14, NULL, NULL, NULL, NULL, NULL, 3, 88, 8800, 23, NULL, NULL, FALSE),
+  -- Shelly, Mt. Chimney 1: Grimer Lv. 24
+  (140019, 14057, 14, NULL, NULL, NULL, NULL, NULL, 1, 88, 8800, 24, NULL, NULL, FALSE),
+  -- Shelly, Mt. Chimney 2: Carvanha Lv. 24
+  (140019, 14057, 14, NULL, NULL, NULL, NULL, NULL, 2, 318, 31800, 24, NULL, NULL, FALSE),
+  -- Shelly, Weather Institute 1: Sharpedo Lv. 32
+  (140009, 14057, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 32, NULL, NULL, FALSE),
+  -- Courtney & Grunt, Southern Island 1: Camerupt Lv. 31
+  (140009, 14053, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 31, NULL, NULL, FALSE),
+  -- Courtney & Grunt, Southern Island 2: Koffing Lv. 29
+  (140009, 14053, 14, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 29, NULL, NULL, FALSE),
+  -- Courtney, Mt. Pyre 1: Camerupt Lv. 38
+  (140010, 14054, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 38, NULL, NULL, FALSE),
+  -- Courtney, Team Magma Hideout 1: Camerupt Lv. 39
+  (140010, 14055, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 39, NULL, NULL, FALSE),
+  -- Courtney, Petalburg City 1: Camerupt Lv. 53
+  (140018, 14054, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 53, NULL, NULL, FALSE),
+  -- Courtney & Grunt, Mossdeep Space Center 1: Camerupt (Mega) Lv. 55, holds Cameruptite
+  (140018, 14053, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32301, 55, 294, NULL, FALSE),
+  -- Courtney & Grunt, Mossdeep Space Center 2: Mightyena Lv. 51
+  (140018, 14053, 14, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 51, NULL, NULL, FALSE),
+  -- Courtney & Grunt, Mossdeep Space Center 3: Weezing Lv. 51
+  (140018, 14053, 14, NULL, NULL, NULL, NULL, NULL, 3, 110, 11000, 51, NULL, NULL, FALSE),
+  -- Matt & Grunt, Southern Island 1: Sharpedo Lv. 31
+  (140009, 14058, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 31, NULL, NULL, FALSE),
+  -- Matt & Grunt, Southern Island 2: Grimer Lv. 29
+  (140009, 14058, 14, NULL, NULL, NULL, NULL, NULL, 2, 88, 8800, 29, NULL, NULL, FALSE),
+  -- Matt, Mt. Pyre 1: Sharpedo Lv. 38
+  (140010, 14059, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 38, NULL, NULL, FALSE),
+  -- Matt, Team Aqua Hideout 1: Sharpedo Lv. 39
+  (140010, 14060, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 39, NULL, NULL, FALSE),
+  -- Matt, Petalburg City 1: Sharpedo Lv. 53
+  (140018, 14059, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 53, NULL, NULL, FALSE),
+  -- Matt & Grunt, Mossdeep Space Center 1: Sharpedo (Mega) Lv. 55, holds Sharpedonite
+  (140018, 14058, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31901, 55, 293, NULL, FALSE),
+  -- Matt & Grunt, Mossdeep Space Center 2: Mightyena Lv. 51
+  (140018, 14058, 14, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 51, NULL, NULL, FALSE),
+  -- Matt & Grunt, Mossdeep Space Center 3: Muk Lv. 51
+  (140018, 14058, 14, NULL, NULL, NULL, NULL, NULL, 3, 89, 8900, 51, NULL, NULL, FALSE);

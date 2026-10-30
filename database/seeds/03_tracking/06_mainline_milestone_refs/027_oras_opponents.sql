@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Omega Ruby / Alpha Sapphire, Fossil, Delta Episode, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii.
+-- Magma and Aqua Admins (Tabitha, Courtney, Shelly, Matt) and the Brendan / May and
+-- Steven partner teams: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth
+-- where it lists them (Southern Island and the Space Center Grunts are Bulbapedia only).
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -29,9 +32,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Balance Badge -> Norman
   (140008, 14005, 14, 'battle-opponent', 1, NULL),
   -- Feather Badge -> Winona
-  (140009, 14006, 14, 'battle-opponent', 2, NULL),
+  (140009, 14006, 14, 'battle-opponent', 6, NULL),
   -- Mind Badge -> Tate & Liza
-  (140010, 14007, 14, 'battle-opponent', 2, NULL),
+  (140010, 14007, 14, 'battle-opponent', 6, NULL),
   -- Rain Badge -> Wallace
   (140011, 14008, 14, 'battle-opponent', 3, NULL),
   -- Elite Four Sidney -> Sidney
@@ -45,11 +48,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Champion Steven -> Steven
   (140016, 14013, 14, 'battle-opponent', 1, NULL),
   -- Delta Episode -> Zinnia
-  (140018, 14014, 14, 'battle-opponent', 4, 'Sky Pillar summit'),
+  (140018, 14014, 14, 'battle-opponent', 8, 'Sky Pillar summit'),
   -- Delta Episode -> Zinnia (Granite Cave)
-  (140018, 14049, 14, 'battle-opponent', 1, 'Granite Cave'),
+  (140018, 14049, 14, 'battle-opponent', 3, 'Granite Cave'),
   -- Delta Episode -> Wallace
-  (140018, 14050, 14, 'battle-opponent', 2, 'Route 131, at the foot of the Sky Pillar'),
+  (140018, 14050, 14, 'battle-opponent', 6, 'Route 131, at the foot of the Sky Pillar'),
   -- Receive Pokedex -> May / Brendan
   (140002, 14015, 14, 'battle-opponent', 1, 'Route 103'),
   -- Dynamo Badge -> May / Brendan
@@ -57,13 +60,13 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Dynamo Badge -> Wally
   (140005, 14016, 14, 'battle-opponent', 2, 'Mauville City'),
   -- Mt. Chimney -> Maxie
-  (140019, 14017, 14, 'battle-opponent', 1, 'Mt. Chimney'),
+  (140019, 14017, 14, 'battle-opponent', 5, 'Mt. Chimney'),
   -- Mt. Chimney -> Archie
-  (140019, 14018, 14, 'battle-opponent', 2, 'Mt. Chimney'),
+  (140019, 14018, 14, 'battle-opponent', 6, 'Mt. Chimney'),
   -- Feather Badge -> May / Brendan
-  (140009, 14015, 14, 'battle-opponent', 1, 'Route 119'),
+  (140009, 14015, 14, 'battle-opponent', 5, 'Route 119'),
   -- Mind Badge -> May / Brendan
-  (140010, 14015, 14, 'battle-opponent', 1, 'Lilycove City'),
+  (140010, 14015, 14, 'battle-opponent', 3, 'Lilycove City'),
   -- Seafloor Cavern -> Maxie
   (140020, 14017, 14, 'battle-opponent', 1, 'Seafloor Cavern'),
   -- Seafloor Cavern -> Archie
@@ -77,9 +80,9 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Rain Badge -> Kyogre
   (140011, 14020, 14, 'battle-opponent', 2, 'Cave of Origin, deepest chamber'),
   -- Delta Episode -> Rayquaza
-  (140018, 14021, 14, 'battle-opponent', 3, 'Sky Pillar summit'),
+  (140018, 14021, 14, 'battle-opponent', 7, 'Sky Pillar summit'),
   -- Delta Episode -> Deoxys
-  (140018, 14022, 14, 'battle-opponent', 5, 'Edge of space (met location Sky Pillar)'),
+  (140018, 14022, 14, 'battle-opponent', 9, 'Edge of space (met location Sky Pillar)'),
   -- Sealed Chamber -> Regirock
   (140021, 14023, 14, 'battle-opponent', 1, 'Desert Ruins (Route 111). You can skip this battle.'),
   -- Sealed Chamber -> Regice
@@ -131,4 +134,36 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Fabled Cave -> Zekrom
   (140031, 14047, 14, 'battle-opponent', 2, 'Fabled Cave Mirage spot (portal). You can skip this battle.'),
   -- Gnarled Den -> Kyurem
-  (140032, 14048, 14, 'battle-opponent', 1, 'Gnarled Den Mirage spot (portal). You can skip this battle.');
+  (140032, 14048, 14, 'battle-opponent', 1, 'Gnarled Den Mirage spot (portal). You can skip this battle.'),
+  -- Mt. Chimney -> Tabitha & Grunt (a Multi Battle, Brendan / May at your side)
+  (140019, 14051, 14, 'battle-opponent', 1, 'Meteor Falls (with Brendan / May)'),
+  -- Mt. Chimney -> Shelly & Grunt (a Multi Battle, Brendan / May at your side)
+  (140019, 14056, 14, 'battle-opponent', 2, 'Meteor Falls (with Brendan / May)'),
+  -- Mt. Chimney -> Tabitha
+  (140019, 14052, 14, 'battle-opponent', 3, 'Mt. Chimney'),
+  -- Mt. Chimney -> Shelly
+  (140019, 14057, 14, 'battle-opponent', 4, 'Mt. Chimney'),
+  -- Feather Badge -> Courtney & Grunt (a Multi Battle, Steven at your side)
+  (140009, 14053, 14, 'battle-opponent', 1, 'Southern Island (with Steven)'),
+  -- Feather Badge -> Matt & Grunt (a Multi Battle, Steven at your side)
+  (140009, 14058, 14, 'battle-opponent', 2, 'Southern Island (with Steven)'),
+  -- Feather Badge -> Tabitha
+  (140009, 14052, 14, 'battle-opponent', 3, 'Weather Institute, Route 119'),
+  -- Feather Badge -> Shelly
+  (140009, 14057, 14, 'battle-opponent', 4, 'Weather Institute, Route 119'),
+  -- Mind Badge -> Courtney
+  (140010, 14054, 14, 'battle-opponent', 1, 'Mt. Pyre summit'),
+  -- Mind Badge -> Matt
+  (140010, 14059, 14, 'battle-opponent', 2, 'Mt. Pyre summit'),
+  -- Mind Badge -> Courtney
+  (140010, 14055, 14, 'battle-opponent', 4, 'Team Magma Hideout'),
+  -- Mind Badge -> Matt
+  (140010, 14060, 14, 'battle-opponent', 5, 'Team Aqua Hideout'),
+  -- Delta Episode -> Courtney
+  (140018, 14054, 14, 'battle-opponent', 1, 'Petalburg City'),
+  -- Delta Episode -> Matt
+  (140018, 14059, 14, 'battle-opponent', 2, 'Petalburg City'),
+  -- Delta Episode -> Courtney & Grunt (a Multi Battle, Steven at your side)
+  (140018, 14053, 14, 'battle-opponent', 4, 'Mossdeep Space Center (with Steven)'),
+  -- Delta Episode -> Matt & Grunt (a Multi Battle, Steven at your side)
+  (140018, 14058, 14, 'battle-opponent', 5, 'Mossdeep Space Center (with Steven)');

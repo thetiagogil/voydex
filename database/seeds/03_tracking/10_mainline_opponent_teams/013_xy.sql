@@ -16,6 +16,8 @@
 -- Held items: PokéWiki trainer team tables, matched by Pokémon and level (moves break ties), cross-checked with Bulbapedia; Bulbapedia wins where they differ.
 -- Wild Pokémon here hold nothing in their game data.
 -- Korrina's Geosenge Town battle: Bulbapedia, cross-checked with Serebii.
+-- Team Flare scientists (Aliana, Celosia, Bryony, Mable, Xerosic) and Serena / Calem's
+-- partner team: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth.
 -- Scope: Pokémon X / Y Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -508,4 +510,32 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Korrina, Geosenge Town 1: Lucario Lv. 25
   (130007, 13029, 13, NULL, NULL, NULL, NULL, NULL, 1, 448, 44800, 25, NULL, NULL, FALSE),
   -- Korrina, Geosenge Town 2: Lucario Lv. 25
-  (130007, 13029, 13, NULL, NULL, NULL, NULL, NULL, 2, 448, 44800, 25, NULL, NULL, FALSE);
+  (130007, 13029, 13, NULL, NULL, NULL, NULL, NULL, 2, 448, 44800, 25, NULL, NULL, FALSE),
+  -- Aliana, Kalos Power Plant 1: Mightyena Lv. 38
+  (130009, 13030, 13, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 38, NULL, NULL, FALSE),
+  -- Celosia & Bryony, Poké Ball Factory 1: Liepard Lv. 41
+  (130011, 13031, 13, NULL, NULL, NULL, NULL, NULL, 1, 510, 51000, 41, NULL, NULL, FALSE),
+  -- Celosia & Bryony, Poké Ball Factory 2: Manectric Lv. 41
+  (130011, 13031, 13, NULL, NULL, NULL, NULL, NULL, 2, 310, 31000, 41, NULL, NULL, FALSE),
+  -- Mable, Frost Cavern 1: Houndoom Lv. 48
+  (130011, 13034, 13, NULL, NULL, NULL, NULL, NULL, 1, 229, 22900, 48, NULL, NULL, FALSE),
+  -- Aliana, Lysandre Labs 1: Mightyena Lv. 46
+  (130021, 13030, 13, NULL, NULL, NULL, NULL, NULL, 1, 262, 26200, 46, NULL, NULL, FALSE),
+  -- Aliana, Lysandre Labs 2: Druddigon Lv. 48
+  (130021, 13030, 13, NULL, NULL, NULL, NULL, NULL, 2, 621, 62100, 48, NULL, NULL, FALSE),
+  -- Celosia, Lysandre Labs 1: Manectric Lv. 46
+  (130021, 13032, 13, NULL, NULL, NULL, NULL, NULL, 1, 310, 31000, 46, NULL, NULL, FALSE),
+  -- Celosia, Lysandre Labs 2: Drapion Lv. 48
+  (130021, 13032, 13, NULL, NULL, NULL, NULL, NULL, 2, 452, 45200, 48, NULL, NULL, FALSE),
+  -- Bryony, Lysandre Labs 1: Liepard Lv. 46
+  (130021, 13033, 13, NULL, NULL, NULL, NULL, NULL, 1, 510, 51000, 46, NULL, NULL, FALSE),
+  -- Bryony, Lysandre Labs 2: Bisharp Lv. 48
+  (130021, 13033, 13, NULL, NULL, NULL, NULL, NULL, 2, 625, 62500, 48, NULL, NULL, FALSE),
+  -- Mable, Lysandre Labs 1: Houndoom Lv. 46
+  (130021, 13034, 13, NULL, NULL, NULL, NULL, NULL, 1, 229, 22900, 46, NULL, NULL, FALSE),
+  -- Mable, Lysandre Labs 2: Weavile Lv. 48
+  (130021, 13034, 13, NULL, NULL, NULL, NULL, NULL, 2, 461, 46100, 48, NULL, NULL, FALSE),
+  -- Xerosic, Lysandre Labs 1: Crobat Lv. 46
+  (130021, 13035, 13, NULL, NULL, NULL, NULL, NULL, 1, 169, 16900, 46, NULL, NULL, FALSE),
+  -- Xerosic, Lysandre Labs 2: Malamar Lv. 48
+  (130021, 13035, 13, NULL, NULL, NULL, NULL, NULL, 2, 687, 68700, 48, NULL, NULL, FALSE);

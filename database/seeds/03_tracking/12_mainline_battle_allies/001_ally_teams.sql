@@ -6,7 +6,8 @@
 -- Barry's Spear Pillar parties (Diamond / Pearl, Platinum) and Lance's Team Rocket HQ
 -- party (HeartGold / SoulSilver): the pret trainer data only; Bulbapedia's trainer
 -- pages list no partner team for those games.
--- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
+-- Every other ally: Bulbapedia trainer pages (Trace, Hop, Hugh, Barry, Brendan and May, Steven,
+-- Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
 -- Legends: Z-A rogue Mega battle but list no partner teams, so those teams are
@@ -123,6 +124,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (90019, 9031, 9014, 9, NULL, 90001, 'piplup', NULL, NULL, 6, 389, 38900, 44, NULL),
   -- Lance beside you vs Ariana & Grunt 1: Dragonite Lv. 40
   (100009, 10043, 10013, 10, NULL, NULL, NULL, NULL, NULL, 1, 149, 14900, 40, NULL),
+  -- Hugh beside you vs Zinzolin & Grunt [snivy] 1: Emboar Lv. 43, holds Charcoal
+  (120009, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 500, 50000, 43, 312),
+  -- Hugh beside you vs Zinzolin & Grunt [snivy] 2: Simipour Lv. 41, holds Mystic Water
+  (120009, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 516, 51600, 41, 318),
+  -- Hugh beside you vs Zinzolin & Grunt [snivy] 3: Unfezant Lv. 41, holds Scope Lens
+  (120009, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 521, 52100, 41, 423),
+  -- Hugh beside you vs Zinzolin & Grunt [tepig] 1: Samurott Lv. 43, holds Mystic Water
+  (120009, 12035, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 503, 50300, 43, 318),
+  -- Hugh beside you vs Zinzolin & Grunt [tepig] 2: Simisage Lv. 41, holds Miracle Seed
+  (120009, 12035, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 512, 51200, 41, 317),
+  -- Hugh beside you vs Zinzolin & Grunt [tepig] 3: Unfezant Lv. 41, holds Scope Lens
+  (120009, 12035, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 521, 52100, 41, 423),
+  -- Hugh beside you vs Zinzolin & Grunt [oshawott] 1: Serperior Lv. 43, holds Miracle Seed
+  (120009, 12035, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 497, 49700, 43, 317),
+  -- Hugh beside you vs Zinzolin & Grunt [oshawott] 2: Simisear Lv. 41, holds Charcoal
+  (120009, 12035, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 514, 51400, 41, 312),
+  -- Hugh beside you vs Zinzolin & Grunt [oshawott] 3: Unfezant Lv. 41, holds Scope Lens
+  (120009, 12035, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 521, 52100, 41, 423),
+  -- Hugh beside you vs Zinzolin & Grunt [snivy] 1: Emboar Lv. 50, holds Charcoal
+  (120011, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 1, 500, 50000, 50, 312),
+  -- Hugh beside you vs Zinzolin & Grunt [snivy] 2: Unfezant Lv. 48, holds Scope Lens
+  (120011, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 2, 521, 52100, 48, 423),
+  -- Hugh beside you vs Zinzolin & Grunt [snivy] 3: Simipour Lv. 48, holds Mystic Water
+  (120011, 12035, 12016, 12, NULL, 120001, 'snivy', NULL, NULL, 3, 516, 51600, 48, 318),
+  -- Hugh beside you vs Zinzolin & Grunt [tepig] 1: Samurott Lv. 50, holds Mystic Water
+  (120011, 12035, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 1, 503, 50300, 50, 318),
+  -- Hugh beside you vs Zinzolin & Grunt [tepig] 2: Unfezant Lv. 48, holds Scope Lens
+  (120011, 12035, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 2, 521, 52100, 48, 423),
+  -- Hugh beside you vs Zinzolin & Grunt [tepig] 3: Simisage Lv. 48, holds Miracle Seed
+  (120011, 12035, 12016, 12, NULL, 120001, 'tepig', NULL, NULL, 3, 512, 51200, 48, 317),
+  -- Hugh beside you vs Zinzolin & Grunt [oshawott] 1: Serperior Lv. 50, holds Miracle Seed
+  (120011, 12035, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 1, 497, 49700, 50, 317),
+  -- Hugh beside you vs Zinzolin & Grunt [oshawott] 2: Unfezant Lv. 48, holds Scope Lens
+  (120011, 12035, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 2, 521, 52100, 48, 423),
+  -- Hugh beside you vs Zinzolin & Grunt [oshawott] 3: Simisear Lv. 48, holds Charcoal
+  (120011, 12035, 12016, 12, NULL, 120001, 'oshawott', NULL, NULL, 3, 514, 51400, 48, 312),
   -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 1: Fletchling Lv. 15
   (130005, 13017, 13018, 13, NULL, 130001, 'chespin', NULL, NULL, 1, 661, 66100, 15, NULL),
   -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 2: Braixen Lv. 16
@@ -135,6 +172,88 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (130005, 13017, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 1, 661, 66100, 15, NULL),
   -- Serena / Calem beside you vs Tierno & Trevor (chose Froakie), Fossil Choice 2: Quilladin Lv. 16
   (130005, 13017, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 2, 651, 65100, 16, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [chespin] 1: Meowstic Lv. 37
+  (130011, 13031, 13018, 13, NULL, 130001, 'chespin', NULL, NULL, 1, 678, 67800, 37, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [chespin] 2: Absol Lv. 39
+  (130011, 13031, 13018, 13, NULL, 130001, 'chespin', NULL, NULL, 2, 359, 35900, 39, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [chespin] 3: Delphox Lv. 39
+  (130011, 13031, 13018, 13, NULL, 130001, 'chespin', NULL, NULL, 3, 655, 65500, 39, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [fennekin] 1: Meowstic Lv. 37
+  (130011, 13031, 13018, 13, NULL, 130001, 'fennekin', NULL, NULL, 1, 678, 67800, 37, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [fennekin] 2: Absol Lv. 39
+  (130011, 13031, 13018, 13, NULL, 130001, 'fennekin', NULL, NULL, 2, 359, 35900, 39, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [fennekin] 3: Greninja Lv. 39
+  (130011, 13031, 13018, 13, NULL, 130001, 'fennekin', NULL, NULL, 3, 658, 65800, 39, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [froakie] 1: Meowstic Lv. 37
+  (130011, 13031, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 1, 678, 67800, 37, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [froakie] 2: Absol Lv. 39
+  (130011, 13031, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 2, 359, 35900, 39, NULL),
+  -- Serena / Calem beside you vs Celosia & Bryony [froakie] 3: Chesnaught Lv. 39
+  (130011, 13031, 13018, 13, NULL, 130001, 'froakie', NULL, NULL, 3, 652, 65200, 39, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [treecko] 1: Wailmer Lv. 24
+  (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [treecko] 2: Shroomish Lv. 24
+  (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 24, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [treecko] 3: Combusken Lv. 26
+  (140019, 14051, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 26, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [torchic] 1: Shroomish Lv. 24
+  (140019, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 24, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [torchic] 2: Slugma Lv. 24
+  (140019, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 24, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [torchic] 3: Marshtomp Lv. 26
+  (140019, 14051, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 26, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [mudkip] 1: Slugma Lv. 24
+  (140019, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 24, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [mudkip] 2: Wailmer Lv. 24
+  (140019, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 24, NULL),
+  -- Brendan / May beside you vs Tabitha & Grunt [mudkip] 3: Grovyle Lv. 26
+  (140019, 14051, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 26, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [treecko] 1: Wailmer Lv. 24
+  (140019, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 1, 320, 32000, 24, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [treecko] 2: Shroomish Lv. 24
+  (140019, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 2, 285, 28500, 24, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [treecko] 3: Combusken Lv. 26
+  (140019, 14056, 14015, 14, NULL, 140001, 'treecko', NULL, NULL, 3, 256, 25600, 26, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [torchic] 1: Shroomish Lv. 24
+  (140019, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 1, 285, 28500, 24, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [torchic] 2: Slugma Lv. 24
+  (140019, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 2, 218, 21800, 24, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [torchic] 3: Marshtomp Lv. 26
+  (140019, 14056, 14015, 14, NULL, 140001, 'torchic', NULL, NULL, 3, 259, 25900, 26, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [mudkip] 1: Slugma Lv. 24
+  (140019, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 1, 218, 21800, 24, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [mudkip] 2: Wailmer Lv. 24
+  (140019, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 2, 320, 32000, 24, NULL),
+  -- Brendan / May beside you vs Shelly & Grunt [mudkip] 3: Grovyle Lv. 26
+  (140019, 14056, 14015, 14, NULL, 140001, 'mudkip', NULL, NULL, 3, 253, 25300, 26, NULL),
+  -- Steven beside you vs Courtney & Grunt 1: Metang Lv. 35
+  (140009, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 35, NULL),
+  -- Steven beside you vs Courtney & Grunt 1: Skarmory Lv. 57
+  (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 57, NULL),
+  -- Steven beside you vs Courtney & Grunt 2: Claydol Lv. 57
+  (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 2, 344, 34400, 57, NULL),
+  -- Steven beside you vs Courtney & Grunt 3: Aggron Lv. 57
+  (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 57, NULL),
+  -- Steven beside you vs Courtney & Grunt 4: Cradily Lv. 57
+  (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 4, 346, 34600, 57, NULL),
+  -- Steven beside you vs Courtney & Grunt 5: Armaldo Lv. 57
+  (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 5, 348, 34800, 57, NULL),
+  -- Steven beside you vs Courtney & Grunt 6: Metagross Lv. 59, holds Metagrossite
+  (140018, 14053, 14013, 14, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 59, 300),
+  -- Steven beside you vs Matt & Grunt 1: Metang Lv. 35
+  (140009, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 375, 37500, 35, NULL),
+  -- Steven beside you vs Matt & Grunt 1: Skarmory Lv. 57
+  (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 1, 227, 22700, 57, NULL),
+  -- Steven beside you vs Matt & Grunt 2: Claydol Lv. 57
+  (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 2, 344, 34400, 57, NULL),
+  -- Steven beside you vs Matt & Grunt 3: Aggron Lv. 57
+  (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 3, 306, 30600, 57, NULL),
+  -- Steven beside you vs Matt & Grunt 4: Cradily Lv. 57
+  (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 4, 346, 34600, 57, NULL),
+  -- Steven beside you vs Matt & Grunt 5: Armaldo Lv. 57
+  (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 5, 348, 34800, 57, NULL),
+  -- Steven beside you vs Matt & Grunt 6: Metagross Lv. 59, holds Metagrossite
+  (140018, 14058, 14013, 14, NULL, NULL, NULL, NULL, NULL, 6, 376, 37600, 59, 300),
   -- Arven beside you vs Stony Cliff Titan, Stony Cliff Titan 1: Shellder Lv. 16
   (230024, 23022, 23027, 23, NULL, NULL, NULL, NULL, NULL, 1, 90, 9000, 16, NULL),
   -- Arven beside you vs Open Sky Titan, Open Sky Titan 1: Nacli Lv. 19

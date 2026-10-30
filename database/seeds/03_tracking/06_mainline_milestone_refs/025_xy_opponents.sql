@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, X / Y, Gift Pokémon, Fossil, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii and Pokémon Database.
 -- Lysandre's two Team Flare Secret HQ battles: Bulbapedia, cross-checked with Serebii.
+-- Team Flare scientists (Aliana, Celosia, Bryony, Mable, Xerosic) and Serena / Calem's
+-- partner team: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth.
 -- Scope: Pokémon X / Y milestone-to-opponent references.
 -- ============================================================================
 -- File Scope
@@ -30,11 +32,11 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Plant Badge -> Ramos
   (130008, 13004, 13, 'battle-opponent', 2, NULL),
   -- Voltage Badge -> Clemont
-  (130009, 13005, 13, 'battle-opponent', 1, NULL),
+  (130009, 13005, 13, 'battle-opponent', 2, NULL),
   -- Fairy Badge -> Valerie
   (130010, 13006, 13, 'battle-opponent', 2, NULL),
   -- Psychic Badge -> Olympia
-  (130011, 13007, 13, 'battle-opponent', 2, NULL),
+  (130011, 13007, 13, 'battle-opponent', 4, NULL),
   -- Iceberg Badge -> Wulfric
   (130012, 13008, 13, 'battle-opponent', 4, NULL),
   -- Elite Four Malva -> Malva
@@ -62,7 +64,7 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Fairy Badge -> Serena / Calem
   (130010, 13018, 13, 'battle-opponent', 1, 'Route 14'),
   -- Psychic Badge -> Serena / Calem
-  (130011, 13018, 13, 'battle-opponent', 1, 'Anistar City, in front of the Gym'),
+  (130011, 13018, 13, 'battle-opponent', 3, 'Anistar City, in front of the Gym'),
   -- Lysandre Labs -> Lysandre
   (130021, 13019, 13, 'battle-opponent', 1, 'Lysandre Labs, Lumiose City'),
   -- Team Flare Secret HQ -> Lysandre (first battle)
@@ -92,4 +94,20 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Roaming Legendary Bird -> Zapdos
   (130025, 13026, 13, 'battle-opponent', 2, 'Roams Kalos, then Sea Spirit''s Den (Azure Bay). You can skip this battle.'),
   -- Roaming Legendary Bird -> Moltres
-  (130025, 13027, 13, 'battle-opponent', 3, 'Roams Kalos, then Sea Spirit''s Den (Azure Bay). You can skip this battle.');
+  (130025, 13027, 13, 'battle-opponent', 3, 'Roams Kalos, then Sea Spirit''s Den (Azure Bay). You can skip this battle.'),
+  -- Voltage Badge -> Aliana
+  (130009, 13030, 13, 'battle-opponent', 1, 'Kalos Power Plant'),
+  -- Psychic Badge -> Celosia & Bryony (a Multi Battle, Serena / Calem at your side)
+  (130011, 13031, 13, 'battle-opponent', 1, 'Poké Ball Factory (with Serena / Calem)'),
+  -- Psychic Badge -> Mable
+  (130011, 13034, 13, 'battle-opponent', 2, 'Frost Cavern'),
+  -- Lysandre Labs -> Aliana
+  (130021, 13030, 13, 'battle-opponent', 2, 'Lysandre Labs, Lumiose City'),
+  -- Lysandre Labs -> Celosia
+  (130021, 13032, 13, 'battle-opponent', 3, 'Lysandre Labs, Lumiose City'),
+  -- Lysandre Labs -> Bryony
+  (130021, 13033, 13, 'battle-opponent', 4, 'Lysandre Labs, Lumiose City'),
+  -- Lysandre Labs -> Mable
+  (130021, 13034, 13, 'battle-opponent', 5, 'Lysandre Labs, Lumiose City'),
+  -- Lysandre Labs -> Xerosic
+  (130021, 13035, 13, 'battle-opponent', 6, 'Lysandre Labs, Lumiose City');

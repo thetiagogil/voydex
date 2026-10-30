@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Primary: Bulbapedia Badge, Elite Four, Omega Ruby / Alpha Sapphire, Fossil, Delta Episode, and First partner Pokémon pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii.
+-- Magma and Aqua Admins (Tabitha, Courtney, Shelly, Matt) and the Brendan / May and
+-- Steven partner teams: Bulbapedia's trainer pages, cross-checked with Serebii's Pokéarth
+-- where it lists them (Southern Island and the Space Center Grunts are Bulbapedia only).
 -- Scope: Pokémon Omega Ruby / Alpha Sapphire major opponent data.
 -- ============================================================================
 -- File Scope
@@ -121,4 +124,24 @@ INSERT INTO tracking.mainline_opponents (
   -- Zinnia (boss, Granite Cave battle in the Delta Episode, so she can fight twice)
   (14049, 14, NULL, 'zinnia-granite-cave', 'Zinnia', 'boss', 15, NULL, 'zinnia', 37),
   -- Wallace (gym-leader, Delta Episode battle at the foot of the Sky Pillar, so he can fight twice)
-  (14050, 14, NULL, 'wallace-delta-episode', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 38);
+  (14050, 14, NULL, 'wallace-delta-episode', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 38),
+  -- Tabitha & Grunt (boss; Omega Ruby; the Multi Battle with Brendan / May at your side)
+  (14051, 14, 23, 'tabitha-grunt', 'Tabitha & Grunt', 'boss', NULL, NULL, 'tabitha', 7),
+  -- Tabitha (boss; Omega Ruby; Magma Admin)
+  (14052, 14, 23, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', 8),
+  -- Courtney & Grunt (boss; Omega Ruby; the Multi Battles with Steven at your side)
+  (14053, 14, 23, 'courtney-grunt', 'Courtney & Grunt', 'boss', NULL, NULL, 'courtney', 9),
+  -- Courtney (boss; Omega Ruby; Magma Admin)
+  (14054, 14, 23, 'courtney', 'Courtney', 'boss', NULL, NULL, 'courtney', 10),
+  -- Courtney (boss; Omega Ruby; Magma Admin, her second battle before the Mind Badge)
+  (14055, 14, 23, 'courtney-magma-hideout', 'Courtney', 'boss', NULL, NULL, 'courtney', 11),
+  -- Shelly & Grunt (boss; Alpha Sapphire; the Multi Battle with Brendan / May at your side)
+  (14056, 14, 24, 'shelly-grunt', 'Shelly & Grunt', 'boss', NULL, NULL, 'shelly', 7),
+  -- Shelly (boss; Alpha Sapphire; Aqua Admin)
+  (14057, 14, 24, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', 8),
+  -- Matt & Grunt (boss; Alpha Sapphire; the Multi Battles with Steven at your side)
+  (14058, 14, 24, 'matt-grunt', 'Matt & Grunt', 'boss', NULL, NULL, 'matt', 9),
+  -- Matt (boss; Alpha Sapphire; Aqua Admin)
+  (14059, 14, 24, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', 10),
+  -- Matt (boss; Alpha Sapphire; Aqua Admin, his second battle before the Mind Badge)
+  (14060, 14, 24, 'matt-aqua-hideout', 'Matt', 'boss', NULL, NULL, 'matt', 11);

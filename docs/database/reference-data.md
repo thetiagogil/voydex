@@ -124,6 +124,21 @@ sources remain authoritative for game-specific mechanics and availability.
   At the Team Galactic HQ you beat Cyrus before Saturn, in Brilliant
   Diamond / Shining Pearl too, whose order is corrected here.
   `360_gen4_admin_battles.sql` pins the battles.
+- Black 2 / White 2, X / Y and Omega Ruby / Alpha Sapphire have no game dump
+  to read, so their admin battles (#187) come from Bulbapedia's trainer
+  pages, cross-checked with Serebii's Pokéarth for species, levels and items:
+  Zinzolin and the three Shadows of the Shadow Triad (Hugh beside you at
+  Lacunosa Town and on the Plasma Frigate), the Team Flare scientists Aliana,
+  Celosia, Bryony, Mable and Xerosic (Serena / Calem beside you at the Poké
+  Ball Factory), and each Hoenn game's own Admins: Tabitha and Courtney in
+  Omega Ruby, Shelly and Matt in Alpha Sapphire, with Brendan / May beside you
+  at Meteor Falls and Steven at Southern Island and the Delta Episode's Space
+  Center. Black 2 / White 2 levels are Normal Mode's (Serebii lists the
+  Challenge Mode level for the Lacunosa Grunt). An Admin fought twice before
+  one badge gets a second opponent row (Courtney and Matt at the hideouts).
+  Rood's optional battle in Driftveil City and the post-game Shadow Triad
+  rematches in Icirrus City are left out. `370_gen5_6_admin_battles.sql` pins
+  the battles.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
   list of switchable forms; every other curated form is a variant.
