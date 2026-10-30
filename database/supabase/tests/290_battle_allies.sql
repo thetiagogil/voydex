@@ -16,7 +16,7 @@ SELECT
             FROM
                 tracking.mainline_opponent_team_members
             WHERE
-                ally_opponent_id IS NOT NULL), 46, '46 Story battles have an ally beside the player');
+                ally_opponent_id IS NOT NULL), 47, '47 Story battles have an ally beside the player');
 SELECT
     IS ((
             SELECT
@@ -24,7 +24,7 @@ SELECT
             FROM
                 tracking.mainline_opponent_team_members
             WHERE
-                ally_opponent_id IS NOT NULL), 51, 'the Hyperspace rogue Megas and Stellar Terapagos each have two allies');
+                ally_opponent_id IS NOT NULL), 52, 'the Hyperspace rogue Megas and Stellar Terapagos each have two allies');
 SELECT
     IS ((
             SELECT
