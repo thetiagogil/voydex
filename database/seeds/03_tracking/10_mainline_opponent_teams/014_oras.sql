@@ -401,7 +401,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140010, 14055, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 39, NULL, NULL, FALSE),
   -- Courtney, Petalburg City 1: Camerupt Lv. 53
   (140018, 14054, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32300, 53, NULL, NULL, FALSE),
-  -- Courtney & Grunt, Mossdeep Space Center 1: Camerupt (Mega) Lv. 55, holds Cameruptite
+  -- Courtney & Grunt, Mossdeep Space Center 1: Mega Camerupt Lv. 55, holds Cameruptite
   (140018, 14053, 14, NULL, NULL, NULL, NULL, NULL, 1, 323, 32301, 55, 294, NULL, FALSE),
   -- Courtney & Grunt, Mossdeep Space Center 2: Mightyena Lv. 51
   (140018, 14053, 14, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 51, NULL, NULL, FALSE),
@@ -417,7 +417,7 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (140010, 14060, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 39, NULL, NULL, FALSE),
   -- Matt, Petalburg City 1: Sharpedo Lv. 53
   (140018, 14059, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31900, 53, NULL, NULL, FALSE),
-  -- Matt & Grunt, Mossdeep Space Center 1: Sharpedo (Mega) Lv. 55, holds Sharpedonite
+  -- Matt & Grunt, Mossdeep Space Center 1: Mega Sharpedo Lv. 55, holds Sharpedonite
   (140018, 14058, 14, NULL, NULL, NULL, NULL, NULL, 1, 319, 31901, 55, 293, NULL, FALSE),
   -- Matt & Grunt, Mossdeep Space Center 2: Mightyena Lv. 51
   (140018, 14058, 14, NULL, NULL, NULL, NULL, NULL, 2, 262, 26200, 51, NULL, NULL, FALSE),

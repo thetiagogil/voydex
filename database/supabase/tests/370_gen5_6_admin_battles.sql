@@ -7,7 +7,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (9);
+    plan (10);
 -- Who you fight at each Story point, in order.
 SELECT
     results_eq ($$
@@ -81,14 +81,24 @@ SELECT
 SELECT
     results_eq ($$
         SELECT
-            members.milestone_id, members.decision_option_slug, species.slug FROM tracking.mainline_opponent_team_members AS members
+            members.milestone_id, COALESCE(members.decision_option_slug, members.variant_slug), species.slug FROM tracking.mainline_opponent_team_members AS members
             JOIN reference.pokemon_species AS species ON species.id = members.species_id
             WHERE
                 members.ally_opponent_id IN (12016, 13018, 14015)
                 AND members.milestone_id IN (120009, 130011, 140019)
                 AND species.slug IN ('emboar', 'samurott', 'serperior', 'delphox', 'greninja', 'chesnaught', 'combusken', 'marshtomp', 'grovyle')
-                AND members.opponent_id <> 14056 ORDER BY members.milestone_id, members.decision_option_slug $$, $$
-            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130011, 'chespin', 'delphox'), (130011, 'fennekin', 'greninja'), (130011, 'froakie', 'chesnaught'), (140019, 'mudkip', 'grovyle'), (140019, 'torchic', 'marshtomp'), (140019, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
+                AND members.opponent_id <> 14056 ORDER BY members.milestone_id, 2 $$, $$
+            VALUES (120009, 'oshawott'::text, 'serperior'::text), (120009, 'snivy', 'emboar'), (120009, 'tepig', 'samurott'), (130011, 'calem-chespin', 'delphox'), (130011, 'calem-fennekin', 'greninja'), (130011, 'calem-froakie', 'chesnaught'), (130011, 'serena-chespin', 'delphox'), (130011, 'serena-fennekin', 'greninja'), (130011, 'serena-froakie', 'chesnaught'), (140019, 'mudkip', 'grovyle'), (140019, 'torchic', 'marshtomp'), (140019, 'treecko', 'combusken') $$, 'Hugh, Serena / Calem and Brendan / May bring the starter that beats yours');
+-- Serena's Meowstic is female, Calem's male.
+SELECT
+    results_eq ($$ SELECT DISTINCT
+            split_part(members.variant_slug, '-', 1), forms.slug FROM tracking.mainline_opponent_team_members AS members
+            JOIN reference.pokemon_forms AS forms ON forms.id = members.form_id
+            WHERE
+                members.milestone_id = 130011
+                AND members.ally_opponent_id = 13018
+                AND members.species_id = 678 ORDER BY 1 $$, $$
+            VALUES ('calem'::text, 'meowstic'::text), ('serena', 'meowstic-female') $$, 'Serena / Calem''s partner Meowstic matches who your partner is');
 SELECT
     results_eq ($$
         SELECT

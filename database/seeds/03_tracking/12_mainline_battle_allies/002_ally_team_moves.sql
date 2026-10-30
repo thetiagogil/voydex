@@ -16,7 +16,7 @@
 -- Bulbapedia's Rogue Mega Evolution table also lists Sirfetch'd.
 -- Forms: no source names a form for Carmine's Poltchageist and Sinistcha, so
 -- the default form is stored; allies are stored in the form they are sent out
--- in (Lucario, Emboar, Feraligatr and Meganium hold their Mega Stones).
+-- in (Lucario, Emboar, Feraligatr, Meganium and Steven's Metagross hold their Mega Stones).
 -- Scope: Story battles where an ally fights beside the player: their Pokémon's moves.
 -- ============================================================================
 -- File Scope
@@ -155,24 +155,42 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     (130005, 13017, 13018, NULL, 130001, 'froakie', NULL, 1, ARRAY[98, 45, 64]),
     -- Serena / Calem beside you vs Tierno & Trevor (chose Froakie), Fossil Choice 2: Quilladin Lv. 16: Vine Whip, Bite
     (130005, 13017, 13018, NULL, 130001, 'froakie', NULL, 2, ARRAY[22, 44]),
-    -- Serena / Calem beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130011, 13031, 13018, NULL, 130001, 'chespin', NULL, 1, ARRAY[94, 252, 574, 113]),
-    -- Serena / Calem beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130011, 13031, 13018, NULL, 130001, 'chespin', NULL, 2, ARRAY[163, 14, 98, 44]),
-    -- Serena / Calem beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
-    (130011, 13031, 13018, NULL, 130001, 'chespin', NULL, 3, ARRAY[595, 60]),
-    -- Serena / Calem beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130011, 13031, 13018, NULL, 130001, 'fennekin', NULL, 1, ARRAY[94, 252, 574, 113]),
-    -- Serena / Calem beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130011, 13031, 13018, NULL, 130001, 'fennekin', NULL, 2, ARRAY[163, 14, 98, 44]),
-    -- Serena / Calem beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
-    (130011, 13031, 13018, NULL, 130001, 'fennekin', NULL, 3, ARRAY[594, 98]),
-    -- Serena / Calem beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
-    (130011, 13031, 13018, NULL, 130001, 'froakie', NULL, 1, ARRAY[94, 252, 574, 113]),
-    -- Serena / Calem beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
-    (130011, 13031, 13018, NULL, 130001, 'froakie', NULL, 2, ARRAY[163, 14, 98, 44]),
-    -- Serena / Calem beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
-    (130011, 13031, 13018, NULL, 130001, 'froakie', NULL, 3, ARRAY[402, 44]),
+    -- Calem beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 1, ARRAY[94, 252, 574, 113]),
+    -- Calem beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 2, ARRAY[163, 14, 98, 44]),
+    -- Calem beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-chespin', 3, ARRAY[595, 60]),
+    -- Calem beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 1, ARRAY[94, 252, 574, 113]),
+    -- Calem beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 2, ARRAY[163, 14, 98, 44]),
+    -- Calem beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-fennekin', 3, ARRAY[594, 98]),
+    -- Calem beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 1, ARRAY[94, 252, 574, 113]),
+    -- Calem beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 2, ARRAY[163, 14, 98, 44]),
+    -- Calem beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'calem-froakie', 3, ARRAY[402, 44]),
+    -- Serena beside you vs Celosia & Bryony [chespin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 1, ARRAY[94, 252, 574, 113]),
+    -- Serena beside you vs Celosia & Bryony [chespin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 2, ARRAY[163, 14, 98, 44]),
+    -- Serena beside you vs Celosia & Bryony [chespin]: Delphox Lv. 39: Mystical Fire, Psybeam
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-chespin', 3, ARRAY[595, 60]),
+    -- Serena beside you vs Celosia & Bryony [fennekin]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 1, ARRAY[94, 252, 574, 113]),
+    -- Serena beside you vs Celosia & Bryony [fennekin]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 2, ARRAY[163, 14, 98, 44]),
+    -- Serena beside you vs Celosia & Bryony [fennekin]: Greninja Lv. 39: Water Shuriken, Quick Attack
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-fennekin', 3, ARRAY[594, 98]),
+    -- Serena beside you vs Celosia & Bryony [froakie]: Meowstic Lv. 37: Psychic, Fake Out, Disarming Voice, Light Screen
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 1, ARRAY[94, 252, 574, 113]),
+    -- Serena beside you vs Celosia & Bryony [froakie]: Absol Lv. 39: Slash, Swords Dance, Quick Attack, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 2, ARRAY[163, 14, 98, 44]),
+    -- Serena beside you vs Celosia & Bryony [froakie]: Chesnaught Lv. 39: Seed Bomb, Bite
+    (130011, 13031, 13018, NULL, NULL, NULL, 'serena-froakie', 3, ARRAY[402, 44]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Wailmer Lv. 24: Whirlpool, Astonish, Water Pulse, Mist
     (140019, 14051, 14015, NULL, 140001, 'treecko', NULL, 1, ARRAY[250, 310, 352, 54]),
     -- Brendan / May beside you vs Tabitha & Grunt [treecko]: Shroomish Lv. 24: Mega Drain, Headbutt, Poison Powder, Worry Seed

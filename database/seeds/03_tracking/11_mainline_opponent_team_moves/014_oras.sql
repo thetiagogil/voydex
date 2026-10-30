@@ -381,7 +381,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (140010, 14055, NULL, NULL, NULL, NULL, 1, ARRAY[174, 36, 157, 281]),
     -- Courtney: Camerupt Lv. 53: Rock Slide, Yawn, Earthquake, Eruption
     (140018, 14054, NULL, NULL, NULL, NULL, 1, ARRAY[157, 281, 89, 284]),
-    -- Courtney & Grunt: Camerupt (Mega) Lv. 55: Rock Slide, Yawn, Earthquake, Eruption
+    -- Courtney & Grunt: Mega Camerupt Lv. 55: Rock Slide, Yawn, Earthquake, Eruption
     (140018, 14053, NULL, NULL, NULL, NULL, 1, ARRAY[157, 281, 89, 284]),
     -- Courtney & Grunt: Mightyena Lv. 51: Taunt, Take Down, Crunch, Sucker Punch
     (140018, 14053, NULL, NULL, NULL, NULL, 2, ARRAY[269, 36, 242, 389]),
@@ -397,7 +397,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     (140010, 14060, NULL, NULL, NULL, NULL, 1, ARRAY[423, 184, 163, 305]),
     -- Matt: Sharpedo Lv. 53: Poison Fang, Crunch, Agility, Skull Bash
     (140018, 14059, NULL, NULL, NULL, NULL, 1, ARRAY[305, 242, 97, 130]),
-    -- Matt & Grunt: Sharpedo (Mega) Lv. 55: Poison Fang, Crunch, Agility, Skull Bash
+    -- Matt & Grunt: Mega Sharpedo Lv. 55: Poison Fang, Crunch, Agility, Skull Bash
     (140018, 14058, NULL, NULL, NULL, NULL, 1, ARRAY[305, 242, 97, 130]),
     -- Matt & Grunt: Mightyena Lv. 51: Taunt, Take Down, Crunch, Sucker Punch
     (140018, 14058, NULL, NULL, NULL, NULL, 2, ARRAY[269, 36, 242, 389]),
