@@ -19,6 +19,32 @@ import {
 } from "./plan-team-analysis";
 
 const versionGroup: PlannerVersionGroup = {
+  availabilityGroups: [
+    {
+      id: 19001,
+      kind: "one-per-save",
+      memberFormIds: [89100, 89200, 89201],
+      name: "Kubfu",
+      note: "A save gets one Kubfu, and it evolves into one Urshifu.",
+      versionGroupId: 19,
+    },
+    {
+      id: 20002,
+      kind: "pick-one",
+      memberFormIds: [89600, 89700, 89801, 89802],
+      name: "Glastrier or Spectrier",
+      note: "You pick Glastrier or Spectrier, not both.",
+      versionGroupId: 20,
+    },
+    {
+      id: 20004,
+      kind: "one-per-save",
+      memberFormIds: [14401],
+      name: "Galarian Articuno",
+      note: "A save has one Galarian Articuno to catch.",
+      versionGroupId: 20,
+    },
+  ],
   expansions: [
     { name: "The Isle of Armor", versionGroupId: 19 },
     { name: "The Crown Tundra", versionGroupId: 20 },
@@ -156,6 +182,57 @@ describe("buildPlanIssues", () => {
     );
     expect(getWorstIssueFor(893, issues)?.kind).toBe("event");
     expect(getWorstIssueFor(80, issues)).toBeNull();
+  });
+});
+
+describe("buildPlanIssues with one-of groups", () => {
+  const withForm = (
+    base: PlannerPokemon,
+    formId: number,
+    name = base.name,
+  ) => ({
+    ...base,
+    formId,
+    name,
+  });
+  const urshifu = withForm(
+    pokemon(892, "Urshifu", ["fighting", "dark"], {
+      expansionVersionGroupId: 19,
+    }),
+    89200,
+  );
+  const urshifuRapid = withForm(urshifu, 89201, "Urshifu (Rapid Strike)");
+  const glastrier = pokemon(896, "Glastrier", ["ice"]);
+  const spectrier = pokemon(897, "Spectrier", ["ghost"]);
+  const galarianArticuno = withForm(
+    pokemon(144, "Galarian Articuno", ["psychic", "flying"]),
+    14401,
+  );
+  const check = (team: PlannerPokemon[]) =>
+    buildPlanIssues({ includedExpansionIds: [19, 20], team, versionGroup })
+      .filter((issue) => issue.kind === "one-per-save")
+      .map((issue) => [issue.title, issue.severity, issue.speciesIds]);
+
+  it("blocks Kubfu with Urshifu, and both Urshifu", () => {
+    expect(check([kubfu, urshifu])).toEqual([
+      ["Only one Kubfu per save", "block", [891, 892]],
+    ]);
+    expect(check([urshifu, urshifuRapid])).toEqual([
+      ["Only one Kubfu per save", "block", [892, 892]],
+    ]);
+  });
+
+  it("blocks both steeds and two of one Galarian bird", () => {
+    expect(check([glastrier, spectrier])).toEqual([
+      ["Glastrier or Spectrier, not both", "block", [896, 897]],
+    ]);
+    expect(check([galarianArticuno, galarianArticuno])).toEqual([
+      ["Only one Galarian Articuno per save", "block", [144, 144]],
+    ]);
+  });
+
+  it("says nothing about one member alone", () => {
+    expect(check([kubfu, glastrier, galarianArticuno])).toEqual([]);
   });
 });
 

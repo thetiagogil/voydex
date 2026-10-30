@@ -15,6 +15,7 @@ export type PlanIssueKind =
   | "exclusives"
   | "expansion"
   | "line"
+  | "one-per-save"
   | "outside"
   | "trade";
 
@@ -54,9 +55,9 @@ const verb = (team: unknown[], one: string, many: string) =>
 
 /*
  * The Team check's "Can you build it?": what the team needs beyond walking
- * into the game, read from the catalogue's facts. Gift groups (one Kubfu per
- * save) and either-or picks (the steeds, the Regis) aren't in the catalogue,
- * so they aren't checked.
+ * into the game, read from the catalogue's facts, and whether it holds two of
+ * something a save hands out only one of (one Kubfu per save, Glastrier or
+ * Spectrier).
  */
 export const buildPlanIssues = ({
   includedExpansionIds,
@@ -176,6 +177,26 @@ export const buildPlanIssues = ({
       severity: "step",
       speciesIds: traded.map((pokemon) => pokemon.speciesId),
       title: `${joinPlanList(names(traded))} ${verb(traded, "evolves", "evolve")} only by trade`,
+    });
+  }
+
+  for (const group of versionGroup.availabilityGroups) {
+    const holding = team.filter((pokemon) =>
+      group.memberFormIds.includes(pokemon.formId),
+    );
+
+    if (holding.length < 2) continue;
+
+    issues.push({
+      body: group.note,
+      includeExpansionId: null,
+      kind: "one-per-save",
+      severity: "block",
+      speciesIds: holding.map((pokemon) => pokemon.speciesId),
+      title:
+        group.kind === "pick-one"
+          ? `${group.name}, not both`
+          : `Only one ${group.name} per save`,
     });
   }
 

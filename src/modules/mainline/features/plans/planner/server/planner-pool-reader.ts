@@ -53,6 +53,15 @@ export type PlannerPoolRows = {
   }[];
   attributes: PokemonAttributes[];
   availability: PlannerAvailabilityRow[];
+  /* The one-of groups (one Kubfu per save, Glastrier or Spectrier). */
+  availabilityGroups: {
+    id: number;
+    kind: string;
+    members: { form_id: number }[];
+    name: string;
+    note: string;
+    version_group_id: number;
+  }[];
   availabilityMethods: Pick<AvailabilityMethod, "id" | "slug">[];
   edges: PokemonEvolutionEdge[];
   entries: PokedexEntry[];
@@ -151,6 +160,7 @@ export const readPlannerPoolRows = async (
     evolutionMethods,
     natures,
     battleFormIds,
+    availabilityGroups,
   ] = await Promise.all([
     loadChunkedReferenceRows<PokemonSpecies>(
       speciesIds,
@@ -197,9 +207,21 @@ export const readPlannerPoolRows = async (
       )
       .order("sort_order"),
     readBattleFormIds(supabase),
+    reference
+      .from("pokemon_availability_groups")
+      .select(
+        "id, kind, name, note, version_group_id, members:pokemon_availability_group_members (form_id)",
+      )
+      .in("version_group_id", familyVersionGroupIds)
+      .order("sort_order"),
   ]);
 
-  if (methods.error || evolutionMethods.error || natures.error) {
+  if (
+    methods.error ||
+    evolutionMethods.error ||
+    natures.error ||
+    availabilityGroups.error
+  ) {
     throw new Error("Unable to load the Team Planner's reference data.");
   }
 
@@ -279,6 +301,7 @@ export const readPlannerPoolRows = async (
     abilityAttributes,
     attributes,
     availability,
+    availabilityGroups: availabilityGroups.data,
     availabilityMethods: methods.data,
     edges,
     entries,

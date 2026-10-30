@@ -21,7 +21,6 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { PendingData } from "@/shared/components/pending-data";
 import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
@@ -206,12 +205,6 @@ export const PlannerTeamCheckSheet = ({
                 Every Pokémon here can be caught in one save.
               </p>
             )}
-            {/* TODO(v3-data): one-per-save gift groups (Kubfu and Urshifu, the Galarian birds) and either-or picks (the steeds, the Regis) need grouping data in the reference catalogue. */}
-            <PendingData
-              label="One-per-save gifts and either-or picks aren't checked yet"
-              note="Voydex doesn't know which Pokémon share one gift or one choice in a save."
-              className="py-3"
-            />
           </SheetSection>
 
           <SheetSection title="How it holds up">

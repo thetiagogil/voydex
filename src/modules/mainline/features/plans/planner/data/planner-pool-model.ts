@@ -282,6 +282,16 @@ export const buildPlannerContext = ({
     types: catalogue.types
       .filter((type) => generationTypes.has(type.slug))
       .map((type) => ({ name: type.name, slug: type.slug })),
-    versionGroup: plannerGroup,
+    versionGroup: {
+      ...plannerGroup,
+      availabilityGroups: pool.availabilityGroups.map((group) => ({
+        id: group.id,
+        kind: group.kind === "pick-one" ? "pick-one" : "one-per-save",
+        memberFormIds: group.members.map((member) => member.form_id),
+        name: group.name,
+        note: group.note,
+        versionGroupId: group.version_group_id,
+      })),
+    },
   };
 };
