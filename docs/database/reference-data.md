@@ -110,6 +110,18 @@ sources remain authoritative for game-specific mechanics and availability.
   Arceus and the lake guardians (game data), Barry's Roselia (Serebii and
   PokéWiki), Legends: Z-A (Serebii). This is the last slice of the per-game
   audit (#115).
+- The evil-team admin battles the story forces in Diamond / Pearl, Platinum
+  and HeartGold / SoulSilver (#187) come from each game's own trainer data in
+  the pret decompilations, cross-checked with Bulbapedia's trainer pages: the
+  Galactic Commanders (Mars, Jupiter and Saturn, and Mars & Jupiter's Multi
+  Battle at Spear Pillar with Barry beside you) and the Rocket Executives
+  (Proton, Petrel, Ariana and Archer, and Ariana's Double Battle with a Grunt
+  at the Team Rocket HQ with Lance beside you). Platinum's Stark Mountain
+  battles with Mars and Jupiter are in too, since both sources have them.
+  Where the two differ the game wins: the Grunt's Drowzee knows Hypnosis,
+  Petrel's last Radio Tower Koffing knows Smog, and move order follows the
+  game. Barry's and Lance's partner teams rest on the game data alone.
+  `360_gen4_admin_battles.sql` pins the battles.
 - Every non-default form's rule carries its `form_class`: `variant` (caught
   and kept), `form` (switched on a Play) or `battle`. The seed audit holds the
   list of switchable forms; every other curated form is a variant.

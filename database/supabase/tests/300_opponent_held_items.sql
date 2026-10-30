@@ -31,7 +31,7 @@ SELECT
                 held_item_id IS NOT NULL
                 AND ally_opponent_id IS NULL
                 AND version_group_id <= 10 GROUP BY version_group_id ORDER BY version_group_id $$, $$
-            VALUES (3, 2), (4, 1), (5, 5), (6, 7), (7, 15), (8, 14), (9, 17), (10, 26) $$, 'Gen 2-4 opponents hold the items their games give them');
+            VALUES (3, 2), (4, 1), (5, 5), (6, 7), (7, 15), (8, 21), (9, 26), (10, 26) $$, 'Gen 2-4 opponents hold the items their games give them');
 SELECT
     results_eq ($$
         SELECT

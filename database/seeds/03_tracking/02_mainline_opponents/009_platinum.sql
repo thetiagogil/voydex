@@ -4,6 +4,8 @@
 -- Primary: Bulbapedia Badge, Elite Four, and Platinum pages.
 -- Cross-check: Pokémon Platinum source page.
 -- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokeplatinum trainer data,
+-- which names each battle's place, cross-checked with Bulbapedia's trainer pages.
 -- Scope: Pokémon Platinum major opponent data.
 -- ============================================================================
 -- File Scope
@@ -76,4 +78,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Zapdos (boss)
   (9026, 9, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 26),
   -- Moltres (boss)
-  (9027, 9, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 27);
+  (9027, 9, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 27),
+  -- Mars (boss; Team Galactic Commander)
+  (9028, 9, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', 28),
+  -- Jupiter (boss; Team Galactic Commander)
+  (9029, 9, NULL, 'jupiter', 'Jupiter', 'boss', NULL, NULL, 'jupiter', 29),
+  -- Saturn (boss; Team Galactic Commander)
+  (9030, 9, NULL, 'saturn', 'Saturn', 'boss', NULL, NULL, 'saturn', 30),
+  -- Mars & Jupiter (boss; the Multi Battle with Barry at Spear Pillar)
+  (9031, 9, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars', 31);

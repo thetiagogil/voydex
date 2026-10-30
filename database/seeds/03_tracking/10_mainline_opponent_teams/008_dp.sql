@@ -6,6 +6,8 @@
 -- Barry and Cyrus battles: the pret pokediamond trainer data, cross-checked with Bulbapedia, Serebii and PokéWiki.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and data-mined game data.
 -- Held items: the pret pokediamond disassembly's trainer data; wild Pokémon here hold nothing in their species data.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokediamond trainer data
+-- (parties, set moves, held items), cross-checked with Bulbapedia's trainer pages.
 -- Scope: Pokémon Diamond / Pearl Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -326,4 +328,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Regigigas, Snowpoint Temple 1: Regigigas Lv. 70
   (80023, 8023, 8, NULL, NULL, NULL, NULL, NULL, 1, 486, 48600, 70, NULL),
   -- Heatran, Stark Mountain 1: Heatran Lv. 70
-  (80024, 8024, 8, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 70, NULL);
+  (80024, 8024, 8, NULL, NULL, NULL, NULL, NULL, 1, 485, 48500, 70, NULL),
+  -- Mars, Valley Windworks 1: Zubat Lv. 14
+  (80004, 8025, 8, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 14, NULL),
+  -- Mars, Valley Windworks 2: Purugly Lv. 16, holds Oran Berry
+  (80004, 8025, 8, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 16, 184),
+  -- Jupiter, Team Galactic Eterna Building 1: Zubat Lv. 18
+  (80004, 8026, 8, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 18, NULL),
+  -- Jupiter, Team Galactic Eterna Building 2: Skuntank Lv. 20, holds Sitrus Berry
+  (80004, 8026, 8, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 20, 187),
+  -- Saturn, Lake Valor 1: Kadabra Lv. 35
+  (80009, 8027, 8, NULL, NULL, NULL, NULL, NULL, 1, 64, 6400, 35, NULL),
+  -- Saturn, Lake Valor 2: Bronzor Lv. 35
+  (80009, 8027, 8, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 35, NULL),
+  -- Saturn, Lake Valor 3: Toxicroak Lv. 37, holds Sitrus Berry
+  (80009, 8027, 8, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 37, 187),
+  -- Mars, Lake Verity 1: Golbat Lv. 37
+  (80009, 8025, 8, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 37, NULL),
+  -- Mars, Lake Verity 2: Bronzor Lv. 37
+  (80009, 8025, 8, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 37, NULL),
+  -- Mars, Lake Verity 3: Purugly Lv. 39, holds Sitrus Berry
+  (80009, 8025, 8, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 39, 187),
+  -- Saturn, Team Galactic HQ 1: Kadabra Lv. 38
+  (80017, 8027, 8, NULL, NULL, NULL, NULL, NULL, 1, 64, 6400, 38, NULL),
+  -- Saturn, Team Galactic HQ 2: Bronzor Lv. 38
+  (80017, 8027, 8, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
+  -- Saturn, Team Galactic HQ 3: Toxicroak Lv. 40, holds Sitrus Berry
+  (80017, 8027, 8, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 40, 187),
+  -- Mars & Jupiter, Spear Pillar 1: Bronzor Lv. 41
+  (80018, 8028, 8, NULL, NULL, NULL, NULL, NULL, 1, 436, 43600, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 2: Golbat Lv. 42
+  (80018, 8028, 8, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 42, NULL),
+  -- Mars & Jupiter, Spear Pillar 3: Purugly Lv. 45, holds Sitrus Berry
+  (80018, 8028, 8, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 45, 187),
+  -- Mars & Jupiter, Spear Pillar 4: Bronzor Lv. 41
+  (80018, 8028, 8, NULL, NULL, NULL, NULL, NULL, 4, 436, 43600, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 5: Golbat Lv. 41
+  (80018, 8028, 8, NULL, NULL, NULL, NULL, NULL, 5, 42, 4200, 41, NULL),
+  -- Mars & Jupiter, Spear Pillar 6: Skuntank Lv. 46, holds Sitrus Berry
+  (80018, 8028, 8, NULL, NULL, NULL, NULL, NULL, 6, 435, 43500, 46, 187);

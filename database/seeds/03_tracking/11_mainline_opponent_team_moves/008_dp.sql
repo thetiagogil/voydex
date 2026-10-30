@@ -6,6 +6,8 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokediamond trainer data
+-- (parties, set moves, held items), cross-checked with Bulbapedia's trainer pages.
 -- Scope: Diamond / Pearl Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -314,7 +316,45 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Regigigas: Regigigas Lv. 70: Confuse Ray, Stomp, Superpower, Zen Headbutt
     (80023, 8023, NULL, NULL, NULL, NULL, 1, ARRAY[109, 23, 276, 428]),
     -- Heatran: Heatran Lv. 70: Scary Face, Lava Plume, Fire Spin, Iron Head
-    (80024, 8024, NULL, NULL, NULL, NULL, 1, ARRAY[184, 436, 83, 442])
+    (80024, 8024, NULL, NULL, NULL, NULL, 1, ARRAY[184, 436, 83, 442]),
+    -- Mars: Zubat Lv. 14: Bite, Leech Life, Toxic
+    (80004, 8025, NULL, NULL, NULL, NULL, 1, ARRAY[44, 141, 92]),
+    -- Mars: Purugly Lv. 16: Feint Attack, Scratch, Fake Out
+    (80004, 8025, NULL, NULL, NULL, NULL, 2, ARRAY[185, 10, 252]),
+    -- Jupiter: Zubat Lv. 18: Giga Drain, Wing Attack, Bite
+    (80004, 8026, NULL, NULL, NULL, NULL, 1, ARRAY[202, 17, 44]),
+    -- Jupiter: Skuntank Lv. 20: Night Slash, Poison Gas, Screech, Smokescreen
+    (80004, 8026, NULL, NULL, NULL, NULL, 2, ARRAY[400, 139, 103, 108]),
+    -- Saturn: Kadabra Lv. 35: Psychic, Shock Wave, Recover, Embargo
+    (80009, 8027, NULL, NULL, NULL, NULL, 1, ARRAY[94, 351, 105, 373]),
+    -- Saturn: Bronzor Lv. 35: Gyro Ball, Shadow Ball, Rock Tomb, Iron Defense
+    (80009, 8027, NULL, NULL, NULL, NULL, 2, ARRAY[360, 247, 317, 334]),
+    -- Saturn: Toxicroak Lv. 37: Poison Jab, Revenge, Mud Bomb, Feint Attack
+    (80009, 8027, NULL, NULL, NULL, NULL, 3, ARRAY[398, 279, 426, 185]),
+    -- Mars: Golbat Lv. 37: Air Cutter, Bite, Toxic, Supersonic
+    (80009, 8025, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
+    -- Mars: Bronzor Lv. 37: Gyro Ball, Extrasensory, Iron Defense, Confuse Ray
+    (80009, 8025, NULL, NULL, NULL, NULL, 2, ARRAY[360, 326, 334, 109]),
+    -- Mars: Purugly Lv. 39: Slash, Feint Attack, Hypnosis, Fake Out
+    (80009, 8025, NULL, NULL, NULL, NULL, 3, ARRAY[163, 185, 95, 252]),
+    -- Saturn: Kadabra Lv. 38: Psychic, Shock Wave, Recover, Embargo
+    (80017, 8027, NULL, NULL, NULL, NULL, 1, ARRAY[94, 351, 105, 373]),
+    -- Saturn: Bronzor Lv. 38: Gyro Ball, Extrasensory, Shadow Ball, Confuse Ray
+    (80017, 8027, NULL, NULL, NULL, NULL, 2, ARRAY[360, 326, 247, 109]),
+    -- Saturn: Toxicroak Lv. 40: Poison Jab, Brick Break, X-Scissor, Swagger
+    (80017, 8027, NULL, NULL, NULL, NULL, 3, ARRAY[398, 280, 404, 207]),
+    -- Mars & Jupiter: Bronzor Lv. 41: Gyro Ball, Extrasensory, Light Screen, Confuse Ray
+    (80018, 8028, NULL, NULL, NULL, NULL, 1, ARRAY[360, 326, 113, 109]),
+    -- Mars & Jupiter: Golbat Lv. 42: Air Cutter, Bite, Poison Fang, Confuse Ray
+    (80018, 8028, NULL, NULL, NULL, NULL, 2, ARRAY[314, 44, 305, 109]),
+    -- Mars & Jupiter: Purugly Lv. 45: Slash, Shadow Claw, Aerial Ace, Hypnosis
+    (80018, 8028, NULL, NULL, NULL, NULL, 3, ARRAY[163, 421, 332, 95]),
+    -- Mars & Jupiter: Bronzor Lv. 41: Gyro Ball, Extrasensory, Rock Slide, Reflect
+    (80018, 8028, NULL, NULL, NULL, NULL, 4, ARRAY[360, 326, 157, 115]),
+    -- Mars & Jupiter: Golbat Lv. 41: Sludge Bomb, Air Cutter, Giga Drain, Mean Look
+    (80018, 8028, NULL, NULL, NULL, NULL, 5, ARRAY[188, 314, 202, 212]),
+    -- Mars & Jupiter: Skuntank Lv. 46: Night Slash, Poison Jab, Flamethrower, Smokescreen
+    (80018, 8028, NULL, NULL, NULL, NULL, 6, ARRAY[400, 398, 53, 108])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

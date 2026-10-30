@@ -6,6 +6,11 @@
 -- Rival battles: the pret pokeheartgold decompilation's trainer data, cross-checked with Serebii and Bulbapedia.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Held items: the pret pokeheartgold disassembly's trainer data; Ho-Oh always holds Sacred Ash in its species data, other wild Pokémon here hold nothing.
+-- Rocket Executives (Proton, Petrel, Ariana, Archer): the pret pokeheartgold trainer
+-- data, cross-checked with Bulbapedia's trainer and Goldenrod Radio Tower pages.
+-- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
+-- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
+-- Proton's and Petrel's first teams have no set moves; they get the game's default.
 -- Scope: Pokémon HeartGold / SoulSilver Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -390,4 +395,52 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Groudon, Embedded Tower 1: Groudon Lv. 50
   (100040, 10038, 10, NULL, NULL, NULL, NULL, NULL, 1, 383, 38300, 50, NULL),
   -- Rayquaza, Embedded Tower 1: Rayquaza Lv. 50
-  (100040, 10039, 10, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 50, NULL);
+  (100040, 10039, 10, NULL, NULL, NULL, NULL, NULL, 1, 384, 38400, 50, NULL),
+  -- Proton, Slowpoke Well 1: Zubat Lv. 8
+  (100004, 10040, 10, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 8, NULL),
+  -- Proton, Slowpoke Well 2: Koffing Lv. 12
+  (100004, 10040, 10, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 12, NULL),
+  -- Petrel, Team Rocket HQ 1: Zubat Lv. 22
+  (100009, 10041, 10, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 22, NULL),
+  -- Petrel, Team Rocket HQ 2: Raticate Lv. 24
+  (100009, 10041, 10, NULL, NULL, NULL, NULL, NULL, 2, 20, 2000, 24, NULL),
+  -- Petrel, Team Rocket HQ 3: Koffing Lv. 22
+  (100009, 10041, 10, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 22, NULL),
+  -- Ariana & Grunt, Team Rocket HQ 1: Arbok Lv. 25
+  (100009, 10043, 10, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 25, NULL),
+  -- Ariana & Grunt, Team Rocket HQ 2: Gloom Lv. 25
+  (100009, 10043, 10, NULL, NULL, NULL, NULL, NULL, 2, 44, 4400, 25, NULL),
+  -- Ariana & Grunt, Team Rocket HQ 3: Murkrow Lv. 27
+  (100009, 10043, 10, NULL, NULL, NULL, NULL, NULL, 3, 198, 19800, 27, NULL),
+  -- Ariana & Grunt, Team Rocket HQ 4: Drowzee Lv. 18
+  (100009, 10043, 10, NULL, NULL, NULL, NULL, NULL, 4, 96, 9600, 18, NULL),
+  -- Ariana & Grunt, Team Rocket HQ 5: Grimer Lv. 20
+  (100009, 10043, 10, NULL, NULL, NULL, NULL, NULL, 5, 88, 8800, 20, NULL),
+  -- Petrel, Goldenrod Radio Tower 1: Koffing Lv. 30
+  (100029, 10041, 10, NULL, NULL, NULL, NULL, NULL, 1, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 2: Koffing Lv. 30
+  (100029, 10041, 10, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 3: Koffing Lv. 30
+  (100029, 10041, 10, NULL, NULL, NULL, NULL, NULL, 3, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 4: Weezing Lv. 32
+  (100029, 10041, 10, NULL, NULL, NULL, NULL, NULL, 4, 110, 11000, 32, NULL),
+  -- Petrel, Goldenrod Radio Tower 5: Koffing Lv. 30
+  (100029, 10041, 10, NULL, NULL, NULL, NULL, NULL, 5, 109, 10900, 30, NULL),
+  -- Petrel, Goldenrod Radio Tower 6: Koffing Lv. 30
+  (100029, 10041, 10, NULL, NULL, NULL, NULL, NULL, 6, 109, 10900, 30, NULL),
+  -- Proton, Goldenrod Radio Tower 1: Golbat Lv. 28
+  (100029, 10040, 10, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 28, NULL),
+  -- Proton, Goldenrod Radio Tower 2: Weezing Lv. 33
+  (100029, 10040, 10, NULL, NULL, NULL, NULL, NULL, 2, 110, 11000, 33, NULL),
+  -- Ariana, Goldenrod Radio Tower 1: Arbok Lv. 32
+  (100029, 10042, 10, NULL, NULL, NULL, NULL, NULL, 1, 24, 2400, 32, NULL),
+  -- Ariana, Goldenrod Radio Tower 2: Vileplume Lv. 32
+  (100029, 10042, 10, NULL, NULL, NULL, NULL, NULL, 2, 45, 4500, 32, NULL),
+  -- Ariana, Goldenrod Radio Tower 3: Murkrow Lv. 32
+  (100029, 10042, 10, NULL, NULL, NULL, NULL, NULL, 3, 198, 19800, 32, NULL),
+  -- Archer, Goldenrod Radio Tower 1: Houndour Lv. 35
+  (100029, 10044, 10, NULL, NULL, NULL, NULL, NULL, 1, 228, 22800, 35, NULL),
+  -- Archer, Goldenrod Radio Tower 2: Koffing Lv. 35
+  (100029, 10044, 10, NULL, NULL, NULL, NULL, NULL, 2, 109, 10900, 35, NULL),
+  -- Archer, Goldenrod Radio Tower 3: Houndoom Lv. 38
+  (100029, 10044, 10, NULL, NULL, NULL, NULL, NULL, 3, 229, 22900, 38, NULL);

@@ -4,6 +4,11 @@
 -- Primary: Bulbapedia Badge, Elite Four, and HeartGold / SoulSilver pages.
 -- Cross-check: Pokémon HeartGold / SoulSilver source page.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
+-- Rocket Executives (Proton, Petrel, Ariana, Archer): the pret pokeheartgold trainer
+-- data, cross-checked with Bulbapedia's trainer and Goldenrod Radio Tower pages.
+-- Where the two differ the game wins: the Grunt beside Ariana has Hypnosis on Drowzee,
+-- Petrel's last Koffing in the Radio Tower has Smog, and move order follows the game.
+-- Proton's and Petrel's first teams have no set moves; they get the game's default.
 -- Scope: Pokémon HeartGold / SoulSilver major opponent data.
 -- ============================================================================
 -- File Scope
@@ -101,4 +106,14 @@ INSERT INTO tracking.mainline_opponents (
   -- Groudon (boss, soulsilver)
   (10038, 10, 16, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', 4),
   -- Rayquaza (boss)
-  (10039, 10, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 31);
+  (10039, 10, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 31),
+  -- Proton (boss; Team Rocket Executive)
+  (10040, 10, NULL, 'proton', 'Proton', 'boss', NULL, NULL, 'proton', 32),
+  -- Petrel (boss; Team Rocket Executive)
+  (10041, 10, NULL, 'petrel', 'Petrel', 'boss', NULL, NULL, 'petrel', 33),
+  -- Ariana (boss; Team Rocket Executive)
+  (10042, 10, NULL, 'ariana', 'Ariana', 'boss', NULL, NULL, 'ariana', 34),
+  -- Ariana & Grunt (boss; the Double Battle with Lance at the Team Rocket HQ)
+  (10043, 10, NULL, 'ariana-grunt', 'Ariana & Grunt', 'boss', NULL, NULL, 'ariana', 35),
+  -- Archer (boss; Team Rocket Executive)
+  (10044, 10, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 36);

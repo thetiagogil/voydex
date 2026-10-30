@@ -6,6 +6,8 @@
 -- A Pokémon the game gives no set moves, and every legendary encounter, gets
 -- the game's own default: the last four moves it learns by level up to its
 -- level, worked out from the same learnsets as the game does.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokeplatinum trainer data,
+-- which names each battle's place, cross-checked with Bulbapedia's trainer pages.
 -- Scope: Platinum Story battle opponents' moves.
 -- ============================================================================
 -- File Scope
@@ -334,7 +336,57 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Zapdos: Zapdos Lv. 60: Charge, Agility, Discharge, Roost
     (90026, 9026, NULL, NULL, NULL, NULL, 1, ARRAY[268, 97, 435, 355]),
     -- Moltres: Moltres Lv. 60: Flamethrower, Safeguard, Air Slash, Roost
-    (90027, 9027, NULL, NULL, NULL, NULL, 1, ARRAY[53, 219, 403, 355])
+    (90027, 9027, NULL, NULL, NULL, NULL, 1, ARRAY[53, 219, 403, 355]),
+    -- Mars: Zubat Lv. 15: Bite, Leech Life, Toxic
+    (90004, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[44, 141, 92]),
+    -- Mars: Purugly Lv. 17: Feint Attack, Scratch, Fake Out
+    (90004, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[185, 10, 252]),
+    -- Jupiter: Zubat Lv. 21: Giga Drain, Wing Attack, Bite
+    (90004, 9029, NULL, NULL, NULL, NULL, 1, ARRAY[202, 17, 44]),
+    -- Jupiter: Skuntank Lv. 23: Night Slash, Poison Gas, Screech, Smokescreen
+    (90004, 9029, NULL, NULL, NULL, NULL, 2, ARRAY[400, 139, 103, 108]),
+    -- Saturn: Golbat Lv. 38: Air Cutter, Bite, Toxic, Supersonic
+    (90009, 9030, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
+    -- Saturn: Bronzor Lv. 38: Gyro Ball, Shadow Ball, Rock Tomb, Iron Defense
+    (90009, 9030, NULL, NULL, NULL, NULL, 2, ARRAY[360, 247, 317, 334]),
+    -- Saturn: Toxicroak Lv. 40: Poison Jab, Revenge, Mud Bomb, Feint Attack
+    (90009, 9030, NULL, NULL, NULL, NULL, 3, ARRAY[398, 279, 426, 185]),
+    -- Mars: Golbat Lv. 38: Air Cutter, Bite, Toxic, Supersonic
+    (90009, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 92, 48]),
+    -- Mars: Bronzor Lv. 38: Gyro Ball, Extrasensory, Iron Defense, Confuse Ray
+    (90009, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[360, 326, 334, 109]),
+    -- Mars: Purugly Lv. 40: Slash, Feint Attack, Hypnosis, Fake Out
+    (90009, 9028, NULL, NULL, NULL, NULL, 3, ARRAY[163, 185, 95, 252]),
+    -- Saturn: Golbat Lv. 42: Air Cutter, Bite, Poison Fang, Confuse Ray
+    (90018, 9030, NULL, NULL, NULL, NULL, 1, ARRAY[314, 44, 305, 109]),
+    -- Saturn: Bronzor Lv. 42: Gyro Ball, Extrasensory, Shadow Ball, Confuse Ray
+    (90018, 9030, NULL, NULL, NULL, NULL, 2, ARRAY[360, 326, 247, 109]),
+    -- Saturn: Toxicroak Lv. 44: Poison Jab, Brick Break, X-Scissor, Feint Attack
+    (90018, 9030, NULL, NULL, NULL, NULL, 3, ARRAY[398, 280, 404, 185]),
+    -- Mars & Jupiter: Bronzor Lv. 44: Gyro Ball, Extrasensory, Light Screen, Confuse Ray
+    (90019, 9031, NULL, NULL, NULL, NULL, 1, ARRAY[360, 326, 113, 109]),
+    -- Mars & Jupiter: Golbat Lv. 44: Air Cutter, Bite, Poison Fang, Confuse Ray
+    (90019, 9031, NULL, NULL, NULL, NULL, 2, ARRAY[314, 44, 305, 109]),
+    -- Mars & Jupiter: Purugly Lv. 46: Slash, Shadow Claw, Aerial Ace, Hypnosis
+    (90019, 9031, NULL, NULL, NULL, NULL, 3, ARRAY[163, 421, 332, 95]),
+    -- Mars & Jupiter: Bronzor Lv. 44: Gyro Ball, Extrasensory, Rock Slide, Reflect
+    (90019, 9031, NULL, NULL, NULL, NULL, 4, ARRAY[360, 326, 157, 115]),
+    -- Mars & Jupiter: Golbat Lv. 44: Sludge Bomb, Air Cutter, Giga Drain, Mean Look
+    (90019, 9031, NULL, NULL, NULL, NULL, 5, ARRAY[188, 314, 202, 212]),
+    -- Mars & Jupiter: Skuntank Lv. 46: Night Slash, Poison Jab, Flamethrower, Smokescreen
+    (90019, 9031, NULL, NULL, NULL, NULL, 6, ARRAY[400, 398, 53, 108]),
+    -- Mars: Bronzong Lv. 58: Gyro Ball, Extrasensory, Light Screen, Confuse Ray
+    (90020, 9028, NULL, NULL, NULL, NULL, 1, ARRAY[360, 326, 113, 109]),
+    -- Mars: Golbat Lv. 58: Air Cutter, Bite, Poison Fang, Confuse Ray
+    (90020, 9028, NULL, NULL, NULL, NULL, 2, ARRAY[314, 44, 305, 109]),
+    -- Mars: Purugly Lv. 60: Slash, Shadow Claw, Aerial Ace, Hypnosis
+    (90020, 9028, NULL, NULL, NULL, NULL, 3, ARRAY[163, 421, 332, 95]),
+    -- Jupiter: Bronzong Lv. 58: Gyro Ball, Extrasensory, Rock Slide, Reflect
+    (90020, 9029, NULL, NULL, NULL, NULL, 1, ARRAY[360, 326, 157, 115]),
+    -- Jupiter: Golbat Lv. 58: Sludge Bomb, Air Cutter, Giga Drain, Mean Look
+    (90020, 9029, NULL, NULL, NULL, NULL, 2, ARRAY[188, 314, 202, 212]),
+    -- Jupiter: Skuntank Lv. 60: Night Slash, Poison Jab, Flamethrower, Smokescreen
+    (90020, 9029, NULL, NULL, NULL, NULL, 3, ARRAY[400, 398, 53, 108])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

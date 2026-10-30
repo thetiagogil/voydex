@@ -3,6 +3,9 @@
 -- ============================================================================
 -- Emerald: Steven's Multi Battle party in the game's own data (pret pokeemerald,
 -- src/battle_tower.c), matching Bulbapedia.
+-- Barry's Spear Pillar parties (Diamond / Pearl, Platinum) and Lance's Team Rocket HQ
+-- party (HeartGold / SoulSilver): the pret trainer data only; Bulbapedia's trainer
+-- pages list no partner team for those games.
 -- Every other ally: Bulbapedia trainer pages (Trace, Hop, Barry, Calem and Serena, Arven, Carmine,
 -- Kieran, Lida, Naveen, Taunie, Urbain and Korrina), the party listed for each
 -- Multi Battle; Serebii's mission pages confirm who fights beside you in each
@@ -29,6 +32,80 @@ WITH team_moves (milestone_id, opponent_id, ally_opponent_id, game_id, decision_
     (70010, 7018, 7014, NULL, NULL, NULL, NULL, 2, ARRAY[92, 332, 182, 211]),
     -- Steven beside you vs Maxie & Tabitha, Mind Badge 3: Aggron Lv. 44: Thunder, Protect, Solar Beam, Dragon Claw
     (70010, 7018, 7014, NULL, NULL, NULL, NULL, 3, ARRAY[87, 182, 76, 337]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
+    (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 1, ARRAY[34, 254, 256, 103]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Staraptor Lv. 40: Close Combat, Aerial Ace, Take Down, Quick Attack
+    (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 2, ARRAY[370, 332, 36, 98]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Buizel Lv. 41: Aqua Jet, Pursuit, Brick Break, Iron Tail
+    (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 3, ARRAY[453, 228, 280, 231]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Heracross Lv. 42: Close Combat, Brick Break, Night Slash, Aerial Ace
+    (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 4, ARRAY[370, 280, 400, 332]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Roselia Lv. 41: Giga Drain, Toxic, Ingrain, Grass Whistle
+    (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 5, ARRAY[202, 92, 275, 320]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Infernape Lv. 43: Close Combat, Punishment, Flame Wheel, Will-O-Wisp
+    (80018, 8028, 8014, NULL, 80001, 'turtwig', NULL, 6, ARRAY[370, 386, 172, 261]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
+    (80018, 8028, 8014, NULL, 80001, 'chimchar', NULL, 1, ARRAY[34, 254, 256, 103]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Staraptor Lv. 40: Close Combat, Aerial Ace, Take Down, Quick Attack
+    (80018, 8028, 8014, NULL, 80001, 'chimchar', NULL, 2, ARRAY[370, 332, 36, 98]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Roselia Lv. 41: Giga Drain, Toxic, Ingrain, Grass Whistle
+    (80018, 8028, 8014, NULL, 80001, 'chimchar', NULL, 3, ARRAY[202, 92, 275, 320]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Heracross Lv. 42: Close Combat, Brick Break, Night Slash, Aerial Ace
+    (80018, 8028, 8014, NULL, 80001, 'chimchar', NULL, 4, ARRAY[370, 280, 400, 332]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Ponyta Lv. 41: Fire Blast, Will-O-Wisp, Stomp, Take Down
+    (80018, 8028, 8014, NULL, 80001, 'chimchar', NULL, 5, ARRAY[126, 261, 23, 36]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Empoleon Lv. 43: Aqua Jet, Aerial Ace, Metal Claw, Swagger
+    (80018, 8028, 8014, NULL, 80001, 'chimchar', NULL, 6, ARRAY[453, 332, 232, 207]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
+    (80018, 8028, 8014, NULL, 80001, 'piplup', NULL, 1, ARRAY[34, 254, 256, 103]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Staraptor Lv. 40: Close Combat, Aerial Ace, Take Down, Quick Attack
+    (80018, 8028, 8014, NULL, 80001, 'piplup', NULL, 2, ARRAY[370, 332, 36, 98]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Buizel Lv. 41: Aqua Jet, Pursuit, Brick Break, Iron Tail
+    (80018, 8028, 8014, NULL, 80001, 'piplup', NULL, 3, ARRAY[453, 228, 280, 231]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Heracross Lv. 42: Close Combat, Brick Break, Night Slash, Aerial Ace
+    (80018, 8028, 8014, NULL, 80001, 'piplup', NULL, 4, ARRAY[370, 280, 400, 332]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Ponyta Lv. 41: Fire Blast, Will-O-Wisp, Stomp, Take Down
+    (80018, 8028, 8014, NULL, 80001, 'piplup', NULL, 5, ARRAY[126, 261, 23, 36]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Torterra Lv. 43: Giga Drain, Bite, Leech Seed, Synthesis
+    (80018, 8028, 8014, NULL, 80001, 'piplup', NULL, 6, ARRAY[202, 44, 73, 235]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
+    (90019, 9031, 9014, NULL, 90001, 'turtwig', NULL, 1, ARRAY[34, 254, 256, 103]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Staraptor Lv. 42: Close Combat, Aerial Ace, Take Down, Quick Attack
+    (90019, 9031, 9014, NULL, 90001, 'turtwig', NULL, 2, ARRAY[370, 332, 36, 98]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Floatzel Lv. 40: Aqua Jet, Pursuit, Brick Break, Iron Tail
+    (90019, 9031, 9014, NULL, 90001, 'turtwig', NULL, 3, ARRAY[453, 228, 280, 231]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Heracross Lv. 42: Close Combat, Brick Break, Night Slash, Aerial Ace
+    (90019, 9031, 9014, NULL, 90001, 'turtwig', NULL, 4, ARRAY[370, 280, 400, 332]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Roserade Lv. 40: Giga Drain, Toxic, Ingrain, Grass Whistle
+    (90019, 9031, 9014, NULL, 90001, 'turtwig', NULL, 5, ARRAY[202, 92, 275, 320]),
+    -- Barry beside you vs Mars & Jupiter [turtwig]: Infernape Lv. 44: Close Combat, Punishment, Flame Wheel, Will-O-Wisp
+    (90019, 9031, 9014, NULL, 90001, 'turtwig', NULL, 6, ARRAY[370, 386, 172, 261]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
+    (90019, 9031, 9014, NULL, 90001, 'chimchar', NULL, 1, ARRAY[34, 254, 256, 103]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Staraptor Lv. 42: Close Combat, Aerial Ace, Take Down, Quick Attack
+    (90019, 9031, 9014, NULL, 90001, 'chimchar', NULL, 2, ARRAY[370, 332, 36, 98]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Roserade Lv. 40: Giga Drain, Toxic, Ingrain, Grass Whistle
+    (90019, 9031, 9014, NULL, 90001, 'chimchar', NULL, 3, ARRAY[202, 92, 275, 320]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Heracross Lv. 42: Close Combat, Brick Break, Night Slash, Aerial Ace
+    (90019, 9031, 9014, NULL, 90001, 'chimchar', NULL, 4, ARRAY[370, 280, 400, 332]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Rapidash Lv. 40: Fire Blast, Will-O-Wisp, Stomp, Take Down
+    (90019, 9031, 9014, NULL, 90001, 'chimchar', NULL, 5, ARRAY[126, 261, 23, 36]),
+    -- Barry beside you vs Mars & Jupiter [chimchar]: Empoleon Lv. 44: Aqua Jet, Aerial Ace, Metal Claw, Swagger
+    (90019, 9031, 9014, NULL, 90001, 'chimchar', NULL, 6, ARRAY[453, 332, 232, 207]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Munchlax Lv. 40: Body Slam, Stockpile, Swallow, Screech
+    (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 1, ARRAY[34, 254, 256, 103]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Staraptor Lv. 42: Close Combat, Aerial Ace, Take Down, Quick Attack
+    (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 2, ARRAY[370, 332, 36, 98]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Floatzel Lv. 40: Aqua Jet, Pursuit, Brick Break, Iron Tail
+    (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 3, ARRAY[453, 228, 280, 231]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Heracross Lv. 42: Close Combat, Brick Break, Night Slash, Aerial Ace
+    (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 4, ARRAY[370, 280, 400, 332]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Rapidash Lv. 40: Fire Blast, Will-O-Wisp, Stomp, Take Down
+    (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 5, ARRAY[126, 261, 23, 36]),
+    -- Barry beside you vs Mars & Jupiter [piplup]: Torterra Lv. 44: Giga Drain, Bite, Leech Seed, Synthesis
+    (90019, 9031, 9014, NULL, 90001, 'piplup', NULL, 6, ARRAY[202, 44, 73, 235]),
+    -- Lance beside you vs Ariana & Grunt: Dragonite Lv. 40: Fly, Twister, Thunder, Hyper Beam
+    (100009, 10043, 10013, NULL, NULL, NULL, NULL, 1, ARRAY[19, 239, 87, 63]),
     -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 1: Fletchling Lv. 15: Quick Attack, Growl, Peck
     (130005, 13017, 13018, NULL, 130001, 'chespin', NULL, 1, ARRAY[98, 45, 64]),
     -- Serena / Calem beside you vs Tierno & Trevor (chose Chespin), Fossil Choice 2: Braixen Lv. 16: Ember, Scratch

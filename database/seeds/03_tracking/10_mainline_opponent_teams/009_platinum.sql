@@ -6,6 +6,8 @@
 -- Barry and Cyrus battles: the pret pokeplatinum trainer data and map scripts, cross-checked with Bulbapedia, Serebii and PokéWiki.
 -- Legendary encounters: Serebii, cross-checked with Pokémon Database and the pret disassemblies.
 -- Held items: the pret pokeplatinum disassembly's trainer data; wild Pokémon here hold nothing in their species data.
+-- Galactic Commanders (Mars, Jupiter, Saturn): the pret pokeplatinum trainer data,
+-- which names each battle's place, cross-checked with Bulbapedia's trainer pages.
 -- Scope: Pokémon Platinum Story battle opponent teams.
 -- ============================================================================
 -- File Scope
@@ -346,4 +348,54 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Zapdos, Roaming Zapdos 1: Zapdos Lv. 60
   (90026, 9026, 9, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 60, NULL),
   -- Moltres, Roaming Moltres 1: Moltres Lv. 60
-  (90027, 9027, 9, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 60, NULL);
+  (90027, 9027, 9, NULL, NULL, NULL, NULL, NULL, 1, 146, 14600, 60, NULL),
+  -- Mars, Valley Windworks 1: Zubat Lv. 15
+  (90004, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 15, NULL),
+  -- Mars, Valley Windworks 2: Purugly Lv. 17, holds Oran Berry
+  (90004, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 432, 43200, 17, 184),
+  -- Jupiter, Team Galactic Eterna Building 1: Zubat Lv. 21
+  (90004, 9029, 9, NULL, NULL, NULL, NULL, NULL, 1, 41, 4100, 21, NULL),
+  -- Jupiter, Team Galactic Eterna Building 2: Skuntank Lv. 23, holds Sitrus Berry
+  (90004, 9029, 9, NULL, NULL, NULL, NULL, NULL, 2, 435, 43500, 23, 187),
+  -- Saturn, Valor Cavern 1: Golbat Lv. 38
+  (90009, 9030, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 38, NULL),
+  -- Saturn, Valor Cavern 2: Bronzor Lv. 38
+  (90009, 9030, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
+  -- Saturn, Valor Cavern 3: Toxicroak Lv. 40, holds Sitrus Berry
+  (90009, 9030, 9, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 40, 187),
+  -- Mars, Lake Verity 1: Golbat Lv. 38
+  (90009, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 38, NULL),
+  -- Mars, Lake Verity 2: Bronzor Lv. 38
+  (90009, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 38, NULL),
+  -- Mars, Lake Verity 3: Purugly Lv. 40, holds Sitrus Berry
+  (90009, 9028, 9, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 40, 187),
+  -- Saturn, Team Galactic HQ 1: Golbat Lv. 42
+  (90018, 9030, 9, NULL, NULL, NULL, NULL, NULL, 1, 42, 4200, 42, NULL),
+  -- Saturn, Team Galactic HQ 2: Bronzor Lv. 42
+  (90018, 9030, 9, NULL, NULL, NULL, NULL, NULL, 2, 436, 43600, 42, NULL),
+  -- Saturn, Team Galactic HQ 3: Toxicroak Lv. 44, holds Sitrus Berry
+  (90018, 9030, 9, NULL, NULL, NULL, NULL, NULL, 3, 454, 45400, 44, 187),
+  -- Mars & Jupiter, Spear Pillar 1: Bronzor Lv. 44
+  (90019, 9031, 9, NULL, NULL, NULL, NULL, NULL, 1, 436, 43600, 44, NULL),
+  -- Mars & Jupiter, Spear Pillar 2: Golbat Lv. 44
+  (90019, 9031, 9, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 44, NULL),
+  -- Mars & Jupiter, Spear Pillar 3: Purugly Lv. 46, holds Sitrus Berry
+  (90019, 9031, 9, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 46, 187),
+  -- Mars & Jupiter, Spear Pillar 4: Bronzor Lv. 44
+  (90019, 9031, 9, NULL, NULL, NULL, NULL, NULL, 4, 436, 43600, 44, NULL),
+  -- Mars & Jupiter, Spear Pillar 5: Golbat Lv. 44
+  (90019, 9031, 9, NULL, NULL, NULL, NULL, NULL, 5, 42, 4200, 44, NULL),
+  -- Mars & Jupiter, Spear Pillar 6: Skuntank Lv. 46, holds Sitrus Berry
+  (90019, 9031, 9, NULL, NULL, NULL, NULL, NULL, 6, 435, 43500, 46, 187),
+  -- Mars, Stark Mountain 1: Bronzong Lv. 58
+  (90020, 9028, 9, NULL, NULL, NULL, NULL, NULL, 1, 437, 43700, 58, NULL),
+  -- Mars, Stark Mountain 2: Golbat Lv. 58
+  (90020, 9028, 9, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 58, NULL),
+  -- Mars, Stark Mountain 3: Purugly Lv. 60, holds Sitrus Berry
+  (90020, 9028, 9, NULL, NULL, NULL, NULL, NULL, 3, 432, 43200, 60, 187),
+  -- Jupiter, Stark Mountain 1: Bronzong Lv. 58
+  (90020, 9029, 9, NULL, NULL, NULL, NULL, NULL, 1, 437, 43700, 58, NULL),
+  -- Jupiter, Stark Mountain 2: Golbat Lv. 58
+  (90020, 9029, 9, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 58, NULL),
+  -- Jupiter, Stark Mountain 3: Skuntank Lv. 60, holds Sitrus Berry
+  (90020, 9029, 9, NULL, NULL, NULL, NULL, NULL, 3, 435, 43500, 60, 187);
