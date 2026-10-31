@@ -210,7 +210,7 @@ export const buildTeamAnalysisHealth = ({
     field.unrecorded.levels >= evidence.activeCount
       ? `Lv. ${field.level} (your levels aren't recorded)`
       : `your top level (Lv. ${field.level})`
-  }.`;
+  }. The types are shared across your whole team, so every Pokémon counts.`;
   const teamHealthMetric: TeamAnalysisHealthMetric = {
     id: "team-health",
     line: !canRead

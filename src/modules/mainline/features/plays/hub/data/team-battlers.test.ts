@@ -8,6 +8,7 @@ import type { Type } from "@/modules/reference/types";
 
 import {
   getAnswerCost,
+  getSharedAnswerCosts,
   getDamagingMoveTypeSlug,
   hasRecordedDamagingMove,
 } from "./team-battlers";
@@ -99,6 +100,54 @@ describe("getAnswerCost", () => {
     /* One you can't beat costs your whole team, never more. */
     expect(getAnswerCost([Infinity])).toBe(1);
     expect(getAnswerCost([Infinity, Infinity, Infinity])).toBe(3);
+  });
+});
+
+describe("getSharedAnswerCosts", () => {
+  it("gives every type to whoever answers it cheapest while each takes its fair share", () => {
+    /* Two Pokémon, four types: each takes two. */
+    const costs = getSharedAnswerCosts([
+      [0.1, 0.9],
+      [0.2, 0.8],
+      [0.9, 0.1],
+      [0.8, 0.2],
+    ]);
+
+    expect(costs).toEqual([0.1, 0.2, 0.1, 0.2]);
+  });
+
+  it("stops one Pokémon from answering more than its share", () => {
+    /* The first is best at all four, but can take only two of them. */
+    const costs = getSharedAnswerCosts([
+      [0, 1],
+      [0, 1],
+      [0, 1],
+      [0, 1],
+    ]);
+
+    expect(costs.reduce((sum, cost) => sum + cost, 0)).toBeCloseTo(2);
+    expect(costs.filter((cost) => cost === 0)).toHaveLength(2);
+  });
+
+  it("lets one Pokémon answer everything when it is alone", () => {
+    expect(getSharedAnswerCosts([[0.2], [0.4], [Infinity]])).toEqual([
+      0.2, 0.4, 1,
+    ]);
+  });
+
+  it("caps what one you can't beat costs at your whole team", () => {
+    expect(
+      getSharedAnswerCosts([
+        [Infinity, Infinity, Infinity],
+        [Infinity, Infinity, Infinity],
+        [Infinity, Infinity, Infinity],
+      ]),
+    ).toEqual([3, 3, 3]);
+  });
+
+  it("costs the whole (empty) team when nobody is on it", () => {
+    expect(getSharedAnswerCosts([[], []])).toEqual([1, 1]);
+    expect(getSharedAnswerCosts([])).toEqual([]);
   });
 });
 

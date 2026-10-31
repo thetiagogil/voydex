@@ -125,6 +125,36 @@ describe("readTeamField", () => {
     expect(farBehind.share).toBeGreaterThan(behind.share);
   });
 
+  it("weighs the whole team: a lone strong Pokémon can't carry the rest", () => {
+    const move = (type: string) => ({
+      attributes: { accuracy: 100, damage_class: "special", power: 90 },
+      id: 1,
+      name: `${type}-move`,
+      slot: 1,
+      slug: `${type}-move`,
+      type: typeOf(type),
+    });
+    const star = {
+      ...member(
+        "Star",
+        ["dragon", "ground"],
+        50,
+        base(108, 130, 95, 80, 85, 102),
+      ),
+      moves: ["fire", "water", "grass", "electric", "ice"].map(move),
+    } as MainlinePlayTeamMember;
+    const weak = (name: string) =>
+      member(name, ["normal"], 50, base(40, 40, 40, 40, 40, 40));
+    const lopsided = read([star, ...["a", "b", "c", "d", "e"].map(weak)]);
+    const balancedField = read(balanced(50));
+    const withWeakLink = read([...balanced(50).slice(0, 5), weak("f")]);
+
+    expect(lopsided.share).toBeGreaterThanOrEqual(0.9);
+    expect(balancedField.share).toBeLessThanOrEqual(0.3);
+    /* One weak member now counts, where the best two answers used to hide it. */
+    expect(withWeakLink.share).toBeGreaterThan(balancedField.share);
+  });
+
   it("weighs how many you bring against a full six after level", () => {
     const full = read(balanced(50));
     const half = read(balanced(50).slice(0, 3));

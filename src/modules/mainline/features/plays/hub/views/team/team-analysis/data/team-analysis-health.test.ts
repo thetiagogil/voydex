@@ -35,6 +35,7 @@ const typeReadings = (
       beats: [],
       hitsToKnockOut: 2,
       type: referenceType(id),
+      sharedCost: 0.2,
       ...changes[id],
     }),
   );
