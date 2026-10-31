@@ -38,13 +38,6 @@ describe("DefensiveMatchupsTable", () => {
     <DefensiveMatchupsTable caption="Matchups" members={members} rows={rows} />,
   );
 
-  it("adds each type's tally beside its counts", () => {
-    expect(markup).toContain(">Tally</th>");
-    expect(markup).toContain(
-      'aria-label="Weak: Staraptor, Garchomp. Resists: Scout."',
-    );
-  });
-
   it("starts with nothing dimmed and no hover fills of its own", () => {
     expect(markup).not.toContain("opacity-40");
     expect(markup).not.toContain("group-hover");

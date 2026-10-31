@@ -54,35 +54,3 @@ const getBar = ({
 export const getTypeTallyBars = (
   cells: readonly Pick<TypeMatchupCell, "memberId" | "multiplier">[],
 ): TypeTallyBar[] => cells.map(getBar);
-
-/*
- * Who the type hits hard, who takes it well and whose typing is missing, for
- * screen readers.
- */
-export const describeTypeTally = (
-  cells: readonly Pick<
-    TypeMatchupCell,
-    "effectiveness" | "memberName" | "multiplier"
-  >[],
-) => {
-  const names = (pick: (cell: (typeof cells)[number]) => boolean) =>
-    cells
-      .filter(pick)
-      .map((cell) => cell.memberName)
-      .join(", ");
-  const weak = names((cell) => cell.effectiveness === "weak");
-  const resist = names(
-    (cell) =>
-      cell.effectiveness === "resistant" || cell.effectiveness === "immune",
-  );
-
-  const unknown = names((cell) => cell.effectiveness === "unknown");
-
-  return [
-    weak ? `Weak: ${weak}.` : "Nobody weak.",
-    resist ? `Resists: ${resist}.` : "Nobody resists.",
-    unknown ? `Typing not recorded: ${unknown}.` : null,
-  ]
-    .filter(Boolean)
-    .join(" ");
-};

@@ -71,13 +71,6 @@ test.describe("Team analysis", () => {
       const waterCell = row("Water").getByRole("cell").first();
       const faded = /opacity-40/;
 
-      /* The Water tally names the partner: Squirtle resists it. */
-      await expect(
-        row("Water").getByRole("img", {
-          name: "Nobody weak. Resists: Squirtle.",
-        }),
-      ).toBeVisible();
-
       await row("Fire").getByRole("rowheader").hover();
       await expect(fireCell).not.toHaveClass(faded);
       await expect(waterCell).toHaveClass(faded);

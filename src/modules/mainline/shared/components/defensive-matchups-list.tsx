@@ -60,7 +60,7 @@ export const DefensiveMatchupsList = ({
                 {row.isPressure ? <TypeMatchupPressureTag /> : null}
               </span>
               <span className="text-13 col-start-1 row-start-2 flex items-center gap-3 pl-7.75 whitespace-nowrap tabular-nums">
-                <TypeTallyStrip cells={row.cells} decorative size="sm" />
+                <TypeTallyStrip cells={row.cells} />
                 <span className={cn(row.weakCount >= 2 && "text-danger")}>
                   {row.weakCount} weak
                 </span>

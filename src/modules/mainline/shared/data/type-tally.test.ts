@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { describeTypeTally, getTypeTallyBars } from "./type-tally";
+import { getTypeTallyBars } from "./type-tally";
 import { toTypeMatchupRows } from "./type-matchup-rows";
 
 const members = ["Scout", "Staraptor", "Luxray", "Roserade", "Garchomp"].map(
@@ -62,25 +62,5 @@ describe("getTypeTallyBars", () => {
       steps: 0,
       tone: "unknown",
     });
-  });
-});
-
-describe("describeTypeTally", () => {
-  it("names who is weak and who resists, immunities included", () => {
-    expect(describeTypeTally(cellsFor([2, 0.5, 1, 0, 4]))).toBe(
-      "Weak: Scout, Garchomp. Resists: Staraptor, Roserade.",
-    );
-  });
-
-  it("says so when nobody is either", () => {
-    expect(describeTypeTally(cellsFor([1, 1]))).toBe(
-      "Nobody weak. Nobody resists.",
-    );
-  });
-
-  it("names whose typing isn't recorded instead of counting them as neutral", () => {
-    expect(describeTypeTally(cellsFor([2, null, 1, null]))).toBe(
-      "Weak: Scout. Nobody resists. Typing not recorded: Staraptor, Roserade.",
-    );
   });
 });

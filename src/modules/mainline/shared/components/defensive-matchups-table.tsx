@@ -16,7 +16,6 @@ import {
   TypeMatchupPressureTag,
 } from "@/modules/mainline/shared/components/type-matchup-cell";
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
-import { TypeTallyStrip } from "@/modules/mainline/shared/components/type-tally-strip";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { IconTip } from "@/shared/components/icon-tip";
 import { useHoverFocus } from "@/shared/hooks/use-hover-focus";
@@ -88,10 +87,10 @@ const SortHeader = ({
 
 /*
  * Tablets and up: one row per attacking type, one column per Pokémon (v3
- * `.matrix`), then the type's tally and its counts. With `onSortChange` its
- * headers sort it. Hovering or keyboard-focusing a cell keeps its row and its
- * Pokémon's column and fades the rest; a Pokémon's head or a tally bar keeps
- * that Pokémon, a type's head or count keeps that type.
+ * `.matrix`), then the type's counts. With `onSortChange` its headers sort
+ * it. Hovering or keyboard-focusing a cell keeps its row and its Pokémon's
+ * column and fades the rest; a Pokémon's head keeps that Pokémon, a type's
+ * head or count keeps that type.
  */
 export const DefensiveMatchupsTable = ({
   caption,
@@ -162,9 +161,6 @@ export const DefensiveMatchupsTable = ({
                 </th>
               );
             })}
-            <th scope="col" className={headerCellClassName}>
-              Tally
-            </th>
             <SortHeader onSortChange={onSortChange} sort={sort} value="weak">
               Weak
             </SortHeader>
@@ -216,24 +212,6 @@ export const DefensiveMatchupsTable = ({
                     </td>
                   );
                 })}
-                <td className={cn(bodyCellClassName, "px-2")}>
-                  <TypeTallyStrip
-                    cells={row.cells}
-                    getBarProps={(memberId) =>
-                      getFocusProps({
-                        column: memberId,
-                        row: row.attackingType.slug,
-                      })
-                    }
-                    isBarDimmed={(memberId) =>
-                      isOutsideGridFocus(focus, {
-                        column: memberId,
-                        row: row.attackingType.slug,
-                      })
-                    }
-                    className="align-middle"
-                  />
-                </td>
                 <td
                   {...getFocusProps(rowPart)}
                   className={cn(

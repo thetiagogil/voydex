@@ -5,13 +5,7 @@ import { toTypeMatchupRows } from "@/modules/mainline/shared/data/type-matchup-r
 
 import { TypeTallyStrip } from "./type-tally-strip";
 
-const members = [
-  { id: "scout", imageUrl: null, name: "Scout" },
-  { id: "staraptor", imageUrl: null, name: "Staraptor" },
-  { id: "garchomp", imageUrl: null, name: "Garchomp" },
-];
-
-const rows = toTypeMatchupRows(
+const [electric] = toTypeMatchupRows(
   [
     {
       attackingType: { name: "Electric", slug: "electric" },
@@ -21,49 +15,26 @@ const rows = toTypeMatchupRows(
       resistCount: 0,
       weakCount: 1,
     },
-    {
-      attackingType: { name: "Ice", slug: "ice" },
-      cells: [0.5, 2, 4],
-      immuneCount: 0,
-      isPressure: true,
-      resistCount: 1,
-      weakCount: 2,
-    },
   ],
-  members,
+  ["Scout", "Staraptor", "Garchomp"].map((name) => ({
+    id: name.toLowerCase(),
+    name,
+  })),
 );
 
 describe("TypeTallyStrip", () => {
-  it("draws a bar per Pokémon and says who is weak and who resists", () => {
-    const markup = renderToStaticMarkup(
-      <TypeTallyStrip cells={rows[0]!.cells} />,
-    );
+  const markup = renderToStaticMarkup(
+    <TypeTallyStrip cells={electric!.cells} />,
+  );
 
-    expect(markup).toContain('role="img"');
-    expect(markup).toContain(
-      'aria-label="Weak: Staraptor. Resists: Garchomp."',
-    );
-    expect(markup.match(/data-tally-tone=/g)).toHaveLength(3);
-    expect(markup).toContain('data-tally-tone="immune"');
+  it("draws a bar per Pokémon, in team order", () => {
+    expect(
+      [...markup.matchAll(/data-tally-tone="(\w+)"/g)].map((match) => match[1]),
+    ).toEqual(["neutral", "weak", "immune"]);
   });
 
-  it("stays out of the reading when the counts beside it say it", () => {
-    const markup = renderToStaticMarkup(
-      <TypeTallyStrip cells={rows[0]!.cells} decorative size="sm" />,
-    );
-
-    expect(markup).toContain('aria-hidden="true"');
+  it("stays out of the reading, since the counts beside it say it", () => {
+    expect(markup.startsWith('<span aria-hidden="true"')).toBe(true);
     expect(markup).not.toContain("role=");
-  });
-
-  it("dims the bars outside the focus", () => {
-    const markup = renderToStaticMarkup(
-      <TypeTallyStrip
-        cells={rows[0]!.cells}
-        isBarDimmed={(memberId) => memberId !== "staraptor"}
-      />,
-    );
-
-    expect(markup.match(/opacity-40/g)).toHaveLength(2);
   });
 });
