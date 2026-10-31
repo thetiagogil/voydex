@@ -18,10 +18,17 @@ import type { Type } from "@/modules/reference/types";
 import {
   getAnswerCost,
   getBattleShare,
+  getSharedAnswerCosts,
   hasRecordedDamagingMove,
   middlingStats,
   toYourBattler,
 } from "@/modules/mainline/features/plays/hub/data/team-battlers";
+
+/* One type's cost for each of yours, with the reading built from it. */
+type TypeRow = {
+  costs: number[];
+  reading: Omit<TeamFieldTypeReading, "sharedCost">;
+};
 
 /* Your team against a Pokémon of one type at the field's level. */
 export type TeamFieldTypeReading = {
@@ -35,6 +42,12 @@ export type TeamFieldTypeReading = {
   /* The fewest hits any of yours needs to knock it out; Infinity when none hurts it. */
   hitsToKnockOut: number;
   type: Type;
+  /*
+   * What it costs when the types are shared out across the whole team, each
+   * Pokémon taking its fair share: what Team health reads, so one Pokémon
+   * can't carry the team.
+   */
+  sharedCost: number;
 };
 
 export type TeamFieldReading = {
@@ -46,7 +59,7 @@ export type TeamFieldReading = {
   theirCount: number;
   /* How many of yours lack a recorded level or damaging move, which makes the reading rough. */
   unrecorded: { levels: number; moves: number };
-  /* What beating the field costs your team, as a share of its HP. */
+  /* What beating the field costs your team, with every Pokémon weighed, as a share of its HP. */
   share: number;
   /* In the generation's type order. */
   types: TeamFieldTypeReading[];
@@ -157,8 +170,8 @@ export const readTeamField = ({
   const names = members.map(getPlayTeamMemberName);
   const fieldStats = getFieldStats(members);
 
-  const typeReadings = getPokemonTypesForGeneration(generationOrder).flatMap(
-    (slug): TeamFieldTypeReading[] => {
+  const typeRows = getPokemonTypesForGeneration(generationOrder).flatMap(
+    (slug): TypeRow[] => {
       const type = typeBySlug.get(slug);
 
       if (!type) {
@@ -181,32 +194,41 @@ export const readTeamField = ({
 
       return [
         {
-          answerCost: getAnswerCost(duels.map((duel) => duel.cost)),
-          beats: names.filter(
-            (_, index) =>
-              duels[index].cost >= 1 &&
-              yours[index].types.length > 0 &&
-              getDefensiveTypeMultiplier(
-                slug,
-                yours[index].types,
-                generationOrder,
-              ) >= 2,
-          ),
-          hitsToKnockOut: Math.min(
-            Infinity,
-            ...duels.map((duel) =>
-              duel.yourShare > 0 ? Math.ceil(1 / duel.yourShare) : Infinity,
+          costs: duels.map((duel) => duel.cost),
+          reading: {
+            answerCost: getAnswerCost(duels.map((duel) => duel.cost)),
+            beats: names.filter(
+              (_, index) =>
+                duels[index].cost >= 1 &&
+                yours[index].types.length > 0 &&
+                getDefensiveTypeMultiplier(
+                  slug,
+                  yours[index].types,
+                  generationOrder,
+                ) >= 2,
             ),
-          ),
-          type,
+            hitsToKnockOut: Math.min(
+              Infinity,
+              ...duels.map((duel) =>
+                duel.yourShare > 0 ? Math.ceil(1 / duel.yourShare) : Infinity,
+              ),
+            ),
+            type,
+          },
         },
       ];
     },
   );
-  /* What one of the field costs: its types on average. */
-  const fieldAnswerCost = mean(
-    typeReadings.map((reading) => reading.answerCost),
+  /* The types shared out across the whole team, so every member's matchups count. */
+  const sharedCosts = getSharedAnswerCosts(typeRows.map((row) => row.costs));
+  const typeReadings = typeRows.map(
+    ({ reading }, index): TeamFieldTypeReading => ({
+      ...reading,
+      sharedCost: sharedCosts[index],
+    }),
   );
+  /* What one of the field costs: its types on average. */
+  const fieldAnswerCost = mean(sharedCosts);
 
   return {
     lagging: members.flatMap((member, index) =>

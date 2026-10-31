@@ -35,6 +35,7 @@ const typeReadings = (
       beats: [],
       hitsToKnockOut: 2,
       type: referenceType(id),
+      sharedCost: 0.2,
       ...changes[id],
     }),
   );
@@ -140,7 +141,7 @@ describe("buildTeamAnalysisHealth", () => {
     ]);
 
     const metric = build(
-      field({ share: 0.5, types: typeReadings({ 4: { answerCost: 1.2 } }) }),
+      field({ share: 0.5, types: typeReadings({ 4: { sharedCost: 1.2 } }) }),
     )["team-health"];
 
     expect(metric?.line).toEqual([
@@ -169,9 +170,23 @@ describe("buildTeamAnalysisHealth", () => {
     }
   });
 
+  it("reads the types to watch from the whole team, not only its best answers", () => {
+    /* Your best answers beat type 4 cheaply, but the rest of the team can't back them up. */
+    const types = typeReadings({ 4: { answerCost: 0.2, sharedCost: 1.2 } });
+    const metrics = build(field({ share: 0.5, types }));
+
+    expect(metrics["team-health"]?.line).toEqual([
+      { text: "Watch" },
+      { type: referenceType(4) },
+    ]);
+    expect(metrics["threat-response"]?.tip.summary).toBe(
+      "All 10 types answered.",
+    );
+  });
+
   it("lists no type when the field is evenly hard", () => {
     const evenlyHard = Object.fromEntries(
-      Array.from({ length: 10 }, (_, id) => [id, { answerCost: 0.8 }]),
+      Array.from({ length: 10 }, (_, id) => [id, { sharedCost: 0.8 }]),
     );
     const metric = build(field({ types: typeReadings(evenlyHard) }))[
       "team-health"
@@ -185,10 +200,10 @@ describe("buildTeamAnalysisHealth", () => {
     const metric = build(
       field({
         types: typeReadings({
-          4: { answerCost: 1.2 },
-          5: { answerCost: 1.15 },
-          6: { answerCost: 1.1 },
-          7: { answerCost: 1.1 },
+          4: { sharedCost: 1.2 },
+          5: { sharedCost: 1.15 },
+          6: { sharedCost: 1.1 },
+          7: { sharedCost: 1.1 },
         }),
       }),
     )["team-health"];

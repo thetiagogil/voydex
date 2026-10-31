@@ -180,6 +180,103 @@ export const getAnswerCost = (costs: number[]) => {
 };
 
 /*
+ * Team health spreads the field across the whole team instead of always
+ * sending your best answer: each Pokémon takes on at most its fair share of
+ * the types (the types divided by your team, rounded up), and the types go to
+ * whoever answers them cheapest within that limit (the cheapest assignment
+ * overall). So one Pokémon that answers many types can't carry them all, and
+ * every member's matchups count. Rows are the types, columns your Pokémon;
+ * it returns what each type costs, in the same order. With one Pokémon there
+ * is no one to share with, and it answers every type.
+ */
+export const getSharedAnswerCosts = (costRows: number[][]) => {
+  const teamCount = Math.max(1, costRows[0]?.length ?? 0);
+  const typeCount = costRows.length;
+
+  /* Nobody to answer anything: every type costs the whole (empty) team. */
+  if (!costRows[0]?.length) {
+    return costRows.map(() => teamCount);
+  }
+
+  const capacity = Math.ceil(typeCount / teamCount);
+  /* Each Pokémon as `capacity` seats, so a type takes one seat of whoever it goes to. */
+  const seatCount = teamCount * capacity;
+  /* A cost that isn't a number counts as losing to the whole team, so the search always ends. */
+  const seatCost = (row: number, seat: number) => {
+    const cost = costRows[row][seat % teamCount];
+
+    return Number.isFinite(cost) ? Math.min(cost, teamCount) : teamCount;
+  };
+
+  /* The Hungarian method on the types against the seats, 1-indexed. */
+  const rowPotential = new Array<number>(typeCount + 1).fill(0);
+  const seatPotential = new Array<number>(seatCount + 1).fill(0);
+  const rowOfSeat = new Array<number>(seatCount + 1).fill(0);
+  const previousSeat = new Array<number>(seatCount + 1).fill(0);
+
+  for (let row = 1; row <= typeCount; row += 1) {
+    rowOfSeat[0] = row;
+    let seat = 0;
+    const slack = new Array<number>(seatCount + 1).fill(Infinity);
+    const used = new Array<boolean>(seatCount + 1).fill(false);
+
+    do {
+      used[seat] = true;
+      const currentRow = rowOfSeat[seat];
+      let delta = Infinity;
+      let nextSeat = 0;
+
+      for (let candidate = 1; candidate <= seatCount; candidate += 1) {
+        if (used[candidate]) continue;
+
+        const reduced =
+          seatCost(currentRow - 1, candidate - 1) -
+          rowPotential[currentRow] -
+          seatPotential[candidate];
+
+        if (reduced < slack[candidate]) {
+          slack[candidate] = reduced;
+          previousSeat[candidate] = seat;
+        }
+
+        if (slack[candidate] < delta) {
+          delta = slack[candidate];
+          nextSeat = candidate;
+        }
+      }
+
+      for (let candidate = 0; candidate <= seatCount; candidate += 1) {
+        if (used[candidate]) {
+          rowPotential[rowOfSeat[candidate]] += delta;
+          seatPotential[candidate] -= delta;
+        } else {
+          slack[candidate] -= delta;
+        }
+      }
+
+      seat = nextSeat;
+    } while (rowOfSeat[seat] !== 0);
+
+    do {
+      const before = previousSeat[seat];
+
+      rowOfSeat[seat] = rowOfSeat[before];
+      seat = before;
+    } while (seat);
+  }
+
+  const costs = new Array<number>(typeCount).fill(0);
+
+  for (let seat = 1; seat <= seatCount; seat += 1) {
+    if (rowOfSeat[seat]) {
+      costs[rowOfSeat[seat] - 1] = seatCost(rowOfSeat[seat] - 1, seat - 1);
+    }
+  }
+
+  return costs;
+};
+
+/*
  * What a battle costs your team: what beating each of theirs costs you,
  * added up and shared across your team, as a share of its HP.
  */

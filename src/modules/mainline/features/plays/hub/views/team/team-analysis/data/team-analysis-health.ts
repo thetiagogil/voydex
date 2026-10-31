@@ -179,6 +179,10 @@ export const buildTeamAnalysisHealth = ({
   const byCost = [...field.types].sort(
     (left, right) => right.answerCost - left.answerCost,
   );
+  /* Hardest first for the whole team, as Team health reads it. */
+  const byTeamCost = [...field.types].sort(
+    (left, right) => right.sharedCost - left.sharedCost,
+  );
 
   const teamHealthStatus: TeamAnalysisHealthStatus = !canRead
     ? "limited-data"
@@ -188,29 +192,29 @@ export const buildTeamAnalysisHealth = ({
         ? "weak"
         : "moderate";
   /*
-   * The types to watch: they cost your best answers more than a scratch and
+   * The types to watch: they cost your whole team more than a scratch and
    * clearly more than a type usually does, hardest first. When the field is
    * evenly hard, none stands out.
    */
   const meanCost =
-    byCost.reduce((sum, reading) => sum + reading.answerCost, 0) /
-    Math.max(1, byCost.length);
-  const toWatch = byCost.filter(
+    byTeamCost.reduce((sum, reading) => sum + reading.sharedCost, 0) /
+    Math.max(1, byTeamCost.length);
+  const toWatch = byTeamCost.filter(
     (reading) =>
-      reading.answerCost > battleCostLimits.strong &&
-      reading.answerCost >= meanCost + STANDOUT_COST,
+      reading.sharedCost > battleCostLimits.strong &&
+      reading.sharedCost >= meanCost + STANDOUT_COST,
   );
   /* One type is named only when it clearly costs more than the next. */
   const clearLeader =
     toWatch[0] &&
-    (!toWatch[1] || toWatch[0].answerCost - toWatch[1].answerCost >= CLEAR_LEAD)
+    (!toWatch[1] || toWatch[0].sharedCost - toWatch[1].sharedCost >= CLEAR_LEAD)
       ? toWatch[0]
       : null;
   const yardstick = `Measured against a yardstick, not a real trainer: six typical Pokémon of mixed types, as strong as yours, at ${
     field.unrecorded.levels >= evidence.activeCount
       ? `Lv. ${field.level} (your levels aren't recorded)`
       : `your top level (Lv. ${field.level})`
-  }.`;
+  }. The types are shared across your whole team, so every Pokémon counts.`;
   const teamHealthMetric: TeamAnalysisHealthMetric = {
     id: "team-health",
     line: !canRead
