@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { FallbackImage } from "@/shared/components/fallback-image";
+import type { OverlayHead } from "@/shared/components/overlay-frame";
 import { cn } from "@/shared/utils/cn";
 
 type PokemonSheetHeadProps = {
@@ -29,7 +30,7 @@ type PokemonSheetHeadProps = {
  * the title, all on the type's tint, so the sheet carries the Pokémon's
  * colour.
  */
-export const PokemonSheetHead = ({
+const PokemonSheetHead = ({
   actions,
   children,
   imageUrl,
@@ -71,4 +72,23 @@ export const PokemonSheetHead = ({
       {actions ? <div className="mt-4">{actions}</div> : null}
     </div>
   );
+};
+
+/*
+ * An overlay's `head` for a sheet about one Pokémon: the sheet places its
+ * title block beside the art, on the head's side or inset layout.
+ */
+export const pokemonSheetHead = (
+  head: Pick<
+    PokemonSheetHeadProps,
+    "actions" | "imageUrl" | "name" | "planned" | "type"
+  >,
+): OverlayHead => {
+  const renderHead: OverlayHead = (title, layout) => (
+    <PokemonSheetHead {...head} layout={layout}>
+      {title}
+    </PokemonSheetHead>
+  );
+
+  return renderHead;
 };

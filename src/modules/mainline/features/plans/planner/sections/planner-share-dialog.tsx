@@ -8,13 +8,7 @@ import {
   type PlanShare,
 } from "@/modules/mainline/features/plans/planner/utils/plan-share-code";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Input } from "@/shared/components/ui/input";
 import { FieldError, FieldLabel } from "@/shared/components/ui/field";
 
@@ -70,15 +64,14 @@ export const PlannerShareDialog = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle>Share or import a Plan</DialogTitle>
-          <DialogDescription>
-            A link carries the six Pokémon. It never changes the Plan
-            you&apos;ve saved.
-          </DialogDescription>
-        </DialogHeader>
+    <OverlayDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      size="lg"
+      title="Share or import a Plan"
+      description="A link carries the six Pokémon. It never changes the Plan you've saved."
+    >
+      <div className="grid gap-4">
         <div className="flex flex-col gap-2">
           <FieldLabel htmlFor={exportId}>Export</FieldLabel>
           <div className="flex gap-2">
@@ -135,7 +128,7 @@ export const PlannerShareDialog = ({
             </p>
           )}
         </form>
-      </DialogContent>
-    </Dialog>
+      </div>
+    </OverlayDialog>
   );
 };

@@ -12,12 +12,11 @@ import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
 import { RuleWarningText } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/rule-warning-text";
 import { Card } from "@/shared/components/ui/card";
-import { SheetTitle } from "@/shared/components/ui/sheet";
 
 const formatRuleCount = (count: number) =>
   `${count} ${count === 1 ? "rule" : "rules"} broken`;
@@ -130,22 +129,17 @@ export const MainlinePlayRuleBreaks = ({
         <AppIcon icon={appIcons.status.warning} />
         {label}
       </Badge>
-      <ResponsiveDetailSheet
+      <OverlaySheet
         open={isOpen}
         onOpenChange={setIsOpen}
-        label={label}
-        head={
-          <div>
-            <SheetTitle className="text-24">{label}</SheetTitle>
-            <p className="text-ink-2 text-14 mt-1 font-semibold text-pretty">
-              {listNames(ruleBreaks.ruleNames)}.{" "}
-              {ruleBreaks.pokemon.length === 1
-                ? "One Pokémon on your team breaks"
-                : `${ruleBreaks.pokemon.length} Pokémon on your team break`}{" "}
-              {ruleBreaks.ruleNames.length === 1 ? "it" : "them"}.
-            </p>
-          </div>
-        }
+        title={label}
+        description={`${listNames(ruleBreaks.ruleNames)}. ${
+          ruleBreaks.pokemon.length === 1
+            ? "One Pokémon on your team breaks"
+            : `${ruleBreaks.pokemon.length} Pokémon on your team break`
+        } ${ruleBreaks.ruleNames.length === 1 ? "it" : "them"}.`}
+        size="sm"
+        bodyClassName="grid content-start gap-6"
         footer={
           <>
             {/* Settings changes the rules; Team changes the Pokémon. */}
@@ -187,7 +181,7 @@ export const MainlinePlayRuleBreaks = ({
             />
           ))}
         </ul>
-      </ResponsiveDetailSheet>
+      </OverlaySheet>
     </>
   );
 };

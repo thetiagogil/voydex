@@ -20,7 +20,8 @@ import {
   getShownPlanSlot,
   type ShownPlanSlot,
 } from "@/modules/mainline/features/plans/planner/utils/plan-shown-slot";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { toNatureOptions } from "@/modules/reference/features/pokemon/components/nature-options";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -174,26 +175,26 @@ export const PlannerSlotSheet = ({
   ].filter(Boolean);
 
   return (
-    <FormOverlay
+    <OverlaySheet
       open={isOpen}
       onOpenChange={(open) => {
         if (!open) requestClose();
       }}
-      presentation="side"
-      kicker={`Plan slot ${slotIndex + 1} · ${versionGroup.name}`}
+      description={`Plan slot ${slotIndex + 1} · ${versionGroup.name}`}
       title={pokemon.name}
-      hero={{
+      meta={
+        <PokemonTypeList
+          types={pokemon.types}
+          badgeDisplay="icon-label"
+          badgeSize="sm"
+          className="flex flex-wrap gap-1.5"
+        />
+      }
+      headBleed
+      head={pokemonSheetHead({
         imageUrl: pokemon.imageUrl,
         name: pokemon.name,
         planned: true,
-        meta: (
-          <PokemonTypeList
-            types={pokemon.types}
-            badgeDisplay="icon-label"
-            badgeSize="sm"
-            className="flex flex-wrap gap-1.5"
-          />
-        ),
         type:
           primaryType && isPokemonTypeSlug(primaryType) ? primaryType : null,
         actions: (
@@ -221,7 +222,7 @@ export const PlannerSlotSheet = ({
             </Link>
           </div>
         ),
-      }}
+      })}
       footer={
         readOnly ? (
           <Button
@@ -460,6 +461,6 @@ export const PlannerSlotSheet = ({
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </FormOverlay>
+    </OverlaySheet>
   );
 };

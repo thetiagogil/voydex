@@ -6,16 +6,8 @@ import { toast } from "sonner";
 import type { AccountFormState } from "@/features/settings/server/account-actions";
 import { SETTINGS_ACTION_CLASS_NAME } from "@/features/settings/components/settings-action";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
+import { DialogClose } from "@/shared/components/ui/dialog";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type AccountFormDialogProps = {
@@ -68,7 +60,7 @@ export const AccountFormDialog = ({
   );
 
   return (
-    <Dialog
+    <OverlayDialog
       open={open}
       onOpenChange={(nextOpen) => {
         setOpen(nextOpen);
@@ -76,32 +68,28 @@ export const AccountFormDialog = ({
           setError(null);
         }
       }}
+      trigger={
+        <Button variant="secondary" className={SETTINGS_ACTION_CLASS_NAME}>
+          {triggerLabel}
+        </Button>
+      }
+      title={title}
+      description={description}
+      initialFocus
+      form={{ action: formAction }}
+      footer={
+        <>
+          <DialogClose render={<Button variant="secondary" />}>
+            Cancel
+          </DialogClose>
+          <Button type="submit" disabled={isPending} aria-busy={isPending}>
+            {isPending ? <Spinner data-icon="inline-start" /> : null}
+            {isPending ? pendingLabel : submitLabel}
+          </Button>
+        </>
+      }
     >
-      <DialogTrigger
-        render={
-          <Button variant="secondary" className={SETTINGS_ACTION_CLASS_NAME} />
-        }
-      >
-        {triggerLabel}
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
-        <form action={formAction} className="flex flex-col gap-5">
-          {field(error)}
-          <DialogFooter>
-            <DialogClose render={<Button variant="secondary" />}>
-              Cancel
-            </DialogClose>
-            <Button type="submit" disabled={isPending} aria-busy={isPending}>
-              {isPending ? <Spinner data-icon="inline-start" /> : null}
-              {isPending ? pendingLabel : submitLabel}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <div className="flex flex-col gap-5">{field(error)}</div>
+    </OverlayDialog>
   );
 };

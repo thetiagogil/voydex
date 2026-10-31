@@ -14,8 +14,7 @@ import { getGameColourStyle } from "@/modules/reference/features/games/utils/gam
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
-import { SheetTitle } from "@/shared/components/ui/sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { cn } from "@/shared/utils/cn";
 
 type StatsTimeSectionProps = {
@@ -310,10 +309,12 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         ) : null}
       </Card>
 
-      <ResponsiveDetailSheet
+      <OverlaySheet
         open={isAllOpen}
-        size="wide"
-        label="Where your time went"
+        size="xl"
+        title="Where your time went"
+        description={`${hours} hours across ${stats.time.length} Plays, most first`}
+        bodyClassName="grid content-start gap-6"
         onOpenChange={(open) => {
           setIsAllOpen(open);
           if (open) return;
@@ -323,21 +324,13 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
             returningFocus.current = false;
           }, 400);
         }}
-        head={
-          <div>
-            <SheetTitle className="text-24">Where your time went</SheetTitle>
-            <p className="text-ink-2 text-14 mt-1 font-semibold">
-              {hours} hours across {stats.time.length} Plays, most first
-            </p>
-          </div>
-        }
       >
         <ul className="grid gap-2 sm:grid-cols-2">
           {stats.time.map((row, index) => (
             <TimeCard key={row.playId} colour={colours[index]!} row={row} />
           ))}
         </ul>
-      </ResponsiveDetailSheet>
+      </OverlaySheet>
     </section>
   );
 };

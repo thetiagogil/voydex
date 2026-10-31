@@ -7,7 +7,7 @@ import type {
   LibraryRule,
   LibraryRuleKind,
 } from "@/modules/mainline/features/library/types";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { ruleOptionNotes } from "@/modules/mainline/shared/data/challenge-rule-options";
 import {
   libraryNameMaxLength,
@@ -75,12 +75,12 @@ export const LibraryRuleDetails = ({
     });
 
   return (
-    <FormOverlay
+    <OverlayDialog
       open={open}
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
       }}
-      kicker={`${rule.kind.name} · ${rule.isBuiltIn ? "Made by Voydex" : "Made by you"}`}
+      description={`${rule.kind.name} · ${rule.isBuiltIn ? "Made by Voydex" : "Made by you"}`}
       title={rule.name}
       footer={
         rule.isBuiltIn ? null : (
@@ -175,6 +175,6 @@ export const LibraryRuleDetails = ({
         )}
         <LibraryUsedIn plays={rule.plays} />
       </div>
-    </FormOverlay>
+    </OverlayDialog>
   );
 };

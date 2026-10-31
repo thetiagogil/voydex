@@ -34,7 +34,7 @@ import {
 import { TeamMemberMoves } from "./team-member-moves";
 import { TipNamed } from "@/shared/components/tip-parts";
 
-/* The name is the panel's heading: an h3 on the page, the title in a sheet. */
+/* The name is the panel's heading: an h3 on the page, drawn but hidden from readers in a sheet, which names itself. */
 export const teamMemberNameClassName = "title-page wrap-break-word";
 
 /*

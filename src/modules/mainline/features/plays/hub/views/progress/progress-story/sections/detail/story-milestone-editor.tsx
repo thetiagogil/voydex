@@ -1,57 +1,43 @@
 "use client";
 
-import { useRef } from "react";
+import { useActionState, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
+import { OverlayFrame } from "@/shared/components/overlay-frame";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import {
   AlertDialog,
+  AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
 } from "@/shared/components/ui/alert-dialog";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/shared/components/ui/sheet";
+import { Button } from "@/shared/components/ui/button";
+import { DialogClose } from "@/shared/components/ui/dialog";
+import { SheetClose } from "@/shared/components/ui/sheet";
 
-import type { StoryMilestoneActionIntent } from "../../server/story-milestone-action";
+import {
+  type StoryMilestoneActionIntent,
+  type StoryMilestoneActionState,
+  updateStoryMilestoneAction,
+} from "../../server/story-milestone-action";
 import type { StoryMilestone } from "../../types";
 import { getStoryRouteStopId } from "../route/story-route-stop";
 import { getStoryMilestoneEditorCopy } from "../../utils/story-milestone-editor";
 import {
-  StoryMilestoneEditorForm,
-  type StoryMilestoneEditorSurface,
+  StoryMilestoneEditorFields,
+  StoryMilestoneSubmitButton,
 } from "./story-milestone-editor-form";
 
-/* A column, so the form's body scrolls between the header and its footer. */
-const desktopContentClassName =
-  "flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:min-w-xl sm:max-w-xl";
-const titleClassName = "text-24 outline-none";
-
-const EditorKicker = ({ milestone }: { milestone: StoryMilestone | null }) =>
-  milestone ? (
-    <p className="text-ink-3 text-13 font-extrabold">
-      {milestone.sequence === null
-        ? "Optional"
-        : `Milestone ${milestone.sequence}`}{" "}
-      · {milestone.typeName}
-    </p>
-  ) : null;
+const initialStoryMilestoneActionState: StoryMilestoneActionState = {
+  message: null,
+  status: "idle",
+};
 
 /*
  * Recording a milestone, or changing what was recorded with it, is a quiet
  * form: a dialog on wide screens and a bottom sheet on phones and tablets.
+ * Marking one incomplete asks first, so wide screens make it a confirm.
  */
 export const StoryMilestoneEditor = ({
   intent,
@@ -75,97 +61,129 @@ export const StoryMilestoneEditor = ({
   /* Recording: start with "Record team snapshot" ticked. */
   recordsTeam?: boolean;
 }) => {
+  const router = useRouter();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const usesBottomSheet = useBottomSheetLayout();
-  const copy = getStoryMilestoneEditorCopy(intent, milestone);
+  const [state, formAction] = useActionState(
+    updateStoryMilestoneAction,
+    initialStoryMilestoneActionState,
+  );
+  const handledStateRef = useRef<StoryMilestoneActionState | null>(null);
+  /* Each opening starts clean: the fields remount, and an old error is not shown. */
   const isOpen = open && Boolean(milestone);
+  const [session, setSession] = useState({ isOpen, count: 0, baseline: state });
+  const copy = getStoryMilestoneEditorCopy(intent, milestone);
+
+  if (isOpen !== session.isOpen) {
+    setSession({
+      baseline: state,
+      count: isOpen ? session.count + 1 : session.count,
+      isOpen,
+    });
+  }
+
+  const shownState =
+    state === session.baseline ? initialStoryMilestoneActionState : state;
+
+  useEffect(() => {
+    if (state.status !== "success" || handledStateRef.current === state) {
+      return;
+    }
+
+    handledStateRef.current = state;
+    onSaved(state.message, state.milestoneIds ?? []);
+    router.refresh();
+  }, [onSaved, router, state]);
+
   /* Back to the milestone's stop on the route, as its sheet does. */
   const returnFocus = () =>
     milestone
       ? document.getElementById(getStoryRouteStopId(milestone.id))
       : null;
-  const form = (surface: StoryMilestoneEditorSurface) =>
-    milestone ? (
-      <StoryMilestoneEditorForm
-        key={`${milestone.id}-${intent}-${open}-${surface}`}
-        intent={intent}
-        milestone={milestone}
-        onSaved={onSaved}
-        playId={playId}
-        recordsEarlier={recordsEarlier}
-        recordsTeam={recordsTeam}
-        surface={surface}
-      />
-    ) : null;
+  const fields = milestone ? (
+    <StoryMilestoneEditorFields
+      key={`${milestone.id}-${intent}-${session.count}`}
+      intent={intent}
+      milestone={milestone}
+      playId={playId}
+      recordsEarlier={recordsEarlier}
+      recordsTeam={recordsTeam}
+      state={shownState}
+    />
+  ) : null;
+  const submit = <StoryMilestoneSubmitButton copy={copy} intent={intent} />;
 
   if (usesBottomSheet) {
     return (
-      /* BottomSheet's own look, built here because the form owns its footer. */
-      <Sheet open={isOpen} onOpenChange={onOpenChange}>
-        <SheetContent
-          side="bottom"
-          className="mx-auto max-h-[88dvh] w-full max-w-140 gap-0 data-[side=bottom]:rounded-t-xl"
-          initialFocus={titleRef}
-          finalFocus={returnFocus}
-        >
-          <span
-            aria-hidden
-            className="bg-line mx-auto mt-2.5 mb-0.5 h-1.25 w-11 shrink-0 rounded-full"
-          />
-          <SheetHeader className="gap-1 px-5 pt-3 pr-14 pb-2">
-            <EditorKicker milestone={milestone} />
-            <SheetTitle ref={titleRef} tabIndex={-1} className={titleClassName}>
-              {copy.title}
-            </SheetTitle>
-            <SheetDescription>{copy.description}</SheetDescription>
-          </SheetHeader>
-          {form("sheet")}
-        </SheetContent>
-      </Sheet>
+      <OverlaySheet
+        open={isOpen}
+        onOpenChange={onOpenChange}
+        finalFocus={returnFocus}
+        title={copy.title}
+        description={copy.description}
+        form={{ action: formAction }}
+        footer={
+          <>
+            <SheetClose render={<Button type="button" variant="secondary" />}>
+              Cancel
+            </SheetClose>
+            {submit}
+          </>
+        }
+      >
+        {fields}
+      </OverlaySheet>
     );
   }
 
   if (intent === "incomplete") {
     return (
+      /* A confirm stays an AlertDialog; its inside is the dialog's frame. */
       <AlertDialog open={isOpen} onOpenChange={onOpenChange}>
         <AlertDialogContent
-          className={desktopContentClassName}
+          className="flex max-h-[85dvh] flex-col gap-0 overflow-hidden p-0 sm:max-w-lg"
           initialFocus={titleRef}
           finalFocus={returnFocus}
         >
-          <AlertDialogHeader className="gap-1 p-6 pr-16 pb-4">
-            <EditorKicker milestone={milestone} />
-            <AlertDialogTitle
-              ref={titleRef}
-              tabIndex={-1}
-              className={titleClassName}
-            >
-              {copy.title}
-            </AlertDialogTitle>
-            <AlertDialogDescription>{copy.description}</AlertDialogDescription>
-          </AlertDialogHeader>
-          {form("alert-dialog")}
+          <OverlayFrame
+            placement="dialog"
+            titleRef={titleRef}
+            title={copy.title}
+            description={copy.description}
+            form={{ action: formAction }}
+            footer={
+              <>
+                <AlertDialogCancel type="button">Cancel</AlertDialogCancel>
+                {submit}
+              </>
+            }
+          >
+            {fields}
+          </OverlayFrame>
         </AlertDialogContent>
       </AlertDialog>
     );
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={desktopContentClassName}
-        initialFocus={titleRef}
-        finalFocus={returnFocus}
-      >
-        <DialogHeader className="gap-1 p-6 pr-16 pb-4">
-          <EditorKicker milestone={milestone} />
-          <DialogTitle ref={titleRef} tabIndex={-1} className={titleClassName}>
-            {copy.title}
-          </DialogTitle>
-          <DialogDescription>{copy.description}</DialogDescription>
-        </DialogHeader>
-        {form("dialog")}
-      </DialogContent>
-    </Dialog>
+    <OverlayDialog
+      open={isOpen}
+      onOpenChange={onOpenChange}
+      finalFocus={returnFocus}
+      size="lg"
+      title={copy.title}
+      description={copy.description}
+      form={{ action: formAction }}
+      footer={
+        <>
+          <DialogClose render={<Button type="button" variant="secondary" />}>
+            Cancel
+          </DialogClose>
+          {submit}
+        </>
+      }
+    >
+      {fields}
+    </OverlayDialog>
   );
 };

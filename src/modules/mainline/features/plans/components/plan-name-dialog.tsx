@@ -3,14 +3,7 @@
 import { useId, useState, useTransition } from "react";
 
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -55,7 +48,7 @@ export const PlanNameDialog = ({
     });
 
   return (
-    <Dialog
+    <OverlayDialog
       open={open}
       onOpenChange={(next) => {
         if (isSaving) return;
@@ -63,58 +56,55 @@ export const PlanNameDialog = ({
         setError(null);
         onOpenChange(next);
       }}
-    >
-      <DialogContent className="sm:max-w-md">
-        <form
-          className="grid gap-5"
-          onSubmit={(event) => {
-            event.preventDefault();
+      title={title}
+      description={description ?? undefined}
+      initialFocus
+      form={{
+        onSubmit: (event) => {
+          event.preventDefault();
 
-            if (name.trim()) submit();
-          }}
-        >
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            {description ? (
-              <DialogDescription>{description}</DialogDescription>
-            ) : null}
-          </DialogHeader>
-          <Field>
-            <FieldLabel htmlFor={nameId}>Plan name</FieldLabel>
-            <Input
-              id={nameId}
-              autoFocus
-              autoComplete="off"
-              maxLength={200}
-              placeholder="For example, Mono Water team"
-              value={name}
-              onChange={(event) => {
-                setName(event.currentTarget.value);
-                setError(null);
-              }}
-            />
-          </Field>
-          {error ? <FieldError>{error}</FieldError> : null}
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="secondary"
-              disabled={isSaving}
-              onClick={() => onOpenChange(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={isSaving || !name.trim()}
-              aria-busy={isSaving}
-            >
-              {isSaving ? <Spinner data-icon="inline-start" /> : null}
-              {submitLabel}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+          if (name.trim()) submit();
+        },
+      }}
+      footer={
+        <>
+          <Button
+            type="button"
+            variant="secondary"
+            disabled={isSaving}
+            onClick={() => onOpenChange(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={isSaving || !name.trim()}
+            aria-busy={isSaving}
+          >
+            {isSaving ? <Spinner data-icon="inline-start" /> : null}
+            {submitLabel}
+          </Button>
+        </>
+      }
+    >
+      <div className="grid gap-5">
+        <Field>
+          <FieldLabel htmlFor={nameId}>Plan name</FieldLabel>
+          <Input
+            id={nameId}
+            autoFocus
+            autoComplete="off"
+            maxLength={200}
+            placeholder="For example, Mono Water team"
+            value={name}
+            onChange={(event) => {
+              setName(event.currentTarget.value);
+              setError(null);
+            }}
+          />
+        </Field>
+        {error ? <FieldError>{error}</FieldError> : null}
+      </div>
+    </OverlayDialog>
   );
 };

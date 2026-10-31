@@ -8,7 +8,7 @@ import type {
   LibraryRule,
   LibraryRuleKind,
 } from "@/modules/mainline/features/library/types";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import type { RulePreset } from "@/modules/mainline/shared/data/rule-presets";
 import {
   libraryNameMaxLength,
@@ -77,14 +77,13 @@ export const LibraryPresetDetails = ({
   };
 
   return (
-    <FormOverlay
+    <OverlaySheet
       open={open}
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
       }}
-      presentation="side"
       size="lg"
-      kicker={`Preset · Made by ${isBuiltIn ? "Voydex" : "you"}`}
+      description={`Preset · Made by ${isBuiltIn ? "Voydex" : "you"}`}
       title={preset?.name ?? "New preset"}
       footer={
         isBuiltIn ? null : (
@@ -194,6 +193,6 @@ export const LibraryPresetDetails = ({
           {error ? <FieldError>{error}</FieldError> : null}
         </form>
       )}
-    </FormOverlay>
+    </OverlaySheet>
   );
 };

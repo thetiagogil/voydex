@@ -5,7 +5,7 @@ import { useState, useTransition, type ReactNode } from "react";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { formatRuleLabel } from "@/modules/mainline/shared/data/challenge-rule-options";
 import type { LibraryChoice } from "@/modules/mainline/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -405,7 +405,7 @@ export const LibraryChoiceField = ({
         </ComboboxContent>
       </Combobox>
       {renderOptions ? (
-        <FormOverlay
+        <OverlayDialog
           open={isOptionsOpen}
           onOpenChange={setIsOptionsOpen}
           title={optionsChoice?.name ?? ""}
@@ -417,7 +417,7 @@ export const LibraryChoiceField = ({
           }
         >
           {optionsChoice ? renderOptions(optionsChoice) : null}
-        </FormOverlay>
+        </OverlayDialog>
       ) : null}
     </div>
   );
