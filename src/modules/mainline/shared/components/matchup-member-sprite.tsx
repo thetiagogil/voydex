@@ -5,22 +5,20 @@ import { cn } from "@/shared/utils/cn";
 /*
  * One Pokémon of the team in the matchups: its art, plain, as v3 draws it in
  * the matrix. The matchups have no loud parts, so these aren't stickers, and
- * without art the first letter sits on a quiet disc.
+ * without art the first letter sits on a quiet disc. Its name always
+ * sits beside it, so the art itself is unnamed.
  */
 export const MatchupMemberSprite = ({
   className,
-  label = "",
   member,
 }: {
   className?: string;
-  /* The Pokémon's name when nothing beside the art says it. */
-  label?: string;
   member: TypeMatchupMember;
 }) => (
   <FallbackImage
     src={member.imageUrl}
     name={member.name}
-    alt={label}
+    alt=""
     width={52}
     height={52}
     loading="lazy"

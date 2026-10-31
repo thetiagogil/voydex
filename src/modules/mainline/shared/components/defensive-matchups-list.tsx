@@ -18,9 +18,9 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Phones: one row per attacking type, with its tally, how many are weak (and
- * who) and how many resist; a row opens in place to show every Pokémon's multiplier
- * (v3 `.mx-list`).
+ * Phones: one row per attacking type, with its tally and how many are weak
+ * and how many resist; a row opens in place to show every Pokémon and its
+ * multiplier (v3 `.mx-list`).
  */
 export const DefensiveMatchupsList = ({
   className,
@@ -35,11 +35,6 @@ export const DefensiveMatchupsList = ({
     <Accordion multiple className={cn("gap-1.5", className)}>
       {rows.map((row) => {
         const resistTotal = row.resistCount + row.immuneCount;
-        const weakMembers = members.flatMap((member, index) => {
-          const cell = row.cells[index];
-
-          return cell?.effectiveness === "weak" ? [{ cell, member }] : [];
-        });
 
         return (
           <AccordionItem
@@ -67,16 +62,6 @@ export const DefensiveMatchupsList = ({
                 <span className={cn(resistTotal >= 2 && "text-ok")}>
                   {resistTotal} resist
                 </span>
-              </span>
-              <span className="col-start-2 row-start-2 flex justify-self-end">
-                {weakMembers.map(({ cell, member }) => (
-                  <MatchupMemberSprite
-                    key={cell.memberId}
-                    member={member}
-                    label={cell.memberName}
-                    className="-ml-1.5 size-7.5"
-                  />
-                ))}
               </span>
             </AccordionTrigger>
             <AccordionContent className="grid grid-cols-3 gap-x-1.5 gap-y-2.5 px-2.5 pt-0.5 pb-3">
