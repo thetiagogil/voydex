@@ -113,7 +113,6 @@ export const AddPokemonSheet = ({
   onOpenChange,
   open,
   playId,
-  playLabel,
   preset = null,
   reserveCount,
   ruleChecks = emptyRuleCheckContext,
@@ -127,8 +126,6 @@ export const AddPokemonSheet = ({
   onOpenChange: (open: boolean) => void;
   open: boolean;
   playId: string;
-  /* The kicker, such as "Sword". */
-  playLabel: string;
   preset?: AddPokemonPreset | null;
   reserveCount: number;
   /* What the Play's rules check, to warn about a pick before it's added. */
@@ -467,7 +464,7 @@ export const AddPokemonSheet = ({
     <OverlaySheet
       open={open}
       onOpenChange={changeOpen}
-      description={`${isReplace ? `Replace ${mode.name}` : "Add"} · ${playLabel}`}
+      description={isReplace ? `Replace ${mode.name}` : undefined}
       title={step === 1 ? "Which Pokémon?" : (picked?.speciesName ?? "")}
       toolbar={step === 1 ? searchControl : undefined}
       headBleed={Boolean(picked)}
