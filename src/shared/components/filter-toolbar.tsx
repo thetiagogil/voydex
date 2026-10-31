@@ -2,6 +2,7 @@
 
 import {
   Children,
+  cloneElement,
   Fragment,
   isValidElement,
   useState,
@@ -138,11 +139,20 @@ export const FilterToolbar = ({
         }
         trailing={[filters?.("line"), controls?.("line")]
           .flatMap(getControls)
-          .map((control, index) => (
-            <ToolbarGroup key={index} className={inline.group}>
-              {control}
-            </ToolbarGroup>
-          ))}
+          .map((control, index) =>
+            /* A control that is already a group keeps its own classes, such as `shrink-0`. */
+            isValidElement<{ className?: string }>(control) &&
+            control.type === ToolbarGroup ? (
+              cloneElement(control, {
+                className: cn(control.props.className, inline.group),
+                key: index,
+              })
+            ) : (
+              <ToolbarGroup key={index} className={inline.group}>
+                {control}
+              </ToolbarGroup>
+            ),
+          )}
       />
       {row ? (
         <div className={cn("mt-3.5", inline.row)}>{row("line")}</div>

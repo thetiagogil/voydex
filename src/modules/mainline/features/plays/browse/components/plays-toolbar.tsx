@@ -17,6 +17,7 @@ import {
 import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { ToolbarGroup } from "@/shared/components/toolbar";
 
 type PlaysToolbarProps = {
   filters: PlayBrowseFilters;
@@ -88,6 +89,8 @@ const getFilterSelects = (
   }: { idPrefix: string; isInForm?: boolean; sortPrefix?: string },
 ) => {
   const getName = (name: string) => (isInForm ? name : undefined);
+  /* On the line a field gives way when the row is full, cutting its value short. */
+  const fieldClassName = isInForm ? "min-w-0" : undefined;
 
   return {
     game: (
@@ -113,6 +116,7 @@ const getFilterSelects = (
         ]}
         searchPlaceholder="Search games"
         placeholder="All games"
+        className={fieldClassName}
         variant="ghost"
       />
     ),
@@ -126,6 +130,7 @@ const getFilterSelects = (
         onValueChange={onGenerationChange}
         options={[{ label: "All generations", value: "" }, ...generations]}
         placeholder="All generations"
+        className={fieldClassName}
         variant="ghost"
       />
     ),
@@ -139,6 +144,7 @@ const getFilterSelects = (
         onValueChange={onStatusChange}
         options={[{ label: "All statuses", value: "" }, ...statuses]}
         placeholder="All statuses"
+        className={fieldClassName}
         variant="ghost"
       />
     ),
@@ -154,7 +160,7 @@ const getFilterSelects = (
         searchPlaceholder="Search tags"
         placeholder="All tags"
         /* Tags are named by you, so on the line a long one is cut short. */
-        className={isInForm ? "max-w-48" : undefined}
+        className={isInForm ? "max-w-48 min-w-0" : undefined}
         variant="ghost"
       />
     ),
@@ -171,6 +177,7 @@ const getFilterSelects = (
         options={sortOptions}
         placeholder="Recent activity"
         prefix={sortPrefix}
+        className={fieldClassName}
         variant="ghost"
       />
     ),
@@ -239,7 +246,8 @@ export const PlaysToolbar = ({
                 sortPrefix: "Sort",
               }).sort
             }
-            {display}
+            {/* The switch never shrinks; the fields give way. */}
+            <ToolbarGroup className="shrink-0">{display}</ToolbarGroup>
           </>
         ) : (
           <>
