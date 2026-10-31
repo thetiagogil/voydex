@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, type CSSProperties, type FocusEvent } from "react";
+import { useRef, useState, type CSSProperties } from "react";
 
 import { appRoutes } from "@/config/routes";
 import type { StatsModel } from "@/modules/mainline/features/stats/data/stats-model";
@@ -15,7 +15,12 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { SectionHead } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
+import { useHoverFocus } from "@/shared/hooks/use-hover-focus";
 import { cn } from "@/shared/utils/cn";
+import {
+  getHoverFocusClassName,
+  isOutsideKeyFocus,
+} from "@/shared/utils/hover-focus";
 
 type StatsTimeSectionProps = {
   stats: StatsModel;
@@ -54,41 +59,32 @@ const getRowColours = (rows: TimeRow[]) => {
   });
 };
 
-/* Only a keyboard focus picks a Play out; a click or a returned focus doesn't. */
-const isKeyboardFocus = (event: FocusEvent<HTMLElement>) =>
-  event.currentTarget.matches(":focus-visible");
-
-/* Faded while another Play (or the rest) is picked out. */
-const getDimClassName = (activeKey: string | null, key: string) =>
-  activeKey && activeKey !== key ? "opacity-40" : null;
+type FocusProps = ReturnType<
+  ReturnType<typeof useHoverFocus<string>>["getFocusProps"]
+>;
 
 /*
  * One Play's time as a small card that opens the Play: colour dot, cover,
  * name, hours and share. Hovering it picks out its slice.
  */
 const TimeCard = ({
-  activeKey,
   colour,
-  onActiveChange,
+  focusProps,
+  isDimmed = false,
   row,
 }: {
-  activeKey?: string | null;
   colour: CSSProperties;
-  onActiveChange?: (key: string | null) => void;
+  focusProps?: FocusProps;
+  isDimmed?: boolean;
   row: TimeRow;
 }) => (
   <li style={colour} className="flex min-w-0">
     <Link
       href={appRoutes.mainlinePlay(row.playId)}
-      onMouseEnter={() => onActiveChange?.(row.playId)}
-      onMouseLeave={() => onActiveChange?.(null)}
-      onFocus={(event) => {
-        if (isKeyboardFocus(event)) onActiveChange?.(row.playId);
-      }}
-      onBlur={() => onActiveChange?.(null)}
+      {...focusProps}
       className={cn(
-        "bg-surface-2 hover:bg-hover focus-ring flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 transition-opacity",
-        getDimClassName(activeKey ?? null, row.playId),
+        "bg-surface-2 hover:bg-hover focus-ring flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5",
+        getHoverFocusClassName(isDimmed),
       )}
     >
       <GameCover
@@ -122,15 +118,15 @@ const TimeCard = ({
 const TimeDonut = ({
   activeKey,
   colours,
+  getFocusProps,
   minutes,
-  onActiveChange,
   otherMinutes,
   rows,
 }: {
   activeKey: string | null;
   colours: CSSProperties[];
+  getFocusProps: (key: string) => FocusProps;
   minutes: number;
-  onActiveChange: (key: string | null) => void;
   otherMinutes: number;
   rows: TimeRow[];
 }) => {
@@ -183,11 +179,10 @@ const TimeDonut = ({
               fill="none"
               strokeWidth={activeKey === slice.key ? 16 : 13}
               style={slice.colour}
-              onMouseEnter={() => onActiveChange(slice.key)}
-              onMouseLeave={() => onActiveChange(null)}
+              {...getFocusProps(slice.key)}
               className={cn(
+                getHoverFocusClassName(isOutsideKeyFocus(activeKey, slice.key)),
                 "cursor-pointer stroke-(--slice) transition-[opacity,stroke-width]",
-                getDimClassName(activeKey, slice.key),
               )}
               strokeDasharray={`${Math.max(length - SLICE_GAP, 0.5)} ${CIRCUMFERENCE}`}
               strokeDashoffset={-offset}
@@ -213,7 +208,13 @@ const TimeDonut = ({
 export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
   const [isAllOpen, setIsAllOpen] = useState(false);
   /* The Play (or "other", the rest) picked out by hovering. */
-  const [activeKey, setActiveKey] = useState<string | null>(null);
+  const {
+    clear,
+    focus: activeKey,
+    getFocusProps,
+    scopeProps,
+  } = useHoverFocus<string>();
+  const otherFocusProps = getFocusProps("other");
   /* Set briefly while the closed dialog returns focus to See all. */
   const returningFocus = useRef(false);
   const colours = getRowColours(stats.time);
@@ -232,12 +233,15 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
       />
       <Card className="gap-4 px-5 py-5 sm:px-6">
         {stats.time.length ? (
-          <div className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-8">
+          <div
+            {...scopeProps}
+            className="flex flex-col items-center gap-5 md:flex-row md:items-center md:gap-8"
+          >
             <TimeDonut
               activeKey={activeKey}
               colours={colours}
+              getFocusProps={getFocusProps}
               minutes={stats.minutes}
-              onActiveChange={setActiveKey}
               otherMinutes={otherMinutes}
               rows={rows}
             />
@@ -245,9 +249,9 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
               {rows.map((row, index) => (
                 <TimeCard
                   key={row.playId}
-                  activeKey={activeKey}
                   colour={colours[index]!}
-                  onActiveChange={setActiveKey}
+                  focusProps={getFocusProps(row.playId)}
+                  isDimmed={isOutsideKeyFocus(activeKey, row.playId)}
                   row={row}
                 />
               ))}
@@ -256,21 +260,21 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
                   <button
                     type="button"
                     onClick={() => {
-                      setActiveKey(null);
+                      clear();
                       setIsAllOpen(true);
                     }}
-                    onMouseEnter={() => setActiveKey("other")}
-                    onMouseLeave={() => setActiveKey(null)}
+                    {...otherFocusProps}
                     onFocus={(event) => {
                       /* Not when the closing dialog hands focus back. */
-                      if (isKeyboardFocus(event) && !returningFocus.current) {
-                        setActiveKey("other");
+                      if (!returningFocus.current) {
+                        otherFocusProps.onFocus(event);
                       }
                     }}
-                    onBlur={() => setActiveKey(null)}
                     className={cn(
-                      "bg-surface-2 hover:bg-hover focus-ring flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-opacity",
-                      getDimClassName(activeKey, "other"),
+                      "bg-surface-2 hover:bg-hover focus-ring flex w-full min-w-0 items-center gap-3 rounded-lg px-3 py-2.5 text-left",
+                      getHoverFocusClassName(
+                        isOutsideKeyFocus(activeKey, "other"),
+                      ),
                     )}
                   >
                     <span className="text-ink-2 grid h-10 w-7.5 shrink-0 place-items-center">
@@ -318,7 +322,7 @@ export const StatsTimeSection = ({ stats }: StatsTimeSectionProps) => {
         onOpenChange={(open) => {
           setIsAllOpen(open);
           if (open) return;
-          setActiveKey(null);
+          clear();
           returningFocus.current = true;
           window.setTimeout(() => {
             returningFocus.current = false;

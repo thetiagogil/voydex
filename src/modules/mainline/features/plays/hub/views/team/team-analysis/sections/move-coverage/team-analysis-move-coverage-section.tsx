@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 import type {
   TeamAnalysisCoverageRow,
   TeamAnalysisCoverageHit,
@@ -19,7 +17,11 @@ import {
   TipRows,
   TipStack,
 } from "@/shared/components/tip-parts";
-import { cn } from "@/shared/utils/cn";
+import { useHoverFocus } from "@/shared/hooks/use-hover-focus";
+import {
+  getHoverFocusClassName,
+  isOutsideKeyFocus,
+} from "@/shared/utils/hover-focus";
 
 /* Each move on its own line: its type, its name, and STAB when the user shares its type. */
 const HitMoves = ({ hit }: { hit: TeamAnalysisCoverageHit }) => (
@@ -92,7 +94,7 @@ export const TeamAnalysisMoveCoverageSection = ({
 }: {
   rows: TeamAnalysisCoverageRow[];
 }) => {
-  const [activeId, setActiveId] = useState<number | null>(null);
+  const { focus, getFocusProps, scopeProps } = useHoverFocus<number>();
   const coveredCount = rows.filter((row) => row.moveCount > 0).length;
 
   return (
@@ -112,23 +114,14 @@ export const TeamAnalysisMoveCoverageSection = ({
       <ul
         aria-label="Move coverage by type"
         className="flex flex-wrap gap-2"
-        onMouseLeave={() => setActiveId(null)}
+        {...scopeProps}
       >
         {rows.map((row) => (
           <li
             key={row.defendingType.id}
-            onMouseEnter={() => setActiveId(row.defendingType.id)}
-            onFocus={(event) => {
-              if (event.target.matches(":focus-visible")) {
-                setActiveId(row.defendingType.id);
-              }
-            }}
-            onBlur={() => setActiveId(null)}
-            className={cn(
-              "transition-opacity",
-              activeId !== null &&
-                activeId !== row.defendingType.id &&
-                "opacity-40",
+            {...getFocusProps(row.defendingType.id)}
+            className={getHoverFocusClassName(
+              isOutsideKeyFocus(focus, row.defendingType.id),
             )}
           >
             <ExplanatoryTip

@@ -8,6 +8,7 @@ import {
   TypeMatchupPressureTag,
 } from "@/modules/mainline/shared/components/type-matchup-cell";
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
+import { TypeTallyStrip } from "@/modules/mainline/shared/components/type-tally-strip";
 import {
   Accordion,
   AccordionContent,
@@ -17,8 +18,8 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Phones: one row per attacking type, with how many are weak (and who) and how
- * many resist; a row opens in place to show every Pokémon's multiplier
+ * Phones: one row per attacking type, with its tally, how many are weak (and
+ * who) and how many resist; a row opens in place to show every Pokémon's multiplier
  * (v3 `.mx-list`).
  */
 export const DefensiveMatchupsList = ({
@@ -58,7 +59,8 @@ export const DefensiveMatchupsList = ({
                 <TypeName type={row.attackingType} />
                 {row.isPressure ? <TypeMatchupPressureTag /> : null}
               </span>
-              <span className="text-13 col-start-1 row-start-2 flex gap-3 pl-8.25 tabular-nums">
+              <span className="text-13 col-start-1 row-start-2 flex items-center gap-3 pl-7.75 whitespace-nowrap tabular-nums">
+                <TypeTallyStrip cells={row.cells} decorative size="sm" />
                 <span className={cn(row.weakCount >= 2 && "text-danger")}>
                   {row.weakCount} weak
                 </span>
