@@ -17,6 +17,23 @@ const isKeyboardFocus = (event: FocusEvent<HTMLElement | SVGElement>) =>
   event.target.matches(":focus-visible");
 
 /*
+ * What a part of a table or chart answers to: a hover or a keyboard focus
+ * picks it out, a blur lets it go. Touch taps and mouse focus are ignored.
+ */
+export const getHoverFocusHandlers = <TFocus>(
+  part: TFocus,
+  setFocus: (focus: TFocus | null) => void,
+) => ({
+  onBlur: () => setFocus(null),
+  onFocus: (event: FocusEvent<HTMLElement | SVGElement>) => {
+    if (isKeyboardFocus(event)) setFocus(part);
+  },
+  onPointerEnter: (event: PointerEvent<HTMLElement | SVGElement>) => {
+    if (isHoverPointer(event)) setFocus(part);
+  },
+});
+
+/*
  * The one hover focus of Voydex's tables and charts: hovering a part, or
  * moving the keyboard onto it, picks it out and the rest fades
  * (`getHoverFocusClassName` with `isOutsideKeyFocus` or `isOutsideGridFocus`).
@@ -28,18 +45,9 @@ const isKeyboardFocus = (event: FocusEvent<HTMLElement | SVGElement>) =>
 export const useHoverFocus = <TFocus>() => {
   const [focus, setFocus] = useState<TFocus | null>(null);
   const clear = useCallback(() => setFocus(null), []);
-
   const getFocusProps = useCallback(
-    (part: TFocus) => ({
-      onBlur: clear,
-      onFocus: (event: FocusEvent<HTMLElement | SVGElement>) => {
-        if (isKeyboardFocus(event)) setFocus(part);
-      },
-      onPointerEnter: (event: PointerEvent<HTMLElement | SVGElement>) => {
-        if (isHoverPointer(event)) setFocus(part);
-      },
-    }),
-    [clear],
+    (part: TFocus) => getHoverFocusHandlers(part, setFocus),
+    [],
   );
   const scopeProps = useMemo(() => ({ onPointerLeave: clear }), [clear]);
 

@@ -73,8 +73,14 @@ describe("describeTypeTally", () => {
   });
 
   it("says so when nobody is either", () => {
-    expect(describeTypeTally(cellsFor([1, 1, null]))).toBe(
+    expect(describeTypeTally(cellsFor([1, 1]))).toBe(
       "Nobody weak. Nobody resists.",
+    );
+  });
+
+  it("names whose typing isn't recorded instead of counting them as neutral", () => {
+    expect(describeTypeTally(cellsFor([2, null, 1, null]))).toBe(
+      "Weak: Scout. Nobody resists. Typing not recorded: Staraptor, Roserade.",
     );
   });
 });

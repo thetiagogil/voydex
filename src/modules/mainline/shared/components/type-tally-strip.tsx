@@ -63,8 +63,9 @@ export const TypeTallyStrip = ({
   className?: string;
   /* When the counts beside it already say it, it stays out of the reading. */
   decorative?: boolean;
-  getBarProps?: (column: number) => HTMLAttributes<HTMLSpanElement>;
-  isBarDimmed?: (column: number) => boolean;
+  /* Each bar by its Pokémon's `memberId`. */
+  getBarProps?: (memberId: string) => HTMLAttributes<HTMLSpanElement>;
+  isBarDimmed?: (memberId: string) => boolean;
   size?: keyof typeof sizeClassNames;
 }) => (
   <span
@@ -81,15 +82,15 @@ export const TypeTallyStrip = ({
       aria-hidden
       className="bg-line absolute inset-x-0 top-1/2 h-px -translate-y-1/2"
     />
-    {getTypeTallyBars(cells).map((bar, column) => (
+    {getTypeTallyBars(cells).map((bar) => (
       <span
         key={bar.memberId}
         data-tally-tone={bar.tone}
-        {...getBarProps?.(column)}
+        {...getBarProps?.(bar.memberId)}
         className={cn(
           "relative",
           sizeClassNames[size].bar,
-          getHoverFocusClassName(isBarDimmed?.(column) ?? false),
+          getHoverFocusClassName(isBarDimmed?.(bar.memberId) ?? false),
         )}
       >
         <span

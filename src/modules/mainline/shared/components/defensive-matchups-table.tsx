@@ -129,9 +129,9 @@ export const DefensiveMatchupsTable = ({
             >
               Attacking type
             </SortHeader>
-            {members.map((member, column) => {
+            {members.map((member) => {
               const { name } = member;
-              const part = { column, row: null };
+              const part = { column: member.id, row: null };
 
               return (
                 <th
@@ -179,9 +179,9 @@ export const DefensiveMatchupsTable = ({
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, rowIndex) => {
+          {rows.map((row) => {
             const resistTotal = getDefensiveResistTotal(row);
-            const rowPart = { column: null, row: rowIndex };
+            const rowPart = { column: null, row: row.attackingType.slug };
             const rowClassName = getPartClassName(rowPart);
 
             return (
@@ -200,8 +200,11 @@ export const DefensiveMatchupsTable = ({
                     {row.isPressure ? <TypeMatchupPressureTag /> : null}
                   </span>
                 </th>
-                {row.cells.map((cell, column) => {
-                  const part = { column, row: rowIndex };
+                {row.cells.map((cell) => {
+                  const part = {
+                    column: cell.memberId,
+                    row: row.attackingType.slug,
+                  };
 
                   return (
                     <td
@@ -216,11 +219,17 @@ export const DefensiveMatchupsTable = ({
                 <td className={cn(bodyCellClassName, "px-2")}>
                   <TypeTallyStrip
                     cells={row.cells}
-                    getBarProps={(column) =>
-                      getFocusProps({ column, row: rowIndex })
+                    getBarProps={(memberId) =>
+                      getFocusProps({
+                        column: memberId,
+                        row: row.attackingType.slug,
+                      })
                     }
-                    isBarDimmed={(column) =>
-                      isOutsideGridFocus(focus, { column, row: rowIndex })
+                    isBarDimmed={(memberId) =>
+                      isOutsideGridFocus(focus, {
+                        column: memberId,
+                        row: row.attackingType.slug,
+                      })
                     }
                     className="align-middle"
                   />

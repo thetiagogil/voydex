@@ -60,7 +60,7 @@ describe("TypeTallyStrip", () => {
     const markup = renderToStaticMarkup(
       <TypeTallyStrip
         cells={rows[0]!.cells}
-        isBarDimmed={(column) => column !== 1}
+        isBarDimmed={(memberId) => memberId !== "staraptor"}
       />,
     );
 

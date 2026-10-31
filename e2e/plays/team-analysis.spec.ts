@@ -82,6 +82,15 @@ test.describe("Team analysis", () => {
       await expect(fireCell).not.toHaveClass(faded);
       await expect(waterCell).toHaveClass(faded);
 
+      /* Sorting moves the rows; Fire stays the one picked out. */
+      await table.getByRole("button", { name: "Weak" }).click();
+      await expect(table.getByRole("row").nth(1)).toContainText("Electric");
+      await expect(fireCell).not.toHaveClass(faded);
+      await expect(row("Electric").getByRole("cell").first()).toHaveClass(
+        faded,
+      );
+      await table.getByRole("button", { name: "Attacking type" }).click();
+
       /* A Pokémon's head keeps its whole column. */
       const squirtle = table.getByRole("columnheader", { name: "Squirtle" });
       await squirtle.hover();
@@ -92,10 +101,12 @@ test.describe("Team analysis", () => {
       await page.mouse.move(0, 0);
       await expect(table.locator(".opacity-40")).toHaveCount(0);
 
-      /* The keyboard reaches each Pokémon's name. */
-      await squirtle.getByText("Squirtle").focus();
+      /* Tab moves from the first sort head onto the partner's name. */
+      await table.getByRole("button", { name: "Attacking type" }).focus();
+      await page.keyboard.press("Tab");
+      await expect(squirtle.getByText("Squirtle")).toBeFocused();
       await expect(row("Water").getByRole("rowheader")).toHaveClass(faded);
-      await squirtle.getByText("Squirtle").blur();
+      await page.keyboard.press("Tab");
       await expect(table.locator(".opacity-40")).toHaveCount(0);
 
       /* A tap is not a hover: nothing stays faded. */

@@ -12,10 +12,12 @@ export const isOutsideKeyFocus = <TKey>(focus: TKey | null, key: TKey) =>
   focus !== null && focus !== key;
 
 /*
- * A table's place: a body cell has both, a column head only its column, a
- * row head (or a row's total) only its row.
+ * A table's place, by what its row and column are (a type, a Pokémon), not
+ * where they sit, so a re-sorted table keeps the same ones picked out. A
+ * body cell has both, a column head only its column, a row head (or a row's
+ * total) only its row.
  */
-export type GridFocus = { column: number | null; row: number | null };
+export type GridFocus = { column: string | null; row: string | null };
 
 /*
  * A table picks out a cross: hovering a cell keeps its whole row and its
