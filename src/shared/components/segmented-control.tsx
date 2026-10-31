@@ -46,6 +46,12 @@ type SegmentedControlProps<TValue extends string> = {
   className?: string;
   /* Options share the row's width equally. */
   fullWidth?: boolean;
+  /*
+   * Each option shows only its icon, its label in a tooltip and for screen
+   * readers: a switch of buttons that has to fit a full toolbar line (List and Grid);
+   * link options keep their label.
+   */
+  iconOnly?: boolean;
   /* Not needed when every option is a link. */
   onValueChange?: (value: TValue) => void;
   /*
@@ -107,6 +113,7 @@ export const SegmentedControl = <TValue extends string>({
   ariaLabel,
   className,
   fullWidth = false,
+  iconOnly = false,
   onValueChange,
   options,
   phoneScroll = false,
@@ -151,6 +158,7 @@ export const SegmentedControl = <TValue extends string>({
           variant === "pills" && !isActive && "bg-surface",
           // With its 4px track, as tall as a form field (48px).
           variant === "segment" && size === "md" && "h-10 px-3.5",
+          iconOnly && "px-3.5 sm:px-3",
           fullWidth && "flex-1 justify-center",
           /*
            * The pick is a small sticker: its fill in a white band. The
@@ -183,7 +191,11 @@ export const SegmentedControl = <TValue extends string>({
               />
             ) : null}
             {option.icon}
-            {option.label}
+            {iconOnly ? (
+              <span className="sr-only">{option.label}</span>
+            ) : (
+              option.label
+            )}
             {option.count !== undefined ? (
               <small
                 className={cn(
@@ -229,6 +241,27 @@ export const SegmentedControl = <TValue extends string>({
               <TooltipContent side="bottom">
                 {option.disabledReason}
               </TooltipContent>
+            </Tooltip>
+          );
+        }
+
+        if (iconOnly && option.href === undefined) {
+          return (
+            <Tooltip key={option.value}>
+              <TooltipTrigger
+                render={
+                  <button
+                    type="button"
+                    aria-pressed={isSelected}
+                    disabled={isDisabled}
+                    onClick={() => onValueChange?.(option.value)}
+                    className={optionClassName}
+                  />
+                }
+              >
+                {content}
+              </TooltipTrigger>
+              <TooltipContent side="bottom">{option.label}</TooltipContent>
             </Tooltip>
           );
         }

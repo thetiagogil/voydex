@@ -2,6 +2,7 @@
 
 import {
   Children,
+  cloneElement,
   Fragment,
   isValidElement,
   useState,
@@ -13,29 +14,30 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
+import { cn } from "@/shared/utils/cn";
 
-/* Where a control renders: on the toolbar's line, or in the phone sheet. */
+/* Where a control renders: on the toolbar's line, or in the sheet below 1280px. */
 export type FilterToolbarPlacement = "line" | "sheet";
 
 type FilterToolbarProps = {
-  /* How many filters are set: shown on the phone's Filters button. */
+  /* How many filters are set: shown on the Filters button. */
   activeCount: number;
   ariaLabel: string;
   className?: string;
   /*
-   * The order and other key controls, at the line's end from 640px. Called
+   * The order and other key controls, at the line's end from 1280px. Called
    * once per placement, so give ids from the placement.
    */
   controls?: (placement: FilterToolbarPlacement) => ReactNode;
-  /* The filters, on the line after the search from 640px. */
+  /* The filters, on the line after the search from 1280px. */
   filters?: (placement: FilterToolbarPlacement) => ReactNode;
   /* Wraps the toolbar, such as `<form />`. */
   render?: ComponentProps<typeof Toolbar>["render"];
-  /* The phone sheet's button, such as "Show 43 Plays"; "Show results" by default. */
+  /* The sheet's button, such as "Show 43 Plays"; "Show results" by default. */
   resultLabel?: string;
   /*
-   * The one row allowed under the line, such as the type dots, from 640px.
-   * On phones it moves into the sheet.
+   * The one row allowed under the line, such as the type dots, from 1280px.
+   * Below that it moves into the sheet.
    */
   row?: (placement: FilterToolbarPlacement) => ReactNode;
   search: ReactNode;
@@ -53,7 +55,7 @@ const getControls = (node: ReactNode): ReactNode[] =>
  * The one toolbar for a list, on a single line: the search, the filters,
  * then the order, a hairline between each. Controls that belong together
  * (wrapped in one element) share a group. The only second row is the
- * type dots (`row`), under the card. On phones the line is the search and a
+ * type dots (`row`), under the card. Below 1280px (phones and tablets) the line is the search and a
  * Filters button that opens the filters, the row and the order in a sheet
  * from the bottom.
  */
@@ -75,11 +77,12 @@ export const FilterToolbar = ({
     <div className={className}>
       <Toolbar
         aria-label={ariaLabel}
+        oneLine
         render={render}
         search={
           <div className="flex gap-2">
             <div className="min-w-0 flex-1 *:w-full">{search}</div>
-            {/* Phones: the sheet. Only its trigger hides from 640px. */}
+            {/* Phones: the sheet. Only its trigger hides once the controls are on the line. */}
             {hasSheet ? (
               <OverlaySheet
                 open={isSheetOpen}
@@ -91,7 +94,7 @@ export const FilterToolbar = ({
                   <Button
                     type="button"
                     variant="secondary"
-                    className="sm:hidden"
+                    className={"xl:hidden"}
                   >
                     <AppIcon icon={appIcons.actions.filter} inline="start" />
                     Filters
@@ -119,13 +122,24 @@ export const FilterToolbar = ({
         }
         trailing={[filters?.("line"), controls?.("line")]
           .flatMap(getControls)
-          .map((control, index) => (
-            <ToolbarGroup key={index} className="hidden sm:flex">
-              {control}
-            </ToolbarGroup>
-          ))}
+          .map((control, index) =>
+            /* A control that is already a group keeps its own classes, such as `shrink-0`. */
+            isValidElement<{ className?: string }>(control) &&
+            control.type === ToolbarGroup ? (
+              cloneElement(control, {
+                className: cn(control.props.className, "hidden xl:flex"),
+                key: index,
+              })
+            ) : (
+              <ToolbarGroup key={index} className={"hidden xl:flex"}>
+                {control}
+              </ToolbarGroup>
+            ),
+          )}
       />
-      {row ? <div className="mt-3.5 max-sm:hidden">{row("line")}</div> : null}
+      {row ? (
+        <div className={cn("mt-3.5", "max-xl:hidden")}>{row("line")}</div>
+      ) : null}
     </div>
   );
 };

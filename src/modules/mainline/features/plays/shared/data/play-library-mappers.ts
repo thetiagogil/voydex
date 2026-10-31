@@ -10,6 +10,7 @@ import type {
   PlayBrowseProgress,
   PlayBrowseProgressItem,
   PlayBrowseStoryPosition,
+  PlayBrowseTag,
 } from "@/modules/mainline/features/plays/shared/types";
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import type { Game } from "@/modules/reference/types";
@@ -54,6 +55,8 @@ type BuildMainlinePlayBrowseItemsParams = {
   plays: MainlinePlaySummary[];
   regions: PlayBrowseRegion[];
   storyRows: PlayBrowseStoryRows;
+  /* Each Play's tags by Play id; empty when they couldn't be read. */
+  tagsByPlayId?: ReadonlyMap<string, PlayBrowseTag[]>;
   teamMembers: MainlinePlayTeamMember[];
   /* Each team member's primary type slug by form id; empty when unknown. */
   teamTypeSlugByFormId?: Record<number, string>;
@@ -181,6 +184,7 @@ export const buildMainlinePlayBrowseItems = ({
   plays,
   regions,
   storyRows,
+  tagsByPlayId = new Map(),
   teamMembers,
   teamTypeSlugByFormId = {},
 }: BuildMainlinePlayBrowseItemsParams): PlayBrowseItem[] => {
@@ -229,6 +233,7 @@ export const buildMainlinePlayBrowseItems = ({
             )
           : null,
       storyTracked,
+      tags: playId ? (tagsByPlayId.get(playId) ?? []) : [],
     };
   });
 };

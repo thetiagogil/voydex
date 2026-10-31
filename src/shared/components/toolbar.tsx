@@ -14,6 +14,13 @@ import { cn } from "@/shared/utils/cn";
 type ToolbarProps = Omit<useRender.ComponentProps<"div">, "children"> & {
   /* Full-width rows under the controls, such as a row of filter pills. */
   children?: ReactNode;
+  /*
+   * Never wraps: the search shrinks to 176px (220px by default) and the
+   * fields after it shrink too, cutting a long value short, so the line
+   * stays whole. Only for a toolbar that moves its controls into a sheet
+   * where they can't fit.
+   */
+  oneLine?: boolean;
   /* The search field: the one control that stretches to fill the line. */
   search?: ReactNode;
   /*
@@ -88,6 +95,7 @@ const getTrailingGroups = (trailing: ReactNode) => {
 export const Toolbar = ({
   children,
   className,
+  oneLine = false,
   render,
   search,
   trailing,
@@ -101,9 +109,21 @@ export const Toolbar = ({
     ),
     children: (
       <>
-        <div className="-ml-2 flex min-w-0 flex-wrap items-center gap-y-2.5 sm:-ml-7">
+        <div
+          className={cn(
+            "-ml-2 flex min-w-0 items-center gap-y-2.5 sm:-ml-7",
+            oneLine ? "flex-nowrap" : "flex-wrap",
+          )}
+        >
           {search ? (
-            <div className="flex min-w-0 flex-[1_1_100%] items-center pl-2 *:min-w-0 *:flex-1 sm:min-w-62 sm:flex-[1_1_220px] sm:pl-7">
+            <div
+              className={cn(
+                "flex min-w-0 flex-[1_1_100%] items-center pl-2 *:min-w-0 *:flex-1 sm:pl-7",
+                oneLine
+                  ? "sm:min-w-51 sm:flex-[1_1_176px]"
+                  : "sm:min-w-62 sm:flex-[1_1_220px]",
+              )}
+            >
               {search}
             </div>
           ) : null}

@@ -262,4 +262,13 @@ describe("buildMainlinePlayBrowseItems story and collectibles", () => {
       state: "available",
     });
   });
+
+  it("gives each Play its own tags, and none when they couldn't be read", () => {
+    const tag = { id: "tag-1", name: "Nuzlocke", slug: "nuzlocke" };
+
+    expect(
+      buildItems({ tagsByPlayId: new Map([["play-1", [tag]]]) })[0]?.tags,
+    ).toEqual([tag]);
+    expect(buildItems()[0]?.tags).toEqual([]);
+  });
 });

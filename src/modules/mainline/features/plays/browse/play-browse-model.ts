@@ -1,4 +1,7 @@
-import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  MainlinePlaySummary,
+  PlayBrowseItem,
+} from "@/modules/mainline/features/plays/shared/types";
 
 export const playBrowseSortValues = [
   "recent",
@@ -10,20 +13,33 @@ export const playBrowseSortValues = [
 
 export type PlayBrowseSort = (typeof playBrowseSortValues)[number];
 
+/*
+ * How the Plays are drawn: one card per row with the team, or a compact grid.
+ * `?view=` already picks the library or the archive, so this one is `display`.
+ */
+export const playBrowseDisplayValues = ["list", "grid"] as const;
+
+export type PlayBrowseDisplay = (typeof playBrowseDisplayValues)[number];
+
 export type PlayBrowseFilters = {
+  display: PlayBrowseDisplay;
   game: string;
   generation: string;
   query: string;
   sort: PlayBrowseSort;
   status: string;
+  /* A tag's slug. */
+  tag: string;
 };
 
 export type PlayBrowseParams = Partial<{
+  display: string | null;
   game: string | null;
   generation: string | null;
   q: string | null;
   sort: string | null;
   status: string | null;
+  tag: string | null;
 }>;
 
 export type PlayBrowseOption = {
@@ -36,14 +52,23 @@ export type PlayBrowseOption = {
 /* A Play as the filters read it; a Play from the list also knows its region. */
 type PlayBrowseOptionSource = MainlinePlaySummary & {
   regionName?: string | null;
+  tags?: PlayBrowseItem["tags"];
 };
 
 export const defaultPlayBrowseFilters: PlayBrowseFilters = {
+  display: "list",
   game: "",
   generation: "",
   query: "",
   sort: "recent",
   status: "",
+  tag: "",
+};
+
+const isPlayBrowseDisplay = (
+  value?: string | null,
+): value is PlayBrowseDisplay => {
+  return playBrowseDisplayValues.some((displayValue) => displayValue === value);
 };
 
 const isPlayBrowseSort = (value?: string | null): value is PlayBrowseSort => {
@@ -116,6 +141,24 @@ const getUniqueOptions = (
     );
 };
 
+/* The tags your Plays carry, by name; none when no Play has one. */
+const getTagOptions = (plays: PlayBrowseOptionSource[]): PlayBrowseOption[] => {
+  const labelBySlug = new Map<string, string>();
+
+  for (const tag of plays.flatMap((play) => play.tags ?? [])) {
+    if (!labelBySlug.has(tag.slug)) {
+      labelBySlug.set(tag.slug, tag.name);
+    }
+  }
+
+  return Array.from(labelBySlug, ([value, label]) => ({ label, value })).sort(
+    (firstOption, secondOption) =>
+      firstOption.label.localeCompare(secondOption.label, undefined, {
+        sensitivity: "base",
+      }),
+  );
+};
+
 export const getPlayBrowseOptions = (plays: PlayBrowseOptionSource[]) => {
   return {
     /* Each game with its generation and region under it. */
@@ -142,6 +185,7 @@ export const getPlayBrowseOptions = (plays: PlayBrowseOptionSource[]) => {
       (play) => play.status_name,
       getStatusRank,
     ),
+    tags: getTagOptions(plays),
   };
 };
 
@@ -151,6 +195,7 @@ export const getInitialPlayBrowseFilters = (
     games: PlayBrowseOption[];
     generations: PlayBrowseOption[];
     statuses: PlayBrowseOption[];
+    tags: PlayBrowseOption[];
   },
 ): PlayBrowseFilters => {
   const game = options.games.some((option) => option.value === params?.game)
@@ -168,12 +213,18 @@ export const getInitialPlayBrowseFilters = (
     ? (params?.status ?? "")
     : "";
 
+  const tag = options.tags.some((option) => option.value === params?.tag)
+    ? (params?.tag ?? "")
+    : "";
+
   return {
+    display: isPlayBrowseDisplay(params?.display) ? params.display : "list",
     game,
     generation,
     query: params?.q?.trim() ?? "",
     sort: isPlayBrowseSort(params?.sort) ? params.sort : "recent",
     status,
+    tag,
   };
 };
 
@@ -182,7 +233,8 @@ export const hasActivePlayBrowseFilters = (filters: PlayBrowseFilters) => {
     filters.query.trim() ||
     filters.game ||
     filters.generation ||
-    filters.status,
+    filters.status ||
+    filters.tag,
   );
 };
 
@@ -265,7 +317,9 @@ const comparePlays = (
   }
 };
 
-export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
+export const filterAndSortPlays = <
+  Play extends MainlinePlaySummary & { tags?: PlayBrowseItem["tags"] },
+>(
   plays: Play[],
   filters: PlayBrowseFilters,
 ) => {
@@ -282,6 +336,10 @@ export const filterAndSortPlays = <Play extends MainlinePlaySummary>(
       }
 
       if (filters.status && play.status_slug !== filters.status) {
+        return false;
+      }
+
+      if (filters.tag && !play.tags?.some((tag) => tag.slug === filters.tag)) {
         return false;
       }
 
@@ -315,8 +373,16 @@ export const getPlayBrowseUrlSearchParams = (filters: PlayBrowseFilters) => {
     searchParams.set("status", filters.status);
   }
 
+  if (filters.tag) {
+    searchParams.set("tag", filters.tag);
+  }
+
   if (filters.sort !== defaultPlayBrowseFilters.sort) {
     searchParams.set("sort", filters.sort);
+  }
+
+  if (filters.display !== defaultPlayBrowseFilters.display) {
+    searchParams.set("display", filters.display);
   }
 
   return searchParams;

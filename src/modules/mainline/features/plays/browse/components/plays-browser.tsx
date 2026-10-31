@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { PlayCard } from "@/modules/mainline/features/plays/browse/components/play-card";
+import { PlayGridCard } from "@/modules/mainline/features/plays/browse/components/play-grid-card";
 import { PlaysToolbar } from "@/modules/mainline/features/plays/browse/components/plays-toolbar";
 import {
   defaultPlayBrowseFilters,
@@ -91,8 +92,12 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
 
   const isReordered = appliedFilters.sort !== defaultPlayBrowseFilters.sort;
 
+  /* The display is how you look at the list, not a filter: it stays. */
   const resetList = () => {
-    setFilters(defaultPlayBrowseFilters);
+    setFilters((currentFilters) => ({
+      ...defaultPlayBrowseFilters,
+      display: currentFilters.display,
+    }));
   };
 
   return (
@@ -115,7 +120,11 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             games={options.games}
             generations={options.generations}
             statuses={options.statuses}
+            tags={options.tags}
             matchingCount={matchingCount}
+            onDisplayChange={(display) => {
+              updateFilter("display", display);
+            }}
             onGameChange={(game) => {
               updateFilter("game", game);
             }}
@@ -127,6 +136,9 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
             }}
             onStatusChange={(status) => {
               updateFilter("status", status);
+            }}
+            onTagChange={(tag) => {
+              updateFilter("tag", tag);
             }}
             onSortChange={(sort) => {
               updateFilter("sort", sort);
@@ -148,20 +160,31 @@ export const PlaysBrowser = ({ head, params, plays }: PlaysBrowserProps) => {
       <section aria-label="Play library" className="flex flex-col">
         <h2 className="sr-only">Your Plays</h2>
         {shownPlays.length ? (
-          <ul className="mt-6 grid gap-3 sm:mt-8">
-            {shownPlays.map((play) => (
-              <PlayCard
-                key={play.play_id ?? `${play.game_id}-${play.created_at}`}
-                play={play}
-              />
-            ))}
+          <ul
+            className={
+              appliedFilters.display === "grid"
+                ? "mt-6 grid grid-cols-2 gap-3 sm:mt-8 sm:grid-cols-[repeat(auto-fill,minmax(210px,1fr))]"
+                : "mt-6 grid gap-3 sm:mt-8"
+            }
+          >
+            {shownPlays.map((play) => {
+              const Item =
+                appliedFilters.display === "grid" ? PlayGridCard : PlayCard;
+
+              return (
+                <Item
+                  key={play.play_id ?? `${play.game_id}-${play.created_at}`}
+                  play={play}
+                />
+              );
+            })}
           </ul>
         ) : (
           <EmptyState
             headingLevel="h2"
             className="mt-5"
             title="No Plays found"
-            description="Try another search, game, generation or status."
+            description="Try another search, game, generation, status or tag."
             action={<ResetListButton onClick={resetList} />}
           />
         )}

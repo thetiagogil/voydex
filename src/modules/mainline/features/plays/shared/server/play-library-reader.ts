@@ -6,7 +6,10 @@ import {
   type PlayBrowseStoryRows,
 } from "@/modules/mainline/features/plays/shared/data/play-library-mappers";
 import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";
-import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/types";
+import type {
+  PlayBrowseItem,
+  PlayBrowseTag,
+} from "@/modules/mainline/features/plays/shared/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import type { Game } from "@/modules/reference/types";
 import { uniqueNumberIds } from "@/shared/utils/collections";
@@ -101,15 +104,68 @@ const readPlayStoryRows = async (
 };
 
 /*
+ * Each Play's tags by name, for the Plays list's tag filter. A failure hides
+ * the tags, not the Plays.
+ */
+export const readPlayTags = async (
+  supabase: ServerSupabaseClient,
+  playIds: string[],
+): Promise<Map<string, PlayBrowseTag[]>> => {
+  const tagsByPlayId = new Map<string, PlayBrowseTag[]>();
+
+  if (!playIds.length) {
+    return tagsByPlayId;
+  }
+
+  const linksResult = await supabase
+    .schema("gameplay")
+    .from("mainline_play_tags")
+    .select("play_id, tag_id")
+    .in("play_id", playIds);
+
+  if (linksResult.error || !linksResult.data?.length) {
+    return tagsByPlayId;
+  }
+
+  const tagsResult = await supabase
+    .from("tags")
+    .select("id, name, slug")
+    .in("id", [...new Set(linksResult.data.map((link) => link.tag_id))]);
+
+  if (tagsResult.error) {
+    return tagsByPlayId;
+  }
+
+  const tagById = new Map((tagsResult.data ?? []).map((tag) => [tag.id, tag]));
+
+  for (const link of linksResult.data) {
+    const tag = tagById.get(link.tag_id);
+
+    if (tag) {
+      tagsByPlayId.set(link.play_id, [
+        ...(tagsByPlayId.get(link.play_id) ?? []),
+        tag,
+      ]);
+    }
+  }
+
+  return tagsByPlayId;
+};
+
+/*
  * The trainer's library of Plays, newest activity first, as the Plays page
  * and Home list them: archived ones left out, or only those for the Plays
- * page's Archived list. Throws when the Plays themselves can't be read; their
+ * page's Archived list. `withTags` also reads each Play's tags, for the Plays
+ * page's Tag filter. Throws when the Plays themselves can't be read; their
  * games, progress, team and story position each degrade on their own.
  */
 export const readMainlinePlayLibrary = async (
   supabase: ServerSupabaseClient,
   userId: string,
-  { archived = false }: { archived?: boolean } = {},
+  {
+    archived = false,
+    withTags = false,
+  }: { archived?: boolean; withTags?: boolean } = {},
 ): Promise<PlayBrowseItem[]> => {
   const playsQuery = supabase
     .schema("views")
@@ -130,27 +186,29 @@ export const readMainlinePlayLibrary = async (
   const playIds = plays.flatMap((play) => (play.play_id ? [play.play_id] : []));
   const gameIds = uniqueNumberIds(plays.map((play) => play.game_id));
 
-  const [gameRows, progressResult, teamResult, storyRows] = await Promise.all([
-    readPlayGames(supabase, gameIds),
-    playIds.length
-      ? supabase
-          .schema("views")
-          .from("mainline_play_overview")
-          .select("*")
-          .eq("user_id", userId)
-          .in("play_id", playIds)
-      : null,
-    playIds.length
-      ? supabase
-          .schema("views")
-          .from("mainline_play_team_detail")
-          .select("*")
-          .in("play_id", playIds)
-          .eq("roster_state_slug", "active")
-          .order("slot", { ascending: true })
-      : null,
-    readPlayStoryRows(supabase, playIds),
-  ]);
+  const [gameRows, progressResult, teamResult, storyRows, tagsByPlayId] =
+    await Promise.all([
+      readPlayGames(supabase, gameIds),
+      playIds.length
+        ? supabase
+            .schema("views")
+            .from("mainline_play_overview")
+            .select("*")
+            .eq("user_id", userId)
+            .in("play_id", playIds)
+        : null,
+      playIds.length
+        ? supabase
+            .schema("views")
+            .from("mainline_play_team_detail")
+            .select("*")
+            .in("play_id", playIds)
+            .eq("roster_state_slug", "active")
+            .order("slot", { ascending: true })
+        : null,
+      readPlayStoryRows(supabase, playIds),
+      withTags ? readPlayTags(supabase, playIds) : undefined,
+    ]);
 
   const teamMembers = teamResult?.error ? [] : (teamResult?.data ?? []);
   const teamTypeSlugByFormId = await readTeamTypeSlugs(
@@ -169,6 +227,7 @@ export const readMainlinePlayLibrary = async (
     plays,
     regions: gameRows.regions,
     storyRows: storyRows ?? { categories: [], milestones: [] },
+    tagsByPlayId,
     teamMembers,
     teamTypeSlugByFormId,
   });

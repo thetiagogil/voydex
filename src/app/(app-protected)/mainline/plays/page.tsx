@@ -24,11 +24,13 @@ export default async function PlaysPage({ searchParams }: PageProps) {
     <MainlinePlaysPage
       data={data}
       params={{
+        display: getSearchParam(params, "display"),
         game: getSearchParam(params, "game"),
         generation: getSearchParam(params, "generation"),
         q: getSearchParam(params, "q"),
         sort: getSearchParam(params, "sort"),
         status: getSearchParam(params, "status"),
+        tag: getSearchParam(params, "tag"),
       }}
     />
   );

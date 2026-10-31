@@ -83,6 +83,7 @@ describe("play browse model", () => {
         { label: "Playing", value: "playing" },
         { label: "Completed", value: "completed" },
       ],
+      tags: [],
     });
   });
 
@@ -105,6 +106,7 @@ describe("play browse model", () => {
         },
       ],
       statuses: [{ label: "Playing", value: "playing" }],
+      tags: [],
     });
   });
 
@@ -216,11 +218,13 @@ describe("play browse model", () => {
         options,
       ),
     ).toEqual({
+      display: "list",
       game: "",
       generation: "generation-iv",
       query: "johto",
       sort: "recent",
       status: "",
+      tag: "",
     });
 
     expect(
@@ -230,5 +234,71 @@ describe("play browse model", () => {
         query: "  johto  ",
       }).toString(),
     ).toBe("q=johto&generation=generation-iv");
+  });
+
+  describe("tags and display", () => {
+    const tagged = [
+      buildPlay({
+        play_id: "play-1",
+        tags: [
+          { id: "tag-b", name: "Nuzlocke", slug: "nuzlocke" },
+          { id: "tag-a", name: "Blind run", slug: "blind-run" },
+        ],
+      } as Partial<MainlinePlaySummary>),
+      buildPlay({
+        play_id: "play-2",
+        tags: [{ id: "tag-b", name: "Nuzlocke", slug: "nuzlocke" }],
+      } as Partial<MainlinePlaySummary>),
+      buildPlay({ play_id: "play-3" }),
+    ];
+
+    it("lists each tag your Plays carry once, by name", () => {
+      expect(getPlayBrowseOptions(tagged).tags).toEqual([
+        { label: "Blind run", value: "blind-run" },
+        { label: "Nuzlocke", value: "nuzlocke" },
+      ]);
+    });
+
+    it("narrows to the Plays with the tag, which counts as a filter", () => {
+      const filters = { ...defaultPlayBrowseFilters, tag: "blind-run" };
+
+      expect(
+        filterAndSortPlays(tagged, filters).map((play) => play.play_id),
+      ).toEqual(["play-1"]);
+      expect(hasActivePlayBrowseFilters(filters)).toBe(true);
+    });
+
+    it("keeps the tag and the display in the URL, and drops a tag no Play has", () => {
+      const options = getPlayBrowseOptions(tagged);
+
+      expect(
+        getPlayBrowseUrlSearchParams({
+          ...defaultPlayBrowseFilters,
+          display: "grid",
+          tag: "nuzlocke",
+        }).toString(),
+      ).toBe("tag=nuzlocke&display=grid");
+      expect(
+        getInitialPlayBrowseFilters(
+          { display: "grid", tag: "nuzlocke" },
+          options,
+        ),
+      ).toMatchObject({ display: "grid", tag: "nuzlocke" });
+      expect(
+        getInitialPlayBrowseFilters(
+          { display: "wall", tag: "shelved" },
+          options,
+        ),
+      ).toMatchObject({ display: "list", tag: "" });
+    });
+
+    it("does not count the display as a filter", () => {
+      expect(
+        hasActivePlayBrowseFilters({
+          ...defaultPlayBrowseFilters,
+          display: "grid",
+        }),
+      ).toBe(false);
+    });
   });
 });
