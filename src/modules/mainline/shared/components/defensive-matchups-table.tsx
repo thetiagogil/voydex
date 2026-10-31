@@ -1,4 +1,6 @@
-import { type ReactNode, useState } from "react";
+"use client";
+
+import type { ReactNode } from "react";
 
 import {
   type DefensiveMatchupSort,
@@ -15,18 +17,18 @@ import {
 } from "@/modules/mainline/shared/components/type-matchup-cell";
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
+import { useHoverFocus } from "@/shared/hooks/use-hover-focus";
+import { cn } from "@/shared/utils/cn";
+import {
+  getHoverFocusClassName,
+  type GridFocus,
+  isOutsideGridFocus,
+} from "@/shared/utils/hover-focus";
 
 const headerCellClassName = "px-1.5 pt-2 pb-2 align-bottom";
 
-/*
- * Rows are read across, so the hovered row lifts to the inset fill; a
- * Pokémon's column lifts too, so its matchups read down at a glance.
- */
-const bodyCellClassName =
-  "group-hover:bg-surface-2 h-11 p-0 text-center transition-colors";
-const columnHighlightClassName = "bg-surface-2";
+const bodyCellClassName = "h-11 p-0 text-center";
 
 /*
  * A header that sorts the table (the chart's order, or the most first), or
@@ -85,7 +87,10 @@ const SortHeader = ({
 
 /*
  * Tablets and up: one row per attacking type, one column per Pokémon (v3
- * `.matrix`). With `onSortChange` its headers sort it.
+ * `.matrix`), then the type's counts. With `onSortChange` its headers sort
+ * it. Hovering or keyboard-focusing a cell keeps its row and its Pokémon's
+ * column and fades the rest; a Pokémon's head keeps that Pokémon, a type's
+ * head or count keeps that type.
  */
 export const DefensiveMatchupsTable = ({
   caption,
@@ -102,15 +107,14 @@ export const DefensiveMatchupsTable = ({
   rows: TypeMatchupRow[];
   sort?: DefensiveMatchupSort;
 }) => {
-  /* The hovered Pokémon's column, by its place in the team. */
-  const [hoveredColumn, setHoveredColumn] = useState<number | null>(null);
-  const lastRowIndex = rows.length - 1;
-  const clearColumn = () => setHoveredColumn(null);
+  const { focus, getFocusProps, scopeProps } = useHoverFocus<GridFocus>();
+  const getPartClassName = (part: GridFocus) =>
+    getHoverFocusClassName(isOutsideGridFocus(focus, part));
 
   return (
     <div className={cn("-mx-2 overflow-x-auto px-2", className)}>
       <table
-        onMouseLeave={clearColumn}
+        {...scopeProps}
         className="text-14 w-full min-w-160 border-separate border-spacing-0"
       >
         <caption className="sr-only">{caption}</caption>
@@ -124,28 +128,32 @@ export const DefensiveMatchupsTable = ({
             >
               Attacking type
             </SortHeader>
-            {members.map((member, column) => {
+            {members.map((member) => {
               const { name } = member;
+              const part = { column: member.id, row: null };
 
               return (
                 <th
                   key={member.id}
                   scope="col"
-                  onMouseEnter={() => setHoveredColumn(column)}
-                  className={cn(
-                    headerCellClassName,
-                    "rounded-t-md transition-colors",
-                    hoveredColumn === column && columnHighlightClassName,
-                  )}
+                  {...getFocusProps(part)}
+                  className={cn(headerCellClassName, getPartClassName(part))}
                 >
                   <MatchupMemberSprite
                     member={member}
                     className="mx-auto -mb-0.5 size-13"
                   />
+                  {/*
+                   * The name is a stop for the keyboard: its tip shows a cut
+                   * name in full, and focusing it picks out the column.
+                   */}
                   <IconTip
                     label={name}
                     trigger={
-                      <span className="text-ink mx-auto block max-w-24 truncate font-extrabold">
+                      <span
+                        tabIndex={0}
+                        className="text-ink focus-ring mx-auto block max-w-24 truncate rounded-xs font-extrabold"
+                      >
                         {name}
                       </span>
                     }
@@ -167,17 +175,20 @@ export const DefensiveMatchupsTable = ({
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, rowIndex) => {
+          {rows.map((row) => {
             const resistTotal = getDefensiveResistTotal(row);
+            const rowPart = { column: null, row: row.attackingType.slug };
+            const rowClassName = getPartClassName(rowPart);
 
             return (
-              <tr key={row.attackingType.slug} className="group">
+              <tr key={row.attackingType.slug}>
                 <th
                   scope="row"
-                  onMouseEnter={clearColumn}
+                  {...getFocusProps(rowPart)}
                   className={cn(
                     bodyCellClassName,
-                    "rounded-l-md pl-3 text-left font-normal",
+                    "pl-3 text-left font-normal",
+                    rowClassName,
                   )}
                 >
                   <span className="inline-flex items-center gap-2">
@@ -185,35 +196,40 @@ export const DefensiveMatchupsTable = ({
                     {row.isPressure ? <TypeMatchupPressureTag /> : null}
                   </span>
                 </th>
-                {row.cells.map((cell, column) => (
-                  <td
-                    key={cell.memberId}
-                    onMouseEnter={() => setHoveredColumn(column)}
-                    className={cn(
-                      bodyCellClassName,
-                      hoveredColumn === column && columnHighlightClassName,
-                      rowIndex === lastRowIndex && "rounded-b-md",
-                    )}
-                  >
-                    <TypeMatchupCell cell={cell} />
-                  </td>
-                ))}
+                {row.cells.map((cell) => {
+                  const part = {
+                    column: cell.memberId,
+                    row: row.attackingType.slug,
+                  };
+
+                  return (
+                    <td
+                      key={cell.memberId}
+                      {...getFocusProps(part)}
+                      className={cn(bodyCellClassName, getPartClassName(part))}
+                    >
+                      <TypeMatchupCell cell={cell} />
+                    </td>
+                  );
+                })}
                 <td
-                  onMouseEnter={clearColumn}
+                  {...getFocusProps(rowPart)}
                   className={cn(
                     bodyCellClassName,
                     "font-extrabold tabular-nums",
                     row.weakCount >= 2 && "text-danger",
+                    rowClassName,
                   )}
                 >
                   {row.weakCount}
                 </td>
                 <td
-                  onMouseEnter={clearColumn}
+                  {...getFocusProps(rowPart)}
                   className={cn(
                     bodyCellClassName,
-                    "rounded-r-md pr-3 font-extrabold tabular-nums",
+                    "pr-3 font-extrabold tabular-nums",
                     resistTotal >= 2 && "text-ok",
+                    rowClassName,
                   )}
                 >
                   {resistTotal}

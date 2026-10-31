@@ -8,6 +8,7 @@ import {
   TypeMatchupPressureTag,
 } from "@/modules/mainline/shared/components/type-matchup-cell";
 import { TypeName } from "@/modules/mainline/shared/components/type-name";
+import { TypeTallyStrip } from "@/modules/mainline/shared/components/type-tally-strip";
 import {
   Accordion,
   AccordionContent,
@@ -17,9 +18,9 @@ import {
 import { cn } from "@/shared/utils/cn";
 
 /*
- * Phones: one row per attacking type, with how many are weak (and who) and how
- * many resist; a row opens in place to show every Pokémon's multiplier
- * (v3 `.mx-list`).
+ * Phones: one row per attacking type, with its tally and how many are weak
+ * and how many resist; a row opens in place to show every Pokémon and its
+ * multiplier (v3 `.mx-list`).
  */
 export const DefensiveMatchupsList = ({
   className,
@@ -34,11 +35,6 @@ export const DefensiveMatchupsList = ({
     <Accordion multiple className={cn("gap-1.5", className)}>
       {rows.map((row) => {
         const resistTotal = row.resistCount + row.immuneCount;
-        const weakMembers = members.flatMap((member, index) => {
-          const cell = row.cells[index];
-
-          return cell?.effectiveness === "weak" ? [{ cell, member }] : [];
-        });
 
         return (
           <AccordionItem
@@ -58,23 +54,14 @@ export const DefensiveMatchupsList = ({
                 <TypeName type={row.attackingType} />
                 {row.isPressure ? <TypeMatchupPressureTag /> : null}
               </span>
-              <span className="text-13 col-start-1 row-start-2 flex gap-3 pl-8.25 tabular-nums">
+              <span className="text-13 col-start-1 row-start-2 flex items-center gap-3 pl-7.75 whitespace-nowrap tabular-nums">
+                <TypeTallyStrip cells={row.cells} />
                 <span className={cn(row.weakCount >= 2 && "text-danger")}>
                   {row.weakCount} weak
                 </span>
                 <span className={cn(resistTotal >= 2 && "text-ok")}>
                   {resistTotal} resist
                 </span>
-              </span>
-              <span className="col-start-2 row-start-2 flex justify-self-end">
-                {weakMembers.map(({ cell, member }) => (
-                  <MatchupMemberSprite
-                    key={cell.memberId}
-                    member={member}
-                    label={cell.memberName}
-                    className="-ml-1.5 size-7.5"
-                  />
-                ))}
               </span>
             </AccordionTrigger>
             <AccordionContent className="grid grid-cols-3 gap-x-1.5 gap-y-2.5 px-2.5 pt-0.5 pb-3">

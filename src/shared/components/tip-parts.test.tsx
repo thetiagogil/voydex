@@ -27,6 +27,17 @@ describe("tip parts", () => {
     expect(markup).toContain("2×");
   });
 
+  it("marks a chip so the ink tip leaves its own text colour alone", () => {
+    const markup = renderToStaticMarkup(
+      <TipRows>
+        <TipRow chip="1 of 6" name="Ground" tone="warn" />
+      </TipRows>,
+    );
+
+    expect(markup).toContain('data-slot="tip-chip"');
+    expect(markup).toContain("bg-warn text-ink");
+  });
+
   it("names a thing over what it does", () => {
     const markup = renderToStaticMarkup(
       <TipNamed name="Surf">Hits all adjacent Pokémon.</TipNamed>,
