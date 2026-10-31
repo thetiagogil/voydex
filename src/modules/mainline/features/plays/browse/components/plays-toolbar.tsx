@@ -68,18 +68,6 @@ const sortOptions = [
  * page hydrates keeps the game, generation, status and order. The sheet is portalled
  * outside the form.
  */
-/*
- * On the line each field stays within a width, so a long game or tag name is
- * cut short in the field (its list shows it whole) and the line never wraps.
- */
-const lineFieldWidths = {
-  game: "max-w-32",
-  generation: "max-w-40",
-  sort: "max-w-44",
-  status: "max-w-32",
-  tag: "max-w-32",
-} as const;
-
 const getFilterSelects = (
   {
     filters,
@@ -100,8 +88,6 @@ const getFilterSelects = (
   }: { idPrefix: string; isInForm?: boolean; sortPrefix?: string },
 ) => {
   const getName = (name: string) => (isInForm ? name : undefined);
-  const getWidth = (field: keyof typeof lineFieldWidths) =>
-    isInForm ? lineFieldWidths[field] : undefined;
 
   return {
     game: (
@@ -127,7 +113,6 @@ const getFilterSelects = (
         ]}
         searchPlaceholder="Search games"
         placeholder="All games"
-        className={getWidth("game")}
         variant="ghost"
       />
     ),
@@ -141,7 +126,6 @@ const getFilterSelects = (
         onValueChange={onGenerationChange}
         options={[{ label: "All generations", value: "" }, ...generations]}
         placeholder="All generations"
-        className={getWidth("generation")}
         variant="ghost"
       />
     ),
@@ -155,7 +139,6 @@ const getFilterSelects = (
         onValueChange={onStatusChange}
         options={[{ label: "All statuses", value: "" }, ...statuses]}
         placeholder="All statuses"
-        className={getWidth("status")}
         variant="ghost"
       />
     ),
@@ -170,7 +153,8 @@ const getFilterSelects = (
         options={[{ label: "All tags", value: "" }, ...tags]}
         searchPlaceholder="Search tags"
         placeholder="All tags"
-        className={getWidth("tag")}
+        /* Tags are named by you, so on the line a long one is cut short. */
+        className={isInForm ? "max-w-48" : undefined}
         variant="ghost"
       />
     ),
@@ -187,7 +171,6 @@ const getFilterSelects = (
         options={sortOptions}
         placeholder="Recent activity"
         prefix={sortPrefix}
-        className={getWidth("sort")}
         variant="ghost"
       />
     ),
@@ -225,6 +208,7 @@ export const PlaysToolbar = ({
     <FilterToolbar
       ariaLabel="Filter Plays"
       inlineFrom="xl"
+      oneLine
       className="mt-5"
       activeCount={activeCount}
       resultLabel={`Show ${formatPlayCount(matchingCount)}`}

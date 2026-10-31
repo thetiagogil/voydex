@@ -36,6 +36,8 @@ type FilterToolbarProps = {
    * line there. The line never wraps; below it the sheet takes over.
    */
   inlineFrom?: "sm" | "xl";
+  /* Keeps the line from wrapping; see `Toolbar`. */
+  oneLine?: boolean;
   /* Wraps the toolbar, such as `<form />`. */
   render?: ComponentProps<typeof Toolbar>["render"];
   /* The phone sheet's button, such as "Show 43 Plays"; "Show results" by default. */
@@ -77,6 +79,7 @@ export const FilterToolbar = ({
   controls,
   filters,
   inlineFrom = "sm",
+  oneLine,
   render,
   resultLabel = "Show results",
   row,
@@ -90,6 +93,7 @@ export const FilterToolbar = ({
     <div className={className}>
       <Toolbar
         aria-label={ariaLabel}
+        oneLine={oneLine}
         render={render}
         search={
           <div className="flex gap-2">
