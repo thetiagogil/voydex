@@ -55,7 +55,6 @@ import {
 import {
   AddPokemonMoreStep,
   countAddPokemonBuild,
-  describeAddPokemonBuild,
   emptyAddPokemonBuild,
   type AddPokemonBuild,
   type AddPokemonBuildState,
@@ -432,7 +431,6 @@ export const AddPokemonSheet = ({
           ? null
           : {
               count: countAddPokemonBuild(build),
-              fields: describeAddPokemonBuild(supports),
               onOpen: () => setDetailsOpen(true),
             }
       }

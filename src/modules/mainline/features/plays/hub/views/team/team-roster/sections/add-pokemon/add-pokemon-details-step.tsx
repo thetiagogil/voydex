@@ -14,11 +14,9 @@ import { RuleWarningsNote } from "../roster/rule-warnings-note";
 
 export type AddPokemonPlacement = "reserve" | "team";
 
-/* More details, from step 2: what it records and how much is picked. */
+/* More details, from step 2: how much is picked, and opening it. */
 export type AddPokemonMoreDetails = {
   count: number;
-  /* What the game records, such as "Nature, ability, held item and moves". */
-  fields: string;
   onOpen: () => void;
 };
 
@@ -26,8 +24,8 @@ export type AddPokemonMoreDetails = {
  * Step 2, its details: what the Play's rules say about it (a warning that
  * blocks nothing), its pattern when it has looks to pick from (Vivillon,
  * Unown), nickname and level, and where it goes (the team or the reserve),
- * or whose place it takes when it replaces one. Adding, More details opens
- * step 3 from a row of its own.
+ * or whose place it takes when it replaces one. Adding, a More details button
+ * opens step 3.
  */
 export const AddPokemonDetailsStep = ({
   error,
@@ -179,26 +177,18 @@ export const AddPokemonDetailsStep = ({
         </div>
       )}
       {moreDetails ? (
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="grid gap-0.5">
-            <p className="text-15 font-extrabold">More details</p>
-            <p className="text-ink-2 text-13 font-semibold">
-              {moreDetails.count
-                ? `${moreDetails.count} picked · ${moreDetails.fields}`
-                : `${moreDetails.fields} · Optional`}
-            </p>
-          </div>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            className="self-start sm:self-auto"
-            onClick={moreDetails.onOpen}
-          >
-            {moreDetails.count ? "Change" : "Add details"}
-            <AppIcon icon={appIcons.actions.next} inline="end" />
-          </Button>
-        </div>
+        <Button
+          type="button"
+          variant="secondary"
+          size="sm"
+          className="justify-self-center"
+          onClick={moreDetails.onOpen}
+        >
+          {moreDetails.count
+            ? `More details · ${moreDetails.count}`
+            : "More details"}
+          <AppIcon icon={appIcons.actions.next} inline="end" />
+        </Button>
       ) : null}
       {error ? <FieldError>{error}</FieldError> : null}
     </form>
