@@ -2,6 +2,7 @@ import { toPokemonFormOption } from "@/modules/reference/features/pokemon/compon
 import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { Button } from "@/shared/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
@@ -12,16 +13,24 @@ import { RuleWarningsNote } from "../roster/rule-warnings-note";
 
 export type AddPokemonPlacement = "reserve" | "team";
 
+/* More details, from step 2: whether anything is picked, and opening it. */
+export type AddPokemonMoreDetails = {
+  onOpen: () => void;
+  picked: boolean;
+};
+
 /*
  * Step 2, its details: what the Play's rules say about it (a warning that
  * blocks nothing), its pattern when it has looks to pick from (Vivillon,
  * Unown), nickname and level, and where it goes (the team or the reserve),
- * or whose place it takes when it replaces one.
+ * or whose place it takes when it replaces one. Adding, a More details button
+ * opens step 3.
  */
 export const AddPokemonDetailsStep = ({
   error,
   id,
   level,
+  moreDetails,
   nickname,
   onLevelChange,
   onNicknameChange,
@@ -39,6 +48,8 @@ export const AddPokemonDetailsStep = ({
   /* The sheet's `useId`; the form is `${id}-form`, so Save can submit it. */
   id: string;
   level: string;
+  /* Null when it replaces one: Edit records those. */
+  moreDetails: AddPokemonMoreDetails | null;
   nickname: string;
   onLevelChange: (level: string) => void;
   onNicknameChange: (nickname: string) => void;
@@ -95,7 +106,7 @@ export const AddPokemonDetailsStep = ({
           />
         </Field>
       ) : null}
-      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_160px]">
         <Field>
           <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>
           <Input
@@ -124,7 +135,7 @@ export const AddPokemonDetailsStep = ({
       {replacesName !== null ? (
         <p className="text-ink-2 text-14 font-semibold">
           It takes {replacesName}&apos;s place, and {replacesName} is kept in
-          History.
+          History. Its nature, ability and moves can be added from Edit.
         </p>
       ) : (
         <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
@@ -143,6 +154,8 @@ export const AddPokemonDetailsStep = ({
           <SegmentedControl
             ariaLabel="Where it goes"
             variant="segment"
+            fullWidth
+            className="sm:inline-flex sm:w-auto"
             value={placement}
             onValueChange={onPlacementChange}
             options={[
@@ -164,10 +177,17 @@ export const AddPokemonDetailsStep = ({
           />
         </div>
       )}
-      <p className="text-ink-3 text-13 font-semibold">
-        Nature, ability and moves can be added from Edit once it&apos;s on your
-        team.
-      </p>
+      {moreDetails ? (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="mt-3 justify-self-center"
+          onClick={moreDetails.onOpen}
+        >
+          {moreDetails.picked ? "Change details" : "More details"}
+        </Button>
+      ) : null}
       {error ? <FieldError>{error}</FieldError> : null}
     </form>
   );

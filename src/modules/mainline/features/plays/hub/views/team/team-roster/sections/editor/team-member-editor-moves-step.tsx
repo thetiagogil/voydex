@@ -1,6 +1,7 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
-  MoveSlotSelect,
+  MoveSlotGrid,
+  toMoveSlotOptions,
   type MoveSlotOption,
 } from "@/modules/mainline/shared/components/move-slot-select";
 import { EditedMark } from "@/shared/components/edited-mark";
@@ -16,15 +17,7 @@ const toMoveOptions = (
   options: TeamMemberEditorOptions,
   member: MainlinePlayTeamMember,
 ): MoveSlotOption[] => [
-  ...options.moves.map((move) => ({
-    category: move.damageClass,
-    info: move.effect,
-    learn: move.learn,
-    label: move.name,
-    typeName: move.typeName,
-    typeSlug: move.typeSlug,
-    value: String(move.id),
-  })),
+  ...toMoveSlotOptions(options.moves),
   /* Moves it knows that its learnset here doesn't list stay pickable. */
   ...member.moves
     .filter((move) => !options.moves.some((option) => option.id === move.id))
@@ -56,27 +49,15 @@ export const TeamMemberEditorMovesStep = ({
       title={<EditedMark edited={edited("moveIds")}>Moves</EditedMark>}
       aside="Optional"
     >
-      <div className="grid gap-2.5 sm:grid-cols-2">
-        {values.moveIds.map((moveId, index) => (
-          <MoveSlotSelect
-            key={index}
-            slot={index + 1}
-            value={moveId || null}
-            onValueChange={(value) => {
-              const next = [
-                ...values.moveIds,
-              ] as TeamMemberEditorValues["moveIds"];
-              next[index] = value ?? "";
-              change("moveIds", next);
-            }}
-            options={moveOptions.filter(
-              (option) =>
-                option.value === moveId ||
-                !values.moveIds.includes(option.value),
-            )}
-          />
-        ))}
-      </div>
+      <MoveSlotGrid
+        values={values.moveIds.map((moveId) => moveId || null)}
+        onValueChange={(index, value) => {
+          const next = [...values.moveIds] as TeamMemberEditorValues["moveIds"];
+          next[index] = value ?? "";
+          change("moveIds", next);
+        }}
+        options={moveOptions}
+      />
     </SheetSection>
   );
 };

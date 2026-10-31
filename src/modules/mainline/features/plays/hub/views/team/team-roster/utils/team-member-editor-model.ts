@@ -294,13 +294,14 @@ export const findUnofferedEditorChoice = (
     UpdateMainlinePlayPokemonInput,
     "abilityId" | "heldItemId" | "moveIds" | "natureId" | "teraTypeId"
   >,
-  options: Pick<
-    TeamMemberEditorOptions,
-    "abilities" | "heldItems" | "moves" | "natures" | "teraTypes"
+  /* Only each choice's id matters here. */
+  options: Record<
+    "abilities" | "heldItems" | "moves" | "natures" | "teraTypes",
+    readonly { id: number }[]
   >,
   current: TeamMemberCurrentChoices,
 ): string | null => {
-  const offers = (list: readonly EditorOption[], id: number) =>
+  const offers = (list: readonly { id: number }[], id: number) =>
     list.some((option) => option.id === id);
 
   if (

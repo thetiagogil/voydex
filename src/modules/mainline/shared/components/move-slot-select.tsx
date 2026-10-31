@@ -27,6 +27,7 @@ import {
   ComboboxTrigger,
 } from "@/shared/components/ui/combobox";
 import { TipNamed } from "@/shared/components/tip-parts";
+import type { BuildMoveOption } from "@/modules/mainline/shared/types";
 
 export type MoveSlotOption = {
   /* Physical, Special or Status. */
@@ -50,6 +51,20 @@ export type MoveSlotOption = {
 };
 
 const emptyValue = "";
+
+/* A learnset's moves as the picker lists them. */
+export const toMoveSlotOptions = (
+  moves: readonly BuildMoveOption[],
+): MoveSlotOption[] =>
+  moves.map((move) => ({
+    category: move.damageClass,
+    info: move.effect,
+    learn: move.learn,
+    label: move.name,
+    typeName: move.typeName,
+    typeSlug: move.typeSlug,
+    value: String(move.id),
+  }));
 
 /* Moves it knows that its learnset here doesn't list. */
 const otherGroup = "Others it knows";
@@ -255,3 +270,36 @@ export const MoveSlotSelect = ({
   /* A picked move shows what it does on hover, as the ability field does. */
   return <HoverInfo info={selected?.info}>{field}</HoverInfo>;
 };
+
+/*
+ * The four slots, two by two from the small breakpoint; each lists only
+ * what the other slots haven't picked. Add Pokémon, Edit Pokémon and the
+ * Team Planner's slot sheet.
+ */
+export const MoveSlotGrid = ({
+  emptyLabel,
+  onValueChange,
+  options,
+  values,
+}: {
+  emptyLabel?: string;
+  onValueChange: (index: number, value: string | null) => void;
+  options: readonly MoveSlotOption[];
+  /* One per slot, in order; null for an empty one. */
+  values: readonly (string | null)[];
+}) => (
+  <div className="grid gap-2.5 sm:grid-cols-2">
+    {values.map((value, index) => (
+      <MoveSlotSelect
+        key={index}
+        slot={index + 1}
+        emptyLabel={emptyLabel}
+        value={value}
+        onValueChange={(next) => onValueChange(index, next)}
+        options={options.filter(
+          (option) => option.value === value || !values.includes(option.value),
+        )}
+      />
+    ))}
+  </div>
+);

@@ -1,4 +1,3 @@
-import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data/ability-effects";
 import {
   getChangeableFormIds,
   resolveFormClasses,
@@ -13,25 +12,24 @@ import {
   supportsGameMechanic,
   type GameMechanicsProfile,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import {
-  getLearnableMoveIds,
-  readFormLearnsetRows,
-  readHeldItemOptions,
-  readPokeBallOptions,
-  readMoveOptions,
-} from "@/modules/mainline/shared/server/build-option-readers";
+import { readPokeBallOptions } from "@/modules/mainline/shared/server/build-option-readers";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 import type {
   EditorFormOption,
   TeamMemberEditorOptions,
 } from "../utils/team-member-editor-model";
+import { readPokemonBuildOptions } from "./pokemon-build-options-reader";
 
 const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
   rows.toSorted(
     (left, right) => right.generation_start_id - left.generation_start_id,
   );
 
+/*
+ * Everything the editor offers: the build (natures, abilities, held items,
+ * moves), Poké Balls and Tera Types, and the forms it can evolve or change to.
+ */
 export const readTeamMemberEditorOptions = async (
   supabase: ServerSupabaseClient,
   {
@@ -52,37 +50,24 @@ export const readTeamMemberEditorOptions = async (
     versionGroupId: number;
   },
 ): Promise<TeamMemberEditorOptions> => {
-  const hasAbilities = supportsGameMechanic(mechanics, gameMechanics.abilities);
-  const hasNatures = supportsGameMechanic(mechanics, gameMechanics.natures);
   const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
   const hasTerastal = supportsGameMechanic(mechanics, gameMechanics.terastal);
   const [
-    attributesResult,
-    naturesResult,
-    learnsets,
+    build,
     edgesResult,
     speciesFormsResult,
     formClassById,
     teraTypesResult,
     contentScopesResult,
   ] = await Promise.all([
-    supabase
-      .schema("reference")
-      .from("pokemon_attributes")
-      .select(
-        "generation_start_id, primary_ability_id, secondary_ability_id, hidden_ability_id",
-      )
-      .eq("form_id", formId)
-      .lte("generation_start_id", generationId),
-    hasNatures
-      ? supabase
-          .schema("reference")
-          .from("natures")
-          .select("id, name, increased_stat, decreased_stat")
-          .lte("introduced_generation_id", generationId)
-          .order("name", { ascending: true })
-      : null,
-    readFormLearnsetRows(supabase, { formId, versionGroupId }),
+    readPokemonBuildOptions(supabase, {
+      formId,
+      gameId,
+      generationId,
+      mechanics,
+      playId,
+      versionGroupId,
+    }),
     supabase
       .schema("reference")
       .from("pokemon_evolution_edges")
@@ -103,7 +88,7 @@ export const readTeamMemberEditorOptions = async (
           .select("id, name, introduced_version_group_id")
           .order("sort_order", { ascending: true })
       : null,
-    /* The add-ons the Play includes: their items, balls and Stellar. */
+    /* The add-ons the Play includes: their balls and Stellar. */
     supabase
       .schema("gameplay")
       .from("mainline_play_optional_content_scopes")
@@ -112,8 +97,6 @@ export const readTeamMemberEditorOptions = async (
   ]);
 
   if (
-    attributesResult.error ||
-    naturesResult?.error ||
     edgesResult.error ||
     speciesFormsResult.error ||
     teraTypesResult?.error ||
@@ -126,16 +109,6 @@ export const readTeamMemberEditorOptions = async (
     versionGroupId,
     ...(contentScopesResult.data ?? []).map((scope) => scope.version_group_id),
   ];
-  const attribute = newestFirst(attributesResult.data ?? [])[0];
-  const abilityIds =
-    hasAbilities && attribute
-      ? [
-          attribute.primary_ability_id,
-          attribute.secondary_ability_id,
-          attribute.hidden_ability_id,
-        ].filter((id): id is number => id !== null)
-      : [];
-  const moveIds = getLearnableMoveIds(learnsets, [gameId]);
   const edges = (edgesResult.data ?? []).filter(
     (edge) =>
       edge.version_group_id === null ||
@@ -152,51 +125,15 @@ export const readTeamMemberEditorOptions = async (
   ];
 
   const [
-    abilitiesResult,
-    abilityAttributesResult,
-    versionGroupsResult,
     balls,
-    heldItems,
-    moves,
     targetFormsResult,
     targetAttributesResult,
     typesResult,
     heldItemForms,
   ] = await Promise.all([
-    abilityIds.length
-      ? supabase
-          .schema("reference")
-          .from("abilities")
-          .select("id, name")
-          .in("id", abilityIds)
-      : null,
-    abilityIds.length
-      ? supabase
-          .schema("reference")
-          .from("ability_attributes")
-          .select("ability_id, version_group_start_id, effect_summary")
-          .in("ability_id", abilityIds)
-      : null,
-    abilityIds.length
-      ? supabase
-          .schema("reference")
-          .from("version_groups")
-          .select("id, sort_order")
-      : null,
     readPokeBallOptions(supabase, {
       gameIds: [gameId],
       versionGroupIds: playVersionGroupIds,
-    }),
-    hasHeldItems
-      ? readHeldItemOptions(supabase, {
-          gameIds: [gameId],
-          versionGroupIds: playVersionGroupIds,
-        })
-      : [],
-    readMoveOptions(supabase, {
-      generationId,
-      learnedBy: { formId, gameIds: [gameId], versionGroupId },
-      moveIds,
     }),
     targetFormIds.length
       ? supabase
@@ -229,9 +166,6 @@ export const readTeamMemberEditorOptions = async (
   ]);
 
   if (
-    abilitiesResult?.error ||
-    abilityAttributesResult?.error ||
-    versionGroupsResult?.error ||
     targetFormsResult?.error ||
     targetAttributesResult?.error ||
     typesResult?.error
@@ -290,22 +224,8 @@ export const readTeamMemberEditorOptions = async (
   const targetForms = (targetFormsResult?.data ?? []).filter((form) =>
     attributeByFormId.has(form.id),
   );
-  const abilityById = new Map(
-    (abilitiesResult?.data ?? []).map((ability) => [ability.id, ability]),
-  );
-  const abilityEffects = resolveAbilityEffects(
-    abilityAttributesResult?.data ?? [],
-    versionGroupId,
-    versionGroupsResult?.data ?? [],
-  );
-
   return {
-    abilities: abilityIds.flatMap((id) => {
-      const ability = abilityById.get(id);
-      return ability
-        ? [{ ...ability, effect: abilityEffects.get(id) ?? null }]
-        : [];
-    }),
+    ...build,
     balls,
     evolutions: edges.flatMap((edge) => {
       const form = targetForms.find((item) => item.id === edge.to_form_id);
@@ -316,14 +236,6 @@ export const readTeamMemberEditorOptions = async (
 
       return form ? [toFormOption(form)] : [];
     }),
-    heldItems,
-    moves,
-    natures: (naturesResult?.data ?? []).map((nature) => ({
-      decreased: nature.decreased_stat,
-      id: nature.id,
-      increased: nature.increased_stat,
-      name: nature.name,
-    })),
     /* Stellar only when the Play includes The Indigo Disk. */
     teraTypes: (teraTypesResult?.data ?? [])
       .filter(

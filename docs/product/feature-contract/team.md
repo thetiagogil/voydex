@@ -154,12 +154,17 @@ beside its species as its own card with the same number (never a battle form
 or a form it switches to later); a variant that only changes its looks
 (Vivillon's patterns, Unown's letters, Gastrodon's seas) is picked from a
 Pattern select in the details step instead. Then its nickname, level and team
-or reserve; the server takes the first open slot, the moment joins History
-and the toast offers Undo, which deletes the Pokémon and that moment
-together. **Edit Pokémon** is the same kind of sheet: Who (with shiny and can Gigantamax), Slot,
+or reserve, and an optional **More details** step: nature, ability and held
+item (each only where the game records it) and its four moves, the same
+fields as Edit, loaded while the details step is open; its button counts what
+is picked. The server checks them as Edit's save does, takes the first open
+slot, the moment joins History and the toast offers Undo, which deletes the
+Pokémon and that moment together. Replacing a Pokémon skips More details. **Edit Pokémon** is the same kind of sheet: Who (with shiny and can Gigantamax), Slot,
 Details (nature, ability, held item, Poké Ball, and where and at what level it
 was met; held items are only the holdable items the Play's exact game has,
-grouped by category), Moves and Notes, then Review changes before Save, offering only what
+grouped by category), Moves (in Add, Edit and the Team Planner, the move
+list is grouped by how it is learned: Level up with the level, TM, Egg,
+Tutor) and Notes, then Review changes before Save, offering only what
 the game records. Evolve and Change form record their moment; Replace (picking
 the incoming Pokémon in the Add sheet), Retire and Delete record act from its
 head. Slot shows the twelve slots as squares; picking one previews the team

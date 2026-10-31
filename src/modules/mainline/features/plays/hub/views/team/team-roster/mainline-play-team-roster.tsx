@@ -112,7 +112,6 @@ export const MainlinePlayTeamRoster = ({
       ),
     ]),
   );
-  const playLabel = data.play.play_name ?? data.play.game_name ?? "This Play";
 
   const selectMember = (member: MainlinePlayTeamMember) => {
     setSelectedMemberId(member.play_pokemon_id);
@@ -282,12 +281,12 @@ export const MainlinePlayTeamRoster = ({
 
       <AddPokemonSheet
         key={sheetKeys.picker}
+        mechanics={mechanics}
         mode={pickerMode}
         onAdded={setSelectedMemberId}
         onOpenChange={changePickerOpen}
         open={pickerOpen}
         playId={playId}
-        playLabel={playLabel}
         preset={pickerMode.kind === "add" ? (addRequest?.preset ?? null) : null}
         reserveCount={summary.reserveCount}
         ruleChecks={data.ruleChecks}

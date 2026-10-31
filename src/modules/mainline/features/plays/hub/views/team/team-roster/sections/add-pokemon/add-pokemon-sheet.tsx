@@ -18,6 +18,11 @@ import {
   type RuleCheckPokemon,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
+import {
+  gameMechanics,
+  supportsGameMechanic,
+  type GameMechanicsProfile,
+} from "@/modules/reference/features/games/domain/game-mechanics";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -27,6 +32,7 @@ import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 import { addMainlinePlayPokemonAction } from "../../server/add-team-member-action";
+import { loadPokemonBuildOptionsAction } from "../../server/pokemon-build-options-action";
 import { loadMainlinePlayPokemonChoicesAction } from "../../server/pokemon-choices-action";
 import {
   removeMainlinePlayPokemonAction,
@@ -46,6 +52,13 @@ import {
   AddPokemonDetailsStep,
   type AddPokemonPlacement,
 } from "./add-pokemon-details-step";
+import {
+  AddPokemonMoreStep,
+  emptyAddPokemonBuild,
+  hasAddPokemonBuild,
+  type AddPokemonBuild,
+  type AddPokemonBuildState,
+} from "./add-pokemon-more-step";
 
 /*
  * A Pokémon to pick as the Play's rule checks read it; its shininess isn't
@@ -81,32 +94,38 @@ export type AddPokemonMode =
 /* The list grows as you scroll, so a whole Pokédex opens at once. */
 const choiceBatchSize = 48;
 
+/* A More details pick as the add action takes it; null when not recorded. */
+const toBuildId = (value: string, supported: boolean) =>
+  supported && value ? Number(value) : null;
+
 /*
  * Add Pokémon (v3 `addMonSheet`): first which Pokémon, from the whole of the
- * Play's Pokédex in order or searched by name or number, then its nickname, level and where it goes.
- * A bottom sheet on phones, v3's side sheet wider. Once added, the toast
- * offers Undo. It also picks who replaces a Pokémon, from the editor.
+ * Play's Pokédex in order or searched by name or number, then its nickname,
+ * level and where it goes, and, if you like, More details: its nature,
+ * ability, held item and moves, which load while step 2 is open. A bottom
+ * sheet on phones, v3's side sheet wider. Once added, the toast offers Undo.
+ * It also picks who replaces a Pokémon, from the editor.
  */
 export const AddPokemonSheet = ({
+  mechanics,
   mode = { kind: "add" },
   onAdded,
   onOpenChange,
   open,
   playId,
-  playLabel,
   preset = null,
   reserveCount,
   ruleChecks = emptyRuleCheckContext,
   teamCount,
 }: {
+  /* The Play's game: More details offers only what it records. */
+  mechanics: GameMechanicsProfile;
   mode?: AddPokemonMode;
   /* The new Pokémon, so the Roster can select it. */
   onAdded?: (playPokemonId: string) => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
   playId: string;
-  /* The kicker, such as "Sword". */
-  playLabel: string;
   preset?: AddPokemonPreset | null;
   reserveCount: number;
   /* What the Play's rules check, to warn about a pick before it's added. */
@@ -125,6 +144,11 @@ export const AddPokemonSheet = ({
   const [picked, setPicked] = useState<PokemonChoice | null>(null);
   const [nickname, setNickname] = useState("");
   const [level, setLevel] = useState("");
+  const [detailsOpen, setDetailsOpen] = useState(false);
+  const [build, setBuild] = useState<AddPokemonBuild>(emptyAddPokemonBuild);
+  const [buildState, setBuildState] = useState<AddPokemonBuildState | null>(
+    null,
+  );
   const teamIsFull = teamCount >= 6;
   const reserveIsFull = reserveCount >= 6;
   const [placement, setPlacement] = useState<AddPokemonPlacement>(
@@ -134,6 +158,12 @@ export const AddPokemonSheet = ({
   const [isSaving, startSaving] = useTransition();
   const isReplace = mode.kind === "replace";
   const rosterIsFull = !isReplace && teamIsFull && reserveIsFull;
+  const supports = {
+    abilities: supportsGameMechanic(mechanics, gameMechanics.abilities),
+    heldItems: supportsGameMechanic(mechanics, gameMechanics.heldItems),
+    natures: supportsGameMechanic(mechanics, gameMechanics.natures),
+  };
+  const pickedFormId = picked?.formId ?? null;
 
   /* The choices load once, the first time the sheet opens. */
   const isLoadingRef = useRef(false);
@@ -172,6 +202,44 @@ export const AddPokemonSheet = ({
     });
   }, [loadState.status, open, playId, preset]);
 
+  /* More details' choices load once a Pokémon is picked to add. */
+  useEffect(() => {
+    if (!open || isReplace || pickedFormId === null) {
+      return;
+    }
+
+    let isCurrent = true;
+
+    void loadPokemonBuildOptionsAction({ formId: pickedFormId, playId }).then(
+      (result) => {
+        if (!isCurrent) {
+          return;
+        }
+
+        setBuildState(
+          result.status === "error"
+            ? { formId: pickedFormId, message: result.message, status: "error" }
+            : {
+                formId: pickedFormId,
+                options: result.options,
+                status: "ready",
+              },
+        );
+      },
+    );
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [isReplace, open, pickedFormId, playId]);
+
+  /* Another Pokémon, or another of its patterns, starts its details over. */
+  const pick = (choice: PokemonChoice | null) => {
+    setPicked(choice);
+    setBuild(emptyAddPokemonBuild);
+    setDetailsOpen(false);
+  };
+
   const search = (nextQuery: string) => {
     setQuery(nextQuery);
     setShownCount(choiceBatchSize);
@@ -184,7 +252,7 @@ export const AddPokemonSheet = ({
 
   const reset = () => {
     search("");
-    setPicked(null);
+    pick(null);
     setNickname("");
     setLevel("");
     setError(null);
@@ -254,8 +322,12 @@ export const AddPokemonSheet = ({
       }
 
       const result = await addMainlinePlayPokemonAction({
+        abilityId: toBuildId(build.abilityId, supports.abilities),
         formId: picked.formId,
+        heldItemId: toBuildId(build.heldItemId, supports.heldItems),
         level: parsedLevel,
+        moveIds: build.moveIds.filter(Boolean).map(Number),
+        natureId: toBuildId(build.natureId, supports.natures),
         nickname: nickname.trim() || null,
         placement,
         playId,
@@ -289,7 +361,7 @@ export const AddPokemonSheet = ({
   const pokedexName =
     loadState.status === "ready" ? (loadState.pokedexName ?? "Pokédex") : "";
   const results = query.trim() ? filterPokemonChoices(choices, query) : choices;
-  const step = picked ? 2 : 1;
+  const step = picked ? (detailsOpen ? 3 : 2) : 1;
 
   const searchControl = (
     <SearchControl
@@ -325,7 +397,7 @@ export const AddPokemonSheet = ({
       rulesOnly={rulesOnly}
       onRulesOnlyChange={setRulesOnly}
       loadState={loadState}
-      onPick={setPicked}
+      onPick={pick}
       onRetry={() => setLoadState({ status: "idle" })}
       onShowMore={showMore}
       pokedexName={pokedexName}
@@ -351,11 +423,19 @@ export const AddPokemonSheet = ({
       error={error}
       id={id}
       level={level}
+      moreDetails={
+        isReplace
+          ? null
+          : {
+              onOpen: () => setDetailsOpen(true),
+              picked: hasAddPokemonBuild(build),
+            }
+      }
       nickname={nickname}
       onLevelChange={setLevel}
       onNicknameChange={setNickname}
       onPatternChange={(pattern) =>
-        setPicked({ ...pattern, patterns: picked.patterns })
+        pick({ ...pattern, patterns: picked.patterns })
       }
       onPlacementChange={setPlacement}
       onSubmit={save}
@@ -368,11 +448,23 @@ export const AddPokemonSheet = ({
     />
   ) : null;
 
+  const stepThree = (
+    <AddPokemonMoreStep
+      build={build}
+      error={error}
+      id={id}
+      onBuildChange={setBuild}
+      onSubmit={save}
+      state={buildState?.formId === pickedFormId ? buildState : null}
+      supports={supports}
+    />
+  );
+
   return (
     <OverlaySheet
       open={open}
       onOpenChange={changeOpen}
-      description={`${isReplace ? `Replace ${mode.name}` : "Add"} · ${playLabel}`}
+      description={isReplace ? `Replace ${mode.name}` : undefined}
       title={step === 1 ? "Which Pokémon?" : (picked?.speciesName ?? "")}
       toolbar={step === 1 ? searchControl : undefined}
       headBleed={Boolean(picked)}
@@ -428,12 +520,18 @@ export const AddPokemonSheet = ({
               size="sm"
               disabled={isSaving}
               onClick={() => {
-                setPicked(null);
+                if (step === 3) {
+                  setDetailsOpen(false);
+                } else {
+                  pick(null);
+                }
+
                 setError(null);
               }}
             >
               Back
             </Button>
+
             <Button
               type="submit"
               size="sm"
@@ -454,7 +552,7 @@ export const AddPokemonSheet = ({
         )
       }
     >
-      {step === 1 ? stepOne : stepTwo}
+      {step === 1 ? stepOne : step === 2 ? stepTwo : stepThree}
     </OverlaySheet>
   );
 };
