@@ -40,9 +40,9 @@ test.describe("Team analysis", () => {
     await page.getByRole("button", { name: /^Why Team health reads/ }).click();
     const why = page.getByRole("dialog");
     await expect(why).toContainText(
-      "Your team against a full team of six, Pokémon of each type as strong as yours, at Lv. 50, as your levels aren't recorded.",
+      "six typical Pokémon of mixed types, as strong as yours, at Lv. 50 (your levels aren't recorded). The types are shared across your whole team, so every Pokémon counts.",
     );
-    await expect(why).toContainText("You bring 1 to their 6.");
+    await expect(why).toContainText("A full team has 6");
     await expectAccessible(page);
   });
 });
