@@ -16,46 +16,32 @@ import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
-/* Where a control renders: on the toolbar's line, or in the phone sheet. */
+/* Where a control renders: on the toolbar's line, or in the sheet below 1280px. */
 export type FilterToolbarPlacement = "line" | "sheet";
 
 type FilterToolbarProps = {
-  /* How many filters are set: shown on the phone's Filters button. */
+  /* How many filters are set: shown on the Filters button. */
   activeCount: number;
   ariaLabel: string;
   className?: string;
   /*
-   * The order and other key controls, at the line's end from 640px. Called
+   * The order and other key controls, at the line's end from 1280px. Called
    * once per placement, so give ids from the placement.
    */
   controls?: (placement: FilterToolbarPlacement) => ReactNode;
-  /* The filters, on the line after the search from 640px. */
+  /* The filters, on the line after the search from 1280px. */
   filters?: (placement: FilterToolbarPlacement) => ReactNode;
-  /*
-   * Where the controls move from the phone sheet onto the line: `sm` (640px)
-   * by default, or `xl` (1280px) for a toolbar whose controls only fit one
-   * line there. The line never wraps; below it the sheet takes over.
-   */
-  inlineFrom?: "sm" | "xl";
-  /* Keeps the line from wrapping; see `Toolbar`. */
-  oneLine?: boolean;
   /* Wraps the toolbar, such as `<form />`. */
   render?: ComponentProps<typeof Toolbar>["render"];
-  /* The phone sheet's button, such as "Show 43 Plays"; "Show results" by default. */
+  /* The sheet's button, such as "Show 43 Plays"; "Show results" by default. */
   resultLabel?: string;
   /*
-   * The one row allowed under the line, such as the type dots, from 640px.
-   * On phones it moves into the sheet.
+   * The one row allowed under the line, such as the type dots, from 1280px.
+   * Below that it moves into the sheet.
    */
   row?: (placement: FilterToolbarPlacement) => ReactNode;
   search: ReactNode;
 };
-
-/* The classes that move the controls between the sheet and the line. */
-const inlineClassNames = {
-  sm: { group: "hidden sm:flex", row: "max-sm:hidden", trigger: "sm:hidden" },
-  xl: { group: "hidden xl:flex", row: "max-xl:hidden", trigger: "xl:hidden" },
-} as const;
 
 /* Each control a filter or the order renders, fragments opened up. */
 const getControls = (node: ReactNode): ReactNode[] =>
@@ -69,7 +55,7 @@ const getControls = (node: ReactNode): ReactNode[] =>
  * The one toolbar for a list, on a single line: the search, the filters,
  * then the order, a hairline between each. Controls that belong together
  * (wrapped in one element) share a group. The only second row is the
- * type dots (`row`), under the card. On phones the line is the search and a
+ * type dots (`row`), under the card. Below 1280px (phones and tablets) the line is the search and a
  * Filters button that opens the filters, the row and the order in a sheet
  * from the bottom.
  */
@@ -79,8 +65,6 @@ export const FilterToolbar = ({
   className,
   controls,
   filters,
-  inlineFrom = "sm",
-  oneLine,
   render,
   resultLabel = "Show results",
   row,
@@ -88,13 +72,12 @@ export const FilterToolbar = ({
 }: FilterToolbarProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const hasSheet = Boolean(filters || controls || row);
-  const inline = inlineClassNames[inlineFrom];
 
   return (
     <div className={className}>
       <Toolbar
         aria-label={ariaLabel}
-        oneLine={oneLine}
+        oneLine
         render={render}
         search={
           <div className="flex gap-2">
@@ -111,7 +94,7 @@ export const FilterToolbar = ({
                   <Button
                     type="button"
                     variant="secondary"
-                    className={inline.trigger}
+                    className={"xl:hidden"}
                   >
                     <AppIcon icon={appIcons.actions.filter} inline="start" />
                     Filters
@@ -144,18 +127,18 @@ export const FilterToolbar = ({
             isValidElement<{ className?: string }>(control) &&
             control.type === ToolbarGroup ? (
               cloneElement(control, {
-                className: cn(control.props.className, inline.group),
+                className: cn(control.props.className, "hidden xl:flex"),
                 key: index,
               })
             ) : (
-              <ToolbarGroup key={index} className={inline.group}>
+              <ToolbarGroup key={index} className={"hidden xl:flex"}>
                 {control}
               </ToolbarGroup>
             ),
           )}
       />
       {row ? (
-        <div className={cn("mt-3.5", inline.row)}>{row("line")}</div>
+        <div className={cn("mt-3.5", "max-xl:hidden")}>{row("line")}</div>
       ) : null}
     </div>
   );

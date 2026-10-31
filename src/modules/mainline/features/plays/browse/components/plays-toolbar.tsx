@@ -214,8 +214,6 @@ export const PlaysToolbar = ({
   return (
     <FilterToolbar
       ariaLabel="Filter Plays"
-      inlineFrom="xl"
-      oneLine
       className="mt-5"
       activeCount={activeCount}
       resultLabel={`Show ${formatPlayCount(matchingCount)}`}
