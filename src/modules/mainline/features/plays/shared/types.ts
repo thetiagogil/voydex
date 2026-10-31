@@ -38,6 +38,13 @@ export type PlayBrowseStoryPosition =
   | { kind: "complete" }
   | { kind: "next"; name: string };
 
+/* A tag of the trainer's, as a Play carries it. */
+export type PlayBrowseTag = {
+  id: string;
+  name: string;
+  slug: string;
+};
+
 /* One Play in the trainer's library, as Plays and Home list it. */
 export type PlayBrowseItem = MainlinePlaySummary & {
   activeTeam: PlayBrowseTeam;
@@ -48,6 +55,8 @@ export type PlayBrowseItem = MainlinePlaySummary & {
   storyPosition: PlayBrowseStoryPosition | null;
   /* Whether the Play tracks Story; on when its settings can't be read. */
   storyTracked: boolean;
+  /* By name; empty when the Play has none or they couldn't be read. */
+  tags: PlayBrowseTag[];
 };
 
 /* What starting a Play offers, on New Play and Home's first-Play picker. */
