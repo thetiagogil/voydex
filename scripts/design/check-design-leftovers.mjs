@@ -168,6 +168,21 @@ const sourceRules = [
       /(?=.*\bfocus-ring\b)(?=.*(?:^|[\s"'`])(?:max-)?(?:sm|md|lg|xl|2xl):(?:absolute|fixed|sticky)\b)/,
   },
   /*
+   * The overlay rule (Design System, Dialog or sheet): every sheet is an
+   * `OverlaySheet` and every dialog an `OverlayDialog`, so the title, corner
+   * close, footer and scrolling match. Only an `AlertDialog` confirm builds
+   * on its own content.
+   */
+  {
+    label:
+      "a sheet or dialog built on the primitive's content (use OverlaySheet or OverlayDialog)",
+    pattern: /<(?:Dialog|Sheet)Content\b/,
+    allow: [
+      path.join("src", "shared", "components", "overlay-dialog.tsx"),
+      path.join("src", "shared", "components", "overlay-sheet.tsx"),
+    ],
+  },
+  /*
    * The card-corner rule (Design System, Card corners): a Pokémon card's
    * marks (slot number, warning, shiny, state, Pokédex number) are drawn by
    * the shared marks in `corner-bubble.tsx` and placed by `CornerBubble`,

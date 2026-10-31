@@ -17,7 +17,8 @@ import {
   type RuleCheckContext,
   type RuleCheckPokemon,
 } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -368,38 +369,40 @@ export const AddPokemonSheet = ({
   ) : null;
 
   return (
-    <FormOverlay
+    <OverlaySheet
       open={open}
       onOpenChange={changeOpen}
-      presentation="side"
-      kicker={`${isReplace ? `Replace ${mode.name}` : "Add"} · ${playLabel}`}
+      description={`${isReplace ? `Replace ${mode.name}` : "Add"} · ${playLabel}`}
       title={step === 1 ? "Which Pokémon?" : (picked?.speciesName ?? "")}
       toolbar={step === 1 ? searchControl : undefined}
-      hero={
+      headBleed={Boolean(picked)}
+      meta={
+        picked ? (
+          <div className="grid gap-2">
+            <p className="text-ink-2 text-14 font-semibold tabular-nums">
+              {[formatPokemonChoiceNumber(picked.number), picked.formName]
+                .filter(Boolean)
+                .join(" · ")}
+            </p>
+            <PokemonTypeList
+              types={getPokemonChoiceTypes(picked)}
+              badgeDisplay="icon-label"
+              badgeSize="sm"
+              className="flex gap-1.5"
+            />
+          </div>
+        ) : undefined
+      }
+      head={
         picked
-          ? {
+          ? pokemonSheetHead({
               imageUrl: picked.imageUrl,
               name: picked.speciesName,
-              meta: (
-                <div className="grid gap-2">
-                  <p className="text-ink-2 text-14 font-semibold tabular-nums">
-                    {[formatPokemonChoiceNumber(picked.number), picked.formName]
-                      .filter(Boolean)
-                      .join(" · ")}
-                  </p>
-                  <PokemonTypeList
-                    types={getPokemonChoiceTypes(picked)}
-                    badgeDisplay="icon-label"
-                    badgeSize="sm"
-                    className="flex gap-1.5"
-                  />
-                </div>
-              ),
               type:
                 picked.primaryType && isPokemonTypeSlug(picked.primaryType.slug)
                   ? picked.primaryType.slug
                   : null,
-            }
+            })
           : undefined
       }
       footer={
@@ -452,6 +455,6 @@ export const AddPokemonSheet = ({
       }
     >
       {step === 1 ? stepOne : stepTwo}
-    </FormOverlay>
+    </OverlaySheet>
   );
 };

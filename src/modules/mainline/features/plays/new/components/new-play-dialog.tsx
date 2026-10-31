@@ -14,7 +14,7 @@ import {
   NewPlayDialogContext,
   type NewPlayDialogOpener,
 } from "@/modules/mainline/features/plays/shared/client/new-play-dialog-context";
-import { Dialog, DialogContent } from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 
 /*
  * One opening, on its game (and partner) when a trigger or the address gave
@@ -122,39 +122,36 @@ export const NewPlayDialogProvider = ({
   return (
     <NewPlayDialogContext.Provider value={opener}>
       {children}
-      <Dialog
+      <OverlayDialog
+        bare
+        label="New Play"
         open={opening?.isOpen ?? false}
         onOpenChange={(open) => {
           if (!open) close();
         }}
+        fullScreenOnPhone
+        size="2xl"
       >
-        <DialogContent
-          aria-label="New Play"
-          fullScreenOnPhone
-          showCloseButton={false}
-          className="block p-0 sm:max-w-220"
-        >
-          {opening && data.picker ? (
-            <NewPlayWizard
-              key={opening.id}
-              data={{
-                ...data.picker,
-                presets: data.presets,
-                rules: data.rules,
-                trackingDefaults: data.trackingDefaults,
-                initial: resolveNewPlayInitialChoice(
-                  data.picker.games,
-                  opening,
-                  intent,
-                ),
-              }}
-              onClose={close}
-            />
-          ) : (
-            <NewPlayUnavailable onClose={close} />
-          )}
-        </DialogContent>
-      </Dialog>
+        {opening && data.picker ? (
+          <NewPlayWizard
+            key={opening.id}
+            data={{
+              ...data.picker,
+              presets: data.presets,
+              rules: data.rules,
+              trackingDefaults: data.trackingDefaults,
+              initial: resolveNewPlayInitialChoice(
+                data.picker.games,
+                opening,
+                intent,
+              ),
+            }}
+            onClose={close}
+          />
+        ) : (
+          <NewPlayUnavailable onClose={close} />
+        )}
+      </OverlayDialog>
     </NewPlayDialogContext.Provider>
   );
 };

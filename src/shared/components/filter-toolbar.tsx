@@ -10,7 +10,7 @@ import {
 } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
 
@@ -81,7 +81,7 @@ export const FilterToolbar = ({
             <div className="min-w-0 flex-1 *:w-full">{search}</div>
             {/* Phones: the sheet. Only its trigger hides from 640px. */}
             {hasSheet ? (
-              <BottomSheet
+              <OverlaySheet
                 open={isSheetOpen}
                 onOpenChange={setIsSheetOpen}
                 title="Filters"
@@ -113,7 +113,7 @@ export const FilterToolbar = ({
                   {row?.("sheet")}
                   {controls?.("sheet")}
                 </div>
-              </BottomSheet>
+              </OverlaySheet>
             ) : null}
           </div>
         }

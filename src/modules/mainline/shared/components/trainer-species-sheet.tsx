@@ -11,7 +11,7 @@ import {
   type TrainerPokemonEntry,
 } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
-import { PokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
+import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { TrainerPlayRow } from "@/modules/mainline/shared/components/trainer-play-row";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
@@ -22,10 +22,8 @@ import {
 } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { buttonVariants } from "@/shared/components/ui/button";
-import { SheetTitle } from "@/shared/components/ui/sheet";
-import { useIsMobile } from "@/shared/hooks/use-mobile";
 
 type TrainerSpeciesSheetProps = {
   /* Outside the Collection: where "See in Collection" leads. */
@@ -74,7 +72,6 @@ export const TrainerSpeciesSheet = ({
   onOpenChange,
   onOpenSpecies,
 }: TrainerSpeciesSheetProps) => {
-  const isMobile = useIsMobile();
   const [shownEntry, setShownEntry] = useState(openEntry);
 
   if (openEntry && openEntry !== shownEntry) {
@@ -111,73 +108,70 @@ export const TrainerSpeciesSheet = ({
   const relatives = showsFamily ? species : family;
 
   return (
-    <ResponsiveDetailSheet
+    <OverlaySheet
       open={Boolean(openEntry)}
       onOpenChange={onOpenChange}
-      label={showsFamily && familyTitle ? familyTitle : entry.name}
+      title={(showsFamily ? familyTitle : null) ?? entry.name}
+      size="sm"
+      bodyClassName="grid content-start gap-6"
       headBleed
-      head={
-        <PokemonSheetHead
-          imageUrl={entry.imageUrl}
-          layout={isMobile ? "inset" : "flush"}
-          name={entry.name}
-          type={primaryType}
-          actions={
-            <div className="flex flex-wrap gap-2">
-              {collectionHref ? (
-                <Link
-                  href={collectionHref}
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "secondary",
-                  })}
-                >
-                  <AppIcon
-                    icon={appIcons.views.mainline.collection}
-                    inline="start"
-                  />
-                  See in Collection
-                </Link>
-              ) : null}
-              <Link
-                href={appRoutes.codexPokemonSpecies(entry.speciesSlug)}
-                className={buttonVariants({ size: "sm", variant: "secondary" })}
-              >
-                <AppIcon icon={appIcons.modules.codex} inline="start" />
-                Open in Codex
-              </Link>
-            </div>
-          }
-        >
-          <div className="min-w-0 pr-12">
-            <p className="text-ink-2 text-13 font-bold">
-              {showsFamily
-                ? `Old friend · ${species.length} species`
-                : [
-                    formatNationalNumber(entry.nationalNumber),
-                    "In your Collection",
-                  ]
-                    .filter(Boolean)
-                    .join(" · ")}
+      meta={
+        <div className="grid gap-2">
+          <p className="text-ink-2 text-13 font-bold">
+            {showsFamily
+              ? `Old friend · ${species.length} species`
+              : [
+                  formatNationalNumber(entry.nationalNumber),
+                  "In your Collection",
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
+          </p>
+          {showsFamily ? (
+            <p className="text-ink-2 text-14 font-semibold">
+              {species.map((each) => each.name).join(" · ")}
             </p>
-            <SheetTitle className="text-24 mt-0.5">
-              {showsFamily ? familyTitle : entry.name}
-            </SheetTitle>
-            {showsFamily ? (
-              <p className="text-ink-2 text-14 mt-1.5 font-semibold">
-                {species.map((each) => each.name).join(" · ")}
-              </p>
-            ) : (
-              <PokemonTypeList
-                types={entry.types}
-                badgeDisplay="icon-label"
-                badgeSize="sm"
-                className="mt-2 flex flex-wrap gap-1.5"
-              />
-            )}
-          </div>
-        </PokemonSheetHead>
+          ) : (
+            <PokemonTypeList
+              types={entry.types}
+              badgeDisplay="icon-label"
+              badgeSize="sm"
+              className="flex flex-wrap gap-1.5"
+            />
+          )}
+        </div>
       }
+      head={pokemonSheetHead({
+        imageUrl: entry.imageUrl,
+        name: entry.name,
+        type: primaryType,
+        actions: (
+          <div className="flex flex-wrap gap-2">
+            {collectionHref ? (
+              <Link
+                href={collectionHref}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "secondary",
+                })}
+              >
+                <AppIcon
+                  icon={appIcons.views.mainline.collection}
+                  inline="start"
+                />
+                See in Collection
+              </Link>
+            ) : null}
+            <Link
+              href={appRoutes.codexPokemonSpecies(entry.speciesSlug)}
+              className={buttonVariants({ size: "sm", variant: "secondary" })}
+            >
+              <AppIcon icon={appIcons.modules.codex} inline="start" />
+              Open in Codex
+            </Link>
+          </div>
+        ),
+      })}
     >
       <SheetSection
         className="gap-3"
@@ -298,6 +292,6 @@ export const TrainerSpeciesSheet = ({
           </ul>
         </SheetSection>
       ) : null}
-    </ResponsiveDetailSheet>
+    </OverlaySheet>
   );
 };

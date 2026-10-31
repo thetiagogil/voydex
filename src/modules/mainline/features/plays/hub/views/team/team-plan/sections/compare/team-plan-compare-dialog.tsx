@@ -11,14 +11,8 @@ import {
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
+import { DialogClose } from "@/shared/components/ui/dialog";
 import { cn } from "@/shared/utils/cn";
 
 import {
@@ -182,136 +176,130 @@ export const TeamPlanCompareDialog = ({
   onOpenChange,
   open,
 }: TeamPlanCompareDialogProps) => {
+  if (!comparison) return null;
+
   return (
-    <Dialog open={open && comparison !== null} onOpenChange={onOpenChange}>
-      {comparison ? (
-        <DialogContent
-          fullScreenOnPhone
-          className="flex flex-col gap-0 p-0 sm:max-w-[min(45rem,calc(100%-2rem))]"
+    <OverlayDialog
+      open={open}
+      onOpenChange={onOpenChange}
+      fullScreenOnPhone
+      size="xl"
+      title={`Target ${comparison.slot}, ${comparison.plannedName}, compared with this Play`}
+      titleHidden
+      description={getTeamPlanStatusDescription(comparison.status)}
+      headBleed
+      head={() => (
+        <div
+          style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
+          className="type-tint grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
         >
-          <DialogTitle className="sr-only">
-            Target {comparison.slot}, {comparison.plannedName}, compared with
-            this Play
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            {getTeamPlanStatusDescription(comparison.status)}
-          </DialogDescription>
-
-          <div
-            style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-            className="type-tint grid shrink-0 grid-cols-[minmax(0,1fr)_2rem_minmax(0,1fr)] items-start gap-3 p-4.5 sm:grid-cols-[minmax(0,1fr)_2.5rem_minmax(0,1fr)] sm:px-7 sm:py-6"
-          >
-            <CompareSide
-              label={`Planned · Target ${comparison.slot}`}
-              name={comparison.plannedName}
-              art={
-                <span
-                  style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
-                  className={cn(artBoxClassName, "type-tint")}
-                >
-                  <TeamPlanArt
-                    imageUrl={getTeamPlanPlannedImageUrl(comparison)}
-                    name={comparison.plannedName}
-                    className={artClassName}
-                  />
-                </span>
-              }
-            />
-            <AppIcon
-              icon={appIcons.actions.continue}
-              size="md"
-              className="text-ink-tint mt-13 justify-self-center sm:mt-17"
-            />
-            <RecordedSide comparison={comparison} />
-          </div>
-
-          <div className="flex-1 px-4.5 pt-1.5 pb-4 sm:px-7 sm:pt-2.5 sm:pb-5">
-            <table className="text-14 sm:text-15 w-full border-collapse">
-              <caption className="sr-only">
-                What the Plan asks for and what this Play recorded
-              </caption>
-              <thead>
-                <tr className="border-line text-13 text-ink-3 border-b text-left font-bold">
-                  <th scope="col" className="w-22 px-2 py-2.5 sm:w-27.5">
-                    <span className="sr-only">Field</span>
-                  </th>
-                  <th scope="col" className="px-2 py-2.5">
-                    Plan asks for
-                  </th>
-                  <th scope="col" className="px-2 py-2.5">
-                    Recorded
-                  </th>
-                  <th scope="col" className="w-7.5 py-2.5">
-                    <span className="sr-only">Result</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {getTeamPlanCompareRows(comparison, mechanics).map(
-                  (row, index) => (
-                    <tr
-                      /* "Extra move" can repeat, so rows key by position. */
-                      key={index}
-                      className={cn(
-                        "border-line border-b",
-                        /* Quieter than the warn pill: the "≠" carries the meaning. */
-                        row.state === "differs" &&
-                          "bg-[color-mix(in_oklab,var(--warn-soft)_55%,var(--surface))]",
-                      )}
-                    >
-                      <th
-                        scope="row"
-                        className="text-13 text-ink-2 px-2 py-2.5 text-left font-bold"
-                      >
-                        {row.label}
-                      </th>
-                      <td
-                        className={cn(
-                          "px-2 py-2.5 font-bold",
-                          row.state === "free" && "text-ink-3 font-semibold",
-                        )}
-                      >
-                        {row.planned}
-                      </td>
-                      <td
-                        className={cn(
-                          "px-2 py-2.5 font-bold",
-                          row.state === "differs" && "text-warn-ink",
-                          (row.state === "empty" || !row.recorded) &&
-                            "text-ink-3 font-semibold",
-                        )}
-                      >
-                        <RecordedValue
-                          caught={comparison.playMember !== null}
-                          recorded={row.recorded}
-                        />
-                      </td>
-                      <td className="py-2.5 text-center">
-                        <CompareMark state={row.state} />
-                      </td>
-                    </tr>
-                  ),
+          <CompareSide
+            label={`Planned · Target ${comparison.slot}`}
+            name={comparison.plannedName}
+            art={
+              <span
+                style={getTeamPlanTypeStyle(comparison.plannedPrimaryType)}
+                className={cn(artBoxClassName, "type-tint")}
+              >
+                <TeamPlanArt
+                  imageUrl={getTeamPlanPlannedImageUrl(comparison)}
+                  name={comparison.plannedName}
+                  className={artClassName}
+                />
+              </span>
+            }
+          />
+          <AppIcon
+            icon={appIcons.actions.continue}
+            size="md"
+            className="text-ink-tint mt-13 justify-self-center sm:mt-17"
+          />
+          <RecordedSide comparison={comparison} />
+        </div>
+      )}
+      footer={
+        <>
+          <span className="text-13 text-ink-2 mr-auto font-semibold">
+            Plans are read only inside a Play
+          </span>
+          <DialogClose render={<Button variant="secondary" size="sm" />}>
+            Close
+          </DialogClose>
+        </>
+      }
+    >
+      <table className="text-14 sm:text-15 w-full border-collapse">
+        <caption className="sr-only">
+          What the Plan asks for and what this Play recorded
+        </caption>
+        <thead>
+          <tr className="border-line text-13 text-ink-3 border-b text-left font-bold">
+            <th scope="col" className="w-22 px-2 py-2.5 sm:w-27.5">
+              <span className="sr-only">Field</span>
+            </th>
+            <th scope="col" className="px-2 py-2.5">
+              Plan asks for
+            </th>
+            <th scope="col" className="px-2 py-2.5">
+              Recorded
+            </th>
+            <th scope="col" className="w-7.5 py-2.5">
+              <span className="sr-only">Result</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {getTeamPlanCompareRows(comparison, mechanics).map((row, index) => (
+            <tr
+              /* "Extra move" can repeat, so rows key by position. */
+              key={index}
+              className={cn(
+                "border-line border-b",
+                /* Quieter than the warn pill: the "≠" carries the meaning. */
+                row.state === "differs" &&
+                  "bg-[color-mix(in_oklab,var(--warn-soft)_55%,var(--surface))]",
+              )}
+            >
+              <th
+                scope="row"
+                className="text-13 text-ink-2 px-2 py-2.5 text-left font-bold"
+              >
+                {row.label}
+              </th>
+              <td
+                className={cn(
+                  "px-2 py-2.5 font-bold",
+                  row.state === "free" && "text-ink-3 font-semibold",
                 )}
-              </tbody>
-            </table>
+              >
+                {row.planned}
+              </td>
+              <td
+                className={cn(
+                  "px-2 py-2.5 font-bold",
+                  row.state === "differs" && "text-warn-ink",
+                  (row.state === "empty" || !row.recorded) &&
+                    "text-ink-3 font-semibold",
+                )}
+              >
+                <RecordedValue
+                  caught={comparison.playMember !== null}
+                  recorded={row.recorded}
+                />
+              </td>
+              <td className="py-2.5 text-center">
+                <CompareMark state={row.state} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-            {comparison.memberNotes ? (
-              <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
-                “{comparison.memberNotes}”
-              </p>
-            ) : null}
-          </div>
-
-          <DialogFooter className="mx-0 mb-0 shrink-0 flex-row flex-wrap items-center justify-end px-4.5 sm:px-8">
-            <span className="text-13 text-ink-2 mr-auto font-semibold">
-              Plans are read only inside a Play
-            </span>
-            <DialogClose render={<Button variant="secondary" size="sm" />}>
-              Close
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
+      {comparison.memberNotes ? (
+        <p className="bg-surface-2 text-ink-2 text-15 mt-4.5 rounded-md px-4 py-3 leading-relaxed">
+          “{comparison.memberNotes}”
+        </p>
       ) : null}
-    </Dialog>
+    </OverlayDialog>
   );
 };

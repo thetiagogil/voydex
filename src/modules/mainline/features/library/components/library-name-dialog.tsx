@@ -5,13 +5,7 @@ import { useId, useState, useTransition } from "react";
 import type { LibraryRuleKind } from "@/modules/mainline/features/library/types";
 import { SelectControl } from "@/shared/components/select-control";
 import { Button } from "@/shared/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 import { Spinner } from "@/shared/components/ui/spinner";
@@ -80,102 +74,101 @@ export const LibraryNameDialog = ({
     });
 
   return (
-    <Dialog
+    <OverlayDialog
       open={open}
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
       }}
+      title={title}
+      initialFocus
+      form={{
+        onSubmit: (event) => {
+          event.preventDefault();
+
+          if (canSave) submit();
+        },
+      }}
+      footer={
+        <>
+          <Button
+            type="button"
+            variant="secondary"
+            disabled={isSaving}
+            onClick={() => onOpenChange(false)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={isSaving || !canSave}
+            aria-busy={isSaving}
+          >
+            {isSaving ? <Spinner data-icon="inline-start" /> : null}
+            {submitLabel}
+          </Button>
+        </>
+      }
     >
-      <DialogContent className="sm:max-w-md">
-        <form
-          className="grid gap-5"
-          onSubmit={(event) => {
-            event.preventDefault();
+      <div className="grid gap-5">
+        <Field>
+          <FieldLabel htmlFor={nameId}>{nameLabel}</FieldLabel>
+          <Input
+            id={nameId}
+            autoFocus
+            autoComplete="off"
+            maxLength={maxLength}
+            aria-invalid={error ? true : undefined}
+            aria-describedby={error ? errorId : undefined}
+            value={draft.name}
+            onChange={(event) => {
+              const name = event.currentTarget.value;
 
-            if (canSave) submit();
-          }}
-        >
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-          </DialogHeader>
+              setDraft((current) => ({ ...current, name }));
+              setError(null);
+            }}
+          />
+        </Field>
+        {kinds ? (
           <Field>
-            <FieldLabel htmlFor={nameId}>{nameLabel}</FieldLabel>
-            <Input
-              id={nameId}
-              autoFocus
-              autoComplete="off"
-              maxLength={maxLength}
-              aria-invalid={error ? true : undefined}
-              aria-describedby={error ? errorId : undefined}
-              value={draft.name}
+            <FieldLabel htmlFor={kindId}>Kind</FieldLabel>
+            <SelectControl
+              id={kindId}
+              ariaLabel="Kind"
+              placeholder="Pick a kind"
+              value={draft.kindId ? String(draft.kindId) : ""}
+              onValueChange={(value) =>
+                setDraft((current) => ({
+                  ...current,
+                  kindId: value ? Number(value) : null,
+                }))
+              }
+              options={kinds.map((kind) => ({
+                label: kind.name,
+                value: String(kind.id),
+              }))}
+            />
+          </Field>
+        ) : null}
+        {withDescription ? (
+          <Field>
+            <FieldLabel htmlFor={descriptionId}>
+              What it asks (optional)
+            </FieldLabel>
+            <Textarea
+              id={descriptionId}
+              maxLength={ruleDescriptionMaxLength}
+              placeholder="Such as: heal only with items between battles."
+              value={draft.description ?? ""}
               onChange={(event) => {
-                const name = event.currentTarget.value;
+                const description = event.currentTarget.value;
 
-                setDraft((current) => ({ ...current, name }));
-                setError(null);
+                setDraft((current) => ({ ...current, description }));
               }}
             />
           </Field>
-          {kinds ? (
-            <Field>
-              <FieldLabel htmlFor={kindId}>Kind</FieldLabel>
-              <SelectControl
-                id={kindId}
-                ariaLabel="Kind"
-                placeholder="Pick a kind"
-                value={draft.kindId ? String(draft.kindId) : ""}
-                onValueChange={(value) =>
-                  setDraft((current) => ({
-                    ...current,
-                    kindId: value ? Number(value) : null,
-                  }))
-                }
-                options={kinds.map((kind) => ({
-                  label: kind.name,
-                  value: String(kind.id),
-                }))}
-              />
-            </Field>
-          ) : null}
-          {withDescription ? (
-            <Field>
-              <FieldLabel htmlFor={descriptionId}>
-                What it asks (optional)
-              </FieldLabel>
-              <Textarea
-                id={descriptionId}
-                maxLength={ruleDescriptionMaxLength}
-                placeholder="Such as: heal only with items between battles."
-                value={draft.description ?? ""}
-                onChange={(event) => {
-                  const description = event.currentTarget.value;
-
-                  setDraft((current) => ({ ...current, description }));
-                }}
-              />
-            </Field>
-          ) : null}
-          {error ? <FieldError id={errorId}>{error}</FieldError> : null}
-          <DialogFooter>
-            <Button
-              type="button"
-              variant="secondary"
-              disabled={isSaving}
-              onClick={() => onOpenChange(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              disabled={isSaving || !canSave}
-              aria-busy={isSaving}
-            >
-              {isSaving ? <Spinner data-icon="inline-start" /> : null}
-              {submitLabel}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        ) : null}
+        {error ? <FieldError id={errorId}>{error}</FieldError> : null}
+      </div>
+    </OverlayDialog>
   );
 };

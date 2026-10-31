@@ -1,6 +1,6 @@
 "use client";
 
-import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { SearchControl } from "@/shared/components/search-control";
 import type { UIEventHandler } from "react";
 
@@ -18,7 +18,6 @@ import { codexHeadPickerTriggerClassName } from "@/modules/codex/shared/componen
 import type { PokemonDetailMenuPokemon } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
-import { SheetDescription, SheetTitle } from "@/shared/components/ui/sheet";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type PokemonDetailSpeciesSelectorMobileProps = {
@@ -56,13 +55,11 @@ export const PokemonDetailSpeciesSelectorMobile = ({
   updateInputValue,
 }: PokemonDetailSpeciesSelectorMobileProps) => {
   return (
-    <BottomSheet
+    <OverlaySheet
       open={open}
       onOpenChange={onOpenChange}
-      label="Choose Pokémon"
       className="md:hidden"
       onBodyScroll={handleListScroll}
-      bodyClassName="pt-1"
       trigger={
         <Button
           variant="ghost"
@@ -79,24 +76,19 @@ export const PokemonDetailSpeciesSelectorMobile = ({
           />
         </Button>
       }
-      header={
-        <div className="flex flex-col gap-3 pr-10">
-          <div>
-            <SheetTitle className="text-24">Choose Pokémon</SheetTitle>
-            <SheetDescription>
-              Search the Pokémon you can find in these games.
-            </SheetDescription>
-          </div>
-          <SearchControl
-            value={inputValue}
-            onValueChange={updateInputValue}
-            onFocus={loadInitialPokemonItems}
-            placeholder="Search by name or number"
-            ariaLabel="Search Pokémon"
-            autoFocus
-          />
-        </div>
+      title="Choose Pokémon"
+      description="Search the Pokémon you can find in these games."
+      toolbar={
+        <SearchControl
+          value={inputValue}
+          onValueChange={updateInputValue}
+          onFocus={loadInitialPokemonItems}
+          placeholder="Search by name or number"
+          ariaLabel="Search Pokémon"
+          autoFocus
+        />
       }
+      initialFocus
     >
       <div aria-busy={loadState === "loading" || loadingMore}>
         {loadState === "loading" ? (
@@ -149,6 +141,6 @@ export const PokemonDetailSpeciesSelectorMobile = ({
           </div>
         ) : null}
       </div>
-    </BottomSheet>
+    </OverlaySheet>
   );
 };

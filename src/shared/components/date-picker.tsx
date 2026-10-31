@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Button } from "@/shared/components/ui/button";
 import { Calendar } from "@/shared/components/ui/calendar";
 import {
@@ -139,14 +139,14 @@ export const DatePicker = ({
 
   if (isBottomSheet) {
     return (
-      <BottomSheet
+      <OverlaySheet
         open={isOpen}
         onOpenChange={setIsOpen}
         title={label}
         trigger={trigger}
       >
         {picker}
-      </BottomSheet>
+      </OverlaySheet>
     );
   }
 

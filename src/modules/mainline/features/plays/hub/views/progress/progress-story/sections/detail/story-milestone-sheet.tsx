@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Button } from "@/shared/components/ui/button";
-import { SheetTitle } from "@/shared/components/ui/sheet";
 
 import type { StoryMatchupBattle } from "../../data/story-matchups-model";
 import type { StoryMilestone, StoryScope } from "../../types";
@@ -97,10 +96,14 @@ export const StoryMilestoneSheet = ({
   };
 
   return (
-    <ResponsiveDetailSheet
+    <OverlaySheet
       open={isOpen}
       onOpenChange={onOpenChange}
-      label={openBattle?.name ?? milestone?.name ?? "Story milestone"}
+      size="sm"
+      title={openBattle?.name ?? milestone?.name ?? "Story milestone"}
+      /* The report carries the visible title; the sheet is named all the same. */
+      titleHidden={Boolean(openBattle && milestone)}
+      bodyClassName="grid content-start gap-6"
       /* Back to the stop that opened it, when it is still on the page. */
       finalFocus={
         returnsFocus
@@ -110,22 +113,18 @@ export const StoryMilestoneSheet = ({
                 : null
           : false
       }
-      head={
+      head={(title) =>
         openBattle && milestone ? (
-          <div className="grid gap-3">
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="justify-self-start"
-              onClick={showMilestone}
-            >
-              <AppIcon icon={appIcons.actions.back} inline="start" />
-              Back to {milestone.name}
-            </Button>
-            {/* The report carries the visible title; the sheet is named all the same. */}
-            <SheetTitle className="sr-only">{openBattle.name}</SheetTitle>
-          </div>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="justify-self-start"
+            onClick={showMilestone}
+          >
+            <AppIcon icon={appIcons.actions.back} inline="start" />
+            Back to {milestone.name}
+          </Button>
         ) : (
           <div className="flex items-center gap-4">
             {milestone ? (
@@ -143,9 +142,7 @@ export const StoryMilestoneSheet = ({
                 typeSlug={milestone.typeSlug}
               />
             ) : null}
-            <SheetTitle className="text-24">
-              {milestone?.name ?? "Story milestone"}
-            </SheetTitle>
+            {title}
           </div>
         )
       }
@@ -174,6 +171,6 @@ export const StoryMilestoneSheet = ({
           <StoryMilestoneBattles battles={battles} onSelect={showBattle} />
         </>
       ) : null}
-    </ResponsiveDetailSheet>
+    </OverlaySheet>
   );
 };

@@ -11,7 +11,7 @@ import {
   formatPlayMinutes,
 } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { BottomSheet } from "@/shared/components/bottom-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
@@ -234,7 +234,7 @@ export const MainlinePlayDetails = ({
 
   if (isMobile) {
     return (
-      <BottomSheet
+      <OverlaySheet
         open={isOpen}
         onOpenChange={setIsOpen}
         title="Play details"
@@ -242,7 +242,7 @@ export const MainlinePlayDetails = ({
       >
         <PlayDetailRows rows={rows} />
         {settingsLink}
-      </BottomSheet>
+      </OverlaySheet>
     );
   }
 

@@ -22,7 +22,7 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { FallbackImage } from "@/shared/components/fallback-image";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { StatTile } from "@/shared/components/stat-tile";
 import {
@@ -30,7 +30,6 @@ import {
   type StatusBadgeTone,
 } from "@/shared/components/status-badge";
 import { Button } from "@/shared/components/ui/button";
-import { SheetTitle } from "@/shared/components/ui/sheet";
 import { IconTip } from "@/shared/components/icon-tip";
 
 type PlannerTeamCheckSheetProps = {
@@ -92,23 +91,14 @@ export const PlannerTeamCheckSheet = ({
   }));
 
   return (
-    <ResponsiveDetailSheet
+    <OverlaySheet
       open
-      size="wide"
+      size="xl"
       onOpenChange={onOpenChange}
-      label="Team check"
-      head={
-        <div>
-          <p className="text-ink-2 text-13 font-bold">
-            {planName} · {versionGroup.name}
-          </p>
-          <SheetTitle className="text-24 mt-0.5">Team check</SheetTitle>
-          <p className="text-ink-2 text-14 mt-1 font-semibold">
-            Whether it can be built, and how it holds up. Moves aren&apos;t
-            planned yet, so coverage uses each Pokémon&apos;s own types.
-          </p>
-        </div>
-      }
+      title="Team check"
+      meta={`${planName} · ${versionGroup.name}`}
+      description="Whether it can be built, and how it holds up. Moves aren't planned yet, so coverage uses each Pokémon's own types."
+      bodyClassName="grid content-start gap-6"
     >
       {team.length ? (
         <>
@@ -270,6 +260,6 @@ export const PlannerTeamCheckSheet = ({
           Add Pokémon to see how they match up.
         </p>
       )}
-    </ResponsiveDetailSheet>
+    </OverlaySheet>
   );
 };

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import {
   getPlayTeamMemberImageUrl,
@@ -293,30 +294,30 @@ export const TeamMemberEditorSheet = ({
   );
 
   return (
-    <FormOverlay
+    <OverlaySheet
       open={open}
       onOpenChange={close}
-      presentation="side"
       size="lg"
-      kicker={placeLabel}
+      description={placeLabel}
       title={name}
-      hero={{
+      meta={
+        <div className="grid gap-2">
+          <p className="text-ink-2 text-14 font-semibold">
+            {getTeamMemberEditorHeadLine(member)}
+          </p>
+          <PokemonTypeList
+            primaryType={member.primaryType}
+            secondaryType={member.secondaryType}
+            badgeDisplay="icon-label"
+            badgeSize="sm"
+            className="flex gap-1.5"
+          />
+        </div>
+      }
+      headBleed
+      head={pokemonSheetHead({
         imageUrl: getPlayTeamMemberImageUrl(member),
         name,
-        meta: (
-          <div className="grid gap-2">
-            <p className="text-ink-2 text-14 font-semibold">
-              {getTeamMemberEditorHeadLine(member)}
-            </p>
-            <PokemonTypeList
-              primaryType={member.primaryType}
-              secondaryType={member.secondaryType}
-              badgeDisplay="icon-label"
-              badgeSize="sm"
-              className="flex gap-1.5"
-            />
-          </div>
-        ),
         type: primaryTypeSlug,
         actions: (
           <TeamMemberEditorActions
@@ -327,7 +328,7 @@ export const TeamMemberEditorSheet = ({
             playId={playId}
           />
         ),
-      }}
+      })}
       footer={
         <>
           <Button
@@ -371,6 +372,6 @@ export const TeamMemberEditorSheet = ({
         <TeamMemberEditorReview changes={changes} id={id} onRevert={revert} />
       ) : null}
       {error ? <FieldError className="mt-4">{error}</FieldError> : null}
-    </FormOverlay>
+    </OverlaySheet>
   );
 };

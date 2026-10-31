@@ -4,7 +4,7 @@ import { useId, useState, useTransition, type ComponentProps } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { addMainlinePlayNoteAction } from "@/modules/mainline/features/plays/hub/server/play-note-action";
 import { playNoteMaxLength } from "@/modules/mainline/features/plays/hub/utils/play-note-text";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -82,7 +82,7 @@ export const AddNoteDialog = ({
         <AppIcon icon={appIcons.actions.edit} inline="start" />
         Add a note
       </Button>
-      <FormOverlay
+      <OverlayDialog
         open={open}
         onOpenChange={changeOpen}
         title="Add a note"
@@ -139,7 +139,7 @@ export const AddNoteDialog = ({
             )}
           </Field>
         </form>
-      </FormOverlay>
+      </OverlayDialog>
     </>
   );
 };

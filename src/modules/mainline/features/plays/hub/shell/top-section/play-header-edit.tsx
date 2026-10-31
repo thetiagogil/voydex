@@ -10,7 +10,7 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import { updatePlayHeaderFieldAction } from "@/modules/mainline/features/plays/hub/views/settings/server/play-settings-actions";
 import type { PlayHeaderChange } from "@/modules/mainline/features/plays/hub/views/settings/utils/play-settings-validation";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { ChoiceChip } from "@/shared/components/choice-chip";
 import {
@@ -109,7 +109,7 @@ const HeaderEditDialog = ({
     });
 
   return (
-    <FormOverlay
+    <OverlayDialog
       open={open}
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
@@ -148,7 +148,7 @@ const HeaderEditDialog = ({
         {children}
         {error ? <FieldError>{error}</FieldError> : null}
       </form>
-    </FormOverlay>
+    </OverlayDialog>
   );
 };
 

@@ -25,8 +25,7 @@ import {
 import { ExplanatoryTip } from "@/shared/components/explanatory-tip";
 import { SectionHead, SectionMoreLink } from "@/shared/components/section-head";
 import { Card } from "@/shared/components/ui/card";
-import { ResponsiveDetailSheet } from "@/shared/components/responsive-detail-sheet";
-import { SheetTitle } from "@/shared/components/ui/sheet";
+import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 import { IconDisc } from "@/shared/components/icon-disc";
@@ -369,26 +368,20 @@ export const StatsStyleSection = ({
         ) : null}
       </div>
 
-      <ResponsiveDetailSheet
+      <OverlaySheet
         open={isAllTypesOpen}
-        size="wide"
-        label="Types you pick"
+        size="xl"
+        title="Types you pick"
+        description={`${used.length} of ${stats.types.length} used, most picked first`}
+        bodyClassName="grid content-start gap-6"
         onOpenChange={setIsAllTypesOpen}
-        head={
-          <div>
-            <SheetTitle className="text-24">Types you pick</SheetTitle>
-            <p className="text-ink-2 text-14 mt-1 font-semibold">
-              {used.length} of {stats.types.length} used, most picked first
-            </p>
-          </div>
-        }
       >
         <ol className="grid grid-cols-3 gap-2 min-[480px]:grid-cols-6">
           {ranked.map((type) => (
             <TypeTile key={type.slug} most={most} type={type} />
           ))}
         </ol>
-      </ResponsiveDetailSheet>
+      </OverlaySheet>
     </section>
   );
 };

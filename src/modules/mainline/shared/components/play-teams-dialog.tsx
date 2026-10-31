@@ -7,13 +7,7 @@ import type {
   PlayTeam,
   PlayTeamsResult,
 } from "@/modules/mainline/shared/types";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/shared/components/ui/dialog";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { Spinner } from "@/shared/components/ui/spinner";
 
 type PlayTeamsDialogState = {
@@ -78,29 +72,29 @@ export const PlayTeamsDialog = ({
   empty: string;
   title: string;
 }) => (
-  <Dialog open={dialog.open} onOpenChange={dialog.onOpenChange}>
-    <DialogContent className="sm:max-w-lg">
-      <DialogHeader>
-        <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>{description}</DialogDescription>
-      </DialogHeader>
-      {dialog.isLoading ? (
-        <p
-          role="status"
-          className="text-ink-2 text-14 flex items-center gap-2 font-semibold"
-        >
-          <Spinner />
-          Loading the Plays
-        </p>
-      ) : dialog.error ? (
-        <p role="alert" className="text-danger text-13 font-bold">
-          {dialog.error}
-        </p>
-      ) : dialog.plays?.length ? (
-        <PlayTeamList plays={dialog.plays} />
-      ) : (
-        <p className="text-ink-2 text-14">{empty}</p>
-      )}
-    </DialogContent>
-  </Dialog>
+  <OverlayDialog
+    open={dialog.open}
+    onOpenChange={dialog.onOpenChange}
+    size="lg"
+    title={title}
+    description={description}
+  >
+    {dialog.isLoading ? (
+      <p
+        role="status"
+        className="text-ink-2 text-14 flex items-center gap-2 font-semibold"
+      >
+        <Spinner />
+        Loading the Plays
+      </p>
+    ) : dialog.error ? (
+      <p role="alert" className="text-danger text-13 font-bold">
+        {dialog.error}
+      </p>
+    ) : dialog.plays?.length ? (
+      <PlayTeamList plays={dialog.plays} />
+    ) : (
+      <p className="text-ink-2 text-14">{empty}</p>
+    )}
+  </OverlayDialog>
 );

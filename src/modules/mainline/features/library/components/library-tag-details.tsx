@@ -4,7 +4,7 @@ import { useId, useState, useTransition } from "react";
 
 import { LibraryUsedIn } from "@/modules/mainline/features/library/components/library-used-in";
 import type { LibraryTag } from "@/modules/mainline/features/library/types";
-import { FormOverlay } from "@/modules/mainline/shared/components/form-overlay";
+import { OverlayDialog } from "@/shared/components/overlay-dialog";
 import { libraryNameMaxLength } from "@/modules/mainline/shared/utils/library-names";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
@@ -37,12 +37,12 @@ export const LibraryTagDetails = ({
   const canSave = name !== tag.name && Boolean(name.trim());
 
   return (
-    <FormOverlay
+    <OverlayDialog
       open={open}
       onOpenChange={(next) => {
         if (!isSaving) onOpenChange(next);
       }}
-      kicker="Tag · Made by you"
+      description="Tag · Made by you"
       title={tag.name}
       footer={
         <>
@@ -99,6 +99,6 @@ export const LibraryTagDetails = ({
         </form>
         <LibraryUsedIn plays={tag.plays} />
       </div>
-    </FormOverlay>
+    </OverlayDialog>
   );
 };
