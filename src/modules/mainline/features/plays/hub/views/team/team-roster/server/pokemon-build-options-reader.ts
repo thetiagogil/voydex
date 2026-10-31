@@ -2,6 +2,7 @@ import { resolveAbilityEffects } from "@/modules/reference/features/pokemon/data
 import {
   gameMechanics,
   supportsGameMechanic,
+  type GameMechanic,
   type GameMechanicsProfile,
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import {
@@ -25,10 +26,20 @@ const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
     (left, right) => right.generation_start_id - left.generation_start_id,
   );
 
+export type PokemonBuildPart = keyof PokemonBuildOptions;
+
+const allParts: readonly PokemonBuildPart[] = [
+  "abilities",
+  "heldItems",
+  "moves",
+  "natures",
+];
+
 /*
  * The natures, abilities, held items and moves a form can have in the Play's
  * exact game, each only where the game records it. Held items include the
- * Play's add-ons.
+ * Play's add-ons. `parts` reads only some of them (the rest come back empty),
+ * so a save checks only what was picked.
  */
 export const readPokemonBuildOptions = async (
   supabase: ServerSupabaseClient,
@@ -37,6 +48,7 @@ export const readPokemonBuildOptions = async (
     gameId,
     generationId,
     mechanics,
+    parts = allParts,
     playId,
     versionGroupId,
   }: {
@@ -44,13 +56,18 @@ export const readPokemonBuildOptions = async (
     gameId: number;
     generationId: number;
     mechanics: GameMechanicsProfile;
+    parts?: readonly PokemonBuildPart[];
     playId: string;
     versionGroupId: number;
   },
 ): Promise<PokemonBuildOptions> => {
-  const hasAbilities = supportsGameMechanic(mechanics, gameMechanics.abilities);
-  const hasNatures = supportsGameMechanic(mechanics, gameMechanics.natures);
-  const hasHeldItems = supportsGameMechanic(mechanics, gameMechanics.heldItems);
+  const reads = (part: PokemonBuildPart, mechanic?: GameMechanic) =>
+    parts.includes(part) &&
+    (!mechanic || supportsGameMechanic(mechanics, mechanic));
+  const hasAbilities = reads("abilities", gameMechanics.abilities);
+  const hasNatures = reads("natures", gameMechanics.natures);
+  const hasHeldItems = reads("heldItems", gameMechanics.heldItems);
+  const hasMoves = reads("moves");
   const [attributesResult, naturesResult, learnsets, contentScopesResult] =
     await Promise.all([
       hasAbilities
@@ -71,7 +88,9 @@ export const readPokemonBuildOptions = async (
             .lte("introduced_generation_id", generationId)
             .order("name", { ascending: true })
         : null,
-      readFormLearnsetRows(supabase, { formId, versionGroupId }),
+      hasMoves
+        ? readFormLearnsetRows(supabase, { formId, versionGroupId })
+        : [],
       /* The add-ons the Play includes: their held items. */
       hasHeldItems
         ? supabase
@@ -136,11 +155,13 @@ export const readPokemonBuildOptions = async (
           ],
         })
       : [],
-    readMoveOptions(supabase, {
-      generationId,
-      learnedBy: { formId, gameIds: [gameId], versionGroupId },
-      moveIds: getLearnableMoveIds(learnsets, [gameId]),
-    }),
+    hasMoves
+      ? readMoveOptions(supabase, {
+          generationId,
+          learnedBy: { formId, gameIds: [gameId], versionGroupId },
+          moveIds: getLearnableMoveIds(learnsets, [gameId]),
+        })
+      : [],
   ]);
 
   if (

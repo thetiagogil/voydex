@@ -17,6 +17,24 @@ vi.mock("./pokemon-build-options-reader", () => ({
   readPokemonBuildOptions: readBuild,
 }));
 
+/* Moves 33 and 45 in every game of the group. */
+const readLearnset = vi.hoisted(() =>
+  vi.fn().mockResolvedValue([
+    { game_id: null, move_id: 33, scope_operation: "add" },
+    { game_id: null, move_id: 45, scope_operation: "add" },
+  ]),
+);
+
+vi.mock(
+  "@/modules/mainline/shared/server/build-option-readers",
+  async (importOriginal) => ({
+    ...(await importOriginal<
+      typeof import("@/modules/mainline/shared/server/build-option-readers")
+    >()),
+    readFormLearnsetRows: readLearnset,
+  }),
+);
+
 const playId = "00000000-0000-4000-8000-000000000001";
 const none = { abilityId: null, heldItemId: null, moveIds: [], natureId: null };
 
@@ -63,6 +81,33 @@ describe("assertAddedBuildOffered", () => {
         playId,
       }),
     ).resolves.toBeUndefined();
+  });
+
+  it("reads only what was picked", async () => {
+    const { client } = createClient(genSeven);
+    readBuild.mockClear();
+    readLearnset.mockClear();
+
+    await assertAddedBuildOffered(client, {
+      build: { ...none, moveIds: [33] },
+      formId: 722,
+      playId,
+    });
+
+    expect(readBuild).not.toHaveBeenCalled();
+    expect(readLearnset).toHaveBeenCalledOnce();
+
+    await assertAddedBuildOffered(client, {
+      build: { ...none, natureId: 1 },
+      formId: 722,
+      playId,
+    });
+
+    expect(readBuild).toHaveBeenCalledWith(
+      client,
+      expect.objectContaining({ parts: ["natures"] }),
+    );
+    expect(readLearnset).toHaveBeenCalledOnce();
   });
 
   it("refuses a move it can't learn in the game", async () => {

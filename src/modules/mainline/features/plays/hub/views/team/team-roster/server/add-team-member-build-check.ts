@@ -5,8 +5,16 @@ import {
 } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
+import {
+  getLearnableMoveIds,
+  readFormLearnsetRows,
+} from "@/modules/mainline/shared/server/build-option-readers";
+
 import { findUnofferedEditorChoice } from "../utils/team-member-editor-model";
-import { readPokemonBuildOptions } from "./pokemon-build-options-reader";
+import {
+  readPokemonBuildOptions,
+  type PokemonBuildPart,
+} from "./pokemon-build-options-reader";
 
 export type AddedBuild = {
   abilityId: number | null;
@@ -71,17 +79,37 @@ export const assertAddedBuildOffered = async (
     throw new Error("This game doesn't record that.");
   }
 
-  const options = await readPokemonBuildOptions(supabase, {
-    formId,
-    gameId: play.game_id,
-    generationId: play.generation_id,
-    mechanics,
-    playId,
-    versionGroupId: play.version_group_id,
-  });
+  /* Only what was picked is read; moves need only the learnset's ids. */
+  const parts: PokemonBuildPart[] = [
+    ...(build.abilityId !== null ? (["abilities"] as const) : []),
+    ...(build.heldItemId !== null ? (["heldItems"] as const) : []),
+    ...(build.natureId !== null ? (["natures"] as const) : []),
+  ];
+  const [options, learnsetRows] = await Promise.all([
+    parts.length
+      ? readPokemonBuildOptions(supabase, {
+          formId,
+          gameId: play.game_id,
+          generationId: play.generation_id,
+          mechanics,
+          parts,
+          playId,
+          versionGroupId: play.version_group_id,
+        })
+      : { abilities: [], heldItems: [], moves: [], natures: [] },
+    build.moveIds.length
+      ? readFormLearnsetRows(supabase, {
+          formId,
+          versionGroupId: play.version_group_id,
+        })
+      : [],
+  ]);
+  const learnableMoves = getLearnableMoveIds(learnsetRows, [play.game_id]).map(
+    (id) => ({ id }),
+  );
   const unoffered = findUnofferedEditorChoice(
     { ...build, teraTypeId: null },
-    { ...options, teraTypes: [] },
+    { ...options, moves: learnableMoves, teraTypes: [] },
     { abilityId: null, heldItemId: null, moveIds: [], natureId: null },
   );
 

@@ -72,7 +72,8 @@ test.describe("Team", () => {
     const details = page.getByRole("dialog", { name: "Pidgey" });
     await details.getByRole("button", { name: "Reserve" }).click();
     await details.getByRole("button", { name: "Add Pidgey" }).click();
-    await expect(details).toBeHidden();
+    /* It checks its moves against the game before it saves. */
+    await expect(details).toBeHidden(forTheAnswer);
 
     await expect(
       page
