@@ -107,7 +107,7 @@ const readPlayStoryRows = async (
  * Each Play's tags by name, for the Plays list's tag filter. A failure hides
  * the tags, not the Plays.
  */
-const readPlayTags = async (
+export const readPlayTags = async (
   supabase: ServerSupabaseClient,
   playIds: string[],
 ): Promise<Map<string, PlayBrowseTag[]>> => {
@@ -155,13 +155,17 @@ const readPlayTags = async (
 /*
  * The trainer's library of Plays, newest activity first, as the Plays page
  * and Home list them: archived ones left out, or only those for the Plays
- * page's Archived list. Throws when the Plays themselves can't be read; their
+ * page's Archived list. `withTags` also reads each Play's tags, for the Plays
+ * page's Tag filter. Throws when the Plays themselves can't be read; their
  * games, progress, team and story position each degrade on their own.
  */
 export const readMainlinePlayLibrary = async (
   supabase: ServerSupabaseClient,
   userId: string,
-  { archived = false }: { archived?: boolean } = {},
+  {
+    archived = false,
+    withTags = false,
+  }: { archived?: boolean; withTags?: boolean } = {},
 ): Promise<PlayBrowseItem[]> => {
   const playsQuery = supabase
     .schema("views")
@@ -203,7 +207,7 @@ export const readMainlinePlayLibrary = async (
             .order("slot", { ascending: true })
         : null,
       readPlayStoryRows(supabase, playIds),
-      readPlayTags(supabase, playIds),
+      withTags ? readPlayTags(supabase, playIds) : undefined,
     ]);
 
   const teamMembers = teamResult?.error ? [] : (teamResult?.data ?? []);

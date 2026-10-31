@@ -48,7 +48,8 @@ type SegmentedControlProps<TValue extends string> = {
   fullWidth?: boolean;
   /*
    * Each option shows only its icon, its label in a tooltip and for screen
-   * readers: a switch that has to fit a full toolbar line (List and Grid).
+   * readers: a switch of buttons that has to fit a full toolbar line (List and Grid);
+   * link options keep their label.
    */
   iconOnly?: boolean;
   /* Not needed when every option is a link. */

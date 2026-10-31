@@ -13,6 +13,7 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Toolbar, ToolbarGroup } from "@/shared/components/toolbar";
 import { Button } from "@/shared/components/ui/button";
+import { cn } from "@/shared/utils/cn";
 
 /* Where a control renders: on the toolbar's line, or in the phone sheet. */
 export type FilterToolbarPlacement = "line" | "sheet";
@@ -29,6 +30,12 @@ type FilterToolbarProps = {
   controls?: (placement: FilterToolbarPlacement) => ReactNode;
   /* The filters, on the line after the search from 640px. */
   filters?: (placement: FilterToolbarPlacement) => ReactNode;
+  /*
+   * Where the controls move from the phone sheet onto the line: `sm` (640px)
+   * by default, or `xl` (1280px) for a toolbar whose controls only fit one
+   * line there. The line never wraps; below it the sheet takes over.
+   */
+  inlineFrom?: "sm" | "xl";
   /* Wraps the toolbar, such as `<form />`. */
   render?: ComponentProps<typeof Toolbar>["render"];
   /* The phone sheet's button, such as "Show 43 Plays"; "Show results" by default. */
@@ -40,6 +47,12 @@ type FilterToolbarProps = {
   row?: (placement: FilterToolbarPlacement) => ReactNode;
   search: ReactNode;
 };
+
+/* The classes that move the controls between the sheet and the line. */
+const inlineClassNames = {
+  sm: { group: "hidden sm:flex", row: "max-sm:hidden", trigger: "sm:hidden" },
+  xl: { group: "hidden xl:flex", row: "max-xl:hidden", trigger: "xl:hidden" },
+} as const;
 
 /* Each control a filter or the order renders, fragments opened up. */
 const getControls = (node: ReactNode): ReactNode[] =>
@@ -63,6 +76,7 @@ export const FilterToolbar = ({
   className,
   controls,
   filters,
+  inlineFrom = "sm",
   render,
   resultLabel = "Show results",
   row,
@@ -70,6 +84,7 @@ export const FilterToolbar = ({
 }: FilterToolbarProps) => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const hasSheet = Boolean(filters || controls || row);
+  const inline = inlineClassNames[inlineFrom];
 
   return (
     <div className={className}>
@@ -79,7 +94,7 @@ export const FilterToolbar = ({
         search={
           <div className="flex gap-2">
             <div className="min-w-0 flex-1 *:w-full">{search}</div>
-            {/* Phones: the sheet. Only its trigger hides from 640px. */}
+            {/* Phones: the sheet. Only its trigger hides once the controls are on the line. */}
             {hasSheet ? (
               <OverlaySheet
                 open={isSheetOpen}
@@ -91,7 +106,7 @@ export const FilterToolbar = ({
                   <Button
                     type="button"
                     variant="secondary"
-                    className="sm:hidden"
+                    className={inline.trigger}
                   >
                     <AppIcon icon={appIcons.actions.filter} inline="start" />
                     Filters
@@ -120,12 +135,14 @@ export const FilterToolbar = ({
         trailing={[filters?.("line"), controls?.("line")]
           .flatMap(getControls)
           .map((control, index) => (
-            <ToolbarGroup key={index} className="hidden sm:flex">
+            <ToolbarGroup key={index} className={inline.group}>
               {control}
             </ToolbarGroup>
           ))}
       />
-      {row ? <div className="mt-3.5 max-sm:hidden">{row("line")}</div> : null}
+      {row ? (
+        <div className={cn("mt-3.5", inline.row)}>{row("line")}</div>
+      ) : null}
     </div>
   );
 };

@@ -77,8 +77,8 @@ export const getPlayStoryPositionLabel = (position: PlayBrowseStoryPosition) =>
 
 /*
  * The one figure a grid card shows: the average of the parts the Play tracks
- * (Story, Pokédex, Collectibles), never their raw counts added together. Null
- * when nothing is tracked or recorded yet.
+ * (Story, Pokédex, Collectibles), never their raw counts added together, and
+ * 100 only when every part is. Null when nothing is tracked or recorded yet.
  */
 export const getPlayCombinedPercent = (progress: PlayBrowseProgress) => {
   if (progress.state === "unavailable") {
@@ -89,10 +89,16 @@ export const getPlayCombinedPercent = (progress: PlayBrowseProgress) => {
     item.percent === null ? [] : [item.percent],
   );
 
-  return percents.length
-    ? Math.round(
-        percents.reduce((total, percent) => total + percent, 0) /
-          percents.length,
-      )
-    : null;
+  if (!percents.length) {
+    return null;
+  }
+
+  const average = Math.round(
+    percents.reduce((total, percent) => total + percent, 0) / percents.length,
+  );
+
+  /* Full only when every part is: rounding never completes an unfinished Play. */
+  return percents.every((percent) => percent === 100)
+    ? 100
+    : Math.min(average, 99);
 };

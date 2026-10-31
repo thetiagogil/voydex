@@ -23,6 +23,7 @@ export const getMainlinePlaysPageData = async (
   const [plays, archivedCount] = await Promise.all([
     readMainlinePlayLibrary(supabase, userId, {
       archived: view === "archived",
+      withTags: view === "active",
     }),
     readMainlineArchivedPlayCount(supabase, userId),
   ]);

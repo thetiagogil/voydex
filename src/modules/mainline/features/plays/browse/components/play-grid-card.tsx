@@ -39,7 +39,7 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
       <PlayToken coverImageUrl={play.coverImageUrl} gameName={gameName} />
 
       <PlayCardHeading play={play} title={play.play_name ?? "Untitled Play"}>
-        <PlayCardStatus play={play} />
+        {play.status_name ? <PlayCardStatus play={play} /> : null}
       </PlayCardHeading>
 
       <div className="mt-auto">
@@ -52,7 +52,7 @@ export const PlayGridCard = ({ play }: PlayGridCardProps) => {
             <Progress
               value={percent}
               max={100}
-              aria-label="Progress"
+              aria-label="Combined progress"
               className="**:data-[slot=progress-track]:h-2.25"
             />
             <span className="text-ink text-13 text-right font-bold tabular-nums">

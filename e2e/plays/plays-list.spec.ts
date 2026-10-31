@@ -166,6 +166,20 @@ test.describe("Plays list", () => {
     ).toBeVisible();
     await expect(page).toHaveURL(/tag=grid-tag-/);
 
+    /* On a wide screen the whole toolbar stays on one line, a long tag too. */
+    if ((page.viewportSize()?.width ?? 0) >= 1280) {
+      const tagBox = await page
+        .getByRole("combobox", { name: "Filter Plays by tag" })
+        .boundingBox();
+      const displayBox = await page
+        .getByRole("group", { name: "Plays display" })
+        .boundingBox();
+
+      expect(Math.abs((tagBox?.y ?? 0) - (displayBox?.y ?? 99))).toBeLessThan(
+        20,
+      );
+    }
+
     /* The grid keeps the filter and shows one bar per Play. */
     const display = await openFilters(page);
     await display.filters
