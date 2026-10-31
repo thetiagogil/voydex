@@ -75,12 +75,12 @@ describe("OverlayFrame", () => {
     expect(markup).toContain("justify-end");
   });
 
-  it("shares the footer's width only on a bottom sheet", () => {
+  it("shares the footer's width only on a phone's bottom sheet", () => {
     const footer = <button>Save</button>;
 
-    expect(render("bottom", { footer })).toContain("*:flex-1");
-    expect(render("side", { footer })).not.toContain("*:flex-1");
-    expect(render("dialog", { footer })).not.toContain("*:flex-1");
+    expect(render("bottom", { footer })).toContain("max-sm:*:flex-1");
+    expect(render("side", { footer })).not.toContain("max-sm:*:flex-1");
+    expect(render("dialog", { footer })).not.toContain("max-sm:*:flex-1");
     expect(render("bottom", { footer })).toContain("safe-area-inset-bottom");
   });
 

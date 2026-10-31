@@ -46,7 +46,7 @@ export type OverlaySheetProps = Omit<
   /* After the open or close animation ends. */
   onOpenChangeComplete?: (open: boolean) => void;
   open?: boolean;
-  /* The side sheet's width. Below 1024px it is a 560px bottom sheet, or 860px for `xl`. */
+  /* The side sheet's width. A bottom sheet is always the full width. */
   size?: OverlaySheetSize;
   /* The element that opens the sheet, through `render`. */
   trigger?: ReactElement;
@@ -91,10 +91,7 @@ export const OverlaySheet = ({
         className={cn(
           "w-full gap-0 p-0",
           isBottom
-            ? [
-                "mx-auto max-h-[88dvh] data-[side=bottom]:rounded-t-xl",
-                size === "xl" ? "max-w-215" : "max-w-140",
-              ]
+            ? ["max-h-[88dvh] data-[side=bottom]:rounded-t-xl"]
             : sideSizeClassNames[size],
           className,
         )}

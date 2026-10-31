@@ -83,10 +83,10 @@ test.describe("Sheets and dialogs", () => {
       await expect(sheet.locator('[data-slot="overlay-grab"]')).toBeVisible();
       const frame = await box(sheet);
 
-      /* On the bottom edge, centred, at most 560px wide and 88% tall. */
+      /* On the bottom edge, the full width, at most 88% tall. */
       expect(frame.y + frame.height).toBeCloseTo(viewport.height, 0);
-      expect(frame.width).toBeLessThanOrEqual(560);
-      expect(frame.x * 2 + frame.width).toBeCloseTo(viewport.width, 0);
+      expect(frame.x).toBeCloseTo(0, 0);
+      expect(frame.width).toBeCloseTo(viewport.width, 0);
       expect(frame.height).toBeLessThanOrEqual(viewport.height * 0.88 + 1);
       await expect(
         sheet.getByRole("heading", { name: "Nuzlocke" }),

@@ -179,7 +179,7 @@ export const OverlayFrame = ({
         "border-line bg-surface flex shrink-0 flex-wrap items-center justify-end gap-2.5 border-t py-3",
         padding,
         isBottom &&
-          "pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] *:flex-1",
+          "pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] max-sm:*:flex-1",
       )}
     >
       {footer}
