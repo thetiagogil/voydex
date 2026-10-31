@@ -125,7 +125,7 @@ describe("readTeamField", () => {
     expect(farBehind.share).toBeGreaterThan(behind.share);
   });
 
-  it("weighs the whole team: a lone strong Pokémon can't carry the rest", () => {
+  it("weighs the whole team: strong top two can't carry four weak ones", () => {
     const move = (type: string) => ({
       attributes: { accuracy: 100, damage_class: "special", power: 90 },
       id: 1,
@@ -134,25 +134,52 @@ describe("readTeamField", () => {
       slug: `${type}-move`,
       type: typeOf(type),
     });
-    const star = {
-      ...member(
-        "Star",
-        ["dragon", "ground"],
-        50,
-        base(108, 130, 95, 80, 85, 102),
-      ),
-      moves: ["fire", "water", "grass", "electric", "ice"].map(move),
-    } as MainlinePlayTeamMember;
+    const ace = (
+      name: string,
+      typeSlugs: string[],
+      baseStats: BaseStats,
+      moveTypes: string[],
+    ) =>
+      ({
+        ...member(name, typeSlugs, 50, baseStats),
+        moves: moveTypes.map(move),
+      }) as MainlinePlayTeamMember;
     const weak = (name: string) =>
       member(name, ["normal"], 50, base(40, 40, 40, 40, 40, 40));
-    const lopsided = read([star, ...["a", "b", "c", "d", "e"].map(weak)]);
-    const balancedField = read(balanced(50));
-    const withWeakLink = read([...balanced(50).slice(0, 5), weak("f")]);
+    const topTwo = [
+      ace("Garchomp", ["dragon", "ground"], base(108, 130, 95, 80, 85, 102), [
+        "fire",
+        "water",
+        "grass",
+        "electric",
+        "ice",
+      ]),
+      ace("Metagross", ["steel", "psychic"], base(80, 135, 130, 95, 90, 70), [
+        "fighting",
+        "psychic",
+        "rock",
+        "ground",
+        "dark",
+      ]),
+    ];
+    const lopsided = read([...topTwo, ...["a", "b", "c", "d"].map(weak)]);
+    const bestTwoMean =
+      lopsided.types.reduce((sum, reading) => sum + reading.answerCost, 0) /
+      lopsided.types.length;
 
+    /* Its best two answers alone would call this team strong... */
+    expect(bestTwoMean).toBeLessThanOrEqual(0.3);
+    /* ...but the four weak ones have to take their share of the types. */
     expect(lopsided.share).toBeGreaterThanOrEqual(0.9);
-    expect(balancedField.share).toBeLessThanOrEqual(0.3);
-    /* One weak member now counts, where the best two answers used to hide it. */
-    expect(withWeakLink.share).toBeGreaterThan(balancedField.share);
+    expect(read(balanced(50)).share).toBeLessThanOrEqual(0.3);
+  });
+
+  it("counts one weak member that the best two answers used to hide", () => {
+    const weak = member("Weak", ["normal"], 50, base(40, 40, 40, 40, 40, 40));
+
+    expect(read([...balanced(50).slice(0, 5), weak]).share).toBeGreaterThan(
+      read(balanced(50)).share,
+    );
   });
 
   it("weighs how many you bring against a full six after level", () => {

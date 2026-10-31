@@ -201,8 +201,12 @@ export const getSharedAnswerCosts = (costRows: number[][]) => {
   const capacity = Math.ceil(typeCount / teamCount);
   /* Each Pokémon as `capacity` seats, so a type takes one seat of whoever it goes to. */
   const seatCount = teamCount * capacity;
-  const seatCost = (row: number, seat: number) =>
-    Math.min(costRows[row][seat % teamCount], teamCount);
+  /* A cost that isn't a number counts as losing to the whole team, so the search always ends. */
+  const seatCost = (row: number, seat: number) => {
+    const cost = costRows[row][seat % teamCount];
+
+    return Number.isFinite(cost) ? Math.min(cost, teamCount) : teamCount;
+  };
 
   /* The Hungarian method on the types against the seats, 1-indexed. */
   const rowPotential = new Array<number>(typeCount + 1).fill(0);

@@ -186,7 +186,7 @@ can't back up. It is what beating the six costs your team: Strong at 30%
 of its HP or less, Weak at 90% or more, Moderate between, so level weighs
 first (yours 5 or more levels below your top pull it down), then how many
 you bring against six, then types; its line names who lags behind, else the
-type to watch when one clearly costs more than the rest, else how many types
+type to watch when one clearly costs your whole team more than the rest, else how many types
 stand out (over 30% of a Pokémon's HP and clearly above a usual type), or "No
 type to watch" when none does, as with an evenly hard field. Its tooltip says it in general words (never HP or
 percentages), gives each lagging Pokémon's exact level, and lists the types

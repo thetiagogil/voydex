@@ -145,6 +145,15 @@ describe("getSharedAnswerCosts", () => {
     ).toEqual([3, 3, 3]);
   });
 
+  it("reads a cost that isn't a number as losing, instead of searching forever", () => {
+    expect(
+      getSharedAnswerCosts([
+        [NaN, NaN],
+        [0.2, 0.4],
+      ]),
+    ).toEqual([2, 0.2]);
+  });
+
   it("costs the whole (empty) team when nobody is on it", () => {
     expect(getSharedAnswerCosts([[], []])).toEqual([1, 1]);
     expect(getSharedAnswerCosts([])).toEqual([]);
