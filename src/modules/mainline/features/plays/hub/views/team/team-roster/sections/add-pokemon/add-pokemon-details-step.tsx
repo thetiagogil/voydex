@@ -2,7 +2,6 @@ import { toPokemonFormOption } from "@/modules/reference/features/pokemon/compon
 import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
@@ -14,10 +13,10 @@ import { RuleWarningsNote } from "../roster/rule-warnings-note";
 
 export type AddPokemonPlacement = "reserve" | "team";
 
-/* More details, from step 2: how much is picked, and opening it. */
+/* More details, from step 2: whether anything is picked, and opening it. */
 export type AddPokemonMoreDetails = {
-  count: number;
   onOpen: () => void;
+  picked: boolean;
 };
 
 /*
@@ -107,7 +106,7 @@ export const AddPokemonDetailsStep = ({
           />
         </Field>
       ) : null}
-      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_160px]">
         <Field>
           <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>
           <Input
@@ -155,6 +154,8 @@ export const AddPokemonDetailsStep = ({
           <SegmentedControl
             ariaLabel="Where it goes"
             variant="segment"
+            fullWidth
+            className="sm:inline-flex sm:w-auto"
             value={placement}
             onValueChange={onPlacementChange}
             options={[
@@ -181,13 +182,10 @@ export const AddPokemonDetailsStep = ({
           type="button"
           variant="secondary"
           size="sm"
-          className="justify-self-center"
+          className="mt-3 justify-self-center"
           onClick={moreDetails.onOpen}
         >
-          {moreDetails.count
-            ? `More details · ${moreDetails.count}`
-            : "More details"}
-          <AppIcon icon={appIcons.actions.next} inline="end" />
+          {moreDetails.picked ? "Change details" : "More details"}
         </Button>
       ) : null}
       {error ? <FieldError>{error}</FieldError> : null}

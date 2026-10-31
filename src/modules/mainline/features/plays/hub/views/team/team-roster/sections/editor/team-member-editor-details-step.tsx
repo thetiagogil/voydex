@@ -137,7 +137,7 @@ export const TeamMemberEditorDetailsStep = ({
   return (
     <SheetSection title="Details" aside="Optional">
       {optionFields}
-      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_120px]">
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_160px]">
         <Field>
           <EditorLabel htmlFor={`${id}-met`} edited={edited("metLocation")}>
             Met location

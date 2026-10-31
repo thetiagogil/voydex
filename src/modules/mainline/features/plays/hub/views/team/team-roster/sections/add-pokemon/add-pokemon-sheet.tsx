@@ -54,8 +54,8 @@ import {
 } from "./add-pokemon-details-step";
 import {
   AddPokemonMoreStep,
-  countAddPokemonBuild,
   emptyAddPokemonBuild,
+  hasAddPokemonBuild,
   type AddPokemonBuild,
   type AddPokemonBuildState,
 } from "./add-pokemon-more-step";
@@ -430,8 +430,8 @@ export const AddPokemonSheet = ({
         isReplace
           ? null
           : {
-              count: countAddPokemonBuild(build),
               onOpen: () => setDetailsOpen(true),
+              picked: hasAddPokemonBuild(build),
             }
       }
       nickname={nickname}

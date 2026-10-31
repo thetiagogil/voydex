@@ -26,11 +26,11 @@ export const emptyAddPokemonBuild: AddPokemonBuild = {
   natureId: "",
 };
 
-/* How many of its details are picked, for the More details button. */
-export const countAddPokemonBuild = (build: AddPokemonBuild) =>
-  [build.abilityId, build.heldItemId, build.natureId, ...build.moveIds].filter(
+/* Whether any detail is picked, so the button reads Change details. */
+export const hasAddPokemonBuild = (build: AddPokemonBuild) =>
+  [build.abilityId, build.heldItemId, build.natureId, ...build.moveIds].some(
     Boolean,
-  ).length;
+  );
 
 /* The picked form's choices, loaded while step 2 is open. */
 export type AddPokemonBuildState =

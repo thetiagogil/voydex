@@ -107,7 +107,7 @@ test.describe("Team", () => {
     await expectAccessible(page);
 
     await details.getByRole("button", { name: "Back" }).click();
-    await details.getByRole("button", { name: "More details · 1" }).click();
+    await details.getByRole("button", { name: "Change details" }).click();
     await expect(
       details.getByRole("combobox", { name: "Move 1: Gust" }),
     ).toBeVisible();
