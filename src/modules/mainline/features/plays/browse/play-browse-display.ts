@@ -1,5 +1,6 @@
 import type {
   PlayBrowseItem,
+  PlayBrowseProgress,
   PlayBrowseStoryPosition,
 } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
@@ -73,3 +74,25 @@ export const getPlayCardEyebrow = (
 /* "Next: Zephyr Badge", or "Story complete" once the story is done. */
 export const getPlayStoryPositionLabel = (position: PlayBrowseStoryPosition) =>
   position.kind === "complete" ? "Story complete" : `Next: ${position.name}`;
+
+/*
+ * The one figure a grid card shows: the average of the parts the Play tracks
+ * (Story, Pokédex, Collectibles), never their raw counts added together. Null
+ * when nothing is tracked or recorded yet.
+ */
+export const getPlayCombinedPercent = (progress: PlayBrowseProgress) => {
+  if (progress.state === "unavailable") {
+    return null;
+  }
+
+  const percents = progress.items.flatMap((item) =>
+    item.percent === null ? [] : [item.percent],
+  );
+
+  return percents.length
+    ? Math.round(
+        percents.reduce((total, percent) => total + percent, 0) /
+          percents.length,
+      )
+    : null;
+};

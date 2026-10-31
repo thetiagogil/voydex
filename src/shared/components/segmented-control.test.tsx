@@ -179,4 +179,23 @@ describe("SegmentedControl selected tone", () => {
     expect(markup).toContain("bg-select-soft");
     expect(markup).not.toContain("bg-action");
   });
+
+  it("keeps an icon-only option's label for screen readers", () => {
+    const html = renderToStaticMarkup(
+      <SegmentedControl<Section>
+        ariaLabel="Display"
+        iconOnly
+        variant="segment"
+        value="games"
+        options={[
+          { icon: <svg />, label: "Games", value: "games" },
+          { icon: <svg />, label: "Moves", value: "moves" },
+        ]}
+      />,
+    );
+
+    expect(html).toContain('<span class="sr-only">Games</span>');
+    expect(html).toContain('aria-pressed="true"');
+    expect(html).not.toMatch(/>Moves<\/button>/);
+  });
 });

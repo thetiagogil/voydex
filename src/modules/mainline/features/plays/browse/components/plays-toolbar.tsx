@@ -3,6 +3,7 @@
 import { formatPlayCount } from "@/modules/mainline/features/plays/browse/play-browse-display";
 import {
   defaultPlayBrowseFilters,
+  type PlayBrowseDisplay,
   type PlayBrowseFilters,
   type PlayBrowseOption,
   type PlayBrowseSort,
@@ -14,6 +15,7 @@ import {
   FilterToolbar,
 } from "@/shared/components/filter-toolbar";
 import { SearchControl } from "@/shared/components/search-control";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 
 type PlaysToolbarProps = {
@@ -22,18 +24,35 @@ type PlaysToolbarProps = {
   generations: PlayBrowseOption[];
   /* How many Plays the current choices show, for the phone sheet's button. */
   matchingCount: number;
+  onDisplayChange: (display: PlayBrowseDisplay) => void;
   onGameChange: (game: string) => void;
   onGenerationChange: (generation: string) => void;
   onQueryChange: (query: string) => void;
   onSortChange: (sort: PlayBrowseSort) => void;
   onStatusChange: (status: string) => void;
+  onTagChange: (tag: string) => void;
   statuses: PlayBrowseOption[];
+  /* The tags your Plays carry; the Tag filter is left out when there are none. */
+  tags: PlayBrowseOption[];
 };
 
 type FilterSelectsProps = Omit<
   PlaysToolbarProps,
-  "matchingCount" | "onQueryChange"
+  "matchingCount" | "onDisplayChange" | "onQueryChange"
 >;
+
+const displayOptions = [
+  {
+    icon: <AppIcon icon={appIcons.views.display.list} aria-hidden />,
+    label: "List",
+    value: "list",
+  },
+  {
+    icon: <AppIcon icon={appIcons.views.display.grid} aria-hidden />,
+    label: "Grid",
+    value: "grid",
+  },
+] as const;
 
 const sortOptions = [
   { label: "Recent activity", value: "recent" },
@@ -44,7 +63,7 @@ const sortOptions = [
 ] satisfies PlayBrowseOption[];
 
 /*
- * The same four selects serve the toolbar and the phone sheet. Only the
+ * The same five selects serve the toolbar and the phone sheet. Only the
  * toolbar's carry names: they sit in the form, so a search sent before the
  * page hydrates keeps the game, generation, status and order. The sheet is portalled
  * outside the form.
@@ -58,7 +77,9 @@ const getFilterSelects = (
     onGenerationChange,
     onSortChange,
     onStatusChange,
+    onTagChange,
     statuses,
+    tags,
   }: FilterSelectsProps,
   {
     idPrefix,
@@ -121,6 +142,20 @@ const getFilterSelects = (
         variant="ghost"
       />
     ),
+    tag: (
+      <SelectControl
+        id={`${idPrefix}-tag`}
+        name={getName("tag")}
+        ariaLabel="Filter Plays by tag"
+        resetValue={defaultPlayBrowseFilters.tag}
+        value={filters.tag}
+        onValueChange={onTagChange}
+        options={[{ label: "All tags", value: "" }, ...tags]}
+        searchPlaceholder="Search tags"
+        placeholder="All tags"
+        variant="ghost"
+      />
+    ),
     sort: (
       <SelectControl
         id={`${idPrefix}-sort`}
@@ -142,18 +177,30 @@ const getFilterSelects = (
 
 /*
  * The toolbar (v3's Plays toolbar) on the one list toolbar: search, the order
- * on the line, and the game, generation and status behind Filters (a row under the
+ * on the line, and the game, generation, status and tag behind Filters (a row under the
  * line from 640px, a sheet on phones).
  */
 export const PlaysToolbar = ({
   matchingCount,
+  onDisplayChange,
   onQueryChange,
   ...selectProps
 }: PlaysToolbarProps) => {
   const activeCount =
     (selectProps.filters.game ? 1 : 0) +
     (selectProps.filters.generation ? 1 : 0) +
-    (selectProps.filters.status ? 1 : 0);
+    (selectProps.filters.status ? 1 : 0) +
+    (selectProps.filters.tag ? 1 : 0);
+  const display = (
+    <SegmentedControl
+      ariaLabel="Plays display"
+      iconOnly
+      onValueChange={onDisplayChange}
+      options={displayOptions}
+      value={selectProps.filters.display}
+      variant="segment"
+    />
+  );
 
   return (
     <FilterToolbar
@@ -180,15 +227,23 @@ export const PlaysToolbar = ({
       }
       controls={(placement) =>
         placement === "line" ? (
-          getFilterSelects(selectProps, {
-            idPrefix: "plays",
-            isInForm: true,
-            sortPrefix: "Sort",
-          }).sort
+          <>
+            {
+              getFilterSelects(selectProps, {
+                idPrefix: "plays",
+                isInForm: true,
+                sortPrefix: "Sort",
+              }).sort
+            }
+            {display}
+          </>
         ) : (
-          <FilterSheetRow htmlFor="plays-sheet-sort" label="Sort">
-            {getFilterSelects(selectProps, { idPrefix: "plays-sheet" }).sort}
-          </FilterSheetRow>
+          <>
+            <FilterSheetRow htmlFor="plays-sheet-sort" label="Sort">
+              {getFilterSelects(selectProps, { idPrefix: "plays-sheet" }).sort}
+            </FilterSheetRow>
+            <FilterSheetRow label="Display">{display}</FilterSheetRow>
+          </>
         )
       }
       filters={(placement) => {
@@ -202,6 +257,7 @@ export const PlaysToolbar = ({
             {selects.game}
             {selects.generation}
             {selects.status}
+            {selectProps.tags.length ? selects.tag : null}
           </>
         ) : (
           <>
@@ -214,6 +270,11 @@ export const PlaysToolbar = ({
             <FilterSheetRow htmlFor="plays-sheet-status" label="Status">
               {selects.status}
             </FilterSheetRow>
+            {selectProps.tags.length ? (
+              <FilterSheetRow htmlFor="plays-sheet-tag" label="Tag">
+                {selects.tag}
+              </FilterSheetRow>
+            ) : null}
           </>
         );
       }}

@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { appRoutes } from "@/config/routes";
 import { PlayCardProgress } from "@/modules/mainline/features/plays/browse/components/play-card-progress";
 import { PlayCardTeam } from "@/modules/mainline/features/plays/browse/components/play-card-team";
+import { PlayCardStatus } from "@/modules/mainline/features/plays/browse/components/play-card-status";
 import { PlayToken } from "@/modules/mainline/features/plays/browse/components/play-token";
 import { PlayCardHeading } from "@/modules/mainline/features/plays/browse/components/play-card-heading";
 import { formatPlayUpdatedDate } from "@/modules/mainline/features/plays/browse/play-browse-display";
@@ -13,8 +14,6 @@ import type { PlayBrowseItem } from "@/modules/mainline/features/plays/shared/ty
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import { useViewerClock } from "@/modules/mainline/features/plays/shared/client/use-viewer-clock";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { StatusBadge } from "@/shared/components/status-badge";
-import { getPlayStatusTone } from "@/modules/mainline/shared/utils/play-status-tone";
 import { Card } from "@/shared/components/ui/card";
 
 type PlayCardProps = {
@@ -40,17 +39,9 @@ const PlayCardMeta = ({ play }: PlayCardProps) => {
   ].filter(Boolean);
 
   /* The list is one list now, so the status rides on the card. */
-  const status = play.status_name ? (
-    <StatusBadge
-      size="xs"
-      tone={getPlayStatusTone(play.status_slug)}
-      className="mr-2 align-middle"
-    >
-      {play.status_name}
-    </StatusBadge>
-  ) : null;
+  const status = <PlayCardStatus play={play} className="mr-2 align-middle" />;
 
-  if (!parts.length && !status) {
+  if (!parts.length && !play.status_name) {
     return null;
   }
 

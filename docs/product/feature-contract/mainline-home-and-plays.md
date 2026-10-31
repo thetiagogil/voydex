@@ -36,8 +36,14 @@ Plays are user-owned playthroughs.
 The Plays area should support:
 
 - Listing all plays as one list, newest activity first, with Search, Game,
-  Generation, Status and Sort kept in the URL; tags, rules, and
-  completion-state filters are later additions.
+  Generation, Status, Tag and Sort kept in the URL; rules and completion-state
+  filters are later additions. The Tag filter lists the tags your Plays carry
+  and is left out when none has one.
+- A List / Grid switch (`?display=grid`, list by default, kept when the
+  filters are cleared). The grid is a compact overview: each Play shows its
+  cover, game and Play name, status and one bar, the average of the parts it
+  tracks (Story, Pokédex, Collectibles), never their raw counts added
+  together; no team.
 - Creating a play through New Play, from Plays, Home or a Codex game page.
 - Entering a play hub.
 
