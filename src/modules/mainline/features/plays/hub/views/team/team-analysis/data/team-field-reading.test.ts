@@ -174,6 +174,54 @@ describe("readTeamField", () => {
     expect(read(balanced(50)).share).toBeLessThanOrEqual(0.3);
   });
 
+  it("reads random teams of every size in every generation without breaking", () => {
+    let seed = 99;
+    const next = () => {
+      seed = (seed * 1664525 + 1013904223) % 4294967296;
+
+      return seed / 4294967296;
+    };
+    const pick = <T>(items: readonly T[]) =>
+      items[Math.floor(next() * items.length)];
+    const randomStats = () =>
+      base(...Array.from({ length: 6 }, () => 1 + Math.floor(next() * 255)));
+
+    for (let round = 0; round < 300; round += 1) {
+      const size = Math.floor(next() * 7);
+      const members = Array.from({ length: size }, (_, index) => {
+        const typeSlugs =
+          next() < 0.1
+            ? []
+            : [
+                pick(pokemonTypeSlugs),
+                ...(next() < 0.5 ? [pick(pokemonTypeSlugs)] : []),
+              ];
+
+        return {
+          ...member(
+            `Mon ${index}`,
+            typeSlugs,
+            next() < 0.2 ? null : 1 + Math.floor(next() * 100),
+            next() < 0.1 ? null : randomStats(),
+          ),
+          /* A Pokémon with no typing recorded has none, not an unknown one. */
+          ...(typeSlugs.length ? {} : { primaryType: null }),
+        } as MainlinePlayTeamMember;
+      });
+      const generation = 1 + Math.floor(next() * 9);
+      const field = read(members, generation);
+
+      expect(Number.isFinite(field.share)).toBe(true);
+      expect(field.share).toBeGreaterThanOrEqual(0);
+
+      for (const reading of field.types) {
+        expect(Number.isFinite(reading.sharedCost)).toBe(true);
+        expect(reading.sharedCost).toBeGreaterThanOrEqual(0);
+        expect(reading.sharedCost).toBeLessThanOrEqual(Math.max(1, size));
+      }
+    }
+  });
+
   it("counts one weak member that the best two answers used to hide", () => {
     const weak = member("Weak", ["normal"], 50, base(40, 40, 40, 40, 40, 40));
 
