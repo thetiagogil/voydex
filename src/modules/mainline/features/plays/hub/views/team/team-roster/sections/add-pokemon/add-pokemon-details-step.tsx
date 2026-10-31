@@ -2,6 +2,8 @@ import { toPokemonFormOption } from "@/modules/reference/features/pokemon/compon
 import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
+import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { Button } from "@/shared/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
@@ -12,16 +14,26 @@ import { RuleWarningsNote } from "../roster/rule-warnings-note";
 
 export type AddPokemonPlacement = "reserve" | "team";
 
+/* More details, from step 2: what it records and how much is picked. */
+export type AddPokemonMoreDetails = {
+  count: number;
+  /* What the game records, such as "Nature, ability, held item and moves". */
+  fields: string;
+  onOpen: () => void;
+};
+
 /*
  * Step 2, its details: what the Play's rules say about it (a warning that
  * blocks nothing), its pattern when it has looks to pick from (Vivillon,
  * Unown), nickname and level, and where it goes (the team or the reserve),
- * or whose place it takes when it replaces one.
+ * or whose place it takes when it replaces one. Adding, More details opens
+ * step 3 from a row of its own.
  */
 export const AddPokemonDetailsStep = ({
   error,
   id,
   level,
+  moreDetails,
   nickname,
   onLevelChange,
   onNicknameChange,
@@ -39,6 +51,8 @@ export const AddPokemonDetailsStep = ({
   /* The sheet's `useId`; the form is `${id}-form`, so Save can submit it. */
   id: string;
   level: string;
+  /* Null when it replaces one: Edit records those. */
+  moreDetails: AddPokemonMoreDetails | null;
   nickname: string;
   onLevelChange: (level: string) => void;
   onNicknameChange: (nickname: string) => void;
@@ -164,6 +178,28 @@ export const AddPokemonDetailsStep = ({
           />
         </div>
       )}
+      {moreDetails ? (
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="grid gap-0.5">
+            <p className="text-15 font-extrabold">More details</p>
+            <p className="text-ink-2 text-13 font-semibold">
+              {moreDetails.count
+                ? `${moreDetails.count} picked · ${moreDetails.fields}`
+                : `${moreDetails.fields} · Optional`}
+            </p>
+          </div>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            className="self-start sm:self-auto"
+            onClick={moreDetails.onOpen}
+          >
+            {moreDetails.count ? "Change" : "Add details"}
+            <AppIcon icon={appIcons.actions.next} inline="end" />
+          </Button>
+        </div>
+      ) : null}
       {error ? <FieldError>{error}</FieldError> : null}
     </form>
   );

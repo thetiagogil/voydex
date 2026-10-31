@@ -91,7 +91,7 @@ test.describe("Team", () => {
       .click();
 
     const details = page.getByRole("dialog", { name: "Pidgey" });
-    await details.getByRole("button", { name: "More details" }).click();
+    await details.getByRole("button", { name: "Add details" }).click();
     /* Red has no natures, abilities or held items: only the moves. */
     await expect(
       details.getByRole("combobox", { name: /^Move 1/ }),
@@ -107,7 +107,11 @@ test.describe("Team", () => {
     await expectAccessible(page);
 
     await details.getByRole("button", { name: "Back" }).click();
-    await details.getByRole("button", { name: "More details · 1" }).click();
+    await expect(details.getByText("1 picked · Moves")).toBeVisible();
+    await details.getByRole("button", { name: "Change" }).click();
+    await expect(
+      details.getByRole("combobox", { name: "Move 1: Gust" }),
+    ).toBeVisible();
     await details.getByRole("button", { name: "Add Pidgey" }).click();
     await expect(details).toBeHidden();
 

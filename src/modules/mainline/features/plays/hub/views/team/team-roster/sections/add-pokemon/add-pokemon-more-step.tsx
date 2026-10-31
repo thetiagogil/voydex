@@ -32,6 +32,27 @@ export const countAddPokemonBuild = (build: AddPokemonBuild) =>
     Boolean,
   ).length;
 
+/* What More details records in the game: "Nature, ability, held item and moves". */
+export const describeAddPokemonBuild = (
+  supports: Pick<
+    TeamMemberEditorSupport,
+    "abilities" | "heldItems" | "natures"
+  >,
+) => {
+  const fields = [
+    supports.natures ? "nature" : null,
+    supports.abilities ? "ability" : null,
+    supports.heldItems ? "held item" : null,
+    "moves",
+  ].filter((field): field is string => field !== null);
+  const text =
+    fields.length > 1
+      ? `${fields.slice(0, -1).join(", ")} and ${fields.at(-1)}`
+      : fields[0];
+
+  return text.charAt(0).toUpperCase() + text.slice(1);
+};
+
 /* The picked form's choices, loaded while step 2 is open. */
 export type AddPokemonBuildState =
   | { formId: number; message: string; status: "error" }

@@ -55,6 +55,7 @@ import {
 import {
   AddPokemonMoreStep,
   countAddPokemonBuild,
+  describeAddPokemonBuild,
   emptyAddPokemonBuild,
   type AddPokemonBuild,
   type AddPokemonBuildState,
@@ -365,7 +366,6 @@ export const AddPokemonSheet = ({
     loadState.status === "ready" ? (loadState.pokedexName ?? "Pokédex") : "";
   const results = query.trim() ? filterPokemonChoices(choices, query) : choices;
   const step = picked ? (detailsOpen ? 3 : 2) : 1;
-  const buildCount = countAddPokemonBuild(build);
 
   const searchControl = (
     <SearchControl
@@ -427,6 +427,15 @@ export const AddPokemonSheet = ({
       error={error}
       id={id}
       level={level}
+      moreDetails={
+        isReplace
+          ? null
+          : {
+              count: countAddPokemonBuild(build),
+              fields: describeAddPokemonBuild(supports),
+              onOpen: () => setDetailsOpen(true),
+            }
+      }
       nickname={nickname}
       onLevelChange={setLevel}
       onNicknameChange={setNickname}
@@ -527,16 +536,7 @@ export const AddPokemonSheet = ({
             >
               Back
             </Button>
-            {step === 2 && !isReplace ? (
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => setDetailsOpen(true)}
-              >
-                {buildCount ? `More details · ${buildCount}` : "More details"}
-              </Button>
-            ) : null}
+
             <Button
               type="submit"
               size="sm"
