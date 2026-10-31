@@ -282,6 +282,7 @@ export const MainlinePlayTeamRoster = ({
 
       <AddPokemonSheet
         key={sheetKeys.picker}
+        mechanics={mechanics}
         mode={pickerMode}
         onAdded={setSelectedMemberId}
         onOpenChange={changePickerOpen}

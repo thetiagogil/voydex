@@ -11,14 +11,17 @@ export const mainlineTeamRosterStates = {
 export type MainlineTeamGender = "female" | "genderless" | "male" | "unknown";
 
 export type AddMainlinePlayPokemonInput = {
+  abilityId?: number | null;
   createEvent?: boolean;
   eventBody?: string | null;
   eventTitle?: string | null;
   formId: number;
   gender?: MainlineTeamGender;
+  heldItemId?: number | null;
   isShiny?: boolean;
   level?: number | null;
   moveIds?: number[];
+  natureId?: number | null;
   nickname?: string | null;
   playId: string;
   rosterStateId: number;
@@ -105,6 +108,16 @@ export const validateAddMainlinePlayPokemon = (
 
   if (input.level !== null && input.level !== undefined) {
     assertIntegerInRange(input.level, "Level", 1, 100);
+  }
+
+  for (const [id, label] of [
+    [input.natureId, "Nature"],
+    [input.abilityId, "Ability"],
+    [input.heldItemId, "Held item"],
+  ] as const) {
+    if (id !== null && id !== undefined) {
+      assertIntegerInRange(id, label, 1, Number.MAX_SAFE_INTEGER);
+    }
   }
 
   const nickname = normalizeOptionalText(input.nickname);

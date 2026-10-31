@@ -1,7 +1,6 @@
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
-import { toNatureOptions } from "@/modules/reference/features/pokemon/components/nature-options";
 import { toItemOptions } from "@/modules/mainline/shared/components/item-options";
 import { getItemImageUrl } from "@/modules/reference/features/items/data/item-images";
 import { ItemIcon } from "@/shared/components/item-icon";
@@ -17,11 +16,11 @@ import type {
 import {
   EditorLabel,
   fromSelect,
-  noneValue,
   selectValue,
   toSelectOptions,
   type TeamMemberEditorStepProps,
 } from "./team-member-editor-fields";
+import { TeamMemberBuildFields } from "./team-member-build-fields";
 
 /*
  * What it already has stays pickable when the game's list doesn't offer it
@@ -85,69 +84,21 @@ export const TeamMemberEditorDetailsStep = ({
       </div>
     ) : (
       <div className="grid gap-4 sm:grid-cols-2">
-        {supports.natures ? (
-          <Field>
-            <EditorLabel edited={edited("natureId")}>Nature</EditorLabel>
-            <SelectControl
-              ariaLabel="Nature"
-              placeholder="Not recorded"
-              value={selectValue(values.natureId)}
-              onValueChange={(value) => change("natureId", fromSelect(value))}
-              options={[
-                { label: "Not recorded", value: noneValue },
-                ...toNatureOptions(optionsState.options.natures),
-              ]}
-            />
-          </Field>
-        ) : null}
-        {supports.abilities ? (
-          <Field>
-            <EditorLabel edited={edited("abilityId")}>Ability</EditorLabel>
-            <SelectControl
-              ariaLabel="Ability"
-              placeholder="Not recorded"
-              value={selectValue(values.abilityId)}
-              onValueChange={(value) => change("abilityId", fromSelect(value))}
-              options={[
-                { label: "Not recorded", value: noneValue },
-                ...optionsState.options.abilities.map((ability) => ({
-                  info: ability.effect ?? undefined,
-                  label: ability.name,
-                  value: String(ability.id),
-                })),
-              ]}
-            />
-          </Field>
-        ) : null}
-        {supports.heldItems ? (
-          <Field>
-            <EditorLabel htmlFor={`${id}-item`} edited={edited("heldItemId")}>
-              Held item
-            </EditorLabel>
-            <SelectControl
-              id={`${id}-item`}
-              ariaLabel="Held item"
-              placeholder="Not recorded"
-              value={selectValue(values.heldItemId)}
-              onValueChange={(value) => change("heldItemId", fromSelect(value))}
-              options={[
-                {
-                  icon: <ItemIcon kind="held" name="Not recorded" />,
-                  label: "Not recorded",
-                  value: noneValue,
-                },
-                ...toItemOptions(optionsState.options.heldItems, "held"),
-                ...keptChoice(
-                  optionsState.options.heldItems,
-                  member.held_item_id,
-                  member.held_item_name,
-                  member.heldItemSlug,
-                  "held",
-                ),
-              ]}
-            />
-          </Field>
-        ) : null}
+        <TeamMemberBuildFields
+          change={change}
+          edited={edited}
+          id={id}
+          keptHeldItem={keptChoice(
+            optionsState.options.heldItems,
+            member.held_item_id,
+            member.held_item_name,
+            member.heldItemSlug,
+            "held",
+          )}
+          options={optionsState.options}
+          supports={supports}
+          values={values}
+        />
         <Field>
           <EditorLabel edited={edited("ballItemId")}>Poké Ball</EditorLabel>
           <SelectControl

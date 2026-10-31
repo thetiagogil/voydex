@@ -81,6 +81,45 @@ test.describe("Team", () => {
     ).toBeVisible(forTheAnswer);
   });
 
+  test("adds a Pokémon with its moves from More details @phone", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Add Pokémon" }).first().click();
+    await page
+      .getByRole("dialog", { name: "Which Pokémon?" })
+      .getByRole("button", { name: "Pidgey, #016" })
+      .click();
+
+    const details = page.getByRole("dialog", { name: "Pidgey" });
+    await details.getByRole("button", { name: "More details" }).click();
+    /* Red has no natures, abilities or held items: only the moves. */
+    await expect(
+      details.getByRole("combobox", { name: /^Move 1/ }),
+    ).toBeVisible(forTheAnswer);
+    await expect(details.getByText("Nature")).toHaveCount(0);
+
+    await details.getByRole("combobox", { name: /^Move 1/ }).click();
+    await page.getByRole("combobox", { name: "Search moves" }).fill("gust");
+    await page.getByRole("option", { name: /Gust/ }).click();
+    await expect(
+      details.getByRole("combobox", { name: "Move 1: Gust" }),
+    ).toBeVisible();
+    await expectAccessible(page);
+
+    await details.getByRole("button", { name: "Back" }).click();
+    await details.getByRole("button", { name: "More details · 1" }).click();
+    await details.getByRole("button", { name: "Add Pidgey" }).click();
+    await expect(details).toBeHidden();
+
+    await expect(
+      page.getByRole("region", { name: /^Active team/ }).getByRole("heading"),
+    ).toContainText("2 / 6", forTheAnswer);
+    await openEditor(page, "Pidgey");
+    await expect(
+      page.getByRole("combobox", { name: "Move 1: Gust" }),
+    ).toBeVisible();
+  });
+
   test("evolves the partner, then retires it", async ({ page }) => {
     /*
      * The editor loads what it offers through an action of its own (twice

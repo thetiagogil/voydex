@@ -124,7 +124,7 @@ export const AddPokemonDetailsStep = ({
       {replacesName !== null ? (
         <p className="text-ink-2 text-14 font-semibold">
           It takes {replacesName}&apos;s place, and {replacesName} is kept in
-          History.
+          History. Its nature, ability and moves can be added from Edit.
         </p>
       ) : (
         <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
@@ -164,10 +164,6 @@ export const AddPokemonDetailsStep = ({
           />
         </div>
       )}
-      <p className="text-ink-3 text-13 font-semibold">
-        Nature, ability and moves can be added from Edit once it&apos;s on your
-        team.
-      </p>
       {error ? <FieldError>{error}</FieldError> : null}
     </form>
   );

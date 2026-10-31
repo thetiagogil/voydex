@@ -12,8 +12,8 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { EmptyState } from "@/shared/components/empty-state";
 import {
-  MoveSlotSelect,
-  type MoveSlotOption,
+  MoveSlotGrid,
+  toMoveSlotOptions,
 } from "@/modules/mainline/shared/components/move-slot-select";
 import { toItemOptions } from "@/modules/mainline/shared/components/item-options";
 import { ItemIcon } from "@/shared/components/item-icon";
@@ -82,15 +82,7 @@ export const PlannerSlotMoves = ({
   }
 
   const { heldItems, moves } = state.options;
-  const moveOptions: MoveSlotOption[] = moves.map((move) => ({
-    category: move.damageClass,
-    info: move.effect,
-    learn: move.learn,
-    label: move.name,
-    typeName: move.typeName,
-    typeSlug: move.typeSlug,
-    value: String(move.id),
-  }));
+  const moveOptions = toMoveSlotOptions(moves);
   /* A saved move its learnset here no longer lists stays visible. */
   const savedOnly = member.moveIds.flatMap((moveId) =>
     moveId !== null && !moves.some((move) => move.id === moveId)
@@ -128,25 +120,16 @@ export const PlannerSlotMoves = ({
       <fieldset className="grid gap-2.5">
         <legend className="text-14 mb-2 font-extrabold">Moves</legend>
         {moveOptions.length || savedOnly.length ? (
-          <div className="grid gap-2.5 sm:grid-cols-2">
-            {picked.map((value, index) => (
-              <MoveSlotSelect
-                key={index}
-                slot={index + 1}
-                emptyLabel="Any move"
-                value={value}
-                onValueChange={(next) => {
-                  const moveIds = [...member.moveIds] as PlanMoveSlots;
-                  moveIds[index] = next ? Number(next) : null;
-                  onChange({ moveIds });
-                }}
-                options={[...moveOptions, ...savedOnly].filter(
-                  (option) =>
-                    option.value === value || !picked.includes(option.value),
-                )}
-              />
-            ))}
-          </div>
+          <MoveSlotGrid
+            emptyLabel="Any move"
+            values={picked}
+            onValueChange={(index, next) => {
+              const moveIds = [...member.moveIds] as PlanMoveSlots;
+              moveIds[index] = next ? Number(next) : null;
+              onChange({ moveIds });
+            }}
+            options={[...moveOptions, ...savedOnly]}
+          />
         ) : (
           <p className="text-ink-2 text-14 font-semibold">
             Voydex doesn&apos;t have its moves for this game yet.
