@@ -11,6 +11,7 @@ const toneDotClassNames: Record<TipTone, string> = {
   warn: "bg-warn",
 };
 
+/* The tip lightens its inks; a chip (`tip-chip`) keeps its own, so warn stays dark on amber. */
 const toneChipClassNames: Record<TipTone, string> = {
   danger: "bg-danger-deep text-white",
   ok: "bg-ok-deep text-white",
@@ -88,6 +89,7 @@ export const TipRow = ({
     </span>
     {chip ? (
       <span
+        data-slot="tip-chip"
         className={cn(
           "text-12 shrink-0 rounded-full px-2 leading-5 font-extrabold tabular-nums",
           toneChipClassNames[tone ?? "warn"],
@@ -159,6 +161,7 @@ export const TipRating = ({
           >
             <span className="text-on-ink">{grade.label}</span>
             <span
+              data-slot="tip-chip"
               className={cn(
                 "text-12 shrink-0 rounded-full px-2 leading-5 font-extrabold",
                 toneChipClassNames[grade.tone],
