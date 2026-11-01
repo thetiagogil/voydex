@@ -106,7 +106,7 @@ describe("groupPokemonByCategory", () => {
       "category-legendary",
       "category-mythical",
       "category-baby",
-      "category-other",
+      "category-regular",
     ]);
   });
 
