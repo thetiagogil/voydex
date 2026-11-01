@@ -21,7 +21,7 @@ Pokémon Browse must:
   names;
 - default to National number, with Name as the alternate sort, in one plain
   grid that Group can split by introduced generation, by primary type, or by
-  category (Legendary, Mythical, Baby, Other, from the species flags; Ultra
+  category (Legendary, Mythical, Baby, Regular, from the species flags; Ultra
   Beasts, Paradox Pokémon, fossils and starters follow once the reference
   data has them);
 - show one equal image-led result per species with artwork, National number,

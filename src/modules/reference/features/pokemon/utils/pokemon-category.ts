@@ -6,21 +6,21 @@ import type { PokemonSpecies } from "@/modules/reference/shared/database-types";
  * Ultra Beasts, Paradox Pokémon, fossils and starters join once the
  * reference data has them.
  */
-export type PokemonCategory = "baby" | "legendary" | "mythical" | "other";
+export type PokemonCategory = "baby" | "legendary" | "mythical" | "regular";
 
 /* The browse list's groups, in the order they are shown. */
 export const pokemonCategoryOrder = [
   "legendary",
   "mythical",
   "baby",
-  "other",
+  "regular",
 ] as const satisfies readonly PokemonCategory[];
 
 export const pokemonCategoryNames = {
   baby: "Baby",
   legendary: "Legendary",
   mythical: "Mythical",
-  other: "Other",
+  regular: "Regular",
 } as const satisfies Record<PokemonCategory, string>;
 
 export const getPokemonCategory = (
@@ -34,5 +34,5 @@ export const getPokemonCategory = (
     return "legendary";
   }
 
-  return species.is_baby ? "baby" : "other";
+  return species.is_baby ? "baby" : "regular";
 };

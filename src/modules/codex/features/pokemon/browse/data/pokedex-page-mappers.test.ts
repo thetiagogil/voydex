@@ -95,7 +95,7 @@ describe("buildPokedexPageData", () => {
     });
 
     expect(data.pokemon.map((pokemon) => pokemon.category)).toEqual([
-      "other",
+      "regular",
       "legendary",
       "mythical",
       "baby",

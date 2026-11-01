@@ -55,7 +55,7 @@ const listStatNames = (stats: PokemonDetailStat[]) => {
 const getPokemonDetailCategory = (species: PokemonSpecies) => {
   const category = getPokemonCategory(species);
 
-  return category === "other"
+  return category === "regular"
     ? null
     : `${pokemonCategoryNames[category]} Pokémon`;
 };

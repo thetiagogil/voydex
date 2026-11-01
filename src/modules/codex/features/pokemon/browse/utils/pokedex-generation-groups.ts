@@ -131,7 +131,7 @@ export const groupPokemonByType = (
 };
 
 /*
- * The list grouped by category: Legendary, Mythical, Baby, then Other, each
+ * The list grouped by category: Legendary, Mythical, Baby, then Regular, each
  * Pokémon in the one class its species flags give it. A class with no match
  * is left out.
  */

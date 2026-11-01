@@ -85,9 +85,9 @@ describe("groupPokemonByCategory", () => {
     category: PokedexPokemonBrowseCard["category"],
   ) => ({ category, id }) as PokedexPokemonBrowseCard;
 
-  it("orders Legendary, Mythical, Baby, Other and keeps national order inside", () => {
+  it("orders Legendary, Mythical, Baby, Regular and keeps national order inside", () => {
     const groups = groupPokemonByCategory([
-      withCategory(1, "other"),
+      withCategory(1, "regular"),
       withCategory(151, "mythical"),
       withCategory(172, "baby"),
       withCategory(150, "legendary"),
@@ -100,7 +100,7 @@ describe("groupPokemonByCategory", () => {
       ["Legendary", [150, 144]],
       ["Mythical", [151]],
       ["Baby", [172]],
-      ["Other", [1]],
+      ["Regular", [1]],
     ]);
     expect(groups.map((group) => group.key)).toEqual([
       "category-legendary",
@@ -112,10 +112,10 @@ describe("groupPokemonByCategory", () => {
 
   it("leaves out a category nothing matches, and returns nothing for an empty list", () => {
     expect(
-      groupPokemonByCategory([withCategory(1, "other")]).map(
+      groupPokemonByCategory([withCategory(1, "regular")]).map(
         (group) => group.label,
       ),
-    ).toEqual(["Other"]);
+    ).toEqual(["Regular"]);
     expect(groupPokemonByCategory([])).toEqual([]);
   });
 });
