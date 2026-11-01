@@ -15,7 +15,7 @@ account preference or database write for this choice.
 Pokémon Browse must:
 
 - keep Search, Generation (the introduced generation, as pills), Type, and
-  Sort visible; a version-group availability filter may follow in
+  Sort visible; category and version-group availability filters may follow in
   `More filters`;
 - search species name, National Pokédex number, and applicable persistent form
   names;

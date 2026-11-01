@@ -6,7 +6,11 @@ import {
   pokemonCategoryOrder,
 } from "@/modules/reference/features/pokemon/utils/pokemon-category";
 
-const flags = (overrides: Partial<Record<string, boolean>> = {}) => ({
+const flags = (
+  overrides: Partial<
+    Record<"is_baby" | "is_legendary" | "is_mythical", boolean>
+  > = {},
+) => ({
   is_baby: false,
   is_legendary: false,
   is_mythical: false,
