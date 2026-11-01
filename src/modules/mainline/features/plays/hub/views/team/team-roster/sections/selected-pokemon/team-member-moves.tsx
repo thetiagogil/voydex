@@ -10,6 +10,7 @@ import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 
 import type { TeamMove } from "./team-member-model";
+import { TeamMemberSectionLabel } from "./team-member-section-label";
 import { TipNamed } from "@/shared/components/tip-parts";
 
 const TeamMoveRow = ({ move }: { move: TeamMove }) => {
@@ -91,9 +92,7 @@ export const TeamMemberMoves = ({
 
   return (
     <div className="mt-5">
-      <p id={labelId} className="text-ink-3 text-13 mb-2.5 font-extrabold">
-        {title}
-      </p>
+      <TeamMemberSectionLabel id={labelId}>{title}</TeamMemberSectionLabel>
       {!moves.length && empty ? (
         <p className="text-ink-2 text-14 font-semibold">{empty}</p>
       ) : null}

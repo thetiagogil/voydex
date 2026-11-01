@@ -62,6 +62,46 @@ test.describe("Team", () => {
     await expectAccessible(page);
   });
 
+  test("shows the picked Pokémon's own latest moments @phone", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "Add Pokémon" }).first().click();
+    await page
+      .getByRole("dialog", { name: "Which Pokémon?" })
+      .getByRole("button", { name: "Pidgey, #016" })
+      .click();
+    const details = page.getByRole("dialog", { name: "Pidgey" });
+    await details.getByRole("button", { name: "Add Pidgey" }).click();
+    await expect(details).toBeHidden(forTheAnswer);
+
+    /* Pidgey's add is its moment; the partner, picked with the Play, has none. */
+    await page
+      .getByRole("button", { name: /\bPidgey\b.*, Active slot 2$/ })
+      .click(forTheAnswer);
+    await expect(
+      page
+        .getByRole("list", { name: "Latest moments" })
+        .getByText("Pidgey was added to the team."),
+    ).toBeVisible(forTheAnswer);
+    await expectAccessible(page);
+
+    if (await page.getByRole("dialog", { name: "Pidgey" }).isVisible()) {
+      await page.keyboard.press("Escape");
+    }
+    await page
+      .getByRole("button", { name: /\bSquirtle\b.*, Active slot 1$/ })
+      .click();
+    /* On phones the wide panel stays in the page, hidden: read what shows. */
+    await expect(
+      page
+        .getByText("Nothing recorded for Squirtle yet.")
+        .filter({ visible: true }),
+    ).toBeVisible(forTheAnswer);
+    await expect(page.getByText("Pidgey was added to the team.")).toHaveCount(
+      0,
+    );
+  });
+
   test("adds a Pokémon to the reserve", async ({ page }) => {
     await page.getByRole("button", { name: "Add Pokémon" }).first().click();
     await page
