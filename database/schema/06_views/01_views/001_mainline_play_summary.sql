@@ -27,6 +27,7 @@ SELECT
     mainline_plays.archived_at,
     mainline_plays.created_at,
     mainline_plays.updated_at,
+    mainline_plays.last_opened_at,
     (
         SELECT
             COUNT(

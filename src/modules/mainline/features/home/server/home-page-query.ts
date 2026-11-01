@@ -252,7 +252,6 @@ export const getHomePageData = async (
     };
   }
 
-  /* TODO(v3-data): the shelf reads "last opened first"; there is no last-opened column on gameplay.mainline_plays, so it uses the latest update. */
   const requested = browseItems.find(
     (play) => play.play_id === requestedPlayId,
   );
@@ -261,7 +260,7 @@ export const getHomePageData = async (
     HOME_SHELF_PLAY_COUNT,
   );
   /*
-   * The shelf holds the latest Plays still underway. Any other asked for by
+   * The shelf holds the Plays still underway, opened (or changed) last first. Any other asked for by
    * `?play=` (an older or finished one) leads it, so a link to any Play
    * still opens on that Play.
    */

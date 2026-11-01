@@ -85,4 +85,55 @@ test.describe("Home", () => {
       page.getByRole("link", { exact: true, name: "Continue" }),
     ).toBeVisible();
   });
+
+  test("opening a Play moves it ahead on the shelf, recording nothing", async ({
+    page,
+  }) => {
+    const olderName = uniquePlayName("Opened again");
+    const olderId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: olderName,
+      partner: "Charmander",
+    });
+    const newerName = uniquePlayName("Opened once");
+
+    await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: newerName,
+      partner: "Squirtle",
+    });
+    const shelfOrder = async () => {
+      await page.goto("/mainline", { waitUntil: "networkidle" });
+      const labels = await page
+        .getByRole("navigation", { name: "Your Plays" })
+        .locator('a[href*="play="]')
+        .evaluateAll((links) =>
+          links.map((link) => link.getAttribute("aria-label") ?? ""),
+        );
+
+      return {
+        newer: labels.findIndex((label) => label.endsWith(newerName)),
+        older: labels.findIndex((label) => label.endsWith(olderName)),
+      };
+    };
+    const moments = async () => {
+      await page.goto(`/mainline/plays/${olderId}/history`, {
+        waitUntil: "networkidle",
+      });
+
+      return page.getByRole("list", { name: "Moments" }).innerText();
+    };
+
+    const before = await shelfOrder();
+    expect(before.newer).toBeGreaterThanOrEqual(0);
+    /* Other runs share the trainer, so the older one may have left the shelf. */
+    expect(before.older === -1 || before.newer < before.older).toBe(true);
+    /* Opening its History opens the Play. */
+    const momentsBefore = await moments();
+
+    const after = await shelfOrder();
+    expect(after.older).toBeGreaterThanOrEqual(0);
+    expect(after.newer === -1 || after.older < after.newer).toBe(true);
+    expect(await moments()).toBe(momentsBefore);
+  });
 });

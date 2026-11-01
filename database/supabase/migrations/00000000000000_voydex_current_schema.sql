@@ -3914,6 +3914,7 @@ CREATE TABLE gameplay.mainline_plays (
     notes text,
     save_notes text,
     archived_at timestamptz,
+    last_opened_at timestamptz,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     updated_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT plays_game_version_group_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.games (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
@@ -3930,9 +3931,11 @@ CREATE TABLE gameplay.mainline_plays (
     CONSTRAINT plays_save_notes_length_check CHECK (save_notes IS NULL OR CHAR_LENGTH(BTRIM(save_notes)) BETWEEN 1 AND 10000)
 );
 
+-- Opening a Play only moves last_opened_at: it isn't a change to the Play.
 CREATE TRIGGER set_plays_updated_at
     BEFORE UPDATE ON gameplay.mainline_plays
     FOR EACH ROW
+    WHEN (OLD.last_opened_at IS NOT DISTINCT FROM NEW.last_opened_at OR (TO_JSONB (OLD) - 'last_opened_at') IS DISTINCT FROM (TO_JSONB (NEW) - 'last_opened_at'))
     EXECUTE FUNCTION private.set_updated_at ();
 
 CREATE INDEX plays_user_updated_at_idx ON gameplay.mainline_plays (user_id, updated_at DESC);
@@ -3960,6 +3963,8 @@ COMMENT ON TABLE gameplay.mainline_plays IS 'Central user-owned playthrough/adve
 COMMENT ON COLUMN gameplay.mainline_plays.version_group_id IS 'Stored with game_id so optional content, tracking, and availability joins can use composite integrity.';
 
 COMMENT ON COLUMN gameplay.mainline_plays.archived_at IS 'Archive marker separate from lifecycle status.';
+
+COMMENT ON COLUMN gameplay.mainline_plays.last_opened_at IS 'When the owner last opened the Play, for Home''s shelf order; setting it alone leaves updated_at and History untouched.';
 
 -- ============================================================================
 -- Source: database/schema/04_gameplay/01_tables/003_mainline_play_settings.sql
@@ -9241,6 +9246,7 @@ SELECT
     mainline_plays.archived_at,
     mainline_plays.created_at,
     mainline_plays.updated_at,
+    mainline_plays.last_opened_at,
     (
         SELECT
             COUNT(
