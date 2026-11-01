@@ -116,7 +116,10 @@ all Plan, Play, Team, or Collection mutations. A failed or cancelled handoff
 must leave reference and user-owned truth unchanged. The signed-in pieces on
 Codex pages (Add to a Play, In your Plays, Start a {Version} Play, Your Plays,
 Played counts) are Mainline reads that the Codex routes inject through the
-Codex's slots; they only link into Mainline, which owns the write.
+Codex's slots. Add to a Play and Plan a team open Mainline's own sheets over
+the Codex page (Add Pokémon, the Team Planner), so Mainline still owns every
+write (`add_mainline_play_pokemon`, the Plan save) and the Codex imports
+nothing from it.
 
 ## Codex Games
 

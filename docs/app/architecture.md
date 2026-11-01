@@ -273,7 +273,8 @@ entry. Two more Mainline entries follow the same pattern: `public-you.ts`
 gives the You page (a global feature) its figures, and `public-codex.tsx`
 fills the Codex's signed-in slots. `src/modules/codex/codex-slots.ts` types
 those slots (an entry's Add to a Play and In your Plays, a game page's Start a
-Play and Your Plays, the Played counts on Games); the Codex routes fill them
+Play, Plan a team and Your Plays, the Played counts on Games; the first and
+last open Mainline's Add Pokémon and Team Planner over the Codex page); the Codex routes fill them
 from Mainline, since Codex can't import Mainline, and an empty slot reads as
 signed out. The Pokémon type colour tokens are the only feature-owned CSS; they stay beside Pokemon and
 are composed through the module's public `styles.css` manifest. Game colours

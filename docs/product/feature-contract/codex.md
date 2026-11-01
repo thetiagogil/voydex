@@ -76,8 +76,9 @@ the group instead). It must:
   labelled Shiny state, and non-color type and matchup meaning.
 
 As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
-Pokédex lists this species, each opening its Roster's Add Pokémon on this
-species and form; with none, Start a Play) and an `In your Plays` card listing every one of this species on
+Pokédex lists this species; picking one opens Add Pokémon over the entry on
+this species and form, and once added a toast offers `Open the roster` and
+Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
 your rosters. The entry's Training and breeding card shows egg groups where
 the game has breeding; its other values, the Pokédex category, flavour text,
 height and weight and Favourite are pending data. The accepted handoff below
@@ -125,7 +126,9 @@ also shows the region the picked game is set in with its first partners
 exclusives: one column per game of the pair, the picked game first, counting
 only what each game gives you itself. Its head has no actions; signed in,
 the last section, Your Plays, lists your Plays of these games with `Start a
-{Version} Play` and `Plan a team` beside its title. Games Browse stays reference: one
+{Version} Play` and `Plan a team` beside its title; `Plan a team` opens the Team Planner over the page on
+that game (its game picker switches in place, and there is no My Plans link),
+and only saving the Plan leaves the Codex. Games Browse stays reference: one
 toolbar row (Search, Kind, Group: none by default, or generation or region,
 Sort) and no mark
 for the games you've played.

@@ -115,6 +115,7 @@ export const AddPokemonSheet = ({
   playId,
   preset = null,
   reserveCount,
+  rosterHref,
   ruleChecks = emptyRuleCheckContext,
   teamCount,
 }: {
@@ -128,6 +129,11 @@ export const AddPokemonSheet = ({
   playId: string;
   preset?: AddPokemonPreset | null;
   reserveCount: number;
+  /*
+   * Where the Play's Roster is, when the sheet is open somewhere else (the
+   * Codex): the toast then offers "Open the roster".
+   */
+  rosterHref?: string;
   /* What the Play's rules check, to warn about a pick before it's added. */
   ruleChecks?: RuleCheckContext;
   teamCount: number;
@@ -345,11 +351,21 @@ export const AddPokemonSheet = ({
       if (result.playPokemonId) {
         const playPokemonId = result.playPokemonId;
         onAdded?.(playPokemonId);
+        const undo = {
+          label: "Undo",
+          onClick: () => undoAdd(playPokemonId),
+        };
+
         toast.success(`${name} added · ${result.message}`, {
-          action: {
-            label: "Undo",
-            onClick: () => undoAdd(playPokemonId),
-          },
+          ...(rosterHref
+            ? {
+                action: {
+                  label: "Open the roster",
+                  onClick: () => router.push(rosterHref),
+                },
+                cancel: undo,
+              }
+            : { action: undo }),
         });
       }
 

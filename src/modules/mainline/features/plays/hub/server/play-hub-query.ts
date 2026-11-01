@@ -3,6 +3,7 @@ import { cache } from "react";
 import { getClaimsWithTimeout } from "@/platform/supabase/auth";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 import {
+  buildMainlinePlayAddPokemonData,
   buildMainlinePlayOverviewData,
   getMainlinePlayOverviewPartnerFormIds,
   buildMainlinePlayShellData,
@@ -27,6 +28,7 @@ import {
   readPlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
 import type {
+  MainlinePlayAddPokemonData,
   MainlinePlayOverviewData,
   MainlinePlayTeamRows,
   MainlinePlayShellData,
@@ -349,6 +351,33 @@ export const getMainlinePlayTeamRosterData = cache(
       ruleChecks,
       teamRows,
     });
+  },
+);
+
+/*
+ * What Add Pokémon needs of a Play, read on its own: the Codex adds to a Play
+ * the page isn't showing, so it can't wait for the whole Roster read.
+ */
+export const getMainlinePlayAddPokemonData = cache(
+  async (playId: string): Promise<MainlinePlayAddPokemonData | null> => {
+    const context = await getMainlinePlayRequestContext(playId);
+
+    if (!context) {
+      return null;
+    }
+
+    const [teamRows, ruleChecks] = await Promise.all([
+      getMainlinePlayTeamRows(playId),
+      getMainlinePlayRuleChecks(playId),
+    ]);
+
+    return teamRows
+      ? buildMainlinePlayAddPokemonData({
+          play: context.play,
+          ruleChecks,
+          teamRows,
+        })
+      : null;
   },
 );
 

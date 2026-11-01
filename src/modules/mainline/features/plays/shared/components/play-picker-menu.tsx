@@ -15,9 +15,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu";
+import { Spinner } from "@/shared/components/ui/spinner";
 
 export type PlayPickerMenuItem = {
-  href: string;
   id: string;
   /* "Sword · Late Journey". */
   label: string;
@@ -31,6 +31,10 @@ type PlayPickerMenuProps = {
   items: PlayPickerMenuItem[];
   /* The last item: start a new Play instead. */
   newPlay?: { label: string };
+  /* The picked Play: the menu acts in place, it never navigates. */
+  onPick: (item: PlayPickerMenuItem) => void;
+  /* A pick is being opened: the trigger waits, spinning. */
+  pending?: boolean;
   triggerLabel: string;
   triggerVariant?: "default" | "secondary";
 };
@@ -58,29 +62,42 @@ const NewPlayMenuItem = ({ label }: { label: string }) => {
 };
 
 /*
- * A menu of your Plays, each a link (the Codex's "Add to a Play" and "Your
- * Plays"), ending on a way to start a new one. It is quiet chrome: a flat
- * trigger and the float shadow.
+ * A menu of your Plays, each handed to `onPick` to act in place (the Codex's
+ * "Add to a Play" opens Add Pokémon over the page), ending on a way to start a
+ * new one. It is quiet chrome: a flat trigger and the float shadow.
  */
 export const PlayPickerMenu = ({
   heading,
   items,
   newPlay,
+  onPick,
+  pending = false,
   triggerLabel,
   triggerVariant = "secondary",
 }: PlayPickerMenuProps) => (
   <DropdownMenu>
     <DropdownMenuTrigger
-      render={<Button type="button" variant={triggerVariant} />}
+      render={
+        <Button
+          type="button"
+          variant={triggerVariant}
+          disabled={pending}
+          aria-busy={pending}
+        />
+      }
     >
       {triggerLabel}
-      <AppIcon icon={appIcons.actions.expand} inline="end" />
+      {pending ? (
+        <Spinner data-icon="inline-end" />
+      ) : (
+        <AppIcon icon={appIcons.actions.expand} inline="end" />
+      )}
     </DropdownMenuTrigger>
     <DropdownMenuContent align="end" className="w-72 max-w-[calc(100vw-2rem)]">
       <DropdownMenuGroup>
         <DropdownMenuLabel>{heading}</DropdownMenuLabel>
         {items.map((item) => (
-          <DropdownMenuItem key={item.id} render={<Link href={item.href} />}>
+          <DropdownMenuItem key={item.id} onClick={() => onPick(item)}>
             <span className="min-w-0">
               <span className="block truncate">{item.label}</span>
               {item.detail ? (

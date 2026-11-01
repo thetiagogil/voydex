@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { cache, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { PlayPickerMenu } from "@/modules/mainline/features/plays/browse/components/play-picker-menu";
+import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/add-pokemon/codex-add-to-play";
+import { CodexPlanTeam } from "@/modules/mainline/features/plans/planner/sections/codex-plan-team";
 import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";
 import { getNewPlayDialogData } from "@/modules/mainline/features/plays/new/server/new-play-dialog-query";
 import { NewPlayTrigger } from "@/modules/mainline/features/plays/shared/components/new-play-trigger";
@@ -41,14 +41,9 @@ const CodexNewPlayHost = async ({ children }: { children: ReactNode }) => (
   </NewPlayDialogProvider>
 );
 
-const getAddItems = (
-  plays: CodexPlay[],
-  speciesSlug: string,
-  formSlug?: string,
-) =>
+const getAddItems = (plays: CodexPlay[]) =>
   plays.map((play) => ({
     detail: play.statusName,
-    href: appRoutes.mainlinePlayTeamAdd(play.id, speciesSlug, formSlug),
     id: play.id,
     label: play.label,
   }));
@@ -178,15 +173,18 @@ export const CodexGameYourPlaysLink = async ({
 };
 
 type CodexInYourPlaysProps = {
+  /* The shown form; left out for the default form. */
+  formSlug?: string | null;
   speciesSlug: string;
 };
 
 /*
  * "In your Plays" on a Pokémon's entry: every one of this species on your
- * Plays' rosters, each opening on its Play's roster, and Add to a Play (or
- * Start a Play) always in line with the title.
+ * Plays' rosters, each opening on its Play's roster, and Add to a Play (Add
+ * Pokémon over the entry) or Start a Play always in line with the title.
  */
 export const CodexInYourPlays = async ({
+  formSlug = null,
   speciesSlug,
 }: CodexInYourPlaysProps) => {
   const [read, addablePlays] = await Promise.all([
@@ -203,11 +201,10 @@ export const CodexInYourPlays = async ({
   const playById = new Map(library.plays.map((play) => [play.id, play]));
 
   const addAction = addablePlays?.length ? (
-    <PlayPickerMenu
-      heading="Add to"
-      triggerLabel="Add to a Play"
-      items={getAddItems(addablePlays, speciesSlug)}
-      newPlay={{ label: "Start a new Play" }}
+    <CodexAddToPlay
+      formSlug={formSlug}
+      plays={getAddItems(addablePlays)}
+      speciesSlug={speciesSlug}
     />
   ) : (
     <NewPlayTrigger
@@ -318,13 +315,7 @@ export const CodexGameYourPlays = async ({
               <AppIcon icon={appIcons.actions.create} inline="start" />
               Start a {gameShortName} Play
             </NewPlayTrigger>
-            <Link
-              href={appRoutes.mainlinePlanNew(versionGroupSlug)}
-              className={buttonVariants({ size: "sm", variant: "secondary" })}
-            >
-              <AppIcon icon={appIcons.product.team} inline="start" />
-              Plan a team
-            </Link>
+            <CodexPlanTeam versionGroupSlug={versionGroupSlug} />
           </div>
         }
       >

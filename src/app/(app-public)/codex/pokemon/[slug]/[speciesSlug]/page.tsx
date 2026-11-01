@@ -22,7 +22,12 @@ const signedInSlots: CodexPokemonEntrySlots = {
   heroActions: (entry) => (
     <CodexYourPlaysLink speciesSlug={entry.speciesSlug} />
   ),
-  inYourPlays: (entry) => <CodexInYourPlays speciesSlug={entry.speciesSlug} />,
+  inYourPlays: (entry) => (
+    <CodexInYourPlays
+      formSlug={entry.formSlug}
+      speciesSlug={entry.speciesSlug}
+    />
+  ),
 };
 
 export default async function Page({ params, searchParams }: PageProps) {

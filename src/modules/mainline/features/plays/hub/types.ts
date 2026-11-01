@@ -310,6 +310,19 @@ export type MainlinePlayTeamRosterData = {
   ruleChecks: RuleCheckContext;
 };
 
+/*
+ * What Add Pokémon needs of a Play beyond the choices it loads itself: the
+ * game's mechanics, how full the team and reserve are, and the rules to warn
+ * about. Read on demand for a Play the page isn't showing (the Codex's "Add to
+ * a Play").
+ */
+export type MainlinePlayAddPokemonData = {
+  mechanics: GameMechanicsProfile;
+  reserveCount: number;
+  ruleChecks: RuleCheckContext;
+  teamCount: number;
+};
+
 /* One of your Plans this Play could follow: same version group, either game. */
 export type MainlinePlayFollowablePlan = {
   memberCount: number;
