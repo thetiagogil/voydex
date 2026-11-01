@@ -68,8 +68,15 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { PageBand } from "@/shared/components/page-band";
 
+export type PlannerEmbedding = {
+  /* Opens the Planner of another game in the same place. */
+  onSwitchVersionGroup: (slug: string) => Promise<void>;
+};
+
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
+  /* Set when a page hosts the Planner (the Codex): nothing here navigates away. */
+  embedding?: PlannerEmbedding;
 };
 
 const defaultFilters: PlannerPoolFilters = {
@@ -84,7 +91,10 @@ const defaultFilters: PlannerPoolFilters = {
  * from its Pokédexes, read the Team check and save the Plan. A new Plan is
  * kept in this browser until it is saved; a shared link opens as a new one.
  */
-export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
+export const PlannerWorkspace = ({
+  data,
+  embedding,
+}: PlannerWorkspaceProps) => {
   const router = useRouter();
   const { context, plan } = data;
   const byId = useMemo(
@@ -277,13 +287,18 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   /* The new game's Planner opens on this team, unsaved edits included. */
   const switchVersionGroup = (slug: string, kept: PlanMember[]) => {
     writePlanSwitchHandoff(plan?.id ?? null, slug, { members: kept, name });
-    startOpeningSwitch(() =>
+    startOpeningSwitch(async () => {
+      if (embedding) {
+        await embedding.onSwitchVersionGroup(slug);
+        return;
+      }
+
       router.push(
         plan
           ? appRoutes.mainlinePlan(plan.id, slug)
           : appRoutes.mainlinePlanNew(slug),
-      ),
-    );
+      );
+    });
   };
 
   /* A switch handed over from the last game: its team, as that game fitted it. */
@@ -399,6 +414,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onRename={() => setIsDetailsOpen(true)}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
+          showMyPlans={!embedding}
           isSwitching={isSwitching}
           name={name}
           onSave={save}

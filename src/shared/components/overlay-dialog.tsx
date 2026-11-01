@@ -20,11 +20,12 @@ import { cn } from "@/shared/utils/cn";
 
 type DialogContentProps = ComponentProps<typeof DialogContent>;
 
-/* The dialog's width: 384, 448, 512, 720 or 880px at most. */
-export type OverlayDialogSize = "2xl" | "lg" | "md" | "sm" | "xl";
+/* The dialog's width: 384, 448, 512, 720, 880 or 1280px at most. */
+export type OverlayDialogSize = "2xl" | "full" | "lg" | "md" | "sm" | "xl";
 
 const sizeClassNames: Record<OverlayDialogSize, string> = {
   "2xl": "sm:max-w-220",
+  full: "sm:max-w-[min(80rem,calc(100%-2rem))]",
   lg: "sm:max-w-lg",
   md: "sm:max-w-md",
   sm: "sm:max-w-sm",

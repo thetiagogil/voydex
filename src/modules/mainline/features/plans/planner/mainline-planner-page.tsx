@@ -1,8 +1,12 @@
-import { PlannerWorkspace } from "@/modules/mainline/features/plans/planner/sections/planner-workspace";
+import {
+  PlannerWorkspace,
+  type PlannerEmbedding,
+} from "@/modules/mainline/features/plans/planner/sections/planner-workspace";
 import type { PlannerPageData } from "@/modules/mainline/features/plans/types";
 
 type MainlinePlannerPageProps = {
   data: PlannerPageData;
+  embedding?: PlannerEmbedding;
 };
 
 /*
@@ -10,9 +14,13 @@ type MainlinePlannerPageProps = {
  * and a saved one restarts on its freshly saved Pokémon. An archived Plan
  * never opens here: its route sends it back to the archived list.
  */
-export const MainlinePlannerPage = ({ data }: MainlinePlannerPageProps) => (
+export const MainlinePlannerPage = ({
+  data,
+  embedding,
+}: MainlinePlannerPageProps) => (
   <PlannerWorkspace
     key={`${data.plan?.id ?? "new"}:${data.plan?.updatedAt ?? ""}:${data.context.versionGroup.slug}`}
     data={data}
+    embedding={embedding}
   />
 );

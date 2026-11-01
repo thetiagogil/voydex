@@ -54,6 +54,8 @@ type PlannerTopSectionProps = {
   planCount: number;
   /* A saved Plan, for its actions menu (Rename, Archive, Delete). */
   savedPlan: PlanActionsPlan | null;
+  /* False when a page hosts the Planner: My Plans would leave it. */
+  showMyPlans: boolean;
   versionGroup: PlannerVersionGroup;
   versionGroups: PlannerVersionGroupOption[];
 };
@@ -83,6 +85,7 @@ export const PlannerTopSection = ({
   onVersionGroupChange,
   planCount,
   savedPlan,
+  showMyPlans,
   versionGroup,
   versionGroups,
 }: PlannerTopSectionProps) => {
@@ -195,14 +198,16 @@ export const PlannerTopSection = ({
           />
         )}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-          <Link
-            href={appRoutes.mainlinePlans}
-            className={buttonVariants({ variant: "secondary" })}
-          >
-            <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
-            My Plans
-            <span className="text-ink-3 tabular-nums">{planCount}</span>
-          </Link>
+          {showMyPlans ? (
+            <Link
+              href={appRoutes.mainlinePlans}
+              className={buttonVariants({ variant: "secondary" })}
+            >
+              <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
+              My Plans
+              <span className="text-ink-3 tabular-nums">{planCount}</span>
+            </Link>
+          ) : null}
           {canEdit ? (
             <Button
               type="button"
