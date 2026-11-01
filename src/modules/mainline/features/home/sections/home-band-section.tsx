@@ -1,7 +1,6 @@
 import { useState, type ReactNode } from "react";
 import Link from "next/link";
 
-import { appRoutes } from "@/config/routes";
 import {
   HomeBandGround,
   HomeBandHeading,
@@ -13,6 +12,7 @@ import {
 } from "@/modules/mainline/features/home/components/home-partner-choice";
 import { HomePlayShelf } from "@/modules/mainline/features/home/components/home-play-shelf";
 import {
+  getHomeContinue,
   getHomePlayStatusLine,
   type HomePlay,
   type HomeTeamMember,
@@ -63,14 +63,8 @@ const PickableMeadowPokemon = ({
       selected={isPicked}
       hop={isPicked}
       onClick={() => onPick(member)}
-      // A crowded phone row hides the names; the picked one keeps its check.
-      className={
-        size !== "md"
-          ? undefined
-          : isPicked
-            ? "[&>span:last-child>span:last-child]:max-sm:sr-only"
-            : "[&>span:last-child]:max-sm:sr-only"
-      }
+      compactName={size === "md"}
+      label={`Pick ${member.name}`}
     />
   );
 };
@@ -98,12 +92,7 @@ const TeamOnMeadow = ({
             size="md"
           />
         ) : (
-          <MeadowPokemon
-            name="Open slot"
-            imageUrl={null}
-            open
-            className="[&>span:last-child]:max-sm:sr-only"
-          />
+          <MeadowPokemon name="Open slot" imageUrl={null} open compactName />
         )}
       </li>
     ))}
@@ -129,12 +118,17 @@ export const HomeBandSection = ({
 }: HomeBandSectionProps) => {
   const partnerState = useHomePartnerChoice(partnerChoice);
   const partner = current.team.find((member) => member !== null) ?? null;
-  const [storedPick, setPick] = useState<MeadowPick | null>(null);
-  /* A pick belongs to its Play: another cover on the shelf starts with none. */
-  const pick = storedPick?.playId === current.id ? storedPick : null;
+  const [pick, setPick] = useState<MeadowPick | null>(null);
+
+  /* A pick belongs to its Play: another cover on the shelf lets it go. */
+  if (pick && pick.playId !== current.id) {
+    setPick(null);
+  }
+
   const picked = pick
     ? (current.team.find((member) => member?.id === pick.memberId) ?? null)
     : null;
+  const continueTo = getHomeContinue(current, picked);
   const togglePick = (member: HomeTeamMember) =>
     setPick(
       pick?.memberId === member.id
@@ -182,24 +176,11 @@ export const HomeBandSection = ({
               partnerChoice && partnerState.pickedName ? (
                 <HomePartnerChoiceButton state={partnerState} />
               ) : (
-                <Link
-                  href={
-                    picked
-                      ? appRoutes.mainlinePlayTeamPokemon(current.id, picked.id)
-                      : appRoutes.mainlinePlay(current.id)
-                  }
-                  className={buttonVariants()}
-                >
+                <Link href={continueTo.href} className={buttonVariants()}>
                   {current.statusSlug === "completed" ? null : (
                     <AppIcon icon={appIcons.actions.continue} inline="start" />
                   )}
-                  {current.statusSlug === "completed"
-                    ? picked
-                      ? `Open ${picked.name}`
-                      : "Open"
-                    : picked
-                      ? `Continue with ${picked.name}`
-                      : "Continue"}
+                  {continueTo.label}
                 </Link>
               )
             }

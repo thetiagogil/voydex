@@ -1,3 +1,4 @@
+import { appRoutes } from "@/config/routes";
 import type {
   PlayBrowseItem,
   PlayBrowseStoryPosition,
@@ -147,3 +148,25 @@ export const isWaitingForPartner = (
   play.storyTracked &&
   (play.completed_milestone_count ?? 0) === 0 &&
   (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0) === 0;
+
+/*
+ * Where the band's main button goes: the Play, or the team Pokémon picked on
+ * the meadow, in its Roster ("Continue with {name}"; "Open" for a completed
+ * Play).
+ */
+export const getHomeContinue = (
+  play: Pick<HomePlay, "id" | "statusSlug">,
+  picked: Pick<HomeTeamMember, "id" | "name"> | null,
+) => {
+  const verb = play.statusSlug === "completed" ? "Open" : "Continue with";
+
+  return picked
+    ? {
+        href: appRoutes.mainlinePlayTeamPokemon(play.id, picked.id),
+        label: `${verb} ${picked.name}`,
+      }
+    : {
+        href: appRoutes.mainlinePlay(play.id),
+        label: play.statusSlug === "completed" ? "Open" : "Continue",
+      };
+};

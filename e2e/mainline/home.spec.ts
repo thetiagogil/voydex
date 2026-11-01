@@ -14,7 +14,7 @@ test.describe("Home", () => {
     });
 
     await page.goto(`/mainline?play=${playId}`, { waitUntil: "networkidle" });
-    const squirtle = page.getByRole("button", { name: /Squirtle/ });
+    const squirtle = page.getByRole("button", { name: "Pick Squirtle" });
     const continueToPlay = page.getByRole("link", {
       exact: true,
       name: "Continue",
@@ -53,6 +53,36 @@ test.describe("Home", () => {
       page
         .getByText("Nothing recorded for Squirtle yet.")
         .filter({ visible: true }),
+    ).toBeVisible();
+  });
+
+  test("another Play on the shelf lets the pick go", async ({ page }) => {
+    const playId = await startPlay(page, {
+      game: "Pokémon Red, 1996",
+      name: uniquePlayName("Home shelf"),
+      partner: "Bulbasaur",
+    });
+
+    await page.goto(`/mainline?play=${playId}`, { waitUntil: "networkidle" });
+    const bulbasaur = page.getByRole("button", { name: "Pick Bulbasaur" });
+    const shelf = page.getByRole("navigation", { name: "Your Plays" });
+
+    await bulbasaur.click();
+    await expect(bulbasaur).toHaveAttribute("aria-pressed", "true");
+
+    /* Away to another Play and back: nothing is picked any more. */
+    const thisCover = shelf.locator('a[aria-current="true"]');
+    const thisLabel = await thisCover.getAttribute("aria-label");
+    await shelf.locator('a[href*="play="]:not([aria-current])').first().click();
+    await expect(
+      page.getByRole("link", { name: /^Continue with/ }),
+    ).toHaveCount(0);
+    await shelf
+      .getByRole("link", { exact: true, name: thisLabel ?? "" })
+      .click();
+    await expect(bulbasaur).toHaveAttribute("aria-pressed", "false");
+    await expect(
+      page.getByRole("link", { exact: true, name: "Continue" }),
     ).toBeVisible();
   });
 });
