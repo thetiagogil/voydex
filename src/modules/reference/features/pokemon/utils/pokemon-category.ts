@@ -1,4 +1,4 @@
-import type { PokemonSpecies } from "@/modules/reference/types";
+import type { PokemonSpecies } from "@/modules/reference/shared/database-types";
 
 /*
  * The classes the species flags record. A species is one of them, in this
