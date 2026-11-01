@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -27,28 +27,47 @@ export const CodexPlanTeam = ({ versionGroupSlug }: CodexPlanTeamProps) => {
   const [data, setData] = useState<PlannerPageData | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [isOpening, startOpening] = useTransition();
+  /* Bumped on every open and close, so a slow answer never reaches a later opening. */
+  const opening = useRef(0);
 
   /* Reads the Planner of a game; null when it can't be read (a toast says why). */
   const read = async (slug: string) => {
-    const result = await openPlannerAction({ versionGroupSlug: slug });
+    try {
+      const result = await openPlannerAction({ versionGroupSlug: slug });
 
-    if (result.status === "error") {
-      toast.error(result.message);
+      if (result.status === "error") {
+        toast.error(result.message);
+        return null;
+      }
+
+      return result.data;
+    } catch {
+      toast.error("Unable to open the Team Planner. Try again.");
       return null;
     }
-
-    return result.data;
   };
 
-  const open = () =>
+  const open = () => {
+    /* The button stays focusable while it waits, so focus returns to it. */
+    if (isOpening) return;
+
+    const current = ++opening.current;
+
     startOpening(async () => {
       const opened = await read(versionGroupSlug);
 
-      if (opened) {
+      if (opened && current === opening.current) {
         setData(opened);
         setIsOpen(true);
       }
     });
+  };
+
+  const changeOpen = (nextOpen: boolean) => {
+    if (!nextOpen) opening.current += 1;
+
+    setIsOpen(nextOpen);
+  };
 
   return (
     <>
@@ -58,7 +77,6 @@ export const CodexPlanTeam = ({ versionGroupSlug }: CodexPlanTeamProps) => {
         variant="secondary"
         aria-haspopup="dialog"
         aria-busy={isOpening}
-        disabled={isOpening}
         onClick={open}
       >
         {isOpening ? (
@@ -70,7 +88,7 @@ export const CodexPlanTeam = ({ versionGroupSlug }: CodexPlanTeamProps) => {
       </Button>
       <OverlayDialog
         open={isOpen}
-        onOpenChange={setIsOpen}
+        onOpenChange={changeOpen}
         title="Plan a team"
         fullScreenOnPhone
         size="full"
@@ -80,9 +98,13 @@ export const CodexPlanTeam = ({ versionGroupSlug }: CodexPlanTeamProps) => {
             data={data}
             embedding={{
               onSwitchVersionGroup: async (slug) => {
+                const current = opening.current;
                 const next = await read(slug);
 
-                if (next) setData(next);
+                if (!next || current !== opening.current) return false;
+
+                setData(next);
+                return true;
               },
             }}
           />

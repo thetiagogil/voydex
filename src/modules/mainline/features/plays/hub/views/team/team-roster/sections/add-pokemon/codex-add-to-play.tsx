@@ -43,11 +43,23 @@ export const CodexAddToPlay = ({
   const [opening, setOpening] = useState<Opening | null>(null);
   const [isOpening, startOpening] = useTransition();
 
-  const open = (play: PlayPickerMenuItem) =>
+  const open = (play: PlayPickerMenuItem) => {
+    /* A pick is already opening: the menu stays usable so focus stays put. */
+    if (isOpening) return;
+
     startOpening(async () => {
-      const result = await loadMainlinePlayAddPokemonContextAction({
-        playId: play.id,
-      });
+      let result: Awaited<
+        ReturnType<typeof loadMainlinePlayAddPokemonContextAction>
+      >;
+
+      try {
+        result = await loadMainlinePlayAddPokemonContextAction({
+          playId: play.id,
+        });
+      } catch {
+        toast.error("Unable to open this Play. Try again.");
+        return;
+      }
 
       if (result.status === "error") {
         toast.error(result.message);
@@ -61,6 +73,7 @@ export const CodexAddToPlay = ({
         playId: play.id,
       }));
     });
+  };
 
   return (
     <>

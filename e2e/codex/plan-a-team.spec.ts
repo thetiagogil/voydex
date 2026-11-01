@@ -32,6 +32,9 @@ test.describe("Codex: Plan a team", () => {
     await planner.getByRole("button", { name: "Close" }).click();
     await expect(planner).toBeHidden();
     await expect(page).toHaveURL(new RegExp(`${gamePage}$`));
+    await expect(
+      page.getByRole("button", { name: "Plan a team" }),
+    ).toBeFocused();
 
     /* Escape leaves it too, and nothing was saved along the way. */
     await page.getByRole("button", { name: "Plan a team" }).click();
@@ -70,6 +73,10 @@ test.describe("Codex: Plan a team", () => {
     await expect(
       page.getByRole("region", { name: "Your team" }).getByText("2 of 6"),
     ).toBeVisible();
+
+    /* The saved Plan is a step forward: Back returns to the game page. */
+    await page.goBack();
+    await expect(page).toHaveURL(new RegExp(`${gamePage}$`));
   });
 
   test("switches game in place, keeping the Codex page", async ({ page }) => {
@@ -83,5 +90,57 @@ test.describe("Codex: Plan a team", () => {
     ).toContainText("Sun / Moon");
     await expect(page).toHaveURL(new RegExp(`${gamePage}$`));
     await expect(planner).toBeVisible();
+  });
+
+  test("carries the team to another game in place", async ({ page }) => {
+    const planner = await openPlanner(page);
+    const picker = planner.getByRole("region", { name: "Pick your Pokémon" });
+
+    await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Pikachu");
+    await picker.getByRole("button", { name: /^#\d+ Pikachu\b/ }).click();
+
+    await planner.getByRole("combobox", { name: /^Game:/ }).click();
+    await page.getByRole("option", { name: /^Sun \/ Moon/ }).click();
+    await page
+      .getByRole("alertdialog", { name: "Switch game?" })
+      .getByRole("button", { name: "Switch game" })
+      .click();
+
+    await expect(
+      planner.getByRole("combobox", { name: /^Game:/ }),
+    ).toContainText("Sun / Moon");
+    await expect(
+      planner.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
+    ).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`${gamePage}$`));
+  });
+
+  test("continues an unsaved Plan of another game without leaving", async ({
+    page,
+  }) => {
+    /* A draft of a Sun / Moon Plan, kept by the Planner's own page. */
+    await page.goto("/mainline/plans/new?vg=sm", { waitUntil: "networkidle" });
+    await openSearchBar(page);
+    const standalone = page.getByRole("region", { name: "Pick your Pokémon" });
+
+    await standalone.getByRole("searchbox").fill("Pikachu");
+    await standalone.getByRole("button", { name: /^#\d+ Pikachu\b/ }).click();
+    await expect(
+      page.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
+    ).toBeVisible();
+
+    const planner = await openPlanner(page);
+    const offer = planner.getByRole("region", { name: "Unsaved Plan" });
+
+    await offer.getByRole("button", { name: "Continue" }).click();
+
+    await expect(
+      planner.getByRole("combobox", { name: /^Game:/ }),
+    ).toContainText("Sun / Moon");
+    await expect(
+      planner.getByRole("region", { name: "Your team" }).getByText("1 of 6"),
+    ).toBeVisible();
+    await expect(page).toHaveURL(new RegExp(`${gamePage}$`));
   });
 });

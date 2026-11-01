@@ -33,7 +33,7 @@ type PlayPickerMenuProps = {
   newPlay?: { label: string };
   /* The picked Play: the menu acts in place, it never navigates. */
   onPick: (item: PlayPickerMenuItem) => void;
-  /* A pick is being opened: the trigger waits, spinning. */
+  /* A pick is being opened: the trigger spins but keeps focus. */
   pending?: boolean;
   triggerLabel: string;
   triggerVariant?: "default" | "secondary";
@@ -78,12 +78,7 @@ export const PlayPickerMenu = ({
   <DropdownMenu>
     <DropdownMenuTrigger
       render={
-        <Button
-          type="button"
-          variant={triggerVariant}
-          disabled={pending}
-          aria-busy={pending}
-        />
+        <Button type="button" variant={triggerVariant} aria-busy={pending} />
       }
     >
       {triggerLabel}

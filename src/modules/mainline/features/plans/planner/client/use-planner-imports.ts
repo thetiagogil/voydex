@@ -10,6 +10,10 @@ import {
   type PlanDraft,
 } from "@/modules/mainline/features/plans/planner/client/use-plan-draft";
 import {
+  takePlanSwitchHandoff,
+  writePlanSwitchHandoff,
+} from "@/modules/mainline/features/plans/planner/client/plan-switch-handoff";
+import {
   newPlanMember,
   toPlannerSlots,
   type PlannerSlots,
@@ -20,6 +24,7 @@ import {
   type PlanShare,
 } from "@/modules/mainline/features/plans/planner/utils/plan-share-code";
 import type {
+  PlannerEmbedding,
   PlanMember,
   PlannerPokemon,
   PlannerVersionGroup,
@@ -44,6 +49,7 @@ const clearAddressHash = () =>
 export const usePlannerImports = ({
   bySlug,
   draft,
+  embedding,
   fitToVersionGroup,
   hasSavedPlan,
   onDraftContinued,
@@ -55,6 +61,8 @@ export const usePlannerImports = ({
   bySlug: Map<string, PlannerPokemon>;
   /* The Planner's contents now, kept as the draft for a new Plan. */
   draft: PlanDraft;
+  /* A page hosts the Planner: another game's draft or share opens in place. */
+  embedding?: PlannerEmbedding;
   fitToVersionGroup: (members: PlanMember[]) => PlanMember[];
   hasSavedPlan: boolean;
   onDraftContinued: (draft: PlanDraft) => void;
@@ -80,6 +88,21 @@ export const usePlannerImports = ({
    */
   const continueDraft = (draftToOpen: PlanDraft) => {
     if (draftToOpen.versionGroupSlug !== versionGroup.slug) {
+      if (embedding) {
+        writePlanSwitchHandoff(null, draftToOpen.versionGroupSlug, {
+          members: draftToOpen.members,
+          name: draftToOpen.name,
+        });
+        void embedding
+          .onSwitchVersionGroup(draftToOpen.versionGroupSlug)
+          .then((opened) => {
+            if (!opened) {
+              takePlanSwitchHandoff(null, draftToOpen.versionGroupSlug);
+            }
+          });
+        return;
+      }
+
       router.push(
         `${appRoutes.mainlinePlanNew(draftToOpen.versionGroupSlug)}#${continueDraftHash}`,
       );
@@ -107,6 +130,13 @@ export const usePlannerImports = ({
   const applyShare = (share: PlanShare) => {
     /* A shared Plan always opens as a new one, never over a saved Plan. */
     if (hasSavedPlan || share.versionGroupSlug !== versionGroup.slug) {
+      if (embedding) {
+        toast.error(
+          "That link is for another game. Switch to its game first, then import it.",
+        );
+        return;
+      }
+
       router.push(
         `${appRoutes.mainlinePlanNew(share.versionGroupSlug)}#${encodePlanShare(share)}`,
       );

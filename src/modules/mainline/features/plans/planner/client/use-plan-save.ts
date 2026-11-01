@@ -34,11 +34,14 @@ const toSnapshot = ({ expansions, members, versionGroupSlug }: PlanContents) =>
  */
 export const usePlanSave = ({
   contents,
+  embedded = false,
   planId,
   savedContents,
   trainerId,
 }: {
   contents: PlanContents;
+  /* A page hosts the Planner: the saved Plan opens as a step forward, so Back returns. */
+  embedded?: boolean;
   /* Null for a new Plan. */
   planId: string | null;
   /* What was last saved; null for a new Plan. */
@@ -80,7 +83,9 @@ export const usePlanSave = ({
         if (result.created) {
           clearPlanDraft(trainerId);
           toast.success(`${savedName} saved to My Plans`);
-          router.replace(appRoutes.mainlinePlan(result.planId));
+          (embedded ? router.push : router.replace)(
+            appRoutes.mainlinePlan(result.planId),
+          );
           resolve(null);
           return;
         }

@@ -1,8 +1,8 @@
-import {
-  PlannerWorkspace,
-  type PlannerEmbedding,
-} from "@/modules/mainline/features/plans/planner/sections/planner-workspace";
-import type { PlannerPageData } from "@/modules/mainline/features/plans/types";
+import { PlannerWorkspace } from "@/modules/mainline/features/plans/planner/sections/planner-workspace";
+import type {
+  PlannerEmbedding,
+  PlannerPageData,
+} from "@/modules/mainline/features/plans/types";
 
 type MainlinePlannerPageProps = {
   data: PlannerPageData;

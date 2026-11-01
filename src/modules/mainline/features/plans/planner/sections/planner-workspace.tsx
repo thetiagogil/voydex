@@ -62,16 +62,12 @@ import {
 } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import type {
+  PlannerEmbedding,
   PlanMember,
   PlannerPageData,
   PlannerPokemon,
 } from "@/modules/mainline/features/plans/types";
 import { PageBand } from "@/shared/components/page-band";
-
-export type PlannerEmbedding = {
-  /* Opens the Planner of another game in the same place. */
-  onSwitchVersionGroup: (slug: string) => Promise<void>;
-};
 
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
@@ -201,6 +197,7 @@ export const PlannerWorkspace = ({
     usePlannerImports({
       bySlug,
       draft,
+      embedding,
       fitToVersionGroup,
       hasSavedPlan: Boolean(plan),
       onDraftContinued: (continued) => {
@@ -220,6 +217,7 @@ export const PlannerWorkspace = ({
         name,
         versionGroupSlug: context.versionGroup.slug,
       },
+      embedded: Boolean(embedding),
       planId: plan?.id ?? null,
       savedContents: plan
         ? {
@@ -289,7 +287,11 @@ export const PlannerWorkspace = ({
     writePlanSwitchHandoff(plan?.id ?? null, slug, { members: kept, name });
     startOpeningSwitch(async () => {
       if (embedding) {
-        await embedding.onSwitchVersionGroup(slug);
+        /* A game that couldn't open takes its hand-over back. */
+        if (!(await embedding.onSwitchVersionGroup(slug))) {
+          takePlanSwitchHandoff(plan?.id ?? null, slug);
+        }
+
         return;
       }
 
@@ -414,7 +416,7 @@ export const PlannerWorkspace = ({
           onRename={() => setIsDetailsOpen(true)}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
-          showMyPlans={!embedding}
+          embedded={Boolean(embedding)}
           isSwitching={isSwitching}
           name={name}
           onSave={save}
