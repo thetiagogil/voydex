@@ -4,6 +4,10 @@ import type {
   PokemonSpecies,
 } from "@/modules/reference/types";
 import {
+  getPokemonCategory,
+  pokemonCategoryNames,
+} from "@/modules/reference/features/pokemon/utils/pokemon-category";
+import {
   formatPokemonHeight,
   formatPokemonNationalNumber,
   formatPokemonWeight,
@@ -49,15 +53,11 @@ const listStatNames = (stats: PokemonDetailStat[]) => {
 };
 
 const getPokemonDetailCategory = (species: PokemonSpecies) => {
-  if (species.is_mythical) {
-    return "Mythical Pokémon";
-  }
+  const category = getPokemonCategory(species);
 
-  if (species.is_legendary) {
-    return "Legendary Pokémon";
-  }
-
-  return species.is_baby ? "Baby Pokémon" : null;
+  return category === "regular"
+    ? null
+    : `${pokemonCategoryNames[category]} Pokémon`;
 };
 
 /*

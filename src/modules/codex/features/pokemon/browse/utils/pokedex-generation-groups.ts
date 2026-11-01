@@ -1,3 +1,7 @@
+import {
+  pokemonCategoryNames,
+  pokemonCategoryOrder,
+} from "@/modules/reference/features/pokemon/utils/pokemon-category";
 import type {
   Generation,
   PokedexPokemonBrowseCard,
@@ -125,6 +129,30 @@ export const groupPokemonByType = (
 
   return groups;
 };
+
+/*
+ * The list grouped by category: Legendary, Mythical, Baby, then Regular, each
+ * Pokémon in the one class its species flags give it. A class with no match
+ * is left out.
+ */
+export const groupPokemonByCategory = (
+  pokemon: PokedexPokemonBrowseCard[],
+): PokedexPokemonGenerationGroup[] =>
+  pokemonCategoryOrder.flatMap((category) => {
+    const categoryPokemon = pokemon.filter(
+      (entry) => entry.category === category,
+    );
+
+    return categoryPokemon.length
+      ? [
+          {
+            key: `category-${category}`,
+            label: pokemonCategoryNames[category],
+            pokemon: categoryPokemon,
+          },
+        ]
+      : [];
+  });
 
 /*
  * The first `count` Pokémon in range order, still in their ranges. The list

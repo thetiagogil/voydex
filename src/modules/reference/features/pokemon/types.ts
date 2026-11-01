@@ -1,4 +1,5 @@
 import type { BattleFormLink } from "@/modules/reference/features/pokemon/data/battle-mechanics";
+import type { PokemonCategory } from "@/modules/reference/features/pokemon/utils/pokemon-category";
 import type { FormClass } from "@/modules/reference/features/pokemon/domain/form-classes";
 import type {
   Ability,
@@ -38,6 +39,7 @@ export type PokedexPokemonBrowseReference = {
 };
 
 export type PokedexPokemonBrowseCard = {
+  category: PokemonCategory;
   /* The version group its entry opens in: the first of its own generation. */
   detailVersionGroupSlug: string;
   id: number;

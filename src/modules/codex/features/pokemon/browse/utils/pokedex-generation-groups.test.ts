@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  groupPokemonByCategory,
   groupPokemonByGeneration,
   groupPokemonByType,
   takePokemonFromGroups,
@@ -75,6 +76,47 @@ describe("groupPokemonByType", () => {
       ["Fire", [6, 4]],
       ["Unknown type", [9]],
     ]);
+  });
+});
+
+describe("groupPokemonByCategory", () => {
+  const withCategory = (
+    id: number,
+    category: PokedexPokemonBrowseCard["category"],
+  ) => ({ category, id }) as PokedexPokemonBrowseCard;
+
+  it("orders Legendary, Mythical, Baby, Regular and keeps national order inside", () => {
+    const groups = groupPokemonByCategory([
+      withCategory(1, "regular"),
+      withCategory(151, "mythical"),
+      withCategory(172, "baby"),
+      withCategory(150, "legendary"),
+      withCategory(144, "legendary"),
+    ]);
+
+    expect(
+      groups.map((group) => [group.label, group.pokemon.map((p) => p.id)]),
+    ).toEqual([
+      ["Legendary", [150, 144]],
+      ["Mythical", [151]],
+      ["Baby", [172]],
+      ["Regular", [1]],
+    ]);
+    expect(groups.map((group) => group.key)).toEqual([
+      "category-legendary",
+      "category-mythical",
+      "category-baby",
+      "category-regular",
+    ]);
+  });
+
+  it("leaves out a category nothing matches, and returns nothing for an empty list", () => {
+    expect(
+      groupPokemonByCategory([withCategory(1, "regular")]).map(
+        (group) => group.label,
+      ),
+    ).toEqual(["Regular"]);
+    expect(groupPokemonByCategory([])).toEqual([]);
   });
 });
 
