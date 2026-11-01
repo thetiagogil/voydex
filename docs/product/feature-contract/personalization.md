@@ -60,7 +60,7 @@ whether Voydex can evaluate it or only record it.
 
 Voydex checks six of its own rules against the Pokémon you have now (the
 team and the reserve) and warns, but never blocks
-(`src/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks.ts`):
+(`src/modules/mainline/features/plays/shared/data/rule-checks.ts`):
 an amber "N rules broken" chip in the Play's head opens a sheet listing
 each broken rule and the Pokémon that break it; on the Team page each such
 Pokémon's sticker carries a warning mark and its profile a note naming the

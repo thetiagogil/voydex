@@ -16,7 +16,7 @@ import {
   emptyRuleCheckContext,
   type RuleCheckContext,
   type RuleCheckPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import {
   gameMechanics,
@@ -31,34 +31,34 @@ import { SearchControl } from "@/shared/components/search-control";
 import { Button } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 
-import { addMainlinePlayPokemonAction } from "../../server/add-team-member-action";
-import { loadPokemonBuildOptionsAction } from "../../server/pokemon-build-options-action";
-import { loadMainlinePlayPokemonChoicesAction } from "../../server/pokemon-choices-action";
+import { addMainlinePlayPokemonAction } from "@/modules/mainline/features/plays/shared/server/add-team-member-action";
+import { loadPokemonBuildOptionsAction } from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-action";
+import { loadMainlinePlayPokemonChoicesAction } from "@/modules/mainline/features/plays/shared/server/pokemon-choices-action";
 import {
   removeMainlinePlayPokemonAction,
   replaceMainlinePlayPokemonAction,
-} from "../../server/team-member-mutation-actions";
+} from "@/modules/mainline/features/plays/shared/server/team-member-remove-actions";
 import {
   filterPokemonChoices,
   formatPokemonChoiceNumber,
   getPokemonChoiceTypes,
   type PokemonChoice,
-} from "../../utils/pokemon-choices";
+} from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
 import {
   AddPokemonChoiceStep,
   type AddPokemonLoadState,
-} from "./add-pokemon-choice-step";
+} from "@/modules/mainline/features/plays/shared/components/add-pokemon-choice-step";
 import {
   AddPokemonDetailsStep,
   type AddPokemonPlacement,
-} from "./add-pokemon-details-step";
+} from "@/modules/mainline/features/plays/shared/components/add-pokemon-details-step";
 import {
   AddPokemonMoreStep,
   emptyAddPokemonBuild,
   hasAddPokemonBuild,
   type AddPokemonBuild,
   type AddPokemonBuildState,
-} from "./add-pokemon-more-step";
+} from "@/modules/mainline/features/plays/shared/components/add-pokemon-more-step";
 
 /*
  * A Pokémon to pick as the Play's rule checks read it; its shininess isn't

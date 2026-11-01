@@ -1,4 +1,4 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 
 export const getTeamMemberIdentity = (
   member: MainlinePlayTeamMember,

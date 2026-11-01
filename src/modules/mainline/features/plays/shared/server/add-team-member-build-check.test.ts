@@ -2,7 +2,7 @@ import { describe, expect, it, vi } from "vitest";
 
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import { assertAddedBuildOffered } from "./add-team-member-build-check";
+import { assertAddedBuildOffered } from "@/modules/mainline/features/plays/shared/server/add-team-member-build-check";
 
 const readBuild = vi.hoisted(() =>
   vi.fn().mockResolvedValue({
@@ -13,9 +13,12 @@ const readBuild = vi.hoisted(() =>
   }),
 );
 
-vi.mock("./pokemon-build-options-reader", () => ({
-  readPokemonBuildOptions: readBuild,
-}));
+vi.mock(
+  "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader",
+  () => ({
+    readPokemonBuildOptions: readBuild,
+  }),
+);
 
 /* Moves 33 and 45 in every game of the group. */
 const readLearnset = vi.hoisted(() =>

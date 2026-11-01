@@ -1,7 +1,7 @@
 import {
   validateAddMainlinePlayPokemon,
   type AddMainlinePlayPokemonInput,
-} from "../utils/team-member-validation";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 
 export type AddMainlinePlayPokemonResult = {
   eventId: string | null;

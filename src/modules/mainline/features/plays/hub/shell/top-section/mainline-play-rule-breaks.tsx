@@ -7,7 +7,7 @@ import { appRoutes } from "@/config/routes";
 import type {
   RuleBreaker,
   RuleBreaks,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { isPokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -15,7 +15,7 @@ import { FallbackImage } from "@/shared/components/fallback-image";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { Badge } from "@/shared/components/ui/badge";
 import { Button } from "@/shared/components/ui/button";
-import { RuleWarningText } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/rule-warning-text";
+import { RuleWarningText } from "@/modules/mainline/features/plays/shared/components/rule-warning-text";
 import { Card } from "@/shared/components/ui/card";
 
 const formatRuleCount = (count: number) =>

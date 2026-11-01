@@ -1,9 +1,9 @@
 import { buildMainlinePlayTeamPlanSummary as mapMainlinePlayTeamPlanSummary } from "./team-plan-mapper";
+import type { MainlinePlayTeamPlanRow } from "@/modules/mainline/features/plays/hub/types";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
-  MainlinePlayTeamPlanRow,
-} from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import {
   resolveGameMechanics,
   type GameMechanicsProfile,

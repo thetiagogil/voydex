@@ -6,10 +6,10 @@ import { Button } from "@/shared/components/ui/button";
 import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
 import { Input } from "@/shared/components/ui/input";
 
-import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type { RuleWarning } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 
-import type { PokemonChoice } from "../../utils/pokemon-choices";
-import { RuleWarningsNote } from "../roster/rule-warnings-note";
+import type { PokemonChoice } from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
+import { RuleWarningsNote } from "@/modules/mainline/features/plays/shared/components/rule-warnings-note";
 
 export type AddPokemonPlacement = "reserve" | "team";
 

@@ -10,7 +10,7 @@ import { parseInput } from "@/shared/utils/input-schemas";
 import {
   readMainlinePlayPokemonChoices,
   type PokemonChoices,
-} from "./pokemon-choices-reader";
+} from "@/modules/mainline/features/plays/shared/server/pokemon-choices-reader";
 
 export type PokemonChoicesActionResult =
   | ({ status: "success" } & PokemonChoices)

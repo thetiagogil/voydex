@@ -1,6 +1,6 @@
 "use client";
 
-import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type { RuleWarning } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import {
   PlayTeamsDialog,
   usePlayTeamsDialog,

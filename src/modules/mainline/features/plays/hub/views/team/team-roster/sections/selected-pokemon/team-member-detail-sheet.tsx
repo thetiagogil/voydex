@@ -1,14 +1,14 @@
 "use client";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import type { GameMechanicsProfile } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { MemberBattle } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 
-import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type { RuleWarning } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 
-import { RuleWarningsNote } from "../roster/rule-warnings-note";
+import { RuleWarningsNote } from "@/modules/mainline/features/plays/shared/components/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
 import {
   TeamMemberMoments,

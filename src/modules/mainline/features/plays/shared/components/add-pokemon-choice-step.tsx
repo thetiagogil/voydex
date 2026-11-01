@@ -20,7 +20,7 @@ import {
   formatPokemonChoiceNumber,
   getPokemonChoiceTypes,
   type PokemonChoice,
-} from "../../utils/pokemon-choices";
+} from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
 import { IconTip } from "@/shared/components/icon-tip";
 
 export type AddPokemonLoadState =

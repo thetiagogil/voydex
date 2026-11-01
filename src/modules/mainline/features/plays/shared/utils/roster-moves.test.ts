@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 
 import {
   applyRosterMove,
@@ -9,7 +9,7 @@ import {
   getRosterMove,
   getRosterSlotGroups,
   teamNeedsOneMessage,
-} from "./roster-moves";
+} from "@/modules/mainline/features/plays/shared/utils/roster-moves";
 
 const member = (
   id: string,

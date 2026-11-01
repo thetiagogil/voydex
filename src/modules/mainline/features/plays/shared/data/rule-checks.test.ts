@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/shared/types";
 
 import {
   buildCheckedRules,
@@ -11,7 +11,7 @@ import {
   type CheckedRule,
   type RuleCheckContext,
   type RuleCheckPokemon,
-} from "./rule-checks";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
 
 const water = 11;
 const electric = 13;

@@ -13,7 +13,7 @@ import {
 } from "@/modules/mainline/shared/server/build-option-readers";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import type { TeamMemberEditorOptions } from "../utils/team-member-editor-model";
+import type { TeamMemberEditorOptions } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 
 /* A Pokémon's build in the Play's game: what Add's More details and Edit offer. */
 export type PokemonBuildOptions = Pick<

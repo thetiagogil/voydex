@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
-} from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { MemberBattleForm } from "@/modules/reference/features/pokemon/data/battle-mechanics";
 

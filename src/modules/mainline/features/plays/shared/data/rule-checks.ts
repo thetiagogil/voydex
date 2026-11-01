@@ -2,7 +2,7 @@ import type {
   MainlinePlayCapBattle,
   MainlinePlayLevelCap,
   MainlinePlayRuleRows,
-} from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import {
   defaultReuseScope,
   resolveRuleConfig,

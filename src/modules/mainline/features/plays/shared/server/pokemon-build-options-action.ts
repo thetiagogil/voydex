@@ -14,7 +14,7 @@ import {
 import {
   readPokemonBuildOptions,
   type PokemonBuildOptions,
-} from "./pokemon-build-options-reader";
+} from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader";
 
 export type PokemonBuildOptionsResult =
   | { options: PokemonBuildOptions; status: "success" }

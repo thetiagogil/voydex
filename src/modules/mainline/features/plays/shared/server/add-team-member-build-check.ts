@@ -10,11 +10,11 @@ import {
   readFormLearnsetRows,
 } from "@/modules/mainline/shared/server/build-option-readers";
 
-import { findUnofferedEditorChoice } from "../utils/team-member-editor-model";
+import { findUnofferedEditorChoice } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import {
   readPokemonBuildOptions,
   type PokemonBuildPart,
-} from "./pokemon-build-options-reader";
+} from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader";
 
 export type AddedBuild = {
   abilityId: number | null;

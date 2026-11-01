@@ -5,7 +5,7 @@ import { Button } from "@/shared/components/ui/button";
 import type {
   TeamMemberEditorChange,
   TeamMemberEditorField,
-} from "../../utils/team-member-editor-model";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 
 /* Review changes: each change as Was and Will be, with Revert. */
 export const TeamMemberEditorReview = ({

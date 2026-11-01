@@ -1,7 +1,7 @@
 import { cache, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
-import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/add-pokemon/codex-add-to-play";
+import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/components/codex-add-to-play";
 import { CodexPlanTeam } from "@/modules/mainline/features/plans/planner/sections/codex-plan-team";
 import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";
 import { getNewPlayDialogData } from "@/modules/mainline/features/plays/new/server/new-play-dialog-query";

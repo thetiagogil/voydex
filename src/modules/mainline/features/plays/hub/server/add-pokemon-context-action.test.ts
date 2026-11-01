@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { loadMainlinePlayAddPokemonContextAction } from "./add-pokemon-context-action";
+import { loadMainlinePlayAddPokemonContextAction } from "@/modules/mainline/features/plays/hub/server/add-pokemon-context-action";
 
 const getMainlinePlayAddPokemonData = vi.fn();
 

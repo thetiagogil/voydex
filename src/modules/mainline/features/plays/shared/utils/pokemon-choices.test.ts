@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildPokemonChoices,
   type PokemonChoiceSourceRows,
-} from "./pokemon-choices";
+} from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
 
 const rows = (addableVariantFormIds: number[]): PokemonChoiceSourceRows => ({
   addableVariantFormIds: new Set(addableVariantFormIds),

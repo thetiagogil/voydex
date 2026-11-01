@@ -18,8 +18,8 @@ import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import type {
   EditorFormOption,
   TeamMemberEditorOptions,
-} from "../utils/team-member-editor-model";
-import { readPokemonBuildOptions } from "./pokemon-build-options-reader";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
+import { readPokemonBuildOptions } from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader";
 
 const newestFirst = <T extends { generation_start_id: number }>(rows: T[]) =>
   rows.toSorted(

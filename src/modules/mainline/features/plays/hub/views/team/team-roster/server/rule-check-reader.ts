@@ -1,10 +1,10 @@
-import type { MainlinePlayLevelCap } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayLevelCap } from "@/modules/mainline/features/plays/shared/types";
 import { readMainlinePlayRuleRows } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
 import {
   buildCheckedRules,
   type RuleCheckContext,
   type UsedPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { readLegendarySpecies } from "@/modules/reference/features/pokemon/server/legendary-species-reader";
 import { loadPagedReferenceRows } from "@/modules/reference/reference-rows";

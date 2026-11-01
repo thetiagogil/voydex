@@ -1,6 +1,6 @@
 import type {
   MainlinePlaySummary,
-  MainlinePlayTeamMember,
+  MainlinePlayTeamMemberRow,
 } from "@/modules/mainline/features/plays/shared/types";
 import {
   loadChunkedReferenceRows,
@@ -51,7 +51,7 @@ export type TrainerPokemonRows = {
   games: Game[];
   plays: MainlinePlaySummary[];
   regions: Region[];
-  roster: MainlinePlayTeamMember[];
+  roster: MainlinePlayTeamMemberRow[];
   types: Type[];
   uses: TrainerPokemonUse[];
 };
@@ -82,7 +82,7 @@ const readTrainerRoster = async (
     return [];
   }
 
-  return loadPagedReferenceRows<MainlinePlayTeamMember>(
+  return loadPagedReferenceRows<MainlinePlayTeamMemberRow>(
     (from, to) =>
       supabase
         .schema("views")

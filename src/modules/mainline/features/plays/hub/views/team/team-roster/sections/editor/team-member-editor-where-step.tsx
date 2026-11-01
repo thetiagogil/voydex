@@ -1,9 +1,9 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { SlotPicker } from "@/shared/components/slot-picker";
 
-import { getRosterSlotGroups } from "../../utils/roster-moves";
+import { getRosterSlotGroups } from "@/modules/mainline/features/plays/shared/utils/roster-moves";
 
 /*
  * Slot: where it sits, for a keyboard or a phone. Picking a square only marks

@@ -7,14 +7,14 @@ import {
 } from "@/shared/components/select-control";
 import { Field } from "@/shared/components/ui/field";
 
-import type { PokemonBuildOptions } from "../../server/pokemon-build-options-reader";
-import type { TeamMemberEditorSupport } from "../../utils/team-member-editor-model";
+import type { PokemonBuildOptions } from "@/modules/mainline/features/plays/shared/server/pokemon-build-options-reader";
+import type { TeamMemberEditorSupport } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import {
   EditorLabel,
   fromSelect,
   noneValue,
   selectValue,
-} from "./team-member-editor-fields";
+} from "@/modules/mainline/features/plays/shared/components/team-member-editor-fields";
 
 export type TeamMemberBuildField = "abilityId" | "heldItemId" | "natureId";
 

@@ -48,7 +48,7 @@ import {
   readMainlinePlayOtherVersionExclusives,
   readMainlinePlayTeamPlanRows,
 } from "@/modules/mainline/features/plays/hub/views/team/server/team-plan-reader";
-import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { readPlayRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/server/rule-check-reader";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import { hasAnyBattleMechanic } from "@/modules/reference/features/pokemon/data/battle-mechanics";

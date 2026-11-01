@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
@@ -24,13 +24,13 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import type {
   EditorFormOption,
   TeamMemberEditorOptions,
-} from "../../utils/team-member-editor-model";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import {
   changeMainlinePlayPokemonFormAction,
   evolveMainlinePlayPokemonAction,
-  removeMainlinePlayPokemonAction,
   retireMainlinePlayPokemonAction,
 } from "../../server/team-member-mutation-actions";
+import { removeMainlinePlayPokemonAction } from "@/modules/mainline/features/plays/shared/server/team-member-remove-actions";
 import { IconTip } from "@/shared/components/icon-tip";
 
 type Confirm = "delete" | "retire" | null;

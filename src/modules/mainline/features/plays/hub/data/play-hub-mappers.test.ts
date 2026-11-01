@@ -1,4 +1,4 @@
-import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { defaultPlayTracking } from "@/config/play-tracking";
 import { describe, expect, it } from "vitest";
 
@@ -11,12 +11,14 @@ import {
   buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import type {
-  MainlineChallengeRule,
   MainlinePlayGameContextRows,
-  MainlinePlayChallengeRuleLink,
-  MainlinePlayTeamMemberRow,
   MainlinePlayTeamPreviewRow,
 } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlineChallengeRule,
+  MainlinePlayChallengeRuleLink,
+  MainlinePlayTeamMemberRow,
+} from "@/modules/mainline/features/plays/shared/types";
 
 const buildRule = (
   id: string,

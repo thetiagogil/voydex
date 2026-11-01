@@ -10,8 +10,8 @@ import {
 } from "@/modules/mainline/features/plays/shared/components/play-picker-menu";
 import type { MainlinePlayAddPokemonData } from "@/modules/mainline/features/plays/hub/types";
 
-import { loadMainlinePlayAddPokemonContextAction } from "../../server/add-pokemon-context-action";
-import { AddPokemonSheet } from "./add-pokemon-sheet";
+import { loadMainlinePlayAddPokemonContextAction } from "@/modules/mainline/features/plays/hub/server/add-pokemon-context-action";
+import { AddPokemonSheet } from "@/modules/mainline/features/plays/shared/components/add-pokemon-sheet";
 
 /* One opening of the sheet; a new pick is a new opening, read afresh. */
 type Opening = {

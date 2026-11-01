@@ -1,15 +1,15 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 
 import type {
   BuildItemOption,
   MoveLearnMethod,
 } from "@/modules/mainline/shared/types";
 
-import { formatRosterSlot } from "./roster-moves";
+import { formatRosterSlot } from "@/modules/mainline/features/plays/shared/utils/roster-moves";
 import type {
   MainlineTeamGender,
   UpdateMainlinePlayPokemonInput,
-} from "./team-member-validation";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 
 export type EditorOption = { id: number; name: string };
 

@@ -1,7 +1,5 @@
-import type {
-  MainlinePlayTeamMember,
-  MainlinePlayTeamRows,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import type { TypeMatchupRow } from "@/modules/mainline/shared/data/type-matchup-rows";
 import type { Generation, Type } from "@/modules/reference/types";
 

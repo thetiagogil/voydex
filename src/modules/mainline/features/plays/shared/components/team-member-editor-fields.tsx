@@ -6,7 +6,7 @@ import { FieldLabel } from "@/shared/components/ui/field";
 import type {
   TeamMemberEditorField,
   TeamMemberEditorValues,
-} from "../../utils/team-member-editor-model";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 
 /* What every step of the editor needs to read and change its fields. */
 export type TeamMemberEditorStepProps = {

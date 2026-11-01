@@ -13,15 +13,15 @@ import {
 import {
   mainlineTeamRosterStates,
   MainlineTeamValidationError,
-} from "../utils/team-member-validation";
-import { assertAddedBuildOffered } from "./add-team-member-build-check";
-import { addMainlinePlayPokemon } from "./add-team-member-command";
-import { createMainlineTeamRepository } from "./team-repository";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
+import { assertAddedBuildOffered } from "@/modules/mainline/features/plays/shared/server/add-team-member-build-check";
+import { addMainlinePlayPokemon } from "@/modules/mainline/features/plays/shared/server/add-team-member-command";
+import { createMainlineTeamRepository } from "@/modules/mainline/features/plays/shared/server/team-repository";
 import {
   findOpenRosterSlot,
   revalidateTeamPaths,
   type TeamMemberActionResult,
-} from "./team-member-action-support";
+} from "@/modules/mainline/features/plays/shared/server/team-member-action-support";
 
 export type AddTeamMemberInput = {
   /* More details: null (and no moves) when it wasn't recorded. */

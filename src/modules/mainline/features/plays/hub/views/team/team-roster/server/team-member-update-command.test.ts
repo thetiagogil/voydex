@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import type { UpdateMainlinePlayPokemonInput } from "../utils/team-member-validation";
+import type { UpdateMainlinePlayPokemonInput } from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 import { updatePlayPokemon } from "./team-member-update-command";
 
 vi.mock("./team-member-editor-options-reader", () => ({

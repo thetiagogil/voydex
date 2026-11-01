@@ -1,4 +1,4 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
+import type { MainlinePlayTeamMemberRow } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPokemonFormImageUrl,
   getPokemonFormShinyImageUrl,
@@ -6,7 +6,7 @@ import {
 } from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 type PlayTeamMemberDisplay = Pick<
-  MainlinePlayTeamMember,
+  MainlinePlayTeamMemberRow,
   "form_name" | "form_slug" | "is_shiny" | "nickname" | "species_name"
 >;
 

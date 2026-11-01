@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import type { Type } from "@/modules/reference/types";
 

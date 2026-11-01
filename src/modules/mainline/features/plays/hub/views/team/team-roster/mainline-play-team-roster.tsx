@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { appRoutes } from "@/config/routes";
-import type {
-  MainlinePlayTeamMember,
-  MainlinePlayTeamRosterData,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamRosterData } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
@@ -18,7 +16,7 @@ import {
   AddPokemonSheet,
   type AddPokemonMode,
   type AddPokemonPreset,
-} from "./sections/add-pokemon/add-pokemon-sheet";
+} from "@/modules/mainline/features/plays/shared/components/add-pokemon-sheet";
 import { TeamMemberEditorSheet } from "./sections/editor/team-member-editor-sheet";
 import { TeamRosterHead } from "./sections/roster/team-roster-head";
 import {
@@ -41,7 +39,7 @@ import {
   applyRosterMove,
   describeRosterMove,
   getRosterMove,
-} from "./utils/roster-moves";
+} from "@/modules/mainline/features/plays/shared/utils/roster-moves";
 
 type MainlinePlayTeamRosterProps = {
   /*

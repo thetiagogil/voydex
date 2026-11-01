@@ -11,7 +11,7 @@ import {
   toPokemonChoice,
   type PokemonChoice,
   type PokemonChoiceSourceRows,
-} from "../utils/pokemon-choices";
+} from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
 
 const PAGE_SIZE = 1000;
 

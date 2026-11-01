@@ -7,7 +7,7 @@ import {
 import type {
   MainlinePlayOverview,
   MainlinePlaySummary,
-  MainlinePlayTeamMember,
+  MainlinePlayTeamMemberRow,
 } from "@/modules/mainline/features/plays/shared/types";
 import type { Game } from "@/modules/reference/types";
 
@@ -71,12 +71,12 @@ describe("buildMainlinePlayBrowseItems", () => {
           play_id: "play-1",
           play_pokemon_id: "member-2",
           slot: 2,
-        } as MainlinePlayTeamMember,
+        } as MainlinePlayTeamMemberRow,
         {
           play_id: "play-1",
           play_pokemon_id: "member-1",
           slot: 1,
-        } as MainlinePlayTeamMember,
+        } as MainlinePlayTeamMemberRow,
       ],
     });
 

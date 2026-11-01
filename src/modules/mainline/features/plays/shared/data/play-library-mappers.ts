@@ -5,7 +5,7 @@ import {
 import type {
   MainlinePlayOverview,
   MainlinePlaySummary,
-  MainlinePlayTeamMember,
+  MainlinePlayTeamMemberRow,
   PlayBrowseItem,
   PlayBrowseProgress,
   PlayBrowseProgressItem,
@@ -57,7 +57,7 @@ type BuildMainlinePlayBrowseItemsParams = {
   storyRows: PlayBrowseStoryRows;
   /* Each Play's tags by Play id; empty when they couldn't be read. */
   tagsByPlayId?: ReadonlyMap<string, PlayBrowseTag[]>;
-  teamMembers: MainlinePlayTeamMember[];
+  teamMembers: MainlinePlayTeamMemberRow[];
   /* Each team member's primary type slug by form id; empty when unknown. */
   teamTypeSlugByFormId?: Record<number, string>;
 };

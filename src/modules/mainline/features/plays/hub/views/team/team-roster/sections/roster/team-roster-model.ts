@@ -1,10 +1,10 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   checkPokemonRules,
   type RuleBreaker,
   type RuleCheckContext,
   type RuleCheckPokemon,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,

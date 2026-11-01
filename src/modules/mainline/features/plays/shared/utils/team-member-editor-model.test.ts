@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 
 import {
   findUnofferedEditorChoice,
   getTeamMemberEditorChanges,
   getTeamMemberEditorValues,
   toUpdateTeamMemberInput,
-} from "./team-member-editor-model";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 
 const member = {
   ability_id: 65,

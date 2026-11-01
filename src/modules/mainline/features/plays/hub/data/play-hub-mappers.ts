@@ -9,7 +9,6 @@ import type {
   MainlinePlayOverviewData,
   MainlinePlayOverview,
   MainlinePlayRule,
-  MainlinePlayRuleRows,
   MainlinePlayShellData,
   MainlinePlayTeamRosterData,
   MainlinePlayTeamPlanData,
@@ -17,6 +16,7 @@ import type {
   MainlinePlayTeamPreviewRows,
   MainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/shared/types";
 import type {
   MainlinePlaySummary,
   MainlinePlayTimelineEvent,
@@ -46,7 +46,7 @@ import {
   describeLevelCap,
   emptyRuleBreaks,
   type RuleCheckContext,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import {
   getTeamRosterSummary,
   getTeamRuleBreakers,

@@ -1,4 +1,4 @@
-import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type { RuleWarning } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import {
   Alert,
@@ -6,7 +6,7 @@ import {
   AlertTitle,
 } from "@/shared/components/ui/alert";
 
-import { RuleWarningText } from "./rule-warning-text";
+import { RuleWarningText } from "@/modules/mainline/features/plays/shared/components/rule-warning-text";
 
 /*
  * What a Play's rules say, as a quiet amber note: each line names the rule,

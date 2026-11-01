@@ -2,8 +2,8 @@
 
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 
-import { getOwnedPlayPokemon } from "./team-member-action-support";
-import type { TeamMemberEditorOptions } from "../utils/team-member-editor-model";
+import { getOwnedPlayPokemon } from "@/modules/mainline/features/plays/shared/server/team-member-action-support";
+import type { TeamMemberEditorOptions } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import { readTeamMemberEditorOptions } from "./team-member-editor-options-reader";
 
 export type TeamMemberEditorOptionsResult =

@@ -4,7 +4,7 @@ import {
   MainlineTeamValidationError,
   validateAddMainlinePlayPokemon,
   validateUpdateMainlinePlayPokemon,
-} from "./team-member-validation";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 
 const validInput = {
   formId: 25,

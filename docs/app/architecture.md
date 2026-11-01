@@ -67,9 +67,11 @@ The active source follows these ownership rules:
   `detail/components` tree. `plays/shared` owns what several Mainline
   features draw or read: the moment, stamp and milestone pieces, the timeline
   and moment-context readers, the partner action, the Play library reader and
-  mappers, and the start-a-Play pieces (partner cast, create-Play action and
+  mappers, the start-a-Play pieces (partner cast, create-Play action and
   command, picker query, start intent, `use-start-play`) that Home and New
-  Play share.
+  Play share, and Add Pokémon (the sheet and its steps, the Play's rule
+  checks, the choices and build-option reads, and the add, replace and
+  remove actions) that the Roster and the Codex share.
 - Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
   pure enrichment, and final page-model assembly.
 - existing feature reads commonly use a query/loader/mapper split. That split
