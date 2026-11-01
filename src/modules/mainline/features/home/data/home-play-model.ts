@@ -1,3 +1,4 @@
+import { appRoutes } from "@/config/routes";
 import type {
   PlayBrowseItem,
   PlayBrowseStoryPosition,
@@ -17,7 +18,7 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
  */
 export const HOME_SHELF_PLAY_COUNT = 5;
 
-type HomeTeamMember = {
+export type HomeTeamMember = {
   id: string;
   imageUrl: string | null;
   name: string;
@@ -147,3 +148,43 @@ export const isWaitingForPartner = (
   play.storyTracked &&
   (play.completed_milestone_count ?? 0) === 0 &&
   (play.active_team_count ?? 0) + (play.reserve_team_count ?? 0) === 0;
+
+/*
+ * Where the band's main button goes: the Play, or the team Pokémon picked on
+ * the meadow, in its Roster ("Continue with {name}"; "Open" for a completed
+ * Play).
+ */
+export const getHomeContinue = (
+  play: Pick<HomePlay, "id" | "statusSlug">,
+  picked: Pick<HomeTeamMember, "id" | "name"> | null,
+) => {
+  const verb = play.statusSlug === "completed" ? "Open" : "Continue with";
+
+  return picked
+    ? {
+        href: appRoutes.mainlinePlayTeamPokemon(play.id, picked.id),
+        label: `${verb} ${picked.name}`,
+      }
+    : {
+        href: appRoutes.mainlinePlay(play.id),
+        label: play.statusSlug === "completed" ? "Open" : "Continue",
+      };
+};
+
+/* Statuses that close a journey: Home's shelf leaves them off. */
+const finishedPlayStatuses = new Set(["abandoned", "completed"]);
+
+/*
+ * The Plays Home's shelf picks from, latest first: those still underway
+ * (playing, paused, not started). When every Play is finished or dropped,
+ * all of them, so Home never stands empty.
+ */
+export const getHomeShelfSource = <Play extends { status_slug: string | null }>(
+  plays: Play[],
+): Play[] => {
+  const underway = plays.filter(
+    (play) => !finishedPlayStatuses.has(play.status_slug ?? ""),
+  );
+
+  return underway.length ? underway : plays;
+};

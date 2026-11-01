@@ -295,6 +295,15 @@ export type MainlinePlayTeamRosterData = {
   /* Each member's battle forms and Z-Moves, by Play Pokémon id. */
   battles: Record<string, MemberBattle>;
   mechanics: GameMechanicsProfile;
+  /*
+   * The latest moments of each Pokémon on the team or in reserve, and of the
+   * one a link opened on, by Play Pokémon id. A member without an entry (any
+   * other past member, or all of them when the read failed) shows none.
+   */
+  moments: {
+    byPokemonId: Record<string, MainlinePlayTimelineEvent[]>;
+    context: PlayMomentContextEntries;
+  };
   play: MainlinePlaySummary;
   roster: MainlinePlayTeamMember[];
   /* What the Play's rules check, for the team's note and Add Pokémon. */

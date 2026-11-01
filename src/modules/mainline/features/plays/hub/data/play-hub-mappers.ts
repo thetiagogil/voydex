@@ -218,6 +218,7 @@ const resolvePlayMechanics = (play: MainlinePlaySummary) =>
 export const buildMainlinePlayTeamRosterData = (
   params: MainlinePlayTeamContextParams & {
     battleReference?: BattleReference;
+    moments?: MainlinePlayTeamRosterData["moments"];
     ruleChecks: RuleCheckContext;
   },
 ): MainlinePlayTeamRosterData => {
@@ -231,6 +232,14 @@ export const buildMainlinePlayTeamRosterData = (
       mechanics,
     ),
     mechanics,
+    moments: params.moments ?? {
+      byPokemonId: {},
+      context: {
+        badgeTypeByMilestoneId: [],
+        trophyMilestoneIds: [],
+        typeByFormId: [],
+      },
+    },
     play: params.play,
     roster,
     ruleChecks: params.ruleChecks,

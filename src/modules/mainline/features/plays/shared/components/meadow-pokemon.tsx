@@ -25,6 +25,12 @@ type MeadowPokemonProps = {
   size?: "lg" | "md" | "sm" | "xl";
   /* An open slot: a dashed spot on the grass. */
   open?: boolean;
+  /*
+   * In a crowded row (six on a phone): below 640px the name is left to
+   * readers, and a picked one shows only its check, over its feet, so it
+   * stands level with the rest.
+   */
+  compactName?: boolean;
   className?: string;
   style?: CSSProperties;
 };
@@ -41,10 +47,13 @@ const artSizes = {
  * game New Play picked. Picked, it takes the action fill with a check.
  */
 export const MeadowLabel = ({
+  compact = false,
   name,
   open = false,
   selected = false,
 }: {
+  /* See `MeadowPokemon`'s `compactName`. */
+  compact?: boolean;
   name: string;
   open?: boolean;
   selected?: boolean;
@@ -57,12 +66,16 @@ export const MeadowLabel = ({
         : selected
           ? "bg-action text-white"
           : "bg-surface bubble text-ink",
+      compact &&
+        (selected
+          ? "max-sm:absolute max-sm:bottom-0 max-sm:left-1/2 max-sm:-translate-x-1/2 max-sm:px-1.5"
+          : "max-sm:sr-only"),
     )}
   >
     {selected ? (
       <AppIcon icon={appIcons.status.active} size="sm" strokeWidth={3} />
     ) : null}
-    <span className="truncate">{name}</span>
+    <span className={cn("truncate", compact && "max-sm:sr-only")}>{name}</span>
   </span>
 );
 
@@ -73,6 +86,7 @@ export const MeadowLabel = ({
  */
 export const MeadowPokemon = ({
   className,
+  compactName = false,
   href,
   imageUrl,
   label,
@@ -119,7 +133,12 @@ export const MeadowPokemon = ({
           />
         </span>
       )}
-      <MeadowLabel name={name} open={open} selected={selected} />
+      <MeadowLabel
+        compact={compactName}
+        name={name}
+        open={open}
+        selected={selected}
+      />
     </>
   );
   const baseClassName = cn(

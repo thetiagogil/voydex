@@ -28,6 +28,7 @@ import {
 } from "@/modules/mainline/features/plays/hub/server/play-hub-context-reader";
 import type {
   MainlinePlayOverviewData,
+  MainlinePlayTeamRows,
   MainlinePlayShellData,
   MainlinePlayTeamRosterData,
   MainlinePlayHistoryData,
@@ -36,6 +37,7 @@ import type {
 } from "@/modules/mainline/features/plays/hub/types";
 import { readMainlinePlayMomentContext } from "@/modules/mainline/features/plays/shared/server/play-moment-context-reader";
 import {
+  readMainlinePlayPokemonMoments,
   readMainlinePlayTimeline,
   readMainlinePlayTimelinePreview,
 } from "@/modules/mainline/features/plays/shared/server/play-timeline-reader";
@@ -258,8 +260,49 @@ export const getMainlinePlayOverviewData = cache(
   },
 );
 
+/*
+ * The latest moments of each Pokémon on the team or in reserve, and of the
+ * one a link asked for (a retired Pokémon opens too), for the Roster's
+ * detail. A failure hides them, not the Roster.
+ */
+const readTeamMoments = async (
+  context: NonNullable<
+    Awaited<ReturnType<typeof getMainlinePlayRequestContext>>
+  >,
+  {
+    playId,
+    requestedPokemonId,
+    teamRows,
+  }: {
+    playId: string;
+    requestedPokemonId: string | null;
+    teamRows: MainlinePlayTeamRows;
+  },
+): Promise<MainlinePlayTeamRosterData["moments"] | undefined> => {
+  const playPokemonIds = teamRows.members.flatMap((member) =>
+    member.play_pokemon_id &&
+    (member.slot !== null || member.play_pokemon_id === requestedPokemonId)
+      ? [member.play_pokemon_id]
+      : [],
+  );
+
+  try {
+    return await readMainlinePlayPokemonMoments(context.supabase, {
+      generationId: context.play.generation_id,
+      playId,
+      playPokemonIds,
+    });
+  } catch {
+    return undefined;
+  }
+};
+
 export const getMainlinePlayTeamRosterData = cache(
-  async (playId: string): Promise<MainlinePlayTeamRosterData | null> => {
+  async (
+    playId: string,
+    /* The Pokémon a link opens on, whose moments are read even off the team. */
+    requestedPokemonId: string | null = null,
+  ): Promise<MainlinePlayTeamRosterData | null> => {
     const context = await getMainlinePlayRequestContext(playId);
 
     if (!context) {
@@ -280,6 +323,11 @@ export const getMainlinePlayTeamRosterData = cache(
       generationId: context.play.generation_id,
       versionGroupId: context.play.version_group_id,
     });
+    const moments = readTeamMoments(context, {
+      playId,
+      requestedPokemonId,
+      teamRows,
+    });
     const battleReference = hasAnyBattleMechanic(mechanics)
       ? await readBattleReference(context.supabase, {
           formIds: uniqueNumberIds(
@@ -296,6 +344,7 @@ export const getMainlinePlayTeamRosterData = cache(
 
     return buildMainlinePlayTeamRosterData({
       battleReference,
+      moments: await moments,
       play: context.play,
       ruleChecks,
       teamRows,

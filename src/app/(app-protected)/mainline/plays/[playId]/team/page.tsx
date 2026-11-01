@@ -26,7 +26,8 @@ export default async function MainlinePlayTeamRoute({
   searchParams,
 }: MainlinePlayTeamRouteProps) {
   const [{ playId }, query] = await Promise.all([params, searchParams]);
-  const data = await getMainlinePlayTeamRosterData(playId);
+  const pokemon = firstValue(query.pokemon);
+  const data = await getMainlinePlayTeamRosterData(playId, pokemon ?? null);
 
   if (!data) {
     notFound();
@@ -34,7 +35,6 @@ export default async function MainlinePlayTeamRoute({
 
   const add = firstValue(query.add);
   const form = firstValue(query.form);
-  const pokemon = firstValue(query.pokemon);
 
   return (
     <MainlinePlayTeamRoster

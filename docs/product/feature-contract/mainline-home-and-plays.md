@@ -9,17 +9,23 @@ Mainline Home (`/mainline`) is where a signed-in trainer lands and what the
 to Statistics), and it owns no mutation of its own.
 
 - **With Plays:** a meadow band with the greeting, the shelf of your latest
-  Plays (covers in recent order, each with its lead Pokémon: six on desktop,
+  Plays still underway (playing, paused or not started; completed and
+  abandoned ones are left off unless every Play is, so Home is never empty)
+  (covers in recent order, each with its lead Pokémon: six on desktop,
   four on tablets, two on phones; the dashed tile starts a new Play, and All
   Plays leads to the Plays list when some are left off), the current Play's
   team standing on the meadow in its game's colour, one line on where it
-  stands, and Continue. Every shelf Play loads with the page, so picking
+  stands, and Continue. Tapping a team Pokémon picks it (again lets it go):
+  Continue becomes "Continue with {name}" and opens it in the Roster; with
+  none picked it opens the Play. Every shelf Play loads with the page, so picking
   another cover switches the meadow, the line and the latest moments at once
   and only updates `?play=`; a link to an older Play puts it first on the
   shelf. Latest moments list the current Play's last five records as History
   draws them; a Play with nothing recorded shows where it began.
 - **With one brand-new Play:** its first partners wait on the meadow; tapping
-  one is the Play's own partner choice, with Undo in the toast.
+  one is the Play's own partner choice, with Undo in the toast. Once it is
+  recorded, the partner stands alone and is picked for Continue like any team
+  Pokémon.
 - **With no Plays:** the game picker is the page. Pick a game, tap a partner
   and Start creates the Play at once (named "New Journey" with your trainer
   name; Play Settings change the rest).

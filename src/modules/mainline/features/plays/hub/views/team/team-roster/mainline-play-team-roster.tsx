@@ -12,6 +12,7 @@ import type {
 import { useBottomSheetLayout } from "@/shared/hooks/use-bottom-sheet-layout";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import { useStickyPanel } from "@/shared/hooks/use-sticky-panel";
+import { toPlayMomentContext } from "@/modules/mainline/features/plays/shared/data/play-moment-record";
 
 import {
   AddPokemonSheet,
@@ -99,6 +100,15 @@ export const MainlinePlayTeamRoster = ({
     defaultMember;
   const selectedBattle = selectedMember?.play_pokemon_id
     ? (data.battles[selectedMember.play_pokemon_id] ?? null)
+    : null;
+  const selectedEvents = selectedMember?.play_pokemon_id
+    ? data.moments.byPokemonId[selectedMember.play_pokemon_id]
+    : undefined;
+  const selectedMoments = selectedEvents
+    ? {
+        context: toPlayMomentContext(data.moments.context),
+        events: selectedEvents,
+      }
     : null;
   const summary = getTeamRosterSummary(roster);
   const selectedWarnings = selectedMember
@@ -229,6 +239,7 @@ export const MainlinePlayTeamRoster = ({
             onAdd={openAdd}
             onEdit={openEditor}
             playId={playId}
+            moments={selectedMoments}
             versionGroupSlug={versionGroupSlug}
             warnings={selectedWarnings}
           />
@@ -247,6 +258,7 @@ export const MainlinePlayTeamRoster = ({
         member={selectedMember}
         onEdit={openEditor}
         open={mobileDetailOpen && usesDetailSheet}
+        moments={selectedMoments}
         onOpenChange={setMobileDetailOpen}
         versionGroupSlug={versionGroupSlug}
         warnings={selectedWarnings}

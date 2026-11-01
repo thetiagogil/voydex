@@ -14,6 +14,10 @@ import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/te
 
 import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
+import {
+  TeamMemberMoments,
+  type TeamMemberMomentsData,
+} from "./team-member-moments";
 import { useBattleFormPick } from "./use-battle-form-pick";
 import {
   TeamMemberProfile,
@@ -57,6 +61,7 @@ export const TeamMemberDetail = ({
   member,
   onAdd,
   onEdit,
+  moments,
   playId,
   versionGroupSlug,
   warnings,
@@ -67,6 +72,8 @@ export const TeamMemberDetail = ({
   member: MainlinePlayTeamMember | null;
   onAdd: () => void;
   onEdit: () => void;
+  /* Its latest moments; null for a member the Roster read none for. */
+  moments: TeamMemberMomentsData | null;
   playId: string;
   versionGroupSlug: string | null;
   /* What the Play's rules say about it. */
@@ -111,6 +118,7 @@ export const TeamMemberDetail = ({
           </h3>
         }
       />
+      {moments ? <TeamMemberMoments {...moments} member={member} /> : null}
     </Card>
   );
 };

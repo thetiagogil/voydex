@@ -10,6 +10,10 @@ import type { RuleWarning } from "@/modules/mainline/features/plays/hub/views/te
 
 import { RuleWarningsNote } from "../roster/rule-warnings-note";
 import { TeamMemberActions } from "./team-member-actions";
+import {
+  TeamMemberMoments,
+  type TeamMemberMomentsData,
+} from "./team-member-moments";
 import { useBattleFormPick } from "./use-battle-form-pick";
 import {
   TeamMemberProfile,
@@ -23,6 +27,8 @@ type TeamMemberDetailSheetProps = {
   member: MainlinePlayTeamMember | null;
   onEdit: () => void;
   onOpenChange: (open: boolean) => void;
+  /* Its latest moments; null for a member the Roster read none for. */
+  moments: TeamMemberMomentsData | null;
   open: boolean;
   versionGroupSlug: string | null;
   /* What the Play's rules say about it. */
@@ -39,6 +45,7 @@ export const TeamMemberDetailSheet = ({
   mechanics,
   member,
   onEdit,
+  moments,
   onOpenChange,
   open,
   versionGroupSlug,
@@ -56,35 +63,38 @@ export const TeamMemberDetailSheet = ({
       titleHidden
     >
       {member ? (
-        <TeamMemberProfile
-          battle={battle}
-          battleForm={battleForm}
-          toolbar={
-            <>
-              {renderFormMenu() ?? <span />}
-              <TeamMemberActions
-                member={member}
-                onEdit={onEdit}
-                versionGroupSlug={versionGroupSlug}
+        <>
+          <TeamMemberProfile
+            battle={battle}
+            battleForm={battleForm}
+            toolbar={
+              <>
+                {renderFormMenu() ?? <span />}
+                <TeamMemberActions
+                  member={member}
+                  onEdit={onEdit}
+                  versionGroupSlug={versionGroupSlug}
+                />
+              </>
+            }
+            mechanics={mechanics}
+            member={member}
+            notice={
+              <RuleWarningsNote
+                title="Breaks this Play's rules"
+                warnings={warnings}
+                className="mt-4.5"
               />
-            </>
-          }
-          mechanics={mechanics}
-          member={member}
-          notice={
-            <RuleWarningsNote
-              title="Breaks this Play's rules"
-              warnings={warnings}
-              className="mt-4.5"
-            />
-          }
-          title={
-            /* The sheet's own (hidden) title names it; this one is for the eye. */
-            <h3 aria-hidden className={teamMemberNameClassName}>
-              {name}
-            </h3>
-          }
-        />
+            }
+            title={
+              /* The sheet's own (hidden) title names it; this one is for the eye. */
+              <h3 aria-hidden className={teamMemberNameClassName}>
+                {name}
+              </h3>
+            }
+          />
+          {moments ? <TeamMemberMoments {...moments} member={member} /> : null}
+        </>
       ) : null}
     </OverlaySheet>
   );

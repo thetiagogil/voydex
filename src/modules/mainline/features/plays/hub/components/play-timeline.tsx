@@ -20,14 +20,18 @@ export const PlayTimeline = ({
   children,
   className,
   label,
+  labelledBy,
 }: {
   children: ReactNode;
   className?: string;
   /* Names the list when no heading does. */
   label?: string;
+  /* Or the id of the visible label that names it. */
+  labelledBy?: string;
 }) => (
   <ol
     aria-label={label}
+    aria-labelledby={labelledBy}
     className={cn(
       "before:timeline-line relative grid min-w-0 before:absolute before:inset-y-7 before:left-6.5 before:w-1",
       className,
