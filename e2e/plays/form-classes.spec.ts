@@ -53,11 +53,14 @@ test.describe("Form classes", () => {
       sheet.getByRole("button", { name: /^Vivillon, / }),
     ).toHaveCount(1, forTheAnswer);
     await sheet.getByRole("button", { name: /^Vivillon, / }).click();
-    await sheet.getByRole("combobox", { name: "Pattern" }).click();
+    /* Exact: the picker's own "Search pattern" box is a combobox too. */
+    const pattern = sheet.getByRole("combobox", {
+      exact: true,
+      name: "Pattern",
+    });
+    await pattern.click();
     await page.getByRole("option", { name: /^Polar Pattern/ }).click();
-    await expect(
-      sheet.getByRole("combobox", { name: "Pattern" }),
-    ).toContainText("Polar Pattern");
+    await expect(pattern).toContainText("Polar Pattern");
   });
 
   test("Change form lists only forms it can switch to", async ({ page }) => {
