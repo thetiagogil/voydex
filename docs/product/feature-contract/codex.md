@@ -15,12 +15,15 @@ account preference or database write for this choice.
 Pokémon Browse must:
 
 - keep Search, Generation (the introduced generation, as pills), Type, and
-  Sort visible; category and version-group availability filters may follow in
+  Sort visible; a version-group availability filter may follow in
   `More filters`;
 - search species name, National Pokédex number, and applicable persistent form
   names;
 - default to National number, with Name as the alternate sort, in one plain
-  grid that Group can split by introduced generation or by primary type;
+  grid that Group can split by introduced generation, by primary type, or by
+  category (Legendary, Mythical, Baby, Other, from the species flags; Ultra
+  Beasts, Paradox Pokémon, fossils and starters follow once the reference
+  data has them);
 - show one equal image-led result per species with artwork, National number,
   name, type, and only a concise form cue;
 - open the entry in the first version group of the generation the species was

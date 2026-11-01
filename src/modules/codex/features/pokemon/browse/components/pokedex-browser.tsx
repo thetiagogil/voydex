@@ -17,6 +17,7 @@ import {
   hasActivePokedexFilters,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-filters";
 import {
+  groupPokemonByCategory,
   groupPokemonByGeneration,
   groupPokemonByType,
   takePokemonFromGroups,
@@ -63,22 +64,26 @@ const countFormat = new Intl.NumberFormat("en-US");
 /* The Generation menu's "every generation", as a select value. */
 const ALL = "all";
 
-type PokedexGroupBy = "none" | "generation" | "type";
+type PokedexGroupBy = "none" | "generation" | "type" | "category";
 
 const isPokedexGroupBy = (value: string): value is PokedexGroupBy =>
-  value === "none" || value === "generation" || value === "type";
+  value === "none" ||
+  value === "generation" ||
+  value === "type" ||
+  value === "category";
 
 const groupByOptions = [
   { label: "None", value: "none" },
   { label: "Generation", value: "generation" },
   { label: "Type", value: "type" },
+  { label: "Category", value: "category" },
 ] satisfies { label: string; value: PokedexGroupBy }[];
 
 /*
  * The Codex's Pokémon: the title and count, the one list toolbar (search,
  * Sort, and Filters holding Generation, Group and the type dots), the results line,
  * and the cards, loaded in batches: one plain grid by default, or in ranges
- * (each generation with its region, or each type) when grouped.
+ * (each generation with its region, each type or each category) when grouped.
  */
 export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
   const [filters, setFilters] = useState(data.filters);
@@ -108,7 +113,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
         ? groupPokemonByType(pokemon, data.types)
         : groupBy === "generation"
           ? groupPokemonByGeneration(pokemon, data.generations)
-          : ungroupPokemon(pokemon),
+          : groupBy === "category"
+            ? groupPokemonByCategory(pokemon)
+            : ungroupPokemon(pokemon),
     [data.generations, data.types, groupBy],
   );
 

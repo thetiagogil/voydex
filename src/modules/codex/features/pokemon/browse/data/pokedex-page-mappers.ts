@@ -17,6 +17,7 @@ import {
   getBaseVersionGroupsForGeneration,
   getVersionGroupGames,
 } from "@/modules/reference/features/games/domain/version-groups";
+import { getPokemonCategory } from "@/modules/reference/features/pokemon/utils/pokemon-category";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 
 /*
@@ -116,6 +117,7 @@ export const buildPokedexPageData = ({
       }
 
       return {
+        category: getPokemonCategory(pokemonSpecies),
         detailVersionGroupSlug,
         id: pokemonSpecies.id,
         imageUrl: getPokemonFormImageUrl(defaultForm, "sm"),
