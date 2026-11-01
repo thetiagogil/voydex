@@ -3,6 +3,7 @@ import {
   toHomeMoments,
 } from "@/modules/mainline/features/home/data/home-moments-model";
 import {
+  getHomeShelfSource,
   HOME_SHELF_PLAY_COUNT,
   isWaitingForPartner,
   toHomePlay,
@@ -255,10 +256,14 @@ export const getHomePageData = async (
   const requested = browseItems.find(
     (play) => play.play_id === requestedPlayId,
   );
-  const latest = browseItems.slice(0, HOME_SHELF_PLAY_COUNT);
+  const latest = getHomeShelfSource(browseItems).slice(
+    0,
+    HOME_SHELF_PLAY_COUNT,
+  );
   /*
-   * The shelf holds the latest Plays. An older one asked for by `?play=`
-   * leads it, so a link to any Play still opens on that Play.
+   * The shelf holds the latest Plays still underway. Any other asked for by
+   * `?play=` (an older or finished one) leads it, so a link to any Play
+   * still opens on that Play.
    */
   const shelfItems =
     requested && !latest.includes(requested)

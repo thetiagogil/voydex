@@ -170,3 +170,21 @@ export const getHomeContinue = (
         label: play.statusSlug === "completed" ? "Open" : "Continue",
       };
 };
+
+/* Statuses that close a journey: Home's shelf leaves them off. */
+const finishedPlayStatuses = new Set(["abandoned", "completed"]);
+
+/*
+ * The Plays Home's shelf picks from, latest first: those still underway
+ * (playing, paused, not started). When every Play is finished or dropped,
+ * all of them, so Home never stands empty.
+ */
+export const getHomeShelfSource = <Play extends { status_slug: string | null }>(
+  plays: Play[],
+): Play[] => {
+  const underway = plays.filter(
+    (play) => !finishedPlayStatuses.has(play.status_slug ?? ""),
+  );
+
+  return underway.length ? underway : plays;
+};

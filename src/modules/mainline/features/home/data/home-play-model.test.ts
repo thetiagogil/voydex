@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { getHomeContinue, isWaitingForPartner } from "./home-play-model";
+import {
+  getHomeContinue,
+  getHomeShelfSource,
+  isWaitingForPartner,
+} from "./home-play-model";
 
 describe("isWaitingForPartner", () => {
   const play = {
@@ -58,5 +62,33 @@ describe("getHomeContinue", () => {
     expect(
       getHomeContinue({ id: "play-1", statusSlug: "completed" }, pikachu).label,
     ).toBe("Open Sparky");
+  });
+});
+
+describe("getHomeShelfSource", () => {
+  const play = (id: string, status_slug: string | null) => ({
+    id,
+    status_slug,
+  });
+
+  it("keeps the Plays still underway, in their order", () => {
+    expect(
+      getHomeShelfSource([
+        play("a", "completed"),
+        play("b", "playing"),
+        play("c", "abandoned"),
+        play("d", "paused"),
+        play("e", "not_started"),
+        play("f", null),
+      ]).map(({ id }) => id),
+    ).toEqual(["b", "d", "e", "f"]);
+  });
+
+  it("falls back to every Play when all are finished or dropped", () => {
+    expect(
+      getHomeShelfSource([play("a", "completed"), play("b", "abandoned")]).map(
+        ({ id }) => id,
+      ),
+    ).toEqual(["a", "b"]);
   });
 });

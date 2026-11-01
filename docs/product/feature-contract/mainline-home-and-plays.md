@@ -9,7 +9,9 @@ Mainline Home (`/mainline`) is where a signed-in trainer lands and what the
 to Statistics), and it owns no mutation of its own.
 
 - **With Plays:** a meadow band with the greeting, the shelf of your latest
-  Plays (covers in recent order, each with its lead Pokémon: six on desktop,
+  Plays still underway (playing, paused or not started; completed and
+  abandoned ones are left off unless every Play is, so Home is never empty)
+  (covers in recent order, each with its lead Pokémon: six on desktop,
   four on tablets, two on phones; the dashed tile starts a new Play, and All
   Plays leads to the Plays list when some are left off), the current Play's
   team standing on the meadow in its game's colour, one line on where it
