@@ -70,6 +70,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
     generation_name: play.game.generation,
     generation_slug: null,
     historical_pokemon_count: null,
+    last_opened_at: null,
     play_id: null,
     play_name: play.name,
     playtime_minutes: play.playtimeMinutes,

@@ -3,6 +3,7 @@ import { MainlinePlayDockedBar } from "@/modules/mainline/features/plays/hub/she
 import { MainlinePlayNavigation } from "@/modules/mainline/features/plays/hub/shell/mainline-play-navigation";
 import { MainlinePlayDetails } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-details";
 import { MainlinePlayTopSection } from "@/modules/mainline/features/plays/hub/shell/top-section/mainline-play-top-section";
+import { PlayOpenedMarker } from "@/modules/mainline/features/plays/hub/shell/play-opened-marker";
 import { getPlayTitle } from "@/modules/mainline/features/plays/hub/shell/top-section/play-title";
 import type {
   MainlinePlayShellData,
@@ -39,6 +40,7 @@ export const MainlinePlayShell = ({
 
   return (
     <div className="flex w-full min-w-0 flex-col gap-6 sm:gap-8">
+      <PlayOpenedMarker playId={playId} />
       <MainlinePlayDockedBar
         coverImageUrl={data.coverImageUrl}
         gameName={data.play.game_name ?? "Unknown game"}

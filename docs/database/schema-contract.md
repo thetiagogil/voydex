@@ -64,7 +64,9 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
 ## Plays And Teams
 
 `gameplay.mainline_plays` is the user-owned root for a concrete playthrough.
-Lifecycle status and archival are separate. Completion is derived from settings,
+Lifecycle status and archival are separate. `last_opened_at` records when the
+owner last opened the Play (Home's shelf order); an update that sets only it
+leaves `updated_at` alone, so opening is never a change or a History moment. Completion is derived from settings,
 selected scopes, and sparse progress.
 
 `gameplay.mainline_play_settings` carries the Play's tracking switches:

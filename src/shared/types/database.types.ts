@@ -956,6 +956,7 @@ export type Database = {
           custom_platform_name: string | null;
           game_id: number;
           id: string;
+          last_opened_at: string | null;
           name: string;
           notes: string | null;
           platform_id: number | null;
@@ -976,6 +977,7 @@ export type Database = {
           custom_platform_name?: string | null;
           game_id: number;
           id?: string;
+          last_opened_at?: string | null;
           name: string;
           notes?: string | null;
           platform_id?: number | null;
@@ -995,6 +997,7 @@ export type Database = {
           custom_platform_name?: string | null;
           game_id?: number;
           id?: string;
+          last_opened_at?: string | null;
           name?: string;
           notes?: string | null;
           platform_id?: number | null;
@@ -5269,6 +5272,7 @@ export type Database = {
           include_optional_pokedex_entries_in_completion: boolean | null;
           include_optional_pokedexes_in_completion: boolean | null;
           include_pokedex_in_completion: boolean | null;
+          last_opened_at: string | null;
           milestone_completion_percent: number | null;
           optional_content_scopes: Json | null;
           overall_completion_percent: number | null;
@@ -5376,6 +5380,7 @@ export type Database = {
           generation_name: string | null;
           generation_slug: string | null;
           historical_pokemon_count: number | null;
+          last_opened_at: string | null;
           play_id: string | null;
           play_name: string | null;
           playtime_minutes: number | null;

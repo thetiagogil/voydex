@@ -32,8 +32,10 @@ to Statistics), and it owns no mutation of its own.
 - A game and partner picked on Start a Play before signing up are offered
   once, to start straight away or put aside.
 
-The shelf reads as "last opened first" in v3; until Plays record when they
-were last opened, it uses the latest update.
+The shelf reads "last opened first": opening a Play (any of its pages)
+stamps `last_opened_at`, which is not a change to the Play (`updated_at`
+stays) and adds no History moment. The shelf orders by the later of when a
+Play was last opened and last changed.
 
 ## Plays
 
