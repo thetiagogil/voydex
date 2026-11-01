@@ -40,7 +40,7 @@ intentionally smaller than selected-member artwork so the source and result of
 selection are immediately distinguishable. Under its moves, the detail lists
 that Pokémon's latest three moments as History draws them, read with the
 Roster for the team, the reserve and a past member a link opens on; a failed
-read leaves them out, not the Roster. Home's meadow links here too. The Roster holds only the roster
+read leaves them out, not the Roster. Home's "Continue with {name}" opens here too. The Roster holds only the roster
 and the selected detail; Plan and Analysis are its sibling views in the Team
 menu. A link may name the member to open on
 (`/mainline/plays/[playId]/team?pokemon=[playPokemonId]`, as an Overview

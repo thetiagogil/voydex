@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
@@ -15,6 +15,7 @@ import { HomePlayShelf } from "@/modules/mainline/features/home/components/home-
 import {
   getHomePlayStatusLine,
   type HomePlay,
+  type HomeTeamMember,
 } from "@/modules/mainline/features/home/data/home-play-model";
 import type { HomePartnerChoice } from "@/modules/mainline/features/home/types";
 import { MeadowPokemon } from "@/modules/mainline/features/plays/shared/components/meadow-pokemon";
@@ -33,7 +34,56 @@ type HomeBandSectionProps = {
   subtitle: ReactNode;
 };
 
-const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
+/* The team Pokémon picked for Continue, in the Play it was picked in. */
+type MeadowPick = {
+  memberId: string;
+  playId: string;
+};
+
+/* A team Pokémon on the meadow: tapping picks it for Continue, again clears it. */
+const PickableMeadowPokemon = ({
+  member,
+  onPick,
+  pick,
+  size,
+}: {
+  member: HomeTeamMember;
+  onPick: (member: HomeTeamMember) => void;
+  pick: MeadowPick | null;
+  size: "md" | "xl";
+}) => {
+  const isPicked = pick?.memberId === member.id;
+
+  return (
+    <MeadowPokemon
+      name={member.name}
+      imageUrl={member.imageUrl}
+      typeSlug={member.typeSlug}
+      size={size}
+      selected={isPicked}
+      hop={isPicked}
+      onClick={() => onPick(member)}
+      // A crowded phone row hides the names; the picked one keeps its check.
+      className={
+        size !== "md"
+          ? undefined
+          : isPicked
+            ? "[&>span:last-child>span:last-child]:max-sm:sr-only"
+            : "[&>span:last-child]:max-sm:sr-only"
+      }
+    />
+  );
+};
+
+const TeamOnMeadow = ({
+  onPick,
+  pick,
+  play,
+}: {
+  onPick: (member: HomeTeamMember) => void;
+  pick: MeadowPick | null;
+  play: HomePlay;
+}) => (
   <ul
     aria-label="Team"
     className="grid w-[min(880px,calc(100%-2.25rem))] grid-cols-6 items-end justify-items-center gap-0.5 pb-1.5 sm:gap-5.5 sm:pb-0"
@@ -41,14 +91,11 @@ const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
     {play.team.map((member, index) => (
       <li key={member?.id ?? `open-${index}`} className="max-w-full min-w-0">
         {member ? (
-          <MeadowPokemon
-            name={member.name}
-            imageUrl={member.imageUrl}
-            typeSlug={member.typeSlug}
+          <PickableMeadowPokemon
+            member={member}
+            onPick={onPick}
+            pick={pick}
             size="md"
-            href={appRoutes.mainlinePlayTeamPokemon(play.id, member.id)}
-            label={`Open ${member.name}`}
-            className="[&>span:last-child]:max-sm:sr-only"
           />
         ) : (
           <MeadowPokemon
@@ -65,9 +112,11 @@ const TeamOnMeadow = ({ play }: { play: HomePlay }) => (
 
 /*
  * Home's meadow band (v3 `homeback`, `homefirst`): the greeting, the shelf
- * of your Plays, the current Play's team standing on the meadow, and the line saying where it stands with Continue. A Play
- * with nothing recorded shows its first partners instead: tap one, then
- * "Choose {name}" (in Continue's place) records it.
+ * of your Plays, the current Play's team standing on the meadow, and the line saying where it stands with Continue. Tapping a
+ * team Pokémon picks it, and Continue becomes "Continue with {name}", which
+ * opens it in the Roster. A Play with nothing recorded shows its first
+ * partners instead: tap one, then "Choose {name}" (in Continue's place)
+ * records it.
  */
 export const HomeBandSection = ({
   current,
@@ -80,19 +129,29 @@ export const HomeBandSection = ({
 }: HomeBandSectionProps) => {
   const partnerState = useHomePartnerChoice(partnerChoice);
   const partner = current.team.find((member) => member !== null) ?? null;
+  const [storedPick, setPick] = useState<MeadowPick | null>(null);
+  /* A pick belongs to its Play: another cover on the shelf starts with none. */
+  const pick = storedPick?.playId === current.id ? storedPick : null;
+  const picked = pick
+    ? (current.team.find((member) => member?.id === pick.memberId) ?? null)
+    : null;
+  const togglePick = (member: HomeTeamMember) =>
+    setPick(
+      pick?.memberId === member.id
+        ? null
+        : { memberId: member.id, playId: current.id },
+    );
   const cast = partnerChoice ? (
     <HomePartnerChoiceCast choice={partnerChoice} state={partnerState} />
   ) : isFirstPlay && partner ? (
-    <MeadowPokemon
-      name={partner.name}
-      imageUrl={partner.imageUrl}
-      typeSlug={partner.typeSlug}
+    <PickableMeadowPokemon
+      member={partner}
+      onPick={togglePick}
+      pick={pick}
       size="xl"
-      href={appRoutes.mainlinePlayTeamPokemon(current.id, partner.id)}
-      label={`Open ${partner.name}`}
     />
   ) : (
-    <TeamOnMeadow play={current} />
+    <TeamOnMeadow onPick={togglePick} pick={pick} play={current} />
   );
   const detail = partnerChoice
     ? [
@@ -124,13 +183,23 @@ export const HomeBandSection = ({
                 <HomePartnerChoiceButton state={partnerState} />
               ) : (
                 <Link
-                  href={appRoutes.mainlinePlay(current.id)}
+                  href={
+                    picked
+                      ? appRoutes.mainlinePlayTeamPokemon(current.id, picked.id)
+                      : appRoutes.mainlinePlay(current.id)
+                  }
                   className={buttonVariants()}
                 >
                   {current.statusSlug === "completed" ? null : (
                     <AppIcon icon={appIcons.actions.continue} inline="start" />
                   )}
-                  {current.statusSlug === "completed" ? "Open" : "Continue"}
+                  {current.statusSlug === "completed"
+                    ? picked
+                      ? `Open ${picked.name}`
+                      : "Open"
+                    : picked
+                      ? `Continue with ${picked.name}`
+                      : "Continue"}
                 </Link>
               )
             }

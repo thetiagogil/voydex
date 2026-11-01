@@ -13,7 +13,9 @@ to Statistics), and it owns no mutation of its own.
   four on tablets, two on phones; the dashed tile starts a new Play, and All
   Plays leads to the Plays list when some are left off), the current Play's
   team standing on the meadow in its game's colour, one line on where it
-  stands, and Continue. Every shelf Play loads with the page, so picking
+  stands, and Continue. Tapping a team Pokémon picks it (again lets it go):
+  Continue becomes "Continue with {name}" and opens it in the Roster; with
+  none picked it opens the Play. Every shelf Play loads with the page, so picking
   another cover switches the meadow, the line and the latest moments at once
   and only updates `?play=`; a link to an older Play puts it first on the
   shelf. Latest moments list the current Play's last five records as History

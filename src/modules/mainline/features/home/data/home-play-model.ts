@@ -17,7 +17,7 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
  */
 export const HOME_SHELF_PLAY_COUNT = 5;
 
-type HomeTeamMember = {
+export type HomeTeamMember = {
   id: string;
   imageUrl: string | null;
   name: string;
