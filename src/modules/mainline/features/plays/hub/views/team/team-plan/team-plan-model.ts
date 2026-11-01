@@ -1,9 +1,9 @@
 import type {
-  MainlinePlayTeamMember,
   MainlinePlayTeamPlanFollowingState,
   MainlinePlayTeamPlanMemberComparison,
   MainlinePlayTeamPlanStatus,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { getPlayTeamMemberName } from "@/modules/mainline/features/plays/shared/utils/play-team-member-display";
 import {
   gameMechanics,

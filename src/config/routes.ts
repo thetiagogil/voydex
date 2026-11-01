@@ -88,7 +88,7 @@ export const appRoutes = {
   mainlinePlayTeam: (playId: string) => `/mainline/plays/${playId}/team`,
   /*
    * The Roster with the Add Pokémon sheet open, optionally on one species
-   * (and form) already picked, as the Codex's "Add to a Play" opens it.
+   * (and form) already picked.
    */
   mainlinePlayTeamAdd: (
     playId: string,

@@ -231,13 +231,19 @@ Team menu's `Plan` reads the automatic comparison.
 ```txt
 Codex game page -> Your Plays -> Start a {Version} Play -> New Play dialog, then the new Play
 Codex game page -> Your Plays -> a Play of this version group
-Codex Pokémon entry -> Add to a Play -> that Play's Roster with Add Pokémon
-  open on the species (?add=, ?form=)
+Codex Pokémon entry -> Add to a Play -> Add Pokémon over the entry, on the
+  species and form; a toast offers Open the roster
+Codex game page -> Your Plays -> Plan a team -> the Team Planner over the page,
+  on that game; leaves the Codex only when the Plan is saved
 Codex Pokémon entry -> In your Plays -> a Play's Roster on that Pokémon
 ```
 
 The Codex routes draw these pieces from Mainline through the Codex's
-signed-in slots; signed out they don't appear. Still accepted but not built:
+signed-in slots; signed out they don't appear. Add to a Play, Plan a team and
+Start a Play all open over the Codex page: closing one (its close button,
+Escape or a tap outside) leaves you exactly where you were, and the Codex is
+left only for what was created (the new Play, the saved Plan) or by choosing
+Open the roster. Still accepted but not built:
 Create a Plan and Add to Game List from a game page, and Add to Plan or View
 in Collection from an entry, each resuming through login with its context and
 returning to the same Codex page on cancel or failure without partial user

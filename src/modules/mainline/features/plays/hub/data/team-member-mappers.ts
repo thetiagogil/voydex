@@ -1,9 +1,9 @@
+import type { MainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/types";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMemberRow,
   MainlinePlayTeamMove,
-  MainlinePlayTeamRows,
-} from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import type {
   MoveAttribute,
   PokemonAttributes,

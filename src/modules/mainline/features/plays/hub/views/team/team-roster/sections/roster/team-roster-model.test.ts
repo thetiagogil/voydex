@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
-import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 
 import {
   formatTeamRosterSummary,

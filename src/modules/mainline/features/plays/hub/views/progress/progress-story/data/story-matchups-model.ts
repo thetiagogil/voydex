@@ -1,9 +1,11 @@
 import type {
-  MainlinePlayLevelCap,
   MainlinePlayMilestone,
-  MainlinePlayTeamMember,
   MainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlinePlayLevelCap,
+  MainlinePlayTeamMember,
+} from "@/modules/mainline/features/plays/shared/types";
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
 import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";

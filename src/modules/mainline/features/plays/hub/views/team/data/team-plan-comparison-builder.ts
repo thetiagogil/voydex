@@ -1,11 +1,11 @@
 import { buildTeamPlanMoveComparison } from "./team-plan-move-comparison";
 import type {
-  MainlinePlayTeamMember,
   MainlinePlayTeamPlanCriterion,
   MainlinePlayTeamPlanMemberComparison,
   MainlinePlayTeamPlanRelation,
   MainlinePlayTeamPlanRow,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   gameMechanics,
   supportsGameMechanic,

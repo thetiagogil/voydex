@@ -3,12 +3,12 @@ import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/
 import { buildMainlinePlayOverviewTeamPreview } from "@/modules/mainline/features/plays/hub/views/overview/data/team-preview-mapper";
 import { buildMainlinePlayTeamPlanSummary } from "@/modules/mainline/features/plays/hub/views/team/data/team-plan-mapper";
 import type {
+  MainlinePlayAddPokemonData,
   MainlinePlayFollowablePlan,
   MainlinePlayGameContextRows,
   MainlinePlayOverviewData,
   MainlinePlayOverview,
   MainlinePlayRule,
-  MainlinePlayRuleRows,
   MainlinePlayShellData,
   MainlinePlayTeamRosterData,
   MainlinePlayTeamPlanData,
@@ -16,6 +16,7 @@ import type {
   MainlinePlayTeamPreviewRows,
   MainlinePlayTeamRows,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/shared/types";
 import type {
   MainlinePlaySummary,
   MainlinePlayTimelineEvent,
@@ -45,8 +46,11 @@ import {
   describeLevelCap,
   emptyRuleBreaks,
   type RuleCheckContext,
-} from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
-import { getTeamRuleBreakers } from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/team-roster-model";
+} from "@/modules/mainline/features/plays/shared/data/rule-checks";
+import {
+  getTeamRosterSummary,
+  getTeamRuleBreakers,
+} from "@/modules/mainline/features/plays/hub/views/team/team-roster/sections/roster/team-roster-model";
 import { orderPlayMilestones } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import {
   describeRuleConfig,
@@ -243,6 +247,22 @@ export const buildMainlinePlayTeamRosterData = (
     play: params.play,
     roster,
     ruleChecks: params.ruleChecks,
+  };
+};
+
+/* Add Pokémon for a Play: its mechanics, how full the roster is, its rules. */
+export const buildMainlinePlayAddPokemonData = (
+  params: MainlinePlayTeamContextParams & { ruleChecks: RuleCheckContext },
+): MainlinePlayAddPokemonData => {
+  const { activeCount, reserveCount } = getTeamRosterSummary(
+    buildMainlinePlayTeamPreview(params.teamRows),
+  );
+
+  return {
+    mechanics: resolvePlayMechanics(params.play),
+    reserveCount,
+    ruleChecks: params.ruleChecks,
+    teamCount: activeCount,
   };
 };
 

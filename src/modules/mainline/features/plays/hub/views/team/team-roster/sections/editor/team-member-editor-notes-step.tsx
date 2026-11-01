@@ -2,7 +2,7 @@ import { EditedMark } from "@/shared/components/edited-mark";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { Textarea } from "@/shared/components/ui/textarea";
 
-import { type TeamMemberEditorStepProps } from "./team-member-editor-fields";
+import { type TeamMemberEditorStepProps } from "@/modules/mainline/features/plays/shared/components/team-member-editor-fields";
 
 /* Notes: whatever you want to remember about it. */
 export const TeamMemberEditorNotesStep = ({

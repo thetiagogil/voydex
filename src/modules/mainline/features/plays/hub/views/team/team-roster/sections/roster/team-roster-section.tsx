@@ -1,6 +1,6 @@
 "use client";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
@@ -16,7 +16,7 @@ import {
 } from "@/shared/hooks/use-slot-drag";
 import { cn } from "@/shared/utils/cn";
 
-import { getRosterMove } from "../../utils/roster-moves";
+import { getRosterMove } from "@/modules/mainline/features/plays/shared/utils/roster-moves";
 
 import { getTeamRosterSlots, type TeamRosterGroup } from "./team-roster-model";
 

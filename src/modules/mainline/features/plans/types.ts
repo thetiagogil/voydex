@@ -157,6 +157,12 @@ export type SavedPlan = {
   versionGroupSlug: string;
 };
 
+/* What a page that hosts the Planner (the Codex) gives it, so nothing navigates away. */
+export type PlannerEmbedding = {
+  /* Opens the Planner of another game in the same place; false when it couldn't. */
+  onSwitchVersionGroup: (slug: string) => Promise<boolean>;
+};
+
 export type PlannerPageData = {
   context: PlannerContext;
   plan: SavedPlan | null;

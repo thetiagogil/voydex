@@ -1,4 +1,4 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { CheckboxCard } from "@/shared/components/checkbox-card";
 import { EditedMark } from "@/shared/components/edited-mark";
 import { SheetSection } from "@/shared/components/sheet-section";
@@ -13,7 +13,7 @@ import {
 import {
   EditorLabel,
   type TeamMemberEditorStepProps,
-} from "./team-member-editor-fields";
+} from "@/modules/mainline/features/plays/shared/components/team-member-editor-fields";
 
 const genderOptions = (
   ["male", "female", "genderless", "unknown"] as const

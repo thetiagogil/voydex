@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,

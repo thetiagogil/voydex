@@ -1,8 +1,8 @@
 import type {
-  MainlinePlayTeamMember,
   MainlinePlayTeamPlanRelation,
   MainlinePlayTeamPlanRow,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import type { PokemonEvolutionEdge } from "@/modules/reference/types";
 
 type TeamPlanMemberMatch = {

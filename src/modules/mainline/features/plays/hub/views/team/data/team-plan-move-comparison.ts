@@ -1,8 +1,8 @@
 import type {
-  MainlinePlayTeamMember,
   MainlinePlayTeamPlanMoveComparison,
   MainlinePlayTeamPlanMoveTarget,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import type { Json } from "@/shared/types/database.types";
 
 const parsePlannedMoves = (

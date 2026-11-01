@@ -1,4 +1,4 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { EmptyState } from "@/shared/components/empty-state";
 import { toItemOptions } from "@/modules/mainline/shared/components/item-options";
@@ -12,15 +12,15 @@ import { Spinner } from "@/shared/components/ui/spinner";
 import type {
   TeamMemberEditorOptions,
   TeamMemberEditorSupport,
-} from "../../utils/team-member-editor-model";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import {
   EditorLabel,
   fromSelect,
   selectValue,
   toSelectOptions,
   type TeamMemberEditorStepProps,
-} from "./team-member-editor-fields";
-import { TeamMemberBuildFields } from "./team-member-build-fields";
+} from "@/modules/mainline/features/plays/shared/components/team-member-editor-fields";
+import { TeamMemberBuildFields } from "@/modules/mainline/features/plays/shared/components/team-member-build-fields";
 
 /*
  * What it already has stays pickable when the game's list doesn't offer it

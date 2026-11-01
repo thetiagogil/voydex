@@ -7,7 +7,7 @@ import { toast } from "sonner";
 import { playTeamSize } from "@/modules/mainline/features/plays/shared/utils/play-team-slots";
 import { pokemonSheetHead } from "@/modules/mainline/shared/components/pokemon-sheet-head";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,
@@ -31,7 +31,7 @@ import {
   toUpdateTeamMemberInput,
   type TeamMemberEditorField,
   type TeamMemberEditorValues,
-} from "../../utils/team-member-editor-model";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
 import { getTeamMemberEditorHeadLine } from "../../utils/team-member-display";
 import { TeamMemberEditorActions } from "./team-member-editor-actions";
 import {

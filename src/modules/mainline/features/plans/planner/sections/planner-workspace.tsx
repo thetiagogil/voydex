@@ -62,6 +62,7 @@ import {
 } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
 import { untitledPlanName } from "@/modules/mainline/features/plans/planner/utils/plan-save-input";
 import type {
+  PlannerEmbedding,
   PlanMember,
   PlannerPageData,
   PlannerPokemon,
@@ -70,6 +71,8 @@ import { PageBand } from "@/shared/components/page-band";
 
 type PlannerWorkspaceProps = {
   data: PlannerPageData;
+  /* Set when a page hosts the Planner (the Codex): nothing here navigates away. */
+  embedding?: PlannerEmbedding;
 };
 
 const defaultFilters: PlannerPoolFilters = {
@@ -84,7 +87,10 @@ const defaultFilters: PlannerPoolFilters = {
  * from its Pokédexes, read the Team check and save the Plan. A new Plan is
  * kept in this browser until it is saved; a shared link opens as a new one.
  */
-export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
+export const PlannerWorkspace = ({
+  data,
+  embedding,
+}: PlannerWorkspaceProps) => {
   const router = useRouter();
   const { context, plan } = data;
   const byId = useMemo(
@@ -191,6 +197,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
     usePlannerImports({
       bySlug,
       draft,
+      embedding,
       fitToVersionGroup,
       hasSavedPlan: Boolean(plan),
       onDraftContinued: (continued) => {
@@ -210,6 +217,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
         name,
         versionGroupSlug: context.versionGroup.slug,
       },
+      embedded: Boolean(embedding),
       planId: plan?.id ?? null,
       savedContents: plan
         ? {
@@ -277,13 +285,22 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
   /* The new game's Planner opens on this team, unsaved edits included. */
   const switchVersionGroup = (slug: string, kept: PlanMember[]) => {
     writePlanSwitchHandoff(plan?.id ?? null, slug, { members: kept, name });
-    startOpeningSwitch(() =>
+    startOpeningSwitch(async () => {
+      if (embedding) {
+        /* A game that couldn't open takes its hand-over back. */
+        if (!(await embedding.onSwitchVersionGroup(slug))) {
+          takePlanSwitchHandoff(plan?.id ?? null, slug);
+        }
+
+        return;
+      }
+
       router.push(
         plan
           ? appRoutes.mainlinePlan(plan.id, slug)
           : appRoutes.mainlinePlanNew(slug),
-      ),
-    );
+      );
+    });
   };
 
   /* A switch handed over from the last game: its team, as that game fitted it. */
@@ -399,6 +416,7 @@ export const PlannerWorkspace = ({ data }: PlannerWorkspaceProps) => {
           onRename={() => setIsDetailsOpen(true)}
           isSaved={Boolean(plan)}
           isSaving={isSaving}
+          embedded={Boolean(embedding)}
           isSwitching={isSwitching}
           name={name}
           onSave={save}

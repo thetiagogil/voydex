@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
-} from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import type { Type } from "@/modules/reference/types";
 
 import {

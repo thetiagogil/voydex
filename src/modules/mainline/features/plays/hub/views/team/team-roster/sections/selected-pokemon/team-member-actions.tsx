@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { appRoutes } from "@/config/routes";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Button } from "@/shared/components/ui/button";
 import { IconTip } from "@/shared/components/icon-tip";

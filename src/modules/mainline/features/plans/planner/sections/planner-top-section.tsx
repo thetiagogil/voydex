@@ -54,6 +54,8 @@ type PlannerTopSectionProps = {
   planCount: number;
   /* A saved Plan, for its actions menu (Rename, Archive, Delete). */
   savedPlan: PlanActionsPlan | null;
+  /* A page hosts the Planner (the Codex): My Plans would leave it. */
+  embedded: boolean;
   versionGroup: PlannerVersionGroup;
   versionGroups: PlannerVersionGroupOption[];
 };
@@ -83,9 +85,12 @@ export const PlannerTopSection = ({
   onVersionGroupChange,
   planCount,
   savedPlan,
+  embedded,
   versionGroup,
   versionGroups,
 }: PlannerTopSectionProps) => {
+  /* The dialog that hosts the Planner already has the page's heading. */
+  const HeadingTag = embedded ? "p" : "h1";
   const gameCard = (
     <>
       <span aria-hidden className="flex shrink-0 items-center pl-1">
@@ -152,7 +157,7 @@ export const PlannerTopSection = ({
           </h1>
         ) : (
           /* A new Plan gets its name when it's saved. */
-          <h1 className="sr-only">New Plan</h1>
+          <HeadingTag className="sr-only">New Plan</HeadingTag>
         )}
       </div>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
@@ -195,14 +200,16 @@ export const PlannerTopSection = ({
           />
         )}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-          <Link
-            href={appRoutes.mainlinePlans}
-            className={buttonVariants({ variant: "secondary" })}
-          >
-            <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
-            My Plans
-            <span className="text-ink-3 tabular-nums">{planCount}</span>
-          </Link>
+          {embedded ? null : (
+            <Link
+              href={appRoutes.mainlinePlans}
+              className={buttonVariants({ variant: "secondary" })}
+            >
+              <AppIcon icon={appIcons.views.mainline.plans} inline="start" />
+              My Plans
+              <span className="text-ink-3 tabular-nums">{planCount}</span>
+            </Link>
+          )}
           {canEdit ? (
             <Button
               type="button"

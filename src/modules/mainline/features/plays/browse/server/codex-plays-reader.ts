@@ -1,5 +1,5 @@
 import { settleCodexExtra } from "@/modules/mainline/features/plays/browse/data/codex-plays-model";
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
+import type { MainlinePlayTeamMemberRow } from "@/modules/mainline/features/plays/shared/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
 /*
@@ -10,7 +10,7 @@ export const readCodexSpeciesRoster = async (
   supabase: ServerSupabaseClient,
   playIds: string[],
   speciesSlug: string,
-): Promise<MainlinePlayTeamMember[] | null> => {
+): Promise<MainlinePlayTeamMemberRow[] | null> => {
   if (!playIds.length) {
     return [];
   }

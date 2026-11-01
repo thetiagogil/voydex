@@ -2,9 +2,9 @@ import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shar
 import { getTrainerNameSuggestions } from "@/modules/mainline/features/plays/hub/data/play-header-trainer-names";
 import type {
   MainlinePlayGameContextRows,
-  MainlinePlayRuleRows,
   PlayHeaderEditing,
 } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayRuleRows } from "@/modules/mainline/features/plays/shared/types";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 import { uniqueNumberIds } from "@/shared/utils/collections";
 

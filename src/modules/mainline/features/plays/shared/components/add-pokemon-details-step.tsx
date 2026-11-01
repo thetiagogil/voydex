@@ -1,0 +1,194 @@
+import { toPokemonFormOption } from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
+import { formatShortFormName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
+import { SegmentedControl } from "@/shared/components/segmented-control";
+import { SelectControl } from "@/shared/components/select-control";
+import { Button } from "@/shared/components/ui/button";
+import { Field, FieldError, FieldLabel } from "@/shared/components/ui/field";
+import { Input } from "@/shared/components/ui/input";
+
+import type { RuleWarning } from "@/modules/mainline/features/plays/shared/data/rule-checks";
+
+import type { PokemonChoice } from "@/modules/mainline/features/plays/shared/utils/pokemon-choices";
+import { RuleWarningsNote } from "@/modules/mainline/features/plays/shared/components/rule-warnings-note";
+
+export type AddPokemonPlacement = "reserve" | "team";
+
+/* More details, from step 2: whether anything is picked, and opening it. */
+export type AddPokemonMoreDetails = {
+  onOpen: () => void;
+  picked: boolean;
+};
+
+/*
+ * Step 2, its details: what the Play's rules say about it (a warning that
+ * blocks nothing), its pattern when it has looks to pick from (Vivillon,
+ * Unown), nickname and level, and where it goes (the team or the reserve),
+ * or whose place it takes when it replaces one. Adding, a More details button
+ * opens step 3.
+ */
+export const AddPokemonDetailsStep = ({
+  error,
+  id,
+  level,
+  moreDetails,
+  nickname,
+  onLevelChange,
+  onNicknameChange,
+  onPatternChange,
+  onPlacementChange,
+  onSubmit,
+  picked,
+  placement,
+  replacesName,
+  reserveIsFull,
+  teamCount,
+  warnings,
+}: {
+  error: string | null;
+  /* The sheet's `useId`; the form is `${id}-form`, so Save can submit it. */
+  id: string;
+  level: string;
+  /* Null when it replaces one: Edit records those. */
+  moreDetails: AddPokemonMoreDetails | null;
+  nickname: string;
+  onLevelChange: (level: string) => void;
+  onNicknameChange: (nickname: string) => void;
+  /* Picks one of `picked.patterns`. */
+  onPatternChange: (pattern: PokemonChoice) => void;
+  onPlacementChange: (placement: AddPokemonPlacement) => void;
+  onSubmit: () => void;
+  picked: PokemonChoice;
+  placement: AddPokemonPlacement;
+  /* The Pokémon it replaces; null when it is added. */
+  replacesName: string | null;
+  reserveIsFull: boolean;
+  teamCount: number;
+  /* What the Play's rules say about this pick; it can still be added. */
+  warnings: (RuleWarning & { key: string })[];
+}) => {
+  const teamIsFull = teamCount >= 6;
+
+  return (
+    <form
+      id={`${id}-form`}
+      className="grid gap-5"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSubmit();
+      }}
+    >
+      <RuleWarningsNote warnings={warnings} />
+      {picked.patterns.length ? (
+        <Field>
+          <FieldLabel>Pattern</FieldLabel>
+          <SelectControl
+            ariaLabel="Pattern"
+            placeholder="Pattern"
+            value={String(picked.formId)}
+            onValueChange={(value) => {
+              const pattern = picked.patterns.find(
+                (item) => String(item.formId) === value,
+              );
+
+              if (pattern) onPatternChange(pattern);
+            }}
+            options={picked.patterns.map((pattern) =>
+              toPokemonFormOption({
+                imageUrl: pattern.imageUrl,
+                label: pattern.formName
+                  ? formatShortFormName(pattern.formName, pattern.speciesName)
+                  : pattern.speciesName,
+                name: pattern.formName ?? pattern.speciesName,
+                typeSlug: pattern.primaryType?.slug ?? null,
+                value: String(pattern.formId),
+              }),
+            )}
+          />
+        </Field>
+      ) : null}
+      <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_160px]">
+        <Field>
+          <FieldLabel htmlFor={`${id}-nickname`}>Nickname</FieldLabel>
+          <Input
+            id={`${id}-nickname`}
+            maxLength={100}
+            autoComplete="off"
+            placeholder={picked.speciesName}
+            value={nickname}
+            onChange={(event) => onNicknameChange(event.target.value)}
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor={`${id}-level`}>Level</FieldLabel>
+          <Input
+            id={`${id}-level`}
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={100}
+            placeholder="Not recorded"
+            value={level}
+            onChange={(event) => onLevelChange(event.target.value)}
+          />
+        </Field>
+      </div>
+      {replacesName !== null ? (
+        <p className="text-ink-2 text-14 font-semibold">
+          It takes {replacesName}&apos;s place, and {replacesName} is kept in
+          History. Its nature, ability and moves can be added from Edit.
+        </p>
+      ) : (
+        <div className="flex flex-col gap-3 pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="grid gap-0.5">
+            <p id={`${id}-where`} className="text-15 font-extrabold">
+              Where it goes
+            </p>
+            <p className="text-ink-2 text-13 font-semibold">
+              {teamIsFull && reserveIsFull
+                ? "Your team and reserve are both full"
+                : teamIsFull
+                  ? "Your team is full, so it joins the reserve"
+                  : `The team has ${6 - teamCount} open ${6 - teamCount === 1 ? "slot" : "slots"}`}
+            </p>
+          </div>
+          <SegmentedControl
+            ariaLabel="Where it goes"
+            variant="segment"
+            fullWidth
+            className="sm:inline-flex sm:w-auto"
+            value={placement}
+            onValueChange={onPlacementChange}
+            options={[
+              {
+                disabled: teamIsFull,
+                disabledReason: teamIsFull ? "Your team is full" : undefined,
+                label: "Team",
+                value: "team",
+              },
+              {
+                disabled: reserveIsFull,
+                disabledReason: reserveIsFull
+                  ? "The reserve is full"
+                  : undefined,
+                label: "Reserve",
+                value: "reserve",
+              },
+            ]}
+          />
+        </div>
+      )}
+      {moreDetails ? (
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="mt-3 justify-self-center"
+          onClick={moreDetails.onOpen}
+        >
+          {moreDetails.picked ? "Change details" : "More details"}
+        </Button>
+      ) : null}
+      {error ? <FieldError>{error}</FieldError> : null}
+    </form>
+  );
+};

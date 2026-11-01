@@ -6,8 +6,8 @@ import {
 import { readReachesGigantamax } from "@/modules/reference/features/pokemon/server/battle-form-reader";
 import type { ServerSupabaseClient } from "@/platform/supabase/server-client";
 
-import { findUnofferedEditorChoice } from "../utils/team-member-editor-model";
-import type { UpdateMainlinePlayPokemonInput } from "../utils/team-member-validation";
+import { findUnofferedEditorChoice } from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
+import type { UpdateMainlinePlayPokemonInput } from "@/modules/mainline/features/plays/shared/utils/team-member-validation";
 import { readTeamMemberEditorOptions } from "./team-member-editor-options-reader";
 
 /*

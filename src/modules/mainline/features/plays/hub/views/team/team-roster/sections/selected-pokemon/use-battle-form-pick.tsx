@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   getPlayTeamMemberImageUrl,
   getPlayTeamMemberName,

@@ -1,10 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
-import type {
-  MainlinePlayTeamRows,
-  MainlinePlayTeamMemberRow,
-} from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamRows } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMemberRow } from "@/modules/mainline/features/plays/shared/types";
 import type {
   AbilityAttribute,
   MoveAttribute,

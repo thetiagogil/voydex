@@ -1,8 +1,9 @@
-import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/hub/views/team/team-roster/data/rule-checks";
+import { emptyRuleCheckContext } from "@/modules/mainline/features/plays/shared/data/rule-checks";
 import { defaultPlayTracking } from "@/config/play-tracking";
 import { describe, expect, it } from "vitest";
 
 import {
+  buildMainlinePlayAddPokemonData,
   buildMainlinePlayOverviewData,
   buildMainlinePlayRules,
   buildMainlinePlayShellData,
@@ -10,12 +11,14 @@ import {
   buildMainlinePlayTeamPlanData,
 } from "@/modules/mainline/features/plays/hub/data/play-hub-mappers";
 import type {
-  MainlineChallengeRule,
   MainlinePlayGameContextRows,
-  MainlinePlayChallengeRuleLink,
-  MainlinePlayTeamMemberRow,
   MainlinePlayTeamPreviewRow,
 } from "@/modules/mainline/features/plays/hub/types";
+import type {
+  MainlineChallengeRule,
+  MainlinePlayChallengeRuleLink,
+  MainlinePlayTeamMemberRow,
+} from "@/modules/mainline/features/plays/shared/types";
 
 const buildRule = (
   id: string,
@@ -205,6 +208,66 @@ describe("Play page data mappers", () => {
       versionGroupSlug: null,
     });
     expect(data).not.toHaveProperty("teamTimelinePreview");
+  });
+});
+
+describe("buildMainlinePlayAddPokemonData", () => {
+  const emptyRows = {
+    abilityAttributes: [],
+    attributes: [],
+    moveAttributes: [],
+    natures: [],
+    types: [],
+    validBallItemIds: [],
+    versionGroupId: null,
+    versionGroups: [],
+  };
+  const member = (play_pokemon_id: string, roster_state_slug: string) =>
+    ({ play_pokemon_id, roster_state_slug }) as MainlinePlayTeamMemberRow;
+  const play = {
+    game_id: null,
+    generation_id: 1,
+    version_group_id: 1,
+  } as Parameters<typeof buildMainlinePlayAddPokemonData>[0]["play"];
+
+  it("counts the active team and the reserve separately", () => {
+    const data = buildMainlinePlayAddPokemonData({
+      play,
+      ruleChecks: emptyRuleCheckContext,
+      teamRows: {
+        ...emptyRows,
+        members: [
+          member("a", "active"),
+          member("b", "active"),
+          member("c", "reserve"),
+        ],
+      },
+    });
+
+    expect(data.teamCount).toBe(2);
+    expect(data.reserveCount).toBe(1);
+  });
+
+  it("starts empty for a Play with no Pokémon", () => {
+    const data = buildMainlinePlayAddPokemonData({
+      play,
+      ruleChecks: emptyRuleCheckContext,
+      teamRows: { ...emptyRows, members: [] },
+    });
+
+    expect(data).toMatchObject({ reserveCount: 0, teamCount: 0 });
+  });
+
+  it("hands over the Play's rule checks and its game's mechanics as they are", () => {
+    const ruleChecks = { ...emptyRuleCheckContext, levelCap: null };
+    const data = buildMainlinePlayAddPokemonData({
+      play,
+      ruleChecks,
+      teamRows: { ...emptyRows, members: [] },
+    });
+
+    expect(data.ruleChecks).toBe(ruleChecks);
+    expect(data.mechanics.support).toBeDefined();
   });
 });
 

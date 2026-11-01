@@ -150,8 +150,8 @@ Plan comparison has no persisted member association, deletion simply removes
 that member from future comparison; it never rewrites the authored Plan.
 
 As built: **Add Pokémon** is a side sheet (a bottom sheet on phones), opened
-from the Roster head or `?add=` (the Codex's Add to a Play presets the
-species and form). Pick a species of the Play's Pokédexes (base game and the
+from the Roster head or `?add=` (the species and form preset; the Codex opens
+the same sheet over its own entry instead). Pick a species of the Play's Pokédexes (base game and the
 expansions it tracks) by name or number, each variant the game has standing
 beside its species as its own card with the same number (never a battle form
 or a form it switches to later); a variant that only changes its looks

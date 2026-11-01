@@ -1,7 +1,7 @@
 import type {
   MainlinePlayTeamMember,
   MainlinePlayTeamMove,
-} from "@/modules/mainline/features/plays/hub/types";
+} from "@/modules/mainline/features/plays/shared/types";
 import {
   gameMechanics,
   supportsGameMechanic,

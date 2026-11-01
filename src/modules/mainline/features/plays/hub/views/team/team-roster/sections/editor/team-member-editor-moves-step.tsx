@@ -1,4 +1,4 @@
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import {
   MoveSlotGrid,
   toMoveSlotOptions,
@@ -10,8 +10,8 @@ import { SheetSection } from "@/shared/components/sheet-section";
 import type {
   TeamMemberEditorOptions,
   TeamMemberEditorValues,
-} from "../../utils/team-member-editor-model";
-import { type TeamMemberEditorStepProps } from "./team-member-editor-fields";
+} from "@/modules/mainline/features/plays/shared/utils/team-member-editor-model";
+import { type TeamMemberEditorStepProps } from "@/modules/mainline/features/plays/shared/components/team-member-editor-fields";
 
 const toMoveOptions = (
   options: TeamMemberEditorOptions,

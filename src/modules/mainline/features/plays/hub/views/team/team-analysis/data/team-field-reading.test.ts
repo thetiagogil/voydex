@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/hub/types";
+import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import type { BaseStats } from "@/modules/reference/features/pokemon/domain/battle-math";
 import { pokemonTypeSlugs } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { Type } from "@/modules/reference/types";

@@ -67,9 +67,11 @@ The active source follows these ownership rules:
   `detail/components` tree. `plays/shared` owns what several Mainline
   features draw or read: the moment, stamp and milestone pieces, the timeline
   and moment-context readers, the partner action, the Play library reader and
-  mappers, and the start-a-Play pieces (partner cast, create-Play action and
+  mappers, the start-a-Play pieces (partner cast, create-Play action and
   command, picker query, start intent, `use-start-play`) that Home and New
-  Play share.
+  Play share, and Add Pokémon (the sheet and its steps, the Play's rule
+  checks, the choices and build-option reads, and the add, replace and
+  remove actions) that the Roster and the Codex share.
 - Play Hub reads separate authenticated orchestration, raw context/Overview I/O,
   pure enrichment, and final page-model assembly.
 - existing feature reads commonly use a query/loader/mapper split. That split
@@ -273,7 +275,8 @@ entry. Two more Mainline entries follow the same pattern: `public-you.ts`
 gives the You page (a global feature) its figures, and `public-codex.tsx`
 fills the Codex's signed-in slots. `src/modules/codex/codex-slots.ts` types
 those slots (an entry's Add to a Play and In your Plays, a game page's Start a
-Play and Your Plays, the Played counts on Games); the Codex routes fill them
+Play, Plan a team and Your Plays, the Played counts on Games; the first and
+last open Mainline's Add Pokémon and Team Planner over the Codex page); the Codex routes fill them
 from Mainline, since Codex can't import Mainline, and an empty slot reads as
 signed out. The Pokémon type colour tokens are the only feature-owned CSS; they stay beside Pokemon and
 are composed through the module's public `styles.css` manifest. Game colours
