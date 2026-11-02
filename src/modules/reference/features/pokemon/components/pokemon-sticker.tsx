@@ -61,6 +61,11 @@ type PokemonStickerProps = {
   number?: string;
   /* Its slot on a team, as the red number in the top-right corner. */
   slot?: string;
+  /*
+   * A stamp in the top-right corner, above the slot and shiny marks: the
+   * Collection's gold Play count (a `BadgeStamp`).
+   */
+  stamp?: ReactNode;
   /* Where a dragged Pokémon would land: the accent ring round its band. */
   target?: boolean;
   /*
@@ -142,6 +147,7 @@ export const PokemonSticker = ({
   shiny = false,
   showTypes = true,
   slot,
+  stamp,
   subtitle,
   target = false,
   types,
@@ -225,19 +231,20 @@ export const PokemonSticker = ({
       </span>
       {/*
         The corner marks, last so their words follow the name: a warning
-        top-left, the slot top-right with the shiny mark right below it.
+        top-left; top-right the stamp, then the slot, then the shiny mark.
       */}
       {warning ? (
         <CornerBubble border="sticker" corner="inside-top-left">
           <WarningMark label={warning} />
         </CornerBubble>
       ) : null}
-      {slot || shiny ? (
+      {stamp || slot || shiny ? (
         <CornerBubble
           border="sticker"
           corner="inside-top-right"
-          className="flex-col gap-2"
+          className="flex-col items-end gap-2"
         >
+          {stamp}
           {slot ? <SlotMark>{slot}</SlotMark> : null}
           {shiny ? <ShinyMark /> : null}
         </CornerBubble>

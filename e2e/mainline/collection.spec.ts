@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { expectAccessible } from "../support/accessibility";
+import { openFilters } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Collection", () => {
@@ -27,23 +28,26 @@ test.describe("Collection", () => {
       "page",
     );
 
-    /* The Pokémon album: a page per generation, counting the whole Collection. */
-    const firstPage = page.getByRole("region", {
-      exact: true,
-      name: "Generation I",
-    });
+    /* Each sticker's stamp counts its Plays; Generation is a filter. */
+    const charmander = page.getByRole("button", { name: /Charmander/ });
 
-    await expect(
-      firstPage.getByText("1 of 151 joined your teams"),
-    ).toBeVisible();
-    await expect(
-      firstPage.getByRole("button", { name: /Charmander/ }),
-    ).toBeVisible();
-    await expect(
-      page
-        .getByRole("region", { exact: true, name: "Generation II" })
-        .getByText("None from here yet."),
-    ).toBeVisible();
+    await expect(charmander.getByRole("img", { name: "1 Play" })).toBeVisible();
+    const { close, filters } = await openFilters(page);
+
+    await filters
+      .getByRole("combobox", { name: "Filter by generation" })
+      .click();
+    await page
+      .getByRole("option", { exact: true, name: "Generation II" })
+      .click();
+    await close();
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await page
+      .getByRole("button", { name: /^Reset/ })
+      .first()
+      .click();
+    await expect(charmander).toBeVisible();
+
     await views.getByRole("link", { name: /^Games/ }).click();
     await expect(page).toHaveURL(/\/mainline\/collection\?view=games$/);
     await expect(views.getByRole("link", { name: /^Games/ })).toHaveAttribute(

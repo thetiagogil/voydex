@@ -2,12 +2,12 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import { buildCollectionAlbumPages } from "@/modules/mainline/features/collection/data/collection-album-model";
 import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import {
   collectionKindLabels,
   collectionSortLabels,
+  countActiveCollectionFilters,
   countCollectionKinds,
   defaultCollectionFilters,
   filterAndSortCollection,
@@ -16,6 +16,7 @@ import {
   type CollectionKind,
   type CollectionSort,
 } from "@/modules/mainline/features/collection/data/collection-browse-model";
+import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
 import {
   getTrainerFamilyEntries,
   type TrainerPokemonEntry,
@@ -25,7 +26,6 @@ import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/traine
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
-import { RangeHeading } from "@/shared/components/range-heading";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -48,7 +48,7 @@ type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
   /* Played games, for the Games switch's count. */
   gameCount: number;
-  /* The album's pages: every generation with its species count. */
+  /* Every generation, for the Generation filter. */
   generations: SpeciesGeneration[];
   /* The page's head, which opens the band above the toolbar. */
   head: ReactNode;
@@ -60,19 +60,22 @@ type CollectionBrowserProps = {
 const kindOrder: CollectionKind[] = ["all", "team", "many", "shiny"];
 const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
 
-const getCountLine = (entry: TrainerPokemonEntry) => {
-  const plays = entry.playIds.length;
-  const playLine = `${plays} ${plays === 1 ? "Play" : "Plays"}`;
+/* A sticker's stamp leans a little, each one its own way. */
+const stampTilts = [-10, 7, -5, 9, -8, 5];
 
-  return entry.members.length > plays
-    ? `${playLine} · ${entry.members.length} caught`
-    : playLine;
-};
+const countPlays = (count: number) =>
+  `${count} ${count === 1 ? "Play" : "Plays"}`;
+
+/* What the stamp doesn't say: more caught than Plays. */
+const getCountLine = (entry: TrainerPokemonEntry) =>
+  entry.members.length > entry.playIds.length
+    ? `${entry.members.length} caught`
+    : "";
 
 /*
- * The Collection's Pokémon, an album: the views switch, a toolbar (search,
- * what to show, the order), the type dots, then a page per generation
- * ("12 of 151 joined your teams") with and every species as a sticker that opens its sheet.
+ * The Collection's Pokémon: the views switch, a toolbar (search, what to
+ * show, the generation, the order), the type dots, and every species as a
+ * sticker with its gold Play-count stamp, opening its sheet.
  */
 export const CollectionBrowser = ({
   entries,
@@ -92,22 +95,12 @@ export const CollectionBrowser = ({
   );
   const counts = useMemo(() => countCollectionKinds(entries), [entries]);
   const shown = useMemo(
-    () => filterAndSortCollection(entries, filters),
-    [entries, filters],
+    () => filterAndSortCollection(entries, filters, generations),
+    [entries, filters, generations],
   );
   const openEntry =
     entries.find((entry) => entry.speciesId === openSpeciesId) ?? null;
   const hasFilters = hasActiveCollectionFilters(filters);
-  const pages = useMemo(
-    () =>
-      buildCollectionAlbumPages({
-        entries,
-        filtered: hasFilters,
-        generations,
-        shown,
-      }),
-    [entries, generations, hasFilters, shown],
-  );
   const fold = useFold({ defaultOpen: hasFilters });
   const update = (next: Partial<CollectionFilters>) => {
     setFilters((current) => ({ ...current, ...next }));
@@ -140,9 +133,7 @@ export const CollectionBrowser = ({
           <FilterToolbar
             ariaLabel="Filter your Collection"
             className="mt-5"
-            activeCount={
-              (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0)
-            }
+            activeCount={countActiveCollectionFilters(filters)}
             resultLabel={`Show ${shown.length} Pokémon`}
             search={
               <SearchControl
@@ -154,6 +145,29 @@ export const CollectionBrowser = ({
               />
             }
             controls={(placement) => {
+              const generation = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "collection-generation"
+                      : "collection-sheet-generation"
+                  }
+                  ariaLabel="Filter by generation"
+                  resetValue={defaultCollectionFilters.generation}
+                  prefix={placement === "line" ? "Generation" : undefined}
+                  value={filters.generation}
+                  variant="ghost"
+                  placeholder="All generations"
+                  onValueChange={(generation) => update({ generation })}
+                  options={[
+                    { label: "All generations", value: "" },
+                    ...generations.map((each) => ({
+                      label: each.name,
+                      value: String(each.id),
+                    })),
+                  ]}
+                />
+              );
               const sort = (
                 <SelectControl
                   id={
@@ -180,11 +194,22 @@ export const CollectionBrowser = ({
               );
 
               return placement === "line" ? (
-                sort
-              ) : (
-                <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
+                <>
+                  {generation}
                   {sort}
-                </FilterSheetRow>
+                </>
+              ) : (
+                <>
+                  <FilterSheetRow
+                    htmlFor="collection-sheet-generation"
+                    label="Generation"
+                  >
+                    {generation}
+                  </FilterSheetRow>
+                  <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
+                    {sort}
+                  </FilterSheetRow>
+                </>
               );
             }}
             filters={(placement) => {
@@ -239,50 +264,33 @@ export const CollectionBrowser = ({
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">
         {shown.length ? (
-          <div className="flex flex-col gap-7.5">
-            {pages.map((page) => {
-              const titleId = `collection-album-${page.key}`;
-
-              return (
-                <section
-                  key={page.key}
-                  aria-labelledby={titleId}
-                  className="min-w-0"
-                >
-                  <RangeHeading
-                    title={page.label}
-                    titleId={titleId}
-                    count={page.summary}
-                  />
-                  {page.entries.length ? (
-                    <ul className="mt-4.5 grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
-                      {page.entries.map((entry) => (
-                        <li key={entry.speciesId} className="min-w-0">
-                          <PokemonSticker
-                            variant="compact"
-                            className="w-full"
-                            imageUrl={entry.imageUrl}
-                            name={entry.name}
-                            number={formatNationalNumber(entry.nationalNumber)}
-                            shiny={entry.shiny}
-                            subtitle={getCountLine(entry)}
-                            types={entry.types}
-                            selected={openSpeciesId === entry.speciesId}
-                            detail="See its Plays"
-                            onClick={() => setOpenSpeciesId(entry.speciesId)}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-ink-3 text-14 mt-3 font-semibold">
-                      None from here yet.
-                    </p>
-                  )}
-                </section>
-              );
-            })}
-          </div>
+          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
+            {shown.map((entry) => (
+              <li key={entry.speciesId} className="min-w-0">
+                <PokemonSticker
+                  variant="compact"
+                  className="w-full"
+                  imageUrl={entry.imageUrl}
+                  name={entry.name}
+                  number={formatNationalNumber(entry.nationalNumber)}
+                  shiny={entry.shiny}
+                  stamp={
+                    <BadgeStamp
+                      className="w-9"
+                      label={countPlays(entry.playIds.length)}
+                      state={{ count: entry.playIds.length, kind: "earned" }}
+                      tilt={stampTilts[entry.speciesId % stampTilts.length]}
+                    />
+                  }
+                  subtitle={getCountLine(entry)}
+                  types={entry.types}
+                  selected={openSpeciesId === entry.speciesId}
+                  detail="See its Plays"
+                  onClick={() => setOpenSpeciesId(entry.speciesId)}
+                />
+              </li>
+            ))}
+          </ul>
         ) : (
           <EmptyState
             variant="bare"
