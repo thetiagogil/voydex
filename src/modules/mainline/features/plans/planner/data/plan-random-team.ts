@@ -28,18 +28,19 @@ export const getRandomCandidates = ({
   return sections
     .filter((section) => !filtered || !dex || section.key === dex)
     .flatMap((section) =>
-      section.speciesIds.flatMap((speciesId) => {
-        const pokemon = byId.get(speciesId);
+      section.formIds.flatMap((formId) => {
+        const pokemon = byId.get(formId);
         return pokemon && (!filtered || isShown(pokemon)) ? [pokemon] : [];
       }),
     );
 };
 
 /*
- * Random picks for the dock: a whole new team ("all"), only the open slots
- * ("empty"), or a whole team from what the pool's search and type filter
- * show ("filtered"). It never picks a species twice or two of one evolution
- * line, and skips Pokémon the game itself can't give you.
+ * Random picks for the dock (form ids by slot): a whole new team ("all"),
+ * only the open slots ("empty"), or a whole team from what the pool's search
+ * and type filter show ("filtered"). It never picks a species twice (not
+ * Articuno beside Galarian Articuno) or two of one evolution line, and skips
+ * Pokémon the game itself can't give you.
  */
 export const pickRandomTeam = ({
   candidates,
@@ -51,19 +52,18 @@ export const pickRandomTeam = ({
   candidates: PlannerPokemon[];
   mode: PlanRandomMode;
   random?: () => number;
-  /* The current six slots' species ids, null for an open slot. */
+  /* The current six slots' form ids, null for an open slot. */
   slots: (number | null)[];
 }): (number | null)[] => {
   const kept = mode === "empty" ? slots : slots.map(() => null);
-  const takenSpecies = new Set(kept.filter((id): id is number => id !== null));
-  const byId = new Map(
-    candidates.map((pokemon) => [pokemon.speciesId, pokemon]),
-  );
+  const byId = new Map(candidates.map((pokemon) => [pokemon.formId, pokemon]));
+  const taken = kept.flatMap((id) => {
+    const pokemon = id === null ? undefined : byId.get(id);
+    return pokemon ? [pokemon] : [];
+  });
+  const takenSpecies = new Set(taken.map((pokemon) => pokemon.speciesId));
   const takenFamilies = new Set(
-    [...takenSpecies].flatMap((id) => {
-      const pokemon = byId.get(id);
-      return pokemon ? [pokemon.evolutionFamilyId] : [];
-    }),
+    taken.map((pokemon) => pokemon.evolutionFamilyId),
   );
   const pool = candidates.filter(
     (pokemon) =>
@@ -88,6 +88,6 @@ export const pickRandomTeam = ({
     takenSpecies.add(pick.speciesId);
     takenFamilies.add(pick.evolutionFamilyId);
 
-    return pick.speciesId;
+    return pick.formId;
   });
 };

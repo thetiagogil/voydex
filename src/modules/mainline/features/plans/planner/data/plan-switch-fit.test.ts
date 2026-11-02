@@ -25,10 +25,10 @@ const rows: PlanMemberCheckRows = {
   abilityIdsByFormId: new Map([[25, new Set([9])]]),
   heldItemIds: new Set([1]),
   learnableMoveIdsByFormId: new Map([[25, new Set([85, 98])]]),
+  nameByFormId: new Map([[25, "Pikachu"]]),
   natureIds: new Set([3]),
-  poolSpeciesIds: new Set([25]),
+  poolFormIds: new Set([25]),
   speciesIdByFormId: new Map([[25, 25]]),
-  speciesNameById: new Map([[25, "Pikachu"]]),
   versionGroupName: "Emerald",
 };
 const allFields = { ability: true, gender: true, heldItem: true, nature: true };
@@ -41,7 +41,7 @@ describe("fitPlanMembersForSwitch", () => {
       allFields,
     );
 
-    expect(fit.removedSpeciesIds).toEqual([6]);
+    expect(fit.removedFormIds).toEqual([6]);
     expect(fit.kept.map((kept) => kept.speciesId)).toEqual([25]);
     expect(fit.changed).toEqual([]);
   });
@@ -68,6 +68,7 @@ describe("fitPlanMembersForSwitch", () => {
     });
     expect(fit.changed).toEqual([
       {
+        formId: 25,
         loss: {
           abilityId: 31,
           gender: false,
@@ -76,7 +77,6 @@ describe("fitPlanMembersForSwitch", () => {
           natureId: null,
         },
         slot: 1,
-        speciesId: 25,
       },
     ]);
   });

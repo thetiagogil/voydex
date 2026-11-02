@@ -66,6 +66,26 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
   });
 
+  test("offers a Galarian bird beside its Kantonian form", async ({ page }) => {
+    await page.goto("/mainline/plans/new?vg=swsh");
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Articuno");
+
+    /* Both forms are their own tile, and the Galarian one can be planned. */
+    await expect(
+      picker.getByRole("button", { name: /^#144 Articuno\b/ }),
+    ).toBeVisible();
+    await picker
+      .getByRole("button", { name: /^#144 Galarian Articuno\b/ })
+      .click();
+    await expect(
+      page
+        .getByRole("region", { name: "Your team" })
+        .getByRole("button", { name: /^Galarian Articuno\b.*slot 1\. Edit$/ }),
+    ).toBeVisible();
+  });
+
   test("drags a Pokémon onto another slot to swap them", async ({ page }) => {
     await page.goto("/mainline/plans/new?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });

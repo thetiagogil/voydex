@@ -10,9 +10,9 @@ import {
 describe("plan share code", () => {
   const share: PlanShare = {
     slots: [
-      { species: "corviknight" },
+      { slug: "corviknight" },
       null,
-      { species: "sirfetchd" },
+      { slug: "galarian-articuno" },
       null,
       null,
       null,
@@ -32,7 +32,7 @@ describe("plan share code", () => {
     ).replace(/=+$/, "");
 
     expect(decodePlanShare(`plan=${older}`)?.slots.slice(0, 2)).toEqual([
-      { species: "rotom" },
+      { slug: "rotom" },
       null,
     ]);
   });
@@ -44,17 +44,25 @@ describe("plan share code", () => {
 });
 
 describe("toPlanShare", () => {
-  it("shares each slot's species by slug", () => {
-    const slugs = new Map([[823, { speciesSlug: "corviknight" }]]);
+  it("shares each slot's Pokémon by its form's slug", () => {
+    const slugs = new Map([
+      [82300, { formSlug: "corviknight" }],
+      [14401, { formSlug: "galarian-articuno" }],
+    ]);
 
     expect(
       toPlanShare(
-        [{ speciesId: 823 }, null, { speciesId: 1 }],
+        [{ formId: 82300 }, null, { formId: 14401 }, { formId: 1 }],
         slugs,
         "sword-shield",
       ),
     ).toEqual({
-      slots: [{ species: "corviknight" }, null, null],
+      slots: [
+        { slug: "corviknight" },
+        null,
+        { slug: "galarian-articuno" },
+        null,
+      ],
       versionGroupSlug: "sword-shield",
     });
   });

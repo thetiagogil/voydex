@@ -25,9 +25,9 @@ import { uniqueNumberIds } from "@/shared/utils/collections";
 export type PlannerGameSwitchCheck =
   | {
       /* Each Pokémon that stays but loses part of its build, by name. */
-      changed: { lost: string[]; slot: number; speciesId: number }[];
+      changed: { formId: number; lost: string[]; slot: number }[];
       kept: PlanMember[];
-      removedSpeciesIds: number[];
+      removedFormIds: number[];
       status: "success";
       versionGroupName: string;
     }
@@ -128,13 +128,13 @@ export const checkPlannerGameSwitchAction = async (input: {
     const names = await readLossNames(supabase, fit.changed);
 
     return {
-      changed: fit.changed.map(({ loss, slot, speciesId }) => ({
+      changed: fit.changed.map(({ formId, loss, slot }) => ({
+        formId,
         lost: describePlanSwitchLoss(loss, names),
         slot,
-        speciesId,
       })),
       kept: fit.kept,
-      removedSpeciesIds: fit.removedSpeciesIds,
+      removedFormIds: fit.removedFormIds,
       status: "success",
       versionGroupName: game.name,
     };

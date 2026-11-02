@@ -58,6 +58,7 @@ export const usePlannerImports = ({
   trainerId,
   versionGroup,
 }: {
+  /* By form slug, and by species slug for older links. */
   bySlug: Map<string, PlannerPokemon>;
   /* The Planner's contents now, kept as the draft for a new Plan. */
   draft: PlanDraft;
@@ -144,12 +145,12 @@ export const usePlannerImports = ({
     }
 
     const missing = share.slots.filter(
-      (slot) => slot && !bySlug.has(slot.species),
+      (slot) => slot && !bySlug.has(slot.slug),
     ).length;
 
     setSlots(
       share.slots.map((slot) => {
-        const pokemon = slot ? bySlug.get(slot.species) : undefined;
+        const pokemon = slot ? bySlug.get(slot.slug) : undefined;
         return pokemon ? newPlanMember(pokemon) : null;
       }),
     );

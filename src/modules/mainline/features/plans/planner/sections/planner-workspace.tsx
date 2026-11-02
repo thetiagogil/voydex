@@ -93,17 +93,27 @@ export const PlannerWorkspace = ({
 }: PlannerWorkspaceProps) => {
   const router = useRouter();
   const { context, plan } = data;
+  /* Every Pokémon the Planner offers, by form id. */
   const byId = useMemo(
-    () =>
-      new Map(context.pokemon.map((pokemon) => [pokemon.speciesId, pokemon])),
+    () => new Map(context.pokemon.map((pokemon) => [pokemon.formId, pokemon])),
     [context.pokemon],
   );
-  const bySlug = useMemo(
-    () =>
-      new Map(context.pokemon.map((pokemon) => [pokemon.speciesSlug, pokemon])),
-    [context.pokemon],
-  );
-  const getName = (speciesId: number) => byId.get(speciesId)?.name ?? "Pokémon";
+  /*
+   * By form slug for shared links, and by species slug for older links,
+   * which open on the species' Pokédex form.
+   */
+  const bySlug = useMemo(() => {
+    const map = new Map(
+      context.pokemon.map((pokemon) => [pokemon.formSlug, pokemon]),
+    );
+
+    for (const pokemon of context.pokemon) {
+      if (!map.has(pokemon.speciesSlug)) map.set(pokemon.speciesSlug, pokemon);
+    }
+
+    return map;
+  }, [context.pokemon]);
+  const getName = (formId: number) => byId.get(formId)?.name ?? "Pokémon";
   /*
    * Pokémon arriving from another version group (a saved Plan opened in a
    * new one, a draft, a shared link) keep to the ones this group has, and
@@ -172,7 +182,7 @@ export const PlannerWorkspace = ({
 
   const members = toPlanMembers(team.slots);
   const teamPokemon = members.flatMap((member) => {
-    const pokemon = byId.get(member.speciesId);
+    const pokemon = byId.get(member.formId);
     return pokemon ? [pokemon] : [];
   });
   const { coverage, issues, matchups, tip } = buildPlanTeamCheck({
@@ -181,8 +191,8 @@ export const PlannerWorkspace = ({
     types: context.types,
     versionGroup: context.versionGroup,
   });
-  const slotBySpeciesId = new Map(
-    members.map((member) => [member.speciesId, member.slot]),
+  const slotByFormId = new Map(
+    members.map((member) => [member.formId, member.slot]),
   );
   const isFull = members.length === 6;
   const draft: PlanDraft = {
@@ -249,7 +259,7 @@ export const PlannerWorkspace = ({
       return;
     }
 
-    const slot = slotBySpeciesId.get(pokemon.speciesId);
+    const slot = slotByFormId.get(pokemon.formId);
 
     /* Tapping one already on the team takes it off; its card opens it. */
     if (slot !== undefined) {
@@ -276,7 +286,7 @@ export const PlannerWorkspace = ({
       pickRandomTeam({
         candidates,
         mode: randomMode,
-        slots: team.slots.map((member) => member?.speciesId ?? null),
+        slots: team.slots.map((member) => member?.formId ?? null),
       }),
       byId,
     );
@@ -321,15 +331,15 @@ export const PlannerWorkspace = ({
   }, []);
 
   const toSwitchPokemon = (
-    speciesId: number,
+    formId: number,
     slot: number,
     lost?: string,
   ): PlannerSwitchPokemon => {
-    const pokemon = byId.get(speciesId);
+    const pokemon = byId.get(formId);
 
     return {
       imageUrl: pokemon?.imageUrl ?? null,
-      key: `${slot}-${speciesId}`,
+      key: `${slot}-${formId}`,
       lost,
       name: pokemon?.name ?? "Pokémon",
       typeSlug: pokemon?.types[0]?.slug ?? null,
@@ -362,18 +372,12 @@ export const PlannerWorkspace = ({
 
       setPendingSwitch({
         changed: check.changed.map((change) =>
-          toSwitchPokemon(
-            change.speciesId,
-            change.slot,
-            change.lost.join(" · "),
-          ),
+          toSwitchPokemon(change.formId, change.slot, change.lost.join(" · ")),
         ),
         kept: check.kept,
         removed: members
-          .filter((member) =>
-            check.removedSpeciesIds.includes(member.speciesId),
-          )
-          .map((member) => toSwitchPokemon(member.speciesId, member.slot)),
+          .filter((member) => check.removedFormIds.includes(member.formId))
+          .map((member) => toSwitchPokemon(member.formId, member.slot)),
         slug,
         versionGroupName: check.versionGroupName,
       });
@@ -477,7 +481,7 @@ export const PlannerWorkspace = ({
           onPick={whenUnlocked(pick)}
           replacingId={replacingId}
           sections={context.sections}
-          slotBySpeciesId={slotBySpeciesId}
+          slotByFormId={slotByFormId}
           types={context.types}
           versionGroup={context.versionGroup}
         />
@@ -513,8 +517,8 @@ export const PlannerWorkspace = ({
         name={
           confirmRemoveIndex === null
             ? ""
-            : (byId.get(team.slots[confirmRemoveIndex]?.speciesId ?? -1)
-                ?.name ?? "this Pokémon")
+            : (byId.get(team.slots[confirmRemoveIndex]?.formId ?? -1)?.name ??
+              "this Pokémon")
         }
         open={confirmRemoveIndex !== null}
         onOpenChange={(open) => {
