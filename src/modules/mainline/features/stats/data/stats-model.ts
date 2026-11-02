@@ -87,8 +87,8 @@ export type TrainerTitle =
        * one shown below; the band stands them in front of the type's mark.
        */
       pokemon: StatsMostPicked[];
-      /* The next type and how far behind it is; null when no other type is used. */
-      runnerUp: { gap: number; name: string } | null;
+      /* How far behind the next type is; null when no other type is used. */
+      runnerUpGap: number | null;
       title: string;
       typeName: string;
       typeSlug: string;
@@ -201,9 +201,7 @@ export const getTrainerTitle = (
         entry,
         family: getTrainerFamilyEntries(entries, entry),
       })),
-      runnerUp: runnerUp
-        ? { gap: favourite.count - runnerUp.count, name: runnerUp.name }
-        : null,
+      runnerUpGap: runnerUp ? favourite.count - runnerUp.count : null,
       title: `${favourite.name} Specialist`,
       typeName: favourite.name,
       typeSlug: favourite.slug,
@@ -241,12 +239,12 @@ export const getTrainerTitleReason = (title: TrainerTitle): StatsPhrase => {
         {
           text: ` of your Pokémon ${title.count === 1 ? "is a" : "are"} ${title.typeName} ${title.count === 1 ? "type" : "types"}, `,
         },
-        ...(title.runnerUp
-          ? [
-              { strong: true, text: `${title.runnerUp.gap} more` },
-              { text: ` than ${title.runnerUp.name}.` },
-            ]
-          : [{ text: "more than any other type." }]),
+        ...(title.runnerUpGap === null
+          ? [{ text: "more than any other type." }]
+          : [
+              { strong: true, text: `${title.runnerUpGap} more` },
+              { text: " than any other type." },
+            ]),
       ];
     case "hopper":
       return [

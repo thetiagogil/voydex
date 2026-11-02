@@ -163,7 +163,20 @@ describe("getTrainerTitle", () => {
 
     expect(title.title).toBe("Fire Specialist");
     expect(read(getTrainerTitleReason(title))).toBe(
-      "**9** of your Pokémon are Fire types, **6 more** than Water.",
+      "**9** of your Pokémon are Fire types, **6 more** than any other type.",
+    );
+  });
+
+  it("says a lone type beats any other without a number", () => {
+    const title = getTrainerTitle({
+      mostPicked: null,
+      playCount: 2,
+      regions: [region("kanto", 2)],
+      types: [type("Fire", 6), type("Water", 0)],
+    });
+
+    expect(read(getTrainerTitleReason(title))).toBe(
+      "**6** of your Pokémon are Fire types, more than any other type.",
     );
   });
 
