@@ -8,8 +8,6 @@ import { CornerBubble } from "@/shared/components/corner-bubble";
 import { cn } from "@/shared/utils/cn";
 
 type GameShelfCardProps = {
-  /* The line under the name; "1996 · Kanto" when left out. */
-  detail?: ReactNode;
   eager?: boolean;
   game: GameShelfCardGame;
   href: string;
@@ -33,7 +31,6 @@ type GameShelfCardProps = {
  * cover up.
  */
 export const GameShelfCard = ({
-  detail,
   eager = false,
   game,
   href,
@@ -71,12 +68,8 @@ export const GameShelfCard = ({
           {getGameShortName(game.name)}
         </b>
         <span className="text-13 text-ink-2 truncate font-semibold">
-          {detail ?? (
-            <>
-              <span className="tabular-nums">{game.releaseYear}</span>
-              {game.regionName ? ` · ${game.regionName}` : null}
-            </>
-          )}
+          <span className="tabular-nums">{game.releaseYear}</span>
+          {game.regionName ? ` · ${game.regionName}` : null}
         </span>
       </span>
       {stamp ? (

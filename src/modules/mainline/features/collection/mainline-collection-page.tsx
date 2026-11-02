@@ -43,7 +43,7 @@ const getDescription = (data: CollectionPageData) => {
     return "Every Pokémon that joins your teams";
   }
 
-  return `${formatCount(data.entries.length, "Pokémon has", "Pokémon have")} joined your teams, across ${formatCount(data.playCount, "Play", "Plays")} and ${formatCount(data.gameCount, "game", "games")}`;
+  return `${formatCount(data.entries.length, "Pokémon has", "Pokémon have")} joined your teams, across ${formatCount(data.pokemonPlayCount, "Play", "Plays")} and ${formatCount(data.gameCount, "game", "games")}`;
 };
 
 /*

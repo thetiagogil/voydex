@@ -31,7 +31,7 @@ export const getCollectionPageData = async (): Promise<CollectionPageData> => {
     games: buildCollectionGames(catalogue.games, rows.plays),
     gameCount: gameSlugs.size,
     latestPlayId: latestPlay?.play_id ?? null,
-    playCount: playIds.size,
+    pokemonPlayCount: playIds.size,
     totalPlayCount: rows.plays.length,
     types: rows.types.map((type) => ({ name: type.name, slug: type.slug })),
   };

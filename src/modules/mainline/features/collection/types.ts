@@ -12,8 +12,8 @@ export type CollectionPageData = {
   gameCount: number;
   /* The newest Play still going, where "Add to your team" leads. */
   latestPlayId: string | null;
-  /* Plays the Collection's Pokémon were in. */
-  playCount: number;
+  /* Plays the Collection's Pokémon were in; the Games view counts every Play. */
+  pokemonPlayCount: number;
   /* Every Play the trainer has, used for the empty states. */
   totalPlayCount: number;
   types: TrainerPokemonType[];
