@@ -8,10 +8,26 @@ Collection is the user's used Pokémon history across plays.
 
 As built (v3, `/mainline/collection`): every species that has joined one of
 your teams, as stickers, with Search, a Show choice (All, On a team now, In
-several Plays, Shiny), Sort (Recently recorded, Most used, Pokédex number)
+several Plays, Shiny), Generation, Sort (Most used by default, Pokédex
+number, Recently recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
-joined you in. Archived Plays count.
+joined you in. Archived Plays count. Each sticker carries the same small
+count mark as a played game, its Plays on a corner, and no line under the
+name; how many were caught is the sheet's to tell. The list opens on Most used; Generation is a filter
+beside Sort, never a grouping, so the order holds across the whole
+Collection.
+
+Collection has a second view, Games (`?view=games`), on a Pokémon | Games
+switch under the head: one grid of only the games you've played (as the
+Pokémon view holds only what joined you), the most Plays leading, then
+release order. Each is a card with the owned band and the same small count
+mark of your Plays of it, archived ones included, and opens its sheet in
+place, as a Pokémon does: the game's cover and Open in Codex, then each Play
+of it (trainer and playtime, its status), archived ones in their own section,
+each opening on the Play. The head counts the same marks: "You've played 3 of
+38 games, across 4 Plays". Before any Play the view is the empty state with
+Start a Play. The view has no search or filters.
 
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 

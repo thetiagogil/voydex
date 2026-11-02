@@ -62,6 +62,12 @@ export type GameShelfGame = {
   versionGroupSlug: string;
 };
 
+/* What the one game card (`GameShelfCard`) shows: cover, name, year and region. */
+export type GameShelfCardGame = Pick<
+  GameShelfGame,
+  "coverImageUrl" | "name" | "regionName" | "releaseYear" | "slug"
+>;
+
 /* One first partner, as a game offers it. */
 export type GameStarter = {
   formId: number;

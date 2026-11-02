@@ -49,6 +49,8 @@ export const appRoutes = {
   mainlineHomePlay: (playId: string) =>
     `/mainline?play=${encodeURIComponent(playId)}`,
   mainlineCollection: "/mainline/collection",
+  /* The Collection's Games: every game, the ones you've played stamped. */
+  mainlineCollectionGames: "/mainline/collection?view=games",
   /* The Collection with one species' sheet open. */
   mainlineCollectionSpecies: (speciesSlug: string) =>
     `/mainline/collection?species=${encodeURIComponent(speciesSlug)}`,

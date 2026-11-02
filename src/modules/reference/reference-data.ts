@@ -1,4 +1,7 @@
-export { buildGameCards } from "@/modules/reference/features/games/data/game-card-mappers";
+export {
+  buildGameCards,
+  getGameShelfCardGame,
+} from "@/modules/reference/features/games/data/game-card-mappers";
 export { compareGamesByRelease } from "@/modules/reference/features/games/data/game-release-order";
 export {
   resolveTypePair,

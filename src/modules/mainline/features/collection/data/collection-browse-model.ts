@@ -1,9 +1,15 @@
 import type { TrainerPokemonEntry } from "@/modules/mainline/shared/data/trainer-pokemon-model";
+import {
+  findSpeciesGeneration,
+  type SpeciesGeneration,
+} from "@/modules/reference/features/pokemon/data/species-generations";
 
 export type CollectionKind = "all" | "many" | "shiny" | "team";
 export type CollectionSort = "dex" | "recent" | "used";
 
 export type CollectionFilters = {
+  /* A generation's id, or "" for every generation. */
+  generation: string;
   kind: CollectionKind;
   query: string;
   sort: CollectionSort;
@@ -11,10 +17,12 @@ export type CollectionFilters = {
   type: string;
 };
 
+/* Most used first: the ones that keep coming back are the Collection's story. */
 export const defaultCollectionFilters: CollectionFilters = {
+  generation: "",
   kind: "all",
   query: "",
-  sort: "dex",
+  sort: "used",
   type: "",
 };
 
@@ -40,6 +48,12 @@ const kindMatchers: Record<
   shiny: (entry) => entry.shiny,
   team: (entry) => entry.onTeamNow,
 };
+
+/* How many filters are set beyond search and sort (the toolbar's count). */
+export const countActiveCollectionFilters = (filters: CollectionFilters) =>
+  (filters.kind === "all" ? 0 : 1) +
+  (filters.generation ? 1 : 0) +
+  (filters.type ? 1 : 0);
 
 export const countCollectionKinds = (entries: TrainerPokemonEntry[]) => {
   return Object.fromEntries(
@@ -73,11 +87,19 @@ const normalizeCollectionQuery = (value: string) =>
 export const filterAndSortCollection = (
   entries: TrainerPokemonEntry[],
   filters: CollectionFilters,
+  generations: SpeciesGeneration[] = [],
 ) => {
   const query = normalizeCollectionQuery(filters.query);
+  const generationId = filters.generation ? Number(filters.generation) : null;
 
   return entries
     .filter(kindMatchers[filters.kind])
+    .filter(
+      (entry) =>
+        generationId === null ||
+        findSpeciesGeneration(generations, entry.nationalNumber)?.id ===
+          generationId,
+    )
     .filter(
       (entry) =>
         !filters.type || entry.types.some((type) => type.slug === filters.type),
@@ -95,5 +117,6 @@ export const filterAndSortCollection = (
 
 export const hasActiveCollectionFilters = (filters: CollectionFilters) =>
   filters.kind !== "all" ||
+  Boolean(filters.generation) ||
   Boolean(filters.type) ||
   Boolean(filters.query.trim());

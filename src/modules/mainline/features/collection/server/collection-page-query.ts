@@ -1,13 +1,20 @@
+import { buildCollectionGames } from "@/modules/mainline/features/collection/data/collection-games-model";
 import { buildTrainerPokemonEntries } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { readTrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
 import type { CollectionPageData } from "@/modules/mainline/features/collection/types";
+import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
+import { readSpeciesGenerations } from "@/modules/reference/features/pokemon/server/species-generations-reader";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export const getCollectionPageData = async (): Promise<CollectionPageData> => {
   const supabase = await createServerSupabaseClient();
   const userId = await getSignedInTrainerId(supabase);
-  const rows = await readTrainerPokemonRows(supabase, userId);
+  const [rows, catalogue, generations] = await Promise.all([
+    readTrainerPokemonRows(supabase, userId),
+    readGameCatalogue(),
+    readSpeciesGenerations(supabase),
+  ]);
   const entries = buildTrainerPokemonEntries(rows);
   const playIds = new Set(entries.flatMap((entry) => entry.playIds));
   const gameSlugs = new Set(
@@ -23,9 +30,11 @@ export const getCollectionPageData = async (): Promise<CollectionPageData> => {
 
   return {
     entries,
+    games: buildCollectionGames(catalogue.games, rows.plays),
+    generations,
     gameCount: gameSlugs.size,
     latestPlayId: latestPlay?.play_id ?? null,
-    playCount: playIds.size,
+    pokemonPlayCount: playIds.size,
     totalPlayCount: rows.plays.length,
     types: rows.types.map((type) => ({ name: type.name, slug: type.slug })),
   };

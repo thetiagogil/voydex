@@ -6,7 +6,7 @@ type PageProps = {
 };
 
 export default async function CollectionPage({ searchParams }: PageProps) {
-  const [{ species }, data] = await Promise.all([
+  const [{ species, view }, data] = await Promise.all([
     searchParams,
     getCollectionPageData(),
   ]);
@@ -15,6 +15,7 @@ export default async function CollectionPage({ searchParams }: PageProps) {
     <MainlineCollectionPage
       data={data}
       initialSpeciesSlug={typeof species === "string" ? species : null}
+      view={view === "games" ? "games" : "pokemon"}
     />
   );
 }

@@ -21,7 +21,9 @@ const toTypeSlug = (slug: string | null | undefined): PokemonTypeSlug | null =>
  * One Play a Pokémon of yours is in (the species sheet, the Codex entry's In
  * your Plays): its cover, name and status, and what is there, opening it on
  * the Play. In a family's sheet the line under the name starts with which
- * Pokémon it is, in its type's colour. Render inside a `ul`.
+ * Pokémon it is, in its type's colour. Without a `label` the row's own words
+ * name it (a game's sheet, where the Play is the subject). Render inside a
+ * `ul`.
  */
 export const TrainerPlayRow = ({
   detail,
@@ -33,7 +35,7 @@ export const TrainerPlayRow = ({
 }: {
   detail: string;
   href: string;
-  label: string;
+  label?: string;
   play: TrainerPlay;
   pokemon?: { name: string; typeSlug: string | null };
   shiny: boolean;

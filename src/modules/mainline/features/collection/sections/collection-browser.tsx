@@ -2,10 +2,12 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
+import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import {
   collectionKindLabels,
   collectionSortLabels,
+  countActiveCollectionFilters,
   countCollectionKinds,
   defaultCollectionFilters,
   filterAndSortCollection,
@@ -22,6 +24,8 @@ import {
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
+import { CountMark } from "@/shared/components/corner-bubble";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -42,6 +46,10 @@ import {
 
 type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
+  /* Played games, for the Games switch's count. */
+  gameCount: number;
+  /* Every generation, for the Generation filter. */
+  generations: SpeciesGeneration[];
   /* The page's head, which opens the band above the toolbar. */
   head: ReactNode;
   /* Opens on one species' sheet, as Statistics' old friends link here. */
@@ -50,23 +58,20 @@ type CollectionBrowserProps = {
 };
 
 const kindOrder: CollectionKind[] = ["all", "team", "many", "shiny"];
-const sortOrder: CollectionSort[] = ["dex", "used", "recent"];
+const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
 
-const getCountLine = (entry: TrainerPokemonEntry) => {
-  const plays = entry.playIds.length;
-  const playLine = `${plays} ${plays === 1 ? "Play" : "Plays"}`;
-
-  return entry.members.length > plays
-    ? `${playLine} · ${entry.members.length} caught`
-    : playLine;
-};
+const countPlays = (count: number) =>
+  `${count} ${count === 1 ? "Play" : "Plays"}`;
 
 /*
- * The Collection's list: a toolbar (search, what to show, the order), the
- * type dots, and every species as a sticker that opens its sheet.
+ * The Collection's Pokémon: the views switch, a toolbar (search, what to
+ * show, the generation, the order), the type dots, and every species as a
+ * sticker with its Play count on a corner, opening its sheet.
  */
 export const CollectionBrowser = ({
   entries,
+  gameCount,
+  generations,
   head,
   initialSpeciesSlug,
   types,
@@ -81,8 +86,8 @@ export const CollectionBrowser = ({
   );
   const counts = useMemo(() => countCollectionKinds(entries), [entries]);
   const shown = useMemo(
-    () => filterAndSortCollection(entries, filters),
-    [entries, filters],
+    () => filterAndSortCollection(entries, filters, generations),
+    [entries, filters, generations],
   );
   const openEntry =
     entries.find((entry) => entry.speciesId === openSpeciesId) ?? null;
@@ -110,13 +115,16 @@ export const CollectionBrowser = ({
         >
           {head}
         </FoldHead>
+        <CollectionViewSwitch
+          gameCount={gameCount}
+          pokemonCount={entries.length}
+          value="pokemon"
+        />
         <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel="Filter your Collection"
             className="mt-5"
-            activeCount={
-              (filters.kind === "all" ? 0 : 1) + (filters.type ? 1 : 0)
-            }
+            activeCount={countActiveCollectionFilters(filters)}
             resultLabel={`Show ${shown.length} Pokémon`}
             search={
               <SearchControl
@@ -128,6 +136,29 @@ export const CollectionBrowser = ({
               />
             }
             controls={(placement) => {
+              const generation = (
+                <SelectControl
+                  id={
+                    placement === "line"
+                      ? "collection-generation"
+                      : "collection-sheet-generation"
+                  }
+                  ariaLabel="Filter by generation"
+                  resetValue={defaultCollectionFilters.generation}
+                  prefix={placement === "line" ? "Generation" : undefined}
+                  value={filters.generation}
+                  variant="ghost"
+                  placeholder="All generations"
+                  onValueChange={(generation) => update({ generation })}
+                  options={[
+                    { label: "All generations", value: "" },
+                    ...generations.map((each) => ({
+                      label: each.name,
+                      value: String(each.id),
+                    })),
+                  ]}
+                />
+              );
               const sort = (
                 <SelectControl
                   id={
@@ -140,7 +171,9 @@ export const CollectionBrowser = ({
                   prefix={placement === "line" ? "Sort" : undefined}
                   value={filters.sort}
                   variant="ghost"
-                  placeholder={collectionSortLabels.dex}
+                  placeholder={
+                    collectionSortLabels[defaultCollectionFilters.sort]
+                  }
                   onValueChange={(sort) =>
                     update({ sort: sort as CollectionSort })
                   }
@@ -152,11 +185,22 @@ export const CollectionBrowser = ({
               );
 
               return placement === "line" ? (
-                sort
-              ) : (
-                <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
+                <>
+                  {generation}
                   {sort}
-                </FilterSheetRow>
+                </>
+              ) : (
+                <>
+                  <FilterSheetRow
+                    htmlFor="collection-sheet-generation"
+                    label="Generation"
+                  >
+                    {generation}
+                  </FilterSheetRow>
+                  <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
+                    {sort}
+                  </FilterSheetRow>
+                </>
               );
             }}
             filters={(placement) => {
@@ -221,7 +265,12 @@ export const CollectionBrowser = ({
                   name={entry.name}
                   number={formatNationalNumber(entry.nationalNumber)}
                   shiny={entry.shiny}
-                  subtitle={getCountLine(entry)}
+                  mark={
+                    <CountMark
+                      count={entry.playIds.length}
+                      label={countPlays(entry.playIds.length)}
+                    />
+                  }
                   types={entry.types}
                   selected={openSpeciesId === entry.speciesId}
                   detail="See its Plays"

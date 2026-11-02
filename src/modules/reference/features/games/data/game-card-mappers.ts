@@ -1,6 +1,9 @@
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 import { getGameKind } from "@/modules/reference/features/games/domain/game-kinds";
-import type { GameCard } from "@/modules/reference/features/games/types";
+import type {
+  GameCard,
+  GameShelfCardGame,
+} from "@/modules/reference/features/games/types";
 import type {
   Game,
   GamePlatform,
@@ -61,3 +64,12 @@ export const buildGameCards = (params: {
     };
   });
 };
+
+/* What a Codex game card shows on the one game card (`GameShelfCard`). */
+export const getGameShelfCardGame = (card: GameCard): GameShelfCardGame => ({
+  coverImageUrl: card.coverImageUrl,
+  name: card.game.name,
+  regionName: card.region?.name ?? null,
+  releaseYear: card.game.release_year,
+  slug: card.game.slug,
+});
