@@ -3,12 +3,30 @@ import { expect, test, type Page } from "@playwright/test";
 import { expectAccessible } from "../support/accessibility";
 import { signedOut } from "../support/accounts";
 import { forTheAnswer, waitForAction } from "../support/actions";
+import { openFilters } from "../support/filters";
 
 /*
- * Spinda: no other test touches it, and the account is shared, so each test
- * leaves its heart off.
+ * The account is shared and the desktop and phone runs go side by side, so
+ * each run hearts its own Pokémon that no other test touches, and leaves it
+ * off again.
  */
-const entry = "/codex/pokemon/rs/spinda";
+const subjects = {
+  desktop: {
+    codexHref: "/codex/pokemon/spinda",
+    entry: "/codex/pokemon/rs/spinda",
+    name: "Spinda",
+    number: "#327",
+  },
+  phone: {
+    codexHref: "/codex/pokemon/smeargle",
+    entry: "/codex/pokemon/gs/smeargle",
+    name: "Smeargle",
+    number: "#235",
+  },
+} as const;
+
+const getSubject = (projectName: string) =>
+  projectName === "phone" ? subjects.phone : subjects.desktop;
 
 const heart = (page: Page) => page.getByRole("button", { name: "Favourite" });
 
@@ -23,19 +41,24 @@ const setHeart = async (page: Page, on: boolean) => {
 };
 
 test.describe("Codex: favourites", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto(entry, { waitUntil: "networkidle" });
+  test.beforeEach(async ({ page }, testInfo) => {
+    await page.goto(getSubject(testInfo.project.name).entry, {
+      waitUntil: "networkidle",
+    });
     await setHeart(page, false);
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.goto(entry, { waitUntil: "networkidle" });
+  test.afterEach(async ({ page }, testInfo) => {
+    await page.goto(getSubject(testInfo.project.name).entry, {
+      waitUntil: "networkidle",
+    });
     await setHeart(page, false);
   });
 
   test("the heart saves straight away, undoes, and lists the Pokémon in Collection @phone", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    const subject = getSubject(testInfo.project.name);
     const errors: string[] = [];
 
     page.on("console", (message) => {
@@ -47,9 +70,9 @@ test.describe("Codex: favourites", () => {
     await heart(page).click();
     await expect(heart(page)).toHaveAttribute("aria-pressed", "true");
     await saved;
-    await expect(page.getByText("Spinda added to your favourites")).toBeVisible(
-      forTheAnswer,
-    );
+    await expect(
+      page.getByText(`${subject.name} added to your favourites`),
+    ).toBeVisible(forTheAnswer);
 
     /* Undo takes it off again, and so does a reload. */
     saved = waitForAction(page);
@@ -72,12 +95,28 @@ test.describe("Codex: favourites", () => {
     await expect(
       views.getByRole("link", { name: /^Favourites/ }),
     ).toHaveAttribute("aria-current", "page");
-    const spinda = page
+    const card = page
       .getByRole("region", { name: "Your favourites" })
-      .getByRole("link", { name: /^#327 Spinda Not on a team yet/ });
+      .getByRole("link", {
+        name: new RegExp(
+          `^${subject.number} ${subject.name} Not on a team yet`,
+        ),
+      });
 
-    await expect(spinda).toHaveAttribute("href", "/codex/pokemon/spinda");
+    await expect(card).toHaveAttribute("href", subject.codexHref);
     await expectAccessible(page);
+
+    /* The Pokémon view's toolbar: Show splits used from not yet. */
+    const { close, filters } = await openFilters(page);
+
+    await filters.getByRole("button", { name: /^On your teams/ }).click();
+    await close();
+    await expect(card).toBeHidden();
+    await page
+      .getByRole("button", { name: /^Reset/ })
+      .first()
+      .click();
+    await expect(card).toBeVisible();
     expect(errors).toEqual([]);
   });
 });
@@ -88,6 +127,8 @@ test.describe("Codex: favourites signed out", () => {
   test("the heart asks a visitor to sign in and comes back to the entry", async ({
     page,
   }) => {
+    const { entry } = subjects.desktop;
+
     await page.goto(entry, { waitUntil: "networkidle" });
 
     await expect(

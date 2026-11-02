@@ -79,32 +79,45 @@ export const MainlineCollectionPage = ({
   );
 
   if (view === "favourites") {
+    const favouritesHead = (
+      <PageHeader
+        title="Collection"
+        description={getFavouritesDescription(data)}
+      />
+    );
+
     return (
       <div className="flex flex-col gap-5 sm:gap-6">
-        <PageBand>
-          <PageHeader
-            title="Collection"
-            description={getFavouritesDescription(data)}
-          />
-          {viewSwitch}
-        </PageBand>
         {data.favourites.length ? (
           <CollectionFavourites
             entries={data.entries}
             favourites={data.favourites}
+            generations={data.generations}
+            head={favouritesHead}
+            types={data.types}
+            viewSwitch={viewSwitch}
           />
         ) : (
-          <EmptyState
-            headingLevel="h2"
-            art={emptyArt}
-            title="No favourites yet"
-            description="Tap the heart on any Pokémon in the Codex and it waits for you here."
-            action={
-              <Link href={appRoutes.codexPokemon} className={buttonVariants()}>
-                Browse the Codex
-              </Link>
-            }
-          />
+          <>
+            <PageBand>
+              {favouritesHead}
+              {viewSwitch}
+            </PageBand>
+            <EmptyState
+              headingLevel="h2"
+              art={emptyArt}
+              title="No favourites yet"
+              description="Tap the heart on any Pokémon in the Codex and it waits for you here."
+              action={
+                <Link
+                  href={appRoutes.codexPokemon}
+                  className={buttonVariants()}
+                >
+                  Browse the Codex
+                </Link>
+              }
+            />
+          </>
         )}
       </div>
     );
@@ -150,11 +163,10 @@ export const MainlineCollectionPage = ({
         <CollectionBrowser
           head={head}
           entries={data.entries}
-          favouriteCount={data.favourites.length}
-          gameCount={data.games.playedGameCount}
           generations={data.generations}
           initialSpeciesSlug={initialSpeciesSlug}
           types={data.types}
+          viewSwitch={viewSwitch}
         />
       ) : (
         <>

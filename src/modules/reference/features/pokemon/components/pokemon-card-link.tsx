@@ -8,9 +8,9 @@ import {
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
 
-type CodexPokemonCardType = { name: string; slug: string };
+type PokemonCardLinkType = { name: string; slug: string };
 
-type CodexPokemonCardLinkProps = {
+type PokemonCardLinkProps = {
   /*
    * What the link adds after the card's own words, read but not seen, such
    * as "in Sword and Shield": its name always starts with what it shows.
@@ -22,17 +22,19 @@ type CodexPokemonCardLinkProps = {
   number: string;
   /* `md` in a list; `sm` where three share a narrow column. */
   size?: PokemonCardSize;
+  /* A line under the name, such as "Not on a team yet". */
+  subtitle?: string;
   /* A hover note, such as the other numbering. */
   tip?: string;
-  types: (CodexPokemonCardType | null)[];
+  types: (PokemonCardLinkType | null)[];
 };
 
 /*
- * A Pokémon in a Codex list: the one Pokémon card, plain (nothing here is
- * owned), opening the Pokémon's entry. The card's text names the link, so the
+ * A Pokémon you don't own in a list, such as the Codex's: the one Pokémon
+ * card, plain, opening the Pokémon's entry. The card's text names the link, so the
  * art is decorative. Cards off screen skip rendering until reached.
  */
-export const CodexPokemonCardLink = memo(
+export const PokemonCardLink = memo(
   ({
     detail,
     href,
@@ -40,9 +42,10 @@ export const CodexPokemonCardLink = memo(
     name,
     number,
     size = "md",
+    subtitle,
     tip,
     types,
-  }: CodexPokemonCardLinkProps) => {
+  }: PokemonCardLinkProps) => {
     return (
       <IconTip
         label={tip}
@@ -61,6 +64,7 @@ export const CodexPokemonCardLink = memo(
               name={name}
               number={number}
               size={size}
+              subtitle={subtitle}
               types={types.filter((type) => type !== null)}
             />
             {detail ? <span className="sr-only">, {detail}</span> : null}
@@ -71,10 +75,10 @@ export const CodexPokemonCardLink = memo(
   },
 );
 
-CodexPokemonCardLink.displayName = "CodexPokemonCardLink";
+PokemonCardLink.displayName = "PokemonCardLink";
 
 /* Three cards across on phones; on wider screens as many 128px columns as fit. */
-export const CodexPokemonGrid = ({
+export const PokemonCardGrid = ({
   children,
   className,
 }: {

@@ -16,9 +16,9 @@ import {
   type GamePokedexView,
 } from "@/modules/codex/features/games/pokedex/data/game-pokedex-browser-model";
 import {
-  CodexPokemonCardLink,
-  CodexPokemonGrid,
-} from "@/modules/codex/shared/components/codex-pokemon-card-link";
+  PokemonCardLink,
+  PokemonCardGrid,
+} from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import {
@@ -247,9 +247,9 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
         <div className="mt-4">
           {visiblePokemon.length ? (
             view === "grid" ? (
-              <CodexPokemonGrid>
+              <PokemonCardGrid>
                 {visiblePokemon.map((entry) => (
-                  <CodexPokemonCardLink
+                  <PokemonCardLink
                     key={`${entry.entry.pokedex_id}-${entry.entry.pokedex_number}-${entry.entry.species_id}`}
                     detail={`in ${versionGroupName}`}
                     href={appRoutes.codexPokemonEntry(
@@ -266,7 +266,7 @@ export const GamePokedexBrowser = ({ data, head }: GamePokedexBrowserProps) => {
                     ]}
                   />
                 ))}
-              </CodexPokemonGrid>
+              </PokemonCardGrid>
             ) : (
               <GamePokedexTable
                 data={data}

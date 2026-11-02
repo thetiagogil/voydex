@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 import { setFavouritePokemonAction } from "@/modules/mainline/features/collection/server/favourite-pokemon-action";
@@ -39,17 +39,24 @@ export const FavouritePokemonButton = ({
 }: FavouritePokemonButtonProps) => {
   const [favourite, setFavourite] = useState(initialFavourite);
   const [isPending, startTransition] = useTransition();
+  /*
+   * One save at a time, so the heart and the database never disagree. A ref,
+   * not `isPending`: an older toast's Undo keeps the render it came from.
+   */
+  const saving = useRef(false);
 
   const save = (next: boolean, { undoable }: { undoable: boolean }) => {
-    /* One save at a time, so the last tap is always the one that lands. */
-    if (isPending) return;
+    if (saving.current) return;
 
+    saving.current = true;
     setFavourite(next);
     startTransition(async () => {
       const result = await setFavouritePokemonAction({
         favourite: next,
         formId,
         speciesId,
+      }).finally(() => {
+        saving.current = false;
       });
 
       if (result.status === "error") {

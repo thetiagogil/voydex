@@ -10,8 +10,10 @@ import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/dat
 
 /* One hearted form, as the Collection's Favourites draws it. */
 export type FavouritePokemon = {
-  /* Its Codex entry, on the hearted form. */
+  /* Its Codex entry on the hearted form, opening where that form is found. */
   codexHref: string;
+  /* When it was hearted, for Newest heart. */
+  favouritedAt: string;
   formId: number;
   imageUrl: string | null;
   /* The form's own name, such as "Pikachu (Partner)". */
@@ -63,6 +65,7 @@ export const buildFavouritePokemon = (
         codexHref: form.is_default
           ? speciesHref
           : `${speciesHref}?${new URLSearchParams({ form: form.slug })}`,
+        favouritedAt: favourite.created_at,
         formId: form.id,
         imageUrl: getPokemonFormImageUrl(form),
         name: form.name,
