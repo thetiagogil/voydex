@@ -30,12 +30,12 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("empty-slot");
   });
 
-  it("is a button wearing the owned band and the stamp for a game you've played", () => {
+  it("is a button wearing the owned band and the mark for a game you've played", () => {
     const markup = renderToStaticMarkup(
       <GameShelfCard
         game={game}
         onClick={() => {}}
-        stamp={<span data-testid="stamp">2</span>}
+        mark={<span data-testid="mark">2</span>}
       />,
     );
 
@@ -44,7 +44,7 @@ describe("GameShelfCard", () => {
     expect(markup).toContain("sticker");
     expect(markup).not.toContain("plain-card");
     expect(markup).toContain('data-corner="inside-top-right"');
-    expect(markup).toContain('data-testid="stamp"');
+    expect(markup).toContain('data-testid="mark"');
   });
 
   it("draws an unplayed game as a dashed open slot that New Play fills", () => {

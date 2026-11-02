@@ -110,6 +110,27 @@ export const SlotMark = ({ children }: { children: ReactNode }) => (
 );
 
 /*
+ * A quiet count on a corner: how many Plays a Pokémon or a game of yours has
+ * been in (Collection). A soft grey disc, so it shows on a white card and a
+ * tinted sticker alike; the number is seen, the label is read.
+ */
+export const CountMark = ({
+  count,
+  label,
+}: {
+  count: number;
+  label: string;
+}) => (
+  <span
+    role="img"
+    aria-label={label}
+    className="bg-surface-2 text-ink text-13 bubble grid size-6 place-items-center rounded-full font-extrabold tabular-nums"
+  >
+    <span aria-hidden>{count}</span>
+  </span>
+);
+
+/*
  * A warning on a corner (a rule the Pokémon breaks): the soft amber "!". The
  * static twin of the raised tip in `ExplanatoryTip`, for a card that is
  * itself a link or a button; its words are read, not seen.

@@ -11,13 +11,11 @@ import { IconTip } from "@/shared/components/icon-tip";
  * A badge stamp: the one thing that tilts at rest. A gym badge or an Alola
  * trial is its type colour, a Grand Trial its type in a gold ring; a League
  * milestone you've earned is gold. Stamps still ahead are dashed, the next
- * one a little stronger. A gold stamp can carry a count instead of an icon
- * (Collection's played games, in ink so it reads on the gold).
+ * one a little stronger.
  */
 export type BadgeStampState =
   | { grand?: boolean; kind: "badge"; type: PokemonTypeSlug | null }
   | { icon: AppIconComponent; kind: "earned" }
-  | { count: number; kind: "earned" }
   | { icon?: AppIconComponent; kind: "next" | "todo" };
 
 type BadgeStampProps = {
@@ -83,13 +81,6 @@ export const BadgeStamp = ({
         >
           {state.kind === "badge" && state.type ? (
             <PokemonTypeIcon type={state.type} className="size-[46%]" />
-          ) : state.kind === "earned" && "count" in state ? (
-            <span
-              aria-hidden
-              className="text-15 text-ink font-extrabold tabular-nums"
-            >
-              {state.count}
-            </span>
           ) : state.kind !== "badge" && state.icon ? (
             <AppIcon icon={state.icon} className="size-[44%]" aria-hidden />
           ) : null}

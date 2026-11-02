@@ -30,11 +30,11 @@ describe("PokemonSticker corners", () => {
     expect(html.indexOf(">4<")).toBeLessThan(html.indexOf(", Shiny"));
   });
 
-  it("puts the stamp top-right, above the slot number and the shiny mark", () => {
+  it("puts the mark top-right, above the slot number and the shiny mark", () => {
     const html = render({
       shiny: true,
       slot: "4",
-      stamp: <span data-testid="stamp">2 Plays</span>,
+      mark: <span data-testid="mark">2 Plays</span>,
     });
 
     expect(cornerOf(html, "2 Plays")).toBe("inside-top-right");

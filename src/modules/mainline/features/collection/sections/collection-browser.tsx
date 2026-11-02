@@ -16,7 +16,6 @@ import {
   type CollectionKind,
   type CollectionSort,
 } from "@/modules/mainline/features/collection/data/collection-browse-model";
-import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
 import {
   getTrainerFamilyEntries,
   type TrainerPokemonEntry,
@@ -26,6 +25,7 @@ import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/traine
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
+import { CountMark } from "@/shared/components/corner-bubble";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -60,13 +60,10 @@ type CollectionBrowserProps = {
 const kindOrder: CollectionKind[] = ["all", "team", "many", "shiny"];
 const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
 
-/* A sticker's stamp leans a little, each one its own way. */
-const stampTilts = [-10, 7, -5, 9, -8, 5];
-
 const countPlays = (count: number) =>
   `${count} ${count === 1 ? "Play" : "Plays"}`;
 
-/* What the stamp doesn't say: more caught than Plays. */
+/* What the mark doesn't say: more caught than Plays. */
 const getCountLine = (entry: TrainerPokemonEntry) =>
   entry.members.length > entry.playIds.length
     ? `${entry.members.length} caught`
@@ -75,7 +72,7 @@ const getCountLine = (entry: TrainerPokemonEntry) =>
 /*
  * The Collection's Pokémon: the views switch, a toolbar (search, what to
  * show, the generation, the order), the type dots, and every species as a
- * sticker with its gold Play-count stamp, opening its sheet.
+ * sticker with its Play count on a corner, opening its sheet.
  */
 export const CollectionBrowser = ({
   entries,
@@ -274,12 +271,10 @@ export const CollectionBrowser = ({
                   name={entry.name}
                   number={formatNationalNumber(entry.nationalNumber)}
                   shiny={entry.shiny}
-                  stamp={
-                    <BadgeStamp
-                      className="w-9"
+                  mark={
+                    <CountMark
+                      count={entry.playIds.length}
                       label={countPlays(entry.playIds.length)}
-                      state={{ count: entry.playIds.length, kind: "earned" }}
-                      tilt={stampTilts[entry.speciesId % stampTilts.length]}
                     />
                   }
                   subtitle={getCountLine(entry)}

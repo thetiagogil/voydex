@@ -23,20 +23,12 @@ export type CollectionGame = {
   plays: CollectionGamePlay[];
 };
 
-export type CollectionGameSection = {
-  games: CollectionGame[];
-  key: string;
-  /* "Generation I". */
-  label: string;
-  /* "1996–1998 · 1 of 3 in the album". */
-  summary: string;
-};
-
 export type CollectionGames = {
+  /* The games you've played first, most Plays first, then the rest in release order. */
+  games: CollectionGame[];
   /* Every Play you have, archived too: each one played its game. */
   playCount: number;
   playedGameCount: number;
-  sections: CollectionGameSection[];
   totalGameCount: number;
 };
 
@@ -61,18 +53,10 @@ const toCollectionGamePlay = (
   };
 };
 
-const formatYearSpan = (games: CollectionGame[]) => {
-  const years = games.map(({ game }) => game.releaseYear);
-  const first = Math.min(...years);
-  const last = Math.max(...years);
-
-  return first === last ? String(first) : `${first}–${last}`;
-};
-
 /*
- * Collection's Games, the album: every game in release order, one page per
- * generation, each game with your Plays of it. The catalogue arrives in
- * release order, and the order is kept.
+ * Collection's Games: the games you've played first, the ones with the most
+ * Plays leading, then every other game in release order (the catalogue's),
+ * each with your Plays of it.
  */
 export const buildCollectionGames = (
   catalogueGames: GameShelfGame[],
@@ -91,36 +75,38 @@ export const buildCollectionGames = (
     }
   }
 
-  const sectionsByNumber = new Map<number, CollectionGameSection>();
-  let playCount = 0;
-  let playedGameCount = 0;
-
-  for (const game of catalogueGames) {
+  const games = catalogueGames.map((game, index) => {
     const gamePlays = playsByGameSlug.get(game.slug) ?? [];
-    const section = sectionsByNumber.get(game.generation.number) ?? {
-      games: [],
-      key: `generation-${game.generation.number}`,
-      label: game.generation.name,
-      summary: "",
-    };
 
-    playCount += gamePlays.length;
-    playedGameCount += gamePlays.length ? 1 : 0;
-    section.games.push({
-      game,
-      href: gamePlays.length ? null : appRoutes.mainlineNewPlay(game.slug),
-      plays: gamePlays,
-    });
-    sectionsByNumber.set(game.generation.number, section);
-  }
+    return {
+      entry: {
+        game,
+        href: gamePlays.length ? null : appRoutes.mainlineNewPlay(game.slug),
+        plays: gamePlays,
+      },
+      index,
+    };
+  });
+  const played = games.filter(({ entry }) => entry.plays.length);
 
   return {
-    playCount,
-    playedGameCount,
-    sections: [...sectionsByNumber.values()].map((section) => ({
-      ...section,
-      summary: `${formatYearSpan(section.games)} · ${section.games.filter((entry) => entry.plays.length).length} of ${section.games.length} in the album`,
-    })),
+    games: [
+      ...played
+        .toSorted(
+          (left, right) =>
+            right.entry.plays.length - left.entry.plays.length ||
+            left.index - right.index,
+        )
+        .map(({ entry }) => entry),
+      ...games
+        .filter(({ entry }) => !entry.plays.length)
+        .map(({ entry }) => entry),
+    ],
+    playCount: played.reduce(
+      (total, { entry }) => total + entry.plays.length,
+      0,
+    ),
+    playedGameCount: played.length,
     totalGameCount: catalogueGames.length,
   };
 };

@@ -12,23 +12,22 @@ several Plays, Shiny), Generation, Sort (Most used by default, Pokédex
 number, Recently recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
-joined you in. Archived Plays count. Each sticker wears the same gold stamp
-as a played game, counting its Plays; its line says only what the stamp
-doesn't ("3 caught"). The list opens on Most used; Generation is a filter
+joined you in. Archived Plays count. Each sticker carries the same small
+count mark as a played game, its Plays on a corner; its line says only what
+the mark doesn't ("3 caught"). The list opens on Most used; Generation is a filter
 beside Sort, never a grouping, so the order holds across the whole
 Collection.
 
 Collection has a second view, Games (`?view=games`), on a Pokémon | Games
-switch under the head: an album of every game in release order, a page per
-generation ("1996–1998 · 1 of 3 in the album"). A game you've played sits in
-its place as a card with the owned band and a gold stamp counting your Plays
-of it, archived ones included, and opens its sheet in place, as a Pokémon
-does: the game's cover and Open in Codex, then each Play of it (trainer and
-playtime, its status), archived ones in their own section, each opening on
-the Play. A game you haven't played is a dashed open slot with its cover
-stepped back and "Not played yet"; it opens New Play with the game picked.
-The head counts the same stamps: "3 of 38 games in your album, across 4
-Plays". The view has no search or filters.
+switch under the head: one grid, the games you've played first with the most
+Plays leading, then every other game in release order. A played game is a
+card with the owned band and a small count mark of your Plays of it, archived
+ones included, and opens its sheet in place, as a Pokémon does: the game's
+cover and Open in Codex, then each Play of it (trainer and playtime, its
+status), archived ones in their own section, each opening on the Play. A
+game you haven't played is a dashed open slot with its cover stepped back and
+"Not played yet"; it opens New Play with the game picked. The head counts the
+same marks: "You've played 3 of 38 games, across 4 Plays". The view has no search or filters.
 
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 

@@ -32,10 +32,10 @@ const formatCount = (count: number, one: string, many: string) =>
 
 const getGamesDescription = ({ games }: CollectionPageData) => {
   if (!games.playedGameCount) {
-    return "Every game you play takes its place in your album";
+    return "Every game you play takes its place here";
   }
 
-  return `${games.playedGameCount} of ${formatCount(games.totalGameCount, "game", "games")} in your album, across ${formatCount(games.playCount, "Play", "Plays")}`;
+  return `You've played ${games.playedGameCount} of ${formatCount(games.totalGameCount, "game", "games")}, across ${formatCount(games.playCount, "Play", "Plays")}`;
 };
 
 const getDescription = (data: CollectionPageData) => {
@@ -49,9 +49,8 @@ const getDescription = (data: CollectionPageData) => {
 /*
  * Collection (v3 `collection`), in two views. Pokémon: every species that has
  * joined one of your teams, with the Plays it was part of. Each one is yours,
- * so it wears a sticker; the toolbar and filters stay quiet. Games: an album
- * of every game, the ones you've played stamped with their Plays, the rest
- * open slots.
+ * so it wears a sticker; the toolbar and filters stay quiet. Games: the ones
+ * you've played first, each with its Plays, then the rest as open slots.
  */
 export const MainlineCollectionPage = ({
   data,

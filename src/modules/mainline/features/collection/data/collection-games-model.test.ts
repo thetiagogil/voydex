@@ -55,62 +55,52 @@ const play = (
   }) as MainlinePlaySummary;
 
 const listPlays = (result: ReturnType<typeof buildCollectionGames>) =>
-  Object.fromEntries(
-    result.sections.flatMap((section) =>
-      section.games.map((entry) => [
-        entry.game.slug,
-        entry.plays.map((gamePlay) => gamePlay.play.id),
-      ]),
-    ),
-  );
+  result.games.map((entry) => [
+    entry.game.slug,
+    entry.plays.map((gamePlay) => gamePlay.play.id),
+  ]);
 
 describe("buildCollectionGames", () => {
-  it("keeps every game in release order, a section per generation", () => {
+  it("keeps every unplayed game in release order", () => {
     const result = buildCollectionGames(games, []);
 
-    expect(result.sections.map((section) => section.label)).toEqual([
-      "Generation 1",
-      "Generation 2",
-    ]);
-    expect(result.sections[0].games.map((entry) => entry.game.slug)).toEqual([
+    expect(result.games.map((entry) => entry.game.slug)).toEqual([
       "red",
       "blue",
       "yellow",
+      "gold",
     ]);
-    expect(result.sections[0].summary).toBe("1996–1998 · 0 of 3 in the album");
-    expect(result.sections[1].summary).toBe("1999 · 0 of 1 in the album");
     expect(result.totalGameCount).toBe(4);
     expect(result.playedGameCount).toBe(0);
     expect(result.playCount).toBe(0);
   });
 
-  it("lists each game's Plays, archived ones too, and adds them up", () => {
+  it("puts the played games first, most Plays leading, archived ones counted", () => {
     const result = buildCollectionGames(games, [
-      play("a", "red"),
-      play("b", "red", { archived_at: "2026-01-01" }),
-      play("c", "gold"),
+      play("a", "yellow"),
+      play("b", "gold"),
+      play("c", "gold", { archived_at: "2026-01-01" }),
       play("d", null),
       play("e", "unknown-game"),
       play("f", "red", { play_id: null }),
     ]);
 
-    expect(listPlays(result)).toEqual({
-      blue: [],
-      gold: ["c"],
-      red: ["a", "b"],
-      yellow: [],
-    });
-    /* The header's numbers are the stamps' own. */
+    expect(listPlays(result)).toEqual([
+      ["gold", ["b", "c"]],
+      ["yellow", ["a"]],
+      ["red", []],
+      ["blue", []],
+    ]);
+    /* The header's numbers are the marks' own. */
     expect(result.playCount).toBe(3);
     expect(result.playedGameCount).toBe(2);
-    expect(result.sections[0].summary).toBe("1996–1998 · 1 of 3 in the album");
   });
 
   it("names each Play by its trainer and playtime, and marks the archived", () => {
     const [red] = buildCollectionGames(games, [
       play("a", "red", { playtime_minutes: 90 }),
       play("b", "red", { archived_at: "2026-01-01", trainer_name: null }),
-    ]).sections[0].games;
+    ]).games;
 
     expect(red.plays.map((gamePlay) => gamePlay.detail)).toEqual([
       "Ash · 1h 30m",
@@ -128,8 +118,7 @@ describe("buildCollectionGames", () => {
   });
 
   it("links only an unplayed game, to New Play with it picked", () => {
-    const [red, blue] = buildCollectionGames(games, [play("a", "red")])
-      .sections[0].games;
+    const [red, blue] = buildCollectionGames(games, [play("a", "red")]).games;
 
     expect(red.href).toBeNull();
     expect(blue.href).toBe("/mainline?new=blue");

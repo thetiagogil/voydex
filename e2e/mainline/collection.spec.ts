@@ -28,7 +28,7 @@ test.describe("Collection", () => {
       "page",
     );
 
-    /* Each sticker's stamp counts its Plays; Generation is a filter. */
+    /* Each sticker's mark counts its Plays; Generation is a filter. */
     const charmander = page.getByRole("button", { name: /Charmander/ });
 
     await expect(charmander.getByRole("img", { name: "1 Play" })).toBeVisible();
@@ -55,16 +55,22 @@ test.describe("Collection", () => {
       "page",
     );
 
-    /* The header's numbers are the stamps' own: one game, one Play. */
+    /* The header's numbers are the marks' own: one game, one Play. */
     await expect(
-      page.getByText(/^1 of \d+ games in your album, across 1 Play$/),
+      page.getByText(/^You've played 1 of \d+ games, across 1 Play$/),
     ).toBeVisible();
     const stamps = page.getByRole("img", { name: /^\d+ Plays?$/ });
 
     await expect(stamps).toHaveCount(1);
     await expect(stamps).toHaveAccessibleName("1 Play");
 
-    /* An unplayed game is an open slot New Play fills; a played one opens its sheet. */
+    /* The played game leads; an unplayed one is an open slot New Play fills. */
+    await expect(
+      page
+        .getByRole("region", { name: "Your games" })
+        .getByRole("button")
+        .first(),
+    ).toHaveAccessibleName(/^Pokémon Red/);
     await expect(
       page.getByRole("link", { name: /^Pokémon Blue/ }),
     ).toHaveAttribute("href", "/mainline?new=blue");

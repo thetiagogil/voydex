@@ -11,10 +11,11 @@ type GameShelfCardProps = {
   eager?: boolean;
   game: GameShelfCardGame;
   /*
-   * A game you've played (Collection): the owned white band, and this stamp
-   * on its top-right corner. Without one the card is a reference card.
+   * A game you've played (Collection): the owned white band, and this mark
+   * (its `CountMark`) on its top-right corner. Without one the card is a
+   * reference card.
    */
-  stamp?: ReactNode;
+  mark?: ReactNode;
 } & (
   | { href: string; onClick?: never }
   | {
@@ -66,19 +67,19 @@ const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
  * name, and when and where it is set. In the Codex it is a reference card
  * (`plain-card`, as a Codex Pokémon card) and never marks the games you have
  * Plays of (a game's page has "Your Plays (N)"). Collection gives a played
- * game the owned band and a stamp. Hover picks the cover up. A link opens a
+ * game the owned band and its count mark. Hover picks the cover up. A link opens a
  * page; with `onClick` it is a button.
  */
 export const GameShelfCard = ({
   eager = false,
   game,
   href,
+  mark,
   onClick,
-  stamp,
 }: GameShelfCardProps) => {
   const className = cn(
     "group/game relative flex min-w-0 flex-col gap-3 rounded-xl text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
-    stamp ? "sticker p-1 pb-2.5 [--t:var(--surface)]" : "plain-card p-2 pb-3.5",
+    mark ? "sticker p-1 pb-2.5 [--t:var(--surface)]" : "plain-card p-2 pb-3.5",
   );
   const content = (
     <>
@@ -90,9 +91,9 @@ export const GameShelfCard = ({
           {game.regionName ? ` · ${game.regionName}` : null}
         </span>
       </span>
-      {stamp ? (
+      {mark ? (
         <CornerBubble border="sticker" corner="inside-top-right">
-          {stamp}
+          {mark}
         </CornerBubble>
       ) : null}
     </>
