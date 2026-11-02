@@ -13,6 +13,15 @@ and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
 joined you in. Archived Plays count.
 
+Collection has a second view, Games (`?view=games`), on a Pokémon | Games
+switch under the head: every game in release order, a range per generation
+("1996–1998 · 1 of 3 played"). A game you've played wears the owned band and
+a gold stamp with how many of your Plays are of it, archived ones included;
+one Play opens that Play, several open your Plays filtered to the game (or
+the archived list, when every one is archived). A game you haven't played
+steps back and opens its Codex page. The head counts the same stamps: "You've
+played 3 of 38 games, across 4 Plays". The view has no search or filters.
+
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 
 It should support filters by:

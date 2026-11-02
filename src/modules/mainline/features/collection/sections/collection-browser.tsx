@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
+import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import {
   collectionKindLabels,
@@ -42,6 +43,8 @@ import {
 
 type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
+  /* Played games, for the Games switch's count. */
+  gameCount: number;
   /* The page's head, which opens the band above the toolbar. */
   head: ReactNode;
   /* Opens on one species' sheet, as Statistics' old friends link here. */
@@ -62,11 +65,12 @@ const getCountLine = (entry: TrainerPokemonEntry) => {
 };
 
 /*
- * The Collection's list: a toolbar (search, what to show, the order), the
- * type dots, and every species as a sticker that opens its sheet.
+ * The Collection's Pokémon: the views switch, a toolbar (search, what to
+ * show, the order), the type dots, and every species as a sticker that opens its sheet.
  */
 export const CollectionBrowser = ({
   entries,
+  gameCount,
   head,
   initialSpeciesSlug,
   types,
@@ -110,6 +114,11 @@ export const CollectionBrowser = ({
         >
           {head}
         </FoldHead>
+        <CollectionViewSwitch
+          gameCount={gameCount}
+          pokemonCount={entries.length}
+          value="pokemon"
+        />
         <FoldPanel id={fold.panelId} open={fold.open}>
           <FilterToolbar
             ariaLabel="Filter your Collection"

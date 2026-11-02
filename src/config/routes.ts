@@ -49,6 +49,8 @@ export const appRoutes = {
   mainlineHomePlay: (playId: string) =>
     `/mainline?play=${encodeURIComponent(playId)}`,
   mainlineCollection: "/mainline/collection",
+  /* The Collection's Games: every game, the ones you've played stamped. */
+  mainlineCollectionGames: "/mainline/collection?view=games",
   /* The Collection with one species' sheet open. */
   mainlineCollectionSpecies: (speciesSlug: string) =>
     `/mainline/collection?species=${encodeURIComponent(speciesSlug)}`,
@@ -111,6 +113,9 @@ export const appRoutes = {
   mainlinePlayTeamPlan: (playId: string) =>
     `/mainline/plays/${playId}/team/plan`,
   mainlinePlays: "/mainline/plays",
+  /* Your Plays of one game. */
+  mainlinePlaysGame: (gameSlug: string) =>
+    `/mainline/plays?game=${encodeURIComponent(gameSlug)}`,
   /* The Plays you archived, each with Restore. */
   mainlinePlaysArchived: "/mainline/plays?view=archived",
   mainlineStats: "/mainline/stats",

@@ -1,3 +1,4 @@
+import type { CollectionGames } from "@/modules/mainline/features/collection/data/collection-games-model";
 import type {
   TrainerPokemonEntry,
   TrainerPokemonType,
@@ -5,6 +6,8 @@ import type {
 
 export type CollectionPageData = {
   entries: TrainerPokemonEntry[];
+  /* The Games view: every game, with your Plays of each. */
+  games: CollectionGames;
   /* Distinct games across the Plays the Collection's Pokémon were in. */
   gameCount: number;
   /* The newest Play still going, where "Add to your team" leads. */
@@ -15,3 +18,6 @@ export type CollectionPageData = {
   totalPlayCount: number;
   types: TrainerPokemonType[];
 };
+
+/* Which view the Collection shows, kept in the address (`?view=games`). */
+export type CollectionView = "games" | "pokemon";

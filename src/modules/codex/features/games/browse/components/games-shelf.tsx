@@ -2,7 +2,9 @@ import type { GamesShelfSection } from "@/modules/codex/features/games/browse/da
 import {
   GameShelfCard,
   GameShelfGrid,
-} from "@/modules/codex/features/games/shared/components/game-shelf-card";
+} from "@/modules/reference/features/games/components/game-shelf-card";
+import { appRoutes } from "@/config/routes";
+import { getGameShelfCardGame } from "@/modules/reference/reference-data";
 import { RangeHeading } from "@/shared/components/range-heading";
 
 const EAGER_COVER_COUNT = 6;
@@ -39,7 +41,11 @@ export const GamesShelf = ({ sections }: GamesShelfProps) => {
               {section.games.map((card, cardIndex) => (
                 <GameShelfCard
                   key={card.game.id}
-                  card={card}
+                  game={getGameShelfCardGame(card)}
+                  href={appRoutes.codexVersionGroup(
+                    card.versionGroup.slug,
+                    card.game.slug,
+                  )}
                   eager={sectionIndex === 0 && cardIndex < EAGER_COVER_COUNT}
                 />
               ))}
