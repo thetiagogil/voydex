@@ -10,8 +10,11 @@ import { joinStatsList } from "@/modules/mainline/features/stats/utils/stats-for
 import { getGameCoverImageUrl } from "@/modules/reference/features/games/data/game-images";
 
 export type StatsTypeTally = {
+  /* Your Pokémon of this type, a dual type counting for both. */
   count: number;
   name: string;
+  /* The Plays they were in. */
+  playCount: number;
   slug: string;
 };
 
@@ -84,8 +87,8 @@ export type TrainerTitle =
        * one shown below; the band stands them in front of the type's mark.
        */
       pokemon: StatsMostPicked[];
-      /* The next type and how far behind it is; null when no other type is used. */
-      runnerUp: { gap: number; name: string } | null;
+      /* How far behind the next type is; null when no other type is used. */
+      runnerUpGap: number | null;
       title: string;
       typeName: string;
       typeSlug: string;
@@ -131,7 +134,15 @@ export type StatsModel = {
   types: StatsTypeTally[];
 };
 
-/* The type that clearly leads: two more than the next, or half again as many. */
+/* What a type needs to make a specialist: a full team's worth, in two Plays. */
+const specialistPokemonCount = 6;
+const specialistPlayCount = 2;
+
+/*
+ * The type that clearly leads: on at least six of your Pokémon across two
+ * Plays or more, and half again as many as the next type, so one early team
+ * doesn't make a specialist.
+ */
 export const getClearFavouriteType = (
   types: StatsTypeTally[],
 ): StatsTypeTally | null => {
@@ -139,12 +150,15 @@ export const getClearFavouriteType = (
     .filter((type) => type.count > 0)
     .toSorted((left, right) => right.count - left.count);
 
-  if (!first) return null;
-  if (!second) return first;
+  if (
+    !first ||
+    first.count < specialistPokemonCount ||
+    first.playCount < specialistPlayCount
+  ) {
+    return null;
+  }
 
-  return first.count >= second.count + 2 || first.count >= second.count * 1.5
-    ? first
-    : null;
+  return !second || first.count >= second.count * 1.5 ? first : null;
 };
 
 /* Regions a trainer must have played in to be a Region Hopper. */
@@ -156,7 +170,7 @@ const plural = (count: number, one: string, many: string) =>
 /*
  * A playful title for the trainer, read from what they record (as Duolingo
  * and Spotify name a player's style): a clear favourite type makes a
- * specialist, playing in three regions or more a region hopper; otherwise
+ * specialist, else playing in three regions or more a region hopper; otherwise
  * plainly a trainer. A specialist's picture is the type's mark with up to
  * three of their top Pokémon of it, skipping the most picked one, which the
  * page already shows.
@@ -187,9 +201,7 @@ export const getTrainerTitle = (
         entry,
         family: getTrainerFamilyEntries(entries, entry),
       })),
-      runnerUp: runnerUp
-        ? { gap: favourite.count - runnerUp.count, name: runnerUp.name }
-        : null,
+      runnerUpGap: runnerUp ? favourite.count - runnerUp.count : null,
       title: `${favourite.name} Specialist`,
       typeName: favourite.name,
       typeSlug: favourite.slug,
@@ -227,12 +239,12 @@ export const getTrainerTitleReason = (title: TrainerTitle): StatsPhrase => {
         {
           text: ` of your Pokémon ${title.count === 1 ? "is a" : "are"} ${title.typeName} ${title.count === 1 ? "type" : "types"}, `,
         },
-        ...(title.runnerUp
-          ? [
-              { strong: true, text: `${title.runnerUp.gap} more` },
-              { text: ` than ${title.runnerUp.name}.` },
-            ]
-          : [{ text: "more than any other type." }]),
+        ...(title.runnerUpGap === null
+          ? [{ text: "more than any other type." }]
+          : [
+              { strong: true, text: `${title.runnerUpGap} more` },
+              { text: " than any other type." },
+            ]),
       ];
     case "hopper":
       return [
@@ -273,16 +285,23 @@ export const getTrainerTitleReason = (title: TrainerTitle): StatsPhrase => {
 const countTypes = (rows: TrainerPokemonRows): StatsTypeTally[] => {
   const getFormTypes = createTrainerFormTypeResolver(rows);
   const counts = new Map<string, number>();
+  const plays = new Map<string, Set<string>>();
 
   for (const member of rows.roster) {
     for (const type of getFormTypes(member.form_id)) {
       counts.set(type.slug, (counts.get(type.slug) ?? 0) + 1);
+      if (member.play_id) {
+        const typePlays = plays.get(type.slug) ?? new Set<string>();
+        typePlays.add(member.play_id);
+        plays.set(type.slug, typePlays);
+      }
     }
   }
 
   return rows.types.map((type) => ({
     count: counts.get(type.slug) ?? 0,
     name: type.name,
+    playCount: plays.get(type.slug)?.size ?? 0,
     slug: type.slug,
   }));
 };

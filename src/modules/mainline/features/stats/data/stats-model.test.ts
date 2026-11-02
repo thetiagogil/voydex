@@ -81,6 +81,54 @@ describe("buildStatsModel old friends", () => {
   });
 });
 
+describe("buildStatsModel types", () => {
+  const attribute = (
+    formId: number,
+    primary: number,
+    secondary: number | null,
+  ) =>
+    ({
+      form_id: formId,
+      generation_start_id: 1,
+      primary_type_id: primary,
+      secondary_type_id: secondary,
+      species_id: formId,
+    }) as TrainerPokemonRows["attributes"][number];
+  const member = (playId: string | null, formId: number) =>
+    ({
+      form_id: formId,
+      play_id: playId,
+    }) as TrainerPokemonRows["roster"][number];
+
+  it("counts a type's Pokémon, a dual type for both, and the Plays they were in", () => {
+    const { types } = buildStatsModel(
+      {
+        ...rows,
+        attributes: [attribute(1, 10, 11), attribute(2, 10, null)],
+        /* The last row has no Play: a Pokémon counted, not a Play. */
+        roster: [
+          member("a", 1),
+          member("a", 2),
+          member("b", 2),
+          member(null, 2),
+        ],
+        types: [
+          { id: 10, name: "Water", slug: "water" },
+          { id: 11, name: "Flying", slug: "flying" },
+          { id: 12, name: "Fire", slug: "fire" },
+        ] as TrainerPokemonRows["types"],
+      },
+      [],
+    );
+
+    expect(types).toEqual([
+      { count: 4, name: "Water", playCount: 2, slug: "water" },
+      { count: 1, name: "Flying", playCount: 1, slug: "flying" },
+      { count: 0, name: "Fire", playCount: 0, slug: "fire" },
+    ]);
+  });
+});
+
 describe("getTrainerTitle", () => {
   const region = (slug: string, plays: number) => ({
     coverImageUrl: null,
@@ -90,7 +138,12 @@ describe("getTrainerTitle", () => {
     playLabels: Array.from({ length: plays }, () => "Play"),
     slug,
   });
-  const type = (slug: string, count: number) => ({ count, name: slug, slug });
+  const type = (slug: string, count: number, playCount = 2) => ({
+    count,
+    name: slug,
+    playCount,
+    slug,
+  });
   const read = (phrase: StatsPhrase) =>
     phrase.map(({ strong, text }) => (strong ? `**${text}**` : text)).join("");
   const flying = { name: "Flying", slug: "Flying" };
@@ -110,8 +163,52 @@ describe("getTrainerTitle", () => {
 
     expect(title.title).toBe("Fire Specialist");
     expect(read(getTrainerTitleReason(title))).toBe(
-      "**9** of your Pokémon are Fire types, **6 more** than Water.",
+      "**9** of your Pokémon are Fire types, **6 more** than any other type.",
     );
+  });
+
+  it("says a lone type beats any other without a number", () => {
+    const title = getTrainerTitle({
+      mostPicked: null,
+      playCount: 2,
+      regions: [region("kanto", 2)],
+      types: [type("Fire", 6), type("Water", 0)],
+    });
+
+    expect(read(getTrainerTitleReason(title))).toBe(
+      "**6** of your Pokémon are Fire types, more than any other type.",
+    );
+  });
+
+  it("asks a specialist's type for six Pokémon, across two Plays, half again the next type", () => {
+    const kind = (types: ReturnType<typeof type>[]) =>
+      getTrainerTitle({
+        mostPicked: null,
+        playCount: 2,
+        regions: [region("kanto", 2)],
+        types,
+      }).kind;
+
+    expect(kind([type("Fire", 6), type("Water", 4)])).toBe("specialist");
+    expect(kind([type("Fire", 6)])).toBe("specialist");
+    /* One early Charmander, or a first team, is not a specialist. */
+    expect(kind([type("Fire", 1, 1)])).toBe("trainer");
+    expect(kind([type("Fire", 5), type("Water", 1)])).toBe("trainer");
+    expect(kind([type("Fire", 8, 1), type("Water", 1)])).toBe("trainer");
+    /* Leading by two is no longer enough without half again as many. */
+    expect(kind([type("Fire", 7), type("Water", 5)])).toBe("trainer");
+    expect(kind([type("Fire", 9), type("Water", 7)])).toBe("trainer");
+  });
+
+  it("puts a clear specialist ahead of a region hopper", () => {
+    const title = getTrainerTitle({
+      mostPicked: null,
+      playCount: 4,
+      regions: [region("kanto", 2), region("johto", 1), region("hoenn", 1)],
+      types: [type("Water", 6, 3), type("Flying", 2)],
+    });
+
+    expect(title.title).toBe("Water Specialist");
   });
 
   it("pictures a specialist with up to three top Pokémon of the type, never the most picked one", () => {
@@ -125,7 +222,7 @@ describe("getTrainerTitle", () => {
       mostPicked: { entry: pidgeot, family: [] },
       playCount: 3,
       regions: [region("kanto", 3)],
-      types: [type("Flying", 5), type("Electric", 1)],
+      types: [type("Flying", 6), type("Electric", 1)],
     };
 
     const title = getTrainerTitle(stats, [
