@@ -1,6 +1,9 @@
 import { cache, type ReactNode } from "react";
 
 import { appRoutes } from "@/config/routes";
+import { FavouritePokemonButton } from "@/modules/mainline/features/collection/components/favourite-pokemon-button";
+import { readIsFavouritePokemon } from "@/modules/mainline/features/collection/server/favourite-pokemon-reader";
+import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { CodexAddToPlay } from "@/modules/mainline/features/plays/hub/components/codex-add-to-play";
 import { CodexPlanTeam } from "@/modules/mainline/features/plans/planner/sections/codex-plan-team";
 import { NewPlayDialogProvider } from "@/modules/mainline/features/plays/new/components/new-play-dialog";
@@ -22,6 +25,9 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { IconTip } from "@/shared/components/icon-tip";
 import { buttonVariants } from "@/shared/components/ui/button";
+import { createServerSupabaseClient } from "@/platform/supabase/server-client";
+
+export { FavouritePokemonSignIn as CodexFavouriteSignIn } from "@/modules/mainline/features/collection/components/favourite-pokemon-button";
 
 /*
  * Mainline's public entry for the Codex's signed-in pieces (v3 B20, B21):
@@ -168,6 +174,57 @@ export const CodexGameYourPlaysLink = async ({
     <CodexPlaysJumpIcon
       href="#your-plays"
       label={playCount ? `Your Plays (${playCount})` : "Start a Play"}
+    />
+  );
+};
+
+type CodexFavouriteButtonProps = {
+  /* The shown form; null when the entry has none to save. */
+  formId: number | null;
+  name: string;
+  speciesId: number;
+};
+
+/* Whether the shown form is a favourite; null when the read fails. */
+const readCodexFavourite = async (formId: number) => {
+  try {
+    const supabase = await createServerSupabaseClient();
+
+    return await readIsFavouritePokemon(
+      supabase,
+      await getSignedInTrainerId(supabase),
+      formId,
+    );
+  } catch {
+    return null;
+  }
+};
+
+/*
+ * The entry hero's heart for the signed-in trainer, on if the shown form is
+ * a favourite. Hidden when the read fails, as the other extras.
+ */
+export const CodexFavouriteButton = async ({
+  formId,
+  name,
+  speciesId,
+}: CodexFavouriteButtonProps) => {
+  if (formId === null) {
+    return null;
+  }
+
+  const favourite = await readCodexFavourite(formId);
+
+  if (favourite === null) {
+    return null;
+  }
+
+  return (
+    <FavouritePokemonButton
+      formId={formId}
+      initialFavourite={favourite}
+      name={name}
+      speciesId={speciesId}
     />
   );
 };

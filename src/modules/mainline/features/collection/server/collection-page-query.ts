@@ -1,4 +1,6 @@
 import { buildCollectionGames } from "@/modules/mainline/features/collection/data/collection-games-model";
+import { buildFavouritePokemon } from "@/modules/mainline/features/collection/data/favourite-pokemon-model";
+import { readFavouritePokemonRows } from "@/modules/mainline/features/collection/server/favourite-pokemon-reader";
 import { buildTrainerPokemonEntries } from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in-trainer";
 import { readTrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
@@ -10,8 +12,9 @@ import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 export const getCollectionPageData = async (): Promise<CollectionPageData> => {
   const supabase = await createServerSupabaseClient();
   const userId = await getSignedInTrainerId(supabase);
-  const [rows, catalogue, generations] = await Promise.all([
+  const [rows, favouriteRows, catalogue, generations] = await Promise.all([
     readTrainerPokemonRows(supabase, userId),
+    readFavouritePokemonRows(supabase, userId),
     readGameCatalogue(),
     readSpeciesGenerations(supabase),
   ]);
@@ -30,6 +33,7 @@ export const getCollectionPageData = async (): Promise<CollectionPageData> => {
 
   return {
     entries,
+    favourites: buildFavouritePokemon(favouriteRows, rows.types, entries),
     games: buildCollectionGames(catalogue.games, rows.plays),
     generations,
     gameCount: gameSlugs.size,

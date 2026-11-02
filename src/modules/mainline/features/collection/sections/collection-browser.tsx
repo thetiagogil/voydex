@@ -2,8 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
-import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";
-import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
+import { CollectionFilterBand } from "@/modules/mainline/features/collection/components/collection-filter-band";
 import {
   collectionKindLabels,
   collectionSortLabels,
@@ -27,27 +26,10 @@ import { PokemonSticker } from "@/modules/reference/features/pokemon/components/
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import { CountMark } from "@/shared/components/corner-bubble";
 import { ResetListButton } from "@/shared/components/reset-list-button";
-import { FilterResultsLine } from "@/shared/components/filter-results-line";
-import {
-  FoldHead,
-  FoldPanel,
-  FoldToggle,
-  useFold,
-} from "@/shared/components/fold";
 import { EmptyState } from "@/shared/components/empty-state";
-import { PageBand } from "@/shared/components/page-band";
-import { SearchControl } from "@/shared/components/search-control";
-import { SegmentedControl } from "@/shared/components/segmented-control";
-import { SelectControl } from "@/shared/components/select-control";
-import {
-  FilterSheetRow,
-  FilterToolbar,
-} from "@/shared/components/filter-toolbar";
 
 type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
-  /* Played games, for the Games switch's count. */
-  gameCount: number;
   /* Every generation, for the Generation filter. */
   generations: SpeciesGeneration[];
   /* The page's head, which opens the band above the toolbar. */
@@ -55,6 +37,8 @@ type CollectionBrowserProps = {
   /* Opens on one species' sheet, as Statistics' old friends link here. */
   initialSpeciesSlug?: string | null;
   types: TrainerPokemonType[];
+  /* The views switch, under the head. */
+  viewSwitch: ReactNode;
 };
 
 const kindOrder: CollectionKind[] = ["all", "team", "many", "shiny"];
@@ -70,11 +54,11 @@ const countPlays = (count: number) =>
  */
 export const CollectionBrowser = ({
   entries,
-  gameCount,
   generations,
   head,
   initialSpeciesSlug,
   types,
+  viewSwitch,
 }: CollectionBrowserProps) => {
   const [filters, setFilters] = useState<CollectionFilters>(
     defaultCollectionFilters,
@@ -91,167 +75,41 @@ export const CollectionBrowser = ({
   );
   const openEntry =
     entries.find((entry) => entry.speciesId === openSpeciesId) ?? null;
-  const hasFilters = hasActiveCollectionFilters(filters);
-  const fold = useFold({ defaultOpen: hasFilters });
   const update = (next: Partial<CollectionFilters>) => {
     setFilters((current) => ({ ...current, ...next }));
   };
-  const isReordered = filters.sort !== defaultCollectionFilters.sort;
   const resetList = () => {
     setFilters(defaultCollectionFilters);
   };
 
   return (
     <>
-      <PageBand>
-        <FoldHead
-          toggle={
-            <FoldToggle
-              controls={fold.panelId}
-              open={fold.open}
-              onOpenChange={fold.setOpen}
-            />
-          }
-        >
-          {head}
-        </FoldHead>
-        <CollectionViewSwitch
-          gameCount={gameCount}
-          pokemonCount={entries.length}
-          value="pokemon"
-        />
-        <FoldPanel id={fold.panelId} open={fold.open}>
-          <FilterToolbar
-            ariaLabel="Filter your Collection"
-            className="mt-5"
-            activeCount={countActiveCollectionFilters(filters)}
-            resultLabel={`Show ${shown.length} Pokémon`}
-            search={
-              <SearchControl
-                id="collection-search"
-                ariaLabel="Search your Pokémon"
-                placeholder="Search your Pokémon"
-                value={filters.query}
-                onValueChange={(query) => update({ query })}
-              />
-            }
-            controls={(placement) => {
-              const generation = (
-                <SelectControl
-                  id={
-                    placement === "line"
-                      ? "collection-generation"
-                      : "collection-sheet-generation"
-                  }
-                  ariaLabel="Filter by generation"
-                  resetValue={defaultCollectionFilters.generation}
-                  prefix={placement === "line" ? "Generation" : undefined}
-                  value={filters.generation}
-                  variant="ghost"
-                  placeholder="All generations"
-                  onValueChange={(generation) => update({ generation })}
-                  options={[
-                    { label: "All generations", value: "" },
-                    ...generations.map((each) => ({
-                      label: each.name,
-                      value: String(each.id),
-                    })),
-                  ]}
-                />
-              );
-              const sort = (
-                <SelectControl
-                  id={
-                    placement === "line"
-                      ? "collection-sort"
-                      : "collection-sheet-sort"
-                  }
-                  ariaLabel="Sort your Collection"
-                  resetValue={defaultCollectionFilters.sort}
-                  prefix={placement === "line" ? "Sort" : undefined}
-                  value={filters.sort}
-                  variant="ghost"
-                  placeholder={
-                    collectionSortLabels[defaultCollectionFilters.sort]
-                  }
-                  onValueChange={(sort) =>
-                    update({ sort: sort as CollectionSort })
-                  }
-                  options={sortOrder.map((sort) => ({
-                    label: collectionSortLabels[sort],
-                    value: sort,
-                  }))}
-                />
-              );
-
-              return placement === "line" ? (
-                <>
-                  {generation}
-                  {sort}
-                </>
-              ) : (
-                <>
-                  <FilterSheetRow
-                    htmlFor="collection-sheet-generation"
-                    label="Generation"
-                  >
-                    {generation}
-                  </FilterSheetRow>
-                  <FilterSheetRow htmlFor="collection-sheet-sort" label="Sort">
-                    {sort}
-                  </FilterSheetRow>
-                </>
-              );
-            }}
-            filters={(placement) => {
-              const kind = (
-                <SegmentedControl
-                  variant="segment"
-                  selectedTone="soft"
-                  ariaLabel="Show"
-                  value={filters.kind}
-                  onValueChange={(kind) => update({ kind })}
-                  options={kindOrder.map((kind) => ({
-                    count: counts[kind],
-                    label: collectionKindLabels[kind],
-                    value: kind,
-                  }))}
-                />
-              );
-
-              return placement === "line" ? (
-                kind
-              ) : (
-                <FilterSheetRow label="Show">{kind}</FilterSheetRow>
-              );
-            }}
-            row={(placement) => {
-              const type = (
-                <PokemonTypeFilter
-                  types={types}
-                  value={filters.type}
-                  onValueChange={(type) => update({ type })}
-                />
-              );
-
-              return placement === "line" ? (
-                type
-              ) : (
-                <FilterSheetRow label="Type">{type}</FilterSheetRow>
-              );
-            }}
-          />
-          <FilterResultsLine
-            className="mt-3"
-            hasActiveFilters={hasFilters}
-            isReordered={isReordered}
-            noun="Pokémon"
-            onReset={resetList}
-            shownCount={shown.length}
-            totalCount={entries.length}
-          />
-        </FoldPanel>
-      </PageBand>
+      <CollectionFilterBand
+        activeCount={countActiveCollectionFilters(filters)}
+        defaults={defaultCollectionFilters}
+        filters={filters}
+        generations={generations}
+        hasFilters={hasActiveCollectionFilters(filters)}
+        head={head}
+        idPrefix="collection"
+        kinds={kindOrder.map((kind) => ({
+          count: counts[kind],
+          label: collectionKindLabels[kind],
+          value: kind,
+        }))}
+        listName="your Pokémon"
+        noun="Pokémon"
+        onChange={update}
+        onReset={resetList}
+        shownCount={shown.length}
+        sorts={sortOrder.map((sort) => ({
+          label: collectionSortLabels[sort],
+          value: sort,
+        }))}
+        totalCount={entries.length}
+        types={types}
+        viewSwitch={viewSwitch}
+      />
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">
         {shown.length ? (

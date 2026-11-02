@@ -91,6 +91,15 @@ Play Pokémon rows represent current mutable identity. Timeline Pokémon refs an
 team snapshots preserve event-time identity so evolution, form changes,
 retirement, replacement, and later corrections do not erase history.
 
+## Favourites
+
+`gameplay.user_favourite_pokemon` holds the Pokémon each user hearted in the
+Codex: one row per user and form (the primary key), with its species checked
+against the form (a composite key to `reference.pokemon_forms`). It is
+independent of Plays and usage. Owners may read, add and delete their own rows
+and never update one; a heart is on or off. The Server Action writes the one
+row directly; no function is needed.
+
 ## Progress And History
 
 - Milestone, collectible, and Pokedex progress is sparse; absence means the

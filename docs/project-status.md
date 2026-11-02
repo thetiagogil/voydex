@@ -128,7 +128,6 @@ finds all 24). Grouped by what they wait on:
 - Reference Pokémon facts: genus, Pokédex entries per game, a species
   description, heights and weights, training values, egg groups for forms,
   egg cycles and gender ratio.
-- A table for each user's favourite Pokémon.
 - Legal text for Privacy and Terms, written and reviewed before launch.
 
 ## Verification Checkpoint

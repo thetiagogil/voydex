@@ -168,7 +168,10 @@ group the species can be found in (Legends: Arceus for Wyrdeer, Let's Go for
 Meltan), the same rule as the entry's generation pills. On
 `/codex/pokemon/[speciesSlug]`, a legacy `?game=` or `?versionGroup=` names
 the group instead and a legacy `?generation=` the generation, when the
-species exists there. A layout cannot read the query, so the 308 from an old
+species exists there; without those, a later `?form=` opens the first base
+group that form can be found in (Hisuian Arcanine in Legends: Arceus, Partner
+Pikachu in Let's Go), or a battle form's generation's first group (Mega
+Charizard X in X and Y). Collection's Favourites links this way. A layout cannot read the query, so the 308 from an old
 game address opens the default form. Back or an explicit return to Browse
 should restore criteria, result position, scroll, and useful focus.
 

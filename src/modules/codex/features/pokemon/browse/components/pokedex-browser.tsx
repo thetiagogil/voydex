@@ -24,9 +24,9 @@ import {
   ungroupPokemon,
 } from "@/modules/codex/features/pokemon/browse/utils/pokedex-generation-groups";
 import {
-  CodexPokemonCardLink,
-  CodexPokemonGrid,
-} from "@/modules/codex/shared/components/codex-pokemon-card-link";
+  PokemonCardLink,
+  PokemonCardGrid,
+} from "@/modules/reference/features/pokemon/components/pokemon-card-link";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { formatPokemonNationalNumber } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 import type {
@@ -358,11 +358,9 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                       .join(" · ")}
                   />
                 ) : null}
-                <CodexPokemonGrid
-                  className={group.label ? "mt-4.5" : undefined}
-                >
+                <PokemonCardGrid className={group.label ? "mt-4.5" : undefined}>
                   {group.pokemon.map((pokemon) => (
-                    <CodexPokemonCardLink
+                    <PokemonCardLink
                       key={pokemon.id}
                       href={appRoutes.codexPokemonEntry(
                         pokemon.detailVersionGroupSlug,
@@ -376,7 +374,7 @@ export const PokedexBrowser = ({ data }: PokedexBrowserProps) => {
                       types={[pokemon.primaryType, pokemon.secondaryType]}
                     />
                   ))}
-                </CodexPokemonGrid>
+                </PokemonCardGrid>
               </section>
             );
           })}

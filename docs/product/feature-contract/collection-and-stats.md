@@ -18,8 +18,18 @@ name; how many were caught is the sheet's to tell. The list opens on Most used; 
 beside Sort, never a grouping, so the order holds across the whole
 Collection.
 
-Collection has a second view, Games (`?view=games`), on a Pokémon | Games
-switch under the head: one grid of only the games you've played (as the
+Collection has a second view, Favourites (`?view=favourites`), on a
+Pokémon | Favourites | Games switch under the head: every Pokémon you hearted
+on its Codex entry, newest heart first, one per form (Arcanine and Hisuian
+Arcanine are separate favourites). One whose species has joined your teams is
+yours, so it wears the sticker with its Play count and opens its sheet; one
+that hasn't yet is a plain card ("Not on a team yet") opening its Codex
+entry. The heart saves straight away with Undo in the toast; signed out, it
+asks you to sign in and comes back to the entry. Before any heart the view is
+the empty state with Browse the Codex. Favourites are only what you picked:
+Statistics keeps Most used apart from them.
+
+The third view is Games (`?view=games`): one grid of only the games you've played (as the
 Pokémon view holds only what joined you), the most Plays leading, then
 release order. Each is a card with the owned band and the same small count
 mark of your Plays of it, archived ones included, and opens its sheet in
@@ -27,7 +37,12 @@ place, as a Pokémon does: the game's cover and Open in Codex, then each Play
 of it (trainer and playtime, its status), archived ones in their own section,
 each opening on the Play. The head counts the same marks: "You've played 3 of
 38 games, across 4 Plays". Before any Play the view is the empty state with
-Start a Play. The view has no search or filters.
+Start a Play. The three views share one toolbar (`CollectionFilterBand`):
+search, Show, Generation and Sort, plus the type dots for the two Pokémon
+views. Favourites shows All, On your teams or Not yet, and sorts by Newest
+heart (the default), Pokédex number or Most used. Games shows All, Playing
+now or Completed, and sorts by Most played (the default), Release order or
+Name.
 
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 
@@ -121,8 +136,8 @@ MVP companions. Progress summarizes only initialized named scopes with visible
 coverage. Challenges reports Rule participation, not unproven success or
 compliance.
 
-Stats says `Most used`, not `Favorite`, unless the user explicitly recorded a
-favorite through a future feature. It counts distinct companions and Plays
+Stats says `Most used`, not `Favorite`: favourites are what you hearted in the
+Codex (Collection's Favourites), never inferred from use. It counts distinct companions and Plays
 rather than repeated evidence rows, calculates type in the relevant Play's
 generation context, treats unknown progress as unknown rather than zero, and
 exposes the denominator behind every aggregate. Every meaningful result links

@@ -26,6 +26,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const versionGroupSlug = await getDefaultPokemonDetailVersionGroupSlug(
     speciesSlug,
     {
+      form: getSingleSearchParam(form),
       game: getSingleSearchParam(game),
       generation: getSingleSearchParam(generation),
       versionGroup: getSingleSearchParam(versionGroup),

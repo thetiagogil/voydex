@@ -28,6 +28,8 @@ type PokemonDetailHeroProps = {
   actions?: ReactNode;
   activeFormSlug: string | null;
   eyebrow: PokemonDetailHeroSentencePart[];
+  /* The route's heart: a favourite toggle signed in, sign in for a visitor. */
+  favourite?: ReactNode;
   formOptions: PokemonDetailFormOption[];
   imageAlt: string;
   imageUrl: string | null;
@@ -67,6 +69,7 @@ export const PokemonDetailHero = ({
   actions,
   activeFormSlug,
   eyebrow,
+  favourite,
   formOptions,
   imageAlt,
   imageUrl,
@@ -142,19 +145,7 @@ export const PokemonDetailHero = ({
           {/* The icons wrap as one group, never one by one. */}
           <div className="flex items-center gap-2.5">
             {actions}
-            {/* TODO(v3-data): favourites (no table for a user's favourite Pokémon). */}
-            <IconTip
-              label="Favourite: not in Voydex yet"
-              trigger={
-                <span
-                  role="img"
-                  aria-label="Favourite, not in Voydex yet"
-                  className="empty-slot text-ink-3 grid size-12 place-items-center rounded-full"
-                >
-                  <AppIcon icon={appIcons.product.favourite} />
-                </span>
-              }
-            />
+            {favourite}
             {shinyImageUrl ? (
               <IconTip
                 label={isShowingShiny ? "Show regular colours" : "Show shiny"}

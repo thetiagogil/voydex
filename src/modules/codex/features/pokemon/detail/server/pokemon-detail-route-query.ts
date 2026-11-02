@@ -22,8 +22,13 @@ type PokemonDetailRouteSpecies = {
   introducedGenerationId: number;
 };
 
-/* The legacy query of `/codex/pokemon/{species}`, from before entries had a group in the path. */
+/*
+ * The query of `/codex/pokemon/{species}`: the legacy scope from before
+ * entries had a group in the path, and the form to open.
+ */
 export type PokemonDetailLegacyScope = {
+  /* A form's slug: the entry opens where that form can first be found. */
+  form?: string;
   game?: string;
   generation?: string;
   versionGroup?: string;
@@ -114,10 +119,97 @@ const getFoundVersionGroupSlug = async (
 };
 
 /*
+ * Where a later form opens (Hisuian Arcanine, Partner Pikachu): the first
+ * base group it can be found in, from the generation it arrived. Null when
+ * the form is the species' own or unknown.
+ */
+const getFormFoundVersionGroupSlug = async (
+  supabase: ServerSupabaseClient,
+  species: PokemonDetailRouteSpecies,
+  formSlug: string,
+  routeRows: VersionGroupRouteRows,
+) => {
+  const { versionGroups } = routeRows;
+  const formResult = await supabase
+    .schema("reference")
+    .from("pokemon_forms")
+    .select("id, introduced_generation_id, is_default")
+    .eq("species_id", species.id)
+    .eq("slug", formSlug)
+    .maybeSingle();
+
+  if (formResult.error) {
+    throw new Error("Unable to load the Pokémon's form.");
+  }
+
+  const form = formResult.data;
+
+  if (!form || form.is_default) {
+    return null;
+  }
+
+  const { data, error } = await supabase
+    .schema("views")
+    .from("reference_resolved_pokemon_availability")
+    .select("source_version_group_id, target_version_group_id")
+    .eq("species_id", species.id)
+    .eq("form_id", form.id);
+
+  if (error) {
+    throw new Error("Unable to load where the Pokémon can be found.");
+  }
+
+  const availability = data ?? [];
+  const getGenerationOrder = (id: number) =>
+    species.generations.find((generation) => generation.id === id)
+      ?.sort_order ?? id;
+  const generationOfGroup = new Map(
+    versionGroups.map((group) => [group.id, group.generation_id]),
+  );
+  const foundGenerations = new Set(
+    availability.flatMap((row) => {
+      const generationId =
+        row.target_version_group_id === null
+          ? undefined
+          : generationOfGroup.get(row.target_version_group_id);
+
+      return generationId === undefined ? [] : [generationId];
+    }),
+  );
+  const [firstGeneration] = [...foundGenerations]
+    .filter(
+      (generationId) =>
+        getGenerationOrder(generationId) >=
+        getGenerationOrder(form.introduced_generation_id),
+    )
+    .toSorted(
+      (left, right) => getGenerationOrder(left) - getGenerationOrder(right),
+    );
+
+  /* A battle form (a Mega) has no rows of its own: its generation's first group. */
+  if (firstGeneration === undefined) {
+    return getFoundVersionGroupSlug(
+      supabase,
+      species,
+      form.introduced_generation_id,
+      routeRows,
+    );
+  }
+
+  return (
+    getFirstFoundBaseVersionGroup({
+      availability,
+      generationId: firstGeneration,
+      versionGroups,
+    })?.slug ?? null
+  );
+};
+
+/*
  * Where `/codex/pokemon/{species}` opens: the group a legacy `?game=` or
  * `?versionGroup=` names, else the generation a legacy `?generation=` names,
- * when the species exists there; otherwise the generation it was introduced
- * in. A generation opens its first group the species can be found in (Legends:
+ * when the species exists there; else, for a later `?form=`, where that form
+ * can first be found; otherwise the generation it was introduced in. A generation opens its first group the species can be found in (Legends:
  * Arceus for Wyrdeer). Null for an unknown species.
  */
 export const getDefaultPokemonDetailVersionGroupSlug = async (
@@ -148,6 +240,19 @@ export const getDefaultPokemonDetailVersionGroupSlug = async (
   const requestedGeneration = species.generations.find((generation) => {
     return matchesSlugOrId(generation, legacyScope.generation);
   });
+  const formVersionGroupSlug =
+    !requestedGeneration && legacyScope.form
+      ? await getFormFoundVersionGroupSlug(
+          supabase,
+          species,
+          legacyScope.form,
+          routeRows,
+        )
+      : null;
+
+  if (formVersionGroupSlug) {
+    return formVersionGroupSlug;
+  }
 
   return getFoundVersionGroupSlug(
     supabase,

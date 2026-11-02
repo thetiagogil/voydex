@@ -3,6 +3,8 @@ import type { CollectionView } from "@/modules/mainline/features/collection/type
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
 type CollectionViewSwitchProps = {
+  /* Hearted Pokémon. */
+  favouriteCount: number;
   /* Played games. */
   gameCount: number;
   /* Species in the Collection. */
@@ -11,10 +13,11 @@ type CollectionViewSwitchProps = {
 };
 
 /*
- * The Collection's Pokémon | Games switch, under the page's head. Each view
- * is its own address (`?view=games`), as Library's tabs.
+ * The Collection's Pokémon | Favourites | Games switch, under the page's
+ * head. Each view is its own address (`?view=games`), as Library's tabs.
  */
 export const CollectionViewSwitch = ({
+  favouriteCount,
   gameCount,
   pokemonCount,
   value,
@@ -22,6 +25,7 @@ export const CollectionViewSwitch = ({
   <SegmentedControl
     ariaLabel="Collection views"
     className="mt-5"
+    phoneScroll
     selectedTone="strong"
     value={value}
     options={[
@@ -30,6 +34,12 @@ export const CollectionViewSwitch = ({
         href: appRoutes.mainlineCollection,
         label: "Pokémon",
         value: "pokemon",
+      },
+      {
+        count: favouriteCount,
+        href: appRoutes.mainlineCollectionFavourites,
+        label: "Favourites",
+        value: "favourites",
       },
       {
         count: gameCount,
