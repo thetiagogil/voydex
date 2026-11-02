@@ -235,7 +235,7 @@ on a hard lip, a press that moves, a gradient fill or glass.
   `CornerBubble`: the slot number (`SlotMark`) top-right, a warning
   (`WarningMark`, or the raised `ExplanatoryTip` where the mark opens a tip)
   top-left, where the Pokédex number (plain text) would be, and the shiny mark
-  (`ShinyMark`, a sticker's `shiny`) right below the slot number, or alone top-right without one, and the Collection's Play count (`CountMark`, a quiet white disc with the number) above both (chosen 2026-10-21). A Pokédex card has no slot, so its Play state mark (a
+  (`ShinyMark`, a sticker's `shiny`) right below the slot number, or alone top-right without one, and the Collection's Play count (`CountMark`, the slot mark's red disc with the number) above both (chosen 2026-10-21). A Pokédex card has no slot, so its Play state mark (a
   Poké Ball or an eye) takes the top-right, sized to its card. Every mark is a
   disc in the one `bubble` white band (24px; the Pokédex number is plain
   text), inside the card (`inside-top-*`, 12px in from the card's outer edge whatever its border, set with `CornerBubble`'s `border`) so a list

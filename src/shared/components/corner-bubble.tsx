@@ -100,19 +100,20 @@ export const CornerBubble = ({
  * A slot's number on a corner: the action red in a white band. Decorative:
  * the card says its slot in words.
  */
+/* The red number disc the slot and count marks share. */
+const numberMarkClassName =
+  "bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums";
+
 export const SlotMark = ({ children }: { children: ReactNode }) => (
-  <span
-    aria-hidden
-    className="bg-action text-13 bubble grid size-6 place-items-center rounded-full font-extrabold text-white tabular-nums"
-  >
+  <span aria-hidden className={numberMarkClassName}>
     {children}
   </span>
 );
 
 /*
- * A quiet count on a corner: how many Plays a Pokémon or a game of yours has
- * been in (Collection). A soft grey disc, so it shows on a white card and a
- * tinted sticker alike; the number is seen, the label is read.
+ * A count on a corner: how many Plays a Pokémon or a game of yours has been
+ * in (Collection). The slot mark's red disc, the one accent; the number is
+ * seen, the label is read.
  */
 export const CountMark = ({
   count,
@@ -121,11 +122,7 @@ export const CountMark = ({
   count: number;
   label: string;
 }) => (
-  <span
-    role="img"
-    aria-label={label}
-    className="bg-surface-2 text-ink text-13 bubble grid size-6 place-items-center rounded-full font-extrabold tabular-nums"
-  >
+  <span role="img" aria-label={label} className={numberMarkClassName}>
     <span aria-hidden>{count}</span>
   </span>
 );
