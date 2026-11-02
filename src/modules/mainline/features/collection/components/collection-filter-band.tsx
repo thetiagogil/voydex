@@ -21,15 +21,15 @@ import { SearchControl } from "@/shared/components/search-control";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 
-/* What both Pokémon lists filter by; `kind` and `sort` are each list's own. */
+/* What every Collection view filters by; `kind` and `sort` are each view's own. */
 export type CollectionFilterValues<Kind extends string, Sort extends string> = {
   /* A generation's id, or "" for every generation. */
   generation: string;
   kind: Kind;
   query: string;
   sort: Sort;
-  /* A type slug, or "" for every type. */
-  type: string;
+  /* A type slug, or "" for every type; Pokémon lists only. */
+  type?: string;
 };
 
 type CollectionFilterBandProps<Kind extends string, Sort extends string> = {
@@ -46,22 +46,28 @@ type CollectionFilterBandProps<Kind extends string, Sort extends string> = {
   idPrefix: string;
   /* The Show choice, in order, with each one's count. */
   kinds: { count: number; label: string; value: Kind }[];
-  /* "Your Pokémon", "your favourites": the toolbar and search name it. */
+  /* "your Pokémon", "your games": the toolbar and search name it. */
   listName: string;
+  /* What the list holds, as a plural noun: "Pokémon", "games". */
+  noun: string;
+  /* The same noun for one, when it differs: "game". */
+  nounOne?: string;
   onChange: (next: Partial<CollectionFilterValues<Kind, Sort>>) => void;
   onReset: () => void;
   shownCount: number;
   sorts: { label: string; value: Sort }[];
   totalCount: number;
-  types: TrainerPokemonType[];
+  /* The type dots, for a list of Pokémon; left out for games. */
+  types?: TrainerPokemonType[];
   /* The views switch, between the head and the toolbar. */
   viewSwitch: ReactNode;
 };
 
 /*
- * The band over a Collection list of Pokémon: the head with its fold toggle,
- * the views switch, then, folded, one toolbar (search, Show, Generation,
- * Sort, the type dots) and the results line. Pokémon and Favourites share it.
+ * The band over every Collection view: the head with its fold toggle, the
+ * views switch, then, folded, one toolbar (search, Show, Generation, Sort,
+ * and the type dots for Pokémon) and the results line. Pokémon, Favourites
+ * and Games share it, so the three views match.
  */
 export const CollectionFilterBand = <Kind extends string, Sort extends string>({
   activeCount,
@@ -73,6 +79,8 @@ export const CollectionFilterBand = <Kind extends string, Sort extends string>({
   idPrefix,
   kinds,
   listName,
+  noun,
+  nounOne,
   onChange,
   onReset,
   shownCount,
@@ -104,7 +112,7 @@ export const CollectionFilterBand = <Kind extends string, Sort extends string>({
           ariaLabel={`Filter ${listName}`}
           className="mt-5"
           activeCount={activeCount}
-          resultLabel={`Show ${shownCount} Pokémon`}
+          resultLabel={`Show ${shownCount} ${shownCount === 1 ? (nounOne ?? noun) : noun}`}
           search={
             <SearchControl
               id={`${idPrefix}-search`}
@@ -186,27 +194,32 @@ export const CollectionFilterBand = <Kind extends string, Sort extends string>({
               <FilterSheetRow label="Show">{kind}</FilterSheetRow>
             );
           }}
-          row={(placement) => {
-            const type = (
-              <PokemonTypeFilter
-                types={types}
-                value={filters.type}
-                onValueChange={(type) => onChange({ type })}
-              />
-            );
+          row={
+            types
+              ? (placement) => {
+                  const type = (
+                    <PokemonTypeFilter
+                      types={types}
+                      value={filters.type ?? ""}
+                      onValueChange={(type) => onChange({ type })}
+                    />
+                  );
 
-            return placement === "line" ? (
-              type
-            ) : (
-              <FilterSheetRow label="Type">{type}</FilterSheetRow>
-            );
-          }}
+                  return placement === "line" ? (
+                    type
+                  ) : (
+                    <FilterSheetRow label="Type">{type}</FilterSheetRow>
+                  );
+                }
+              : undefined
+          }
         />
         <FilterResultsLine
           className="mt-3"
           hasActiveFilters={hasFilters}
           isReordered={filters.sort !== defaults.sort}
-          noun="Pokémon"
+          noun={noun}
+          nounOne={nounOne}
           onReset={onReset}
           shownCount={shownCount}
           totalCount={totalCount}

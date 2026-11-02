@@ -5,7 +5,7 @@ import { openFilters } from "../support/filters";
 import { startPlay, uniquePlayName } from "../support/plays";
 
 test.describe("Collection", () => {
-  test("the Games view keeps its place in the address and stamps what you've played", async ({
+  test("the Games view keeps its place in the address, filters like the Pokémon view and stamps what you've played", async ({
     page,
   }) => {
     const errors: string[] = [];
@@ -63,6 +63,22 @@ test.describe("Collection", () => {
 
     await expect(stamps).toHaveCount(1);
     await expect(stamps).toHaveAccessibleName("1 Play");
+
+    /* The Pokémon views' toolbar: a generation you haven't played shows none. */
+    const gameFilters = await openFilters(page);
+
+    await gameFilters.filters
+      .getByRole("combobox", { name: "Filter by generation" })
+      .click();
+    await page
+      .getByRole("option", { exact: true, name: "Generation II" })
+      .click();
+    await gameFilters.close();
+    await expect(page.getByText("Nothing matches.")).toBeVisible();
+    await page
+      .getByRole("button", { name: /^Reset/ })
+      .first()
+      .click();
 
     /* Only the played game is listed; it opens its sheet. */
     const shelf = page.getByRole("region", { name: "Your games" });

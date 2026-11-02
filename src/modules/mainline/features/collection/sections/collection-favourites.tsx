@@ -101,6 +101,7 @@ export const CollectionFavourites = ({
           value: kind,
         }))}
         listName="your favourites"
+        noun="Pokémon"
         onChange={(next) => setFilters((current) => ({ ...current, ...next }))}
         onReset={resetList}
         shownCount={shown.length}

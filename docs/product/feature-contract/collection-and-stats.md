@@ -37,7 +37,12 @@ place, as a Pokémon does: the game's cover and Open in Codex, then each Play
 of it (trainer and playtime, its status), archived ones in their own section,
 each opening on the Play. The head counts the same marks: "You've played 3 of
 38 games, across 4 Plays". Before any Play the view is the empty state with
-Start a Play. The view has no search or filters.
+Start a Play. The three views share one toolbar (`CollectionFilterBand`):
+search, Show, Generation and Sort, plus the type dots for the two Pokémon
+views. Favourites shows All, On your teams or Not yet, and sorts by Newest
+heart (the default), Pokédex number or Most used. Games shows All, Playing
+now or Completed, and sorts by Most played (the default), Release order or
+Name.
 
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 

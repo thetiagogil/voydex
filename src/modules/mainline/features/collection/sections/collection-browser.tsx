@@ -98,6 +98,7 @@ export const CollectionBrowser = ({
           value: kind,
         }))}
         listName="your Pokémon"
+        noun="Pokémon"
         onChange={update}
         onReset={resetList}
         shownCount={shown.length}

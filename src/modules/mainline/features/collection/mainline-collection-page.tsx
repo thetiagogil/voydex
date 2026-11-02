@@ -124,30 +124,38 @@ export const MainlineCollectionPage = ({
   }
 
   if (view === "games") {
+    const gamesHead = (
+      <PageHeader title="Collection" description={getGamesDescription(data)} />
+    );
+
     return (
       <div className="flex flex-col gap-5 sm:gap-6">
-        <PageBand>
-          <PageHeader
-            title="Collection"
-            description={getGamesDescription(data)}
-          />
-          {viewSwitch}
-        </PageBand>
         {data.games.games.length ? (
-          <CollectionGamesShelf games={data.games} />
-        ) : (
-          <EmptyState
-            headingLevel="h2"
-            art={emptyArt}
-            title="Nothing here yet"
-            description="Every game you play gets a place here, with your Plays of it."
-            action={
-              <NewPlayTrigger className={buttonVariants()}>
-                <AppIcon icon={appIcons.actions.create} inline="start" />
-                Start a Play
-              </NewPlayTrigger>
-            }
+          <CollectionGamesShelf
+            games={data.games}
+            generations={data.generations}
+            head={gamesHead}
+            viewSwitch={viewSwitch}
           />
+        ) : (
+          <>
+            <PageBand>
+              {gamesHead}
+              {viewSwitch}
+            </PageBand>
+            <EmptyState
+              headingLevel="h2"
+              art={emptyArt}
+              title="Nothing here yet"
+              description="Every game you play gets a place here, with your Plays of it."
+              action={
+                <NewPlayTrigger className={buttonVariants()}>
+                  <AppIcon icon={appIcons.actions.create} inline="start" />
+                  Start a Play
+                </NewPlayTrigger>
+              }
+            />
+          </>
         )}
       </div>
     );
