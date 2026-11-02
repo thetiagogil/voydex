@@ -75,7 +75,10 @@ export const getTrainerPlayLabel = (
   return `${gameName} · ${play.play_name ?? "Untitled Play"}`;
 };
 
-const toTrainerPlay = (play: MainlinePlaySummary): TrainerPlay | null => {
+/* A Play as the trainer's Pokémon pages name it; null for a row without one. */
+export const toTrainerPlay = (
+  play: MainlinePlaySummary,
+): TrainerPlay | null => {
   if (!play.play_id) {
     return null;
   }

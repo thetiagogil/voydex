@@ -1,21 +1,26 @@
 import { appRoutes } from "@/config/routes";
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
+import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
+import {
+  toTrainerPlay,
+  type TrainerPlay,
+} from "@/modules/mainline/shared/data/trainer-pokemon-model";
 import type { GameShelfGame } from "@/modules/reference/types";
 
-/* What the Games view needs of a Play: which game, and whether it's archived. */
+/* One of your Plays of a game, as the game's sheet lists it. */
 export type CollectionGamePlay = {
-  archived_at: string | null;
-  game_slug: string | null;
-  play_id: string | null;
+  archived: boolean;
+  /* "Ash · 12h 30m": the trainer, and the playtime when there is one. */
+  detail: string;
+  play: TrainerPlay;
 };
 
 export type CollectionGame = {
   game: GameShelfGame;
-  /*
-   * Where the card leads: the one Play, your Plays of the game when there are
-   * several, or the game's Codex page when you haven't played it.
-   */
-  href: string;
-  playCount: number;
+  /* The game's Codex page, for a game you haven't played; null once you have. */
+  href: string | null;
+  /* Every Play of it, archived too, newest first as the summary rows come. */
+  plays: CollectionGamePlay[];
 };
 
 export type CollectionGameSection = {
@@ -23,7 +28,7 @@ export type CollectionGameSection = {
   key: string;
   /* "Generation I". */
   label: string;
-  /* "1996–1998 · 1 of 4 played". */
+  /* "1996–1998 · 1 of 3 played". */
   summary: string;
 };
 
@@ -35,18 +40,25 @@ export type CollectionGames = {
   totalGameCount: number;
 };
 
-const getPlayedHref = (
-  game: GameShelfGame,
-  plays: { archived: boolean; id: string }[],
-) => {
-  if (plays.length === 1) {
-    return appRoutes.mainlinePlay(plays[0].id);
+const toCollectionGamePlay = (
+  row: MainlinePlaySummary,
+): CollectionGamePlay | null => {
+  const play = toTrainerPlay(row);
+
+  if (!play) {
+    return null;
   }
 
-  /* The Plays list keeps archived Plays apart, and filters only the others. */
-  return plays.some((play) => !play.archived)
-    ? appRoutes.mainlinePlaysGame(game.slug)
-    : appRoutes.mainlinePlaysArchived;
+  return {
+    archived: Boolean(row.archived_at),
+    detail: [
+      row.trainer_name,
+      row.playtime_minutes ? formatPlayMinutes(row.playtime_minutes) : null,
+    ]
+      .filter(Boolean)
+      .join(" · "),
+    play,
+  };
 };
 
 const formatYearSpan = (games: CollectionGame[]) => {
@@ -59,24 +71,23 @@ const formatYearSpan = (games: CollectionGame[]) => {
 
 /*
  * Collection's Games: every game in release order, one section per
- * generation, each game with how many of your Plays are of it. The catalogue
- * arrives in release order, and the order is kept.
+ * generation, each game with your Plays of it. The catalogue arrives in
+ * release order, and the order is kept.
  */
 export const buildCollectionGames = (
   catalogueGames: GameShelfGame[],
-  plays: CollectionGamePlay[],
+  plays: MainlinePlaySummary[],
 ): CollectionGames => {
-  const playsByGameSlug = new Map<
-    string,
-    { archived: boolean; id: string }[]
-  >();
+  const playsByGameSlug = new Map<string, CollectionGamePlay[]>();
 
-  for (const play of plays) {
-    if (play.play_id && play.game_slug) {
-      const gamePlays = playsByGameSlug.get(play.game_slug) ?? [];
+  for (const row of plays) {
+    const gamePlay = row.game_slug ? toCollectionGamePlay(row) : null;
 
-      gamePlays.push({ archived: Boolean(play.archived_at), id: play.play_id });
-      playsByGameSlug.set(play.game_slug, gamePlays);
+    if (row.game_slug && gamePlay) {
+      const gamePlays = playsByGameSlug.get(row.game_slug) ?? [];
+
+      gamePlays.push(gamePlay);
+      playsByGameSlug.set(row.game_slug, gamePlays);
     }
   }
 
@@ -98,9 +109,9 @@ export const buildCollectionGames = (
     section.games.push({
       game,
       href: gamePlays.length
-        ? getPlayedHref(game, gamePlays)
+        ? null
         : appRoutes.codexVersionGroup(game.versionGroupSlug, game.slug),
-      playCount: gamePlays.length,
+      plays: gamePlays,
     });
     sectionsByNumber.set(game.generation.number, section);
   }
@@ -110,7 +121,7 @@ export const buildCollectionGames = (
     playedGameCount,
     sections: [...sectionsByNumber.values()].map((section) => ({
       ...section,
-      summary: `${formatYearSpan(section.games)} · ${section.games.filter((game) => game.playCount).length} of ${section.games.length} played`,
+      summary: `${formatYearSpan(section.games)} · ${section.games.filter((entry) => entry.plays.length).length} of ${section.games.length} played`,
     })),
     totalGameCount: catalogueGames.length,
   };

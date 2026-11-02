@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import type { GameShelfGame } from "@/modules/reference/types";
 
 import { buildCollectionGames } from "./collection-games-model";
@@ -38,8 +39,30 @@ const games = [
 const play = (
   id: string,
   gameSlug: string | null,
-  archivedAt: string | null = null,
-) => ({ archived_at: archivedAt, game_slug: gameSlug, play_id: id });
+  extra: Partial<MainlinePlaySummary> = {},
+) =>
+  ({
+    archived_at: null,
+    game_name: gameSlug ? `Pokémon ${gameSlug}` : null,
+    game_slug: gameSlug,
+    play_id: id,
+    play_name: `Play ${id}`,
+    playtime_minutes: null,
+    status_name: "Playing",
+    status_slug: "playing",
+    trainer_name: "Ash",
+    ...extra,
+  }) as MainlinePlaySummary;
+
+const listPlays = (result: ReturnType<typeof buildCollectionGames>) =>
+  Object.fromEntries(
+    result.sections.flatMap((section) =>
+      section.games.map((entry) => [
+        entry.game.slug,
+        entry.plays.map((gamePlay) => gamePlay.play.id),
+      ]),
+    ),
+  );
 
 describe("buildCollectionGames", () => {
   it("keeps every game in release order, a section per generation", () => {
@@ -61,50 +84,54 @@ describe("buildCollectionGames", () => {
     expect(result.playCount).toBe(0);
   });
 
-  it("counts each game's Plays, archived ones too, and adds them up", () => {
+  it("lists each game's Plays, archived ones too, and adds them up", () => {
     const result = buildCollectionGames(games, [
       play("a", "red"),
-      play("b", "red", "2026-01-01"),
+      play("b", "red", { archived_at: "2026-01-01" }),
       play("c", "gold"),
       play("d", null),
       play("e", "unknown-game"),
+      play("f", "red", { play_id: null }),
     ]);
-    const counts = result.sections.flatMap((section) =>
-      section.games.map((entry) => [entry.game.slug, entry.playCount]),
-    );
 
-    expect(counts).toEqual([
-      ["red", 2],
-      ["blue", 0],
-      ["yellow", 0],
-      ["gold", 1],
-    ]);
+    expect(listPlays(result)).toEqual({
+      blue: [],
+      gold: ["c"],
+      red: ["a", "b"],
+      yellow: [],
+    });
     /* The header's numbers are the stamps' own. */
     expect(result.playCount).toBe(3);
     expect(result.playedGameCount).toBe(2);
     expect(result.sections[0].summary).toBe("1996–1998 · 1 of 3 played");
   });
 
-  it("opens the one Play, the game's Plays, or the game's Codex page", () => {
-    const result = buildCollectionGames(games, [
-      play("a", "red"),
-      play("b", "red", "2026-01-01"),
-      play("c", "gold"),
-      play("d", "yellow", "2026-01-01"),
-      play("e", "yellow", "2026-02-01"),
-    ]);
-    const hrefs = Object.fromEntries(
-      result.sections.flatMap((section) =>
-        section.games.map((entry) => [entry.game.slug, entry.href]),
-      ),
-    );
+  it("names each Play by its trainer and playtime, and marks the archived", () => {
+    const [red] = buildCollectionGames(games, [
+      play("a", "red", { playtime_minutes: 90 }),
+      play("b", "red", { archived_at: "2026-01-01", trainer_name: null }),
+    ]).sections[0].games;
 
-    expect(hrefs).toEqual({
-      blue: "/codex/games/blue-group?version=blue",
-      gold: "/mainline/plays/c",
-      red: "/mainline/plays?game=red",
-      /* Only archived Plays: the active list wouldn't show them. */
-      yellow: "/mainline/plays?view=archived",
+    expect(red.plays.map((gamePlay) => gamePlay.detail)).toEqual([
+      "Ash · 1h 30m",
+      "",
+    ]);
+    expect(red.plays.map((gamePlay) => gamePlay.archived)).toEqual([
+      false,
+      true,
+    ]);
+    expect(red.plays[0].play).toMatchObject({
+      id: "a",
+      name: "Play a",
+      statusSlug: "playing",
     });
+  });
+
+  it("links only an unplayed game, to its Codex page", () => {
+    const [red, blue] = buildCollectionGames(games, [play("a", "red")])
+      .sections[0].games;
+
+    expect(red.href).toBeNull();
+    expect(blue.href).toBe("/codex/games/blue-group?version=blue");
   });
 });

@@ -30,15 +30,17 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("step-back");
   });
 
-  it("wears the owned band and the stamp for a game you've played", () => {
+  it("is a button wearing the owned band and the stamp for a game you've played", () => {
     const markup = renderToStaticMarkup(
       <GameShelfCard
         game={game}
-        href="/mainline/plays/1"
+        onClick={() => {}}
         stamp={<span data-testid="stamp">2</span>}
       />,
     );
 
+    expect(markup).toContain('<button type="button"');
+    expect(markup).not.toContain("<a ");
     expect(markup).toContain("sticker");
     expect(markup).not.toContain("plain-card");
     expect(markup).toContain('data-corner="inside-top-right"');

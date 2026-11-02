@@ -113,9 +113,6 @@ export const appRoutes = {
   mainlinePlayTeamPlan: (playId: string) =>
     `/mainline/plays/${playId}/team/plan`,
   mainlinePlays: "/mainline/plays",
-  /* Your Plays of one game. */
-  mainlinePlaysGame: (gameSlug: string) =>
-    `/mainline/plays?game=${encodeURIComponent(gameSlug)}`,
   /* The Plays you archived, each with Restore. */
   mainlinePlaysArchived: "/mainline/plays?view=archived",
   mainlineStats: "/mainline/stats",

@@ -17,9 +17,10 @@ joined you in. Archived Plays count.
 Collection has a second view, Games (`?view=games`), on a Pokémon | Games
 switch under the head: every game in release order, a range per generation
 ("1996–1998 · 1 of 3 played"). A game you've played wears the owned band and
-a gold stamp with how many of your Plays are of it, archived ones included;
-one Play opens that Play, several open your Plays filtered to the game (or
-the archived list, when every one is archived). A game you haven't played
+a gold stamp with how many of your Plays are of it, archived ones included,
+and opens its sheet in place, as a Pokémon does: the game's cover and Open in
+Codex, then each Play of it (trainer and playtime, its status), archived ones
+in their own section, each opening on the Play. A game you haven't played
 steps back and opens its Codex page. The head counts the same stamps: "You've
 played 3 of 38 games, across 4 Plays". The view has no search or filters.
 

@@ -12,9 +12,10 @@ test.describe("Collection", () => {
     page.on("console", (message) => {
       if (message.type() === "error") errors.push(message.text());
     });
+    const playName = uniquePlayName("Collection games");
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
-      name: uniquePlayName("Collection games"),
+      name: playName,
       partner: null,
     });
 
@@ -41,15 +42,27 @@ test.describe("Collection", () => {
     await expect(stamps).toHaveCount(1);
     await expect(stamps).toHaveAccessibleName("1 Play");
 
-    /* The stamped game opens its Play; the others open the Codex. */
-    const red = page.getByRole("link", { name: /^Pokémon Red/ });
-
-    await expect(red).toHaveAttribute("href", `/mainline/plays/${playId}`);
-    await expect(red.getByRole("img", { name: "1 Play" })).toBeVisible();
+    /* An unplayed game links to the Codex; a played one opens its sheet. */
     await expect(
       page.getByRole("link", { name: /^Pokémon Blue/ }),
     ).toHaveAttribute("href", /^\/codex\/games\//);
+    const red = page.getByRole("button", { name: /^Pokémon Red/ });
+
+    await expect(red.getByRole("img", { name: "1 Play" })).toBeVisible();
+    await red.click();
+    const sheet = page.getByRole("dialog", { name: "Red" });
+
+    await expect(sheet).toBeVisible();
+    await expect(sheet.getByRole("link", { name: playName })).toHaveAttribute(
+      "href",
+      `/mainline/plays/${playId}`,
+    );
+    await expect(
+      sheet.getByRole("link", { name: "Open in Codex" }),
+    ).toBeVisible();
     await expectAccessible(page);
+    await page.keyboard.press("Escape");
+    await expect(sheet).toBeHidden();
 
     /* The way back keeps the Pokémon view's address clean. */
     await views.getByRole("link", { name: /^Pokémon/ }).click();

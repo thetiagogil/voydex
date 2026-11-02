@@ -10,7 +10,6 @@ import { cn } from "@/shared/utils/cn";
 type GameShelfCardProps = {
   eager?: boolean;
   game: GameShelfCardGame;
-  href: string;
   /*
    * A game you've played (Collection): the owned white band, and this stamp
    * on its top-right corner. Without one the card is a reference card.
@@ -18,7 +17,14 @@ type GameShelfCardProps = {
   stamp?: ReactNode;
   /* A game you haven't played where that matters (Collection): the cover steps back. */
   unplayed?: boolean;
-};
+} & (
+  | { href: string; onClick?: never }
+  | {
+      href?: never;
+      /* Opens the game in place (its Collection sheet) instead of a page. */
+      onClick: () => void;
+    }
+);
 
 /*
  * v3's game card, the one card for a game (the Codex's Games list and Related
@@ -28,26 +34,23 @@ type GameShelfCardProps = {
  * (`plain-card`, as a Codex Pokémon card) and never marks the games you have
  * Plays of (a game's page has "Your Plays (N)"). Collection gives a played
  * game the owned band and a stamp, and steps the others back. Hover picks the
- * cover up.
+ * cover up. A link opens a page; with `onClick` it is a button.
  */
 export const GameShelfCard = ({
   eager = false,
   game,
   href,
+  onClick,
   stamp,
   unplayed = false,
 }: GameShelfCardProps) => {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "group/game relative flex min-w-0 flex-col gap-3 rounded-xl transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
-        stamp
-          ? "sticker p-1 pb-2.5 [--t:var(--surface)]"
-          : "plain-card p-2 pb-3.5",
-        unplayed && "step-back",
-      )}
-    >
+  const className = cn(
+    "group/game relative flex min-w-0 flex-col gap-3 rounded-xl text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
+    stamp ? "sticker p-1 pb-2.5 [--t:var(--surface)]" : "plain-card p-2 pb-3.5",
+    unplayed && "step-back",
+  );
+  const content = (
+    <>
       <span className="grid h-30 place-items-center overflow-hidden rounded-md sm:h-37">
         <span className="ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5 motion-safe:group-hover/game:-rotate-3">
           <GameCover
@@ -77,6 +80,16 @@ export const GameShelfCard = ({
           {stamp}
         </CornerBubble>
       ) : null}
+    </>
+  );
+
+  return onClick ? (
+    <button type="button" onClick={onClick} className={cn(className, "w-full")}>
+      {content}
+    </button>
+  ) : (
+    <Link href={href} className={className}>
+      {content}
     </Link>
   );
 };
