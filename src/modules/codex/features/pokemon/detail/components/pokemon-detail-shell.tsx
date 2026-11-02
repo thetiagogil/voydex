@@ -181,6 +181,7 @@ export const PokemonDetailShell = ({
           <PokemonDetailHero
             key={form?.form.id ?? data.species.id}
             actions={slots?.heroActions?.(slotContext)}
+            favourite={slots?.favourite?.(slotContext)}
             activeFormSlug={form?.form.slug ?? null}
             eyebrow={getPokemonDetailHeroEyebrow({
               form,

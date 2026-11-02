@@ -296,7 +296,8 @@ source of Plan targets, organization, lifecycle, or Play links.
 A later Collection version may add explicitly user-authored personal signals
 and richer comparison tools, including:
 
-- favorite species or favorite individual companions;
+- favorite individual companions (favourite species and forms are built:
+  the Codex heart and Collection's Favourites);
 - personal species-level notes that are separate from one Play biography;
 - direct comparison between species, forms, generations, or games;
 - richer evolution-family summaries and cross-Play Team-composition patterns;
@@ -304,8 +305,8 @@ and richer comparison tools, including:
 
 V1 derives an explainable personal history and must not convert a usage ranking
 into `Favorite`. Companion notes and MVP remain owned by the relevant Play, and
-Collection remains read-only. Reconsider explicit favorites or Collection notes
-only after the species-led browse and companion-level detail prove that users
+Collection remains read-only. Reconsider favourite companions or Collection
+notes only after the species-led browse and companion-level detail prove that users
 need a cross-Play opinion layer. Any later persistence must be owner-scoped and
 must not alter Team, History, Plan, Pokédex, or usage evidence.
 

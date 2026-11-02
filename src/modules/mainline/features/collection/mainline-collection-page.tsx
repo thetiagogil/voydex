@@ -3,6 +3,7 @@ import Link from "next/link";
 import { appRoutes } from "@/config/routes";
 import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";
 import { CollectionBrowser } from "@/modules/mainline/features/collection/sections/collection-browser";
+import { CollectionFavourites } from "@/modules/mainline/features/collection/sections/collection-favourites";
 import { CollectionGamesShelf } from "@/modules/mainline/features/collection/sections/collection-games-shelf";
 import type {
   CollectionPageData,
@@ -38,6 +39,16 @@ const getGamesDescription = ({ games }: CollectionPageData) => {
   return `You've played ${games.playedGameCount} of ${formatCount(games.totalGameCount, "game", "games")}, across ${formatCount(games.playCount, "Play", "Plays")}`;
 };
 
+const getFavouritesDescription = ({ favourites }: CollectionPageData) => {
+  if (!favourites.length) {
+    return "Every Pokémon you heart in the Codex";
+  }
+
+  const ownedCount = favourites.filter((favourite) => favourite.owned).length;
+
+  return `${formatCount(favourites.length, "favourite", "favourites")}, ${ownedCount} on your teams so far`;
+};
+
 const getDescription = (data: CollectionPageData) => {
   if (!data.entries.length) {
     return "Every Pokémon that joins your teams";
@@ -47,10 +58,11 @@ const getDescription = (data: CollectionPageData) => {
 };
 
 /*
- * Collection (v3 `collection`), in two views. Pokémon: every species that has
- * joined one of your teams, with the Plays it was part of. Each one is yours,
- * so it wears a sticker; the toolbar and filters stay quiet. Games: only the
- * ones you've played, most Plays first, each with its Plays.
+ * Collection (v3 `collection`), in three views. Pokémon: every species that
+ * has joined one of your teams, with the Plays it was part of. Each one is
+ * yours, so it wears a sticker; the toolbar and filters stay quiet.
+ * Favourites: every Pokémon you hearted in the Codex, used or not yet.
+ * Games: only the ones you've played, most Plays first, each with its Plays.
  */
 export const MainlineCollectionPage = ({
   data,
@@ -59,11 +71,44 @@ export const MainlineCollectionPage = ({
 }: MainlineCollectionPageProps) => {
   const viewSwitch = (
     <CollectionViewSwitch
+      favouriteCount={data.favourites.length}
       gameCount={data.games.playedGameCount}
       pokemonCount={data.entries.length}
       value={view}
     />
   );
+
+  if (view === "favourites") {
+    return (
+      <div className="flex flex-col gap-5 sm:gap-6">
+        <PageBand>
+          <PageHeader
+            title="Collection"
+            description={getFavouritesDescription(data)}
+          />
+          {viewSwitch}
+        </PageBand>
+        {data.favourites.length ? (
+          <CollectionFavourites
+            entries={data.entries}
+            favourites={data.favourites}
+          />
+        ) : (
+          <EmptyState
+            headingLevel="h2"
+            art={emptyArt}
+            title="No favourites yet"
+            description="Tap the heart on any Pokémon in the Codex and it waits for you here."
+            action={
+              <Link href={appRoutes.codexPokemon} className={buttonVariants()}>
+                Browse the Codex
+              </Link>
+            }
+          />
+        )}
+      </div>
+    );
+  }
 
   if (view === "games") {
     return (
@@ -105,6 +150,7 @@ export const MainlineCollectionPage = ({
         <CollectionBrowser
           head={head}
           entries={data.entries}
+          favouriteCount={data.favourites.length}
           gameCount={data.games.playedGameCount}
           generations={data.generations}
           initialSpeciesSlug={initialSpeciesSlug}

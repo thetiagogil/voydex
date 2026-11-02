@@ -15,7 +15,7 @@ export default async function CollectionPage({ searchParams }: PageProps) {
     <MainlineCollectionPage
       data={data}
       initialSpeciesSlug={typeof species === "string" ? species : null}
-      view={view === "games" ? "games" : "pokemon"}
+      view={view === "games" || view === "favourites" ? view : "pokemon"}
     />
   );
 }

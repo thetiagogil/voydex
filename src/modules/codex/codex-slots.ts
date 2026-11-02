@@ -30,6 +30,11 @@ export type CodexPokemonEntrySlots = {
    */
   heroActions?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
   /*
+   * The hero's heart, after the route's actions: it saves the shown form as
+   * a favourite when signed in, and asks a visitor to sign in.
+   */
+  favourite?: (entry: CodexPokemonEntrySlotContext) => ReactNode;
+  /*
    * v3's "In your Plays" section card (with its own empty state and the
    * Add to a Play menu), the page's last section. Render a
    * `DetailSectionCard`.

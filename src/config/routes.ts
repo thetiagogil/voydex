@@ -50,6 +50,8 @@ export const appRoutes = {
     `/mainline?play=${encodeURIComponent(playId)}`,
   mainlineCollection: "/mainline/collection",
   /* The Collection's Games: every game, the ones you've played stamped. */
+  /* The Collection's Favourites: every Pokémon you hearted in the Codex. */
+  mainlineCollectionFavourites: "/mainline/collection?view=favourites",
   mainlineCollectionGames: "/mainline/collection?view=games",
   /* The Collection with one species' sheet open. */
   mainlineCollectionSpecies: (speciesSlug: string) =>

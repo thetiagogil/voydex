@@ -46,6 +46,8 @@ import {
 
 type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
+  /* Hearted Pokémon, for the Favourites switch's count. */
+  favouriteCount: number;
   /* Played games, for the Games switch's count. */
   gameCount: number;
   /* Every generation, for the Generation filter. */
@@ -70,6 +72,7 @@ const countPlays = (count: number) =>
  */
 export const CollectionBrowser = ({
   entries,
+  favouriteCount,
   gameCount,
   generations,
   head,
@@ -116,6 +119,7 @@ export const CollectionBrowser = ({
           {head}
         </FoldHead>
         <CollectionViewSwitch
+          favouriteCount={favouriteCount}
           gameCount={gameCount}
           pokemonCount={entries.length}
           value="pokemon"

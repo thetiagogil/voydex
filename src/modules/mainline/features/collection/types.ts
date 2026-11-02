@@ -1,4 +1,5 @@
 import type { CollectionGames } from "@/modules/mainline/features/collection/data/collection-games-model";
+import type { FavouritePokemon } from "@/modules/mainline/features/collection/data/favourite-pokemon-model";
 import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
 import type {
   TrainerPokemonEntry,
@@ -7,6 +8,8 @@ import type {
 
 export type CollectionPageData = {
   entries: TrainerPokemonEntry[];
+  /* The Favourites view: every Pokémon hearted in the Codex, newest first. */
+  favourites: FavouritePokemon[];
   /* The Pokémon album's pages: every generation with its species count. */
   generations: SpeciesGeneration[];
   /* The Games view: every game, with your Plays of each. */
@@ -23,4 +26,4 @@ export type CollectionPageData = {
 };
 
 /* Which view the Collection shows, kept in the address (`?view=games`). */
-export type CollectionView = "games" | "pokemon";
+export type CollectionView = "favourites" | "games" | "pokemon";
