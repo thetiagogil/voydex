@@ -61,21 +61,16 @@ const listPlays = (result: ReturnType<typeof buildCollectionGames>) =>
   ]);
 
 describe("buildCollectionGames", () => {
-  it("keeps every unplayed game in release order", () => {
+  it("has no games before a Play", () => {
     const result = buildCollectionGames(games, []);
 
-    expect(result.games.map((entry) => entry.game.slug)).toEqual([
-      "red",
-      "blue",
-      "yellow",
-      "gold",
-    ]);
+    expect(result.games).toEqual([]);
     expect(result.totalGameCount).toBe(4);
     expect(result.playedGameCount).toBe(0);
     expect(result.playCount).toBe(0);
   });
 
-  it("puts the played games first, most Plays leading, archived ones counted", () => {
+  it("lists only the played games, most Plays leading, archived ones counted", () => {
     const result = buildCollectionGames(games, [
       play("a", "yellow"),
       play("b", "gold"),
@@ -88,8 +83,6 @@ describe("buildCollectionGames", () => {
     expect(listPlays(result)).toEqual([
       ["gold", ["b", "c"]],
       ["yellow", ["a"]],
-      ["red", []],
-      ["blue", []],
     ]);
     /* The header's numbers are the marks' own. */
     expect(result.playCount).toBe(3);
@@ -115,12 +108,5 @@ describe("buildCollectionGames", () => {
       name: "Play a",
       statusSlug: "playing",
     });
-  });
-
-  it("links only an unplayed game, to New Play with it picked", () => {
-    const [red, blue] = buildCollectionGames(games, [play("a", "red")]).games;
-
-    expect(red.href).toBeNull();
-    expect(blue.href).toBe("/mainline?new=blue");
   });
 });

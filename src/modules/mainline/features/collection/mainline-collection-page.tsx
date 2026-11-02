@@ -49,8 +49,8 @@ const getDescription = (data: CollectionPageData) => {
 /*
  * Collection (v3 `collection`), in two views. Pokémon: every species that has
  * joined one of your teams, with the Plays it was part of. Each one is yours,
- * so it wears a sticker; the toolbar and filters stay quiet. Games: the ones
- * you've played first, each with its Plays, then the rest as open slots.
+ * so it wears a sticker; the toolbar and filters stay quiet. Games: only the
+ * ones you've played, most Plays first, each with its Plays.
  */
 export const MainlineCollectionPage = ({
   data,
@@ -75,7 +75,22 @@ export const MainlineCollectionPage = ({
           />
           {viewSwitch}
         </PageBand>
-        <CollectionGamesShelf games={data.games} />
+        {data.games.games.length ? (
+          <CollectionGamesShelf games={data.games} />
+        ) : (
+          <EmptyState
+            headingLevel="h2"
+            art={emptyArt}
+            title="Nothing here yet"
+            description="Every game you play gets a place here, with your Plays of it."
+            action={
+              <NewPlayTrigger className={buttonVariants()}>
+                <AppIcon icon={appIcons.actions.create} inline="start" />
+                Start a Play
+              </NewPlayTrigger>
+            }
+          />
+        )}
       </div>
     );
   }

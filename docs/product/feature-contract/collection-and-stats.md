@@ -19,15 +19,15 @@ beside Sort, never a grouping, so the order holds across the whole
 Collection.
 
 Collection has a second view, Games (`?view=games`), on a Pokémon | Games
-switch under the head: one grid, the games you've played first with the most
-Plays leading, then every other game in release order. A played game is a
-card with the owned band and a small count mark of your Plays of it, archived
-ones included, and opens its sheet in place, as a Pokémon does: the game's
-cover and Open in Codex, then each Play of it (trainer and playtime, its
-status), archived ones in their own section, each opening on the Play. A
-game you haven't played is a dashed open slot with its cover stepped back and
-"Not played yet"; it opens New Play with the game picked. The head counts the
-same marks: "You've played 3 of 38 games, across 4 Plays". The view has no search or filters.
+switch under the head: one grid of only the games you've played (as the
+Pokémon view holds only what joined you), the most Plays leading, then
+release order. Each is a card with the owned band and the same small count
+mark of your Plays of it, archived ones included, and opens its sheet in
+place, as a Pokémon does: the game's cover and Open in Codex, then each Play
+of it (trainer and playtime, its status), archived ones in their own section,
+each opening on the Play. The head counts the same marks: "You've played 3 of
+38 games, across 4 Plays". Before any Play the view is the empty state with
+Start a Play. The view has no search or filters.
 
 It is derived from actual play Pokémon, recorded team lifecycle events, and meaningful snapshots, not only from current active team slots.
 

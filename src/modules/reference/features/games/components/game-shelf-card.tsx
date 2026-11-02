@@ -110,33 +110,6 @@ export const GameShelfCard = ({
   );
 };
 
-/*
- * The game card's open slot (Collection's album): a game you haven't played
- * yet, its place drawn dashed (`empty-slot`, as a Pokémon's open slot) with
- * the cover stepped back, opening New Play with the game picked so you can
- * fill it.
- */
-export const GameShelfEmptySlot = ({
-  eager = false,
-  game,
-  href,
-}: {
-  eager?: boolean;
-  game: GameShelfCardGame;
-  href: string;
-}) => (
-  <Link
-    href={href}
-    className="group/game empty-slot step-back flex min-w-0 flex-col gap-3 rounded-xl p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-0.75"
-  >
-    <GameShelfCover eager={eager} game={game} />
-    <span className="text-ink-3 flex min-w-0 flex-col gap-0.5 px-2">
-      <GameShelfName game={game} />
-      <span className="text-13 truncate font-semibold">Not played yet</span>
-    </span>
-  </Link>
-);
-
 /* Two covers across on phones; on wider screens as many 150px columns as fit. */
 export const GameShelfGrid = ({
   children,

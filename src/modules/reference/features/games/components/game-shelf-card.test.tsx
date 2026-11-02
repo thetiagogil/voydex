@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import type { GameShelfCardGame } from "@/modules/reference/types";
 
-import { GameShelfCard, GameShelfEmptySlot } from "./game-shelf-card";
+import { GameShelfCard } from "./game-shelf-card";
 
 const game: GameShelfCardGame = {
   coverImageUrl: null,
@@ -45,17 +45,5 @@ describe("GameShelfCard", () => {
     expect(markup).not.toContain("plain-card");
     expect(markup).toContain('data-corner="inside-top-right"');
     expect(markup).toContain('data-testid="mark"');
-  });
-
-  it("draws an unplayed game as a dashed open slot that New Play fills", () => {
-    const markup = renderToStaticMarkup(
-      <GameShelfEmptySlot game={game} href="/mainline?new=sword" />,
-    );
-
-    expect(markup).toContain("empty-slot");
-    expect(markup).toContain("step-back");
-    expect(markup).not.toContain("plain-card");
-    expect(markup).toContain('href="/mainline?new=sword"');
-    expect(getWords(markup)).toContain("Pokémon SwordNot played yet");
   });
 });

@@ -64,16 +64,13 @@ test.describe("Collection", () => {
     await expect(stamps).toHaveCount(1);
     await expect(stamps).toHaveAccessibleName("1 Play");
 
-    /* The played game leads; an unplayed one is an open slot New Play fills. */
-    await expect(
-      page
-        .getByRole("region", { name: "Your games" })
-        .getByRole("button")
-        .first(),
-    ).toHaveAccessibleName(/^Pokémon Red/);
-    await expect(
-      page.getByRole("link", { name: /^Pokémon Blue/ }),
-    ).toHaveAttribute("href", "/mainline?new=blue");
+    /* Only the played game is listed; it opens its sheet. */
+    const shelf = page.getByRole("region", { name: "Your games" });
+
+    await expect(shelf.getByRole("button")).toHaveCount(1);
+    await expect(page.getByRole("link", { name: /^Pokémon Blue/ })).toHaveCount(
+      0,
+    );
     const red = page.getByRole("button", { name: /^Pokémon Red/ });
 
     await expect(red.getByRole("img", { name: "1 Play" })).toBeVisible();

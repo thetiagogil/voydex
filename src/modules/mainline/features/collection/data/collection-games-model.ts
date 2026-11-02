@@ -1,4 +1,3 @@
-import { appRoutes } from "@/config/routes";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { formatPlayMinutes } from "@/modules/mainline/features/plays/shared/utils/play-formatters";
 import {
@@ -17,14 +16,12 @@ export type CollectionGamePlay = {
 
 export type CollectionGame = {
   game: GameShelfGame;
-  /* New Play with the game picked, for a game you haven't played; null once you have. */
-  href: string | null;
   /* Every Play of it, archived too, newest first as the summary rows come. */
   plays: CollectionGamePlay[];
 };
 
 export type CollectionGames = {
-  /* The games you've played first, most Plays first, then the rest in release order. */
+  /* Only the games you've played, most Plays first, then release order. */
   games: CollectionGame[];
   /* Every Play you have, archived too: each one played its game. */
   playCount: number;
@@ -54,9 +51,9 @@ const toCollectionGamePlay = (
 };
 
 /*
- * Collection's Games: the games you've played first, the ones with the most
- * Plays leading, then every other game in release order (the catalogue's),
- * each with your Plays of it.
+ * Collection's Games: only the games you've played (as Collection's Pokémon
+ * are only the ones that joined you), the ones with the most Plays leading,
+ * then the catalogue's release order, each with your Plays of it.
  */
 export const buildCollectionGames = (
   catalogueGames: GameShelfGame[],
@@ -75,33 +72,22 @@ export const buildCollectionGames = (
     }
   }
 
-  const games = catalogueGames.map((game, index) => {
+  const played = catalogueGames.flatMap((game, index) => {
     const gamePlays = playsByGameSlug.get(game.slug) ?? [];
 
-    return {
-      entry: {
-        game,
-        href: gamePlays.length ? null : appRoutes.mainlineNewPlay(game.slug),
-        plays: gamePlays,
-      },
-      index,
-    };
+    return gamePlays.length
+      ? [{ entry: { game, plays: gamePlays }, index }]
+      : [];
   });
-  const played = games.filter(({ entry }) => entry.plays.length);
 
   return {
-    games: [
-      ...played
-        .toSorted(
-          (left, right) =>
-            right.entry.plays.length - left.entry.plays.length ||
-            left.index - right.index,
-        )
-        .map(({ entry }) => entry),
-      ...games
-        .filter(({ entry }) => !entry.plays.length)
-        .map(({ entry }) => entry),
-    ],
+    games: played
+      .toSorted(
+        (left, right) =>
+          right.entry.plays.length - left.entry.plays.length ||
+          left.index - right.index,
+      )
+      .map(({ entry }) => entry),
     playCount: played.reduce(
       (total, { entry }) => total + entry.plays.length,
       0,
