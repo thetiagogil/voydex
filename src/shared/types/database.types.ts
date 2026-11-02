@@ -1020,6 +1020,28 @@ export type Database = {
           },
         ];
       };
+      user_favourite_pokemon: {
+        Row: {
+          created_at: string;
+          form_id: number;
+          species_id: number;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          form_id: number;
+          species_id: number;
+          user_id: string;
+        };
+        Update: {
+          created_at?: string;
+          form_id?: number;
+          species_id?: number;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       user_game_library_entries: {
         Row: {
           created_at: string;

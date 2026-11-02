@@ -53,6 +53,8 @@ ALTER TABLE gameplay.user_game_library_statuses ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE gameplay.user_game_library_entries ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE gameplay.user_favourite_pokemon ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE gameplay.mainline_play_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.mainline_plays FROM anon, authenticated;
@@ -104,6 +106,8 @@ REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_set_rules FROM anon, authen
 REVOKE ALL ON TABLE gameplay.user_game_library_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.user_game_library_entries FROM anon, authenticated;
+
+REVOKE ALL ON TABLE gameplay.user_favourite_pokemon FROM anon, authenticated;
 
 GRANT SELECT ON TABLE gameplay.mainline_play_statuses TO authenticated;
 
@@ -157,6 +161,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_s
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.user_game_library_entries TO authenticated;
 
+GRANT SELECT, INSERT, DELETE ON TABLE gameplay.user_favourite_pokemon TO authenticated;
+
 GRANT ALL ON TABLE gameplay.mainline_play_statuses TO service_role;
 
 GRANT ALL ON TABLE gameplay.mainline_plays TO service_role;
@@ -208,6 +214,8 @@ GRANT ALL ON TABLE gameplay.mainline_challenge_rule_set_rules TO service_role;
 GRANT ALL ON TABLE gameplay.user_game_library_statuses TO service_role;
 
 GRANT ALL ON TABLE gameplay.user_game_library_entries TO service_role;
+
+GRANT ALL ON TABLE gameplay.user_favourite_pokemon TO service_role;
 
 CREATE POLICY play_statuses_read_all ON gameplay.mainline_play_statuses
     FOR SELECT TO authenticated
@@ -331,6 +339,18 @@ CREATE POLICY user_game_library_entries_update_own ON gameplay.user_game_library
     WITH CHECK (user_id = auth.uid ());
 
 CREATE POLICY user_game_library_entries_delete_own ON gameplay.user_game_library_entries
+    FOR DELETE TO authenticated
+    USING (user_id = auth.uid ());
+
+CREATE POLICY user_favourite_pokemon_select_own ON gameplay.user_favourite_pokemon
+    FOR SELECT TO authenticated
+    USING (user_id = auth.uid ());
+
+CREATE POLICY user_favourite_pokemon_insert_own ON gameplay.user_favourite_pokemon
+    FOR INSERT TO authenticated
+    WITH CHECK (user_id = auth.uid ());
+
+CREATE POLICY user_favourite_pokemon_delete_own ON gameplay.user_favourite_pokemon
     FOR DELETE TO authenticated
     USING (user_id = auth.uid ());
 

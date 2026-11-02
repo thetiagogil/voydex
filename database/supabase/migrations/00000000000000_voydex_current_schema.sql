@@ -5271,6 +5271,28 @@ CREATE TRIGGER enforce_challenge_rule_set_rule_scope
 COMMENT ON FUNCTION private.enforce_challenge_rule_set_rule_scope () IS 'Lets a preset hold Voydex''s rules and its owner''s own rules only, so Voydex''s presets hold only Voydex''s rules.';
 
 -- ============================================================================
+-- Source: database/schema/04_gameplay/01_tables/028_user_favourite_pokemon.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: gameplay.user_favourite_pokemon
+-- The Pokémon a user has hearted in the Codex, one row per form.
+-- ============================================================================
+CREATE TABLE gameplay.user_favourite_pokemon (
+    user_id uuid NOT NULL REFERENCES public.profiles (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    species_id integer NOT NULL,
+    form_id integer NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT user_favourite_pokemon_primary_key PRIMARY KEY (user_id, form_id),
+    CONSTRAINT user_favourite_pokemon_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT
+);
+
+CREATE INDEX user_favourite_pokemon_species_form_idx ON gameplay.user_favourite_pokemon (species_id, form_id);
+
+CREATE INDEX user_favourite_pokemon_user_created_idx ON gameplay.user_favourite_pokemon (user_id, created_at DESC);
+
+COMMENT ON TABLE gameplay.user_favourite_pokemon IS 'Pokémon forms a user marked as favourite from the Codex. Independent from Plays; Stats keeps Most used separate.';
+
+-- ============================================================================
 -- Source: database/schema/04_gameplay/02_functions/001_mainline_play_milestone_mutations.sql
 -- ============================================================================
 -- ============================================================================
@@ -7705,6 +7727,8 @@ ALTER TABLE gameplay.user_game_library_statuses ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE gameplay.user_game_library_entries ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE gameplay.user_favourite_pokemon ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE gameplay.mainline_play_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.mainline_plays FROM anon, authenticated;
@@ -7756,6 +7780,8 @@ REVOKE ALL ON TABLE gameplay.mainline_challenge_rule_set_rules FROM anon, authen
 REVOKE ALL ON TABLE gameplay.user_game_library_statuses FROM anon, authenticated;
 
 REVOKE ALL ON TABLE gameplay.user_game_library_entries FROM anon, authenticated;
+
+REVOKE ALL ON TABLE gameplay.user_favourite_pokemon FROM anon, authenticated;
 
 GRANT SELECT ON TABLE gameplay.mainline_play_statuses TO authenticated;
 
@@ -7809,6 +7835,8 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.mainline_challenge_rule_s
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE gameplay.user_game_library_entries TO authenticated;
 
+GRANT SELECT, INSERT, DELETE ON TABLE gameplay.user_favourite_pokemon TO authenticated;
+
 GRANT ALL ON TABLE gameplay.mainline_play_statuses TO service_role;
 
 GRANT ALL ON TABLE gameplay.mainline_plays TO service_role;
@@ -7860,6 +7888,8 @@ GRANT ALL ON TABLE gameplay.mainline_challenge_rule_set_rules TO service_role;
 GRANT ALL ON TABLE gameplay.user_game_library_statuses TO service_role;
 
 GRANT ALL ON TABLE gameplay.user_game_library_entries TO service_role;
+
+GRANT ALL ON TABLE gameplay.user_favourite_pokemon TO service_role;
 
 CREATE POLICY play_statuses_read_all ON gameplay.mainline_play_statuses
     FOR SELECT TO authenticated
@@ -7983,6 +8013,18 @@ CREATE POLICY user_game_library_entries_update_own ON gameplay.user_game_library
     WITH CHECK (user_id = auth.uid ());
 
 CREATE POLICY user_game_library_entries_delete_own ON gameplay.user_game_library_entries
+    FOR DELETE TO authenticated
+    USING (user_id = auth.uid ());
+
+CREATE POLICY user_favourite_pokemon_select_own ON gameplay.user_favourite_pokemon
+    FOR SELECT TO authenticated
+    USING (user_id = auth.uid ());
+
+CREATE POLICY user_favourite_pokemon_insert_own ON gameplay.user_favourite_pokemon
+    FOR INSERT TO authenticated
+    WITH CHECK (user_id = auth.uid ());
+
+CREATE POLICY user_favourite_pokemon_delete_own ON gameplay.user_favourite_pokemon
     FOR DELETE TO authenticated
     USING (user_id = auth.uid ());
 

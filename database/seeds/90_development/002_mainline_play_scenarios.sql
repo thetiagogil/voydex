@@ -260,3 +260,15 @@ SELECT
   ((games.id - 1) % 5) + 1,
   CASE WHEN games.id IN (1, 15, 31, 35, 36, 38) THEN 'Fixture library note for a representative game.' ELSE NULL END
 FROM reference.games;
+
+INSERT INTO gameplay.user_favourite_pokemon (
+  user_id,
+  species_id,
+  form_id
+)
+SELECT
+  '46ba21ff-6955-4252-8913-35b50de51456'::uuid,
+  pokemon_forms.species_id,
+  pokemon_forms.id
+FROM reference.pokemon_forms
+WHERE pokemon_forms.slug IN ('pikachu', 'eevee', 'gengar', 'lucario', 'garchomp');
