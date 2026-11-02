@@ -20,75 +20,76 @@ INSERT INTO tracking.mainline_opponents (
   primary_type_id,
   secondary_type_id,
   sprite_slug,
+  place,
   sort_order
 ) VALUES
   -- Katy
-  (23001, 23, NULL, 'katy', 'Katy', 'gym-leader', 12, NULL, 'katy', 1),
+  (23001, 23, NULL, 'katy', 'Katy', 'gym-leader', 12, NULL, 'katy', 'Cortondo', 1),
   -- Brassius
-  (23002, 23, NULL, 'brassius', 'Brassius', 'gym-leader', 5, NULL, 'brassius', 2),
+  (23002, 23, NULL, 'brassius', 'Brassius', 'gym-leader', 5, NULL, 'brassius', 'Artazon', 2),
   -- Iono
-  (23003, 23, NULL, 'iono', 'Iono', 'gym-leader', 4, NULL, 'iono', 3),
+  (23003, 23, NULL, 'iono', 'Iono', 'gym-leader', 4, NULL, 'iono', 'Levincia', 3),
   -- Kofu
-  (23004, 23, NULL, 'kofu', 'Kofu', 'gym-leader', 3, NULL, 'kofu', 4),
+  (23004, 23, NULL, 'kofu', 'Kofu', 'gym-leader', 3, NULL, 'kofu', 'Cascarrafa', 4),
   -- Larry
-  (23005, 23, NULL, 'larry-gym', 'Larry', 'gym-leader', 1, NULL, 'larry-gym', 5),
+  (23005, 23, NULL, 'larry-gym', 'Larry', 'gym-leader', 1, NULL, 'larry-gym', 'Medali', 5),
   -- Ryme
-  (23006, 23, NULL, 'ryme', 'Ryme', 'gym-leader', 14, NULL, 'ryme', 6),
+  (23006, 23, NULL, 'ryme', 'Ryme', 'gym-leader', 14, NULL, 'ryme', 'Montenevera', 6),
   -- Tulip
-  (23007, 23, NULL, 'tulip', 'Tulip', 'gym-leader', 11, NULL, 'tulip', 7),
+  (23007, 23, NULL, 'tulip', 'Tulip', 'gym-leader', 11, NULL, 'tulip', 'Alfornada', 7),
   -- Grusha
-  (23008, 23, NULL, 'grusha', 'Grusha', 'gym-leader', 6, NULL, 'grusha', 8),
+  (23008, 23, NULL, 'grusha', 'Grusha', 'gym-leader', 6, NULL, 'grusha', 'Glaseado Mountain', 8),
   -- Rika
-  (23009, 23, NULL, 'rika', 'Rika', 'elite-four', 9, NULL, 'rika', 9),
+  (23009, 23, NULL, 'rika', 'Rika', 'elite-four', 9, NULL, 'rika', NULL, 9),
   -- Poppy
-  (23010, 23, NULL, 'poppy', 'Poppy', 'elite-four', 17, NULL, 'poppy', 10),
+  (23010, 23, NULL, 'poppy', 'Poppy', 'elite-four', 17, NULL, 'poppy', NULL, 10),
   -- Larry
-  (23011, 23, NULL, 'larry-e4', 'Larry', 'elite-four', 10, NULL, 'larry-e4', 11),
+  (23011, 23, NULL, 'larry-e4', 'Larry', 'elite-four', 10, NULL, 'larry-e4', NULL, 11),
   -- Hassel
-  (23012, 23, NULL, 'hassel', 'Hassel', 'elite-four', 15, NULL, 'hassel', 12),
+  (23012, 23, NULL, 'hassel', 'Hassel', 'elite-four', 15, NULL, 'hassel', NULL, 12),
   -- Geeta
-  (23013, 23, NULL, 'geeta', 'Geeta', 'champion', NULL, NULL, 'geeta', 13),
+  (23013, 23, NULL, 'geeta', 'Geeta', 'champion', NULL, NULL, 'geeta', 'Pokémon League', 13),
   -- Nemona
-  (23014, 23, NULL, 'nemona', 'Nemona', 'champion', NULL, NULL, 'nemona', 14),
+  (23014, 23, NULL, 'nemona', 'Nemona', 'champion', NULL, NULL, 'nemona', 'Mesagoza', 14),
   -- Giacomo
-  (23015, 23, NULL, 'giacomo', 'Giacomo', 'team-star-boss', 16, NULL, 'giacomo', 15),
+  (23015, 23, NULL, 'giacomo', 'Giacomo', 'team-star-boss', 16, NULL, 'giacomo', NULL, 15),
   -- Mela
-  (23016, 23, NULL, 'mela', 'Mela', 'team-star-boss', 2, NULL, 'mela', 16),
+  (23016, 23, NULL, 'mela', 'Mela', 'team-star-boss', 2, NULL, 'mela', NULL, 16),
   -- Atticus
-  (23017, 23, NULL, 'atticus', 'Atticus', 'team-star-boss', 8, NULL, 'atticus', 17),
+  (23017, 23, NULL, 'atticus', 'Atticus', 'team-star-boss', 8, NULL, 'atticus', NULL, 17),
   -- Ortega
-  (23018, 23, NULL, 'ortega', 'Ortega', 'team-star-boss', 18, NULL, 'ortega', 18),
+  (23018, 23, NULL, 'ortega', 'Ortega', 'team-star-boss', 18, NULL, 'ortega', NULL, 18),
   -- Eri
-  (23019, 23, NULL, 'eri', 'Eri', 'team-star-boss', 7, NULL, 'eri', 19),
+  (23019, 23, NULL, 'eri', 'Eri', 'team-star-boss', 7, NULL, 'eri', NULL, 19),
   -- Clavell
-  (23020, 23, NULL, 'clavell', 'Clavell', 'boss', NULL, NULL, 'clavell', 20),
+  (23020, 23, NULL, 'clavell', 'Clavell', 'boss', NULL, NULL, 'clavell', NULL, 20),
   -- Penny
-  (23021, 23, NULL, 'penny', 'Penny', 'boss', NULL, NULL, 'penny', 21),
+  (23021, 23, NULL, 'penny', 'Penny', 'boss', NULL, NULL, 'penny', NULL, 21),
   -- Stony Cliff Titan
-  (23022, 23, NULL, 'stony-cliff-titan', 'Stony Cliff Titan', 'titan', 13, NULL, 'stony-cliff-titan', 22),
+  (23022, 23, NULL, 'stony-cliff-titan', 'Stony Cliff Titan', 'titan', 13, NULL, 'stony-cliff-titan', NULL, 22),
   -- Open Sky Titan
-  (23023, 23, NULL, 'open-sky-titan', 'Open Sky Titan', 'titan', 10, 16, 'open-sky-titan', 23),
+  (23023, 23, NULL, 'open-sky-titan', 'Open Sky Titan', 'titan', 10, 16, 'open-sky-titan', NULL, 23),
   -- Lurking Steel Titan
-  (23024, 23, NULL, 'lurking-steel-titan', 'Lurking Steel Titan', 'titan', 17, NULL, 'lurking-steel-titan', 24),
+  (23024, 23, NULL, 'lurking-steel-titan', 'Lurking Steel Titan', 'titan', 17, NULL, 'lurking-steel-titan', NULL, 24),
   -- Quaking Earth Titan
-  (23025, 23, NULL, 'quaking-earth-titan', 'Quaking Earth Titan', 'titan', 9, NULL, 'quaking-earth-titan', 25),
+  (23025, 23, NULL, 'quaking-earth-titan', 'Quaking Earth Titan', 'titan', 9, NULL, 'quaking-earth-titan', NULL, 25),
   -- False Dragon Titan
-  (23026, 23, NULL, 'false-dragon-titan', 'False Dragon Titan', 'titan', 3, 15, 'false-dragon-titan', 26),
+  (23026, 23, NULL, 'false-dragon-titan', 'False Dragon Titan', 'titan', 3, 15, 'false-dragon-titan', NULL, 26),
   -- Arven
-  (23027, 23, NULL, 'arven', 'Arven', 'rival', NULL, NULL, 'arven', 27),
+  (23027, 23, NULL, 'arven', 'Arven', 'rival', NULL, NULL, 'arven', NULL, 27),
   -- AI Professor
-  (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, 'ai-professor', 28),
+  (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, 'ai-professor', NULL, 28),
   -- Nemona (rival)
-  (23029, 23, NULL, 'nemona-rival', 'Nemona', 'rival', NULL, NULL, 'nemona', 29),
+  (23029, 23, NULL, 'nemona-rival', 'Nemona', 'rival', NULL, NULL, 'nemona', NULL, 29),
   -- Koraidon (boss, scarlet)
-  (23030, 23, 36, 'koraidon', 'Koraidon', 'boss', 7, 15, 'koraidon', 1),
+  (23030, 23, 36, 'koraidon', 'Koraidon', 'boss', 7, 15, 'koraidon', NULL, 1),
   -- Miraidon (boss, violet)
-  (23031, 23, 37, 'miraidon', 'Miraidon', 'boss', 4, 15, 'miraidon', 1),
+  (23031, 23, 37, 'miraidon', 'Miraidon', 'boss', 4, 15, 'miraidon', NULL, 1),
   -- Wo-Chien (boss)
-  (23032, 23, NULL, 'wo-chien', 'Wo-Chien', 'boss', 16, 5, 'wo-chien', 30),
+  (23032, 23, NULL, 'wo-chien', 'Wo-Chien', 'boss', 16, 5, 'wo-chien', NULL, 30),
   -- Chien-Pao (boss)
-  (23033, 23, NULL, 'chien-pao', 'Chien-Pao', 'boss', 16, 6, 'chien-pao', 31),
+  (23033, 23, NULL, 'chien-pao', 'Chien-Pao', 'boss', 16, 6, 'chien-pao', NULL, 31),
   -- Ting-Lu (boss)
-  (23034, 23, NULL, 'ting-lu', 'Ting-Lu', 'boss', 16, 9, 'ting-lu', 32),
+  (23034, 23, NULL, 'ting-lu', 'Ting-Lu', 'boss', 16, 9, 'ting-lu', NULL, 32),
   -- Chi-Yu (boss)
-  (23035, 23, NULL, 'chi-yu', 'Chi-Yu', 'boss', 16, 2, 'chi-yu', 33);
+  (23035, 23, NULL, 'chi-yu', 'Chi-Yu', 'boss', 16, 2, 'chi-yu', NULL, 33);

@@ -3860,6 +3860,7 @@ export type Database = {
       regions: {
         Row: {
           created_at: string;
+          description: string;
           id: number;
           name: string;
           slug: string;
@@ -3868,6 +3869,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          description: string;
           id: number;
           name: string;
           slug: string;
@@ -3875,6 +3877,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          description?: string;
           id?: number;
           name?: string;
           slug?: string;
@@ -4017,6 +4020,7 @@ export type Database = {
       version_groups: {
         Row: {
           created_at: string;
+          description: string;
           generation_id: number;
           id: number;
           is_open_world: boolean;
@@ -4028,6 +4032,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          description: string;
           generation_id: number;
           id: number;
           is_open_world?: boolean;
@@ -4038,6 +4043,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          description?: string;
           generation_id?: number;
           id?: number;
           is_open_world?: boolean;
@@ -4931,6 +4937,7 @@ export type Database = {
           id: number;
           name: string;
           opponent_role: string;
+          place: string | null;
           primary_type_id: number | null;
           secondary_type_id: number | null;
           slug: string;
@@ -4945,6 +4952,7 @@ export type Database = {
           id: number;
           name: string;
           opponent_role: string;
+          place?: string | null;
           primary_type_id?: number | null;
           secondary_type_id?: number | null;
           slug: string;
@@ -4958,6 +4966,7 @@ export type Database = {
           id?: number;
           name?: string;
           opponent_role?: string;
+          place?: string | null;
           primary_type_id?: number | null;
           secondary_type_id?: number | null;
           slug?: string;

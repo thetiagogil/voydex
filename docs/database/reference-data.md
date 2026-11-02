@@ -56,6 +56,10 @@ sources remain authoritative for game-specific mechanics and availability.
   Two exceptions match the game: Alolan Vulpix has no Isle of Armor tutor and
   female Indeedee no Teal Mask TM.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Every Gym Leader, kahuna and Champion names its `place` (where the battle
+  is fought: the Gym's town, the grand trial's site, the League), read from
+  Bulbapedia's Gym, island kahuna and trainer pages on 2026-11-02; the region
+  and version group descriptions are Voydex's own words.
 - Opponent teams from Red / Blue to Emerald (every Story battle and legendary
   encounter in those seven version groups) were checked row by row on
   2026-10-29 against each game's own trainer data in the pret disassemblies:

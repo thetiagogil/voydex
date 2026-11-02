@@ -8,9 +8,9 @@ SELECT
     plan (18);
 SET LOCAL ROLE anon;
 SELECT
-    throws_ok ($$
+    lives_ok ($$
         SELECT
-            id FROM tracking.mainline_opponent_team_members LIMIT 1 $$, '42501', 'permission denied for table mainline_opponent_team_members', 'anonymous users cannot read opponent teams');
+            id FROM tracking.mainline_opponent_team_members LIMIT 1 $$, 'anonymous users can read opponent teams, for the Codex game page''s aces');
 RESET ROLE;
 SET LOCAL ROLE authenticated;
 SELECT

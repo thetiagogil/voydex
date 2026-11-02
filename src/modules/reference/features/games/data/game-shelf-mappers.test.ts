@@ -41,6 +41,7 @@ const versionGroup = (
   parentId: number | null = null,
 ): VersionGroup => ({
   created_at: createdAt,
+  description: "",
   generation_id: generationId,
   id,
   is_open_world: false,
@@ -73,6 +74,7 @@ const game = (
 
 const region: Region = {
   created_at: createdAt,
+  description: "",
   id: 1,
   name: "Kanto",
   slug: "kanto",

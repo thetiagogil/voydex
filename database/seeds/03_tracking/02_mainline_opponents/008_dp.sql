@@ -23,61 +23,62 @@ INSERT INTO tracking.mainline_opponents (
   primary_type_id,
   secondary_type_id,
   sprite_slug,
+  place,
   sort_order
 ) VALUES
   -- Roark
-  (8001, 8, NULL, 'roark', 'Roark', 'gym-leader', 13, NULL, 'roark', 1),
+  (8001, 8, NULL, 'roark', 'Roark', 'gym-leader', 13, NULL, 'roark', 'Oreburgh City', 1),
   -- Gardenia
-  (8002, 8, NULL, 'gardenia', 'Gardenia', 'gym-leader', 5, NULL, 'gardenia', 2),
+  (8002, 8, NULL, 'gardenia', 'Gardenia', 'gym-leader', 5, NULL, 'gardenia', 'Eterna City', 2),
   -- Maylene
-  (8003, 8, NULL, 'maylene', 'Maylene', 'gym-leader', 7, NULL, 'maylene', 3),
+  (8003, 8, NULL, 'maylene', 'Maylene', 'gym-leader', 7, NULL, 'maylene', 'Veilstone City', 3),
   -- Crasher Wake
-  (8004, 8, NULL, 'crasher-wake', 'Crasher Wake', 'gym-leader', 3, NULL, 'crasher-wake', 4),
+  (8004, 8, NULL, 'crasher-wake', 'Crasher Wake', 'gym-leader', 3, NULL, 'crasher-wake', 'Pastoria City', 4),
   -- Fantina
-  (8005, 8, NULL, 'fantina', 'Fantina', 'gym-leader', 14, NULL, 'fantina', 5),
+  (8005, 8, NULL, 'fantina', 'Fantina', 'gym-leader', 14, NULL, 'fantina', 'Hearthome City', 5),
   -- Byron
-  (8006, 8, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 6),
+  (8006, 8, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 'Canalave City', 6),
   -- Candice
-  (8007, 8, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 7),
+  (8007, 8, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 'Snowpoint City', 7),
   -- Volkner
-  (8008, 8, NULL, 'volkner', 'Volkner', 'gym-leader', 4, NULL, 'volkner', 8),
+  (8008, 8, NULL, 'volkner', 'Volkner', 'gym-leader', 4, NULL, 'volkner', 'Sunyshore City', 8),
   -- Aaron
-  (8009, 8, NULL, 'aaron', 'Aaron', 'elite-four', 12, NULL, 'aaron', 9),
+  (8009, 8, NULL, 'aaron', 'Aaron', 'elite-four', 12, NULL, 'aaron', NULL, 9),
   -- Bertha
-  (8010, 8, NULL, 'bertha', 'Bertha', 'elite-four', 9, NULL, 'bertha', 10),
+  (8010, 8, NULL, 'bertha', 'Bertha', 'elite-four', 9, NULL, 'bertha', NULL, 10),
   -- Flint
-  (8011, 8, NULL, 'flint', 'Flint', 'elite-four', 2, NULL, 'flint', 11),
+  (8011, 8, NULL, 'flint', 'Flint', 'elite-four', 2, NULL, 'flint', NULL, 11),
   -- Lucian
-  (8012, 8, NULL, 'lucian', 'Lucian', 'elite-four', 11, NULL, 'lucian', 12),
+  (8012, 8, NULL, 'lucian', 'Lucian', 'elite-four', 11, NULL, 'lucian', NULL, 12),
   -- Cynthia
-  (8013, 8, NULL, 'cynthia', 'Cynthia', 'champion', NULL, NULL, 'cynthia', 13),
+  (8013, 8, NULL, 'cynthia', 'Cynthia', 'champion', NULL, NULL, 'cynthia', 'Pokémon League', 13),
   -- Barry (rival)
-  (8014, 8, NULL, 'barry', 'Barry', 'rival', NULL, NULL, 'barry', 14),
+  (8014, 8, NULL, 'barry', 'Barry', 'rival', NULL, NULL, 'barry', NULL, 14),
   -- Cyrus (boss)
-  (8015, 8, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', 15),
+  (8015, 8, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', NULL, 15),
   -- Dialga (boss, diamond)
-  (8016, 8, 12, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', 1),
+  (8016, 8, 12, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', NULL, 1),
   -- Palkia (boss, pearl)
-  (8017, 8, 13, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', 1),
+  (8017, 8, 13, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', NULL, 1),
   -- Uxie (boss)
-  (8018, 8, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', 16),
+  (8018, 8, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 16),
   -- Azelf (boss)
-  (8019, 8, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', 17),
+  (8019, 8, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 17),
   -- Mesprit (boss)
-  (8020, 8, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', 18),
+  (8020, 8, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 18),
   -- Giratina (boss)
-  (8021, 8, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', 19),
+  (8021, 8, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', NULL, 19),
   -- Cresselia (boss)
-  (8022, 8, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 20),
+  (8022, 8, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 20),
   -- Regigigas (boss)
-  (8023, 8, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 21),
+  (8023, 8, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 21),
   -- Heatran (boss)
-  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 22),
+  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 22),
   -- Mars (boss; Team Galactic Commander)
-  (8025, 8, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', 23),
+  (8025, 8, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', NULL, 23),
   -- Jupiter (boss; Team Galactic Commander)
-  (8026, 8, NULL, 'jupiter', 'Jupiter', 'boss', NULL, NULL, 'jupiter', 24),
+  (8026, 8, NULL, 'jupiter', 'Jupiter', 'boss', NULL, NULL, 'jupiter', NULL, 24),
   -- Saturn (boss; Team Galactic Commander)
-  (8027, 8, NULL, 'saturn', 'Saturn', 'boss', NULL, NULL, 'saturn', 25),
+  (8027, 8, NULL, 'saturn', 'Saturn', 'boss', NULL, NULL, 'saturn', NULL, 25),
   -- Mars & Jupiter (boss; the Multi Battle with Barry at Spear Pillar)
-  (8028, 8, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars', 26);
+  (8028, 8, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars', NULL, 26);

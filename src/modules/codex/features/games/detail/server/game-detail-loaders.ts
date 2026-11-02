@@ -3,6 +3,8 @@ import {
   loadVersionExclusiveRows,
   type VersionExclusiveRows,
 } from "@/modules/codex/features/games/detail/server/game-detail-exclusive-loaders";
+import { loadGameLeaderRows } from "@/modules/codex/features/games/detail/server/game-detail-leader-loaders";
+import type { CodexLeaderRows } from "@/modules/codex/features/games/detail/data/game-detail-leaders";
 import { getVersionGroupFamilyIds } from "@/modules/reference/features/games/domain/version-groups";
 import { loadChunkedReferenceRows } from "@/modules/reference/reference-rows";
 import type {
@@ -21,6 +23,8 @@ export type GameDetailRows = {
   gamePlatforms: GamePlatform[];
   gameTypes: GameType[];
   generations: Generation[];
+  /* The group's Gym Leaders, kahunas and Champion with their first teams. */
+  leaders: CodexLeaderRows;
   platforms: Platform[];
   pokedexEntries: PokedexEntry[];
   /* The group's Pokédexes and its expansions' (Isle of Armor, Crown Tundra). */
@@ -132,16 +136,16 @@ export const loadGameDetailRows = async (
         "Unable to load game Pokédex entries.",
       )
     : [];
-  const versionExclusives = await loadVersionExclusiveRows(
-    supabase,
-    versionGroup,
-    versions,
-  );
+  const [versionExclusives, leaders] = await Promise.all([
+    loadVersionExclusiveRows(supabase, versionGroup, versions),
+    loadGameLeaderRows(supabase, versionGroup.id),
+  ]);
 
   return {
     gamePlatforms: gamePlatformsResult.data ?? [],
     gameTypes: gameTypesResult.data ?? [],
     generations: generationsResult.data ?? [],
+    leaders,
     platforms: platformsResult.data ?? [],
     pokedexEntries,
     pokedexes,
