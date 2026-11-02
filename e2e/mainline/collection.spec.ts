@@ -35,17 +35,17 @@ test.describe("Collection", () => {
 
     /* The header's numbers are the stamps' own: one game, one Play. */
     await expect(
-      page.getByText(/^You've played 1 of \d+ games, across 1 Play$/),
+      page.getByText(/^1 of \d+ games in your album, across 1 Play$/),
     ).toBeVisible();
     const stamps = page.getByRole("img", { name: /^\d+ Plays?$/ });
 
     await expect(stamps).toHaveCount(1);
     await expect(stamps).toHaveAccessibleName("1 Play");
 
-    /* An unplayed game links to the Codex; a played one opens its sheet. */
+    /* An unplayed game is an open slot New Play fills; a played one opens its sheet. */
     await expect(
       page.getByRole("link", { name: /^Pokémon Blue/ }),
-    ).toHaveAttribute("href", /^\/codex\/games\//);
+    ).toHaveAttribute("href", "/mainline?new=blue");
     const red = page.getByRole("button", { name: /^Pokémon Red/ });
 
     await expect(red.getByRole("img", { name: "1 Play" })).toBeVisible();

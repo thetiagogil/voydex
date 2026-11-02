@@ -77,8 +77,8 @@ describe("buildCollectionGames", () => {
       "blue",
       "yellow",
     ]);
-    expect(result.sections[0].summary).toBe("1996–1998 · 0 of 3 played");
-    expect(result.sections[1].summary).toBe("1999 · 0 of 1 played");
+    expect(result.sections[0].summary).toBe("1996–1998 · 0 of 3 in the album");
+    expect(result.sections[1].summary).toBe("1999 · 0 of 1 in the album");
     expect(result.totalGameCount).toBe(4);
     expect(result.playedGameCount).toBe(0);
     expect(result.playCount).toBe(0);
@@ -103,7 +103,7 @@ describe("buildCollectionGames", () => {
     /* The header's numbers are the stamps' own. */
     expect(result.playCount).toBe(3);
     expect(result.playedGameCount).toBe(2);
-    expect(result.sections[0].summary).toBe("1996–1998 · 1 of 3 played");
+    expect(result.sections[0].summary).toBe("1996–1998 · 1 of 3 in the album");
   });
 
   it("names each Play by its trainer and playtime, and marks the archived", () => {
@@ -127,11 +127,11 @@ describe("buildCollectionGames", () => {
     });
   });
 
-  it("links only an unplayed game, to its Codex page", () => {
+  it("links only an unplayed game, to New Play with it picked", () => {
     const [red, blue] = buildCollectionGames(games, [play("a", "red")])
       .sections[0].games;
 
     expect(red.href).toBeNull();
-    expect(blue.href).toBe("/codex/games/blue-group?version=blue");
+    expect(blue.href).toBe("/mainline?new=blue");
   });
 });

@@ -17,7 +17,7 @@ export type CollectionGamePlay = {
 
 export type CollectionGame = {
   game: GameShelfGame;
-  /* The game's Codex page, for a game you haven't played; null once you have. */
+  /* New Play with the game picked, for a game you haven't played; null once you have. */
   href: string | null;
   /* Every Play of it, archived too, newest first as the summary rows come. */
   plays: CollectionGamePlay[];
@@ -28,7 +28,7 @@ export type CollectionGameSection = {
   key: string;
   /* "Generation I". */
   label: string;
-  /* "1996–1998 · 1 of 3 played". */
+  /* "1996–1998 · 1 of 3 in the album". */
   summary: string;
 };
 
@@ -70,7 +70,7 @@ const formatYearSpan = (games: CollectionGame[]) => {
 };
 
 /*
- * Collection's Games: every game in release order, one section per
+ * Collection's Games, the album: every game in release order, one page per
  * generation, each game with your Plays of it. The catalogue arrives in
  * release order, and the order is kept.
  */
@@ -108,9 +108,7 @@ export const buildCollectionGames = (
     playedGameCount += gamePlays.length ? 1 : 0;
     section.games.push({
       game,
-      href: gamePlays.length
-        ? null
-        : appRoutes.codexVersionGroup(game.versionGroupSlug, game.slug),
+      href: gamePlays.length ? null : appRoutes.mainlineNewPlay(game.slug),
       plays: gamePlays,
     });
     sectionsByNumber.set(game.generation.number, section);
@@ -121,7 +119,7 @@ export const buildCollectionGames = (
     playedGameCount,
     sections: [...sectionsByNumber.values()].map((section) => ({
       ...section,
-      summary: `${formatYearSpan(section.games)} · ${section.games.filter((entry) => entry.plays.length).length} of ${section.games.length} played`,
+      summary: `${formatYearSpan(section.games)} · ${section.games.filter((entry) => entry.plays.length).length} of ${section.games.length} in the album`,
     })),
     totalGameCount: catalogueGames.length,
   };

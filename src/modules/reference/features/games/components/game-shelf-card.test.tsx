@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 import type { GameShelfCardGame } from "@/modules/reference/types";
 
-import { GameShelfCard } from "./game-shelf-card";
+import { GameShelfCard, GameShelfEmptySlot } from "./game-shelf-card";
 
 const game: GameShelfCardGame = {
   coverImageUrl: null,
@@ -27,7 +27,7 @@ describe("GameShelfCard", () => {
     expect(markup).toContain('href="/codex/games/swsh?game=sword"');
     expect(markup).toContain("plain-card");
     expect(markup).not.toContain("sticker");
-    expect(markup).not.toContain("step-back");
+    expect(markup).not.toContain("empty-slot");
   });
 
   it("is a button wearing the owned band and the stamp for a game you've played", () => {
@@ -47,12 +47,15 @@ describe("GameShelfCard", () => {
     expect(markup).toContain('data-testid="stamp"');
   });
 
-  it("steps an unplayed game's cover back", () => {
+  it("draws an unplayed game as a dashed open slot that New Play fills", () => {
     const markup = renderToStaticMarkup(
-      <GameShelfCard game={game} href="/codex" unplayed />,
+      <GameShelfEmptySlot game={game} href="/mainline?new=sword" />,
     );
 
+    expect(markup).toContain("empty-slot");
     expect(markup).toContain("step-back");
-    expect(markup).toContain("plain-card");
+    expect(markup).not.toContain("plain-card");
+    expect(markup).toContain('href="/mainline?new=sword"');
+    expect(getWords(markup)).toContain("Pokémon SwordNot played yet");
   });
 });

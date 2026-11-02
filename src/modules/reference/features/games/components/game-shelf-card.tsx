@@ -15,8 +15,6 @@ type GameShelfCardProps = {
    * on its top-right corner. Without one the card is a reference card.
    */
   stamp?: ReactNode;
-  /* A game you haven't played where that matters (Collection): the cover steps back. */
-  unplayed?: boolean;
 } & (
   | { href: string; onClick?: never }
   | {
@@ -26,6 +24,41 @@ type GameShelfCardProps = {
     }
 );
 
+const stageClassName =
+  "grid h-30 place-items-center overflow-hidden rounded-md sm:h-37";
+
+/* The cover in its fixed-height stage, picked up on hover. */
+const GameShelfCover = ({
+  eager,
+  game,
+}: {
+  eager: boolean;
+  game: GameShelfCardGame;
+}) => (
+  <span className={stageClassName}>
+    <span className="ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5 motion-safe:group-hover/game:-rotate-3">
+      <GameCover
+        alt=""
+        coverImageUrl={game.coverImageUrl}
+        eager={eager}
+        gameName={game.name}
+        gameSlug={game.slug}
+        size="shelf"
+      />
+    </span>
+  </span>
+);
+
+/* The game's short name, read in full ("Pokémon Sword") by assistive tech. */
+const GameShelfName = ({ game }: { game: GameShelfCardGame }) => (
+  <b className="text-14 sm:text-15 truncate leading-tight font-extrabold">
+    {game.name.startsWith("Pokémon ") ? (
+      <span className="sr-only">Pokémon </span>
+    ) : null}
+    {getGameShortName(game.name)}
+  </b>
+);
+
 /*
  * v3's game card, the one card for a game (the Codex's Games list and Related
  * games, Collection's Games): the framed cover in a fixed-height stage (so a
@@ -33,8 +66,8 @@ type GameShelfCardProps = {
  * name, and when and where it is set. In the Codex it is a reference card
  * (`plain-card`, as a Codex Pokémon card) and never marks the games you have
  * Plays of (a game's page has "Your Plays (N)"). Collection gives a played
- * game the owned band and a stamp, and steps the others back. Hover picks the
- * cover up. A link opens a page; with `onClick` it is a button.
+ * game the owned band and a stamp. Hover picks the cover up. A link opens a
+ * page; with `onClick` it is a button.
  */
 export const GameShelfCard = ({
   eager = false,
@@ -42,34 +75,16 @@ export const GameShelfCard = ({
   href,
   onClick,
   stamp,
-  unplayed = false,
 }: GameShelfCardProps) => {
   const className = cn(
     "group/game relative flex min-w-0 flex-col gap-3 rounded-xl text-left transition-transform duration-150 motion-safe:hover:-translate-y-0.75",
     stamp ? "sticker p-1 pb-2.5 [--t:var(--surface)]" : "plain-card p-2 pb-3.5",
-    unplayed && "step-back",
   );
   const content = (
     <>
-      <span className="grid h-30 place-items-center overflow-hidden rounded-md sm:h-37">
-        <span className="ease-hop transition-transform duration-250 motion-safe:group-hover/game:-translate-y-1.5 motion-safe:group-hover/game:-rotate-3">
-          <GameCover
-            alt=""
-            coverImageUrl={game.coverImageUrl}
-            eager={eager}
-            gameName={game.name}
-            gameSlug={game.slug}
-            size="shelf"
-          />
-        </span>
-      </span>
+      <GameShelfCover eager={eager} game={game} />
       <span className="flex min-w-0 flex-col gap-0.5 px-2">
-        <b className="text-14 sm:text-15 truncate leading-tight font-extrabold">
-          {game.name.startsWith("Pokémon ") ? (
-            <span className="sr-only">Pokémon </span>
-          ) : null}
-          {getGameShortName(game.name)}
-        </b>
+        <GameShelfName game={game} />
         <span className="text-13 text-ink-2 truncate font-semibold">
           <span className="tabular-nums">{game.releaseYear}</span>
           {game.regionName ? ` · ${game.regionName}` : null}
@@ -93,6 +108,33 @@ export const GameShelfCard = ({
     </Link>
   );
 };
+
+/*
+ * The game card's open slot (Collection's album): a game you haven't played
+ * yet, its place drawn dashed (`empty-slot`, as a Pokémon's open slot) with
+ * the cover stepped back, opening New Play with the game picked so you can
+ * fill it.
+ */
+export const GameShelfEmptySlot = ({
+  eager = false,
+  game,
+  href,
+}: {
+  eager?: boolean;
+  game: GameShelfCardGame;
+  href: string;
+}) => (
+  <Link
+    href={href}
+    className="group/game empty-slot step-back flex min-w-0 flex-col gap-3 rounded-xl p-2 pb-3.5 transition-transform duration-150 motion-safe:hover:-translate-y-0.75"
+  >
+    <GameShelfCover eager={eager} game={game} />
+    <span className="text-ink-3 flex min-w-0 flex-col gap-0.5 px-2">
+      <GameShelfName game={game} />
+      <span className="text-13 truncate font-semibold">Not played yet</span>
+    </span>
+  </Link>
+);
 
 /* Two covers across on phones; on wider screens as many 150px columns as fit. */
 export const GameShelfGrid = ({

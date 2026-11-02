@@ -7,6 +7,7 @@ import type { CollectionGames } from "@/modules/mainline/features/collection/dat
 import { BadgeStamp } from "@/modules/mainline/features/plays/shared/components/badge-stamp";
 import {
   GameShelfCard,
+  GameShelfEmptySlot,
   GameShelfGrid,
 } from "@/modules/reference/features/games/components/game-shelf-card";
 import { RangeHeading } from "@/shared/components/range-heading";
@@ -16,11 +17,14 @@ const stampTilts = [-10, 7, -5, 9, -8, 5];
 
 const EAGER_COVER_COUNT = 6;
 
+const countPlays = (count: number) =>
+  `${count} ${count === 1 ? "Play" : "Plays"}`;
+
 /*
- * Collection's Games: every game in release order, a range per generation.
- * A game you've played wears the owned band and a gold stamp with how many
- * Plays you have of it, and opens its sheet in place; the rest step back
- * and open their Codex page.
+ * Collection's Games, an album: every game in release order, a page per
+ * generation. A game you've played sits in its place as a card with the
+ * owned band and a gold stamp counting your Plays of it, and opens its sheet
+ * in place; a game you haven't is a dashed open slot that New Play fills.
  */
 export const CollectionGamesShelf = ({ games }: { games: CollectionGames }) => {
   const [openGameId, setOpenGameId] = useState<number | null>(null);
@@ -51,12 +55,11 @@ export const CollectionGamesShelf = ({ games }: { games: CollectionGames }) => {
                   sectionIndex === 0 && gameIndex < EAGER_COVER_COUNT;
 
                 return href ? (
-                  <GameShelfCard
+                  <GameShelfEmptySlot
                     key={game.id}
                     game={game}
                     href={href}
                     eager={eager}
-                    unplayed
                   />
                 ) : (
                   <GameShelfCard
@@ -89,6 +92,3 @@ export const CollectionGamesShelf = ({ games }: { games: CollectionGames }) => {
     </div>
   );
 };
-
-const countPlays = (count: number) =>
-  `${count} ${count === 1 ? "Play" : "Plays"}`;
