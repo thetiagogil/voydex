@@ -110,6 +110,19 @@ record no playtime. A Pokémon opens the shared species sheet in place, with
 "See in Collection". All of it is read from what you recorded; a new account
 says what fills in as it records more.
 
+The band opens on a trainer title, read from your Plays' rosters (every
+Pokémon on a roster counts, a dual type for both types). The first rule that
+matches wins:
+
+1. **Type Specialist**: one type is on at least 6 of your Pokémon across at
+   least 2 Plays, with half again as many as the next type (6 beats 4, 9 does
+   not beat 7). One early team never makes a specialist.
+2. **Region Hopper**: Plays in 3 or more regions.
+3. **Pokémon Trainer**: everyone else, told how many more regions make a
+   Region Hopper.
+
+The rules live in `getTrainerTitle` (`stats-model.ts`) with their tests.
+
 Stats may include:
 
 - Plays by generation and game.
