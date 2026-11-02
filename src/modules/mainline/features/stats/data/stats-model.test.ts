@@ -94,7 +94,7 @@ describe("buildStatsModel types", () => {
       secondary_type_id: secondary,
       species_id: formId,
     }) as TrainerPokemonRows["attributes"][number];
-  const member = (playId: string, formId: number) =>
+  const member = (playId: string | null, formId: number) =>
     ({
       form_id: formId,
       play_id: playId,
@@ -105,7 +105,13 @@ describe("buildStatsModel types", () => {
       {
         ...rows,
         attributes: [attribute(1, 10, 11), attribute(2, 10, null)],
-        roster: [member("a", 1), member("a", 2), member("b", 2)],
+        /* The last row has no Play: a Pokémon counted, not a Play. */
+        roster: [
+          member("a", 1),
+          member("a", 2),
+          member("b", 2),
+          member(null, 2),
+        ],
         types: [
           { id: 10, name: "Water", slug: "water" },
           { id: 11, name: "Flying", slug: "flying" },
@@ -116,7 +122,7 @@ describe("buildStatsModel types", () => {
     );
 
     expect(types).toEqual([
-      { count: 3, name: "Water", playCount: 2, slug: "water" },
+      { count: 4, name: "Water", playCount: 2, slug: "water" },
       { count: 1, name: "Flying", playCount: 1, slug: "flying" },
       { count: 0, name: "Fire", playCount: 0, slug: "fire" },
     ]);
@@ -177,6 +183,7 @@ describe("getTrainerTitle", () => {
     expect(kind([type("Fire", 5), type("Water", 1)])).toBe("trainer");
     expect(kind([type("Fire", 8, 1), type("Water", 1)])).toBe("trainer");
     /* Leading by two is no longer enough without half again as many. */
+    expect(kind([type("Fire", 7), type("Water", 5)])).toBe("trainer");
     expect(kind([type("Fire", 9), type("Water", 7)])).toBe("trainer");
   });
 
