@@ -48,7 +48,7 @@ permanently (308) to its base group; an unknown group or species is a 404; a
 group from before the species existed redirects to the group it was
 introduced in. `/codex/pokemon/[speciesSlug]` opens the first base version
 group of the generation the species was introduced in (a legacy `?game=` names
-the group instead). It must:
+the group instead; a later `?form=` opens where that form can be found). It must:
 
 - have an independent semantic `h1` for National number and species identity;
 - retain the active version group while switching species and update the
@@ -81,7 +81,9 @@ this species and form, and once added a toast offers `Open the roster` and
 Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
 your rosters. The entry's Training and breeding card shows egg groups where
 the game has breeding; its other values, the Pokédex category, flavour text,
-height and weight and Favourite are pending data. The accepted handoff below
+height and weight are pending data. The hero's heart saves the shown form as
+a favourite (Undo in the toast) and lists it in Collection's Favourites;
+signed out, it is a link to log in that returns to the entry. The accepted handoff below
 remains the target.
 
 Authenticated Pokémon Detail exposes one `Use in Mainline` entry with four

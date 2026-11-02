@@ -54,6 +54,25 @@ test.describe("Codex", () => {
     await expect(options.nth(1)).toContainText("Gigantamax Charizard");
   });
 
+  test("a species address with a later form opens where that form is found", async ({
+    page,
+  }) => {
+    const cases = [
+      ["arcanine", "hisuian-arcanine", "pla", "Hisuian Arcanine"],
+      ["pikachu", "pikachu-partner", "lgpe", "Pikachu (Partner)"],
+      /* A battle form has no rows of its own: its generation's first game. */
+      ["charizard", "mega-charizard-x", "xy", "Mega Charizard X"],
+    ] as const;
+
+    for (const [species, form, group, name] of cases) {
+      await page.goto(`/codex/pokemon/${species}?form=${form}`);
+      await page.waitForURL(
+        `**/codex/pokemon/${group}/${species}?form=${form}`,
+      );
+      await expect(page.getByRole("heading", { level: 1, name })).toBeVisible();
+    }
+  });
+
   test("filters Pokémon by type", async ({ page }) => {
     await page.goto("/codex/pokemon");
     const { filters } = await openFilters(page);
