@@ -2,6 +2,7 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 
+import { buildCollectionAlbumPages } from "@/modules/mainline/features/collection/data/collection-album-model";
 import { CollectionViewSwitch } from "@/modules/mainline/features/collection/components/collection-view-switch";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import {
@@ -23,6 +24,8 @@ import {
 import { TrainerSpeciesSheet } from "@/modules/mainline/shared/components/trainer-species-sheet";
 import { formatNationalNumber } from "@/modules/mainline/shared/utils/trainer-pokemon-display";
 import { PokemonSticker } from "@/modules/reference/features/pokemon/components/pokemon-sticker";
+import type { SpeciesGeneration } from "@/modules/reference/features/pokemon/data/species-generations";
+import { RangeHeading } from "@/shared/components/range-heading";
 import { ResetListButton } from "@/shared/components/reset-list-button";
 import { FilterResultsLine } from "@/shared/components/filter-results-line";
 import {
@@ -45,6 +48,8 @@ type CollectionBrowserProps = {
   entries: TrainerPokemonEntry[];
   /* Played games, for the Games switch's count. */
   gameCount: number;
+  /* The album's pages: every generation with its species count. */
+  generations: SpeciesGeneration[];
   /* The page's head, which opens the band above the toolbar. */
   head: ReactNode;
   /* Opens on one species' sheet, as Statistics' old friends link here. */
@@ -65,12 +70,14 @@ const getCountLine = (entry: TrainerPokemonEntry) => {
 };
 
 /*
- * The Collection's Pokémon: the views switch, a toolbar (search, what to
- * show, the order), the type dots, and every species as a sticker that opens its sheet.
+ * The Collection's Pokémon, an album: the views switch, a toolbar (search,
+ * what to show, the order), the type dots, then a page per generation
+ * ("12 of 151 joined your teams") with and every species as a sticker that opens its sheet.
  */
 export const CollectionBrowser = ({
   entries,
   gameCount,
+  generations,
   head,
   initialSpeciesSlug,
   types,
@@ -91,6 +98,16 @@ export const CollectionBrowser = ({
   const openEntry =
     entries.find((entry) => entry.speciesId === openSpeciesId) ?? null;
   const hasFilters = hasActiveCollectionFilters(filters);
+  const pages = useMemo(
+    () =>
+      buildCollectionAlbumPages({
+        entries,
+        filtered: hasFilters,
+        generations,
+        shown,
+      }),
+    [entries, generations, hasFilters, shown],
+  );
   const fold = useFold({ defaultOpen: hasFilters });
   const update = (next: Partial<CollectionFilters>) => {
     setFilters((current) => ({ ...current, ...next }));
@@ -222,25 +239,50 @@ export const CollectionBrowser = ({
 
       <section aria-label="Your Pokémon" className="flex flex-col gap-4">
         {shown.length ? (
-          <ul className="grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
-            {shown.map((entry) => (
-              <li key={entry.speciesId} className="min-w-0">
-                <PokemonSticker
-                  variant="compact"
-                  className="w-full"
-                  imageUrl={entry.imageUrl}
-                  name={entry.name}
-                  number={formatNationalNumber(entry.nationalNumber)}
-                  shiny={entry.shiny}
-                  subtitle={getCountLine(entry)}
-                  types={entry.types}
-                  selected={openSpeciesId === entry.speciesId}
-                  detail="See its Plays"
-                  onClick={() => setOpenSpeciesId(entry.speciesId)}
-                />
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-col gap-7.5">
+            {pages.map((page) => {
+              const titleId = `collection-album-${page.key}`;
+
+              return (
+                <section
+                  key={page.key}
+                  aria-labelledby={titleId}
+                  className="min-w-0"
+                >
+                  <RangeHeading
+                    title={page.label}
+                    titleId={titleId}
+                    count={page.summary}
+                  />
+                  {page.entries.length ? (
+                    <ul className="mt-4.5 grid grid-cols-2 gap-x-3 gap-y-4 min-[480px]:grid-cols-3 sm:grid-cols-[repeat(auto-fill,minmax(150px,1fr))] sm:gap-x-4 sm:gap-y-5">
+                      {page.entries.map((entry) => (
+                        <li key={entry.speciesId} className="min-w-0">
+                          <PokemonSticker
+                            variant="compact"
+                            className="w-full"
+                            imageUrl={entry.imageUrl}
+                            name={entry.name}
+                            number={formatNationalNumber(entry.nationalNumber)}
+                            shiny={entry.shiny}
+                            subtitle={getCountLine(entry)}
+                            types={entry.types}
+                            selected={openSpeciesId === entry.speciesId}
+                            detail="See its Plays"
+                            onClick={() => setOpenSpeciesId(entry.speciesId)}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-ink-3 text-14 mt-3 font-semibold">
+                      None from here yet.
+                    </p>
+                  )}
+                </section>
+              );
+            })}
+          </div>
         ) : (
           <EmptyState
             variant="bare"

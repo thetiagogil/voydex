@@ -92,6 +92,7 @@ export const MainlineCollectionPage = ({
           head={head}
           entries={data.entries}
           gameCount={data.games.playedGameCount}
+          generations={data.generations}
           initialSpeciesSlug={initialSpeciesSlug}
           types={data.types}
         />

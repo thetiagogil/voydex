@@ -16,7 +16,7 @@ test.describe("Collection", () => {
     const playId = await startPlay(page, {
       game: "Pokémon Red, 1996",
       name: playName,
-      partner: null,
+      partner: "Charmander",
     });
 
     await page.goto("/mainline/collection", { waitUntil: "networkidle" });
@@ -26,6 +26,24 @@ test.describe("Collection", () => {
       "aria-current",
       "page",
     );
+
+    /* The Pokémon album: a page per generation, counting the whole Collection. */
+    const firstPage = page.getByRole("region", {
+      exact: true,
+      name: "Generation I",
+    });
+
+    await expect(
+      firstPage.getByText("1 of 151 joined your teams"),
+    ).toBeVisible();
+    await expect(
+      firstPage.getByRole("button", { name: /Charmander/ }),
+    ).toBeVisible();
+    await expect(
+      page
+        .getByRole("region", { exact: true, name: "Generation II" })
+        .getByText("None from here yet."),
+    ).toBeVisible();
     await views.getByRole("link", { name: /^Games/ }).click();
     await expect(page).toHaveURL(/\/mainline\/collection\?view=games$/);
     await expect(views.getByRole("link", { name: /^Games/ })).toHaveAttribute(

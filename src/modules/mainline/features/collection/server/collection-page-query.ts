@@ -4,14 +4,16 @@ import { getSignedInTrainerId } from "@/modules/mainline/shared/server/signed-in
 import { readTrainerPokemonRows } from "@/modules/mainline/shared/server/trainer-pokemon-reader";
 import type { CollectionPageData } from "@/modules/mainline/features/collection/types";
 import { readGameCatalogue } from "@/modules/reference/features/games/server/game-catalogue-query";
+import { readSpeciesGenerations } from "@/modules/reference/features/pokemon/server/species-generations-reader";
 import { createServerSupabaseClient } from "@/platform/supabase/server-client";
 
 export const getCollectionPageData = async (): Promise<CollectionPageData> => {
   const supabase = await createServerSupabaseClient();
   const userId = await getSignedInTrainerId(supabase);
-  const [rows, catalogue] = await Promise.all([
+  const [rows, catalogue, generations] = await Promise.all([
     readTrainerPokemonRows(supabase, userId),
     readGameCatalogue(),
+    readSpeciesGenerations(supabase),
   ]);
   const entries = buildTrainerPokemonEntries(rows);
   const playIds = new Set(entries.flatMap((entry) => entry.playIds));
@@ -29,6 +31,7 @@ export const getCollectionPageData = async (): Promise<CollectionPageData> => {
   return {
     entries,
     games: buildCollectionGames(catalogue.games, rows.plays),
+    generations,
     gameCount: gameSlugs.size,
     latestPlayId: latestPlay?.play_id ?? null,
     pokemonPlayCount: playIds.size,

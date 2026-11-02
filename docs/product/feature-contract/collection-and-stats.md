@@ -12,7 +12,10 @@ several Plays, Shiny), Sort (Most used by default, Pokédex number, Recently
 recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
-joined you in. Archived Plays count.
+joined you in. Archived Plays count. The list is an album: a page per
+generation in order ("Generation I · 12 of 151 joined your teams", counting
+the whole Collection whatever is searched), the species inside in the chosen
+order; without filters every page shows, empty ones saying so.
 
 Collection has a second view, Games (`?view=games`), on a Pokémon | Games
 switch under the head: an album of every game in release order, a page per
