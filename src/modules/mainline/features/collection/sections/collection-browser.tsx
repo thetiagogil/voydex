@@ -63,12 +63,6 @@ const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
 const countPlays = (count: number) =>
   `${count} ${count === 1 ? "Play" : "Plays"}`;
 
-/* What the mark doesn't say: more caught than Plays. */
-const getCountLine = (entry: TrainerPokemonEntry) =>
-  entry.members.length > entry.playIds.length
-    ? `${entry.members.length} caught`
-    : "";
-
 /*
  * The Collection's Pokémon: the views switch, a toolbar (search, what to
  * show, the generation, the order), the type dots, and every species as a
@@ -277,7 +271,6 @@ export const CollectionBrowser = ({
                       label={countPlays(entry.playIds.length)}
                     />
                   }
-                  subtitle={getCountLine(entry)}
                   types={entry.types}
                   selected={openSpeciesId === entry.speciesId}
                   detail="See its Plays"

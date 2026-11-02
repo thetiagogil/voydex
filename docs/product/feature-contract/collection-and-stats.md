@@ -13,8 +13,8 @@ number, Recently recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
 joined you in. Archived Plays count. Each sticker carries the same small
-count mark as a played game, its Plays on a corner; its line says only what
-the mark doesn't ("3 caught"). The list opens on Most used; Generation is a filter
+count mark as a played game, its Plays on a corner, and no line under the
+name; how many were caught is the sheet's to tell. The list opens on Most used; Generation is a filter
 beside Sort, never a grouping, so the order holds across the whole
 Collection.
 
