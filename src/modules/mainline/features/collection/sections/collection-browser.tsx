@@ -53,7 +53,7 @@ type CollectionBrowserProps = {
 };
 
 const kindOrder: CollectionKind[] = ["all", "team", "many", "shiny"];
-const sortOrder: CollectionSort[] = ["dex", "used", "recent"];
+const sortOrder: CollectionSort[] = ["used", "dex", "recent"];
 
 const getCountLine = (entry: TrainerPokemonEntry) => {
   const plays = entry.playIds.length;
@@ -149,7 +149,9 @@ export const CollectionBrowser = ({
                   prefix={placement === "line" ? "Sort" : undefined}
                   value={filters.sort}
                   variant="ghost"
-                  placeholder={collectionSortLabels.dex}
+                  placeholder={
+                    collectionSortLabels[defaultCollectionFilters.sort]
+                  }
                   onValueChange={(sort) =>
                     update({ sort: sort as CollectionSort })
                   }

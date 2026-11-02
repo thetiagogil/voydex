@@ -11,10 +11,11 @@ export type CollectionFilters = {
   type: string;
 };
 
+/* Most used first: the ones that keep coming back are the Collection's story. */
 export const defaultCollectionFilters: CollectionFilters = {
   kind: "all",
   query: "",
-  sort: "dex",
+  sort: "used",
   type: "",
 };
 

@@ -8,7 +8,8 @@ Collection is the user's used Pokémon history across plays.
 
 As built (v3, `/mainline/collection`): every species that has joined one of
 your teams, as stickers, with Search, a Show choice (All, On a team now, In
-several Plays, Shiny), Sort (Recently recorded, Most used, Pokédex number)
+several Plays, Shiny), Sort (Most used by default, Pokédex number, Recently
+recorded)
 and the type dots. A species opens its sheet (`?species=`): every Pokémon of
 it on your Plays' rosters, each opening on its Play's roster, and the games it
 joined you in. Archived Plays count.
