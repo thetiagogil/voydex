@@ -54,6 +54,7 @@ import { PlannerTopSection } from "@/modules/mainline/features/plans/planner/sec
 import { PlannerUnlockDialog } from "@/modules/mainline/features/plans/planner/sections/planner-unlock-dialog";
 import {
   encodePlanShare,
+  toPlannerSlugIndex,
   toPlanShare,
 } from "@/modules/mainline/features/plans/planner/utils/plan-share-code";
 import {
@@ -98,21 +99,10 @@ export const PlannerWorkspace = ({
     () => new Map(context.pokemon.map((pokemon) => [pokemon.formId, pokemon])),
     [context.pokemon],
   );
-  /*
-   * By form slug for shared links, and by species slug for older links,
-   * which open on the species' Pokédex form.
-   */
-  const bySlug = useMemo(() => {
-    const map = new Map(
-      context.pokemon.map((pokemon) => [pokemon.formSlug, pokemon]),
-    );
-
-    for (const pokemon of context.pokemon) {
-      if (!map.has(pokemon.speciesSlug)) map.set(pokemon.speciesSlug, pokemon);
-    }
-
-    return map;
-  }, [context.pokemon]);
+  const bySlug = useMemo(
+    () => toPlannerSlugIndex(context.pokemon),
+    [context.pokemon],
+  );
   const getName = (formId: number) => byId.get(formId)?.name ?? "Pokémon";
   /*
    * Pokémon arriving from another version group (a saved Plan opened in a
@@ -284,6 +274,7 @@ export const PlannerWorkspace = ({
 
     team.applyRandom(
       pickRandomTeam({
+        byId,
         candidates,
         mode: randomMode,
         slots: team.slots.map((member) => member?.formId ?? null),

@@ -13,7 +13,10 @@ As built (v3):
   group on the cover shelf menu (the expansions it includes read under its name), fill six slots from its Pokédexes (one range
   per Pokédex, a Pokédex filter, search, Fully evolved only, type dots; each
   species in its Pokédex form, then every other variant the group has beside
-  it, as Galarian Articuno beside Articuno with The Crown Tundra), drag to swap, Random
+  it, as Galarian Articuno beside Articuno with The Crown Tundra; a variant
+  only a transfer brings in shows its "!" like any Pokémon only from outside
+  the game; where the Pokédex names no form and the game never has the
+  default, the variant leads, as Hisuian Typhlosion in Legends: Arceus), drag to swap, Random
   and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and

@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   decodePlanShare,
   encodePlanShare,
+  toPlannerSlugIndex,
   toPlanShare,
   type PlanShare,
 } from "./plan-share-code";
@@ -65,5 +66,34 @@ describe("toPlanShare", () => {
       ],
       versionGroupSlug: "sword-shield",
     });
+  });
+});
+
+describe("toPlannerSlugIndex", () => {
+  const rotom = { formSlug: "rotom", speciesSlug: "rotom" };
+  const articuno = { formSlug: "articuno", speciesSlug: "articuno" };
+  const galarian = { formSlug: "galarian-articuno", speciesSlug: "articuno" };
+  /* Only the Hisuian form is offered, so the species slug opens on it. */
+  const hisuianTyphlosion = {
+    formSlug: "hisuian-typhlosion",
+    speciesSlug: "typhlosion",
+  };
+  const index = toPlannerSlugIndex([
+    rotom,
+    articuno,
+    galarian,
+    hisuianTyphlosion,
+  ]);
+
+  it("opens a form slug on its form, and a species slug on its first offered form", () => {
+    expect(index.get("galarian-articuno")).toBe(galarian);
+    expect(index.get("rotom")).toBe(rotom);
+    expect(index.get("typhlosion")).toBe(hisuianTyphlosion);
+  });
+
+  it("never lets a species slug override a form slug", () => {
+    expect(toPlannerSlugIndex([galarian, articuno]).get("articuno")).toBe(
+      articuno,
+    );
   });
 });

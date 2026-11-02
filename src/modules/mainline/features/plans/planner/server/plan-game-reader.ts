@@ -39,7 +39,8 @@ export const readPlanGame = async (
       .schema("reference")
       .from("version_groups")
       .select("id")
-      .eq("parent_version_group_id", group.id),
+      .eq("parent_version_group_id", group.id)
+      .order("sort_order"),
   ]);
 
   const gameIds = (gamesResult.data ?? []).map((game) => game.id);

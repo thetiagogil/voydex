@@ -248,6 +248,14 @@ describe("buildPlanIssues with one-of groups", () => {
         versionGroup,
       }).map((issue) => issue.kind),
     ).toEqual(["line"]);
+    /* Two Galarian are the one-per-save block; the Kantonian beside them is no line. */
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [19, 20],
+        team: [articuno, galarianArticuno, galarianArticuno],
+        versionGroup,
+      }).map((issue) => issue.kind),
+    ).toEqual(["one-per-save"]);
   });
 
   it("doesn't also call a one-per-save pair a line to catch twice", () => {
@@ -343,9 +351,11 @@ describe("pickRandomTeam", () => {
     slowkingLine,
   ];
   const first = () => 0;
+  const byId = new Map(candidates.map((pokemon) => [pokemon.formId, pokemon]));
 
   it("fills only open slots, never repeating a line or picking event-only", () => {
     const slots = pickRandomTeam({
+      byId,
       candidates,
       mode: "empty",
       random: first,
@@ -360,8 +370,22 @@ describe("pickRandomTeam", () => {
     );
   });
 
+  it("keeps counting a kept Pokémon the filters hide", () => {
+    /* Slowbro is kept but filtered out of the candidates: no Slowking then. */
+    const slots = pickRandomTeam({
+      byId,
+      candidates: [slowkingLine, corviknight],
+      mode: "empty",
+      random: first,
+      slots: [8000, null, null, null, null, null],
+    });
+
+    expect(slots.slice(0, 3)).toEqual([8000, 82300, null]);
+  });
+
   it("replaces every slot in the all mode", () => {
     const slots = pickRandomTeam({
+      byId,
       candidates,
       mode: "all",
       random: first,
@@ -379,6 +403,12 @@ describe("pickRandomTeam", () => {
       formId: 14401,
     };
     const slots = pickRandomTeam({
+      byId: new Map(
+        [articuno, galarianArticuno, corviknight].map((pokemon) => [
+          pokemon.formId,
+          pokemon,
+        ]),
+      ),
       candidates: [articuno, galarianArticuno, corviknight],
       mode: "all",
       random: first,

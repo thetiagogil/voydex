@@ -4,7 +4,11 @@ import type {
   PlannerPoolRows,
 } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
 import { buildPlannerAvailabilityFacts } from "@/modules/mainline/features/plans/planner/data/planner-availability-facts";
-import { getOfferedFormIdsBySpecies } from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
+import {
+  getOfferedFormIdsBySpecies,
+  listPlannerPokedexes,
+  placePlannerSpecies,
+} from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
 import { toPlannerVersionGroup } from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
 import type {
   PlannerContext,
@@ -84,37 +88,11 @@ export const buildPlannerContext = ({
       expansion.name,
     ]),
   );
-  const listedPokedexes = pool.pokedexes
-    .filter(
-      (pokedex) =>
-        pokedex.pokedex_kind !== "national" && pokedex.is_completion_relevant,
-    )
-    .toSorted(
-      (left, right) =>
-        familyOrder.indexOf(left.version_group_id) -
-          familyOrder.indexOf(right.version_group_id) ||
-        left.sort_order - right.sort_order,
-    );
-  const pokedexes = listedPokedexes.length ? listedPokedexes : pool.pokedexes;
-  const placed = new Set<number>();
-  const displayFormBySpecies = new Map<number, number>();
-  const speciesIdsByPokedex = pokedexes.map((pokedex) => ({
-    pokedex,
-    speciesIds: pool.entries
-      .filter((entry) => entry.pokedex_id === pokedex.id)
-      .toSorted((left, right) => left.pokedex_number - right.pokedex_number)
-      .flatMap((entry) => {
-        if (placed.has(entry.species_id)) return [];
-
-        placed.add(entry.species_id);
-
-        if (entry.display_form_id !== null) {
-          displayFormBySpecies.set(entry.species_id, entry.display_form_id);
-        }
-
-        return [entry.species_id];
-      }),
-  }));
+  const pokedexes = listPlannerPokedexes(pool.pokedexes, familyOrder);
+  const { displayFormIdBySpecies, speciesIdsByPokedexId } = placePlannerSpecies(
+    pokedexes,
+    pool.entries,
+  );
   const offeredFormIdsBySpecies = getOfferedFormIdsBySpecies({
     availableFormIds: new Set(
       pool.availability.flatMap((row) =>
@@ -122,29 +100,27 @@ export const buildPlannerContext = ({
       ),
     ),
     cosmeticFormIds: pool.cosmeticFormIds,
-    displayFormIdBySpecies: displayFormBySpecies,
+    displayFormIdBySpecies,
     formClassById: pool.formClassById,
     forms: pool.forms,
   });
-  const sections: PlannerPokedexSection[] = speciesIdsByPokedex.flatMap(
-    ({ pokedex, speciesIds }) => {
-      const formIds = speciesIds.flatMap(
-        (speciesId) => offeredFormIdsBySpecies.get(speciesId) ?? [],
-      );
-      const expansionName = expansionNameById.get(pokedex.version_group_id);
+  const sections: PlannerPokedexSection[] = pokedexes.flatMap((pokedex) => {
+    const formIds = (speciesIdsByPokedexId.get(pokedex.id) ?? []).flatMap(
+      (speciesId) => offeredFormIdsBySpecies.get(speciesId) ?? [],
+    );
+    const expansionName = expansionNameById.get(pokedex.version_group_id);
 
-      return formIds.length
-        ? [
-            {
-              formIds,
-              key: pokedex.slug,
-              name: getPokedexDisplayName(pokedex.name),
-              note: expansionName ? `${expansionName} expansion` : null,
-            },
-          ]
-        : [];
-    },
-  );
+    return formIds.length
+      ? [
+          {
+            formIds,
+            key: pokedex.slug,
+            name: getPokedexDisplayName(pokedex.name),
+            note: expansionName ? `${expansionName} expansion` : null,
+          },
+        ]
+      : [];
+  });
 
   const attributesByForm = new Map<number, PokemonAttributes[]>();
 

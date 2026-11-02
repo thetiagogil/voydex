@@ -43,11 +43,14 @@ export const getRandomCandidates = ({
  * Pokémon the game itself can't give you.
  */
 export const pickRandomTeam = ({
+  byId,
   candidates,
   mode,
   random = Math.random,
   slots,
 }: {
+  /* Every Pokémon the Planner offers, so a kept slot still counts. */
+  byId: ReadonlyMap<number, PlannerPokemon>;
   /* The pool to pick from: every Pokémon, or the filtered ones. */
   candidates: PlannerPokemon[];
   mode: PlanRandomMode;
@@ -56,7 +59,6 @@ export const pickRandomTeam = ({
   slots: (number | null)[];
 }): (number | null)[] => {
   const kept = mode === "empty" ? slots : slots.map(() => null);
-  const byId = new Map(candidates.map((pokemon) => [pokemon.formId, pokemon]));
   const taken = kept.flatMap((id) => {
     const pokemon = id === null ? undefined : byId.get(id);
     return pokemon ? [pokemon] : [];

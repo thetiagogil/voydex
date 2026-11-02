@@ -1,4 +1,8 @@
-import { getOfferedFormIdsBySpecies } from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
+import {
+  getOfferedFormIdsBySpecies,
+  listPlannerPokedexes,
+  placePlannerSpecies,
+} from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
 import type { PlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/utils/plan-member-check";
 import type { PlanMember } from "@/modules/mainline/features/plans/types";
 import {
@@ -21,8 +25,9 @@ const readFailure = "Unable to check the Plan's Pokémon right now.";
 /*
  * The reference rows `assertPlanMembersFitVersionGroup` reads for the
  * Pokémon being saved, in one version group family (the group and its
- * expansions). The forms the family offers follow the Planner's own rule
- * (`getOfferedFormIdsBySpecies`); moves use the same learnset rule as the
+ * expansions, base first). The forms the family offers follow the Planner's
+ * own rule (`listPlannerPokedexes`, `placePlannerSpecies` and
+ * `getOfferedFormIdsBySpecies`); moves use the same learnset rule as the
  * slot sheet's options.
  */
 export const readPlanMemberCheckRows = async (
@@ -58,12 +63,19 @@ export const readPlanMemberCheckRows = async (
 
   const pokedexesResult = await reference
     .from("pokedex")
-    .select("id")
+    .select(
+      "id, is_completion_relevant, pokedex_kind, sort_order, version_group_id",
+    )
     .in("version_group_id", familyVersionGroupIds);
 
   if (pokedexesResult.error) {
     throw new Error(readFailure);
   }
+
+  const pokedexes = listPlannerPokedexes(
+    pokedexesResult.data ?? [],
+    familyVersionGroupIds,
+  );
 
   const [
     entries,
@@ -78,13 +90,16 @@ export const readPlanMemberCheckRows = async (
     availableForms,
   ] = await Promise.all([
     loadChunkedReferenceRows<
-      Pick<PokedexEntry, "display_form_id" | "species_id">
+      Pick<
+        PokedexEntry,
+        "display_form_id" | "pokedex_id" | "pokedex_number" | "species_id"
+      >
     >(
-      (pokedexesResult.data ?? []).map((pokedex) => pokedex.id),
+      pokedexes.map((pokedex) => pokedex.id),
       (ids, from, to) =>
         reference
           .from("pokedex_entries")
-          .select("display_form_id, species_id")
+          .select("display_form_id, pokedex_id, pokedex_number, species_id")
           .in("pokedex_id", ids)
           .in("species_id", speciesIds)
           .order("pokedex_id")
@@ -120,44 +135,44 @@ export const readPlanMemberCheckRows = async (
     readBattleFormIds(supabase),
     readFormClassById(supabase, speciesIds),
     readCosmeticFormIds(supabase, speciesIds),
-    supabase
-      .schema("views")
-      .from("reference_resolved_pokemon_availability")
-      .select("form_id")
-      .in("species_id", speciesIds)
-      .in("target_version_group_id", familyVersionGroupIds),
+    /* Every form of the members' species: which form leads depends on them all. */
+    loadChunkedReferenceRows<{ form_id: number | null }>(
+      speciesIds,
+      (ids, from, to) =>
+        supabase
+          .schema("views")
+          .from("reference_resolved_pokemon_availability")
+          .select("form_id")
+          .in("species_id", ids)
+          .in("target_version_group_id", familyVersionGroupIds)
+          .order("id")
+          .range(from, to),
+      readFailure,
+    ),
   ]);
 
   if (
     formsResult.error ||
     speciesResult.error ||
     attributesResult.error ||
-    natures?.error ||
-    availableForms.error
+    natures?.error
   ) {
     throw new Error(readFailure);
   }
 
-  /* The Pokédex form of each species the family lists, as the Planner reads it. */
-  const displayFormIdBySpecies = new Map<number, number>();
-  const listedSpeciesIds = new Set<number>();
-
-  for (const entry of entries) {
-    if (!listedSpeciesIds.has(entry.species_id)) {
-      listedSpeciesIds.add(entry.species_id);
-
-      if (entry.display_form_id !== null) {
-        displayFormIdBySpecies.set(entry.species_id, entry.display_form_id);
-      }
-    }
-  }
+  /* Each listed species in its first Pokédex, with the form it shows there. */
+  const { displayFormIdBySpecies, speciesIdsByPokedexId } = placePlannerSpecies(
+    pokedexes,
+    entries,
+  );
+  const listedSpeciesIds = [...speciesIdsByPokedexId.values()].flat();
 
   const speciesForms = (formsResult.data ?? []).filter(
     (form) => !battleFormIds.has(form.id),
   );
   const offeredFormIdsBySpecies = getOfferedFormIdsBySpecies({
     availableFormIds: new Set(
-      (availableForms.data ?? []).flatMap((row) =>
+      availableForms.flatMap((row) =>
         row.form_id === null ? [] : [row.form_id],
       ),
     ),
@@ -225,7 +240,7 @@ export const readPlanMemberCheckRows = async (
     ),
     natureIds: new Set((natures?.data ?? []).map((nature) => nature.id)),
     poolFormIds: new Set(
-      [...listedSpeciesIds].flatMap(
+      listedSpeciesIds.flatMap(
         (speciesId) => offeredFormIdsBySpecies.get(speciesId) ?? [],
       ),
     ),

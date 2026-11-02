@@ -79,6 +79,25 @@ export const decodePlanShare = (input: string): PlanShare | null => {
   }
 };
 
+/*
+ * What a shared slug opens: by form slug, and by species slug for older
+ * links, which open on the species' Pokédex form (the first offered, since
+ * the pool lists it first). A form slug always wins over a species slug.
+ */
+export const toPlannerSlugIndex = <
+  Pokemon extends { formSlug: string; speciesSlug: string },
+>(
+  pokemon: readonly Pokemon[],
+): Map<string, Pokemon> => {
+  const index = new Map(pokemon.map((entry) => [entry.formSlug, entry]));
+
+  for (const entry of pokemon) {
+    if (!index.has(entry.speciesSlug)) index.set(entry.speciesSlug, entry);
+  }
+
+  return index;
+};
+
 /* The Planner's six slots as a share: each Pokémon by its form's slug. */
 export const toPlanShare = (
   slots: ({ formId: number } | null)[],

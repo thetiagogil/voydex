@@ -211,29 +211,39 @@ export const buildPlanIssues = ({
 
   /* Two of a one-per-save group are a block, not a second catch. */
   const oneOfIssues = issues.filter((issue) => issue.kind === "one-per-save");
-  /* Two variants of one species (Articuno, Galarian Articuno) are two catches anyway. */
-  const isVariantPair = (family: PlannerPokemon[]) =>
-    new Set(family.map((pokemon) => pokemon.speciesId)).size === 1 &&
-    new Set(family.map((pokemon) => pokemon.formId)).size === family.length;
+  const inOneOfBlock = (line: PlannerPokemon[]) =>
+    oneOfIssues.some((issue) =>
+      line.every((pokemon) => issue.formIds.includes(pokemon.formId)),
+    );
 
+  /*
+   * One line twice: two species of a family (Charmander and Charizard), or
+   * one Pokémon twice. Two variants of one species (Articuno and Galarian
+   * Articuno) are two catches anyway, so they are no line to catch twice.
+   */
   for (const family of byFamily.values()) {
-    if (family.length < 2 || isVariantPair(family)) continue;
+    const speciesCount = new Set(family.map((pokemon) => pokemon.speciesId))
+      .size;
+    const line =
+      speciesCount > 1
+        ? family
+        : family.filter(
+            (pokemon, index) =>
+              family.findIndex((other) => other.formId === pokemon.formId) !==
+                index ||
+              family.filter((other) => other.formId === pokemon.formId).length >
+                1,
+          );
 
-    if (
-      oneOfIssues.some((issue) =>
-        family.every((pokemon) => issue.formIds.includes(pokemon.formId)),
-      )
-    ) {
-      continue;
-    }
+    if (line.length < 2 || inOneOfBlock(line)) continue;
 
     issues.push({
       body: "Fine to plan both. You'll need to catch it twice.",
       includeExpansionId: null,
       kind: "line",
       severity: "info",
-      formIds: family.map((pokemon) => pokemon.formId),
-      title: `${joinPlanList(names(family))} are one evolution line`,
+      formIds: line.map((pokemon) => pokemon.formId),
+      title: `${joinPlanList(names(line))} are one evolution line`,
     });
   }
 
