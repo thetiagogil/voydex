@@ -6,6 +6,7 @@ import {
   formatEvYield,
   type PokemonDetailTraining,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-training";
+import {
   formatRatioPercent,
   getPokemonDetailGenderRatio,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-gender-ratio";
