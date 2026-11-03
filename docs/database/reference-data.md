@@ -283,7 +283,8 @@ sources remain authoritative for game-specific mechanics and availability.
   module is that rule, and Codex, the Planner and the Team editor share it.
   Every edge was checked against each game's own evolution data on
   2026-11-03: Sinnoh's and Kalos's places are scoped to the games that have
-  them (HeartGold / SoulSilver have none), Brilliant Diamond / Shining Pearl
+  them (HeartGold / SoulSilver have none; Ultra Sun / Ultra Moon add Blush
+  Mountain beside Vast Poni Canyon), Brilliant Diamond / Shining Pearl
   keep the rocks and Mt. Coronet (a Thunder Stone for Magneton, none for
   Nosepass, no Ice Stone, Beauty instead of a Prism Scale), Legends: Arceus
   has the stones beside its places and trades beside the Linking Cord, Let's

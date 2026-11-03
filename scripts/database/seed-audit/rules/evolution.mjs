@@ -590,9 +590,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     "move-known",
     "special-condition",
   ]);
-  if (edgeRows.length !== 633) {
+  if (edgeRows.length !== 636) {
     context.errors.push(
-      `reference.pokemon_evolution_edges: expected 633 curated evolution edge rows, got ${edgeRows.length}.`,
+      `reference.pokemon_evolution_edges: expected 636 curated evolution edge rows, got ${edgeRows.length}.`,
     );
   }
   assertContiguousSortOrder(
@@ -2792,8 +2792,35 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       conditionData: { origin: "ultra-wormhole" },
       versionGroupSlug: "usum",
     },
+    {
+      fromForm: "magneton",
+      toForm: "magnezone",
+      methodSlug: "location",
+      minimumLevel: null,
+      locationLabel: "Vast Poni Canyon",
+      conditionData: { location: "vast-poni-canyon" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "nosepass",
+      toForm: "probopass",
+      methodSlug: "location",
+      minimumLevel: null,
+      locationLabel: "Vast Poni Canyon",
+      conditionData: { location: "vast-poni-canyon" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "charjabug",
+      toForm: "vikavolt",
+      methodSlug: "location",
+      minimumLevel: null,
+      locationLabel: "Vast Poni Canyon",
+      conditionData: { location: "vast-poni-canyon" },
+      versionGroupSlug: "usum",
+    },
   ];
-  const gen7EdgeRows = edgeRows
+const gen7EdgeRows = edgeRows
     .map(({ row }) => row)
     .filter((row) => row.introduced_generation_id === 7);
   if (gen7EdgeRows.length !== gen7SourceVerifiedEvolutionEdges.length) {

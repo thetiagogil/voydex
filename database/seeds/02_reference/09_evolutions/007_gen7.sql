@@ -135,6 +135,12 @@ VALUES
   -- Exeggcute -> Exeggutor (Ultra Sun / Ultra Moon)
   (102, 10200, 103, 10300, 16, 7, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone; if it came through an Ultra Wormhole', '{"source_trigger":"use-item","item":"leaf-stone","origin":"ultra-wormhole"}', 599),
   -- Cubone -> Marowak (Ultra Sun / Ultra Moon)
-  (104, 10400, 105, 10500, 16, 7, 1, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 28; if it came through an Ultra Wormhole', '{"source_trigger":"level-up","origin":"ultra-wormhole"}', 600);
+  (104, 10400, 105, 10500, 16, 7, 1, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 28; if it came through an Ultra Wormhole', '{"source_trigger":"level-up","origin":"ultra-wormhole"}', 600),
+  -- Magneton -> Magnezone (Ultra Sun / Ultra Moon)
+  (82, 8200, 462, 46200, 16, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 634),
+  -- Nosepass -> Probopass (Ultra Sun / Ultra Moon)
+  (299, 29900, 476, 47600, 16, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 635),
+  -- Charjabug -> Vikavolt (Ultra Sun / Ultra Moon)
+  (737, 73700, 738, 73800, 16, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 636);
 
 -- ============================================================================

@@ -50,7 +50,6 @@ export const selectEvolutionEdgesInForce = <
     if (getGenerationOrder(edge) > generationOrder) continue;
     if (edge.version_group_id !== null && !groupIds.has(edge.version_group_id))
       continue;
-    if (availableFormIds && !availableFormIds.has(edge.to_form_id)) continue;
 
     const key = `${edge.from_form_id}:${edge.to_species_id}`;
     const pair = byPair.get(key);
@@ -70,6 +69,13 @@ export const selectEvolutionEdgesInForce = <
     const newest = Math.max(...pair.map(getGenerationOrder));
     for (const edge of pair) {
       if (getGenerationOrder(edge) === newest) inForce.add(edge);
+    }
+  }
+
+  /* After the pair is settled, so a target the game lacks never falls back to an older row. */
+  if (availableFormIds) {
+    for (const edge of inForce) {
+      if (!availableFormIds.has(edge.to_form_id)) inForce.delete(edge);
     }
   }
 

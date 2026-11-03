@@ -32,11 +32,7 @@ const getPokemonDetailAvailableFormIds = ({
   return formIds;
 };
 
-/*
- * The edges the open game has (see `selectEvolutionEdgesInForce`). With no
- * version group open (a generation view), every game's rows of the
- * generation show.
- */
+/* The edges the open game has (see `selectEvolutionEdgesInForce`). */
 const getPokemonDetailGameEvolutionEdges = ({
   activeVersionGroupIds,
   edges,
@@ -48,12 +44,6 @@ const getPokemonDetailGameEvolutionEdges = ({
   family: PokemonEvolutionFamilySummary;
   generationSortOrder: number;
 }) => {
-  if (!activeVersionGroupIds.length) {
-    return edges.filter((edge) => {
-      return getEvolutionEdgeGenerationSortOrder(edge) <= generationSortOrder;
-    });
-  }
-
   return selectEvolutionEdgesInForce({
     availableFormIds: getPokemonDetailAvailableFormIds({
       family,
@@ -200,7 +190,7 @@ export const getPokemonDetailScopedEvolutionEdges = ({
 }: {
   activeFormId: number | null;
   activeSpeciesId: number;
-  /* The open version group and its expansions; empty for a generation view. */
+  /* The open version group and its expansions. */
   activeVersionGroupIds: number[];
   family: PokemonEvolutionFamilySummary;
   generationSortOrder: number;

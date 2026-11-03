@@ -3,7 +3,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (28);
+    plan (29);
 -- Move change rows start in the first generation that has the new value.
 SELECT
     IS ((
@@ -258,6 +258,16 @@ SELECT
                 evolution_methods.slug = 'location'
                 AND pokemon_evolution_edges.introduced_generation_id IN (4, 6)
                 AND pokemon_evolution_edges.version_group_id IS NULL $$, 'Generation IV and VI places are each scoped to the games that have them');
+-- Ultra Sun / Ultra Moon added Blush Mountain's field beside Vast Poni Canyon's, which Sun / Moon have alone.
+SELECT
+    set_eq ($$
+        SELECT
+            coalesce(version_groups.slug, 'every game') || ': ' || pokemon_evolution_edges.location_label FROM reference.pokemon_evolution_edges
+            JOIN reference.pokemon_forms from_forms ON from_forms.id = pokemon_evolution_edges.from_form_id
+            LEFT JOIN reference.version_groups ON version_groups.id = pokemon_evolution_edges.version_group_id
+            WHERE
+                from_forms.slug = 'magneton'
+                AND pokemon_evolution_edges.introduced_generation_id = 7 $$, ARRAY['every game: Vast Poni Canyon', 'usum: Blush Mountain', 'usum: Vast Poni Canyon'], 'Alola''s magnetic fields belong to the games that have them');
 -- Brilliant Diamond / Shining Pearl take a Thunder Stone for Magneton but not for Nosepass, and evolve Feebas by Beauty, not by trade.
 SELECT
     set_eq ($$
