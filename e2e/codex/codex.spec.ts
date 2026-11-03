@@ -25,6 +25,42 @@ test.describe("Codex", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Charizard" }),
     ).toBeVisible();
+    await expect(page.getByText("Flame Pokémon")).toBeVisible();
+    await expect(page.getByText("1.7 m tall and 90.5 kg")).toBeVisible();
+    await expectAccessible(page);
+  });
+
+  test("reads a species' breeding facts in a game with eggs and gender", async ({
+    page,
+  }) => {
+    await page.goto("/codex/pokemon/swsh/charizard");
+
+    const breeding = page.getByRole("region", { name: "Breeding" });
+    await expect(breeding.getByText("Egg cycles")).toBeVisible();
+    await expect(breeding.getByText("20", { exact: true })).toBeVisible();
+    await expect(breeding.getByText("87.5% male")).toBeVisible();
+    await expect(
+      breeding.getByRole("meter", { name: "Share that is male" }),
+    ).toBeVisible();
+    await expectAccessible(page);
+  });
+
+  test("reads a form's training values from the open game", async ({
+    page,
+  }) => {
+    await page.goto("/codex/pokemon/swsh/charizard");
+    const training = page.getByRole("region", { name: "Training" });
+    await expect(training.getByText("EV yield")).toBeVisible();
+    await expect(training.getByText("3 Sp. Atk")).toBeVisible();
+    await expect(training.getByText("50", { exact: true })).toBeVisible();
+    await expect(training.getByText("Medium Slow")).toBeVisible();
+
+    /* Red / Blue counts no EVs and has no friendship; Yellow's Pikachu is harder to catch. */
+    await page.goto("/codex/pokemon/yellow/pikachu");
+    const early = page.getByRole("region", { name: "Training" });
+    await expect(early.getByText("EV yield")).toHaveCount(0);
+    await expect(early.getByText("Base friendship")).toHaveCount(0);
+    await expect(early.getByText("163", { exact: true })).toBeVisible();
     await expectAccessible(page);
   });
 
@@ -114,6 +150,19 @@ test.describe("Codex", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Pokémon Red and Blue" }),
     ).toBeVisible();
+    /* The game's words, the region's, and its leaders with the ace of your first battle. */
+    await expect(page.getByText(/^The first games: eight Gyms/)).toBeVisible();
+    await expect(page.getByText(/^The first region, a compact/)).toBeVisible();
+    const leaders = page.getByRole("list", {
+      name: "Gym Leaders and Champion",
+    });
+    await expect(leaders.getByRole("listitem")).toHaveCount(9);
+    await expect(leaders.getByRole("listitem").first()).toContainText(
+      /Brock[^]*Pewter City[^]*Rock/,
+    );
+    await expect(leaders.getByRole("listitem").last()).toContainText(
+      /Blue[^]*Indigo Plateau/,
+    );
     await expectAccessible(page);
 
     await page.getByRole("link", { name: "Kanto 151" }).click();

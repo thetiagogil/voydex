@@ -41,6 +41,7 @@ const versionGroup = (
   parentId: number | null = null,
 ): VersionGroup => ({
   created_at: createdAt,
+  description: "",
   generation_id: generationId,
   id,
   is_open_world: false,
@@ -73,6 +74,7 @@ const game = (
 
 const region: Region = {
   created_at: createdAt,
+  description: "",
   id: 1,
   name: "Kanto",
   slug: "kanto",
@@ -84,9 +86,12 @@ const species = (
   name: string,
   introducedGenerationId = 1,
 ): PokemonSpecies => ({
+  category: "Seed",
   color: null,
   created_at: createdAt,
+  egg_cycles: 20,
   evolution_family_id: id,
+  female_ratio_eighths: 1,
   id,
   introduced_generation_id: introducedGenerationId,
   is_baby: false,
@@ -103,6 +108,8 @@ const form = (
   name: string,
   formSlug: string,
 ): PokemonForm => ({
+  category: null,
+  gender: null,
   created_at: createdAt,
   form_order: 1,
   height_decimeters: null,

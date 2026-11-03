@@ -425,17 +425,21 @@ CREATE TABLE reference.regions (
     id integer PRIMARY KEY,
     slug text NOT NULL UNIQUE,
     name text NOT NULL UNIQUE,
+    description text NOT NULL,
     sort_order integer NOT NULL UNIQUE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT regions_id_positive_check CHECK (id > 0),
     CONSTRAINT regions_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
     CONSTRAINT regions_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
+    CONSTRAINT regions_description_length_check CHECK (CHAR_LENGTH(BTRIM(description)) BETWEEN 1 AND 600),
     CONSTRAINT regions_sort_order_positive_check CHECK (sort_order > 0)
 );
 
 COMMENT ON TABLE reference.regions IS 'Pokémon world regions associated with mainline games.';
 
 COMMENT ON COLUMN reference.regions.id IS 'Curated stable region ID.';
+
+COMMENT ON COLUMN reference.regions.description IS 'A few lines on the region in Voydex''s own words, read on the Codex game page.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/003_product_families.sql
@@ -504,12 +508,14 @@ CREATE TABLE reference.version_groups (
     name text NOT NULL UNIQUE,
     generation_id integer NOT NULL REFERENCES reference.generations (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     parent_version_group_id integer,
+    description text NOT NULL,
     sort_order integer NOT NULL,
     is_open_world boolean NOT NULL DEFAULT FALSE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT version_groups_id_positive_check CHECK (id > 0),
     CONSTRAINT version_groups_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
     CONSTRAINT version_groups_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 160),
+    CONSTRAINT version_groups_description_length_check CHECK (CHAR_LENGTH(BTRIM(description)) BETWEEN 1 AND 600),
     CONSTRAINT version_groups_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT version_groups_parent_not_self_check CHECK (parent_version_group_id IS NULL OR parent_version_group_id <> id),
     CONSTRAINT version_groups_id_generation_unique UNIQUE (id, generation_id),
@@ -519,6 +525,8 @@ CREATE TABLE reference.version_groups (
 );
 
 COMMENT ON TABLE reference.version_groups IS 'Version-group content scopes. DLC and other optional content are child version groups.';
+
+COMMENT ON COLUMN reference.version_groups.description IS 'A few lines on what sets these games apart, in Voydex''s own words, read on the Codex game page.';
 
 COMMENT ON COLUMN reference.version_groups.parent_version_group_id IS 'Base version group for optional child content such as DLC.';
 
@@ -794,6 +802,9 @@ CREATE TABLE reference.pokemon_species (
     introduced_generation_id integer NOT NULL REFERENCES reference.generations (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     evolution_family_id integer NOT NULL REFERENCES reference.evolution_families (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     color text,
+    category text NOT NULL,
+    female_ratio_eighths integer,
+    egg_cycles integer NOT NULL,
     is_baby boolean NOT NULL DEFAULT FALSE,
     is_legendary boolean NOT NULL DEFAULT FALSE,
     is_mythical boolean NOT NULL DEFAULT FALSE,
@@ -803,7 +814,10 @@ CREATE TABLE reference.pokemon_species (
     CONSTRAINT pokemon_species_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
     CONSTRAINT pokemon_species_id_family_unique UNIQUE (id, evolution_family_id),
     CONSTRAINT pokemon_species_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
-    CONSTRAINT pokemon_species_color_length_check CHECK (color IS NULL OR CHAR_LENGTH(BTRIM(color)) BETWEEN 1 AND 80)
+    CONSTRAINT pokemon_species_color_length_check CHECK (color IS NULL OR CHAR_LENGTH(BTRIM(color)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_species_category_length_check CHECK (CHAR_LENGTH(BTRIM(category)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_species_female_ratio_check CHECK (female_ratio_eighths IS NULL OR female_ratio_eighths BETWEEN 0 AND 8),
+    CONSTRAINT pokemon_species_egg_cycles_check CHECK (egg_cycles BETWEEN 1 AND 255)
 );
 
 COMMENT ON TABLE reference.pokemon_species IS 'National Dex species identities used by Pokedex completion and Pokémon reuse checks.';
@@ -811,6 +825,12 @@ COMMENT ON TABLE reference.pokemon_species IS 'National Dex species identities u
 COMMENT ON COLUMN reference.pokemon_species.national_number IS 'National Pokedex number.';
 
 COMMENT ON COLUMN reference.pokemon_species.evolution_family_id IS 'Evolution family used by broad Pokémon reuse checks.';
+
+COMMENT ON COLUMN reference.pokemon_species.category IS 'The Pokédex category, as the games print it without the word Pokémon: Seed, Flame, Mouse.';
+
+COMMENT ON COLUMN reference.pokemon_species.female_ratio_eighths IS 'How many of every eight are female (4 is an even split, 0 male only, 8 female only); NULL for a species with no gender.';
+
+COMMENT ON COLUMN reference.pokemon_species.egg_cycles IS 'Egg cycles until its egg hatches, as the games count them.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/017_pokemon_forms.sql
@@ -829,6 +849,8 @@ CREATE TABLE reference.pokemon_forms (
     form_order integer NOT NULL,
     height_decimeters integer,
     weight_hectograms integer,
+    category text,
+    gender text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT pokemon_forms_id_positive_check CHECK (id > 0),
     CONSTRAINT pokemon_forms_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 160),
@@ -836,6 +858,8 @@ CREATE TABLE reference.pokemon_forms (
     CONSTRAINT pokemon_forms_form_order_positive_check CHECK (form_order > 0),
     CONSTRAINT pokemon_forms_height_positive_check CHECK (height_decimeters IS NULL OR height_decimeters > 0),
     CONSTRAINT pokemon_forms_weight_positive_check CHECK (weight_hectograms IS NULL OR weight_hectograms > 0),
+    CONSTRAINT pokemon_forms_category_length_check CHECK (category IS NULL OR CHAR_LENGTH(BTRIM(category)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_forms_gender_check CHECK (gender IS NULL OR gender IN ('male', 'female')),
     CONSTRAINT pokemon_forms_species_id_unique UNIQUE (species_id, id),
     CONSTRAINT pokemon_forms_species_order_unique UNIQUE (species_id, form_order)
 );
@@ -846,9 +870,13 @@ WHERE
 
 COMMENT ON TABLE reference.pokemon_forms IS 'Concrete Pokémon form identities used by team builder, planning, and display.';
 
-COMMENT ON COLUMN reference.pokemon_forms.height_decimeters IS 'Pokémon height in decimeters, matching canonical game data units.';
+COMMENT ON COLUMN reference.pokemon_forms.height_decimeters IS 'Pokémon height in decimeters, matching canonical game data units. NULL only for a form the games give no size (a Team Star Starmobile, Mega Greninja).';
 
-COMMENT ON COLUMN reference.pokemon_forms.weight_hectograms IS 'Pokémon weight in hectograms, matching canonical game data units.';
+COMMENT ON COLUMN reference.pokemon_forms.weight_hectograms IS 'Pokémon weight in hectograms, matching canonical game data units. NULL only where the games give no weight (a Gigantamax form, Eternamax Eternatus, a Team Star Starmobile, Mega Greninja).';
+
+COMMENT ON COLUMN reference.pokemon_forms.category IS 'The form''s own Pokédex category where it differs from its species'' (Hisuian Growlithe: Scout); NULL reads the species'' category.';
+
+COMMENT ON COLUMN reference.pokemon_forms.gender IS 'The one gender this form always is (Meowstic''s female form, a Cap Pikachu, Battle Bond Greninja); NULL reads the species'' gender ratio.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/018_item_categories.sql
@@ -1995,6 +2023,75 @@ CREATE INDEX pokemon_availability_group_members_species_form_idx ON reference.po
 COMMENT ON TABLE reference.pokemon_availability_group_members IS 'Members of an availability group, by form: a team holding two of them can''t be built in one save.';
 
 -- ============================================================================
+-- Source: database/schema/02_reference/01_tables/049_growth_rates.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.growth_rates
+-- The six experience curves a species levels along.
+-- ============================================================================
+CREATE TABLE reference.growth_rates (
+    id integer PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    name text NOT NULL UNIQUE,
+    level_100_experience integer NOT NULL,
+    sort_order integer NOT NULL UNIQUE,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT growth_rates_id_positive_check CHECK (id > 0),
+    CONSTRAINT growth_rates_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
+    CONSTRAINT growth_rates_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 80),
+    CONSTRAINT growth_rates_level_100_experience_check CHECK (level_100_experience BETWEEN 1 AND 2000000),
+    CONSTRAINT growth_rates_sort_order_positive_check CHECK (sort_order > 0)
+);
+
+COMMENT ON TABLE reference.growth_rates IS 'The experience curves (Fast to Fluctuating) a species levels along, with the total experience level 100 takes on each.';
+
+COMMENT ON COLUMN reference.growth_rates.level_100_experience IS 'Total experience at level 100 on this curve, as the games count it.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/050_pokemon_training_attributes.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.pokemon_training_attributes
+-- What raising or defeating a Pokémon form gives, by the games that changed it.
+-- ============================================================================
+CREATE TABLE reference.pokemon_training_attributes (
+    species_id integer NOT NULL,
+    form_id integer NOT NULL,
+    version_group_start_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    ev_hp integer,
+    ev_attack integer,
+    ev_defense integer,
+    ev_special_attack integer,
+    ev_special_defense integer,
+    ev_speed integer,
+    catch_rate integer NOT NULL,
+    base_friendship integer,
+    base_experience integer NOT NULL,
+    growth_rate_id integer NOT NULL REFERENCES reference.growth_rates (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT pokemon_training_attributes_primary_key PRIMARY KEY (species_id, form_id, version_group_start_id),
+    CONSTRAINT pokemon_training_attributes_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT pokemon_training_attributes_ev_presence_check CHECK ((ev_hp IS NULL AND ev_attack IS NULL AND ev_defense IS NULL AND ev_special_attack IS NULL AND ev_special_defense IS NULL AND ev_speed IS NULL) OR (ev_hp IS NOT NULL AND ev_attack IS NOT NULL AND ev_defense IS NOT NULL AND ev_special_attack IS NOT NULL AND ev_special_defense IS NOT NULL AND ev_speed IS NOT NULL)),
+    CONSTRAINT pokemon_training_attributes_ev_range_check CHECK (COALESCE(ev_hp, 0) BETWEEN 0 AND 3 AND COALESCE(ev_attack, 0) BETWEEN 0 AND 3 AND COALESCE(ev_defense, 0) BETWEEN 0 AND 3 AND COALESCE(ev_special_attack, 0) BETWEEN 0 AND 3 AND COALESCE(ev_special_defense, 0) BETWEEN 0 AND 3 AND COALESCE(ev_speed, 0) BETWEEN 0 AND 6),
+    CONSTRAINT pokemon_training_attributes_ev_total_check CHECK (COALESCE(ev_hp, 0) + COALESCE(ev_attack, 0) + COALESCE(ev_defense, 0) + COALESCE(ev_special_attack, 0) + COALESCE(ev_special_defense, 0) + COALESCE(ev_speed, 0) BETWEEN 0 AND 6),
+    CONSTRAINT pokemon_training_attributes_catch_rate_check CHECK (catch_rate BETWEEN 1 AND 255),
+    CONSTRAINT pokemon_training_attributes_base_friendship_check CHECK (base_friendship IS NULL OR base_friendship BETWEEN 0 AND 255),
+    CONSTRAINT pokemon_training_attributes_base_experience_check CHECK (base_experience BETWEEN 1 AND 1000)
+);
+
+CREATE INDEX pokemon_training_attributes_form_idx ON reference.pokemon_training_attributes (form_id, version_group_start_id);
+
+COMMENT ON TABLE reference.pokemon_training_attributes IS 'A form''s EV yield, catch rate, base friendship, base experience and growth rate, one row per version group that changed any of them, for the forms that group hands out; a game reads the latest row at or before it in release order. Read from each game''s own data.';
+
+COMMENT ON COLUMN reference.pokemon_training_attributes.version_group_start_id IS 'The first version group, in release order (generation, then the group''s own order), these values apply to.';
+
+COMMENT ON COLUMN reference.pokemon_training_attributes.ev_hp IS 'EV yield; NULL as a set where the games have none (Generation I and II, which used Stat Exp, Let''s Go, which uses Awakening Values, and Legends: Arceus, where EVs do nothing).';
+
+COMMENT ON CONSTRAINT pokemon_training_attributes_ev_total_check ON reference.pokemon_training_attributes IS 'An EV yield is three at most, except Terapagos''s Terastal Form, which the games give four.';
+
+COMMENT ON COLUMN reference.pokemon_training_attributes.base_friendship IS 'NULL in Generation I, which has no friendship.';
+
+-- ============================================================================
 -- Source: database/schema/02_reference/01_tables/051_pokemon_pokedex_texts.sql
 -- ============================================================================
 -- ============================================================================
@@ -2163,6 +2260,10 @@ ALTER TABLE reference.pokemon_fixed_tera_types ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokemon_attributes ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.growth_rates ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.pokemon_training_attributes ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE reference.types FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.tera_types FROM anon, authenticated;
@@ -2192,6 +2293,10 @@ REVOKE ALL ON TABLE reference.pokemon_battle_form_bases FROM anon, authenticated
 REVOKE ALL ON TABLE reference.pokemon_fixed_tera_types FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_attributes FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.growth_rates FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_training_attributes FROM anon, authenticated;
 
 GRANT SELECT ON TABLE reference.types TO anon, authenticated;
 
@@ -2223,6 +2328,10 @@ GRANT SELECT ON TABLE reference.pokemon_fixed_tera_types TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokemon_attributes TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.growth_rates TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.pokemon_training_attributes TO anon, authenticated;
+
 GRANT ALL ON TABLE reference.types TO service_role;
 
 GRANT ALL ON TABLE reference.tera_types TO service_role;
@@ -2252,6 +2361,10 @@ GRANT ALL ON TABLE reference.pokemon_battle_form_bases TO service_role;
 GRANT ALL ON TABLE reference.pokemon_fixed_tera_types TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_attributes TO service_role;
+
+GRANT ALL ON TABLE reference.growth_rates TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_training_attributes TO service_role;
 
 CREATE POLICY types_read_all ON reference.types
     FOR SELECT TO anon, authenticated
@@ -2310,6 +2423,14 @@ CREATE POLICY pokemon_fixed_tera_types_read_all ON reference.pokemon_fixed_tera_
     USING (TRUE);
 
 CREATE POLICY pokemon_attributes_read_all ON reference.pokemon_attributes
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY growth_rates_read_all ON reference.growth_rates
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_training_attributes_read_all ON reference.pokemon_training_attributes
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 
@@ -2900,6 +3021,7 @@ CREATE TABLE tracking.mainline_opponents (
     primary_type_id integer REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     secondary_type_id integer REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     sprite_slug text,
+    place text,
     sort_order integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_opponents_id_positive_check CHECK (id > 0),
@@ -2909,6 +3031,7 @@ CREATE TABLE tracking.mainline_opponents (
     CONSTRAINT mainline_opponents_role_format_check CHECK (opponent_role = LOWER(opponent_role) AND opponent_role ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(opponent_role) <= 80),
     CONSTRAINT mainline_opponents_distinct_specialty_types_check CHECK (secondary_type_id IS NULL OR secondary_type_id <> primary_type_id),
     CONSTRAINT mainline_opponents_sprite_slug_format_check CHECK (sprite_slug IS NULL OR (sprite_slug = LOWER(sprite_slug) AND sprite_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(sprite_slug) <= 160)),
+    CONSTRAINT mainline_opponents_place_length_check CHECK (place IS NULL OR CHAR_LENGTH(BTRIM(place)) BETWEEN 1 AND 120),
     CONSTRAINT mainline_opponents_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_opponents_id_version_group_unique UNIQUE (id, version_group_id)
 );
@@ -2944,6 +3067,8 @@ WHERE
 COMMENT ON TABLE tracking.mainline_opponents IS 'Curated opponent definitions used by story mainline_milestones and important fight metadata.';
 
 COMMENT ON COLUMN tracking.mainline_opponents.game_id IS 'Nullable for version-group-wide mainline_opponents. When set, the game must be mapped to the same content scope.';
+
+COMMENT ON COLUMN tracking.mainline_opponents.place IS 'Where this battle is fought, as the game names it: a Gym Leader''s town (Pewter City), a kahuna''s grand trial site (Malie City), the Champion''s League. Set for every Gym Leader, kahuna and Champion; the Codex game page lists them by it.';
 
 COMMENT ON COLUMN tracking.mainline_opponents.opponent_role IS 'Curated role slug such as gym-leader, rival, boss, elite-four, champion, kahuna, trial-captain, titan, totem, or ally (someone who only fights beside the player).';
 
@@ -3776,7 +3901,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestones TO authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_prerequisites TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_opponents TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_opponents TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_badges TO anon, authenticated;
 
@@ -3796,7 +3921,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestone_collectible_refs TO authentica
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_decision_options TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_opponent_team_member_moves TO authenticated;
 
@@ -3861,7 +3986,7 @@ CREATE POLICY mainline_milestone_prerequisites_read_all ON tracking.mainline_mil
     USING (TRUE);
 
 CREATE POLICY mainline_opponents_read_all ON tracking.mainline_opponents
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_badges_read_all ON tracking.mainline_badges
@@ -3901,7 +4026,7 @@ CREATE POLICY mainline_milestone_decision_options_read_all ON tracking.mainline_
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_opponent_team_members
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_member_moves_read_all ON tracking.mainline_opponent_team_member_moves

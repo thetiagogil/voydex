@@ -44,13 +44,19 @@ export type PlannerPokemonFacts = {
   tradeEvolution: { heldItemName: string | null } | null;
 };
 
+/*
+ * A Pokémon the Planner offers: one form of a species (Articuno and Galarian
+ * Articuno are two), known everywhere by its form id.
+ */
 export type PlannerPokemon = {
   abilities: { hidden: boolean; id: number; name: string }[];
   evolutionFamilyId: number;
   facts: PlannerPokemonFacts;
   formId: number;
+  formSlug: string;
   imageUrl: string | null;
   isFullyEvolved: boolean;
+  /* The form's own name for a variant ("Galarian Articuno"), else the species'. */
   name: string;
   nationalNumber: number;
   speciesId: number;
@@ -58,13 +64,16 @@ export type PlannerPokemon = {
   types: PlanType[];
 };
 
-/* One Pokédex of the version group (base or expansion), each species once. */
+/*
+ * One Pokédex of the version group (base or expansion), each species once:
+ * its Pokédex form, then the other variants the group has, by form id.
+ */
 export type PlannerPokedexSection = {
+  formIds: number[];
   key: string;
   name: string;
   /* "The Isle of Armor expansion" under an expansion's Pokédex. */
   note: string | null;
-  speciesIds: number[];
 };
 
 export type PlannerGame = {

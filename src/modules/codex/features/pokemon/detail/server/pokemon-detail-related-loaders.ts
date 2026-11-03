@@ -5,11 +5,13 @@ import type {
   AbilityAttribute,
   EggGroup,
   EvolutionMethod,
+  GrowthRate,
   Pokedex,
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
   PokemonPokedexText,
+  PokemonTrainingAttributes,
 } from "@/modules/reference/types";
 
 type PokemonDetailRelatedRowsParams = {
@@ -27,8 +29,11 @@ export type PokemonDetailRelatedRows = {
   evolutionEdges: PokemonEvolutionEdge[];
   familyAttributes: PokemonAttributes[];
   familyForms: PokemonForm[];
+  growthRates: GrowthRate[];
   pokedexes: Pokedex[];
   pokedexTexts: PokemonPokedexText[];
+  /* The species' training values, every form and every change. */
+  trainingAttributes: PokemonTrainingAttributes[];
 };
 
 const getPokemonAbilityIds = (attributes: PokemonAttributes[]) => {
@@ -76,6 +81,8 @@ export const loadPokemonDetailRelatedRows = async ({
     familyAttributesResult,
     evolutionEdgesResult,
     pokedexTextsResult,
+    growthRatesResult,
+    trainingResult,
   ] = await Promise.all([
     abilityIds.length
       ? supabase
@@ -135,7 +142,23 @@ export const loadPokemonDetailRelatedRows = async ({
       .from("pokemon_pokedex_texts")
       .select("*")
       .eq("species_id", speciesId),
+    supabase
+      .schema("reference")
+      .from("growth_rates")
+      .select("*")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
+      .from("pokemon_training_attributes")
+      .select("*")
+      .eq("species_id", speciesId)
+      .order("form_id", { ascending: true })
+      .order("version_group_start_id", { ascending: true }),
   ]);
+
+  if (growthRatesResult.error || trainingResult.error) {
+    throw new Error("Unable to load Pokémon training data.");
+  }
 
   if (
     abilitiesResult.error ||
@@ -164,8 +187,10 @@ export const loadPokemonDetailRelatedRows = async ({
     evolutionEdges: evolutionEdgesResult.data ?? [],
     familyAttributes: familyAttributesResult.data ?? [],
     familyForms: familyFormsResult.data ?? [],
+    growthRates: growthRatesResult.data ?? [],
     pokedexes: pokedexResult.data ?? [],
     pokedexTexts: pokedexTextsResult.data ?? [],
+    trainingAttributes: trainingResult.data ?? [],
   };
 };
 

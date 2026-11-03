@@ -2,6 +2,8 @@ export const gameMechanics = {
   abilities: "abilities",
   /* Eggs, the Day Care and egg groups. */
   breeding: "breeding",
+  /* EV yields that raise stats; Let's Go counts Awakening Values and Legends: Arceus ignores EVs. */
+  effortValues: "effort-values",
   heldItems: "held-items",
   natures: "natures",
   pokemonGender: "pokemon-gender",
@@ -35,6 +37,7 @@ export type GameMechanicsProfile = {
 const introducedGenerationByMechanic = {
   [gameMechanics.abilities]: 3,
   [gameMechanics.breeding]: 2,
+  [gameMechanics.effortValues]: 3,
   [gameMechanics.heldItems]: 2,
   [gameMechanics.natures]: 3,
   [gameMechanics.pokemonGender]: 2,
@@ -72,7 +75,9 @@ const supportedVersionGroupIdsByMechanic: Partial<
  * The Let's Go games (17) and both Legends games, Arceus (22) and Z-A (26,
  * Mega Dimension 27), have no abilities and no eggs or Day Care. Let's Go and
  * Legends: Arceus also have no held items (Let's Go keeps Mega Stones in the
- * bag); Legends: Z-A has them, its Mega Stones included.
+ * bag); Legends: Z-A has them, its Mega Stones included. EV yields count in
+ * neither Let's Go (Awakening Values instead) nor Legends: Arceus (EVs exist
+ * but do nothing); Legends: Z-A has them.
  */
 const letsGoVersionGroupIds = [17];
 const legendsArceusVersionGroupIds = [22];
@@ -90,6 +95,10 @@ const unsupportedVersionGroupIdsByMechanic: Partial<
     ...letsGoVersionGroupIds,
     ...legendsArceusVersionGroupIds,
     ...legendsZaVersionGroupIds,
+  ]),
+  [gameMechanics.effortValues]: new Set([
+    ...letsGoVersionGroupIds,
+    ...legendsArceusVersionGroupIds,
   ]),
   [gameMechanics.heldItems]: new Set([
     ...letsGoVersionGroupIds,

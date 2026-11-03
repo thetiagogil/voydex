@@ -8,12 +8,14 @@ CREATE TABLE reference.version_groups (
     name text NOT NULL UNIQUE,
     generation_id integer NOT NULL REFERENCES reference.generations (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     parent_version_group_id integer,
+    description text NOT NULL,
     sort_order integer NOT NULL,
     is_open_world boolean NOT NULL DEFAULT FALSE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT version_groups_id_positive_check CHECK (id > 0),
     CONSTRAINT version_groups_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
     CONSTRAINT version_groups_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 160),
+    CONSTRAINT version_groups_description_length_check CHECK (CHAR_LENGTH(BTRIM(description)) BETWEEN 1 AND 600),
     CONSTRAINT version_groups_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT version_groups_parent_not_self_check CHECK (parent_version_group_id IS NULL OR parent_version_group_id <> id),
     CONSTRAINT version_groups_id_generation_unique UNIQUE (id, generation_id),
@@ -23,6 +25,8 @@ CREATE TABLE reference.version_groups (
 );
 
 COMMENT ON TABLE reference.version_groups IS 'Version-group content scopes. DLC and other optional content are child version groups.';
+
+COMMENT ON COLUMN reference.version_groups.description IS 'A few lines on what sets these games apart, in Voydex''s own words, read on the Codex game page.';
 
 COMMENT ON COLUMN reference.version_groups.parent_version_group_id IS 'Base version group for optional child content such as DLC.';
 

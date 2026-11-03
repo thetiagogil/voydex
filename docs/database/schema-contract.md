@@ -23,7 +23,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
 ## Reference And Tracking
 
 - `reference` stores product families, games, content scopes, Pokémon identity,
-  forms, mechanics, moves, items, evolution, availability, learnsets, and
+  forms, mechanics, training values, moves, items, evolution, availability,
+  learnsets, and
   Pokedex definitions.
 - Generation-aware attributes preserve mechanics that changed over time.
 - `reference.items.effect_summary` is a short "what it does" sentence, set for
@@ -37,7 +38,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   version-group, and generation context owned by the `reference` module.
 - Optional content is modeled as content-scope deltas and dependencies instead
   of duplicating the full parent scope.
-- `tracking` stores definitions for milestones, decisions, opponents, badges,
+- `tracking` stores definitions for milestones, decisions, opponents (with
+  `place`, where a Gym Leader, kahuna or Champion is fought), badges,
   collectibles, and snapshot policy. It does not store user progress.
 - A story chapter (`tracking.mainline_categories`) carries `chapter_kind`
   (`main-story`, `post-game` or `side-content`) and `plays_in_any_order` for

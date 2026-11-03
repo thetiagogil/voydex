@@ -225,10 +225,8 @@ export const PlannerDockSection = ({
 
       <ol className="grid grid-cols-2 gap-x-4 gap-y-4.5 sm:grid-cols-3 lg:grid-cols-6">
         {slots.map((member, index) => {
-          const pokemon = member ? byId.get(member.speciesId) : undefined;
-          const worst = member
-            ? getWorstIssueFor(member.speciesId, issues)
-            : null;
+          const pokemon = member ? byId.get(member.formId) : undefined;
+          const worst = member ? getWorstIssueFor(member.formId, issues) : null;
           const dropProps = drag.targetProps(index, {
             item: member ? index : null,
           });
@@ -264,7 +262,7 @@ export const PlannerDockSection = ({
 
           return (
             <li
-              key={`${member.speciesId}-${index}`}
+              key={`${member.formId}-${index}`}
               {...drag.sourceProps(index, { disabled: Boolean(replacing) })}
               {...dropProps}
               className={cn(

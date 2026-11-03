@@ -32,7 +32,7 @@ export const usePlannerReplace = ({
   };
 
   const askWhichToReplace = (pokemon: PlannerPokemon) => {
-    setReplacingId(pokemon.speciesId);
+    setReplacingId(pokemon.formId);
     toast(`Team is full`, {
       action: { label: "Cancel", onClick: () => cancelReplace() },
       description: `Tap the Pokémon ${pokemon.name} should replace.`,

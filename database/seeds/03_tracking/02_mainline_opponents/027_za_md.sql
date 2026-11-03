@@ -23,53 +23,54 @@ INSERT INTO tracking.mainline_opponents (
   primary_type_id,
   secondary_type_id,
   sprite_slug,
+  place,
   sort_order
 ) VALUES
   -- Darkrai
-  (27001, 27, NULL, 'darkrai', 'Darkrai', 'boss', 16, NULL, 'darkrai', 1),
+  (27001, 27, NULL, 'darkrai', 'Darkrai', 'boss', 16, NULL, 'darkrai', NULL, 1),
   -- Groudon
-  (27002, 27, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', 2),
+  (27002, 27, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 2),
   -- Kyogre
-  (27003, 27, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', 3),
+  (27003, 27, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 3),
   -- Rayquaza
-  (27004, 27, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 4),
+  (27004, 27, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 4),
   -- Heatran (boss)
-  (27005, 27, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 5),
+  (27005, 27, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 5),
   -- Genesect (boss)
-  (27006, 27, NULL, 'genesect', 'Genesect', 'boss', 12, 17, 'genesect', 6),
+  (27006, 27, NULL, 'genesect', 'Genesect', 'boss', 12, 17, 'genesect', NULL, 6),
   -- Marshadow (boss)
-  (27007, 27, NULL, 'marshadow', 'Marshadow', 'boss', 7, 14, 'marshadow', 7),
+  (27007, 27, NULL, 'marshadow', 'Marshadow', 'boss', 7, 14, 'marshadow', NULL, 7),
   -- Meltan (boss)
-  (27008, 27, NULL, 'meltan', 'Meltan', 'boss', 17, NULL, 'meltan', 8),
+  (27008, 27, NULL, 'meltan', 'Meltan', 'boss', 17, NULL, 'meltan', NULL, 8),
   -- Volcanion (boss)
-  (27009, 27, NULL, 'volcanion', 'Volcanion', 'boss', 2, 3, 'volcanion', 9),
+  (27009, 27, NULL, 'volcanion', 'Volcanion', 'boss', 2, 3, 'volcanion', NULL, 9),
   -- Hoopa (boss)
-  (27010, 27, NULL, 'hoopa', 'Hoopa', 'boss', 11, 16, 'hoopa', 10),
+  (27010, 27, NULL, 'hoopa', 'Hoopa', 'boss', 11, 16, 'hoopa', NULL, 10),
   -- Rogue Mega Absol Z
-  (27011, 27, NULL, 'rogue-mega-absol-z', 'Rogue Mega Absol Z', 'boss', 16, 14, 'rogue-mega-absol-z', 11),
+  (27011, 27, NULL, 'rogue-mega-absol-z', 'Rogue Mega Absol Z', 'boss', 16, 14, 'rogue-mega-absol-z', NULL, 11),
   -- Rogue Mega Staraptor
-  (27012, 27, NULL, 'rogue-mega-staraptor', 'Rogue Mega Staraptor', 'boss', 7, 10, 'rogue-mega-staraptor', 12),
+  (27012, 27, NULL, 'rogue-mega-staraptor', 'Rogue Mega Staraptor', 'boss', 7, 10, 'rogue-mega-staraptor', NULL, 12),
   -- Rogue Mega Tatsugiri
-  (27013, 27, NULL, 'rogue-mega-tatsugiri', 'Rogue Mega Tatsugiri', 'boss', 15, 3, 'rogue-mega-tatsugiri', 13),
+  (27013, 27, NULL, 'rogue-mega-tatsugiri', 'Rogue Mega Tatsugiri', 'boss', 15, 3, 'rogue-mega-tatsugiri', NULL, 13),
   -- Rogue Mega Meowstic
-  (27014, 27, NULL, 'rogue-mega-meowstic', 'Rogue Mega Meowstic', 'boss', 11, NULL, 'rogue-mega-meowstic', 14),
+  (27014, 27, NULL, 'rogue-mega-meowstic', 'Rogue Mega Meowstic', 'boss', 11, NULL, 'rogue-mega-meowstic', NULL, 14),
   -- Taunie / Urbain (fights beside you against Hyperspace rogue Megas)
-  (27015, 27, NULL, 'taunie-urbain', 'Taunie / Urbain', 'ally', NULL, NULL, 'taunie-urbain', 15),
+  (27015, 27, NULL, 'taunie-urbain', 'Taunie / Urbain', 'ally', NULL, NULL, 'taunie-urbain', NULL, 15),
   -- Korrina (fights beside you against Hyperspace rogue Megas)
-  (27016, 27, NULL, 'korrina', 'Korrina', 'ally', NULL, NULL, 'korrina', 16),
+  (27016, 27, NULL, 'korrina', 'Korrina', 'ally', NULL, NULL, 'korrina', NULL, 16),
   -- Latias (boss)
-  (27017, 27, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', 17),
+  (27017, 27, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 17),
   -- Latios (boss)
-  (27018, 27, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', 18),
+  (27018, 27, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 18),
   -- Cobalion (boss)
-  (27019, 27, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', 19),
+  (27019, 27, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', NULL, 19),
   -- Terrakion (boss)
-  (27020, 27, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', 20),
+  (27020, 27, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', NULL, 20),
   -- Virizion (boss)
-  (27021, 27, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', 21),
+  (27021, 27, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', NULL, 21),
   -- Keldeo (boss)
-  (27022, 27, NULL, 'keldeo', 'Keldeo', 'boss', 3, 7, 'keldeo', 22),
+  (27022, 27, NULL, 'keldeo', 'Keldeo', 'boss', 3, 7, 'keldeo', NULL, 22),
   -- Meloetta (boss)
-  (27023, 27, NULL, 'meloetta', 'Meloetta', 'boss', 1, 11, 'meloetta', 23),
+  (27023, 27, NULL, 'meloetta', 'Meloetta', 'boss', 1, 11, 'meloetta', NULL, 23),
   -- Rogue Mega Zeraora
-  (27024, 27, NULL, 'rogue-mega-zeraora', 'Rogue Mega Zeraora', 'boss', 4, NULL, 'rogue-mega-zeraora', 24);
+  (27024, 27, NULL, 'rogue-mega-zeraora', 'Rogue Mega Zeraora', 'boss', 4, NULL, 'rogue-mega-zeraora', NULL, 24);

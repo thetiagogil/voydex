@@ -24,16 +24,19 @@ const rows: PlanMemberCheckRows = {
   abilityIdsByFormId: new Map([[900, new Set([1, 3])]]),
   heldItemIds: new Set([10]),
   learnableMoveIdsByFormId: new Map([[900, new Set([5, 6, 7])]]),
+  nameByFormId: new Map([
+    [900, "Galarian Meowth"],
+    [52, "Meowth"],
+    [1, "Bulbasaur"],
+    [14401, "Galarian Articuno"],
+  ]),
   natureIds: new Set([2]),
-  poolSpeciesIds: new Set([52]),
+  poolFormIds: new Set([900, 52]),
   speciesIdByFormId: new Map([
     [900, 52],
     [52, 52],
     [1, 1],
-  ]),
-  speciesNameById: new Map([
-    [52, "Meowth"],
-    [1, "Bulbasaur"],
+    [14401, 144],
   ]),
   versionGroupName: "Sword and Shield",
 };
@@ -52,9 +55,19 @@ describe("assertPlanMembersFitVersionGroup", () => {
     );
   });
 
+  it("rejects a variant the group doesn't offer, by the form's own name", () => {
+    expect(
+      check({
+        formId: 14401,
+        moveIds: [null, null, null, null],
+        speciesId: 144,
+      }),
+    ).toThrow("Galarian Articuno isn't in Sword and Shield.");
+  });
+
   it("rejects a form of another species", () => {
     expect(check({ formId: 1 })).toThrow(
-      "Meowth's form isn't one Voydex knows.",
+      "Bulbasaur's form isn't one Voydex knows.",
     );
   });
 

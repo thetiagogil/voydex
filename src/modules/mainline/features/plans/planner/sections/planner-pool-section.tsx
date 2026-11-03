@@ -56,8 +56,8 @@ type PlannerPoolSectionProps = {
   /* The Pokémon waiting for a slot, while the team is full. */
   replacingId: number | null;
   sections: PlannerPokedexSection[];
-  /* The slot (1 to 6) each picked species sits in. */
-  slotBySpeciesId: Map<number, number>;
+  /* The slot (1 to 6) each picked Pokémon sits in, by form id. */
+  slotByFormId: Map<number, number>;
   types: PlanType[];
   versionGroup: PlannerVersionGroup;
 };
@@ -91,14 +91,14 @@ export const PlannerPoolSection = ({
   onPick,
   replacingId,
   sections,
-  slotBySpeciesId,
+  slotByFormId,
   types,
   versionGroup,
 }: PlannerPoolSectionProps) => {
   const shownSections = sections.map((section) => ({
     ...section,
-    pokemon: section.speciesIds.flatMap((speciesId) => {
-      const pokemon = byId.get(speciesId);
+    pokemon: section.formIds.flatMap((formId) => {
+      const pokemon = byId.get(formId);
       return pokemon && matchesPoolFilters(pokemon, filters) ? [pokemon] : [];
     }),
   }));
@@ -261,12 +261,12 @@ export const PlannerPoolSection = ({
               />
               <ul className="mt-3.5 grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
                 {section.pokemon.map((pokemon) => {
-                  const slot = slotBySpeciesId.get(pokemon.speciesId);
+                  const slot = slotByFormId.get(pokemon.formId);
                   const notes = getPoolTileNotes(pokemon, versionGroup);
 
                   return (
                     <li
-                      key={pokemon.speciesId}
+                      key={pokemon.formId}
                       className="relative min-w-0 transition-transform duration-150 hover:-translate-y-0.75 motion-reduce:transition-none"
                     >
                       <IconTip
@@ -300,7 +300,7 @@ export const PlannerPoolSection = ({
                               className={cn(
                                 /* The whole tile lifts, carrying its marks. */
                                 "hover:translate-y-0",
-                                replacingId === pokemon.speciesId &&
+                                replacingId === pokemon.formId &&
                                   "outline-action outline-3 outline-offset-2 outline-solid",
                               )}
                             ></PokemonCard>
