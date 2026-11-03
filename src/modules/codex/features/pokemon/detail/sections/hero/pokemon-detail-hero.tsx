@@ -10,7 +10,6 @@ import {
 } from "@/modules/reference/features/pokemon/components/pokemon-form-menu";
 
 import type { PokemonDetailHeroSentencePart } from "@/modules/codex/features/pokemon/detail/sections/hero/pokemon-detail-hero-model";
-import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pending-value";
 import { PokemonPortrait } from "@/modules/reference/features/pokemon/components/pokemon-portrait";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
@@ -40,12 +39,10 @@ type PokemonDetailHeroProps = {
   typeSlug: PokemonTypeSlug | null;
 };
 
-/* A sentence's pieces: figures in bold, missing values as pending markers. */
+/* A sentence's pieces, the figures in bold. */
 const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
   return parts.map((part, index) =>
-    part.pending ? (
-      <CodexPendingValue key={index} label={part.text} />
-    ) : part.emphasis ? (
+    part.emphasis ? (
       <b key={index} className="text-ink font-extrabold">
         {part.text}
       </b>
@@ -103,12 +100,7 @@ export const PokemonDetailHero = ({
           {eyebrow.map((part, index) => (
             <span key={index}>
               {index ? " · " : null}
-              {part.pending ? (
-                // TODO(v3-data): the species' Pokédex category (genus).
-                <CodexPendingValue label={part.text} />
-              ) : (
-                part.text
-              )}
+              {part.text}
             </span>
           ))}
         </p>
@@ -174,10 +166,11 @@ export const PokemonDetailHero = ({
           note="A few lines on what it is; its Pokédex entries are per game below."
         />
 
-        <p className="text-16 text-ink-2 mt-4 leading-relaxed">
-          {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}
-          <HeroParts parts={sentence} />
-        </p>
+        {sentence.length ? (
+          <p className="text-16 text-ink-2 mt-4 leading-relaxed">
+            <HeroParts parts={sentence} />
+          </p>
+        ) : null}
       </div>
     </section>
   );

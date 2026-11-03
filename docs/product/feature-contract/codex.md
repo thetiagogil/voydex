@@ -79,7 +79,14 @@ As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
 Pokédex lists this species; picking one opens Add Pokémon over the entry on
 this species and form, and once added a toast offers `Open the roster` and
 Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
-your rosters. The entry's Training card reads what the open game gives for the form: the EV yield where the game counts one (not Let's Go, not Legends: Arceus, nor Generation I and II), the catch rate, base friendship (none in Generation I), base experience and the growth rate with what level 100 takes, each from that game's own data (Yellow's Pikachu is harder to catch; Sword / Shield lowered most base friendship to 50). The Breeding card shows egg groups where the game has breeding; its other values, the Pokédex category, flavour text, height and weight are pending data. The hero's heart saves the shown form as
+your rosters. The hero's eyebrow reads the Pokédex category of the form shown
+(its own where it differs, as Hisuian Growlithe is the Scout Pokémon), and
+its sentence the form's height and weight, leaving out a size the games
+don't give. The entry's Training card reads what the open game gives for the form: the EV yield where the game counts one (not Let's Go, not Legends: Arceus, nor Generation I and II), the catch rate, base friendship (none in Generation I), base experience and the growth rate with what level 100 takes, each from that game's own data (Yellow's Pikachu is harder to catch; Sword / Shield lowered most base friendship to 50). The Breeding card shows egg groups and egg cycles where the game
+has breeding, and the gender ratio (the split over a bar of the male share,
+or male only, female only or genderless; a form that is always one gender,
+such as Meowstic's female form, reads as that gender) where the game has gender. The
+flavour text is pending data. The hero's heart saves the shown form as
 a favourite (Undo in the toast) and lists it in Collection's Favourites;
 signed out, it is a link to log in that returns to the entry. The accepted handoff below
 remains the target.
@@ -121,8 +128,16 @@ The page carries structured identity, base and optional-content scopes, named
 Pokédexes, the group's Pokémon, and only trustworthy related releases. `Start a Play` is its clear primary action;
 `Create a Plan` and `Add to Game List` are supporting Mainline actions.
 Reference links remain distinct from personal mutations. As built, the page
-also shows the region the picked game is set in with its first partners
-(the leaders are pending data; Legends games leave them out) and the version
+also shows the region the picked game is set in, in a few lines of its own,
+with its first partners, then its Gym Leaders and Champion (Alola's kahunas)
+in the order you meet them, each with the ace of your first battle (the
+highest level of the lowest-level team seeded for them, counting only the
+Pokémon they bring whatever you chose when the team follows your starter, the
+last in the party on a tie, shown as its stored form rather than a Gigantamax
+or Mega form), where you face them and their type; a leader fought again
+under the same role is listed once, at that first battle; a game without
+them (the Legends games) leaves the leaders out. The head reads a few lines on what
+sets the games apart. Then the version
 exclusives: one column per game of the pair, the picked game first, counting
 only what each game gives you itself. Its head has no actions; signed in,
 the last section, Your Plays, lists your Plays of these games with `Start a

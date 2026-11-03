@@ -63,6 +63,9 @@ export function assertPokemonIdentityRows(context, tableRows) {
       "introduced_generation_id",
       "evolution_family_id",
       "color",
+      "category",
+      "female_ratio_eighths",
+      "egg_cycles",
       "is_baby",
       "is_legendary",
       "is_mythical",
@@ -71,7 +74,7 @@ export function assertPokemonIdentityRows(context, tableRows) {
     {
       count: 1025,
       sha256:
-        "b607d49a758412a7b1bc24b1ec14b78d92eb50e4001edf76e3f14ad012f26c66",
+        "48ea6215d4f93155c25a9f57bb9a1b174027cb7fd79a7f0788c092f8c32ebfd6",
     },
   );
   assertSourceVerifiedRowsetFingerprint(
@@ -88,13 +91,15 @@ export function assertPokemonIdentityRows(context, tableRows) {
       "form_order",
       "height_decimeters",
       "weight_hectograms",
+      "category",
+      "gender",
     ],
     (a, b) =>
       a.species_id - b.species_id || a.form_order - b.form_order || a.id - b.id,
     {
       count: 1456,
       sha256:
-        "03255993100212e2711556d6cdca5c4e70cdaec3e2cbff438d20bcb821c8c5c5",
+        "d91f2063639ba8f7a5c7be7d175587d494d5fe4261b5af4e07edccd44c26014e",
     },
   );
   if (familyRows.length !== 541) {

@@ -25,83 +25,84 @@ INSERT INTO tracking.mainline_opponents (
   primary_type_id,
   secondary_type_id,
   sprite_slug,
+  place,
   sort_order
 ) VALUES
   -- Cheren
-  (12001, 12, NULL, 'cheren', 'Cheren', 'gym-leader', 1, NULL, 'cheren', 1),
+  (12001, 12, NULL, 'cheren', 'Cheren', 'gym-leader', 1, NULL, 'cheren', 'Aspertia City', 1),
   -- Roxie
-  (12002, 12, NULL, 'roxie', 'Roxie', 'gym-leader', 8, NULL, 'roxie', 2),
+  (12002, 12, NULL, 'roxie', 'Roxie', 'gym-leader', 8, NULL, 'roxie', 'Virbank City', 2),
   -- Burgh
-  (12003, 12, NULL, 'burgh', 'Burgh', 'gym-leader', 12, NULL, 'burgh', 3),
+  (12003, 12, NULL, 'burgh', 'Burgh', 'gym-leader', 12, NULL, 'burgh', 'Castelia City', 3),
   -- Elesa
-  (12004, 12, NULL, 'elesa', 'Elesa', 'gym-leader', 4, NULL, 'elesa', 4),
+  (12004, 12, NULL, 'elesa', 'Elesa', 'gym-leader', 4, NULL, 'elesa', 'Nimbasa City', 4),
   -- Clay
-  (12005, 12, NULL, 'clay', 'Clay', 'gym-leader', 9, NULL, 'clay', 5),
+  (12005, 12, NULL, 'clay', 'Clay', 'gym-leader', 9, NULL, 'clay', 'Driftveil City', 5),
   -- Skyla
-  (12006, 12, NULL, 'skyla', 'Skyla', 'gym-leader', 10, NULL, 'skyla', 6),
+  (12006, 12, NULL, 'skyla', 'Skyla', 'gym-leader', 10, NULL, 'skyla', 'Mistralton City', 6),
   -- Drayden
-  (12007, 12, NULL, 'drayden', 'Drayden', 'gym-leader', 15, NULL, 'drayden', 7),
+  (12007, 12, NULL, 'drayden', 'Drayden', 'gym-leader', 15, NULL, 'drayden', 'Opelucid City', 7),
   -- Marlon
-  (12008, 12, NULL, 'marlon', 'Marlon', 'gym-leader', 3, NULL, 'marlon', 8),
+  (12008, 12, NULL, 'marlon', 'Marlon', 'gym-leader', 3, NULL, 'marlon', 'Humilau City', 8),
   -- Colress
-  (12009, 12, NULL, 'colress', 'Colress', 'boss', NULL, NULL, 'colress', 9),
+  (12009, 12, NULL, 'colress', 'Colress', 'boss', NULL, NULL, 'colress', NULL, 9),
   -- Ghetsis
-  (12010, 12, NULL, 'ghetsis', 'Ghetsis', 'boss', NULL, NULL, 'ghetsis', 10),
+  (12010, 12, NULL, 'ghetsis', 'Ghetsis', 'boss', NULL, NULL, 'ghetsis', NULL, 10),
   -- Shauntal
-  (12011, 12, NULL, 'shauntal', 'Shauntal', 'elite-four', 14, NULL, 'shauntal', 11),
+  (12011, 12, NULL, 'shauntal', 'Shauntal', 'elite-four', 14, NULL, 'shauntal', NULL, 11),
   -- Grimsley
-  (12012, 12, NULL, 'grimsley', 'Grimsley', 'elite-four', 16, NULL, 'grimsley', 12),
+  (12012, 12, NULL, 'grimsley', 'Grimsley', 'elite-four', 16, NULL, 'grimsley', NULL, 12),
   -- Caitlin
-  (12013, 12, NULL, 'caitlin', 'Caitlin', 'elite-four', 11, NULL, 'caitlin', 13),
+  (12013, 12, NULL, 'caitlin', 'Caitlin', 'elite-four', 11, NULL, 'caitlin', NULL, 13),
   -- Marshal
-  (12014, 12, NULL, 'marshal', 'Marshal', 'elite-four', 7, NULL, 'marshal', 14),
+  (12014, 12, NULL, 'marshal', 'Marshal', 'elite-four', 7, NULL, 'marshal', NULL, 14),
   -- Iris
-  (12015, 12, NULL, 'iris', 'Iris', 'champion', 15, NULL, 'iris', 15),
+  (12015, 12, NULL, 'iris', 'Iris', 'champion', 15, NULL, 'iris', 'Pokémon League', 15),
   -- Hugh (rival)
-  (12016, 12, NULL, 'hugh', 'Hugh', 'rival', NULL, NULL, 'hugh', 16),
+  (12016, 12, NULL, 'hugh', 'Hugh', 'rival', NULL, NULL, 'hugh', NULL, 16),
   -- Kyurem (boss)
-  (12017, 12, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', 17),
+  (12017, 12, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', NULL, 17),
   -- Cobalion (boss)
-  (12018, 12, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', 18),
+  (12018, 12, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', NULL, 18),
   -- Virizion (boss)
-  (12019, 12, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', 19),
+  (12019, 12, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', NULL, 19),
   -- Terrakion (boss)
-  (12020, 12, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', 20),
+  (12020, 12, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', NULL, 20),
   -- Latios (boss, black-2)
-  (12021, 12, 19, 'latios', 'Latios', 'boss', 15, 11, 'latios', 1),
+  (12021, 12, 19, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 1),
   -- Latias (boss, white-2)
-  (12022, 12, 20, 'latias', 'Latias', 'boss', 15, 11, 'latias', 1),
+  (12022, 12, 20, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 1),
   -- Uxie (boss)
-  (12023, 12, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', 21),
+  (12023, 12, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 21),
   -- Mesprit (boss)
-  (12024, 12, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', 22),
+  (12024, 12, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 22),
   -- Azelf (boss)
-  (12025, 12, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', 23),
+  (12025, 12, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 23),
   -- Zekrom (boss, black-2)
-  (12026, 12, 19, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', 2),
+  (12026, 12, 19, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', NULL, 2),
   -- Reshiram (boss, white-2)
-  (12027, 12, 20, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', 2),
+  (12027, 12, 20, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', NULL, 2),
   -- Regirock (boss)
-  (12028, 12, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', 24),
+  (12028, 12, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', NULL, 24),
   -- Registeel (boss)
-  (12029, 12, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', 25),
+  (12029, 12, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', NULL, 25),
   -- Regice (boss)
-  (12030, 12, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', 26),
+  (12030, 12, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', NULL, 26),
   -- Regigigas (boss)
-  (12031, 12, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', 27),
+  (12031, 12, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 27),
   -- Heatran (boss)
-  (12032, 12, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', 28),
+  (12032, 12, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 28),
   -- Cresselia (boss)
-  (12033, 12, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', 29),
+  (12033, 12, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 29),
   -- Zinzolin (boss; Team Plasma Sage)
-  (12034, 12, NULL, 'zinzolin', 'Zinzolin', 'boss', NULL, NULL, 'zinzolin', 30),
+  (12034, 12, NULL, 'zinzolin', 'Zinzolin', 'boss', NULL, NULL, 'zinzolin', NULL, 30),
   -- Zinzolin & Grunt (boss; the Multi Battles with Hugh at your side)
-  (12035, 12, NULL, 'zinzolin-grunt', 'Zinzolin & Grunt', 'boss', NULL, NULL, 'zinzolin', 31),
+  (12035, 12, NULL, 'zinzolin-grunt', 'Zinzolin & Grunt', 'boss', NULL, NULL, 'zinzolin', NULL, 31),
   -- Shadow (Absol) (boss; Shadow Triad)
-  (12036, 12, NULL, 'shadow-absol', 'Shadow (Absol)', 'boss', NULL, NULL, 'shadow-triad', 32),
+  (12036, 12, NULL, 'shadow-absol', 'Shadow (Absol)', 'boss', NULL, NULL, 'shadow-triad', NULL, 32),
   -- Shadow (Banette) (boss; Shadow Triad)
-  (12037, 12, NULL, 'shadow-banette', 'Shadow (Banette)', 'boss', NULL, NULL, 'shadow-triad', 33),
+  (12037, 12, NULL, 'shadow-banette', 'Shadow (Banette)', 'boss', NULL, NULL, 'shadow-triad', NULL, 33),
   -- Shadow (Accelgor) (boss; Shadow Triad)
-  (12038, 12, NULL, 'shadow-accelgor', 'Shadow (Accelgor)', 'boss', NULL, NULL, 'shadow-triad', 34),
+  (12038, 12, NULL, 'shadow-accelgor', 'Shadow (Accelgor)', 'boss', NULL, NULL, 'shadow-triad', NULL, 34),
   -- N (boss; N's Castle, after the credits)
-  (12039, 12, NULL, 'n', 'N', 'boss', NULL, NULL, 'n', 35);
+  (12039, 12, NULL, 'n', 'N', 'boss', NULL, NULL, 'n', NULL, 35);

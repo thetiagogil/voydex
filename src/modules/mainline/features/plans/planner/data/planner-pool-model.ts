@@ -4,6 +4,11 @@ import type {
   PlannerPoolRows,
 } from "@/modules/mainline/features/plans/planner/server/planner-pool-reader";
 import { buildPlannerAvailabilityFacts } from "@/modules/mainline/features/plans/planner/data/planner-availability-facts";
+import {
+  getOfferedFormIdsBySpecies,
+  listPlannerPokedexes,
+  placePlannerSpecies,
+} from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
 import { toPlannerVersionGroup } from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
 import type {
   PlannerContext,
@@ -17,6 +22,8 @@ import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/dat
 import { getPokemonTypesForGeneration } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import type {
   PokemonAttributes,
+  PokemonForm,
+  PokemonSpecies,
   VersionGroup,
 } from "@/modules/reference/types";
 
@@ -45,8 +52,9 @@ const getAttributesInGeneration = (
 /*
  * The Planner's pool for one version group: one section per Pokédex of the
  * group and its expansions (each species in the first that lists it), every
- * species' display form, types and abilities in the group's generation,
- * whether it is fully evolved, and the facts the Team check reads.
+ * form the group offers of each species (its Pokédex form, then the other
+ * variants the group has), each with its types and abilities in the group's
+ * generation, whether it is fully evolved, and the facts the Team check reads.
  */
 export const buildPlannerContext = ({
   catalogue,
@@ -80,44 +88,35 @@ export const buildPlannerContext = ({
       expansion.name,
     ]),
   );
-  const listedPokedexes = pool.pokedexes
-    .filter(
-      (pokedex) =>
-        pokedex.pokedex_kind !== "national" && pokedex.is_completion_relevant,
-    )
-    .toSorted(
-      (left, right) =>
-        familyOrder.indexOf(left.version_group_id) -
-          familyOrder.indexOf(right.version_group_id) ||
-        left.sort_order - right.sort_order,
-    );
-  const pokedexes = listedPokedexes.length ? listedPokedexes : pool.pokedexes;
-  const placed = new Set<number>();
-  const displayFormBySpecies = new Map<number, number>();
+  const pokedexes = listPlannerPokedexes(pool.pokedexes, familyOrder);
+  const { displayFormIdBySpecies, speciesIdsByPokedexId } = placePlannerSpecies(
+    pokedexes,
+    pool.entries,
+  );
+  const offeredFormIdsBySpecies = getOfferedFormIdsBySpecies({
+    availableFormIds: new Set(
+      pool.availability.flatMap((row) =>
+        row.form_id === null ? [] : [row.form_id],
+      ),
+    ),
+    cosmeticFormIds: pool.cosmeticFormIds,
+    displayFormIdBySpecies,
+    formClassById: pool.formClassById,
+    forms: pool.forms,
+  });
   const sections: PlannerPokedexSection[] = pokedexes.flatMap((pokedex) => {
-    const speciesIds = pool.entries
-      .filter((entry) => entry.pokedex_id === pokedex.id)
-      .toSorted((left, right) => left.pokedex_number - right.pokedex_number)
-      .flatMap((entry) => {
-        if (placed.has(entry.species_id)) return [];
-
-        placed.add(entry.species_id);
-
-        if (entry.display_form_id !== null) {
-          displayFormBySpecies.set(entry.species_id, entry.display_form_id);
-        }
-
-        return [entry.species_id];
-      });
+    const formIds = (speciesIdsByPokedexId.get(pokedex.id) ?? []).flatMap(
+      (speciesId) => offeredFormIdsBySpecies.get(speciesId) ?? [],
+    );
     const expansionName = expansionNameById.get(pokedex.version_group_id);
 
-    return speciesIds.length
+    return formIds.length
       ? [
           {
+            formIds,
             key: pokedex.slug,
             name: getPokedexDisplayName(pokedex.name),
             note: expansionName ? `${expansionName} expansion` : null,
-            speciesIds,
           },
         ]
       : [];
@@ -178,17 +177,19 @@ export const buildPlannerContext = ({
     getPokemonTypesForGeneration(plannerGroup.generationOrder),
   );
 
-  const pokemon: PlannerPokemon[] = pool.species.flatMap((species) => {
-    const forms = pool.forms.filter((form) => form.species_id === species.id);
-    const form =
-      forms.find(
-        (candidate) => candidate.id === displayFormBySpecies.get(species.id),
-      ) ??
-      forms.find((candidate) => candidate.is_default) ??
-      forms[0];
+  const formById = new Map(pool.forms.map((form) => [form.id, form]));
+  const pokemon: PlannerPokemon[] = pool.species.flatMap((species) =>
+    (offeredFormIdsBySpecies.get(species.id) ?? []).flatMap((formId) => {
+      const form = formById.get(formId);
 
-    if (!form) return [];
+      return form ? toPlannerPokemon(species, form) : [];
+    }),
+  );
 
+  function toPlannerPokemon(
+    species: PokemonSpecies,
+    form: PokemonForm,
+  ): PlannerPokemon[] {
     const attribute = getAttributesInGeneration(
       attributesByForm,
       form.id,
@@ -215,12 +216,12 @@ export const buildPlannerContext = ({
       : [];
     const tradeEdge = edges.find(
       (edge) =>
-        edge.to_species_id === species.id &&
+        edge.to_form_id === form.id &&
         tradeMethodIds.has(edge.evolution_method_id),
     );
     const reachedOtherwise = edges.some(
       (edge) =>
-        edge.to_species_id === species.id &&
+        edge.to_form_id === form.id &&
         !tradeMethodIds.has(edge.evolution_method_id),
     );
 
@@ -232,7 +233,7 @@ export const buildPlannerContext = ({
         ),
         evolutionFamilyId: species.evolution_family_id,
         facts: {
-          ...getAvailabilityFacts(species.id),
+          ...getAvailabilityFacts(form.id),
           tradeEvolution:
             tradeEdge && !reachedOtherwise
               ? {
@@ -243,18 +244,17 @@ export const buildPlannerContext = ({
               : null,
         },
         formId: form.id,
+        formSlug: form.slug,
         imageUrl: getPokemonFormImageUrl(form, "sm"),
-        isFullyEvolved: !edges.some(
-          (edge) => edge.from_species_id === species.id,
-        ),
-        name: species.name,
+        isFullyEvolved: !edges.some((edge) => edge.from_form_id === form.id),
+        name: form.is_default ? species.name : form.name,
         nationalNumber: species.national_number,
         speciesId: species.id,
         speciesSlug: species.slug,
         types,
       },
     ];
-  });
+  }
 
   return {
     abilityEffects: buildFields.ability

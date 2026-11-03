@@ -1,5 +1,10 @@
 import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
+import type { FormClass } from "@/modules/reference/features/pokemon/domain/form-classes";
 import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
+import {
+  readCosmeticFormIds,
+  readFormClassById,
+} from "@/modules/reference/features/pokemon/server/form-class-reader";
 import {
   loadChunkedReferenceRows,
   loadPagedReferenceRows,
@@ -63,9 +68,13 @@ export type PlannerPoolRows = {
     version_group_id: number;
   }[];
   availabilityMethods: Pick<AvailabilityMethod, "id" | "slug">[];
+  /* The forms that only change a Pokémon's looks, never offered on their own. */
+  cosmeticFormIds: ReadonlySet<number>;
   edges: PokemonEvolutionEdge[];
   entries: PokedexEntry[];
   evolutionMethods: Pick<EvolutionMethod, "id" | "slug">[];
+  /* Each non-default form's class (variant, form); battle forms are already out. */
+  formClassById: ReadonlyMap<number, FormClass>;
   forms: PokemonForm[];
   heldItems: { id: number; name: string }[];
   natures: Pick<
@@ -161,6 +170,8 @@ export const readPlannerPoolRows = async (
     natures,
     battleFormIds,
     availabilityGroups,
+    formClassById,
+    cosmeticFormIds,
   ] = await Promise.all([
     loadChunkedReferenceRows<PokemonSpecies>(
       speciesIds,
@@ -214,6 +225,8 @@ export const readPlannerPoolRows = async (
       )
       .in("version_group_id", familyVersionGroupIds)
       .order("sort_order"),
+    readFormClassById(supabase, speciesIds),
+    readCosmeticFormIds(supabase, speciesIds),
   ]);
 
   if (
@@ -303,9 +316,11 @@ export const readPlannerPoolRows = async (
     availability,
     availabilityGroups: availabilityGroups.data,
     availabilityMethods: methods.data,
+    cosmeticFormIds,
     edges,
     entries,
     evolutionMethods: evolutionMethods.data,
+    formClassById,
     forms,
     heldItems: heldItems?.data ?? [],
     natures: natures.data,

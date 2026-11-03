@@ -55,7 +55,7 @@ export const usePlannerTeam = ({
   getName,
   initialSlots,
 }: {
-  getName: (speciesId: number) => string;
+  getName: (formId: number) => string;
   initialSlots: PlannerSlots;
 }) => {
   const [slots, setSlots] = useState<PlannerSlots>(initialSlots);
@@ -109,7 +109,7 @@ export const usePlannerTeam = ({
     setSlots((current) =>
       current.map((member, slotIndex) => (slotIndex === index ? null : member)),
     );
-    toast(`${getName(removed.speciesId)} removed`, {
+    toast(`${getName(removed.formId)} removed`, {
       action: {
         label: "Undo",
         onClick: () =>
@@ -131,7 +131,7 @@ export const usePlannerTeam = ({
     });
   };
 
-  /* A random pick (species ids by slot) replaces the slots, with Undo. */
+  /* A random pick (form ids by slot) replaces the slots, with Undo. */
   const applyRandom = (
     picked: (number | null)[],
     byId: Map<number, PlannerPokemon>,
@@ -139,11 +139,11 @@ export const usePlannerTeam = ({
     const previous = slots;
 
     setSlots(
-      picked.map((speciesId, index) => {
-        if (speciesId === null) return null;
-        if (previous[index]?.speciesId === speciesId) return previous[index];
+      picked.map((formId, index) => {
+        if (formId === null) return null;
+        if (previous[index]?.formId === formId) return previous[index];
 
-        const pokemon = byId.get(speciesId);
+        const pokemon = byId.get(formId);
 
         return pokemon ? newPlanMember(pokemon) : null;
       }),

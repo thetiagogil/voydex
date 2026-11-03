@@ -4,13 +4,13 @@ import type { PlannerPokemon } from "@/modules/mainline/features/plans/types";
 
 import { getRandomCandidates } from "./plan-random-team";
 
-const pokemon = (speciesId: number) =>
-  ({ speciesId, name: `#${speciesId}` }) as PlannerPokemon;
+const pokemon = (formId: number) =>
+  ({ formId, name: `#${formId}`, speciesId: formId }) as PlannerPokemon;
 
 const byId = new Map([1, 2, 3].map((id) => [id, pokemon(id)]));
 const sections = [
-  { key: "galar", name: "Galar", note: null, speciesIds: [1, 2] },
-  { key: "armor", name: "Isle of Armor", note: null, speciesIds: [3] },
+  { formIds: [1, 2], key: "galar", name: "Galar", note: null },
+  { formIds: [3], key: "armor", name: "Isle of Armor", note: null },
 ];
 
 describe("getRandomCandidates", () => {
@@ -22,7 +22,7 @@ describe("getRandomCandidates", () => {
         isShown: () => false,
         mode: "all",
         sections,
-      }).map((candidate) => candidate.speciesId),
+      }).map((candidate) => candidate.formId),
     ).toEqual([1, 2, 3]);
   });
 
@@ -31,10 +31,10 @@ describe("getRandomCandidates", () => {
       getRandomCandidates({
         byId,
         dex: "galar",
-        isShown: (candidate) => candidate.speciesId !== 2,
+        isShown: (candidate) => candidate.formId !== 2,
         mode: "filtered",
         sections,
-      }).map((candidate) => candidate.speciesId),
+      }).map((candidate) => candidate.formId),
     ).toEqual([1]);
   });
 });

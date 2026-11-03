@@ -3641,8 +3641,10 @@ export type Database = {
       };
       pokemon_forms: {
         Row: {
+          category: string | null;
           created_at: string;
           form_order: number;
+          gender: string | null;
           height_decimeters: number | null;
           id: number;
           introduced_generation_id: number;
@@ -3654,8 +3656,10 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          category?: string | null;
           created_at?: string;
           form_order: number;
+          gender?: string | null;
           height_decimeters?: number | null;
           id: number;
           introduced_generation_id: number;
@@ -3666,8 +3670,10 @@ export type Database = {
           weight_hectograms?: number | null;
         };
         Update: {
+          category?: string | null;
           created_at?: string;
           form_order?: number;
+          gender?: string | null;
           height_decimeters?: number | null;
           id?: number;
           introduced_generation_id?: number;
@@ -3798,9 +3804,12 @@ export type Database = {
       };
       pokemon_species: {
         Row: {
+          category: string;
           color: string | null;
           created_at: string;
+          egg_cycles: number;
           evolution_family_id: number;
+          female_ratio_eighths: number | null;
           id: number;
           introduced_generation_id: number;
           is_baby: boolean;
@@ -3812,9 +3821,12 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          category: string;
           color?: string | null;
           created_at?: string;
+          egg_cycles: number;
           evolution_family_id: number;
+          female_ratio_eighths?: number | null;
           id: number;
           introduced_generation_id: number;
           is_baby?: boolean;
@@ -3825,9 +3837,12 @@ export type Database = {
           slug: string;
         };
         Update: {
+          category?: string;
           color?: string | null;
           created_at?: string;
+          egg_cycles?: number;
           evolution_family_id?: number;
+          female_ratio_eighths?: number | null;
           id?: number;
           introduced_generation_id?: number;
           is_baby?: boolean;
@@ -3962,6 +3977,7 @@ export type Database = {
       regions: {
         Row: {
           created_at: string;
+          description: string;
           id: number;
           name: string;
           slug: string;
@@ -3970,6 +3986,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          description: string;
           id: number;
           name: string;
           slug: string;
@@ -3977,6 +3994,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          description?: string;
           id?: number;
           name?: string;
           slug?: string;
@@ -4119,6 +4137,7 @@ export type Database = {
       version_groups: {
         Row: {
           created_at: string;
+          description: string;
           generation_id: number;
           id: number;
           is_open_world: boolean;
@@ -4130,6 +4149,7 @@ export type Database = {
         ComputedFields: never;
         Insert: {
           created_at?: string;
+          description: string;
           generation_id: number;
           id: number;
           is_open_world?: boolean;
@@ -4140,6 +4160,7 @@ export type Database = {
         };
         Update: {
           created_at?: string;
+          description?: string;
           generation_id?: number;
           id?: number;
           is_open_world?: boolean;
@@ -5033,6 +5054,7 @@ export type Database = {
           id: number;
           name: string;
           opponent_role: string;
+          place: string | null;
           primary_type_id: number | null;
           secondary_type_id: number | null;
           slug: string;
@@ -5047,6 +5069,7 @@ export type Database = {
           id: number;
           name: string;
           opponent_role: string;
+          place?: string | null;
           primary_type_id?: number | null;
           secondary_type_id?: number | null;
           slug: string;
@@ -5060,6 +5083,7 @@ export type Database = {
           id?: number;
           name?: string;
           opponent_role?: string;
+          place?: string | null;
           primary_type_id?: number | null;
           secondary_type_id?: number | null;
           slug?: string;

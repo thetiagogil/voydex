@@ -11,7 +11,6 @@ import { getGameShortName } from "@/modules/reference/features/games/utils/game-
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { formatPokedexName } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
-import { PendingData } from "@/shared/components/pending-data";
 import { SegmentedControl } from "@/shared/components/segmented-control";
 
 type GameDetailHeaderSectionProps = {
@@ -91,12 +90,9 @@ export const GameDetailHeaderSection = ({
             {actions}
           </div>
         ) : null}
-        {/* TODO(v3-data): a description for each version group (none on games or version_groups). */}
-        <PendingData
-          className="max-w-[60ch] items-start px-4.5 py-3.5 text-left"
-          label="About the games"
-          note="A few lines on what sets these games apart."
-        />
+        <p className="text-15 text-ink-2 max-w-[60ch] font-semibold">
+          {versionGroup.description}
+        </p>
         {data.pokedexes.length ? (
           <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="text-13 text-ink-2 font-bold">

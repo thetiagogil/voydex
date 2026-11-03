@@ -3,6 +3,7 @@ import {
   getPokedexPokemonCounts,
   sortVersionGroupPokedexes,
 } from "@/modules/codex/features/games/shared/data/version-group-pokedexes";
+import { buildGameLeaders } from "@/modules/codex/features/games/detail/data/game-detail-leaders";
 import type { GameDetailRows } from "@/modules/codex/features/games/detail/server/game-detail-loaders";
 import type {
   CodexGameDetailData,
@@ -234,6 +235,7 @@ export const buildGameDetailData = (
   });
   return {
     firstPartners: buildGameFirstPartners(starters, rows.versionGroup.slug),
+    leaders: buildGameLeaders(rows.leaders, version.game.id),
     pokedexes,
     relatedGames,
     version,

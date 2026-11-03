@@ -85,7 +85,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestones TO authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_prerequisites TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_opponents TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_opponents TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_badges TO anon, authenticated;
 
@@ -105,7 +105,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestone_collectible_refs TO authentica
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_decision_options TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_opponent_team_member_moves TO authenticated;
 
@@ -170,7 +170,7 @@ CREATE POLICY mainline_milestone_prerequisites_read_all ON tracking.mainline_mil
     USING (TRUE);
 
 CREATE POLICY mainline_opponents_read_all ON tracking.mainline_opponents
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_badges_read_all ON tracking.mainline_badges
@@ -210,7 +210,7 @@ CREATE POLICY mainline_milestone_decision_options_read_all ON tracking.mainline_
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_opponent_team_members
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_member_moves_read_all ON tracking.mainline_opponent_team_member_moves

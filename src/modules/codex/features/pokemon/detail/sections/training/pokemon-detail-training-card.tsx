@@ -6,14 +6,23 @@ import {
   formatEvYield,
   type PokemonDetailTraining,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-training";
+  formatRatioPercent,
+  getPokemonDetailGenderRatio,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-gender-ratio";
 import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pending-value";
+import { GenderIcon } from "@/modules/reference/features/pokemon/components/gender-icon";
 import type { EggGroup } from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
 import { cn } from "@/shared/utils/cn";
+import { Meter } from "@/shared/components/ui/meter";
 
 type PokemonDetailBreedingCardProps = {
   /* Its egg groups, in slot order, when the game has breeding. */
   eggGroups: EggGroup[];
+  /* Egg cycles until its egg hatches. */
+  eggCycles: number;
+  /* How many of every eight are female; null for a genderless species. */
+  femaleRatioEighths: number | null;
   /* False before Generation II, which has no gender. */
   hasGender: boolean;
   /* In place of eggs when the game has none, with the entry where they arrive. */
@@ -115,12 +124,67 @@ export const PokemonDetailTrainingCard = ({
 };
 
 /*
- * Eggs and gender, one fact a line. A game without eggs shows the note in their place,
- * keeping Gender where the game has it (Let's Go). Only egg groups are in
- * Voydex so far; the rest is the pending marker.
+ * The gender ratio: the split in words over a bar of the male share (v3's
+ * ratio bar), or one symbol and word for a single gender or none.
+ */
+const GenderRatio = ({
+  femaleRatioEighths,
+}: {
+  femaleRatioEighths: number | null;
+}) => {
+  const ratio = getPokemonDetailGenderRatio(femaleRatioEighths);
+
+  if (ratio.kind === "genderless") {
+    return (
+      <span className="inline-flex items-center gap-1.5">
+        <GenderIcon gender="genderless" />
+        Genderless
+      </span>
+    );
+  }
+
+  if (ratio.kind === "single") {
+    return (
+      <span className="inline-flex items-center gap-1.5">
+        <GenderIcon gender={ratio.gender} />
+        {ratio.gender === "male" ? "Male only" : "Female only"}
+      </span>
+    );
+  }
+
+  const male = formatRatioPercent(ratio.malePercent);
+  const female = formatRatioPercent(ratio.femalePercent);
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <span className="flex items-center justify-between gap-3">
+        <span className="inline-flex items-center gap-1">
+          <GenderIcon gender="male" />
+          {male}% male
+        </span>
+        <span className="inline-flex items-center gap-1">
+          <GenderIcon gender="female" />
+          {female}% female
+        </span>
+      </span>
+      <Meter
+        aria-label="Share that is male"
+        fill="var(--calm-ink)"
+        value={ratio.malePercent}
+        valueText={`${male}% male, ${female}% female`}
+      />
+    </div>
+  );
+};
+
+/*
+ * Eggs and gender, one fact a line. A game without eggs shows the note in
+ * their place, keeping Gender where the game has it (Let's Go).
  */
 export const PokemonDetailBreedingCard = ({
+  eggCycles,
   eggGroups,
+  femaleRatioEighths,
   hasGender,
   note,
   noteHref,
@@ -150,16 +214,12 @@ export const PokemonDetailBreedingCard = ({
                   <CodexPendingValue />
                 )}
               </Fact>
-              <Fact label="Egg cycles">
-                {/* TODO(v3-data): egg cycles per species. */}
-                <CodexPendingValue />
-              </Fact>
+              <Fact label="Egg cycles">{eggCycles}</Fact>
             </>
           )}
           {hasGender ? (
             <Fact label="Gender">
-              {/* TODO(v3-data): gender ratio per species (and the ratio bar). */}
-              <CodexPendingValue />
+              <GenderRatio femaleRatioEighths={femaleRatioEighths} />
             </Fact>
           ) : null}
         </dl>

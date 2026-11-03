@@ -7,203 +7,205 @@
 -- PokeAPI row carries a later game's Attack of 100).
 -- Scope note: Megas are battle forms: a Pokémon is never stored in one.
 -- ============================================================================
+-- Heights and weights: the machine-readable species snapshot (PokeAPI), checked against Bulbapedia species pages on 2026-11-03.
+-- Form categories: Bulbapedia's Pokémon category list, read on 2026-11-03.
 -- File Scope
 -- ============================================================================
 -- Generation: 6, 9
 -- Table: reference.pokemon_forms
 -- Scope: the Mega Evolutions of X / Y, Omega Ruby / Alpha Sapphire, Legends: Z-A
 -- and Mega Dimension.
-INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_generation_id, is_default, form_order, height_decimeters, weight_hectograms)
+INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_generation_id, is_default, form_order, height_decimeters, weight_hectograms, category, gender)
 VALUES
   -- Mega Venusaur
-  (301, 3, 'mega-venusaur', 'Mega Venusaur', 6, FALSE, 2, NULL, NULL),
+  (301, 3, 'mega-venusaur', 'Mega Venusaur', 6, FALSE, 2, 24, 1555, NULL, NULL),
   -- Mega Charizard X
-  (601, 6, 'mega-charizard-x', 'Mega Charizard X', 6, FALSE, 2, NULL, NULL),
+  (601, 6, 'mega-charizard-x', 'Mega Charizard X', 6, FALSE, 2, 17, 1105, NULL, NULL),
   -- Mega Charizard Y
-  (602, 6, 'mega-charizard-y', 'Mega Charizard Y', 6, FALSE, 3, NULL, NULL),
+  (602, 6, 'mega-charizard-y', 'Mega Charizard Y', 6, FALSE, 3, 17, 1005, NULL, NULL),
   -- Mega Blastoise
-  (901, 9, 'mega-blastoise', 'Mega Blastoise', 6, FALSE, 2, NULL, NULL),
+  (901, 9, 'mega-blastoise', 'Mega Blastoise', 6, FALSE, 2, 16, 1011, NULL, NULL),
   -- Mega Beedrill
-  (1501, 15, 'mega-beedrill', 'Mega Beedrill', 6, FALSE, 2, NULL, NULL),
+  (1501, 15, 'mega-beedrill', 'Mega Beedrill', 6, FALSE, 2, 14, 405, NULL, NULL),
   -- Mega Pidgeot
-  (1801, 18, 'mega-pidgeot', 'Mega Pidgeot', 6, FALSE, 2, NULL, NULL),
+  (1801, 18, 'mega-pidgeot', 'Mega Pidgeot', 6, FALSE, 2, 22, 505, NULL, NULL),
   -- Mega Alakazam
-  (6501, 65, 'mega-alakazam', 'Mega Alakazam', 6, FALSE, 2, NULL, NULL),
+  (6501, 65, 'mega-alakazam', 'Mega Alakazam', 6, FALSE, 2, 12, 480, NULL, NULL),
   -- Mega Slowbro
-  (8001, 80, 'mega-slowbro', 'Mega Slowbro', 6, FALSE, 2, NULL, NULL),
+  (8001, 80, 'mega-slowbro', 'Mega Slowbro', 6, FALSE, 2, 20, 1200, NULL, NULL),
   -- Mega Gengar
-  (9401, 94, 'mega-gengar', 'Mega Gengar', 6, FALSE, 2, NULL, NULL),
+  (9401, 94, 'mega-gengar', 'Mega Gengar', 6, FALSE, 2, 14, 405, NULL, NULL),
   -- Mega Kangaskhan
-  (11501, 115, 'mega-kangaskhan', 'Mega Kangaskhan', 6, FALSE, 2, NULL, NULL),
+  (11501, 115, 'mega-kangaskhan', 'Mega Kangaskhan', 6, FALSE, 2, 22, 1000, NULL, NULL),
   -- Mega Pinsir
-  (12701, 127, 'mega-pinsir', 'Mega Pinsir', 6, FALSE, 2, NULL, NULL),
+  (12701, 127, 'mega-pinsir', 'Mega Pinsir', 6, FALSE, 2, 17, 590, NULL, NULL),
   -- Mega Gyarados
-  (13001, 130, 'mega-gyarados', 'Mega Gyarados', 6, FALSE, 2, NULL, NULL),
+  (13001, 130, 'mega-gyarados', 'Mega Gyarados', 6, FALSE, 2, 65, 3050, NULL, NULL),
   -- Mega Aerodactyl
-  (14201, 142, 'mega-aerodactyl', 'Mega Aerodactyl', 6, FALSE, 2, NULL, NULL),
+  (14201, 142, 'mega-aerodactyl', 'Mega Aerodactyl', 6, FALSE, 2, 21, 790, NULL, NULL),
   -- Mega Mewtwo X
-  (15001, 150, 'mega-mewtwo-x', 'Mega Mewtwo X', 6, FALSE, 2, NULL, NULL),
+  (15001, 150, 'mega-mewtwo-x', 'Mega Mewtwo X', 6, FALSE, 2, 23, 1270, NULL, NULL),
   -- Mega Mewtwo Y
-  (15002, 150, 'mega-mewtwo-y', 'Mega Mewtwo Y', 6, FALSE, 3, NULL, NULL),
+  (15002, 150, 'mega-mewtwo-y', 'Mega Mewtwo Y', 6, FALSE, 3, 15, 330, NULL, NULL),
   -- Mega Ampharos
-  (18101, 181, 'mega-ampharos', 'Mega Ampharos', 6, FALSE, 2, NULL, NULL),
+  (18101, 181, 'mega-ampharos', 'Mega Ampharos', 6, FALSE, 2, 14, 615, NULL, NULL),
   -- Mega Steelix
-  (20801, 208, 'mega-steelix', 'Mega Steelix', 6, FALSE, 2, NULL, NULL),
+  (20801, 208, 'mega-steelix', 'Mega Steelix', 6, FALSE, 2, 105, 7400, NULL, NULL),
   -- Mega Scizor
-  (21201, 212, 'mega-scizor', 'Mega Scizor', 6, FALSE, 2, NULL, NULL),
+  (21201, 212, 'mega-scizor', 'Mega Scizor', 6, FALSE, 2, 20, 1250, NULL, NULL),
   -- Mega Heracross
-  (21401, 214, 'mega-heracross', 'Mega Heracross', 6, FALSE, 2, NULL, NULL),
+  (21401, 214, 'mega-heracross', 'Mega Heracross', 6, FALSE, 2, 17, 625, NULL, NULL),
   -- Mega Houndoom
-  (22901, 229, 'mega-houndoom', 'Mega Houndoom', 6, FALSE, 2, NULL, NULL),
+  (22901, 229, 'mega-houndoom', 'Mega Houndoom', 6, FALSE, 2, 19, 495, NULL, NULL),
   -- Mega Tyranitar
-  (24801, 248, 'mega-tyranitar', 'Mega Tyranitar', 6, FALSE, 2, NULL, NULL),
+  (24801, 248, 'mega-tyranitar', 'Mega Tyranitar', 6, FALSE, 2, 25, 2550, NULL, NULL),
   -- Mega Sceptile
-  (25401, 254, 'mega-sceptile', 'Mega Sceptile', 6, FALSE, 2, NULL, NULL),
+  (25401, 254, 'mega-sceptile', 'Mega Sceptile', 6, FALSE, 2, 19, 552, NULL, NULL),
   -- Mega Blaziken
-  (25701, 257, 'mega-blaziken', 'Mega Blaziken', 6, FALSE, 2, NULL, NULL),
+  (25701, 257, 'mega-blaziken', 'Mega Blaziken', 6, FALSE, 2, 19, 520, NULL, NULL),
   -- Mega Swampert
-  (26001, 260, 'mega-swampert', 'Mega Swampert', 6, FALSE, 2, NULL, NULL),
+  (26001, 260, 'mega-swampert', 'Mega Swampert', 6, FALSE, 2, 19, 1020, NULL, NULL),
   -- Mega Gardevoir
-  (28201, 282, 'mega-gardevoir', 'Mega Gardevoir', 6, FALSE, 2, NULL, NULL),
+  (28201, 282, 'mega-gardevoir', 'Mega Gardevoir', 6, FALSE, 2, 16, 484, NULL, NULL),
   -- Mega Sableye
-  (30201, 302, 'mega-sableye', 'Mega Sableye', 6, FALSE, 2, NULL, NULL),
+  (30201, 302, 'mega-sableye', 'Mega Sableye', 6, FALSE, 2, 5, 1610, NULL, NULL),
   -- Mega Mawile
-  (30301, 303, 'mega-mawile', 'Mega Mawile', 6, FALSE, 2, NULL, NULL),
+  (30301, 303, 'mega-mawile', 'Mega Mawile', 6, FALSE, 2, 10, 235, NULL, NULL),
   -- Mega Aggron
-  (30601, 306, 'mega-aggron', 'Mega Aggron', 6, FALSE, 2, NULL, NULL),
+  (30601, 306, 'mega-aggron', 'Mega Aggron', 6, FALSE, 2, 22, 3950, NULL, NULL),
   -- Mega Medicham
-  (30801, 308, 'mega-medicham', 'Mega Medicham', 6, FALSE, 2, NULL, NULL),
+  (30801, 308, 'mega-medicham', 'Mega Medicham', 6, FALSE, 2, 13, 315, NULL, NULL),
   -- Mega Manectric
-  (31001, 310, 'mega-manectric', 'Mega Manectric', 6, FALSE, 2, NULL, NULL),
+  (31001, 310, 'mega-manectric', 'Mega Manectric', 6, FALSE, 2, 18, 440, NULL, NULL),
   -- Mega Sharpedo
-  (31901, 319, 'mega-sharpedo', 'Mega Sharpedo', 6, FALSE, 2, NULL, NULL),
+  (31901, 319, 'mega-sharpedo', 'Mega Sharpedo', 6, FALSE, 2, 25, 1303, NULL, NULL),
   -- Mega Camerupt
-  (32301, 323, 'mega-camerupt', 'Mega Camerupt', 6, FALSE, 2, NULL, NULL),
+  (32301, 323, 'mega-camerupt', 'Mega Camerupt', 6, FALSE, 2, 25, 3205, NULL, NULL),
   -- Mega Altaria
-  (33401, 334, 'mega-altaria', 'Mega Altaria', 6, FALSE, 2, NULL, NULL),
+  (33401, 334, 'mega-altaria', 'Mega Altaria', 6, FALSE, 2, 15, 206, NULL, NULL),
   -- Mega Banette
-  (35401, 354, 'mega-banette', 'Mega Banette', 6, FALSE, 2, NULL, NULL),
+  (35401, 354, 'mega-banette', 'Mega Banette', 6, FALSE, 2, 12, 130, NULL, NULL),
   -- Mega Absol
-  (35901, 359, 'mega-absol', 'Mega Absol', 6, FALSE, 2, NULL, NULL),
+  (35901, 359, 'mega-absol', 'Mega Absol', 6, FALSE, 2, 12, 490, NULL, NULL),
   -- Mega Glalie
-  (36201, 362, 'mega-glalie', 'Mega Glalie', 6, FALSE, 2, NULL, NULL),
+  (36201, 362, 'mega-glalie', 'Mega Glalie', 6, FALSE, 2, 21, 3502, NULL, NULL),
   -- Mega Salamence
-  (37301, 373, 'mega-salamence', 'Mega Salamence', 6, FALSE, 2, NULL, NULL),
+  (37301, 373, 'mega-salamence', 'Mega Salamence', 6, FALSE, 2, 18, 1126, NULL, NULL),
   -- Mega Metagross
-  (37601, 376, 'mega-metagross', 'Mega Metagross', 6, FALSE, 2, NULL, NULL),
+  (37601, 376, 'mega-metagross', 'Mega Metagross', 6, FALSE, 2, 25, 9429, NULL, NULL),
   -- Mega Latias
-  (38001, 380, 'mega-latias', 'Mega Latias', 6, FALSE, 2, NULL, NULL),
+  (38001, 380, 'mega-latias', 'Mega Latias', 6, FALSE, 2, 18, 520, NULL, NULL),
   -- Mega Latios
-  (38101, 381, 'mega-latios', 'Mega Latios', 6, FALSE, 2, NULL, NULL),
+  (38101, 381, 'mega-latios', 'Mega Latios', 6, FALSE, 2, 23, 700, NULL, NULL),
   -- Mega Rayquaza
-  (38401, 384, 'mega-rayquaza', 'Mega Rayquaza', 6, FALSE, 2, NULL, NULL),
+  (38401, 384, 'mega-rayquaza', 'Mega Rayquaza', 6, FALSE, 2, 108, 3920, NULL, NULL),
   -- Mega Lopunny
-  (42801, 428, 'mega-lopunny', 'Mega Lopunny', 6, FALSE, 2, NULL, NULL),
+  (42801, 428, 'mega-lopunny', 'Mega Lopunny', 6, FALSE, 2, 13, 283, NULL, NULL),
   -- Mega Garchomp
-  (44501, 445, 'mega-garchomp', 'Mega Garchomp', 6, FALSE, 2, NULL, NULL),
+  (44501, 445, 'mega-garchomp', 'Mega Garchomp', 6, FALSE, 2, 19, 950, NULL, NULL),
   -- Mega Lucario
-  (44801, 448, 'mega-lucario', 'Mega Lucario', 6, FALSE, 2, NULL, NULL),
+  (44801, 448, 'mega-lucario', 'Mega Lucario', 6, FALSE, 2, 13, 575, NULL, NULL),
   -- Mega Abomasnow
-  (46001, 460, 'mega-abomasnow', 'Mega Abomasnow', 6, FALSE, 2, NULL, NULL),
+  (46001, 460, 'mega-abomasnow', 'Mega Abomasnow', 6, FALSE, 2, 27, 1850, NULL, NULL),
   -- Mega Gallade
-  (47501, 475, 'mega-gallade', 'Mega Gallade', 6, FALSE, 2, NULL, NULL),
+  (47501, 475, 'mega-gallade', 'Mega Gallade', 6, FALSE, 2, 16, 564, NULL, NULL),
   -- Mega Audino
-  (53101, 531, 'mega-audino', 'Mega Audino', 6, FALSE, 2, NULL, NULL),
+  (53101, 531, 'mega-audino', 'Mega Audino', 6, FALSE, 2, 15, 320, NULL, NULL),
   -- Mega Diancie
-  (71901, 719, 'mega-diancie', 'Mega Diancie', 6, FALSE, 2, NULL, NULL),
+  (71901, 719, 'mega-diancie', 'Mega Diancie', 6, FALSE, 2, 11, 278, NULL, NULL),
   -- Mega Raichu X
-  (2602, 26, 'mega-raichu-x', 'Mega Raichu X', 9, FALSE, 3, NULL, NULL),
+  (2602, 26, 'mega-raichu-x', 'Mega Raichu X', 9, FALSE, 3, 12, 380, NULL, NULL),
   -- Mega Raichu Y
-  (2603, 26, 'mega-raichu-y', 'Mega Raichu Y', 9, FALSE, 4, NULL, NULL),
+  (2603, 26, 'mega-raichu-y', 'Mega Raichu Y', 9, FALSE, 4, 10, 260, NULL, NULL),
   -- Mega Clefable
-  (3601, 36, 'mega-clefable', 'Mega Clefable', 9, FALSE, 2, NULL, NULL),
+  (3601, 36, 'mega-clefable', 'Mega Clefable', 9, FALSE, 2, 17, 423, NULL, NULL),
   -- Mega Victreebel
-  (7101, 71, 'mega-victreebel', 'Mega Victreebel', 9, FALSE, 2, NULL, NULL),
+  (7101, 71, 'mega-victreebel', 'Mega Victreebel', 9, FALSE, 2, 45, 1255, NULL, NULL),
   -- Mega Starmie
-  (12101, 121, 'mega-starmie', 'Mega Starmie', 9, FALSE, 2, NULL, NULL),
+  (12101, 121, 'mega-starmie', 'Mega Starmie', 9, FALSE, 2, 23, 800, NULL, NULL),
   -- Mega Dragonite
-  (14901, 149, 'mega-dragonite', 'Mega Dragonite', 9, FALSE, 2, NULL, NULL),
+  (14901, 149, 'mega-dragonite', 'Mega Dragonite', 9, FALSE, 2, 22, 2900, NULL, NULL),
   -- Mega Meganium
-  (15401, 154, 'mega-meganium', 'Mega Meganium', 9, FALSE, 2, NULL, NULL),
+  (15401, 154, 'mega-meganium', 'Mega Meganium', 9, FALSE, 2, 24, 2010, NULL, NULL),
   -- Mega Feraligatr
-  (16001, 160, 'mega-feraligatr', 'Mega Feraligatr', 9, FALSE, 2, NULL, NULL),
+  (16001, 160, 'mega-feraligatr', 'Mega Feraligatr', 9, FALSE, 2, 23, 1088, 'Double Jaw', NULL),
   -- Mega Skarmory
-  (22701, 227, 'mega-skarmory', 'Mega Skarmory', 9, FALSE, 2, NULL, NULL),
+  (22701, 227, 'mega-skarmory', 'Mega Skarmory', 9, FALSE, 2, 17, 404, NULL, NULL),
   -- Mega Chimecho
-  (35801, 358, 'mega-chimecho', 'Mega Chimecho', 9, FALSE, 2, NULL, NULL),
+  (35801, 358, 'mega-chimecho', 'Mega Chimecho', 9, FALSE, 2, 12, 80, NULL, NULL),
   -- Mega Absol Z
-  (35902, 359, 'mega-absol-z', 'Mega Absol Z', 9, FALSE, 3, NULL, NULL),
+  (35902, 359, 'mega-absol-z', 'Mega Absol Z', 9, FALSE, 3, 12, 490, NULL, NULL),
   -- Mega Staraptor
-  (39801, 398, 'mega-staraptor', 'Mega Staraptor', 9, FALSE, 2, NULL, NULL),
+  (39801, 398, 'mega-staraptor', 'Mega Staraptor', 9, FALSE, 2, 19, 500, NULL, NULL),
   -- Mega Garchomp Z
-  (44502, 445, 'mega-garchomp-z', 'Mega Garchomp Z', 9, FALSE, 3, NULL, NULL),
+  (44502, 445, 'mega-garchomp-z', 'Mega Garchomp Z', 9, FALSE, 3, 19, 990, NULL, NULL),
   -- Mega Lucario Z
-  (44802, 448, 'mega-lucario-z', 'Mega Lucario Z', 9, FALSE, 3, NULL, NULL),
+  (44802, 448, 'mega-lucario-z', 'Mega Lucario Z', 9, FALSE, 3, 13, 494, NULL, NULL),
   -- Mega Froslass
-  (47801, 478, 'mega-froslass', 'Mega Froslass', 9, FALSE, 2, NULL, NULL),
+  (47801, 478, 'mega-froslass', 'Mega Froslass', 9, FALSE, 2, 26, 296, NULL, NULL),
   -- Mega Heatran
-  (48501, 485, 'mega-heatran', 'Mega Heatran', 9, FALSE, 2, NULL, NULL),
+  (48501, 485, 'mega-heatran', 'Mega Heatran', 9, FALSE, 2, 28, 5700, NULL, NULL),
   -- Mega Darkrai
-  (49101, 491, 'mega-darkrai', 'Mega Darkrai', 9, FALSE, 2, NULL, NULL),
+  (49101, 491, 'mega-darkrai', 'Mega Darkrai', 9, FALSE, 2, 30, 2400, 'Bad Dreams', NULL),
   -- Mega Emboar
-  (50001, 500, 'mega-emboar', 'Mega Emboar', 9, FALSE, 2, NULL, NULL),
+  (50001, 500, 'mega-emboar', 'Mega Emboar', 9, FALSE, 2, 18, 1803, NULL, NULL),
   -- Mega Excadrill
-  (53001, 530, 'mega-excadrill', 'Mega Excadrill', 9, FALSE, 2, NULL, NULL),
+  (53001, 530, 'mega-excadrill', 'Mega Excadrill', 9, FALSE, 2, 9, 600, NULL, NULL),
   -- Mega Scolipede
-  (54501, 545, 'mega-scolipede', 'Mega Scolipede', 9, FALSE, 2, NULL, NULL),
+  (54501, 545, 'mega-scolipede', 'Mega Scolipede', 9, FALSE, 2, 32, 2305, NULL, NULL),
   -- Mega Scrafty
-  (56001, 560, 'mega-scrafty', 'Mega Scrafty', 9, FALSE, 2, NULL, NULL),
+  (56001, 560, 'mega-scrafty', 'Mega Scrafty', 9, FALSE, 2, 11, 310, NULL, NULL),
   -- Mega Eelektross
-  (60401, 604, 'mega-eelektross', 'Mega Eelektross', 9, FALSE, 2, NULL, NULL),
+  (60401, 604, 'mega-eelektross', 'Mega Eelektross', 9, FALSE, 2, 30, 1800, NULL, NULL),
   -- Mega Chandelure
-  (60901, 609, 'mega-chandelure', 'Mega Chandelure', 9, FALSE, 2, NULL, NULL),
+  (60901, 609, 'mega-chandelure', 'Mega Chandelure', 9, FALSE, 2, 25, 696, NULL, NULL),
   -- Mega Golurk
-  (62301, 623, 'mega-golurk', 'Mega Golurk', 9, FALSE, 2, NULL, NULL),
+  (62301, 623, 'mega-golurk', 'Mega Golurk', 9, FALSE, 2, 40, 3300, NULL, NULL),
   -- Mega Chesnaught
-  (65201, 652, 'mega-chesnaught', 'Mega Chesnaught', 9, FALSE, 2, NULL, NULL),
+  (65201, 652, 'mega-chesnaught', 'Mega Chesnaught', 9, FALSE, 2, 16, 900, NULL, NULL),
   -- Mega Delphox
-  (65501, 655, 'mega-delphox', 'Mega Delphox', 9, FALSE, 2, NULL, NULL),
+  (65501, 655, 'mega-delphox', 'Mega Delphox', 9, FALSE, 2, 15, 390, NULL, NULL),
   -- Mega Greninja
-  (65801, 658, 'mega-greninja', 'Mega Greninja', 9, FALSE, 2, NULL, NULL),
+  (65801, 658, 'mega-greninja', 'Mega Greninja', 9, FALSE, 2, NULL, NULL, NULL, NULL),
   -- Mega Pyroar
-  (66801, 668, 'mega-pyroar', 'Mega Pyroar', 9, FALSE, 2, NULL, NULL),
+  (66801, 668, 'mega-pyroar', 'Mega Pyroar', 9, FALSE, 2, 15, 933, NULL, NULL),
   -- Mega Floette
-  (67001, 670, 'mega-floette', 'Mega Floette', 9, FALSE, 2, NULL, NULL),
+  (67001, 670, 'mega-floette', 'Mega Floette', 9, FALSE, 2, 2, 1008, NULL, NULL),
   -- Mega Meowstic
-  (67802, 678, 'mega-meowstic', 'Mega Meowstic', 9, FALSE, 3, NULL, NULL),
+  (67802, 678, 'mega-meowstic', 'Mega Meowstic', 9, FALSE, 3, 8, 101, 'Second Sight', NULL),
   -- Mega Malamar
-  (68701, 687, 'mega-malamar', 'Mega Malamar', 9, FALSE, 2, NULL, NULL),
+  (68701, 687, 'mega-malamar', 'Mega Malamar', 9, FALSE, 2, 29, 698, NULL, NULL),
   -- Mega Barbaracle
-  (68901, 689, 'mega-barbaracle', 'Mega Barbaracle', 9, FALSE, 2, NULL, NULL),
+  (68901, 689, 'mega-barbaracle', 'Mega Barbaracle', 9, FALSE, 2, 22, 1000, NULL, NULL),
   -- Mega Dragalge
-  (69101, 691, 'mega-dragalge', 'Mega Dragalge', 9, FALSE, 2, NULL, NULL),
+  (69101, 691, 'mega-dragalge', 'Mega Dragalge', 9, FALSE, 2, 21, 1003, NULL, NULL),
   -- Mega Hawlucha
-  (70101, 701, 'mega-hawlucha', 'Mega Hawlucha', 9, FALSE, 2, NULL, NULL),
+  (70101, 701, 'mega-hawlucha', 'Mega Hawlucha', 9, FALSE, 2, 10, 250, NULL, NULL),
   -- Mega Zygarde
-  (71802, 718, 'mega-zygarde', 'Mega Zygarde', 9, FALSE, 3, NULL, NULL),
+  (71802, 718, 'mega-zygarde', 'Mega Zygarde', 9, FALSE, 3, 77, 6100, NULL, NULL),
   -- Mega Crabominable
-  (74001, 740, 'mega-crabominable', 'Mega Crabominable', 9, FALSE, 2, NULL, NULL),
+  (74001, 740, 'mega-crabominable', 'Mega Crabominable', 9, FALSE, 2, 26, 2528, NULL, NULL),
   -- Mega Golisopod
-  (76801, 768, 'mega-golisopod', 'Mega Golisopod', 9, FALSE, 2, NULL, NULL),
+  (76801, 768, 'mega-golisopod', 'Mega Golisopod', 9, FALSE, 2, 23, 1480, NULL, NULL),
   -- Mega Drampa
-  (78001, 780, 'mega-drampa', 'Mega Drampa', 9, FALSE, 2, NULL, NULL),
+  (78001, 780, 'mega-drampa', 'Mega Drampa', 9, FALSE, 2, 30, 2405, 'Imposing', NULL),
   -- Mega Magearna
-  (80101, 801, 'mega-magearna', 'Mega Magearna', 9, FALSE, 2, NULL, NULL),
+  (80101, 801, 'mega-magearna', 'Mega Magearna', 9, FALSE, 2, 13, 2481, NULL, NULL),
   -- Mega Magearna (Original Color)
-  (80103, 801, 'mega-magearna-original-color', 'Mega Magearna (Original Color)', 9, FALSE, 4, NULL, NULL),
+  (80103, 801, 'mega-magearna-original-color', 'Mega Magearna (Original Color)', 9, FALSE, 4, 13, 2481, NULL, NULL),
   -- Mega Zeraora
-  (80701, 807, 'mega-zeraora', 'Mega Zeraora', 9, FALSE, 2, NULL, NULL),
+  (80701, 807, 'mega-zeraora', 'Mega Zeraora', 9, FALSE, 2, 15, 445, NULL, NULL),
   -- Mega Falinks
-  (87001, 870, 'mega-falinks', 'Mega Falinks', 9, FALSE, 2, NULL, NULL),
+  (87001, 870, 'mega-falinks', 'Mega Falinks', 9, FALSE, 2, 16, 990, NULL, NULL),
   -- Mega Scovillain
-  (95201, 952, 'mega-scovillain', 'Mega Scovillain', 9, FALSE, 2, NULL, NULL),
+  (95201, 952, 'mega-scovillain', 'Mega Scovillain', 9, FALSE, 2, 12, 220, NULL, NULL),
   -- Mega Glimmora
-  (97001, 970, 'mega-glimmora', 'Mega Glimmora', 9, FALSE, 2, NULL, NULL),
+  (97001, 970, 'mega-glimmora', 'Mega Glimmora', 9, FALSE, 2, 28, 770, NULL, NULL),
   -- Mega Tatsugiri
-  (97803, 978, 'mega-tatsugiri', 'Mega Tatsugiri', 9, FALSE, 4, NULL, NULL),
+  (97803, 978, 'mega-tatsugiri', 'Mega Tatsugiri', 9, FALSE, 4, 6, 240, NULL, NULL),
   -- Mega Tatsugiri (Droopy)
-  (97804, 978, 'mega-tatsugiri-droopy', 'Mega Tatsugiri (Droopy)', 9, FALSE, 5, NULL, NULL),
+  (97804, 978, 'mega-tatsugiri-droopy', 'Mega Tatsugiri (Droopy)', 9, FALSE, 5, 6, 240, NULL, NULL),
   -- Mega Tatsugiri (Stretchy)
-  (97805, 978, 'mega-tatsugiri-stretchy', 'Mega Tatsugiri (Stretchy)', 9, FALSE, 6, NULL, NULL),
+  (97805, 978, 'mega-tatsugiri-stretchy', 'Mega Tatsugiri (Stretchy)', 9, FALSE, 6, 6, 240, NULL, NULL),
   -- Mega Baxcalibur
-  (99801, 998, 'mega-baxcalibur', 'Mega Baxcalibur', 9, FALSE, 2, NULL, NULL);
+  (99801, 998, 'mega-baxcalibur', 'Mega Baxcalibur', 9, FALSE, 2, 21, 3150, NULL, NULL);

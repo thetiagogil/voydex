@@ -73,6 +73,23 @@ sources remain authoritative for game-specific mechanics and availability.
   is six, not three. `reference.growth_rates` holds the six curves and their
   level 100 totals. Bulbapedia is the second reading for the values that
   moved between games.
+- Species carry their Pokédex category, egg cycles and gender ratio (in
+  eighths female, NULL when genderless), and every form its height and
+  weight, from the PokeAPI species snapshot, spot-checked against
+  Bulbapedia's species pages on 2026-11-03; the Megas the snapshot lacks
+  (Mega Meowstic, Mega Tatsugiri) come from Bulbapedia, which also corrected the snapshot's Bloodmoon Ursaluna, Mega Garchomp Z and Mega Lucario Z; Mega Greninja has no published size and stays NULL. A form whose
+  category differs from its species' (30: the Hisuian and Galarian forms
+  that changed, Galarian Darmanitan in both modes, Mega Darkrai, Hoopa
+  Unbound and others) carries its own, from Bulbapedia's Pokémon category
+  list. A form that is always one gender says which (`gender`: Meowstic,
+  Indeedee, Basculegion and Oinkologne's two forms, the Cap and Cosplay
+  Pikachu, Battle Bond and Ash-Greninja), and the entry reads it over the
+  species' ratio. The Gigantamax forms' weights, Eternamax Eternatus's
+  weight and the Starmobiles' sizes stay NULL: the games give none.
+- Every Gym Leader, kahuna and Champion names its `place` (where the battle
+  is fought: the Gym's town, the grand trial's site, the League), read from
+  Bulbapedia's Gym, island kahuna and trainer pages on 2026-11-02; the region
+  and version group descriptions are Voydex's own words.
 - Opponent teams from Red / Blue to Emerald (every Story battle and legendary
   encounter in those seven version groups) were checked row by row on
   2026-10-29 against each game's own trainer data in the pret disassemblies:
