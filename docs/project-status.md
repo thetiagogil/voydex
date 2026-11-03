@@ -121,10 +121,7 @@ finds all 17). Grouped by what they wait on:
   Play defaults are saved (#33), and Search and filters (#65).
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.
-- An anon read grant plus town and ace for the Codex game page's leaders.
-- Reference catalogue: one-per-save and either-or groups, route and encounter
-  locations, a badge count for Start a Play, region and version group
-  descriptions.
+- Reference catalogue: route and encounter locations.
 - Reference Pokémon facts: Pokédex entries per game, a species description,
   training values and egg groups for forms.
 - Legal text for Privacy and Terms, written and reviewed before launch.

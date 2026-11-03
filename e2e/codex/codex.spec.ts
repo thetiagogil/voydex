@@ -110,6 +110,19 @@ test.describe("Codex", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Pokémon Red and Blue" }),
     ).toBeVisible();
+    /* The game's words, the region's, and its leaders with the ace of your first battle. */
+    await expect(page.getByText(/^The first games: eight Gyms/)).toBeVisible();
+    await expect(page.getByText(/^The first region, a compact/)).toBeVisible();
+    const leaders = page.getByRole("list", {
+      name: "Gym Leaders and Champion",
+    });
+    await expect(leaders.getByRole("listitem")).toHaveCount(9);
+    await expect(leaders.getByRole("listitem").first()).toContainText(
+      /Brock[^]*Pewter City[^]*Rock/,
+    );
+    await expect(leaders.getByRole("listitem").last()).toContainText(
+      /Blue[^]*Indigo Plateau/,
+    );
     await expectAccessible(page);
 
     await page.getByRole("link", { name: "Kanto 151" }).click();

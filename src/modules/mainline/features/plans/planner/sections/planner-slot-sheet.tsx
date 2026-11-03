@@ -126,7 +126,7 @@ export const PlannerSlotSheet = ({
 
   const savedMember = shown?.member ?? null;
   const member = savedMember ? { ...savedMember, ...draft } : null;
-  const pokemon = member ? byId.get(member.speciesId) : undefined;
+  const pokemon = member ? byId.get(member.formId) : undefined;
 
   if (!shown || !member || !pokemon) {
     return null;
@@ -269,7 +269,7 @@ export const PlannerSlotSheet = ({
                     const isHere = otherIndex === targetSlot;
                     /* Every slot shows who sits in it, this one included. */
                     const slotPokemon = other
-                      ? byId.get(other.speciesId)
+                      ? byId.get(other.formId)
                       : undefined;
                     const otherPokemon = isHere ? undefined : slotPokemon;
 

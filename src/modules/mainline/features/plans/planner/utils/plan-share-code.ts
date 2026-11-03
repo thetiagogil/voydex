@@ -1,10 +1,12 @@
 /*
- * A Plan as a link (v3's Share): the version group and the six Pokémon
- * (older links also carried roles, which are now ignored). It lives in the link's hash, so sharing never changes a
- * saved Plan, and importing opens it as a new unsaved Plan.
+ * A Plan as a link (v3's Share): the version group and the six Pokémon, each
+ * by its form's slug ("galarian-articuno"; older links carried the species'
+ * slug, and some also roles, which are ignored). It lives in the link's hash,
+ * so sharing never changes a saved Plan, and importing opens it as a new
+ * unsaved Plan.
  */
 export type PlanShare = {
-  slots: ({ species: string } | null)[];
+  slots: ({ slug: string } | null)[];
   versionGroupSlug: string;
 };
 
@@ -29,7 +31,7 @@ const fromBase64Url = (code: string) => {
 export const encodePlanShare = (share: PlanShare) =>
   `${shareKey}=${toBase64Url(
     JSON.stringify({
-      s: share.slots.map((slot) => (slot ? [slot.species] : 0)),
+      s: share.slots.map((slot) => (slot ? [slot.slug] : 0)),
       v: share.versionGroupSlug,
     }),
   )}`;
@@ -61,10 +63,10 @@ export const decodePlanShare = (input: string): PlanShare | null => {
     const slots = value.s.map((slot) => {
       if (!Array.isArray(slot)) return null;
 
-      const [species] = slot as unknown[];
+      const [slug] = slot as unknown[];
 
-      return typeof species === "string" && slugPattern.test(species)
-        ? { species }
+      return typeof slug === "string" && slugPattern.test(slug)
+        ? { slug }
         : null;
     });
 
@@ -77,15 +79,34 @@ export const decodePlanShare = (input: string): PlanShare | null => {
   }
 };
 
-/* The Planner's six slots as a share: each Pokémon by slug. */
+/*
+ * What a shared slug opens: by form slug, and by species slug for older
+ * links, which open on the species' Pokédex form (the first offered, since
+ * the pool lists it first). A form slug always wins over a species slug.
+ */
+export const toPlannerSlugIndex = <
+  Pokemon extends { formSlug: string; speciesSlug: string },
+>(
+  pokemon: readonly Pokemon[],
+): Map<string, Pokemon> => {
+  const index = new Map(pokemon.map((entry) => [entry.formSlug, entry]));
+
+  for (const entry of pokemon) {
+    if (!index.has(entry.speciesSlug)) index.set(entry.speciesSlug, entry);
+  }
+
+  return index;
+};
+
+/* The Planner's six slots as a share: each Pokémon by its form's slug. */
 export const toPlanShare = (
-  slots: ({ speciesId: number } | null)[],
-  speciesSlugById: Map<number, { speciesSlug: string }>,
+  slots: ({ formId: number } | null)[],
+  byFormId: Map<number, { formSlug: string }>,
   versionGroupSlug: string,
 ): PlanShare => ({
   slots: slots.map((member) => {
-    const pokemon = member ? speciesSlugById.get(member.speciesId) : undefined;
-    return pokemon ? { species: pokemon.speciesSlug } : null;
+    const pokemon = member ? byFormId.get(member.formId) : undefined;
+    return pokemon ? { slug: pokemon.formSlug } : null;
   }),
   versionGroupSlug,
 });

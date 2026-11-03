@@ -81,9 +81,9 @@ export const PlannerTeamCheckSheet = ({
   if (!open) return null;
 
   const verdict = getPlanVerdict(issues);
-  const byId = new Map(team.map((pokemon) => [pokemon.speciesId, pokemon]));
+  const byId = new Map(team.map((pokemon) => [pokemon.formId, pokemon]));
   const pressure = matchups.filter((row) => row.isPressure);
-  const covered = coverage.filter((entry) => entry.coveredBySpeciesIds.length);
+  const covered = coverage.filter((entry) => entry.coveredByFormIds.length);
   const matchupMembers = team.map((pokemon, index) => ({
     id: getPlanMatchupMemberId(pokemon, index),
     imageUrl: pokemon.imageUrl,
@@ -135,7 +135,7 @@ export const PlannerTeamCheckSheet = ({
                     <ul className="flex flex-col gap-2">
                       {list.map((issue) => (
                         <li
-                          key={`${issue.kind}-${issue.speciesIds.join("-")}`}
+                          key={`${issue.kind}-${issue.formIds.join("-")}`}
                           className="bg-surface-2 flex flex-wrap items-start gap-3 rounded-md px-3.5 py-3"
                         >
                           <div className="min-w-0 flex-1">
@@ -163,13 +163,13 @@ export const PlannerTeamCheckSheet = ({
                             ) : null}
                           </div>
                           <span className="flex -space-x-2">
-                            {issue.speciesIds.map((speciesId, index) => {
-                              const pokemon = byId.get(speciesId);
+                            {issue.formIds.map((formId, index) => {
+                              const pokemon = byId.get(formId);
 
                               return pokemon ? (
                                 <IconTip
-                                  /* A pair of one species shows it twice. */
-                                  key={`${speciesId}-${index}`}
+                                  /* A pair of one Pokémon shows it twice. */
+                                  key={`${formId}-${index}`}
                                   label={pokemon.name}
                                   trigger={
                                     <span className="inline-flex">
@@ -237,8 +237,8 @@ export const PlannerTeamCheckSheet = ({
           <SheetSection title="Coverage from their own types">
             <ul aria-label="Coverage by type" className="flex flex-wrap gap-2">
               {coverage.map((entry) => {
-                const names = entry.coveredBySpeciesIds
-                  .map((speciesId) => byId.get(speciesId)?.name)
+                const names = entry.coveredByFormIds
+                  .map((formId) => byId.get(formId)?.name)
                   .filter(Boolean)
                   .join(", ");
 
@@ -246,7 +246,7 @@ export const PlannerTeamCheckSheet = ({
                   <li key={entry.type.slug}>
                     <TypeCoverageChip
                       type={entry.type}
-                      covered={entry.coveredBySpeciesIds.length > 0}
+                      covered={entry.coveredByFormIds.length > 0}
                       spoken={names ? `hit by ${names}` : "not covered"}
                     />
                   </li>

@@ -26,63 +26,64 @@ INSERT INTO tracking.mainline_opponents (
   primary_type_id,
   secondary_type_id,
   sprite_slug,
+  place,
   sort_order
 ) VALUES
   -- Roxanne
-  (5001, 5, NULL, 'roxanne', 'Roxanne', 'gym-leader', 13, NULL, 'roxanne', 1),
+  (5001, 5, NULL, 'roxanne', 'Roxanne', 'gym-leader', 13, NULL, 'roxanne', 'Rustboro City', 1),
   -- Brawly
-  (5002, 5, NULL, 'brawly', 'Brawly', 'gym-leader', 7, NULL, 'brawly', 2),
+  (5002, 5, NULL, 'brawly', 'Brawly', 'gym-leader', 7, NULL, 'brawly', 'Dewford Town', 2),
   -- Wattson
-  (5003, 5, NULL, 'wattson', 'Wattson', 'gym-leader', 4, NULL, 'wattson', 3),
+  (5003, 5, NULL, 'wattson', 'Wattson', 'gym-leader', 4, NULL, 'wattson', 'Mauville City', 3),
   -- Flannery
-  (5004, 5, NULL, 'flannery', 'Flannery', 'gym-leader', 2, NULL, 'flannery', 4),
+  (5004, 5, NULL, 'flannery', 'Flannery', 'gym-leader', 2, NULL, 'flannery', 'Lavaridge Town', 4),
   -- Norman
-  (5005, 5, NULL, 'norman', 'Norman', 'gym-leader', 1, NULL, 'norman', 5),
+  (5005, 5, NULL, 'norman', 'Norman', 'gym-leader', 1, NULL, 'norman', 'Petalburg City', 5),
   -- Winona
-  (5006, 5, NULL, 'winona', 'Winona', 'gym-leader', 10, NULL, 'winona', 6),
+  (5006, 5, NULL, 'winona', 'Winona', 'gym-leader', 10, NULL, 'winona', 'Fortree City', 6),
   -- Tate & Liza
-  (5007, 5, NULL, 'tate-liza', 'Tate & Liza', 'gym-leader', 11, NULL, 'tate-liza', 7),
+  (5007, 5, NULL, 'tate-liza', 'Tate & Liza', 'gym-leader', 11, NULL, 'tate-liza', 'Mossdeep City', 7),
   -- Wallace
-  (5008, 5, NULL, 'wallace', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 8),
+  (5008, 5, NULL, 'wallace', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 'Sootopolis City', 8),
   -- Sidney
-  (5009, 5, NULL, 'sidney', 'Sidney', 'elite-four', 16, NULL, 'sidney', 9),
+  (5009, 5, NULL, 'sidney', 'Sidney', 'elite-four', 16, NULL, 'sidney', NULL, 9),
   -- Phoebe
-  (5010, 5, NULL, 'phoebe', 'Phoebe', 'elite-four', 14, NULL, 'phoebe', 10),
+  (5010, 5, NULL, 'phoebe', 'Phoebe', 'elite-four', 14, NULL, 'phoebe', NULL, 10),
   -- Glacia
-  (5011, 5, NULL, 'glacia', 'Glacia', 'elite-four', 6, NULL, 'glacia', 11),
+  (5011, 5, NULL, 'glacia', 'Glacia', 'elite-four', 6, NULL, 'glacia', NULL, 11),
   -- Drake
-  (5012, 5, NULL, 'drake', 'Drake', 'elite-four', 15, NULL, 'drake', 12),
+  (5012, 5, NULL, 'drake', 'Drake', 'elite-four', 15, NULL, 'drake', NULL, 12),
   -- Steven
-  (5013, 5, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 13),
+  (5013, 5, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 'Ever Grande City', 13),
   -- May / Brendan (rival)
-  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', 14),
+  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', NULL, 14),
   -- Wally (rival)
-  (5015, 5, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', 15),
+  (5015, 5, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', NULL, 15),
   -- Maxie (boss, ruby)
-  (5016, 5, 7, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', 1),
+  (5016, 5, 7, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', NULL, 1),
   -- Archie (boss, sapphire)
-  (5017, 5, 8, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', 1),
+  (5017, 5, 8, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', NULL, 1),
   -- Groudon (boss, ruby)
-  (5018, 5, 7, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', 2),
+  (5018, 5, 7, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 2),
   -- Kyogre (boss, sapphire)
-  (5019, 5, 8, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', 2),
+  (5019, 5, 8, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 2),
   -- Regirock (boss)
-  (5020, 5, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', 16),
+  (5020, 5, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', NULL, 16),
   -- Regice (boss)
-  (5021, 5, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', 17),
+  (5021, 5, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', NULL, 17),
   -- Registeel (boss)
-  (5022, 5, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', 18),
+  (5022, 5, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', NULL, 18),
   -- Rayquaza (boss)
-  (5023, 5, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', 19),
+  (5023, 5, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 19),
   -- Latios (boss, ruby)
-  (5024, 5, 7, 'latios', 'Latios', 'boss', 15, 11, 'latios', 3),
+  (5024, 5, 7, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 3),
   -- Latias (boss, sapphire)
-  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, 'latias', 3),
+  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 3),
   -- Tabitha (boss, ruby; Team Magma Admin)
-  (5026, 5, 7, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', 4),
+  (5026, 5, 7, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', NULL, 4),
   -- Courtney (boss, ruby; Team Magma Admin)
-  (5027, 5, 7, 'courtney', 'Courtney', 'boss', NULL, NULL, 'courtney', 5),
+  (5027, 5, 7, 'courtney', 'Courtney', 'boss', NULL, NULL, 'courtney', NULL, 5),
   -- Matt (boss, sapphire; Team Aqua Admin)
-  (5028, 5, 8, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', 4),
+  (5028, 5, 8, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', NULL, 4),
   -- Shelly (boss, sapphire; Team Aqua Admin)
-  (5029, 5, 8, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', 5);
+  (5029, 5, 8, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', NULL, 5);

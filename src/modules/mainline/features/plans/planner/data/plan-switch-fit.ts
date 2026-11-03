@@ -16,21 +16,22 @@ export type PlanSwitchLoss = {
 
 /* A planned Pokémon that stays on the team but loses part of its build. */
 export type PlanSwitchChange = {
+  formId: number;
   loss: PlanSwitchLoss;
   slot: number;
-  speciesId: number;
 };
 
 export type PlanSwitchFit = {
   changed: PlanSwitchChange[];
   /* The team as the new game can have it: removed ones out, builds trimmed. */
   kept: PlanMember[];
-  removedSpeciesIds: number[];
+  removedFormIds: number[];
 };
 
 /*
- * A team moved to another game: a Pokémon the game's Pokédexes don't have
- * leaves the team; one that stays loses the choices the game doesn't offer
+ * A team moved to another game: a Pokémon the game's Planner doesn't offer
+ * (not in its Pokédexes, or a variant it doesn't have) leaves the team; one
+ * that stays loses the choices the game doesn't offer
  * it (no abilities, held items, natures or gender yet, or ones it can't
  * have there) and the moves it can't learn there.
  */
@@ -41,11 +42,11 @@ export const fitPlanMembersForSwitch = (
 ): PlanSwitchFit => {
   const changed: PlanSwitchChange[] = [];
   const kept: PlanMember[] = [];
-  const removedSpeciesIds: number[] = [];
+  const removedFormIds: number[] = [];
 
   for (const member of members) {
-    if (!rows.poolSpeciesIds.has(member.speciesId)) {
-      removedSpeciesIds.push(member.speciesId);
+    if (!rows.poolFormIds.has(member.formId)) {
+      removedFormIds.push(member.formId);
       continue;
     }
 
@@ -86,7 +87,7 @@ export const fitPlanMembersForSwitch = (
       loss.moveIds.length ||
       loss.natureId !== null
     ) {
-      changed.push({ loss, slot: member.slot, speciesId: member.speciesId });
+      changed.push({ formId: member.formId, loss, slot: member.slot });
     }
 
     kept.push({
@@ -98,7 +99,7 @@ export const fitPlanMembersForSwitch = (
     });
   }
 
-  return { changed, kept, removedSpeciesIds };
+  return { changed, kept, removedFormIds };
 };
 
 /* The names a loss is told in, by id, read for the choices it names. */

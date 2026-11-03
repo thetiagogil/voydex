@@ -91,6 +91,7 @@ const toShellData = (play: PublicSamplePlay): MainlinePlayShellData => ({
   },
   region: {
     created_at: "",
+    description: "",
     id: 0,
     name: play.game.region,
     slug: play.game.region.toLowerCase(),

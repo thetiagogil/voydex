@@ -21,53 +21,54 @@ INSERT INTO tracking.mainline_opponents (
   primary_type_id,
   secondary_type_id,
   sprite_slug,
+  place,
   sort_order
 ) VALUES
   -- Brock
-  (17001, 17, NULL, 'brock', 'Brock', 'gym-leader', 13, NULL, 'brock', 1),
+  (17001, 17, NULL, 'brock', 'Brock', 'gym-leader', 13, NULL, 'brock', 'Pewter City', 1),
   -- Misty
-  (17002, 17, NULL, 'misty', 'Misty', 'gym-leader', 3, NULL, 'misty', 2),
+  (17002, 17, NULL, 'misty', 'Misty', 'gym-leader', 3, NULL, 'misty', 'Cerulean City', 2),
   -- Lt. Surge
-  (17003, 17, NULL, 'lt-surge', 'Lt. Surge', 'gym-leader', 4, NULL, 'lt-surge', 3),
+  (17003, 17, NULL, 'lt-surge', 'Lt. Surge', 'gym-leader', 4, NULL, 'lt-surge', 'Vermilion City', 3),
   -- Erika
-  (17004, 17, NULL, 'erika', 'Erika', 'gym-leader', 5, NULL, 'erika', 4),
+  (17004, 17, NULL, 'erika', 'Erika', 'gym-leader', 5, NULL, 'erika', 'Celadon City', 4),
   -- Koga
-  (17005, 17, NULL, 'koga', 'Koga', 'gym-leader', 8, NULL, 'koga', 5),
+  (17005, 17, NULL, 'koga', 'Koga', 'gym-leader', 8, NULL, 'koga', 'Fuchsia City', 5),
   -- Sabrina
-  (17006, 17, NULL, 'sabrina', 'Sabrina', 'gym-leader', 11, NULL, 'sabrina', 6),
+  (17006, 17, NULL, 'sabrina', 'Sabrina', 'gym-leader', 11, NULL, 'sabrina', 'Saffron City', 6),
   -- Blaine
-  (17007, 17, NULL, 'blaine', 'Blaine', 'gym-leader', 2, NULL, 'blaine', 7),
+  (17007, 17, NULL, 'blaine', 'Blaine', 'gym-leader', 2, NULL, 'blaine', 'Cinnabar Island', 7),
   -- Giovanni
-  (17008, 17, NULL, 'giovanni', 'Giovanni', 'gym-leader', 9, NULL, 'giovanni', 8),
+  (17008, 17, NULL, 'giovanni', 'Giovanni', 'gym-leader', 9, NULL, 'giovanni', 'Viridian City', 8),
   -- Lorelei
-  (17009, 17, NULL, 'lorelei', 'Lorelei', 'elite-four', 6, NULL, 'lorelei', 9),
+  (17009, 17, NULL, 'lorelei', 'Lorelei', 'elite-four', 6, NULL, 'lorelei', NULL, 9),
   -- Bruno
-  (17010, 17, NULL, 'bruno', 'Bruno', 'elite-four', 7, NULL, 'bruno', 10),
+  (17010, 17, NULL, 'bruno', 'Bruno', 'elite-four', 7, NULL, 'bruno', NULL, 10),
   -- Agatha
-  (17011, 17, NULL, 'agatha', 'Agatha', 'elite-four', 14, NULL, 'agatha', 11),
+  (17011, 17, NULL, 'agatha', 'Agatha', 'elite-four', 14, NULL, 'agatha', NULL, 11),
   -- Lance
-  (17012, 17, NULL, 'lance', 'Lance', 'elite-four', 15, NULL, 'lance', 12),
+  (17012, 17, NULL, 'lance', 'Lance', 'elite-four', 15, NULL, 'lance', NULL, 12),
   -- Rival
-  (17013, 17, NULL, 'rival', 'Rival', 'champion', NULL, NULL, 'rival', 13),
+  (17013, 17, NULL, 'rival', 'Rival', 'champion', NULL, NULL, 'rival', 'Indigo Plateau', 13),
   -- Blue
-  (17014, 17, NULL, 'blue', 'Blue', 'boss', NULL, NULL, 'blue', 14),
+  (17014, 17, NULL, 'blue', 'Blue', 'boss', NULL, NULL, 'blue', NULL, 14),
   -- Green
-  (17015, 17, NULL, 'green', 'Green', 'boss', NULL, NULL, 'green', 15),
+  (17015, 17, NULL, 'green', 'Green', 'boss', NULL, NULL, 'green', NULL, 15),
   -- Trace (rival)
-  (17016, 17, NULL, 'trace', 'Trace', 'rival', NULL, NULL, 'trace', 16),
+  (17016, 17, NULL, 'trace', 'Trace', 'rival', NULL, NULL, 'trace', NULL, 16),
   -- Giovanni (boss)
-  (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', 17),
+  (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', NULL, 17),
   -- Zapdos (boss)
-  (17018, 17, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', 18),
+  (17018, 17, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 18),
   -- Articuno (boss)
-  (17019, 17, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', 19),
+  (17019, 17, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 19),
   -- Moltres (boss)
-  (17020, 17, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', 20),
+  (17020, 17, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 20),
   -- Mewtwo (boss)
-  (17021, 17, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', 21),
+  (17021, 17, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 21),
   -- Jessie & James (boss; Team Rocket)
-  (17022, 17, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', 22),
+  (17022, 17, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 22),
   -- Archer (boss; Team Rocket)
-  (17023, 17, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', 23),
+  (17023, 17, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', NULL, 23),
   -- Red (boss)
-  (17024, 17, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', 24);
+  (17024, 17, NULL, 'red', 'Red', 'boss', NULL, NULL, 'red', NULL, 24);

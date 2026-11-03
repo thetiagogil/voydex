@@ -29,18 +29,19 @@ import {
 export type PlanMatchupRow = TypeMatchupRow<PlanType>;
 
 export type PlanCoverage = {
-  coveredBySpeciesIds: number[];
+  /* The team members whose own types hit it, by form id. */
+  coveredByFormIds: number[];
   type: PlanType;
 };
 
 /*
  * A team member's id in the matchup tables: its place in the team, since a
- * team can hold two of one species.
+ * team can hold two of one Pokémon.
  */
 export const getPlanMatchupMemberId = (
   pokemon: PlannerPokemon,
   index: number,
-) => `${pokemon.speciesId}-${index}`;
+) => `${pokemon.formId}-${index}`;
 
 /* A planned Pokémon attacks with its own types: no moves are planned yet. */
 const toTeamTypeMember = (
@@ -88,10 +89,10 @@ export const buildPlanCoverage = ({
   team: PlannerPokemon[];
   types: PlanType[];
 }): PlanCoverage[] => {
-  const speciesIdByMemberId = new Map(
+  const formIdByMemberId = new Map(
     team.map((pokemon, index) => [
       getPlanMatchupMemberId(pokemon, index),
-      pokemon.speciesId,
+      pokemon.formId,
     ]),
   );
 
@@ -100,10 +101,10 @@ export const buildPlanCoverage = ({
     members: team.map(toTeamTypeMember),
     types,
   }).map((row) => ({
-    coveredBySpeciesIds: row.coveringMemberIds.flatMap((id) => {
-      const speciesId = speciesIdByMemberId.get(id);
+    coveredByFormIds: row.coveringMemberIds.flatMap((id) => {
+      const formId = formIdByMemberId.get(id);
 
-      return speciesId === undefined ? [] : [speciesId];
+      return formId === undefined ? [] : [formId];
     }),
     type: row.defendingType,
   }));
@@ -165,7 +166,7 @@ export const getPlanTeamTip = ({
 export const describeUncovered = (coverage: PlanCoverage[]) =>
   joinPlanList(
     coverage
-      .filter((entry) => !entry.coveredBySpeciesIds.length)
+      .filter((entry) => !entry.coveredByFormIds.length)
       .map((entry) => entry.type.name),
   );
 

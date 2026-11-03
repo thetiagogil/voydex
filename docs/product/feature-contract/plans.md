@@ -11,7 +11,12 @@ As built (v3):
 - **Team Planner** (`/mainline/plans/new`, a saved Plan at
   `/mainline/plans/[planId]`, `?vg=` for the version group): pick a version
   group on the cover shelf menu (the expansions it includes read under its name), fill six slots from its Pokédexes (one range
-  per Pokédex, a Pokédex filter, search, Fully evolved only, type dots), drag to swap, Random
+  per Pokédex, a Pokédex filter, search, Fully evolved only, type dots; each
+  species in its Pokédex form, then every other variant the group has beside
+  it, as Galarian Articuno beside Articuno with The Crown Tundra; a variant
+  only a transfer brings in shows its "!" like any Pokémon only from outside
+  the game; where the Pokédex names no form and the game never has the
+  default, the variant leads, as Hisuian Typhlosion in Legends: Arceus), drag to swap, Random
   and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and
@@ -20,8 +25,8 @@ As built (v3):
   gift and what it becomes (Kubfu and either Urshifu, one Calyrex, each
   legendary bird of The Crown Tundra) or an either-or pick (Glastrier or
   Spectrier, Regieleki or Regidrago), from `reference.pokemon_availability_groups`.
-  It reads the form the Planner offers (each species' Pokédex form), so a form
-  the Planner can't pick yet, such as a Galarian bird, isn't checked there. A new Plan has no title yet:
+  It reads each planned form, so Articuno and Galarian Articuno are checked
+  apart. A new Plan has no title yet:
   Save Plan asks for its name and writes it; a new Plan is kept in this
   browser until saved. A saved Plan shows its name; tapping it, or Rename in
   its "⋯", renames it without Unlock, since the lock guards only the team

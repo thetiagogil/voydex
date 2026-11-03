@@ -31,7 +31,7 @@ export const toPlanDraftPreview = (
   >,
 ): TeamStripMember[] =>
   members.flatMap((member) => {
-    const pokemon = byId.get(member.speciesId);
+    const pokemon = byId.get(member.formId);
     return pokemon
       ? [
           {
