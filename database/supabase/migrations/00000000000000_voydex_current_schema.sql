@@ -425,17 +425,21 @@ CREATE TABLE reference.regions (
     id integer PRIMARY KEY,
     slug text NOT NULL UNIQUE,
     name text NOT NULL UNIQUE,
+    description text NOT NULL,
     sort_order integer NOT NULL UNIQUE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT regions_id_positive_check CHECK (id > 0),
     CONSTRAINT regions_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
     CONSTRAINT regions_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
+    CONSTRAINT regions_description_length_check CHECK (CHAR_LENGTH(BTRIM(description)) BETWEEN 1 AND 600),
     CONSTRAINT regions_sort_order_positive_check CHECK (sort_order > 0)
 );
 
 COMMENT ON TABLE reference.regions IS 'Pokémon world regions associated with mainline games.';
 
 COMMENT ON COLUMN reference.regions.id IS 'Curated stable region ID.';
+
+COMMENT ON COLUMN reference.regions.description IS 'A few lines on the region in Voydex''s own words, read on the Codex game page.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/003_product_families.sql
@@ -504,12 +508,14 @@ CREATE TABLE reference.version_groups (
     name text NOT NULL UNIQUE,
     generation_id integer NOT NULL REFERENCES reference.generations (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     parent_version_group_id integer,
+    description text NOT NULL,
     sort_order integer NOT NULL,
     is_open_world boolean NOT NULL DEFAULT FALSE,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT version_groups_id_positive_check CHECK (id > 0),
     CONSTRAINT version_groups_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
     CONSTRAINT version_groups_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 160),
+    CONSTRAINT version_groups_description_length_check CHECK (CHAR_LENGTH(BTRIM(description)) BETWEEN 1 AND 600),
     CONSTRAINT version_groups_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT version_groups_parent_not_self_check CHECK (parent_version_group_id IS NULL OR parent_version_group_id <> id),
     CONSTRAINT version_groups_id_generation_unique UNIQUE (id, generation_id),
@@ -519,6 +525,8 @@ CREATE TABLE reference.version_groups (
 );
 
 COMMENT ON TABLE reference.version_groups IS 'Version-group content scopes. DLC and other optional content are child version groups.';
+
+COMMENT ON COLUMN reference.version_groups.description IS 'A few lines on what sets these games apart, in Voydex''s own words, read on the Codex game page.';
 
 COMMENT ON COLUMN reference.version_groups.parent_version_group_id IS 'Base version group for optional child content such as DLC.';
 
@@ -2859,6 +2867,7 @@ CREATE TABLE tracking.mainline_opponents (
     primary_type_id integer REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     secondary_type_id integer REFERENCES reference.types (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     sprite_slug text,
+    place text,
     sort_order integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_opponents_id_positive_check CHECK (id > 0),
@@ -2868,6 +2877,7 @@ CREATE TABLE tracking.mainline_opponents (
     CONSTRAINT mainline_opponents_role_format_check CHECK (opponent_role = LOWER(opponent_role) AND opponent_role ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(opponent_role) <= 80),
     CONSTRAINT mainline_opponents_distinct_specialty_types_check CHECK (secondary_type_id IS NULL OR secondary_type_id <> primary_type_id),
     CONSTRAINT mainline_opponents_sprite_slug_format_check CHECK (sprite_slug IS NULL OR (sprite_slug = LOWER(sprite_slug) AND sprite_slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(sprite_slug) <= 160)),
+    CONSTRAINT mainline_opponents_place_length_check CHECK (place IS NULL OR CHAR_LENGTH(BTRIM(place)) BETWEEN 1 AND 120),
     CONSTRAINT mainline_opponents_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_opponents_id_version_group_unique UNIQUE (id, version_group_id)
 );
@@ -2903,6 +2913,8 @@ WHERE
 COMMENT ON TABLE tracking.mainline_opponents IS 'Curated opponent definitions used by story mainline_milestones and important fight metadata.';
 
 COMMENT ON COLUMN tracking.mainline_opponents.game_id IS 'Nullable for version-group-wide mainline_opponents. When set, the game must be mapped to the same content scope.';
+
+COMMENT ON COLUMN tracking.mainline_opponents.place IS 'Where this battle is fought, as the game names it: a Gym Leader''s town (Pewter City), a kahuna''s grand trial site (Malie City), the Champion''s League. Set for every Gym Leader, kahuna and Champion; the Codex game page lists them by it.';
 
 COMMENT ON COLUMN tracking.mainline_opponents.opponent_role IS 'Curated role slug such as gym-leader, rival, boss, elite-four, champion, kahuna, trial-captain, titan, totem, or ally (someone who only fights beside the player).';
 
@@ -3735,7 +3747,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestones TO authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_prerequisites TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_opponents TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_opponents TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_badges TO anon, authenticated;
 
@@ -3755,7 +3767,7 @@ GRANT SELECT ON TABLE tracking.mainline_milestone_collectible_refs TO authentica
 
 GRANT SELECT ON TABLE tracking.mainline_milestone_decision_options TO authenticated;
 
-GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO authenticated;
+GRANT SELECT ON TABLE tracking.mainline_opponent_team_members TO anon, authenticated;
 
 GRANT SELECT ON TABLE tracking.mainline_opponent_team_member_moves TO authenticated;
 
@@ -3820,7 +3832,7 @@ CREATE POLICY mainline_milestone_prerequisites_read_all ON tracking.mainline_mil
     USING (TRUE);
 
 CREATE POLICY mainline_opponents_read_all ON tracking.mainline_opponents
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_badges_read_all ON tracking.mainline_badges
@@ -3860,7 +3872,7 @@ CREATE POLICY mainline_milestone_decision_options_read_all ON tracking.mainline_
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_members_read_all ON tracking.mainline_opponent_team_members
-    FOR SELECT TO authenticated
+    FOR SELECT TO anon, authenticated
     USING (TRUE);
 
 CREATE POLICY mainline_opponent_team_member_moves_read_all ON tracking.mainline_opponent_team_member_moves

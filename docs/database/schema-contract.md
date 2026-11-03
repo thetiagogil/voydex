@@ -37,7 +37,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   version-group, and generation context owned by the `reference` module.
 - Optional content is modeled as content-scope deltas and dependencies instead
   of duplicating the full parent scope.
-- `tracking` stores definitions for milestones, decisions, opponents, badges,
+- `tracking` stores definitions for milestones, decisions, opponents (with
+  `place`, where a Gym Leader, kahuna or Champion is fought), badges,
   collectibles, and snapshot policy. It does not store user progress.
 - A story chapter (`tracking.mainline_categories`) carries `chapter_kind`
   (`main-story`, `post-game` or `side-content`) and `plays_in_any_order` for

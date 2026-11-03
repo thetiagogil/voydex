@@ -65,6 +65,14 @@ const rows = (): GameDetailRows => ({
   generations: [
     { id: 8, name: "Generation VIII", sort_order: 8 },
   ] as Generation[],
+  leaders: {
+    battleFormBases: [],
+    forms: [],
+    members: [],
+    opponents: [],
+    species: [],
+    types: [],
+  },
   platforms: [],
   pokedexEntries: [],
   pokedexes: [],

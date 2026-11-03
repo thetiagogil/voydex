@@ -26,9 +26,24 @@ export type CodexGameVersionExclusives = {
   version: GameCard;
 };
 
+/* A Gym Leader, kahuna or Champion of the picked game, as the region card lists them. */
+export type CodexGameLeader = {
+  /* The strongest Pokémon of your first battle with them; null when no team is seeded. */
+  ace: { imageUrl: string | null; name: string } | null;
+  key: string;
+  name: string;
+  /* Where you face them: a Gym's town, a grand trial's site, the League. */
+  place: string | null;
+  role: string;
+  /* The type they specialise in; a Champion usually has none. */
+  type: { name: string; slug: string } | null;
+};
+
 /* A version group's page: Sword and Shield, read with one of its games picked. */
 export type CodexGameDetailData = {
   firstPartners: CodexGameFirstPartners;
+  /* The picked game's leaders in the order you meet them; empty for a game without them. */
+  leaders: CodexGameLeader[];
   /* The group's Pokédexes, its expansions' too, each with its count. */
   pokedexes: GamePokedexSummary[];
   relatedGames: GameCard[];

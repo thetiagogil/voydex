@@ -1,6 +1,10 @@
-import type { CodexGameDetailData } from "@/modules/codex/features/games/detail/types";
+import type {
+  CodexGameDetailData,
+  CodexGameLeader,
+} from "@/modules/codex/features/games/detail/types";
+import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
 import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
-import { PendingData } from "@/shared/components/pending-data";
+import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { SectionHead } from "@/shared/components/section-head";
 import { cardVariants } from "@/shared/components/ui/card";
 import { cn } from "@/shared/utils/cn";
@@ -9,20 +13,50 @@ type GameDetailRegionSectionProps = {
   data: CodexGameDetailData;
 };
 
-const LEADER_PREVIEW_COUNT = 9;
+/* "Gym Leaders and Champion", or Alola's kahunas. */
+const getLeadersTitle = (leaders: CodexGameLeader[]) =>
+  leaders.some((leader) => leader.role === "kahuna")
+    ? "Island Kahunas and Champion"
+    : "Gym Leaders and Champion";
 
 /*
- * v3's world card: the region the picked game is set in, with its first
- * partners beside it, then the leaders you battle on the way to the
- * Champion. The region's words and the leaders aren't in Voydex yet, so they
- * stand as pending markers; the Legends games, which have no Gym challenge,
- * leave the leaders out.
+ * One leader as v3 draws it: the ace of your first battle on a disc tinted
+ * by the leader's type, the name, the place you face them, and the type.
+ */
+const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
+  <li className="flex min-w-0 flex-col items-center gap-1.5 text-center">
+    <PokemonAvatar
+      className="size-14"
+      decorative={leader.ace === null}
+      imageUrl={leader.ace?.imageUrl ?? null}
+      name={leader.ace?.name ?? leader.name}
+      typeSlug={leader.type?.slug ?? null}
+    />
+    <span className="text-14 text-ink block w-full truncate font-extrabold">
+      {leader.name}
+    </span>
+    {leader.place ? (
+      <span className="text-12 text-ink-2 block w-full truncate font-semibold">
+        {leader.place}
+      </span>
+    ) : null}
+    {leader.type ? (
+      <PokemonTypeList types={[leader.type]} badgeSize="sm" />
+    ) : null}
+  </li>
+);
+
+/*
+ * v3's world card: the region the picked game is set in, in a few lines,
+ * with its first partners beside it, then the leaders you battle on the way
+ * to the Champion, each with the ace of your first battle and where you
+ * face them. A game without them (the Legends games) leaves the leaders
+ * out.
  */
 export const GameDetailRegionSection = ({
   data,
 }: GameDetailRegionSectionProps) => {
-  const { firstPartners, version } = data;
-  const hasLeaders = version.kind !== "legends";
+  const { firstPartners, leaders, version } = data;
 
   return (
     <section
@@ -39,12 +73,11 @@ export const GameDetailRegionSection = ({
           <h2 id="game-region-title" className="title-page mt-0.5 mb-3">
             {version.region?.name ?? "Region"}
           </h2>
-          {/* TODO(v3-data): a description for each region (none on reference.regions). */}
-          <PendingData
-            className="items-start px-4.5 py-3.5 text-left"
-            label="About the region"
-            note="Where the journey runs, from the first town to the League."
-          />
+          {version.region ? (
+            <p className="text-15 text-ink-2 max-w-[60ch] font-semibold">
+              {version.region.description}
+            </p>
+          ) : null}
         </div>
 
         {firstPartners.pokemon.length ? (
@@ -74,33 +107,23 @@ export const GameDetailRegionSection = ({
         ) : null}
       </div>
 
-      {hasLeaders ? (
+      {leaders.length ? (
         <div className="mt-8">
           <SectionHead
-            title="Gym Leaders and Champion"
-            aside="In badge order"
+            title={getLeadersTitle(leaders)}
+            titleId="game-leaders-title"
+            aside="In the order you meet them, with the ace of your first battle"
             headingLevel={3}
             titleClassName="text-20"
           />
-          {/* TODO(v3-data): leaders for the Codex; tracking.mainline_opponents and mainline_badges are readable signed in only (no anon grant), and opponents have no town or ace. */}
-          <PendingData
-            className="mt-3.5 gap-3 pt-4 pb-4"
-            note="Each leader's type, ace and town, in badge order."
+          <ul
+            aria-labelledby="game-leaders-title"
+            className="mt-4 grid grid-cols-3 gap-x-2.5 gap-y-5 sm:grid-cols-5 lg:grid-cols-9"
           >
-            {/* v3's row: a type stamp over each leader's name and town. */}
-            <span className="grid grid-cols-3 gap-x-2.5 gap-y-4 sm:grid-cols-5 lg:grid-cols-9">
-              {Array.from({ length: LEADER_PREVIEW_COUNT }, (_, index) => (
-                <span
-                  key={index}
-                  className="flex flex-col items-center gap-1.5"
-                >
-                  <span className="empty-slot size-11 rounded-full" />
-                  <span className="bg-line h-2.5 w-14 rounded-full" />
-                  <span className="bg-line/60 h-2 w-10 rounded-full" />
-                </span>
-              ))}
-            </span>
-          </PendingData>
+            {leaders.map((leader) => (
+              <LeaderTile key={leader.key} leader={leader} />
+            ))}
+          </ul>
         </div>
       ) : null}
     </section>

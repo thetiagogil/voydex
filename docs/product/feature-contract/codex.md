@@ -123,8 +123,16 @@ The page carries structured identity, base and optional-content scopes, named
 Pokédexes, the group's Pokémon, and only trustworthy related releases. `Start a Play` is its clear primary action;
 `Create a Plan` and `Add to Game List` are supporting Mainline actions.
 Reference links remain distinct from personal mutations. As built, the page
-also shows the region the picked game is set in with its first partners
-(the leaders are pending data; Legends games leave them out) and the version
+also shows the region the picked game is set in, in a few lines of its own,
+with its first partners, then its Gym Leaders and Champion (Alola's kahunas)
+in the order you meet them, each with the ace of your first battle (the
+highest level of the lowest-level team seeded for them, counting only the
+Pokémon they bring whatever you chose when the team follows your starter, the
+last in the party on a tie, shown as its stored form rather than a Gigantamax
+or Mega form), where you face them and their type; a leader fought again
+under the same role is listed once, at that first battle; a game without
+them (the Legends games) leaves the leaders out. The head reads a few lines on what
+sets the games apart. Then the version
 exclusives: one column per game of the pair, the picked game first, counting
 only what each game gives you itself. Its head has no actions; signed in,
 the last section, Your Plays, lists your Plays of these games with `Start a
