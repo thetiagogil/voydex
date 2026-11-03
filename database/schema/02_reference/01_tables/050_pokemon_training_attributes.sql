@@ -29,7 +29,7 @@ CREATE TABLE reference.pokemon_training_attributes (
 
 CREATE INDEX pokemon_training_attributes_form_idx ON reference.pokemon_training_attributes (form_id, version_group_start_id);
 
-COMMENT ON TABLE reference.pokemon_training_attributes IS 'A form''s EV yield, catch rate, base friendship, base experience and growth rate, one row per version group that changed any of them; a game reads the latest row at or before it in release order. Read from each game''s own data.';
+COMMENT ON TABLE reference.pokemon_training_attributes IS 'A form''s EV yield, catch rate, base friendship, base experience and growth rate, one row per version group that changed any of them, for the forms that group hands out; a game reads the latest row at or before it in release order. Read from each game''s own data.';
 
 COMMENT ON COLUMN reference.pokemon_training_attributes.version_group_start_id IS 'The first version group, in release order (generation, then the group''s own order), these values apply to.';
 

@@ -23,7 +23,9 @@ export type PokemonDetailTraining = {
   growthRate: { levelOneHundredExperience: number; name: string } | null;
 };
 
-const statNames: [keyof PokemonTrainingAttributes, string][] = [
+type EvColumn = Extract<keyof PokemonTrainingAttributes, `ev_${string}`>;
+
+const statNames: [EvColumn, string][] = [
   ["ev_hp", "HP"],
   ["ev_attack", "Attack"],
   ["ev_defense", "Defense"],
@@ -95,6 +97,31 @@ export const selectPokemonDetailTrainingRow = ({
   );
 };
 
+/*
+ * The generation a form's values start in: its earliest row's generation,
+ * for a game before the form is there. Null without rows.
+ */
+export const getPokemonDetailTrainingArrival = ({
+  formId,
+  rows,
+  versionGroups,
+}: {
+  formId: number;
+  rows: readonly PokemonTrainingAttributes[];
+  versionGroups: readonly VersionGroupOrderRow[];
+}): number | null => {
+  const starts = rows
+    .filter((row) => row.form_id === formId)
+    .flatMap((row) => {
+      const start = getReleaseOrder(row.version_group_start_id, versionGroups);
+
+      return start ? [start] : [];
+    })
+    .toSorted((left, right) => left[0] - right[0] || left[1] - right[1]);
+
+  return starts[0]?.[0] ?? null;
+};
+
 /* The Training card's values from a row, with the growth rate named. */
 export const toPokemonDetailTraining = (
   row: PokemonTrainingAttributes,
@@ -105,11 +132,9 @@ export const toPokemonDetailTraining = (
     row.ev_hp === null
       ? null
       : statNames.flatMap(([column, stat]) => {
-          const points = row[column];
+          const points = row[column] ?? 0;
 
-          return typeof points === "number" && points > 0
-            ? [{ points, stat }]
-            : [];
+          return points > 0 ? [{ points, stat }] : [];
         });
 
   return {

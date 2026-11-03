@@ -1645,20 +1645,62 @@ export function assertPokemonAttributeRows(context, tableRows) {
 
 /*
  * Every form has training values from its first game on, each row names a
- * seeded version group and growth rate, and no form repeats a start group.
+ * seeded base version group and growth rate, no form repeats a start group,
+ * a Mega, Primal, Gigantamax or Ultra form has rows only from the games with
+ * its mechanic, and a game with part of the roster (Let's Go, Legends:
+ * Arceus) has rows only for the forms it hands out, a battle form counting
+ * by its base form.
  */
 export function assertPokemonTrainingAttributeRows(context, tableRows) {
   const rows = tableRows.get("reference.pokemon_training_attributes") ?? [];
   const formRows = tableRows.get("reference.pokemon_forms") ?? [];
-  const versionGroupIds = new Set(
-    (tableRows.get("reference.version_groups") ?? []).map(({ row }) => row.id),
+  const baseVersionGroupIds = new Set(
+    (tableRows.get("reference.version_groups") ?? [])
+      .filter(({ row }) => row.parent_version_group_id === null)
+      .map(({ row }) => row.id),
   );
+  const partialRosterGroupIds = [17, 22];
+  const presentFormIds = new Map(
+    partialRosterGroupIds.map((groupId) => [groupId, new Set()]),
+  );
+  for (const { row } of tableRows.get("reference.pokemon_availability") ?? []) {
+    presentFormIds.get(row.version_group_id)?.add(row.form_id);
+  }
+  const baseFormIds = new Map();
+  for (const { row } of tableRows.get("reference.pokemon_battle_form_bases") ??
+    []) {
+    if (!baseFormIds.has(row.battle_form_id)) {
+      baseFormIds.set(row.battle_form_id, []);
+    }
+    baseFormIds.get(row.battle_form_id).push(row.base_form_id);
+  }
+  /* The base groups each battle mechanic reaches (see the reference game mechanics contract). */
+  const mechanicGroupIds = {
+    dynamax: new Set([18]),
+    "mega-evolution": new Set([13, 14, 15, 16, 17, 26]),
+    "primal-reversion": new Set([14, 15, 16]),
+    "ultra-burst": new Set([16]),
+  };
+  const mechanicByFormId = new Map(
+    (tableRows.get("reference.pokemon_form_rules") ?? []).flatMap(({ row }) =>
+      row.battle_mechanic in mechanicGroupIds
+        ? [[row.form_id, row.battle_mechanic]]
+        : [],
+    ),
+  );
+  const isPresent = (groupId, formId) => {
+    const present = presentFormIds.get(groupId);
+    return (
+      present.has(formId) ||
+      (baseFormIds.get(formId) ?? []).some((baseId) => present.has(baseId))
+    );
+  };
   const growthRateIds = new Set(
     (tableRows.get("reference.growth_rates") ?? []).map(({ row }) => row.id),
   );
-  if (rows.length !== 5708) {
+  if (rows.length !== 4548) {
     context.errors.push(
-      `reference.pokemon_training_attributes: expected 5708 curated training rows, got ${rows.length}.`,
+      `reference.pokemon_training_attributes: expected 4548 curated training rows, got ${rows.length}.`,
     );
   }
   addCompositeDuplicateErrors(
@@ -1671,9 +1713,25 @@ export function assertPokemonTrainingAttributeRows(context, tableRows) {
   const formIdsWithRows = new Set();
   for (const { row, filePath } of rows) {
     formIdsWithRows.add(row.form_id);
-    if (!versionGroupIds.has(row.version_group_start_id)) {
+    if (!baseVersionGroupIds.has(row.version_group_start_id)) {
       context.errors.push(
-        `${relative(filePath)}: training row for form ${row.form_id} references unseeded version group ${row.version_group_start_id}.`,
+        `${relative(filePath)}: training row for form ${row.form_id} starts at ${row.version_group_start_id}, which is not a seeded base version group.`,
+      );
+    } else if (
+      mechanicByFormId.has(row.form_id) &&
+      !mechanicGroupIds[mechanicByFormId.get(row.form_id)].has(
+        row.version_group_start_id,
+      )
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: training row for form ${row.form_id} starts at version group ${row.version_group_start_id}, which has no ${mechanicByFormId.get(row.form_id)}.`,
+      );
+    } else if (
+      partialRosterGroupIds.includes(row.version_group_start_id) &&
+      !isPresent(row.version_group_start_id, row.form_id)
+    ) {
+      context.errors.push(
+        `${relative(filePath)}: training row for form ${row.form_id} starts at version group ${row.version_group_start_id}, which never hands that form out.`,
       );
     }
     if (!growthRateIds.has(row.growth_rate_id)) {

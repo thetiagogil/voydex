@@ -7,14 +7,14 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (10);
+    plan (12);
 SELECT
     IS ((
             SELECT
                 COUNT(*)::integer
             FROM
                 reference.pokemon_training_attributes),
-            5708,
+            4548,
             'every form has its training rows, one per change');
 SELECT
     is_empty ($$
@@ -53,6 +53,38 @@ SELECT
         SELECT
             form_id FROM reference.pokemon_training_attributes
             WHERE (version_group_start_id IN (1, 2)) <> (base_friendship IS NULL) $$, 'base friendship is missing in Generation I alone');
+SELECT
+    is_empty ($$
+        SELECT
+            t.form_id FROM reference.pokemon_training_attributes t
+            WHERE
+                t.version_group_start_id IN (17, 22)
+                AND NOT EXISTS (
+                    SELECT
+                        1
+                    FROM reference.pokemon_availability a
+                    WHERE
+                        a.version_group_id = t.version_group_start_id
+                        AND (a.form_id = t.form_id
+                            OR a.form_id IN (
+                                SELECT
+                                    b.base_form_id
+                                FROM reference.pokemon_battle_form_bases b
+                                WHERE
+                                    b.battle_form_id = t.form_id))) $$, 'Let''s Go and Legends: Arceus have rows only for the forms they hand out');
+SELECT
+    is_empty ($$
+        SELECT
+            t.form_id FROM reference.pokemon_training_attributes t
+            JOIN reference.pokemon_form_rules r ON r.form_id = t.form_id
+            WHERE (r.battle_mechanic = 'mega-evolution'
+                AND t.version_group_start_id NOT IN (13, 14, 15, 16, 17, 26))
+            OR (r.battle_mechanic = 'primal-reversion'
+                AND t.version_group_start_id NOT IN (14, 15, 16))
+            OR (r.battle_mechanic = 'dynamax'
+                AND t.version_group_start_id <> 18)
+            OR (r.battle_mechanic = 'ultra-burst'
+                AND t.version_group_start_id <> 16) $$, 'a Mega, Primal, Gigantamax or Ultra form has rows only from the games with its mechanic');
 SELECT
     results_eq ($$
         SELECT

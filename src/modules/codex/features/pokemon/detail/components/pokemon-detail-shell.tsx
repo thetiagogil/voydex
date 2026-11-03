@@ -20,6 +20,7 @@ import { PokemonDetailHead } from "@/modules/codex/features/pokemon/detail/compo
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-card";
 import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-model";
 import {
+  getPokemonDetailTrainingArrival,
   selectPokemonDetailTrainingRow,
   toPokemonDetailTraining,
   type PokemonDetailTraining,
@@ -48,7 +49,10 @@ import {
   getGameMechanicAbsence,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { getPokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
+import {
+  getPokemonDetailMechanicNote,
+  type PokemonDetailMechanicNote,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import {
   formatGenerationName,
   getGenerationNumeral,
@@ -89,7 +93,7 @@ const getFormTraining = (
     formId,
     rows: data.trainingAttributes,
     versionGroupId: scope.versionGroup.versionGroup.id,
-    versionGroups: data.baseVersionGroups,
+    versionGroups: data.versionGroups,
   });
 
   if (!row) return null;
@@ -99,6 +103,26 @@ const getFormTraining = (
   return supportsGameMechanic(scope.mechanics, gameMechanics.effortValues)
     ? training
     : { ...training, evYield: null };
+};
+
+/* For a form the open game is before: where its values start. */
+const getFormTrainingNote = (
+  data: PokemonDetailData,
+  scope: ResolvedPokemonDetailScope,
+): PokemonDetailMechanicNote | null => {
+  const form = scope.form?.form;
+
+  if (!form) return null;
+
+  const arrivesIn = getPokemonDetailTrainingArrival({
+    formId: form.id,
+    rows: data.trainingAttributes,
+    versionGroups: data.versionGroups,
+  });
+
+  return arrivesIn === null
+    ? null
+    : { arrivesIn, text: `${form.name} arrives in` };
 };
 
 /* The form's egg groups in slot order, from its attributes in this generation. */
@@ -181,6 +205,7 @@ export const PokemonDetailShell = ({
     "abilities",
     getVersionGroupShortName(activeVersionGroup.name),
   );
+  const trainingNote = getFormTrainingNote(data, scope);
   const breedingNote = getPokemonDetailMechanicNote(
     getGameMechanicAbsence(scope.mechanics, gameMechanics.breeding),
     "breeding",
@@ -255,7 +280,11 @@ export const PokemonDetailShell = ({
               noteHref={getGenerationHref(abilitiesNote?.arrivesIn ?? null)}
             />
           </div>
-          <PokemonDetailTrainingCard training={getFormTraining(data, scope)} />
+          <PokemonDetailTrainingCard
+            note={trainingNote}
+            noteHref={getGenerationHref(trainingNote?.arrivesIn ?? null)}
+            training={getFormTraining(data, scope)}
+          />
           <PokemonDetailBreedingCard
             eggGroups={getFormEggGroups(data, scope)}
             hasGender={supportsGameMechanic(

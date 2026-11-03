@@ -180,8 +180,8 @@ export type PokemonDetailData = {
   abilityAttributes: AbilityAttribute[];
   defaultForm: PokemonFormSummary | null;
   eggGroups: EggGroup[];
-  /* Every base version group, in release order, for values read by the game that changed them. */
-  baseVersionGroups: VersionGroup[];
+  /* Every version group, expansions included, to place a game in release order. */
+  versionGroups: VersionGroup[];
   growthRates: GrowthRate[];
   /* The species' training values, one row per form at every version group that changed one. */
   trainingAttributes: PokemonTrainingAttributes[];

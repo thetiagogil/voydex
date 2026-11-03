@@ -61,7 +61,13 @@ sources remain authoritative for game-specific mechanics and availability.
   game's own personal data (the tables PKHeX reads), one row per form at
   every version group that changed a value, read in release order; a game
   takes the latest row at or before it. A form has rows from the generation
-  it arrived in. EVs are NULL where the games have none (Generation I and
+  it arrived in. A form without its own entry in a game's data reads its
+  base form's values there only when the game has the form (a Gigantamax
+  form in Sword / Shield, Castform's weathers), so a Mega has no row from
+  Sword / Shield or Scarlet / Violet and a Hisuian form none before Legends:
+  Arceus; a game with part of the roster (Let's Go, Legends: Arceus) has
+  rows only for the forms it hands out. EVs are NULL where the games have
+  none (Generation I and
   II, Let's Go, Legends: Arceus) and base friendship in Generation I.
   Terapagos's Terastal Form yields four EVs in the games, so the yield limit
   is six, not three. `reference.growth_rates` holds the six curves and their

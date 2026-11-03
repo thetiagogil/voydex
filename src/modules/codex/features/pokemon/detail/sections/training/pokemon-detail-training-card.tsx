@@ -39,6 +39,9 @@ const Fact = ({
 };
 
 type PokemonDetailTrainingCardProps = {
+  /* In place of the values when the form arrives after this game. */
+  note: PokemonDetailMechanicNote | null;
+  noteHref?: string | null;
   /* The values this game reads for the form; null when it has none by then. */
   training: PokemonDetailTraining | null;
 };
@@ -47,11 +50,30 @@ type PokemonDetailTrainingCardProps = {
  * What defeating and raising it gives in this game: the EV yield where the
  * game counts one (not Let's Go or Legends: Arceus, nor Generation I and II),
  * the catch rate, base friendship (none in Generation I), base experience
- * and the growth rate with what level 100 takes on it.
+ * and the growth rate with what level 100 takes on it. A form the game
+ * doesn't have yet shows the note with the generation it arrives in.
  */
 export const PokemonDetailTrainingCard = ({
+  note,
+  noteHref,
   training,
 }: PokemonDetailTrainingCardProps) => {
+  if (!training && note) {
+    return (
+      <DetailSectionCard
+        id="training"
+        title="Training"
+        contentClassName="flex flex-1 flex-col"
+      >
+        <PokemonDetailMechanicNoteCard
+          arrivesHref={noteHref}
+          layout="fill"
+          note={note}
+        />
+      </DetailSectionCard>
+    );
+  }
+
   return (
     <DetailSectionCard id="training" title="Training">
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">

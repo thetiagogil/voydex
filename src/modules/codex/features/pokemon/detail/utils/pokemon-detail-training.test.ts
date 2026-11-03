@@ -7,6 +7,7 @@ import type {
 
 import {
   formatEvYield,
+  getPokemonDetailTrainingArrival,
   selectPokemonDetailTrainingRow,
   toPokemonDetailTraining,
 } from "./pokemon-detail-training";
@@ -86,6 +87,39 @@ describe("selectPokemonDetailTrainingRow", () => {
   it("is null for a form or game with no row yet", () => {
     expect(select(1, 2501)).toBeNull();
     expect(select(99)).toBeNull();
+  });
+
+  it("places a row that starts in an expansion at its base game", () => {
+    /* The Sword / Shield row given from the Crown Tundra instead. */
+    const expansionRows = [
+      ...rows.filter((item) => item.version_group_start_id !== 18),
+      row({ base_friendship: 90, version_group_start_id: 20 }),
+    ];
+    const select = (versionGroupId: number) =>
+      selectPokemonDetailTrainingRow({
+        formId: 2500,
+        rows: expansionRows,
+        versionGroupId,
+        versionGroups,
+      });
+
+    expect(select(18)?.base_friendship).toBe(90);
+    expect(select(21)?.base_friendship).toBe(90);
+    expect(select(3)?.base_friendship).toBe(70);
+  });
+});
+
+describe("getPokemonDetailTrainingArrival", () => {
+  it("names the generation of the form's first row", () => {
+    expect(
+      getPokemonDetailTrainingArrival({ formId: 2501, rows, versionGroups }),
+    ).toBe(8);
+    expect(
+      getPokemonDetailTrainingArrival({ formId: 2500, rows, versionGroups }),
+    ).toBe(1);
+    expect(
+      getPokemonDetailTrainingArrival({ formId: 9, rows, versionGroups }),
+    ).toBeNull();
   });
 });
 
