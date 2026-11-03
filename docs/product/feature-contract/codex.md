@@ -82,11 +82,11 @@ Undo; with none, Start a Play) and an `In your Plays` card listing every one of 
 your rosters. The hero's eyebrow reads the Pokédex category of the form shown
 (its own where it differs, as Hisuian Growlithe is the Scout Pokémon), and
 its sentence the form's height and weight, leaving out a size the games
-don't give. The Breeding card shows egg groups and egg cycles where the game
+don't give. The entry's Training card reads what the open game gives for the form: the EV yield where the game counts one (not Let's Go, not Legends: Arceus, nor Generation I and II), the catch rate, base friendship (none in Generation I), base experience and the growth rate with what level 100 takes, each from that game's own data (Yellow's Pikachu is harder to catch; Sword / Shield lowered most base friendship to 50). The Breeding card shows egg groups and egg cycles where the game
 has breeding, and the gender ratio (the split over a bar of the male share,
 or male only, female only or genderless; a form that is always one gender,
 such as Meowstic's female form, reads as that gender) where the game has gender. The
-Training values and flavour text are pending data. The hero's heart saves the shown form as
+flavour text is pending data. The hero's heart saves the shown form as
 a favourite (Undo in the toast) and lists it in Collection's Favourites;
 signed out, it is a link to log in that returns to the entry. The accepted handoff below
 remains the target.

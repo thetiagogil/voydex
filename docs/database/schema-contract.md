@@ -23,7 +23,8 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
 ## Reference And Tracking
 
 - `reference` stores product families, games, content scopes, Pokémon identity,
-  forms, mechanics, moves, items, evolution, availability, learnsets, and
+  forms, mechanics, training values, moves, items, evolution, availability,
+  learnsets, and
   Pokedex definitions.
 - Generation-aware attributes preserve mechanics that changed over time.
 - `reference.items.effect_summary` is a short "what it does" sentence, set for

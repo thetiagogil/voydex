@@ -45,6 +45,25 @@ test.describe("Codex", () => {
     await expectAccessible(page);
   });
 
+  test("reads a form's training values from the open game", async ({
+    page,
+  }) => {
+    await page.goto("/codex/pokemon/swsh/charizard");
+    const training = page.getByRole("region", { name: "Training" });
+    await expect(training.getByText("EV yield")).toBeVisible();
+    await expect(training.getByText("3 Sp. Atk")).toBeVisible();
+    await expect(training.getByText("50", { exact: true })).toBeVisible();
+    await expect(training.getByText("Medium Slow")).toBeVisible();
+
+    /* Red / Blue counts no EVs and has no friendship; Yellow's Pikachu is harder to catch. */
+    await page.goto("/codex/pokemon/yellow/pikachu");
+    const early = page.getByRole("region", { name: "Training" });
+    await expect(early.getByText("EV yield")).toHaveCount(0);
+    await expect(early.getByText("Base friendship")).toHaveCount(0);
+    await expect(early.getByText("163", { exact: true })).toBeVisible();
+    await expectAccessible(page);
+  });
+
   test("shows a battle form only in the games that have it", async ({
     page,
   }) => {

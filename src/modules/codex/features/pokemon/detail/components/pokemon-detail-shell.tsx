@@ -21,6 +21,12 @@ import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/
 import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-model";
 import { getFormFemaleRatioEighths } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-gender-ratio";
 import {
+  getPokemonDetailTrainingArrival,
+  selectPokemonDetailTrainingRow,
+  toPokemonDetailTraining,
+  type PokemonDetailTraining,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-training";
+import {
   PokemonDetailBreedingCard,
   PokemonDetailTrainingCard,
 } from "@/modules/codex/features/pokemon/detail/sections/training/pokemon-detail-training-card";
@@ -44,7 +50,10 @@ import {
   getGameMechanicAbsence,
   supportsGameMechanic,
 } from "@/modules/reference/features/games/domain/game-mechanics";
-import { getPokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
+import {
+  getPokemonDetailMechanicNote,
+  type PokemonDetailMechanicNote,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import {
   formatGenerationName,
   getGenerationNumeral,
@@ -70,6 +79,51 @@ const factsRowClassNames: Record<number, string> = {
   1: "xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
   2: "xl:grid-cols-[minmax(0,2.2fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
   3: "xl:grid-cols-[minmax(0,3fr)_minmax(0,1.5fr)_minmax(0,1fr)]",
+};
+
+/* The form's training values as the open game reads them, with EVs only where it counts them. */
+const getFormTraining = (
+  data: PokemonDetailData,
+  scope: ResolvedPokemonDetailScope,
+): PokemonDetailTraining | null => {
+  const formId = scope.form?.form.id;
+
+  if (formId === undefined) return null;
+
+  const row = selectPokemonDetailTrainingRow({
+    formId,
+    rows: data.trainingAttributes,
+    versionGroupId: scope.versionGroup.versionGroup.id,
+    versionGroups: data.versionGroups,
+  });
+
+  if (!row) return null;
+
+  const training = toPokemonDetailTraining(row, data.growthRates);
+
+  return supportsGameMechanic(scope.mechanics, gameMechanics.effortValues)
+    ? training
+    : { ...training, evYield: null };
+};
+
+/* For a form the open game is before: where its values start. */
+const getFormTrainingNote = (
+  data: PokemonDetailData,
+  scope: ResolvedPokemonDetailScope,
+): PokemonDetailMechanicNote | null => {
+  const form = scope.form?.form;
+
+  if (!form) return null;
+
+  const arrivesIn = getPokemonDetailTrainingArrival({
+    formId: form.id,
+    rows: data.trainingAttributes,
+    versionGroups: data.versionGroups,
+  });
+
+  return arrivesIn === null
+    ? null
+    : { arrivesIn, text: `${form.name} arrives in` };
 };
 
 /* The form's egg groups in slot order, from its attributes in this generation. */
@@ -152,6 +206,7 @@ export const PokemonDetailShell = ({
     "abilities",
     getVersionGroupShortName(activeVersionGroup.name),
   );
+  const trainingNote = getFormTrainingNote(data, scope);
   const breedingNote = getPokemonDetailMechanicNote(
     getGameMechanicAbsence(scope.mechanics, gameMechanics.breeding),
     "breeding",
@@ -226,7 +281,11 @@ export const PokemonDetailShell = ({
               noteHref={getGenerationHref(abilitiesNote?.arrivesIn ?? null)}
             />
           </div>
-          <PokemonDetailTrainingCard />
+          <PokemonDetailTrainingCard
+            note={trainingNote}
+            noteHref={getGenerationHref(trainingNote?.arrivesIn ?? null)}
+            training={getFormTraining(data, scope)}
+          />
           <PokemonDetailBreedingCard
             eggCycles={data.species.egg_cycles}
             eggGroups={getFormEggGroups(data, scope)}

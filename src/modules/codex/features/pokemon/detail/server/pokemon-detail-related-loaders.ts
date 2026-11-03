@@ -5,16 +5,19 @@ import type {
   AbilityAttribute,
   EggGroup,
   EvolutionMethod,
+  GrowthRate,
   Pokedex,
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
+  PokemonTrainingAttributes,
 } from "@/modules/reference/types";
 
 type PokemonDetailRelatedRowsParams = {
   attributes: PokemonAttributes[];
   familySpeciesIds: number[];
   pokedexIds: number[];
+  speciesId: number;
   supabase: ServerSupabaseClient;
 };
 
@@ -25,7 +28,10 @@ export type PokemonDetailRelatedRows = {
   evolutionEdges: PokemonEvolutionEdge[];
   familyAttributes: PokemonAttributes[];
   familyForms: PokemonForm[];
+  growthRates: GrowthRate[];
   pokedexes: Pokedex[];
+  /* The species' training values, every form and every change. */
+  trainingAttributes: PokemonTrainingAttributes[];
 };
 
 const getPokemonAbilityIds = (attributes: PokemonAttributes[]) => {
@@ -59,6 +65,7 @@ export const loadPokemonDetailRelatedRows = async ({
   attributes,
   familySpeciesIds,
   pokedexIds,
+  speciesId,
   supabase,
 }: PokemonDetailRelatedRowsParams): Promise<PokemonDetailRelatedRows> => {
   const abilityIds = getPokemonAbilityIds(attributes);
@@ -71,6 +78,8 @@ export const loadPokemonDetailRelatedRows = async ({
     familyFormsResult,
     familyAttributesResult,
     evolutionEdgesResult,
+    growthRatesResult,
+    trainingResult,
   ] = await Promise.all([
     abilityIds.length
       ? supabase
@@ -125,7 +134,23 @@ export const loadPokemonDetailRelatedRows = async ({
           .in("from_species_id", familySpeciesIds)
           .order("sort_order", { ascending: true })
       : Promise.resolve({ data: [] as PokemonEvolutionEdge[], error: null }),
+    supabase
+      .schema("reference")
+      .from("growth_rates")
+      .select("*")
+      .order("sort_order", { ascending: true }),
+    supabase
+      .schema("reference")
+      .from("pokemon_training_attributes")
+      .select("*")
+      .eq("species_id", speciesId)
+      .order("form_id", { ascending: true })
+      .order("version_group_start_id", { ascending: true }),
   ]);
+
+  if (growthRatesResult.error || trainingResult.error) {
+    throw new Error("Unable to load Pokémon training data.");
+  }
 
   if (
     abilitiesResult.error ||
@@ -154,7 +179,9 @@ export const loadPokemonDetailRelatedRows = async ({
     evolutionEdges: evolutionEdgesResult.data ?? [],
     familyAttributes: familyAttributesResult.data ?? [],
     familyForms: familyFormsResult.data ?? [],
+    growthRates: growthRatesResult.data ?? [],
     pokedexes: pokedexResult.data ?? [],
+    trainingAttributes: trainingResult.data ?? [],
   };
 };
 

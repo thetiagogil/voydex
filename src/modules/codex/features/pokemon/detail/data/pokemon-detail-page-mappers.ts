@@ -72,7 +72,10 @@ export const buildPokemonDetailData = ({
     abilityAttributes: relatedRows.abilityAttributes,
     availability,
     defaultForm: null,
+    versionGroups: baseRows.versionGroups,
     eggGroups: relatedRows.eggGroups,
+    growthRates: relatedRows.growthRates,
+    trainingAttributes: relatedRows.trainingAttributes,
     evolutionFamily: buildPokemonEvolutionFamily({
       attributes: relatedRows.familyAttributes,
       edges: relatedRows.evolutionEdges,

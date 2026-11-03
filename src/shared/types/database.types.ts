@@ -2302,6 +2302,34 @@ export type Database = {
         };
         Relationships: [];
       };
+      growth_rates: {
+        Row: {
+          created_at: string;
+          id: number;
+          level_100_experience: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id: number;
+          level_100_experience: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          level_100_experience?: number;
+          name?: string;
+          slug?: string;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
       item_availability: {
         Row: {
           availability_method_id: number | null;
@@ -3837,6 +3865,80 @@ export type Database = {
             columns: ["introduced_generation_id"];
             isOneToOne: false;
             referencedRelation: "generations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      pokemon_training_attributes: {
+        Row: {
+          base_experience: number;
+          base_friendship: number | null;
+          catch_rate: number;
+          created_at: string;
+          ev_attack: number | null;
+          ev_defense: number | null;
+          ev_hp: number | null;
+          ev_special_attack: number | null;
+          ev_special_defense: number | null;
+          ev_speed: number | null;
+          form_id: number;
+          growth_rate_id: number;
+          species_id: number;
+          version_group_start_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          base_experience: number;
+          base_friendship?: number | null;
+          catch_rate: number;
+          created_at?: string;
+          ev_attack?: number | null;
+          ev_defense?: number | null;
+          ev_hp?: number | null;
+          ev_special_attack?: number | null;
+          ev_special_defense?: number | null;
+          ev_speed?: number | null;
+          form_id: number;
+          growth_rate_id: number;
+          species_id: number;
+          version_group_start_id: number;
+        };
+        Update: {
+          base_experience?: number;
+          base_friendship?: number | null;
+          catch_rate?: number;
+          created_at?: string;
+          ev_attack?: number | null;
+          ev_defense?: number | null;
+          ev_hp?: number | null;
+          ev_special_attack?: number | null;
+          ev_special_defense?: number | null;
+          ev_speed?: number | null;
+          form_id?: number;
+          growth_rate_id?: number;
+          species_id?: number;
+          version_group_start_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_training_attributes_form_fkey";
+            columns: ["species_id", "form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "pokemon_training_attributes_growth_rate_id_fkey";
+            columns: ["growth_rate_id"];
+            isOneToOne: false;
+            referencedRelation: "growth_rates";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pokemon_training_attributes_version_group_start_id_fkey";
+            columns: ["version_group_start_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
             referencedColumns: ["id"];
           },
         ];

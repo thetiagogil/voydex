@@ -3,6 +3,10 @@ import type { ReactNode } from "react";
 import { PokemonDetailMechanicNoteCard } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-mechanic-note";
 import type { PokemonDetailMechanicNote } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-mechanic-notes";
 import {
+  formatEvYield,
+  type PokemonDetailTraining,
+} from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-training";
+import {
   formatRatioPercent,
   getPokemonDetailGenderRatio,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-gender-ratio";
@@ -10,6 +14,7 @@ import { CodexPendingValue } from "@/modules/codex/shared/components/codex-pendi
 import { GenderIcon } from "@/modules/reference/features/pokemon/components/gender-icon";
 import type { EggGroup } from "@/modules/reference/types";
 import { DetailSectionCard } from "@/shared/components/detail-section-card";
+import { cn } from "@/shared/utils/cn";
 import { Meter } from "@/shared/components/ui/meter";
 
 type PokemonDetailBreedingCardProps = {
@@ -26,38 +31,93 @@ type PokemonDetailBreedingCardProps = {
   noteHref?: string | null;
 };
 
-const Fact = ({ children, label }: { children: ReactNode; label: string }) => {
+const Fact = ({
+  children,
+  className,
+  label,
+}: {
+  children: ReactNode;
+  className?: string;
+  label: string;
+}) => {
   return (
-    <div className="min-w-0">
+    <div className={cn("min-w-0", className)}>
       <dt className="text-ink-2 text-12 font-bold">{label}</dt>
       <dd className="text-16 mt-0.5 font-extrabold">{children}</dd>
     </div>
   );
 };
 
+type PokemonDetailTrainingCardProps = {
+  /* In place of the values when the form arrives after this game. */
+  note: PokemonDetailMechanicNote | null;
+  noteHref?: string | null;
+  /* The values this game reads for the form; null when it has none by then. */
+  training: PokemonDetailTraining | null;
+};
+
 /*
- * What defeating and raising it gives. Values Voydex doesn't have yet are
- * the pending marker until their data lands.
+ * What defeating and raising it gives in this game: the EV yield where the
+ * game counts one (not Let's Go or Legends: Arceus, nor Generation I and II),
+ * the catch rate, base friendship (none in Generation I), base experience
+ * and the growth rate with what level 100 takes on it. A form the game
+ * doesn't have yet shows the note with the generation it arrives in.
  */
-export const PokemonDetailTrainingCard = () => {
+export const PokemonDetailTrainingCard = ({
+  note,
+  noteHref,
+  training,
+}: PokemonDetailTrainingCardProps) => {
+  if (!training && note) {
+    return (
+      <DetailSectionCard
+        id="training"
+        title="Training"
+        contentClassName="flex flex-1 flex-col"
+      >
+        <PokemonDetailMechanicNoteCard
+          arrivesHref={noteHref}
+          layout="fill"
+          note={note}
+        />
+      </DetailSectionCard>
+    );
+  }
+
   return (
     <DetailSectionCard id="training" title="Training">
-      {/* TODO(v3-data): EV yield, catch rate, base friendship, base experience and growth rate per form and generation. */}
       <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5">
-        <Fact label="EV yield">
-          <CodexPendingValue />
-        </Fact>
+        {training?.evYield ? (
+          <Fact label="EV yield">
+            {training.evYield.length ? formatEvYield(training.evYield) : "None"}
+          </Fact>
+        ) : null}
         <Fact label="Catch rate">
-          <CodexPendingValue />
+          {training ? training.catchRate : <CodexPendingValue />}
         </Fact>
-        <Fact label="Base friendship">
-          <CodexPendingValue />
-        </Fact>
+        {training?.baseFriendship !== null ? (
+          <Fact label="Base friendship">
+            {training ? training.baseFriendship : <CodexPendingValue />}
+          </Fact>
+        ) : null}
         <Fact label="Base experience">
-          <CodexPendingValue />
+          {training ? training.baseExperience : <CodexPendingValue />}
         </Fact>
-        <Fact label="Growth rate">
-          <CodexPendingValue />
+        {/* Its own row: the total at level 100 is too long for half a card. */}
+        <Fact label="Growth rate" className="col-span-2">
+          {training?.growthRate ? (
+            <>
+              {training.growthRate.name}
+              <span className="text-ink-2 text-13 block font-semibold">
+                {training.growthRate.levelOneHundredExperience.toLocaleString(
+                  "en",
+                )}{" "}
+                Exp. at level 100
+              </span>
+            </>
+          ) : (
+            <CodexPendingValue />
+          )}
         </Fact>
       </dl>
     </DetailSectionCard>
