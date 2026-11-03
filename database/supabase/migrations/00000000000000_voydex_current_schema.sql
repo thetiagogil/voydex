@@ -794,6 +794,9 @@ CREATE TABLE reference.pokemon_species (
     introduced_generation_id integer NOT NULL REFERENCES reference.generations (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     evolution_family_id integer NOT NULL REFERENCES reference.evolution_families (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     color text,
+    category text NOT NULL,
+    female_ratio_eighths integer,
+    egg_cycles integer NOT NULL,
     is_baby boolean NOT NULL DEFAULT FALSE,
     is_legendary boolean NOT NULL DEFAULT FALSE,
     is_mythical boolean NOT NULL DEFAULT FALSE,
@@ -803,7 +806,10 @@ CREATE TABLE reference.pokemon_species (
     CONSTRAINT pokemon_species_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
     CONSTRAINT pokemon_species_id_family_unique UNIQUE (id, evolution_family_id),
     CONSTRAINT pokemon_species_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
-    CONSTRAINT pokemon_species_color_length_check CHECK (color IS NULL OR CHAR_LENGTH(BTRIM(color)) BETWEEN 1 AND 80)
+    CONSTRAINT pokemon_species_color_length_check CHECK (color IS NULL OR CHAR_LENGTH(BTRIM(color)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_species_category_length_check CHECK (CHAR_LENGTH(BTRIM(category)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_species_female_ratio_check CHECK (female_ratio_eighths IS NULL OR female_ratio_eighths BETWEEN 0 AND 8),
+    CONSTRAINT pokemon_species_egg_cycles_check CHECK (egg_cycles BETWEEN 1 AND 255)
 );
 
 COMMENT ON TABLE reference.pokemon_species IS 'National Dex species identities used by Pokedex completion and Pokémon reuse checks.';
@@ -811,6 +817,12 @@ COMMENT ON TABLE reference.pokemon_species IS 'National Dex species identities u
 COMMENT ON COLUMN reference.pokemon_species.national_number IS 'National Pokedex number.';
 
 COMMENT ON COLUMN reference.pokemon_species.evolution_family_id IS 'Evolution family used by broad Pokémon reuse checks.';
+
+COMMENT ON COLUMN reference.pokemon_species.category IS 'The Pokédex category, as the games print it without the word Pokémon: Seed, Flame, Mouse.';
+
+COMMENT ON COLUMN reference.pokemon_species.female_ratio_eighths IS 'How many of every eight are female (4 is an even split, 0 male only, 8 female only); NULL for a species with no gender.';
+
+COMMENT ON COLUMN reference.pokemon_species.egg_cycles IS 'Egg cycles until its egg hatches, as the games count them.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/017_pokemon_forms.sql
@@ -829,6 +841,8 @@ CREATE TABLE reference.pokemon_forms (
     form_order integer NOT NULL,
     height_decimeters integer,
     weight_hectograms integer,
+    category text,
+    gender text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT pokemon_forms_id_positive_check CHECK (id > 0),
     CONSTRAINT pokemon_forms_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 160),
@@ -836,6 +850,8 @@ CREATE TABLE reference.pokemon_forms (
     CONSTRAINT pokemon_forms_form_order_positive_check CHECK (form_order > 0),
     CONSTRAINT pokemon_forms_height_positive_check CHECK (height_decimeters IS NULL OR height_decimeters > 0),
     CONSTRAINT pokemon_forms_weight_positive_check CHECK (weight_hectograms IS NULL OR weight_hectograms > 0),
+    CONSTRAINT pokemon_forms_category_length_check CHECK (category IS NULL OR CHAR_LENGTH(BTRIM(category)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_forms_gender_check CHECK (gender IS NULL OR gender IN ('male', 'female')),
     CONSTRAINT pokemon_forms_species_id_unique UNIQUE (species_id, id),
     CONSTRAINT pokemon_forms_species_order_unique UNIQUE (species_id, form_order)
 );
@@ -846,9 +862,13 @@ WHERE
 
 COMMENT ON TABLE reference.pokemon_forms IS 'Concrete Pokémon form identities used by team builder, planning, and display.';
 
-COMMENT ON COLUMN reference.pokemon_forms.height_decimeters IS 'Pokémon height in decimeters, matching canonical game data units.';
+COMMENT ON COLUMN reference.pokemon_forms.height_decimeters IS 'Pokémon height in decimeters, matching canonical game data units. NULL only for a form the games give no size (a Team Star Starmobile, Mega Greninja).';
 
-COMMENT ON COLUMN reference.pokemon_forms.weight_hectograms IS 'Pokémon weight in hectograms, matching canonical game data units.';
+COMMENT ON COLUMN reference.pokemon_forms.weight_hectograms IS 'Pokémon weight in hectograms, matching canonical game data units. NULL only where the games give no weight (a Gigantamax form, Eternamax Eternatus, a Team Star Starmobile, Mega Greninja).';
+
+COMMENT ON COLUMN reference.pokemon_forms.category IS 'The form''s own Pokédex category where it differs from its species'' (Hisuian Growlithe: Scout); NULL reads the species'' category.';
+
+COMMENT ON COLUMN reference.pokemon_forms.gender IS 'The one gender this form always is (Meowstic''s female form, a Cap Pikachu, Battle Bond Greninja); NULL reads the species'' gender ratio.';
 
 -- ============================================================================
 -- Source: database/schema/02_reference/01_tables/018_item_categories.sql

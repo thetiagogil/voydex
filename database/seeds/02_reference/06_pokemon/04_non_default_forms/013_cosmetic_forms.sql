@@ -5,225 +5,227 @@
 -- Cross-check: PokeAPI pokemon-form records for names, ids and images.
 -- Scope note: persistent forms that are caught and kept (variants) or switched on a save (forms), purely cosmetic ones included. Alcremie is modelled by cream only; its sweet is a per-Pokemon detail. Cosplay Pikachu and Minior colours are variants; Battle Bond Greninja is a variant that becomes Ash-Greninja in battle. Power Construct Zygarde needs no extra form: Zygarde (Complete Forme) already carries it.
 -- ============================================================================
+-- Heights and weights: the machine-readable species snapshot (PokeAPI), checked against Bulbapedia species pages on 2026-11-03.
+-- Form categories: Bulbapedia's Pokémon category list, read on 2026-11-03.
 -- File Scope
 -- ============================================================================
 -- Table: reference.pokemon_forms
 -- Scope: cosmetic and other persistent forms (variants and switchable forms).
-INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_generation_id, is_default, form_order, height_decimeters, weight_hectograms)
+INSERT INTO reference.pokemon_forms (id, species_id, slug, name, introduced_generation_id, is_default, form_order, height_decimeters, weight_hectograms, category, gender)
 VALUES
   -- Unown (B)
-  (20101, 201, 'unown-b', 'Unown (B)', 2, FALSE, 2, NULL, NULL),
+  (20101, 201, 'unown-b', 'Unown (B)', 2, FALSE, 2, 5, 50, NULL, NULL),
   -- Unown (C)
-  (20102, 201, 'unown-c', 'Unown (C)', 2, FALSE, 3, NULL, NULL),
+  (20102, 201, 'unown-c', 'Unown (C)', 2, FALSE, 3, 5, 50, NULL, NULL),
   -- Unown (D)
-  (20103, 201, 'unown-d', 'Unown (D)', 2, FALSE, 4, NULL, NULL),
+  (20103, 201, 'unown-d', 'Unown (D)', 2, FALSE, 4, 5, 50, NULL, NULL),
   -- Unown (E)
-  (20104, 201, 'unown-e', 'Unown (E)', 2, FALSE, 5, NULL, NULL),
+  (20104, 201, 'unown-e', 'Unown (E)', 2, FALSE, 5, 5, 50, NULL, NULL),
   -- Unown (F)
-  (20105, 201, 'unown-f', 'Unown (F)', 2, FALSE, 6, NULL, NULL),
+  (20105, 201, 'unown-f', 'Unown (F)', 2, FALSE, 6, 5, 50, NULL, NULL),
   -- Unown (G)
-  (20106, 201, 'unown-g', 'Unown (G)', 2, FALSE, 7, NULL, NULL),
+  (20106, 201, 'unown-g', 'Unown (G)', 2, FALSE, 7, 5, 50, NULL, NULL),
   -- Unown (H)
-  (20107, 201, 'unown-h', 'Unown (H)', 2, FALSE, 8, NULL, NULL),
+  (20107, 201, 'unown-h', 'Unown (H)', 2, FALSE, 8, 5, 50, NULL, NULL),
   -- Unown (I)
-  (20108, 201, 'unown-i', 'Unown (I)', 2, FALSE, 9, NULL, NULL),
+  (20108, 201, 'unown-i', 'Unown (I)', 2, FALSE, 9, 5, 50, NULL, NULL),
   -- Unown (J)
-  (20109, 201, 'unown-j', 'Unown (J)', 2, FALSE, 10, NULL, NULL),
+  (20109, 201, 'unown-j', 'Unown (J)', 2, FALSE, 10, 5, 50, NULL, NULL),
   -- Unown (K)
-  (20110, 201, 'unown-k', 'Unown (K)', 2, FALSE, 11, NULL, NULL),
+  (20110, 201, 'unown-k', 'Unown (K)', 2, FALSE, 11, 5, 50, NULL, NULL),
   -- Unown (L)
-  (20111, 201, 'unown-l', 'Unown (L)', 2, FALSE, 12, NULL, NULL),
+  (20111, 201, 'unown-l', 'Unown (L)', 2, FALSE, 12, 5, 50, NULL, NULL),
   -- Unown (M)
-  (20112, 201, 'unown-m', 'Unown (M)', 2, FALSE, 13, NULL, NULL),
+  (20112, 201, 'unown-m', 'Unown (M)', 2, FALSE, 13, 5, 50, NULL, NULL),
   -- Unown (N)
-  (20113, 201, 'unown-n', 'Unown (N)', 2, FALSE, 14, NULL, NULL),
+  (20113, 201, 'unown-n', 'Unown (N)', 2, FALSE, 14, 5, 50, NULL, NULL),
   -- Unown (O)
-  (20114, 201, 'unown-o', 'Unown (O)', 2, FALSE, 15, NULL, NULL),
+  (20114, 201, 'unown-o', 'Unown (O)', 2, FALSE, 15, 5, 50, NULL, NULL),
   -- Unown (P)
-  (20115, 201, 'unown-p', 'Unown (P)', 2, FALSE, 16, NULL, NULL),
+  (20115, 201, 'unown-p', 'Unown (P)', 2, FALSE, 16, 5, 50, NULL, NULL),
   -- Unown (Q)
-  (20116, 201, 'unown-q', 'Unown (Q)', 2, FALSE, 17, NULL, NULL),
+  (20116, 201, 'unown-q', 'Unown (Q)', 2, FALSE, 17, 5, 50, NULL, NULL),
   -- Unown (R)
-  (20117, 201, 'unown-r', 'Unown (R)', 2, FALSE, 18, NULL, NULL),
+  (20117, 201, 'unown-r', 'Unown (R)', 2, FALSE, 18, 5, 50, NULL, NULL),
   -- Unown (S)
-  (20118, 201, 'unown-s', 'Unown (S)', 2, FALSE, 19, NULL, NULL),
+  (20118, 201, 'unown-s', 'Unown (S)', 2, FALSE, 19, 5, 50, NULL, NULL),
   -- Unown (T)
-  (20119, 201, 'unown-t', 'Unown (T)', 2, FALSE, 20, NULL, NULL),
+  (20119, 201, 'unown-t', 'Unown (T)', 2, FALSE, 20, 5, 50, NULL, NULL),
   -- Unown (U)
-  (20120, 201, 'unown-u', 'Unown (U)', 2, FALSE, 21, NULL, NULL),
+  (20120, 201, 'unown-u', 'Unown (U)', 2, FALSE, 21, 5, 50, NULL, NULL),
   -- Unown (V)
-  (20121, 201, 'unown-v', 'Unown (V)', 2, FALSE, 22, NULL, NULL),
+  (20121, 201, 'unown-v', 'Unown (V)', 2, FALSE, 22, 5, 50, NULL, NULL),
   -- Unown (W)
-  (20122, 201, 'unown-w', 'Unown (W)', 2, FALSE, 23, NULL, NULL),
+  (20122, 201, 'unown-w', 'Unown (W)', 2, FALSE, 23, 5, 50, NULL, NULL),
   -- Unown (X)
-  (20123, 201, 'unown-x', 'Unown (X)', 2, FALSE, 24, NULL, NULL),
+  (20123, 201, 'unown-x', 'Unown (X)', 2, FALSE, 24, 5, 50, NULL, NULL),
   -- Unown (Y)
-  (20124, 201, 'unown-y', 'Unown (Y)', 2, FALSE, 25, NULL, NULL),
+  (20124, 201, 'unown-y', 'Unown (Y)', 2, FALSE, 25, 5, 50, NULL, NULL),
   -- Unown (Z)
-  (20125, 201, 'unown-z', 'Unown (Z)', 2, FALSE, 26, NULL, NULL),
+  (20125, 201, 'unown-z', 'Unown (Z)', 2, FALSE, 26, 5, 50, NULL, NULL),
   -- Unown (!)
-  (20126, 201, 'unown-exclamation', 'Unown (!)', 3, FALSE, 27, NULL, NULL),
+  (20126, 201, 'unown-exclamation', 'Unown (!)', 3, FALSE, 27, 5, 50, NULL, NULL),
   -- Unown (?)
-  (20127, 201, 'unown-question', 'Unown (?)', 3, FALSE, 28, NULL, NULL),
+  (20127, 201, 'unown-question', 'Unown (?)', 3, FALSE, 28, 5, 50, NULL, NULL),
   -- Shellos (East Sea)
-  (42201, 422, 'shellos-east', 'Shellos (East Sea)', 4, FALSE, 2, NULL, NULL),
+  (42201, 422, 'shellos-east', 'Shellos (East Sea)', 4, FALSE, 2, 3, 63, NULL, NULL),
   -- Gastrodon (East Sea)
-  (42301, 423, 'gastrodon-east', 'Gastrodon (East Sea)', 4, FALSE, 2, NULL, NULL),
+  (42301, 423, 'gastrodon-east', 'Gastrodon (East Sea)', 4, FALSE, 2, 9, 299, NULL, NULL),
   -- Deerling (Summer Form)
-  (58501, 585, 'deerling-summer', 'Deerling (Summer Form)', 5, FALSE, 2, NULL, NULL),
+  (58501, 585, 'deerling-summer', 'Deerling (Summer Form)', 5, FALSE, 2, 6, 195, NULL, NULL),
   -- Deerling (Autumn Form)
-  (58502, 585, 'deerling-autumn', 'Deerling (Autumn Form)', 5, FALSE, 3, NULL, NULL),
+  (58502, 585, 'deerling-autumn', 'Deerling (Autumn Form)', 5, FALSE, 3, 6, 195, NULL, NULL),
   -- Deerling (Winter Form)
-  (58503, 585, 'deerling-winter', 'Deerling (Winter Form)', 5, FALSE, 4, NULL, NULL),
+  (58503, 585, 'deerling-winter', 'Deerling (Winter Form)', 5, FALSE, 4, 6, 195, NULL, NULL),
   -- Sawsbuck (Summer Form)
-  (58601, 586, 'sawsbuck-summer', 'Sawsbuck (Summer Form)', 5, FALSE, 2, NULL, NULL),
+  (58601, 586, 'sawsbuck-summer', 'Sawsbuck (Summer Form)', 5, FALSE, 2, 19, 925, NULL, NULL),
   -- Sawsbuck (Autumn Form)
-  (58602, 586, 'sawsbuck-autumn', 'Sawsbuck (Autumn Form)', 5, FALSE, 3, NULL, NULL),
+  (58602, 586, 'sawsbuck-autumn', 'Sawsbuck (Autumn Form)', 5, FALSE, 3, 19, 925, NULL, NULL),
   -- Sawsbuck (Winter Form)
-  (58603, 586, 'sawsbuck-winter', 'Sawsbuck (Winter Form)', 5, FALSE, 4, NULL, NULL),
+  (58603, 586, 'sawsbuck-winter', 'Sawsbuck (Winter Form)', 5, FALSE, 4, 19, 925, NULL, NULL),
   -- Vivillon (Icy Snow Pattern)
-  (66601, 666, 'vivillon-icy-snow', 'Vivillon (Icy Snow Pattern)', 6, FALSE, 2, NULL, NULL),
+  (66601, 666, 'vivillon-icy-snow', 'Vivillon (Icy Snow Pattern)', 6, FALSE, 2, 12, 170, NULL, NULL),
   -- Vivillon (Polar Pattern)
-  (66602, 666, 'vivillon-polar', 'Vivillon (Polar Pattern)', 6, FALSE, 3, NULL, NULL),
+  (66602, 666, 'vivillon-polar', 'Vivillon (Polar Pattern)', 6, FALSE, 3, 12, 170, NULL, NULL),
   -- Vivillon (Tundra Pattern)
-  (66603, 666, 'vivillon-tundra', 'Vivillon (Tundra Pattern)', 6, FALSE, 4, NULL, NULL),
+  (66603, 666, 'vivillon-tundra', 'Vivillon (Tundra Pattern)', 6, FALSE, 4, 12, 170, NULL, NULL),
   -- Vivillon (Continental Pattern)
-  (66604, 666, 'vivillon-continental', 'Vivillon (Continental Pattern)', 6, FALSE, 5, NULL, NULL),
+  (66604, 666, 'vivillon-continental', 'Vivillon (Continental Pattern)', 6, FALSE, 5, 12, 170, NULL, NULL),
   -- Vivillon (Garden Pattern)
-  (66605, 666, 'vivillon-garden', 'Vivillon (Garden Pattern)', 6, FALSE, 6, NULL, NULL),
+  (66605, 666, 'vivillon-garden', 'Vivillon (Garden Pattern)', 6, FALSE, 6, 12, 170, NULL, NULL),
   -- Vivillon (Elegant Pattern)
-  (66606, 666, 'vivillon-elegant', 'Vivillon (Elegant Pattern)', 6, FALSE, 7, NULL, NULL),
+  (66606, 666, 'vivillon-elegant', 'Vivillon (Elegant Pattern)', 6, FALSE, 7, 12, 170, NULL, NULL),
   -- Vivillon (Modern Pattern)
-  (66607, 666, 'vivillon-modern', 'Vivillon (Modern Pattern)', 6, FALSE, 8, NULL, NULL),
+  (66607, 666, 'vivillon-modern', 'Vivillon (Modern Pattern)', 6, FALSE, 8, 12, 170, NULL, NULL),
   -- Vivillon (Marine Pattern)
-  (66608, 666, 'vivillon-marine', 'Vivillon (Marine Pattern)', 6, FALSE, 9, NULL, NULL),
+  (66608, 666, 'vivillon-marine', 'Vivillon (Marine Pattern)', 6, FALSE, 9, 12, 170, NULL, NULL),
   -- Vivillon (Archipelago Pattern)
-  (66609, 666, 'vivillon-archipelago', 'Vivillon (Archipelago Pattern)', 6, FALSE, 10, NULL, NULL),
+  (66609, 666, 'vivillon-archipelago', 'Vivillon (Archipelago Pattern)', 6, FALSE, 10, 12, 170, NULL, NULL),
   -- Vivillon (High Plains Pattern)
-  (66610, 666, 'vivillon-high-plains', 'Vivillon (High Plains Pattern)', 6, FALSE, 11, NULL, NULL),
+  (66610, 666, 'vivillon-high-plains', 'Vivillon (High Plains Pattern)', 6, FALSE, 11, 12, 170, NULL, NULL),
   -- Vivillon (Sandstorm Pattern)
-  (66611, 666, 'vivillon-sandstorm', 'Vivillon (Sandstorm Pattern)', 6, FALSE, 12, NULL, NULL),
+  (66611, 666, 'vivillon-sandstorm', 'Vivillon (Sandstorm Pattern)', 6, FALSE, 12, 12, 170, NULL, NULL),
   -- Vivillon (River Pattern)
-  (66612, 666, 'vivillon-river', 'Vivillon (River Pattern)', 6, FALSE, 13, NULL, NULL),
+  (66612, 666, 'vivillon-river', 'Vivillon (River Pattern)', 6, FALSE, 13, 12, 170, NULL, NULL),
   -- Vivillon (Monsoon Pattern)
-  (66613, 666, 'vivillon-monsoon', 'Vivillon (Monsoon Pattern)', 6, FALSE, 14, NULL, NULL),
+  (66613, 666, 'vivillon-monsoon', 'Vivillon (Monsoon Pattern)', 6, FALSE, 14, 12, 170, NULL, NULL),
   -- Vivillon (Savanna Pattern)
-  (66614, 666, 'vivillon-savanna', 'Vivillon (Savanna Pattern)', 6, FALSE, 15, NULL, NULL),
+  (66614, 666, 'vivillon-savanna', 'Vivillon (Savanna Pattern)', 6, FALSE, 15, 12, 170, NULL, NULL),
   -- Vivillon (Sun Pattern)
-  (66615, 666, 'vivillon-sun', 'Vivillon (Sun Pattern)', 6, FALSE, 16, NULL, NULL),
+  (66615, 666, 'vivillon-sun', 'Vivillon (Sun Pattern)', 6, FALSE, 16, 12, 170, NULL, NULL),
   -- Vivillon (Ocean Pattern)
-  (66616, 666, 'vivillon-ocean', 'Vivillon (Ocean Pattern)', 6, FALSE, 17, NULL, NULL),
+  (66616, 666, 'vivillon-ocean', 'Vivillon (Ocean Pattern)', 6, FALSE, 17, 12, 170, NULL, NULL),
   -- Vivillon (Jungle Pattern)
-  (66617, 666, 'vivillon-jungle', 'Vivillon (Jungle Pattern)', 6, FALSE, 18, NULL, NULL),
+  (66617, 666, 'vivillon-jungle', 'Vivillon (Jungle Pattern)', 6, FALSE, 18, 12, 170, NULL, NULL),
   -- Vivillon (Fancy Pattern)
-  (66618, 666, 'vivillon-fancy', 'Vivillon (Fancy Pattern)', 6, FALSE, 19, NULL, NULL),
+  (66618, 666, 'vivillon-fancy', 'Vivillon (Fancy Pattern)', 6, FALSE, 19, 12, 170, NULL, NULL),
   -- Vivillon (Poke Ball Pattern)
-  (66619, 666, 'vivillon-poke-ball', 'Vivillon (Poke Ball Pattern)', 6, FALSE, 20, NULL, NULL),
+  (66619, 666, 'vivillon-poke-ball', 'Vivillon (Poke Ball Pattern)', 6, FALSE, 20, 12, 170, NULL, NULL),
   -- Flabebe (Yellow Flower)
-  (66901, 669, 'flabebe-yellow', 'Flabebe (Yellow Flower)', 6, FALSE, 2, NULL, NULL),
+  (66901, 669, 'flabebe-yellow', 'Flabebe (Yellow Flower)', 6, FALSE, 2, 1, 1, NULL, NULL),
   -- Flabebe (Orange Flower)
-  (66902, 669, 'flabebe-orange', 'Flabebe (Orange Flower)', 6, FALSE, 3, NULL, NULL),
+  (66902, 669, 'flabebe-orange', 'Flabebe (Orange Flower)', 6, FALSE, 3, 1, 1, NULL, NULL),
   -- Flabebe (Blue Flower)
-  (66903, 669, 'flabebe-blue', 'Flabebe (Blue Flower)', 6, FALSE, 4, NULL, NULL),
+  (66903, 669, 'flabebe-blue', 'Flabebe (Blue Flower)', 6, FALSE, 4, 1, 1, NULL, NULL),
   -- Flabebe (White Flower)
-  (66904, 669, 'flabebe-white', 'Flabebe (White Flower)', 6, FALSE, 5, NULL, NULL),
+  (66904, 669, 'flabebe-white', 'Flabebe (White Flower)', 6, FALSE, 5, 1, 1, NULL, NULL),
   -- Floette (Yellow Flower)
-  (67003, 670, 'floette-yellow', 'Floette (Yellow Flower)', 6, FALSE, 4, NULL, NULL),
+  (67003, 670, 'floette-yellow', 'Floette (Yellow Flower)', 6, FALSE, 4, 2, 9, NULL, NULL),
   -- Floette (Orange Flower)
-  (67004, 670, 'floette-orange', 'Floette (Orange Flower)', 6, FALSE, 5, NULL, NULL),
+  (67004, 670, 'floette-orange', 'Floette (Orange Flower)', 6, FALSE, 5, 2, 9, NULL, NULL),
   -- Floette (Blue Flower)
-  (67005, 670, 'floette-blue', 'Floette (Blue Flower)', 6, FALSE, 6, NULL, NULL),
+  (67005, 670, 'floette-blue', 'Floette (Blue Flower)', 6, FALSE, 6, 2, 9, NULL, NULL),
   -- Floette (White Flower)
-  (67006, 670, 'floette-white', 'Floette (White Flower)', 6, FALSE, 7, NULL, NULL),
+  (67006, 670, 'floette-white', 'Floette (White Flower)', 6, FALSE, 7, 2, 9, NULL, NULL),
   -- Florges (Yellow Flower)
-  (67101, 671, 'florges-yellow', 'Florges (Yellow Flower)', 6, FALSE, 2, NULL, NULL),
+  (67101, 671, 'florges-yellow', 'Florges (Yellow Flower)', 6, FALSE, 2, 11, 100, NULL, NULL),
   -- Florges (Orange Flower)
-  (67102, 671, 'florges-orange', 'Florges (Orange Flower)', 6, FALSE, 3, NULL, NULL),
+  (67102, 671, 'florges-orange', 'Florges (Orange Flower)', 6, FALSE, 3, 11, 100, NULL, NULL),
   -- Florges (Blue Flower)
-  (67103, 671, 'florges-blue', 'Florges (Blue Flower)', 6, FALSE, 4, NULL, NULL),
+  (67103, 671, 'florges-blue', 'Florges (Blue Flower)', 6, FALSE, 4, 11, 100, NULL, NULL),
   -- Florges (White Flower)
-  (67104, 671, 'florges-white', 'Florges (White Flower)', 6, FALSE, 5, NULL, NULL),
+  (67104, 671, 'florges-white', 'Florges (White Flower)', 6, FALSE, 5, 11, 100, NULL, NULL),
   -- Furfrou (Heart Trim)
-  (67601, 676, 'furfrou-heart', 'Furfrou (Heart Trim)', 6, FALSE, 2, NULL, NULL),
+  (67601, 676, 'furfrou-heart', 'Furfrou (Heart Trim)', 6, FALSE, 2, 12, 280, NULL, NULL),
   -- Furfrou (Star Trim)
-  (67602, 676, 'furfrou-star', 'Furfrou (Star Trim)', 6, FALSE, 3, NULL, NULL),
+  (67602, 676, 'furfrou-star', 'Furfrou (Star Trim)', 6, FALSE, 3, 12, 280, NULL, NULL),
   -- Furfrou (Diamond Trim)
-  (67603, 676, 'furfrou-diamond', 'Furfrou (Diamond Trim)', 6, FALSE, 4, NULL, NULL),
+  (67603, 676, 'furfrou-diamond', 'Furfrou (Diamond Trim)', 6, FALSE, 4, 12, 280, NULL, NULL),
   -- Furfrou (Debutante Trim)
-  (67604, 676, 'furfrou-debutante', 'Furfrou (Debutante Trim)', 6, FALSE, 5, NULL, NULL),
+  (67604, 676, 'furfrou-debutante', 'Furfrou (Debutante Trim)', 6, FALSE, 5, 12, 280, NULL, NULL),
   -- Furfrou (Matron Trim)
-  (67605, 676, 'furfrou-matron', 'Furfrou (Matron Trim)', 6, FALSE, 6, NULL, NULL),
+  (67605, 676, 'furfrou-matron', 'Furfrou (Matron Trim)', 6, FALSE, 6, 12, 280, NULL, NULL),
   -- Furfrou (Dandy Trim)
-  (67606, 676, 'furfrou-dandy', 'Furfrou (Dandy Trim)', 6, FALSE, 7, NULL, NULL),
+  (67606, 676, 'furfrou-dandy', 'Furfrou (Dandy Trim)', 6, FALSE, 7, 12, 280, NULL, NULL),
   -- Furfrou (La Reine Trim)
-  (67607, 676, 'furfrou-la-reine', 'Furfrou (La Reine Trim)', 6, FALSE, 8, NULL, NULL),
+  (67607, 676, 'furfrou-la-reine', 'Furfrou (La Reine Trim)', 6, FALSE, 8, 12, 280, NULL, NULL),
   -- Furfrou (Kabuki Trim)
-  (67608, 676, 'furfrou-kabuki', 'Furfrou (Kabuki Trim)', 6, FALSE, 9, NULL, NULL),
+  (67608, 676, 'furfrou-kabuki', 'Furfrou (Kabuki Trim)', 6, FALSE, 9, 12, 280, NULL, NULL),
   -- Furfrou (Pharaoh Trim)
-  (67609, 676, 'furfrou-pharaoh', 'Furfrou (Pharaoh Trim)', 6, FALSE, 10, NULL, NULL),
+  (67609, 676, 'furfrou-pharaoh', 'Furfrou (Pharaoh Trim)', 6, FALSE, 10, 12, 280, NULL, NULL),
   -- Alcremie (Ruby Cream)
-  (86902, 869, 'alcremie-ruby-cream', 'Alcremie (Ruby Cream)', 8, FALSE, 3, NULL, NULL),
+  (86902, 869, 'alcremie-ruby-cream', 'Alcremie (Ruby Cream)', 8, FALSE, 3, 3, 5, NULL, NULL),
   -- Alcremie (Matcha Cream)
-  (86903, 869, 'alcremie-matcha-cream', 'Alcremie (Matcha Cream)', 8, FALSE, 4, NULL, NULL),
+  (86903, 869, 'alcremie-matcha-cream', 'Alcremie (Matcha Cream)', 8, FALSE, 4, 3, 5, NULL, NULL),
   -- Alcremie (Mint Cream)
-  (86904, 869, 'alcremie-mint-cream', 'Alcremie (Mint Cream)', 8, FALSE, 5, NULL, NULL),
+  (86904, 869, 'alcremie-mint-cream', 'Alcremie (Mint Cream)', 8, FALSE, 5, 3, 5, NULL, NULL),
   -- Alcremie (Lemon Cream)
-  (86905, 869, 'alcremie-lemon-cream', 'Alcremie (Lemon Cream)', 8, FALSE, 6, NULL, NULL),
+  (86905, 869, 'alcremie-lemon-cream', 'Alcremie (Lemon Cream)', 8, FALSE, 6, 3, 5, NULL, NULL),
   -- Alcremie (Salted Cream)
-  (86906, 869, 'alcremie-salted-cream', 'Alcremie (Salted Cream)', 8, FALSE, 7, NULL, NULL),
+  (86906, 869, 'alcremie-salted-cream', 'Alcremie (Salted Cream)', 8, FALSE, 7, 3, 5, NULL, NULL),
   -- Alcremie (Ruby Swirl)
-  (86907, 869, 'alcremie-ruby-swirl', 'Alcremie (Ruby Swirl)', 8, FALSE, 8, NULL, NULL),
+  (86907, 869, 'alcremie-ruby-swirl', 'Alcremie (Ruby Swirl)', 8, FALSE, 8, 3, 5, NULL, NULL),
   -- Alcremie (Caramel Swirl)
-  (86908, 869, 'alcremie-caramel-swirl', 'Alcremie (Caramel Swirl)', 8, FALSE, 9, NULL, NULL),
+  (86908, 869, 'alcremie-caramel-swirl', 'Alcremie (Caramel Swirl)', 8, FALSE, 9, 3, 5, NULL, NULL),
   -- Alcremie (Rainbow Swirl)
-  (86909, 869, 'alcremie-rainbow-swirl', 'Alcremie (Rainbow Swirl)', 8, FALSE, 10, NULL, NULL),
+  (86909, 869, 'alcremie-rainbow-swirl', 'Alcremie (Rainbow Swirl)', 8, FALSE, 10, 3, 5, NULL, NULL),
   -- Pikachu (Original Cap)
-  (2503, 25, 'pikachu-original-cap', 'Pikachu (Original Cap)', 7, FALSE, 4, NULL, NULL),
+  (2503, 25, 'pikachu-original-cap', 'Pikachu (Original Cap)', 7, FALSE, 4, 4, 60, NULL, 'male'),
   -- Pikachu (Hoenn Cap)
-  (2504, 25, 'pikachu-hoenn-cap', 'Pikachu (Hoenn Cap)', 7, FALSE, 5, NULL, NULL),
+  (2504, 25, 'pikachu-hoenn-cap', 'Pikachu (Hoenn Cap)', 7, FALSE, 5, 4, 60, NULL, 'male'),
   -- Pikachu (Sinnoh Cap)
-  (2505, 25, 'pikachu-sinnoh-cap', 'Pikachu (Sinnoh Cap)', 7, FALSE, 6, NULL, NULL),
+  (2505, 25, 'pikachu-sinnoh-cap', 'Pikachu (Sinnoh Cap)', 7, FALSE, 6, 4, 60, NULL, 'male'),
   -- Pikachu (Unova Cap)
-  (2506, 25, 'pikachu-unova-cap', 'Pikachu (Unova Cap)', 7, FALSE, 7, NULL, NULL),
+  (2506, 25, 'pikachu-unova-cap', 'Pikachu (Unova Cap)', 7, FALSE, 7, 4, 60, NULL, 'male'),
   -- Pikachu (Kalos Cap)
-  (2507, 25, 'pikachu-kalos-cap', 'Pikachu (Kalos Cap)', 7, FALSE, 8, NULL, NULL),
+  (2507, 25, 'pikachu-kalos-cap', 'Pikachu (Kalos Cap)', 7, FALSE, 8, 4, 60, NULL, 'male'),
   -- Pikachu (Alola Cap)
-  (2508, 25, 'pikachu-alola-cap', 'Pikachu (Alola Cap)', 7, FALSE, 9, NULL, NULL),
+  (2508, 25, 'pikachu-alola-cap', 'Pikachu (Alola Cap)', 7, FALSE, 9, 4, 60, NULL, 'male'),
   -- Pikachu (Partner Cap)
-  (2509, 25, 'pikachu-partner-cap', 'Pikachu (Partner Cap)', 7, FALSE, 10, NULL, NULL),
+  (2509, 25, 'pikachu-partner-cap', 'Pikachu (Partner Cap)', 7, FALSE, 10, 4, 60, NULL, 'male'),
   -- Pikachu (World Cap)
-  (2510, 25, 'pikachu-world-cap', 'Pikachu (World Cap)', 8, FALSE, 11, NULL, NULL),
+  (2510, 25, 'pikachu-world-cap', 'Pikachu (World Cap)', 8, FALSE, 11, 4, 60, NULL, 'male'),
   -- Pikachu (Cosplay)
-  (2511, 25, 'pikachu-cosplay', 'Pikachu (Cosplay)', 6, FALSE, 12, NULL, NULL),
+  (2511, 25, 'pikachu-cosplay', 'Pikachu (Cosplay)', 6, FALSE, 12, 4, 60, NULL, 'female'),
   -- Pikachu (Rock Star)
-  (2512, 25, 'pikachu-rock-star', 'Pikachu (Rock Star)', 6, FALSE, 13, NULL, NULL),
+  (2512, 25, 'pikachu-rock-star', 'Pikachu (Rock Star)', 6, FALSE, 13, 4, 60, NULL, 'female'),
   -- Pikachu (Belle)
-  (2513, 25, 'pikachu-belle', 'Pikachu (Belle)', 6, FALSE, 14, NULL, NULL),
+  (2513, 25, 'pikachu-belle', 'Pikachu (Belle)', 6, FALSE, 14, 4, 60, NULL, 'female'),
   -- Pikachu (Pop Star)
-  (2514, 25, 'pikachu-pop-star', 'Pikachu (Pop Star)', 6, FALSE, 15, NULL, NULL),
+  (2514, 25, 'pikachu-pop-star', 'Pikachu (Pop Star)', 6, FALSE, 15, 4, 60, NULL, 'female'),
   -- Pikachu (PhD)
-  (2515, 25, 'pikachu-phd', 'Pikachu (PhD)', 6, FALSE, 16, NULL, NULL),
+  (2515, 25, 'pikachu-phd', 'Pikachu (PhD)', 6, FALSE, 16, 4, 60, NULL, 'female'),
   -- Pikachu (Libre)
-  (2516, 25, 'pikachu-libre', 'Pikachu (Libre)', 6, FALSE, 17, NULL, NULL),
+  (2516, 25, 'pikachu-libre', 'Pikachu (Libre)', 6, FALSE, 17, 4, 60, NULL, 'female'),
   -- Minior (Orange Core)
-  (77402, 774, 'minior-orange', 'Minior (Orange)', 7, FALSE, 3, NULL, NULL),
+  (77402, 774, 'minior-orange', 'Minior (Orange)', 7, FALSE, 3, 3, 3, NULL, NULL),
   -- Minior (Yellow Core)
-  (77403, 774, 'minior-yellow', 'Minior (Yellow)', 7, FALSE, 4, NULL, NULL),
+  (77403, 774, 'minior-yellow', 'Minior (Yellow)', 7, FALSE, 4, 3, 3, NULL, NULL),
   -- Minior (Green Core)
-  (77404, 774, 'minior-green', 'Minior (Green)', 7, FALSE, 5, NULL, NULL),
+  (77404, 774, 'minior-green', 'Minior (Green)', 7, FALSE, 5, 3, 3, NULL, NULL),
   -- Minior (Blue Core)
-  (77405, 774, 'minior-blue', 'Minior (Blue)', 7, FALSE, 6, NULL, NULL),
+  (77405, 774, 'minior-blue', 'Minior (Blue)', 7, FALSE, 6, 3, 3, NULL, NULL),
   -- Minior (Indigo Core)
-  (77406, 774, 'minior-indigo', 'Minior (Indigo)', 7, FALSE, 7, NULL, NULL),
+  (77406, 774, 'minior-indigo', 'Minior (Indigo)', 7, FALSE, 7, 3, 3, NULL, NULL),
   -- Minior (Violet Core)
-  (77407, 774, 'minior-violet', 'Minior (Violet)', 7, FALSE, 8, NULL, NULL),
+  (77407, 774, 'minior-violet', 'Minior (Violet)', 7, FALSE, 8, 3, 3, NULL, NULL),
   -- Greninja (Battle Bond)
-  (65802, 658, 'greninja-battle-bond', 'Greninja (Battle Bond)', 7, FALSE, 3, NULL, NULL),
+  (65802, 658, 'greninja-battle-bond', 'Greninja (Battle Bond)', 7, FALSE, 3, 15, 400, NULL, 'male'),
   -- Pichu (Spiky-eared)
-  (17201, 172, 'pichu-spiky-eared', 'Pichu (Spiky-eared)', 4, FALSE, 2, NULL, NULL),
+  (17201, 172, 'pichu-spiky-eared', 'Pichu (Spiky-eared)', 4, FALSE, 2, 3, 20, NULL, NULL),
   -- Zarude (Dada)
-  (89301, 893, 'zarude-dada', 'Zarude (Dada)', 8, FALSE, 2, NULL, NULL),
+  (89301, 893, 'zarude-dada', 'Zarude (Dada)', 8, FALSE, 2, 18, 700, NULL, NULL),
   -- Gimmighoul (Roaming Form)
-  (99901, 999, 'gimmighoul-roaming', 'Gimmighoul (Roaming Form)', 9, FALSE, 2, NULL, NULL),
+  (99901, 999, 'gimmighoul-roaming', 'Gimmighoul (Roaming Form)', 9, FALSE, 2, 1, 10, 'Coin Hunter', NULL),
   -- Keldeo (Resolute Form)
-  (64701, 647, 'keldeo-resolute', 'Keldeo (Resolute Form)', 5, FALSE, 2, NULL, NULL);
+  (64701, 647, 'keldeo-resolute', 'Keldeo (Resolute Form)', 5, FALSE, 2, 14, 485, NULL, NULL);

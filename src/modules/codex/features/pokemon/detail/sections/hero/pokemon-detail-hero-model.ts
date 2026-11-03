@@ -4,23 +4,14 @@ import type {
   PokemonSpecies,
 } from "@/modules/reference/types";
 import {
-  getPokemonCategory,
-  pokemonCategoryNames,
-} from "@/modules/reference/features/pokemon/utils/pokemon-category";
-import {
   formatPokemonHeight,
   formatPokemonNationalNumber,
   formatPokemonWeight,
 } from "@/modules/reference/features/pokemon/utils/pokemon-formatters";
 
-/*
- * A piece of the hero's eyebrow or sentence. The figures and names are
- * emphasised; a `pending` piece is a value Voydex doesn't have yet, shown as
- * a pending marker labelled with `text`.
- */
+/* A piece of the hero's eyebrow or sentence; the figures and names are emphasised. */
 export type PokemonDetailHeroSentencePart = {
   emphasis: boolean;
-  pending?: boolean;
   text: string;
 };
 
@@ -32,12 +23,6 @@ const plain = (text: string): PokemonDetailHeroSentencePart => ({
 const strong = (text: string): PokemonDetailHeroSentencePart => ({
   emphasis: true,
   text,
-});
-
-const pending = (label: string): PokemonDetailHeroSentencePart => ({
-  emphasis: false,
-  pending: true,
-  text: label,
 });
 
 /* "Attack", "Attack and Speed", "HP, Attack and Speed", each emphasised. */
@@ -52,19 +37,10 @@ const listStatNames = (stats: PokemonDetailStat[]) => {
   });
 };
 
-const getPokemonDetailCategory = (species: PokemonSpecies) => {
-  const category = getPokemonCategory(species);
-
-  return category === "regular"
-    ? null
-    : `${pokemonCategoryNames[category]} Pokémon`;
-};
-
 /*
- * v3's line over the name: "#0059 · Legendary Pokémon · since Generation I".
- * The category is the Pokédex's own ("Legendary Pokémon" for Arcanine);
- * Voydex knows only the legendary, mythical and baby classes, so other
- * Pokémon show a pending category.
+ * v3's line over the name: "#0059 · Legendary Pokémon · since Generation I",
+ * with the Pokédex's own category for the form shown (Arcanine is the
+ * Legendary Pokémon, Hisuian Growlithe the Scout Pokémon).
  */
 export const getPokemonDetailHeroEyebrow = ({
   form,
@@ -74,12 +50,11 @@ export const getPokemonDetailHeroEyebrow = ({
   species: PokemonSpecies;
 }): PokemonDetailHeroSentencePart[] => {
   const introducedGeneration = form?.introducedGeneration?.name;
-  const category = getPokemonDetailCategory(species);
+  const pokedexCategory = form?.form.category ?? species.category;
 
   return [
     plain(formatPokemonNationalNumber(species.national_number)),
-    // TODO(v3-data): the species' Pokédex category (genus), such as "Flame Pokémon".
-    category ? plain(category) : pending("Category"),
+    plain(`${pokedexCategory} Pokémon`),
     ...(introducedGeneration ? [plain(`since ${introducedGeneration}`)] : []),
   ];
 };
@@ -87,7 +62,8 @@ export const getPokemonDetailHeroEyebrow = ({
 /*
  * The one sentence the entry reads for you (v3): its size, then its best base
  * stat. "1.9 m tall and 155.0 kg, with Attack its best stat at 110." A size
- * Voydex hasn't recorded is a pending piece.
+ * the games don't give (Eternamax Eternatus's weight) is left out, and
+ * without any the sentence starts at the stats.
  */
 export const getPokemonDetailHeroSentence = ({
   form,
@@ -98,26 +74,42 @@ export const getPokemonDetailHeroSentence = ({
 }): PokemonDetailHeroSentencePart[] => {
   const heightDecimeters = form?.form.height_decimeters ?? null;
   const weightHectograms = form?.form.weight_hectograms ?? null;
-  // TODO(v3-data): heights and weights; `pokemon_forms.height_decimeters` and `weight_hectograms` are unseeded.
-  const size = [
-    heightDecimeters
-      ? strong(formatPokemonHeight(heightDecimeters))
-      : pending("Height"),
-    plain(" tall and "),
-    weightHectograms
-      ? strong(formatPokemonWeight(weightHectograms))
-      : pending("Weight"),
-  ];
+  const height = heightDecimeters
+    ? [strong(formatPokemonHeight(heightDecimeters)), plain(" tall")]
+    : [];
+  const weight = weightHectograms
+    ? [strong(formatPokemonWeight(weightHectograms))]
+    : [];
+  const size =
+    height.length && weight.length
+      ? [...height, plain(" and "), ...weight]
+      : [...height, ...weight];
 
   if (!stats.length) {
-    return [...size, plain(".")];
+    return size.length ? [...size, plain(".")] : [];
   }
 
   const best = Math.max(...stats.map((stat) => stat.value));
   const bestStats = stats.filter((stat) => stat.value === best);
   const bestValue = strong(String(best));
+  const allEqual = bestStats.length === stats.length;
 
-  if (bestStats.length === stats.length) {
+  if (!size.length) {
+    return allEqual
+      ? [plain("Every base stat is "), bestValue, plain(".")]
+      : [
+          ...listStatNames(bestStats),
+          plain(
+            bestStats.length > 1
+              ? " are its best stats at "
+              : " is its best stat at ",
+          ),
+          bestValue,
+          plain("."),
+        ];
+  }
+
+  if (allEqual) {
     return [
       ...size,
       plain(", with every base stat at "),
