@@ -41,9 +41,9 @@ VALUES
   -- #014 Gumshoos
   (1502, 735, NULL, 14, TRUE),
   -- #015 Rattata
-  (1502, 19, NULL, 15, TRUE),
+  (1502, 19, 1901, 15, TRUE),
   -- #016 Raticate
-  (1502, 20, NULL, 16, TRUE),
+  (1502, 20, 2001, 16, TRUE),
   -- #017 Caterpie
   (1502, 10, NULL, 17, TRUE),
   -- #018 Metapod
@@ -63,7 +63,7 @@ VALUES
   -- #025 Pikachu
   (1502, 25, NULL, 25, TRUE),
   -- #026 Raichu
-  (1502, 26, NULL, 26, TRUE),
+  (1502, 26, 2601, 26, TRUE),
   -- #027 Grubbin
   (1502, 736, NULL, 27, TRUE),
   -- #028 Charjabug
@@ -101,9 +101,9 @@ VALUES
   -- #044 Alakazam
   (1502, 65, NULL, 44, TRUE),
   -- #045 Meowth
-  (1502, 52, NULL, 45, TRUE),
+  (1502, 52, 5201, 45, TRUE),
   -- #046 Persian
-  (1502, 53, NULL, 46, TRUE),
+  (1502, 53, 5301, 46, TRUE),
   -- #047 Magnemite
   (1502, 81, NULL, 47, TRUE),
   -- #048 Magneton
@@ -111,9 +111,9 @@ VALUES
   -- #049 Magnezone
   (1502, 462, NULL, 49, TRUE),
   -- #050 Grimer
-  (1502, 88, NULL, 50, TRUE),
+  (1502, 88, 8801, 50, TRUE),
   -- #051 Muk
-  (1502, 89, NULL, 51, TRUE),
+  (1502, 89, 8901, 51, TRUE),
   -- #052 Growlithe
   (1502, 58, NULL, 52, TRUE),
   -- #053 Arcanine
@@ -153,9 +153,9 @@ VALUES
   -- #070 Crobat
   (1502, 169, NULL, 70, TRUE),
   -- #071 Diglett
-  (1502, 50, NULL, 71, TRUE),
+  (1502, 50, 5001, 71, TRUE),
   -- #072 Dugtrio
-  (1502, 51, NULL, 72, TRUE),
+  (1502, 51, 5101, 72, TRUE),
   -- #073 Spearow
   (1502, 21, NULL, 73, TRUE),
   -- #074 Fearow

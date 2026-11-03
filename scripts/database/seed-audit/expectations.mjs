@@ -435,6 +435,7 @@ export const customAuditTables = new Set([
   "reference.pokemon_form_item_requirements",
   "reference.pokemon_form_rules",
   "reference.pokemon_forms",
+  "reference.pokemon_pokedex_texts",
   "reference.pokemon_training_attributes",
   "tracking.mainline_collectible_entries",
   "tracking.mainline_collectibles",

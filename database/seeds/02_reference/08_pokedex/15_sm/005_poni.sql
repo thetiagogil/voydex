@@ -23,9 +23,9 @@ VALUES
   -- #005 Gumshoos
   (1505, 735, NULL, 5, TRUE),
   -- #006 Rattata
-  (1505, 19, NULL, 6, TRUE),
+  (1505, 19, 1901, 6, TRUE),
   -- #007 Raticate
-  (1505, 20, NULL, 7, TRUE),
+  (1505, 20, 2001, 7, TRUE),
   -- #008 Happiny
   (1505, 440, NULL, 8, TRUE),
   -- #009 Chansey
@@ -55,9 +55,9 @@ VALUES
   -- #021 Crobat
   (1505, 169, NULL, 21, TRUE),
   -- #022 Diglett
-  (1505, 50, NULL, 22, TRUE),
+  (1505, 50, 5001, 22, TRUE),
   -- #023 Dugtrio
-  (1505, 51, NULL, 23, TRUE),
+  (1505, 51, 5101, 23, TRUE),
   -- #024 Spearow
   (1505, 21, NULL, 24, TRUE),
   -- #025 Fearow
@@ -181,7 +181,7 @@ VALUES
   -- #084 Exeggcute
   (1505, 102, NULL, 84, TRUE),
   -- #085 Exeggutor
-  (1505, 103, NULL, 85, TRUE),
+  (1505, 103, 10301, 85, TRUE),
   -- #086 Jangmo-o
   (1505, 782, NULL, 86, TRUE),
   -- #087 Hakamo-o

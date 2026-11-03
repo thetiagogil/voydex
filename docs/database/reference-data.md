@@ -56,6 +56,32 @@ sources remain authoritative for game-specific mechanics and availability.
   Two exceptions match the game: Alolan Vulpix has no Isle of Armor tutor and
   female Indeedee no Teal Mask TM.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Pokédex entries (`reference.pokemon_pokedex_texts`) are each game's own
+  words about a form, verbatim and keyed by version (Sword and Shield never
+  share a text; Red and Blue always do), from the games' text data: the
+  PokeAPI snapshot of it for Red / Blue to Scarlet / Violet (species rows),
+  and the text dumps of Ultra Sun / Ultra Moon, Let's Go, Sword / Shield and
+  Legends: Z-A (Mega Dimension included), whose Z-A rows are the per-form
+  ones (Megas included). Brilliant Diamond / Shining Pearl reuse Diamond /
+  Pearl's. The per-form entries of Sun / Moon to Scarlet / Violet (Alolan,
+  Galarian, Hisuian and Paldean forms, caps, cloaks, patterns, Gigantamax,
+  Megas in Sun / Moon and Ultra Sun / Ultra Moon) come from Bulbapedia's
+  per-form listing of each page, with the games' curly apostrophes restored;
+  a species-level entry Let's Go or Scarlet / Violet gives an older species
+  that the snapshot lacks comes from Bulbapedia or Serebii, and where two
+  sources have the same row they match. A species-level text lands on the
+  default form, unless the game never hands that form out (Kantonian
+  Growlithe in Legends: Arceus): then it sits on the form the game has. A
+  form without its own row reads its species' default form. Platinum's and
+  Black 2 / White 2's form-specific entries (Origin Forme, Black Kyurem) are
+  not separated yet.
+- A Pokédex entry's `display_form_id` is the form the dex shows: in the
+  dex's own version group, a regional variant that the game hands out better
+  than the default (wild or set encounters, starters and raids over gifts,
+  evolution and breeding, over in-game trades; transfers and events don't
+  count), the dex's own region first on a tie; another kind of form only
+  when the default isn't there at all. `set_display_forms` in the slice's
+  notes derived the 140 values from the availability rows.
 - Training values (`reference.pokemon_training_attributes`: EV yield, catch
   rate, base friendship, base experience and growth rate) come from each
   game's own personal data (the tables PKHeX reads), one row per form at
@@ -333,7 +359,6 @@ These are deliberate future domains, not defects in the current app contract:
 
 - Full locations, encounters, and story-gate availability.
 - Platform/rerelease-specific availability changes.
-- Game/version-scoped Pokedex entry prose.
 - Richer breeding/training facts such as hatch cycles and catch rate.
 - HOME/living-dex workflows and non-mainline product-family reference models.
 

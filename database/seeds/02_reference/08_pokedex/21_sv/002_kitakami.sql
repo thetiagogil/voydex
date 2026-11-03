@@ -399,11 +399,11 @@ VALUES
   -- #193 Indeedee
   (2401, 876, NULL, 193, TRUE),
   -- #194 Basculin
-  (2401, 550, NULL, 194, TRUE),
+  (2401, 550, 55002, 194, TRUE),
   -- #195 Basculegion
   (2401, 902, NULL, 195, TRUE),
   -- #196 Ursaluna
-  (2401, 901, NULL, 196, TRUE),
+  (2401, 901, 90101, 196, TRUE),
   -- #197 Okidogi
   (2401, 1014, NULL, 197, TRUE),
   -- #198 Munkidori

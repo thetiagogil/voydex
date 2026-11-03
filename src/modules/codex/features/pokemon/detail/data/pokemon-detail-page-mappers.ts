@@ -104,6 +104,7 @@ export const buildPokemonDetailData = ({
     generations: baseRows.generations,
     learnsets,
     pokedexEntries,
+    pokedexTexts: relatedRows.pokedexTexts,
     species: baseRows.species,
   } satisfies PokemonDetailData;
 

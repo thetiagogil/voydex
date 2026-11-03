@@ -23,9 +23,9 @@ VALUES
   -- #005 Gumshoos
   (1504, 735, NULL, 5, TRUE),
   -- #006 Rattata
-  (1504, 19, NULL, 6, TRUE),
+  (1504, 19, 1901, 6, TRUE),
   -- #007 Raticate
-  (1504, 20, NULL, 7, TRUE),
+  (1504, 20, 2001, 7, TRUE),
   -- #008 Ledyba
   (1504, 165, NULL, 8, TRUE),
   -- #009 Ledian
@@ -57,9 +57,9 @@ VALUES
   -- #022 Pelipper
   (1504, 279, NULL, 22, TRUE),
   -- #023 Meowth
-  (1504, 52, NULL, 23, TRUE),
+  (1504, 52, 5201, 23, TRUE),
   -- #024 Persian
-  (1504, 53, NULL, 24, TRUE),
+  (1504, 53, 5301, 24, TRUE),
   -- #025 Magnemite
   (1504, 81, NULL, 25, TRUE),
   -- #026 Magneton
@@ -67,9 +67,9 @@ VALUES
   -- #027 Magnezone
   (1504, 462, NULL, 27, TRUE),
   -- #028 Grimer
-  (1504, 88, NULL, 28, TRUE),
+  (1504, 88, 8801, 28, TRUE),
   -- #029 Muk
-  (1504, 89, NULL, 29, TRUE),
+  (1504, 89, 8901, 29, TRUE),
   -- #030 Crabrawler
   (1504, 739, NULL, 30, TRUE),
   -- #031 Crabominable
@@ -87,9 +87,9 @@ VALUES
   -- #037 Crobat
   (1504, 169, NULL, 37, TRUE),
   -- #038 Diglett
-  (1504, 50, NULL, 38, TRUE),
+  (1504, 50, 5001, 38, TRUE),
   -- #039 Dugtrio
-  (1504, 51, NULL, 39, TRUE),
+  (1504, 51, 5101, 39, TRUE),
   -- #040 Spearow
   (1504, 21, NULL, 40, TRUE),
   -- #041 Fearow
@@ -213,11 +213,11 @@ VALUES
   -- #100 Electivire
   (1504, 466, NULL, 100, TRUE),
   -- #101 Geodude
-  (1504, 74, NULL, 101, TRUE),
+  (1504, 74, 7401, 101, TRUE),
   -- #102 Graveler
-  (1504, 75, NULL, 102, TRUE),
+  (1504, 75, 7501, 102, TRUE),
   -- #103 Golem
-  (1504, 76, NULL, 103, TRUE),
+  (1504, 76, 7601, 103, TRUE),
   -- #104 Sandile
   (1504, 551, NULL, 104, TRUE),
   -- #105 Krokorok
@@ -257,13 +257,13 @@ VALUES
   -- #122 Weavile
   (1504, 461, NULL, 122, TRUE),
   -- #123 Sandshrew
-  (1504, 27, NULL, 123, TRUE),
+  (1504, 27, 2701, 123, TRUE),
   -- #124 Sandslash
-  (1504, 28, NULL, 124, TRUE),
+  (1504, 28, 2801, 124, TRUE),
   -- #125 Vulpix
-  (1504, 37, NULL, 125, TRUE),
+  (1504, 37, 3701, 125, TRUE),
   -- #126 Ninetales
-  (1504, 38, NULL, 126, TRUE),
+  (1504, 38, 3801, 126, TRUE),
   -- #127 Vanillite
   (1504, 582, NULL, 127, TRUE),
   -- #128 Vanillish

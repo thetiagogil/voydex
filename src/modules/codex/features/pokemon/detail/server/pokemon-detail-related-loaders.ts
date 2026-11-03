@@ -10,6 +10,7 @@ import type {
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
+  PokemonPokedexText,
   PokemonTrainingAttributes,
 } from "@/modules/reference/types";
 
@@ -30,6 +31,7 @@ export type PokemonDetailRelatedRows = {
   familyForms: PokemonForm[];
   growthRates: GrowthRate[];
   pokedexes: Pokedex[];
+  pokedexTexts: PokemonPokedexText[];
   /* The species' training values, every form and every change. */
   trainingAttributes: PokemonTrainingAttributes[];
 };
@@ -78,6 +80,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyFormsResult,
     familyAttributesResult,
     evolutionEdgesResult,
+    pokedexTextsResult,
     growthRatesResult,
     trainingResult,
   ] = await Promise.all([
@@ -136,6 +139,11 @@ export const loadPokemonDetailRelatedRows = async ({
       : Promise.resolve({ data: [] as PokemonEvolutionEdge[], error: null }),
     supabase
       .schema("reference")
+      .from("pokemon_pokedex_texts")
+      .select("*")
+      .eq("species_id", speciesId),
+    supabase
+      .schema("reference")
       .from("growth_rates")
       .select("*")
       .order("sort_order", { ascending: true }),
@@ -160,7 +168,7 @@ export const loadPokemonDetailRelatedRows = async ({
     throw new Error("Unable to load Pokémon attribute reference data.");
   }
 
-  if (pokedexResult.error) {
+  if (pokedexResult.error || pokedexTextsResult.error) {
     throw new Error("Unable to load Pokémon Pokédex definitions.");
   }
 
@@ -181,6 +189,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyForms: familyFormsResult.data ?? [],
     growthRates: growthRatesResult.data ?? [],
     pokedexes: pokedexResult.data ?? [],
+    pokedexTexts: pokedexTextsResult.data ?? [],
     trainingAttributes: trainingResult.data ?? [],
   };
 };

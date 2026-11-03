@@ -23,9 +23,9 @@ VALUES
   -- #005 Gumshoos
   (1603, 735, NULL, 5, TRUE),
   -- #006 Rattata
-  (1603, 19, NULL, 6, TRUE),
+  (1603, 19, 1901, 6, TRUE),
   -- #007 Raticate
-  (1603, 20, NULL, 7, TRUE),
+  (1603, 20, 2001, 7, TRUE),
   -- #008 Caterpie
   (1603, 10, NULL, 8, TRUE),
   -- #009 Metapod
@@ -69,9 +69,9 @@ VALUES
   -- #028 Crobat
   (1603, 169, NULL, 28, TRUE),
   -- #029 Diglett
-  (1603, 50, NULL, 29, TRUE),
+  (1603, 50, 5001, 29, TRUE),
   -- #030 Dugtrio
-  (1603, 51, NULL, 30, TRUE),
+  (1603, 51, 5101, 30, TRUE),
   -- #031 Oricorio
   (1603, 741, NULL, 31, TRUE),
   -- #032 Psyduck

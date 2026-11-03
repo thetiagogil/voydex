@@ -44,6 +44,7 @@ import {
   getPokemonDetailFormTypeSlug,
 } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
 import { getPokemonDetailGenerationOptions } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-generation-navigation";
+import { selectPokemonDetailPokedexTexts } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-pokedex-text";
 import { getVersionGroupShortName } from "@/modules/codex/shared/utils/game-names";
 import {
   gameMechanics,
@@ -235,6 +236,17 @@ export const PokemonDetailShell = ({
           />
 
           <PokemonDetailHero
+            entries={selectPokemonDetailPokedexTexts({
+              defaultFormId:
+                data.forms.find((item) => item.form.is_default)?.form.id ??
+                data.species.id * 100,
+
+              formId: scope.form?.form.id ?? data.species.id * 100,
+
+              games: scope.versionGroup.games,
+
+              texts: data.pokedexTexts,
+            })}
             key={form?.form.id ?? data.species.id}
             actions={slots?.heroActions?.(slotContext)}
             favourite={slots?.favourite?.(slotContext)}

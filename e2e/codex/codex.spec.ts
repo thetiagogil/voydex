@@ -64,6 +64,27 @@ test.describe("Codex", () => {
     await expectAccessible(page);
   });
 
+  test("reads the open game's Pokédex words, a version each when they differ", async ({
+    page,
+  }) => {
+    await page.goto("/codex/pokemon/swsh/charizard");
+    const hero = page.getByRole("region", { name: "Charizard" });
+    await expect(hero.getByText("Sword", { exact: true })).toBeVisible();
+    await expect(hero.getByText("Shield", { exact: true })).toBeVisible();
+    await expect(
+      hero.getByText(/It spits fire that is hot enough to melt boulders/),
+    ).toBeVisible();
+
+    /* Red and Blue say the same, so one paragraph with no version label. */
+    await page.goto("/codex/pokemon/rb/charizard");
+    const early = page.getByRole("region", { name: "Charizard" });
+    await expect(
+      early.getByText(/Spits fire that is hot enough/),
+    ).toBeVisible();
+    await expect(early.getByText("Red", { exact: true })).toHaveCount(0);
+    await expectAccessible(page);
+  });
+
   test("shows a battle form only in the games that have it", async ({
     page,
   }) => {

@@ -1753,3 +1753,94 @@ export function assertPokemonTrainingAttributeRows(context, tableRows) {
     }
   }
 }
+
+/* Set when the seeds are regenerated; the audit refuses a silent change. */
+const EXPECTED_POKEDEX_TEXT_ROWS = 17936;
+
+/*
+ * Every game has Pokédex entries, each row names a seeded form and game,
+ * no text is blank, no form repeats a game, and every species a game's own
+ * Pokédex lists has that game's words (its default form's or a form's own).
+ */
+export function assertPokemonPokedexTextRows(context, tableRows) {
+  const rows = tableRows.get("reference.pokemon_pokedex_texts") ?? [];
+  const games = tableRows.get("reference.games") ?? [];
+  const gameIds = new Set(games.map(({ row }) => row.id));
+  const formSpecies = new Map(
+    (tableRows.get("reference.pokemon_forms") ?? []).map(({ row }) => [
+      row.id,
+      row.species_id,
+    ]),
+  );
+  if (rows.length !== EXPECTED_POKEDEX_TEXT_ROWS) {
+    context.errors.push(
+      `reference.pokemon_pokedex_texts: expected ${EXPECTED_POKEDEX_TEXT_ROWS} entries, got ${rows.length}.`,
+    );
+  }
+  addCompositeDuplicateErrors(
+    context,
+    "reference.pokemon_pokedex_texts",
+    rows,
+    "form and game",
+    (row) => `${row.form_id}/${row.game_id}`,
+  );
+  const speciesWithText = new Set();
+  const gamesWithText = new Set();
+  for (const { row, filePath } of rows) {
+    gamesWithText.add(row.game_id);
+    speciesWithText.add(`${row.species_id}/${row.game_id}`);
+    if (!gameIds.has(row.game_id)) {
+      context.errors.push(
+        `${relative(filePath)}: Pokédex text for form ${row.form_id} names unseeded game ${row.game_id}.`,
+      );
+    }
+    if (formSpecies.get(row.form_id) !== row.species_id) {
+      context.errors.push(
+        `${relative(filePath)}: Pokédex text names form ${row.form_id}, which is not a form of species ${row.species_id}.`,
+      );
+    }
+    if (typeof row.entry_text !== "string" || !row.entry_text.trim()) {
+      context.errors.push(
+        `${relative(filePath)}: Pokédex text for form ${row.form_id} in game ${row.game_id} is blank.`,
+      );
+    }
+  }
+  for (const { row } of games) {
+    if (!gamesWithText.has(row.id)) {
+      context.errors.push(
+        `reference.pokemon_pokedex_texts: no entries for game ${row.slug}.`,
+      );
+    }
+  }
+  const gamesByGroup = new Map();
+  for (const { row } of games) {
+    if (!gamesByGroup.has(row.version_group_id)) {
+      gamesByGroup.set(row.version_group_id, []);
+    }
+    gamesByGroup.get(row.version_group_id).push(row);
+  }
+  const pokedexById = new Map(
+    (tableRows.get("reference.pokedex") ?? []).map(({ row }) => [row.id, row]),
+  );
+  // An expansion's Pokédex (Kitakami) belongs to its parent group's games.
+  const parentGroupById = new Map(
+    (tableRows.get("reference.version_groups") ?? []).map(({ row }) => [
+      row.id,
+      row.parent_version_group_id,
+    ]),
+  );
+  for (const { row, filePath } of tableRows.get("reference.pokedex_entries") ??
+    []) {
+    const pokedex = pokedexById.get(row.pokedex_id);
+    if (!pokedex || pokedex.pokedex_kind === "national") continue;
+    const groupId =
+      parentGroupById.get(pokedex.version_group_id) ?? pokedex.version_group_id;
+    for (const game of gamesByGroup.get(groupId) ?? []) {
+      if (!speciesWithText.has(`${row.species_id}/${game.id}`)) {
+        context.errors.push(
+          `${relative(filePath)}: ${pokedex.slug} lists species ${row.species_id}, which has no ${game.slug} Pokédex text.`,
+        );
+      }
+    }
+  }
+}

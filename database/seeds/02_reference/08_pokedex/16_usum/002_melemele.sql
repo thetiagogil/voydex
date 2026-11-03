@@ -41,9 +41,9 @@ VALUES
   -- #014 Gumshoos
   (1602, 735, NULL, 14, TRUE),
   -- #015 Rattata
-  (1602, 19, NULL, 15, TRUE),
+  (1602, 19, 1901, 15, TRUE),
   -- #016 Raticate
-  (1602, 20, NULL, 16, TRUE),
+  (1602, 20, 2001, 16, TRUE),
   -- #017 Caterpie
   (1602, 10, NULL, 17, TRUE),
   -- #018 Metapod
@@ -115,9 +115,9 @@ VALUES
   -- #051 Alakazam
   (1602, 65, NULL, 51, TRUE),
   -- #052 Meowth
-  (1602, 52, NULL, 52, TRUE),
+  (1602, 52, 5201, 52, TRUE),
   -- #053 Persian
-  (1602, 53, NULL, 53, TRUE),
+  (1602, 53, 5301, 53, TRUE),
   -- #054 Magnemite
   (1602, 81, NULL, 54, TRUE),
   -- #055 Magneton
@@ -125,9 +125,9 @@ VALUES
   -- #056 Magnezone
   (1602, 462, NULL, 56, TRUE),
   -- #057 Grimer
-  (1602, 88, NULL, 57, TRUE),
+  (1602, 88, 8801, 57, TRUE),
   -- #058 Muk
-  (1602, 89, NULL, 58, TRUE),
+  (1602, 89, 8901, 58, TRUE),
   -- #059 Mime Jr.
   (1602, 439, NULL, 59, TRUE),
   -- #060 Mr. Mime
@@ -181,9 +181,9 @@ VALUES
   -- #084 Noivern
   (1602, 715, NULL, 84, TRUE),
   -- #085 Diglett
-  (1602, 50, NULL, 85, TRUE),
+  (1602, 50, 5001, 85, TRUE),
   -- #086 Dugtrio
-  (1602, 51, NULL, 86, TRUE),
+  (1602, 51, 5101, 86, TRUE),
   -- #087 Spearow
   (1602, 21, NULL, 87, TRUE),
   -- #088 Fearow

@@ -23,9 +23,9 @@ VALUES
   -- #005 Gumshoos
   (1604, 735, NULL, 5, TRUE),
   -- #006 Rattata
-  (1604, 19, NULL, 6, TRUE),
+  (1604, 19, 1901, 6, TRUE),
   -- #007 Raticate
-  (1604, 20, NULL, 7, TRUE),
+  (1604, 20, 2001, 7, TRUE),
   -- #008 Ledyba
   (1604, 165, NULL, 8, TRUE),
   -- #009 Ledian
@@ -57,9 +57,9 @@ VALUES
   -- #022 Pelipper
   (1604, 279, NULL, 22, TRUE),
   -- #023 Meowth
-  (1604, 52, NULL, 23, TRUE),
+  (1604, 52, 5201, 23, TRUE),
   -- #024 Persian
-  (1604, 53, NULL, 24, TRUE),
+  (1604, 53, 5301, 24, TRUE),
   -- #025 Magnemite
   (1604, 81, NULL, 25, TRUE),
   -- #026 Magneton
@@ -67,9 +67,9 @@ VALUES
   -- #027 Magnezone
   (1604, 462, NULL, 27, TRUE),
   -- #028 Grimer
-  (1604, 88, NULL, 28, TRUE),
+  (1604, 88, 8801, 28, TRUE),
   -- #029 Muk
-  (1604, 89, NULL, 29, TRUE),
+  (1604, 89, 8901, 29, TRUE),
   -- #030 Crabrawler
   (1604, 739, NULL, 30, TRUE),
   -- #031 Crabominable
@@ -87,9 +87,9 @@ VALUES
   -- #037 Crobat
   (1604, 169, NULL, 37, TRUE),
   -- #038 Diglett
-  (1604, 50, NULL, 38, TRUE),
+  (1604, 50, 5001, 38, TRUE),
   -- #039 Dugtrio
-  (1604, 51, NULL, 39, TRUE),
+  (1604, 51, 5101, 39, TRUE),
   -- #040 Spearow
   (1604, 21, NULL, 40, TRUE),
   -- #041 Fearow
@@ -249,9 +249,9 @@ VALUES
   -- #118 Electivire
   (1604, 466, NULL, 118, TRUE),
   -- #119 Geodude
-  (1604, 74, NULL, 119, TRUE),
+  (1604, 74, 7401, 119, TRUE),
   -- #120 Graveler
-  (1604, 75, NULL, 120, TRUE),
+  (1604, 75, 7501, 120, TRUE),
   -- #121 Golem
   (1604, 76, NULL, 121, TRUE),
   -- #122 Sandile
@@ -309,13 +309,13 @@ VALUES
   -- #148 Weavile
   (1604, 461, NULL, 148, TRUE),
   -- #149 Sandshrew
-  (1604, 27, NULL, 149, TRUE),
+  (1604, 27, 2701, 149, TRUE),
   -- #150 Sandslash
-  (1604, 28, NULL, 150, TRUE),
+  (1604, 28, 2801, 150, TRUE),
   -- #151 Vulpix
-  (1604, 37, NULL, 151, TRUE),
+  (1604, 37, 3701, 151, TRUE),
   -- #152 Ninetales
-  (1604, 38, NULL, 152, TRUE),
+  (1604, 38, 3801, 152, TRUE),
   -- #153 Vanillite
   (1604, 582, NULL, 153, TRUE),
   -- #154 Vanillish

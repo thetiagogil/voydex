@@ -42,9 +42,9 @@ VALUES
   -- #014 Gumshoos
   (1601, 735, NULL, 14, TRUE),
   -- #015 Rattata
-  (1601, 19, NULL, 15, TRUE),
+  (1601, 19, 1901, 15, TRUE),
   -- #016 Raticate
-  (1601, 20, NULL, 16, TRUE),
+  (1601, 20, 2001, 16, TRUE),
   -- #017 Caterpie
   (1601, 10, NULL, 17, TRUE),
   -- #018 Metapod
@@ -116,9 +116,9 @@ VALUES
   -- #051 Alakazam
   (1601, 65, NULL, 51, TRUE),
   -- #052 Meowth
-  (1601, 52, NULL, 52, TRUE),
+  (1601, 52, 5201, 52, TRUE),
   -- #053 Persian
-  (1601, 53, NULL, 53, TRUE),
+  (1601, 53, 5301, 53, TRUE),
   -- #054 Magnemite
   (1601, 81, NULL, 54, TRUE),
   -- #055 Magneton
@@ -126,9 +126,9 @@ VALUES
   -- #056 Magnezone
   (1601, 462, NULL, 56, TRUE),
   -- #057 Grimer
-  (1601, 88, NULL, 57, TRUE),
+  (1601, 88, 8801, 57, TRUE),
   -- #058 Muk
-  (1601, 89, NULL, 58, TRUE),
+  (1601, 89, 8901, 58, TRUE),
   -- #059 Mime Jr.
   (1601, 439, NULL, 59, TRUE),
   -- #060 Mr. Mime
@@ -182,9 +182,9 @@ VALUES
   -- #084 Noivern
   (1601, 715, NULL, 84, TRUE),
   -- #085 Diglett
-  (1601, 50, NULL, 85, TRUE),
+  (1601, 50, 5001, 85, TRUE),
   -- #086 Dugtrio
-  (1601, 51, NULL, 86, TRUE),
+  (1601, 51, 5101, 86, TRUE),
   -- #087 Spearow
   (1601, 21, NULL, 87, TRUE),
   -- #088 Fearow
@@ -608,9 +608,9 @@ VALUES
   -- #297 Electivire
   (1601, 466, NULL, 297, TRUE),
   -- #298 Geodude
-  (1601, 74, NULL, 298, TRUE),
+  (1601, 74, 7401, 298, TRUE),
   -- #299 Graveler
-  (1601, 75, NULL, 299, TRUE),
+  (1601, 75, 7501, 299, TRUE),
   -- #300 Golem
   (1601, 76, NULL, 300, TRUE),
   -- #301 Sandile
@@ -668,13 +668,13 @@ VALUES
   -- #327 Weavile
   (1601, 461, NULL, 327, TRUE),
   -- #328 Sandshrew
-  (1601, 27, NULL, 328, TRUE),
+  (1601, 27, 2701, 328, TRUE),
   -- #329 Sandslash
-  (1601, 28, NULL, 329, TRUE),
+  (1601, 28, 2801, 329, TRUE),
   -- #330 Vulpix
-  (1601, 37, NULL, 330, TRUE),
+  (1601, 37, 3701, 330, TRUE),
   -- #331 Ninetales
-  (1601, 38, NULL, 331, TRUE),
+  (1601, 38, 3801, 331, TRUE),
   -- #332 Vanillite
   (1601, 582, NULL, 332, TRUE),
   -- #333 Vanillish
@@ -724,7 +724,7 @@ VALUES
   -- #355 Exeggcute
   (1601, 102, NULL, 355, TRUE),
   -- #356 Exeggutor
-  (1601, 103, NULL, 356, TRUE),
+  (1601, 103, 10301, 356, TRUE),
   -- #357 Corphish
   (1601, 341, NULL, 357, TRUE),
   -- #358 Crawdaunt
