@@ -5,6 +5,8 @@
 -- Primary: Bulbapedia evolution method and Pokémon species pages.
 -- Cross-check: Serebii evolution pages and PokemonDB evolution chains.
 -- Machine-readable sanity: PokeAPI evolution-chain detail fields.
+-- Per game: each game's own evolution data (checked 2026-11-03); rows a
+-- game lacks are scoped to the version groups that have them.
 -- Scope note: official core-series Pokémon evolution edges through Generation IX.
 -- ============================================================================
 -- File Scope
@@ -16,16 +18,16 @@
 
 INSERT INTO reference.pokemon_evolution_edges (from_species_id, from_form_id, to_species_id, to_form_id, version_group_id, introduced_generation_id, evolution_method_id, minimum_level, item_id, held_item_id, known_move_id, known_type_id, gender, time_of_day, location_label, condition_summary, condition_data, sort_order)
 VALUES
-  -- Magneton -> Magnezone
-  (82, 8200, 462, 46200, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Blush Mountain', 'at Blush Mountain', '{"source_trigger":"level-up","location":"blush-mountain"}', 376),
+  -- Magneton -> Magnezone (Ultra Sun / Ultra Moon)
+  (82, 8200, 462, 46200, 16, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Blush Mountain', 'at Blush Mountain', '{"source_trigger":"level-up","location":"blush-mountain"}', 376),
   -- Magneton -> Magnezone
   (82, 8200, 462, 46200, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 377),
   -- Eevee -> Leafeon
   (133, 13300, 470, 47000, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Lush Jungle', 'at Lush Jungle', '{"source_trigger":"level-up","location":"lush-jungle"}', 378),
   -- Eevee -> Glaceon
   (133, 13300, 471, 47100, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mount Lanakila', 'at Mount Lanakila', '{"source_trigger":"level-up","location":"mount-lanakila"}', 379),
-  -- Nosepass -> Probopass
-  (299, 29900, 476, 47600, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Blush Mountain', 'at Blush Mountain', '{"source_trigger":"level-up","location":"blush-mountain"}', 380),
+  -- Nosepass -> Probopass (Ultra Sun / Ultra Moon)
+  (299, 29900, 476, 47600, 16, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Blush Mountain', 'at Blush Mountain', '{"source_trigger":"level-up","location":"blush-mountain"}', 380),
   -- Nosepass -> Probopass
   (299, 29900, 476, 47600, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 381),
   -- Alolan Rattata -> Alolan Raticate
@@ -76,8 +78,8 @@ VALUES
   (734, 73400, 735, 73500, NULL, 7, 7, 20, NULL, NULL, NULL, NULL, NULL, 'day', NULL, 'Level 20; during day', '{"source_trigger":"level-up"}', 401),
   -- Grubbin -> Charjabug
   (736, 73600, 737, 73700, NULL, 7, 1, 20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 20', '{"source_trigger":"level-up"}', 402),
-  -- Charjabug -> Vikavolt
-  (737, 73700, 738, 73800, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Blush Mountain', 'at Blush Mountain', '{"source_trigger":"level-up","location":"blush-mountain"}', 403),
+  -- Charjabug -> Vikavolt (Ultra Sun / Ultra Moon)
+  (737, 73700, 738, 73800, 16, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Blush Mountain', 'at Blush Mountain', '{"source_trigger":"level-up","location":"blush-mountain"}', 403),
   -- Charjabug -> Vikavolt
   (737, 73700, 738, 73800, NULL, 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Vast Poni Canyon', 'at Vast Poni Canyon', '{"source_trigger":"level-up","location":"vast-poni-canyon"}', 404),
   -- Crabrawler -> Crabominable
@@ -125,6 +127,14 @@ VALUES
   -- Cosmoem -> Lunala
   (790, 79000, 792, 79200, NULL, 7, 1, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 53; Moon-family games', '{"source_trigger":"level-up","version_family":"moon"}', 426),
   -- Poipole -> Naganadel
-  (803, 80300, 804, 80400, NULL, 7, 5, NULL, NULL, NULL, 406, NULL, NULL, NULL, NULL, 'knows Dragon Pulse', '{"source_trigger":"level-up","known_move":"dragon-pulse"}', 427);
+  (803, 80300, 804, 80400, NULL, 7, 5, NULL, NULL, NULL, 406, NULL, NULL, NULL, NULL, 'knows Dragon Pulse', '{"source_trigger":"level-up","known_move":"dragon-pulse"}', 427),
+  -- Alolan Meowth -> Alolan Persian (Let's Go)
+  (52, 5201, 53, 5301, 17, 7, 1, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 28', '{"source_trigger":"level-up"}', 597),
+  -- Pikachu -> Raichu (Ultra Sun / Ultra Moon)
+  (25, 2500, 26, 2600, 16, 7, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone; if it came through an Ultra Wormhole', '{"source_trigger":"use-item","item":"thunder-stone","origin":"ultra-wormhole"}', 598),
+  -- Exeggcute -> Exeggutor (Ultra Sun / Ultra Moon)
+  (102, 10200, 103, 10300, 16, 7, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone; if it came through an Ultra Wormhole', '{"source_trigger":"use-item","item":"leaf-stone","origin":"ultra-wormhole"}', 599),
+  -- Cubone -> Marowak (Ultra Sun / Ultra Moon)
+  (104, 10400, 105, 10500, 16, 7, 1, 28, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 28; if it came through an Ultra Wormhole', '{"source_trigger":"level-up","origin":"ultra-wormhole"}', 600);
 
 -- ============================================================================

@@ -1,46 +1,70 @@
+import { selectEvolutionEdgesInForce } from "@/modules/reference/features/pokemon/domain/evolution-scope";
 import type {
   PokemonEvolutionEdgeSummary,
   PokemonEvolutionFamilySummary,
 } from "@/modules/reference/types";
 
-const getPokemonDetailEvolutionFormPairKey = (
-  edge: PokemonEvolutionEdgeSummary,
-) => {
-  return `${edge.edge.from_form_id}:${edge.edge.to_form_id}`;
-};
-
-const getPokemonDetailVersionGroupScopedEvolutionEdges = ({
-  activeVersionGroupId,
-  edges,
+/* The family forms the open version group (expansions included) hands out. */
+const getPokemonDetailAvailableFormIds = ({
+  family,
+  versionGroupIds,
 }: {
-  activeVersionGroupId: number | null;
-  edges: PokemonEvolutionEdgeSummary[];
+  family: PokemonEvolutionFamilySummary;
+  versionGroupIds: number[];
 }) => {
-  if (!activeVersionGroupId) {
-    return edges;
+  const groupIds = new Set(versionGroupIds);
+  const formIds = new Set<number>();
+
+  for (const row of family.availability) {
+    if (!groupIds.has(row.versionGroupId)) continue;
+
+    if (row.formId !== null) {
+      formIds.add(row.formId);
+      continue;
+    }
+
+    for (const pokemon of family.species) {
+      if (pokemon.species.id !== row.speciesId) continue;
+      for (const { form } of pokemon.forms) formIds.add(form.id);
+    }
   }
 
-  const versionGroupSpecificFormPairs = new Set(
-    edges
-      .filter((edge) => {
-        return edge.edge.version_group_id === activeVersionGroupId;
-      })
-      .map(getPokemonDetailEvolutionFormPairKey),
-  );
+  return formIds;
+};
 
-  return edges.filter((edge) => {
-    if (edge.edge.version_group_id === activeVersionGroupId) {
-      return true;
-    }
+/*
+ * The edges the open game has (see `selectEvolutionEdgesInForce`). With no
+ * version group open (a generation view), every game's rows of the
+ * generation show.
+ */
+const getPokemonDetailGameEvolutionEdges = ({
+  activeVersionGroupIds,
+  edges,
+  family,
+  generationSortOrder,
+}: {
+  activeVersionGroupIds: number[];
+  edges: PokemonEvolutionEdgeSummary[];
+  family: PokemonEvolutionFamilySummary;
+  generationSortOrder: number;
+}) => {
+  if (!activeVersionGroupIds.length) {
+    return edges.filter((edge) => {
+      return getEvolutionEdgeGenerationSortOrder(edge) <= generationSortOrder;
+    });
+  }
 
-    if (edge.edge.version_group_id) {
-      return false;
-    }
-
-    return !versionGroupSpecificFormPairs.has(
-      getPokemonDetailEvolutionFormPairKey(edge),
-    );
-  });
+  return selectEvolutionEdgesInForce({
+    availableFormIds: getPokemonDetailAvailableFormIds({
+      family,
+      versionGroupIds: activeVersionGroupIds,
+    }),
+    edges: edges.map((edge) => ({ ...edge.edge, summary: edge })),
+    generationOrder: generationSortOrder,
+    getGenerationOrder: (edge) =>
+      getEvolutionEdgeGenerationSortOrder(edge.summary),
+    versionGroupIds: activeVersionGroupIds,
+  }).map((edge) => edge.summary);
 };
 
 const getPokemonDetailDefaultFormIdsBySpeciesId = (
@@ -170,28 +194,28 @@ const getEvolutionEdgeGenerationSortOrder = (
 export const getPokemonDetailScopedEvolutionEdges = ({
   activeFormId,
   activeSpeciesId,
-  activeVersionGroupId,
+  activeVersionGroupIds,
   family,
   generationSortOrder,
 }: {
   activeFormId: number | null;
   activeSpeciesId: number;
-  activeVersionGroupId: number | null;
+  /* The open version group and its expansions; empty for a generation view. */
+  activeVersionGroupIds: number[];
   family: PokemonEvolutionFamilySummary;
   generationSortOrder: number;
 }) => {
-  const generationEdges = family.edges.filter((edge) => {
-    return getEvolutionEdgeGenerationSortOrder(edge) <= generationSortOrder;
-  });
-  const versionGroupEdges = getPokemonDetailVersionGroupScopedEvolutionEdges({
-    activeVersionGroupId,
-    edges: generationEdges,
+  const gameEdges = getPokemonDetailGameEvolutionEdges({
+    activeVersionGroupIds,
+    edges: family.edges,
+    family,
+    generationSortOrder,
   });
 
   return getPokemonDetailFormBranchScopedEvolutionEdges({
     activeFormId,
     activeSpeciesId,
-    edges: versionGroupEdges,
+    edges: gameEdges,
     family,
   });
 };

@@ -78,6 +78,7 @@ export const buildPokemonDetailData = ({
     trainingAttributes: relatedRows.trainingAttributes,
     evolutionFamily: buildPokemonEvolutionFamily({
       attributes: relatedRows.familyAttributes,
+      availability: relatedRows.familyAvailability,
       edges: relatedRows.evolutionEdges,
       forms: relatedRows.familyForms,
       generationById,

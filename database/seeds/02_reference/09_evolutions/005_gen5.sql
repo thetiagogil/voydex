@@ -5,6 +5,8 @@
 -- Primary: Bulbapedia evolution method and Pokémon species pages.
 -- Cross-check: Serebii evolution pages and PokemonDB evolution chains.
 -- Machine-readable sanity: PokeAPI evolution-chain detail fields.
+-- Per game: each game's own evolution data (checked 2026-11-03); rows a
+-- game lacks are scoped to the version groups that have them.
 -- Scope note: official core-series Pokémon evolution edges through Generation IX.
 -- ============================================================================
 -- File Scope
@@ -173,6 +175,8 @@ VALUES
   -- Zweilous -> Hydreigon
   (634, 63400, 635, 63500, NULL, 5, 1, 64, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 64', '{"source_trigger":"level-up"}', 327),
   -- Larvesta -> Volcarona
-  (636, 63600, 637, 63700, NULL, 5, 1, 59, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 59', '{"source_trigger":"level-up"}', 328);
+  (636, 63600, 637, 63700, NULL, 5, 1, 59, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 59', '{"source_trigger":"level-up"}', 328),
+  -- Feebas -> Milotic
+  (349, 34900, 350, 35000, NULL, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'beauty 170+', '{"source_trigger":"level-up","min_beauty":170}', 596);
 
 -- ============================================================================

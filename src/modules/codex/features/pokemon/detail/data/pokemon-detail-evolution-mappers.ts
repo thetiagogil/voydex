@@ -17,6 +17,11 @@ import type {
 
 type PokemonEvolutionFamilyParams = {
   attributes: PokemonAttributes[];
+  availability: {
+    form_id: number | null;
+    species_id: number | null;
+    target_version_group_id: number | null;
+  }[];
   edges: PokemonEvolutionEdge[];
   forms: PokemonForm[];
   generationById: Map<number, Generation>;
@@ -60,6 +65,7 @@ const buildEvolutionFormSummaries = ({
 
 export const buildPokemonEvolutionFamily = ({
   attributes,
+  availability,
   edges,
   forms,
   generationById,
@@ -81,6 +87,17 @@ export const buildPokemonEvolutionFamily = ({
   }
 
   return {
+    availability: availability.flatMap((row) =>
+      row.species_id !== null && row.target_version_group_id !== null
+        ? [
+            {
+              formId: row.form_id,
+              speciesId: row.species_id,
+              versionGroupId: row.target_version_group_id,
+            },
+          ]
+        : [],
+    ),
     edges: edges.map((edge) => ({
       edge,
       fromForm: formById.get(edge.from_form_id) ?? null,

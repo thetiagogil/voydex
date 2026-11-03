@@ -19,6 +19,7 @@ import { getPlanBuildFields } from "@/modules/mainline/features/plans/planner/ut
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
 import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { selectEvolutionEdgesInForce } from "@/modules/reference/features/pokemon/domain/evolution-scope";
 import { getPokemonTypesForGeneration } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
 import type {
   PokemonAttributes,
@@ -166,13 +167,28 @@ export const buildPlannerContext = ({
     pool.heldItems.map((item) => [item.id, item.name]),
   );
   const familyIds = new Set(familyOrder);
-  const edges = [
-    ...new Map(pool.edges.map((edge) => [edge.id, edge])).values(),
-  ].filter(
-    (edge) =>
-      edge.introduced_generation_id <= generationId &&
-      (edge.version_group_id === null || familyIds.has(edge.version_group_id)),
-  );
+  /* The forms the group hands out: a species-wide row covers every form. */
+  const availableFormIds = new Set<number>();
+  for (const row of pool.availability) {
+    if (
+      row.target_version_group_id === null ||
+      !familyIds.has(row.target_version_group_id)
+    )
+      continue;
+    if (row.form_id !== null) {
+      availableFormIds.add(row.form_id);
+    } else {
+      for (const form of pool.forms) {
+        if (form.species_id === row.species_id) availableFormIds.add(form.id);
+      }
+    }
+  }
+  const edges = selectEvolutionEdgesInForce({
+    availableFormIds,
+    edges: [...new Map(pool.edges.map((edge) => [edge.id, edge])).values()],
+    generationOrder: generationId,
+    versionGroupIds: familyOrder,
+  });
   const generationTypes = new Set<string>(
     getPokemonTypesForGeneration(plannerGroup.generationOrder),
   );
