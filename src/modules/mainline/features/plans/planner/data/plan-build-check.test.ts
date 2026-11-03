@@ -79,6 +79,7 @@ const pokemon = (
     ...facts,
   },
   formId: speciesId * 100,
+  formSlug: name.toLowerCase(),
   imageUrl: null,
   isFullyEvolved: true,
   name,
@@ -180,8 +181,8 @@ describe("buildPlanIssues", () => {
     expect(issues[1].body).toBe(
       "Slowking needs a King's Rock. Needs someone to trade with.",
     );
-    expect(getWorstIssueFor(893, issues)?.kind).toBe("event");
-    expect(getWorstIssueFor(80, issues)).toBeNull();
+    expect(getWorstIssueFor(89300, issues)?.kind).toBe("event");
+    expect(getWorstIssueFor(8000, issues)).toBeNull();
   });
 });
 
@@ -211,28 +212,50 @@ describe("buildPlanIssues with one-of groups", () => {
   const check = (team: PlannerPokemon[]) =>
     buildPlanIssues({ includedExpansionIds: [19, 20], team, versionGroup })
       .filter((issue) => issue.kind === "one-per-save")
-      .map((issue) => [issue.title, issue.severity, issue.speciesIds]);
+      .map((issue) => [issue.title, issue.severity, issue.formIds]);
 
   it("blocks Kubfu with Urshifu, and both Urshifu", () => {
     expect(check([kubfu, urshifu])).toEqual([
-      ["Only one Kubfu per save", "block", [891, 892]],
+      ["Only one Kubfu per save", "block", [89100, 89200]],
     ]);
     expect(check([urshifu, urshifuRapid])).toEqual([
-      ["Only one Kubfu per save", "block", [892, 892]],
+      ["Only one Kubfu per save", "block", [89200, 89201]],
     ]);
   });
 
-  /*
-   * The Planner offers each species in its Pokédex form, so it can't hold a
-   * Galarian bird yet; the rule still reads any form it's given.
-   */
   it("blocks both steeds and two of one Galarian bird", () => {
     expect(check([glastrier, spectrier])).toEqual([
-      ["Glastrier or Spectrier, not both", "block", [896, 897]],
+      ["Glastrier or Spectrier, not both", "block", [89600, 89700]],
     ]);
     expect(check([galarianArticuno, galarianArticuno])).toEqual([
-      ["Only one Galarian Articuno per save", "block", [144, 144]],
+      ["Only one Galarian Articuno per save", "block", [14401, 14401]],
     ]);
+  });
+
+  it("lets a Galarian bird stand beside its Kantonian form, as two catches", () => {
+    const articuno = pokemon(144, "Articuno", ["ice", "flying"]);
+    const issues = buildPlanIssues({
+      includedExpansionIds: [19, 20],
+      team: [articuno, galarianArticuno],
+      versionGroup,
+    });
+
+    expect(issues.map((issue) => issue.kind)).toEqual([]);
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [19, 20],
+        team: [articuno, articuno],
+        versionGroup,
+      }).map((issue) => issue.kind),
+    ).toEqual(["line"]);
+    /* Two Galarian are the one-per-save block; the Kantonian beside them is no line. */
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [19, 20],
+        team: [articuno, galarianArticuno, galarianArticuno],
+        versionGroup,
+      }).map((issue) => issue.kind),
+    ).toEqual(["one-per-save"]);
   });
 
   it("doesn't also call a one-per-save pair a line to catch twice", () => {
@@ -291,11 +314,11 @@ describe("team analysis", () => {
     });
 
     expect(
-      coverage.find((entry) => entry.type.slug === "fire")?.coveredBySpeciesIds,
-    ).toEqual([80]);
+      coverage.find((entry) => entry.type.slug === "fire")?.coveredByFormIds,
+    ).toEqual([8000]);
     expect(
       coverage.find((entry) => entry.type.slug === "electric")
-        ?.coveredBySpeciesIds,
+        ?.coveredByFormIds,
     ).toEqual([]);
   });
 
@@ -328,32 +351,70 @@ describe("pickRandomTeam", () => {
     slowkingLine,
   ];
   const first = () => 0;
+  const byId = new Map(candidates.map((pokemon) => [pokemon.formId, pokemon]));
 
   it("fills only open slots, never repeating a line or picking event-only", () => {
     const slots = pickRandomTeam({
+      byId,
       candidates,
       mode: "empty",
       random: first,
-      slots: [80, null, null, null, null, null],
+      slots: [8000, null, null, null, null, null],
     });
 
-    expect(slots[0]).toBe(80);
-    expect(slots).not.toContain(893);
-    expect(slots).not.toContain(199);
+    expect(slots[0]).toBe(8000);
+    expect(slots).not.toContain(89300);
+    expect(slots).not.toContain(19900);
     expect(new Set(slots.filter(Boolean)).size).toBe(
       slots.filter(Boolean).length,
     );
   });
 
+  it("keeps counting a kept Pokémon the filters hide", () => {
+    /* Slowbro is kept but filtered out of the candidates: no Slowking then. */
+    const slots = pickRandomTeam({
+      byId,
+      candidates: [slowkingLine, corviknight],
+      mode: "empty",
+      random: first,
+      slots: [8000, null, null, null, null, null],
+    });
+
+    expect(slots.slice(0, 3)).toEqual([8000, 82300, null]);
+  });
+
   it("replaces every slot in the all mode", () => {
     const slots = pickRandomTeam({
+      byId,
       candidates,
       mode: "all",
       random: first,
-      slots: [80, 80, null, null, null, null],
+      slots: [8000, 8000, null, null, null, null],
     });
 
-    expect(slots.slice(0, 4)).toEqual([823, 865, 706, 80]);
+    expect(slots.slice(0, 4)).toEqual([82300, 86500, 70600, 8000]);
     expect(slots.slice(4)).toEqual([null, null]);
+  });
+
+  it("never picks two forms of one species", () => {
+    const articuno = pokemon(144, "Articuno", ["ice", "flying"]);
+    const galarianArticuno = {
+      ...pokemon(144, "Galarian Articuno", ["psychic", "flying"]),
+      formId: 14401,
+    };
+    const slots = pickRandomTeam({
+      byId: new Map(
+        [articuno, galarianArticuno, corviknight].map((pokemon) => [
+          pokemon.formId,
+          pokemon,
+        ]),
+      ),
+      candidates: [articuno, galarianArticuno, corviknight],
+      mode: "all",
+      random: first,
+      slots: [null, null, null, null, null, null],
+    });
+
+    expect(slots.slice(0, 3)).toEqual([14400, 82300, null]);
   });
 });

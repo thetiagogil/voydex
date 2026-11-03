@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   decodePlanShare,
   encodePlanShare,
+  toPlannerSlugIndex,
   toPlanShare,
   type PlanShare,
 } from "./plan-share-code";
@@ -10,9 +11,9 @@ import {
 describe("plan share code", () => {
   const share: PlanShare = {
     slots: [
-      { species: "corviknight" },
+      { slug: "corviknight" },
       null,
-      { species: "sirfetchd" },
+      { slug: "galarian-articuno" },
       null,
       null,
       null,
@@ -32,7 +33,7 @@ describe("plan share code", () => {
     ).replace(/=+$/, "");
 
     expect(decodePlanShare(`plan=${older}`)?.slots.slice(0, 2)).toEqual([
-      { species: "rotom" },
+      { slug: "rotom" },
       null,
     ]);
   });
@@ -44,18 +45,55 @@ describe("plan share code", () => {
 });
 
 describe("toPlanShare", () => {
-  it("shares each slot's species by slug", () => {
-    const slugs = new Map([[823, { speciesSlug: "corviknight" }]]);
+  it("shares each slot's Pokémon by its form's slug", () => {
+    const slugs = new Map([
+      [82300, { formSlug: "corviknight" }],
+      [14401, { formSlug: "galarian-articuno" }],
+    ]);
 
     expect(
       toPlanShare(
-        [{ speciesId: 823 }, null, { speciesId: 1 }],
+        [{ formId: 82300 }, null, { formId: 14401 }, { formId: 1 }],
         slugs,
         "sword-shield",
       ),
     ).toEqual({
-      slots: [{ species: "corviknight" }, null, null],
+      slots: [
+        { slug: "corviknight" },
+        null,
+        { slug: "galarian-articuno" },
+        null,
+      ],
       versionGroupSlug: "sword-shield",
     });
+  });
+});
+
+describe("toPlannerSlugIndex", () => {
+  const rotom = { formSlug: "rotom", speciesSlug: "rotom" };
+  const articuno = { formSlug: "articuno", speciesSlug: "articuno" };
+  const galarian = { formSlug: "galarian-articuno", speciesSlug: "articuno" };
+  /* Only the Hisuian form is offered, so the species slug opens on it. */
+  const hisuianTyphlosion = {
+    formSlug: "hisuian-typhlosion",
+    speciesSlug: "typhlosion",
+  };
+  const index = toPlannerSlugIndex([
+    rotom,
+    articuno,
+    galarian,
+    hisuianTyphlosion,
+  ]);
+
+  it("opens a form slug on its form, and a species slug on its first offered form", () => {
+    expect(index.get("galarian-articuno")).toBe(galarian);
+    expect(index.get("rotom")).toBe(rotom);
+    expect(index.get("typhlosion")).toBe(hisuianTyphlosion);
+  });
+
+  it("never lets a species slug override a form slug", () => {
+    expect(toPlannerSlugIndex([galarian, articuno]).get("articuno")).toBe(
+      articuno,
+    );
   });
 });

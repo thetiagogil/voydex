@@ -3,10 +3,10 @@ import type { PlannerPokemonFacts } from "@/modules/mainline/features/plans/type
 import { getVersionExclusives } from "@/modules/reference/features/games/domain/version-exclusives";
 
 /*
- * What the catalogue says about getting each species in this version group:
- * in the base game, only in an expansion, only as one game's exclusive, only
- * from an event, or only from outside the game. A species with no rows at
- * all gets no facts: unknown is never read as unavailable.
+ * What the catalogue says about getting each form in this version group: in
+ * the base game, only in an expansion, only as one game's exclusive, only
+ * from an event, or only from outside the game. A form with no rows at all
+ * gets no facts: unknown is never read as unavailable.
  */
 export const buildPlannerAvailabilityFacts = ({
   availability,
@@ -23,22 +23,21 @@ export const buildPlannerAvailabilityFacts = ({
   gameIds: number[];
   inGameMethodIds: ReadonlySet<number>;
 }) => {
-  type SpeciesRows = {
+  type FormRows = {
     base: boolean;
     event: boolean;
     expansion: number | null;
     outside: boolean;
   };
-  const bySpecies = new Map<number, SpeciesRows>();
+  const byForm = new Map<number, FormRows>();
   const baseRows = availability.filter(
     (row) => row.target_version_group_id === baseVersionGroupId,
   );
 
   for (const row of availability) {
-    if (row.species_id === null || row.availability_method_id === null)
-      continue;
+    if (row.form_id === null || row.availability_method_id === null) continue;
 
-    const entry = bySpecies.get(row.species_id) ?? {
+    const entry = byForm.get(row.form_id) ?? {
       base: false,
       event: false,
       expansion: null,
@@ -60,7 +59,7 @@ export const buildPlannerAvailabilityFacts = ({
       entry.outside = true;
     }
 
-    bySpecies.set(row.species_id, entry);
+    byForm.set(row.form_id, entry);
   }
 
   const exclusives = getVersionExclusives({
@@ -81,20 +80,20 @@ export const buildPlannerAvailabilityFacts = ({
         : [],
     ),
   });
-  const exclusiveGamesBySpecies = new Map<number, number[]>();
+  const exclusiveGamesByForm = new Map<number, number[]>();
 
   for (const [gameId, list] of exclusives) {
     for (const exclusive of list) {
-      const games = exclusiveGamesBySpecies.get(exclusive.speciesId) ?? [];
+      const games = exclusiveGamesByForm.get(exclusive.formId) ?? [];
 
       if (!games.includes(gameId)) games.push(gameId);
-      exclusiveGamesBySpecies.set(exclusive.speciesId, games);
+      exclusiveGamesByForm.set(exclusive.formId, games);
     }
   }
 
-  return (speciesId: number): Omit<PlannerPokemonFacts, "tradeEvolution"> => {
-    const rows = bySpecies.get(speciesId);
-    const exclusiveTo = exclusiveGamesBySpecies.get(speciesId) ?? [];
+  return (formId: number): Omit<PlannerPokemonFacts, "tradeEvolution"> => {
+    const rows = byForm.get(formId);
+    const exclusiveTo = exclusiveGamesByForm.get(formId) ?? [];
 
     return {
       eventOnly: Boolean(rows && !rows.base && !rows.expansion && rows.event),

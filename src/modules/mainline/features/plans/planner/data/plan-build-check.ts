@@ -24,8 +24,9 @@ export type PlanIssue = {
   /* "Include it": the expansion this Plan could include to clear the issue. */
   includeExpansionId: number | null;
   kind: PlanIssueKind;
+  /* The team members the issue is about, by form id. */
+  formIds: number[];
   severity: PlanIssueSeverity;
-  speciesIds: number[];
   title: string;
 };
 
@@ -87,7 +88,7 @@ export const buildPlanIssues = ({
       includeExpansionId: included ? null : expansion.versionGroupId,
       kind: "expansion",
       severity: included ? "info" : "block",
-      speciesIds: needing.map((pokemon) => pokemon.speciesId),
+      formIds: needing.map((pokemon) => pokemon.formId),
       title: `Needs ${expansion.name}`,
     });
   }
@@ -100,7 +101,7 @@ export const buildPlanIssues = ({
       includeExpansionId: null,
       kind: "event",
       severity: "hard",
-      speciesIds: eventOnly.map((pokemon) => pokemon.speciesId),
+      formIds: eventOnly.map((pokemon) => pokemon.formId),
       title: `${joinPlanList(names(eventOnly))} can't be caught in the game`,
     });
   }
@@ -113,7 +114,7 @@ export const buildPlanIssues = ({
       includeExpansionId: null,
       kind: "outside",
       severity: "hard",
-      speciesIds: outside.map((pokemon) => pokemon.speciesId),
+      formIds: outside.map((pokemon) => pokemon.formId),
       title: `${joinPlanList(names(outside))} ${verb(outside, "isn't", "aren't")} in the game itself`,
     });
   }
@@ -138,8 +139,8 @@ export const buildPlanIssues = ({
       includeExpansionId: null,
       kind: "exclusives",
       severity: "step",
-      speciesIds: exclusivesByGame.flatMap((group) =>
-        group.team.map((pokemon) => pokemon.speciesId),
+      formIds: exclusivesByGame.flatMap((group) =>
+        group.team.map((pokemon) => pokemon.formId),
       ),
       title: `Needs both ${joinPlanList(
         exclusivesByGame.map((group) => group.game.shortName),
@@ -153,7 +154,7 @@ export const buildPlanIssues = ({
       includeExpansionId: null,
       kind: "exclusives",
       severity: "info",
-      speciesIds: exclusives.map((pokemon) => pokemon.speciesId),
+      formIds: exclusives.map((pokemon) => pokemon.formId),
       title: `${joinPlanList(names(exclusives))} ${verb(exclusives, "is", "are")} ${game.shortName} only`,
     });
   }
@@ -175,7 +176,7 @@ export const buildPlanIssues = ({
       includeExpansionId: null,
       kind: "trade",
       severity: "step",
-      speciesIds: traded.map((pokemon) => pokemon.speciesId),
+      formIds: traded.map((pokemon) => pokemon.formId),
       title: `${joinPlanList(names(traded))} ${verb(traded, "evolves", "evolve")} only by trade`,
     });
   }
@@ -192,7 +193,7 @@ export const buildPlanIssues = ({
       includeExpansionId: null,
       kind: "one-per-save",
       severity: "block",
-      speciesIds: holding.map((pokemon) => pokemon.speciesId),
+      formIds: holding.map((pokemon) => pokemon.formId),
       title:
         group.kind === "pick-one"
           ? `${group.name}, not both`
@@ -210,25 +211,39 @@ export const buildPlanIssues = ({
 
   /* Two of a one-per-save group are a block, not a second catch. */
   const oneOfIssues = issues.filter((issue) => issue.kind === "one-per-save");
+  const inOneOfBlock = (line: PlannerPokemon[]) =>
+    oneOfIssues.some((issue) =>
+      line.every((pokemon) => issue.formIds.includes(pokemon.formId)),
+    );
 
+  /*
+   * One line twice: two species of a family (Charmander and Charizard), or
+   * one Pokémon twice. Two variants of one species (Articuno and Galarian
+   * Articuno) are two catches anyway, so they are no line to catch twice.
+   */
   for (const family of byFamily.values()) {
-    if (family.length < 2) continue;
+    const speciesCount = new Set(family.map((pokemon) => pokemon.speciesId))
+      .size;
+    const line =
+      speciesCount > 1
+        ? family
+        : family.filter(
+            (pokemon, index) =>
+              family.findIndex((other) => other.formId === pokemon.formId) !==
+                index ||
+              family.filter((other) => other.formId === pokemon.formId).length >
+                1,
+          );
 
-    if (
-      oneOfIssues.some((issue) =>
-        family.every((pokemon) => issue.speciesIds.includes(pokemon.speciesId)),
-      )
-    ) {
-      continue;
-    }
+    if (line.length < 2 || inOneOfBlock(line)) continue;
 
     issues.push({
       body: "Fine to plan both. You'll need to catch it twice.",
       includeExpansionId: null,
       kind: "line",
       severity: "info",
-      speciesIds: family.map((pokemon) => pokemon.speciesId),
-      title: `${joinPlanList(names(family))} are one evolution line`,
+      formIds: line.map((pokemon) => pokemon.formId),
+      title: `${joinPlanList(names(line))} are one evolution line`,
     });
   }
 
@@ -260,10 +275,9 @@ export const getPlanVerdict = (issues: PlanIssue[]): PlanVerdict => {
 };
 
 /* The worst effortful issue a slot's Pokémon is part of, for its flag. */
-export const getWorstIssueFor = (speciesId: number, issues: PlanIssue[]) =>
+export const getWorstIssueFor = (formId: number, issues: PlanIssue[]) =>
   issues.find(
-    (issue) =>
-      issue.severity !== "info" && issue.speciesIds.includes(speciesId),
+    (issue) => issue.severity !== "info" && issue.formIds.includes(formId),
   ) ?? null;
 
 /*
