@@ -6,6 +6,7 @@ import type {
   AbilityAttribute,
   AvailabilityMethod,
   EggGroup,
+  GrowthRate,
   EvolutionMethod,
   Game,
   Generation,
@@ -15,6 +16,7 @@ import type {
   Pokedex,
   PokedexEntry,
   PokemonAttributes,
+  PokemonTrainingAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
   PokemonSpecies,
@@ -178,6 +180,11 @@ export type PokemonDetailData = {
   abilityAttributes: AbilityAttribute[];
   defaultForm: PokemonFormSummary | null;
   eggGroups: EggGroup[];
+  /* Every base version group, in release order, for values read by the game that changed them. */
+  baseVersionGroups: VersionGroup[];
+  growthRates: GrowthRate[];
+  /* The species' training values, one row per form at every version group that changed one. */
+  trainingAttributes: PokemonTrainingAttributes[];
   evolutionFamily: PokemonEvolutionFamilySummary;
   species: PokemonSpecies;
   forms: PokemonFormSummary[];

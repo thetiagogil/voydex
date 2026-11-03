@@ -38,6 +38,7 @@ export const getPokemonDetailData = async (
   });
   const [relatedRows, learnsetMoveRows] = await Promise.all([
     loadPokemonDetailRelatedRows({
+      speciesId: baseRows.species.id,
       attributes: speciesRows.attributes,
       familySpeciesIds,
       pokedexIds: getPokedexIds(speciesRows.pokedexEntries),

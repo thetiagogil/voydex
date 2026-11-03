@@ -145,6 +145,37 @@ describe("exact-title exceptions", () => {
     },
   );
 
+  it.each([
+    ["Let's Go, Pikachu!", 29, 7, 17],
+    ["Legends: Arceus", 35, 8, 22],
+  ])(
+    "counts no EV yields in %s",
+    (_name, gameId, generationId, versionGroupId) => {
+      const profile = resolveGameMechanics({
+        gameId,
+        generationId,
+        versionGroupId,
+      });
+
+      expect(profile.support[gameMechanics.effortValues]).toBe("unsupported");
+    },
+  );
+
+  it("counts EV yields from Generation III on, Legends: Z-A included", () => {
+    expect(
+      resolveGameMechanics({ gameId: 1, generationId: 2, versionGroupId: 3 })
+        .support[gameMechanics.effortValues],
+    ).toBe("unsupported");
+    expect(
+      resolveGameMechanics({ gameId: 7, generationId: 3, versionGroupId: 5 })
+        .support[gameMechanics.effortValues],
+    ).toBe("supported");
+    expect(
+      resolveGameMechanics({ gameId: 45, generationId: 9, versionGroupId: 26 })
+        .support[gameMechanics.effortValues],
+    ).toBe("supported");
+  });
+
   it("keeps breeding in the other games of the same generations", () => {
     const profile = resolveVersionGroupMechanics({
       gameIds: [31, 32],

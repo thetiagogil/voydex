@@ -151,6 +151,14 @@ export const expectedSlugs = {
     "fairy",
     "stellar",
   ],
+  "reference.growth_rates": [
+    "erratic",
+    "fast",
+    "medium",
+    "medium-slow",
+    "slow",
+    "fluctuating",
+  ],
   "reference.natures": [
     "hardy",
     "lonely",
@@ -427,6 +435,7 @@ export const customAuditTables = new Set([
   "reference.pokemon_form_item_requirements",
   "reference.pokemon_form_rules",
   "reference.pokemon_forms",
+  "reference.pokemon_training_attributes",
   "tracking.mainline_collectible_entries",
   "tracking.mainline_collectibles",
   "reference.pokemon_species",

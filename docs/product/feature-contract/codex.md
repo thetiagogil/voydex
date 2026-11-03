@@ -79,9 +79,7 @@ As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
 Pokédex lists this species; picking one opens Add Pokémon over the entry on
 this species and form, and once added a toast offers `Open the roster` and
 Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
-your rosters. The entry's Training and breeding card shows egg groups where
-the game has breeding; its other values, the Pokédex category, flavour text,
-height and weight are pending data. The hero's heart saves the shown form as
+your rosters. The entry's Training card reads what the open game gives for the form: the EV yield where the game counts one (not Let's Go, not Legends: Arceus, nor Generation I and II), the catch rate, base friendship (none in Generation I), base experience and the growth rate with what level 100 takes, each from that game's own data (Yellow's Pikachu is harder to catch; Sword / Shield lowered most base friendship to 50). The Breeding card shows egg groups where the game has breeding; its other values, the Pokédex category, flavour text, height and weight are pending data. The hero's heart saves the shown form as
 a favourite (Undo in the toast) and lists it in Collection's Favourites;
 signed out, it is a link to log in that returns to the entry. The accepted handoff below
 remains the target.

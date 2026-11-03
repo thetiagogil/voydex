@@ -72,7 +72,12 @@ export const buildPokemonDetailData = ({
     abilityAttributes: relatedRows.abilityAttributes,
     availability,
     defaultForm: null,
+    baseVersionGroups: baseRows.versionGroups.filter(
+      (versionGroup) => versionGroup.parent_version_group_id === null,
+    ),
     eggGroups: relatedRows.eggGroups,
+    growthRates: relatedRows.growthRates,
+    trainingAttributes: relatedRows.trainingAttributes,
     evolutionFamily: buildPokemonEvolutionFamily({
       attributes: relatedRows.familyAttributes,
       edges: relatedRows.evolutionEdges,

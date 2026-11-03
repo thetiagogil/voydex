@@ -56,6 +56,17 @@ sources remain authoritative for game-specific mechanics and availability.
   Two exceptions match the game: Alolan Vulpix has no Isle of Armor tutor and
   female Indeedee no Teal Mask TM.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Training values (`reference.pokemon_training_attributes`: EV yield, catch
+  rate, base friendship, base experience and growth rate) come from each
+  game's own personal data (the tables PKHeX reads), one row per form at
+  every version group that changed a value, read in release order; a game
+  takes the latest row at or before it. A form has rows from the generation
+  it arrived in. EVs are NULL where the games have none (Generation I and
+  II, Let's Go, Legends: Arceus) and base friendship in Generation I.
+  Terapagos's Terastal Form yields four EVs in the games, so the yield limit
+  is six, not three. `reference.growth_rates` holds the six curves and their
+  level 100 totals. Bulbapedia is the second reading for the values that
+  moved between games.
 - Opponent teams from Red / Blue to Emerald (every Story battle and legendary
   encounter in those seven version groups) were checked row by row on
   2026-10-29 against each game's own trainer data in the pret disassemblies:

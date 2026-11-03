@@ -60,6 +60,7 @@ import {
 import { assertPokedexEntryRows, assertPokedexRows } from "./rules/pokedex.mjs";
 import {
   assertPokemonAttributeRows,
+  assertPokemonTrainingAttributeRows,
   assertPokemonFormItemRequirementRows,
   assertPokemonFormRuleRows,
   assertPokemonIdentityRows,
@@ -221,6 +222,7 @@ export function runSeedAudit() {
     assertPokemonFormRuleRows(context, tableRows);
     assertPokemonFormItemRequirementRows(context, tableRows);
     assertPokemonAttributeRows(context, tableRows);
+    assertPokemonTrainingAttributeRows(context, tableRows);
     assertTrackingCoreRows(context, tableRows);
     assertOpponentTeamRows(context, tableRows);
     assertTerminalStatuses(

@@ -1642,3 +1642,51 @@ export function assertPokemonAttributeRows(context, tableRows) {
     stats: [80, 120, 84, 60, 96, 110],
   });
 }
+
+/*
+ * Every form has training values from its first game on, each row names a
+ * seeded version group and growth rate, and no form repeats a start group.
+ */
+export function assertPokemonTrainingAttributeRows(context, tableRows) {
+  const rows = tableRows.get("reference.pokemon_training_attributes") ?? [];
+  const formRows = tableRows.get("reference.pokemon_forms") ?? [];
+  const versionGroupIds = new Set(
+    (tableRows.get("reference.version_groups") ?? []).map(({ row }) => row.id),
+  );
+  const growthRateIds = new Set(
+    (tableRows.get("reference.growth_rates") ?? []).map(({ row }) => row.id),
+  );
+  if (rows.length !== 5708) {
+    context.errors.push(
+      `reference.pokemon_training_attributes: expected 5708 curated training rows, got ${rows.length}.`,
+    );
+  }
+  addCompositeDuplicateErrors(
+    context,
+    "reference.pokemon_training_attributes",
+    rows,
+    "form and start group",
+    (row) => `${row.species_id}/${row.form_id}/${row.version_group_start_id}`,
+  );
+  const formIdsWithRows = new Set();
+  for (const { row, filePath } of rows) {
+    formIdsWithRows.add(row.form_id);
+    if (!versionGroupIds.has(row.version_group_start_id)) {
+      context.errors.push(
+        `${relative(filePath)}: training row for form ${row.form_id} references unseeded version group ${row.version_group_start_id}.`,
+      );
+    }
+    if (!growthRateIds.has(row.growth_rate_id)) {
+      context.errors.push(
+        `${relative(filePath)}: training row for form ${row.form_id} references unseeded growth rate ${row.growth_rate_id}.`,
+      );
+    }
+  }
+  for (const { row } of formRows) {
+    if (!formIdsWithRows.has(row.id)) {
+      context.errors.push(
+        `reference.pokemon_training_attributes: missing training rows for form ${row.slug}.`,
+      );
+    }
+  }
+}

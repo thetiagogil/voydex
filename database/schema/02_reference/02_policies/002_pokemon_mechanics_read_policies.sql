@@ -32,6 +32,10 @@ ALTER TABLE reference.pokemon_fixed_tera_types ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokemon_attributes ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.growth_rates ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.pokemon_training_attributes ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE reference.types FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.tera_types FROM anon, authenticated;
@@ -61,6 +65,10 @@ REVOKE ALL ON TABLE reference.pokemon_battle_form_bases FROM anon, authenticated
 REVOKE ALL ON TABLE reference.pokemon_fixed_tera_types FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokemon_attributes FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.growth_rates FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_training_attributes FROM anon, authenticated;
 
 GRANT SELECT ON TABLE reference.types TO anon, authenticated;
 
@@ -92,6 +100,10 @@ GRANT SELECT ON TABLE reference.pokemon_fixed_tera_types TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokemon_attributes TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.growth_rates TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.pokemon_training_attributes TO anon, authenticated;
+
 GRANT ALL ON TABLE reference.types TO service_role;
 
 GRANT ALL ON TABLE reference.tera_types TO service_role;
@@ -121,6 +133,10 @@ GRANT ALL ON TABLE reference.pokemon_battle_form_bases TO service_role;
 GRANT ALL ON TABLE reference.pokemon_fixed_tera_types TO service_role;
 
 GRANT ALL ON TABLE reference.pokemon_attributes TO service_role;
+
+GRANT ALL ON TABLE reference.growth_rates TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_training_attributes TO service_role;
 
 CREATE POLICY types_read_all ON reference.types
     FOR SELECT TO anon, authenticated
@@ -179,5 +195,13 @@ CREATE POLICY pokemon_fixed_tera_types_read_all ON reference.pokemon_fixed_tera_
     USING (TRUE);
 
 CREATE POLICY pokemon_attributes_read_all ON reference.pokemon_attributes
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY growth_rates_read_all ON reference.growth_rates
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_training_attributes_read_all ON reference.pokemon_training_attributes
     FOR SELECT TO anon, authenticated
     USING (TRUE);
