@@ -12,6 +12,8 @@ CREATE TABLE reference.pokemon_forms (
     form_order integer NOT NULL,
     height_decimeters integer,
     weight_hectograms integer,
+    category text,
+    gender text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT pokemon_forms_id_positive_check CHECK (id > 0),
     CONSTRAINT pokemon_forms_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 160),
@@ -19,6 +21,8 @@ CREATE TABLE reference.pokemon_forms (
     CONSTRAINT pokemon_forms_form_order_positive_check CHECK (form_order > 0),
     CONSTRAINT pokemon_forms_height_positive_check CHECK (height_decimeters IS NULL OR height_decimeters > 0),
     CONSTRAINT pokemon_forms_weight_positive_check CHECK (weight_hectograms IS NULL OR weight_hectograms > 0),
+    CONSTRAINT pokemon_forms_category_length_check CHECK (category IS NULL OR CHAR_LENGTH(BTRIM(category)) BETWEEN 1 AND 80),
+    CONSTRAINT pokemon_forms_gender_check CHECK (gender IS NULL OR gender IN ('male', 'female')),
     CONSTRAINT pokemon_forms_species_id_unique UNIQUE (species_id, id),
     CONSTRAINT pokemon_forms_species_order_unique UNIQUE (species_id, form_order)
 );
@@ -29,6 +33,10 @@ WHERE
 
 COMMENT ON TABLE reference.pokemon_forms IS 'Concrete Pokémon form identities used by team builder, planning, and display.';
 
-COMMENT ON COLUMN reference.pokemon_forms.height_decimeters IS 'Pokémon height in decimeters, matching canonical game data units.';
+COMMENT ON COLUMN reference.pokemon_forms.height_decimeters IS 'Pokémon height in decimeters, matching canonical game data units. NULL only for a form the games give no size (a Team Star Starmobile, Mega Greninja).';
 
-COMMENT ON COLUMN reference.pokemon_forms.weight_hectograms IS 'Pokémon weight in hectograms, matching canonical game data units.';
+COMMENT ON COLUMN reference.pokemon_forms.weight_hectograms IS 'Pokémon weight in hectograms, matching canonical game data units. NULL only where the games give no weight (a Gigantamax form, Eternamax Eternatus, a Team Star Starmobile, Mega Greninja).';
+
+COMMENT ON COLUMN reference.pokemon_forms.category IS 'The form''s own Pokédex category where it differs from its species'' (Hisuian Growlithe: Scout); NULL reads the species'' category.';
+
+COMMENT ON COLUMN reference.pokemon_forms.gender IS 'The one gender this form always is (Meowstic''s female form, a Cap Pikachu, Battle Bond Greninja); NULL reads the species'' gender ratio.';

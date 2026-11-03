@@ -25,6 +25,23 @@ test.describe("Codex", () => {
     await expect(
       page.getByRole("heading", { level: 1, name: "Charizard" }),
     ).toBeVisible();
+    await expect(page.getByText("Flame Pokémon")).toBeVisible();
+    await expect(page.getByText("1.7 m tall and 90.5 kg")).toBeVisible();
+    await expectAccessible(page);
+  });
+
+  test("reads a species' breeding facts in a game with eggs and gender", async ({
+    page,
+  }) => {
+    await page.goto("/codex/pokemon/swsh/charizard");
+
+    const breeding = page.getByRole("region", { name: "Breeding" });
+    await expect(breeding.getByText("Egg cycles")).toBeVisible();
+    await expect(breeding.getByText("20", { exact: true })).toBeVisible();
+    await expect(breeding.getByText("87.5% male")).toBeVisible();
+    await expect(
+      breeding.getByRole("meter", { name: "Share that is male" }),
+    ).toBeVisible();
     await expectAccessible(page);
   });
 

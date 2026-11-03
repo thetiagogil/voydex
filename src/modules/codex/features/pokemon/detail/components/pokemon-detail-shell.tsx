@@ -19,6 +19,7 @@ import { PokemonDetailSectionBar } from "@/modules/codex/features/pokemon/detail
 import { PokemonDetailHead } from "@/modules/codex/features/pokemon/detail/components/pokemon-detail-head";
 import { PokemonDetailStatsCard } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-card";
 import { getPokemonDetailStats } from "@/modules/codex/features/pokemon/detail/sections/stats/pokemon-detail-stats-model";
+import { getFormFemaleRatioEighths } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-gender-ratio";
 import {
   PokemonDetailBreedingCard,
   PokemonDetailTrainingCard,
@@ -227,7 +228,12 @@ export const PokemonDetailShell = ({
           </div>
           <PokemonDetailTrainingCard />
           <PokemonDetailBreedingCard
+            eggCycles={data.species.egg_cycles}
             eggGroups={getFormEggGroups(data, scope)}
+            femaleRatioEighths={getFormFemaleRatioEighths(
+              form?.form.gender ?? null,
+              data.species.female_ratio_eighths,
+            )}
             hasGender={supportsGameMechanic(
               scope.mechanics,
               gameMechanics.pokemonGender,

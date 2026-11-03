@@ -79,9 +79,14 @@ As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
 Pokédex lists this species; picking one opens Add Pokémon over the entry on
 this species and form, and once added a toast offers `Open the roster` and
 Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
-your rosters. The entry's Training and breeding card shows egg groups where
-the game has breeding; its other values, the Pokédex category, flavour text,
-height and weight are pending data. The hero's heart saves the shown form as
+your rosters. The hero's eyebrow reads the Pokédex category of the form shown
+(its own where it differs, as Hisuian Growlithe is the Scout Pokémon), and
+its sentence the form's height and weight, leaving out a size the games
+don't give. The Breeding card shows egg groups and egg cycles where the game
+has breeding, and the gender ratio (the split over a bar of the male share,
+or male only, female only or genderless; a form that is always one gender,
+such as Meowstic's female form, reads as that gender) where the game has gender. The
+Training values and flavour text are pending data. The hero's heart saves the shown form as
 a favourite (Undo in the toast) and lists it in Collection's Favourites;
 signed out, it is a link to log in that returns to the entry. The accepted handoff below
 remains the target.

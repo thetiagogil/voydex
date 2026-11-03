@@ -56,6 +56,19 @@ sources remain authoritative for game-specific mechanics and availability.
   Two exceptions match the game: Alolan Vulpix has no Isle of Armor tutor and
   female Indeedee no Teal Mask TM.
 - Forms used by teams require a valid species/form pair and game-era support.
+- Species carry their Pokédex category, egg cycles and gender ratio (in
+  eighths female, NULL when genderless), and every form its height and
+  weight, from the PokeAPI species snapshot, spot-checked against
+  Bulbapedia's species pages on 2026-11-03; the Megas the snapshot lacks
+  (Mega Meowstic, Mega Tatsugiri) come from Bulbapedia, which also corrected the snapshot's Bloodmoon Ursaluna, Mega Garchomp Z and Mega Lucario Z; Mega Greninja has no published size and stays NULL. A form whose
+  category differs from its species' (30: the Hisuian and Galarian forms
+  that changed, Galarian Darmanitan in both modes, Mega Darkrai, Hoopa
+  Unbound and others) carries its own, from Bulbapedia's Pokémon category
+  list. A form that is always one gender says which (`gender`: Meowstic,
+  Indeedee, Basculegion and Oinkologne's two forms, the Cap and Cosplay
+  Pikachu, Battle Bond and Ash-Greninja), and the entry reads it over the
+  species' ratio. The Gigantamax forms' weights, Eternamax Eternatus's
+  weight and the Starmobiles' sizes stay NULL: the games give none.
 - Every Gym Leader, kahuna and Champion names its `place` (where the battle
   is fought: the Gym's town, the grand trial's site, the League), read from
   Bulbapedia's Gym, island kahuna and trainer pages on 2026-11-02; the region

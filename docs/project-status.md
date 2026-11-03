@@ -115,16 +115,15 @@ confirm the linked Supabase migration list before any remote database write.
 
 Where v3 needs data Voydex doesn't have, the screen shows `PendingData` and a
 `TODO(v3-data)` comment names what it waits on (`grep -rn "TODO(v3-data)" src`
-finds all 24). Grouped by what they wait on:
+finds all 17). Grouped by what they wait on:
 
 - `public.user_preferences`: mode and colour theme (#38). Motion and the New
   Play defaults are saved (#33), and Search and filters (#65).
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.
 - Reference catalogue: route and encounter locations.
-- Reference Pokémon facts: genus, Pokédex entries per game, a species
-  description, heights and weights, training values, egg groups for forms,
-  egg cycles and gender ratio.
+- Reference Pokémon facts: Pokédex entries per game, a species description,
+  training values and egg groups for forms.
 - Legal text for Privacy and Terms, written and reviewed before launch.
 
 ## Verification Checkpoint
