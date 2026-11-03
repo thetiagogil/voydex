@@ -41,6 +41,7 @@ export const getPokemonDetailData = async (
       attributes: speciesRows.attributes,
       familySpeciesIds,
       pokedexIds: getPokedexIds(speciesRows.pokedexEntries),
+      speciesId: baseRows.species.id,
       supabase,
     }),
     loadPokemonDetailLearnsetMoveRows(supabase, speciesRows.learnsetRows),

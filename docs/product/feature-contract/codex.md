@@ -79,9 +79,13 @@ As built, a signed-in entry offers `Add to a Play` (a menu of your Plays whose
 Pokédex lists this species; picking one opens Add Pokémon over the entry on
 this species and form, and once added a toast offers `Open the roster` and
 Undo; with none, Start a Play) and an `In your Plays` card listing every one of this species on
-your rosters. The entry's Training and breeding card shows egg groups where
-the game has breeding; its other values, the Pokédex category, flavour text,
-height and weight are pending data. The hero's heart saves the shown form as
+your rosters. The hero reads what the open game's Pokédex says about the
+shown form, verbatim: one paragraph when the game pair agrees (Red and
+Blue), one per version named by it when they differ (Sword, Shield); a form
+without words of its own reads its species' default form's. Pokédex numbers
+list each Pokédex and the number alone. The entry's Training and breeding
+card shows egg groups where the game has breeding; its other values, the
+Pokédex category, height and weight are pending data. The hero's heart saves the shown form as
 a favourite (Undo in the toast) and lists it in Collection's Favourites;
 signed out, it is a link to log in that returns to the entry. The accepted handoff below
 remains the target.

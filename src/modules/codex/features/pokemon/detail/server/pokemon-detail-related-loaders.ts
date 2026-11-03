@@ -9,12 +9,14 @@ import type {
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
+  PokemonPokedexText,
 } from "@/modules/reference/types";
 
 type PokemonDetailRelatedRowsParams = {
   attributes: PokemonAttributes[];
   familySpeciesIds: number[];
   pokedexIds: number[];
+  speciesId: number;
   supabase: ServerSupabaseClient;
 };
 
@@ -26,6 +28,7 @@ export type PokemonDetailRelatedRows = {
   familyAttributes: PokemonAttributes[];
   familyForms: PokemonForm[];
   pokedexes: Pokedex[];
+  pokedexTexts: PokemonPokedexText[];
 };
 
 const getPokemonAbilityIds = (attributes: PokemonAttributes[]) => {
@@ -59,6 +62,7 @@ export const loadPokemonDetailRelatedRows = async ({
   attributes,
   familySpeciesIds,
   pokedexIds,
+  speciesId,
   supabase,
 }: PokemonDetailRelatedRowsParams): Promise<PokemonDetailRelatedRows> => {
   const abilityIds = getPokemonAbilityIds(attributes);
@@ -71,6 +75,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyFormsResult,
     familyAttributesResult,
     evolutionEdgesResult,
+    pokedexTextsResult,
   ] = await Promise.all([
     abilityIds.length
       ? supabase
@@ -125,6 +130,11 @@ export const loadPokemonDetailRelatedRows = async ({
           .in("from_species_id", familySpeciesIds)
           .order("sort_order", { ascending: true })
       : Promise.resolve({ data: [] as PokemonEvolutionEdge[], error: null }),
+    supabase
+      .schema("reference")
+      .from("pokemon_pokedex_texts")
+      .select("*")
+      .eq("species_id", speciesId),
   ]);
 
   if (
@@ -135,7 +145,7 @@ export const loadPokemonDetailRelatedRows = async ({
     throw new Error("Unable to load Pokémon attribute reference data.");
   }
 
-  if (pokedexResult.error) {
+  if (pokedexResult.error || pokedexTextsResult.error) {
     throw new Error("Unable to load Pokémon Pokédex definitions.");
   }
 
@@ -155,6 +165,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyAttributes: familyAttributesResult.data ?? [],
     familyForms: familyFormsResult.data ?? [],
     pokedexes: pokedexResult.data ?? [],
+    pokedexTexts: pokedexTextsResult.data ?? [],
   };
 };
 

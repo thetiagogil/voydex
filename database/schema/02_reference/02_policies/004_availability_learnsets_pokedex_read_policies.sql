@@ -25,6 +25,8 @@ ALTER TABLE reference.pokedex ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE reference.pokedex_entries ENABLE ROW LEVEL SECURITY;
 
+ALTER TABLE reference.pokemon_pokedex_texts ENABLE ROW LEVEL SECURITY;
+
 REVOKE ALL ON TABLE reference.game_content_scopes FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.content_scope_dependencies FROM anon, authenticated;
@@ -48,6 +50,8 @@ REVOKE ALL ON TABLE reference.pokemon_learnsets FROM anon, authenticated;
 REVOKE ALL ON TABLE reference.pokedex FROM anon, authenticated;
 
 REVOKE ALL ON TABLE reference.pokedex_entries FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_pokedex_texts FROM anon, authenticated;
 
 GRANT SELECT ON TABLE reference.game_content_scopes TO anon, authenticated;
 
@@ -73,6 +77,8 @@ GRANT SELECT ON TABLE reference.pokedex TO anon, authenticated;
 
 GRANT SELECT ON TABLE reference.pokedex_entries TO anon, authenticated;
 
+GRANT SELECT ON TABLE reference.pokemon_pokedex_texts TO anon, authenticated;
+
 GRANT ALL ON TABLE reference.game_content_scopes TO service_role;
 
 GRANT ALL ON TABLE reference.content_scope_dependencies TO service_role;
@@ -96,6 +102,8 @@ GRANT ALL ON TABLE reference.pokemon_learnsets TO service_role;
 GRANT ALL ON TABLE reference.pokedex TO service_role;
 
 GRANT ALL ON TABLE reference.pokedex_entries TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_pokedex_texts TO service_role;
 
 CREATE POLICY game_content_scopes_read_all ON reference.game_content_scopes
     FOR SELECT TO anon, authenticated
@@ -142,5 +150,9 @@ CREATE POLICY pokedex_read_all ON reference.pokedex
     USING (TRUE);
 
 CREATE POLICY pokedex_entries_read_all ON reference.pokedex_entries
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_pokedex_texts_read_all ON reference.pokemon_pokedex_texts
     FOR SELECT TO anon, authenticated
     USING (TRUE);

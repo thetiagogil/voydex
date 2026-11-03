@@ -18,6 +18,7 @@ export type Nature = ReferenceRow<"natures">;
 export type Platform = ReferenceRow<"platforms">;
 export type Pokedex = ReferenceRow<"pokedex">;
 export type PokedexEntry = ReferenceRow<"pokedex_entries">;
+export type PokemonPokedexText = ReferenceRow<"pokemon_pokedex_texts">;
 export type PokemonAttributes = ReferenceRow<"pokemon_attributes">;
 export type PokemonAvailability = ReferenceRow<"pokemon_availability">;
 export type PokemonEvolutionEdge = ReferenceRow<"pokemon_evolution_edges">;

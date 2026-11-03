@@ -60,6 +60,7 @@ import {
 import { assertPokedexEntryRows, assertPokedexRows } from "./rules/pokedex.mjs";
 import {
   assertPokemonAttributeRows,
+  assertPokemonPokedexTextRows,
   assertPokemonFormItemRequirementRows,
   assertPokemonFormRuleRows,
   assertPokemonIdentityRows,
@@ -105,7 +106,11 @@ export function runSeedAudit() {
     const allRows = [];
     for (const filePath of [...sqlFiles, ...markdownFiles]) {
       const text = readFileSync(filePath, "utf8");
-      if (/[^\x00-\x7Fé]/.test(text)) {
+      /* The games' own Pokédex words keep their typography: curly quotes, dashes, degrees, gender signs. */
+      const typography = filePath.includes("13_pokedex_texts")
+        ? /[^\x00-\x7Fé’‘“”—–−°♀♂]/
+        : /[^\x00-\x7Fé]/;
+      if (typography.test(text)) {
         context.errors.push(
           `${relative(filePath)} contains non-ASCII characters outside approved Pokémon typography.`,
         );
@@ -126,7 +131,11 @@ export function runSeedAudit() {
           `${relative(filePath)} must include Source and File Scope comment sections.`,
         );
       }
-      if (/\bother\b/i.test(executableSql) || /'other'/i.test(executableSql)) {
+      const isVerbatimGameText = filePath.includes("13_pokedex_texts");
+      if (
+        !isVerbatimGameText &&
+        (/\bother\b/i.test(executableSql) || /'other'/i.test(executableSql))
+      ) {
         context.errors.push(
           `${relative(filePath)} contains forbidden generic "other" seed data.`,
         );
@@ -221,6 +230,7 @@ export function runSeedAudit() {
     assertPokemonFormRuleRows(context, tableRows);
     assertPokemonFormItemRequirementRows(context, tableRows);
     assertPokemonAttributeRows(context, tableRows);
+    assertPokemonPokedexTextRows(context, tableRows);
     assertTrackingCoreRows(context, tableRows);
     assertOpponentTeamRows(context, tableRows);
     assertTerminalStatuses(

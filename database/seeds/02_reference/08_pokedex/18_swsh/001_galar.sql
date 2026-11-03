@@ -375,11 +375,11 @@ VALUES
   -- #181 Barraskewda
   (1801, 847, NULL, 181, TRUE),
   -- #182 Meowth
-  (1801, 52, NULL, 182, TRUE),
+  (1801, 52, 5202, 182, TRUE),
   -- #183 Perrserker
   (1801, 863, NULL, 183, TRUE),
   -- #184 Persian
-  (1801, 53, NULL, 184, TRUE),
+  (1801, 53, 5301, 184, TRUE),
   -- #185 Milcery
   (1801, 868, NULL, 185, TRUE),
   -- #186 Alcremie
@@ -665,7 +665,7 @@ VALUES
   -- #326 Haxorus
   (1801, 612, NULL, 326, TRUE),
   -- #327 Yamask
-  (1801, 562, NULL, 327, TRUE),
+  (1801, 562, 56201, 327, TRUE),
   -- #328 Runerigus
   (1801, 867, NULL, 328, TRUE),
   -- #329 Cofagrigus
@@ -741,7 +741,7 @@ VALUES
   -- #364 Mime Jr.
   (1801, 439, NULL, 364, TRUE),
   -- #365 Mr. Mime
-  (1801, 122, NULL, 365, TRUE),
+  (1801, 122, 12201, 365, TRUE),
   -- #366 Mr. Rime
   (1801, 866, NULL, 366, TRUE),
   -- #367 Darumaka

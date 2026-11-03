@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, type ReactNode } from "react";
 
 import type { PokemonDetailFormOption } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-form-display";
+import type { PokemonDetailPokedexEntryText } from "@/modules/codex/features/pokemon/detail/utils/pokemon-detail-pokedex-text";
 import {
   PokemonFormMenu,
   toPokemonFormOption,
@@ -17,7 +18,6 @@ import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domai
 import type { PokemonTypePair } from "@/modules/reference/types";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { IconTip } from "@/shared/components/icon-tip";
-import { PendingData } from "@/shared/components/pending-data";
 import { Button } from "@/shared/components/ui/button";
 
 type PokemonDetailHeroProps = {
@@ -27,6 +27,8 @@ type PokemonDetailHeroProps = {
    */
   actions?: ReactNode;
   activeFormSlug: string | null;
+  /* What the open game's Pokédex says, one entry per version that has its own words. */
+  entries: PokemonDetailPokedexEntryText[];
   eyebrow: PokemonDetailHeroSentencePart[];
   /* The route's heart: a favourite toggle signed in, sign in for a visitor. */
   favourite?: ReactNode;
@@ -59,15 +61,16 @@ const HeroParts = ({ parts }: { parts: PokemonDetailHeroSentencePart[] }) => {
  * v3's entry hero: the art on its type tint in a white rim, on a lip of its
  * type's shade (v3 `.cx-art`), beside the eyebrow, the name, its types
  * named under it, one line of the form switch and the actions as icons (the route's
- * Your Plays, Favourite, the shiny toggle), the description, and the one
- * sentence the page reads for you (the Pokédex's words are per game in
- * Pokédex numbers). Each form is its own page, and the shell remounts the
+ * Your Plays, Favourite, the shiny toggle), what the open game's Pokédex
+ * says (each version's words when they differ), and the one sentence the
+ * page reads for you. Each form is its own page, and the shell remounts the
  * hero for it, so the toggle starts off again. The art and the text sit as
  * one pair centred in the band.
  */
 export const PokemonDetailHero = ({
   actions,
   activeFormSlug,
+  entries,
   eyebrow,
   favourite,
   formOptions,
@@ -167,12 +170,24 @@ export const PokemonDetailHero = ({
           </div>
         </div>
 
-        {/* TODO(v3-data): a general description of each species. */}
-        <PendingData
-          className="mt-5 items-start px-4.5 py-3.5 text-left"
-          label="About this Pokémon"
-          note="A few lines on what it is; its Pokédex entries are per game below."
-        />
+        {/* The Pokédex's own words, in this game: one paragraph per text, named by version when two differ. */}
+        {entries.length ? (
+          <div className="mt-5 flex flex-col gap-2.5">
+            {entries.map((entry) => (
+              <p
+                key={entry.text}
+                className="text-16 text-ink-2 leading-relaxed"
+              >
+                {entries.length > 1 ? (
+                  <b className="text-ink mr-1.5 font-extrabold">
+                    {entry.gameNames.join(" and ")}
+                  </b>
+                ) : null}
+                {entry.text}
+              </p>
+            ))}
+          </div>
+        ) : null}
 
         <p className="text-16 text-ink-2 mt-4 leading-relaxed">
           {/* TODO(v3-data): heights and weights (unseeded on pokemon_forms). */}

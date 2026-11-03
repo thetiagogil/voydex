@@ -1841,7 +1841,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 302,
         sha256:
-          "f5e09dd2d92ea259758e85bc17f4712d077302f4843fc2a8c9107d6ee50825f0",
+          "bdfa32b1588e99ac96123589e091a44298b2c44364168c23d762990d347d3375",
       },
     ],
     [
@@ -1849,7 +1849,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 120,
         sha256:
-          "cffc9a1af12ed798c3758a3a934cec6a31e4b90195685c6367cd08200259b548",
+          "00f3aff4eb193a8f087b7622a4b75168e0e28ac349d536b7ae7f87898718c98e",
       },
     ],
     [
@@ -1857,7 +1857,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 130,
         sha256:
-          "0adf6d6a4c051348443ea68b94ab65edca126faccdfe8833f1d8692091964304",
+          "6c412f9c2e862d80172fecc9d900859e8778338622f8212525232657c143770b",
       },
     ],
     [
@@ -1865,7 +1865,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 130,
         sha256:
-          "bef840354d1a977e9cf131d52b0a135203642ee6572f6de8114a0944c26628fd",
+          "a8544524fa21681a9dcef5227b0c4b28346778e05e53f626f0ceca984e7bedd6",
       },
     ],
     [
@@ -1873,7 +1873,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 100,
         sha256:
-          "763374f7bc326b309911c9e53efb3677145580f50dfb5fe64de0e03b89284659",
+          "4cb4c8f86474a69d0defa0b635485412fc3077e9b96f50f1019ed65215972ff6",
       },
     ],
     [
@@ -1881,7 +1881,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 403,
         sha256:
-          "7de69e8e5f0b0d43b0b960614df0ae94aabc17e3dd7129810a510535ad13e720",
+          "946bb57069c1d366b9c2d0d9ac7c32ee62a592ccf87e0f286dd6d833422d2ea1",
       },
     ],
     [
@@ -1889,7 +1889,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 150,
         sha256:
-          "6b05af83de6a7808950bcc8495773fc7b09c55ded7f5f82845debe2e422f5d91",
+          "37a069f6dc6beb55bfbc91e71e31f923c4af16ac5167b3628d3f462e8c945257",
       },
     ],
     [
@@ -1897,7 +1897,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 160,
         sha256:
-          "682cdd6713f4185121a5ff5cd75b168b53fb59cacb0bd37061bd41ac6081c1f5",
+          "60f34bc4368dd7d6684d0a524dd390e1fbb616f324988c3946ad38f6fccbbac8",
       },
     ],
     [
@@ -1905,7 +1905,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 160,
         sha256:
-          "a010ab5b2675986a6437781aad3f984e6c05d199928577ddf96ba16786f53683",
+          "b9194d7da5f4e6e384e463cf133336a4e2f5ba4b7c5b76392ca75524d2f07fc6",
       },
     ],
     [
@@ -1913,7 +1913,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 130,
         sha256:
-          "789bbca6661c1e53b04b6489f9b65c12b02406103814dca595307c575f6efce3",
+          "e237c14ee5389a86db55140c41f135680b2206a3fb6ce4b2e3510f9c8e44e727",
       },
     ],
     [
@@ -1929,7 +1929,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 400,
         sha256:
-          "429a5ed96959fce257e63e121a2954cae465d25c91e5f83fd331a65b33859a41",
+          "1d64ccf6c7ac2c742337966a0a12567660a46325ed1d66cf488a5e9790538787",
       },
     ],
     [
@@ -1937,7 +1937,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 211,
         sha256:
-          "3fa2d3c6a0e6b0aacdfad5b2406001e7ab7c5a24c4211f84309cb8c2e80addb3",
+          "746e7c4f1ffc420356e5471213f11b39a5d67401c7152617caa0e7ccc9367d0a",
       },
     ],
     [
@@ -1945,7 +1945,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 210,
         sha256:
-          "501ca122096527d729807de746d551a126d35ce429fea2005f9de0efe0620678",
+          "fede8a1050194eeb421281288a3841ab821ef9f31921356c4fdb5c8d5d2e994b",
       },
     ],
     [
@@ -1969,7 +1969,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 242,
         sha256:
-          "4ac544500494f7e5df408006d22760cf747648fde38427c33a76065ba3ef738d",
+          "e4176cd34b8e8b78cf7df6814383dfb44aa59fd63a8c2626317d98559d92215f",
       },
     ],
     [
@@ -1977,7 +1977,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 400,
         sha256:
-          "ba91ae2c44abd0c1bf6eec4348f93628c7436577621d83f24615c09f7b3e017f",
+          "1924438fcca8a674f0ba9dbd223439aa614a1105e706e873efb85ed1348bd01e",
       },
     ],
     [
@@ -1985,7 +1985,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 200,
         sha256:
-          "d81b281a8dddc81b8bdb315981e516cffe5480f46bceadde4e6dacbf9f2ae32c",
+          "2c034cc5998400f81d0611f3ee1de89bc0a57d93773b6507a8f5d1c3572a6af5",
       },
     ],
     [
@@ -1993,7 +1993,7 @@ export function assertPokedexEntryRows(context, tableRows) {
       {
         count: 243,
         sha256:
-          "253f4482fbd5d620cc3d43faf743d0f14f414da11cffc1fdc886d4172c595671",
+          "253523507e10a24a538c6323033dc8ac11490e86c4b22415813a6a5af2727cd7",
       },
     ],
     [
@@ -2121,11 +2121,6 @@ export function assertPokedexEntryRows(context, tableRows) {
     if (row.species_id !== expectedRow.species_id) {
       context.errors.push(
         `${relative(filePath)}: reference.pokedex_entries ${key} expected species_id ${expectedRow.species_id}, got ${row.species_id}.`,
-      );
-    }
-    if (row.display_form_id !== null) {
-      context.errors.push(
-        `${relative(filePath)}: reference.pokedex_entries ${key} expected NULL display_form_id for species-level entry.`,
       );
     }
     if (

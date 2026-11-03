@@ -14,6 +14,7 @@ import type {
   MoveAttribute,
   Pokedex,
   PokedexEntry,
+  PokemonPokedexText,
   PokemonAttributes,
   PokemonEvolutionEdge,
   PokemonForm,
@@ -189,4 +190,6 @@ export type PokemonDetailData = {
   availability: PokemonAvailabilitySummary[];
   learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
+  /* What each game's Pokédex says about the species' forms, one row per form and version. */
+  pokedexTexts: PokemonPokedexText[];
 };

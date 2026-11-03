@@ -19,7 +19,7 @@ VALUES
   -- #003 Exeggcute
   (2501, 102, NULL, 3, TRUE),
   -- #004 Exeggutor
-  (2501, 103, NULL, 4, TRUE),
+  (2501, 103, 10301, 4, TRUE),
   -- #005 Rhyhorn
   (2501, 111, NULL, 5, TRUE),
   -- #006 Rhydon
@@ -143,13 +143,13 @@ VALUES
   -- #065 Bellossom
   (2501, 182, NULL, 65, TRUE),
   -- #066 Diglett
-  (2501, 50, NULL, 66, TRUE),
+  (2501, 50, 5001, 66, TRUE),
   -- #067 Dugtrio
-  (2501, 51, NULL, 67, TRUE),
+  (2501, 51, 5101, 67, TRUE),
   -- #068 Grimer
-  (2501, 88, NULL, 68, TRUE),
+  (2501, 88, 8801, 68, TRUE),
   -- #069 Muk
-  (2501, 89, NULL, 69, TRUE),
+  (2501, 89, 8901, 69, TRUE),
   -- #070 Zangoose
   (2501, 335, NULL, 70, TRUE),
   -- #071 Seviper
@@ -161,11 +161,11 @@ VALUES
   -- #074 Oricorio
   (2501, 741, NULL, 74, TRUE),
   -- #075 Slowpoke
-  (2501, 79, NULL, 75, TRUE),
+  (2501, 79, 7901, 75, TRUE),
   -- #076 Slowbro
-  (2501, 80, NULL, 76, TRUE),
+  (2501, 80, 8002, 76, TRUE),
   -- #077 Slowking
-  (2501, 199, NULL, 77, TRUE),
+  (2501, 199, 19901, 77, TRUE),
   -- #078 Chinchou
   (2501, 170, NULL, 78, TRUE),
   -- #079 Lanturn
@@ -203,11 +203,11 @@ VALUES
   -- #095 Hitmontop
   (2501, 237, NULL, 95, TRUE),
   -- #096 Geodude
-  (2501, 74, NULL, 96, TRUE),
+  (2501, 74, 7401, 96, TRUE),
   -- #097 Graveler
-  (2501, 75, NULL, 97, TRUE),
+  (2501, 75, 7501, 97, TRUE),
   -- #098 Golem
-  (2501, 76, NULL, 98, TRUE),
+  (2501, 76, 7601, 98, TRUE),
   -- #099 Drilbur
   (2501, 529, NULL, 99, TRUE),
   -- #100 Excadrill
@@ -303,7 +303,7 @@ VALUES
   -- #145 Lapras
   (2501, 131, NULL, 145, TRUE),
   -- #146 Qwilfish
-  (2501, 211, NULL, 146, TRUE),
+  (2501, 211, 21101, 146, TRUE),
   -- #147 Overqwil
   (2501, 904, NULL, 147, TRUE),
   -- #148 Solosis
@@ -321,13 +321,13 @@ VALUES
   -- #154 Beartic
   (2501, 614, NULL, 154, TRUE),
   -- #155 Sandshrew
-  (2501, 27, NULL, 155, TRUE),
+  (2501, 27, 2701, 155, TRUE),
   -- #156 Sandslash
-  (2501, 28, NULL, 156, TRUE),
+  (2501, 28, 2801, 156, TRUE),
   -- #157 Vulpix
-  (2501, 37, NULL, 157, TRUE),
+  (2501, 37, 3701, 157, TRUE),
   -- #158 Ninetales
-  (2501, 38, NULL, 158, TRUE),
+  (2501, 38, 3801, 158, TRUE),
   -- #159 Snover
   (2501, 459, NULL, 159, TRUE),
   -- #160 Abomasnow

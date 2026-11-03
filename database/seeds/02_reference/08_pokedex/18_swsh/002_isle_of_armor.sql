@@ -13,7 +13,7 @@
 INSERT INTO reference.pokedex_entries (pokedex_id, species_id, display_form_id, pokedex_number, is_source_required_for_completion)
 VALUES
   -- #001 Slowpoke
-  (1901, 79, NULL, 1, TRUE),
+  (1901, 79, 7901, 1, TRUE),
   -- #002 Slowbro
   (1901, 80, NULL, 2, TRUE),
   -- #003 Slowking

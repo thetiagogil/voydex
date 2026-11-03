@@ -117,7 +117,7 @@ VALUES
   -- #052 Floatzel
   (2301, 419, NULL, 52, TRUE),
   -- #053 Wooper
-  (2301, 194, NULL, 53, TRUE),
+  (2301, 194, 19401, 53, TRUE),
   -- #054 Clodsire
   (2301, 980, NULL, 54, TRUE),
   -- #055 Psyduck
@@ -457,7 +457,7 @@ VALUES
   -- #222 Gogoat
   (2301, 673, NULL, 222, TRUE),
   -- #223 Tauros
-  (2301, 128, NULL, 223, TRUE),
+  (2301, 128, 12801, 223, TRUE),
   -- #224 Litleo
   (2301, 667, NULL, 224, TRUE),
   -- #225 Pyroar

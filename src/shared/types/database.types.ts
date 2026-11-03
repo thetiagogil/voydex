@@ -3768,6 +3768,46 @@ export type Database = {
           },
         ];
       };
+      pokemon_pokedex_texts: {
+        Row: {
+          created_at: string;
+          entry_text: string;
+          form_id: number;
+          game_id: number;
+          species_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          entry_text: string;
+          form_id: number;
+          game_id: number;
+          species_id: number;
+        };
+        Update: {
+          created_at?: string;
+          entry_text?: string;
+          form_id?: number;
+          game_id?: number;
+          species_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_pokedex_texts_form_fkey";
+            columns: ["species_id", "form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "pokemon_pokedex_texts_game_id_fkey";
+            columns: ["game_id"];
+            isOneToOne: false;
+            referencedRelation: "games";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       pokemon_species: {
         Row: {
           color: string | null;

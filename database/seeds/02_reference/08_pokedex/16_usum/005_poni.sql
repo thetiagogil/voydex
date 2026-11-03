@@ -23,9 +23,9 @@ VALUES
   -- #005 Gumshoos
   (1605, 735, NULL, 5, TRUE),
   -- #006 Rattata
-  (1605, 19, NULL, 6, TRUE),
+  (1605, 19, 1901, 6, TRUE),
   -- #007 Raticate
-  (1605, 20, NULL, 7, TRUE),
+  (1605, 20, 2001, 7, TRUE),
   -- #008 Buneary
   (1605, 427, NULL, 8, TRUE),
   -- #009 Lopunny
@@ -73,9 +73,9 @@ VALUES
   -- #030 Noivern
   (1605, 715, NULL, 30, TRUE),
   -- #031 Diglett
-  (1605, 50, NULL, 31, TRUE),
+  (1605, 50, 5001, 31, TRUE),
   -- #032 Dugtrio
-  (1605, 51, NULL, 32, TRUE),
+  (1605, 51, 5101, 32, TRUE),
   -- #033 Spearow
   (1605, 21, NULL, 33, TRUE),
   -- #034 Fearow
@@ -217,7 +217,7 @@ VALUES
   -- #102 Exeggcute
   (1605, 102, NULL, 102, TRUE),
   -- #103 Exeggutor
-  (1605, 103, NULL, 103, TRUE),
+  (1605, 103, 10301, 103, TRUE),
   -- #104 Corphish
   (1605, 341, NULL, 104, TRUE),
   -- #105 Crawdaunt

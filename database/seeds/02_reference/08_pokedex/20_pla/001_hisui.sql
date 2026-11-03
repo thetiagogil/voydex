@@ -17,19 +17,19 @@ VALUES
   -- #002 Dartrix
   (2201, 723, NULL, 2, TRUE),
   -- #003 Decidueye
-  (2201, 724, NULL, 3, TRUE),
+  (2201, 724, 72401, 3, TRUE),
   -- #004 Cyndaquil
   (2201, 155, NULL, 4, TRUE),
   -- #005 Quilava
   (2201, 156, NULL, 5, TRUE),
   -- #006 Typhlosion
-  (2201, 157, NULL, 6, TRUE),
+  (2201, 157, 15701, 6, TRUE),
   -- #007 Oshawott
   (2201, 501, NULL, 7, TRUE),
   -- #008 Dewott
   (2201, 502, NULL, 8, TRUE),
   -- #009 Samurott
-  (2201, 503, NULL, 9, TRUE),
+  (2201, 503, 50301, 9, TRUE),
   -- #010 Bidoof
   (2201, 399, NULL, 10, TRUE),
   -- #011 Bibarel
@@ -179,7 +179,7 @@ VALUES
   -- #083 Gastrodon
   (2201, 423, NULL, 83, TRUE),
   -- #084 Qwilfish
-  (2201, 211, NULL, 84, TRUE),
+  (2201, 211, 21101, 84, TRUE),
   -- #085 Overqwil
   (2201, 904, NULL, 85, TRUE),
   -- #086 Happiny
@@ -199,7 +199,7 @@ VALUES
   -- #093 Petilil
   (2201, 548, NULL, 93, TRUE),
   -- #094 Lilligant
-  (2201, 549, NULL, 94, TRUE),
+  (2201, 549, 54901, 94, TRUE),
   -- #095 Tangela
   (2201, 114, NULL, 95, TRUE),
   -- #096 Tangrowth
@@ -243,9 +243,9 @@ VALUES
   -- #115 Goomy
   (2201, 704, NULL, 115, TRUE),
   -- #116 Sliggoo
-  (2201, 705, NULL, 116, TRUE),
+  (2201, 705, 70501, 116, TRUE),
   -- #117 Goodra
-  (2201, 706, NULL, 117, TRUE),
+  (2201, 706, 70601, 117, TRUE),
   -- #118 Onix
   (2201, 95, NULL, 118, TRUE),
   -- #119 Steelix
@@ -311,9 +311,9 @@ VALUES
   -- #149 Drapion
   (2201, 452, NULL, 149, TRUE),
   -- #150 Growlithe
-  (2201, 58, NULL, 150, TRUE),
+  (2201, 58, 5801, 150, TRUE),
   -- #151 Arcanine
-  (2201, 59, NULL, 151, TRUE),
+  (2201, 59, 5901, 151, TRUE),
   -- #152 Glameow
   (2201, 431, NULL, 152, TRUE),
   -- #153 Purugly
@@ -343,7 +343,7 @@ VALUES
   -- #165 Mantine
   (2201, 226, NULL, 165, TRUE),
   -- #166 Basculin
-  (2201, 550, NULL, 166, TRUE),
+  (2201, 550, 55002, 166, TRUE),
   -- #167 Basculegion
   (2201, 902, NULL, 167, TRUE),
   -- #168 Vulpix
@@ -395,9 +395,9 @@ VALUES
   -- #191 Probopass
   (2201, 476, NULL, 191, TRUE),
   -- #192 Voltorb
-  (2201, 100, NULL, 192, TRUE),
+  (2201, 100, 10001, 192, TRUE),
   -- #193 Electrode
-  (2201, 101, NULL, 193, TRUE),
+  (2201, 101, 10101, 193, TRUE),
   -- #194 Rotom
   (2201, 479, NULL, 194, TRUE),
   -- #195 Chingling
@@ -443,19 +443,19 @@ VALUES
   -- #215 Bergmite
   (2201, 712, NULL, 215, TRUE),
   -- #216 Avalugg
-  (2201, 713, NULL, 216, TRUE),
+  (2201, 713, 71301, 216, TRUE),
   -- #217 Snover
   (2201, 459, NULL, 217, TRUE),
   -- #218 Abomasnow
   (2201, 460, NULL, 218, TRUE),
   -- #219 Zorua
-  (2201, 570, NULL, 219, TRUE),
+  (2201, 570, 57001, 219, TRUE),
   -- #220 Zoroark
-  (2201, 571, NULL, 220, TRUE),
+  (2201, 571, 57101, 220, TRUE),
   -- #221 Rufflet
   (2201, 627, NULL, 221, TRUE),
   -- #222 Braviary
-  (2201, 628, NULL, 222, TRUE),
+  (2201, 628, 62801, 222, TRUE),
   -- #223 Riolu
   (2201, 447, NULL, 223, TRUE),
   -- #224 Lucario

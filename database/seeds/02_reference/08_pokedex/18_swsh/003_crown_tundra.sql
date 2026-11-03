@@ -33,7 +33,7 @@ VALUES
   -- #010 Mime Jr.
   (2001, 439, NULL, 10, TRUE),
   -- #011 Mr. Mime
-  (2001, 122, NULL, 11, TRUE),
+  (2001, 122, 12201, 11, TRUE),
   -- #012 Mr. Rime
   (2001, 866, NULL, 12, TRUE),
   -- #013 Smoochum
