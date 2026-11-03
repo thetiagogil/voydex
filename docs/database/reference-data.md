@@ -69,9 +69,12 @@ sources remain authoritative for game-specific mechanics and availability.
   per-form listing of each page, with the games' curly apostrophes restored;
   a species-level entry Let's Go or Scarlet / Violet gives an older species
   that the snapshot lacks comes from Bulbapedia or Serebii, and where two
-  sources have the same row they match. A form without its own row reads its
-  species' default form. Platinum's and Black 2 / White 2's form-specific
-  entries (Origin Forme, Black Kyurem) are not separated yet.
+  sources have the same row they match. A species-level text lands on the
+  default form, unless the game never hands that form out (Kantonian
+  Growlithe in Legends: Arceus): then it sits on the form the game has. A
+  form without its own row reads its species' default form. Platinum's and
+  Black 2 / White 2's form-specific entries (Origin Forme, Black Kyurem) are
+  not separated yet.
 - A Pokédex entry's `display_form_id` is the form the dex shows: in the
   dex's own version group, a regional variant that the game hands out better
   than the default (wild or set encounters, starters and raids over gifts,

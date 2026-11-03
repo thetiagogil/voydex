@@ -1305,6 +1305,8 @@ VALUES
   (887, 88700, 36, 'Dragapult can make its whole body transparent by clearing its mind and focusing. Even the Dreepy in Dragapult’s horns become invisible.'),
   -- kleavor in scarlet
   (900, 90000, 36, 'Parts of its body turned to stone when it evolved thanks to an extremely rare ore found in volcanic areas.'),
+  -- ursaluna-bloodmoon in scarlet
+  (901, 90101, 36, 'It crossed the sea and drifted ashore in a new land. Surviving in this place led it to take on a unique appearance and gain special powers.'),
   -- basculegion in scarlet
   (902, 90200, 36, 'This Pokémon is cloaked in the souls of its comrades who perished during a punishing journey to the river of their birth.'),
   -- basculegion-female in scarlet
@@ -2452,7 +2454,7 @@ VALUES
   -- larvesta in violet
   (636, 63600, 37, 'In ancient times, Larvesta was worshiped as the emissary of the sun. However, it was also viewed as a burden since it often caused forest fires.'),
   -- volcarona in violet
-  (637, 63700, 37, 'This Pokémon scatters burning scales. Most of the danger of these scales is not in their heat—it''s in the way they rob the surrounding air of oxygen.'),
+  (637, 63700, 37, 'This Pokémon scatters burning scales. Most of the danger of these scales is not in their heat—it’s in the way they rob the surrounding air of oxygen.'),
   -- chespin in violet
   (650, 65000, 37, 'Eating lots of berries makes the bark shell that covers Chespin’s head and body grow sturdier.'),
   -- quilladin in violet
@@ -2664,7 +2666,7 @@ VALUES
   -- lycanroc-dusk in violet
   (745, 74502, 37, 'These Pokémon have both calm and ferocious qualities. It’s said that this form of Lycanroc is the most troublesome to raise.'),
   -- mareanie in violet
-  (747, 74700, 37, 'It has excellent regenerative capabilities. Legs that a Mareanie has lost have a very bitter, astringent flavor—they''re not suitable as food.'),
+  (747, 74700, 37, 'It has excellent regenerative capabilities. Legs that a Mareanie has lost have a very bitter, astringent flavor—they’re not suitable as food.'),
   -- toxapex in violet
   (748, 74800, 37, 'Toxapex gets into fierce battles with Bruxish over areas where warm ocean currents flow, but the odds are always against it.'),
   -- mudbray in violet
@@ -2869,6 +2871,8 @@ VALUES
   (887, 88700, 37, 'The fastest Dragapult of the group is always surrounded by Dreepy that want to fly at sonic speed.'),
   -- kleavor in violet
   (900, 90000, 37, 'This Pokémon is a rough, crude, and violent sort. It swings around its large, heavy stone axes to finish off its prey.'),
+  -- ursaluna-bloodmoon in violet
+  (901, 90101, 37, 'This special Ursaluna can see in the dark with its left eye and protects itself with mud that is as hard as iron.'),
   -- basculegion in violet
   (902, 90200, 37, 'It can jump with incredible power. Parts of its body are tinged red by the rage of its fallen friends.'),
   -- basculegion-female in violet

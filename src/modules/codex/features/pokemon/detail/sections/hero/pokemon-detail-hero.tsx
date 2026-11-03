@@ -179,9 +179,11 @@ export const PokemonDetailHero = ({
                 className="text-16 text-ink-2 leading-relaxed"
               >
                 {entries.length > 1 ? (
-                  <b className="text-ink mr-1.5 font-extrabold">
-                    {entry.gameNames.join(" and ")}
-                  </b>
+                  <>
+                    <b className="text-ink font-extrabold">
+                      {entry.gameNames.join(" and ")}
+                    </b>{" "}
+                  </>
                 ) : null}
                 {entry.text}
               </p>

@@ -4895,10 +4895,10 @@ VALUES
   (54, 5400, 35, 'Suffers perpetual headaches. If the agony grows too great, Psyduck’s latent power erupts, contrary to Psyduck’s intent. Ergo, I am exploring ways to ease the pain.'),
   -- golduck in legends-arceus
   (55, 5500, 35, 'Its body is strong, and it has webbing on its hands and feet. Golduck can swim easily through rough seas, clawing its way through the high waves.'),
-  -- growlithe in legends-arceus
-  (58, 5800, 35, 'They patrol their territory in pairs. I believe the igneous rock components in the fur of this species are the result of volcanic activity in its habitat.'),
-  -- arcanine in legends-arceus
-  (59, 5900, 35, 'Snaps at its foes with fangs cloaked in blazing flame. Despite its bulk, it deftly feints every which way, leading opponents on a deceptively merry chase as it all but dances around them.'),
+  -- hisuian-growlithe in legends-arceus
+  (58, 5801, 35, 'They patrol their territory in pairs. I believe the igneous rock components in the fur of this species are the result of volcanic activity in its habitat.'),
+  -- hisuian-arcanine in legends-arceus
+  (59, 5901, 35, 'Snaps at its foes with fangs cloaked in blazing flame. Despite its bulk, it deftly feints every which way, leading opponents on a deceptively merry chase as it all but dances around them.'),
   -- abra in legends-arceus
   (63, 6300, 35, 'Spends 18 hours of the day sleeping. Even while asleep, Abra can control its psychic powers—should danger approach, the Pokémon will simply teleport away.'),
   -- kadabra in legends-arceus
@@ -4937,10 +4937,10 @@ VALUES
   (94, 9400, 35, 'Possesses potential victims'' shadows in an effort to steal away the victims'' lives. If your shadow begins to laugh, you must take hold of a protective charm posthaste!'),
   -- onix in legends-arceus
   (95, 9500, 35, 'This chain of immense stones resembles a giant serpent. Tremors shake the earth above as it burrows deep beneath the ground, feeding on boulders as it goes.'),
-  -- voltorb in legends-arceus
-  (100, 10000, 35, 'An enigmatic Pokémon that happens to bear a resemblance to a Poké Ball. When excited, it discharges the electric current it has stored in its belly, then lets out a great, uproarious laugh.'),
-  -- electrode in legends-arceus
-  (101, 10100, 35, 'The tissue on the surface of its body is curiously similar in composition to an Apricorn. When irritated, this Pokémon lets loose an electric current equal to 20 lightning bolts.'),
+  -- hisuian-voltorb in legends-arceus
+  (100, 10001, 35, 'An enigmatic Pokémon that happens to bear a resemblance to a Poké Ball. When excited, it discharges the electric current it has stored in its belly, then lets out a great, uproarious laugh.'),
+  -- hisuian-electrode in legends-arceus
+  (101, 10101, 35, 'The tissue on the surface of its body is curiously similar in composition to an Apricorn. When irritated, this Pokémon lets loose an electric current equal to 20 lightning bolts.'),
   -- lickitung in legends-arceus
   (108, 10800, 35, 'Wields its long tongue deftly, as though it were an arm. The Pokémon’s viscous saliva, once it has been collected and boiled down, yields a strong and highly useful adhesive.'),
   -- rhyhorn in legends-arceus
@@ -4979,8 +4979,8 @@ VALUES
   (155, 15500, 35, 'Hails from the Johto region. Though usually curled into a ball due to its timid disposition, it harbors tremendous firepower.'),
   -- quilava in legends-arceus
   (156, 15600, 35, 'This creature’s fur is most mysterious—it is wholly impervious to the burning touch of flame. Should Quilava turn its back to you, take heed! Such a posture indicates a forthcoming attack.'),
-  -- typhlosion in legends-arceus
-  (157, 15700, 35, 'Said to purify lost, forsaken souls with its flames and guide them to the afterlife. I believe its form has been influenced by the energy of the sacred mountain towering at Hisui’s center.'),
+  -- hisuian-typhlosion in legends-arceus
+  (157, 15701, 35, 'Said to purify lost, forsaken souls with its flames and guide them to the afterlife. I believe its form has been influenced by the energy of the sacred mountain towering at Hisui’s center.'),
   -- crobat in legends-arceus
   (169, 16900, 35, 'Its hind limbs have become another set of wings. Crobat expertly maneuvers its four wings to dart in exquisite fashion through even the most confined caves without losing any speed.'),
   -- pichu in legends-arceus
@@ -5011,8 +5011,6 @@ VALUES
   (207, 20700, 35, 'Its tail is tipped by a thick, horrible stinger. To bring down prey, it will first obscure their vision by covering their faces with its body, and then it will use the stinger to inject them with venom.'),
   -- steelix in legends-arceus
   (208, 20800, 35, 'This Pokémon evolved through use of a strange item. Its body is coated with steel powder and notably hard—not even diamond can leave so much as a scratch.'),
-  -- qwilfish in legends-arceus
-  (211, 21100, 35, 'Fishers detest this troublesome Pokémon because it sprays poison from its spines, getting it everywhere. A different form of Qwilfish lives in other regions.'),
   -- hisuian-qwilfish in legends-arceus
   (211, 21101, 35, 'Fishers detest this troublesome Pokémon because it sprays poison from its spines, getting it everywhere. A different form of Qwilfish lives in other regions.'),
   -- scizor in legends-arceus
@@ -5335,24 +5333,22 @@ VALUES
   (501, 50100, 35, 'This Pokémon from the Unova region uses the shell on its belly as a weapon to cut down its foes. Thus, I’ve conferred upon this shell the name ”scalchop”.'),
   -- dewott in legends-arceus
   (502, 50200, 35, 'Its exquisite double-scalchop technique is likely the result of daily training, and it can send even masters of the blade fleeing in defeat.'),
-  -- samurott in legends-arceus
-  (503, 50300, 35, 'Hard of heart and deft of blade, this rare form of Samurott is a product of the Pokémon’s evolution in the region of Hisui. Its turbulent blows crash into foes like ceaseless pounding waves.'),
+  -- hisuian-samurott in legends-arceus
+  (503, 50301, 35, 'Hard of heart and deft of blade, this rare form of Samurott is a product of the Pokémon’s evolution in the region of Hisui. Its turbulent blows crash into foes like ceaseless pounding waves.'),
   -- petilil in legends-arceus
   (548, 54800, 35, 'The leaves on its head are highly valued for medicinal purposes. Dry the leaves in the sun, boil them, and then drink the bitter decoction for remarkably effective relief from fatigue.'),
-  -- lilligant in legends-arceus
-  (549, 54900, 35, 'I suspect that its well-developed legs are the result of a life spent on mountains covered in deep snow. The scent it exudes from its flower crown heartens those in proximity.'),
-  -- basculin in legends-arceus
-  (550, 55000, 35, 'Though it differs from other Basculin in several respects, including demeanor—this one is gentle—I have categorized it as a regional form given the vast array of shared qualities.'),
+  -- hisuian-lilligant in legends-arceus
+  (549, 54901, 35, 'I suspect that its well-developed legs are the result of a life spent on mountains covered in deep snow. The scent it exudes from its flower crown heartens those in proximity.'),
   -- basculin-white-striped in legends-arceus
   (550, 55002, 35, 'Though it differs from other Basculin in several respects, including demeanor—this one is gentle—I have categorized it as a regional form given the vast array of shared qualities.'),
-  -- zorua in legends-arceus
-  (570, 57000, 35, 'A once-departed soul, returned to life in Hisui. Derives power from resentment, which rises as energy atop its head and takes on the forms of foes. In this way, Zorua vents lingering malice.'),
-  -- zoroark in legends-arceus
-  (571, 57100, 35, 'With its disheveled white fur, it looks like an embodiment of death. Heedless of its own safety, Zoroark attacks its nemeses with a bitter energy so intense, it lacerates Zoroark’s own body.'),
+  -- hisuian-zorua in legends-arceus
+  (570, 57001, 35, 'A once-departed soul, returned to life in Hisui. Derives power from resentment, which rises as energy atop its head and takes on the forms of foes. In this way, Zorua vents lingering malice.'),
+  -- hisuian-zoroark in legends-arceus
+  (571, 57101, 35, 'With its disheveled white fur, it looks like an embodiment of death. Heedless of its own safety, Zoroark attacks its nemeses with a bitter energy so intense, it lacerates Zoroark’s own body.'),
   -- rufflet in legends-arceus
   (627, 62700, 35, 'Its chick-like looks belie its hotheadedness. It challenges its parents at every opportunity, desperate to prove its strength.'),
-  -- braviary in legends-arceus
-  (628, 62800, 35, 'Screaming a bloodcurdling battle cry, this huge and ferocious bird Pokémon goes out on the hunt. It blasts lakes with shock waves, then scoops up any prey that float to the water’s surface.'),
+  -- hisuian-braviary in legends-arceus
+  (628, 62801, 35, 'Screaming a bloodcurdling battle cry, this huge and ferocious bird Pokémon goes out on the hunt. It blasts lakes with shock waves, then scoops up any prey that float to the water’s surface.'),
   -- tornadus in legends-arceus
   (641, 64100, 35, 'This storm-stirring Pokémon is said to cause the seasons to turn by whipping up the air. I suspect its humanlike form to be a false one.'),
   -- tornadus-therian in legends-arceus
@@ -5369,26 +5365,20 @@ VALUES
   (700, 70000, 35, 'It emits a soothing aura from its ribbon-shaped organs. It wraps these appendages around quarrelers to instantly restore calm to the situation.'),
   -- goomy in legends-arceus
   (704, 70400, 35, 'Goomy hides away in the shade of trees, where it’s nice and humid. If the slime coating its body dries out, the Pokémon instantly becomes lethargic.'),
-  -- sliggoo in legends-arceus
-  (705, 70500, 35, 'A creature given to melancholy. I suspect its metallic shell developed as a result of the mucus on its skin reacting with the iron in Hisui’s water.'),
   -- hisuian-sliggoo in legends-arceus
   (705, 70501, 35, 'A creature given to melancholy. I suspect its metallic shell developed as a result of the mucus on its skin reacting with the iron in Hisui’s water.'),
-  -- goodra in legends-arceus
-  (706, 70600, 35, 'Able to freely control the hardness of its metallic shell. It loathes solitude and is extremely clingy—it will fume and run riot if those dearest to it ever leave its side.'),
   -- hisuian-goodra in legends-arceus
   (706, 70601, 35, 'Able to freely control the hardness of its metallic shell. It loathes solitude and is extremely clingy—it will fume and run riot if those dearest to it ever leave its side.'),
   -- bergmite in legends-arceus
   (712, 71200, 35, 'Lives on mountains blanketed in perennial snow. It freezes water vapor in the air to make the ice helmet that it dons for defense.'),
-  -- avalugg in legends-arceus
-  (713, 71300, 35, 'The armor of ice covering its lower jaw puts steel to shame and can shatter rocks with ease. This Pokémon barrels along steep mountain paths, cleaving through the deep snow.'),
   -- hisuian-avalugg in legends-arceus
   (713, 71301, 35, 'The armor of ice covering its lower jaw puts steel to shame and can shatter rocks with ease. This Pokémon barrels along steep mountain paths, cleaving through the deep snow.'),
   -- rowlet in legends-arceus
   (722, 72200, 35, 'Flies noiselessly on delicate wings. It has mastered the art of deftly launching dagger-sharp feathers from those same wings.'),
   -- dartrix in legends-arceus
   (723, 72300, 35, 'Regularly basks in sunlight to gather power—presumably due to the frigid climate. Nonetheless, the edges of the blade quills set into its wings are keen as ever.'),
-  -- decidueye in legends-arceus
-  (724, 72400, 35, 'The air stored inside the rachises of Decidueye’s feathers insulates the Pokémon against Hisui’s extreme cold. This is firm proof that evolution can be influenced by environment.'),
+  -- hisuian-decidueye in legends-arceus
+  (724, 72401, 35, 'The air stored inside the rachises of Decidueye’s feathers insulates the Pokémon against Hisui’s extreme cold. This is firm proof that evolution can be influenced by environment.'),
   -- wyrdeer in legends-arceus
   (899, 89900, 35, 'The black orbs shine with an uncanny light when the Pokémon is erecting invisible barriers. The fur shed from its beard retains heat well and is a highly useful material for winter clothing.'),
   -- kleavor in legends-arceus

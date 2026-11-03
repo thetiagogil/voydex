@@ -13,7 +13,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.pokemon_pokedex_texts),
-            17939,
+            17936,
             'every game''s entries are seeded');
 SELECT
     is_empty ($$
@@ -31,7 +31,9 @@ SELECT
         SELECT
             e.pokedex_id, e.species_id FROM reference.pokedex_entries e
             JOIN reference.pokedex p ON p.id = e.pokedex_id
-            JOIN reference.games g ON g.version_group_id = p.version_group_id
+            -- An expansion's Pokédex (Kitakami) belongs to its parent group's games.
+            JOIN reference.version_groups vg ON vg.id = p.version_group_id
+            JOIN reference.games g ON g.version_group_id = coalesce(vg.parent_version_group_id, vg.id)
             WHERE
                 p.pokedex_kind <> 'national'
                 AND NOT EXISTS (

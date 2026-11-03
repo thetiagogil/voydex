@@ -1644,7 +1644,7 @@ export function assertPokemonAttributeRows(context, tableRows) {
 }
 
 /* Set when the seeds are regenerated; the audit refuses a silent change. */
-const EXPECTED_POKEDEX_TEXT_ROWS = 17939;
+const EXPECTED_POKEDEX_TEXT_ROWS = 17936;
 
 /*
  * Every game has Pokédex entries, each row names a seeded form and game,
@@ -1711,11 +1711,20 @@ export function assertPokemonPokedexTextRows(context, tableRows) {
   const pokedexById = new Map(
     (tableRows.get("reference.pokedex") ?? []).map(({ row }) => [row.id, row]),
   );
+  // An expansion's Pokédex (Kitakami) belongs to its parent group's games.
+  const parentGroupById = new Map(
+    (tableRows.get("reference.version_groups") ?? []).map(({ row }) => [
+      row.id,
+      row.parent_version_group_id,
+    ]),
+  );
   for (const { row, filePath } of tableRows.get("reference.pokedex_entries") ??
     []) {
     const pokedex = pokedexById.get(row.pokedex_id);
     if (!pokedex || pokedex.pokedex_kind === "national") continue;
-    for (const game of gamesByGroup.get(pokedex.version_group_id) ?? []) {
+    const groupId =
+      parentGroupById.get(pokedex.version_group_id) ?? pokedex.version_group_id;
+    for (const game of gamesByGroup.get(groupId) ?? []) {
       if (!speciesWithText.has(`${row.species_id}/${game.id}`)) {
         context.errors.push(
           `${relative(filePath)}: ${pokedex.slug} lists species ${row.species_id}, which has no ${game.slug} Pokédex text.`,
