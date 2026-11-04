@@ -17,7 +17,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
       className={cn(
         "grid grid-cols-[3rem_minmax(0,1fr)] gap-x-3 gap-y-1.5 py-3 first:pt-0 last:pb-0 sm:grid-cols-[3rem_220px_minmax(0,1fr)] sm:gap-x-4",
         /* A game it isn't in steps back, as the other version's exclusives do. */
-        !row.ways.length && "step-back",
+        !row.ways.length && !row.places.length && "step-back",
       )}
     >
       <span
@@ -47,7 +47,7 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
         )}
       </dt>
       <dd className="flex min-w-0 flex-col gap-1.5 sm:pt-2">
-        {row.ways.length ? (
+        {row.ways.length || row.places.length ? (
           row.ways.map((way) => (
             <span key={way.key} className="block">
               <span className="block font-bold">{way.label}</span>
@@ -59,6 +59,16 @@ const WhereToFindRow = ({ row }: { row: PokemonDetailWhereToFindRow }) => {
         ) : (
           <span className="text-ink-2 font-semibold">{row.missingLabel}</span>
         )}
+        {row.places.length ? (
+          <ul className="mt-1 flex flex-col gap-1">
+            {row.places.map((place) => (
+              <li key={place.key} className="text-14 leading-snug">
+                <span className="font-bold">{place.label}</span>
+                <span className="text-ink-2"> — {place.detail}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
       </dd>
     </div>
   );

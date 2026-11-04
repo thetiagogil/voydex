@@ -76,6 +76,7 @@ const generationEight = {
     availability(2, isleOfArmor, { method: "Max Raid" }),
   ],
   battleForms: [],
+  encounters: [],
   forms: [],
   games: [sword, shield, game(33, "brilliant-diamond", 21)],
   generation: { id: 8, name: "Generation VIII", sort_order: 8 } as Generation,

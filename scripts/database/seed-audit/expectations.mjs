@@ -354,6 +354,7 @@ export const snakeSlugTables = new Set([
 ]);
 
 export const scopedSortTables = new Set([
+  "reference.location_version_groups",
   "reference.version_groups",
   "reference.games",
   "reference.game_content_scopes",
@@ -389,6 +390,7 @@ export const scopedSlugTables = new Set([
 ]);
 
 export const generatedIdTables = new Set([
+  "reference.pokemon_encounters",
   "reference.item_availability",
   "reference.move_availability",
   "reference.pokemon_availability",
@@ -415,6 +417,10 @@ export const productDescriptionTables = new Set([
 ]);
 
 export const customAuditTables = new Set([
+  "reference.encounter_ways",
+  "reference.locations",
+  "reference.location_version_groups",
+  "reference.pokemon_encounters",
   "reference.abilities",
   "reference.ability_attributes",
   "reference.content_scope_dependencies",

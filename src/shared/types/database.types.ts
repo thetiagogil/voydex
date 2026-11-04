@@ -2004,6 +2004,31 @@ export type Database = {
           },
         ];
       };
+      encounter_ways: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id: number;
+          name: string;
+          slug: string;
+          sort_order: number;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string;
+          slug?: string;
+          sort_order?: number;
+        };
+        Relationships: [];
+      };
       evolution_families: {
         Row: {
           created_at: string;
@@ -2534,6 +2559,76 @@ export type Database = {
           sort_order?: number;
         };
         Relationships: [];
+      };
+      location_version_groups: {
+        Row: {
+          created_at: string;
+          location_id: number;
+          sort_order: number;
+          version_group_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          location_id: number;
+          sort_order: number;
+          version_group_id: number;
+        };
+        Update: {
+          created_at?: string;
+          location_id?: number;
+          sort_order?: number;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "location_version_groups_location_id_fkey";
+            columns: ["location_id"];
+            isOneToOne: false;
+            referencedRelation: "locations";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "location_version_groups_version_group_id_fkey";
+            columns: ["version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      locations: {
+        Row: {
+          created_at: string;
+          id: number;
+          name: string;
+          region_id: number;
+          slug: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          id: number;
+          name: string;
+          region_id: number;
+          slug: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: number;
+          name?: string;
+          region_id?: number;
+          slug?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "locations_region_id_fkey";
+            columns: ["region_id"];
+            isOneToOne: false;
+            referencedRelation: "regions";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       move_attributes: {
         Row: {
@@ -3321,6 +3416,89 @@ export type Database = {
             isOneToOne: false;
             referencedRelation: "pokemon_forms";
             referencedColumns: ["species_id", "id"];
+          },
+        ];
+      };
+      pokemon_encounters: {
+        Row: {
+          created_at: string;
+          encounter_way_id: number;
+          form_id: number;
+          game_id: number | null;
+          id: number;
+          level_max: number | null;
+          level_min: number | null;
+          location_id: number;
+          species_id: number;
+          version_group_id: number;
+        };
+        ComputedFields: never;
+        Insert: {
+          created_at?: string;
+          encounter_way_id: number;
+          form_id: number;
+          game_id?: number | null;
+          id?: number;
+          level_max?: number | null;
+          level_min?: number | null;
+          location_id: number;
+          species_id: number;
+          version_group_id: number;
+        };
+        Update: {
+          created_at?: string;
+          encounter_way_id?: number;
+          form_id?: number;
+          game_id?: number | null;
+          id?: number;
+          level_max?: number | null;
+          level_min?: number | null;
+          location_id?: number;
+          species_id?: number;
+          version_group_id?: number;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "pokemon_encounters_encounter_way_id_fkey";
+            columns: ["encounter_way_id"];
+            isOneToOne: false;
+            referencedRelation: "encounter_ways";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pokemon_encounters_form_fkey";
+            columns: ["species_id", "form_id"];
+            isOneToOne: false;
+            referencedRelation: "pokemon_forms";
+            referencedColumns: ["species_id", "id"];
+          },
+          {
+            foreignKeyName: "pokemon_encounters_game_scope_fkey";
+            columns: ["game_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "game_content_scopes";
+            referencedColumns: ["game_id", "version_group_id"];
+          },
+          {
+            foreignKeyName: "pokemon_encounters_location_id_fkey";
+            columns: ["location_id"];
+            isOneToOne: false;
+            referencedRelation: "locations";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "pokemon_encounters_place_fkey";
+            columns: ["location_id", "version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "location_version_groups";
+            referencedColumns: ["location_id", "version_group_id"];
+          },
+          {
+            foreignKeyName: "pokemon_encounters_version_group_id_fkey";
+            columns: ["version_group_id"];
+            isOneToOne: false;
+            referencedRelation: "version_groups";
+            referencedColumns: ["id"];
           },
         ];
       };

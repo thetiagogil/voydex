@@ -40,6 +40,9 @@ export const getPokemonDetailData = async (
     loadPokemonDetailRelatedRows({
       attributes: speciesRows.attributes,
       familySpeciesIds,
+      locationIds: [
+        ...new Set(speciesRows.encounterRows.map((row) => row.location_id)),
+      ],
       pokedexIds: getPokedexIds(speciesRows.pokedexEntries),
       speciesId: baseRows.species.id,
       supabase,

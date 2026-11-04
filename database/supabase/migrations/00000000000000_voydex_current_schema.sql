@@ -2121,6 +2121,124 @@ COMMENT ON COLUMN reference.pokemon_pokedex_texts.game_id IS 'The version the te
 COMMENT ON COLUMN reference.pokemon_pokedex_texts.entry_text IS 'The entry as the game shows it, line breaks joined with spaces.';
 
 -- ============================================================================
+-- Source: database/schema/02_reference/01_tables/052_encounter_ways.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.encounter_ways
+-- The ways a Pokémon is met at a place: walking, surfing, fishing, a raid
+-- den, a gift.
+-- ============================================================================
+CREATE TABLE reference.encounter_ways (
+    id integer PRIMARY KEY,
+    slug text NOT NULL UNIQUE,
+    name text NOT NULL UNIQUE,
+    sort_order integer NOT NULL UNIQUE,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT encounter_ways_id_positive_check CHECK (id > 0),
+    CONSTRAINT encounter_ways_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 80),
+    CONSTRAINT encounter_ways_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 80),
+    CONSTRAINT encounter_ways_sort_order_positive_check CHECK (sort_order > 0)
+);
+
+COMMENT ON TABLE reference.encounter_ways IS 'The ways a Pokémon is met at a place, from walking in tall grass to a gift, in the order they read.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/053_locations.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.locations
+-- The places Pokémon are found in: one row per place, shared by every game
+-- that has it (Route 1 is one place in Red and in HeartGold).
+-- ============================================================================
+CREATE TABLE reference.locations (
+    id integer PRIMARY KEY,
+    region_id integer NOT NULL REFERENCES reference.regions (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    slug text NOT NULL UNIQUE,
+    name text NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT locations_id_positive_check CHECK (id > 0),
+    CONSTRAINT locations_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 120),
+    CONSTRAINT locations_name_length_check CHECK (CHAR_LENGTH(BTRIM(name)) BETWEEN 1 AND 120),
+    CONSTRAINT locations_region_name_unique UNIQUE (region_id, name)
+);
+
+CREATE INDEX locations_region_idx ON reference.locations (region_id);
+
+COMMENT ON TABLE reference.locations IS 'The places Pokémon are found in, one row per place across the games that share it; the name is what the game calls it (Route 1, not Kanto Route 1).';
+
+COMMENT ON COLUMN reference.locations.region_id IS 'The region the place is in; an island group or an expansion''s land belongs to its game''s region.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/054_location_version_groups.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.location_version_groups
+-- Which places each version group has, in the order the story reaches them.
+-- ============================================================================
+CREATE TABLE reference.location_version_groups (
+    location_id integer NOT NULL REFERENCES reference.locations (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    version_group_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    sort_order integer NOT NULL,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT location_version_groups_primary_key PRIMARY KEY (location_id, version_group_id),
+    CONSTRAINT location_version_groups_sort_order_positive_check CHECK (sort_order > 0),
+    CONSTRAINT location_version_groups_sort_order_unique UNIQUE (version_group_id, sort_order)
+);
+
+CREATE INDEX location_version_groups_version_group_idx ON reference.location_version_groups (version_group_id, sort_order);
+
+COMMENT ON TABLE reference.location_version_groups IS 'Which places each version group has, in the order the story reaches them; an expansion orders its own places.';
+
+COMMENT ON COLUMN reference.location_version_groups.sort_order IS 'Story order within the version group: the first place the game opens is 1.';
+
+-- ============================================================================
+-- Source: database/schema/02_reference/01_tables/055_pokemon_encounters.sql
+-- ============================================================================
+-- ============================================================================
+-- Table: reference.pokemon_encounters
+-- Where each Pokémon is met: one row per form, place, game and way, with the
+-- levels it comes at. A row with no game holds for every version of its
+-- group; a version exclusive names its game.
+-- ============================================================================
+CREATE TABLE reference.pokemon_encounters (
+    id integer GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+    species_id integer NOT NULL,
+    form_id integer NOT NULL,
+    location_id integer NOT NULL REFERENCES reference.locations (id) ON UPDATE CASCADE ON DELETE CASCADE,
+    version_group_id integer NOT NULL REFERENCES reference.version_groups (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    game_id integer,
+    encounter_way_id integer NOT NULL REFERENCES reference.encounter_ways (id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    level_min integer,
+    level_max integer,
+    created_at timestamptz NOT NULL DEFAULT NOW(),
+    CONSTRAINT pokemon_encounters_id_positive_check CHECK (id > 0),
+    CONSTRAINT pokemon_encounters_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT pokemon_encounters_place_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
+    CONSTRAINT pokemon_encounters_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT pokemon_encounters_levels_check CHECK ((level_min IS NULL AND level_max IS NULL) OR (level_min BETWEEN 1 AND 100 AND level_max BETWEEN level_min AND 100))
+);
+
+CREATE UNIQUE INDEX pokemon_encounters_group_way_unique ON reference.pokemon_encounters (form_id, location_id, version_group_id, encounter_way_id)
+WHERE
+    game_id IS NULL;
+
+CREATE UNIQUE INDEX pokemon_encounters_game_way_unique ON reference.pokemon_encounters (form_id, location_id, version_group_id, game_id, encounter_way_id)
+WHERE
+    game_id IS NOT NULL;
+
+CREATE INDEX pokemon_encounters_species_lookup_idx ON reference.pokemon_encounters (species_id, version_group_id);
+
+CREATE INDEX pokemon_encounters_location_lookup_idx ON reference.pokemon_encounters (location_id, version_group_id);
+
+COMMENT ON TABLE reference.pokemon_encounters IS 'Where each Pokémon is met, one row per form, place, game and way with its level range; no game means every version of the group has it there.';
+
+COMMENT ON COLUMN reference.pokemon_encounters.id IS 'Generated surrogate key; seed files omit it and rely on the natural uniqueness indexes.';
+
+COMMENT ON COLUMN reference.pokemon_encounters.game_id IS 'NULL when every version of the group meets it there the same way; set for a version exclusive or a version-specific level range.';
+
+COMMENT ON COLUMN reference.pokemon_encounters.level_min IS 'The lowest level it comes at there; NULL with level_max for an in-game trade whose level follows the Pokémon given, or a fixed encounter whose level the source leaves unsaid.';
+
+-- ============================================================================
 -- Source: database/schema/02_reference/02_policies/001_read_policies.sql
 -- ============================================================================
 -- ============================================================================
@@ -2744,6 +2862,60 @@ CREATE POLICY pokedex_entries_read_all ON reference.pokedex_entries
     USING (TRUE);
 
 CREATE POLICY pokemon_pokedex_texts_read_all ON reference.pokemon_pokedex_texts
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+-- ============================================================================
+-- Source: database/schema/02_reference/02_policies/005_locations_read_policies.sql
+-- ============================================================================
+-- ============================================================================
+-- Read-only policies for reference places and encounters.
+-- ============================================================================
+ALTER TABLE reference.encounter_ways ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.locations ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.location_version_groups ENABLE ROW LEVEL SECURITY;
+
+ALTER TABLE reference.pokemon_encounters ENABLE ROW LEVEL SECURITY;
+
+REVOKE ALL ON TABLE reference.encounter_ways FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.locations FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.location_version_groups FROM anon, authenticated;
+
+REVOKE ALL ON TABLE reference.pokemon_encounters FROM anon, authenticated;
+
+GRANT SELECT ON TABLE reference.encounter_ways TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.locations TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.location_version_groups TO anon, authenticated;
+
+GRANT SELECT ON TABLE reference.pokemon_encounters TO anon, authenticated;
+
+GRANT ALL ON TABLE reference.encounter_ways TO service_role;
+
+GRANT ALL ON TABLE reference.locations TO service_role;
+
+GRANT ALL ON TABLE reference.location_version_groups TO service_role;
+
+GRANT ALL ON TABLE reference.pokemon_encounters TO service_role;
+
+CREATE POLICY encounter_ways_read_all ON reference.encounter_ways
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY locations_read_all ON reference.locations
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY location_version_groups_read_all ON reference.location_version_groups
+    FOR SELECT TO anon, authenticated
+    USING (TRUE);
+
+CREATE POLICY pokemon_encounters_read_all ON reference.pokemon_encounters
     FOR SELECT TO anon, authenticated
     USING (TRUE);
 

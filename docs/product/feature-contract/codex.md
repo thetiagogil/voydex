@@ -65,7 +65,9 @@ the group instead; a later `?form=` opens where that form can be found). It must
   grouped by form class
   (Variants, Forms, Battle forms); battle forms (Mega, Primal, Ultra Burst,
   Gigantamax) join it only in the games that have their mechanic, reading
-  where to find and learnsets from the form that reaches them;
+  where to find and learnsets from the form that reaches them; Where to find
+  lists each game's places in story order under its ways, with how the
+  Pokémon is met there and at what level;
 - organize reference content as identity/context, overview, evolution/forms,
   selected-game availability, type matchups, learnset, and Pokédex placement;
 - omit absent optional facts instead of filling important space with `Unknown`;

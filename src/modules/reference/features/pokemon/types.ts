@@ -6,11 +6,13 @@ import type {
   AbilityAttribute,
   AvailabilityMethod,
   EggGroup,
+  EncounterWay,
   GrowthRate,
   EvolutionMethod,
   Game,
   Generation,
   LearnMethod,
+  Location,
   Move,
   MoveAttribute,
   Pokedex,
@@ -18,6 +20,7 @@ import type {
   PokemonPokedexText,
   PokemonAttributes,
   PokemonTrainingAttributes,
+  PokemonEncounter,
   PokemonEvolutionEdge,
   PokemonForm,
   PokemonSpecies,
@@ -118,6 +121,17 @@ export type PokemonAvailabilitySummary = {
   sourceVersionGroup: VersionGroup | null;
 };
 
+/* One place a form is met in one game (or every version of its group), one way. */
+export type PokemonEncounterSummary = {
+  encounter: PokemonEncounter;
+  game: Game | null;
+  location: Location;
+  /* Where the place falls in its group's story, from 1. */
+  storyOrder: number;
+  versionGroup: VersionGroup;
+  way: EncounterWay;
+};
+
 export type PokemonPokedexSummary = {
   entry: PokedexEntry;
   pokedex: Pokedex | null;
@@ -139,6 +153,8 @@ export type PokemonGenerationDetail = {
   /* Its battle forms, shown only in the games that have their mechanic. */
   battleForms: BattleFormLink[];
   forms: PokemonGenerationFormSummary[];
+  /* Where its forms are met in the generation's games. */
+  encounters: PokemonEncounterSummary[];
   games: Game[];
   generation: Generation;
   learnsets: PokemonLearnsetSummary[];
@@ -195,6 +211,8 @@ export type PokemonDetailData = {
   /* Every generation, in order, for the entry's pills (those it isn't in show disabled). */
   generations: Generation[];
   availability: PokemonAvailabilitySummary[];
+  /* Where the species' forms are met, every game. */
+  encounters: PokemonEncounterSummary[];
   learnsets: PokemonLearnsetSummary[];
   pokedexEntries: PokemonPokedexSummary[];
   /* What each game's Pokédex says about the species' forms, one row per form and version. */

@@ -255,6 +255,29 @@ export const getFormAvailabilityInVersionGroup = (
 };
 
 /*
+ * Where one form is met in a group, its expansions included: a row of its
+ * own form, or, with no form asked for, of any form. Rows arrive in story
+ * order and keep it.
+ */
+export const getFormEncountersInVersionGroup = (
+  generation: PokemonGenerationDetail,
+  versionGroup: PokemonDetailVersionGroupScope,
+  form: PokemonGenerationFormSummary | null,
+) => {
+  const groupIds = new Set([
+    versionGroup.versionGroup.id,
+    ...versionGroup.expansions.map((expansion) => expansion.id),
+  ]);
+
+  return generation.encounters.filter((row) => {
+    return (
+      groupIds.has(row.versionGroup.id) &&
+      (!form || row.encounter.form_id === form.form.id)
+    );
+  });
+};
+
+/*
  * The group's learnset, every game in it: a row recorded for one game only
  * stays, marked as that game's (see the learnset table). A form with no
  * learnset of its own (a Vivillon pattern) learns what its default learns.
