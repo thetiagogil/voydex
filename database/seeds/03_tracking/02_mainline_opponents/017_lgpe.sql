@@ -67,7 +67,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Mewtwo (boss)
   (17021, 17, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 21),
   -- Jessie & James (boss; Team Rocket)
-  (17022, 17, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, NULL, NULL, 22),
+  (17022, 17, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 22),
   -- Archer (boss; Team Rocket)
   (17023, 17, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', NULL, 23),
   -- Red (boss)

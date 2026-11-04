@@ -67,4 +67,4 @@ INSERT INTO tracking.mainline_opponents (
   -- Mewtwo (boss)
   (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 19),
   -- Jessie & James (boss; Team Rocket, four forced fights)
-  (2020, 2, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, NULL, NULL, 20);
+  (2020, 2, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 20);

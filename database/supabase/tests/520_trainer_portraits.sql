@@ -15,7 +15,7 @@ SELECT
             FROM
                 tracking.mainline_opponents
             WHERE
-                sprite_slug IS NOT NULL), 420, '420 opponents have a portrait');
+                sprite_slug IS NOT NULL), 422, '422 opponents have a portrait');
 SELECT
     is_empty ($$
         SELECT
