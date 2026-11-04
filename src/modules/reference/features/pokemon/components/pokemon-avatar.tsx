@@ -21,6 +21,7 @@ export const PokemonAvatar = ({
   className,
   decorative = false,
   imageUrl,
+  letters,
   name,
   typeSlug,
 }: {
@@ -28,6 +29,8 @@ export const PokemonAvatar = ({
   className?: string;
   decorative?: boolean;
   imageUrl: string | null;
+  /* What its stand-in shows instead of the first letter (a trainer's initials). */
+  letters?: string;
   name: string;
   typeSlug: string | null;
 }) => {
@@ -45,6 +48,7 @@ export const PokemonAvatar = ({
     >
       <FallbackImage
         src={imageUrl}
+        letters={letters}
         name={name}
         alt={decorative ? "" : name}
         loading="lazy"

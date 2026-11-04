@@ -77,6 +77,7 @@ export const StoryMilestoneBattles = ({
                   ace={lead}
                   className="size-10"
                   decorative
+                  isTrainer={battle.isTrainer}
                   markClassName="size-5"
                   name={battle.name}
                   portraitUrl={battle.portraitUrl}

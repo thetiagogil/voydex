@@ -14,6 +14,7 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { getTrainerInitials } from "@/modules/reference/features/trainers/data/trainer-initials";
 import {
   PokemonTypeBadge,
   PokemonTypeIcon,
@@ -678,12 +679,13 @@ export const StoryBattleReport = ({
   return (
     <div className="min-w-0">
       <div className="flex items-start gap-4">
-        {battle.portraitUrl ? (
+        {battle.isTrainer ? (
           <PokemonAvatar
             art="portrait"
             className="size-16 shrink-0"
             decorative
             imageUrl={battle.portraitUrl}
+            letters={getTrainerInitials(battle.name)}
             name={battle.name}
             typeSlug={battle.specialtyTypes[0]?.slug ?? null}
           />

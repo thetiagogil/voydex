@@ -1511,3 +1511,71 @@ describe("buildPlayStoryMatchups", () => {
     ).toBeNull();
   });
 });
+
+describe("buildStoryMatchupsModel telling people from Pokémon", () => {
+  const lone = (
+    opponentId: number,
+    name: string,
+    legendary: StoryOpponentPartyRow["legendary"] = null,
+  ): StoryOpponentPartyRow => ({
+    ally: null,
+    baseStats: null,
+    battleFormMechanic: null,
+    choiceKey: null,
+    dynamaxes: false,
+    formSlug: name.toLowerCase().replaceAll(" ", "-"),
+    gameId: null,
+    heldItem: null,
+    legendary,
+    level: 50,
+    milestoneId: opponentId,
+    moves: [],
+    name,
+    opponentId,
+    primaryTypeId: 11,
+    secondaryTypeId: null,
+    slot: 1,
+    teraType: null,
+    variantKey: null,
+    variantLabel: null,
+  });
+  const battles = buildStoryMatchupsModel({
+    chosenChoiceKeys: new Set(),
+    generationOrder: 9,
+    mechanics: noMechanics,
+    members: [grassMember],
+    opponentGameIdById: new Map(),
+    orderedMilestones: [
+      milestone(1, [{ id: 1, name: "Giovanni", role: "boss", typeId: 13 }]),
+      milestone(2, [
+        { id: 2, name: "Rogue Mega Absol", role: "boss", typeId: 13 },
+      ]),
+      milestone(3, [{ id: 3, name: "Zapdos", role: "boss", typeId: 13 }]),
+      milestone(4, [
+        { id: 4, name: "Stony Cliff Titan", role: "titan", typeId: 13 },
+      ]),
+      milestone(5, [
+        { id: 5, name: "Jessie & James", role: "boss", typeId: 13 },
+      ]),
+    ],
+    partyRows: [
+      lone(1, "Persian"),
+      lone(2, "Mega Absol"),
+      lone(3, "Zapdos", "Legendary"),
+      lone(4, "Klawf"),
+    ],
+    playGameId: 1,
+    snapshotsByMilestoneId: new Map(),
+    types,
+  }).chapters.flatMap((chapter) => chapter.battles);
+
+  it("reads a trainer with one Pokémon, or no team yet, as a person", () => {
+    expect(battles.map((battle) => [battle.name, battle.isTrainer])).toEqual([
+      ["Giovanni", true],
+      ["Rogue Mega Absol", false],
+      ["Zapdos", false],
+      ["Stony Cliff Titan", false],
+      ["Jessie & James", true],
+    ]);
+  });
+});

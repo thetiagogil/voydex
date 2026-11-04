@@ -174,6 +174,30 @@ const getLegendaryRarity = (
 ): LegendaryRarity | null =>
   role === "boss" && pokemon?.length === 1 ? pokemon[0].legendary : null;
 
+/* The opponents that are Pokémon themselves, whatever their team. */
+const pokemonOpponentRoles = new Set(["noble", "titan", "totem"]);
+
+/*
+ * Whether you battle a person: not a legendary, a titan, a totem or a noble,
+ * and not a lone Pokémon the opponent is named after (Rogue Mega Absol,
+ * Bloodmoon Ursaluna).
+ */
+const isTrainerOpponent = (
+  role: string,
+  name: string,
+  pokemon: StoryOpponentPokemon[] | undefined,
+) => {
+  if (pokemonOpponentRoles.has(role)) return false;
+
+  const lone = pokemon?.length === 1 ? pokemon[0] : null;
+
+  return !(
+    lone &&
+    (lone.legendary !== null ||
+      name.includes(lone.name.split(" ").at(-1) ?? lone.name))
+  );
+};
+
 /*
  * Who hands out a story point's badge: the Gym Leader, or in Alola the trial
  * captain, kahuna or totem. A rival on the same story point doesn't.
@@ -209,6 +233,8 @@ export type StoryMatchupBattle = {
   opponentKind: StoryOpponentKind;
   /* Not needed to finish the Story, such as a roaming legendary you may skip. */
   isOptional: boolean;
+  /* A person you battle; false for a Pokémon you meet alone (a legendary, a titan, a rogue Mega). */
+  isTrainer: boolean;
   /* Their team, or null where Voydex doesn't have it. */
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
@@ -749,6 +775,11 @@ export const buildStoryMatchupsModel = ({
         completedAt: milestone.completed_at,
         id: getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
         isOptional: !milestone.is_required_for_completion,
+        isTrainer: isTrainerOpponent(
+          ref.opponent_role,
+          ref.name,
+          party?.pokemon,
+        ),
         kind: legendary ?? battleKinds[ref.opponent_role],
         members: members.map((member, index) => {
           const memberReading = reading?.members[index];
@@ -794,7 +825,7 @@ export const buildStoryMatchupsModel = ({
         opponentKind,
         party,
         partyLevels: partyRange ? formatLevelRange(partyRange) : null,
-        portraitUrl: legendary ? null : getTrainerPortraitUrl(ref.sprite_slug),
+        portraitUrl: getTrainerPortraitUrl(ref.sprite_slug),
         playerSide: ref.player_side,
         reading: reading
           ? {
