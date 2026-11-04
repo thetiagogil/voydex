@@ -55,7 +55,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Zinnia
   (14014, 14, NULL, 'zinnia', 'Zinnia', 'boss', 15, NULL, 'zinnia', NULL, 14),
   -- May / Brendan (rival)
-  (14015, 14, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', NULL, 15),
+  (14015, 14, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may-brendan', NULL, 15),
   -- Wally (rival)
   (14016, 14, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', NULL, 16),
   -- Maxie (boss, omega-ruby)

@@ -87,4 +87,4 @@ INSERT INTO tracking.mainline_opponents (
   -- Saturn (boss; Team Galactic Commander)
   (9030, 9, NULL, 'saturn', 'Saturn', 'boss', NULL, NULL, 'saturn', NULL, 30),
   -- Mars & Jupiter (boss; the Multi Battle with Barry at Spear Pillar)
-  (9031, 9, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars', NULL, 31);
+  (9031, 9, NULL, 'mars-jupiter', 'Mars & Jupiter', 'boss', NULL, NULL, 'mars-jupiter', NULL, 31);

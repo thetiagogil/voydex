@@ -42,7 +42,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Kieran (rival)
   (25009, 25, NULL, 'kieran-rival', 'Kieran', 'rival', NULL, NULL, 'kieran', NULL, 9),
   -- Arven & Penny (rival)
-  (25010, 25, NULL, 'arven-penny', 'Arven & Penny', 'rival', NULL, NULL, 'arven', NULL, 10),
+  (25010, 25, NULL, 'arven-penny', 'Arven & Penny', 'rival', NULL, NULL, 'arven-penny', NULL, 10),
   -- Nemona (rival)
   (25011, 25, NULL, 'nemona', 'Nemona', 'rival', NULL, NULL, 'nemona', NULL, 11),
   -- Meloetta (boss)

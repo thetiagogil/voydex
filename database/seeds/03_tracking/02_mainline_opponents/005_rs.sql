@@ -56,7 +56,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Steven
   (5013, 5, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 'Ever Grande City', 13),
   -- May / Brendan (rival)
-  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', NULL, 14),
+  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may-brendan', NULL, 14),
   -- Wally (rival)
   (5015, 5, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', NULL, 15),
   -- Maxie (boss, ruby)

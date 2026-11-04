@@ -59,9 +59,9 @@ INSERT INTO tracking.mainline_opponents (
   -- Tierno (rival)
   (13016, 13, NULL, 'tierno', 'Tierno', 'rival', NULL, NULL, 'tierno', NULL, 16),
   -- Tierno & Trevor (rival)
-  (13017, 13, NULL, 'tierno-trevor', 'Tierno & Trevor', 'rival', NULL, NULL, 'tierno', NULL, 17),
+  (13017, 13, NULL, 'tierno-trevor', 'Tierno & Trevor', 'rival', NULL, NULL, 'tierno-trevor', NULL, 17),
   -- Serena / Calem (rival)
-  (13018, 13, NULL, 'serena-calem', 'Serena / Calem', 'rival', NULL, NULL, 'serena', NULL, 18),
+  (13018, 13, NULL, 'serena-calem', 'Serena / Calem', 'rival', NULL, NULL, 'serena-calem', NULL, 18),
   -- Lysandre (boss)
   (13019, 13, NULL, 'lysandre', 'Lysandre', 'boss', NULL, NULL, 'lysandre', NULL, 19),
   -- Trevor (rival)

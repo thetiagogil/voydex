@@ -121,4 +121,4 @@ INSERT INTO tracking.mainline_opponents (
   -- Archer (boss; Team Rocket Executive)
   (10044, 10, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', NULL, 36),
   -- Clair & Lance (boss; the Dragon's Den Multi Battle with Silver at your side)
-  (10045, 10, NULL, 'clair-lance', 'Clair & Lance', 'boss', 15, NULL, 'clair', NULL, 37);
+  (10045, 10, NULL, 'clair-lance', 'Clair & Lance', 'boss', 15, NULL, 'clair-lance', NULL, 37);

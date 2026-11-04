@@ -34,9 +34,9 @@ SELECT
     results_eq ($$ SELECT DISTINCT
             name, sprite_slug FROM tracking.mainline_opponents
             WHERE
-                name IN ('Brock', 'Lt. Surge', 'Tate & Liza', 'Cilan / Chili / Cress', 'Professor Kukui', 'Hala')
+                name IN ('Brock', 'Lt. Surge', 'Tate & Liza', 'Cilan / Chili / Cress', 'Professor Kukui', 'Hala', 'May / Brendan', 'Arven & Penny')
                 AND sprite_slug IS NOT NULL ORDER BY name, sprite_slug $$, $$
-            VALUES ('Brock', 'brock'), ('Cilan / Chili / Cress', 'cilan-chili-cress'), ('Hala', 'hala'), ('Hala', 'hala-e4'), ('Lt. Surge', 'lt-surge'), ('Professor Kukui', 'kukui'), ('Tate & Liza', 'tate-liza') $$, 'a portrait is named by the opponent''s slug, pairs and trios share one');
+            VALUES ('Arven & Penny', 'arven-penny'), ('Brock', 'brock'), ('Cilan / Chili / Cress', 'cilan-chili-cress'), ('Hala', 'hala'), ('Hala', 'hala-e4'), ('Lt. Surge', 'lt-surge'), ('May / Brendan', 'may-brendan'), ('Professor Kukui', 'kukui'), ('Tate & Liza', 'tate-liza') $$, 'a portrait is named by the opponent''s slug, a pair, a trio or an either-or rival shares one with every face');
 SELECT
     is_empty ($$
         SELECT
