@@ -37,7 +37,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Crasher Wake
   (9005, 9, NULL, 'crasher-wake', 'Crasher Wake', 'gym-leader', 3, NULL, 'crasher-wake', 'Pastoria City', 5),
   -- Byron
-  (9006, 9, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, NULL, 'Canalave City', 6),
+  (9006, 9, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 'Canalave City', 6),
   -- Candice
   (9007, 9, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 'Snowpoint City', 7),
   -- Volkner

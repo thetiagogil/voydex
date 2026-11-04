@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Fantina
   (21005, 21, NULL, 'fantina', 'Fantina', 'gym-leader', 14, NULL, 'fantina', 'Hearthome City', 5),
   -- Byron
-  (21006, 21, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, NULL, 'Canalave City', 6),
+  (21006, 21, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 'Canalave City', 6),
   -- Candice
   (21007, 21, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 'Snowpoint City', 7),
   -- Volkner

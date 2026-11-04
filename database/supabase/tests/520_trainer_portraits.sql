@@ -15,7 +15,7 @@ SELECT
             FROM
                 tracking.mainline_opponents
             WHERE
-                sprite_slug IS NOT NULL), 422, '422 opponents have a portrait');
+                sprite_slug IS NOT NULL), 443, '443 opponents have a portrait');
 SELECT
     is_empty ($$
         SELECT
@@ -29,7 +29,7 @@ SELECT
             WHERE
                 opponent_role IN ('gym-leader', 'kahuna', 'champion', 'elite-four')
                 AND sprite_slug IS NULL ORDER BY name $$, $$
-            VALUES ('Amarys'), ('Byron'), ('Crispin'), ('Drayden'), ('Drayden / Iris'), ('Juan'), ('Katy'), ('Kofu'), ('Opal'), ('Rival'), ('Ryme'), ('Tulip'), ('Wattson') $$, 'only these leaders have no portrait yet');
+            VALUES ('Katy'), ('Rival') $$, 'only these leaders have no portrait yet');
 SELECT
     results_eq ($$ SELECT DISTINCT
             name, sprite_slug FROM tracking.mainline_opponents
@@ -43,7 +43,8 @@ SELECT
             id FROM tracking.mainline_opponents
             WHERE
                 opponent_role = 'za-royale'
-                AND sprite_slug IS NOT NULL $$, 'Legends: Z-A''s ranked trainers have no portrait yet');
+                AND sprite_slug IS NULL
+                AND slug NOT IN ('rintaro', 'xavi', 'yvon', 'zach') $$, 'every Legends: Z-A ranked trainer has a portrait but the four with only an in-game screenshot');
 SELECT
     *
 FROM

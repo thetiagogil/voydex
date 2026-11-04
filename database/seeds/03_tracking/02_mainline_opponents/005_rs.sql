@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Brawly
   (5002, 5, NULL, 'brawly', 'Brawly', 'gym-leader', 7, NULL, 'brawly', 'Dewford Town', 2),
   -- Wattson
-  (5003, 5, NULL, 'wattson', 'Wattson', 'gym-leader', 4, NULL, NULL, 'Mauville City', 3),
+  (5003, 5, NULL, 'wattson', 'Wattson', 'gym-leader', 4, NULL, 'wattson', 'Mauville City', 3),
   -- Flannery
   (5004, 5, NULL, 'flannery', 'Flannery', 'gym-leader', 2, NULL, 'flannery', 'Lavaridge Town', 4),
   -- Norman

@@ -24,9 +24,9 @@ INSERT INTO tracking.mainline_opponents (
   sort_order
 ) VALUES
   -- Crispin
-  (25001, 25, NULL, 'crispin', 'Crispin', 'elite-four', 2, NULL, NULL, NULL, 1),
+  (25001, 25, NULL, 'crispin', 'Crispin', 'elite-four', 2, NULL, 'crispin', NULL, 1),
   -- Amarys
-  (25002, 25, NULL, 'amarys', 'Amarys', 'elite-four', 17, NULL, NULL, NULL, 2),
+  (25002, 25, NULL, 'amarys', 'Amarys', 'elite-four', 17, NULL, 'amarys', NULL, 2),
   -- Lacey
   (25003, 25, NULL, 'lacey', 'Lacey', 'elite-four', 18, NULL, 'lacey', NULL, 3),
   -- Drayton

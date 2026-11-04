@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Allister
   (18005, 18, 32, 'allister', 'Allister', 'gym-leader', 14, NULL, 'allister', 'Stow-on-Side', 4),
   -- Opal
-  (18006, 18, NULL, 'opal', 'Opal', 'gym-leader', 18, NULL, NULL, 'Ballonlea', 5),
+  (18006, 18, NULL, 'opal', 'Opal', 'gym-leader', 18, NULL, 'opal', 'Ballonlea', 5),
   -- Gordie
   (18007, 18, 31, 'gordie', 'Gordie', 'gym-leader', 13, NULL, 'gordie', 'Circhester', 6),
   -- Melony

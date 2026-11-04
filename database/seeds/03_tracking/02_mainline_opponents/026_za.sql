@@ -48,17 +48,17 @@ INSERT INTO tracking.mainline_opponents (
   -- Rintaro (Z-A Royale, Rank W to V)
   (26010, 26, NULL, 'rintaro', 'Rintaro', 'za-royale', NULL, NULL, NULL, NULL, 10),
   -- Vinnie (Z-A Royale, special promotion from Rank V to F)
-  (26011, 26, NULL, 'vinnie', 'Vinnie', 'za-royale', NULL, NULL, NULL, NULL, 11),
+  (26011, 26, NULL, 'vinnie', 'Vinnie', 'za-royale', NULL, NULL, 'vinnie', NULL, 11),
   -- Canari (Z-A Royale, Rank F to E)
-  (26012, 26, NULL, 'canari', 'Canari', 'za-royale', 4, NULL, NULL, NULL, 12),
+  (26012, 26, NULL, 'canari', 'Canari', 'za-royale', 4, NULL, 'canari', NULL, 12),
   -- Ivor (Z-A Royale, Rank E to D)
-  (26013, 26, NULL, 'ivor', 'Ivor', 'za-royale', 7, NULL, NULL, NULL, 13),
+  (26013, 26, NULL, 'ivor', 'Ivor', 'za-royale', 7, NULL, 'ivor', NULL, 13),
   -- Corbeau (Z-A Royale, Rank D to C)
-  (26014, 26, NULL, 'corbeau', 'Corbeau', 'za-royale', 8, NULL, NULL, NULL, 14),
+  (26014, 26, NULL, 'corbeau', 'Corbeau', 'za-royale', 8, NULL, 'corbeau', NULL, 14),
   -- Jacinthe (Z-A Royale, Rank C to B)
-  (26015, 26, NULL, 'jacinthe', 'Jacinthe', 'za-royale', 18, NULL, NULL, NULL, 15),
+  (26015, 26, NULL, 'jacinthe', 'Jacinthe', 'za-royale', 18, NULL, 'jacinthe', NULL, 15),
   -- Grisham (Z-A Royale, Rank B to A)
-  (26016, 26, NULL, 'grisham', 'Grisham', 'za-royale', NULL, NULL, NULL, NULL, 16),
+  (26016, 26, NULL, 'grisham', 'Grisham', 'za-royale', NULL, NULL, 'grisham', NULL, 16),
   -- Rogue Mega Slowbro
   (26017, 26, NULL, 'rogue-mega-slowbro', 'Rogue Mega Slowbro', 'boss', 3, 11, NULL, NULL, 17),
   -- Rogue Mega Camerupt

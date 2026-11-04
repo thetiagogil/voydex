@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Brawly
   (7002, 7, NULL, 'brawly', 'Brawly', 'gym-leader', 7, NULL, 'brawly', 'Dewford Town', 2),
   -- Wattson
-  (7003, 7, NULL, 'wattson', 'Wattson', 'gym-leader', 4, NULL, NULL, 'Mauville City', 3),
+  (7003, 7, NULL, 'wattson', 'Wattson', 'gym-leader', 4, NULL, 'wattson', 'Mauville City', 3),
   -- Flannery
   (7004, 7, NULL, 'flannery', 'Flannery', 'gym-leader', 2, NULL, 'flannery', 'Lavaridge Town', 4),
   -- Norman
@@ -44,7 +44,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Tate & Liza
   (7007, 7, NULL, 'tate-liza', 'Tate & Liza', 'gym-leader', 11, NULL, 'tate-liza', 'Mossdeep City', 7),
   -- Juan
-  (7008, 7, NULL, 'juan', 'Juan', 'gym-leader', 3, NULL, NULL, 'Sootopolis City', 8),
+  (7008, 7, NULL, 'juan', 'Juan', 'gym-leader', 3, NULL, 'juan', 'Sootopolis City', 8),
   -- Sidney
   (7009, 7, NULL, 'sidney', 'Sidney', 'elite-four', 16, NULL, 'sidney', NULL, 9),
   -- Phoebe

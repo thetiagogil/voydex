@@ -41,7 +41,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Skyla
   (12006, 12, NULL, 'skyla', 'Skyla', 'gym-leader', 10, NULL, 'skyla', 'Mistralton City', 6),
   -- Drayden
-  (12007, 12, NULL, 'drayden', 'Drayden', 'gym-leader', 15, NULL, NULL, 'Opelucid City', 7),
+  (12007, 12, NULL, 'drayden', 'Drayden', 'gym-leader', 15, NULL, 'drayden', 'Opelucid City', 7),
   -- Marlon
   (12008, 12, NULL, 'marlon', 'Marlon', 'gym-leader', 3, NULL, 'marlon', 'Humilau City', 8),
   -- Colress

@@ -30,13 +30,13 @@ INSERT INTO tracking.mainline_opponents (
   -- Iono
   (23003, 23, NULL, 'iono', 'Iono', 'gym-leader', 4, NULL, 'iono', 'Levincia', 3),
   -- Kofu
-  (23004, 23, NULL, 'kofu', 'Kofu', 'gym-leader', 3, NULL, NULL, 'Cascarrafa', 4),
+  (23004, 23, NULL, 'kofu', 'Kofu', 'gym-leader', 3, NULL, 'kofu', 'Cascarrafa', 4),
   -- Larry
   (23005, 23, NULL, 'larry-gym', 'Larry', 'gym-leader', 1, NULL, 'larry', 'Medali', 5),
   -- Ryme
-  (23006, 23, NULL, 'ryme', 'Ryme', 'gym-leader', 14, NULL, NULL, 'Montenevera', 6),
+  (23006, 23, NULL, 'ryme', 'Ryme', 'gym-leader', 14, NULL, 'ryme', 'Montenevera', 6),
   -- Tulip
-  (23007, 23, NULL, 'tulip', 'Tulip', 'gym-leader', 11, NULL, NULL, 'Alfornada', 7),
+  (23007, 23, NULL, 'tulip', 'Tulip', 'gym-leader', 11, NULL, 'tulip', 'Alfornada', 7),
   -- Grusha
   (23008, 23, NULL, 'grusha', 'Grusha', 'gym-leader', 6, NULL, 'grusha', 'Glaseado Mountain', 8),
   -- Rika

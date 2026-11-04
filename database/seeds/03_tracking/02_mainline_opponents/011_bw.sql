@@ -38,7 +38,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Brycen
   (11007, 11, NULL, 'brycen', 'Brycen', 'gym-leader', 6, NULL, 'brycen', 'Icirrus City', 7),
   -- Drayden / Iris
-  (11008, 11, NULL, 'drayden-iris', 'Drayden / Iris', 'gym-leader', 15, NULL, NULL, 'Opelucid City', 8),
+  (11008, 11, NULL, 'drayden-iris', 'Drayden / Iris', 'gym-leader', 15, NULL, 'drayden-iris', 'Opelucid City', 8),
   -- Shauntal
   (11009, 11, NULL, 'shauntal', 'Shauntal', 'elite-four', 14, NULL, 'shauntal', NULL, 9),
   -- Grimsley
