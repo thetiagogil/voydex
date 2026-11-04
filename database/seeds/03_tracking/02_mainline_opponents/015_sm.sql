@@ -35,11 +35,11 @@ INSERT INTO tracking.mainline_opponents (
   -- Hapu
   (15010, 15, NULL, 'hapu', 'Hapu', 'kahuna', 9, NULL, 'hapu', 'Exeggutor Island', 10),
   -- Hala
-  (15011, 15, NULL, 'hala-e4', 'Hala', 'elite-four', 7, NULL, 'hala-e4', NULL, 11),
+  (15011, 15, NULL, 'hala-e4', 'Hala', 'elite-four', 7, NULL, 'hala', NULL, 11),
   -- Olivia
-  (15012, 15, NULL, 'olivia-e4', 'Olivia', 'elite-four', 13, NULL, 'olivia-e4', NULL, 12),
+  (15012, 15, NULL, 'olivia-e4', 'Olivia', 'elite-four', 13, NULL, 'olivia', NULL, 12),
   -- Acerola
-  (15013, 15, NULL, 'acerola-e4', 'Acerola', 'elite-four', 14, NULL, 'acerola-e4', NULL, 13),
+  (15013, 15, NULL, 'acerola-e4', 'Acerola', 'elite-four', 14, NULL, 'acerola', NULL, 13),
   -- Kahili
   (15014, 15, NULL, 'kahili', 'Kahili', 'elite-four', 10, NULL, 'kahili', NULL, 14),
   -- Professor Kukui

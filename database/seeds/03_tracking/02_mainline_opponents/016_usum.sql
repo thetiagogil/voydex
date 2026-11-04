@@ -50,9 +50,9 @@ INSERT INTO tracking.mainline_opponents (
   -- Molayne
   (16013, 16, NULL, 'molayne', 'Molayne', 'elite-four', 17, NULL, 'molayne', NULL, 13),
   -- Olivia
-  (16014, 16, NULL, 'olivia-e4', 'Olivia', 'elite-four', 13, NULL, 'olivia-e4', NULL, 14),
+  (16014, 16, NULL, 'olivia-e4', 'Olivia', 'elite-four', 13, NULL, 'olivia', NULL, 14),
   -- Acerola
-  (16015, 16, NULL, 'acerola-e4', 'Acerola', 'elite-four', 14, NULL, 'acerola-e4', NULL, 15),
+  (16015, 16, NULL, 'acerola-e4', 'Acerola', 'elite-four', 14, NULL, 'acerola', NULL, 15),
   -- Kahili
   (16016, 16, NULL, 'kahili', 'Kahili', 'elite-four', 10, NULL, 'kahili', NULL, 16),
   -- Hau

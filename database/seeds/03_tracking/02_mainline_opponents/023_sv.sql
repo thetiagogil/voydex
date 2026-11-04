@@ -32,7 +32,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Kofu
   (23004, 23, NULL, 'kofu', 'Kofu', 'gym-leader', 3, NULL, NULL, 'Cascarrafa', 4),
   -- Larry
-  (23005, 23, NULL, 'larry-gym', 'Larry', 'gym-leader', 1, NULL, 'larry-gym', 'Medali', 5),
+  (23005, 23, NULL, 'larry-gym', 'Larry', 'gym-leader', 1, NULL, 'larry', 'Medali', 5),
   -- Ryme
   (23006, 23, NULL, 'ryme', 'Ryme', 'gym-leader', 14, NULL, NULL, 'Montenevera', 6),
   -- Tulip
@@ -44,7 +44,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Poppy
   (23010, 23, NULL, 'poppy', 'Poppy', 'elite-four', 17, NULL, 'poppy', NULL, 10),
   -- Larry
-  (23011, 23, NULL, 'larry-e4', 'Larry', 'elite-four', 10, NULL, 'larry-e4', NULL, 11),
+  (23011, 23, NULL, 'larry-e4', 'Larry', 'elite-four', 10, NULL, 'larry', NULL, 11),
   -- Hassel
   (23012, 23, NULL, 'hassel', 'Hassel', 'elite-four', 15, NULL, 'hassel', NULL, 12),
   -- Geeta
