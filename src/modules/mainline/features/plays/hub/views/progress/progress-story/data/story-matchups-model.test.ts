@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
@@ -9,6 +9,7 @@ import {
   buildStoryLevelCap,
   buildStoryMatchupsModel,
   groupStoryBattlesByMilestone,
+  type StoryMatchupBattle,
   type StoryMatchupMilestone,
   type StoryMatchupsRows,
   type StoryOpponentPartyRow,
@@ -148,39 +149,47 @@ describe("buildStoryMatchupsModel", () => {
 });
 
 describe("buildStoryMatchupsModel with several battles at one story point", () => {
-  vi.stubEnv("NEXT_PUBLIC_ASSETS_URL", "https://assets.test");
-  const battles = buildStoryMatchupsModel({
-    chosenChoiceKeys: new Set(),
-    generationOrder: 1,
-    mechanics: noMechanics,
-    members: [grassMember],
-    opponentGameIdById: new Map(),
-    orderedMilestones: [
-      milestone(
-        5,
-        [
+  let battles: StoryMatchupBattle[] = [];
+
+  beforeAll(() => {
+    vi.stubEnv("NEXT_PUBLIC_ASSETS_URL", "https://assets.test");
+    battles = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(
+          5,
+          [
+            {
+              id: 9,
+              name: "Blue",
+              notes: "Cerulean City",
+              role: "rival",
+              spriteSlug: "blue",
+              typeId: 11,
+            },
+            { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
+          ],
           {
-            id: 9,
-            name: "Blue",
-            notes: "Cerulean City",
-            role: "rival",
-            spriteSlug: "blue",
-            typeId: 11,
+            description: "Defeat Misty at Cerulean Gym.",
+            is_completed: true,
+            milestone_name: "Cascade Badge",
           },
-          { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
-        ],
-        {
-          description: "Defeat Misty at Cerulean Gym.",
-          is_completed: true,
-          milestone_name: "Cascade Badge",
-        },
-      ),
-    ],
-    partyRows: [],
-    playGameId: 1,
-    snapshotsByMilestoneId: new Map(),
-    types,
-  }).chapters.flatMap((chapter) => chapter.battles);
+        ),
+      ],
+      partyRows: [],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+  });
+
+  afterAll(() => {
+    vi.unstubAllEnvs();
+  });
 
   it("lists each opponent as its own battle under the story point", () => {
     expect(
@@ -203,7 +212,6 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
   });
 
   it("shows a trainer's portrait only where Voydex has one", () => {
-    vi.unstubAllEnvs();
     expect(battles.map((battle) => battle.portraitUrl)).toEqual([
       "https://assets.test/trainers/blue.webp",
       null,
