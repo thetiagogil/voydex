@@ -22,7 +22,7 @@ const getLeadersTitle = (leaders: CodexGameLeader[]) =>
 /*
  * One leader: their portrait on a disc tinted by their type, with the ace
  * of your first battle as a small sticker on its corner (named in its tip);
- * a leader without a portrait shows the ace on the disc instead. Then the
+ * a leader without a portrait shows their initials on the disc. Then the
  * name, the place you face them, and the type.
  */
 const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
