@@ -66,6 +66,7 @@ const encounter = (
   fields: Partial<PokemonEncounter>,
 ): PokemonEncounter =>
   ({
+    condition: null,
     encounter_way_id: 1,
     form_id: 2500,
     game_id: null,

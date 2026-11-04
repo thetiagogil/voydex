@@ -7,7 +7,7 @@ import {
 
 const EXPECTED_LOCATION_ROWS = 792;
 const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1529;
-const EXPECTED_ENCOUNTER_ROWS = 26140;
+const EXPECTED_ENCOUNTER_ROWS = 26421;
 
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
 
@@ -70,7 +70,7 @@ export function assertLocationRows(context, tableRows) {
     {
       count: EXPECTED_LOCATION_ROWS,
       sha256:
-        "3e1e319456f083976c34d884db9d6d637635d8165e711d8478e2801994c1f5c2",
+        "9b1214c5a80b772d31710a7bc6c95d8daceee6fc4dcdb5548fcc628e1357d762",
     },
   );
   for (const { row, filePath } of locations) {

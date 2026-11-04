@@ -20,7 +20,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.pokemon_encounters),
-            26140,
+            26421,
             'every encounter row is seeded');
 SELECT
     is_empty ($$
@@ -82,7 +82,7 @@ SELECT
             WHERE
                 e.form_id = 2500
                 AND e.version_group_id = 1 ORDER BY l.name $$, $$
-            VALUES ('Power Plant', 'walking', 20, 24), ('Viridian Forest', 'walking', 3, 5) $$, 'Pikachu in Red / Blue: Viridian Forest and the Power Plant, walking');
+            VALUES ('Power Plant', 'indoors', 20, 24), ('Viridian Forest', 'tall-grass', 3, 5) $$, 'Pikachu in Red / Blue: Viridian Forest''s tall grass and inside the Power Plant');
 SELECT
     results_eq ($$
         SELECT
@@ -92,7 +92,7 @@ SELECT
             WHERE
                 e.form_id = 14500
                 AND e.version_group_id = 1
-                AND l.slug = 'kanto-power-plant'       $$, $$
+                AND l.slug = 'kanto-power-plant'         $$, $$
             VALUES ('special', 50) $$, 'Zapdos waits at the Power Plant as a special encounter');
 SELECT
     is_empty ($$

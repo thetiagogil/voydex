@@ -3421,6 +3421,7 @@ export type Database = {
       };
       pokemon_encounters: {
         Row: {
+          condition: string | null;
           created_at: string;
           encounter_way_id: number;
           form_id: number;
@@ -3434,6 +3435,7 @@ export type Database = {
         };
         ComputedFields: never;
         Insert: {
+          condition?: string | null;
           created_at?: string;
           encounter_way_id: number;
           form_id: number;
@@ -3446,6 +3448,7 @@ export type Database = {
           version_group_id: number;
         };
         Update: {
+          condition?: string | null;
           created_at?: string;
           encounter_way_id?: number;
           form_id?: number;

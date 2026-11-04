@@ -205,7 +205,7 @@ VALUES
   -- Lake of Rage
   (95, 2, 'johto-lake-of-rage', 'Lake of Rage'),
   -- Mt. Moon Square
-  (96, 2, 'johto-mt-moon-square', 'Mt. Moon Square'),
+  (96, 1, 'kanto-mt-moon-square', 'Mt. Moon Square'),
   -- Mt. Mortar
   (97, 2, 'johto-mt-mortar', 'Mt. Mortar'),
   -- Mt. Silver
@@ -221,17 +221,17 @@ VALUES
   -- Olivine Gym
   (103, 2, 'johto-olivine-gym', 'Olivine Gym'),
   -- Pewter City
-  (104, 2, 'johto-pewter-city', 'Pewter City'),
+  (104, 1, 'kanto-pewter-city', 'Pewter City'),
   -- Pewter Museum of Science
   (105, 2, 'johto-pewter-museum-of-science', 'Pewter Museum of Science'),
   -- Pokémon Communication Center
   (106, 2, 'johto-pokemon-communication-center', 'Pokémon Communication Center'),
   -- Route 26
-  (107, 2, 'johto-route-26', 'Route 26'),
+  (107, 1, 'kanto-route-26', 'Route 26'),
   -- Route 27
-  (108, 2, 'johto-route-27', 'Route 27'),
+  (108, 1, 'kanto-route-27', 'Route 27'),
   -- Route 28
-  (109, 2, 'johto-route-28', 'Route 28'),
+  (109, 1, 'kanto-route-28', 'Route 28'),
   -- Route 29
   (110, 2, 'johto-route-29', 'Route 29'),
   -- Route 30
@@ -279,13 +279,13 @@ VALUES
   -- Safari Zone Gate
   (132, 2, 'johto-safari-zone-gate', 'Safari Zone Gate'),
   -- Saffron City
-  (133, 2, 'johto-saffron-city', 'Saffron City'),
+  (133, 1, 'kanto-saffron-city', 'Saffron City'),
   -- Slowpoke Well
   (134, 2, 'johto-slowpoke-well', 'Slowpoke Well'),
   -- Sprout Tower
   (135, 2, 'johto-sprout-tower', 'Sprout Tower'),
   -- Tohjo Falls
-  (136, 2, 'johto-tohjo-falls', 'Tohjo Falls'),
+  (136, 1, 'kanto-tohjo-falls', 'Tohjo Falls'),
   -- Union Cave
   (137, 2, 'johto-union-cave', 'Union Cave'),
   -- Violet City

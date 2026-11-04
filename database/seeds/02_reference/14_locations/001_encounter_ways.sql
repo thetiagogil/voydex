@@ -9,59 +9,67 @@
 -- File Scope
 -- ============================================================================
 -- Table: reference.encounter_ways
--- Scope: the ways a Pokémon is met at a place, from walking to a gift.
+-- Scope: the ways a Pokémon is met at a place, from tall grass to a gift.
 -- ============================================================================
 INSERT INTO reference.encounter_ways (id, slug, name, sort_order)
 VALUES
-  -- Walking
-  (1, 'walking', 'Walking', 1),
+  -- Tall grass
+  (1, 'tall-grass', 'Tall grass', 1),
+  -- Ground
+  (2, 'ground', 'Ground', 2),
+  -- Cave
+  (3, 'cave', 'Cave', 3),
+  -- Indoors
+  (4, 'indoors', 'Indoors', 4),
+  -- Overworld
+  (5, 'overworld', 'Overworld', 5),
   -- Surfing
-  (2, 'surfing', 'Surfing', 2),
+  (6, 'surfing', 'Surfing', 6),
   -- Fishing
-  (3, 'fishing', 'Fishing', 3),
+  (7, 'fishing', 'Fishing', 7),
   -- Diving
-  (4, 'diving', 'Diving', 4),
+  (8, 'diving', 'Diving', 8),
   -- In the sky
-  (5, 'sky', 'In the sky', 5),
+  (9, 'sky', 'In the sky', 9),
   -- Shaking spots
-  (6, 'shaking', 'Shaking spots', 6),
+  (10, 'shaking', 'Shaking spots', 10),
   -- Headbutt trees
-  (7, 'headbutt', 'Headbutt trees', 7),
+  (11, 'headbutt', 'Headbutt trees', 11),
   -- Rock Smash
-  (8, 'rock-smash', 'Rock Smash', 8),
+  (12, 'rock-smash', 'Rock Smash', 12),
   -- Honey trees
-  (9, 'honey-tree', 'Honey trees', 9),
+  (13, 'honey-tree', 'Honey trees', 13),
   -- Poké Radar
-  (10, 'poke-radar', 'Poké Radar', 10),
+  (14, 'poke-radar', 'Poké Radar', 14),
   -- Swarms and outbreaks
-  (11, 'swarm', 'Swarms and outbreaks', 11),
+  (15, 'swarm', 'Swarms and outbreaks', 15),
   -- Hordes
-  (12, 'horde', 'Hordes', 12),
+  (16, 'horde', 'Hordes', 16),
   -- Hidden Grottoes
-  (13, 'hidden-grotto', 'Hidden Grottoes', 13),
+  (17, 'hidden-grotto', 'Hidden Grottoes', 17),
   -- Dual-slot
-  (14, 'dual-slot', 'Dual-slot', 14),
+  (18, 'dual-slot', 'Dual-slot', 18),
   -- Radio sounds
-  (15, 'radio', 'Radio sounds', 15),
+  (19, 'radio', 'Radio sounds', 19),
   -- Trophy Garden
-  (16, 'trophy-garden', 'Trophy Garden', 16),
+  (20, 'trophy-garden', 'Trophy Garden', 20),
   -- Berry trees
-  (17, 'berry-tree', 'Berry trees', 17),
+  (21, 'berry-tree', 'Berry trees', 21),
   -- Curry
-  (18, 'curry', 'Curry', 18),
+  (22, 'curry', 'Curry', 22),
   -- Raid dens
-  (19, 'raid', 'Raid dens', 19),
+  (23, 'raid', 'Raid dens', 23),
   -- Space-time distortions
-  (20, 'distortion', 'Space-time distortions', 20),
+  (24, 'distortion', 'Space-time distortions', 24),
   -- Special encounter
-  (21, 'special', 'Special encounter', 21),
+  (25, 'special', 'Special encounter', 25),
   -- First partner
-  (22, 'starter', 'First partner', 22),
+  (26, 'starter', 'First partner', 26),
   -- Gift
-  (23, 'gift', 'Gift', 23),
+  (27, 'gift', 'Gift', 27),
   -- In-game trade
-  (24, 'trade', 'In-game trade', 24),
+  (28, 'trade', 'In-game trade', 28),
   -- Fossil
-  (25, 'fossil', 'Fossil', 25),
+  (29, 'fossil', 'Fossil', 29),
   -- Egg
-  (26, 'egg', 'Egg', 26);
+  (30, 'egg', 'Egg', 30);

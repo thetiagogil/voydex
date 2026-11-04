@@ -60,9 +60,14 @@ const met = (
   encounterWay: EncounterWay,
   storyOrder: number,
   levels: [number | null, number | null],
-  options: { game?: Game | null; group?: VersionGroup } = {},
+  options: {
+    condition?: string;
+    game?: Game | null;
+    group?: VersionGroup;
+  } = {},
 ): PokemonEncounterSummary => ({
   encounter: {
+    condition: options.condition ?? null,
     encounter_way_id: encounterWay.id,
     form_id: 2500,
     game_id: options.game?.id ?? null,
@@ -92,7 +97,7 @@ describe("getPokemonDetailWhereToFindRows places", () => {
       encounters: [
         met(1, route4, walking, 5, [10, 14]),
         met(2, route4, fishing, 5, [20, 20]),
-        met(3, route1, walking, 2, [2, 5]),
+        met(3, route1, walking, 2, [2, 5], { condition: "Night" }),
         met(4, slumberingWeald, raid, 3, [15, 65], { game: shield }),
       ],
       listWhenAbsent: true,
@@ -100,7 +105,7 @@ describe("getPokemonDetailWhereToFindRows places", () => {
     });
 
     expect(rows[0]?.places).toEqual([
-      { detail: "Walking, Lv 2–5", key: "place-1", label: "Route 1" },
+      { detail: "Walking, Lv 2–5 (night)", key: "place-1", label: "Route 1" },
       {
         detail: "Walking, Lv 10–14 · Fishing, Lv 20",
         key: "place-4",

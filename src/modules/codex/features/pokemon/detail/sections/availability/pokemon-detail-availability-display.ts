@@ -20,7 +20,11 @@ export type PokemonDetailWhereToFindWay = {
 
 /* One place the Pokémon is met in a game, in story order, with how and at what level. */
 export type PokemonDetailWhereToFindPlace = {
-  /* "Walking, Lv 3–5", or two ways joined: "Walking, Lv 3–5 · Fishing, Lv 10"; an expansion's version exclusive adds "Sword only". */
+  /*
+   * "Tall grass, Lv 3–5", a condition in brackets ("Tall grass, Lv 3–5
+   * (night)"), two ways joined with " · "; an expansion's version exclusive
+   * adds "Sword only".
+   */
   detail: string;
   key: string;
   label: string;
@@ -89,8 +93,11 @@ const getPlaces = (
       row.encounter.level_min,
       row.encounter.level_max,
     );
+    const condition = row.encounter.condition
+      ? ` (${row.encounter.condition.charAt(0).toLowerCase()}${row.encounter.condition.slice(1)})`
+      : "";
     const wayLabel = [
-      levels ? `${row.way.name}, ${levels}` : row.way.name,
+      `${levels ? `${row.way.name}, ${levels}` : row.way.name}${condition}`,
       /* An expansion's row serves both versions: a version exclusive says so. */
       row.game && !options.game
         ? `${getGameShortName(row.game.name)} only`

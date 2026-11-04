@@ -282,9 +282,12 @@ sources remain authoritative for game-specific mechanics and availability.
   group lists its places in the order the story reaches them (an expansion
   orders its own); one encounter row per form, place, game and way with the
   level range, and no game when every version of the group meets it there the
-  same way. No odds, time of day or weather. The ways are coarse (walking
-  covers grass, caves and buildings; shaking spots cover rustling grass, dust
-  clouds and rippling water; raid dens take their levels from the star ranks).
+  same way, and a short condition where it only shows at some times of day,
+  seasons or weather ("Night", "Winter", "In rain"); no odds. The ways
+  follow the games' own terms (tall grass, ground for sand, snow and marsh,
+  cave, indoors, overworld for the games with visible spawns, then surfing,
+  fishing and the rest); shaking spots cover rustling grass, dust clouds and
+  rippling water; raid dens take their levels from the star ranks.
   Source: Bulbapedia's location pages for the rows and its walkthroughs for
   the story order (Scarlet / Violet's and Legends: Arceus's stop partway and
   the expansions have none, so those tails and Kitakami, Blueberry Academy and

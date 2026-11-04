@@ -1,7 +1,8 @@
 -- ============================================================================
 -- Table: reference.pokemon_encounters
 -- Where each Pokémon is met: one row per form, place, game and way, with the
--- levels it comes at. A row with no game holds for every version of its
+-- levels it comes at and, when it only shows some of the time, the
+-- condition. A row with no game holds for every version of its
 -- group; a version exclusive names its game.
 -- ============================================================================
 CREATE TABLE reference.pokemon_encounters (
@@ -14,11 +15,13 @@ CREATE TABLE reference.pokemon_encounters (
     encounter_way_id integer NOT NULL REFERENCES reference.encounter_ways (id) ON UPDATE CASCADE ON DELETE RESTRICT,
     level_min integer,
     level_max integer,
+    condition text,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT pokemon_encounters_id_positive_check CHECK (id > 0),
     CONSTRAINT pokemon_encounters_form_fkey FOREIGN KEY (species_id, form_id) REFERENCES reference.pokemon_forms (species_id, id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT pokemon_encounters_place_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT pokemon_encounters_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT pokemon_encounters_condition_length_check CHECK (condition IS NULL OR CHAR_LENGTH(BTRIM(condition)) BETWEEN 1 AND 120),
     CONSTRAINT pokemon_encounters_levels_check CHECK ((level_min IS NULL AND level_max IS NULL) OR (level_min BETWEEN 1 AND 100 AND level_max BETWEEN level_min AND 100))
 );
 
@@ -39,5 +42,7 @@ COMMENT ON TABLE reference.pokemon_encounters IS 'Where each Pokémon is met, on
 COMMENT ON COLUMN reference.pokemon_encounters.id IS 'Generated surrogate key; seed files omit it and rely on the natural uniqueness indexes.';
 
 COMMENT ON COLUMN reference.pokemon_encounters.game_id IS 'NULL when every version of the group meets it there the same way; set for a version exclusive or a version-specific level range.';
+
+COMMENT ON COLUMN reference.pokemon_encounters.condition IS 'When it shows, where that is only some of the time: a time of day (Night), a season (Winter) or weather (In rain); NULL when it is always there.';
 
 COMMENT ON COLUMN reference.pokemon_encounters.level_min IS 'The lowest level it comes at there; NULL with level_max for an in-game trade whose level follows the Pokémon given, or a fixed encounter whose level the source leaves unsaid.';
