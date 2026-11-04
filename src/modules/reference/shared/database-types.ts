@@ -4,6 +4,7 @@ export type Ability = ReferenceRow<"abilities">;
 export type AbilityAttribute = ReferenceRow<"ability_attributes">;
 export type AvailabilityMethod = ReferenceRow<"availability_methods">;
 export type EggGroup = ReferenceRow<"egg_groups">;
+export type EncounterWay = ReferenceRow<"encounter_ways">;
 
 export type GrowthRate = ReferenceRow<"growth_rates">;
 export type EvolutionMethod = ReferenceRow<"evolution_methods">;
@@ -12,6 +13,8 @@ export type GamePlatform = ReferenceRow<"game_platforms">;
 export type GameType = ReferenceRow<"game_types">;
 export type Generation = ReferenceRow<"generations">;
 export type LearnMethod = ReferenceRow<"learn_methods">;
+export type Location = ReferenceRow<"locations">;
+export type LocationVersionGroup = ReferenceRow<"location_version_groups">;
 export type Move = ReferenceRow<"moves">;
 export type MoveAttribute = ReferenceRow<"move_attributes">;
 export type MoveVersionGroupAttribute =
@@ -26,6 +29,7 @@ export type PokemonAttributes = ReferenceRow<"pokemon_attributes">;
 export type PokemonTrainingAttributes =
   ReferenceRow<"pokemon_training_attributes">;
 export type PokemonAvailability = ReferenceRow<"pokemon_availability">;
+export type PokemonEncounter = ReferenceRow<"pokemon_encounters">;
 export type PokemonEvolutionEdge = ReferenceRow<"pokemon_evolution_edges">;
 export type PokemonForm = ReferenceRow<"pokemon_forms">;
 export type PokemonSpecies = ReferenceRow<"pokemon_species">;

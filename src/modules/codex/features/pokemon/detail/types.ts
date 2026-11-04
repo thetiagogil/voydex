@@ -1,6 +1,7 @@
 import type {
   Game,
   PokemonAvailabilitySummary,
+  PokemonEncounterSummary,
   PokemonGenerationDetail,
   PokemonGenerationFormSummary,
   PokemonLearnsetSummary,
@@ -46,6 +47,8 @@ export type ResolvedPokemonDetailScope = {
    */
   generationAvailability: {
     availability: PokemonAvailabilitySummary[];
+    /* Where the form is met in the group and its expansions, in story order. */
+    encounters: PokemonEncounterSummary[];
     versionGroup: PokemonDetailVersionGroupScope;
   }[];
   generationForms: PokemonDetailGenerationForm[];

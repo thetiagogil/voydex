@@ -4,8 +4,11 @@ import type {
   Ability,
   AbilityAttribute,
   EggGroup,
+  EncounterWay,
   EvolutionMethod,
   GrowthRate,
+  Location,
+  LocationVersionGroup,
   Pokedex,
   PokemonAttributes,
   PokemonEvolutionEdge,
@@ -17,6 +20,8 @@ import type {
 type PokemonDetailRelatedRowsParams = {
   attributes: PokemonAttributes[];
   familySpeciesIds: number[];
+  /* The places the species is met in, from its encounter rows. */
+  locationIds: number[];
   pokedexIds: number[];
   speciesId: number;
   supabase: ServerSupabaseClient;
@@ -33,11 +38,15 @@ export type PokemonDetailRelatedRows = {
   abilities: Ability[];
   abilityAttributes: AbilityAttribute[];
   eggGroups: EggGroup[];
+  encounterWays: EncounterWay[];
   evolutionEdges: PokemonEvolutionEdge[];
   familyAttributes: PokemonAttributes[];
   familyAvailability: PokemonFamilyAvailabilityRow[];
   familyForms: PokemonForm[];
   growthRates: GrowthRate[];
+  /* The species' places, and where each falls in its groups' stories. */
+  locationPlacements: LocationVersionGroup[];
+  locations: Location[];
   pokedexes: Pokedex[];
   pokedexTexts: PokemonPokedexText[];
   /* The species' training values, every form and every change. */
@@ -74,6 +83,7 @@ const getPokemonEggGroupIds = (attributes: PokemonAttributes[]) => {
 export const loadPokemonDetailRelatedRows = async ({
   attributes,
   familySpeciesIds,
+  locationIds,
   pokedexIds,
   speciesId,
   supabase,
@@ -92,6 +102,9 @@ export const loadPokemonDetailRelatedRows = async ({
     pokedexTextsResult,
     growthRatesResult,
     trainingResult,
+    locationsResult,
+    placementsResult,
+    waysResult,
   ] = await Promise.all([
     abilityIds.length
       ? supabase
@@ -174,7 +187,32 @@ export const loadPokemonDetailRelatedRows = async ({
       .eq("species_id", speciesId)
       .order("form_id", { ascending: true })
       .order("version_group_start_id", { ascending: true }),
+    locationIds.length
+      ? supabase
+          .schema("reference")
+          .from("locations")
+          .select("*")
+          .in("id", locationIds)
+      : Promise.resolve({ data: [] as Location[], error: null }),
+    locationIds.length
+      ? supabase
+          .schema("reference")
+          .from("location_version_groups")
+          .select("*")
+          .in("location_id", locationIds)
+      : Promise.resolve({ data: [] as LocationVersionGroup[], error: null }),
+    locationIds.length
+      ? supabase
+          .schema("reference")
+          .from("encounter_ways")
+          .select("*")
+          .order("sort_order", { ascending: true })
+      : Promise.resolve({ data: [] as EncounterWay[], error: null }),
   ]);
+
+  if (locationsResult.error || placementsResult.error || waysResult.error) {
+    throw new Error("Unable to load where the Pokémon is found.");
+  }
 
   if (growthRatesResult.error || trainingResult.error) {
     throw new Error("Unable to load Pokémon training data.");
@@ -205,11 +243,14 @@ export const loadPokemonDetailRelatedRows = async ({
     abilities: abilitiesResult.data ?? [],
     abilityAttributes: abilityAttributesResult.data ?? [],
     eggGroups: eggGroupsResult.data ?? [],
+    encounterWays: waysResult.data ?? [],
     evolutionEdges: evolutionEdgesResult.data ?? [],
     familyAttributes: familyAttributesResult.data ?? [],
     familyAvailability: familyAvailabilityResult.data ?? [],
     familyForms: familyFormsResult.data ?? [],
     growthRates: growthRatesResult.data ?? [],
+    locationPlacements: placementsResult.data ?? [],
+    locations: locationsResult.data ?? [],
     pokedexes: pokedexResult.data ?? [],
     pokedexTexts: pokedexTextsResult.data ?? [],
     trainingAttributes: trainingResult.data ?? [],

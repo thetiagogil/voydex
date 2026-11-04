@@ -348,9 +348,10 @@ export const PokemonDetailShell = ({
         ) : null}
         <PokemonDetailAvailabilityCard
           rows={scope.generationAvailability.flatMap(
-            ({ availability, versionGroup }) => {
+            ({ availability, encounters, versionGroup }) => {
               return getPokemonDetailWhereToFindRows({
                 availability,
+                encounters,
                 listWhenAbsent: scope.generationAvailability.some(
                   (group) => group.availability.length > 0,
                 ),

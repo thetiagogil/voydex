@@ -28,8 +28,8 @@ sources remain authoritative for game-specific mechanics and availability.
 - Base content scopes seed base facts. Child/DLC scopes seed additions,
   evidence-backed overrides, or removals.
 - Availability distinguishes game/version group, content scope, method, and
-  useful condition summary without pretending that full location/story-gate
-  data exists.
+  useful condition summary; places and encounters live in their own tables
+  (below), story gates do not exist yet.
 - Learnsets preserve game/version context, method, level, machine, and source
   item where applicable.
 - Legendary and mythical level-up and TM/HM/TR rows (every game) and tutor rows
@@ -292,6 +292,26 @@ sources remain authoritative for game-specific mechanics and availability.
   Pokémon that came through an Ultra Wormhole into its Kantonian form, and
   Legends: Z-A has its own Kleavor, Runerigus and Overqwil rows. Alcremie's
   nine creams and roaming Gimmighoul have their own edges.
+- Places and encounters (`reference.locations`, `location_version_groups`,
+  `encounter_ways`, `pokemon_encounters`): one place per real location across
+  the games that share it, named as the game names it (Route 1); each version
+  group lists its places in the order the story reaches them (an expansion
+  orders its own); one encounter row per form, place, game and way with the
+  level range, and no game when every version of the group meets it there the
+  same way, and a short condition where it only shows at some times of day,
+  seasons or weather ("Night", "Winter", "In rain"); no odds. The ways
+  follow the games' own terms (tall grass, ground for sand, snow and marsh,
+  cave, indoors, overworld for the games with visible spawns, then surfing,
+  fishing and the rest); shaking spots cover rustling grass, dust clouds and
+  rippling water; raid dens take their levels from the star ranks.
+  Source: Bulbapedia's location pages for the rows and its walkthroughs for
+  the story order (Scarlet / Violet's and Legends: Arceus's stop partway and
+  the expansions have none, so those tails and Kitakami, Blueberry Academy and
+  the Mega Dimension are ordered by hand; Hisui's sub-areas follow the region
+  pages); PokeAPI's encounter tables (Generation I to Sword / Shield) as the
+  cross-check and the fill for the gifts, fixed encounters, in-game trades and
+  honey trees Bulbapedia keeps on other pages. SOS-only allies, Max Lair
+  Pokémon and sub-areas Bulbapedia folds into a city page are not rows.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega
@@ -373,7 +393,8 @@ large expected rowsets or per-game fingerprints.
 
 These are deliberate future domains, not defects in the current app contract:
 
-- Full locations, encounters, and story-gate availability.
+- Story-gate availability: which milestone opens each place (the places and
+  encounters themselves are seeded).
 - Platform/rerelease-specific availability changes.
 - Richer breeding/training facts such as hatch cycles and catch rate.
 - HOME/living-dex workflows and non-mainline product-family reference models.

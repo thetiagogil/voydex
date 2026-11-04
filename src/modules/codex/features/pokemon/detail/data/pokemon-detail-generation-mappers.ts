@@ -6,6 +6,7 @@ import type {
   Generation,
   PokemonAttributes,
   PokemonAvailabilitySummary,
+  PokemonEncounterSummary,
   PokemonFormSummary,
   PokemonGenerationDetail,
   PokemonLearnsetSummary,
@@ -17,6 +18,7 @@ import type {
 
 type PokemonGenerationDetailsParams = {
   availability: PokemonAvailabilitySummary[];
+  encounters: PokemonEncounterSummary[];
   battleForms: BattleFormLink[];
   forms: PokemonFormSummary[];
   games: Game[];
@@ -109,6 +111,7 @@ const sortGamesByVersionGroupAndSortOrder = (
 export const buildPokemonGenerationDetails = ({
   availability,
   battleForms,
+  encounters,
   forms,
   games,
   generations,
@@ -158,6 +161,12 @@ export const buildPokemonGenerationDetails = ({
 
         return versionGroup?.generation_id === generation.id;
       });
+      const generationEncounters = encounters.filter((row) => {
+        return (
+          versionGroupById.get(row.versionGroup.id)?.generation_id ===
+          generation.id
+        );
+      });
       const generationLearnsets = learnsets.filter((row) => {
         const versionGroup = row.targetVersionGroup
           ? versionGroupById.get(row.targetVersionGroup.id)
@@ -191,6 +200,7 @@ export const buildPokemonGenerationDetails = ({
         battleForms: battleForms.filter((link) =>
           generationForms.some((form) => form.form.id === link.formId),
         ),
+        encounters: generationEncounters,
         forms: generationForms,
         games: sortGamesByVersionGroupAndSortOrder(
           generationGames,

@@ -4,6 +4,7 @@ import {
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-scope-defaults";
 import {
   getFormAvailabilityInVersionGroup,
+  getFormEncountersInVersionGroup,
   getRowsForm,
   getScopedAvailability,
   getScopedForms,
@@ -124,6 +125,11 @@ export const resolvePokemonDetailScope = (
                 scope,
                 rowsFormIn(scope),
               ),
+        encounters: getFormEncountersInVersionGroup(
+          generation,
+          scope,
+          rowsFormIn(scope),
+        ),
         versionGroup: scope,
       })),
       generationForms: getGenerationForms(generation, versionGroups, {

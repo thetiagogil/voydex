@@ -51,6 +51,7 @@ import {
   assertVersionGroupRows,
 } from "./rules/games.mjs";
 import { assertItemRows } from "./rules/items.mjs";
+import { assertLocationRows } from "./rules/locations.mjs";
 import {
   assertBattleMoveSourceRows,
   assertMoveAttributeRows,
@@ -233,6 +234,7 @@ export function runSeedAudit() {
     assertPokemonAttributeRows(context, tableRows);
     assertPokemonPokedexTextRows(context, tableRows);
     assertPokemonTrainingAttributeRows(context, tableRows);
+    assertLocationRows(context, tableRows);
     assertTrackingCoreRows(context, tableRows);
     assertOpponentTeamRows(context, tableRows);
     assertTerminalStatuses(

@@ -10,6 +10,7 @@ import type {
   LearnMethod,
   PokedexEntry,
   PokemonAttributes,
+  PokemonEncounter,
   PokemonForm,
   PokemonSpecies,
   ResolvedPokemonAvailability,
@@ -32,11 +33,49 @@ export type PokemonDetailSpeciesRows = {
   attributes: PokemonAttributes[];
   battleFormLinks: BattleFormLink[];
   availabilityRows: ResolvedPokemonAvailability[];
+  /* Where the species' forms are met, every game. */
+  encounterRows: PokemonEncounter[];
   familySpecies: PokemonSpecies[];
   formClassById: Map<number, FormClass>;
   forms: PokemonForm[];
   learnsetRows: Awaited<ReturnType<typeof loadPokemonDetailLearnsetRows>>;
   pokedexEntries: PokedexEntry[];
+};
+
+const POKEMON_DETAIL_ENCOUNTER_PAGE_SIZE = 1000;
+
+/* Every place the species is met, paged past the API's row cap (Magikarp has hundreds). */
+const loadPokemonDetailEncounterRows = async (
+  supabase: ServerSupabaseClient,
+  speciesId: number,
+): Promise<PokemonEncounter[]> => {
+  const rows: PokemonEncounter[] = [];
+  let from = 0;
+
+  while (true) {
+    const to = from + POKEMON_DETAIL_ENCOUNTER_PAGE_SIZE - 1;
+    const result = await supabase
+      .schema("reference")
+      .from("pokemon_encounters")
+      .select("*")
+      .eq("species_id", speciesId)
+      .order("id", { ascending: true })
+      .range(from, to);
+
+    if (result.error) {
+      throw new Error("Unable to load where the Pokémon is found.");
+    }
+
+    const pageRows = result.data ?? [];
+
+    rows.push(...pageRows);
+
+    if (pageRows.length < POKEMON_DETAIL_ENCOUNTER_PAGE_SIZE) {
+      return rows;
+    }
+
+    from += POKEMON_DETAIL_ENCOUNTER_PAGE_SIZE;
+  }
 };
 
 export const loadPokemonDetailBaseRows = async (
@@ -131,6 +170,7 @@ export const loadPokemonDetailSpeciesRows = async (
     formsResult,
     attributesResult,
     availabilityResult,
+    encounterRows,
     learnsetRows,
     pokedexEntriesResult,
     familySpeciesResult,
@@ -155,6 +195,7 @@ export const loadPokemonDetailSpeciesRows = async (
       .select("*")
       .eq("species_id", species.id)
       .order("target_version_group_id", { ascending: true }),
+    loadPokemonDetailEncounterRows(supabase, species.id),
     loadPokemonDetailLearnsetRows(supabase, species.id),
     supabase
       .schema("reference")
@@ -189,6 +230,7 @@ export const loadPokemonDetailSpeciesRows = async (
     attributes: attributesResult.data ?? [],
     battleFormLinks,
     availabilityRows: availabilityResult.data ?? [],
+    encounterRows,
     familySpecies: familySpeciesResult.data?.length
       ? familySpeciesResult.data
       : [species],

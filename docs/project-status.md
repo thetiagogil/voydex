@@ -121,7 +121,8 @@ finds all 11). Grouped by what they wait on:
   Play defaults are saved (#33), and Search and filters (#65).
 - `planning.mainline_team_plans`: a version preference.
 - A reviewed account deletion.
-- Reference catalogue: route and encounter locations.
+- Add Pokémon: suggestions from the places around you (the places are
+  seeded; which milestone opens each is next).
 - Reference Pokémon facts: egg groups for forms.
 - Legal text for Privacy and Terms, written and reviewed before launch.
 

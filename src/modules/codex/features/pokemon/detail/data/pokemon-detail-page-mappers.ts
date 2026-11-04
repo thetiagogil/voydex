@@ -7,6 +7,7 @@ import { buildPokemonGenerationDetails } from "@/modules/codex/features/pokemon/
 import { buildPokemonLearnsetSummaries } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-learnset-mappers";
 import {
   buildPokemonAvailabilitySummaries,
+  buildPokemonEncounterSummaries,
   buildPokemonPokedexSummaries,
 } from "@/modules/codex/features/pokemon/detail/data/pokemon-detail-summary-mappers";
 import type {
@@ -63,6 +64,14 @@ export const buildPokemonDetailData = ({
     typeById,
     versionGroups: baseRows.versionGroups,
   });
+  const encounters = buildPokemonEncounterSummaries({
+    encounterRows: speciesRows.encounterRows,
+    games: baseRows.games,
+    locationPlacements: relatedRows.locationPlacements,
+    locations: relatedRows.locations,
+    versionGroups: baseRows.versionGroups,
+    ways: relatedRows.encounterWays,
+  });
   const pokedexEntries = buildPokemonPokedexSummaries({
     entries: speciesRows.pokedexEntries,
     pokedexes: relatedRows.pokedexes,
@@ -72,6 +81,7 @@ export const buildPokemonDetailData = ({
     abilityAttributes: relatedRows.abilityAttributes,
     availability,
     defaultForm: null,
+    encounters,
     versionGroups: baseRows.versionGroups,
     eggGroups: relatedRows.eggGroups,
     growthRates: relatedRows.growthRates,
@@ -93,6 +103,7 @@ export const buildPokemonDetailData = ({
     generationDetails: buildPokemonGenerationDetails({
       availability,
       battleForms: speciesRows.battleFormLinks,
+      encounters,
       forms,
       games: baseRows.games,
       generations: baseRows.generations,
