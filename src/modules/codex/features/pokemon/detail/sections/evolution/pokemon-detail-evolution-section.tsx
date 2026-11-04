@@ -24,7 +24,8 @@ import { AppIcon, appIcons } from "@/shared/components/app-icon";
 
 type PokemonDetailEvolutionSectionProps = PokemonDetailEvolutionLinkScope & {
   activeGenerationSortOrder: number;
-  activeVersionGroupId: number | null;
+  /* The open version group and its expansions. */
+  activeVersionGroupIds: number[];
   family: PokemonEvolutionFamilySummary;
 };
 
@@ -132,14 +133,14 @@ export const PokemonDetailEvolutionSection = ({
   activeFormId,
   activeGenerationSortOrder,
   activeSpeciesId,
-  activeVersionGroupId,
+  activeVersionGroupIds,
   activeVersionGroupSlug,
   family,
 }: PokemonDetailEvolutionSectionProps) => {
   const scopedEdges = getPokemonDetailScopedEvolutionEdges({
     activeFormId,
     activeSpeciesId,
-    activeVersionGroupId,
+    activeVersionGroupIds,
     family,
     generationSortOrder: activeGenerationSortOrder,
   });

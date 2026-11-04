@@ -5,6 +5,8 @@
 -- Primary: Bulbapedia evolution method and Pokémon species pages.
 -- Cross-check: Serebii evolution pages and PokemonDB evolution chains.
 -- Machine-readable sanity: PokeAPI evolution-chain detail fields.
+-- Per game: each game's own evolution data (checked 2026-11-03); rows a
+-- game lacks are scoped to the version groups that have them.
 -- Scope note: official core-series Pokémon evolution edges through Generation IX.
 -- ============================================================================
 -- File Scope
@@ -127,6 +129,18 @@ VALUES
   -- Poltchageist -> Sinistcha
   (1012, 101200, 1013, 101300, NULL, 9, 2, NULL, 113, NULL, NULL, NULL, NULL, NULL, NULL, 'use Unremarkable Teacup', '{"source_trigger":"use-item","item":"unremarkable-teacup"}', 575),
   -- Poltchageist (Artisan) -> Sinistcha (Masterpiece)
-  (1012, 101201, 1013, 101301, NULL, 9, 2, NULL, 114, NULL, NULL, NULL, NULL, NULL, NULL, 'use Masterpiece Teacup', '{"source_trigger":"use-item","item":"masterpiece-teacup"}', 576);
+  (1012, 101201, 1013, 101301, NULL, 9, 2, NULL, 114, NULL, NULL, NULL, NULL, NULL, NULL, 'use Masterpiece Teacup', '{"source_trigger":"use-item","item":"masterpiece-teacup"}', 576),
+  -- Cosmoem -> Solgaleo
+  (790, 79000, 791, 79100, NULL, 9, 1, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 53 in Scarlet', '{"source_trigger":"level-up","version":"scarlet"}', 628),
+  -- Cosmoem -> Lunala
+  (790, 79000, 792, 79200, NULL, 9, 1, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 53 in Violet', '{"source_trigger":"level-up","version":"violet"}', 629),
+  -- Gimmighoul (Roaming) -> Gholdengo
+  (999, 99901, 1000, 100000, NULL, 9, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'level up with 999 Gimmighoul Coins', '{"source_trigger":"level-up","currency":"gimmighoul-coin","min_count":999}', 630),
+  -- Scyther -> Kleavor (Legends: Z-A)
+  (123, 12300, 900, 90000, 26, 9, 2, NULL, 106, NULL, NULL, NULL, NULL, NULL, NULL, 'use Black Augurite', '{"source_trigger":"use-item","item":"black-augurite"}', 631),
+  -- Galarian Yamask -> Runerigus (Legends: Z-A)
+  (562, 56201, 867, 86700, 26, 9, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Coulant Waterway', 'after taking 49+ damage without fainting, then passing under a bridge above the Coulant Waterway', '{"source_trigger":"take-damage","min_damage_taken":49,"location":"coulant-waterway"}', 632),
+  -- Hisuian Qwilfish -> Overqwil (Legends: Z-A)
+  (211, 21101, 904, 90400, 26, 9, 9, NULL, NULL, NULL, 839, NULL, NULL, NULL, NULL, 'land 20 hits with Barb Barrage', '{"source_trigger":"move-hits","used_move":"barb-barrage","min_hit_count":20}', 633);
 
 -- ============================================================================

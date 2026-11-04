@@ -5,6 +5,8 @@
 -- Primary: Bulbapedia evolution method and Pokémon species pages.
 -- Cross-check: Serebii evolution pages and PokemonDB evolution chains.
 -- Machine-readable sanity: PokeAPI evolution-chain detail fields.
+-- Per game: each game's own evolution data (checked 2026-11-03); rows a
+-- game lacks are scoped to the version groups that have them.
 -- Scope note: official core-series Pokémon evolution edges through Generation IX.
 -- ============================================================================
 -- File Scope
@@ -16,22 +18,22 @@
 
 INSERT INTO reference.pokemon_evolution_edges (from_species_id, from_form_id, to_species_id, to_form_id, version_group_id, introduced_generation_id, evolution_method_id, minimum_level, item_id, held_item_id, known_move_id, known_type_id, gender, time_of_day, location_label, condition_summary, condition_data, sort_order)
 VALUES
-  -- Magneton -> Magnezone
-  (82, 8200, 462, 46200, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kalos Route 13', 'at Kalos Route 13', '{"source_trigger":"level-up","location":"kalos-route-13"}', 329),
-  -- Magneton -> Magnezone
-  (82, 8200, 462, 46200, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'New Mauville', 'at New Mauville', '{"source_trigger":"level-up","location":"new-mauville"}', 330),
-  -- Eevee -> Leafeon
-  (133, 13300, 470, 47000, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kalos Route 20', 'at Kalos Route 20', '{"source_trigger":"level-up","location":"kalos-route-20"}', 331),
-  -- Eevee -> Leafeon
-  (133, 13300, 470, 47000, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Petalburg Woods', 'at Petalburg Woods', '{"source_trigger":"level-up","location":"petalburg-woods"}', 332),
-  -- Eevee -> Glaceon
-  (133, 13300, 471, 47100, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Frost Cavern', 'at Frost Cavern', '{"source_trigger":"level-up","location":"frost-cavern"}', 333),
-  -- Eevee -> Glaceon
-  (133, 13300, 471, 47100, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Shoal Cave', 'at Shoal Cave', '{"source_trigger":"level-up","location":"shoal-cave"}', 334),
-  -- Nosepass -> Probopass
-  (299, 29900, 476, 47600, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kalos Route 13', 'at Kalos Route 13', '{"source_trigger":"level-up","location":"kalos-route-13"}', 335),
-  -- Nosepass -> Probopass
-  (299, 29900, 476, 47600, NULL, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'New Mauville', 'at New Mauville', '{"source_trigger":"level-up","location":"new-mauville"}', 336),
+  -- Magneton -> Magnezone (X / Y)
+  (82, 8200, 462, 46200, 13, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kalos Route 13', 'at Kalos Route 13', '{"source_trigger":"level-up","location":"kalos-route-13"}', 329),
+  -- Magneton -> Magnezone (Omega Ruby / Alpha Sapphire)
+  (82, 8200, 462, 46200, 14, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'New Mauville', 'at New Mauville', '{"source_trigger":"level-up","location":"new-mauville"}', 330),
+  -- Eevee -> Leafeon (X / Y)
+  (133, 13300, 470, 47000, 13, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kalos Route 20', 'at Kalos Route 20', '{"source_trigger":"level-up","location":"kalos-route-20"}', 331),
+  -- Eevee -> Leafeon (Omega Ruby / Alpha Sapphire)
+  (133, 13300, 470, 47000, 14, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Petalburg Woods', 'at Petalburg Woods', '{"source_trigger":"level-up","location":"petalburg-woods"}', 332),
+  -- Eevee -> Glaceon (X / Y)
+  (133, 13300, 471, 47100, 13, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Frost Cavern', 'at Frost Cavern', '{"source_trigger":"level-up","location":"frost-cavern"}', 333),
+  -- Eevee -> Glaceon (Omega Ruby / Alpha Sapphire)
+  (133, 13300, 471, 47100, 14, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Shoal Cave', 'at Shoal Cave', '{"source_trigger":"level-up","location":"shoal-cave"}', 334),
+  -- Nosepass -> Probopass (X / Y)
+  (299, 29900, 476, 47600, 13, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Kalos Route 13', 'at Kalos Route 13', '{"source_trigger":"level-up","location":"kalos-route-13"}', 335),
+  -- Nosepass -> Probopass (Omega Ruby / Alpha Sapphire)
+  (299, 29900, 476, 47600, 14, 6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'New Mauville', 'at New Mauville', '{"source_trigger":"level-up","location":"new-mauville"}', 336),
   -- Eevee -> Sylveon
   (133, 13300, 700, 70000, NULL, 6, 4, NULL, NULL, NULL, NULL, 18, NULL, NULL, NULL, 'affection 2+; knows a Fairy-type move', '{"source_trigger":"level-up","known_move_type":"fairy","min_affection":2}', 337),
   -- Chespin -> Quilladin

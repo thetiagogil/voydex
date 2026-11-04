@@ -590,9 +590,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     "move-known",
     "special-condition",
   ]);
-  if (edgeRows.length !== 591) {
+  if (edgeRows.length !== 636) {
     context.errors.push(
-      `reference.pokemon_evolution_edges: expected 591 curated evolution edge rows, got ${edgeRows.length}.`,
+      `reference.pokemon_evolution_edges: expected 636 curated evolution edge rows, got ${edgeRows.length}.`,
     );
   }
   assertContiguousSortOrder(
@@ -1353,6 +1353,21 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       null,
       "Mt. Coronet",
       { location: "mt-coronet" },
+      "dp",
+    ],
+    [
+      "magneton",
+      "magnezone",
+      "location",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Mt. Coronet",
+      { location: "mt-coronet" },
+      "platinum",
     ],
     ["lickitung", "lickilicky", "move-known", null, null, null, "rollout"],
     ["rhydon", "rhyperior", "trade", null, null, "protector"],
@@ -1371,6 +1386,21 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       null,
       "Eterna Forest",
       { location: "eterna-forest" },
+      "dp",
+    ],
+    [
+      "eevee",
+      "leafeon",
+      "location",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Eterna Forest",
+      { location: "eterna-forest" },
+      "platinum",
     ],
     [
       "eevee",
@@ -1384,6 +1414,21 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       null,
       "Sinnoh Route 217",
       { location: "sinnoh-route-217" },
+      "dp",
+    ],
+    [
+      "eevee",
+      "glaceon",
+      "location",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Sinnoh Route 217",
+      { location: "sinnoh-route-217" },
+      "platinum",
     ],
     ["togetic", "togekiss", "item", null, "shiny-stone"],
     ["aipom", "ambipom", "move-known", null, null, null, "double-hit"],
@@ -1431,6 +1476,21 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       null,
       "Mt. Coronet",
       { location: "mt-coronet" },
+      "dp",
+    ],
+    [
+      "nosepass",
+      "probopass",
+      "location",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "Mt. Coronet",
+      { location: "mt-coronet" },
+      "platinum",
     ],
     ["roselia", "roserade", "item", null, "shiny-stone"],
     ["dusclops", "dusknoir", "trade", null, null, "reaper-cloth"],
@@ -1599,6 +1659,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       timeOfDay,
       locationLabel,
       conditionData,
+      versionGroupSlug,
     ]) => ({
       fromForm,
       toForm,
@@ -1611,6 +1672,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       timeOfDay,
       locationLabel,
       conditionData,
+      versionGroupSlug,
     }),
   );
   const gen4EdgeRows = edgeRows
@@ -1706,6 +1768,19 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       null,
       null,
       { held_item: "prism-scale" },
+    ],
+    [
+      "feebas",
+      "milotic",
+      "level-up",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      { min_beauty: 170 },
     ],
     ["snivy", "servine", "level-up", 17],
     ["servine", "serperior", "level-up", 36],
@@ -1895,6 +1970,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Kalos Route 13",
       conditionData: { location: "kalos-route-13" },
+      versionGroupSlug: "xy",
     },
     {
       fromForm: "magneton",
@@ -1903,6 +1979,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "New Mauville",
       conditionData: { location: "new-mauville" },
+      versionGroupSlug: "oras",
     },
     {
       fromForm: "eevee",
@@ -1911,6 +1988,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Kalos Route 20",
       conditionData: { location: "kalos-route-20" },
+      versionGroupSlug: "xy",
     },
     {
       fromForm: "eevee",
@@ -1919,6 +1997,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Petalburg Woods",
       conditionData: { location: "petalburg-woods" },
+      versionGroupSlug: "oras",
     },
     {
       fromForm: "eevee",
@@ -1927,6 +2006,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Frost Cavern",
       conditionData: { location: "frost-cavern" },
+      versionGroupSlug: "xy",
     },
     {
       fromForm: "eevee",
@@ -1935,6 +2015,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Shoal Cave",
       conditionData: { location: "shoal-cave" },
+      versionGroupSlug: "oras",
     },
     {
       fromForm: "nosepass",
@@ -1943,6 +2024,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Kalos Route 13",
       conditionData: { location: "kalos-route-13" },
+      versionGroupSlug: "xy",
     },
     {
       fromForm: "nosepass",
@@ -1951,6 +2033,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "New Mauville",
       conditionData: { location: "new-mauville" },
+      versionGroupSlug: "oras",
     },
     {
       fromForm: "eevee",
@@ -2296,6 +2379,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Blush Mountain",
       conditionData: { location: "blush-mountain" },
+      versionGroupSlug: "usum",
     },
     {
       fromForm: "magneton",
@@ -2328,6 +2412,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Blush Mountain",
       conditionData: { location: "blush-mountain" },
+      versionGroupSlug: "usum",
     },
     {
       fromForm: "nosepass",
@@ -2511,6 +2596,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       locationLabel: "Blush Mountain",
       conditionData: { location: "blush-mountain" },
+      versionGroupSlug: "usum",
     },
     {
       fromForm: "charjabug",
@@ -2673,6 +2759,66 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       minimumLevel: null,
       knownMoveSlug: "dragon-pulse",
     },
+    {
+      fromForm: "alolan-meowth",
+      toForm: "alolan-persian",
+      methodSlug: "level-up",
+      minimumLevel: 28,
+      versionGroupSlug: "lgpe",
+    },
+    {
+      fromForm: "pikachu",
+      toForm: "raichu",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "thunder-stone",
+      conditionData: { origin: "ultra-wormhole" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "exeggcute",
+      toForm: "exeggutor",
+      methodSlug: "item",
+      minimumLevel: null,
+      itemSlug: "leaf-stone",
+      conditionData: { origin: "ultra-wormhole" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "cubone",
+      toForm: "marowak",
+      methodSlug: "level-up",
+      minimumLevel: 28,
+      conditionData: { origin: "ultra-wormhole" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "magneton",
+      toForm: "magnezone",
+      methodSlug: "location",
+      minimumLevel: null,
+      locationLabel: "Vast Poni Canyon",
+      conditionData: { location: "vast-poni-canyon" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "nosepass",
+      toForm: "probopass",
+      methodSlug: "location",
+      minimumLevel: null,
+      locationLabel: "Vast Poni Canyon",
+      conditionData: { location: "vast-poni-canyon" },
+      versionGroupSlug: "usum",
+    },
+    {
+      fromForm: "charjabug",
+      toForm: "vikavolt",
+      methodSlug: "location",
+      minimumLevel: null,
+      locationLabel: "Vast Poni Canyon",
+      conditionData: { location: "vast-poni-canyon" },
+      versionGroupSlug: "usum",
+    },
   ];
   const gen7EdgeRows = edgeRows
     .map(({ row }) => row)
@@ -2705,9 +2851,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
   const gen8EdgeRows = edgeRows
     .map(({ row }) => row)
     .filter((row) => row.introduced_generation_id === 8);
-  if (gen8EdgeRows.length !== 93) {
+  if (gen8EdgeRows.length !== 120) {
     context.errors.push(
-      `reference.pokemon_evolution_edges: expected 93 source-verified Generation VIII evolution rows, got ${gen8EdgeRows.length}.`,
+      `reference.pokemon_evolution_edges: expected 120 source-verified Generation VIII evolution rows, got ${gen8EdgeRows.length}.`,
     );
   }
   const gen8SeedFile = path.join(
@@ -2731,7 +2877,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     .digest("hex");
   if (
     gen8SeedFingerprint !==
-    "0e60111d8ec4d70fb9a9d00ce39944412da4d8c18123eeaba7996035f4dc2e2e"
+    "e414638d509739a76d8f91dd73c02a8434c10f867d13e7f3bf425c9e6a10ebc5"
   ) {
     context.errors.push(
       `reference.pokemon_evolution_edges: Generation VIII source-verified rowset fingerprint changed (${gen8SeedFingerprint}).`,
@@ -2740,9 +2886,9 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
   const gen9EdgeRows = edgeRows
     .map(({ row }) => row)
     .filter((row) => row.introduced_generation_id === 9);
-  if (gen9EdgeRows.length !== 56) {
+  if (gen9EdgeRows.length !== 62) {
     context.errors.push(
-      `reference.pokemon_evolution_edges: expected 56 source-verified Generation IX evolution rows, got ${gen9EdgeRows.length}.`,
+      `reference.pokemon_evolution_edges: expected 62 source-verified Generation IX evolution rows, got ${gen9EdgeRows.length}.`,
     );
   }
   const gen9SeedFile = path.join(
@@ -2766,7 +2912,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
     .digest("hex");
   if (
     gen9SeedFingerprint !==
-    "de997a4fcd8ddeeaf569e7bf21ce98dc41f92460b08028cb79e966e69b27f4b0"
+    "2c593fd8ac9bd63528d02543c3dd8a90e7efbffb2952840e5c332672607c851e"
   ) {
     context.errors.push(
       `reference.pokemon_evolution_edges: Generation IX source-verified rowset fingerprint changed (${gen9SeedFingerprint}).`,

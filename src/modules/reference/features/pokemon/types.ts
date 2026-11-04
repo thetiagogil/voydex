@@ -171,7 +171,15 @@ export type PokemonEvolutionEdgeSummary = {
   toSpecies: PokemonSpecies | null;
 };
 
+/* A family member a version group hands out: one form, or the species when formId is null. */
+export type PokemonEvolutionAvailability = {
+  formId: number | null;
+  speciesId: number;
+  versionGroupId: number;
+};
+
 export type PokemonEvolutionFamilySummary = {
+  availability: PokemonEvolutionAvailability[];
   edges: PokemonEvolutionEdgeSummary[];
   species: PokemonEvolutionSpeciesSummary[];
 };
