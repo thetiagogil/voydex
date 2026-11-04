@@ -79,17 +79,17 @@ INSERT INTO tracking.mainline_opponents (
   -- Silver (rival)
   (4023, 4, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', NULL, 23),
   -- Raikou (boss)
-  (4024, 4, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 24),
+  (4024, 4, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 24),
   -- Entei (boss)
-  (4025, 4, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 25),
+  (4025, 4, NULL, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 25),
   -- Suicune (boss)
-  (4026, 4, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 26),
+  (4026, 4, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 26),
   -- Ho-Oh (boss)
-  (4027, 4, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 27),
+  (4027, 4, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 27),
   -- Lugia (boss)
-  (4028, 4, NULL, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 28),
+  (4028, 4, NULL, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 28),
   -- Celebi (boss)
-  (4029, 4, NULL, 'celebi', 'Celebi', 'boss', 11, 5, 'celebi', NULL, 29),
+  (4029, 4, NULL, 'celebi', 'Celebi', 'boss', 11, 5, NULL, NULL, 29),
   -- Petrel (boss; Team Rocket Executive)
   (4030, 4, NULL, 'petrel', 'Petrel', 'boss', NULL, NULL, 'petrel', NULL, 30),
   -- Ariana (boss; Team Rocket Executive)

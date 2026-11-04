@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Fantina
   (21005, 21, NULL, 'fantina', 'Fantina', 'gym-leader', 14, NULL, 'fantina', 'Hearthome City', 5),
   -- Byron
-  (21006, 21, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 'Canalave City', 6),
+  (21006, 21, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, NULL, 'Canalave City', 6),
   -- Candice
   (21007, 21, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 'Snowpoint City', 7),
   -- Volkner
@@ -54,57 +54,57 @@ INSERT INTO tracking.mainline_opponents (
   -- Cyrus (boss)
   (21015, 21, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', NULL, 15),
   -- Dialga (boss, brilliant-diamond)
-  (21016, 21, 33, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', NULL, 1),
+  (21016, 21, 33, 'dialga', 'Dialga', 'boss', 17, 15, NULL, NULL, 1),
   -- Palkia (boss, shining-pearl)
-  (21017, 21, 34, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', NULL, 1),
+  (21017, 21, 34, 'palkia', 'Palkia', 'boss', 3, 15, NULL, NULL, 1),
   -- Uxie (boss)
-  (21018, 21, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 16),
+  (21018, 21, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, NULL, NULL, 16),
   -- Azelf (boss)
-  (21019, 21, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 17),
+  (21019, 21, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, NULL, NULL, 17),
   -- Mesprit (boss)
-  (21020, 21, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 18),
+  (21020, 21, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, NULL, NULL, 18),
   -- Giratina (boss)
-  (21021, 21, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', NULL, 19),
+  (21021, 21, NULL, 'giratina', 'Giratina', 'boss', 14, 15, NULL, NULL, 19),
   -- Cresselia (boss)
-  (21022, 21, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 20),
+  (21022, 21, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, NULL, NULL, 20),
   -- Heatran (boss)
-  (21023, 21, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 21),
+  (21023, 21, NULL, 'heatran', 'Heatran', 'boss', 2, 17, NULL, NULL, 21),
   -- Regigigas (boss)
-  (21024, 21, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 22),
+  (21024, 21, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, NULL, NULL, 22),
   -- Regirock (boss)
-  (21025, 21, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', NULL, 23),
+  (21025, 21, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, NULL, NULL, 23),
   -- Regice (boss)
-  (21026, 21, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', NULL, 24),
+  (21026, 21, NULL, 'regice', 'Regice', 'boss', 6, NULL, NULL, NULL, 24),
   -- Registeel (boss)
-  (21027, 21, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', NULL, 25),
+  (21027, 21, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, NULL, NULL, 25),
   -- Raikou (boss, brilliant-diamond)
-  (21028, 21, 33, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 2),
+  (21028, 21, 33, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 2),
   -- Entei (boss, brilliant-diamond)
-  (21029, 21, 33, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 3),
+  (21029, 21, 33, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 3),
   -- Suicune (boss, brilliant-diamond)
-  (21030, 21, 33, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 4),
+  (21030, 21, 33, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 4),
   -- Articuno (boss, shining-pearl)
-  (21031, 21, 34, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 2),
+  (21031, 21, 34, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 2),
   -- Zapdos (boss, shining-pearl)
-  (21032, 21, 34, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 3),
+  (21032, 21, 34, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 3),
   -- Moltres (boss, shining-pearl)
-  (21033, 21, 34, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 4),
+  (21033, 21, 34, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 4),
   -- Latias (boss)
-  (21034, 21, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 26),
+  (21034, 21, NULL, 'latias', 'Latias', 'boss', 15, 11, NULL, NULL, 26),
   -- Latios (boss)
-  (21035, 21, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 27),
+  (21035, 21, NULL, 'latios', 'Latios', 'boss', 15, 11, NULL, NULL, 27),
   -- Ho-Oh (boss, brilliant-diamond)
-  (21036, 21, 33, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 5),
+  (21036, 21, 33, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 5),
   -- Lugia (boss, shining-pearl)
-  (21037, 21, 34, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 5),
+  (21037, 21, 34, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 5),
   -- Kyogre (boss)
-  (21038, 21, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 28),
+  (21038, 21, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, NULL, NULL, 28),
   -- Groudon (boss)
-  (21039, 21, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 29),
+  (21039, 21, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, NULL, NULL, 29),
   -- Rayquaza (boss)
-  (21040, 21, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 30),
+  (21040, 21, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, NULL, NULL, 30),
   -- Mewtwo (boss)
-  (21041, 21, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 31),
+  (21041, 21, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 31),
   -- Mars (boss; Team Galactic Commander)
   (21042, 21, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', NULL, 32),
   -- Jupiter (boss; Team Galactic Commander)

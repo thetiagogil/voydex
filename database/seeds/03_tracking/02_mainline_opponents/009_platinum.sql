@@ -37,7 +37,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Crasher Wake
   (9005, 9, NULL, 'crasher-wake', 'Crasher Wake', 'gym-leader', 3, NULL, 'crasher-wake', 'Pastoria City', 5),
   -- Byron
-  (9006, 9, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 'Canalave City', 6),
+  (9006, 9, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, NULL, 'Canalave City', 6),
   -- Candice
   (9007, 9, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 'Snowpoint City', 7),
   -- Volkner
@@ -57,29 +57,29 @@ INSERT INTO tracking.mainline_opponents (
   -- Cyrus (boss)
   (9015, 9, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', NULL, 15),
   -- Giratina (boss)
-  (9016, 9, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', NULL, 16),
+  (9016, 9, NULL, 'giratina', 'Giratina', 'boss', 14, 15, NULL, NULL, 16),
   -- Uxie (boss)
-  (9017, 9, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 17),
+  (9017, 9, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, NULL, NULL, 17),
   -- Azelf (boss)
-  (9018, 9, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 18),
+  (9018, 9, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, NULL, NULL, 18),
   -- Mesprit (boss)
-  (9019, 9, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 19),
+  (9019, 9, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, NULL, NULL, 19),
   -- Heatran (boss)
-  (9020, 9, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 20),
+  (9020, 9, NULL, 'heatran', 'Heatran', 'boss', 2, 17, NULL, NULL, 20),
   -- Cresselia (boss)
-  (9021, 9, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 21),
+  (9021, 9, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, NULL, NULL, 21),
   -- Regigigas (boss)
-  (9022, 9, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 22),
+  (9022, 9, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, NULL, NULL, 22),
   -- Dialga (boss)
-  (9023, 9, NULL, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', NULL, 23),
+  (9023, 9, NULL, 'dialga', 'Dialga', 'boss', 17, 15, NULL, NULL, 23),
   -- Palkia (boss)
-  (9024, 9, NULL, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', NULL, 24),
+  (9024, 9, NULL, 'palkia', 'Palkia', 'boss', 3, 15, NULL, NULL, 24),
   -- Articuno (boss)
-  (9025, 9, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 25),
+  (9025, 9, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 25),
   -- Zapdos (boss)
-  (9026, 9, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 26),
+  (9026, 9, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 26),
   -- Moltres (boss)
-  (9027, 9, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 27),
+  (9027, 9, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 27),
   -- Mars (boss; Team Galactic Commander)
   (9028, 9, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', NULL, 28),
   -- Jupiter (boss; Team Galactic Commander)

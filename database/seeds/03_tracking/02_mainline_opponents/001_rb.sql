@@ -55,10 +55,10 @@ INSERT INTO tracking.mainline_opponents (
   -- Giovanni (boss)
   (1015, 1, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', NULL, 15),
   -- Zapdos (boss)
-  (1016, 1, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 16),
+  (1016, 1, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 16),
   -- Articuno (boss)
-  (1017, 1, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 17),
+  (1017, 1, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 17),
   -- Moltres (boss)
-  (1018, 1, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 18),
+  (1018, 1, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 18),
   -- Mewtwo (boss)
-  (1019, 1, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 19);
+  (1019, 1, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 19);

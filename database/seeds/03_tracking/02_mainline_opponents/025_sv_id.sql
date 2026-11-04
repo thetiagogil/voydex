@@ -24,9 +24,9 @@ INSERT INTO tracking.mainline_opponents (
   sort_order
 ) VALUES
   -- Crispin
-  (25001, 25, NULL, 'crispin', 'Crispin', 'elite-four', 2, NULL, 'crispin', NULL, 1),
+  (25001, 25, NULL, 'crispin', 'Crispin', 'elite-four', 2, NULL, NULL, NULL, 1),
   -- Amarys
-  (25002, 25, NULL, 'amarys', 'Amarys', 'elite-four', 17, NULL, 'amarys', NULL, 2),
+  (25002, 25, NULL, 'amarys', 'Amarys', 'elite-four', 17, NULL, NULL, NULL, 2),
   -- Lacey
   (25003, 25, NULL, 'lacey', 'Lacey', 'elite-four', 18, NULL, 'lacey', NULL, 3),
   -- Drayton
@@ -34,9 +34,9 @@ INSERT INTO tracking.mainline_opponents (
   -- Kieran
   (25005, 25, NULL, 'kieran', 'Kieran', 'champion', NULL, NULL, 'kieran', 'Blueberry Academy', 5),
   -- Terapagos
-  (25006, 25, NULL, 'terapagos', 'Terapagos', 'boss', 1, NULL, 'terapagos', NULL, 6),
+  (25006, 25, NULL, 'terapagos', 'Terapagos', 'boss', 1, NULL, NULL, NULL, 6),
   -- Pecharunt
-  (25007, 25, NULL, 'pecharunt', 'Pecharunt', 'boss', 8, 14, 'pecharunt', NULL, 7),
+  (25007, 25, NULL, 'pecharunt', 'Pecharunt', 'boss', 8, 14, NULL, NULL, 7),
   -- Carmine (rival)
   (25008, 25, NULL, 'carmine', 'Carmine', 'rival', NULL, NULL, 'carmine', NULL, 8),
   -- Kieran (rival)
@@ -46,62 +46,62 @@ INSERT INTO tracking.mainline_opponents (
   -- Nemona (rival)
   (25011, 25, NULL, 'nemona', 'Nemona', 'rival', NULL, NULL, 'nemona', NULL, 11),
   -- Meloetta (boss)
-  (25012, 25, NULL, 'meloetta', 'Meloetta', 'boss', 1, 11, 'meloetta', NULL, 12),
+  (25012, 25, NULL, 'meloetta', 'Meloetta', 'boss', 1, 11, NULL, NULL, 12),
   -- Gouging Fire (boss, scarlet)
-  (25013, 25, 36, 'gouging-fire', 'Gouging Fire', 'boss', 2, 15, 'gouging-fire', NULL, 1),
+  (25013, 25, 36, 'gouging-fire', 'Gouging Fire', 'boss', 2, 15, NULL, NULL, 1),
   -- Raging Bolt (boss, scarlet)
-  (25014, 25, 36, 'raging-bolt', 'Raging Bolt', 'boss', 4, 15, 'raging-bolt', NULL, 2),
+  (25014, 25, 36, 'raging-bolt', 'Raging Bolt', 'boss', 4, 15, NULL, NULL, 2),
   -- Iron Crown (boss, violet)
-  (25015, 25, 37, 'iron-crown', 'Iron Crown', 'boss', 17, 11, 'iron-crown', NULL, 1),
+  (25015, 25, 37, 'iron-crown', 'Iron Crown', 'boss', 17, 11, NULL, NULL, 1),
   -- Iron Boulder (boss, violet)
-  (25016, 25, 37, 'iron-boulder', 'Iron Boulder', 'boss', 13, 11, 'iron-boulder', NULL, 2),
+  (25016, 25, 37, 'iron-boulder', 'Iron Boulder', 'boss', 13, 11, NULL, NULL, 2),
   -- Articuno (boss)
-  (25017, 25, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 13),
+  (25017, 25, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 13),
   -- Zapdos (boss)
-  (25018, 25, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 14),
+  (25018, 25, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 14),
   -- Moltres (boss)
-  (25019, 25, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 15),
+  (25019, 25, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 15),
   -- Raikou (boss)
-  (25020, 25, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 16),
+  (25020, 25, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 16),
   -- Entei (boss)
-  (25021, 25, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 17),
+  (25021, 25, NULL, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 17),
   -- Suicune (boss)
-  (25022, 25, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 18),
+  (25022, 25, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 18),
   -- Ho-Oh (boss)
-  (25023, 25, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 19),
+  (25023, 25, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 19),
   -- Latios (boss)
-  (25024, 25, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 20),
+  (25024, 25, NULL, 'latios', 'Latios', 'boss', 15, 11, NULL, NULL, 20),
   -- Groudon (boss)
-  (25025, 25, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 21),
+  (25025, 25, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, NULL, NULL, 21),
   -- Reshiram (boss)
-  (25026, 25, NULL, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', NULL, 22),
+  (25026, 25, NULL, 'reshiram', 'Reshiram', 'boss', 15, 2, NULL, NULL, 22),
   -- Solgaleo (boss)
-  (25027, 25, NULL, 'solgaleo', 'Solgaleo', 'boss', 11, 17, 'solgaleo', NULL, 23),
+  (25027, 25, NULL, 'solgaleo', 'Solgaleo', 'boss', 11, 17, NULL, NULL, 23),
   -- Glastrier (boss)
-  (25028, 25, NULL, 'glastrier', 'Glastrier', 'boss', 6, NULL, 'glastrier', NULL, 24),
+  (25028, 25, NULL, 'glastrier', 'Glastrier', 'boss', 6, NULL, NULL, NULL, 24),
   -- Lugia (boss)
-  (25029, 25, NULL, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 25),
+  (25029, 25, NULL, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 25),
   -- Latias (boss)
-  (25030, 25, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 26),
+  (25030, 25, NULL, 'latias', 'Latias', 'boss', 15, 11, NULL, NULL, 26),
   -- Kyogre (boss)
-  (25031, 25, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 27),
+  (25031, 25, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, NULL, NULL, 27),
   -- Cobalion (boss)
-  (25032, 25, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', NULL, 28),
+  (25032, 25, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, NULL, NULL, 28),
   -- Terrakion (boss)
-  (25033, 25, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', NULL, 29),
+  (25033, 25, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, NULL, NULL, 29),
   -- Virizion (boss)
-  (25034, 25, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', NULL, 30),
+  (25034, 25, NULL, 'virizion', 'Virizion', 'boss', 5, 7, NULL, NULL, 30),
   -- Zekrom (boss)
-  (25035, 25, NULL, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', NULL, 31),
+  (25035, 25, NULL, 'zekrom', 'Zekrom', 'boss', 15, 4, NULL, NULL, 31),
   -- Lunala (boss)
-  (25036, 25, NULL, 'lunala', 'Lunala', 'boss', 11, 14, 'lunala', NULL, 32),
+  (25036, 25, NULL, 'lunala', 'Lunala', 'boss', 11, 14, NULL, NULL, 32),
   -- Spectrier (boss)
-  (25037, 25, NULL, 'spectrier', 'Spectrier', 'boss', 14, NULL, 'spectrier', NULL, 33),
+  (25037, 25, NULL, 'spectrier', 'Spectrier', 'boss', 14, NULL, NULL, NULL, 33),
   -- Rayquaza (boss)
-  (25038, 25, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 34),
+  (25038, 25, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, NULL, NULL, 34),
   -- Kyurem (boss)
-  (25039, 25, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', NULL, 35),
+  (25039, 25, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, NULL, NULL, 35),
   -- Necrozma (boss)
-  (25040, 25, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', NULL, 36),
+  (25040, 25, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, NULL, NULL, 36),
   -- Kubfu (boss)
-  (25041, 25, NULL, 'kubfu', 'Kubfu', 'boss', 7, NULL, 'kubfu', NULL, 37);
+  (25041, 25, NULL, 'kubfu', 'Kubfu', 'boss', 7, NULL, NULL, NULL, 37);

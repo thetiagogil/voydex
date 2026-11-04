@@ -3247,6 +3247,8 @@ COMMENT ON COLUMN tracking.mainline_opponents.game_id IS 'Nullable for version-g
 
 COMMENT ON COLUMN tracking.mainline_opponents.place IS 'Where this battle is fought, as the game names it: a Gym Leader''s town (Pewter City), a kahuna''s grand trial site (Malie City), the Champion''s League. Set for every Gym Leader, kahuna and Champion; the Codex game page lists them by it.';
 
+COMMENT ON COLUMN tracking.mainline_opponents.sprite_slug IS 'The trainer portrait on the assets site (trainers/<sprite_slug>.webp). Set only where a portrait exists, so the app never asks for a missing one; Pokémon opponents and trainers without a portrait leave it NULL.';
+
 COMMENT ON COLUMN tracking.mainline_opponents.opponent_role IS 'Curated role slug such as gym-leader, rival, boss, elite-four, champion, kahuna, trial-captain, titan, totem, or ally (someone who only fights beside the player).';
 
 -- ============================================================================

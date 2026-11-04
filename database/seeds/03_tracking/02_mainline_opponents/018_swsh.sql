@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Allister
   (18005, 18, 32, 'allister', 'Allister', 'gym-leader', 14, NULL, 'allister', 'Stow-on-Side', 4),
   -- Opal
-  (18006, 18, NULL, 'opal', 'Opal', 'gym-leader', 18, NULL, 'opal', 'Ballonlea', 5),
+  (18006, 18, NULL, 'opal', 'Opal', 'gym-leader', 18, NULL, NULL, 'Ballonlea', 5),
   -- Gordie
   (18007, 18, 31, 'gordie', 'Gordie', 'gym-leader', 13, NULL, 'gordie', 'Circhester', 6),
   -- Melony
@@ -44,7 +44,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Raihan
   (18010, 18, NULL, 'raihan', 'Raihan', 'gym-leader', 15, NULL, 'raihan', 'Hammerlocke', 8),
   -- Eternatus
-  (18011, 18, NULL, 'eternatus', 'Eternatus', 'boss', 8, 15, 'eternatus', NULL, 9),
+  (18011, 18, NULL, 'eternatus', 'Eternatus', 'boss', 8, 15, NULL, NULL, 9),
   -- Leon
   (18012, 18, NULL, 'leon', 'Leon', 'champion', NULL, NULL, 'leon', 'Wyndon', 10),
   -- Hop (rival)
@@ -56,26 +56,26 @@ INSERT INTO tracking.mainline_opponents (
   -- Rose (boss)
   (18016, 18, NULL, 'rose', 'Rose', 'boss', NULL, NULL, 'rose', NULL, 14),
   -- Zamazenta (boss, sword)
-  (18017, 18, 31, 'zamazenta', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', NULL, 7),
+  (18017, 18, 31, 'zamazenta', 'Zamazenta', 'boss', 7, NULL, NULL, NULL, 7),
   -- Zacian (boss, shield)
-  (18018, 18, 32, 'zacian', 'Zacian', 'boss', 18, NULL, 'zacian', NULL, 7),
+  (18018, 18, 32, 'zacian', 'Zacian', 'boss', 18, NULL, NULL, NULL, 7),
   -- Zacian (boss, sword)
-  (18019, 18, 31, 'zacian-sword', 'Zacian', 'boss', 18, NULL, 'zacian', NULL, 8),
+  (18019, 18, 31, 'zacian-sword', 'Zacian', 'boss', 18, NULL, NULL, NULL, 8),
   -- Zamazenta (boss, shield)
-  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', NULL, 8),
+  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, NULL, NULL, 8),
   -- Oleana (boss; Rose Tower)
   (18021, 18, NULL, 'oleana', 'Oleana', 'boss', NULL, NULL, 'oleana', NULL, 15),
   -- Sordward (boss, sword; Slumbering Weald)
-  (18022, 18, 31, 'sordward', 'Sordward', 'boss', NULL, NULL, 'sordward', NULL, 9),
+  (18022, 18, 31, 'sordward', 'Sordward', 'boss', NULL, NULL, NULL, NULL, 9),
   -- Shielbert (boss, shield; Slumbering Weald)
-  (18023, 18, 32, 'shielbert', 'Shielbert', 'boss', NULL, NULL, 'shielbert', NULL, 9),
+  (18023, 18, 32, 'shielbert', 'Shielbert', 'boss', NULL, NULL, NULL, NULL, 9),
   -- Sordward & Shielbert (boss; the Multi Battle with Hop)
-  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, 'sordward', NULL, 16),
+  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, NULL, NULL, 16),
   -- Hop (rival; first post-game visit to the Slumbering Weald)
   (18025, 18, NULL, 'hop-weald', 'Hop', 'rival', NULL, NULL, 'hop', NULL, 17),
   -- Sordward (boss, sword; Energy Plant)
-  (18026, 18, 31, 'sordward-tower', 'Sordward', 'boss', NULL, NULL, 'sordward', NULL, 10),
+  (18026, 18, 31, 'sordward-tower', 'Sordward', 'boss', NULL, NULL, NULL, NULL, 10),
   -- Shielbert (boss, shield; Energy Plant)
-  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, 'shielbert', NULL, 10),
+  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, NULL, NULL, 10),
   -- Hop (rival; the Route 2 battle, outside Professor Magnolia's house)
   (18028, 18, NULL, 'hop-route-2', 'Hop', 'rival', NULL, NULL, 'hop', NULL, 28);

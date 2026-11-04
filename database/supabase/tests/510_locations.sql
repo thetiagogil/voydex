@@ -92,7 +92,7 @@ SELECT
             WHERE
                 e.form_id = 14500
                 AND e.version_group_id = 1
-                AND l.slug = 'kanto-power-plant'         $$, $$
+                AND l.slug = 'kanto-power-plant'               $$, $$
             VALUES ('special', 50) $$, 'Zapdos waits at the Power Plant as a special encounter');
 SELECT
     is_empty ($$

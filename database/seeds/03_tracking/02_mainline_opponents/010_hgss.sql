@@ -79,37 +79,37 @@ INSERT INTO tracking.mainline_opponents (
   -- Silver (rival)
   (10023, 10, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', NULL, 23),
   -- Ho-Oh (boss, heartgold)
-  (10024, 10, 15, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 1),
+  (10024, 10, 15, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 1),
   -- Lugia (boss, soulsilver)
-  (10025, 10, 16, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 1),
+  (10025, 10, 16, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 1),
   -- Raikou (boss)
-  (10026, 10, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 24),
+  (10026, 10, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 24),
   -- Entei (boss)
-  (10027, 10, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 25),
+  (10027, 10, NULL, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 25),
   -- Latias (boss, heartgold)
-  (10028, 10, 15, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 2),
+  (10028, 10, 15, 'latias', 'Latias', 'boss', 15, 11, NULL, NULL, 2),
   -- Latios (boss, soulsilver)
-  (10029, 10, 16, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 2),
+  (10029, 10, 16, 'latios', 'Latios', 'boss', 15, 11, NULL, NULL, 2),
   -- Suicune (boss)
-  (10030, 10, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 26),
+  (10030, 10, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 26),
   -- Zapdos (boss)
-  (10031, 10, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 27),
+  (10031, 10, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 27),
   -- Articuno (boss)
-  (10032, 10, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 28),
+  (10032, 10, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 28),
   -- Moltres (boss)
-  (10033, 10, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 29),
+  (10033, 10, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 29),
   -- Mewtwo (boss)
-  (10034, 10, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 30),
+  (10034, 10, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 30),
   -- Lugia (boss, heartgold)
-  (10035, 10, 15, 'lugia-heartgold', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 3),
+  (10035, 10, 15, 'lugia-heartgold', 'Lugia', 'boss', 11, 10, NULL, NULL, 3),
   -- Ho-Oh (boss, soulsilver)
-  (10036, 10, 16, 'ho-oh-soulsilver', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 3),
+  (10036, 10, 16, 'ho-oh-soulsilver', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 3),
   -- Kyogre (boss, heartgold)
-  (10037, 10, 15, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 4),
+  (10037, 10, 15, 'kyogre', 'Kyogre', 'boss', 3, NULL, NULL, NULL, 4),
   -- Groudon (boss, soulsilver)
-  (10038, 10, 16, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 4),
+  (10038, 10, 16, 'groudon', 'Groudon', 'boss', 9, NULL, NULL, NULL, 4),
   -- Rayquaza (boss)
-  (10039, 10, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 31),
+  (10039, 10, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, NULL, NULL, 31),
   -- Proton (boss; Team Rocket Executive)
   (10040, 10, NULL, 'proton', 'Proton', 'boss', NULL, NULL, 'proton', NULL, 32),
   -- Petrel (boss; Team Rocket Executive)

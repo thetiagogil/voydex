@@ -37,7 +37,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Fantina
   (8005, 8, NULL, 'fantina', 'Fantina', 'gym-leader', 14, NULL, 'fantina', 'Hearthome City', 5),
   -- Byron
-  (8006, 8, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, 'byron', 'Canalave City', 6),
+  (8006, 8, NULL, 'byron', 'Byron', 'gym-leader', 17, NULL, NULL, 'Canalave City', 6),
   -- Candice
   (8007, 8, NULL, 'candice', 'Candice', 'gym-leader', 6, NULL, 'candice', 'Snowpoint City', 7),
   -- Volkner
@@ -57,23 +57,23 @@ INSERT INTO tracking.mainline_opponents (
   -- Cyrus (boss)
   (8015, 8, NULL, 'cyrus', 'Cyrus', 'boss', NULL, NULL, 'cyrus', NULL, 15),
   -- Dialga (boss, diamond)
-  (8016, 8, 12, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', NULL, 1),
+  (8016, 8, 12, 'dialga', 'Dialga', 'boss', 17, 15, NULL, NULL, 1),
   -- Palkia (boss, pearl)
-  (8017, 8, 13, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', NULL, 1),
+  (8017, 8, 13, 'palkia', 'Palkia', 'boss', 3, 15, NULL, NULL, 1),
   -- Uxie (boss)
-  (8018, 8, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 16),
+  (8018, 8, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, NULL, NULL, 16),
   -- Azelf (boss)
-  (8019, 8, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 17),
+  (8019, 8, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, NULL, NULL, 17),
   -- Mesprit (boss)
-  (8020, 8, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 18),
+  (8020, 8, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, NULL, NULL, 18),
   -- Giratina (boss)
-  (8021, 8, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', NULL, 19),
+  (8021, 8, NULL, 'giratina', 'Giratina', 'boss', 14, 15, NULL, NULL, 19),
   -- Cresselia (boss)
-  (8022, 8, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 20),
+  (8022, 8, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, NULL, NULL, 20),
   -- Regigigas (boss)
-  (8023, 8, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 21),
+  (8023, 8, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, NULL, NULL, 21),
   -- Heatran (boss)
-  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 22),
+  (8024, 8, NULL, 'heatran', 'Heatran', 'boss', 2, 17, NULL, NULL, 22),
   -- Mars (boss; Team Galactic Commander)
   (8025, 8, NULL, 'mars', 'Mars', 'boss', NULL, NULL, 'mars', NULL, 23),
   -- Jupiter (boss; Team Galactic Commander)
