@@ -70,6 +70,10 @@ the group instead; a later `?form=` opens where that form can be found). It must
   Pokémon is met there and at what level;
 - organize reference content as identity/context, overview, evolution/forms,
   selected-game availability, type matchups, learnset, and Pokédex placement;
+- show the evolution methods the open game has and no other: a method a
+  later generation replaced stays in its games (Mt. Coronet does not follow
+  Magneton into Sword), a game's own rows win for the pair they cover, and an
+  evolution into a Pokémon the game never hands out is not shown;
 - omit absent optional facts instead of filling important space with `Unknown`;
 - keep learnset mechanics game-correct and use a semantic table on wide screens
   with labelled stacked rows on narrow screens;

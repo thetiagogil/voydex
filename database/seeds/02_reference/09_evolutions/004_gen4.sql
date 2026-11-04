@@ -5,6 +5,8 @@
 -- Primary: Bulbapedia evolution method and Pokémon species pages.
 -- Cross-check: Serebii evolution pages and PokemonDB evolution chains.
 -- Machine-readable sanity: PokeAPI evolution-chain detail fields.
+-- Per game: each game's own evolution data (checked 2026-11-03); rows a
+-- game lacks are scoped to the version groups that have them.
 -- Scope note: official core-series Pokémon evolution edges through Generation IX.
 -- ============================================================================
 -- File Scope
@@ -18,8 +20,8 @@ INSERT INTO reference.pokemon_evolution_edges (from_species_id, from_form_id, to
 VALUES
   -- Nincada -> Shedinja
   (290, 29000, 292, 29200, NULL, 4, 9, 20, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 20; empty party slot and regular Poke Ball', '{"source_trigger":"level-up","requires_empty_party_slot":true,"requires_poke_ball":true,"poke_ball_kind":"regular-poke-ball"}', 185),
-  -- Magneton -> Magnezone
-  (82, 8200, 462, 46200, NULL, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 186),
+  -- Magneton -> Magnezone (Diamond / Pearl)
+  (82, 8200, 462, 46200, 8, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 186),
   -- Lickitung -> Lickilicky
   (108, 10800, 463, 46300, NULL, 4, 5, NULL, NULL, NULL, 205, NULL, NULL, NULL, NULL, 'knows Rollout', '{"source_trigger":"level-up","known_move":"rollout"}', 187),
   -- Rhydon -> Rhyperior
@@ -30,10 +32,10 @@ VALUES
   (125, 12500, 466, 46600, NULL, 4, 3, NULL, NULL, 80, NULL, NULL, NULL, NULL, NULL, 'trade holding Electirizer', '{"source_trigger":"trade","held_item":"electirizer"}', 190),
   -- Magmar -> Magmortar
   (126, 12600, 467, 46700, NULL, 4, 3, NULL, NULL, 81, NULL, NULL, NULL, NULL, NULL, 'trade holding Magmarizer', '{"source_trigger":"trade","held_item":"magmarizer"}', 191),
-  -- Eevee -> Leafeon
-  (133, 13300, 470, 47000, NULL, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Eterna Forest', 'at Eterna Forest', '{"source_trigger":"level-up","location":"eterna-forest"}', 192),
-  -- Eevee -> Glaceon
-  (133, 13300, 471, 47100, NULL, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sinnoh Route 217', 'at Sinnoh Route 217', '{"source_trigger":"level-up","location":"sinnoh-route-217"}', 193),
+  -- Eevee -> Leafeon (Diamond / Pearl)
+  (133, 13300, 470, 47000, 8, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Eterna Forest', 'at Eterna Forest', '{"source_trigger":"level-up","location":"eterna-forest"}', 192),
+  -- Eevee -> Glaceon (Diamond / Pearl)
+  (133, 13300, 471, 47100, 8, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sinnoh Route 217', 'at Sinnoh Route 217', '{"source_trigger":"level-up","location":"sinnoh-route-217"}', 193),
   -- Togetic -> Togekiss
   (176, 17600, 468, 46800, NULL, 4, 2, NULL, 75, NULL, NULL, NULL, NULL, NULL, NULL, 'use Shiny Stone', '{"source_trigger":"use-item","item":"shiny-stone"}', 194),
   -- Aipom -> Ambipom
@@ -54,8 +56,8 @@ VALUES
   (233, 23300, 474, 47400, NULL, 4, 3, NULL, NULL, 82, NULL, NULL, NULL, NULL, NULL, 'trade holding Dubious Disc', '{"source_trigger":"trade","held_item":"dubious-disc"}', 202),
   -- Kirlia -> Gallade
   (281, 28100, 475, 47500, NULL, 4, 2, NULL, 77, NULL, NULL, NULL, 'male', NULL, NULL, 'use Dawn Stone; male only', '{"source_trigger":"use-item","item":"dawn-stone"}', 203),
-  -- Nosepass -> Probopass
-  (299, 29900, 476, 47600, NULL, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 204),
+  -- Nosepass -> Probopass (Diamond / Pearl)
+  (299, 29900, 476, 47600, 8, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 204),
   -- Roselia -> Roserade
   (315, 31500, 407, 40700, NULL, 4, 2, NULL, 75, NULL, NULL, NULL, NULL, NULL, NULL, 'use Shiny Stone', '{"source_trigger":"use-item","item":"shiny-stone"}', 205),
   -- Dusclops -> Dusknoir
@@ -145,6 +147,14 @@ VALUES
   -- Mantyke -> Mantine
   (458, 45800, 226, 22600, NULL, 4, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Remoraid in party', '{"source_trigger":"level-up","party_species":"remoraid"}', 248),
   -- Snover -> Abomasnow
-  (459, 45900, 460, 46000, NULL, 4, 1, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 40', '{"source_trigger":"level-up"}', 249);
+  (459, 45900, 460, 46000, NULL, 4, 1, 40, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 40', '{"source_trigger":"level-up"}', 249),
+  -- Magneton -> Magnezone (Platinum)
+  (82, 8200, 462, 46200, 9, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 592),
+  -- Eevee -> Leafeon (Platinum)
+  (133, 13300, 470, 47000, 9, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Eterna Forest', 'at Eterna Forest', '{"source_trigger":"level-up","location":"eterna-forest"}', 593),
+  -- Eevee -> Glaceon (Platinum)
+  (133, 13300, 471, 47100, 9, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sinnoh Route 217', 'at Sinnoh Route 217', '{"source_trigger":"level-up","location":"sinnoh-route-217"}', 594),
+  -- Nosepass -> Probopass (Platinum)
+  (299, 29900, 476, 47600, 9, 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 595);
 
 -- ============================================================================

@@ -7,6 +7,7 @@ import { PokemonDetailAbilitiesCard } from "@/modules/codex/features/pokemon/det
 import { PokemonDetailAvailabilityCard } from "@/modules/codex/features/pokemon/detail/sections/availability/pokemon-detail-availability-card";
 import { getPokemonDetailWhereToFindRows } from "@/modules/codex/features/pokemon/detail/sections/availability/pokemon-detail-availability-display";
 import { PokemonDetailEvolutionSection } from "@/modules/codex/features/pokemon/detail/sections/evolution/pokemon-detail-evolution-section";
+import { getVersionGroupFamilyIds } from "@/modules/reference/features/games/domain/version-groups";
 import { PokemonDetailHero } from "@/modules/codex/features/pokemon/detail/sections/hero/pokemon-detail-hero";
 import {
   getPokemonDetailHeroEyebrow,
@@ -335,7 +336,10 @@ export const PokemonDetailShell = ({
           activeFormId={form?.form.id ?? null}
           activeGenerationSortOrder={generation.generation.sort_order}
           activeSpeciesId={data.species.id}
-          activeVersionGroupId={activeVersionGroup.id}
+          activeVersionGroupIds={getVersionGroupFamilyIds(
+            activeVersionGroup,
+            data.generationDetails.flatMap((detail) => detail.versionGroups),
+          )}
           activeVersionGroupSlug={activeVersionGroup.slug}
           family={data.evolutionFamily}
         />

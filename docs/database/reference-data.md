@@ -275,7 +275,23 @@ sources remain authoritative for game-specific mechanics and availability.
   Generation VI). Let's Go values that differ from their generation are
   version-group overrides, never generation rows.
 - Evolution edges that only exist in some games (regional forms, location
-  methods) are scoped to those version groups.
+  methods) are scoped to those version groups. A game reads, for each
+  Pokémon evolving into a species, the rows scoped to its version group (an
+  expansion included) when there are any, otherwise the unscoped rows of the
+  newest generation at or before its own; an edge into a form the game never
+  hands out is dropped. `selectEvolutionEdgesInForce` in the `reference`
+  module is that rule, and Codex, the Planner and the Team editor share it.
+  Every edge was checked against each game's own evolution data on
+  2026-11-03: Sinnoh's and Kalos's places are scoped to the games that have
+  them (HeartGold / SoulSilver have none; Ultra Sun / Ultra Moon add Blush
+  Mountain beside Vast Poni Canyon), Brilliant Diamond / Shining Pearl
+  keep the rocks and Mt. Coronet (a Thunder Stone for Magneton, none for
+  Nosepass, no Ice Stone, Beauty instead of a Prism Scale), Legends: Arceus
+  has the stones beside its places and trades beside the Linking Cord, Let's
+  Go evolves Alolan Meowth at level 28, Ultra Sun / Ultra Moon evolve a
+  Pokémon that came through an Ultra Wormhole into its Kantonian form, and
+  Legends: Z-A has its own Kleavor, Runerigus and Overqwil rows. Alcremie's
+  nine creams and roaming Gimmighoul have their own edges.
 - Places and encounters (`reference.locations`, `location_version_groups`,
   `encounter_ways`, `pokemon_encounters`): one place per real location across
   the games that share it, named as the game names it (Route 1); each version

@@ -27,6 +27,13 @@ type PokemonDetailRelatedRowsParams = {
   supabase: ServerSupabaseClient;
 };
 
+/* Where a family member is found, by form (or species-wide) and version group. */
+export type PokemonFamilyAvailabilityRow = {
+  form_id: number | null;
+  species_id: number | null;
+  target_version_group_id: number | null;
+};
+
 export type PokemonDetailRelatedRows = {
   abilities: Ability[];
   abilityAttributes: AbilityAttribute[];
@@ -34,6 +41,7 @@ export type PokemonDetailRelatedRows = {
   encounterWays: EncounterWay[];
   evolutionEdges: PokemonEvolutionEdge[];
   familyAttributes: PokemonAttributes[];
+  familyAvailability: PokemonFamilyAvailabilityRow[];
   familyForms: PokemonForm[];
   growthRates: GrowthRate[];
   /* The species' places, and where each falls in its groups' stories. */
@@ -90,6 +98,7 @@ export const loadPokemonDetailRelatedRows = async ({
     familyFormsResult,
     familyAttributesResult,
     evolutionEdgesResult,
+    familyAvailabilityResult,
     pokedexTextsResult,
     growthRatesResult,
     trainingResult,
@@ -150,6 +159,17 @@ export const loadPokemonDetailRelatedRows = async ({
           .in("from_species_id", familySpeciesIds)
           .order("sort_order", { ascending: true })
       : Promise.resolve({ data: [] as PokemonEvolutionEdge[], error: null }),
+    /* Which family members each game hands out: an evolution a game lacks is not shown. */
+    familySpeciesIds.length
+      ? supabase
+          .schema("views")
+          .from("reference_resolved_pokemon_availability")
+          .select("form_id, species_id, target_version_group_id")
+          .in("species_id", familySpeciesIds)
+      : Promise.resolve({
+          data: [] as PokemonFamilyAvailabilityRow[],
+          error: null,
+        }),
     supabase
       .schema("reference")
       .from("pokemon_pokedex_texts")
@@ -213,7 +233,8 @@ export const loadPokemonDetailRelatedRows = async ({
   if (
     familyFormsResult.error ||
     familyAttributesResult.error ||
-    evolutionEdgesResult.error
+    evolutionEdgesResult.error ||
+    familyAvailabilityResult.error
   ) {
     throw new Error("Unable to load Pokémon evolution data.");
   }
@@ -225,6 +246,7 @@ export const loadPokemonDetailRelatedRows = async ({
     encounterWays: waysResult.data ?? [],
     evolutionEdges: evolutionEdgesResult.data ?? [],
     familyAttributes: familyAttributesResult.data ?? [],
+    familyAvailability: familyAvailabilityResult.data ?? [],
     familyForms: familyFormsResult.data ?? [],
     growthRates: growthRatesResult.data ?? [],
     locationPlacements: placementsResult.data ?? [],

@@ -7,6 +7,7 @@ import {
   readHeldItemForms,
 } from "@/modules/reference/features/pokemon/server/form-class-reader";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { selectEvolutionEdgesInForce } from "@/modules/reference/features/pokemon/domain/evolution-scope";
 import {
   gameMechanics,
   supportsGameMechanic,
@@ -71,7 +72,9 @@ export const readTeamMemberEditorOptions = async (
     supabase
       .schema("reference")
       .from("pokemon_evolution_edges")
-      .select("to_form_id, to_species_id, version_group_id")
+      .select(
+        "from_form_id, introduced_generation_id, to_form_id, to_species_id, version_group_id",
+      )
       .eq("from_form_id", formId)
       .lte("introduced_generation_id", generationId),
     supabase
@@ -109,11 +112,36 @@ export const readTeamMemberEditorOptions = async (
     versionGroupId,
     ...(contentScopesResult.data ?? []).map((scope) => scope.version_group_id),
   ];
-  const edges = (edgesResult.data ?? []).filter(
-    (edge) =>
-      edge.version_group_id === null ||
-      edge.version_group_id === versionGroupId,
-  );
+  /* What it evolves into in this Play's games, out of what the game hands out. */
+  const availabilityResult = edgesResult.data?.length
+    ? await supabase
+        .schema("views")
+        .from("reference_resolved_pokemon_availability")
+        .select("form_id, species_id")
+        .in("target_version_group_id", playVersionGroupIds)
+        .in("species_id", [
+          ...new Set(edgesResult.data.map((edge) => edge.to_species_id)),
+        ])
+    : null;
+  if (availabilityResult?.error) {
+    throw new Error("Unable to load what this Pokémon can record.");
+  }
+  const availableTargetFormIds = new Set<number>();
+  const speciesWideIds = new Set<number>();
+  for (const row of availabilityResult?.data ?? []) {
+    if (row.form_id !== null) availableTargetFormIds.add(row.form_id);
+    else if (row.species_id !== null) speciesWideIds.add(row.species_id);
+  }
+  for (const edge of edgesResult.data ?? []) {
+    if (speciesWideIds.has(edge.to_species_id))
+      availableTargetFormIds.add(edge.to_form_id);
+  }
+  const edges = selectEvolutionEdgesInForce({
+    availableFormIds: availableTargetFormIds,
+    edges: edgesResult.data ?? [],
+    generationOrder: generationId,
+    versionGroupIds: playVersionGroupIds,
+  });
   const speciesForms = speciesFormsResult.data ?? [];
   const changeableFormIds = getChangeableFormIds(
     speciesForms,

@@ -5,6 +5,8 @@
 -- Primary: Bulbapedia evolution method and Pokémon species pages.
 -- Cross-check: Serebii evolution pages and PokemonDB evolution chains.
 -- Machine-readable sanity: PokeAPI evolution-chain detail fields.
+-- Per game: each game's own evolution data (checked 2026-11-03); rows a
+-- game lacks are scoped to the version groups that have them.
 -- Scope note: official core-series Pokémon evolution edges through Generation IX.
 -- ============================================================================
 -- File Scope
@@ -188,8 +190,8 @@ VALUES
   (859, 85900, 860, 86000, NULL, 8, 1, 32, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 32', '{"source_trigger":"level-up"}', 512),
   -- Morgrem -> Grimmsnarl
   (860, 86000, 861, 86100, NULL, 8, 1, 42, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 42', '{"source_trigger":"level-up"}', 513),
-  -- Milcery -> Alcremie
-  (868, 86800, 869, 86900, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin with a Sweet held item', '{"source_trigger":"spin"}', 514),
+  -- Milcery -> Alcremie (Vanilla Cream)
+  (868, 86800, 869, 86900, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin clockwise for under 5 seconds by day, holding a Sweet', '{"source_trigger":"spin","direction":"clockwise","seconds":"under 5","time":"day"}', 514),
   -- Snom -> Frosmoth
   (872, 87200, 873, 87300, NULL, 8, 4, NULL, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'friendship 160+; during night', '{"source_trigger":"level-up","min_happiness":160}', 515),
   -- Cufant -> Copperajah
@@ -201,6 +203,60 @@ VALUES
   -- Kubfu -> Urshifu
   (891, 89100, 892, 89200, 19, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'clear the Tower of Darkness', '{"source_trigger":"tower-of-darkness"}', 519),
   -- Kubfu -> Urshifu (Rapid Strike)
-  (891, 89100, 892, 89201, 19, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'clear the Tower of Waters', '{"source_trigger":"tower-of-waters"}', 520);
+  (891, 89100, 892, 89201, 19, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'clear the Tower of Waters', '{"source_trigger":"tower-of-waters"}', 520),
+  -- Magneton -> Magnezone (Brilliant Diamond / Shining Pearl)
+  (82, 8200, 462, 46200, 21, 8, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone', '{"source_trigger":"use-item","item":"thunder-stone"}', 601),
+  -- Magneton -> Magnezone (Brilliant Diamond / Shining Pearl)
+  (82, 8200, 462, 46200, 21, 8, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 602),
+  -- Eevee -> Leafeon (Brilliant Diamond / Shining Pearl)
+  (133, 13300, 470, 47000, 21, 8, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone', '{"source_trigger":"use-item","item":"leaf-stone"}', 603),
+  -- Eevee -> Leafeon (Brilliant Diamond / Shining Pearl)
+  (133, 13300, 470, 47000, 21, 8, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Eterna Forest', 'at Eterna Forest', '{"source_trigger":"level-up","location":"eterna-forest"}', 604),
+  -- Eevee -> Glaceon (Brilliant Diamond / Shining Pearl)
+  (133, 13300, 471, 47100, 21, 8, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sinnoh Route 217', 'at Sinnoh Route 217', '{"source_trigger":"level-up","location":"sinnoh-route-217"}', 605),
+  -- Nosepass -> Probopass (Brilliant Diamond / Shining Pearl)
+  (299, 29900, 476, 47600, 21, 8, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Mt. Coronet', 'at Mt. Coronet', '{"source_trigger":"level-up","location":"mt-coronet"}', 606),
+  -- Feebas -> Milotic (Brilliant Diamond / Shining Pearl)
+  (349, 34900, 350, 35000, 21, 8, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'beauty 170+', '{"source_trigger":"level-up","min_beauty":170}', 607),
+  -- Magneton -> Magnezone (Legends: Arceus)
+  (82, 8200, 462, 46200, 22, 8, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone', '{"source_trigger":"use-item","item":"thunder-stone"}', 608),
+  -- Eevee -> Leafeon (Legends: Arceus)
+  (133, 13300, 470, 47000, 22, 8, 2, NULL, 67, NULL, NULL, NULL, NULL, NULL, NULL, 'use Leaf Stone', '{"source_trigger":"use-item","item":"leaf-stone"}', 609),
+  -- Eevee -> Glaceon (Legends: Arceus)
+  (133, 13300, 471, 47100, 22, 8, 2, NULL, 89, NULL, NULL, NULL, NULL, NULL, NULL, 'use Ice Stone', '{"source_trigger":"use-item","item":"ice-stone"}', 610),
+  -- Nosepass -> Probopass (Legends: Arceus)
+  (299, 29900, 476, 47600, 22, 8, 2, NULL, 65, NULL, NULL, NULL, NULL, NULL, NULL, 'use Thunder Stone', '{"source_trigger":"use-item","item":"thunder-stone"}', 611),
+  -- Kadabra -> Alakazam (Legends: Arceus)
+  (64, 6400, 65, 6500, 22, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'trade', '{"source_trigger":"trade"}', 612),
+  -- Machoke -> Machamp (Legends: Arceus)
+  (67, 6700, 68, 6800, 22, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'trade', '{"source_trigger":"trade"}', 613),
+  -- Graveler -> Golem (Legends: Arceus)
+  (75, 7500, 76, 7600, 22, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'trade', '{"source_trigger":"trade"}', 614),
+  -- Haunter -> Gengar (Legends: Arceus)
+  (93, 9300, 94, 9400, 22, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'trade', '{"source_trigger":"trade"}', 615),
+  -- Rockruff -> Lycanroc
+  (744, 74400, 745, 74500, NULL, 8, 7, 25, NULL, NULL, NULL, NULL, NULL, 'day', NULL, 'Level 25; during day', '{"source_trigger":"level-up"}', 616),
+  -- Rockruff -> Lycanroc (Midnight)
+  (744, 74400, 745, 74501, NULL, 8, 7, 25, NULL, NULL, NULL, NULL, NULL, 'night', NULL, 'Level 25; during night', '{"source_trigger":"level-up"}', 617),
+  -- Cosmoem -> Solgaleo
+  (790, 79000, 791, 79100, NULL, 8, 1, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 53 in Sword', '{"source_trigger":"level-up","version":"sword"}', 618),
+  -- Cosmoem -> Lunala
+  (790, 79000, 792, 79200, NULL, 8, 1, 53, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Level 53 in Shield', '{"source_trigger":"level-up","version":"shield"}', 619),
+  -- Milcery -> Alcremie (Ruby Cream)
+  (868, 86800, 869, 86902, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin counterclockwise for under 5 seconds by day, holding a Sweet', '{"source_trigger":"spin","direction":"counterclockwise","seconds":"under 5","time":"day"}', 620),
+  -- Milcery -> Alcremie (Matcha Cream)
+  (868, 86800, 869, 86903, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin clockwise for under 5 seconds by night, holding a Sweet', '{"source_trigger":"spin","direction":"clockwise","seconds":"under 5","time":"night"}', 621),
+  -- Milcery -> Alcremie (Mint Cream)
+  (868, 86800, 869, 86904, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin counterclockwise for over 5 seconds by night, holding a Sweet', '{"source_trigger":"spin","direction":"counterclockwise","seconds":"over 5","time":"night"}', 622),
+  -- Milcery -> Alcremie (Lemon Cream)
+  (868, 86800, 869, 86905, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin clockwise for over 5 seconds by night, holding a Sweet', '{"source_trigger":"spin","direction":"clockwise","seconds":"over 5","time":"night"}', 623),
+  -- Milcery -> Alcremie (Salted Cream)
+  (868, 86800, 869, 86906, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin counterclockwise for under 5 seconds by night, holding a Sweet', '{"source_trigger":"spin","direction":"counterclockwise","seconds":"under 5","time":"night"}', 624),
+  -- Milcery -> Alcremie (Ruby Swirl)
+  (868, 86800, 869, 86907, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin counterclockwise for over 5 seconds by day, holding a Sweet', '{"source_trigger":"spin","direction":"counterclockwise","seconds":"over 5","time":"day"}', 625),
+  -- Milcery -> Alcremie (Caramel Swirl)
+  (868, 86800, 869, 86908, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin clockwise for over 5 seconds by day, holding a Sweet', '{"source_trigger":"spin","direction":"clockwise","seconds":"over 5","time":"day"}', 626),
+  -- Milcery -> Alcremie (Rainbow Swirl)
+  (868, 86800, 869, 86909, NULL, 8, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'spin for over 10 seconds in the evening, holding a Sweet', '{"source_trigger":"spin","seconds":"over 10","time":"evening"}', 627);
 
 -- ============================================================================
