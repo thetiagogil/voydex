@@ -2820,7 +2820,7 @@ export function assertPokemonEvolutionEdgeRows(context, tableRows) {
       versionGroupSlug: "usum",
     },
   ];
-const gen7EdgeRows = edgeRows
+  const gen7EdgeRows = edgeRows
     .map(({ row }) => row)
     .filter((row) => row.introduced_generation_id === 7);
   if (gen7EdgeRows.length !== gen7SourceVerifiedEvolutionEdges.length) {
