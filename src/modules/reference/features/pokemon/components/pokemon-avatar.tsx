@@ -13,14 +13,18 @@ import { IconTip } from "@/shared/components/icon-tip";
  * Plan's strip, a Play card) is a row of these; an open slot beside them is
  * a dashed ring of the same size (`PokemonAvatarSlot`). Without art it shows
  * the name's first letter. `decorative` where the words beside it name it.
+ * `art="portrait"` holds a trainer's head-and-shoulders portrait instead: it
+ * fills the disc, cut at the bottom, where a Pokémon floats inside it.
  */
 export const PokemonAvatar = ({
+  art = "pokemon",
   className,
   decorative = false,
   imageUrl,
   name,
   typeSlug,
 }: {
+  art?: "pokemon" | "portrait";
   className?: string;
   decorative?: boolean;
   imageUrl: string | null;
@@ -44,7 +48,11 @@ export const PokemonAvatar = ({
         name={name}
         alt={decorative ? "" : name}
         loading="lazy"
-        className="size-[88%] object-contain"
+        className={
+          art === "portrait"
+            ? "size-full object-cover object-top"
+            : "size-[88%] object-contain"
+        }
       />
     </span>
   );

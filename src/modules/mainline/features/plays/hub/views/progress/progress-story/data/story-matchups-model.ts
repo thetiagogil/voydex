@@ -11,6 +11,7 @@ import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/share
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { getTrainerPortraitUrl } from "@/modules/reference/features/trainers/data/trainer-portraits";
 import {
   gameMechanics,
   resolveGameMechanics,
@@ -212,6 +213,8 @@ export type StoryMatchupBattle = {
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
   partyLevels: string | null;
+  /* The trainer's portrait; null for a Pokémon or a trainer Voydex has none of. */
+  portraitUrl: string | null;
   /* What you battle with; anything but your own team gets no reading. */
   playerSide: StoryPlayerSide;
   /* The reading of a battle ahead against their team; null once won, without their team, or when you don't battle with your team. */
@@ -304,6 +307,8 @@ type OpponentRef = {
   player_side: StoryPlayerSide;
   primary_type_id: number | null;
   secondary_type_id: number | null;
+  /* Their portrait's file on the assets site; null where there is none. */
+  sprite_slug: string | null;
   /* How many of your Pokémon you may bring; null for your whole team. */
   team_size_limit: number | null;
 };
@@ -335,6 +340,8 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
                   typeof ref.secondary_type_id === "number"
                     ? ref.secondary_type_id
                     : null,
+                sprite_slug:
+                  typeof ref.sprite_slug === "string" ? ref.sprite_slug : null,
                 team_size_limit:
                   typeof ref.team_size_limit === "number"
                     ? ref.team_size_limit
@@ -787,6 +794,7 @@ export const buildStoryMatchupsModel = ({
         opponentKind,
         party,
         partyLevels: partyRange ? formatLevelRange(partyRange) : null,
+        portraitUrl: legendary ? null : getTrainerPortraitUrl(ref.sprite_slug),
         playerSide: ref.player_side,
         reading: reading
           ? {

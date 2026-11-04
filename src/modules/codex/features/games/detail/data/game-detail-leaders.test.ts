@@ -144,6 +144,7 @@ describe("buildGameLeaders", () => {
         primary_type_id: null,
         slug: "leon",
         sort_order: 10,
+        sprite_slug: "leon",
       },
       {
         game_id: null,
@@ -154,6 +155,7 @@ describe("buildGameLeaders", () => {
         primary_type_id: 3,
         slug: "nessa",
         sort_order: 2,
+        sprite_slug: "nessa",
       },
       {
         game_id: 31,
@@ -164,6 +166,7 @@ describe("buildGameLeaders", () => {
         primary_type_id: 7,
         slug: "bea",
         sort_order: 4,
+        sprite_slug: "bea",
       },
       {
         game_id: 32,
@@ -174,6 +177,7 @@ describe("buildGameLeaders", () => {
         primary_type_id: 9,
         slug: "allister",
         sort_order: 4,
+        sprite_slug: null,
       },
       {
         game_id: null,
@@ -184,6 +188,7 @@ describe("buildGameLeaders", () => {
         primary_type_id: null,
         slug: "hop",
         sort_order: 1,
+        sprite_slug: null,
       },
     ],
     species: [
@@ -209,6 +214,7 @@ describe("buildGameLeaders", () => {
     expect(leaders[0]).toMatchObject({
       ace: { imageUrl: expect.stringContaining("/drednaw"), name: "Drednaw" },
       place: "Hulbury",
+      portraitUrl: expect.stringContaining("/trainers/nessa.webp"),
       role: "gym-leader",
       type: { name: "Water", slug: "water" },
     });
@@ -235,6 +241,7 @@ describe("buildGameLeaders", () => {
             primary_type_id: 3,
             slug: "nessa-cup",
             sort_order: 27,
+            sprite_slug: "nessa",
           },
         ],
       },
@@ -279,6 +286,7 @@ describe("buildGameLeaders", () => {
             primary_type_id: 9,
             slug: "nanu",
             sort_order: 9,
+            sprite_slug: "nanu",
           },
           {
             game_id: 31,
@@ -289,6 +297,7 @@ describe("buildGameLeaders", () => {
             primary_type_id: 9,
             slug: "nanu-mina",
             sort_order: 7,
+            sprite_slug: "nanu",
           },
         ],
       },

@@ -20,18 +20,41 @@ const getLeadersTitle = (leaders: CodexGameLeader[]) =>
     : "Gym Leaders and Champion";
 
 /*
- * One leader as v3 draws it: the ace of your first battle on a disc tinted
- * by the leader's type, the name, the place you face them, and the type.
+ * One leader: their portrait on a disc tinted by their type, with the ace
+ * of your first battle as a small sticker on its corner (named in its tip);
+ * a leader without a portrait shows the ace on the disc instead. Then the
+ * name, the place you face them, and the type.
  */
 const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
   <li className="flex min-w-0 flex-col items-center gap-1.5 text-center">
-    <PokemonAvatar
-      className="size-14"
-      decorative={leader.ace === null}
-      imageUrl={leader.ace?.imageUrl ?? null}
-      name={leader.ace?.name ?? leader.name}
-      typeSlug={leader.type?.slug ?? null}
-    />
+    {leader.portraitUrl ? (
+      <span className="relative">
+        <PokemonAvatar
+          art="portrait"
+          className="size-14"
+          decorative
+          imageUrl={leader.portraitUrl}
+          name={leader.name}
+          typeSlug={leader.type?.slug ?? null}
+        />
+        {leader.ace ? (
+          <PokemonAvatar
+            className="bubble absolute -right-2 -bottom-1 size-7"
+            imageUrl={leader.ace.imageUrl}
+            name={leader.ace.name}
+            typeSlug={leader.type?.slug ?? null}
+          />
+        ) : null}
+      </span>
+    ) : (
+      <PokemonAvatar
+        className="size-14"
+        decorative={leader.ace === null}
+        imageUrl={leader.ace?.imageUrl ?? null}
+        name={leader.ace?.name ?? leader.name}
+        typeSlug={leader.type?.slug ?? null}
+      />
+    )}
     <span className="text-14 text-ink block w-full truncate font-extrabold">
       {leader.name}
     </span>

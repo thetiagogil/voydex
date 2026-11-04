@@ -677,33 +677,53 @@ export const StoryBattleReport = ({
 
   return (
     <div className="min-w-0">
-      <ObjectiveEyebrow
-        icon={isWon ? appIcons.status.active : appIcons.milestones.story}
-      >
-        {isWon ? (
-          <>
-            {wording.doneLabel}
-            {battle.completedAt ? (
+      <div className="flex items-start gap-4">
+        {battle.portraitUrl ? (
+          <PokemonAvatar
+            art="portrait"
+            className="size-16 shrink-0"
+            decorative
+            imageUrl={battle.portraitUrl}
+            name={battle.name}
+            typeSlug={battle.specialtyTypes[0]?.slug ?? null}
+          />
+        ) : null}
+        <div className="min-w-0">
+          <ObjectiveEyebrow
+            icon={isWon ? appIcons.status.active : appIcons.milestones.story}
+          >
+            {isWon ? (
               <>
-                {" "}
-                <PlayMomentTime value={battle.completedAt} format="date" />
+                {wording.doneLabel}
+                {battle.completedAt ? (
+                  <>
+                    {" "}
+                    <PlayMomentTime value={battle.completedAt} format="date" />
+                  </>
+                ) : null}
               </>
-            ) : null}
-          </>
-        ) : battle.state === "next" ? (
-          "Next objective"
-        ) : (
-          "Still ahead"
-        )}{" "}
-        · {battle.kind}
-        {battle.isOptional && opponentKind === "legendary"
-          ? " · Optional"
-          : null}
-      </ObjectiveEyebrow>
-      <h2 id={titleId} tabIndex={-1} className={objectiveTitleClassNames.md}>
-        {battle.name}
-      </h2>
-      {battle.where ? <ObjectiveWhere>{battle.where}</ObjectiveWhere> : null}
+            ) : battle.state === "next" ? (
+              "Next objective"
+            ) : (
+              "Still ahead"
+            )}{" "}
+            · {battle.kind}
+            {battle.isOptional && opponentKind === "legendary"
+              ? " · Optional"
+              : null}
+          </ObjectiveEyebrow>
+          <h2
+            id={titleId}
+            tabIndex={-1}
+            className={objectiveTitleClassNames.md}
+          >
+            {battle.name}
+          </h2>
+          {battle.where ? (
+            <ObjectiveWhere>{battle.where}</ObjectiveWhere>
+          ) : null}
+        </div>
+      </div>
 
       {isWon ? null : battle.playerSide !== "own-team" ? (
         <p className="text-ink-2 text-14 mt-5 font-semibold">

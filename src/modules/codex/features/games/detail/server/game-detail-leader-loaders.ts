@@ -22,7 +22,7 @@ export const loadGameLeaderRows = async (
     tracking
       .from("mainline_opponents")
       .select(
-        "id, game_id, name, opponent_role, place, primary_type_id, slug, sort_order",
+        "id, game_id, name, opponent_role, place, primary_type_id, slug, sort_order, sprite_slug",
       )
       .eq("version_group_id", versionGroupId)
       .in("opponent_role", [...codexLeaderRoles])

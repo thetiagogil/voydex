@@ -34,6 +34,8 @@ export type CodexGameLeader = {
   name: string;
   /* Where you face them: a Gym's town, a grand trial's site, the League. */
   place: string | null;
+  /* Their portrait; null where Voydex has none (the ace stands in). */
+  portraitUrl: string | null;
   role: string;
   /* The type they specialise in; a Champion usually has none. */
   type: { name: string; slug: string } | null;
