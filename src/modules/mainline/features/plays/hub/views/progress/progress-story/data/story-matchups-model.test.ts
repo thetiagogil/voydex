@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
@@ -40,6 +40,7 @@ const milestone = (
     notes?: string;
     playerSide?: string;
     role: string;
+    spriteSlug?: string;
     teamSizeLimit?: number;
     typeId: number;
   }[],
@@ -62,6 +63,7 @@ const milestone = (
     player_side: opponent.playerSide ?? "own-team",
     primary_type_id: opponent.typeId,
     secondary_type_id: null,
+    sprite_slug: opponent.spriteSlug ?? null,
     team_size_limit: opponent.teamSizeLimit ?? null,
   })),
   sort_order: id,
@@ -146,6 +148,7 @@ describe("buildStoryMatchupsModel", () => {
 });
 
 describe("buildStoryMatchupsModel with several battles at one story point", () => {
+  vi.stubEnv("NEXT_PUBLIC_ASSETS_URL", "https://assets.test");
   const battles = buildStoryMatchupsModel({
     chosenChoiceKeys: new Set(),
     generationOrder: 1,
@@ -161,6 +164,7 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
             name: "Blue",
             notes: "Cerulean City",
             role: "rival",
+            spriteSlug: "blue",
             typeId: 11,
           },
           { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
@@ -196,6 +200,14 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
 
   it("gives the badge to the Gym Leader's battle only", () => {
     expect(battles.map((battle) => battle.badgeType)).toEqual([null, "water"]);
+  });
+
+  it("shows a trainer's portrait only where Voydex has one", () => {
+    vi.unstubAllEnvs();
+    expect(battles.map((battle) => battle.portraitUrl)).toEqual([
+      "https://assets.test/trainers/blue.webp",
+      null,
+    ]);
   });
 });
 

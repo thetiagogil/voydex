@@ -2,7 +2,7 @@ import type {
   CodexGameDetailData,
   CodexGameLeader,
 } from "@/modules/codex/features/games/detail/types";
-import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { OpponentAvatar } from "@/modules/reference/features/trainers/components/opponent-avatar";
 import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { SectionHead } from "@/shared/components/section-head";
@@ -27,34 +27,13 @@ const getLeadersTitle = (leaders: CodexGameLeader[]) =>
  */
 const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
   <li className="flex min-w-0 flex-col items-center gap-1.5 text-center">
-    {leader.portraitUrl ? (
-      <span className="relative">
-        <PokemonAvatar
-          art="portrait"
-          className="size-14"
-          decorative
-          imageUrl={leader.portraitUrl}
-          name={leader.name}
-          typeSlug={leader.type?.slug ?? null}
-        />
-        {leader.ace ? (
-          <PokemonAvatar
-            className="bubble absolute -right-2 -bottom-1 size-7"
-            imageUrl={leader.ace.imageUrl}
-            name={leader.ace.name}
-            typeSlug={leader.type?.slug ?? null}
-          />
-        ) : null}
-      </span>
-    ) : (
-      <PokemonAvatar
-        className="size-14"
-        decorative={leader.ace === null}
-        imageUrl={leader.ace?.imageUrl ?? null}
-        name={leader.ace?.name ?? leader.name}
-        typeSlug={leader.type?.slug ?? null}
-      />
-    )}
+    <OpponentAvatar
+      ace={leader.ace}
+      className="size-14"
+      name={leader.name}
+      portraitUrl={leader.portraitUrl}
+      typeSlug={leader.type?.slug ?? null}
+    />
     <span className="text-14 text-ink block w-full truncate font-extrabold">
       {leader.name}
     </span>

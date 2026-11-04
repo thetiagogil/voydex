@@ -160,6 +160,13 @@ test.describe("Codex", () => {
     await expect(leaders.getByRole("listitem").first()).toContainText(
       /Brock[^]*Pewter City[^]*Rock/,
     );
+    /* Brock's portrait, with his ace on its corner. */
+    await expect(
+      leaders
+        .getByRole("listitem")
+        .first()
+        .locator('img[src$="/trainers/brock.webp"]'),
+    ).toHaveCount(1);
     await expect(leaders.getByRole("listitem").last()).toContainText(
       /Blue[^]*Indigo Plateau/,
     );
