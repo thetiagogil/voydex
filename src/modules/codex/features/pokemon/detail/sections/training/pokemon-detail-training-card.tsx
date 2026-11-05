@@ -18,7 +18,7 @@ import { cn } from "@/shared/utils/cn";
 import { Meter } from "@/shared/components/ui/meter";
 
 type PokemonDetailBreedingCardProps = {
-  /* Its egg groups, in slot order, when the game has breeding. */
+  /* Its egg groups, in slot order; every form has them from Generation II. */
   eggGroups: EggGroup[];
   /* Egg cycles until its egg hatches. */
   eggCycles: number;
@@ -208,12 +208,7 @@ export const PokemonDetailBreedingCard = ({
           {note ? null : (
             <>
               <Fact label="Egg groups">
-                {eggGroups.length ? (
-                  eggGroups.map((eggGroup) => eggGroup.name).join(" · ")
-                ) : (
-                  // TODO(v3-data): this form's egg groups (no egg group ids on its attributes).
-                  <CodexPendingValue />
-                )}
+                {eggGroups.map((eggGroup) => eggGroup.name).join(" · ")}
               </Fact>
               <Fact label="Egg cycles">{eggCycles}</Fact>
             </>
