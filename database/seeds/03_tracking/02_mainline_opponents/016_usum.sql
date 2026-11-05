@@ -64,7 +64,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Gladion (rival)
   (16020, 16, NULL, 'gladion', 'Gladion', 'rival', NULL, NULL, 'gladion', NULL, 20),
   -- Hau, Gladion and the Masked Royal (rival; the Battle Royal)
-  (16021, 16, NULL, 'battle-royal', 'Hau, Gladion & the Masked Royal', 'rival', NULL, NULL, 'hau-gladion', NULL, 21),
+  (16021, 16, NULL, 'battle-royal', 'Hau, Gladion & the Masked Royal', 'rival', NULL, NULL, 'hau-gladion-masked-royal', NULL, 21),
   -- Guzma (boss)
   (16022, 16, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', NULL, 22),
   -- Lusamine (boss)
