@@ -117,7 +117,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Ariana (boss; Team Rocket Executive)
   (10042, 10, NULL, 'ariana', 'Ariana', 'boss', NULL, NULL, 'ariana', NULL, 34),
   -- Ariana & Grunt (boss; the Double Battle with Lance at the Team Rocket HQ)
-  (10043, 10, NULL, 'ariana-grunt', 'Ariana & Grunt', 'boss', NULL, NULL, 'ariana', NULL, 35),
+  (10043, 10, NULL, 'ariana-grunt', 'Ariana & Grunt', 'boss', NULL, NULL, 'ariana-grunt', NULL, 35),
   -- Archer (boss; Team Rocket Executive)
   (10044, 10, NULL, 'archer', 'Archer', 'boss', NULL, NULL, 'archer', NULL, 36),
   -- Clair & Lance (boss; the Dragon's Den Multi Battle with Silver at your side)

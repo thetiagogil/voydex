@@ -127,21 +127,21 @@ INSERT INTO tracking.mainline_opponents (
   -- Wallace (gym-leader, Delta Episode battle at the foot of the Sky Pillar, so he can fight twice)
   (14050, 14, NULL, 'wallace-delta-episode', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 'Sky Pillar', 38),
   -- Tabitha & Grunt (boss; Omega Ruby; the Multi Battle with Brendan / May at your side)
-  (14051, 14, 23, 'tabitha-grunt', 'Tabitha & Grunt', 'boss', NULL, NULL, 'tabitha', NULL, 7),
+  (14051, 14, 23, 'tabitha-grunt', 'Tabitha & Grunt', 'boss', NULL, NULL, 'tabitha-grunt', NULL, 7),
   -- Tabitha (boss; Omega Ruby; Magma Admin)
   (14052, 14, 23, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', NULL, 8),
   -- Courtney & Grunt (boss; Omega Ruby; the Multi Battles with Steven at your side)
-  (14053, 14, 23, 'courtney-grunt', 'Courtney & Grunt', 'boss', NULL, NULL, 'courtney', NULL, 9),
+  (14053, 14, 23, 'courtney-grunt', 'Courtney & Grunt', 'boss', NULL, NULL, 'courtney-grunt', NULL, 9),
   -- Courtney (boss; Omega Ruby; Magma Admin)
   (14054, 14, 23, 'courtney', 'Courtney', 'boss', NULL, NULL, 'courtney', NULL, 10),
   -- Courtney (boss; Omega Ruby; Magma Admin, her second battle before the Mind Badge)
   (14055, 14, 23, 'courtney-magma-hideout', 'Courtney', 'boss', NULL, NULL, 'courtney', NULL, 11),
   -- Shelly & Grunt (boss; Alpha Sapphire; the Multi Battle with Brendan / May at your side)
-  (14056, 14, 24, 'shelly-grunt', 'Shelly & Grunt', 'boss', NULL, NULL, 'shelly', NULL, 7),
+  (14056, 14, 24, 'shelly-grunt', 'Shelly & Grunt', 'boss', NULL, NULL, 'shelly-grunt', NULL, 7),
   -- Shelly (boss; Alpha Sapphire; Aqua Admin)
   (14057, 14, 24, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', NULL, 8),
   -- Matt & Grunt (boss; Alpha Sapphire; the Multi Battles with Steven at your side)
-  (14058, 14, 24, 'matt-grunt', 'Matt & Grunt', 'boss', NULL, NULL, 'matt', NULL, 9),
+  (14058, 14, 24, 'matt-grunt', 'Matt & Grunt', 'boss', NULL, NULL, 'matt-grunt', NULL, 9),
   -- Matt (boss; Alpha Sapphire; Aqua Admin)
   (14059, 14, 24, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', NULL, 10),
   -- Matt (boss; Alpha Sapphire; Aqua Admin, his second battle before the Mind Badge)
