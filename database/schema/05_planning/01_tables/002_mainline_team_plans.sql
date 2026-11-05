@@ -7,6 +7,7 @@ CREATE TABLE planning.mainline_team_plans (
     user_id uuid NOT NULL REFERENCES public.profiles (id) ON UPDATE CASCADE ON DELETE CASCADE,
     game_id integer NOT NULL,
     version_group_id integer NOT NULL,
+    is_either_version boolean NOT NULL DEFAULT TRUE,
     status_id integer NOT NULL REFERENCES planning.mainline_team_plan_statuses (id) ON UPDATE CASCADE ON DELETE RESTRICT DEFAULT 1,
     name text NOT NULL,
     notes text,
@@ -41,6 +42,8 @@ CREATE INDEX team_plans_version_group_idx ON planning.mainline_team_plans (versi
 
 COMMENT ON TABLE planning.mainline_team_plans IS 'Reusable user-owned Pokémon team plan for a base version group, for either of its games.';
 
-COMMENT ON COLUMN planning.mainline_team_plans.game_id IS 'The version group''s first game, kept for its cover. A Plan is for either game: a Play of any game in the version group can follow it and checks against its own game.';
+COMMENT ON COLUMN planning.mainline_team_plans.game_id IS 'The version the Plan is for, or the version group''s first game (kept for its cover) when it is for either. A Play of any game in the version group can follow it and checks against its own game.';
+
+COMMENT ON COLUMN planning.mainline_team_plans.is_either_version IS 'True when the Plan is for either game of its version group (the default); false when it is for game_id alone, whose version exclusives the Planner then reads.';
 
 COMMENT ON COLUMN planning.mainline_team_plans.version_group_id IS 'Stored with game_id so optional content and availability joins can use composite integrity.';

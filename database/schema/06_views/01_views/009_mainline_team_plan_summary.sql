@@ -11,6 +11,7 @@ SELECT
     mainline_team_plans.game_id,
     games.slug AS game_slug,
     games.name AS game_name,
+    mainline_team_plans.is_either_version,
     mainline_team_plans.version_group_id,
     version_groups.slug AS version_group_slug,
     version_groups.name AS version_group_name,

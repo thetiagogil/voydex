@@ -111,8 +111,8 @@ END IF;
                 USING ERRCODE = '23503';
         END IF;
     END IF;
-    -- The Plan's game: the one asked for, else the one it keeps while its
-    -- version group is unchanged, else the version group's first game.
+    -- The Plan's game: the version asked for, else (either version) the
+    -- version group's first game, kept for its cover.
     IF p_game_id IS NOT NULL THEN
         IF NOT EXISTS (
             SELECT
@@ -126,9 +126,6 @@ END IF;
             USING ERRCODE = '23514';
     END IF;
     v_game_id := p_game_id;
-ELSIF v_existing_plan.id IS NOT NULL
-    AND v_existing_plan.version_group_id = p_version_group_id THEN
-    v_game_id := v_existing_plan.game_id;
 ELSE
     SELECT
         games.id
@@ -190,8 +187,8 @@ WHERE
             RAISE EXCEPTION 'Plan status active is not set up'
                 USING ERRCODE = '23503';
         END IF;
-        INSERT INTO planning.mainline_team_plans (user_id, game_id, version_group_id, status_id, name)
-            VALUES (v_user_id, v_game_id, p_version_group_id, v_status_id, p_name)
+        INSERT INTO planning.mainline_team_plans (user_id, game_id, version_group_id, is_either_version, status_id, name)
+            VALUES (v_user_id, v_game_id, p_version_group_id, p_game_id IS NULL, v_status_id, p_name)
         RETURNING
             id
         INTO
@@ -200,13 +197,14 @@ WHERE
     ELSE
         v_plan_id := v_existing_plan.id;
         v_created := FALSE;
-        IF (v_existing_plan.version_group_id <> p_version_group_id OR v_existing_plan.game_id <> v_game_id) AND EXISTS (
-        SELECT
-            1
-        FROM
-            planning.mainline_play_plan_links
-        WHERE
-            mainline_play_plan_links.team_plan_id = v_plan_id) THEN
+        -- The version may change while Plays follow: each checks its own game.
+        IF v_existing_plan.version_group_id <> p_version_group_id AND EXISTS (
+            SELECT
+                1
+            FROM
+                planning.mainline_play_plan_links
+            WHERE
+                mainline_play_plan_links.team_plan_id = v_plan_id) THEN
             RAISE EXCEPTION 'A Play follows team plan %, so its game cannot change', v_plan_id
                 USING ERRCODE = '55000';
         END IF;
@@ -218,6 +216,7 @@ WHERE
         SET
             game_id = v_game_id,
             version_group_id = p_version_group_id,
+            is_either_version = p_game_id IS NULL,
             name = p_name
         WHERE
             mainline_team_plans.id = v_plan_id;
@@ -278,4 +277,4 @@ REVOKE ALL ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, I
 
 GRANT EXECUTE ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) TO authenticated, service_role;
 
-COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, and expansions. Refuses a game change while a Play follows the Plan. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';
+COMMENT ON FUNCTION planning.save_mainline_team_plan (INTEGER, TEXT, JSONB, INTEGER[], UUID, INTEGER) IS 'Atomically creates (no team_plan_id) or rewrites a Plan: its row, ordered members, planned move slots, and expansions. No game_id saves it for either version (stored under the version group''s first game); a game_id saves it for that version. Refuses a version group change while a Play follows the Plan; the version may change. Build validation against reference data stays with the caller; ownership comes from planning RLS. Runs as SECURITY INVOKER.';

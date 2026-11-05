@@ -154,8 +154,8 @@ BEGIN
             USING ERRCODE = '23503';
     END IF;
     v_name := COALESCE(NULLIF (BTRIM(p_name), ''), v_source_plan.name);
-    INSERT INTO planning.mainline_team_plans (user_id, game_id, version_group_id, status_id, name, notes)
-        VALUES (v_source_plan.user_id, v_source_plan.game_id, v_source_plan.version_group_id, v_source_plan.status_id, v_name, v_source_plan.notes)
+    INSERT INTO planning.mainline_team_plans (user_id, game_id, version_group_id, is_either_version, status_id, name, notes)
+        VALUES (v_source_plan.user_id, v_source_plan.game_id, v_source_plan.version_group_id, v_source_plan.is_either_version, v_source_plan.status_id, v_name, v_source_plan.notes)
     RETURNING
         id
     INTO
