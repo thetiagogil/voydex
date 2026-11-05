@@ -80,8 +80,4 @@ INSERT INTO tracking.mainline_opponents (
   -- Suicune (boss)
   (6025, 6, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 23),
   -- Mewtwo (boss)
-  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 24),
-  -- Rocket Admin (Muk) (boss; Rocket Warehouse)
-  (6027, 6, NULL, 'rocket-admin-muk', 'Rocket Admin (Muk)', 'boss', NULL, NULL, NULL, NULL, 25),
-  -- Rocket Admin (Golbat) (boss; Rocket Warehouse)
-  (6028, 6, NULL, 'rocket-admin-golbat', 'Rocket Admin (Golbat)', 'boss', NULL, NULL, NULL, NULL, 26);
+  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 24);

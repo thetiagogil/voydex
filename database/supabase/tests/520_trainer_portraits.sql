@@ -2,9 +2,8 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- Trainer portraits: an opponent's sprite_slug names its portrait on the
 -- assets site and is set only where a portrait exists, so the app never asks
--- for a missing one. Pokémon opponents have none; every leader has one, and
--- the only people left without one are FireRed's unnamed Rocket Admins and
--- the Shadow Triad.
+-- for a missing one. Pokémon opponents have none; every leader, rival and
+-- ally has one, and the only people left without one are the Shadow Triad.
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
