@@ -166,6 +166,35 @@ describe("buildPlanIssues", () => {
     });
   });
 
+  it("for one version, flags only the other version's exclusives, as a trade", () => {
+    const [sword, shield] = versionGroup.games;
+    const forShield = buildPlanIssues({
+      includedExpansionIds: [],
+      team: [sirfetchd, goodra],
+      versionGame: shield,
+      versionGroup,
+    });
+
+    expect(forShield).toEqual([
+      expect.objectContaining({
+        body: "You're playing Shield: trade for it.",
+        formIds: [sirfetchd.formId],
+        kind: "exclusives",
+        severity: "step",
+        title: "Sirfetch'd is Sword only",
+      }),
+    ]);
+
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [],
+        team: [sirfetchd],
+        versionGame: sword,
+        versionGroup,
+      }),
+    ).toEqual([]);
+  });
+
   it("orders event-only, trade evolutions and shared lines by severity", () => {
     const issues = buildPlanIssues({
       includedExpansionIds: [],
@@ -282,6 +311,15 @@ describe("getPoolTileNotes", () => {
       "Shield only. Trade for it if you play another version.",
     ]);
     expect(getPoolTileNotes(corviknight, versionGroup)).toEqual([]);
+  });
+
+  it("follows the Plan's version: its own exclusives need no note", () => {
+    const [sword, shield] = versionGroup.games;
+
+    expect(getPoolTileNotes(goodra, versionGroup, shield)).toEqual([]);
+    expect(getPoolTileNotes(goodra, versionGroup, sword)).toEqual([
+      "Shield only: trade for it.",
+    ]);
   });
 });
 

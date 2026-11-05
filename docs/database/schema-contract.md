@@ -203,9 +203,10 @@ Use reviewed security-invoker functions for atomic workflows:
   realization helpers.
 - `planning.save_mainline_team_plan` creates (no Plan id) or rewrites a Plan's
   row, ordered members, planned move slots and expansions in one transaction.
-  It keeps the stored game while the version group is unchanged, otherwise
-  stores the group's first game, and refuses a game change while a Play
-  follows the Plan. Build validation against reference data stays with the
+  With no game it saves the Plan for either version (`is_either_version`,
+  stored under the group's first game, for its cover); with a game, for that
+  version. It refuses a version group change while a Play follows the Plan;
+  the version may change, since each Play checks its own game. Build validation against reference data stays with the
   caller.
 
 Database constraints, RLS, and function transactions remain authoritative even

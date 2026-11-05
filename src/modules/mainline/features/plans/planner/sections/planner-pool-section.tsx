@@ -5,6 +5,7 @@ import { CornerBubble, SlotMark } from "@/shared/components/corner-bubble";
 import { PokemonTypeFilter } from "@/modules/reference/features/pokemon/components/pokemon-type-filter";
 import { getPoolTileNotes } from "@/modules/mainline/features/plans/planner/data/plan-build-check";
 import type {
+  PlannerGame,
   PlannerPokedexSection,
   PlannerPokemon,
   PlannerVersionGroup,
@@ -59,6 +60,8 @@ type PlannerPoolSectionProps = {
   /* The slot (1 to 6) each picked Pokémon sits in, by form id. */
   slotByFormId: Map<number, number>;
   types: PlanType[];
+  /* The version the Plan is for; null when it is for either. */
+  versionGame: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
 };
 
@@ -93,6 +96,7 @@ export const PlannerPoolSection = ({
   sections,
   slotByFormId,
   types,
+  versionGame,
   versionGroup,
 }: PlannerPoolSectionProps) => {
   const shownSections = sections.map((section) => ({
@@ -262,7 +266,11 @@ export const PlannerPoolSection = ({
               <ul className="mt-3.5 grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
                 {section.pokemon.map((pokemon) => {
                   const slot = slotByFormId.get(pokemon.formId);
-                  const notes = getPoolTileNotes(pokemon, versionGroup);
+                  const notes = getPoolTileNotes(
+                    pokemon,
+                    versionGroup,
+                    versionGame,
+                  );
 
                   return (
                     <li

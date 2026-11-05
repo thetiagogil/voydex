@@ -163,6 +163,8 @@ export type SavedPlan = {
   statusSlug: string | null;
   /* When it was last saved; a new save remounts the Planner on fresh ids. */
   updatedAt: string | null;
+  /* The version it is for, by its game's slug; null for either. */
+  versionGameSlug: string | null;
   versionGroupSlug: string;
 };
 

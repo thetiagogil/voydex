@@ -8,6 +8,7 @@ import {
   type PlanActionsPlan,
 } from "@/modules/mainline/features/plans/components/plan-actions-menu";
 import type {
+  PlannerGame,
   PlannerVersionGroup,
   PlannerVersionGroupOption,
 } from "@/modules/mainline/features/plans/types";
@@ -15,7 +16,9 @@ import { untitledPlanName } from "@/modules/mainline/features/plans/planner/util
 import { GameCover } from "@/modules/reference/features/games/components/game-cover";
 import { GameOptionCover } from "@/modules/reference/features/games/components/game-option-cover";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
+import { getGameColourStyle } from "@/modules/reference/features/games/utils/game-color-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { SegmentedControl } from "@/shared/components/segmented-control";
 import { SelectControl } from "@/shared/components/select-control";
 import {
   DropdownMenu,
@@ -28,6 +31,9 @@ import { Button, buttonVariants } from "@/shared/components/ui/button";
 import { Spinner } from "@/shared/components/ui/spinner";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
+
+/* The version picker's value for a Plan that is for either version. */
+const eitherVersion = "either";
 
 type PlannerTopSectionProps = {
   /* False while the Plan is locked: an edit asks to unlock it first. */
@@ -51,11 +57,15 @@ type PlannerTopSectionProps = {
   onSave: () => void;
   onShare: () => void;
   onVersionGroupChange: (slug: string) => void;
+  /* Picks the version, by its game's slug; null for either. */
+  onVersionGameChange: (slug: string | null) => void;
   planCount: number;
   /* A saved Plan, for its actions menu (Rename, Archive, Delete). */
   savedPlan: PlanActionsPlan | null;
   /* A page hosts the Planner (the Codex): My Plans would leave it. */
   embedded: boolean;
+  /* The version the Plan is for; null when it is for either. */
+  versionGame: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
   versionGroups: PlannerVersionGroupOption[];
 };
@@ -83,9 +93,11 @@ export const PlannerTopSection = ({
   onSave,
   onShare,
   onVersionGroupChange,
+  onVersionGameChange,
   planCount,
   savedPlan,
   embedded,
+  versionGame,
   versionGroup,
   versionGroups,
 }: PlannerTopSectionProps) => {
@@ -94,18 +106,21 @@ export const PlannerTopSection = ({
   const gameCard = (
     <>
       <span aria-hidden className="flex shrink-0 items-center pl-1">
-        {versionGroup.games.slice(0, 2).map((game, index) => (
-          <GameCover
-            key={game.slug}
-            alt=""
-            coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
-            eager
-            gameName={game.name}
-            gameSlug={game.slug}
-            size="dock"
-            className={index === 0 ? undefined : "-ml-3"}
-          />
-        ))}
+        {/* A Plan for one version shows its cover alone. */}
+        {(versionGame ? [versionGame] : versionGroup.games.slice(0, 2)).map(
+          (game, index) => (
+            <GameCover
+              key={game.slug}
+              alt=""
+              coverImageUrl={getGameCoverImageUrlBySlug(game.slug)}
+              eager
+              gameName={game.name}
+              gameSlug={game.slug}
+              size="dock"
+              className={index === 0 ? undefined : "-ml-3"}
+            />
+          ),
+        )}
       </span>
       <span className="min-w-0">
         <span className="text-ink-2 text-12 block font-bold">
@@ -199,6 +214,25 @@ export const PlannerTopSection = ({
             triggerContent={gameCard}
           />
         )}
+        {/* Either version, or one: its exclusives then need no trade. */}
+        {versionGroup.games.length > 1 ? (
+          <SegmentedControl
+            ariaLabel="Version"
+            variant="segment"
+            value={versionGame?.slug ?? eitherVersion}
+            onValueChange={(slug) =>
+              onVersionGameChange(slug === eitherVersion ? null : slug)
+            }
+            options={[
+              { label: "Either", value: eitherVersion },
+              ...versionGroup.games.map((game) => ({
+                dot: getGameColourStyle(game.slug),
+                label: game.shortName,
+                value: game.slug,
+              })),
+            ]}
+          />
+        ) : null}
         <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
           {embedded ? null : (
             <Link
