@@ -252,6 +252,25 @@ describe("placePlannerExtras", () => {
     expect(displayFormIdBySpecies.get(863)).toBe(86300);
   });
 
+  it("reads the display form from the placing group's rows alone", () => {
+    const { displayFormIdBySpecies, speciesIdsByVersionGroupId } =
+      placePlannerExtras({
+        /* A gift Galarian Meowth in the base game, a wild Kantonian one in the expansion. */
+        availability: [row(52, 5202, 23, 4), row(52, 5200, 25, 1)],
+        cosmeticFormIds: new Set(),
+        derivedMethodIds: new Set([7, 8]),
+        familyOrder: [23, 24, 25],
+        formClassById: new Map([[5202, "variant"]]),
+        forms: extraForms,
+        inGameMethodIds: new Set([1, 2, 4, 7, 8]),
+        placedSpeciesIds: new Set(),
+        species,
+      });
+
+    expect([...speciesIdsByVersionGroupId]).toEqual([[23, [52]]]);
+    expect(displayFormIdBySpecies.get(52)).toBe(5202);
+  });
+
   it("keeps out what only evolves or hatches from a Pokémon the game never gives", () => {
     const placed = place().speciesIdsByVersionGroupId.get(23) ?? [];
 

@@ -124,7 +124,8 @@ export const readPlanMemberCheckRows = async (
         "display_form_id" | "pokedex_id" | "pokedex_number" | "species_id"
       >
     >(
-      pokedexes.map((pokedex) => pokedex.id),
+      /* Every Pokédex of the family: a species in any of them is placed. */
+      pokedexesResult.data.map((pokedex) => pokedex.id),
       (ids, from, to) =>
         reference
           .from("pokedex_entries")
