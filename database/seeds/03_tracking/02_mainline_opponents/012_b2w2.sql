@@ -95,9 +95,9 @@ INSERT INTO tracking.mainline_opponents (
   -- Cresselia (boss)
   (12033, 12, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, NULL, NULL, 29),
   -- Zinzolin (boss; Team Plasma Sage)
-  (12034, 12, NULL, 'zinzolin', 'Zinzolin', 'boss', NULL, NULL, NULL, NULL, 30),
+  (12034, 12, NULL, 'zinzolin', 'Zinzolin', 'boss', NULL, NULL, 'zinzolin', NULL, 30),
   -- Zinzolin & Grunt (boss; the Multi Battles with Hugh at your side)
-  (12035, 12, NULL, 'zinzolin-grunt', 'Zinzolin & Grunt', 'boss', NULL, NULL, NULL, NULL, 31),
+  (12035, 12, NULL, 'zinzolin-grunt', 'Zinzolin & Grunt', 'boss', NULL, NULL, 'zinzolin', NULL, 31),
   -- Shadow (Absol) (boss; Shadow Triad)
   (12036, 12, NULL, 'shadow-absol', 'Shadow (Absol)', 'boss', NULL, NULL, NULL, NULL, 32),
   -- Shadow (Banette) (boss; Shadow Triad)

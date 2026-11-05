@@ -55,7 +55,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Rogue Mega Meowstic
   (27014, 27, NULL, 'rogue-mega-meowstic', 'Rogue Mega Meowstic', 'boss', 11, NULL, NULL, NULL, 14),
   -- Taunie / Urbain (fights beside you against Hyperspace rogue Megas)
-  (27015, 27, NULL, 'taunie-urbain', 'Taunie / Urbain', 'ally', NULL, NULL, NULL, NULL, 15),
+  (27015, 27, NULL, 'taunie-urbain', 'Taunie / Urbain', 'ally', NULL, NULL, 'taunie-urbain', NULL, 15),
   -- Korrina (fights beside you against Hyperspace rogue Megas)
   (27016, 27, NULL, 'korrina', 'Korrina', 'ally', NULL, NULL, 'korrina', NULL, 16),
   -- Latias (boss)

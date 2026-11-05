@@ -53,7 +53,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Diantha
   (13013, 13, NULL, 'diantha', 'Diantha', 'champion', NULL, NULL, 'diantha', 'Pokémon League', 13),
   -- AZ
-  (13014, 13, NULL, 'az', 'AZ', 'boss', NULL, NULL, NULL, NULL, 14),
+  (13014, 13, NULL, 'az', 'AZ', 'boss', NULL, NULL, 'az', NULL, 14),
   -- Shauna (rival)
   (13015, 13, NULL, 'shauna', 'Shauna', 'rival', NULL, NULL, 'shauna', NULL, 15),
   -- Tierno (rival)
@@ -85,14 +85,14 @@ INSERT INTO tracking.mainline_opponents (
   -- Korrina (gym-leader, Geosenge Town battle before her Gym, so she can fight twice)
   (13029, 13, NULL, 'korrina-geosenge', 'Korrina', 'gym-leader', 7, NULL, 'korrina', 'Geosenge Town', 27),
   -- Aliana (boss; Team Flare scientist)
-  (13030, 13, NULL, 'aliana', 'Aliana', 'boss', NULL, NULL, NULL, NULL, 28),
+  (13030, 13, NULL, 'aliana', 'Aliana', 'boss', NULL, NULL, 'aliana', NULL, 28),
   -- Celosia & Bryony (boss; the Multi Battle with Serena / Calem at your side)
-  (13031, 13, NULL, 'celosia-bryony', 'Celosia & Bryony', 'boss', NULL, NULL, NULL, NULL, 29),
+  (13031, 13, NULL, 'celosia-bryony', 'Celosia & Bryony', 'boss', NULL, NULL, 'celosia-bryony', NULL, 29),
   -- Celosia (boss; Team Flare scientist)
-  (13032, 13, NULL, 'celosia', 'Celosia', 'boss', NULL, NULL, NULL, NULL, 30),
+  (13032, 13, NULL, 'celosia', 'Celosia', 'boss', NULL, NULL, 'celosia', NULL, 30),
   -- Bryony (boss; Team Flare scientist)
-  (13033, 13, NULL, 'bryony', 'Bryony', 'boss', NULL, NULL, NULL, NULL, 31),
+  (13033, 13, NULL, 'bryony', 'Bryony', 'boss', NULL, NULL, 'bryony', NULL, 31),
   -- Mable (boss; Team Flare scientist)
-  (13034, 13, NULL, 'mable', 'Mable', 'boss', NULL, NULL, NULL, NULL, 32),
+  (13034, 13, NULL, 'mable', 'Mable', 'boss', NULL, NULL, 'mable', NULL, 32),
   -- Xerosic (boss; Team Flare scientist)
-  (13035, 13, NULL, 'xerosic', 'Xerosic', 'boss', NULL, NULL, NULL, NULL, 33);
+  (13035, 13, NULL, 'xerosic', 'Xerosic', 'boss', NULL, NULL, 'xerosic', NULL, 33);

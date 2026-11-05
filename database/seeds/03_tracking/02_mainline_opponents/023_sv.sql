@@ -24,7 +24,7 @@ INSERT INTO tracking.mainline_opponents (
   sort_order
 ) VALUES
   -- Katy
-  (23001, 23, NULL, 'katy', 'Katy', 'gym-leader', 12, NULL, NULL, 'Cortondo', 1),
+  (23001, 23, NULL, 'katy', 'Katy', 'gym-leader', 12, NULL, 'katy', 'Cortondo', 1),
   -- Brassius
   (23002, 23, NULL, 'brassius', 'Brassius', 'gym-leader', 5, NULL, 'brassius', 'Artazon', 2),
   -- Iono
@@ -78,7 +78,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Arven
   (23027, 23, NULL, 'arven', 'Arven', 'rival', NULL, NULL, 'arven', NULL, 27),
   -- AI Professor
-  (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, NULL, NULL, 28),
+  (23028, 23, NULL, 'ai-professor', 'AI Professor', 'boss', NULL, NULL, 'ai-professor', NULL, 28),
   -- Nemona (rival)
   (23029, 23, NULL, 'nemona-rival', 'Nemona', 'rival', NULL, NULL, 'nemona', NULL, 29),
   -- Koraidon (boss, scarlet)

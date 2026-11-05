@@ -34,7 +34,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Hisuian Avalugg
   (22005, 22, NULL, 'hisuian-avalugg', 'Hisuian Avalugg', 'noble', 6, 13, NULL, NULL, 5),
   -- Commander Kamado
-  (22006, 22, NULL, 'commander-kamado', 'Commander Kamado', 'boss', NULL, NULL, NULL, NULL, 6),
+  (22006, 22, NULL, 'commander-kamado', 'Commander Kamado', 'boss', NULL, NULL, 'kamado', NULL, 6),
   -- Origin Dialga / Origin Palkia
   (22007, 22, NULL, 'origin-pokemon', 'Origin Dialga / Origin Palkia', 'boss', 15, NULL, NULL, NULL, 7),
   -- Volo
@@ -68,22 +68,22 @@ INSERT INTO tracking.mainline_opponents (
   -- Enamorus (boss)
   (22022, 22, NULL, 'enamorus', 'Enamorus', 'boss', 18, 10, NULL, NULL, 22),
   -- Lian (boss; Warden)
-  (22023, 22, NULL, 'lian', 'Lian', 'boss', NULL, NULL, NULL, NULL, 23),
+  (22023, 22, NULL, 'lian', 'Lian', 'boss', NULL, NULL, 'lian', NULL, 23),
   -- Irida (boss; Pearl Clan leader)
   (22024, 22, NULL, 'irida', 'Irida', 'boss', NULL, NULL, 'irida', NULL, 24),
   -- Clover (boss; the Miss Fortunes)
-  (22025, 22, NULL, 'clover', 'Clover', 'boss', NULL, NULL, NULL, NULL, 25),
+  (22025, 22, NULL, 'clover', 'Clover', 'boss', NULL, NULL, 'clover', NULL, 25),
   -- Coin (boss; the Miss Fortunes)
-  (22026, 22, NULL, 'coin', 'Coin', 'boss', NULL, NULL, NULL, NULL, 26),
+  (22026, 22, NULL, 'coin', 'Coin', 'boss', NULL, NULL, 'coin', NULL, 26),
   -- Charm (boss; the Miss Fortunes)
-  (22027, 22, NULL, 'charm', 'Charm', 'boss', NULL, NULL, NULL, NULL, 27),
+  (22027, 22, NULL, 'charm', 'Charm', 'boss', NULL, NULL, 'charm', NULL, 27),
   -- Adaman (boss; Diamond Clan leader)
   (22028, 22, NULL, 'adaman', 'Adaman', 'boss', NULL, NULL, 'adaman', NULL, 28),
   -- Ingo (boss; Warden)
   (22029, 22, NULL, 'ingo', 'Ingo', 'boss', NULL, NULL, 'ingo', NULL, 29),
   -- Melli (boss; Warden)
-  (22030, 22, NULL, 'melli', 'Melli', 'boss', NULL, NULL, NULL, NULL, 30),
+  (22030, 22, NULL, 'melli', 'Melli', 'boss', NULL, NULL, 'melli', NULL, 30),
   -- Sabi (boss; Warden)
   (22031, 22, NULL, 'sabi', 'Sabi', 'boss', NULL, NULL, 'sabi', NULL, 31),
   -- Beni (boss)
-  (22032, 22, NULL, 'beni', 'Beni', 'boss', NULL, NULL, NULL, NULL, 32);
+  (22032, 22, NULL, 'beni', 'Beni', 'boss', NULL, NULL, 'beni', NULL, 32);

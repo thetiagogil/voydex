@@ -28,7 +28,7 @@ INSERT INTO tracking.mainline_opponents (
   sort_order
 ) VALUES
   -- Taunie / Urbain
-  (26001, 26, NULL, 'taunie-urbain', 'Taunie / Urbain', 'rival', NULL, NULL, NULL, NULL, 1),
+  (26001, 26, NULL, 'taunie-urbain', 'Taunie / Urbain', 'rival', NULL, NULL, 'taunie-urbain', NULL, 1),
   -- Rogue Mega Absol
   (26002, 26, NULL, 'rogue-mega-absol', 'Rogue Mega Absol', 'boss', 16, NULL, NULL, NULL, 2),
   -- Lysandre
@@ -40,13 +40,13 @@ INSERT INTO tracking.mainline_opponents (
   -- Yveltal (boss)
   (26006, 26, NULL, 'yveltal', 'Yveltal', 'boss', 16, 10, NULL, NULL, 6),
   -- Zach (Z-A Royale, Rank Z to Y)
-  (26007, 26, NULL, 'zach', 'Zach', 'za-royale', NULL, NULL, NULL, NULL, 7),
+  (26007, 26, NULL, 'zach', 'Zach', 'za-royale', NULL, NULL, 'zach', NULL, 7),
   -- Yvon (Z-A Royale, Rank Y to X)
-  (26008, 26, NULL, 'yvon', 'Yvon', 'za-royale', 18, NULL, NULL, NULL, 8),
+  (26008, 26, NULL, 'yvon', 'Yvon', 'za-royale', 18, NULL, 'yvon', NULL, 8),
   -- Xavi (Z-A Royale, Rank X to W)
-  (26009, 26, NULL, 'xavi', 'Xavi', 'za-royale', NULL, NULL, NULL, NULL, 9),
+  (26009, 26, NULL, 'xavi', 'Xavi', 'za-royale', NULL, NULL, 'xavi', NULL, 9),
   -- Rintaro (Z-A Royale, Rank W to V)
-  (26010, 26, NULL, 'rintaro', 'Rintaro', 'za-royale', NULL, NULL, NULL, NULL, 10),
+  (26010, 26, NULL, 'rintaro', 'Rintaro', 'za-royale', NULL, NULL, 'rintaro', NULL, 10),
   -- Vinnie (Z-A Royale, special promotion from Rank V to F)
   (26011, 26, NULL, 'vinnie', 'Vinnie', 'za-royale', NULL, NULL, 'vinnie', NULL, 11),
   -- Canari (Z-A Royale, Rank F to E)
@@ -90,6 +90,6 @@ INSERT INTO tracking.mainline_opponents (
   -- Rogue Mega Starmie
   (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, NULL, NULL, 31),
   -- Lida (fights beside you against rogue Megas)
-  (26032, 26, NULL, 'lida', 'Lida', 'ally', NULL, NULL, NULL, NULL, 32),
+  (26032, 26, NULL, 'lida', 'Lida', 'ally', NULL, NULL, 'lida', NULL, 32),
   -- Naveen (fights beside you against rogue Megas)
-  (26033, 26, NULL, 'naveen', 'Naveen', 'ally', NULL, NULL, NULL, NULL, 33);
+  (26033, 26, NULL, 'naveen', 'Naveen', 'ally', NULL, NULL, 'naveen', NULL, 33);

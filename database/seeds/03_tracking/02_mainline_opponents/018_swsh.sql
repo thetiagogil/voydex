@@ -66,16 +66,16 @@ INSERT INTO tracking.mainline_opponents (
   -- Oleana (boss; Rose Tower)
   (18021, 18, NULL, 'oleana', 'Oleana', 'boss', NULL, NULL, 'oleana', NULL, 15),
   -- Sordward (boss, sword; Slumbering Weald)
-  (18022, 18, 31, 'sordward', 'Sordward', 'boss', NULL, NULL, NULL, NULL, 9),
+  (18022, 18, 31, 'sordward', 'Sordward', 'boss', NULL, NULL, 'sordward', NULL, 9),
   -- Shielbert (boss, shield; Slumbering Weald)
-  (18023, 18, 32, 'shielbert', 'Shielbert', 'boss', NULL, NULL, NULL, NULL, 9),
+  (18023, 18, 32, 'shielbert', 'Shielbert', 'boss', NULL, NULL, 'shielbert', NULL, 9),
   -- Sordward & Shielbert (boss; the Multi Battle with Hop)
-  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, NULL, NULL, 16),
+  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, 'sordward-shielbert', NULL, 16),
   -- Hop (rival; first post-game visit to the Slumbering Weald)
   (18025, 18, NULL, 'hop-weald', 'Hop', 'rival', NULL, NULL, 'hop', NULL, 17),
   -- Sordward (boss, sword; Energy Plant)
-  (18026, 18, 31, 'sordward-tower', 'Sordward', 'boss', NULL, NULL, NULL, NULL, 10),
+  (18026, 18, 31, 'sordward-tower', 'Sordward', 'boss', NULL, NULL, 'sordward', NULL, 10),
   -- Shielbert (boss, shield; Energy Plant)
-  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, NULL, NULL, 10),
+  (18027, 18, 32, 'shielbert-tower', 'Shielbert', 'boss', NULL, NULL, 'shielbert', NULL, 10),
   -- Hop (rival; the Route 2 battle, outside Professor Magnolia's house)
   (18028, 18, NULL, 'hop-route-2', 'Hop', 'rival', NULL, NULL, 'hop', NULL, 28);

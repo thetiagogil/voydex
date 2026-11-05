@@ -24,7 +24,7 @@ INSERT INTO tracking.mainline_opponents (
   sort_order
 ) VALUES
   -- Peony
-  (20001, 20, NULL, 'peony', 'Peony', 'boss', 17, NULL, NULL, NULL, 1),
+  (20001, 20, NULL, 'peony', 'Peony', 'boss', 17, NULL, 'peony', NULL, 1),
   -- Calyrex
   (20002, 20, NULL, 'calyrex', 'Calyrex', 'boss', 11, 5, NULL, NULL, 2),
   -- Glastrier (boss)

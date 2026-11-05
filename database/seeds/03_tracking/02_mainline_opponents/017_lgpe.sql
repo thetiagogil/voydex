@@ -49,13 +49,13 @@ INSERT INTO tracking.mainline_opponents (
   -- Lance
   (17012, 17, NULL, 'lance', 'Lance', 'elite-four', 15, NULL, 'lance', NULL, 12),
   -- Rival
-  (17013, 17, NULL, 'rival', 'Rival', 'champion', NULL, NULL, NULL, 'Indigo Plateau', 13),
+  (17013, 17, NULL, 'rival', 'Rival', 'champion', NULL, NULL, 'trace', 'Indigo Plateau', 13),
   -- Blue
   (17014, 17, NULL, 'blue', 'Blue', 'boss', NULL, NULL, 'blue', NULL, 14),
   -- Green
-  (17015, 17, NULL, 'green', 'Green', 'boss', NULL, NULL, NULL, NULL, 15),
+  (17015, 17, NULL, 'green', 'Green', 'boss', NULL, NULL, 'green', NULL, 15),
   -- Trace (rival)
-  (17016, 17, NULL, 'trace', 'Trace', 'rival', NULL, NULL, NULL, NULL, 16),
+  (17016, 17, NULL, 'trace', 'Trace', 'rival', NULL, NULL, 'trace', NULL, 16),
   -- Giovanni (boss)
   (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', NULL, 17),
   -- Zapdos (boss)

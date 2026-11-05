@@ -99,10 +99,10 @@ INSERT INTO tracking.mainline_opponents (
   -- Totem Mimikyu (totem)
   (15042, 15, NULL, 'totem-mimikyu', 'Totem Mimikyu', 'totem', 14, 18, NULL, NULL, 34),
   -- Faba (boss; Aether Paradise entrance)
-  (15043, 15, NULL, 'faba', 'Faba', 'boss', NULL, NULL, NULL, NULL, 35),
+  (15043, 15, NULL, 'faba', 'Faba', 'boss', NULL, NULL, 'faba', NULL, 35),
   -- Plumeria (boss)
   (15044, 15, NULL, 'plumeria', 'Plumeria', 'boss', NULL, NULL, 'plumeria', NULL, 36),
   -- Molayne (boss; Mount Hokulani)
   (15045, 15, NULL, 'molayne', 'Molayne', 'boss', NULL, NULL, 'molayne', NULL, 37),
   -- Faba (boss; Aether Paradise labs, second battle)
-  (15046, 15, NULL, 'faba-labs', 'Faba', 'boss', NULL, NULL, NULL, NULL, 38);
+  (15046, 15, NULL, 'faba-labs', 'Faba', 'boss', NULL, NULL, 'faba', NULL, 38);

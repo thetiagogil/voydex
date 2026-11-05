@@ -114,17 +114,17 @@ INSERT INTO tracking.mainline_opponents (
   -- Totem Ribombee (totem, Mina's trial)
   (16045, 16, NULL, 'totem-ribombee', 'Totem Ribombee', 'totem', 12, 18, NULL, NULL, 37),
   -- Faba (boss; Aether Paradise entrance)
-  (16046, 16, NULL, 'faba', 'Faba', 'boss', NULL, NULL, NULL, NULL, 38),
+  (16046, 16, NULL, 'faba', 'Faba', 'boss', NULL, NULL, 'faba', NULL, 38),
   -- Faba (boss; Aether Paradise labs, second battle)
-  (16047, 16, NULL, 'faba-labs', 'Faba', 'boss', NULL, NULL, NULL, NULL, 39),
+  (16047, 16, NULL, 'faba-labs', 'Faba', 'boss', NULL, NULL, 'faba', NULL, 39),
   -- Faba (boss; Episode RR, Aether Paradise exterior)
-  (16048, 16, NULL, 'faba-rr', 'Faba', 'boss', NULL, NULL, NULL, NULL, 40),
+  (16048, 16, NULL, 'faba-rr', 'Faba', 'boss', NULL, NULL, 'faba', NULL, 40),
   -- Plumeria (boss)
   (16049, 16, NULL, 'plumeria', 'Plumeria', 'boss', NULL, NULL, 'plumeria', NULL, 41),
   -- Dulse (boss, ultra-sun; Ultra Recon Squad)
-  (16050, 16, 27, 'dulse', 'Dulse', 'boss', NULL, NULL, NULL, NULL, 7),
+  (16050, 16, 27, 'dulse', 'Dulse', 'boss', NULL, NULL, 'dulse', NULL, 7),
   -- Soliera (boss, ultra-moon; Ultra Recon Squad)
-  (16051, 16, 28, 'soliera', 'Soliera', 'boss', NULL, NULL, NULL, NULL, 6),
+  (16051, 16, 28, 'soliera', 'Soliera', 'boss', NULL, NULL, 'soliera', NULL, 6),
   -- Nanu (kahuna, ultra-moon; Mina's trial)
   (16052, 16, 28, 'nanu-mina', 'Nanu', 'kahuna', 16, NULL, 'nanu', 'Aether House', 7),
   -- Archie (boss; Episode RR)
