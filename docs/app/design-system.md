@@ -512,8 +512,10 @@ There are no site-only stills: a public picture uses the app's own component.
   scrolls, and closes from the same `soft` `icon-sm` button in its top-right
   corner (16px in), confirms included. Every overlay also closes on Escape
   or a tap outside; for a confirm (delete, remove, mark incomplete,
-  `AlertDialog`) that means "no". A long one scrolls its body between the
-  header and its pinned buttons.
+  `AlertDialog`) that means "no". Tab stays inside an open overlay, wrapping
+  from its last control to its first in the key event itself
+  (`useFocusWrap`), so even held-down keys never reach the page behind. A
+  long one scrolls its body between the header and its pinned buttons.
 - **Menus and selects** share one compact 44px row; the pick takes the
   selected tint and a check, and two-line rows are only for an option that
   needs its description.
