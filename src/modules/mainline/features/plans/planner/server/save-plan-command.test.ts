@@ -55,7 +55,13 @@ const readSwordShield = (table: string): Result => {
   }
 
   if (table === "games") {
-    return { data: [{ id: 33 }, { id: 34 }], error: null };
+    return {
+      data: [
+        { id: 33, slug: "sword" },
+        { id: 34, slug: "shield" },
+      ],
+      error: null,
+    };
   }
 
   versionGroupReads += 1;
@@ -78,6 +84,7 @@ const baseInput: PlanSaveInput = {
   members: [],
   name: "Galar run",
   planId: null,
+  versionGameSlug: null,
   versionGroupSlug: "sword-shield",
 };
 
@@ -102,6 +109,7 @@ describe("savePlan", () => {
       {
         args: {
           p_expansion_version_group_ids: [21],
+          p_game_id: undefined,
           p_members: [],
           p_name: "Galar run",
           p_team_plan_id: undefined,
@@ -110,6 +118,31 @@ describe("savePlan", () => {
         name: "save_mainline_team_plan",
       },
     ]);
+  });
+
+  it("saves a Plan for one version under its game, and refuses another game's version", async () => {
+    const { client, rpcCalls } = createFakeClient({
+      read: readSwordShield,
+      rpc: () => ({
+        data: [{ result_created: true, result_team_plan_id: "plan-new" }],
+        error: null,
+      }),
+    });
+
+    await savePlan({
+      input: { ...baseInput, versionGameSlug: "shield" },
+      supabase: client,
+    });
+
+    expect(rpcCalls[0].args.p_game_id).toBe(34);
+
+    await expect(
+      savePlan({
+        input: { ...baseInput, versionGameSlug: "sun" },
+        supabase: client,
+      }),
+    ).rejects.toThrow("Pick a version of this game for the Plan.");
+    expect(rpcCalls).toHaveLength(1);
   });
 
   it("refuses to change an archived Plan, before writing anything", async () => {

@@ -6,6 +6,7 @@ export type MyPlanMember = {
 };
 
 export type MyPlan = {
+  /* The game's first version, for the game filter's cover. */
   gameSlug: string | null;
   id: string;
   isArchived: boolean;

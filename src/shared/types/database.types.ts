@@ -1608,6 +1608,7 @@ export type Database = {
           created_at: string;
           game_id: number;
           id: string;
+          is_either_version: boolean;
           name: string;
           notes: string | null;
           status_id: number;
@@ -1620,6 +1621,7 @@ export type Database = {
           created_at?: string;
           game_id: number;
           id?: string;
+          is_either_version?: boolean;
           name: string;
           notes?: string | null;
           status_id?: number;
@@ -1631,6 +1633,7 @@ export type Database = {
           created_at?: string;
           game_id?: number;
           id?: string;
+          is_either_version?: boolean;
           name?: string;
           notes?: string | null;
           status_id?: number;
@@ -6133,6 +6136,7 @@ export type Database = {
           generation_id: number | null;
           generation_name: string | null;
           generation_slug: string | null;
+          is_either_version: boolean | null;
           linked_play_count: number | null;
           member_count: number | null;
           notes: string | null;

@@ -93,6 +93,7 @@ export const usePlannerImports = ({
         writePlanSwitchHandoff(null, draftToOpen.versionGroupSlug, {
           members: draftToOpen.members,
           name: draftToOpen.name,
+          versionGameSlug: draftToOpen.versionGameSlug,
         });
         void embedding
           .onSwitchVersionGroup(draftToOpen.versionGroupSlug)

@@ -42,7 +42,7 @@ const readSavedPlan = async (
       .schema("views")
       .from("mainline_team_plan_summary")
       .select(
-        "linked_play_count, status_slug, team_plan_id, team_plan_name, updated_at, version_group_slug",
+        "game_slug, is_either_version, linked_play_count, status_slug, team_plan_id, team_plan_name, updated_at, version_group_slug",
       )
       .eq("team_plan_id", planId)
       .eq("user_id", userId)
@@ -100,6 +100,8 @@ const readSavedPlan = async (
     name: summary.team_plan_name ?? "Untitled Plan",
     statusSlug: summary.status_slug,
     updatedAt: summary.updated_at,
+    versionGameSlug:
+      summary.is_either_version === false ? summary.game_slug : null,
     versionGroupSlug: summary.version_group_slug,
   };
 };

@@ -124,6 +124,15 @@ export const PlannerWorkspace = ({
         (expansion) => expansion.versionGroupId,
       ),
   );
+  /* The version the Plan is for, by its game's slug; null for either. */
+  const [versionGameSlug, setVersionGameSlug] = useState<string | null>(
+    plan?.versionGroupSlug === context.versionGroup.slug
+      ? plan.versionGameSlug
+      : null,
+  );
+  const versionGame =
+    context.versionGroup.games.find((game) => game.slug === versionGameSlug) ??
+    null;
   const [filters, setFilters] = useState(defaultFilters);
   const [swapIndex, setSwapIndex] = useState<number | null>(null);
   const [openSlot, setOpenSlot] = useState<number | null>(null);
@@ -179,6 +188,7 @@ export const PlannerWorkspace = ({
     includedExpansionIds: expansions,
     team: teamPokemon,
     types: context.types,
+    versionGame,
     versionGroup: context.versionGroup,
   });
   const slotByFormId = new Map(
@@ -190,6 +200,7 @@ export const PlannerWorkspace = ({
     members,
     name,
     preview: toPlanDraftPreview(members, byId),
+    versionGameSlug: versionGame?.slug ?? null,
     versionGroupName: context.versionGroup.name,
     versionGroupSlug: context.versionGroup.slug,
   };
@@ -203,6 +214,7 @@ export const PlannerWorkspace = ({
       onDraftContinued: (continued) => {
         setName(continued.name);
         setExpansions(continued.expansionVersionGroupIds);
+        setVersionGameSlug(continued.versionGameSlug);
       },
       onShareImported: () => setIsShareOpen(false),
       setSlots: team.setSlots,
@@ -215,6 +227,7 @@ export const PlannerWorkspace = ({
         expansions,
         members,
         name,
+        versionGameSlug: versionGame?.slug ?? null,
         versionGroupSlug: context.versionGroup.slug,
       },
       embedded: Boolean(embedding),
@@ -224,6 +237,7 @@ export const PlannerWorkspace = ({
             expansions: plan.expansionVersionGroupIds,
             members: toPlanMembers(toPlannerSlots(plan.members)),
             name: plan.name,
+            versionGameSlug: plan.versionGameSlug,
             versionGroupSlug: plan.versionGroupSlug,
           }
         : null,
@@ -316,6 +330,7 @@ export const PlannerWorkspace = ({
     team.setSlots(toPlannerSlots(fitToVersionGroup(handoff.members)));
     // eslint-disable-next-line react-hooks/set-state-in-effect -- storage only exists in the browser
     setName(handoff.name);
+    setVersionGameSlug(handoff.versionGameSlug ?? null);
     dismissOffer();
     // Read once, when the Planner opens in the new game.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -417,6 +432,8 @@ export const PlannerWorkspace = ({
           onSave={save}
           onShare={() => setIsShareOpen(true)}
           onVersionGroupChange={changeVersionGroup}
+          onVersionGameChange={whenUnlocked(setVersionGameSlug)}
+          versionGame={versionGame}
           planCount={data.planCount}
           versionGroup={context.versionGroup}
           versionGroups={data.versionGroups}
@@ -474,6 +491,8 @@ export const PlannerWorkspace = ({
           sections={context.sections}
           slotByFormId={slotByFormId}
           types={context.types}
+          includedExpansionIds={expansions}
+          versionGame={versionGame}
           versionGroup={context.versionGroup}
         />
       ) : null}

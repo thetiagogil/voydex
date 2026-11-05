@@ -46,13 +46,16 @@ As built (v3):
 - **My Plans** (`/mainline/plans`): every Plan as a card with its game, six
   Pokémon and who follows it, filtered by game and sorted by
   update, name or game; New Plan opens the Planner blank. Archived Plans leave the list for their own (`?view=archived`, behind "Archived · N"), as archived Plays do. Each Plan has one "⋯" menu, on its card and in the Planner, grouped by what each action does: New Plan (in the Planner), See Plays and Share; then Rename and Archive (or Restore); then Delete; Archive in the Planner waits until unsaved changes are saved or undone. An archived Plan doesn't open: its card stays shut, its link leads back to the archived list, it keeps its Play links, and the save refuses it until it's restored.
-- A Plan is for either game of its version group ("Either"); the Planner has
-  no version control (#23, decided 2026-10-30 to keep the quieter Planner of
-  #87). It still stores the group's first game, for its cover. Any Play of
-  the version group can follow it, and a following Play checks the Plan
-  against its own game: a target only the other game has is marked
-  "Shield only: trade for it" instead of the Planner's "needs both"
-  warning. The Planner on its own keeps reading both games. Plan Detail,
+- A Plan is for Either (the default) or one version of its group (#225): a
+  Version switch (Either, Sword, Shield) sits beside the game card when the
+  group has two games, and the Plan saves and reopens with it. Either is
+  stored under the group's first game, a version under its own game (the
+  Planner's game card then shows that version's cover). For one version, its own exclusives need nothing
+  and the other's read "Sword only: trade for it" on the tile and as one
+  Team check step; Either keeps the "needs both" reading. The version can
+  change while Plays follow the Plan. Any Play of the version group can
+  follow it, and a following Play checks the Plan against its own game
+  (#23). A share link carries no version: it opens as Either. Plan Detail,
   Create Play from a Plan, cloning, drafts and the Game List below are
   accepted but not built.
 

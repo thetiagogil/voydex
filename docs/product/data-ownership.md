@@ -363,11 +363,12 @@ rewrites an existing shared definition as a side effect of one Play's save.
 
 A Team Plan is separate from a play's current team.
 
-As built, the Team Planner saves a Plan's name, game and Pokémon with their
-planned moves. There is no single save-Plan database function yet, so the
-Pokémon are rewritten in order and a failure puts the previous ones back. A
-Plan is for either game of its version group: it stores the group's first
-game, for its cover, and a Play of either game can follow it. An unsaved new
+As built, the Team Planner saves a Plan's name, game, version and Pokémon
+with their planned moves in one transaction
+(`planning.save_mainline_team_plan`). A
+Plan is for either game of its version group (stored under the group's first
+game, for its cover) or for one version (`is_either_version` false, stored
+under that game), and a Play of either game can follow it. An unsaved new
 Plan lives only in the browser's local storage, and a shared Plan lives only
 in a link's hash; neither is user-owned truth until saved. Following a Plan
 from a Play links it through `link_mainline_team_plan_to_play`, or re-points

@@ -23,6 +23,7 @@ INSERT INTO planning.mainline_team_plans (
   user_id,
   game_id,
   version_group_id,
+  is_either_version,
   status_id,
   name,
   notes,
@@ -34,6 +35,14 @@ SELECT
   mainline_plays.user_id,
   mainline_plays.game_id,
   stages.version_group_id,
+  -- Either is stored under the first game; a second game's Play plans for it.
+  mainline_plays.game_id = (
+    SELECT games.id
+    FROM reference.games
+    WHERE games.version_group_id = stages.version_group_id
+    ORDER BY games.sort_order, games.id
+    LIMIT 1
+  ),
   CASE stages.stage_key WHEN 'early' THEN 1 WHEN 'middle' THEN 2 WHEN 'late' THEN 2 ELSE 3 END,
   mainline_plays.name || ' team plan',
   CASE stages.stage_key

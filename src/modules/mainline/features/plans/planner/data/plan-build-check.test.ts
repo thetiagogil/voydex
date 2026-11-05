@@ -72,6 +72,7 @@ const pokemon = (
   evolutionFamilyId,
   facts: {
     eventOnly: false,
+    exclusiveEndedByExpansionIds: [],
     exclusiveToGameIds: [],
     expansionVersionGroupId: null,
     outsideGameOnly: false,
@@ -93,7 +94,10 @@ const corviknight = pokemon(823, "Corviknight", ["flying", "steel"]);
 const sirfetchd = pokemon(865, "Sirfetch'd", ["fighting"], {
   exclusiveToGameIds: [33],
 });
-const goodra = pokemon(706, "Goodra", ["dragon"], { exclusiveToGameIds: [34] });
+const goodra = pokemon(706, "Goodra", ["dragon"], {
+  exclusiveEndedByExpansionIds: [19],
+  exclusiveToGameIds: [34],
+});
 const zarude = pokemon(893, "Zarude", ["dark", "grass"], { eventOnly: true });
 const kubfu = pokemon(891, "Kubfu", ["fighting"], {
   expansionVersionGroupId: 19,
@@ -164,6 +168,35 @@ describe("buildPlanIssues", () => {
       severity: "info",
       title: "Sirfetch'd is Sword only",
     });
+  });
+
+  it("for one version, flags only the other version's exclusives, as a trade", () => {
+    const [sword, shield] = versionGroup.games;
+    const forShield = buildPlanIssues({
+      includedExpansionIds: [],
+      team: [sirfetchd, goodra],
+      versionGame: shield,
+      versionGroup,
+    });
+
+    expect(forShield).toEqual([
+      expect.objectContaining({
+        body: "You're playing Shield: trade for it.",
+        formIds: [sirfetchd.formId],
+        kind: "exclusives",
+        severity: "step",
+        title: "Sirfetch'd is Sword only",
+      }),
+    ]);
+
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [],
+        team: [sirfetchd],
+        versionGame: sword,
+        versionGroup,
+      }),
+    ).toEqual([]);
   });
 
   it("orders event-only, trade evolutions and shared lines by severity", () => {
@@ -282,6 +315,44 @@ describe("getPoolTileNotes", () => {
       "Shield only. Trade for it if you play another version.",
     ]);
     expect(getPoolTileNotes(corviknight, versionGroup)).toEqual([]);
+  });
+
+  it("follows the Plan's version: its own exclusives need no note", () => {
+    const [sword, shield] = versionGroup.games;
+
+    expect(
+      getPoolTileNotes(goodra, versionGroup, { versionGame: shield }),
+    ).toEqual([]);
+    expect(
+      getPoolTileNotes(goodra, versionGroup, { versionGame: sword }),
+    ).toEqual(["Shield only: trade for it."]);
+  });
+
+  it("drops an exclusive an included expansion hands out in both versions", () => {
+    const [sword] = versionGroup.games;
+
+    expect(
+      getPoolTileNotes(goodra, versionGroup, {
+        includedExpansionIds: [19],
+        versionGame: sword,
+      }),
+    ).toEqual([]);
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [19],
+        team: [goodra],
+        versionGame: sword,
+        versionGroup,
+      }),
+    ).toEqual([]);
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [20],
+        team: [goodra],
+        versionGame: sword,
+        versionGroup,
+      })[0],
+    ).toMatchObject({ severity: "step", title: "Goodra is Shield only" });
   });
 });
 

@@ -18,6 +18,8 @@ export type PlanSaveInput = {
   name: string;
   /* Null for a new Plan. */
   planId: string | null;
+  /* The version the Plan is for, by its game's slug; null for either. */
+  versionGameSlug: string | null;
   versionGroupSlug: string;
 };
 
@@ -91,7 +93,8 @@ const memberSchema = z.object(
 );
 
 /*
- * Checks a Plan before it is written: a version group's slug, a name within
+ * Checks a Plan before it is written: a version group's slug, its version's
+ * slug (none for either version), a name within
  * the Plan's limits (Untitled Plan when empty), up to six Pokémon in
  * different slots, and expansions as ids.
  */
@@ -105,6 +108,13 @@ const planSaveInputSchema = z.object(
       .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
         error: "Pick a game for the Plan.",
       }),
+    versionGameSlug: z
+      .string({ error: "Pick a version for the Plan." })
+      .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+        error: "Pick a version for the Plan.",
+      })
+      .nullish()
+      .transform((slug) => slug ?? null),
     members: z
       .array(memberSchema, { error: "A Plan holds up to six Pokémon." })
       .max(6, { error: "A Plan holds up to six Pokémon." })

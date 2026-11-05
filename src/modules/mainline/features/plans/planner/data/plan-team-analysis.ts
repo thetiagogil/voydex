@@ -1,4 +1,5 @@
 import type {
+  PlannerGame,
   PlannerPokemon,
   PlannerVersionGroup,
   PlanType,
@@ -179,14 +180,22 @@ export const buildPlanTeamCheck = ({
   includedExpansionIds,
   team,
   types,
+  versionGame,
   versionGroup,
 }: {
   includedExpansionIds: number[];
   team: PlannerPokemon[];
   types: PlanType[];
+  /* The version the Plan is for; null when it is for either. */
+  versionGame: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
 }) => {
-  const issues = buildPlanIssues({ includedExpansionIds, team, versionGroup });
+  const issues = buildPlanIssues({
+    includedExpansionIds,
+    team,
+    versionGame,
+    versionGroup,
+  });
   const generationOrder = versionGroup.generationOrder;
   const matchups = buildPlanMatchups({ generationOrder, team, types });
 

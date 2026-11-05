@@ -18,7 +18,7 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
     .schema("views")
     .from("mainline_team_plan_summary")
     .select(
-      "game_slug, generation_id, linked_play_count, member_count, status_slug, team_plan_id, team_plan_name, updated_at, version_group_name, version_group_slug",
+      "game_slug, generation_id, linked_play_count, member_count, status_slug, team_plan_id, team_plan_name, updated_at, version_group_id, version_group_name, version_group_slug",
     )
     .eq("user_id", userId)
     .order("updated_at", { ascending: false });
@@ -53,7 +53,7 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
   const formIds = uniqueNumberIds(
     members.map((member) => member.target_form_id),
   );
-  const [attributesResult, typesResult] = await Promise.all([
+  const [attributesResult, typesResult, gamesResult] = await Promise.all([
     formIds.length
       ? supabase
           .schema("reference")
@@ -63,6 +63,17 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
           .order("generation_start_id", { ascending: false })
       : null,
     supabase.schema("reference").from("types").select("id, slug"),
+    /* Each game's first version, for its cover: a Plan may be for the other. */
+    supabase
+      .schema("reference")
+      .from("games")
+      .select("slug, version_group_id")
+      .in(
+        "version_group_id",
+        uniqueNumberIds(plans.map((plan) => plan.version_group_id)),
+      )
+      .order("sort_order")
+      .order("id"),
   ]);
 
   /* A missing tint falls back to neutral; it never hides a Plan. */
@@ -75,6 +86,14 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
       type.slug,
     ]),
   );
+
+  const firstGameSlugByGroup = new Map<number, string>();
+
+  for (const game of gamesResult.error ? [] : gamesResult.data) {
+    if (!firstGameSlugByGroup.has(game.version_group_id)) {
+      firstGameSlugByGroup.set(game.version_group_id, game.slug);
+    }
+  }
 
   return plans.flatMap((plan): MyPlan[] => {
     if (!plan.team_plan_id) return [];
@@ -104,7 +123,10 @@ export const getMyPlansPageData = async (): Promise<MyPlan[]> => {
 
     return [
       {
-        gameSlug: plan.game_slug,
+        gameSlug:
+          (plan.version_group_id !== null &&
+            firstGameSlugByGroup.get(plan.version_group_id)) ||
+          plan.game_slug,
         id: plan.team_plan_id,
         isArchived: plan.status_slug === "archived",
         linkedPlayCount: plan.linked_play_count ?? 0,

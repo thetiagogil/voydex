@@ -19,6 +19,8 @@ export type PlanDraft = {
    */
   preview: TeamStripMember[];
   versionGroupName: string | null;
+  /* The version it is for, by its game's slug; null for either. */
+  versionGameSlug: string | null;
   versionGroupSlug: string;
 };
 
@@ -80,6 +82,11 @@ const readDraft = (trainerId: string): PlanDraft | null => {
           versionGroupName:
             typeof draft.versionGroupName === "string"
               ? draft.versionGroupName
+              : null,
+          /* A draft from before versions is for either. */
+          versionGameSlug:
+            typeof draft.versionGameSlug === "string"
+              ? draft.versionGameSlug
               : null,
           versionGroupSlug: draft.versionGroupSlug,
         }

@@ -88,3 +88,19 @@ describe("parsePlanSaveInput", () => {
     ).toThrow("The Plan name can be at most 200 characters.");
   });
 });
+
+describe("parsePlanSaveInput version", () => {
+  it("reads no version as either, and keeps a picked one", () => {
+    expect(parsePlanSaveInput(plan([])).versionGameSlug).toBeNull();
+    expect(
+      parsePlanSaveInput({ ...plan([]), versionGameSlug: "shield" })
+        .versionGameSlug,
+    ).toBe("shield");
+  });
+
+  it("rejects a version that isn't a slug", () => {
+    expect(() =>
+      parsePlanSaveInput({ ...plan([]), versionGameSlug: "Shield!" }),
+    ).toThrow(PlanSaveInputError);
+  });
+});

@@ -34,6 +34,12 @@ export type PlanMember = {
 export type PlannerPokemonFacts = {
   /* Obtainable in the game only as one of its exclusives: these games' ids. */
   exclusiveToGameIds: number[];
+  /*
+   * The expansions that also hand it out in another version, so it stops
+   * being an exclusive once one is included (Goodra is Shield-only in the
+   * base game; The Isle of Armor has it in both).
+   */
+  exclusiveEndedByExpansionIds: number[];
   /* Only from an official event, never in the game itself. */
   eventOnly: boolean;
   /* Obtainable only in an expansion: that expansion's version group id. */
@@ -163,6 +169,8 @@ export type SavedPlan = {
   statusSlug: string | null;
   /* When it was last saved; a new save remounts the Planner on fresh ids. */
   updatedAt: string | null;
+  /* The version it is for, by its game's slug; null for either. */
+  versionGameSlug: string | null;
   versionGroupSlug: string;
 };
 

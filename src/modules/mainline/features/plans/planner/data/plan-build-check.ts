@@ -1,4 +1,5 @@
 import type {
+  PlannerGame,
   PlannerPokemon,
   PlannerVersionGroup,
 } from "@/modules/mainline/features/plans/types";
@@ -50,6 +51,20 @@ export const joinPlanList = (items: string[], conjunction = "and") =>
     ? items.join(` ${conjunction} `)
     : `${items.slice(0, -1).join(", ")} ${conjunction} ${items.at(-1)}`;
 
+/*
+ * The one game a Pokémon is exclusive to with these expansions included, or
+ * none: an included expansion that hands it out in another game ends it.
+ */
+export const getExclusiveGameIds = (
+  pokemon: PlannerPokemon,
+  includedExpansionIds: number[],
+) =>
+  pokemon.facts.exclusiveEndedByExpansionIds.some((id) =>
+    includedExpansionIds.includes(id),
+  )
+    ? []
+    : pokemon.facts.exclusiveToGameIds;
+
 const names = (team: PlannerPokemon[]) => team.map((pokemon) => pokemon.name);
 const verb = (team: unknown[], one: string, many: string) =>
   team.length > 1 ? many : one;
@@ -63,10 +78,13 @@ const verb = (team: unknown[], one: string, many: string) =>
 export const buildPlanIssues = ({
   includedExpansionIds,
   team,
+  versionGame = null,
   versionGroup,
 }: {
   includedExpansionIds: number[];
   team: PlannerPokemon[];
+  /* The version the Plan is for; null when it is for either. */
+  versionGame?: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
 }): PlanIssue[] => {
   const issues: PlanIssue[] = [];
@@ -123,12 +141,34 @@ export const buildPlanIssues = ({
     .map((game) => ({
       game,
       team: team.filter((pokemon) =>
-        pokemon.facts.exclusiveToGameIds.includes(game.id),
+        getExclusiveGameIds(pokemon, includedExpansionIds).includes(game.id),
       ),
     }))
     .filter((group) => group.team.length);
+  /* For one version, its own exclusives need nothing; the others' a trade. */
+  const otherExclusives = exclusivesByGame.filter(
+    (group) => group.game.id !== versionGame?.id,
+  );
 
-  if (exclusivesByGame.length > 1) {
+  if (versionGame) {
+    const traded = otherExclusives.flatMap((group) => group.team);
+
+    if (traded.length) {
+      issues.push({
+        body: `You're playing ${versionGame.shortName}: trade for ${verb(traded, "it", "them")}.`,
+        includeExpansionId: null,
+        kind: "exclusives",
+        severity: "step",
+        formIds: traded.map((pokemon) => pokemon.formId),
+        title: otherExclusives
+          .map(
+            (group) =>
+              `${joinPlanList(names(group.team))} ${verb(group.team, "is", "are")} ${group.game.shortName} only`,
+          )
+          .join(" · "),
+      });
+    }
+  } else if (exclusivesByGame.length > 1) {
     issues.push({
       body: `Whichever you play, trade for the others: ${exclusivesByGame
         .map(
@@ -287,6 +327,15 @@ export const getWorstIssueFor = (formId: number, issues: PlanIssue[]) =>
 export const getPoolTileNotes = (
   pokemon: PlannerPokemon,
   versionGroup: PlannerVersionGroup,
+  {
+    includedExpansionIds = [],
+    versionGame = null,
+  }: {
+    /* The expansions the Plan includes. */
+    includedExpansionIds?: number[];
+    /* The version the Plan is for; null when it is for either. */
+    versionGame?: PlannerGame | null;
+  } = {},
 ): string[] => {
   const notes: string[] = [];
 
@@ -307,13 +356,15 @@ export const getPoolTileNotes = (
   }
 
   const exclusiveGame = versionGroup.games.find((game) =>
-    pokemon.facts.exclusiveToGameIds.includes(game.id),
+    getExclusiveGameIds(pokemon, includedExpansionIds).includes(game.id),
   );
 
-  if (exclusiveGame) {
+  if (exclusiveGame && !versionGame) {
     notes.push(
       `${exclusiveGame.shortName} only. Trade for it if you play another version.`,
     );
+  } else if (exclusiveGame && exclusiveGame.id !== versionGame?.id) {
+    notes.push(`${exclusiveGame.shortName} only: trade for it.`);
   }
 
   return notes;

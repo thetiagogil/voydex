@@ -14,15 +14,23 @@ type PlanContents = {
   expansions: number[];
   members: PlanMember[];
   name: string;
+  /* The version, by its game's slug; null for either. */
+  versionGameSlug: string | null;
   versionGroupSlug: string;
 };
 
-/* What Save changes: the team and its game. The name changes on its own,
- * through Rename. */
-const toSnapshot = ({ expansions, members, versionGroupSlug }: PlanContents) =>
+/* What Save changes: the team, its game and version. The name changes on its
+ * own, through Rename. */
+const toSnapshot = ({
+  expansions,
+  members,
+  versionGameSlug,
+  versionGroupSlug,
+}: PlanContents) =>
   JSON.stringify({
     expansions: expansions.toSorted(),
     members,
+    versionGameSlug,
     versionGroupSlug,
   });
 
@@ -69,6 +77,7 @@ export const usePlanSave = ({
           members: contents.members,
           name: planName,
           planId,
+          versionGameSlug: contents.versionGameSlug,
           versionGroupSlug: contents.versionGroupSlug,
         });
 

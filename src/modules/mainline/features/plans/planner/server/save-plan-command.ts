@@ -118,12 +118,12 @@ const toSaveError = (error: { code: string; message: string }) => {
 };
 
 /*
- * Saves a Plan: a new one, or a saved one's name, game, Pokémon and
- * expansions, after checking every Pokémon fits the version group. The
- * Plan row, its Pokémon, their planned moves and its expansions are written
- * in one transaction by `planning.save_mainline_team_plan`, which keeps a
- * saved Plan's game while its version group stays the same and refuses a new
- * version group while a Play follows it.
+ * Saves a Plan: a new one, or a saved one's name, game, version (one of the
+ * group's games, or either), Pokémon and expansions, after checking every
+ * Pokémon fits the version group. The Plan row, its Pokémon, their planned
+ * moves and its expansions are written in one transaction by
+ * `planning.save_mainline_team_plan`, which refuses a new version group while
+ * a Play follows the Plan; its version may change.
  */
 export const savePlan = async ({
   input,
@@ -137,6 +137,15 @@ export const savePlan = async ({
   }
 
   const game = await readPlanGame(supabase, input.versionGroupSlug);
+  /* No version is either; a version must be one of the group's games. */
+  const versionGame = input.versionGameSlug
+    ? game.games.find((option) => option.slug === input.versionGameSlug)
+    : null;
+
+  if (versionGame === undefined) {
+    throw new PlanSaveInputError("Pick a version of this game for the Plan.");
+  }
+
   const expansionIds = input.expansionVersionGroupIds.filter((id) =>
     game.expansionIds.includes(id),
   );
@@ -145,6 +154,7 @@ export const savePlan = async ({
     .schema("planning")
     .rpc("save_mainline_team_plan", {
       p_expansion_version_group_ids: expansionIds,
+      p_game_id: versionGame?.id,
       p_members: members.map(toMemberRow),
       p_name: input.name,
       p_team_plan_id: input.planId ?? undefined,

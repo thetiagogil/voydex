@@ -4,6 +4,8 @@ import type { PlanMember } from "@/modules/mainline/features/plans/types";
 export type PlanSwitchHandoff = {
   members: PlanMember[];
   name: string;
+  /* A draft's version, by its game's slug; a game switch starts on either. */
+  versionGameSlug?: string | null;
 };
 
 const getHandoffKey = (planId: string | null, versionGroupSlug: string) =>
@@ -46,7 +48,14 @@ export const takePlanSwitchHandoff = (
     const parsed = JSON.parse(raw) as Partial<PlanSwitchHandoff>;
 
     return Array.isArray(parsed.members) && typeof parsed.name === "string"
-      ? { members: parsed.members, name: parsed.name }
+      ? {
+          members: parsed.members,
+          name: parsed.name,
+          versionGameSlug:
+            typeof parsed.versionGameSlug === "string"
+              ? parsed.versionGameSlug
+              : null,
+        }
       : null;
   } catch {
     return null;
