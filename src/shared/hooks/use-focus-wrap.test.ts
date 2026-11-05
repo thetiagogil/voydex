@@ -2,40 +2,38 @@ import { describe, expect, it } from "vitest";
 
 import { getFocusWrapTarget } from "./use-focus-wrap";
 
-const tabbables = ["back", "moves", "edit", "close"];
+/* Document order as numbers: the title at 0, then four controls. */
+const tabbables = [1, 2, 3, 4];
+const wrap = (active: number | null, backwards: boolean, list = tabbables) =>
+  getFocusWrapTarget({
+    active,
+    backwards,
+    isBefore: (left, right) => left < right,
+    tabbables: list,
+  });
 
 describe("getFocusWrapTarget", () => {
   it("wraps forward from the last control to the first", () => {
-    expect(
-      getFocusWrapTarget({ active: "close", backwards: false, tabbables }),
-    ).toBe("back");
+    expect(wrap(4, false)).toBe(1);
   });
 
   it("wraps backward from the first control to the last", () => {
-    expect(
-      getFocusWrapTarget({ active: "back", backwards: true, tabbables }),
-    ).toBe("close");
+    expect(wrap(1, true)).toBe(4);
+  });
+
+  it("wraps backward from the title, which holds focus on open", () => {
+    expect(wrap(0, true)).toBe(4);
   });
 
   it("leaves the browser to move between the controls in between", () => {
-    expect(
-      getFocusWrapTarget({ active: "moves", backwards: false, tabbables }),
-    ).toBeNull();
-    expect(
-      getFocusWrapTarget({ active: "close", backwards: true, tabbables }),
-    ).toBeNull();
-    /* The title holds focus on open; Tab goes on from it as usual. */
-    expect(
-      getFocusWrapTarget({ active: "title", backwards: false, tabbables }),
-    ).toBeNull();
+    expect(wrap(2, false)).toBeNull();
+    expect(wrap(4, true)).toBeNull();
+    /* Tab from the title reaches the first control on its own. */
+    expect(wrap(0, false)).toBeNull();
   });
 
   it("does nothing with nothing to focus", () => {
-    expect(
-      getFocusWrapTarget({ active: "close", backwards: false, tabbables: [] }),
-    ).toBeNull();
-    expect(
-      getFocusWrapTarget({ active: null, backwards: false, tabbables }),
-    ).toBeNull();
+    expect(wrap(4, false, [])).toBeNull();
+    expect(wrap(null, false)).toBeNull();
   });
 });

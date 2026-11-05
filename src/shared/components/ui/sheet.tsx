@@ -44,6 +44,7 @@ const SheetOverlay = ({
 const SheetContent = ({
   className,
   children,
+  onKeyDown,
   side = "right",
   showCloseButton = true,
   ...props
@@ -51,7 +52,7 @@ const SheetContent = ({
   side?: "top" | "right" | "bottom" | "left";
   showCloseButton?: boolean;
 }) => {
-  const wrapFocus = useFocusWrap();
+  const wrapFocus = useFocusWrap(onKeyDown);
 
   return (
     <SheetPortal>

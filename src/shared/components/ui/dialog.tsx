@@ -45,6 +45,7 @@ const DialogContent = ({
   className,
   children,
   fullScreenOnPhone = false,
+  onKeyDown,
   showCloseButton = true,
   ...props
 }: DialogPrimitive.Popup.Props & {
@@ -55,7 +56,7 @@ const DialogContent = ({
   fullScreenOnPhone?: boolean;
   showCloseButton?: boolean;
 }) => {
-  const wrapFocus = useFocusWrap();
+  const wrapFocus = useFocusWrap(onKeyDown);
   const closeButton = showCloseButton ? (
     <DialogPrimitive.Close
       data-slot="dialog-close"

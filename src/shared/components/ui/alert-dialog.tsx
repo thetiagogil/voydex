@@ -10,6 +10,7 @@ import * as React from "react";
 import { Dialog as AlertDialogPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
 import { cn } from "@/shared/utils/cn";
+import { useFocusWrap } from "@/shared/hooks/use-focus-wrap";
 import { Button } from "@/shared/components/ui/button";
 
 const AlertDialog = ({ ...props }: AlertDialogPrimitive.Root.Props) => {
@@ -43,6 +44,7 @@ const AlertDialogOverlay = ({
 const AlertDialogContent = ({
   children,
   className,
+  onKeyDown,
   showCloseButton = true,
   size = "default",
   ...props
@@ -50,12 +52,15 @@ const AlertDialogContent = ({
   showCloseButton?: boolean;
   size?: "default" | "sm";
 }) => {
+  const wrapFocus = useFocusWrap(onKeyDown);
+
   return (
     <AlertDialogPortal>
       <AlertDialogOverlay />
       <AlertDialogPrimitive.Popup
         data-slot="alert-dialog-content"
         data-size={size}
+        onKeyDown={wrapFocus}
         role="alertdialog"
         className={cn(
           "group/alert-dialog-content bg-surface text-ink text-15 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95 shadow-overlay fixed top-1/2 left-1/2 z-50 grid max-h-[calc(100dvh-2rem)] w-full -translate-x-1/2 -translate-y-1/2 gap-4 overflow-y-auto rounded-2xl p-6 duration-100 outline-none data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-sm",

@@ -110,24 +110,32 @@ test.describe("Sheets and dialogs", () => {
   }) => {
     for (const viewport of [desktop, phone]) {
       await page.setViewportSize(viewport);
-      const sheet = await openNuzlockeSheet(page);
-      const controls = await sheet
-        .locator("button:visible, a[href]:visible, [tabindex='0']:visible")
-        .count();
 
-      /* Twice round the controls, with no pause for the sheet to catch up. */
-      for (let press = 0; press < controls * 2 + 2; press += 1) {
-        await page.keyboard.press("Tab");
-      }
-      await expect(sheet.locator(":focus")).toHaveCount(1);
+      for (const open of [openNuzlockeSheet, openRuleDialog]) {
+        const overlay = await open(page);
+        const controls = await overlay
+          .locator("button:visible, a[href]:visible, [tabindex='0']:visible")
+          .count();
 
-      for (let press = 0; press < controls * 2 + 2; press += 1) {
+        /* Straight back from the title, before any control had focus. */
         await page.keyboard.press("Shift+Tab");
-      }
-      await expect(sheet.locator(":focus")).toHaveCount(1);
+        await page.keyboard.press("Shift+Tab");
+        await expect(overlay.locator(":focus")).toHaveCount(1);
 
-      await page.keyboard.press("Escape");
-      await expect(sheet).toBeHidden();
+        /* Twice round the controls, with no pause for the overlay to catch up. */
+        for (let press = 0; press < controls * 2 + 2; press += 1) {
+          await page.keyboard.press("Tab");
+        }
+        await expect(overlay.locator(":focus")).toHaveCount(1);
+
+        for (let press = 0; press < controls * 2 + 2; press += 1) {
+          await page.keyboard.press("Shift+Tab");
+        }
+        await expect(overlay.locator(":focus")).toHaveCount(1);
+
+        await page.keyboard.press("Escape");
+        await expect(overlay).toBeHidden();
+      }
     }
   });
 
