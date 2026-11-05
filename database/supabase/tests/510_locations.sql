@@ -5,7 +5,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 BEGIN;
 SET LOCAL search_path = extensions, public;
 SELECT
-    plan (13);
+    plan (14);
 SELECT
     IS ((
             SELECT
@@ -94,6 +94,17 @@ SELECT
                 AND e.version_group_id = 1
                 AND l.slug = 'kanto-power-plant' ORDER BY w.slug $$, $$
             VALUES ('special', 50) $$, 'Zapdos waits at the Power Plant as a special encounter');
+SELECT
+    results_eq ($$
+        SELECT
+            f.slug FROM reference.pokemon_encounters e
+            JOIN reference.pokemon_forms f ON f.id = e.form_id
+            WHERE
+                e.version_group_id = 26
+                AND e.encounter_way_id = 28
+                AND f.species_id IN (26, 79)
+            ORDER BY f.slug $$, $$
+            VALUES ('alolan-raichu'), ('galarian-slowpoke') $$, 'Legends: Z-A trades hand over an Alolan Raichu and a Galarian Slowpoke');
 SELECT
     is_empty ($$
         SELECT
