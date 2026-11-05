@@ -5,6 +5,8 @@
 -- 2026-11-04) and, for the order places open in, its walkthroughs.
 -- Cross-check and gap fill (gifts, fixed encounters, in-game trades, honey
 -- trees): PokeAPI's encounter tables, Generation I to Sword / Shield.
+-- Gifts, eggs, trades and fossils in Brilliant Diamond / Shining Pearl and
+-- Legends: Arceus: Bulbapedia's gift and in-game trade lists, read 2026-11-05.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -9996,4 +9998,12 @@ VALUES
   (436, 43600, 322, 22, NULL, 5, 29, 32, NULL),
   (437, 43700, 322, 22, NULL, 5, 49, 52, NULL),
   (478, 47800, 322, 22, NULL, 5, 53, 56, 'Night'),
-  (475, 47500, 322, 22, NULL, 25, 70, 70, NULL);
+  (475, 47500, 322, 22, NULL, 25, 70, 70, NULL),
+  -- Jubilife Village in pla
+  (722, 72200, 704, 22, NULL, 27, 5, 5, NULL),
+  (155, 15500, 704, 22, NULL, 27, 5, 5, NULL),
+  (501, 50100, 704, 22, NULL, 27, 5, 5, NULL),
+  -- Whiteout Valley in pla
+  (37, 3701, 733, 22, NULL, 27, 40, 40, NULL),
+  -- Temple of Sinnoh in pla
+  (493, 49300, 796, 22, NULL, 27, 75, 75, NULL);

@@ -5,6 +5,8 @@
 -- 2026-11-04) and, for the order places open in, its walkthroughs.
 -- Cross-check and gap fill (gifts, fixed encounters, in-game trades, honey
 -- trees): PokeAPI's encounter tables, Generation I to Sword / Shield.
+-- Gifts, eggs, trades and fossils in Scarlet / Violet, its expansions and
+-- Legends: Z-A: Bulbapedia's gift and in-game trade lists, read 2026-11-05.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
@@ -3708,4 +3710,80 @@ VALUES
   (926, 92600, 426, 27, NULL, 5, 18, 24, NULL),
   (927, 92700, 426, 27, NULL, 5, 27, 29, NULL),
   (958, 95800, 426, 27, NULL, 5, 38, 40, NULL),
-  (959, 95900, 426, 27, NULL, 5, 41, 43, NULL);
+  (959, 95900, 426, 27, NULL, 5, 41, 43, NULL),
+  -- Reveler's Road in sv-tm
+  (387, 38700, 777, 24, NULL, 30, 1, 1, NULL),
+  (390, 39000, 777, 24, NULL, 30, 1, 1, NULL),
+  (393, 39300, 777, 24, NULL, 30, 1, 1, NULL),
+  -- League Club Room in sv-id
+  (240, 24000, 797, 25, NULL, 28, 12, 12, NULL),
+  (982, 98200, 797, 25, NULL, 28, 35, 35, NULL),
+  (194, 19401, 797, 25, NULL, 28, 8, 8, NULL),
+  (922, 92200, 797, 25, NULL, 28, 24, 24, NULL),
+  (974, 97400, 797, 25, NULL, 28, 37, 37, NULL),
+  (976, 97600, 797, 25, NULL, 28, 20, 20, NULL),
+  (997, 99700, 797, 25, NULL, 28, 45, 45, NULL),
+  (415, 41500, 797, 25, NULL, 28, 15, 15, NULL),
+  (884, 88400, 797, 25, NULL, 28, 36, 36, NULL),
+  (307, 30700, 797, 25, NULL, 28, 28, 28, NULL),
+  (192, 19200, 797, 25, NULL, 28, 40, 40, NULL),
+  (747, 74700, 797, 25, NULL, 28, 20, 20, NULL),
+  (81, 8100, 797, 25, NULL, 28, 22, 22, NULL),
+  (227, 22700, 797, 25, NULL, 28, 40, 40, NULL),
+  (969, 96900, 797, 25, NULL, 28, 5, 5, NULL),
+  (958, 95800, 797, 25, NULL, 28, 25, 25, NULL),
+  (971, 97100, 797, 25, NULL, 28, 10, 10, NULL),
+  (999, 99900, 797, 25, NULL, 28, 30, 30, NULL),
+  (955, 95500, 797, 25, NULL, 28, 32, 32, NULL),
+  (857, 85700, 797, 25, NULL, 28, 33, 33, NULL),
+  (52, 5201, 797, 25, NULL, 28, 21, 21, NULL),
+  (522, 52200, 797, 25, NULL, 28, 20, 20, NULL),
+  (209, 20900, 797, 25, NULL, 28, 18, 18, NULL),
+  (744, 74400, 797, 25, NULL, 28, 12, 12, NULL),
+  (316, 31600, 797, 25, NULL, 28, 17, 17, NULL),
+  (128, 12801, 797, 25, NULL, 28, 50, 50, NULL),
+  (819, 81900, 797, 25, NULL, 28, 7, 7, NULL),
+  (133, 13300, 797, 25, NULL, 28, 1, 1, NULL),
+  (1012, 101200, 797, 25, NULL, 28, 30, 30, NULL),
+  (840, 84000, 797, 25, NULL, 28, 15, 15, NULL),
+  -- Lumiose City in za
+  (152, 15200, 798, 26, NULL, 27, 5, 5, NULL),
+  (498, 49800, 798, 26, NULL, 27, 5, 5, NULL),
+  (158, 15800, 798, 26, NULL, 27, 5, 5, NULL),
+  (359, 35900, 798, 26, NULL, 27, 30, 30, NULL),
+  (670, 67002, 798, 26, NULL, 27, 72, 72, NULL),
+  -- Hotel Z in za
+  (448, 44800, 437, 26, NULL, 27, 50, 50, NULL),
+  -- Passage du Palais in za
+  (214, 21400, 799, 26, NULL, 28, 12, 12, NULL),
+  -- Académie Étoile in za
+  (650, 65000, 800, 26, NULL, 27, 14, 14, NULL),
+  (447, 44700, 800, 26, NULL, 28, 25, 25, NULL),
+  -- Magenta Sector 2 in za
+  (653, 65300, 801, 26, NULL, 27, 14, 14, NULL),
+  -- North Boulevard in za
+  (656, 65600, 802, 26, NULL, 27, 14, 14, NULL),
+  -- Lumiose Museum in za
+  (665, 66500, 441, 26, NULL, 27, 9, 9, NULL),
+  -- Quasartico Inc. Building in za
+  (26, 2600, 448, 26, NULL, 28, 64, 64, NULL),
+  -- South Boulevard in za
+  (79, 7900, 477, 26, NULL, 28, 30, 30, NULL),
+  -- Wild Zone 11 in za
+  (618, 61801, 486, 26, NULL, 27, 38, 38, NULL),
+  -- Pokémon Research Lab in za
+  (1, 100, 445, 26, NULL, 27, 5, 5, NULL),
+  (4, 400, 445, 26, NULL, 27, 5, 5, NULL),
+  (7, 700, 445, 26, NULL, 27, 5, 5, NULL),
+  (696, 69600, 445, 26, NULL, 29, 20, 20, NULL),
+  (698, 69800, 445, 26, NULL, 29, 20, 20, NULL),
+  (142, 14200, 445, 26, NULL, 29, 20, 20, NULL),
+  -- Rouge Sector 1 in za-md
+  (999, 99900, 804, 27, NULL, 27, 5, 5, NULL),
+  -- Bleu Sector 6 in za-md
+  (137, 13700, 805, 27, NULL, 28, 50, 50, NULL),
+  -- Quasartico Inc. Building in za-md
+  (801, 80100, 448, 27, NULL, 27, 80, 80, NULL),
+  -- Hyperspace Lumiose in za-md
+  (809, 80900, 806, 27, NULL, 27, 80, 80, NULL),
+  (720, 72000, 806, 27, NULL, 27, 80, 80, NULL);

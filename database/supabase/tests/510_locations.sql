@@ -12,7 +12,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.locations),
-            792,
+            802,
             'every place is seeded');
 SELECT
     IS ((
@@ -20,7 +20,7 @@ SELECT
                 COUNT(*)::integer
             FROM
                 reference.pokemon_encounters),
-            26421,
+            26485,
             'every encounter row is seeded');
 SELECT
     is_empty ($$
@@ -72,7 +72,7 @@ SELECT
             JOIN reference.locations l ON l.id = p.location_id
             WHERE
                 p.version_group_id = 26 ORDER BY p.sort_order LIMIT 5 $$, $$
-        VALUES ('Hotel Z'), ('Lumiose Museum'), ('Quasartico Inc. (building)'), ('Wild Zone 1'), ('Saison Canal') $$, 'Legends: Z-A opens at Hotel Z, then Wild Zone 1');
+        VALUES ('Lumiose City'), ('Hotel Z'), ('Lumiose Museum'), ('Quasartico Inc. (building)'), ('Wild Zone 1') $$, 'Legends: Z-A opens in Lumiose City, at Hotel Z, then Wild Zone 1');
 SELECT
     results_eq ($$
         SELECT
