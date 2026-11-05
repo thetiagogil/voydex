@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   getOfferedFormIdsBySpecies,
   listPlannerPokedexes,
+  placePlannerExtras,
   placePlannerSpecies,
 } from "./planner-offered-forms";
 
@@ -164,5 +165,137 @@ describe("placePlannerSpecies", () => {
       [3, [144]],
     ]);
     expect([...placed.displayFormIdBySpecies]).toEqual([[52, 5202]]);
+  });
+});
+
+describe("placePlannerExtras", () => {
+  /*
+   * Scarlet / Violet: no Pokédex has Articuno; the Indigo Disk's treats
+   * bring the Kantonian one and the Galarian one only arrives by transfer.
+   * Perrserker evolves from the gift Galarian Meowth, which the Paldea
+   * Pokédex has; Ivysaur only evolves from an event-only Bulbasaur; Phione
+   * only hatches from an event-only Manaphy.
+   */
+  const species = [
+    { evolution_family_id: 1, id: 1, national_number: 1 },
+    { evolution_family_id: 1, id: 2, national_number: 2 },
+    { evolution_family_id: 52, id: 52, national_number: 52 },
+    { evolution_family_id: 144, id: 144, national_number: 144 },
+    { evolution_family_id: 243, id: 243, national_number: 243 },
+    { evolution_family_id: 479, id: 479, national_number: 479 },
+    { evolution_family_id: 489, id: 489, national_number: 489 },
+    { evolution_family_id: 489, id: 490, national_number: 490 },
+    { evolution_family_id: 52, id: 863, national_number: 863 },
+  ];
+  const extraForms = [
+    { form_order: 1, id: 100, is_default: true, species_id: 1 },
+    { form_order: 1, id: 200, is_default: true, species_id: 2 },
+    { form_order: 1, id: 5200, is_default: true, species_id: 52 },
+    { form_order: 2, id: 5202, is_default: false, species_id: 52 },
+    { form_order: 1, id: 24300, is_default: true, species_id: 243 },
+    { form_order: 1, id: 48900, is_default: true, species_id: 489 },
+    { form_order: 1, id: 49000, is_default: true, species_id: 490 },
+    { form_order: 1, id: 86300, is_default: true, species_id: 863 },
+  ];
+  const row = (
+    species_id: number,
+    form_id: number | null,
+    target_version_group_id: number,
+    availability_method_id: number,
+  ) => ({
+    availability_method_id,
+    form_id,
+    species_id,
+    target_version_group_id,
+  });
+  const availability = [
+    row(144, 14400, 23, 13),
+    row(144, 14401, 23, 13),
+    row(144, 14400, 25, 2),
+    row(243, 24300, 25, 2),
+    /* Rotom, species-wide, in the base game and again in the expansion. */
+    row(479, null, 25, 2),
+    row(479, null, 23, 1),
+    row(52, 5202, 23, 4),
+    row(863, 86300, 23, 7),
+    row(1, 100, 23, 11),
+    row(2, 200, 23, 7),
+    row(490, 49000, 23, 11),
+    row(489, 48900, 23, 8),
+  ];
+  const place = (placedSpeciesIds: number[] = [52]) =>
+    placePlannerExtras({
+      availability,
+      cosmeticFormIds: new Set([66601]),
+      derivedMethodIds: new Set([7, 8]),
+      familyOrder: [23, 24, 25],
+      formClassById: new Map([...formClassById, [5202, "variant"]]),
+      forms: [...forms, ...extraForms],
+      inGameMethodIds: new Set([1, 2, 4, 7, 8]),
+      placedSpeciesIds: new Set(placedSpeciesIds),
+      species,
+    });
+
+  it("places each unlisted species under the first group that brings it, by National number", () => {
+    expect([...place().speciesIdsByVersionGroupId]).toEqual([
+      [25, [144, 243]],
+      [23, [479, 863]],
+    ]);
+  });
+
+  it("leads with the form the placing group's rows name, and the default for a species-wide row", () => {
+    const { displayFormIdBySpecies } = place();
+
+    expect(displayFormIdBySpecies.get(144)).toBe(14400);
+    expect(displayFormIdBySpecies.get(243)).toBe(24300);
+    expect(displayFormIdBySpecies.get(479)).toBe(47900);
+    expect(displayFormIdBySpecies.get(863)).toBe(86300);
+  });
+
+  it("reads the display form from the placing group's rows alone", () => {
+    const { displayFormIdBySpecies, speciesIdsByVersionGroupId } =
+      placePlannerExtras({
+        /* A gift Galarian Meowth in the base game, a wild Kantonian one in the expansion. */
+        availability: [row(52, 5202, 23, 4), row(52, 5200, 25, 1)],
+        cosmeticFormIds: new Set(),
+        derivedMethodIds: new Set([7, 8]),
+        familyOrder: [23, 24, 25],
+        formClassById: new Map([[5202, "variant"]]),
+        forms: extraForms,
+        inGameMethodIds: new Set([1, 2, 4, 7, 8]),
+        placedSpeciesIds: new Set(),
+        species,
+      });
+
+    expect([...speciesIdsByVersionGroupId]).toEqual([[23, [52]]]);
+    expect(displayFormIdBySpecies.get(52)).toBe(5202);
+  });
+
+  it("keeps out what only evolves or hatches from a Pokémon the game never gives", () => {
+    const placed = place().speciesIdsByVersionGroupId.get(23) ?? [];
+
+    expect(placed).not.toContain(2);
+    expect(placed).not.toContain(489);
+  });
+
+  it("leaves out species a Pokédex already places, and ones only transfer brings", () => {
+    expect([...place([52, 144, 479, 863]).speciesIdsByVersionGroupId]).toEqual([
+      [25, [243]],
+    ]);
+    expect(
+      placePlannerExtras({
+        availability: availability.filter(
+          (entry) => entry.availability_method_id === 13,
+        ),
+        cosmeticFormIds: new Set(),
+        derivedMethodIds: new Set([7, 8]),
+        familyOrder: [23, 24, 25],
+        formClassById,
+        forms,
+        inGameMethodIds: new Set([1, 2, 4, 7, 8]),
+        placedSpeciesIds: new Set(),
+        species,
+      }).speciesIdsByVersionGroupId.size,
+    ).toBe(0);
   });
 });

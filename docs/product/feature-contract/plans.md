@@ -16,7 +16,13 @@ As built (v3):
   it, as Galarian Articuno beside Articuno with The Crown Tundra; a variant
   only a transfer brings in shows its "!" like any Pokémon only from outside
   the game; where the Pokédex names no form and the game never has the
-  default, the variant leads, as Hisuian Typhlosion in Legends: Arceus), drag to swap, Random
+  default, the variant leads, as Hisuian Typhlosion in Legends: Arceus; what
+  the group hands out beyond every Pokédex of the family (the National
+  Pokédex counts, so a game that has one lists no such range) comes last,
+  one "Also in" range per group that does, as The Indigo Disk's treat
+  legendaries or Perrserker in Scarlet / Violet, led by the form the game
+  gives; what only evolves or hatches from a Pokémon the game never gives
+  stays out), drag to swap, Random
   and Clear, and open a slot to set its note (its role, or why it's there; Plans keep no separate roles) and build (the sheet keeps its edits until Save, and closing with unsaved ones asks "Discard your changes?"; on a locked Plan it only reads, with Unlock to edit) (ability, nature,
   gender and held item where the version group has them, four moves it
   learns). Team check says whether the team can be built in one save and

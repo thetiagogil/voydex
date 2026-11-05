@@ -86,6 +86,35 @@ test.describe("Team Planner", () => {
     ).toBeVisible();
   });
 
+  test("offers what an expansion hands out beyond its Pokédex", async ({
+    page,
+  }) => {
+    await page.goto("/mainline/plans/new?vg=sv");
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    const extras = picker.getByRole("region", {
+      name: "Also in The Indigo Disk",
+    });
+
+    /* The treat legendaries sit in no Paldean Pokédex, and still can be planned. */
+    await expect(extras).toBeVisible();
+    await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Articuno");
+    /* The treats bring the Kantonian bird; the Galarian one only by transfer. */
+    await expect(
+      extras.getByRole("button", { name: /^#144 Articuno\b/ }),
+    ).toBeVisible();
+    await expect(
+      extras.getByRole("button", { name: /^#144 Galarian Articuno\b/ }),
+    ).toBeVisible();
+    await picker.getByRole("searchbox").fill("Raikou");
+    await extras.getByRole("button", { name: /^#243 Raikou\b/ }).click();
+    await expect(
+      page
+        .getByRole("region", { name: "Your team" })
+        .getByRole("button", { name: /^Raikou\b.*slot 1\. Edit$/ }),
+    ).toBeVisible();
+  });
+
   test("drags a Pokémon onto another slot to swap them", async ({ page }) => {
     await page.goto("/mainline/plans/new?vg=rb");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });

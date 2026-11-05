@@ -18,6 +18,13 @@ export const isInGameAvailabilityMethod = (
   method: Pick<AvailabilityMethod, "slug">,
 ) => !outsideGameMethodSlugs.has(method.slug);
 
+const derivedMethodSlugs = new Set(["breeding", "evolution"]);
+
+/* A way in only through another Pokémon the game must already give. */
+export const isDerivedAvailabilityMethod = (
+  method: Pick<AvailabilityMethod, "slug">,
+) => derivedMethodSlugs.has(method.slug);
+
 export type VersionExclusiveAvailabilityRow = Pick<
   PokemonAvailability,
   "availability_method_id" | "form_id" | "game_id" | "species_id"

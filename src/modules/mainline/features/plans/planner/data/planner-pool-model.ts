@@ -7,6 +7,7 @@ import { buildPlannerAvailabilityFacts } from "@/modules/mainline/features/plans
 import {
   getOfferedFormIdsBySpecies,
   listPlannerPokedexes,
+  placePlannerExtras,
   placePlannerSpecies,
 } from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
 import { toPlannerVersionGroup } from "@/modules/mainline/features/plans/planner/data/planner-version-groups";
@@ -17,7 +18,10 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { getPlanBuildFields } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
+import {
+  isDerivedAvailabilityMethod,
+  isInGameAvailabilityMethod,
+} from "@/modules/reference/features/games/domain/version-exclusives";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { selectEvolutionEdgesInForce } from "@/modules/reference/features/pokemon/domain/evolution-scope";
 import { getPokemonTypesForGeneration } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
@@ -94,6 +98,27 @@ export const buildPlannerContext = ({
     pokedexes,
     pool.entries,
   );
+  const inGameMethodIds = new Set(
+    pool.availabilityMethods
+      .filter(isInGameAvailabilityMethod)
+      .map((method) => method.id),
+  );
+  /* What the group hands out beyond every Pokédex of the family, under the group that does. */
+  const extras = placePlannerExtras({
+    availability: pool.availability,
+    cosmeticFormIds: pool.cosmeticFormIds,
+    derivedMethodIds: new Set(
+      pool.availabilityMethods
+        .filter(isDerivedAvailabilityMethod)
+        .map((method) => method.id),
+    ),
+    familyOrder,
+    formClassById: pool.formClassById,
+    forms: pool.forms,
+    inGameMethodIds,
+    placedSpeciesIds: new Set(pool.entries.map((entry) => entry.species_id)),
+    species: pool.species,
+  });
   const offeredFormIdsBySpecies = getOfferedFormIdsBySpecies({
     availableFormIds: new Set(
       pool.availability.flatMap((row) =>
@@ -101,10 +126,38 @@ export const buildPlannerContext = ({
       ),
     ),
     cosmeticFormIds: pool.cosmeticFormIds,
-    displayFormIdBySpecies,
+    displayFormIdBySpecies: new Map([
+      ...displayFormIdBySpecies,
+      ...extras.displayFormIdBySpecies,
+    ]),
     formClassById: pool.formClassById,
     forms: pool.forms,
   });
+  const versionGroupSlugById = new Map(
+    catalogue.versionGroups.map((group) => [group.id, group.slug]),
+  );
+  const extraSections: PlannerPokedexSection[] = familyOrder.flatMap(
+    (versionGroupId) => {
+      const formIds = (
+        extras.speciesIdsByVersionGroupId.get(versionGroupId) ?? []
+      ).flatMap((speciesId) => offeredFormIdsBySpecies.get(speciesId) ?? []);
+      const name =
+        versionGroupId === versionGroup.id
+          ? versionGroup.name
+          : expansionNameById.get(versionGroupId);
+
+      return formIds.length && name
+        ? [
+            {
+              formIds,
+              key: `also-${versionGroupSlugById.get(versionGroupId) ?? versionGroupId}`,
+              name: `Also in ${name}`,
+              note: "outside the Pokédex",
+            },
+          ]
+        : [];
+    },
+  );
   const sections: PlannerPokedexSection[] = pokedexes.flatMap((pokedex) => {
     const formIds = (speciesIdsByPokedexId.get(pokedex.id) ?? []).flatMap(
       (speciesId) => offeredFormIdsBySpecies.get(speciesId) ?? [],
@@ -137,11 +190,6 @@ export const buildPlannerContext = ({
   );
   const methodSlugById = new Map(
     pool.availabilityMethods.map((method) => [method.id, method.slug]),
-  );
-  const inGameMethodIds = new Set(
-    pool.availabilityMethods
-      .filter(isInGameAvailabilityMethod)
-      .map((method) => method.id),
   );
   const eventMethodIds = new Set(
     [...methodSlugById].flatMap(([id, slug]) =>
@@ -294,7 +342,7 @@ export const buildPlannerContext = ({
           }))
       : [],
     pokemon,
-    sections,
+    sections: [...sections, ...extraSections],
     types: catalogue.types
       .filter((type) => generationTypes.has(type.slug))
       .map((type) => ({ name: type.name, slug: type.slug })),
