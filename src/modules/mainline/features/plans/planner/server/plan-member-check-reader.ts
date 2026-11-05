@@ -5,7 +5,10 @@ import {
   placePlannerSpecies,
   type PlannerExtraAvailabilityRow,
 } from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
-import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
+import {
+  isDerivedAvailabilityMethod,
+  isInGameAvailabilityMethod,
+} from "@/modules/reference/features/games/domain/version-exclusives";
 import type { PlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/utils/plan-member-check";
 import type { PlanMember } from "@/modules/mainline/features/plans/types";
 import {
@@ -29,9 +32,9 @@ const readFailure = "Unable to check the Plan's Pokémon right now.";
  * The reference rows `assertPlanMembersFitVersionGroup` reads for the
  * Pokémon being saved, in one version group family (the group and its
  * expansions, base first). The forms the family offers follow the Planner's
- * own rule (`listPlannerPokedexes`, `placePlannerSpecies` and
- * `getOfferedFormIdsBySpecies`); moves use the same learnset rule as the
- * slot sheet's options.
+ * own rule (`listPlannerPokedexes`, `placePlannerSpecies`,
+ * `placePlannerExtras` and `getOfferedFormIdsBySpecies`); moves use the
+ * same learnset rule as the slot sheet's options.
  */
 export const readPlanMemberCheckRows = async (
   supabase: ServerSupabaseClient,
@@ -64,16 +67,39 @@ export const readPlanMemberCheckRows = async (
     ),
   );
 
-  const pokedexesResult = await reference
-    .from("pokedex")
-    .select(
-      "id, is_completion_relevant, pokedex_kind, sort_order, version_group_id",
-    )
-    .in("version_group_id", familyVersionGroupIds);
+  const [pokedexesResult, membersSpeciesResult] = await Promise.all([
+    reference
+      .from("pokedex")
+      .select(
+        "id, is_completion_relevant, pokedex_kind, sort_order, version_group_id",
+      )
+      .in("version_group_id", familyVersionGroupIds),
+    reference
+      .from("pokemon_species")
+      .select("evolution_family_id")
+      .in("id", speciesIds),
+  ]);
 
-  if (pokedexesResult.error) {
+  if (pokedexesResult.error || membersSpeciesResult.error) {
     throw new Error(readFailure);
   }
+
+  /* The members' whole evolution families: what roots a Pokémon beyond the Pokédexes. */
+  const speciesResult = await reference
+    .from("pokemon_species")
+    .select("id, name, national_number, evolution_family_id")
+    .in(
+      "evolution_family_id",
+      uniqueNumberIds(
+        membersSpeciesResult.data.map((row) => row.evolution_family_id),
+      ),
+    );
+
+  if (speciesResult.error) {
+    throw new Error(readFailure);
+  }
+
+  const familySpeciesIds = speciesResult.data.map((row) => row.id);
 
   const pokedexes = listPlannerPokedexes(
     pokedexesResult.data ?? [],
@@ -83,7 +109,6 @@ export const readPlanMemberCheckRows = async (
   const [
     entries,
     formsResult,
-    speciesResult,
     attributesResult,
     items,
     natures,
@@ -116,10 +141,6 @@ export const readPlanMemberCheckRows = async (
       .select("id, species_id, name, is_default, form_order")
       .in("species_id", speciesIds),
     reference
-      .from("pokemon_species")
-      .select("id, name, national_number")
-      .in("id", speciesIds),
-    reference
       .from("pokemon_attributes")
       .select(
         "form_id, generation_start_id, primary_ability_id, secondary_ability_id, hidden_ability_id",
@@ -142,9 +163,9 @@ export const readPlanMemberCheckRows = async (
     readBattleFormIds(supabase),
     readFormClassById(supabase, speciesIds),
     readCosmeticFormIds(supabase, speciesIds),
-    /* Every form of the members' species: which form leads depends on them all. */
+    /* Every form of the members' families: which form leads depends on them all. */
     loadChunkedReferenceRows<PlannerExtraAvailabilityRow>(
-      speciesIds,
+      familySpeciesIds,
       (ids, from, to) =>
         supabase
           .schema("views")
@@ -163,7 +184,6 @@ export const readPlanMemberCheckRows = async (
 
   if (
     formsResult.error ||
-    speciesResult.error ||
     attributesResult.error ||
     methods.error ||
     natures?.error
@@ -179,11 +199,15 @@ export const readPlanMemberCheckRows = async (
     pokedexes,
     entries,
   );
-  const placedSpeciesIds = new Set([...speciesIdsByPokedexId.values()].flat());
-  /* And what the family hands out beyond its Pokédexes, as the Planner lists it. */
+  /* And what the family hands out beyond every Pokédex of it, as the Planner lists it. */
   const extras = placePlannerExtras({
     availability: availableForms,
     cosmeticFormIds,
+    derivedMethodIds: new Set(
+      methods.data
+        .filter(isDerivedAvailabilityMethod)
+        .map((method) => method.id),
+    ),
     familyOrder: familyVersionGroupIds,
     formClassById,
     forms: speciesForms,
@@ -192,11 +216,11 @@ export const readPlanMemberCheckRows = async (
         .filter(isInGameAvailabilityMethod)
         .map((method) => method.id),
     ),
-    placedSpeciesIds,
-    species: speciesResult.data ?? [],
+    placedSpeciesIds: new Set(entries.map((entry) => entry.species_id)),
+    species: speciesResult.data,
   });
   const listedSpeciesIds = [
-    ...placedSpeciesIds,
+    ...new Set([...speciesIdsByPokedexId.values()].flat()),
     ...[...extras.speciesIdsByVersionGroupId.values()].flat(),
   ];
 

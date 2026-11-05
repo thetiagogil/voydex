@@ -18,7 +18,10 @@ import type {
 } from "@/modules/mainline/features/plans/types";
 import { getPlanBuildFields } from "@/modules/mainline/features/plans/planner/utils/plan-build-fields";
 import { resolveVersionGroupMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
-import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
+import {
+  isDerivedAvailabilityMethod,
+  isInGameAvailabilityMethod,
+} from "@/modules/reference/features/games/domain/version-exclusives";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { selectEvolutionEdgesInForce } from "@/modules/reference/features/pokemon/domain/evolution-scope";
 import { getPokemonTypesForGeneration } from "@/modules/reference/features/pokemon/domain/type-effectiveness";
@@ -100,15 +103,20 @@ export const buildPlannerContext = ({
       .filter(isInGameAvailabilityMethod)
       .map((method) => method.id),
   );
-  /* What the group hands out beyond its Pokédexes, under the group that does. */
+  /* What the group hands out beyond every Pokédex of the family, under the group that does. */
   const extras = placePlannerExtras({
     availability: pool.availability,
     cosmeticFormIds: pool.cosmeticFormIds,
+    derivedMethodIds: new Set(
+      pool.availabilityMethods
+        .filter(isDerivedAvailabilityMethod)
+        .map((method) => method.id),
+    ),
     familyOrder,
     formClassById: pool.formClassById,
     forms: pool.forms,
     inGameMethodIds,
-    placedSpeciesIds: new Set([...speciesIdsByPokedexId.values()].flat()),
+    placedSpeciesIds: new Set(pool.entries.map((entry) => entry.species_id)),
     species: pool.species,
   });
   const offeredFormIdsBySpecies = getOfferedFormIdsBySpecies({

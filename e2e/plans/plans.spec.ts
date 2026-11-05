@@ -98,6 +98,14 @@ test.describe("Team Planner", () => {
     /* The treat legendaries sit in no Paldean Pokédex, and still can be planned. */
     await expect(extras).toBeVisible();
     await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Articuno");
+    /* The treats bring the Kantonian bird; the Galarian one only by transfer. */
+    await expect(
+      extras.getByRole("button", { name: /^#144 Articuno\b/ }),
+    ).toBeVisible();
+    await expect(
+      extras.getByRole("button", { name: /^#144 Galarian Articuno\b/ }),
+    ).toBeVisible();
     await picker.getByRole("searchbox").fill("Raikou");
     await extras.getByRole("button", { name: /^#243 Raikou\b/ }).click();
     await expect(

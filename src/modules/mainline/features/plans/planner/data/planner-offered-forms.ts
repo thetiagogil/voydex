@@ -29,6 +29,12 @@ export type PlannerExtraAvailabilityRow = {
   target_version_group_id: number | null;
 };
 
+export type PlannerExtraSpecies = {
+  evolution_family_id: number;
+  id: number;
+  national_number: number;
+};
+
 /* A default or variant form that is a Pokémon of its own, not a look. */
 const isOwnPokemon = (
   form: OfferedFormCandidate,
@@ -39,15 +45,19 @@ const isOwnPokemon = (
   !cosmeticFormIds.has(form.id);
 
 /*
- * The species the family hands out that no listed Pokédex has (the Indigo
- * Disk's treat legendaries): each under the first group of the family, base
- * first, where a row brings it into the game, by National number. The form
- * such a row names leads (Galarian Articuno, never the Kantonian one that
- * only arrives by transfer); a species-wide row leads with the default.
+ * The species the family hands out that no Pokédex of it has (the Indigo
+ * Disk's treat legendaries, Perrserker from a gift Galarian Meowth): each
+ * under the first group of the family, base first, where a row brings it
+ * into the game, by National number. A row that only evolves or breeds
+ * counts when some species of the evolution family is met, given or traded
+ * in the family (Ivysaur from an event-only Bulbasaur stays out). The form
+ * the placing group's rows name leads; a species-wide row leads with the
+ * default.
  */
 export const placePlannerExtras = ({
   availability,
   cosmeticFormIds,
+  derivedMethodIds,
   familyOrder,
   formClassById,
   forms,
@@ -57,62 +67,74 @@ export const placePlannerExtras = ({
 }: {
   availability: readonly PlannerExtraAvailabilityRow[];
   cosmeticFormIds: ReadonlySet<number>;
+  /* Evolution and breeding: a way in only through another Pokémon. */
+  derivedMethodIds: ReadonlySet<number>;
   /* The base version group, then its expansions. */
   familyOrder: readonly number[];
   formClassById: ReadonlyMap<number, FormClass>;
   forms: readonly OfferedFormCandidate[];
   inGameMethodIds: ReadonlySet<number>;
-  /* The species a listed Pokédex already places. */
+  /* The species a Pokédex of the family already has. */
   placedSpeciesIds: ReadonlySet<number>;
-  species: readonly { id: number; national_number: number }[];
+  species: readonly PlannerExtraSpecies[];
 }): {
   displayFormIdBySpecies: Map<number, number>;
   speciesIdsByVersionGroupId: Map<number, number[]>;
 } => {
+  const speciesById = new Map(species.map((entry) => [entry.id, entry]));
   const groupBySpecies = new Map<number, number>();
-  const formIdsBySpecies = new Map<number, Set<number | null>>();
+  const namedFormIds = new Map<string, Set<number | null>>();
+  const rootedFamilyIds = new Set<number>();
 
   for (const row of availability) {
     if (
       row.species_id === null ||
       row.availability_method_id === null ||
       row.target_version_group_id === null ||
-      placedSpeciesIds.has(row.species_id) ||
-      !inGameMethodIds.has(row.availability_method_id)
+      !inGameMethodIds.has(row.availability_method_id) ||
+      !familyOrder.includes(row.target_version_group_id)
     )
       continue;
 
+    const entry = speciesById.get(row.species_id);
+
+    if (entry && !derivedMethodIds.has(row.availability_method_id)) {
+      rootedFamilyIds.add(entry.evolution_family_id);
+    }
+
+    if (placedSpeciesIds.has(row.species_id)) continue;
+
     const place = familyOrder.indexOf(row.target_version_group_id);
-
-    if (place === -1) continue;
-
     const current = groupBySpecies.get(row.species_id);
 
     if (current === undefined || place < familyOrder.indexOf(current)) {
       groupBySpecies.set(row.species_id, row.target_version_group_id);
     }
 
-    const formIds = formIdsBySpecies.get(row.species_id) ?? new Set();
+    const key = `${row.species_id}/${row.target_version_group_id}`;
+    const formIds = namedFormIds.get(key) ?? new Set();
     formIds.add(row.form_id);
-    formIdsBySpecies.set(row.species_id, formIds);
+    namedFormIds.set(key, formIds);
   }
 
-  const nationalNumberBySpecies = new Map(
-    species.map((entry) => [entry.id, entry.national_number]),
-  );
   const displayFormIdBySpecies = new Map<number, number>();
   const speciesIdsByVersionGroupId = new Map<number, number[]>();
 
   for (const [speciesId, versionGroupId] of [...groupBySpecies].toSorted(
     ([left], [right]) =>
-      (nationalNumberBySpecies.get(left) ?? left) -
-      (nationalNumberBySpecies.get(right) ?? right),
+      (speciesById.get(left)?.national_number ?? left) -
+      (speciesById.get(right)?.national_number ?? right),
   )) {
+    const entry = speciesById.get(speciesId);
+
+    if (!entry || !rootedFamilyIds.has(entry.evolution_family_id)) continue;
+
     const list = speciesIdsByVersionGroupId.get(versionGroupId) ?? [];
     list.push(speciesId);
     speciesIdsByVersionGroupId.set(versionGroupId, list);
 
-    const named = formIdsBySpecies.get(speciesId) ?? new Set();
+    const named =
+      namedFormIds.get(`${speciesId}/${versionGroupId}`) ?? new Set();
     const display = forms
       .filter(
         (form) =>
