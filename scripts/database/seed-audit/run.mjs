@@ -110,8 +110,8 @@ export function runSeedAudit() {
       const text = readFileSync(filePath, "utf8");
       /* The games' own Pokédex words keep their typography: curly quotes, dashes, degrees, gender signs. */
       const typography = filePath.includes("13_pokedex_texts")
-        ? /[^\x00-\x7Fé’‘“”—–−°♀♂]/
-        : /[^\x00-\x7Fé]/;
+        ? /[^\x00-\x7FéÉ’‘“”—–−°♀♂]/
+        : /[^\x00-\x7FéÉ]/;
       if (typography.test(text)) {
         context.errors.push(
           `${relative(filePath)} contains non-ASCII characters outside approved Pokémon typography.`,

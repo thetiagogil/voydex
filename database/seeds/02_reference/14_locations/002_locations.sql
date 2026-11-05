@@ -1597,4 +1597,24 @@ VALUES
   -- Wistful Fields
   (794, 10, 'paldea-wistful-fields', 'Wistful Fields'),
   -- Zero Lab
-  (795, 10, 'paldea-zero-lab', 'Zero Lab');
+  (795, 10, 'paldea-zero-lab', 'Zero Lab'),
+  -- Temple of Sinnoh
+  (796, 9, 'hisui-temple-of-sinnoh', 'Temple of Sinnoh'),
+  -- League Club Room
+  (797, 10, 'paldea-league-club-room', 'League Club Room'),
+  -- Lumiose City
+  (798, 6, 'kalos-lumiose-city', 'Lumiose City'),
+  -- Passage du Palais
+  (799, 6, 'kalos-passage-du-palais', 'Passage du Palais'),
+  -- Académie Étoile
+  (800, 6, 'kalos-academie-etoile', 'Académie Étoile'),
+  -- Magenta Sector 2
+  (801, 6, 'kalos-magenta-sector-2', 'Magenta Sector 2'),
+  -- North Boulevard
+  (802, 6, 'kalos-north-boulevard', 'North Boulevard'),
+  -- Rouge Sector 1
+  (804, 6, 'kalos-rouge-sector-1', 'Rouge Sector 1'),
+  -- Bleu Sector 6
+  (805, 6, 'kalos-bleu-sector-6', 'Bleu Sector 6'),
+  -- Hyperspace Lumiose
+  (806, 6, 'kalos-hyperspace-lumiose', 'Hyperspace Lumiose');
