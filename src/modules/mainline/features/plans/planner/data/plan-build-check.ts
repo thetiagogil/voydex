@@ -51,6 +51,20 @@ export const joinPlanList = (items: string[], conjunction = "and") =>
     ? items.join(` ${conjunction} `)
     : `${items.slice(0, -1).join(", ")} ${conjunction} ${items.at(-1)}`;
 
+/*
+ * The one game a Pokémon is exclusive to with these expansions included, or
+ * none: an included expansion that hands it out in another game ends it.
+ */
+export const getExclusiveGameIds = (
+  pokemon: PlannerPokemon,
+  includedExpansionIds: number[],
+) =>
+  pokemon.facts.exclusiveEndedByExpansionIds.some((id) =>
+    includedExpansionIds.includes(id),
+  )
+    ? []
+    : pokemon.facts.exclusiveToGameIds;
+
 const names = (team: PlannerPokemon[]) => team.map((pokemon) => pokemon.name);
 const verb = (team: unknown[], one: string, many: string) =>
   team.length > 1 ? many : one;
@@ -127,7 +141,7 @@ export const buildPlanIssues = ({
     .map((game) => ({
       game,
       team: team.filter((pokemon) =>
-        pokemon.facts.exclusiveToGameIds.includes(game.id),
+        getExclusiveGameIds(pokemon, includedExpansionIds).includes(game.id),
       ),
     }))
     .filter((group) => group.team.length);
@@ -313,8 +327,15 @@ export const getWorstIssueFor = (formId: number, issues: PlanIssue[]) =>
 export const getPoolTileNotes = (
   pokemon: PlannerPokemon,
   versionGroup: PlannerVersionGroup,
-  /* The version the Plan is for; null when it is for either. */
-  versionGame: PlannerGame | null = null,
+  {
+    includedExpansionIds = [],
+    versionGame = null,
+  }: {
+    /* The expansions the Plan includes. */
+    includedExpansionIds?: number[];
+    /* The version the Plan is for; null when it is for either. */
+    versionGame?: PlannerGame | null;
+  } = {},
 ): string[] => {
   const notes: string[] = [];
 
@@ -335,7 +356,7 @@ export const getPoolTileNotes = (
   }
 
   const exclusiveGame = versionGroup.games.find((game) =>
-    pokemon.facts.exclusiveToGameIds.includes(game.id),
+    getExclusiveGameIds(pokemon, includedExpansionIds).includes(game.id),
   );
 
   if (exclusiveGame && !versionGame) {

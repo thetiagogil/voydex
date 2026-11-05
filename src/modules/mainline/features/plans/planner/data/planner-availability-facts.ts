@@ -91,11 +91,42 @@ export const buildPlannerAvailabilityFacts = ({
     }
   }
 
+  /* An expansion ends an exclusive when it hands the form out in another game. */
+  const endingExpansionsByForm = new Map<number, number[]>();
+
+  for (const row of availability) {
+    if (
+      row.form_id === null ||
+      row.availability_method_id === null ||
+      row.target_version_group_id === null ||
+      !expansionIds.includes(row.target_version_group_id) ||
+      !inGameMethodIds.has(row.availability_method_id)
+    )
+      continue;
+
+    const exclusiveTo = exclusiveGamesByForm.get(row.form_id) ?? [];
+    const ends =
+      exclusiveTo.length === 1 &&
+      (row.game_id === null ||
+        (row.game_id !== exclusiveTo[0] && gameIds.includes(row.game_id)));
+
+    if (!ends) continue;
+
+    const ending = endingExpansionsByForm.get(row.form_id) ?? [];
+
+    if (!ending.includes(row.target_version_group_id)) {
+      ending.push(row.target_version_group_id);
+    }
+
+    endingExpansionsByForm.set(row.form_id, ending);
+  }
+
   return (formId: number): Omit<PlannerPokemonFacts, "tradeEvolution"> => {
     const rows = byForm.get(formId);
     const exclusiveTo = exclusiveGamesByForm.get(formId) ?? [];
 
     return {
+      exclusiveEndedByExpansionIds: endingExpansionsByForm.get(formId) ?? [],
       eventOnly: Boolean(rows && !rows.base && !rows.expansion && rows.event),
       exclusiveToGameIds: exclusiveTo.length === 1 ? exclusiveTo : [],
       expansionVersionGroupId: rows && !rows.base ? rows.expansion : null,

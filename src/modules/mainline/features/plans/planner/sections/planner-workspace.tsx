@@ -330,6 +330,7 @@ export const PlannerWorkspace = ({
     team.setSlots(toPlannerSlots(fitToVersionGroup(handoff.members)));
     // eslint-disable-next-line react-hooks/set-state-in-effect -- storage only exists in the browser
     setName(handoff.name);
+    setVersionGameSlug(handoff.versionGameSlug ?? null);
     dismissOffer();
     // Read once, when the Planner opens in the new game.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -490,6 +491,7 @@ export const PlannerWorkspace = ({
           sections={context.sections}
           slotByFormId={slotByFormId}
           types={context.types}
+          includedExpansionIds={expansions}
           versionGame={versionGame}
           versionGroup={context.versionGroup}
         />

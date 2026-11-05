@@ -49,8 +49,8 @@ As built (v3):
 - A Plan is for Either (the default) or one version of its group (#225): a
   Version switch (Either, Sword, Shield) sits beside the game card when the
   group has two games, and the Plan saves and reopens with it. Either is
-  stored under the group's first game, a version under its own game (so My
-  Plans shows its cover). For one version, its own exclusives need nothing
+  stored under the group's first game, a version under its own game (the
+  Planner's game card then shows that version's cover). For one version, its own exclusives need nothing
   and the other's read "Sword only: trade for it" on the tile and as one
   Team check step; Either keeps the "needs both" reading. The version can
   change while Plays follow the Plan. Any Play of the version group can

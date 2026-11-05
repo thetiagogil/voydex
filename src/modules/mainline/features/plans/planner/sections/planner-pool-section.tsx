@@ -60,6 +60,8 @@ type PlannerPoolSectionProps = {
   /* The slot (1 to 6) each picked Pokémon sits in, by form id. */
   slotByFormId: Map<number, number>;
   types: PlanType[];
+  /* The expansions the Plan includes, which can end a version exclusive. */
+  includedExpansionIds: number[];
   /* The version the Plan is for; null when it is for either. */
   versionGame: PlannerGame | null;
   versionGroup: PlannerVersionGroup;
@@ -96,6 +98,7 @@ export const PlannerPoolSection = ({
   sections,
   slotByFormId,
   types,
+  includedExpansionIds,
   versionGame,
   versionGroup,
 }: PlannerPoolSectionProps) => {
@@ -266,11 +269,10 @@ export const PlannerPoolSection = ({
               <ul className="mt-3.5 grid grid-cols-3 gap-2.5 min-[480px]:grid-cols-4 sm:grid-cols-[repeat(auto-fill,minmax(128px,1fr))] sm:gap-3">
                 {section.pokemon.map((pokemon) => {
                   const slot = slotByFormId.get(pokemon.formId);
-                  const notes = getPoolTileNotes(
-                    pokemon,
-                    versionGroup,
+                  const notes = getPoolTileNotes(pokemon, versionGroup, {
+                    includedExpansionIds,
                     versionGame,
-                  );
+                  });
 
                   return (
                     <li

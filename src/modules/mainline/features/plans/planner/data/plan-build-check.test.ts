@@ -72,6 +72,7 @@ const pokemon = (
   evolutionFamilyId,
   facts: {
     eventOnly: false,
+    exclusiveEndedByExpansionIds: [],
     exclusiveToGameIds: [],
     expansionVersionGroupId: null,
     outsideGameOnly: false,
@@ -93,7 +94,10 @@ const corviknight = pokemon(823, "Corviknight", ["flying", "steel"]);
 const sirfetchd = pokemon(865, "Sirfetch'd", ["fighting"], {
   exclusiveToGameIds: [33],
 });
-const goodra = pokemon(706, "Goodra", ["dragon"], { exclusiveToGameIds: [34] });
+const goodra = pokemon(706, "Goodra", ["dragon"], {
+  exclusiveEndedByExpansionIds: [19],
+  exclusiveToGameIds: [34],
+});
 const zarude = pokemon(893, "Zarude", ["dark", "grass"], { eventOnly: true });
 const kubfu = pokemon(891, "Kubfu", ["fighting"], {
   expansionVersionGroupId: 19,
@@ -316,10 +320,39 @@ describe("getPoolTileNotes", () => {
   it("follows the Plan's version: its own exclusives need no note", () => {
     const [sword, shield] = versionGroup.games;
 
-    expect(getPoolTileNotes(goodra, versionGroup, shield)).toEqual([]);
-    expect(getPoolTileNotes(goodra, versionGroup, sword)).toEqual([
-      "Shield only: trade for it.",
-    ]);
+    expect(
+      getPoolTileNotes(goodra, versionGroup, { versionGame: shield }),
+    ).toEqual([]);
+    expect(
+      getPoolTileNotes(goodra, versionGroup, { versionGame: sword }),
+    ).toEqual(["Shield only: trade for it."]);
+  });
+
+  it("drops an exclusive an included expansion hands out in both versions", () => {
+    const [sword] = versionGroup.games;
+
+    expect(
+      getPoolTileNotes(goodra, versionGroup, {
+        includedExpansionIds: [19],
+        versionGame: sword,
+      }),
+    ).toEqual([]);
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [19],
+        team: [goodra],
+        versionGame: sword,
+        versionGroup,
+      }),
+    ).toEqual([]);
+    expect(
+      buildPlanIssues({
+        includedExpansionIds: [20],
+        team: [goodra],
+        versionGame: sword,
+        versionGroup,
+      })[0],
+    ).toMatchObject({ severity: "step", title: "Goodra is Shield only" });
   });
 });
 

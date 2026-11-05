@@ -218,6 +218,7 @@ export const PlannerTopSection = ({
         {versionGroup.games.length > 1 ? (
           <SegmentedControl
             ariaLabel="Version"
+            className={cn(isSwitching && "pointer-events-none")}
             variant="segment"
             value={versionGame?.slug ?? eitherVersion}
             onValueChange={(slug) =>
