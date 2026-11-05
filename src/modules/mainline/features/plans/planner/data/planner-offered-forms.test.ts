@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   getOfferedFormIdsBySpecies,
   listPlannerPokedexes,
+  placePlannerExtras,
   placePlannerSpecies,
 } from "./planner-offered-forms";
 
@@ -164,5 +165,112 @@ describe("placePlannerSpecies", () => {
       [3, [144]],
     ]);
     expect([...placed.displayFormIdBySpecies]).toEqual([[52, 5202]]);
+  });
+});
+
+describe("placePlannerExtras", () => {
+  /* Articuno in Scarlet / Violet: no Pokédex has it; the Indigo Disk's treats bring the Galarian one. */
+  const species = [
+    { id: 144, national_number: 144 },
+    { id: 243, national_number: 243 },
+    { id: 479, national_number: 479 },
+  ];
+  const availability = [
+    /* Kantonian Articuno by transfer only, in every group of the family. */
+    {
+      availability_method_id: 13,
+      form_id: 14400,
+      species_id: 144,
+      target_version_group_id: 23,
+    },
+    {
+      availability_method_id: 13,
+      form_id: 14400,
+      species_id: 144,
+      target_version_group_id: 25,
+    },
+    /* Galarian Articuno and Raikou from the Indigo Disk's treats. */
+    {
+      availability_method_id: 2,
+      form_id: 14401,
+      species_id: 144,
+      target_version_group_id: 25,
+    },
+    {
+      availability_method_id: 13,
+      form_id: 14401,
+      species_id: 144,
+      target_version_group_id: 23,
+    },
+    {
+      availability_method_id: 2,
+      form_id: 24300,
+      species_id: 243,
+      target_version_group_id: 25,
+    },
+    /* Rotom, species-wide, in the base game and again in the expansion. */
+    {
+      availability_method_id: 2,
+      form_id: null,
+      species_id: 479,
+      target_version_group_id: 25,
+    },
+    {
+      availability_method_id: 1,
+      form_id: null,
+      species_id: 479,
+      target_version_group_id: 23,
+    },
+  ];
+  const place = (placedSpeciesIds: number[] = []) =>
+    placePlannerExtras({
+      availability,
+      cosmeticFormIds: new Set([66601]),
+      familyOrder: [23, 24, 25],
+      formClassById,
+      forms: [
+        ...forms,
+        { form_order: 1, id: 24300, is_default: true, species_id: 243 },
+      ],
+      inGameMethodIds: new Set([1, 2]),
+      placedSpeciesIds: new Set(placedSpeciesIds),
+      species,
+    });
+
+  it("places each unlisted species under the first group that brings it, by National number", () => {
+    const { speciesIdsByVersionGroupId } = place();
+
+    expect([...speciesIdsByVersionGroupId]).toEqual([
+      [25, [144, 243]],
+      [23, [479]],
+    ]);
+  });
+
+  it("leads with the form the group's own rows name, and the default for a species-wide row", () => {
+    const { displayFormIdBySpecies } = place();
+
+    expect(displayFormIdBySpecies.get(144)).toBe(14401);
+    expect(displayFormIdBySpecies.get(243)).toBe(24300);
+    expect(displayFormIdBySpecies.get(479)).toBe(47900);
+  });
+
+  it("leaves out species a Pokédex already places, and ones only transfer brings", () => {
+    const { speciesIdsByVersionGroupId } = place([144, 479]);
+
+    expect([...speciesIdsByVersionGroupId]).toEqual([[25, [243]]]);
+    expect(
+      placePlannerExtras({
+        availability: availability.filter(
+          (row) => row.availability_method_id === 13,
+        ),
+        cosmeticFormIds: new Set(),
+        familyOrder: [23, 24, 25],
+        formClassById,
+        forms,
+        inGameMethodIds: new Set([1, 2]),
+        placedSpeciesIds: new Set(),
+        species,
+      }).speciesIdsByVersionGroupId.size,
+    ).toBe(0);
   });
 });

@@ -22,6 +22,112 @@ export type OfferedFormCandidate = {
   species_id: number;
 };
 
+export type PlannerExtraAvailabilityRow = {
+  availability_method_id: number | null;
+  form_id: number | null;
+  species_id: number | null;
+  target_version_group_id: number | null;
+};
+
+/* A default or variant form that is a Pokémon of its own, not a look. */
+const isOwnPokemon = (
+  form: OfferedFormCandidate,
+  formClassById: ReadonlyMap<number, FormClass>,
+  cosmeticFormIds: ReadonlySet<number>,
+) =>
+  (form.is_default || formClassById.get(form.id) === "variant") &&
+  !cosmeticFormIds.has(form.id);
+
+/*
+ * The species the family hands out that no listed Pokédex has (the Indigo
+ * Disk's treat legendaries): each under the first group of the family, base
+ * first, where a row brings it into the game, by National number. The form
+ * such a row names leads (Galarian Articuno, never the Kantonian one that
+ * only arrives by transfer); a species-wide row leads with the default.
+ */
+export const placePlannerExtras = ({
+  availability,
+  cosmeticFormIds,
+  familyOrder,
+  formClassById,
+  forms,
+  inGameMethodIds,
+  placedSpeciesIds,
+  species,
+}: {
+  availability: readonly PlannerExtraAvailabilityRow[];
+  cosmeticFormIds: ReadonlySet<number>;
+  /* The base version group, then its expansions. */
+  familyOrder: readonly number[];
+  formClassById: ReadonlyMap<number, FormClass>;
+  forms: readonly OfferedFormCandidate[];
+  inGameMethodIds: ReadonlySet<number>;
+  /* The species a listed Pokédex already places. */
+  placedSpeciesIds: ReadonlySet<number>;
+  species: readonly { id: number; national_number: number }[];
+}): {
+  displayFormIdBySpecies: Map<number, number>;
+  speciesIdsByVersionGroupId: Map<number, number[]>;
+} => {
+  const groupBySpecies = new Map<number, number>();
+  const formIdsBySpecies = new Map<number, Set<number | null>>();
+
+  for (const row of availability) {
+    if (
+      row.species_id === null ||
+      row.availability_method_id === null ||
+      row.target_version_group_id === null ||
+      placedSpeciesIds.has(row.species_id) ||
+      !inGameMethodIds.has(row.availability_method_id)
+    )
+      continue;
+
+    const place = familyOrder.indexOf(row.target_version_group_id);
+
+    if (place === -1) continue;
+
+    const current = groupBySpecies.get(row.species_id);
+
+    if (current === undefined || place < familyOrder.indexOf(current)) {
+      groupBySpecies.set(row.species_id, row.target_version_group_id);
+    }
+
+    const formIds = formIdsBySpecies.get(row.species_id) ?? new Set();
+    formIds.add(row.form_id);
+    formIdsBySpecies.set(row.species_id, formIds);
+  }
+
+  const nationalNumberBySpecies = new Map(
+    species.map((entry) => [entry.id, entry.national_number]),
+  );
+  const displayFormIdBySpecies = new Map<number, number>();
+  const speciesIdsByVersionGroupId = new Map<number, number[]>();
+
+  for (const [speciesId, versionGroupId] of [...groupBySpecies].toSorted(
+    ([left], [right]) =>
+      (nationalNumberBySpecies.get(left) ?? left) -
+      (nationalNumberBySpecies.get(right) ?? right),
+  )) {
+    const list = speciesIdsByVersionGroupId.get(versionGroupId) ?? [];
+    list.push(speciesId);
+    speciesIdsByVersionGroupId.set(versionGroupId, list);
+
+    const named = formIdsBySpecies.get(speciesId) ?? new Set();
+    const display = forms
+      .filter(
+        (form) =>
+          form.species_id === speciesId &&
+          isOwnPokemon(form, formClassById, cosmeticFormIds) &&
+          (named.has(form.id) || (named.has(null) && form.is_default)),
+      )
+      .toSorted((left, right) => left.form_order - right.form_order)[0];
+
+    if (display) displayFormIdBySpecies.set(speciesId, display.id);
+  }
+
+  return { displayFormIdBySpecies, speciesIdsByVersionGroupId };
+};
+
 /*
  * The Pokédexes the Planner lists, in order: the completion-counting ones
  * that aren't the National Pokédex, the base game's first and then each
@@ -125,11 +231,10 @@ export const getOfferedFormIdsBySpecies = ({
   const offered = new Map<number, number[]>();
 
   for (const [speciesId, speciesForms] of formsBySpecies) {
-    const isOwnPokemon = (form: OfferedFormCandidate) =>
-      (form.is_default || formClassById.get(form.id) === "variant") &&
-      !cosmeticFormIds.has(form.id);
     const available = speciesForms.filter(
-      (form) => isOwnPokemon(form) && availableFormIds.has(form.id),
+      (form) =>
+        isOwnPokemon(form, formClassById, cosmeticFormIds) &&
+        availableFormIds.has(form.id),
     );
     const named = speciesForms.find(
       (form) => form.id === displayFormIdBySpecies.get(speciesId),

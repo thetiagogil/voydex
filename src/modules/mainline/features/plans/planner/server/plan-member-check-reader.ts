@@ -1,8 +1,11 @@
 import {
   getOfferedFormIdsBySpecies,
   listPlannerPokedexes,
+  placePlannerExtras,
   placePlannerSpecies,
+  type PlannerExtraAvailabilityRow,
 } from "@/modules/mainline/features/plans/planner/data/planner-offered-forms";
+import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
 import type { PlanMemberCheckRows } from "@/modules/mainline/features/plans/planner/utils/plan-member-check";
 import type { PlanMember } from "@/modules/mainline/features/plans/types";
 import {
@@ -88,6 +91,7 @@ export const readPlanMemberCheckRows = async (
     formClassById,
     cosmeticFormIds,
     availableForms,
+    methods,
   ] = await Promise.all([
     loadChunkedReferenceRows<
       Pick<
@@ -111,7 +115,10 @@ export const readPlanMemberCheckRows = async (
       .from("pokemon_forms")
       .select("id, species_id, name, is_default, form_order")
       .in("species_id", speciesIds),
-    reference.from("pokemon_species").select("id, name").in("id", speciesIds),
+    reference
+      .from("pokemon_species")
+      .select("id, name, national_number")
+      .in("id", speciesIds),
     reference
       .from("pokemon_attributes")
       .select(
@@ -136,40 +143,63 @@ export const readPlanMemberCheckRows = async (
     readFormClassById(supabase, speciesIds),
     readCosmeticFormIds(supabase, speciesIds),
     /* Every form of the members' species: which form leads depends on them all. */
-    loadChunkedReferenceRows<{ form_id: number | null }>(
+    loadChunkedReferenceRows<PlannerExtraAvailabilityRow>(
       speciesIds,
       (ids, from, to) =>
         supabase
           .schema("views")
           .from("reference_resolved_pokemon_availability")
-          .select("form_id")
+          .select(
+            "availability_method_id, form_id, species_id, target_version_group_id",
+          )
           .in("species_id", ids)
           .in("target_version_group_id", familyVersionGroupIds)
           .order("id")
           .range(from, to),
       readFailure,
     ),
+    reference.from("availability_methods").select("id, slug"),
   ]);
 
   if (
     formsResult.error ||
     speciesResult.error ||
     attributesResult.error ||
+    methods.error ||
     natures?.error
   ) {
     throw new Error(readFailure);
   }
 
+  const speciesForms = (formsResult.data ?? []).filter(
+    (form) => !battleFormIds.has(form.id),
+  );
   /* Each listed species in its first Pokédex, with the form it shows there. */
   const { displayFormIdBySpecies, speciesIdsByPokedexId } = placePlannerSpecies(
     pokedexes,
     entries,
   );
-  const listedSpeciesIds = [...speciesIdsByPokedexId.values()].flat();
+  const placedSpeciesIds = new Set([...speciesIdsByPokedexId.values()].flat());
+  /* And what the family hands out beyond its Pokédexes, as the Planner lists it. */
+  const extras = placePlannerExtras({
+    availability: availableForms,
+    cosmeticFormIds,
+    familyOrder: familyVersionGroupIds,
+    formClassById,
+    forms: speciesForms,
+    inGameMethodIds: new Set(
+      methods.data
+        .filter(isInGameAvailabilityMethod)
+        .map((method) => method.id),
+    ),
+    placedSpeciesIds,
+    species: speciesResult.data ?? [],
+  });
+  const listedSpeciesIds = [
+    ...placedSpeciesIds,
+    ...[...extras.speciesIdsByVersionGroupId.values()].flat(),
+  ];
 
-  const speciesForms = (formsResult.data ?? []).filter(
-    (form) => !battleFormIds.has(form.id),
-  );
   const offeredFormIdsBySpecies = getOfferedFormIdsBySpecies({
     availableFormIds: new Set(
       availableForms.flatMap((row) =>
@@ -177,7 +207,10 @@ export const readPlanMemberCheckRows = async (
       ),
     ),
     cosmeticFormIds,
-    displayFormIdBySpecies,
+    displayFormIdBySpecies: new Map([
+      ...displayFormIdBySpecies,
+      ...extras.displayFormIdBySpecies,
+    ]),
     formClassById,
     forms: speciesForms,
   });

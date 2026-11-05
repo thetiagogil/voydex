@@ -1,3 +1,4 @@
+import { isInGameAvailabilityMethod } from "@/modules/reference/features/games/domain/version-exclusives";
 import { withoutBattleForms } from "@/modules/reference/features/pokemon/data/battle-forms";
 import type { FormClass } from "@/modules/reference/features/pokemon/domain/form-classes";
 import { readBattleFormIds } from "@/modules/reference/features/pokemon/server/battle-form-reader";
@@ -133,17 +134,36 @@ export const readPlannerPoolRows = async (
   extraSpeciesIds: number[],
 ): Promise<PlannerPoolRows> => {
   const reference = supabase.schema("reference");
-  const pokedexesResult = await reference
-    .from("pokedex")
-    .select("*")
-    .in("version_group_id", familyVersionGroupIds)
-    .order("sort_order");
+  const [pokedexesResult, availability, methods] = await Promise.all([
+    reference
+      .from("pokedex")
+      .select("*")
+      .in("version_group_id", familyVersionGroupIds)
+      .order("sort_order"),
+    loadPagedReferenceRows<PlannerAvailabilityRow>(
+      (from, to) =>
+        supabase
+          .schema("views")
+          .from("reference_resolved_pokemon_availability")
+          .select(
+            "availability_method_id, form_id, game_id, source_version_group_id, species_id, target_version_group_id",
+          )
+          .in("target_version_group_id", familyVersionGroupIds)
+          .order("id")
+          .range(from, to),
+      "Unable to load where Pokémon can be found.",
+    ),
+    reference.from("availability_methods").select("id, slug"),
+  ]);
 
-  if (pokedexesResult.error) {
+  if (pokedexesResult.error || methods.error) {
     throw new Error("Unable to load the Pokédexes for the Team Planner.");
   }
 
   const pokedexes = pokedexesResult.data;
+  const inGameMethodIds = new Set(
+    methods.data.filter(isInGameAvailabilityMethod).map((method) => method.id),
+  );
   const entries = await loadChunkedReferenceRows<PokedexEntry>(
     pokedexes.map((pokedex) => pokedex.id),
     (ids, from, to) =>
@@ -156,16 +176,22 @@ export const readPlannerPoolRows = async (
         .range(from, to),
     "Unable to load the Pokédex entries for the Team Planner.",
   );
+  /* With every species the family hands out, in a Pokédex of it or not. */
   const speciesIds = uniqueNumberIds([
     ...entries.map((entry) => entry.species_id),
+    ...availability.flatMap((row) =>
+      row.species_id !== null &&
+      row.availability_method_id !== null &&
+      inGameMethodIds.has(row.availability_method_id)
+        ? [row.species_id]
+        : [],
+    ),
     ...extraSpeciesIds,
   ]);
 
   const [
     species,
     allForms,
-    availability,
-    methods,
     evolutionMethods,
     natures,
     battleFormIds,
@@ -196,20 +222,6 @@ export const readPlannerPoolRows = async (
           .range(from, to),
       "Unable to load Pokémon forms for the Team Planner.",
     ),
-    loadPagedReferenceRows<PlannerAvailabilityRow>(
-      (from, to) =>
-        supabase
-          .schema("views")
-          .from("reference_resolved_pokemon_availability")
-          .select(
-            "availability_method_id, form_id, game_id, source_version_group_id, species_id, target_version_group_id",
-          )
-          .in("target_version_group_id", familyVersionGroupIds)
-          .order("id")
-          .range(from, to),
-      "Unable to load where Pokémon can be found.",
-    ),
-    reference.from("availability_methods").select("id, slug"),
     reference.from("evolution_methods").select("id, slug"),
     reference
       .from("natures")
@@ -229,12 +241,7 @@ export const readPlannerPoolRows = async (
     readCosmeticFormIds(supabase, speciesIds),
   ]);
 
-  if (
-    methods.error ||
-    evolutionMethods.error ||
-    natures.error ||
-    availabilityGroups.error
-  ) {
+  if (evolutionMethods.error || natures.error || availabilityGroups.error) {
     throw new Error("Unable to load the Team Planner's reference data.");
   }
 
