@@ -105,6 +105,40 @@ test.describe("Sheets and dialogs", () => {
     }
   });
 
+  test("Tab stays inside an open sheet, however fast it comes @phone", async ({
+    page,
+  }) => {
+    for (const viewport of [desktop, phone]) {
+      await page.setViewportSize(viewport);
+
+      for (const open of [openNuzlockeSheet, openRuleDialog]) {
+        const overlay = await open(page);
+        const controls = await overlay
+          .locator("button:visible, a[href]:visible, [tabindex='0']:visible")
+          .count();
+
+        /* Straight back from the title, before any control had focus. */
+        await page.keyboard.press("Shift+Tab");
+        await page.keyboard.press("Shift+Tab");
+        await expect(overlay.locator(":focus")).toHaveCount(1);
+
+        /* Twice round the controls, with no pause for the overlay to catch up. */
+        for (let press = 0; press < controls * 2 + 2; press += 1) {
+          await page.keyboard.press("Tab");
+        }
+        await expect(overlay.locator(":focus")).toHaveCount(1);
+
+        for (let press = 0; press < controls * 2 + 2; press += 1) {
+          await page.keyboard.press("Shift+Tab");
+        }
+        await expect(overlay.locator(":focus")).toHaveCount(1);
+
+        await page.keyboard.press("Escape");
+        await expect(overlay).toBeHidden();
+      }
+    }
+  });
+
   test("a sheet closes from its corner button and on Escape", async ({
     page,
   }) => {
