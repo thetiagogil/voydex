@@ -55,7 +55,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Zinnia
   (14014, 14, NULL, 'zinnia', 'Zinnia', 'boss', 15, NULL, 'zinnia', NULL, 14),
   -- May / Brendan (rival)
-  (14015, 14, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', NULL, 15),
+  (14015, 14, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may-brendan', NULL, 15),
   -- Wally (rival)
   (14016, 14, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', NULL, 16),
   -- Maxie (boss, omega-ruby)
@@ -63,85 +63,85 @@ INSERT INTO tracking.mainline_opponents (
   -- Archie (boss, alpha-sapphire)
   (14018, 14, 24, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', NULL, 1),
   -- Groudon (boss, omega-ruby)
-  (14019, 14, 23, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 2),
+  (14019, 14, 23, 'groudon', 'Groudon', 'boss', 9, NULL, NULL, NULL, 2),
   -- Kyogre (boss, alpha-sapphire)
-  (14020, 14, 24, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 2),
+  (14020, 14, 24, 'kyogre', 'Kyogre', 'boss', 3, NULL, NULL, NULL, 2),
   -- Rayquaza (boss)
-  (14021, 14, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 17),
+  (14021, 14, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, NULL, NULL, 17),
   -- Deoxys (boss)
-  (14022, 14, NULL, 'deoxys', 'Deoxys', 'boss', 11, NULL, 'deoxys', NULL, 18),
+  (14022, 14, NULL, 'deoxys', 'Deoxys', 'boss', 11, NULL, NULL, NULL, 18),
   -- Regirock (boss)
-  (14023, 14, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', NULL, 19),
+  (14023, 14, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, NULL, NULL, 19),
   -- Regice (boss)
-  (14024, 14, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', NULL, 20),
+  (14024, 14, NULL, 'regice', 'Regice', 'boss', 6, NULL, NULL, NULL, 20),
   -- Registeel (boss)
-  (14025, 14, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', NULL, 21),
+  (14025, 14, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, NULL, NULL, 21),
   -- Heatran (boss)
-  (14026, 14, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 22),
+  (14026, 14, NULL, 'heatran', 'Heatran', 'boss', 2, 17, NULL, NULL, 22),
   -- Ho-Oh (boss, omega-ruby)
-  (14027, 14, 23, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 3),
+  (14027, 14, 23, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 3),
   -- Lugia (boss, alpha-sapphire)
-  (14028, 14, 24, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 3),
+  (14028, 14, 24, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 3),
   -- Cresselia (boss)
-  (14029, 14, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 23),
+  (14029, 14, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, NULL, NULL, 23),
   -- Tornadus (boss, omega-ruby)
-  (14030, 14, 23, 'tornadus', 'Tornadus', 'boss', 10, NULL, 'tornadus', NULL, 4),
+  (14030, 14, 23, 'tornadus', 'Tornadus', 'boss', 10, NULL, NULL, NULL, 4),
   -- Thundurus (boss, alpha-sapphire)
-  (14031, 14, 24, 'thundurus', 'Thundurus', 'boss', 4, 10, 'thundurus', NULL, 4),
+  (14031, 14, 24, 'thundurus', 'Thundurus', 'boss', 4, 10, NULL, NULL, 4),
   -- Landorus (boss)
-  (14032, 14, NULL, 'landorus', 'Landorus', 'boss', 9, 10, 'landorus', NULL, 24),
+  (14032, 14, NULL, 'landorus', 'Landorus', 'boss', 9, 10, NULL, NULL, 24),
   -- Regigigas (boss)
-  (14033, 14, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 25),
+  (14033, 14, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, NULL, NULL, 25),
   -- Raikou (boss)
-  (14034, 14, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 26),
+  (14034, 14, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 26),
   -- Entei (boss)
-  (14035, 14, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 27),
+  (14035, 14, NULL, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 27),
   -- Suicune (boss)
-  (14036, 14, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 28),
+  (14036, 14, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 28),
   -- Uxie (boss)
-  (14037, 14, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 29),
+  (14037, 14, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, NULL, NULL, 29),
   -- Mesprit (boss)
-  (14038, 14, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 30),
+  (14038, 14, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, NULL, NULL, 30),
   -- Azelf (boss)
-  (14039, 14, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 31),
+  (14039, 14, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, NULL, NULL, 31),
   -- Palkia (boss, omega-ruby)
-  (14040, 14, 23, 'palkia', 'Palkia', 'boss', 3, 15, 'palkia', NULL, 5),
+  (14040, 14, 23, 'palkia', 'Palkia', 'boss', 3, 15, NULL, NULL, 5),
   -- Dialga (boss, alpha-sapphire)
-  (14041, 14, 24, 'dialga', 'Dialga', 'boss', 17, 15, 'dialga', NULL, 5),
+  (14041, 14, 24, 'dialga', 'Dialga', 'boss', 17, 15, NULL, NULL, 5),
   -- Giratina (boss)
-  (14042, 14, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', NULL, 32),
+  (14042, 14, NULL, 'giratina', 'Giratina', 'boss', 14, 15, NULL, NULL, 32),
   -- Cobalion (boss)
-  (14043, 14, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', NULL, 33),
+  (14043, 14, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, NULL, NULL, 33),
   -- Terrakion (boss)
-  (14044, 14, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', NULL, 34),
+  (14044, 14, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, NULL, NULL, 34),
   -- Virizion (boss)
-  (14045, 14, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', NULL, 35),
+  (14045, 14, NULL, 'virizion', 'Virizion', 'boss', 5, 7, NULL, NULL, 35),
   -- Reshiram (boss, omega-ruby)
-  (14046, 14, 23, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', NULL, 6),
+  (14046, 14, 23, 'reshiram', 'Reshiram', 'boss', 15, 2, NULL, NULL, 6),
   -- Zekrom (boss, alpha-sapphire)
-  (14047, 14, 24, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', NULL, 6),
+  (14047, 14, 24, 'zekrom', 'Zekrom', 'boss', 15, 4, NULL, NULL, 6),
   -- Kyurem (boss)
-  (14048, 14, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', NULL, 36),
+  (14048, 14, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, NULL, NULL, 36),
   -- Zinnia (boss, Granite Cave battle in the Delta Episode, so she can fight twice)
   (14049, 14, NULL, 'zinnia-granite-cave', 'Zinnia', 'boss', 15, NULL, 'zinnia', NULL, 37),
   -- Wallace (gym-leader, Delta Episode battle at the foot of the Sky Pillar, so he can fight twice)
   (14050, 14, NULL, 'wallace-delta-episode', 'Wallace', 'gym-leader', 3, NULL, 'wallace', 'Sky Pillar', 38),
   -- Tabitha & Grunt (boss; Omega Ruby; the Multi Battle with Brendan / May at your side)
-  (14051, 14, 23, 'tabitha-grunt', 'Tabitha & Grunt', 'boss', NULL, NULL, 'tabitha', NULL, 7),
+  (14051, 14, 23, 'tabitha-grunt', 'Tabitha & Grunt', 'boss', NULL, NULL, 'tabitha-grunt', NULL, 7),
   -- Tabitha (boss; Omega Ruby; Magma Admin)
   (14052, 14, 23, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', NULL, 8),
   -- Courtney & Grunt (boss; Omega Ruby; the Multi Battles with Steven at your side)
-  (14053, 14, 23, 'courtney-grunt', 'Courtney & Grunt', 'boss', NULL, NULL, 'courtney', NULL, 9),
+  (14053, 14, 23, 'courtney-grunt', 'Courtney & Grunt', 'boss', NULL, NULL, 'courtney-grunt', NULL, 9),
   -- Courtney (boss; Omega Ruby; Magma Admin)
   (14054, 14, 23, 'courtney', 'Courtney', 'boss', NULL, NULL, 'courtney', NULL, 10),
   -- Courtney (boss; Omega Ruby; Magma Admin, her second battle before the Mind Badge)
   (14055, 14, 23, 'courtney-magma-hideout', 'Courtney', 'boss', NULL, NULL, 'courtney', NULL, 11),
   -- Shelly & Grunt (boss; Alpha Sapphire; the Multi Battle with Brendan / May at your side)
-  (14056, 14, 24, 'shelly-grunt', 'Shelly & Grunt', 'boss', NULL, NULL, 'shelly', NULL, 7),
+  (14056, 14, 24, 'shelly-grunt', 'Shelly & Grunt', 'boss', NULL, NULL, 'shelly-grunt', NULL, 7),
   -- Shelly (boss; Alpha Sapphire; Aqua Admin)
   (14057, 14, 24, 'shelly', 'Shelly', 'boss', NULL, NULL, 'shelly', NULL, 8),
   -- Matt & Grunt (boss; Alpha Sapphire; the Multi Battles with Steven at your side)
-  (14058, 14, 24, 'matt-grunt', 'Matt & Grunt', 'boss', NULL, NULL, 'matt', NULL, 9),
+  (14058, 14, 24, 'matt-grunt', 'Matt & Grunt', 'boss', NULL, NULL, 'matt-grunt', NULL, 9),
   -- Matt (boss; Alpha Sapphire; Aqua Admin)
   (14059, 14, 24, 'matt', 'Matt', 'boss', NULL, NULL, 'matt', NULL, 10),
   -- Matt (boss; Alpha Sapphire; Aqua Admin, his second battle before the Mind Badge)

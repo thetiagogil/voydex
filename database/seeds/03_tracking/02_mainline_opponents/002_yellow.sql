@@ -59,12 +59,12 @@ INSERT INTO tracking.mainline_opponents (
   -- Giovanni (boss)
   (2015, 2, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', NULL, 15),
   -- Zapdos (boss)
-  (2016, 2, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 16),
+  (2016, 2, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 16),
   -- Articuno (boss)
-  (2017, 2, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 17),
+  (2017, 2, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 17),
   -- Moltres (boss)
-  (2018, 2, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 18),
+  (2018, 2, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 18),
   -- Mewtwo (boss)
-  (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 19),
+  (2019, 2, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 19),
   -- Jessie & James (boss; Team Rocket, four forced fights)
   (2020, 2, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 20);

@@ -1,4 +1,4 @@
-import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { OpponentAvatar } from "@/modules/reference/features/trainers/components/opponent-avatar";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { PendingData } from "@/shared/components/pending-data";
 import { SheetSection } from "@/shared/components/sheet-section";
@@ -71,14 +71,21 @@ export const StoryMilestoneBattles = ({
                 id={getStoryBattleRowId(battle.id)}
                 type="button"
                 onClick={() => onSelect(battle)}
-                className="focus-ring bg-surface-2 hover:bg-hover flex min-h-14 w-full items-center gap-3 rounded-xl px-3 py-2 text-left transition-colors"
+                className="focus-ring bg-surface-2 hover:bg-hover flex min-h-14 w-full items-center gap-4 rounded-xl px-3 py-2 text-left transition-colors"
               >
-                <PokemonAvatar
+                <OpponentAvatar
+                  ace={lead}
+                  className="size-10"
                   decorative
-                  name={lead?.name ?? battle.name}
-                  className="size-10 shrink-0"
-                  imageUrl={lead?.imageUrl ?? null}
-                  typeSlug={lead?.types[0]?.slug ?? null}
+                  isTrainer={battle.isTrainer}
+                  markClassName="size-5"
+                  name={battle.name}
+                  portraitUrl={battle.portraitUrl}
+                  typeSlug={
+                    battle.specialtyTypes[0]?.slug ??
+                    lead?.types[0]?.slug ??
+                    null
+                  }
                 />
                 <span className="grid min-w-0 flex-1">
                   <b className="text-ink text-15 truncate font-extrabold">

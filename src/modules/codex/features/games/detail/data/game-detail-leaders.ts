@@ -1,5 +1,6 @@
 import type { CodexGameLeader } from "@/modules/codex/features/games/detail/types";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { getTrainerPortraitUrl } from "@/modules/reference/features/trainers/data/trainer-portraits";
 import type {
   PokemonForm,
   PokemonSpecies,
@@ -18,6 +19,8 @@ export type CodexLeaderOpponentRow = {
   primary_type_id: number | null;
   slug: string;
   sort_order: number;
+  /* Their portrait's file on the assets site; null where there is none. */
+  sprite_slug: string | null;
 };
 
 export type CodexLeaderTeamMemberRow = {
@@ -202,6 +205,7 @@ export const buildGameLeaders = (
         key: String(opponent.id),
         name: opponent.name,
         place: opponent.place,
+        portraitUrl: getTrainerPortraitUrl(opponent.sprite_slug),
         role: opponent.opponent_role,
         type: type ? { name: type.name, slug: type.slug } : null,
       };

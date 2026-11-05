@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS pgtap WITH SCHEMA extensions;
 
 -- The forced Story battles seeded last: Yellow's Jessie & James, the Gold /
 -- Silver / Crystal Rocket Executives, the Ruby / Sapphire / Emerald admins,
--- the FireRed / LeafGreen Rocket Warehouse admins, Dulse and Soliera's first
+-- Dulse and Soliera's first
 -- two fights, N after the credits and the Dragon's Den Multi Battle, pinned on
 -- their beats with the teams the games give them.
 BEGIN;
@@ -67,7 +67,7 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = refs.opponent_id
             WHERE
                 refs.milestone_id = 60029 ORDER BY refs.sort_order $$, $$
-            VALUES ('rocket-admin-muk', 1), ('rocket-admin-golbat', 2), ('mewtwo', 3) $$, 'FireRed / LeafGreen: the Rocket Warehouse admins on the way to Cerulean Cave');
+            VALUES ('mewtwo', 1) $$, 'FireRed / LeafGreen: Cerulean Cave holds Mewtwo alone; the unnamed Rocket Warehouse admins are generic trainers, not Story opponents');
 SELECT
     results_eq ($$
         SELECT
@@ -112,9 +112,9 @@ SELECT
             JOIN tracking.mainline_opponents AS opponents ON opponents.id = members.opponent_id
             WHERE
                 members.ally_opponent_id IS NULL
-                AND (members.version_group_id, opponents.slug) IN ((2, 'jessie-james'), (3, 'petrel'), (3, 'ariana'), (3, 'archer'), (3, 'proton'), (4, 'petrel'), (4, 'ariana'), (4, 'archer'), (4, 'proton'), (5, 'tabitha'), (5, 'courtney'), (5, 'matt'), (5, 'shelly'), (6, 'rocket-admin-muk'), (6, 'rocket-admin-golbat'), (7, 'tabitha'), (7, 'shelly'), (7, 'matt'), (10, 'clair-lance'), (12, 'n'))
+                AND (members.version_group_id, opponents.slug) IN ((2, 'jessie-james'), (3, 'petrel'), (3, 'ariana'), (3, 'archer'), (3, 'proton'), (4, 'petrel'), (4, 'ariana'), (4, 'archer'), (4, 'proton'), (5, 'tabitha'), (5, 'courtney'), (5, 'matt'), (5, 'shelly'), (7, 'tabitha'), (7, 'shelly'), (7, 'matt'), (10, 'clair-lance'), (12, 'n'))
         GROUP BY members.version_group_id, opponents.slug ORDER BY members.version_group_id, opponents.slug $$, $$
-        VALUES (2, 'jessie-james', 12), (3, 'archer', 3), (3, 'ariana', 6), (3, 'petrel', 9), (3, 'proton', 1), (4, 'archer', 3), (4, 'ariana', 6), (4, 'petrel', 9), (4, 'proton', 1), (5, 'courtney', 4), (5, 'matt', 6), (5, 'shelly', 4), (5, 'tabitha', 6), (6, 'rocket-admin-golbat', 3), (6, 'rocket-admin-muk', 3), (7, 'matt', 2), (7, 'shelly', 4), (7, 'tabitha', 8), (10, 'clair-lance', 6), (12, 'n', 2) $$, 'each new battle carries its whole party');
+        VALUES (2, 'jessie-james', 12), (3, 'archer', 3), (3, 'ariana', 6), (3, 'petrel', 9), (3, 'proton', 1), (4, 'archer', 3), (4, 'ariana', 6), (4, 'petrel', 9), (4, 'proton', 1), (5, 'courtney', 4), (5, 'matt', 6), (5, 'shelly', 4), (5, 'tabitha', 6), (7, 'matt', 2), (7, 'shelly', 4), (7, 'tabitha', 8), (10, 'clair-lance', 6), (12, 'n', 2) $$, 'each new battle carries its whole party');
 SELECT
     results_eq ($$
         SELECT
@@ -163,9 +163,9 @@ SELECT
             JOIN tracking.mainline_opponent_team_member_moves AS member_moves ON member_moves.team_member_id = members.id
             WHERE
                 members.milestone_id = 60029
-                AND members.opponent_id = 6028
-                AND members.slot = 3 $$, $$
-            VALUES (ARRAY[53, 242, 231, 247]) $$, 'the second Rocket Admin''s Houndoom knows Flamethrower, Crunch, Iron Tail and Shadow Ball');
+                AND members.opponent_id = 6026
+                AND members.slot = 1 $$, $$
+            VALUES (ARRAY[129, 105, 219, 94]) $$, 'Mewtwo knows Swift, Recover, Safeguard and Psychic, in the game''s order');
 SELECT
     *
 FROM

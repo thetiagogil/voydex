@@ -54,4 +54,12 @@ describe("FallbackImage", () => {
     expect(markup).toContain(">Bulbasaur</span>");
     expect(markup).toContain(">B</span>");
   });
+
+  it("shows the letters it is given instead of the first letter", () => {
+    const markup = renderToStaticMarkup(
+      <FallbackImage src={null} name="Lt. Surge" letters="LS" />,
+    );
+
+    expect(markup).toContain(">LS</span>");
+  });
 });

@@ -58,31 +58,31 @@ INSERT INTO tracking.mainline_opponents (
   -- Steven
   (7014, 7, NULL, 'steven', 'Steven', 'boss', 17, NULL, 'steven', NULL, 14),
   -- May / Brendan (rival)
-  (7015, 7, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', NULL, 15),
+  (7015, 7, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may-brendan', NULL, 15),
   -- Wally (rival)
   (7016, 7, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', NULL, 16),
   -- Maxie (boss)
   (7017, 7, NULL, 'maxie', 'Maxie', 'boss', NULL, NULL, 'maxie', NULL, 17),
   -- Maxie & Tabitha (boss)
-  (7018, 7, NULL, 'maxie-tabitha', 'Maxie & Tabitha', 'boss', NULL, NULL, 'maxie', NULL, 18),
+  (7018, 7, NULL, 'maxie-tabitha', 'Maxie & Tabitha', 'boss', NULL, NULL, 'maxie-tabitha', NULL, 18),
   -- Archie (boss)
   (7019, 7, NULL, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', NULL, 19),
   -- Regirock (boss)
-  (7020, 7, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', NULL, 20),
+  (7020, 7, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, NULL, NULL, 20),
   -- Regice (boss)
-  (7021, 7, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', NULL, 21),
+  (7021, 7, NULL, 'regice', 'Regice', 'boss', 6, NULL, NULL, NULL, 21),
   -- Registeel (boss)
-  (7022, 7, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', NULL, 22),
+  (7022, 7, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, NULL, NULL, 22),
   -- Rayquaza (boss)
-  (7023, 7, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 23),
+  (7023, 7, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, NULL, NULL, 23),
   -- Groudon (boss)
-  (7024, 7, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 24),
+  (7024, 7, NULL, 'groudon', 'Groudon', 'boss', 9, NULL, NULL, NULL, 24),
   -- Kyogre (boss)
-  (7025, 7, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 25),
+  (7025, 7, NULL, 'kyogre', 'Kyogre', 'boss', 3, NULL, NULL, NULL, 25),
   -- Latias (boss)
-  (7026, 7, NULL, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 26),
+  (7026, 7, NULL, 'latias', 'Latias', 'boss', 15, 11, NULL, NULL, 26),
   -- Latios (boss)
-  (7027, 7, NULL, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 27),
+  (7027, 7, NULL, 'latios', 'Latios', 'boss', 15, 11, NULL, NULL, 27),
   -- Tabitha (boss; Team Magma Admin)
   (7028, 7, NULL, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', NULL, 28),
   -- Shelly (boss; Team Aqua Admin)

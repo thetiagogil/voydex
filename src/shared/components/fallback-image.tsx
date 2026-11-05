@@ -19,6 +19,11 @@ type FallbackImageProps = Omit<
   fallback?: "badge" | "letter";
   /* Extra classes for the stand-in's box (the image's own classes size it). */
   fallbackClassName?: string;
+  /*
+   * What the stand-in's `letter` shows instead of the name's first letter,
+   * such as a trainer's initials ("LS" for Lt. Surge).
+   */
+  letters?: string;
   /* What the image pictures: it names the stand-in when the image can't show. */
   name: string;
   src: string | null | undefined;
@@ -35,6 +40,7 @@ export const FallbackImage = ({
   className,
   fallback = "letter",
   fallbackClassName,
+  letters,
   name,
   src,
   ...imageProps
@@ -42,7 +48,8 @@ export const FallbackImage = ({
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
 
   if (!src || failedSrc === src) {
-    const letter = name.trim().charAt(0).toUpperCase() || "?";
+    const letter =
+      letters?.trim() || name.trim().charAt(0).toUpperCase() || "?";
 
     return (
       <span
@@ -73,7 +80,14 @@ export const FallbackImage = ({
               </span>
             </>
           ) : (
-            <span className="text-[clamp(0.75rem,45cqw,6rem)] leading-none">
+            <span
+              className={cn(
+                "leading-none",
+                letter.length > 1
+                  ? "text-[clamp(0.75rem,32cqw,4.5rem)]"
+                  : "text-[clamp(0.75rem,45cqw,6rem)]",
+              )}
+            >
               {letter}
             </span>
           )}

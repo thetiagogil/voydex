@@ -348,19 +348,7 @@ WITH team_moves (milestone_id, opponent_id, game_id, decision_milestone_id, deci
     -- Suicune: Suicune Lv. 50: Bubble Beam, Rain Dance, Gust, Aurora Beam
     (60028, 6025, NULL, 60001, 'charmander', NULL, 1, ARRAY[61, 240, 16, 62]),
     -- Mewtwo: Mewtwo Lv. 70: Swift, Recover, Safeguard, Psychic
-    (60029, 6026, NULL, NULL, NULL, NULL, 1, ARRAY[129, 105, 219, 94]),
-    -- Rocket Admin (Muk): Muk Lv. 52: Sludge Bomb, Screech, Minimize, Rock Tomb
-    (60029, 6027, NULL, NULL, NULL, NULL, 1, ARRAY[188, 103, 107, 317]),
-    -- Rocket Admin (Muk): Arbok Lv. 53: Sludge Bomb, Bite, Earthquake, Iron Tail
-    (60029, 6027, NULL, NULL, NULL, NULL, 2, ARRAY[188, 44, 89, 231]),
-    -- Rocket Admin (Muk): Vileplume Lv. 54: Sludge Bomb, Giga Drain, Sleep Powder, Stun Spore
-    (60029, 6027, NULL, NULL, NULL, NULL, 3, ARRAY[188, 202, 79, 78]),
-    -- Rocket Admin (Golbat): Golbat Lv. 53: Confuse Ray, Sludge Bomb, Air Cutter, Shadow Ball
-    (60029, 6028, NULL, NULL, NULL, NULL, 1, ARRAY[109, 188, 314, 247]),
-    -- Rocket Admin (Golbat): Weezing Lv. 54: Sludge Bomb, Thunderbolt, Explosion, Shadow Ball
-    (60029, 6028, NULL, NULL, NULL, NULL, 2, ARRAY[188, 85, 153, 247]),
-    -- Rocket Admin (Golbat): Houndoom Lv. 55: Flamethrower, Crunch, Iron Tail, Shadow Ball
-    (60029, 6028, NULL, NULL, NULL, NULL, 3, ARRAY[53, 242, 231, 247])
+    (60029, 6026, NULL, NULL, NULL, NULL, 1, ARRAY[129, 105, 219, 94])
 )
 INSERT INTO tracking.mainline_opponent_team_member_moves (team_member_id, slot, move_id)
 SELECT

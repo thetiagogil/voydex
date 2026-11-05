@@ -14,6 +14,7 @@ import { TypeName } from "@/modules/mainline/shared/components/type-name";
 import { PokemonCard } from "@/modules/reference/features/pokemon/components/pokemon-card";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { getTrainerInitials } from "@/modules/reference/features/trainers/data/trainer-initials";
 import {
   PokemonTypeBadge,
   PokemonTypeIcon,
@@ -677,33 +678,54 @@ export const StoryBattleReport = ({
 
   return (
     <div className="min-w-0">
-      <ObjectiveEyebrow
-        icon={isWon ? appIcons.status.active : appIcons.milestones.story}
-      >
-        {isWon ? (
-          <>
-            {wording.doneLabel}
-            {battle.completedAt ? (
+      <div className="flex items-start gap-4">
+        {battle.isTrainer ? (
+          <PokemonAvatar
+            art="portrait"
+            className="size-16 shrink-0"
+            decorative
+            imageUrl={battle.portraitUrl}
+            letters={getTrainerInitials(battle.name)}
+            name={battle.name}
+            typeSlug={battle.specialtyTypes[0]?.slug ?? null}
+          />
+        ) : null}
+        <div className="min-w-0">
+          <ObjectiveEyebrow
+            icon={isWon ? appIcons.status.active : appIcons.milestones.story}
+          >
+            {isWon ? (
               <>
-                {" "}
-                <PlayMomentTime value={battle.completedAt} format="date" />
+                {wording.doneLabel}
+                {battle.completedAt ? (
+                  <>
+                    {" "}
+                    <PlayMomentTime value={battle.completedAt} format="date" />
+                  </>
+                ) : null}
               </>
-            ) : null}
-          </>
-        ) : battle.state === "next" ? (
-          "Next objective"
-        ) : (
-          "Still ahead"
-        )}{" "}
-        · {battle.kind}
-        {battle.isOptional && opponentKind === "legendary"
-          ? " · Optional"
-          : null}
-      </ObjectiveEyebrow>
-      <h2 id={titleId} tabIndex={-1} className={objectiveTitleClassNames.md}>
-        {battle.name}
-      </h2>
-      {battle.where ? <ObjectiveWhere>{battle.where}</ObjectiveWhere> : null}
+            ) : battle.state === "next" ? (
+              "Next objective"
+            ) : (
+              "Still ahead"
+            )}{" "}
+            · {battle.kind}
+            {battle.isOptional && opponentKind === "legendary"
+              ? " · Optional"
+              : null}
+          </ObjectiveEyebrow>
+          <h2
+            id={titleId}
+            tabIndex={-1}
+            className={objectiveTitleClassNames.md}
+          >
+            {battle.name}
+          </h2>
+          {battle.where ? (
+            <ObjectiveWhere>{battle.where}</ObjectiveWhere>
+          ) : null}
+        </div>
+      </div>
 
       {isWon ? null : battle.playerSide !== "own-team" ? (
         <p className="text-ink-2 text-14 mt-5 font-semibold">

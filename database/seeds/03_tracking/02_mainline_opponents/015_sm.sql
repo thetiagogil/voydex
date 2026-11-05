@@ -35,11 +35,11 @@ INSERT INTO tracking.mainline_opponents (
   -- Hapu
   (15010, 15, NULL, 'hapu', 'Hapu', 'kahuna', 9, NULL, 'hapu', 'Exeggutor Island', 10),
   -- Hala
-  (15011, 15, NULL, 'hala-e4', 'Hala', 'elite-four', 7, NULL, 'hala-e4', NULL, 11),
+  (15011, 15, NULL, 'hala-e4', 'Hala', 'elite-four', 7, NULL, 'hala', NULL, 11),
   -- Olivia
-  (15012, 15, NULL, 'olivia-e4', 'Olivia', 'elite-four', 13, NULL, 'olivia-e4', NULL, 12),
+  (15012, 15, NULL, 'olivia-e4', 'Olivia', 'elite-four', 13, NULL, 'olivia', NULL, 12),
   -- Acerola
-  (15013, 15, NULL, 'acerola-e4', 'Acerola', 'elite-four', 14, NULL, 'acerola-e4', NULL, 13),
+  (15013, 15, NULL, 'acerola-e4', 'Acerola', 'elite-four', 14, NULL, 'acerola', NULL, 13),
   -- Kahili
   (15014, 15, NULL, 'kahili', 'Kahili', 'elite-four', 10, NULL, 'kahili', NULL, 14),
   -- Professor Kukui
@@ -49,55 +49,55 @@ INSERT INTO tracking.mainline_opponents (
   -- Gladion (rival)
   (15017, 15, NULL, 'gladion', 'Gladion', 'rival', NULL, NULL, 'gladion', NULL, 17),
   -- Hau, Gladion and the Masked Royal (rival; the Battle Royal)
-  (15018, 15, NULL, 'battle-royal', 'Hau, Gladion & the Masked Royal', 'rival', NULL, NULL, 'hau', NULL, 18),
+  (15018, 15, NULL, 'battle-royal', 'Hau, Gladion & the Masked Royal', 'rival', NULL, NULL, 'hau-gladion', NULL, 18),
   -- Guzma (boss)
   (15019, 15, NULL, 'guzma', 'Guzma', 'boss', NULL, NULL, 'guzma', NULL, 19),
   -- Lusamine (boss)
   (15020, 15, NULL, 'lusamine', 'Lusamine', 'boss', NULL, NULL, 'lusamine', NULL, 20),
   -- Nihilego (boss)
-  (15021, 15, NULL, 'nihilego', 'Nihilego', 'boss', 13, 8, 'nihilego', NULL, 21),
+  (15021, 15, NULL, 'nihilego', 'Nihilego', 'boss', 13, 8, NULL, NULL, 21),
   -- Solgaleo (boss, sun)
-  (15022, 15, 25, 'solgaleo', 'Solgaleo', 'boss', 11, 17, 'solgaleo', NULL, 1),
+  (15022, 15, 25, 'solgaleo', 'Solgaleo', 'boss', 11, 17, NULL, NULL, 1),
   -- Lunala (boss, moon)
-  (15023, 15, 26, 'lunala', 'Lunala', 'boss', 11, 14, 'lunala', NULL, 1),
+  (15023, 15, 26, 'lunala', 'Lunala', 'boss', 11, 14, NULL, NULL, 1),
   -- Tapu Koko (boss)
-  (15024, 15, NULL, 'tapu-koko', 'Tapu Koko', 'boss', 4, 18, 'tapu-koko', NULL, 22),
+  (15024, 15, NULL, 'tapu-koko', 'Tapu Koko', 'boss', 4, 18, NULL, NULL, 22),
   -- Buzzwole (boss, sun)
-  (15025, 15, 25, 'buzzwole', 'Buzzwole', 'boss', 12, 7, 'buzzwole', NULL, 2),
+  (15025, 15, 25, 'buzzwole', 'Buzzwole', 'boss', 12, 7, NULL, NULL, 2),
   -- Pheromosa (boss, moon)
-  (15026, 15, 26, 'pheromosa', 'Pheromosa', 'boss', 12, 7, 'pheromosa', NULL, 2),
+  (15026, 15, 26, 'pheromosa', 'Pheromosa', 'boss', 12, 7, NULL, NULL, 2),
   -- Xurkitree (boss)
-  (15027, 15, NULL, 'xurkitree', 'Xurkitree', 'boss', 4, NULL, 'xurkitree', NULL, 23),
+  (15027, 15, NULL, 'xurkitree', 'Xurkitree', 'boss', 4, NULL, NULL, NULL, 23),
   -- Kartana (boss, sun)
-  (15028, 15, 25, 'kartana', 'Kartana', 'boss', 5, 17, 'kartana', NULL, 3),
+  (15028, 15, 25, 'kartana', 'Kartana', 'boss', 5, 17, NULL, NULL, 3),
   -- Celesteela (boss, moon)
-  (15029, 15, 26, 'celesteela', 'Celesteela', 'boss', 17, 10, 'celesteela', NULL, 3),
+  (15029, 15, 26, 'celesteela', 'Celesteela', 'boss', 17, 10, NULL, NULL, 3),
   -- Guzzlord (boss)
-  (15030, 15, NULL, 'guzzlord', 'Guzzlord', 'boss', 16, 15, 'guzzlord', NULL, 24),
+  (15030, 15, NULL, 'guzzlord', 'Guzzlord', 'boss', 16, 15, NULL, NULL, 24),
   -- Tapu Lele (boss)
-  (15031, 15, NULL, 'tapu-lele', 'Tapu Lele', 'boss', 11, 18, 'tapu-lele', NULL, 25),
+  (15031, 15, NULL, 'tapu-lele', 'Tapu Lele', 'boss', 11, 18, NULL, NULL, 25),
   -- Tapu Bulu (boss)
-  (15032, 15, NULL, 'tapu-bulu', 'Tapu Bulu', 'boss', 5, 18, 'tapu-bulu', NULL, 26),
+  (15032, 15, NULL, 'tapu-bulu', 'Tapu Bulu', 'boss', 5, 18, NULL, NULL, 26),
   -- Tapu Fini (boss)
-  (15033, 15, NULL, 'tapu-fini', 'Tapu Fini', 'boss', 3, 18, 'tapu-fini', NULL, 27),
+  (15033, 15, NULL, 'tapu-fini', 'Tapu Fini', 'boss', 3, 18, NULL, NULL, 27),
   -- Necrozma (boss)
-  (15034, 15, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, 'necrozma', NULL, 28),
+  (15034, 15, NULL, 'necrozma', 'Necrozma', 'boss', 11, NULL, NULL, NULL, 28),
   -- Totem Kommo-o (totem, Vast Poni Canyon has no captain)
-  (15035, 15, NULL, 'totem-kommo-o', 'Totem Kommo-o', 'totem', 15, 7, 'kommo-o', NULL, 29),
+  (15035, 15, NULL, 'totem-kommo-o', 'Totem Kommo-o', 'totem', 15, 7, NULL, NULL, 29),
   -- Totem Gumshoos (totem, sun)
-  (15036, 15, 25, 'totem-gumshoos', 'Totem Gumshoos', 'totem', 1, NULL, 'gumshoos', NULL, 4),
+  (15036, 15, 25, 'totem-gumshoos', 'Totem Gumshoos', 'totem', 1, NULL, NULL, NULL, 4),
   -- Totem Raticate (totem, moon)
-  (15037, 15, 26, 'totem-raticate', 'Totem Raticate', 'totem', 16, 1, 'alolan-raticate', NULL, 4),
+  (15037, 15, 26, 'totem-raticate', 'Totem Raticate', 'totem', 16, 1, NULL, NULL, 4),
   -- Totem Wishiwashi (totem)
-  (15038, 15, NULL, 'totem-wishiwashi', 'Totem Wishiwashi', 'totem', 3, NULL, 'wishiwashi', NULL, 30),
+  (15038, 15, NULL, 'totem-wishiwashi', 'Totem Wishiwashi', 'totem', 3, NULL, NULL, NULL, 30),
   -- Totem Salazzle (totem)
-  (15039, 15, NULL, 'totem-salazzle', 'Totem Salazzle', 'totem', 8, 2, 'salazzle', NULL, 31),
+  (15039, 15, NULL, 'totem-salazzle', 'Totem Salazzle', 'totem', 8, 2, NULL, NULL, 31),
   -- Totem Lurantis (totem)
-  (15040, 15, NULL, 'totem-lurantis', 'Totem Lurantis', 'totem', 5, NULL, 'lurantis', NULL, 32),
+  (15040, 15, NULL, 'totem-lurantis', 'Totem Lurantis', 'totem', 5, NULL, NULL, NULL, 32),
   -- Totem Vikavolt (totem)
-  (15041, 15, NULL, 'totem-vikavolt', 'Totem Vikavolt', 'totem', 12, 4, 'vikavolt', NULL, 33),
+  (15041, 15, NULL, 'totem-vikavolt', 'Totem Vikavolt', 'totem', 12, 4, NULL, NULL, 33),
   -- Totem Mimikyu (totem)
-  (15042, 15, NULL, 'totem-mimikyu', 'Totem Mimikyu', 'totem', 14, 18, 'mimikyu', NULL, 34),
+  (15042, 15, NULL, 'totem-mimikyu', 'Totem Mimikyu', 'totem', 14, 18, NULL, NULL, 34),
   -- Faba (boss; Aether Paradise entrance)
   (15043, 15, NULL, 'faba', 'Faba', 'boss', NULL, NULL, 'faba', NULL, 35),
   -- Plumeria (boss)

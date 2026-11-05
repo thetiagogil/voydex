@@ -60,28 +60,24 @@ INSERT INTO tracking.mainline_opponents (
   -- Giovanni (boss)
   (6015, 6, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', NULL, 15),
   -- Zapdos (boss)
-  (6016, 6, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 16),
+  (6016, 6, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 16),
   -- Articuno (boss)
-  (6017, 6, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 17),
+  (6017, 6, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 17),
   -- Moltres (boss)
-  (6018, 6, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 18),
+  (6018, 6, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 18),
   -- Ho-Oh (boss)
-  (6019, 6, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 19),
+  (6019, 6, NULL, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 19),
   -- Lugia (boss)
-  (6020, 6, NULL, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 20),
+  (6020, 6, NULL, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 20),
   -- Deoxys (boss, firered)
-  (6021, 6, 9, 'deoxys', 'Deoxys', 'boss', 11, NULL, 'deoxys', NULL, 1),
+  (6021, 6, 9, 'deoxys', 'Deoxys', 'boss', 11, NULL, NULL, NULL, 1),
   -- Deoxys (boss, leafgreen)
-  (6022, 6, 10, 'deoxys-leafgreen', 'Deoxys', 'boss', 11, NULL, 'deoxys', NULL, 1),
+  (6022, 6, 10, 'deoxys-leafgreen', 'Deoxys', 'boss', 11, NULL, NULL, NULL, 1),
   -- Raikou (boss)
-  (6023, 6, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 21),
+  (6023, 6, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 21),
   -- Entei (boss)
-  (6024, 6, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 22),
+  (6024, 6, NULL, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 22),
   -- Suicune (boss)
-  (6025, 6, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 23),
+  (6025, 6, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 23),
   -- Mewtwo (boss)
-  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 24),
-  -- Rocket Admin (Muk) (boss; Rocket Warehouse)
-  (6027, 6, NULL, 'rocket-admin-muk', 'Rocket Admin (Muk)', 'boss', NULL, NULL, 'rocket-admin', NULL, 25),
-  -- Rocket Admin (Golbat) (boss; Rocket Warehouse)
-  (6028, 6, NULL, 'rocket-admin-golbat', 'Rocket Admin (Golbat)', 'boss', NULL, NULL, 'rocket-admin', NULL, 26);
+  (6026, 6, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 24);

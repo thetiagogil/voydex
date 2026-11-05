@@ -58,20 +58,20 @@ INSERT INTO tracking.mainline_opponents (
   -- Cheren (rival)
   (11017, 11, NULL, 'cheren', 'Cheren', 'rival', NULL, NULL, 'cheren', NULL, 17),
   -- Reshiram (boss, black)
-  (11018, 11, 17, 'reshiram', 'Reshiram', 'boss', 15, 2, 'reshiram', NULL, 1),
+  (11018, 11, 17, 'reshiram', 'Reshiram', 'boss', 15, 2, NULL, NULL, 1),
   -- Zekrom (boss, white)
-  (11019, 11, 18, 'zekrom', 'Zekrom', 'boss', 15, 4, 'zekrom', NULL, 1),
+  (11019, 11, 18, 'zekrom', 'Zekrom', 'boss', 15, 4, NULL, NULL, 1),
   -- Cobalion (boss)
-  (11020, 11, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, 'cobalion', NULL, 18),
+  (11020, 11, NULL, 'cobalion', 'Cobalion', 'boss', 17, 7, NULL, NULL, 18),
   -- Terrakion (boss)
-  (11021, 11, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, 'terrakion', NULL, 19),
+  (11021, 11, NULL, 'terrakion', 'Terrakion', 'boss', 13, 7, NULL, NULL, 19),
   -- Virizion (boss)
-  (11022, 11, NULL, 'virizion', 'Virizion', 'boss', 5, 7, 'virizion', NULL, 20),
+  (11022, 11, NULL, 'virizion', 'Virizion', 'boss', 5, 7, NULL, NULL, 20),
   -- Tornadus (boss, black)
-  (11023, 11, 17, 'tornadus', 'Tornadus', 'boss', 10, NULL, 'tornadus', NULL, 2),
+  (11023, 11, 17, 'tornadus', 'Tornadus', 'boss', 10, NULL, NULL, NULL, 2),
   -- Thundurus (boss, white)
-  (11024, 11, 18, 'thundurus', 'Thundurus', 'boss', 4, 10, 'thundurus', NULL, 2),
+  (11024, 11, 18, 'thundurus', 'Thundurus', 'boss', 4, 10, NULL, NULL, 2),
   -- Kyurem (boss)
-  (11025, 11, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, 'kyurem', NULL, 21),
+  (11025, 11, NULL, 'kyurem', 'Kyurem', 'boss', 15, 6, NULL, NULL, 21),
   -- Landorus (boss)
-  (11026, 11, NULL, 'landorus', 'Landorus', 'boss', 9, 10, 'landorus', NULL, 22);
+  (11026, 11, NULL, 'landorus', 'Landorus', 'boss', 9, 10, NULL, NULL, 22);

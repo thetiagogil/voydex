@@ -89,8 +89,4 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   -- Roaming Legendary Beast -> Suicune
   (60028, 6025, 6, 'battle-opponent', 3, 'Roams Kanto routes. You can skip this battle.'),
   -- Cerulean Cave -> Mewtwo
-  (60029, 6026, 6, 'battle-opponent', 3, 'Cerulean Cave B1F. You can skip this battle.'),
-  -- Cerulean Cave -> Rocket Admin (Muk)
-  (60029, 6027, 6, 'battle-opponent', 1, 'Rocket Warehouse, Five Island'),
-  -- Cerulean Cave -> Rocket Admin (Golbat)
-  (60029, 6028, 6, 'battle-opponent', 2, 'Rocket Warehouse, Five Island');
+  (60029, 6026, 6, 'battle-opponent', 1, 'Cerulean Cave B1F. You can skip this battle.');

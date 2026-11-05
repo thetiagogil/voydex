@@ -11,6 +11,7 @@ import { getMilestoneBadgeTypeId } from "@/modules/mainline/features/plays/share
 import { buildMainlinePlayTeamPreview } from "@/modules/mainline/features/plays/hub/data/team-member-mappers";
 import type { MainlinePlaySummary } from "@/modules/mainline/features/plays/shared/types";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
+import { getTrainerPortraitUrl } from "@/modules/reference/features/trainers/data/trainer-portraits";
 import {
   gameMechanics,
   resolveGameMechanics,
@@ -173,6 +174,30 @@ const getLegendaryRarity = (
 ): LegendaryRarity | null =>
   role === "boss" && pokemon?.length === 1 ? pokemon[0].legendary : null;
 
+/* The opponents that are Pokémon themselves, whatever their team. */
+const pokemonOpponentRoles = new Set(["noble", "titan", "totem"]);
+
+/*
+ * Whether you battle a person: not a legendary, a titan, a totem or a noble,
+ * and not a lone Pokémon the opponent is named after (Rogue Mega Absol,
+ * Bloodmoon Ursaluna).
+ */
+const isTrainerOpponent = (
+  role: string,
+  name: string,
+  pokemon: StoryOpponentPokemon[] | undefined,
+) => {
+  if (pokemonOpponentRoles.has(role)) return false;
+
+  const lone = pokemon?.length === 1 ? pokemon[0] : null;
+
+  return !(
+    lone &&
+    (lone.legendary !== null ||
+      name.includes(lone.name.split(" ").at(-1) ?? lone.name))
+  );
+};
+
 /*
  * Who hands out a story point's badge: the Gym Leader, or in Alola the trial
  * captain, kahuna or totem. A rival on the same story point doesn't.
@@ -208,10 +233,14 @@ export type StoryMatchupBattle = {
   opponentKind: StoryOpponentKind;
   /* Not needed to finish the Story, such as a roaming legendary you may skip. */
   isOptional: boolean;
+  /* A person you battle; false for a Pokémon you meet alone (a legendary, a titan, a rogue Mega). */
+  isTrainer: boolean;
   /* Their team, or null where Voydex doesn't have it. */
   party: StoryMatchupParty | null;
   /* Their team's levels ("Lv. 19–20"), for the battle's row. */
   partyLevels: string | null;
+  /* The trainer's portrait; null for a Pokémon or a trainer Voydex has none of. */
+  portraitUrl: string | null;
   /* What you battle with; anything but your own team gets no reading. */
   playerSide: StoryPlayerSide;
   /* The reading of a battle ahead against their team; null once won, without their team, or when you don't battle with your team. */
@@ -304,6 +333,8 @@ type OpponentRef = {
   player_side: StoryPlayerSide;
   primary_type_id: number | null;
   secondary_type_id: number | null;
+  /* Their portrait's file on the assets site; null where there is none. */
+  sprite_slug: string | null;
   /* How many of your Pokémon you may bring; null for your whole team. */
   team_size_limit: number | null;
 };
@@ -335,6 +366,8 @@ const readOpponentRefs = (value: Json | null): OpponentRef[] =>
                   typeof ref.secondary_type_id === "number"
                     ? ref.secondary_type_id
                     : null,
+                sprite_slug:
+                  typeof ref.sprite_slug === "string" ? ref.sprite_slug : null,
                 team_size_limit:
                   typeof ref.team_size_limit === "number"
                     ? ref.team_size_limit
@@ -742,6 +775,11 @@ export const buildStoryMatchupsModel = ({
         completedAt: milestone.completed_at,
         id: getBattleOpponentKey(milestone.milestone_id, ref.opponent_id),
         isOptional: !milestone.is_required_for_completion,
+        isTrainer: isTrainerOpponent(
+          ref.opponent_role,
+          ref.name,
+          party?.pokemon,
+        ),
         kind: legendary ?? battleKinds[ref.opponent_role],
         members: members.map((member, index) => {
           const memberReading = reading?.members[index];
@@ -787,6 +825,7 @@ export const buildStoryMatchupsModel = ({
         opponentKind,
         party,
         partyLevels: partyRange ? formatLevelRange(partyRange) : null,
+        portraitUrl: getTrainerPortraitUrl(ref.sprite_slug),
         playerSide: ref.player_side,
         reading: reading
           ? {

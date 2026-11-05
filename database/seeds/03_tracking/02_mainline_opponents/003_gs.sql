@@ -78,19 +78,19 @@ INSERT INTO tracking.mainline_opponents (
   -- Silver (rival)
   (3023, 3, NULL, 'silver', 'Silver', 'rival', NULL, NULL, 'silver', NULL, 23),
   -- Raikou (boss)
-  (3024, 3, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, 'raikou', NULL, 24),
+  (3024, 3, NULL, 'raikou', 'Raikou', 'boss', 4, NULL, NULL, NULL, 24),
   -- Entei (boss)
-  (3025, 3, NULL, 'entei', 'Entei', 'boss', 2, NULL, 'entei', NULL, 25),
+  (3025, 3, NULL, 'entei', 'Entei', 'boss', 2, NULL, NULL, NULL, 25),
   -- Suicune (boss)
-  (3026, 3, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, 'suicune', NULL, 26),
+  (3026, 3, NULL, 'suicune', 'Suicune', 'boss', 3, NULL, NULL, NULL, 26),
   -- Ho-Oh (boss, gold)
-  (3027, 3, 4, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 1),
+  (3027, 3, 4, 'ho-oh', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 1),
   -- Ho-Oh (boss, silver)
-  (3028, 3, 5, 'ho-oh-silver', 'Ho-Oh', 'boss', 2, 10, 'ho-oh', NULL, 1),
+  (3028, 3, 5, 'ho-oh-silver', 'Ho-Oh', 'boss', 2, 10, NULL, NULL, 1),
   -- Lugia (boss, silver)
-  (3029, 3, 5, 'lugia', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 2),
+  (3029, 3, 5, 'lugia', 'Lugia', 'boss', 11, 10, NULL, NULL, 2),
   -- Lugia (boss, gold)
-  (3030, 3, 4, 'lugia-gold', 'Lugia', 'boss', 11, 10, 'lugia', NULL, 2),
+  (3030, 3, 4, 'lugia-gold', 'Lugia', 'boss', 11, 10, NULL, NULL, 2),
   -- Petrel (boss; Team Rocket Executive)
   (3031, 3, NULL, 'petrel', 'Petrel', 'boss', NULL, NULL, 'petrel', NULL, 27),
   -- Ariana (boss; Team Rocket Executive)

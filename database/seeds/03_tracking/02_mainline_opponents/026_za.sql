@@ -30,15 +30,15 @@ INSERT INTO tracking.mainline_opponents (
   -- Taunie / Urbain
   (26001, 26, NULL, 'taunie-urbain', 'Taunie / Urbain', 'rival', NULL, NULL, 'taunie-urbain', NULL, 1),
   -- Rogue Mega Absol
-  (26002, 26, NULL, 'rogue-mega-absol', 'Rogue Mega Absol', 'boss', 16, NULL, 'rogue-mega-absol', NULL, 2),
+  (26002, 26, NULL, 'rogue-mega-absol', 'Rogue Mega Absol', 'boss', 16, NULL, NULL, NULL, 2),
   -- Lysandre
   (26003, 26, NULL, 'lysandre', 'Lysandre', 'boss', NULL, NULL, 'lysandre', NULL, 3),
   -- Zygarde
-  (26004, 26, NULL, 'zygarde', 'Zygarde', 'boss', 15, 9, 'zygarde', NULL, 4),
+  (26004, 26, NULL, 'zygarde', 'Zygarde', 'boss', 15, 9, NULL, NULL, 4),
   -- Xerneas (boss)
-  (26005, 26, NULL, 'xerneas', 'Xerneas', 'boss', 18, NULL, 'xerneas', NULL, 5),
+  (26005, 26, NULL, 'xerneas', 'Xerneas', 'boss', 18, NULL, NULL, NULL, 5),
   -- Yveltal (boss)
-  (26006, 26, NULL, 'yveltal', 'Yveltal', 'boss', 16, 10, 'yveltal', NULL, 6),
+  (26006, 26, NULL, 'yveltal', 'Yveltal', 'boss', 16, 10, NULL, NULL, 6),
   -- Zach (Z-A Royale, Rank Z to Y)
   (26007, 26, NULL, 'zach', 'Zach', 'za-royale', NULL, NULL, 'zach', NULL, 7),
   -- Yvon (Z-A Royale, Rank Y to X)
@@ -60,35 +60,35 @@ INSERT INTO tracking.mainline_opponents (
   -- Grisham (Z-A Royale, Rank B to A)
   (26016, 26, NULL, 'grisham', 'Grisham', 'za-royale', NULL, NULL, 'grisham', NULL, 16),
   -- Rogue Mega Slowbro
-  (26017, 26, NULL, 'rogue-mega-slowbro', 'Rogue Mega Slowbro', 'boss', 3, 11, 'rogue-mega-slowbro', NULL, 17),
+  (26017, 26, NULL, 'rogue-mega-slowbro', 'Rogue Mega Slowbro', 'boss', 3, 11, NULL, NULL, 17),
   -- Rogue Mega Camerupt
-  (26018, 26, NULL, 'rogue-mega-camerupt', 'Rogue Mega Camerupt', 'boss', 2, 9, 'rogue-mega-camerupt', NULL, 18),
+  (26018, 26, NULL, 'rogue-mega-camerupt', 'Rogue Mega Camerupt', 'boss', 2, 9, NULL, NULL, 18),
   -- Rogue Mega Victreebel
-  (26019, 26, NULL, 'rogue-mega-victreebel', 'Rogue Mega Victreebel', 'boss', 5, 8, 'rogue-mega-victreebel', NULL, 19),
+  (26019, 26, NULL, 'rogue-mega-victreebel', 'Rogue Mega Victreebel', 'boss', 5, 8, NULL, NULL, 19),
   -- Rogue Mega Beedrill
-  (26020, 26, NULL, 'rogue-mega-beedrill', 'Rogue Mega Beedrill', 'boss', 12, 8, 'rogue-mega-beedrill', NULL, 20),
+  (26020, 26, NULL, 'rogue-mega-beedrill', 'Rogue Mega Beedrill', 'boss', 12, 8, NULL, NULL, 20),
   -- Rogue Mega Hawlucha
-  (26021, 26, NULL, 'rogue-mega-hawlucha', 'Rogue Mega Hawlucha', 'boss', 7, 10, 'rogue-mega-hawlucha', NULL, 21),
+  (26021, 26, NULL, 'rogue-mega-hawlucha', 'Rogue Mega Hawlucha', 'boss', 7, 10, NULL, NULL, 21),
   -- Rogue Mega Banette
-  (26022, 26, NULL, 'rogue-mega-banette', 'Rogue Mega Banette', 'boss', 14, NULL, 'rogue-mega-banette', NULL, 22),
+  (26022, 26, NULL, 'rogue-mega-banette', 'Rogue Mega Banette', 'boss', 14, NULL, NULL, NULL, 22),
   -- Rogue Mega Mawile
-  (26023, 26, NULL, 'rogue-mega-mawile', 'Rogue Mega Mawile', 'boss', 17, 18, 'rogue-mega-mawile', NULL, 23),
+  (26023, 26, NULL, 'rogue-mega-mawile', 'Rogue Mega Mawile', 'boss', 17, 18, NULL, NULL, 23),
   -- Rogue Mega Barbaracle
-  (26024, 26, NULL, 'rogue-mega-barbaracle', 'Rogue Mega Barbaracle', 'boss', 13, 7, 'rogue-mega-barbaracle', NULL, 24),
+  (26024, 26, NULL, 'rogue-mega-barbaracle', 'Rogue Mega Barbaracle', 'boss', 13, 7, NULL, NULL, 24),
   -- Rogue Mega Ampharos
-  (26025, 26, NULL, 'rogue-mega-ampharos', 'Rogue Mega Ampharos', 'boss', 4, 15, 'rogue-mega-ampharos', NULL, 25),
+  (26025, 26, NULL, 'rogue-mega-ampharos', 'Rogue Mega Ampharos', 'boss', 4, 15, NULL, NULL, 25),
   -- Rogue Mega Froslass
-  (26026, 26, NULL, 'rogue-mega-froslass', 'Rogue Mega Froslass', 'boss', 6, 14, 'rogue-mega-froslass', NULL, 26),
+  (26026, 26, NULL, 'rogue-mega-froslass', 'Rogue Mega Froslass', 'boss', 6, 14, NULL, NULL, 26),
   -- Rogue Mega Altaria
-  (26027, 26, NULL, 'rogue-mega-altaria', 'Rogue Mega Altaria', 'boss', 15, 18, 'rogue-mega-altaria', NULL, 27),
+  (26027, 26, NULL, 'rogue-mega-altaria', 'Rogue Mega Altaria', 'boss', 15, 18, NULL, NULL, 27),
   -- Rogue Mega Venusaur
-  (26028, 26, NULL, 'rogue-mega-venusaur', 'Rogue Mega Venusaur', 'boss', 5, 8, 'rogue-mega-venusaur', NULL, 28),
+  (26028, 26, NULL, 'rogue-mega-venusaur', 'Rogue Mega Venusaur', 'boss', 5, 8, NULL, NULL, 28),
   -- Rogue Mega Dragonite
-  (26029, 26, NULL, 'rogue-mega-dragonite', 'Rogue Mega Dragonite', 'boss', 15, 10, 'rogue-mega-dragonite', NULL, 29),
+  (26029, 26, NULL, 'rogue-mega-dragonite', 'Rogue Mega Dragonite', 'boss', 15, 10, NULL, NULL, 29),
   -- Rogue Mega Tyranitar
-  (26030, 26, NULL, 'rogue-mega-tyranitar', 'Rogue Mega Tyranitar', 'boss', 13, 16, 'rogue-mega-tyranitar', NULL, 30),
+  (26030, 26, NULL, 'rogue-mega-tyranitar', 'Rogue Mega Tyranitar', 'boss', 13, 16, NULL, NULL, 30),
   -- Rogue Mega Starmie
-  (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, 'rogue-mega-starmie', NULL, 31),
+  (26031, 26, NULL, 'rogue-mega-starmie', 'Rogue Mega Starmie', 'boss', 3, 11, NULL, NULL, 31),
   -- Lida (fights beside you against rogue Megas)
   (26032, 26, NULL, 'lida', 'Lida', 'ally', NULL, NULL, 'lida', NULL, 32),
   -- Naveen (fights beside you against rogue Megas)

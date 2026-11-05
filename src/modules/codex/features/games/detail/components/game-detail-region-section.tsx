@@ -2,7 +2,7 @@ import type {
   CodexGameDetailData,
   CodexGameLeader,
 } from "@/modules/codex/features/games/detail/types";
-import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
+import { OpponentAvatar } from "@/modules/reference/features/trainers/components/opponent-avatar";
 import { PokemonTile } from "@/modules/reference/features/pokemon/components/pokemon-tile";
 import { PokemonTypeList } from "@/modules/reference/features/pokemon/components/pokemon-type-list";
 import { SectionHead } from "@/shared/components/section-head";
@@ -20,16 +20,18 @@ const getLeadersTitle = (leaders: CodexGameLeader[]) =>
     : "Gym Leaders and Champion";
 
 /*
- * One leader as v3 draws it: the ace of your first battle on a disc tinted
- * by the leader's type, the name, the place you face them, and the type.
+ * One leader: their portrait on a disc tinted by their type, with the ace
+ * of your first battle as a small sticker on its corner (named in its tip);
+ * a leader without a portrait shows their initials on the disc. Then the
+ * name, the place you face them, and the type.
  */
 const LeaderTile = ({ leader }: { leader: CodexGameLeader }) => (
   <li className="flex min-w-0 flex-col items-center gap-1.5 text-center">
-    <PokemonAvatar
+    <OpponentAvatar
+      ace={leader.ace}
       className="size-14"
-      decorative={leader.ace === null}
-      imageUrl={leader.ace?.imageUrl ?? null}
-      name={leader.ace?.name ?? leader.name}
+      name={leader.name}
+      portraitUrl={leader.portraitUrl}
       typeSlug={leader.type?.slug ?? null}
     />
     <span className="text-14 text-ink block w-full truncate font-extrabold">

@@ -44,7 +44,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Raihan
   (18010, 18, NULL, 'raihan', 'Raihan', 'gym-leader', 15, NULL, 'raihan', 'Hammerlocke', 8),
   -- Eternatus
-  (18011, 18, NULL, 'eternatus', 'Eternatus', 'boss', 8, 15, 'eternatus', NULL, 9),
+  (18011, 18, NULL, 'eternatus', 'Eternatus', 'boss', 8, 15, NULL, NULL, 9),
   -- Leon
   (18012, 18, NULL, 'leon', 'Leon', 'champion', NULL, NULL, 'leon', 'Wyndon', 10),
   -- Hop (rival)
@@ -56,13 +56,13 @@ INSERT INTO tracking.mainline_opponents (
   -- Rose (boss)
   (18016, 18, NULL, 'rose', 'Rose', 'boss', NULL, NULL, 'rose', NULL, 14),
   -- Zamazenta (boss, sword)
-  (18017, 18, 31, 'zamazenta', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', NULL, 7),
+  (18017, 18, 31, 'zamazenta', 'Zamazenta', 'boss', 7, NULL, NULL, NULL, 7),
   -- Zacian (boss, shield)
-  (18018, 18, 32, 'zacian', 'Zacian', 'boss', 18, NULL, 'zacian', NULL, 7),
+  (18018, 18, 32, 'zacian', 'Zacian', 'boss', 18, NULL, NULL, NULL, 7),
   -- Zacian (boss, sword)
-  (18019, 18, 31, 'zacian-sword', 'Zacian', 'boss', 18, NULL, 'zacian', NULL, 8),
+  (18019, 18, 31, 'zacian-sword', 'Zacian', 'boss', 18, NULL, NULL, NULL, 8),
   -- Zamazenta (boss, shield)
-  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, 'zamazenta', NULL, 8),
+  (18020, 18, 32, 'zamazenta-shield', 'Zamazenta', 'boss', 7, NULL, NULL, NULL, 8),
   -- Oleana (boss; Rose Tower)
   (18021, 18, NULL, 'oleana', 'Oleana', 'boss', NULL, NULL, 'oleana', NULL, 15),
   -- Sordward (boss, sword; Slumbering Weald)
@@ -70,7 +70,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Shielbert (boss, shield; Slumbering Weald)
   (18023, 18, 32, 'shielbert', 'Shielbert', 'boss', NULL, NULL, 'shielbert', NULL, 9),
   -- Sordward & Shielbert (boss; the Multi Battle with Hop)
-  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, 'sordward', NULL, 16),
+  (18024, 18, NULL, 'sordward-shielbert', 'Sordward & Shielbert', 'boss', NULL, NULL, 'sordward-shielbert', NULL, 16),
   -- Hop (rival; first post-game visit to the Slumbering Weald)
   (18025, 18, NULL, 'hop-weald', 'Hop', 'rival', NULL, NULL, 'hop', NULL, 17),
   -- Sordward (boss, sword; Energy Plant)

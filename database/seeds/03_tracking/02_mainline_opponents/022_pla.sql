@@ -24,49 +24,49 @@ INSERT INTO tracking.mainline_opponents (
   sort_order
 ) VALUES
   -- Kleavor
-  (22001, 22, NULL, 'kleavor', 'Kleavor', 'noble', 12, 13, 'kleavor', NULL, 1),
+  (22001, 22, NULL, 'kleavor', 'Kleavor', 'noble', 12, 13, NULL, NULL, 1),
   -- Hisuian Lilligant
-  (22002, 22, NULL, 'hisuian-lilligant', 'Hisuian Lilligant', 'noble', 5, 7, 'hisuian-lilligant', NULL, 2),
+  (22002, 22, NULL, 'hisuian-lilligant', 'Hisuian Lilligant', 'noble', 5, 7, NULL, NULL, 2),
   -- Hisuian Arcanine
-  (22003, 22, NULL, 'hisuian-arcanine', 'Hisuian Arcanine', 'noble', 2, 13, 'hisuian-arcanine', NULL, 3),
+  (22003, 22, NULL, 'hisuian-arcanine', 'Hisuian Arcanine', 'noble', 2, 13, NULL, NULL, 3),
   -- Hisuian Electrode
-  (22004, 22, NULL, 'hisuian-electrode', 'Hisuian Electrode', 'noble', 4, 5, 'hisuian-electrode', NULL, 4),
+  (22004, 22, NULL, 'hisuian-electrode', 'Hisuian Electrode', 'noble', 4, 5, NULL, NULL, 4),
   -- Hisuian Avalugg
-  (22005, 22, NULL, 'hisuian-avalugg', 'Hisuian Avalugg', 'noble', 6, 13, 'hisuian-avalugg', NULL, 5),
+  (22005, 22, NULL, 'hisuian-avalugg', 'Hisuian Avalugg', 'noble', 6, 13, NULL, NULL, 5),
   -- Commander Kamado
-  (22006, 22, NULL, 'commander-kamado', 'Commander Kamado', 'boss', NULL, NULL, 'commander-kamado', NULL, 6),
+  (22006, 22, NULL, 'commander-kamado', 'Commander Kamado', 'boss', NULL, NULL, 'kamado', NULL, 6),
   -- Origin Dialga / Origin Palkia
-  (22007, 22, NULL, 'origin-pokemon', 'Origin Dialga / Origin Palkia', 'boss', 15, NULL, 'origin-pokemon', NULL, 7),
+  (22007, 22, NULL, 'origin-pokemon', 'Origin Dialga / Origin Palkia', 'boss', 15, NULL, NULL, NULL, 7),
   -- Volo
   (22008, 22, NULL, 'volo', 'Volo', 'boss', NULL, NULL, 'volo', NULL, 8),
   -- Arceus
-  (22009, 22, NULL, 'arceus', 'Arceus', 'boss', 1, NULL, 'arceus', NULL, 9),
+  (22009, 22, NULL, 'arceus', 'Arceus', 'boss', 1, NULL, NULL, NULL, 9),
   -- Dialga / Palkia (boss)
-  (22010, 22, NULL, 'dialga-palkia', 'Dialga / Palkia', 'boss', 15, NULL, 'dialga-palkia', NULL, 10),
+  (22010, 22, NULL, 'dialga-palkia', 'Dialga / Palkia', 'boss', 15, NULL, NULL, NULL, 10),
   -- Giratina (boss)
-  (22011, 22, NULL, 'giratina', 'Giratina', 'boss', 14, 15, 'giratina', NULL, 11),
+  (22011, 22, NULL, 'giratina', 'Giratina', 'boss', 14, 15, NULL, NULL, 11),
   -- Uxie (boss)
-  (22012, 22, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, 'uxie', NULL, 12),
+  (22012, 22, NULL, 'uxie', 'Uxie', 'boss', 11, NULL, NULL, NULL, 12),
   -- Mesprit (boss)
-  (22013, 22, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, 'mesprit', NULL, 13),
+  (22013, 22, NULL, 'mesprit', 'Mesprit', 'boss', 11, NULL, NULL, NULL, 13),
   -- Azelf (boss)
-  (22014, 22, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, 'azelf', NULL, 14),
+  (22014, 22, NULL, 'azelf', 'Azelf', 'boss', 11, NULL, NULL, NULL, 14),
   -- Heatran (boss)
-  (22015, 22, NULL, 'heatran', 'Heatran', 'boss', 2, 17, 'heatran', NULL, 15),
+  (22015, 22, NULL, 'heatran', 'Heatran', 'boss', 2, 17, NULL, NULL, 15),
   -- Cresselia (boss)
-  (22016, 22, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, 'cresselia', NULL, 16),
+  (22016, 22, NULL, 'cresselia', 'Cresselia', 'boss', 11, NULL, NULL, NULL, 16),
   -- Regigigas (boss)
-  (22017, 22, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, 'regigigas', NULL, 17),
+  (22017, 22, NULL, 'regigigas', 'Regigigas', 'boss', 1, NULL, NULL, NULL, 17),
   -- Manaphy (boss)
-  (22018, 22, NULL, 'manaphy', 'Manaphy', 'boss', 3, NULL, 'manaphy', NULL, 18),
+  (22018, 22, NULL, 'manaphy', 'Manaphy', 'boss', 3, NULL, NULL, NULL, 18),
   -- Tornadus (boss)
-  (22019, 22, NULL, 'tornadus', 'Tornadus', 'boss', 10, NULL, 'tornadus', NULL, 19),
+  (22019, 22, NULL, 'tornadus', 'Tornadus', 'boss', 10, NULL, NULL, NULL, 19),
   -- Thundurus (boss)
-  (22020, 22, NULL, 'thundurus', 'Thundurus', 'boss', 4, 10, 'thundurus', NULL, 20),
+  (22020, 22, NULL, 'thundurus', 'Thundurus', 'boss', 4, 10, NULL, NULL, 20),
   -- Landorus (boss)
-  (22021, 22, NULL, 'landorus', 'Landorus', 'boss', 9, 10, 'landorus', NULL, 21),
+  (22021, 22, NULL, 'landorus', 'Landorus', 'boss', 9, 10, NULL, NULL, 21),
   -- Enamorus (boss)
-  (22022, 22, NULL, 'enamorus', 'Enamorus', 'boss', 18, 10, 'enamorus', NULL, 22),
+  (22022, 22, NULL, 'enamorus', 'Enamorus', 'boss', 18, 10, NULL, NULL, 22),
   -- Lian (boss; Warden)
   (22023, 22, NULL, 'lian', 'Lian', 'boss', NULL, NULL, 'lian', NULL, 23),
   -- Irida (boss; Pearl Clan leader)

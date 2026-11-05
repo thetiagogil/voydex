@@ -56,7 +56,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Steven
   (5013, 5, NULL, 'steven', 'Steven', 'champion', 17, NULL, 'steven', 'Ever Grande City', 13),
   -- May / Brendan (rival)
-  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may', NULL, 14),
+  (5014, 5, NULL, 'may-brendan', 'May / Brendan', 'rival', NULL, NULL, 'may-brendan', NULL, 14),
   -- Wally (rival)
   (5015, 5, NULL, 'wally', 'Wally', 'rival', NULL, NULL, 'wally', NULL, 15),
   -- Maxie (boss, ruby)
@@ -64,21 +64,21 @@ INSERT INTO tracking.mainline_opponents (
   -- Archie (boss, sapphire)
   (5017, 5, 8, 'archie', 'Archie', 'boss', NULL, NULL, 'archie', NULL, 1),
   -- Groudon (boss, ruby)
-  (5018, 5, 7, 'groudon', 'Groudon', 'boss', 9, NULL, 'groudon', NULL, 2),
+  (5018, 5, 7, 'groudon', 'Groudon', 'boss', 9, NULL, NULL, NULL, 2),
   -- Kyogre (boss, sapphire)
-  (5019, 5, 8, 'kyogre', 'Kyogre', 'boss', 3, NULL, 'kyogre', NULL, 2),
+  (5019, 5, 8, 'kyogre', 'Kyogre', 'boss', 3, NULL, NULL, NULL, 2),
   -- Regirock (boss)
-  (5020, 5, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, 'regirock', NULL, 16),
+  (5020, 5, NULL, 'regirock', 'Regirock', 'boss', 13, NULL, NULL, NULL, 16),
   -- Regice (boss)
-  (5021, 5, NULL, 'regice', 'Regice', 'boss', 6, NULL, 'regice', NULL, 17),
+  (5021, 5, NULL, 'regice', 'Regice', 'boss', 6, NULL, NULL, NULL, 17),
   -- Registeel (boss)
-  (5022, 5, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, 'registeel', NULL, 18),
+  (5022, 5, NULL, 'registeel', 'Registeel', 'boss', 17, NULL, NULL, NULL, 18),
   -- Rayquaza (boss)
-  (5023, 5, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, 'rayquaza', NULL, 19),
+  (5023, 5, NULL, 'rayquaza', 'Rayquaza', 'boss', 15, 10, NULL, NULL, 19),
   -- Latios (boss, ruby)
-  (5024, 5, 7, 'latios', 'Latios', 'boss', 15, 11, 'latios', NULL, 3),
+  (5024, 5, 7, 'latios', 'Latios', 'boss', 15, 11, NULL, NULL, 3),
   -- Latias (boss, sapphire)
-  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, 'latias', NULL, 3),
+  (5025, 5, 8, 'latias', 'Latias', 'boss', 15, 11, NULL, NULL, 3),
   -- Tabitha (boss, ruby; Team Magma Admin)
   (5026, 5, 7, 'tabitha', 'Tabitha', 'boss', NULL, NULL, 'tabitha', NULL, 4),
   -- Courtney (boss, ruby; Team Magma Admin)

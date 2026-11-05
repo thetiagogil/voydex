@@ -49,7 +49,7 @@ INSERT INTO tracking.mainline_opponents (
   -- Lance
   (17012, 17, NULL, 'lance', 'Lance', 'elite-four', 15, NULL, 'lance', NULL, 12),
   -- Rival
-  (17013, 17, NULL, 'rival', 'Rival', 'champion', NULL, NULL, 'rival', 'Indigo Plateau', 13),
+  (17013, 17, NULL, 'rival', 'Rival', 'champion', NULL, NULL, 'trace', 'Indigo Plateau', 13),
   -- Blue
   (17014, 17, NULL, 'blue', 'Blue', 'boss', NULL, NULL, 'blue', NULL, 14),
   -- Green
@@ -59,13 +59,13 @@ INSERT INTO tracking.mainline_opponents (
   -- Giovanni (boss)
   (17017, 17, NULL, 'giovanni-boss', 'Giovanni', 'boss', NULL, NULL, 'giovanni', NULL, 17),
   -- Zapdos (boss)
-  (17018, 17, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, 'zapdos', NULL, 18),
+  (17018, 17, NULL, 'zapdos', 'Zapdos', 'boss', 4, 10, NULL, NULL, 18),
   -- Articuno (boss)
-  (17019, 17, NULL, 'articuno', 'Articuno', 'boss', 6, 10, 'articuno', NULL, 19),
+  (17019, 17, NULL, 'articuno', 'Articuno', 'boss', 6, 10, NULL, NULL, 19),
   -- Moltres (boss)
-  (17020, 17, NULL, 'moltres', 'Moltres', 'boss', 2, 10, 'moltres', NULL, 20),
+  (17020, 17, NULL, 'moltres', 'Moltres', 'boss', 2, 10, NULL, NULL, 20),
   -- Mewtwo (boss)
-  (17021, 17, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, 'mewtwo', NULL, 21),
+  (17021, 17, NULL, 'mewtwo', 'Mewtwo', 'boss', 11, NULL, NULL, NULL, 21),
   -- Jessie & James (boss; Team Rocket)
   (17022, 17, NULL, 'jessie-james', 'Jessie & James', 'boss', NULL, NULL, 'jessie-james', NULL, 22),
   -- Archer (boss; Team Rocket)

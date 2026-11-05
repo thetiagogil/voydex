@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 
 import type { MainlinePlayTeamMember } from "@/modules/mainline/features/plays/shared/types";
 import { resolveGameMechanics } from "@/modules/reference/features/games/domain/game-mechanics";
@@ -9,6 +9,7 @@ import {
   buildStoryLevelCap,
   buildStoryMatchupsModel,
   groupStoryBattlesByMilestone,
+  type StoryMatchupBattle,
   type StoryMatchupMilestone,
   type StoryMatchupsRows,
   type StoryOpponentPartyRow,
@@ -40,6 +41,7 @@ const milestone = (
     notes?: string;
     playerSide?: string;
     role: string;
+    spriteSlug?: string;
     teamSizeLimit?: number;
     typeId: number;
   }[],
@@ -62,6 +64,7 @@ const milestone = (
     player_side: opponent.playerSide ?? "own-team",
     primary_type_id: opponent.typeId,
     secondary_type_id: null,
+    sprite_slug: opponent.spriteSlug ?? null,
     team_size_limit: opponent.teamSizeLimit ?? null,
   })),
   sort_order: id,
@@ -146,37 +149,47 @@ describe("buildStoryMatchupsModel", () => {
 });
 
 describe("buildStoryMatchupsModel with several battles at one story point", () => {
-  const battles = buildStoryMatchupsModel({
-    chosenChoiceKeys: new Set(),
-    generationOrder: 1,
-    mechanics: noMechanics,
-    members: [grassMember],
-    opponentGameIdById: new Map(),
-    orderedMilestones: [
-      milestone(
-        5,
-        [
+  let battles: StoryMatchupBattle[] = [];
+
+  beforeAll(() => {
+    vi.stubEnv("NEXT_PUBLIC_ASSETS_URL", "https://assets.test");
+    battles = buildStoryMatchupsModel({
+      chosenChoiceKeys: new Set(),
+      generationOrder: 1,
+      mechanics: noMechanics,
+      members: [grassMember],
+      opponentGameIdById: new Map(),
+      orderedMilestones: [
+        milestone(
+          5,
+          [
+            {
+              id: 9,
+              name: "Blue",
+              notes: "Cerulean City",
+              role: "rival",
+              spriteSlug: "blue",
+              typeId: 11,
+            },
+            { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
+          ],
           {
-            id: 9,
-            name: "Blue",
-            notes: "Cerulean City",
-            role: "rival",
-            typeId: 11,
+            description: "Defeat Misty at Cerulean Gym.",
+            is_completed: true,
+            milestone_name: "Cascade Badge",
           },
-          { id: 2, name: "Misty", role: "gym-leader", typeId: 11 },
-        ],
-        {
-          description: "Defeat Misty at Cerulean Gym.",
-          is_completed: true,
-          milestone_name: "Cascade Badge",
-        },
-      ),
-    ],
-    partyRows: [],
-    playGameId: 1,
-    snapshotsByMilestoneId: new Map(),
-    types,
-  }).chapters.flatMap((chapter) => chapter.battles);
+        ),
+      ],
+      partyRows: [],
+      playGameId: 1,
+      snapshotsByMilestoneId: new Map(),
+      types,
+    }).chapters.flatMap((chapter) => chapter.battles);
+  });
+
+  afterAll(() => {
+    vi.unstubAllEnvs();
+  });
 
   it("lists each opponent as its own battle under the story point", () => {
     expect(
@@ -196,6 +209,13 @@ describe("buildStoryMatchupsModel with several battles at one story point", () =
 
   it("gives the badge to the Gym Leader's battle only", () => {
     expect(battles.map((battle) => battle.badgeType)).toEqual([null, "water"]);
+  });
+
+  it("shows a trainer's portrait only where Voydex has one", () => {
+    expect(battles.map((battle) => battle.portraitUrl)).toEqual([
+      "https://assets.test/trainers/blue.webp",
+      null,
+    ]);
   });
 });
 
@@ -1489,5 +1509,73 @@ describe("buildPlayStoryMatchups", () => {
         teamRows: { members: [], types } as never,
       }),
     ).toBeNull();
+  });
+});
+
+describe("buildStoryMatchupsModel telling people from Pokémon", () => {
+  const lone = (
+    opponentId: number,
+    name: string,
+    legendary: StoryOpponentPartyRow["legendary"] = null,
+  ): StoryOpponentPartyRow => ({
+    ally: null,
+    baseStats: null,
+    battleFormMechanic: null,
+    choiceKey: null,
+    dynamaxes: false,
+    formSlug: name.toLowerCase().replaceAll(" ", "-"),
+    gameId: null,
+    heldItem: null,
+    legendary,
+    level: 50,
+    milestoneId: opponentId,
+    moves: [],
+    name,
+    opponentId,
+    primaryTypeId: 11,
+    secondaryTypeId: null,
+    slot: 1,
+    teraType: null,
+    variantKey: null,
+    variantLabel: null,
+  });
+  const battles = buildStoryMatchupsModel({
+    chosenChoiceKeys: new Set(),
+    generationOrder: 9,
+    mechanics: noMechanics,
+    members: [grassMember],
+    opponentGameIdById: new Map(),
+    orderedMilestones: [
+      milestone(1, [{ id: 1, name: "Giovanni", role: "boss", typeId: 13 }]),
+      milestone(2, [
+        { id: 2, name: "Rogue Mega Absol", role: "boss", typeId: 13 },
+      ]),
+      milestone(3, [{ id: 3, name: "Zapdos", role: "boss", typeId: 13 }]),
+      milestone(4, [
+        { id: 4, name: "Stony Cliff Titan", role: "titan", typeId: 13 },
+      ]),
+      milestone(5, [
+        { id: 5, name: "Jessie & James", role: "boss", typeId: 13 },
+      ]),
+    ],
+    partyRows: [
+      lone(1, "Persian"),
+      lone(2, "Mega Absol"),
+      lone(3, "Zapdos", "Legendary"),
+      lone(4, "Klawf"),
+    ],
+    playGameId: 1,
+    snapshotsByMilestoneId: new Map(),
+    types,
+  }).chapters.flatMap((chapter) => chapter.battles);
+
+  it("reads a trainer with one Pokémon, or no team yet, as a person", () => {
+    expect(battles.map((battle) => [battle.name, battle.isTrainer])).toEqual([
+      ["Giovanni", true],
+      ["Rogue Mega Absol", false],
+      ["Zapdos", false],
+      ["Stony Cliff Titan", false],
+      ["Jessie & James", true],
+    ]);
   });
 });
