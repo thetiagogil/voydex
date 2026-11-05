@@ -3766,9 +3766,9 @@ VALUES
   -- Lumiose Museum in za
   (665, 66500, 441, 26, NULL, 27, 9, 9, NULL),
   -- Quasartico Inc. Building in za
-  (26, 2600, 448, 26, NULL, 28, 64, 64, NULL),
+  (26, 2601, 448, 26, NULL, 28, 64, 64, NULL),
   -- South Boulevard in za
-  (79, 7900, 477, 26, NULL, 28, 30, 30, NULL),
+  (79, 7901, 477, 26, NULL, 28, 30, 30, NULL),
   -- Wild Zone 11 in za
   (618, 61801, 486, 26, NULL, 27, 38, 38, NULL),
   -- Pokémon Research Lab in za
