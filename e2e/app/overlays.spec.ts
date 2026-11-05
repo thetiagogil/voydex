@@ -105,6 +105,32 @@ test.describe("Sheets and dialogs", () => {
     }
   });
 
+  test("Tab stays inside an open sheet, however fast it comes @phone", async ({
+    page,
+  }) => {
+    for (const viewport of [desktop, phone]) {
+      await page.setViewportSize(viewport);
+      const sheet = await openNuzlockeSheet(page);
+      const controls = await sheet
+        .locator("button:visible, a[href]:visible, [tabindex='0']:visible")
+        .count();
+
+      /* Twice round the controls, with no pause for the sheet to catch up. */
+      for (let press = 0; press < controls * 2 + 2; press += 1) {
+        await page.keyboard.press("Tab");
+      }
+      await expect(sheet.locator(":focus")).toHaveCount(1);
+
+      for (let press = 0; press < controls * 2 + 2; press += 1) {
+        await page.keyboard.press("Shift+Tab");
+      }
+      await expect(sheet.locator(":focus")).toHaveCount(1);
+
+      await page.keyboard.press("Escape");
+      await expect(sheet).toBeHidden();
+    }
+  });
+
   test("a sheet closes from its corner button and on Escape", async ({
     page,
   }) => {
