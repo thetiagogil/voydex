@@ -66,6 +66,60 @@ test.describe("Team Planner", () => {
     await expectAccessible(page);
   });
 
+  test("saves a Plan for one version, whose exclusives follow it", async ({
+    page,
+  }) => {
+    await page.goto("/mainline/plans/new?vg=swsh");
+    const version = page.getByRole("group", { name: "Version" });
+    await expect(
+      version.getByRole("button", { name: "Either" }),
+    ).toHaveAttribute("aria-pressed", "true");
+
+    /* The first test checks the Version switch with axe on Red / Blue. */
+    const picker = page.getByRole("region", { name: "Pick your Pokémon" });
+    await openSearchBar(page);
+    await picker.getByRole("searchbox").fill("Sirfetch");
+    const sirfetchd = picker.getByRole("button", {
+      name: /^#865 Sirfetch'd\b/,
+    });
+
+    /* Either reads both versions; Shield trades for Sword's; Sword needs nothing. */
+    await expect(sirfetchd).toHaveAccessibleName(
+      /Sword only\. Trade for it if you play another version\./,
+    );
+    await version.getByRole("button", { name: "Shield" }).click();
+    await expect(sirfetchd).toHaveAccessibleName(/Sword only: trade for it\./);
+    await version.getByRole("button", { name: "Sword" }).click();
+    await expect(sirfetchd).not.toHaveAccessibleName(/Sword only/);
+
+    const name = uniquePlayName("Shield run");
+    await version.getByRole("button", { name: "Shield" }).click();
+    await sirfetchd.click();
+    await page.getByRole("button", { name: "Save Plan" }).click();
+    const details = page.getByRole("dialog", { name: "Save Plan" });
+    await details.getByRole("textbox", { name: "Plan name" }).fill(name);
+    await details.getByRole("button", { name: "Save Plan" }).click();
+    await page.waitForURL(/\/mainline\/plans\/[0-9a-f-]{36}/);
+
+    /* It reopens as a Shield Plan; going back to Either is a change to save. */
+    await page.reload();
+    await expect(
+      version.getByRole("button", { name: "Shield" }),
+    ).toHaveAttribute("aria-pressed", "true");
+    const saveChanges = page.getByRole("button", { name: "Save changes" });
+    await expect(saveChanges).toBeDisabled();
+    await version.getByRole("button", { name: "Either" }).click();
+    await expect(saveChanges).toBeEnabled();
+    await saveChanges.click();
+    await expect(
+      page.getByText(`${name} saved`, { exact: true }),
+    ).toBeVisible();
+    await page.reload();
+    await expect(
+      version.getByRole("button", { name: "Either" }),
+    ).toHaveAttribute("aria-pressed", "true");
+  });
+
   test("offers a Galarian bird beside its Kantonian form", async ({ page }) => {
     await page.goto("/mainline/plans/new?vg=swsh");
     const picker = page.getByRole("region", { name: "Pick your Pokémon" });
