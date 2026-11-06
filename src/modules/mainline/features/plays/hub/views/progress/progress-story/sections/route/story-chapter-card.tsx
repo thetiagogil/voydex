@@ -3,21 +3,20 @@ import { useId, type ReactNode } from "react";
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
-import { Progress } from "@/shared/components/ui/progress";
+import { Button } from "@/shared/components/ui/button";
 import { cn } from "@/shared/utils/cn";
 
 import type { StoryMilestone } from "../../types";
 
 /*
  * One chapter of the Story as its own card (#199): its name and how far
- * through it you are, folding and opening from its head. The chapter you're
- * in says so and shows a bar of how far along it you are. Folded, it shows
+ * through it you are in a head that stays in view while you scroll, with
+ * Expand / Collapse. The chapter you're in wears a ring. Folded, it shows
  * its milestones as a strip of small medallions, so the whole game reads at
  * a glance; open, its route of milestones and places.
  */
 export const StoryChapterCard = ({
   children,
-  completed,
   count,
   current,
   finished,
@@ -26,11 +25,9 @@ export const StoryChapterCard = ({
   nextMilestoneId,
   onToggle,
   open,
-  total,
 }: {
   /* Its route, shown while it's open. */
   children: ReactNode;
-  completed: number;
   count: string;
   /* The chapter holding your next objective. */
   current: boolean;
@@ -41,7 +38,6 @@ export const StoryChapterCard = ({
   nextMilestoneId: number | null;
   onToggle: () => void;
   open: boolean;
-  total: number;
 }) => {
   const bodyId = useId();
 
@@ -50,18 +46,16 @@ export const StoryChapterCard = ({
       role="region"
       aria-label={name}
       className={cn(
-        "gap-0 px-3 py-3 sm:px-5 sm:py-4",
-        current && "inset-ring-select-ink/25 inset-ring-2",
+        /* Visible overflow, so its head can stay pinned while you scroll. */
+        "gap-0 overflow-visible px-3 pt-0 pb-3 sm:px-5 sm:pb-4",
+        /* Outside the card, so its pinned head never covers it. */
+        current && "ring-select-ink/25 ring-2",
       )}
     >
-      <button
-        type="button"
-        aria-controls={bodyId}
-        aria-expanded={open}
-        onClick={onToggle}
-        className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-1 pr-2 pl-1.5 text-left transition-colors"
-      >
-        <span className="grid w-14 shrink-0 place-items-center">
+      {/* Its head stays in view while you scroll its route, to fold it at will. */}
+      {/* Pinned a little higher than the dock's offset, so nothing shows between them. */}
+      <div className="bg-surface sticky top-[calc(var(--play-dock-offset,0px)-1rem)] z-10 -mx-3 flex items-center gap-3 rounded-t-2xl px-3 pt-4 pb-1 sm:-mx-5 sm:px-5 sm:pt-5">
+        <span className="grid w-14 shrink-0 place-items-center pl-1.5">
           <span
             className={cn(
               "grid size-8 place-items-center rounded-full",
@@ -79,31 +73,27 @@ export const StoryChapterCard = ({
           </span>
         </span>
         <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
-          <span className="title-card">{name}</span>
+          <h3 className="title-card">{name}</h3>
           <span className="text-ink-3 text-13 font-semibold">{count}</span>
-          {current ? (
-            <span className="text-select-ink text-13 font-extrabold">
-              You&rsquo;re here
-            </span>
-          ) : null}
         </span>
-        <span className="text-ink-2 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-bold">
-          {open ? "Fold" : "Show"}
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          aria-controls={bodyId}
+          aria-expanded={open}
+          aria-label={`${open ? "Collapse" : "Expand"} ${name}`}
+          onClick={onToggle}
+          className="ml-auto shrink-0"
+        >
+          {open ? "Collapse" : "Expand"}
           <AppIcon
             icon={appIcons.actions.expand}
-            size="xs"
+            inline="end"
             className={cn(open && "rotate-180")}
           />
-        </span>
-      </button>
-
-      {current && total ? (
-        <Progress
-          aria-label={`${name} progress`}
-          value={(completed / total) * 100}
-          className="mt-2 px-1.5 sm:pl-17.5"
-        />
-      ) : null}
+        </Button>
+      </div>
 
       <div id={bodyId} className="mt-3">
         {open ? (

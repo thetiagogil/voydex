@@ -67,8 +67,12 @@ export const StoryRouteStop = ({
     style={sticker ?? undefined}
     className={cn(
       "focus-ring flex w-full items-center gap-3 text-left",
+      /*
+       * Even padding all round; pulled left so its marker stays on the line
+       * with the stops around it.
+       */
       sticker
-        ? "sticker ease-hop my-1 rounded-2xl py-1.5 pr-3 pl-1 transition-transform duration-200 hover:-translate-y-0.5"
+        ? "sticker ease-hop my-1 -ml-1.5 w-[calc(100%+0.375rem)] rounded-2xl p-2 pr-3 transition-transform duration-200 hover:-translate-y-0.5"
         : "hover:bg-hover rounded-xl py-1.5 pr-2 pl-1.5 transition-colors",
     )}
   >
@@ -89,7 +93,7 @@ export const StoryRouteStop = ({
           state === "next" || selected
             ? "text-select-ink"
             : state === "todo"
-              ? "text-ink-2 font-bold"
+              ? "text-ink-3 font-bold"
               : "text-ink",
         )}
       >
@@ -112,6 +116,15 @@ export const StoryRouteStop = ({
       {status ? null : <span className="sr-only">Not recorded</span>}
       {memento}
     </span>
+    {/* Recorded: a check, so what's done reads at a glance. */}
+    {sticker ? (
+      <span
+        aria-hidden
+        className="bg-ok text-surface ml-auto grid size-7 shrink-0 place-items-center self-center rounded-full"
+      >
+        <AppIcon icon={appIcons.status.active} size="sm" />
+      </span>
+    ) : null}
   </button>
 );
 

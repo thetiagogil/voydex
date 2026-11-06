@@ -265,15 +265,7 @@ export const StoryRoadmap = ({
     );
   };
 
-  const sectionById = new Map(
-    scope.sections.map((section) => [section.id, section]),
-  );
-
   const chapterCard = (chapter: StoryRouteChapter, label: string) => {
-    const section =
-      chapter.sign.sectionId === null
-        ? null
-        : sectionById.get(chapter.sign.sectionId);
     const stops = chapter.entries.flatMap((entry) =>
       entry.kind === "stop" ? [entry.milestone] : [],
     );
@@ -281,7 +273,6 @@ export const StoryRoadmap = ({
     return (
       <StoryChapterCard
         key={chapter.key}
-        completed={section?.completedCount ?? 0}
         count={chapter.sign.count}
         current={chapter.key === liveChapterKey}
         finished={chapter.sign.finished}
@@ -290,7 +281,6 @@ export const StoryRoadmap = ({
         nextMilestoneId={nextMilestoneId}
         onToggle={() => toggleChapter(chapter.key)}
         open={isChapterOpen(chapter.key)}
-        total={section?.totalCount ?? 0}
       >
         <StoryRoute
           label={label}

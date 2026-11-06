@@ -169,13 +169,17 @@ test.describe("Progress", () => {
     const route22 = route.getByRole("button", { name: /^Route 22 1 battle/ });
     await expect(route22).toHaveCount(1);
     /* Only the chapter you're in starts open; the League opens from its sign. */
-    const league = route.getByRole("button", { name: /^Pokémon League/ });
+    const league = route.getByRole("button", {
+      name: /^(Expand|Collapse) Pokémon League$/,
+    });
     await expect(league).toHaveAttribute("aria-expanded", "false");
     await league.click();
     await expect(league).toHaveAttribute("aria-expanded", "true");
     await expect(route22).toHaveCount(2);
     /* The chapter you're in folds too. */
-    const mainStory = route.getByRole("button", { name: /^Main Story/ });
+    const mainStory = route.getByRole("button", {
+      name: /^(Expand|Collapse) Main Story$/,
+    });
     await mainStory.click();
     await expect(
       route.getByRole("button", { name: /^Boulder Badge/ }),
