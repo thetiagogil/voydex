@@ -94,7 +94,7 @@ export const StoryRoute = <TItem,>({
                 }
                 className={
                   travelled
-                    ? "stroke-progress/45"
+                    ? "stroke-progress"
                     : quiet
                       ? "stroke-mute"
                       : "stroke-dash"

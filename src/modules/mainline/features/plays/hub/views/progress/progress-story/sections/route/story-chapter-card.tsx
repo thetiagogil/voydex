@@ -67,7 +67,7 @@ export const StoryChapterCard = ({
               "grid size-8 place-items-center rounded-full",
               finished
                 ? "bg-progress text-surface"
-                : "bg-surface text-ink-3 inset-ring-progress/45 inset-ring-[3px]",
+                : "bg-surface text-ink-3 inset-ring-progress inset-ring-[3px]",
             )}
           >
             <AppIcon

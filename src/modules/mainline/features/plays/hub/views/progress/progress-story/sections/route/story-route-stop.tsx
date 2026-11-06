@@ -156,7 +156,7 @@ export const StoryRoutePlace = ({
         className={cn(
           "size-3.5 rounded-full transition-shadow duration-150",
           reached
-            ? "bg-progress/60"
+            ? "bg-progress"
             : "bg-surface inset-ring-dash inset-ring-[3px]",
           selected && selectedRing,
         )}
