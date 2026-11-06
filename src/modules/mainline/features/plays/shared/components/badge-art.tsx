@@ -9,31 +9,23 @@ type BadgeArtProps = {
 };
 
 /*
- * What a badge medallion or stamp holds, inside its type-coloured round
- * (which sets `--t`): the badge's own picture on a soft wash of its type, or
- * its type's icon on the full colour when it has no picture (an Alola
- * Z-Crystal) or the picture fails to load.
+ * What a badge medallion or stamp holds, inside its round (which sets `--t`
+ * and, for a badge with a picture, its type's soft wash): the badge's own
+ * picture, or its type's icon on the full type colour when it has no picture
+ * (an Alola Z-Crystal) or the picture fails to load.
  */
-export const BadgeArt = ({ badge, iconClassName }: BadgeArtProps) => {
-  const typeIcon = (
-    <PokemonTypeIcon type={badge.type} className={iconClassName} />
-  );
-
-  return badge.imageUrl ? (
-    <FallbackImage
-      src={badge.imageUrl}
-      name={`${badge.type} badge`}
-      loading="lazy"
-      className="type-tint size-full rounded-full object-contain p-[17%]"
-      fallbackClassName="p-0 text-inherit"
-      standIn={
-        /* Covers the wash, so a failed picture looks like no picture. */
-        <span className="grid size-full place-items-center rounded-full bg-(--t)">
-          {typeIcon}
-        </span>
-      }
-    />
-  ) : (
-    typeIcon
-  );
-};
+export const BadgeArt = ({ badge, iconClassName }: BadgeArtProps) => (
+  <FallbackImage
+    src={badge.imageUrl}
+    name={`${badge.type} badge`}
+    loading="lazy"
+    className="size-full rounded-full object-contain p-[17%]"
+    fallbackClassName="p-0 text-inherit"
+    standIn={
+      /* Covers the wash, so a failed picture looks like no picture. */
+      <span className="grid size-full place-items-center rounded-full bg-(--t)">
+        <PokemonTypeIcon type={badge.type} className={iconClassName} />
+      </span>
+    }
+  />
+);

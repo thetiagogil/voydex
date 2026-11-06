@@ -71,7 +71,9 @@ export const BadgeStamp = ({
             "relative grid aspect-square w-full place-items-center rounded-full",
             tilted && "transform-[rotate(var(--tilt))]",
             slap && "animate-stamp-slap",
-            state.kind === "badge" && "moment-ring bg-(--t) text-white",
+            state.kind === "badge" && "moment-ring text-white",
+            state.kind === "badge" &&
+              (state.badge?.imageUrl ? "type-tint" : "bg-(--t)"),
             state.kind === "badge" && state.grand && "[--mr:var(--gold-ring)]",
             state.kind === "earned" &&
               "moment-ring bg-gold text-white [--mr:var(--gold-ring)]",

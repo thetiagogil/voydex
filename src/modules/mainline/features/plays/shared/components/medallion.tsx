@@ -47,7 +47,10 @@ const getMedallionStyle = (content: MedallionContent): CSSProperties => {
     case "badge":
       return {
         ...getPokemonTypeCssVariables(content.type),
-        "--mf": "var(--t)",
+        /* A picture sits on its type's wash, a type icon on the full colour. */
+        "--mf": content.imageUrl
+          ? "color-mix(in oklab, var(--t) 16%, var(--surface))"
+          : "var(--t)",
       } as CSSProperties;
     case "calm":
       return {

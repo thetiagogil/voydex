@@ -38,7 +38,9 @@ SELECT
         SELECT
             sprite_slug FROM tracking.mainline_badges
             WHERE
-                kind = 'badge' GROUP BY sprite_slug HAVING COUNT(DISTINCT name) > 1 $$, 'one picture never stands for two badges');
+                kind = 'badge' GROUP BY sprite_slug
+            HAVING
+                COUNT(DISTINCT name) > 1 $$, 'one picture never stands for two badges');
 SELECT
     is_empty ($$
         SELECT

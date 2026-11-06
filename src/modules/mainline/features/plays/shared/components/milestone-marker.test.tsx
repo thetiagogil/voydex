@@ -49,6 +49,9 @@ describe("MilestoneMarker", () => {
       'src="https://assets.test/badges/boulder-badge.webp"',
     );
     expect(markup).not.toContain("/icons/types/rock.svg");
+    expect(markup).toContain(
+      "--mf:color-mix(in oklab, var(--t) 16%, var(--surface))",
+    );
   });
 
   it("wears the type icon for a badge without a picture", () => {
@@ -59,6 +62,7 @@ describe("MilestoneMarker", () => {
 
     expect(markup).not.toContain("<img");
     expect(markup).toContain("/icons/types/water.svg");
+    expect(markup).toContain("--mf:var(--t)");
   });
 
   it("never moves on load", () => {
