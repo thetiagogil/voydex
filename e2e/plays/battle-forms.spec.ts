@@ -24,7 +24,7 @@ test.describe("Battle forms", () => {
     await sheet.getByRole("button", { name: /^Steven/ }).click();
 
     /* Steven holds Metagrossite, so his ace is read as Mega Metagross. */
-    const report = sheet.getByRole("region", { name: "Steven" });
+    const report = page.getByRole("region", { exact: true, name: "Steven" });
     await expect(report).toContainText("Mega Metagross", forTheAnswer);
   });
 

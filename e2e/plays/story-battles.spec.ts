@@ -25,7 +25,19 @@ const openBattle = async (
   await row.click();
 
   return {
-    report: sheet.getByRole("region", { name: reportName }),
+    /* Beside the route the report opens in a sheet of its own. */
+    report: page.getByRole("region", { exact: true, name: reportName }),
+    /* Back to the milestone: the sheet's way back, or closing the report's sheet. */
+    back: async () => {
+      const backButton = page.getByRole("button", { name: /^Back to / });
+
+      if (await backButton.count()) {
+        await backButton.click();
+      } else {
+        await page.keyboard.press("Escape");
+        await expect(page.getByRole("dialog")).toHaveCount(0);
+      }
+    },
     row,
     sheet,
   };
@@ -42,7 +54,7 @@ test.describe("Story battles", () => {
     });
 
     /* Roaming Raikou is optional Side Content: a legendary, not a Boss. */
-    const { report, sheet } = await openBattle(
+    const { back, report, sheet } = await openBattle(
       page,
       playId,
       /^Roaming Raikou/,
@@ -62,9 +74,7 @@ test.describe("Story battles", () => {
     await expectAccessible(page);
 
     /* Back to the milestone, where it sits as side content after the Burned Tower. */
-    await sheet
-      .getByRole("button", { name: /^Back to Roaming Raikou/ })
-      .click();
+    await back();
     await expect(sheet).toContainText("Opens after Burned Tower");
   });
 
@@ -131,7 +141,7 @@ test.describe("Story battles", () => {
     ]);
 
     /* Jacinthe's tournament: Canari, Ivor and Corbeau again, then the final. */
-    const { report, sheet } = await openBattle(
+    const { back, report, sheet } = await openBattle(
       page,
       playId,
       /^Reach Rank B/,
@@ -141,7 +151,7 @@ test.describe("Story battles", () => {
     await expect(report).toContainText("Z-A Royale");
     await expect(report).toContainText("Clefable");
     await expect(report).toContainText("Hotel Richissime");
-    await sheet.getByRole("button", { name: /^Back to Reach Rank B/ }).click();
+    await back();
     const battleNames = (
       await sheet.getByRole("list").last().getByRole("button").allTextContents()
     ).map((text) => text.match(/^[A-Z][a-z]+/)?.[0]);

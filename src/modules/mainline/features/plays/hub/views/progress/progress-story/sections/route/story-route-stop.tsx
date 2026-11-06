@@ -56,7 +56,7 @@ export const StoryRouteStop = ({
     aria-pressed={selected}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
-    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-0.5 pr-2 pl-1.5 text-left transition-colors"
+    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-1.5 pr-2 pl-1.5 text-left transition-colors"
   >
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
       <span
@@ -134,7 +134,7 @@ export const StoryRoutePlace = ({
     onClick={onSelect}
     onFocus={onPrefetch}
     onPointerEnter={onPrefetch}
-    className="focus-ring hover:bg-hover flex min-h-8 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
+    className="focus-ring hover:bg-hover flex min-h-10 w-full items-center gap-3 rounded-xl pr-2 pl-1.5 text-left transition-colors"
   >
     <span data-route-node className="grid w-14 shrink-0 place-items-center">
       <span

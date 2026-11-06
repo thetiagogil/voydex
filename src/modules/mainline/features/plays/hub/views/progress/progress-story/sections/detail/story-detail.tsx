@@ -44,8 +44,9 @@ export type StoryDetailTarget =
  * what it asks, what has to come first and what was recorded with it, and
  * its battles one line each, with Record (or Edit, once recorded) at its
  * foot. A place shows the milestone it leads to, its battles and the
- * Pokémon found there. A battle opens its report in the same place, with a
- * way back, so the route behind never changes. Focus follows: onto the
+ * Pokémon found there. A battle opens its report in a sheet of its own
+ * beside the route, or in the same sheet below 1024px with a way back, so
+ * the route behind never changes. Focus follows: onto the
  * report's title when it opens, back onto the battle's row on the way back.
  */
 export const StoryDetail = ({
@@ -119,7 +120,9 @@ export const StoryDetail = ({
     milestone?.name ?? (target.kind === "place" ? target.place.name : "");
 
   const showBattle = (battle: StoryMatchupBattle) => {
-    focusTarget.current = reportTitleId;
+    if (layout === "sheet") {
+      focusTarget.current = reportTitleId;
+    }
     setOpenBattleId(battle.id);
   };
 
@@ -130,7 +133,14 @@ export const StoryDetail = ({
     setOpenBattleId(null);
   };
 
-  const back = openBattle ? (
+  /* Beside the route a battle opens in a sheet of its own; in a sheet, in place. */
+  const reportInPlace = layout === "sheet" && openBattle;
+  const report = openBattle ? (
+    <section aria-labelledby={reportTitleId}>
+      <StoryBattleReport battle={openBattle} titleId={reportTitleId} />
+    </section>
+  ) : null;
+  const back = reportInPlace ? (
     <Button
       type="button"
       variant="ghost"
@@ -161,10 +171,8 @@ export const StoryDetail = ({
       <AppIcon icon={appIcons.product.location} />
     </span>
   );
-  const body: ReactNode = openBattle ? (
-    <section aria-labelledby={reportTitleId}>
-      <StoryBattleReport battle={openBattle} titleId={reportTitleId} />
-    </section>
+  const body: ReactNode = reportInPlace ? (
+    report
   ) : milestone ? (
     <>
       <StoryMilestoneDetail
@@ -201,14 +209,33 @@ export const StoryDetail = ({
         aria-label={name}
         className="gap-0 px-5 py-5 sm:px-6 sm:py-6"
       >
-        {back ?? (
-          <div className="flex items-center gap-4">
-            {marker}
-            <h2 className="title-card text-ink min-w-0">{name}</h2>
-          </div>
-        )}
+        <div className="flex items-center gap-4">
+          {marker}
+          <h2 className="title-card text-ink min-w-0">{name}</h2>
+        </div>
         <div className="mt-5 grid content-start gap-6">{body}</div>
         {footer ? <div className="mt-6">{footer}</div> : null}
+        <OverlaySheet
+          open={Boolean(openBattle)}
+          onOpenChange={(isOpen) => {
+            if (!isOpen) {
+              setOpenBattleId(null);
+            }
+          }}
+          size="sm"
+          title={openBattle?.name ?? "Battle"}
+          /* The report carries the visible title; the sheet is named all the same. */
+          titleHidden
+          bodyClassName="grid content-start gap-6"
+          /* Back to the battle's row in the panel. */
+          finalFocus={() =>
+            openBattle
+              ? document.getElementById(getStoryBattleRowId(openBattle.id))
+              : null
+          }
+        >
+          {report}
+        </OverlaySheet>
       </Card>
     );
   }
@@ -220,7 +247,7 @@ export const StoryDetail = ({
       size="sm"
       title={openBattle?.name ?? name}
       /* The report carries the visible title; the sheet is named all the same. */
-      titleHidden={Boolean(openBattle)}
+      titleHidden={Boolean(reportInPlace)}
       bodyClassName="grid content-start gap-6"
       /* Back to the stop that opened it, when it is still on the page. */
       finalFocus={
