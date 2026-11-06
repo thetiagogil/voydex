@@ -4,7 +4,7 @@ import { getPlayTeamSnapshotMemberName } from "@/modules/mainline/features/plays
 import type { StoryMilestone } from "../../types";
 
 /*
- * What you got at a recorded milestone, under its stop on the route (#199):
+ * What you got at a recorded milestone, on its stop's right (#199):
  * the Pokémon you chose (your first partner, the fossil's), as its portrait,
  * and the team you had then, small. Nothing when neither was recorded.
  */
@@ -23,7 +23,7 @@ export const StoryMilestoneMemento = ({
   }
 
   return (
-    <span className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+    <span className="flex flex-wrap items-center gap-x-3 gap-y-1 py-1">
       {/* The Pokémon you chose, as its portrait; a choice without one, by name. */}
       {choice?.imageUrl ? (
         <PokemonAvatar

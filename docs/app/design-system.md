@@ -563,8 +563,9 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   wearing a ring, and a folded one shows its milestones as a strip of small
   medallions. A stop is its `MilestoneMarker`
   (`lg`) with its name and one quiet line beside it (its place, then where
-  it stands); a recorded one is a sticker in its badge's type with a check
-  and what you got there (the Pokémon you chose, the team then); stops still ahead sink back (a grey
+  it stands); a recorded one is a sticker in its badge's type with what you
+  got there on its right (the Pokémon you chose, the team then); only the
+  stickers lift on hover; stops still ahead sink back (a grey
   ring on `bg-surface-2`, a quieter name that keeps 4.5:1), and the one open
   wears a `ring-select-ink` ring. From 1024px the open stop or place shows
   in a sticky panel beside the route (`useStickyPanel`, as Team's roster)
