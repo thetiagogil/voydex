@@ -10,7 +10,7 @@ INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, e
 INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('60000000-0000-0000-0000-0000000000f1', '00000000-0000-0000-0000-0000000000f1', 1, 1, 2, 'Roadmap Red');
 SELECT
-    plan (23);
+    plan (25);
 SELECT
     has_table ('tracking', 'mainline_roadmap_steps', 'the roadmap steps table exists');
 SELECT
@@ -24,6 +24,21 @@ SELECT
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, location_id, milestone_id)
             VALUES (1, 999, NULL, NULL) $$, '23514', NULL, 'a step must be a place or a milestone');
+-- A note says what happens at a place; a milestone has its own description.
+SELECT
+    throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, milestone_id, note)
+            VALUES (1, 999, 10001, 'A note.') $$, '23514', NULL, 'a milestone step carries no note');
+SELECT
+    IS ((
+            SELECT
+                note
+            FROM
+                tracking.mainline_roadmap_steps
+            WHERE
+                version_group_id = 1
+                AND sort_order = 4),
+            'Pick up Oak''s Parcel at the Poké Mart. The Gym is locked for now.',
+            'Viridian City''s first visit says to pick up Oak''s Parcel');
 -- A step belongs to its version group: Route 26 and Gold / Silver's Choose Starter are not Red / Blue's.
 SELECT
     throws_ok ($$ INSERT INTO tracking.mainline_roadmap_steps (version_group_id, sort_order, location_id)

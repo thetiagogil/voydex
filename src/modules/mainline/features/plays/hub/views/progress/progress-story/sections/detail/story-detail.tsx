@@ -32,6 +32,8 @@ export type StoryDetailTarget =
   | {
       key: string;
       kind: "place";
+      /* What happens there, in a line; null where nothing does. */
+      note: string | null;
       place: StoryPlace;
       /* The milestone the route reaches next from the place. */
       toward: StoryMilestone | null;
@@ -195,6 +197,7 @@ export const StoryDetail = ({
     <StoryPlaceDetail
       battles={battles}
       compact={layout === "panel"}
+      note={target.note}
       onBattleSelect={showBattle}
       place={target.place}
       playId={playId}

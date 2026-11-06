@@ -94,6 +94,7 @@ export type StoryRoadmapStepSource = {
   /* The place's name, for a place step. */
   location_name: string | null;
   milestone_id: number | null;
+  note: string | null;
   sort_order: number;
   version_group_id: number;
 };
@@ -105,6 +106,8 @@ export type StoryRoadmapStepSource = {
 export type StoryRoadmapStep = {
   id: number;
   milestoneId: number | null;
+  /* What happens at a place, in a line (pick up Oak's Parcel); null where nothing does. */
+  note: string | null;
   place: StoryPlace | null;
 };
 

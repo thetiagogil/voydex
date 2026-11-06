@@ -47,7 +47,13 @@ import type {
 /* What is open in the detail: a milestone, or a place on the way to one. */
 type StorySelection =
   | { id: number; kind: "milestone" }
-  | { key: string; kind: "place"; place: StoryPlace; towardId: number };
+  | {
+      key: string;
+      kind: "place";
+      note: string | null;
+      place: StoryPlace;
+      towardId: number;
+    };
 
 const noBattles: StoryMatchupBattle[] = [];
 
@@ -236,6 +242,7 @@ export const MainlinePlayProgressStory = ({
       return {
         key: picked.key,
         kind: "place",
+        note: picked.note,
         place: picked.place,
         toward:
           scopeMilestones.find(({ id }) => id === picked.towardId) ?? null,
@@ -448,6 +455,7 @@ export const MainlinePlayProgressStory = ({
             getTargetBattles({
               key: entry.key,
               kind: "place",
+              note: entry.note,
               place: entry.place,
               toward: entry.toward,
             }).length
@@ -468,6 +476,7 @@ export const MainlinePlayProgressStory = ({
             setSelection({
               key: entry.key,
               kind: "place",
+              note: entry.note,
               place: entry.place,
               towardId: entry.toward.id,
             });

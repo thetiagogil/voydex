@@ -166,7 +166,9 @@ test.describe("Progress", () => {
      * The rival's first fight sits on Route 22, not under Boulder Badge; the
      * route comes back to Route 22 for the fight before the League.
      */
-    const route22 = route.getByRole("button", { name: /^Route 22 1 battle/ });
+    const route22 = route.getByRole("button", {
+      name: /^Route 22\b.*1 battle$/,
+    });
     await expect(route22).toHaveCount(1);
     /* Only the chapter you're in starts open; the League opens from its sign. */
     const league = route.getByRole("button", {
@@ -227,7 +229,8 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await page.getByRole("button", { exact: true, name: "Route 24" }).click();
+    /* Its note is part of its name: Nugget Bridge. */
+    await page.getByRole("button", { name: /^Route 24 Nugget Bridge/ }).click();
     const detail = storyDetail(page, "Route 24");
 
     /* A Red Play: Weedle and Oddish, never Blue's Caterpie or Bellsprout. */

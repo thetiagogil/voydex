@@ -5329,6 +5329,7 @@ export type Database = {
           id: number;
           location_id: number | null;
           milestone_id: number | null;
+          note: string | null;
           sort_order: number;
           version_group_id: number;
         };
@@ -5338,6 +5339,7 @@ export type Database = {
           id?: never;
           location_id?: number | null;
           milestone_id?: number | null;
+          note?: string | null;
           sort_order: number;
           version_group_id: number;
         };
@@ -5346,6 +5348,7 @@ export type Database = {
           id?: never;
           location_id?: number | null;
           milestone_id?: number | null;
+          note?: string | null;
           sort_order?: number;
           version_group_id?: number;
         };

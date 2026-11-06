@@ -99,8 +99,8 @@ const PokemonSprites = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
 );
 
 /*
- * A place on the Story's way opened in full (#199): which milestone it
- * leads to, the battles fought there and the Pokémon found there in the
+ * A place on the Story's way opened in full (#199): what happens there,
+ * which milestone it leads to, the battles fought there and the Pokémon found there in the
  * Play's game, grouped by how you meet them and loaded when it opens.
  * Beside the route (`compact`) they're sprites, with their names and levels
  * a sheet away; in a sheet they're one line each.
@@ -108,6 +108,7 @@ const PokemonSprites = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
 export const StoryPlaceDetail = ({
   battles,
   compact,
+  note,
   onBattleSelect,
   place,
   playId,
@@ -115,6 +116,8 @@ export const StoryPlaceDetail = ({
 }: {
   battles: StoryMatchupBattle[];
   compact: boolean;
+  /* What happens there, in a line. */
+  note: string | null;
   onBattleSelect: (battle: StoryMatchupBattle) => void;
   place: StoryPlace;
   playId: string;
@@ -151,6 +154,7 @@ export const StoryPlaceDetail = ({
 
   return (
     <>
+      {note ? <p className="text-ink text-15 font-semibold">{note}</p> : null}
       {toward ? (
         <p className="text-ink-2 text-14 flex items-center gap-2 font-bold">
           <AppIcon icon={appIcons.product.journey} size="sm" />

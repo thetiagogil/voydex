@@ -443,6 +443,7 @@ export const buildStoryProgressModel = ({
         .map((step) => ({
           id: step.id,
           milestoneId: step.milestone_id,
+          note: step.note,
           place: toPlace(step.location_id, step.location_name),
         })),
       sections: [section],

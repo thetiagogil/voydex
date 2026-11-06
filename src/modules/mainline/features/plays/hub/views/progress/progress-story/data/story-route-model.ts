@@ -47,6 +47,8 @@ export type StoryRouteEntry =
   | {
       key: string;
       kind: "place";
+      /* What happens there, in a line; null where nothing does. */
+      note: string | null;
       optional: false;
       place: StoryPlace;
       /* Every required milestone before it on the route is recorded. */
@@ -148,6 +150,7 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
   type RoadmapStep = {
     id: number;
     milestone: StoryMilestone | null;
+    note: string | null;
     place: StoryPlace | null;
   };
 
@@ -156,9 +159,9 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
       step.milestoneId === null ? null : milestoneById.get(step.milestoneId);
 
     return milestone
-      ? [{ id: step.id, milestone, place: null }]
+      ? [{ id: step.id, milestone, note: null, place: null }]
       : step.place
-        ? [{ id: step.id, milestone: null, place: step.place }]
+        ? [{ id: step.id, milestone: null, note: step.note, place: step.place }]
         : [];
   });
   const isStoryStep = (step: RoadmapStep) =>
@@ -216,6 +219,7 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
       entries.push({
         key: `place-${step.id}`,
         kind: "place",
+        note: step.note,
         optional: false,
         place: step.place,
         reached: walked,

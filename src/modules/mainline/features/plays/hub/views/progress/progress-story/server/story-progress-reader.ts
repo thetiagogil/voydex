@@ -97,7 +97,7 @@ export const readMainlinePlayStoryProgress = async (
             .schema("tracking")
             .from("mainline_roadmap_steps")
             .select(
-              "id, location_id, milestone_id, sort_order, version_group_id",
+              "id, location_id, milestone_id, note, sort_order, version_group_id",
             )
             .in("version_group_id", versionGroupIds)
             .order("sort_order", { ascending: true })

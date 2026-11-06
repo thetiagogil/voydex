@@ -127,7 +127,8 @@ export const StoryRouteStop = ({
 
 /*
  * A place the route passes between milestones (Route 1, Viridian Forest): a
- * small quiet dot on the line and its name beside it, so you see the way to
+ * small quiet dot on the line, its name beside it and, where something
+ * happens there, a quiet line saying what, so you see the way to
  * the next milestone. Nothing to record; it opens what is there (its
  * battles, the Pokémon found there). The dot fills once you're past it.
  */
@@ -135,6 +136,7 @@ export const StoryRoutePlace = ({
   battleCount,
   id,
   name,
+  note,
   onPrefetch,
   onSelect,
   opensSheet,
@@ -144,6 +146,8 @@ export const StoryRoutePlace = ({
   battleCount: number;
   id: string;
   name: string;
+  /* What happens there, in a quiet second line. */
+  note: string | null;
   /* Pointed at or focused: what it opens can start loading. */
   onPrefetch: () => void;
   onSelect: () => void;
@@ -173,14 +177,21 @@ export const StoryRoutePlace = ({
         )}
       />
     </span>
-    <span
-      className={cn(
-        "text-14 min-w-0 truncate font-bold transition-colors",
-        selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
-      )}
-    >
-      {name}
-      {reached ? <span className="sr-only">, passed</span> : null}
+    <span className="flex min-w-0 flex-col py-1">
+      <span
+        className={cn(
+          "text-14 truncate font-bold transition-colors",
+          selected ? "text-select-ink" : "text-ink-2 group-hover:text-ink",
+        )}
+      >
+        {name}
+        {reached ? <span className="sr-only">, passed</span> : null}
+      </span>
+      {note ? (
+        <span className="text-ink-3 text-13 line-clamp-2 font-semibold">
+          {note}
+        </span>
+      ) : null}
     </span>
     {battleCount ? (
       <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">

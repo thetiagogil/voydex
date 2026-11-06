@@ -215,11 +215,13 @@ describe("buildStoryRoute from a roadmap", () => {
   const place = (id: number) => ({
     id: 100 + id,
     milestoneId: null,
+    note: id === 2 ? "Pick up the Parcel." : null,
     place: { id, name: `Place ${id}` },
   });
   const at = (milestoneId: number) => ({
     id: 200 + milestoneId,
     milestoneId,
+    note: null,
     place: null,
   });
   const roadmap = (
