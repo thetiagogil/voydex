@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
+import { preload } from "react-dom";
 
 import { appRoutes } from "@/config/routes";
 import { AddNoteDialog } from "@/modules/mainline/features/plays/hub/components/add-note-dialog";
@@ -87,6 +88,11 @@ export const NextObjectiveSection = ({
     savedStamp && isJustRecorded
       ? { ...savedStamp, state: "earned" as const }
       : savedStamp;
+
+  /* The badge it will slap down, fetched ahead so the slap lands with it. */
+  if (savedStamp?.badge?.imageUrl) {
+    preload(savedStamp.badge.imageUrl, { as: "image" });
+  }
 
   const applyStep = (step: ReturnType<typeof getObjectiveHandoverStep>) => {
     if (step?.handover) {

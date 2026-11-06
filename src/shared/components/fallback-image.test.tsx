@@ -62,4 +62,20 @@ describe("FallbackImage", () => {
 
     expect(markup).toContain(">LS</span>");
   });
+
+  it("shows the stand-in it is given instead of the letter", () => {
+    const markup = renderToStaticMarkup(
+      <FallbackImage
+        src={null}
+        name="Boulder Badge"
+        className="size-10"
+        standIn={<svg data-testid="type-icon" />}
+      />,
+    );
+
+    expect(markup).not.toContain("<img");
+    expect(markup).toContain('data-testid="type-icon"');
+    expect(markup).not.toContain(">B</span>");
+    expect(markup).toContain("size-10");
+  });
 });

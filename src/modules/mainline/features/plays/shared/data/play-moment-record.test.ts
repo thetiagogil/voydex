@@ -101,9 +101,21 @@ describe("getPlayMomentRecord for other moments", () => {
 
     expect(
       getPlayMomentRecord(milestone, {
-        badgeTypeByMilestoneId: new Map([[7, "water"]]),
+        badgeByMilestoneId: new Map([
+          [
+            7,
+            {
+              imageUrl: "https://assets.test/badges/cascade-badge.webp",
+              type: "water",
+            },
+          ],
+        ]),
       }).medallion,
-    ).toEqual({ kind: "badge", type: "water" });
+    ).toEqual({
+      imageUrl: "https://assets.test/badges/cascade-badge.webp",
+      kind: "badge",
+      type: "water",
+    });
     expect(
       getPlayMomentRecord(milestone, { trophyMilestoneIds: new Set([7]) })
         .medallion.kind,

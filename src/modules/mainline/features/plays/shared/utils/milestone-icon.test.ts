@@ -30,18 +30,24 @@ describe("isTrophyMilestone", () => {
 describe("getMilestoneMedallion", () => {
   const icon = getMilestoneIcon("story");
 
-  it("wears a gym's badge in its type", () => {
-    expect(
-      getMilestoneMedallion({ badgeType: "water", icon, isTrophy: false }),
-    ).toEqual({ kind: "badge", type: "water" });
+  it("wears a gym's badge in its type, with its picture", () => {
+    const badge = {
+      imageUrl: "https://assets.test/badges/cascade-badge.webp",
+      type: "water" as const,
+    };
+
+    expect(getMilestoneMedallion({ badge, icon, isTrophy: false })).toEqual({
+      ...badge,
+      kind: "badge",
+    });
   });
 
   it("is gold for a trophy and calm blue for anything else", () => {
     expect(
-      getMilestoneMedallion({ badgeType: null, icon, isTrophy: true }).kind,
+      getMilestoneMedallion({ badge: null, icon, isTrophy: true }).kind,
     ).toBe("gold");
     expect(
-      getMilestoneMedallion({ badgeType: null, icon, isTrophy: false }),
+      getMilestoneMedallion({ badge: null, icon, isTrophy: false }),
     ).toEqual({ icon: appIcons.milestones.story, kind: "calm" });
   });
 });

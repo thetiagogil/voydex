@@ -12,6 +12,7 @@ import {
   type MedallionContent,
 } from "@/modules/mainline/features/plays/shared/components/medallion";
 import { RecordRow } from "@/modules/mainline/features/plays/shared/components/record-row";
+import { getBadgeImageUrl } from "@/modules/reference/features/badges/data/badge-images";
 import { getGameCoverImageUrlBySlug } from "@/modules/reference/features/games/data/game-images";
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { appIcons } from "@/shared/components/app-icon";
@@ -29,7 +30,11 @@ import { cn } from "@/shared/utils/cn";
 const toMedallionContent = (moment: PublicMoment): MedallionContent => {
   switch (moment.kind) {
     case "badge":
-      return { kind: "badge", type: moment.type };
+      return {
+        imageUrl: getBadgeImageUrl(moment.spriteSlug),
+        kind: "badge",
+        type: moment.type,
+      };
     case "note":
       return { icon: appIcons.actions.edit, kind: "note" };
     case "pokemon": {
@@ -122,8 +127,15 @@ const SamplePlayTabs = ({ tabs }: { tabs: readonly string[] }) => (
 );
 
 export const publicPlayArt = {
-  badgeStamp: ({ tilt, type }) => (
-    <BadgeStamp label="" state={{ kind: "badge", type }} tilt={tilt} />
+  badgeStamp: ({ spriteSlug, tilt, type }) => (
+    <BadgeStamp
+      label=""
+      state={{
+        badge: { imageUrl: getBadgeImageUrl(spriteSlug), type },
+        kind: "badge",
+      }}
+      tilt={tilt}
+    />
   ),
   medallion: ({ className, moment, size = "md" }) => (
     <Medallion

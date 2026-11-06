@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ImgHTMLAttributes } from "react";
+import { useState, type ImgHTMLAttributes, type ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
@@ -27,6 +27,11 @@ type FallbackImageProps = Omit<
   /* What the image pictures: it names the stand-in when the image can't show. */
   name: string;
   src: string | null | undefined;
+  /*
+   * What the stand-in shows instead of the letter, such as a badge's type
+   * icon.
+   */
+  standIn?: ReactNode;
 };
 
 /*
@@ -43,6 +48,7 @@ export const FallbackImage = ({
   letters,
   name,
   src,
+  standIn,
   ...imageProps
 }: FallbackImageProps) => {
   const [failedSrc, setFailedSrc] = useState<string | null>(null);
@@ -68,7 +74,9 @@ export const FallbackImage = ({
       >
         {/* Centres itself, so a box the caller sets to `block` still centres it. */}
         <span className="flex size-full items-center justify-center">
-          {fallback === "badge" ? (
+          {standIn ? (
+            standIn
+          ) : fallback === "badge" ? (
             <>
               <span className="text-[clamp(0.75rem,40cqw,4rem)] leading-none @min-[3.5rem]:hidden">
                 {letter}

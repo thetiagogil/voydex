@@ -1,6 +1,6 @@
 /*
  * An address on the voydex-assets site, which serves Voydex's images (Pokémon,
- * game covers, items and the trainer icons). Null when the site isn't
+ * game covers, items, trainer portraits and gym badges). Null when the site isn't
  * configured: images then show their letter fallback instead of breaking the
  * page. The variable is written out in full so Next.js inlines it into
  * browser code.

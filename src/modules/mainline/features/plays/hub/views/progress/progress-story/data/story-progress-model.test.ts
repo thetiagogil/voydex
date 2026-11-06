@@ -531,7 +531,7 @@ describe("buildStoryProgressModel", () => {
       milestones: [
         milestone({ milestone_id: 1 }),
         milestone({
-          badge_refs: [{ type_id: 12 }],
+          badge_refs: [{ sprite_slug: "galar-grass-badge", type_id: 12 }],
           completed_at: "2026-02-01T12:00:00Z",
           is_completed: true,
           milestone_id: 2,
@@ -568,11 +568,19 @@ describe("buildStoryProgressModel", () => {
         stamp.label,
         stamp.kind,
         stamp.state,
-        stamp.badgeType,
+        stamp.badge,
       ]),
     ).toEqual([
-      ["Grass", "gym", "earned", "grass"],
-      ["Water", "gym", "next", "water"],
+      [
+        "Grass",
+        "gym",
+        "earned",
+        {
+          imageUrl: "https://assets.test/badges/galar-grass-badge.webp",
+          type: "grass",
+        },
+      ],
+      ["Water", "gym", "next", { imageUrl: null, type: "water" }],
       ["Champion Leon", "league", "todo", null],
       ["Hall of Fame", "league", "todo", null],
     ]);
@@ -597,7 +605,7 @@ describe("buildStoryProgressModel", () => {
       decisionForms: [],
       milestones: [
         milestone({
-          badge_refs: [{ type_id: 1 }],
+          badge_refs: [{ sprite_slug: "normalium-z", type_id: 1 }],
           completed_at: "2026-02-01T12:00:00Z",
           is_completed: true,
           milestone_id: 1,
@@ -632,11 +640,11 @@ describe("buildStoryProgressModel", () => {
         stamp.label,
         stamp.kind,
         stamp.state,
-        stamp.badgeType,
+        stamp.badge,
       ]),
     ).toEqual([
-      ["Ilima", "trial", "earned", "normal"],
-      ["Hala", "grand-trial", "next", "fighting"],
+      ["Ilima", "trial", "earned", { imageUrl: null, type: "normal" }],
+      ["Hala", "grand-trial", "next", { imageUrl: null, type: "fighting" }],
       ["Elite Four Hala", "league", "todo", null],
     ]);
   });

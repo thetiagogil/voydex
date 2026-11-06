@@ -1,20 +1,21 @@
 import type { CSSProperties } from "react";
 
-import { PokemonTypeIcon } from "@/modules/reference/features/pokemon/components/pokemon-type-icon";
+import type { MilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, type AppIconComponent } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 import { IconTip } from "@/shared/components/icon-tip";
 
+import { BadgeArt } from "./badge-art";
+
 /*
- * A badge stamp: the one thing that tilts at rest. A gym badge or an Alola
- * trial is its type colour, a Grand Trial its type in a gold ring; a League
+ * A badge stamp: the one thing that tilts at rest. A gym badge (its picture)
+ * or an Alola trial is its type colour, a Grand Trial its type in a gold ring; a League
  * milestone you've earned is gold. Stamps still ahead are dashed, the next
  * one a little stronger.
  */
 export type BadgeStampState =
-  | { grand?: boolean; kind: "badge"; type: PokemonTypeSlug | null }
+  | { badge: MilestoneBadge | null; grand?: boolean; kind: "badge" }
   | { icon: AppIconComponent; kind: "earned" }
   | { icon?: AppIconComponent; kind: "next" | "todo" };
 
@@ -43,7 +44,9 @@ export const BadgeStamp = ({
    * lands on the stamp's own tilt and hands over to it without a jump.
    */
   const style = {
-    ...(state.kind === "badge" ? getPokemonTypeCssVariables(state.type) : null),
+    ...(state.kind === "badge"
+      ? getPokemonTypeCssVariables(state.badge?.type ?? null)
+      : null),
     "--tilt": tilted ? `${tilt}deg` : undefined,
   } as CSSProperties;
 
@@ -68,7 +71,9 @@ export const BadgeStamp = ({
             "relative grid aspect-square w-full place-items-center rounded-full",
             tilted && "transform-[rotate(var(--tilt))]",
             slap && "animate-stamp-slap",
-            state.kind === "badge" && "moment-ring bg-(--t) text-white",
+            state.kind === "badge" && "moment-ring text-white",
+            state.kind === "badge" &&
+              (state.badge?.imageUrl ? "type-tint" : "bg-(--t)"),
             state.kind === "badge" && state.grand && "[--mr:var(--gold-ring)]",
             state.kind === "earned" &&
               "moment-ring bg-gold text-white [--mr:var(--gold-ring)]",
@@ -79,8 +84,8 @@ export const BadgeStamp = ({
             className,
           )}
         >
-          {state.kind === "badge" && state.type ? (
-            <PokemonTypeIcon type={state.type} className="size-[46%]" />
+          {state.kind === "badge" && state.badge ? (
+            <BadgeArt badge={state.badge} iconClassName="size-[46%]" />
           ) : state.kind !== "badge" && state.icon ? (
             <AppIcon icon={state.icon} className="size-[44%]" aria-hidden />
           ) : null}

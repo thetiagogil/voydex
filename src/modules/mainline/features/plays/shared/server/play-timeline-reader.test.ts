@@ -94,7 +94,7 @@ describe("readMainlinePlayTimelinePreview", () => {
 describe("readMainlinePlayPokemonMoments", () => {
   const pikachuRef = { form_id: 25, play_pokemon_id: "pokemon-3" };
   const context = {
-    badgeTypeByMilestoneId: [],
+    badgeByMilestoneId: [],
     trophyMilestoneIds: [],
     typeByFormId: [[25, "electric"]] as [number, "electric"][],
   };
@@ -181,7 +181,7 @@ describe("readMainlinePlayPokemonMoments", () => {
     ).resolves.toEqual({
       byPokemonId: { "pokemon-1": [] },
       context: {
-        badgeTypeByMilestoneId: [],
+        badgeByMilestoneId: [],
         trophyMilestoneIds: [],
         typeByFormId: [],
       },

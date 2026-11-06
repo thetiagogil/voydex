@@ -1,18 +1,18 @@
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import type { MilestoneBadge } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import {
   getMilestoneIcon,
   getMilestoneMedallion,
   isTrophyMilestone,
 } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { cn } from "@/shared/utils/cn";
 
 import { Medallion } from "./medallion";
 
 type MilestoneMarkerProps = {
-  /* A gym milestone's badge type, worn once it's recorded. */
-  badgeType: PokemonTypeSlug | null;
+  /* A gym milestone's badge, worn once it's recorded. */
+  badge: MilestoneBadge | null;
   className?: string;
   /*
    * Its number within its journey, shown while it's still ahead; an optional
@@ -46,7 +46,7 @@ const ringSizeClassNames = {
  * has no number, its type's icon).
  */
 export const MilestoneMarker = ({
-  badgeType,
+  badge,
   className,
   popIn = false,
   sequence,
@@ -64,7 +64,7 @@ export const MilestoneMarker = ({
         )}
         size={size === "lg" ? "md" : size === "md" ? "sm" : "xs"}
         content={getMilestoneMedallion({
-          badgeType,
+          badge,
           icon: getMilestoneIcon(typeSlug ?? ""),
           isTrophy: isTrophyMilestone(typeSlug),
         })}

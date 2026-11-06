@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildMainlinePlayBadgeCase,
-  getBadgeTypeByMilestoneId,
+  getBadgeByMilestoneId,
   type MainlinePlayBadgeCaseMilestone,
 } from "./badge-case-mapper";
 
@@ -33,7 +33,7 @@ describe("buildMainlinePlayBadgeCase", () => {
     const badgeCase = buildMainlinePlayBadgeCase({
       milestones: [
         milestone({
-          badge_refs: [{ type_id: 12 }],
+          badge_refs: [{ sprite_slug: "galar-grass-badge", type_id: 12 }],
           completed_at: "2026-08-12T10:00:00Z",
           is_completed: true,
           milestone_id: 1,
@@ -63,14 +63,17 @@ describe("buildMainlinePlayBadgeCase", () => {
       nextName: "Water Badge",
     });
     expect(
-      badgeCase?.stamps.map((stamp) => [
-        stamp.kind,
-        stamp.state,
-        stamp.badgeType,
-      ]),
+      badgeCase?.stamps.map((stamp) => [stamp.kind, stamp.state, stamp.badge]),
     ).toEqual([
-      ["gym", "earned", "grass"],
-      ["gym", "next", "water"],
+      [
+        "gym",
+        "earned",
+        {
+          imageUrl: "https://assets.test/badges/galar-grass-badge.webp",
+          type: "grass",
+        },
+      ],
+      ["gym", "next", { imageUrl: null, type: "water" }],
       ["league", "todo", null],
     ]);
   });
@@ -79,7 +82,7 @@ describe("buildMainlinePlayBadgeCase", () => {
     const badgeCase = buildMainlinePlayBadgeCase({
       milestones: [
         milestone({
-          badge_refs: [{ type_id: 1 }],
+          badge_refs: [{ sprite_slug: "normalium-z", type_id: 1 }],
           is_completed: true,
           milestone_id: 1,
           milestone_name: "Ilima Trial",
@@ -113,11 +116,11 @@ describe("buildMainlinePlayBadgeCase", () => {
         stamp.label,
         stamp.kind,
         stamp.state,
-        stamp.badgeType,
+        stamp.badge,
       ]),
     ).toEqual([
-      ["Ilima", "trial", "earned", "normal"],
-      ["Hala", "grand-trial", "next", "fighting"],
+      ["Ilima", "trial", "earned", { imageUrl: null, type: "normal" }],
+      ["Hala", "grand-trial", "next", { imageUrl: null, type: "fighting" }],
       ["Professor Kukui", "league", "todo", null],
     ]);
   });
@@ -170,12 +173,15 @@ describe("buildMainlinePlayBadgeCase", () => {
   });
 });
 
-describe("getBadgeTypeByMilestoneId", () => {
-  it("maps gym milestones to their badge type and skips the rest", () => {
+describe("getBadgeByMilestoneId", () => {
+  it("maps gym milestones to their badge and skips the rest", () => {
     expect(
-      getBadgeTypeByMilestoneId({
+      getBadgeByMilestoneId({
         milestones: [
-          milestone({ badge_refs: [{ type_id: 10 }], milestone_id: 1 }),
+          milestone({
+            badge_refs: [{ sprite_slug: "cascade-badge", type_id: 10 }],
+            milestone_id: 1,
+          }),
           milestone({
             badge_refs: [{ type_id: 10 }],
             milestone_id: 2,
@@ -188,6 +194,16 @@ describe("getBadgeTypeByMilestoneId", () => {
           { id: 99, slug: "not-a-type" },
         ],
       }),
-    ).toEqual(new Map([[1, "water"]]));
+    ).toEqual(
+      new Map([
+        [
+          1,
+          {
+            imageUrl: "https://assets.test/badges/cascade-badge.webp",
+            type: "water",
+          },
+        ],
+      ]),
+    );
   });
 });

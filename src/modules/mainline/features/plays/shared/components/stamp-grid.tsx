@@ -60,9 +60,9 @@ export const getBadgeStampState = (stamp: PlayStamp): BadgeStampState => {
   if (stamp.kind !== "league") {
     return stamp.state === "earned"
       ? {
+          badge: stamp.badge,
           grand: stamp.kind === "grand-trial",
           kind: "badge",
-          type: stamp.badgeType,
         }
       : { kind: stamp.state };
   }

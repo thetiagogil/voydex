@@ -3,9 +3,11 @@ import type {
   MainlinePlayMilestone,
   MainlinePlayMilestoneCategorySummary,
 } from "@/modules/mainline/features/plays/hub/types";
-import type { PlayStamp } from "@/modules/mainline/features/plays/shared/data/play-stamps";
+import type {
+  MilestoneBadge,
+  PlayStamp,
+} from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { PlayTeamSnapshotMember } from "@/modules/mainline/features/plays/shared/data/play-team-snapshot";
-import type { PokemonTypeSlug } from "@/modules/reference/features/pokemon/domain/type-slugs";
 import type { PokemonForm } from "@/modules/reference/types";
 
 export type StoryMilestoneSource = Pick<
@@ -84,8 +86,8 @@ export type StoryMilestoneRef = {
 };
 
 export type StoryMilestone = {
-  /* A gym's (or Alola trial's) badge type, so its medallion and stamp wear it. */
-  badgeType: PokemonTypeSlug | null;
+  /* A gym's badge (or Alola trial's Z-Crystal), so its medallion and stamp wear it. */
+  badge: MilestoneBadge | null;
   blockingPrerequisites: StoryMilestonePrerequisite[];
   categoryId: number;
   completedAt: string | null;
