@@ -258,7 +258,7 @@ describe("buildStoryRoute from a roadmap", () => {
     ).toEqual([[["main-story", "11", "pokemon-league", "@4", "@7", "21"]]]);
   });
 
-  it("leads each place to the next required milestone, reached once all before it are recorded", () => {
+  it("leads each place to the next required milestone, walked once that one is recorded", () => {
     const [block] = buildStoryRoute(
       roadmap(
         [
@@ -268,21 +268,23 @@ describe("buildStoryRoute from a roadmap", () => {
           ]),
           section(4, "side-content", [optional(41)]),
         ],
-        [at(11), place(2), at(41), place(3), at(12)],
+        /* Place 1 leads to the recorded 11; 2 and 3 to 12, still ahead. */
+        [place(1), at(11), place(2), at(41), place(3), at(12)],
       ),
     );
     const places =
       block.kind === "route"
         ? block.entries.flatMap((entry) =>
             entry.kind === "place"
-              ? [[entry.place.id, entry.toward.id, entry.reached]]
+              ? [[entry.place.id, entry.toward.id, entry.reached, entry.note]]
               : [],
           )
         : [];
 
     expect(places).toEqual([
-      [2, 12, true],
-      [3, 12, true],
+      [1, 11, true, null],
+      [2, 12, false, "Pick up the Parcel."],
+      [3, 12, false, null],
     ]);
   });
 

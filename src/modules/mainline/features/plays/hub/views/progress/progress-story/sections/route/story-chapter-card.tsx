@@ -132,6 +132,7 @@ export const StoryChapterCard = ({
                   )}
                 >
                   <MilestoneMarker
+                    ahead="art"
                     badge={milestone.badge}
                     sequence={milestone.sequence}
                     size="sm"

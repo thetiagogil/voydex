@@ -114,7 +114,11 @@ export const StoryRouteStop = ({
           {status}
         </span>
       ) : null}
-      {status ? null : <span className="sr-only">Not recorded</span>}
+      {status ? null : (
+        <span className="sr-only">
+          {state === "next" ? "Next objective" : "Not recorded"}
+        </span>
+      )}
     </span>
     {/* What you got there, on the card's right (wrapping under on a narrow one). */}
     {memento ? (

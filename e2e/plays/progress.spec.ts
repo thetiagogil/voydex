@@ -195,7 +195,9 @@ test.describe("Progress", () => {
     await mainStory.click();
     await route22.first().click();
     const routeDetail = storyDetail(page, "Route 22");
-    await expect(routeDetail).toContainText("On the way to Boulder Badge");
+    await expect(routeDetail).toContainText(
+      "Blue waits for an optional battle",
+    );
     await expect(
       routeDetail.getByRole("button", { name: /^Blue/ }),
     ).toBeVisible();

@@ -164,6 +164,7 @@ export const StoryDetail = ({
   ) : null;
   const marker = milestone ? (
     <MilestoneMarker
+      ahead="art"
       badge={milestone.badge}
       sequence={milestone.sequence}
       size="lg"
@@ -201,7 +202,6 @@ export const StoryDetail = ({
       onBattleSelect={showBattle}
       place={target.place}
       playId={playId}
-      toward={target.toward?.name ?? null}
     />
   ) : null;
   const footer = milestone ? (

@@ -6,11 +6,17 @@ import {
   isTrophyMilestone,
 } from "@/modules/mainline/features/plays/shared/utils/milestone-icon";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
+import { FallbackImage } from "@/shared/components/fallback-image";
 import { cn } from "@/shared/utils/cn";
 
 import { Medallion } from "./medallion";
 
 type MilestoneMarkerProps = {
+  /*
+   * What a milestone still ahead shows: its number (`number`), or what it
+   * will wear, greyed (`art`: its badge's picture, or its type's icon).
+   */
+  ahead?: "art" | "number";
   /* A gym milestone's badge, worn once it's recorded. */
   badge: MilestoneBadge | null;
   className?: string;
@@ -43,9 +49,11 @@ const ringSizeClassNames = {
  * else in the calm blue. The next
  * one is a game-coloured ring around the objective flag, an accent and not a
  * fill; the rest show their number in a quiet ring (an optional one, which
- * has no number, its type's icon).
+ * has no number, its type's icon), or with `ahead="art"` what they will
+ * wear, greyed.
  */
 export const MilestoneMarker = ({
+  ahead = "number",
   badge,
   className,
   popIn = false,
@@ -87,7 +95,20 @@ export const MilestoneMarker = ({
     >
       {state === "next" ? (
         <AppIcon icon={appIcons.milestones.story} size="sm" />
-      ) : sequence === null ? (
+      ) : ahead === "art" && badge?.imageUrl ? (
+        /* The badge it will wear, greyed until it's earned. */
+        <FallbackImage
+          src={badge.imageUrl}
+          name={`${badge.type} badge`}
+          alt=""
+          loading="lazy"
+          className="size-full rounded-full object-contain p-[20%] opacity-60 grayscale"
+          fallbackClassName="p-0 text-inherit"
+          standIn={
+            <AppIcon icon={getMilestoneIcon(typeSlug ?? "")} size="sm" />
+          }
+        />
+      ) : ahead === "art" || sequence === null ? (
         <AppIcon icon={getMilestoneIcon(typeSlug ?? "")} size="sm" />
       ) : (
         sequence

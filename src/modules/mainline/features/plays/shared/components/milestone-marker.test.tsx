@@ -26,6 +26,27 @@ describe("MilestoneMarker", () => {
     expect(markup).not.toMatch(/>\d+</);
   });
 
+  it("shows the badge it will wear, greyed, instead of a number with ahead=art", () => {
+    const markup = render({
+      ahead: "art",
+      badge: {
+        imageUrl: "https://assets.test/badges/boulder.webp",
+        type: "rock",
+      },
+    });
+
+    expect(markup).toContain("boulder.webp");
+    expect(markup).toContain("grayscale");
+    expect(markup).not.toMatch(/>4</);
+  });
+
+  it("shows its type's icon ahead when it has no badge picture, with ahead=art", () => {
+    const markup = render({ ahead: "art" });
+
+    expect(markup).toContain("<svg");
+    expect(markup).not.toMatch(/>4</);
+  });
+
   it("stamps a medallion down when it was just recorded", () => {
     expect(render({ popIn: true, state: "done" })).toContain(
       "animate-stamp-slap",

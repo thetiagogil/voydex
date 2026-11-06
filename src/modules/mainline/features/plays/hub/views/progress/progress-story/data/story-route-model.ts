@@ -51,7 +51,7 @@ export type StoryRouteEntry =
       note: string | null;
       optional: false;
       place: StoryPlace;
-      /* Every required milestone before it on the route is recorded. */
+      /* The milestone it leads to is recorded: you've walked it. */
       reached: boolean;
       /* The milestone it leads to, whose battles here it shows. */
       toward: StoryMilestone;
@@ -222,7 +222,8 @@ const buildRoadmapRoute = (scope: StoryScope): StoryRouteBlock[] => {
         note: step.note,
         optional: false,
         place: step.place,
-        reached: walked,
+        /* Walked once the milestone it leads to is recorded, never past it. */
+        reached: leadsTo.isCompleted,
         toward: leadsTo,
       });
     }

@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 import { getPokemonFormImageUrl } from "@/modules/reference/features/pokemon/data/pokemon-images";
 import { PokemonAvatar } from "@/modules/reference/features/pokemon/components/pokemon-avatar";
-import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { OverlaySheet } from "@/shared/components/overlay-sheet";
 import { SheetSection } from "@/shared/components/sheet-section";
 import { Button } from "@/shared/components/ui/button";
@@ -99,8 +98,7 @@ const PokemonSprites = ({ groups }: { groups: StoryPlacePokemonGroup[] }) => (
 );
 
 /*
- * A place on the Story's way opened in full (#199): what happens there,
- * which milestone it leads to, the battles fought there and the Pokémon found there in the
+ * A place on the Story's way opened in full (#199): what happens there, the battles fought there and the Pokémon found there in the
  * Play's game, grouped by how you meet them and loaded when it opens.
  * Beside the route (`compact`) they're sprites, with their names and levels
  * a sheet away; in a sheet they're one line each.
@@ -112,7 +110,6 @@ export const StoryPlaceDetail = ({
   onBattleSelect,
   place,
   playId,
-  toward,
 }: {
   battles: StoryMatchupBattle[];
   compact: boolean;
@@ -121,8 +118,6 @@ export const StoryPlaceDetail = ({
   onBattleSelect: (battle: StoryMatchupBattle) => void;
   place: StoryPlace;
   playId: string;
-  /* The milestone the route reaches next from here. */
-  toward: string | null;
 }) => {
   const key = `${playId}-${place.id}`;
   const [loaded, setLoaded] = useState<{
@@ -155,12 +150,6 @@ export const StoryPlaceDetail = ({
   return (
     <>
       {note ? <p className="text-ink text-15 font-semibold">{note}</p> : null}
-      {toward ? (
-        <p className="text-ink-2 text-14 flex items-center gap-2 font-bold">
-          <AppIcon icon={appIcons.product.journey} size="sm" />
-          On the way to {toward}
-        </p>
-      ) : null}
       <StoryMilestoneBattles battles={battles} onSelect={onBattleSelect} />
       <SheetSection
         title="Pokémon found here"
