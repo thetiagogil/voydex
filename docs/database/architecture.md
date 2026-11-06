@@ -112,13 +112,18 @@ gameplay and planning surfaces without turning UI tests into manual database
 setup.
 
 Day-to-day development points `.env.local` at the local stack. Reference images
-(Pokémon, game covers, item sprites, move category icons and trainer portraits) don't live in the database: they come from the
+(Pokémon, game covers, item sprites, move category icons, trainer portraits and gym badges) don't live in the database: they come from the
 separate `voydex-assets` site set in `NEXT_PUBLIC_ASSETS_URL`. A new game needs
 its cover added there as `games/covers/<game-slug>.webp`, and a new held item
 or Poké Ball its sprite as `items/<item-slug>.webp`. An opponent's portrait is
 `trainers/<sprite_slug>.webp`; `tracking.mainline_opponents.sprite_slug` is set
 only where that file exists (the site caches a missing file's 404 for 30 days),
 so add the file before seeding its slug, and deploy the assets before the app.
+A gym badge's picture is `badges/<sprite_slug>.webp` from
+`tracking.mainline_badges.sprite_slug`: one file per badge design, so a badge
+that returns in a later game keeps its slug, and Galar's and Paldea's
+type-named badges carry their region (`galar-grass-badge`). The app asks for a
+picture only for a gym milestone; Alola's Z-Crystals keep their type icon.
 
 The local Auth fixture must never be loaded into a linked project. When hosted
 development data is explicitly authorized, apply only gameplay seed files `002`
