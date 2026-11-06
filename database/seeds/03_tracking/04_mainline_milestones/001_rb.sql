@@ -10,13 +10,16 @@
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Red / Blue story, decision, badge, league, champion, and completion milestones,
--- each at the place it happens (location_id). Main Story follows the order the
--- game's walkthrough reaches each beat (Silph Co. and the Marsh Badge before
--- the Soul Badge), and the Safari Zone and Pokémon Mansion open the way to
--- Cinnabar Gym. The roadmap's steps (tracking.mainline_roadmap_steps) follow
--- the same order. Mewtwo's Cerulean Cave is post-game. Dense optional
--- walkthrough beats are intentionally excluded.
+-- Red / Blue story, decision, badge and League milestones, each at the place
+-- it happens (location_id). Main Story follows the order the game's
+-- walkthrough reaches each beat (Silph Co. and the Marsh Badge before the Soul
+-- Badge), and the Safari Zone and Pokémon Mansion open the way to Cinnabar
+-- Gym. The Pokémon League closes Main Story as one milestone: the Elite Four
+-- and Champion Blue are fought back to back and the team enters the Hall of
+-- Fame, so it keeps the Champion type and recommends a snapshot. The
+-- roadmap's steps (tracking.mainline_roadmap_steps) follow the same order.
+-- Mewtwo's Cerulean Cave is post-game. Dense optional walkthrough beats are
+-- intentionally excluded.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestones (
@@ -70,18 +73,8 @@ INSERT INTO tracking.mainline_milestones (
   (10011, 1, NULL, 101, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 17, true, 11),
   -- Earth Badge (Viridian City)
   (10012, 1, NULL, 101, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Giovanni at Viridian Gym and receive the Earth Badge.', 18, true, 76),
-  -- Elite Four Lorelei (Indigo Plateau)
-  (10013, 1, NULL, 102, 7, 2, NULL, 'elite-four-lorelei', 'Elite Four Lorelei', 'Defeat Lorelei at the Indigo Plateau.', 1, true, 21),
-  -- Elite Four Bruno (Indigo Plateau)
-  (10014, 1, NULL, 102, 7, 2, NULL, 'elite-four-bruno', 'Elite Four Bruno', 'Defeat Bruno at the Indigo Plateau.', 2, true, 21),
-  -- Elite Four Agatha (Indigo Plateau)
-  (10015, 1, NULL, 102, 7, 2, NULL, 'elite-four-agatha', 'Elite Four Agatha', 'Defeat Agatha at the Indigo Plateau.', 3, true, 21),
-  -- Elite Four Lance (Indigo Plateau)
-  (10016, 1, NULL, 102, 7, 2, NULL, 'elite-four-lance', 'Elite Four Lance', 'Defeat Lance at the Indigo Plateau.', 4, true, 21),
-  -- Champion Blue (Indigo Plateau)
-  (10017, 1, NULL, 102, 8, 2, NULL, 'champion-blue', 'Champion Blue', 'Defeat Champion Blue at the Indigo Plateau.', 5, true, 21),
-  -- Hall of Fame (Indigo Plateau)
-  (10018, 1, NULL, 102, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame with the team that beat Blue.', 6, true, 21),
+  -- Pokémon League (Indigo Plateau): the Elite Four, Champion Blue and the Hall of Fame are one beat, fought back to back
+  (10017, 1, NULL, 101, 8, 3, NULL, 'pokemon-league', 'Pokémon League', 'Beat the Elite Four and Champion Blue back to back at the Indigo Plateau. Your team enters the Hall of Fame.', 19, true, 21),
   -- Cerulean Cave (Cerulean Cave)
   (10026, 1, NULL, 103, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Catch or defeat Mewtwo deep in Cerulean Cave after entering the Hall of Fame.', 1, false, 8),
   -- Fighting Dojo Choice (Fighting Dojo)

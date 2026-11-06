@@ -170,17 +170,7 @@ INSERT INTO tracking.mainline_roadmap_steps (
   (1, 71, NULL, 10025, NULL),
   -- 72: Indigo Plateau
   (1, 72, 21, NULL, 'Stock up. Once you face the Elite Four, there''s no way out until you win or lose.'),
-  -- 73: Elite Four Lorelei (milestone)
-  (1, 73, NULL, 10013, NULL),
-  -- 74: Elite Four Bruno (milestone)
-  (1, 74, NULL, 10014, NULL),
-  -- 75: Elite Four Agatha (milestone)
-  (1, 75, NULL, 10015, NULL),
-  -- 76: Elite Four Lance (milestone)
-  (1, 76, NULL, 10016, NULL),
-  -- 77: Champion Blue (milestone)
-  (1, 77, NULL, 10017, NULL),
-  -- 78: Hall of Fame (milestone)
-  (1, 78, NULL, 10018, NULL),
-  -- 79: Cerulean Cave (milestone)
-  (1, 79, NULL, 10026, NULL);
+  -- 73: Pokémon League (milestone)
+  (1, 73, NULL, 10017, NULL),
+  -- 74: Cerulean Cave (milestone)
+  (1, 74, NULL, 10026, NULL);

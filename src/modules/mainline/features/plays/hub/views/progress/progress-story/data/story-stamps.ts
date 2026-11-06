@@ -29,9 +29,21 @@ export const buildStoryStamps = (
     return null;
   }
 
+  /*
+   * The League's gold stamps: the League chapter's milestones where a game
+   * still has one, or its Champion milestone where the League is one stop
+   * of the main story (Red and Blue).
+   */
   const league = sections
-    .filter((section) => section.slug === leagueSectionSlug)
-    .flatMap((section) => section.milestones)
+    .flatMap((section) =>
+      section.slug === leagueSectionSlug
+        ? section.milestones
+        : section.chapterKind === "main-story"
+          ? section.milestones.filter(
+              (milestone) => milestone.typeSlug === "champion",
+            )
+          : [],
+    )
     .filter((milestone) => !typed.includes(milestone));
   const ordered = inBadgeOrder(
     [...typed, ...league],

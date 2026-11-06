@@ -22,7 +22,7 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await expect(page.getByText("1 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 19 milestones")).toBeVisible();
     await expectAccessible(page);
 
     /* The next objective's stop opens beside the route, with the main button at its foot. */
@@ -35,7 +35,7 @@ test.describe("Progress", () => {
     const saved = waitForAction(page);
     await sheet.getByRole("button", { name: "Record Receive Pokédex" }).click();
 
-    await expect(page.getByText("2 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("2 of 19 milestones")).toBeVisible();
     /* It reads recorded and the route moves on: Boulder Badge is next. */
     await expect(sheet).toContainText("Recorded");
     await expect(
@@ -44,7 +44,7 @@ test.describe("Progress", () => {
     await saved;
 
     await page.reload();
-    await expect(page.getByText("2 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("2 of 19 milestones")).toBeVisible();
 
     await page.goto(`/mainline/plays/${playId}/history`);
     await expect(page.getByText("Receive Pokédex").first()).toBeVisible();
@@ -57,7 +57,7 @@ test.describe("Progress", () => {
     await page.goto(`/mainline/plays/${playId}/progress/story`, {
       waitUntil: "networkidle",
     });
-    await expect(page.getByText("1 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 19 milestones")).toBeVisible();
 
     /* Boulder Badge's stop (its stamp's name goes on with a comma), with Receive Pokédex still open. */
     await page.getByRole("button", { name: /^Boulder Badge(?!,)/ }).click();
@@ -71,9 +71,9 @@ test.describe("Progress", () => {
     const saved = waitForAction(page, 2);
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await expect(
-      page.getByText("Boulder Badge and the one before it recorded · 3 of 24"),
+      page.getByText("Boulder Badge and the one before it recorded · 3 of 19"),
     ).toBeVisible();
-    await expect(page.getByText("3 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("3 of 19 milestones")).toBeVisible();
 
     await page.getByRole("button", { name: "Undo" }).click();
     await saved;
@@ -83,7 +83,7 @@ test.describe("Progress", () => {
       ),
     ).toBeVisible(forTheAnswer);
     await page.reload();
-    await expect(page.getByText("1 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 19 milestones")).toBeVisible();
   });
 
   test("clears the ones after it, and a confirm closes without an answer", async ({
@@ -98,7 +98,7 @@ test.describe("Progress", () => {
     await page.getByRole("button", { name: "Record Boulder Badge" }).click();
     await saved;
     await page.reload();
-    await expect(page.getByText("3 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("3 of 19 milestones")).toBeVisible();
 
     const openConfirm = async () => {
       await page.getByRole("button", { name: /^Receive Pokédex/ }).click();
@@ -125,11 +125,11 @@ test.describe("Progress", () => {
     const cleared = waitForAction(page);
     await confirm.getByRole("button", { name: "Mark incomplete" }).click();
     await cleared;
-    await expect(page.getByText("1 of 24 milestones")).toBeVisible(
+    await expect(page.getByText("1 of 19 milestones")).toBeVisible(
       forTheAnswer,
     );
     await page.reload();
-    await expect(page.getByText("1 of 24 milestones")).toBeVisible();
+    await expect(page.getByText("1 of 19 milestones")).toBeVisible();
   });
 
   test("opens a milestone from its stamp", async ({ page }) => {
@@ -169,15 +169,17 @@ test.describe("Progress", () => {
     const route22 = route.getByRole("button", {
       name: /^Route 22\b.*1 battle$/,
     });
-    await expect(route22).toHaveCount(1);
-    /* Only the chapter you're in starts open; the League opens from its sign. */
-    const league = route.getByRole("button", {
-      name: /^(Expand|Collapse) Pokémon League$/,
-    });
-    await expect(league).toHaveAttribute("aria-expanded", "false");
-    await league.click();
-    await expect(league).toHaveAttribute("aria-expanded", "true");
     await expect(route22).toHaveCount(2);
+    /* Only the chapter you're in starts open; the Post Game opens from its head. */
+    const postGame = route.getByRole("button", {
+      name: /^(Expand|Collapse) Post Game$/,
+    });
+    await expect(postGame).toHaveAttribute("aria-expanded", "false");
+    await postGame.click();
+    await expect(postGame).toHaveAttribute("aria-expanded", "true");
+    await expect(
+      route.getByRole("button", { name: /^Cerulean Cave/ }),
+    ).toBeVisible();
     /* The chapter you're in folds too. */
     const mainStory = route.getByRole("button", {
       name: /^(Expand|Collapse) Main Story$/,

@@ -9,6 +9,8 @@
 -- File Scope
 -- ============================================================================
 -- Links required Red / Blue battle milestones to their primary opponents.
+-- The Pokémon League holds its six battles in the order they are fought: Blue
+-- on Route 22, the Elite Four, then Champion Blue.
 -- location_id is set only where the battle is fought away from its milestone's
 -- place: the two rival battles on Route 22 (before the Boulder Badge and before
 -- Victory Road). NULL means the battle is at the milestone's place.
@@ -39,16 +41,18 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (10011, 1007, 1, 'battle-opponent', 1, NULL, NULL),
   -- Earth Badge -> Giovanni
   (10012, 1008, 1, 'battle-opponent', 1, NULL, NULL),
-  -- Elite Four Lorelei -> Lorelei
-  (10013, 1009, 1, 'battle-opponent', 2, NULL, NULL),
-  -- Elite Four Bruno -> Bruno
-  (10014, 1010, 1, 'battle-opponent', 1, NULL, NULL),
-  -- Elite Four Agatha -> Agatha
-  (10015, 1011, 1, 'battle-opponent', 1, NULL, NULL),
-  -- Elite Four Lance -> Lance
-  (10016, 1012, 1, 'battle-opponent', 1, NULL, NULL),
-  -- Champion Blue -> Blue
-  (10017, 1013, 1, 'battle-opponent', 1, NULL, NULL),
+  -- Pokémon League -> Blue (Route 22, before Victory Road)
+  (10017, 1014, 1, 'battle-opponent', 1, NULL, 52),
+  -- Pokémon League -> Lorelei
+  (10017, 1009, 1, 'battle-opponent', 2, NULL, NULL),
+  -- Pokémon League -> Bruno
+  (10017, 1010, 1, 'battle-opponent', 3, NULL, NULL),
+  -- Pokémon League -> Agatha
+  (10017, 1011, 1, 'battle-opponent', 4, NULL, NULL),
+  -- Pokémon League -> Lance
+  (10017, 1012, 1, 'battle-opponent', 5, NULL, NULL),
+  -- Pokémon League -> Champion Blue
+  (10017, 1013, 1, 'battle-opponent', 6, NULL, NULL),
   -- Choose Starter -> Blue
   (10001, 1014, 1, 'battle-opponent', 1, 'Oak''s Lab, Pallet Town', NULL),
   -- Boulder Badge -> Blue (Route 22)
@@ -65,8 +69,6 @@ INSERT INTO tracking.mainline_milestone_opponent_refs (
   (10022, 1014, 1, 'battle-opponent', 1, 'Silph Co. 7F, Saffron City', NULL),
   -- Silph Co. -> Giovanni
   (10022, 1015, 1, 'battle-opponent', 2, 'Silph Co. 11F, Saffron City', NULL),
-  -- Elite Four Lorelei -> Blue (Route 22, before Victory Road)
-  (10013, 1014, 1, 'battle-opponent', 1, NULL, 52),
   -- Power Plant -> Zapdos
   (10023, 1016, 1, 'battle-opponent', 1, 'Power Plant. You can skip this battle.', NULL),
   -- Seafoam Islands -> Articuno

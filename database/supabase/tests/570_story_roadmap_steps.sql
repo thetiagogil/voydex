@@ -10,7 +10,7 @@ INSERT INTO auth.users (instance_id, id, aud, role, email, encrypted_password, e
 INSERT INTO gameplay.mainline_plays (id, user_id, game_id, version_group_id, status_id, name)
     VALUES ('60000000-0000-0000-0000-0000000000f1', '00000000-0000-0000-0000-0000000000f1', 1, 1, 2, 'Roadmap Red');
 SELECT
-    plan (25);
+    plan (27);
 SELECT
     has_table ('tracking', 'mainline_roadmap_steps', 'the roadmap steps table exists');
 SELECT
@@ -117,6 +117,29 @@ SELECT
                 mainline_roadmap_steps.version_group_id = 1
                 AND mainline_roadmap_steps.sort_order < 999 ORDER BY mainline_roadmap_steps.sort_order DESC LIMIT 1 $$, $$
         VALUES ('cerulean-cave'::text) $$, 'Red / Blue''s roadmap ends at Cerulean Cave');
+-- The League is one step: Route 22, Route 23, Victory Road and the Indigo Plateau lead to it, then Cerulean Cave.
+SELECT
+    results_eq ($$
+        SELECT
+            mainline_roadmap_steps.sort_order, COALESCE(locations.name, mainline_milestones.slug)
+            FROM tracking.mainline_roadmap_steps
+        LEFT JOIN reference.locations ON locations.id = mainline_roadmap_steps.location_id
+        LEFT JOIN tracking.mainline_milestones ON mainline_milestones.id = mainline_roadmap_steps.milestone_id
+        WHERE
+            mainline_roadmap_steps.version_group_id = 1
+            AND mainline_roadmap_steps.sort_order BETWEEN 69 AND 998 ORDER BY mainline_roadmap_steps.sort_order $$, $$
+        VALUES (69, 'Route 22'::text), (70, 'Route 23'::text), (71, 'victory-road'::text), (72, 'Indigo Plateau'::text), (73, 'pokemon-league'::text), (74, 'cerulean-cave'::text) $$, 'Red / Blue''s League is one step after the Indigo Plateau, before Cerulean Cave');
+SELECT
+    IS ((
+            SELECT
+                COUNT(*)::integer
+            FROM
+                tracking.mainline_roadmap_steps
+            WHERE
+                version_group_id = 1
+                AND sort_order < 999),
+            74,
+            'Red / Blue''s roadmap runs 1 to 74 with no gaps');
 SELECT
     IS ((
             SELECT
@@ -126,8 +149,8 @@ SELECT
             WHERE
                 version_group_id = 1
                 AND sort_order < 999),
-            79,
-            'Red / Blue''s roadmap has 79 steps');
+            74,
+            'Red / Blue''s roadmap has 74 steps');
 -- The Pewter Museum of Science is Kanto's (it was filed under Johto).
 SELECT
     results_eq ($$

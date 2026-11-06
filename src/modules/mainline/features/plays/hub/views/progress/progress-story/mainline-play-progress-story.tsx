@@ -198,23 +198,6 @@ export const MainlinePlayProgressStory = ({
   }, [waitingMilestoneIds]);
   const recording = useRecordMilestone(playId);
 
-  /* The page opens at your next objective when it's further down the route. */
-  useEffect(() => {
-    const nextId = model.nextMilestone?.id;
-    const stop = nextId
-      ? document.getElementById(getStoryRouteStopId(nextId))
-      : null;
-
-    if (
-      stop &&
-      !recordMilestoneId &&
-      stop.getBoundingClientRect().bottom > window.innerHeight
-    ) {
-      stop.scrollIntoView({ block: "center" });
-    }
-    // Once, on arrival: recording later must not move the page.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   const waitingSet = useMemo(
     () => new Set(waitingMilestoneIds),
     [waitingMilestoneIds],

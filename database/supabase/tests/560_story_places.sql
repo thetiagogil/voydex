@@ -50,7 +50,7 @@ SELECT
             WHERE
                 mainline_milestone_opponent_refs.version_group_id = 1
                 AND mainline_milestone_opponent_refs.opponent_id = 1014 ORDER BY mainline_milestones.category_id, mainline_milestones.sort_order $$, $$
-            VALUES ('boulder-badge', 'Route 22', 'You can skip this battle.'), ('elite-four-lorelei', 'Route 22', NULL::text) $$, 'Blue''s Route 22 battles before the Boulder Badge and before Victory Road are on Route 22');
+            VALUES ('boulder-badge', 'Route 22', 'You can skip this battle.'), ('pokemon-league', 'Route 22', NULL::text) $$, 'Blue''s Route 22 battles before the Boulder Badge and before Victory Road are on Route 22');
 SELECT
     IS ((
             SELECT
@@ -72,8 +72,8 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 1
                 AND mainline_categories.slug = 'main-story' ORDER BY mainline_milestones.sort_order $$, $$
-            VALUES ('choose-starter', 'Professor Oak''s Laboratory'), ('receive-pokedex', 'Pallet Town'), ('boulder-badge', 'Pewter City'), ('fossil-choice', 'Mt. Moon'), ('cascade-badge', 'Cerulean Gym'), ('bills-sea-cottage', 'Route 25'), ('ss-anne', 'S.S. Anne'), ('thunder-badge', 'Vermilion City'), ('rainbow-badge', 'Celadon City'), ('rocket-hideout', 'Rocket Hideout'), ('pokemon-tower', 'Pokémon Tower'), ('silph-co', 'Silph Co.'), ('marsh-badge', 'Saffron City'), ('soul-badge', 'Fuchsia City'), ('safari-zone', 'Safari Zone'), ('pokemon-mansion', 'Pokémon Mansion'), ('volcano-badge', 'Cinnabar Island'), ('earth-badge', 'Viridian City') $$, 'Red / Blue''s Main Story follows the walkthrough, each beat at its place');
--- Each Main Story and League beat after the first suggests the one before it.
+            VALUES ('choose-starter', 'Professor Oak''s Laboratory'), ('receive-pokedex', 'Pallet Town'), ('boulder-badge', 'Pewter City'), ('fossil-choice', 'Mt. Moon'), ('cascade-badge', 'Cerulean Gym'), ('bills-sea-cottage', 'Route 25'), ('ss-anne', 'S.S. Anne'), ('thunder-badge', 'Vermilion City'), ('rainbow-badge', 'Celadon City'), ('rocket-hideout', 'Rocket Hideout'), ('pokemon-tower', 'Pokémon Tower'), ('silph-co', 'Silph Co.'), ('marsh-badge', 'Saffron City'), ('soul-badge', 'Fuchsia City'), ('safari-zone', 'Safari Zone'), ('pokemon-mansion', 'Pokémon Mansion'), ('volcano-badge', 'Cinnabar Island'), ('earth-badge', 'Viridian City'), ('pokemon-league', 'Indigo Plateau') $$, 'Red / Blue''s Main Story follows the walkthrough, each beat at its place, and ends at the Pokémon League');
+-- Each Main Story beat after the first suggests the one before it.
 SELECT
     is_empty ($$ WITH ordered AS (
             SELECT
@@ -81,7 +81,7 @@ SELECT
                 JOIN tracking.mainline_categories ON mainline_categories.id = mainline_milestones.category_id
                 WHERE
                     mainline_milestones.version_group_id = 1
-                    AND mainline_categories.slug IN ('main-story', 'pokemon-league'))
+                    AND mainline_categories.slug = 'main-story')
                 SELECT
                     ordered.id FROM ordered
                     WHERE
@@ -105,7 +105,7 @@ SELECT
                 location_version_groups.version_group_id = 1
                 AND location_version_groups.sort_order BETWEEN 18 AND 36 ORDER BY location_version_groups.sort_order $$, $$
             VALUES ('Route 6'), ('Vermilion City'), ('S.S. Anne'), ('Route 11'), ('Diglett''s Cave'), ('Pewter Museum of Science'), ('Route 9'), ('Route 10'), ('Rock Tunnel'), ('Lavender Town'), ('Route 8'), ('Underground Path (Kanto Routes 7-8)'), ('Route 7'), ('Celadon City'), ('Celadon Condominiums'), ('Rocket Hideout'), ('Pokémon Tower'), ('Route 12'), ('Route 13') $$, 'Red / Blue''s places from Route 6 to Route 13 follow the story');
--- Cerulean Cave is post-game, optional, after the Hall of Fame.
+-- Cerulean Cave is post-game, optional, after the Pokémon League (where the team enters the Hall of Fame).
 SELECT
     results_eq ($$
         SELECT
@@ -116,7 +116,7 @@ SELECT
             WHERE
                 mainline_milestones.version_group_id = 1
                 AND mainline_milestones.slug = 'cerulean-cave' ORDER BY prerequisite_milestones.slug $$, $$
-            VALUES ('post-game'::text, FALSE, 'hall-of-fame'::text) $$, 'Red / Blue''s Cerulean Cave is optional post-game after the Hall of Fame');
+            VALUES ('post-game'::text, FALSE, 'pokemon-league'::text) $$, 'Red / Blue''s Cerulean Cave is optional post-game after the Pokémon League');
 -- Any of the version group's own places is accepted.
 SELECT
     lives_ok ($$ UPDATE
@@ -145,8 +145,8 @@ SELECT
         CROSS JOIN LATERAL jsonb_array_elements(opponent_refs) AS opponent_ref
         WHERE
             play_id = '60000000-0000-0000-0000-0000000000e1'
-            AND milestone_slug = 'elite-four-lorelei' ORDER BY (opponent_ref ->> 'sort_order')::integer $$, $$
-        VALUES ('blue-rival'::text, 52, 'Route 22'::text), ('lorelei'::text, NULL::integer, NULL::text) $$, 'the view names a battle''s own place and leaves the rest at the milestone''s');
+            AND milestone_slug = 'pokemon-league' ORDER BY (opponent_ref ->> 'sort_order')::integer $$, $$
+        VALUES ('blue-rival'::text, 52, 'Route 22'::text), ('lorelei'::text, NULL::integer, NULL::text), ('bruno'::text, NULL::integer, NULL::text), ('agatha'::text, NULL::integer, NULL::text), ('lance'::text, NULL::integer, NULL::text), ('blue'::text, NULL::integer, NULL::text) $$, 'the view names a battle''s own place and leaves the rest at the milestone''s');
 SELECT
     set_config('request.jwt.claim.sub', '00000000-0000-0000-0000-0000000000e2', TRUE);
 SELECT

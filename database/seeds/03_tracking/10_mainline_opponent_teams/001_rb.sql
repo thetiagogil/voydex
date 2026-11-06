@@ -82,45 +82,45 @@ INSERT INTO tracking.mainline_opponent_team_members (
   -- Giovanni 5: Rhydon Lv. 50
   (10012, 1008, 1, NULL, NULL, NULL, NULL, NULL, 5, 112, 11200, 50),
   -- Lorelei 1: Dewgong Lv. 54
-  (10013, 1009, 1, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 54),
+  (10017, 1009, 1, NULL, NULL, NULL, NULL, NULL, 1, 87, 8700, 54),
   -- Lorelei 2: Cloyster Lv. 53
-  (10013, 1009, 1, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 53),
+  (10017, 1009, 1, NULL, NULL, NULL, NULL, NULL, 2, 91, 9100, 53),
   -- Lorelei 3: Slowbro Lv. 54
-  (10013, 1009, 1, NULL, NULL, NULL, NULL, NULL, 3, 80, 8000, 54),
+  (10017, 1009, 1, NULL, NULL, NULL, NULL, NULL, 3, 80, 8000, 54),
   -- Lorelei 4: Jynx Lv. 56
-  (10013, 1009, 1, NULL, NULL, NULL, NULL, NULL, 4, 124, 12400, 56),
+  (10017, 1009, 1, NULL, NULL, NULL, NULL, NULL, 4, 124, 12400, 56),
   -- Lorelei 5: Lapras Lv. 56
-  (10013, 1009, 1, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 56),
+  (10017, 1009, 1, NULL, NULL, NULL, NULL, NULL, 5, 131, 13100, 56),
   -- Bruno 1: Onix Lv. 53
-  (10014, 1010, 1, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 53),
+  (10017, 1010, 1, NULL, NULL, NULL, NULL, NULL, 1, 95, 9500, 53),
   -- Bruno 2: Hitmonchan Lv. 55
-  (10014, 1010, 1, NULL, NULL, NULL, NULL, NULL, 2, 107, 10700, 55),
+  (10017, 1010, 1, NULL, NULL, NULL, NULL, NULL, 2, 107, 10700, 55),
   -- Bruno 3: Hitmonlee Lv. 55
-  (10014, 1010, 1, NULL, NULL, NULL, NULL, NULL, 3, 106, 10600, 55),
+  (10017, 1010, 1, NULL, NULL, NULL, NULL, NULL, 3, 106, 10600, 55),
   -- Bruno 4: Onix Lv. 56
-  (10014, 1010, 1, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 56),
+  (10017, 1010, 1, NULL, NULL, NULL, NULL, NULL, 4, 95, 9500, 56),
   -- Bruno 5: Machamp Lv. 58
-  (10014, 1010, 1, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 58),
+  (10017, 1010, 1, NULL, NULL, NULL, NULL, NULL, 5, 68, 6800, 58),
   -- Agatha 1: Gengar Lv. 56
-  (10015, 1011, 1, NULL, NULL, NULL, NULL, NULL, 1, 94, 9400, 56),
+  (10017, 1011, 1, NULL, NULL, NULL, NULL, NULL, 1, 94, 9400, 56),
   -- Agatha 2: Golbat Lv. 56
-  (10015, 1011, 1, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 56),
+  (10017, 1011, 1, NULL, NULL, NULL, NULL, NULL, 2, 42, 4200, 56),
   -- Agatha 3: Haunter Lv. 55
-  (10015, 1011, 1, NULL, NULL, NULL, NULL, NULL, 3, 93, 9300, 55),
+  (10017, 1011, 1, NULL, NULL, NULL, NULL, NULL, 3, 93, 9300, 55),
   -- Agatha 4: Arbok Lv. 58
-  (10015, 1011, 1, NULL, NULL, NULL, NULL, NULL, 4, 24, 2400, 58),
+  (10017, 1011, 1, NULL, NULL, NULL, NULL, NULL, 4, 24, 2400, 58),
   -- Agatha 5: Gengar Lv. 60
-  (10015, 1011, 1, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 60),
+  (10017, 1011, 1, NULL, NULL, NULL, NULL, NULL, 5, 94, 9400, 60),
   -- Lance 1: Gyarados Lv. 58
-  (10016, 1012, 1, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 58),
+  (10017, 1012, 1, NULL, NULL, NULL, NULL, NULL, 1, 130, 13000, 58),
   -- Lance 2: Dragonair Lv. 56
-  (10016, 1012, 1, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 56),
+  (10017, 1012, 1, NULL, NULL, NULL, NULL, NULL, 2, 148, 14800, 56),
   -- Lance 3: Dragonair Lv. 56
-  (10016, 1012, 1, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 56),
+  (10017, 1012, 1, NULL, NULL, NULL, NULL, NULL, 3, 148, 14800, 56),
   -- Lance 4: Aerodactyl Lv. 60
-  (10016, 1012, 1, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 60),
+  (10017, 1012, 1, NULL, NULL, NULL, NULL, NULL, 4, 142, 14200, 60),
   -- Lance 5: Dragonite Lv. 62
-  (10016, 1012, 1, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 62),
+  (10017, 1012, 1, NULL, NULL, NULL, NULL, NULL, 5, 149, 14900, 62),
   -- Blue (chose Bulbasaur) 1: Pidgeot Lv. 61
   (10017, 1013, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 61),
   -- Blue (chose Bulbasaur) 2: Alakazam Lv. 59
@@ -297,42 +297,42 @@ INSERT INTO tracking.mainline_opponent_team_members (
   (10022, 1015, 1, NULL, NULL, NULL, NULL, NULL, 3, 111, 11100, 37),
   -- Giovanni, Silph Co. 4: Nidoqueen Lv. 41
   (10022, 1015, 1, NULL, NULL, NULL, NULL, NULL, 4, 31, 3100, 41),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 1: Pidgeot Lv. 47
-  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 47),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 2: Rhyhorn Lv. 45
-  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 111, 11100, 45),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 3: Exeggcute Lv. 45
-  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 102, 10200, 45),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 4: Gyarados Lv. 47
-  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 130, 13000, 47),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 5: Alakazam Lv. 50
-  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 5, 65, 6500, 50),
-  -- Blue (chose Bulbasaur), Elite Four Lorelei 6: Charizard Lv. 53
-  (10013, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 6, 6, 600, 53),
-  -- Blue (chose Charmander), Elite Four Lorelei 1: Pidgeot Lv. 47
-  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 18, 1800, 47),
-  -- Blue (chose Charmander), Elite Four Lorelei 2: Rhyhorn Lv. 45
-  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 111, 11100, 45),
-  -- Blue (chose Charmander), Elite Four Lorelei 3: Growlithe Lv. 45
-  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 58, 5800, 45),
-  -- Blue (chose Charmander), Elite Four Lorelei 4: Exeggcute Lv. 47
-  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 102, 10200, 47),
-  -- Blue (chose Charmander), Elite Four Lorelei 5: Alakazam Lv. 50
-  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 5, 65, 6500, 50),
-  -- Blue (chose Charmander), Elite Four Lorelei 6: Blastoise Lv. 53
-  (10013, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 6, 9, 900, 53),
-  -- Blue (chose Squirtle), Elite Four Lorelei 1: Pidgeot Lv. 47
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 18, 1800, 47),
-  -- Blue (chose Squirtle), Elite Four Lorelei 2: Rhyhorn Lv. 45
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 111, 11100, 45),
-  -- Blue (chose Squirtle), Elite Four Lorelei 3: Gyarados Lv. 45
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 130, 13000, 45),
-  -- Blue (chose Squirtle), Elite Four Lorelei 4: Growlithe Lv. 47
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 58, 5800, 47),
-  -- Blue (chose Squirtle), Elite Four Lorelei 5: Alakazam Lv. 50
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 65, 6500, 50),
-  -- Blue (chose Squirtle), Elite Four Lorelei 6: Venusaur Lv. 53
-  (10013, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 53),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 1: Pidgeot Lv. 47
+  (10017, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 1, 18, 1800, 47),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 2: Rhyhorn Lv. 45
+  (10017, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 2, 111, 11100, 45),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 3: Exeggcute Lv. 45
+  (10017, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 3, 102, 10200, 45),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 4: Gyarados Lv. 47
+  (10017, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 4, 130, 13000, 47),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 5: Alakazam Lv. 50
+  (10017, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 5, 65, 6500, 50),
+  -- Blue (chose Bulbasaur), Pokémon League (Route 22) 6: Charizard Lv. 53
+  (10017, 1014, 1, NULL, 10001, 'bulbasaur', NULL, NULL, 6, 6, 600, 53),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 1: Pidgeot Lv. 47
+  (10017, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 1, 18, 1800, 47),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 2: Rhyhorn Lv. 45
+  (10017, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 2, 111, 11100, 45),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 3: Growlithe Lv. 45
+  (10017, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 3, 58, 5800, 45),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 4: Exeggcute Lv. 47
+  (10017, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 4, 102, 10200, 47),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 5: Alakazam Lv. 50
+  (10017, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 5, 65, 6500, 50),
+  -- Blue (chose Charmander), Pokémon League (Route 22) 6: Blastoise Lv. 53
+  (10017, 1014, 1, NULL, 10001, 'charmander', NULL, NULL, 6, 9, 900, 53),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 1: Pidgeot Lv. 47
+  (10017, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 1, 18, 1800, 47),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 2: Rhyhorn Lv. 45
+  (10017, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 2, 111, 11100, 45),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 3: Gyarados Lv. 45
+  (10017, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 3, 130, 13000, 45),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 4: Growlithe Lv. 47
+  (10017, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 4, 58, 5800, 47),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 5: Alakazam Lv. 50
+  (10017, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 5, 65, 6500, 50),
+  -- Blue (chose Squirtle), Pokémon League (Route 22) 6: Venusaur Lv. 53
+  (10017, 1014, 1, NULL, 10001, 'squirtle', NULL, NULL, 6, 3, 300, 53),
   -- Zapdos, Power Plant 1: Zapdos Lv. 50
   (10023, 1016, 1, NULL, NULL, NULL, NULL, NULL, 1, 145, 14500, 50),
   -- Articuno, Seafoam Islands 1: Articuno Lv. 50

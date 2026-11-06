@@ -321,9 +321,13 @@ sources remain authoritative for game-specific mechanics and availability.
   8, the Rocket Hideout, Saffron City), in walkthrough order. Red / Blue's
   Main Story follows the walkthrough (Silph Co. and the Marsh Badge before
   the Soul Badge, Bill's Sea Cottage, the Safari Zone and the Pokémon Mansion
-  as their own beats), and Cerulean Cave is post-game. Source: Bulbapedia's
+  as their own beats) and ends with one Pokémon League milestone (Champion
+  type, snapshot recommended): Blue on Route 22, the Elite Four and Champion
+  Blue are its six battles, fought back to back, and the team enters the Hall
+  of Fame, so Red / Blue has no League chapter and no separate Elite Four or
+  Hall of Fame milestones. Cerulean Cave is post-game. Source: Bulbapedia's
   Red / Blue walkthrough and location pages. `560_story_places.sql` pins
-  them.
+  them and `580_rb_pokemon_league.sql` pins the League.
 - Story roadmap (`tracking.mainline_roadmap_steps`): the walkthrough step by
   step, copied from Bulbapedia's walkthrough for the version group, so a
   place shows each time the story comes back to it (Red / Blue passes Pallet

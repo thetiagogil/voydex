@@ -7,10 +7,11 @@
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Red / Blue mainline milestone prerequisite links: each Main Story and
--- Pokémon League beat suggests the one before it in Story order, Cerulean Cave
--- (post-game) suggests the Hall of Fame as other games' post-game beats do,
--- and each side-content beat names the beat that opens it (opens-after).
+-- Red / Blue mainline milestone prerequisite links: each Main Story beat
+-- suggests the one before it in Story order (the Pokémon League after the
+-- Earth Badge), Cerulean Cave (post-game) suggests the Pokémon League, where
+-- the team enters the Hall of Fame, as other games' post-game beats do, and
+-- each side-content beat names the beat that opens it (opens-after).
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestone_prerequisites (
@@ -55,20 +56,10 @@ INSERT INTO tracking.mainline_milestone_prerequisites (
   (10011, 10029, 1, 1, 1, NULL),
   -- Earth Badge <- Volcano Badge
   (10012, 10011, 1, 1, 1, NULL),
-  -- Elite Four Lorelei <- Earth Badge
-  (10013, 10012, 1, 1, 1, NULL),
-  -- Elite Four Bruno <- Elite Four Lorelei
-  (10014, 10013, 1, 1, 1, NULL),
-  -- Elite Four Agatha <- Elite Four Bruno
-  (10015, 10014, 1, 1, 1, NULL),
-  -- Elite Four Lance <- Elite Four Agatha
-  (10016, 10015, 1, 1, 1, NULL),
-  -- Champion Blue <- Elite Four Lance
-  (10017, 10016, 1, 1, 1, NULL),
-  -- Hall of Fame <- Champion Blue
-  (10018, 10017, 1, 1, 1, NULL),
-  -- Cerulean Cave <- Hall of Fame
-  (10026, 10018, 1, 1, 1, NULL),
+  -- Pokémon League <- Earth Badge
+  (10017, 10012, 1, 1, 1, NULL),
+  -- Cerulean Cave <- Pokémon League
+  (10026, 10017, 1, 1, 1, NULL),
   -- Fighting Dojo Choice opens after Rainbow Badge
   (10010, 10007, 1, 4, 1, NULL),
   -- Power Plant opens after Safari Zone (Surf)

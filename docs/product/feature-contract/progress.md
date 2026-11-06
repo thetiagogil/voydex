@@ -44,8 +44,7 @@ a place coming back as often as the story returns to it, and side content
 where the walkthrough meets it. Each chapter is its own card that folds; only
 the one you're in starts open, and a folded one shows its milestones as a
 strip. The line is solid behind you and dashed ahead; stops still
-ahead are quieter, so how far you've come reads at a glance, and the page
-opens at your next objective. The page head shows normalized Story
+ahead are quieter, so how far you've come reads at a glance. The page head shows normalized Story
 completion, and a game with DLC switches journeys there. A stop or place
 opens beside the route from 1024px (your next objective until you pick
 another) and in a bottom sheet below: a milestone with its battles inside,
