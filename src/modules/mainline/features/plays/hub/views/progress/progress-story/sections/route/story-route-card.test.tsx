@@ -21,10 +21,13 @@ const milestone = (
   description: null,
   is_completed: true,
   is_required_for_completion: true,
+  location_id: null,
+  location_name: null,
   milestone_id: 1,
   milestone_name: "Boulder Badge",
   milestone_type_name: "Gym",
   milestone_type_slug: "gym",
+  opponent_refs: [],
   prerequisites: [],
   progress_notes: null,
   selected_decision_option_id: null,
@@ -54,6 +57,7 @@ const scope = buildStoryProgressModel({
       version_group_name: "FireRed / LeafGreen",
     },
   ],
+  places: [],
   decisionForms: [],
   milestones: [
     milestone({}),
@@ -77,10 +81,13 @@ const render = (waiting: number[], selected: number | null = null) =>
   renderToStaticMarkup(
     <StoryRouteCard
       fadingMilestoneIds={new Set()}
+      getPlaceBattleCount={() => 0}
       onMilestoneSelect={() => {}}
       onMotionEnd={() => {}}
+      onPlaceSelect={() => {}}
+      opensSheet
       scope={scope}
-      selectedMilestoneId={selected}
+      selectedKey={selected === null ? null : `stop-${selected}`}
       stampOrder={createStampOrder([1, 2])}
       waitingMilestoneIds={new Set(waiting)}
     />,

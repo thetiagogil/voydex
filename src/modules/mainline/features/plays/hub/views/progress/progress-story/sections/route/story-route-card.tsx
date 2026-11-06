@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
@@ -8,13 +8,10 @@ import type { StampOrder } from "@/modules/mainline/features/plays/shared/data/p
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
 import { Card } from "@/shared/components/ui/card";
-import { cn } from "@/shared/utils/cn";
 
-import { getStoryRouteColumns } from "../../data/story-route-layout";
 import {
   getForkStretches,
   isStoryRouteEntryDone as isDone,
-  type ForkLayout,
   type ForkStretch,
   type RouteEnds,
 } from "../../data/story-route-fork";
@@ -22,16 +19,22 @@ import {
   buildStoryRoute,
   type StoryRouteEntry,
 } from "../../data/story-route-model";
+import {
+  foldWalkedPlaces,
+  type StoryRouteItem,
+} from "../../data/story-route-folds";
 import type { StoryMilestone, StoryScope } from "../../types";
 import { StoryRoute } from "./story-route";
 import {
+  getStoryRoutePlaceId,
   getStoryRouteStopId,
+  StoryRouteFold,
+  StoryRoutePlace,
   StoryRouteSign,
   StoryRouteStop,
 } from "./story-route-stop";
 
-/* From this wide, chapters played in any order sit side by side as lanes. */
-const LANES_MIN_WIDTH = 960;
+type StoryRoutePlaceEntry = Extract<StoryRouteEntry, { kind: "place" }>;
 
 const getStoryMilestoneState = (
   milestone: StoryMilestone,
@@ -43,30 +46,43 @@ const getStoryMilestoneState = (
       ? "next"
       : "todo";
 
+const isItemDone = (item: StoryRouteItem) =>
+  item.kind === "fold" ? true : isDone(item);
+
 /*
- * Story as one route in one card (#108): every chapter in order, side
- * content as optional stops after what opens it (`buildStoryRoute`).
- * Milestones recorded together cascade: each stop waits as it was, then its
- * marker stamps down, one after another in Story order; one un-recorded pops
- * back to its number.
+ * Story as one route in one card (#108, #199): every chapter in order down
+ * one line, the places on the way to each milestone between them, side
+ * content as optional stops where it sits (`buildStoryRoute`). The places
+ * you've walked fold into one line each stretch, so the route stays short
+ * behind you. Milestones recorded together cascade: each stop waits as it
+ * was, then its marker stamps down, one after another in Story order; one
+ * un-recorded pops back to its number.
  */
 export const StoryRouteCard = ({
   fadingMilestoneIds,
+  getPlaceBattleCount,
   onMilestoneSelect,
   onMotionEnd,
+  onPlaceSelect,
+  opensSheet,
   scope,
-  selectedMilestoneId,
+  selectedKey,
   stampOrder,
   waitingMilestoneIds,
 }: {
   /* The milestones un-recorded a moment ago, whose markers pop back once. */
   fadingMilestoneIds: ReadonlySet<number>;
+  /* The battles at a place on the way, for its row. */
+  getPlaceBattleCount: (entry: StoryRoutePlaceEntry) => number;
   onMilestoneSelect: (milestone: StoryMilestone) => void;
   /* Called once a marker has stamped or popped. */
   onMotionEnd: (milestoneId: number) => void;
+  onPlaceSelect: (entry: StoryRoutePlaceEntry) => void;
+  /* Below 1024px a stop opens a sheet; beside the route, the detail panel. */
+  opensSheet: boolean;
   scope: StoryScope;
-  /* The milestone open in the sheet right now, if any. */
-  selectedMilestoneId: number | null;
+  /* The route key of the stop or place open in the detail, if any. */
+  selectedKey: string | null;
   /* The milestones recorded a moment ago, whose markers stamp as they turn. */
   stampOrder: StampOrder;
   /* Recorded a moment ago but still waiting their turn in the cascade. */
@@ -96,22 +112,66 @@ export const StoryRouteCard = ({
       ),
     [scope, waitingMilestoneIds],
   );
+  /* The walked stretches opened again, by their fold's key. */
+  const [unfolded, setUnfolded] = useState<ReadonlySet<string>>(new Set());
+  /* A selected place stays in view: its stretch never folds away under it. */
+  const keepOpen = useMemo(
+    () => (selectedKey ? new Set([...unfolded, selectedKey]) : unfolded),
+    [selectedKey, unfolded],
+  );
 
-  const renderEntry = (entry: StoryRouteEntry, stacked = false) => {
-    if (entry.kind === "sign") {
+  /* An opened stretch hands focus to its first place, where the fold was. */
+  const focusPlaceKey = useRef<string | null>(null);
+
+  useEffect(() => {
+    const key = focusPlaceKey.current;
+
+    if (key) {
+      focusPlaceKey.current = null;
+      document.getElementById(getStoryRoutePlaceId(key))?.focus();
+    }
+  });
+
+  const renderEntry = (item: StoryRouteItem) => {
+    if (item.kind === "fold") {
       return (
-        <StoryRouteSign
-          stacked={stacked}
-          count={entry.count}
-          finished={entry.finished}
-          name={entry.name}
+        <StoryRouteFold
+          names={item.places.map((entry) => entry.place.name)}
+          onOpen={() => {
+            focusPlaceKey.current = item.places[0]?.key ?? null;
+            setUnfolded((current) => new Set([...current, item.key]));
+          }}
         />
       );
     }
 
-    /* Its turn in the cascade hasn't come: shown as it was (see `parts`). */
-    const isWaiting = waitingMilestoneIds.has(entry.milestone.id);
-    const { milestone } = entry;
+    if (item.kind === "place") {
+      return (
+        <StoryRoutePlace
+          battleCount={getPlaceBattleCount(item)}
+          id={getStoryRoutePlaceId(item.key)}
+          name={item.place.name}
+          onSelect={() => onPlaceSelect(item)}
+          opensSheet={opensSheet}
+          reached={item.reached}
+          selected={item.key === selectedKey}
+        />
+      );
+    }
+
+    if (item.kind === "sign") {
+      return (
+        <StoryRouteSign
+          count={item.count}
+          finished={item.finished}
+          name={item.name}
+        />
+      );
+    }
+
+    /* Its turn in the cascade hasn't come: shown as it was (see `blocks`). */
+    const isWaiting = waitingMilestoneIds.has(item.milestone.id);
+    const { milestone } = item;
     const state = getStoryMilestoneState(milestone, nextMilestoneId);
     const motion = isWaiting
       ? null
@@ -125,11 +185,17 @@ export const StoryRouteCard = ({
 
     return (
       <StoryRouteStop
-        stacked={stacked}
         id={getStoryRouteStopId(milestone.id)}
         name={milestone.name}
-        onSelect={() => onMilestoneSelect(entry.milestone)}
-        selected={milestone.id === selectedMilestoneId}
+        onSelect={() => onMilestoneSelect(milestone)}
+        opensSheet={opensSheet}
+        /* Named for its place (S.S. Anne, Silph Co.): said once. */
+        place={
+          milestone.place && milestone.place.name !== milestone.name
+            ? milestone.place.name
+            : null
+        }
+        selected={item.key === selectedKey}
         state={state}
         onAnimationEnd={(event) => {
           if (
@@ -146,7 +212,7 @@ export const StoryRouteCard = ({
             popIn={motion !== null}
             sequence={milestone.sequence}
             /* An optional stop is a detour off the route: a step smaller. */
-            size={entry.optional || stacked ? "md" : "lg"}
+            size={item.optional ? "md" : "lg"}
             state={state}
             /* Still ahead: it sinks back, so the way you've come stands out. */
             className={
@@ -174,24 +240,16 @@ export const StoryRouteCard = ({
             </span>
           ) : milestone.sequence === null ? (
             "Optional"
-          ) : (
-            <span className="sr-only">Not recorded</span>
-          )
+          ) : null
         }
       />
     );
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const [columns, setColumns] = useState<number | null>(null);
   const [forks, setForks] = useState<ForkStretch[]>([]);
-  /* Chapters played in any order sit side by side on a wide card. */
-  const [forkLayout, setForkLayout] = useState<ForkLayout>("rows");
 
-  /*
-   * One column count for every route on the card, from its width; and the
-   * fork's stretches, drawn between where the routes' ends landed.
-   */
+  /* The fork's stretches, drawn between where the routes' ends landed. */
   useLayoutEffect(() => {
     const container = containerRef.current;
 
@@ -202,64 +260,33 @@ export const StoryRouteCard = ({
     const measure = () => {
       const box = container.getBoundingClientRect();
       const points = new Map<string, RouteEnds>();
-      const routeColumns = getStoryRouteColumns(box.width);
-      const layout: ForkLayout =
-        box.width >= LANES_MIN_WIDTH ? "lanes" : "rows";
-
-      setColumns(routeColumns);
-      setForkLayout(layout);
 
       for (const routeElement of container.querySelectorAll<HTMLElement>(
         "[data-route-key]",
       )) {
         const nodes = [
-          ...routeElement.querySelectorAll<HTMLElement>("[data-route-stop]"),
-        ]
-          .sort(
-            (a, b) => Number(a.dataset.routeStop) - Number(b.dataset.routeStop),
-          )
-          .map((stop) => {
-            const node = (
-              stop.querySelector("[data-route-node]") ?? stop
-            ).getBoundingClientRect();
+          ...routeElement.querySelectorAll<HTMLElement>("[data-route-node]"),
+        ].map((node) => {
+          const rect = node.getBoundingClientRect();
 
-            return {
-              left: node.left - box.left,
-              top: node.top - box.top,
-              x: node.left - box.left + node.width / 2,
-              y: node.top - box.top + node.height / 2,
-            };
-          });
+          return {
+            left: rect.left - box.left,
+            x: rect.left - box.left + rect.width / 2,
+            y: rect.top - box.top + rect.height / 2,
+          };
+        });
         const first = nodes[0];
         const last = nodes[nodes.length - 1];
-        const beforeLast = nodes[nodes.length - 2];
-        const routeBox = routeElement.getBoundingClientRect();
-        const outer = (
-          routeElement.closest("[data-route-band]") ?? routeElement
-        ).getBoundingClientRect();
-        const ownColumns =
-          routeElement.closest("[data-route-band]") && layout === "lanes"
-            ? 1
-            : routeColumns;
 
         if (first && last) {
           points.set(routeElement.dataset.routeKey ?? "", {
-            bottom: outer.bottom - box.top,
-            top: outer.top - box.top,
-            first: { left: first.left, top: first.top, x: first.x, y: first.y },
-            halfColumn: routeBox.width / ownColumns / 2,
+            first,
             last: { x: last.x, y: last.y },
-            lastStep:
-              beforeLast &&
-              Math.abs(beforeLast.y - last.y) < 4 &&
-              beforeLast.x > last.x
-                ? -1
-                : 1,
           });
         }
       }
 
-      setForks(getForkStretches(blocks, points, layout));
+      setForks(getForkStretches(blocks, points));
     };
 
     measure();
@@ -267,24 +294,17 @@ export const StoryRouteCard = ({
     observer.observe(container);
 
     return () => observer.disconnect();
-  }, [blocks, forkLayout]);
+  }, [blocks, keepOpen]);
 
-  const route = (
-    entries: StoryRouteEntry[],
-    label: string,
-    key: string,
-    stacked = false,
-  ) => (
+  const route = (entries: StoryRouteEntry[], label: string, key: string) => (
     <div key={key} data-route-key={key}>
       <StoryRoute
-        stacked={stacked}
-        columns={columns}
         label={label}
-        items={entries}
-        getKey={(entry) => entry.key}
-        isQuiet={(entry) => entry.optional}
-        isTravelled={(entry, next) => isDone(entry) && isDone(next)}
-        renderStop={(entry) => renderEntry(entry, stacked)}
+        items={foldWalkedPlaces(entries, keepOpen)}
+        getKey={(item) => item.key}
+        isQuiet={(item) => item.optional}
+        isTravelled={(item, next) => isItemDone(item) && isItemDone(next)}
+        renderStop={renderEntry}
       />
     </div>
   );
@@ -293,9 +313,9 @@ export const StoryRouteCard = ({
     <Card
       role="region"
       aria-label={`${scope.label} route`}
-      className="px-4 sm:px-7"
+      className="px-3 sm:px-5"
     >
-      <div ref={containerRef} className="relative grid gap-8">
+      <div ref={containerRef} className="relative grid gap-6">
         {forks.length ? (
           <svg
             aria-hidden
@@ -323,45 +343,24 @@ export const StoryRouteCard = ({
             <section
               key={block.key}
               aria-label="Chapters in any order"
-              className={cn(
-                "grid",
-                forkLayout === "lanes" ? "gap-9" : "gap-3 pl-6",
-              )}
+              className="grid gap-3 pl-12"
             >
               <p className="text-ink-2 text-13 flex items-center gap-2 font-extrabold">
                 <AppIcon icon={appIcons.product.journey} size="sm" />
                 In any order
               </p>
-              <div
-                className={cn(
-                  "grid gap-3",
-                  forkLayout === "lanes" && "items-start gap-4",
-                )}
-                style={
-                  forkLayout === "lanes"
-                    ? {
-                        gridTemplateColumns: `repeat(${block.routes.length}, minmax(0, 1fr))`,
-                      }
-                    : undefined
-                }
-              >
-                {block.routes.map((entries, routeIndex) => (
-                  <div
-                    key={entries[0]?.key}
-                    data-route-band
-                    className="bg-surface-2 rounded-2xl px-3 py-4 sm:px-4"
-                  >
-                    {route(
-                      entries,
-                      entries[0]?.kind === "sign"
-                        ? entries[0].name
-                        : scope.label,
-                      `${block.key}-${routeIndex}`,
-                      forkLayout === "lanes",
-                    )}
-                  </div>
-                ))}
-              </div>
+              {block.routes.map((entries, routeIndex) => (
+                <div
+                  key={entries[0]?.key}
+                  className="bg-surface-2 rounded-2xl px-2 py-3 sm:px-3"
+                >
+                  {route(
+                    entries,
+                    entries[0]?.kind === "sign" ? entries[0].name : scope.label,
+                    `${block.key}-${routeIndex}`,
+                  )}
+                </div>
+              ))}
             </section>
           ),
         )}

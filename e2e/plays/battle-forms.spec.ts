@@ -17,8 +17,10 @@ test.describe("Battle forms", () => {
     });
     /* The stop, not the stamp (whose name goes on with a comma). */
     await page.getByRole("button", { name: /^Champion Steven(?!,)/ }).click();
-    /* The sheet takes the battle's name once its report is open. */
-    const sheet = page.getByRole("dialog");
+    /* The panel beside the route (the sheet on a phone) holds the report. */
+    const sheet = page
+      .getByRole("dialog")
+      .or(page.locator("[data-story-panel]"));
     await sheet.getByRole("button", { name: /^Steven/ }).click();
 
     /* Steven holds Metagrossite, so his ace is read as Mega Metagross. */

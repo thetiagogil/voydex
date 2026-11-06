@@ -18,7 +18,8 @@ const openBattle = async (
   const stopButton = page.getByRole("button", { name: stop }).first();
   await expect(stopButton).toBeVisible(forTheAnswer);
   await stopButton.click();
-  const sheet = page.getByRole("dialog");
+  /* The sheet below 1024px, the panel beside the route above it. */
+  const sheet = page.getByRole("dialog").or(page.locator("[data-story-panel]"));
   const row = sheet.getByRole("button", { name: battle }).first();
   await expect(row).toBeVisible(forTheAnswer);
   await row.click();

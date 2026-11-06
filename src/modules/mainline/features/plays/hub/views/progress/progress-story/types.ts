@@ -21,10 +21,13 @@ export type StoryMilestoneSource = Pick<
   | "description"
   | "is_completed"
   | "is_required_for_completion"
+  | "location_id"
+  | "location_name"
   | "milestone_id"
   | "milestone_name"
   | "milestone_type_name"
   | "milestone_type_slug"
+  | "opponent_refs"
   | "prerequisites"
   | "progress_notes"
   | "selected_decision_option_id"
@@ -77,6 +80,20 @@ export type StoryMilestonePrerequisite = {
   name: string;
 };
 
+/* A place in the game: a town, route, cave or building on the Story's way. */
+export type StoryPlace = {
+  id: number;
+  name: string;
+};
+
+/* A version group's places in the order its story reaches them. */
+export type StoryPlaceSource = {
+  location_id: number;
+  name: string;
+  sort_order: number;
+  version_group_id: number;
+};
+
 /* A milestone named in another's offer or impact. */
 export type StoryMilestoneRef = {
   id: number;
@@ -112,6 +129,13 @@ export type StoryMilestone = {
   laterRecorded: StoryMilestoneRef[];
   name: string;
   notes: string | null;
+  /* Where it happens, which pins it on the route; null where Voydex has no place for it yet. */
+  place: StoryPlace | null;
+  /*
+   * The other places its battles happen at (Red and Blue's rival on Route
+   * 22 before the League): each shows on the route as a place on the way.
+   */
+  battlePlaces: StoryPlace[];
   /* Side content: the beat that opens it, which places it on the route; never a lock. */
   opensAfter: StoryMilestoneRef | null;
   prerequisites: StoryMilestonePrerequisite[];
@@ -157,6 +181,8 @@ export type StoryScope = {
   label: string;
   /* The milestone this scope's side card offers to record next. */
   nextMilestone: StoryMilestone | null;
+  /* Its places in story order; empty where Voydex has none for it. */
+  places: StoryPlace[];
   sections: StorySection[];
   /* The badges (or Alola's trials) and the League; null when there are none. */
   stamps: PlayStamp[] | null;
@@ -169,6 +195,7 @@ export type MainlinePlayProgressStoryData = {
   categories: StoryCategorySource[];
   decisionForms: Pick<PokemonForm, "id" | "slug">[];
   milestones: StoryMilestoneSource[];
+  places: StoryPlaceSource[];
   snapshotEvents: StorySnapshotEventSource[];
 };
 

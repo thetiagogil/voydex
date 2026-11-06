@@ -32,18 +32,26 @@ recorded`, not zero.
 
 Story progression is game/version-group-specific milestone tracking.
 
-Story opens inside the Progress context as one route: the stamp card above,
-then every milestone of the open journey as a stop on one line that runs
-through the chapters in order (each chapter a sign on the line), with side
-content hanging off the beat that opens it and chapters played in any order
-(Scarlet / Violet's three paths) as lanes that fork off the line and join
-back. The line is solid behind you and dashed ahead; stops still ahead are
-quieter, so how far you've come reads at a glance. The page head shows
-normalized Story completion, and a game with DLC switches journeys there.
-A stop opens its milestone in a sheet (from the right edge from 1024px, from
-the bottom below) with its battles inside: one line per battle with its
-verdict, and the battle's full report in the same sheet with a way back to
-the milestone. There is no separate list of battles anywhere.
+Story opens inside the Progress context as one route, read as a roadmap: the
+stamp card above, then every milestone of the open journey as a stop down one
+line that runs through the chapters in order (each chapter a sign on the
+line), with chapters played in any order (Scarlet / Violet's three paths) as
+bands the line turns into. Where a game's milestones have places, the places
+the story passes on the way to each milestone sit between them as quiet
+stops (Route 22, Route 2, Viridian Forest before Boulder Badge): a milestone
+stands for its own place, a place shows once where the story first reaches
+it, and side content with a place sits where the route passes it (otherwise
+after the beat that opens it). The places you've walked fold into one line
+per stretch. The line is solid behind you and dashed ahead; stops still
+ahead are quieter, so how far you've come reads at a glance, and the page
+opens at your next objective. The page head shows normalized Story
+completion, and a game with DLC switches journeys there. A stop or place
+opens beside the route from 1024px (your next objective until you pick
+another) and in a bottom sheet below: a milestone with its battles inside,
+one line per battle with its verdict, and the battle's full report in the
+same place with a way back; a place with the milestone it leads to, the
+battles fought there and the Pokémon found there. There is no separate list
+of battles anywhere.
 
 Story holds story beats, not one milestone per battle. A beat is a required
 visit where the story stops you: a Gym, trial or League match; a confrontation
@@ -55,7 +63,10 @@ fights and grunt raids never make a beat of their own. Each battle sits on one
 beat: the beat at whose place it is fought (Blue in Oak's lab on Choose
 Starter, Jupiter in Eterna City on Forest Badge, Hugh at the Driftveil
 tournament on Quake Badge) or, for a battle on the road between two beats, the
-beat it leads to (Silver at Cherrygrove on Zephyr Badge). A beat with no fight
+beat it leads to (Silver at Cherrygrove on Zephyr Badge). A battle fought
+away from its beat's place says where (`location_id` on its opponent row:
+Red / Blue's rival on Route 22) and shows on that place on the route. A beat
+with no fight
 of its own never carries later battles, a rematch is never a Story battle, and
 a character fought twice on one beat has one opponent row per battle.
 

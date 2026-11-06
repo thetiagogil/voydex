@@ -554,15 +554,18 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   menu separators and the hairlines between a toolbar's groups.
 - A list you read (History, Recent moments) is one card with rows inside.
   Story is one route card (`StoryRouteCard` in
-  `.../progress-story/sections/route/`): the milestones as stops on one
-  line that snakes down the card (solid in the progress tint behind you,
-  dashed ahead, dotted to an optional stop), each chapter a sign on the
-  line, chapters played in any order as lanes side by side on a wide card
-  and stacked below. A stop is its `MilestoneMarker` (`lg`) with its name
-  and one quiet line under it; stops still ahead sink back (a grey ring on
-  `bg-surface-2`, a quieter name that keeps 4.5:1), the one open in the sheet
-  wears a `ring-select-ink` ring, and nothing changes weight. A stop opens
-  its milestone in an `OverlaySheet` with its battles inside.
+  `.../progress-story/sections/route/`): the milestones as stops down one
+  vertical line (solid in the progress tint behind you, dashed ahead, dotted
+  to an optional stop), the places on the way between them as small quiet
+  dots, each chapter a sign on the line, chapters played in any order as
+  indented bands the line turns into. A stop is its `MilestoneMarker` (`lg`)
+  with its name and one quiet line beside it (its place, then where it
+  stands); stops still ahead sink back (a grey ring on `bg-surface-2`, a
+  quieter name that keeps 4.5:1), the one open wears a `ring-select-ink`
+  ring, and nothing changes weight. Places you've walked fold into one line
+  per stretch. From 1024px the open stop or place shows in a sticky panel
+  beside the route (`useStickyPanel`, as Team's roster); below, it opens in
+  an `OverlaySheet`.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
   or `src/shared`.
 - No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha
@@ -606,7 +609,7 @@ Every screen is on Soft Clay, merged into `main` on 2026-10-16 (#8) after
 the owner's review, and every v3 screen is built: the app shell and
 bars, Mainline Home, Plays, New Play, the Play header and tabs (Overview with
 its partner and first steps, Team: Roster with Add and Edit Pokémon, Plan,
-Analysis; Story as one route with its battles in each milestone's sheet,
+Analysis; Story as one route with its battles in each milestone's detail,
 Pokédex, Collectibles, History and
 Settings), the Team Planner and My Plans, Statistics, Collection, You,
 Welcome, Account settings, the Codex (Pokémon list and entry, Games, game

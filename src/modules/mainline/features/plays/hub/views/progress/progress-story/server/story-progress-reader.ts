@@ -31,8 +31,8 @@ const getDecisionPokemonFormIds = (
 };
 
 /*
- * Story's read: the Play's categories and milestones, the team snapshots
- * recorded with them, the decision Pokémon's art and the badge types, so a
+ * Story's read: the Play's categories and milestones, the places its story
+ * passes in order, the team snapshots recorded with them, the decision Pokémon's art and the badge types, so a
  * gym badge (or Alola trial) wears its type on the stamp card and in its row.
  */
 export const readMainlinePlayStoryProgress = async (
@@ -54,7 +54,7 @@ export const readMainlinePlayStoryProgress = async (
         .schema("views")
         .from("mainline_play_milestone_detail")
         .select(
-          "badge_refs, category_id, category_name, category_slug, completed_at, completion_event_id, completion_event_team_snapshot_count, decision_options, description, is_completed, is_required_for_completion, milestone_id, milestone_name, milestone_type_name, milestone_type_slug, prerequisites, progress_notes, selected_decision_option_id, selected_decision_option_label, snapshot_policy_slug, sort_order, version_group_id",
+          "badge_refs, category_id, category_name, category_slug, completed_at, completion_event_id, completion_event_team_snapshot_count, decision_options, description, is_completed, is_required_for_completion, location_id, location_name, milestone_id, milestone_name, milestone_type_name, milestone_type_slug, opponent_refs, prerequisites, progress_notes, selected_decision_option_id, selected_decision_option_label, snapshot_policy_slug, sort_order, version_group_id",
         )
         .eq("play_id", playId)
         .order("category_sort_order", { ascending: true })
@@ -67,28 +67,41 @@ export const readMainlinePlayStoryProgress = async (
   }
 
   const milestones = milestonesResult.data ?? [];
+  const versionGroupIds = uniqueNumberIds(
+    (categoriesResult.data ?? []).map((category) => category.version_group_id),
+  );
   const decisionFormIds = getDecisionPokemonFormIds(milestones);
   const badgeTypeIds = uniqueNumberIds(
     milestones.map((milestone) =>
       getMilestoneBadgeTypeId(milestone.badge_refs),
     ),
   );
-  const [decisionFormsResult, badgeTypesResult] = await Promise.all([
-    decisionFormIds.length
-      ? supabase
-          .schema("reference")
-          .from("pokemon_forms")
-          .select("id, slug")
-          .in("id", decisionFormIds)
-      : { data: [], error: null },
-    badgeTypeIds.length
-      ? supabase
-          .schema("reference")
-          .from("types")
-          .select("id, slug")
-          .in("id", badgeTypeIds)
-      : { data: [], error: null },
-  ]);
+  const [decisionFormsResult, badgeTypesResult, placesResult] =
+    await Promise.all([
+      decisionFormIds.length
+        ? supabase
+            .schema("reference")
+            .from("pokemon_forms")
+            .select("id, slug")
+            .in("id", decisionFormIds)
+        : { data: [], error: null },
+      badgeTypeIds.length
+        ? supabase
+            .schema("reference")
+            .from("types")
+            .select("id, slug")
+            .in("id", badgeTypeIds)
+        : { data: [], error: null },
+      versionGroupIds.length
+        ? supabase
+            .schema("reference")
+            .from("location_version_groups")
+            .select(
+              "location_id, sort_order, version_group_id, locations(name)",
+            )
+            .in("version_group_id", versionGroupIds)
+        : { data: [], error: null },
+    ]);
 
   if (decisionFormsResult.error) {
     throw new Error("Unable to load Mainline Story decision images.");
@@ -98,11 +111,27 @@ export const readMainlinePlayStoryProgress = async (
     throw new Error("Unable to load Mainline Story badge types.");
   }
 
+  if (placesResult.error) {
+    throw new Error("Unable to load Mainline Story places.");
+  }
+
   return {
     badgeTypes: badgeTypesResult.data ?? [],
     categories: categoriesResult.data ?? [],
     decisionForms: decisionFormsResult.data ?? [],
     milestones,
+    places: (placesResult.data ?? []).flatMap((row) =>
+      row.locations?.name
+        ? [
+            {
+              location_id: row.location_id,
+              name: row.locations.name,
+              sort_order: row.sort_order,
+              version_group_id: row.version_group_id,
+            },
+          ]
+        : [],
+    ),
     snapshotEvents,
   };
 };
