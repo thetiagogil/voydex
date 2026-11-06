@@ -553,19 +553,22 @@ text-select-ink` (a mode switch or scope picker takes `bg-action`); tips that ex
   table rows, a sheet's or dialog's fixed header and footer, the app bars,
   menu separators and the hairlines between a toolbar's groups.
 - A list you read (History, Recent moments) is one card with rows inside.
-  Story is one route card (`StoryRouteCard` in
-  `.../progress-story/sections/route/`): the milestones as stops down one
-  vertical line (solid in the progress tint behind you, dashed ahead, dotted
-  to an optional stop), the places on the way between them as small quiet
-  dots, each chapter a sign on the line, chapters played in any order as
-  indented bands the line turns into. A stop is its `MilestoneMarker` (`lg`)
-  with its name and one quiet line beside it (its place, then where it
-  stands); stops still ahead sink back (a grey ring on `bg-surface-2`, a
-  quieter name that keeps 4.5:1), the one open wears a `ring-select-ink`
-  ring, and nothing changes weight. Places you've walked fold into one line
-  per stretch. From 1024px the open stop or place shows in a sticky panel
-  beside the route (`useStickyPanel`, as Team's roster); below, it opens in
-  an `OverlaySheet`.
+  Story is a roadmap (`StoryRoadmap` in
+  `.../progress-story/sections/route/`): each chapter its own card
+  (`StoryChapterCard`) with its milestones as stops down one vertical line
+  (solid in the progress tint behind you, dashed ahead, dotted to an
+  optional stop) and the places on the way between them as small quiet
+  dots. Every chapter folds from its head; only the one you're in starts
+  open, wearing "You're here" and a progress bar, and a folded one shows its
+  milestones as a strip of small medallions. A stop is its `MilestoneMarker`
+  (`lg`) with its name and one quiet line beside it (its place, then where
+  it stands); a recorded one is a sticker in its badge's type with what you
+  got there (the choice, the team then); stops still ahead sink back (a grey
+  ring on `bg-surface-2`, a quieter name that keeps 4.5:1), and the one open
+  wears a `ring-select-ink` ring. From 1024px the open stop or place shows
+  in a sticky panel beside the route (`useStickyPanel`, as Team's roster)
+  and a battle opens in a sheet over it; below, everything opens in an
+  `OverlaySheet`.
 - Keep `src/app` routes thin; real UI lives in `src/modules`, `src/features`
   or `src/shared`.
 - No feature-local glass, opacity or backdrop recipes for data surfaces. Alpha

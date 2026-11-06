@@ -379,3 +379,7 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
 
   return blocks;
 };
+
+/* A stop is behind you once recorded; a sign or place once all before it is. */
+export const isStoryRouteEntryDone = (entry: StoryRouteEntry) =>
+  entry.kind === "stop" ? entry.milestone.isCompleted : entry.reached;

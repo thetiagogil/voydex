@@ -41,8 +41,9 @@ the story passes on the way to each milestone sit between them as quiet
 stops (Route 22, Route 2, Viridian Forest before Boulder Badge): a milestone
 stands for its own place, a place shows once where the story first reaches
 it, and side content with a place sits where the route passes it (otherwise
-after the beat that opens it). The places you've walked fold into one line
-per stretch. The line is solid behind you and dashed ahead; stops still
+after the beat that opens it). Each chapter is its own card that folds; only
+the one you're in starts open, and a folded one shows its milestones as a
+strip. The line is solid behind you and dashed ahead; stops still
 ahead are quieter, so how far you've come reads at a glance, and the page
 opens at your next objective. The page head shows normalized Story
 completion, and a game with DLC switches journeys there. A stop or place

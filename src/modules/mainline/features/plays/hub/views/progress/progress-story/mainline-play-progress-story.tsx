@@ -34,7 +34,7 @@ import {
   type StoryDetailTarget,
 } from "./sections/detail/story-detail";
 import { StoryPageHead } from "./sections/head/story-page-head";
-import { StoryRouteCard } from "./sections/route/story-route-card";
+import { StoryRoadmap } from "./sections/route/story-roadmap";
 import { getStoryRouteStopId } from "./sections/route/story-route-stop";
 import { StoryStampCardSection } from "./sections/stamps/story-stamp-card-section";
 import type {
@@ -442,7 +442,7 @@ export const MainlinePlayProgressStory = ({
       ) : null}
 
       <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)]">
-        <StoryRouteCard
+        <StoryRoadmap
           fadingMilestoneIds={fadingMilestoneIds}
           getPlaceBattleCount={(entry) =>
             getTargetBattles({

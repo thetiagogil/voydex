@@ -1,4 +1,4 @@
-import type { AnimationEventHandler, ReactNode } from "react";
+import type { AnimationEventHandler, CSSProperties, ReactNode } from "react";
 
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
@@ -21,10 +21,13 @@ const selectedRing =
  * Locked or Optional). The whole stop opens the milestone; the one open in
  * the detail wears a ring round its marker and its name in the selected ink.
  * Stops still ahead sink back (a grey ring on a grey fill, a quieter name),
- * so how far you've come reads at a glance; their numbers keep 4.5:1.
+ * so how far you've come reads at a glance; their numbers keep 4.5:1. A
+ * recorded one is a sticker (loud where you remember): tinted in its badge's
+ * type, with what you got there under it (`memento`).
  */
 export const StoryRouteStop = ({
   id,
+  memento,
   opensSheet,
   marker,
   name,
@@ -34,9 +37,12 @@ export const StoryRouteStop = ({
   selected,
   state,
   status,
+  sticker,
 }: {
   id: string;
   marker: ReactNode;
+  /* What you got there, under a recorded stop: the choice, the team then. */
+  memento?: ReactNode;
   name: string;
   onAnimationEnd?: AnimationEventHandler<HTMLButtonElement>;
   onSelect: () => void;
@@ -48,6 +54,8 @@ export const StoryRouteStop = ({
   state: PlayMilestoneState;
   /* Where it stands; null when it's simply not recorded yet. */
   status: ReactNode;
+  /* Recorded: a sticker in this tint (`--t`, from its badge's type). */
+  sticker?: CSSProperties | null;
 }) => (
   <button
     id={id}
@@ -56,7 +64,13 @@ export const StoryRouteStop = ({
     aria-pressed={selected}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
-    className="focus-ring hover:bg-hover flex w-full items-center gap-3 rounded-xl py-1.5 pr-2 pl-1.5 text-left transition-colors"
+    style={sticker ?? undefined}
+    className={cn(
+      "focus-ring flex w-full items-center gap-3 text-left",
+      sticker
+        ? "sticker ease-hop my-1 rounded-2xl py-1.5 pr-3 pl-1 transition-transform duration-200 hover:-translate-y-0.5"
+        : "hover:bg-hover rounded-xl py-1.5 pr-2 pl-1.5 transition-colors",
+    )}
   >
     <span data-route-node className="grid size-14 shrink-0 place-items-center">
       <span
@@ -96,6 +110,7 @@ export const StoryRouteStop = ({
         </span>
       ) : null}
       {status ? null : <span className="sr-only">Not recorded</span>}
+      {memento}
     </span>
   </button>
 );
@@ -163,71 +178,3 @@ export const StoryRoutePlace = ({
     ) : null}
   </button>
 );
-
-/*
- * Where the route enters a named chapter (Pokémon League, Island
- * Challenge): a small mark on the line, its name and how far through it you
- * are beside it. A finished chapter's mark is filled and checked. A chapter
- * behind you folds into its sign (`onToggle`), which opens and folds it.
- */
-export const StoryRouteSign = ({
-  count,
-  expanded,
-  finished,
-  name,
-  onToggle,
-}: {
-  count: string;
-  /* Whether its folding chapter shows; only with `onToggle`. */
-  expanded?: boolean;
-  finished: boolean;
-  name: string;
-  onToggle?: () => void;
-}) => {
-  const content = (
-    <>
-      <span data-route-node className="grid w-14 shrink-0 place-items-center">
-        <span
-          className={cn(
-            "grid size-7 place-items-center rounded-full",
-            finished
-              ? "bg-progress text-surface"
-              : "bg-surface text-ink-3 inset-ring-progress/45 inset-ring-[3px]",
-          )}
-        >
-          <AppIcon
-            icon={finished ? appIcons.status.active : appIcons.product.journey}
-            size="xs"
-          />
-        </span>
-      </span>
-      <span className="flex min-w-0 flex-wrap items-baseline gap-x-2">
-        <span className="title-card">{name}</span>
-        <span className="text-ink-3 text-13 font-semibold">{count}</span>
-      </span>
-    </>
-  );
-
-  return onToggle ? (
-    <button
-      type="button"
-      aria-expanded={expanded}
-      onClick={onToggle}
-      className="focus-ring hover:bg-hover mt-2 flex w-full items-center gap-3 rounded-xl py-1 pr-2 pl-1.5 text-left transition-colors"
-    >
-      {content}
-      <span className="text-ink-2 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-bold">
-        {expanded ? "Fold" : "Show"}
-        <AppIcon
-          icon={appIcons.actions.expand}
-          size="xs"
-          className={cn(expanded && "rotate-180")}
-        />
-      </span>
-    </button>
-  ) : (
-    <div className="flex w-full items-center gap-3 pt-3 pb-1 pl-1.5">
-      {content}
-    </div>
-  );
-};

@@ -5,7 +5,7 @@ import { createStampOrder } from "@/modules/mainline/features/plays/shared/data/
 
 import { buildStoryProgressModel } from "../../data/story-progress-model";
 import type { StoryMilestoneSource } from "../../types";
-import { StoryRouteCard } from "./story-route-card";
+import { StoryRoadmap } from "./story-roadmap";
 
 const milestone = (
   overrides: Partial<StoryMilestoneSource>,
@@ -79,7 +79,7 @@ const scope = buildStoryProgressModel({
 
 const render = (waiting: number[], selected: number | null = null) =>
   renderToStaticMarkup(
-    <StoryRouteCard
+    <StoryRoadmap
       fadingMilestoneIds={new Set()}
       getPlaceBattleCount={() => 0}
       onMilestoneSelect={() => {}}
@@ -98,7 +98,7 @@ const render = (waiting: number[], selected: number | null = null) =>
 const stop = (markup: string, name: string) =>
   markup.split("<li").find((part) => part.includes(name)) ?? "";
 
-describe("StoryRouteCard cascade", () => {
+describe("StoryRoadmap cascade", () => {
   it("shows a stop still waiting its turn as it was", () => {
     const cascade = stop(render([2]), "Cascade Badge");
 
@@ -120,7 +120,7 @@ describe("StoryRouteCard cascade", () => {
   });
 });
 
-describe("StoryRouteCard", () => {
+describe("StoryRoadmap", () => {
   it("opens the route with its first chapter's sign and count", () => {
     const markup = render([]);
 

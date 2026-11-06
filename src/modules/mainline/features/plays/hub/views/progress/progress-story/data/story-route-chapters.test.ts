@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
 import type { StoryMilestone, StoryScope, StorySection } from "../types";
-import { foldChapters, getCurrentChapterKey } from "./story-route-chapters";
+import {
+  getCurrentChapterKey,
+  splitStoryRouteChapters,
+} from "./story-route-chapters";
 import type { StoryRouteEntry } from "./story-route-model";
 
 const milestone = (id: number) => ({ id }) as StoryMilestone;
@@ -44,7 +47,7 @@ describe("getCurrentChapterKey", () => {
   });
 });
 
-describe("foldChapters", () => {
+describe("splitStoryRouteChapters", () => {
   const sign = (sectionId: number): StoryRouteEntry => ({
     count: "1 of 1",
     finished: true,
@@ -61,24 +64,24 @@ describe("foldChapters", () => {
     milestone: milestone(id),
     optional: false,
   });
-  const route = [sign(1), stop(11), stop(12), sign(2), stop(21), sign(3)];
-  const read = (items: ReturnType<typeof foldChapters>) =>
-    items.map((item) => (item.kind === "chapter" ? `[${item.key}]` : item.key));
 
-  it("folds every chapter that isn't open into its sign", () => {
-    expect(read(foldChapters(route, (key) => key === "sign-2"))).toEqual([
-      "[sign-1]",
-      "sign-2",
-      "stop-21",
-      "[sign-3]",
-    ]);
-  });
-
-  it("folds them all, the one you're in too, when none is open", () => {
-    expect(read(foldChapters(route, () => false))).toEqual([
-      "[sign-1]",
-      "[sign-2]",
-      "[sign-3]",
+  it("cuts a route into its chapters at each sign", () => {
+    expect(
+      splitStoryRouteChapters([
+        sign(1),
+        stop(11),
+        stop(12),
+        sign(2),
+        stop(21),
+        sign(3),
+      ]).map((chapter) => [
+        chapter.key,
+        chapter.entries.map((entry) => entry.key),
+      ]),
+    ).toEqual([
+      ["sign-1", ["stop-11", "stop-12"]],
+      ["sign-2", ["stop-21"]],
+      ["sign-3", []],
     ]);
   });
 });

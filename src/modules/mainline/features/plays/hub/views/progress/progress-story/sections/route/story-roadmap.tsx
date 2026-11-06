@@ -1,40 +1,37 @@
 "use client";
 
-import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { MilestoneMarker } from "@/modules/mainline/features/plays/shared/components/milestone-marker";
 import { PlayMomentTime } from "@/modules/mainline/features/plays/shared/components/play-moment-time";
 import type { StampOrder } from "@/modules/mainline/features/plays/shared/data/play-stamps";
 import type { PlayMilestoneState } from "@/modules/mainline/features/plays/shared/data/play-milestones";
+import { getPokemonTypeCssVariables } from "@/modules/reference/features/pokemon/components/pokemon-type-styles";
 import { AppIcon, appIcons } from "@/shared/components/app-icon";
-import { Card } from "@/shared/components/ui/card";
 
 import {
-  getForkStretches,
-  isStoryRouteEntryDone as isDone,
-  type ForkStretch,
-  type RouteEnds,
-} from "../../data/story-route-fork";
+  getCurrentChapterKey,
+  splitStoryRouteChapters,
+  type StoryRouteChapter,
+} from "../../data/story-route-chapters";
 import {
   buildStoryRoute,
+  isStoryRouteEntryDone,
   type StoryRouteEntry,
 } from "../../data/story-route-model";
-import {
-  foldChapters,
-  getCurrentChapterKey,
-  type StoryRouteItem,
-} from "../../data/story-route-chapters";
 import type { StoryMilestone, StoryScope } from "../../types";
+import { StoryChapterCard } from "./story-chapter-card";
+import { StoryMilestoneMemento } from "./story-milestone-memento";
 import { StoryRoute } from "./story-route";
 import {
   getStoryRoutePlaceId,
   getStoryRouteStopId,
   StoryRoutePlace,
-  StoryRouteSign,
   StoryRouteStop,
 } from "./story-route-stop";
 
 type StoryRoutePlaceEntry = Extract<StoryRouteEntry, { kind: "place" }>;
+type StoryRouteItem = StoryRouteChapter["entries"][number];
 
 const getStoryMilestoneState = (
   milestone: StoryMilestone,
@@ -46,18 +43,17 @@ const getStoryMilestoneState = (
       ? "next"
       : "todo";
 
-const isItemDone = (item: StoryRouteItem) =>
-  isDone(item.kind === "chapter" ? item.sign : item);
-
 /*
- * Story as one route in one card (#108, #199): every chapter in order down
- * one line, the places on the way to each milestone between them, side
- * content as optional stops where it sits (`buildStoryRoute`). Every chapter
- * folds into its sign; only the one you're in starts open. Milestones recorded together cascade: each stop waits as it
- * was, then its marker stamps down, one after another in Story order; one
- * un-recorded pops back to its number.
+ * Story as a roadmap (#108, #199): every chapter in order, each its own card
+ * (`StoryChapterCard`) with its route down one line, the places on the way
+ * to each milestone between them and side content as optional stops where
+ * it sits (`buildStoryRoute`). Every chapter folds; only the one you're in
+ * starts open, and a folded one shows its milestones as a strip. Chapters
+ * played in any order sit together under one label. Milestones recorded
+ * together cascade: each stop waits as it was, then its marker stamps down,
+ * one after another in Story order; one un-recorded pops back to its number.
  */
-export const StoryRouteCard = ({
+export const StoryRoadmap = ({
   fadingMilestoneIds,
   getPlaceBattleCount,
   onMilestoneSelect,
@@ -93,7 +89,7 @@ export const StoryRouteCard = ({
   const nextMilestoneId = scope.nextMilestone?.id ?? null;
   /*
    * Stops still waiting their turn in the cascade read as they were, so the
-   * line and the signs fill in as their stamps land, not before.
+   * line and the counts fill in as their stamps land, not before.
    */
   const blocks = useMemo(
     () =>
@@ -114,15 +110,28 @@ export const StoryRouteCard = ({
       ),
     [scope, waitingMilestoneIds],
   );
-  /* The chapters before the one you're in fold into their signs. */
+
   /*
    * Every chapter folds from its sign. The one you're in starts open and
    * the rest folded; a chapter you open or fold stays as you left it.
    */
-  const currentChapterKey = getCurrentChapterKey(scope);
+  /* The chapter you were in when you came, so recording never folds it away. */
+  const [arrival, setArrival] = useState(() => ({
+    chapterKey: getCurrentChapterKey(scope),
+    scopeId: scope.id,
+  }));
   const [chapterOpen, setChapterOpen] = useState<ReadonlyMap<string, boolean>>(
     new Map(),
   );
+
+  if (arrival.scopeId !== scope.id) {
+    setArrival({ chapterKey: getCurrentChapterKey(scope), scopeId: scope.id });
+    setChapterOpen(new Map());
+  }
+
+  const currentChapterKey = arrival.chapterKey;
+  /* The chapter holding your next objective right now, which says so. */
+  const liveChapterKey = getCurrentChapterKey(scope);
   const isChapterOpen = (signKey: string) =>
     chapterOpen.get(signKey) ?? signKey === currentChapterKey;
 
@@ -152,20 +161,6 @@ export const StoryRouteCard = ({
   }
 
   const renderEntry = (item: StoryRouteItem) => {
-    if (item.kind === "chapter" || item.kind === "sign") {
-      const sign = item.kind === "chapter" ? item.sign : item;
-
-      return (
-        <StoryRouteSign
-          count={sign.count}
-          expanded={item.kind === "sign"}
-          finished={sign.finished}
-          name={sign.name}
-          onToggle={() => toggleChapter(sign.key)}
-        />
-      );
-    }
-
     if (item.kind === "place") {
       return (
         <StoryRoutePlace
@@ -195,9 +190,21 @@ export const StoryRouteCard = ({
           ? "unrecorded"
           : null;
 
+    /* A recorded stop on the way is a sticker, tinted in its badge's type. */
+    const sticker =
+      state === "done" && !item.optional
+        ? getPokemonTypeCssVariables(milestone.badgeType)
+        : null;
+
     return (
       <StoryRouteStop
         id={getStoryRouteStopId(milestone.id)}
+        memento={
+          state === "done" ? (
+            <StoryMilestoneMemento milestone={milestone} />
+          ) : null
+        }
+        sticker={sticker}
         name={milestone.name}
         onSelect={() => onMilestoneSelect(milestone)}
         opensSheet={opensSheet}
@@ -258,125 +265,76 @@ export const StoryRouteCard = ({
     );
   };
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [forks, setForks] = useState<ForkStretch[]>([]);
-
-  /* The fork's stretches, drawn between where the routes' ends landed. */
-  useLayoutEffect(() => {
-    const container = containerRef.current;
-
-    if (!container) {
-      return;
-    }
-
-    const measure = () => {
-      const box = container.getBoundingClientRect();
-      const points = new Map<string, RouteEnds>();
-
-      for (const routeElement of container.querySelectorAll<HTMLElement>(
-        "[data-route-key]",
-      )) {
-        const nodes = [
-          ...routeElement.querySelectorAll<HTMLElement>("[data-route-node]"),
-        ].map((node) => {
-          const rect = node.getBoundingClientRect();
-
-          return {
-            left: rect.left - box.left,
-            x: rect.left - box.left + rect.width / 2,
-            y: rect.top - box.top + rect.height / 2,
-          };
-        });
-        const first = nodes[0];
-        const last = nodes[nodes.length - 1];
-
-        if (first && last) {
-          points.set(routeElement.dataset.routeKey ?? "", {
-            first,
-            last: { x: last.x, y: last.y },
-          });
-        }
-      }
-
-      setForks(getForkStretches(blocks, points));
-    };
-
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(container);
-
-    return () => observer.disconnect();
-  }, [blocks, chapterOpen, currentChapterKey]);
-
-  const route = (entries: StoryRouteEntry[], label: string, key: string) => (
-    <div key={key} data-route-key={key}>
-      <StoryRoute
-        label={label}
-        items={foldChapters(entries, isChapterOpen)}
-        getKey={(item) => item.key}
-        isQuiet={(item) => item.optional}
-        isTravelled={(item, next) => isItemDone(item) && isItemDone(next)}
-        renderStop={renderEntry}
-      />
-    </div>
+  const sectionById = new Map(
+    scope.sections.map((section) => [section.id, section]),
   );
 
+  const chapterCard = (chapter: StoryRouteChapter, label: string) => {
+    const section =
+      chapter.sign.sectionId === null
+        ? null
+        : sectionById.get(chapter.sign.sectionId);
+    const stops = chapter.entries.flatMap((entry) =>
+      entry.kind === "stop" ? [entry.milestone] : [],
+    );
+
+    return (
+      <StoryChapterCard
+        key={chapter.key}
+        completed={section?.completedCount ?? 0}
+        count={chapter.sign.count}
+        current={chapter.key === liveChapterKey}
+        finished={chapter.sign.finished}
+        milestones={stops}
+        name={chapter.sign.name}
+        nextMilestoneId={nextMilestoneId}
+        onToggle={() => toggleChapter(chapter.key)}
+        open={isChapterOpen(chapter.key)}
+        total={section?.totalCount ?? 0}
+      >
+        <StoryRoute
+          label={label}
+          items={chapter.entries}
+          getKey={(item) => item.key}
+          isQuiet={(item) => item.optional}
+          isTravelled={(item, next) =>
+            isStoryRouteEntryDone(item) && isStoryRouteEntryDone(next)
+          }
+          renderStop={renderEntry}
+        />
+      </StoryChapterCard>
+    );
+  };
+
   return (
-    <Card
+    <div
       role="region"
       aria-label={`${scope.label} route`}
-      className="px-3 sm:px-5"
+      className="grid content-start gap-4"
     >
-      <div ref={containerRef} className="relative grid gap-6">
-        {forks.length ? (
-          <svg
-            aria-hidden
-            className="pointer-events-none absolute inset-0 size-full overflow-visible"
+      {blocks.map((block) =>
+        block.kind === "route" ? (
+          splitStoryRouteChapters(block.entries).map((chapter) =>
+            chapterCard(chapter, `${chapter.sign.name} route`),
+          )
+        ) : (
+          <section
+            key={block.key}
+            aria-label="Chapters in any order"
+            className="grid gap-3"
           >
-            {forks.map((fork) => (
-              <path
-                key={fork.key}
-                d={fork.d}
-                fill="none"
-                strokeLinecap="round"
-                strokeWidth={4}
-                strokeDasharray={fork.travelled ? undefined : "5 11"}
-                className={
-                  fork.travelled ? "stroke-progress/45" : "stroke-dash"
-                }
-              />
-            ))}
-          </svg>
-        ) : null}
-        {blocks.map((block) =>
-          block.kind === "route" ? (
-            route(block.entries, scope.label, block.key)
-          ) : (
-            <section
-              key={block.key}
-              aria-label="Chapters in any order"
-              className="grid gap-3 pl-12"
-            >
-              <p className="text-ink-2 text-13 flex items-center gap-2 font-extrabold">
-                <AppIcon icon={appIcons.product.journey} size="sm" />
-                In any order
-              </p>
-              {block.routes.map((entries, routeIndex) => (
-                <div
-                  key={entries[0]?.key}
-                  className="bg-surface-2 rounded-2xl px-2 py-3 sm:px-3"
-                >
-                  {route(
-                    entries,
-                    entries[0]?.kind === "sign" ? entries[0].name : scope.label,
-                    `${block.key}-${routeIndex}`,
-                  )}
-                </div>
-              ))}
-            </section>
-          ),
-        )}
-      </div>
-    </Card>
+            <p className="text-ink-2 text-13 flex items-center gap-2 px-2 font-extrabold">
+              <AppIcon icon={appIcons.product.journey} size="sm" />
+              In any order
+            </p>
+            {block.routes.flatMap((entries) =>
+              splitStoryRouteChapters(entries).map((chapter) =>
+                chapterCard(chapter, `${chapter.sign.name} route`),
+              ),
+            )}
+          </section>
+        ),
+      )}
+    </div>
   );
 };
