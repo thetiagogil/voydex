@@ -140,23 +140,35 @@ export const StoryRoadmap = ({
       new Map(current).set(signKey, !isChapterOpen(signKey)),
     );
 
-  /* Picking a milestone (from a stamp, say) opens its chapter. */
+  /* The chapter each stop and place sits in, by its route key. */
+  const chapterOfKey = useMemo(() => {
+    const chapters = new Map<string, string>();
+
+    for (const block of blocks) {
+      for (const entries of block.kind === "route"
+        ? [block.entries]
+        : block.routes) {
+        for (const chapter of splitStoryRouteChapters(entries)) {
+          for (const entry of chapter.entries) {
+            chapters.set(entry.key, chapter.key);
+          }
+        }
+      }
+    }
+
+    return chapters;
+  }, [blocks]);
+
+  /* Picking a stop or place (from a stamp, say) opens the chapter it sits in. */
   const [seenSelectedKey, setSeenSelectedKey] = useState(selectedKey);
 
   if (selectedKey !== seenSelectedKey) {
     setSeenSelectedKey(selectedKey);
 
-    const milestoneId = Number(
-      /^(?:stop|place)-(\d+)/.exec(selectedKey ?? "")?.[1],
-    );
-    const section = scope.sections.find((candidate) =>
-      candidate.milestones.some((milestone) => milestone.id === milestoneId),
-    );
+    const chapterKey = selectedKey ? chapterOfKey.get(selectedKey) : undefined;
 
-    if (section && !isChapterOpen(`sign-${section.id}`)) {
-      setChapterOpen((current) =>
-        new Map(current).set(`sign-${section.id}`, true),
-      );
+    if (chapterKey && !isChapterOpen(chapterKey)) {
+      setChapterOpen((current) => new Map(current).set(chapterKey, true));
     }
   }
 

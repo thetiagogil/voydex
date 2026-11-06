@@ -38,7 +38,10 @@ export const StoryMilestoneMemento = ({
         </span>
       ) : null}
       {team.length ? (
-        <span aria-label="Your team then" className="flex -space-x-1">
+        <span className="flex -space-x-1">
+          <span className="sr-only">
+            Your team then: {team.map(getPlayTeamSnapshotMemberName).join(", ")}
+          </span>
           {team.map((member) => (
             <PokemonAvatar
               key={`${member.position}-${member.speciesName}-${member.formName ?? ""}`}

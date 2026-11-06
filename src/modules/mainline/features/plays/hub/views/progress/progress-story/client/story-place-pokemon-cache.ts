@@ -29,8 +29,15 @@ export const loadStoryPlacePokemon = (
     return pending;
   }
 
-  const request = loadStoryPlacePokemonAction({ locationId, playId }).then(
-    (result) => {
+  const request = loadStoryPlacePokemonAction({ locationId, playId })
+    /* A call that never answers (offline, a new deploy) reads as an error too. */
+    .catch(
+      (): StoryPlacePokemonResult => ({
+        message: "Unable to read the Pokémon found here.",
+        status: "error",
+      }),
+    )
+    .then((result) => {
       if (result.status === "success") {
         loaded.set(key, result);
       } else {
@@ -38,8 +45,7 @@ export const loadStoryPlacePokemon = (
       }
 
       return result;
-    },
-  );
+    });
 
   loading.set(key, request);
 

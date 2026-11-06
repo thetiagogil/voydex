@@ -61,7 +61,7 @@ export const StoryRouteStop = ({
     id={id}
     type="button"
     aria-haspopup={opensSheet ? "dialog" : undefined}
-    aria-pressed={selected}
+    aria-current={selected ? "true" : undefined}
     onClick={onSelect}
     onAnimationEnd={onAnimationEnd}
     style={sticker ?? undefined}
@@ -155,7 +155,7 @@ export const StoryRoutePlace = ({
     id={id}
     type="button"
     aria-haspopup={opensSheet ? "dialog" : undefined}
-    aria-pressed={selected}
+    aria-current={selected ? "true" : undefined}
     onClick={onSelect}
     onFocus={onPrefetch}
     onPointerEnter={onPrefetch}
@@ -180,6 +180,7 @@ export const StoryRoutePlace = ({
       )}
     >
       {name}
+      {reached ? <span className="sr-only">, passed</span> : null}
     </span>
     {battleCount ? (
       <span className="text-ink-3 text-13 ml-auto inline-flex shrink-0 items-center gap-1 font-semibold">

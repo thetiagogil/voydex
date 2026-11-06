@@ -442,6 +442,32 @@ describe("buildStoryRoute as a roadmap", () => {
     ).toEqual([[["main-story", "@5!", "@1", "@2", "11", "@4", "12"]]]);
   });
 
+  it("draws side content once where two paths in any order pass its place", () => {
+    const [, fork] = buildStoryRoute(
+      scope(
+        [
+          section(1, "main-story", [milestone(11, at(1))]),
+          section(2, "path-a", [milestone(21, at(5))], {
+            playsInAnyOrder: true,
+          }),
+          section(3, "path-b", [milestone(31, at(6))], {
+            playsInAnyOrder: true,
+          }),
+          section(4, "side-content", [
+            optional(41, { ...at(3), ...opensAfter(11) }),
+          ]),
+        ],
+        kanto,
+      ),
+    );
+    const stops =
+      fork.kind === "anyOrder"
+        ? fork.routes.flat().filter((entry) => entry.key === "stop-41")
+        : [];
+
+    expect(stops).toHaveLength(1);
+  });
+
   it("shows no places for milestones without one", () => {
     expect(
       read(

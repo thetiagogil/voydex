@@ -214,8 +214,18 @@ export const buildStoryRoute = (scope: StoryScope): StoryRouteBlock[] => {
   /* Places already shown as a battle's own stop, ahead of where the route reaches them. */
   const shownEarly = new Set<number>();
 
+  /* Side content already drawn, so a place two paths pass shows it once. */
+  const drawnSide = new Set<number>();
   const pinnedAt = (place: StoryPlace) =>
-    (sideByPlace.get(place.id) ?? []).map((milestone) => stop(milestone, true));
+    (sideByPlace.get(place.id) ?? []).flatMap((milestone) => {
+      if (drawnSide.has(milestone.id)) {
+        return [];
+      }
+
+      drawnSide.add(milestone.id);
+
+      return [stop(milestone, true)];
+    });
 
   /* The places on the way to a milestone, each with any side content there. */
   const placesBefore = (milestone: StoryMilestone): StoryRouteEntry[] => {

@@ -66,7 +66,8 @@ export const StoryDetail = ({
   chapterName: string | null;
   layout: "panel" | "sheet";
   onAction: (milestone: StoryMilestone, choice: StoryMilestoneChoice) => void;
-  onOpenChange: (open: boolean) => void;
+  /* The sheet's open state; the panel beside the route is always there. */
+  onOpenChange?: (open: boolean) => void;
   open: boolean;
   playId: string;
   /*
@@ -99,6 +100,12 @@ export const StoryDetail = ({
 
   const openBattle =
     battles.find((battle) => battle.id === openBattleId) ?? null;
+  /* The battle last opened, so its sheet keeps its report while it closes. */
+  const [lastBattle, setLastBattle] = useState(openBattle);
+
+  if (openBattle && openBattle !== lastBattle) {
+    setLastBattle(openBattle);
+  }
   /* Where focus goes once the detail has swapped its body. */
   const focusTarget = useRef<string | null>(null);
 
@@ -135,9 +142,10 @@ export const StoryDetail = ({
 
   /* Beside the route a battle opens in a sheet of its own; in a sheet, in place. */
   const reportInPlace = layout === "sheet" && openBattle;
-  const report = openBattle ? (
+  const shownBattle = openBattle ?? lastBattle;
+  const report = shownBattle ? (
     <section aria-labelledby={reportTitleId}>
-      <StoryBattleReport battle={openBattle} titleId={reportTitleId} />
+      <StoryBattleReport battle={shownBattle} titleId={reportTitleId} />
     </section>
   ) : null;
   const back = reportInPlace ? (
@@ -223,14 +231,14 @@ export const StoryDetail = ({
             }
           }}
           size="sm"
-          title={openBattle?.name ?? "Battle"}
+          title={shownBattle?.name ?? "Battle"}
           /* The report carries the visible title; the sheet is named all the same. */
           titleHidden
           bodyClassName="grid content-start gap-6"
           /* Back to the battle's row in the panel. */
           finalFocus={() =>
-            openBattle
-              ? document.getElementById(getStoryBattleRowId(openBattle.id))
+            shownBattle
+              ? document.getElementById(getStoryBattleRowId(shownBattle.id))
               : null
           }
         >

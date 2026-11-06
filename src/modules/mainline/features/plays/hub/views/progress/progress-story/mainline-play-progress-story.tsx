@@ -501,7 +501,6 @@ export const MainlinePlayProgressStory = ({
               }
               layout="panel"
               onAction={openEditor}
-              onOpenChange={() => setSelection(null)}
               open
               playId={playId}
               returnsFocus={!isEditorOpen}
