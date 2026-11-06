@@ -312,6 +312,17 @@ sources remain authoritative for game-specific mechanics and availability.
   cross-check and the fill for the gifts, fixed encounters, in-game trades and
   honey trees Bulbapedia keeps on other pages. SOS-only allies, Max Lair
   Pokémon and sub-areas Bulbapedia folds into a city page are not rows.
+- Story places: each Red / Blue milestone names the place it happens at
+  (`location_id`), and a battle fought elsewhere names its own (Blue on Route
+  22 before the Boulder Badge and before Victory Road). Once a version
+  group's milestones are placed, its place list is the Story roadmap, so it
+  also lists the places with no wild Pokémon the story stops at (Pewter City,
+  the S.S. Anne, Lavender Town, the Rocket Hideout, Saffron City), in
+  walkthrough order. Red / Blue's Main Story follows the order its story
+  reaches each beat (Silph Co. and the Marsh Badge before the Soul Badge, Bill's
+  Sea Cottage, the Safari Zone and the Pokémon Mansion as their own beats), and
+  Cerulean Cave is post-game. Source: Bulbapedia's Red / Blue walkthrough and
+  location pages. `550_story_places.sql` pins them.
 - Seed comments stay plain and line by line so the owner can read every row.
 - Item coverage is limited to held items and items needed for Pokémon biography
   or mechanics, such as balls, evolution/form items, fossils, berries, Mega

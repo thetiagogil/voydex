@@ -10,7 +10,10 @@
 -- ============================================================================
 -- Table: reference.locations
 -- Scope: every place a Pokémon is found in, one row per place across the
--- games that share it (Route 1 is one place in Red and in HeartGold).
+-- games that share it (Route 1 is one place in Red and in HeartGold), and
+-- the places a Story milestone or battle happens at that have no wild
+-- Pokémon (Red / Blue's S.S. Anne and Rocket Hideout, named as Bulbapedia's
+-- Red / Blue walkthrough names them).
 -- ============================================================================
 INSERT INTO reference.locations (id, region_id, slug, name)
 VALUES
@@ -1617,4 +1620,8 @@ VALUES
   -- Bleu Sector 6
   (805, 6, 'kalos-bleu-sector-6', 'Bleu Sector 6'),
   -- Hyperspace Lumiose
-  (806, 6, 'kalos-hyperspace-lumiose', 'Hyperspace Lumiose');
+  (806, 6, 'kalos-hyperspace-lumiose', 'Hyperspace Lumiose'),
+  -- S.S. Anne: a Story place with no wild Pokémon (Red / Blue's S.S. Anne beat)
+  (807, 1, 'kanto-ss-anne', 'S.S. Anne'),
+  -- Rocket Hideout: a Story place with no wild Pokémon (Red / Blue's Rocket Hideout beat)
+  (808, 1, 'kanto-rocket-hideout', 'Rocket Hideout');

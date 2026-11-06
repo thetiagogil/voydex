@@ -47,6 +47,15 @@ columns, foreign keys, constraints, grants, and policies are authoritative in
   side-content milestone names the beat that opens it with an `opens-after`
   prerequisite, which places it on the route and never blocks recording; only
   `required` and `story-unlock` prerequisites block.
+- A milestone's `location_id` is the place it happens at, one of its version
+  group's places (a composite key to `reference.location_version_groups`),
+  and pins it on the Story roadmap. A battle on
+  `tracking.mainline_milestone_opponent_refs` names its own `location_id` only
+  when it is fought away from its milestone's place (Red / Blue's Route 22
+  rival battles); NULL means at the milestone's place, and the battle stays
+  owned by its milestone. `views.mainline_play_milestone_detail` exposes
+  `location_id` and `location_name`, and each `opponent_refs` entry carries
+  its own. Red / Blue is placed so far; other journeys' places are NULL.
 - An opponent's team in a Story battle and the team of an ally fighting
   beside the player there share `tracking.mainline_opponent_team_members`:
   an ally's rows name it in `ally_opponent_id` (an opponent of the same

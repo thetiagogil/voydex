@@ -15,10 +15,12 @@ CREATE TABLE tracking.mainline_milestones (
     description text,
     sort_order integer NOT NULL,
     is_required_for_completion boolean NOT NULL DEFAULT TRUE,
+    location_id integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_milestones_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_milestones_game_scope_fkey FOREIGN KEY (game_id, version_group_id) REFERENCES reference.game_content_scopes (game_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestones_category_version_group_fkey FOREIGN KEY (category_id, version_group_id) REFERENCES tracking.mainline_categories (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_milestones_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestones_parent_version_group_fkey FOREIGN KEY (parent_milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestones_parent_not_self_check CHECK (parent_milestone_id IS NULL OR parent_milestone_id <> id),
     CONSTRAINT mainline_milestones_slug_format_check CHECK (slug = LOWER(slug) AND slug ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(slug) <= 160),
@@ -56,6 +58,10 @@ CREATE INDEX mainline_milestones_parent_idx ON tracking.mainline_milestones (par
 WHERE
     parent_milestone_id IS NOT NULL;
 
+CREATE INDEX mainline_milestones_location_idx ON tracking.mainline_milestones (location_id, version_group_id)
+WHERE
+    location_id IS NOT NULL;
+
 COMMENT ON TABLE tracking.mainline_milestones IS 'Curated story/progression milestone definitions. User completion state lives in gameplay.';
 
 COMMENT ON COLUMN tracking.mainline_milestones.game_id IS 'Nullable for version-group-wide mainline_milestones. When set, the game must be mapped to the same content scope.';
@@ -63,3 +69,5 @@ COMMENT ON COLUMN tracking.mainline_milestones.game_id IS 'Nullable for version-
 COMMENT ON COLUMN tracking.mainline_milestones.sort_order IS 'Display order within its category in the final play scope. Game-specific rows can fill slots between version-group-wide rows. Previous-step prompts and unlock logic are modeled in mainline_milestone_prerequisites.';
 
 COMMENT ON COLUMN tracking.mainline_milestones.snapshot_policy_id IS 'Defines whether the UI should offer or recommend a team snapshot when completing the milestone.';
+
+COMMENT ON COLUMN tracking.mainline_milestones.location_id IS 'The place the milestone happens at, which pins it on the Story roadmap. It must be one of the version group''s places; NULL until the version group''s beats are placed.';

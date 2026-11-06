@@ -4,14 +4,18 @@
 -- Primary: Bulbapedia Badge and Elite Four pages.
 -- Cross-check: legacy Voydex Red / Blue tracking seeds.
 -- Story points with rival and Giovanni battles: Bulbapedia walkthrough and location pages, and the pret pokered map data.
+-- Bill's Sea Cottage, Safari Zone and Pokémon Mansion beats and every beat's place: Bulbapedia's Red / Blue walkthrough and location pages.
 -- Legendary encounters: Bulbapedia, cross-checked with Serebii, Pokémon Database and the pret disassemblies.
 -- Scope: Pokémon Red / Blue shared story and decision milestones.
 -- ============================================================================
 -- File Scope
 -- ============================================================================
--- Red / Blue story, decision, badge, league, champion, and completion milestones.
--- Dense optional walkthrough beats are intentionally excluded from this first
--- tracking seed batch.
+-- Red / Blue story, decision, badge, league, champion, and completion milestones,
+-- each at the place it happens (location_id). Main Story follows the order the
+-- game's story reaches each beat, with the badges in the badge case's order
+-- (Soul before Marsh), and the Safari Zone and Pokémon Mansion open the way to Cinnabar
+-- Gym. Mewtwo's Cerulean Cave is post-game. Dense optional walkthrough beats
+-- are intentionally excluded.
 -- ============================================================================
 
 INSERT INTO tracking.mainline_milestones (
@@ -26,57 +30,64 @@ INSERT INTO tracking.mainline_milestones (
   name,
   description,
   sort_order,
-  is_required_for_completion
+  is_required_for_completion,
+  location_id
 ) VALUES
-  -- Choose Starter
-  (10001, 1, NULL, 101, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Choose Bulbasaur, Charmander, or Squirtle as the first partner Pokémon.', 1, true),
-  -- Receive Pokedex
-  (10002, 1, NULL, 101, 1, 1, NULL, 'receive-pokedex', 'Receive Pokedex', 'Receive the Pokedex and begin the main adventure record.', 2, true),
-  -- Boulder Badge
-  (10003, 1, NULL, 101, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Defeat Brock at Pewter Gym and receive the Boulder Badge.', 3, true),
-  -- Fossil Choice: counts toward the story (Mt. Moon's fossil is on the path); the pick itself can stay unrecorded
-  (10004, 1, NULL, 101, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Helix Fossil or Dome Fossil at Mt. Moon.', 4, true),
-  -- Cascade Badge
-  (10005, 1, NULL, 101, 2, 2, NULL, 'cascade-badge', 'Cascade Badge', 'Defeat Misty at Cerulean Gym and receive the Cascade Badge.', 5, true),
-  -- S.S. Anne
-  (10019, 1, NULL, 101, 1, 2, NULL, 'ss-anne', 'S.S. Anne', 'Board the S.S. Anne in Vermilion City and help the seasick captain to get HM01 Cut.', 6, true),
-  -- Thunder Badge
-  (10006, 1, NULL, 101, 2, 2, NULL, 'thunder-badge', 'Thunder Badge', 'Defeat Lt. Surge at Vermilion Gym and receive the Thunder Badge.', 7, true),
-  -- Rainbow Badge
-  (10007, 1, NULL, 101, 2, 2, NULL, 'rainbow-badge', 'Rainbow Badge', 'Defeat Erika at Celadon Gym and receive the Rainbow Badge.', 8, true),
-  -- Rocket Hideout
-  (10020, 1, NULL, 101, 1, 2, NULL, 'rocket-hideout', 'Rocket Hideout', 'Raid Team Rocket''s hideout under the Celadon Game Corner and defeat Giovanni to get the Silph Scope.', 9, true),
-  -- Pokémon Tower
-  (10021, 1, NULL, 101, 1, 2, NULL, 'pokemon-tower', 'Pokémon Tower', 'Climb Pokémon Tower in Lavender Town with the Silph Scope and rescue Mr. Fuji to get the Poké Flute.', 10, true),
-  -- Soul Badge
-  (10008, 1, NULL, 101, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 11, true),
-  -- Silph Co.
-  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni, which also clears the Rocket blocking the Saffron Gym.', 12, true),
-  -- Marsh Badge
-  (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 13, true),
-  -- Fighting Dojo Choice
-  (10010, 1, NULL, 104, 12, 1, NULL, 'fighting-dojo-choice', 'Fighting Dojo Choice', 'Choose Hitmonlee or Hitmonchan after defeating the Fighting Dojo master.', 1, false),
-  -- Power Plant
-  (10023, 1, NULL, 104, 6, 2, NULL, 'power-plant', 'Power Plant', 'Catch or defeat Zapdos at the back of the Power Plant on Route 10.', 2, false),
-  -- Seafoam Islands
-  (10024, 1, NULL, 104, 6, 2, NULL, 'seafoam-islands', 'Seafoam Islands', 'Catch or defeat Articuno on the lowest floor of the Seafoam Islands.', 3, false),
-  -- Victory Road
-  (10025, 1, NULL, 104, 6, 2, NULL, 'victory-road', 'Victory Road', 'Catch or defeat Moltres inside Victory Road on the way to the Pokémon League.', 4, false),
-  -- Cerulean Cave
-  (10026, 1, NULL, 104, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Catch or defeat Mewtwo deep in Cerulean Cave after entering the Hall of Fame.', 5, false),
-  -- Volcano Badge
-  (10011, 1, NULL, 101, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 14, true),
-  -- Earth Badge
-  (10012, 1, NULL, 101, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Giovanni at Viridian Gym and receive the Earth Badge.', 15, true),
-  -- Elite Four Lorelei
-  (10013, 1, NULL, 102, 7, 2, NULL, 'elite-four-lorelei', 'Elite Four Lorelei', 'Defeat Lorelei at the Indigo Plateau.', 1, true),
-  -- Elite Four Bruno
-  (10014, 1, NULL, 102, 7, 2, NULL, 'elite-four-bruno', 'Elite Four Bruno', 'Defeat Bruno at the Indigo Plateau.', 2, true),
-  -- Elite Four Agatha
-  (10015, 1, NULL, 102, 7, 2, NULL, 'elite-four-agatha', 'Elite Four Agatha', 'Defeat Agatha at the Indigo Plateau.', 3, true),
-  -- Elite Four Lance
-  (10016, 1, NULL, 102, 7, 2, NULL, 'elite-four-lance', 'Elite Four Lance', 'Defeat Lance at the Indigo Plateau.', 4, true),
-  -- Champion Blue
-  (10017, 1, NULL, 102, 8, 2, NULL, 'champion-blue', 'Champion Blue', 'Defeat Champion Blue at the Indigo Plateau.', 5, true),
-  -- Hall of Fame
-  (10018, 1, NULL, 102, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true);
+  -- Choose Starter (Professor Oak's Laboratory)
+  (10001, 1, NULL, 101, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Choose Bulbasaur, Charmander, or Squirtle as the first partner Pokémon.', 1, true, 35),
+  -- Receive Pokédex (Pallet Town)
+  (10002, 1, NULL, 101, 1, 1, NULL, 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex and begin the main adventure record.', 2, true, 30),
+  -- Boulder Badge (Pewter City)
+  (10003, 1, NULL, 101, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Defeat Brock at Pewter Gym and receive the Boulder Badge.', 3, true, 104),
+  -- Fossil Choice (Mt. Moon): counts toward the story (Mt. Moon's fossil is on the path); the pick itself can stay unrecorded
+  (10004, 1, NULL, 101, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Helix Fossil or Dome Fossil at Mt. Moon.', 4, true, 27),
+  -- Cascade Badge: at Cerulean Gym, the one Gym listed as a place of its own (its pool has Pokémon), so it isn't also a stop after the badge
+  (10005, 1, NULL, 101, 2, 2, NULL, 'cascade-badge', 'Cascade Badge', 'Defeat Misty at Cerulean Gym and receive the Cascade Badge.', 5, true, 10),
+  -- Bill's Sea Cottage (Route 25)
+  (10027, 1, NULL, 101, 1, 2, NULL, 'bills-sea-cottage', 'Bill''s Sea Cottage', 'Help Bill change back from a Pokémon at his Sea Cottage on Route 25 and get the S.S. Ticket.', 6, true, 55),
+  -- S.S. Anne (S.S. Anne)
+  (10019, 1, NULL, 101, 1, 2, NULL, 'ss-anne', 'S.S. Anne', 'Board the S.S. Anne in Vermilion City and help the seasick captain to get HM01 Cut.', 7, true, 807),
+  -- Thunder Badge (Vermilion City)
+  (10006, 1, NULL, 101, 2, 2, NULL, 'thunder-badge', 'Thunder Badge', 'Defeat Lt. Surge at Vermilion Gym and receive the Thunder Badge.', 8, true, 74),
+  -- Rainbow Badge (Celadon City)
+  (10007, 1, NULL, 101, 2, 2, NULL, 'rainbow-badge', 'Rainbow Badge', 'Defeat Erika at Celadon Gym and receive the Rainbow Badge.', 9, true, 6),
+  -- Rocket Hideout (Rocket Hideout)
+  (10020, 1, NULL, 101, 1, 2, NULL, 'rocket-hideout', 'Rocket Hideout', 'Raid Team Rocket''s hideout under the Celadon Game Corner and defeat Giovanni to get the Silph Scope.', 10, true, 808),
+  -- Pokémon Tower (Pokémon Tower)
+  (10021, 1, NULL, 101, 1, 2, NULL, 'pokemon-tower', 'Pokémon Tower', 'Climb Pokémon Tower in Lavender Town with the Silph Scope and rescue Mr. Fuji to get the Poké Flute.', 11, true, 33),
+  -- Silph Co. (Silph Co.)
+  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni, which also clears the Rocket blocking the Saffron Gym.', 14, true, 67),
+  -- Marsh Badge (Saffron City)
+  (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 15, true, 133),
+  -- Soul Badge (Fuchsia City)
+  (10008, 1, NULL, 101, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 12, true, 18),
+  -- Safari Zone (Safari Zone)
+  (10028, 1, NULL, 101, 1, 2, NULL, 'safari-zone', 'Safari Zone', 'Find HM03 Surf and the Gold Teeth in the Safari Zone, then give the teeth to the Warden in Fuchsia City for HM04 Strength.', 13, true, 64),
+  -- Pokémon Mansion (Pokémon Mansion)
+  (10029, 1, NULL, 101, 1, 2, NULL, 'pokemon-mansion', 'Pokémon Mansion', 'Search the Pokémon Mansion on Cinnabar Island for the Secret Key that opens Cinnabar Gym.', 16, true, 32),
+  -- Volcano Badge (Cinnabar Island)
+  (10011, 1, NULL, 101, 2, 2, NULL, 'volcano-badge', 'Volcano Badge', 'Defeat Blaine at Cinnabar Gym and receive the Volcano Badge.', 17, true, 11),
+  -- Earth Badge (Viridian City)
+  (10012, 1, NULL, 101, 2, 2, NULL, 'earth-badge', 'Earth Badge', 'Defeat Giovanni at Viridian Gym and receive the Earth Badge.', 18, true, 76),
+  -- Elite Four Lorelei (Indigo Plateau)
+  (10013, 1, NULL, 102, 7, 2, NULL, 'elite-four-lorelei', 'Elite Four Lorelei', 'Defeat Lorelei at the Indigo Plateau.', 1, true, 21),
+  -- Elite Four Bruno (Indigo Plateau)
+  (10014, 1, NULL, 102, 7, 2, NULL, 'elite-four-bruno', 'Elite Four Bruno', 'Defeat Bruno at the Indigo Plateau.', 2, true, 21),
+  -- Elite Four Agatha (Indigo Plateau)
+  (10015, 1, NULL, 102, 7, 2, NULL, 'elite-four-agatha', 'Elite Four Agatha', 'Defeat Agatha at the Indigo Plateau.', 3, true, 21),
+  -- Elite Four Lance (Indigo Plateau)
+  (10016, 1, NULL, 102, 7, 2, NULL, 'elite-four-lance', 'Elite Four Lance', 'Defeat Lance at the Indigo Plateau.', 4, true, 21),
+  -- Champion Blue (Indigo Plateau)
+  (10017, 1, NULL, 102, 8, 2, NULL, 'champion-blue', 'Champion Blue', 'Defeat Champion Blue at the Indigo Plateau.', 5, true, 21),
+  -- Hall of Fame (Indigo Plateau)
+  (10018, 1, NULL, 102, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true, 21),
+  -- Cerulean Cave (Cerulean Cave)
+  (10026, 1, NULL, 103, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Catch or defeat Mewtwo deep in Cerulean Cave after entering the Hall of Fame.', 1, false, 8),
+  -- Fighting Dojo Choice (Fighting Dojo)
+  (10010, 1, NULL, 104, 12, 1, NULL, 'fighting-dojo-choice', 'Fighting Dojo Choice', 'Choose Hitmonlee or Hitmonchan after defeating the Fighting Dojo master.', 1, false, 14),
+  -- Power Plant (Power Plant)
+  (10023, 1, NULL, 104, 6, 2, NULL, 'power-plant', 'Power Plant', 'Catch or defeat Zapdos at the back of the Power Plant on Route 10.', 2, false, 34),
+  -- Seafoam Islands (Seafoam Islands)
+  (10024, 1, NULL, 104, 6, 2, NULL, 'seafoam-islands', 'Seafoam Islands', 'Catch or defeat Articuno on the lowest floor of the Seafoam Islands.', 3, false, 65),
+  -- Victory Road (Victory Road)
+  (10025, 1, NULL, 104, 6, 2, NULL, 'victory-road', 'Victory Road', 'Catch or defeat Moltres inside Victory Road on the way to the Pokémon League.', 4, false, 75);

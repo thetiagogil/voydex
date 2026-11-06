@@ -4864,6 +4864,7 @@ export type Database = {
         Row: {
           created_at: string;
           id: number;
+          location_id: number | null;
           milestone_id: number;
           notes: string | null;
           opponent_id: number;
@@ -4877,6 +4878,7 @@ export type Database = {
         Insert: {
           created_at?: string;
           id?: never;
+          location_id?: number | null;
           milestone_id: number;
           notes?: string | null;
           opponent_id: number;
@@ -4889,6 +4891,7 @@ export type Database = {
         Update: {
           created_at?: string;
           id?: never;
+          location_id?: number | null;
           milestone_id?: number;
           notes?: string | null;
           opponent_id?: number;
@@ -5074,6 +5077,7 @@ export type Database = {
           game_id: number | null;
           id: number;
           is_required_for_completion: boolean;
+          location_id: number | null;
           milestone_type_id: number;
           name: string;
           parent_milestone_id: number | null;
@@ -5090,6 +5094,7 @@ export type Database = {
           game_id?: number | null;
           id: number;
           is_required_for_completion?: boolean;
+          location_id?: number | null;
           milestone_type_id: number;
           name: string;
           parent_milestone_id?: number | null;
@@ -5105,6 +5110,7 @@ export type Database = {
           game_id?: number | null;
           id?: number;
           is_required_for_completion?: boolean;
+          location_id?: number | null;
           milestone_type_id?: number;
           name?: string;
           parent_milestone_id?: number | null;
@@ -5568,6 +5574,8 @@ export type Database = {
           is_completed: boolean | null;
           is_included_in_completion: boolean | null;
           is_required_for_completion: boolean | null;
+          location_id: number | null;
+          location_name: string | null;
           milestone_game_name: string | null;
           milestone_game_slug: string | null;
           milestone_id: number | null;

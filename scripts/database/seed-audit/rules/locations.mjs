@@ -5,13 +5,13 @@ import {
   relative,
 } from "../core.mjs";
 
-const EXPECTED_LOCATION_ROWS = 802;
-const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1541;
+const EXPECTED_LOCATION_ROWS = 804;
+const EXPECTED_LOCATION_VERSION_GROUP_ROWS = 1546;
 const EXPECTED_ENCOUNTER_ROWS = 26485;
 
 const hasGame = (row) => row.game_id !== null && row.game_id !== undefined;
 
-/* Every place, which groups have it in story order, and where each Pokémon is met. */
+/* Every place, which groups have it in story order, where each Pokémon is met, and where Story milestones happen. */
 export function assertLocationRows(context, tableRows) {
   const locations = tableRows.get("reference.locations") ?? [];
   const placements = tableRows.get("reference.location_version_groups") ?? [];
@@ -70,7 +70,7 @@ export function assertLocationRows(context, tableRows) {
     {
       count: EXPECTED_LOCATION_ROWS,
       sha256:
-        "73930aef5ec5da2df7e67d9a3e7e960eff17dfcb364507a64d81e85e88130942",
+        "e788b71fef1de1de638cb69e5eabfbcc7ab4ef359450a2e7922fb6ac9166b29e",
     },
   );
   for (const { row, filePath } of locations) {
@@ -216,8 +216,31 @@ export function assertLocationRows(context, tableRows) {
       );
     }
   }
+  /* A Story milestone or battle sits at one of its version group's places.
+     Once a version group's milestones are placed, its places are the Story
+     roadmap, so a place there may have no wild Pokémon (a town, the S.S.
+     Anne); elsewhere every place still has encounters. */
+  const roadmapGroups = new Set();
+  for (const table of [
+    "tracking.mainline_milestones",
+    "tracking.mainline_milestone_opponent_refs",
+  ]) {
+    for (const { row, filePath } of tableRows.get(table) ?? []) {
+      if (row.location_id === null || row.location_id === undefined) continue;
+      if (table === "tracking.mainline_milestones")
+        roadmapGroups.add(row.version_group_id);
+      if (!placed.has(`${row.location_id}/${row.version_group_id}`)) {
+        context.errors.push(
+          `${relative(filePath)}: ${table} row places a Story point at place ${row.location_id}, which version group ${row.version_group_id} does not have.`,
+        );
+      }
+    }
+  }
   for (const { row, filePath } of placements) {
-    if (!met.has(`${row.location_id}/${row.version_group_id}`)) {
+    if (
+      !met.has(`${row.location_id}/${row.version_group_id}`) &&
+      !roadmapGroups.has(row.version_group_id)
+    ) {
       context.errors.push(
         `${relative(filePath)}: place ${row.location_id} in version group ${row.version_group_id} has no encounters.`,
       );

@@ -12,10 +12,12 @@ CREATE TABLE tracking.mainline_milestone_opponent_refs (
     notes text,
     player_side text NOT NULL DEFAULT 'own-team',
     team_size_limit integer,
+    location_id integer,
     created_at timestamptz NOT NULL DEFAULT NOW(),
     CONSTRAINT mainline_milestone_opponent_refs_id_positive_check CHECK (id > 0),
     CONSTRAINT mainline_milestone_opponent_refs_milestone_version_group_fkey FOREIGN KEY (milestone_id, version_group_id) REFERENCES tracking.mainline_milestones (id, version_group_id) ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT mainline_milestone_opponent_refs_opponent_version_group_fkey FOREIGN KEY (opponent_id, version_group_id) REFERENCES tracking.mainline_opponents (id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT mainline_milestone_opponent_refs_location_version_group_fkey FOREIGN KEY (location_id, version_group_id) REFERENCES reference.location_version_groups (location_id, version_group_id) ON UPDATE CASCADE ON DELETE RESTRICT,
     CONSTRAINT mainline_milestone_opponent_refs_relation_kind_format_check CHECK (relation_kind = LOWER(relation_kind) AND relation_kind ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$' AND CHAR_LENGTH(relation_kind) <= 80),
     CONSTRAINT mainline_milestone_opponent_refs_sort_order_positive_check CHECK (sort_order > 0),
     CONSTRAINT mainline_milestone_opponent_refs_notes_length_check CHECK (notes IS NULL OR CHAR_LENGTH(BTRIM(notes)) BETWEEN 1 AND 1000),
@@ -29,11 +31,17 @@ CREATE UNIQUE INDEX mainline_milestone_opponent_refs_sort_order_unique ON tracki
 
 CREATE INDEX mainline_milestone_opponent_refs_opponent_idx ON tracking.mainline_milestone_opponent_refs (opponent_id);
 
+CREATE INDEX mainline_milestone_opponent_refs_location_idx ON tracking.mainline_milestone_opponent_refs (location_id, version_group_id)
+WHERE
+    location_id IS NOT NULL;
+
 COMMENT ON TABLE tracking.mainline_milestone_opponent_refs IS 'Static opponent references related to milestone definitions.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.player_side IS 'What the player battles with: own-team, a lent-pokemon given for the fight, one-own-pokemon alone (such as the ride legendary), or not-a-battle where the fight is mostly dodging and balms.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.team_size_limit IS 'How many of their own Pokémon the player may bring to this battle, where the game limits it (Emerald''s Space Center Multi Battle: three). NULL means the whole team; only for own-team battles.';
+
+COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.location_id IS 'Where the battle happens when it is not at its milestone''s own place (Red / Blue''s Route 22 rival fights), one of the version group''s places. NULL means at the milestone''s place. The battle stays owned by its milestone.';
 
 COMMENT ON COLUMN tracking.mainline_milestone_opponent_refs.version_group_id IS 'Enforces that the milestone and opponent belong to the same version group.';
 
