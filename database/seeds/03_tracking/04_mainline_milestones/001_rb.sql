@@ -35,13 +35,13 @@ INSERT INTO tracking.mainline_milestones (
   location_id
 ) VALUES
   -- Choose Starter (Professor Oak's Laboratory)
-  (10001, 1, NULL, 101, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Choose Bulbasaur, Charmander, or Squirtle as the first partner Pokémon.', 1, true, 35),
+  (10001, 1, NULL, 101, 12, 1, NULL, 'choose-starter', 'Choose Starter', 'Choose Bulbasaur, Charmander or Squirtle in Professor Oak''s lab. Blue picks the one strong against yours and battles you.', 1, true, 35),
   -- Receive Pokédex (Pallet Town)
-  (10002, 1, NULL, 101, 1, 1, NULL, 'receive-pokedex', 'Receive Pokédex', 'Receive the Pokédex and begin the main adventure record.', 2, true, 30),
+  (10002, 1, NULL, 101, 1, 1, NULL, 'receive-pokedex', 'Receive Pokédex', 'Bring Oak''s Parcel back to Professor Oak and receive the Pokédex.', 2, true, 30),
   -- Boulder Badge (Pewter City)
   (10003, 1, NULL, 101, 2, 2, NULL, 'boulder-badge', 'Boulder Badge', 'Defeat Brock at Pewter Gym and receive the Boulder Badge.', 3, true, 104),
   -- Fossil Choice (Mt. Moon): counts toward the story (Mt. Moon's fossil is on the path); the pick itself can stay unrecorded
-  (10004, 1, NULL, 101, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Choose the Helix Fossil or Dome Fossil at Mt. Moon.', 4, true, 27),
+  (10004, 1, NULL, 101, 12, 1, NULL, 'fossil-choice', 'Fossil Choice', 'Beat the Super Nerd at the end of Mt. Moon and take the Helix Fossil or the Dome Fossil.', 4, true, 27),
   -- Cascade Badge: at Cerulean Gym, the one Gym listed as a place of its own (its pool has Pokémon), so it isn't also a stop after the badge
   (10005, 1, NULL, 101, 2, 2, NULL, 'cascade-badge', 'Cascade Badge', 'Defeat Misty at Cerulean Gym and receive the Cascade Badge.', 5, true, 10),
   -- Bill's Sea Cottage (Route 25)
@@ -57,13 +57,13 @@ INSERT INTO tracking.mainline_milestones (
   -- Pokémon Tower (Pokémon Tower)
   (10021, 1, NULL, 101, 1, 2, NULL, 'pokemon-tower', 'Pokémon Tower', 'Climb Pokémon Tower in Lavender Town with the Silph Scope and rescue Mr. Fuji to get the Poké Flute.', 11, true, 33),
   -- Silph Co. (Silph Co.)
-  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni, which also clears the Rocket blocking the Saffron Gym.', 12, true, 67),
+  (10022, 1, NULL, 101, 1, 2, NULL, 'silph-co', 'Silph Co.', 'Free Silph Co. in Saffron City from Team Rocket and defeat Giovanni. This also clears the Rocket blocking the Saffron Gym.', 12, true, 67),
   -- Marsh Badge (Saffron City)
   (10009, 1, NULL, 101, 2, 2, NULL, 'marsh-badge', 'Marsh Badge', 'Defeat Sabrina at Saffron Gym and receive the Marsh Badge.', 13, true, 133),
   -- Soul Badge (Fuchsia City)
   (10008, 1, NULL, 101, 2, 2, NULL, 'soul-badge', 'Soul Badge', 'Defeat Koga at Fuchsia Gym and receive the Soul Badge.', 14, true, 18),
   -- Safari Zone (Safari Zone)
-  (10028, 1, NULL, 101, 1, 2, NULL, 'safari-zone', 'Safari Zone', 'Find HM03 Surf and the Gold Teeth in the Safari Zone, then give the teeth to the Warden in Fuchsia City for HM04 Strength.', 15, true, 64),
+  (10028, 1, NULL, 101, 1, 2, NULL, 'safari-zone', 'Safari Zone', 'Find HM03 Surf and the Gold Teeth in the Safari Zone. Give the teeth to the Warden in Fuchsia City for HM04 Strength.', 15, true, 64),
   -- Pokémon Mansion (Pokémon Mansion)
   (10029, 1, NULL, 101, 1, 2, NULL, 'pokemon-mansion', 'Pokémon Mansion', 'Search the Pokémon Mansion on Cinnabar Island for the Secret Key that opens Cinnabar Gym.', 16, true, 32),
   -- Volcano Badge (Cinnabar Island)
@@ -81,7 +81,7 @@ INSERT INTO tracking.mainline_milestones (
   -- Champion Blue (Indigo Plateau)
   (10017, 1, NULL, 102, 8, 2, NULL, 'champion-blue', 'Champion Blue', 'Defeat Champion Blue at the Indigo Plateau.', 5, true, 21),
   -- Hall of Fame (Indigo Plateau)
-  (10018, 1, NULL, 102, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame after becoming Champion.', 6, true, 21),
+  (10018, 1, NULL, 102, 13, 3, NULL, 'hall-of-fame', 'Hall of Fame', 'Enter the Hall of Fame with the team that beat Blue.', 6, true, 21),
   -- Cerulean Cave (Cerulean Cave)
   (10026, 1, NULL, 103, 6, 2, NULL, 'cerulean-cave', 'Cerulean Cave', 'Catch or defeat Mewtwo deep in Cerulean Cave after entering the Hall of Fame.', 1, false, 8),
   -- Fighting Dojo Choice (Fighting Dojo)
